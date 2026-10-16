@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 from . import r4
-from .r4_collection import validate_pilot
+from . import r4_collection
 
 
 class R4AuthorityTests(unittest.TestCase):
@@ -36,10 +36,10 @@ class R4AuthorityTests(unittest.TestCase):
             native_failures=0,rejected=0,new_physics=0,new_model_queries=0,new_render_calls=0,
             original_failures_preserved=True,original_qualification_sha256='fixed',plan_sha256='fixed',rows=rows)
         def receipt(path):return q if path.name.endswith('_R1.json') else dict(pilot_cards=rows)
-        with patch('scripts.pi0294.r4_collection.read',side_effect=receipt),patch('scripts.pi0294.r4_collection.digest',return_value='fixed'):
-            validate_pilot(Path('unused'))
+        with patch.object(r4_collection,'read',side_effect=receipt),patch.object(r4_collection,'digest',return_value='fixed'):
+            r4_collection.validate_pilot(Path('unused'))
             rows[0]['physics_sha256']='changed'
-            with self.assertRaises(PermissionError):validate_pilot(Path('unused'))
+            with self.assertRaises(PermissionError):r4_collection.validate_pilot(Path('unused'))
 
     def test_no_clock_reset_and_adoption_required(self):
         with tempfile.TemporaryDirectory() as directory:

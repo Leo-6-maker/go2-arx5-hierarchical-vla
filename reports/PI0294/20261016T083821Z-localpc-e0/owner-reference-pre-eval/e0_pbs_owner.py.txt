@@ -1,0 +1,143 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Exact-once private E0 PBS owner; queue/runtime are separate clocks."""
+import argparse
+import json
+from pathlib import Path
+import sys
+import time
+
+from e0_owner import BASE, RUN, T0, HOPPER, call, save
+from e0_bind import remote
+
+
+PREPARE = r'''
+import ast,fcntl,hashlib,json,os,subprocess,time,uuid
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());code=root/m['code']['capsule_relative']
+def read(p):return json.loads(Path(p).read_text())
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def write(p,v):
+ p=Path(p);p.parent.mkdir(parents=True,exist_ok=True,mode=0o700);tmp=p.with_name(p.name+'.pending.'+str(os.getpid()));tmp.write_text(json.dumps(v,indent=2,allow_nan=False)+'\n');tmp.chmod(0o600);os.replace(tmp,p)
+assert time.time()<m['limits']['allocation_admission_cutoff_epoch']
+assert read(root/'E0_ADOPTION_AND_BINDING.json')['launch_allowed'] is True
+inputs=read(root/'evidence/E0_INPUT_PREPARATION_STATE.json');assert inputs['status']=='PASS_E0_INFERENCE_MEMBERS_ACTUAL_SHA_CHECKED_NO_MODEL_LOAD'
+identity=read(root/'evidence/M2048_INFERENCE_IDENTITY.json');b=read(root/'NEURAL_BINDINGS.private.json');directory=root/'pbs/alloc-01'
+assert not directory.exists(),'PRESERVE_EXISTING_ALLOCATION_PREPARATION'
+directory.mkdir(mode=0o700)
+project=json.loads(subprocess.check_output(['/opt/am/python/bin/amgr','ls','project','--name','CFP04-CF-007','--json-info'],text=True));assert len(project)==1 and project[0]['active'] is True and os.environ['USER'] in project[0]['users']
+balance=ast.literal_eval(subprocess.check_output(['/opt/am/python/bin/amgr','checkbalance','project','--name','CFP04-CF-007'],text=True));assert balance['su']>0
+proof=dict(run_uuid=RUN,observed_epoch=time.time(),project=project[0],balance_su=balance['su']);write(directory/'PROJECT_ADMISSION.private.json',proof)
+request=dict(root=str(root),source_sha=m['code']['vla_commit'],run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+ code_seal_sha256=m['code']['source_seal_sha256'],mode='resident',stage='resident',allowed_modes=['resident'],global_step=2048,
+ python=b['python'],bindings=str(root/'NEURAL_BINDINGS.private.json'),bindings_sha256=sha(root/'NEURAL_BINDINGS.private.json'),
+ checkpoint=identity['checkpoint'],identity=str(root/'evidence/M2048_INFERENCE_IDENTITY.json'),registry=str(root/'evidence/model-M2048/REGISTRY.json'),
+ directory=str(root/'evidence/model-M2048/resident'),resident_registry_sha256=sha(root/'evidence/model-M2048/REGISTRY.json'),
+ resident_identity_sha256=sha(root/'evidence/M2048_INFERENCE_IDENTITY.json'),max_queries=1056,
+ live_readiness_sha256='c2ca87bda6942f17b037d47bdacf33f069f2bd1ecb2f8d57126d87ba8a69ed5c',
+ project_admission_relative=str((directory/'PROJECT_ADMISSION.private.json').relative_to(root)),project_admission_sha256=sha(directory/'PROJECT_ADMISSION.private.json'),
+ request_nonce=str(uuid.uuid4()),submit_count=1,walltime_s=14400,prior_GPU_allocated_s=0,numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1')
+write(directory/'REQUEST.json',request)
+lines=['#!/bin/bash -l','#PBS -N pi0294_e0_1','#PBS -P CFP04-CF-007','#PBS -q auto',
+ '#PBS -l select=1:ncpus=12:mem=225gb:ngpus=1','#PBS -l walltime=04:00:00','#PBS -m n','#PBS -j oe','#PBS -o '+str(directory/'pbs.log'),
+ 'set -eu','export PYTHONDONTWRITEBYTECODE=1','export PYTHONPATH='+str(code/'src')+':'+str(code),
+ 'export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1',
+ 'export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1',
+ 'cd '+str(code)]
+bootstrap="import os,sys,runpy;os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:3]));runpy.run_module('scripts.pi0294.e0_launcher',run_name='__main__')"
+import shlex
+lines.append('exec '+shlex.join([b['python'],'-c',bootstrap,'--root',str(root),'--request',str(directory/'REQUEST.json')]))
+script=directory/'job.pbs';script.write_text('\n'.join(lines)+'\n');script.chmod(0o400)
+print(json.dumps(dict(status='PBS_PREPARED_NOT_SUBMITTED',request_sha256=sha(directory/'REQUEST.json'),script_sha256=sha(script),walltime_s=14400,queue='auto',project='CFP04-CF-007',active_compute_CPU_cap=3,login_RPC_CPU_cap=1)))
+'''
+
+
+SUBMIT = r'''
+import fcntl,hashlib,json,os,re,subprocess,time
+from pathlib import Path
+root=Path(ROOT)
+def read(p):return json.loads(Path(p).read_text())
+def write(p,v):
+ p=Path(p);tmp=p.with_name(p.name+'.pending.'+str(os.getpid()));tmp.write_text(json.dumps(v,indent=2)+'\n');tmp.chmod(0o600);os.replace(tmp,p)
+with (root/'E0_SUBMIT_OWNER.lock').open('a') as lock:
+ fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+ m=read(root/'RUN_MANIFEST.json');l=read(root/'HOPPER_RESOURCE_LEDGER.json');assert not l['PBS_submissions'] and time.time()<m['limits']['allocation_admission_cutoff_epoch']
+ own=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qselect','-u',os.environ['USER']],capture_output=True,text=True,check=True)
+ assert not own.stdout.strip(),'OWN_JOB_APPEARED_RECHECK_ACCOUNT_AND_E0_BEFORE_SUBMIT'
+ directory=root/'pbs/alloc-01';r=read(directory/'REQUEST.json');proof=read(directory/'PROJECT_ADMISSION.private.json')
+ assert 0<=time.time()-proof['observed_epoch']<1800
+ q=Path('@HOPPER_SHARED_HOME@/ccepbs/nushpc/quota_hw_report/hpfs_quota_raw.txt');rows=[s.split() for s in q.read_text().splitlines() if '/'+os.environ['USER'] in s]
+ assert len(rows)==1 and int(rows[0][5])-int(rows[0][4])>24*1024**3 and 0<=time.time()-q.stat().st_mtime<900
+ intent=dict(status='QSUB_INTENT_OUTCOME_UNKNOWN_DO_NOT_RETRY',request_id='alloc-01',source_sha=m['code']['vla_commit'],started_epoch=time.time(),walltime_s=14400)
+ l['PBS_submissions'].append(intent);l['GPU_reserved_s']=14400;write(root/'HOPPER_RESOURCE_LEDGER.json',l)
+ result=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qsub',str(directory/'job.pbs')],capture_output=True,text=True,timeout=45)
+ write(directory/'QSUB_NATIVE.private.json',dict(returncode=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:
+  intent.update(status='QSUB_REJECTED_NO_JOB_ID',returned_epoch=time.time());l['GPU_reserved_s']=0;write(root/'HOPPER_RESOURCE_LEDGER.json',l);raise RuntimeError('NATIVE_QSUB_REJECTED_NO_BLIND_RETRY')
+ job=result.stdout.strip();assert re.fullmatch(r'\d+\.hopper-m-\d+',job),job
+ intent.update(status='SUBMITTED_PENDING_NATIVE_STATE',job_id=job,returned_epoch=time.time());write(root/'HOPPER_RESOURCE_LEDGER.json',l)
+ print(json.dumps(dict(status='E0_PBS_SUBMITTED_ONCE',job_id=job,walltime_s=14400,PBS_used=1,GPU_actual_used_s=0,GPU_reserved_s=14400)))
+'''
+
+
+STATUS = r'''
+import json,subprocess,os,time
+from pathlib import Path
+root=Path(ROOT);l=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text());row=l['PBS_submissions'][-1];job=row.get('job_id');v=dict(job_id=job,ledger=l)
+if job:
+ r=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qstat','-x','-f','-F','json',job],capture_output=True,text=True)
+ v['qstat_status']=r.returncode
+ if r.returncode==0:v['job']=json.loads(r.stdout)['Jobs'][job]
+for n in ['pbs/alloc-01/PBS_READY.json','pbs/alloc-01/PBS_PROCESS_FINAL.json','evidence/model-M2048/resident/STATE.json']:
+ p=root/n
+ if p.is_file():v[n]=json.loads(p.read_text())
+print(json.dumps(v))
+'''
+
+
+RELEASE_CODE = r'''
+import ast,hashlib,json,os,subprocess,time
+from pathlib import Path
+root=Path(ROOT);directory=root/'pbs/alloc-01'
+def read(p):return json.loads(Path(p).read_text())
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def write(p,v):
+ p=Path(p);tmp=p.with_name(p.name+'.pending.'+str(os.getpid()));tmp.write_text(json.dumps(v,indent=2)+'\n');tmp.chmod(0o600);os.replace(tmp,p)
+ready=read(directory/'PBS_READY.json');l=read(root/'HOPPER_RESOURCE_LEDGER.json');assert ready['job_id']==l['PBS_submissions'][-1]['job_id']
+path=directory/'START_INFERENCE.json';assert not path.exists(),'NEVER_RELEASE_A_MODEL_TWICE'
+project=json.loads(subprocess.check_output(['/opt/am/python/bin/amgr','ls','project','--name','CFP04-CF-007','--json-info'],text=True));assert len(project)==1 and project[0]['active'] is True and os.environ['USER'] in project[0]['users']
+balance=ast.literal_eval(subprocess.check_output(['/opt/am/python/bin/amgr','checkbalance','project','--name','CFP04-CF-007'],text=True));assert balance['su']>0
+write(directory/'PROJECT_ADMISSION.private.json',dict(run_uuid=RUN,observed_epoch=time.time(),project=project[0],balance_su=balance['su']))
+r=read(directory/'REQUEST.json');r['project_admission_sha256']=sha(directory/'PROJECT_ADMISSION.private.json');write(directory/'REQUEST.json',r)
+release=dict(run_uuid=RUN,job_id=ready['job_id'],request_sha256=sha(directory/'REQUEST.json'),created_epoch=time.time())
+write(path,release);print(json.dumps(dict(status='RELEASED_ONCE_AFTER_FRESH_NATIVE_PROJECT_PROOF',job_id=ready['job_id'],request_sha256=release['request_sha256'])))
+'''
+
+
+def watch():
+    while time.time()<T0+86400:
+        value=remote('hopper',STATUS,label='queue-wait-readback')
+        job=value.get('job',{});state=job.get('job_state')
+        if state=='R' and value.get('pbs/alloc-01/PBS_READY.json'):
+            print(json.dumps(dict(status='NATIVE_RUNNING_OWNER_READY',job_id=value['job_id'],native_start=job.get('stime'))),flush=True)
+            return remote('hopper',RELEASE_CODE,label='PBS-release')
+        if state in ['F','X']:
+            return dict(status='NATIVE_TERMINAL_BEFORE_RELEASE',job_id=value['job_id'],exit=job.get('Exit_status'),final=value.get('pbs/alloc-01/PBS_PROCESS_FINAL.json'))
+        time.sleep(5 if state=='R' else 20)
+    return dict(status='E0_QUEUE_WINDOW_ENDED_REQUIRES_EXACT_OWN_QUEUE_WITHDRAWAL')
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('operation',choices=['prepare','submit','status','release','watch']);a=p.parse_args()
+    if a.operation=='watch':
+        print(json.dumps(watch()),flush=True)
+    elif a.operation=='status':
+        value=remote('hopper',STATUS,label='own-job-status')
+        print(json.dumps(dict(job_id=value.get('job_id'),native_state=value.get('job',{}).get('job_state'),
+            native_start=value.get('job',{}).get('stime'),native_wall=value.get('job',{}).get('Resource_List',{}).get('walltime'),
+            resident=value.get('evidence/model-M2048/resident/STATE.json',{}).get('status'),
+            queries=value.get('evidence/model-M2048/resident/STATE.json',{}).get('queries'),
+            PBS_READY=value.get('pbs/alloc-01/PBS_READY.json',{}),final=value.get('pbs/alloc-01/PBS_PROCESS_FINAL.json',{}))))
+    else:
+        print(json.dumps(remote('hopper',{'prepare':PREPARE,'submit':SUBMIT,'release':RELEASE_CODE}[a.operation],label='PBS-'+a.operation)))

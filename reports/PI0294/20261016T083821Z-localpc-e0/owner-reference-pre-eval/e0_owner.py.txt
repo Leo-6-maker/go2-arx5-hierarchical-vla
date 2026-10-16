@@ -1,0 +1,91 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Private E0 owner transport and exclusive adoption; no implicit scientific launch."""
+import argparse
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import sys
+import time
+
+sys.path.insert(0, str(Path(__file__).parent))
+from pi0294_remote import remote_multiplexed
+
+BASE = Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/e0-20261016')
+REPO = Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0290-source')
+PREP = Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/roadmap-e0-preparation-20261016')
+RELEASE = '22e5f0baeed0af662a7cf1c97edae1f4060947fe'
+RUN = '20261016T083821Z-localpc-e0'
+T0 = 1792139901
+CORE = '@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294'
+HOPPER = '@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294'
+R3 = '20261014T121640Z-incoming-pi0294-r3'
+
+
+def save(path, value, *, exclusive=True):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    if path.is_symlink():
+        raise PermissionError('NO_PRIVATE_BINDING_SYMLINK')
+    flags = os.O_WRONLY | os.O_CREAT | (os.O_EXCL if exclusive else os.O_TRUNC)
+    fd = os.open(path, flags, 0o600)
+    with os.fdopen(fd, 'w') as stream:
+        json.dump(value, stream, indent=2)
+        stream.write('\n')
+
+
+def call(role, code, *, label):
+    host = {'core': 'corelab-4080s', 'hopper': 'hopper'}[role]
+    start = time.time()
+    result = remote_multiplexed(host, code)
+    value = dict(role=role, label=label, start_epoch=start, end_epoch=time.time(),
+                 returncode=result.returncode, stdout=result.stdout, stderr=result.stderr)
+    save(BASE / f'{label}-{role}-{time.time_ns()}.private.json', value)
+    if result.returncode:
+        raise RuntimeError(f'{role}:{label}:{result.stderr[-600:]}')
+    return json.loads(result.stdout)
+
+
+def adopt():
+    BASE.mkdir(parents=True, exist_ok=True, mode=0o700)
+    path = BASE/'E0_ADOPTION_AND_BINDING.private.json'
+    if path.exists():
+        old = json.loads(path.read_text())
+        if old['release'] != RELEASE or old['T_adopt_epoch'] != T0 or old['run_uuid'] != RUN:
+            raise PermissionError('DO_NOT_REPLACE_EXISTING_E0_ADOPTION')
+        return old
+    files = {}
+    for name in ['SOURCE_BASELINE_BINDING.json', 'MODEL_BEHAVIOR_MATRIX.md', 'TARGET_DATA_CARD.json',
+                 'COMMON_ACTION_CONTRACT.md', 'SOURCE_TO_TARGET_EVAL_PLAN.md']:
+        data = (PREP/name).read_bytes()
+        files[name] = dict(sha256=hashlib.sha256(data).hexdigest(), bytes=len(data))
+    value = dict(schema='E0_ADOPTION_AND_BINDING_V1', run_uuid=RUN, release=RELEASE,
+        owner='EXISTING_LOCAL_PC_SINGLE_OWNER', T_adopt_epoch=T0,
+        T_adopt_UTC=datetime.datetime.fromtimestamp(T0, datetime.timezone.utc).isoformat(),
+        allocation_admission_cutoff_epoch=T0+86400, hard_closeout_epoch=T0+31*3600,
+        reset_on_resume=False, user_explicit_adoption=True,
+        adopted_scope='M2048_ONLY_ORIGINAL_V3_0_EEF10_SOURCE_D0_ORIGINAL_S1_TRAIN4_THEN_DEV8',
+        no_TRAIN_success_threshold=True, training_updates_allowed=0,
+        main_starts_cap=16, main_integrations_cap=256000, shadow_integrations_cap=256000,
+        neural_queries_cap=1056, RGB_pairs_cap=10256, PBS_cap=2,
+        allocated_GPU_seconds_cap=21600, concurrent_H200=1,
+        Core_CPU_seconds_cap=86400, Core_concurrent_CPU_cap=8, D0_worker_CPU_cap=4,
+        Hopper_CPU_seconds_cap=86400, Hopper_concurrent_CPU_cap=4,
+        new_output_bytes_cap=dict(core=16*1024**3, hopper=24*1024**3, local_pc=2*1024**3),
+        reused_preparation_files=files, status='ADOPTED_BINDING_IN_PROGRESS_NO_COMPUTE_DISPATCH',
+        exact_private_roots=dict(core=CORE+'/'+RUN, hopper=HOPPER+'/'+RUN),
+        prior_costs_preserved=True, launch_allowed=False, selected='NONE', deployment='NONE')
+    save(path, value)
+    return value
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('operation', choices=['adopt'])
+    args = parser.parse_args()
+    value = adopt()
+    print(json.dumps({k: value[k] for k in ['run_uuid', 'release', 'T_adopt_epoch',
+        'allocation_admission_cutoff_epoch', 'hard_closeout_epoch', 'status', 'launch_allowed']}))

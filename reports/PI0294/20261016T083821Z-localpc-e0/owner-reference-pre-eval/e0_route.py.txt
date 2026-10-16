@@ -1,0 +1,185 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Single-owner E0 dual-SSH relay; domain behavior stays in frozen public modules."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import sys
+import time
+
+from e0_owner import BASE, REPO, RUN, CORE, HOPPER, call, save
+from e0_bind import remote, encoded
+
+sys.path[:0]=[str(REPO),str(REPO/'src')]
+from scripts.pi0294.relay_transport import run_episode
+from scripts.pi0292.relay_protocol import unseal
+from scripts.pi0292.eval_contract import gate_action
+
+
+RPC = r'''
+import fcntl,json,os,resource,subprocess,time,uuid
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());code=root/m['code']['capsule_relative']
+os.sched_setaffinity(0,{sorted(os.sched_getaffinity(0))[3 if ROLE=='core' else 0]})
+state_path=root/'E0_RPC_CPU_STATE.json'
+def write(p,v):
+ p=Path(p);tmp=p.with_name(p.name+'.pending.'+str(os.getpid()));tmp.write_text(json.dumps(v,indent=2)+'\n');tmp.chmod(0o600);os.replace(tmp,p)
+with (root/'E0_RPC_CPU_OWNER.lock').open('a') as lock:
+ fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+ state=json.loads(state_path.read_text()) if state_path.exists() else dict(CPU_s=0,calls=0,role=ROLE,cap=6000 if ROLE=='core' else 4000)
+ assert state['CPU_s']+5<state['cap'],'E0_RPC_CPU_CAP'
+ registry=json.loads((root/'evidence/model-M2048/REGISTRY.json').read_text());case=registry['cases'][ARGS['episode']]
+ if ROLE=='core' and ARGS['operation'] in ['observation','ack']:
+  folder=root/'episodes'/case['attempt_id'];terminal=folder/'E0_ADJUDICATION.json'
+  if terminal.exists():
+   final=json.loads(terminal.read_text())
+   if final['status']!='SUCCESS' and final['failure_stage']!='OBJECT_TASK_RESULT':
+    print(json.dumps(dict(ok=False,known_terminal=final)));raise SystemExit(0)
+ b=json.loads((root/('INPUT_BINDINGS.private.json' if ROLE=='core' else 'NEURAL_BINDINGS.private.json')).read_text());python=b['runtime_python'] if ROLE=='core' else b['python']
+ program='import json,sys;sys.path[:0]='+repr([str(code/'src'),str(code)])+';from scripts.pi0294.relay_endpoint import Endpoint;e=Endpoint('+repr(str(root))+',"evidence/model-M2048/REGISTRY.json",'+repr(REGISTRY_SHA)+','+repr(ROLE)+');args=json.load(sys.stdin);print(json.dumps(e.'+ROLE+'(**args)))'
+ env=dict(os.environ,CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',PYTHONDONTWRITEBYTECODE='1')
+ before=[resource.getrusage(k) for k in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
+ def constrain():resource.setrlimit(resource.RLIMIT_CPU,(5,5))
+ r=subprocess.run([python,'-c',program],input=json.dumps(ARGS,allow_nan=False),capture_output=True,text=True,env=env,cwd=code,timeout=15,preexec_fn=constrain)
+ after=[resource.getrusage(k) for k in (resource.RUSAGE_SELF,resource.RUSAGE_CHILDREN)]
+ cpu=sum(a.ru_utime+a.ru_stime-b.ru_utime-b.ru_stime for a,b in zip(after,before));state['CPU_s']+=cpu;state['calls']+=1;write(state_path,state)
+ if r.returncode:print(json.dumps(dict(ok=False,exit=r.returncode,error=r.stderr[-1500:])));raise SystemExit(0)
+ print(json.dumps(dict(ok=True,value=json.loads(r.stdout))))
+'''
+
+
+def rpc(role, **args):
+    registry=json.loads((BASE/'REGISTRY.private.json').read_text())
+    digest=hashlib.sha256(encoded(registry).encode()).hexdigest()
+    result=remote(role,RPC,dict(ROLE=role,ARGS=args,REGISTRY_SHA=digest),label='RPC-'+args['operation'])
+    if not result['ok']:
+        if result.get('known_terminal'):
+            raise RuntimeError('KNOWN_CORE_TERMINAL:'+result['known_terminal']['failure_stage'])
+        raise RuntimeError('ONE_SHOT_ENDPOINT_OUTCOME_UNKNOWN_NO_RETRY')
+    return result['value']
+
+
+def readiness():
+    value=remote('hopper',r'''
+import json,os,sys,subprocess,time
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());code=root/m['code']['capsule_relative'];b=json.loads((root/'NEURAL_BINDINGS.private.json').read_text())
+state=json.loads((root/'evidence/model-M2048/resident/STATE.json').read_text());admit=json.loads((root/'pbs/alloc-01/ALLOCATION_ADMISSION.json').read_text())
+assert state['status']=='RESIDENT_WAIT_FRESH_REAL_OBSERVATION' and state['job_id']==admit['job_id']
+native=json.loads(subprocess.check_output(['/cm/shared/apps/pbspro/current/bin/qstat','-f','-F','json',state['job_id']],text=True))['Jobs'][state['job_id']]
+assert native['job_state']=='R' and native['Job_Owner'].split('@')[0]==os.environ['USER'] and native.get('project')=='CFP04-CF-007','FRESH_NATIVE_OWN_RUNNING_ALLOCATION_REQUIRED'
+assert time.time()<admit['allocation_end_epoch']-1800,'E0_CLOSEOUT_MARGIN'
+v=dict(status=state['status'],run_uuid=RUN,job_id=state['job_id'],global_step=state['checkpoint_identity']['global_step'],allocation_end_epoch=admit['allocation_end_epoch'],identity=state['checkpoint_identity']);print(json.dumps(v))
+''',label='resident-live-readiness')
+    remote('core',r'''
+import json,os
+from pathlib import Path
+root=Path(ROOT);p=root/'E0_REMOTE_READY.json'
+tmp=p.with_name(p.name+'.pending.'+str(os.getpid()));tmp.write_text(json.dumps(READY,indent=2)+'\n');tmp.chmod(0o600);os.replace(tmp,p)
+print(json.dumps(dict(status='HOPPER_ACTUAL_READY_BOUND_TO_CORE',job_id=READY['job_id'])))
+''',dict(READY=value),label='core-bind-native-ready')
+    return value
+
+
+def start(case):
+    return remote('core',r'''
+import json,os,subprocess,time
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());code=root/m['code']['capsule_relative'];b=json.loads((root/'INPUT_BINDINGS.private.json').read_text());card=root/'plans/cards'/(CASE['attempt_id']+'.json')
+record=root/'worker_processes'/(CASE['attempt_id']+'.json');assert not record.exists() and not (root/'episodes'/CASE['attempt_id']).exists(),'NO_REPEAT_PHYSICAL_ATTEMPT'
+env=dict(os.environ,PYTHONPATH=str(code/'src')+':'+str(code),PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='',LIBGL_ALWAYS_SOFTWARE='1',__EGL_VENDOR_LIBRARY_FILENAMES='/usr/share/glvnd/egl_vendor.d/50_mesa.json',MUJOCO_GL='egl',GALLIUM_DRIVER='llvmpipe',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',LP_NUM_THREADS='3')
+env.pop('MUJOCO_EGL_DEVICE_ID',None)
+bootstrap='import sys,runpy;sys.path[:0]='+repr([str(code/'src'),str(code)])+";runpy.run_module('scripts.pi0294.e0_core',run_name='__main__')"
+entry=Path.home()/'Projects/GR00T-WBC/infrastructure/enter.sh'
+out=(root/'worker_logs'/(CASE['attempt_id']+'.log')).open('xb');os.chmod(out.name,0o600)
+p=subprocess.Popen([str(entry),'4080-simulation','python','-c',bootstrap,'--root',str(root),'--card',str(card)],cwd=code,env=env,stdin=subprocess.DEVNULL,stdout=out,stderr=subprocess.STDOUT,start_new_session=True)
+v=dict(status='DISPATCHED_ONCE_NOT_TASK_RESULT',pid=p.pid,proc_start=Path('/proc',str(p.pid),'stat').read_text().split()[21],attempt_id=CASE['attempt_id'],source_sha=m['code']['vla_commit'],started_epoch=time.time());record.write_text(json.dumps(v,indent=2)+'\n');record.chmod(0o600);print(json.dumps(v))
+''',dict(CASE=case),label='start-'+case['attempt_id'])
+
+
+def stop_case(case, rejection=None):
+    return remote('core',r'''
+import json,os,time
+from pathlib import Path
+root=Path(ROOT);folder=root/'episodes'/CASE['attempt_id'];assert folder.is_dir()
+if REJECTION is not None:
+ p=folder/'E0_MODEL_REJECT.json';assert not p.exists();p.write_text(json.dumps(REJECTION,indent=2)+'\n');p.chmod(0o600)
+p=folder/'relay/STOP.json'
+if p.parent.is_dir() and not p.exists():p.write_text(json.dumps(dict(run_uuid=RUN,episode_uuid=CASE['episode_uuid'],reason='OWN_E0_MODEL_ROUTE_TERMINAL_NO_REPLAY'))+'\n');p.chmod(0o600)
+print(json.dumps(dict(status='OWN_CASE_TERMINAL_REQUESTED')))
+''',dict(CASE=case,REJECTION=rejection),label='case-stop')
+
+
+def terminal(case):
+    return remote('core',r'''
+import json,time
+from pathlib import Path
+root=Path(ROOT);folder=root/'episodes'/CASE['attempt_id'];v={}
+for n in ['E0_ADJUDICATION.json','WORKER_RECEIPT.json','S1_RESULT.json','ERROR.json']:
+ p=folder/n
+ if p.is_file():v[n]=json.loads(p.read_text())
+worker=json.loads((root/'worker_processes'/(CASE['attempt_id']+'.json')).read_text());p=Path('/proc',str(worker['pid']),'stat');v['worker_terminal']=not p.exists() or p.read_text().split()[2]=='Z'
+if not v.get('E0_ADJUDICATION.json') and v['worker_terminal']:
+ v['log_tail']=(root/'worker_logs'/(CASE['attempt_id']+'.log')).read_text()[-2500:]
+print(json.dumps(v))
+''',dict(CASE=case),label='terminal-'+case['attempt_id'])
+
+
+def routes():
+    ready=readiness();registry=json.loads((BASE/'REGISTRY.private.json').read_text())
+    ordered=sorted(registry['cases'].values(),key=lambda c:c['panel_index'])
+    route_root=BASE/'routes';route_root.mkdir(exist_ok=True,mode=0o700)
+    class CoreEndpoint:
+        def observation(self,c,s):return rpc('core',operation='observation',episode=c['episode_uuid'],sequence=s)
+        def ack(self,c,s):return rpc('core',operation='ack',episode=c['episode_uuid'],sequence=s)
+        def teacher(self,c,s):raise PermissionError('NO_TEACHER_LABELS_TO_E0_MODEL')
+        def install(self,c,s,b):return rpc('core',operation='install',episode=c['episode_uuid'],sequence=s,bundle=b)
+    class HopperEndpoint:
+        last=None
+        def query(self,c,q,teacher):
+            assert teacher is None
+            self.last=q
+            return rpc('hopper',operation='query',episode=c['episode_uuid'],query=q)
+        def response(self,c,q):return rpc('hopper',operation='response',episode=c['episode_uuid'],query_uuid=q)
+    core,hopper=CoreEndpoint(),HopperEndpoint();rows=[]
+    for i,case in enumerate(ordered):
+        if time.time()+900>=ready['allocation_end_epoch']-1800:break
+        hopper.last=None
+        if i==4:
+            save(BASE/'E0_TRAIN4_INTERIM.private.json',dict(rows=rows,no_task_success_gate=True,continue_DEV8=all(r['pipeline_trustworthy'] for r in rows)))
+        start(case)
+        failure=None
+        try:run_episode(route_root/case['episode_uuid'],case,core,hopper)
+        except BaseException as error:
+            failure=dict(type=type(error).__name__,message=str(error))
+            rejection=None
+            if hopper.last:
+                query=unseal(hopper.last)
+                try:
+                    action=hopper.response(case,query['query_uuid'])
+                    if action:
+                        physical=unseal(action)['payload']['trajectory_eef10']
+                        gate=gate_action(physical,query['payload']['state_eef10'],query['tick']*.002,query['reference_uuid'])
+                        if gate['decision']=='REJECT':rejection=dict(original_gate=gate,action_sha256=action['sha256'],query_uuid=query['query_uuid'],actual_returned_action_preserved=True,no_resampling=True)
+                except Exception:pass
+            stop_case(case,rejection)
+        end=time.time()+90;value={}
+        while time.time()<end:
+            value=terminal(case)
+            if value['worker_terminal']:break
+            time.sleep(.5)
+        save(BASE/('CASE-'+case['attempt_id']+'.private.json'),dict(terminal=value,route_failure=failure))
+        if 'E0_ADJUDICATION.json' not in value:
+            raise RuntimeError('E0_WORKER_ENGINEERING_TERMINAL_WITHOUT_ADJUDICATION')
+        row=value['E0_ADJUDICATION.json'];rows.append(row)
+        save(BASE/'E0_RESULTS_PROGRESS.private.json',dict(rows=rows,covered=len(rows),planned=12),exclusive=False)
+        print(json.dumps(dict(covered=len(rows),planned=12,attempt=row['attempt_id'],outcome=row['status'],stage=row['failure_stage'],steps=row['main_integrations'],pipeline_trustworthy=row['pipeline_trustworthy'])),flush=True)
+        if not row['pipeline_trustworthy']:break
+    return dict(rows=rows,covered=len(rows),planned=12,training_updates=0)
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('operation',choices=['routes','ready']);a=p.parse_args()
+    print(json.dumps(routes() if a.operation=='routes' else readiness()),flush=True)

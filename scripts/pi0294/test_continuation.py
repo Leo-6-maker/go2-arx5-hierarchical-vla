@@ -17,11 +17,17 @@ class ContinuationTests(unittest.TestCase):
     def manifest(self):
         return dict(schema='RUN_MANIFEST_V1',run_uuid=c.RUN,pi='PI0294',owner='EXISTING_LOCAL_PC',
             parent_run_uuid=c.PARENT,authority=dict(protocol_ref=c.AUTHORITY,go_comment=c.GO_COMMENT,
-            approval='USER_CHAT_COMPLETE_SECTION5_PACKAGE'),limits=copy.deepcopy(c.LIMITS))
+            approval='DIRECT_HUMAN_R3_MODE_SEPARATED_PACKAGE'),limits=copy.deepcopy(c.LIMITS),
+            mode_authority=copy.deepcopy(c.MODE_AUTHORITY))
 
     def test_exact_new_go_and_no_reset(self):
         value=self.manifest()
         c.validate_authority(value,c.T0+1)
+        broken=copy.deepcopy(value);broken['authority']['approval']='USER_CHAT_COMPLETE_SECTION5_PACKAGE'
+        with self.assertRaises(PermissionError):c.validate_authority(broken,c.T0+1)
+        for key in c.MODE_AUTHORITY:
+            broken=copy.deepcopy(value);broken['mode_authority'][key]=False
+            with self.assertRaises(PermissionError):c.validate_authority(broken,c.T0+1)
         for key,changed in [('run_uuid',c.PARENT),('parent_run_uuid','other'),('owner','another')]:
             broken=copy.deepcopy(value);broken[key]=changed
             with self.assertRaises(PermissionError):c.validate_authority(broken,c.T0+1)
@@ -71,7 +77,7 @@ class ContinuationTests(unittest.TestCase):
         m=self.manifest()
         a=dict(run_uuid=c.RUN,T0_epoch=c.T0,cutoff_epoch=c.CUTOFF,deadline_epoch=c.DEADLINE,
             lease_expires_epoch=c.DEADLINE,allowed_cpus=list(range(8)),
-            limits=dict(physics_starts=96,physics_steps=1536000,rgb_pairs=61536,cpu_s=144000,output_bytes=32*c.GIB))
+            limits=dict(physics_starts=32,physics_steps=512000,rgb_pairs=20512,cpu_s=86400,output_bytes=16*c.GIB))
         p=dict(kind='MODEL_EVALUATION',not_formal_data=True,episodes=[dict(card=dict(relay_request_relative='sealed.json'))])
         c.validate_cpu_admission(m,a,p,1,c.T0+1)
         c.validate_cpu_admission(m,a,p,2,c.T0+1)
@@ -114,12 +120,25 @@ class ContinuationTests(unittest.TestCase):
                 numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',microbatch=2,workers=0,
                 request_nonce=str(uuid.uuid4()),project_admission_sha256='e'*64,allowed_peer_ids=[])
             child=dict(parent,stage='resident',mode='resident',allowed_modes=['resident'])
+            proof=root/'S1_TEACHER_QUALIFIED.json'
+            write(proof,dict(run_uuid=c.RUN,status='S1_TEACHER_QUALIFIED',teacher_complete_successes=4,
+                teacher_rejects=0,live_native_failures=0,clone_contexts_passed=8))
+            child.update(S1_qualification_relative=proof.name,S1_qualification_sha256=sha(proof))
             write(path,child)
             stage=dict(run_uuid=c.RUN,job_id='1',sequence=0,mode='resident',request_relative='child.json',request_sha256=sha(path))
             self.assertEqual(validate_stage(root,parent,stage,job_id='1',sequence=0),path)
             for changed in (dict(mode='checkpoint'),dict(mode='smoke'),dict(sequence=1),dict(request_relative='../child.json')):
                 broken=dict(stage,**changed)
                 with self.assertRaises(PermissionError):validate_stage(root,parent,broken,job_id='1',sequence=0)
+            ready=dict(run_uuid=c.RUN,status='S1_TEACHER_QUALIFIED',teacher_complete_successes=4,
+                teacher_rejects=0,live_native_failures=0,clone_contexts_passed=8)
+            for key,value in (('teacher_complete_successes',3),('teacher_rejects',1),
+                              ('live_native_failures',1),('clone_contexts_passed',7)):
+                write(proof,dict(ready,**{key:value}))
+                child['S1_qualification_sha256']=sha(proof);write(path,child)
+                stage['request_sha256']=sha(path)
+                with self.assertRaises(PermissionError):validate_stage(root,parent,stage,job_id='1',sequence=0)
+            write(root/'PARENT_BINDING.private.json',dict(root=str(root/c.PARENT)))
             child.update(stage='main',mode='main',allowed_modes=['main'],max_steps=4096,stop_at=2048,resume='/local/M512')
             write(path,child);stage.update(mode='main',request_sha256=sha(path))
             with self.assertRaises(PermissionError):validate_stage(root,parent,stage,job_id='1',sequence=0)

@@ -1,0 +1,96 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Private E0 terminal control and one-shot derived CPU audits."""
+import argparse
+import base64
+import hashlib
+import json
+from pathlib import Path
+import time
+
+from e0_owner import BASE, RUN, save
+from e0_bind import remote
+
+
+def stop_resident():
+    return remote('hopper', r'''
+import json,os,subprocess,time
+from pathlib import Path
+root=Path(ROOT);l=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text());job=l['PBS_submissions'][-1]['job_id']
+native=json.loads(subprocess.check_output(['/cm/shared/apps/pbspro/current/bin/qstat','-x','-f','-F','json',job],text=True))['Jobs'][job]
+assert native['Job_Owner'].split('@')[0]==os.environ['USER'] and native['project']=='CFP04-CF-007'
+directory=root/'evidence/model-M2048/resident';path=directory/'STOP.json';request=dict(job_id=job,run_uuid=RUN)
+if native['job_state']=='R':
+ assert directory.is_dir(),'NO_OTHER_JOB_SIGNAL'
+ if path.exists():assert json.loads(path.read_text())==request
+ else:
+  tmp=path.with_name('STOP.pending.'+str(os.getpid()));tmp.write_text(json.dumps(request)+'\n');tmp.chmod(0o600);os.replace(tmp,path)
+ status='OWN_E0_GRACEFUL_STOP_REQUESTED'
+else:
+ assert native['job_state']=='F','ONLY_OWN_RUNNING_OR_FINISHED_NO_QUEUE_CANCELLATION'
+ status='OWN_E0_ALREADY_NATIVE_TERMINAL'
+print(json.dumps(dict(status=status,job_id=job,native_state=native['job_state'])))
+''', label='closeout-own-resident')
+
+
+def audit_start(case):
+    data = Path(__file__).with_name('e0_audit_worker.py').read_bytes()
+    return remote('core', r'''
+import base64,hashlib,json,os,subprocess,time
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());code=root/m['code']['capsule_relative']
+record=root/'worker_processes'/('AUDIT-'+ATTEMPT+'.json');assert not record.exists(),'NO_REPEAT_AUDIT_DISPATCH'
+worker=json.loads((root/'worker_processes'/(ATTEMPT+'.json')).read_text());p=Path('/proc',str(worker['pid']),'stat')
+assert not p.exists() or p.read_text().split()[2]=='Z','SOURCE_EPISODE_MUST_BE_TERMINAL'
+tool=root/'evidence/tools'/('e0_audit_worker-'+TOOL_SHA+'.py');tool.parent.mkdir(exist_ok=True,parents=True,mode=0o700)
+raw=base64.b64decode(TOOL);assert hashlib.sha256(raw).hexdigest()==TOOL_SHA
+if tool.exists():assert tool.read_bytes()==raw
+else:tool.write_bytes(raw);tool.chmod(0o400)
+env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+out=(root/'worker_logs'/('AUDIT-'+ATTEMPT+'.log')).open('xb');os.chmod(out.name,0o600)
+entry=Path.home()/'Projects/GR00T-WBC/infrastructure/enter.sh'
+p=subprocess.Popen([str(entry),'4080-simulation','python',str(tool),'--root',str(root),'--attempt',ATTEMPT],cwd=code,env=env,stdin=subprocess.DEVNULL,stdout=out,stderr=subprocess.STDOUT,start_new_session=True)
+v=dict(pid=p.pid,proc_start=Path('/proc',str(p.pid),'stat').read_text().split()[21],tool_sha256=TOOL_SHA,attempt_id=ATTEMPT,started_epoch=time.time(),physics_integrations_allowed=0,neural_queries_allowed=0)
+record.write_text(json.dumps(v,indent=2)+'\n');record.chmod(0o600);print(json.dumps(dict(status='AUDIT_DISPATCHED_ONCE',attempt_id=ATTEMPT,pid=p.pid,tool_sha256=TOOL_SHA)))
+''', dict(ATTEMPT=case['attempt_id'], TOOL=base64.b64encode(data).decode(),
+          TOOL_SHA=hashlib.sha256(data).hexdigest()), label='audit-start')
+
+
+def audit_read(case):
+    return remote('core', r'''
+import json
+from pathlib import Path
+root=Path(ROOT);p=root/'evidence/audits'/ATTEMPT/'AUDIT.private.json';w=json.loads((root/'worker_processes'/('AUDIT-'+ATTEMPT+'.json')).read_text());proc=Path('/proc',str(w['pid']),'stat')
+terminal=not proc.exists() or proc.read_text().split()[2]=='Z'
+v=dict(terminal=terminal,audit=json.loads(p.read_text()) if p.exists() else None)
+if terminal and v['audit'] is None:v['log_tail']=(root/'worker_logs'/('AUDIT-'+ATTEMPT+'.log')).read_text()[-2500:]
+print(json.dumps(v))
+''', dict(ATTEMPT=case['attempt_id']), label='audit-read')
+
+
+def audits():
+    progress=json.loads((BASE/'E0_RESULTS_PROGRESS.private.json').read_text())
+    registry=json.loads((BASE/'REGISTRY.private.json').read_text())
+    byid={c['attempt_id']:c for c in registry['cases'].values()}
+    rows=[]
+    for row in progress['rows']:
+        case=byid[row['attempt_id']]
+        audit_start(case)
+        value={}
+        end=time.time()+650
+        while time.time()<end:
+            value=audit_read(case)
+            if value['terminal']:break
+            time.sleep(2)
+        save(BASE/('AUDIT-'+case['attempt_id']+'.private.json'),value)
+        assert value.get('terminal') and value.get('audit'), 'AUDIT_TERMINAL_MISSING_INSPECT_LOG_NO_REPLAY'
+        actual=value['audit'];rows.append(actual)
+        save(BASE/'E0_AUDITS_PROGRESS.private.json',dict(rows=rows),exclusive=False)
+        print(json.dumps(dict(attempt=case['attempt_id'],status=actual['status'],errors=actual['errors'],video_frames=(actual.get('video') or {}).get('actual_paired_frames'))),flush=True)
+    return dict(audited=len(rows),pass_count=sum(r['status']=='PASS_INDEPENDENT_SAVED_EVIDENCE_AUDIT' for r in rows))
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('operation',choices=['stop','audits']);a=p.parse_args()
+    print(json.dumps(stop_resident() if a.operation=='stop' else audits()),flush=True)

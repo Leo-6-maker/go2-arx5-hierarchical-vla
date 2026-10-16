@@ -1,0 +1,238 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""E0 public binding, exact source deployment and registered private staging."""
+import argparse
+import base64
+import copy
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+import time
+import uuid
+
+from e0_owner import BASE, REPO, PREP, RELEASE, RUN, T0, CORE, HOPPER, R3, call, save, adopt
+
+sys.path[:0] = [str(REPO), str(REPO/'src')]
+from scripts.pi0294 import e0_scope
+
+PUBLIC = REPO/'reports/PI0294'/RUN
+
+
+def encoded(value):
+    return json.dumps(value, indent=2, allow_nan=False)+'\n'
+
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+
+
+def snapshot(label, role):
+    paths = sorted(BASE.glob(f'{label}-{role}-*.private.json'))
+    return json.loads(json.loads(paths[-1].read_text())['stdout'])
+
+
+def package():
+    a = adopt()
+    PUBLIC.mkdir(parents=True, exist_ok=True)
+    for name, item in a['reused_preparation_files'].items():
+        data = (PREP/name).read_bytes()
+        assert hashlib.sha256(data).hexdigest() == item['sha256']
+        destination = PUBLIC/'preparation'/name
+        destination.parent.mkdir(exist_ok=True)
+        if destination.exists():
+            assert destination.read_bytes() == data
+        else:
+            destination.write_bytes(data)
+    public = {k:v for k,v in a.items() if k != 'exact_private_roots'}
+    public.update(status='ADOPTED_VALID_NEW_E0_WINDOW_BINDING_AND_RUNTIME_PREPARATION',
+        launch_allowed=False, runtime_binding='SEE_IMMUTABLE_STAGING_ACTUAL_RECEIPT_BEFORE_DISPATCH',
+        authority_basis='DIRECT_USER_ADOPTION_IN_CURRENT_LOCAL_OWNER_CHAT',
+        human_scope='只评价M2048：原v3.0、EEF10、来源域D0＋原S1；先TRAIN4，链路可信且无真实安全故障时继续DEV8；即使TRAIN4任务成功为0也不另设成功率门。',
+        root_roles=dict(core='PI0294_E0_4080_RUN',hopper='PI0294_E0_HOPPER_RUN'),
+        old_preparation_status='HISTORICAL_NOT_AUTHORIZED_DRAFTS_REUSED_UNCHANGED_THIS_ADOPTION_SUPPLIES_NEW_AUTHORITY',
+        no_training_WBC_S1_v31_BASE_change=True)
+    (PUBLIC/'E0_ADOPTION_AND_BINDING.json').write_text(encoded(public))
+    old = snapshot('original-panel','core')['evidence/model-M2048/REGISTRY.json']
+    assert len(old['cases']) == 12
+    conditions, private_cases = [], []
+    for n,c in enumerate(sorted(old['cases'].values(),key=lambda x:(x['card']['split']!='TRAIN',x['layout_id'],x['card']['task']))):
+        original = {k:v for k,v in c['card'].items() if not k.startswith('relay_request_')}
+        original['id'] = c['original_attempt_id']
+        card = dict(original,id='PI0294-E0-M2048-'+c['original_attempt_id'].removeprefix('PI0294-'))
+        row = dict(index=n,attempt_id=card['id'],original_attempt_id=original['id'],
+            split=card['split'],task=card['task'],scene_group=card['scene_group'],
+            initial_state_sha256=card['initial_state_sha256'],original_card_sha256=digest(original),
+            execution_card_sha256=digest(card),card=card,
+            randomness_rule='sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63',
+            prefix0_seed=int.from_bytes(hashlib.sha256(('PI0294/'+card['scene_group']+'/0').encode()).digest()[:8],'big')%(2**63),
+            status='NOT_RUN')
+        conditions.append(row)
+        private_cases.append(dict(row,episode_uuid=str(uuid.uuid4())))
+    panel = dict(schema='PI0294_E0_FIXED_ORIGINAL_M2048_PANEL_V1',run_uuid=RUN,protocol_ref=RELEASE,
+        original_run_uuid=R3,original_registry_semantic_sha256=digest(old),
+        original_frozen_panel_semantic_sha256=old['frozen_panel_semantic_sha256'],
+        historical16_NOT_RUN_unchanged=True,model_step=2048,conditions=conditions,
+        TRAIN4_to_DEV8='PIPELINE_TRUSTWORTHY_AND_NO_REAL_SAFETY_DEFECT_NOT_SUCCESS_THRESHOLD',
+        selected='NONE',deployment='NONE')
+    assert sum(c['split']=='TRAIN' for c in conditions) == 4
+    assert sum(c['split']=='DEV' for c in conditions) == 8
+    (PUBLIC/'E0_PANEL_MANIFEST.json').write_text(encoded(panel))
+    if not (BASE/'CASES.private.json').exists():
+        save(BASE/'CASES.private.json',private_cases)
+    else:
+        previous=json.loads((BASE/'CASES.private.json').read_text())
+        assert [{k:v for k,v in c.items() if k!='episode_uuid'} for c in previous]==conditions
+    report = dict(status='ACTUAL_READ_ONLY_BINDING_PREFLIGHT_NO_MODEL_OR_PHYSICS',
+        authentication='EXPLICIT_USER_AUTHORIZED_LOGIN_THEN_NATIVE_PROJECT_QUERY_SUCCEEDED',
+        project='CFP04-CF-007',project_active_and_member=True,own_Hopper_jobs_observed=0,
+        personal_scratch_used_bytes=426893307904,personal_scratch_hard_bytes=1099511627776,
+        original_M2048_training_folder='METADATA_PRESENT_WEIGHT_SHARDS_MISSING',
+        missing_inference_member_action='CHECK_REGISTERED_COPIES_THEN_FIXED_PUBLIC_HF_ONLY_NO_OPTIMIZER',
+        source_D0_engine_scene_episode_scorer_S1_numeric_bytes_match_qualification=True,
+        fullbody_TF_R3='NATIVE_SAFETY_STOP_PRESERVED_OWNER_LOCKS_UNHELD_NO_RESTART',
+        no_new_PBS_model_queries_training_or_physics=True,
+        private_snapshots_retained=True,credentials_and_user_roster_published=False)
+    (PUBLIC/'PREFLIGHT_ACTUAL.json').write_text(encoded(report))
+    return dict(status='PUBLIC_SANITIZED_BINDING_AND_12_ORIGINAL_CONDITIONS_PREPARED',files=8,run_uuid=RUN)
+
+
+REGISTER = r'''
+import fcntl,hashlib,json,os,socket,time
+from pathlib import Path
+def read(p):return json.loads(Path(p).read_text())
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def write(p,v):
+ p=Path(p);p.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+ with p.open('x') as f:json.dump(v,f,indent=2);f.write('\n')
+ p.chmod(0o600)
+root=Path(ROOT);old=Path(OLD);assert root.parent==old.parent and old.is_dir()
+binding=read(old/'OUTPUT_BINDING.private.json');registry_path=Path(binding['registry']);infra=registry_path.parent
+with (infra/'E0_REGISTRATION.lock').open('a') as lock:
+ fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+ registry=read(registry_path)
+ if root.exists():
+  a=read(root/'E0_ADOPTION_AND_BINDING.json');assert a['run_uuid']==RUN and a['T_adopt_epoch']==T0
+  print(json.dumps(dict(status='EXISTING_EXACT_E0_REGISTRATION_REUSED',root=str(root))));raise SystemExit(0)
+ assert not any(r.get('run_uuid')==RUN or r.get('role')==ROLE for r in registry['entries'])
+ root.mkdir(mode=0o700)
+ for n in ['evidence','episodes','plans','pbs','worker_logs','worker_processes','capsules','model_inputs','reservations']:(root/n).mkdir(mode=0o700)
+ write(root/'E0_ADOPTION_AND_BINDING.json',ADOPTION);write(root/'E0_PANEL_MANIFEST.json',PANEL)
+ lease=infra/'leases'/('PI0294_E0_'+str(T0)+'.json')
+ binding.update(run_uuid=RUN,role=ROLE,run_root=str(root),lease=str(lease))
+ write(root/'OUTPUT_BINDING.private.json',binding)
+ write(root/'PRIOR_R3_BINDING.private.json',dict(root=str(old),manifest_sha256=sha(old/'RUN_MANIFEST.json')))
+ for n in ['S1_TEACHER_QUALIFIED.json','LIVE_READINESS.json']:
+  raw=(old/'evidence'/n).read_bytes();(root/'evidence'/n).write_bytes(raw)
+ write(lease,dict(schema='E0_LEASE_V1',run_uuid=RUN,owner='EXISTING_LOCAL_PC',status='ACTIVE',protocol_ref=RELEASE,T0_epoch=T0,deadline_epoch=DEADLINE))
+ registry['entries'].append(dict(role=ROLE,path=str(root),executor_node='hopper' if HOPPER_ROLE else socket.gethostname(),run_uuid=RUN,lifecycle='ADOPTED_E0_BINDING_NO_DISPATCH'))
+ temp=registry_path.with_name(registry_path.name+'.e0-'+str(os.getpid()))
+ temp.write_text(json.dumps(registry,indent=2)+'\n');temp.chmod(0o600);os.replace(temp,registry_path)
+ if HOPPER_ROLE:
+  b=read(old/'NEURAL_BINDINGS.private.json');write(root/'NEURAL_BINDINGS.private.json',b)
+  alias=root/'model_inputs/nvidia/Cosmos-Reason2-2B';alias.parent.mkdir(parents=True);alias.symlink_to(b['cosmos'])
+  write(root/'HOPPER_RESOURCE_LEDGER.json',dict(run_uuid=RUN,PBS_submissions=[],GPU_allocated_s=0,GPU_reserved_s=0,CPU_s=120,CPU_preflight_upper_s=120,CPU_reserved_s=0,model_loads=0,generation_queries=0,new_formal_updates=0,new_engineering_updates=0))
+ else:
+  write(root/'INPUT_BINDINGS.private.json',read(old/'INPUT_BINDINGS.private.json'))
+  write(root/'RESOURCE_LEDGER.json',dict(run_uuid=RUN,Core_CPU_s=180,CPU_preflight_upper_s=180,main_or_diagnostic_starts=0,main_or_diagnostic_integrations=0,RGB_pairs=0,shadow_integrations=0,shadow_advance_invocations=0,reservations={},stages=[]))
+ print(json.dumps(dict(status='PASS_REGISTERED_E0_NEW_INDEPENDENT_LEASE_NO_DISPATCH',root=str(root),uid=os.getuid(),host=socket.gethostname(),binding_sha256=sha(root/'OUTPUT_BINDING.private.json'),old_R3_manifest_unmodified=True)))
+'''
+
+
+def register(role):
+    parent=HOPPER if role=='hopper' else CORE
+    values=dict(ROOT=parent+'/'+RUN,OLD=parent+'/'+R3,RUN=RUN,T0=T0,ROLE='PI0294_E0_HOPPER_RUN' if role=='hopper' else 'PI0294_E0_4080_RUN',
+        RELEASE=RELEASE,DEADLINE=e0_scope.DEADLINE,HOPPER_ROLE=role=='hopper',
+        ADOPTION=json.loads((PUBLIC/'E0_ADOPTION_AND_BINDING.json').read_text()),
+        PANEL=json.loads((PUBLIC/'E0_PANEL_MANIFEST.json').read_text()))
+    return call(role,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+REGISTER,label='registration')
+
+
+INSTALL = r'''
+import base64,hashlib,json,os,socket,subprocess,time
+from pathlib import Path
+def read(p):return json.loads(Path(p).read_text())
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def write(p,v):
+ p=Path(p);p.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+ data=(json.dumps(v,indent=2,allow_nan=False)+'\n').encode()
+ if p.exists():
+  assert p.read_bytes()==data,'EXACT_STAGE_ARTIFACT_ALREADY_EXISTS_DIFFERENT'
+ else:
+  with p.open('xb') as f:f.write(data)
+  p.chmod(0o600)
+root=Path(ROOT);old=Path(OLD);old_m=read(old/'RUN_MANIFEST.json');before=sha(old/'RUN_MANIFEST.json')
+code=root/'capsules'/SOURCE/'code';code.mkdir(parents=True,exist_ok=True)
+files={}
+for name,data in CONTENTS.items():
+ p=code/name;assert p.resolve().is_relative_to(code.resolve());p.parent.mkdir(parents=True,exist_ok=True)
+ value=base64.b64decode(data)
+ if p.exists():assert p.read_bytes()==value
+ else:
+  with p.open('xb') as f:f.write(value)
+  p.chmod(0o440)
+ files[name]=sha(p)
+for name,digest in NUMERIC.items():assert files[name]==digest
+seal=dict(schema='E0_IMMUTABLE_SOURCE_SEAL_V1',source_sha=SOURCE,protocol_release=RELEASE,files=files,unchanged_numerical_files=NUMERIC)
+sealpath=code.parent/'SOURCE_SEAL.json';write(sealpath,seal)
+m=json.loads(json.dumps(old_m));m.update(run_uuid=RUN,parent_run_uuid=R3,status='E0_SOURCE_SEALED_NOT_DISPATCHED',scope='M2048_V30_EEF10_SOURCE_D0_ORIGINAL_S1_INFERENCE_ONLY')
+m['authority']=dict(protocol_ref=RELEASE,approval='DIRECT_HUMAN_E0_ADOPTION',go_comment='DIRECT_USER_CHAT_WITH_PUBLISHED_E0_ADOPTION')
+m['limits']=LIMITS;m['code'].update(vla_commit=SOURCE,capsule_relative=str(code.relative_to(root)),source_seal_relative=str(sealpath.relative_to(root)),source_seal_sha256=sha(sealpath),unchanged_numerical_files=NUMERIC)
+m.pop('mode_authority',None)
+m['execution'].update(private_path_role=ROLE,output_binding_sha256=sha(root/'OUTPUT_BINDING.private.json'),argv='E0_SEALED_REQUEST_ONLY')
+write(root/'RUN_MANIFEST.json',m)
+if HOPPER_ROLE:
+ b=read(root/'NEURAL_BINDINGS.private.json');python=b['python']
+ write(root/'evidence/HF_PUBLIC_M2048_RECEIPT.json',INVENTORY)
+ identity=dict(global_step=2048,statistics_sha256=STATS,files={n:INVENTORY['files'][n]['sha256'] for n in INFERENCE_NAMES},
+  HF_revision=INVENTORY['revision'],HF_prefix=INVENTORY['prefix'],checkpoint_manifest_sha256=INVENTORY['files']['PUBLIC_CHECKPOINT_MANIFEST.json']['sha256'],
+  relay_identity=dict(profile='B1',model_revision=INVENTORY['revision'],source_sha=SOURCE,config_sha256=INVENTORY['files']['config.json']['sha256'],
+   processor_sha256=INVENTORY['files']['processor/processor_config.json']['sha256'],statistics_sha256=STATS))
+ write(root/'evidence/M2048_INFERENCE_IDENTITY.json',identity)
+ write(root/'E0_INPUT_PREPARATION.private.json',dict(repo_id=INVENTORY['repo_id'],revision=INVENTORY['revision'],prefix=INVENTORY['prefix'],
+  registered_read_only_candidates=[str(old/'training/main/checkpoint-2048'),str(old/'delivery/public-M2048/checkpoint')],original_checkpoint=str(old/'training/main/checkpoint-2048')))
+else:python=read(root/'INPUT_BINDINGS.private.json')['runtime_python']
+check="import sys;sys.path[:0]="+repr([str(code),str(code/'src')])+";from scripts.pi0294.e0_scope import validate_entry;validate_entry("+repr(str(root))+",profile="+repr('hopper-neural' if HOPPER_ROLE else '4080-simulation')+");print('ENTRY_PASS')"
+env=dict(os.environ,CUDA_VISIBLE_DEVICES='')
+r=subprocess.run([python,'-c',check],capture_output=True,text=True,timeout=90,env=env)
+assert r.returncode==0,(r.stdout,r.stderr[-2000:])
+assert sha(old/'RUN_MANIFEST.json')==before
+receipt=dict(status='PASS_E0_SEALED_SOURCE_REGISTERED_ENTRY_NO_WORKLOAD',run_uuid=RUN,source_sha=SOURCE,root=str(root),python=python,
+ manifest_sha256=sha(root/'RUN_MANIFEST.json'),seal_sha256=sha(sealpath),source_members=len(files),unchanged_numeric_members=len(NUMERIC),old_R3_manifest_unchanged=True)
+write(root/'evidence/STAGING.private.json',receipt);print(json.dumps(receipt))
+'''
+
+
+def install(role):
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    paths=subprocess.check_output(['git','ls-tree','-r','--name-only',source,'src','scripts/pi0291_arx5_data',
+        'scripts/pi0292','scripts/pi0294','scripts/iteration'],cwd=REPO,text=True).splitlines()
+    contents={n:base64.b64encode(subprocess.check_output(['git','show',source+':'+n],cwd=REPO)).decode() for n in paths}
+    numeric_names=['scripts/pi0294/episode.py','scripts/pi0294/scene.py','scripts/pi0294/scene_cards.py',
+        'scripts/pi0294/teacher.py','scripts/pi0294/score.py','scripts/pi0294/s1_preflight.py',
+        'scripts/pi0292/physics_relay.py','scripts/pi0292/relay_protocol.py','scripts/pi0292/live_inputs.py',
+        'scripts/pi0292/eval_contract.py','scripts/pi0292/train_adapter.py','scripts/pi0291_arx5_data/config.py',
+        'scripts/pi0291_arx5_data/engine.py','scripts/pi0294/numerics.py','scripts/pi0294/local_backbone.py']
+    numeric={}
+    for name in numeric_names:
+        original=subprocess.check_output(['git','show','90c90d784dd702f10c79c719d717e80aeb50e31e:'+name],cwd=REPO)
+        assert original==base64.b64decode(contents[name]),name
+        numeric[name]=hashlib.sha256(original).hexdigest()
+    parent=HOPPER if role=='hopper' else CORE
+    inventory=json.loads((REPO/'reports/PI0294'/R3/'HF_PUBLIC_M2048_RECEIPT.json').read_text())
+    names=['config.json','model.safetensors.index.json','statistics.json','processor/embodiment_id.json',
+        'processor/processor_config.json','processor/statistics.json']+[f'model-{i:05d}-of-00003.safetensors' for i in range(1,4)]
+    values=dict(ROOT=parent+'/'+RUN,OLD=parent+'/'+R3,RUN=RUN,R3=R3,RELEASE=RELEASE,SOURCE=source,
+        ROLE='PI0294_E0_HOPPER_RUN' if role=='hopper' else 'PI0294_E0_4080_RUN',HOPPER_ROLE=role=='hopper',
+        LIMITS=e0_scope.LIMITS,STATS=e0_scope.STATS,CONTENTS=contents,NUMERIC=numeric,
+        INVENTORY=inventory,INFERENCE_NAMES=names)
+    return call(role,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+INSTALL,label='source-staging')
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('operation',choices=['package','register','install'])
+    p.add_argument('--role',choices=['core','hopper'])
+    a=p.parse_args()
+    print(json.dumps(package() if a.operation=='package' else (register(a.role) if a.operation=='register' else install(a.role))))
