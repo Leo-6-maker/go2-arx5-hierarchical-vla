@@ -69,7 +69,10 @@ def run(root,native,startup,episode):
     from scripts.pi0292.durable import OwnerLock,write
     root,native,startup=map(Path,(root,native,startup));manifest,parent=validate_entry(root,physical_asset=VERSION)
     card=require_card(root,manifest,episode)
-    from .tf_r3_teacher import Teacher
+    if card.get('teacher_control')=='TF_R3_GEOMETRY_REACTIVE_PUSH_V1':
+        from .tf_r3_reactive import Teacher
+    else:
+        from .tf_r3_teacher import Teacher
     from .mp_client import PlannerFailure
     series=root/'factory'
     frame_cap=round(card['duration_s']/.05)+1

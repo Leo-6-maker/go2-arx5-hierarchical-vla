@@ -24,7 +24,13 @@ def require_card(root,manifest,episode):
     if card['role']=='PRODUCTION' and not release['tasks'][card['task']]['repeatability_PASS']:raise PermissionError('R1_TWO_OF_THREE_TASK_REPEATABILITY')
     startup=read(root/'evidence/STARTUP_QUALIFICATION.json')
     if any(r['module_sha256']!=sha(Path(__file__).with_name('night_r1_startup.py')) for r in startup['rows']):raise PermissionError('ACTUAL_STARTUP_QUALIFICATION_SOURCE_CHANGED')
-    if card['scientific_condition']!='MIDPOINT_PUSH':raise PermissionError('R3_ONLY_DECLARED_MIDPOINT_PUSH')
+    if card['scientific_condition']=='GEOMETRY_REACTIVE_PUSH':
+        authority=read(root/'R3_GEOMETRY_CONTINUATION.json')
+        if (authority['status']!='DIRECT_USER_CONTINUATION' or authority['human_request']!='继续推进 不要停'
+            or release.get('authority_extension_sha256')!=sha(root/'R3_GEOMETRY_CONTINUATION.json')
+            or card.get('teacher_control')!='TF_R3_GEOMETRY_REACTIVE_PUSH_V1'):
+            raise PermissionError('R3_GEOMETRY_SOURCE_BOUND_AUTHORITY_REQUIRED')
+    elif card['scientific_condition']!='MIDPOINT_PUSH':raise PermissionError('R3_ONLY_DECLARED_SCIENTIFIC_CONDITIONS')
     return card
 
 
