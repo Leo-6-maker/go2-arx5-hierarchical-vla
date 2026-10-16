@@ -153,8 +153,14 @@ def build(path):
             command('linked-libraries', [m['apptainer'], 'exec', '--cleanenv', str(image),
                 '/bin/bash', '-c', 'source ./env.sh; ldd build/mujoco/bin/rl_sim_mujoco; '
                 'find install/lib -type f -executable -name "*mpc*" -o -name "*ocs2*node"'], 60, native)
+            assert 'not found' not in (root/'linked-libraries.log').read_text(), 'MISSING_SHARED_LIBRARY'
+            nodes = [native/'install/lib/go2_x5_ocs2/go2_x5_ocs2_node',
+                     native/'install/lib/ocs2_mobile_manipulator_ros/mobile_manipulator_mpc_node']
+            assert all(node.is_file() for node in nodes), 'CONTROLLER_BINARY_ABSENT'
             result.update(status='PASS_NATIVE_CONTAINER_AND_BUILD_NO_PHYSICS', image=str(image),
-                          simulator_sha256=sha(simulator), native_controller_sources_unchanged=True)
+                          simulator_sha256=sha(simulator),
+                          controller_sha256={str(node.relative_to(native)):sha(node) for node in nodes},
+                          native_controller_sources_unchanged=True)
         except BaseException as error:
             result.update(status='ENGINEERING_INCOMPLETE_PRESERVED',
                           error_type=type(error).__name__, error=str(error)[:1200])
