@@ -82,7 +82,11 @@ def physics(root,episode):
         rebuilt=native_document(a,np.asarray(intent['actual_BASE_mount']),base_valid=True,previous_velocity=previous)
         assert all(document[k]==rebuilt[k] for k in ('ee','base'));previous=a[7,10:13].copy()
         assert np.array_equal(a[:8],intent['scheduled_prefix_EEF13']) and intent['canonical_safety_gate']['decision']!='REJECT'
-        expected,opening=sample(combined,seq*.4+np.arange(40)*.05)
+        # Reproduce the actual consumer input; seq*.4 has a different FP64
+        # representation for some ticks. Do not relax byte-exact label parity.
+        task_time=float(intent['persistent']['consumed_task_time_s'])
+        assert task_time==saved[seq*8]['time_s']
+        expected,opening=sample(combined,task_time+np.arange(40)*.05)
         assert np.allclose(h40[seq],expected,atol=1e-12,rtol=0)
         from .task_gripper_contract import teacher_physical_fraction
         assert np.array_equal(a[:,9],teacher_physical_fraction(opening))
