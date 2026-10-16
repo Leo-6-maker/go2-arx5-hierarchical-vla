@@ -1,0 +1,45 @@
+{
+  "schema": "PI0294_TF_R2_OWNER_ADOPTION_V1",
+  "authorizes_execution": true,
+  "adopted_release": "13c72eca98d682280fa67ec316b909f1aa1fdd5b",
+  "human_request": "不用担心预算上限，以跑通科学主线获得一版成熟可用teacher作为最大目标",
+  "adoption_interpretation": "DIRECT_USER_CONTINUATION_AFTER_EXPLICIT_FULL_TF_R2_ADOPTION_REQUEST_WITH_RESOURCE_CAP_OVERRIDE",
+  "T0_epoch": 1792121383.494512,
+  "T0_UTC": "2026-10-16T03:29:43.494512+00:00",
+  "T0_SGT": "2026-10-16T11:29:43.494512+08:00",
+  "new_work_cutoff_epoch": 1792146583.494512,
+  "deadline_epoch": 1792150183.494512,
+  "new_work_cutoff_SGT": "2026-10-16T18:29:43.494512+08:00",
+  "hard_close_SGT": "2026-10-16T19:29:43.494512+08:00",
+  "run_uuid": "20261016T032943Z-tf-r2-closure-to-dataset",
+  "owner": "EXISTING_LOCAL_PC",
+  "resource_caps_override": {
+    "cumulative_CPU_starts_integrations_RGB_search_caps_removed": true,
+    "record_all_actual_and_reserved_costs": true,
+    "old_costs_preserved": true,
+    "no_fictitious_finite_caps": true
+  },
+  "scientific_contract": {
+    "conditions": [
+      "S7",
+      "S8_IF_SAFE_PHASE_MISMATCH",
+      "S9_IF_SAFE_ENTRY_MISMATCH"
+    ],
+    "S7_safety_FAIL": "STOP_NEW_TASK_PHYSICS_NO_S8_S9",
+    "frozen_WBC_safety_physics_scoring": true,
+    "production_target": {
+      "TRAIN": 8,
+      "DEV": 2
+    },
+    "production_fixed_pool_attempts": 20,
+    "first_workers": 1,
+    "qualified_workers_max": 2,
+    "concurrent_CPU_max": 8,
+    "GR00T_GPU_PBS_real_hardware": 0
+  },
+  "per_episode_duration_and_safety_quota_unchanged": true,
+  "old_R1_run_reopened": false,
+  "old_T0_reset": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
