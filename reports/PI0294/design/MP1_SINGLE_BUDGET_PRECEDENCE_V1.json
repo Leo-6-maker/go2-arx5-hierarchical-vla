@@ -1,0 +1,43 @@
+{
+  "schema": "PI0294_MP1_SINGLE_BUDGET_PRECEDENCE_V1",
+  "date_SGT": "2026-10-17",
+  "status": "AUTHORITATIVE_COORDINATION_ADDENDUM_TO_CURRENT_USER_BUDGET_REQUEST",
+  "why": "Fixed-ref readback found two concurrently published plans responding to the same user request. They must not create two owners, additive budgets, duplicate trials or incompatible deadlines.",
+  "observed_comparison": {"base": "8fdb2a179f5db88c294fea4182c2d177a2e2801a", "head": "9d54ba38b3489d6953db4c3d735ddd3de53a5836", "commits_ahead": 5, "own_initial_MP1_files": 3, "concurrent_other_files": 2},
+  "canonical_new_execution_family": "MP1",
+  "canonical_protocol": "docs/protocols/PI0294_MAINLINE_ACCELERATION_MP1_20261017.md",
+  "canonical_card": "reports/PI0294/design/MAINLINE_ACCELERATION_MP1_20261017.json",
+  "canonical_handoff": "docs/handover/2026-10-17/MAINLINE_ACCELERATION_MP1_EXECUTE.md",
+  "precedence_order": ["ACTUAL_PREEXISTING_ADOPTED_RUN_AND_NATIVE_SAFETY_RECORDS_FOR_ALREADY_STARTED_WORK", "THIS_SINGLE_BUDGET_ADDENDUM_FOR_NEW_WORK", "MP1_MACHINE_CARD_AND_PROTOCOL", "OTHER_UNADOPTED_PARALLEL_ROADMAP_TEXT_AS_REFERENCE_ONLY"],
+  "parallel_documents_preserved_not_deleted": [
+    "docs/protocols/PI0294_E2_EXPANDED_SCIENCE_AUTONOMOUS_GO_V1.md",
+    "docs/roadmap/2026-10-17_GR00T_WBC_SCIENCE_LONG_HORIZON_ROADMAP_V2.md"
+  ],
+  "parallel_E2_future_task_cards_or_handoffs_for_same_request": "REFERENCE_OR_ALIAS_ONLY_UNLESS_A_LATER_DISTINCT_USER_AUTHORIZATION_EXPLICITLY_REPLACES_THIS",
+  "new_budget_counts_once": {
+    "H200_GPU_hours": 48,
+    "A40_GPU_hours": 32,
+    "NOT_48_plus_E2_24_H200": true,
+    "NOT_32_plus_E2_12_A40": true,
+    "all_other_caps": "MP1_MACHINE_CARD",
+    "not_24_day_or_28_day_additional_clock": true,
+    "MP1_calendar_hours": 168,
+    "single_new_binding": true,
+    "resource_pool_shared_if_owner_uses_E2_alias": true
+  },
+  "latest_issue_readback": "No new Issue 11 comments since 2026-10-16T18:09:00Z were returned at coordination review; this is NOT proof that no unreported process exists.",
+  "owner_required_actions_before_new_dispatch": [
+    "Refresh native owner, jobs, leases and all new Issue 11/47 receipts once",
+    "Register MP1 as the single new resource family and list concurrent E2 documents as non-additive aliases",
+    "If E2 was adopted or started during publication, preserve its actual original record and healthy job to normal boundary; count same-request E2 used/reserved against this common MP1 total without relabelling old scientific results",
+    "Do not apply a new scope or recipe in the middle of an active run; subsequent work uses one fixed child manifest",
+    "Keep prior E0/E1 and original Vanda budgets/results separately intact; do not double-book their existing reservations",
+    "Update the existing unified entry summary and comment once to prevent another agent starting a duplicate plan"
+  ],
+  "unadopted_conflicting_E2_numeric_caps_and_clock": "SUPERSEDED_FOR_NEW_DISPATCH_BY_MP1_NOT_ADDITIVE",
+  "active_scientific_run_cancelled_or_hot_changed_by_addendum": false,
+  "native_safety_stop_lifted": false,
+  "other_author_files_overwritten": false,
+  "new_compute_executed_by_publication": false,
+  "requires_second_routine_human_GO": false
+}
