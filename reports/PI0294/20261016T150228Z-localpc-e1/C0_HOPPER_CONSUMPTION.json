@@ -1,0 +1,91 @@
+{
+  "status": "PASS_ACTUAL_HOPPER_CORRECTION_PROCESSOR_LOADER",
+  "revision": "8132a0f689b63592d821a28b9d027e4e5bcbf5b6",
+  "prefix": "PI0294/20261016T150228Z-localpc-e1/E1_SOURCE_CORRECTION_V1-C0",
+  "manifest_sha256": "7580aa55973f1eb7ba24db934a67454acfae3490ac476de648b80377721df85d",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "independent_reader": {
+    "status": "PASS_INDEPENDENT_NPZ_JSONL_RGB_READER",
+    "full_windows": 833,
+    "RGB_references": 1666,
+    "padded_windows": 0,
+    "rejected_student_commands_in_labels": 0
+  },
+  "actual_first_middle_last": [
+    {
+      "identity": {
+        "episode_id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S001-SHORT",
+        "split": "TRAIN",
+        "anchor": 0,
+        "task": "T1",
+        "family": "E0_STUDENT_STATE",
+        "origin": "E0_STATE_AGGREGATION_ONLY"
+      },
+      "roundtrip_maximum_absolute_difference": 1.0253078486927025e-08,
+      "native_decode": {
+        "normalized_outside_unit_components": 0,
+        "native_inverse_clip_declared": true,
+        "extra_postprocessing": false
+      }
+    },
+    {
+      "identity": {
+        "episode_id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S003-FULL",
+        "split": "TRAIN",
+        "anchor": 413,
+        "task": "T1",
+        "family": "E0_STUDENT_STATE",
+        "origin": "E0_STATE_AGGREGATION_ONLY"
+      },
+      "roundtrip_maximum_absolute_difference": 4.232957701369444e-09,
+      "native_decode": {
+        "normalized_outside_unit_components": 0,
+        "native_inverse_clip_declared": true,
+        "extra_postprocessing": false
+      }
+    },
+    {
+      "identity": {
+        "episode_id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S003-FULL",
+        "split": "TRAIN",
+        "anchor": 409,
+        "task": "T1",
+        "family": "E0_STUDENT_STATE",
+        "origin": "E0_STATE_AGGREGATION_ONLY"
+      },
+      "roundtrip_maximum_absolute_difference": 4.261294844765118e-09,
+      "native_decode": {
+        "normalized_outside_unit_components": 0,
+        "native_inverse_clip_declared": true,
+        "extra_postprocessing": false
+      }
+    }
+  ],
+  "model_loaded": false,
+  "optimizer_updates": 0,
+  "CPU_s": 23.700046194,
+  "actual_mixed_loader": [
+    {
+      "resume_step": 0,
+      "trace": {
+        "status": "PASS_ACTUAL_SMALL8_CONSUMED_IDENTITIES",
+        "count": 64,
+        "sha256": "126b6dae2d27f8396637c1fce38fc8d4d3780a23621b3479bf2156138731af00"
+      },
+      "original_samples": 32,
+      "correction_samples": 32
+    },
+    {
+      "resume_step": 1,
+      "trace": {
+        "status": "PASS_ACTUAL_SMALL8_CONSUMED_IDENTITIES",
+        "count": 32,
+        "sha256": "c28b31db4285f59aeb2aad8e79a4fb2b4a45635b8887e170d7dbc29b9bd298c8"
+      },
+      "original_samples": 16,
+      "correction_samples": 16
+    }
+  ],
+  "full_private_receipt_sha256": "0e5b489af9736e39eaa8d68a89603327bf7e5297d12a9a94138def11d801e372",
+  "aux_source_sha": "106380434a7df6e6af016b4455b7161f557c1538"
+}

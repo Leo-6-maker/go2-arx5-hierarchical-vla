@@ -19,6 +19,7 @@ def run(root,instance,allocation,guard,*,branch='M1'):
     if branch!='M1':
         recipe=dict(recipe,max_steps=512,warmup_updates=16,parent='M1_AT_1024_INFERENCE_WEIGHTS_ONLY',branch=branch,
             sampling='TASK_1_TO_1_EPISODE_UNIFORM_WINDOW_UNIFORM' if branch=='M2-BC' else 'EXACT_HALF_SMALL8_HALF_QUALIFIED_CORRECTION')
+        if read(root/'plans/M2_RECIPE_RESOLVED.json')[branch]!=recipe:raise PermissionError('E1_PRE_GPU_EXACT_M2_RECIPE_SEAL')
         binding=read(root/'plans/CORRECTION_BINDING.private.json')
         expected_updates=1024 if branch=='M2-BC' else 1536
         if read(ledger.path)['optimizer_updates']!=expected_updates:raise PermissionError('E1_SAME_PARENT_MATCHED_BRANCH_UPDATE_ACCOUNTING')
