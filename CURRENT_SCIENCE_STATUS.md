@@ -36,6 +36,15 @@ No third E1 or new MP1 GPU submission was made. Restore the existing network,
 then reconcile native/Core intents and costs before any continuation.
 [Actual interruption and resumption order](reports/PI0294/20261016T191445Z-localpc-mp1/LOCAL_NETWORK_INTERRUPTION_01.json).
 
+Offline E1 checks repaired the last-allocation controller's middle-hop cache
+path and bounded pipe-write timeout, plus final condition/attempt reporting.
+All 228 CPU contracts and a local OS-pipe controller fixture passed; these
+are not native pipeline qualification or a measured speedup. The saved M1
+T1 audit metadata still reconciles to two seen-TRAIN successes, not new runs.
+[Checks and exact native readmission preconditions](reports/PI0294/20261016T150228Z-localpc-e1/LAST_ALLOCATION_ENGINEERING_CHECK_01.json).
+No third E1 submission, native source switch, new MP1 GPU or physical action
+was made during this disconnected interval.
+
 ## Source Results
 
 **M1@1024 autonomously completed T1 in both predeclared seen TRAIN layouts.**

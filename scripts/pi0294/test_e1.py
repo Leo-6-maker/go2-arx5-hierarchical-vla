@@ -15,6 +15,50 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_file_RPC_write_timeout_covers_full_pipe_without_resending(self):
+        import os,time
+        from .e1.stdio import write_frame
+        reader,writer=os.pipe()
+        try:
+            os.set_blocking(writer,False);count=0
+            while True:
+                try:count+=os.write(writer,b'x'*4096)
+                except BlockingIOError:break
+            with self.assertRaises(TimeoutError):write_frame(writer,b'unique-request\n',time.monotonic()+.02)
+            self.assertFalse(os.get_blocking(writer));os.set_blocking(reader,False);actual=b''
+            while True:
+                try:actual+=os.read(reader,65536)
+                except BlockingIOError:break
+            self.assertEqual(actual,b'x'*count)
+        finally:os.close(reader);os.close(writer)
+
+    def test_file_RPC_partial_writes_deliver_one_exact_frame(self):
+        import os,time,threading
+        from .e1.stdio import write_frame
+        reader,writer=os.pipe();chunks=[];payload=b'one-request:'+b'x'*131072+b'\n'
+        def receive():
+            while True:
+                part=os.read(reader,997)
+                if not part:break
+                chunks.append(part)
+        worker=threading.Thread(target=receive);worker.start()
+        try:
+            write_frame(writer,payload,time.monotonic()+5);self.assertTrue(os.get_blocking(writer))
+        finally:os.close(writer);worker.join(timeout=5);os.close(reader)
+        self.assertFalse(worker.is_alive());self.assertEqual(b''.join(chunks),payload)
+
+    def test_probe_summary_never_hides_nonfinite_or_short_window_in_episode_mean(self):
+        from .e1.analysis import errors
+        def row(identifier,values):return dict(episode_id=identifier,errors=dict(pointwise={k:list(values) for k in ['XYZ_euclidean_m','SO3_rad','gripper_absolute']}))
+        good=row('one',[1.]*40)
+        self.assertEqual(errors([good])['H40']['XYZ_euclidean_m']['episode_macro_mean'],1.)
+        for bad in [[2.]*39,[float('nan')]*40,[float('inf')]*40,[None]*40,[True]*40]:
+            output=errors([good,row('two',bad)])['H40']['XYZ_euclidean_m']
+            self.assertEqual(output['episodes'],2);self.assertEqual(output['finite_complete_episodes'],1)
+            self.assertIsNone(output['episode_macro_mean']);self.assertIsNone(output['worst_episode_mean'])
+        self.assertEqual(errors([row('one',[1.]*8)])['prefix8']['XYZ_euclidean_m']['episode_macro_mean'],1.)
+        self.assertIsNone(errors([row('one',[1.]*8)])['H40']['XYZ_euclidean_m']['episode_macro_mean'])
+
     def test_actual_expert_ack_uses_saved_tick_fields_and_full_clock(self):
         import numpy as np
         from .e1.collection_export import check_ack_progress
@@ -89,13 +133,40 @@ class E1Tests(unittest.TestCase):
 
     def test_behavior_summary_excludes_collection_and_scope_deviation(self):
         from .e1.analysis import autonomous_summary
-        base=dict(model='fixture',task='T1',pipeline_trustworthy=True,persistent_success=True,native_safety_flag_rows=0,native_duration_s=32.,failure_stage='NONE',model_autonomous_evaluation=True,excluded_scope_deviation=False)
+        base=dict(model='fixture',task='T1',status='SUCCESS',audit_verified=True,pipeline_trustworthy=True,persistent_success=True,native_safety_flag_rows=0,native_duration_s=32.,failure_stage='NONE',model_autonomous_evaluation=True,excluded_scope_deviation=False)
         rows=[dict(base,scene_group='PI0294/TRAIN/F0/000'),dict(base,scene_group='PI0294/TRAIN/F1/000')]
         self.assertTrue(autonomous_summary(rows)['fixture']['T1']['source_task_competence_observed'])
         rows[-1]['model_autonomous_evaluation']=False
         self.assertFalse(autonomous_summary(rows)['fixture']['T1']['source_task_competence_observed'])
         rows[-1]['model_autonomous_evaluation']=True;rows[-1]['excluded_scope_deviation']=True
         self.assertEqual(autonomous_summary(rows)['fixture']['T1']['conditions_attempted'],1)
+
+    def test_final_summary_counts_conditions_not_replacement_attempts(self):
+        from .e1.analysis import autonomous_summary,canonical_model
+        base=dict(model='M2-BC',task='T1',status='SUCCESS',audit_verified=True,pipeline_trustworthy=True,persistent_success=True,
+            native_safety_flag_rows=0,native_duration_s=32.,failure_stage='COMPLETE_SUCCESS',model_autonomous_evaluation=True,excluded_scope_deviation=False)
+        broken=dict(base,scene_group='PI0294/TRAIN/F0/000',status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False,persistent_success=False,failure_stage='ENGINEERING_OR_UNKNOWN')
+        fixed=dict(base,scene_group='PI0294/TRAIN/F0/000',model='M2-BC-REMAINDER-03')
+        second=dict(base,scene_group='PI0294/TRAIN/F1/000')
+        result=autonomous_summary([broken,fixed,second])['M2-BC']['T1']
+        self.assertEqual((result['conditions_attempted'],result['actual_attempts'],result['task_successes']),(2,3,2))
+        self.assertTrue(result['complete_predeclared_panel']);self.assertEqual(result['unverified_or_untrustworthy_attempts'],1)
+        for candidates in [[dict(broken,status='VALID_TASK_FAIL',pipeline_trustworthy=True),fixed],[fixed,dict(fixed)]]:
+            with self.assertRaises(PermissionError):autonomous_summary(candidates)
+        result=autonomous_summary([broken,dict(broken,scene_group='PI0294/TRAIN/F1/000')])['M2-BC']['T1']
+        self.assertTrue(result['all_conditions_attempted']);self.assertFalse(result['complete_predeclared_panel'])
+        self.assertEqual(canonical_model('M1-256-CANONICAL'),'M1-256-CANONICAL')
+        self.assertEqual(canonical_model('OTHER-REMAINDER-03'),'OTHER-REMAINDER-03')
+
+    def test_missing_audit_cannot_support_success_or_grant_engineering_retry(self):
+        from .e1.analysis import audited_outcome,autonomous_summary
+        row=dict(model='M2-BC',task='T1',attempt_id='fixture',status='SUCCESS',pipeline_trustworthy=True,duration_s=32.,
+            scene_group='PI0294/TRAIN/F0/000',failure_stage='COMPLETE_SUCCESS')
+        value=audited_outcome(row,None,autonomous=True)
+        self.assertFalse(value['pipeline_trustworthy']);self.assertEqual(value['status'],'SUCCESS')
+        self.assertTrue(value['adjudication_pipeline_trustworthy']);self.assertIsNone(value['persistent_success'])
+        self.assertEqual(autonomous_summary([value])['M2-BC']['T1']['task_successes'],0)
+        with self.assertRaises(ValueError):audited_outcome(row,dict(adjudication=dict(row,attempt_id='wrong')),autonomous=True)
 
     def test_probe_s1_accept_is_not_mistaken_for_native_PASS(self):
         from contextlib import contextmanager
