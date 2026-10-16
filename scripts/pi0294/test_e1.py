@@ -15,6 +15,18 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_remainder_never_repeats_valid_failure_or_success(self):
+        from .e1.remaining import panel
+        base=dict(model='M2-BC',scene_group='PI0294/TRAIN/F0/000',task='T1',status='VALID_TASK_FAIL',pipeline_trustworthy=True,
+            failure_stage='OBJECT_TASK_RESULT',live_native_failures=0,attempt_id='actual-negative')
+        rows=[base,dict(base,task='T2',status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False,attempt_id='interrupted')]
+        value=panel(rows,'M2-BC');self.assertEqual(len(value['complete']),1);self.assertEqual(len(value['remaining']),3)
+        self.assertEqual(value['new_engineering_recoveries'],1)
+        rows.append(dict(base,model='M2-BC-REMAINDER-03',status='SUCCESS',attempt_id='forbidden-repeat'))
+        with self.assertRaises(PermissionError):panel(rows,'M2-BC')
+        self.assertEqual(panel(rows,'M2-BC',source_stopped=True)['remaining'],[])
+        with self.assertRaises(PermissionError):panel([],'M1-256')
+
     def test_partial_resume_requires_full_hashes_exact_cursor_and_no_unknown_update(self):
         import hashlib
         from unittest.mock import patch
