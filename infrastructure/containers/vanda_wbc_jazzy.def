@@ -44,7 +44,10 @@ From: {{ ros_image }}
 
 %test
     set -eu
+    # ROS setup reads optional environment variables without nounset defaults.
+    set +u
     . /opt/ros/jazzy/setup.sh
+    set -u
     /opt/wbc-python/bin/python -c 'import mujoco,rclpy; assert mujoco.__version__ == "3.2.7"'
     cmake --version
     colcon --help >/dev/null
