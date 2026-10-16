@@ -60,21 +60,26 @@ def physics(root,episode):
         if i:assert s['active_intent_sequence']==intents[(i-1)//8]['sequence'] and s['executed_prefix_index']==(i-1)%8
         tcp.append(state['tcp'].copy());objects.append(state['object_pose'].copy());v.append(state['object_linear_velocity'].copy());w.append(state['object_angular_velocity'].copy())
         reference.append(h40[0][0] if i==0 else h40[(i-1)//8][i-intents[(i-1)//8]['index']])
-    first_state=actual.update(packets[0]);entry_binding=read(folder/'ACTUAL_ENTRY_BINDING.json');warm=p/'requests'/(episode+'_WARMUP')/'0000';warm_result=read(warm/'FINAL.private.json');route=read(warm/f"ROUTE-{warm_result['route']:02d}.private.json")
-    client=OriginalClient(root,actual);entry=dict(time=np.asarray(route['time'])*warm_result['certificate']['uniform_time_scale'],poses=client.fk_path(first_state,np.asarray(route['position'])))
-    if card.get('entry_timing_version')=='QUANTIZED_NATIVE_SLERP_R1':
-        from .tf_r3_entry import retime
-        entry=retime(entry,np.asarray(route['position']))
-        assert entry['entry_timing']==entry_binding['entry_timing']
-    from .tf_r3_entry_bridge import compose
-    from .tf_r3_entry_bridge import HORIZON_VERSION,S7_VERSION,plan_closure
-    if card.get('entry_gripper_bridge') in (HORIZON_VERSION,S7_VERSION):
-        entry=plan_closure(client,first_state,entry,np.asarray(route['position']),root,'AUDIT_'+episode)
-        original=entry_binding['gripper_bridge_plan']
-        assert all(entry['gripper_bridge_plan'][k]==original[k] for k in ('input_sha256','first_neutral_pad_cube_contact_s','close_start_s','forecast_points'))
-    record=next(r for r in read(p/'PROGRAMS.json')['rows'] if r['id']==entry_binding['source_id']);program=load(root,record);combined=compose(program,entry,card)
-    with np.load(folder/'ACTUAL_COMBINED_PROGRAM.npz',allow_pickle=False) as original_combined:
-        assert all(np.array_equal(combined[k],original_combined[k]) for k in combined)
+    reactive=card.get('teacher_control')=='TF_R3_GEOMETRY_REACTIVE_PUSH_V1'
+    if reactive:
+        from .tf_r3_reactive_audit import expected_windows
+        rebuilt_windows=expected_windows(root,folder,model,packets,saved,intents)
+    else:
+        first_state=actual.update(packets[0]);entry_binding=read(folder/'ACTUAL_ENTRY_BINDING.json');warm=p/'requests'/(episode+'_WARMUP')/'0000';warm_result=read(warm/'FINAL.private.json');route=read(warm/f"ROUTE-{warm_result['route']:02d}.private.json")
+        client=OriginalClient(root,actual);entry=dict(time=np.asarray(route['time'])*warm_result['certificate']['uniform_time_scale'],poses=client.fk_path(first_state,np.asarray(route['position'])))
+        if card.get('entry_timing_version')=='QUANTIZED_NATIVE_SLERP_R1':
+            from .tf_r3_entry import retime
+            entry=retime(entry,np.asarray(route['position']))
+            assert entry['entry_timing']==entry_binding['entry_timing']
+        from .tf_r3_entry_bridge import compose
+        from .tf_r3_entry_bridge import HORIZON_VERSION,S7_VERSION,plan_closure
+        if card.get('entry_gripper_bridge') in (HORIZON_VERSION,S7_VERSION):
+            entry=plan_closure(client,first_state,entry,np.asarray(route['position']),root,'AUDIT_'+episode)
+            original=entry_binding['gripper_bridge_plan']
+            assert all(entry['gripper_bridge_plan'][k]==original[k] for k in ('input_sha256','first_neutral_pad_cube_contact_s','close_start_s','forecast_points'))
+        record=next(r for r in read(p/'PROGRAMS.json')['rows'] if r['id']==entry_binding['source_id']);program=load(root,record);combined=compose(program,entry,card)
+        with np.load(folder/'ACTUAL_COMBINED_PROGRAM.npz',allow_pickle=False) as original_combined:
+            assert all(np.array_equal(combined[k],original_combined[k]) for k in combined)
     previous=np.zeros(3)
     for seq,(intent,ack) in enumerate(zip(intents,acks)):
         packet=packets[seq*8];wire=accepted[intent['wire_sha256']];a=np.asarray(intent['action_EEF13']);document=json.loads(wire['raw'])
@@ -86,7 +91,8 @@ def physics(root,episode):
         # representation for some ticks. Do not relax byte-exact label parity.
         task_time=float(intent['persistent']['consumed_task_time_s'])
         assert task_time==saved[seq*8]['time_s']
-        expected,opening=sample(combined,task_time+np.arange(40)*.05)
+        if reactive:expected,opening=rebuilt_windows[seq],np.full(40,.5)
+        else:expected,opening=sample(combined,task_time+np.arange(40)*.05)
         assert np.allclose(h40[seq],expected,atol=1e-12,rtol=0)
         from .task_gripper_contract import teacher_physical_fraction
         assert np.array_equal(a[:,9],teacher_physical_fraction(opening))
