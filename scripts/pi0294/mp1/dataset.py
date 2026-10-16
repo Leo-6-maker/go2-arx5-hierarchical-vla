@@ -36,8 +36,11 @@ class SourceSampler:
             if row['split']!='TRAIN' or row['task'] not in self.original:raise ValueError('MP1_TRAIN_ONLY_TWO_TASKS')
             bank=self.original if index<dataset.original_rows else self.corrected
             bank[row['task']].setdefault(row['id'],[]).append(index)
-        if any(len(v)!=63 for v in self.original.values()):raise ValueError('MP1_ORIGINAL_63_EPISODES_PER_TASK')
+        if sum(len(v) for v in self.original.values())!=126 or any(not v for v in self.original.values()):raise ValueError('MP1_ORIGINAL_126_EPISODES_WITH_BOTH_TASKS')
         if any(v and len(v)<2 for v in self.corrected.values()):raise ValueError('MP1_CORRECTION_REQUIRES_INDEPENDENT_EPISODES')
+        for task,bank in self.corrected.items():
+            parents={dataset.rows[indices[0]][0].get('source_student_episode') for indices in bank.values()}
+            if bank and (None in parents or len(parents)<2):raise ValueError('MP1_CORRECTION_REQUIRES_INDEPENDENT_STUDENT_PARENTS')
 
     def __len__(self):return self.stop-self.start
 

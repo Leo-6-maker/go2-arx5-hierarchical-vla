@@ -12,12 +12,12 @@ from .mp1.dataset import SourceSampler
 def dataset(tasks=('T1',)):
     rows=[]
     for task in ['T1','T2']:
-        for episode in range(63):
+        for episode in range(96 if task=='T1' else 30):
             rows.extend((dict(id=task+'-'+str(episode),task=task,split='TRAIN'),a) for a in range(3))
     original=len(rows)
     for task in tasks:
         for episode in range(2):
-            rows.extend((dict(id='C-'+task+'-'+str(episode),task=task,split='TRAIN'),a) for a in range(5))
+            rows.extend((dict(id='C-'+task+'-'+str(episode),task=task,split='TRAIN',source_student_episode='student-'+str(episode)),a) for a in range(5))
     return SimpleNamespace(rows=rows,original_rows=original,manifest_sha='fixture-only')
 
 
@@ -43,6 +43,7 @@ class MP1Tests(unittest.TestCase):
             seen['correction' if index>=d.original_rows else 'original']+=1
         self.assertEqual(seen,Counter(T1=32,T2=32,correction=16,original=48))
         self.assertEqual(s.state_dict(64)['overall_correction_fraction'],.25)
+        self.assertEqual({t:len(v) for t,v in s.original.items()},dict(T1=96,T2=30))
 
     def test_both_qualified_tasks_receive_half_within_task(self):
         d=dataset(('T1','T2'));s=SourceSampler(d,stop=64)
@@ -67,6 +68,9 @@ class MP1Tests(unittest.TestCase):
         for cursor in [-1,32]:
             with self.assertRaises(IndexError):s.index_at(cursor)
         d.rows=d.rows[:-5]
+        with self.assertRaises(ValueError):SourceSampler(d)
+        d=dataset()
+        for row,a in d.rows[d.original_rows:]:row['source_student_episode']='same-parent'
         with self.assertRaises(ValueError):SourceSampler(d)
 
 

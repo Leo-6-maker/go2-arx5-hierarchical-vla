@@ -17,9 +17,10 @@ from .dataset import SourceDataset,SourceSampler
 from .scope import validate,charge_cpu,DATA,STATS
 
 
-def prepare(root):
+def prepare(root,attempt=1):
     root=Path(root);validate(root,'hopper-neural');started=time.process_time()
-    os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:2]));out=root/'evidence/source-126-preparation';out.mkdir(mode=0o700)
+    if not 1<=attempt<=3:raise PermissionError('MP1_BOUNDED_CPU_READER_REPAIR_ATTEMPTS')
+    os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:2]));out=root/('evidence/source-126-preparation'+('' if attempt==1 else '-'+str(attempt).zfill(2)));out.mkdir(mode=0o700)
     try:
         import torch
         torch.set_num_threads(1)
@@ -60,10 +61,10 @@ def prepare(root):
         write(root/'plans/SOURCE_TRAIN126_BINDING.json',dict(original_manifest_sha256=DATA,statistics_sha256=STATS,
             episodes=[{k:r[k] for k in ['id','task','split','file','sha256','windows']} for r in train],DEV_training_labels_used=False))
         value=dict(status='PASS_ACTUAL_MP1_TRAIN126_AND_CORRECTION_NATIVE_CPU_LOADERS',records=records,models_loaded=0,optimizer_updates=0,
-            source_TRAIN=126,original_DEV=32,DEV_numeric_or_RGB_loaded=False,statistics_sha256=STATS,CPU_s=time.process_time()-started)
+            source_TRAIN=126,original_DEV=32,DEV_numeric_or_RGB_loaded=False,statistics_sha256=STATS,CPU_s=time.process_time()-started,saved_CPU_attempt=attempt)
         write(out/'RESULT.json',value);return value
     finally:charge_cpu(root,time.process_time()-started)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--root',required=True);a=p.parse_args();v=prepare(a.root);print(json.dumps(dict(status=v['status'],CPU_s=v['CPU_s'])),flush=True)
+    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--attempt',type=int,default=1);a=p.parse_args();v=prepare(a.root,a.attempt);print(json.dumps(dict(status=v['status'],CPU_s=v['CPU_s'])),flush=True)
