@@ -18,7 +18,9 @@ CAPS=dict(main_starts=32,recovery_forks=16,live_and_recovery_integrations=800000
 
 def validate(root, profile, *, physical=False, now=None, verify_source=True):
     root=Path(root);now=time.time() if now is None else now
-    a=read(root/'E1_ADOPTION_AND_BINDING.json');m=read(root/'RUN_MANIFEST.json')
+    a=read(root/'E1_ADOPTION_AND_BINDING.json')
+    manifest_path=inside(os.environ.get('E1_RUN_MANIFEST',root/'RUN_MANIFEST.json'),root)
+    m=read(manifest_path)
     card_path=root/'evidence/E1_TASK_CARD.json'
     if sha(card_path)!=CARD_SHA:raise PermissionError('E1_EXACT_ADOPTED_MACHINE_CARD')
     card=read(card_path)
@@ -58,6 +60,8 @@ def validate(root, profile, *, physical=False, now=None, verify_source=True):
         raise PermissionError('E1_ACTUAL_SAFETY_OR_STATE_INTEGRITY_STOP')
     if verify_source:
         code=inside(root/m['code']['capsule_relative'],root)
+        if 'E1_RUN_MANIFEST' in os.environ and manifest_path.resolve()!=(code.parent/'WORKER_RUN_MANIFEST.json').resolve():
+            raise PermissionError('E1_IMMUTABLE_PER_WORKER_MANIFEST_REQUIRED')
         seal_path=inside(root/m['code']['source_seal_relative'],root);seal=read(seal_path)
         if (Path(__file__).resolve()!=(code/'scripts/pi0294/e1/scope.py').resolve()
                 or sha(seal_path)!=m['code']['source_seal_sha256']
