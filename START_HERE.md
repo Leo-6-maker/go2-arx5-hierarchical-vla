@@ -1,3 +1,5 @@
+**Vanda 独立闭环建设已获用户 GO，当前环境构建及 GPU 资格排队中。** [实际执行/失败修订及作业状态](reports/PI0294/vanda-bringup-20261016/CLOSED_LOOP_PROGRESS.md) · [执行协议](docs/protocols/PI0294_VANDA_CLOSED_LOOP_BRINGUP_V1.md)。用户指定 WBC 归档已三端 SHA 通过、六项原核心输入匹配；首 CPU 构建因站点容器挂载目录失败，修订后独立 job1462595 已排队。WBC/GR00T真实闭环及任务成功仍 NOT_RUN，不更改 Hopper E0、CoreLab原参考/旧失败或训练。
+
 # GR00T＋WBC — 2026-10-16 E0 与后续代码准备
 
 **E0最新原生增量：首个allocation已F，启动前认证过期，模型/物理均未开始。** [首次实际终态](reports/PI0294/20261016T083821Z-localpc-e0/E0_ALLOCATION_01_TERMINAL.json)：183 GPU秒原生、188秒保守扣账，12条件仍NOT_RUN而非策略失败。正在修复同语义准入并准备唯一剩余工程提交；原T0/截止/总额不重置。下段排队措辞为此前提交阶段历史，不是实时状态。
