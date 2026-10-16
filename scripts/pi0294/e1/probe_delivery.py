@@ -13,6 +13,7 @@ from scripts.pi0294.native_dataset import sha
 from .scope import validate,Ledger
 
 LABELS=['M0','M1-256','M1-1024','M1-256-CANONICAL','M1-1024-CANONICAL','M2-BC','M2-CORR']
+LABELS += [base+'-REMAINDER-03' for base in ['M1-1024-CANONICAL','M2-BC','M2-CORR']]
 
 
 def publish(root,repo,token_file):
@@ -28,13 +29,16 @@ def publish(root,repo,token_file):
         if not info.private:raise PermissionError('E1_PRIVATE_PROBE_OUTPUTS_ONLY')
         prefix='PI0294/'+root.name+'/E1_FIXED_PROBE_OUTPUTS_V1'
         if any(p.startswith(prefix+'/') for p in api.list_repo_files(repo,repo_type='dataset')):raise FileExistsError('E1_IMMUTABLE_PROBE_PREFIX')
-        members={};available=[];missing=[]
+        members={};available=[];missing=[];partial={};reuse={}
         for label in LABELS:
             folder=root/'evidence'/label/'probes'
-            if not (folder/'ON_EXPERT_RESULTS.json').exists() or not (folder/'ON_STUDENT_RESULTS.private.json').exists():missing.append(label);continue
-            result=read(folder/'ON_EXPERT_RESULTS.json');student=read(folder/'ON_STUDENT_RESULTS.private.json')
-            if not result['complete'] or len(result['records'])!=96 or len(student['records'])!=12:raise ValueError('E1_COMPLETE_FIXED_PROBE_OUTPUTS_REQUIRED')
-            available.append(label)
+            binding=root/'evidence'/label/'PROBE_REUSE_BINDING.json'
+            if binding.exists():reuse[label]=read(binding);members[str(binding.relative_to(root))]=sha(binding)
+            if not folder.exists():missing.append(label);continue
+            result=read(folder/'ON_EXPERT_RESULTS.json') if (folder/'ON_EXPERT_RESULTS.json').exists() else {}
+            student=read(folder/'ON_STUDENT_RESULTS.private.json') if (folder/'ON_STUDENT_RESULTS.private.json').exists() else {}
+            if result.get('complete') and len(result.get('records',[]))==96 and len(student.get('records',[]))==12:available.append(label)
+            else:partial[label]=dict(expert_records=len(result.get('records',[])),student_records=len(student.get('records',[])),unknown_missing_outputs_not_resampled=True)
             for p in sorted(folder.iterdir()):
                 if p.is_symlink() or (p.suffix not in ['.json','.npz']):raise ValueError('E1_NO_UNEXPECTED_PROBE_MEMBER')
                 members[str(p.relative_to(root))]=sha(p)
@@ -47,7 +51,7 @@ def publish(root,repo,token_file):
         with tarfile.open(archive,'w:gz',compresslevel=1) as tar:
             for name in sorted(members):ledger.guard(closeout=True);tar.add(root/name,arcname=name,recursive=False)
         write(output/'MEMBERS.json',members)
-        write(output/'INDEX.json',dict(run_uuid=root.name,available=available,not_available=missing,new_model_queries=0,old_results_preserved=True))
+        write(output/'INDEX.json',dict(run_uuid=root.name,available=available,not_available=missing,partial_preserved=partial,reused_complete_or_partial_bindings=reuse,new_model_queries=0,old_results_preserved=True))
         files={n:dict(bytes=(output/n).stat().st_size,sha256=sha(output/n)) for n in ['fixed-probes.tar.gz','MEMBERS.json','INDEX.json']}
         write(output/'TRANSFER.private.json',dict(status='UPLOAD_INTENT_UNKNOWN_NO_BLIND_RETRY',repo_id=repo,prefix=prefix,files=files))
         rev=api.create_commit(repo,repo_type='dataset',parent_commit=info.sha,commit_message='E1 immutable existing fixed probe arrays',
@@ -55,14 +59,14 @@ def publish(root,repo,token_file):
         for n,row in files.items():
             path=hf_hub_download(repo,prefix+'/'+n,repo_type='dataset',revision=rev,token=token,local_dir=output/'readback')
             if sha(path)!=row['sha256']:raise ValueError('E1_PROBE_PAYLOAD_READBACK')
-        ready=dict(status='READY_EXISTING_FIXED_PROBE_ARRAYS',run_uuid=root.name,files=files,data_revision=rev,available=available,not_available=missing,new_model_queries=0)
+        ready=dict(status='READY_EXISTING_FIXED_PROBE_ARRAYS',run_uuid=root.name,files=files,data_revision=rev,available=available,not_available=missing,partial_preserved=partial,reused_complete_or_partial_bindings=reuse,new_model_queries=0)
         write(output/'READY.json',ready)
         final=api.create_commit(repo,repo_type='dataset',parent_commit=rev,commit_message='E1 fixed probes READY after byte verification',
             operations=[CommitOperationAdd(path_in_repo=prefix+'/READY.json',path_or_fileobj=str(output/'READY.json'))]).oid
         path=hf_hub_download(repo,prefix+'/READY.json',repo_type='dataset',revision=final,token=token,local_dir=output/'final-readback')
         if sha(path)!=sha(output/'READY.json'):raise ValueError('E1_PROBE_READY_READBACK')
         value=dict(status='PASS_PRIVATE_FIXED_PROBE_TRANSFER',repo_id=repo,prefix=prefix,revision=final,data_revision=rev,
-            files=files,READY_sha256=sha(output/'READY.json'),available=available,not_available=missing)
+            files=files,READY_sha256=sha(output/'READY.json'),available=available,not_available=missing,partial_preserved=partial,reused_complete_or_partial_bindings=reuse)
         write(output/'TRANSFER.private.json',value);return value
     finally:ledger.cpu(time.process_time()-started)
 

@@ -17,12 +17,13 @@ def admit(root,request_path):
     request_path=inside(request_path,root);r=read(request_path);now=time.time()
     if (r['run_uuid']!=root.name or r['source_sha']!=m['code']['vla_commit']
             or r['run_manifest_sha256']!=sha(root/'RUN_MANIFEST.json')
-            or r['mode'] not in ['E1_M1_TRAIN_PROBE_EVAL','E1_T1_COLLECTION_MATCHED_M2'] or r['numerical_mode']!='DETERMINISTIC_CUDA_MATH_SDP_V1'
+            or r['mode'] not in ['E1_M1_TRAIN_PROBE_EVAL','E1_T1_COLLECTION_MATCHED_M2','E1_FIXED_REMAINDER_RECOVERY'] or r['numerical_mode']!='DETERMINISTIC_CUDA_MATH_SDP_V1'
             or not 1<=r['submit_count']<=3 or not 0<r['walltime_s']<=14400
             or r['walltime_s']+r['prior_GPU_allocated_s']>28800):
         raise PermissionError('EXACT_E1_ALLOCATION_REQUEST')
     if r['mode']=='E1_T1_COLLECTION_MATCHED_M2' and r['submit_count']<2:
         raise PermissionError('E1_D_M2_REQUIRE_COMPLETED_M1_ALLOCATION')
+    if r['mode']=='E1_FIXED_REMAINDER_RECOVERY' and r['submit_count']!=3:raise PermissionError('E1_REMAINDER_ONLY_LAST_ALLOWED_SUBMISSION')
     for relative,digest in r['sealed_inputs'].items():
         if sha(inside(root/relative,root))!=digest:raise PermissionError('E1_INPUT_SEAL_CHANGED:'+relative)
     user=os.environ['USER'];job_id=os.environ.get('PBS_JOBID');jobs=owned_jobs(user);job=jobs.get(job_id)
