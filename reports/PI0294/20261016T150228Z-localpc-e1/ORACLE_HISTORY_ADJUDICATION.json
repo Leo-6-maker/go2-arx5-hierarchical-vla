@@ -1,0 +1,17 @@
+{
+  "status": "C0_ALL_USED_CORRECTION_ANCHORS_EXACT_ORIGINAL_STATIC_HISTORY",
+  "history_audit_sha256": "1c8af805cedd1092f6561bcb08a74ba16a59bb8b7f15f672ab1c68e5f0e8301b",
+  "correction_manifest_sha256": "7580aa55973f1eb7ba24db934a67454acfae3490ac476de648b80377721df85d",
+  "qualified_tasks": [
+    "T1"
+  ],
+  "T2": "NOT_QUALIFIED",
+  "original_C_results_preserved": true,
+  "new_live_or_recovery_forks": 0,
+  "original_short_forks_attempted": 12,
+  "short_forks_with_exact_historical_initial_state": 8,
+  "initial_short_forks_restoration_INVALID": 4,
+  "full_forks_with_exact_historical_initial_state": 4,
+  "explanation": "Original reconstruction omitted zero-integration static qualifier IK work at initial tick0. Four initial-only short forks are INVALID for exact historical restoration, not native safety failures. They were never ingested. All eight noninitial anchors, Python and Teacher histories match exactly after replaying the original static qualifier; all four full forks and all833 deduplicated bank windows retain exact provenance. T1 qualification remains valid; no extra fork/retry.",
+  "resolved_epoch": 1792167030.5980084
+}

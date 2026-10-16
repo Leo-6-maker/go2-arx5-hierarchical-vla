@@ -116,6 +116,9 @@ def reconstruct_case(root,case,ledger,*,save=True,diagnose=True):
     try:
         for sequence in range(last+1):
             state=engine.snapshot();state['robot_object_contact']=_robot_contact(engine,state)
+            if sequence==0:
+                from .initial_history import qualify_recorded_initial
+                qualify_recorded_initial(engine,folder,ledger.guard)
             teacher.observe(state)
             packet=read(folder/'relay/observations'/f'{sequence:03d}.json');body=unseal(packet)
             assert body['sequence']==sequence and body['tick']==engine.steps

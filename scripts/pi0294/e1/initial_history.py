@@ -27,6 +27,17 @@ def capture(engine,teacher):
         python=hashlib.sha256(pickle.dumps(python)).hexdigest(),teacher=hashlib.sha256(pickle.dumps(teacher)).hexdigest())
 
 
+def qualify_recorded_initial(engine,folder,guard):
+    sample=read(Path(folder)/'samples.json')[0];images={}
+    for camera in ['body_rgb','wrist_rgb']:
+        item=sample['policy_obs'][camera];p=Path(folder)/item['path']
+        if sha(p)!=item['sha256']:raise ValueError('ORIGINAL_INITIAL_RENDER_CHANGED')
+        with Image.open(p) as image:images[camera]=np.asarray(image).copy()
+    q=qualify_engine(engine,rendered=(images,sample['geometry']),guard=guard)
+    if q['status']!='STATIC_PASS_PENDING_LIVE_CONTACT':raise ValueError('ORIGINAL_INITIAL_STATIC_QUALIFIER_NOT_REPRODUCED')
+    return q
+
+
 def replay(root,case,ledger,*,qualifier):
     old=Path(read(root/'E1_INPUTS.private.json')['E0_root']);folder=old/'episodes'/case['attempt_id'];card=read(folder/'CARD.json')
     engine=make_engine(card,read(root/'INPUT_BINDINGS.private.json')['asset_root']);first=engine.snapshot();teacher=make_teacher(card,first['object_pose'],engine)
@@ -36,13 +47,7 @@ def replay(root,case,ledger,*,qualifier):
         for sequence in range(last+1):
             state=engine.snapshot();state['robot_object_contact']=_robot_contact(engine,state)
             if sequence==0 and qualifier:
-                sample=read(folder/'samples.json')[0];images={}
-                for camera in ['body_rgb','wrist_rgb']:
-                    item=sample['policy_obs'][camera];p=folder/item['path']
-                    if sha(p)!=item['sha256']:raise ValueError('ORIGINAL_INITIAL_RENDER_CHANGED')
-                    with Image.open(p) as image:images[camera]=np.asarray(image).copy()
-                q=qualify_engine(engine,rendered=(images,sample['geometry']),guard=ledger.guard)
-                if q['status']!='STATIC_PASS_PENDING_LIVE_CONTACT':raise ValueError('ORIGINAL_INITIAL_STATIC_QUALIFIER_NOT_REPRODUCED')
+                qualify_recorded_initial(engine,folder,ledger.guard)
             teacher.observe(state)
             if sequence in anchors:states[sequence]=capture(engine,teacher)
             command=folder/'relay/commands'/f'{sequence:03d}.json'
