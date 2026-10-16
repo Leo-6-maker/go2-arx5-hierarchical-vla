@@ -51,6 +51,14 @@ def validate(path, execute=False):
     assert m['limits']['physics_steps'] == 0 and m['limits']['model_queries'] == 0, 'NO_EXECUTION'
     lease = read(m['lease'])
     assert lease['status'] == 'ACTIVE' and lease['run_uuid'] == m['run_uuid'], 'LEASE'
+    assert lease['owner'] == m['owner'] and lease['deadline_epoch'] == m['deadline_epoch'], 'LEASE_BINDING'
+    binding_path = root/'OUTPUT_BINDING.private.json'
+    assert sha(binding_path) == m['execution']['output_binding_sha256'], 'OUTPUT_BINDING_SHA'
+    binding = read(binding_path)
+    assert binding['run_uuid'] == m['run_uuid'] and Path(binding['run_root']).resolve() == root, 'OUTPUT_IDENTITY'
+    registry = read(binding['registry'])
+    assert any(row['role'] == binding['role'] and Path(row['path']).resolve() == root
+               for row in registry['entries']), 'REGISTERED_OUTPUT_REQUIRED'
     for filename, digest in m['sealed_files'].items():
         assert sha(filename) == digest, 'SEALED_SOURCE_CHANGED'
     if execute:
@@ -63,6 +71,9 @@ def validate(path, execute=False):
         job = json.loads(result.stdout)['Jobs'][jobid]
         assert job['job_state'] == 'R' and job['project'] == m['project'], 'RUNNING_PROJECT'
         assert job['Job_Owner'].split('@')[0] == m['owner_user'], 'PBS_OWNER'
+        allocated_hosts = {chunk.split('/')[0].split('.')[0].lower()
+                           for chunk in job['exec_host'].split('+')}
+        assert host in allocated_hosts, 'EXACT_ALLOCATED_HOST_REQUIRED'
         assert int(job['Resource_List'].get('ngpus', 0)) == 0, 'NO_GPU_ALLOCATION'
         h, minute, sec = map(int, job['Resource_List']['walltime'].split(':'))
         assert h*3600 + minute*60 + sec <= 10800, 'PBS_WALLTIME'
