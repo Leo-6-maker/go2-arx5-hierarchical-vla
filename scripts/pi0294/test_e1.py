@@ -6,6 +6,7 @@ import unittest
 
 from .e1.dataset import SmallSampler,select_small8
 from .e1.journal import Journal,MutationOutcomeUnknown,process_is_same
+from .e1.trainer import learning_rate_multiplier
 
 
 def die_after_intent(folder):
@@ -14,6 +15,21 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_fixed_cosine_warmup_and_floor(self):
+        self.assertEqual(learning_rate_multiplier(0),0.)
+        self.assertEqual(learning_rate_multiplier(32),1.)
+        self.assertAlmostEqual(learning_rate_multiplier(1024),.1)
+        values=[learning_rate_multiplier(s) for s in range(32,1025)]
+        self.assertTrue(all(a>=b for a,b in zip(values,values[1:])))
+
+    def test_atomic_numeric_payload_complete_before_visibility(self):
+        import numpy as np
+        from .e1.artifacts import atomic_npz
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d,'payload.npz');atomic_npz(p,x=np.arange(12).reshape(4,3))
+            with np.load(p,allow_pickle=False) as z:np.testing.assert_array_equal(z['x'],np.arange(12).reshape(4,3))
+            self.assertFalse(list(Path(d).glob('*.pending.*')))
+
     def test_completed_same_id_read_does_not_repeat_operation(self):
         with tempfile.TemporaryDirectory() as d:
             j=Journal(d,'fixture');calls=[]

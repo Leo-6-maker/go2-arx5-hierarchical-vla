@@ -37,6 +37,11 @@ def contained(path, parent):
 
 def validate(root, *, profile, manifest_path=None, now=None, closeout=False,
              hostname=None, uid=None, verify_source=True):
+    if Path(root).name=='20261016T150228Z-localpc-e1':
+        from .e1.scope import validate as validate_e1
+        if any(v is not None for v in (hostname,uid,manifest_path)):
+            raise PermissionError('E1_NATIVE_IDENTITY_ONLY_NO_INJECTED_HOST')
+        return validate_e1(root,profile,now=now,verify_source=verify_source)
     from .e0_scope import RUN as E0_RUN, validate_entry as validate_e0
     if Path(root).name == E0_RUN:
         return validate_e0(root, profile=profile, manifest_path=manifest_path, now=now,
