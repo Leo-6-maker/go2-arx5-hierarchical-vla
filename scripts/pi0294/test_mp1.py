@@ -23,6 +23,57 @@ def dataset(tasks=('T1',)):
 
 
 class MP1Tests(unittest.TestCase):
+    def test_native_source_state_does_not_accept_weights_only_or_false_step(self):
+        from .mp1.neural import checkpoint_state
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);folder=root/'training/S-BC/checkpoint-512';folder.mkdir(parents=True)
+            p=folder/'CHECKPOINT_COMPLETE.json'
+            self.assertEqual(checkpoint_state(root,'S-BC'),(0,None))
+            p.write_text(json.dumps(dict(full_resume=False,global_step=512)))
+            with self.assertRaises(PermissionError):checkpoint_state(root,'S-BC')
+            p.write_text(json.dumps(dict(full_resume=True,global_step=511)))
+            with self.assertRaises(PermissionError):checkpoint_state(root,'S-BC')
+            p.write_text(json.dumps(dict(full_resume=True,global_step=512)))
+            self.assertEqual(checkpoint_state(root,'S-BC'),(512,folder))
+
+    def test_native_request_requires_old_E1_closed_and_preserves_queued_clock(self):
+        from .mp1.allocation import request_contract
+        from .native_dataset import sha
+        with tempfile.TemporaryDirectory() as d:
+            parent=Path(d)/'parent';root=parent/'children/source';(root/'plans').mkdir(parents=True)
+            (parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json').write_text(json.dumps(dict(T0_epoch=100,
+                new_submission_and_candidate_cutoff_epoch=200,new_experiment_cutoff_epoch=300)))
+            (root/'RUN_MANIFEST.json').write_text('{}');lease=parent/'old-lease.json'
+            lease.write_text(json.dumps(dict(status='ACTIVE',run_uuid='20261016T150228Z-localpc-e1')))
+            (root/'plans/OLD_E1_BINDING.private.json').write_text(json.dumps(dict(lease=str(lease))))
+            r=dict(run_uuid='source',source_sha='fixture',run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),mode='MP1_FIXED_SOURCE_PAIR',
+                numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',submit_count=1,walltime_s=14400,prior_GPU_allocated_s=0,created_epoch=190,sealed_inputs={})
+            ledger=dict(GPU_reserved_s=14400,PBS_submissions=[{}],GPU_allocated_s=0);m=dict(code=dict(vla_commit='fixture'))
+            with self.assertRaises(PermissionError):request_contract(root,r,m,ledger,250)
+            lease.write_text(json.dumps(dict(status='CLOSED',run_uuid='20261016T150228Z-localpc-e1')))
+            request_contract(root,r,m,ledger,250)
+            for bad in [dict(r,created_epoch=200),dict(r,submit_count=5),dict(r,prior_GPU_allocated_s=43200),dict(r,mode='E2')]:
+                with self.assertRaises(PermissionError):request_contract(root,bad,m,ledger,250)
+            with self.assertRaises(PermissionError):request_contract(root,r,m,ledger,300)
+
+    def test_fixed_development_panels_preserve_valid_failure_and_single_replacement(self):
+        from .mp1.plans import evaluation_plan,remaining_panel,session_spec
+        cards=[dict(id=str(i)+'-'+t,task=t,split='TRAIN' if i<2 else 'DEV',scene_group='F0/'+str(i)) for i in range(6) for t in ['T1','T2']]
+        plan=evaluation_plan(cards,'a'*64);self.assertEqual(plan['regular_starts'],32)
+        spec=session_spec(plan,'S-BC-512-TRAIN4-ALLOCATION-01');self.assertEqual(len(spec['cards']),4)
+        for bad in ['S-BC-512-TRAIN4','S-BC-512-TRAIN4-ALLOCATION-05','OTHER-ALLOCATION-01']:
+            with self.assertRaises(PermissionError):session_spec(plan,bad)
+        card=spec['cards'][0]
+        row=dict(attempt_id=card['id'],model=card['mp1_model_label'],scene_group=card['scene_group'],task=card['task'],
+            status='VALID_TASK_FAIL',failure_stage='S1_PRE_EXECUTION_REJECT',pipeline_trustworthy=True,live_native_failures=0)
+        self.assertEqual(len(remaining_panel([row],spec)),3)
+        interrupted=dict(row,status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False,failure_stage='ENGINEERING_OR_UNKNOWN')
+        replacement=remaining_panel([interrupted],spec)[0];self.assertTrue(replacement['id'].endswith('-REPLACEMENT-01'))
+        repaired=dict(row,attempt_id=replacement['id'])
+        self.assertEqual(len(remaining_panel([repaired,interrupted],spec)),3)
+        with self.assertRaises(PermissionError):remaining_panel([row,repaired],spec)
+        with self.assertRaises(PermissionError):remaining_panel([dict(row,status='ACTUAL_SAFETY_FAIL',live_native_failures=1)],spec)
+
     def test_prevalidated_file_endpoint_retains_mutation_journal(self):
         from scripts.pi0294.e1.rpc import call
         from scripts.pi0294.e1.journal import MutationOutcomeUnknown

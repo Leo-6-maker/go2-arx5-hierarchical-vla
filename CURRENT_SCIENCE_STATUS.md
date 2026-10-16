@@ -1,6 +1,6 @@
 # Current Science Status
 
-Observed 2026-10-17 04:14 SGT by the existing single local-PC owner.
+Observed 2026-10-17 04:28 SGT by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
 ## Active Authority
@@ -28,6 +28,14 @@ existing workspace, immutable input, resource, lease and native PBS checks.
 Fresh permission and capacity are checked at actual admission, not inferred
 from this adoption or an old successful login.
 
+**Remote dispatch is currently held:** the local campus VPN interface/routes
+are absent and the existing Hopper hostname no longer resolves. The finite
+E1 owner exited on the connection error. Native state is now UNKNOWN, not
+assumed terminal; the old 14,400 GPU-second reservation has not been released.
+No third E1 or new MP1 GPU submission was made. Restore the existing network,
+then reconcile native/Core intents and costs before any continuation.
+[Actual interruption and resumption order](reports/PI0294/20261016T191445Z-localpc-mp1/LOCAL_NETWORK_INTERRUPTION_01.json).
+
 ## Source Results
 
 **M1@1024 autonomously completed T1 in both predeclared seen TRAIN layouts.**
@@ -37,7 +45,8 @@ raw/action/ACK/contact/score/video audit PASS. T2 was validly rejected by the
 original S1 in both layouts. This is not DEV, Go2/WBC or real-robot success.
 
 - [Complete M1 TRAIN4 and independent audits](reports/PI0294/20261016T150228Z-localpc-e1/M1_1024_COMPLETE_TRAIN4_AND_T1_AUDITS.json).
-- E1 H200 job `670729.hopper-m-02` completed M2-BC's actual 512 updates,
+- E1 H200 job `670729.hopper-m-02`, last observed R and now unreachable,
+  completed M2-BC's actual 512 updates,
   with 537 changed trainable tensors and 512 finite nonzero gradient records.
   Its first two evaluations are engineering-incomplete, not task outcomes;
   the first reached 25.6 simulated seconds before the original 900-second

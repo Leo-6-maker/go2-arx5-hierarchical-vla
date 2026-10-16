@@ -58,6 +58,10 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
         p=code/name
         if not p.resolve().is_relative_to(code.resolve()) or p.is_symlink() or sha(p)!=digest:raise PermissionError('MP1_SOURCE_MEMBER_CHANGED:'+name)
     if any(s['files'].get(n)!=v for n,v in m['code']['unchanged_numerical_files'].items()):raise PermissionError('MP1_ORIGINAL_FROZEN_NUMERICS_CHANGED')
+    for name,digest in m['execution']['sealed_inputs'].items():
+        p=root/name
+        if Path(name).is_absolute() or '..' in Path(name).parts or not p.resolve().is_relative_to(root.resolve()) or p.is_symlink() or sha(p)!=digest:
+            raise PermissionError('MP1_SCIENTIFIC_INPUT_CHANGED:'+name)
     if m['data']['manifest_sha256']!=DATA or m['interfaces']['statistics_sha256']!=STATS:raise PermissionError('MP1_FIXED_SOURCE_STATS')
     if sha(root/'evidence/S1_TEACHER_QUALIFIED.json')!=S1_PROOF:raise PermissionError('MP1_ORIGINAL_SOURCE_S1_QUALIFICATION')
     return m

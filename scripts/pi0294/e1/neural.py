@@ -34,7 +34,7 @@ def checkpoint_identity(checkpoint,label,source_sha):
     validate_identity(identity['relay_identity']);return identity
 
 
-def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_status='E1_NATIVE_MODEL_READY',noise_namespace='PI0294'):
+def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_status='E1_NATIVE_MODEL_READY',noise_namespace='PI0294',terminal_status='E1_STAGE_TERMINAL_NOT_TASK_SUCCESS'):
     directory=root/'evidence'/label/'resident';directory.mkdir(parents=True,exist_ok=False)
     for n in ['inbox','outbox','receipts']:(directory/n).mkdir()
     state=dict(status=ready_status,label=label,run_uuid=root.name,job_id=os.environ['PBS_JOBID'],
@@ -102,7 +102,7 @@ def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_st
                 reservations.fail(body,type(exc).__name__+': '+str(exc),known_terminal=False);raise
             finally:signal.alarm(0)
         time.sleep(.05)
-    state['status']='E1_STAGE_TERMINAL_NOT_TASK_SUCCESS';write(directory/'STATE.json',state)
+    state['status']=terminal_status;write(directory/'STATE.json',state)
 
 
 def run(root,request_path):

@@ -20,11 +20,18 @@ def run(root,card_path):
     if (root/'SOURCE_PHYSICS_STOP.json').exists():raise PermissionError('MP1_SOURCE_SAFETY_STOP_PRESERVED')
     card_path=Path(card_path);card_path=card_path if card_path.is_absolute() else root/card_path
     if not card_path.resolve().is_relative_to(root.resolve()):raise PermissionError('MP1_REGISTERED_CARD_ONLY')
-    card=read(card_path);label=card['mp1_model_label'];plan=read(root/'plans/SOURCE_EVALUATION_PLAN.json');spec=plan['panels'][label]
-    if card.get('e1_intervention_collection') or card['split']!=spec['split'] or card['id'] not in spec['attempt_ids']:raise PermissionError('MP1_PREDECLARED_AUTONOMOUS_PANEL_ONLY')
-    ready=read(root/('plans/'+label+'/REMOTE_READY.json'));registry=read(root/('plans/'+label+'/REGISTRY.json'))
+    card=read(card_path);label=card['mp1_model_label'];session=card['mp1_session_label'];plan=read(root/'plans/SOURCE_EVALUATION_PLAN.json')
+    from .plans import session_spec,remaining_panel
+    spec=session_spec(plan,session)
+    prior=[read(p) for p in (root/'episodes').glob('*/MP1_ADJUDICATION.json')]
+    allowed=remaining_panel(prior,spec)
+    expected=next((c for c in allowed if c['id']==card['id']),None)
+    if (card.get('e1_intervention_collection') or card['split']!=spec['split'] or expected is None
+            or {k:v for k,v in card.items() if k not in ['mp1_session_label','relay_request_relative','relay_request_sha256']}!=expected):
+        raise PermissionError('MP1_PREDECLARED_AUTONOMOUS_PANEL_ONLY')
+    ready=read(root/('plans/'+session+'/REMOTE_READY.json'));registry=read(root/('plans/'+session+'/REGISTRY.json'))
     case=next(c for c in registry['cases'].values() if c['attempt_id']==card['id'])
-    if (case['card']!=card or ready['status']!='MP1_NATIVE_MODEL_READY' or ready['label']!=label
+    if (case['card']!=card or ready['status']!='MP1_NATIVE_MODEL_READY' or ready['label']!=session
             or ready['identity']['global_step']!=spec['checkpoint_step']
             or ready['identity']['relay_identity']!=read(root/card['relay_request_relative'])['identity']):raise PermissionError('MP1_EXACT_PREBOUND_SOURCE_MODEL')
     deadline=min(read(root/'MP1_STAGE_BINDING.json')['new_experiment_cutoff_epoch'],ready['allocation_end_epoch']-2700)

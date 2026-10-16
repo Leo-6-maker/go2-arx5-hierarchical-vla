@@ -1,0 +1,51 @@
+{
+  "run_uuid": "20261016T191445Z-localpc-mp1",
+  "observed_UTC": "2026-10-16T20:28:00Z",
+  "status": "REMOTE_SCIENTIFIC_ADMISSION_HELD_PENDING_NETWORK_RESTORATION_AND_NATIVE_RECONCILIATION",
+  "actual_local_findings": {
+    "campus_VPN_interface_and_routes_present": false,
+    "existing_Hopper_hostname_resolves": false,
+    "replacement_hosts_guessed": false,
+    "network_or_credentials_written_to_public_report": false
+  },
+  "E1": {
+    "run_uuid": "20261016T150228Z-localpc-e1",
+    "last_native_readback_epoch": 1792181563.8764637,
+    "last_native_job": "670729.hopper-m-02",
+    "last_observed_native_state": "R",
+    "native_state_now": "UNKNOWN_NETWORK_UNREACHABLE",
+    "last_observed_GPU_allocated_s": 5200,
+    "last_observed_GPU_reserved_s": 14400,
+    "reservation_released_without_native_terminal_proof": false,
+    "last_observed_PBS_submissions": 2,
+    "third_submission_performed_by_owner": false,
+    "last_observed_optimizer_updates": 1536,
+    "last_observed_pending_optimizer_updates": 0,
+    "local_finite_owner_02_process_terminal": true,
+    "local_safety_helper_process_terminal": true,
+    "unknown_command_or_generation_intents_replayed": false,
+    "M2_BC_remaining_case_and_M2_CORR_current_state": "UNKNOWN_REQUIRES_NATIVE_AND_CORE_READBACK",
+    "original_native_heartbeat_and_allocation_deadlines_modified": false,
+    "healthy_native_jobs_cancelled": false
+  },
+  "MP1": {
+    "new_GPU_PBS_submissions": 0,
+    "new_optimizer_updates": 0,
+    "new_model_queries": 0,
+    "new_physics_integrations": 0,
+    "source_pair_scientific_child_registered": false,
+    "prepared_native_source_code_deployed_or_run": false,
+    "single_T0_or_deadlines_reset": false,
+    "completed_CPU_reader_and_Vanda_build_receipts_preserved": true
+  },
+  "resumption_order": [
+    "Restore the existing authorized VPN or campus connection; do not invent SSH routes.",
+    "Read own native PBS states, heartbeat/final records, pending generation and optimizer intents.",
+    "Read Core actual terminal adjudications, actor process identities and physical reservations.",
+    "Settle only proven native terminal allocations; never infer zero usage from a failed SSH lookup.",
+    "Bind the exact remaining E1 work before any last legal submission; do not repeat valid outcomes.",
+    "Admit new MP1 source GPU work only after the old E1 source/Hopper leases and resources are closed."
+  ],
+  "selected": "NONE",
+  "real_robot_deployment": "NONE"
+}

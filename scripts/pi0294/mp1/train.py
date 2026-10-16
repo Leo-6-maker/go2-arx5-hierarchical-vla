@@ -40,11 +40,13 @@ def checked_resume(root,branch,checkpoint,recipe,ledger):
     return step
 
 
-def run(root,instance,allocation,guard,ledger,*,branch,resume_checkpoint=None):
+def run(root,instance,allocation,guard,ledger,*,branch,resume_checkpoint=None,stop_after_step=2048):
     import torch
     from transformers import TrainingArguments,TrainerCallback,set_seed
     root=Path(root);recipe=read(root/'plans/SOURCE_LEARNING_RECIPE.json');validate_recipe(recipe,branch)
     l=read(ledger.path);resume_step=checked_resume(root,branch,resume_checkpoint,recipe,l) if resume_checkpoint else 0
+    if stop_after_step not in [512,2048] or stop_after_step<=resume_step:
+        raise PermissionError('MP1_ONLY_FIXED_512_EVALUATION_BREAK_OR_TERMINAL_2048')
     output=root/'training'/branch;evidence=output/('session-resume-'+str(resume_step) if resume_step else 'session-start');evidence.mkdir(parents=True,exist_ok=False)
     expected_before=(0 if branch=='S-BC' else 2048)+resume_step
     if l['optimizer_updates']!=expected_before or l['pending_updates']:raise PermissionError('MP1_FIRST_SOURCE_PAIR_EXACT_UPDATE_ACCOUNTING')
@@ -90,7 +92,8 @@ def run(root,instance,allocation,guard,ledger,*,branch,resume_checkpoint=None):
             with (evidence/'OPTIMIZER_STEPS.jsonl').open('a') as f:f.write(json.dumps(row)+'\n');f.flush()
             write(evidence/'PROGRESS.json',row)
             if state.global_step in [512,2048]:control.should_save=True
-            if time.time()>=allocation['allocation_end_epoch']-2700:control.should_save=True;control.should_training_stop=True
+            if state.global_step==stop_after_step or time.time()>=allocation['allocation_end_epoch']-2730:
+                control.should_save=True;control.should_training_stop=True
     torch.cuda.reset_peak_memory_stats();started=time.monotonic()
     trainer=make_trainer_class()(model=instance.model,args=args,train_dataset=dataset,data_collator=ProcessedCollator(dataset.processor),
         callbacks=[Audit()],evidence_dir=evidence,recipe=recipe,smoke=False)
@@ -100,6 +103,7 @@ def run(root,instance,allocation,guard,ledger,*,branch,resume_checkpoint=None):
     if not unchanged or not changed:raise ValueError('MP1_FROZEN_PARAMETERS_CHANGED_OR_NO_LEARNING')
     value=dict(status=branch+'_ACTUAL_2048_UPDATES' if trainer.state.global_step==2048 else branch+'_PARTIAL_NATIVE_STATE_PRESERVED',branch=branch,
         global_step=trainer.state.global_step,resumed_from_step=resume_step,actual_updates_this_attempt=trainer.state.global_step-resume_step,
+        predeclared_stop_step=stop_after_step,full_scheduler_horizon_steps=2048,
         consumed_samples=trainer.consumed,frozen_parameters_unchanged=unchanged,changed_trainable_parameters=changed,
         final_parameters=final,recipe=recipe,source_manifest_sha256=dataset.manifest_sha,statistics_sha256=dataset.statistics_sha,
         correction_manifest_sha256=correction['manifest_sha256'] if branch=='S-CORR' else None,
