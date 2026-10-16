@@ -15,6 +15,16 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_behavior_summary_excludes_collection_and_scope_deviation(self):
+        from .e1.analysis import autonomous_summary
+        base=dict(model='fixture',task='T1',pipeline_trustworthy=True,persistent_success=True,native_safety_flag_rows=0,native_duration_s=32.,failure_stage='NONE',model_autonomous_evaluation=True,excluded_scope_deviation=False)
+        rows=[dict(base,scene_group='PI0294/TRAIN/F0/000'),dict(base,scene_group='PI0294/TRAIN/F1/000')]
+        self.assertTrue(autonomous_summary(rows)['fixture']['T1']['source_task_competence_observed'])
+        rows[-1]['model_autonomous_evaluation']=False
+        self.assertFalse(autonomous_summary(rows)['fixture']['T1']['source_task_competence_observed'])
+        rows[-1]['model_autonomous_evaluation']=True;rows[-1]['excluded_scope_deviation']=True
+        self.assertEqual(autonomous_summary(rows)['fixture']['T1']['conditions_attempted'],1)
+
     def test_probe_s1_accept_is_not_mistaken_for_native_PASS(self):
         from contextlib import contextmanager
         from types import SimpleNamespace as NS
