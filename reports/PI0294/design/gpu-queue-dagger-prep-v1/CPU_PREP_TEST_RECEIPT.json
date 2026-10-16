@@ -1,0 +1,449 @@
+{
+  "schema": "LOCAL_CPU_PREP_TEST_RECEIPT_V1",
+  "status": "PASS_SYNTHETIC_CPU_FIXTURES_ONLY",
+  "handoff_ref": "4a9bbf38cbde90c2e08c4f4270364d801534cdf1",
+  "source_commit_at_test": "c7c8e4fc8d7e3893b042672be4ae5b5cd56a6fb7",
+  "tested_working_source_file_sha256": {
+    "src/go2arx5_vla/flowdagger/__init__.py": "d626307bdda3a345e068cb9a9eb8ca20467469cd0dfdc7b88c1cf7b36706b4eb",
+    "src/go2arx5_vla/flowdagger/abi.py": "840161edd2c9490ffdbfd9817f05d3fe1baee89ddd8f33d04c7a4a8e857ae33b",
+    "src/go2arx5_vla/flowdagger/aggregation.py": "b15801e8883fc806d8d8e75993725bbdd2724cf6ecfd4875644a5cd6ad6b4585",
+    "src/go2arx5_vla/flowdagger/codec.py": "66ba3803dc34a1d448b3d95ae3fbb69a8bbbfe4ada668fdc1d54bb47e7213890",
+    "src/go2arx5_vla/flowdagger/contracts.py": "4530291fe974748f51025dab55f3e8aaec0ccf750c9bef13d37d2303dd2b6e8f",
+    "src/go2arx5_vla/flowdagger/inversion.py": "f20c67210ffaec0ad1080cca5e04d638463b81e6ed5dbbc15e11622318a5d498",
+    "src/go2arx5_vla/flowdagger/native.py": "1f396067592551f232b761cef9fb6f3652bbcd13a56e75d6beaf3cdd6c14e8e8",
+    "src/go2arx5_vla/flowdagger/oracle.py": "f3018089c93ac10c01b9ed72eab0aadd72074bb280b9057fa61a0abefc058999",
+    "src/go2arx5_vla/flowdagger/steering.py": "6041869c27ad8f4ff0cc49399612b627f261695a7bf9c77b260c626d4a650ab3",
+    "src/go2arx5_vla/flowdagger/transaction.py": "9a5c2bf2c9f010f0d0b341254e23b16a1f7e4806413e4a0f726426dfd51eed28",
+    "tests/flowdagger/__init__.py": "e92e667766ea19d890a5a6e6d89b7a0161b8d19b1f9db4a11dc304e139840072",
+    "tests/flowdagger/test_abi.py": "b4f3b8791e3c8273770b404de978b153e77529c62a3d9a8ba2f4bbfd30a7f233",
+    "tests/flowdagger/test_aggregation.py": "8d45d640e1b472e992d3f9086d54655d6e4ec33d51546c0b7a9c2eb6fbd1677e",
+    "tests/flowdagger/test_codec.py": "860b98f9ef8152c98bb97572658470b946b3addce988be6976a58b9a16469d8b",
+    "tests/flowdagger/test_contracts.py": "8dcbdd031ca2215b9d9f9dbff255b01a657290c23970ee730519f96d65597fb3",
+    "tests/flowdagger/test_inversion.py": "1333aa816a9b80f92aa2763111dc0533ecd2d4381ac237f8ee9d3870340379ba",
+    "tests/flowdagger/test_native_context.py": "7407c42c6e3f8d5c0b3d367a2ecc3a8e8c79fd7761195322167f67cb2f540654",
+    "tests/flowdagger/test_oracle.py": "5c6d2b69ba292f5b1860e4d6f2a4110a90fdf1bfc19534c3d60f8646feac7ba9",
+    "tests/flowdagger/test_transaction.py": "e237a9d4a646a248195c9f8e9da6b65fb11c7e73598bc66d01d921f45f0133d3",
+    "scripts/flowdagger/prepare_cpu_receipts.py": "9ecd85a4fce38a632c455d96a1e49c8bfe3c67533f374ea5ef9c5c74fafdcfa9"
+  },
+  "source_changes_not_hot_deployed": true,
+  "local_CPU_affinity": [
+    0,
+    1
+  ],
+  "thread_env_cap": 1,
+  "CPU_s_self_and_children": 2.183214778,
+  "wall_s": 2.1910536010000214,
+  "observed_epoch": 1792149487.7542298,
+  "cases_passed": 67,
+  "cases": [
+    {
+      "module": "tests.flowdagger.test_abi",
+      "name": "test_five_declared_abi_errors_rejected[change0]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_abi",
+      "name": "test_five_declared_abi_errors_rejected[change1]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_abi",
+      "name": "test_five_declared_abi_errors_rejected[change2]",
+      "wall_s": 0.0,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_abi",
+      "name": "test_five_declared_abi_errors_rejected[change3]",
+      "wall_s": 0.0,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_abi",
+      "name": "test_five_declared_abi_errors_rejected[change4]",
+      "wall_s": 0.0,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_abi",
+      "name": "test_source_cannot_acquire_fake_zero_base_labels",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_abi",
+      "name": "test_target_missing_base_and_soft_zero_have_different_masks",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_aggregation",
+      "name": "test_same_pool_for_both_baselines_not_original_committed_BC_labels",
+      "wall_s": 0.003,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_aggregation",
+      "name": "test_dev_kept_in_analysis_not_optimizer",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_aggregation",
+      "name": "test_corruption_duplicate_and_budget_fail_closed",
+      "wall_s": 0.003,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_aggregation",
+      "name": "test_resealed_dev_to_train_flag_still_cannot_bypass_lineage",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_aggregation",
+      "name": "test_wrong_frozen_identity_refused",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_aggregation",
+      "name": "test_synthetic_state_or_certificate_never_creates_optimizer_or_science_data",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_aggregation",
+      "name": "test_lying_split_lineage_cannot_override_fixed_scene_registry",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_codec",
+      "name": "test_actual_metadata_schema_not_libero_dimension_assumption",
+      "wall_s": 0.0,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_codec",
+      "name": "test_single_relative_transform_rotated_nonzero_anchor",
+      "wall_s": 0.007,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_codec",
+      "name": "test_no_short_tail_base_padding_or_nonfinite[bad0]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_codec",
+      "name": "test_no_short_tail_base_padding_or_nonfinite[bad1]",
+      "wall_s": 0.0,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_codec",
+      "name": "test_no_short_tail_base_padding_or_nonfinite[bad2]",
+      "wall_s": 0.0,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_codec",
+      "name": "test_physical_errors_include_rotation_gripper_and_timing",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_codec",
+      "name": "test_no_gripper_clipping_or_libero_sign_conversion",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_codec",
+      "name": "test_processor_representation_cannot_silently_switch",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_counterfactual_expert_label_not_success_demo",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_arbitration_is_not_proof_of_execution",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_native_fail_cannot_be_rescued_by_expert",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_unsafe_student_only_valid_same_state_expert_may_take_over",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_explicit_intervention_and_expert_full_horizon",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_stale_state_or_modified_action_cannot_reuse_safety",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_no_dev_or_target_domain_relabel[change0]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_no_dev_or_target_domain_relabel[change1]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_no_dev_or_target_domain_relabel[change2]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_dev_labels_are_evaluation_only",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_unknown_expert_and_actual_safety_not_hidden_in_denominator",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_installed_prefix_cannot_be_arbitrarily_changed",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_student_state_claim_requires_actual_prior_ack[mutation0]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_student_state_claim_requires_actual_prior_ack[mutation1]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_safety_rejected_expert_is_not_a_valid_training_label",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_contracts",
+      "name": "test_reference_reject_does_not_require_new_shadow_simulation",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_same_discrete_grid_inverse_and_full_evaluation_accounting",
+      "wall_s": 0.26,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_failed_velocity_is_charged_no_silent_resample",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_finite_divergent_inverse_is_not_qualified",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_fixed_point_work_is_explicitly_bounded[-1]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_fixed_point_work_is_explicitly_bounded[True]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_fixed_point_work_is_explicitly_bounded[101]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_native_velocity_masks_grid_and_shape[False-False]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_native_velocity_masks_grid_and_shape[False-True]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_native_velocity_masks_grid_and_shape[True-False]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_native_velocity_masks_grid_and_shape[True-True]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_inversion",
+      "name": "test_steering_only_gradient_no_target_or_base_features_gradient",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_native_context",
+      "name": "test_context_one_backbone_no_default_action_draw",
+      "wall_s": 0.054,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_native_context",
+      "name": "test_privileged_teacher_fields_rejected_before_backbone_or_processor",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_mock_full_plan_same_state_and_explicit_nonphysical_identity",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_no_certificate_no_valid_training_label",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_invalid_oracle_is_first_class_not_fake_label[UNRECOVERABLE]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_invalid_oracle_is_first_class_not_fake_label[JOINT_OR_STATE_RESTRICTED]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_invalid_oracle_is_first_class_not_fake_label[NO_COMPLETE_H40]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_partial_horizon_and_stale_proposal_rejected",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_original_t1_teacher_plan_reused_on_synthetic_saved_state_without_engine",
+      "wall_s": 0.004,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_synthetic_perturbation_does_not_become_live_student_state",
+      "wall_s": 0.0,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_transaction",
+      "name": "test_cpu_chunk_handshake_advances_without_contact_not_fake_success",
+      "wall_s": 0.004,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_transaction",
+      "name": "test_expert_takeover_and_all_rejected_stop",
+      "wall_s": 0.003,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_transaction",
+      "name": "test_repeated_chunk_clock_ack_and_unknown_dispatch_are_not_replayed",
+      "wall_s": 0.003,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_transaction",
+      "name": "test_partial_and_safety_end_remain_explicit_not_success_bank",
+      "wall_s": 0.002,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_transaction",
+      "name": "test_early_end_before_any_dispatch_does_not_install_action",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_transaction",
+      "name": "test_altered_prefix_is_not_accepted_as_original_command",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "scripts.pi0294.test_base_intent.BaseIntentTests",
+      "name": "test_signed_exact_se2_and_tilted_origin",
+      "wall_s": 0.005,
+      "status": "PASS"
+    },
+    {
+      "module": "scripts.pi0294.test_base_intent.BaseIntentTests",
+      "name": "test_world_eef_hold_zero_versus_absent_and_rejection",
+      "wall_s": 0.004,
+      "status": "PASS"
+    }
+  ],
+  "actual_GR00T_loads": 0,
+  "optimizer_steps": 0,
+  "physics_or_shadow_integrations": 0,
+  "new_PBS": 0,
+  "cuda_initialized": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

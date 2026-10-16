@@ -5,9 +5,11 @@ from .codec import eef10
 from .contracts import digest, summarize
 
 
-def aggregate(records, *, max_records, model_sha256, statistics_sha256):
+def aggregate(records, *, max_records, model_sha256, statistics_sha256, fixed_scene_splits):
     if type(max_records) is not int or max_records <= 0:
         raise ValueError('EXPLICIT_POSITIVE_AGGREGATION_BOUND_REQUIRED')
+    if not fixed_scene_splits or any(s not in ('TRAIN', 'DEV') for s in fixed_scene_splits.values()):
+        raise ValueError('FIXED_ORIGINAL_SCENE_GROUP_SPLITS_REQUIRED')
     rows, seen, training = [], set(), []
     for original in records:
         if len(rows) >= max_records:
@@ -23,11 +25,15 @@ def aggregate(records, *, max_records, model_sha256, statistics_sha256):
                 or any(s not in ('TRAIN', 'DEV') for s in row['lineage_splits'])
                 or type(row['expert_valid']) is not bool):
             raise ValueError('NO_DOMAIN_MODEL_STATS_OR_SPLIT_SWITCH')
+        if fixed_scene_splits.get(row['scene_group']) != row['split']:
+            raise ValueError('ORIGINAL_SCENE_GROUP_CANNOT_MOVE_ACROSS_SPLITS')
         identity = row['observation_id']
         if identity in seen:
             raise ValueError('DUPLICATE_OBSERVATION_NO_LABEL_MULTIPLICATION')
         seen.add(identity)
-        eligible = row['expert_valid'] and row['split'] == 'TRAIN'
+        if row['evidence_kind'] not in ('SYNTHETIC_CPU_FIXTURE', 'ACTUAL_STUDENT_STATE_WITH_VERIFIED_ORACLE', 'SAVED_ACTUAL_STATE_WITH_VERIFIED_ORACLE'):
+            raise ValueError('EXPLICIT_ACTUAL_OR_SYNTHETIC_PROVENANCE_REQUIRED')
+        eligible = row['expert_valid'] and row['split'] == 'TRAIN' and row['evidence_kind'] != 'SYNTHETIC_CPU_FIXTURE'
         if row['optimizer_eligible'] is not eligible or row['split'] == 'TRAIN' and any(s != 'TRAIN' for s in row['lineage_splits']):
             raise ValueError('NO_DEV_OR_INVALID_LABEL_IN_OPTIMIZER')
         if row['expert_valid']:
@@ -43,6 +49,7 @@ def aggregate(records, *, max_records, model_sha256, statistics_sha256):
         rows.append(row)
     value = dict(schema='DAGGER_CORRECTION_POOL_V1', status='INDEX_ONLY_NOT_A_TRAINING_OR_MODEL_RESULT',
         source_domain='FIXED_BASE_ARX5_TASK_SIM', model_sha256=model_sha256, statistics_sha256=statistics_sha256,
+        fixed_scene_splits_sha256=digest(fixed_scene_splits),
         record_sha256s=[r['record_sha256'] for r in rows], training_examples=training, summary=summarize(rows),
         training_label_count=len(training), analysis_record_count=len(rows),
         shared_label_pool_for=['ACTION_SPACE_DAGGER', 'FLOWDAGGER_LATENT_STEERING'],

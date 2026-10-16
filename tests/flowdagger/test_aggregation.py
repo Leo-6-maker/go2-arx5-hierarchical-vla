@@ -8,7 +8,8 @@ from .test_contracts import fixture
 
 
 def pool(rows, cap=10):
-    return aggregate(rows, max_records=cap, model_sha256='b'*64, statistics_sha256='c'*64)
+    return aggregate(rows, max_records=cap, model_sha256='b'*64, statistics_sha256='c'*64,
+                     fixed_scene_splits={'fixture-original-group':rows[0]['split']})
 
 
 def test_same_pool_for_both_baselines_not_original_committed_BC_labels():
@@ -45,4 +46,19 @@ def test_resealed_dev_to_train_flag_still_cannot_bypass_lineage():
 
 def test_wrong_frozen_identity_refused():
     row=label_record(**fixture())
-    with pytest.raises(ValueError):aggregate([row],max_records=10,model_sha256='f'*64,statistics_sha256='c'*64)
+    with pytest.raises(ValueError):aggregate([row],max_records=10,model_sha256='f'*64,statistics_sha256='c'*64,fixed_scene_splits={'fixture-original-group':'TRAIN'})
+
+
+def test_synthetic_state_or_certificate_never_creates_optimizer_or_science_data():
+    values=fixture();values['evidence_kind']='SYNTHETIC_CPU_FIXTURE'
+    row=label_record(**values);value=pool([row])
+    assert not row['optimizer_eligible'] and not row['scientific_student_visited_state']
+    assert value['training_label_count']==0
+    assert value['summary']['student_visited_correction_labels']==0
+    assert value['summary']['synthetic_records']==1
+
+
+def test_lying_split_lineage_cannot_override_fixed_scene_registry():
+    row=label_record(**fixture())
+    with pytest.raises(ValueError):aggregate([row],max_records=10,model_sha256='b'*64,
+        statistics_sha256='c'*64,fixed_scene_splits={'fixture-original-group':'DEV'})

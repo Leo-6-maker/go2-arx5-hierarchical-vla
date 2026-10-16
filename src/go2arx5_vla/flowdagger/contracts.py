@@ -78,9 +78,13 @@ def arbitrate(student, student_safety, expert=None, expert_safety=None, *,
 def label_record(*, observation_id, source_domain, split, lineage_splits, student,
                  expert, expert_valid, expert_queried, decision, execution_receipt,
                  actual_result, student_visited_state, observation_tick, state_visit_receipt,
-                 model_sha256, statistics_sha256, expert_failure_reason=None):
+                 model_sha256, statistics_sha256, evidence_kind, scene_group, expert_failure_reason=None):
     if source_domain != 'FIXED_BASE_ARX5_TASK_SIM' or split not in ('TRAIN', 'DEV'):
         raise ValueError('EXPLICIT_SOURCE_DOMAIN_AND_SPLIT_REQUIRED')
+    if not isinstance(scene_group, str) or not scene_group:
+        raise ValueError('ORIGINAL_SCENE_GROUP_REQUIRED')
+    if evidence_kind not in ('SYNTHETIC_CPU_FIXTURE', 'ACTUAL_STUDENT_STATE_WITH_VERIFIED_ORACLE', 'SAVED_ACTUAL_STATE_WITH_VERIFIED_ORACLE'):
+        raise ValueError('EXPLICIT_SYNTHETIC_VERSUS_VERIFIED_ACTUAL_EVIDENCE_REQUIRED')
     if not lineage_splits or any(s not in ('TRAIN', 'DEV') for s in lineage_splits):
         raise ValueError('ORIGINAL_SPLIT_LINEAGE_REQUIRED')
     if split == 'TRAIN' and any(s != 'TRAIN' for s in lineage_splits):
@@ -140,7 +144,7 @@ def label_record(*, observation_id, source_domain, split, lineage_splits, studen
     for value in (model_sha256, statistics_sha256):
         if len(value) != 64 or any(c not in '0123456789abcdef' for c in value):
             raise ValueError('PINNED_MODEL_AND_STATISTICS_REQUIRED')
-    row = dict(schema='DAGGER_CORRECTION_LABEL_V1', observation_id=observation_id,
+    row = dict(schema='DAGGER_CORRECTION_LABEL_V1', observation_id=observation_id, evidence_kind=evidence_kind, scene_group=scene_group,
         source_domain=source_domain, split=split, lineage_splits=list(lineage_splits),
         student_action=action.tolist(), expert_action=correction, expert_valid=expert_valid, expert_queried=expert_queried,
         expert_failure_reason=expert_failure_reason,
@@ -149,7 +153,8 @@ def label_record(*, observation_id, source_domain, split, lineage_splits, studen
         student_visited_state=student_visited_state, observation_tick=observation_tick,
         state_visit_receipt=state_visit_receipt, safety_proofs={k: decision.get(k) for k in
             ('student_safety_proof_sha256', 'expert_safety_proof_sha256')},
-        optimizer_eligible=expert_valid and split == 'TRAIN',
+        scientific_student_visited_state=student_visited_state and evidence_kind != 'SYNTHETIC_CPU_FIXTURE',
+        optimizer_eligible=expert_valid and split == 'TRAIN' and evidence_kind != 'SYNTHETIC_CPU_FIXTURE',
         successful_demo_admitted=False, success_demo_requires_separate_full_episode_audit=True,
         model_sha256=model_sha256, statistics_sha256=statistics_sha256,
         selected='NONE', deployment='NONE')
@@ -165,7 +170,8 @@ def summarize(records):
         unavailable_expert_labels=sum(r['expert_queried'] and not r['expert_valid'] for r in rows),
         student_executed_blocks=sum(r['executed_by'] == 'STUDENT' for r in rows),
         student_execution_fraction=(sum(r['executed_by'] == 'STUDENT' for r in executed)/len(executed)) if executed else None,
-        student_visited_correction_labels=sum(r['expert_valid'] and r['student_visited_state'] for r in rows),
+        student_visited_correction_labels=sum(r['expert_valid'] and r['scientific_student_visited_state'] for r in rows),
+        synthetic_records=sum(r['evidence_kind'] == 'SYNTHETIC_CPU_FIXTURE' for r in rows),
         training_labels=sum(r['optimizer_eligible'] for r in rows),
         all_expert_execution_is_student_state_DAgger=False,
         independent_episode_success_rate='REQUIRES_EPISODE_RESULTS_NOT_LABEL_COUNT')

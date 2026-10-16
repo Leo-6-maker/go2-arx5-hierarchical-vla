@@ -4,6 +4,8 @@
 
 **用户另行授权等待期间准备FlowDAgger代码，不授权新科学执行。** [实际代码/CPU准备报告](reports/PI0294/flowdagger-preparation-20261016/PREPARATION_REPORT.md) · [协议](docs/protocols/PI0294_FLOWDAGGER_PREPARATION_V1.md) · [机器卡](reports/PI0294/design/FLOWDAGGER_PREPARATION_TASK_CARD_V1.json)。独立纠正数据合同、原EEF10 processor桥、冻结模型inversion/steering组件及CPU测试已准备；FD1真实可恢复性、FD2真实模型重构和FD3训练未运行。不能把专家全接管默认例子称作学生状态DAgger，也不将E0 DEV转训练或零填BASE。新代码不部署到在途E0，不重开旧Teacher/WBC任务。
 
+**完整GPU等待期Q0–Q6准备已按新增固定handoff接续。** [CPU准备终报与全部小收据](reports/PI0294/design/gpu-queue-dagger-prep-v1/PREP_FINAL_REPORT.md)：67项定向fixture通过（含2项复用BASE测试），默认827PASS/14显式SKIP；离线Oracle可以INVALID、chunk交易/ACK与split血缘已测试，合成状态不进真实训练。真实学生状态恢复、M2048反演和DAgger训练仍NOT_RUN。初期测试未约束CPU亲和性、历史并发不能认证，后续已固定2核/单线程并披露资源核算限制；不掩盖该偏差。
+
 以下2026-10-15及更早条目是各自阶段历史；最新执行状态以固定收据、#11/#47及原生run/lease为准。
 
 # GR00T＋WBC — 2026-10-15 历史科学入口

@@ -1,0 +1,58 @@
+{
+  "status": "PASS_CPU_FIXTURE_NOT_PHYSICAL_OR_RECOVERY_QUALIFICATION",
+  "tests_passed": 8,
+  "cases": [
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_mock_full_plan_same_state_and_explicit_nonphysical_identity",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_no_certificate_no_valid_training_label",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_invalid_oracle_is_first_class_not_fake_label[UNRECOVERABLE]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_invalid_oracle_is_first_class_not_fake_label[JOINT_OR_STATE_RESTRICTED]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_invalid_oracle_is_first_class_not_fake_label[NO_COMPLETE_H40]",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_partial_horizon_and_stale_proposal_rejected",
+      "wall_s": 0.001,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_original_t1_teacher_plan_reused_on_synthetic_saved_state_without_engine",
+      "wall_s": 0.004,
+      "status": "PASS"
+    },
+    {
+      "module": "tests.flowdagger.test_oracle",
+      "name": "test_synthetic_perturbation_does_not_become_live_student_state",
+      "wall_s": 0.0,
+      "status": "PASS"
+    }
+  ],
+  "physically_executed": false,
+  "actual_saved_student_state_queries": 0,
+  "actual_recovery_qualified": false,
+  "original_legacy_T1_plan_on_synthetic_snapshot_tested": true
+}

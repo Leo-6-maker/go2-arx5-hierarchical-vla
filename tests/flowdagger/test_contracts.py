@@ -25,6 +25,8 @@ def fixture():
         decision=decision, execution_receipt=receipt, actual_result='TASK_FAIL', student_visited_state=True,
         observation_tick=200, state_visit_receipt=dict(observation_id='obs-1',previous_executed_by='STUDENT',
             tick_after=200,integrations=200,ack_sha256='e'*64),
+        evidence_kind='SAVED_ACTUAL_STATE_WITH_VERIFIED_ORACLE',
+        scene_group='fixture-original-group',
         model_sha256='b'*64, statistics_sha256='c'*64)
 
 

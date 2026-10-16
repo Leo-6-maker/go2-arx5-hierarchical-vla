@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gr00t-wbc:dagger-chunk-record:cpu-prep-v1",
+  "title": "Offline DAgger Chunk Transaction Record, Not A Qualified Dataset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["observation", "proposals", "decision", "execution", "evidence_kind", "bank"],
+  "properties": {
+    "observation": {
+      "type": "object",
+      "required": ["observation_id", "episode_id", "tick", "timestamp_ns", "measured_state10", "measured_BASE", "base_observation_present", "rgb_sha256", "binding", "context"],
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {"type": "string", "minLength": 1},
+        "episode_id": {"type": "string", "minLength": 1},
+        "tick": {"type": "integer", "minimum": 0, "multipleOf": 200},
+        "timestamp_ns": {"type": "integer", "minimum": 0},
+        "measured_state10": {"$ref": "#/$defs/eef10"},
+        "measured_BASE": {"type": "null"},
+        "base_observation_present": {"const": false},
+        "rgb_sha256": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/sha256"}},
+        "binding": {"type": "object"},
+        "context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_domain", "task", "split", "scene_group", "language", "model_sha256", "statistics_sha256"],
+          "properties": {
+            "source_domain": {"const": "FIXED_BASE_ARX5_TASK_SIM"},
+            "task": {"enum": ["T1", "T2"]},
+            "split": {"enum": ["TRAIN", "DEV"]},
+            "scene_group": {"type": "string", "minLength": 1},
+            "language": {"type": "string", "minLength": 1},
+            "model_sha256": {"$ref": "#/$defs/sha256"},
+            "statistics_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "proposals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["student_H40", "student_noise_id", "expert_H40", "expert_valid", "active_dim_mask"],
+      "properties": {
+        "student_H40": {"$ref": "#/$defs/h40"},
+        "student_noise_id": {"type": "string", "minLength": 1},
+        "expert_H40": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/h40"}]},
+        "expert_valid": {"type": "boolean"},
+        "active_dim_mask": {
+          "anyOf": [{"type": "null"}, {"type": "array", "minItems": 40, "maxItems": 40, "items": {
+            "type": "array", "minItems": 10, "maxItems": 10, "items": {"const": true}}}]
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": ["selected_executor", "reason", "prefix_to_install", "expert_label_qualified"],
+      "properties": {
+        "selected_executor": {"enum": ["STUDENT", "EXPERT", "STOP"]},
+        "reason": {"type": "string", "minLength": 1},
+        "prefix_to_install": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/prefix8"}]},
+        "expert_label_qualified": {"type": "boolean"},
+        "candidate_sha256": {"$ref": "#/$defs/sha256"},
+        "student_safety_proof_sha256": {"$ref": "#/$defs/sha256"},
+        "expert_safety_proof_sha256": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]}
+      }
+    },
+    "execution": {
+      "anyOf": [{"type": "null"}, {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["intent_sha256", "installed_ref_id", "installed_prefix", "tick_before", "tick_after", "integrations", "native_safe", "early_end", "object_contact"],
+        "properties": {
+          "intent_sha256": {"$ref": "#/$defs/sha256"},
+          "installed_ref_id": {"$ref": "#/$defs/sha256"},
+          "installed_prefix": {"$ref": "#/$defs/prefix8"},
+          "tick_before": {"type": "integer", "minimum": 0},
+          "tick_after": {"type": "integer", "minimum": 1},
+          "integrations": {"type": "integer", "minimum": 1, "maximum": 200},
+          "native_safe": {"type": "boolean"},
+          "early_end": {"type": "boolean"},
+          "object_contact": {"type": "boolean"}
+        }
+      }]
+    },
+    "evidence_kind": {"enum": ["SYNTHETIC_CPU_FIXTURE", "SAVED_ACTUAL_RECEIPT"]},
+    "bank": {"enum": ["INTERVENTION", "FAILURE_DIAGNOSTIC"]},
+    "task_success_claim": {"type": "boolean"},
+    "successful_BC_demo_admitted": {"const": false}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "eef10": {"type": "array", "minItems": 10, "maxItems": 10, "items": {"type": "number"}},
+    "h40": {"type": "array", "minItems": 40, "maxItems": 40, "items": {"$ref": "#/$defs/eef10"}},
+    "prefix8": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/eef10"}}
+  },
+  "$comment": "Runtime contracts additionally check finite rotations/gripper/ABI, exact tick->timestamp, original split registry, proof hashes, prefix equality and state order. They authenticate neither private evidence origin nor task success. Pre-dispatch early_end reason-only events are lifecycle diagnostics, not chunk records. No unknown or partial action is eligible for the full-H40 optimizer."
+}
