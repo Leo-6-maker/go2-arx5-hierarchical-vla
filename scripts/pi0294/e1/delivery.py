@@ -104,10 +104,31 @@ def consume(root,transfer,token_file):
             if tuple(action.shape)!=(1,40,132) or not bool((mask[...,:10]==1).all()) or not bool((mask[...,10:]==0).all()):raise ValueError('E1_ACTUAL_CORRECTION_NATIVE_MASK')
             decoded,clip=expert_decode(dataset.processor,state,commands)
             checks.append(dict(identity=dataset.identity(index),roundtrip_maximum_absolute_difference=float(__import__('numpy').max(__import__('numpy').abs(decoded-commands))),native_decode=clip))
+        from .mixture import MixedDataset
+        from .trainer import make_trainer_class,check_trace
+        from scripts.pi0294.native_train import tree_identity
+        from types import SimpleNamespace
+        loader_checks=[]
+        for resume_step in [0,1]:
+            trace=output/('mixed-trace-'+str(resume_step))
+            mixed=MixedDataset(b['dataset'],b['source'],b['cosmos'],for_optimization=True,raw_bindings=read(b['raw_bindings']),
+                trace_root=trace,selected_ids=[x['id'] for x in read(root/'plans/SMALL8_BINDING.json')['episodes']],
+                correction_root=data,correction_bindings=bindings)
+            mixed.initialize();trainer=object.__new__(make_trainer_class())
+            trainer.args=SimpleNamespace(ignore_data_skip=False,max_steps=2);trainer.state=SimpleNamespace(global_step=resume_step)
+            trainer.train_dataset=mixed;trainer._train_batch_size=2;trainer.data_collator=ProcessedCollator(mixed.processor)
+            loader=trainer.get_train_dataloader();batches=[tree_identity(batch) for batch in loader]
+            identities=[mixed.identity(trainer.sampler.index_at(c)) for c in range(resume_step*32,64)]
+            original=sum(row.get('origin')=='new' for row in identities)
+            if original!=(64-resume_step*32)//2:raise ValueError('ACTUAL_MIXED_LOADER_HALF_EXPOSURE')
+            loader_checks.append(dict(resume_step=resume_step,batches=batches,
+                trace=check_trace(trace,mixed,resume_step*32,64),original_samples=original,correction_samples=len(identities)-original))
+        if loader_checks[0]['batches'][16:]!=loader_checks[1]['batches']:raise ValueError('ACTUAL_MIXED_LOADER_RESUME_MISMATCH')
         if torch.cuda.is_initialized():raise PermissionError('E1_CONSUMER_INITIALIZED_CUDA')
         result=dict(status='PASS_ACTUAL_HOPPER_CORRECTION_PROCESSOR_LOADER',dataset=str(data),raw_bindings=str(output/'RAW_BINDINGS.private.json'),
             revision=t['revision'],prefix=t['prefix'],manifest_sha256=t['manifest_sha256'],statistics_sha256=STATS,
             independent_reader=audit,actual_first_middle_last=checks,model_loaded=False,optimizer_updates=0,CPU_s=time.process_time()-started)
+        result['actual_mixed_loader']=[{k:v for k,v in item.items() if k!='batches'} for item in loader_checks]
         write(output/'CONSUMPTION.private.json',result);return result
     finally:ledger.cpu(time.process_time()-started)
 

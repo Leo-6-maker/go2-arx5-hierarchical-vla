@@ -22,7 +22,9 @@ def run(root,request_path):
     release=read(directory/'START_NEURAL.json')
     if release['run_uuid']!=root.name or release['job_id']!=job or release['request_sha256']!=sha(request_path):raise PermissionError('E1_EXACT_FRESH_NATIVE_RELEASE')
     r=read(request_path)
-    return subprocess.run([r['python'],'-m','scripts.pi0294.e1.neural','--root',str(root),'--request',str(request_path)],check=False).returncode
+    modules={'E1_M1_TRAIN_PROBE_EVAL':'scripts.pi0294.e1.neural','E1_T1_COLLECTION_MATCHED_M2':'scripts.pi0294.e1.neural2'}
+    if r['mode'] not in modules:raise PermissionError('E1_EXACT_SCIENTIFIC_WORKLOAD')
+    return subprocess.run([r['python'],'-m',modules[r['mode']],'--root',str(root),'--request',str(request_path)],check=False).returncode
 
 
 if __name__=='__main__':
