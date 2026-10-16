@@ -34,10 +34,10 @@ def checkpoint_identity(checkpoint,label,source_sha):
     validate_identity(identity['relay_identity']);return identity
 
 
-def serve(root,label,instance,allocation,ledger,guard):
+def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_status='E1_NATIVE_MODEL_READY',noise_namespace='PI0294'):
     directory=root/'evidence'/label/'resident';directory.mkdir(parents=True,exist_ok=False)
     for n in ['inbox','outbox','receipts']:(directory/n).mkdir()
-    state=dict(status='E1_NATIVE_MODEL_READY',label=label,run_uuid=root.name,job_id=os.environ['PBS_JOBID'],
+    state=dict(status=ready_status,label=label,run_uuid=root.name,job_id=os.environ['PBS_JOBID'],
         pid=os.getpid(),identity=instance.identity,allocation_end_epoch=allocation['allocation_end_epoch'],queries=0)
     write(root/'pbs/MODEL_STATE.json',state);write(directory/'STATE.json',state)
     registry_path=root/'plans'/label/'REGISTRY.json';wait=time.time()+180
@@ -53,7 +53,7 @@ def serve(root,label,instance,allocation,ledger,guard):
         time.sleep(.2)
     registry=read(registry_path)
     if registry['checkpoint_identity']!=instance.identity or registry['run_uuid']!=root.name:raise PermissionError('E1_EXACT_STAGE_MODEL_REGISTRY')
-    reservations=QueryReservations(directory,root.name,max_queries=320)
+    reservations=QueryReservations(directory,root.name,max_queries=max_queries)
     seen=set()
     def expire(signum,frame):raise TimeoutError('E1_FRESH_MODEL_DRAW_EXPIRED_NO_RESAMPLE')
     signal.signal(signal.SIGALRM,expire)
@@ -83,7 +83,7 @@ def serve(root,label,instance,allocation,ledger,guard):
             reservations.begin(body,time.time());ledger.charge('generation_queries',1);seen.add(path.name)
             try:
                 signal.alarm(max(1,math.ceil(body['expires']-time.time())))
-                seed=int.from_bytes(hashlib.sha256(('PI0294/'+case['layout_id']+'/'+str(body['sequence'])).encode()).digest()[:8],'big')%(2**63)
+                seed=int.from_bytes(hashlib.sha256((noise_namespace+'/'+case['layout_id']+'/'+str(body['sequence'])).encode()).digest()[:8],'big')%(2**63)
                 value=instance.generate(body['payload'],seed)
                 if time.time()>=body['expires']:raise TimeoutError('E1_DRAW_EXPIRED_NO_PHYSICS')
                 physical=value['physical_H40'].tolist()

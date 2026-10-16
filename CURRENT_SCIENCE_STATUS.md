@@ -1,6 +1,6 @@
 # Current Science Status
 
-Observed 2026-10-17 03:15 SGT by the existing single local-PC owner.
+Observed 2026-10-17 04:14 SGT by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
 ## Active Authority
@@ -21,8 +21,9 @@ is no E2 owner, second budget or 28-day clock.
 - [Actual adoption and three-host readback](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json).
 - [Fixed execution entry](docs/handover/2026-10-17/MAINLINE_ACCELERATION_MP1_EXECUTE.md).
 
-MP1 currently has control-plane registration only, no new GPU submission,
-model invocation or physical integration. Scientific children must pass the
+MP1 has completed CPU-only source-loader qualification and one Vanda native
+build. There is no new MP1 GPU submission, model invocation or physical
+integration. Scientific children must pass the
 existing workspace, immutable input, resource, lease and native PBS checks.
 Fresh permission and capacity are checked at actual admission, not inferred
 from this adoption or an old successful login.
@@ -36,8 +37,11 @@ raw/action/ACK/contact/score/video audit PASS. T2 was validly rejected by the
 original S1 in both layouts. This is not DEV, Go2/WBC or real-robot success.
 
 - [Complete M1 TRAIN4 and independent audits](reports/PI0294/20261016T150228Z-localpc-e1/M1_1024_COMPLETE_TRAIN4_AND_T1_AUDITS.json).
-- E1 H200 job `670729.hopper-m-02` is running actual M2-BC updates. M2-CORR
-  has not yet completed. The two branches have the fixed M1@1024 parent and
+- E1 H200 job `670729.hopper-m-02` completed M2-BC's actual 512 updates,
+  with 537 changed trainable tensors and 512 finite nonzero gradient records.
+  Its first two evaluations are engineering-incomplete, not task outcomes;
+  the first reached 25.6 simulated seconds before the original 900-second
+  relay limit. M2-CORR has not yet completed. Both branches have the fixed M1@1024 parent and
   their previously sealed data choices; valid outcomes will not be rerun.
 - E1 C0: 833 full H40 windows from two E0 student episodes, T1 only. It is
   state aggregation, not new M1 on-policy DAgger.
@@ -57,10 +61,16 @@ preserved. No claim of a flawless full E1 comparison is made.
 ## Target Platform
 
 Native Vanda refresh: hardware job `1462438` is Q for node-pool availability;
-dependent inference job `1462451` remains H; CPU build `1462595` is F/exit 1
-at container-build, 502 native allocated CPU-job wall seconds, 103 native
-CPU seconds. No new native WBC binary, target policy loop or task success
-is thereby established. Healthy queued/held jobs were not cancelled.
+dependent inference job `1462451` remains H. Failed old builds are preserved.
+MP1 CPU build `1463204` is F/exit 0: container tests, native compilation,
+before/after controller-source checks, and linked-library checks passed.
+The simulator and two controller binary hashes are recorded in the
+[actual build receipt](reports/PI0294/20261016T191445Z-localpc-mp1/VANDA_CPU_NATIVE_BUILD_ACTUAL.json).
+The build used 1,533 native CPU seconds and zero GPU, physics, model queries
+or WBC launches. It does not establish runtime safety or task success.
+Healthy queued/held jobs were not cancelled. Container/package network
+downloads were not pre-metered: the ledger retains an explicit pending
+audit and 32 GiB conservative reservation, not a measured zero-transfer claim.
 
 The old TF-R3 safety STOP is unchanged. MP1 permits only evidence-backed,
 bounded owned task-interface requalification, not WBC/plant/PD/safety changes
@@ -71,8 +81,13 @@ or a cross-host bypass. Source research does not wait for target construction.
 Finish existing E1 M2 and terminal evidence at normal boundaries. Then bind
 S-BC2048 on original v3.0 TRAIN126 and the fixed M1@1024 parent; prepare a
 matched S-CORR branch from qualified frozen correction data. Preserve 1:1
-task exposure, including when only T1 has correction. Diagnose Vanda's saved
-build error independently. No new DEV labels, WBC tuning or BASE padding.
+task exposure, including when only T1 has correction. Actual TRAIN126 has
+96 T1 and 30 T2 episodes; the task-first sampler preserves 1:1 exposure.
+The real source-reader and exact-cursor-resume CPU checks passed. With only
+T1 correction qualified, S-CORR uses 50:50 original/correction within T1,
+giving 25% correction overall, not a task-unbalanced 50% overall mixture.
+Next Vanda work is runtime qualification, not another compilation-only claim.
+No new DEV labels, WBC tuning or BASE padding.
 
 The user additionally permits HF public storage for new owned artifacts.
 This does not make existing private repositories public or grant rights to

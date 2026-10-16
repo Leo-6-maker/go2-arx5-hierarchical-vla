@@ -1,0 +1,61 @@
+{
+  "status": "PASS_NATIVE_CONTAINER_AND_BUILD_NO_PHYSICS",
+  "job_id": "1463204.stdct-mgmt-02",
+  "project": "CFP04-CF-007",
+  "native_state": "F",
+  "native_exit_status": 0,
+  "CPU_python_measured_s": 1532.3035160000002,
+  "CPU_native_s": 1533,
+  "wall_native_s": 1986,
+  "CPU_charge_s": 1533,
+  "requested_CPU": 4,
+  "requested_GPU": 0,
+  "image_sha256": "2cae97d18c6a41450bb102e3bd54819d0c30552605d222d73ffc387c6ec14c8c",
+  "image_bytes": 737783808,
+  "simulator_sha256": "bb66ca26e1d36346e1c616ef0a4c2c8a17b4928ead74ee4276ecfe4918ee032e",
+  "controller_sha256": {
+    "install/lib/go2_x5_ocs2/go2_x5_ocs2_node": "55b11b7801f1e3367211b9c331209e2095bfa00e45cad62e76288bdde72a0c94",
+    "install/lib/ocs2_mobile_manipulator_ros/mobile_manipulator_mpc_node": "bbe712d132103052ea2a5a1dd65b8297579715b081d289d690c71abc0588b826"
+  },
+  "native_controller_sources_unchanged": true,
+  "source_sha": "cfe9940ae7fbcc53b02ff8ff65de4a44a9a948d5",
+  "logs_sha256": {
+    "RESULT.private.json": "397b039e19b59d1217cb7f9851bdcfc4b2ca044b7c0faa797c97972162995d22",
+    "source-sha-before.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-sha-after.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "linked-libraries.log": "7c1242154bc6235d056b17701640229fd973ab3183acfa93b802666c57a03fc4"
+  },
+  "commands": [
+    {
+      "label": "source-sha-before",
+      "exit_code": 0
+    },
+    {
+      "label": "container-build",
+      "exit_code": 0
+    },
+    {
+      "label": "native-compile",
+      "exit_code": 0
+    },
+    {
+      "label": "source-sha-after",
+      "exit_code": 0
+    },
+    {
+      "label": "linked-libraries",
+      "exit_code": 0
+    }
+  ],
+  "lease_status": "CLOSED",
+  "model_queries": 0,
+  "physics_integrations": 0,
+  "WBC_launches": 0,
+  "optimizer_updates": 0,
+  "runtime_WBC_qualification": "NOT_RUN",
+  "real_speedup_claim": false,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "network_download_actual_bytes": "NOT_MEASURED_PENDING_AUDIT",
+  "network_budget_reservation_bytes": 34359738368
+}

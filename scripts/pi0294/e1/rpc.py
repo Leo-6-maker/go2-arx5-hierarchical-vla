@@ -9,15 +9,16 @@ from .endpoint import Endpoint
 from .journal import Journal
 
 
-def call(root,role,label,args):
+def call(root,role,label,args,*,endpoint=None,adjudication_name='E1_ADJUDICATION.json'):
     root=Path(root);relative='plans/'+label+'/REGISTRY.json'
     from scripts.pi0294.native_dataset import sha
-    endpoint=Endpoint(root,relative,sha(root/relative),role)
+    if endpoint is None:endpoint=Endpoint(root,relative,sha(root/relative),role)
+    elif endpoint.root.resolve()!=root.resolve() or endpoint.role!=role:raise PermissionError('EXACT_PREVALIDATED_ENDPOINT_ROLE')
     if role=='core' and args['operation'] in ['observation','ack']:
         case=endpoint.case(args['episode']);folder=root/'episodes'/case['attempt_id']
         takeover=folder/'relay/INTERVENTION.json'
         if takeover.exists():return dict(known_intervention=read(takeover))
-        p=folder/'E1_ADJUDICATION.json'
+        p=folder/adjudication_name
         if p.exists() and read(p)['failure_stage'] not in ['OBJECT_TASK_RESULT','COMPLETE_SUCCESS']:
             return dict(known_terminal=read(p))
     invoke=lambda:getattr(endpoint,role)(**args)

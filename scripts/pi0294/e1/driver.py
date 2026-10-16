@@ -151,12 +151,13 @@ print(json.dumps(dict(registry=registry,prior=prior)))
     return registry
 
 
-def routes(remote,base,label,ready,start_worker,*,collection_cards=None,bound_registry=None):
+def routes(remote,base,label,ready,start_worker,*,collection_cards=None,bound_registry=None,rpc_transport=None):
     if bound_registry is not None and (label!='M1-256-CANONICAL' or collection_cards is not None):raise PermissionError('E1_NO_ARBITRARY_REGISTRY_RESUME')
     registry=bound_registry if bound_registry is not None else bind(remote,label,ready,collection_cards=collection_cards)
+    if rpc_transport is not None and (not label.endswith('-REMAINDER-03') or collection_cards is not None):raise PermissionError('FINITE_FILE_RPC_ONLY_FIXED_LAST_REMAINDER')
     journal=Journal(base/'mutation-journal',ready['run_uuid'])
     def rpc(role,args):
-        value=remote(role,RPC,dict(ROLE=role,LABEL=label,ARGS=args),label='e1-rpc-'+args['operation'])
+        value=remote(role,RPC,dict(ROLE=role,LABEL=label,ARGS=args),label='e1-rpc-'+args['operation']) if rpc_transport is None else rpc_transport(role,args)
         if not value['ok']:raise RuntimeError('E1_RPC_OUTCOME_UNKNOWN_NO_RESEND:'+value['error'])
         result=value['value']
         if isinstance(result,dict) and result.get('known_intervention'):

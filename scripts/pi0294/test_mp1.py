@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 import subprocess
 import tempfile
+import json
 
 from .mp1.dataset import SourceSampler
 
@@ -22,6 +23,48 @@ def dataset(tasks=('T1',)):
 
 
 class MP1Tests(unittest.TestCase):
+    def test_prevalidated_file_endpoint_retains_mutation_journal(self):
+        from scripts.pi0294.e1.rpc import call
+        from scripts.pi0294.e1.journal import MutationOutcomeUnknown
+        class Endpoint:
+            role='hopper'
+            count=0
+            def hopper(self,**args):self.count+=1;return dict(file_intent_accepted=True)
+        with tempfile.TemporaryDirectory() as d:
+            endpoint=Endpoint();endpoint.root=Path(d);args=dict(operation='query',query=dict(body=dict(query_uuid='same-query')))
+            call(d,'hopper','fixture',args,endpoint=endpoint);call(d,'hopper','fixture',args,endpoint=endpoint)
+            self.assertEqual(endpoint.count,1)
+            endpoint.hopper=lambda **kw:(_ for _ in ()).throw(ConnectionError('unknown-effect'))
+            args=dict(operation='query',query=dict(body=dict(query_uuid='unknown-query')))
+            with self.assertRaises(ConnectionError):call(d,'hopper','fixture',args,endpoint=endpoint)
+            with self.assertRaises(MutationOutcomeUnknown):call(d,'hopper','fixture',args,endpoint=endpoint)
+
+    def test_finite_stdio_rpc_never_replays_duplicate_or_exposes_teacher(self):
+        from scripts.pi0294.relay_file_rpc import execute_request
+        calls=[];seen=set()
+        invoke=lambda args:calls.append(args) or dict(accepted=True)
+        guard=lambda args:None
+        packet=dict(rpc_id='one',args=dict(operation='query',episode='fixture'))
+        self.assertTrue(execute_request(packet,invoke,guard,seen)['ok']);self.assertEqual(len(calls),1)
+        with self.assertRaises(PermissionError):execute_request(packet,invoke,guard,seen)
+        with self.assertRaises(PermissionError):execute_request(dict(rpc_id='two',args=dict(operation='teacher')),invoke,guard,seen)
+        with self.assertRaises(ValueError):execute_request(dict(rpc_id='three',args={},extra=True),invoke,guard,seen)
+        self.assertEqual(len(calls),1)
+
+    def test_source_study_cannot_consume_Oracle_or_excess_update_slots(self):
+        from .mp1.science import CAPS,Ledger
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(dict(stage_caps=CAPS)))
+            (root/'RESOURCE_LEDGER.json').write_text(json.dumps(dict(main_starts=0,reservations={},shadow_integrations=0)))
+            ledger=Ledger(root,'core');ledger.charge('main_starts',64)
+            with self.assertRaises(PermissionError):ledger.charge('main_starts',1)
+            with self.assertRaises(PermissionError):ledger.charge('recovery_forks',1)
+            with ledger.steps('shadow_integrations',200,'prefix') as meter:meter['actual']=200
+            self.assertEqual(json.loads((root/'RESOURCE_LEDGER.json').read_text())['shadow_integrations'],200)
+            with self.assertRaises(ValueError):
+                with ledger.steps('shadow_integrations',200,'unknown') as meter:meter['actual']=None
+            self.assertIn('unknown',json.loads((root/'RESOURCE_LEDGER.json').read_text())['reservations'])
+
     def test_source_recipe_is_new_seed_and_fixed_parent_not_E1_resume(self):
         from .mp1.train import validate_recipe
         recipe=dict(seed=20261017,max_steps=2048,warmup_updates=32,effective_batch=32,per_device_train_batch_size=2,gradient_accumulation_steps=16,

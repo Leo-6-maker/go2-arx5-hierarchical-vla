@@ -37,6 +37,11 @@ def contained(path, parent):
 
 def validate(root, *, profile, manifest_path=None, now=None, closeout=False,
              hostname=None, uid=None, verify_source=True):
+    if (Path(root)/'MP1_STAGE_BINDING.json').is_file():
+        from .mp1.science import validate_runtime
+        if any(v is not None for v in (hostname,uid,manifest_path)) or not verify_source:
+            raise PermissionError('MP1_NATIVE_SCIENTIFIC_IDENTITY_ONLY')
+        return validate_runtime(root,profile,now=now,closeout=closeout)
     if Path(root).name=='20261016T150228Z-localpc-e1':
         from .e1.scope import validate as validate_e1
         if any(v is not None for v in (hostname,uid,manifest_path)):
