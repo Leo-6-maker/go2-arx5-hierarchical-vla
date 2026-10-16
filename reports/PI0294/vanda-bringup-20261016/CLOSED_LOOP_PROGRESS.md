@@ -2,7 +2,7 @@
 
 状态快照：2026-10-16 21:22:57 Asia/Singapore。**建设已获当前用户明确 GO 并实际执行；完整模型＋WBC闭环仍未运行。**
 
-采用依据是用户在现有 local-PC 对话提出“可以按照计划开始推进vanda端的实验闭环”。[执行协议](../../../../docs/protocols/PI0294_VANDA_CLOSED_LOOP_BRINGUP_V1.md)登记同一 owner、固定输入及阶段验收，普通同范围部署修复不另问 routine GO。本轮不迁移或重复 Hopper E0、不重开旧 CoreLab Teacher、不给旧失败改判、不训练。
+采用依据是用户在现有 local-PC 对话提出“可以按照计划开始推进vanda端的实验闭环”。[执行协议](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/09cbbe69ed706bd091251399f5ee9f045d8d1322/docs/protocols/PI0294_VANDA_CLOSED_LOOP_BRINGUP_V1.md)登记同一 owner、固定输入及阶段验收，普通同范围部署修复不另问 routine GO。本轮不迁移或重复 Hopper E0、不重开旧 CoreLab Teacher、不给旧失败改判、不训练。
 
 ## 实际完成与工程失败
 
