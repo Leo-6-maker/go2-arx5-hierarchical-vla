@@ -1,0 +1,25 @@
+{
+  "schema": "MP1_E1_RECOVERY_ONE_ADDITIONAL_PBS_V1",
+  "status": "DIRECT_HUMAN_AUTHORIZED",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "change": "RECOVERY_FAMILY_PBS_CAP_TWO_TO_THREE_ONLY",
+  "maximum_additional_PBS": 1,
+  "maximum_additional_allocation_wall_s": 7200,
+  "maximum_recovery_family_PBS": 3,
+  "maximum_recovery_family_GPU_s": 21600,
+  "optimizer_updates": 0,
+  "new_MP1_budget_or_T0_or_deadline": false,
+  "checkpoint_manifests": {
+    "M2-BC": "edc0f390776056f9b22cd07d152c8fd5e273556f1d242f8e4f220b3034f9ffe6",
+    "M2-CORR": "5275bb0c188a1d2148418d0cd7593dd712d2563e74b1907148563e5582a01f9a"
+  },
+  "eligibility": "ONLY_ORIGINAL_ENGINEERING_INCOMPLETE_OR_NOT_RUN_TRAIN_CONDITIONS_WITH_REMAINING_ATTEMPTS",
+  "engineering_replacement_per_condition_max": 1,
+  "excluded_exhausted_condition": "E1REC-M2-BC-512-TRAIN4_F0_000_T1",
+  "all_prior_costs_outcomes_and_attempts_preserved": true,
+  "original_watchdogs_S1_D0_WBC_statistics_and_score_unchanged": true,
+  "unknown_effect_operations_retried": false,
+  "scientific_GO_source": "DIRECT_CURRENT_HUMAN_REPLY_ALLOWING_EXACT_ONE_BOUNDED_ADDITIONAL_SUBMISSION",
+  "execution_receipt": false
+}

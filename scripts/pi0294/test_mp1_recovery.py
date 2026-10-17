@@ -7,6 +7,32 @@ from .mp1 import recovery_config as r
 
 
 class RecoveryTests(unittest.TestCase):
+    def test_additional_authorization_matches_published_card_bytes(self):
+        from .native_dataset import sha
+        path=Path(__file__).resolve().parents[2]/'reports/PI0294/design/MP1_E1_RECOVERY_ONE_ADDITIONAL_PBS_V1.json'
+        self.assertEqual(sha(path),r.ADDITIONAL_PBS_AUTHORIZATION['card_sha256'])
+        card=json.loads(path.read_text());self.assertEqual(card['optimizer_updates'],0)
+        self.assertEqual(card['maximum_additional_allocation_wall_s'],7200)
+
+    def test_human_third_PBS_is_opt_in_two_hours_no_counter_reset(self):
+        prior=r.prior_usage({});prior.update(GPU_s=453,PBS=2,main_starts=4,
+            live_and_recovery_integrations=600,shadow_integrations=600,generation_queries=5)
+        stage=dict(schema=r.SCHEMA,stage_caps=r.CAPS,prior_recovery_usage=prior,
+                   additional_PBS_authorization=r.ADDITIONAL_PBS_AUTHORIZATION)
+        self.assertEqual(r.family_PBS_cap(stage),3)
+        self.assertEqual(r.limits(stage)['PBS'],1)
+        self.assertEqual(r.limits(stage)['GPU_s'],7200)
+        from .mp1.science import Ledger
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(stage))
+            ledger=Ledger(root,'hopper');self.assertEqual(ledger.caps['main_starts'],12)
+            self.assertEqual(ledger.caps['generation_queries'],1275)
+            self.assertEqual(ledger.caps['optimizer_updates'],0)
+        for bad in [dict(stage,additional_PBS_authorization={}),dict(stage,prior_recovery_usage=None),
+                    dict(stage,prior_recovery_usage=dict(prior,PBS=1))]:
+            with self.assertRaises(PermissionError):r.limits(bad)
+        with self.assertRaises(PermissionError):r.limits(dict(schema=r.SCHEMA,prior_recovery_usage=prior))
+
     def test_fixed_weights_no_new_training_or_other_checkpoints(self):
         bindings={label:dict(checkpoint_manifest_sha256=digest,global_step=512) for label,digest in r.CHECKPOINTS.items()}
         r.validate_checkpoint_bindings(bindings)

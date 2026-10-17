@@ -6,6 +6,8 @@ CAPS=dict(main_starts=16,recovery_forks=0,live_and_recovery_integrations=256000,
 CPU_CAPS=dict(core=43200,hopper=28800)
 GPU_CAP=21600
 PBS_CAP=2
+ADDITIONAL_PBS_AUTHORIZATION=dict(schema='MP1_E1_RECOVERY_ONE_ADDITIONAL_PBS_V1',
+    card_sha256='d3c093f5fe4772d731e480e4e97ba6a129abbc4578c6a3d47147d90d073134ec')
 CHECKPOINTS={'M2-BC':'edc0f390776056f9b22cd07d152c8fd5e273556f1d242f8e4f220b3034f9ffe6',
     'M2-CORR':'5275bb0c188a1d2148418d0cd7593dd712d2563e74b1907148563e5582a01f9a'}
 
@@ -13,13 +15,24 @@ CHECKPOINTS={'M2-BC':'edc0f390776056f9b22cd07d152c8fd5e273556f1d242f8e4f220b3034
 def is_recovery(stage):return stage.get('schema')==SCHEMA
 
 
+def family_PBS_cap(stage):
+    value=stage.get('additional_PBS_authorization')
+    if value is None:return PBS_CAP
+    if not is_recovery(stage) or value!=ADDITIONAL_PBS_AUTHORIZATION:
+        raise PermissionError('EXACT_HUMAN_ONE_ADDITIONAL_PBS_AUTHORIZATION')
+    return 3
+
+
 def prior_usage(stage):
     value=stage.get('prior_recovery_usage')
-    bounds=dict(GPU_s=GPU_CAP,PBS=PBS_CAP,**CAPS,CPU_core_s=CPU_CAPS['core'],CPU_hopper_s=CPU_CAPS['hopper'])
-    if value is None:return {k:0 for k in bounds}
+    revised=family_PBS_cap(stage)==3
+    bounds=dict(GPU_s=GPU_CAP,PBS=family_PBS_cap(stage),**CAPS,CPU_core_s=CPU_CAPS['core'],CPU_hopper_s=CPU_CAPS['hopper'])
+    if value is None:
+        if revised:raise PermissionError('ADDITIONAL_PBS_REQUIRES_BOTH_SETTLED_PRIOR_ALLOCATIONS')
+        return {k:0 for k in bounds}
     if set(value)!=set(bounds) or any(type(value[k]) is not int or not 0<=value[k]<=limit for k,limit in bounds.items()):
         raise PermissionError('EXACT_CUMULATIVE_RECOVERY_FAMILY_PRIOR_COSTS')
-    if value['PBS']!=1 or value['optimizer_updates'] or value['recovery_forks']:
+    if value['PBS']!=(2 if revised else 1) or value['optimizer_updates'] or value['recovery_forks']:
         raise PermissionError('ONLY_ONE_SETTLED_RECOVERY_ALLOCATION_CAN_CONTINUE')
     return value
 
@@ -27,9 +40,11 @@ def prior_usage(stage):
 def limits(stage):
     if stage.get('schema')=='MP1_SAVED_M1_T2_SHADOW_DIAGNOSIS_V1':
         raise PermissionError('SAVED_T2_DIAGNOSTIC_HAS_NO_GPU_OR_PBS_AUTHORITY')
-    prior=prior_usage(stage) if is_recovery(stage) else None
-    return dict(mode=MODE,GPU_s=GPU_CAP-prior['GPU_s'],PBS=PBS_CAP-prior['PBS'],output_bytes=2*1024**3) if is_recovery(stage) else dict(
-        mode='MP1_FIXED_SOURCE_PAIR',GPU_s=43200,PBS=4,output_bytes=140*1024**3)
+    if not is_recovery(stage):
+        return dict(mode='MP1_FIXED_SOURCE_PAIR',GPU_s=43200,PBS=4,output_bytes=140*1024**3)
+    prior=prior_usage(stage);remaining=GPU_CAP-prior['GPU_s']
+    if family_PBS_cap(stage)==3:remaining=min(remaining,7200)
+    return dict(mode=MODE,GPU_s=remaining,PBS=family_PBS_cap(stage)-prior['PBS'],output_bytes=2*1024**3)
 
 
 def validate_checkpoint_bindings(bindings):

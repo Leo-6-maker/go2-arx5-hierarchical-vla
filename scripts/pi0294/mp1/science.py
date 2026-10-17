@@ -40,7 +40,7 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
             or stage['models']!=([] if diagnostic else ['M2-BC','M2-CORR'] if recovered else ['S-BC','S-CORR']) or stage['updates_per_branch']!=(0 if recovered or diagnostic else 2048)
             or stage['training_seed']!=('NOT_APPLICABLE_SAVED_HISTORY' if diagnostic else 'NOT_APPLICABLE_NO_TRAINING' if recovered else 20261017) or stage['teacher_takeover'] is not False
             or stage['new_DEV_labels'] is not False or stage['CPU_core_s']!=cpu_caps
-            or stage['allocated_H200_s_max']!=(0 if diagnostic else recovery.GPU_CAP if recovered else 43200) or stage['PBS_submissions_max']!=(0 if diagnostic else recovery.PBS_CAP if recovered else 4)):
+            or stage['allocated_H200_s_max']!=(0 if diagnostic else recovery.GPU_CAP if recovered else 43200) or stage['PBS_submissions_max']!=(0 if diagnostic else recovery.family_PBS_cap(stage) if recovered else 4)):
         raise PermissionError('MP1_FIXED_STUDY_OR_EXISTING_MODEL_RECOVERY_SCOPE')
     manifest=Path(os.environ.get('MP1_RUN_MANIFEST',root/'RUN_MANIFEST.json'));m=read(manifest);b=read(root/'OUTPUT_BINDING.private.json')
     compute=profile=='hopper-neural' and os.environ.get('PBS_JOBID') and socket.gethostname().startswith('hopper-')
@@ -71,6 +71,11 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
         p=root/name
         if Path(name).is_absolute() or '..' in Path(name).parts or not p.resolve().is_relative_to(root.resolve()) or p.is_symlink() or sha(p)!=digest:
             raise PermissionError('MP1_SCIENTIFIC_INPUT_CHANGED:'+name)
+    if recovered and recovery.family_PBS_cap(stage)==3:
+        name='plans/ADDITIONAL_PBS_AUTHORIZATION.json'
+        if (m['execution']['sealed_inputs'].get(name)!=recovery.ADDITIONAL_PBS_AUTHORIZATION['card_sha256']
+                or sha(root/name)!=recovery.ADDITIONAL_PBS_AUTHORIZATION['card_sha256']):
+            raise PermissionError('SEALED_HUMAN_ADDITIONAL_PBS_CARD_REQUIRED')
     if 'prior_recovery_usage' in stage:
         if 'plans/PRIOR_RECOVERY_OUTCOMES.json' not in m['execution']['sealed_inputs']:
             raise PermissionError('SEALED_PRIOR_RECOVERY_OUTCOMES_REQUIRED')
