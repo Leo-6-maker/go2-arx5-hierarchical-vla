@@ -40,7 +40,10 @@ def progress(arrays,card):
 
 def run(root):
     root=Path(root);m=validate(root,'4080-cpu-data');started=time.process_time();output=root/'evidence/M1_T2_SAVED_ANALYSIS_01'
-    output.mkdir(mode=0o700);request=read(root/'plans/M1_T2_SAVED_ANALYSIS_BINDING.private.json')
+    binding=root/'plans/M1_T2_SAVED_ANALYSIS_BINDING.private.json'
+    if m['execution'].get('t2_saved_binding_sha256')!=sha(binding):
+        raise PermissionError('IMMUTABLE_SAVED_T2_REQUEST_BINDING')
+    output.mkdir(mode=0o700);request=read(binding)
     if request['attempts']!=list(ATTEMPTS) or request['maximum_CPU_s']!=600 or request['new_physics'] or request['new_model_queries']:
         raise PermissionError('ONLY_TWO_FIXED_SAVED_T2_NEGATIVES_NO_NEW_PHYSICS_OR_NEURAL')
     old=Path(request['old_root']);old_manifest=old/'RUN_MANIFEST.json'
