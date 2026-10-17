@@ -35,5 +35,5 @@ class DirectoryVisibilityTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d);(p/'link').symlink_to(p,target_is_directory=True)
             with self.assertRaises(PermissionError):observe([p/'link'],duration_s=1)
-            with self.assertRaises(PermissionError):observe([p],duration_s=1801)
+            with self.assertRaises(PermissionError):observe([p],duration_s=3601)
             with self.assertRaises(PermissionError):observe([p],duration_s=1,interval_s=.1)

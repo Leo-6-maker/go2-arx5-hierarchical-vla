@@ -33,7 +33,7 @@ def force_server_attributes(path):
 
 def observe(directories, *, duration_s, interval_s=.2, clock=time.monotonic, sleep=time.sleep,
             force_sync=False,allow_pending=False):
-    if not 0 < duration_s <= 1800 or interval_s != .2:
+    if not 0 < duration_s <= 3600 or interval_s != .2:
         raise PermissionError('BOUNDED_READ_ONLY_DIRECTORY_OBSERVER')
     paths=[Path(p) for p in directories]
     if any(p.is_symlink() or (not p.is_dir() and not allow_pending) for p in paths):
@@ -63,14 +63,14 @@ def observe(directories, *, duration_s, interval_s=.2, clock=time.monotonic, sle
 
 
 def run(root,attempt=1):
-    if attempt not in [1,2]:raise PermissionError('TWO_EXPLICIT_READ_ONLY_OBSERVER_VERSIONS')
+    if attempt not in [1,2,3]:raise PermissionError('TWO_OBSERVER_ALGORITHMS_AND_ONE_FIXED_CORR_CONTINUATION')
     name='DIRECTORY_VISIBILITY_AUDIT_'+str(attempt).zfill(2)
     root=Path(root);m=validate(root,'hopper-neural');binding=root/'plans'/(name+'.json')
     if m['execution'].get('directory_visibility_binding_sha256')!=sha(binding):
         raise PermissionError('SEALED_DIRECTORY_OBSERVER_BINDING')
     q=read(binding);child=root/'children/e1-panel-recovery-03'
-    if (q['target_run']!=child.name or q['parent_run']!=root.name or q['duration_s']!=1800
-            or q['maximum_CPU_s']!=600 or q['packet_mutations']!=0 or q.get('force_server_attributes',False)!=(attempt==2)
+    if (q['target_run']!=child.name or q['parent_run']!=root.name or q['duration_s']!=(3600 if attempt==3 else 1800)
+            or q['maximum_CPU_s']!=600 or q['packet_mutations']!=0 or q.get('force_server_attributes',False)!=(attempt>=2)
             or sha(child/'RUN_MANIFEST.json')!=q['target_manifest_sha256']):
         raise PermissionError('FIXED_EXISTING_CHILD_ONLY_NO_INPUT_MUTATIONS')
     folders=[]
@@ -79,6 +79,7 @@ def run(root,attempt=1):
     for label in q['existing_sessions']:
         permitted=['E1REC-M2-BC-512-TRAIN4-ALLOCATION-01']
         if attempt==2:permitted.append('E1REC-M2-CORR-512-TRAIN4-ALLOCATION-01')
+        if attempt==3:permitted=['E1REC-M2-CORR-512-TRAIN4-ALLOCATION-01']
         if label not in permitted:raise PermissionError('ONLY_FIXED_TWO_MODEL_SESSION_DIRECTORIES')
         folders.extend(child/'evidence'/label/'resident'/name for name in ['inbox','outbox'])
     if len(folders)!=(4 if attempt==2 else 2):raise PermissionError('FIXED_SESSION_INBOX_OUTBOX_PAIRS')
@@ -88,7 +89,7 @@ def run(root,attempt=1):
           target_source_sha=read(child/'RUN_MANIFEST.json')['code']['vla_commit'],
           observer_effect_disclosed=True,model_or_physics_source_hot_changed=False))
     try:
-        value=observe(folders,duration_s=q['duration_s'],force_sync=attempt==2,allow_pending=attempt==2)
+        value=observe(folders,duration_s=q['duration_s'],force_sync=attempt>=2,allow_pending=attempt>=2)
         write(output/'RESULT.json',value);return value
     finally:
         charge_cpu(root,time.process_time()-start)
@@ -97,7 +98,7 @@ def run(root,attempt=1):
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--attempt',type=int,default=1);args=p.parse_args()
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resource.RLIMIT_CPU,(600,600))
-    def expire(signum,frame):raise TimeoutError('DIRECTORY_OBSERVER_1805S_BOUND')
-    signal.signal(signal.SIGALRM,expire);signal.alarm(1805)
+    def expire(signum,frame):raise TimeoutError('DIRECTORY_OBSERVER_FIXED_WALL_BOUND')
+    signal.signal(signal.SIGALRM,expire);signal.alarm(3605 if args.attempt==3 else 1805)
     try:print(json.dumps(run(args.root,args.attempt)),flush=True)
     finally:signal.alarm(0)
