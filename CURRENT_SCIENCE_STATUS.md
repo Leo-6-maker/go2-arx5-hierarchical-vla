@@ -1,6 +1,17 @@
 # Current Science Status
 
-**Latest terminal:** [source03 F/1,partial-effect closure and unresolved heartbeat diagnosis](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE03_TERMINAL_PARTIAL_EFFECT_CLOSURE_AND_HEARTBEAT_DIAGNOSIS.json).
+**Latest boundary:** [actual same-root source04 cold adoption,not submitted](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_ACTUAL_COLD_BOUNDARY_ADOPTION.json).
+Both native entries PASS with immutable8e50bcc2 capsules;400pytest tests and
+254subtests/actualCI39052726122 PASS. Current manifest pointers cold-advanced,
+old bytes sealed in history,old STOP713fef5c retained,old scopes blocked.15frozen
+numerical+12learning/data/plant modules byte-identical;no new budget,T0,attempts,
+GPU/PBS/model/physics. Source23728s,parent28228s,sourcePBS3/4,CORR512 unchanged.
+Compute heartbeat qualification NOT_RUN;unchanged300s gate requires native
+measurement before model load. Last slot04 only,no automatic fifth submission,
+no thirdCORR512F1/T1 attempt or negative replay. Failed-checkpoint inventory
+found no eligible large failed payload:actual deletion0/freed0,valid states kept.
+
+**Previous terminal:** [source03 F/1,partial-effect closure and unresolved heartbeat diagnosis](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE03_TERMINAL_PARTIAL_EFFECT_CLOSURE_AND_HEARTBEAT_DIAGNOSIS.json).
 Native672829:409wall/412conservativeH200seconds,26draws,0updates;finite owner
 settled and exited. Source23728s,parent28228s,reservations0. CORR stays512,
 cursor16384. SoleF1/T1 engineering replacement ends10.4s/5200ticks,0nativefaults;

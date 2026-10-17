@@ -1,6 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Latest:allocation03 is F/1;partial effects closed,old engineering STOP retained.**
+**Latest:cold allocation04 boundary adopted on both sites;not submitted.**
+[Actual cold pointer/proof readbacks and retained original budgets](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_ACTUAL_COLD_BOUNDARY_ADOPTION.json).
+Code8e50bcc2 passes400pytest tests/254subtests and actualCI39052726122.
+Both sites staged immutable558-member capsules and qualified approved entry
+checks before advancing their same-root current manifest pointers. Original
+manifests and STOP713fef5c are sealed and retained,old scopes still blocked.
+Fifteen numerical and twelve learning/data/plant modules remain byte-identical;
+no new budget,T0,attempt right,model query,physics,training orPBS. Source23728s,
+parent28228s and sourcePBS3/4 unchanged. CORR512/cursor16384 still not resumed.
+Native compute heartbeat/NFS qualification is NOT_RUN;CPU checks are not that
+qualification. Original300s gate unchanged,last original slot04 only. No third
+F1/T1 engineering attempt,no valid-negative replay. Failed-payload inventory
+still yields actual deletion0/freed0;required parents and fixed states retained.
+
+**Previous terminal:allocation03 is F/1;partial effects closed,old engineering STOP retained.**
 [Actual terminal,26 real ACKs,orphan closure and heartbeat uncertainty](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE03_TERMINAL_PARTIAL_EFFECT_CLOSURE_AND_HEARTBEAT_DIAGNOSIS.json).
 Native672829 consumed409wall/412conservativeH200seconds,26draws and0updates.
 Source23728s,parent28228s settled,reservations0;finite owner actually completed
