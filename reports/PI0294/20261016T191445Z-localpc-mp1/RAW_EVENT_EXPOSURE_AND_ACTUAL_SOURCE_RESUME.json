@@ -1,0 +1,1880 @@
+{
+  "schema": "MP1_RAW_EVENT_EXPOSURE_AND_ACTUAL_SOURCE_RESUME_V1",
+  "status": "RAW_EVENT_AUDIT_ACTUAL_PASS_SOURCE_RESUME_RUNNING",
+  "authority": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "review": "fb16d10142e884df9f6b7d9cbcf951fe70c92044",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "T0_epoch": 1792178085,
+  "new_budget_or_clock": false,
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "code_sha": "c3e6a3c410acac652b72c14f5b4604b77b783072",
+  "scientific_runtime_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+  "observed_epoch": 1792240929.1847575,
+  "source_resume": {
+    "job_id": "672471.hopper-m-02",
+    "native_state": "R",
+    "native_resources": {
+      "ngpus": 1,
+      "ncpus": 12,
+      "memory_GB": 128,
+      "walltime_max_s": 14400
+    },
+    "native_resources_used": {
+      "cpupercent": 109,
+      "cput": "00:09:20",
+      "mem": "44447144kb",
+      "ncpus": 12,
+      "vmem": "66853460kb",
+      "walltime": "00:10:05"
+    },
+    "last_observed_committed_progress": {
+      "step": 1743,
+      "cursor": 55776,
+      "native_loss": 0.003858457552269101,
+      "learning_rate": [
+        0.0000014987808909596384,
+        0.0000014987808909596384
+      ],
+      "synchronized_s": 3.8986045327037573,
+      "epoch": 1792240852.6843812
+    },
+    "full_partial_checkpoint_resume_observed": true,
+    "resumed_checkpoint_step": 1631,
+    "resumed_manifest_sha256": "a54ab1ab635f7ea221ffd982e71b503752c40d7c6574d9db16e309d4facbec0c",
+    "first_resumed_gradient": {
+      "step": 1631,
+      "norm_squared": {
+        "projector": 0.02290699332579758,
+        "diffusion": 0.006507871183110098
+      }
+    },
+    "first_resumed_optimizer": {
+      "step": 1632,
+      "cursor": 52224,
+      "native_loss": 0.003452255157753825,
+      "learning_rate": [
+        0.0000019129037174968506,
+        0.0000019129037174968506
+      ],
+      "synchronized_s": 4.947585122659802,
+      "epoch": 1792240349.1821501
+    },
+    "first_resumed_microbatch_cursor": 52192,
+    "first_optimizer_does_not_reset_to_zero": true,
+    "actual_finite_positive_projector_DiT_gradient": true,
+    "original_LR_scheduler_continues": true,
+    "native_check_resume_verified_optimizer_scheduler_RNG_sampler_recipe_and_members": true,
+    "scientific_capsule_unchanged": true,
+    "valid_512_panel_not_repeated": true,
+    "allocation02_512_route_status": "NO_NEW_CASES_TERMINAL_OR_SOURCE_OR_ENGINEERING_STOP_WITH_ZERO_ROWS",
+    "fixed_2048_result": "NOT_YET_AVAILABLE",
+    "CORR_C1": "NOT_YET_STARTED",
+    "DEV": "NOT_YET_RUN",
+    "running_optimizer_effect_not_cleared_or_marked_terminal": true
+  },
+  "B2": {
+    "status": "PASS_ACTUAL_COMMITTED_VISITS_JOIN_RAW_INSTALLED_EVENTS",
+    "source_episodes": 126,
+    "source_T1_episodes": 96,
+    "source_T2_episodes": 30,
+    "actual_prefix512_sample_visits": 16384,
+    "actual_prefix1631_sample_visits": 52192,
+    "task_and_origin_groups_512": {
+      "T1:new": {
+        "episodes": 32,
+        "sample_visits": 2723,
+        "raw_stage_visits": {
+          "carry": 294,
+          "hold": 1559,
+          "withdraw": 242,
+          "release": 87,
+          "verify_grasp": 27,
+          "lift": 153,
+          "lower": 152,
+          "align": 136,
+          "close": 73
+        },
+        "prefix8_all_hold_visits": 1559,
+        "H40_all_hold_visits": 1559,
+        "H40_cross_stage_visits": 977,
+        "events": {
+          "close": {
+            "event_occurrences": 32,
+            "prefix8_visit_hits": 32,
+            "late_H40_visit_hits": 120,
+            "uncovered_in_sampled_prefix8": 10,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 32,
+            "prefix8_visit_hits": 37,
+            "late_H40_visit_hits": 149,
+            "uncovered_in_sampled_prefix8": 10,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 0,
+            "prefix8_visit_hits": 0,
+            "late_H40_visit_hits": 0,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 32,
+            "prefix8_visit_hits": 29,
+            "late_H40_visit_hits": 146,
+            "uncovered_in_sampled_prefix8": 13,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      },
+      "T2:new": {
+        "episodes": 30,
+        "sample_visits": 8192,
+        "raw_stage_visits": {
+          "withdraw": 684,
+          "push": 2581,
+          "align": 458,
+          "approach": 2265,
+          "close": 325,
+          "hold": 1392,
+          "detach": 353,
+          "contact": 134
+        },
+        "prefix8_all_hold_visits": 1392,
+        "H40_all_hold_visits": 1392,
+        "H40_cross_stage_visits": 2857,
+        "events": {
+          "close": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 126,
+            "late_H40_visit_hits": 405,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 129,
+            "late_H40_visit_hits": 446,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 113,
+            "late_H40_visit_hits": 451,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 118,
+            "late_H40_visit_hits": 446,
+            "uncovered_in_sampled_prefix8": 1,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      },
+      "T1:legacy": {
+        "episodes": 64,
+        "sample_visits": 5469,
+        "raw_stage_visits": {
+          "hold": 3139,
+          "lift": 315,
+          "verify_grasp": 79,
+          "withdraw": 489,
+          "lower": 284,
+          "release": 207,
+          "close": 160,
+          "carry": 561,
+          "align": 235
+        },
+        "prefix8_all_hold_visits": 3139,
+        "H40_all_hold_visits": 3139,
+        "H40_cross_stage_visits": 1977,
+        "events": {
+          "close": {
+            "event_occurrences": 64,
+            "prefix8_visit_hits": 79,
+            "late_H40_visit_hits": 203,
+            "uncovered_in_sampled_prefix8": 17,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 64,
+            "prefix8_visit_hits": 79,
+            "late_H40_visit_hits": 287,
+            "uncovered_in_sampled_prefix8": 16,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 0,
+            "prefix8_visit_hits": 0,
+            "late_H40_visit_hits": 0,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 64,
+            "prefix8_visit_hits": 73,
+            "late_H40_visit_hits": 269,
+            "uncovered_in_sampled_prefix8": 23,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      }
+    },
+    "task_and_origin_groups_1631": {
+      "T1:new": {
+        "episodes": 32,
+        "sample_visits": 8760,
+        "raw_stage_visits": {
+          "carry": 974,
+          "hold": 4981,
+          "withdraw": 744,
+          "release": 293,
+          "verify_grasp": 104,
+          "lift": 505,
+          "lower": 458,
+          "align": 442,
+          "close": 259
+        },
+        "prefix8_all_hold_visits": 4981,
+        "H40_all_hold_visits": 4981,
+        "H40_cross_stage_visits": 3156,
+        "events": {
+          "close": {
+            "event_occurrences": 32,
+            "prefix8_visit_hits": 117,
+            "late_H40_visit_hits": 388,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 32,
+            "prefix8_visit_hits": 104,
+            "late_H40_visit_hits": 469,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 0,
+            "prefix8_visit_hits": 0,
+            "late_H40_visit_hits": 0,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 32,
+            "prefix8_visit_hits": 108,
+            "late_H40_visit_hits": 449,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      },
+      "T2:new": {
+        "episodes": 30,
+        "sample_visits": 26096,
+        "raw_stage_visits": {
+          "withdraw": 2135,
+          "push": 8176,
+          "align": 1451,
+          "approach": 7326,
+          "close": 1093,
+          "hold": 4432,
+          "detach": 1081,
+          "contact": 402
+        },
+        "prefix8_all_hold_visits": 4432,
+        "H40_all_hold_visits": 4432,
+        "H40_cross_stage_visits": 9013,
+        "events": {
+          "close": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 395,
+            "late_H40_visit_hits": 1320,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 346,
+            "late_H40_visit_hits": 1415,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 373,
+            "late_H40_visit_hits": 1363,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 324,
+            "late_H40_visit_hits": 1432,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      },
+      "T1:legacy": {
+        "episodes": 64,
+        "sample_visits": 17336,
+        "raw_stage_visits": {
+          "hold": 9978,
+          "lift": 959,
+          "verify_grasp": 213,
+          "withdraw": 1548,
+          "lower": 879,
+          "release": 636,
+          "close": 509,
+          "carry": 1814,
+          "align": 800
+        },
+        "prefix8_all_hold_visits": 9978,
+        "H40_all_hold_visits": 9978,
+        "H40_cross_stage_visits": 6273,
+        "events": {
+          "close": {
+            "event_occurrences": 64,
+            "prefix8_visit_hits": 232,
+            "late_H40_visit_hits": 697,
+            "uncovered_in_sampled_prefix8": 1,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 64,
+            "prefix8_visit_hits": 236,
+            "late_H40_visit_hits": 888,
+            "uncovered_in_sampled_prefix8": 1,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 0,
+            "prefix8_visit_hits": 0,
+            "late_H40_visit_hits": 0,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 64,
+            "prefix8_visit_hits": 234,
+            "late_H40_visit_hits": 902,
+            "uncovered_in_sampled_prefix8": 2,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      }
+    },
+    "task_totals_512": {
+      "T1": {
+        "episodes": 96,
+        "sample_visits": 8192,
+        "H40_all_hold_visits": 4698,
+        "raw_stage_visits": {
+          "carry": 855,
+          "hold": 4698,
+          "withdraw": 731,
+          "release": 294,
+          "verify_grasp": 106,
+          "lift": 468,
+          "lower": 436,
+          "align": 371,
+          "close": 233
+        },
+        "events": {
+          "close": {
+            "event_occurrences": 96,
+            "prefix8_visit_hits": 111,
+            "late_H40_visit_hits": 323,
+            "uncovered_in_sampled_prefix8": 27,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 96,
+            "prefix8_visit_hits": 116,
+            "late_H40_visit_hits": 436,
+            "uncovered_in_sampled_prefix8": 26,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 0,
+            "prefix8_visit_hits": 0,
+            "late_H40_visit_hits": 0,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 96,
+            "prefix8_visit_hits": 102,
+            "late_H40_visit_hits": 415,
+            "uncovered_in_sampled_prefix8": 36,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      },
+      "T2": {
+        "episodes": 30,
+        "sample_visits": 8192,
+        "H40_all_hold_visits": 1392,
+        "raw_stage_visits": {
+          "withdraw": 684,
+          "push": 2581,
+          "align": 458,
+          "approach": 2265,
+          "close": 325,
+          "hold": 1392,
+          "detach": 353,
+          "contact": 134
+        },
+        "events": {
+          "close": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 126,
+            "late_H40_visit_hits": 405,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 129,
+            "late_H40_visit_hits": 446,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 113,
+            "late_H40_visit_hits": 451,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 118,
+            "late_H40_visit_hits": 446,
+            "uncovered_in_sampled_prefix8": 1,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      }
+    },
+    "task_totals_1631": {
+      "T1": {
+        "episodes": 96,
+        "sample_visits": 26096,
+        "H40_all_hold_visits": 14959,
+        "raw_stage_visits": {
+          "carry": 2788,
+          "hold": 14959,
+          "withdraw": 2292,
+          "release": 929,
+          "verify_grasp": 317,
+          "lift": 1464,
+          "lower": 1337,
+          "align": 1242,
+          "close": 768
+        },
+        "events": {
+          "close": {
+            "event_occurrences": 96,
+            "prefix8_visit_hits": 349,
+            "late_H40_visit_hits": 1085,
+            "uncovered_in_sampled_prefix8": 1,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 96,
+            "prefix8_visit_hits": 340,
+            "late_H40_visit_hits": 1357,
+            "uncovered_in_sampled_prefix8": 1,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 0,
+            "prefix8_visit_hits": 0,
+            "late_H40_visit_hits": 0,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 96,
+            "prefix8_visit_hits": 342,
+            "late_H40_visit_hits": 1351,
+            "uncovered_in_sampled_prefix8": 2,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      },
+      "T2": {
+        "episodes": 30,
+        "sample_visits": 26096,
+        "H40_all_hold_visits": 4432,
+        "raw_stage_visits": {
+          "withdraw": 2135,
+          "push": 8176,
+          "align": 1451,
+          "approach": 7326,
+          "close": 1093,
+          "hold": 4432,
+          "detach": 1081,
+          "contact": 402
+        },
+        "events": {
+          "close": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 395,
+            "late_H40_visit_hits": 1320,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "open": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 346,
+            "late_H40_visit_hits": 1415,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "detach": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 373,
+            "late_H40_visit_hits": 1363,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          },
+          "withdraw": {
+            "event_occurrences": 30,
+            "prefix8_visit_hits": 324,
+            "late_H40_visit_hits": 1432,
+            "uncovered_in_sampled_prefix8": 0,
+            "uncovered_in_any_sampled_H40": 0
+          }
+        }
+      }
+    },
+    "per_true_episode_counts_and_raw_hashes": "RAW_EVENT_EXPOSURE_BY_TRUE_EPISODE.csv",
+    "qualified_expert_probe_strata": {
+      "T1:ALL": {
+        "draws": 48,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0007683152411515135,
+          -0.0006353755918604284,
+          -0.0002900905486749138
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 48
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0037649609912407903,
+            "median": 0.002842697047655371,
+            "p95": 0.010016214478425198
+          },
+          "SO3_rad": {
+            "mean": 0.00844619078756485,
+            "median": 0.004695764579743541,
+            "p95": 0.04428454236236134
+          },
+          "gripper_absolute": {
+            "mean": 0.013785581585640708,
+            "median": 0.0022603757679462433,
+            "p95": 0.03279131129384038
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.002702812265037786,
+            "median": 0.0023428821628255552,
+            "p95": 0.005926613270427794
+          },
+          "SO3_rad": {
+            "mean": 0.007236739992821918,
+            "median": 0.004551061550091666,
+            "p95": 0.028470909876389384
+          },
+          "gripper_absolute": {
+            "mean": 0.026707975814739864,
+            "median": 0.0032519809901714325,
+            "p95": 0.037705548107624054
+          }
+        }
+      },
+      "T1:RAW_STAGE:align": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0012728530620617212,
+          -0.0003484832716630815,
+          -0.000308767375440791
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0029562341039109123,
+            "median": 0.002789843597236616,
+            "p95": 0.004992759329596979
+          },
+          "SO3_rad": {
+            "mean": 0.04217977918058771,
+            "median": 0.04379952836884084,
+            "p95": 0.053600635629481086
+          },
+          "gripper_absolute": {
+            "mean": 0.03332313913851977,
+            "median": 0.021270252764225006,
+            "p95": 0.04046831503510474
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0022972230834021013,
+            "median": 0.00214346015397825,
+            "p95": 0.003496170056918955
+          },
+          "SO3_rad": {
+            "mean": 0.03159083001489954,
+            "median": 0.03697965768326825,
+            "p95": 0.05038070347870499
+          },
+          "gripper_absolute": {
+            "mean": 0.015371674671769142,
+            "median": 0.01495642215013504,
+            "p95": 0.021945386379957195
+          }
+        }
+      },
+      "T1:late_H40:close": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0012728530620617212,
+          -0.0003484832716630815,
+          -0.000308767375440791
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0029562341039109123,
+            "median": 0.002789843597236616,
+            "p95": 0.004992759329596979
+          },
+          "SO3_rad": {
+            "mean": 0.04217977918058771,
+            "median": 0.04379952836884084,
+            "p95": 0.053600635629481086
+          },
+          "gripper_absolute": {
+            "mean": 0.03332313913851977,
+            "median": 0.021270252764225006,
+            "p95": 0.04046831503510474
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0022972230834021013,
+            "median": 0.00214346015397825,
+            "p95": 0.003496170056918955
+          },
+          "SO3_rad": {
+            "mean": 0.03159083001489954,
+            "median": 0.03697965768326825,
+            "p95": 0.05038070347870499
+          },
+          "gripper_absolute": {
+            "mean": 0.015371674671769142,
+            "median": 0.01495642215013504,
+            "p95": 0.021945386379957195
+          }
+        }
+      },
+      "T1:RAW_STAGE:close": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.000065135998816487,
+          -0.0006482253828057638,
+          0.00018910869921942922
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0025948838646772604,
+            "median": 0.00248273186418897,
+            "p95": 0.0045743136844056285
+          },
+          "SO3_rad": {
+            "mean": 0.00894520613558218,
+            "median": 0.008818278186129801,
+            "p95": 0.015389315568227865
+          },
+          "gripper_absolute": {
+            "mean": 0.016468252055346966,
+            "median": 0.009001433849334717,
+            "p95": 0.031106857955455747
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0024961707693714084,
+            "median": 0.0024931443812478,
+            "p95": 0.003595699294139173
+          },
+          "SO3_rad": {
+            "mean": 0.006947398764403572,
+            "median": 0.006573250778797205,
+            "p95": 0.013293304766849008
+          },
+          "gripper_absolute": {
+            "mean": 0.04698087461292744,
+            "median": 0.01742233708500862,
+            "p95": 0.17104257233440864
+          }
+        }
+      },
+      "T1:prefix8:close": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.000065135998816487,
+          -0.0006482253828057638,
+          0.00018910869921942922
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0025948838646772604,
+            "median": 0.00248273186418897,
+            "p95": 0.0045743136844056285
+          },
+          "SO3_rad": {
+            "mean": 0.00894520613558218,
+            "median": 0.008818278186129801,
+            "p95": 0.015389315568227865
+          },
+          "gripper_absolute": {
+            "mean": 0.016468252055346966,
+            "median": 0.009001433849334717,
+            "p95": 0.031106857955455747
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0024961707693714084,
+            "median": 0.0024931443812478,
+            "p95": 0.003595699294139173
+          },
+          "SO3_rad": {
+            "mean": 0.006947398764403572,
+            "median": 0.006573250778797205,
+            "p95": 0.013293304766849008
+          },
+          "gripper_absolute": {
+            "mean": 0.04698087461292744,
+            "median": 0.01742233708500862,
+            "p95": 0.17104257233440864
+          }
+        }
+      },
+      "T1:RAW_STAGE:lift": {
+        "draws": 8,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0011187918669405307,
+          -0.0011726446517493568,
+          0.0016557111901368531
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 8
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.007064665525043231,
+            "median": 0.006370836109521475,
+            "p95": 0.014777376696425953
+          },
+          "SO3_rad": {
+            "mean": 0.0072740550471466076,
+            "median": 0.006798349081275546,
+            "p95": 0.01471854016964573
+          },
+          "gripper_absolute": {
+            "mean": 0.008544424455612898,
+            "median": 0.00629425048828125,
+            "p95": 0.022249078378081318
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.003940963343969314,
+            "median": 0.0035384084665261092,
+            "p95": 0.00776125374666406
+          },
+          "SO3_rad": {
+            "mean": 0.00613317585606834,
+            "median": 0.005365393680648245,
+            "p95": 0.011846440376072524
+          },
+          "gripper_absolute": {
+            "mean": 0.008061956148594618,
+            "median": 0.006767038255929947,
+            "p95": 0.01963897794485092
+          }
+        }
+      },
+      "T1:RAW_STAGE:lower": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0002443554248645844,
+          -0.0011122546670226919,
+          -0.0018495391280104103
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.00668726230350673,
+            "median": 0.006792634365389011,
+            "p95": 0.00984087544343933
+          },
+          "SO3_rad": {
+            "mean": 0.006205585239371641,
+            "median": 0.005177163156810166,
+            "p95": 0.01554544768566308
+          },
+          "gripper_absolute": {
+            "mean": 0.034501977451145645,
+            "median": 0.008803501725196838,
+            "p95": 0.28438971266150476
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.004016338561843251,
+            "median": 0.0038138196847027277,
+            "p95": 0.006295634014106646
+          },
+          "SO3_rad": {
+            "mean": 0.006132765736430552,
+            "median": 0.004145200648762119,
+            "p95": 0.013450067049911332
+          },
+          "gripper_absolute": {
+            "mean": 0.0062810685485601425,
+            "median": 0.0032317079603672028,
+            "p95": 0.017859147489070887
+          }
+        }
+      },
+      "T1:late_H40:open": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0002443554248645844,
+          -0.0011122546670226919,
+          -0.0018495391280104103
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.00668726230350673,
+            "median": 0.006792634365389011,
+            "p95": 0.00984087544343933
+          },
+          "SO3_rad": {
+            "mean": 0.006205585239371641,
+            "median": 0.005177163156810166,
+            "p95": 0.01554544768566308
+          },
+          "gripper_absolute": {
+            "mean": 0.034501977451145645,
+            "median": 0.008803501725196838,
+            "p95": 0.28438971266150476
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.004016338561843251,
+            "median": 0.0038138196847027277,
+            "p95": 0.006295634014106646
+          },
+          "SO3_rad": {
+            "mean": 0.006132765736430552,
+            "median": 0.004145200648762119,
+            "p95": 0.013450067049911332
+          },
+          "gripper_absolute": {
+            "mean": 0.0062810685485601425,
+            "median": 0.0032317079603672028,
+            "p95": 0.017859147489070887
+          }
+        }
+      },
+      "T1:RAW_STAGE:release": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0002008247014422329,
+          -0.0004651908263789079,
+          -0.00022776404875770283
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0039502157743313655,
+            "median": 0.0035977488938550486,
+            "p95": 0.007670206263394756
+          },
+          "SO3_rad": {
+            "mean": 0.004464782022701761,
+            "median": 0.003948554501410056,
+            "p95": 0.009504443803263566
+          },
+          "gripper_absolute": {
+            "mean": 0.045592843554914,
+            "median": 0.0022404491901397705,
+            "p95": 0.35403278730809684
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0023206724574646818,
+            "median": 0.0023767593290884917,
+            "p95": 0.0036100686920749487
+          },
+          "SO3_rad": {
+            "mean": 0.005534110595711142,
+            "median": 0.005131030752268784,
+            "p95": 0.009163791480681695
+          },
+          "gripper_absolute": {
+            "mean": 0.2135302284732461,
+            "median": 0.0043321698904037476,
+            "p95": 0.7607869490981098
+          }
+        }
+      },
+      "T1:prefix8:open": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0002008247014422329,
+          -0.0004651908263789079,
+          -0.00022776404875770283
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0039502157743313655,
+            "median": 0.0035977488938550486,
+            "p95": 0.007670206263394756
+          },
+          "SO3_rad": {
+            "mean": 0.004464782022701761,
+            "median": 0.003948554501410056,
+            "p95": 0.009504443803263566
+          },
+          "gripper_absolute": {
+            "mean": 0.045592843554914,
+            "median": 0.0022404491901397705,
+            "p95": 0.35403278730809684
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0023206724574646818,
+            "median": 0.0023767593290884917,
+            "p95": 0.0036100686920749487
+          },
+          "SO3_rad": {
+            "mean": 0.005534110595711142,
+            "median": 0.005131030752268784,
+            "p95": 0.009163791480681695
+          },
+          "gripper_absolute": {
+            "mean": 0.2135302284732461,
+            "median": 0.0043321698904037476,
+            "p95": 0.7607869490981098
+          }
+        }
+      },
+      "T1:late_H40:withdraw": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0002008247014422329,
+          -0.0004651908263789079,
+          -0.00022776404875770283
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0039502157743313655,
+            "median": 0.0035977488938550486,
+            "p95": 0.007670206263394756
+          },
+          "SO3_rad": {
+            "mean": 0.004464782022701761,
+            "median": 0.003948554501410056,
+            "p95": 0.009504443803263566
+          },
+          "gripper_absolute": {
+            "mean": 0.045592843554914,
+            "median": 0.0022404491901397705,
+            "p95": 0.35403278730809684
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0023206724574646818,
+            "median": 0.0023767593290884917,
+            "p95": 0.0036100686920749487
+          },
+          "SO3_rad": {
+            "mean": 0.005534110595711142,
+            "median": 0.005131030752268784,
+            "p95": 0.009163791480681695
+          },
+          "gripper_absolute": {
+            "mean": 0.2135302284732461,
+            "median": 0.0043321698904037476,
+            "p95": 0.7607869490981098
+          }
+        }
+      },
+      "T1:RAW_STAGE:withdraw": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0018122583174198202,
+          -0.0009544384323973473,
+          0.0012252832204697507
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.00406556339758565,
+            "median": 0.0039024807324217646,
+            "p95": 0.006964215363532061
+          },
+          "SO3_rad": {
+            "mean": 0.005409818832545158,
+            "median": 0.004265993944959409,
+            "p95": 0.013618848477208999
+          },
+          "gripper_absolute": {
+            "mean": 0.0005526546388864516,
+            "median": 0,
+            "p95": 0.003638877719640724
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.003344411132445182,
+            "median": 0.0033464208052137114,
+            "p95": 0.0044935139371098535
+          },
+          "SO3_rad": {
+            "mean": 0.005021637468334663,
+            "median": 0.004236221894273373,
+            "p95": 0.010801463074052074
+          },
+          "gripper_absolute": {
+            "mean": 0.0005987398326396942,
+            "median": 0,
+            "p95": 0.002375954389572143
+          }
+        }
+      },
+      "T1:RAW_STAGE:hold": {
+        "draws": 20,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0007034087305930459,
+          -0.00035012504371172685,
+          -0.0011641660663705895
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 20
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.002159208280158221,
+            "median": 0.0019840109618408574,
+            "p95": 0.004103655115577197
+          },
+          "SO3_rad": {
+            "mean": 0.003920201589139306,
+            "median": 0.003394293124102247,
+            "p95": 0.008828972396852501
+          },
+          "gripper_absolute": {
+            "mean": 0.0035798526555299763,
+            "median": 0.0009585022926330566,
+            "p95": 0.013260533660650244
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.002015400897597637,
+            "median": 0.0018125422443696943,
+            "p95": 0.004313172871500755
+          },
+          "SO3_rad": {
+            "mean": 0.003869557124389373,
+            "median": 0.0030676016777789143,
+            "p95": 0.008715434810493396
+          },
+          "gripper_absolute": {
+            "mean": 0.004321842268109321,
+            "median": 0.0018513351678848267,
+            "p95": 0.014067397266626352
+          }
+        }
+      },
+      "T2:ALL": {
+        "draws": 48,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.000031823259698608514,
+          -0.0003243948220499682,
+          -0.00021788574907359308
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 48
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.004057479285051317,
+            "median": 0.003096094787151395,
+            "p95": 0.01114905478809922
+          },
+          "SO3_rad": {
+            "mean": 0.00911223831656193,
+            "median": 0.006721067222146659,
+            "p95": 0.028503655590499055
+          },
+          "gripper_absolute": {
+            "mean": 0.0242258474851648,
+            "median": 0.002469673752784729,
+            "p95": 0.036745256558060616
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0029863229697718366,
+            "median": 0.002615998640766161,
+            "p95": 0.00578579782159887
+          },
+          "SO3_rad": {
+            "mean": 0.007979671083306538,
+            "median": 0.00614651792874029,
+            "p95": 0.021431152649775534
+          },
+          "gripper_absolute": {
+            "mean": 0.0380558151130875,
+            "median": 0.006301939487457275,
+            "p95": 0.1221463605761528
+          }
+        }
+      },
+      "T2:RAW_STAGE:approach": {
+        "draws": 12,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.0006307697423141145,
+          -0.000887271263155933,
+          -0.0007677184653190442
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 12
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.004933825499895526,
+            "median": 0.003326700665899932,
+            "p95": 0.01260956356033742
+          },
+          "SO3_rad": {
+            "mean": 0.016554608878865607,
+            "median": 0.012962969507580246,
+            "p95": 0.04036429058694831
+          },
+          "gripper_absolute": {
+            "mean": 0.029947482670346897,
+            "median": 0.004308640956878662,
+            "p95": 0.0491665344685311
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.003302121753716942,
+            "median": 0.00294433550031471,
+            "p95": 0.006449002179231486
+          },
+          "SO3_rad": {
+            "mean": 0.014206966395319237,
+            "median": 0.013409791387959127,
+            "p95": 0.029136302573847337
+          },
+          "gripper_absolute": {
+            "mean": 0.06428396484504142,
+            "median": 0.005306914448738098,
+            "p95": 0.4223338883370158
+          }
+        }
+      },
+      "T2:late_H40:close": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.000682448037067419,
+          -0.0005637567443576514,
+          -0.0008906809300716738
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.004130969278595746,
+            "median": 0.003188065279743402,
+            "p95": 0.010275661349782313
+          },
+          "SO3_rad": {
+            "mean": 0.009253814945052233,
+            "median": 0.007692295251570115,
+            "p95": 0.02205721060892782
+          },
+          "gripper_absolute": {
+            "mean": 0.07508986331522464,
+            "median": 0.003305453807115555,
+            "p95": 0.5397200509905811
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.002650912147141365,
+            "median": 0.0026940809348020046,
+            "p95": 0.003883970776643442
+          },
+          "SO3_rad": {
+            "mean": 0.015415885811327166,
+            "median": 0.01403499865238695,
+            "p95": 0.028602316599504598
+          },
+          "gripper_absolute": {
+            "mean": 0.18340262491255999,
+            "median": 0.03326447308063507,
+            "p95": 0.5541618950664996
+          }
+        }
+      },
+      "T2:RAW_STAGE:close": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.00044672888449191414,
+          -0.0005219663470698308,
+          -0.0006288281529539495
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.003386796998175192,
+            "median": 0.0029748939804328223,
+            "p95": 0.006674336657044097
+          },
+          "SO3_rad": {
+            "mean": 0.007971872174270481,
+            "median": 0.007780735541271245,
+            "p95": 0.01527164266993067
+          },
+          "gripper_absolute": {
+            "mean": 0.042729363031685355,
+            "median": 0.003506917506456375,
+            "p95": 0.27470722943544323
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0025945728839775113,
+            "median": 0.002415703802839721,
+            "p95": 0.0037688980710566607
+          },
+          "SO3_rad": {
+            "mean": 0.007155676352414046,
+            "median": 0.006585124769526321,
+            "p95": 0.012778566545788074
+          },
+          "gripper_absolute": {
+            "mean": 0.19801772478967905,
+            "median": 0.023736637085676193,
+            "p95": 0.6719132114201782
+          }
+        }
+      },
+      "T2:prefix8:close": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.00044672888449191414,
+          -0.0005219663470698308,
+          -0.0006288281529539495
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.003386796998175192,
+            "median": 0.0029748939804328223,
+            "p95": 0.006674336657044097
+          },
+          "SO3_rad": {
+            "mean": 0.007971872174270481,
+            "median": 0.007780735541271245,
+            "p95": 0.01527164266993067
+          },
+          "gripper_absolute": {
+            "mean": 0.042729363031685355,
+            "median": 0.003506917506456375,
+            "p95": 0.27470722943544323
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0025945728839775113,
+            "median": 0.002415703802839721,
+            "p95": 0.0037688980710566607
+          },
+          "SO3_rad": {
+            "mean": 0.007155676352414046,
+            "median": 0.006585124769526321,
+            "p95": 0.012778566545788074
+          },
+          "gripper_absolute": {
+            "mean": 0.19801772478967905,
+            "median": 0.023736637085676193,
+            "p95": 0.6719132114201782
+          }
+        }
+      },
+      "T2:RAW_STAGE:push": {
+        "draws": 16,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.00026231593537068016,
+          0.0002262467877345654,
+          0.00006651545566272853
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 16
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.00402688919280975,
+            "median": 0.003256277693892404,
+            "p95": 0.010648392988718614
+          },
+          "SO3_rad": {
+            "mean": 0.007714582199670562,
+            "median": 0.007135670866461795,
+            "p95": 0.015863888714177314
+          },
+          "gripper_absolute": {
+            "mean": 0.01891864868812263,
+            "median": 0.005138721317052841,
+            "p95": 0.05994261577725083
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0027961563224414444,
+            "median": 0.0026927737382398294,
+            "p95": 0.004915291841629666
+          },
+          "SO3_rad": {
+            "mean": 0.006312328369552012,
+            "median": 0.0056575740048487545,
+            "p95": 0.013590548375061412
+          },
+          "gripper_absolute": {
+            "mean": 0.00886201555840671,
+            "median": 0.007516101002693176,
+            "p95": 0.022311023622751235
+          }
+        }
+      },
+      "T2:late_H40:detach": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.000042317239710801605,
+          -0.00034561447190670485,
+          -0.001332071109327676
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.006946928669644044,
+            "median": 0.006509286032924403,
+            "p95": 0.012624520273680911
+          },
+          "SO3_rad": {
+            "mean": 0.005915605460057852,
+            "median": 0.004801424713605638,
+            "p95": 0.01318966899242528
+          },
+          "gripper_absolute": {
+            "mean": 0.058292939141392705,
+            "median": 0.009866062551736832,
+            "p95": 0.2595485169440508
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.003655527743028227,
+            "median": 0.003324293503634292,
+            "p95": 0.0052848365666886485
+          },
+          "SO3_rad": {
+            "mean": 0.00594974949840727,
+            "median": 0.004826026349372818,
+            "p95": 0.013400200375662006
+          },
+          "gripper_absolute": {
+            "mean": 0.011568320915102959,
+            "median": 0.01088332012295723,
+            "p95": 0.022250059992074963
+          }
+        }
+      },
+      "T2:late_H40:withdraw": {
+        "draws": 5,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.0003450965012971319,
+          -0.0005091906593150523,
+          0.0006248151678652
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 5
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.006957037923306181,
+            "median": 0.00587310385916657,
+            "p95": 0.01318611132384009
+          },
+          "SO3_rad": {
+            "mean": 0.006678140634121655,
+            "median": 0.005906797643281763,
+            "p95": 0.01544285518594601
+          },
+          "gripper_absolute": {
+            "mean": 0.086558532807976,
+            "median": 0.018122263252735138,
+            "p95": 0.5161285039037464
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.004134132509150004,
+            "median": 0.004210779106305663,
+            "p95": 0.005968942214877968
+          },
+          "SO3_rad": {
+            "mean": 0.005751147386410102,
+            "median": 0.005272813118105589,
+            "p95": 0.00951762392586
+          },
+          "gripper_absolute": {
+            "mean": 0.0174709465354681,
+            "median": 0.016799509525299072,
+            "p95": 0.031048978120088576
+          }
+        }
+      },
+      "T2:RAW_STAGE:detach": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.00031930840761657843,
+          -0.00034497328135235997,
+          0.000629584985754798
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0064152647498084345,
+            "median": 0.0055549572937635995,
+            "p95": 0.011742621922609473
+          },
+          "SO3_rad": {
+            "mean": 0.006583069307765261,
+            "median": 0.005770650981136284,
+            "p95": 0.015354415073327259
+          },
+          "gripper_absolute": {
+            "mean": 0.07394315414130688,
+            "median": 0.01798928529024124,
+            "p95": 0.4905708197504278
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0041904823306164575,
+            "median": 0.004294241903662099,
+            "p95": 0.005996455107224933
+          },
+          "SO3_rad": {
+            "mean": 0.0058595636737999324,
+            "median": 0.005392702079478262,
+            "p95": 0.00933775263656939
+          },
+          "gripper_absolute": {
+            "mean": 0.01750210765749216,
+            "median": 0.015903770923614502,
+            "p95": 0.032378996163606635
+          }
+        }
+      },
+      "T2:late_H40:open": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.00031930840761657843,
+          -0.00034497328135235997,
+          0.000629584985754798
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0064152647498084345,
+            "median": 0.0055549572937635995,
+            "p95": 0.011742621922609473
+          },
+          "SO3_rad": {
+            "mean": 0.006583069307765261,
+            "median": 0.005770650981136284,
+            "p95": 0.015354415073327259
+          },
+          "gripper_absolute": {
+            "mean": 0.07394315414130688,
+            "median": 0.01798928529024124,
+            "p95": 0.4905708197504278
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0041904823306164575,
+            "median": 0.004294241903662099,
+            "p95": 0.005996455107224933
+          },
+          "SO3_rad": {
+            "mean": 0.0058595636737999324,
+            "median": 0.005392702079478262,
+            "p95": 0.00933775263656939
+          },
+          "gripper_absolute": {
+            "mean": 0.01750210765749216,
+            "median": 0.015903770923614502,
+            "p95": 0.032378996163606635
+          }
+        }
+      },
+      "T2:prefix8:detach": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.00031930840761657843,
+          -0.00034497328135235997,
+          0.000629584985754798
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0064152647498084345,
+            "median": 0.0055549572937635995,
+            "p95": 0.011742621922609473
+          },
+          "SO3_rad": {
+            "mean": 0.006583069307765261,
+            "median": 0.005770650981136284,
+            "p95": 0.015354415073327259
+          },
+          "gripper_absolute": {
+            "mean": 0.07394315414130688,
+            "median": 0.01798928529024124,
+            "p95": 0.4905708197504278
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0041904823306164575,
+            "median": 0.004294241903662099,
+            "p95": 0.005996455107224933
+          },
+          "SO3_rad": {
+            "mean": 0.0058595636737999324,
+            "median": 0.005392702079478262,
+            "p95": 0.00933775263656939
+          },
+          "gripper_absolute": {
+            "mean": 0.01750210765749216,
+            "median": 0.015903770923614502,
+            "p95": 0.032378996163606635
+          }
+        }
+      },
+      "T2:RAW_STAGE:withdraw": {
+        "draws": 4,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          -0.000354224933822608,
+          -0.0005919043597910337,
+          0.0014241814762164413
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.003573099841915667,
+            "median": 0.003351391266670235,
+            "p95": 0.006509201337410864
+          },
+          "SO3_rad": {
+            "mean": 0.005750952670725263,
+            "median": 0.0048761445450261984,
+            "p95": 0.013252092433745982
+          },
+          "gripper_absolute": {
+            "mean": 0.0032152075320482257,
+            "median": 0.0023493245244026184,
+            "p95": 0.008616695553064345
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.003068075550874039,
+            "median": 0.002794630704457176,
+            "p95": 0.004475317209648141
+          },
+          "SO3_rad": {
+            "mean": 0.006382390190496999,
+            "median": 0.005099089735033854,
+            "p95": 0.013368246243600494
+          },
+          "gripper_absolute": {
+            "mean": 0.004444653168320656,
+            "median": 0.0035450011491775513,
+            "p95": 0.00947066619992256
+          }
+        }
+      },
+      "T2:RAW_STAGE:hold": {
+        "draws": 8,
+        "independent_episodes": 4,
+        "signed_XYZ_prefix8_episode_macro_mean_m": [
+          0.000024677005395217985,
+          -0.0003385336189284286,
+          -0.001001236862297094
+        ],
+        "trajectory_gate_only": {
+          "ACCEPT": 8
+        },
+        "H40": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0022027782798954673,
+            "median": 0.0020420810805086708,
+            "p95": 0.004001563100891037
+          },
+          "SO3_rad": {
+            "mean": 0.004259405105351545,
+            "median": 0.0036727718496885895,
+            "p95": 0.009370966959806971
+          },
+          "gripper_absolute": {
+            "mean": 0.0026527011767029764,
+            "median": 0.00035787373781204224,
+            "p95": 0.010849764198064802
+          }
+        },
+        "prefix8": {
+          "XYZ_euclidean_m": {
+            "mean": 0.0024458771604387135,
+            "median": 0.0023173466280377005,
+            "p95": 0.003989726944261595
+          },
+          "SO3_rad": {
+            "mean": 0.004244105059400861,
+            "median": 0.0031190374341888115,
+            "p95": 0.009770988172265804
+          },
+          "gripper_absolute": {
+            "mean": 0.004202669486403465,
+            "median": 0.001972004771232605,
+            "p95": 0.013013914227485657
+          }
+        }
+      }
+    },
+    "expert_probe_draws": 96,
+    "expert_probe_true_episodes": 8,
+    "proofs": {
+      "source_numeric_commands_equal_raw_installed_commands": true,
+      "all_numeric_window_states_equal_actual_original_observations": true,
+      "all_raw_numeric_samples_teacher_event_file_hashes_verified": true,
+      "recorded_stage_transitions_and_event_timestamps_crosschecked": true,
+      "actual_trace_and_deterministic_sampler_identity_verified": true,
+      "unfinished_resume_or_prefetch_tails_excluded": true,
+      "checkpoint512_and1631_consumption_proofs_verified": true,
+      "prior96_probe_independent_input_noise_precision_weight_audit_reused_by_exact_hash": true,
+      "probe_array_hashes_and_all_error_metrics_recomputed": true
+    },
+    "checkpoint512_trace_sha256": "79861529a764dbe79c73d410e4aa47f122fd1ff52f9f578b6cb48f9a3b988af5",
+    "checkpoint1631_trace_sha256": "a87c141c8b7afc11e9ae9c71d515d36863314ba965a5242f8ab67572f1620862",
+    "raw_inventory_result_sha256": "4b12c0ec73ee435dec966e9b32855cc0612c5507b1088caf9b2c171c9d598a00",
+    "prior_probe_independent_audit_sha256": "61bcb173ed777c347a9f7a4ae49d9d01bf3073dc40cf7bf73d5d896243daa3dd",
+    "definitions": {
+      "event_index": "GLOBAL_ORIGINAL_ACTUALLY_COMMITTED_20HZ_COMMAND_INDEX",
+      "close": "CROSSING_FROM_GE_0.5_TO_LT_0.5_IN_COMMITTED_GRIPPER_COMMANDS",
+      "open": "CROSSING_FROM_LT_0.5_TO_GE_0.5_IN_COMMITTED_GRIPPER_COMMANDS",
+      "detach_withdraw": "RAW_TEACHER_EVENT_AND_RECORDED_STAGE_TRANSITION_NOT_COARSE_MANIFEST_PHASE",
+      "prefix8": "0..7_WITHIN_TRAINING_TARGET_WINDOW",
+      "late_H40": "8..39_WITHIN_TRAINING_TARGET_WINDOW",
+      "visit_hits": "REPEATED_ACTUAL_SAMPLE_VISITS_CONTAINING_EVENT_NOT_NEW_DEMONSTRATIONS",
+      "event_occurrences": "DISTINCT_GLOBAL_COMMAND_EVENT_PER_TRUE_EPISODE",
+      "mean": "MEAN_POINTWISE_ERROR_NOT_RMSE",
+      "p95": "MEAN_OF_WITHIN_TRUE_EPISODE_P95_NOT_POOLED_P95",
+      "different_units": "XYZ_METERS_SO3_RADIANS_GRIPPER_OPENING_FRACTION_NOT_ADDED"
+    },
+    "interpretation": [
+      "At512 T1 close/open/withdraw events missing from sampled first8:27/96,26/96,36/96;each event was nevertheless present somewhere in sampled fullH40 supervision.",
+      "At1631 those T1 uncovered-first8 counts fall to1/96,1/96,2/96;this is later exposure,not the exposure that produced512 behavior.",
+      "T2 at512 has all30 close/open/detach events covered in first8;withdraw is29/30,all30 have fullH40 coverage. Do not say T2 detach/withdraw supervision was absent.",
+      "T1 hold4698/8192 is confirmed from actual saved stages,not only coarse manifest labels. Raw align/close/verify_grasp are kept separate.",
+      "Four T1 expert windows whose first8 contain open have mean first8 gripper error0.213530 opening fraction,despite mean XYZ2.321mm;event-specific errors can be hidden by overall means.",
+      "These eight expert episodes and historical student states are limited diagnostics,not a unique explanation of four current live failures.",
+      "No sampler or other intervention chosen while fixed pair endpoints and current-failure geometry are pending."
+    ],
+    "new_queries": 0,
+    "new_models": 0,
+    "new_physics": 0,
+    "new_training_updates": 0,
+    "correction_event_exposure": "PENDING_NO_CORR_C1_CONSUMPTION_YET",
+    "student_phase_error_strata": "PENDING_NOT_REPLACED_WITH_EXPERT_PHASES",
+    "current_failure_geometric_margin": "NOT_MEASURED",
+    "current_failure_S1_geometry": "PENDING_B1_EXACT_HISTORY_RECONSTRUCTION",
+    "training_sampler_or_loss_or_data_or_stats_changed": false
+  },
+  "engineering": {
+    "initial_error": "AUDITOR_EXPECTED_ONE_STATE_PER_OBSERVATION_NOT_ONE_STATE_PER_VALID_H40_ANCHOR",
+    "actual_export_grain": {
+      "commands": 640,
+      "observations": 641,
+      "valid_window_states": 601,
+      "valid_H40_windows": 601
+    },
+    "repair": "ONLY_AUDITOR_SHAPE_AND_RAW_STATE_PREFIX_MATCH_FIXED;DATA_UNCHANGED",
+    "first_failure_preserved": true,
+    "immutable_repair_capsule": true,
+    "original_CPU_upper_s": 1200,
+    "original_deadline_not_reset": true,
+    "repair_CPU_remaining_s": 1198,
+    "subprefix_CPU_remaining_s": 1180,
+    "all_auditor_processes_terminal": true,
+    "actual_family_CPU_s": 20.136250351,
+    "CPU_reserved_s": 0,
+    "conservative_engineering_CPU_upper_s": {
+      "CoreLab": 180,
+      "Hopper": 180,
+      "local_PC": 180
+    },
+    "new_scientific_PBS_for_audit": 0
+  },
+  "validation": {
+    "PI0294_CPU_tests": 320,
+    "focused_event_tests": 9,
+    "tests": "PASS",
+    "GitHub_CI": 39033208452,
+    "GitHub_CI_conclusion": "success",
+    "diff_check": "PASS"
+  },
+  "resources": {
+    "MP1_Hopper_last_settled_GPU_s": 16295,
+    "current_R_job_native_walltime": "00:10:05",
+    "current_allocation_upper_reserved_s": 14400,
+    "current_running_cost_not_yet_finalized": true,
+    "source_PBS_count": 2,
+    "source_PBS_cap": 4,
+    "MP1_Hopper_PBS_count": 5,
+    "MP1_Hopper_PBS_cap": 12,
+    "final_H200_eval_reserve_s": 14400,
+    "budget_or_deadline_reset": false
+  },
+  "B1_inventory": {
+    "current_failures": 4,
+    "pre_execution_rejections": 4,
+    "actual_live_safety_faults": 0,
+    "current_saved_full_history_snapshots": 0,
+    "rejected_prefixes_have_packet_ACK_and_highrate_history": true,
+    "first_violation_shadow_offset_ticks": {
+      "F0_T1": 64,
+      "F0_T2": 124,
+      "F1_T1": 63,
+      "F1_T2": 150
+    },
+    "new_shadow_or_live_runs_this_audit": 0,
+    "first_illegal_geometry_not_imputed_from_old_M1": true
+  },
+  "remaining": [
+    "Finish fixed Source Pair endpoints,all TRAIN4/DEV8 outcomes and actual final consumption.",
+    "Bind and run exact-history reconstruction for current four failures,at most eight anchors;no live repeat.",
+    "Extend event/error accounting to actual final BC/CORR/C1 traces when available.",
+    "Choose at most one evidence-qualified next intervention only after fixed endpoints;do not auto-extend update counts.",
+    "All four review final deliverables remain incomplete."
+  ],
+  "target": {
+    "Vanda": "CLOSED_NOT_RUN",
+    "TF_R3_STOP_preserved": true,
+    "WBC_changed": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}

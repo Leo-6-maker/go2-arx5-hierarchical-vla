@@ -1,6 +1,24 @@
 # Current Science Status
 
-**Current native boundary:** [B0 saved-label join / source continuation02](reports/PI0294/20261016T191445Z-localpc-mp1/B0_SAME_STATE_LABEL_AUDIT_AND_SOURCE_CONTINUATION02.json).
+**Current native boundary:** [actual full-state resume and raw event audit](reports/PI0294/20261016T191445Z-localpc-mp1/RAW_EVENT_EXPOSURE_AND_ACTUAL_SOURCE_RESUME.json).
+672471 is R,observed1743/cursor55776;native full1631 resume has first
+microbatch52192/gradient1631/optimizer1632 and continuing scheduler. No2048
+claim yet,512 valid negatives not repeated,CORR and DEV pending.
+B2 actual raw-command/event joins cover126 TRAIN episodes and completed
+512/1631 traces. T1 at512 misses close/open/withdraw events in sampled first8
+for27/26/36 of96 episodes,but all events are in some sampled fullH40 target.
+T2 detach first8 coverage30/30,withdraw29/30;do not call supervision absent.
+Per-episode counts/hashes and96 expert probe strata are published;open-event
+gripper errors illustrate why low overall XYZ is insufficient,not causal proof.
+Audit is terminal20.136 CPU seconds,zero reservations/new inference/physics.
+Original1200s CPU/wall family preserved through actual-schema repair,320 CPU
+tests and native CI PASS. B1 exact-history reconstruction and current first
+geom remain pending;no new24-query or sampler branch self-authorized.
+Original MP1 T0/reserves/fixed endpoint,WBC and TF-R3 STOP remain unchanged.
+
+## Previous Continuation Submission Snapshot (Before Native R)
+
+**Previous native boundary:** [B0 saved-label join / source continuation02](reports/PI0294/20261016T191445Z-localpc-mp1/B0_SAME_STATE_LABEL_AUDIT_AND_SOURCE_CONTINUATION02.json).
 Project authentication restored and actual CFP04-CF-007 membership passed.
 672471 is Q,one H200/max4h/native128GB,not training yet;same native request
 had one owner-only queued memory decrease from site-rewritten225GB. Source

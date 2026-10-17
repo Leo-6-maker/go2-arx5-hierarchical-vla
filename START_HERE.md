@@ -1,6 +1,27 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Authentication restored; Source Pair continuation02 is actually submitted/Q.**
+**Source continuation02 is actually running and exact1631 resume has updates.**
+[Raw event exposure,per-episode coverage and native resume](reports/PI0294/20261016T191445Z-localpc-mp1/RAW_EVENT_EXPOSURE_AND_ACTUAL_SOURCE_RESUME.json).
+672471 is R,observed1743/cursor55776;first resumed microbatch52192,
+gradient1631 and optimizer1632 match the complete1631 state and continuing LR.
+No512 valid condition rerun;fixed2048/CORR/C1/DEV remain pending.
+B2 independently joins actual512/1631 traces to126 raw installed-command
+timelines and teacher events,not coarse manifest phases. At512,T1 close/open/
+withdraw events outside all sampled first8:27/96,26/96,36/96;all nevertheless
+occur somewhere in fullH40 supervision. At1631 those first8 gaps are1/1/2.
+T2 detach first8 coverage30/30,withdraw29/30 at512;supervision not absent.
+Four expert open-event windows have first8 gripper error0.21353 despite2.32mm
+XYZ. Small expert-state sample,not a unique causal explanation of live failure.
+All96 saved probe errors stratified by actual raw stage/event and true episode.
+No sampler intervention chosen;fixed pair and B1 first-geom work remain first.
+Audit20.136 CPU seconds,terminal/reservation0,new inference/physics0.
+Numeric export640 commands/601 window states was checked against641 original
+observations;auditor-only repair preserved the original1200s deadline/budget.
+320 CPU tests/native CI success;runtime03646938/WBC/safety remain frozen.
+
+## Previous Continuation Submission Snapshot (Before GPU Allocation)
+
+**Authentication restored; Source Pair continuation02 was submitted/Q.**
 [Same-state student label audit and native continuation](reports/PI0294/20261016T191445Z-localpc-mp1/B0_SAME_STATE_LABEL_AUDIT_AND_SOURCE_CONTINUATION02.json).
 672471 is queued for one H200/max4h under CFP04-CF-007,not yet loaded or
 training. Original full1631/cursor52192 state will resume; fixed2048 remains.
