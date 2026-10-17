@@ -1,5 +1,23 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**S-BC2048 is sealed and its first F0/T1 is an independently audited success.**
+[Complete training,actual65536 visits and first32s autonomous success](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_TRAINING_AND_FIRST_AUTONOMOUS_SUCCESS.json).
+Checkpointac0f4692 has full optimizer/scheduler/RNG/sampler state;three completed
+partitions verify65536 visits,T1/T2=32768 each,126 original TRAIN IDs,C10.
+Final417 resumed updates have537 changed trainable tensors,493 frozen tensors
+unchanged,positive finite gradients and continuing scheduler through2048.
+F0/T1 actually completes32s/641 camera pairs/41-of-41 hold,lift8.136cm,
+carry16.978cm,zero S1/native faults and noTeacher.18 raw checks,full video
+decode and80 fresh model-generation/ACK chains independently PASS.
+This is ONE seen TRAIN scene,not fullTRAIN4/DEV/T2/CORR or target success.
+Strict512-vs2048 saved probe inputs/noise/weights match;prefix8 XYZ means
+T1/T2 improve2.703/2.986mm to2.221/2.506mm on8 expert episodes,not causal proof.
+Native672471 and same finite owner remain active;remaining fixed panels and
+independent CORR fromM1 continue,no new budget/clock/recipe or selected model.
+The four valid512 negatives and current B1 geometry evidence remain unchanged.
+
+## Earlier Current512 Failure Attribution
+
 **B1 current-failure histories and first illegal geometry are actually verified.**
 [Four current512 failures,eight full-history anchors and terminal resources](reports/PI0294/20261016T191445Z-localpc-mp1/CURRENT_SBC512_FAILURE_HISTORY_FIRST_GEOMETRY.json).
 All27600 original live highrate rows and wire/installed references reproduce

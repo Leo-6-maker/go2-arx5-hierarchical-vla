@@ -1,5 +1,22 @@
 # Current Science Status
 
+**Current mainline:** [S-BC2048 sealed / first autonomous F0T1 audited SUCCESS](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_TRAINING_AND_FIRST_AUTONOMOUS_SUCCESS.json).
+Complete2048 checkpointac0f4692 with full state;independent three-partition
+audit65536 actual samples,T1/T2 each32768,126 original TRAIN episodes,C10.
+The417 final resumed updates have finite positive gradients,unchanged493
+frozen tensors,537 changed trainable tensors and original final scheduler.
+F0/T1 completed32s,641 pairs,41/41 hold,lift8.136cm/carry16.978cm,zeroS1/native
+faults,teacherOFF.18 checks,full641-frame video and80 fresh actual model/ACK
+chains PASS. One seen layout only;remainingTRAIN3,DEV8 andCORR still pending.
+Paired96-window/8-episode expert probe comparison is now strict512-to2048,
+not legacyM1:identical raw input/noise/precision verified,prefix8 XYZ means
+2.703/2.986mm to2.221/2.506mm. Not generalization or unique mechanism proof.
+Mainline672471 still R,original finite owner/recipe/reserves intact;do not
+restart2048 training or initializeCORR fromBC. Original512 valid negatives
+andB1 newly verified table/pad shadows remain immutable;target STOP stays.
+
+## Earlier Current512 Failure Attribution
+
 **Current512 failure attribution:** [exact original history and first geometry](reports/PI0294/20261016T191445Z-localpc-mp1/CURRENT_SBC512_FAILURE_HISTORY_FIRST_GEOMETRY.json).
 Four current S-BC failures now reproduce all27600 actual ticks with zero
 highrate/control/reference difference and original64/124/63/150-tick rejects.
