@@ -109,6 +109,7 @@ def run(root,binding_relative):
     m=validate(root,'4080-cpu-data');binding=root/relative;q=read(binding)
     if (sha(binding)!=m['execution']['anchor_restore_binding_sha256']
             or q['parent_run']!=root.name or q['maximum_CPU_s']!=600
+            or q['registration_control_CPU_upper_s']!=180 or q['worker_CPU_upper_s']!=420
             or q['new_neural_queries'] or q['new_physics']
             or q['engine_zero_step_starts_max']!=8
             or not q['created_epoch']<=time.time()<q['deadline_epoch']<=q['created_epoch']+600):
@@ -138,7 +139,7 @@ def run(root,binding_relative):
     original_step=mujoco.mj_step;original_step1=mujoco.mj_step1;original_step2=mujoco.mj_step2
     def forbidden(*args,**kwargs):raise PermissionError('NO_PHYSICAL_INTEGRATION_IN_ZERO_STEP_RESTORE_AUDIT')
     mujoco.mj_step=mujoco.mj_step1=mujoco.mj_step2=forbidden
-    os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resource.RLIMIT_CPU,(600,600))
+    os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resource.RLIMIT_CPU,(420,420))
     def expire(signum,frame):raise TimeoutError('ORIGINAL_ANCHOR_RESTORE_600S_BOUND')
     signal.signal(signal.SIGALRM,expire);signal.alarm(max(1,int(q['deadline_epoch']-time.time())))
     try:
