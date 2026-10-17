@@ -1,5 +1,13 @@
 # Current Science Status
 
+**Latest public evidence:** [four CORR512 actual attempt clips,partial panel](reports/PI0294/20261016T191445Z-localpc-mp1/S_CORR512_FIRST4_AUDITED_VIDEOS_PUBLIC.json).
+Fixed READY9ba0fe42,1132paired frames;Core full bytes and Hopper token-free
+READY/index PASS.2valid negatives+2engineering partials cover3conditions,not
+completeTRAIN4. F1/T1 rights spent,F1/T2 NOT_RUN. Matrix4new+12preserved URLs,
+all non-URL science unchanged,not16successes. Publisher9cf27435/402tests/CI
+39055006711 does not relabel original video source03646938 or source04 runtime
+8e50bcc2. Both metadata publishers terminal/reservations0,no newscience/PBS.
+
 **Latest diagnostic:** [BC512/CORR512 actual saved pair and student identities](reports/PI0294/20261016T191445Z-localpc-mp1/SAVED_BC512_CORR512_PROBE_COMPARISON_AND_STUDENT_IDENTITIES.json).
 96expert windows/8true TRAIN episodes,actual identical input/noise/precision
 and recomputed metrics verified. Prefix XYZ means T1 2.703->2.817mm,T2

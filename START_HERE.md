@@ -1,5 +1,16 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest video delivery:four actual CORR512 attempts are public,not a complete panel.**
+[Two valid negatives,two engineering partials and fixed-revision receipts](reports/PI0294/20261016T191445Z-localpc-mp1/S_CORR512_FIRST4_AUDITED_VIDEOS_PUBLIC.json).
+READY9ba0fe42,1132real paired frames,no padding/resimulation. Core full-byte
+readback and Hopper token-free READY/index checks PASS;no movies/weights fetched
+to Hopper. Four attempts cover only3conditions,2qualified negatives;F1/T1 has
+two spent engineering attempts,F1/T2 still NOT_RUN. Matrix adds4exact URLs,
+preserves12BC links and every non-URL scientific field.16public clips total
+are not16successes. Publisher9cf27435 passes402tests/259subtests/CI39055006711,
+but original video execution03646938/current source04 runtime8e50bcc2 stay
+distinct. Delivery/readback terminal,reservations0,no new NN/physics/PBS/update.
+
 **Latest saved-evidence audit:BC512/CORR512 fixed expert pair verified.**
 [Actual96-window pair and24additional student-output identity audits](reports/PI0294/20261016T191445Z-localpc-mp1/SAVED_BC512_CORR512_PROBE_COMPARISON_AND_STUDENT_IDENTITIES.json).
 Same real inputs/noise/precision,96windows from8true TRAIN episodes,not126.
