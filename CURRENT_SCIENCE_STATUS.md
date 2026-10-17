@@ -1,5 +1,16 @@
 # Current Science Status
 
+**Latest diagnostic:** [BC512/CORR512 actual saved pair and student identities](reports/PI0294/20261016T191445Z-localpc-mp1/SAVED_BC512_CORR512_PROBE_COMPARISON_AND_STUDENT_IDENTITIES.json).
+96expert windows/8true TRAIN episodes,actual identical input/noise/precision
+and recomputed metrics verified. Prefix XYZ means T1 2.703->2.817mm,T2
+2.986->3.010mm;not improved descriptive means,no causal mechanism decision.
+Each additional BC2048/CORR512 student set has12original E0 states verified;
+36outputs across3models are only12unique states/4parents. All trajectory gates
+ACCEPT do not establish S1 clearance or recovery. New-model same-state expert
+label joins remain pending;four invalid initial-label exclusions retained.
+Three read-only auditors terminal,4.821Hopper CPU seconds settled,reservation0,
+no model/physics/PBS/update. CORR2048 and full final comparison remain pending.
+
 **Latest submission:** [actual native672907 Q,last original source slot](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_SINGLE_NATIVE_SUBMISSION_AND_QUEUE.json).
 One qsub,CFP04-CF-007/auto/1GPU/12CPU/128GiB/max4h;GPU unavailable,Q not R.
 SourcePBS4/4,parent7/12,no automatic fifth. Source23728s/parent28228s settled

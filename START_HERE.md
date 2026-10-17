@@ -1,5 +1,18 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest saved-evidence audit:BC512/CORR512 fixed expert pair verified.**
+[Actual96-window pair and24additional student-output identity audits](reports/PI0294/20261016T191445Z-localpc-mp1/SAVED_BC512_CORR512_PROBE_COMPARISON_AND_STUDENT_IDENTITIES.json).
+Same real inputs/noise/precision,96windows from8true TRAIN episodes,not126.
+T1prefix XYZ mean2.703->2.817mm,T2 2.986->3.010mm;no descriptive mean XYZ
+improvement or causal correction benefit established. Per-episode,stage and
+tail summaries retained;macro p95 is not global pooled p95. BC2048/CORR512
+each12 historical student draws now identity-audited,36outputs across3models
+but only12same states/4parents. All trajectory gates ACCEPT;these are not S1
+collision passes or recoveries. Existing8qualified BC512 labels are not new
+models' errors;new-model same-state label join remains pending. Three auditors
+terminal,4.821Hopper CPU seconds settled,reservations0,no newNN/physics/PBS.
+Source04 still Q at last actual read;full paired endpoint/mechanism incomplete.
+
 **Latest:allocation04 submitted once,native672907 is Q,not resumed.**
 [Actual single submission,capacity,controller and queue receipt](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_SINGLE_NATIVE_SUBMISSION_AND_QUEUE.json).
 CFP04-CF-007/auto/1GPU/12CPU/128GiB/max4h;Q comment is GPU unavailable.
