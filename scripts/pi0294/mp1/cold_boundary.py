@@ -20,6 +20,19 @@ LEARNING_FILES=(
     'scripts/pi0294/episode.py','scripts/pi0294/s1_preflight.py','scripts/pi0294/score.py')
 
 
+def synchronize_current_manifest(root,*,synchronize=None):
+    import os
+    if synchronize is None:
+        from .directory_visibility_audit import force_server_attributes
+        synchronize=force_server_attributes
+    root=Path(root);path=root/'RUN_MANIFEST.json'
+    if root.is_symlink() or path.is_symlink():raise PermissionError('REAL_COLD_MANIFEST_PATH')
+    synchronize(root)
+    with os.scandir(root) as entries:
+        if sum(1 for _ in entries)>512:raise PermissionError('BOUNDED_COLD_MANIFEST_PARENT')
+    synchronize(path)
+
+
 def validate(root,worker_manifest=None,*,proposed_manifest=None):
     root=Path(root);m=read(root/'RUN_MANIFEST.json') if proposed_manifest is None else proposed_manifest
     relative=m['execution'].get('cold_engineering_binding_relative')

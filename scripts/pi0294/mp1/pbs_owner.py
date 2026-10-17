@@ -65,6 +65,8 @@ def prepare(root,*,output_rebinding=None,memory_gb=225):
         'export PYTHONPATH='+str(code)+':'+str(code/'src'),
         'export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1',
         'export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1','cd '+str(code)]
+    if m['execution'].get('cold_engineering_binding_relative'):
+        lines.append('export MP1_RUN_MANIFEST='+shlex.quote(str(code.parent/'WORKER_RUN_MANIFEST.json')))
     bootstrap="import os,runpy;os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]));runpy.run_module('scripts.pi0294.mp1.launcher',run_name='__main__')"
     lines.append('exec '+shlex.join([b['python'],'-c',bootstrap,'--root',str(root),'--request',str(d/'REQUEST.json')]))
     (d/'job.pbs').write_text('\n'.join(lines)+'\n');(d/'job.pbs').chmod(0o400)

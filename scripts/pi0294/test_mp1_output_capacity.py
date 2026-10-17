@@ -154,5 +154,12 @@ class OutputCapacity(unittest.TestCase):
                 with self.assertRaises(PermissionError):self.prepare(memory_gb=memory)
                 self.assertFalse((self.root/'pbs/alloc-01').exists())
 
+    def test_cold_batch_uses_unique_immutable_worker_manifest_not_cached_current_pointer(self):
+        self.management['execution']['cold_engineering_binding_relative']='plans/ALLOC04_COLD_BOUNDARY.json'
+        self.prepare()
+        script=(self.root/'pbs/alloc-01/job.pbs').read_text()
+        code=self.root/self.management['code']['capsule_relative']
+        self.assertIn('export MP1_RUN_MANIFEST='+str(code.parent/'WORKER_RUN_MANIFEST.json'),script)
+
 
 if __name__=='__main__':unittest.main()

@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import Mock,call
 
 from .mp1 import cold_boundary as cold
 from .native_dataset import sha
@@ -124,6 +125,12 @@ class ColdBoundary(unittest.TestCase):
         proposed=copy.deepcopy(self.manifest);self.put(self.root/'RUN_MANIFEST.json',self.old)
         self.assertEqual(cold.validate(self.root,proposed_manifest=proposed),self.binding)
         self.assertTrue(cold.blocked(self.root,4));self.assertEqual(json.loads((self.root/'RUN_MANIFEST.json').read_text()),self.old)
+
+    def test_cold_manifest_refresh_is_readonly_parent_then_leaf(self):
+        before=(self.root/'RUN_MANIFEST.json').read_bytes();sync=Mock()
+        cold.synchronize_current_manifest(self.root,synchronize=sync)
+        self.assertEqual(sync.call_args_list,[call(self.root),call(self.root/'RUN_MANIFEST.json')])
+        self.assertEqual(before,(self.root/'RUN_MANIFEST.json').read_bytes())
 
 
 if __name__=='__main__':unittest.main()
