@@ -13,7 +13,12 @@ under the original MP1 T0/budget; independent saved-T2/Vanda lanes remain.
 The first subsequent [saved-T2 CPU audit](reports/PI0294/20261016T191445Z-localpc-mp1/M1_T2_SAVED_PROGRESS_AND_ACTION_AUDIT.json)
 is complete: both objects entered the original goal zone before rejection,
 but TCP clearance remained below 8cm. No new physics/model call, no complete
-T2 success or exact geom attribution is claimed.
+T2 success was claimed by that saved-only stage.
+The subsequent [exact-history shadow diagnosis](reports/PI0294/20261016T191445Z-localpc-mp1/M1_T2_FIRST_REJECTION_ATTRIBUTION.json)
+has now resolved the contacts: F0 both finger pads/table, F1 right pad/table,
+at the original 56/52 shadow ticks. Expert/XYZ-only short prefixes pass while
+SO3/gripper-only still reject; no unique Z fix, relaxed S1, full Recovery or
+new task success is claimed. Child CLOSED; 19,123 new shadow steps, no GPU.
 
 **2026-10-17 actual owner update:** E1's three PBS jobs and both leases are
 terminal/CLOSED, with 19,675 conservative GPU seconds and zero reservations.

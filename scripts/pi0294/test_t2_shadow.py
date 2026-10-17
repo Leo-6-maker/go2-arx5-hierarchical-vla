@@ -9,6 +9,7 @@ from .mp1 import t2_config as config
 from .mp1.science import Ledger
 from .mp1.recovery_config import limits
 from .mp1.t2_shadow import summarize
+from .mp1.t2_figure import chart_rows
 
 
 class SavedT2ShadowTests(unittest.TestCase):
@@ -35,3 +36,13 @@ class SavedT2ShadowTests(unittest.TestCase):
         self.assertEqual(value['collision_checks'][0]['illegal_pairs'][0]['all_original_rules_triggered'],['ARM_TABLE_OR_FLOOR','PENETRATION_STOP'])
         self.assertNotIn('model_H40_poses',value['same_state_comparison'])
         self.assertEqual(value['signed_prefix_XYZ_model_minus_expert_m'],[[0.,0.,0.]]*8)
+
+    def test_figure_uses_only_exact_native_diagnostics_and_saved_events(self):
+        labels=['MODEL','SAME_STATE_EXPERT','EXPERT_XYZ_ONLY','EXPERT_SO3_ONLY','EXPERT_GRIPPER_ONLY']
+        rows=[dict(attempt_id=identifier,maximum_actual_highrate_difference=0,
+            collision_checks=[dict(candidate=label,decision='REJECT' if label=='MODEL' else 'PASS',minimum_reported_illegal_arm_surface_contact_distance_m=-.00002) for label in labels]) for identifier in config.ATTEMPTS]
+        saved=[dict(attempt_id=i,original_duration_s=18,progress=dict(first_saved_robot_contact_s=11,first_goal_zone_all_corners_s=16)) for i in config.ATTEMPTS]
+        a=dict(status='ACTUAL_EXACT_HISTORY_SHADOW_ATTRIBUTION_COMPLETE',rows=rows);p=dict(rows=saved)
+        self.assertEqual([r['depth_mm'] for r in chart_rows(a,p)],[.02,.02])
+        rows[0]['maximum_actual_highrate_difference']=1e-8
+        with self.assertRaises(ValueError):chart_rows(a,p)

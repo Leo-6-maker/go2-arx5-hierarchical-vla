@@ -54,10 +54,35 @@ Last saved TCP-object distances were 0.04690m / 0.04240m, below the original
 0.08m clearance requirement; objects remained in-zone and nearly stationary.
 This supports investigating post-push disengagement, not declaring complete
 T2 success or a unique collision cause. Original scores recomputed exactly.
-The first illegal geom pair remains unknown pending separately admitted
-exact-history shadow diagnosis; no valid negative episode was rerun.
+That first saved-only receipt left the illegal geom unknown; the subsequent
+separately admitted exact-history shadow result below now resolves it.
+No new autonomous negative episode was run.
 CPU was conservatively charged at its 600s process cap, not advertised as
 exact whole-process usage. [Actual saved-state/action audit](reports/PI0294/20261016T191445Z-localpc-mp1/M1_T2_SAVED_PROGRESS_AND_ACTION_AUDIT.json).
+
+**Exact-history T2 attribution is now complete, not just prepared.** Child
+`saved-m1-t2-shadow-01` reconstructed all 18,000 saved historical integrations
+with zero maximum difference, including the original static IK history.
+The two model prefixes reproduced their original 56/52-tick S1 rejections:
+F0 table-left_pad and table-right_pad; F1 table-right_pad. Maximum forbidden
+contact overlaps were 0.03726mm / 0.01903mm. These trigger the original
+any-arm-table-contact rule, not the separate 4mm penetration threshold.
+Both same-state expert and expert-XYZ-only 0.4s prefixes passed; SO3-only
+and gripper-only substitutions still rejected. This distinguishes the tested
+Cartesian path, not a unique Z bias or permission to calibrate/relax S1.
+The audit-only expert remains in approach history; short-prefix PASS is not
+qualified full T2 Recovery, a model-intent label or new correction supervision.
+[Actual geom/component receipt](reports/PI0294/20261016T191445Z-localpc-mp1/M1_T2_FIRST_REJECTION_ATTRIBUTION.json)
+and [event/contact figure](reports/PI0294/20261016T191445Z-localpc-mp1/M1_T2_TIMELINE_AND_CONTACT_DIAGNOSTIC.png).
+
+The child is CLOSED with worker terminal, original input hashes unchanged
+and reservations zero. New shadow cost: 19,123 integrations (18,000 exact
+history + 1,123 diagnostic), Core CPU meter 189.659s including the 180s
+management allowance; new GPU/PBS/model/optimizer/live/autonomous-eval zero.
+Its two shadow reconstructions were conservatively charged to the MP1 source
+start allowance. MP1 source-budget starts are now 6 (4 actual new evaluation
+attempts + 2 shadow reconstructions), total integrations 20,323, H200 453s;
+the original MP1 clock and target TF-R3 STOP remain unchanged.
 
 **Campus connectivity is restored and the old E1 native states are reconciled.**
 Job 670729 is F/exit 1 after the original owner-heartbeat timeout, not a
