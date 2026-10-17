@@ -669,3 +669,18 @@ Matrix now21attempts/18qualified cells/2engineering cells/12unattempted,
 16prior public clips retained. Previous source04Q snapshots are historical.
 Full matched pair remains incomplete;TF-R3STOP,VandaCLOSED_NOT_RUN,selectedNONE.
 
+# Latest Actual Fifth Submission:673008 Q
+
+Human-authorized fifth job submitted exactly once,CFP04-CF-007/auto/1GPU/max4h.
+SourcePBS5/5,parent8/12,no sixth. Same finite owner live. Both native cold
+entry checks PASS at e418bb79,560source members,15numerical/12learning-data-
+plant modules unchanged;both prior STOPs and old histories retained. Original
+birthstage4 remains byte-identical,effective5 requires sealed direct human card.
+416tests/274subtests and actualCI39057571128 PASS,ten exact blob readbacks.
+Source24119s/parent28619s settled plus14400s reserved,not actual GPU use.
+CORR512/cursor16384 not yet resumed,remaining1536updates. Q is not native
+sustained heartbeat qualification or task completion. Only original F1/T2
+replacement;no F1/T1 third,no valid-negative replay,no T0/budget/S1/WBC reset.
+[Actual cold and single native submission receipt](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_ACTUAL_COLD_AND_SINGLE_NATIVE_SUBMISSION.json).
+Full paired science incomplete;TF-R3STOP,VandaCLOSED_NOT_RUN,selectedNONE.
+

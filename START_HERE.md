@@ -1,5 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest:human-authorized fifth native job673008 submitted once,Q,not resumed.**
+[Actual two-site cold adoption and single native submission](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_ACTUAL_COLD_AND_SINGLE_NATIVE_SUBMISSION.json).
+Exact runtimee418bb79,416tests/274subtests/actualCI39057571128 PASS;ten changed
+code/test blobs verified. Both native entry checks and immutable560-member
+capsules PASS;15frozen numerical/12learning-data-plant modules unchanged.
+Both original STOPs,all prior capsules/manifests/outcomes and original birth
+PBS4 binding retained. Only exact sealed human card permits effectivePBS5;
+source5/5,parent8/12,no automatic sixth. CFP04-CF-007/auto/1GPU/max4h,
+same finite owner live,source24119s/parent28619s settled plus14400s reserved.
+Queue is not model readiness/training/native sustained heartbeat qualification.
+CORR512/cursor16384 unchanged;remaining1536updates,original F1/T2 sole
+engineering replacement and final2048 panels only. F1/T1 no third attempt,
+valid negatives not repeated,T0/caps/45min closeout/final4h reserve unchanged.
+Full matched scientific outcome remains incomplete,selected/deploymentNONE.
+
 **Latest native state:source04 is terminal F/1;one fifth job directly authorized,not submitted.**
 [Actual partial closure and clock-race evidence](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_ACTUAL_TERMINAL_AND_CLOCK_REPAIR.json).
 Native672907 used381wall/391conservative seconds;source24119H200seconds,
