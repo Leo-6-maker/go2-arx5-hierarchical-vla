@@ -63,7 +63,9 @@ def validate(path, *, compute=False):
         assert job['job_state'] == 'R' and job['project'] == m['project'], 'PBS_ALLOCATION'
         assert job['Job_Owner'].split('@')[0] == m['owner_user'], 'PBS_OWNER'
         assert int(job['Resource_List']['ngpus']) == 1, 'ONE_GPU'
-        assert int(job['Resource_List']['ncpus']) == 4, 'FOUR_CPU'
+        # Vanda auto expands a GPU request to its native 36-CPU bundle.
+        # Active work remains pinned to four CPUs, below both MP1 and PBS caps.
+        assert 4 <= int(job['Resource_List']['ncpus']) <= 36, 'NATIVE_CPU_BUNDLE'
         h, minute, second = map(int, job['Resource_List']['walltime'].split(':'))
         assert h * 3600 + minute * 60 + second <= 900, 'PBS_WALLTIME'
     return m
@@ -78,6 +80,13 @@ def require_render_allocation(m):
     assert admission['job_id'] == jobid and admission['project'] == m['project'], 'ALLOCATION_BINDING'
     assert admission['run_uuid'] == m['run_uuid'], 'ALLOCATION_RUN'
     assert 0 <= time.time() - admission['epoch'] < 120, 'FRESH_NATIVE_ADMISSION'
+
+
+def constrain_cpu():
+    cpus = sorted(os.sched_getaffinity(0))
+    assert len(cpus) >= 4, 'FOUR_AVAILABLE_CPUS'
+    os.sched_setaffinity(0, set(cpus[:4]))
+    resource.setrlimit(resource.RLIMIT_CPU, (3600, 3600))
 
 
 def render(m):
@@ -143,6 +152,7 @@ def render(m):
 
 def execute(path):
     m = validate(path, compute=True)
+    constrain_cpu()
     root = Path(m['output_root'])
     with (root / 'CAMERA_OWNER.lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)

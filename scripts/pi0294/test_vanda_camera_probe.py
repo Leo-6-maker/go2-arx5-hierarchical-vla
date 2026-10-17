@@ -10,6 +10,14 @@ from scripts.operations import vanda_camera_probe as probe
 
 
 class VandaCameraProbeTests(unittest.TestCase):
+    def test_native_bundle_cannot_expand_active_CPU_work(self):
+        with patch.object(probe.os, 'sched_getaffinity', return_value=set(range(36))), \
+                patch.object(probe.os, 'sched_setaffinity') as affinity, \
+                patch.object(probe.resource, 'setrlimit') as limit:
+            probe.constrain_cpu()
+            affinity.assert_called_once_with(0, {0, 1, 2, 3})
+            limit.assert_called_once_with(probe.resource.RLIMIT_CPU, (3600, 3600))
+
     def fixture(self, root):
         def put(name, value):
             p = root / name
