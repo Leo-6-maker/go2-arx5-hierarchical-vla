@@ -1,6 +1,19 @@
 # Current Science Status
 
-**Latest continuation:** [native672829 submitted/Q and actual engineering qualification](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_CONTINUATION03_ACTUAL_QUEUE_AND_ENGINEERING_QUALIFICATION.json).
+**Latest terminal:** [source03 F/1,partial-effect closure and unresolved heartbeat diagnosis](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE03_TERMINAL_PARTIAL_EFFECT_CLOSURE_AND_HEARTBEAT_DIAGNOSIS.json).
+Native672829:409wall/412conservativeH200seconds,26draws,0updates;finite owner
+settled and exited. Source23728s,parent28228s,reservations0. CORR stays512,
+cursor16384. SoleF1/T1 engineering replacement ends10.4s/5200ticks,0nativefaults;
+both attempts raw-audited with18checks/full449+209frames,not qualified policy
+outcomes. All26actual draw/action/ACK chains and known sequence26inbox-only
+orphan close without resend;1926mutation intents COMPLETE. Original STOP
+713fef5c retained on both hosts,no fourthPBS. Compute-read heartbeat value
+unrecorded,NFS cause only hypothesis;8f689fe3 helper382CPU tests PASS but NOT
+integrated/deployed/native-qualified. Original300s watchdog unchanged. Matrix
+20attempts/18qualified/1engineering cell(exhausted)/13unattempted. SourcePBS3/4,
+originalfamily caps/T0 remain;cold qualified scope still needed for final work.
+
+**Previous queue milestone:** [native672829 submitted/Q and actual engineering qualification](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_CONTINUATION03_ACTUAL_QUEUE_AND_ENGINEERING_QUALIFICATION.json).
 SourcePBS3/4,parent6/12,1GPU/max4h/auto;not allocated or resumed at this snapshot.
 Same full CORR512/cursor16384 and original03646938 scientific runtime;new cold
 management1b1806d9 passed373CPU tests/CI39047585619 and both native entry checks.

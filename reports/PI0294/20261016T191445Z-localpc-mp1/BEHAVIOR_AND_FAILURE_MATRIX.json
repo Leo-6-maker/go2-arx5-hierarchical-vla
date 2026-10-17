@@ -265,9 +265,10 @@
       "status": "ENGINEERING_INCOMPLETE",
       "valid_policy_outcome": false,
       "actual_attempt_ids": [
-        "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1"
+        "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1",
+        "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1-REPLACEMENT-01"
       ],
-      "actual_attempts": 1,
+      "actual_attempts": 2,
       "actual_native_safety_fault_present": false
     },
     {
@@ -1415,20 +1416,73 @@
       "live_native_failures": 0,
       "teacher_takeover": false,
       "adjudication_pipeline_trustworthy": false,
-      "raw_audit_verified": false,
+      "raw_audit_verified": true,
       "cross_host_chain_verified": false,
       "qualified_policy_outcome": false,
-      "persistent_success": null,
-      "raw_audit_status": "MISSING",
-      "actual_execution_source_sha": null,
-      "video": {},
+      "persistent_success": false,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+      "video": {
+        "sha256": "282fbb053d17ec5bcc938de0f404c972dd0dec24677fc58a0d8cd0558e8dd0bb",
+        "bytes": 917579,
+        "decoded_frames": 449,
+        "actual_paired_frames": 449,
+        "fps": 20,
+        "playback_duration_s": 22.45,
+        "native_duration_s": 22.400000000000002,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1"
+      },
       "public_video_url": null,
       "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
       "geometry_from_another_model_imputed": false,
       "registry_session_label": null,
-      "semantic_raw_audit_sha256": null,
+      "semantic_raw_audit_sha256": "79cb6b2c160a31a7113f7b1792d60805452fdde78d7361305c8e1e1b2bb73c38",
       "semantic_chain_sha256": null,
       "raw_result_sha256": "aa0ba13f7a3417f1a03271394e90ab21e73c3e237dcf8a9505d4e52a58aa4a68",
+      "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1-REPLACEMENT-01",
+      "model": "S-CORR-512-TRAIN4",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "duration_s": 10.4,
+      "main_integrations": 5200,
+      "RGB_pairs": 209,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": false,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": false,
+      "qualified_policy_outcome": false,
+      "persistent_success": false,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+      "video": {
+        "sha256": "70b716be1995a2cce3d7b51d4dc6680c4e506868111f770a7c4edfd2c665773d",
+        "bytes": 395648,
+        "decoded_frames": 209,
+        "actual_paired_frames": 209,
+        "fps": 20,
+        "playback_duration_s": 10.45,
+        "native_duration_s": 10.4,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1-REPLACEMENT-01"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": null,
+      "semantic_raw_audit_sha256": "840229fe08ae1046d5d80a8fc1f40292a04cb9e8436d482c43d19fd20c98d354",
+      "semantic_chain_sha256": null,
+      "raw_result_sha256": "77e7fd3038d05ef78c7703d7b3a35a189a6f3062a0c262f7e05c6af43288c116",
       "missing_audit_is_retry_authority": false
     }
   ],
@@ -1565,14 +1619,14 @@
         "T1": {
           "planned_conditions": 2,
           "layout_groups": 2,
-          "actual_attempts": 2,
+          "actual_attempts": 3,
           "status_counts": {
             "VALID_TASK_FAIL": 1,
             "ENGINEERING_INCOMPLETE": 1
           },
           "failure_stages_by_actual_attempt": {
             "S1_PRE_EXECUTION_REJECT": 1,
-            "ENGINEERING_OR_UNKNOWN": 1
+            "ENGINEERING_OR_UNKNOWN": 2
           },
           "successes": 0,
           "valid_results": 1,
@@ -1679,6 +1733,7 @@
   "native_registry_semantic_sha256": {
     "S-CORR-512-TRAIN4-ALLOCATION-02": "f00519ce34517c74702c6dff6e92f63bb97f1aee32b3e2140fe6784c37ba5dde",
     "S-BC-512-TRAIN4-ALLOCATION-01": "b382c3fa677d459aaa16a89620c3ccaf2cf33a573b8083947ed270eb303349ab",
+    "S-CORR-512-TRAIN4-ALLOCATION-03": "b0b87721b056dd26ae9118182010e45a1f42e05f11b2e4fd36ab8d435a78be18",
     "S-BC-2048-DEV8-ALLOCATION-02": "1544022d9204f601643f5d3bf8794f34725c61ef2b2fbf3b9cef0e8f5e3137b4",
     "S-BC-2048-TRAIN4-ALLOCATION-02": "305a939cb82a1b4d76981c1c4a30629e4b5c5dff0cb1e8307be7a25fe372420c"
   },

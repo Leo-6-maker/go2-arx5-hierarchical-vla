@@ -1,6 +1,24 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Latest:original-budget continuation03 is actually submitted/Q,not resumed yet.**
+**Latest:allocation03 is F/1;partial effects closed,old engineering STOP retained.**
+[Actual terminal,26 real ACKs,orphan closure and heartbeat uncertainty](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE03_TERMINAL_PARTIAL_EFFECT_CLOSURE_AND_HEARTBEAT_DIAGNOSIS.json).
+Native672829 consumed409wall/412conservativeH200seconds,26draws and0updates.
+Source23728s,parent28228s settled,reservations0;finite owner actually completed
+settlement and exited. Original CORR512/cursor16384 is intact,not continued.
+F1/T1 sole replacement is ENGINEERING_INCOMPLETE10.4s/5200ticks,not a policy
+negative or success;no third attempt. Both original22.4s and replacement10.4s
+raw audits pass18checks/full449+209paired frames,native faults0. Independent
+partial closure joins26native draws/26ACKs/54camera hashes;sequence26orphan
+has no draw,response,command or physics. All1926mutation intents COMPLETE.
+Old STOP713fef5c remains on both sites;no fourthPBS submitted. Compute guard's
+actual heartbeat value was not recorded,NFS visibility is a hypothesis,not
+proven root cause. New helper8f689fe3 passes382CPU tests but is NOT deployed
+or compute-NFS qualified;original300s gate unchanged. Cold qualification and
+cumulative-family binding are required,not a blind retry of the stopped branch.
+Current matrix:20attempts,18verified policy cells,1engineering cell with both
+attempt rights spent,13unattempted. Original caps/T0/safety/selectedNONE persist.
+
+**Previous queue milestone:continuation03 was submitted/Q before its run.**
 [Native672829 queue,373 tests/CI and cold management qualification](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_CONTINUATION03_ACTUAL_QUEUE_AND_ENGINEERING_QUALIFICATION.json).
 Same owner,CFP04-CF-007/auto/1GPU/max4h. SourcePBS3/4,parent6/12;
 source23316s/parent27816s settled plus14400s reserved,original clocks unchanged.
