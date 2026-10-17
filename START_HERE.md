@@ -1,5 +1,25 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest:673008 actually R;new saved-label joins complete,not endpoint results.**
+[Native pre-model post-read qualification and real-prefix snapshot](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_NATIVE_ADMISSION_AND_REAL_PREFIXES_IN_PROGRESS.json).
+Forced compute/server heartbeat read PASS with post-read clocks and unchanged
+0..300s gate;original CORR512F1/T2 sole replacement is actually executing.
+Initial qualification/prefix ACKs are not a completed condition or proof of
+sustained transport. SourcePBS5/5,no sixth;CORR2048 still NOT_RUN at snapshot.
+[Three-model actual historical student-label comparison](reports/PI0294/20261016T191445Z-localpc-mp1/THREE_MODEL_HISTORICAL_STUDENT_LABEL_COMPARISON.json).
+Same12historical states/4parents,8qualified H40 labels/4invalid initial labels
+excluded;no new NN/physics/teacher labels. Same512 T1 prefix XYZ macro mean
+BC6.954->CORR2.502mm;T2 XYZ12.550->11.793mm but gripper absolute error
+0.2675->0.2726. This is not uniform improvement,full recovery or independent
+generalization:only2TRAIN parents/task,C1 overlap not independently resolved.
+BC2048 T1/T2 XYZ6.346/12.591mm is a different-step learning-curve description.
+All actual ACKed labels,input/noise/model identities and16private HF members
+per new model checked on Core;no copied BC512 error labels. Specific S1 and
+collision margins remain NOT_RUN/NOT_MEASURED. Four new CPU workers terminal,
+8.0704actual CPU seconds settled,all their2400CPU reserve cleared;no model
+weights downloaded. Audit codef29f748a passes418tests/276subtests/CI39058058261;
+scientific runtimee418bb79 unchanged. Full matched pair/mechanism pending.
+
 **Latest:human-authorized fifth native job673008 submitted once,Q,not resumed.**
 [Actual two-site cold adoption and single native submission](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_ACTUAL_COLD_AND_SINGLE_NATIVE_SUBMISSION.json).
 Exact runtimee418bb79,416tests/274subtests/actualCI39057571128 PASS;ten changed

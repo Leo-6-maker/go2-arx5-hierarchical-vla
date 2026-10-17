@@ -684,3 +684,22 @@ replacement;no F1/T1 third,no valid-negative replay,no T0/budget/S1/WBC reset.
 [Actual cold and single native submission receipt](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_ACTUAL_COLD_AND_SINGLE_NATIVE_SUBMISSION.json).
 Full paired science incomplete;TF-R3STOP,VandaCLOSED_NOT_RUN,selectedNONE.
 
+# Latest Actual R and Historical Student-Label Comparison
+
+Fifth673008 is actually R. Forced compute/server heartbeat qualification before
+model load PASS with real post-read clocks,original0..300s gate unchanged.
+CORR512F1/T2 original sole replacement is executing real prefixes;its terminal
+raw/chain audit and sustained transport outcome are still pending. SourcePBS5/5,
+no sixth,remaining1536updates,no F1/T1 third or valid-negative replay.
+[Actual native admission/prefix snapshot](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_NATIVE_ADMISSION_AND_REAL_PREFIXES_IN_PROGRESS.json).
+[Actual three-model same-state saved-label comparison](reports/PI0294/20261016T191445Z-localpc-mp1/THREE_MODEL_HISTORICAL_STUDENT_LABEL_COMPARISON.json):
+12historical states/4parents,8qualified labels/4invalid initial exclusions.
+At matched512,T1 prefix XYZ macro BC6.954->CORR2.502mm;T2 XYZ12.550->11.793mm,
+gripper0.2675->0.2726. Only2TRAIN parents/task,C1 overlap unresolved,not heldout
+generalization,full recovery,live S1 clearance or a final paired comparison.
+BC2048 is descriptive at a different update count. New four CPU-only workers
+terminal,8.0704actual CPU seconds charged once,2400reserve cleared;all16private
+HF members/model verified on Core. No newNN/physics/teacher labels/model-weight
+downloads. Auditf29f748a passes418tests/276subtests/actualCI39058058261;running
+sourcee418bb79 unchanged. CORR2048/full pair/mechanism incomplete,selectedNONE.
+
