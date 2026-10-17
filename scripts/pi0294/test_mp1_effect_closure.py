@@ -8,6 +8,7 @@ import numpy as np
 from scripts.pi0292.durable import write
 from scripts.pi0292.relay_protocol import digest, sealed
 from .mp1 import effect_closure as closure
+from .mp1 import fixed_probes as probes
 from .native_dataset import sha
 
 
@@ -37,7 +38,7 @@ class EffectClosure(unittest.TestCase):
                 path=self.root/'training'/branch/f'checkpoint-{step}'
                 path.mkdir(parents=True)
                 write(path/'CHECKPOINT_COMPLETE.json',dict(files={'config.json':'a','optimizer.pt':'not-inference'}))
-        self.probe=patch('scripts.pi0294.mp1.fixed_probes.status',return_value=dict(complete=True,unknown_effects=0,
+        self.probe=patch.object(probes,'status',return_value=dict(complete=True,unknown_effects=0,
             new_queries_required=0,completed_draw_ids=list(range(108))))
         self.probe_mock=self.probe.start();self.addCleanup(self.probe.stop)
 

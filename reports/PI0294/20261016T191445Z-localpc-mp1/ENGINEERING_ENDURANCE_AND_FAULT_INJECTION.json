@@ -36,6 +36,16 @@
     "PI0294_full_suite_tests_before_last_narrow_guard": 506,
     "focused_tests_after_last_guard": 21,
     "test_fixtures_are_native_evidence": false,
+    "cold_commit_066de465_CI": {
+      "run": 39071631343,
+      "conclusion": "FAILURE_NO_NATIVE_DEPLOYMENT",
+      "local_pytest_reproduction": "4_FAILED_502_PASSED_375_SUBTESTS",
+      "mechanism": "PYTEST_IMPORTS_PI0294_ALIAS_WHILE_UNITTEST_IMPORTS_SCRIPTS_PI0294_HARDCODED_MOCK_TARGET_MISSED_THE_LOADED_MODULE",
+      "repair": "PATCH_THE_ACTUAL_IMPORTED_FIXED_PROBES_MODULE_OBJECT_NOT_A_STRING_ALIAS",
+      "post_repair_focused_pytest": "21_PASSED_19_SUBTESTS",
+      "production_scientific_behavior_changed_by_repair": false,
+      "failure_hidden_or_tests_skipped": false
+    },
     "prior_transport_commit": "245446c2bbb79df71adc12f482fedee4474fe54f",
     "prior_transport_actual_CI_run": 39070518099,
     "prior_transport_actual_CI_conclusion": "SUCCESS",
