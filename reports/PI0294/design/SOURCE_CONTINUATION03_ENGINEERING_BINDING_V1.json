@@ -1,0 +1,63 @@
+{
+  "schema": "MP1_ORIGINAL_SOURCE_CONTINUATION03_ENGINEERING_BINDING_V1",
+  "status": "ENGINEERING_CONTRACT_NOT_SUBMISSION_RECEIPT",
+  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "adopted_review": "fb16d10142e884df9f6b7d9cbcf951fe70c92044",
+  "original_MP1_T0_epoch": 1792178085,
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "source_child": "source-pair-01",
+  "target_allocation": "alloc-03",
+  "maximum_new_submissions_by_finite_owner": 1,
+  "automatic_fourth_submission": false,
+  "source_PBS_family_cap_unchanged": 4,
+  "source_GPU_family_cap_seconds_unchanged": 43200,
+  "native_settled_prior_GPU_seconds": 23316,
+  "maximum_next_allocation_seconds": 14400,
+  "allocation_closeout_seconds_unchanged": 2700,
+  "source_optimizer_updates_cap_unchanged": 4096,
+  "per_arm_terminal_update_unchanged": 2048,
+  "resume": {
+    "branch": "S-CORR",
+    "global_step": 512,
+    "sample_cursor": 16384,
+    "manifest_sha256": "31f0514beb4003e42afc3437aa4781b5df47fc35a6270ba5c4fa081b31102d02",
+    "sampler_state_sha256": "f439718ee5d7ea973a9b53d884ac9627ab88d47032512059f60611ef6ddb1ebc",
+    "new_optimizer_or_scheduler_or_RNG_or_cursor_reset": false,
+    "S_CORR_original_independent_parent_M1_at_1024_unchanged": true
+  },
+  "scientific_runtime_unchanged": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+  "management_only_code_changes": [
+    "Explicit evidence-bound output estimate binding checked against the original launch manifest, source seal, upstream identity, frozen numerical members and sealed inputs.",
+    "The management capsule prepares the next request, but the request, batch environment, launcher and scientific execution still use the original runtime capsule.",
+    "Finite local owner retries only idempotent metadata-accounting boundaries at most three times within a 120-second retry window, with unchanged owner heartbeat; action/query/start/qsub intents are not resent.",
+    "Reuse the prior actual 128GB/12CPU/1GPU/auto allocation profile; default generic preparation remains 225GB."
+  ],
+  "output_estimate": {
+    "old_soft_estimate_GiB": 140,
+    "revised_soft_estimate_GiB": 180,
+    "parent_protocol_Hopper_peak_GiB_unchanged": 400,
+    "required_existing_states_for_size_evidence": ["S-BC@512", "S-BC@2048", "S-CORR@512"],
+    "maximum_total_complete_checkpoint_slots": 7,
+    "noncheckpoint_margin_GiB_minimum": 2,
+    "delete_required_checkpoint_to_fit_old_estimate": false,
+    "shared_filesystem_free_space_as_personal_quota": false,
+    "fresh_native_personal_quota_required": true
+  },
+  "admission_before_submit_and_release": [
+    "Original prior native allocations F and exactly settled; no overlapping source allocation, unknown effects, live old controller or active physical reservation.",
+    "Exact source child and parent leases, original clocks, source/MP1 GPU/PBS/CPU/closeout caps, unchanged original manifests and all required fullstate metadata.",
+    "Fresh project membership, active dates, positive balance and personal quota; authentication only on login node using existing authorized masked login, never store credentials in owner logs or files.",
+    "One source03 request, one qsub intent, one fresh exact-running PBS release; preserve unknown effect rather than submit again."
+  ],
+  "remaining_fixed_conditions": {
+    "CORR512": ["F1/T1 one original-contract engineering replacement", "F1/T2 original attempt"],
+    "CORR2048": ["original TRAIN4", "original exposed DEV8"],
+    "valid_policy_negatives_repeated": false,
+    "new_success_gate": false,
+    "new_probes_or_noise_resampling": false
+  },
+  "WBC_S1_plant_teacher_stats_data_precision_recipe_changed": false,
+  "new_budget_or_clock": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
