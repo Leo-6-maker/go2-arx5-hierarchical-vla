@@ -1,5 +1,25 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest:CORR formal training actually resumed;F1/T2 replacement audited negative.**
+[Actual12s originalS1 negative,31draw chain and resumed533step snapshot](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_CORR512_F1_T2_AUDITED_AND_EXACT_TRAINING_RESUME.json).
+Fifth673008 remainsR,originalCORR512fullstate31f0514b resumed optimizer/
+scheduler/RNG/sampler/stats,actual533updates/cursor17056 at fixed snapshot.
+Not initialized from BC,no recipe/data/S1/WBC change;formal stop remains2048.
+F1/T2 sole replacement12s/6000ticks/241pairs,19raw checks and31new observations/
+draws,30ACKs+1zero-live rejected prefix PASS,native faults0. This is VALID_TASK_FAIL,
+not another engineering missing result,no further retry. Original8.4s partial
+retained. Matrix22attempts/19qualified cells/1exhaustedF1T1engineering cell/
+12unattempted finalCORR cells,all16public links retained. CORR512 has3valid
+negatives/1engineering gap,not0of4validresults. Formal training proceeds under
+original authorization without adding a success gate. SourcePBS5/5,no sixth
+under current binding;originalT0/caps/closeout preserved,full pair incomplete.
+**Probe caveat now resolved:**both historicalT1probe parents occur in actual
+C1 training consumption,3115of4096correction visits at512;T2parent overlap0.
+The observedT1error gain is on training-parent lineages,not heldout evidence.
+Parent overlap alone does not prove exact anchor/H40window overlap. New N1
+documents were merged/preserved without force;expanded limits not adopted or
+used by this healthy old-bound job. TF-R3STOP,VandaCLOSED_NOT_RUN,selectedNONE.
+
 **Latest:673008 actually R;new saved-label joins complete,not endpoint results.**
 [Native pre-model post-read qualification and real-prefix snapshot](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_NATIVE_ADMISSION_AND_REAL_PREFIXES_IN_PROGRESS.json).
 Forced compute/server heartbeat read PASS with post-read clocks and unchanged

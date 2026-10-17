@@ -23,7 +23,42 @@
     "independent_new_scenes": 0,
     "current_policy_induced_states": false,
     "all_TRAIN": true,
-    "C1_training_parent_overlap": "NOT_INDEPENDENTLY_RECONCILED_DO_NOT_CALL_HELD_OUT",
+    "C1_training_parent_overlap": {
+      "status": "ACTUAL_PARENT_LEVEL_C1_OVERLAP_VERIFIED_NOT_HELD_OUT",
+      "by_task": {
+        "T1": {
+          "probe_student_parents": [
+            "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+            "a005c39b-a0a8-45fc-b523-47a22ca0e670"
+          ],
+          "probe_parent_count": 2,
+          "C1_training_overlap": [
+            "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+            "a005c39b-a0a8-45fc-b523-47a22ca0e670"
+          ],
+          "C1_actual512_visits_on_probe_parents": 3115
+        },
+        "T2": {
+          "probe_student_parents": [
+            "88527063-ae8f-4631-a041-54bfee906ae8",
+            "889024c8-7abd-4617-82e0-6556d9c27245"
+          ],
+          "probe_parent_count": 2,
+          "C1_training_overlap": [],
+          "C1_actual512_visits_on_probe_parents": 0
+        }
+      },
+      "C1_actual512_parent_visits": {
+        "27b5c23d-4a01-44ba-b255-135522a47477": 467,
+        "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f": 1525,
+        "4c984214-e36c-4700-842b-e0ba5d2d94a2": 514,
+        "a005c39b-a0a8-45fc-b523-47a22ca0e670": 1590
+      },
+      "C1_manifest_sha256": "a6c029e3e07f264a08ab47a757eb899b752e350e7a93f1db2dd87c03b88f0052",
+      "matched_actual_consumption_report_sha256": "47d1778bf1568a0421a94bc0c218c151d3980929523e8ad00eb49a7187bb6038",
+      "exact_probe_anchor_or_H40_training_window_overlap": "NOT_ASSERTED_FROM_PARENT_ONLY_JOIN",
+      "independent_generalization_proven": false
+    },
     "short_qualified_oracle_duration_s": 2,
     "complete_32s_recoveries_proven_by_this_audit": 0
   },
@@ -6516,7 +6551,7 @@
     }
   },
   "interpretations": [
-    "At the same512step,on these four qualified T1 historical states from only two parents,CORR prefix XYZ episode-macro mean is lower than BC. This is a descriptive same-state action-error difference,not final task success or an independent generalization result.",
+    "At the same512step,on these four qualified T1 historical states from only two parents,CORR prefix XYZ episode-macro mean is lower than BC. This is a descriptive same-state action-error difference,not final task success or an independent generalization result. Both T1 probe parents appear in actual C1 training consumption;this is explicitly not held-out generalization. Parent overlap alone does not establish exact window overlap.",
     "T2 has no qualified correction training in this experiment;T2 historical XYZ and gripper errors must be reported separately,not summarized as a uniform improvement.",
     "BC2048 is a different update count from512;its inclusion is a learning-curve description,not a matched-final-endpoint causal comparison.",
     "All error targets are saved actual ACK-certified expert commands at exact noninitial restored states. Four invalid initial-history labels remain excluded;no unexecuted teacher predictions or fabricated RMSE.",

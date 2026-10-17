@@ -277,12 +277,13 @@
       "split": "TRAIN",
       "task": "T2",
       "scene_group": "PI0294/TRAIN/F1/000",
-      "status": "ENGINEERING_INCOMPLETE",
-      "valid_policy_outcome": false,
+      "status": "VALID_TASK_FAIL",
+      "valid_policy_outcome": true,
       "actual_attempt_ids": [
-        "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2"
+        "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2",
+        "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2-REPLACEMENT-01"
       ],
-      "actual_attempts": 1,
+      "actual_attempts": 2,
       "actual_native_safety_fault_present": false
     },
     {
@@ -1528,6 +1529,48 @@
       "semantic_chain_sha256": null,
       "raw_result_sha256": "d9d52e20f9079688e187c1643b71b846e525aa735eb3b0a5f695ee85d5fdc03a",
       "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2-REPLACEMENT-01",
+      "model": "S-CORR-512-TRAIN4",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "duration_s": 12.0,
+      "main_integrations": 6000,
+      "RGB_pairs": 241,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": false,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
+      "video": {
+        "sha256": "a99191276a151ef960a204b0333830fc34720c2049cf1d4a977af22b88a23766",
+        "bytes": 389510,
+        "decoded_frames": 241,
+        "actual_paired_frames": 241,
+        "fps": 20,
+        "playback_duration_s": 12.05,
+        "native_duration_s": 12.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2-REPLACEMENT-01"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_INDEPENDENTLY_RECONSTRUCTED_FOR_THIS_EXACT_ATTEMPT",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-512-TRAIN4-ALLOCATION-05",
+      "semantic_raw_audit_sha256": "74e646521556c5988004692a7778660908c5584b60a5b84ca91bb10f175b5605",
+      "semantic_chain_sha256": "adea8c2051cbf6ed197fb6b2342a132cd70160ff089d9fb9768846bab7d2950d",
+      "raw_result_sha256": "b34da0d30ab0355cac1a6bd196872d8961a660a0fb8b70cf0a6b918d7e621d61",
+      "missing_audit_is_retry_authority": false
     }
   ],
   "panels": {
@@ -1680,19 +1723,18 @@
         "T2": {
           "planned_conditions": 2,
           "layout_groups": 2,
-          "actual_attempts": 2,
+          "actual_attempts": 3,
           "status_counts": {
-            "VALID_TASK_FAIL": 1,
-            "ENGINEERING_INCOMPLETE": 1
+            "VALID_TASK_FAIL": 2
           },
           "failure_stages_by_actual_attempt": {
-            "S1_PRE_EXECUTION_REJECT": 1,
+            "S1_PRE_EXECUTION_REJECT": 2,
             "ENGINEERING_OR_UNKNOWN": 1
           },
           "successes": 0,
-          "valid_results": 1,
-          "complete": false,
-          "success_fraction_only_if_complete": null
+          "valid_results": 2,
+          "complete": true,
+          "success_fraction_only_if_complete": 0.0
         }
       },
       "exposed_development": false,
@@ -1781,6 +1823,7 @@
     "S-CORR-512-TRAIN4-ALLOCATION-03": "b0b87721b056dd26ae9118182010e45a1f42e05f11b2e4fd36ab8d435a78be18",
     "S-CORR-512-TRAIN4-ALLOCATION-04": "cfc78113f57341cdd5b1186aab92e5ec91c27d8243bce864e4c9631b3c48070c",
     "S-BC-2048-DEV8-ALLOCATION-02": "1544022d9204f601643f5d3bf8794f34725c61ef2b2fbf3b9cef0e8f5e3137b4",
+    "S-CORR-512-TRAIN4-ALLOCATION-05": "589ba8a9f71581cc3bf4fe5856012a373bd1fb1a1b78159d3ccc8b7f5f2aa87a",
     "S-BC-2048-TRAIN4-ALLOCATION-02": "305a939cb82a1b4d76981c1c4a30629e4b5c5dff0cb1e8307be7a25fe372420c"
   },
   "actual_safety_stop_present": false,

@@ -703,3 +703,19 @@ HF members/model verified on Core. No newNN/physics/teacher labels/model-weight
 downloads. Auditf29f748a passes418tests/276subtests/actualCI39058058261;running
 sourcee418bb79 unchanged. CORR2048/full pair/mechanism incomplete,selectedNONE.
 
+# Latest Actual CORR Resume and Audited F1/T2 Negative
+
+673008R resumed exact originalCORR512 fullstate. Fixed observed progress533,
+cursor17056;optimizer/scheduler/RNG/sampler/stats preserved,stop2048 unchanged.
+F1/T2 sole replacement is valid originalS1 failure12s/6000ticks/241pairs,
+19raw checks and31draws/30ACKs/1zero-live rejected prefix verified,native faults0.
+Original8.4s engineering partial retained,no further F1/T2 retry;F1/T1 no third.
+Matrix22attempts/19qualified cells/1engineering gap/12unattempted finalcells.
+[Exact audit and resumed formal-update receipt](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_CORR512_F1_T2_AUDITED_AND_EXACT_TRAINING_RESUME.json).
+HistoricalT1probe parent overlap with actualC1 consumption now verified2/2,
+3115of4096correction visits at512;T2overlap0/2. Error improvement is explicitly
+not heldout generalization;exact anchor/window training overlap not asserted.
+Current sourcePBS5/5/no sixth,originalT0/caps/45min closeout unchanged.
+Concurrent N1 docs preserved by ordinary merge,expanded budget not native-bound
+or consumed by current healthy job. Full pair/mechanism incomplete,selectedNONE.
+
