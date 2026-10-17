@@ -87,8 +87,15 @@ preserved. No claim of a flawless full E1 comparison is made.
 
 ## Target Platform
 
-Native Vanda refresh: hardware job `1462438` is Q for node-pool availability;
-dependent inference job `1462451` remains H. Failed old builds are preserved.
+Native Vanda refresh: hardware job `1462438` and saved-input inference job
+`1462451` are F/exit 0, with CLOSED leases. Native allocated GPU walltime is
+58 and 137 seconds respectively, charged to their old scope, not MP1.
+The former passed actual A40 CUDA checks; the latter loaded old M2048 and
+made 17 saved-observation queries (one warmup, 16 timed), median 0.2356s,
+peak allocated 13.35 GB. This is neither a live loop nor H200/A40 numerical
+equivalence, and does not qualify M1/M2 or native EGL rendering.
+[Original native terminal receipts](reports/PI0294/20261016T191445Z-localpc-mp1/PRIOR_VANDA_ENGINEERING_NATIVE_TERMINALS.json).
+Failed old builds are preserved.
 MP1 CPU build `1463204` is F/exit 0: container tests, native compilation,
 before/after controller-source checks, and linked-library checks passed.
 The simulator and two controller binary hashes are recorded in the
