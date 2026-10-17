@@ -1,5 +1,19 @@
 # Current Science Status
 
+**Current authority/runtime boundary:** [N1 single adoption and effective cumulative ceilings](reports/PI0294/20261016T191445Z-localpc-mp1/N1_ADOPTION_AND_EFFECTIVE_LIMITS.json).
+N1 control adoption03:08:01SGT Oct18;three registered sites read back the
+same fixed bundle/delta without changing active manifests. Source05/673008
+is healthyR and CORR training beyond512,not endpoint completion. NewN1
+source36h/12PBS and parent80H200h/48A40h include old used/reserved costs;
+current fifth remains old-bound4h/no-sixth until terminal. Future N1native
+code/deployment/600s heartbeat/80transport qualifications NOT_RUN. New
+Hopper dispatch project check failed;in-flight training unaffected. No new
+PBS/query/physics by adoption. OriginalMP1 T0/S1/WBC/STOPs unchanged.
+N1 cutoffsOct19 09:08:01/13:08:01/15:08:01SGT,not reset on resume.
+F1/T2 sole replacement now audited originalS1 negative;F1/T1 spent gap retained.
+Known T1 saved-label supervision reuse is not heldout generalization.
+Older "latest" paragraphs below are preserved historical snapshots.
+
 **Latest public evidence:** [four CORR512 actual attempt clips,partial panel](reports/PI0294/20261016T191445Z-localpc-mp1/S_CORR512_FIRST4_AUDITED_VIDEOS_PUBLIC.json).
 Fixed READY9ba0fe42,1132paired frames;Core full bytes and Hopper token-free
 READY/index PASS.2valid negatives+2engineering partials cover3conditions,not

@@ -1,0 +1,353 @@
+{
+  "schema": "MP1_N1_ACTUAL_ADOPTION_AND_EFFECTIVE_LIMITS_V1",
+  "status": "ADOPTED_CONTROL_OVERLAY_FUTURE_COLD_CONSUMERS_PENDING",
+  "adoption": {
+    "schema": "MP1_N1_ADOPTION_DELTA_V1",
+    "id": "MP1_N1_SINGLE_AUTHORITY_ADOPTION_01",
+    "status": "ADOPTED_CONTROL_OVERLAY_FUTURE_COLD_CONSUMERS_PENDING",
+    "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+    "parent_authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+    "parent_run_uuid": "20261016T191445Z-localpc-mp1",
+    "source_child": "source-pair-01",
+    "owner": "EXISTING_SINGLE_LOCAL_PC",
+    "original_T0_epoch": 1792178085,
+    "bundle_sha256": {
+      "docs/handover/2026-10-18/MP1_N1_OVERNIGHT_EXECUTE.md": "855521cb1263f58519103dedec672d5f3beb67be996102cc5f347d38b741070b",
+      "docs/protocols/PI0294_MP1_N1_OVERNIGHT_AUTONOMY_20261018.md": "1889b12a2dea570f5ebbf10727821ad34a53f121f4da1a0c2cfe426f41dc04aa",
+      "reports/PI0294/design/MP1_N1_OVERNIGHT_AUTONOMY_20261018.json": "6a822bf37f123f3106cfbe736aff7395f4ad960409599eb43ac49bfbfa2d6d58"
+    },
+    "autonomy_started_epoch": 1792264081,
+    "publication_epoch": 1792261823,
+    "new_submission_and_candidate_cutoff_epoch": 1792372081,
+    "new_experiment_cutoff_epoch": 1792386481,
+    "hard_closeout_epoch": 1792393681,
+    "reset_on_resume": false,
+    "current_fifth_preserved": true,
+    "current_fifth_job_id": "673008.hopper-m-02",
+    "current_source_manifest_changed": false,
+    "original_birth_manifests_cards_and_costs_preserved": true,
+    "old_scope_costs_reclassified": false,
+    "new_competing_owner": false,
+    "old_fifth_controller_may_not_submit_sixth": true,
+    "native_snapshot_sha256": {
+      "core": "03109d3d13500ce070c9eb8d220a79e13b0c48815576531ead79e41b9b2b21df",
+      "hopper": "2c6aca692c27b22b07889f56bdb670d15fcaa042cd8617ffaaf21e8e4edbf163",
+      "vanda": "2ffc76d6eb964678a1ea30bab83b655919aa4a2751df3ea6c0a632c35d3352bb"
+    },
+    "native_site_permission_required_before_each_dispatch": true,
+    "native_project_status": "BLOCKED_NEW_HOPPER_DISPATCH_ONLY",
+    "source_observed_optimizer_updates": 2999,
+    "source_observed_pending_updates": 1,
+    "source_settled_GPU_s": 24119,
+    "source_reserved_GPU_s": 14400,
+    "source_PBS_used": 5,
+    "GPU_or_PBS_dispatched_by_adoption": 0,
+    "selected": "NONE",
+    "real_robot_deployment": "NONE",
+    "direct_user_authority": "EXPLICIT_CURRENT_GOAL_ATTACHMENT_ADOPTS_FIXED_N1"
+  },
+  "effective_authorized_cumulative_limits": {
+    "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+    "original_T0_epoch": 1792178085,
+    "parent": {
+      "semantics": "CUMULATIVE_MP1_CEILINGS_INCLUDE_PRIOR_MP1_USED_AND_RESERVED_NOT_E0_E1_RECLASSIFICATION",
+      "H200_allocated_GPU_hours": 80,
+      "A40_allocated_GPU_hours": 48,
+      "concurrent_H200": 1,
+      "concurrent_A40": 1,
+      "Hopper_new_GPU_PBS_submissions": 24,
+      "Vanda_new_GPU_PBS_submissions": 20,
+      "Vanda_new_CPU_build_submissions": 16,
+      "GPU_job_walltime_hours_max": 12,
+      "site_smaller_limit_wins": true,
+      "CPU_core_hours": {
+        "CoreLab": 640,
+        "Vanda": 480,
+        "Hopper_active": 320,
+        "local_PC": 48
+      },
+      "active_CPU_cores_max": {
+        "CoreLab": 16,
+        "Vanda": 16,
+        "Hopper": 16,
+        "local_PC": 4
+      },
+      "CPU_usage_cannot_exceed_native_job_request": true,
+      "optimizer_updates_all_new_branches_max": 24576,
+      "source_main_or_recovery_fork_starts_max": 400,
+      "target_main_or_recovery_fork_starts_max": 320,
+      "all_physics_integrations_max": 64000000,
+      "physics_count_includes": [
+        "live",
+        "recovery_fork",
+        "S1_shadow",
+        "counterfactual",
+        "warmup",
+        "failed_attempt"
+      ],
+      "new_storage_peak_GiB": {
+        "Hopper": 400,
+        "Vanda": 250,
+        "CoreLab": 200,
+        "local_PC": 20
+      },
+      "new_network_transfer_GiB_max": 750,
+      "final_evaluation_GPU_reserve_hours": {
+        "Hopper": 6,
+        "Vanda": 4
+      },
+      "CPU_closeout_fraction_reserve": 0.15,
+      "H200_soft_allocation_hours": {
+        "E1_continuation": 6,
+        "source_learning": 14,
+        "correction_comparison": 10,
+        "target_adaptation": 12,
+        "optional_FlowDAgger": 2,
+        "final_evaluation_closeout": 4
+      },
+      "A40_soft_allocation_hours": {
+        "platform_qualification": 8,
+        "target_interaction_evaluation": 16,
+        "small_adaptation": 4,
+        "final_evaluation_closeout": 4
+      },
+      "soft_reallocation_by_owner_allowed": true,
+      "reallocation_changes_total_or_science_scope": false,
+      "allocated_GPU_idle_and_failures_charged": true,
+      "old_and_new_ledger_double_counting": false
+    },
+    "source": {
+      "GPU_s": 129600,
+      "PBS": 12,
+      "CPU_s": {
+        "core": 648000,
+        "hopper": 518400
+      },
+      "generation_queries": 12000,
+      "job_wall_s_max": 28800
+    },
+    "parent_H200_s": 288000,
+    "parent_A40_s": 172800,
+    "parent_GPU_PBS": {
+      "Hopper": 24,
+      "Vanda": 20
+    },
+    "parent_Vanda_CPU_build_PBS": 16,
+    "parent_CPU_core_hours": {
+      "CoreLab": 640,
+      "Vanda": 480,
+      "Hopper_active": 320,
+      "local_PC": 48
+    },
+    "parent_network_GiB": 750,
+    "final_GPU_reserve_s": {
+      "Hopper": 21600,
+      "Vanda": 14400
+    },
+    "unchanged": {
+      "concurrent_H200": 1,
+      "concurrent_A40": 1,
+      "active_CPU_cores": {
+        "CoreLab": 16,
+        "Vanda": 16,
+        "Hopper": 16,
+        "local_PC": 4
+      },
+      "source_main_starts": 64,
+      "source_recovery_forks": 0,
+      "source_live_and_recovery_integrations": 2048000,
+      "source_shadow_integrations": 2048000,
+      "source_formal_updates": 4096,
+      "source_fixed_conditions": 32,
+      "source_engineering_replacements_per_condition": 1,
+      "parent_optimizer_updates": 24576,
+      "parent_source_starts": 400,
+      "parent_target_starts": 320,
+      "parent_all_physics_integrations": 64000000,
+      "parent_peak_new_storage_GiB": {
+        "Hopper": 400,
+        "Vanda": 250,
+        "CoreLab": 200,
+        "local_PC": 20
+      },
+      "source_soft_output_estimate_GiB": 180,
+      "native_quota_and_evidenced_output_preflight_required": true,
+      "allocation_closeout_seconds": 2700,
+      "parent_final_A40_reserve_seconds": 14400,
+      "CPU_closeout_fraction": 0.15
+    },
+    "autonomy_started_epoch": 1792264081,
+    "new_submission_and_candidate_cutoff_epoch": 1792372081,
+    "new_experiment_cutoff_epoch": 1792386481,
+    "hard_closeout_epoch": 1792393681
+  },
+  "effective_runtime_limits": "CURRENT_HEALTHY_SOURCE05_UNCHANGED_NEW_N1_CONSUMER_NOT_DEPLOYED",
+  "native_control_bindings": {
+    "core": {
+      "status": "N1_CONTROL_AUTHORITY_OVERLAY_READBACK_ONLY_NO_RUNTIME_REBIND",
+      "role": "core",
+      "run_uuid": "20261016T191445Z-localpc-mp1",
+      "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+      "autonomy_started_epoch": 1792264081,
+      "hashes": {
+        "MP1_N1_OVERNIGHT_EXECUTE.md": "855521cb1263f58519103dedec672d5f3beb67be996102cc5f347d38b741070b",
+        "PI0294_MP1_N1_OVERNIGHT_AUTONOMY_20261018.md": "1889b12a2dea570f5ebbf10727821ad34a53f121f4da1a0c2cfe426f41dc04aa",
+        "MP1_N1_OVERNIGHT_AUTONOMY_20261018.json": "6a822bf37f123f3106cfbe736aff7395f4ad960409599eb43ac49bfbfa2d6d58",
+        "ADOPTION_DELTA.json": "91d41f1f810f97caf0cb9be14882d4b94fd13e5af3bedadb3505277693281cce"
+      },
+      "old_manifest_sha256": "6d81bef2798a445aeb3895e270414661599414005c3756ecb451e77410dcdfaa",
+      "new_GPU_jobs": 0,
+      "new_models": 0,
+      "new_physics": 0
+    },
+    "hopper": {
+      "status": "N1_CONTROL_AUTHORITY_OVERLAY_READBACK_ONLY_NO_RUNTIME_REBIND",
+      "role": "hopper",
+      "run_uuid": "20261016T191445Z-localpc-mp1",
+      "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+      "autonomy_started_epoch": 1792264081,
+      "hashes": {
+        "MP1_N1_OVERNIGHT_EXECUTE.md": "855521cb1263f58519103dedec672d5f3beb67be996102cc5f347d38b741070b",
+        "PI0294_MP1_N1_OVERNIGHT_AUTONOMY_20261018.md": "1889b12a2dea570f5ebbf10727821ad34a53f121f4da1a0c2cfe426f41dc04aa",
+        "MP1_N1_OVERNIGHT_AUTONOMY_20261018.json": "6a822bf37f123f3106cfbe736aff7395f4ad960409599eb43ac49bfbfa2d6d58",
+        "ADOPTION_DELTA.json": "91d41f1f810f97caf0cb9be14882d4b94fd13e5af3bedadb3505277693281cce"
+      },
+      "old_manifest_sha256": "53fe39341071f79121cfe5d92b7ec667754c50effd975ae4dbdacc647b2118ed",
+      "new_GPU_jobs": 0,
+      "new_models": 0,
+      "new_physics": 0
+    },
+    "vanda": {
+      "status": "N1_CONTROL_AUTHORITY_OVERLAY_READBACK_ONLY_NO_RUNTIME_REBIND",
+      "role": "vanda",
+      "run_uuid": "20261016T191445Z-localpc-mp1",
+      "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+      "autonomy_started_epoch": 1792264081,
+      "hashes": {
+        "MP1_N1_OVERNIGHT_EXECUTE.md": "855521cb1263f58519103dedec672d5f3beb67be996102cc5f347d38b741070b",
+        "PI0294_MP1_N1_OVERNIGHT_AUTONOMY_20261018.md": "1889b12a2dea570f5ebbf10727821ad34a53f121f4da1a0c2cfe426f41dc04aa",
+        "MP1_N1_OVERNIGHT_AUTONOMY_20261018.json": "6a822bf37f123f3106cfbe736aff7395f4ad960409599eb43ac49bfbfa2d6d58",
+        "ADOPTION_DELTA.json": "91d41f1f810f97caf0cb9be14882d4b94fd13e5af3bedadb3505277693281cce"
+      },
+      "old_manifest_sha256": "847fc58ec000187e07b5ce9296a43f51b8dc1a992f218f14a373bee93f236c41",
+      "new_GPU_jobs": 0,
+      "new_models": 0,
+      "new_physics": 0
+    }
+  },
+  "native_permission": {
+    "Hopper": "BLOCKED_NEW_HOPPER_DISPATCH_ONLY",
+    "CoreLab": "OWN_REGISTERED_CONTROL_AND_ACTIVE_SOURCE_PROFILE_READ_BACK",
+    "Vanda": "OWN_REGISTERED_CONTROL_NO_OWN_CURRENT_PBS_NEW_A40_ADMISSION_NOT_YET_CHECKED"
+  },
+  "current_fifth": {
+    "job_id": "673008.hopper-m-02",
+    "state": "R",
+    "observed_epoch": 1792264069.826499,
+    "walltime": "00:40:59",
+    "source_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
+    "source_manifest_sha256": "5b62ea8d1d1f0db25f6ba18630f1916d06dda5d82f0c2a54d269452b6a7fc93d",
+    "manifest_hash_type": "CANONICAL_JSON_SNAPSHOT_NOT_RAW_FILE_HASH",
+    "optimizer_updates_combined": 2999,
+    "pending_optimizer_update": 1,
+    "progress": {
+      "training/S-CORR/session-start/PROGRESS.json": {
+        "step": 512,
+        "cursor": 16384,
+        "native_loss": 0.01952384039759636,
+        "learning_rate": [
+          8.79873342323422e-06,
+          8.79873342323422e-06
+        ],
+        "synchronized_s": 3.894405012950301,
+        "epoch": 1792250333.2663555
+      },
+      "training/S-CORR/session-resume-512/PROGRESS.json": {
+        "step": 951,
+        "cursor": 30432,
+        "native_loss": 0.010668974369764328,
+        "learning_rate": [
+          6.1221121380182756e-06,
+          6.1221121380182756e-06
+        ],
+        "synchronized_s": 3.835412081098184,
+        "epoch": 1792264068.1354773
+      }
+    },
+    "healthy_controller_and_readonly_auditor_verified": true,
+    "cancelled_or_resubmitted": false,
+    "hot_code_or_request_changes": false
+  },
+  "resources_at_adoption": {
+    "parent_GPU_settled_s": {
+      "Hopper": 28619,
+      "Vanda": 0
+    },
+    "parent_GPU_reserved_s": {
+      "Hopper": 14400,
+      "Vanda": 0
+    },
+    "source_GPU_settled_s": 24119,
+    "source_GPU_reserved_s": 14400,
+    "parent_Hopper_PBS": 8,
+    "source_PBS": 5,
+    "parent_CPU_s": {
+      "CoreLab": 16061.055649806998,
+      "Vanda": 3093,
+      "Hopper": 13852.737956399997,
+      "local_PC": 18780
+    },
+    "unknown_parent_effects": 0,
+    "parent_pending_optimizer_intents": 0,
+    "pending_child_update_is_current_native_training_not_retried": true
+  },
+  "storage": {
+    "Hopper": {
+      "personal_quota_report_epoch": 1792263787.306805,
+      "hard_bytes": 1099511627776,
+      "used_bytes": 633345679360,
+      "additional_dispatch_requires_fresh_output_and_native_quota_proof": true
+    },
+    "all_sites_registered_own_roots": true,
+    "cleanup_deleted_bytes": 0
+  },
+  "qualification": {
+    "FULL_PI0294_CPU_REGRESSION": "432_PASS_300_SUBTESTS",
+    "CPU_RESOLVER_TESTS": "6_PASS_15_SUBTESTS",
+    "NATIVE_600S_ENDURANCE": "NOT_RUN",
+    "TRANSPORT_80_CYCLES": "NOT_RUN",
+    "FUTURE_N1_RUNTIME_DEPLOYMENT": "NOT_RUN",
+    "CURRENT_FIFTH": "ORIGINAL_INITIAL_POST_READ_QUALIFICATION_AND_LIVE_TRAINING_NOT_N1_ENDURANCE"
+  },
+  "unmodified_science": {
+    "formal_updates_per_arm": 2048,
+    "total_source_updates": 4096,
+    "fixed_conditions": 32,
+    "original_S1": true,
+    "EEF10": true,
+    "data_v3_0": true,
+    "WBC_frozen": true,
+    "TF_R3_STOP_preserved": true,
+    "F1_T1_no_third_attempt": true,
+    "F1_T2_replacement_terminal_valid_negative": true,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "actions_by_this_adoption": {
+    "CPU_control_conservative_upper_s_settled_once": 1140,
+    "CPU_control_upper_by_site": {"CoreLab": 180, "Hopper": 180, "Vanda": 180, "local_PC": 600},
+    "PBS_submissions": 0,
+    "model_loads": 0,
+    "model_queries": 0,
+    "physics_integrations": 0,
+    "optimizer_updates": 0,
+    "file_deletions": 0
+  },
+  "outstanding": [
+    "GENERAL_01_TO_12_COLD_NATIVE_ADMISSION_NOT_YET_INTEGRATED",
+    "NATIVE_ENDURANCE_AND_ISOLATED_TRANSPORT_FAULT_INJECTION",
+    "CORR2048_FIXED_ENDPOINTS_AND_PAIRED_CONSUMPTION",
+    "ONE_EVIDENCE_GATED_BRANCH_OR_MECHANISM_UNRESOLVED",
+    "SOURCE_CONFIRM_AND_INDEPENDENT_VANDA_QUALIFICATION_WITH_FRESH_SITE_PROOF"
+  ]
+}

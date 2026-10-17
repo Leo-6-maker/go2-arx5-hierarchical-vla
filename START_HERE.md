@@ -1,5 +1,21 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest authority:N1 adopted once;healthy fifth job stays on its original binding.**
+[Actual adoption,three-site control readbacks and cumulative limits](reports/PI0294/20261016T191445Z-localpc-mp1/N1_ADOPTION_AND_EFFECTIVE_LIMITS.json).
+Fixed926f9ef6 complete bundle read back;N1 began2026-10-18 03:08:01SGT.
+New submissions/candidates stopOct19 09:08:01,experiments13:08:01,
+hardclose15:08:01SGT,all before originalMP1 cutoffs. OriginalT0/costs/cards,
+STOPs and fifth673008 remain unchanged. At adoption source24119settled+
+14400reservedH200seconds,parent28619+14400;sourcePBS5,parentHopper8.
+New authorized cumulative ceilings:H20080h/A4048h,source36h/12PBS,
+not a fresh pool. Current fifth still has its old4h/no-sixth binding;future
+N1 cold consumers are NOT deployed/admitted. General resolver foundation
+has6CPU tests/15subtests;600scompute endurance/80transport cycles NOT_RUN.
+Fresh Hopper project query failed,new-submission lane not yet admitted;
+healthy current training continues,not cancelled/requeued. CORR already
+beyond512,endpoint2048/full paired science still pending. No extraPBS,
+model,physics or deletion attributable to adoption. Selected/deploymentNONE.
+
 **Latest CPU evidence:CORR512 true event exposure and reused supervision audited.**
 [16384actual visits,raw events and exact executed-label membership](reports/PI0294/20261016T191445Z-localpc-mp1/CORR512_ACTUAL_EVENT_EXPOSURE_AND_SUPERVISION_REUSE.json).
 CORR512T1/T2=8192each;4096C1visits split2062student anchors/2034subsequent
