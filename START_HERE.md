@@ -1,5 +1,24 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest CPU evidence:CORR512 true event exposure and reused supervision audited.**
+[16384actual visits,raw events and exact executed-label membership](reports/PI0294/20261016T191445Z-localpc-mp1/CORR512_ACTUAL_EVENT_EXPOSURE_AND_SUPERVISION_REUSE.json).
+CORR512T1/T2=8192each;4096C1visits split2062student anchors/2034subsequent
+expert states,3115oldE0aggregation/981actualE1intervention. All4qualified
+historicalT1diagnostic expert-label windows exist in C1 and were consumed2060
+times. This is exact executed-supervision reuse,not heldout generalization;
+entire GR00T processor input tensor identity was not compared. T2label C1matches0.
+Retained originalT1close/open/withdraw prefix-uncovered counts52/49/57 versus
+BC51227/26/36 reflect half originalT1visits,not a demonstrated sampler bug.
+All30T2episode event/visit summaries exactly match BC512. C1close7/open4 are
+segment events,not independent demonstrations;4close events have only later
+H40coverage. C1detach/withdraw/stages remain UNKNOWN_NOT_ZERO,no imputation.
+All96saved CORR expert draws now join actual raw-event strata,not newNN/S1.
+Two new CPU workers terminal,17.5037metered processing seconds,one shared180s
+local upper charge,all1800Hopper/Core CPU reserves cleared.426tests/285subtests
+and actualCI39059634999 PASS;five code/test/card blobs verified. Runtimee418bb79
+unchanged,fifth673008 stays healthy/formal training;no newquery/physics/PBS/
+teacher label/training update attributable to this audit. Full pair pending.
+
 **Latest:CORR formal training actually resumed;F1/T2 replacement audited negative.**
 [Actual12s originalS1 negative,31draw chain and resumed533step snapshot](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE05_CORR512_F1_T2_AUDITED_AND_EXACT_TRAINING_RESUME.json).
 Fifth673008 remainsR,originalCORR512fullstate31f0514b resumed optimizer/

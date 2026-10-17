@@ -719,3 +719,19 @@ Current sourcePBS5/5/no sixth,originalT0/caps/45min closeout unchanged.
 Concurrent N1 docs preserved by ordinary merge,expanded budget not native-bound
 or consumed by current healthy job. Full pair/mechanism incomplete,selectedNONE.
 
+# Latest CORR512 Raw Events and Supervision Reuse
+
+[Actual event and executed-label reuse audit](reports/PI0294/20261016T191445Z-localpc-mp1/CORR512_ACTUAL_EVENT_EXPOSURE_AND_SUPERVISION_REUSE.json)
+joins16384committed visits,4096C1=2062student-anchor+2034expert-after states.
+Four historicalT1qualified expert-label windows exactly recur in C1 and were
+consumed2060times;T1probe error gain is training-supervision fit,not heldout
+generalization. Whole model processor tensor byte identity is not claimed.
+OriginalT1prefix-close/open/withdraw uncovered52/49/57 versusBC51227/26/36;
+coverage changes alone do not prove a sampler bug or license a recipe change.
+All30T2episode event/visit summaries match BC512 exactly. C1stage/detach/
+withdraw remain unknown,not zero.96saved CORRexpert draws join raw-event
+strata;no newmodel/query/physics/teacher labels. Two workers terminal,
+17.5037metered CPU seconds,one shared180s local upper,1800CPU reserves cleared.
+Audit83405c41 passes426tests/285subtests/actualCI39059634999;runninge418bb79
+and healthy673008 unchanged. CORR2048/full paired final still pending.
+
