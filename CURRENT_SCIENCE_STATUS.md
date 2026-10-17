@@ -1,5 +1,10 @@
 # Current Science Status
 
+**Recovery videos delivered:** [fixed public HF byte verification and queued-memory delta](reports/PI0294/20261016T191445Z-localpc-mp1/PUBLIC_RECOVERY_VIDEOS_AND_QUEUE_MEMORY_DELTA.json).
+All ten attempts/3405 decoded paired frames are indexed,including failures and
+two initial-only clips. Same source job672080 remains Q; memory-only request
+was lowered225GB to128GB with native readback,no newPBS or training recipe change.
+
 **Current mainline:** [matched Source Pair first native submission](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FIRST_SUBMISSION.json),
 job672080 Q, CFP04-CF-007/auto, one H200/max4h; no training result yet.
 Both bindings passed, fixed parent/C1 and task-balanced sampling retained.

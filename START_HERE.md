@@ -1,5 +1,14 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**All ten actual recovery videos are now public at a fixed HF revision:**
+[delivery and exact queue resource delta](reports/PI0294/20261016T191445Z-localpc-mp1/PUBLIC_RECOVERY_VIDEOS_AND_QUEUE_MEMORY_DELTA.json).
+Core verified every published hash; Hopper independently read READY/index.
+Ten attempts include three successes,two valid negatives,five engineering
+interruptions,including two initial-frame-only clips; no missing result filled.
+The same queued source job672080 now requests128GB,not the original225GB:
+one native owner-only memory decrease,zero newPBS or recipe changes. It is
+still Q for GPU capacity,not a claimed training result. Runtime03646938 is pinned.
+
 **Matched Source Pair is now submitted, not trained yet:** [native first job672080](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FIRST_SUBMISSION.json)
 is Q under CFP04-CF-007/auto, one H200 and at most4h. Both native immutable
 entries and fresh project/output quota passed. Runtime03646938 uses the
