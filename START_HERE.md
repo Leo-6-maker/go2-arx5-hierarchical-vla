@@ -1,14 +1,19 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Current source milestone: S-BC actually completed its fixed 512-update stop.**
-[Checkpoint, full committed consumption and first two valid negatives](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_CHECKPOINT_CONSUMPTION_AND_FIRST_VALID_NEGATIVES.json).
-All16,384 actual visits match the fixed sampler and TRAIN126 identities;
-T1/T2=8,192/8,192, correction0. Both F0 conditions are independently audited
-original-S1 failures (T1 1.6s,T2 20.8s),zero native safety faults,not repeats.
-The rest of fixed TRAIN4 is in progress; then resume the original full state
-toward2048. No CORR/C1 learning,generalization or target success is implied.
-Job672080 remains R; runtime03646938 is unchanged. Vanda camera is CLOSED
-NOT_RUN,not queued. Human engineering autonomy adds no budget or new clock.
+**Current source milestone: S-BC512 TRAIN4 is complete and exact resume is running.**
+[All four actual conditions, independent chains and resume engineering](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_FULL_TRAIN4_AND_RESUME_AUDIT_ENGINEERING.json).
+This intermediate model has0/4 task successes: four valid original-S1
+rejections at1.6/20.8/10.4/22.4s,zero native safety faults or engineering gaps.
+All four raw audits,1108-frame video decodes and142 fresh cross-host chains
+passed. No valid negative is repeated or replaced by an old model's success.
+Native full-state resume has actually reached515/cursor16480,starting at
+cursor16384,under the same job672080 and runtime03646938. Original fixed2048
+criterion remains; no new success-rate gate,recipe change,CORR/C1 or DEV claim.
+The [complete512 consumption receipt](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_CHECKPOINT_CONSUMPTION_AND_FIRST_VALID_NEGATIVES.json)
+verifies16384 balanced original visits across126 TRAIN IDs. Read-only resume
+partition auditor d2c05a19 passed289 CPU tests and real single-partition readback;
+actual multi-session qualification remains pending. Vanda camera stays CLOSED
+NOT_RUN. Human engineering autonomy adds no budget or clock; TF-R3 STOP stays.
 
 ## Earlier MP1 Snapshots (Not Current Native State)
 

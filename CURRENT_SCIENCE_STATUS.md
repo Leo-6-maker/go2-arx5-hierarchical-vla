@@ -1,15 +1,19 @@
 # Current Science Status
 
-**Latest source checkpoint and real behavior:** [S-BC512 full consumption and
-first audited negatives](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_CHECKPOINT_CONSUMPTION_AND_FIRST_VALID_NEGATIVES.json).
-The planned512 stop completed with512 finite positive gradient records and
-full resume state. Independent committed-trace join verifies16,384 visits,
-all126 TRAIN episode IDs,T1/T2=8,192/8,192,correction0. F0/T1 and F0/T2
-are valid original-S1 failures at1.6s/20.8s,zero native faults; both raw audits
-and video decodes passed. Remaining TRAIN4 is in progress,not imputed.
-Fixed2048 continuation and later matched CORR remain pending. This is not
-full learning success,forgetting attribution,DAgger gain or generalization.
-672080 is R; Vanda camera is CLOSED NOT_RUN. Original MP1 clocks/caps persist.
+**Latest fixed panel and real continuation:** [S-BC512 TRAIN4 complete / actual
+full-state resume](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_FULL_TRAIN4_AND_RESUME_AUDIT_ENGINEERING.json).
+S-BC512 has0/4 task successes: four valid original-S1 failures at
+1.6/20.8/10.4/22.4s,zero native faults and zero engineering-missing rows.
+All four independent raw audits,1108-frame video decodes and142 fresh
+observation/native-generation chains passed,including138 executed ACKs and
+four rejected zero-live prefixes. These valid negatives will not be repeated.
+Same-job exact resume is actually at515/cursor16480; first resumed cursor16384,
+finite gradients and continuing original scheduler are verified. Fixed2048
+criterion,recipe and budget stay; no full2048,CORR/C1,DEV or target result yet.
+The read-only resume-partition auditor passed289 CPU tests and real512
+single-partition readback; real multiple-session audit awaits completed state.
+672080 is R,runtime03646938 unchanged. Vanda camera stays CLOSED NOT_RUN.
+Original MP1 clocks/caps and TF-R3 STOP persist. selected/deployment NONE.
 
 ## Earlier MP1 Snapshots (Not Current Native State)
 
