@@ -1,0 +1,149 @@
+{
+  "schema": "E1_LAST_ALLOCATION_TERMINAL_WITH_ENGINEERING_GAPS_V1",
+  "review_priority_ref": "114f0786a329fae95aadd89f9d5d96c3ccb143d8",
+  "run_uuid": "20261016T150228Z-localpc-e1",
+  "training": {
+    "status": "M2-CORR_ACTUAL_FIXED_UPDATES",
+    "global_step": 512,
+    "consumed_samples": 16384,
+    "frozen_parameters_unchanged": true,
+    "correction_manifest_sha256": "7580aa55973f1eb7ba24db934a67454acfae3490ac476de648b80377721df85d",
+    "wall_s": 2281.865779732121,
+    "data_origin": "E0_STATE_AGGREGATION_ONLY",
+    "parent_checkpoint_manifest_sha256": "7dba1c4c8abacdb57e2faa0e6d7563ed5dcef2e5473cb13c281eb0e57d5a5150",
+    "observed_epoch": 1792212256.286095,
+    "changed_trainable_tensors": 537,
+    "actual_gradient_records": 512,
+    "finite_positive_projector_and_diffusion_gradients": true,
+    "finite_native_loss_records": 512,
+    "loss_first64_mean": 0.02400161942205159,
+    "loss_last64_mean": 0.011283898144029081,
+    "loss_final": 0.00848623737692833,
+    "checkpoint_manifest_sha256": "5275bb0c188a1d2148418d0cd7593dd712d2563e74b1907148563e5582a01f9a",
+    "training_receipt_sha256": "45e0070befe30c667b7e8cc9c6f53bcf8ae3067d0bf69fc347e59e0298f002d1",
+    "original_C0_not_new_C1": true,
+    "optimizer_updates_total": 2048
+  },
+  "actual_consumed_exposure": {
+    "schema": "E1_ACTUAL_CONSUMED_EXPOSURE_V1",
+    "branches": {
+      "M2-BC": {
+        "branch": "M2-BC",
+        "actual_consumed_samples": 16384,
+        "optimizer_updates_represented": 512,
+        "task_samples": {
+          "T1": 8192,
+          "T2": 8192
+        },
+        "origin_samples": {
+          "original": 16384,
+          "C0": 0
+        },
+        "original_episodes_observed": 8,
+        "correction_segments_observed": 0,
+        "independent_correction_parent_episode_count": "READ_FIXED_C0_MANIFEST_NOT_SEGMENT_COUNT",
+        "all_effective_batches_checked": true,
+        "new_M1_online_C1_samples": 0,
+        "matched_total_updates_not_matched_task_exposure": false,
+        "causal_correction_gain_claim_supported": false,
+        "recipe_or_sampler_modified": false,
+        "correction_manifest_sha256": null
+      },
+      "M2-CORR": {
+        "branch": "M2-CORR",
+        "actual_consumed_samples": 16384,
+        "optimizer_updates_represented": 512,
+        "task_samples": {
+          "T1": 12288,
+          "T2": 4096
+        },
+        "origin_samples": {
+          "original": 8192,
+          "C0": 8192
+        },
+        "original_episodes_observed": 8,
+        "correction_segments_observed": 6,
+        "independent_correction_parent_episode_count": "READ_FIXED_C0_MANIFEST_NOT_SEGMENT_COUNT",
+        "all_effective_batches_checked": true,
+        "new_M1_online_C1_samples": 0,
+        "matched_total_updates_not_matched_task_exposure": true,
+        "causal_correction_gain_claim_supported": false,
+        "recipe_or_sampler_modified": false,
+        "correction_manifest_sha256": "7580aa55973f1eb7ba24db934a67454acfae3490ac476de648b80377721df85d"
+      }
+    },
+    "C0_manifest_sha256": "7580aa55973f1eb7ba24db934a67454acfae3490ac476de648b80377721df85d",
+    "C0_independent_student_parent_episodes": 2,
+    "C0_segments": 6,
+    "evidence_sha256": {
+      "training/M2-BC/session-start/TRAINING_RUN.json": "0f229240e79e1ffc03efe0a979b8bab864b1eb12613d9e2e133ae42c45ea5ba2",
+      "training/M2-BC/session-start/worker_trace/worker-1800929.jsonl": "985f6df7d5146deb6bdca9cb17223be53f04da1eea71912bd8ddb9da7f9366ab",
+      "training/M2-CORR/session-start/TRAINING_RUN.json": "45e0070befe30c667b7e8cc9c6f53bcf8ae3067d0bf69fc347e59e0298f002d1",
+      "training/M2-CORR/session-start/worker_trace/worker-1969125.jsonl": "a797254a33f5b0ceced487f4ea047399e49ac93ed8956e61f0da1c28a86d3abc"
+    },
+    "comparison_confound": "BC_T1_T2_1_TO_1_VS_CORR_3_TO_1_NOT_TASK_MATCHED",
+    "training_recipe_unchanged": true,
+    "C1_used": false,
+    "causal_correction_gain_claim_supported": false
+  },
+  "last_job": {
+    "id": "671655.hopper-m-02",
+    "native_state": "F",
+    "exit_status": 0,
+    "native_allocated_GPU_s": 3308,
+    "conservative_charged_GPU_s": 3312
+  },
+  "all_E1_GPU": {
+    "submissions_used": 3,
+    "submission_cap": 3,
+    "conservative_charged_s": 19675,
+    "cap_s": 28800,
+    "reserved_s": 0,
+    "fourth_submission_authorized": false,
+    "unused_balance_is_not_a_submission_allowance": true
+  },
+  "CORR_autonomous_panel": {
+    "F0_T1": {
+      "status": "ENGINEERING_INCOMPLETE",
+      "duration_s": 10.8,
+      "integrations": 5400,
+      "paired_RGB": 217,
+      "acknowledged_prefixes": 27,
+      "S1_rejections": 0,
+      "native_safety_faults": 0,
+      "route_failure": "ORIGINAL_20S_FILE_RPC_TIMEOUT_UNKNOWN_EFFECT_NO_RETRY",
+      "worker_terminal_reason": "OWNER_STOP_NO_PHYSICS_REPLAY",
+      "task_success": false,
+      "valid_policy_failure": false,
+      "maximum_actual_lift_m": 0.09859359265451834,
+      "maximum_actual_horizontal_carry_m": 0.17943193066144691,
+      "result_sha256": "0b611c4d92cb64e2130ad9c31569b9bc331e9b94020a1497f21d3f9fc04fbe1d"
+    },
+    "remaining_three_conditions": "NOT_RUN_POISONED_CHANNEL_NO_NEXT_PHYSICAL_CASE",
+    "valid_policy_outcomes": 0,
+    "complete_panel": false,
+    "unknown_effect_retried": false
+  },
+  "readonly_visibility_helper": {
+    "terminal": true,
+    "CPU_s": 1.159755581,
+    "new_inference": 0,
+    "new_integrations": 0,
+    "complete_pipeline_fix_demonstrated": false
+  },
+  "single_controller_and_both_stdio_processes_terminal": true,
+  "active_Core_and_Hopper_workers_at_closeout_boundary": 0,
+  "physical_reservations_at_closeout_boundary": 0,
+  "independent_main_evidence_audit": {
+    "status": "PASS_ALL_DERIVED_MAIN_EVIDENCE",
+    "attempts": 22,
+    "zero_integration_engineering_attempts": 3,
+    "all_audits_PASS_is_not_all_policy_outcomes_or_task_success": true
+  },
+  "scientific_comparison": "INCOMPLETE_ENGINEERING_GAPS_NO_VALID_M2_BC_OR_CORR_PANEL",
+  "full_E1_artifact_and_lease_closeout": "IN_PROGRESS_NOT_CLAIMED_COMPLETE",
+  "MP1_GPU_or_physics_started": false,
+  "original_WBC_S1_clock_or_scope_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

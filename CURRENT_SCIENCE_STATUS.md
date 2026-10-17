@@ -1,6 +1,6 @@
 # Current Science Status
 
-Observed 2026-10-17 12:08 SGT by the existing single local-PC owner.
+Observed 2026-10-17 12:50 SGT by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
 ## Active Authority
@@ -32,10 +32,14 @@ from this adoption or an old successful login.
 Job 670729 is F/exit 1 after the original owner-heartbeat timeout, not a
 model/safety result. Both old jobs are terminal: 16,363 conservative allocated
 GPU seconds charged, their old reservation released only after native proof.
-Core has no active worker, outstanding physical reservation or source STOP.
-The final third E1 job **671655** is R, with 12,420 GPU seconds reserved;
-used plus reserved is 28,783 of the original 28,800 seconds. No fourth E1
-submission is permitted. No MP1 GPU has been submitted.
+The final third E1 job **671655** is now F/exit 0. All three allocations
+are natively reconciled: 19,675 conservative GPU seconds charged and zero
+GPU reservation. No fourth E1 submission is permitted even with unused
+seconds. All source/neural/controller/stdio workers were terminal and
+physical reservations zero before the separate CPU artifact-closeout stage.
+No MP1 GPU has been submitted. E1 artifact delivery and lease closure are
+still in progress, not complete.
+[Actual final allocation, training and consumed exposure](reports/PI0294/20261016T150228Z-localpc-e1/LAST_NATIVE_TERMINAL_AND_ACTUAL_M2_EXPOSURE.json).
 [Restored-network reconciliation and exact final allocation](reports/PI0294/20261016T150228Z-localpc-e1/NETWORK_RESTORED_AND_LAST_NATIVE_ALLOCATION.json).
 The preceding interruption remains preserved:
 [Actual interruption and resumption order](reports/PI0294/20261016T191445Z-localpc-mp1/LOCAL_NETWORK_INTERRUPTION_01.json).
@@ -61,14 +65,22 @@ response was then incorrectly reused on the same channel, causing the next
 three conditions to fail response-ID checks before physical integration.
 All four remain engineering failures, not valid policy negatives. No more
 BC replays are made in E1. Both SSH file endpoints subsequently exited.
-CORR is now training unchanged in the same allocation (58 actual updates
-at the latest exported snapshot), not restarted or moved to another host.
+CORR completed its fixed 512 updates/16,384 samples in the same allocation,
+with 537 changed trainable tensors, frozen parameters unchanged, and 512
+finite positive gradient records. Its first autonomous case stopped at
+10.8 simulated seconds on another original 20-second RPC timeout, with
+zero S1 rejection/native fault. The poisoned-channel latch then prevented
+the other three physical cases from starting: NOT_RUN, not three failures.
+No valid complete M2 comparison exists. Both model weights are preserved.
 The single local controller was replaced only at the settled BC/active
 CORR-training boundary, using the same owner lock and original deadlines.
 An uncertain channel now latches invalid before any later physical case.
-Read-only directory refresh has not demonstrated a speedup; a separately
-sealed direct-open metadata reader is prepared for CORR, with no model,
-physics, timeout or in-flight source modification.
+The finite direct-open metadata helper actually ran and ended, costing
+1.160 CPU seconds, no model queries or physics. It did not establish a
+complete pipeline repair; original timeouts and scientific sources stayed
+unchanged. Independent main-evidence audit accounts for all 22 actual
+attempts, including three zero-integration engineering attempts. Audit
+PASS is not task success or complete policy-outcome coverage.
 [Actual failure chain, timing caveats and controller continuity](reports/PI0294/20261016T150228Z-localpc-e1/BC_REMAINDER_ENGINEERING_FAILURE_AND_CORR_CONTINUITY.json).
 
 ## Source Results
@@ -84,8 +96,18 @@ original S1 in both layouts. This is not DEV, Go2/WBC or real-robot success.
   with 537 changed trainable tensors and 512 finite nonzero gradient records.
   Its three attempted evaluations are engineering-incomplete, not task outcomes;
   the first reached 25.6 simulated seconds before the original 900-second
-  relay limit. M2-CORR has not yet completed. Both branches have the fixed M1@1024 parent and
-  their previously sealed data choices; valid outcomes will not be rerun.
+  relay limit. M2-CORR training is now complete but its autonomous panel is
+  engineering-incomplete. Both branches have the fixed M1@1024 parent and
+  their previously sealed data choices; valid outcomes were not rerun.
+- Actual consumed traces verify BC T1/T2=8192/8192 and CORR=12288/4096.
+  CORR consumed 8192 original and 8192 C0 samples, from six correction
+  segments/two independent student parents. Equal updates are not
+  task-matched exposure; no causal correction-gain claim is supported.
+- [Saved M1 T2 object progress and original final rejection](reports/PI0294/20261016T150228Z-localpc-e1/M1_T2_SAVED_REJECTION_AND_OBJECT_PROGRESS.json):
+  actual horizontal motion 13.28/14.61 cm before original S1 rejection,
+  without lifting; no complete task success. Specific illegal geom pairs
+  remain unknown, not inherited from M2048. No new physics was run to
+  extract this evidence.
 - E1 C0: 833 full H40 windows from two E0 student episodes, T1 only. It is
   state aggregation, not new M1 on-policy DAgger.
 - Four real M1 collection episodes are terminal. Two required qualified
