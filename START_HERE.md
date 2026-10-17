@@ -1,5 +1,13 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Matched Source Pair is now submitted, not trained yet:** [native first job672080](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FIRST_SUBMISSION.json)
+is Q under CFP04-CF-007/auto, one H200 and at most4h. Both native immutable
+entries and fresh project/output quota passed. Runtime03646938 uses the
+fixed M1@1024 parent, TRAIN126 and qualified C1, matched T1/T2 exposure,
+new optimizers,2x2048 planned updates and32 fixed development conditions.
+Original MP1 budget/T0 remains; no fourth old-M2 recovery or new owner.
+Actual training consumption and behavior are pending, not inferred from code.
+
 **M2 recovery is CLOSED:** [actual eight-condition panel and terminal resources](reports/PI0294/20261016T191445Z-localpc-mp1/RECOVERY_FINAL_ACTUAL_PANEL_AND_RESOURCES.json).
 CORR T1 succeeds in both seen TRAIN scenes; BC T1 succeeds in F1 while F0
 remains engineering-missing. Overall: 3 SUCCESS, 2 valid original-S1 failures,

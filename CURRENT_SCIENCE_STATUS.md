@@ -1,5 +1,10 @@
 # Current Science Status
 
+**Current mainline:** [matched Source Pair first native submission](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FIRST_SUBMISSION.json),
+job672080 Q, CFP04-CF-007/auto, one H200/max4h; no training result yet.
+Both bindings passed, fixed parent/C1 and task-balanced sampling retained.
+This is a new MP1 source study, not reopening E1 or the closed M2 recovery.
+
 **Recovery-family final:** [eight-condition actual panel and resources](reports/PI0294/20261016T191445Z-localpc-mp1/RECOVERY_FINAL_ACTUAL_PANEL_AND_RESOURCES.json).
 CORR seen-TRAIN T1 is 2/2 successful scenes; BC has one success and one
 engineering-missing T1. Fixed total: 3 SUCCESS, 2 valid original-S1 failures,
