@@ -24,7 +24,9 @@ def refresh(directory):
 
 def refresh_completed_responses(resident):
     """Direct open requests NFS close-to-open validation, unlike cached stat."""
-    state=read(Path(resident)/'QUERY_STATE.json');opened=0
+    try:state=read(Path(resident)/'QUERY_STATE.json')
+    except FileNotFoundError:return 0
+    opened=0
     for row in state['queries'][-2:]:
         identifier=row['query_uuid']
         if str(uuid.UUID(identifier))!=identifier:raise ValueError('ACTUAL_QUERY_UUID_REQUIRED')
