@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from unittest.mock import Mock,call
 
-from scripts.pi0294.mp1.owner_heartbeat import read_live_owner
+from scripts.pi0294.mp1.owner_heartbeat import HeartbeatLost,read_live_owner
 
 
 class OwnerHeartbeat(unittest.TestCase):
@@ -70,12 +70,14 @@ class OwnerHeartbeat(unittest.TestCase):
         self.assertTrue(proof['server_revalidation']);self.assertEqual(sync.call_args_list,[call(self.root),call(self.path)])
 
     def test_expired_compute_admission_keeps_actual_read_values_in_error(self):
-        from .mp1.owner_heartbeat import HeartbeatLost
         with self.assertRaises(HeartbeatLost) as caught:
             read_live_owner(self.root,'source',now=1500,synchronize=Mock(),force_revalidate=True)
         self.assertEqual(caught.exception.diagnostics['heartbeat']['observed_epoch'],900)
         self.assertEqual(caught.exception.diagnostics['watchdog_s'],300)
         self.assertFalse(caught.exception.diagnostics['heartbeat_written'])
+
+    def test_exception_and_function_use_the_same_imported_module(self):
+        self.assertIs(HeartbeatLost,read_live_owner.__globals__['HeartbeatLost'])
 
 
 if __name__=='__main__':unittest.main()
