@@ -1,5 +1,20 @@
 # Current Science Status
 
+**Current native boundary:** [adopted review /1631 partial /12 existing student
+draws](reports/PI0294/20261016T191445Z-localpc-mp1/REVIEW_ADOPTION_STUDENT_PROBES_AND_ALLOCATION01_PARTIAL.json).
+672080 isF/0,11795 conservative H200 seconds,not currently training. Complete
+state at1631/cursor52192 and exact two-session consumption passed independent
+audit; T1/T2=26096 each,correction0. Both child leases remain ACTIVE but no
+workers or GPU/physics reservations remain. Next original-budget submission
+awaits fresh project authentication (last query15006); no second source PBS.
+Reviewfb16d101 is adopted without changingruntime03646938,clock or recipe.
+The12 historical E0 student draw identities all passed; actual S-BC S1 and
+qualified same-state expert-error joins are NOT_COMPARABLE/pending,not filled
+from old-model evidence. Four new failures' geom and actual event joins await
+bounded diagnosis. Fixed pair/terminal evaluation remains the mainline.
+
+## Earlier Source Pair Snapshots (Not Current Native State)
+
 **Latest fixed panel and real continuation:** [S-BC512 TRAIN4 complete / actual
 full-state resume](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_FULL_TRAIN4_AND_RESUME_AUDIT_ENGINEERING.json).
 S-BC512 has0/4 task successes: four valid original-S1 failures at

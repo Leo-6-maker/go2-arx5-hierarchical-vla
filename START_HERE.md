@@ -1,5 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Newest review adopted; first Source Pair allocation is now terminal with a1631 partial.**
+[Review adoption, real multi-session consumption and12 historical student draws](reports/PI0294/20261016T191445Z-localpc-mp1/REVIEW_ADOPTION_STUDENT_PROBES_AND_ALLOCATION01_PARTIAL.json).
+672080 isF/0,not running:11795 conservative H200 seconds,zero GPU reservations.
+Full checkpoint1631/cursor52192 is saved; independent two-partition readback
+verifies26096 visits per task,126 original TRAIN IDs,correction0. No2048 claim.
+Both child leases stay ACTIVE for legal continuation; physical workers/owner
+and helpers are terminal. Current project query15006 requires fresh auth
+before the next original-budget allocation; no new PBS submitted.
+The12 E0 student-state draw input/noise/weight identities passed independently;
+qualified-label RMSE and S-BC-specific original-S1 comparison remain pending.
+Follow reviewfb16d101: finish the fixed pair,then evidence-directed one-variable
+intervention. No extra budget/clock,WBC/S1 change or replay of valid negatives.
+
+## Earlier Source Pair Snapshots (Not Current Native State)
+
 **Current source milestone: S-BC512 TRAIN4 is complete and exact resume is running.**
 [All four actual conditions, independent chains and resume engineering](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_FULL_TRAIN4_AND_RESUME_AUDIT_ENGINEERING.json).
 This intermediate model has0/4 task successes: four valid original-S1
