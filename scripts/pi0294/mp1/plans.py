@@ -65,6 +65,6 @@ def remaining_panel(rows,spec):
 
 def session_spec(plan,label):
     base,separator,attempt=label.rpartition('-ALLOCATION-')
-    if separator!='-ALLOCATION-' or attempt not in ['01','02','03','04'] or base not in plan['panels']:
-        raise PermissionError('EXACT_FIXED_PANEL_AND_ONE_OF_FOUR_NATIVE_ALLOCATIONS')
+    if separator!='-ALLOCATION-' or attempt not in ['01','02','03','04','05'] or base not in plan['panels']:
+        raise PermissionError('EXACT_FIXED_PANEL_AND_AT_MOST_FIVE_NATIVE_ALLOCATIONS')
     return plan['panels'][base]

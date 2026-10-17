@@ -69,7 +69,7 @@ def chain_verified(value,actual,panel,checkpoint,registry):
             or len({r['query_uuid'] for r in core['rows']})!=count
             or checkpoint is None or weight['checkpoint_manifest_sha256']!=checkpoint
             or weight['global_step']!=step
-            or weight['label'] not in [panel+'-ALLOCATION-'+str(i).zfill(2) for i in range(1,5)]
+            or weight['label'] not in [panel+'-ALLOCATION-'+str(i).zfill(2) for i in range(1,6)]
             or registry['run_uuid']!='source-pair-01' or registry['checkpoint_identity']!=weight or case is None
             or case['attempt_id']!=actual['attempt_id'] or case['card']['id']!=actual['attempt_id']
             or any(case['card'][k]!=actual[k] for k in ['task','split','scene_group'])

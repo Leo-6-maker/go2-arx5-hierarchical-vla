@@ -37,11 +37,15 @@ def prior_usage(stage):
     return value
 
 
-def limits(stage):
+def limits(stage,*,root=None):
     if stage.get('schema')=='MP1_SAVED_M1_T2_SHADOW_DIAGNOSIS_V1':
         raise PermissionError('SAVED_T2_DIAGNOSTIC_HAS_NO_GPU_OR_PBS_AUTHORITY')
     if not is_recovery(stage):
-        return dict(mode='MP1_FIXED_SOURCE_PAIR',GPU_s=43200,PBS=4,output_bytes=140*1024**3)
+        cap=4
+        if root is not None:
+            from .cold_boundary05 import effective_PBS_cap
+            cap=effective_PBS_cap(root)
+        return dict(mode='MP1_FIXED_SOURCE_PAIR',GPU_s=43200,PBS=cap,output_bytes=140*1024**3)
     prior=prior_usage(stage);remaining=GPU_CAP-prior['GPU_s']
     if family_PBS_cap(stage)==3:remaining=min(remaining,7200)
     return dict(mode=MODE,GPU_s=remaining,PBS=family_PBS_cap(stage)-prior['PBS'],output_bytes=2*1024**3)

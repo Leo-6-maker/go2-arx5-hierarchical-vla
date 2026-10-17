@@ -61,7 +61,7 @@ class MP1Tests(unittest.TestCase):
         cards=[dict(id=str(i)+'-'+t,task=t,split='TRAIN' if i<2 else 'DEV',scene_group='F0/'+str(i)) for i in range(6) for t in ['T1','T2']]
         plan=evaluation_plan(cards,'a'*64);self.assertEqual(plan['regular_starts'],32)
         spec=session_spec(plan,'S-BC-512-TRAIN4-ALLOCATION-01');self.assertEqual(len(spec['cards']),4)
-        for bad in ['S-BC-512-TRAIN4','S-BC-512-TRAIN4-ALLOCATION-05','OTHER-ALLOCATION-01']:
+        for bad in ['S-BC-512-TRAIN4','S-BC-512-TRAIN4-ALLOCATION-06','OTHER-ALLOCATION-01']:
             with self.assertRaises(PermissionError):session_spec(plan,bad)
         card=spec['cards'][0]
         row=dict(attempt_id=card['id'],model=card['mp1_model_label'],scene_group=card['scene_group'],task=card['task'],

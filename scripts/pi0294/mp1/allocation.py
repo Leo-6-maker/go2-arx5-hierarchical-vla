@@ -15,7 +15,7 @@ from .recovery_config import limits
 
 def request_contract(root,request,manifest,ledger,now):
     root=Path(root);a=read(root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
-    p=root/'MP1_STAGE_BINDING.json';bound=limits(read(p) if p.exists() else {})
+    p=root/'MP1_STAGE_BINDING.json';bound=limits(read(p) if p.exists() else {},root=root)
     if (request['run_uuid']!=root.name or request['source_sha']!=manifest['code']['vla_commit']
             or request['run_manifest_sha256']!=sha(root/'RUN_MANIFEST.json')
             or request['mode']!=bound['mode'] or request['numerical_mode']!='DETERMINISTIC_CUDA_MATH_SDP_V1'

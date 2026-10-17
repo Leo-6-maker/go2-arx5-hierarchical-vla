@@ -37,6 +37,8 @@ def validate(root,worker_manifest=None,*,proposed_manifest=None):
     root=Path(root);m=read(root/'RUN_MANIFEST.json') if proposed_manifest is None else proposed_manifest
     relative=m['execution'].get('cold_engineering_binding_relative')
     if relative is None:return None
+    from . import cold_boundary05 as fifth
+    if relative==fifth.BINDING:return fifth.validate(root,worker_manifest,proposed_manifest=m)
     if relative!=BINDING or root.name!='source-pair-01':raise PermissionError('EXACT_COLD_ALLOC04_BOUNDARY_ONLY')
     required=[BINDING,HISTORY,LEDGER,EFFECTS,OUTCOMES,'RELAY_ENGINEERING_STOP.json']
     for name in required:
@@ -107,13 +109,18 @@ class Guard:
     """Fully validate once; retain stop/input identity checks on every guard call."""
     def __init__(self,root,allocation_number):
         self.root=Path(root);self.allocation_number=allocation_number;self.binding=validate(root)
-        names=[BINDING,HISTORY,LEDGER,EFFECTS,OUTCOMES,'RUN_MANIFEST.json','RELAY_ENGINEERING_STOP.json']
+        from . import cold_boundary05 as fifth
+        self.fifth=self.binding is not None and self.binding['target_allocation_number']==5
+        names=(fifth.REQUIRED if self.fifth else [BINDING,HISTORY,LEDGER,EFFECTS,OUTCOMES,'RELAY_ENGINEERING_STOP.json'])+['RUN_MANIFEST.json']
+        if self.fifth:
+            names+=list(read(self.root/fifth.HISTORY)['execution']['sealed_inputs'])
         self.identities={n:sha(self.root/n) for n in names} if self.binding is not None else {}
 
     def blocked(self):
-        if (self.root/NEW_STOP).exists():return True
+        from . import cold_boundary05 as fifth
+        if (self.root/(fifth.NEW_STOP if self.fifth else NEW_STOP)).exists():return True
         if self.binding is None:return (self.root/'RELAY_ENGINEERING_STOP.json').exists()
-        if self.allocation_number!=4:return True
+        if self.allocation_number!=(5 if self.fifth else 4):return True
         # Byte hashes retain the admission evidence without reparsing all prior traces.
         if any(sha(self.root/n)!=digest for n,digest in self.identities.items()):
             raise PermissionError('COLD_BOUNDARY_EVIDENCE_CHANGED_AFTER_ADMISSION')
@@ -122,6 +129,9 @@ class Guard:
 
 def blocked(root,allocation_number):
     root=Path(root)
+    from . import cold_boundary05 as fifth
+    if read(root/'RUN_MANIFEST.json')['execution'].get('cold_engineering_binding_relative')==fifth.BINDING:
+        return Guard(root,allocation_number).blocked()
     if (root/NEW_STOP).exists():return True
     if not (root/'RELAY_ENGINEERING_STOP.json').exists():
         if read(root/'RUN_MANIFEST.json')['execution'].get('cold_engineering_binding_relative'):
@@ -133,4 +143,7 @@ def blocked(root,allocation_number):
 
 def stop_target(root,allocation_number):
     root=Path(root)
+    from . import cold_boundary05 as fifth
+    if allocation_number==5 and validate(root) is not None and validate(root)['target_allocation_number']==5:
+        return root/fifth.NEW_STOP
     return root/(NEW_STOP if allocation_number==4 and validate(root) is not None else 'RELAY_ENGINEERING_STOP.json')

@@ -35,7 +35,7 @@ def prepare(root,*,output_rebinding=None,memory_gb=225):
         raise PermissionError('ONLY_EXISTING_SOURCE_ALLOCATION_MEMORY_PROFILES')
     root=Path(root);m=validate_runtime(root,'hopper-neural');old_scope_closed(root);no_overlap()
     a=read(root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json');l=read(root/'HOPPER_RESOURCE_LEDGER.json')
-    bound=limits(read(root/'MP1_STAGE_BINDING.json'))
+    bound=limits(read(root/'MP1_STAGE_BINDING.json'),root=root)
     if (time.time()>=a['new_submission_and_candidate_cutoff_epoch'] or len(l['PBS_submissions'])>=bound['PBS'] or l['GPU_reserved_s']
             or any(v['status']!='NATIVE_TERMINAL' for v in l['PBS_submissions'])):raise PermissionError('MP1_NEW_SUBMISSION_CLOCK_AND_PRIOR_TERMINALS')
     wall=min(14400,(bound['GPU_s']-l['GPU_allocated_s'])//60*60)
@@ -79,7 +79,7 @@ def submit(root):
     try:
         with ledger.transaction() as l:
             number=len(l['PBS_submissions'])+1;d=root/'pbs'/('alloc-'+str(number).zfill(2));r=read(d/'REQUEST.json');a=read(root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
-            bound=limits(read(root/'MP1_STAGE_BINDING.json'))
+            bound=limits(read(root/'MP1_STAGE_BINDING.json'),root=root)
             if (number>bound['PBS'] or r['submit_count']!=number or r['mode']!=bound['mode'] or l['GPU_reserved_s'] or any(v['status']!='NATIVE_TERMINAL' for v in l['PBS_submissions'])
                     or time.time()>=a['new_submission_and_candidate_cutoff_epoch'] or l['GPU_allocated_s']!=r['prior_GPU_allocated_s']
                     or l['GPU_allocated_s']+r['walltime_s']>bound['GPU_s'] or time.time()-read(d/'PROJECT_ADMISSION.private.json')['observed_epoch']>=900):
@@ -125,7 +125,7 @@ def settle(root):
             item.update(status='NATIVE_TERMINAL',native_exit_status=j.get('Exit_status'),native_allocated_wall_s=wall,GPU_conservative_charge_s=upper)
             rows.append(dict(job_id=item['job_id'],GPU_native_s=wall,GPU_conservative_s=upper,exit_status=j.get('Exit_status')))
         total=sum(v['GPU_conservative_s'] for v in rows)
-        if total>limits(read(root/'MP1_STAGE_BINDING.json'))['GPU_s']:raise PermissionError('MP1_SOURCE_STUDY_ALLOCATION_CAP_EXCEEDED_PRESERVE_ACTUAL')
+        if total>limits(read(root/'MP1_STAGE_BINDING.json'),root=root)['GPU_s']:raise PermissionError('MP1_SOURCE_STUDY_ALLOCATION_CAP_EXCEEDED_PRESERVE_ACTUAL')
         l.update(GPU_allocated_s=total,GPU_reserved_s=0)
     value=dict(status='MP1_SOURCE_NATIVE_ALLOCATIONS_SETTLED',rows=rows,GPU_conservative_s=total)
     write(root/'evidence'/('GPU_SETTLEMENT_'+str(len(rows))+'.json'),value);return value
