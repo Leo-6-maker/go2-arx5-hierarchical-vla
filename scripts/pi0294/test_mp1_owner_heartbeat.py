@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import Mock,call
+from unittest.mock import Mock,call,patch
 
 from scripts.pi0294.mp1.owner_heartbeat import HeartbeatLost,read_live_owner
 
@@ -78,6 +78,45 @@ class OwnerHeartbeat(unittest.TestCase):
 
     def test_exception_and_function_use_the_same_imported_module(self):
         self.assertIs(HeartbeatLost,read_live_owner.__globals__['HeartbeatLost'])
+
+    def test_concurrent_owner_write_during_read_uses_clock_after_read(self):
+        clock=[1000.]
+        def reader(path):
+            clock[0]=1000.1
+            return self.value(1000.05)
+        sync=Mock()
+        with patch('scripts.pi0294.mp1.owner_heartbeat.time.time',side_effect=lambda:clock[0]):
+            proof=read_live_owner(self.root,'source',reader=reader,synchronize=sync)
+        self.assertAlmostEqual(proof['cached_age_s'],.05)
+        sync.assert_not_called()
+
+    def test_each_forced_revalidation_read_has_its_own_post_read_clock(self):
+        clock=[1000.];values=iter([self.value(1000.05),self.value(1000.15)])
+        def reader(path):
+            clock[0]+=.1
+            return next(values)
+        with patch('scripts.pi0294.mp1.owner_heartbeat.time.time',side_effect=lambda:clock[0]):
+            proof=read_live_owner(self.root,'source',reader=reader,synchronize=Mock(),force_revalidate=True)
+        self.assertAlmostEqual(proof['cached_age_s'],.05)
+        self.assertAlmostEqual(proof['revalidated_age_s'],.05)
+
+    def test_expiry_during_read_is_not_accepted_at_old_300_second_boundary(self):
+        clock=[1000.]
+        def reader(path):
+            clock[0]+=.01
+            return self.value(700.)
+        with patch('scripts.pi0294.mp1.owner_heartbeat.time.time',side_effect=lambda:clock[0]):
+            with self.assertRaises(HeartbeatLost):
+                read_live_owner(self.root,'source',reader=reader,synchronize=Mock())
+
+    def test_actual_future_value_still_fails_with_post_read_clock(self):
+        clock=[1000.]
+        def reader(path):
+            clock[0]+=.1
+            return self.value(1001.)
+        with patch('scripts.pi0294.mp1.owner_heartbeat.time.time',side_effect=lambda:clock[0]):
+            with self.assertRaises(HeartbeatLost):
+                read_live_owner(self.root,'source',reader=reader,synchronize=Mock())
 
 
 if __name__=='__main__':unittest.main()
