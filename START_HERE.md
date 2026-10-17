@@ -1,5 +1,12 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Later explicit human revision:** [one additional bounded recovery submission](reports/PI0294/20261016T191445Z-localpc-mp1/THIRD_RECOVERY_ADDITIONAL_GO_AND_NATIVE_SUBMISSION.json)
+changes only the recovery-family PBS cap from two to three, with one new
+allocation at most 7,200 seconds. Both prior costs/closed leases and all
+per-condition attempt counts remain. New child03/native job671899 is Q;
+BC F0-T1 is exhausted and excluded, remaining BC3/CORR4 only. No training,
+new T0/budget or claim of relay/behavioral success. No fourth family submission.
+
 **Latest independent Vanda lane:** the [sprint adoption / native camera binding](reports/PI0294/20261016T191445Z-localpc-mp1/SPRINT_ADOPTION_AND_VANDA_CAMERA_BINDING.json)
 records job1463728 Q for a bounded A40 EGL/frozen-task-camera check only.
 Original container/assets are reused, not rebuilt; no WBC/model/action/physics
@@ -12,7 +19,8 @@ reserved. TF-R3's actual ILLEGAL_CONTACT STOP remains unchanged.
 updates. Four audited attempts still give no valid full policy result:
 3 engineering-incomplete conditions / 5 NOT_RUN, not policy 0/8. An actual
 30.301976s Hopper RPC accounting stall crossed the unchanged 20s watchdog.
-No third recovery-family PBS; do not train around this fault.
+The original two-submission boundary was sealed; the later explicit human
+revision above permits exactly one further bounded submission, not training around the fault.
 The [scoped RPC telemetry repair](reports/PI0294/20261016T191445Z-localpc-mp1/RPC_REPLY_LOCK_ISOLATION_CPU_RECEIPT.json)
 has passed actual two-host CPU lock-isolation probes: successful replies no
 longer take the metrics ledger write lock. Scientific charges remain durable;

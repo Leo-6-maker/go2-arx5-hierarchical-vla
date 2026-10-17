@@ -3,6 +3,13 @@
 Observed 2026-10-17 after E1 and both MP1 recovery-child lease closures by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
+**Latest direct human scope revision:** [third recovery-family submission](reports/PI0294/20261016T191445Z-localpc-mp1/THIRD_RECOVERY_ADDITIONAL_GO_AND_NATIVE_SUBMISSION.json)
+is explicitly permitted once, at most two hours, without changing MP1 total
+budget/T0/deadline or prior attempt counts. Child03 passed both native entries;
+671899 is Q, 7,200 GPU seconds reserved, no model loaded yet. BC F0-T1 is
+excluded as exhausted; BC3/CORR4 remain eligible. Previous children01/02 stay
+CLOSED and their engineering conclusions/costs remain. No fourth submission.
+
 **Later independent native admission:** [sprint adoption and camera binding](reports/PI0294/20261016T191445Z-localpc-mp1/SPRINT_ADOPTION_AND_VANDA_CAMERA_BINDING.json)
 records a new camera-only A40 job1463728, currently Q (site node_pool capacity).
 This does not reopen the two closed recovery children or TF-R3 physical STOP.
