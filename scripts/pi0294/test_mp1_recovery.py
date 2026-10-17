@@ -35,3 +35,18 @@ class RecoveryTests(unittest.TestCase):
             with self.assertRaises(PermissionError):ledger.charge('generation_queries',1)
         self.assertEqual(r.limits({'schema':r.SCHEMA})['PBS'],2)
         self.assertEqual(r.limits({'schema':r.SCHEMA})['GPU_s'],21600)
+
+    def test_new_child_deducts_prior_allocation_and_every_counter(self):
+        from .mp1.science import Ledger
+        prior=r.prior_usage({});prior.update(GPU_s=213,PBS=1,main_starts=2,
+            live_and_recovery_integrations=400,shadow_integrations=400,generation_queries=2,CPU_core_s=200,CPU_hopper_s=215)
+        stage=dict(schema=r.SCHEMA,stage_caps=r.CAPS,prior_recovery_usage=prior)
+        self.assertEqual(r.limits(stage)['PBS'],1);self.assertEqual(r.limits(stage)['GPU_s'],21387)
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(stage))
+            (root/'HOPPER_RESOURCE_LEDGER.json').write_text(json.dumps(dict(optimizer_updates=0)))
+            ledger=Ledger(root,'hopper');self.assertEqual(ledger.caps['main_starts'],14)
+            ledger.charge('generation_queries',1278)
+            with self.assertRaises(PermissionError):ledger.charge('generation_queries',1)
+        for bad in [dict(prior,PBS=0),dict(prior,GPU_s=-1),dict(prior,optimizer_updates=1),dict(prior,CPU_core_s=1.5)]:
+            with self.assertRaises(PermissionError):r.limits(dict(stage,prior_recovery_usage=bad))

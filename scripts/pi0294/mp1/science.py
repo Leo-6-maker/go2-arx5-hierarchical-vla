@@ -28,6 +28,7 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
             or a['new_experiment_cutoff_epoch']!=a['T0_epoch']+160*3600 or a['hard_closeout_epoch']!=a['T0_epoch']+168*3600
             or not a['T0_epoch']<=now<(a['hard_closeout_epoch'] if closeout else a['new_experiment_cutoff_epoch'])):raise PermissionError('MP1_ACTUAL_SINGLE_INCREMENTAL_AUTHORITY_AND_CLOCK')
     recovered=recovery.is_recovery(stage);caps=recovery.CAPS if recovered else CAPS;cpu_caps=recovery.CPU_CAPS if recovered else CPU_CAPS
+    if recovered:recovery.prior_usage(stage)
     if (stage['schema'] not in ['MP1_SOURCE_SHARED_STAGE_V1',recovery.SCHEMA] or stage['resource_family']!='MP1' or stage['parent_run_uuid']!=parent.name
             or stage['run_uuid']!=root.name or stage['authority_release']!=AUTHORITY or stage['stage_caps']!=caps
             or stage['source_data_sha256']!=DATA or stage['statistics_sha256']!=STATS
@@ -65,6 +66,11 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
         p=root/name
         if Path(name).is_absolute() or '..' in Path(name).parts or not p.resolve().is_relative_to(root.resolve()) or p.is_symlink() or sha(p)!=digest:
             raise PermissionError('MP1_SCIENTIFIC_INPUT_CHANGED:'+name)
+    if 'prior_recovery_usage' in stage:
+        if 'plans/PRIOR_RECOVERY_OUTCOMES.json' not in m['execution']['sealed_inputs']:
+            raise PermissionError('SEALED_PRIOR_RECOVERY_OUTCOMES_REQUIRED')
+        from .plans import prior_recovery_rows
+        prior_recovery_rows(root)
     if m['data']['manifest_sha256']!=DATA or m['interfaces']['statistics_sha256']!=STATS:raise PermissionError('MP1_FIXED_SOURCE_STATS')
     if sha(root/'evidence/S1_TEACHER_QUALIFIED.json')!=S1_PROOF:raise PermissionError('MP1_ORIGINAL_SOURCE_S1_QUALIFICATION')
     return m
@@ -73,8 +79,10 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
 class Ledger(FileLedger):
     def __init__(self,root,role):
         super().__init__(root,role)
-        stage=read(self.root/'MP1_STAGE_BINDING.json');self.caps=recovery.CAPS if recovery.is_recovery(stage) else CAPS
-        if stage['stage_caps']!=self.caps:raise PermissionError('MP1_EXACT_SOURCE_STUDY_COUNTERS')
+        stage=read(self.root/'MP1_STAGE_BINDING.json');base=recovery.CAPS if recovery.is_recovery(stage) else CAPS
+        if stage['stage_caps']!=base:raise PermissionError('MP1_EXACT_SOURCE_STUDY_COUNTERS')
+        prior=recovery.prior_usage(stage) if recovery.is_recovery(stage) else {k:0 for k in base}
+        self.caps={k:v-prior[k] for k,v in base.items()}
 
     def charge(self,key,count):
         if type(count) is not int or count<0 or key not in self.caps:raise ValueError('MP1_EXACT_POSITIVE_RESOURCE_CHARGE')
@@ -103,6 +111,7 @@ class Ledger(FileLedger):
         stage=read(self.root/'MP1_STAGE_BINDING.json');a=read(self.root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
         if time.time()>=(a['hard_closeout_epoch'] if closeout else a['new_experiment_cutoff_epoch']):raise TimeoutError('MP1_SOURCE_STUDY_CLOCK_CLOSED')
         l=read(self.path);key='Core_CPU_s' if self.role=='core' else 'CPU_s';cap=stage['CPU_core_s'][self.role]
+        if recovery.is_recovery(stage):cap-=recovery.prior_usage(stage)['CPU_'+self.role+'_s']
         if l[key]>=cap:raise PermissionError('MP1_SOURCE_STAGE_CPU_CAP')
 
     def stop_physics(self,reason,detail):

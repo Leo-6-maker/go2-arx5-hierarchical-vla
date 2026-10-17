@@ -29,6 +29,8 @@ if ROLE=='core':
    p=folder/'MP1_ADJUDICATION.json'
    assert p.is_file(),'MP1_UNKNOWN_PRIOR_PHYSICAL_OUTCOME_NO_BLIND_RESTART'
    rows.append(json.loads(p.read_text()))
+ if 'prior_recovery_usage' in json.loads((r/'MP1_STAGE_BINDING.json').read_text()):
+  rows=json.loads((r/'plans/PRIOR_RECOVERY_OUTCOMES.json').read_text())+rows
 print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib.sha256(raw).hexdigest(),
  plan=json.loads((r/'plans/SOURCE_EVALUATION_PLAN.json').read_text()),rows=rows,
  source_stop=(r/'SOURCE_PHYSICS_STOP.json').exists() if ROLE=='core' else False)))

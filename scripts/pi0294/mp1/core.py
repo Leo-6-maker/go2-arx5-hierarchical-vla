@@ -21,9 +21,9 @@ def run(root,card_path):
     card_path=Path(card_path);card_path=card_path if card_path.is_absolute() else root/card_path
     if not card_path.resolve().is_relative_to(root.resolve()):raise PermissionError('MP1_REGISTERED_CARD_ONLY')
     card=read(card_path);label=card['mp1_model_label'];session=card['mp1_session_label'];plan=read(root/'plans/SOURCE_EVALUATION_PLAN.json')
-    from .plans import session_spec,remaining_panel
+    from .plans import session_spec,remaining_panel,prior_recovery_rows
     spec=session_spec(plan,session)
-    prior=[read(p) for p in (root/'episodes').glob('*/MP1_ADJUDICATION.json')]
+    prior=prior_recovery_rows(root)+[read(p) for p in (root/'episodes').glob('*/MP1_ADJUDICATION.json')]
     allowed=remaining_panel(prior,spec)
     expected=next((c for c in allowed if c['id']==card['id']),None)
     if (card.get('e1_intervention_collection') or card['split']!=spec['split'] or expected is None

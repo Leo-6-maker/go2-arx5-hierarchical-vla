@@ -8,7 +8,9 @@ from scripts.pi0292.durable import read,write
 from scripts.pi0294.native_dataset import sha
 
 
-def audit(root,identifier,video_writer):
+def audit(root,identifier,video_writer,*,adjudication_name='E1_ADJUDICATION.json'):
+    if adjudication_name not in ['E1_ADJUDICATION.json','MP1_ADJUDICATION.json']:
+        raise PermissionError('EXACT_E1_OR_MP1_ADJUDICATION_ONLY')
     root=Path(root);folder=root/'episodes'/identifier;out=root/'evidence/zero-step-audits'/identifier
     if out.exists():return read(out/'AUDIT.private.json')
     out.mkdir(parents=True,mode=0o700);checks={};errors=[];value=dict(attempt_id=identifier)
@@ -16,7 +18,7 @@ def audit(root,identifier,video_writer):
         checks[name]=bool(condition)
         if not condition:errors.append(name)
     try:
-        a=read(folder/'E1_ADJUDICATION.json');result=read(folder/'RESULT.json');worker=read(folder/'WORKER_RECEIPT.json');card=read(folder/'CARD.json')
+        a=read(folder/adjudication_name);result=read(folder/'RESULT.json');worker=read(folder/'WORKER_RECEIPT.json');card=read(folder/'CARD.json')
         check('actual_attempt_identity',a['attempt_id']==card['id']==result['id']==worker['id']==identifier)
         check('actual_engineering_not_policy_outcome',a['status']=='ENGINEERING_INCOMPLETE' and a['pipeline_trustworthy'] is False)
         check('actual_native_step_and_command_counts_zero',result['physics_steps']==worker['physics_steps']==a['main_integrations']==0)
@@ -35,7 +37,7 @@ def audit(root,identifier,video_writer):
         check('no_physics_or_task_score_fabricated',not (folder/'physics.npz').exists() and not (folder/'SCORE.json').exists())
         prior=root/'evidence/audits'/identifier/'AUDIT.private.json'
         movie=video_writer(folder,out/'actual-initial-body-wrist.mp4',1)
-        movie.update(logical_id='E1_ZERO_STEP/'+identifier,relative_path=str((out/'actual-initial-body-wrist.mp4').relative_to(root)),native_duration_s=0.,
+        movie.update(logical_id=('MP1_ZERO_STEP/' if adjudication_name=='MP1_ADJUDICATION.json' else 'E1_ZERO_STEP/')+identifier,relative_path=str((out/'actual-initial-body-wrist.mp4').relative_to(root)),native_duration_s=0.,
             initial_frame_only=True,task_trajectory_video=False)
         value.update(status='PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE' if not errors else 'FAIL_ZERO_INTEGRATION_EVIDENCE',
             adjudication=a,score=None,video=movie,actual_native_safety_flag_rows=0,physical_integrations=0,

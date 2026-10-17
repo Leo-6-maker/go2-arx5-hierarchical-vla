@@ -6,7 +6,8 @@ from pathlib import Path
 import resource
 import time
 
-from scripts.pi0292.durable import OwnerLock,read,write
+from scripts.pi0292.durable import OwnerLock,write
+from scripts.pi0294.e1.control_read import read
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.numerics import prepare_environment,configure_torch
 from scripts.pi0294.e1 import model

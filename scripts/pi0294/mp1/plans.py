@@ -1,6 +1,19 @@
 """Fixed source development coverage, never a new or hidden test split."""
 
 
+def prior_recovery_rows(root):
+    from pathlib import Path
+    from scripts.pi0294.e1.control_read import read
+    stage=read(Path(root)/'MP1_STAGE_BINDING.json')
+    if 'prior_recovery_usage' not in stage:return []
+    rows=read(Path(root)/'plans/PRIOR_RECOVERY_OUTCOMES.json')
+    if any(r['status']!='ENGINEERING_INCOMPLETE' or r['pipeline_trustworthy'] or r['live_native_failures'] for r in rows):
+        raise PermissionError('ONLY_TERMINAL_ENGINEERING_PRIORS_NO_VALID_RESULT_REPLAY')
+    if len(rows)!=stage['prior_recovery_usage']['main_starts']:
+        raise PermissionError('EVERY_PRIOR_RECOVERY_START_ACCOUNTED')
+    return rows
+
+
 def evaluation_plan(cards,parent_manifest_sha256):
     if len(parent_manifest_sha256)!=64 or any(c not in '0123456789abcdef' for c in parent_manifest_sha256):
         raise ValueError('EXACT_AUDITED_PARENT_MANIFEST_SHA256')

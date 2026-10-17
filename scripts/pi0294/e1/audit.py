@@ -34,14 +34,16 @@ def video(folder,output,n):
         playback_duration_s=float(info['duration']),padding_or_interpolation=False,raw_video_private=True)
 
 
-def episode(root,identifier):
+def episode(root,identifier,*,adjudication_name='E1_ADJUDICATION.json'):
+    if adjudication_name not in ['E1_ADJUDICATION.json','MP1_ADJUDICATION.json']:
+        raise PermissionError('EXACT_E1_OR_MP1_ADJUDICATION_ONLY')
     root=Path(root);folder=root/'episodes'/identifier;out=root/'evidence/audits'/identifier
-    result_path=folder/'RESULT.json';adjudication_path=folder/'E1_ADJUDICATION.json'
+    result_path=folder/'RESULT.json';adjudication_path=folder/adjudication_name
     if result_path.exists() and adjudication_path.exists():
         raw,decision=read(result_path),read(adjudication_path)
         if raw['physics_steps']==0 and decision['status']=='ENGINEERING_INCOMPLETE':
             from .zero_step_audit import audit
-            return audit(root,identifier,video)
+            return audit(root,identifier,video,adjudication_name=adjudication_name)
     if out.exists():return read(out/'AUDIT.private.json')
     out.mkdir(parents=True,mode=0o700);checks={};errors=[]
     def check(name,value):
@@ -49,7 +51,7 @@ def episode(root,identifier):
         if not value:errors.append(name)
     value=dict(attempt_id=identifier)
     try:
-        card,result,adjudication=[read(folder/name) for name in ['CARD.json','RESULT.json','E1_ADJUDICATION.json']]
+        card,result,adjudication=[read(folder/name) for name in ['CARD.json','RESULT.json',adjudication_name]]
         worker=read(folder/'WORKER_RECEIPT.json');reservation=read(folder/'RESERVATION.json');s1=read(folder/'S1_RESULT.json')
         manifest=read(folder/'FILE_MANIFEST.json')
         check('raw_manifest_all_sizes_and_hashes',all((folder/x['path']).is_file() and (folder/x['path']).stat().st_size==x['bytes'] and sha(folder/x['path'])==x['sha256'] for x in manifest))
@@ -97,7 +99,7 @@ def episode(root,identifier):
             for index in sorted({0,n-1}) if n else []:
                 with Image.open(paths[camera][index]) as image:check('RGB_'+str(camera)+'_'+str(index),image.mode=='RGB' and image.size==(256,256) and any(hi>lo for lo,hi in image.getextrema()))
         movie=video(folder,out/'actual-body-wrist.mp4',n) if n else None
-        if movie:movie.update(logical_id='E1_MAIN/'+identifier,relative_path=str((out/'actual-body-wrist.mp4').relative_to(root)),native_duration_s=steps*.002,initial_frame_included=True)
+        if movie:movie.update(logical_id=('MP1_MAIN/' if adjudication_name=='MP1_ADJUDICATION.json' else 'E1_MAIN/')+identifier,relative_path=str((out/'actual-body-wrist.mp4').relative_to(root)),native_duration_s=steps*.002,initial_frame_included=True)
         value.update(status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT' if not errors else 'FAIL_PRESERVED_AUDIT',
             adjudication=adjudication,score=recomputed,video=movie,actual_native_safety_flag_rows=flags,
             committed_20Hz_command_rows=committed,maximum_reference_label_difference=maximum,

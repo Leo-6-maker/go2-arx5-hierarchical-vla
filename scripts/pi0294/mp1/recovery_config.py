@@ -13,8 +13,20 @@ CHECKPOINTS={'M2-BC':'edc0f390776056f9b22cd07d152c8fd5e273556f1d242f8e4f220b3034
 def is_recovery(stage):return stage.get('schema')==SCHEMA
 
 
+def prior_usage(stage):
+    value=stage.get('prior_recovery_usage')
+    bounds=dict(GPU_s=GPU_CAP,PBS=PBS_CAP,**CAPS,CPU_core_s=CPU_CAPS['core'],CPU_hopper_s=CPU_CAPS['hopper'])
+    if value is None:return {k:0 for k in bounds}
+    if set(value)!=set(bounds) or any(type(value[k]) is not int or not 0<=value[k]<=limit for k,limit in bounds.items()):
+        raise PermissionError('EXACT_CUMULATIVE_RECOVERY_FAMILY_PRIOR_COSTS')
+    if value['PBS']!=1 or value['optimizer_updates'] or value['recovery_forks']:
+        raise PermissionError('ONLY_ONE_SETTLED_RECOVERY_ALLOCATION_CAN_CONTINUE')
+    return value
+
+
 def limits(stage):
-    return dict(mode=MODE,GPU_s=GPU_CAP,PBS=PBS_CAP,output_bytes=2*1024**3) if is_recovery(stage) else dict(
+    prior=prior_usage(stage) if is_recovery(stage) else None
+    return dict(mode=MODE,GPU_s=GPU_CAP-prior['GPU_s'],PBS=PBS_CAP-prior['PBS'],output_bytes=2*1024**3) if is_recovery(stage) else dict(
         mode='MP1_FIXED_SOURCE_PAIR',GPU_s=43200,PBS=4,output_bytes=140*1024**3)
 
 

@@ -20,6 +20,16 @@ from scripts.pi0294.relay_io import PhaseTrace
 MAX_LINE_BYTES=2*1024**2
 
 
+def ensure_model_not_terminal(root,label):
+    """A published ready marker must not outlive its native model process."""
+    root=Path(root);state=read(root/'pbs/MODEL_STATE.json')
+    if state.get('label')!=label:
+        raise PermissionError('EXACT_CURRENT_NATIVE_MODEL_SESSION')
+    for path in (root/'pbs').glob('alloc-*/PBS_PROCESS_FINAL.json'):
+        if read(path).get('job_id')==state['job_id']:
+            raise PermissionError('NATIVE_MODEL_ALREADY_TERMINAL_NO_NEXT_QUERY')
+
+
 def metadata(path):
     s=path.stat();return (s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns,s.st_mode)
 
@@ -76,6 +86,7 @@ def serve(root,role,label):
         if args['operation'] in ['query','install']:
             if any(metadata(p)!=v for p,v in file_metadata.items()):raise PermissionError('SEALED_SOURCE_METADATA_CHANGED_NO_HOT_RELOAD')
             if (root/'SOURCE_PHYSICS_STOP.json').exists() or (root/'SOURCE_SAFETY_STOP_FROM_CORE.json').exists():raise PermissionError('SOURCE_SAFETY_STOP_PRESERVED')
+        if role=='hopper':ensure_model_not_terminal(root,label)
         if role=='hopper':write(root/'OWNER_HEARTBEAT.json',dict(run_uuid=root.name,observed_epoch=time.time()))
     try:
         while time.time()<endpoint.registry['deadline_epoch'] and operations<40000:
