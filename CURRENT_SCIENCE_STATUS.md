@@ -15,6 +15,18 @@ single-partition readback; real multiple-session audit awaits completed state.
 672080 is R,runtime03646938 unchanged. Vanda camera stays CLOSED NOT_RUN.
 Original MP1 clocks/caps and TF-R3 STOP persist. selected/deployment NONE.
 
+**Independent saved-probe evidence:** [S-BC512 expert-state audit and legacy
+parent gap](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_SAVED_PROBE_AUDIT_AND_PARENT_PROVENANCE_GAP.json).
+All96 windows from8 TRAIN episodes have exact raw inputs,noise,weight hashes
+and independently recomputed metrics. Prefix8 XYZ means T1/T2=2.70/2.99mm;
+all96 trajectory-gate ACCEPTs are not S1 or live task success. Four T2 H40
+windows have spurious gripper transitions,only one inside the executed8-point
+prefix; these do not uniquely explain live failure. Strict M1 comparison is
+NOT_PROVEN: its first legacy NPZ lacks actual input fingerprint fields.
+No resampling or fake metadata; M1's prior task successes remain untouched.
+Both CPU auditors are terminal,7.017 CPU seconds total under their original
+600-second family bound. Native training observed668/cursor21376 continues.
+
 ## Earlier MP1 Snapshots (Not Current Native State)
 
 **Live source / terminal camera:** [actual learning and original-window camera closeout](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_LEARNING_STARTED_AND_VANDA_CAMERA_QUEUE_CLOSED.json).

@@ -15,6 +15,15 @@ partition auditor d2c05a19 passed289 CPU tests and real single-partition readbac
 actual multi-session qualification remains pending. Vanda camera stays CLOSED
 NOT_RUN. Human engineering autonomy adds no budget or clock; TF-R3 STOP stays.
 
+**Saved expert-state probes are now independently verified:**
+[96 windows / eight true episodes and parent-provenance limit](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_SAVED_PROBE_AUDIT_AND_PARENT_PROVENANCE_GAP.json).
+S-BC512 prefix8 XYZ means are2.70/2.99mm forT1/T2,not a replacement for
+its0/4 live successes. Actual inputs/noise/weights and all metrics/gates match;
+no new inference. Strict M1 comparison remains NOT_PROVEN because its first
+legacy array lacks input fingerprints; no metadata is invented to fill them.
+New auditor297 CPU tests/CI passed. Same-job training is now observed668,
+cursor21376,not terminal2048. Original scientific capsule remains unchanged.
+
 ## Earlier MP1 Snapshots (Not Current Native State)
 
 **Source learning is now actually running; Vanda camera queue is closed NOT_RUN:**

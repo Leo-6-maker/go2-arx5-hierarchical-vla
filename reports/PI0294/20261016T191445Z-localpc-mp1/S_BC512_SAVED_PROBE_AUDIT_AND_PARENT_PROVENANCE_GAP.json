@@ -1,0 +1,106 @@
+{
+  "schema": "MP1_S_BC512_SAVED_TRAIN_PROBE_INDEPENDENT_AUDIT_V1",
+  "status": "CANDIDATE_SAVED_PROBES_VERIFIED_PARENT_STRICT_PAIR_NOT_PROVEN_TRAINING_CONTINUES",
+  "observed_epoch": 1792232724.7860656,
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "child": "source-pair-01",
+  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "scientific_runtime_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+  "independent_auditor_sha": "888e183f605468c2dc9c99d5d48c8b8e1c0d94df",
+  "model": "S-BC@512",
+  "checkpoint_manifest_sha256": "1cf83ad430c03c1d953266562cf90f3d0475f49c806701448fe5750d494c4d8c",
+  "probe_manifest_sha256": "f772bad56a31fffcc9e717ae52bfc48aeb3b8ed728cbfdf2bcae0bb630d8260e",
+  "saved_candidate_results_sha256": "2b0261fb30a07ab6f790683050b3a23a99697a1ac3475910643fa5b8124c6522",
+  "actual_independent_qualification": {
+    "status": "PASS_SAVED_CANDIDATE_TRAIN_PROBE_METRICS_INPUTS_NOISE_AND_WEIGHT_IDENTITY",
+    "on_expert_windows": 96,
+    "distinct_original_TRAIN_episodes": 8,
+    "task_windows": {"T1": 48, "T2": 48},
+    "true_episodes_per_task": {"T1": 4, "T2": 4},
+    "source_bank_is_TRAIN126_but_probe_coverage_is_only_these_eight_episodes": true,
+    "raw_numeric_state_H40_and_two_camera_input_hashes_reconstructed_and_verified": true,
+    "saved_generation_noise_seed_fingerprint_precision_and_checkpoint_file_fingerprint_verified": true,
+    "all_saved_array_file_hashes_verified_before_and_after_read": true,
+    "all_error_metrics_and_original_trajectory_gate_results_independently_recomputed": true,
+    "new_model_or_processor_initialization": false,
+    "new_model_queries_physics_or_training_updates_for_this_audit": 0,
+    "the_other_12_student_state_probes_independently_audited_here": false,
+    "trajectory_gate": {"ACCEPT": 96},
+    "trajectory_gate_is_original_S1_collision_shadow": false,
+    "aggregation": "MEAN_OF_WITHIN_TRUE_EPISODE_POOLED_WINDOW_POINT_STATISTICS",
+    "overlapping_windows_are_independent_demonstrations": false,
+    "rejected_or_nonfinite_predictions_silently_excluded_by_auditor": false
+  },
+  "candidate_task_episode_macro_means": {
+    "T1": {
+      "prefix8": {"XYZ_m": 0.002702812265037786, "SO3_rad": 0.007236739992821918, "gripper_opening_fraction_absolute": 0.026707975814739864},
+      "H40": {"XYZ_m": 0.0037649609912407903, "SO3_rad": 0.00844619078756485, "gripper_opening_fraction_absolute": 0.013785581585640708}
+    },
+    "T2": {
+      "prefix8": {"XYZ_m": 0.0029863229697718366, "SO3_rad": 0.007979671083306538, "gripper_opening_fraction_absolute": 0.0380558151130875},
+      "H40": {"XYZ_m": 0.004057479285051317, "SO3_rad": 0.00911223831656193, "gripper_opening_fraction_absolute": 0.0242258474851648}
+    },
+    "all_dimensions_complete": true,
+    "means_are_not_global_p95_or_new_success_thresholds": true
+  },
+  "verified_saved_gripper_transition_observations": {
+    "threshold": 0.5,
+    "T1_close": {"expert_transition_windows": 8, "missing_predicted_windows": 0, "spurious_windows": 0, "first_transition_timing_error_range_s": [-0.05, 0.0]},
+    "T1_open": {"expert_transition_windows": 8, "missing_predicted_windows": 0, "spurious_windows": 0, "first_transition_timing_error_range_s": [-0.15, 0.0]},
+    "T2_close": {"expert_transition_windows": 8, "missing_predicted_windows": 0, "spurious_windows": 2, "first_transition_timing_error_range_s": [-0.3, 0.1]},
+    "T2_open": {"expert_transition_windows": 4, "missing_predicted_windows": 0, "spurious_windows": 2, "first_transition_timing_error_range_s": [-0.15, 0.2]},
+    "T2_spurious_windows": [
+      {"probe": "PI0294-TRAIN-F0-000-T2-A400", "expert_anchor_stage": "transport", "event": "open", "predicted_point": 32, "within_first_prefix8": false},
+      {"probe": "PI0294-TRAIN-F0-001-T2-A427", "expert_anchor_stage": "withdraw", "event": "close", "predicted_point": 28, "within_first_prefix8": false},
+      {"probe": "PI0294-TRAIN-F1-000-T2-A422", "expert_anchor_stage": "withdraw", "event": "close", "predicted_point": 25, "within_first_prefix8": false},
+      {"probe": "PI0294-TRAIN-F1-001-T2-A165", "expert_anchor_stage": "contact", "event": "open", "predicted_point": 7, "within_first_prefix8": true}
+    ],
+    "these_four_windows_come_from_four_T2_expert_episodes": true,
+    "repeated_windows_counted_as_independent_live_failures": false,
+    "future_H40_point_25_28_32_was_executed_by_prefix8_here": false,
+    "these_saved_expert_state_events_uniquely_explain_the_four_live_S1_rejections": false
+  },
+  "strict_parent_comparison": {
+    "status": "NOT_PROVEN_LEGACY_PARENT_ARRAY_INPUT_FINGERPRINTS_NOT_RECORDED",
+    "parent": "E1_M1_1024_CANONICAL",
+    "parent_saved_results_sha256": "e229232c479399889a2fd479dfff0f86991352d470eec5e07bbaf521bb5c2a79",
+    "fixed_probe_manifest_matches": true,
+    "first_legacy_array_inspected": "PI0294-TRAIN-F0-000-T1-A000",
+    "first_array_missing_fields": ["noise_seed", "noise_fingerprint_json", "inference_precision_json", "observation_fingerprint", "checkpoint_files_fingerprint"],
+    "parent_results_JSON_still_has_reported_seed_noise_and_precision_metadata": true,
+    "missing_actual_array_fingerprints_imputed_from_expected_or_result_metadata": false,
+    "strict_comparison_guard_relaxed": false,
+    "parent_requeried_or_closed_E1_lease_reopened": false,
+    "all_legacy_probe_arrays_or_prior_M1_task_successes_declared_invalid": false,
+    "new_learning_gain_or_causal_forgetting_inferred_from_unproved_pair": false,
+    "next_strict_comparison": "USE_NEW_FULLY_INSTRUMENTED_FIXED_SOURCE_PAIR_PROBES_WHEN_THE_PREDECLARED_CHECKPOINTS_COMPLETE_NO_RESAMPLING"
+  },
+  "bounded_auditor_resources": {
+    "first_strict_worker": {"status": "TERMINAL_PRESERVED_SCHEMA_GAP", "CPU_s": 3.284202534000002},
+    "candidate_only_worker": {"status": "TERMINAL_PASS", "CPU_s": 3.732721844000004, "remaining_CPU_cap_s": 596},
+    "combined_actual_CPU_s": 7.016924378000006,
+    "combined_original_CPU_cap_s": 600,
+    "both_use_same_original_created_time_and_deadline": true,
+    "original_deadline_epoch": 1792232939.8169158,
+    "wall_clock_reset": false,
+    "both_parent_CPU_reservations_zero_and_actual_costs_charged_once": true,
+    "GPU_PBS_model_queries_or_physics_for_either_auditor": 0,
+    "local_metadata_and_code_tests_CPU_charged_separately_as_conservative_uppers": true
+  },
+  "verification": {"PI0294_CPU_tests_PASS": 297, "focused_probe_tests_PASS": 8, "GitHub_CI_run": 39024658514, "GitHub_CI_conclusion": "success"},
+  "actual_mainline_state_at_readback": {
+    "same_job_id": "672080.hopper-m-02",
+    "actual_optimizer_updates": 668,
+    "committed_sampler_cursor": 21376,
+    "native_generation_queries_unchanged": 250,
+    "source_pair_fixed_panel_conditions_completed": 4,
+    "source_pair_fixed_panel_conditions_total": 32,
+    "S_BC512_TRAIN4": "0_SUCCESS_4_VALID_ORIGINAL_S1_FAILURES_ZERO_NATIVE_FAULTS_ALL_AUDITED",
+    "offline_error_or_trajectory_gate_acceptance_overrides_live_results": false,
+    "fixed_2048_criterion_optimizer_scheduler_sampler_and_seed_changed": false,
+    "S_CORR_C1_and_DEV": "NOT_STARTED_YET",
+    "Vanda_camera": "CLOSED_NOT_RUN",
+    "MP1_T0_budget_deadlines_and_TF_R3_STOP": "UNCHANGED"
+  },
+  "selected": "NONE", "deployment": "NONE", "goal_complete": false
+}
