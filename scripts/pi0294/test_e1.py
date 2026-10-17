@@ -103,6 +103,21 @@ class E1Tests(unittest.TestCase):
             self.assertEqual(value['fixed_terminal_models']['M2-CORR']['T1']['valid_policy_outcomes'],0)
             self.assertFalse(value['probe_S1_available']);self.assertEqual(value['selected'],'NONE')
             self.assertEqual(len(value['evidence_sha256']),5)
+            self.assertEqual(len(value['predeclared_condition_matrix']),12)
+            self.assertEqual(sum(r['status']=='NOT_RUN' for r in value['predeclared_condition_matrix']),10)
+            row=dict(audits[0]['adjudication'],attempt_id='zero',model='M2-BC-REMAINDER-03',task='T2',duration_s=0.,main_integrations=0,
+                status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False,failure_stage='ENGINEERING_OR_UNKNOWN')
+            folder=root/'episodes/zero';folder.mkdir()
+            (folder/'E1_ADJUDICATION.json').write_text(json.dumps(row))
+            (folder/'CARD.json').write_text(json.dumps(dict(id='zero',task='T2',scene_group=row['scene_group'],split='TRAIN')))
+            zero=dict(attempt_id='zero',adjudication=row,status='PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE',errors=[],checks={'fixture':True},
+                physical_integrations=0,score=None,video={'initial_frame_only':True},scientific_policy_outcome_valid=False)
+            (root/'evidence/MAIN_EVIDENCE_AUDIT_INDEX.private.json').write_text(json.dumps(dict(rows=audits+[zero])))
+            value=build(root)
+            self.assertEqual(value['audit_gaps'],[])
+            cell=next(r for r in value['predeclared_condition_matrix'] if 'zero' in r['actual_attempt_ids'])
+            self.assertEqual(cell['status'],'ENGINEERING_INCOMPLETE');self.assertFalse(cell['valid_policy_outcome'])
+            self.assertEqual(cell['evidence_accounted_attempts'],1)
 
     def test_file_RPC_write_timeout_covers_full_pipe_without_resending(self):
         import os,time
