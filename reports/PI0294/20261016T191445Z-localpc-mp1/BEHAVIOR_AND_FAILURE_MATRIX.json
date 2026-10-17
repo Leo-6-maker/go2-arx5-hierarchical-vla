@@ -404,10 +404,12 @@
       "split": "DEV",
       "task": "T1",
       "scene_group": "PI0294/DEV/F1/001",
-      "status": "PENDING_OR_IN_PROGRESS",
-      "valid_policy_outcome": false,
-      "actual_attempt_ids": [],
-      "actual_attempts": 0,
+      "status": "SUCCESS",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-MP1-S-CORR-2048-DEV8-F1-001-T1"
+      ],
+      "actual_attempts": 1,
       "actual_native_safety_fault_present": false
     },
     {
@@ -416,10 +418,12 @@
       "split": "DEV",
       "task": "T2",
       "scene_group": "PI0294/DEV/F1/001",
-      "status": "PENDING_OR_IN_PROGRESS",
-      "valid_policy_outcome": false,
-      "actual_attempt_ids": [],
-      "actual_attempts": 0,
+      "status": "VALID_TASK_FAIL",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-MP1-S-CORR-2048-DEV8-F1-001-T2"
+      ],
+      "actual_attempts": 1,
       "actual_native_safety_fault_present": false
     },
     {
@@ -1923,6 +1927,90 @@
       "semantic_chain_sha256": "53a1bd2e32bab4e808e9fb4bec88f143bb4eaa661391a62932236fc0db89cac9",
       "raw_result_sha256": "a22f83daf0196c36e3cac73af1a3383916c609e32e4ec805b3924136797ab6f7",
       "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F1-001-T1",
+      "model": "S-CORR-2048-DEV8",
+      "task": "T1",
+      "split": "DEV",
+      "scene_group": "PI0294/DEV/F1/001",
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": true,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
+      "video": {
+        "sha256": "66ab98507d6860e704f9a51def83dcc3ac85eec47e13f7e81fe8174f62662ac0",
+        "bytes": 1203602,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F1-001-T1"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-2048-DEV8-ALLOCATION-08",
+      "semantic_raw_audit_sha256": "a5896e02924e58201b7c3a4286f2c0385a8210d0d9f2e186b550775f8fdc6981",
+      "semantic_chain_sha256": "d6f646695f30506318c3a71d9b375dceb8dc9cc29071d307f4ce1354c025a28d",
+      "raw_result_sha256": "4317f90207f3741687e974b15197e9e935f7843919bed6d66a3f87c5d06f9211",
+      "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F1-001-T2",
+      "model": "S-CORR-2048-DEV8",
+      "task": "T2",
+      "split": "DEV",
+      "scene_group": "PI0294/DEV/F1/001",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "OBJECT_TASK_RESULT",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": false,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
+      "video": {
+        "sha256": "a240a4c7ab971853686451d7d810f51957c305639b8b5c8b7aa5e1495547cfca",
+        "bytes": 1618688,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F1-001-T2"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-2048-DEV8-ALLOCATION-08",
+      "semantic_raw_audit_sha256": "46ed83623444d0fea2fd8abeec0f109aebf8529b2eb5e18d823d4f8d4c187f9d",
+      "semantic_chain_sha256": "c5571027d53bc122536d9a5e92a119eb5a1cafee9033d81a584df26914fb4edf",
+      "raw_result_sha256": "3848da97adcdac42adc42eac10194b1a06ce1baf67100db75ab85c1eb13f220a",
+      "missing_audit_is_retry_authority": false
     }
   ],
   "panels": {
@@ -2141,34 +2229,35 @@
         "T1": {
           "planned_conditions": 4,
           "layout_groups": 4,
-          "actual_attempts": 2,
+          "actual_attempts": 3,
           "status_counts": {
-            "SUCCESS": 2,
-            "PENDING_OR_IN_PROGRESS": 2
+            "SUCCESS": 3,
+            "PENDING_OR_IN_PROGRESS": 1
           },
           "failure_stages_by_actual_attempt": {
-            "COMPLETE_SUCCESS": 2
+            "COMPLETE_SUCCESS": 3
           },
-          "successes": 2,
-          "valid_results": 2,
+          "successes": 3,
+          "valid_results": 3,
           "complete": false,
           "success_fraction_only_if_complete": null
         },
         "T2": {
           "planned_conditions": 4,
           "layout_groups": 4,
-          "actual_attempts": 2,
+          "actual_attempts": 3,
           "status_counts": {
             "SUCCESS": 1,
-            "VALID_TASK_FAIL": 1,
-            "PENDING_OR_IN_PROGRESS": 2
+            "VALID_TASK_FAIL": 2,
+            "PENDING_OR_IN_PROGRESS": 1
           },
           "failure_stages_by_actual_attempt": {
             "COMPLETE_SUCCESS": 1,
-            "S1_PRE_EXECUTION_REJECT": 1
+            "S1_PRE_EXECUTION_REJECT": 1,
+            "OBJECT_TASK_RESULT": 1
           },
           "successes": 1,
-          "valid_results": 2,
+          "valid_results": 3,
           "complete": false,
           "success_fraction_only_if_complete": null
         }
@@ -2217,32 +2306,28 @@
   "N1_authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
   "parent_run": "20261016T191445Z-localpc-mp1",
   "original_T0_epoch": 1792178085,
-  "aggregator_source_sha": "0969c37d1ca2454c58daeb2228a62da8f231a005",
+  "aggregator_source_sha": "1acfe24016e33c41498b18c21333ed75209f8bd2",
   "scientific_runtime_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
-  "actual_qualified_conditions": 27,
-  "snapshot_Core_epoch": 1792278764.4850597,
-  "snapshot_Hopper_epoch": 1792278764.7088943,
+  "actual_qualified_conditions": 29,
+  "snapshot_Core_epoch": 1792280156.8969798,
+  "snapshot_Hopper_epoch": 1792280157.0163822,
   "native_registries_equal_between_sites": true,
   "required_four_final_review_deliverables_complete": false,
   "matched_actual2048_consumption_report": "MATCHED_SOURCE_PAIR_FINAL.json",
   "actual_matched_endpoint_training_complete": true,
   "full_endpoint_behavior_complete": false,
-  "pending_conditions": 5,
+  "pending_conditions": 3,
   "both_endpoint_TRAIN4_audited": true,
   "fifth_native_allocation": "NATIVE_F_EXIT0_SOURCE35511_GPU_S_RESERVATION0",
   "source_scope_closed": false,
-  "remaining_fixed_DEV_conditions": 4,
+  "remaining_fixed_DEV_conditions": 2,
   "latest_evaluation_runtime_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
   "pending_condition_ids": [
     "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1",
-    "PI0294-MP1-S-CORR-2048-DEV8-F1-001-T1",
-    "PI0294-MP1-S-CORR-2048-DEV8-F1-001-T2",
     "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1",
     "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T2"
   ],
   "remaining_fixed_DEV_condition_ids": [
-    "PI0294-MP1-S-CORR-2048-DEV8-F1-001-T1",
-    "PI0294-MP1-S-CORR-2048-DEV8-F1-001-T2",
     "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1",
     "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T2"
   ],

@@ -1,6 +1,6 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Current N1: real native qualification PASS; four CORR DEV cases still pending.**
+**Current N1: real native qualification PASS; six CORR DEV cases audited, two pending.**
 [Same-job native proof](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE08_ACTUAL_NATIVE_QUALIFICATION.json)
 and [two new audited DEV results](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE08_FIRST_DEV_PAIR_ACTUAL.json).
 673235/source eb851e82 is the existing eighth allocation, not a new adoption:
@@ -8,9 +8,22 @@ and [two new audited DEV results](reports/PI0294/20261016T191445Z-localpc-mp1/SO
 fault tests passed before model load. CORR2048 DEV/F1-000-T1 then completed
 32s SUCCESS;F1-000-T2 was legally rejected by originalS1 at23.2s. Both have
 independent raw/video/fresh-input-action-ACK audits and zero live safety
-faults. Matrix27/32qualified;four DEV cells and the exhausted midpoint
-F1/T1 gap remain. Old28attempt rows,4exact geometries and16fixed HF video
+faults. [Second new pair](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE08_SECOND_DEV_PAIR_ACTUAL.json):
+F1/001T1 is another full32sSUCCESS;F1/001T2 safely completes32s but fails
+the object goal,not an S1 rejection. Both have independent raw/video and
+fresh input/action/ACK audits. Matrix29/32qualified;two DEV cells and the exhausted midpoint
+F1/T1 gap remain. All30prior attempt rows,4exact geometries and16fixed HF video
 links are preserved. No full DEV rate,causal DAgger gain or deployment claim.
+
+[Actual saved-anchor dynamics gap](reports/PI0294/20261016T191445Z-localpc-mp1/N1_ANCHOR_DYNAMIC_PARITY_ACTUAL_GAP.json):
+separate CPU-only child1acfe240 passed5states,then stopped on the sixth
+full-observed-trace mismatch at the original1e-10 tolerance. Its S1 decision
+and63tick rejection offset matched,but exact failed trace maximum/column
+was not persisted;unique cause is unproved.6starts/851shadow ticks/
+182.218476217CPU seconds settled once,new leaseCLOSED,oldB1stillCLOSED.
+No live action,neural query,training,Teacher label or GPU/PBS. The16new
+endpoint-anchor draws remain NOT_RUN;no same-lease retry or threshold change.
+This diagnostic gap does not invalidate or interrupt the independent DEV panel.
 
 [Vanda camera03 actual native failure and closed lease](reports/PI0294/20261016T191445Z-localpc-mp1/N1_VANDA_CAMERA03_ACTUAL_FAILURE.json):
 1464745 nativeF/exit1,22conservativeA40seconds/10CPU seconds,zero images,
