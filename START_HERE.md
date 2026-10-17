@@ -1,5 +1,28 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**S-BC2048 endpoint is complete:TRAIN3/4 and exposedDEV3/8;CORR has real independent updates.**
+[Complete DEV8,actual original-M1 initialization and remaining work](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_COMPLETE_DEV8_AND_CORR_INDEPENDENT_START.json).
+[All32 fixed conditions,16 verified and16 pending](reports/PI0294/20261016T191445Z-localpc-mp1/BEHAVIOR_AND_FAILURE_MATRIX.json).
+DEV T1=2/4,T2=1/4 across four exposed layout groups,not hidden confirmation.
+Four failures are originalS1 pre-execution refusals;one T2 safely completes32s
+with real pushing but misses the goal-zone hold. Zero actual native faults or
+engineering gaps,TeacherOFF.148 raw checks/3360 decoded pairs/423 real draws/
+419 executedACKs+4 zero-live rejections PASS. DEV clips are indexed PRIVATE;
+only the four earlier TRAIN clips have verified public HF delivery.
+CORR initial1030-tensor inventory exactly matches originalM1,not BC2048;
+actual updates1/2/3 restart optimizer/cursor32/64/96 and original warmup.
+Observed77updates/cursor2464 is a snapshot,not CORR512/2048 completion.
+347 CPU tests and CI39042135847 PASS;metadata-only32-cell aggregator source
+85c4a013,scientific runtime03646938 unchanged. Native672471 and existing owner
+remain healthy;project auth verified valid,no newPBS or clock/budget reset.
+[Actual serial audit harvesting and measured closed-TRAIN transport](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_SERIAL_AUDIT_AND_TRANSPORT_MEASUREMENTS.json)
+reuse real receipts;the RPC residual is not measured GPU idle/inference time.
+Complete independentCORR and matched exposure before mechanism/candidate
+selection. Final four review deliverables remain incomplete;TF-R3STOP,
+VandaCLOSED_NOT_RUN and selected/deploymentNONE remain unchanged.
+
+## Previous Complete TRAIN4 And Video Milestone
+
 **S-BC2048 TRAIN4 is complete:3 successes,1 valid original-S1 failure,no gaps.**
 [Complete panel,all four public videos and eight original anchor noise joins](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_COMPLETE_TRAIN4_AND_PUBLIC_VIDEOS.json).
 T2 succeeds on both seen TRAIN layouts at32s/41-of-41 hold;F0/T1 also succeeds,

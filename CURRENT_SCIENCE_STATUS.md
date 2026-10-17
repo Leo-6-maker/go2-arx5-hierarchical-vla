@@ -1,5 +1,29 @@
 # Current Science Status
 
+**Current mainline:** [complete BC2048 endpoint and independent CORR start](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_COMPLETE_DEV8_AND_CORR_INDEPENDENT_START.json).
+BC TRAIN3/4,exposedDEV3/8:T1DEV2/4,T2DEV1/4 over four development groups.
+DEV has four originalS1 pre-execution refusals and one safe full32s object
+goal-zone miss,not five executed collisions. Zero engineering gaps/native
+faults,TeacherOFF.148 raw checks,3360 decoded camera pairs,423 actual draws,
+419 executed ACKs and4 zero-live rejected prefixes independently verified.
+DEV videos are actual private indexed clips,not yet public;earlier four TRAIN
+clips remain at fixed public READY53d71ad9. No failed condition was repeated.
+[Full32-cell behavior matrix](reports/PI0294/20261016T191445Z-localpc-mp1/BEHAVIOR_AND_FAILURE_MATRIX.json)
+joins actual Core/Hopper registries,episode IDs,checkpoints,raw audits and
+chains:16verifiedBC conditions,16pendingCORR,not a final matched comparison.
+CORR initial1030tensor inventory equals originalM1 and starts new optimizer
+updates1/2/3 with cursors32/64/96;observed77updates/cursor2464,not final2048.
+347 tests/CI39042135847 PASS;pure aggregator85c4a013 is not deployed into the
+running03646938 science capsule. Native672471 and same finite owner remain
+healthy,project authentication valid,no newPBS or resource-clock reset.
+[Serial raw-audit harvesting and closed-session transport measurements](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_SERIAL_AUDIT_AND_TRANSPORT_MEASUREMENTS.json)
+are real,read-only and separately accounted. Residual wall time is not measured
+neural inference or guaranteed recoverable GPU idle. CORR endpoint/exposure,
+mechanism decision and final resource closure remain. TF-R3STOP,VandaNOT_RUN,
+WBC/S1 and selected/deploymentNONE stay unchanged.
+
+## Previous Complete TRAIN4 And Video Milestone
+
 **Current mainline:** [complete S-BC2048 TRAIN4 and actual public videos](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_COMPLETE_TRAIN4_AND_PUBLIC_VIDEOS.json).
 3SUCCESS/1VALID_TASK_FAIL/0engineering gaps/0native faults:both T2 layouts and
 F0/T1 complete32s/41of41 hold,whileF1/T1 is originalS1 rejection at1.2s.
