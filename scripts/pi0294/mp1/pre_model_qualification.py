@@ -5,6 +5,7 @@ import re
 from scripts.pi0292.durable import read
 from scripts.pi0294.native_dataset import sha
 from .n1_limits import RELEASE
+from .native_heartbeat_capture import FILENAME as HEARTBEAT_CAPTURE,verify as verify_heartbeat
 
 FILENAME='N1_NATIVE_ENDURANCE_AND_TRANSPORT.json'
 FAULTS={'concurrent_replace','metadata_read_failure','statistics_lock','late_response','process_exit',
@@ -27,6 +28,10 @@ def require(root,directory,allocation):
             or v['production_heartbeat_or_science_fault_injection'] is not False):
         raise PermissionError('N1_FRESH_SAME_NATIVE_JOB_PREMODEL_IDENTITY_AND_ZERO_SCIENCE')
     heartbeat=v['heartbeat'];rows=heartbeat['rows']
+    fragment=verify_heartbeat(root,directory,allocation)
+    if (heartbeat['native_fragment_sha256']!=sha(directory/HEARTBEAT_CAPTURE)
+            or fragment['rows']!=rows or fragment['clock_source']!=heartbeat['clock_source']):
+        raise PermissionError('N1_INLINE_HEARTBEAT_MUST_JOIN_ACTUAL_NATIVE_RAW_CAPTURE')
     if (heartbeat['clock_source']!='CLOCK_REALTIME_AFTER_EACH_READ_AND_CLOCK_MONOTONIC'
             or len(rows)<80 or rows[-1]['monotonic_s']-rows[0]['monotonic_s']<600):
         raise PermissionError('N1_REAL_600S_ENDURANCE_NOT_SINGLE_SMOKE')

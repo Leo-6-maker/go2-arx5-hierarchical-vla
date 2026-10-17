@@ -124,6 +124,9 @@ def run(root,request_path):
             qualification=read_live_owner(root,root.name,force_revalidate=True)
             write(request_path.parent/'OWNER_HEARTBEAT_SERVER_QUALIFICATION.json',dict(status='PASS_FORCED_NATIVE_COMPUTE_OWNER_READ_BEFORE_MODEL_LOAD',job_id=os.environ['PBS_JOBID'],epoch=time.time(),proof=qualification,models_loaded=0,new_queries=0,new_physics=0))
         if ledger.n1 is not None:
+            from .native_heartbeat_capture import FILENAME,capture
+            if not (request_path.parent/FILENAME).exists():
+                capture(root,request_path.parent,allocation,guard)
             from .pre_model_qualification import require
             proof=require(root,request_path.parent,allocation)
             write(request_path.parent/'N1_PREMODEL_QUALIFICATION_READBACK.json',proof)

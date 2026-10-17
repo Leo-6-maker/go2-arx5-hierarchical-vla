@@ -1,5 +1,14 @@
 # Current Science Status
 
+**Native heartbeat producer implemented, not yet deployed or qualified:** [N1 endurance and fault ledger](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
+Future premodel entry requires600s/81real post-read samples,exact same-job
+native identity and immutable raw-journal join;an inline PASS cannot replace
+missing/tampered raw evidence.473PI0294 tests pass locally,not native proof.
+Full transport producer/router and isolated native fault evidence remain
+required;no newPBS/deployment/model or physical execution. Same healthy
+fifth673008R,CORR1944at snapshot;endpoint and paired science still pending.
+Original data/recipe/physics/S1/WBC and MP1/N1 clocks unchanged.
+
 **Latest native progress and reader correction:** [same fifth job still running; reader03 terminal](reports/PI0294/20261016T191445Z-localpc-mp1/N1_READONLY_READER_TERMINAL_AND_SOURCE05_PROGRESS.json).
 673008R,CORR1828/2048,one legitimate in-flight update,fivePBS,original4h.
 No sixth/restart/hot code change. Reader03's previous live snapshot is

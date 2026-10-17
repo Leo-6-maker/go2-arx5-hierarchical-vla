@@ -1,5 +1,17 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**N1 heartbeat capture implemented and CPU-tested; native qualification incomplete.**
+[Endurance/fault-injection ledger, including explicit missing native evidence](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
+Future N1 premodel entry now captures at least600real monotonic seconds/
+81post-read samples with native job/request/host checks and raw immutable
+journal joins. Same-job model-ready/terminal,stale/future/wrongrun,missing/
+tampered raw evidence and failed capture restart are rejected.473PI0294
+tests/365subtests pass locally;not native evidence. Full80cycle transport
+producer/router and isolated native faults remain pending;gate stays closed
+without all proofs. No deployment/newPBS/hot switch;old673008 continuesR,
+CORR1944/2048 at frozen readback,not endpoint completion. All12learning/
+15numerical protected source hashes still match e418bb79.
+
 **Latest live readback: fifth science job continues; audit reader03 is terminal.**
 [Native progress and explicit correction of the reader's earlier live snapshot](reports/PI0294/20261016T191445Z-localpc-mp1/N1_READONLY_READER_TERMINAL_AND_SOURCE05_PROGRESS.json).
 Same673008 remainsR,CORR1828/2048 with one legitimate in-flight update;

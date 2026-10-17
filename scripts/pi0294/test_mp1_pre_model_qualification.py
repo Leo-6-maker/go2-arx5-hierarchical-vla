@@ -5,6 +5,7 @@ import tempfile
 import unittest
 
 from .mp1 import pre_model_qualification as qualification
+from .mp1 import native_heartbeat_capture as heartbeat_capture
 from .mp1.n1_limits import RELEASE
 from .native_dataset import sha
 
@@ -15,11 +16,11 @@ class PreModelQualificationContractTests(unittest.TestCase):
         self.root=Path(self.tmp.name)/'source-pair-01';self.directory=self.root/'pbs/alloc-06'
         self.directory.mkdir(parents=True)
         (self.root/'RUN_MANIFEST.json').write_text(json.dumps(dict(code=dict(vla_commit='a'*40))))
-        self.allocation=dict(job_id='123.hopper-m-02',hostname='fixture',allocation_start_epoch=1000,allocation_end_epoch=2000)
+        self.allocation=dict(job_id='123.hopper-m-02',hostname='fixture',allocation_start_epoch=1000,allocation_end_epoch=2000,request_sha256='b'*64)
         rows=[]
         for i in range(81):
             clock=1000+7.5*i
-            rows.append(dict(monotonic_s=7.5*i,proof=dict(clock_sampled_after_read=True,watchdog_s=300,
+            rows.append(dict(sequence=i,monotonic_s=7.5*i,proof=dict(clock_sampled_after_read=True,watchdog_s=300,
                 heartbeat_written=False,heartbeat=dict(run_uuid=self.root.name,observed_epoch=clock-10),
                 server_revalidation=True,revalidated_clock_epoch=clock,cached_clock_epoch=clock)))
         self.value=dict(schema='MP1_N1_NATIVE_ENDURANCE_AND_TRANSPORT_V1',
@@ -36,8 +37,21 @@ class PreModelQualificationContractTests(unittest.TestCase):
         self.path=self.directory/qualification.FILENAME
 
     def put(self,value=None):
+        value=deepcopy(self.value if value is None else value)
+        journal=self.directory/'heartbeat-capture/READS.jsonl';journal.parent.mkdir(exist_ok=True)
+        if journal.exists():journal.chmod(0o600)
+        journal.write_text(''.join(json.dumps(row)+'\n' for row in value['heartbeat']['rows']));journal.chmod(0o400)
+        fragment=self.directory/heartbeat_capture.FILENAME
+        if fragment.exists():fragment.chmod(0o600)
+        fragment.write_text(json.dumps(dict(schema='MP1_N1_NATIVE_HEARTBEAT_CAPTURE_V1',status='PASS_NATIVE_HEARTBEAT_FRAGMENT_ONLY',
+            authority_release=RELEASE,run_uuid=self.root.name,job_id=self.allocation['job_id'],hostname='fixture',source_sha='a'*40,
+            manifest_sha256=sha(self.root/'RUN_MANIFEST.json'),request_sha256=self.allocation['request_sha256'],
+            models_loaded=0,new_model_queries=0,new_physics_integrations=0,heartbeat_written=False,transport_qualified=False,
+            full_N1_qualification=False,clock_source=value['heartbeat']['clock_source'],rows=value['heartbeat']['rows'],
+            raw_journal_relative=str(journal.relative_to(self.root)),raw_journal_sha256=sha(journal))));fragment.chmod(0o400)
+        value['heartbeat']['native_fragment_sha256']=sha(fragment)
         if self.path.exists():self.path.chmod(0o600)
-        self.path.write_text(json.dumps(self.value if value is None else value)+'\n');self.path.chmod(0o400)
+        self.path.write_text(json.dumps(value)+'\n');self.path.chmod(0o400)
 
     def test_missing_native_result_is_not_a_cpu_test_or_previous_smoke(self):
         with self.assertRaisesRegex(PermissionError,'NOT_RUN'):qualification.require(self.root,self.directory,self.allocation)
@@ -71,6 +85,22 @@ class PreModelQualificationContractTests(unittest.TestCase):
             if change=='before_read':proof['clock_sampled_after_read']=False
             self.put(value)
             with self.subTest(change=change),self.assertRaises(PermissionError):qualification.require(self.root,self.directory,self.allocation)
+
+    def test_inline_pass_cannot_replace_missing_tampered_or_writable_raw_capture(self):
+        for change in ['missing','writable','tampered','wrong_request','inline_only']:
+            self.put();fragment=self.directory/heartbeat_capture.FILENAME;journal=self.directory/'heartbeat-capture/READS.jsonl'
+            if change=='missing':fragment.unlink()
+            if change=='writable':fragment.chmod(0o600)
+            if change=='tampered':
+                journal.chmod(0o600);journal.write_text('{}\n');journal.chmod(0o400)
+            if change=='wrong_request':
+                v=json.loads(fragment.read_text());v['request_sha256']='f'*64
+                fragment.chmod(0o600);fragment.write_text(json.dumps(v));fragment.chmod(0o400)
+            if change=='inline_only':
+                v=json.loads(self.path.read_text());v['heartbeat']['rows'][10]['monotonic_s']+=1
+                self.path.chmod(0o600);self.path.write_text(json.dumps(v));self.path.chmod(0o400)
+            with self.subTest(change=change),self.assertRaises((PermissionError,FileNotFoundError)):
+                qualification.require(self.root,self.directory,self.allocation)
 
 
 if __name__=='__main__':unittest.main()
