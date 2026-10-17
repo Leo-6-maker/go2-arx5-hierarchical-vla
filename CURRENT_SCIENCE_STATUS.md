@@ -1,6 +1,6 @@
 # Current Science Status
 
-Observed 2026-10-17 after both E1 lease closures at 13:13 SGT by the existing single local-PC owner.
+Observed 2026-10-17 after E1 and both MP1 recovery-child lease closures by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
 ## Active Authority
@@ -22,11 +22,30 @@ is no E2 owner, second budget or 28-day clock.
 - [Fixed execution entry](docs/handover/2026-10-17/MAINLINE_ACCELERATION_MP1_EXECUTE.md).
 
 MP1 has completed CPU-only source-loader qualification and one Vanda native
-build. There is no new MP1 GPU submission, model invocation or physical
-integration. Scientific children must pass the
-existing workspace, immutable input, resource, lease and native PBS checks.
-Fresh permission and capacity are checked at actual admission, not inferred
-from this adoption or an old successful login.
+build, then actually ran recovery jobs 671817 F/1 and 671826 F/0 using the
+existing M2 weights with zero optimizer updates. Both recovery children are
+now CLOSED. Total conservative H200 cost is 453 seconds; four actual starts,
+600 live plus 600 shadow integrations, five generations, three executed ACKs,
+two completed draws not installed, pending/reservations zero. All four raw
+evidence audits passed, but there are zero valid full policy results:
+three engineering-incomplete conditions and five NOT_RUN across eight fixed
+conditions. No 32s relay qualification or M2 behavioral gain is established.
+
+The first native failure was a heartbeat-file read in the recovery entry;
+the mature bounded control reader was reused in a new immutable child.
+The next attempt actually located a 30.301976s stall inside Hopper RPC ledger
+accounting, exceeding the unchanged 20s watchdog. Lock wait versus
+read/write/fsync is not yet separated. The branch is stopped, with both of
+its two PBS opportunities used; no third equivalent recovery submission.
+The controller also advanced to an initial-only CORR case before the owner
+stopped the cross-model branch; this charged deviation remains in the matrix.
+[Actual phase timings](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_ACTUAL_RPC_PHASE_TIMING.json),
+[eight-condition matrix and four audited attempts](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_E1_M2_RECOVERY_BEHAVIOR_MATRIX.json),
+[real qualification failure](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_REAL_RELAY_QUALIFICATION.json),
+[closed child resources, not whole-MP1 closure](reports/PI0294/20261016T191445Z-localpc-mp1/E1_RECOVERY_RESOURCE_FINAL.json).
+Continue independent saved-T2 diagnostics and separately qualified Vanda
+work under the original MP1 clock. Do not train new weights to bypass this
+evaluation fault. Fresh permission and capacity remain actual admission checks.
 
 **Campus connectivity is restored and the old E1 native states are reconciled.**
 Job 670729 is F/exit 1 after the original owner-heartbeat timeout, not a
@@ -37,7 +56,7 @@ are natively reconciled: 19,675 conservative GPU seconds charged and zero
 GPU reservation. No fourth E1 submission is permitted even with unused
 seconds. All source/neural/controller/stdio workers were terminal and
 physical reservations zero before the separate CPU artifact-closeout stage.
-No MP1 GPU has been submitted. Both E1 leases and registry entries are now
+Both E1 leases and registry entries are now
 CLOSED after native/resource/artifact readback. E1 is a bounded closed
 execution with explicit scientific comparison gaps, not a successful full
 M2 behavioral comparison or a reopened resource window.

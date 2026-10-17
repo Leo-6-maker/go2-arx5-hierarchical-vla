@@ -1,0 +1,83 @@
+{
+  "schema": "MP1_E1_RECOVERY_RESOURCE_FINAL_V1",
+  "status": "BOTH_CHILDREN_CLOSED_NOT_WHOLE_MP1_CLOSED",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "T0_epoch": 1792178085,
+  "hard_closeout_epoch": 1792782885,
+  "T0_reset": false,
+  "new_budget": false,
+  "native_jobs": [
+    {
+      "id": "671817.hopper-m-02",
+      "state": "F",
+      "exit": 1,
+      "GPU_native_s": 200,
+      "GPU_conservative_s": 213
+    },
+    {
+      "id": "671826.hopper-m-02",
+      "state": "F",
+      "exit": 0,
+      "GPU_native_s": 229,
+      "GPU_conservative_s": 240
+    }
+  ],
+  "family_actual": {
+    "allocated_GPU_native_s": 429,
+    "allocated_GPU_conservative_s": 453,
+    "PBS_submissions": 2,
+    "Core_CPU_meter_s": 383.508847201,
+    "Hopper_CPU_meter_s": 449.737250477,
+    "main_starts": 4,
+    "recovery_forks": 0,
+    "live_integrations": 600,
+    "shadow_integrations": 600,
+    "neural_generations": 5,
+    "optimizer_updates": 0,
+    "pending_updates": 0,
+    "all_GPU_CPU_physics_reservations": 0,
+    "all_registered_workers_and_controllers_terminal": true,
+    "both_children_both_site_leases": "CLOSED_READBACK_CONFIRMED"
+  },
+  "CPU_caveat": "Includes 180 seconds management allowance per child/site; not exact whole-account OS accounting. Local management CPU still covered only by the parent allowance.",
+  "second_child_receipts": {
+    "Core_closed_epoch": 1792217486.4824476,
+    "Hopper_closed_epoch": 1792217486.804013,
+    "Core_lease_sha256": "223af45862aa68f8ecc06391b7980a873bef9ac680bc5363a6038568058c4317",
+    "Hopper_lease_sha256": "58170e39ae6995107ebea50710865911cc83f950925affcb577ae2a684b50c4c",
+    "Core_ledger_sha256": "f7462cfdf2f86af08b8f8b84001db15b517b35335795e3c32ef3334c78116293",
+    "Hopper_ledger_sha256": "62c6317698e78b224b763af29a20851d16f757f32d3c5328406087eb5efde5ba"
+  },
+  "owned_second_child_allocated_bytes": {
+    "Core": 8454144,
+    "Hopper": 6520832
+  },
+  "storage_caveat": "Point-in-time allocated-byte samples, not continuous peak. No models copied/downloaded; original E1 checkpoint paths reused.",
+  "parent_actual_snapshot": {
+    "CPU_s": {
+      "CoreLab": 1163.6092606490001,
+      "Vanda": 1713,
+      "Hopper": 1252.416086538,
+      "local_PC": 480
+    },
+    "GPU_allocated_s": {
+      "Hopper": 453,
+      "Vanda": 0
+    },
+    "GPU_reserved_s": {
+      "Hopper": 0,
+      "Vanda": 0
+    },
+    "source_starts": 4,
+    "target_starts": 0,
+    "physics_integrations": 1200,
+    "optimizer_updates": 0
+  },
+  "unresolved_parent_network_accounting": "Prior Vanda unmetered transfer retains conservative 32GiB reservation; not silently zeroed.",
+  "HF_new_failure_videos": "NOT_UPLOADED; all four decoded audit clips and hashes retained privately and indexed in behavior matrix.",
+  "foreign_healthy_jobs_cancelled": false,
+  "current_assets_deleted": false,
+  "target_TF_R3_STOP_released": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "MP1_REAL_RELAY_QUALIFICATION_V1",
+  "status": "FAIL_ENGINEERING_RPC_ACCOUNTING_STALL_NO_32S_QUALIFICATION",
+  "complete_32s_real_model_cases": 0,
+  "maximum_actual_sim_duration_s": 0.8,
+  "actual_main_attempts": 4,
+  "original_watchdogs_s": {
+    "RPC": 20,
+    "action": 60,
+    "episode": 900
+  },
+  "actual_generations": 5,
+  "executed_prefix_ACKs": 3,
+  "completed_draws_not_installed": 2,
+  "pending_query_reservations": 0,
+  "unknown_effect_resends": 0,
+  "optimizer_updates": 0,
+  "original_S1_rejections": 0,
+  "actual_native_safety_faults": 0,
+  "model_inference_only_legal_H200_allocation": true,
+  "sources_fixed_during_active_consumers": true,
+  "old_E1_not_reopened": true,
+  "stage_PBS_used": 2,
+  "stage_PBS_max": 2,
+  "branch_stopped": true,
+  "no_equivalent_continuation_queued": true,
+  "related_receipts": [
+    "MP1_ACTUAL_RPC_PHASE_TIMING.json",
+    "MP1_E1_M2_RECOVERY_BEHAVIOR_MATRIX.json",
+    "E1_RECOVERY_RESOURCE_FINAL.json"
+  ],
+  "not_success_claims": [
+    "Native exit0 on 671826 is graceful engineering termination, not completion of the behavior panels.",
+    "All four independent raw evidence audits passing does not make their incomplete trajectories policy results."
+  ],
+  "next_unblocked_lane": "Saved M1 T2 analysis without new simulation or neural work; exact geom diagnosis still requires separately admitted deterministic shadow restoration."
+}

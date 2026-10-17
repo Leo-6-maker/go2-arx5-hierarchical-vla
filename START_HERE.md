@@ -1,5 +1,16 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest MP1 native outcome:** recovery children 01/02 are both CLOSED;
+671817 F/1 and 671826 F/0 cost 453 conservative H200 seconds, with zero new
+updates. Four audited attempts still give no valid full policy result:
+3 engineering-incomplete conditions / 5 NOT_RUN, not policy 0/8. An actual
+30.301976s Hopper RPC accounting stall crossed the unchanged 20s watchdog.
+No third recovery-family PBS; do not train around this fault.
+[Timing and qualification](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_REAL_RELAY_QUALIFICATION.json)
+and [full attempt/condition matrix](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_E1_M2_RECOVERY_BEHAVIOR_MATRIX.json).
+Follow the [evidence-first sprint entry](docs/handover/2026-10-17/MP1_EVIDENCE_TO_SCIENCE_SPRINT_EXECUTE.md)
+under the original MP1 T0/budget; independent saved-T2/Vanda lanes remain.
+
 **2026-10-17 actual owner update:** E1's three PBS jobs and both leases are
 terminal/CLOSED, with 19,675 conservative GPU seconds and zero reservations.
 M1@1024 retains autonomous 32s T1 success in both seen TRAIN layouts; both
