@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from scripts.pi0294.native_dataset import sha
-from .mp1.student_probe_delivery import publish,consume,run,REPO,PREFIX
+from .mp1.student_probe_delivery import publish,consume,run,configuration,MODELS,REPO,PREFIX
 from .test_mp1_student_probe_audit import fixture as probe_fixture
 
 
@@ -25,6 +25,20 @@ def setup(root):
 
 
 class StudentDeliveryTest(unittest.TestCase):
+    def test_only_three_existing_model_identities_have_distinct_sealed_prefixes(self):
+        self.assertEqual(configuration({})[0],'S-BC-512-TRAIN4')
+        self.assertEqual(len({configuration(dict(model_label=n))[1] for n in MODELS}),3)
+        for name in ['S-CORR-2048-TRAIN4','M1','unbound']:
+            with self.assertRaises(PermissionError):configuration(dict(model_label=name))
+
+    def test_other_model_cannot_consume_prior_bc512_transfer(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);transfer=dict(status='PASS_PRIVATE_EXISTING_STUDENT_DRAWS_FIXED_REVISION',repo_id=REPO,
+                prefix='PI0294/'+root.name+'/'+PREFIX,files={str(i):dict(bytes=1) for i in range(16)})
+            for label in ['S-BC-2048-TRAIN4','S-CORR-512-TRAIN4']:
+                with self.subTest(label=label),self.assertRaises(PermissionError):
+                    consume(root,dict(model_label=label,transfer=transfer),'not-a-real-token')
+
     def fake_hub(self,private=True,files=()):
         class API:
             def __init__(self,**kwargs):pass
