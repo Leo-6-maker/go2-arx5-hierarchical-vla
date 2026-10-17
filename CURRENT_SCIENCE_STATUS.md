@@ -1,6 +1,6 @@
 # Current Science Status
 
-Observed 2026-10-17 04:28 SGT by the existing single local-PC owner.
+Observed 2026-10-17 11:42 SGT by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
 ## Active Authority
@@ -28,12 +28,16 @@ existing workspace, immutable input, resource, lease and native PBS checks.
 Fresh permission and capacity are checked at actual admission, not inferred
 from this adoption or an old successful login.
 
-**Remote dispatch is currently held:** the local campus VPN interface/routes
-are absent and the existing Hopper hostname no longer resolves. The finite
-E1 owner exited on the connection error. Native state is now UNKNOWN, not
-assumed terminal; the old 14,400 GPU-second reservation has not been released.
-No third E1 or new MP1 GPU submission was made. Restore the existing network,
-then reconcile native/Core intents and costs before any continuation.
+**Campus connectivity is restored and the old E1 native states are reconciled.**
+Job 670729 is F/exit 1 after the original owner-heartbeat timeout, not a
+model/safety result. Both old jobs are terminal: 16,363 conservative allocated
+GPU seconds charged, their old reservation released only after native proof.
+Core has no active worker, outstanding physical reservation or source STOP.
+The final third E1 job **671655** is Q, with 12,420 GPU seconds reserved;
+used plus reserved is 28,783 of the original 28,800 seconds. No fourth E1
+submission is permitted. No MP1 GPU has been submitted.
+[Restored-network reconciliation and exact final allocation](reports/PI0294/20261016T150228Z-localpc-e1/NETWORK_RESTORED_AND_LAST_NATIVE_ALLOCATION.json).
+The preceding interruption remains preserved:
 [Actual interruption and resumption order](reports/PI0294/20261016T191445Z-localpc-mp1/LOCAL_NETWORK_INTERRUPTION_01.json).
 
 Offline E1 checks repaired the last-allocation controller's middle-hop cache
@@ -43,12 +47,13 @@ are not native pipeline qualification or a measured speedup. The saved M1
 T1 audit metadata still reconciles to two seen-TRAIN successes, not new runs.
 [Checks and exact native readmission preconditions](reports/PI0294/20261016T150228Z-localpc-e1/LAST_ALLOCATION_ENGINEERING_CHECK_01.json).
 No third E1 submission, native source switch, new MP1 GPU or physical action
-was made during this disconnected interval. After the same network failure
-persisted for three consecutive Goal turns, the owner recorded
-`BLOCKED_LOCAL_CAMPUS_NETWORK_RESTORE_REQUIRED`, not completion.
+was made during the disconnected interval. That historical network block
+is resolved, not deleted or treated as completion.
 [Blocker and explicit completion gaps](reports/PI0294/20261016T150228Z-localpc-e1/OWNER_BLOCKED_NETWORK_AUDIT_01.json).
-The original clocks and reservations remain unchanged; in-scope resumption
-needs network restoration and native reconciliation, not another scientific GO.
+Original clocks and total caps remain unchanged. The final immutable scope
+retains all M1 valid outcomes, reuses completed M2-BC weights without training,
+and admits three settled engineering replacements plus the unstarted fourth
+BC condition and fixed C0 M2-CORR branch. It does not hot-insert C1 data.
 
 ## Source Results
 
@@ -59,10 +64,9 @@ raw/action/ACK/contact/score/video audit PASS. T2 was validly rejected by the
 original S1 in both layouts. This is not DEV, Go2/WBC or real-robot success.
 
 - [Complete M1 TRAIN4 and independent audits](reports/PI0294/20261016T150228Z-localpc-e1/M1_1024_COMPLETE_TRAIN4_AND_T1_AUDITS.json).
-- E1 H200 job `670729.hopper-m-02`, last observed R and now unreachable,
-  completed M2-BC's actual 512 updates,
+- Terminal E1 H200 job `670729.hopper-m-02` completed M2-BC's actual 512 updates,
   with 537 changed trainable tensors and 512 finite nonzero gradient records.
-  Its first two evaluations are engineering-incomplete, not task outcomes;
+  Its three attempted evaluations are engineering-incomplete, not task outcomes;
   the first reached 25.6 simulated seconds before the original 900-second
   relay limit. M2-CORR has not yet completed. Both branches have the fixed M1@1024 parent and
   their previously sealed data choices; valid outcomes will not be rerun.
