@@ -70,7 +70,6 @@ def run(root,directory,allocation,guard):
             observed_epoch=time.time(),deadline_epoch=endpoint.registry['deadline_epoch'],
             models_loaded=0,new_model_queries=0,new_physics_integrations=0,heartbeat_written=False))
         heartbeat=capture(root,directory,allocation,guard,service=pump.poll)
-        faults=finish_faults(folder,root.name)
         deadline=min(time.time()+120,endpoint.registry['deadline_epoch'])
         cycles=None;owner_path=folder/OWNER
         while time.time()<deadline:
@@ -97,6 +96,7 @@ def run(root,directory,allocation,guard):
                     or value['label']!=label.replace(BASE,BASE+('-FAULT-LATE' if name=='late_response' else '-FAULT-EXIT'),1)
                     or value['actual_server_exit']!=(0 if name=='late_response' else 72)):
                 raise PermissionError('LATE_OR_EXIT_FIXTURE_MUST_FAIL_CLOSED_WITHOUT_REPLAY')
+        faults=finish_faults(folder,root.name)
         faults.update(owner['faults']);members={}
         for kind in ['inbox','outbox','completed','compute-intents']:
             for sequence in range(CYCLES):
@@ -127,9 +127,11 @@ def run(root,directory,allocation,guard):
         return require(root,directory,allocation)
     finally:
         pump.close();after=resource.getrusage(resource.RUSAGE_CHILDREN)
-        extra=after.ru_utime+after.ru_stime-children_before.ru_utime-children_before.ru_stime
-        if extra<0:raise ValueError('NONNEGATIVE_NATIVE_FIXTURE_CHILD_CPU')
-        endpoint.ledger.cpu(extra)
+        # Difference monotonic counters separately so equal totals cannot cancel below zero.
+        user_extra=after.ru_utime-children_before.ru_utime
+        system_extra=after.ru_stime-children_before.ru_stime
+        if min(user_extra,system_extra)<0:raise ValueError('NONNEGATIVE_NATIVE_FIXTURE_CHILD_CPU')
+        endpoint.ledger.cpu(user_extra+system_extra)
 
 
 def verify(root,directory,allocation,value):

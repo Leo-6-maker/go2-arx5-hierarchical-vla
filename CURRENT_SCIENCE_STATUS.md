@@ -1,5 +1,14 @@
 # Current Science Status
 
+**Latest: N1allocation06 failed its pre-model engineering gate,not learning.**
+[Exact raw-sample/resource receipt and repair](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
+673223F/exit1,653GPU seconds;source36164,parent40664,reservations0.
+Zero new models/NN/updates/physics.75actual owner reads spanned600.095s,
+but81were required;duration-only collection under-counted real I/O overhead.
+Native abort stopped the pump at72/80cycles;next checksum timed out at60s.
+Repair keeps both81reads/600s,900s cap and all watchdogs;no seventh submitted.
+Task matrix remains25qualified/32with sixDEVunrun and one exhausted mid-gap.
+
 **Actual fifth terminal and first N1 cold continuation:** [paired result/resource receipt](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
 673008F/exit0,increment11392GPU s,source35511settled. Matrix25/32qualified;
 CORRTRAIN3/4,DEV/F0-T1 andF0-T2 individually audited32sSUCCESS. SixDEV

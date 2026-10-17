@@ -39,6 +39,24 @@ class NativeHeartbeatCaptureTests(unittest.TestCase):
             reader=reader,clock=lambda:clock[0],sleep=sleep)
         self.assertEqual(len(emitted),1);self.assertEqual(len(calls),2)
 
+    def test_real_reader_guard_and_fsync_cost_cannot_end_capture_with_too_few_samples(self):
+        clock=[0.];reads=[];emitted=[]
+        def guard():clock[0]+=.12
+        def reader(root,run,force_revalidate=False):
+            clock[0]+=.35;reads.append(clock[0])
+            return dict(server_revalidation=force_revalidate,clock_sampled_after_read=True,
+                revalidated_clock_epoch=1000+clock[0],cached_clock_epoch=1000+clock[0],
+                heartbeat_written=False,watchdog_s=300,heartbeat=dict(run_uuid=run,observed_epoch=999+clock[0]))
+        def emit(row):emitted.append(row);clock[0]+=.1
+        def sleep(seconds):clock[0]+=seconds
+        rows=capture.collect('/unused','run',guard,emit,reader=reader,clock=lambda:clock[0],sleep=sleep)
+        self.assertEqual(len(rows),81)
+        self.assertEqual(len(reads),len(rows))
+        self.assertEqual(rows,emitted)
+        self.assertGreaterEqual(rows[-1]['monotonic_s']-rows[0]['monotonic_s'],600)
+        self.assertLess(rows[-1]['monotonic_s']-rows[0]['monotonic_s'],900)
+        self.assertTrue(all(b['monotonic_s']>a['monotonic_s'] for a,b in zip(rows,rows[1:])))
+
     def test_no_clock_tolerance_write_or_identity_exception(self):
         proof=dict(server_revalidation=False,clock_sampled_after_read=True,cached_clock_epoch=1000,
             heartbeat_written=False,watchdog_s=300,heartbeat=dict(run_uuid='run',observed_epoch=990))

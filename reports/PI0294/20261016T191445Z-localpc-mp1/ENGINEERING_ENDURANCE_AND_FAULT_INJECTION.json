@@ -1,6 +1,6 @@
 {
   "schema": "MP1_N1_ENGINEERING_ENDURANCE_AND_FAULT_INJECTION_V1",
-  "status": "PIPELINE_CPU_VALIDATED_NOT_COLD_DEPLOYED_OR_NATIVE_QUALIFIED",
+  "status": "SOURCE06_NATIVE_PREMODEL_FAILED_SAMPLE_DENSITY_REPAIR_NOT_YET_NATIVE_RETESTED",
   "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
   "N1_T0_epoch": 1792264081,
   "original_MP1_T0_epoch": 1792178085,
@@ -111,10 +111,10 @@
     "scope": "HEARTBEAT_FRAGMENT_ONLY_NOT_FULL_TRANSPORT_OR_MODEL_QUALIFICATION"
   },
   "NATIVE_LONG_READ_PASS": {
-    "status": "NOT_RUN",
-    "code_cold_deployed": false,
-    "same_new_job_actual_600s_capture": null,
-    "reason": "HEALTHY_FIFTH_PRESERVED_NO_NEW_ALLOCATION_OR_HOT_SWITCH"
+    "status": "FAILED_NATIVE_MINIMUM81_SAMPLES_75_REAL_SAMPLES_OVER600S",
+    "code_cold_deployed": true,
+    "same_new_job_actual_600s_capture": "600_0947731016204S_BUT_COUNT_GATE_FAILED_NOT_A_PASS",
+    "reason": "NATIVE_GATE_FAILED_DENSITY_NOT_ACTUAL_HEARTBEAT_LOSS"
   },
   "implemented_transport_pipeline": {
     "public_components": [
@@ -151,14 +151,14 @@
     "satisfies_N1_native_qualification": false
   },
   "NATIVE_TRANSPORT_PASS": {
-    "status": "NOT_RUN",
+    "status": "FAILED_SOURCE06_AFTER72_OF80_CYCLES_NO_MODEL",
     "required_actual_cycles_min": 80,
     "original_RPC_action_episode_watchdogs_s": [
       20,
       60,
       900
     ],
-    "full_transport_producer_and_owner_router": "IMPLEMENTED_CPU_TESTED_NOT_COLD_DEPLOYED",
+    "full_transport_producer_and_owner_router": "ACTUAL_DEPLOYMENT_QUALIFICATION_FAILED_NO_HOT_PATCH",
     "fixtures_are_model_or_task_success": false,
     "unknown_effect_retries_permitted": false
   },
@@ -174,7 +174,7 @@
     "production_science_or_owner_heartbeat_modified": false
   },
   "REAL_MODEL_LOOP_PASS": {
-    "N1_new_code": "NOT_RUN",
+    "N1_new_code": "NOT_RUN_PREMODEL_GATE_FAILED",
     "existing_fifth_source": "e418bb790d291c6c936ce3878366314f4f5af83e",
     "existing_fifth_initial_and_task_evidence": "SOURCE05_CORR512_F1_T2_AUDITED_AND_EXACT_TRAINING_RESUME.json",
     "old_initial_qualification_relabelled_as_N1_endurance": false
@@ -260,5 +260,56 @@
     "native_state": "R",
     "START_NEURAL_released": true,
     "new_GPU_actual_cost": "UNSETTLED_FULL_28800S_RESERVATION_PRESERVED_NOT_ZERO_CONSUMPTION_CLAIM"
+  },
+  "latest_source06_native_terminal": {
+    "observed_epoch": 1792275191.648264,
+    "job_id": "673223.hopper-m-02",
+    "native_state": "F",
+    "native_exit": 1,
+    "stage": "INITIAL_PREMODEL",
+    "source_sha": "55c0610d1d2fd168ca26a3e0e2dd1c8a19bff31c",
+    "GPU_conservative_s": 653,
+    "source_GPU_cumulative_s": 36164,
+    "parent_Hopper_GPU_cumulative_s": 40664,
+    "GPU_reserved_s": 0,
+    "new_models_loaded": 0,
+    "new_model_queries": 0,
+    "new_training_updates": 0,
+    "new_physics": 0,
+    "heartbeat_raw_samples": 75,
+    "heartbeat_real_monotonic_span_s": 600.0947731016204,
+    "distinct_real_owner_heartbeats": 75,
+    "minimum_interval_s": 6.063096455298364,
+    "maximum_interval_s": 9.395366945303977,
+    "required_samples_min": 81,
+    "required_real_duration_s_min": 600,
+    "raw_heartbeat_journal_sha256": "411f71bdbe52bcd649a8827b5f67d82ee3f2a94f34e228a9a6e40b90bd9ed14a",
+    "actual_nominal_transport_completed": 72,
+    "fixture_inbox_queries": 73,
+    "fixture_outbox_responses": 72,
+    "secondary_owner_stop": "ORIGINAL_SIXTY_SECOND_FIXTURE_QUERY_NO_RETRY",
+    "native_primary_error": "REAL_600S_OWNER_UPDATES_NOT_REPEATED_SINGLE_SMOKE",
+    "mechanism": "COLLECT_STOPPED_ON_DURATION_WITH75READS_BECAUSE_GUARD_READ_FSYNC_AND_PUMP_OVERHEAD_WERE_ADDED_TO_EACH_SLEEP_INTERVAL_NATIVE81SAMPLE_GATE_THEN_ABORTED_AND_STOPPED_PUMP",
+    "full_native_qualification": false,
+    "isolated_fault_matrix_executed": false,
+    "old_failure_evidence_modified": false,
+    "new_automatic_submission": false
+  },
+  "sample_density_and_pump_sequence_repair": {
+    "status": "CPU_TESTED_PENDING_EXACT_GITHUB_CI_AND_NEW_COLD_NATIVE_QUALIFICATION",
+    "minimum_sample_count_and_real_duration_both_required": true,
+    "samples_are_new_actual_reads_not_copied_or_clock_adjusted": true,
+    "minimum600_s_and81_reads_unchanged": true,
+    "capture_maximum900_s_and_original300_s_watchdog_unchanged": true,
+    "nominal80_cycles_and_owner_process_fault_proofs_must_finish_before_blocking_compute_faults": true,
+    "old_20_60_900_s_transport_watchdogs_unchanged": true,
+    "models_or_learning_or_safety_modified": false,
+    "engineering_CPU_reserved_upper_s": 2760,
+    "new_PBS_by_code_repair": 0,
+    "focused_local_pytest": "17_PASSED_34_SUBTESTS",
+    "blocking_fault_order_is_preventive_not_the_observed_primary_cause": true,
+    "CPU_counter_difference": "SUBTRACT_MONOTONIC_USER_AND_SYSTEM_COUNTERS_SEPARATELY_BEFORE_SUM_NO_EPSILON_OR_CLAMP",
+    "CPU_counter_regression": "UNCHANGED_0_3_USER_AND0_6_SYSTEM_RETURNS_EXACT_ZERO_NO_ROUNDING_NEGATIVE",
+    "full_local_pytest": "509_PASSED_375_SUBTESTS"
   }
 }

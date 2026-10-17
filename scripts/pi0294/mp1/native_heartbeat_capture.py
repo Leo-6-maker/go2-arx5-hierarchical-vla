@@ -26,7 +26,7 @@ def collect(root,run_uuid,guard,emit,*,duration_s=DURATION_S,interval_s=INTERVAL
             or type(interval_s) not in [int,float] or not math.isfinite(interval_s)
             or not 0<interval_s<=7.5):
         raise ValueError('FINITE_HEARTBEAT_CAPTURE_SCHEDULE')
-    rows=[];first=None
+    rows=[];first=None;minimum_samples=math.ceil(duration_s/interval_s)+1
     while True:
         guard()
         before=clock()
@@ -45,8 +45,9 @@ def collect(root,run_uuid,guard,emit,*,duration_s=DURATION_S,interval_s=INTERVAL
         row=dict(sequence=len(rows),monotonic_s=after,read_duration_s=after-before,proof=proof)
         emit(row);rows.append(row)
         if first is None:first=after
-        if after-first>=duration_s:break
-        pause=min(interval_s,duration_s-(after-first))
+        elapsed=after-first
+        if elapsed>=duration_s and len(rows)>=minimum_samples:break
+        pause=min(interval_s,duration_s-elapsed) if elapsed<duration_s else interval_s
         if service is None:sleep(pause)
         else:
             wake=clock()+pause

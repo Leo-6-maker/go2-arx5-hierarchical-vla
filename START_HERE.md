@@ -1,5 +1,18 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**N1allocation06 failed before model load; exact sampling mechanism identified.**
+[Actual native failure/resource and repair ledger](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
+673223 nativeF/exit1,653GPU seconds;source cumulative36164,parent40664,
+reservations0. Zero new models,NN queries,updates or physics. Capture
+measured600.095s and75distinct valid owner readings,but required81samples:
+reader/guard/fsync/pump overhead reduced density before duration-only exit.
+The strict gate then stopped compute;72/80fixture cycles completed and the
+next reserved checksum expired at the original60s limit. Not task failure.
+Repair requires BOTH81actual reads and600s,within the same900s capture cap;
+blocking native faults now wait until all80nominal cycles and owner closure.
+No weakened watchdog,no copied reads,no hot patch,no automatic re-qsub.
+Existing25qualified cells and six remaining DEVconditions are unchanged.
+
 **Fifth allocation ended normally; N1 cold continuation submitted once.**
 [Actual paired results and resource receipt](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
 673008 nativeF/exit0,11392GPU seconds;source cumulative35511,reservation0
