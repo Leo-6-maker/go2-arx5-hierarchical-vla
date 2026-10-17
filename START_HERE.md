@@ -1,5 +1,16 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**CORR2048 TRAIN4 complete: 3/4 actual successes, all four independently audited.**
+[Paired endpoint report and raw-score/video index](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
+T1=1/2,T2=2/2,zero native safety faults,TeacherOFF. F0/T1 is a valid
+originalS1 rejection at24s;F0/T2,F1/T1,F1/T2 complete32s successfully.
+Every condition passes full raw/video and fresh observation/model/action/ACK
+chain audit. BC2048TRAIN4also3/4,but its T1success isF0 rather thanF1:
+no aggregate TRAIN gain or causal DAgger/generalization claim. Matrix now
+23/32qualified;CORRDEV8 is in progress,not a complete DEV rate. Fifth673008
+continues originalsource/request;no newPBS. Transport implementation245446c2
+has exact-head GitHub CI SUCCESS;native600s/80cycles remainNOT_RUN.
+
 **N1 transport producer and owner IO phase now CPU-tested, not site-qualified.**
 [Required endurance/fault ledger with actual local mature-client fault bench](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
 Recorded real-size dualRGB uses the existing stdio/sealed codec,compute
@@ -25,7 +36,7 @@ recipes match;2048positive projector/DiT gradient records per arm and frozen
 tensors verified. Same-input/noise96TRAIN expert windows plus12historical
 student draws and actual event exposure independently CPU-audited;no new
 model queries. These probes are not task/generalization evidence or the
-new current-eight-anchor NI draws. Full CORR TRAIN4/DEV8 still executing;
+new current-eight-anchor NI draws. CORR TRAIN4 is now audited;DEV8 still executing;
 matrix19qualified/32fixed,spent midpointF1/T1gap retained,no final success
 rate/causalDAgger gain/selected model claimed. Same fifth673008/source
 e418bb79 remainsR,original4h/no sixth.84e7cee1 actualCI39066444935 SUCCESS,

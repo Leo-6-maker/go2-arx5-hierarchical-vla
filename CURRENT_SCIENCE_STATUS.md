@@ -1,5 +1,15 @@
 # Current Science Status
 
+**CORR2048 TRAIN4 actual audited result: 3/4 success, T1=1/2,T2=2/2.**
+[Matched endpoint task outcomes and complete raw-score/video index](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
+All4 raw/video and closed fresh-input/model/action/ACK chains pass;native
+safety faults0,TeacherOFF. F0/T1 rejects under originalS1at24s;the other
+three complete32s successfully. BC2048TRAIN4also3/4with opposite T1layout
+success;this is no overall TRAIN benefit,causalDAgger or DEV claim.
+Matrix23/32qualified,CORRDEV8 inprogress,irrecoverable512F1/T1gap retained.
+No newPBS or active-source mutation.245446c2 exact-head CPU CI SUCCESS;
+actualN1 600s/80cycles/sitefault qualification stillNOT_RUN.
+
 **N1 full transport producer/owner IO phase CPU-validated, native evidence pending:** [endurance/fault ledger](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
 Actual-size recorded dualRGB,existing wire codec,compute checksum pump,
 80fixture-only ACKs and all native fault producers now have execution paths.
@@ -18,7 +28,7 @@ CORR16384C1visits=8306student-anchor+8078subsequent expert-state visits,
 2048positive-gradient records per arm verified. Fixed96expert/12historical
 student outputs and actual event exposure audited,zero newNN/physics.
 Expert-fit metrics are not hiddenDEV or closed-loop success. FullCORR
-TRAIN4/DEV8 executing;matrix19qualified/32,irrecoverable midpoint gap stays.
+TRAIN4 audited/DEV8 executing;matrix23qualified/32,irrecoverable midpoint gap stays.
 Fifth673008R unchanged;no sixth. Goal and nativeN1 qualification incomplete,
 selected/deploymentNONE,WBC/TF-R3STOP unchanged.84e7cee1 actualCI succeeded.
 
