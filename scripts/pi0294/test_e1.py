@@ -15,6 +15,14 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_visibility_refresh_only_stats_existing_regular_response_files(self):
+        from .e1.nfs_visibility import refresh
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'one.json').write_text('{}');(root/'ignore.npz').write_text('not touched');(root/'alias.json').symlink_to(root/'one.json')
+            before={p.name:p.read_bytes() for p in root.iterdir() if not p.is_symlink()}
+            self.assertEqual(refresh(root),1)
+            self.assertEqual(before,{p.name:p.read_bytes() for p in root.iterdir() if not p.is_symlink()})
+
     def test_full_behavior_matrix_does_not_promote_two_T1_audits_to_complete_comparison(self):
         from .e1.behavior_matrix import build
         source=json.loads(Path('reports/PI0294/20261016T150228Z-localpc-e1/M1_1024_COMPLETE_TRAIN4_AND_T1_AUDITS.json').read_text())
