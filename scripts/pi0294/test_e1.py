@@ -217,7 +217,8 @@ class E1Tests(unittest.TestCase):
     def test_partial_resume_requires_full_hashes_exact_cursor_and_no_unknown_update(self):
         import hashlib
         from unittest.mock import patch
-        from .e1.train import checked_resume
+        from .e1 import train
+        checked_resume=train.checked_resume
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);branch=root/'training/M2-BC';checkpoint=branch/'checkpoint-12';checkpoint.mkdir(parents=True);(branch/'session-start').mkdir()
             recipe=dict(seed=20261016,max_steps=512)
@@ -227,7 +228,7 @@ class E1Tests(unittest.TestCase):
             (checkpoint/'SAMPLER_STATE.json').write_text(json.dumps(dict(recipe=recipe,sampler=dict(cursor=384))))
             files={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in checkpoint.iterdir()}
             (checkpoint/'CHECKPOINT_COMPLETE.json').write_text(json.dumps(dict(global_step=12,full_resume=True,files=files)))
-            with patch('scripts.pi0294.e1.train.STATS',files['statistics.json']):
+            with patch.object(train,'STATS',files['statistics.json']):
                 ledger=dict(optimizer_updates=1036,pending_updates=0)
                 self.assertEqual(checked_resume(root,'M2-BC',checkpoint,recipe,ledger),12)
                 with self.assertRaises(PermissionError):checked_resume(root,'M2-BC',checkpoint,recipe,dict(ledger,pending_updates=1))
@@ -277,7 +278,8 @@ class E1Tests(unittest.TestCase):
         from types import SimpleNamespace as NS
         from unittest.mock import patch
         import numpy as np
-        from .e1.probe_s1 import check
+        from .e1 import probe_s1
+        check=probe_s1.check
         from go2arx5_vla.task_data.codec import pose10
         class Ledger:
             def guard(self):pass
@@ -288,10 +290,10 @@ class E1Tests(unittest.TestCase):
         row=dict(id='fixture',task='T1',payload=dict(state_eef10=state.tolist()))
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);(root/'evidence/PROBE_S1_ROWS').mkdir(parents=True)
-            with patch('scripts.pi0294.e1.probe_s1.gate_action',return_value=dict(decision='ACCEPT')),patch('scripts.pi0294.e1.probe_s1.predict',return_value=(dict(decision='PASS'),[])) as native:
+            with patch.object(probe_s1,'gate_action',return_value=dict(decision='ACCEPT')),patch.object(probe_s1,'predict',return_value=(dict(decision='PASS'),[])) as native:
                 value=check(root,root,'fixture','on_student',row,engine,Ledger(),action,'approach')
                 self.assertTrue(value['prefix_executable']);self.assertEqual(native.call_count,1)
-            with patch('scripts.pi0294.e1.probe_s1.gate_action',return_value=dict(decision='REJECT')),patch('scripts.pi0294.e1.probe_s1.predict') as native:
+            with patch.object(probe_s1,'gate_action',return_value=dict(decision='REJECT')),patch.object(probe_s1,'predict') as native:
                 value=check(root,root,'fixture2','on_student',row,engine,Ledger(),action,'approach')
                 self.assertFalse(value['prefix_executable']);native.assert_not_called()
 
@@ -307,14 +309,14 @@ class E1Tests(unittest.TestCase):
     def test_control_file_read_retries_visibility_only_and_is_bounded(self):
         import errno
         from unittest.mock import patch
-        from .e1.control_read import read
-        with patch('scripts.pi0294.e1.control_read.time.sleep'),patch('scripts.pi0294.e1.control_read.original_read',side_effect=[FileNotFoundError(errno.ENOENT,'NFS'),{'ok':True}]) as source:
-            self.assertEqual(read('fixture'),{'ok':True});self.assertEqual(source.call_count,2)
-        with patch('scripts.pi0294.e1.control_read.time.sleep'),patch('scripts.pi0294.e1.control_read.original_read',side_effect=FileNotFoundError(errno.ENOENT,'NFS')) as source:
-            with self.assertRaises(FileNotFoundError):read('fixture')
+        from .e1 import control_read
+        with patch.object(control_read.time,'sleep'),patch.object(control_read,'original_read',side_effect=[FileNotFoundError(errno.ENOENT,'NFS'),{'ok':True}]) as source:
+            self.assertEqual(control_read.read('fixture'),{'ok':True});self.assertEqual(source.call_count,2)
+        with patch.object(control_read.time,'sleep'),patch.object(control_read,'original_read',side_effect=FileNotFoundError(errno.ENOENT,'NFS')) as source:
+            with self.assertRaises(FileNotFoundError):control_read.read('fixture')
             self.assertEqual(source.call_count,6)
-        with patch('scripts.pi0294.e1.control_read.original_read',side_effect=ValueError('malformed')) as source:
-            with self.assertRaises(ValueError):read('fixture')
+        with patch.object(control_read,'original_read',side_effect=ValueError('malformed')) as source:
+            with self.assertRaises(ValueError):control_read.read('fixture')
             self.assertEqual(source.call_count,1)
 
     def test_original_inference_precision_restored_even_after_failure(self):

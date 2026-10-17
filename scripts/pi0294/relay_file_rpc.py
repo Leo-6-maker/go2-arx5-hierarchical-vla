@@ -15,6 +15,7 @@ from scripts.pi0292.durable import write
 from scripts.pi0294.e1.control_read import read
 from scripts.pi0294.e1.rpc import call
 from scripts.pi0294.native_dataset import sha
+from scripts.pi0294.relay_io import PhaseTrace
 
 MAX_LINE_BYTES=2*1024**2
 
@@ -64,7 +65,7 @@ def serve(root,role,label):
     write(record,dict(pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],source_sha=m['code']['vla_commit'],
         manifest_relative=str(copy.relative_to(root)),manifest_sha256=hashlib.sha256(original_manifest).hexdigest(),source_live_worker=False,
         work_type='CONTROL_FILE_RPC_NO_MODEL_NO_PHYSICS',maximum_CPU_s=7200,deadline_epoch=endpoint.registry['deadline_epoch'],started_epoch=time.time()))
-    seen=set();operations=0;status='SESSION_EOF_OR_DEADLINE';error=None
+    seen=set();operations=0;status='SESSION_EOF_OR_DEADLINE';error=None;trace=PhaseTrace(sys.stderr)
     def guard(args):
         ledger.guard()
         if time.time()>=endpoint.registry['deadline_epoch']:raise TimeoutError('ORIGINAL_PANEL_DEADLINE_UNCHANGED')
@@ -85,13 +86,18 @@ def serve(root,role,label):
             if len(line)>MAX_LINE_BYTES or not line.endswith(b'\n'):raise ValueError('BOUNDED_ONE_JSON_LINE_REQUIRED')
             packet=json.loads(line);nonce=packet.get('rpc_id') if isinstance(packet,dict) else None
             try:
-                value=execute_request(packet,lambda args:call(root,role,label,args,endpoint=endpoint,adjudication_name=adjudication),guard,seen)
+                def checked(args):
+                    with trace.phase('guard'):guard(args)
+                def invoke(args):
+                    with trace.phase('invoke'):return call(root,role,label,args,endpoint=endpoint,adjudication_name=adjudication)
+                value=execute_request(packet,invoke,checked,seen)
                 operations+=1
-                with ledger.transaction() as l:l['RPC_calls']=l.get('RPC_calls',0)+1
+                with trace.phase('accounting'):
+                    with ledger.transaction() as l:l['RPC_calls']=l.get('RPC_calls',0)+1
             except Exception as exc:
                 value=dict(rpc_id=nonce,ok=False,error=type(exc).__name__+': '+str(exc),unknown_effect_not_retried=True)
                 print(json.dumps(value,allow_nan=False),flush=True);raise
-            print(json.dumps(value,allow_nan=False),flush=True)
+            with trace.phase('emit'):print(json.dumps(value,allow_nan=False),flush=True)
     except Exception as exc:status='FAILED_SESSION_PRESERVED';error=type(exc).__name__+': '+str(exc);raise
     finally:
         cpu=time.process_time()-started;ledger.cpu(cpu)

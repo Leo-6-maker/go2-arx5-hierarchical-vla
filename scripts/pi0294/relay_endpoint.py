@@ -8,6 +8,7 @@ from scripts.pi0292.relay_protocol import PROTOCOL, digest, exact_keys, sealed, 
 from .native_dataset import sha
 from .relay_transport import teacher_action
 from .run_admission import validate
+from .relay_io import read_available
 
 
 def inside(root, relative):
@@ -64,7 +65,7 @@ class Endpoint:
             if operation == 'teacher' and case['identity']['profile'] != 'TEACHER_REFERENCE':
                 raise PermissionError('MODEL_CANNOT_READ_TEACHER_ANSWER')
             path = inside(relay, names[operation])
-            return read(path) if path.is_file() else None
+            return read_available(path)
         if operation != 'install' or not isinstance(bundle, dict) or set(bundle) != {'command','action','request'}:
             raise PermissionError('EXACT_ONE_SHOT_INSTALL_REQUIRED')
         observation = read(inside(relay, names['observation']))
@@ -93,7 +94,7 @@ class Endpoint:
         if operation == 'response':
             uuid_string(query_uuid)
             path = inside(directory, 'outbox/'+query_uuid+'.json')
-            return read(path) if path.is_file() else None
+            return read_available(path)
         if operation != 'query':
             raise PermissionError('REGISTERED_HOPPER_QUERY_REQUIRED')
         body = unseal(query)

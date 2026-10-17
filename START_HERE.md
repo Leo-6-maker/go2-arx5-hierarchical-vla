@@ -1,10 +1,15 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**2026-10-17 actual owner update:** M1@1024 completed autonomous T1 in both
-predeclared seen TRAIN layouts with independent audit PASS; both T2 layouts
-were validly rejected by original S1. E1 M2 is still running with its sealed C0
-data choice. Repaired new M1 intervention data was independently exported and
-consumed, but is not hot inserted into that comparison.
+**2026-10-17 actual owner update:** E1's three PBS jobs and both leases are
+terminal/CLOSED, with 19,675 conservative GPU seconds and zero reservations.
+M1@1024 retains autonomous 32s T1 success in both seen TRAIN layouts; both
+T2 layouts are valid original-S1 rejections. M2-BC/CORR each completed 512
+updates with sealed C0, but their autonomous comparison remains incomplete
+because of relay engineering failures: five incomplete conditions and three
+NOT_RUN, not policy 0/8. No fourth E1 submission or closed-lease restart.
+[Actual terminal summary and evidence](reports/PI0294/20261016T150228Z-localpc-e1/E1_RUN_SUMMARY.md).
+Repaired C1 was independently consumed and is available for a separately
+bound MP1 branch, not hot inserted into E1.
 
 **The user adopted the single MP1 incremental package** at
 `c8cdf60e41e31da5796b44a064ef2f22d594a491`. E2 is non-additive reference only.
@@ -16,9 +21,11 @@ Read [CURRENT_SCIENCE_STATUS.md](CURRENT_SCIENCE_STATUS.md), the
 [fixed MP1 execution entry](docs/handover/2026-10-17/MAINLINE_ACCELERATION_MP1_EXECUTE.md),
 and [actual adoption receipt](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json).
 Native refresh takes precedence over the historical snapshots below: Vanda
-hardware remains queued, inference held, and build1462595 has failed without
-WBC execution. Source generalization, T2 competence and target transfer remain
-unproven. Real-robot deployment is NONE.
+hardware1462438 and saved-input inference1462451 are F/exit0 with CLOSED
+leases; native CPU build1463204 passed. These are not EGL/native WBC or
+new-observation closed-loop qualification. Source generalization, T2
+competence and target transfer remain unproven; TF-R3 STOP is preserved.
+Real-robot deployment is NONE.
 
 ## Historical Entry Snapshots (Preserved)
 

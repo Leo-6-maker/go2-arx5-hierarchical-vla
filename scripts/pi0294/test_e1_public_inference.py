@@ -10,13 +10,13 @@ from .e1.public_inference import inference_members,tensor_header
 
 class PublicInferenceTests(unittest.TestCase):
     def test_video_publication_requires_separate_bound_public_permission(self):
-        from .e1.video_delivery import publish
+        from .e1 import video_delivery
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);ledger=root/'RESOURCE_LEDGER.json';ledger.write_text(json.dumps({'reservations':{}}))
-            with patch('scripts.pi0294.e1.video_delivery.validate'),patch('scripts.pi0294.e1.video_delivery.Ledger') as cls:
+            with patch.object(video_delivery,'validate'),patch.object(video_delivery,'Ledger') as cls:
                 cls.return_value.path=ledger
-                with self.assertRaises(PermissionError):publish(root,'foreign/repo','unused',public=True)
-                with self.assertRaises(FileNotFoundError):publish(root,'leoyuer/pi0294-public-artifacts','unused',public=True)
+                with self.assertRaises(PermissionError):video_delivery.publish(root,'foreign/repo','unused',public=True)
+                with self.assertRaises(FileNotFoundError):video_delivery.publish(root,'leoyuer/pi0294-public-artifacts','unused',public=True)
             self.assertFalse((root/'artifacts').exists())
 
     def test_only_inference_allowlist_not_native_optimizer_or_arguments(self):
