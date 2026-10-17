@@ -61,16 +61,16 @@ def probe(folder):
         if child.poll() is None:child.kill();child.communicate(timeout=10)
 
 
-def run(root,role):
+def run(root,role,attempt=1):
     root=Path(root)
-    if role not in ['core','hopper']:raise PermissionError('FIXED_TWO_CPU_ROLES_ONLY')
+    if role not in ['core','hopper'] or attempt not in [1,2]:raise PermissionError('FIXED_TWO_CPU_ROLES_AND_TWO_BOUNDED_ATTEMPTS_ONLY')
     m=validate(root,'4080-cpu-data' if role=='core' else 'hopper-neural')
-    binding=root/'plans/RPC_METRICS_CPU_BINDING_'+role+'.json'
+    binding=root/'plans'/('RPC_METRICS_CPU_BINDING_'+role+'_'+str(attempt)+'.json')
     from scripts.pi0294.native_dataset import sha
     if m['execution'].get('rpc_metrics_binding_sha256')!=sha(binding):raise PermissionError('IMMUTABLE_RPC_METRICS_PROBE_BINDING')
-    if read(binding)!=dict(run_uuid=root.name,role=role,source_sha=m['code']['vla_commit'],maximum_CPU_s=600,maximum_wall_s=120,new_model_queries=0,new_physics=0):
+    if read(binding)!=dict(run_uuid=root.name,role=role,attempt=attempt,source_sha=m['code']['vla_commit'],maximum_CPU_s=600,maximum_wall_s=120,new_model_queries=0,new_physics=0):
         raise PermissionError('FIXED_FINITE_CPU_METRICS_PROBE')
-    output=root/'evidence'/('RPC_METRICS_CPU_01_'+role);output.mkdir(mode=0o700);started=time.process_time();before=resource.getrusage(resource.RUSAGE_CHILDREN)
+    output=root/'evidence'/('RPC_METRICS_CPU_'+str(attempt).zfill(2)+'_'+role);output.mkdir(mode=0o700);started=time.process_time();before=resource.getrusage(resource.RUSAGE_CHILDREN)
     try:
         value=probe(output/'synthetic');value.update(role=role,source_sha=m['code']['vla_commit'])
         write(output/'RESULT.json',value);return value
@@ -79,10 +79,10 @@ def run(root,role):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--role',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--role',required=True);p.add_argument('--attempt',type=int,default=1);a=p.parse_args()
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resource.RLIMIT_CPU,(600,600))
     def expire(signum,frame):raise TimeoutError('FINITE_RPC_METRICS_CPU_120S_BOUNDARY')
     import signal
     signal.signal(signal.SIGALRM,expire);signal.alarm(120)
-    try:print(json.dumps(run(a.root,a.role)),flush=True)
+    try:print(json.dumps(run(a.root,a.role,a.attempt)),flush=True)
     finally:signal.alarm(0)

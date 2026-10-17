@@ -27,6 +27,23 @@ class FileLedger:
 
 
 class RPCMetricsTests(unittest.TestCase):
+    def test_native_entry_reads_exact_bound_role_request(self):
+        from .mp1 import rpc_metrics_probe as probe_module
+        module=sys.modules[probe_module.run.__module__]
+        from .native_dataset import sha
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'plans').mkdir();(root/'evidence').mkdir()
+            for role in ['core','hopper']:
+                binding=root/'plans'/('RPC_METRICS_CPU_BINDING_'+role+'_2.json')
+                binding.write_text(json.dumps(dict(run_uuid=root.name,role=role,attempt=2,source_sha='fixture',maximum_CPU_s=600,maximum_wall_s=120,new_model_queries=0,new_physics=0)))
+                manifest=dict(code=dict(vla_commit='fixture'),execution=dict(rpc_metrics_binding_sha256=sha(binding)))
+                with patch.object(module,'validate',return_value=manifest),patch.object(module,'charge_cpu') as cpu,patch.object(module,'probe',return_value=dict(status='UNIT_FIXTURE_NOT_NATIVE_PASS')):
+                    value=probe_module.run(root,role,2)
+                    self.assertEqual(value['source_sha'],'fixture');self.assertEqual(value['role'],role);cpu.assert_called_once()
+                binding.write_text('{}')
+                with patch.object(module,'validate',return_value=manifest):
+                    with self.assertRaises(PermissionError):probe_module.run(root,role,2)
+
     def test_bounded_native_CPU_probe_is_explicitly_not_closed_loop(self):
         from .mp1.rpc_metrics_probe import probe
         with tempfile.TemporaryDirectory() as d:value=probe(Path(d)/'probe')
