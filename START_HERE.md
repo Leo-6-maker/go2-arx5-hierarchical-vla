@@ -1,6 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Current N1: real native qualification PASS; six CORR DEV cases audited, two pending.**
+**Current N1: source08 ended F/1; six CORR DEV cells qualified, one engineering gap and one unrun.**
+[Actual terminal,unused-action closure and STOP-inventory repair](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE08_ACTUAL_TERMINAL_EFFECT_CLOSURE_AND_STOP_REPAIR.json).
+673235 ended07:38:41SGT after the original20sFILE_RPCtimeout. F2/T1 stopped
+at12.4s,31ACKs/6200live ticks,249real dual-camera frames,zero live native
+faults. Its32ndmodel draw was generated but never installed;all2230cumulative
+draws and original arrays are now reconciled. The partial18check/raw/video
+audit passed,but this is not a qualified task result. F2/T2 was not started.
+Actual3525GPU seconds settled once:source40132,parentHopper44632,reserved0.
+The failed generic settlement was a recursive ancestor inventory bug,new08
+STOP not changed old bytes. New5876ce18/CI39080331271SUCCESS preserves all
+STOPs and passed the actual frozen partial auditor;current08STOP still blocks
+execution. No network-root-cause fix is claimed,no09bound/submitted.
+The earlier live-R publication used a prior snapshot and is superseded here.
+
+**Past same-job native qualification PASS; six audited CORR DEV results retained.**
 [Same-job native proof](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE08_ACTUAL_NATIVE_QUALIFICATION.json)
 and [two new audited DEV results](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE08_FIRST_DEV_PAIR_ACTUAL.json).
 673235/source eb851e82 is the existing eighth allocation, not a new adoption:
@@ -30,7 +44,7 @@ This diagnostic gap does not invalidate or interrupt the independent DEV panel.
 model queries,WBC launches or physical integrations. File visibility passed;
 OpenGL identity read failed. Unique root cause and hardware camera quality
 remain unproved. Old camera02 stays CLOSED;no automatic camera04.
-Hopper continues independently. OriginalN1T0=1792264081 and cumulative
+Source work remains independent,but no GPU job is currently active. OriginalN1T0=1792264081 and cumulative
 budgets/costs/STOPs remain. Formal updates4096/pending0;selected/deploymentNONE.
 
 ## Historical Snapshots

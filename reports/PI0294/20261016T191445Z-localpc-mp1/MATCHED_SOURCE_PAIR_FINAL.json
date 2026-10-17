@@ -1,6 +1,6 @@
 {
   "schema": "MP1_N1_MATCHED_SOURCE_PAIR_FINAL_V1",
-  "status": "SOURCE08_SIX_CORR_DEV_AUDITED_TWO_PENDING_DYNAMIC_RESTORE_GAP",
+  "status": "SOURCE08_TERMINAL_6_CORR_DEV_QUALIFIED_1_ENGINEERING_GAP_1_UNRUN",
   "full_scientific_goal_complete": false,
   "report_created_epoch": 1792269357.6681342,
   "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
@@ -2227,11 +2227,11 @@
     "fixed_conditions": 32,
     "actual_qualified_conditions": 29,
     "all_endpoint_policy_conditions_complete": false,
-    "CORR2048_TRAIN4_DEV8": "TRAIN4_COMPLETE_6_DEV_AUDITED_2_DEV_PENDING_NO_FULL_DEV_RATE",
+    "CORR2048_TRAIN4_DEV8": "TRAIN4_COMPLETE_6_DEV_QUALIFIED_1_ENGINEERING_GAP_1_UNRUN",
     "F1_T1_midpoint": "ENGINEERING_GAP_TWO_ATTEMPTS_EXHAUSTED_NO_THIRD",
     "F1_T2_midpoint": "SOLE_REPLACEMENT_AUDITED_VALID_ORIGINAL_S1_NEGATIVE_NO_REPLAY",
-    "matrix_Core_snapshot_epoch": 1792280156.8969798,
-    "matrix_Hopper_snapshot_epoch": 1792280157.0163822
+    "matrix_Core_snapshot_epoch": 1792281116.5875533,
+    "matrix_Hopper_snapshot_epoch": 1792281117.1365166
   },
   "measured_Hopper_audit_CPU_s": {
     "consumption": 4.609122720000002,
@@ -2247,18 +2247,21 @@
   "publication_metadata_settlement": "NEW_SECOND_DEV_AND_DYNAMIC_GAP_PUBLICATION_540S_OPEN_UNTIL_EXACT_READBACK_OLD_PUBLICATIONS_SETTLED",
   "native_job": {
     "job_id": "673235.hopper-m-02",
-    "state": "R",
+    "state": "F",
     "source_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
     "source_PBS_used": 8,
-    "source_GPU_settled_s": 36607,
-    "source_GPU_reserved_s": 28800,
+    "source_GPU_settled_s": 40132,
+    "source_GPU_reserved_s": 0,
     "combined_optimizer_updates": 4096,
     "CORR_updates": 2048,
     "pending_updates": 0,
     "native_current_model_session": "S-CORR-2048-DEV8-ALLOCATION-08",
     "request_wall_s": 28800,
     "native_terminal_marker_is_not_all32_complete": true,
-    "new_PBS_for_this_audit": 0
+    "new_PBS_for_this_audit": 0,
+    "exit_status": 1,
+    "parent_Hopper_GPU_settled_s": 44632,
+    "actual_allocation_GPU_s": 3525
   },
   "evidence_receipts_sha256": {
     "consumption": "3cb70c767efe71356edc239a8eb96ea4f1deec87bbc7d7687eb02e34e98698f2",
@@ -2277,7 +2280,8 @@
     "Historical T1 expert-label supervision reuse identified earlier remains known-training fit,not heldout generalization.",
     "CORR2048TRAIN4 now has four independently audited task outcomes:3/4success,T1=1/2,T2=2/2,zero native safety faults. BC2048TRAIN4also3/4butT1layout success swaps. No aggregateTRAINgain orDEV/causalDAgger/targetWBC/deployment claim;DEV8stillinprogress.",
     "Historical fifth allocation ended naturally with exit0 and source cumulative35511GPU seconds. Its two audited F0 DEV successes remain immutable. Source08 adds audited F1/000T1 success and F1/000T2 original S1 rejection at23.2s;four DEV conditions remain pending. No full DEV rate or causal DAgger benefit is claimed.",
-    "Source08 additionally audited F1/001T1 full32sSUCCESS and F1/001T2 safe32sOBJECT_TASK_RESULT failure. Six CORR DEV cells are qualified,two remain;no full DEV rate or causal gain yet. Dynamic saved-state qualification stopped on the sixth anchor at unchanged1e-10 tolerance;no new endpoint anchor inference was run."
+    "Source08 additionally audited F1/001T1 full32sSUCCESS and F1/001T2 safe32sOBJECT_TASK_RESULT failure. Six CORR DEV cells are qualified,two remain;no full DEV rate or causal gain yet. Dynamic saved-state qualification stopped on the sixth anchor at unchanged1e-10 tolerance;no new endpoint anchor inference was run.",
+    "Source08 ended nativeF/1 after original20sFILE_RPCtimeout. F2/T1partial12.4s remains engineering-incomplete,not policyfailure. Its32ndnativeaction was generated but never installed;31ACKs/6200live ticks and all cumulative2230draws now independently reconciled. F2/T2wasnotrun. Actual3525GPU seconds settled once;source40132,parent44632,reservation0. OriginalSTOPbytes retained;new5876ce18ancestor-inventoryfix passed actual frozen partial audit,not a newscienceadmission or provennetworkrepair."
   ],
   "N1_native_600s_80cycles": "PASS_REAL_SAME_JOB_SOURCE08_81_READS_600_021983S_80_CYCLES_ALL8_FAULTS",
   "same_state_eight_anchor_endpoint_draws": "NOT_RUN_DYNAMIC_RESTORE_GATE_NOT_PASSED",
@@ -2288,7 +2292,7 @@
   "TF_R3_STOP": "PRESERVED",
   "selected": "NONE",
   "deployment": "NONE",
-  "report_updated_epoch": 1792280218.3395383,
+  "report_updated_epoch": 1792281168.3518112,
   "CORR2048_TRAIN4_actual_audited_cases": [
     {
       "attempt_id": "PI0294-MP1-S-CORR-2048-TRAIN4-F0-000-T1",
@@ -2739,7 +2743,7 @@
     "last_session": "S-CORR-2048-DEV8-ALLOCATION-05",
     "native_terminal_marker_is_not_all32_complete": true
   },
-  "latest_case_auditor_source": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
+  "latest_case_auditor_source": "5876ce182e47dee3704ca75587cfeeb76e2793f7",
   "scientific_runtime_source_scope": "ORIGINAL_TRAINING_KERNEL_NOT_CURRENT_EVALUATION_ENTRY",
   "CORR2048_DEV8_actual_audited_cases": [
     {
@@ -2997,5 +3001,6 @@
   ],
   "native_qualification_receipt": "SOURCE08_ACTUAL_NATIVE_QUALIFICATION.json",
   "Vanda_native_receipt": "N1_VANDA_CAMERA03_ACTUAL_FAILURE.json",
-  "anchor_dynamic_receipt": "N1_ANCHOR_DYNAMIC_PARITY_ACTUAL_GAP.json"
+  "anchor_dynamic_receipt": "N1_ANCHOR_DYNAMIC_PARITY_ACTUAL_GAP.json",
+  "source08_terminal_receipt": "SOURCE08_ACTUAL_TERMINAL_EFFECT_CLOSURE_AND_STOP_REPAIR.json"
 }
