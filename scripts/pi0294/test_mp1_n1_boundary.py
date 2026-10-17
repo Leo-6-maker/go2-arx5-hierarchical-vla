@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
+import json
 import os
 from pathlib import Path
 import unittest
@@ -185,6 +186,36 @@ class N1BoundaryTests(unittest.TestCase):
         self.assertTrue(guard.blocked())
         self.put(self.root/'SOURCE_PHYSICS_STOP.json',dict(stopped=True))
         with self.assertRaises(PermissionError):cold.validate(self.root)
+
+    def advance_to_eight(self):
+        for number in [7,8]:
+            self.old=deepcopy(self.m)
+            self.past['PBS_submissions'].append(dict(request_id=f'alloc-{number-1:02}',
+                job_id=f'{673008+number}.hopper-m-02',status='NATIVE_TERMINAL',GPU_conservative_charge_s=200))
+            self.past['GPU_allocated_s']+=200;self.build(number)
+
+    def test_current_eighth_stop_allows_accounting_validation_but_still_blocks_execution(self):
+        self.advance_to_eight();guard=cold.Guard(self.root,8)
+        self.put(cold.stop_target(self.root,8),dict(run_uuid=self.root.name,stopped=True))
+        self.assertTrue(guard.blocked())
+        self.assertEqual(cold.validate(self.root)['target_allocation_number'],8)
+        self.assertTrue(cold.Guard(self.root,8).blocked())
+        self.put(self.root/'RELAY_ENGINEERING_STOP_ALLOCATION09.json',dict(stopped=True))
+        with self.assertRaisesRegex(PermissionError,'STOPS_MUST_REMAIN'):cold.validate(self.root)
+
+    def test_nested_new_stops_never_hide_changed_original_or_forged_context(self):
+        self.put(cold.stop_target(self.root,6),dict(stopped=True))
+        self.advance_to_eight();self.put(cold.stop_target(self.root,8),dict(stopped=True))
+        self.assertEqual(cold.validate(self.root)['target_allocation_number'],8)
+        saved=(self.root/'RELAY_ENGINEERING_STOP.json').read_bytes()
+        self.put(self.root/'RELAY_ENGINEERING_STOP.json',dict(changed=True))
+        with self.assertRaises(PermissionError):cold.validate(self.root)
+        self.put(self.root/'RELAY_ENGINEERING_STOP.json',json.loads(saved))
+        for context in [{'RELAY_ENGINEERING_STOP_ALLOCATION08.json':'0'*64},
+                        {'RELAY_ENGINEERING_STOP_ALLOCATION07.json':'0'*64},
+                        {'RELAY_ENGINEERING_STOP_ALLOCATION13.json':'0'*64}]:
+            with self.subTest(context=context),self.assertRaisesRegex(PermissionError,'OUTER_EPOCH'):
+                boundary.preserved_stops(self.root,7,self.q['preserved_STOP_hashes'],context)
 
     def test_changed_birth_or_learning_bytes_rejected(self):
         self.m['data']['bank']='v3.1';self.reseal()

@@ -73,7 +73,32 @@ def native_history(past, native, number, cap):
         raise PermissionError('N1_CUMULATIVE_NATIVE_SOURCE_BUDGET')
 
 
-def validate(root, worker_manifest=None, *, proposed_manifest=None):
+def preserved_stops(root,number,stops,descendant_hashes):
+    """An outer epoch owns newer STOPs; every older sealed hash still applies."""
+    from . import cold_boundary as prior
+    from . import cold_boundary05 as fifth
+    root=Path(root);descendant_hashes={} if descendant_hashes is None else descendant_hashes
+    for name,digest in descendant_hashes.items():
+        match=re.fullmatch(r'RELAY_ENGINEERING_STOP_ALLOCATION([0-9]{2})\.json',name)
+        if (match is None or not number<int(match[1])<=12 or (root/name).is_symlink()
+                or sha(root/name)!=digest):
+            raise PermissionError('N1_EXACT_OUTER_EPOCH_STOP_CONTEXT')
+    current='RELAY_ENGINEERING_STOP_ALLOCATION'+str(number).zfill(2)+'.json'
+    actual={p.name for p in root.glob('RELAY_ENGINEERING_STOP*.json') if p.name!=current and p.name not in descendant_hashes}
+    if (stops.get('RELAY_ENGINEERING_STOP.json')!=prior.STOP_SHA
+            or stops.get('RELAY_ENGINEERING_STOP_ALLOCATION04.json')!=fifth.STOP04_SHA
+            or any(not re.fullmatch(r'RELAY_ENGINEERING_STOP(?:_ALLOCATION[0-9]{2})?\.json',n) for n in stops)
+            or actual!=set(stops)
+            or any((root/name).is_symlink() or sha(root/name)!=digest for name,digest in stops.items())):
+        raise PermissionError('N1_ORIGINAL_ENGINEERING_STOPS_MUST_REMAIN_BYTE_IDENTICAL')
+    result=dict(descendant_hashes)
+    if (root/current).exists():
+        if (root/current).is_symlink():raise PermissionError('N1_REAL_CURRENT_EPOCH_STOP')
+        result[current]=sha(root/current)
+    return result
+
+
+def validate(root, worker_manifest=None, *, proposed_manifest=None,_descendant_stop_hashes=None):
     from . import cold_boundary as prior
     from . import cold_boundary05 as fifth
     from .plans import remaining_panel
@@ -109,7 +134,10 @@ def validate(root, worker_manifest=None, *, proposed_manifest=None):
             raise PermissionError('N1_FIRST_BOUNDARY_MUST_RETAIN_FIFTH')
     elif old_number != number - 1:
         raise PermissionError('N1_NO_SKIPPED_COLD_BOUNDARY_HISTORY')
-    prior.validate(root, proposed_manifest=old)
+    stops=q['preserved_STOP_hashes']
+    descendants=preserved_stops(root,number,stops,_descendant_stop_hashes)
+    if old_number is None:prior.validate(root,proposed_manifest=old)
+    else:prior.validate(root,proposed_manifest=old,_descendant_stop_hashes=descendants)
     if ({k:v for k,v in m.items() if k not in ['code', 'execution']}
             != {k:v for k,v in old.items() if k not in ['code', 'execution']}):
         raise PermissionError('N1_CANNOT_CHANGE_BIRTH_SCIENCE_OR_LIMITS')
@@ -121,15 +149,6 @@ def validate(root, worker_manifest=None, *, proposed_manifest=None):
     if ({k:v for k,v in m['code'].items() if k not in variable}
             != {k:v for k,v in old['code'].items() if k not in variable}):
         raise PermissionError('N1_CANNOT_CHANGE_UPSTREAM_OR_NUMERICAL_BINDINGS')
-    stops = q['preserved_STOP_hashes']
-    current_stop='RELAY_ENGINEERING_STOP_ALLOCATION'+str(number).zfill(2)+'.json'
-    actual_stops={p.name for p in root.glob('RELAY_ENGINEERING_STOP*.json') if p.name!=current_stop}
-    if (stops.get('RELAY_ENGINEERING_STOP.json') != prior.STOP_SHA
-            or stops.get('RELAY_ENGINEERING_STOP_ALLOCATION04.json') != fifth.STOP04_SHA
-            or any(not re.fullmatch(r'RELAY_ENGINEERING_STOP(?:_ALLOCATION[0-9]{2})?\.json', n) for n in stops)
-            or actual_stops!=set(stops)
-            or any(sha(root / name) != digest for name, digest in stops.items())):
-        raise PermissionError('N1_ORIGINAL_ENGINEERING_STOPS_MUST_REMAIN_BYTE_IDENTICAL')
     expected = dict(old['execution']['sealed_inputs'],
                     **{n:sha(root / n) for n in names + n1.FILES + list(stops) + [TRANSPORT_PLAN]})
     if (number > 6 and old['execution']['sealed_inputs'].get(TRANSPORT_PLAN)

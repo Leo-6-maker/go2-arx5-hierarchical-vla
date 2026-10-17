@@ -33,13 +33,14 @@ def synchronize_current_manifest(root,*,synchronize=None):
     synchronize(path)
 
 
-def validate(root,worker_manifest=None,*,proposed_manifest=None):
+def validate(root,worker_manifest=None,*,proposed_manifest=None,_descendant_stop_hashes=None):
     root=Path(root);m=read(root/'RUN_MANIFEST.json') if proposed_manifest is None else proposed_manifest
     relative=m['execution'].get('cold_engineering_binding_relative')
     if relative is None:return None
     from . import n1_boundary
     if n1_boundary.target(relative) is not None:
-        return n1_boundary.validate(root,worker_manifest,proposed_manifest=m)
+        return n1_boundary.validate(root,worker_manifest,proposed_manifest=m,_descendant_stop_hashes=_descendant_stop_hashes)
+    if _descendant_stop_hashes is not None:raise PermissionError('N1_STOP_CONTEXT_ONLY_WITHIN_N1_CHAIN')
     from . import cold_boundary05 as fifth
     if relative==fifth.BINDING:return fifth.validate(root,worker_manifest,proposed_manifest=m)
     if relative!=BINDING or root.name!='source-pair-01':raise PermissionError('EXACT_COLD_ALLOC04_BOUNDARY_ONLY')
