@@ -22,6 +22,7 @@ DELTA = 'plans/N1/ADOPTION_DELTA.json'
 PROTOCOL = 'plans/N1/PROTOCOL.md'
 HANDOFF = 'plans/N1/HANDOFF.md'
 FILES = [HANDOFF, PROTOCOL, CARD, DELTA]
+FIRST_ADOPTION = 'authority/N1/ADOPTION_DELTA.json'
 
 
 def validated_delta(delta, original):
@@ -116,7 +117,12 @@ def resolve(root, manifest=None):
             raise PermissionError('N1_FIXED_RELEASE_BYTES')
     if sha(root / DELTA) != binding['adoption_delta_sha256']:
         raise PermissionError('N1_SAME_FIRST_ADOPTION_NO_ALLOCATION_RESET')
-    original = read(root.parent.parent / 'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
+    parent = root.parent.parent
+    first = parent / FIRST_ADOPTION
+    if (first.is_symlink() or not first.resolve().is_relative_to(parent.resolve())
+            or first.stat().st_mode & 0o222 or sha(first) != binding['adoption_delta_sha256']):
+        raise PermissionError('N1_PARENT_FIRST_ADOPTION_MUST_MATCH_EVERY_COLD_CONSUMER')
+    original = read(parent / 'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
     return effective(original, read(root / CARD), read(root / DELTA))
 
 

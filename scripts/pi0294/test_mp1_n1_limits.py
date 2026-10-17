@@ -41,6 +41,10 @@ class N1LimitsTests(unittest.TestCase):
             p.chmod(0o400)
         write(self.root / n1.DELTA, self.delta)
         (self.root / n1.DELTA).chmod(0o400)
+        first = parent / n1.FIRST_ADOPTION
+        first.parent.mkdir(parents=True)
+        first.write_bytes((self.root / n1.DELTA).read_bytes())
+        first.chmod(0o400)
         self.manifest = dict(execution=dict(sealed_inputs={p:sha(self.root / p) for p in n1.FILES},
             n1_authority_binding=dict(release=n1.RELEASE, adoption_delta_sha256=sha(self.root / n1.DELTA))))
         write(self.root / 'RUN_MANIFEST.json', self.manifest)
@@ -97,6 +101,27 @@ class N1LimitsTests(unittest.TestCase):
         n1.require_remaining(24119,14400,20000,129600)
         with self.assertRaises(PermissionError):n1.require_remaining(120000,9600,1,129600)
         with self.assertRaises(ValueError):n1.require_remaining(True,0,1,129600)
+
+    def test_second_legal_looking_start_cannot_replace_first_adoption(self):
+        changed = deepcopy(self.delta)
+        changed['autonomy_started_epoch'] += 1
+        for key in ['new_submission_and_candidate_cutoff_epoch', 'new_experiment_cutoff_epoch', 'hard_closeout_epoch']:
+            changed[key] += 1
+        path = self.root / n1.DELTA
+        path.chmod(0o600)
+        write(path, changed)
+        path.chmod(0o400)
+        digest = sha(path)
+        self.manifest['execution']['sealed_inputs'][n1.DELTA] = digest
+        self.manifest['execution']['n1_authority_binding']['adoption_delta_sha256'] = digest
+        with self.assertRaisesRegex(PermissionError, 'PARENT_FIRST_ADOPTION'):
+            n1.resolve(self.root, self.manifest)
+
+    def test_first_adoption_sidecar_cannot_be_writable(self):
+        path = self.root.parent.parent / n1.FIRST_ADOPTION
+        path.chmod(0o600)
+        with self.assertRaisesRegex(PermissionError, 'PARENT_FIRST_ADOPTION'):
+            n1.resolve(self.root)
 
 
 if __name__ == '__main__':unittest.main()
