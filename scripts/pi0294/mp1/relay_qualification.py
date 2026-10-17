@@ -45,7 +45,7 @@ def run(root,role):
     root=Path(root)
     if role not in ['core','hopper']:raise PermissionError('EXACT_MP1_CPU_FILESYSTEM_ROLE')
     m=validate(root,'4080-cpu-data' if role=='core' else 'hopper-neural');a=read(root/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
-    request=root/'plans/FILE_RPC_CPU_QUALIFICATION_'+role+'.json';spec=read(request)
+    request=root/'plans'/('FILE_RPC_CPU_QUALIFICATION_'+role+'.json');spec=read(request)
     if spec!=dict(run_uuid=root.name,role=role,purpose='SYNTHETIC_FILESYSTEM_TIMING_NO_MODEL_OR_PHYSICS',
             source_sha=m['code']['vla_commit'],maximum_CPU_s=600,maximum_wall_s=180,cycles=96):
         raise PermissionError('EXACT_BOUND_MP1_CPU_PROBE_REQUEST')
