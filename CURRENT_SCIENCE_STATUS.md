@@ -3,6 +3,12 @@
 Observed 2026-10-17 after E1 and both MP1 recovery-child lease closures by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
+**Second independently verified complete model case:** [M2-CORR512 F0/T1](reports/PI0294/20261016T191445Z-localpc-mp1/M2_CORR_FIRST_COMPLETE_T1_AND_RAW_AUDIT.json)
+also completed32s,641 pairs,41/41 hold,0 S1/native faults,18 raw checks and80
+cross-host actual ACK chains. This oldC0 model's success on F0 and BC's F1
+success do not establish a paired gain, freshC1 learning or generalization.
+Remaining CORR evaluation is still running under the single7200s allocation.
+
 **Latest actual qualification:** [original M2-BC512 F1/T1 full32s SUCCESS](reports/PI0294/20261016T191445Z-localpc-mp1/M2_BC_COMPLETE_T1_AND_CLOSED_LOOP_QUALIFICATION.json)
 has641 camera pairs,41/41 hold,0 S1/native failures,18 independent raw checks,
 and80 cross-host observation/generation/actual ACK chains with160 input-image

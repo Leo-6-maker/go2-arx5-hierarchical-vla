@@ -1,5 +1,12 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**CORR also has an independently verified full T1:** [original M2-CORR512 F0/T1 SUCCESS](reports/PI0294/20261016T191445Z-localpc-mp1/M2_CORR_FIRST_COMPLETE_T1_AND_RAW_AUDIT.json),
+32s/641 camera pairs/41-of-41 hold/zero S1 or native faults.18 raw checks,
+full video decode and80 actual cross-host ACK chains passed. This is C0-only
+seen TRAIN, not freshC1 learning or causal correction gain; BC's verified
+success is F1,so these two rows alone are not a paired comparison. Remaining
+CORR conditions continue in671899; original budgets and all safety STOPs stay.
+
 **BC session actual terminal panel:** [one SUCCESS / one valid S1 failure / two engineering-missing conditions](reports/PI0294/20261016T191445Z-localpc-mp1/M2_BC_FIXED_TRAIN4_ACTUAL_PANEL.json).
 F1/T2 is a valid original-S1 rejection at21.2s,425 camera pairs,zero native
 faults; its19-check independent audit/video decode passed. It will not be
