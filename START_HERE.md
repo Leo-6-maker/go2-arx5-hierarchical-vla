@@ -1,5 +1,21 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest native state:source04 is terminal F/1;one fifth job directly authorized,not submitted.**
+[Actual partial closure and clock-race evidence](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_ACTUAL_TERMINAL_AND_CLOCK_REPAIR.json).
+Native672907 used381wall/391conservative seconds;source24119H200seconds,
+parent28619,reservations0,updates2560,CORR512/cursor16384 unchanged.
+F1/T2 is engineering-incomplete8.4s,not a policy negative:21executed prefixes,
+22native draws,one generated-but-uninstalled action;all1970mutation entries
+closed.18raw checks/169decoded paired frames PASS,native faults0. Both STOPs
+retained. Observed negative67.9ms age reproduces a pre-I/O clock race;07b04707
+samples after each read,keeps0..300s unchanged,406tests/CI pass,not yet native
+qualified. [Direct human bounded fifth-slot authority](reports/PI0294/design/SOURCE_PAIR_ADDITIONAL_PBS05_AUTHORIZATION_20261018.json)
+permits only one extra<=4h job within unchanged12H200hours/T0/MP1 caps;
+1536updates remain,F1/T2 original sole replacement,F1/T1 no third. No sixth.
+Cold binding required before dispatch. Matrix21attempts/18qualified cells/
+2engineering cells/12unattempted;16existing public links retained. Prior Q
+snapshots below are history. TF-R3STOP,VandaCLOSED_NOT_RUN,selectedNONE.
+
 **Latest video delivery:four actual CORR512 attempts are public,not a complete panel.**
 [Two valid negatives,two engineering partials and fixed-revision receipts](reports/PI0294/20261016T191445Z-localpc-mp1/S_CORR512_FIRST4_AUDITED_VIDEOS_PUBLIC.json).
 READY9ba0fe42,1132real paired frames,no padding/resimulation. Core full-byte

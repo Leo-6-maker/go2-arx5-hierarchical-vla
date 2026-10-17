@@ -650,3 +650,22 @@ This does not make existing private repositories public or grant rights to
 redistribute private WBC/vendor assets. Credentials stay private; publication
 requires sanitization and license review and does not block legal local use.
 Historical selected remains NONE; real-robot deployment remains NONE.
+# Latest Actual Source04 Terminal and Direct Fifth-Slot Authority
+
+Source04 native672907 is F/1,381wall/391conservative seconds;source24119,
+parent28619H200seconds,reservations0. CORR remains512/cursor16384,combined
+updates2560. F1/T2 engineering partial8.4s/4200ticks/169paired frames passes
+18raw checks,not a policy result.21ACKs,22draws,one known uninstalled action,
+1970journal entries closed;both engineering STOP bytes preserved.
+Observed negative67.9ms heartbeat age identifies a pre-read clock race.
+Post-read repair07b04707 passes406tests/CI,keeps original0..300s predicate;
+native sustained qualification remains pending. Direct human reply authorizes
+sourcePBS4->5 only,one extra<=4h within original12H200h/T0/MP1 caps and1536
+remaining updates. No sixth,no F1/T1 third attempt,no valid-negative replay.
+Cold binding and single submission are NOT_YET_EXECUTED.
+[Exact terminal and audit receipt](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_ACTUAL_TERMINAL_AND_CLOCK_REPAIR.json).
+[Exact additional-slot card](reports/PI0294/design/SOURCE_PAIR_ADDITIONAL_PBS05_AUTHORIZATION_20261018.json).
+Matrix now21attempts/18qualified cells/2engineering cells/12unattempted,
+16prior public clips retained. Previous source04Q snapshots are historical.
+Full matched pair remains incomplete;TF-R3STOP,VandaCLOSED_NOT_RUN,selectedNONE.
+
