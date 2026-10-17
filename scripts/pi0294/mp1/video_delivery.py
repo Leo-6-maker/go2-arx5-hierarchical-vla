@@ -28,13 +28,17 @@ def audited_movies(root):
         if ledger['reservations'] or ledger['CPU_reserved_s']:
             raise PermissionError('NO_UNSETTLED_CHILD_WORK')
         for decision in sorted((child / 'episodes').glob('*/MP1_ADJUDICATION.json')):
-            audit = read(child / 'evidence/audits' / decision.parent.name / 'AUDIT.private.json')
-            if audit['status'] not in ['PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT', 'PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE']:
+            actual = read(decision)
+            zero = actual['main_integrations'] == 0
+            audit_folder = child / 'evidence' / ('zero-step-audits' if zero else 'audits') / decision.parent.name
+            audit = read(audit_folder / 'AUDIT.private.json')
+            required = 'PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE' if zero else 'PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT'
+            if audit['status'] != required:
                 raise PermissionError('INDEPENDENT_ACTUAL_AUDIT_REQUIRED')
-            if audit['attempt_id'] != decision.parent.name or audit['adjudication'] != read(decision):
+            if audit['attempt_id'] != decision.parent.name or audit['adjudication'] != actual:
                 raise ValueError('EXACT_CLOSED_ATTEMPT_ADJUDICATION')
             movie = audit['video']
-            expected = child / 'evidence/audits' / decision.parent.name / 'actual-body-wrist.mp4'
+            expected = audit_folder / ('actual-initial-body-wrist.mp4' if zero else 'actual-body-wrist.mp4')
             if expected.is_symlink() or not expected.resolve().is_relative_to(child.resolve()):
                 raise PermissionError('NO_VIDEO_SYMLINK_OR_ESCAPE')
             if (sha(expected) != movie['sha256'] or expected.stat().st_size != movie['bytes']

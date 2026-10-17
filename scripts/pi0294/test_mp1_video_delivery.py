@@ -22,14 +22,14 @@ def fixture(root):
         for i in range(count):
             name = child_id + '-attempt-' + str(i)
             decision = dict(status='ENGINEERING_INCOMPLETE' if i == 0 else 'SUCCESS',
-                            task='T1', scene_group='TRAIN/F0/000')
+                            task='T1', scene_group='TRAIN/F0/000', main_integrations=0 if i == 0 else 16000)
             put(child / 'episodes' / name / 'MP1_ADJUDICATION.json', decision)
-            folder = child / 'evidence/audits' / name
+            folder = child / 'evidence' / ('zero-step-audits' if i == 0 else 'audits') / name
             folder.mkdir(parents=True)
-            movie = folder / 'actual-body-wrist.mp4'
+            movie = folder / ('actual-initial-body-wrist.mp4' if i == 0 else 'actual-body-wrist.mp4')
             movie.write_bytes(b'unit-test-fixture-not-a-real-qualified-video')
             put(folder / 'AUDIT.private.json', dict(attempt_id=name,
-                status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT', adjudication=decision,
+                status='PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE' if i == 0 else 'PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT', adjudication=decision,
                 video=dict(sha256=sha(movie), bytes=movie.stat().st_size,
                            decoded_frames=1, actual_paired_frames=1,
                            padding_or_interpolation=False, native_duration_s=0 if i == 0 else 32)))
