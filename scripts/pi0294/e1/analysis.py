@@ -34,9 +34,10 @@ def audited_outcome(adjudication,audit,*,autonomous,excluded_scope_deviation=Fal
     if verified and adjudication['status']=='SUCCESS' and (audit['score']['persistent_success'] is not True
             or adjudication['duration_s']!=32. or audit['actual_native_safety_flag_rows']!=0):
         raise ValueError('SUCCESS_REQUIRES_FULL_ORIGINAL_TASK_AND_NATIVE_SAFETY_EVIDENCE')
+    score=audit.get('score') or {}
     return dict(adjudication,adjudication_pipeline_trustworthy=adjudication['pipeline_trustworthy'],
         pipeline_trustworthy=adjudication['pipeline_trustworthy'] and verified,audit_verified=verified,
-        evidence_audit_status=audit.get('status','MISSING'),persistent_success=audit.get('score',{}).get('persistent_success'),
+        evidence_audit_status=audit.get('status','MISSING'),persistent_success=score.get('persistent_success'),
         native_safety_flag_rows=audit.get('actual_native_safety_flag_rows'),native_duration_s=adjudication['duration_s'],
         model_autonomous_evaluation=autonomous,excluded_scope_deviation=excluded_scope_deviation)
 

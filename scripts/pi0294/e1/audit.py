@@ -36,6 +36,12 @@ def video(folder,output,n):
 
 def episode(root,identifier):
     root=Path(root);folder=root/'episodes'/identifier;out=root/'evidence/audits'/identifier
+    result_path=folder/'RESULT.json';adjudication_path=folder/'E1_ADJUDICATION.json'
+    if result_path.exists() and adjudication_path.exists():
+        raw,decision=read(result_path),read(adjudication_path)
+        if raw['physics_steps']==0 and decision['status']=='ENGINEERING_INCOMPLETE':
+            from .zero_step_audit import audit
+            return audit(root,identifier,video)
     if out.exists():return read(out/'AUDIT.private.json')
     out.mkdir(parents=True,mode=0o700);checks={};errors=[]
     def check(name,value):
@@ -112,7 +118,9 @@ def run(root):
         for folder in sorted((root/'episodes').iterdir()):
             ledger.guard(closeout=True)
             if (folder/'E1_ADJUDICATION.json').exists():rows.append(episode(root,folder.name))
-        value=dict(status='PASS_ALL_DERIVED_MAIN_EVIDENCE' if all(r['status']=='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT' for r in rows) else 'PRESERVED_AUDIT_GAPS',episodes=len(rows),rows=rows)
+        value=dict(status='PASS_ALL_DERIVED_MAIN_EVIDENCE' if all(r['status'] in ['PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT','PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE'] for r in rows) else 'PRESERVED_AUDIT_GAPS',
+            zero_integration_engineering_attempts=sum(r['status']=='PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE' for r in rows),
+            all_audits_PASS_does_not_mean_all_attempts_have_task_results=True,episodes=len(rows),rows=rows)
         write(root/'evidence/MAIN_EVIDENCE_AUDIT_INDEX.private.json',value);return value
     finally:
         after=resource.getrusage(resource.RUSAGE_CHILDREN);ledger.cpu(time.process_time()-started+after.ru_utime+after.ru_stime-child.ru_utime-child.ru_stime)

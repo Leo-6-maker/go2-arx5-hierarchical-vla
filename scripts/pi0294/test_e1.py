@@ -15,6 +15,31 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_zero_step_attempt_has_evidence_but_no_fabricated_task_score(self):
+        import numpy as np
+        from PIL import Image
+        from .e1.zero_step_audit import audit
+        from .e1.analysis import audited_outcome
+        from .native_dataset import sha
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);folder=root/'episodes/fixture';folder.mkdir(parents=True)
+            result=dict(id='fixture',physics_steps=0,source_sha='fixture')
+            def put(name,v):(folder/name).write_text(json.dumps(v))
+            put('RESULT.json',result);put('WORKER_RECEIPT.json',dict(result,rgb_pairs=1));put('CARD.json',dict(id='fixture'))
+            decision=dict(attempt_id='fixture',status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False,main_integrations=0,result_sha256=sha(folder/'RESULT.json'),duration_s=0)
+            put('E1_ADJUDICATION.json',decision);put('samples.json',[]);put('references.json',[])
+            put('S1_RESULT.json',dict(shadow_invocations=0,pre_execution_rejections=0,live_native_failures=0))
+            np.savez(folder/'highrate.npz',rows=np.empty((0,45)))
+            for name in ['body_rgb','wrist_rgb']:
+                (folder/name).mkdir();Image.new('RGB',(256,256),(1,2,3)).save(folder/name/'0000.png')
+            put('FILE_MANIFEST.json',[])
+            def movie(*args):return dict(actual_paired_frames=1,decoded_frames=1,padding_or_interpolation=False)
+            value=audit(root,'fixture',movie)
+            self.assertEqual(value['status'],'PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE');self.assertIsNone(value['score'])
+            self.assertFalse(value['scientific_policy_outcome_valid']);self.assertTrue(value['video']['initial_frame_only'])
+            self.assertFalse(audited_outcome(decision,value,autonomous=True)['pipeline_trustworthy'])
+            self.assertFalse((folder/'physics.npz').exists());self.assertFalse((folder/'SCORE.json').exists())
+
     def test_NFS_direct_open_only_reads_last_actual_query_responses(self):
         from .e1.nfs_visibility import refresh_completed_responses
         import uuid
