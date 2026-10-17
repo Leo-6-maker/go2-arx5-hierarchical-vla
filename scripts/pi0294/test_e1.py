@@ -15,6 +15,31 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_actual_exposure_discloses_E1_T1_only_correction_confound(self):
+        from .e1.exposure import summarize
+        rows=[]
+        for c in range(64):
+            correction=c%32>=16;task='T1' if correction or c%2==0 else 'T2'
+            rows.append(dict(cursor=c,split='TRAIN',task=task,origin='E0_STATE_AGGREGATION_ONLY' if correction else 'new',episode_id='segment' if correction else task))
+        value=summarize(rows,64,'M2-CORR')
+        self.assertEqual(value['task_samples'],dict(T1=48,T2=16));self.assertEqual(value['origin_samples'],dict(original=32,C0=32))
+        self.assertTrue(value['matched_total_updates_not_matched_task_exposure']);self.assertFalse(value['causal_correction_gain_claim_supported'])
+        with self.assertRaises(ValueError):summarize(rows+rows[:1],64,'M2-CORR')
+        with self.assertRaises(ValueError):summarize(rows[:-1],64,'M2-CORR')
+        rows[0]['origin']='NEW_C1'
+        with self.assertRaises(PermissionError):summarize(rows,64,'M2-CORR')
+
+    def test_exposure_BC_exact_consumption_ignores_only_prefetch(self):
+        from .e1.exposure import summarize
+        rows=[dict(cursor=c,split='TRAIN',task='T1' if c%2==0 else 'T2',origin='new',episode_id=str(c%8)) for c in range(96)]
+        value=summarize(rows,64,'M2-BC')
+        self.assertEqual(value['actual_consumed_samples'],64)
+        self.assertEqual(value['task_samples'],dict(T1=32,T2=32))
+        self.assertEqual(value['origin_samples'],dict(original=64,C0=0))
+        self.assertEqual(value['correction_segments_observed'],0)
+        rows[0]['origin']='E0_STATE_AGGREGATION_ONLY';rows[0]['task']='T2'
+        with self.assertRaises(PermissionError):summarize(rows,64,'M2-BC')
+
     def test_zero_step_attempt_has_evidence_but_no_fabricated_task_score(self):
         import numpy as np
         from PIL import Image
