@@ -13,6 +13,8 @@ import time
 
 AUTHORITY = 'c8cdf60e41e31da5796b44a064ef2f22d594a491'
 SCOPE = 'MP1_VANDA_EGL_TASK_CAMERAS_NO_MODEL_WBC_OR_INTEGRATION'
+N1_RELEASE = '926f9ef69042bb9f3b7b336a076d2be8fa0afbb9'
+N1_DELTA_SHA = '91d41f1f810f97caf0cb9be14882d4b94fd13e5af3bedadb3505277693281cce'
 
 
 def read(path):
@@ -25,6 +27,43 @@ def sha(path):
         for block in iter(lambda: stream.read(8 << 20), b''):
             digest.update(block)
     return digest.hexdigest()
+
+
+def validate_n1_window(m, lease, parent, now):
+    root = Path(m['output_root']).resolve()
+    window = m['execution'].get('n1_camera_window')
+    if window is None:
+        assert root.name != 'vanda-egl-cameras-n1-03', 'N1_WINDOW_REQUIRED_FOR_NEW_CHILD'
+        return
+    parent_root = Path(m['parent_adoption']).resolve().parent
+    first = parent_root / 'authority/N1/ADOPTION_DELTA.json'
+    card_path = root / 'N1_QUALIFICATION_CARD.json'
+    assert root.parent.parent == parent_root, 'N1_REGISTERED_PARENT'
+    assert parent['run_uuid'] == '20261016T191445Z-localpc-mp1' and parent['T0_epoch'] == 1792178085, 'N1_ORIGINAL_PARENT'
+    assert first.resolve().is_relative_to(parent_root) and not first.is_symlink() and not first.stat().st_mode & 0o222, 'N1_IMMUTABLE_FIRST_ADOPTION'
+    assert sha(first) == N1_DELTA_SHA and m['sealed_files'].get(str(first)) == N1_DELTA_SHA, 'N1_FIRST_ADOPTION_HASH'
+    delta = read(first)
+    assert delta['authority_release'] == N1_RELEASE and delta['parent_authority_release'] == AUTHORITY, 'N1_AUTHORITY'
+    assert delta['reset_on_resume'] is False and delta['new_competing_owner'] is False, 'N1_NO_RESET_OR_OWNER'
+    assert set(window) == {'release', 'adoption_delta_sha256', 'created_epoch', 'deadline_epoch',
+                           'maximum_queue_and_execution_window_s', 'original_N1_T0_epoch'}, 'N1_WINDOW_FIELDS'
+    assert window['release'] == N1_RELEASE and window['adoption_delta_sha256'] == N1_DELTA_SHA, 'N1_WINDOW_AUTHORITY'
+    assert window['original_N1_T0_epoch'] == delta['autonomy_started_epoch'], 'N1_ORIGINAL_T0'
+    assert window['maximum_queue_and_execution_window_s'] == 43200, 'N1_BOUNDED_QUEUE_AND_EXECUTION_WINDOW'
+    assert delta['autonomy_started_epoch'] <= window['created_epoch'] <= now, 'N1_ACTUAL_BINDING_TIME'
+    assert window['created_epoch'] < delta['new_submission_and_candidate_cutoff_epoch'], 'N1_NEW_BINDING_CUTOFF'
+    assert now < window['deadline_epoch'] <= min(window['created_epoch'] + 43200,
+                                                delta['new_experiment_cutoff_epoch']), 'N1_ABSOLUTE_CUTOFF'
+    assert window['deadline_epoch'] == m['deadline_epoch'] == lease['deadline_epoch'], 'N1_EXACT_NEW_LEASE_DEADLINE'
+    assert card_path.resolve().is_relative_to(root) and not card_path.is_symlink() and not card_path.stat().st_mode & 0o222, 'N1_IMMUTABLE_CAMERA_CARD'
+    assert m['sealed_files'].get(str(card_path)) == sha(card_path), 'N1_CAMERA_CARD_HASH'
+    card = read(card_path)
+    assert card['schema'] == 'MP1_N1_VANDA_CAMERA_ONLY_NEW_WINDOW_V1' and card['authority_release'] == N1_RELEASE, 'N1_CAMERA_CARD'
+    assert root.name == card['child'] == 'vanda-egl-cameras-n1-03', 'N1_NEW_CHILD_NOT_OLD_LEASE'
+    assert card['maximum_new_PBS'] == 1 and card['maximum_queue_and_execution_window_s'] == 43200, 'N1_ONE_CAMERA_SUBMISSION'
+    assert card['limits'] == m['limits'], 'N1_CAMERA_LIMITS'
+    old = parent_root / 'children/vanda-egl-cameras-02/OUTPUT_BINDING.private.json'
+    assert read(read(old)['lease'])['status'] == 'CLOSED', 'N1_OLD_CAMERA_LEASE_STAYS_CLOSED'
 
 
 def validate(path, *, compute=False):
@@ -51,6 +90,7 @@ def validate(path, *, compute=False):
     assert parent['run_uuid'] == m['authority']['parent_run'], 'PARENT'
     assert parent['authority_release'] == AUTHORITY, 'PARENT_AUTHORITY'
     assert time.time() < parent['new_experiment_cutoff_epoch'], 'PARENT_CUTOFF'
+    validate_n1_window(m, lease, parent, time.time())
     for name, expected in m['sealed_files'].items():
         assert sha(name) == expected, 'SEALED_INPUT:' + name
     if compute:
@@ -87,6 +127,20 @@ def constrain_cpu():
     assert len(cpus) >= 4, 'FOUR_AVAILABLE_CPUS'
     os.sched_setaffinity(0, set(cpus[:4]))
     resource.setrlimit(resource.RLIMIT_CPU, (3600, 3600))
+
+
+def container_binds(m):
+    root = Path(m['output_root']).resolve()
+    parent = Path(m['parent_adoption']).resolve().parent
+    binding = read(root / 'OUTPUT_BINDING.private.json')
+    readonly = [parent, Path(m['assets']), Path(m['image']),
+                Path(binding['registry']), Path(binding['lease'])]
+    if 'n1_camera_window' in m['execution']:
+        old = read(parent / 'children/vanda-egl-cameras-02/OUTPUT_BINDING.private.json')
+        readonly.append(Path(old['lease']))
+    paths = list(dict.fromkeys(str(p.resolve()) for p in readonly))
+    assert all(':' not in p for p in paths + [str(root)]), 'EXACT_CONTAINER_BIND_PATHS'
+    return [p + ':' + p + ':ro' for p in paths] + [str(root) + ':' + str(root) + ':rw']
 
 
 def render(m):
@@ -165,12 +219,14 @@ def execute(path):
             with (root / 'NATIVE_ALLOCATION_ADMISSION.private.json').open('x') as output:
                 json.dump(dict(job_id=os.environ['PBS_JOBID'], project=m['project'],
                                run_uuid=m['run_uuid'], epoch=time.time()), output)
-            command = [m['apptainer'], 'exec', '--cleanenv', '--nv',
-                       '--bind', str(root) + ':' + str(root),
+            command = [m['apptainer'], 'exec', '--cleanenv', '--nv']
+            for binding in container_binds(m):
+                command.extend(['--bind', binding])
+            command.extend([
                        '--env', 'MUJOCO_GL=egl,PYTHONDONTWRITEBYTECODE=1,OMP_NUM_THREADS=1,OPENBLAS_NUM_THREADS=1,MKL_NUM_THREADS=1',
                        '--env', 'PBS_JOBID=' + os.environ['PBS_JOBID'],
                        m['image'], '/opt/wbc-python/bin/python', str(Path(__file__).resolve()),
-                       '--manifest', str(Path(path).resolve()), '--render-only']
+                       '--manifest', str(Path(path).resolve()), '--render-only'])
             with (root / 'renderer.log').open('x') as log:
                 child = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT, timeout=700)
             child.check_returncode()
