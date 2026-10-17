@@ -1,16 +1,16 @@
 {
   "schema": "MP1_N1_ENGINEERING_ENDURANCE_AND_FAULT_INJECTION_V1",
-  "status": "INCOMPLETE_NATIVE_QUALIFICATION_NOT_RUN",
+  "status": "PIPELINE_CPU_VALIDATED_NOT_COLD_DEPLOYED_OR_NATIVE_QUALIFIED",
   "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
   "N1_T0_epoch": 1792264081,
   "original_MP1_T0_epoch": 1792178085,
   "code_in_containing_commit": true,
   "CPU_PASS": {
     "status": "PASS_LOCAL_ONLY_NOT_NATIVE_EVIDENCE",
-    "focused_tests": 14,
-    "focused_subtests": 34,
-    "PI0294_tests": 473,
-    "PI0294_subtests": 365,
+    "focused_tests": 37,
+    "focused_subtests": 41,
+    "PI0294_tests": 496,
+    "PI0294_subtests": 372,
     "main_tests": 827,
     "main_skipped": 14,
     "main_subtests": 58,
@@ -49,11 +49,45 @@
     "same_new_job_actual_600s_capture": null,
     "reason": "HEALTHY_FIFTH_PRESERVED_NO_NEW_ALLOCATION_OR_HOT_SWITCH"
   },
+  "implemented_transport_pipeline": {
+    "public_components": [
+      "transport_fixture.py",
+      "transport_fixture_router.py",
+      "transport_fixture_owner.py",
+      "transport_fixture_faults.py",
+      "native_transport_qualification.py"
+    ],
+    "same_production_JSON_line_envelope_and_sealed_observation_codec": true,
+    "exact_real_recorded_PNG_sizes_and_saved_camera_hashes_required": true,
+    "RGB_reencoded_padded_or_assumed_minimum_64KiB": false,
+    "query_response_fixture_install_ACK_cycles": 80,
+    "compute_pump_serviced_between_7_5s_heartbeat_samples": true,
+    "full_raw_inbox_outbox_intent_Core_ACK_wire_and_fault_hash_join_required": true,
+    "actual_nominal_and_fault_RPC_process_terminals_required_before_model": true,
+    "pre_qsub_sealed_reference_plan_required": true,
+    "mature_stdio_client_reused": true,
+    "private_existing_owner_site_binding_adapter": "IMPLEMENTED_AST_CHECKED_NOT_DISPATCHED",
+    "new_scheduler_or_heartbeat_owner": false,
+    "new_network_listener_or_tunnel": false,
+    "actual_native_deployment": "NOT_RUN"
+  },
+  "actual_local_mature_client_fault_bench": {
+    "status": "PASS_CPU_LOCAL_ONLY_NOT_SITE_NATIVE",
+    "client_source_sha256": "81f1fb4b3640835e1a74b9f41f94f22fe6923efd106deb64930d99cc4862c39f",
+    "late_reply_actual_client_timeout_s": 20.019498559995554,
+    "late_reply_child_native_exit": 0,
+    "process_exit_actual_client_EOF_s": 0.012329593999311328,
+    "controlled_exit_child_native_exit": 72,
+    "both_second_requests_blocked_before_send": true,
+    "both_local_processes_terminal_verified": true,
+    "network_connections": 0,
+    "satisfies_N1_native_qualification": false
+  },
   "NATIVE_TRANSPORT_PASS": {
     "status": "NOT_RUN",
     "required_actual_cycles_min": 80,
     "original_RPC_action_episode_watchdogs_s": [20, 60, 900],
-    "full_transport_producer_and_owner_router": "STILL_REQUIRED",
+    "full_transport_producer_and_owner_router": "IMPLEMENTED_CPU_TESTED_NOT_COLD_DEPLOYED",
     "fixtures_are_model_or_task_success": false,
     "unknown_effect_retries_permitted": false
   },
@@ -79,19 +113,32 @@
     "job_id": "673008.hopper-m-02",
     "native_state": "R",
     "source_PBS_count": 5,
-    "CORR_updates": 1944,
+    "CORR_updates_at_frozen_prior_snapshot": 1944,
     "formal_CORR_stop": 2048,
     "pending_update": 1,
     "new_submission_or_restart": false,
-    "endpoint_complete": false
+    "endpoint_complete_at_frozen_prior_snapshot": false
+  },
+  "latest_native_status": {
+    "job_id": "673008.hopper-m-02",
+    "state": "R",
+    "source_PBS_count": 5,
+    "combined_optimizer_updates": 4096,
+    "pending_updates": 0,
+    "model_session": "S-CORR-2048-DEV8-ALLOCATION-05",
+    "CORR2048_checkpoint_complete": true,
+    "scientific_source_hot_changed": false,
+    "new_PBS_or_model_queries_for_pipeline_tests": 0
   },
   "engineering_control_CPU_upper_s": {
-    "local_PC": 1200,
+    "local_PC": 2400,
     "Hopper_metadata": 180,
+    "CoreLab_metadata": 180,
     "settlement": "RESERVED_AT_COMMIT_SETTLE_ONCE_AFTER_PUBLICATION_READBACK"
   },
   "remaining": [
-    "COMPLETE_REAL_PRODUCTION_TRANSPORT_FIXTURE_PRODUCER_AND_FINITE_OWNER_ROUTER",
+    "BIND_ACTUAL_COLD_CONSUMER_MANIFESTS_AND_FINITE_MANAGER_AFTER_PRIOR_TERMINAL_EFFECT_CLOSURE",
+    "FRESH_NATIVE_SITE_PERMISSION_AND_RESOURCE_ADMISSION_BEFORE_ANY_NEW_SUBMISSION",
     "CLOSE_PRIOR_NATIVE_JOB_PROCESSES_AND_ALL_EFFECTS_BEFORE_ANY_COLD_REBIND",
     "ACTUAL_SAME_JOB_600S_AND_80_CYCLE_WITH_ALL_ISOLATED_FAULT_RECEIPTS",
     "JOIN_RAW_NATIVE_EVIDENCE_AND_RECHECK_BEFORE_MODEL_LOAD",

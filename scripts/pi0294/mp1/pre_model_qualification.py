@@ -55,7 +55,8 @@ def require(root,directory,allocation):
             or transport['unknown_effects_resent']):
         raise PermissionError('N1_REAL_FINITE_PRODUCTION_TRANSPORT_CYCLES')
     for row in cycles:
-        if (not 65536<=row['RGB_payload_bytes']<2*1024**2
+        if (not 0<row['RGB_payload_bytes']<2*1024**2
+                or row['RGB_payload_bytes']!=transport['reference_RGB_payload_bytes']
                 or not 0<row['maximum_RPC_s']<=20 or row['fixture_install_count']!=1
                 or row['ACK_matches_request'] is not True
                 or any(not re.fullmatch('[0-9a-f]{64}',row[k]) for k in ['request_sha256','response_sha256'])):
@@ -66,6 +67,8 @@ def require(root,directory,allocation):
     for name in ['actual_expired_heartbeat','actual_future_heartbeat','wrong_run_heartbeat','late_response','process_exit']:
         if faults[name]['failed_closed'] is not True:
             raise PermissionError('N1_TRUE_LOSS_OR_LATE_REPLY_MUST_STILL_STOP')
+    from .native_transport_qualification import verify as verify_transport
+    verify_transport(root,directory,allocation,v)
     if path.read_bytes()!=raw:raise PermissionError('N1_NATIVE_QUALIFICATION_CHANGED_DURING_READ')
     return dict(status='PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK',receipt_sha256=sha(path),
         heartbeat_elapsed_s=rows[-1]['monotonic_s']-rows[0]['monotonic_s'],transport_cycles=len(cycles),

@@ -54,6 +54,10 @@ def prepare(root,*,output_rebinding=None,memory_gb=225):
     root=Path(root);m=validate_runtime(root,'hopper-neural');old_scope_closed(root);no_overlap()
     a=clock(root);l=read(root/'HOPPER_RESOURCE_LEDGER.json')
     bound=limits(read(root/'MP1_STAGE_BINDING.json'),root=root)
+    from .n1_limits import resolve
+    if resolve(root,m) is not None:
+        from .transport_fixture import prepared_plan
+        prepared_plan(root,m)
     if (time.time()>=a['new_submission_and_candidate_cutoff_epoch'] or len(l['PBS_submissions'])>=bound['PBS'] or l['GPU_reserved_s']
             or any(v['status']!='NATIVE_TERMINAL' for v in l['PBS_submissions'])):raise PermissionError('MP1_NEW_SUBMISSION_CLOCK_AND_PRIOR_TERMINALS')
     queue_proof=native_queue_limit() if bound.get('job_wall_s_max',14400)>14400 else None

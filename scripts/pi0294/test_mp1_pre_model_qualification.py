@@ -8,6 +8,7 @@ from .mp1 import pre_model_qualification as qualification
 from .mp1 import native_heartbeat_capture as heartbeat_capture
 from .mp1.n1_limits import RELEASE
 from .native_dataset import sha
+from . import test_mp1_transport_fixture as fixture_support
 
 
 class PreModelQualificationContractTests(unittest.TestCase):
@@ -16,7 +17,7 @@ class PreModelQualificationContractTests(unittest.TestCase):
         self.root=Path(self.tmp.name)/'source-pair-01';self.directory=self.root/'pbs/alloc-06'
         self.directory.mkdir(parents=True)
         (self.root/'RUN_MANIFEST.json').write_text(json.dumps(dict(code=dict(vla_commit='a'*40))))
-        self.allocation=dict(job_id='123.hopper-m-02',hostname='fixture',allocation_start_epoch=1000,allocation_end_epoch=2000,request_sha256='b'*64)
+        self.allocation=dict(job_id='123.hopper-m-02',hostname='fixture',allocation_start_epoch=1000,allocation_end_epoch=10000,request_sha256='b'*64)
         rows=[]
         for i in range(81):
             clock=1000+7.5*i
@@ -38,6 +39,12 @@ class PreModelQualificationContractTests(unittest.TestCase):
 
     def put(self,value=None):
         value=deepcopy(self.value if value is None else value)
+        original_transport=value['transport'];transport,faults=fixture_support.sealed_transport_artifacts(
+            self.root,self.directory,original_transport['cycles'],value['isolated_faults'])
+        for key in ['codec','scope','watchdogs_s','duplicate_fixture_installs','physical_installs','unknown_effects_resent']:
+            transport[key]=original_transport[key]
+        value['transport']=transport;value['isolated_faults']=faults
+        value['manifest_sha256']=sha(self.root/'RUN_MANIFEST.json')
         journal=self.directory/'heartbeat-capture/READS.jsonl';journal.parent.mkdir(exist_ok=True)
         if journal.exists():journal.chmod(0o600)
         journal.write_text(''.join(json.dumps(row)+'\n' for row in value['heartbeat']['rows']));journal.chmod(0o400)

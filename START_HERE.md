@@ -1,5 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**N1 transport producer and owner IO phase now CPU-tested, not site-qualified.**
+[Required endurance/fault ledger with actual local mature-client fault bench](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
+Recorded real-size dualRGB uses the existing stdio/sealed codec,compute
+checksum pump and80once-only fixture installs/ACKs,not model actions or
+physics. Actual raw input/output/intent/wire/ACK hashes,isolated faults and
+RPC process closure must join the600s native heartbeat before model load.
+Pre-qsub rejects a missing/unsealed reference plan.496localPI0294 tests/
+372subtests pass;local mature-client20.019s timeout and controlled72exit
+both refuse a second request. CPU/local only,not600s/80cycle site evidence.
+Private site adapter prepared;no cold binding/deployment/newPBS. General
+finite manager and actual prior-effect closure/site qualification still
+required. Healthy fifth673008 now evaluates CORR2048DEV8;sourcee418bb79,
+4096formal updates,pending0,original4h request and all scientific rules
+unchanged. See subsequent actual science receipts for task outcomes.
+
 **Science milestone: both2048 endpoints sealed and actual matched consumption audited.**
 [Matched endpoint report; behavior comparison still IN_PROGRESS](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
 CORR2048 complete manifest94ad4d0e,combined4096updates,pending0. Both arms

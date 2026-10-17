@@ -48,6 +48,9 @@ def execute_request(packet,invoke,guard,seen):
 
 
 def serve(root,role,label):
+    if label.startswith('N1-PREMODEL'):
+        from scripts.pi0294.mp1.transport_fixture import serve as serve_fixture
+        return serve_fixture(root,role,label)
     root=Path(root);os.sched_setaffinity(0,{sorted(os.sched_getaffinity(0))[3 if role=='core' else 0]})
     resource.setrlimit(resource.RLIMIT_CPU,(7200,7200));resource.setrlimit(resource.RLIMIT_CORE,(0,0));started=PROCESS_STARTED_CPU
     os.environ.pop('E1_RUN_MANIFEST',None);os.environ.pop('MP1_RUN_MANIFEST',None)

@@ -1,5 +1,15 @@
 # Current Science Status
 
+**N1 full transport producer/owner IO phase CPU-validated, native evidence pending:** [endurance/fault ledger](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
+Actual-size recorded dualRGB,existing wire codec,compute checksum pump,
+80fixture-only ACKs and all native fault producers now have execution paths.
+Full raw journals/wire/CoreACK/process closures must join600s before load;
+no inline PASS substitute.496tests/372subtests and local mature-client real
+20s/EOF poison-channel bench PASS;NOT site native qualification. Existing
+owner site adapter prepared,finite manager/cold effect closure still pending.
+No newPBS/hot source switch;fifth673008R at CORR2048DEV8,4096updates,pending0.
+Source-only task results remain separate from qualification and WBC success.
+
 **Actual scientific milestone, not yet a complete behavior result:** [both2048 endpoints and actual matched consumption](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
 CORR2048 sealed94ad4d0e,combined4096formal updates,pending0. Each arm has
 65536actual visits;32768T2+16384retained originalT1cursors match exactly.

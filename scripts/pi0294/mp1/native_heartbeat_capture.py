@@ -20,7 +20,7 @@ MAXIMUM_WALL_S=900
 
 
 def collect(root,run_uuid,guard,emit,*,duration_s=DURATION_S,interval_s=INTERVAL_S,
-            reader=read_live_owner,clock=time.monotonic,sleep=time.sleep):
+            reader=read_live_owner,clock=time.monotonic,sleep=time.sleep,service=None):
     """The injectable clock is for CPU tests; the native entry fixes both limits."""
     if (type(duration_s) not in [int,float] or not math.isfinite(duration_s) or duration_s<=0
             or type(interval_s) not in [int,float] or not math.isfinite(interval_s)
@@ -46,7 +46,13 @@ def collect(root,run_uuid,guard,emit,*,duration_s=DURATION_S,interval_s=INTERVAL
         emit(row);rows.append(row)
         if first is None:first=after
         if after-first>=duration_s:break
-        sleep(min(interval_s,duration_s-(after-first)))
+        pause=min(interval_s,duration_s-(after-first))
+        if service is None:sleep(pause)
+        else:
+            wake=clock()+pause
+            while clock()<wake:
+                service();remaining=wake-clock()
+                if remaining>0:sleep(min(.05,remaining))
     return rows
 
 
@@ -85,7 +91,7 @@ def native_identity(root,directory,allocation,manifest):
                 manifest_sha256=sha(root/'RUN_MANIFEST.json'),source_sha=manifest['code']['vla_commit'])
 
 
-def capture(root,directory,allocation,guard):
+def capture(root,directory,allocation,guard,*,service=None):
     """Called only before a model load; no heartbeat writer or model imports."""
     root=Path(root);directory=Path(directory);manifest=read(root/'RUN_MANIFEST.json')
     n1=resolve(root,manifest)
@@ -114,7 +120,9 @@ def capture(root,directory,allocation,guard):
             os.chmod(journal,0o600)
             def emit(row):
                 output.write((json.dumps(row,allow_nan=False)+'\n').encode());output.flush();os.fsync(output.fileno())
-            rows=collect(root,root.name,check,emit,duration_s=DURATION_S,interval_s=INTERVAL_S)
+            options=dict(duration_s=DURATION_S,interval_s=INTERVAL_S)
+            if service is not None:options['service']=service
+            rows=collect(root,root.name,check,emit,**options)
         native_identity(root,directory,allocation,manifest)
         if len(rows)<81 or len({r['proof']['heartbeat']['observed_epoch'] for r in rows})<2:
             raise PermissionError('REAL_600S_OWNER_UPDATES_NOT_REPEATED_SINGLE_SMOKE')

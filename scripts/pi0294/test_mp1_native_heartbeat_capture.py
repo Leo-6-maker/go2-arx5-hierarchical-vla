@@ -115,6 +115,16 @@ class NativeHeartbeatCaptureTests(unittest.TestCase):
             capture.collect('/unused','run',lambda:None,emitted.append,reader=reader,clock=lambda:clock[0],sleep=sleep)
         self.assertEqual(len(emitted),1)
 
+    def test_fixture_pump_runs_between_heartbeat_samples_not_after_ten_minute_block(self):
+        clock=[0.];pumps=[]
+        def reader(root,run,force_revalidate=False):
+            return dict(server_revalidation=False,clock_sampled_after_read=True,cached_clock_epoch=1000+clock[0],
+                heartbeat_written=False,watchdog_s=300,heartbeat=dict(run_uuid=run,observed_epoch=999+clock[0]))
+        def sleep(seconds):clock[0]+=seconds
+        rows=capture.collect('/unused','run',lambda:None,lambda row:None,duration_s=1,interval_s=.5,
+            reader=reader,clock=lambda:clock[0],sleep=sleep,service=lambda:pumps.append(clock[0]))
+        self.assertGreater(len(pumps),len(rows));self.assertTrue(any(0<v<.5 for v in pumps))
+
     def test_native_entry_preserves_failure_journal_and_restores_timer_without_restart(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);(root/'RUN_MANIFEST.json').write_text('{}');directory=root/'pbs/alloc-06';directory.mkdir(parents=True)
