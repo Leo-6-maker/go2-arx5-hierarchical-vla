@@ -3,6 +3,13 @@
 Observed 2026-10-17 after E1 and both MP1 recovery-child lease closures by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
+**Subsequent actual third-run progress:** [first 29.35s engineering partial and metadata observers](reports/PI0294/20261016T191445Z-localpc-mp1/THIRD_RECOVERY_FIRST_PARTIAL_AND_DIRECTORY_OBSERVERS.json).
+671899 is R; first BC F0-T2 stopped at the original 900s wall bound, not a
+complete32s success despite 28/28 observed hold checks. Next BC F1-T1 is running.
+Directory-only CPU observers have explicit cache observer effects and separate
+sealed sources; no model/action/physics/watchdog code was hot changed. No P0
+PASS or unassisted end-to-end performance claim is established by this snapshot.
+
 **Latest direct human scope revision:** [third recovery-family submission](reports/PI0294/20261016T191445Z-localpc-mp1/THIRD_RECOVERY_ADDITIONAL_GO_AND_NATIVE_SUBMISSION.json)
 is explicitly permitted once, at most two hours, without changing MP1 total
 budget/T0/deadline or prior attempt counts. Child03 passed both native entries;

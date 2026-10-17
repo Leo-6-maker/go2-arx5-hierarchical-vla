@@ -1,0 +1,112 @@
+{
+  "status": "ACTUAL_FIRST_ENGINEERING_INCOMPLETE_SECOND_CONDITION_RUNNING_NO_32S_QUALIFICATION_YET",
+  "observed_epoch": 1792221794.2862332,
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "child": "e1-panel-recovery-03",
+  "job_id": "671899.hopper-m-02",
+  "native_state": "R",
+  "scientific_source_sha": "4d4305562a5605aa7822fde21267601686f443db",
+  "maximum_allocation_wall_s": 7200,
+  "maximum_further_automatic_PBS_submissions": 0,
+  "first_attempt": {
+    "id": "PI0294-MP1-E1REC-M2-BC-512-TRAIN4-F0-000-T2-REPLACEMENT-01",
+    "status": "ENGINEERING_INCOMPLETE",
+    "pipeline_trustworthy": false,
+    "error": "TimeoutError: PREFIX_EXPIRED_NO_ADDITIONAL_INTEGRATION",
+    "actual_wall_s": 900.1736383510288,
+    "original_episode_wall_watchdog_s": 900,
+    "actual_sim_duration_s": 29.35,
+    "actual_integrations": 14675,
+    "RGB_pairs": 588,
+    "S1_rejections": 0,
+    "live_native_failures": 0,
+    "live_shadow_maximum_difference": 8.526512829121202e-14,
+    "raw_result_sha256": "a68ee7ac6e6eef46c41c029efa9c7f4637f0607377f7653aae585406e2c7de38",
+    "raw_physics_sha256": "a9c915c839d1c855a64c26e01d71e8e9121d5b2d57c59e1312f0e935c91cd70b",
+    "observed_hold_pass": 28,
+    "observed_hold_total": 28,
+    "original_required_final_hold_observations": 41,
+    "maximum_object_horizontal_displacement_m": 0.12548278955602646,
+    "maximum_object_lift_m": 0.00038299651019285674,
+    "task_success_claim": false,
+    "complete_32s": false,
+    "independent_full_raw_and_video_audit": "PENDING_TERMINAL_FAMILY_BOUNDARY",
+    "condition_attempts_now_exhausted": true,
+    "valid_policy_failure_or_success_denominator": "EXCLUDED_AS_ENGINEERING_MISSING_RETAINED_IN_FULL_ATTEMPT_MATRIX"
+  },
+  "next_condition": {
+    "id": "PI0294-MP1-E1REC-M2-BC-512-TRAIN4-F1-000-T1",
+    "status": "RUNNING_NOT_A_RESULT",
+    "RGB_pairs_observed": 65,
+    "active_live_integration_reservation": 16000,
+    "observer_V2_active_from_condition_start": true
+  },
+  "persisted_query_metadata_observation": {
+    "kind": "NATIVE_FILE_MTIMES_NOT_MODEL_FORWARD_PROFILING",
+    "early_examples": [
+      {"sequence": 1, "inbox_mtime": 1792220857.078372, "receipt_mtime": 1792220857.415868, "outbox_mtime": 1792220857.425806},
+      {"sequence": 2, "inbox_mtime": 1792220890.828071, "receipt_mtime": 1792220891.15103, "outbox_mtime": 1792220891.16021},
+      {"sequence": 3, "inbox_mtime": 1792220924.284495, "receipt_mtime": 1792220924.628384, "outbox_mtime": 1792220924.666101}
+    ],
+    "interpretation": "OUTPUT_FILES_PERSIST_EARLY_BUT_QUERY_CYCLE_OFTEN_DELAYS_AROUND_33_SECONDS_SUPPORTS_LOOKUP_VISIBILITY_INVESTIGATION",
+    "unique_NFS_root_cause_proven": false,
+    "pure_forward_latency_or_end_to_end_speedup_proven": false,
+    "metadata_reads_can_change_lookup_cache_visibility": true
+  },
+  "separately_registered_read_only_CPU_observers": [
+    {
+      "id": "DIRECTORY_VISIBILITY_AUDIT_01",
+      "source_sha": "af5199a26d50eb85b4e13ed8930bbf339ab5c202",
+      "binding_sha256": "d3613c3edc16c88e0b38b2d109b07e545a3a08d3e917c18462b9e1ea9f59bcb0",
+      "started_epoch": 1792221245.1689904,
+      "operation": "READ_ONLY_INBOX_OUTBOX_DIRECTORY_ENUMERATION",
+      "scope": "EXISTING_BC_SESSION_ONLY",
+      "active_verified": true,
+      "maximum_wall_s": 1800,
+      "CPU_reserved_s": 600
+    },
+    {
+      "id": "DIRECTORY_VISIBILITY_AUDIT_02",
+      "source_sha": "c2369e1d4723ae057db053d0563b02bd72040818",
+      "binding_sha256": "9bc801bf46cbb82c3e7f30266f613f30c7db9b5b2164b693e5b4e89a18571175",
+      "started_epoch": 1792221506.823564,
+      "operation": "READ_ONLY_STATX_AT_STATX_FORCE_SYNC_DIRECTORY_ATTRIBUTES_AND_ENUMERATION",
+      "scope": "TWO_FIXED_MODEL_SESSION_DIRECTORIES_ONLY_NEVER_CREATE_FUTURE_SESSION",
+      "active_verified": true,
+      "maximum_wall_s": 1800,
+      "CPU_reserved_s": 600,
+      "Linux_API_reference": "https://man7.org/linux/man-pages/man2/statx.2.html"
+    }
+  ],
+  "observer_interpretation_boundary": {
+    "NFS_cache_observer_effect_explicitly_disclosed": true,
+    "first_attempt_contains_pre_observer_and_observer_intervals": true,
+    "unassisted_transport_performance_claim": false,
+    "scientific_source_capsule_hot_changed": false,
+    "model_weights_or_S1_or_physical_inputs_changed": false,
+    "packets_actions_observations_ACKs_written_or_replayed_by_observer": false,
+    "observer_generated_model_queries_or_physics": 0,
+    "original_20s_60s_900s_watchdogs": "UNCHANGED",
+    "teacher_takeover": false,
+    "resulting_task_data_must_include_observer_identity_and_time_intervals": true,
+    "server_attribute_sync_is_not_cache_drop_remount_or_safety_override": true,
+    "native_observer_exit_and_resource_reconciliation": "PENDING_NOT_ZEROED_EARLY"
+  },
+  "latest_child_core_ledger_not_parent_final_cost": {
+    "CPU_s_charged_to_date": 550.3524629450001,
+    "main_starts": 2,
+    "live_integrations_settled": 14675,
+    "shadow_integrations_settled": 16400,
+    "active_second_condition_live_reservation": 16000,
+    "counters_are_live_snapshot_not_terminal_resource_receipt": true
+  },
+  "verification": {
+    "local_PI0294_tests": 273,
+    "observer_V2_native_runtime_CI": {"run_id": 39013113489, "status": "completed", "conclusion": "success"},
+    "CPU_tests_are_not_32s_model_qualification": true
+  },
+  "Vanda_camera_job": "1463728_Q_NODE_POOL_CAPACITY_NO_MODEL_WBC_OR_PHYSICS",
+  "TF_R3_STOP": "PRESERVED",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

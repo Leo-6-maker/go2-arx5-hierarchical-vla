@@ -1,5 +1,13 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Current native run progress:** [third recovery first partial / disclosed metadata observers](reports/PI0294/20261016T191445Z-localpc-mp1/THIRD_RECOVERY_FIRST_PARTIAL_AND_DIRECTORY_OBSERVERS.json)
+records BC F0-T2 reaching 29.35s/588 camera pairs, then stopping at the unchanged
+900s episode wall bound. Its 28/28 observed hold checks do not make a complete
+task SUCCESS. BC F1-T1 is now running. Two separately registered CPU directory
+readers may affect NFS lookup visibility; their source/time identities are
+disclosed, scientific capsules untouched. No unassisted performance or full32s
+qualification is claimed yet. Job671899 is now R, not its earlier Q snapshot.
+
 **Later explicit human revision:** [one additional bounded recovery submission](reports/PI0294/20261016T191445Z-localpc-mp1/THIRD_RECOVERY_ADDITIONAL_GO_AND_NATIVE_SUBMISSION.json)
 changes only the recovery-family PBS cap from two to three, with one new
 allocation at most 7,200 seconds. Both prior costs/closed leases and all
