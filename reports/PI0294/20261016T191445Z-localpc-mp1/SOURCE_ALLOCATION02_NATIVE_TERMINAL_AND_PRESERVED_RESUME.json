@@ -1,0 +1,80 @@
+{
+  "schema": "MP1_SOURCE_ALLOCATION02_NATIVE_TERMINAL_V1",
+  "status": "ENGINEERING_INTERRUPTION_PRESERVED_FULLSTATE_ORIGINAL_BUDGET_CONTINUATION_PENDING",
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "adopted_review": "fb16d10142e884df9f6b7d9cbcf951fe70c92044",
+  "scientific_runtime_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+  "job_id": "672471.hopper-m-02",
+  "native": {
+    "job_state": "F",
+    "Exit_status": 1,
+    "allocated_wall_seconds": 11512,
+    "conservative_GPU_charge_seconds": 11521,
+    "process_terminal": "FAILED_PRESERVED",
+    "process_error": "MP1_SINGLE_OWNER_HEARTBEAT_LOST"
+  },
+  "observed_failure_chain": [
+    "CoreLab SSH transiently timed out during the CORR512 fixed panel.",
+    "The finite local controller preserved the route result but exited when the subsequent metadata accounting read also timed out.",
+    "Hopper then enforced the unchanged 300-second owner-heartbeat watchdog and exited; no cancellation or safety-gate bypass was used.",
+    "The serial read-only audit adjunct also stopped on connection loss and settled its own control reservation.",
+    "CoreLab connectivity subsequently recovered; all original physical worker handles are terminal and physical reservations are zero."
+  ],
+  "actual_source_state": {
+    "S_BC_updates": 2048,
+    "S_CORR_updates": 512,
+    "total_committed_updates": 2560,
+    "pending_updates": 0,
+    "S_CORR_fullstate_manifest_sha256": "31f0514beb4003e42afc3437aa4781b5df47fc35a6270ba5c4fa081b31102d02",
+    "checkpoint_deleted": false,
+    "optimizer_scheduler_RNG_sampler_reset": false,
+    "CORR512_F0_T1": "VALID_TASK_FAIL_ORIGINAL_S1_1.6s_ALREADY_AUDITED_NO_REPLAY",
+    "CORR512_F0_T2": "VALID_TASK_FAIL_ORIGINAL_S1_22.0s_ALREADY_AUDITED_NO_REPLAY",
+    "CORR512_F1_T1": {
+      "attempt_id": "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1",
+      "status": "ENGINEERING_INCOMPLETE",
+      "pipeline_trustworthy": false,
+      "duration_s": 22.400000000000002,
+      "live_integrations": 11200,
+      "RGB_pairs": 449,
+      "S1_rejections": 0,
+      "native_safety_faults": 0,
+      "raw_result_sha256": "aa0ba13f7a3417f1a03271394e90ab21e73c3e237dcf8a9505d4e52a58aa4a68",
+      "one_original_contract_engineering_replacement_not_yet_dispatched": true
+    },
+    "CORR512_F1_T2": "NOT_RUN",
+    "CORR2048": "NOT_YET_TRAINED_OR_EVALUATED",
+    "source_main_starts": 19,
+    "source_live_integrations": 183000,
+    "source_shadow_integrations": 184004,
+    "source_CPU_reservations": 0,
+    "source_S1_or_native_safety_stop_markers": 0
+  },
+  "settled_resources": {
+    "source_Hopper_PBS_submissions": 2,
+    "source_original_PBS_cap": 4,
+    "source_cumulative_conservative_GPU_seconds": 23316,
+    "source_original_GPU_cap_seconds": 43200,
+    "parent_MP1_cumulative_Hopper_GPU_seconds": 27816,
+    "parent_Hopper_GPU_reservation_seconds": 0,
+    "parent_committed_optimizer_updates": 2560,
+    "parent_source_starts": 43,
+    "parent_total_physics_integrations": 584198,
+    "parent_unknown_effects": [],
+    "serial_audit_conditions_verified": 18,
+    "serial_audit_control_reservation_seconds": 0,
+    "no_new_PBS_submitted_by_this_reconciliation": true
+  },
+  "next_engineering_boundary": [
+    "Keep the original sealed training and inference implementation, numerical recipe, model states, data and safety unchanged.",
+    "Harden finite-owner metadata synchronization against bounded transient read failures while retaining the original heartbeat/watchdogs and no-unknown-effect retry rules.",
+    "Prepare any next allocation only after fresh project/quota, prior native terminal, leases and exact resume proofs; keep original four-PBS/12-H200-hour source cap and MP1 clocks.",
+    "Only the declared engineering-incomplete condition may receive its one original-contract replacement; valid negatives are not repeated."
+  ],
+  "goal_complete": false,
+  "TF_R3": "STOP",
+  "Vanda": "CLOSED_NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
