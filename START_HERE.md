@@ -1,6 +1,23 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Latest native boundary:allocation02 is F/1;full CORR512 state is preserved.**
+**Latest:original-budget continuation03 is actually submitted/Q,not resumed yet.**
+[Native672829 queue,373 tests/CI and cold management qualification](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_CONTINUATION03_ACTUAL_QUEUE_AND_ENGINEERING_QUALIFICATION.json).
+Same owner,CFP04-CF-007/auto/1GPU/max4h. SourcePBS3/4,parent6/12;
+source23316s/parent27816s settled plus14400s reserved,original clocks unchanged.
+Scientific launch stays03646938;management1b1806d9 is separately sealed and
+both entry validations PASS. Original manifest unchanged;full CORR512/cursor
+16384 preserved for exact continuation,not claimed to have resumed while Q.
+Output estimate140->180GiB is evidenced inside unchanged parent400GiB cap,
+not a new storage/science budget. Bounded idempotent metadata-sync recovery
+does not resend action/query/start/qsub or relax heartbeat/safety watchdogs.
+Native queued memory225->128GB decrease read back,no cancellation/resubmission.
+[Updated32-condition matrix](reports/PI0294/20261016T191445Z-localpc-mp1/BEHAVIOR_AND_FAILURE_MATRIX.json)
+now preserves19actual attempts,18verified policy conditions,1engineering gap
+and13unattempted cells;all12 BC endpoint public links remain. CORR F1/T1 has
+only its one original-contract replacement pending;two validF0 negatives stay.
+Finish remaining fixed CORR panels and terminal exposure before mechanisms.
+
+**Previous native boundary:allocation02 is F/1;full CORR512 state is preserved.**
 [Native terminal,error chain and exact resource settlement](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_NATIVE_TERMINAL_AND_PRESERVED_RESUME.json).
 A transient CoreLab SSH loss interrupted the finite local controller;Hopper
 then enforced its unchanged owner-heartbeat watchdog. Connectivity recovered,

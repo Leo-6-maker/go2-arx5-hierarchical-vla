@@ -1,6 +1,18 @@
 # Current Science Status
 
-**Latest native status:** [allocation02 F/1 and preserved exact resume](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_NATIVE_TERMINAL_AND_PRESERVED_RESUME.json).
+**Latest continuation:** [native672829 submitted/Q and actual engineering qualification](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_CONTINUATION03_ACTUAL_QUEUE_AND_ENGINEERING_QUALIFICATION.json).
+SourcePBS3/4,parent6/12,1GPU/max4h/auto;not allocated or resumed at this snapshot.
+Same full CORR512/cursor16384 and original03646938 scientific runtime;new cold
+management1b1806d9 passed373CPU tests/CI39047585619 and both native entry checks.
+Only output estimate and finite metadata recovery changed,no scientific recipe,
+safety/heartbeat or original MP1 budget/T0 reset. Exact owned queued memory
+225->128GB decrease read back,no cancellation or additional submission.
+Latest native matrix has18verified policy cells,1engineering-incomplete cell,
+13unattempted cells across all32. ParentGPU27816s settled/14400s reserved;
+source23316s settled,3960CPU seconds finite-control upper remains reserved.
+No original valid-negative replay;remaining CORR512/F1 and2048 still required.
+
+**Previous allocation status:** [allocation02 F/1 and preserved exact resume](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_NATIVE_TERMINAL_AND_PRESERVED_RESUME.json).
 CoreLab SSH loss interrupted the finite owner;Hopper enforced the unchanged
 heartbeat watchdog. Both controller and read-only adjunct are terminal;CoreLab
 connectivity recovered,physical workers terminal,all current reservations0.

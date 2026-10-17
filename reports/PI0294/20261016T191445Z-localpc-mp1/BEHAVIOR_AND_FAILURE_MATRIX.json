@@ -248,10 +248,12 @@
       "split": "TRAIN",
       "task": "T2",
       "scene_group": "PI0294/TRAIN/F0/000",
-      "status": "PENDING_OR_IN_PROGRESS",
-      "valid_policy_outcome": false,
-      "actual_attempt_ids": [],
-      "actual_attempts": 0,
+      "status": "VALID_TASK_FAIL",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-MP1-S-CORR-512-TRAIN4-F0-000-T2"
+      ],
+      "actual_attempts": 1,
       "actual_native_safety_fault_present": false
     },
     {
@@ -260,10 +262,12 @@
       "split": "TRAIN",
       "task": "T1",
       "scene_group": "PI0294/TRAIN/F1/000",
-      "status": "PENDING_OR_IN_PROGRESS",
+      "status": "ENGINEERING_INCOMPLETE",
       "valid_policy_outcome": false,
-      "actual_attempt_ids": [],
-      "actual_attempts": 0,
+      "actual_attempt_ids": [
+        "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1"
+      ],
+      "actual_attempts": 1,
       "actual_native_safety_fault_present": false
     },
     {
@@ -1353,6 +1357,79 @@
       "semantic_chain_sha256": "05e637711c4d443e0769c8ba9b6dbd687f0e7e7d7cc8365c5486c56fd0a4d5ed",
       "raw_result_sha256": "0f6a2e3b3f69b2f33d3b2b6e788b18418b3afb2f7ea91a0aa623ddb220a4b766",
       "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-512-TRAIN4-F0-000-T2",
+      "model": "S-CORR-512-TRAIN4",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "duration_s": 22.0,
+      "main_integrations": 11000,
+      "RGB_pairs": 441,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": false,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+      "video": {
+        "sha256": "3518dadf1c9d4cca5ff6d6c21e55a37a655fed8d175fa08fb1f3516e641f56ed",
+        "bytes": 785929,
+        "decoded_frames": 441,
+        "actual_paired_frames": 441,
+        "fps": 20,
+        "playback_duration_s": 22.05,
+        "native_duration_s": 22.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-512-TRAIN4-F0-000-T2"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_INDEPENDENTLY_RECONSTRUCTED_FOR_THIS_EXACT_ATTEMPT",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-512-TRAIN4-ALLOCATION-02",
+      "semantic_raw_audit_sha256": "05c9003311f0a7facb20aa5f8627962cb793bfd28762f565cde97607ada41698",
+      "semantic_chain_sha256": "4b46ea493069decb340889768848676d373899ff8eecf9f8528fb97d780f0f91",
+      "raw_result_sha256": "80c744b877780517717b1d87774501a1034bee972c982bf9efc67cc23a1b2b3a",
+      "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1",
+      "model": "S-CORR-512-TRAIN4",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "duration_s": 22.400000000000002,
+      "main_integrations": 11200,
+      "RGB_pairs": 449,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": false,
+      "raw_audit_verified": false,
+      "cross_host_chain_verified": false,
+      "qualified_policy_outcome": false,
+      "persistent_success": null,
+      "raw_audit_status": "MISSING",
+      "actual_execution_source_sha": null,
+      "video": {},
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": null,
+      "semantic_raw_audit_sha256": null,
+      "semantic_chain_sha256": null,
+      "raw_result_sha256": "aa0ba13f7a3417f1a03271394e90ab21e73c3e237dcf8a9505d4e52a58aa4a68",
+      "missing_audit_is_retry_authority": false
     }
   ],
   "panels": {
@@ -1488,6 +1565,23 @@
         "T1": {
           "planned_conditions": 2,
           "layout_groups": 2,
+          "actual_attempts": 2,
+          "status_counts": {
+            "VALID_TASK_FAIL": 1,
+            "ENGINEERING_INCOMPLETE": 1
+          },
+          "failure_stages_by_actual_attempt": {
+            "S1_PRE_EXECUTION_REJECT": 1,
+            "ENGINEERING_OR_UNKNOWN": 1
+          },
+          "successes": 0,
+          "valid_results": 1,
+          "complete": false,
+          "success_fraction_only_if_complete": null
+        },
+        "T2": {
+          "planned_conditions": 2,
+          "layout_groups": 2,
           "actual_attempts": 1,
           "status_counts": {
             "VALID_TASK_FAIL": 1,
@@ -1498,19 +1592,6 @@
           },
           "successes": 0,
           "valid_results": 1,
-          "complete": false,
-          "success_fraction_only_if_complete": null
-        },
-        "T2": {
-          "planned_conditions": 2,
-          "layout_groups": 2,
-          "actual_attempts": 0,
-          "status_counts": {
-            "PENDING_OR_IN_PROGRESS": 2
-          },
-          "failure_stages_by_actual_attempt": {},
-          "successes": 0,
-          "valid_results": 0,
           "complete": false,
           "success_fraction_only_if_complete": null
         }
@@ -1608,22 +1689,5 @@
   "training_updates_exposure_and_model_parent_proofs_are_separate": true,
   "candidate_selection": "NOT_PERFORMED_BY_THIS_REPORT_AGGREGATOR",
   "selected": "NONE",
-  "deployment": "NONE",
-  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
-  "adopted_review": "fb16d10142e884df9f6b7d9cbcf951fe70c92044",
-  "parent_run": "20261016T191445Z-localpc-mp1",
-  "original_T0_epoch": 1792178085,
-  "aggregator_source_sha": "85c4a013b880726c6acd56089bf9275e50384ef6",
-  "scientific_runtime_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
-  "actual_qualified_conditions": 17,
-  "snapshot_Core_epoch": 1792250596.564411,
-  "snapshot_Hopper_epoch": 1792250596.678481,
-  "native_registries_equal_between_sites": true,
-  "required_four_final_review_deliverables_complete": false,
-  "matched_actual512_consumption_report": "S_CORR512_ACTUAL_MATCHED_CONSUMPTION_AND_FIRST_VALID_NEGATIVE.json",
-  "pending_conditions": 15,
-  "BC_TRAIN_public_video_fixed_revision": "53d71ad9eed7766b20847de23a3722857e560f5d",
-  "DEV_videos": "ALL_EIGHT_ACTUAL_AUDITED_ORIGINAL_CLIPS_PUBLIC_FIXED_REVISION_READBACK_PASS",
-  "DEV_public_video_fixed_revision": "448ad9dea6744b7688d5f531a6005b4762c3c5cb",
-  "DEV_public_video_index_sha256": "38131f301382f9783c17f93226f16ff543404be8a25043c5b9aa66d94315694b"
+  "deployment": "NONE"
 }
