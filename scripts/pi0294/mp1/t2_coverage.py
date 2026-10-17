@@ -42,14 +42,16 @@ def analyze_episode(row,packet,samples,events,card):
     anchors=[int(x) for x in np.flatnonzero(packet['valid_window'])]
     if anchors!=list(range(row['windows'])) or packet['label_representation'].item()!='ABSOLUTE_COMMITTED_EEF10' or packet['committed_absolute10'].shape!=(640,10):
         raise ValueError('ORIGINAL_COMPLETE_COMMITTED_H40_WINDOW_CONTRACT')
-    stages=[s['privileged']['teacher_stage'] for s in samples]
-    if len(stages)!=640 or len(anchors)!=601 or not np.allclose(packet['anchor_time_s'],np.arange(601)/20,atol=1e-8,rtol=0):
-        raise ValueError('ORIGINAL_640_ACTIONS_601_ANCHORS_20HZ_REQUIRED')
+    if len(samples)!=641 or samples[-1]['supervision'] is not None:
+        raise ValueError('ORIGINAL_640_ACTIONS_PLUS_UNLABELED_TERMINAL_OBSERVATION_REQUIRED')
+    stages=[s['privileged']['teacher_stage'] for s in samples[:-1]]
+    if len(anchors)!=601 or not np.allclose(packet['anchor_time_s'],np.arange(601)/20,atol=1e-8,rtol=0):
+        raise ValueError('ORIGINAL_601_ANCHORS_20HZ_REQUIRED')
     expected={p:[a for a in anchors if STAGE_PHASE.get(stages[a])==p] for p in PHASES}
     if expected!=row['stage_anchors'] or row.get('unmapped_stages'):
         raise ValueError('ORIGINAL_MANIFEST_PHASE_ANCHORS_DIFFER_FROM_RAW_STAGE')
     if set().union(*(set(x) for x in expected.values()))!=set(anchors):raise ValueError('EVERY_ANCHOR_HAS_ONE_PHASE')
-    if any(not s['supervision']['valid'] or not s['supervision']['actually_committed'] for s in samples):
+    if any(not s['supervision']['valid'] or not s['supervision']['actually_committed'] for s in samples[:-1]):
         raise ValueError('ONLY_ACTUALLY_COMMITTED_TRAIN_ACTIONS')
     # Events may contain repeated stages; preserve every transition, never dedupe it.
     previous='approach';last=-1.
@@ -66,6 +68,7 @@ def analyze_episode(row,packet,samples,events,card):
         ordered_events=events,first_detach_s=next(e['time_s'] for e in events if e['stage']=='detach'),
         first_withdraw_s=next(e['time_s'] for e in events if e['stage']=='withdraw'),
         first_hold_s=next(e['time_s'] for e in events if e['stage']=='hold'),
+        terminal_observation_supervision_absent_not_a_training_action=True,
         task_success_is_existing_raw_audit_not_new_evaluation=True),stages
 
 
@@ -84,7 +87,8 @@ def forecast_exposure(manifest,stages_by_episode):
         stage_balanced_sampling=False,episode_uniform_then_window_uniform=True)
 
 
-def run(root):
+def run(root,attempt=1):
+    if attempt not in [1,2]:raise PermissionError('AT_MOST_ONE_SETTLED_CPU_CONTRACT_REPAIR')
     root=Path(root);m=validate(root,'4080-cpu-data');started=time.process_time();before=resource.getrusage(resource.RUSAGE_CHILDREN)
     binding=root/'plans/T2_TRAIN30_COVERAGE_BINDING.private.json'
     if m['execution'].get('t2_coverage_binding_sha256')!=sha(binding):raise PermissionError('SEALED_TRAIN30_COVERAGE_REQUEST')
@@ -93,7 +97,7 @@ def run(root):
         raise PermissionError('FROZEN_SOURCE_STATS_CPU_ONLY')
     manifest=read(bank/'DATASET_MANIFEST.json');selected=[r for r in manifest['episodes'] if r['task']=='T2' and r['split']=='TRAIN']
     if len(selected)!=30 or set(q['episodes'])!={r['id'] for r in selected}:raise PermissionError('EXACT_ORIGINAL_T2_TRAIN30_ONLY')
-    output=root/'evidence/T2_TRAIN30_EVENT_COVERAGE_01';output.mkdir(mode=0o700);rows=[];stages={}
+    output=root/'evidence'/('T2_TRAIN30_EVENT_COVERAGE_'+str(attempt).zfill(2));output.mkdir(mode=0o700);rows=[];stages={}
     try:
         for row in selected:
             if time.process_time()-started>=500:raise TimeoutError('TRAIN30_CPU_BOUNDARY')
@@ -129,6 +133,6 @@ def run(root):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--root',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--attempt',type=int,default=1);a=p.parse_args()
     os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:2]));resource.setrlimit(resource.RLIMIT_CPU,(600,600))
-    result=run(a.root);print(json.dumps(dict(status=result['status'],episodes=len(result['rows']))),flush=True)
+    result=run(a.root,a.attempt);print(json.dumps(dict(status=result['status'],episodes=len(result['rows']))),flush=True)
