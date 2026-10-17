@@ -47,6 +47,18 @@ Continue independent saved-T2 diagnostics and separately qualified Vanda
 work under the original MP1 clock. Do not train new weights to bypass this
 evaluation fault. Fresh permission and capacity remain actual admission checks.
 
+The subsequent registered CPU-only saved-T2 audit actually completed with
+zero new physics, model queries or training. Both original M1 T2 trajectories
+already entered the unchanged all-corners goal zone (F0 16.70s / F1 16.15s).
+Last saved TCP-object distances were 0.04690m / 0.04240m, below the original
+0.08m clearance requirement; objects remained in-zone and nearly stationary.
+This supports investigating post-push disengagement, not declaring complete
+T2 success or a unique collision cause. Original scores recomputed exactly.
+The first illegal geom pair remains unknown pending separately admitted
+exact-history shadow diagnosis; no valid negative episode was rerun.
+CPU was conservatively charged at its 600s process cap, not advertised as
+exact whole-process usage. [Actual saved-state/action audit](reports/PI0294/20261016T191445Z-localpc-mp1/M1_T2_SAVED_PROGRESS_AND_ACTION_AUDIT.json).
+
 **Campus connectivity is restored and the old E1 native states are reconciled.**
 Job 670729 is F/exit 1 after the original owner-heartbeat timeout, not a
 model/safety result. Both old jobs are terminal: 16,363 conservative allocated

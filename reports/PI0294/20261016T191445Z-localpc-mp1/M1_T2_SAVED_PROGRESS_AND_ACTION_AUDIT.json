@@ -1,0 +1,234 @@
+{
+  "status": "PASS_READONLY_SAVED_T2_PROGRESS_AND_ACTION_AUDIT_NOT_GEOM_ATTRIBUTION",
+  "run_uuid": "20261016T191445Z-localpc-mp1",
+  "source_sha": "ab6af3826f1e86ffdf1636e30b3afc650d535968",
+  "rows": [
+    {
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F0-000-T2",
+      "original_status": "VALID_TASK_FAIL",
+      "original_duration_s": 17.6,
+      "original_result_sha256": "5ba369549ccb35640790625c7dfea5b02d0afc563c9ec4b90d7027cb9e5c60f3",
+      "input_hashes": {
+        "CARD.json": "fe1170ec5f180f296c7a9b043955801fe066c0470650d0fcb384da3153b48a0c",
+        "E1_ADJUDICATION.json": "8e9ebc11c48924fd2dcb18fc21d04246d07baceb11d364423cc12aff69ab665d",
+        "RESULT.json": "5ba369549ccb35640790625c7dfea5b02d0afc563c9ec4b90d7027cb9e5c60f3",
+        "physics.npz": "bdae98a924b2323f2dfa9f8ab75fe0f71abed77db90f8e6474fc3a7f9cb390b4",
+        "SCORE.json": "cce914198acfb8691b4a57468dfda759ffbe7e2b58654f84f58e45b2049896be",
+        "S1_PREFLIGHTS.json": "1b0bf73425307e1a636ffbe0e62d5a99824a48e8d9913c01fc6ed69305376522",
+        "FILE_MANIFEST.json": "4625573f20ecb8ba11775bdc4d0a80b1713e96f2bbf512e1c20b585678c3a7ef",
+        "relay/commands/044.json": "93ff6c3c4449b27200c5d8fb062103af1255ce13c2d610a11e8824525134f93d",
+        "relay/observations/044.json": "e6c3ca5523aac2144d43ef8daab7d8a3d429147aab89b83592dd0bb5cd9b4dd7"
+      },
+      "progress": {
+        "saved_first_time_s": 0,
+        "saved_last_time_s": 17.550000000001152,
+        "samples": 352,
+        "initial_object_xyz_m": [
+          0.4571955564143642,
+          -0.07391292045913811,
+          0.46
+        ],
+        "last_saved_object_xyz_m": [
+          0.4789614100645598,
+          0.056947177512513915,
+          0.4598924539296519
+        ],
+        "goal_xy_m": [
+          0.46277492292458655,
+          0.09007288028396371
+        ],
+        "maximum_horizontal_displacement_m": 0.1327516571295129,
+        "minimum_center_goal_XY_distance_m": 0.03679068310118771,
+        "last_center_goal_XY_distance_m": 0.036868883221965854,
+        "goal_zone_all_corners_ever": true,
+        "first_goal_zone_all_corners_s": 16.700000000001623,
+        "last_goal_zone_all_corners": true,
+        "first_saved_robot_contact_s": 11.150000000000393,
+        "last_saved_robot_contact": false,
+        "last_saved_TCP_object_distance_m": 0.04690294791680472,
+        "last_saved_table_height_predicate": true,
+        "last_saved_linear_speed_m_s": 0.000020214184102114792,
+        "last_saved_angular_speed_rad_s": 0.0006391665666483353,
+        "these_are_saved_frame_diagnostics_not_complete_task_success": true
+      },
+      "original_score_exact": true,
+      "rejected_anchor": {
+        "sequence": 44,
+        "tick": 8800,
+        "state_EEF10": [
+          0.4573234698270946,
+          0.015017019414145176,
+          0.46369594430329963,
+          0.002093316183757077,
+          -0.9998424542171753,
+          -0.017626252362038852,
+          -0.00880036623463426,
+          -0.017644027545515417,
+          0.9998056020277689,
+          0.02865096281413676
+        ],
+        "first_command_minus_anchor_XYZ_m": [
+          -0.0003530043947916339,
+          0.00017211295451209814,
+          -0.004007658043205908
+        ],
+        "prefix8_minimum_commanded_TCP_z_m": 0.4581286747420083,
+        "prefix8_minimum_commanded_TCP_z_above_table_m": 0.0181286747420083,
+        "command_sha256": "93ff6c3c4449b27200c5d8fb062103af1255ce13c2d610a11e8824525134f93d",
+        "original_S1": {
+          "version": "PI0294_R3_D0_S1_COPYDATA_V1",
+          "nonce": "3e9afccb-539c-4fb0-8913-bdf599f12ffc",
+          "state_sha256": "e55916eedfe04f030fad513c0980eb07b627e80ea5363cd890ae0363ff211b3d",
+          "action_sha256": "ae2364c5c45c8e422cf2c588f5ad70fd479f9ca818916970430e911161aecd46",
+          "decision": "REJECT",
+          "error": "RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION",
+          "predicted_native_safety": [
+            "ILLEGAL_CONTACT_OR_PENETRATION"
+          ],
+          "shadow_integrations": 56,
+          "first_predicted_violation_offset_tick": 56,
+          "privileged_simulation_state": true,
+          "actions_modified": false,
+          "live_integrations": 0,
+          "live_state_unchanged": true,
+          "sequence": 352,
+          "stage": "AUDIT_ONLY_approach"
+        },
+        "rejected_prefix_executed": false
+      },
+      "specific_first_illegal_geom": "NOT_SAVED_REQUIRES_SEPARATE_EXACT_HISTORY_SHADOW_DIAGNOSTIC",
+      "model_intent_inferred_from_AUDIT_ONLY_teacher_stage": false,
+      "unique_cause_proved": false
+    },
+    {
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F1-000-T2",
+      "original_status": "VALID_TASK_FAIL",
+      "original_duration_s": 18.400000000000002,
+      "original_result_sha256": "cb0e431744e9a867b0a90d455e8b317994492ca65f24936dc5e32429b0459e09",
+      "input_hashes": {
+        "CARD.json": "aaad1be23990ab73af4efa9a985e9c2eb3e44ce656d22217326c29e3b442a21a",
+        "E1_ADJUDICATION.json": "c060c561d44c676b27508f8b4fcab124dbb0985dd506b07a52d0c357499899b8",
+        "RESULT.json": "cb0e431744e9a867b0a90d455e8b317994492ca65f24936dc5e32429b0459e09",
+        "physics.npz": "853d831fc4faacc834655e88d82dde0fe35ff5994dc1321e5c62c2f6f869a719",
+        "SCORE.json": "cdc917f57b120c5cf02673c89eec8f38c3e1af9e4760ea80731fa395dca5778d",
+        "S1_PREFLIGHTS.json": "2e4588e467fda020c0c343bb04c5b03ff4755f76e1f1c67e925dba9ed930d8d3",
+        "FILE_MANIFEST.json": "1ffaf2283023807f4ba0fa3d6ea07afff414bf37a1ffe96126cfb25371183fd9",
+        "relay/commands/046.json": "fbb4bb03a32051a847240159289f6a4bcc7d37847d058f4f7cb7dfc7b82d0207",
+        "relay/observations/046.json": "9132a32dca1d52a1b90c25e85b956fef5ca5677611254851b7fecae8e1381b46"
+      },
+      "progress": {
+        "saved_first_time_s": 0,
+        "saved_last_time_s": 18.35000000000071,
+        "samples": 368,
+        "initial_object_xyz_m": [
+          0.45222155996621993,
+          -0.07876856010133773,
+          0.46
+        ],
+        "last_saved_object_xyz_m": [
+          0.4397540446406193,
+          0.0666887306604791,
+          0.4598930429645912
+        ],
+        "goal_xy_m": [
+          0.4550571986126572,
+          0.08906105973613682
+        ],
+        "maximum_horizontal_displacement_m": 0.14609119688444316,
+        "minimum_center_goal_XY_distance_m": 0.02695520490926603,
+        "last_center_goal_XY_distance_m": 0.02710549076776547,
+        "goal_zone_all_corners_ever": true,
+        "first_goal_zone_all_corners_s": 16.150000000001928,
+        "last_goal_zone_all_corners": true,
+        "first_saved_robot_contact_s": 11.50000000000051,
+        "last_saved_robot_contact": false,
+        "last_saved_TCP_object_distance_m": 0.042400877573514864,
+        "last_saved_table_height_predicate": true,
+        "last_saved_linear_speed_m_s": 0.00001778255173364922,
+        "last_saved_angular_speed_rad_s": 0.000866651855398228,
+        "these_are_saved_frame_diagnostics_not_complete_task_success": true
+      },
+      "original_score_exact": true,
+      "rejected_anchor": {
+        "sequence": 46,
+        "tick": 9200,
+        "state_EEF10": [
+          0.4441803996217902,
+          0.02402875349936016,
+          0.4623936021646279,
+          -0.004518590325536309,
+          -0.990081991786129,
+          -0.14041806109714555,
+          -0.008103418832586418,
+          -0.1403786304903002,
+          0.9900647325831233,
+          0.000474053154033352
+        ],
+        "first_command_minus_anchor_XYZ_m": [
+          -0.0023571204054425587,
+          0.00294227085631368,
+          -0.004474296644319142
+        ],
+        "prefix8_minimum_commanded_TCP_z_m": 0.4566600372307493,
+        "prefix8_minimum_commanded_TCP_z_above_table_m": 0.016660037230749325,
+        "command_sha256": "fbb4bb03a32051a847240159289f6a4bcc7d37847d058f4f7cb7dfc7b82d0207",
+        "original_S1": {
+          "version": "PI0294_R3_D0_S1_COPYDATA_V1",
+          "nonce": "38c36acd-6e38-4565-9735-7fedf611158b",
+          "state_sha256": "43f555e3724451791282e7f7915c6774f931a40dc47efdffd1d259485cf7f9e2",
+          "action_sha256": "34c56e96ccf1b152517c0fee858db2abd00fb32c2c2964bf47c43b18602a966e",
+          "decision": "REJECT",
+          "error": "RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION",
+          "predicted_native_safety": [
+            "ILLEGAL_CONTACT_OR_PENETRATION"
+          ],
+          "shadow_integrations": 52,
+          "first_predicted_violation_offset_tick": 52,
+          "privileged_simulation_state": true,
+          "actions_modified": false,
+          "live_integrations": 0,
+          "live_state_unchanged": true,
+          "sequence": 368,
+          "stage": "AUDIT_ONLY_approach"
+        },
+        "rejected_prefix_executed": false
+      },
+      "specific_first_illegal_geom": "NOT_SAVED_REQUIRES_SEPARATE_EXACT_HISTORY_SHADOW_DIAGNOSTIC",
+      "model_intent_inferred_from_AUDIT_ONLY_teacher_stage": false,
+      "unique_cause_proved": false
+    }
+  ],
+  "new_physics_integrations": 0,
+  "new_model_queries": 0,
+  "new_training_updates": 0,
+  "original_files_modified": false,
+  "original_valid_negative_replayed": false,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "authority": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "priority_handoff": "aff9a9d2ae25fc6a47112564c9b0df39f91dfff6",
+  "resource_accounting": {
+    "CPU_scope_upper_s": 600,
+    "charged_conservative_CPU_s": 600,
+    "instrumented_module_CPU_delta_s": 0.012018894000000002,
+    "full_process_CPU_exact": false,
+    "new_physics_integrations": 0,
+    "new_model_queries": 0,
+    "optimizer_updates": 0
+  },
+  "interpretation": {
+    "confirmed": [
+      "Both saved M1 T2 trajectories enter the unchanged all-corners goal zone before their original S1 rejection.",
+      "Last saved object states remain in the zone with very small linear/angular velocity and no sampled robot contact.",
+      "Last saved TCP-object separation is below the unchanged 0.08m task-clearance predicate.",
+      "Original scores recomputed exactly; no complete 32s or final 41 hold observations exist."
+    ],
+    "supported_not_proved": "Investigate post-push disengagement/clearance rather than describing both episodes as having no learned push or no goal-zone progress.",
+    "not_proved": [
+      "Exact first illegal geom pair or overlapping collision rules",
+      "Unique cause or model intention from the AUDIT_ONLY teacher phase",
+      "Complete T2 success, qualified T2 Recovery Oracle, generalization or target transfer"
+    ],
+    "next_bounded_question": "Use separately admitted deterministic original-history shadow diagnosis of the two saved unexecuted prefixes; do not run new autonomous negative episodes or relax S1."
+  }
+}

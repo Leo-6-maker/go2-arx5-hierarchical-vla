@@ -10,6 +10,10 @@ No third recovery-family PBS; do not train around this fault.
 and [full attempt/condition matrix](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_E1_M2_RECOVERY_BEHAVIOR_MATRIX.json).
 Follow the [evidence-first sprint entry](docs/handover/2026-10-17/MP1_EVIDENCE_TO_SCIENCE_SPRINT_EXECUTE.md)
 under the original MP1 T0/budget; independent saved-T2/Vanda lanes remain.
+The first subsequent [saved-T2 CPU audit](reports/PI0294/20261016T191445Z-localpc-mp1/M1_T2_SAVED_PROGRESS_AND_ACTION_AUDIT.json)
+is complete: both objects entered the original goal zone before rejection,
+but TCP clearance remained below 8cm. No new physics/model call, no complete
+T2 success or exact geom attribution is claimed.
 
 **2026-10-17 actual owner update:** E1's three PBS jobs and both leases are
 terminal/CLOSED, with 19,675 conservative GPU seconds and zero reservations.
