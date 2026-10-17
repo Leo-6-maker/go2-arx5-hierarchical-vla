@@ -1,5 +1,16 @@
 # Current Science Status
 
+**Latest actual control repair:** [read-only serial auditor recovered without restarting science](reports/PI0294/20261016T191445Z-localpc-mp1/N1_READONLY_SERIAL_AUDITOR_ESTALE_RECOVERY.json).
+Reader01 had actualNFS116 metadata failure,not a policy or neural failure;
+its one complete audit retained. Reader02 failed local import protection
+before START,zero audit effects,cost settled. One isolated immutable
+replacement reader03 verified live and same native673008R read after START,
+CORR1605at frozen snapshot. Only12remaining fixed endpoint audits permitted;
+old deadline and all valid/engineering outcomes preserved. Main science
+controller/codee418bb79 unchanged,no newPBS/model/query/physics. Metadata
+recovery excludes mutation retries and heartbeat writing. NativeN1endurance,
+CORR2048/full paired science remain incomplete;selected/deploymentNONE.
+
 **Latest actual science/engineering boundary:** [N1 generic admission and site receipt](reports/PI0294/20261016T191445Z-localpc-mp1/N1_GENERAL_RUNTIME_ADMISSION_CPU_AND_SITE_READBACK.json).
 Original fifth673008 stillR;CORR1345 at frozen readback,not endpoint2048.
 No new model or physical attempt;current e418bb79 unchanged. Public N1

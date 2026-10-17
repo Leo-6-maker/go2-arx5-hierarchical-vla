@@ -1,5 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest actual control repair:read-only serial audit pipeline restored.**
+[ESTALE terminal,prestart import rejection and verified replacement reader](reports/PI0294/20261016T191445Z-localpc-mp1/N1_READONLY_SERIAL_AUDITOR_ESTALE_RECOVERY.json).
+Original reader01 exited on actualNFS Errno116;its completed F1/T2 audit and
+540CPU upper remain settled. Reader02 import-path guard rejected before
+START/new audit;private original bytes retained,360CPU upper settled. One
+reader03 is now PID+start verified live,using isolated immutable metadata/
+retry imports from2cf7bf1e;no second science owner. NativeR read after START
+shows CORR1605updates,not2048. Only remaining12fixed endpoint audits allowed,
+old helper deadline unchanged. Classified metadata only gets3attempts/120s
+including blocked read;no heartbeat writes or action/query/install/start/
+qsub retries.463CPU tests/343subtests and actualCI39064129714 PASS;two source
+blobs exact readback. This is not N1native600s/80cycle qualification. Science
+job/capsulee418bb79 unmodified,no newPBS/model/physics;540reader CPU reserve
+stays held until its terminal. Full endpoint/paired science still pending.
+
 **Latest engineering:N1 runtime layers integrated in source,not native-admitted.**
 [Generic cold admission,fixed-probe resume and fresh site readbacks](reports/PI0294/20261016T191445Z-localpc-mp1/N1_GENERAL_RUNTIME_ADMISSION_CPU_AND_SITE_READBACK.json).
 One contiguous06..12cold format retains all original native costs/outcomes/
