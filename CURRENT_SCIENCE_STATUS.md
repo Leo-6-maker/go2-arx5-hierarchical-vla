@@ -1,6 +1,6 @@
 # Current Science Status
 
-Observed 2026-10-17 12:50 SGT by the existing single local-PC owner.
+Observed 2026-10-17 after both E1 lease closures at 13:13 SGT by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
 ## Active Authority
@@ -37,8 +37,12 @@ are natively reconciled: 19,675 conservative GPU seconds charged and zero
 GPU reservation. No fourth E1 submission is permitted even with unused
 seconds. All source/neural/controller/stdio workers were terminal and
 physical reservations zero before the separate CPU artifact-closeout stage.
-No MP1 GPU has been submitted. E1 artifact delivery and lease closure are
-still in progress, not complete.
+No MP1 GPU has been submitted. Both E1 leases and registry entries are now
+CLOSED after native/resource/artifact readback. E1 is a bounded closed
+execution with explicit scientific comparison gaps, not a successful full
+M2 behavioral comparison or a reopened resource window.
+[Final resources and closed leases](reports/PI0294/20261016T150228Z-localpc-e1/RESOURCE_FINAL.json).
+[Complete execution summary](reports/PI0294/20261016T150228Z-localpc-e1/E1_RUN_SUMMARY.md).
 [Actual final allocation, training and consumed exposure](reports/PI0294/20261016T150228Z-localpc-e1/LAST_NATIVE_TERMINAL_AND_ACTUAL_M2_EXPOSURE.json).
 [Restored-network reconciliation and exact final allocation](reports/PI0294/20261016T150228Z-localpc-e1/NETWORK_RESTORED_AND_LAST_NATIVE_ALLOCATION.json).
 The preceding interruption remains preserved:
@@ -103,6 +107,17 @@ original S1 in both layouts. This is not DEV, Go2/WBC or real-robot success.
   CORR consumed 8192 original and 8192 C0 samples, from six correction
   segments/two independent student parents. Equal updates are not
   task-matched exposure; no causal correction-gain claim is supported.
+- All 12 predeclared terminal-model conditions are explicit in the
+  [actual behavior matrix](reports/PI0294/20261016T150228Z-localpc-e1/MODEL_BEHAVIOR_MATRIX.json):
+  four valid M1 policy outcomes, five engineering-incomplete conditions,
+  three NOT_RUN conditions. All 22 actual attempts have accounted evidence,
+  but not all have valid task results. The six fixed probe contexts now have
+  648 original-prefix S1 shadow checks, without new neural queries.
+- On the noninitial fixed student states, CORR T1 prefix8 XYZ error is
+  2.19 mm versus M1 6.90 mm, with original S1 prefix execution 6/6 versus
+  4/6 across all fixed student states. These overlap C0's same two TRAIN
+  parents and do not prove independent generalization or autonomous gain.
+  [Actual student-state diagnostics](reports/PI0294/20261016T150228Z-localpc-e1/ON_STUDENT_DIAGNOSTIC_COMPARISON.json).
 - [Saved M1 T2 object progress and original final rejection](reports/PI0294/20261016T150228Z-localpc-e1/M1_T2_SAVED_REJECTION_AND_OBJECT_PROGRESS.json):
   actual horizontal motion 13.28/14.61 cm before original S1 rejection,
   without lifting; no complete task success. Specific illegal geom pairs
@@ -122,6 +137,16 @@ original S1 in both layouts. This is not DEV, Go2/WBC or real-robot success.
 The original M1@256 precision comparability gap, one disclosed unintended
 repeat, invalid initial fork histories, old E0 negatives and all costs remain
 preserved. No claim of a flawless full E1 comparison is made.
+
+All four fixed inference checkpoints and 38 decoded main/fork clips now
+have immutable public HF revisions and READY readback. The private upload
+hit quota and its empty prefix was reconciled; the private repository was
+not made public. Only two Cosmos metadata paths were sanitized; weights
+and statistics stayed unchanged, with complete upstream license notices.
+Public payloads exclude optimizer/RNG and private paths/assets. M1@1024
+and both M2 full native training states remain on Hopper; M1@256 was
+inference-only originally. Public inference/resume qualification is not
+claimed. [Actual fixed artifact index](reports/PI0294/20261016T150228Z-localpc-e1/ARTIFACT_DELIVERY.json).
 
 ## Target Platform
 
@@ -150,9 +175,12 @@ or a cross-host bypass. Source research does not wait for target construction.
 
 ## Next Admitted Work
 
-Finish existing E1 M2 and terminal evidence at normal boundaries. Then bind
-S-BC2048 on original v3.0 TRAIN126 and the fixed M1@1024 parent; prepare a
-matched S-CORR branch from qualified frozen correction data. Preserve 1:1
+E1 cannot submit again or reopen its closed leases. Continue within the
+already adopted MP1, first qualifying a reliable finite relay for real
+behavioral results and recovering only admitted existing-model gaps at
+a separately bound normal boundary. No valid M1 outcome is replayed.
+Then bind S-BC2048 on original v3.0 TRAIN126 and the fixed M1@1024 parent;
+use the matched S-CORR branch from qualified frozen correction data. Preserve 1:1
 task exposure, including when only T1 has correction. Actual TRAIN126 has
 96 T1 and 30 T2 episodes; the task-first sampler preserves 1:1 exposure.
 The real source-reader and exact-cursor-resume CPU checks passed. With only

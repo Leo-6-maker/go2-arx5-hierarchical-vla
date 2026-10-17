@@ -1,6 +1,8 @@
 # E1 Actual Results and Explicit Comparison Gaps
 
-Scientific execution is terminal. Artifact delivery and lease closeout are still in progress.
+Scientific execution and artifact delivery are terminal. Both E1 leases are CLOSED,
+with native resource and registry readback. No registered E1 workload remains active;
+the closed leases admit no further E1 experiments.
 This is a bounded execution receipt, not a claim of a complete M2 policy comparison.
 
 ## Authority and Identity
@@ -79,12 +81,19 @@ poison latch prevented three later physical starts. Partial lift/carry is not su
 The finite visibility helper cost 1.160 CPU seconds and did not establish a full repair.
 Completed CORR RPC medians were 0.0223s Core / 0.0379s Hopper; the unknown timed-out
 call is not included in these successful-call statistics. No unique stall cause is proven.
+Posthoc read-only reconciliation accounts for all 47 final-panel neural draws: 42
+ACKed executions and five completed but uninstalled draws (including the three zero-step
+BC attempts). All were charged originally; pending draw state is empty. This does not
+change the historical timeout or authorize replay. See [reconciliation](UNKNOWN_RESPONSE_TERMINAL_RECONCILIATION.json).
 
 All three E1 native allocations are F; last job 671655 exited 0. Conservative charged
 GPU time is 19675s, GPU reservation zero, submissions 3/3. Unspent seconds do not
 authorize a fourth submission. Main starts are 22, recovery starts 16, live/recovery
-integrations 247400 and shadow integrations 563150. Final CPU/storage/lease receipt
-is pending completion of CPU artifact delivery, not silently treated as zero.
+integrations 247400 and shadow integrations 563150. Instrumented CPU accounting,
+including the initial management allowance, is 7858.56s Core and 12305.20s Hopper.
+Observed owned disk is about 2.23/83.80 GiB respectively; continuous peak monitoring
+and exact whole-account OS CPU are not claimed. [Final counters and closed leases](RESOURCE_FINAL.json)
+record zero CPU/GPU/physical reservations and no cancelled healthy foreign jobs.
 
 ## Artifact Delivery
 
@@ -94,8 +103,10 @@ public. Under the existing explicit public-storage permission, audited sanitizat
 exports inference-only weights/configuration and complete upstream license notices.
 Weights/statistics are unchanged; only two private Cosmos model-name paths are relocated.
 Optimizer/RNG state, credentials, private runmaps, raw assets and WBC are not published.
-Full native checkpoints remain intact on Hopper; public resume/inference qualification
-is not claimed. Fixed model revisions will be recorded after each READY readback.
+Full M1@1024 and both M2 native training checkpoints remain intact on Hopper; M1@256
+is the original inference-only checkpoint, not a full-resume state. Public resume/inference
+qualification is not claimed. All four fixed model revisions have READY readback in
+the [artifact index](ARTIFACT_DELIVERY.json), together with hashes and public URLs' components.
 
 All 38 independently decoded main/fork clips have public fixed-revision delivery.
 They include three initial-frame-only clips, assisted collection and invalid-restoration
