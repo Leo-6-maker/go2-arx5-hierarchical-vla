@@ -1,5 +1,17 @@
 # Current Science Status
 
+**CORR512 actual learning and matched consumption:** [sealed state and first audited negative](reports/PI0294/20261016T191445Z-localpc-mp1/S_CORR512_ACTUAL_MATCHED_CONSUMPTION_AND_FIRST_VALID_NEGATIVE.json).
+512actual updates,537 changed trainable tensors,frozen tensors unchanged;
+full state31f0514b. Both initial1030tensor inventories equal originalM1 and
+actual recipes match. Each arm16384actual visits,T1/T2=8192each;all8192T2
+cursors and4096retained originalT1cursors match exactly.4096CORR T1correction
+visits come from4student parents/8segments,including2062student-anchor and
+2034later expert-state visits,not4096independent demonstrations. F0/T1 is
+validS1 refusal1.6s:19raw checks/33decoded pairs/5actual draws/4ACKs+1zero-live
+rejection PASS,native faults0. Other fixed conditions remain in progress.
+352tests/CI39043547480 PASS;consumption audit terminal1.397CPU seconds,
+reservation0. No newPBS,budget/clock/recipe/runtime change or candidate chosen.
+
 **Current mainline:** [complete BC2048 endpoint and independent CORR start](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_COMPLETE_DEV8_AND_CORR_INDEPENDENT_START.json).
 BC TRAIN3/4,exposedDEV3/8:T1DEV2/4,T2DEV1/4 over four development groups.
 DEV has four originalS1 pre-execution refusals and one safe full32s object
@@ -13,12 +25,11 @@ all12 BC endpoint videos,including every negative,are available without any
 old-prefix reupload or task-outcome change. No failed condition was repeated.
 [Full32-cell behavior matrix](reports/PI0294/20261016T191445Z-localpc-mp1/BEHAVIOR_AND_FAILURE_MATRIX.json)
 joins actual Core/Hopper registries,episode IDs,checkpoints,raw audits and
-chains:16verifiedBC conditions,16pendingCORR,not a final matched comparison.
-CORR initial1030tensor inventory equals originalM1 and starts new optimizer
-updates1/2/3 with cursors32/64/96;observed77updates/cursor2464,not final2048.
-347 tests/CI39042135847 PASS;pure aggregator85c4a013 is not deployed into the
-running03646938 science capsule. Native672471 and same finite owner remain
-healthy,project authentication valid,no newPBS or resource-clock reset.
+chains:16verifiedBC conditions plus1verifiedCORR negative,15pending conditions,
+not a final matched comparison. The earlier77update snapshot is superseded
+by the actual512proof above. Pure aggregator85c4a013 is not deployed into
+the running03646938 science capsule. Native672471 and same finite owner remain
+healthy;no newPBS or resource-clock reset,current GPU not prematurely settled.
 [Serial raw-audit harvesting and closed-session transport measurements](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_SERIAL_AUDIT_AND_TRANSPORT_MEASUREMENTS.json)
 are real,read-only and separately accounted. Residual wall time is not measured
 neural inference or guaranteed recoverable GPU idle. CORR endpoint/exposure,
@@ -31,7 +42,7 @@ close96/96,open95/96,withdraw95/96;all events have H40 supervision. T2detach
 andwithdraw cover30/30 each despite DEV1/4,so missing event supervision alone
 is not established as the mechanism. No error/safety margin inferred from
 coverage,no sampler change. Auditor terminal20.477CPU seconds,reservation0,
-0newqueries/physics. CORR exposure and matched T2 cursor check remain pending.
+0newqueries/physics. CORR512 paired exposure now passes;terminal2048 remains.
 
 ## Previous Complete TRAIN4 And Video Milestone
 

@@ -1,8 +1,22 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**S-BC2048 endpoint is complete:TRAIN3/4 and exposedDEV3/8;CORR has real independent updates.**
+**CORR512 is sealed and actual paired consumption passes;the fixed panel is in progress.**
+[Actual CORR512 learning,matched T2 cursors and first valid negative](reports/PI0294/20261016T191445Z-localpc-mp1/S_CORR512_ACTUAL_MATCHED_CONSUMPTION_AND_FIRST_VALID_NEGATIVE.json).
+Same originalM1 initialization and actual recipes verified;512 real updates,
+537 changed trainable tensors,frozen tensors unchanged,full state31f0514b.
+Each arm consumed16384 visits,T1/T2=8192each. All8192 T2cursors and4096 retained
+originalT1cursors match exactly;CORR actually consumes4096 T1correction visits
+from4student parents/8segments,not4096 independent demonstrations.2062visits
+are student-anchor states,2034 are subsequent expert states. FirstCORRF0/T1
+is originalS1 refusal at1.6s:19raw checks,33decoded pairs,5native draws,4ACKs
+and1zero-live rejection independently PASS,native faults0. No negative rerun.
+352 CPU tests/CI39043547480 PASS;read-only consumption auditor terminal1.397
+CPU seconds,reservation0. No actual2048CORR,full panel rate or correction gain
+claimed. Native672471/same owner continue;original03646938 runtime unchanged.
+
+**S-BC2048 endpoint is complete:TRAIN3/4 and exposedDEV3/8.**
 [Complete DEV8,actual original-M1 initialization and remaining work](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_COMPLETE_DEV8_AND_CORR_INDEPENDENT_START.json).
-[All32 fixed conditions,16 verified and16 pending](reports/PI0294/20261016T191445Z-localpc-mp1/BEHAVIOR_AND_FAILURE_MATRIX.json).
+[All32 fixed conditions,17 verified and15 pending](reports/PI0294/20261016T191445Z-localpc-mp1/BEHAVIOR_AND_FAILURE_MATRIX.json).
 DEV T1=2/4,T2=1/4 across four exposed layout groups,not hidden confirmation.
 Four failures are originalS1 pre-execution refusals;one T2 safely completes32s
 with real pushing but misses the goal-zone hold. Zero actual native faults or
@@ -12,12 +26,9 @@ engineering gaps,TeacherOFF.148 raw checks/3360 decoded pairs/423 real draws/
 at fixed READY448ad9de;Core full-byte and independent Hopper token-free
 READY/index readbacks PASS. All12 BC endpoint clips,successes and negatives,
 are public;no earlier TRAIN prefix or original task outcome was changed.
-CORR initial1030-tensor inventory exactly matches originalM1,not BC2048;
-actual updates1/2/3 restart optimizer/cursor32/64/96 and original warmup.
-Observed77updates/cursor2464 is a snapshot,not CORR512/2048 completion.
-347 CPU tests and CI39042135847 PASS;metadata-only32-cell aggregator source
-85c4a013,scientific runtime03646938 unchanged. Native672471 and existing owner
-remain healthy;project auth verified valid,no newPBS or clock/budget reset.
+The earlier77update snapshot is superseded by the actual CORR512 proof above.
+Metadata-only32-cell aggregator85c4a013 does not change scientific runtime.
+No newPBS or clock/budget reset;the current running allocation is not settled.
 [Actual serial audit harvesting and measured closed-TRAIN transport](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_SERIAL_AUDIT_AND_TRANSPORT_MEASUREMENTS.json)
 reuse real receipts;the RPC residual is not measured GPU idle/inference time.
 Complete independentCORR and matched exposure before mechanism/candidate

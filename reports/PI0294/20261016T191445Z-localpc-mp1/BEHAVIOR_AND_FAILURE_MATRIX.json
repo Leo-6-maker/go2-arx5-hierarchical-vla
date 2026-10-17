@@ -234,10 +234,12 @@
       "split": "TRAIN",
       "task": "T1",
       "scene_group": "PI0294/TRAIN/F0/000",
-      "status": "PENDING_OR_IN_PROGRESS",
-      "valid_policy_outcome": false,
-      "actual_attempt_ids": [],
-      "actual_attempts": 0,
+      "status": "VALID_TASK_FAIL",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-MP1-S-CORR-512-TRAIN4-F0-000-T1"
+      ],
+      "actual_attempts": 1,
       "actual_native_safety_fault_present": false
     },
     {
@@ -1309,6 +1311,48 @@
       "semantic_chain_sha256": "c035beb63e12fd3560959093acd642c210ca21a0670840740c3b3f83198ff235",
       "raw_result_sha256": "fc2f900d5272d6871d2c547e3c2d11459aec88b1959225d247735669dd7df28d",
       "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-512-TRAIN4-F0-000-T1",
+      "model": "S-CORR-512-TRAIN4",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "duration_s": 1.6,
+      "main_integrations": 800,
+      "RGB_pairs": 33,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": false,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+      "video": {
+        "sha256": "c85d2009a7f874c41fa0d95e97d242b1444a2b07e92e318024341d4cbb47d901",
+        "bytes": 77131,
+        "decoded_frames": 33,
+        "actual_paired_frames": 33,
+        "fps": 20,
+        "playback_duration_s": 1.65,
+        "native_duration_s": 1.6,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-512-TRAIN4-F0-000-T1"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_INDEPENDENTLY_RECONSTRUCTED_FOR_THIS_EXACT_ATTEMPT",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-512-TRAIN4-ALLOCATION-02",
+      "semantic_raw_audit_sha256": "0af2f0be47d2535dd98a979f6deb59df5a8b1bc42a4735820a27c494181ccb29",
+      "semantic_chain_sha256": "05e637711c4d443e0769c8ba9b6dbd687f0e7e7d7cc8365c5486c56fd0a4d5ed",
+      "raw_result_sha256": "0f6a2e3b3f69b2f33d3b2b6e788b18418b3afb2f7ea91a0aa623ddb220a4b766",
+      "missing_audit_is_retry_authority": false
     }
   ],
   "panels": {
@@ -1444,13 +1488,16 @@
         "T1": {
           "planned_conditions": 2,
           "layout_groups": 2,
-          "actual_attempts": 0,
+          "actual_attempts": 1,
           "status_counts": {
-            "PENDING_OR_IN_PROGRESS": 2
+            "VALID_TASK_FAIL": 1,
+            "PENDING_OR_IN_PROGRESS": 1
           },
-          "failure_stages_by_actual_attempt": {},
+          "failure_stages_by_actual_attempt": {
+            "S1_PRE_EXECUTION_REJECT": 1
+          },
           "successes": 0,
-          "valid_results": 0,
+          "valid_results": 1,
           "complete": false,
           "success_fraction_only_if_complete": null
         },
@@ -1545,9 +1592,11 @@
   "original_plan_semantic_sha256": "0f51df1916acc2f7a3cb0864927970ac2b56e3f98df1ef1f0d47c5664f90d640",
   "checkpoint_manifest_identities": {
     "S-BC-512": "1cf83ad430c03c1d953266562cf90f3d0475f49c806701448fe5750d494c4d8c",
-    "S-BC-2048": "ac0f46924d540ec5519f8c64b1ec0ea1c7f37bba96df0a21744e6a6a8e88efc2"
+    "S-BC-2048": "ac0f46924d540ec5519f8c64b1ec0ea1c7f37bba96df0a21744e6a6a8e88efc2",
+    "S-CORR-512": "31f0514beb4003e42afc3437aa4781b5df47fc35a6270ba5c4fa081b31102d02"
   },
   "native_registry_semantic_sha256": {
+    "S-CORR-512-TRAIN4-ALLOCATION-02": "f00519ce34517c74702c6dff6e92f63bb97f1aee32b3e2140fe6784c37ba5dde",
     "S-BC-512-TRAIN4-ALLOCATION-01": "b382c3fa677d459aaa16a89620c3ccaf2cf33a573b8083947ed270eb303349ab",
     "S-BC-2048-DEV8-ALLOCATION-02": "1544022d9204f601643f5d3bf8794f34725c61ef2b2fbf3b9cef0e8f5e3137b4",
     "S-BC-2048-TRAIN4-ALLOCATION-02": "305a939cb82a1b4d76981c1c4a30629e4b5c5dff0cb1e8307be7a25fe372420c"
@@ -1566,14 +1615,15 @@
   "original_T0_epoch": 1792178085,
   "aggregator_source_sha": "85c4a013b880726c6acd56089bf9275e50384ef6",
   "scientific_runtime_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
-  "actual_qualified_conditions": 16,
-  "pending_conditions": 16,
-  "snapshot_Core_epoch": 1792248393.8605525,
-  "snapshot_Hopper_epoch": 1792248393.978906,
+  "actual_qualified_conditions": 17,
+  "snapshot_Core_epoch": 1792250596.564411,
+  "snapshot_Hopper_epoch": 1792250596.678481,
   "native_registries_equal_between_sites": true,
+  "required_four_final_review_deliverables_complete": false,
+  "matched_actual512_consumption_report": "S_CORR512_ACTUAL_MATCHED_CONSUMPTION_AND_FIRST_VALID_NEGATIVE.json",
+  "pending_conditions": 15,
   "BC_TRAIN_public_video_fixed_revision": "53d71ad9eed7766b20847de23a3722857e560f5d",
   "DEV_videos": "ALL_EIGHT_ACTUAL_AUDITED_ORIGINAL_CLIPS_PUBLIC_FIXED_REVISION_READBACK_PASS",
-  "required_four_final_review_deliverables_complete": false,
   "DEV_public_video_fixed_revision": "448ad9dea6744b7688d5f531a6005b4762c3c5cb",
   "DEV_public_video_index_sha256": "38131f301382f9783c17f93226f16ff543404be8a25043c5b9aa66d94315694b"
 }
