@@ -1,5 +1,23 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**S-BC2048 TRAIN4 is complete:3 successes,1 valid original-S1 failure,no gaps.**
+[Complete panel,all four public videos and eight original anchor noise joins](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_COMPLETE_TRAIN4_AND_PUBLIC_VIDEOS.json).
+T2 succeeds on both seen TRAIN layouts at32s/41-of-41 hold;F0/T1 also succeeds,
+butF1/T1 is rejected at1.2s before unsafe execution. Zero actual native faults,
+TeacherOFF. All73 raw checks/1948 decoded paired frames/244 native generations
+and243 executed ACKs+1 zero-live rejection independently PASS. Two seen layouts,
+not generalization. All four original videos,including negative,are actually
+HF-public at READY53d71ad9;Core full-byte hashes and Hopper unauthenticated
+READY/index readback PASS. New334-test publisher/CI PASS,scientific runtime
+03646938 unchanged. Eight fixed512 action receipts match actual input/cameras/
+weights/precision/noise-hook fingerprints;no new draw,raw noise tensor not saved.
+Reuse those eight original outputs;future missing endpoint draws still await
+both sealed endpoints and their own original-MP1 NI/shadow binding.
+Native672471/same finite owner now runs exposed DEV8;independentCORR remains.
+Original budget/T0/closeout/WBC/S1/TF-R3STOP remain,selected/deploymentNONE.
+
+## Previous FirstT2 Success And Static Restore Milestone
+
 **The fixed S-BC2048 model now also has an independently audited T2 success.**
 [Actual F0 push success,F1 early valid negative and eight static anchor restores](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_FIRST_T2_SUCCESS_AND_ZERO_STEP_ANCHOR_RESTORE.json).
 F0 T1 and T2 each complete32s/641 camera pairs/41-of-41 hold with noTeacher,

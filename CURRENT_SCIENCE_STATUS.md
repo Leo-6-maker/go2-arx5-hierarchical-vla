@@ -1,5 +1,21 @@
 # Current Science Status
 
+**Current mainline:** [complete S-BC2048 TRAIN4 and actual public videos](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_COMPLETE_TRAIN4_AND_PUBLIC_VIDEOS.json).
+3SUCCESS/1VALID_TASK_FAIL/0engineering gaps/0native faults:both T2 layouts and
+F0/T1 complete32s/41of41 hold,whileF1/T1 is originalS1 rejection at1.2s.
+All73 raw checks,1948 actual paired frames,244 fresh native draws and243ACKs
+plus1zero-live rejection PASS. Four conditions/two seen TRAIN layouts,notDEV.
+All four success/negative videos ACTUALLY HF-public at fixed READY53d71ad9,
+Core full-byte readback and Hopper public unauthenticated READY/index PASS.
+Eight fixed512 anchors join original actual inputs,cameras,arrays,weights,
+precision and native-hook noise fingerprints;0newqueries/physics. Original raw
+noise tensors not saved;no invented rehash. Same-state endpoint comparison
+still waits CORR seal and separate original NI/shadow scope.334 CPU/CI PASS.
+Native672471/same finite owner now evaluates exposedDEV8;CORR from original
+M1 remains pending. No newPBS,budget/T0/WBC/S1/TF-R3 change,selectedNONE.
+
+## Previous FirstT2 Success And Static Restore Milestone
+
 **Current mainline:** [S-BC2048 F0 succeeds at both tasks;F1/T1 is a valid negative](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_FIRST_T2_SUCCESS_AND_ZERO_STEP_ANCHOR_RESTORE.json).
 F0/T2 has independent18-check raw/video and80 fresh observation/generation/ACK
 chains PASS:32s/641pairs,15.685cm push,3903 contact ticks,zero bilateral grasp,
