@@ -1,6 +1,6 @@
 # Current Science Status
 
-Observed 2026-10-17 11:42 SGT by the existing single local-PC owner.
+Observed 2026-10-17 12:08 SGT by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
 ## Active Authority
@@ -33,7 +33,7 @@ Job 670729 is F/exit 1 after the original owner-heartbeat timeout, not a
 model/safety result. Both old jobs are terminal: 16,363 conservative allocated
 GPU seconds charged, their old reservation released only after native proof.
 Core has no active worker, outstanding physical reservation or source STOP.
-The final third E1 job **671655** is Q, with 12,420 GPU seconds reserved;
+The final third E1 job **671655** is R, with 12,420 GPU seconds reserved;
 used plus reserved is 28,783 of the original 28,800 seconds. No fourth E1
 submission is permitted. No MP1 GPU has been submitted.
 [Restored-network reconciliation and exact final allocation](reports/PI0294/20261016T150228Z-localpc-e1/NETWORK_RESTORED_AND_LAST_NATIVE_ALLOCATION.json).
@@ -54,6 +54,22 @@ Original clocks and total caps remain unchanged. The final immutable scope
 retains all M1 valid outcomes, reuses completed M2-BC weights without training,
 and admits three settled engineering replacements plus the unstarted fourth
 BC condition and fixed C0 M2-CORR branch. It does not hot-insert C1 data.
+
+**BC recovery did not produce a valid comparison.** Its first replacement
+stopped after 6 simulated seconds on a 20-second file-RPC timeout; a late
+response was then incorrectly reused on the same channel, causing the next
+three conditions to fail response-ID checks before physical integration.
+All four remain engineering failures, not valid policy negatives. No more
+BC replays are made in E1. Both SSH file endpoints subsequently exited.
+CORR is now training unchanged in the same allocation (58 actual updates
+at the latest exported snapshot), not restarted or moved to another host.
+The single local controller was replaced only at the settled BC/active
+CORR-training boundary, using the same owner lock and original deadlines.
+An uncertain channel now latches invalid before any later physical case.
+Read-only directory refresh has not demonstrated a speedup; a separately
+sealed direct-open metadata reader is prepared for CORR, with no model,
+physics, timeout or in-flight source modification.
+[Actual failure chain, timing caveats and controller continuity](reports/PI0294/20261016T150228Z-localpc-e1/BC_REMAINDER_ENGINEERING_FAILURE_AND_CORR_CONTINUITY.json).
 
 ## Source Results
 
