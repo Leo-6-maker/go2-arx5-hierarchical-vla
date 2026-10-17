@@ -9,7 +9,7 @@ import numpy as np
 
 from scripts.pi0292.eval_contract import error_metrics, gate_action
 from scripts.pi0294.native_dataset import sha
-from .mp1.probe_compare import PRECISION, load_batch, compare_batches
+from .mp1.probe_compare import PRECISION, load_batch, compare_batches, summarize_batch
 
 
 def fixture(root, offset=0., training_entry=False):
@@ -158,6 +158,32 @@ class ProbeCompareTest(unittest.TestCase):
             metric = summary['episode_macro']['prefix8']['XYZ_euclidean_m']
             self.assertFalse(metric['complete'])
             self.assertIsNone(metric['mean'])
+
+    def test_legacy_missing_fingerprints_not_inferred_from_result_metadata(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest, obs = fixture(root/'saved')
+            p = root/'saved'/(manifest['windows'][0]['id']+'.npz')
+            with np.load(p, allow_pickle=False) as saved:
+                arrays = {k:saved[k].copy() for k in ['physical_H40', 'expert_absolute10', 'state']}
+            np.savez(p, **arrays)
+            records = root/'saved/ON_EXPERT_RESULTS.json'
+            value = json.loads(records.read_text())
+            value['records'][0]['arrays_sha256'] = sha(p)
+            records.write_text(json.dumps(value))
+            with self.assertRaisesRegex(ValueError, 'FINGERPRINT_FIELDS_NOT_RECORDED'):
+                load_batch(root/'saved', manifest, 'a'*64, obs)
+
+    def test_single_batch_summary_is_not_a_cross_model_comparison(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest, obs = fixture(root/'saved')
+            batch = load_batch(root/'saved', manifest, 'a'*64, obs)
+            summary = summarize_batch(batch)
+            self.assertEqual(summary['ALL']['queries'], 2)
+            self.assertEqual(len(summary['ALL']['episodes']), 1)
+            self.assertNotIn('parent', summary['ALL'])
+            self.assertNotIn('candidate', summary['ALL'])
 
 
 if __name__ == '__main__':

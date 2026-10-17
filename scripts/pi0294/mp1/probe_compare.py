@@ -49,6 +49,11 @@ def load_batch(folder, manifest, expected_weights, observations):
                 or sha(arrays) != record['arrays_sha256']):
             raise ValueError('SAVED_PROBE_ARRAY_HASH_OR_PATH')
         with np.load(arrays, allow_pickle=False) as saved:
+            required = {'physical_H40', 'expert_absolute10', 'state', 'noise_seed',
+                        'noise_fingerprint_json', 'inference_precision_json',
+                        'observation_fingerprint', 'checkpoint_files_fingerprint'}
+            if not required.issubset(saved.files):
+                raise ValueError('SAVED_PROBE_INPUT_FINGERPRINT_FIELDS_NOT_RECORDED')
             prediction, expert, state = [saved[k].copy() for k in ['physical_H40', 'expert_absolute10', 'state']]
             noise = json.loads(saved['noise_fingerprint_json'].item())
             stored_precision = json.loads(saved['inference_precision_json'].item())
@@ -81,6 +86,19 @@ def load_batch(folder, manifest, expected_weights, observations):
     return dict(rows=rows, signatures=signatures, result_sha256=hashlib.sha256(raw).hexdigest())
 
 
+def summarize_batch(batch):
+    first = {r['probe_id']: r for r in batch['rows']}
+    if not first or len(first) != len(batch['rows']) or set(first) != set(batch['signatures']):
+        raise ValueError('EXACT_UNIQUE_PROBE_SUMMARY_MEMBERSHIP')
+    groups = {'ALL': list(first)}
+    for task in sorted({r['task'] for r in first.values()}):
+        groups[task] = [i for i, r in first.items() if r['task'] == task]
+        for stage in sorted({first[i]['stage'] for i in groups[task]}):
+            groups[task + ':' + stage] = [i for i in groups[task] if first[i]['stage'] == stage]
+    return {name:summarize_records([first[i] for i in identifiers])['TRAIN']
+            for name, identifiers in groups.items()}
+
+
 def compare_batches(parent, candidate):
     if parent['signatures'] != candidate['signatures']:
         raise ValueError('PAIRED_PROBE_OBSERVATION_SEED_OR_NOISE_CHANGED')
@@ -93,16 +111,8 @@ def compare_batches(parent, candidate):
         if any(first[identifier][k] != second[identifier][k]
                for k in ['episode_id', 'task', 'anchor', 'split', 'stage']):
             raise ValueError('PAIRED_PROBE_CONTEXT_CHANGED')
-    groups = {'ALL': list(first)}
-    for task in sorted({r['task'] for r in first.values()}):
-        groups[task] = [i for i, r in first.items() if r['task'] == task]
-        for stage in sorted({first[i]['stage'] for i in groups[task]}):
-            groups[task + ':' + stage] = [i for i in groups[task] if first[i]['stage'] == stage]
-    summaries = {}
-    for name, identifiers in groups.items():
-        summaries[name] = dict(
-            parent=summarize_records([first[i] for i in identifiers])['TRAIN'],
-            candidate=summarize_records([second[i] for i in identifiers])['TRAIN'])
+    a, b = summarize_batch(parent), summarize_batch(candidate)
+    summaries = {name:dict(parent=a[name], candidate=b[name]) for name in a}
     return dict(status='PASS_PAIRED_SAVED_TRAIN_PROBES_IDENTICAL_INPUTS_NOISE_AND_RECOMPUTED_METRICS',
         windows=len(first), distinct_episodes=len({r['episode_id'] for r in first.values()}),
         task_windows=dict(Counter(r['task'] for r in first.values())), summaries=summaries,
