@@ -69,8 +69,9 @@ def publish(root, token_file):
             or spec['children'] != CHILDREN or spec['maximum_CPU_s'] != 600
             or spec['public_authority'] != 'DIRECT_USER_PUBLIC_GENERATED_SOURCE_VIDEO_PERMISSION'
             or spec['scope'] != 'AUDITED_GENERATED_SIMULATION_CLIPS_ONLY_NO_RAW_ASSETS_KEYS_OR_WBC'
-            or not time.time() < spec['deadline_epoch'] <= spec['created_epoch'] + 1800):
+            or not spec['created_epoch'] <= time.time() < spec['deadline_epoch'] <= spec['created_epoch'] + 1800):
         raise PermissionError('EXPLICIT_BOUNDED_PUBLIC_VIDEO_AUTHORITY')
+    signal.alarm(max(1, int(spec['deadline_epoch'] - time.time())))
     owner = OwnerLock(root / 'PUBLIC_RECOVERY_VIDEO_OWNER.lock')
     started = time.process_time()
     output = root / 'artifacts/MP1_RECOVERY_ACTUAL_AUDITED_VIDEO_PUBLIC_V1'
