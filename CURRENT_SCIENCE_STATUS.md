@@ -1,6 +1,15 @@
 # Current Science Status
 
-**Latest boundary:** [actual same-root source04 cold adoption,not submitted](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_ACTUAL_COLD_BOUNDARY_ADOPTION.json).
+**Latest submission:** [actual native672907 Q,last original source slot](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_SINGLE_NATIVE_SUBMISSION_AND_QUEUE.json).
+One qsub,CFP04-CF-007/auto/1GPU/12CPU/128GiB/max4h;GPU unavailable,Q not R.
+SourcePBS4/4,parent7/12,no automatic fifth. Source23728s/parent28228s settled
+plus14400s same-job reservation;45min closeout and parent final4h protected.
+Same finite controller is live with fresh heartbeat;PBS_READY/release/compute
+heartbeat qualification NOT_RUN. CORR512/cursor16384 not resumed,13conditions
+unattempted,spentF1/T1 and valid negatives not replayed. Original140GiB output
+estimate used,no new180GiB rebinding or required deletion. Full goal incomplete.
+
+**Previous boundary:** [actual same-root source04 cold adoption before submission](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_ACTUAL_COLD_BOUNDARY_ADOPTION.json).
 Both native entries PASS with immutable8e50bcc2 capsules;400pytest tests and
 254subtests/actualCI39052726122 PASS. Current manifest pointers cold-advanced,
 old bytes sealed in history,old STOP713fef5c retained,old scopes blocked.15frozen

@@ -1,6 +1,18 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Latest:cold allocation04 boundary adopted on both sites;not submitted.**
+**Latest:allocation04 submitted once,native672907 is Q,not resumed.**
+[Actual single submission,capacity,controller and queue receipt](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_SINGLE_NATIVE_SUBMISSION_AND_QUEUE.json).
+CFP04-CF-007/auto/1GPU/12CPU/128GiB/max4h;Q comment is GPU unavailable.
+SourcePBS4/4,parent7/12,no fifth source submission. Source23728s/parent28228s
+settled plus14400s reserved for the same job;45min allocation closeout and
+parent final4h remain protected. Same finite owner is live,heartbeat fresh.
+Original140GiB output estimate suffices;no new180GiB rebinding or deletion.
+PBS_READY/release/native compute heartbeat qualification are NOT_RUN. Old
+MODEL_STATE allocation03 is stale,not current readiness. CORR stays512/cursor
+16384;13unattempted conditions pending,spentF1/T1 not replayed. Queue is not
+training or task evidence. Original budget/T0/S1/WBC/selectedNONE unchanged.
+
+**Previous boundary:cold allocation04 adopted on both sites before submission.**
 [Actual cold pointer/proof readbacks and retained original budgets](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE04_ACTUAL_COLD_BOUNDARY_ADOPTION.json).
 Code8e50bcc2 passes400pytest tests/254subtests and actualCI39052726122.
 Both sites staged immutable558-member capsules and qualified approved entry
