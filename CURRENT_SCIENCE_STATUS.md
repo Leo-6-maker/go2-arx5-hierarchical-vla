@@ -6,8 +6,11 @@ DEV has four originalS1 pre-execution refusals and one safe full32s object
 goal-zone miss,not five executed collisions. Zero engineering gaps/native
 faults,TeacherOFF.148 raw checks,3360 decoded camera pairs,423 actual draws,
 419 executed ACKs and4 zero-live rejected prefixes independently verified.
-DEV videos are actual private indexed clips,not yet public;earlier four TRAIN
-clips remain at fixed public READY53d71ad9. No failed condition was repeated.
+[All eight actual DEV clips are now public](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_ALL_DEV8_VIDEOS_PUBLIC.json)
+at fixed READY448ad9de,with Core full-byte and independent Hopper token-free
+READY/index readbacks PASS. Earlier four TRAIN clips stay at READY53d71ad9:
+all12 BC endpoint videos,including every negative,are available without any
+old-prefix reupload or task-outcome change. No failed condition was repeated.
 [Full32-cell behavior matrix](reports/PI0294/20261016T191445Z-localpc-mp1/BEHAVIOR_AND_FAILURE_MATRIX.json)
 joins actual Core/Hopper registries,episode IDs,checkpoints,raw audits and
 chains:16verifiedBC conditions,16pendingCORR,not a final matched comparison.

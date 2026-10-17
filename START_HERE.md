@@ -7,8 +7,11 @@ DEV T1=2/4,T2=1/4 across four exposed layout groups,not hidden confirmation.
 Four failures are originalS1 pre-execution refusals;one T2 safely completes32s
 with real pushing but misses the goal-zone hold. Zero actual native faults or
 engineering gaps,TeacherOFF.148 raw checks/3360 decoded pairs/423 real draws/
-419 executedACKs+4 zero-live rejections PASS. DEV clips are indexed PRIVATE;
-only the four earlier TRAIN clips have verified public HF delivery.
+419 executedACKs+4 zero-live rejections PASS.
+[All eight actual DEV videos are now public](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_ALL_DEV8_VIDEOS_PUBLIC.json)
+at fixed READY448ad9de;Core full-byte and independent Hopper token-free
+READY/index readbacks PASS. All12 BC endpoint clips,successes and negatives,
+are public;no earlier TRAIN prefix or original task outcome was changed.
 CORR initial1030-tensor inventory exactly matches originalM1,not BC2048;
 actual updates1/2/3 restart optimizer/cursor32/64/96 and original warmup.
 Observed77updates/cursor2464 is a snapshot,not CORR512/2048 completion.
