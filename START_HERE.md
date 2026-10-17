@@ -1,5 +1,14 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**First independently verified complete M2 behavior:** [M2-BC original512 F1/T1 and real relay qualification](reports/PI0294/20261016T191445Z-localpc-mp1/M2_BC_COMPLETE_T1_AND_CLOSED_LOOP_QUALIFICATION.json)
+is autonomous32s SUCCESS:641 actual camera pairs,41/41 hold,zero S1/native
+faults. All18 raw checks and80 distinct observations/generations/actual ACK
+chains match, including160 input-camera hashes. This qualifies one explicitly
+metadata-reader-assisted paused-sim transport, not unassisted/real-time
+performance. Scientific source4d430556 stayed pinned; no new training.
+Remaining eligible conditions are still running on671899. Full M2 comparison,
+DEV, T2 and target success are not implied; prior engineering failures remain.
+
 **Current native run progress:** [third recovery first partial / disclosed metadata observers](reports/PI0294/20261016T191445Z-localpc-mp1/THIRD_RECOVERY_FIRST_PARTIAL_AND_DIRECTORY_OBSERVERS.json)
 records BC F0-T2 reaching 29.35s/588 camera pairs, then stopping at the unchanged
 900s episode wall bound. Its 28/28 observed hold checks do not make a complete

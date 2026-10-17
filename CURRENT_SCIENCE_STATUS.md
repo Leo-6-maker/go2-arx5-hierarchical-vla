@@ -3,6 +3,14 @@
 Observed 2026-10-17 after E1 and both MP1 recovery-child lease closures by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
+**Latest actual qualification:** [original M2-BC512 F1/T1 full32s SUCCESS](reports/PI0294/20261016T191445Z-localpc-mp1/M2_BC_COMPLETE_T1_AND_CLOSED_LOOP_QUALIFICATION.json)
+has641 camera pairs,41/41 hold,0 S1/native failures,18 independent raw checks,
+and80 cross-host observation/generation/actual ACK chains with160 input-image
+hashes matched. P0 is qualified for this explicitly metadata-reader-assisted
+paused-sim transport, not unassisted/real-time performance. Scientific runtime
+remained4d430556. Other M2 conditions remain in progress; no complete T2, DEV,
+generalization, correction gain or target result is implied.
+
 **Subsequent actual third-run progress:** [first 29.35s engineering partial and metadata observers](reports/PI0294/20261016T191445Z-localpc-mp1/THIRD_RECOVERY_FIRST_PARTIAL_AND_DIRECTORY_OBSERVERS.json).
 671899 is R; first BC F0-T2 stopped at the original 900s wall bound, not a
 complete32s success despite 28/28 observed hold checks. Next BC F1-T1 is running.
