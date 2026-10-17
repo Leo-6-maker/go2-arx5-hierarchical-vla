@@ -76,6 +76,42 @@ class AnchorDynamicTests(unittest.TestCase):
                 dynamic.compare_trace(bad,np.zeros((2,3)),'bad')
         self.assertEqual(dynamic.TOLERANCE,1e-10)
 
+    def test_mismatch_records_exact_maximum_and_first_failed_coordinate(self):
+        actual=np.zeros((3,4));expected=actual.copy();actual[0,2]=2e-10;actual[2,3]=-5e-9
+        with self.assertRaises(dynamic.TraceMismatch) as raised:dynamic.compare_trace(actual,expected,'native')
+        d=raised.exception.mismatch
+        self.assertEqual((d['maximum_at_row'],d['maximum_at_column']),(2,3))
+        self.assertEqual((d['first_outside_tolerance_row'],d['first_outside_tolerance_column']),(0,2))
+        self.assertEqual(d['actual_at_maximum'],-5e-9);self.assertEqual(d['expected_at_maximum'],0)
+        self.assertEqual(d['absolute_tolerance'],1e-10)
+
+    def test_preserved_arrays_are_finite_hashable_immutable_and_not_overwritten(self):
+        p=self.root/'trace.npz';value=np.array([[1.,2.],[3.,4.]])
+        dynamic.save_arrays(p,observed_rows=value)
+        with np.load(p,allow_pickle=False) as z:np.testing.assert_array_equal(z['observed_rows'],value)
+        self.assertEqual(p.stat().st_mode&0o222,0);self.assertEqual(len(sha(p)),64)
+        with self.assertRaises(FileExistsError):dynamic.save_arrays(p,observed_rows=value)
+
+    def test_trace_child_is_one_exact_failed_anchor_not_full_gate_or_eight_replay(self):
+        old=self.root;self.root=old.parent/config.TRACE_CHILD;old.rename(self.root)
+        self.stage.update(schema=config.TRACE_SCHEMA,diagnostic_deadline_epoch=self.stage['diagnostic_created_epoch']+600)
+        self.put('MP1_STAGE_BINDING.json',self.stage)
+        repo=Path(__file__).resolve().parents[2]
+        self.card=json.loads((repo/'reports/PI0294/design/N1_ANCHOR_FAILURE_TRACE_V1.json').read_text())
+        self.put(config.TRACE_CARD,self.card,True)
+        self.manifest['execution']['sealed_inputs']={p:sha(self.root/p) for p in [config.TRACE_CARD,config.INPUTS]}
+        value=config.validate_window(self.root,self.manifest,self.clock)
+        spec=config.specification(self.stage)
+        self.assertEqual(value['deadline_epoch'],self.stage['diagnostic_created_epoch']+600)
+        self.assertEqual(spec['caps']['main_starts'],1);self.assertEqual(spec['caps']['shadow_integrations'],200)
+        self.assertEqual(spec['CPU_core_s']['core'],600);self.assertTrue(spec['trace_only'])
+        for name,value in [('only_state',config.FAILED_STATE+'-OTHER'),('single_state_pass_can_qualify_all_eight',True)]:
+            original=self.card[name];self.card[name]=value;self.put(config.TRACE_CARD,self.card,True)
+            self.manifest['execution']['sealed_inputs'][config.TRACE_CARD]=sha(self.root/config.TRACE_CARD)
+            with self.subTest(name=name),self.assertRaises(PermissionError):config.validate_window(self.root,self.manifest,self.clock)
+            self.card[name]=original
+        with self.assertRaises(PermissionError):config.specification(dict(schema='UNBOUND_NEXT_SCOPE'))
+
     def test_mujoco_state_api_projects_saved_live_state_without_integration(self):
         calls=[]
         class Data:

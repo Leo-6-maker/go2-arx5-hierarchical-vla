@@ -32,12 +32,13 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
             or not a['T0_epoch']<=now<(a['hard_closeout_epoch'] if closeout else a['new_experiment_cutoff_epoch'])):raise PermissionError('MP1_ACTUAL_SINGLE_INCREMENTAL_AUTHORITY_AND_CLOCK')
     recovered=recovery.is_recovery(stage);diagnostic=t2.is_diagnostic(stage) or failure.is_diagnostic(stage) or anchor_dynamic.is_diagnostic(stage)
     diag=anchor_dynamic if anchor_dynamic.is_diagnostic(stage) else failure if failure.is_diagnostic(stage) else t2
-    caps=diag.CAPS if diagnostic else recovery.CAPS if recovered else CAPS
-    cpu_caps=diag.CPU_CAPS if diagnostic else recovery.CPU_CAPS if recovered else CPU_CAPS
+    anchor_spec=anchor_dynamic.specification(stage) if diag is anchor_dynamic else None
+    caps=anchor_spec['caps'] if anchor_spec else diag.CAPS if diagnostic else recovery.CAPS if recovered else CAPS
+    cpu_caps=anchor_spec['CPU_core_s'] if anchor_spec else diag.CPU_CAPS if diagnostic else recovery.CPU_CAPS if recovered else CPU_CAPS
     if diagnostic and profile!='4080-simulation':raise PermissionError('SAVED_DIAGNOSTIC_CORE_CPU_ONLY')
-    if diagnostic and stage.get('diagnostic_maximum_wall_s')!=(diag.WALL_S if diag in [failure,anchor_dynamic] else 1800):raise PermissionError('SAVED_BOUNDED_DIAGNOSTIC_WALLTIME')
+    if diagnostic and stage.get('diagnostic_maximum_wall_s')!=(anchor_spec['wall_s'] if anchor_spec else diag.WALL_S if diag is failure else 1800):raise PermissionError('SAVED_BOUNDED_DIAGNOSTIC_WALLTIME')
     if recovered:recovery.prior_usage(stage)
-    if (stage['schema'] not in ['MP1_SOURCE_SHARED_STAGE_V1',recovery.SCHEMA,t2.SCHEMA,failure.SCHEMA,anchor_dynamic.SCHEMA] or stage['resource_family']!='MP1' or stage['parent_run_uuid']!=parent.name
+    if (stage['schema'] not in ['MP1_SOURCE_SHARED_STAGE_V1',recovery.SCHEMA,t2.SCHEMA,failure.SCHEMA,anchor_dynamic.SCHEMA,anchor_dynamic.TRACE_SCHEMA] or stage['resource_family']!='MP1' or stage['parent_run_uuid']!=parent.name
             or stage['run_uuid']!=root.name or stage['authority_release']!=AUTHORITY or stage['stage_caps']!=caps
             or stage['source_data_sha256']!=DATA or stage['statistics_sha256']!=STATS
             or stage['models']!=([] if diagnostic else ['M2-BC','M2-CORR'] if recovered else ['S-BC','S-CORR']) or stage['updates_per_branch']!=(0 if recovered or diagnostic else 2048)
@@ -53,7 +54,7 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
         raise PermissionError('N1_EARLIER_AUTONOMY_CUTOFF_PRESERVES_ORIGINAL_MP1_CLOCK')
     compute=profile=='hopper-neural' and os.environ.get('PBS_JOBID') and socket.gethostname().startswith('hopper-')
     if (m['schema']!='RUN_MANIFEST_V1' or m['run_uuid']!=root.name or m['owner']!='EXISTING_LOCAL_PC'
-            or m['authority']['protocol_ref']!=AUTHORITY or m['scope']!=(diag.SCOPE if diagnostic else 'MP1_EXISTING_E1_MODEL_EVALUATION_RECOVERY' if recovered else 'MP1_SOURCE_SHARED_STUDY')
+            or m['authority']['protocol_ref']!=AUTHORITY or m['scope']!=(anchor_spec['scope'] if anchor_spec else diag.SCOPE if diagnostic else 'MP1_EXISTING_E1_MODEL_EVALUATION_RECOVERY' if recovered else 'MP1_SOURCE_SHARED_STUDY')
             or m['execution']['profile']!=profile or m['execution']['uid']!=os.getuid()
             or not (socket.gethostname() in m['execution']['hostnames'] or compute)
             or m['execution']['stage_binding_sha256']!=sha(root/'MP1_STAGE_BINDING.json')
@@ -103,7 +104,7 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
 class Ledger(FileLedger):
     def __init__(self,root,role):
         super().__init__(root,role)
-        stage=read(self.root/'MP1_STAGE_BINDING.json');base=anchor_dynamic.CAPS if anchor_dynamic.is_diagnostic(stage) else failure.CAPS if failure.is_diagnostic(stage) else t2.CAPS if t2.is_diagnostic(stage) else recovery.CAPS if recovery.is_recovery(stage) else CAPS
+        stage=read(self.root/'MP1_STAGE_BINDING.json');base=anchor_dynamic.specification(stage)['caps'] if anchor_dynamic.is_diagnostic(stage) else failure.CAPS if failure.is_diagnostic(stage) else t2.CAPS if t2.is_diagnostic(stage) else recovery.CAPS if recovery.is_recovery(stage) else CAPS
         if stage['stage_caps']!=base:raise PermissionError('MP1_EXACT_SOURCE_STUDY_COUNTERS')
         prior=recovery.prior_usage(stage) if recovery.is_recovery(stage) else {k:0 for k in base}
         self.caps={k:v-prior[k] for k,v in base.items()}
@@ -111,7 +112,7 @@ class Ledger(FileLedger):
         self.n1=resolve(self.root)
         self.cpu_caps=dict(stage['CPU_core_s'])
         if self.n1 is not None:
-            if recovery.is_recovery(stage) or t2.is_diagnostic(stage) or failure.is_diagnostic(stage):
+            if recovery.is_recovery(stage) or t2.is_diagnostic(stage) or failure.is_diagnostic(stage) or anchor_dynamic.is_diagnostic(stage):
                 raise PermissionError('N1_SOURCE_PAIR_OVERLAY_NOT_ANOTHER_STAGE_BUDGET')
             self.caps['generation_queries']=self.n1['source']['generation_queries']
             self.cpu_caps=dict(self.n1['source']['CPU_s'])
