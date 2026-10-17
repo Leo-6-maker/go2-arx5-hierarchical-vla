@@ -1,6 +1,6 @@
 {
   "schema": "MP1_N1_MATCHED_SOURCE_PAIR_FINAL_V1",
-  "status": "BOTH_ENDPOINT_TRAIN4_COMPLETE_AUDITED_CORR_DEV8_IN_PROGRESS",
+  "status": "FIFTH_NATIVE_TERMINAL_TWO_DEV_SUCCESSES_AUDITED_SIX_DEV_PENDING_N1_CONTINUATION",
   "full_scientific_goal_complete": false,
   "report_created_epoch": 1792269357.6681342,
   "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
@@ -9,7 +9,7 @@
   "N1_T0_epoch": 1792264081,
   "parent_run": "20261016T191445Z-localpc-mp1",
   "same_owner": "EXISTING_SINGLE_LOCAL_PC",
-  "auditor_source": "245446c2bbb79df71adc12f482fedee4474fe54f",
+  "auditor_source": "55c0610d1d2fd168ca26a3e0e2dd1c8a19bff31c",
   "scientific_runtime_source": "e418bb790d291c6c936ce3878366314f4f5af83e",
   "full_resume_checkpoint_manifests": {
     "S-BC": "ac0f46924d540ec5519f8c64b1ec0ea1c7f37bba96df0a21744e6a6a8e88efc2",
@@ -2225,13 +2225,13 @@
   "behavior": {
     "matrix": "BEHAVIOR_AND_FAILURE_MATRIX.json",
     "fixed_conditions": 32,
-    "actual_qualified_conditions": 23,
+    "actual_qualified_conditions": 25,
     "all_endpoint_policy_conditions_complete": false,
-    "CORR2048_TRAIN4_DEV8": "TRAIN4_COMPLETE_RAW_AND_CHAIN_AUDITED_DEV8_IN_PROGRESS_NO_DEV_RATE_CLAIM",
+    "CORR2048_TRAIN4_DEV8": "TRAIN4_COMPLETE_2_DEV_COMPLETE_AUDITED_6_DEV_NOT_RUN_NO_DEV_RATE",
     "F1_T1_midpoint": "ENGINEERING_GAP_TWO_ATTEMPTS_EXHAUSTED_NO_THIRD",
     "F1_T2_midpoint": "SOLE_REPLACEMENT_AUDITED_VALID_ORIGINAL_S1_NEGATIVE_NO_REPLAY",
-    "matrix_Core_snapshot_epoch": 1792272050.6805613,
-    "matrix_Hopper_snapshot_epoch": 1792272050.8665724
+    "matrix_Core_snapshot_epoch": 1792273051.4800737,
+    "matrix_Hopper_snapshot_epoch": 1792273051.9570093
   },
   "measured_Hopper_audit_CPU_s": {
     "consumption": 4.609122720000002,
@@ -2247,16 +2247,20 @@
   "publication_metadata_settlement": "PENDING_GITHUB_READBACK_AT_COMMIT",
   "native_job": {
     "job_id": "673008.hopper-m-02",
-    "state": "R",
+    "state": "F",
     "source_PBS_used": 5,
-    "source_GPU_settled_s": 24119,
-    "source_GPU_reserved_s": 14400,
+    "source_GPU_settled_s": 35511,
+    "source_GPU_reserved_s": 0,
     "combined_optimizer_updates": 4096,
     "CORR_updates": 2048,
     "pending_updates": 0,
-    "native_current_model_session": "S-CORR-2048-TRAIN4-ALLOCATION-05",
+    "native_current_model_session": null,
     "original_four_hour_request_unchanged": true,
-    "new_PBS_for_this_audit": 0
+    "new_PBS_for_this_audit": 0,
+    "native_exit": 0,
+    "fifth_GPU_charge_s": 11392,
+    "last_session": "S-CORR-2048-DEV8-ALLOCATION-05",
+    "native_terminal_marker_is_not_all32_complete": true
   },
   "evidence_receipts_sha256": {
     "consumption": "3cb70c767efe71356edc239a8eb96ea4f1deec87bbc7d7687eb02e34e98698f2",
@@ -2273,7 +2277,8 @@
     "Fixed96TRAIN expert windows and12historical student draws are identity-audited. These are fitting/diagnostic evidence,not hiddenDEV/current-eight-anchor/closed-loop success evidence.",
     "Across96expert windows,all-episode H40 XYZ mean is3.372842270872905mm forBC and3.5284607420303796mm forCORR;this narrow descriptive difference does not establish a causal task benefit or failure.",
     "Historical T1 expert-label supervision reuse identified earlier remains known-training fit,not heldout generalization.",
-    "CORR2048TRAIN4 now has four independently audited task outcomes:3/4success,T1=1/2,T2=2/2,zero native safety faults. BC2048TRAIN4also3/4butT1layout success swaps. No aggregateTRAINgain orDEV/causalDAgger/targetWBC/deployment claim;DEV8stillinprogress."
+    "CORR2048TRAIN4 now has four independently audited task outcomes:3/4success,T1=1/2,T2=2/2,zero native safety faults. BC2048TRAIN4also3/4butT1layout success swaps. No aggregateTRAINgain orDEV/causalDAgger/targetWBC/deployment claim;DEV8stillinprogress.",
+    "Fifth allocation ended naturally with native exit0;CORRDEV/F0-T1 andF0-T2are individually audited32s successes. Remaining6DEVconditions unrun;no fullDEVrate or causal gain. Old five-job costs stay35511GPU seconds;N1coldcontinuation uses no training and only remaining fixed cases."
   ],
   "N1_native_600s_80cycles": "NOT_RUN",
   "same_state_eight_anchor_endpoint_draws": "NOT_RUN",
@@ -2284,7 +2289,7 @@
   "TF_R3_STOP": "PRESERVED",
   "selected": "NONE",
   "deployment": "NONE",
-  "report_updated_epoch": 1792272281.9190595,
+  "report_updated_epoch": 1792273849.5722997,
   "CORR2048_TRAIN4_actual_audited_cases": [
     {
       "attempt_id": "PI0294-MP1-S-CORR-2048-TRAIN4-F0-000-T1",
@@ -2579,5 +2584,143 @@
     "interpretation": "SAME_TRAIN_AGGREGATE_DIFFERENT_T1_LAYOUT_NO_OVERALL_CAUSAL_GAIN_OR_DEV_GENERALIZATION_CLAIM"
   },
   "TRAIN4_publication_metadata_CPU_upper_s": 540,
-  "TRAIN4_publication_settlement": "PENDING_GITHUB_READBACK_AT_COMMIT"
+  "TRAIN4_publication_settlement": "PENDING_GITHUB_READBACK_AT_COMMIT",
+  "CORR2048_DEV8_first_two_actual_audited_cases": [
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F0-000-T1",
+      "task": "T1",
+      "scene_group": "PI0294/DEV/F0/000",
+      "status": "SUCCESS",
+      "duration_s": 32,
+      "live_integrations": 16000,
+      "dual_camera_pairs": 641,
+      "actual_fresh_draws": 80,
+      "executed_ACKs": 80,
+      "rejected_zero_live_prefixes": 0,
+      "S1_rejections": 0,
+      "native_safety_faults": 0,
+      "teacher_takeover": false,
+      "raw_checks": 18,
+      "raw_audit_semantic_sha256": "f68506a31fccea0bf33331611ad46f74c0fb6f514df02dc98dcd908e3be20579",
+      "chain_semantic_sha256": "74567a8d75912b891beb34449869e16f2a236a7e7219d291683f55751107e02b",
+      "score": {
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.08065967136299207,
+        "maximum_actual_carry_xy_m": 0.16639106991706043,
+        "physics_sha256": "705b25464afb27086196f68dd6784b5d7daf4bc3e29d77ef9a32dd005faa0bcd",
+        "raw_sample_count": 641
+      },
+      "video": {
+        "sha256": "179962a73daa157eb00aef75bf396eb05d9ec9f8849d495b1c67a86c0fdd7a02",
+        "bytes": 1297614,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F0-000-T1"
+      },
+      "public_video": "NOT_UPLOADED_RAW_LOCAL_AUDITED_INDEX_AVAILABLE"
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F0-000-T2",
+      "task": "T2",
+      "scene_group": "PI0294/DEV/F0/000",
+      "status": "SUCCESS",
+      "duration_s": 32,
+      "live_integrations": 16000,
+      "dual_camera_pairs": 641,
+      "actual_fresh_draws": 80,
+      "executed_ACKs": 80,
+      "rejected_zero_live_prefixes": 0,
+      "S1_rejections": 0,
+      "native_safety_faults": 0,
+      "teacher_takeover": false,
+      "raw_checks": 18,
+      "raw_audit_semantic_sha256": "1a68f5b13110f3b2bcadb8d825e5eb4e296b819fa281a58809170966a3c9d63b",
+      "chain_semantic_sha256": "2e77ebf91061a77a745cf93ab5c8b3bf39f62e9d47888eef4fedfa28887a738c",
+      "score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.0005923655835646802,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00048099044949101444,
+        "maximum_actual_carry_xy_m": 0.15934652043074685,
+        "physics_sha256": "9ae13e9887be482e4f354c5039e54e1e1989b729e9188696b01ed80456092b62",
+        "raw_sample_count": 641
+      },
+      "video": {
+        "sha256": "79294d479a67d850d417d8960949d1a1c585fd4cf11d8c22be5d27667d9d7661",
+        "bytes": 1115734,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F0-000-T2"
+      },
+      "public_video": "NOT_UPLOADED_RAW_LOCAL_AUDITED_INDEX_AVAILABLE"
+    }
+  ],
+  "FIFTH_terminal_publication": {
+    "CPU_upper_s": 540,
+    "settlement": "PENDING_EXACT_GITHUB_COMMIT_AND_COMMENT_READBACK"
+  }
 }

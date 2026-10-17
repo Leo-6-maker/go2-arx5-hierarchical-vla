@@ -1,5 +1,17 @@
 # Current Science Status
 
+**Actual fifth terminal and first N1 cold continuation:** [paired result/resource receipt](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
+673008F/exit0,increment11392GPU s,source35511settled. Matrix25/32qualified;
+CORRTRAIN3/4,DEV/F0-T1 andF0-T2 individually audited32sSUCCESS. SixDEV
+conditions unrun,no complete DEV rate;exhausted midpoint gap retained.
+55c0610d actualCI SUCCESS,both cold native scopes pass,84old process
+records closed,1899actual NN outputs accounted,13installed S1 zero-live
+rejects preserved with no synthetic ACKs. Single N1job673223 submitted
+auto/1H200/max8h,nativeR/released at latest readback,pre-model entry not yet
+ready;zero new training,no valid-case replay.
+ActualN1 600s/80cycles stillNOT_RUN;must pass before loading any model.
+WBC/S1/TF-R3STOP unchanged,selected/deploymentNONE,originalN1clock preserved.
+
 **Cold-bound N1 continuation plumbing prepared, no new job yet.**
 Immutable common06-12 staging/activation and full recorded effect closure
 are CPU-tested;live consumers,unknown effects or unsealed transport plans

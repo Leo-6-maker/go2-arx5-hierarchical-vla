@@ -348,10 +348,12 @@
       "split": "DEV",
       "task": "T1",
       "scene_group": "PI0294/DEV/F0/000",
-      "status": "PENDING_OR_IN_PROGRESS",
-      "valid_policy_outcome": false,
-      "actual_attempt_ids": [],
-      "actual_attempts": 0,
+      "status": "SUCCESS",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-MP1-S-CORR-2048-DEV8-F0-000-T1"
+      ],
+      "actual_attempts": 1,
       "actual_native_safety_fault_present": false
     },
     {
@@ -360,10 +362,12 @@
       "split": "DEV",
       "task": "T2",
       "scene_group": "PI0294/DEV/F0/000",
-      "status": "PENDING_OR_IN_PROGRESS",
-      "valid_policy_outcome": false,
-      "actual_attempt_ids": [],
-      "actual_attempts": 0,
+      "status": "SUCCESS",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-MP1-S-CORR-2048-DEV8-F0-000-T2"
+      ],
+      "actual_attempts": 1,
       "actual_native_safety_fault_present": false
     },
     {
@@ -1747,6 +1751,90 @@
       "semantic_chain_sha256": "bd05d27f353c996d8ec6f5c670eb5812010994366a165d1a0055dd052ecd4c8a",
       "raw_result_sha256": "ac196a5979105cb01753b7b7cd0bc6b7e7ded6d713c47d96893e10cae815e6ed",
       "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F0-000-T1",
+      "model": "S-CORR-2048-DEV8",
+      "task": "T1",
+      "split": "DEV",
+      "scene_group": "PI0294/DEV/F0/000",
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": true,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
+      "video": {
+        "sha256": "179962a73daa157eb00aef75bf396eb05d9ec9f8849d495b1c67a86c0fdd7a02",
+        "bytes": 1297614,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F0-000-T1"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-2048-DEV8-ALLOCATION-05",
+      "semantic_raw_audit_sha256": "f68506a31fccea0bf33331611ad46f74c0fb6f514df02dc98dcd908e3be20579",
+      "semantic_chain_sha256": "74567a8d75912b891beb34449869e16f2a236a7e7219d291683f55751107e02b",
+      "raw_result_sha256": "82204fe9e084258a27f8889f80a3bcdc5b2cef92716ecf984f35452fba07e2f6",
+      "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F0-000-T2",
+      "model": "S-CORR-2048-DEV8",
+      "task": "T2",
+      "split": "DEV",
+      "scene_group": "PI0294/DEV/F0/000",
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": true,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
+      "video": {
+        "sha256": "79294d479a67d850d417d8960949d1a1c585fd4cf11d8c22be5d27667d9d7661",
+        "bytes": 1115734,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F0-000-T2"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-2048-DEV8-ALLOCATION-05",
+      "semantic_raw_audit_sha256": "1a68f5b13110f3b2bcadb8d825e5eb4e296b819fa281a58809170966a3c9d63b",
+      "semantic_chain_sha256": "2e77ebf91061a77a745cf93ab5c8b3bf39f62e9d47888eef4fedfa28887a738c",
+      "raw_result_sha256": "0cc6af9cb8b04ba5b6599223aff6012aced5f168804cc9dbb81876a0668926a1",
+      "missing_audit_is_retry_authority": false
     }
   ],
   "panels": {
@@ -1965,26 +2053,32 @@
         "T1": {
           "planned_conditions": 4,
           "layout_groups": 4,
-          "actual_attempts": 0,
+          "actual_attempts": 1,
           "status_counts": {
-            "PENDING_OR_IN_PROGRESS": 4
+            "SUCCESS": 1,
+            "PENDING_OR_IN_PROGRESS": 3
           },
-          "failure_stages_by_actual_attempt": {},
-          "successes": 0,
-          "valid_results": 0,
+          "failure_stages_by_actual_attempt": {
+            "COMPLETE_SUCCESS": 1
+          },
+          "successes": 1,
+          "valid_results": 1,
           "complete": false,
           "success_fraction_only_if_complete": null
         },
         "T2": {
           "planned_conditions": 4,
           "layout_groups": 4,
-          "actual_attempts": 0,
+          "actual_attempts": 1,
           "status_counts": {
-            "PENDING_OR_IN_PROGRESS": 4
+            "SUCCESS": 1,
+            "PENDING_OR_IN_PROGRESS": 3
           },
-          "failure_stages_by_actual_attempt": {},
-          "successes": 0,
-          "valid_results": 0,
+          "failure_stages_by_actual_attempt": {
+            "COMPLETE_SUCCESS": 1
+          },
+          "successes": 1,
+          "valid_results": 1,
           "complete": false,
           "success_fraction_only_if_complete": null
         }
@@ -2023,16 +2117,19 @@
   "N1_authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
   "parent_run": "20261016T191445Z-localpc-mp1",
   "original_T0_epoch": 1792178085,
-  "aggregator_source_sha": "245446c2bbb79df71adc12f482fedee4474fe54f",
+  "aggregator_source_sha": "55c0610d1d2fd168ca26a3e0e2dd1c8a19bff31c",
   "scientific_runtime_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
-  "actual_qualified_conditions": 23,
-  "snapshot_Core_epoch": 1792272050.6805613,
-  "snapshot_Hopper_epoch": 1792272050.8665724,
+  "actual_qualified_conditions": 25,
+  "snapshot_Core_epoch": 1792273051.4800737,
+  "snapshot_Hopper_epoch": 1792273051.9570093,
   "native_registries_equal_between_sites": true,
   "required_four_final_review_deliverables_complete": false,
   "matched_actual2048_consumption_report": "MATCHED_SOURCE_PAIR_FINAL.json",
   "actual_matched_endpoint_training_complete": true,
   "full_endpoint_behavior_complete": false,
-  "pending_conditions": 9,
-  "both_endpoint_TRAIN4_audited": true
+  "pending_conditions": 7,
+  "both_endpoint_TRAIN4_audited": true,
+  "fifth_native_allocation": "NATIVE_F_EXIT0_SOURCE35511_GPU_S_RESERVATION0",
+  "source_scope_closed": false,
+  "remaining_fixed_DEV_conditions": 6
 }

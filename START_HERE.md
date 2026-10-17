@@ -1,5 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Fifth allocation ended normally; N1 cold continuation submitted once.**
+[Actual paired results and resource receipt](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
+673008 nativeF/exit0,11392GPU seconds;source cumulative35511,reservation0
+before continuation. Matrix25/32qualified:CORR2048TRAIN3/4 and individually
+audited DEV/F0-T1,F0-T2 full32sSUCCESS. SixDEVconditions still unrun;one
+exhausted midpoint engineering gap remains. No fullCORR DEV rate claimed.
+55c0610d exact-head CI SUCCESS. Both real cold scopes passed with84old
+process records closed and all1899NN outputs reconciled;13installed S1
+zero-live rejections retain original intents without fabricated ACKs.
+673223 is the single N1allocation06 submission,auto/1H200/8h maximum,
+nativeR/released at latest readback,pre-model entry not yet ready. No training
+or repeated valid cases;native600s/
+80-cycle qualification must pass before any model load. OriginalN1 T0 and
+all cumulative costs/final reserves remain;no automatic next submission.
+
 **N1 cold binding/effect closure code prepared, not yet activated.**
 Generic immutable staging/activation now requires the actual recorded transport
 plan while retaining all earlier bindings and STOPs. Read-only closure joins
