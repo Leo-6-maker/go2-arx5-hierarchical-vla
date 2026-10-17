@@ -15,6 +15,24 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_full_behavior_matrix_does_not_promote_two_T1_audits_to_complete_comparison(self):
+        from .e1.behavior_matrix import build
+        source=json.loads(Path('reports/PI0294/20261016T150228Z-localpc-e1/M1_1024_COMPLETE_TRAIN4_AND_T1_AUDITS.json').read_text())
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'evidence').mkdir();(root/'episodes').mkdir()
+            audits=source['independent_T1_actual_evidence_audits']
+            (root/'evidence/MAIN_EVIDENCE_AUDIT_INDEX.private.json').write_text(json.dumps(dict(rows=audits)))
+            for audit in audits:
+                row=audit['adjudication'];folder=root/'episodes'/row['attempt_id'];folder.mkdir()
+                (folder/'E1_ADJUDICATION.json').write_text(json.dumps(row))
+                (folder/'CARD.json').write_text(json.dumps(dict(id=row['attempt_id'],task=row['task'],scene_group=row['scene_group'],split='TRAIN')))
+            value=build(root)
+            self.assertEqual(value['status'],'PARTIAL_WITH_EXPLICIT_EVIDENCE_GAPS')
+            self.assertEqual(value['fixed_terminal_models']['M1-1024-CANONICAL']['T1']['task_successes'],2)
+            self.assertEqual(value['fixed_terminal_models']['M2-CORR']['T1']['valid_policy_outcomes'],0)
+            self.assertFalse(value['probe_S1_available']);self.assertEqual(value['selected'],'NONE')
+            self.assertEqual(len(value['evidence_sha256']),5)
+
     def test_file_RPC_write_timeout_covers_full_pipe_without_resending(self):
         import os,time
         from .e1.stdio import write_frame
