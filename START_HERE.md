@@ -1,5 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest native boundary:allocation02 is F/1;full CORR512 state is preserved.**
+[Native terminal,error chain and exact resource settlement](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_NATIVE_TERMINAL_AND_PRESERVED_RESUME.json).
+A transient CoreLab SSH loss interrupted the finite local controller;Hopper
+then enforced its unchanged owner-heartbeat watchdog. Connectivity recovered,
+all original physical handles are terminal,reservations0. Source H20023316s
+and parent27816s are actually settled;sourcePBS2/4,updates2560=BC2048+CORR512.
+CORR F0/T1 andF0/T2 are audited valid negatives and will not be replayed;
+F1/T1 is an engineering-incomplete22.4s attempt,not a policy negative;F1/T2
+and finalCORR2048 remain pending. No newPBS or safety/recipe/clock reset.
+[Direct-user failed-checkpoint retirement check](reports/PI0294/20261016T191445Z-localpc-mp1/FAILED_CHECKPOINT_RETIREMENT_CHECK_01.json)
+found no eligible large failed payload in three registered storage areas:
+actual deletion0,freed0. Required parents/fixed checkpoints/resume state remain.
+The following learning milestones are preserved history,not a current-running
+job claim. Full pair/final deliverables remain incomplete,selectedNONE.
+
 **CORR512 is sealed and actual paired consumption passes;the fixed panel is in progress.**
 [Actual CORR512 learning,matched T2 cursors and first valid negative](reports/PI0294/20261016T191445Z-localpc-mp1/S_CORR512_ACTUAL_MATCHED_CONSUMPTION_AND_FIRST_VALID_NEGATIVE.json).
 Same originalM1 initialization and actual recipes verified;512 real updates,

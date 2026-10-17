@@ -1,5 +1,18 @@
 # Current Science Status
 
+**Latest native status:** [allocation02 F/1 and preserved exact resume](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_NATIVE_TERMINAL_AND_PRESERVED_RESUME.json).
+CoreLab SSH loss interrupted the finite owner;Hopper enforced the unchanged
+heartbeat watchdog. Both controller and read-only adjunct are terminal;CoreLab
+connectivity recovered,physical workers terminal,all current reservations0.
+Source GPU23316s,parent Hopper27816s settled;BC2048+CORR512=2560updates.
+Two CORR512 F0 negatives are audited;F1/T1 is ENGINEERING_INCOMPLETE22.4s,
+not a policy failure. F1/T2 andCORR2048 remain pending,original budgets intact.
+[Failed-checkpoint check](reports/PI0294/20261016T191445Z-localpc-mp1/FAILED_CHECKPOINT_RETIREMENT_CHECK_01.json):
+three registered storage areas inspected,no eligible large failed payload,
+actual deletion0/freed0;required parents/fixed models/exact resume preserved.
+No newPBS or model execution in this reconciliation. Prior milestones below
+do not mean the old allocation is still running. Final goal remains incomplete.
+
 **CORR512 actual learning and matched consumption:** [sealed state and first audited negative](reports/PI0294/20261016T191445Z-localpc-mp1/S_CORR512_ACTUAL_MATCHED_CONSUMPTION_AND_FIRST_VALID_NEGATIVE.json).
 512actual updates,537 changed trainable tensors,frozen tensors unchanged;
 full state31f0514b. Both initial1030tensor inventories equal originalM1 and
@@ -28,8 +41,8 @@ joins actual Core/Hopper registries,episode IDs,checkpoints,raw audits and
 chains:16verifiedBC conditions plus1verifiedCORR negative,15pending conditions,
 not a final matched comparison. The earlier77update snapshot is superseded
 by the actual512proof above. Pure aggregator85c4a013 is not deployed into
-the running03646938 science capsule. Native672471 and same finite owner remain
-healthy;no newPBS or resource-clock reset,current GPU not prematurely settled.
+the immutable03646938 science capsule. Native672471 is now terminal as recorded
+above;no newPBS or resource-clock reset,actual GPU settlement is complete.
 [Serial raw-audit harvesting and closed-session transport measurements](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_ALLOCATION02_SERIAL_AUDIT_AND_TRANSPORT_MEASUREMENTS.json)
 are real,read-only and separately accounted. Residual wall time is not measured
 neural inference or guaranteed recoverable GPU idle. CORR endpoint/exposure,
