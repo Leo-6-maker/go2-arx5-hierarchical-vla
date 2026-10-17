@@ -1,6 +1,24 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Newest review adopted; first Source Pair allocation is now terminal with a1631 partial.**
+**Authentication restored; Source Pair continuation02 is actually submitted/Q.**
+[Same-state student label audit and native continuation](reports/PI0294/20261016T191445Z-localpc-mp1/B0_SAME_STATE_LABEL_AUDIT_AND_SOURCE_CONTINUATION02.json).
+672471 is queued for one H200/max4h under CFP04-CF-007,not yet loaded or
+training. Original full1631/cursor52192 state will resume; fixed2048 remains.
+Source2/4 PBS,MP1 allocated16295s/reserved14400s; no clock/budget reset.
+Finite same-owner controller handles this one allocation and incremental
+settlement only. Native queued memory decrease225GB to128GB read back.
+B0 now actually joins all12 existing historical student draws:8 qualified
+noninitial expert H40 labels,4 initial exclusions retained,two parents/task.
+Prefix8 episode-macro XYZ means T1/T2=6.95/12.55mm,not RMSE or task success.
+Actual ACK commands,exact history and matching first dual-camera pixels PASS.
+S-BC-specific S1/clearance remain NOT_RUN/NOT_MEASURED; no older-model safety
+borrowed,no new queries/physics. Only16 small private HF files transferred.
+311 CPU tests/CI pass; scientific runtime03646938 and frozen WBC unchanged.
+B1/B2 and fixed pair endpoints/TRAIN/DEV remain incomplete;target STOP stays.
+
+## Previous Native Boundary (Superseded By Continuation02 Above)
+
+**Newest review adopted; first Source Pair allocation is terminal with a1631 partial.**
 [Review adoption, real multi-session consumption and12 historical student draws](reports/PI0294/20261016T191445Z-localpc-mp1/REVIEW_ADOPTION_STUDENT_PROBES_AND_ALLOCATION01_PARTIAL.json).
 672080 isF/0,not running:11795 conservative H200 seconds,zero GPU reservations.
 Full checkpoint1631/cursor52192 is saved; independent two-partition readback

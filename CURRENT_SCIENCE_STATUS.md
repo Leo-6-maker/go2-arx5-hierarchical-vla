@@ -1,6 +1,24 @@
 # Current Science Status
 
-**Current native boundary:** [adopted review /1631 partial /12 existing student
+**Current native boundary:** [B0 saved-label join / source continuation02](reports/PI0294/20261016T191445Z-localpc-mp1/B0_SAME_STATE_LABEL_AUDIT_AND_SOURCE_CONTINUATION02.json).
+Project authentication restored and actual CFP04-CF-007 membership passed.
+672471 is Q,one H200/max4h/native128GB,not training yet;same native request
+had one owner-only queued memory decrease from site-rewritten225GB. Source
+PBS2/4,MP1 H200 actual16295s/reserved14400s,original clock/recipe retained.
+Same-owner finite controller will resume full1631 state and handle remaining
+fixed panels without repeating the four valid512 negatives;no2048 claim yet.
+B0 all12 historical E0 draws joined,8 qualified noninitial expert H40 labels,
+4 initial exclusions and two true parents/task. Prefix8 mean XYZ T1=6.95mm,
+T2=12.55mm;these are action errors,not RMSE,tracking or causal proof. Same
+input pixels/history/ACK commands independently checked;S-BC S1 NOT_RUN and
+clearance NOT_MEASURED remain. Zero new inference/physics;private16-file HF
+delivery verified on both hosts. Both CPU workers terminal,reservations0.
+311 CPU tests/native CI success. B1/B2,BC/CORR endpoints,DEV and all four final
+review deliverables remain incomplete. Runtime03646938/WBC/TF-R3 unchanged.
+
+## Previous Native Boundary (Before Auth And Continuation02)
+
+**Previous native boundary:** [adopted review /1631 partial /12 existing student
 draws](reports/PI0294/20261016T191445Z-localpc-mp1/REVIEW_ADOPTION_STUDENT_PROBES_AND_ALLOCATION01_PARTIAL.json).
 672080 isF/0,11795 conservative H200 seconds,not currently training. Complete
 state at1631/cursor52192 and exact two-session consumption passed independent
