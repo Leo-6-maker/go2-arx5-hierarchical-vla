@@ -104,6 +104,33 @@ the bounded explicit-terminal repair passed. Both workers are terminal,
 charged at 600 CPU seconds each as conservative process upper bounds,
 reservations zero; new physics/neural/training/GPU/PBS zero.
 
+**The measured RPC accounting hot path has a scoped code repair.** Runtime
+`4fda127a` keeps successful-reply telemetry in memory and settles RPC count
+plus process CPU once at exit; neural/optimizer/physics charges, journals,
+guards and original 20/60/900s contracts stay durable and unchanged.
+Poisoned channels now publish a separate engineering stop on both child
+roots; native recovery/Source Pair guards reject it before the next model.
+An existing marker prevents new panel binding. This is not a native safety
+STOP and does not relabel previous policy or engineering outcomes.
+
+Both registered Core/Hopper CPU probes actually held a synthetic ledger lock
+in another process while emitting 80 memory replies, then made one final
+shared-ledger transaction. All workers and lock holders are terminal, and
+uncertain/repeated settlement is rejected. Native probes use no real model,
+neural/physics counter or RPC wire; they prove this telemetry-lock isolation,
+not actual SSH/NFS/32s qualification or the cross-model model-stop behavior.
+Heartbeat and guard reads still do I/O; complete-loop speedup remains unknown.
+A killed session requires registered CPU-bound reconciliation, not zero cost.
+[Implementation, actual probes and limits](reports/PI0294/20261016T191445Z-localpc-mp1/RPC_REPLY_LOCK_ISOLATION_CPU_RECEIPT.json).
+
+The first CPU probe on each site failed before lock setup on a Path expression;
+the explicit role-entry test repair passed on the sole bounded CPU retry.
+All four attempts are terminal and conservatively charged 600s/site/attempt
+(1,200s per site), reservations zero. Native queue recheck finds no own
+PI0294 running/queued GPU job; old recovery leases remain CLOSED, 453 H200s
+unchanged, no third recovery PBS. A new legal end-to-end route is still required
+before claiming P0 or a completed M2 behavior comparison.
+
 **Campus connectivity is restored and the old E1 native states are reconciled.**
 Job 670729 is F/exit 1 after the original owner-heartbeat timeout, not a
 model/safety result. Both old jobs are terminal: 16,363 conservative allocated

@@ -6,6 +6,11 @@ updates. Four audited attempts still give no valid full policy result:
 3 engineering-incomplete conditions / 5 NOT_RUN, not policy 0/8. An actual
 30.301976s Hopper RPC accounting stall crossed the unchanged 20s watchdog.
 No third recovery-family PBS; do not train around this fault.
+The [scoped RPC telemetry repair](reports/PI0294/20261016T191445Z-localpc-mp1/RPC_REPLY_LOCK_ISOLATION_CPU_RECEIPT.json)
+has passed actual two-host CPU lock-isolation probes: successful replies no
+longer take the metrics ledger write lock. Scientific charges remain durable;
+this does not qualify SSH/compute-node NFS or a full32s model loop. Closed
+scientific capsules were not hot changed and no new GPU job was submitted.
 [Timing and qualification](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_REAL_RELAY_QUALIFICATION.json)
 and [full attempt/condition matrix](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_E1_M2_RECOVERY_BEHAVIOR_MATRIX.json).
 Follow the [evidence-first sprint entry](docs/handover/2026-10-17/MP1_EVIDENCE_TO_SCIENCE_SPRINT_EXECUTE.md)
