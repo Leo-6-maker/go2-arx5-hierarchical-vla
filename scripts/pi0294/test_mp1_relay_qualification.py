@@ -13,15 +13,17 @@ class FilesystemQualificationTests(unittest.TestCase):
         from .mp1 import relay_qualification as q
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);(root/'plans').mkdir();(root/'evidence').mkdir()
-            spec=dict(run_uuid=root.name,role='hopper',purpose='SYNTHETIC_FILESYSTEM_TIMING_NO_MODEL_OR_PHYSICS',source_sha='fixture',maximum_CPU_s=600,maximum_wall_s=180,cycles=96)
-            (root/'plans/FILE_RPC_CPU_QUALIFICATION_hopper.json').write_text(json.dumps(spec))
+            spec=dict(run_uuid=root.name,role='hopper',purpose='SYNTHETIC_FILESYSTEM_TIMING_NO_MODEL_OR_PHYSICS',source_sha='fixture',maximum_CPU_s=600,maximum_wall_s=180,cycles=96,attempt=2)
+            (root/'plans/FILE_RPC_CPU_QUALIFICATION_hopper_02.json').write_text(json.dumps(spec))
+            (root/'plans/FILE_RPC_CPU_QUALIFICATION_hopper_01.json').write_text('original-failed-request-preserved')
             (root/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json').write_text(json.dumps({'hard_closeout_epoch':time.time()+300}))
             (root/'OUTPUT_BINDING.private.json').write_text(json.dumps({'lease':str(root/'LEASE.json')}))
             (root/'LEASE.json').write_text(json.dumps({'run_uuid':root.name,'status':'ACTIVE_CONTROL_PLANE_ONLY'}))
             with patch.object(q,'validate',return_value={'code':{'vla_commit':'fixture'}}),patch.object(q,'charge_cpu') as charge:
-                value=q.run(root,'hopper')
+                value=q.run(root,'hopper',2)
                 self.assertEqual(value['cycles'],96);self.assertEqual(value['status'],'PASS_SAME_HOST_FILESYSTEM_PROBE_NOT_CLOSED_LOOP')
-                self.assertTrue((root/'evidence/file-rpc-cpu-qualification-hopper/RESULT.json').is_file())
+                self.assertTrue((root/'evidence/file-rpc-cpu-qualification-hopper-02/RESULT.json').is_file())
+                self.assertEqual((root/'plans/FILE_RPC_CPU_QUALIFICATION_hopper_01.json').read_text(),'original-failed-request-preserved')
                 charge.assert_called_once()
 
     def test_real_fixture_durability_stays_synthetic_and_bounded(self):

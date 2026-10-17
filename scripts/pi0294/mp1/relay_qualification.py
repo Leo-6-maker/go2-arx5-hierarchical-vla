@@ -41,15 +41,15 @@ def filesystem_probe(folder,guard,*,cycles=96):
         full_32s_closed_loop_qualification=False,new_model_queries=0,new_physical_integrations=0)
 
 
-def run(root,role):
+def run(root,role,attempt=1):
     root=Path(root)
-    if role not in ['core','hopper']:raise PermissionError('EXACT_MP1_CPU_FILESYSTEM_ROLE')
+    if role not in ['core','hopper'] or attempt not in [1,2]:raise PermissionError('EXACT_MP1_CPU_FILESYSTEM_ROLE_AND_ATTEMPT')
     m=validate(root,'4080-cpu-data' if role=='core' else 'hopper-neural');a=read(root/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
-    request=root/'plans'/('FILE_RPC_CPU_QUALIFICATION_'+role+'.json');spec=read(request)
+    request=root/'plans'/('FILE_RPC_CPU_QUALIFICATION_'+role+'_'+str(attempt).zfill(2)+'.json');spec=read(request)
     if spec!=dict(run_uuid=root.name,role=role,purpose='SYNTHETIC_FILESYSTEM_TIMING_NO_MODEL_OR_PHYSICS',
-            source_sha=m['code']['vla_commit'],maximum_CPU_s=600,maximum_wall_s=180,cycles=96):
+            source_sha=m['code']['vla_commit'],maximum_CPU_s=600,maximum_wall_s=180,cycles=96,attempt=attempt):
         raise PermissionError('EXACT_BOUND_MP1_CPU_PROBE_REQUEST')
-    binding=read(root/'OUTPUT_BINDING.private.json');out=root/'evidence'/('file-rpc-cpu-qualification-'+role)
+    binding=read(root/'OUTPUT_BINDING.private.json');out=root/'evidence'/('file-rpc-cpu-qualification-'+role+'-'+str(attempt).zfill(2))
     started=time.process_time();wall=time.monotonic();out.mkdir(mode=0o700,exist_ok=False)
     value=dict(status='FAILED_OR_UNKNOWN_PRESERVED_NO_AUTOMATIC_RETRY',role=role,source_sha=m['code']['vla_commit'])
     old_handler=signal.getsignal(signal.SIGALRM)
@@ -71,5 +71,5 @@ def run(root,role):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--role',required=True);a=p.parse_args();v=run(a.root,a.role)
+    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--role',required=True);p.add_argument('--attempt',type=int,default=1);a=p.parse_args();v=run(a.root,a.role,a.attempt)
     print(json.dumps({k:v[k] for k in ['status','role','CPU_s','wall_s','summary']}),flush=True)
