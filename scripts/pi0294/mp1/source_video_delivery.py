@@ -1,4 +1,4 @@
-"""Deliver an exact frozen BC2048 panel without rerunning any condition."""
+"""Deliver an exact frozen source panel or partial snapshot without replay."""
 import argparse
 import json
 import os
@@ -23,12 +23,22 @@ DEV_PANEL='S-BC-2048-DEV8'
 DEV_NAME='SBC2048_DEV8_ACTUAL_AUDITED_VIDEO_PUBLIC_V1'
 DEV_IDS=[f'PI0294-MP1-{DEV_PANEL}-{f}-{n}-{t}'
     for f,n in [('F0','000'),('F1','000'),('F1','001'),('F2','000')] for t in ['T1','T2']]
+CORR_PANEL='S-CORR-512-TRAIN4'
+CORR_PLAN_IDS=[f'PI0294-MP1-{CORR_PANEL}-{f}-000-{t}' for f in ['F0','F1'] for t in ['T1','T2']]
+CORR_IDS=CORR_PLAN_IDS[:3]+[CORR_PLAN_IDS[2]+'-REPLACEMENT-01']
+CORR_NAME='SCORR512_FIRST4_ATTEMPTS_ACTUAL_AUDITED_VIDEO_PUBLIC_V1'
 
 
 def delivery_scope(panel):
-    if panel==PANEL:return dict(panel=PANEL,name=NAME,ids=IDS,split='TRAIN',suffix='TRAIN4')
-    if panel==DEV_PANEL:return dict(panel=DEV_PANEL,name=DEV_NAME,ids=DEV_IDS,split='DEV',suffix='DEV8')
-    raise PermissionError('EXACT_ORIGINAL_BC2048_TRAIN4_OR_EXPOSED_DEV8_VIDEO_SCOPE')
+    if panel==PANEL:scope=dict(panel=PANEL,name=NAME,ids=IDS,split='TRAIN',suffix='TRAIN4')
+    elif panel==DEV_PANEL:scope=dict(panel=DEV_PANEL,name=DEV_NAME,ids=DEV_IDS,split='DEV',suffix='DEV8')
+    elif panel==CORR_PANEL:
+        return dict(panel=CORR_PANEL,name=CORR_NAME,ids=CORR_IDS,plan_ids=CORR_PLAN_IDS,
+            split='TRAIN',suffix='FIRST4_ATTEMPTS',step=512,tag='SCORR512_FIRST4_ATTEMPTS',
+            binding='PUBLIC_SCORR512_FIRST4_ATTEMPTS_VIDEO_BINDING.json',complete_panel=False)
+    else:raise PermissionError('EXACT_FIXED_SOURCE_VIDEO_DELIVERY_SCOPE')
+    return dict(scope,step=2048,plan_ids=scope['ids'],tag='SBC2048_'+scope['suffix'],
+        binding='PUBLIC_SBC2048_'+scope['suffix']+'_VIDEO_BINDING.json',complete_panel=True)
 
 
 def audited_movies(root,*,panel=PANEL):
@@ -36,16 +46,19 @@ def audited_movies(root,*,panel=PANEL):
     child=Path(root)/'children/source-pair-01';plan=read(child/'plans/SOURCE_EVALUATION_PLAN.json')
     spec=plan['panels'][panel]
     if (plan['schema']!='MP1_FIRST_SOURCE_PAIR_FIXED_DEVELOPMENT_V1'
-            or spec['attempt_ids']!=ids or spec['checkpoint_step']!=2048
+            or spec['attempt_ids']!=scope['plan_ids'] or spec['checkpoint_step']!=scope['step']
             or spec['split']!=scope['split'] or spec['teacher_takeover']):
-        raise PermissionError('EXACT_PREDECLARED_BC2048_COMPLETE_PANEL_ONLY')
+        raise PermissionError('EXACT_PREDECLARED_SOURCE_PANEL_OR_PARTIAL_SNAPSHOT')
     rows,files,sources=[],{},{}
     for identifier in ids:
         actual=require_frozen_attempt(child,identifier)
-        if (actual['model']!=panel or actual['split']!=scope['split'] or not actual['pipeline_trustworthy']
-                or actual['status'] not in ['SUCCESS','VALID_TASK_FAIL']
+        engineering=panel==CORR_PANEL and identifier in CORR_IDS[2:]
+        allowed=['ENGINEERING_INCOMPLETE'] if engineering else ['VALID_TASK_FAIL'] if panel==CORR_PANEL else ['SUCCESS','VALID_TASK_FAIL']
+        if (actual['model']!=panel or actual['split']!=scope['split']
+                or actual['pipeline_trustworthy'] is not (not engineering)
+                or actual['status'] not in allowed
                 or actual['teacher_takeover'] or actual['live_native_failures']):
-            raise PermissionError('FROZEN_TRUSTWORTHY_SUCCESS_OR_VALID_NEGATIVE_NO_SELECTION')
+            raise PermissionError('FROZEN_EXACT_OUTCOME_CLASS_AND_NATIVE_SAFETY')
         folder=child/'evidence/audits'/identifier;audit=read(folder/'AUDIT.private.json');movie=audit['video']
         if (audit['status']!='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT'
                 or audit['attempt_id']!=identifier or audit['adjudication']!=actual
@@ -67,7 +80,11 @@ def audited_movies(root,*,panel=PANEL):
             actual_frames=movie['decoded_frames'],S1_rejections=actual['S1_rejections'],
             actual_native_faults=actual['live_native_failures'],teacher_takeover=False,
             failure_stage=actual['failure_stage'],artifact_path=name,initial_frame_included=True,
-            task_success=actual['status']=='SUCCESS',**files[name]))
+            task_success=actual['status']=='SUCCESS',
+            pipeline_trustworthy=actual['pipeline_trustworthy'],
+            qualified_policy_outcome=not engineering,
+            engineering_incomplete=engineering,
+            independent_new_condition=identifier!=CORR_IDS[-1],**files[name]))
     if sum(v['bytes'] for v in files.values())>16*1024**2:
         raise PermissionError('EXACT_PANEL_ACTUAL_CLIPS_16MIB_UPPER')
     reject_private(rows)
@@ -76,9 +93,9 @@ def audited_movies(root,*,panel=PANEL):
 
 def publish(root,token_file,*,panel=PANEL):
     scope=delivery_scope(panel);name=scope['name'];ids=scope['ids'];suffix=scope['suffix']
-    root=Path(root);runtime=validate(root,'4080-cpu-data');binding=root/('plans/PUBLIC_SBC2048_'+suffix+'_VIDEO_BINDING.json')
+    root=Path(root);runtime=validate(root,'4080-cpu-data');binding=root/'plans'/scope['binding']
     if sha(binding)!=runtime['execution']['source_video_binding_sha256']:
-        raise PermissionError('SEALED_SBC2048_TRAIN4_VIDEO_BINDING')
+        raise PermissionError('SEALED_EXACT_SOURCE_VIDEO_BINDING')
     q=read(binding)
     if (q['parent_run']!=root.name or q['repo_id']!=REPO or q['attempt_ids']!=ids
             or q.get('panel',PANEL)!=panel
@@ -97,13 +114,19 @@ def publish(root,token_file,*,panel=PANEL):
         for path in sources.values():
             metadata=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format_tags:stream_tags','-of','json',str(path)],text=True,timeout=15))
             reject_private(metadata)
-        index=dict(schema='MP1_SBC2048_'+suffix+'_ACTUAL_VIDEO_INDEX_V1',parent_run=root.name,
+        index=dict(schema='MP1_'+scope['tag']+'_ACTUAL_VIDEO_INDEX_V1',parent_run=root.name,
             source_sha=runtime['code']['vla_commit'],panel=panel,private=False,
             actual_videos=len(ids),rows=rows,all_videos_are_successes=all(r['task_success'] for r in rows),
             exposed_development_or_target_results_included=scope['split']=='DEV',
             no_interpolation_or_synthetic_frames=True,original_private_bytes_unchanged=True,
             transport='QUALIFIED_METADATA_READ_ASSISTED_PAUSED_SIM_LOCKSTEP_NOT_REALTIME',
             selected='NONE',deployment='NONE')
+        if not scope['complete_panel']:
+            index.update(complete_fixed_panel=False,unique_attempted_conditions=3,qualified_policy_conditions=2,
+                engineering_incomplete_attempts=2,unattempted_original_conditions=[CORR_PLAN_IDS[-1]],
+                third_F1_T1_attempt_authorized=False,partial_videos_are_policy_failures=False,
+                all_videos_are_complete_episodes=False,checkpoint_step=512,
+                same_condition_replacement_is_independent_example=False)
         if scope['split']=='DEV':index.update(exposed_development=True,independent_hidden_confirmation=False,target_results_included=False)
         reject_private(index);write(out/'VIDEO_INDEX.json',index)
         sources['VIDEO_INDEX.json']=out/'VIDEO_INDEX.json'
@@ -119,20 +142,20 @@ def publish(root,token_file,*,panel=PANEL):
         state=dict(status='UPLOAD_INTENT_UNKNOWN_NO_BLIND_RETRY',repo_id=REPO,prefix=prefix,files=files,actual_videos=len(ids))
         write(out/'TRANSFER.private.json',state)
         revision=api.create_commit(REPO,repo_type='dataset',parent_commit=info.sha,
-            commit_message='Audited BC2048 '+suffix+' successes and valid negatives',
+            commit_message='Audited '+scope['tag']+' actual source videos with original outcome classes',
             operations=[CommitOperationAdd(path_in_repo=prefix+'/'+n,path_or_fileobj=str(sources[n])) for n in files]).oid
         state.update(status='PAYLOAD_COMMITTED_READBACK_PENDING',data_revision=revision);write(out/'TRANSFER.private.json',state)
         def download(*args,**kwargs):return hf_hub_download(*args,**kwargs,local_dir=out/'small-readback')
         verify_remote(api,REPO,prefix,revision,files,download,token)
-        ready=dict(status='READY_ACTUAL_AUDITED_SBC2048_'+suffix+'_VIDEOS',parent_run=root.name,
+        ready=dict(status='READY_ACTUAL_AUDITED_'+scope['tag']+'_VIDEOS',parent_run=root.name,
             actual_videos=len(ids),files=files,data_revision=revision,private=False,READY_uploaded_last=True)
         write(out/'READY.json',ready)
         final=api.create_commit(REPO,repo_type='dataset',parent_commit=revision,
-            commit_message='READY after exact BC2048 '+suffix+' video hash readback',
+            commit_message='READY after exact '+scope['tag']+' video hash readback',
             operations=[CommitOperationAdd(path_in_repo=prefix+'/READY.json',path_or_fileobj=str(out/'READY.json'))]).oid
         final_files=dict(files,**{'READY.json':dict(bytes=(out/'READY.json').stat().st_size,sha256=sha(out/'READY.json'))})
         verify_remote(api,REPO,prefix,final,final_files,download,token)
-        state.update(status='PASS_PUBLIC_SBC2048_'+suffix+'_VIDEOS_FIXED_REVISION_READBACK',revision=final,
+        state.update(status='PASS_PUBLIC_'+scope['tag']+'_VIDEOS_FIXED_REVISION_READBACK',revision=final,
             READY_sha256=sha(out/'READY.json'),READY_uploaded_last=True,payload_bytes=sum(v['bytes'] for v in files.values()))
         write(out/'TRANSFER.private.json',state);return state
     finally:
@@ -141,7 +164,7 @@ def publish(root,token_file,*,panel=PANEL):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--existing-token-file',required=True);p.add_argument('--panel',choices=[PANEL,DEV_PANEL],default=PANEL);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--existing-token-file',required=True);p.add_argument('--panel',choices=[PANEL,DEV_PANEL,CORR_PANEL],default=PANEL);a=p.parse_args()
     def expire(signum,frame):raise TimeoutError('ORIGINAL_SOURCE_VIDEO_DELIVERY_1800S_WALL')
     signal.signal(signal.SIGALRM,expire)
     value=publish(a.root,a.existing_token_file,panel=a.panel);print(json.dumps({k:value[k] for k in ['status','revision','prefix','actual_videos','payload_bytes']}),flush=True)

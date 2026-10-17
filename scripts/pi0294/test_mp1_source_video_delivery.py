@@ -4,7 +4,7 @@ import tempfile
 import unittest
 
 from scripts.pi0294.native_dataset import sha
-from .mp1.source_video_delivery import IDS,PANEL,DEV_IDS,DEV_PANEL,audited_movies,delivery_scope
+from .mp1.source_video_delivery import IDS,PANEL,DEV_IDS,DEV_PANEL,CORR_IDS,CORR_PANEL,audited_movies,delivery_scope
 
 
 def put(p,value):
@@ -14,10 +14,13 @@ def put(p,value):
 def fixture(root,panel=PANEL):
     scope=delivery_scope(panel);ids=scope['ids'];split=scope['split']
     child=root/'children/source-pair-01'
-    put(child/'plans/SOURCE_EVALUATION_PLAN.json',dict(schema='MP1_FIRST_SOURCE_PAIR_FIXED_DEVELOPMENT_V1',panels={panel:dict(attempt_ids=ids,checkpoint_step=2048,split=split,teacher_takeover=False)}))
+    put(child/'plans/SOURCE_EVALUATION_PLAN.json',dict(schema='MP1_FIRST_SOURCE_PAIR_FIXED_DEVELOPMENT_V1',panels={panel:dict(attempt_ids=scope['plan_ids'],checkpoint_step=scope['step'],split=split,teacher_takeover=False)}))
     put(child/'RESOURCE_LEDGER.json',dict(reservations={'UNRELATED_DEV_CASE':{'maximum':200}}))
     for i,name in enumerate(ids):
         decision=dict(attempt_id=name,status='VALID_TASK_FAIL' if i==2 else 'SUCCESS',failure_stage='S1_PRE_EXECUTION_REJECT' if i==2 else 'COMPLETE_SUCCESS',model=panel,split=split,pipeline_trustworthy=True,teacher_takeover=False,live_native_failures=0,task='T1' if i%2==0 else 'T2',scene_group=split+'/F'+str(i//2)+'/000',duration_s=1.2 if i==2 else 32,RGB_pairs=25 if i==2 else 641,S1_rejections=1 if i==2 else 0)
+        if panel==CORR_PANEL:
+            decision.update(status='ENGINEERING_INCOMPLETE' if i>=2 else 'VALID_TASK_FAIL',
+                pipeline_trustworthy=i<2,task='T1' if i!=1 else 'T2')
         put(child/'episodes'/name/'MP1_ADJUDICATION.json',decision)
         put(child/'worker_processes'/(name+'.json'),dict(pid=999999999,proc_start='0'))
         folder=child/'evidence/audits'/name;folder.mkdir(parents=True)
@@ -27,6 +30,36 @@ def fixture(root,panel=PANEL):
 
 
 class SourceVideoTests(unittest.TestCase):
+    def test_partial_CORR_snapshot_preserves_engineering_class_and_does_not_fill_missing_case(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);fixture(root,CORR_PANEL);before={str(p):sha(p) for p in root.rglob('*') if p.is_file()}
+            rows,files,sources=audited_movies(root,panel=CORR_PANEL)
+            self.assertEqual([r['id'] for r in rows],CORR_IDS)
+            self.assertEqual(sum(r['qualified_policy_outcome'] for r in rows),2)
+            self.assertEqual(sum(r['engineering_incomplete'] for r in rows),2)
+            self.assertEqual(sum(r['independent_new_condition'] for r in rows),3)
+            self.assertFalse(any(r['task_success'] for r in rows))
+            self.assertFalse(delivery_scope(CORR_PANEL)['complete_panel'])
+            self.assertNotIn(delivery_scope(CORR_PANEL)['plan_ids'][-1],[r['id'] for r in rows])
+            self.assertEqual(len(files),len(sources));self.assertEqual(len(files),4)
+            self.assertEqual(before,{str(p):sha(p) for p in root.rglob('*') if p.is_file()})
+
+    def test_partial_CORR_snapshot_rejects_relabelled_outcome_fault_or_wrong_fixed_step(self):
+        for defect in ['qualified_partial','policy_fail','native_fault','wrong_step','wrong_plan']:
+            with self.subTest(defect=defect),tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp);child=fixture(root,CORR_PANEL)
+                if defect in ['wrong_step','wrong_plan']:
+                    p=child/'plans/SOURCE_EVALUATION_PLAN.json';v=json.loads(p.read_text())
+                    if defect=='wrong_step':v['panels'][CORR_PANEL]['checkpoint_step']=2048
+                    else:v['panels'][CORR_PANEL]['attempt_ids']=CORR_IDS
+                else:
+                    p=child/'episodes'/CORR_IDS[2]/'MP1_ADJUDICATION.json';v=json.loads(p.read_text())
+                    if defect=='qualified_partial':v['pipeline_trustworthy']=True
+                    elif defect=='policy_fail':v.update(status='VALID_TASK_FAIL',pipeline_trustworthy=True)
+                    else:v['live_native_failures']=1
+                put(p,v)
+                with self.assertRaises(PermissionError):audited_movies(root,panel=CORR_PANEL)
+
     def test_complete_exposed_DEV8_has_distinct_immutable_delivery_scope(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);fixture(root,DEV_PANEL);before={str(p):sha(p) for p in root.rglob('*') if p.is_file()}
