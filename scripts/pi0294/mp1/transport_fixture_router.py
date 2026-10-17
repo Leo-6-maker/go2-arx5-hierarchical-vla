@@ -5,7 +5,7 @@ import re
 import time
 
 from scripts.pi0292.relay_protocol import unseal
-from .transport_fixture import CYCLES,check_query,check_response,packet_identity
+from .transport_fixture import CYCLES,receive_query,check_response,packet_identity
 
 
 def verify_cycle(row,query,response,ack):
@@ -58,7 +58,8 @@ def route(call,plan,registry,emit,*,clock=time.monotonic,now=time.time,sleep=tim
                     or len(raw_request)!=metrics['request_bytes'] or len(raw_response)!=metrics['response_bytes']):
                 raise ValueError('FIXTURE_ENVELOPE_MUST_EQUAL_RECORDED_RAW_WIRE_BYTES')
             wire.append(dict(metrics,role=role));return packet['value']
-        query=invoke('core',dict(operation='observation',sequence=sequence));body=check_query(query,registry,plan,now())
+        query=invoke('core',dict(operation='observation',sequence=sequence))
+        body=receive_query(query,registry,plan,now=now,clock=clock,sleep=sleep)
         if body['query_uuid']!=packet_identity(registry,sequence):raise PermissionError('FIXTURE_QUERY_ID')
         invoke('hopper',dict(operation='query',sequence=sequence,query=query));query_wire=wire[-1]
         while True:

@@ -83,6 +83,22 @@ def check_query(packet,registry,plan,now):
     return q
 
 
+def receive_query(packet,registry,plan,*,now=time.time,clock=time.monotonic,sleep=time.sleep):
+    """Wait for causal receipt, never accept a future or expired timestamp."""
+    body=unseal(packet)
+    q=check_query(packet,registry,plan,body['created_epoch'])
+    started=clock()
+    while True:
+        observed=now()
+        if observed>=q['created_epoch']:
+            return check_query(packet,registry,plan,observed)
+        remaining=1-(clock()-started)
+        if q['created_epoch']-observed>1 or remaining<=0:
+            raise PermissionError('FIXTURE_RECEIVER_CLOCK_DID_NOT_REACH_CREATION_WITHIN_ONE_SECOND')
+        # This consumes the original RPC/query deadlines; no packet is changed.
+        sleep(min(.01,remaining))
+
+
 def response_for(packet,registry,plan,now):
     q=check_query(packet,registry,plan,now)
     return sealed(dict(kind='fixture_checksum_response_no_action',run_uuid=q['run_uuid'],
@@ -175,7 +191,7 @@ class Endpoint:
                     p=self.path('installs',sequence);return read(p) if p.exists() else None
                 if operation!='install' or set(args)!={'operation','sequence','bundle'}:
                     raise PermissionError('ONLY_ISOLATED_CORE_FIXTURE_INSTALL')
-                query=read(self.path('observations',sequence));check_query(query,self.registry,self.plan,self.now())
+                query=read(self.path('observations',sequence));receive_query(query,self.registry,self.plan,now=self.now)
                 body=check_response(args['bundle'],query,self.registry,self.plan)
                 path=self.path('installs',sequence)
                 if path.exists():raise FileExistsError('NEVER_DUPLICATE_FIXTURE_INSTALL')
@@ -188,7 +204,7 @@ class Endpoint:
                 path=self.path('outbox',sequence);return read(path) if path.exists() else None
             if operation=='query':
                 if set(args)!={'operation','sequence','query'}:raise PermissionError('EXACT_FIXTURE_QUERY_FIELDS')
-                query=args['query'];q=check_query(query,self.registry,self.plan,self.now())
+                query=args['query'];q=receive_query(query,self.registry,self.plan,now=self.now)
                 if q['sequence']!=sequence:raise ValueError('FIXTURE_QUERY_SEQUENCE_MISMATCH')
                 path=self.path('inbox',sequence)
                 if path.exists():raise FileExistsError('NEVER_REQUERY_FIXTURE_UNKNOWN_OR_KNOWN_EFFECT')
@@ -228,7 +244,7 @@ class Pump:
         if self.next>=CYCLES:return
         path=inside(self.folder,'inbox/'+str(self.next).zfill(3)+'.json')
         if not path.exists():return
-        self.guard();query=read(path);q=check_query(query,self.registry,self.plan,time.time())
+        self.guard();query=read(path);q=receive_query(query,self.registry,self.plan)
         if q['sequence']!=self.next:raise ValueError('CONTIGUOUS_EIGHTY_NATIVE_FIXTURE_QUERIES')
         intent=inside(self.folder,'compute-intents/'+path.name);response=inside(self.folder,'outbox/'+path.name)
         if intent.exists() or response.exists():raise PermissionError('UNKNOWN_FIXTURE_COMPUTE_EFFECT_NO_REPLAY')

@@ -170,6 +170,15 @@ class TransportFixtureTests(unittest.TestCase):
         self.assertTrue(all(row['physical_installs']==0 for row in rows))
         self.assertLess(self.plan['RGB_payload_bytes'],65536)
 
+    def test_eighty_cycles_with_ahead_core_clock_keep_original_receiver_and_ttl_checks(self):
+        self.core.now=lambda:time.time()+.068
+        rows=route(self.call,self.plan,self.registry,lambda row:None)
+        self.assertEqual(len(rows),80);self.assertEqual(self.pump.next,80)
+        self.assertEqual(self.pump.completed(),rows)
+        self.assertEqual(len(list((self.core.folder/'installs').glob('*.json'))),80)
+        for path in (self.core.folder/'observations').glob('*.json'):
+            body=read(path)['body'];self.assertEqual(body['expires_epoch'],body['created_epoch']+60)
+
     def test_duplicate_query_install_and_completion_never_repeat_effect(self):
         query=self.core.invoke(dict(operation='observation',sequence=0));self.hopper.invoke(dict(operation='query',sequence=0,query=query));self.pump.poll()
         response=self.hopper.invoke(dict(operation='response',sequence=0));self.core.invoke(dict(operation='install',sequence=0,bundle=response))
@@ -193,6 +202,36 @@ class TransportFixtureTests(unittest.TestCase):
         for args in [dict(operation='install',sequence=0,bundle={},teacher={}),dict(operation='observation',sequence=0,episode='policy')]:
             with self.assertRaises(PermissionError):self.core.invoke(args)
         self.assertEqual(len(list((self.core.folder/'installs').glob('*.json'))),0)
+
+    def test_receiver_waits_for_causal_time_without_resealing_or_extending_ttl(self):
+        packet=self.core.invoke(dict(operation='observation',sequence=0));original=deepcopy(packet)
+        created=packet['body']['created_epoch'];elapsed=[0.];waits=[]
+        def sleep(seconds):
+            waits.append(seconds);elapsed[0]+=seconds
+        with self.assertRaises(PermissionError):fixture.check_query(packet,self.registry,self.plan,created-.068)
+        result=fixture.receive_query(packet,self.registry,self.plan,now=lambda:created-.068+elapsed[0],
+            clock=lambda:elapsed[0],sleep=sleep)
+        self.assertEqual(result,packet['body']);self.assertEqual(packet,original)
+        self.assertGreaterEqual(elapsed[0],.068);self.assertLess(elapsed[0],.08)
+        self.assertTrue(waits);self.assertEqual(packet['body']['expires_epoch'],created+60)
+
+    def test_receiver_clock_hold_is_bounded_and_never_accepts_future_or_expired(self):
+        packet=self.core.invoke(dict(operation='observation',sequence=0));created=packet['body']['created_epoch']
+        elapsed=[0.];waits=[]
+        def sleep(seconds):
+            waits.append(seconds);elapsed[0]+=seconds
+        with self.assertRaises(PermissionError):
+            fixture.receive_query(packet,self.registry,self.plan,now=lambda:created-.1,
+                clock=lambda:elapsed[0],sleep=sleep)
+        self.assertLessEqual(elapsed[0],1);self.assertTrue(waits)
+        for sample in [created-2,created+60,created+61]:
+            with self.subTest(receiver_time=sample),self.assertRaises(PermissionError):
+                fixture.receive_query(packet,self.registry,self.plan,now=lambda:sample,
+                    sleep=lambda _:self.fail('Invalid time must fail without waiting'))
+        malformed=deepcopy(packet['body']);malformed['run_uuid']='other'
+        with self.assertRaises(PermissionError):
+            fixture.receive_query(sealed(malformed),self.registry,self.plan,now=lambda:created-.1,
+                sleep=lambda _:self.fail('Invalid identity must fail before waiting'))
 
     def test_wire_record_corruption_is_not_a_successful_transport_cycle(self):
         def corrupt(role,args):
