@@ -15,6 +15,7 @@ from scripts.pi0294.e0_scope import pbs_epoch
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.e1.pbs_owner import native,project_proof
 from .science import validate_runtime,Ledger
+from .recovery_config import limits
 
 
 def old_scope_closed(root):
@@ -32,18 +33,19 @@ def no_overlap():
 def prepare(root):
     root=Path(root);m=validate_runtime(root,'hopper-neural');old_scope_closed(root);no_overlap()
     a=read(root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json');l=read(root/'HOPPER_RESOURCE_LEDGER.json')
-    if (time.time()>=a['new_submission_and_candidate_cutoff_epoch'] or len(l['PBS_submissions'])>=4 or l['GPU_reserved_s']
+    bound=limits(read(root/'MP1_STAGE_BINDING.json'))
+    if (time.time()>=a['new_submission_and_candidate_cutoff_epoch'] or len(l['PBS_submissions'])>=bound['PBS'] or l['GPU_reserved_s']
             or any(v['status']!='NATIVE_TERMINAL' for v in l['PBS_submissions'])):raise PermissionError('MP1_NEW_SUBMISSION_CLOCK_AND_PRIOR_TERMINALS')
-    wall=min(14400,(43200-l['GPU_allocated_s'])//60*60)
+    wall=min(14400,(bound['GPU_s']-l['GPU_allocated_s'])//60*60)
     if wall<=2760:raise PermissionError('MP1_PRESERVE_45_MIN_ALLOCATION_CLOSEOUT')
-    used=int(subprocess.check_output(['du','-s','-B1',str(root)],text=True,timeout=30).split()[0]);upper=140*1024**3
+    used=int(subprocess.check_output(['du','-s','-B1',str(root)],text=True,timeout=30).split()[0]);upper=bound['output_bytes']
     if used>upper:raise PermissionError('MP1_SOURCE_STUDY_OUTPUT_ESTIMATE_REQUIRES_EVIDENCED_REBINDING')
     additional=max(8*1024**3,upper-used);q=personal_quota(os.environ['USER'])
     if not 0<=time.time()-q['report_epoch']<=900 or q['hard_bytes']-q['used_bytes']<additional:raise PermissionError('MP1_NATIVE_QUOTA_FOR_NEW_SOURCE_OUTPUT')
     number=len(l['PBS_submissions'])+1;d=root/'pbs'/('alloc-'+str(number).zfill(2));d.mkdir(mode=0o700)
     write(d/'PROJECT_ADMISSION.private.json',project_proof(root));b=read(root/'NEURAL_BINDINGS.private.json');code=root/m['code']['capsule_relative']
     names=list(m['execution']['sealed_inputs'])+['NEURAL_BINDINGS.private.json','plans/OLD_E1_BINDING.private.json']
-    r=dict(run_uuid=root.name,source_sha=m['code']['vla_commit'],run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),mode='MP1_FIXED_SOURCE_PAIR',
+    r=dict(run_uuid=root.name,source_sha=m['code']['vla_commit'],run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),mode=bound['mode'],
         numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',sealed_inputs={n:sha(root/n) for n in sorted(set(names))},submit_count=number,
         prior_GPU_allocated_s=l['GPU_allocated_s'],walltime_s=wall,additional_output_upper_bytes=additional,created_epoch=time.time(),python=b['python'],
         project_admission_relative=str((d/'PROJECT_ADMISSION.private.json').relative_to(root)),project_admission_sha256=sha(d/'PROJECT_ADMISSION.private.json'),request_nonce=str(uuid.uuid4()))
@@ -66,9 +68,10 @@ def submit(root):
     try:
         with ledger.transaction() as l:
             number=len(l['PBS_submissions'])+1;d=root/'pbs'/('alloc-'+str(number).zfill(2));r=read(d/'REQUEST.json');a=read(root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
-            if (number>4 or r['submit_count']!=number or l['GPU_reserved_s'] or any(v['status']!='NATIVE_TERMINAL' for v in l['PBS_submissions'])
+            bound=limits(read(root/'MP1_STAGE_BINDING.json'))
+            if (number>bound['PBS'] or r['submit_count']!=number or r['mode']!=bound['mode'] or l['GPU_reserved_s'] or any(v['status']!='NATIVE_TERMINAL' for v in l['PBS_submissions'])
                     or time.time()>=a['new_submission_and_candidate_cutoff_epoch'] or l['GPU_allocated_s']!=r['prior_GPU_allocated_s']
-                    or l['GPU_allocated_s']+r['walltime_s']>43200 or time.time()-read(d/'PROJECT_ADMISSION.private.json')['observed_epoch']>=900):
+                    or l['GPU_allocated_s']+r['walltime_s']>bound['GPU_s'] or time.time()-read(d/'PROJECT_ADMISSION.private.json')['observed_epoch']>=900):
                 raise PermissionError('MP1_SINGLE_FRESH_NATIVE_INTENT_WITHIN_RESERVED_STUDY_BUDGET')
             item=dict(status='QSUB_INTENT_OUTCOME_UNKNOWN_NO_RETRY',request_id=d.name,started_epoch=time.time(),walltime_s=r['walltime_s'])
             l['PBS_submissions'].append(item);l['GPU_reserved_s']=r['walltime_s'];write(ledger.path,l)
@@ -111,7 +114,7 @@ def settle(root):
             item.update(status='NATIVE_TERMINAL',native_exit_status=j.get('Exit_status'),native_allocated_wall_s=wall,GPU_conservative_charge_s=upper)
             rows.append(dict(job_id=item['job_id'],GPU_native_s=wall,GPU_conservative_s=upper,exit_status=j.get('Exit_status')))
         total=sum(v['GPU_conservative_s'] for v in rows)
-        if total>43200:raise PermissionError('MP1_SOURCE_STUDY_ALLOCATION_CAP_EXCEEDED_PRESERVE_ACTUAL')
+        if total>limits(read(root/'MP1_STAGE_BINDING.json'))['GPU_s']:raise PermissionError('MP1_SOURCE_STUDY_ALLOCATION_CAP_EXCEEDED_PRESERVE_ACTUAL')
         l.update(GPU_allocated_s=total,GPU_reserved_s=0)
     value=dict(status='MP1_SOURCE_NATIVE_ALLOCATIONS_SETTLED',rows=rows,GPU_conservative_s=total)
     write(root/'evidence'/('GPU_SETTLEMENT_'+str(len(rows))+'.json'),value);return value

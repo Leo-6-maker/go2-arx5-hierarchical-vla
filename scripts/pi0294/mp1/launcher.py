@@ -8,6 +8,7 @@ import time
 from scripts.pi0292.durable import read,write
 from scripts.pi0294.native_dataset import sha
 from .science import validate_runtime
+from .recovery_config import limits
 
 
 def run(root,request_path):
@@ -18,9 +19,10 @@ def run(root,request_path):
         if time.time()-started>=180:raise TimeoutError('MP1_OWNER_RELEASE_NOT_READY_NO_IDLE_MODEL')
         time.sleep(.2)
     v=read(directory/'START_NEURAL.json');r=read(request_path)
-    if v['run_uuid']!=root.name or v['job_id']!=job or v['request_sha256']!=sha(request_path) or r['mode']!='MP1_FIXED_SOURCE_PAIR':
+    if v['run_uuid']!=root.name or v['job_id']!=job or v['request_sha256']!=sha(request_path) or r['mode']!=limits(read(root/'MP1_STAGE_BINDING.json'))['mode']:
         raise PermissionError('MP1_EXACT_BOUND_NATIVE_RELEASE')
-    return subprocess.run([r['python'],'-m','scripts.pi0294.mp1.neural','--root',str(root),'--request',str(request_path)],check=False).returncode
+    module='scripts.pi0294.mp1.recovery_neural' if r['mode']=='MP1_FIXED_E1_EVAL_RECOVERY' else 'scripts.pi0294.mp1.neural'
+    return subprocess.run([r['python'],'-m',module,'--root',str(root),'--request',str(request_path)],check=False).returncode
 
 
 if __name__=='__main__':

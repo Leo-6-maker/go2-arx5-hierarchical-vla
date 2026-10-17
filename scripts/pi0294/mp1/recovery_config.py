@@ -1,0 +1,47 @@
+"""Fixed existing-model evaluation recovery, charged only to the adopted MP1."""
+SCHEMA='MP1_E1_EVAL_RECOVERY_STAGE_V1'
+MODE='MP1_FIXED_E1_EVAL_RECOVERY'
+CAPS=dict(main_starts=16,recovery_forks=0,live_and_recovery_integrations=256000,
+    shadow_integrations=256000,generation_queries=1280,optimizer_updates=0)
+CPU_CAPS=dict(core=43200,hopper=28800)
+GPU_CAP=21600
+PBS_CAP=2
+CHECKPOINTS={'M2-BC':'edc0f390776056f9b22cd07d152c8fd5e273556f1d242f8e4f220b3034f9ffe6',
+    'M2-CORR':'5275bb0c188a1d2148418d0cd7593dd712d2563e74b1907148563e5582a01f9a'}
+
+
+def is_recovery(stage):return stage.get('schema')==SCHEMA
+
+
+def limits(stage):
+    return dict(mode=MODE,GPU_s=GPU_CAP,PBS=PBS_CAP,output_bytes=2*1024**3) if is_recovery(stage) else dict(
+        mode='MP1_FIXED_SOURCE_PAIR',GPU_s=43200,PBS=4,output_bytes=140*1024**3)
+
+
+def validate_checkpoint_bindings(bindings):
+    if set(bindings)!=set(CHECKPOINTS):raise PermissionError('ONLY_TWO_FIXED_EXISTING_M2_CHECKPOINTS')
+    for label,digest in CHECKPOINTS.items():
+        v=bindings[label]
+        if v['checkpoint_manifest_sha256']!=digest or v['global_step']!=512:
+            raise PermissionError('ORIGINAL_M2_512_WEIGHTS_NO_TRAINING_OR_REPLACEMENT')
+
+
+def plan(cards,prior):
+    layouts={'PI0294/TRAIN/F0/000','PI0294/TRAIN/F1/000'}
+    if len(cards)!=4 or {(c['scene_group'],c['task']) for c in cards}!={(s,t) for s in layouts for t in ['T1','T2']} or any(c['split']!='TRAIN' for c in cards):
+        raise PermissionError('ONLY_ORIGINAL_TRAIN4_NO_DEV')
+    panels={}
+    for model in CHECKPOINTS:
+        originals=[r for r in prior if r['model'] in [model,model+'-REMAINDER-03']]
+        if any(r['pipeline_trustworthy'] or r['status']!='ENGINEERING_INCOMPLETE' or r['live_native_failures'] for r in originals):
+            raise PermissionError('NO_REPLAY_VALID_OR_UNRESOLVED_SAFETY_OUTCOME')
+        label='E1REC-'+model+'-512-TRAIN4';rows=[]
+        for original in sorted(cards,key=lambda c:(c['scene_group'],c['task'])):
+            c={k:v for k,v in original.items() if not k.startswith(('relay_request_','e1_','mp1_'))}
+            c.update(id='PI0294-MP1-'+label+'-'+c['scene_group'].split('/')[-2]+'-000-'+c['task'],mp1_model_label=label)
+            rows.append(c)
+        panels[label]=dict(branch=model,checkpoint_step=512,split='TRAIN',cards=rows,teacher_takeover=False,
+            original_S1=True,complete_task_duration_s=32,prior_E1_outcomes_preserved=True)
+    return dict(schema='MP1_EXISTING_E1_M2_EVALUATION_RECOVERY_V1',panels=panels,regular_starts=8,
+        engineering_replacement_per_condition_max=1,optimizer_updates=0,valid_policy_outcomes_repeated=False,
+        original_action_seed_namespace='PI0294',new_DEV_labels=False,independent_confirmation_included=False)

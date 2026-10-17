@@ -10,15 +10,17 @@ from scripts.pi0292.durable import read,write
 from scripts.pi0294.e0_scope import pbs_epoch,inside
 from scripts.pi0294.native_dataset import sha
 from .science import validate_runtime
+from .recovery_config import limits
 
 
 def request_contract(root,request,manifest,ledger,now):
     root=Path(root);a=read(root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
+    p=root/'MP1_STAGE_BINDING.json';bound=limits(read(p) if p.exists() else {})
     if (request['run_uuid']!=root.name or request['source_sha']!=manifest['code']['vla_commit']
             or request['run_manifest_sha256']!=sha(root/'RUN_MANIFEST.json')
-            or request['mode']!='MP1_FIXED_SOURCE_PAIR' or request['numerical_mode']!='DETERMINISTIC_CUDA_MATH_SDP_V1'
-            or not 1<=request['submit_count']<=4 or not 2760<request['walltime_s']<=14400
-            or request['walltime_s']+request['prior_GPU_allocated_s']>43200
+            or request['mode']!=bound['mode'] or request['numerical_mode']!='DETERMINISTIC_CUDA_MATH_SDP_V1'
+            or not 1<=request['submit_count']<=bound['PBS'] or not 2760<request['walltime_s']<=14400
+            or request['walltime_s']+request['prior_GPU_allocated_s']>bound['GPU_s']
             or not a['T0_epoch']<=now<a['new_experiment_cutoff_epoch']
             or not a['T0_epoch']<=request['created_epoch']<a['new_submission_and_candidate_cutoff_epoch']):
         raise PermissionError('MP1_FIXED_SOURCE_NATIVE_REQUEST_AND_CLOCK')

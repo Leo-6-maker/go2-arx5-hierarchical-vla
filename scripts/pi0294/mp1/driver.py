@@ -98,6 +98,7 @@ def routes(remote,base,session,ready,start_worker,transport):
         def response(self,c,q):return rpc('hopper',dict(operation='response',episode=c['episode_uuid'],query_uuid=q))
     core,hopper=Core(),Hopper()
     for case in sorted(registry['cases'].values(),key=lambda c:c['panel_index']):
+        if any(getattr(s,'failed',False) for s in getattr(transport,'sessions',{}).values()):raise PermissionError('MP1_POISONED_CHANNEL_NO_NEXT_PHYSICAL_CASE')
         if time.time()+900>=registry['deadline_epoch']:break
         args=['--card','plans/'+session+'/cards/'+case['attempt_id']+'.json']
         journal.once('start-'+case['attempt_id'],dict(attempt_id=case['attempt_id']),lambda:start_worker('scripts.pi0294.mp1.core',case['attempt_id'],args))

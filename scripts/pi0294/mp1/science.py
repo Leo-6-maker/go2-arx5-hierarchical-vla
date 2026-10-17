@@ -10,6 +10,7 @@ from scripts.pi0294.e1.control_read import read
 from scripts.pi0294.e1.scope import Ledger as FileLedger,DATA,STATS,S1_PROOF
 from scripts.pi0294.native_dataset import sha
 from .scope import AUTHORITY,CARD_SHA
+from . import recovery_config as recovery
 
 CAPS=dict(main_starts=64,recovery_forks=0,live_and_recovery_integrations=2048000,shadow_integrations=2048000,
     generation_queries=4000,optimizer_updates=4096)
@@ -26,17 +27,19 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
             or a['new_submission_and_candidate_cutoff_epoch']!=a['T0_epoch']+144*3600
             or a['new_experiment_cutoff_epoch']!=a['T0_epoch']+160*3600 or a['hard_closeout_epoch']!=a['T0_epoch']+168*3600
             or not a['T0_epoch']<=now<(a['hard_closeout_epoch'] if closeout else a['new_experiment_cutoff_epoch'])):raise PermissionError('MP1_ACTUAL_SINGLE_INCREMENTAL_AUTHORITY_AND_CLOCK')
-    if (stage['schema']!='MP1_SOURCE_SHARED_STAGE_V1' or stage['resource_family']!='MP1' or stage['parent_run_uuid']!=parent.name
-            or stage['run_uuid']!=root.name or stage['authority_release']!=AUTHORITY or stage['stage_caps']!=CAPS
+    recovered=recovery.is_recovery(stage);caps=recovery.CAPS if recovered else CAPS;cpu_caps=recovery.CPU_CAPS if recovered else CPU_CAPS
+    if (stage['schema'] not in ['MP1_SOURCE_SHARED_STAGE_V1',recovery.SCHEMA] or stage['resource_family']!='MP1' or stage['parent_run_uuid']!=parent.name
+            or stage['run_uuid']!=root.name or stage['authority_release']!=AUTHORITY or stage['stage_caps']!=caps
             or stage['source_data_sha256']!=DATA or stage['statistics_sha256']!=STATS
-            or stage['models']!=['S-BC','S-CORR'] or stage['updates_per_branch']!=2048
-            or stage['training_seed']!=20261017 or stage['teacher_takeover'] is not False
-            or stage['new_DEV_labels'] is not False or stage['CPU_core_s']!=CPU_CAPS
-            or stage['allocated_H200_s_max']!=43200 or stage['PBS_submissions_max']!=4):raise PermissionError('MP1_FIXED_FIRST_SOURCE_PAIR_SCOPE')
+            or stage['models']!=(['M2-BC','M2-CORR'] if recovered else ['S-BC','S-CORR']) or stage['updates_per_branch']!=(0 if recovered else 2048)
+            or stage['training_seed']!=('NOT_APPLICABLE_NO_TRAINING' if recovered else 20261017) or stage['teacher_takeover'] is not False
+            or stage['new_DEV_labels'] is not False or stage['CPU_core_s']!=cpu_caps
+            or stage['allocated_H200_s_max']!=(recovery.GPU_CAP if recovered else 43200) or stage['PBS_submissions_max']!=(recovery.PBS_CAP if recovered else 4)):
+        raise PermissionError('MP1_FIXED_STUDY_OR_EXISTING_MODEL_RECOVERY_SCOPE')
     manifest=Path(os.environ.get('MP1_RUN_MANIFEST',root/'RUN_MANIFEST.json'));m=read(manifest);b=read(root/'OUTPUT_BINDING.private.json')
     compute=profile=='hopper-neural' and os.environ.get('PBS_JOBID') and socket.gethostname().startswith('hopper-')
     if (m['schema']!='RUN_MANIFEST_V1' or m['run_uuid']!=root.name or m['owner']!='EXISTING_LOCAL_PC'
-            or m['authority']['protocol_ref']!=AUTHORITY or m['scope']!='MP1_SOURCE_SHARED_STUDY'
+            or m['authority']['protocol_ref']!=AUTHORITY or m['scope']!=('MP1_EXISTING_E1_MODEL_EVALUATION_RECOVERY' if recovered else 'MP1_SOURCE_SHARED_STUDY')
             or m['execution']['profile']!=profile or m['execution']['uid']!=os.getuid()
             or not (socket.gethostname() in m['execution']['hostnames'] or compute)
             or m['execution']['stage_binding_sha256']!=sha(root/'MP1_STAGE_BINDING.json')
@@ -70,12 +73,13 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
 class Ledger(FileLedger):
     def __init__(self,root,role):
         super().__init__(root,role)
-        if read(self.root/'MP1_STAGE_BINDING.json')['stage_caps']!=CAPS:raise PermissionError('MP1_EXACT_SOURCE_STUDY_COUNTERS')
+        stage=read(self.root/'MP1_STAGE_BINDING.json');self.caps=recovery.CAPS if recovery.is_recovery(stage) else CAPS
+        if stage['stage_caps']!=self.caps:raise PermissionError('MP1_EXACT_SOURCE_STUDY_COUNTERS')
 
     def charge(self,key,count):
-        if type(count) is not int or count<0 or key not in CAPS:raise ValueError('MP1_EXACT_POSITIVE_RESOURCE_CHARGE')
+        if type(count) is not int or count<0 or key not in self.caps:raise ValueError('MP1_EXACT_POSITIVE_RESOURCE_CHARGE')
         with self.transaction() as l:
-            if l.get(key,0)+count>CAPS[key]:raise PermissionError('MP1_SOURCE_STAGE_CAP:'+key)
+            if l.get(key,0)+count>self.caps[key]:raise PermissionError('MP1_SOURCE_STAGE_CAP:'+key)
             l[key]=l.get(key,0)+count
 
     @contextmanager
@@ -83,7 +87,7 @@ class Ledger(FileLedger):
         if kind not in ['live_and_recovery_integrations','shadow_integrations'] or type(maximum) is not int or maximum<=0:raise ValueError('MP1_EXACT_PHYSICS_RESERVATION')
         with self.transaction() as l:
             pending=l.setdefault('reservations',{});same=sum(v['maximum'] for v in pending.values() if v['kind']==kind)
-            if identifier in pending or l.get(kind,0)+same+maximum>CAPS[kind]:raise PermissionError('MP1_PRESERVE_PRIOR_OR_EXCESS_PHYSICS_INTENT')
+            if identifier in pending or l.get(kind,0)+same+maximum>self.caps[kind]:raise PermissionError('MP1_PRESERVE_PRIOR_OR_EXCESS_PHYSICS_INTENT')
             pending[identifier]=dict(kind=kind,maximum=maximum,started_epoch=time.time())
         meter=dict(actual=0)
         try:yield meter
