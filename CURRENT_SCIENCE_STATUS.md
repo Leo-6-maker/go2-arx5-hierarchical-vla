@@ -1,5 +1,14 @@
 # Current Science Status
 
+**Latest native progress and reader correction:** [same fifth job still running; reader03 terminal](reports/PI0294/20261016T191445Z-localpc-mp1/N1_READONLY_READER_TERMINAL_AND_SOURCE05_PROGRESS.json).
+673008R,CORR1828/2048,one legitimate in-flight update,fivePBS,original4h.
+No sixth/restart/hot code change. Reader03's previous live snapshot is
+superseded: actual read-only SSH child SIGPIPE(-13),empty output,no blind
+retry,zero audit intents;540CPU upper settled,reserve0. Pipe cause remains
+unknown. Independent Core metadata read later succeeded;not endurance.
+F1/T2 midpoint replacement remains an audited S1 negative,F1/T1 spent.
+Endpoint/full paired science and nativeN1 qualification remain pending.
+
 **Latest actual control repair:** [read-only serial auditor recovered without restarting science](reports/PI0294/20261016T191445Z-localpc-mp1/N1_READONLY_SERIAL_AUDITOR_ESTALE_RECOVERY.json).
 Reader01 had actualNFS116 metadata failure,not a policy or neural failure;
 its one complete audit retained. Reader02 failed local import protection

@@ -1,5 +1,17 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest live readback: fifth science job continues; audit reader03 is terminal.**
+[Native progress and explicit correction of the reader's earlier live snapshot](reports/PI0294/20261016T191445Z-localpc-mp1/N1_READONLY_READER_TERMINAL_AND_SOURCE05_PROGRESS.json).
+Same673008 remainsR,CORR1828/2048 with one legitimate in-flight update;
+five submissions,original4h request,no sixth or controller/model restart.
+Reader03 stopped on an unclassified read-only SSH process SIGPIPE(-13),
+not a policy failure;zero new audit intents,540CPU upper settled,reserve0.
+Underlying pipe cause is not established and no replacement was launched.
+A subsequent independent Core read succeeded and preserved the already
+audited F1/T2 negative;it is not endurance proof. F1/T1 remains spent.
+The reader-live paragraph below is a historical snapshot,not current state.
+CORR endpoint,paired evaluation and nativeN1 endurance remain pending.
+
 **Latest actual control repair:read-only serial audit pipeline restored.**
 [ESTALE terminal,prestart import rejection and verified replacement reader](reports/PI0294/20261016T191445Z-localpc-mp1/N1_READONLY_SERIAL_AUDITOR_ESTALE_RECOVERY.json).
 Original reader01 exited on actualNFS Errno116;its completed F1/T2 audit and
