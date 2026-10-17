@@ -24,6 +24,14 @@ Complete independentCORR and matched exposure before mechanism/candidate
 selection. Final four review deliverables remain incomplete;TF-R3STOP,
 VandaCLOSED_NOT_RUN and selected/deploymentNONE remain unchanged.
 
+[BC2048 final raw-event audit is complete](reports/PI0294/20261016T191445Z-localpc-mp1/BC2048_FINAL_RAW_EVENT_EXPOSURE.json):
+all65536 actual visits join126 hash-verified raw timelines. T1 sampled prefix8
+covers96/96 close,95/96 open,95/96 withdraw events;all events occur in sampled
+H40 supervision. T2 detach/withdraw both30/30,so wholesale missing event
+supervision does not explain its1/4 DEV result. Coverage is not action accuracy
+or safety margin. No sampler change/new query/physics;auditor terminal20.477
+Hopper CPU seconds,reservations0. CORR comparison and mechanism choice remain.
+
 ## Previous Complete TRAIN4 And Video Milestone
 
 **S-BC2048 TRAIN4 is complete:3 successes,1 valid original-S1 failure,no gaps.**

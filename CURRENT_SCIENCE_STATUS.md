@@ -25,6 +25,14 @@ neural inference or guaranteed recoverable GPU idle. CORR endpoint/exposure,
 mechanism decision and final resource closure remain. TF-R3STOP,VandaNOT_RUN,
 WBC/S1 and selected/deploymentNONE stay unchanged.
 
+**B2 terminal BC evidence:** [actual2048 raw-event consumption](reports/PI0294/20261016T191445Z-localpc-mp1/BC2048_FINAL_RAW_EVENT_EXPOSURE.json).
+All65536 visits join126 verified raw timelines. Sampled T1prefix8 covers
+close96/96,open95/96,withdraw95/96;all events have H40 supervision. T2detach
+andwithdraw cover30/30 each despite DEV1/4,so missing event supervision alone
+is not established as the mechanism. No error/safety margin inferred from
+coverage,no sampler change. Auditor terminal20.477CPU seconds,reservation0,
+0newqueries/physics. CORR exposure and matched T2 cursor check remain pending.
+
 ## Previous Complete TRAIN4 And Video Milestone
 
 **Current mainline:** [complete S-BC2048 TRAIN4 and actual public videos](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_COMPLETE_TRAIN4_AND_PUBLIC_VIDEOS.json).
