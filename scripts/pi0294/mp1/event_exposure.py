@@ -174,7 +174,12 @@ def audit(dataset, trace, stop, guard=lambda:None):
 def probe_strata(folder, inventories, manifest, independent_audit):
     """Stratify already independently qualified draws, not generate new ones."""
     folder=Path(folder);path=folder/'ON_EXPERT_RESULTS.json';saved=read(path)
-    if (independent_audit['status']!='PASS_SAVED_CANDIDATE_TRAIN_PROBE_METRICS_INPUTS_NOISE_AND_WEIGHT_IDENTITY'
+    single=independent_audit['status']=='PASS_SAVED_CANDIDATE_TRAIN_PROBE_METRICS_INPUTS_NOISE_AND_WEIGHT_IDENTITY'
+    paired=(independent_audit['status']=='PASS_PAIRED_SAVED_TRAIN_PROBES_IDENTICAL_INPUTS_NOISE_AND_RECOMPUTED_METRICS'
+        and independent_audit.get('windows')==96
+        and independent_audit.get('actual_raw_TRAIN_numeric_state_H40_and_dual_camera_inputs_checked') is True
+        and independent_audit.get('new_model_queries')==independent_audit.get('new_physics')==0)
+    if (not (single or paired)
             or independent_audit['candidate_result_sha256']!=sha(path)
             or saved['complete'] is not True or len(saved['records'])!=96):
         raise PermissionError('EXACT_PRIOR_INDEPENDENTLY_AUDITED_96_DRAW_RESULT')

@@ -113,6 +113,11 @@ class EventExposureTest(unittest.TestCase):
             self.assertEqual(s['queries'],96);self.assertEqual(s['independent_episodes'],1)
             self.assertEqual(s['trajectory_gate_only'],dict(REJECT=96))
             self.assertEqual(s['signed_XYZ_prefix8_episode_macro_mean_m'],[1.,0.,0.])
+            paired=dict(proof,status='PASS_PAIRED_SAVED_TRAIN_PROBES_IDENTICAL_INPUTS_NOISE_AND_RECOMPUTED_METRICS',
+                windows=96,actual_raw_TRAIN_numeric_state_H40_and_dual_camera_inputs_checked=True,new_model_queries=0,new_physics=0)
+            self.assertEqual(probe_strata(folder,inventories,manifest,paired)['draws'],96)
+            with self.assertRaises(PermissionError):
+                probe_strata(folder,inventories,manifest,dict(paired,actual_raw_TRAIN_numeric_state_H40_and_dual_camera_inputs_checked=False))
             proof['candidate_result_sha256']='changed'
             with self.assertRaisesRegex(PermissionError,'PRIOR_INDEPENDENTLY_AUDITED'):
                 probe_strata(folder,inventories,manifest,proof)

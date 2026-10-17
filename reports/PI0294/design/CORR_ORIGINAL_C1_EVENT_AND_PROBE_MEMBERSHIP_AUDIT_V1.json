@@ -1,0 +1,58 @@
+{
+  "schema": "MP1_READONLY_CORR_ACTUAL_EVENT_AND_EXISTING_PROBE_TRAIN_MEMBERSHIP_AUDIT_V1",
+  "status": "AUTHORIZED_EXISTING_REVIEW_CPU_AUDIT_NOT_NEW_SCIENCE_OR_BUDGET",
+  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "adopted_review": "fb16d10142e884df9f6b7d9cbcf951fe70c92044",
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "source_child": "source-pair-01",
+  "original_MP1_T0_epoch": 1792178085,
+  "new_budget_or_clock": false,
+  "input_identity": {
+    "source_bank": "ORIGINAL_V3_0_TRAIN126",
+    "correction_manifest_sha256": "a6c029e3e07f264a08ab47a757eb899b752e350e7a93f1db2dd87c03b88f0052",
+    "fixed_checkpoints_only": [512, 2048],
+    "actual_completed_checkpoint_and_resume_partitions_required": true,
+    "live_prefetch_or_expected_sampler_counts_used_as_consumption": false,
+    "original_source_statistics_and_training_unchanged": true,
+    "existing_student_states": 12,
+    "qualified_actual_same_state_H40_labels": 8,
+    "invalid_initial_labels_still_excluded": 4
+  },
+  "semantics": {
+    "original_expert_events": "ACTUAL_INSTALLED_COMMANDS_AND_RECORDED_TEACHER_STAGE_AGREE",
+    "correction_gripper_events": "THRESHOLD_0_5_CROSSINGS_OF_FROZEN_ACTUAL_COMMITTED_COMMANDS",
+    "correction_detach_withdraw_and_stage": "UNKNOWN_NOT_ZERO_OR_GEOMETRY_INFERENCE",
+    "executed_prefix_indices": [0, 7],
+    "later_H40_supervision_indices": [8, 39],
+    "student_state_definition": "EXACT_CORRECTION_ANCHOR_ZERO_ONLY",
+    "later_state_definition": "EXPERT_AFTER_CORRECTION_ANCHOR",
+    "episode_and_student_parent_and_sample_visit_grain_separate": true,
+    "exact_probe_membership_requires": "ACTUAL_STATE_AND_EXECUTED_EXPERT_H40_AND_CAMERA_SHA_WINDOW_KEY_MATCH",
+    "parent_identity_alone_is_exact_window_membership": false,
+    "specific_probe_S1_or_collision_margin_recomputed": false,
+    "training_membership_is_generalization_evidence": false
+  },
+  "limits": {
+    "Hopper_CPU_seconds_per_checkpoint_audit_max": 1200,
+    "Core_CPU_seconds_for_existing_label_membership_max": 600,
+    "local_CPU_seconds_control_max": 180,
+    "concurrent_cores_per_worker": 1,
+    "all_CPU_charged_to_original_MP1": true,
+    "new_model_or_processor_initializations": 0,
+    "new_neural_queries": 0,
+    "new_physical_or_shadow_integrations": 0,
+    "new_teacher_labels": 0,
+    "new_optimizer_updates": 0,
+    "new_PBS": 0,
+    "extra_formal_conditions_or_retries": 0,
+    "N1_expanded_budget_required_or_consumed": false
+  },
+  "required": [
+    "Native registered immutable CPU worker manifests and exact input/card hashes before dispatch.",
+    "Keep the healthy source05 runtime and all original manifests,checkpoints,STOPs,conditions and counters unchanged.",
+    "Report actual original and correction sample visits,actors,real gripper transitions,missing phase fields and true parent grain separately.",
+    "Reuse only already qualified saved expert/student arrays;no new inference,restoration or teacher execution.",
+    "Perform full member/hash and checkpoint/proof readbacks,settle actual CPU exactly once,and preserve unknown failures without blind retry."
+  ]
+}
