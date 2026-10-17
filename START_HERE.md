@@ -1,5 +1,21 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Science milestone: both2048 endpoints sealed and actual matched consumption audited.**
+[Matched endpoint report; behavior comparison still IN_PROGRESS](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
+CORR2048 complete manifest94ad4d0e,combined4096updates,pending0. Both arms
+have65536actual visits,32768T2cursors and16384retainedT1cursors exactly
+matched;CORR16384C1visits are repeated windows from4parents/8segments,
+not independent demonstrations. Both original1030-tensor M1 inventories/
+recipes match;2048positive projector/DiT gradient records per arm and frozen
+tensors verified. Same-input/noise96TRAIN expert windows plus12historical
+student draws and actual event exposure independently CPU-audited;no new
+model queries. These probes are not task/generalization evidence or the
+new current-eight-anchor NI draws. Full CORR TRAIN4/DEV8 still executing;
+matrix19qualified/32fixed,spent midpointF1/T1gap retained,no final success
+rate/causalDAgger gain/selected model claimed. Same fifth673008/source
+e418bb79 remainsR,original4h/no sixth.84e7cee1 actualCI39066444935 SUCCESS,
+8blobs exact readback;its nativeN1 transport/endurance still NOT_RUN.
+
 **N1 heartbeat capture implemented and CPU-tested; native qualification incomplete.**
 [Endurance/fault-injection ledger, including explicit missing native evidence](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
 Future N1 premodel entry now captures at least600real monotonic seconds/

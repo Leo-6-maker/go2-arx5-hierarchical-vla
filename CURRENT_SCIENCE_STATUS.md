@@ -1,5 +1,17 @@
 # Current Science Status
 
+**Actual scientific milestone, not yet a complete behavior result:** [both2048 endpoints and actual matched consumption](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
+CORR2048 sealed94ad4d0e,combined4096formal updates,pending0. Each arm has
+65536actual visits;32768T2+16384retained originalT1cursors match exactly.
+CORR16384C1visits=8306student-anchor+8078subsequent expert-state visits,
+4parents/8segments,T1only. Same originalM1/recipe/frozen parameters and
+2048positive-gradient records per arm verified. Fixed96expert/12historical
+student outputs and actual event exposure audited,zero newNN/physics.
+Expert-fit metrics are not hiddenDEV or closed-loop success. FullCORR
+TRAIN4/DEV8 executing;matrix19qualified/32,irrecoverable midpoint gap stays.
+Fifth673008R unchanged;no sixth. Goal and nativeN1 qualification incomplete,
+selected/deploymentNONE,WBC/TF-R3STOP unchanged.84e7cee1 actualCI succeeded.
+
 **Native heartbeat producer implemented, not yet deployed or qualified:** [N1 endurance and fault ledger](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
 Future premodel entry requires600s/81real post-read samples,exact same-job
 native identity and immutable raw-journal join;an inline PASS cannot replace
