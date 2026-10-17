@@ -1,5 +1,23 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**The fixed S-BC2048 model now also has an independently audited T2 success.**
+[Actual F0 push success,F1 early valid negative and eight static anchor restores](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_FIRST_T2_SUCCESS_AND_ZERO_STEP_ANCHOR_RESTORE.json).
+F0 T1 and T2 each complete32s/641 camera pairs/41-of-41 hold with noTeacher,
+zero originalS1 rejects/native faults. T2 actually pushes15.685cm with3903
+robot-contact ticks,no bilateral grasp;80 real fresh generation/ACK chains pass.
+F1/T1 instead has an independently audited validS1 rejection at1.2s,zero native
+faults;no negative rerun or two-layout/generalization claim. F1/T2 is still active
+at this snapshot;DEV8 and independentCORR fromM1 remain pending.
+Eight fixed512 full live/IK/controller/history snapshots actually restore with
+max difference1.78e-15,zero integrations/queries. Static-only,not dynamic-prefix
+qualification.182.450CPU seconds and8 conservative starts charged once,reserves0.
+Initial CPU-entry interpreter import failure preserved and same-bound existing
+runtime repair passed.330 CPU tests/CI pass;scientific runtime03646938 unchanged.
+Project auth is currently valid;native672471/finite owner healthy,no newPBS.
+Original MP1 budget/T0,TF-R3STOP,selected/deploymentNONE remain unchanged.
+
+## Previous First2048 Success Milestone
+
 **S-BC2048 is sealed and its first F0/T1 is an independently audited success.**
 [Complete training,actual65536 visits and first32s autonomous success](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_TRAINING_AND_FIRST_AUTONOMOUS_SUCCESS.json).
 Checkpointac0f4692 has full optimizer/scheduler/RNG/sampler state;three completed

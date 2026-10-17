@@ -1,5 +1,21 @@
 # Current Science Status
 
+**Current mainline:** [S-BC2048 F0 succeeds at both tasks;F1/T1 is a valid negative](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_FIRST_T2_SUCCESS_AND_ZERO_STEP_ANCHOR_RESTORE.json).
+F0/T2 has independent18-check raw/video and80 fresh observation/generation/ACK
+chains PASS:32s/641pairs,15.685cm push,3903 contact ticks,zero bilateral grasp,
+41/41 hold and zeroS1/native faults,TeacherOFF. Same fixed2048 model also has
+the previously auditedF0/T1 success. F1/T1 instead rejects before execution
+at1.2s:19 raw checks,3ACKs+1 rejected prefix,zero native faults;valid negative
+preserved. F1/T2 active at snapshot,DEV8/CORR pending,not completeTRAIN4.
+Eight current512 saved full-state/history anchors actually restore with max
+difference1.78e-15,no integration/query;static-only,not dynamic-prefix parity.
+182.450 chargedCPU seconds/8 conservative starts,reservations0,B1 lease stays
+CLOSED. Initial interpreter import gap preserved,same-bound existing-runtime
+repair passed.330 tests/CI pass. Native672471/finite owner live,auth valid,
+no newPBS,T0/recipe/WBC/S1/TF-R3STOP unchanged,selected/deploymentNONE.
+
+## Previous First2048 Success Milestone
+
 **Current mainline:** [S-BC2048 sealed / first autonomous F0T1 audited SUCCESS](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_TRAINING_AND_FIRST_AUTONOMOUS_SUCCESS.json).
 Complete2048 checkpointac0f4692 with full state;independent three-partition
 audit65536 actual samples,T1/T2 each32768,126 original TRAIN episodes,C10.
