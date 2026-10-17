@@ -1,10 +1,11 @@
 import json
+import hashlib
 from pathlib import Path
 import tempfile
 import unittest
 
 from .mp1.dataset import SourceSampler
-from .mp1.exposure import actual_exposure, read_committed_trace
+from .mp1.exposure import actual_exposure, read_committed_trace, read_checkpoint_trace
 from .test_mp1 import dataset
 
 
@@ -66,6 +67,100 @@ class ExposureTest(unittest.TestCase):
         self.assertEqual(a['actual_sample_visits'] + b['actual_sample_visits'], 64)
         self.assertEqual(a['distinct_correction_student_parents'], 0)
         self.assertTrue(all('NOT_RECORDED' in k for k in a['manifest_phase_visits']))
+
+    def checkpoint_fixture(self, root):
+        checkpoint = root / 'checkpoint-2'
+        checkpoint.mkdir()
+        sampler = checkpoint / 'SAMPLER_STATE.json'
+        sampler.write_text(json.dumps(dict(sampler=dict(cursor=64))))
+        (checkpoint / 'CHECKPOINT_COMPLETE.json').write_text(json.dumps(dict(
+            global_step=2, full_resume=True,
+            files={'SAMPLER_STATE.json': hashlib.sha256(sampler.read_bytes()).hexdigest()})))
+        d = dataset(())
+        rows = trace(d)
+        for name, start, end in [('session-start', 0, 1), ('session-resume-1', 1, 2)]:
+            folder = root / name
+            (folder / 'worker_trace').mkdir(parents=True)
+            (folder / 'TRAINING_RUN.json').write_text(json.dumps(dict(
+                resumed_from_step=start, global_step=end,
+                actual_updates_this_attempt=end-start, consumed_samples=end*32)))
+            # This tail belongs to prefetch, not to this session's committed work.
+            committed = rows[start*32:end*32]
+            tail = rows[end*32:end*32+2]
+            (folder / 'worker_trace/worker-1.jsonl').write_text(
+                ''.join(json.dumps(x) + '\n' for x in committed + tail))
+        return rows
+
+    def test_checkpoint_resume_excludes_prefetch_and_unfinished_session(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            expected = self.checkpoint_fixture(root)
+            (root / 'session-resume-2/worker_trace').mkdir(parents=True)
+            (root / 'session-resume-2/worker_trace/worker-1.jsonl').write_text('{unfinished')
+            rows, parts = read_checkpoint_trace(root, 2)
+            self.assertEqual(rows, expected)
+            self.assertEqual([(p['start_step'], p['end_step']) for p in parts], [(0, 1), (1, 2)])
+            self.assertTrue(all(len(p['proof_sha256']) == 64 for p in parts))
+
+    def test_checkpoint_resume_missing_partition_or_wrong_cursor_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.checkpoint_fixture(root)
+            proof = root / 'session-resume-1/TRAINING_RUN.json'
+            saved = proof.read_text()
+            proof.unlink()
+            with self.assertRaisesRegex(ValueError, 'MISSING_COMPLETED'):
+                read_checkpoint_trace(root, 2)
+            proof.write_text(saved)
+            sampler = root / 'checkpoint-2/SAMPLER_STATE.json'
+            sampler.write_text(json.dumps(dict(sampler=dict(cursor=65))))
+            with self.assertRaisesRegex(ValueError, 'SAMPLER_HASH_AND_CURSOR'):
+                read_checkpoint_trace(root, 2)
+
+    def test_checkpoint_resume_duplicate_partition_symlink_and_step_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.checkpoint_fixture(root)
+            duplicate = root / 'session-copy'
+            duplicate.mkdir()
+            (duplicate / 'TRAINING_RUN.json').write_text((root / 'session-start/TRAINING_RUN.json').read_text())
+            with self.assertRaisesRegex(ValueError, 'SESSION_DIRECTORY'):
+                read_checkpoint_trace(root, 2)
+            (duplicate / 'TRAINING_RUN.json').unlink()
+            proof = root / 'session-resume-1/TRAINING_RUN.json'
+            saved = proof.read_text()
+            proof.unlink()
+            (root / 'saved-proof.json').write_text(saved)
+            proof.symlink_to(root / 'saved-proof.json')
+            with self.assertRaises(PermissionError):
+                read_checkpoint_trace(root, 2)
+            for step in [True, 0, -1, 2049, 1.5]:
+                with self.subTest(step=step), self.assertRaises(ValueError):
+                    read_checkpoint_trace(root, step)
+
+    def test_checkpoint_resume_overlap_false_counts_and_trace_symlink_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.checkpoint_fixture(root)
+            proof = root / 'session-start/TRAINING_RUN.json'
+            saved = json.loads(proof.read_text())
+            proof.write_text(json.dumps(dict(saved, global_step=2,
+                                            actual_updates_this_attempt=2, consumed_samples=64)))
+            # Complete the wider first trace, so rejection is the overlap itself.
+            trace_path = root / 'session-start/worker_trace/worker-1.jsonl'
+            trace_path.write_text(''.join(json.dumps(x) + '\n' for x in trace(dataset(()))))
+            with self.assertRaisesRegex(ValueError, 'GAP_OR_OVERLAP'):
+                read_checkpoint_trace(root, 2)
+            proof.write_text(json.dumps(dict(saved, consumed_samples=33)))
+            with self.assertRaisesRegex(ValueError, 'CHECKPOINT_PARTITION'):
+                read_checkpoint_trace(root, 2)
+            proof.write_text(json.dumps(saved))
+            original = trace_path.read_text()
+            trace_path.unlink()
+            (root / 'saved-trace.jsonl').write_text(original)
+            trace_path.symlink_to(root / 'saved-trace.jsonl')
+            with self.assertRaisesRegex(PermissionError, 'TRACE_MEMBER_PATH_ESCAPE'):
+                read_checkpoint_trace(root, 2)
 
 
 if __name__ == '__main__':
