@@ -9,6 +9,7 @@ import time
 from scripts.pi0292.durable import OwnerLock,write
 from scripts.pi0294.e1.control_read import read
 from scripts.pi0294.native_dataset import sha
+from scripts.pi0294.relay_io import read_available
 from scripts.pi0294.numerics import prepare_environment,configure_torch
 from scripts.pi0294.e1 import model
 from scripts.pi0294.e1.neural import checkpoint_identity,serve
@@ -30,6 +31,7 @@ def run(root,request_path):
     owner=OwnerLock(root/'NEURAL_OWNER.lock');started=time.process_time();instance=None;status='FAILED_PRESERVED';records=[];stage='INITIAL'
     def guard():
         ledger.guard()
+        if read_available(root/'RELAY_ENGINEERING_STOP.json') is not None:raise PermissionError('RELAY_ENGINEERING_STOP_NO_NEXT_MODEL_NOT_NATIVE_SAFETY_FAIL')
         if time.time()>=allocation['allocation_end_epoch']-2700:raise TimeoutError('ORIGINAL_45_MIN_ALLOCATION_CLOSEOUT')
         heartbeat=read(root/'OWNER_HEARTBEAT.json')
         if heartbeat['run_uuid']!=root.name or not 0<=time.time()-heartbeat['observed_epoch']<=300:raise TimeoutError('SINGLE_MP1_OWNER_HEARTBEAT_LOST')

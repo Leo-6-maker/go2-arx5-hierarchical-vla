@@ -11,6 +11,7 @@ from scripts.pi0294.e1.control_read import read
 from scripts.pi0294.e1 import model
 from scripts.pi0294.e1.neural import checkpoint_identity,serve
 from scripts.pi0294.native_dataset import sha
+from scripts.pi0294.relay_io import read_available
 from scripts.pi0294.native_train import parameter_inventory
 from scripts.pi0294.numerics import prepare_environment,configure_torch
 from .allocation import admit
@@ -51,6 +52,7 @@ def run(root,request_path):
         return (root/'SOURCE_SAFETY_STOP_FROM_CORE.json').exists() or (root/'SOURCE_PHYSICS_STOP.json').exists()
     def guard():
         ledger.guard()
+        if read_available(root/'RELAY_ENGINEERING_STOP.json') is not None:raise PermissionError('RELAY_ENGINEERING_STOP_NO_NEXT_MODEL_NOT_NATIVE_SAFETY_FAIL')
         if time.time()>=allocation['allocation_end_epoch']-2700:raise TimeoutError('MP1_ORIGINAL_45_MIN_ALLOCATION_CLOSEOUT')
         h=read(root/'OWNER_HEARTBEAT.json')
         if h['run_uuid']!=root.name or not 0<=time.time()-h['observed_epoch']<=300:raise TimeoutError('MP1_SINGLE_OWNER_HEARTBEAT_LOST')

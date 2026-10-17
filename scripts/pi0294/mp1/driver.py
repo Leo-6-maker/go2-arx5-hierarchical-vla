@@ -12,6 +12,21 @@ from scripts.pi0294.relay_transport import run_episode
 from .plans import remaining_panel,session_spec
 
 
+def stop_engineering_branch(remote,session):
+    for role in ['core','hopper']:
+        remote(role,r'''
+import json
+from pathlib import Path
+r=Path(ROOT);p=r/'RELAY_ENGINEERING_STOP.json'
+value=dict(run_uuid=RUN,session=SESSION,reason='POISONED_FILE_RPC_UNKNOWN_EFFECT_NO_NEXT_CASE_OR_MODEL',
+ native_safety_stop=False,scientific_policy_failure=False)
+if p.exists():assert json.loads(p.read_text())==value
+else:p.write_text(json.dumps(value,indent=2)+'\n');p.chmod(0o400)
+assert json.loads(p.read_text())==value
+print(json.dumps(dict(status='RELAY_ENGINEERING_BRANCH_STOP_READBACK',role=ROLE)))
+''',dict(ROLE=role,SESSION=session),label='MP1-poisoned-relay-stop-all-next-model-sessions')
+
+
 def bind(remote,session,ready):
     facts={}
     for role in ['core','hopper']:
@@ -33,10 +48,11 @@ if ROLE=='core':
   rows=json.loads((r/'plans/PRIOR_RECOVERY_OUTCOMES.json').read_text())+rows
 print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib.sha256(raw).hexdigest(),
  plan=json.loads((r/'plans/SOURCE_EVALUATION_PLAN.json').read_text()),rows=rows,
+ engineering_stop=(r/'RELAY_ENGINEERING_STOP.json').exists(),
  source_stop=(r/'SOURCE_PHYSICS_STOP.json').exists() if ROLE=='core' else False)))
 ''',dict(ROLE=role),label='MP1-fixed-panel-boundary-'+role)
     if facts['core']['plan']!=facts['hopper']['plan']:raise PermissionError('MP1_IDENTICAL_FIXED_DEVELOPMENT_PLAN_ON_BOTH_HOSTS')
-    if facts['core']['source_stop']:return None
+    if facts['core']['source_stop'] or any(v['engineering_stop'] for v in facts.values()):return None
     spec=session_spec(facts['core']['plan'],session)
     if ready['status']!='MP1_NATIVE_MODEL_READY' or ready['identity']['global_step']!=spec['checkpoint_step'] or ready['label']!=session:
         raise PermissionError('MP1_FIXED_NATIVE_CHECKPOINT_ONLY')
@@ -76,7 +92,7 @@ put(d/'REGISTRY.json',REGISTRY);print(json.dumps(dict(status='MP1_ACTUAL_REMAINI
 
 def routes(remote,base,session,ready,start_worker,transport):
     registry=bind(remote,session,ready)
-    if registry is None:return dict(status='NO_NEW_CASES_ALREADY_TERMINAL_OR_SOURCE_STOP',session=session,rows=[])
+    if registry is None:return dict(status='NO_NEW_CASES_TERMINAL_OR_SOURCE_OR_ENGINEERING_STOP',session=session,rows=[])
     journal=Journal(base/'mutation-journal',ready['run_uuid']);rows=[]
     def rpc(role,args):
         v=transport.call(role,args)
@@ -100,7 +116,9 @@ def routes(remote,base,session,ready,start_worker,transport):
         def response(self,c,q):return rpc('hopper',dict(operation='response',episode=c['episode_uuid'],query_uuid=q))
     core,hopper=Core(),Hopper()
     for case in sorted(registry['cases'].values(),key=lambda c:c['panel_index']):
-        if any(getattr(s,'failed',False) for s in getattr(transport,'sessions',{}).values()):raise PermissionError('MP1_POISONED_CHANNEL_NO_NEXT_PHYSICAL_CASE')
+        if any(getattr(s,'failed',False) for s in getattr(transport,'sessions',{}).values()):
+            stop_engineering_branch(remote,session)
+            return dict(status='ENGINEERING_BRANCH_STOP_NO_NEXT_CASE_OR_MODEL',session=session,rows=rows,planned=len(registry['cases']),abort_remaining_sessions=True)
         if time.time()+900>=registry['deadline_epoch']:break
         args=['--card','plans/'+session+'/cards/'+case['attempt_id']+'.json']
         journal.once('start-'+case['attempt_id'],dict(attempt_id=case['attempt_id']),lambda:start_worker('scripts.pi0294.mp1.core',case['attempt_id'],args))
@@ -140,5 +158,8 @@ print(json.dumps(dict(terminal=not alive,row=json.loads(p.read_text()) if p.exis
         row=terminal.get('row') or dict(attempt_id=case['attempt_id'],status='ENGINEERING_OUTCOME_UNKNOWN_NOT_RETRIED',pipeline_trustworthy=False)
         row=dict(row,route_failure=failure);rows.append(row);write(base/(session+'-RESULTS.private.json'),dict(session=session,rows=rows,planned=len(registry['cases'])))
         print(json.dumps(dict(session=session,covered=len(rows),status=row['status'])),flush=True)
+        if any(getattr(s,'failed',False) for s in getattr(transport,'sessions',{}).values()):
+            stop_engineering_branch(remote,session)
+            return dict(status='ENGINEERING_BRANCH_STOP_NO_NEXT_CASE_OR_MODEL',session=session,rows=rows,planned=len(registry['cases']),abort_remaining_sessions=True)
         if terminal.get('source_stop') or not terminal.get('terminal'):break
     return dict(session=session,rows=rows,planned=len(registry['cases']))
