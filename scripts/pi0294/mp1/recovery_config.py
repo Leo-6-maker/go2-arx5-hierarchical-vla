@@ -25,6 +25,8 @@ def prior_usage(stage):
 
 
 def limits(stage):
+    if stage.get('schema')=='MP1_SAVED_M1_T2_SHADOW_DIAGNOSIS_V1':
+        raise PermissionError('SAVED_T2_DIAGNOSTIC_HAS_NO_GPU_OR_PBS_AUTHORITY')
     prior=prior_usage(stage) if is_recovery(stage) else None
     return dict(mode=MODE,GPU_s=GPU_CAP-prior['GPU_s'],PBS=PBS_CAP-prior['PBS'],output_bytes=2*1024**3) if is_recovery(stage) else dict(
         mode='MP1_FIXED_SOURCE_PAIR',GPU_s=43200,PBS=4,output_bytes=140*1024**3)

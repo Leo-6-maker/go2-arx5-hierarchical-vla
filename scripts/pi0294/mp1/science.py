@@ -11,6 +11,7 @@ from scripts.pi0294.e1.scope import Ledger as FileLedger,DATA,STATS,S1_PROOF
 from scripts.pi0294.native_dataset import sha
 from .scope import AUTHORITY,CARD_SHA
 from . import recovery_config as recovery
+from . import t2_config as t2
 
 CAPS=dict(main_starts=64,recovery_forks=0,live_and_recovery_integrations=2048000,shadow_integrations=2048000,
     generation_queries=4000,optimizer_updates=4096)
@@ -27,20 +28,24 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
             or a['new_submission_and_candidate_cutoff_epoch']!=a['T0_epoch']+144*3600
             or a['new_experiment_cutoff_epoch']!=a['T0_epoch']+160*3600 or a['hard_closeout_epoch']!=a['T0_epoch']+168*3600
             or not a['T0_epoch']<=now<(a['hard_closeout_epoch'] if closeout else a['new_experiment_cutoff_epoch'])):raise PermissionError('MP1_ACTUAL_SINGLE_INCREMENTAL_AUTHORITY_AND_CLOCK')
-    recovered=recovery.is_recovery(stage);caps=recovery.CAPS if recovered else CAPS;cpu_caps=recovery.CPU_CAPS if recovered else CPU_CAPS
+    recovered=recovery.is_recovery(stage);diagnostic=t2.is_diagnostic(stage)
+    caps=t2.CAPS if diagnostic else recovery.CAPS if recovered else CAPS
+    cpu_caps=t2.CPU_CAPS if diagnostic else recovery.CPU_CAPS if recovered else CPU_CAPS
+    if diagnostic and profile!='4080-simulation':raise PermissionError('SAVED_T2_DIAGNOSTIC_CORE_CPU_ONLY')
+    if diagnostic and stage.get('diagnostic_maximum_wall_s')!=1800:raise PermissionError('SAVED_T2_BOUNDED_DIAGNOSTIC_WALLTIME')
     if recovered:recovery.prior_usage(stage)
-    if (stage['schema'] not in ['MP1_SOURCE_SHARED_STAGE_V1',recovery.SCHEMA] or stage['resource_family']!='MP1' or stage['parent_run_uuid']!=parent.name
+    if (stage['schema'] not in ['MP1_SOURCE_SHARED_STAGE_V1',recovery.SCHEMA,t2.SCHEMA] or stage['resource_family']!='MP1' or stage['parent_run_uuid']!=parent.name
             or stage['run_uuid']!=root.name or stage['authority_release']!=AUTHORITY or stage['stage_caps']!=caps
             or stage['source_data_sha256']!=DATA or stage['statistics_sha256']!=STATS
-            or stage['models']!=(['M2-BC','M2-CORR'] if recovered else ['S-BC','S-CORR']) or stage['updates_per_branch']!=(0 if recovered else 2048)
-            or stage['training_seed']!=('NOT_APPLICABLE_NO_TRAINING' if recovered else 20261017) or stage['teacher_takeover'] is not False
+            or stage['models']!=([] if diagnostic else ['M2-BC','M2-CORR'] if recovered else ['S-BC','S-CORR']) or stage['updates_per_branch']!=(0 if recovered or diagnostic else 2048)
+            or stage['training_seed']!=('NOT_APPLICABLE_SAVED_HISTORY' if diagnostic else 'NOT_APPLICABLE_NO_TRAINING' if recovered else 20261017) or stage['teacher_takeover'] is not False
             or stage['new_DEV_labels'] is not False or stage['CPU_core_s']!=cpu_caps
-            or stage['allocated_H200_s_max']!=(recovery.GPU_CAP if recovered else 43200) or stage['PBS_submissions_max']!=(recovery.PBS_CAP if recovered else 4)):
+            or stage['allocated_H200_s_max']!=(0 if diagnostic else recovery.GPU_CAP if recovered else 43200) or stage['PBS_submissions_max']!=(0 if diagnostic else recovery.PBS_CAP if recovered else 4)):
         raise PermissionError('MP1_FIXED_STUDY_OR_EXISTING_MODEL_RECOVERY_SCOPE')
     manifest=Path(os.environ.get('MP1_RUN_MANIFEST',root/'RUN_MANIFEST.json'));m=read(manifest);b=read(root/'OUTPUT_BINDING.private.json')
     compute=profile=='hopper-neural' and os.environ.get('PBS_JOBID') and socket.gethostname().startswith('hopper-')
     if (m['schema']!='RUN_MANIFEST_V1' or m['run_uuid']!=root.name or m['owner']!='EXISTING_LOCAL_PC'
-            or m['authority']['protocol_ref']!=AUTHORITY or m['scope']!=('MP1_EXISTING_E1_MODEL_EVALUATION_RECOVERY' if recovered else 'MP1_SOURCE_SHARED_STUDY')
+            or m['authority']['protocol_ref']!=AUTHORITY or m['scope']!=(t2.SCOPE if diagnostic else 'MP1_EXISTING_E1_MODEL_EVALUATION_RECOVERY' if recovered else 'MP1_SOURCE_SHARED_STUDY')
             or m['execution']['profile']!=profile or m['execution']['uid']!=os.getuid()
             or not (socket.gethostname() in m['execution']['hostnames'] or compute)
             or m['execution']['stage_binding_sha256']!=sha(root/'MP1_STAGE_BINDING.json')
@@ -79,7 +84,7 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
 class Ledger(FileLedger):
     def __init__(self,root,role):
         super().__init__(root,role)
-        stage=read(self.root/'MP1_STAGE_BINDING.json');base=recovery.CAPS if recovery.is_recovery(stage) else CAPS
+        stage=read(self.root/'MP1_STAGE_BINDING.json');base=t2.CAPS if t2.is_diagnostic(stage) else recovery.CAPS if recovery.is_recovery(stage) else CAPS
         if stage['stage_caps']!=base:raise PermissionError('MP1_EXACT_SOURCE_STUDY_COUNTERS')
         prior=recovery.prior_usage(stage) if recovery.is_recovery(stage) else {k:0 for k in base}
         self.caps={k:v-prior[k] for k,v in base.items()}
@@ -109,6 +114,7 @@ class Ledger(FileLedger):
 
     def guard(self,*,closeout=False):
         stage=read(self.root/'MP1_STAGE_BINDING.json');a=read(self.root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
+        if t2.is_diagnostic(stage) and (self.root/'SOURCE_PHYSICS_STOP.json').exists():raise PermissionError('SAVED_T2_DIAGNOSTIC_SOURCE_STOP')
         if time.time()>=(a['hard_closeout_epoch'] if closeout else a['new_experiment_cutoff_epoch']):raise TimeoutError('MP1_SOURCE_STUDY_CLOCK_CLOSED')
         l=read(self.path);key='Core_CPU_s' if self.role=='core' else 'CPU_s';cap=stage['CPU_core_s'][self.role]
         if recovery.is_recovery(stage):cap-=recovery.prior_usage(stage)['CPU_'+self.role+'_s']
