@@ -146,3 +146,54 @@ def actual_exposure(dataset, rows, start, stop):
         correction_future_expert_states_are_all_student_states=False,
         sample_visits_or_overlapping_windows_are_independent_demonstrations=False,
         forecast_used_as_actual_consumption=False, new_models=0, new_physics=0)
+
+
+def matched_pair_exposure(baseline, baseline_rows, corrected, corrected_rows, step):
+    """Compare consumed identities, not expected sampler counts or forecasts."""
+    if type(step) is not int or step not in [512,2048]:
+        raise PermissionError('ONLY_FIXED_SOURCE_PAIR_512_OR2048_CONSUMPTION')
+    if (baseline.correction is not None or corrected.correction is None
+            or baseline.original_manifest_sha!=corrected.original_manifest_sha
+            or baseline.statistics_sha!=corrected.statistics_sha
+            or baseline.original_rows!=corrected.original_rows
+            or baseline.rows!=corrected.rows[:corrected.original_rows]
+            or {row['task'] for row,_ in corrected.rows[corrected.original_rows:]}!={'T1'}):
+        raise PermissionError('SAME_ORIGINAL_BANK_STATS_AND_T1_ONLY_CORRECTION')
+    stop=step*32
+    a=actual_exposure(baseline,baseline_rows,0,stop)
+    b=actual_exposure(corrected,corrected_rows,0,stop)
+    if (a['task_samples']!={'T1':stop//2,'T2':stop//2} or b['task_samples']!=a['task_samples']
+            or a['correction_sample_visits']!=0 or b['correction_sample_visits']!=stop//4
+            or b['distinct_correction_student_parents']<2):
+        raise ValueError('ACTUAL_MATCHED_TASK_EXPOSURE_AND_INDEPENDENT_CORRECTION_PARENTS')
+    t2=[];original_t1=[];correction_t1=[]
+    for first,second in zip(baseline_rows,corrected_rows):
+        cursor=first['cursor'];row,anchor=corrected.rows[second['index']]
+        is_correction=second['index']>=corrected.original_rows
+        if row['task']=='T2':
+            if first!=second or is_correction:
+                raise ValueError('EVERY_ACTUAL_T2_CURSOR_AND_SAMPLE_IDENTITY_MUST_MATCH')
+            t2.append(first)
+        elif not is_correction:
+            if first!=second:
+                raise ValueError('RETAINED_ORIGINAL_T1_CURSOR_AND_SAMPLE_IDENTITY_MUST_MATCH')
+            original_t1.append(first)
+        else:
+            if row['task']!='T1' or cursor%4!=2:
+                raise ValueError('ONLY_DECLARED_T1_CORRECTION_CURSOR_REPLACEMENT')
+            correction_t1.append(second)
+    if (len(t2)!=stop//2 or len(original_t1)!=stop//4
+            or len(correction_t1)!=stop//4):
+        raise ValueError('EXACT_MATCHED_T2_RETAINED_T1_AND_CORRECTION_VISIT_COUNTS')
+    digest=lambda rows:hashlib.sha256(json.dumps(rows,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    return dict(status='PASS_ACTUAL_MATCHED_SOURCE_PAIR_TASKS_T2_AND_RETAINED_T1_CURSORS',
+        checkpoint_step=step,stop_cursor=stop,original_manifest_sha256=baseline.original_manifest_sha,
+        original_statistics_sha256=baseline.statistics_sha,correction_manifest_sha256=corrected.correction.manifest_sha,
+        baseline=a,corrected=b,matched_T2_cursor_count=len(t2),matched_retained_original_T1_cursor_count=len(original_t1),
+        actual_T1_correction_cursor_count=len(correction_t1),
+        matched_T2_trace_semantic_sha256=digest(t2),matched_retained_T1_trace_semantic_sha256=digest(original_t1),
+        actual_T1_correction_trace_semantic_sha256=digest(correction_t1),
+        sample_visits_are_independent_demonstrations=False,
+        parent_initialization_training_recipe_and_closed_loop_outcomes_are_separate_proofs=True,
+        original_task_exposure_confounded_by_3_to1=False,new_model_queries=0,new_physics=0,
+        training_or_sampler_modified=False,causal_correction_gain_proven=False)

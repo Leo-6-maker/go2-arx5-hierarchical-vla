@@ -2,10 +2,11 @@ import json
 import hashlib
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
 
 from .mp1.dataset import SourceSampler
-from .mp1.exposure import actual_exposure, read_committed_trace, read_checkpoint_trace
+from .mp1.exposure import actual_exposure, read_committed_trace, read_checkpoint_trace, matched_pair_exposure
 from .test_mp1 import dataset
 
 
@@ -15,6 +16,40 @@ def trace(d, start=0, stop=64):
 
 
 class ExposureTest(unittest.TestCase):
+    def paired_fixture(self,step=512):
+        a,b=dataset(()),dataset()
+        for d in [a,b]:d.original_manifest_sha='original';d.statistics_sha='stats'
+        a.correction=None;b.correction=SimpleNamespace(manifest_sha='qualified-correction')
+        return a,trace(a,stop=step*32),b,trace(b,stop=step*32)
+
+    def test_actual_matched_pair_joins_all_T2_and_retained_T1_cursors(self):
+        a,ar,b,br=self.paired_fixture();result=matched_pair_exposure(a,ar,b,br,512)
+        self.assertEqual(result['matched_T2_cursor_count'],8192)
+        self.assertEqual(result['matched_retained_original_T1_cursor_count'],4096)
+        self.assertEqual(result['actual_T1_correction_cursor_count'],4096)
+        self.assertEqual(result['corrected']['distinct_correction_student_parents'],2)
+        self.assertFalse(result['causal_correction_gain_proven'])
+        self.assertFalse(result['training_or_sampler_modified'])
+
+    def test_paired_actual_trace_tamper_or_missing_row_is_not_expected_exposure(self):
+        a,ar,b,br=self.paired_fixture()
+        bad=[dict(r) for r in br];bad[1]['anchor']+=1
+        with self.assertRaisesRegex(ValueError,'ACTUAL_SAMPLE'):matched_pair_exposure(a,ar,b,bad,512)
+        with self.assertRaisesRegex(ValueError,'RANGE_COUNT'):matched_pair_exposure(a,ar,b,br[:-1],512)
+        b.rows[0][0]['new_unmatched_metadata']='changed'
+        with self.assertRaisesRegex(PermissionError,'SAME_ORIGINAL'):matched_pair_exposure(a,ar,b,br,512)
+
+    def test_pair_rejects_wrong_scope_stats_missing_or_T2_correction(self):
+        a,ar,b,br=self.paired_fixture()
+        for step in [True,1,511,1024,4096]:
+            with self.assertRaises(PermissionError):matched_pair_exposure(a,ar,b,br,step)
+        b.statistics_sha='different'
+        with self.assertRaises(PermissionError):matched_pair_exposure(a,ar,b,br,512)
+        b.statistics_sha=a.statistics_sha;b.correction=None
+        with self.assertRaises(PermissionError):matched_pair_exposure(a,ar,b,br,512)
+        b.correction=SimpleNamespace(manifest_sha='qualified-correction');b.rows[-1][0]['task']='T2'
+        with self.assertRaises(PermissionError):matched_pair_exposure(a,ar,b,br,512)
+
     def test_actual_correction_lineage_and_equal_task_exposure(self):
         d = dataset()
         for row, anchor in d.rows[:d.original_rows]:
