@@ -3,6 +3,12 @@
 Observed 2026-10-17 after E1 and both MP1 recovery-child lease closures by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 
+**Later independent native admission:** [sprint adoption and camera binding](reports/PI0294/20261016T191445Z-localpc-mp1/SPRINT_ADOPTION_AND_VANDA_CAMERA_BINDING.json)
+records a new camera-only A40 job1463728, currently Q (site node_pool capacity).
+This does not reopen the two closed recovery children or TF-R3 physical STOP.
+No new model/physics/WBC work has run; 900 GPU seconds and 3,600 CPU seconds
+are reserved until native terminal reconciliation. Runtime EGL remains unproven.
+
 ## Active Authority
 
 **MP1 is the only new incremental resource family.** The user directly adopted

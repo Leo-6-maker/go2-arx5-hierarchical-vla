@@ -1,5 +1,12 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest independent Vanda lane:** the [sprint adoption / native camera binding](reports/PI0294/20261016T191445Z-localpc-mp1/SPRINT_ADOPTION_AND_VANDA_CAMERA_BINDING.json)
+records job1463728 Q for a bounded A40 EGL/frozen-task-camera check only.
+Original container/assets are reused, not rebuilt; no WBC/model/action/physics
+is launched. The first request was rejected without a job and is preserved.
+Queued is not runtime PASS; 900 GPU seconds and 3,600 CPU seconds remain
+reserved. TF-R3's actual ILLEGAL_CONTACT STOP remains unchanged.
+
 **Latest MP1 native outcome:** recovery children 01/02 are both CLOSED;
 671817 F/1 and 671826 F/0 cost 453 conservative H200 seconds, with zero new
 updates. Four audited attempts still give no valid full policy result:
@@ -10,7 +17,7 @@ The [scoped RPC telemetry repair](reports/PI0294/20261016T191445Z-localpc-mp1/RP
 has passed actual two-host CPU lock-isolation probes: successful replies no
 longer take the metrics ledger write lock. Scientific charges remain durable;
 this does not qualify SSH/compute-node NFS or a full32s model loop. Closed
-scientific capsules were not hot changed and no new GPU job was submitted.
+scientific capsules were not hot changed; that CPU-only repair submitted no GPU job.
 [Timing and qualification](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_REAL_RELAY_QUALIFICATION.json)
 and [full attempt/condition matrix](reports/PI0294/20261016T191445Z-localpc-mp1/MP1_E1_M2_RECOVERY_BEHAVIOR_MATRIX.json).
 Follow the [evidence-first sprint entry](docs/handover/2026-10-17/MP1_EVIDENCE_TO_SCIENCE_SPRINT_EXECUTE.md)
