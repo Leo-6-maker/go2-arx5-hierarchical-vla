@@ -1,5 +1,14 @@
 # Current Science Status
 
+**Cold-bound N1 continuation plumbing prepared, no new job yet.**
+Immutable common06-12 staging/activation and full recorded effect closure
+are CPU-tested;live consumers,unknown effects or unsealed transport plans
+reject advancement. Private same-owner finite adapter prepared,not launched.
+506-test full suite plus21post-guard focused tests pass;native600s/80cycles
+stillNOT_RUN. CORR2048DEV/F0-T1 andF0-T2 both independently audited32sSUCCESS,
+zero native faults. Other six DEV conditions not run;no fullDEVrate claim.
+Fifth673008 still originale418/request;cold activation awaits actual closure.
+
 **CORR2048 TRAIN4 actual audited result: 3/4 success, T1=1/2,T2=2/2.**
 [Matched endpoint task outcomes and complete raw-score/video index](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
 All4 raw/video and closed fresh-input/model/action/ACK chains pass;native

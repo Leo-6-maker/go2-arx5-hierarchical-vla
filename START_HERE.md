@@ -1,5 +1,17 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**N1 cold binding/effect closure code prepared, not yet activated.**
+Generic immutable staging/activation now requires the actual recorded transport
+plan while retaining all earlier bindings and STOPs. Read-only closure joins
+saved RGB,commands,executed ACKs,physics receipts and every native action
+array;executed,rejected,generated-uninstalled and inbox-only effects remain
+distinct. All resident/fixed-probe draws must match the cumulative ledger.
+506-test local suite and21post-guard focused tests pass. The private existing
+owner's finite06-12 adapter is prepared,not launched;no automatic next PBS.
+Two CORR2048DEV/F0 conditions now independently audited SUCCESS at32s,
+zero native faults;remaining six DEV conditions not yet run. No complete DEV
+rate or new native transport qualification claimed. Healthy fifth preserved.
+
 **CORR2048 TRAIN4 complete: 3/4 actual successes, all four independently audited.**
 [Paired endpoint report and raw-score/video index](reports/PI0294/20261016T191445Z-localpc-mp1/MATCHED_SOURCE_PAIR_FINAL.json).
 T1=1/2,T2=2/2,zero native safety faults,TeacherOFF. F0/T1 is a valid

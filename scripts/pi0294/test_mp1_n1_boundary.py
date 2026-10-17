@@ -36,6 +36,7 @@ class N1BoundaryTests(unittest.TestCase):
         parent_delta.parent.mkdir(parents=True)
         parent_delta.write_bytes((self.root/n1.DELTA).read_bytes());parent_delta.chmod(0o400)
         self.old=deepcopy(f.m)
+        self.put(self.root/boundary.TRANSPORT_PLAN,dict(scope='CPU_TEST_ONLY_SYNTHETIC_RECORDED_REFERENCE'))
         self.past=deepcopy(f.past)
         self.past['PBS_submissions'].append(dict(job_id='673008.hopper-m-02',status='NATIVE_TERMINAL',GPU_conservative_charge_s=200))
         self.past.update(GPU_allocated_s=24319,generation_queries=1330)
@@ -88,7 +89,7 @@ class N1BoundaryTests(unittest.TestCase):
         for path,value in zip(self.names,[self.q,self.old,self.past,self.rows,self.native_rows,self.effects,self.processes]):
             self.put(self.root/path,value)
         self.m['execution']['sealed_inputs']=dict(self.old['execution']['sealed_inputs'],
-            **{p:sha(self.root/p) for p in self.names+n1.FILES+list(self.q['preserved_STOP_hashes'])})
+            **{p:sha(self.root/p) for p in self.names+n1.FILES+list(self.q['preserved_STOP_hashes'])+[boundary.TRANSPORT_PLAN]})
         self.put(self.root/'RUN_MANIFEST.json',self.m)
 
     def request(self):
@@ -132,6 +133,24 @@ class N1BoundaryTests(unittest.TestCase):
         self.m['execution'].pop('n1_authority_binding');self.reseal()
         with self.assertRaises(PermissionError):cold.validate(self.root)
         with self.assertRaises(PermissionError):session_spec(plan(),'S-BC-512-TRAIN4-ALLOCATION-06',root=self.root)
+
+    def test_transport_reference_is_required_sealed_and_stable_across_cold_resumes(self):
+        path=self.root/boundary.TRANSPORT_PLAN
+        self.assertEqual(cold.validate(self.root)['target_allocation_number'],6)
+        path.chmod(0o600)
+        with self.assertRaisesRegex(PermissionError,'SEALED_PRIOR'):cold.validate(self.root)
+        path.chmod(0o400)
+        self.m['execution']['sealed_inputs'].pop(boundary.TRANSPORT_PLAN)
+        self.put(self.root/'RUN_MANIFEST.json',self.m)
+        with self.assertRaisesRegex(PermissionError,'SEALED_PRIOR'):cold.validate(self.root)
+        self.reseal();self.old=deepcopy(self.m)
+        self.past['PBS_submissions'].append(dict(request_id='alloc-06',job_id='673014.hopper-m-02',
+            status='NATIVE_TERMINAL',GPU_conservative_charge_s=200))
+        self.past['GPU_allocated_s']+=200
+        self.build(7)
+        self.put(path,dict(scope='DIFFERENT_REFERENCE'))
+        self.reseal()
+        with self.assertRaises(PermissionError):cold.validate(self.root)
 
     def test_live_or_unknown_prior_effects_cannot_be_fenced(self):
         for field,value in [('pending_installs',1),('native_draws_all_classified',False),('completed_mutation_journal_count',1969)]:

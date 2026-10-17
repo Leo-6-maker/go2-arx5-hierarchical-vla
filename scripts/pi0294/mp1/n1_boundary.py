@@ -8,6 +8,7 @@ from scripts.pi0294.native_dataset import sha
 from . import n1_limits as n1
 
 SCHEMA = 'MP1_N1_SAME_ROOT_COLD_BOUNDARY_V1'
+TRANSPORT_PLAN = 'plans/N1_TRANSPORT_FIXTURE.json'
 NAMES = ['COLD_BOUNDARY.json', 'PRIOR_RUN_MANIFEST.json', 'PRIOR_HOPPER_LEDGER.json',
          'PRIOR_ADJUDICATIONS.json', 'NATIVE_TERMINALS.json', 'EFFECT_CLOSURE.json',
          'PROCESS_CLOSURE.json']
@@ -85,7 +86,7 @@ def validate(root, worker_manifest=None, *, proposed_manifest=None):
     if effective is None:
         raise PermissionError('N1_COMPLETE_AUTHORIZATION_LAYER_REQUIRED')
     names = paths(number)
-    for name in names:
+    for name in names + [TRANSPORT_PLAN]:
         p = root / name
         if (p.is_symlink() or not p.resolve().is_relative_to(root.resolve())
                 or p.stat().st_mode & 0o222 or m['execution']['sealed_inputs'].get(name) != sha(p)):
@@ -129,7 +130,11 @@ def validate(root, worker_manifest=None, *, proposed_manifest=None):
             or actual_stops!=set(stops)
             or any(sha(root / name) != digest for name, digest in stops.items())):
         raise PermissionError('N1_ORIGINAL_ENGINEERING_STOPS_MUST_REMAIN_BYTE_IDENTICAL')
-    expected = dict(old['execution']['sealed_inputs'], **{n:sha(root / n) for n in names + n1.FILES + list(stops)})
+    expected = dict(old['execution']['sealed_inputs'],
+                    **{n:sha(root / n) for n in names + n1.FILES + list(stops) + [TRANSPORT_PLAN]})
+    if (number > 6 and old['execution']['sealed_inputs'].get(TRANSPORT_PLAN)
+            != expected[TRANSPORT_PLAN]):
+        raise PermissionError('N1_RECORDED_TRANSPORT_REFERENCE_CANNOT_CHANGE_ON_RESUME')
     if m['execution']['sealed_inputs'] != expected:
         raise PermissionError('N1_NO_REMOVED_OR_UNDECLARED_INPUTS')
     native_history(past, native, number, effective['source'])
