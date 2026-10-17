@@ -15,11 +15,25 @@ from .recovery_config import limits
 
 def request_contract(root,request,manifest,ledger,now):
     root=Path(root);a=read(root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
+    from .n1_limits import clock
+    a=clock(root,a,manifest)
     p=root/'MP1_STAGE_BINDING.json';bound=limits(read(p) if p.exists() else {},root=root)
+    if bound.get('job_wall_s_max',14400)>14400:
+        from .n1_boundary import target
+        if target(manifest['execution'].get('cold_engineering_binding_relative'))!=request['submit_count']:
+            raise PermissionError('N1_REQUEST_MUST_USE_EXACT_CURRENT_COLD_FENCE')
+        proof_path=inside(root/request['queue_limit_relative'],root);proof=read(proof_path)
+        if (sha(proof_path)!=request['queue_limit_sha256']
+                or request['sealed_inputs'].get(request['queue_limit_relative'])!=sha(proof_path)
+                or proof['queue']!='auto' or proof['destination']!='small'
+                or not 0<=request['created_epoch']-proof['observed_epoch']<=120
+                or request['walltime_s']>proof['maximum_wall_s']):
+            raise PermissionError('N1_NATIVE_SMALLER_QUEUE_WALLTIME_PROOF')
     if (request['run_uuid']!=root.name or request['source_sha']!=manifest['code']['vla_commit']
             or request['run_manifest_sha256']!=sha(root/'RUN_MANIFEST.json')
             or request['mode']!=bound['mode'] or request['numerical_mode']!='DETERMINISTIC_CUDA_MATH_SDP_V1'
-            or not 1<=request['submit_count']<=bound['PBS'] or not 2760<request['walltime_s']<=14400
+            or type(request['submit_count']) is not int or not 1<=request['submit_count']<=bound['PBS']
+            or type(request['walltime_s']) is not int or not 2760<request['walltime_s']<=bound.get('job_wall_s_max',14400)
             or request['walltime_s']+request['prior_GPU_allocated_s']>bound['GPU_s']
             or not a['T0_epoch']<=now<a['new_experiment_cutoff_epoch']
             or not a['T0_epoch']<=request['created_epoch']<a['new_submission_and_candidate_cutoff_epoch']):

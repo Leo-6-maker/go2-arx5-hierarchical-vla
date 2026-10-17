@@ -50,6 +50,9 @@ def chain_verified(value,actual,panel,checkpoint,registry):
     if value.get('status')!='PASS_COMPLETE_SEALED_CONDITION_FRESH_DUAL_SSH_CHAINS':return False
     if registry is None:return False
     core,hopper=value['core'],value['hopper'];steps=actual['main_integrations'];rejected=actual['S1_rejections']
+    from .n1_limits import allocation_number,registry_cap
+    base,_=allocation_number(hopper['weight_binding']['label'],registry_cap(registry.get('n1_authority_binding')))
+    if base!=panel:raise ValueError('ACTUAL_MODEL_PANEL_MUST_MATCH_NATIVE_CHAIN')
     reference_reject=actual['failure_stage']=='ORIGINAL_REFERENCE_GATE_REJECT'
     if reference_reject and core.get('original_reference_gate_rejections')!=1:return False
     if (type(steps) is not int or not 0<=steps<=16000 or steps%200
@@ -69,7 +72,6 @@ def chain_verified(value,actual,panel,checkpoint,registry):
             or len({r['query_uuid'] for r in core['rows']})!=count
             or checkpoint is None or weight['checkpoint_manifest_sha256']!=checkpoint
             or weight['global_step']!=step
-            or weight['label'] not in [panel+'-ALLOCATION-'+str(i).zfill(2) for i in range(1,6)]
             or registry['run_uuid']!='source-pair-01' or registry['checkpoint_identity']!=weight or case is None
             or case['attempt_id']!=actual['attempt_id'] or case['card']['id']!=actual['attempt_id']
             or any(case['card'][k]!=actual[k] for k in ['task','split','scene_group'])

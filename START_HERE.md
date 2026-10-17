@@ -1,5 +1,25 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Latest engineering:N1 runtime layers integrated in source,not native-admitted.**
+[Generic cold admission,fixed-probe resume and fresh site readbacks](reports/PI0294/20261016T191445Z-localpc-mp1/N1_GENERAL_RUNTIME_ADMISSION_CPU_AND_SITE_READBACK.json).
+One contiguous06..12cold format retains all original native costs/outcomes/
+STOPs;request/queue/CPU/counters/session/Core/stdio/registry/matrix consume
+the sealed first N1 authority. Unbound06/13,wrongrun,budget reset,live prior
+consumer,unknown effect,duplicate owner/settlement and valid-result replay
+are rejected. Zero-work panels skip before load only with complete fixed
+probes;known-unstarted draws resume through unchanged E1 primitive,unknown
+intents never resample. Fresh synthetic108array+aggregate parity with the
+original is exact.457localPI0294 tests/328subtests PASS;not native evidence.
+Hopper masked authorized auth refreshed;active project/member/positive
+balance and fresh personal quota read back. Nativeauto->small singleGPU
+wall cap supports future8h;current fifth stays4h and was not altered.
+Actualfifth673008R,CORR1345updates at report snapshot,not2048. Runningcode
+e418bb79 and all12learning/15numerical files remain unchanged. General
+finite manager and actual600s/80cycle qualification producer are still
+pending;no cold deployment/newPBS. New N1 model gate fails closed without
+same-job native endurance/transport/fault proof. Old initial smoke is not
+substituted. OriginalN1 start/cutoffs/MP1 T0 and selected/deploymentNONE persist.
+
 **Latest authority:N1 adopted once;healthy fifth job stays on its original binding.**
 [Actual adoption,three-site control readbacks and cumulative limits](reports/PI0294/20261016T191445Z-localpc-mp1/N1_ADOPTION_AND_EFFECTIVE_LIMITS.json).
 Fixed926f9ef6 complete bundle read back;N1 began2026-10-18 03:08:01SGT.

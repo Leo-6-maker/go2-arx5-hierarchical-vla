@@ -46,7 +46,7 @@ def run(root,request_path):
     if not os.environ.get('CUDA_VISIBLE_DEVICES') or torch.cuda.device_count()!=1 or 'H200' not in torch.cuda.get_device_name(0):
         raise PermissionError('MP1_OWN_NATIVE_SINGLE_VISIBLE_H200_ONLY')
     configure_torch(torch,r['numerical_mode']);torch.set_num_threads(4);os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
-    remaining_CPU=int(172800-read(ledger.path)['CPU_s'])
+    remaining_CPU=int(ledger.cpu_caps['hopper']-read(ledger.path)['CPU_s'])
     if remaining_CPU<=0:raise PermissionError('MP1_SOURCE_STUDY_CPU_EXHAUSTED')
     resource.setrlimit(resource.RLIMIT_CPU,(remaining_CPU,remaining_CPU));lock=OwnerLock(root/'NEURAL_OWNER.lock');started=time.process_time()
     stage='INITIAL';status='FAILED_PRESERVED';records=[];instance=None;heartbeats=[];last_heartbeat_log=0
@@ -86,23 +86,47 @@ def run(root,request_path):
                 records.append(dict(panel=base,status='NOT_RUN_SOURCE_DOMAIN_SAFETY_STOP_PRESERVED'));continue
             guard();stage=base;session=base+'-ALLOCATION-'+str(r['submit_count']).zfill(2)
             folder=root/'evidence'/session;folder.mkdir(parents=True,exist_ok=False)
+            spec=read(root/'plans/SOURCE_EVALUATION_PLAN.json')['panels'][base]
+            remaining=None;probe_state=None
+            if ledger.n1 is not None:
+                from .n1_boundary import paths
+                from .fixed_probes import panel_work
+                prior_path=root/paths(r['submit_count'])[3]
+                identity=checkpoint_identity(checkpoint,session,r['source_sha'])
+                work=panel_work(root,base,identity['files'],read(prior_path),spec)
+                remaining,probe_state=work['remaining'],work['probes']
+                if work['skip_before_model_load']:
+                    skipped=dict(panel=base,status='SEALED_ZERO_REMAINING_PANEL_SKIPPED_BEFORE_MODEL_LOAD',
+                        prior_outcomes_sha256=sha(prior_path),checkpoint_manifest_sha256=sha(checkpoint/'CHECKPOINT_COMPLETE.json'),
+                        fixed_probes_complete=probe_state is None or probe_state['complete'],new_model_loads=0,new_queries=0)
+                    write(folder/'SKIPPED_COMPLETE_PANEL.json',skipped);records.append(skipped);continue
             proof=load(checkpoint,session,False);write(folder/'FROZEN_PARAMETER_PROOF.json',proof)
             probe=root/'evidence'/base/'probes'
             if base.endswith('TRAIN4'):
-                if probe.exists():
+                if ledger.n1 is not None and not probe_state['complete']:
+                    from .fixed_probes import complete as complete_probes
+                    b=read(root/'NEURAL_BINDINGS.private.json');d=SourceDataset(b['dataset'],b['source'],b['cosmos'],for_optimization=False,raw_bindings=read(b['raw_bindings']));d.initialize()
+                    result=complete_probes(root,base,instance,d,ledger,guard)
+                    write(folder/'FIXED_PROBE_RESUME.json',result)
+                elif probe.exists():
                     old=read(probe/'ON_EXPERT_RESULTS.json') if (probe/'ON_EXPERT_RESULTS.json').exists() else {}
                     write(folder/'PROBE_REUSE_BINDING.json',dict(status='PRIOR_FIXED_PROBES_PRESERVED_NO_RESAMPLING',
                         prior_expert_complete=old.get('complete',False),prior_expert_records=len(old.get('records',[])),new_queries=0))
                 else:
                     b=read(root/'NEURAL_BINDINGS.private.json');d=SourceDataset(b['dataset'],b['source'],b['cosmos'],for_optimization=False,raw_bindings=read(b['raw_bindings']));d.initialize()
                     model.probes(root,base,instance,d,ledger,guard)
-            spec=read(root/'plans/SOURCE_EVALUATION_PLAN.json')['panels'][base]
+            if remaining==[]:
+                unload();records.append(dict(panel=base,status='FIXED_PROBES_COMPLETED_NO_REPEATED_POLICY_CONDITION'));continue
             serve(root,session,instance,allocation,ledger,guard,max_queries=80*len(spec['cards']),ready_status='MP1_NATIVE_MODEL_READY',terminal_status='MP1_NATIVE_SESSION_TERMINAL_NOT_TASK_SUCCESS')
             unload();records.append(dict(panel=base,session=session,status='NATIVE_SESSION_TERMINAL_ACTUAL_OUTCOMES_SEPARATELY_AUDITED'))
     try:
         if cold:
             qualification=read_live_owner(root,root.name,force_revalidate=True)
             write(request_path.parent/'OWNER_HEARTBEAT_SERVER_QUALIFICATION.json',dict(status='PASS_FORCED_NATIVE_COMPUTE_OWNER_READ_BEFORE_MODEL_LOAD',job_id=os.environ['PBS_JOBID'],epoch=time.time(),proof=qualification,models_loaded=0,new_queries=0,new_physics=0))
+        if ledger.n1 is not None:
+            from .pre_model_qualification import require
+            proof=require(root,request_path.parent,allocation)
+            write(request_path.parent/'N1_PREMODEL_QUALIFICATION_READBACK.json',proof)
         parent=read(root/'plans/SOURCE_PARENT_CHECKPOINT.json');parent_path=Path(parent['checkpoint'])
         if sha(parent_path/'CHECKPOINT_COMPLETE.json')!=parent['checkpoint_manifest_sha256']:raise PermissionError('MP1_AUDITED_M1_1024_PARENT_CHANGED')
         for branch in ['S-BC','S-CORR']:

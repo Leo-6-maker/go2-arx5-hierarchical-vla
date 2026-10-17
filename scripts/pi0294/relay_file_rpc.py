@@ -61,7 +61,7 @@ def serve(root,role,label):
         from scripts.pi0294.relay_endpoint import Endpoint
         from scripts.pi0294.mp1.science import Ledger
         from scripts.pi0294.mp1.plans import session_spec
-        session_spec(read(root/'plans/SOURCE_EVALUATION_PLAN.json'),label)
+        session_spec(read(root/'plans/SOURCE_EVALUATION_PLAN.json'),label,root=root)
         adjudication='MP1_ADJUDICATION.json'
     else:raise PermissionError('ADOPTED_E1_REMAINDER_OR_MP1_SOURCE_ONLY')
     ledger=Ledger(root,role);registry=root/'plans'/label/'REGISTRY.json';registry_hash=sha(registry)

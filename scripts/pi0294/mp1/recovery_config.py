@@ -43,6 +43,11 @@ def limits(stage,*,root=None):
     if not is_recovery(stage):
         cap=4
         if root is not None:
+            from .n1_limits import resolve
+            n1=resolve(root)
+            if n1 is not None:
+                return dict(mode='MP1_FIXED_SOURCE_PAIR',GPU_s=n1['source']['GPU_s'],PBS=n1['source']['PBS'],
+                    output_bytes=140*1024**3,job_wall_s_max=n1['source']['job_wall_s_max'])
             from .cold_boundary05 import effective_PBS_cap
             cap=effective_PBS_cap(root)
         return dict(mode='MP1_FIXED_SOURCE_PAIR',GPU_s=43200,PBS=cap,output_bytes=140*1024**3)

@@ -51,7 +51,7 @@ def run(root, label, binding_relative):
     binding = read(binding_path)
     registry_path = root / 'plans' / label / 'REGISTRY.json'
     registry = read(registry_path)
-    spec = session_spec(read(root / 'plans/SOURCE_EVALUATION_PLAN.json'), label)
+    spec = session_spec(read(root / 'plans/SOURCE_EVALUATION_PLAN.json'), label, root=root)
     ready = read(root / 'pbs/MODEL_STATE.json')
     if (binding['run_uuid'] != root.name or binding['session'] != label
             or binding['registry_sha256'] != sha(registry_path)

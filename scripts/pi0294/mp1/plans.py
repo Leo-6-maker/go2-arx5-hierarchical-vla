@@ -63,8 +63,10 @@ def remaining_panel(rows,spec):
     return remaining
 
 
-def session_spec(plan,label):
-    base,separator,attempt=label.rpartition('-ALLOCATION-')
-    if separator!='-ALLOCATION-' or attempt not in ['01','02','03','04','05'] or base not in plan['panels']:
-        raise PermissionError('EXACT_FIXED_PANEL_AND_AT_MOST_FIVE_NATIVE_ALLOCATIONS')
+def session_spec(plan,label,*,root=None):
+    from .n1_limits import allocation_number,resolve
+    n1=resolve(root) if root is not None else None
+    base,_=allocation_number(label,5 if n1 is None else n1['source']['PBS'])
+    if base not in plan['panels']:
+        raise PermissionError('EXACT_FIXED_PANEL_ONLY')
     return plan['panels'][base]

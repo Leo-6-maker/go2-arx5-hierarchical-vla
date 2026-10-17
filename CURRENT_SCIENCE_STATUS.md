@@ -1,5 +1,17 @@
 # Current Science Status
 
+**Latest actual science/engineering boundary:** [N1 generic admission and site receipt](reports/PI0294/20261016T191445Z-localpc-mp1/N1_GENERAL_RUNTIME_ADMISSION_CPU_AND_SITE_READBACK.json).
+Original fifth673008 stillR;CORR1345 at frozen readback,not endpoint2048.
+No new model or physical attempt;current e418bb79 unchanged. Public N1
+runtime layers/zero-work skip/known-unstarted probe resume pass CPU tests,
+including108array exact equivalence to unchanged original probe primitive.
+Native600s/80cycles,qualification producer,general finite manager and cold
+deployment remain pending;newN1 model load is fail-closed until actual proof.
+Project auth was autonomously refreshed and independently read back valid;
+prior failed query below is history,not a current request for user login.
+Nativeauto/small queue supports the authorized future8h upper,current4h
+job untouched. No newPBS,new method,science-budget reset or WBC change.
+
 **Current authority/runtime boundary:** [N1 single adoption and effective cumulative ceilings](reports/PI0294/20261016T191445Z-localpc-mp1/N1_ADOPTION_AND_EFFECTIVE_LIMITS.json).
 N1 control adoption03:08:01SGT Oct18;three registered sites read back the
 same fixed bundle/delta without changing active manifests. Source05/673008

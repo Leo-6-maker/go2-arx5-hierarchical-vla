@@ -13,7 +13,7 @@ from .test_mp1_behavior_matrix import plan,receipt
 class ColdBoundary(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
-        self.root=Path(self.temp.name)/'parent/children/source-pair-01';self.root.mkdir(parents=True)
+        self.root=Path(self.temp.name)/getattr(self,'parent_name','parent')/'children/source-pair-01';self.root.mkdir(parents=True)
         self.put(self.root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json',dict(T0_epoch=1792178085))
         self.put(self.root/'plans/SOURCE_EVALUATION_PLAN.json',plan())
         self.hashes={n:'a'*64 for n in cold.LEARNING_FILES}
@@ -40,7 +40,7 @@ class ColdBoundary(unittest.TestCase):
         corr=plan()['panels']['S-CORR-512-TRAIN4']['cards']
         self.rows.extend(receipt(c) for c in corr[:2]);self.rows.extend([receipt(corr[2],'ENGINEERING_INCOMPLETE'),receipt(dict(corr[2],id=corr[2]['id']+'-REPLACEMENT-01'),'ENGINEERING_INCOMPLETE')])
         self.put(self.root/cold.OUTCOMES,self.rows)
-        self.binding=dict(schema='MP1_SAME_ROOT_COLD_ALLOC04_BOUNDARY_V1',authority_release=cold.AUTH,run_uuid=self.root.name,parent_run_uuid='parent',original_T0_epoch=1792178085,
+        self.binding=dict(schema='MP1_SAME_ROOT_COLD_ALLOC04_BOUNDARY_V1',authority_release=cold.AUTH,run_uuid=self.root.name,parent_run_uuid=self.root.parent.parent.name,original_T0_epoch=1792178085,
             target_allocation_number=4,new_source_sha='b'*40,prior_manifest_sha256=sha(self.root/cold.HISTORY),old_STOP_sha256=cold.STOP_SHA,new_budget_or_clock=False,new_attempt_rights=False,old_STOP_removed=False)
         self.put(self.root/cold.BINDING,self.binding)
         self.manifest=copy.deepcopy(self.old);self.manifest['code'].update(vla_commit='b'*40,capsule_relative='capsules/new/code',source_seal_relative='capsules/new/SOURCE_SEAL.json',source_seal_sha256=sha(self.root/'capsules/new/SOURCE_SEAL.json'),unchanged_learning_files=self.hashes)

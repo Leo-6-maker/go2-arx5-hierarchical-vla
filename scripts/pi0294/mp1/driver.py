@@ -38,6 +38,7 @@ from pathlib import Path
 r=Path(ROOT);raw=(r/'RUN_MANIFEST.json').read_bytes();m=json.loads(raw);rows=[];active=[]
 code=r/m['code']['capsule_relative'];sys.path[:0]=[str(code),str(code/'src')]
 from scripts.pi0294.mp1.cold_boundary import blocked
+from scripts.pi0294.mp1.plans import session_spec
 if ROLE=='core':
  for p in (r/'worker_processes').glob('*.json'):
   w=json.loads(p.read_text());s=Path('/proc',str(w['pid']),'stat')
@@ -52,12 +53,17 @@ if ROLE=='core':
   rows=json.loads((r/'plans/PRIOR_RECOVERY_OUTCOMES.json').read_text())+rows
 print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib.sha256(raw).hexdigest(),
  plan=json.loads((r/'plans/SOURCE_EVALUATION_PLAN.json').read_text()),rows=rows,
+ spec=session_spec(json.loads((r/'plans/SOURCE_EVALUATION_PLAN.json').read_text()),SESSION,root=r),
+ n1_authority_binding=m['execution'].get('n1_authority_binding'),
  engineering_stop=blocked(r,int(SESSION.rsplit('-',1)[1])),
  source_stop=(r/'SOURCE_PHYSICS_STOP.json').exists() if ROLE=='core' else False)))
 ''',dict(ROLE=role,SESSION=session),label='MP1-fixed-panel-boundary-'+role)
     if facts['core']['plan']!=facts['hopper']['plan']:raise PermissionError('MP1_IDENTICAL_FIXED_DEVELOPMENT_PLAN_ON_BOTH_HOSTS')
     if facts['core']['source_stop'] or any(v['engineering_stop'] for v in facts.values()):return None
-    spec=session_spec(facts['core']['plan'],session)
+    if (facts['core']['spec']!=facts['hopper']['spec']
+            or facts['core']['n1_authority_binding']!=facts['hopper']['n1_authority_binding']):
+        raise PermissionError('MP1_IDENTICAL_COLD_SESSION_AUTHORITY_ON_BOTH_HOSTS')
+    spec=facts['core']['spec']
     if ready['status']!='MP1_NATIVE_MODEL_READY' or ready['identity']['global_step']!=spec['checkpoint_step'] or ready['label']!=session:
         raise PermissionError('MP1_FIXED_NATIVE_CHECKPOINT_ONLY')
     selected=remaining_panel(facts['core']['rows'],spec)
@@ -75,6 +81,8 @@ print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib
             hopper_session_relative='evidence/'+session+'/resident')
     registry=dict(run_uuid=ready['run_uuid'],deadline_epoch=ready['allocation_end_epoch']-2700,cases=cases,checkpoint_identity=ready['identity'],
         **{role+'_'+k:info[k] for role,info in facts.items() for k in ['source_sha','manifest_sha256']})
+    if facts['core']['n1_authority_binding'] is not None:
+        registry['n1_authority_binding']=facts['core']['n1_authority_binding']
     for role in ['core','hopper']:
         remote(role,r'''
 import json

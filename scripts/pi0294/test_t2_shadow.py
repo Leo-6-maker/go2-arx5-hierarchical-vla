@@ -15,7 +15,8 @@ from .mp1.t2_figure import chart_rows
 class SavedT2ShadowTests(unittest.TestCase):
     def test_no_neural_training_live_or_recovery_authority(self):
         with tempfile.TemporaryDirectory() as d:
-            root=Path(d);stage=dict(schema=config.SCHEMA,stage_caps=config.CAPS)
+            root=Path(d);stage=dict(schema=config.SCHEMA,stage_caps=config.CAPS,CPU_core_s=config.CPU_CAPS)
+            (root/'RUN_MANIFEST.json').write_text('{}')
             (root/'MP1_STAGE_BINDING.json').write_text(json.dumps(stage))
             (root/'RESOURCE_LEDGER.json').write_text(json.dumps(dict(reservations={})))
             ledger=Ledger(root,'core')

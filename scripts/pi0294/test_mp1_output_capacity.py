@@ -16,7 +16,7 @@ class OutputCapacity(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name)/'parent/children/source-pair-01';self.root.mkdir(parents=True)
         (self.root/'pbs').mkdir()
-        self.put(self.root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json',dict(T0_epoch=10,new_submission_and_candidate_cutoff_epoch=time.time()+3600))
+        self.put(self.root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json',dict(T0_epoch=10,new_submission_and_candidate_cutoff_epoch=time.time()+3600,new_experiment_cutoff_epoch=time.time()+20000))
         self.put(self.root/'MP1_STAGE_BINDING.json',dict(schema='MP1_SOURCE_SHARED_STAGE_V1'))
         code=self.root/'capsules'/capacity.RUNTIME/'code';self.put(code/'scripts/frozen.json',dict(frozen=True))
         seal=code.parent/'SOURCE_SEAL.json';self.put(seal,dict(source_sha=capacity.RUNTIME,files={'scripts/frozen.json':sha(code/'scripts/frozen.json')}))

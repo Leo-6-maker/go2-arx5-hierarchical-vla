@@ -1,0 +1,155 @@
+{
+  "schema": "MP1_N1_GENERAL_NATIVE_ADMISSION_ENGINEERING_V1",
+  "status": "PUBLIC_RUNTIME_LAYERS_CPU_TESTED_NOT_COLD_DEPLOYED_OR_NATIVE_QUALIFIED",
+  "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+  "adoption_delta_sha256": "91d41f1f810f97caf0cb9be14882d4b94fd13e5af3bedadb3505277693281cce",
+  "original_T0_epoch": 1792178085,
+  "N1_started_epoch": 1792264081,
+  "cutoffs": {
+    "new_submission_and_candidate_cutoff_epoch": 1792372081,
+    "new_experiment_cutoff_epoch": 1792386481,
+    "hard_closeout_epoch": 1792393681
+  },
+  "code_in_containing_commit": true,
+  "new_scientific_authority_created": false,
+  "integrated_public_layers": [
+    "SEALED_N1_EFFECTIVE_LIMITS_AND_FIRST_PARENT_ADOPTION",
+    "GENERIC_CONTIGUOUS_COLD_BOUNDARY_06_TO_12_WITH_PRIOR_NATIVE_TERMINAL_COST_CHAIN",
+    "REQUEST_AND_PRE_QSUB_REVALIDATION_AND_NATIVE_ALLOCATION",
+    "NATIVE_AUTO_SMALL_QUEUE_WALLTIME_PROOF_AND_EARLIER_WINDOW",
+    "NEURAL_CPU_RLIMIT_AND_SOURCE_LEDGER_COUNTERS",
+    "CORE_DRIVER_FILE_RPC_SESSION_METADATA_READER_AND_NATIVE_REGISTRY",
+    "BEHAVIOR_MATRIX_EXTENDED_LABELS_ONLY_WITH_EXACT_N1_BINDING",
+    "PRELOAD_ZERO_REMAINING_POLICY_AND_COMPLETE_PROBE_SKIP",
+    "UNCHANGED_E1_FIXED_DRAW_PRIMITIVE_WITH_KNOWN_UNSTARTED_ONLY_RESUME",
+    "FAIL_CLOSED_PREMODEL_SAME_JOB_600S_80_CYCLE_RECEIPT_GATE"
+  ],
+  "legacy_without_N1": "OLD_BIRTH_4_OR_SEALED_SINGLE_FIFTH_LIMITS_UNCHANGED",
+  "public_CI_before_this_commit": {
+    "adoption_run": 39061456352,
+    "adoption_conclusion": "SUCCESS",
+    "first_adoption_pin_run": 39061615790,
+    "pin_conclusion": "SUCCESS_ACTUAL_EXACT_HEAD_READBACK"
+  },
+  "local_CPU_tests": {
+    "PI0294": {
+      "passed": 457,
+      "subtests": 328
+    },
+    "main": "827_PASS_14_SKIP_58_SUBTESTS",
+    "PI0292": "108_PASS_150_SUBTESTS",
+    "synthetic_fixtures_are_not_native_or_model_results": true
+  },
+  "semantic_equivalence": {
+    "original_model_probe_module_unchanged": true,
+    "new_fresh_fixture_108_arrays_exact_byte_equal_to_original": true,
+    "original_and_resumed_expert_and_student_aggregates_equal": true,
+    "known_complete_or_durable_complete_draws_resampled": false,
+    "unknown_intent_and_orphan_arrays_rejected_before_generation": true,
+    "zero_success_complete_TRAIN_is_not_a_new_DEV_gate": true,
+    "frozen_learning_files": {
+      "scripts/pi0294/mp1/train.py": "e9b014ece9de87ef7232f40e5341514bdafe740f1624ebb11b7cad591a1786cc",
+      "scripts/pi0294/mp1/trainer.py": "9ce75353265c0731028dbb24f918495a18c944c52da2c21dc9e91e31de06d832",
+      "scripts/pi0294/mp1/dataset.py": "e3fa7b3a46e3e93306af732231bbfc76f0a94b209317f572c4822cd067a63218",
+      "scripts/pi0294/e1/model.py": "ba298ec7223c229b8a3fccaa97115edc8ef483a6b83dcf1991d283527080102d",
+      "scripts/pi0294/e1/neural.py": "d7d58f9586effd4c7c695071bb09e9c1afe485e0402ba1bbdb889a067ac49e77",
+      "scripts/pi0294/native_dataset.py": "107d2c0f27aabb583fb349dd4d3a329d876028a1e17f4b854e14dd4a3ea81d44",
+      "scripts/pi0294/native_train.py": "b443b7883529ba60e8108a9f72ab7ba90fb62d3ed2f40bea126f9245daac5ebf",
+      "scripts/pi0294/numerics.py": "0d29a075cb7521a43521355b68088cb848b797fd5e24fbcf9c60ab5a90c68449",
+      "scripts/pi0294/scene.py": "29570d70e6d75519eae4fed02aad0a582efe6119deeea048b30bc99e2cf05b11",
+      "scripts/pi0294/episode.py": "ec8205fdb01cc238425e3bcfca5539711640f8aa2a6d7883c0c2ad4bc7ae8728",
+      "scripts/pi0294/s1_preflight.py": "9ada71cf25a4347d6cd12232e42d32c7901e552ee839de091b0cc725d69205ec",
+      "scripts/pi0294/score.py": "143dab0826a7490331a0740bc9e9f322f2aebe5d8a810960bec21ba169e1c956"
+    },
+    "frozen_numerical_files": {
+      "scripts/pi0294/episode.py": "ec8205fdb01cc238425e3bcfca5539711640f8aa2a6d7883c0c2ad4bc7ae8728",
+      "scripts/pi0294/scene.py": "29570d70e6d75519eae4fed02aad0a582efe6119deeea048b30bc99e2cf05b11",
+      "scripts/pi0294/scene_cards.py": "08530a62ff3f34509f3efb6459f20d5e0c600cdeb8dc31b01e7a766269a0dd91",
+      "scripts/pi0294/teacher.py": "994b741654075f9835b5d9bd4f8db70b7476664343b3c204594330dff41711e7",
+      "scripts/pi0294/score.py": "143dab0826a7490331a0740bc9e9f322f2aebe5d8a810960bec21ba169e1c956",
+      "scripts/pi0294/s1_preflight.py": "9ada71cf25a4347d6cd12232e42d32c7901e552ee839de091b0cc725d69205ec",
+      "scripts/pi0292/physics_relay.py": "ac41798731b3db045a7f0d0aba3a95f421ac0fb7302a4858b07567e85fdd779e",
+      "scripts/pi0292/relay_protocol.py": "2ecd3ceb94a9f63316c02e6ccc58ce03fa37a2df7cd33291a6ff5de17f8070f0",
+      "scripts/pi0292/live_inputs.py": "bcd1670b184b3f9b4ec13e24bad9bde0c16273b9728ac486afa0a98aaf67cdef",
+      "scripts/pi0292/eval_contract.py": "8d18bef9216672d3b7d9d8f4d90a7592c524ea257947187c4f2b8c97dd2a6075",
+      "scripts/pi0292/train_adapter.py": "1e0b5abca796d4023d6e935be4c43c20deb6f4de873359be742e13e189401ed0",
+      "scripts/pi0291_arx5_data/config.py": "debc6d9d0358bc6dcf5a1107c5723bb6eb8ff4b396fc35f7901fb67f771f593c",
+      "scripts/pi0291_arx5_data/engine.py": "623dc5ebf59fd9c470152ee3d60bb15b11ea554ef4b41bf911e62c20dec46c30",
+      "scripts/pi0294/numerics.py": "0d29a075cb7521a43521355b68088cb848b797fd5e24fbcf9c60ab5a90c68449",
+      "scripts/pi0294/local_backbone.py": "0c8dfdbc5b2c10db5105b5716f553e06594b757c6ec1354643e23d2da30ba6c1"
+    }
+  },
+  "current_fifth": {
+    "job_id": "673008.hopper-m-02",
+    "state": "R",
+    "native_walltime": "01:11:15",
+    "observed_CORR_updates": 1345,
+    "combined_optimizer_updates": 3393,
+    "pending_updates": 1,
+    "source_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
+    "settled_source_H200_s": 24119,
+    "same_job_reserved_H200_s": 14400,
+    "source_PBS": 5,
+    "healthy_old_binding_preserved": true,
+    "new_code_hot_loaded": false,
+    "restarted_or_cancelled": false
+  },
+  "native_permission_refresh": {
+    "status": "PASS_NATIVE_CURRENT_PROJECT_ACTIVE_MEMBER_POSITIVE_BALANCE",
+    "observed_epoch": 1792265518.1996608,
+    "project": "CFP04-CF-007",
+    "active": true,
+    "member": true,
+    "positive_balance": true,
+    "quota_report_age_s_at_read": 530.5776996612549,
+    "quota_free_bytes_at_read": 466162753536,
+    "login_via_existing_masked_authorized_flow": true,
+    "credential_written_to_agent_files_or_logs": false,
+    "normal_amgr_auth_cache_managed_by_amgr": true,
+    "new_PBS": 0
+  },
+  "native_queue_readback": {
+    "queue": "auto",
+    "single_GPU_route": "small",
+    "small_native_max_wall_s": 518400,
+    "future_N1_request_max_s": 28800,
+    "actual_running_fifth_request_unchanged_s": 14400,
+    "resource_fields_checked_by_existing_native_reader": true,
+    "every_future_prepare_requires_fresh_site_and_project_proof": true
+  },
+  "native_engineering_qualification": {
+    "compute_600s": "NOT_RUN_UNDER_N1",
+    "production_transport_80cycles": "NOT_RUN",
+    "actual_fault_injection": "NOT_RUN",
+    "new_source_cold_deployment": "NOT_RUN",
+    "N1_native_manager_and_qualification_producer": "NOT_YET_PREPARED_OR_DISPATCHED",
+    "admission_verifier_only_is_not_real_qualification": true,
+    "substantive_native_repair_versions_consumed": 0
+  },
+  "accounting": {
+    "local_CPU_upper_s": 1800,
+    "Hopper_management_CPU_upper_s": 180,
+    "CPU_reservation_s": 1980,
+    "settlement": "WILL_SETTLE_ONCE_AT_CODE_PUBLICATION_BOUNDARY",
+    "initial_N1_adoption_1140CPU_s_not_recharged": true,
+    "new_PBS": 0,
+    "new_models": 0,
+    "new_model_queries": 0,
+    "new_physics": 0,
+    "new_optimizer_updates": 0,
+    "deleted_bytes": 0
+  },
+  "next_actual_actions": [
+    "FINISH_PRODUCER_AND_FINITE_N1_MANAGER_THEN_CPU_AND_CI_READBACK",
+    "PRESERVE_HEALTHY_FIFTH_UNTIL_NATIVE_TERMINAL_AND_CLOSE_EFFECTS",
+    "IF_REQUIRED_COLD_BIND_GENERAL_N1_CODE_WITH_REAL_OWNER_FENCE",
+    "REAL_NATIVE_600S_AND_80_CYCLE_QUALIFICATION_BEFORE_NEW_MODEL_LOAD",
+    "FINISH_CORR2048_FIXED_ENDPOINTS_AND_EXACT_PAIRED_CONSUMPTION",
+    "SAME_STATE_DIAGNOSIS_AND_ONE_EVIDENCE_GATED_METHOD_OR_UNRESOLVED",
+    "ORIGINAL_CONFIRMATION_AND_INDEPENDENT_VANDA_QUALIFICATION_WITH_FRESH_ADMISSION"
+  ],
+  "selected": "NONE",
+  "real_robot_deployment": "NONE",
+  "TF_R3_STOP": "PRESERVED",
+  "WBC": "FROZEN"
+}

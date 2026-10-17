@@ -23,6 +23,7 @@ PROTOCOL = 'plans/N1/PROTOCOL.md'
 HANDOFF = 'plans/N1/HANDOFF.md'
 FILES = [HANDOFF, PROTOCOL, CARD, DELTA]
 FIRST_ADOPTION = 'authority/N1/ADOPTION_DELTA.json'
+ADOPTED_DELTA_SHA = '91d41f1f810f97caf0cb9be14882d4b94fd13e5af3bedadb3505277693281cce'
 
 
 def validated_delta(delta, original):
@@ -144,3 +145,23 @@ def require_remaining(used, reserved, amount, ceiling):
         raise ValueError('EXACT_NONNEGATIVE_CUMULATIVE_RESOURCE_COUNTS')
     if used + reserved + amount > ceiling:
         raise PermissionError('N1_OLD_USED_AND_CURRENT_RESERVATIONS_COUNT_ONCE')
+
+
+def clock(root, original=None, manifest=None):
+    root = Path(root)
+    original = (read(root.parent.parent / 'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
+                if original is None else original)
+    value = resolve(root, manifest)
+    result = dict(original)
+    if value is not None:
+        for key in ['new_submission_and_candidate_cutoff_epoch', 'new_experiment_cutoff_epoch', 'hard_closeout_epoch']:
+            result[key] = value[key]
+    return result
+
+
+def registry_cap(binding):
+    if binding is None:
+        return 5
+    if binding != dict(release=RELEASE, adoption_delta_sha256=ADOPTED_DELTA_SHA):
+        raise PermissionError('EXACT_PUBLISHED_FIRST_N1_ADOPTION_IN_NATIVE_REGISTRY')
+    return 12

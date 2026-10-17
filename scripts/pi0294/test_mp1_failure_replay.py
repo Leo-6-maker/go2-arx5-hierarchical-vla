@@ -43,7 +43,8 @@ class FailureReplayTests(unittest.TestCase):
 
     def test_ledger_refuses_gpu_models_training_recovery_and_live_steps(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root=Path(tmp);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(dict(schema=config.SCHEMA,stage_caps=config.CAPS)))
+            root=Path(tmp);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(dict(schema=config.SCHEMA,stage_caps=config.CAPS,CPU_core_s=config.CPU_CAPS)))
+            (root/'RUN_MANIFEST.json').write_text('{}')
             (root/'RESOURCE_LEDGER.json').write_text(json.dumps(dict(main_starts=0,live_and_recovery_integrations=0,shadow_integrations=0,reservations={})))
             ledger=Ledger(root,'core')
             for key in ['optimizer_updates','generation_queries','recovery_forks']:

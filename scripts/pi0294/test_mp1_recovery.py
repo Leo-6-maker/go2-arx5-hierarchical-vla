@@ -17,7 +17,7 @@ class RecoveryTests(unittest.TestCase):
     def test_human_third_PBS_is_opt_in_two_hours_no_counter_reset(self):
         prior=r.prior_usage({});prior.update(GPU_s=453,PBS=2,main_starts=4,
             live_and_recovery_integrations=600,shadow_integrations=600,generation_queries=5)
-        stage=dict(schema=r.SCHEMA,stage_caps=r.CAPS,prior_recovery_usage=prior,
+        stage=dict(schema=r.SCHEMA,stage_caps=r.CAPS,CPU_core_s=r.CPU_CAPS,prior_recovery_usage=prior,
                    additional_PBS_authorization=r.ADDITIONAL_PBS_AUTHORIZATION)
         self.assertEqual(r.family_PBS_cap(stage),3)
         self.assertEqual(r.limits(stage)['PBS'],1)
@@ -25,6 +25,7 @@ class RecoveryTests(unittest.TestCase):
         from .mp1.science import Ledger
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(stage))
+            (root/'RUN_MANIFEST.json').write_text('{}')
             ledger=Ledger(root,'hopper');self.assertEqual(ledger.caps['main_starts'],12)
             self.assertEqual(ledger.caps['generation_queries'],1275)
             self.assertEqual(ledger.caps['optimizer_updates'],0)
@@ -53,7 +54,8 @@ class RecoveryTests(unittest.TestCase):
     def test_recovery_resource_ledger_refuses_one_training_update(self):
         from .mp1.science import Ledger
         with tempfile.TemporaryDirectory() as d:
-            root=Path(d);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(dict(schema=r.SCHEMA,stage_caps=r.CAPS)))
+            root=Path(d);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(dict(schema=r.SCHEMA,stage_caps=r.CAPS,CPU_core_s=r.CPU_CAPS)))
+            (root/'RUN_MANIFEST.json').write_text('{}')
             (root/'HOPPER_RESOURCE_LEDGER.json').write_text(json.dumps(dict(optimizer_updates=0)))
             ledger=Ledger(root,'hopper')
             with self.assertRaises(PermissionError):ledger.charge('optimizer_updates',1)
@@ -66,10 +68,11 @@ class RecoveryTests(unittest.TestCase):
         from .mp1.science import Ledger
         prior=r.prior_usage({});prior.update(GPU_s=213,PBS=1,main_starts=2,
             live_and_recovery_integrations=400,shadow_integrations=400,generation_queries=2,CPU_core_s=200,CPU_hopper_s=215)
-        stage=dict(schema=r.SCHEMA,stage_caps=r.CAPS,prior_recovery_usage=prior)
+        stage=dict(schema=r.SCHEMA,stage_caps=r.CAPS,CPU_core_s=r.CPU_CAPS,prior_recovery_usage=prior)
         self.assertEqual(r.limits(stage)['PBS'],1);self.assertEqual(r.limits(stage)['GPU_s'],21387)
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(stage))
+            (root/'RUN_MANIFEST.json').write_text('{}')
             (root/'HOPPER_RESOURCE_LEDGER.json').write_text(json.dumps(dict(optimizer_updates=0)))
             ledger=Ledger(root,'hopper');self.assertEqual(ledger.caps['main_starts'],14)
             ledger.charge('generation_queries',1278)

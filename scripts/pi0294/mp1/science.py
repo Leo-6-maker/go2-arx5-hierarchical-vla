@@ -45,6 +45,10 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
             or stage['allocated_H200_s_max']!=(0 if diagnostic else recovery.GPU_CAP if recovered else 43200) or stage['PBS_submissions_max']!=(0 if diagnostic else recovery.family_PBS_cap(stage) if recovered else 4)):
         raise PermissionError('MP1_FIXED_STUDY_OR_EXISTING_MODEL_RECOVERY_SCOPE')
     manifest=Path(os.environ.get('MP1_RUN_MANIFEST',root/'RUN_MANIFEST.json'));m=read(manifest);b=read(root/'OUTPUT_BINDING.private.json')
+    from .n1_limits import resolve
+    n1=resolve(root,m)
+    if n1 is not None and now>=(n1['hard_closeout_epoch'] if closeout else n1['new_experiment_cutoff_epoch']):
+        raise PermissionError('N1_EARLIER_AUTONOMY_CUTOFF_PRESERVES_ORIGINAL_MP1_CLOCK')
     compute=profile=='hopper-neural' and os.environ.get('PBS_JOBID') and socket.gethostname().startswith('hopper-')
     if (m['schema']!='RUN_MANIFEST_V1' or m['run_uuid']!=root.name or m['owner']!='EXISTING_LOCAL_PC'
             or m['authority']['protocol_ref']!=AUTHORITY or m['scope']!=(diag.SCOPE if diagnostic else 'MP1_EXISTING_E1_MODEL_EVALUATION_RECOVERY' if recovered else 'MP1_SOURCE_SHARED_STUDY')
@@ -101,6 +105,14 @@ class Ledger(FileLedger):
         if stage['stage_caps']!=base:raise PermissionError('MP1_EXACT_SOURCE_STUDY_COUNTERS')
         prior=recovery.prior_usage(stage) if recovery.is_recovery(stage) else {k:0 for k in base}
         self.caps={k:v-prior[k] for k,v in base.items()}
+        from .n1_limits import resolve
+        self.n1=resolve(self.root)
+        self.cpu_caps=dict(stage['CPU_core_s'])
+        if self.n1 is not None:
+            if recovery.is_recovery(stage) or t2.is_diagnostic(stage) or failure.is_diagnostic(stage):
+                raise PermissionError('N1_SOURCE_PAIR_OVERLAY_NOT_ANOTHER_STAGE_BUDGET')
+            self.caps['generation_queries']=self.n1['source']['generation_queries']
+            self.cpu_caps=dict(self.n1['source']['CPU_s'])
 
     def charge(self,key,count):
         if type(count) is not int or count<0 or key not in self.caps:raise ValueError('MP1_EXACT_POSITIVE_RESOURCE_CHARGE')
@@ -128,8 +140,9 @@ class Ledger(FileLedger):
     def guard(self,*,closeout=False):
         stage=read(self.root/'MP1_STAGE_BINDING.json');a=read(self.root.parent.parent/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json')
         if (t2.is_diagnostic(stage) or failure.is_diagnostic(stage)) and (self.root/'SOURCE_PHYSICS_STOP.json').exists():raise PermissionError('SAVED_DIAGNOSTIC_SOURCE_STOP')
-        if time.time()>=(a['hard_closeout_epoch'] if closeout else a['new_experiment_cutoff_epoch']):raise TimeoutError('MP1_SOURCE_STUDY_CLOCK_CLOSED')
-        l=read(self.path);key='Core_CPU_s' if self.role=='core' else 'CPU_s';cap=stage['CPU_core_s'][self.role]
+        clock=self.n1 if self.n1 is not None else a
+        if time.time()>=(clock['hard_closeout_epoch'] if closeout else clock['new_experiment_cutoff_epoch']):raise TimeoutError('MP1_SOURCE_STUDY_CLOCK_CLOSED')
+        l=read(self.path);key='Core_CPU_s' if self.role=='core' else 'CPU_s';cap=self.cpu_caps[self.role]
         if recovery.is_recovery(stage):cap-=recovery.prior_usage(stage)['CPU_'+self.role+'_s']
         if l[key]>=cap:raise PermissionError('MP1_SOURCE_STAGE_CPU_CAP')
 

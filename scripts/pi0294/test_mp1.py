@@ -103,9 +103,10 @@ class MP1Tests(unittest.TestCase):
         self.assertEqual(len(calls),1)
 
     def test_source_study_cannot_consume_Oracle_or_excess_update_slots(self):
-        from .mp1.science import CAPS,Ledger
+        from .mp1.science import CAPS,CPU_CAPS,Ledger
         with tempfile.TemporaryDirectory() as d:
-            root=Path(d);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(dict(stage_caps=CAPS)))
+            root=Path(d);(root/'MP1_STAGE_BINDING.json').write_text(json.dumps(dict(stage_caps=CAPS,CPU_core_s=CPU_CAPS)))
+            (root/'RUN_MANIFEST.json').write_text('{}')
             (root/'RESOURCE_LEDGER.json').write_text(json.dumps(dict(main_starts=0,reservations={},shadow_integrations=0)))
             ledger=Ledger(root,'core');ledger.charge('main_starts',64)
             with self.assertRaises(PermissionError):ledger.charge('main_starts',1)

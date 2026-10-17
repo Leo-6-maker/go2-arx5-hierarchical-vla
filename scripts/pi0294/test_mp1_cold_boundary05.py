@@ -44,7 +44,7 @@ class FifthBoundary(unittest.TestCase):
         self.m['code'].update(vla_commit='c'*40,capsule_relative='capsules/fifth/code',source_seal_relative='capsules/fifth/SOURCE_SEAL.json',
             source_seal_sha256=sha(self.root/'capsules/fifth/SOURCE_SEAL.json'))
         self.q=dict(schema='MP1_SAME_ROOT_COLD_ALLOC05_BOUNDARY_V1',authority_release=cold.AUTH,run_uuid=self.root.name,
-            parent_run_uuid='parent',original_T0_epoch=1792178085,target_allocation_number=5,effective_source_PBS_cap=5,
+            parent_run_uuid=self.root.parent.parent.name,original_T0_epoch=1792178085,target_allocation_number=5,effective_source_PBS_cap=5,
             new_source_sha='c'*40,prior_manifest_sha256=sha(self.root/fifth.HISTORY),authorization_card_sha256=fifth.CARD_SHA,
             new_budget_or_clock=False,new_attempt_rights=False,old_STOP_removed=False,automatic_sixth_submission=False)
         self.put(self.root/fifth.BINDING,self.q);self.reseal()

@@ -101,6 +101,19 @@ class SourceMatrixTests(unittest.TestCase):
         result=self.matrix(rows);self.assertEqual(result['status'],'COMPLETE_ALL32_VERIFIED_POLICY_RESULTS');self.assertEqual(result['selected'],'NONE')
         self.assertEqual(result['panels']['S-CORR-2048-DEV8']['tasks']['T2']['success_fraction_only_if_complete'],1)
 
+    def test_extended_session_requires_exact_n1_registry_and_never_cross_model(self):
+        from .mp1.n1_limits import RELEASE,ADOPTED_DELTA_SHA
+        a=receipt(self.plan['panels']['S-CORR-2048-TRAIN4']['cards'][0])
+        add(a,self.audits,self.chains,self.checkpoints,self.registries)
+        old=a['model']+'-ALLOCATION-02';new=a['model']+'-ALLOCATION-12'
+        registry=self.registries.pop(old);self.registries[new]=registry
+        self.chains[a['attempt_id']]['hopper']['weight_binding']['label']=new
+        with self.assertRaises(PermissionError):self.matrix([a])
+        registry['n1_authority_binding']=dict(release=RELEASE,adoption_delta_sha256=ADOPTED_DELTA_SHA)
+        self.assertTrue(self.matrix([a])['actual_attempts'][0]['qualified_policy_outcome'])
+        registry['n1_authority_binding']['adoption_delta_sha256']='0'*64
+        with self.assertRaises(PermissionError):self.matrix([a])
+
     def test_actual_safety_is_preserved_and_blocks_replacement(self):
         card=self.plan['panels']['S-BC-2048-TRAIN4']['cards'][0];a=receipt(card,'ACTUAL_SAFETY_FAIL','LIVE_NATIVE_SAFETY');a.update(pipeline_trustworthy=False,live_native_failures=1)
         result=self.matrix([a]);self.assertTrue(result['actual_safety_stop_present']);self.assertEqual(result['cells'][4]['status'],'ACTUAL_SAFETY_FAIL')
