@@ -84,6 +84,26 @@ start allowance. MP1 source-budget starts are now 6 (4 actual new evaluation
 attempts + 2 shadow reconstructions), total integrations 20,323, H200 453s;
 the original MP1 clock and target TF-R3 STOP remain unchanged.
 
+**Original T2 TRAIN30 event coverage has also been actually audited.** All
+30 admitted demonstrations / 30 distinct scene groups (F0/F1/F2 = 8/11/11,
+not 30 OOD categories) contain every original push stage. Their 18,030
+overlapping H40 anchors include detach 756 (4.19%), withdraw 1,500 (8.32%),
+and 1,926 cross-stage windows containing detach. No window lies entirely in
+detach because those segments last only 1.10-1.35s, shorter than H40's 2s;
+this is not missing detach supervision. Raw stages exactly match the frozen
+manifest buckets. All 640 supervised commands plus the unlabeled terminal
+observation were explicitly distinguished and original input hashes rechecked.
+[Actual episode/event/window coverage](reports/PI0294/20261016T191445Z-localpc-mp1/T2_TRAIN30_EVENT_AND_H40_COVERAGE.json).
+
+The fixed Source Pair sampler forecast gives 1,324 detach + 2,678 withdraw
+visits among 32,768 planned T2 visits per branch. This is a deterministic
+future schedule, not actual training consumption or evidence of sufficiency.
+No S-EVENT trigger or main recipe change follows automatically from these
+counts. One CPU audit failed its initial 640-versus-641 observation check;
+the bounded explicit-terminal repair passed. Both workers are terminal,
+charged at 600 CPU seconds each as conservative process upper bounds,
+reservations zero; new physics/neural/training/GPU/PBS zero.
+
 **Campus connectivity is restored and the old E1 native states are reconciled.**
 Job 670729 is F/exit 1 after the original owner-heartbeat timeout, not a
 model/safety result. Both old jobs are terminal: 16,363 conservative allocated
@@ -176,9 +196,10 @@ original S1 in both layouts. This is not DEV, Go2/WBC or real-robot success.
   [Actual student-state diagnostics](reports/PI0294/20261016T150228Z-localpc-e1/ON_STUDENT_DIAGNOSTIC_COMPARISON.json).
 - [Saved M1 T2 object progress and original final rejection](reports/PI0294/20261016T150228Z-localpc-e1/M1_T2_SAVED_REJECTION_AND_OBJECT_PROGRESS.json):
   actual horizontal motion 13.28/14.61 cm before original S1 rejection,
-  without lifting; no complete task success. Specific illegal geom pairs
-  remain unknown, not inherited from M2048. No new physics was run to
-  extract this evidence.
+  without lifting; no complete task success. That historical saved-only
+  receipt did not know the specific illegal geom pair and did not inherit it
+  from M2048. The separately charged MP1 shadow receipt above now resolves
+  those pairs; the old E1 evidence and result remain unchanged.
 - E1 C0: 833 full H40 windows from two E0 student episodes, T1 only. It is
   state aggregation, not new M1 on-policy DAgger.
 - Four real M1 collection episodes are terminal. Two required qualified
@@ -237,22 +258,25 @@ Tests now patch their actual imported module objects. Remote CI at
 0218b645 passed; default local pytest is 827 PASS/14 explicit SKIP, PI0292
 108 PASS and PI0294 243 PASS. No native scientific capsule was hot patched.
 
-The next MP1 engineering action actually ran on both hosts: 96 same-host
+An earlier MP1 engineering action actually ran on both hosts: 96 same-host
 synthetic packet/heartbeat/ledger filesystem cycles each, with no model,
 PBS or physical start. The maximum component latency was 15.74ms Core
 and 24.71ms Hopper. No 20s stall was reproduced; this is not a cross-node
 NFS, SSH or 32s closed-loop test. Direct open is not a proven speedup.
-Guard/invoke/accounting/output phase tracing is now implemented for the
-next sealed RPC consumer, without watchdog or mutation-retry changes.
+Guard/invoke/accounting/output phase tracing was then used by the two real
+recovery children and located the accounting stall described above, without
+watchdog or mutation-retry changes.
 Initial CPU entry/path errors and a pre-dispatch immutable-request collision
 are preserved; failed cost is conservatively charged, not silently zeroed.
 All probe processes are terminal, reservations settled, E1 still CLOSED.
 [Actual timings, limitations, CI and costs](reports/PI0294/20261016T191445Z-localpc-mp1/ACTUAL_RELAY_CPU_DIAGNOSTIC_01.json).
 
 E1 cannot submit again or reopen its closed leases. Continue within the
-already adopted MP1, first qualifying a reliable finite relay for real
-behavioral results and recovering only admitted existing-model gaps at
-a separately bound normal boundary. No valid M1 outcome is replayed.
+already adopted MP1. Both existing-model recovery PBS slots are now spent;
+the failed shared relay branch is stopped, not queued for a third equivalent
+attempt. A future usable evaluation route still requires actual qualification,
+not another same-host smoke or training new weights to bypass the fault.
+No valid M1 outcome is replayed.
 Then bind S-BC2048 on original v3.0 TRAIN126 and the fixed M1@1024 parent;
 use the matched S-CORR branch from qualified frozen correction data. Preserve 1:1
 task exposure, including when only T1 has correction. Actual TRAIN126 has

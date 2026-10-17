@@ -19,6 +19,11 @@ has now resolved the contacts: F0 both finger pads/table, F1 right pad/table,
 at the original 56/52 shadow ticks. Expert/XYZ-only short prefixes pass while
 SO3/gripper-only still reject; no unique Z fix, relaxed S1, full Recovery or
 new task success is claimed. Child CLOSED; 19,123 new shadow steps, no GPU.
+The subsequent [original T2 TRAIN30 stage/window audit](reports/PI0294/20261016T191445Z-localpc-mp1/T2_TRAIN30_EVENT_AND_H40_COVERAGE.json)
+passed: detach/withdraw appear in all 30 demonstrations. Detach occupies
+4.19% of anchors; no pure-detach H40 exists because detach lasts less than
+2s, but 1,926 valid cross-stage windows include it. No automatic S-EVENT or
+training recipe change; sampler forecast is not actual consumed training.
 
 **2026-10-17 actual owner update:** E1's three PBS jobs and both leases are
 terminal/CLOSED, with 19,675 conservative GPU seconds and zero reservations.

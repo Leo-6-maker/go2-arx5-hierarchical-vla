@@ -1,0 +1,2189 @@
+{
+  "schema": "MP1_ORIGINAL_T2_TRAIN30_EVENT_COVERAGE_V1",
+  "status": "PASS_ACTUAL_TRAIN30_NUMERIC_RAW_STAGE_AND_EVENT_AUDIT",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "runtime_source": "56346a619a343eb4fcb1d17d0b7489d7af0390d1",
+  "authority": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "source_manifest_sha256": "b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "original_TRAIN_episodes": 126,
+  "selected_T2_TRAIN_episodes": 30,
+  "scene_groups": 30,
+  "distinct_initial_state_hashes": 30,
+  "scene_independence_caveat": "30 distinct predeclared scene groups/initial hashes, within three shared scene families; not 30 new object categories or OOD domains.",
+  "family_episodes": {
+    "F0": 8,
+    "F1": 11,
+    "F2": 11
+  },
+  "total_H40_windows": 18030,
+  "independent_episodes_with_stage_anchor": {
+    "approach": 30,
+    "close": 30,
+    "align": 30,
+    "contact": 30,
+    "push": 30,
+    "detach": 30,
+    "withdraw": 30,
+    "hold": 30
+  },
+  "anchor_stage_counts": {
+    "approach": 5036,
+    "close": 744,
+    "align": 960,
+    "contact": 279,
+    "push": 5685,
+    "detach": 756,
+    "withdraw": 1500,
+    "hold": 3070
+  },
+  "phase_anchor_counts": {
+    "approach": 5996,
+    "contact": 1023,
+    "transport": 5685,
+    "withdraw": 2256,
+    "hold": 3070
+  },
+  "anchor_stage_fraction_within_T2": {
+    "approach": 0.279312257348863,
+    "close": 0.04126455906821963,
+    "align": 0.05324459234608985,
+    "contact": 0.015474209650582363,
+    "push": 0.31530782029950083,
+    "detach": 0.041930116472545756,
+    "withdraw": 0.08319467554076539,
+    "hold": 0.17027176927343315
+  },
+  "windows_containing_any_stage": {
+    "approach": 5036,
+    "close": 1914,
+    "align": 2130,
+    "contact": 1449,
+    "push": 6855,
+    "detach": 1926,
+    "withdraw": 2670,
+    "hold": 4240
+  },
+  "windows_fully_within_one_stage": {
+    "approach": 3866,
+    "close": 0,
+    "align": 0,
+    "contact": 0,
+    "push": 4515,
+    "detach": 0,
+    "withdraw": 330,
+    "hold": 3070
+  },
+  "detach_duration_s": {
+    "minimum": 1.0999999999993904,
+    "maximum": 1.3499999999992518,
+    "mean": 1.259999999999302
+  },
+  "withdraw_duration_s": {
+    "minimum": 2.4999999999986144,
+    "maximum": 2.4999999999986144,
+    "mean": 2.499999999998614
+  },
+  "source_goal_distance_m": {
+    "minimum": 0.15630428408595745,
+    "maximum": 0.19978687058721983,
+    "mean": 0.1683042984805838
+  },
+  "cube_yaw_rad": {
+    "minimum": -0.06672186416623829,
+    "maximum": 0.06812980104150719,
+    "mean": 0.00821213206498084
+  },
+  "next_source_pair_T2_forecast": {
+    "status": "DETERMINISTIC_FORECAST_NOT_ACTUAL_TRAIN_CONSUMPTION",
+    "seed": 20261017,
+    "optimizer_updates_simulated": 0,
+    "planned_updates_per_branch": 2048,
+    "planned_sample_visits_per_branch": 65536,
+    "T2_sample_visits": 32768,
+    "anchor_stage_visits": {
+      "approach": 9161,
+      "close": 1383,
+      "align": 1800,
+      "contact": 519,
+      "push": 10283,
+      "detach": 1324,
+      "withdraw": 2678,
+      "hold": 5620
+    },
+    "episode_visits": {
+      "PI0294-TRAIN-F0-000-T2": 1048,
+      "PI0294-TRAIN-F0-001-T2": 1072,
+      "PI0294-TRAIN-F0-002-T2": 1125,
+      "PI0294-TRAIN-F0-003-T2": 1165,
+      "PI0294-TRAIN-F0-004-T2": 1093,
+      "PI0294-TRAIN-F0-005-T2": 1030,
+      "PI0294-TRAIN-F0-006-T2": 1113,
+      "PI0294-TRAIN-F0-007-T2": 1072,
+      "PI0294-TRAIN-F1-000-T2": 1099,
+      "PI0294-TRAIN-F1-001-T2": 1109,
+      "PI0294-TRAIN-F1-002-T2": 1113,
+      "PI0294-TRAIN-F1-003-T2": 1103,
+      "PI0294-TRAIN-F1-004-T2": 1087,
+      "PI0294-TRAIN-F1-005-T2": 1094,
+      "PI0294-TRAIN-F1-006-T2": 1034,
+      "PI0294-TRAIN-F1-007-T2": 1064,
+      "PI0294-TRAIN-F1-008-T2": 1093,
+      "PI0294-TRAIN-F1-009-T2": 1087,
+      "PI0294-TRAIN-F1-010-T2": 1134,
+      "PI0294-TRAIN-F2-000-T2": 1126,
+      "PI0294-TRAIN-F2-001-T2": 1099,
+      "PI0294-TRAIN-F2-002-T2": 1044,
+      "PI0294-TRAIN-F2-004-T2": 1154,
+      "PI0294-TRAIN-F2-005-T2": 1102,
+      "PI0294-TRAIN-F2-006-T2": 1088,
+      "PI0294-TRAIN-F2-007-T2": 1064,
+      "PI0294-TRAIN-F2-008-T2": 1097,
+      "PI0294-TRAIN-F2-009-T2": 1090,
+      "PI0294-TRAIN-F2-010-T2": 1099,
+      "PI0294-TRAIN-F2-011-T2": 1070
+    },
+    "same_T2_sampling_for_S_BC_and_S_CORR": true,
+    "task_ratio": "1:1",
+    "T2_original_only": true,
+    "stage_balanced_sampling": false,
+    "episode_uniform_then_window_uniform": true
+  },
+  "rows": [
+    {
+      "id": "PI0294-TRAIN-F0-000-T2",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "family": "F0",
+      "initial_state_sha256": "2a6b2ea49bd823c321f049b3c115350f95f0e935d3c432c03fecfb02925f28f5",
+      "numeric_sha256": "f11687ca5db007882137585f0d579b30e8e28c1922fcffaa1dd3b81ce3eb5b38",
+      "samples_sha256": "6ee846ffafb694488fe5ac0dcb7ab8af2d4d776cf052033818d4f476e1706736",
+      "input_hashes": {
+        "CARD.json": "7b64803b81a10323dffc764f9d61575cde6ab6d7a955ef960da768e230bc2f74",
+        "TEACHER_EVENTS.json": "58c9193df859e31815c63daa877e6e8789591692b966d2603ef50a4872de2e9d",
+        "SCORE.json": "d415be07e481fe94f1ef6fdafe083c3e64fed1a8aff3c39295117d9f19119e05",
+        "AUDIT.json": "2985f8c135b99dda370e654adb88346b073af09f8918387d82889fd5e4de5aef",
+        "samples.json": "6ee846ffafb694488fe5ac0dcb7ab8af2d4d776cf052033818d4f476e1706736",
+        "FILE_MANIFEST.json": "5623c181e23774d77b2253a437b7e29049c61ee0403202487f0bd7900a525551"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 165,
+          "close": 25,
+          "align": 32,
+          "contact": 9,
+          "push": 181,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 113
+        },
+        "windows_containing_any_stage": {
+          "approach": 165,
+          "close": 64,
+          "align": 71,
+          "contact": 48,
+          "push": 220,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 152
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 126,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 142,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 113
+        },
+        "multi_stage_windows": 209,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 197,
+        "contact": 34,
+        "transport": 181,
+        "withdraw": 76,
+        "hold": 113
+      },
+      "first_detach_s": 20.59999999999946,
+      "first_withdraw_s": 21.89999999999874,
+      "first_hold_s": 24.399999999997355,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F0-001-T2",
+      "scene_group": "PI0294/TRAIN/F0/001",
+      "family": "F0",
+      "initial_state_sha256": "a7c1678cb4840a059635318d6793dd34a0e358f19f1b07c54f9e87a00d5b6ecd",
+      "numeric_sha256": "cb83c4bc5bb68ce0fb312b44855f8d713db59292a1c8dbe3dde408d17a2bb40f",
+      "samples_sha256": "fb9feea731650d08a78a953b3cef4c367c938975b883b4abb69a82b1bae5a7fc",
+      "input_hashes": {
+        "CARD.json": "86f92f53254bbb9d84d9c8cde20d00f06902c6bbeb23434846b9a41cd9326b47",
+        "TEACHER_EVENTS.json": "3fb0ee19cfb08acc8f8cf2e70c09a966f98c9b8461cd40e5706759e58dcac882",
+        "SCORE.json": "a4e2caa55119696c314bf6b026e4f9282a97a66ec9b5cb71dca458c808a0d8ea",
+        "AUDIT.json": "99be9f5feac48b88e620515f726d512792c83a84d6d1132c2096283aa3303b79",
+        "samples.json": "fb9feea731650d08a78a953b3cef4c367c938975b883b4abb69a82b1bae5a7fc",
+        "FILE_MANIFEST.json": "4134d5ef368e2cad83508978498ef9615f47b137af6572085379a210a63a82f2"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 172,
+          "close": 26,
+          "align": 32,
+          "contact": 9,
+          "push": 188,
+          "detach": 27,
+          "withdraw": 50,
+          "hold": 97
+        },
+        "windows_containing_any_stage": {
+          "approach": 172,
+          "close": 65,
+          "align": 71,
+          "contact": 48,
+          "push": 227,
+          "detach": 66,
+          "withdraw": 89,
+          "hold": 136
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 133,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 149,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 97
+        },
+        "multi_stage_windows": 211,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 204,
+        "contact": 35,
+        "transport": 188,
+        "withdraw": 77,
+        "hold": 97
+      },
+      "first_detach_s": 21.349999999999046,
+      "first_withdraw_s": 22.699999999998298,
+      "first_hold_s": 25.199999999996912,
+      "detach_duration_s": 1.3499999999992518,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F0-002-T2",
+      "scene_group": "PI0294/TRAIN/F0/002",
+      "family": "F0",
+      "initial_state_sha256": "ae20ec396d536d39df2922e548f9fe5809ff276ba35152ab82d6ae4dd323eb7b",
+      "numeric_sha256": "9362b6cc4e66fb3fe8a1190ff1d396e7366ef7b8631a68c4d62c368969e90e27",
+      "samples_sha256": "d49514e04993cbe6404da571bf9dde88bc42bf9536c3d905d0e1d30f6165d66b",
+      "input_hashes": {
+        "CARD.json": "452cc78dae428ebae1b5144b670c59182c92813f91f6f4818a298326d4b4ad66",
+        "TEACHER_EVENTS.json": "647324a3ca729da9a35a6bd79380a87ba085541d28f79d027769bdeb6c6345c2",
+        "SCORE.json": "8566523d70fdfd237974e374bcf14e191ba72b5f36818e9a0679d6f6f48784c3",
+        "AUDIT.json": "8d03cb11f97f9354241b96ec536e6675323224272553769600ff0b11dcbe1836",
+        "samples.json": "d49514e04993cbe6404da571bf9dde88bc42bf9536c3d905d0e1d30f6165d66b",
+        "FILE_MANIFEST.json": "280526d1a93d7fef832b31344f8aa0c5d4aeba3fd7a7b2a028cc6f23b0c8486e"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 166,
+          "close": 24,
+          "align": 32,
+          "contact": 9,
+          "push": 190,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 166,
+          "close": 63,
+          "align": 71,
+          "contact": 48,
+          "push": 229,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 127,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 151,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 207,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 198,
+        "contact": 33,
+        "transport": 190,
+        "withdraw": 75,
+        "hold": 105
+      },
+      "first_detach_s": 21.049999999999212,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F0-003-T2",
+      "scene_group": "PI0294/TRAIN/F0/003",
+      "family": "F0",
+      "initial_state_sha256": "2297851468759f7c97a8e6b5401c7ebba7bd2607ab748da7e4c2506098aa4982",
+      "numeric_sha256": "4c5fc9aac2a054b7a315f9108235938c02691935632b50adf9c890e4e4cd6a4a",
+      "samples_sha256": "970d051b468ea9c2017c3dd9f75cb9d30848ab25236b28f038429c3ccc1f5378",
+      "input_hashes": {
+        "CARD.json": "ad16fc6222a39c11e5ca3d68868ca286b1ade0f9b6d3be2579f06884c2e61357",
+        "TEACHER_EVENTS.json": "9b8180991ffc3c63a198b1b507eb2832453758b016b5e20fdbf2e4214451ca26",
+        "SCORE.json": "d5c842d452ec1bc50ac22642a7e2e00e87db62d0dae2cfd968cdefabd3437fe8",
+        "AUDIT.json": "24d5357c53069ba32d023192006c2ae43455dc9bade66fe77b7befcd92decc17",
+        "samples.json": "970d051b468ea9c2017c3dd9f75cb9d30848ab25236b28f038429c3ccc1f5378",
+        "FILE_MANIFEST.json": "0e34e87c03f6844cbcc29d6bd5e2487bcc0f0e066472810d0870bcfaefe741a6"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 168,
+          "close": 22,
+          "align": 32,
+          "contact": 9,
+          "push": 191,
+          "detach": 24,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 168,
+          "close": 61,
+          "align": 71,
+          "contact": 48,
+          "push": 230,
+          "detach": 63,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 129,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 152,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 204,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 200,
+        "contact": 31,
+        "transport": 191,
+        "withdraw": 74,
+        "hold": 105
+      },
+      "first_detach_s": 21.099999999999184,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.199999999999335,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F0-004-T2",
+      "scene_group": "PI0294/TRAIN/F0/004",
+      "family": "F0",
+      "initial_state_sha256": "618770d80ac834dc346529d1c17799f7fb47fde9ea5ac82866a4071f7ad7d55e",
+      "numeric_sha256": "325429838f619efbc47399322d9e99062ade59e312191641c434516788c998c2",
+      "samples_sha256": "76373a6be6fa5f832225e4e0fd24b896a2bec26d242175b1cf6b86acc1e1ee05",
+      "input_hashes": {
+        "CARD.json": "918af79b893baeca1e78c6c9b45a3ae77fcfced4256de90ca4f586de4a5e3eb7",
+        "TEACHER_EVENTS.json": "d96ef1a84ef65b83f4e26ad8f4f2db6815bb67910c5a39a8e189c4e3d38bea4e",
+        "SCORE.json": "420a0d5a4352a5a97a612b964c2556882e11a18dd770f65daae56c9cc90151b1",
+        "AUDIT.json": "0f479856f97dcf1283e768930ff9e8a10c8ffb10709726b4a640e632905187b0",
+        "samples.json": "76373a6be6fa5f832225e4e0fd24b896a2bec26d242175b1cf6b86acc1e1ee05",
+        "FILE_MANIFEST.json": "61ca2d2aad99d59ce9ee1eef1e1a4be33e0b16b6a9540b7601998ad4bc111b60"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 167,
+          "close": 23,
+          "align": 32,
+          "contact": 11,
+          "push": 180,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 113
+        },
+        "windows_containing_any_stage": {
+          "approach": 167,
+          "close": 62,
+          "align": 71,
+          "contact": 50,
+          "push": 219,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 152
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 128,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 141,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 113
+        },
+        "multi_stage_windows": 208,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 199,
+        "contact": 34,
+        "transport": 180,
+        "withdraw": 75,
+        "hold": 113
+      },
+      "first_detach_s": 20.649999999999434,
+      "first_withdraw_s": 21.89999999999874,
+      "first_hold_s": 24.399999999997355,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F0-005-T2",
+      "scene_group": "PI0294/TRAIN/F0/005",
+      "family": "F0",
+      "initial_state_sha256": "f73b8c1c4f7c5e0dd6fbf112fb5026af1ac5424884fcc3183cda9508a15762b4",
+      "numeric_sha256": "e7a73377f750c4867582476bd8327834b0b16cb3531b90ded6944038d19bd7fb",
+      "samples_sha256": "866e4b84a9bf3c29d499740dbac2d3c66542d0dd23f2902b220b02f81c0fa16c",
+      "input_hashes": {
+        "CARD.json": "88c3b1d613cc447251ac211b6899ccabbf09c577a92eee101f9d7eb1dbcad367",
+        "TEACHER_EVENTS.json": "a8c4e606adad55397cb5d53fed715c65215b7470f5d340de9925a4f45580117e",
+        "SCORE.json": "c033c293486790d4a275eab42b103c91bb4876061733b393e754c845099428e0",
+        "AUDIT.json": "c5aaec9ac7ca1c353d4a25a71985980ca6b2812ad5a240c77b0a6a03a8233f0a",
+        "samples.json": "866e4b84a9bf3c29d499740dbac2d3c66542d0dd23f2902b220b02f81c0fa16c",
+        "FILE_MANIFEST.json": "b47594cd48631b18a6d53ad4b645538a4905f0564cacc7562b4f2f03e4057ba6"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 171,
+          "close": 27,
+          "align": 32,
+          "contact": 10,
+          "push": 166,
+          "detach": 24,
+          "withdraw": 50,
+          "hold": 121
+        },
+        "windows_containing_any_stage": {
+          "approach": 171,
+          "close": 66,
+          "align": 71,
+          "contact": 49,
+          "push": 205,
+          "detach": 63,
+          "withdraw": 89,
+          "hold": 160
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 132,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 127,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 121
+        },
+        "multi_stage_windows": 210,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 203,
+        "contact": 37,
+        "transport": 166,
+        "withdraw": 74,
+        "hold": 121
+      },
+      "first_detach_s": 20.299999999999628,
+      "first_withdraw_s": 21.499999999998963,
+      "first_hold_s": 23.999999999997577,
+      "detach_duration_s": 1.199999999999335,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F0-006-T2",
+      "scene_group": "PI0294/TRAIN/F0/006",
+      "family": "F0",
+      "initial_state_sha256": "399d2676ccb7745768480a4bbff527c850bca4b8237854b7aafb7f4514d5dc00",
+      "numeric_sha256": "f3d9d797e856e7840575d0eefb92f7a57948f44ceb2ac7ba10823509975ba6d8",
+      "samples_sha256": "7d749f775ef44848c14158781f9cb40d2b42a7bfaef065041ef492632474036b",
+      "input_hashes": {
+        "CARD.json": "285162698d4cbcd0330b7c180367815dc85b909c2dffe49a2cd60a5e8fc03594",
+        "TEACHER_EVENTS.json": "4baa4821687249ccb1ec40351b75275d7db62b2195836ff5db6f1082e1f6b139",
+        "SCORE.json": "49a8fb9b20a65e53853cd867ae63ea950e04bce25ad0513e6cc7b17ac76db49a",
+        "AUDIT.json": "7db38328b7391004154a8c4c99a420fe9673ef401fe3dd54813293420149acff",
+        "samples.json": "7d749f775ef44848c14158781f9cb40d2b42a7bfaef065041ef492632474036b",
+        "FILE_MANIFEST.json": "7f1a49f3c7d77e52438e061bedf97be7d09bb2b23ac7ffd071dff9fb271963e0"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 165,
+          "close": 25,
+          "align": 32,
+          "contact": 9,
+          "push": 174,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 121
+        },
+        "windows_containing_any_stage": {
+          "approach": 165,
+          "close": 64,
+          "align": 71,
+          "contact": 48,
+          "push": 213,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 160
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 126,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 135,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 121
+        },
+        "multi_stage_windows": 208,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 197,
+        "contact": 34,
+        "transport": 174,
+        "withdraw": 75,
+        "hold": 121
+      },
+      "first_detach_s": 20.249999999999655,
+      "first_withdraw_s": 21.499999999998963,
+      "first_hold_s": 23.999999999997577,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F0-007-T2",
+      "scene_group": "PI0294/TRAIN/F0/007",
+      "family": "F0",
+      "initial_state_sha256": "ceb1ad0966bbd01341933918e7f0f1e88bc5fe7c0d2af467a597677a4d777caf",
+      "numeric_sha256": "8a769c863a5de81c9ef090843924626686a7c48929c487fb55b6901e12fb0d27",
+      "samples_sha256": "7e5cba9941005e1504257edef38ef9c891c714dcfec481982e1e57a1c10d5bef",
+      "input_hashes": {
+        "CARD.json": "aaed3b205770442d431d4cff5ea42e1cb3ce1f45df58c2a04b5ec27408d4ba49",
+        "TEACHER_EVENTS.json": "1b702a3f860ce60132fe2f367e9927cf1a0ecc8e1a00375262adea5a7f289ea9",
+        "SCORE.json": "41bd3af0e1755af643c21df3146d2dccb2a127afad6874eb7c2975c5ae3063ac",
+        "AUDIT.json": "e0374e70a1ece7875de0f6644537cd6105f48306fb96bb2b91062bc776208421",
+        "samples.json": "7e5cba9941005e1504257edef38ef9c891c714dcfec481982e1e57a1c10d5bef",
+        "FILE_MANIFEST.json": "f215703718eec43a09c64b00c15864dc7a0a1ab650e4958548458cd1cbd639f8"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 166,
+          "close": 24,
+          "align": 32,
+          "contact": 9,
+          "push": 181,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 113
+        },
+        "windows_containing_any_stage": {
+          "approach": 166,
+          "close": 63,
+          "align": 71,
+          "contact": 48,
+          "push": 220,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 152
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 127,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 142,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 113
+        },
+        "multi_stage_windows": 208,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 198,
+        "contact": 33,
+        "transport": 181,
+        "withdraw": 76,
+        "hold": 113
+      },
+      "first_detach_s": 20.59999999999946,
+      "first_withdraw_s": 21.89999999999874,
+      "first_hold_s": 24.399999999997355,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-000-T2",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "family": "F1",
+      "initial_state_sha256": "b74d0f1ed334ba5d6bcccceaedeaea165d16e1f8042fde55908be048933583cb",
+      "numeric_sha256": "363bca278d020a02c45adfa46826be6576c27e862a0dc082edb746c6c55cfa05",
+      "samples_sha256": "d9707409415643b06fd2e8e539c2d719ac1c07d9a4ce2ae9d4d38a01e32e6907",
+      "input_hashes": {
+        "CARD.json": "abf90837daa86a6127226645b2f360a0b53c28e0bcf311d22ac674e074e8af27",
+        "TEACHER_EVENTS.json": "cdb11740b50eb47bbcd746c6cab20234193807274d560c3045500f4178c0636c",
+        "SCORE.json": "a058f03d686aacb0f4dc8805b294c2ea8e823874a5f2e14cde6c31a66194ddfb",
+        "AUDIT.json": "c7e45dff1c1b2f4827e19eb50e3f8d228ce0d5dfe850c363a478538e23cf9503",
+        "samples.json": "d9707409415643b06fd2e8e539c2d719ac1c07d9a4ce2ae9d4d38a01e32e6907",
+        "FILE_MANIFEST.json": "311a37f3636acfb11bb5a27430c63b90a03bedd6f374ec37bf99c66346171bbf"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 166,
+          "close": 24,
+          "align": 32,
+          "contact": 10,
+          "push": 190,
+          "detach": 24,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 166,
+          "close": 63,
+          "align": 71,
+          "contact": 49,
+          "push": 229,
+          "detach": 63,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 127,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 151,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 207,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 198,
+        "contact": 34,
+        "transport": 190,
+        "withdraw": 74,
+        "hold": 105
+      },
+      "first_detach_s": 21.099999999999184,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.199999999999335,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-001-T2",
+      "scene_group": "PI0294/TRAIN/F1/001",
+      "family": "F1",
+      "initial_state_sha256": "68734ec3d855fd41bb4c2e53ee91869e173dab10f1233c010b88d4d694e51f6f",
+      "numeric_sha256": "8c95ab476cf7d5f7602bd32d709de9259d1a733b2f37c9faf14a4b62729a4d64",
+      "samples_sha256": "1b3ed83936c95cd4e789ba25b6fc31a2a2f752933cc0f096caf0498176338da9",
+      "input_hashes": {
+        "CARD.json": "88ae64b031a92b6beca6c9648b9a4610d67964e45a2e97025372c1c8845cb297",
+        "TEACHER_EVENTS.json": "a20002abc18e945d2495518df8f2fe1cc5be196f19e1a4dbfb017eca186b605f",
+        "SCORE.json": "36335e1f9c191c10f81550981ab9a1f6a61996172a51431484a420fa9f5d61de",
+        "AUDIT.json": "20a4acf334a4a29e09c98397581d91e7cdfb706e7b7d07baedf7149823ac2222",
+        "samples.json": "1b3ed83936c95cd4e789ba25b6fc31a2a2f752933cc0f096caf0498176338da9",
+        "FILE_MANIFEST.json": "ef9bbd94452fc018a238dd29b4287815d8ddc0c6839ba667d342aa7871b772cd"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 165,
+          "close": 25,
+          "align": 32,
+          "contact": 10,
+          "push": 198,
+          "detach": 24,
+          "withdraw": 50,
+          "hold": 97
+        },
+        "windows_containing_any_stage": {
+          "approach": 165,
+          "close": 64,
+          "align": 71,
+          "contact": 49,
+          "push": 237,
+          "detach": 63,
+          "withdraw": 89,
+          "hold": 136
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 126,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 159,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 97
+        },
+        "multi_stage_windows": 208,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 197,
+        "contact": 35,
+        "transport": 198,
+        "withdraw": 74,
+        "hold": 97
+      },
+      "first_detach_s": 21.499999999998963,
+      "first_withdraw_s": 22.699999999998298,
+      "first_hold_s": 25.199999999996912,
+      "detach_duration_s": 1.199999999999335,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-002-T2",
+      "scene_group": "PI0294/TRAIN/F1/002",
+      "family": "F1",
+      "initial_state_sha256": "96653302130aca9429de9475448f1beaf67e1e5d36e07e297662d418e1d284f5",
+      "numeric_sha256": "b0d3f160d36997adcfeee293e7ced679af0982649f46da7e89db54be37bc491d",
+      "samples_sha256": "57839d87c2a680337787f387fdcbd98f933082b394851201c6ed888c4e272bcf",
+      "input_hashes": {
+        "CARD.json": "8093b526cf34f1fc50fa68214105f8ac09818d2dde4dab24ce598937a2a67e0a",
+        "TEACHER_EVENTS.json": "34d5a75548c1c330f92ba8208cf93435949ae082d2627812a6e21ea20d49c716",
+        "SCORE.json": "243a8af5907333c7657be647dffe8e7f3a20c783c0386f186552feb17d8f5ae1",
+        "AUDIT.json": "b1b7d8aa6954aa7be1a13bd9b13b2e8ff837cbbaf69289cba0b07f639d55b5c8",
+        "samples.json": "57839d87c2a680337787f387fdcbd98f933082b394851201c6ed888c4e272bcf",
+        "FILE_MANIFEST.json": "a49e0f9752c98d7ac98579a1b55ce40f4856e0c15fb0c03f2efbedb834fba088"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 168,
+          "close": 22,
+          "align": 32,
+          "contact": 9,
+          "push": 197,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 97
+        },
+        "windows_containing_any_stage": {
+          "approach": 168,
+          "close": 61,
+          "align": 71,
+          "contact": 48,
+          "push": 236,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 136
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 129,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 158,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 97
+        },
+        "multi_stage_windows": 206,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 200,
+        "contact": 31,
+        "transport": 197,
+        "withdraw": 76,
+        "hold": 97
+      },
+      "first_detach_s": 21.399999999999018,
+      "first_withdraw_s": 22.699999999998298,
+      "first_hold_s": 25.199999999996912,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-003-T2",
+      "scene_group": "PI0294/TRAIN/F1/003",
+      "family": "F1",
+      "initial_state_sha256": "af263a0b0eed51cf4a65eb384209d33a25722117e2674fa52bf2685854f6f0e5",
+      "numeric_sha256": "70d2ca30c8de8346b9b37660f44eb991d474f5d4fda40bc16110cfa0da5e713a",
+      "samples_sha256": "e5c1818c94a25765a55c50d3f52d49704a135e0c2dc9afe88eea90edda7e6127",
+      "input_hashes": {
+        "CARD.json": "92e0e73a7eb8b552b66ea57529b45ddb65f94d784d22013c5c6098dca0f5c666",
+        "TEACHER_EVENTS.json": "1306d19a6c007138a79b0e8e22a038db2faa1af3338229b52cdf74788e880dbc",
+        "SCORE.json": "9d16233df1e9cfa0e7648d7a92bba08c9195e9837ada594e489caf7bfd5b996e",
+        "AUDIT.json": "749991a3c17caca6e87cd2186f95389f1829f8d932d66392ffd86a7609755ab1",
+        "samples.json": "e5c1818c94a25765a55c50d3f52d49704a135e0c2dc9afe88eea90edda7e6127",
+        "FILE_MANIFEST.json": "b9b847f8b7ad4cf99b249b2d583d7e4d361aefd3b2e3bc6930a9570792175a3c"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 168,
+          "close": 22,
+          "align": 32,
+          "contact": 9,
+          "push": 205,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 89
+        },
+        "windows_containing_any_stage": {
+          "approach": 168,
+          "close": 61,
+          "align": 71,
+          "contact": 48,
+          "push": 244,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 128
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 129,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 166,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 89
+        },
+        "multi_stage_windows": 206,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 200,
+        "contact": 31,
+        "transport": 205,
+        "withdraw": 76,
+        "hold": 89
+      },
+      "first_detach_s": 21.799999999998796,
+      "first_withdraw_s": 23.099999999998076,
+      "first_hold_s": 25.59999999999669,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-004-T2",
+      "scene_group": "PI0294/TRAIN/F1/004",
+      "family": "F1",
+      "initial_state_sha256": "e7fcd4e16a65ce4b19e9c0f1e61d8eefcce2a5c5744bb37769ac813da181f493",
+      "numeric_sha256": "bc93acc1a77c107aeb02b0a9e6db876ce03d271cceae54a66948b93761aaac49",
+      "samples_sha256": "1dbb58dfef017f16f627a3cb3ed7a82729b4d64344662fed050b734fe91aa8d1",
+      "input_hashes": {
+        "CARD.json": "86b7b55f8fb8f021be4b0a078b56dad0b5a349052e088027250580a7ef7d77c9",
+        "TEACHER_EVENTS.json": "b05ecc72e9b1c126f91ca17f534dead0ba292947b330018f99e3efdf90f023d2",
+        "SCORE.json": "1eb61b559a0d33e26ca92364810d6547b77ae67cdb2d7d8b728269e2916d2689",
+        "AUDIT.json": "cf444d5ef7d0a86f3052c426950f583c1d2914373ba9d3323461c26951a7ead6",
+        "samples.json": "1dbb58dfef017f16f627a3cb3ed7a82729b4d64344662fed050b734fe91aa8d1",
+        "FILE_MANIFEST.json": "8b826c104e219469421ffac05e5d770fa95647935dbae361375d560b26069dd5"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 168,
+          "close": 22,
+          "align": 32,
+          "contact": 9,
+          "push": 213,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 81
+        },
+        "windows_containing_any_stage": {
+          "approach": 168,
+          "close": 61,
+          "align": 71,
+          "contact": 48,
+          "push": 252,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 120
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 129,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 174,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 81
+        },
+        "multi_stage_windows": 206,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 200,
+        "contact": 31,
+        "transport": 213,
+        "withdraw": 76,
+        "hold": 81
+      },
+      "first_detach_s": 22.199999999998575,
+      "first_withdraw_s": 23.499999999997854,
+      "first_hold_s": 25.99999999999647,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-005-T2",
+      "scene_group": "PI0294/TRAIN/F1/005",
+      "family": "F1",
+      "initial_state_sha256": "4867abc03a8f76c9ae843580413edcada594b86b30bfe218c18693a09cb38776",
+      "numeric_sha256": "689c60bd96cf4cdd820e5ca9851029e4219f4f0332ad5de11cfbea12d7bf912e",
+      "samples_sha256": "613a23fb15f1a530bc3ad5721995e970ecfd0cd663605f3302e9a542f40e61ba",
+      "input_hashes": {
+        "CARD.json": "b9079e369c3302fbd1a6d3f3ae5adfcac9c673d55ce8eacd518c138a26ccd467",
+        "TEACHER_EVENTS.json": "b01a130eb232f241dfc8573c76f53047632654a0d7eec9ab5a1b686ca3c2adbc",
+        "SCORE.json": "11a50570c05de7ff47113801e0f85144527f52ed6e421d6470b253da479e3e2d",
+        "AUDIT.json": "33098defa975134fe69b63ac1d5195af7bc60f0515e869672434d995decd437c",
+        "samples.json": "613a23fb15f1a530bc3ad5721995e970ecfd0cd663605f3302e9a542f40e61ba",
+        "FILE_MANIFEST.json": "3de096dd40f37f9d4a2d75f7a87b38ddf222f720db117aa862c8920597439281"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 167,
+          "close": 23,
+          "align": 32,
+          "contact": 9,
+          "push": 212,
+          "detach": 27,
+          "withdraw": 50,
+          "hold": 81
+        },
+        "windows_containing_any_stage": {
+          "approach": 167,
+          "close": 62,
+          "align": 71,
+          "contact": 48,
+          "push": 251,
+          "detach": 66,
+          "withdraw": 89,
+          "hold": 120
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 128,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 173,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 81
+        },
+        "multi_stage_windows": 208,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 199,
+        "contact": 32,
+        "transport": 212,
+        "withdraw": 77,
+        "hold": 81
+      },
+      "first_detach_s": 22.149999999998602,
+      "first_withdraw_s": 23.499999999997854,
+      "first_hold_s": 25.99999999999647,
+      "detach_duration_s": 1.3499999999992518,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-006-T2",
+      "scene_group": "PI0294/TRAIN/F1/006",
+      "family": "F1",
+      "initial_state_sha256": "0ebffda5e603cbbc700e73fbdcecd8ca739d29ac468cd131565c0dd2ab46a4e3",
+      "numeric_sha256": "685fce0537c533ef5d811be2418747258889fd8cb2cf5c21de58480f16d1f70c",
+      "samples_sha256": "85af86f17bb96c199deff694537e93f7d48294601e6a49dd56b489e108cd7dc9",
+      "input_hashes": {
+        "CARD.json": "64939cb86c98748f750858b00d354a987d7f7fc4ee6e42ef05b08a66023ca88f",
+        "TEACHER_EVENTS.json": "9aa9c18bd52043e2959fa186ad0579638361a08cf728a04fd2c54ac51e151326",
+        "SCORE.json": "be02d7887a12785621213e4146078c6818d8c7db68703be7b37267860cad187d",
+        "AUDIT.json": "bb26a1c840a924f31929329d923fafaf1067ca82ce0b0ff8317bc6e9528a35cd",
+        "samples.json": "85af86f17bb96c199deff694537e93f7d48294601e6a49dd56b489e108cd7dc9",
+        "FILE_MANIFEST.json": "da64b64f65c840f38043ffdab1b00235861edb44c10543141004ec3fbf1782e9"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 166,
+          "close": 24,
+          "align": 32,
+          "contact": 9,
+          "push": 215,
+          "detach": 24,
+          "withdraw": 50,
+          "hold": 81
+        },
+        "windows_containing_any_stage": {
+          "approach": 166,
+          "close": 63,
+          "align": 71,
+          "contact": 48,
+          "push": 254,
+          "detach": 63,
+          "withdraw": 89,
+          "hold": 120
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 127,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 176,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 81
+        },
+        "multi_stage_windows": 206,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 198,
+        "contact": 33,
+        "transport": 215,
+        "withdraw": 74,
+        "hold": 81
+      },
+      "first_detach_s": 22.29999999999852,
+      "first_withdraw_s": 23.499999999997854,
+      "first_hold_s": 25.99999999999647,
+      "detach_duration_s": 1.199999999999335,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-007-T2",
+      "scene_group": "PI0294/TRAIN/F1/007",
+      "family": "F1",
+      "initial_state_sha256": "6740a5282e54ebc9e2cb294db905c619a48ef5901cfcbaad0b1e665ec10542ee",
+      "numeric_sha256": "a9e4efacb5f6ab37491585c095c6a45a5ea965cd3d4977fa4bcd548f7fc61dad",
+      "samples_sha256": "622d448788af3a1e693b110360fc2bab614d9f804f05ee16f11355e595b5c164",
+      "input_hashes": {
+        "CARD.json": "0101deb684f4ac090d437980ee0cec79c6830f8dbc46163c33e5f9af66c30494",
+        "TEACHER_EVENTS.json": "cc6b4f93c9de3632115911e599fded71da2758d865eaeb87767fb86da35f2135",
+        "SCORE.json": "e93de5d1dc6dc50d2609cc7a3de5afe8841eadfb69ebed741eef1f83011d408f",
+        "AUDIT.json": "14ac3e8954cd1c20df5d4c7222090a94b1b4c8009f3bf1d95e602f568127bf68",
+        "samples.json": "622d448788af3a1e693b110360fc2bab614d9f804f05ee16f11355e595b5c164",
+        "FILE_MANIFEST.json": "dc9633676667cf9dbaff29ab161c34bb6d831c7699bde2ea4ddf81ecb5227814"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 171,
+          "close": 27,
+          "align": 32,
+          "contact": 9,
+          "push": 189,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 97
+        },
+        "windows_containing_any_stage": {
+          "approach": 171,
+          "close": 66,
+          "align": 71,
+          "contact": 48,
+          "push": 228,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 136
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 132,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 150,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 97
+        },
+        "multi_stage_windows": 211,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 203,
+        "contact": 36,
+        "transport": 189,
+        "withdraw": 76,
+        "hold": 97
+      },
+      "first_detach_s": 21.399999999999018,
+      "first_withdraw_s": 22.699999999998298,
+      "first_hold_s": 25.199999999996912,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-008-T2",
+      "scene_group": "PI0294/TRAIN/F1/008",
+      "family": "F1",
+      "initial_state_sha256": "d17fabd1db795e909bc3138e26080665bc9459213fa693f6ef18f481ee59c14c",
+      "numeric_sha256": "28115838ec8db5cfef90aeabd92f60348361519fc3c9b5546cff40851e40e162",
+      "samples_sha256": "be4a262053af36c048fb040b414e1e6b543a58f92ad41a3d2d770888710163db",
+      "input_hashes": {
+        "CARD.json": "fdad9ce55bd650422807968b836dbb71391e13c78b7fe43b0e59c1a85af31217",
+        "TEACHER_EVENTS.json": "038ff46fec2f5afd749b23564f3fb0dfadd37e69aed4381bf0fc837506312bea",
+        "SCORE.json": "240cd02ac63639cb197411e48bfaa0f913b87f54ba443e84a28051a56ad48dab",
+        "AUDIT.json": "f526ce90887dbaef38537399b9f063519e7780b6735e6c7c0ccad28f1f6cd62c",
+        "samples.json": "be4a262053af36c048fb040b414e1e6b543a58f92ad41a3d2d770888710163db",
+        "FILE_MANIFEST.json": "913d775ce4afdbd1cd0797842d489d48dd8aa1a3e715051df90575ecc5f4e5f0"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 169,
+          "close": 29,
+          "align": 32,
+          "contact": 10,
+          "push": 197,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 89
+        },
+        "windows_containing_any_stage": {
+          "approach": 169,
+          "close": 68,
+          "align": 71,
+          "contact": 49,
+          "push": 236,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 128
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 130,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 158,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 89
+        },
+        "multi_stage_windows": 213,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 201,
+        "contact": 39,
+        "transport": 197,
+        "withdraw": 75,
+        "hold": 89
+      },
+      "first_detach_s": 21.84999999999877,
+      "first_withdraw_s": 23.099999999998076,
+      "first_hold_s": 25.59999999999669,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-009-T2",
+      "scene_group": "PI0294/TRAIN/F1/009",
+      "family": "F1",
+      "initial_state_sha256": "a9f79ecebb0aa124c39a70cfb89b1468d124102a95ffce56e61bc9fbfd6a0691",
+      "numeric_sha256": "accc8a0e83d50638991aad14d3b2eacf817d0075fbf1c63da17d72f0ddae7818",
+      "samples_sha256": "02d40679f412ac3163df9833e2785336a3fdb555734e693231f7422342c8491c",
+      "input_hashes": {
+        "CARD.json": "1c99122b860da976ea24e5c31d56120d60b3e50c9a06325a99ff3c61312d8664",
+        "TEACHER_EVENTS.json": "016b73813de0c1d09903f21aa24030e95622bccaf41afb8075329c4f75a7803e",
+        "SCORE.json": "9cf3b0197c0b8369babc1c455b447fde3a06274400fd37d330233c04e44d5599",
+        "AUDIT.json": "2529f18ac79c4134c415115c06a313a128c6aca4ba217898e5d7211e876b59ef",
+        "samples.json": "02d40679f412ac3163df9833e2785336a3fdb555734e693231f7422342c8491c",
+        "FILE_MANIFEST.json": "a1fec3cdabd0de8bb4edb8d79230f49747cecbf4b7ee4bc8c260106935547e2f"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 168,
+          "close": 22,
+          "align": 32,
+          "contact": 9,
+          "push": 199,
+          "detach": 24,
+          "withdraw": 50,
+          "hold": 97
+        },
+        "windows_containing_any_stage": {
+          "approach": 168,
+          "close": 61,
+          "align": 71,
+          "contact": 48,
+          "push": 238,
+          "detach": 63,
+          "withdraw": 89,
+          "hold": 136
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 129,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 160,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 97
+        },
+        "multi_stage_windows": 204,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 200,
+        "contact": 31,
+        "transport": 199,
+        "withdraw": 74,
+        "hold": 97
+      },
+      "first_detach_s": 21.499999999998963,
+      "first_withdraw_s": 22.699999999998298,
+      "first_hold_s": 25.199999999996912,
+      "detach_duration_s": 1.199999999999335,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F1-010-T2",
+      "scene_group": "PI0294/TRAIN/F1/010",
+      "family": "F1",
+      "initial_state_sha256": "77868ff6d005776c9b8ea1a81a6778ebb4aaff3abe2ca3214d5b3307f7d6748d",
+      "numeric_sha256": "45bf723c96a12b8ed68499db1b082336f84ad0e7dc77c34a394075a176373590",
+      "samples_sha256": "18b927b110838f2ae65b2ce82063aa773e89bd27ca3345d8d7e800755889d637",
+      "input_hashes": {
+        "CARD.json": "c2d615a1bd8d11f28d4b097cb56e7a8603f2c97181fa2b09807b36f9f336ecec",
+        "TEACHER_EVENTS.json": "650e3dfc245b67463ecc07ddfeb2ee713c91f77beeba8b57a5f083e358750698",
+        "SCORE.json": "bd263de998cbaf9a37ced8073c07ff30ae5c32f0564b9fb942d80f419d8d62fd",
+        "AUDIT.json": "152da669e534d35732f39a48e96255b192500d6bdd7d465348ae13592feeee0e",
+        "samples.json": "18b927b110838f2ae65b2ce82063aa773e89bd27ca3345d8d7e800755889d637",
+        "FILE_MANIFEST.json": "58c0073bbd521aee76bc47dd7713f4f96a76ee84ce947c2fb3884fc812b9b2f3"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 170,
+          "close": 28,
+          "align": 32,
+          "contact": 9,
+          "push": 182,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 170,
+          "close": 67,
+          "align": 71,
+          "contact": 48,
+          "push": 221,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 131,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 143,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 211,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 202,
+        "contact": 37,
+        "transport": 182,
+        "withdraw": 75,
+        "hold": 105
+      },
+      "first_detach_s": 21.049999999999212,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-000-T2",
+      "scene_group": "PI0294/TRAIN/F2/000",
+      "family": "F2",
+      "initial_state_sha256": "77586e2ee9b69ea071d0be2476bfe9c7ad61bf5b0cfdf3708d61b12fbda031d6",
+      "numeric_sha256": "4f55b7f9336e04d5fd639c7ee2cc6b25eda6bf89074208179e75ba7df54c1bb5",
+      "samples_sha256": "971e96cf53a19b821141b2bad7c7f262d4e844334968b3b736f33b881d2160d5",
+      "input_hashes": {
+        "CARD.json": "945db7a72f83984082d67e613c68e42f37804249e0fe4686572ce2ddef2cd091",
+        "TEACHER_EVENTS.json": "683f7f989ff7912b5c17d955212a15a3d22e053cbe88d7f5adb567b5d20a9b18",
+        "SCORE.json": "d70bebbc6373ad6785574befce154a4169c0c660c91622923054e8d76fec1e36",
+        "AUDIT.json": "ea64848b2325b39c0e204ea73f05b17231ae1a573961393fd23b3eb2241d0351",
+        "samples.json": "971e96cf53a19b821141b2bad7c7f262d4e844334968b3b736f33b881d2160d5",
+        "FILE_MANIFEST.json": "7e3539e074711042f942585a5eb1edefa98705590e6fd592780febc6982b2027"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 171,
+          "close": 27,
+          "align": 32,
+          "contact": 9,
+          "push": 181,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 171,
+          "close": 66,
+          "align": 71,
+          "contact": 48,
+          "push": 220,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 132,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 142,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 211,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 203,
+        "contact": 36,
+        "transport": 181,
+        "withdraw": 76,
+        "hold": 105
+      },
+      "first_detach_s": 20.99999999999924,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-001-T2",
+      "scene_group": "PI0294/TRAIN/F2/001",
+      "family": "F2",
+      "initial_state_sha256": "3b47dad5a2780d5fabd5191d1188130bdcde4b063826a0c09bd61be6b5f15514",
+      "numeric_sha256": "90a28bf672ad45ab245aa98ab20a6ca1bfe9cccc1ad8b30fd300d3cd53a515aa",
+      "samples_sha256": "9be970f99ebdf147329f273111b82d353f906168759e68b22c6cbad7ee1de50a",
+      "input_hashes": {
+        "CARD.json": "3d2c6e81c6e341b73b9ef470a1a33683a79122e8ae744ce31d6be959c1efd7cc",
+        "TEACHER_EVENTS.json": "08bc41329787becc2c59968d31115797e97eebcf06e485dee74c63b471bfaea1",
+        "SCORE.json": "c8ebcbf61151b1b447d54f15684bf72356ed1f4c09bccd0827dc61419f2f9f5b",
+        "AUDIT.json": "e5e1faa53b1b5da682d7023333856ddfab6d6bd7422f9cb0168e1115f4fd51b5",
+        "samples.json": "9be970f99ebdf147329f273111b82d353f906168759e68b22c6cbad7ee1de50a",
+        "FILE_MANIFEST.json": "43971e0b60e36378d28616d4b5225dfeff67c9117cb32eb8aeb79102c41698e6"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 166,
+          "close": 24,
+          "align": 32,
+          "contact": 10,
+          "push": 184,
+          "detach": 22,
+          "withdraw": 50,
+          "hold": 113
+        },
+        "windows_containing_any_stage": {
+          "approach": 166,
+          "close": 63,
+          "align": 71,
+          "contact": 49,
+          "push": 223,
+          "detach": 61,
+          "withdraw": 89,
+          "hold": 152
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 127,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 145,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 113
+        },
+        "multi_stage_windows": 205,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 198,
+        "contact": 34,
+        "transport": 184,
+        "withdraw": 72,
+        "hold": 113
+      },
+      "first_detach_s": 20.79999999999935,
+      "first_withdraw_s": 21.89999999999874,
+      "first_hold_s": 24.399999999997355,
+      "detach_duration_s": 1.0999999999993904,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-002-T2",
+      "scene_group": "PI0294/TRAIN/F2/002",
+      "family": "F2",
+      "initial_state_sha256": "c326d9f38be17875a57145ba27a7d8f7e8babe506b0cf466480455f24806949c",
+      "numeric_sha256": "118bed0e22f96fd2f6dc3a78e7be8c892383d302367391ecf892130b8a325707",
+      "samples_sha256": "1bd1d57a980d3858c385b3746e6e0bacef679dc6bc78725768df1c01f8270e5a",
+      "input_hashes": {
+        "CARD.json": "b71a9516b727f11b6a2e3b08ba3c44c1063b7e3fc20d460627d67635b7c43092",
+        "TEACHER_EVENTS.json": "b15ec43d73e67e2a4760e41519ed22e8d8689f5fe2763686cbf46ce66aaca8dd",
+        "SCORE.json": "32d9d76772395e987ef1f31853221dc77f247857aa007c2c0aa4043148a9fc47",
+        "AUDIT.json": "2f6b5ee674bb02a1a01ccbbd2be340849e2a70ed8e1693dd33c0e4787ca6cda0",
+        "samples.json": "1bd1d57a980d3858c385b3746e6e0bacef679dc6bc78725768df1c01f8270e5a",
+        "FILE_MANIFEST.json": "4647842e2b1923a657d18fc7a6c12728e38e9eaee24277304ae0e22bb40f5216"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 172,
+          "close": 26,
+          "align": 32,
+          "contact": 9,
+          "push": 182,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 172,
+          "close": 65,
+          "align": 71,
+          "contact": 48,
+          "push": 221,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 133,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 143,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 209,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 204,
+        "contact": 35,
+        "transport": 182,
+        "withdraw": 75,
+        "hold": 105
+      },
+      "first_detach_s": 21.049999999999212,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-004-T2",
+      "scene_group": "PI0294/TRAIN/F2/004",
+      "family": "F2",
+      "initial_state_sha256": "cac1009bb7da66541e9f5b2c69090fa4e11ccb4ea989fbbdffdfe29e10361018",
+      "numeric_sha256": "6464fd5b5f232e4d9e9c6b52e3a60bb13f86098563fced2d80f431a7fea8ee48",
+      "samples_sha256": "83406833ae5c39e5aca24bcd80b6257df27dba88529727a1bbd09a1308037e21",
+      "input_hashes": {
+        "CARD.json": "358448e356c9191b6102735f271a37b33d8be678cc2e30c7d337443ad5add471",
+        "TEACHER_EVENTS.json": "1deb1e131518eb869dd49321fad1118d5b42f05153d8fd34da96c151b7db489f",
+        "SCORE.json": "c41de32924c100b3673dcd938391607cdf896cbceee0085e6075da0d3ef47d88",
+        "AUDIT.json": "b2ccf84756dd3d73c2786d982a1d789e2208df9d98e27dd8c57a90a1894e4369",
+        "samples.json": "83406833ae5c39e5aca24bcd80b6257df27dba88529727a1bbd09a1308037e21",
+        "FILE_MANIFEST.json": "62f4cc22b4a893e149453d18d37357d1576a6e09def2ede1785bb5e9b9653f64"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 166,
+          "close": 24,
+          "align": 32,
+          "contact": 9,
+          "push": 197,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 97
+        },
+        "windows_containing_any_stage": {
+          "approach": 166,
+          "close": 63,
+          "align": 71,
+          "contact": 48,
+          "push": 236,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 136
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 127,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 158,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 97
+        },
+        "multi_stage_windows": 208,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 198,
+        "contact": 33,
+        "transport": 197,
+        "withdraw": 76,
+        "hold": 97
+      },
+      "first_detach_s": 21.399999999999018,
+      "first_withdraw_s": 22.699999999998298,
+      "first_hold_s": 25.199999999996912,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-005-T2",
+      "scene_group": "PI0294/TRAIN/F2/005",
+      "family": "F2",
+      "initial_state_sha256": "f47396c472da43d5c0f706e4f0df72c89b3f24ceb9eb64359c891649eeeddc63",
+      "numeric_sha256": "ffab79eb411174a0aea574f341ca0d739030456b90c492480dce5f54f747857e",
+      "samples_sha256": "54a58f5ec3b1f4596caa60f9237846a9b40f47059ea6474299ba203d40c22b09",
+      "input_hashes": {
+        "CARD.json": "7fe38a4c341275cb7f992e426aa09546bdb1fc30e461d5ff90d734ce9c029e1f",
+        "TEACHER_EVENTS.json": "f8025d3eb6e5b1464dc32c6afb1f0aaa3febce75e4b22d1cc52dc6f80187c525",
+        "SCORE.json": "ab3e8bfc2c4e44e9f4d363ed3a64799419de742608293b8c13f605d4d8f816b5",
+        "AUDIT.json": "84e2b97af01edc81580c93b838ba4c58972be8abe5f2d3fde77c8147a546b69f",
+        "samples.json": "54a58f5ec3b1f4596caa60f9237846a9b40f47059ea6474299ba203d40c22b09",
+        "FILE_MANIFEST.json": "005d23c8afa9e56b521b801203662a50e9b044328a997f887afa67f41e0de269"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 168,
+          "close": 22,
+          "align": 32,
+          "contact": 9,
+          "push": 190,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 168,
+          "close": 61,
+          "align": 71,
+          "contact": 48,
+          "push": 229,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 129,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 151,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 205,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 200,
+        "contact": 31,
+        "transport": 190,
+        "withdraw": 75,
+        "hold": 105
+      },
+      "first_detach_s": 21.049999999999212,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-006-T2",
+      "scene_group": "PI0294/TRAIN/F2/006",
+      "family": "F2",
+      "initial_state_sha256": "cd22748d6ad15cc71a980909ee0117a14abfc4cca21ffde7fe045917aa8c138b",
+      "numeric_sha256": "cb035e02f8003bd82a30c445d811ba4cfa1aba7c09c1fc6e1fe9db44d02c866f",
+      "samples_sha256": "1b684eb906e0007d382366880ee538dead9da01e40d0afa5dbd16fe0059f115c",
+      "input_hashes": {
+        "CARD.json": "52e05f65b916cf5cd8fa43f263ad6dbc42e95820bdc7e00aee4997ddba67fb34",
+        "TEACHER_EVENTS.json": "161501b48547c8f88d29d792f6d6473cc5cf8c93b3282246cfbed67bb4bc210e",
+        "SCORE.json": "8d282603f5121cf6e6e61eee64a3c087f85667989ffd30f3fb41005ad568015f",
+        "AUDIT.json": "ebdb7c9706a8caf00809c6ab6e68fd9ba9cf5ad186025da749535674a7a96b52",
+        "samples.json": "1b684eb906e0007d382366880ee538dead9da01e40d0afa5dbd16fe0059f115c",
+        "FILE_MANIFEST.json": "b0324ec2ff748066fd8c1f6c08ce4339fdc12f29a56a3473bae4eb049a817658"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 165,
+          "close": 25,
+          "align": 32,
+          "contact": 11,
+          "push": 187,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 165,
+          "close": 64,
+          "align": 71,
+          "contact": 50,
+          "push": 226,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 126,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 148,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 211,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 197,
+        "contact": 36,
+        "transport": 187,
+        "withdraw": 76,
+        "hold": 105
+      },
+      "first_detach_s": 20.99999999999924,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-007-T2",
+      "scene_group": "PI0294/TRAIN/F2/007",
+      "family": "F2",
+      "initial_state_sha256": "809a04a119f55c4ff3a39e458210e6469c3b6350e9937722871959a082a48f67",
+      "numeric_sha256": "e5522e470899775fd1a2feb7c370e66593f1ae69ce9eadf11bc9fa4e5285ca59",
+      "samples_sha256": "a9a0ad632ef8791462ff401cd25eb1aa4917718f6fa7a303800982b7d53973be",
+      "input_hashes": {
+        "CARD.json": "505635aa9d41cbf1290e4f43d6de56b357f1e6915b2c8a758f139cfd576bcbc3",
+        "TEACHER_EVENTS.json": "576b7aa934eed7f9692e54c1dc7364c13ba0012cb593f59666f03317809db1db",
+        "SCORE.json": "721209ded08f78f3977d402c6bd3012d716f31d652d1a4f37c971c4cff11fd8c",
+        "AUDIT.json": "6be013e95fb14d42b55ab6e5142383d3fa5c4d67dc0c9924f984090a4d42c674",
+        "samples.json": "a9a0ad632ef8791462ff401cd25eb1aa4917718f6fa7a303800982b7d53973be",
+        "FILE_MANIFEST.json": "66c15ed3f4d2ee39153c76d7b82372226a22163d950abfecfedfd67fff2019dc"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 166,
+          "close": 24,
+          "align": 32,
+          "contact": 9,
+          "push": 182,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 113
+        },
+        "windows_containing_any_stage": {
+          "approach": 166,
+          "close": 63,
+          "align": 71,
+          "contact": 48,
+          "push": 221,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 152
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 127,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 143,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 113
+        },
+        "multi_stage_windows": 207,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 198,
+        "contact": 33,
+        "transport": 182,
+        "withdraw": 75,
+        "hold": 113
+      },
+      "first_detach_s": 20.649999999999434,
+      "first_withdraw_s": 21.89999999999874,
+      "first_hold_s": 24.399999999997355,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-008-T2",
+      "scene_group": "PI0294/TRAIN/F2/008",
+      "family": "F2",
+      "initial_state_sha256": "5d28f4601fb7014843a0cd8582872c52eb3e8634121e0371265d6f12c5f69399",
+      "numeric_sha256": "c43d610502b6b9dc292fd857d2435074c4cc9eef3b7f0088b18d488ee56d5d2d",
+      "samples_sha256": "7b9806d1482415ffda4aa051d7b36aa6c670b66bb6577d6a2e8915a369a01d79",
+      "input_hashes": {
+        "CARD.json": "cfadde8c3abd232d3d03dbc99a749c9e41a19a16c0c639a7be118feb03ae30c5",
+        "TEACHER_EVENTS.json": "e19424a02f354e9a8c09d318a0691d10de8e4b69c713818346076d28d33742c2",
+        "SCORE.json": "30f36bc6944a01914eb2aa021276aa7c398f9fb0adc00e61c88f7cb5ee668c18",
+        "AUDIT.json": "ee0f6a84ae083f573a6673bd90e65c2571711ecf4a08749fc51ea1eaf0a5e842",
+        "samples.json": "7b9806d1482415ffda4aa051d7b36aa6c670b66bb6577d6a2e8915a369a01d79",
+        "FILE_MANIFEST.json": "19dc48921a00d3dcc3fbdef6508745037ef62418f0135968c96cca8fe8297d02"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 169,
+          "close": 29,
+          "align": 32,
+          "contact": 9,
+          "push": 182,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 169,
+          "close": 68,
+          "align": 71,
+          "contact": 48,
+          "push": 221,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 130,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 143,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 212,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 201,
+        "contact": 38,
+        "transport": 182,
+        "withdraw": 75,
+        "hold": 105
+      },
+      "first_detach_s": 21.049999999999212,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-009-T2",
+      "scene_group": "PI0294/TRAIN/F2/009",
+      "family": "F2",
+      "initial_state_sha256": "5630c7707468e6336262ce1d1400d4a0348f6b74f5132e91b76b0aec3863a662",
+      "numeric_sha256": "40df413338aec42d571bf59c2a1408c75f5c0254ac62b306b33e4a81fa2e880f",
+      "samples_sha256": "fc64ce8cb77140f9aca82f0eb63cad27a31c762f51169afc9665a4cdbf7ebb22",
+      "input_hashes": {
+        "CARD.json": "3a786cd2c699f32935abd39a5ba69ff810784e967202410e0004546855505213",
+        "TEACHER_EVENTS.json": "74a0745c49b0b3208c592bdf3c75d6aec25a5656870675e93398031c5fd2fd20",
+        "SCORE.json": "4dc15a04274e73bf6a8679b8ca7baf73d89d73351e9936511a1b47a2fa16e0f7",
+        "AUDIT.json": "2eb033cc3771cf9fbda24dc5280bed53ba4ca28ebd2c4cf896f2ec67e68120ba",
+        "samples.json": "fc64ce8cb77140f9aca82f0eb63cad27a31c762f51169afc9665a4cdbf7ebb22",
+        "FILE_MANIFEST.json": "10a88805a15ccfb1aad17d26cf59516843b5428c64c199a45bf5f9943f1c09fa"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 168,
+          "close": 22,
+          "align": 32,
+          "contact": 9,
+          "push": 181,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 113
+        },
+        "windows_containing_any_stage": {
+          "approach": 168,
+          "close": 61,
+          "align": 71,
+          "contact": 48,
+          "push": 220,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 152
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 129,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 142,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 113
+        },
+        "multi_stage_windows": 206,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 200,
+        "contact": 31,
+        "transport": 181,
+        "withdraw": 76,
+        "hold": 113
+      },
+      "first_detach_s": 20.59999999999946,
+      "first_withdraw_s": 21.89999999999874,
+      "first_hold_s": 24.399999999997355,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-010-T2",
+      "scene_group": "PI0294/TRAIN/F2/010",
+      "family": "F2",
+      "initial_state_sha256": "dfa2b30ccc86580e76493e1292f8ecd346de60e05bc9f3396cc511f3286ff0c7",
+      "numeric_sha256": "a57d315277c0110c3f2057b88ce8be529e49ebdf5c0092b39ebe9de6a13b7544",
+      "samples_sha256": "d4f74c85f8bc0da0963c24ff07bddbdef71a6365a0f58801984a2a9fdd41cc50",
+      "input_hashes": {
+        "CARD.json": "9405cd01245afdc0cf681563d3817af059a86746bc339d4c4be75b615ccdb9a1",
+        "TEACHER_EVENTS.json": "c4ba595633386cd13ce50218df089b22bf03616958d1d5c504888f27aa62b810",
+        "SCORE.json": "cfa4b93238a4c6dbba59b26e732cd4f62a22e8d5ece7e832430db6623b86ecba",
+        "AUDIT.json": "dddb069628c078c810646147145f5aa4e27b6de7f3151ee41ab3572b29bd3120",
+        "samples.json": "d4f74c85f8bc0da0963c24ff07bddbdef71a6365a0f58801984a2a9fdd41cc50",
+        "FILE_MANIFEST.json": "fb520a2b51bd62b2d92b1b8b4e2da46ae09ea582f33002edac488ccd1d6c8fce"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 170,
+          "close": 28,
+          "align": 32,
+          "contact": 9,
+          "push": 182,
+          "detach": 25,
+          "withdraw": 50,
+          "hold": 105
+        },
+        "windows_containing_any_stage": {
+          "approach": 170,
+          "close": 67,
+          "align": 71,
+          "contact": 48,
+          "push": 221,
+          "detach": 64,
+          "withdraw": 89,
+          "hold": 144
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 131,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 143,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 105
+        },
+        "multi_stage_windows": 211,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 202,
+        "contact": 37,
+        "transport": 182,
+        "withdraw": 75,
+        "hold": 105
+      },
+      "first_detach_s": 21.049999999999212,
+      "first_withdraw_s": 22.29999999999852,
+      "first_hold_s": 24.799999999997134,
+      "detach_duration_s": 1.2499999999993072,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    },
+    {
+      "id": "PI0294-TRAIN-F2-011-T2",
+      "scene_group": "PI0294/TRAIN/F2/011",
+      "family": "F2",
+      "initial_state_sha256": "0a0ef1c34a18e750b76e117162e3b203161f5604981ffe0bacc877cdb7a79027",
+      "numeric_sha256": "8dd8f7b54390844905519df22b894f2d09461e81854307aefb10baf851417e75",
+      "samples_sha256": "c2acf7665678d622483bf93b5ffa401d320318e5f1395e73cfa54d54934405f7",
+      "input_hashes": {
+        "CARD.json": "0661b5910d7429b58bb14ee7aff94ac4abb073ecbec10272804f05bfd26baab1",
+        "TEACHER_EVENTS.json": "83c9b0731515079eec29a7016de8efb6f48f6c08a4df301efcbc2a597fb511e1",
+        "SCORE.json": "f725b5bba5221f30cb890d740f4955a4d2f58dabd8a89c0552b5db5f4226e522",
+        "AUDIT.json": "5e4bf6fe78705fc9fd674e572f5de241b160728061328aa86f5da497191508e4",
+        "samples.json": "c2acf7665678d622483bf93b5ffa401d320318e5f1395e73cfa54d54934405f7",
+        "FILE_MANIFEST.json": "7c9560e3ed8af665b7305dafd5da84de43de3bc34c9523bdcfc0c1eeb53b47cc"
+      },
+      "exact_stage_windows": {
+        "anchor_stage_counts": {
+          "approach": 169,
+          "close": 29,
+          "align": 32,
+          "contact": 9,
+          "push": 189,
+          "detach": 26,
+          "withdraw": 50,
+          "hold": 97
+        },
+        "windows_containing_any_stage": {
+          "approach": 169,
+          "close": 68,
+          "align": 71,
+          "contact": 48,
+          "push": 228,
+          "detach": 65,
+          "withdraw": 89,
+          "hold": 136
+        },
+        "windows_fully_within_one_stage": {
+          "approach": 130,
+          "close": 0,
+          "align": 0,
+          "contact": 0,
+          "push": 150,
+          "detach": 0,
+          "withdraw": 11,
+          "hold": 97
+        },
+        "multi_stage_windows": 213,
+        "windows": 601,
+        "containing_any_stage_counts_overlap": true,
+        "window_counts_are_not_independent_episodes": true
+      },
+      "phase_anchor_counts": {
+        "approach": 201,
+        "contact": 38,
+        "transport": 189,
+        "withdraw": 76,
+        "hold": 97
+      },
+      "first_detach_s": 21.399999999999018,
+      "first_withdraw_s": 22.699999999998298,
+      "first_hold_s": 25.199999999996912,
+      "detach_duration_s": 1.2999999999992795,
+      "withdraw_duration_s": 2.4999999999986144,
+      "terminal_observation_supervision_absent_not_a_training_action": true,
+      "task_success_is_existing_raw_audit_not_new_evaluation": true
+    }
+  ],
+  "interpretation": {
+    "confirmed": [
+      "All 30 admitted original TRAIN T2 demonstrations have approach, close, align, contact, push, detach, withdraw and hold anchors.",
+      "Manifest phase membership exactly matches original raw teacher_stage for all 18,030 valid H40 anchors.",
+      "Every raw episode has 640 actually committed supervised actions plus one terminal observation with supervision=null.",
+      "Detach anchors are 756/18,030 (4.19%); detach+withdraw anchors are 2,256/18,030 (12.51%).",
+      "No H40 window lies entirely in detach, because every detach segment is shorter than the 2s H40 horizon; many valid cross-stage windows contain detach."
+    ],
+    "not_proved": [
+      "That detach/withdraw data is absent",
+      "That the measured stage imbalance is the unique cause of M1 failure",
+      "That uniform or event-balanced reweighting improves autonomous task success",
+      "That 18,030 overlapping windows are independent demonstrations",
+      "That future sampler forecasts are actual optimizer consumption"
+    ],
+    "S_EVENT_triggered": false,
+    "primary_Source_Pair_recipe_changed": false,
+    "T2_Recovery_Oracle_qualified": false,
+    "next_question": "After a valid end-to-end evaluation route exists, compare the fixed balanced Source Pair before attributing benefit to event weighting. Preserve the event counts for a separately justified single-variable S-EVENT branch."
+  },
+  "CPU_audit_history": {
+    "attempt01": {
+      "source": "a21d734ce59d32e390ffb9480129396368511f07",
+      "status": "FAILED_CPU_SCHEMA_CHECK_641_OBSERVATIONS_NOT_640",
+      "result_available": false,
+      "charged_CPU_upper_s": 600,
+      "new_neural": 0,
+      "new_physics": 0
+    },
+    "attempt02": {
+      "source": "56346a619a343eb4fcb1d17d0b7489d7af0390d1",
+      "status": "PASS_ACTUAL_TRAIN30_NUMERIC_RAW_STAGE_AND_EVENT_AUDIT",
+      "worker_terminal": true,
+      "charged_CPU_upper_s": 600,
+      "instrumented_module_CPU_s": 1.775622026,
+      "full_process_CPU_exact": false,
+      "original_inputs_rechecked_after_completion": true,
+      "native_result_sha256": "6222a4913b2516a9532557def42f417a22349375ea66af084cf8ccfafddfca6a"
+    },
+    "total_CPU_upper_s": 1200,
+    "CPU_reservations_remaining": 0
+  },
+  "invariants": {
+    "new_neural": 0,
+    "new_physics": 0,
+    "new_training_updates": 0,
+    "new_GPU_PBS": 0,
+    "DEV_metadata_only_no_DEV_numeric_RGB_labels": true,
+    "RGB_bytes_loaded": 0,
+    "statistics_refitted": false,
+    "original_data_modified": false,
+    "WBC_S1_D0_score_changed": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}
