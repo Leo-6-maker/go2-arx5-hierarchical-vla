@@ -2,10 +2,24 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from .mp1.directory_visibility_audit import observe
+from .mp1.directory_visibility_audit import observe,force_server_attributes
 
 
 class DirectoryVisibilityTests(unittest.TestCase):
+    def test_real_statx_metadata_read_does_not_change_packet(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d);f=p/'packet';f.write_bytes(b'fixture');before=(f.read_bytes(),f.stat().st_mtime_ns)
+            force_server_attributes(p)
+            self.assertEqual((f.read_bytes(),f.stat().st_mtime_ns),before)
+            with self.assertRaises(FileNotFoundError):force_server_attributes(p/'missing')
+
+    def test_pending_predeclared_directory_is_not_created(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'future';now=[0.]
+            def sleep(dt):now[0]+=dt
+            result=observe([p],duration_s=.4,clock=lambda:now[0],sleep=sleep,allow_pending=True,force_sync=True)
+            self.assertFalse(p.exists());self.assertEqual(result['count_change_samples'][0]['counts'],[None])
+
     def test_observer_preserves_packet_bytes_and_timestamps(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d);packet=p/'packet.json';packet.write_text(json.dumps(dict(action='fixture')))
