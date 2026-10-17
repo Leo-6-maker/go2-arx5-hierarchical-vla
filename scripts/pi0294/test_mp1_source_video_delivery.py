@@ -4,19 +4,20 @@ import tempfile
 import unittest
 
 from scripts.pi0294.native_dataset import sha
-from .mp1.source_video_delivery import IDS,PANEL,audited_movies
+from .mp1.source_video_delivery import IDS,PANEL,DEV_IDS,DEV_PANEL,audited_movies,delivery_scope
 
 
 def put(p,value):
     p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(value))
 
 
-def fixture(root):
+def fixture(root,panel=PANEL):
+    scope=delivery_scope(panel);ids=scope['ids'];split=scope['split']
     child=root/'children/source-pair-01'
-    put(child/'plans/SOURCE_EVALUATION_PLAN.json',dict(schema='MP1_FIRST_SOURCE_PAIR_FIXED_DEVELOPMENT_V1',panels={PANEL:dict(attempt_ids=IDS,checkpoint_step=2048,split='TRAIN',teacher_takeover=False)}))
+    put(child/'plans/SOURCE_EVALUATION_PLAN.json',dict(schema='MP1_FIRST_SOURCE_PAIR_FIXED_DEVELOPMENT_V1',panels={panel:dict(attempt_ids=ids,checkpoint_step=2048,split=split,teacher_takeover=False)}))
     put(child/'RESOURCE_LEDGER.json',dict(reservations={'UNRELATED_DEV_CASE':{'maximum':200}}))
-    for i,name in enumerate(IDS):
-        decision=dict(attempt_id=name,status='VALID_TASK_FAIL' if i==2 else 'SUCCESS',failure_stage='S1_PRE_EXECUTION_REJECT' if i==2 else 'COMPLETE_SUCCESS',model=PANEL,split='TRAIN',pipeline_trustworthy=True,teacher_takeover=False,live_native_failures=0,task='T1' if i%2==0 else 'T2',scene_group='TRAIN/F'+str(i//2)+'/000',duration_s=1.2 if i==2 else 32,RGB_pairs=25 if i==2 else 641,S1_rejections=1 if i==2 else 0)
+    for i,name in enumerate(ids):
+        decision=dict(attempt_id=name,status='VALID_TASK_FAIL' if i==2 else 'SUCCESS',failure_stage='S1_PRE_EXECUTION_REJECT' if i==2 else 'COMPLETE_SUCCESS',model=panel,split=split,pipeline_trustworthy=True,teacher_takeover=False,live_native_failures=0,task='T1' if i%2==0 else 'T2',scene_group=split+'/F'+str(i//2)+'/000',duration_s=1.2 if i==2 else 32,RGB_pairs=25 if i==2 else 641,S1_rejections=1 if i==2 else 0)
         put(child/'episodes'/name/'MP1_ADJUDICATION.json',decision)
         put(child/'worker_processes'/(name+'.json'),dict(pid=999999999,proc_start='0'))
         folder=child/'evidence/audits'/name;folder.mkdir(parents=True)
@@ -26,6 +27,27 @@ def fixture(root):
 
 
 class SourceVideoTests(unittest.TestCase):
+    def test_complete_exposed_DEV8_has_distinct_immutable_delivery_scope(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);fixture(root,DEV_PANEL);before={str(p):sha(p) for p in root.rglob('*') if p.is_file()}
+            rows,files,sources=audited_movies(root,panel=DEV_PANEL)
+            self.assertEqual([r['id'] for r in rows],DEV_IDS);self.assertEqual(len(files),8)
+            self.assertEqual(len(sources),8);self.assertEqual(rows[2]['status'],'VALID_TASK_FAIL')
+            self.assertTrue(all(r['id'].startswith('PI0294-MP1-S-BC-2048-DEV8-') for r in rows))
+            self.assertNotEqual(delivery_scope(PANEL)['name'],delivery_scope(DEV_PANEL)['name'])
+            self.assertEqual(before,{str(p):sha(p) for p in root.rglob('*') if p.is_file()})
+
+    def test_DEV_delivery_rejects_subset_wrong_split_and_unapproved_model(self):
+        for defect in ['subset','split']:
+            with tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp);child=fixture(root,DEV_PANEL);p=child/'plans/SOURCE_EVALUATION_PLAN.json';v=json.loads(p.read_text())
+                if defect=='subset':v['panels'][DEV_PANEL]['attempt_ids'].pop()
+                else:v['panels'][DEV_PANEL]['split']='TRAIN'
+                put(p,v)
+                with self.assertRaises(PermissionError):audited_movies(root,panel=DEV_PANEL)
+        for panel in ['S-CORR-2048-DEV8','SOURCE_CONFIRM_V1','S-BC-512-TRAIN4']:
+            with self.assertRaises(PermissionError):delivery_scope(panel)
+
     def test_exact_four_successes_and_negative_while_unrelated_DEV_is_reserved(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);fixture(root);before={str(p):sha(p) for p in root.rglob('*') if p.is_file()}
