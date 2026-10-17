@@ -1,5 +1,18 @@
 # Current Science Status
 
+**Recovery-family final:** [eight-condition actual panel and resources](reports/PI0294/20261016T191445Z-localpc-mp1/RECOVERY_FINAL_ACTUAL_PANEL_AND_RESOURCES.json).
+CORR seen-TRAIN T1 is 2/2 successful scenes; BC has one success and one
+engineering-missing T1. Fixed total: 3 SUCCESS, 2 valid original-S1 failures,
+2 engineering-missing, 1 NOT_RUN. No complete T2 or DEV/WBC success.
+All ten attempts independently audited; 240 complete fresh observation/ACK
+chains and 480 actual model-input camera hashes verified for three successes.
+671899 is F/0; all three recovery children are CLOSED, 4,500 conservative
+H200 seconds, zero updates/reservations. No fourth recovery PBS. Read-side
+metadata assistance remains explicit; original MP1 budget/T0 and TF-R3 STOP
+persist. Vanda camera qualification remains separately queued, not PASS.
+
+## Historical Progress Snapshots
+
 Observed 2026-10-17 after E1 and both MP1 recovery-child lease closures by the existing single local-PC owner.
 This is an actual-state summary, not a replacement for immutable run receipts.
 

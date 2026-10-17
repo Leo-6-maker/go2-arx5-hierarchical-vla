@@ -1,5 +1,19 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**M2 recovery is CLOSED:** [actual eight-condition panel and terminal resources](reports/PI0294/20261016T191445Z-localpc-mp1/RECOVERY_FINAL_ACTUAL_PANEL_AND_RESOURCES.json).
+CORR T1 succeeds in both seen TRAIN scenes; BC T1 succeeds in F1 while F0
+remains engineering-missing. Overall: 3 SUCCESS, 2 valid original-S1 failures,
+2 engineering-missing and 1 NOT_RUN. All ten family attempts audited; three
+complete successes have 240 independently matched fresh observation/ACK chains.
+671899 is F/0, 4,047 conservative H200 seconds; family total 4,500 seconds.
+Both child03 leases and all recovery workers/reservations are closed, including
+the separate metadata reader. No fourth recovery PBS or new training.
+Old C0/exposure confounding remains; no causal DAgger gain or T2/DEV/WBC success.
+Vanda camera job1463728 remains Q in the last native read; its separate
+reservation is not released. Original MP1 clock continues.
+
+## Historical MP1 Progress Snapshots (Not Current Native State)
+
 **CORR also has an independently verified full T1:** [original M2-CORR512 F0/T1 SUCCESS](reports/PI0294/20261016T191445Z-localpc-mp1/M2_CORR_FIRST_COMPLETE_T1_AND_RAW_AUDIT.json),
 32s/641 camera pairs/41-of-41 hold/zero S1 or native faults.18 raw checks,
 full video decode and80 actual cross-host ACK chains passed. This is C0-only
