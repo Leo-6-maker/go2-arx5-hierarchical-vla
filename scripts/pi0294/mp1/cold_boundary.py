@@ -20,8 +20,9 @@ LEARNING_FILES=(
     'scripts/pi0294/episode.py','scripts/pi0294/s1_preflight.py','scripts/pi0294/score.py')
 
 
-def validate(root,worker_manifest=None):
-    root=Path(root);m=read(root/'RUN_MANIFEST.json');relative=m['execution'].get('cold_engineering_binding_relative')
+def validate(root,worker_manifest=None,*,proposed_manifest=None):
+    root=Path(root);m=read(root/'RUN_MANIFEST.json') if proposed_manifest is None else proposed_manifest
+    relative=m['execution'].get('cold_engineering_binding_relative')
     if relative is None:return None
     if relative!=BINDING or root.name!='source-pair-01':raise PermissionError('EXACT_COLD_ALLOC04_BOUNDARY_ONLY')
     required=[BINDING,HISTORY,LEDGER,EFFECTS,OUTCOMES,'RELAY_ENGINEERING_STOP.json']

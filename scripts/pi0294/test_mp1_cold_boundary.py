@@ -120,5 +120,10 @@ class ColdBoundary(unittest.TestCase):
         self.put(self.root/'RUN_MANIFEST.json',self.old)
         self.assertIsNone(cold.validate(self.root));self.assertTrue(cold.blocked(self.root,4));self.assertTrue(cold.Guard(self.root,4).blocked())
 
+    def test_qualifying_proposed_manifest_does_not_activate_or_clear_old_scope(self):
+        proposed=copy.deepcopy(self.manifest);self.put(self.root/'RUN_MANIFEST.json',self.old)
+        self.assertEqual(cold.validate(self.root,proposed_manifest=proposed),self.binding)
+        self.assertTrue(cold.blocked(self.root,4));self.assertEqual(json.loads((self.root/'RUN_MANIFEST.json').read_text()),self.old)
+
 
 if __name__=='__main__':unittest.main()
