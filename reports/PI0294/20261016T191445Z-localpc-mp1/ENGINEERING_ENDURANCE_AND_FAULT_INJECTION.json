@@ -54,6 +54,33 @@
     "this_engineering_CPU_reserved_upper_s": 4320,
     "this_CPU_settlement": "PENDING_EXACT_PUBLICATION_AND_NATIVE_METADATA_READBACK"
   },
+  "installed_S1_zero_live_closure_reconciliation": {
+    "status": "READ_ONLY_MECHANISM_VERIFIED_COLD_POINTER_NOT_ADVANCED",
+    "prior_corrected_test_commit": "4154bd50f69298cb959244f9053d9011e66f8876",
+    "prior_actual_CI_run": 39071927521,
+    "prior_actual_CI_conclusion": "SUCCESS",
+    "initial_read_only_closure_blocked": "COMMAND_AND_RESERVED_INTENT_WITHOUT_EXECUTED_ACK",
+    "mechanism": "ORIGINAL_S1_CAN_REJECT_AN_INSTALLED_RESERVED_PREFIX_BEFORE_FIRST_LIVE_INTEGRATION",
+    "repair_requires_exact_original_S1_action_hash_audit_and_zero_live_proof": true,
+    "Core_actual_read_only_diagnostic": {
+      "closed_attempts": 28,
+      "executed_ACKed_prefixes": 1452,
+      "installed_original_S1_rejected_zero_live_prefixes": 13
+    },
+    "Hopper_actual_read_only_diagnostic": {
+      "all_native_action_arrays_and_query_identities_verified": true,
+      "resident_actual_generations": 1467,
+      "fixed_probe_actual_generations": 432,
+      "cumulative_generation_ledger_equal": 1899,
+      "classified_records_including_one_never_generated_inbox_orphan": 1468
+    },
+    "post_repair_local_pytest": "507_PASSED_375_SUBTESTS",
+    "existing_intents_or_negative_results_modified": false,
+    "synthetic_ACK_created": false,
+    "unknown_action_or_query_resent": false,
+    "new_PBS_or_physics_or_model_queries": 0,
+    "new_source_native_qualification": "NOT_RUN"
+  },
   "implemented_native_heartbeat_capture": {
     "module": "scripts/pi0294/mp1/native_heartbeat_capture.py",
     "integration": "N1_NEURAL_ENTRY_BEFORE_ANY_MODEL_LOAD",

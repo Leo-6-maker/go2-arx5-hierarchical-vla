@@ -1,4 +1,5 @@
 from pathlib import Path
+import hashlib
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -24,6 +25,7 @@ class EffectClosure(unittest.TestCase):
         self.core=dict(rows=[dict(attempt_id='attempt',status='VALID_TASK_FAIL',S1_rejections=1,main_integrations=0)],
             installed={},observations={'episode/0':dict(attempt_id='attempt',observation_sha256='observed',
                 payload_sha256=digest({'state':1}),previous_ACK_sha256=None)})
+        self.core['rejected_installs']={'query':dict(request_sha256=self.query['sha256'],action_sha256=self.action['sha256'])}
         self.ledger=dict(GPU_reserved_s=0,pending_updates=0,CPU_reserved_s=0,
             PBS_submissions=[dict(status='NATIVE_TERMINAL')],generation_queries=433)
         self.draw=dict(query_uuid='query',episode_uuid='episode',sequence=0,response_sha256=self.action['sha256'])
@@ -45,11 +47,12 @@ class EffectClosure(unittest.TestCase):
     def test_rejected_prefix_is_classified_not_executed_or_replayed(self):
         value=closure.hopper(self.root,self.core)
         self.assertEqual(value['cumulative_generation_queries'],433)
-        self.assertEqual(value['classified'][0]['classification'],'ORIGINAL_S1_REJECTED_ZERO_LIVE_PREFIX')
+        self.assertEqual(value['classified'][0]['classification'],'ORIGINAL_S1_REJECTED_INSTALLED_ZERO_LIVE_PREFIX')
         self.assertEqual(value['actual_executed_prefixes'],0)
         self.assertEqual(self.probe_mock.call_args.args[2],{'config.json':'a'})
 
     def test_installed_prefix_must_join_exact_native_bytes(self):
+        self.core['rejected_installs']={}
         self.core['installed']['query']=dict(request_sha256=self.query['sha256'],action_sha256=self.action['sha256'])
         value=closure.hopper(self.root,self.core)
         self.assertEqual(value['classified'][0]['classification'],'EXECUTED_ACKED_PREFIX')
@@ -60,6 +63,7 @@ class EffectClosure(unittest.TestCase):
         for kind in ['outbox','receipts']:
             for path in (self.folder/kind).iterdir():path.unlink()
         self.core['rows'][0]['status']='ENGINEERING_INCOMPLETE'
+        self.core['rejected_installs']={}
         write(self.folder/'QUERY_STATE.json',dict(queries=[],pending=None))
         write(self.folder/'STATE.json',dict(queries=0,identity={'relay_identity':{'model':'frozen'}}))
         write(self.root/'HOPPER_RESOURCE_LEDGER.json',dict(self.ledger,generation_queries=432))
@@ -103,6 +107,36 @@ class EffectClosure(unittest.TestCase):
         self.assertEqual(value['observations']['episode/0']['observation_sha256'],observation['sha256'])
         (relay/'acks/000.json').unlink()
         with self.assertRaisesRegex(PermissionError,'UNKNOWN_INSTALLED'):closure.core(root)
+
+    def test_installed_rejection_needs_exact_frozen_S1_action_audit_and_zero_live_evidence(self):
+        from scripts.pi0292.eval_contract import matrix10
+        root=self.root/'rejected';folder=root/'episodes/attempt';relay=folder/'relay'
+        for kind in ['intents','acks']:(relay/kind).mkdir(parents=True)
+        values=np.tile([0.,0.,0.,1.,0.,0.,0.,1.,0.,.5],(40,1))
+        query=sealed(dict(query_uuid='query',sequence=0))
+        action=sealed(dict(sequence=0,payload={'trajectory_eef10':values.tolist()}))
+        command=sealed(dict(sequence=0,prefix_sha256=digest(values[:8].tolist())))
+        bundle=dict(request=query,action=action,command=command)
+        row=dict(status='VALID_TASK_FAIL',failure_stage='S1_PRE_EXECUTION_REJECT',
+            pipeline_trustworthy=True,S1_rejections=1,main_integrations=0,live_native_failures=0)
+        intent=dict(tick_before=0,query_uuid='query',command_sha256=command['sha256'],requested_integrations=200)
+        forecast=dict(decision='REJECT',live_integrations=0,live_state_unchanged=True,actions_modified=False,
+            sequence=0,action_sha256=hashlib.sha256(matrix10(values)[:8].tobytes()+values[:8,9].tobytes()).hexdigest())
+        audit=dict(status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT',adjudication=row,actual_native_safety_flag_rows=0)
+        audit_path=root/'evidence/audits/attempt/AUDIT.private.json';audit_path.parent.mkdir(parents=True)
+        write(relay/'intents/000.json',intent);write(folder/'S1_PREFLIGHTS.json',[forecast])
+        write(folder/'S1_RESULT.json',dict(pre_execution_rejections=1,live_native_failures=0))
+        write(folder/'WORKER_RECEIPT.json',dict(physics_steps=0));write(audit_path,audit)
+        result=closure.rejected_prefix(folder,row,'000.json',bundle)
+        self.assertEqual(result['classification'],'ORIGINAL_S1_REJECTED_INSTALLED_ZERO_LIVE_PREFIX')
+        self.assertEqual(result['live_integrations'],0)
+        self.assertFalse((relay/'acks/000.json').exists())
+        for change in [dict(forecast,live_integrations=1),dict(forecast,action_sha256='different'),
+                       dict(forecast,live_state_unchanged=False)]:
+            write(folder/'S1_PREFLIGHTS.json',[change])
+            with self.assertRaises(PermissionError):closure.rejected_prefix(folder,row,'000.json',bundle)
+        write(folder/'S1_PREFLIGHTS.json',[forecast]);(relay/'physics-000.npz').write_bytes(b'nonzero-effect')
+        with self.assertRaises(PermissionError):closure.rejected_prefix(folder,row,'000.json',bundle)
 
 
 if __name__=='__main__':unittest.main()
