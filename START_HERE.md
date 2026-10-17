@@ -1,5 +1,23 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**B1 current-failure histories and first illegal geometry are actually verified.**
+[Four current512 failures,eight full-history anchors and terminal resources](reports/PI0294/20261016T191445Z-localpc-mp1/CURRENT_SBC512_FAILURE_HISTORY_FIRST_GEOMETRY.json).
+All27600 original live highrate rows and wire/installed references reproduce
+with zero difference. Original rejected-prefix offsets64/124/63/150 also match.
+F0T1/F0T2/F1T1 first contact is right_pad/table;F1T2 is left_pad/table.
+These are diagnostic-shadow predictions,not original live collisions;native
+faults remain0. Frozen ARM_TABLE_OR_FLOOR rule stays,not replaced by4mm margin.
+Eight noninitial current S-BC-induced states have full live/IK integration and
+controller/Python/teacher histories saved and hash-read back. Original hidden
+RNG identity was not recorded and is not invented;independent saved-snapshot
+restore and actual cross-host noise receipt joins await future model queries.
+Diagnostic child CLOSED:4 charged starts,28001 new shadow ticks,194.195 charged
+CPU seconds including180 control upper;zero live/NN/PBS/GPU,all reservations0.
+326 CPU tests/native CI passed. Healthy source job672471 continues unchanged;
+fixed pair endpoints/panels and causal channel attribution remain incomplete.
+
+## Earlier Source Resume And Event Snapshot
+
 **Source continuation02 is actually running and exact1631 resume has updates.**
 [Raw event exposure,per-episode coverage and native resume](reports/PI0294/20261016T191445Z-localpc-mp1/RAW_EVENT_EXPOSURE_AND_ACTUAL_SOURCE_RESUME.json).
 672471 is R,observed1743/cursor55776;first resumed microbatch52192,

@@ -1,5 +1,21 @@
 # Current Science Status
 
+**Current512 failure attribution:** [exact original history and first geometry](reports/PI0294/20261016T191445Z-localpc-mp1/CURRENT_SBC512_FAILURE_HISTORY_FIRST_GEOMETRY.json).
+Four current S-BC failures now reproduce all27600 actual ticks with zero
+highrate/control/reference difference and original64/124/63/150-tick rejects.
+First contact is right_pad/table forF0T1/F0T2/F1T1,left_pad/table forF1T2.
+All contacts are predicted shadows;original native faults0 and valid S1
+negatives remain. No oldM1 cause substituted,no safety/plant/WBC change.
+Eight current-policy-induced noninitial anchors saved full live/IK/controller/
+teacher history,not justqpos/qvel. Original unseen RNG fingerprint not claimed;
+independent snapshot restore/noise-receipt joins remain before new model draws.
+B1 child is CLOSED,194.195 charged CPU seconds/28001 shadow ticks/4 conservative
+diagnostic starts,zero new live conditions/queries/PBS/GPU and reservations0.
+326 tests/native CI PASS. Source672471 remains independently active;fixed pair
+and final review deliverables still incomplete,no optional intervention chosen.
+
+## Earlier Mainline Resume And Event Snapshot
+
 **Current native boundary:** [actual full-state resume and raw event audit](reports/PI0294/20261016T191445Z-localpc-mp1/RAW_EVENT_EXPOSURE_AND_ACTUAL_SOURCE_RESUME.json).
 672471 is R,observed1743/cursor55776;native full1631 resume has first
 microbatch52192/gradient1631/optimizer1632 and continuing scheduler. No2048
