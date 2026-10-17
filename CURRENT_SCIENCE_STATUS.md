@@ -1,5 +1,11 @@
 # Current Science Status
 
+**Live source / terminal camera:** [actual learning and original-window camera closeout](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_LEARNING_STARTED_AND_VANDA_CAMERA_QUEUE_CLOSED.json).
+Source672080 is R with real S-BC updates and verified balanced committed sample
+prefix; CORR/new policy outcomes are not available yet. Camera1463728 expired
+without allocation,was withdrawn at that boundary and is CLOSED/NOT_RUN,zero
+GPU and zero reservations. Source learning continues independently of target.
+
 **Recovery videos delivered:** [fixed public HF byte verification and queued-memory delta](reports/PI0294/20261016T191445Z-localpc-mp1/PUBLIC_RECOVERY_VIDEOS_AND_QUEUE_MEMORY_DELTA.json).
 All ten attempts/3405 decoded paired frames are indexed,including failures and
 two initial-only clips. Same source job672080 remains Q; memory-only request

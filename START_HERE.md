@@ -1,5 +1,15 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Source learning is now actually running; Vanda camera queue is closed NOT_RUN:**
+[native admission, real optimizer/sample-prefix audit and camera terminal receipt](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_LEARNING_STARTED_AND_VANDA_CAMERA_QUEUE_CLOSED.json).
+672080 entered one H200 under CFP04-CF-007; S-BC has real updates, with the
+first27 committed updates consuming864 TRAIN samples,432 each task and finite
+positive projector/DiT gradients. This is not a new task-result claim.
+1463728 never started before its original deadline; after an exact-owner queued
+node_pool correction still left it Q,only that expired queue was withdrawn.
+NativeF/zero allocation and CLOSED lease/zero Vanda reservations are verified.
+No camera/EGL/WBC PASS,deadline extension or second camera submission is implied.
+
 **All ten actual recovery videos are now public at a fixed HF revision:**
 [delivery and exact queue resource delta](reports/PI0294/20261016T191445Z-localpc-mp1/PUBLIC_RECOVERY_VIDEOS_AND_QUEUE_MEMORY_DELTA.json).
 Core verified every published hash; Hopper independently read READY/index.
