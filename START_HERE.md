@@ -1,5 +1,12 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**BC session actual terminal panel:** [one SUCCESS / one valid S1 failure / two engineering-missing conditions](reports/PI0294/20261016T191445Z-localpc-mp1/M2_BC_FIXED_TRAIN4_ACTUAL_PANEL.json).
+F1/T2 is a valid original-S1 rejection at21.2s,425 camera pairs,zero native
+faults; its19-check independent audit/video decode passed. It will not be
+repeated. BC's208 generated actions reconcile to206 full ACKs,one75-tick
+engineering partial andone S1-rejected zero-live prefix. CORR is now loaded
+and evaluating its remaining fixed conditions in the same job; no new training.
+
 **First independently verified complete M2 behavior:** [M2-BC original512 F1/T1 and real relay qualification](reports/PI0294/20261016T191445Z-localpc-mp1/M2_BC_COMPLETE_T1_AND_CLOSED_LOOP_QUALIFICATION.json)
 is autonomous32s SUCCESS:641 actual camera pairs,41/41 hold,zero S1/native
 faults. All18 raw checks and80 distinct observations/generations/actual ACK
