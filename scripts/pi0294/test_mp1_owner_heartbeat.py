@@ -65,5 +65,17 @@ class OwnerHeartbeat(unittest.TestCase):
         alias=self.root/'alias';alias.symlink_to(self.root,target_is_directory=True)
         with self.assertRaises(PermissionError):read_live_owner(alias,'source',now=1000)
 
+    def test_forced_compute_admission_revalidates_even_a_fresh_cached_read(self):
+        sync=Mock();proof=read_live_owner(self.root,'source',now=1000,synchronize=sync,force_revalidate=True)
+        self.assertTrue(proof['server_revalidation']);self.assertEqual(sync.call_args_list,[call(self.root),call(self.path)])
+
+    def test_expired_compute_admission_keeps_actual_read_values_in_error(self):
+        from .mp1.owner_heartbeat import HeartbeatLost
+        with self.assertRaises(HeartbeatLost) as caught:
+            read_live_owner(self.root,'source',now=1500,synchronize=Mock(),force_revalidate=True)
+        self.assertEqual(caught.exception.diagnostics['heartbeat']['observed_epoch'],900)
+        self.assertEqual(caught.exception.diagnostics['watchdog_s'],300)
+        self.assertFalse(caught.exception.diagnostics['heartbeat_written'])
+
 
 if __name__=='__main__':unittest.main()

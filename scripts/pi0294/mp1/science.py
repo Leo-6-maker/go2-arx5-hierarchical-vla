@@ -85,6 +85,9 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
         prior_recovery_rows(root)
     if m['data']['manifest_sha256']!=DATA or m['interfaces']['statistics_sha256']!=STATS:raise PermissionError('MP1_FIXED_SOURCE_STATS')
     if sha(root/'evidence/S1_TEACHER_QUALIFIED.json')!=S1_PROOF:raise PermissionError('MP1_ORIGINAL_SOURCE_S1_QUALIFICATION')
+    if read(root/'RUN_MANIFEST.json')['execution'].get('cold_engineering_binding_relative'):
+        from .cold_boundary import validate
+        validate(root,m)
     return m
 
 

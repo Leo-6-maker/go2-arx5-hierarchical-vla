@@ -15,9 +15,11 @@ from .plans import remaining_panel,session_spec
 def stop_engineering_branch(remote,session):
     for role in ['core','hopper']:
         remote(role,r'''
-import json
+import json,sys
 from pathlib import Path
-r=Path(ROOT);p=r/'RELAY_ENGINEERING_STOP.json'
+r=Path(ROOT);m=json.loads((r/'RUN_MANIFEST.json').read_text());code=r/m['code']['capsule_relative'];sys.path[:0]=[str(code),str(code/'src')]
+from scripts.pi0294.mp1.cold_boundary import stop_target
+p=stop_target(r,int(SESSION.rsplit('-',1)[1]))
 value=dict(run_uuid=RUN,session=SESSION,reason='POISONED_FILE_RPC_UNKNOWN_EFFECT_NO_NEXT_CASE_OR_MODEL',
  native_safety_stop=False,scientific_policy_failure=False)
 if p.exists():assert json.loads(p.read_text())==value
@@ -31,9 +33,11 @@ def bind(remote,session,ready):
     facts={}
     for role in ['core','hopper']:
         facts[role]=remote(role,r'''
-import hashlib,json
+import hashlib,json,sys
 from pathlib import Path
 r=Path(ROOT);raw=(r/'RUN_MANIFEST.json').read_bytes();m=json.loads(raw);rows=[];active=[]
+code=r/m['code']['capsule_relative'];sys.path[:0]=[str(code),str(code/'src')]
+from scripts.pi0294.mp1.cold_boundary import blocked
 if ROLE=='core':
  for p in (r/'worker_processes').glob('*.json'):
   w=json.loads(p.read_text());s=Path('/proc',str(w['pid']),'stat')
@@ -48,9 +52,9 @@ if ROLE=='core':
   rows=json.loads((r/'plans/PRIOR_RECOVERY_OUTCOMES.json').read_text())+rows
 print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib.sha256(raw).hexdigest(),
  plan=json.loads((r/'plans/SOURCE_EVALUATION_PLAN.json').read_text()),rows=rows,
- engineering_stop=(r/'RELAY_ENGINEERING_STOP.json').exists(),
+ engineering_stop=blocked(r,int(SESSION.rsplit('-',1)[1])),
  source_stop=(r/'SOURCE_PHYSICS_STOP.json').exists() if ROLE=='core' else False)))
-''',dict(ROLE=role),label='MP1-fixed-panel-boundary-'+role)
+''',dict(ROLE=role,SESSION=session),label='MP1-fixed-panel-boundary-'+role)
     if facts['core']['plan']!=facts['hopper']['plan']:raise PermissionError('MP1_IDENTICAL_FIXED_DEVELOPMENT_PLAN_ON_BOTH_HOSTS')
     if facts['core']['source_stop'] or any(v['engineering_stop'] for v in facts.values()):return None
     spec=session_spec(facts['core']['plan'],session)

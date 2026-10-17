@@ -18,6 +18,8 @@ from .allocation import admit
 from .dataset import SourceDataset
 from .science import Ledger
 from .train import run as train
+from .cold_boundary import Guard as ColdGuard
+from .owner_heartbeat import read_live_owner
 
 
 def checkpoint_state(root,branch):
@@ -47,15 +49,24 @@ def run(root,request_path):
     remaining_CPU=int(172800-read(ledger.path)['CPU_s'])
     if remaining_CPU<=0:raise PermissionError('MP1_SOURCE_STUDY_CPU_EXHAUSTED')
     resource.setrlimit(resource.RLIMIT_CPU,(remaining_CPU,remaining_CPU));lock=OwnerLock(root/'NEURAL_OWNER.lock');started=time.process_time()
-    stage='INITIAL';status='FAILED_PRESERVED';records=[];instance=None
+    stage='INITIAL';status='FAILED_PRESERVED';records=[];instance=None;heartbeats=[];last_heartbeat_log=0
+    cold_guard=ColdGuard(root,r['submit_count']);cold=cold_guard.binding
     def source_stopped():
         return (root/'SOURCE_SAFETY_STOP_FROM_CORE.json').exists() or (root/'SOURCE_PHYSICS_STOP.json').exists()
     def guard():
+        nonlocal last_heartbeat_log
         ledger.guard()
-        if read_available(root/'RELAY_ENGINEERING_STOP.json') is not None:raise PermissionError('RELAY_ENGINEERING_STOP_NO_NEXT_MODEL_NOT_NATIVE_SAFETY_FAIL')
+        if cold_guard.blocked():raise PermissionError('RELAY_ENGINEERING_STOP_NO_NEXT_MODEL_NOT_NATIVE_SAFETY_FAIL')
         if time.time()>=allocation['allocation_end_epoch']-2700:raise TimeoutError('MP1_ORIGINAL_45_MIN_ALLOCATION_CLOSEOUT')
-        h=read(root/'OWNER_HEARTBEAT.json')
-        if h['run_uuid']!=root.name or not 0<=time.time()-h['observed_epoch']<=300:raise TimeoutError('MP1_SINGLE_OWNER_HEARTBEAT_LOST')
+        if cold:
+            try:proof=read_live_owner(root,root.name)
+            except BaseException as exc:
+                heartbeats.append(dict(epoch=time.time(),error=type(exc).__name__,diagnostics=getattr(exc,'diagnostics',None)));raise
+            if proof['server_revalidation'] or time.time()-last_heartbeat_log>=30:
+                heartbeats.append(dict(epoch=time.time(),proof=proof));last_heartbeat_log=time.time()
+        else:
+            h=read(root/'OWNER_HEARTBEAT.json')
+            if h['run_uuid']!=root.name or not 0<=time.time()-h['observed_epoch']<=300:raise TimeoutError('MP1_SINGLE_OWNER_HEARTBEAT_LOST')
         if source_stopped() and not stage.startswith('S-BC-TRAIN-'):
             raise PermissionError('MP1_SOURCE_DOMAIN_SAFETY_STOP_PRESERVED')
     def load(checkpoint,label,trainable):
@@ -89,6 +100,9 @@ def run(root,request_path):
             serve(root,session,instance,allocation,ledger,guard,max_queries=80*len(spec['cards']),ready_status='MP1_NATIVE_MODEL_READY',terminal_status='MP1_NATIVE_SESSION_TERMINAL_NOT_TASK_SUCCESS')
             unload();records.append(dict(panel=base,session=session,status='NATIVE_SESSION_TERMINAL_ACTUAL_OUTCOMES_SEPARATELY_AUDITED'))
     try:
+        if cold:
+            qualification=read_live_owner(root,root.name,force_revalidate=True)
+            write(request_path.parent/'OWNER_HEARTBEAT_SERVER_QUALIFICATION.json',dict(status='PASS_FORCED_NATIVE_COMPUTE_OWNER_READ_BEFORE_MODEL_LOAD',job_id=os.environ['PBS_JOBID'],epoch=time.time(),proof=qualification,models_loaded=0,new_queries=0,new_physics=0))
         parent=read(root/'plans/SOURCE_PARENT_CHECKPOINT.json');parent_path=Path(parent['checkpoint'])
         if sha(parent_path/'CHECKPOINT_COMPLETE.json')!=parent['checkpoint_manifest_sha256']:raise PermissionError('MP1_AUDITED_M1_1024_PARENT_CHANGED')
         for branch in ['S-BC','S-CORR']:
@@ -116,6 +130,7 @@ def run(root,request_path):
             cpu=time.process_time()-started
             try:
                 ledger.cpu(cpu)
+                if cold:write(request_path.parent/'OWNER_HEARTBEAT_DIAGNOSTICS.json',dict(watchdog_s=300,heartbeat_written=False,rows=heartbeats))
                 write(request_path.parent/'PBS_PROCESS_FINAL.json',dict(status=status,stage=stage,records=records,CPU_s=cpu,job_id=os.environ['PBS_JOBID'],completed_epoch=time.time(),selected='NONE',real_robot_deployment='NONE'))
             finally:lock.close()
 
