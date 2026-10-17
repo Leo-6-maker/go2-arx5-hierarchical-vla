@@ -175,6 +175,24 @@ or a cross-host bypass. Source research does not wait for target construction.
 
 ## Next Admitted Work
 
+After E1 closure, GitHub CI at d30354e5 failed four fixtures because pytest
+loaded a second module alias and string-based mocks patched the other alias.
+Tests now patch their actual imported module objects. Remote CI at
+0218b645 passed; default local pytest is 827 PASS/14 explicit SKIP, PI0292
+108 PASS and PI0294 243 PASS. No native scientific capsule was hot patched.
+
+The next MP1 engineering action actually ran on both hosts: 96 same-host
+synthetic packet/heartbeat/ledger filesystem cycles each, with no model,
+PBS or physical start. The maximum component latency was 15.74ms Core
+and 24.71ms Hopper. No 20s stall was reproduced; this is not a cross-node
+NFS, SSH or 32s closed-loop test. Direct open is not a proven speedup.
+Guard/invoke/accounting/output phase tracing is now implemented for the
+next sealed RPC consumer, without watchdog or mutation-retry changes.
+Initial CPU entry/path errors and a pre-dispatch immutable-request collision
+are preserved; failed cost is conservatively charged, not silently zeroed.
+All probe processes are terminal, reservations settled, E1 still CLOSED.
+[Actual timings, limitations, CI and costs](reports/PI0294/20261016T191445Z-localpc-mp1/ACTUAL_RELAY_CPU_DIAGNOSTIC_01.json).
+
 E1 cannot submit again or reopen its closed leases. Continue within the
 already adopted MP1, first qualifying a reliable finite relay for real
 behavioral results and recovering only admitted existing-model gaps at
