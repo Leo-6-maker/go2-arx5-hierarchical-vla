@@ -1,5 +1,17 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Current source milestone: S-BC actually completed its fixed 512-update stop.**
+[Checkpoint, full committed consumption and first two valid negatives](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_CHECKPOINT_CONSUMPTION_AND_FIRST_VALID_NEGATIVES.json).
+All16,384 actual visits match the fixed sampler and TRAIN126 identities;
+T1/T2=8,192/8,192, correction0. Both F0 conditions are independently audited
+original-S1 failures (T1 1.6s,T2 20.8s),zero native safety faults,not repeats.
+The rest of fixed TRAIN4 is in progress; then resume the original full state
+toward2048. No CORR/C1 learning,generalization or target success is implied.
+Job672080 remains R; runtime03646938 is unchanged. Vanda camera is CLOSED
+NOT_RUN,not queued. Human engineering autonomy adds no budget or new clock.
+
+## Earlier MP1 Snapshots (Not Current Native State)
+
 **Source learning is now actually running; Vanda camera queue is closed NOT_RUN:**
 [native admission, real optimizer/sample-prefix audit and camera terminal receipt](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_LEARNING_STARTED_AND_VANDA_CAMERA_QUEUE_CLOSED.json).
 672080 entered one H200 under CFP04-CF-007; S-BC has real updates, with the

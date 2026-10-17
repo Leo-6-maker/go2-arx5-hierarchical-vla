@@ -1,5 +1,18 @@
 # Current Science Status
 
+**Latest source checkpoint and real behavior:** [S-BC512 full consumption and
+first audited negatives](reports/PI0294/20261016T191445Z-localpc-mp1/S_BC512_CHECKPOINT_CONSUMPTION_AND_FIRST_VALID_NEGATIVES.json).
+The planned512 stop completed with512 finite positive gradient records and
+full resume state. Independent committed-trace join verifies16,384 visits,
+all126 TRAIN episode IDs,T1/T2=8,192/8,192,correction0. F0/T1 and F0/T2
+are valid original-S1 failures at1.6s/20.8s,zero native faults; both raw audits
+and video decodes passed. Remaining TRAIN4 is in progress,not imputed.
+Fixed2048 continuation and later matched CORR remain pending. This is not
+full learning success,forgetting attribution,DAgger gain or generalization.
+672080 is R; Vanda camera is CLOSED NOT_RUN. Original MP1 clocks/caps persist.
+
+## Earlier MP1 Snapshots (Not Current Native State)
+
 **Live source / terminal camera:** [actual learning and original-window camera closeout](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE_LEARNING_STARTED_AND_VANDA_CAMERA_QUEUE_CLOSED.json).
 Source672080 is R with real S-BC updates and verified balanced committed sample
 prefix; CORR/new policy outcomes are not available yet. Camera1463728 expired
