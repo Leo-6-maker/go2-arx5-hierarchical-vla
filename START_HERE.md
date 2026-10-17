@@ -1,5 +1,27 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Current N1: real native qualification PASS; four CORR DEV cases still pending.**
+[Same-job native proof](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE08_ACTUAL_NATIVE_QUALIFICATION.json)
+and [two new audited DEV results](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE08_FIRST_DEV_PAIR_ACTUAL.json).
+673235/source eb851e82 is the existing eighth allocation, not a new adoption:
+81 actual reads over600.022s,80 real transport cycles and all8 isolated
+fault tests passed before model load. CORR2048 DEV/F1-000-T1 then completed
+32s SUCCESS;F1-000-T2 was legally rejected by originalS1 at23.2s. Both have
+independent raw/video/fresh-input-action-ACK audits and zero live safety
+faults. Matrix27/32qualified;four DEV cells and the exhausted midpoint
+F1/T1 gap remain. Old28attempt rows,4exact geometries and16fixed HF video
+links are preserved. No full DEV rate,causal DAgger gain or deployment claim.
+
+[Vanda camera03 actual native failure and closed lease](reports/PI0294/20261016T191445Z-localpc-mp1/N1_VANDA_CAMERA03_ACTUAL_FAILURE.json):
+1464745 nativeF/exit1,22conservativeA40seconds/10CPU seconds,zero images,
+model queries,WBC launches or physical integrations. File visibility passed;
+OpenGL identity read failed. Unique root cause and hardware camera quality
+remain unproved. Old camera02 stays CLOSED;no automatic camera04.
+Hopper continues independently. OriginalN1T0=1792264081 and cumulative
+budgets/costs/STOPs remain. Formal updates4096/pending0;selected/deploymentNONE.
+
+## Historical Snapshots
+
 **N1allocation06 failed before model load; exact sampling mechanism identified.**
 [Actual native failure/resource and repair ledger](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
 673223 nativeF/exit1,653GPU seconds;source cumulative36164,parent40664,
