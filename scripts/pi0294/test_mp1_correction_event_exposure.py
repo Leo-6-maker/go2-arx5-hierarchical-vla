@@ -5,7 +5,7 @@ import unittest
 
 import numpy as np
 
-from .mp1.correction_event_exposure import correction_inventory,summarize_correction_visits
+from .mp1.correction_event_exposure import correction_inventory,summarize_correction_visits,probe_training_membership,actual_probe_label_keys
 from .native_dataset import sha
 
 
@@ -76,6 +76,28 @@ class CorrectionEvents(unittest.TestCase):
             with self.assertRaises(PermissionError):correction_inventory(root,dict(row,file='../outside'))
             p.write_bytes(b'changed')
             with self.assertRaisesRegex(ValueError,'NUMERIC_HASH'):correction_inventory(root,row)
+
+    def test_exact_key_membership_does_not_use_parent_match_alone(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);row,_=fixture(root);inv=correction_inventory(root,row)
+            visits=summarize_correction_visits({'C':inv},{'C':{0:3,8:2}})['episodes']
+            keys=dict(status='PASS_EXISTING_SAME_STATE_ACTUAL_EXECUTED_LABEL_KEYS',rows=[
+                dict(id='exact',source_student_episode='parent1',actual_expert_window_key=inv['qualified_window_fingerprints']['0']),
+                dict(id='same-parent-only',source_student_episode='parent1',actual_expert_window_key='z'*64),
+                dict(id='invalid-initial',source_student_episode='parent1',actual_expert_window_key=None)])
+            v=probe_training_membership(keys,{'C':inv},visits)
+            self.assertEqual((v['qualified_labels'],v['exact_C1_matches'],v['actual_qualified_label_visits']),(2,1,3))
+            self.assertFalse(v['rows'][1]['exact_window_in_frozen_C1']);self.assertFalse(v['rows'][2]['matches'])
+            keys['rows'][0]['source_student_episode']='foreign-parent'
+            with self.assertRaises(ValueError):probe_training_membership(keys,{'C':inv},visits)
+
+    def test_existing_qualified_label_keys_keep_all_four_initial_exclusions(self):
+        from .test_mp1_student_label_audit import fixture as labels_fixture
+        with tempfile.TemporaryDirectory() as tmp:
+            old,_,plan=labels_fixture(Path(tmp));v=actual_probe_label_keys(old,plan)
+            self.assertEqual((v['fixed_states'],v['qualified_keys'],v['excluded_initial_labels']),(12,8,4))
+            self.assertTrue(all((r['actual_expert_window_key'] is None)==(r['sequence']==0) for r in v['rows']))
+            self.assertEqual((v['new_queries'],v['new_physics']),(0,0))
 
 
 if __name__=='__main__':unittest.main()

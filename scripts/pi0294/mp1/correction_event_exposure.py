@@ -74,6 +74,7 @@ def summarize_correction_visits(inventories,visits):
         parents[inv['source_student_episode']]+=sum(counts.values());origins[inv['origin']]+=sum(counts.values())
         episodes[identifier]=dict(source_student_episode=inv['source_student_episode'],origin=inv['origin'],
             sample_visits=sum(counts.values()),unique_consumed_anchors=len(counts),
+            actual_anchor_visits={str(a):n for a,n in sorted(counts.items())},
             student_anchor_visits=student,subsequent_expert_state_visits=expert,events=events,
             numeric_sha256=inv['numeric_sha256'],stage_labels='NOT_RECORDED',
             detach_and_withdraw_events='UNKNOWN_NOT_ZERO')
@@ -109,3 +110,52 @@ def audit(dataset,trace,stop,guard=lambda:None):
             !={k:v for k,v in exposure['current_state_actor_visits'].items() if k!='ORIGINAL_SUCCESS_EXPERT_DEMONSTRATION' and v}):
         raise ValueError('ACTUAL_CORRECTION_ACTORS_EQUAL_INDEPENDENT_TRACE_ACCOUNTING')
     return result
+
+
+def actual_probe_label_keys(root,plan):
+    """Fingerprint qualified executed labels, never a model prediction or imputed label."""
+    from scripts.pi0292.durable import read
+    from .student_label_audit import qualified_label
+    root=Path(root);pool={r['id']:r for r in read(root/'plans/TRAIN_STATE_POOL.json')['states']}
+    history=read(root/'evidence/INITIAL_STATIC_HISTORY_AUDIT.json');rows=[]
+    states=plan['states']
+    if len(states)!=12 or len({s['id'] for s in states})!=12 or set(pool)!={s['id'] for s in states}:
+        raise PermissionError('EXACT_EXISTING_TWELVE_HISTORICAL_STATES_NO_NEW_LABELS')
+    for s in states:
+        target,proof=qualified_label(root,s,pool,history)
+        key=None
+        if target is not None:
+            p=root/'forks'/(s['id']+'-SHORT')/'expert_labels.npz'
+            with np.load(p,allow_pickle=False) as z:
+                state=z['actual_state10'][0].copy();rgb=z['rgb_sha256'][0].copy()
+            key=window_key(state,target,rgb)
+        rows.append(dict(id=s['id'],task=s['task'],source_student_episode=s['original_episode_uuid'],
+            sequence=s['sequence'],source_tick=s['tick'],qualification=proof,
+            actual_expert_window_key=key,new_teacher_labels=0))
+    return dict(status='PASS_EXISTING_SAME_STATE_ACTUAL_EXECUTED_LABEL_KEYS',rows=rows,
+        fixed_states=12,qualified_keys=sum(r['actual_expert_window_key'] is not None for r in rows),
+        excluded_initial_labels=sum(r['actual_expert_window_key'] is None for r in rows),new_queries=0,new_physics=0)
+
+
+def probe_training_membership(keys,inventory,visits):
+    if keys['status']!='PASS_EXISTING_SAME_STATE_ACTUAL_EXECUTED_LABEL_KEYS' or set(inventory)!=set(visits):
+        raise PermissionError('ACTUAL_QUALIFIED_KEYS_AND_TRACE_VISITS_ONLY')
+    index={}
+    for segment,inv in inventory.items():
+        for anchor,key in inv['qualified_window_fingerprints'].items():
+            index.setdefault(key,[]).append(dict(segment=segment,anchor=int(anchor),
+                source_student_episode=inv['source_student_episode'],
+                actual_sample_visits=visits[segment]['actual_anchor_visits'].get(anchor,0)))
+    rows=[]
+    for source in keys['rows']:
+        matches=index.get(source['actual_expert_window_key'],[]) if source['actual_expert_window_key'] is not None else []
+        if any(m['source_student_episode']!=source['source_student_episode'] for m in matches):
+            raise ValueError('MATCHED_WINDOW_HAS_DIFFERENT_DECLARED_STUDENT_LINEAGE')
+        rows.append(dict(source,matches=matches,exact_window_in_frozen_C1=bool(matches),
+            actual_consumed_C1_visits=sum(m['actual_sample_visits'] for m in matches)))
+    return dict(status='PASS_EXACT_EXECUTED_STUDENT_LABEL_TO_C1_WINDOW_MEMBERSHIP',rows=rows,
+        match_definition='EXACT_NUMERIC_STATE_COMMITTED_H40_AND_TWO_CAMERA_SHA_WINDOW_KEY',
+        qualified_labels=sum(r['actual_expert_window_key'] is not None for r in rows),
+        exact_C1_matches=sum(r['exact_window_in_frozen_C1'] for r in rows),
+        actual_qualified_label_visits=sum(r['actual_consumed_C1_visits'] for r in rows),
+        independent_generalization_proven=False,new_queries=0,new_physics=0,new_teacher_labels=0)
