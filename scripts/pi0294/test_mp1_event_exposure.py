@@ -26,8 +26,8 @@ def fixture(root):
             dict(stage='withdraw',previous='detach',time_s=40/20)]
     (raw/'samples.json').write_text(json.dumps(samples));(raw/'TEACHER_EVENTS.json').write_text(json.dumps(events))
     (raw/'FILE_MANIFEST.json').write_text(json.dumps([dict(path=n,sha256=sha(raw/n)) for n in ['samples.json','TEACHER_EVENTS.json']]))
-    np.savez(numeric,committed_absolute10=commands,actual_state10=states,
-        valid_window=np.r_[np.ones(n-39,dtype=bool),np.zeros(39,dtype=bool)],label_representation='ABSOLUTE_COMMITTED_EEF10')
+    np.savez(numeric,committed_absolute10=commands,actual_state10=states[:n-39],
+        valid_window=np.ones(n-39,dtype=bool),label_representation='ABSOLUTE_COMMITTED_EEF10')
     row=dict(id='A',task='T2',origin='new',split='TRAIN',file=numeric.name,sha256=sha(numeric),
         raw_FILE_MANIFEST_sha256=sha(raw/'FILE_MANIFEST.json'),samples_sha256=sha(raw/'samples.json'),windows=n-39)
     return row,raw
@@ -58,6 +58,15 @@ class EventExposureTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             row,raw=fixture(tmp);(raw/'TEACHER_EVENTS.json').write_text('[]')
             with self.assertRaisesRegex(ValueError,'TEACHER_EVENT_BYTES_CHANGED'):
+                episode_events(tmp,raw,row)
+
+    def test_numeric_state_table_is_window_anchors_not_padded_future_states(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            row,raw=fixture(tmp);p=Path(tmp)/row['file']
+            with np.load(p,allow_pickle=False) as z:packet={k:z[k].copy() for k in z.files}
+            packet['actual_state10']=np.tile(packet['actual_state10'][0],(65,1))
+            np.savez(p,**packet);row['sha256']=sha(p)
+            with self.assertRaisesRegex(ValueError,'COMPLETE_ACTUAL_COMMAND_STATE'):
                 episode_events(tmp,raw,row)
 
     def test_wrong_raw_event_transition_is_not_imputed_from_manifest(self):

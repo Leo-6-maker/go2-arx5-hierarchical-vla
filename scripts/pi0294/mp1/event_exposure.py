@@ -51,9 +51,9 @@ def episode_events(dataset_root, raw_root, row):
         valid = z['valid_window'].copy()
         representation = z['label_representation'].item()
     n = len(commands)
-    if (commands.shape != (n,10) or state.shape != (n+1,10) or len(samples) != n+1
+    if (commands.shape != (n,10) or state.shape != (row['windows'],10) or len(samples) != n+1
             or n < 40 or row['windows'] != n-39 or int(valid.sum()) != row['windows']
-            or not np.asarray(valid[:row['windows']]).all()
+            or valid.shape != (row['windows'],) or not np.asarray(valid).all()
             or not np.isfinite(commands).all() or not np.isfinite(state).all()
             or representation != 'ABSOLUTE_COMMITTED_EEF10'):
         raise ValueError('COMPLETE_ACTUAL_COMMAND_STATE_AND_H40_WINDOW_COUNTS')
@@ -76,7 +76,7 @@ def episode_events(dataset_root, raw_root, row):
             raise ValueError('RAW_INSTALLED_COMMAND_AND_CONTINUOUS_SEQUENCE')
         raw_commands.append(pose10(np.asarray(supervision['committed']),supervision['committed_gripper']))
     if (np.max(np.abs(np.asarray(raw_commands)-commands)) > 1e-12
-            or np.max(np.abs(np.asarray(raw_states)-state)) > 1e-12):
+            or np.max(np.abs(np.asarray(raw_states)[:row['windows']]-state)) > 1e-12):
         raise ValueError('NUMERIC_LABELS_AND_STATES_EQUAL_ACTUAL_ORIGINAL_TIMELINE')
     grip = np.r_[state[0,9],commands[:,9]]
     events = dict(close=np.flatnonzero((grip[1:]<.5)&(grip[:-1]>=.5)).tolist(),
