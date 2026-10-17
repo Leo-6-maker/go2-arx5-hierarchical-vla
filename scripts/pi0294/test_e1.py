@@ -15,6 +15,19 @@ def die_after_intent(folder):
 
 
 class E1Tests(unittest.TestCase):
+    def test_NFS_direct_open_only_reads_last_actual_query_responses(self):
+        from .e1.nfs_visibility import refresh_completed_responses
+        import uuid
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'outbox').mkdir();ids=[str(uuid.uuid4()) for _ in range(3)]
+            (root/'QUERY_STATE.json').write_text(json.dumps(dict(queries=[dict(query_uuid=i) for i in ids])))
+            for i in ids:(root/'outbox'/(i+'.json')).write_text('{}')
+            self.assertEqual(refresh_completed_responses(root),2)
+            (root/'outbox'/(ids[-1]+'.json')).unlink()
+            self.assertEqual(refresh_completed_responses(root),1)
+            (root/'QUERY_STATE.json').write_text(json.dumps(dict(queries=[dict(query_uuid='../escape')])))
+            with self.assertRaises(ValueError):refresh_completed_responses(root)
+
     def test_visibility_refresh_only_stats_existing_regular_response_files(self):
         from .e1.nfs_visibility import refresh
         with tempfile.TemporaryDirectory() as d:

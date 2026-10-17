@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import resource
 import time
+import uuid
 
 from scripts.pi0292.durable import write
 from scripts.pi0294.native_dataset import sha
@@ -21,6 +22,20 @@ def refresh(directory):
     return count
 
 
+def refresh_completed_responses(resident):
+    """Direct open requests NFS close-to-open validation, unlike cached stat."""
+    state=read(Path(resident)/'QUERY_STATE.json');opened=0
+    for row in state['queries'][-2:]:
+        identifier=row['query_uuid']
+        if str(uuid.UUID(identifier))!=identifier:raise ValueError('ACTUAL_QUERY_UUID_REQUIRED')
+        path=Path(resident)/'outbox'/(identifier+'.json')
+        try:fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW)
+        except FileNotFoundError:continue
+        try:os.read(fd,1);opened+=1
+        finally:os.close(fd)
+    return opened
+
+
 def run(root,label):
     root=Path(root);m=validate(root,'hopper-neural');ledger=Ledger(root,'hopper');ledger.guard()
     if os.environ.get('CUDA_VISIBLE_DEVICES')!='' or label not in ['M2-BC-REMAINDER-03','M2-CORR-REMAINDER-03']:
@@ -31,7 +46,7 @@ def run(root,label):
         raise PermissionError('EXACT_EXISTING_LAST_NATIVE_MODEL_SESSION')
     old=(root/'RUN_MANIFEST.json').read_bytes();started=time.process_time();scans=0;seen=0
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resource.RLIMIT_CPU,(60,60));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
-    out=root/'evidence/NFS_VISIBILITY_REFRESH'/label;out.mkdir(parents=True,exist_ok=False)
+    out=root/'evidence/NFS_VISIBILITY_REFRESH_DIRECT_OPEN'/label;out.mkdir(parents=True,exist_ok=False)
     write(out/'STARTED.json',dict(status='READONLY_EXISTING_OUTBOX_METADATA_REFRESH',source_sha=m['code']['vla_commit'],
         job_id=state['job_id'],registry_sha256=digest,original_deadline_epoch=reg['deadline_epoch'],started_epoch=time.time(),
         new_model_queries=0,new_physical_integrations=0,original_watchdogs_unchanged=True))
@@ -41,7 +56,7 @@ def run(root,label):
             ledger.guard()
             if (root/'RUN_MANIFEST.json').read_bytes()!=old or sha(registry)!=digest:raise PermissionError('ORIGINAL_SESSION_BINDING_CHANGED')
             if read(root/'OUTPUT_BINDING.private.json')['run_uuid']!=root.name:raise PermissionError('ORIGINAL_OUTPUT_BINDING_CHANGED')
-            seen=max(seen,refresh(resident/'outbox'));scans+=1;time.sleep(.25)
+            refresh(resident/'outbox');seen=max(seen,refresh_completed_responses(resident));scans+=1;time.sleep(.25)
         status='FINITE_METADATA_REFRESH_TERMINAL';return dict(status=status,scans=scans,maximum_responses_observed=seen)
     finally:
         cpu=time.process_time()-started;ledger.cpu(cpu)
