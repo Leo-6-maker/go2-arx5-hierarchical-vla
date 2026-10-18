@@ -44,11 +44,10 @@ def geometry_category(check):
     return 'penetration-other'
 
 
-def request_geometry(engine, poses, opening):
+def request_geometry(engine, poses, opening, state):
     from scripts.pi0291_arx5_data.config import PARAMETERS as P
     from scripts.pi0294.scene import push_geometry
     from go2arx5_vla.trajectory.so3 import geodesic_angle
-    state=engine.snapshot()
     basis=push_geometry(engine,[1.,0.])
     outputs=[]
     for index,(pose,g) in enumerate(zip(poses,opening)):
@@ -128,7 +127,7 @@ def replay_one(meter,row):
                 raise ValueError('FD1_ORIGINAL_ACTION_ARRAY_AND_S1_IDENTITY')
             if sequence==last:
                 before=fingerprint(engine)
-                channels=request_geometry(engine,poses[:8],opening[:8])
+                channels=request_geometry(engine,poses[:8],opening[:8],state)
                 if fingerprint(engine)!=before:
                     raise ValueError('FD1_PASSIVE_MEASUREMENT_CHANGED_ORIGINAL_STATE')
                 meter.start();shadow=clone(engine)
@@ -223,7 +222,14 @@ def run_shadow(meter):
         ids=[r['attempt_id'] for r in rows],ticks_upper=atlas['planned_all23_reconstruction_tick_upper'],starts_upper=46,
         successful_controls='NOT_RUN_NO_CLAIM_EXPERT_DYNAMIC_FEASIBILITY',original_actions_only=True))
     result=[]
-    for row in rows:
+    if meter.operation=='shadow-remaining-01':
+        previous=read(meter.root/'evidence/SHADOW-RECOVERY-02_RESULT.private.json')
+        result=[r for r in previous['cases'] if r['attempt_id'] in meter.ledger['case_reconstructions']]
+        if len(result)!=2 or sum(r['status']=='RESTORE_UNQUALIFIED' for r in result)!=1:
+            raise PermissionError('FD1_RETAIN_EXACT_PRIOR_TWO_ATTEMPTS_NO_RETRY')
+        if next(r for r in result if r['status']=='RESTORE_UNQUALIFIED')['error']!='ValueError: FD1_PASSIVE_MEASUREMENT_CHANGED_ORIGINAL_STATE':
+            raise PermissionError('FD1_ONLY_NEW_PASSIVE_READER_REPAIR_BOUNDARY')
+    for row in [r for r in rows if r['attempt_id'] not in meter.ledger['case_reconstructions']]:
         meter.guard()
         try:
             value=replay_one(meter,row)

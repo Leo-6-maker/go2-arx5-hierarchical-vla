@@ -4,6 +4,7 @@ import importlib
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 
@@ -75,6 +76,18 @@ class FD1Tests(unittest.TestCase):
             self.assertEqual(before,(p.stat().st_ino,p.read_bytes()))
             with self.assertRaisesRegex(ValueError,'IDENTITY_CHANGED'):
                 fd1.seal_or_verify(p,dict(ids=['replacement']))
+
+    def test_passive_geometry_never_forwards_history_engine(self):
+        from types import SimpleNamespace
+        from scripts.pi0294.fd1_shadow import request_geometry
+        def forbidden():
+            raise AssertionError('NO_ADDITIONAL_NATIVE_FORWARD_ON_HISTORY_STATE')
+        engine=SimpleNamespace(snapshot=forbidden,data=SimpleNamespace(qpos=np.zeros(2)),finger_q=[0,1])
+        state=dict(tcp=np.eye(4),gripper_fraction=0.)
+        basis=dict(pads=[dict(side='left',center_tcp=[0,0,0],axes_tcp=np.eye(3).tolist(),half_size=[.01]*3)])
+        with patch('scripts.pi0294.scene.push_geometry',return_value=basis):
+            value=request_geometry(engine,np.tile(np.eye(4),(8,1,1)),np.zeros(8),state)
+        self.assertTrue(value['passive_static_geometry_not_channel_replacement_rollout'])
 
 
 if __name__=='__main__':

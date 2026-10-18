@@ -354,7 +354,7 @@ def run(root,operation):
         meter=Meter(root,operation)
         if operation=='atlas':
             value=atlas(meter)
-        elif operation in ['shadow','shadow-recovery-01','shadow-recovery-02']:
+        elif operation in ['shadow','shadow-recovery-01','shadow-recovery-02','shadow-remaining-01']:
             from scripts.pi0294.fd1_shadow import run_shadow
             value=run_shadow(meter)
         else:
@@ -376,6 +376,6 @@ if __name__=='__main__':
     import argparse
     p=argparse.ArgumentParser()
     p.add_argument('--root',required=True)
-    p.add_argument('--operation',required=True,choices=['atlas','shadow','shadow-recovery-01','shadow-recovery-02'])
+    p.add_argument('--operation',required=True,choices=['atlas','shadow','shadow-recovery-01','shadow-recovery-02','shadow-remaining-01'])
     a=p.parse_args()
     print(json.dumps(run(a.root,a.operation)),flush=True)
