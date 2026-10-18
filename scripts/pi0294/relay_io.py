@@ -25,8 +25,14 @@ def read_available(path):
 
 class PhaseTrace:
     """stderr only: no observation, action, model output, path or credential text."""
-    def __init__(self,stream,*,clock=time.monotonic):
-        self.stream,self.clock=stream,clock;self.sequence=0;self.context={}
+    def __init__(self,stream,*,clock=time.monotonic,wall_clock=time.time):
+        self.stream,self.clock,self.wall_clock=stream,clock,wall_clock;self.sequence=0;self.context={}
+
+    def received(self,encoded_bytes):
+        if type(encoded_bytes) is not int or not 0<encoded_bytes<=MAX_FILE_BYTES:
+            raise ValueError('BOUNDED_RPC_FRAME_SIZE_ONLY')
+        self.stream.write(json.dumps(dict(event='FILE_RPC_FRAME_RECEIVED',epoch=self.wall_clock(),
+            monotonic=self.clock(),encoded_bytes=encoded_bytes,**self.context))+'\n');self.stream.flush()
 
     def bind_rpc(self,packet):
         nonce=packet.get('rpc_id') if isinstance(packet,dict) else None
@@ -42,9 +48,11 @@ class PhaseTrace:
     def phase(self,name):
         if name not in ['guard','invoke','accounting','emit']:raise ValueError('EXACT_RPC_PHASE')
         start=self.clock();self.sequence+=1;sequence=self.sequence
-        self.stream.write(json.dumps(dict(event='FILE_RPC_PHASE_BEGIN',phase=name,sequence=sequence,**self.context))+'\n');self.stream.flush()
+        self.stream.write(json.dumps(dict(event='FILE_RPC_PHASE_BEGIN',phase=name,sequence=sequence,
+            epoch=self.wall_clock(),monotonic=start,**self.context))+'\n');self.stream.flush()
         status='FAILED_OR_UNKNOWN'
         try:yield;status='RETURNED'
         finally:
+            end=self.clock()
             self.stream.write(json.dumps(dict(event='FILE_RPC_PHASE_END',phase=name,sequence=sequence,
-                elapsed_s=self.clock()-start,status=status,**self.context))+'\n');self.stream.flush()
+                epoch=self.wall_clock(),monotonic=end,elapsed_s=end-start,status=status,**self.context))+'\n');self.stream.flush()

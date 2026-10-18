@@ -4,8 +4,10 @@ from pathlib import Path
 import tempfile
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from .mp1.file_rpc_journal import Attempt,append
+from .mp1 import file_rpc_journal as journal
 from .relay_io import PhaseTrace
 
 
@@ -38,6 +40,32 @@ class FileRPCJournalTests(unittest.TestCase):
                 raise IOError('later local telemetry failure')
         self.assertTrue(self.session.failed);self.assertFalse(self.rows()[-1]['unknown_remote_effect'])
         self.assertTrue(self.rows()[-1]['response_received'])
+
+    def test_slow_written_fsync_is_visible_in_next_failure_without_claiming_remote_latency(self):
+        clock=[0.]
+        def sync(fd):clock[0]+=21.
+        with patch.object(journal.os,'fsync',side_effect=sync),patch.object(
+                journal.time,'monotonic',side_effect=lambda:clock[0]):
+            with self.assertRaises(TimeoutError):
+                with self.attempt() as attempt:
+                    attempt.written()
+                    raise TimeoutError('ORIGINAL_20S_FILE_RPC_TIMEOUT_UNKNOWN_EFFECT_NO_RETRY')
+        rows=self.rows();timing=rows[-1]['previous_receipt_persistence']
+        self.assertEqual(timing['event'],'LOCAL_WRITE_RETURNED_NOT_REMOTE_ACK')
+        self.assertEqual(timing['fsync_elapsed_s'],21.)
+        self.assertEqual(timing['fsync_ended_monotonic']-timing['fsync_started_monotonic'],21.)
+        self.assertEqual(rows[-1]['call_watchdog_s'],20)
+        self.assertTrue(rows[-1]['unknown_remote_effect']);self.assertTrue(self.session.failed)
+        self.assertEqual(len(rows),3)
+
+    def test_parsed_response_then_slow_persistence_keeps_effect_known_but_session_poisoned(self):
+        with self.assertRaises(TimeoutError):
+            with self.attempt() as attempt:
+                attempt.written();attempt.response(b'{"ok":true}',dict(ok=True))
+                raise TimeoutError('ORIGINAL_20S_FILE_RPC_TIMEOUT_UNKNOWN_EFFECT_NO_RETRY')
+        final=self.rows()[-1]
+        self.assertEqual(final['previous_receipt_persistence']['event'],'RESPONSE_PARSED')
+        self.assertFalse(final['unknown_remote_effect']);self.assertTrue(self.session.failed)
 
     def test_journal_rejects_symlink_and_public_permissions_before_any_wire(self):
         target=self.session.base/'target';target.write_text('untouched')

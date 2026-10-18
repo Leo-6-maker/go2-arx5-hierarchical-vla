@@ -17,7 +17,11 @@ def append(path,value):
                 or info.st_size+len(raw)>128*1024**2):
             raise PermissionError('PRIVATE_BOUNDED_REGULAR_RPC_JOURNAL_REQUIRED')
         if os.write(fd,raw)!=len(raw):raise IOError('INCOMPLETE_RPC_JOURNAL_RECEIPT')
+        before=time.monotonic();epoch=time.time()
         os.fsync(fd)
+        after=time.monotonic();ended_epoch=time.time()
+        return dict(fsync_started_monotonic=before,fsync_ended_monotonic=after,
+            fsync_started_epoch=epoch,fsync_ended_epoch=ended_epoch,fsync_elapsed_s=after-before)
     finally:os.close(fd)
 
 
@@ -32,12 +36,14 @@ class Attempt:
         self.identity=dict(rpc_id=nonce,role=session.role,label=session.label,operation=args['operation'],
             request_sha256=hashlib.sha256(raw).hexdigest(),request_bytes=len(raw),
             deadline_monotonic=deadline,call_watchdog_s=20,effect_retried=False)
-        self.phase='REQUEST_INTENT_BEFORE_WIRE';self.received=False
+        self.phase='REQUEST_INTENT_BEFORE_WIRE';self.received=False;self.persistence=None
         self.record(self.phase)
 
     def record(self,phase,**fields):
-        append(self.path,dict(self.identity,event=phase,monotonic=time.monotonic(),epoch=time.time(),**fields))
+        persistence=append(self.path,dict(self.identity,event=phase,monotonic=time.monotonic(),epoch=time.time(),
+            previous_receipt_persistence=self.persistence,**fields))
         self.phase=phase
+        self.persistence=dict(event=phase,**persistence)
 
     def __enter__(self):return self
 

@@ -1,6 +1,25 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Current: second different new-source T1 condition independently verified.**
+**Current: confirmation allocation01 terminal; whole recorded effects closed, fixed40 incomplete.**
+[Actual all40-cell partial coverage, all20 raw audits and resource terminal](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ALLOCATION01_TERMINAL_PARTIAL_COVERAGE.json).
+673388 is nativeF/1,8453 wall/8456 conservativeH200seconds settled;
+source51289seconds/11of12PBS,parentHopper55789seconds/14of24PBS,GPUreserve0.
+T1:3success/6validfail/1engineering/10unrun;T2:0success/9validfail/1engineering/10unrun.
+Both tasks9of20qualified;all20actualattempts independently audited.
+930originalgenerations=917executedACKprefixes+13S1rejectedzero-liveprefixes;
+allarrays/fresh-observationchains andall930fixed-noise receipts PASS,unknown0.
+Three positiveT1conditions do not establish full40reliability or targetWBCsuccess.
+Both engineeringSTOPs retained;stale residentREADY is not native liveness.
+Latest readonlyACK call hit unchanged20s watchdog;serverprocessed it,but lacked
+absolute timestamps,so timelyreply/unique cause are NOT proven. New diagnostics
+are CPU-tested only,not deployed/nativequalified;no automatic nextPBS.
+Remaining20originals+2sole engineeringreplacements require diagnosis/regression,
+coldbinding andfreshown nativequalification before the last legalallocation.
+[Follow-up card54bc85da](docs/handover/2026-10-18/MP1_N1_CONFIRMATION_TO_NEXT_STAGE_EXECUTE.md)
+ADOPTED in the existingN1clock/budget;no newtraining,selected/deploymentNONE.
+All following dated snapshots retain their original observation states.
+
+**Prior snapshot: second different new-source T1 condition independently verified.**
 [Second success and its retained other-noise negative](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_SECOND_INDEPENDENT_SUCCESS.json).
 F1/002 bank29202:32s/641 real paired frames/80 draws and actual ACKs,
 18 independent raw/score/safety/video checks plus separate dual-SSH chain and

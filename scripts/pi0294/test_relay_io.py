@@ -39,3 +39,19 @@ class RelayIOTests(unittest.TestCase):
         self.assertNotIn('private',out.getvalue())
         with self.assertRaises(ValueError):
             with trace.phase('action'):pass
+
+    def test_receive_and_phase_clocks_disambiguate_local_elapsed_from_remote_epoch(self):
+        out=io.StringIO();clock=iter([3.,4.,4.25]);wall=iter([1003.,1004.,1004.25])
+        trace=PhaseTrace(out,clock=lambda:next(clock),wall_clock=lambda:next(wall))
+        trace.bind_rpc(dict(rpc_id='00000000-0000-4000-8000-000000000001',args=dict(operation='ack')))
+        trace.received(148)
+        with trace.phase('emit'):pass
+        rows=[json.loads(x) for x in out.getvalue().splitlines()]
+        self.assertEqual(rows[0]['event'],'FILE_RPC_FRAME_RECEIVED')
+        self.assertEqual(rows[0]['encoded_bytes'],148)
+        self.assertEqual([x['monotonic'] for x in rows],[3.,4.,4.25])
+        self.assertEqual([x['epoch'] for x in rows],[1003.,1004.,1004.25])
+        self.assertEqual(rows[-1]['elapsed_s'],.25)
+        self.assertTrue(all(x['operation']=='ack' for x in rows))
+        for invalid in [True,0,-1,MAX_FILE_BYTES+1]:
+            with self.assertRaises(ValueError):trace.received(invalid)

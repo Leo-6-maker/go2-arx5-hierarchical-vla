@@ -94,5 +94,26 @@ class ConfirmationEvidenceTests(unittest.TestCase):
             with self.subTest(change=change),self.assertRaises(ValueError):e.draw_receipt(spec,card,sequence,bad,expected_noise_format=shape)
         with self.assertRaises(ValueError):e.paired_noise([value,dict(value,noise_sha256='f'*64)])
 
+    def test_incomplete_scene_is_not_zero_of_two_and_discordance_requires_both_qualified(self):
+        plan=self.setup_plan();row=self.row(plan)
+        evidence=e.coverage(plan,[row],{row['attempt_id']:self.audit(row)})
+        pairs=e.scene_pairs(evidence);task=pairs['tasks']['T1']
+        self.assertEqual(task['complete_scene_pairs'],0)
+        self.assertEqual(task['incomplete_scene_pairs'],10)
+        self.assertEqual(task['complete_pairs_with_successes'],{'0':0,'1':0,'2':0})
+        scene=next(s for s in pairs['scenes'] if s['task']=='T1' and s['scene_group']==row['scene_group'])
+        self.assertEqual(scene['observed_successes'],1);self.assertIsNone(scene['success_discordant'])
+        other=next(c for spec in plan['panels'].values() for c in spec['cards']
+            if c['task']==row['task'] and c['scene_group']==row['scene_group'] and c['id']!=row['attempt_id'])
+        negative=dict(row,attempt_id=other['id'],model=other['mp1_model_label'],status='VALID_TASK_FAIL',
+            failure_stage='OBJECT_TASK_RESULT')
+        evidence=e.coverage(plan,[row,negative],{r['attempt_id']:self.audit(r) for r in [row,negative]})
+        pairs=e.scene_pairs(evidence);self.assertEqual(pairs['tasks']['T1']['discordant_complete_pairs'],1)
+        self.assertEqual(pairs['tasks']['T1']['complete_pairs_with_successes'],{'0':0,'1':1,'2':0})
+        bad=deepcopy(evidence);bad['cells'][0]['noise_bank']=0
+        with self.assertRaises(ValueError):e.scene_pairs(bad)
+        bad=deepcopy(evidence);bad['cells'].pop()
+        with self.assertRaises(ValueError):e.scene_pairs(bad)
+
 
 if __name__=='__main__':unittest.main()

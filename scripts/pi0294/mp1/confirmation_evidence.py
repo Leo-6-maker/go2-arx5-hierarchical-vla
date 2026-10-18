@@ -112,3 +112,38 @@ def paired_noise(records):
             raise ValueError('ACTUAL_SAME_SEED_MUST_HAVE_THE_SAME_ORIGINAL_NOISE_TENSOR')
     return dict(actual_draw_receipts=len(records),unique_seeds=len(by_seed),same_seed_actual_noise_hashes_match=True,
         observations_claimed_identical=False,new_model_queries=0)
+
+
+def scene_pairs(evidence):
+    """Count paired outcomes only when both fixed banks are actually qualified."""
+    indexed={}
+    for cell in evidence['cells']:
+        key=(cell['task'],cell['scene_group']);bank=cell['noise_bank']
+        if bank not in config.BANKS or bank in indexed.setdefault(key,{}):
+            raise ValueError('EXACT_UNIQUE_FIXED_BANK_PER_TASK_SCENE')
+        indexed[key][bank]=cell
+    groups={task:{group for t,group in indexed if t==task} for task in ['T1','T2']}
+    if (len(indexed)!=20 or {key[0] for key in indexed}!={'T1','T2'}
+            or len(groups['T1'])!=10 or groups['T1']!=groups['T2']):
+        raise ValueError('EXACT_TWO_TASKS_TEN_SCENES')
+    scenes=[]
+    for (task,group),banks in sorted(indexed.items()):
+        if set(banks)!=set(config.BANKS):raise ValueError('BOTH_FIXED_BANKS_REQUIRED_EVEN_IF_NOT_RUN')
+        if any(c['success'] and not c['valid_policy_outcome'] for c in banks.values()):
+            raise ValueError('NO_UNQUALIFIED_SUCCESS_IN_PAIR_SUMMARY')
+        qualified=sum(c['valid_policy_outcome'] for c in banks.values())
+        successes=sum(c['success'] for c in banks.values())
+        scenes.append(dict(task=task,scene_group=group,qualified_conditions=qualified,
+            planned_conditions=2,observed_successes=successes,complete_pair=qualified==2,
+            success_count_out_of_two=successes if qualified==2 else None,
+            success_discordant=(successes==1) if qualified==2 else None,
+            banks={str(bank):dict(status=c['status'],qualified=c['valid_policy_outcome'],success=c['success'],
+                failure_stage=c['failure_stage'],attempt_ids=c['attempt_ids']) for bank,c in sorted(banks.items())}))
+    tasks={task:dict(complete_scene_pairs=sum(s['complete_pair'] for s in scenes if s['task']==task),
+        incomplete_scene_pairs=sum(not s['complete_pair'] for s in scenes if s['task']==task),
+        complete_pairs_with_successes={str(n):sum(s['success_count_out_of_two']==n for s in scenes if s['task']==task)
+            for n in range(3)},
+        discordant_complete_pairs=sum(s['success_discordant'] is True for s in scenes if s['task']==task))
+        for task in ['T1','T2']}
+    return dict(scenes=scenes,tasks=tasks,incomplete_pairs_excluded_from_zero_of_two_count=True,
+        paired_noise_trials_are_independent_scenes=False,causal_noise_mechanism_identified=False)

@@ -101,6 +101,7 @@ def serve(root,role,label):
             if len(line)>MAX_LINE_BYTES or not line.endswith(b'\n'):raise ValueError('BOUNDED_ONE_JSON_LINE_REQUIRED')
             packet=json.loads(line);nonce=packet.get('rpc_id') if isinstance(packet,dict) else None
             trace.bind_rpc(packet)
+            trace.received(len(line))
             try:
                 def checked(args):
                     with trace.phase('guard'):guard(args)
