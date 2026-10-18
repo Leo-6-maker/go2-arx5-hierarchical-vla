@@ -12,6 +12,7 @@ from scripts.pi0294.mp1.trainer import make_trainer_class
 from scripts.pi0294.e1.scope import STATS
 from .dataset import PV1Dataset
 from .recipe import PARENT,validate_primary,begin_update,commit_update,run_key
+from .pre_model_qualification import current_directory,require_current
 
 
 def checked_resume(root,arm,checkpoint,recipe,dataset):
@@ -48,6 +49,20 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
             or stop_after_step not in (1024,4096) or type(replica) is not bool or not request_id
             or request_id in ('.','..') or Path(request_id).name!=request_id):
         raise PermissionError('PV1_NATIVE_ALLOCATION_BEFORE_ANY_TRAINING_AND_FIXED_PRIMARY_STOPS')
+    directory=current_directory(root,allocation);require_current(root,allocation)
+    submitted=read(directory/'REQUEST.json')
+    block=submitted.get('training_block',{})
+    resume_relative=Path(resume_checkpoint).resolve().relative_to(root.resolve()).as_posix() if resume_checkpoint else None
+    if (submitted['request_id']!=request_id or submitted['stage']!=('P4_REPLICA' if replica else 'P2_PRIMARY')
+            or block.get('arm')!=arm or block.get('replica')!=replica
+            or block.get('stop_after_step')!=stop_after_step
+            or block.get('resume_checkpoint_relative')!=resume_relative):
+        raise PermissionError('PV1_ONLY_THE_EXACT_SUBMITTED_ARM_REPLICA_AND_TRAINING_BLOCK')
+    consumed=read(root/'evidence/NEW_BANK_CONSUMPTION_READY.private.json')
+    if (consumed['status']!='PASS_ACTUAL_FULL_NEW_BANK_CONSUMPTION' or consumed['full_member_hashes_verified'] is not True
+            or consumed['delivery_binding_sha256']!=sha(root/'plans/PV1_HF_BANK_DELIVERY.json')
+            or consumed['dataset_manifest_sha256']!=read(root/'PV1_STAGE_BINDING.json')['new_bank_manifest_sha256']):
+        raise PermissionError('PV1_ACTUAL_FULL_FIXED_HF_BANK_CONSUMPTION_BEFORE_TRAINING')
     original=read(root/'plans/FROZEN_SOURCE_PAIR_RECIPE.json')
     key=('REPLICA_' if replica else '')+arm
     recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][key]

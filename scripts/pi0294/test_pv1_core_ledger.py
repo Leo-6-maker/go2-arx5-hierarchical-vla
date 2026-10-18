@@ -57,3 +57,14 @@ class CoreCounterContracts(unittest.TestCase):
             with self.assertRaises(ValueError):l.charge('generation_queries',1)
             with self.assertRaises(PermissionError):
                 with l.steps('live_and_recovery_integrations',32001,'excess'):self.fail('NOT_ADMITTED')
+
+    def test_safety_stop_and_unknown_reservations_allow_only_bounded_read_side_closeout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root,l=fixture(tmp)
+            with self.assertRaises(RuntimeError):
+                with l.steps('shadow_integrations',200,'S1-0'):raise RuntimeError('UNKNOWN_COUNT')
+            (root/'SOURCE_PHYSICS_STOP.json').write_text('{}')
+            self.assertTrue(l.guard(closeout=True)['unknown_effects'])
+            with self.assertRaises(PermissionError):l.guard()
+            with self.assertRaises(PermissionError):l.charge('engine_starts',1)
+            self.assertEqual(json.loads(l.path.read_text())['engine_starts'],0)

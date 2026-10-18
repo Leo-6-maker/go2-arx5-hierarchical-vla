@@ -20,7 +20,7 @@ class Ledger:
         self.m=read(self.root/'RUN_MANIFEST.json');self.a=read(self.root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
         if self.m['scope']!=EVAL_ROLE or self.m['authority']['protocol_ref']!=AUTHORITY or self.a['authority_release']!=AUTHORITY:
             raise PermissionError('PV1_TYPED_CORE_POLICY_COUNTERS_ONLY')
-        self.limits=self.m['limits'];self._guard_at=0.;self._guard_value=None
+        self.limits=self.m['limits'];self._guard_at=0.;self._guard_value=None;self._guard_closeout=None
         self.check(read(self.path))
 
     def check(self,v,*,limits=False,allow_unknown=True):
@@ -55,14 +55,15 @@ class Ledger:
         cutoff=self.a['hard_closeout_epoch'] if closeout else self.a['stop_new_physics_epoch']
         if not self.a['T0_epoch']<=time.time()<min(cutoff,self.limits['operation_deadline_epoch']):
             raise TimeoutError('PV1_ORIGINAL_PHYSICS_OR_CLOSEOUT_CUTOFF')
-        if any(p.exists() for p in (self.root/'STOP.json',self.root/'SOURCE_PHYSICS_STOP.json',self.root.parent.parent/'STOP.json')):
+        if not closeout and any(p.exists() for p in (self.root/'STOP.json',self.root/'SOURCE_PHYSICS_STOP.json',self.root.parent.parent/'STOP.json')):
             raise PermissionError('PV1_CORE_SAFETY_OR_PARENT_STOP')
         now=time.monotonic()
-        if self._guard_value is None or now-self._guard_at>=.25:
+        if self._guard_value is None or self._guard_closeout!=closeout or now-self._guard_at>=.25:
             binding=read(self.root/'OUTPUT_BINDING.private.json');lease=read(binding['lease'])
             if lease['status']!='ACTIVE' or lease['run_uuid']!=self.root.name or lease['authority_release']!=AUTHORITY:
                 raise PermissionError('PV1_LIVE_CORE_EVALUATION_LEASE')
-            self._guard_value=self.check(read(self.path),limits=True,allow_unknown=False);self._guard_at=now
+            self._guard_value=self.check(read(self.path),limits=True,allow_unknown=closeout)
+            self._guard_at=now;self._guard_closeout=closeout
         return self._guard_value
 
     def charge(self,key,count):

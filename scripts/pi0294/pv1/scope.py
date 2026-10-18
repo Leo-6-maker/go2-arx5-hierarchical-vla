@@ -106,6 +106,6 @@ def validate(root, role=ROLE,*,closeout=False):
     if (sha(root/'plans'/data_file) != m['data']['manifest_sha256']
             or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or 'PBS_JOBID' in os.environ):
         raise PermissionError('PV1_EXCLUSIONS_IDENTITY_CPU_ONLY_NO_PBS')
-    if (parent/'STOP.json').exists():
+    if not closeout and (parent/'STOP.json').exists():
         raise PermissionError('PV1_PARENT_SAFETY_OR_INTEGRITY_STOP')
     return m, inputs

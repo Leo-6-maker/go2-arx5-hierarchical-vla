@@ -48,6 +48,9 @@ def execute_request(packet,invoke,guard,seen):
 
 
 def serve(root,role,label):
+    if label.startswith('PV1-PREMODEL'):
+        from scripts.pi0294.pv1.transport_fixture import serve as serve_fixture
+        return serve_fixture(root,role,label)
     if label.startswith('N1-PREMODEL'):
         from scripts.pi0294.mp1.transport_fixture import serve as serve_fixture
         return serve_fixture(root,role,label)
