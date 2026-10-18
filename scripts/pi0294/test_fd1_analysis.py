@@ -2,6 +2,8 @@
 import unittest
 
 from scripts.pi0294.fd1_analysis import compare_banks,range_of
+from scripts.pi0294.fd1_endpoints import native_object_pose,in_zone,sample_divergence
+import numpy as np
 
 
 class FD1AnalysisTests(unittest.TestCase):
@@ -36,3 +38,22 @@ class FD1AnalysisTests(unittest.TestCase):
         noise[('attempt1',0)]['action_sha256']='wrong'
         with self.assertRaisesRegex(ValueError,'NOISE_RECEIPT_JOIN'):
             compare_banks(*rows,noise)
+
+    def test_native_free_joint_endpoint_not_last_20Hz_frame(self):
+        q=np.zeros(15);q[-7:-4]=[.45,.1,.46];q[-4]=1.
+        pose=native_object_pose(q)
+        np.testing.assert_array_equal(pose[:3,3],[.45,.1,.46])
+        np.testing.assert_array_equal(pose[:3,:3],np.eye(3))
+        self.assertTrue(in_zone(pose,[.45,.1]))
+        self.assertFalse(in_zone(pose,[.55,.1]))
+        with self.assertRaisesRegex(ValueError,'QPOS'):
+            native_object_pose(np.zeros(16))
+
+    def test_actual_camera_grain_is_fifty_ms_not_query_grain(self):
+        def row(value):
+            pose=np.eye(4);pose[0,3]=value
+            return dict(execution=dict(actual_tcp=pose.tolist(),actual_gripper_gap_m=0.),
+                        policy_obs={c:dict(sha256=str(value)) for c in ['body_rgb','wrist_rgb']})
+        r=sample_divergence([row(0),row(.001)],[row(0),row(.002)])
+        self.assertEqual(r['first_original_20Hz_camera_difference_s'],.05)
+        self.assertEqual(r['first_original_20Hz_TCP_or_gripper_difference_s'],.05)
