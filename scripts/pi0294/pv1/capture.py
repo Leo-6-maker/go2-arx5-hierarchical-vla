@@ -1,5 +1,6 @@
 """Finite TRAIN-only Teacher collection with unchanged S1 and full raw audit."""
 import os
+import hashlib
 from pathlib import Path
 import resource
 import signal
@@ -32,6 +33,47 @@ def capture_cards(groups, route):
     if len({c['id'] for c in cards})!=len(cards):
         raise PermissionError('PV1_CAPTURE_IDENTITIES_MUST_BE_UNIQUE')
     return cards
+
+
+def counted_model(native_model,meter):
+    class ModelProxy:
+        @staticmethod
+        def from_xml_string(*args,**kwargs):
+            meter.start()
+            return native_model.from_xml_string(*args,**kwargs)
+    return ModelProxy
+
+
+def qualify_counter(meter):
+    import mujoco
+    from scripts.pi0294.scene import make_engine
+    from scripts.pi0294.s1_preflight import fingerprint
+    original=mujoco.MjModel
+    engines=[]
+    fingerprints=[]
+    pixels=[]
+    try:
+        for counted in [False,True]:
+            if counted:mujoco.MjModel=counted_model(original,meter)
+            else:meter.start()
+            engine=make_engine(meter.plan['cards'][0],meter.inputs['asset_root'])
+            engines.append(engine)
+            state=engine.snapshot()
+            images,_=engine.render(state)
+            if type(engine.model) is not original or engine.steps!=0 or engine.data.time!=0:
+                raise ValueError('PV1_CONSTRUCTOR_COUNTER_MUST_RETURN_ORIGINAL_ZERO_TIME_NATIVE_MODEL')
+            fingerprints.append(fingerprint(engine))
+            pixels.append({k:hashlib.sha256(v.tobytes()).hexdigest() for k,v in images.items()})
+        if fingerprints[0]!=fingerprints[1] or pixels[0]!=pixels[1] or engines[0].xml!=engines[1].xml:
+            raise ValueError('PV1_CONSTRUCTOR_METER_CHANGED_NATIVE_INITIAL_STATE_OR_RGB')
+        put(meter.root/'evidence/COUNTER_NATIVE_QUALIFICATION.json',dict(
+            status='PASS_ORIGINAL_VS_COUNTED_NATIVE_MODEL_STATE_XML_AND_TWO_RGB',
+            model_constructor_attempts=2,integrations=0,Teacher_episodes=0,
+            identical_native_fingerprint=fingerprints[0],identical_two_camera_pixels=pixels[0],
+            no_private_state_or_qualification_frames_used_for_learning=True))
+    finally:
+        mujoco.MjModel=original
+        for engine in engines:engine.close()
 
 
 class Meter:
@@ -118,12 +160,6 @@ def run_cell(meter,card):
     old_clone=s1_preflight.clone
     native_model=mujoco.MjModel
 
-    class ModelProxy:
-        @staticmethod
-        def from_xml_string(*args,**kwargs):
-            meter.start()
-            return native_model.from_xml_string(*args,**kwargs)
-
     def clone(engine):
         meter.start()
         return old_clone(engine)
@@ -173,7 +209,7 @@ def run_cell(meter,card):
     put(root/'reservations'/(card['id']+'.json'),reservation)
     result=None
     try:
-        mujoco.MjModel=ModelProxy
+        mujoco.MjModel=counted_model(native_model,meter)
         episode.make_engine=engine
         episode.make_teacher=protected
         teachers.make_teacher=ordinary
@@ -237,6 +273,7 @@ def run(root):
         meter=Meter(root)
         signal.signal(signal.SIGALRM,expire)
         signal.alarm(max(1,int(meter.m['limits']['operation_deadline_epoch']-time.time())))
+        qualify_counter(meter)
         for card in meter.plan['cards']:
             meter.guard()
             if (card['id'] in meter.ledger['attempted_cells']

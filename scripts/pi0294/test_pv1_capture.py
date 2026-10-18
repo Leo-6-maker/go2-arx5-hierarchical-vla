@@ -7,13 +7,23 @@ import unittest
 
 import numpy as np
 
-from scripts.pi0294.pv1.capture import Meter, capture_cards
+from scripts.pi0294.pv1.capture import Meter, capture_cards, counted_model
 from scripts.pi0294.pv1.negative_audit import audit
 from scripts.pi0294.pv1.plan import original_group
 from scripts.pi0294.fd1 import sha
 
 
 class CaptureTests(unittest.TestCase):
+    def test_constructor_counter_changes_no_arguments_or_returned_type(self):
+        seen=[];charged=[];actual=object()
+        class Native:
+            @staticmethod
+            def from_xml_string(*a,**k):seen.append((a,k));return actual
+        proxy=counted_model(Native,SimpleNamespace(start=lambda:charged.append(1)))
+        self.assertIs(proxy.from_xml_string('XML',assets={'a':b'b'}),actual)
+        self.assertEqual(seen,[(('XML',),dict(assets={'a':b'b'}))])
+        self.assertEqual(charged,[1])
+
     def test_only_train_two_fixed_references_counterbalanced(self):
         groups=[original_group('TRAIN','F1',i,0) for i in range(2)]
         c=capture_cards(groups,'CLEARANCE_PAIR')
