@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from scripts.pi0294.pv1.scope import validate,registry_role,CAPTURE_ROLE,REAUDIT_ROLE,EXPORT_ROLE,CPU_PROFILES
+from scripts.pi0294.pv1.scope import validate,registry_role,CAPTURE_ROLE,REAUDIT_ROLE,EXPORT_ROLE,EVAL_ROLE,CPU_PROFILES
 
 
 class PV1ScopeTests(unittest.TestCase):
@@ -19,6 +19,8 @@ class PV1ScopeTests(unittest.TestCase):
         self.assertEqual(CPU_PROFILES[EXPORT_ROLE],'4080-cpu-data')
         self.assertEqual(CPU_PROFILES[CAPTURE_ROLE],'4080-simulation')
         self.assertEqual(CPU_PROFILES[REAUDIT_ROLE],'4080-simulation')
+        self.assertNotEqual(registry_role(EVAL_ROLE,'policy-01'),registry_role(EVAL_ROLE,'policy-02'))
+        with self.assertRaises(PermissionError):validate('/not-created',role=CAPTURE_ROLE,closeout=True)
     def test_capsule_and_seal_escape_rejected_before_identity(self):
         for code,seal in [('/outside','seal.json'),('../outside','seal.json'),('capsule','../seal.json')]:
             with tempfile.TemporaryDirectory() as tmp:

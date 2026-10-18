@@ -33,6 +33,13 @@ class NeuralLedgerContracts(unittest.TestCase):
             before=p.read_bytes()
             with self.assertRaises(PermissionError):ledger.charge('generation_queries',39000)
             self.assertEqual(before,p.read_bytes())
+            # Closing cost remains recordable after a fault, but no further draw is allowed.
+            v=json.loads(p.read_text());v['unknown_effects']=['PRESERVED_UNKNOWN'];p.write_text(json.dumps(v))
+            ledger.cpu(.25)
+            self.assertEqual(json.loads(p.read_text())['CPU_s'],.75)
+            before=p.read_bytes()
+            with self.assertRaises(PermissionError):ledger.charge('generation_queries',1)
+            self.assertEqual(before,p.read_bytes())
 
     def test_unknown_effects_desynchronized_counts_and_final_flag_fail_closed(self):
         for mutate in ('unknown','counter','CPU','PBS','final'):

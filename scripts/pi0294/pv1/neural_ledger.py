@@ -11,9 +11,10 @@ from .decision import AUTHORITY
 from .resources import admit_resources
 
 
-def check(value,*,final=False):
+def check(value,*,final=False,allow_unknown=False):
     if (type(final) is not bool or value['schema']!='PI0294_PV1_HOPPER_CAMPAIGN_LEDGER_V1'
-            or value['authority_release']!=AUTHORITY or value['unknown_effects']
+            or type(allow_unknown) is not bool or value['authority_release']!=AUTHORITY
+            or type(value['unknown_effects']) is not list or value['unknown_effects'] and not allow_unknown
             or type(value['CPU_s']) not in (int,float) or not math.isfinite(value['CPU_s'])
             or not 0<=value['CPU_s']<=160*3600
             or type(value['revision']) is not int or value['revision']<0
@@ -34,7 +35,7 @@ class Ledger:
         self.path=self.parent/'HOPPER_RESOURCE_LEDGER.json'
         if self.path.is_symlink():raise PermissionError('PV1_NO_FOREIGN_SHARED_LEDGER_SYMLINK')
         a=read(self.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
-        if check(read(self.path),final=final)['campaign_run_uuid']!=a['run_uuid']:
+        if check(read(self.path),final=final,allow_unknown=True)['campaign_run_uuid']!=a['run_uuid']:
             raise PermissionError('PV1_SAME_PARENT_CAMPAIGN_LEDGER_NOT_A_NEW_BUDGET')
 
     @contextmanager
@@ -46,20 +47,22 @@ class Ledger:
                 except BlockingIOError:
                     if time.monotonic()>=until:raise TimeoutError('PV1_BOUNDED_CAMPAIGN_COUNTER_LOCK_NO_UNCHARGED_EFFECT')
                     time.sleep(.01)
-            value=check(read(self.path),final=self.final)
+            value=check(read(self.path),final=self.final,allow_unknown=True)
             if value['campaign_run_uuid']!=read(self.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')['run_uuid']:
                 raise PermissionError('PV1_COUNTER_CAMPAIGN_IDENTITY_CHANGED')
             yield value
             value['used']['optimizer_updates']=value['optimizer_updates']
             value['used']['neural_queries']=value['generation_queries']
-            check(value,final=self.final)
+            check(value,final=self.final,allow_unknown=True)
             value['revision']+=1
             write(self.path,value)
 
     def charge(self,key,count):
         if key not in ('generation_queries','model_loads') or type(count) is not int or count<0:
             raise ValueError('PV1_KNOWN_NONNEGATIVE_NEURAL_CHARGE_ONLY')
-        with self.transaction() as value:value[key]=value.get(key,0)+count
+        with self.transaction() as value:
+            if value['unknown_effects']:raise PermissionError('PV1_NO_NEW_NEURAL_EFFECT_WHILE_UNKNOWN')
+            value[key]=value.get(key,0)+count
 
     def cpu(self,cost):
         if type(cost) not in (int,float) or not math.isfinite(cost) or cost<0:

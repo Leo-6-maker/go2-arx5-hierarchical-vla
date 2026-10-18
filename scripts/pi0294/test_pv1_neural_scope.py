@@ -38,7 +38,8 @@ def prepared_fixture(tmp):
     put(parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json',a)
     lease=put(parent/'leases/child.json',dict(status='ACTIVE',run_uuid=root.name,owner='EXISTING_LOCAL_PC',
         authority_release=AUTHORITY,deadline_epoch=now+3600))
-    pl=put(parent/'leases/parent.json',dict(status='ACTIVE_CONTROL_PLANE_ONLY',authority_release=AUTHORITY))
+    pl=put(parent/'leases/parent.json',dict(status='ACTIVE_CONTROL_PLANE_ONLY',authority_release=AUTHORITY,
+        run_uuid=a['run_uuid'],owner='EXISTING_LOCAL_PC',T0_epoch=t0,deadline_epoch=a['hard_closeout_epoch']))
     put(parent/'OUTPUT_BINDING.private.json',dict(lease=str(pl),run_uuid=a['run_uuid']))
     role=neural_scope.ROLE+'__'+root.name
     registry=put(parent/'REGISTRY.json',dict(entries=[dict(role=role,path=str(root),run_uuid=root.name)]))

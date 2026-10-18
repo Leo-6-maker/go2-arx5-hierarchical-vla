@@ -62,6 +62,8 @@ def validate(root,*,closeout=False):
             or lease['deadline_epoch']!=m['limits']['operation_deadline_epoch']
             or not now<lease['deadline_epoch']<=a['hard_closeout_epoch']
             or pl['status']!='ACTIVE_CONTROL_PLANE_ONLY' or pl['authority_release']!=AUTHORITY
+            or pl['run_uuid']!=a['run_uuid'] or pl['owner']!='EXISTING_LOCAL_PC'
+            or pl['T0_epoch']!=a['T0_epoch'] or pl['deadline_epoch']!=a['hard_closeout_epoch']
             or pb['run_uuid']!=a['run_uuid']):
         raise PermissionError('PV1_NEURAL_CHILD_AND_ORIGINAL_PARENT_LEASE')
     registry=read(b['registry'])['entries'];match=[e for e in registry if e.get('role')==b['role']]

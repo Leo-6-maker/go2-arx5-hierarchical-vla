@@ -37,6 +37,12 @@ def contained(path, parent):
 
 def validate(root, *, profile, manifest_path=None, now=None, closeout=False,
              hostname=None, uid=None, verify_source=True):
+    if (Path(root)/'PV1_STAGE_BINDING.json').is_file():
+        if (any(v is not None for v in (hostname,uid,manifest_path,now)) or not verify_source
+                or (Path(root)/'MP1_STAGE_BINDING.json').exists()):
+            raise PermissionError('PV1_NATIVE_IDENTITY_NO_OLD_SCOPE_OR_INJECTED_HOST')
+        from .pv1.runtime import validate_runtime
+        return validate_runtime(root,profile,closeout=closeout)
     if (Path(root)/'MP1_STAGE_BINDING.json').is_file():
         from .mp1.science import validate_runtime
         if any(v is not None for v in (hostname,uid,manifest_path)) or not verify_source:

@@ -14,19 +14,22 @@ ROLE = 'PI0294_PV1_CORE_POPULATION_STATIC_V1'
 CAPTURE_ROLE = 'PI0294_PV1_CORE_TRAIN_CAPTURE_V1'
 REAUDIT_ROLE = 'PI0294_PV1_CORE_SAVED_RAW_AUDIT_V1'
 EXPORT_ROLE = 'PI0294_PV1_CORE_SAVED_TRAIN_EXPORT_V1'
+EVAL_ROLE = 'PI0294_PV1_CORE_POLICY_EVALUATION_V1'
 CPU_PROFILES={ROLE:'4080-simulation',CAPTURE_ROLE:'4080-simulation',REAUDIT_ROLE:'4080-simulation',
-    EXPORT_ROLE:'4080-cpu-data'}
+    EXPORT_ROLE:'4080-cpu-data',EVAL_ROLE:'4080-simulation'}
 
 
 def registry_role(scope,run_uuid):
-    if scope not in (ROLE,CAPTURE_ROLE,REAUDIT_ROLE,EXPORT_ROLE) or not run_uuid or run_uuid in ('.','..') or '/' in run_uuid or '\\' in run_uuid:
+    if scope not in CPU_PROFILES or not run_uuid or run_uuid in ('.','..') or '/' in run_uuid or '\\' in run_uuid:
         raise PermissionError('PV1_FIXED_ROLE_AND_SINGLE_RUN_IDENTITY')
-    return scope+'__'+run_uuid if scope in (CAPTURE_ROLE,EXPORT_ROLE) else scope
+    return scope+'__'+run_uuid if scope in (CAPTURE_ROLE,EXPORT_ROLE,EVAL_ROLE) else scope
 
 
-def validate(root, role=ROLE):
-    if role not in (ROLE, CAPTURE_ROLE, REAUDIT_ROLE, EXPORT_ROLE):
+def validate(root, role=ROLE,*,closeout=False):
+    if role not in CPU_PROFILES:
         raise PermissionError('PV1_ONLY_VERSIONED_CPU_CHILD_ROLES')
+    if type(closeout) is not bool or closeout and role!=EVAL_ROLE:
+        raise PermissionError('PV1_CLOSEOUT_ONLY_TYPED_EVALUATION_METADATA_NOT_NEW_CAPTURE')
     root = Path(root)
     m = read(root/'RUN_MANIFEST.json')
     b = read(root/'OUTPUT_BINDING.private.json')
@@ -66,7 +69,8 @@ def validate(root, role=ROLE):
     if (lease['status'] != 'ACTIVE' or lease['run_uuid'] != root.name
             or lease['owner'] != 'EXISTING_LOCAL_PC' or lease['authority_release'] != AUTHORITY
             or lease['deadline_epoch'] != m['limits']['operation_deadline_epoch']
-            or not adoption['T0_epoch'] <= time.time() < min(lease['deadline_epoch'], adoption['stop_new_physics_epoch'])):
+            or not adoption['T0_epoch'] <= time.time() < min(lease['deadline_epoch'],
+                adoption['hard_closeout_epoch'] if closeout else adoption['stop_new_physics_epoch'])):
         raise PermissionError('PV1_FRESH_CHILD_LEASE_AND_TIME')
     registry = read(b['registry'])['entries']
     matches = [x for x in registry if x.get('role') == expected_role]
@@ -98,7 +102,7 @@ def validate(root, role=ROLE):
            [('enter.sh','entry_sha256'),('doctor.py','doctor_sha256')]):
         raise ValueError('PV1_APPROVED_EXISTING_ENTRY_VERSION')
     data_file = {ROLE:'EXCLUSIONS.json',CAPTURE_ROLE:'CAPTURE_PLAN.json',REAUDIT_ROLE:'SAVED_AUDIT_PLAN.private.json',
-        EXPORT_ROLE:'SAVED_EXPORT_PLAN.private.json'}[role]
+        EXPORT_ROLE:'SAVED_EXPORT_PLAN.private.json',EVAL_ROLE:'SOURCE_EVALUATION_PLAN.json'}[role]
     if (sha(root/'plans'/data_file) != m['data']['manifest_sha256']
             or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or 'PBS_JOBID' in os.environ):
         raise PermissionError('PV1_EXCLUSIONS_IDENTITY_CPU_ONLY_NO_PBS')

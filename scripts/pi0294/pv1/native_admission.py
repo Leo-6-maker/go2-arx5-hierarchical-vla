@@ -37,8 +37,8 @@ def admit(root,request_path):
     user=os.environ['USER'];job_id=os.environ.get('PBS_JOBID')
     if not job_id:raise PermissionError('PV1_NO_MODEL_ON_HOPPER_LOGIN_OR_WITHOUT_NATIVE_ALLOCATION')
     ledger=read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json')
-    if ledger['pending_updates']:
-        raise PermissionError('PV1_UNKNOWN_OPTIMIZER_EFFECT_REQUIRES_OWNER_RECONCILIATION')
+    if ledger['pending_updates'] or ledger['unknown_effects']:
+        raise PermissionError('PV1_UNKNOWN_NATIVE_EFFECT_REQUIRES_OWNER_RECONCILIATION')
     receipt=validate_native(now=time.time(),user=user,hostname=socket.gethostname(),job_id=job_id,
         jobs=owned_jobs(user),quota=personal_quota(user),adoption=a,request=r,ledger=ledger,
         project_proof=read(proof_path),queue_proof=read(queue),root_run_uuid=root.name)
