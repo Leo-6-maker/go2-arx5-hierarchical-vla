@@ -1,5 +1,18 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Current N1: missing16 endpoint-anchor draws have one actual bounded H200 job.**
+[Actual NI16 cold binding and single submission](reports/PI0294/20261016T191445Z-localpc-mp1/NI16_ACTUAL_COLD_SINGLE_SUBMISSION.json).
+673318 nativeR/7200s/oneH200,source0ad0cc3a/exactCI39085543322SUCCESS,
+120oldprocessrecords closed/35outcomes/2390oldqueries/4096updates unchanged.
+Actual both-site cold scopes and fresh Hopper eight input/noise receipts
+PASS beforeqsub. Only BC2048/CORR2048 each8draws on original8TRAINanchors;
+oldBC512draws reused,no repeatedpolicyconditions/108historicalprobes.
+At firstsame-job ready snapshot:models0/queries0/physics0,new600s/80cycle
+qualification pending. Old09modelmarker/qualification are not reused.
+No new training/live/shadow/WBC;no automatic11. Source42088,parentHopper
+46588settled+same7200reserve,sourcePBS10/parent13,currentactualGPUcostOPEN.
+All original N1clock/caps/final6H200h reserve remain;not new neural results.
+
 **Current N1: all eight original TRAIN anchors now have qualified native-history restoration.**
 [Actual eight-anchor gate and closed resource receipt](reports/PI0294/20261016T191445Z-localpc-mp1/N1_EIGHT_NATIVE_HISTORY_COPY_ACTUAL.json).
 New d2eee965/CI39084263586SUCCESS,not a reopening of old failed gates:

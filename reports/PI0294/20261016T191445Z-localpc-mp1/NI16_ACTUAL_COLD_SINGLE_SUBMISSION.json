@@ -1,0 +1,106 @@
+{
+  "schema": "MP1_N1_NI16_ACTUAL_COLD_SINGLE_SUBMISSION_V1",
+  "status": "ONE_NATIVE_NI16_ALLOCATION_R_PREMODEL_QUALIFICATION_IN_PROGRESS_NOT_YET_NEURAL_RESULTS",
+  "reported_UTC": "2026-10-18T01:21:36.655961+00:00",
+  "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+  "original_MP1_T0_epoch": 1792178085,
+  "N1_T0_epoch": 1792264081,
+  "runtime_source": "0ad0cc3aa8810a3719002ae44649a6f6cd4bfdcf",
+  "exact_CI": {
+    "run_id": 39085543322,
+    "conclusion": "SUCCESS"
+  },
+  "local_PI0294_tests": 561,
+  "local_PI0294_subtests": 457,
+  "local_main_tests": 827,
+  "local_main_existing_private_skips": 14,
+  "local_PI0292_tests": 108,
+  "local_PI0292_subtests": 150,
+  "code_blobs_exactly_read_back": 9,
+  "native": {
+    "job_id": "673318.hopper-m-02",
+    "state_at_snapshot": "R",
+    "requested_wall_s": 7200,
+    "native_walltime": "02:00:00",
+    "GPUs": 1,
+    "requested_memory_GiB": 128,
+    "native_memory": "225gb",
+    "native_CPUs": 12,
+    "active_neural_CPUs_max": 4,
+    "project": "CFP04-CF-007",
+    "queue": "small",
+    "maximum_new_submissions": 1,
+    "automatic_next_submission": false
+  },
+  "cold": {
+    "status": "BOTH_NATIVE_COLD_N1_BOUNDARIES_PASS_NO_SUBMISSION",
+    "both_native_entries": "PASS",
+    "prior_recorded_processes_terminal": 120,
+    "old_adjudications_unchanged": 35,
+    "old_native_draws_unchanged": 2390,
+    "formal_updates_unchanged": 4096,
+    "old_GPU_cost_s": 42088,
+    "prior_source_PBS": 9,
+    "original15numerical_and12learning_files_unchanged": true,
+    "old_STOPs_retained": true
+  },
+  "fixed_work": {
+    "states": 8,
+    "original_independent_parents": 4,
+    "models": [
+      "S-BC-2048",
+      "S-CORR-2048"
+    ],
+    "new_queries_max": 16,
+    "old_BC512_draws_reused_not_resampled": 8,
+    "actual_generated_noise_fingerprint_must_match_original": true,
+    "neural_query_wall_limit_s": 60,
+    "original_allocation_closeout_s": 2700,
+    "new_optimizer_updates": 0,
+    "new_live_or_shadow_integrations": 0,
+    "Teacher": false,
+    "original24_endpoint_policy_conditions_not_rerun": true,
+    "new_108_historical_probe_draws": 0
+  },
+  "sealed_input_file_sha256": {
+    "plans/N1_CURRENT_ANCHOR_ENDPOINT_NI16_V1.json": "34aefc706de1da61407eefdd95b4f083933cee3a2467beac864c3f2d691d4248",
+    "plans/N1/alloc-10/NATIVE_HISTORY_GATE.json": "2c997d22a945e20b6f0f4168e466d2d569f94bb371497dd0ce151e949f41c632",
+    "plans/N1/alloc-10/COMPLETE_ENDPOINT_MATRIX.json": "9efe8795a437de7a72f09c38b6fbbe69b918d9347f6e939522f757421f1b34fb",
+    "plans/N1/alloc-10/ORIGINAL_EIGHT_RECEIPT_JOIN.private.json": "85b1e83e5ab8f97a2800c74d90b2ff8bf312e2e2f60cc072cee8a6e033636894",
+    "plans/N1/alloc-10/ENDPOINT_ANCHOR_NI16_BINDING.json": "43a496474ce0dc1ea329646adf40625898d57db4b55dea1b35f0bb46c464a9fe"
+  },
+  "actual_CPU_only_Hopper_original_eight_input_noise_rechecks": "PASS_BEFORE_QSUB_NO_NEURAL_IMPORT_OR_QUERY",
+  "prior_full_eight_history_gate_result": "cfbd6a426e6934140d31940a7463e07003981a1f0c94bcbf09f6c83ff76b94cb",
+  "current_premodel": {
+    "status": "N1_ISOLATED_TRANSPORT_READY_BEFORE_MODEL",
+    "job_id": "673318.hopper-m-02",
+    "source_sha": "0ad0cc3aa8810a3719002ae44649a6f6cd4bfdcf",
+    "models_loaded": 0,
+    "new_queries": 0,
+    "new_physics": 0,
+    "full_native_qualification": "NOT_YET_PRESENT_AT_THIS_SNAPSHOT",
+    "source09_old_qualification_not_reused": true,
+    "old_MODEL_STATE_marker_from_another_job_not_counted": true
+  },
+  "resource": {
+    "source_GPU_settled_s": 42088,
+    "parent_Hopper_GPU_settled_s": 46588,
+    "GPU_reserved_s": 7200,
+    "source_PBS_used": 10,
+    "parent_Hopper_PBS_used": 13,
+    "current_GPU_actual_cost": "OPEN_NOT_ZERO",
+    "final6H200h_reserve_retained": true,
+    "old_N1_clock_cutoffs_and_cumulative_caps_unchanged": true
+  },
+  "future": {
+    "endpoint_NI16": "NOT_RUN_AT_THIS_SNAPSHOT",
+    "matched_NI_CPU_shadows": "NOT_RUN_REQUIRE_SEPARATE_HF_FIXED_REVISION_AND_HISTORY_REVALIDATION",
+    "optional_learning_method": "NOT_SELECTED",
+    "SOURCE_CONFIRM": "NOT_RUN"
+  },
+  "WBC": "FROZEN_NOT_LAUNCHED",
+  "TF_R3_STOP": "PRESERVED",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "goal": "ACTIVE_INCOMPLETE"
+}
