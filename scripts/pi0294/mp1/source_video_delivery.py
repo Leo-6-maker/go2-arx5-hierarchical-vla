@@ -27,9 +27,22 @@ CORR_PANEL='S-CORR-512-TRAIN4'
 CORR_PLAN_IDS=[f'PI0294-MP1-{CORR_PANEL}-{f}-000-{t}' for f in ['F0','F1'] for t in ['T1','T2']]
 CORR_IDS=CORR_PLAN_IDS[:3]+[CORR_PLAN_IDS[2]+'-REPLACEMENT-01']
 CORR_NAME='SCORR512_FIRST4_ATTEMPTS_ACTUAL_AUDITED_VIDEO_PUBLIC_V1'
+CORR2048_TRAIN_PANEL='S-CORR-2048-TRAIN4'
+CORR2048_DEV_PANEL='S-CORR-2048-DEV8'
+CORR2048_TRAIN_IDS=[f'PI0294-MP1-{CORR2048_TRAIN_PANEL}-{f}-000-{t}' for f in ['F0','F1'] for t in ['T1','T2']]
+CORR2048_DEV_PLAN_IDS=[f'PI0294-MP1-{CORR2048_DEV_PANEL}-{f}-{n}-{t}'
+    for f,n in [('F0','000'),('F1','000'),('F1','001'),('F2','000')] for t in ['T1','T2']]
+CORR2048_DEV_IDS=[i+('-REPLACEMENT-01' if i.endswith('-F2-000-T1') else '') for i in CORR2048_DEV_PLAN_IDS]
 
 
 def delivery_scope(panel):
+    if panel in [CORR2048_TRAIN_PANEL,CORR2048_DEV_PANEL]:
+        dev=panel==CORR2048_DEV_PANEL;suffix='DEV8' if dev else 'TRAIN4'
+        return dict(panel=panel,name='SCORR2048_'+suffix+'_ACTUAL_AUDITED_VIDEO_PUBLIC_V1',
+            ids=CORR2048_DEV_IDS if dev else CORR2048_TRAIN_IDS,
+            plan_ids=CORR2048_DEV_PLAN_IDS if dev else CORR2048_TRAIN_IDS,split='DEV' if dev else 'TRAIN',
+            suffix=suffix,step=2048,tag='SCORR2048_'+suffix,binding='PUBLIC_SCORR2048_'+suffix+'_VIDEO_BINDING.json',
+            complete_panel=True,N1_required=True)
     if panel==PANEL:scope=dict(panel=PANEL,name=NAME,ids=IDS,split='TRAIN',suffix='TRAIN4')
     elif panel==DEV_PANEL:scope=dict(panel=DEV_PANEL,name=DEV_NAME,ids=DEV_IDS,split='DEV',suffix='DEV8')
     elif panel==CORR_PANEL:
@@ -52,6 +65,11 @@ def audited_movies(root,*,panel=PANEL):
     rows,files,sources=[],{},{}
     for identifier in ids:
         actual=require_frozen_attempt(child,identifier)
+        if panel==CORR2048_DEV_PANEL and identifier.endswith('-REPLACEMENT-01'):
+            original=require_frozen_attempt(child,identifier.removesuffix('-REPLACEMENT-01'))
+            if (original['status']!='ENGINEERING_INCOMPLETE' or original['pipeline_trustworthy']
+                    or original['live_native_failures'] or original['model']!=panel or original['split']!='DEV'):
+                raise PermissionError('ONLY_EXISTING_UNIQUE_ENGINEERING_REPLACEMENT_VIDEO_NOT_NEW_CONDITION')
         engineering=panel==CORR_PANEL and identifier in CORR_IDS[2:]
         allowed=['ENGINEERING_INCOMPLETE'] if engineering else ['VALID_TASK_FAIL'] if panel==CORR_PANEL else ['SUCCESS','VALID_TASK_FAIL']
         if (actual['model']!=panel or actual['split']!=scope['split']
@@ -84,7 +102,8 @@ def audited_movies(root,*,panel=PANEL):
             pipeline_trustworthy=actual['pipeline_trustworthy'],
             qualified_policy_outcome=not engineering,
             engineering_incomplete=engineering,
-            independent_new_condition=identifier!=CORR_IDS[-1],**files[name]))
+            independent_new_condition=not identifier.endswith('-REPLACEMENT-01'),**files[name]))
+        rows[-1]['actual_execution_source_sha']=audit.get('execution_source_sha')
     if sum(v['bytes'] for v in files.values())>16*1024**2:
         raise PermissionError('EXACT_PANEL_ACTUAL_CLIPS_16MIB_UPPER')
     reject_private(rows)
@@ -97,6 +116,17 @@ def publish(root,token_file,*,panel=PANEL):
     if sha(binding)!=runtime['execution']['source_video_binding_sha256']:
         raise PermissionError('SEALED_EXACT_SOURCE_VIDEO_BINDING')
     q=read(binding)
+    if scope.get('N1_required'):
+        from . import n1_limits as n1
+        first=root/n1.FIRST_ADOPTION
+        if first.is_symlink() or first.stat().st_mode&0o222 or sha(first)!=n1.ADOPTED_DELTA_SHA:
+            raise PermissionError('ORIGINAL_FIRST_N1_ADOPTION_REQUIRED_FOR_NEW_CORR2048_ARCHIVE')
+        delta=n1.validated_delta(read(first),read(root/'MP1_ADOPTION_AND_INCREMENTAL_BUDGET.json'))
+        if (q['N1_authority_release']!=n1.RELEASE or q['N1_adoption_sha256']!=n1.ADOPTED_DELTA_SHA
+                or q['N1_T0_epoch']!=delta['autonomy_started_epoch']
+                or type(q.get('CPU_id')) is not int
+                or not delta['autonomy_started_epoch']<=q['created_epoch']<=time.time()<q['deadline_epoch']<=delta['hard_closeout_epoch']):
+            raise PermissionError('NEW_CORR_ARCHIVE_CANNOT_REUSE_OLD_CLOCK_OR_REOPEN_SCIENCE')
     if (q['parent_run']!=root.name or q['repo_id']!=REPO or q['attempt_ids']!=ids
             or q.get('panel',PANEL)!=panel
             or q['maximum_CPU_s']!=600 or q['worker_CPU_s']!=420
@@ -105,8 +135,11 @@ def publish(root,token_file,*,panel=PANEL):
             or not q['created_epoch']<=time.time()<q['deadline_epoch']<=q['created_epoch']+1800):
         raise PermissionError('BOUNDED_ORIGINAL_MP1_PUBLIC_SOURCE_CLIP_DELIVERY')
     signal.alarm(max(1,int(q['deadline_epoch']-time.time())))
-    # Four one-core metadata probes each have a 15s wall limit; retain 60 CPU seconds for them.
-    resource.setrlimit(resource.RLIMIT_CPU,(360,360));os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+    # Retain the whole single-core metadata-probe upper within the same420s worker budget.
+    cpu=420-15*len(ids);resource.setrlimit(resource.RLIMIT_CPU,(cpu,cpu))
+    affinity=os.sched_getaffinity(0);selected=q.get('CPU_id',min(affinity))
+    if type(selected) is not int or selected not in affinity:raise PermissionError('BOUND_ONE_CORE_VIDEO_METADATA_WORKER')
+    os.sched_setaffinity(0,{selected})
     lock=OwnerLock(root/(name+'.lock'));started=time.process_time();children=resource.getrusage(resource.RUSAGE_CHILDREN);out=root/'artifacts'/name
     out.mkdir(mode=0o700)
     try:
@@ -116,7 +149,11 @@ def publish(root,token_file,*,panel=PANEL):
             reject_private(metadata)
         index=dict(schema='MP1_'+scope['tag']+'_ACTUAL_VIDEO_INDEX_V1',parent_run=root.name,
             source_sha=runtime['code']['vla_commit'],panel=panel,private=False,
+            source_sha_scope='THIS_VIDEO_PUBLISHER_NOT_ORIGINAL_PHYSICAL_EXECUTION_SOURCE',
             actual_videos=len(ids),rows=rows,all_videos_are_successes=all(r['task_success'] for r in rows),
+            complete_fixed_panel=scope['complete_panel'],unique_attempted_conditions=len({r['id'].removesuffix('-REPLACEMENT-01') for r in rows}),
+            all_videos_are_complete_episodes=all(r['native_sim_s']==32 for r in rows),
+            same_condition_replacement_is_independent_example=False,
             exposed_development_or_target_results_included=scope['split']=='DEV',
             no_interpolation_or_synthetic_frames=True,original_private_bytes_unchanged=True,
             transport='QUALIFIED_METADATA_READ_ASSISTED_PAUSED_SIM_LOCKSTEP_NOT_REALTIME',
@@ -164,7 +201,7 @@ def publish(root,token_file,*,panel=PANEL):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--existing-token-file',required=True);p.add_argument('--panel',choices=[PANEL,DEV_PANEL,CORR_PANEL],default=PANEL);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--existing-token-file',required=True);p.add_argument('--panel',choices=[PANEL,DEV_PANEL,CORR_PANEL,CORR2048_TRAIN_PANEL,CORR2048_DEV_PANEL],default=PANEL);a=p.parse_args()
     def expire(signum,frame):raise TimeoutError('ORIGINAL_SOURCE_VIDEO_DELIVERY_1800S_WALL')
     signal.signal(signal.SIGALRM,expire)
     value=publish(a.root,a.existing_token_file,panel=a.panel);print(json.dumps({k:value[k] for k in ['status','revision','prefix','actual_videos','payload_bytes']}),flush=True)

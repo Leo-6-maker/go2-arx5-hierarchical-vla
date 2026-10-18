@@ -4,7 +4,7 @@ import tempfile
 import unittest
 
 from scripts.pi0294.native_dataset import sha
-from .mp1.source_video_delivery import IDS,PANEL,DEV_IDS,DEV_PANEL,CORR_IDS,CORR_PANEL,audited_movies,delivery_scope
+from .mp1.source_video_delivery import IDS,PANEL,DEV_IDS,DEV_PANEL,CORR_IDS,CORR_PANEL,audited_movies,delivery_scope,CORR2048_TRAIN_PANEL,CORR2048_DEV_PANEL,CORR2048_DEV_IDS
 
 
 def put(p,value):
@@ -26,6 +26,10 @@ def fixture(root,panel=PANEL):
         folder=child/'evidence/audits'/name;folder.mkdir(parents=True)
         movie=folder/'actual-body-wrist.mp4';movie.write_bytes(b'unit-fixture-not-a-real-qualified-video')
         put(folder/'AUDIT.private.json',dict(status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT',attempt_id=name,adjudication=decision,checks=dict(raw=True),errors=[],video=dict(sha256=sha(movie),bytes=movie.stat().st_size,decoded_frames=decision['RGB_pairs'],actual_paired_frames=decision['RGB_pairs'],native_duration_s=decision['duration_s'],padding_or_interpolation=False)))
+        if panel==CORR2048_DEV_PANEL and name.endswith('-REPLACEMENT-01'):
+            original=dict(decision,attempt_id=name.removesuffix('-REPLACEMENT-01'),status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False)
+            put(child/'episodes'/original['attempt_id']/'MP1_ADJUDICATION.json',original)
+            put(child/'worker_processes'/(original['attempt_id']+'.json'),dict(pid=999999999,proc_start='0'))
     return child
 
 
@@ -78,8 +82,30 @@ class SourceVideoTests(unittest.TestCase):
                 else:v['panels'][DEV_PANEL]['split']='TRAIN'
                 put(p,v)
                 with self.assertRaises(PermissionError):audited_movies(root,panel=DEV_PANEL)
-        for panel in ['S-CORR-2048-DEV8','SOURCE_CONFIRM_V1','S-BC-512-TRAIN4']:
+        for panel in ['S-CORR-1024-DEV8','SOURCE_CONFIRM_V1','S-BC-512-TRAIN4']:
             with self.assertRaises(PermissionError):delivery_scope(panel)
+
+    def test_CORR2048_fixed_panels_publish_existing_audited_bytes_and_keep_replacement_denominator(self):
+        for panel,count in [(CORR2048_TRAIN_PANEL,4),(CORR2048_DEV_PANEL,8)]:
+            with self.subTest(panel=panel),tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp);fixture(root,panel);before={str(p):sha(p) for p in root.rglob('*') if p.is_file()}
+                rows,files,sources=audited_movies(root,panel=panel)
+                self.assertEqual(len(rows),count);self.assertEqual(len(files),count);self.assertEqual(len(sources),count)
+                self.assertTrue(all(r['qualified_policy_outcome'] for r in rows));self.assertTrue(delivery_scope(panel)['N1_required'])
+                self.assertEqual(before,{str(p):sha(p) for p in root.rglob('*') if p.is_file()})
+                if panel==CORR2048_DEV_PANEL:
+                    self.assertEqual([r['id'] for r in rows],CORR2048_DEV_IDS)
+                    self.assertEqual(sum(not r['independent_new_condition'] for r in rows),1)
+
+    def test_CORR2048_DEV_replacement_requires_the_original_engineering_gap_not_valid_or_unsafe_case(self):
+        for defect in ['valid','unsafe']:
+            with self.subTest(defect=defect),tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp);child=fixture(root,CORR2048_DEV_PANEL)
+                p=child/'episodes'/CORR2048_DEV_IDS[-2].removesuffix('-REPLACEMENT-01')/'MP1_ADJUDICATION.json';v=json.loads(p.read_text())
+                if defect=='valid':v.update(status='VALID_TASK_FAIL',pipeline_trustworthy=True)
+                else:v['live_native_failures']=1
+                put(p,v)
+                with self.assertRaises(PermissionError):audited_movies(root,panel=CORR2048_DEV_PANEL)
 
     def test_exact_four_successes_and_negative_while_unrelated_DEV_is_reserved(self):
         with tempfile.TemporaryDirectory() as tmp:
