@@ -1,0 +1,331 @@
+{
+  "schema": "PI0294_PV1_FIRST_OFFICIAL_CODEC_ADMISSION_ACTUAL_V1",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "T0_epoch": 1792348196,
+  "source_sha": "07e85a6db0de298850169d0ff7ef5622bd6847af",
+  "official_GR00T_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "raw_physical_successes": 6,
+  "independent_scene_groups": 2,
+  "H40_windows_actually_checked": 3606,
+  "committed_label_elements_actually_checked": 1442400,
+  "rows": [
+    {
+      "id": "PI0294-PV1-TRAIN-F0-000-T1-C04",
+      "scene_group": "PI0294/PV1/TRAIN/F0/000",
+      "task": "T1",
+      "nominal_clearance_m": 0.004,
+      "status": "PASS_SAVED_TEACHER_EXPORT_AND_OFFICIAL_CHAIN",
+      "admitted_for_training": true,
+      "codec": {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 9.659298152997486e-9,
+          "SO3_rad": 2.1073424255447017e-8,
+          "gripper": 0,
+          "relative_SE3_max_abs": 6.591949208711867e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 0.00001,
+          "SO3_rad": 0.0001,
+          "gripper": 0.00001,
+          "relative_SE3_max_abs": 1e-8
+        },
+        "action_preclip_components": 0,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      }
+    },
+    {
+      "id": "PI0294-PV1-TRAIN-F0-001-T1-C04",
+      "scene_group": "PI0294/PV1/TRAIN/F0/001",
+      "task": "T1",
+      "nominal_clearance_m": 0.004,
+      "status": "PASS_SAVED_TEACHER_EXPORT_AND_OFFICIAL_CHAIN",
+      "admitted_for_training": true,
+      "codec": {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 9.685141119653018e-9,
+          "SO3_rad": 2.1073424255447017e-8,
+          "gripper": 0,
+          "relative_SE3_max_abs": 7.771561172376096e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 0.00001,
+          "SO3_rad": 0.0001,
+          "gripper": 0.00001,
+          "relative_SE3_max_abs": 1e-8
+        },
+        "action_preclip_components": 0,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      }
+    },
+    {
+      "id": "PI0294-PV1-TRAIN-F0-000-T2-C04",
+      "scene_group": "PI0294/PV1/TRAIN/F0/000",
+      "task": "T2",
+      "nominal_clearance_m": 0.004,
+      "status": "PASS_SAVED_TEACHER_EXPORT_AND_OFFICIAL_CHAIN",
+      "admitted_for_training": true,
+      "codec": {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 8.72842598198531e-9,
+          "SO3_rad": 4.2146848510894035e-8,
+          "gripper": 0,
+          "relative_SE3_max_abs": 7.771561172376096e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 0.00001,
+          "SO3_rad": 0.0001,
+          "gripper": 0.00001,
+          "relative_SE3_max_abs": 1e-8
+        },
+        "action_preclip_components": 0,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      }
+    },
+    {
+      "id": "PI0294-PV1-TRAIN-F0-000-T2-C12",
+      "scene_group": "PI0294/PV1/TRAIN/F0/000",
+      "task": "T2",
+      "nominal_clearance_m": 0.012,
+      "status": "BLOCKED_FROZEN_CODEC_PHYSICAL_ERROR",
+      "admitted_for_training": false,
+      "codec": {
+        "status": "BLOCKED_FROZEN_CODEC_PHYSICAL_ERROR",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 0.0005771002248144697,
+          "SO3_rad": 4.2146848510894035e-8,
+          "gripper": 0,
+          "relative_SE3_max_abs": 7.771561172376096e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 0.00001,
+          "SO3_rad": 0.0001,
+          "gripper": 0.00001,
+          "relative_SE3_max_abs": 1e-8
+        },
+        "action_preclip_components": 2,
+        "native_inverse_clip_components_float32": 2,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 114,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      }
+    },
+    {
+      "id": "PI0294-PV1-TRAIN-F0-001-T2-C04",
+      "scene_group": "PI0294/PV1/TRAIN/F0/001",
+      "task": "T2",
+      "nominal_clearance_m": 0.004,
+      "status": "PASS_SAVED_TEACHER_EXPORT_AND_OFFICIAL_CHAIN",
+      "admitted_for_training": true,
+      "codec": {
+        "status": "PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 8.714028221223913e-9,
+          "SO3_rad": 3.6500241499888574e-8,
+          "gripper": 0,
+          "relative_SE3_max_abs": 6.661338147750939e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 0.00001,
+          "SO3_rad": 0.0001,
+          "gripper": 0.00001,
+          "relative_SE3_max_abs": 1e-8
+        },
+        "action_preclip_components": 0,
+        "native_inverse_clip_components_float32": 0,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 0,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      }
+    },
+    {
+      "id": "PI0294-PV1-TRAIN-F0-001-T2-C12",
+      "scene_group": "PI0294/PV1/TRAIN/F0/001",
+      "task": "T2",
+      "nominal_clearance_m": 0.012,
+      "status": "BLOCKED_FROZEN_CODEC_PHYSICAL_ERROR",
+      "admitted_for_training": false,
+      "codec": {
+        "status": "BLOCKED_FROZEN_CODEC_PHYSICAL_ERROR",
+        "H40_windows_actually_checked": 601,
+        "committed_label_elements_checked": 240400,
+        "maximum_error": {
+          "XYZ_m": 0.0004460774615014443,
+          "SO3_rad": 4.2146848510894035e-8,
+          "gripper": 0,
+          "relative_SE3_max_abs": 7.771561172376096e-16
+        },
+        "frozen_numeric_gates": {
+          "XYZ_m": 0.00001,
+          "SO3_rad": 0.0001,
+          "gripper": 0.00001,
+          "relative_SE3_max_abs": 1e-8
+        },
+        "action_preclip_components": 2,
+        "native_inverse_clip_components_float32": 2,
+        "inverse_clip_by_EEF10_channel": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "state_preclip_components": 114,
+        "encode_clip_components": 0,
+        "statistics_refit": false,
+        "native_decode_unchanged": true,
+        "nonzero_out_of_range_counts_explicit_not_silently_discarded": true
+      }
+    }
+  ],
+  "admitted_rows": 4,
+  "codec_blocked_rows": 2,
+  "root_cause": "Original official unnormalize_values_minmax uses np.clip(normalized_values,-1,1), including when the configured encoder clip_outliers is false. Both C12 episodes contain two out-of-range relative-Z values; original float32 official decode changes their correct committed positions by 0.4461-0.5771 mm, exceeding the unchanged 0.01 mm XYZ gate.",
+  "encoder_or_normalizer_refit": false,
+  "original_decoder_changed": false,
+  "labels_or_task_scores_modified": false,
+  "full_official_actual_RGB_processor_and_collator_rows": 4,
+  "each_passed_row_actual_processor_anchors": [
+    0,
+    80,
+    160,
+    320,
+    480,
+    600
+  ],
+  "codec_block_is_not_a_physical_task_failure": true,
+  "minimum_training_bank_ready": false,
+  "route_decision": {
+    "original_P0": "CLEARANCE_PAIR",
+    "current_qualified_common_T2_groups": 0,
+    "maximum_still_possible_common_T2_groups": 94,
+    "future_C12_failure_assumed": false,
+    "preauthorized_fallback": "COVERAGE_FIRST only when qualified common/directional support is provably unattainable or the finite complete cohort cannot support the margin route; original bank still needs T1>=32/T2>=64/both directions>=16",
+    "arbitrary_height_search_or_decode_change": false
+  },
+  "reader_native_resources": {
+    "status": "TERMINAL_SAVED_TRAIN_EXPORT",
+    "CPU_s": 41.473608858999995,
+    "CPU_reserved_s": 0,
+    "unknown_effects": [],
+    "engine_starts": 0,
+    "episode_starts": 0,
+    "ticks": 0,
+    "live_ticks": 0,
+    "shadow_ticks": 0,
+    "GR00T_queries": 0,
+    "training_updates": 0,
+    "completed": 6,
+    "admitted": 4,
+    "blocked": 2,
+    "worker_CPU_s": 41.462132606,
+    "failure": null
+  },
+  "reader_lease": "CLOSED",
+  "frozen_15_numerical_files_and_26_assets_unchanged": true,
+  "new_physics": 0,
+  "new_GR00T_queries": 0,
+  "new_GPU_PBS": 0,
+  "new_training_updates": 0,
+  "healthy_four_capture_workers_not_restarted": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "goal_complete": false
+}
