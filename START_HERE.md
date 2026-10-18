@@ -1,6 +1,14 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Current N1: source09 native qualification PASS; original two-condition remainder running.**
+**Current N1: source09 native qualification PASS; original remainder and audits running.**
+[Actual read-only native state-component decode](reports/PI0294/20261016T191445Z-localpc-mp1/N1_TRACE02_COMPONENT_DECODE_ACTUAL.json)
+locates the only above-1e-10 trace difference at live mjSTATE_WARMSTART:
+3.4268961e-9. Decoded highrate physical maximum1.3173e-14,steps/safetyexact,
+controller tail0. MuJoCo3.2.7 native APIs,zero integrations/NN/PBS;
+180.546847382CPUledger seconds settled once including180registrationupper.
+This is NOT full8anchor restoration PASS;threshold unchanged,unique cause
+unproved,16endpointanchorNN remainNOT_RUN. Old closed leases preserved.
+
 [Actual cold binding,single submission,real qualification and RPC journals](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE09_ACTUAL_COLD_SINGLE_SUBMISSION_AND_RPC_JOURNAL.json).
 673298/source976b9584 passed independent same-job raw readback:81actual
 post-read samples/600.021045657s,79distinct owner epochs,80real94080byte
