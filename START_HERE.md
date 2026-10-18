@@ -1,5 +1,18 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Current N1: all eight original TRAIN anchors now have qualified native-history restoration.**
+[Actual eight-anchor gate and closed resource receipt](reports/PI0294/20261016T191445Z-localpc-mp1/N1_EIGHT_NATIVE_HISTORY_COPY_ACTUAL.json).
+New d2eee965/CI39084263586SUCCESS,not a reopening of old failed gates:
+four complete acknowledged histories and eight initial saved states match
+exactly;all four rejected fullstate traces and four accepted highrate traces
+match exactly,next saved fullstate maxima2.665e-15<unchanged1e-10.
+4parents/8states,4starts/29202shadow/194.95881514CPUledgerseconds settled
+once(includes180registrationupper),zero live/NN/labels/updates/GPU/PBS.
+NewleaseCLOSED,alloldleases/STOPs/codeunchanged. Future shadow consumers
+must reconstruct histories and revalidate this route,not reinject the old
+integration-only state.16endpoint draws stillNOT_RUN and require a separate
+binding;no optional learning method or SOURCE_CONFIRM selected yet.
+
 **Current N1: both2048endpoint TRAIN/DEV panels complete and independently audited.**
 [Actual source09 terminal and complete paired endpoint evidence](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE09_ACTUAL_TERMINAL_AND_COMPLETE_ENDPOINT_PAIR.json).
 BC TRAIN3/4,DEV3/8(T1=2/4,T2=1/4);CORR TRAIN3/4,DEV5/8(T1=4/4,T2=1/4).
