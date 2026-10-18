@@ -1,5 +1,18 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Actual: LAST original confirmation allocation02 submitted once, native Q.**
+[Exact submission, queue memory readback and original resource limits](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ALLOCATION02_ACTUAL_SUBMISSION.json).
+674009/source887e6562,CFP04-CF-007,auto->small,1GPU/12CPU/128GB/8h.
+Native site rewrote the128GBrequest to225GB;the mature exact-owned queued
+memory decrease was applied once and128GBactually read back,no cancel/re-qsub.
+Confirmation2of2/source12of12/parentHopper15of24;28800H200seconds reserved,
+not consumed. Prior55789parent/51289source/8456child settledseconds retained.
+Fresh project/member/quota/peer/resource/import gates PASS;no otherownedGPUpeer.
+Own600s/80cycle/all-fault nativequalification NOT_RUN whilequeued;no newmodel,
+query,physics ortraining. Stale673388MODEL_READY is NOT current readiness.
+No thirdconfirmation/13thsource or automatic extra submission. OriginalN1
+clock,final6H200hreserve,candidate94ad/plan6e5a,S1/WBC/score/STOPs unchanged.
+
 **Actual V2 cold deployment and real derived-reader profile now PASS; no new PBS.**
 [Both-site V2 acceptance and preserved original identities](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION02_COLD_V2_AND_REAL_OBSERVER_ACCEPTANCE.json).
 Both nodes now bind immutable887e6562/exactCI39114861370SUCCESS,623members,
