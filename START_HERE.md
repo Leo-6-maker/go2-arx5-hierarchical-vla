@@ -1,5 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Actual: FIRST new-source T2 confirmation success independently audited.**
+[First T2 success and finite paired progress, retaining all negatives](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION_FIRST_T2_SUCCESS_AND_FINITE_PAIRED_PROGRESS.json).
+F2/000T2bank29201:32s/641actualpairedframes/80draws-ACKs/41hold,realcontact
+and0.183699m horizontalpush,no sustainedgrasp/lift,0S1/nativefault,TeacherOFF.
+18raw/score/safety/video checks plus separate80freshobservation/action/ACK/
+fixednoise receipts PASS. Same94adsharedweights now have actualnew-source
+successes inBOTHtasks;not T2reliability,RecoveryOraclequalification orGo2proof.
+Finite28frozen-attempt snapshot:T1success6/qualified14/planned20,T2success1/
+qualified12/planned20;T1F0/001 andF1/003 each2/2banks. Incompletepairs excluded
+from0/2counts. Evenallremaining successes allow atmost12T1/9T2,beloworiginal
+14/tasktarget;finish originaldesign,no early-stop/reselection/thresholdchange.
+Originaltwoengineeringpartials retained,their sole replacements nowaudited;
+laterinflight work excluded. 674009stillR/GPUcostOPEN,0training,newbudget0,
+candidate/plan/S1/WBC/noise/clock/STOPs frozen;final40/video/closure pending.
+
 **Actual: allocation02 qualified; first T1 scene succeeds under BOTH fixed banks.**
 [Own native qualification, full independent audits and exact paired-scene evidence](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION02_NATIVE_QUALIFICATION_AND_FIRST_COMPLETE_SUCCESS_PAIR.json).
 674009 nativeR/source887e6562:own81reads/600.084s/80realcycles/all8faultsPASS
