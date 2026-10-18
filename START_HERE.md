@@ -1,5 +1,20 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Actual V2 cold deployment and real derived-reader profile now PASS; no new PBS.**
+[Both-site V2 acceptance and preserved original identities](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION02_COLD_V2_AND_REAL_OBSERVER_ACCEPTANCE.json).
+Both nodes now bind immutable887e6562/exactCI39114861370SUCCESS,623members,
+with all15numerical+12learning hashes unchanged. The actual Hopper derived
+reader manifest passed its real existing runtime profile without launching
+an observer/model or fabricating MODEL_READY. Original b379 prototype/V1
+inputs and all6b science/results remain; fresh supplemental readback corrects
+an old-binding receipt field without overwriting original activation receipts.
+Source11of12/confirmation1of2,930draws/20attempts/GPUreserve0 unchanged.
+Repeated human call_d8b8e55b8bd84f34be89bf13f7c02e20 already funded673008;
+it adds NO new slot. Only original separateN1 authority governs current work.
+Fresh auth/peer/quota/resource gates and own600s/80cycle/all-fault native
+qualification are still required before new model work in the last allocation.
+No third confirmation/13thsource, new training, clock or safety override.
+
 **Observer preflight caught a derived-manifest incompatibility BEFORE the last PBS.**
 [Actual legacy rejection and prepared strict V2 repair](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION02_OBSERVER_MANIFEST_COMPATIBILITY.json).
 The rootb379ce20 cold entries below remain valid,but its qualified read-only
