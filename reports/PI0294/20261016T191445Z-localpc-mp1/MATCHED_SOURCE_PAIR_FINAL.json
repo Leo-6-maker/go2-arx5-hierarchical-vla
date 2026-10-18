@@ -2293,18 +2293,47 @@
       "limitations": "One training seed;four exposed DEV layout groups,not hidden confirmation. C1 derives from four parents/eight segments,not16384independent demonstrations. Same actual T2 and retainedT1 cursors do not establish a general causal DAgger claim.",
       "domain": "FIXED_BASE_ARX5_D0_NOT_FULL_GO2_WBC_OR_REAL_ROBOT"
     },
-    "Separately bound native-history/copy gate04 now qualifies all8originalTRAINanchors at unchanged1e-10;all4histories/initialstates/rejectedfulltraces/acceptedhighrate traces exact,nextfullstate difference at most2.665e-15. Oldintegration-only restorationFAILs remain. No newNNdraws or optionallearning method yet."
+    "Separately bound native-history/copy gate04 now qualifies all8originalTRAINanchors at unchanged1e-10;all4histories/initialstates/rejectedfulltraces/acceptedhighrate traces exact,nextfullstate difference at most2.665e-15. Oldintegration-only restorationFAILs remain. No newNNdraws or optionallearning method yet.",
+    {
+      "current_eight_anchor_prefix_summary": {
+        "S-BC-2048": {
+          "T1": {
+            "prefixes": 4,
+            "S1_PASS": 2,
+            "S1_REJECT": 2
+          },
+          "T2": {
+            "prefixes": 4,
+            "S1_PASS": 4,
+            "S1_REJECT": 0
+          }
+        },
+        "S-CORR-2048": {
+          "T1": {
+            "prefixes": 4,
+            "S1_PASS": 3,
+            "S1_REJECT": 1
+          },
+          "T2": {
+            "prefixes": 4,
+            "S1_PASS": 4,
+            "S1_REJECT": 0
+          }
+        }
+      },
+      "claim": "Matched prefix safety diagnosis only,not task completion or causal onlineDAgger proof. Nooptionalnewtraining selected."
+    }
   ],
   "N1_native_600s_80cycles": "PASS_REAL_SAME_JOB_SOURCE09_81_READS_600_021045657S_80_CYCLES_ALL8_FAULTS",
-  "same_state_eight_anchor_endpoint_draws": "NOT_RUN_NATIVE_HISTORY_GATE_PASSED_SEPARATE_NI_SHADOW_BINDING_REQUIRED",
-  "optional_method_selected": "NONE_PENDING_FULL_EVIDENCE",
+  "same_state_eight_anchor_endpoint_draws": "ACTUAL_NI16_FIXED_HF_CORE_CONSUMPTION_AND_MATCHED_SHADOWS_CLOSED",
+  "optional_method_selected": "NONE_NO_OPTIONAL_NEW_TRAINING",
   "SOURCE_CONFIRM": "NOT_RUN",
   "Vanda": "CAMERA03_ACTUAL_NATIVE_EGL_IDENTITY_FAILURE_CLOSED_NO_PHYSICS",
   "WBC": "FROZEN",
   "TF_R3_STOP": "PRESERVED",
   "selected": "NONE",
   "deployment": "NONE",
-  "report_updated_epoch": 1792284926.6645763,
+  "report_updated_epoch": 1792288052.953672,
   "CORR2048_TRAIN4_actual_audited_cases": [
     {
       "attempt_id": "PI0294-MP1-S-CORR-2048-TRAIN4-F0-000-T1",
@@ -3321,5 +3350,23 @@
       "CORR": "VALID_TASK_FAIL"
     }
   ],
-  "native_history_gate_receipt": "N1_EIGHT_NATIVE_HISTORY_COPY_ACTUAL.json"
+  "native_history_gate_receipt": "N1_EIGHT_NATIVE_HISTORY_COPY_ACTUAL.json",
+  "endpoint_anchor_receipt": "N1_CURRENT_EIGHT_ENDPOINT_MATCHED_SHADOWS_ACTUAL.json",
+  "CORR2048_actual_public_video_receipt": "N1_CORR2048_ALL12_ACTUAL_VIDEO_ARCHIVE.json",
+  "latest_NI16_native_job": {
+    "job_id": "673318.hopper-m-02",
+    "state": "F",
+    "exit_status": 0,
+    "source_sha": "0ad0cc3aa8810a3719002ae44649a6f6cd4bfdcf",
+    "reported_wall_s": 741,
+    "conservative_H200_s": 745,
+    "reported_native_CPU_s": 103,
+    "measured_neural_CPU_s": 99.90824039200001,
+    "source_cumulative_H200_s": 42833,
+    "parent_cumulative_H200_s": 47333,
+    "H200_reserved_s": 0,
+    "source_PBS_used": 10,
+    "parent_Hopper_PBS_used": 13,
+    "automatic_next_submission": false
+  }
 }

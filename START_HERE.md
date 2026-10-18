@@ -1,5 +1,26 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**2026-10-18 morning checkpoint:**
+[N1 morning report, actual09:48:50SGT snapshot](reports/PI0294/20261016T191445Z-localpc-mp1/N1_MORNING_REPORT.md).
+Complete paired endpoints,16matched prefixdiagnostics andall12CORRvideos
+are actual. Nooptionalnewtraining;oneCORR2048confirmationcandidate ranks
+firstunderoriginalrule. ConfirmationNOT_FROZEN/NOT_RUN,goalACTIVE/incomplete.
+
+**Current N1: actual matched anchor diagnosis and all12 CORR endpoint videos delivered.**
+[Closed NI16/HF/Core matched shadows](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CURRENT_EIGHT_ENDPOINT_MATCHED_SHADOWS_ACTUAL.json)
+and [all12 actual video fixed revisions](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CORR2048_ALL12_ACTUAL_VIDEO_ARCHIVE.json).
+Original8 TRAIN states/4BC512parents,not current2048 on-policy rollouts:
+BC T1prefix2/4PASS,CORR3/4PASS;T2both4/4PASS. All16reference gates ACCEPT.
+Fresh original-history/native-copy parity passed again at1e-10;4starts,
+29202revalidation+2823endpoint=32025shadowticks,196.409127034CoreCPUledger
+seconds settledonce,newleaseCLOSED,0live/NN/labels/updates/GPU/PBS.
+HF5378b8e8 fixed outputs actually consumed onCore;all12CORR2048clips
+sequentially published and READY/hash read back. Old16HFlinks unchanged.
+[Mechanism and next branch](reports/PI0294/20261016T191445Z-localpc-mp1/N1_MECHANISM_AND_NEXT_BRANCH.md):
+nooptionalnewtraining;CORR2048 ranks first by originalworst-task thenmacro
+rule for a single futureconfirmation,notdeploymentselection. SOURCE_CONFIRM
+notyetfrozen/run,selected/deploymentNONE. OriginalN1clock/caps/STOPs retained.
+
 **Current actual NI16 terminal: 673318 native F/0, all16 diagnostic draws verified.**
 [Terminal and independent same-job qualification](reports/PI0294/20261016T191445Z-localpc-mp1/NI16_ACTUAL_TERMINAL_AND_NATIVE_QUALIFICATION.json).
 81 actual post-read samples/600.027s/78 distinct owner epochs,80 real transport
