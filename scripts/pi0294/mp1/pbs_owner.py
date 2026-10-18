@@ -83,10 +83,16 @@ def prepare(root,*,output_rebinding=None,memory_gb=225):
     names=list(m['execution']['sealed_inputs'])+['NEURAL_BINDINGS.private.json','plans/OLD_E1_BINDING.private.json']
     if rebinding is not None:names.append(str(rebinding.relative_to(root)))
     if queue_proof is not None:names.append(str((d/'NATIVE_QUEUE_LIMIT.json').relative_to(root)))
+    from . import confirmation_config as confirmation
+    confirmed=confirmation.is_confirmation(read(root/'MP1_STAGE_BINDING.json'))
+    if confirmed:names.append(confirmation.closure_path(number))
     r=dict(run_uuid=root.name,source_sha=m['code']['vla_commit'],run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),mode=bound['mode'],
         numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',sealed_inputs={n:sha(root/n) for n in sorted(set(names))},submit_count=number,
         prior_GPU_allocated_s=l['GPU_allocated_s'],walltime_s=wall,additional_output_upper_bytes=additional,created_epoch=time.time(),python=b['python'],
         project_admission_relative=str((d/'PROJECT_ADMISSION.private.json').relative_to(root)),project_admission_sha256=sha(d/'PROJECT_ADMISSION.private.json'),request_nonce=str(uuid.uuid4()))
+    if confirmed:
+        relative=confirmation.closure_path(number)
+        r.update(confirmation_prior_closure_relative=relative,confirmation_prior_closure_sha256=sha(root/relative))
     if rebinding is not None:r.update(output_estimate_binding_relative=str(rebinding.relative_to(root)),output_estimate_binding_sha256=sha(rebinding),management_source_sha=management_source,scientific_launch_source_unchanged=True)
     if queue_proof is not None:r.update(queue_limit_relative=str((d/'NATIVE_QUEUE_LIMIT.json').relative_to(root)),queue_limit_sha256=sha(d/'NATIVE_QUEUE_LIMIT.json'))
     write(d/'REQUEST.json',r);h,rem=divmod(wall,3600);minutes,seconds=divmod(rem,60)
@@ -96,7 +102,7 @@ def prepare(root,*,output_rebinding=None,memory_gb=225):
         'export PYTHONPATH='+str(code)+':'+str(code/'src'),
         'export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1',
         'export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1','cd '+str(code)]
-    if m['execution'].get('cold_engineering_binding_relative'):
+    if m['execution'].get('cold_engineering_binding_relative') or m['execution'].get('confirmation_n1_binding'):
         lines.append('export MP1_RUN_MANIFEST='+shlex.quote(str(code.parent/'WORKER_RUN_MANIFEST.json')))
     bootstrap="import os,runpy;os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]));runpy.run_module('scripts.pi0294.mp1.launcher',run_name='__main__')"
     lines.append('exec '+shlex.join([b['python'],'-c',bootstrap,'--root',str(root),'--request',str(d/'REQUEST.json')]))

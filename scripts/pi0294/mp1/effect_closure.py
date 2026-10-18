@@ -186,8 +186,15 @@ def hopper(root,core_proof):
     if executed!=set(core_proof['installed']):raise PermissionError('EVERY_EXECUTED_PREFIX_REQUIRES_ITS_ACTUAL_NATIVE_DRAW')
     if rejected_keys!=set(core_proof.get('rejected_installs',{})):
         raise PermissionError('EVERY_INSTALLED_S1_REJECTION_REQUIRES_ITS_ACTUAL_NATIVE_DRAW')
+    from .confirmation_config import is_confirmation,validate_plan
+    stage=root/'MP1_STAGE_BINDING.json'
+    confirmed=stage.exists() and is_confirmation(read(stage))
+    if confirmed:
+        validate_plan(root)
+        if (root/'training').exists() or ledger['optimizer_updates'] or (root/'reservations/probe-generations').exists():
+            raise PermissionError('CONFIRMATION_CANNOT_CONTAIN_TRAINING_OR_NEW_FIXED_PROBES')
     probes=[]
-    for branch in ['S-BC','S-CORR']:
+    for branch in ([] if confirmed else ['S-BC','S-CORR']):
         for step in [512,2048]:
             checkpoint=root/'training'/branch/f'checkpoint-{step}'
             complete=read(checkpoint/'CHECKPOINT_COMPLETE.json')
@@ -199,7 +206,7 @@ def hopper(root,core_proof):
             probes.append(dict(label=f'{branch}-{step}-TRAIN4',draws=len(value['completed_draw_ids']),
                 checkpoint_manifest_sha256=sha(checkpoint/'CHECKPOINT_COMPLETE.json')))
     from .endpoint_anchor_ni import closed_draws,LABEL as NI_LABEL
-    diagnostic_draws=closed_draws(root)
+    diagnostic_draws=0 if confirmed else closed_draws(root)
     total=generated+sum(p['draws'] for p in probes)+diagnostic_draws
     if total!=ledger['generation_queries']:
         raise PermissionError('ALL_RESIDENT_AND_FIXED_PROBE_DRAWS_MUST_MATCH_CUMULATIVE_LEDGER')

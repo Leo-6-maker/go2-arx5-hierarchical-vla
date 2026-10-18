@@ -72,7 +72,7 @@ print(json.dumps(dict(source_sha=m['code']['vla_commit'],manifest_sha256=hashlib
     for index,base in enumerate(selected):
         card=dict(base,mp1_session_label=session);episode=str(uuid.uuid4());relative='plans/'+session+'/requests/'+card['id']+'.json'
         request=dict(run_uuid=ready['run_uuid'],attempt_id=card['id'],source_sha=facts['core']['source_sha'],run_manifest_sha256=facts['core']['manifest_sha256'],
-            initial_state_sha256=card['initial_state_sha256'],profile='B1',category='TRAIN_DEVELOPMENT' if spec['split']=='TRAIN' else 'DEV',
+            initial_state_sha256=card['initial_state_sha256'],profile='B1',category='CONFIRM_CORE' if spec.get('independent_confirmation') else 'TRAIN_DEVELOPMENT' if spec['split']=='TRAIN' else 'DEV',
             identity=ready['identity']['relay_identity'],episode_uuid=episode,deadline_epoch=ready['allocation_end_epoch']-2700,
             live_readiness_sha256='c2ca87bda6942f17b037d47bdacf33f069f2bd1ecb2f8d57126d87ba8a69ed5c')
         raw=json.dumps(request,indent=2,allow_nan=False)+'\n';card.update(relay_request_relative=relative,relay_request_sha256=hashlib.sha256(raw.encode()).hexdigest())

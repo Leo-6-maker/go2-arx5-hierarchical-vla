@@ -12,6 +12,18 @@ PARENT='7dba1c4c8abacdb57e2faa0e6d7563ed5dcef2e5473cb13c281eb0e57d5a5150'
 BANKS=(29201,29202)
 FAMILIES=(('F0',2),('F1',4),('F2',4))
 MAX_CANDIDATES=40
+ORIGINAL_GENERATOR_INDEX_OFFSET=100
+
+
+def original_group(family,index,candidate):
+    if family not in dict(FAMILIES) or not 0<=index<dict(FAMILIES)[family] or not 0<=candidate<1024:
+        raise PermissionError('ONLY_PREDECLARED_ORIGINAL_GENERATOR_SOURCE_GROUPS')
+    group=scene_group('CONFIRM_CORE',family,ORIGINAL_GENERATOR_INDEX_OFFSET+index,candidate_index=candidate)
+    original_identity=group['group_id'];identity='PI0294/'+SPLIT+'/'+family+'/'+str(index).zfill(3)
+    group.update(group_id=identity,scene_group=identity,split=SPLIT,layout_candidate_index=candidate,
+        original_frozen_generator_identity=original_identity,
+        original_frozen_generator_index=ORIGINAL_GENERATOR_INDEX_OFFSET+index)
+    return group
 
 
 def rank_candidate(matrix):
@@ -43,7 +55,7 @@ def candidate_groups(exclusions):
     for family,count in FAMILIES:
         for index in range(count):
             for candidate in range(1024):
-                group=scene_group(SPLIT,family,index,candidate_index=candidate)
+                group=original_group(family,index,candidate)
                 check=near_duplicate_report([group],[*exclusions,*groups])
                 if check['conflicts']:
                     rejected.append(dict(group_id=group['group_id'],candidate_index=candidate,conflicts=check['conflicts']))
@@ -69,6 +81,9 @@ def evaluation_plan(groups,candidate,static_receipts,exclusions):
             or near_duplicate_report(groups,exclusions)['conflicts']):
         raise PermissionError('ONE_FIXED_CANDIDATE_TEN_NEW_SOURCE_GROUPS_NO_LEAKAGE')
     wanted={(g['group_id'],t) for g in groups for t in ['T1','T2']}
+    for group in groups:
+        if group!=original_group(group['family'],int(group['group_id'].rsplit('/',1)[1]),group['layout_candidate_index']):
+            raise PermissionError('FROZEN_ORIGINAL_GENERATOR_NO_TASK_GEOMETRY_ADJUSTMENT')
     indexed={(r['scene_group'],r['task']):r for r in static_receipts}
     if len(static_receipts)!=20 or set(indexed)!=wanted:raise PermissionError('ALL20_ORIGINAL_STATIC_TASK_QUALIFICATIONS_REQUIRED')
     for key,r in indexed.items():

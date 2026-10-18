@@ -18,6 +18,9 @@ def request_contract(root,request,manifest,ledger,now):
     from .n1_limits import clock
     a=clock(root,a,manifest)
     p=root/'MP1_STAGE_BINDING.json';bound=limits(read(p) if p.exists() else {},root=root)
+    from . import confirmation_config as confirmation
+    confirmed=confirmation.is_confirmation(read(p)) if p.exists() else False
+    if confirmed:confirmation.request_contract(root,request,ledger)
     if 'n1_authority_binding' in manifest.get('execution',{}):
         from .n1_boundary import paths
         boundary_path=root/paths(request['submit_count'])[0]
@@ -31,7 +34,7 @@ def request_contract(root,request,manifest,ledger,now):
                     raise PermissionError('NI16_SINGLE_TWO_HOUR_NATIVE_REQUEST_AND_MEASURED_OUTPUT_HEADROOM')
     if bound.get('job_wall_s_max',14400)>14400:
         from .n1_boundary import target
-        if target(manifest['execution'].get('cold_engineering_binding_relative'))!=request['submit_count']:
+        if not confirmed and target(manifest['execution'].get('cold_engineering_binding_relative'))!=request['submit_count']:
             raise PermissionError('N1_REQUEST_MUST_USE_EXACT_CURRENT_COLD_FENCE')
         proof_path=inside(root/request['queue_limit_relative'],root);proof=read(proof_path)
         if (sha(proof_path)!=request['queue_limit_sha256']

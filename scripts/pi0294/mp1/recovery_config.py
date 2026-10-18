@@ -38,6 +38,10 @@ def prior_usage(stage):
 
 
 def limits(stage,*,root=None):
+    if stage.get('schema')=='MP1_SOURCE_CONFIRM_V1':
+        if root is None:raise PermissionError('CONFIRMATION_REQUIRES_ITS_SEALED_SEPARATE_ROOT')
+        from .confirmation_config import limits as confirmation_limits
+        return confirmation_limits(root)
     if stage.get('schema')=='MP1_SAVED_M1_T2_SHADOW_DIAGNOSIS_V1':
         raise PermissionError('SAVED_T2_DIAGNOSTIC_HAS_NO_GPU_OR_PBS_AUTHORITY')
     if not is_recovery(stage):

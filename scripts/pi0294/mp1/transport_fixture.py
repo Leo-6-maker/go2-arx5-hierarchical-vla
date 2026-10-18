@@ -33,6 +33,12 @@ def prepared_plan(root,manifest):
             or not 0<plan['RGB_payload_bytes']<2*1024**2
             or plan['RGB_payload_bytes']!=sum(4*((n+2)//3) for n in plan['RGB_png_bytes'])):
         raise PermissionError('SEALED_REAL_SIZED_RECORDED_TRANSPORT_PLAN_BEFORE_QSUB')
+    if 'recorded_observation_run_uuid' in plan:
+        if ('confirmation_n1_binding' not in manifest['execution']
+                or plan['recorded_observation_run_uuid']!='source-pair-01'):
+            raise PermissionError('ONLY_CONFIRMATION_CAN_READ_ITS_FROZEN_CLOSED_SOURCE_REFERENCE')
+        from .confirmation_config import authority
+        authority(root,manifest)
     return plan
 
 
@@ -60,7 +66,7 @@ def check_observation(packet,plan):
         raise ValueError('ORIGINAL_RECORDED_OBSERVATION_NOT_REENCODED_OR_PADDED')
     body=unseal(packet)
     if (set(body)!={'protocol','kind','run_uuid','episode_uuid','sequence','tick','payload'}
-            or body['protocol']!=PROTOCOL or body['kind']!='observation' or body['run_uuid']!=plan['run_uuid']
+            or body['protocol']!=PROTOCOL or body['kind']!='observation' or body['run_uuid']!=plan.get('recorded_observation_run_uuid',plan['run_uuid'])
             or type(body['sequence']) is not int or not 0<=body['sequence']<80 or body['tick']!=body['sequence']*200):
         raise ValueError('OWN_REGISTERED_RECORDED_OBSERVATION_ONLY')
     validate_observation(body['payload'])
@@ -129,8 +135,12 @@ class Endpoint:
         self.manifest_sha=sha(self.root/'RUN_MANIFEST.json');self.ledger=Ledger(root,role)
         p=self.plan;r=self.registry
         from .n1_boundary import target
+        if 'confirmation_n1_binding' in self.manifest['execution']:
+            from .confirmation_config import fixture_allocation
+            bound_number=fixture_allocation(root,self.manifest,number)
+        else:bound_number=target(self.manifest['execution'].get('cold_engineering_binding_relative'))
         if (self.manifest['execution']['sealed_inputs'].get(PLAN)!=sha(self.root/PLAN)
-                or target(self.manifest['execution']['cold_engineering_binding_relative'])!=number
+                or bound_number!=number
                 or p['schema']!='MP1_N1_RECORDED_TRANSPORT_FIXTURE_V1' or p['run_uuid']!=self.root.name
                 or p['scope']!='RECORDED_OBSERVATION_NO_MODEL_NO_PHYSICS' or p['cycles']!=CYCLES
                 or r['schema']!='MP1_N1_TRANSPORT_REGISTRY_V1' or r['run_uuid']!=self.root.name
@@ -148,7 +158,11 @@ class Endpoint:
             path.mkdir(exist_ok=True,mode=0o700)
         self.recorded=None
         if role=='core':
-            reference=inside(self.root,p['recorded_observation_relative'])
+            reference_root=self.root
+            if 'confirmation_n1_binding' in self.manifest['execution']:
+                from .confirmation_config import PRIOR
+                reference_root=Path(read(self.root/PRIOR)['source_root'])
+            reference=inside(reference_root,p['recorded_observation_relative'])
             if not p['recorded_observation_relative'].startswith('episodes/') or sha(reference)!=p['recorded_observation_file_sha256']:
                 raise PermissionError('EXACT_OWNED_CLOSED_RECORDED_OBSERVATION_FILE')
             self.recorded=read(reference);body=check_observation(self.recorded,p)

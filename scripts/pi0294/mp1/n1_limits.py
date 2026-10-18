@@ -100,6 +100,9 @@ def resolve(root, manifest=None):
     """Only a future immutable consumer explicitly sealed to N1 can use it."""
     root = Path(root)
     manifest = read(root / 'RUN_MANIFEST.json') if manifest is None else manifest
+    if 'confirmation_n1_binding' in manifest.get('execution', {}):
+        from .confirmation_config import authority
+        return authority(root, manifest)
     binding = manifest.get('execution', {}).get('n1_authority_binding')
     if binding is None:
         return None

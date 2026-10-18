@@ -66,7 +66,8 @@ def remaining_panel(rows,spec):
 def session_spec(plan,label,*,root=None):
     from .n1_limits import allocation_number,resolve
     n1=resolve(root) if root is not None else None
-    base,_=allocation_number(label,5 if n1 is None else n1['source']['PBS'])
+    maximum=5 if n1 is None else n1['confirmation']['PBS'] if 'confirmation' in n1 else n1['source']['PBS']
+    base,_=allocation_number(label,maximum)
     if base not in plan['panels']:
         raise PermissionError('EXACT_FIXED_PANEL_ONLY')
     return plan['panels'][base]

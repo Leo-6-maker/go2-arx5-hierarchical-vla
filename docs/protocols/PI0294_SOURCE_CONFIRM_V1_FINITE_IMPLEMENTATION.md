@@ -15,7 +15,12 @@ This is one confirmation candidate, not deployment selection.
 
 Freeze ten new scene groups (F0=2,F1=4,F2=4), both original T1/T2 tasks and
 fixed noise banks29201/29202:40 conditions. F3/new task geometry is excluded.
-New group seeds use SOURCE_CONFIRM_V1, independent of old TRAIN/DEV identities.
+New logical groups use SOURCE_CONFIRM_V1. Seeds come from the unchanged frozen
+generator's existing CONFIRM_CORE namespace at unused indices100..103, with
+the exact original generator identity/index retained per group. No generator
+source-byte change is deployed; the earlier preparation-only enum extension
+was removed when the actual fifteen-file numerical guard identified it as a
+protected file. No earlier planner was deployed or generated real scenes.
 Use the unchanged generator's original family distributions. Geometric
 near-duplicate checks ignore appearance/family and retain the original 2mm /
 2degree criteria. Exclude actual source TRAIN and recovery parent layouts,

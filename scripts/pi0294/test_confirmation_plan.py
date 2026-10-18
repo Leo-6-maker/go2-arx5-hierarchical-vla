@@ -3,6 +3,7 @@ import unittest
 
 from scripts.pi0294.mp1 import confirmation_plan as p
 from scripts.pi0294.scene_cards import digest,scene_group,task_card
+from scripts.pi0294.native_dataset import sha
 
 
 class ConfirmationPlanTests(unittest.TestCase):
@@ -64,7 +65,11 @@ class ConfirmationPlanTests(unittest.TestCase):
 
     def test_original_scene_generation_still_deterministic(self):
         self.assertEqual(scene_group('TRAIN','F0',0),scene_group('TRAIN','F0',0))
-        self.assertNotEqual(scene_group(p.SPLIT,'F0',0)['seed'],scene_group('TRAIN','F0',0)['seed'])
+        first=p.candidate_groups([])['groups'][0]
+        self.assertNotEqual(first['seed'],scene_group('TRAIN','F0',0)['seed'])
+        self.assertEqual(first['original_frozen_generator_identity'],'PI0294/CONFIRM_CORE/F0/100')
+        from scripts.pi0294 import scene_cards
+        self.assertEqual(sha(scene_cards.__file__),'08530a62ff3f34509f3efb6459f20d5e0c600cdeb8dc31b01e7a766269a0dd91')
 
 
 if __name__=='__main__':unittest.main()
