@@ -1,5 +1,18 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**FD1 CLOSED (2026-10-19 SGT): original40/42 preserved; no training or WBC change.**
+[Final failure-attribution review](reports/PI0294/20261016T191445Z-localpc-mp1/FD1_DIAG/FD1_FINAL_ROOT_CAUSE_REVIEW.md) ·
+[Exact geometry and one explicit gap](reports/PI0294/20261016T191445Z-localpc-mp1/FD1_DIAG/FD1_S1_FIRST_GEOMETRY.json) ·
+[FD1 resource final](reports/PI0294/20261016T191445Z-localpc-mp1/FD1_DIAG/FD1_RESOURCE_FINAL.json).
+Actual22/23 S1 rule/tick reconstructions qualified:20 pad/table,1 TCP velocity,
+1 finger-validity JOINT_LIMIT branch;1 spent T2 geometry remains UNQUALIFIED.
+All14 T2 vetoes followed contact/motion; Teacher approach was not actual phase.
+This identifies immediate triggers, not a unique training root cause or WBC fault.
+FD1 used177340 shadow ticks/45 starts,0 live episodes/NN queries/GPU/PBS/training.
+New FD1 lease CLOSED; old N1 leases, raw scores and STOPs unchanged.
+[One TRAIN-only dynamic expert-clearance pilot](reports/PI0294/20261016T191445Z-localpc-mp1/FD1_DIAG/FD1_NEXT_EXPERIMENT_DECISION.md)
+is NOT_AUTHORIZED. Selected/deployment NONE; no automatic next experiment.
+
 **MP1-N1 CLOSED: complete audited40, T1 10/20 andT2 4/20; both14/20 R&D targets NOT MET.**
 [Final science review](reports/PI0294/20261016T191445Z-localpc-mp1/N1_FINAL_SCIENCE_REVIEW.md) ·
 [All40 cells/all42 actual attempts and fixed video URLs](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM40_FINAL_RESULT_AND_EVIDENCE.json) ·
