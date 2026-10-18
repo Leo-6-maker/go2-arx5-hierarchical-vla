@@ -1,13 +1,27 @@
-# Current Entry: E1 Results and Single MP1 Execution
+# Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
-**FD2 dynamic expert-clearance pilot: new direct human GO (2026-10-19 SGT).**
-[Fixed protocol](docs/protocols/PI0294_FD2_DYNAMIC_EXPERT_CLEARANCE_PILOT_V1.md) ·
-[Finite new machine card](reports/PI0294/design/FD2_DYNAMIC_EXPERT_CLEARANCE_SCOPE_V1.json).
-Four new TRAIN-only layouts, original4mm versus fixed12mm, eight Teacher
-first attempts; no training/GPU/PBS, WBC/S1/score frozen. Native binding and
-execution receipts are still pending at this publication. Old FD1/N1 stay
-CLOSED; the following FD1 draft status is its historical publication state,
-not a rollover of old budget. selected/deployment NONE, TF-R3 STOP retained.
+**PV1 ADOPTED: one source-domain shared T1/T2 policy, independent seven-day scope.**
+[Fixed execution entry](docs/handover/2026-10-19/PV1_MULTITASK_POLICY_EXECUTE.md) ·
+[Actual adoption](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_ADOPTION_AND_RESOURCE_BINDING.json) ·
+[FD2-based route](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_FD2_AND_TEACHER_DECISION.json).
+Authority9eff29a44a193dd4d3620dc0bfe5764a402eff42; T0=1792348196,
+hard close2026-10-26 02:29:56SGT. CLEARANCE_PAIR meets the predeclared
+contact-gap gate, but training still requires the new admitted data bank.
+Other eligible projects do not increase96H200h/24PBS or one-GPU concurrency.
+Final20H200h and physical/query/storage reserves remain protected.
+
+**FD2 CLOSED: all8 actual Teacher trials independently audited.**
+[Final review](reports/PI0294/20261018T171916Z-localpc-fd2/FD2_FINAL_SCIENCE_REVIEW.md) ·
+[All8 results](reports/PI0294/20261018T171916Z-localpc-fd2/FD2_ALL_EIGHT_ACTUAL_RESULTS.json) ·
+[Public actual videos](reports/PI0294/20261018T171916Z-localpc-fd2/FD2_ACTUAL_VIDEO_ARCHIVE.json) ·
+[Resource final](reports/PI0294/20261018T171916Z-localpc-fd2/FD2_RESOURCE_FINAL.json).
+Original4mm4/4 and12mm4/4, four paired fresh TRAIN layouts,0S1/nativefaults.
+Qualified contact-phase minimum gaps improve8.002-8.027mm in4/4pairs;
+whole-episode minima and native collision-query values are separate metrics.
+256000live+shadow ticks/684starts; lease CLOSED, future reserve/unknown0.
+No GR00T inference/training/GPU/PBS occurred in FD2, no neural benefit proved.
+Its own no-training scope and budget stay closed; PV1 has separate authority.
+WBC/plant/gripperPD/S1/score frozen, selected/deployment NONE, TF-R3 STOP retained.
 
 **FD1 CLOSED (2026-10-19 SGT): original40/42 preserved; no training or WBC change.**
 [Final failure-attribution review](reports/PI0294/20261016T191445Z-localpc-mp1/FD1_DIAG/FD1_FINAL_ROOT_CAUSE_REVIEW.md) ·

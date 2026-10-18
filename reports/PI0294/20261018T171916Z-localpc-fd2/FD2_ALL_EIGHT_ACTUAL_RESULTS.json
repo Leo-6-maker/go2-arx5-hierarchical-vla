@@ -1,0 +1,3264 @@
+{
+  "schema": "PI0294_FD2_ALL_EIGHT_ACTUAL_RESULT_V1",
+  "status": "COMPLETE_ALL_EIGHT_ACTUAL_AUDITED_CELLS",
+  "run_uuid": "20261018T171916Z-localpc-fd2",
+  "authority_release": "318445f17ed2093595e9df252cc56bb24280f805",
+  "runtime_source": "318445f17ed2093595e9df252cc56bb24280f805",
+  "actual_cells": 8,
+  "planned_cells": 8,
+  "scene_groups": 4,
+  "not_eight_independent_layouts": true,
+  "original_hold_scoring_window_s": [
+    28.0,
+    30.0
+  ],
+  "original_hold_samples": 41,
+  "per_clearance": {
+    "0.004": {
+      "planned": 4,
+      "attempted": 4,
+      "complete32": 4,
+      "task_successes": 4,
+      "original_S1_rejections": 0,
+      "actual_native_faults": 0,
+      "actual_robot_contact": 4,
+      "no_lift": 4,
+      "full_terminal41": 4,
+      "minimum_live_vertical_gap_m": 0.0003226769910055216,
+      "maximum_of_cell_minimum_live_vertical_gap_m": 0.0007298303430304798,
+      "minimum_raw_native_query_output_m": 0.00016133849550276563
+    },
+    "0.012": {
+      "planned": 4,
+      "attempted": 4,
+      "complete32": 4,
+      "task_successes": 4,
+      "original_S1_rejections": 0,
+      "actual_native_faults": 0,
+      "actual_robot_contact": 4,
+      "no_lift": 4,
+      "full_terminal41": 4,
+      "minimum_live_vertical_gap_m": 0.008246314698868829,
+      "maximum_of_cell_minimum_live_vertical_gap_m": 0.00867359041752469,
+      "minimum_raw_native_query_output_m": 0.004123157349434431
+    }
+  },
+  "rows": [
+    {
+      "id": "PI0294-FD2-G0-C04",
+      "scene_group": "PI0294/FD2/TRAIN/G0",
+      "direction": "+Y",
+      "nominal_clearance_m": 0.004,
+      "split": "TRAIN",
+      "task": "T2",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.00023973579862290872,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00017881251414231247,
+        "maximum_actual_carry_xy_m": 0.17191346176048491,
+        "physics_sha256": "3d14388f7ad0a70b061ba1d87b0a3d8010bfacd1039d77812e8b9deda1344bbb",
+        "raw_sample_count": 641
+      },
+      "independent_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.00023973579862290872,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "independent_full32_predicates_qualified": true,
+      "actual_duration_s": 32.0,
+      "live_ticks": 16000,
+      "camera_pairs": 641,
+      "S1_rejections": 0,
+      "actual_native_failures": 0,
+      "S1_maximum_live_shadow_difference": 9.592326932761353e-14,
+      "predicted_rejections": [],
+      "rejected_prefix_live_ticks": 0,
+      "final_command_stage": "hold",
+      "final_feedback_teacher_stage": "hold",
+      "phases_are_active_requested_prefix_stage_not_unique_physical_phase": true,
+      "first_actual_robot_contact_s": 11.542000000000524,
+      "actual_robot_contact_ticks": 4806,
+      "actual_highrate_maximum_displacement_m": 0.17191372378889896,
+      "actual_highrate_maximum_height_rise_m": 0.00023973579862290872,
+      "minimum_vertical_gap_during_actual_robot_contact_m": [
+        0.0039880895854464415,
+        0.003996399056966471
+      ],
+      "minimum_signed_pad_table_distance_during_actual_robot_contact_m": [
+        0.001994044792723229,
+        0.0019981995284832437
+      ],
+      "geometry": {
+        "minimum_live_vertical_gap_m": [
+          0.0008106072642499185,
+          0.0007298303430304798
+        ],
+        "minimum_live_signed_geom_distance_m": [
+          0.00040530363212498206,
+          0.00036491517151524065
+        ],
+        "minimum_predicted_shadow_signed_geom_distance_m": [
+          0.00040530363212498206,
+          0.00036491517151524065
+        ],
+        "live_force_contact_ticks": 4972,
+        "maximum_live_XYZ_reference_error_m": [
+          0.0052148024100532875,
+          0.008320810666306487,
+          0.0071281042959638885
+        ],
+        "maximum_live_SO3_reference_error_rad": 0.05971188768350054,
+        "maximum_live_gripper_reference_error": 1.0000178997347102,
+        "teacher_events": [
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "approach",
+            "stage": "close",
+            "time_s": 8.399999999999475
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "close",
+            "stage": "align",
+            "time_s": 9.499999999999842
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "align",
+            "stage": "contact",
+            "time_s": 11.100000000000376
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.00010186972247635332,
+            "previous": "contact",
+            "stage": "push",
+            "time_s": 11.550000000000527
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.17185690052892252,
+            "previous": "push",
+            "stage": "detach",
+            "time_s": 21.84999999999877
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17182258685216603,
+            "previous": "detach",
+            "stage": "withdraw",
+            "time_s": 23.099999999998076
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17182258685200252,
+            "previous": "withdraw",
+            "stage": "hold",
+            "time_s": 25.59999999999669
+          }
+        ],
+        "nominal_clearance_m": 0.004
+      },
+      "requested_prefix_stage_metrics": {
+        "approach": {
+          "recorded_ticks": 4200,
+          "minimum_vertical_gap_m": [
+            0.07999999995404766,
+            0.07999999996619284
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.039999999977023824,
+            0.03999999998309644
+          ]
+        },
+        "close": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.0839911507945314,
+            0.08399754848312851
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0419955753972657,
+            0.041998774241564264
+          ]
+        },
+        "align": {
+          "recorded_ticks": 800,
+          "minimum_vertical_gap_m": [
+            0.0008647674465981359,
+            0.0007840742834769321
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0004323837232990823,
+            0.0003920371417384804
+          ]
+        },
+        "contact": {
+          "recorded_ticks": 200,
+          "minimum_vertical_gap_m": [
+            0.0008106072642499185,
+            0.0007298303430304798
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.00040530363212498206,
+            0.00036491517151524065
+          ]
+        },
+        "push": {
+          "recorded_ticks": 5200,
+          "minimum_vertical_gap_m": [
+            0.004508742283225731,
+            0.004521704269614901
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0022543711416128836,
+            0.002260852134807469
+          ]
+        },
+        "detach": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.0057679924308577935,
+            0.00582162049079854
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0028839962154289193,
+            0.0029108102453992927
+          ]
+        },
+        "withdraw": {
+          "recorded_ticks": 1200,
+          "minimum_vertical_gap_m": [
+            0.0059003659079151505,
+            0.005970435424919429
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.002950182953957591,
+            0.0029852177124597102
+          ]
+        },
+        "hold": {
+          "recorded_ticks": 3200,
+          "minimum_vertical_gap_m": [
+            0.13458885166640572,
+            0.13506382295104197
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.06729442583320289,
+            0.06753191147552103
+          ]
+        }
+      },
+      "initial_state": {
+        "model_xml_sha256": "b334d80cd10f20238ae41a085dfeea8563e106c2f804fa7b72ba23e883b95524",
+        "object_pose": [
+          [
+            0.9993155780864782,
+            -0.036991558411180805,
+            0.0,
+            0.438
+          ],
+          [
+            0.036991558411180805,
+            0.9993155780864782,
+            0.0,
+            -0.091
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.46
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "paired_scene_sha256": "147434040a851c4f96ede74a1947e951f7f47fbea423a5200c4328d06cc8bc41",
+        "qpos": [
+          -0.23043285384948067,
+          2.0949328153636135,
+          1.6700981716177754,
+          -1.1459616826170897,
+          2.988880302111363e-11,
+          -0.2304328538135179,
+          0.044,
+          0.044,
+          0.438,
+          -0.091,
+          0.46,
+          0.9998288798805719,
+          0.0,
+          0.0,
+          0.01849894474722484
+        ],
+        "qvel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "tcp": [
+          [
+            4.1372411052285285e-10,
+            3.5962693026400285e-11,
+            1.0000000000000004,
+            0.43799999988233845
+          ],
+          [
+            -1.2775995421068532e-10,
+            1.0000000000000004,
+            -3.596269297354292e-11,
+            -0.09100000000551135
+          ],
+          [
+            -1.0000000000000004,
+            -1.2775995419580672e-10,
+            4.1372411052955415e-10,
+            0.5399999999677657
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "initial_camera_sha256": {
+        "body_rgb": "3b328eb6aa1860f64bb3787e6d8526534ed5f2dfd93089e0a4edfc1202eda22f",
+        "wrist_rgb": "4df5f306dbc63b41393fbee0bd87f7667e3b82b1deb486f3584bfa07ccefa81c"
+      },
+      "audit_checks": {
+        "all_raw_manifest_sizes_hashes_no_escape": true,
+        "actual_pinned_source": true,
+        "fixed_card_and_reservation": true,
+        "all_actual_camera_hashes": true,
+        "unchanged_reference_command_labels": true,
+        "original_command_clock": true,
+        "complete_actual_live_tick_clock": true,
+        "zero_external_forces": true,
+        "exact_original_saved_score": true,
+        "independent_push_predicates": true,
+        "original_S1_actions_unmodified": true,
+        "original_S1_parity_and_nonmutation": true,
+        "S1_reject_count": true,
+        "rejected_prefix_zero_live": true,
+        "four_actual_negative_binding_checks": true,
+        "passive_live_measurement_every_tick": true,
+        "passive_observer_no_native_calls_or_mutations": true,
+        "actual_both_camera_counts": true,
+        "RGB_0_0": true,
+        "RGB_1_0": true,
+        "RGB_0_640": true,
+        "RGB_1_640": true,
+        "raw_manifest_unchanged_during_audit": true
+      },
+      "audit_status": "PASS_INDEPENDENT_SAVED_BYTE_AUDIT",
+      "audit_sha256": "eb2e14c83040dc1249cc85579f544cfd84f9760bd8cbf56bbda377ae34fd53f0",
+      "raw_manifest_sha256": "08a56f8a1f55d1ce4f97e195572cb3867b4b6c6f6b13bdeeedc09dd4cd917d09",
+      "result_sha256": "c30686a3914a579c24c367b2ceff9bd9f40a3ac5fe405ff72adcc597b5596e5e",
+      "dynamic_measurement_sha256": "b9e1d61ba1cbaf3ebc365d879f8857910167f819ffe8686a6eb7500f84e735fa",
+      "video": {
+        "sha256": "61177ab71d835c6ae78a58928bc6eb7f25f0197439a7ab436b2ffe6ac04d42cb",
+        "bytes": 865958,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "relative_path": "evidence/audits/PI0294-FD2-G0-C04/actual-body-wrist.mp4",
+        "original_local_capture_prepublication_private": true,
+        "final_public_copy_status": "PASS_ALL_EIGHT_PUBLIC_VIDEOS_FIXED_REVISION_READBACK",
+        "fixed_public_copy_url": "https://huggingface.co/datasets/leoyuer/pi0294-public-artifacts/blob/471e3cb3fd67d4a92585114d199744d4119fe49d/PI0294/20261018T171916Z-localpc-fd2/FD2_DYNAMIC_TEACHER_CLEARANCE_ACTUAL_V1/movies/PI0294-FD2-G0-C04.mp4"
+      },
+      "observed_timing_resolution_s": 0.002,
+      "GR00T_queries": 0,
+      "new_training_updates": 0
+    },
+    {
+      "id": "PI0294-FD2-G0-C12",
+      "scene_group": "PI0294/FD2/TRAIN/G0",
+      "direction": "+Y",
+      "nominal_clearance_m": 0.012,
+      "split": "TRAIN",
+      "task": "T2",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.0002309420512212057,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.0001890175383074677,
+        "maximum_actual_carry_xy_m": 0.17174622207869222,
+        "physics_sha256": "a86bffacabe744acc038bc68190c0e5207f4799475efcf124ed49fe7e8e54c8a",
+        "raw_sample_count": 641
+      },
+      "independent_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.0002309420512212057,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "independent_full32_predicates_qualified": true,
+      "actual_duration_s": 32.0,
+      "live_ticks": 16000,
+      "camera_pairs": 641,
+      "S1_rejections": 0,
+      "actual_native_failures": 0,
+      "S1_maximum_live_shadow_difference": 1.4210854715202004e-13,
+      "predicted_rejections": [],
+      "rejected_prefix_live_ticks": 0,
+      "final_command_stage": "hold",
+      "final_feedback_teacher_stage": "hold",
+      "phases_are_active_requested_prefix_stage_not_unique_physical_phase": true,
+      "first_actual_robot_contact_s": 11.542000000000524,
+      "actual_robot_contact_ticks": 4826,
+      "actual_highrate_maximum_displacement_m": 0.17174680753285793,
+      "actual_highrate_maximum_height_rise_m": 0.0002309420512212057,
+      "minimum_vertical_gap_during_actual_robot_contact_m": [
+        0.011990533556310357,
+        0.011999376925686867
+      ],
+      "minimum_signed_pad_table_distance_during_actual_robot_contact_m": [
+        0.005995266778155199,
+        0.005999688462843454
+      ],
+      "geometry": {
+        "minimum_live_vertical_gap_m": [
+          0.00875516339851845,
+          0.00867359041752469
+        ],
+        "minimum_live_signed_geom_distance_m": [
+          0.00437758169925923,
+          0.004336795208762345
+        ],
+        "minimum_predicted_shadow_signed_geom_distance_m": [
+          0.00437758169925923,
+          0.004336795208762345
+        ],
+        "live_force_contact_ticks": 4980,
+        "maximum_live_XYZ_reference_error_m": [
+          0.004865402572393263,
+          0.008464748158845938,
+          0.0070882121536038345
+        ],
+        "maximum_live_SO3_reference_error_rad": 0.059530439941104414,
+        "maximum_live_gripper_reference_error": 1.0000234822535419,
+        "teacher_events": [
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "approach",
+            "stage": "close",
+            "time_s": 8.399999999999475
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "close",
+            "stage": "align",
+            "time_s": 9.499999999999842
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "align",
+            "stage": "contact",
+            "time_s": 11.100000000000376
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 9.480010933307009e-05,
+            "previous": "contact",
+            "stage": "push",
+            "time_s": 11.550000000000527
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.17170282251421834,
+            "previous": "push",
+            "stage": "detach",
+            "time_s": 21.84999999999877
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17165006955789597,
+            "previous": "detach",
+            "stage": "withdraw",
+            "time_s": 23.099999999998076
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17165006955772424,
+            "previous": "withdraw",
+            "stage": "hold",
+            "time_s": 25.59999999999669
+          }
+        ],
+        "nominal_clearance_m": 0.012
+      },
+      "requested_prefix_stage_metrics": {
+        "approach": {
+          "recorded_ticks": 4200,
+          "minimum_vertical_gap_m": [
+            0.07999999995404766,
+            0.07999999996619284
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.039999999977023824,
+            0.03999999998309644
+          ]
+        },
+        "close": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.09198467412372519,
+            0.09199577939717157
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.04599233706186262,
+            0.04599788969858577
+          ]
+        },
+        "align": {
+          "recorded_ticks": 800,
+          "minimum_vertical_gap_m": [
+            0.008807382440412737,
+            0.008725375337459151
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.004403691220206363,
+            0.0043626876687295705
+          ]
+        },
+        "contact": {
+          "recorded_ticks": 200,
+          "minimum_vertical_gap_m": [
+            0.00875516339851845,
+            0.00867359041752469
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.00437758169925923,
+            0.004336795208762345
+          ]
+        },
+        "push": {
+          "recorded_ticks": 5200,
+          "minimum_vertical_gap_m": [
+            0.012334625000074928,
+            0.012336122635711932
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.006167312500037461,
+            0.006168061317855975
+          ]
+        },
+        "detach": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.013774733023173169,
+            0.013827834360717828
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.006887366511586607,
+            0.0069139171803589364
+          ]
+        },
+        "withdraw": {
+          "recorded_ticks": 1200,
+          "minimum_vertical_gap_m": [
+            0.013897738952451555,
+            0.013967319369863729
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0069488694762257774,
+            0.006983659684931877
+          ]
+        },
+        "hold": {
+          "recorded_ticks": 3200,
+          "minimum_vertical_gap_m": [
+            0.1425282297328258,
+            0.1429754916585641
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0712641148664129,
+            0.07148774582928205
+          ]
+        }
+      },
+      "initial_state": {
+        "model_xml_sha256": "b334d80cd10f20238ae41a085dfeea8563e106c2f804fa7b72ba23e883b95524",
+        "object_pose": [
+          [
+            0.9993155780864782,
+            -0.036991558411180805,
+            0.0,
+            0.438
+          ],
+          [
+            0.036991558411180805,
+            0.9993155780864782,
+            0.0,
+            -0.091
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.46
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "paired_scene_sha256": "147434040a851c4f96ede74a1947e951f7f47fbea423a5200c4328d06cc8bc41",
+        "qpos": [
+          -0.23043285384948067,
+          2.0949328153636135,
+          1.6700981716177754,
+          -1.1459616826170897,
+          2.988880302111363e-11,
+          -0.2304328538135179,
+          0.044,
+          0.044,
+          0.438,
+          -0.091,
+          0.46,
+          0.9998288798805719,
+          0.0,
+          0.0,
+          0.01849894474722484
+        ],
+        "qvel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "tcp": [
+          [
+            4.1372411052285285e-10,
+            3.5962693026400285e-11,
+            1.0000000000000004,
+            0.43799999988233845
+          ],
+          [
+            -1.2775995421068532e-10,
+            1.0000000000000004,
+            -3.596269297354292e-11,
+            -0.09100000000551135
+          ],
+          [
+            -1.0000000000000004,
+            -1.2775995419580672e-10,
+            4.1372411052955415e-10,
+            0.5399999999677657
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "initial_camera_sha256": {
+        "body_rgb": "3b328eb6aa1860f64bb3787e6d8526534ed5f2dfd93089e0a4edfc1202eda22f",
+        "wrist_rgb": "4df5f306dbc63b41393fbee0bd87f7667e3b82b1deb486f3584bfa07ccefa81c"
+      },
+      "audit_checks": {
+        "all_raw_manifest_sizes_hashes_no_escape": true,
+        "actual_pinned_source": true,
+        "fixed_card_and_reservation": true,
+        "all_actual_camera_hashes": true,
+        "unchanged_reference_command_labels": true,
+        "original_command_clock": true,
+        "complete_actual_live_tick_clock": true,
+        "zero_external_forces": true,
+        "exact_original_saved_score": true,
+        "independent_push_predicates": true,
+        "original_S1_actions_unmodified": true,
+        "original_S1_parity_and_nonmutation": true,
+        "S1_reject_count": true,
+        "rejected_prefix_zero_live": true,
+        "four_actual_negative_binding_checks": true,
+        "passive_live_measurement_every_tick": true,
+        "passive_observer_no_native_calls_or_mutations": true,
+        "actual_both_camera_counts": true,
+        "RGB_0_0": true,
+        "RGB_1_0": true,
+        "RGB_0_640": true,
+        "RGB_1_640": true,
+        "raw_manifest_unchanged_during_audit": true
+      },
+      "audit_status": "PASS_INDEPENDENT_SAVED_BYTE_AUDIT",
+      "audit_sha256": "c41c524c07842a76f1491d1f77818859964a7a29be2a4efebcab66754a338e69",
+      "raw_manifest_sha256": "1bb33f9b540ed5f7fbdf32af52aedc2b0347dc2bca13af906d34ac86d4725249",
+      "result_sha256": "a12ced65b377f0f7a36d87b41dbd6b0872993326cbd0bfcdaffa156648a70345",
+      "dynamic_measurement_sha256": "6a9ba23a3bbdad283e9c260d0ce57a002c2f0a412e1704740d5e5ae810b43ed6",
+      "video": {
+        "sha256": "9b6d5a5c7e6965acbfedebdb6cea73ee9d65e4f2d091ed02eda27d58492492ed",
+        "bytes": 855852,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "relative_path": "evidence/audits/PI0294-FD2-G0-C12/actual-body-wrist.mp4",
+        "original_local_capture_prepublication_private": true,
+        "final_public_copy_status": "PASS_ALL_EIGHT_PUBLIC_VIDEOS_FIXED_REVISION_READBACK",
+        "fixed_public_copy_url": "https://huggingface.co/datasets/leoyuer/pi0294-public-artifacts/blob/471e3cb3fd67d4a92585114d199744d4119fe49d/PI0294/20261018T171916Z-localpc-fd2/FD2_DYNAMIC_TEACHER_CLEARANCE_ACTUAL_V1/movies/PI0294-FD2-G0-C12.mp4"
+      },
+      "observed_timing_resolution_s": 0.002,
+      "GR00T_queries": 0,
+      "new_training_updates": 0
+    },
+    {
+      "id": "PI0294-FD2-G1-C12",
+      "scene_group": "PI0294/FD2/TRAIN/G1",
+      "direction": "+Y",
+      "nominal_clearance_m": 0.012,
+      "split": "TRAIN",
+      "task": "T2",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.0002868227424029368,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00021707754719718642,
+        "maximum_actual_carry_xy_m": 0.1757135843854886,
+        "physics_sha256": "9562638415712dd931a0bd82cf3face016eae040b7beb25ffdda22547477463b",
+        "raw_sample_count": 641
+      },
+      "independent_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.0002868227424029368,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "independent_full32_predicates_qualified": true,
+      "actual_duration_s": 32.0,
+      "live_ticks": 16000,
+      "camera_pairs": 641,
+      "S1_rejections": 0,
+      "actual_native_failures": 0,
+      "S1_maximum_live_shadow_difference": 1.7053025658242404e-13,
+      "predicted_rejections": [],
+      "rejected_prefix_live_ticks": 0,
+      "final_command_stage": "hold",
+      "final_feedback_teacher_stage": "hold",
+      "phases_are_active_requested_prefix_stage_not_unique_physical_phase": true,
+      "first_actual_robot_contact_s": 11.550000000000527,
+      "actual_robot_contact_ticks": 4859,
+      "actual_highrate_maximum_displacement_m": 0.17571557989517206,
+      "actual_highrate_maximum_height_rise_m": 0.0002868227424029368,
+      "minimum_vertical_gap_during_actual_robot_contact_m": [
+        0.012114753222653818,
+        0.01212679744892603
+      ],
+      "minimum_signed_pad_table_distance_during_actual_robot_contact_m": [
+        0.006057376611326913,
+        0.006063398724463019
+      ],
+      "geometry": {
+        "minimum_live_vertical_gap_m": [
+          0.008329009042351121,
+          0.008246314698868829
+        ],
+        "minimum_live_signed_geom_distance_m": [
+          0.004164504521175578,
+          0.004123157349434431
+        ],
+        "minimum_predicted_shadow_signed_geom_distance_m": [
+          0.004164504521175578,
+          0.004123157349434431
+        ],
+        "live_force_contact_ticks": 4954,
+        "maximum_live_XYZ_reference_error_m": [
+          0.004900757512802556,
+          0.008034174456760336,
+          0.0068404442975463775
+        ],
+        "maximum_live_SO3_reference_error_rad": 0.0590667189875984,
+        "maximum_live_gripper_reference_error": 1.0000108411566437,
+        "teacher_events": [
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "approach",
+            "stage": "close",
+            "time_s": 8.399999999999475
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "close",
+            "stage": "align",
+            "time_s": 9.499999999999842
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "align",
+            "stage": "contact",
+            "time_s": 11.100000000000376
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.0,
+            "previous": "contact",
+            "stage": "push",
+            "time_s": 11.550000000000527
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.1756030680317877,
+            "previous": "push",
+            "stage": "detach",
+            "time_s": 21.799999999998796
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17562263105506318,
+            "previous": "detach",
+            "stage": "withdraw",
+            "time_s": 23.099999999998076
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17562263105489737,
+            "previous": "withdraw",
+            "stage": "hold",
+            "time_s": 25.59999999999669
+          }
+        ],
+        "nominal_clearance_m": 0.012
+      },
+      "requested_prefix_stage_metrics": {
+        "approach": {
+          "recorded_ticks": 4200,
+          "minimum_vertical_gap_m": [
+            0.07999999999010493,
+            0.07999999999290891
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.03999999999505249,
+            0.03999999999645448
+          ]
+        },
+        "close": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.09197975542408282,
+            0.09198998079763315
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0459898777120414,
+            0.04599499039881656
+          ]
+        },
+        "align": {
+          "recorded_ticks": 800,
+          "minimum_vertical_gap_m": [
+            0.008514036107014566,
+            0.00843193503571038
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.004257018053507284,
+            0.004215967517855191
+          ]
+        },
+        "contact": {
+          "recorded_ticks": 200,
+          "minimum_vertical_gap_m": [
+            0.008329009042351121,
+            0.008246314698868829
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.004164504521175578,
+            0.004123157349434431
+          ]
+        },
+        "push": {
+          "recorded_ticks": 5200,
+          "minimum_vertical_gap_m": [
+            0.012495600075707991,
+            0.01250100701557122
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.006247800037854012,
+            0.006250503507785633
+          ]
+        },
+        "detach": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.013838366094553023,
+            0.013885307262402335
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0069191830472765305,
+            0.006942653631201187
+          ]
+        },
+        "withdraw": {
+          "recorded_ticks": 1200,
+          "minimum_vertical_gap_m": [
+            0.013920262680505668,
+            0.013985399400042342
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.006960131340252852,
+            0.006992699700021171
+          ]
+        },
+        "hold": {
+          "recorded_ticks": 3200,
+          "minimum_vertical_gap_m": [
+            0.14183198535673175,
+            0.141963456577403
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.07091599267836587,
+            0.07098172828870153
+          ]
+        }
+      },
+      "initial_state": {
+        "model_xml_sha256": "6a152428425fa4c331262f497e62b774b290fa62ca874750b3baa0585927017e",
+        "object_pose": [
+          [
+            0.9986997818589369,
+            0.05097789437503237,
+            0.0,
+            0.466
+          ],
+          [
+            -0.05097789437503237,
+            0.9986997818589369,
+            -0.0,
+            -0.08299999999999999
+          ],
+          [
+            -0.0,
+            0.0,
+            1.0,
+            0.46
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "paired_scene_sha256": "c774258c5c3a907e56515656e286507c4ddb632b01320ce7d56703cc6b69fede",
+        "qpos": [
+          -0.1969820052903538,
+          2.1993191981610574,
+          1.8350942150338518,
+          -1.2065713435395444,
+          4.5056195975434906e-12,
+          -0.1969820052846254,
+          0.044,
+          0.044,
+          0.466,
+          -0.08299999999999999,
+          0.46,
+          0.9996748926173291,
+          0.0,
+          0.0,
+          -0.02549723652734893
+        ],
+        "qvel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "tcp": [
+          [
+            1.2478668098820953e-10,
+            5.728384206569575e-12,
+            1.0,
+            0.4659999999850621
+          ],
+          [
+            -2.949817094634604e-11,
+            1.0,
+            -5.728384202888596e-12,
+            -0.08299999999787563
+          ],
+          [
+            -1.0,
+            -2.9498170945631214e-11,
+            1.2478668098851977e-10,
+            0.5399999999937697
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "initial_camera_sha256": {
+        "body_rgb": "3f879b928bb6c8e8663b2391cd41f4b7402ef41567752631c8222f8813b7aeb1",
+        "wrist_rgb": "0f3d590828f6deb8edb5cead757002a22dac9b2eb5a329cfd60ba777fef3614a"
+      },
+      "audit_checks": {
+        "all_raw_manifest_sizes_hashes_no_escape": true,
+        "actual_pinned_source": true,
+        "fixed_card_and_reservation": true,
+        "all_actual_camera_hashes": true,
+        "unchanged_reference_command_labels": true,
+        "original_command_clock": true,
+        "complete_actual_live_tick_clock": true,
+        "zero_external_forces": true,
+        "exact_original_saved_score": true,
+        "independent_push_predicates": true,
+        "original_S1_actions_unmodified": true,
+        "original_S1_parity_and_nonmutation": true,
+        "S1_reject_count": true,
+        "rejected_prefix_zero_live": true,
+        "four_actual_negative_binding_checks": true,
+        "passive_live_measurement_every_tick": true,
+        "passive_observer_no_native_calls_or_mutations": true,
+        "actual_both_camera_counts": true,
+        "RGB_0_0": true,
+        "RGB_1_0": true,
+        "RGB_0_640": true,
+        "RGB_1_640": true,
+        "raw_manifest_unchanged_during_audit": true
+      },
+      "audit_status": "PASS_INDEPENDENT_SAVED_BYTE_AUDIT",
+      "audit_sha256": "83abc56016ec45993f1d344591082f5155eb77957dc18114bae68d835cc79918",
+      "raw_manifest_sha256": "fc9b5ecf595e0f419fb1959f24984d83ad9c636fd0f114444a1cd9693bb5dddc",
+      "result_sha256": "e119e84735a60552aac27d04b299803f07899626ee5e8d69d5a62a29fd23d67d",
+      "dynamic_measurement_sha256": "88e67174ad20200f9821d01ea7f4d5253b4d3aa0419f49ee25c05da97c055f15",
+      "video": {
+        "sha256": "8b84dc3e6c7ed8b07c93400cf41ae54c41b2b6b277db4252a3cc89df336d0cbc",
+        "bytes": 858114,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "relative_path": "evidence/audits/PI0294-FD2-G1-C12/actual-body-wrist.mp4",
+        "original_local_capture_prepublication_private": true,
+        "final_public_copy_status": "PASS_ALL_EIGHT_PUBLIC_VIDEOS_FIXED_REVISION_READBACK",
+        "fixed_public_copy_url": "https://huggingface.co/datasets/leoyuer/pi0294-public-artifacts/blob/471e3cb3fd67d4a92585114d199744d4119fe49d/PI0294/20261018T171916Z-localpc-fd2/FD2_DYNAMIC_TEACHER_CLEARANCE_ACTUAL_V1/movies/PI0294-FD2-G1-C12.mp4"
+      },
+      "observed_timing_resolution_s": 0.002,
+      "GR00T_queries": 0,
+      "new_training_updates": 0
+    },
+    {
+      "id": "PI0294-FD2-G1-C04",
+      "scene_group": "PI0294/FD2/TRAIN/G1",
+      "direction": "+Y",
+      "nominal_clearance_m": 0.004,
+      "split": "TRAIN",
+      "task": "T2",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.00030441992962570996,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00019772406438312018,
+        "maximum_actual_carry_xy_m": 0.1759715370222316,
+        "physics_sha256": "5c2c96c1804f49e15cc504c0666b49baca3e2e5aa0f68cedfec3d7a56c5830ac",
+        "raw_sample_count": 641
+      },
+      "independent_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.00030441992962570996,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "independent_full32_predicates_qualified": true,
+      "actual_duration_s": 32.0,
+      "live_ticks": 16000,
+      "camera_pairs": 641,
+      "S1_rejections": 0,
+      "actual_native_failures": 0,
+      "S1_maximum_live_shadow_difference": 2.1316282072803006e-13,
+      "predicted_rejections": [],
+      "rejected_prefix_live_ticks": 0,
+      "final_command_stage": "hold",
+      "final_feedback_teacher_stage": "hold",
+      "phases_are_active_requested_prefix_stage_not_unique_physical_phase": true,
+      "first_actual_robot_contact_s": 11.548000000000526,
+      "actual_robot_contact_ticks": 4611,
+      "actual_highrate_maximum_displacement_m": 0.17597371002171916,
+      "actual_highrate_maximum_height_rise_m": 0.00030441992962570996,
+      "minimum_vertical_gap_during_actual_robot_contact_m": [
+        0.004088160204352431,
+        0.004099523835345342
+      ],
+      "minimum_signed_pad_table_distance_during_actual_robot_contact_m": [
+        0.0020440801021762256,
+        0.002049761917672681
+      ],
+      "geometry": {
+        "minimum_live_vertical_gap_m": [
+          0.000404447588042145,
+          0.0003226769910055216
+        ],
+        "minimum_live_signed_geom_distance_m": [
+          0.00020222379402107731,
+          0.00016133849550276563
+        ],
+        "minimum_predicted_shadow_signed_geom_distance_m": [
+          0.00020222379402107731,
+          0.00016133849550276563
+        ],
+        "live_force_contact_ticks": 4749,
+        "maximum_live_XYZ_reference_error_m": [
+          0.004805327148845739,
+          0.007778397969833747,
+          0.00626948134375982
+        ],
+        "maximum_live_SO3_reference_error_rad": 0.059238633015506595,
+        "maximum_live_gripper_reference_error": 1.0000175413060741,
+        "teacher_events": [
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "approach",
+            "stage": "close",
+            "time_s": 8.399999999999475
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "close",
+            "stage": "align",
+            "time_s": 9.499999999999842
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "align",
+            "stage": "contact",
+            "time_s": 11.100000000000376
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 1.632903687624468e-05,
+            "previous": "contact",
+            "stage": "push",
+            "time_s": 11.550000000000527
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.17582627642313886,
+            "previous": "push",
+            "stage": "detach",
+            "time_s": 21.399999999999018
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17588720425638044,
+            "previous": "detach",
+            "stage": "withdraw",
+            "time_s": 22.699999999998298
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17588720425622434,
+            "previous": "withdraw",
+            "stage": "hold",
+            "time_s": 25.199999999996912
+          }
+        ],
+        "nominal_clearance_m": 0.004
+      },
+      "requested_prefix_stage_metrics": {
+        "approach": {
+          "recorded_ticks": 4200,
+          "minimum_vertical_gap_m": [
+            0.07999999999010493,
+            0.07999999999290891
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.03999999999505249,
+            0.03999999999645448
+          ]
+        },
+        "close": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.0839875286029455,
+            0.08399645248465598
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.04199376430147276,
+            0.041998226242328
+          ]
+        },
+        "align": {
+          "recorded_ticks": 800,
+          "minimum_vertical_gap_m": [
+            0.0005676153679591844,
+            0.0004867313739833068
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0002838076839795961,
+            0.0002433656869916573
+          ]
+        },
+        "contact": {
+          "recorded_ticks": 200,
+          "minimum_vertical_gap_m": [
+            0.000404447588042145,
+            0.0003226769910055216
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.00020222379402107731,
+            0.00016133849550276563
+          ]
+        },
+        "push": {
+          "recorded_ticks": 5000,
+          "minimum_vertical_gap_m": [
+            0.004585955616537074,
+            0.0046011696333520535
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0022929778082685405,
+            0.0023005848166760302
+          ]
+        },
+        "detach": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.005824274442109423,
+            0.005872403984650942
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0029121372210547114,
+            0.002936201992325485
+          ]
+        },
+        "withdraw": {
+          "recorded_ticks": 1200,
+          "minimum_vertical_gap_m": [
+            0.005920774895862402,
+            0.005987307295803601
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0029603874479312013,
+            0.002993653647901812
+          ]
+        },
+        "hold": {
+          "recorded_ticks": 3400,
+          "minimum_vertical_gap_m": [
+            0.13388049576704725,
+            0.13404455887426064
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.06694024788352365,
+            0.06702227943713034
+          ]
+        }
+      },
+      "initial_state": {
+        "model_xml_sha256": "6a152428425fa4c331262f497e62b774b290fa62ca874750b3baa0585927017e",
+        "object_pose": [
+          [
+            0.9986997818589369,
+            0.05097789437503237,
+            0.0,
+            0.466
+          ],
+          [
+            -0.05097789437503237,
+            0.9986997818589369,
+            -0.0,
+            -0.08299999999999999
+          ],
+          [
+            -0.0,
+            0.0,
+            1.0,
+            0.46
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "paired_scene_sha256": "c774258c5c3a907e56515656e286507c4ddb632b01320ce7d56703cc6b69fede",
+        "qpos": [
+          -0.1969820052903538,
+          2.1993191981610574,
+          1.8350942150338518,
+          -1.2065713435395444,
+          4.5056195975434906e-12,
+          -0.1969820052846254,
+          0.044,
+          0.044,
+          0.466,
+          -0.08299999999999999,
+          0.46,
+          0.9996748926173291,
+          0.0,
+          0.0,
+          -0.02549723652734893
+        ],
+        "qvel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "tcp": [
+          [
+            1.2478668098820953e-10,
+            5.728384206569575e-12,
+            1.0,
+            0.4659999999850621
+          ],
+          [
+            -2.949817094634604e-11,
+            1.0,
+            -5.728384202888596e-12,
+            -0.08299999999787563
+          ],
+          [
+            -1.0,
+            -2.9498170945631214e-11,
+            1.2478668098851977e-10,
+            0.5399999999937697
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "initial_camera_sha256": {
+        "body_rgb": "3f879b928bb6c8e8663b2391cd41f4b7402ef41567752631c8222f8813b7aeb1",
+        "wrist_rgb": "0f3d590828f6deb8edb5cead757002a22dac9b2eb5a329cfd60ba777fef3614a"
+      },
+      "audit_checks": {
+        "all_raw_manifest_sizes_hashes_no_escape": true,
+        "actual_pinned_source": true,
+        "fixed_card_and_reservation": true,
+        "all_actual_camera_hashes": true,
+        "unchanged_reference_command_labels": true,
+        "original_command_clock": true,
+        "complete_actual_live_tick_clock": true,
+        "zero_external_forces": true,
+        "exact_original_saved_score": true,
+        "independent_push_predicates": true,
+        "original_S1_actions_unmodified": true,
+        "original_S1_parity_and_nonmutation": true,
+        "S1_reject_count": true,
+        "rejected_prefix_zero_live": true,
+        "four_actual_negative_binding_checks": true,
+        "passive_live_measurement_every_tick": true,
+        "passive_observer_no_native_calls_or_mutations": true,
+        "actual_both_camera_counts": true,
+        "RGB_0_0": true,
+        "RGB_1_0": true,
+        "RGB_0_640": true,
+        "RGB_1_640": true,
+        "raw_manifest_unchanged_during_audit": true
+      },
+      "audit_status": "PASS_INDEPENDENT_SAVED_BYTE_AUDIT",
+      "audit_sha256": "a150bb7dc3a510acb4143e94e02f8c436d1d4520ab30b0d61b239c1a4ad4c06e",
+      "raw_manifest_sha256": "c3a61ccaf1847f427a4e0a67744e69a448715a8226ee03ffb630d65742476ce6",
+      "result_sha256": "e177ccd3ea23e2f8f70a1d130aa306dd0d16f3d2f9bcc09102bfb0ed5f5e9e83",
+      "dynamic_measurement_sha256": "8eea2993e0828924d98dcddcf61b78646a7ebe5aa6c609cb68f0dcab58c84542",
+      "video": {
+        "sha256": "9b608f765c062916e8205c693ab51a5914103ad5f1c523edca5304411ce76ce9",
+        "bytes": 856971,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "relative_path": "evidence/audits/PI0294-FD2-G1-C04/actual-body-wrist.mp4",
+        "original_local_capture_prepublication_private": true,
+        "final_public_copy_status": "PASS_ALL_EIGHT_PUBLIC_VIDEOS_FIXED_REVISION_READBACK",
+        "fixed_public_copy_url": "https://huggingface.co/datasets/leoyuer/pi0294-public-artifacts/blob/471e3cb3fd67d4a92585114d199744d4119fe49d/PI0294/20261018T171916Z-localpc-fd2/FD2_DYNAMIC_TEACHER_CLEARANCE_ACTUAL_V1/movies/PI0294-FD2-G1-C04.mp4"
+      },
+      "observed_timing_resolution_s": 0.002,
+      "GR00T_queries": 0,
+      "new_training_updates": 0
+    },
+    {
+      "id": "PI0294-FD2-G2-C04",
+      "scene_group": "PI0294/FD2/TRAIN/G2",
+      "direction": "-Y",
+      "nominal_clearance_m": 0.004,
+      "split": "TRAIN",
+      "task": "T2",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.00022824143466226854,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00016561665191927588,
+        "maximum_actual_carry_xy_m": 0.1794512671995658,
+        "physics_sha256": "c4fe0b69d3be23e7f154a07ffb908ba3ab3f46f4651ec1bae4fc388f79881950",
+        "raw_sample_count": 641
+      },
+      "independent_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.00022824143466226854,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "independent_full32_predicates_qualified": true,
+      "actual_duration_s": 32.0,
+      "live_ticks": 16000,
+      "camera_pairs": 641,
+      "S1_rejections": 0,
+      "actual_native_failures": 0,
+      "S1_maximum_live_shadow_difference": 1.7053025658242404e-13,
+      "predicted_rejections": [],
+      "rejected_prefix_live_ticks": 0,
+      "final_command_stage": "hold",
+      "final_feedback_teacher_stage": "hold",
+      "phases_are_active_requested_prefix_stage_not_unique_physical_phase": true,
+      "first_actual_robot_contact_s": 11.542000000000524,
+      "actual_robot_contact_ticks": 4538,
+      "actual_highrate_maximum_displacement_m": 0.17945261281171224,
+      "actual_highrate_maximum_height_rise_m": 0.00022824143466226854,
+      "minimum_vertical_gap_during_actual_robot_contact_m": [
+        0.00401749159519682,
+        0.004009573872370387
+      ],
+      "minimum_signed_pad_table_distance_during_actual_robot_contact_m": [
+        0.002008745797598412,
+        0.002004786936185195
+      ],
+      "geometry": {
+        "minimum_live_vertical_gap_m": [
+          0.0006038851687903413,
+          0.0006846075144875119
+        ],
+        "minimum_live_signed_geom_distance_m": [
+          0.0003019425843951822,
+          0.0003423037572437608
+        ],
+        "minimum_predicted_shadow_signed_geom_distance_m": [
+          0.0003019425843951822,
+          0.0003423037572437608
+        ],
+        "live_force_contact_ticks": 4603,
+        "maximum_live_XYZ_reference_error_m": [
+          0.005049004520101985,
+          0.007622045086184345,
+          0.006876371239635526
+        ],
+        "maximum_live_SO3_reference_error_rad": 0.0595396865141966,
+        "maximum_live_gripper_reference_error": 0.9999326675365398,
+        "teacher_events": [
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "approach",
+            "stage": "close",
+            "time_s": 8.399999999999475
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "close",
+            "stage": "align",
+            "time_s": 9.499999999999842
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "align",
+            "stage": "contact",
+            "time_s": 11.100000000000376
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 9.802442234547792e-05,
+            "previous": "contact",
+            "stage": "push",
+            "time_s": 11.550000000000527
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.17928396692814969,
+            "previous": "push",
+            "stage": "detach",
+            "time_s": 20.99999999999924
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.179373329165045,
+            "previous": "detach",
+            "stage": "withdraw",
+            "time_s": 22.29999999999852
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17937332916492907,
+            "previous": "withdraw",
+            "stage": "hold",
+            "time_s": 24.799999999997134
+          }
+        ],
+        "nominal_clearance_m": 0.004
+      },
+      "requested_prefix_stage_metrics": {
+        "approach": {
+          "recorded_ticks": 4200,
+          "minimum_vertical_gap_m": [
+            0.07999999986496314,
+            0.07999999983334888
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.03999999993248161,
+            0.03999999991667447
+          ]
+        },
+        "close": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.08399744859323383,
+            0.08399004351443934
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.041998724296616934,
+            0.04199502175721967
+          ]
+        },
+        "align": {
+          "recorded_ticks": 800,
+          "minimum_vertical_gap_m": [
+            0.000657162386262844,
+            0.0007374317253522888
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.00032858119313144106,
+            0.0003687158626761635
+          ]
+        },
+        "contact": {
+          "recorded_ticks": 200,
+          "minimum_vertical_gap_m": [
+            0.0006038851687903413,
+            0.0006846075144875119
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0003019425843951822,
+            0.0003423037572437608
+          ]
+        },
+        "push": {
+          "recorded_ticks": 4800,
+          "minimum_vertical_gap_m": [
+            0.004563773254603942,
+            0.004550085604759391
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0022818866273019733,
+            0.0022750428023796975
+          ]
+        },
+        "detach": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.0058661823918499945,
+            0.005812446578957631
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.002933091195925007,
+            0.0029062232894788253
+          ]
+        },
+        "withdraw": {
+          "recorded_ticks": 1200,
+          "minimum_vertical_gap_m": [
+            0.005995828991665175,
+            0.0059228325132200665
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0029979144958326097,
+            0.002961416256610054
+          ]
+        },
+        "hold": {
+          "recorded_ticks": 3600,
+          "minimum_vertical_gap_m": [
+            0.134991231800002,
+            0.13454488621888877
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.067495615900001,
+            0.06727244310944439
+          ]
+        }
+      },
+      "initial_state": {
+        "model_xml_sha256": "3323e124a423a8781cd7665b82d03b86e62a3e4608dc5393e754c1723b379312",
+        "object_pose": [
+          [
+            0.9981400768384903,
+            -0.06096217687101231,
+            0.0,
+            0.44
+          ],
+          [
+            0.06096217687101231,
+            0.9981400768384903,
+            0.0,
+            0.09999999999999999
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.46
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "paired_scene_sha256": "5611862a0adfd8de67182bd225d23e981a2baeb9a597afe57df557f49916ff56",
+        "qpos": [
+          0.25106791032958636,
+          2.111025850025395,
+          1.6949360559498199,
+          -1.154706531635102,
+          -6.526183035009212e-11,
+          0.25106791024894154,
+          0.044,
+          0.044,
+          0.44,
+          0.09999999999999999,
+          0.46,
+          0.9995349110557595,
+          0.0,
+          0.0,
+          0.030495271449108748
+        ],
+        "qvel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "tcp": [
+          [
+            1.0340129863237456e-09,
+            -8.064483576272109e-11,
+            1.0000000000000002,
+            0.43999999940106205
+          ],
+          [
+            3.3257755379860745e-10,
+            1.0,
+            8.06448354188316e-11,
+            0.10000000003970734
+          ],
+          [
+            -1.0000000000000002,
+            3.3257755371521963e-10,
+            1.034012986366434e-09,
+            0.5399999998671392
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "initial_camera_sha256": {
+        "body_rgb": "3426411e46bfb2cf9442de4ca6e1da7c1dd193c957ff14624475d6f11c6fe572",
+        "wrist_rgb": "6766d68d36709093131f41323b5093b1f4abe0bb0d2944a1da5692e69ec87ce9"
+      },
+      "audit_checks": {
+        "all_raw_manifest_sizes_hashes_no_escape": true,
+        "actual_pinned_source": true,
+        "fixed_card_and_reservation": true,
+        "all_actual_camera_hashes": true,
+        "unchanged_reference_command_labels": true,
+        "original_command_clock": true,
+        "complete_actual_live_tick_clock": true,
+        "zero_external_forces": true,
+        "exact_original_saved_score": true,
+        "independent_push_predicates": true,
+        "original_S1_actions_unmodified": true,
+        "original_S1_parity_and_nonmutation": true,
+        "S1_reject_count": true,
+        "rejected_prefix_zero_live": true,
+        "four_actual_negative_binding_checks": true,
+        "passive_live_measurement_every_tick": true,
+        "passive_observer_no_native_calls_or_mutations": true,
+        "actual_both_camera_counts": true,
+        "RGB_0_0": true,
+        "RGB_1_0": true,
+        "RGB_0_640": true,
+        "RGB_1_640": true,
+        "raw_manifest_unchanged_during_audit": true
+      },
+      "audit_status": "PASS_INDEPENDENT_SAVED_BYTE_AUDIT",
+      "audit_sha256": "7c3e9f5ae95bbe94c3bd12f200d6d751a672cd2736462081e52a6225295b59f1",
+      "raw_manifest_sha256": "8549a6bde1474a792dd829a2562b82d6722f708d0f20ce8b6203a82b5c838eb6",
+      "result_sha256": "f1dda5514e5931c83db4c4c18d0a366f32b151e5b456999878dc95eb153c970d",
+      "dynamic_measurement_sha256": "7b9e1f2752be7505193896f080635eaa5943cac31831b9627af6813f4304ac65",
+      "video": {
+        "sha256": "16656a086c572c4a48f14366ec909e6700113fe50f8fb44ccca4a2a08f57bdc9",
+        "bytes": 1225148,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "relative_path": "evidence/audits/PI0294-FD2-G2-C04/actual-body-wrist.mp4",
+        "original_local_capture_prepublication_private": true,
+        "final_public_copy_status": "PASS_ALL_EIGHT_PUBLIC_VIDEOS_FIXED_REVISION_READBACK",
+        "fixed_public_copy_url": "https://huggingface.co/datasets/leoyuer/pi0294-public-artifacts/blob/471e3cb3fd67d4a92585114d199744d4119fe49d/PI0294/20261018T171916Z-localpc-fd2/FD2_DYNAMIC_TEACHER_CLEARANCE_ACTUAL_V1/movies/PI0294-FD2-G2-C04.mp4"
+      },
+      "observed_timing_resolution_s": 0.002,
+      "GR00T_queries": 0,
+      "new_training_updates": 0
+    },
+    {
+      "id": "PI0294-FD2-G2-C12",
+      "scene_group": "PI0294/FD2/TRAIN/G2",
+      "direction": "-Y",
+      "nominal_clearance_m": 0.012,
+      "split": "TRAIN",
+      "task": "T2",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.0002733320956243568,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.0002181523895123938,
+        "maximum_actual_carry_xy_m": 0.17929712026027259,
+        "physics_sha256": "93f3e7f57a0d1d08d4687a699a362f79e575491963deb132f4c5e9a1c6fb375c",
+        "raw_sample_count": 641
+      },
+      "independent_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.0002733320956243568,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "independent_full32_predicates_qualified": true,
+      "actual_duration_s": 32.0,
+      "live_ticks": 16000,
+      "camera_pairs": 641,
+      "S1_rejections": 0,
+      "actual_native_failures": 0,
+      "S1_maximum_live_shadow_difference": 1.9895196601282805e-13,
+      "predicted_rejections": [],
+      "rejected_prefix_live_ticks": 0,
+      "final_command_stage": "hold",
+      "final_feedback_teacher_stage": "hold",
+      "phases_are_active_requested_prefix_stage_not_unique_physical_phase": true,
+      "first_actual_robot_contact_s": 11.542000000000524,
+      "actual_robot_contact_ticks": 4537,
+      "actual_highrate_maximum_displacement_m": 0.17929793317982795,
+      "actual_highrate_maximum_height_rise_m": 0.0002733320956243568,
+      "minimum_vertical_gap_during_actual_robot_contact_m": [
+        0.012024644904535975,
+        0.012016106504494639
+      ],
+      "minimum_signed_pad_table_distance_during_actual_robot_contact_m": [
+        0.006012322452267991,
+        0.006008053252247323
+      ],
+      "geometry": {
+        "minimum_live_vertical_gap_m": [
+          0.00854310851743384,
+          0.00862464640053534
+        ],
+        "minimum_live_signed_geom_distance_m": [
+          0.0042715542587169145,
+          0.00431232320026769
+        ],
+        "minimum_predicted_shadow_signed_geom_distance_m": [
+          0.0042715542587169145,
+          0.00431232320026769
+        ],
+        "live_force_contact_ticks": 4606,
+        "maximum_live_XYZ_reference_error_m": [
+          0.0046776313932321845,
+          0.008094488978927256,
+          0.006894529719276232
+        ],
+        "maximum_live_SO3_reference_error_rad": 0.059363037922473605,
+        "maximum_live_gripper_reference_error": 0.9999222930306891,
+        "teacher_events": [
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "approach",
+            "stage": "close",
+            "time_s": 8.399999999999475
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "close",
+            "stage": "align",
+            "time_s": 9.499999999999842
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "align",
+            "stage": "contact",
+            "time_s": 11.100000000000376
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 9.225272490120673e-05,
+            "previous": "contact",
+            "stage": "push",
+            "time_s": 11.550000000000527
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.17929085216881804,
+            "previous": "push",
+            "stage": "detach",
+            "time_s": 21.19999999999913
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.1792062698223996,
+            "previous": "detach",
+            "stage": "withdraw",
+            "time_s": 22.29999999999852
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.17920626982227467,
+            "previous": "withdraw",
+            "stage": "hold",
+            "time_s": 24.799999999997134
+          }
+        ],
+        "nominal_clearance_m": 0.012
+      },
+      "requested_prefix_stage_metrics": {
+        "approach": {
+          "recorded_ticks": 4200,
+          "minimum_vertical_gap_m": [
+            0.07999999986496314,
+            0.07999999983334888
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.03999999993248161,
+            0.03999999991667447
+          ]
+        },
+        "close": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.09199388749428711,
+            0.09198339371004988
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.04599694374714356,
+            0.04599169685502496
+          ]
+        },
+        "align": {
+          "recorded_ticks": 800,
+          "minimum_vertical_gap_m": [
+            0.008598542757987604,
+            0.008680105983346786
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.00429927137899381,
+            0.004340052991673401
+          ]
+        },
+        "contact": {
+          "recorded_ticks": 200,
+          "minimum_vertical_gap_m": [
+            0.00854310851743384,
+            0.00862464640053534
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0042715542587169145,
+            0.00431232320026769
+          ]
+        },
+        "push": {
+          "recorded_ticks": 4800,
+          "minimum_vertical_gap_m": [
+            0.012546090014725508,
+            0.012532438102218602
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0062730450073627585,
+            0.006266219051109305
+          ]
+        },
+        "detach": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.013935933024064262,
+            0.013878399675134045
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0069679665120321406,
+            0.006939199837567027
+          ]
+        },
+        "withdraw": {
+          "recorded_ticks": 1200,
+          "minimum_vertical_gap_m": [
+            0.013973501649602593,
+            0.013894843158979375
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.006986750824801309,
+            0.0069474215794897
+          ]
+        },
+        "hold": {
+          "recorded_ticks": 3600,
+          "minimum_vertical_gap_m": [
+            0.14291504904493763,
+            0.14243675783273518
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0714575245224688,
+            0.0712183789163676
+          ]
+        }
+      },
+      "initial_state": {
+        "model_xml_sha256": "3323e124a423a8781cd7665b82d03b86e62a3e4608dc5393e754c1723b379312",
+        "object_pose": [
+          [
+            0.9981400768384903,
+            -0.06096217687101231,
+            0.0,
+            0.44
+          ],
+          [
+            0.06096217687101231,
+            0.9981400768384903,
+            0.0,
+            0.09999999999999999
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.46
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "paired_scene_sha256": "5611862a0adfd8de67182bd225d23e981a2baeb9a597afe57df557f49916ff56",
+        "qpos": [
+          0.25106791032958636,
+          2.111025850025395,
+          1.6949360559498199,
+          -1.154706531635102,
+          -6.526183035009212e-11,
+          0.25106791024894154,
+          0.044,
+          0.044,
+          0.44,
+          0.09999999999999999,
+          0.46,
+          0.9995349110557595,
+          0.0,
+          0.0,
+          0.030495271449108748
+        ],
+        "qvel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "tcp": [
+          [
+            1.0340129863237456e-09,
+            -8.064483576272109e-11,
+            1.0000000000000002,
+            0.43999999940106205
+          ],
+          [
+            3.3257755379860745e-10,
+            1.0,
+            8.06448354188316e-11,
+            0.10000000003970734
+          ],
+          [
+            -1.0000000000000002,
+            3.3257755371521963e-10,
+            1.034012986366434e-09,
+            0.5399999998671392
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "initial_camera_sha256": {
+        "body_rgb": "3426411e46bfb2cf9442de4ca6e1da7c1dd193c957ff14624475d6f11c6fe572",
+        "wrist_rgb": "6766d68d36709093131f41323b5093b1f4abe0bb0d2944a1da5692e69ec87ce9"
+      },
+      "audit_checks": {
+        "all_raw_manifest_sizes_hashes_no_escape": true,
+        "actual_pinned_source": true,
+        "fixed_card_and_reservation": true,
+        "all_actual_camera_hashes": true,
+        "unchanged_reference_command_labels": true,
+        "original_command_clock": true,
+        "complete_actual_live_tick_clock": true,
+        "zero_external_forces": true,
+        "exact_original_saved_score": true,
+        "independent_push_predicates": true,
+        "original_S1_actions_unmodified": true,
+        "original_S1_parity_and_nonmutation": true,
+        "S1_reject_count": true,
+        "rejected_prefix_zero_live": true,
+        "four_actual_negative_binding_checks": true,
+        "passive_live_measurement_every_tick": true,
+        "passive_observer_no_native_calls_or_mutations": true,
+        "actual_both_camera_counts": true,
+        "RGB_0_0": true,
+        "RGB_1_0": true,
+        "RGB_0_640": true,
+        "RGB_1_640": true,
+        "raw_manifest_unchanged_during_audit": true
+      },
+      "audit_status": "PASS_INDEPENDENT_SAVED_BYTE_AUDIT",
+      "audit_sha256": "e2a49c08f2423dff9f1cfeac47025b205be138e08056661ec185bee526bba9fe",
+      "raw_manifest_sha256": "ddaef98f0c3bd763b9bb61bada9f8488c98bcb0576a4d23a5aad480b727783c7",
+      "result_sha256": "93a4bcc02695a4f2375af0fa8ae5a43b5dffa7dab75c39a9b87595eaad477b7a",
+      "dynamic_measurement_sha256": "42dfe42d46731ac4bdaaeaa4b40554a4f537686b9e9cbf79a072b77897ec1d3f",
+      "video": {
+        "sha256": "f633fad5bf580152dc5b1d1e7b0131efb8e2959faadb52a274360d0b1edb6281",
+        "bytes": 1240784,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "relative_path": "evidence/audits/PI0294-FD2-G2-C12/actual-body-wrist.mp4",
+        "original_local_capture_prepublication_private": true,
+        "final_public_copy_status": "PASS_ALL_EIGHT_PUBLIC_VIDEOS_FIXED_REVISION_READBACK",
+        "fixed_public_copy_url": "https://huggingface.co/datasets/leoyuer/pi0294-public-artifacts/blob/471e3cb3fd67d4a92585114d199744d4119fe49d/PI0294/20261018T171916Z-localpc-fd2/FD2_DYNAMIC_TEACHER_CLEARANCE_ACTUAL_V1/movies/PI0294-FD2-G2-C12.mp4"
+      },
+      "observed_timing_resolution_s": 0.002,
+      "GR00T_queries": 0,
+      "new_training_updates": 0
+    },
+    {
+      "id": "PI0294-FD2-G3-C12",
+      "scene_group": "PI0294/FD2/TRAIN/G3",
+      "direction": "-Y",
+      "nominal_clearance_m": 0.012,
+      "split": "TRAIN",
+      "task": "T2",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.0002750337550380122,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00021024537659458664,
+        "maximum_actual_carry_xy_m": 0.16603090363575462,
+        "physics_sha256": "b9cd7aa263e3cfabdd2f59fc40c912178f6f31bf33367aa52997f3de4034750a",
+        "raw_sample_count": 641
+      },
+      "independent_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.0002750337550380122,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "independent_full32_predicates_qualified": true,
+      "actual_duration_s": 32.0,
+      "live_ticks": 16000,
+      "camera_pairs": 641,
+      "S1_rejections": 0,
+      "actual_native_failures": 0,
+      "S1_maximum_live_shadow_difference": 2.3447910280083306e-13,
+      "predicted_rejections": [],
+      "rejected_prefix_live_ticks": 0,
+      "final_command_stage": "hold",
+      "final_feedback_teacher_stage": "hold",
+      "phases_are_active_requested_prefix_stage_not_unique_physical_phase": true,
+      "first_actual_robot_contact_s": 11.544000000000525,
+      "actual_robot_contact_ticks": 4464,
+      "actual_highrate_maximum_displacement_m": 0.1660347490181981,
+      "actual_highrate_maximum_height_rise_m": 0.0002750337550380122,
+      "minimum_vertical_gap_during_actual_robot_contact_m": [
+        0.012067009053449096,
+        0.012054742652321593
+      ],
+      "minimum_signed_pad_table_distance_during_actual_robot_contact_m": [
+        0.006033504526724549,
+        0.006027371326160797
+      ],
+      "geometry": {
+        "minimum_live_vertical_gap_m": [
+          0.00827393954955652,
+          0.00835714522567138
+        ],
+        "minimum_live_signed_geom_distance_m": [
+          0.004136969774778275,
+          0.004178572612835706
+        ],
+        "minimum_predicted_shadow_signed_geom_distance_m": [
+          0.004136969774778275,
+          0.004178572612835706
+        ],
+        "live_force_contact_ticks": 4569,
+        "maximum_live_XYZ_reference_error_m": [
+          0.004881406949653444,
+          0.007492382320079254,
+          0.006281787739901401
+        ],
+        "maximum_live_SO3_reference_error_rad": 0.05918804185602353,
+        "maximum_live_gripper_reference_error": 0.9999156898037589,
+        "teacher_events": [
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "approach",
+            "stage": "close",
+            "time_s": 8.399999999999475
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "close",
+            "stage": "align",
+            "time_s": 9.499999999999842
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "align",
+            "stage": "contact",
+            "time_s": 11.100000000000376
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 7.482101831561525e-05,
+            "previous": "contact",
+            "stage": "push",
+            "time_s": 11.550000000000527
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.1659443437042797,
+            "previous": "push",
+            "stage": "detach",
+            "time_s": 20.99999999999924
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.16594064061976185,
+            "previous": "detach",
+            "stage": "withdraw",
+            "time_s": 22.29999999999852
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.16594064061963887,
+            "previous": "withdraw",
+            "stage": "hold",
+            "time_s": 24.799999999997134
+          }
+        ],
+        "nominal_clearance_m": 0.012
+      },
+      "requested_prefix_stage_metrics": {
+        "approach": {
+          "recorded_ticks": 4200,
+          "minimum_vertical_gap_m": [
+            0.0799995905662923,
+            0.07999973002434929
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.03999979528314617,
+            0.039999865012174673
+          ]
+        },
+        "close": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.09199077292410734,
+            0.09198099650970354
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.045995386462053714,
+            0.04599049825485182
+          ]
+        },
+        "align": {
+          "recorded_ticks": 800,
+          "minimum_vertical_gap_m": [
+            0.008444440469454029,
+            0.008526910349436312
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.004222220234727036,
+            0.004263455174718178
+          ]
+        },
+        "contact": {
+          "recorded_ticks": 200,
+          "minimum_vertical_gap_m": [
+            0.00827393954955652,
+            0.00835714522567138
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.004136969774778275,
+            0.004178572612835706
+          ]
+        },
+        "push": {
+          "recorded_ticks": 4800,
+          "minimum_vertical_gap_m": [
+            0.012383168059273642,
+            0.012382436838013766
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.006191584029636839,
+            0.006191218419006891
+          ]
+        },
+        "detach": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.013882085604813466,
+            0.013834188616875187
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.006941042802406752,
+            0.006917094308437613
+          ]
+        },
+        "withdraw": {
+          "recorded_ticks": 1200,
+          "minimum_vertical_gap_m": [
+            0.01396459591559851,
+            0.013896126301874534
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.006982297957799263,
+            0.0069480631509372835
+          ]
+        },
+        "hold": {
+          "recorded_ticks": 3600,
+          "minimum_vertical_gap_m": [
+            0.14199694918289135,
+            0.14184590953170834
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.07099847459144572,
+            0.07092295476585421
+          ]
+        }
+      },
+      "initial_state": {
+        "model_xml_sha256": "6515296c98879bac7aca1f113023e840d8ba4da3c9207d81661f0023a733cf1e",
+        "object_pose": [
+          [
+            0.9995795294692156,
+            0.028995935337589488,
+            0.0,
+            0.464
+          ],
+          [
+            -0.028995935337589488,
+            0.9995795294692156,
+            -0.0,
+            0.077
+          ],
+          [
+            -0.0,
+            0.0,
+            1.0,
+            0.46
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "paired_scene_sha256": "1d554d63d7ab82f43a2714f91986a3979ae4450ebf6b21536256934008bb440b",
+        "qpos": [
+          0.18393451626501836,
+          2.1862363869863444,
+          1.8139202053567245,
+          -1.1984893405850066,
+          -2.1847514359646858e-07,
+          0.18393421249974623,
+          0.044,
+          0.044,
+          0.464,
+          0.077,
+          0.46,
+          0.9998948768418647,
+          0.0,
+          0.0,
+          -0.014499491901174753
+        ],
+        "qvel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "tcp": [
+          [
+            -9.08026740332606e-06,
+            -3.037709282294418e-07,
+            0.9999999999587278,
+            0.4639996566986669
+          ],
+          [
+            -1.4670444024594612e-06,
+            0.9999999999988771,
+            3.037576070861707e-07,
+            0.07699973653908307
+          ],
+          [
+            -0.9999999999576977,
+            -1.4670416441986152e-06,
+            -9.080267848950172e-06,
+            0.5399998216981126
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "initial_camera_sha256": {
+        "body_rgb": "b2bf715195fe8674daf311c323da2782e1542f081bc35e763e1aa38c7ca51168",
+        "wrist_rgb": "1ae920021456f7ac07144b943011fc2f8ac23fe0fae6854efe245fe0bccb3d69"
+      },
+      "audit_checks": {
+        "all_raw_manifest_sizes_hashes_no_escape": true,
+        "actual_pinned_source": true,
+        "fixed_card_and_reservation": true,
+        "all_actual_camera_hashes": true,
+        "unchanged_reference_command_labels": true,
+        "original_command_clock": true,
+        "complete_actual_live_tick_clock": true,
+        "zero_external_forces": true,
+        "exact_original_saved_score": true,
+        "independent_push_predicates": true,
+        "original_S1_actions_unmodified": true,
+        "original_S1_parity_and_nonmutation": true,
+        "S1_reject_count": true,
+        "rejected_prefix_zero_live": true,
+        "four_actual_negative_binding_checks": true,
+        "passive_live_measurement_every_tick": true,
+        "passive_observer_no_native_calls_or_mutations": true,
+        "actual_both_camera_counts": true,
+        "RGB_0_0": true,
+        "RGB_1_0": true,
+        "RGB_0_640": true,
+        "RGB_1_640": true,
+        "raw_manifest_unchanged_during_audit": true
+      },
+      "audit_status": "PASS_INDEPENDENT_SAVED_BYTE_AUDIT",
+      "audit_sha256": "c676a6e79c4d4617c7731fd7f5b8cf23b874873c3c7d7c5067ac043e23281550",
+      "raw_manifest_sha256": "4210b5dcd2983d1ee51102830b01c7a1cf9ceb35521c1db9bbb6addfca9632d5",
+      "result_sha256": "e1177431ad69c4603ebff201264563e1594aac036ed4fdb7553e222c5713d707",
+      "dynamic_measurement_sha256": "8f24aee022862d50adffc06253f27c375433fe0738d9c028ac436344b519caba",
+      "video": {
+        "sha256": "619323c8db40ae3bfbc0cc2e58992854b9958d637daae2536539ae1b1d1aa0e2",
+        "bytes": 1223240,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "relative_path": "evidence/audits/PI0294-FD2-G3-C12/actual-body-wrist.mp4",
+        "original_local_capture_prepublication_private": true,
+        "final_public_copy_status": "PASS_ALL_EIGHT_PUBLIC_VIDEOS_FIXED_REVISION_READBACK",
+        "fixed_public_copy_url": "https://huggingface.co/datasets/leoyuer/pi0294-public-artifacts/blob/471e3cb3fd67d4a92585114d199744d4119fe49d/PI0294/20261018T171916Z-localpc-fd2/FD2_DYNAMIC_TEACHER_CLEARANCE_ACTUAL_V1/movies/PI0294-FD2-G3-C12.mp4"
+      },
+      "observed_timing_resolution_s": 0.002,
+      "GR00T_queries": 0,
+      "new_training_updates": 0
+    },
+    {
+      "id": "PI0294-FD2-G3-C04",
+      "scene_group": "PI0294/FD2/TRAIN/G3",
+      "direction": "-Y",
+      "nominal_clearance_m": 0.004,
+      "split": "TRAIN",
+      "task": "T2",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "VALID_COMPLETE",
+      "error": null,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.00023329903056173995,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00014729639539889927,
+        "maximum_actual_carry_xy_m": 0.16600926381501005,
+        "physics_sha256": "76d2bb13157c878b01ad88d9ea752e59f10faa63bcb01ad27f468e34f9bdfd79",
+        "raw_sample_count": 641
+      },
+      "independent_score": {
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "maximum_center_height_rise_m": 0.00023329903056173995,
+        "maximum_bilateral_grasp_s": 0.0,
+        "persistent_success": true
+      },
+      "independent_full32_predicates_qualified": true,
+      "actual_duration_s": 32.0,
+      "live_ticks": 16000,
+      "camera_pairs": 641,
+      "S1_rejections": 0,
+      "actual_native_failures": 0,
+      "S1_maximum_live_shadow_difference": 2.984279490192421e-13,
+      "predicted_rejections": [],
+      "rejected_prefix_live_ticks": 0,
+      "final_command_stage": "hold",
+      "final_feedback_teacher_stage": "hold",
+      "phases_are_active_requested_prefix_stage_not_unique_physical_phase": true,
+      "first_actual_robot_contact_s": 11.544000000000525,
+      "actual_robot_contact_ticks": 4278,
+      "actual_highrate_maximum_displacement_m": 0.16601083529012967,
+      "actual_highrate_maximum_height_rise_m": 0.00023329903056173995,
+      "minimum_vertical_gap_during_actual_robot_contact_m": [
+        0.004055897128414476,
+        0.004044293485376771
+      ],
+      "minimum_signed_pad_table_distance_during_actual_robot_contact_m": [
+        0.0020279485642072546,
+        0.002022146742688402
+      ],
+      "geometry": {
+        "minimum_live_vertical_gap_m": [
+          0.00034787064989194594,
+          0.0004302484569892462
+        ],
+        "minimum_live_signed_geom_distance_m": [
+          0.00017393532494598847,
+          0.0002151242284946423
+        ],
+        "minimum_predicted_shadow_signed_geom_distance_m": [
+          0.00017393532494598847,
+          0.0002151242284946423
+        ],
+        "live_force_contact_ticks": 4360,
+        "maximum_live_XYZ_reference_error_m": [
+          0.004788883778782893,
+          0.007350690447922168,
+          0.0061830065245355725
+        ],
+        "maximum_live_SO3_reference_error_rad": 0.05936738617278086,
+        "maximum_live_gripper_reference_error": 0.9999277266865231,
+        "teacher_events": [
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "approach",
+            "stage": "close",
+            "time_s": 8.399999999999475
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "close",
+            "stage": "align",
+            "time_s": 9.499999999999842
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.0,
+            "previous": "align",
+            "stage": "contact",
+            "time_s": 11.100000000000376
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 8.027401406276138e-05,
+            "previous": "contact",
+            "stage": "push",
+            "time_s": 11.550000000000527
+          },
+          {
+            "actual_contact": true,
+            "actual_displacement_m": 0.16588271100603424,
+            "previous": "push",
+            "stage": "detach",
+            "time_s": 20.59999999999946
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.16593464688982024,
+            "previous": "detach",
+            "stage": "withdraw",
+            "time_s": 21.89999999999874
+          },
+          {
+            "actual_contact": false,
+            "actual_displacement_m": 0.16593464688970722,
+            "previous": "withdraw",
+            "stage": "hold",
+            "time_s": 24.399999999997355
+          }
+        ],
+        "nominal_clearance_m": 0.004
+      },
+      "requested_prefix_stage_metrics": {
+        "approach": {
+          "recorded_ticks": 4200,
+          "minimum_vertical_gap_m": [
+            0.0799995905662923,
+            0.07999973002434929
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.03999979528314617,
+            0.039999865012174673
+          ]
+        },
+        "close": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.08399688293618984,
+            0.08398840982082029
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.041998441468094956,
+            0.04199420491041018
+          ]
+        },
+        "align": {
+          "recorded_ticks": 800,
+          "minimum_vertical_gap_m": [
+            0.0005014241882444481,
+            0.0005826218680998196
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.00025071209412223235,
+            0.0002913109340499181
+          ]
+        },
+        "contact": {
+          "recorded_ticks": 200,
+          "minimum_vertical_gap_m": [
+            0.00034787064989194594,
+            0.0004302484569892462
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.00017393532494598847,
+            0.0002151242284946423
+          ]
+        },
+        "push": {
+          "recorded_ticks": 4600,
+          "minimum_vertical_gap_m": [
+            0.004597741468576222,
+            0.004581620793758456
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0022988707342881335,
+            0.0022908103968792507
+          ]
+        },
+        "detach": {
+          "recorded_ticks": 600,
+          "minimum_vertical_gap_m": [
+            0.005936156818986238,
+            0.0058863076021372085
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.0029680784094931393,
+            0.0029431538010686246
+          ]
+        },
+        "withdraw": {
+          "recorded_ticks": 1200,
+          "minimum_vertical_gap_m": [
+            0.006036390952518622,
+            0.0059655941708383065
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.003018195476259314,
+            0.0029827970854191597
+          ]
+        },
+        "hold": {
+          "recorded_ticks": 3800,
+          "minimum_vertical_gap_m": [
+            0.13415158648609987,
+            0.13395650342623727
+          ],
+          "minimum_signed_pad_table_distance_m": [
+            0.06707579324304992,
+            0.06697825171311865
+          ]
+        }
+      },
+      "initial_state": {
+        "model_xml_sha256": "6515296c98879bac7aca1f113023e840d8ba4da3c9207d81661f0023a733cf1e",
+        "object_pose": [
+          [
+            0.9995795294692156,
+            0.028995935337589488,
+            0.0,
+            0.464
+          ],
+          [
+            -0.028995935337589488,
+            0.9995795294692156,
+            -0.0,
+            0.077
+          ],
+          [
+            -0.0,
+            0.0,
+            1.0,
+            0.46
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "paired_scene_sha256": "1d554d63d7ab82f43a2714f91986a3979ae4450ebf6b21536256934008bb440b",
+        "qpos": [
+          0.18393451626501836,
+          2.1862363869863444,
+          1.8139202053567245,
+          -1.1984893405850066,
+          -2.1847514359646858e-07,
+          0.18393421249974623,
+          0.044,
+          0.044,
+          0.464,
+          0.077,
+          0.46,
+          0.9998948768418647,
+          0.0,
+          0.0,
+          -0.014499491901174753
+        ],
+        "qvel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "tcp": [
+          [
+            -9.08026740332606e-06,
+            -3.037709282294418e-07,
+            0.9999999999587278,
+            0.4639996566986669
+          ],
+          [
+            -1.4670444024594612e-06,
+            0.9999999999988771,
+            3.037576070861707e-07,
+            0.07699973653908307
+          ],
+          [
+            -0.9999999999576977,
+            -1.4670416441986152e-06,
+            -9.080267848950172e-06,
+            0.5399998216981126
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "initial_camera_sha256": {
+        "body_rgb": "b2bf715195fe8674daf311c323da2782e1542f081bc35e763e1aa38c7ca51168",
+        "wrist_rgb": "1ae920021456f7ac07144b943011fc2f8ac23fe0fae6854efe245fe0bccb3d69"
+      },
+      "audit_checks": {
+        "all_raw_manifest_sizes_hashes_no_escape": true,
+        "actual_pinned_source": true,
+        "fixed_card_and_reservation": true,
+        "all_actual_camera_hashes": true,
+        "unchanged_reference_command_labels": true,
+        "original_command_clock": true,
+        "complete_actual_live_tick_clock": true,
+        "zero_external_forces": true,
+        "exact_original_saved_score": true,
+        "independent_push_predicates": true,
+        "original_S1_actions_unmodified": true,
+        "original_S1_parity_and_nonmutation": true,
+        "S1_reject_count": true,
+        "rejected_prefix_zero_live": true,
+        "four_actual_negative_binding_checks": true,
+        "passive_live_measurement_every_tick": true,
+        "passive_observer_no_native_calls_or_mutations": true,
+        "actual_both_camera_counts": true,
+        "RGB_0_0": true,
+        "RGB_1_0": true,
+        "RGB_0_640": true,
+        "RGB_1_640": true,
+        "raw_manifest_unchanged_during_audit": true
+      },
+      "audit_status": "PASS_INDEPENDENT_SAVED_BYTE_AUDIT",
+      "audit_sha256": "6516c7b744e9496252ccad8a3986a047ae134d7484415cda29f698aa0f9be51b",
+      "raw_manifest_sha256": "289c37244c7935be4ab8e36239920d6f24e10bde4f262fb4f72f37b48a07b0fd",
+      "result_sha256": "7ddb0e3577d16247ab2f9820f4ac8c08c33a4fe8ff19921f772c1b12445c89dc",
+      "dynamic_measurement_sha256": "e9b015df0c64871b06c3368cddac42782f5eabc6af5ef22ce6f21c82899f3bb0",
+      "video": {
+        "sha256": "d51286cb40a97e7b5758208755ba1a0c508d26c752ca3dd4f8c3a6790d5c4a28",
+        "bytes": 1204276,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "relative_path": "evidence/audits/PI0294-FD2-G3-C04/actual-body-wrist.mp4",
+        "original_local_capture_prepublication_private": true,
+        "final_public_copy_status": "PASS_ALL_EIGHT_PUBLIC_VIDEOS_FIXED_REVISION_READBACK",
+        "fixed_public_copy_url": "https://huggingface.co/datasets/leoyuer/pi0294-public-artifacts/blob/471e3cb3fd67d4a92585114d199744d4119fe49d/PI0294/20261018T171916Z-localpc-fd2/FD2_DYNAMIC_TEACHER_CLEARANCE_ACTUAL_V1/movies/PI0294-FD2-G3-C04.mp4"
+      },
+      "observed_timing_resolution_s": 0.002,
+      "GR00T_queries": 0,
+      "new_training_updates": 0
+    }
+  ],
+  "all_attempts_in_denominator": true,
+  "automatic_replacements": 0,
+  "native_signed_distance_fields_are_raw_collision_query_outputs_not_exact_surface_gap": true,
+  "primary_clearance_definition": "Actual pad-box vertex minus actual finite table top; qualification in saved geometry audit",
+  "new_training_updates": 0,
+  "GR00T_inference_calls": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
