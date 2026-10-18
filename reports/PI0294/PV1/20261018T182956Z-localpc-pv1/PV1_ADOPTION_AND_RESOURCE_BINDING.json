@@ -1,0 +1,964 @@
+{
+  "schema": "PI0294_PV1_ADOPTION_AND_RESOURCE_BINDING_V1",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "authority_blobs": {
+    "docs/handover/2026-10-19/PV1_MULTITASK_POLICY_EXECUTE.md": "e27c74784ece4c2a1bdb955d535267a8909bb93e",
+    "docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md": "55aef87383e3e483453d43b957b489884c55527c",
+    "reports/PI0294/design/PV1_MULTITASK_POLICY_SCOPE_20261019.json": "ad91e8c20fa9998fc71b205093128113c815819b"
+  },
+  "owner": "EXISTING_SINGLE_LOCAL_PC_COORDINATOR",
+  "run_uuid": "20261018T182956Z-localpc-pv1",
+  "T0_epoch": 1792348196,
+  "stop_new_jobs_epoch": 1792866596,
+  "stop_new_training_epoch": 1792909796,
+  "stop_new_physics_epoch": 1792924196,
+  "hard_closeout_epoch": 1792952996,
+  "bounds": {
+    "H200_allocated_hours": 96,
+    "H200_concurrent_GPUs_max": 1,
+    "Hopper_GPU_PBS_submissions_max": 24,
+    "one_GPU_job_wall_hours_max": 8,
+    "A40_GPU_hours": 0,
+    "CoreLab_CPU_core_hours": 320,
+    "CoreLab_active_cores_max": 8,
+    "Hopper_CPU_core_hours": 160,
+    "Hopper_cores_not_exceed_native_request": true,
+    "local_PC_CPU_core_hours": 48,
+    "local_PC_active_cores_max": 4,
+    "optimizer_updates_max": 16384,
+    "neural_generation_queries_max": 48000,
+    "source_main_or_recovery_episode_starts_max": 1000,
+    "all_live_shadow_reconstruction_ticks_max": 40000000,
+    "all_engine_constructors_and_clones_max": 100000,
+    "new_storage_peak_GiB": {
+      "Hopper": 250,
+      "CoreLab": 300,
+      "local_PC": 20
+    },
+    "new_transfer_GiB": 300,
+    "final_reserve_inside_total": {
+      "H200_hours": 20,
+      "live_ticks": 1600000,
+      "shadow_ticks": 1600000,
+      "episode_starts": 100,
+      "neural_queries": 9000,
+      "storage_GiB": 40
+    },
+    "H200_soft_allocation_hours": {
+      "training": 36,
+      "development_and_student_diagnostics": 24,
+      "engineering": 16,
+      "final_qualification_and_closeout": 20
+    },
+    "site_smaller_limit_wins": true,
+    "queued_not_charged_as_allocated_GPU": true,
+    "failures_and_idle_allocation_charged": true,
+    "old_N1_FD1_FD2_costs_double_counted": false,
+    "new_CPU_and_GPU_native_authority_required": true
+  },
+  "old_N1_FD1_FD2_costs_double_counted": false,
+  "healthy_FD2_not_cancelled_or_restarted": true,
+  "scope": "PV1_CONTROL_PLANE_NOT_SCIENTIFIC_DISPATCH",
+  "status": "ADOPTED_CONTROL_RESOURCE_WINDOW_CHILDREN_REQUIRE_NATIVE_GATES",
+  "selected": "NONE",
+  "real_robot_deployment": "NONE",
+  "authority_file_sha256": {
+    "docs/handover/2026-10-19/PV1_MULTITASK_POLICY_EXECUTE.md": "a5165ef80ea97e94c04eeb00a6793dac705e4e2c557fc91ada021d9011109561",
+    "docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md": "302b1a1d6b9804380f7a3fe4f99151e4e1f3dfede2e48e6b32153419c82eeb14",
+    "reports/PI0294/design/PV1_MULTITASK_POLICY_SCOPE_20261019.json": "4ae61d732d43c69dc60ae92cf52f12931d8a360131ae531b2b45ab4eed774be1"
+  },
+  "T0_SGT": "2026-10-19T02:29:56+08:00",
+  "hard_closeout_SGT": "2026-10-26T02:29:56+08:00",
+  "native_sites": {
+    "core": {
+      "status": "PV1_NATIVE_CONTROL_WINDOW_REGISTERED",
+      "host": "corelab-4080s",
+      "uid": 2009,
+      "role": "PI0294_PV1_CORE_CONTROL",
+      "run_uuid": "20261018T182956Z-localpc-pv1",
+      "manifest_sha256": "0891efca0f0cd12371c77015e542a6bdaa2c36b7479c9dc8f749c3bdf23e606f",
+      "binding_sha256": "7903f13a83ec13ffd6e6737709eb7cc38f3e68af96003ae3339473dad54b6818",
+      "lease_sha256": "e7965f40a0ba3671c5424fcaad1af28522c5b4624fc370aac5e0fcaf7bbb2066",
+      "old_leases_bytes_unchanged": true,
+      "new_PBS_physics_models_training": 0
+    },
+    "hopper": {
+      "status": "PV1_NATIVE_CONTROL_WINDOW_REGISTERED",
+      "host": "hopper-l-01",
+      "uid": 22182,
+      "role": "PI0294_PV1_HOPPER_CONTROL",
+      "run_uuid": "20261018T182956Z-localpc-pv1",
+      "manifest_sha256": "95c3f53e311b3175dd59ad9ed55f420f2828f08aa8e4d7854dd0a1b91fc89728",
+      "binding_sha256": "b49c0f6ad7929782f434125ea988e10ecb8c8bac74502ed75df081cc088c8636",
+      "lease_sha256": "e7965f40a0ba3671c5424fcaad1af28522c5b4624fc370aac5e0fcaf7bbb2066",
+      "old_leases_bytes_unchanged": true,
+      "new_PBS_physics_models_training": 0
+    }
+  },
+  "site_checks": {
+    "core": {
+      "profile_doctor": {
+        "status": "PASS",
+        "profile": "4080-cpu-data",
+        "host": "corelab-4080s",
+        "python": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python",
+        "cwd": "/home/liuyu-nfs/Projects/GR00T-WBC/code/vla",
+        "pythonpath": [
+          "/home/liuyu-nfs/Projects/GR00T-WBC/code/vla/src",
+          "/home/liuyu-nfs/Projects/GR00T-WBC/code/isaac-gr00t"
+        ],
+        "checks": [
+          {
+            "check": "independent_fixed_source",
+            "status": "PASS",
+            "result": [
+              {
+                "code": "vla",
+                "head": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+                "common_dir": "/home/liuyu-nfs/Projects/GR00T-WBC/code/vla/.git",
+                "independent": true
+              },
+              {
+                "code": "isaac-gr00t",
+                "head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                "common_dir": "/home/liuyu-nfs/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f/.git",
+                "independent": true
+              }
+            ]
+          },
+          {
+            "check": "actual_canonical_module_import",
+            "status": "PASS",
+            "result": {
+              "python": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python",
+              "version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+              "modules": {
+                "go2arx5_vla": "/home/liuyu-nfs/Projects/GR00T-WBC/code/vla/src/go2arx5_vla/__init__.py",
+                "go2arx5_vla.task_data.io": "/home/liuyu-nfs/Projects/GR00T-WBC/code/vla/src/go2arx5_vla/task_data/io.py",
+                "gr00t": "/home/liuyu-nfs/Projects/GR00T-WBC/code/isaac-gr00t/gr00t/__init__.py",
+                "gr00t.data.state_action.pose": "/home/liuyu-nfs/Projects/GR00T-WBC/code/isaac-gr00t/gr00t/data/state_action/pose.py"
+              }
+            }
+          },
+          {
+            "check": "fixed_official_processor_and_shared_statistics",
+            "status": "PASS",
+            "result": [
+              {
+                "relative": "code/isaac-gr00t/gr00t/data/state_action/pose.py",
+                "sha256": "4a09d0f1da9fe80bd8c3b0788e04c06979666f5dd636a91799a21e7d92c5f808",
+                "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+              },
+              {
+                "relative": "code/isaac-gr00t/gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py",
+                "sha256": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f",
+                "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+              },
+              {
+                "relative": "datasets/PI0291/statistics.json",
+                "sha256": "43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d"
+              },
+              {
+                "relative": "datasets/PI0291/STATISTICS_PROVENANCE.json",
+                "sha256": "0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359"
+              }
+            ]
+          },
+          {
+            "check": "host_qualified_asset_and_data_paths",
+            "status": "PASS",
+            "result": [
+              {
+                "role": "VLA_CODE",
+                "path": "/home/liuyu-nfs/Projects/GR00T-WBC/code/vla",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS",
+                "expected_git_sha": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+                "lifecycle": "CANONICAL_NEW_CHECKOUT",
+                "status": "PATH_AND_GIT_IDENTITY_PASS",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/GR00T-WBC/code/vla",
+                "st_dev": 112,
+                "st_ino": 8107333,
+                "actual_git_sha": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b"
+              },
+              {
+                "role": "OFFICIAL_GR00T_SHARED",
+                "path": "/home/liuyu-nfs/Projects/isaac-gr00t-rtx4080s-remote",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS",
+                "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                "lifecycle": "PROTECTED_EXISTING_CLEAN_WORKTREE_NAVIGATION_ONLY",
+                "status": "PATH_AND_GIT_IDENTITY_PASS",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/isaac-gr00t-rtx4080s-remote",
+                "st_dev": 112,
+                "st_ino": 4519144,
+                "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+              },
+              {
+                "role": "OFFICIAL_GR00T_CPU_RUNTIME",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/src/isaac-gr00t",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                "lifecycle": "PROTECTED_CURRENT_RUNTIME_UNCHANGED",
+                "status": "PATH_AND_GIT_IDENTITY_PASS",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/src/isaac-gr00t",
+                "st_dev": 66308,
+                "st_ino": 10765659,
+                "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+              },
+              {
+                "role": "PI0290_RAW",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0290",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "lifecycle": "PROTECTED_RAW_AND_RUNTIME",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0290",
+                "st_dev": 66308,
+                "st_ino": 66998776
+              },
+              {
+                "role": "PI0291_RAW",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/episodes",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "lifecycle": "PROTECTED_ORIGINALS",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/episodes",
+                "st_dev": 66308,
+                "st_ino": 67117979
+              },
+              {
+                "role": "PI0291_NATIVE_DATA",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "lifecycle": "PARTIAL_56_TRAIN_0_DEV_VERIFIED",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset",
+                "st_dev": 66308,
+                "st_ino": 67391757
+              },
+              {
+                "role": "PI0291_EVIDENCE",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/evidence",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "lifecycle": "TERMINAL_IMMUTABLE_RECEIPTS",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/evidence",
+                "st_dev": 66308,
+                "st_ino": 67117980
+              },
+              {
+                "role": "PI0291_FROZEN_CODE",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/code",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+                "lifecycle": "SEALED_121_FILES_DO_NOT_EDIT",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/code",
+                "st_dev": 66308,
+                "st_ino": 67117978
+              },
+              {
+                "role": "SIMULATION_PYTHON",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0290/runtime/venv/bin/python",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "lifecycle": "KEEP_ABSOLUTE_RUNTIME_PATH",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/usr/bin/python3.12",
+                "st_dev": 66308,
+                "st_ino": 6293652
+              },
+              {
+                "role": "CPU_DATA_PYTHON",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "lifecycle": "KEEP_ABSOLUTE_RUNTIME_PATH",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/usr/bin/python3.12",
+                "st_dev": 66308,
+                "st_ino": 6293652
+              },
+              {
+                "role": "PRIVATE_NATIVE_WBC",
+                "path": "/home/liuyu-nfs/Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS",
+                "lifecycle": "PROTECTED_READ_ONLY_ORIGINAL",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098",
+                "st_dev": 112,
+                "st_ino": 7721021
+              },
+              {
+                "role": "HISTORICAL_WBC_REPO",
+                "path": "/home/liuyu-nfs/Projects/GR00T-WholeBodyControl",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS",
+                "expected_git_sha": "a0732b642c0333077e127a2f56ab0014c196bca4",
+                "lifecycle": "PROTECTED_NOT_CURRENT_WBC_QUALIFICATION",
+                "status": "PATH_AND_GIT_IDENTITY_PASS",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/GR00T-WholeBodyControl",
+                "st_dev": 112,
+                "st_ino": 4119640,
+                "actual_git_sha": "a0732b642c0333077e127a2f56ab0014c196bca4"
+              },
+              {
+                "role": "LEGACY_ASSET_INDEX",
+                "path": "/home/liuyu-nfs/Projects/go2-arx5",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS",
+                "lifecycle": "PROTECTED_MIXED_NFS_AND_NODE_LOCAL_ALIASES",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/go2-arx5",
+                "st_dev": 112,
+                "st_ino": 5831689
+              },
+              {
+                "role": "HOPPER_OFFICIAL_CODE",
+                "path": "/scratch/e1192548/Projects/go2-arx5/PI0292/dependencies/20261013T072949Z-september-retirement/isaac-gr00t",
+                "executor_node": "hopper",
+                "storage_role": "HOPPER_SCRATCH",
+                "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                "lifecycle": "CURRENT_PI0292_DEPENDENCY_PATH_LEASE_PROTECTED_NOT_NEW_MODEL_QUALIFICATION",
+                "status": "HOST_REQUIRED",
+                "observed_on": "corelab-4080s",
+                "local_absence_is_not_data_loss": true,
+                "automatically_connected": false
+              },
+              {
+                "role": "HOPPER_PRETRAINED_CANDIDATE",
+                "path": "/scratch/e1192548/Projects/go2-arx5/PI0292/dependencies/20261013T072949Z-september-retirement/n1.7-3b",
+                "executor_node": "hopper",
+                "storage_role": "HOPPER_SCRATCH",
+                "lifecycle": "CURRENT_PI0292_DEPENDENCY_PATH_LEASE_PROTECTED_NOT_NEW_MODEL_QUALIFICATION",
+                "status": "HOST_REQUIRED",
+                "observed_on": "corelab-4080s",
+                "local_absence_is_not_data_loss": true,
+                "automatically_connected": false
+              },
+              {
+                "role": "OFFICIAL_GR00T_CANONICAL",
+                "path": "/home/liuyu-nfs/Projects/GR00T-WBC/code/isaac-gr00t",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS",
+                "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                "lifecycle": "INDEPENDENT_CANONICAL_FIXED_CHECKOUT",
+                "status": "PATH_AND_GIT_IDENTITY_PASS",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f",
+                "st_dev": 112,
+                "st_ino": 8138471,
+                "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+              },
+              {
+                "role": "PI0294_4080_RUN",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261013T142457Z-localpc-pi0294",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "lifecycle": "CURRENT_PI0294_USER_GO_FIXED_NEW_RUN",
+                "run_uuid": "20261013T142457Z-localpc-pi0294",
+                "protocol_ref": "09e68e41752383fcb1087a23c52fe487c9a14a89",
+                "owner": "EXISTING_LOCAL_PC",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261013T142457Z-localpc-pi0294",
+                "st_dev": 66308,
+                "st_ino": 46926392
+              },
+              {
+                "role": "PI0294_R1_4080_RUN",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261014T025730Z-localpc-pi0294-r1",
+                "executor_node": "corelab-4080s",
+                "run_uuid": "20261014T025730Z-localpc-pi0294-r1",
+                "protocol_ref": "a14ea2559d35bf05960e25bb653dcf09198bad08",
+                "owner": "EXISTING_LOCAL_PC",
+                "lifecycle": "CURRENT_EVAL_FIRST_CONTINUATION",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261014T025730Z-localpc-pi0294-r1",
+                "st_dev": 66308,
+                "st_ino": 47983697
+              },
+              {
+                "role": "PI0294_R2_4080_RUN",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261014T072142Z-incoming-pi0294-r2",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "lifecycle": "EXPLICIT_ADOPTED_R2",
+                "run_uuid": "20261014T072142Z-incoming-pi0294-r2",
+                "owner": "EXISTING_LOCAL_PC",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261014T072142Z-incoming-pi0294-r2",
+                "st_dev": 66308,
+                "st_ino": 47985594
+              },
+              {
+                "role": "PI0294_R3_4080_RUN",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261014T121640Z-incoming-pi0294-r3",
+                "executor_node": "corelab-4080s",
+                "storage_role": "NODE_LOCAL_SSD",
+                "lifecycle": "ACTIVE_R3",
+                "run_uuid": "20261014T121640Z-incoming-pi0294-r3",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261014T121640Z-incoming-pi0294-r3",
+                "st_dev": 66308,
+                "st_ino": 47986569
+              },
+              {
+                "role": "PI0294_R4_4080_RUN",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261014T170930Z-incoming-pi0294-r4",
+                "run_uuid": "20261014T170930Z-incoming-pi0294-r4",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "ACTIVE_R4",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261014T170930Z-incoming-pi0294-r4",
+                "st_dev": 66308,
+                "st_ino": 47994163
+              },
+              {
+                "role": "PI0294_R4A_PRIVATE_NATIVE_EVIDENCE",
+                "path": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261014T170930Z-incoming-pi0294-r4/native-closeout",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS",
+                "lifecycle": "TERMINAL_PRIVATE_FULL_FILE_READBACK",
+                "run_uuid": "20261014T170930Z-incoming-pi0294-r4",
+                "public": false,
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261014T170930Z-incoming-pi0294-r4/native-closeout",
+                "st_dev": 112,
+                "st_ino": 8226124
+              },
+              {
+                "role": "PI0294_R4B_D0_PRIVATE_EVIDENCE",
+                "path": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261014T170930Z-incoming-pi0294-r4/native-attribution-R4B-D0",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS",
+                "lifecycle": "READONLY_D0_TERMINAL_RECONSTRUCTION",
+                "run_uuid": "20261014T170930Z-incoming-pi0294-r4",
+                "public": false,
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261014T170930Z-incoming-pi0294-r4/native-attribution-R4B-D0",
+                "st_dev": 112,
+                "st_ino": 8226335
+              },
+              {
+                "role": "PI0294_TASK_DATA_FIRST_4080",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261015T061000Z-task-data-first-continuation",
+                "run_uuid": "20261015T061000Z-task-data-first-continuation",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "EXPLICIT_RENEWED_WINDOW_CUMULATIVE_PARENT_BUDGET",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261015T061000Z-task-data-first-continuation",
+                "st_dev": 66308,
+                "st_ino": 48110276
+              },
+              {
+                "role": "PI0294_TASK_V1_PRIVATE_EVIDENCE",
+                "path": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261015T061000Z-task-data-first-continuation/task-overlay-v1-first-native-stop",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS_PRIVATE",
+                "tree_sha256": "9c1255e09e4a7fe5119049896c90b5d12b708511c40641e47964d63597c06401",
+                "lifecycle": "PRESERVED_VALID_NATIVE_SAFETY_FAIL",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261015T061000Z-task-data-first-continuation/task-overlay-v1-first-native-stop",
+                "st_dev": 112,
+                "st_ino": 8226563
+              },
+              {
+                "role": "PI0294_TASK_V2_FIXED_PILOTS_PRIVATE_EVIDENCE",
+                "path": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261015T061000Z-task-data-first-continuation/task-overlay-v2-fixed-pilots",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS_PRIVATE",
+                "tree_sha256": "f7942622fb2e7a664b8719748e714108252c03812984ba089ddf8e28af9f72ee",
+                "lifecycle": "PRESERVED_TASK_QUALITY_FAIL",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261015T061000Z-task-data-first-continuation/task-overlay-v2-fixed-pilots",
+                "st_dev": 112,
+                "st_ino": 8231431
+              },
+              {
+                "role": "PI0294_TASK_V2_CLOSEOUT_METADATA",
+                "path": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261015T061000Z-task-data-first-continuation/task-overlay-v2-closeout-metadata",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS_PRIVATE",
+                "tree_sha256": "461b59b25f52423e8a90df417059f1ff910e4bed46e098cdd2b351d411341c12",
+                "lifecycle": "PRESERVED_TASK_PILOT_TERMINAL",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261015T061000Z-task-data-first-continuation/task-overlay-v2-closeout-metadata",
+                "st_dev": 112,
+                "st_ino": 8242116
+              },
+              {
+                "role": "PI0294_TEACHER_APPROACH_PROGRESS_PRIVATE_EVIDENCE",
+                "path": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261015T061000Z-task-data-first-continuation/teacher-approach-progress-v1",
+                "executor_node": "BOTH_CORELAB_NODES",
+                "storage_role": "SHARED_NFS_PRIVATE",
+                "tree_sha256": "0cc6e3d7738e53371a489aace6c4a41c64b532e1bcd565fe65df1da5ccaef427",
+                "lifecycle": "READONLY_ANALYSIS_AND_UNAUTHORIZED_DRAFT",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/home/liuyu-nfs/Projects/GR00T-WBC/evidence/PI0294/20261015T061000Z-task-data-first-continuation/teacher-approach-progress-v1",
+                "st_dev": 112,
+                "st_ino": 8242162
+              },
+              {
+                "role": "PI0294_TF_NIGHT_4080",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261015T162327Z-teacher-factory-night",
+                "run_uuid": "20261015T162327Z-teacher-factory-night",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "EXPLICIT_INDEPENDENT_NIGHT_SCOPE",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261015T162327Z-teacher-factory-night",
+                "st_dev": 66308,
+                "st_ino": 48242708
+              },
+              {
+                "role": "PI0294_TF_NIGHT_R1_4080",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261015T183448Z-teacher-factory-night-r1",
+                "run_uuid": "20261015T183448Z-teacher-factory-night-r1",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "EXPLICIT_R1_SUCCESSOR_ORIGINAL_NIGHT_BALANCE",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261015T183448Z-teacher-factory-night-r1",
+                "st_dev": 66308,
+                "st_ino": 48246607
+              },
+              {
+                "role": "PI0294_TF_R2_4080",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T032943Z-tf-r2-closure-to-dataset",
+                "run_uuid": "20261016T032943Z-tf-r2-closure-to-dataset",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "DIRECT_HUMAN_ADOPTED_R2_RESOURCE_OVERRIDE",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T032943Z-tf-r2-closure-to-dataset",
+                "st_dev": 66308,
+                "st_ino": 48268204
+              },
+              {
+                "role": "PI0294_TF_R3_4080",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T032943Z-tf-r3-midpoint-push",
+                "run_uuid": "20261016T032943Z-tf-r3-midpoint-push",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "DIRECT_HUMAN_ADOPTED_R2_RESOURCE_OVERRIDE",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T032943Z-tf-r3-midpoint-push",
+                "st_dev": 66308,
+                "st_ino": 48270449
+              },
+              {
+                "role": "PI0294_E0_4080_RUN",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T083821Z-localpc-e0",
+                "executor_node": "corelab-4080s",
+                "run_uuid": "20261016T083821Z-localpc-e0",
+                "lifecycle": "ADOPTED_E0_BINDING_NO_DISPATCH",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T083821Z-localpc-e0",
+                "st_dev": 66308,
+                "st_ino": 48370685
+              },
+              {
+                "role": "PI0294_E1_4080_RUN",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T150228Z-localpc-e1",
+                "executor_node": "corelab-4080s",
+                "run_uuid": "20261016T150228Z-localpc-e1",
+                "lifecycle": "CLOSED_E1_BOUNDED_EXECUTION_WITH_SCIENTIFIC_GAPS",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T150228Z-localpc-e1",
+                "st_dev": 66308,
+                "st_ino": 48381746
+              },
+              {
+                "role": "PI0294_MP1_CORE_CONTROL",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1",
+                "run_uuid": "20261016T191445Z-localpc-mp1",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "ADOPTED_MP1_CONTROL_NO_SCIENTIFIC_CHILD",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1",
+                "st_dev": 66308,
+                "st_ino": 48512829
+              },
+              {
+                "run_uuid": "e1-panel-recovery-01",
+                "role": "PI0294_MP1_E1REC_CORE",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/e1-panel-recovery-01",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "CLOSED_NATIVE_FAIL_EVIDENCE_AUDITED",
+                "closed_epoch": 1792217019.0166326,
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/e1-panel-recovery-01",
+                "st_dev": 66308,
+                "st_ino": 48522248
+              },
+              {
+                "run_uuid": "e1-panel-recovery-02",
+                "role": "PI0294_MP1_E1REC_CORE_02",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/e1-panel-recovery-02",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "CLOSED_NATIVE_FAIL_EVIDENCE_AUDITED",
+                "closed_epoch": 1792217486.4824476,
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/e1-panel-recovery-02",
+                "st_dev": 66308,
+                "st_ino": 48524190
+              },
+              {
+                "run_uuid": "saved-m1-t2-shadow-01",
+                "role": "PI0294_MP1_SAVED_M1_T2_SHADOW_CORE",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/saved-m1-t2-shadow-01",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "CLOSED_EXACT_SAVED_T2_SHADOW_ATTRIBUTION_COMPLETE",
+                "closed_epoch": 1792218281.3803058,
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/saved-m1-t2-shadow-01",
+                "st_dev": 66308,
+                "st_ino": 48523437
+              },
+              {
+                "run_uuid": "e1-panel-recovery-03",
+                "role": "PI0294_MP1_E1REC_CORE_03",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/e1-panel-recovery-03",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "CLOSED",
+                "closed_epoch": 1792224858.7043436,
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/e1-panel-recovery-03",
+                "st_dev": 66308,
+                "st_ino": 48527745
+              },
+              {
+                "run_uuid": "source-pair-01",
+                "role": "PI0294_MP1_SOURCE_PAIR_CORE_01",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/source-pair-01",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "MP1_MATCHED_SOURCE_PAIR_BOUND",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/source-pair-01",
+                "st_dev": 66308,
+                "st_ino": 48634594
+              },
+              {
+                "run_uuid": "sbc512-failure-history-01",
+                "role": "PI0294_MP1_CURRENT_SBC512_FAILURE_HISTORY_CORE",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/sbc512-failure-history-01",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "CLOSED_ACTUAL_CURRENT_FAILURE_HISTORY_AND_GEOMETRY",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/sbc512-failure-history-01",
+                "st_dev": 66308,
+                "st_ino": 48642663
+              },
+              {
+                "run_uuid": "n1-anchor-dynamic-parity-01",
+                "role": "PI0294_MP1_N1_ANCHOR_DYNAMIC_CORE",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-anchor-dynamic-parity-01",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "DYNAMIC_QUALIFICATION_GAP_PRESERVED_CLOSED_NO_RETRY",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-anchor-dynamic-parity-01",
+                "st_dev": 66308,
+                "st_ino": 48797235
+              },
+              {
+                "run_uuid": "n1-anchor-failure-trace-02",
+                "role": "PI0294_MP1_N1_ANCHOR_FAILURE_TRACE_CORE_02",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-anchor-failure-trace-02",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "DYNAMIC_QUALIFICATION_GAP_PRESERVED_CLOSED_NO_RETRY",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-anchor-failure-trace-02",
+                "st_dev": 66308,
+                "st_ino": 49023080
+              },
+              {
+                "run_uuid": "n1-anchor-native-copy-ablation-03",
+                "role": "PI0294_MP1_N1_ANCHOR_COPY_ABLATION_CORE_03",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-anchor-native-copy-ablation-03",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "SINGLE_NATIVE_COPY_ABLATION_CLOSED_NOT_FULL_GATE",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-anchor-native-copy-ablation-03",
+                "st_dev": 66308,
+                "st_ino": 49029942
+              },
+              {
+                "run_uuid": "n1-anchor-native-history-gate-04",
+                "role": "PI0294_MP1_N1_EIGHT_NATIVE_HISTORY_GATE_CORE_04",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-anchor-native-history-gate-04",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "PASS_EIGHT_ORIGINAL_HISTORY_NATIVE_COPY_FUTURE_PREFIXES_CLOSED",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-anchor-native-history-gate-04",
+                "st_dev": 66308,
+                "st_ino": 49030618
+              },
+              {
+                "run_uuid": "n1-endpoint-ni16-matched-shadows-05",
+                "role": "PI0294_MP1_N1_ENDPOINT_NI16_MATCHED_SHADOWS_CORE_05",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-endpoint-ni16-matched-shadows-05",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "COMPLETE_NI16_MATCHED_SHADOWS_CLOSED_NOT_POLICY_EVALUATION",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/n1-endpoint-ni16-matched-shadows-05",
+                "st_dev": 66308,
+                "st_ino": 49034134
+              },
+              {
+                "run_uuid": "source-confirm-01",
+                "role": "PI0294_MP1_SOURCE_CONFIRM_CORE_01",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/source-confirm-01",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "BOUND_CONFIRMATION_STATIC_ONLY",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261016T191445Z-localpc-mp1/children/source-confirm-01",
+                "st_dev": 66308,
+                "st_ino": 49034901
+              },
+              {
+                "run_uuid": "20261018T162151Z-localpc-fd1",
+                "role": "PI0294_FD1_CPU_DIAGNOSTIC",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261018T162151Z-localpc-fd1",
+                "executor_node": "corelab-4080s",
+                "lifecycle": "FD1_CPU_DIAGNOSTIC_ONLY",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261018T162151Z-localpc-fd1",
+                "st_dev": 66308,
+                "st_ino": 48890365
+              },
+              {
+                "role": "PI0294_FD2_DYNAMIC_EXPERT_PILOT",
+                "path": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261018T171916Z-localpc-fd2",
+                "executor_node": "corelab-4080s",
+                "run_uuid": "20261018T171916Z-localpc-fd2",
+                "lifecycle": "FD2_SINGLE_PILOT",
+                "status": "PATH_OBSERVED",
+                "observed_on": "corelab-4080s",
+                "realpath": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261018T171916Z-localpc-fd2",
+                "st_dev": 66308,
+                "st_ino": 48893661
+              }
+            ]
+          },
+          {
+            "check": "original_sample_statistics_and_fixed_tokenizer_bytes",
+            "status": "PASS",
+            "result": [
+              {
+                "role": "PI0291_statistics.json",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/statistics.json",
+                "sha256": "43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d",
+                "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+              },
+              {
+                "role": "PI0291_STATISTICS_PROVENANCE.json",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/STATISTICS_PROVENANCE.json",
+                "sha256": "0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359",
+                "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+              },
+              {
+                "role": "PI0291_DATASET_MANIFEST.json",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/DATASET_MANIFEST.json",
+                "sha256": "1d2dd42c681197493570128aa09f60c864e3cc1be80f9a3fa1d6af3b175189d7",
+                "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+              },
+              {
+                "role": "COSMOS_PROCESSOR_chat_template.json",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/chat_template.json",
+                "sha256": "6f8a6a55027e3da5160105556cda5dd69f6423f1c32645f6730d32de7773d0c4",
+                "blob_id": "e49e75bdda104c8de941eb20e0b3765184fb27bc",
+                "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+              },
+              {
+                "role": "COSMOS_PROCESSOR_config.json",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/config.json",
+                "sha256": "bec4b3d446efa05807365c9e1cec03ac590836879d02f3a6da879971154bdd3b",
+                "blob_id": "0cd8c646eb55794594b14fefcd1d3acea5cc000f",
+                "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+              },
+              {
+                "role": "COSMOS_PROCESSOR_generation_config.json",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/generation_config.json",
+                "sha256": "1e241830b48b397cb0900101421df5450baddc7adf01e5fc86b5615865f3bae4",
+                "blob_id": "7bb37933d2d86e4ceaabcc6540be989658f238e9",
+                "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+              },
+              {
+                "role": "COSMOS_PROCESSOR_merges.txt",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/merges.txt",
+                "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+                "blob_id": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0",
+                "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+              },
+              {
+                "role": "COSMOS_PROCESSOR_preprocessor_config.json",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/preprocessor_config.json",
+                "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+                "blob_id": "2ea84a437d448ff71b08df68fdd949d5cc4ebb64",
+                "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+              },
+              {
+                "role": "COSMOS_PROCESSOR_tokenizer.json",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/tokenizer.json",
+                "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+                "blob_id": "c6cc1014128b19d1fc46b1d30a23e3b1d35db421",
+                "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+              },
+              {
+                "role": "COSMOS_PROCESSOR_tokenizer_config.json",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/tokenizer_config.json",
+                "sha256": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+                "blob_id": "d3d3763207692c78780f4bf42d4dadf49a5c8012",
+                "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+              },
+              {
+                "role": "COSMOS_PROCESSOR_video_preprocessor_config.json",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/video_preprocessor_config.json",
+                "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+                "blob_id": "3ba673a5ad7d4d13f54155ecd38b2a94a6dac8fe",
+                "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+              },
+              {
+                "role": "COSMOS_PROCESSOR_vocab.json",
+                "path": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/vocab.json",
+                "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+                "blob_id": "4783fe10ac3adce15ac8f358ef5462739852c569",
+                "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+              },
+              {
+                "role": "ORIGINAL_PI0291_NATIVE_SAMPLE",
+                "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/episodes/T291000.npz",
+                "sha256": "14a2e4b4407fbcc33a65c3b617652ee40e88c4ac6a2aa93e3b23efd7d80a7502",
+                "episode_id": "T291000"
+              }
+            ]
+          }
+        ],
+        "failures": [],
+        "epoch": 1792348180.15852,
+        "wall_seconds": 2.7283668518066406,
+        "cpu_seconds": 0.257459,
+        "model_load_forward_train_physics_WBC_PBS_hardware": 0
+      },
+      "recorded_processes": 594,
+      "active_prior_consumers": [
+        {
+          "scope": "FD2",
+          "operation": "pilot"
+        }
+      ],
+      "free_global_bytes": 468439666688,
+      "whole_filesystem_free_is_not_personal_quota": true
+    },
+    "hopper": {
+      "profile_doctor": {
+        "status": "PASS_CONTROL_IDENTITY_ONLY",
+        "profile": "hopper-neural",
+        "mature_launcher": "PINNED_PBS_PROFILE_RUNTIME_ADMISSION_NOT_CORE_ENTER_SH",
+        "new_PV1_scope_admission": "PENDING_VERSIONED_VALIDATOR"
+      },
+      "recorded_processes": 63,
+      "active_prior_consumers": [],
+      "free_global_bytes": 3444778894098432,
+      "whole_filesystem_free_is_not_personal_quota": true
+    }
+  },
+  "Hopper_personal_quota": {
+    "user": "e1192548",
+    "used_bytes": 659671207936,
+    "hard_bytes": 1099511627776,
+    "report_epoch": 1792347787.134636
+  },
+  "Hopper_project_admission_at_adoption": {
+    "returncode": 1,
+    "expired": true,
+    "active": false,
+    "member": false,
+    "positive_balance": false
+  },
+  "Hopper_unrelated_queued_GPU_jobs": [
+    {
+      "job_id": "674075.hopper-m-02",
+      "state": "Q",
+      "project": "CFP04-CF-031",
+      "requested_GPUs": 2,
+      "cancelled": false
+    },
+    {
+      "job_id": "674805.hopper-m-02",
+      "state": "Q",
+      "project": "CFP04-CF-031",
+      "requested_GPUs": 2,
+      "cancelled": false
+    },
+    {
+      "job_id": "674806.hopper-m-02",
+      "state": "Q",
+      "project": "CFP04-CF-031",
+      "requested_GPUs": 2,
+      "cancelled": false
+    }
+  ],
+  "parent_metadata": {
+    "manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "global_step": 2048,
+    "full_resume": true,
+    "complete_files": 15,
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "actual_tensor_payload_rehash": "PENDING_BOUNDED_NATIVE_CHILD_NO_MODEL_LOADED"
+  },
+  "first_next_actions": [
+    "Close existing FD2 exactly in its original scope; reuse complete actual evidence without replay",
+    "Freeze one FD2-based PV1 route then TRAIN96/DEV12/LOCKBOX20 with old-parent geometry exclusions",
+    "Versioned PV1 admission, sampler and finite CPU source-data qualification before any GPU dispatch"
+  ],
+  "new_PV1_PBS_physics_models_training_at_adoption": 0
+}
