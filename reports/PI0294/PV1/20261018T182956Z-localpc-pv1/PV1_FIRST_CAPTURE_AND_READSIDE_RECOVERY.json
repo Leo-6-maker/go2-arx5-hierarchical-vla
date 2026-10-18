@@ -1,0 +1,258 @@
+{
+  "schema": "PI0294_PV1_FIRST_CAPTURE_AND_SAVED_RAW_AUDIT_RECEIPT_V1",
+  "run_uuid": "20261018T182956Z-localpc-pv1",
+  "observed_epoch": 1792352132.7762895,
+  "PV1_T0_epoch": 1792348196,
+  "original_hard_closeout_epoch": 1792952996,
+  "status": "TWO_FIRST_T1_CAPTURES_INDEPENDENTLY_QUALIFIED_FOUR_FIRST_T2_STILL_UNATTEMPTED",
+  "selected_route": "CLEARANCE_PAIR",
+  "planned_TRAIN_groups": 96,
+  "planned_first_attempts": 288,
+  "DEV_groups_sealed": 12,
+  "LOCKBOX_groups_sealed": 20,
+  "no_evaluation_success_screening": true,
+  "master_capture_plan_sha256": "c4a71d4ebb518a58c3417e7d3c5aba4641eda39a2e9e9a0ddf77404866a99d28",
+  "actual_Teacher_episodes": 2,
+  "qualified_original_T1": 2,
+  "T2_episodes": 0,
+  "engineering_replacement_episodes": 0,
+  "original_T1_physics_not_replayed": true,
+  "rows": [
+    {
+      "id": "PI0294-PV1-TRAIN-F0-000-T1-C04",
+      "task": "T1",
+      "scene_group": "PI0294/PV1/TRAIN/F0/000",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT",
+      "task_success": true,
+      "new_episodes": 0,
+      "integrations": 0,
+      "GR00T_queries": 0,
+      "original_raw_manifest_sha256": "ed220f218de17a68a49b36205ceaec773b4b5cf6eedc83bc75916aa6513fc3ff",
+      "original_failed_audit_preserved": true,
+      "original_physics_source": "e0ff76dbeba2d1b10bcbf37f56015e610643541b",
+      "saved_audit_source": "8ecd43ad2fb6ca4bc5952e714b661f666176d974",
+      "full_audit_sha256": "73a267661036709f1533df15d65255cf2a4f730abd8ff23c9e6b42574e9d6a2a",
+      "video": {
+        "sha256": "a86315ac669aa686a1e5de3966b7a8d5aab3e06c18bdab607e6cb4f488277bc3",
+        "bytes": 653231,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "relative_path": "evidence/audits/PI0294-PV1-TRAIN-F0-000-T1-C04/actual-body-wrist.mp4"
+      },
+      "original_score": {
+        "clock_valid": true,
+        "complete_32s": true,
+        "deployment": "NONE",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "history": {
+          "horizontal_carry": true,
+          "sustained_grasp": true,
+          "sustained_lift": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "angular_speed": 41,
+          "linear_speed": 41,
+          "object_and_contacts_valid": 41,
+          "released": 41,
+          "table_height": 41,
+          "tcp_clear": 41,
+          "zone_corners": 41
+        },
+        "maximum_actual_carry_xy_m": 0.1609120750089479,
+        "maximum_actual_lift_m": 0.08288242655203998,
+        "persistent_success": true,
+        "physics_sha256": "018254775327d2078121d9923caf40b79ec6efc9d243755bc76ce8cfabc48a52",
+        "raw_sample_count": 641,
+        "safety_valid": true,
+        "selected": "NONE",
+        "task": "T1",
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1"
+      },
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      }
+    },
+    {
+      "id": "PI0294-PV1-TRAIN-F0-001-T1-C04",
+      "task": "T1",
+      "scene_group": "PI0294/PV1/TRAIN/F0/001",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT",
+      "task_success": true,
+      "new_episodes": 0,
+      "integrations": 0,
+      "GR00T_queries": 0,
+      "original_raw_manifest_sha256": "51e1ba07f259290b08267a39664132ce8d5110b488d71d6e5b4ae6dd4f6933db",
+      "original_failed_audit_preserved": true,
+      "original_physics_source": "e0ff76dbeba2d1b10bcbf37f56015e610643541b",
+      "saved_audit_source": "8ecd43ad2fb6ca4bc5952e714b661f666176d974",
+      "full_audit_sha256": "ba8102ad1f8ef93b05cbe04d925fc50ab7cb16b2a589adf08ba5ab4367ddcacc",
+      "video": {
+        "sha256": "720698c66e9d7edbb071162df0d0e110ba6facc2884505adecd61cd343db4f0b",
+        "bytes": 645697,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "relative_path": "evidence/audits/PI0294-PV1-TRAIN-F0-001-T1-C04/actual-body-wrist.mp4"
+      },
+      "original_score": {
+        "clock_valid": true,
+        "complete_32s": true,
+        "deployment": "NONE",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "history": {
+          "horizontal_carry": true,
+          "sustained_grasp": true,
+          "sustained_lift": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "angular_speed": 41,
+          "linear_speed": 41,
+          "object_and_contacts_valid": 41,
+          "released": 41,
+          "table_height": 41,
+          "tcp_clear": 41,
+          "zone_corners": 41
+        },
+        "maximum_actual_carry_xy_m": 0.17140849258441335,
+        "maximum_actual_lift_m": 0.08271147725303635,
+        "persistent_success": true,
+        "physics_sha256": "d1ac10a3817a4cff52f8c834228a238e96ade8cc6aea1981fc3e4e9bac55fc69",
+        "raw_sample_count": 641,
+        "safety_valid": true,
+        "selected": "NONE",
+        "task": "T1",
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1"
+      },
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      }
+    }
+  ],
+  "original_metadata_failure": {
+    "reason": "Missing legacy ATTEMPT_PLAN.json binding in the raw-auditor adapter",
+    "cases": 2,
+    "original_failed_audits_preserved": true,
+    "third_same_unexplained_version_not_dispatched": true,
+    "original_physics_source": "e0ff76dbeba2d1b10bcbf37f56015e610643541b",
+    "new_saved_audit_source": "8ecd43ad2fb6ca4bc5952e714b661f666176d974",
+    "new_saved_audit_integrations": 0,
+    "new_saved_audit_episode_starts": 0,
+    "saved_audit_engine_starts": 4,
+    "saved_audit_CPU_s": 10.431480938
+  },
+  "canonical_entry_repair": {
+    "status": "PASS_CANONICAL_UNIQUE_ROLES_EXISTING_ENTRY_RESTORED",
+    "renames": [
+      {
+        "run_uuid": "capture-w0-00",
+        "old_role": "PI0294_PV1_CORE_TRAIN_CAPTURE_V1",
+        "new_role": "PI0294_PV1_CORE_TRAIN_CAPTURE_V1__capture-w0-00"
+      },
+      {
+        "run_uuid": "capture-w0-01",
+        "old_role": "PI0294_PV1_CORE_TRAIN_CAPTURE_V1",
+        "new_role": "PI0294_PV1_CORE_TRAIN_CAPTURE_V1__capture-w0-01"
+      }
+    ],
+    "registry_before_sha256": "3db87c522fb576a9f55516d6fecf0a5b34a3bc28345946c14242b6bbd20e6f7b",
+    "registry_after_sha256": "97fa0a587ad6438f89a98946423eb4e0cb53baf65128a64365913a599c2cc11d",
+    "original_manifests_bindings_leases_ledgers_unchanged": true,
+    "profile_doctor": "PASS",
+    "original_failed_audit_child_preparation_had_no_native_child": true,
+    "new_models": 0,
+    "new_physics": 0,
+    "new_PBS": 0
+  },
+  "accounting": {
+    "settled_CPU_s": {
+      "CoreLab": 2325.808691504,
+      "Hopper": 180,
+      "local_PC": 1800
+    },
+    "CPU_reserved_s": {
+      "CoreLab": 0,
+      "Hopper": 0,
+      "local_PC": 0
+    },
+    "all_physics_ticks": {
+      "live": 32000,
+      "shadow": 32000,
+      "reconstruction": 0
+    },
+    "engine_starts": 454,
+    "episode_starts": 2,
+    "optimizer_updates": 0,
+    "neural_queries": 0,
+    "GPU_allocated_s": 0,
+    "GPU_reserved_s": 0,
+    "PBS_submissions": 0,
+    "unknown_effects": [],
+    "final_reserve_inside_total": {
+      "H200_s": 72000,
+      "live_ticks": 1600000,
+      "shadow_ticks": 1600000,
+      "episode_starts": 100,
+      "neural_queries": 9000,
+      "storage_bytes": 42949672960
+    },
+    "original_W0_episode_starts_field_zero_retained_not_used_for_accounting": true,
+    "actual_episode_count_derived_from_persisted_attempts_and_native_receipts": true
+  },
+  "source_data_admission": "RAW_TASK_POSITIVES_ONLY_OFFICIAL_FIXED_STATS_CODEC_AND_HF_BANK_STILL_PENDING",
+  "videos": "ACTUAL_FULL_RAW_FRAME_DECODED_PRIVATE_CURRENTLY_NOT_PUBLIC_UPLOAD_RECEIPT",
+  "next_action": "COLD_UNIQUE_ROLE_WORKERS_FOR_FOUR_UNATTEMPTED_ORIGINAL_T2_CARDS_THEN_2_TO_4_QUALIFICATION",
+  "new_budget_or_T0_reset": false,
+  "GR00T_training_executed": false,
+  "source_task_proves_Go2_WBC_or_real_robot": false,
+  "WBC_S1_plant_gripper_score_frozen": true,
+  "TF_R3_STOP_preserved": true,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

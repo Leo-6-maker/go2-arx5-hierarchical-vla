@@ -15,6 +15,12 @@ CAPTURE_ROLE = 'PI0294_PV1_CORE_TRAIN_CAPTURE_V1'
 REAUDIT_ROLE = 'PI0294_PV1_CORE_SAVED_RAW_AUDIT_V1'
 
 
+def registry_role(scope,run_uuid):
+    if scope not in (ROLE,CAPTURE_ROLE,REAUDIT_ROLE) or not run_uuid or run_uuid in ('.','..') or '/' in run_uuid or '\\' in run_uuid:
+        raise PermissionError('PV1_FIXED_ROLE_AND_SINGLE_RUN_IDENTITY')
+    return scope+'__'+run_uuid if scope==CAPTURE_ROLE else scope
+
+
 def validate(root, role=ROLE):
     if role not in (ROLE, CAPTURE_ROLE, REAUDIT_ROLE):
         raise PermissionError('PV1_ONLY_VERSIONED_CPU_CHILD_ROLES')
@@ -23,6 +29,7 @@ def validate(root, role=ROLE):
     b = read(root/'OUTPUT_BINDING.private.json')
     inputs = read(root/'INPUT_BINDINGS.private.json')
     code = root/m['code']['capsule_relative']
+    expected_role=registry_role(role,root.name)
     if (code.is_symlink() or not code.resolve().is_relative_to(root.resolve())
             or Path(m['code']['capsule_relative']).is_absolute()
             or Path(m['code']['source_seal_relative']).is_absolute()
@@ -37,7 +44,8 @@ def validate(root, role=ROLE):
         raise PermissionError('PV1_NATIVE_CPU_CHILD_IDENTITY_AND_MANIFEST')
     if (root.is_symlink() or root.resolve() != Path(b['run_root']).resolve()
             or root.parent.resolve() != Path(b['registered_parent']).resolve()
-            or b['role'] != role or b['uid'] != os.getuid()
+            or b['role'] != expected_role or b['uid'] != os.getuid()
+            or m['execution']['private_path_role'] != expected_role
             or sha(root/'OUTPUT_BINDING.private.json') != m['execution']['output_binding_sha256']
             or sha(root/'INPUT_BINDINGS.private.json') != m['execution']['input_binding_sha256']):
         raise PermissionError('PV1_REGISTERED_CHILD_OUTPUT_NO_ESCAPE')
@@ -58,8 +66,9 @@ def validate(root, role=ROLE):
             or not adoption['T0_epoch'] <= time.time() < min(lease['deadline_epoch'], adoption['stop_new_physics_epoch'])):
         raise PermissionError('PV1_FRESH_CHILD_LEASE_AND_TIME')
     registry = read(b['registry'])['entries']
-    matches = [x for x in registry if x.get('role') == role and x.get('run_uuid') == root.name]
-    if len(matches) != 1 or Path(matches[0]['path']).resolve() != root.resolve():
+    matches = [x for x in registry if x.get('role') == expected_role]
+    if (len(matches) != 1 or Path(matches[0]['path']).resolve() != root.resolve()
+            or matches[0].get('run_uuid') != root.name):
         raise PermissionError('PV1_UNIQUE_CHILD_OWNER_IN_EXISTING_REGISTRY')
     parent_binding = read(parent/'OUTPUT_BINDING.private.json')
     parent_lease = read(parent_binding['lease'])

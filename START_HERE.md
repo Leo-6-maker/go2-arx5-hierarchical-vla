@@ -9,6 +9,10 @@ hard close2026-10-26 02:29:56SGT. CLEARANCE_PAIR meets the predeclared
 contact-gap gate, but training still requires the new admitted data bank.
 Other eligible projects do not increase96H200h/24PBS or one-GPU concurrency.
 Final20H200h and physical/query/storage reserves remain protected.
+[P1 first actual capture and read-side recovery](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_FIRST_CAPTURE_AND_READSIDE_RECOVERY.json):
+128 groups statically sealed; first2 Teacher T1 successes independently audited
+without physics replay. Four initial T2 cards remain unattempted in this snapshot.
+Official fixed-statistics codec/data-bank admission and new GPU work are pending.
 
 **FD2 CLOSED: all8 actual Teacher trials independently audited.**
 [Final review](reports/PI0294/20261018T171916Z-localpc-fd2/FD2_FINAL_SCIENCE_REVIEW.md) ·
