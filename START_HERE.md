@@ -13,6 +13,20 @@ Final20H200h and physical/query/storage reserves remain protected.
 128 groups statically sealed; first2 Teacher T1 successes independently audited
 without physics replay. Four initial T2 cards remain unattempted in this snapshot.
 Official fixed-statistics codec/data-bank admission and new GPU work are pending.
+[P1 four-worker actual expansion](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_FOUR_WORKER_CAPTURE_ACTUAL.json) and
+[first6 official codec results](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_FIRST_OFFICIAL_CODEC_ADMISSION.json)
+supersede that first2 snapshot: all6 first Teacher episodes pass physical/raw
+audits, but only4 pass the unchanged official codec. Both12mm references
+have clipped relative-Z labels beyond the original numerical gate; raw task
+success is retained. The finite ordered CPU stream checks every new parent,
+including4mm; it freezes a bank only after all independent/directional gates.
+Fallback to original-reference coverage needs the predeclared support evidence,
+not an assumption that all later12mm fail. No normalizer/decoder refit or GPU
+work has occurred. Actual capture source stays26d86625 and reader ff430330;
+management HEAD is not a hot update to those immutable consumers.
+Hopper cold admission/campaign-ledger code is prepared and CPU-tested only,
+not an actual allocation, premodel qualification or complete neural dispatcher.
+The full policy-release goal remains active; selected/deployment NONE.
 
 **FD2 CLOSED: all8 actual Teacher trials independently audited.**
 [Final review](reports/PI0294/20261018T171916Z-localpc-fd2/FD2_FINAL_SCIENCE_REVIEW.md) ·
@@ -38,7 +52,8 @@ This identifies immediate triggers, not a unique training root cause or WBC faul
 FD1 used177340 shadow ticks/45 starts,0 live episodes/NN queries/GPU/PBS/training.
 New FD1 lease CLOSED; old N1 leases, raw scores and STOPs unchanged.
 [One TRAIN-only dynamic expert-clearance pilot](reports/PI0294/20261016T191445Z-localpc-mp1/FD1_DIAG/FD1_NEXT_EXPERIMENT_DECISION.md)
-is NOT_AUTHORIZED. Selected/deployment NONE; no automatic next experiment.
+was NOT_AUTHORIZED in that historical draft; its later, separate FD2 authority
+has now closed as described above. Selected/deployment NONE.
 
 **MP1-N1 CLOSED: complete audited40, T1 10/20 andT2 4/20; both14/20 R&D targets NOT MET.**
 [Final science review](reports/PI0294/20261016T191445Z-localpc-mp1/N1_FINAL_SCIENCE_REVIEW.md) ·

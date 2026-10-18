@@ -9,7 +9,20 @@ from .resources import admit_resources,project_eligible
 PROJECT_SOURCE='HOPPER_LOGIN_NATIVE_AMGR_LS_AND_CHECKBALANCE'
 
 
-def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledger,project_proof,queue_proof):
+def single_h200_select(resources,cpus):
+    parts=resources.get('select','').split(':')
+    if not parts or parts[0]!='1' or '+' in resources.get('select',''):return False
+    fields={}
+    for part in parts[1:]:
+        pair=part.split('=',1)
+        if len(pair)!=2 or pair[0] in fields:return False
+        fields[pair[0]]=pair[1]
+    return (type(cpus) is int and cpus>=4 and resources.get('ncpus')==cpus
+        and fields.get('gpu_model')=='H200' and fields.get('ngpus')=='1' and fields.get('ncpus')==str(cpus))
+
+
+def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledger,project_proof,queue_proof,
+                    root_run_uuid=None):
     """Only native metadata; this function never submits or loads a model."""
     if (adoption['authority_release']!=AUTHORITY
             or adoption['stop_new_jobs_epoch']!=adoption['T0_epoch']+144*3600
@@ -22,8 +35,11 @@ def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledge
         raise PermissionError('PV1_ONLY_PREDECLARED_NEURAL_PHASES')
     final=stage=='P5_FINAL'
     cutoff=adoption['stop_new_training_epoch'] if stage in ('P2_PRIMARY','P3_PAIRED','P4_REPLICA') else adoption['stop_new_physics_epoch']
+    expected_run=adoption['run_uuid'] if root_run_uuid is None else root_run_uuid
     if (request['schema']!='PI0294_PV1_NATIVE_ALLOCATION_REQUEST_V1'
-            or request['run_uuid']!=adoption['run_uuid'] or request['authority_release']!=AUTHORITY
+            or request['run_uuid']!=expected_run
+            or request.get('campaign_run_uuid',request['run_uuid'])!=adoption['run_uuid']
+            or request['authority_release']!=AUTHORITY
             or not adoption['T0_epoch']<=request['created_epoch']<adoption['stop_new_jobs_epoch']
             or not adoption['T0_epoch']<=now<cutoff
             or request.get('data_bank_status')!='SEALED_FULL_SUCCESS_OFFICIAL_CODEC_ADMITTED'
@@ -46,6 +62,7 @@ def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledge
     job=jobs.get(job_id)
     if (not job or job['job_state']!='R' or job['Job_Owner'].split('@')[0]!=user
             or job.get('project')!=request['project'] or int(job['Resource_List']['ngpus'])!=1
+            or not single_h200_select(job['Resource_List'],request['ncpus'])
             or job.get('Job_Name')!=request['job_name'] or not request['job_name'].startswith('pi0294_pv1_')):
         raise PermissionError('PV1_OWN_RUNNING_SELECTED_PROJECT_SINGLE_GPU_PBS_ONLY')
     registered={s['job_id'] for s in ledger['PBS_submissions'] if s.get('job_id')}
@@ -61,7 +78,7 @@ def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledge
         raise PermissionError('PV1_ACTUAL_COMPUTE_HOST_START_AND_WALLTIME')
     p=project_proof
     if (p.get('schema')!='PI0294_PV1_RUNNING_JOB_PROJECT_ATTESTATION_V1'
-            or p.get('source')!=PROJECT_SOURCE or p['run_uuid']!=adoption['run_uuid']
+            or p.get('source')!=PROJECT_SOURCE or p['run_uuid']!=expected_run
             or p['request_id']!=request['request_id'] or p['job_id']!=job_id
             or p['submission_nonce']!=request['submission_nonce']
             or not started<=p['observed_epoch']<=now or not 0<=now-p['observed_epoch']<=1800):
@@ -85,4 +102,5 @@ def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledge
     return dict(status='PASS_PV1_OWN_NATIVE_H200_ALLOCATION',job_id=job_id,project=request['project'],
         hostname=hostname,observed_epoch=now,allocation_start_epoch=started,
         allocation_end_epoch=min(started+wall,cutoff),resource_clock_reset=False,
+        native_select=job['Resource_List']['select'],native_ncpus=request['ncpus'],
         unrelated_owned_jobs_cancelled=False,model_loaded=False)
