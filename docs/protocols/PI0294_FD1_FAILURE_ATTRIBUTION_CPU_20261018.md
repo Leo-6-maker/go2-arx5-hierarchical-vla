@@ -49,7 +49,7 @@ T1一条完整32s任务抓取/抬升/搬运成立，但**released=0、hold=0/41*
 ## 3. FD1：零新增物理、零神经推理的全量失败事件图谱（最高优先）
 
 对**全部40个固定条件/42次原尝试**做已存数据的只读连接，不删工程尝试、不重复有效负例：
-1. join `CARD` / 原始 `RESULT` / `SCORE` / `S1_PRELIGHTS` / 原 `physical`、`highrate`、`contact_audit` / actual RGB snapshots / model command arrays / installed ACKs / original noise fingerprint。高成本整视频无需为同一案例重复解码，优先读取原audited索引和有界局部帧。
+1. join `CARD` / 原始 `RESULT` / `SCORE` / `S1_PREFLIGHTS` / 原 `physical`、`highrate`、`contact_audit` / actual RGB snapshots / model command arrays / installed ACKs / original noise fingerprint。高成本整视频无需为同一案例重复解码，优先读取原audited索引和有界局部帧。
 2. 每次拒绝定位**决策时刻、真实已执行200-tick prefix历史、第一次预测违规offset、预测类别、影子结果摘要**；只报告存档已有的 geom pair / signed clearance。如原始S1仅保存类别/offset而**没有准确geom pair**，明确 `FIRST_GEOMETRY_NOT_IN_ARCHIVE`，不能凭标签或另一模型猜测。
 3. 重新标注“真实物理事件”，例如首次真实碰物体、第一次达到预登记1mm/10mm物体位移、是否超过任务规定10cm位移、物体是否进目标区、grasp/lift/release/detach、TCP-clear和终末41点保持。**事件阈值要分成‘原任务判据’与‘新诊断性的早期阈值’，后者不得改评分。**对于S1拒绝，**只利用拒绝前真实历史**，不得把预测shadow当真实已发生事件。
 4. 23条S1/3条完整任务失败逐一出`actual_phase`，并同时保留原 `AUDIT_ONLY_*` 和二者不一致标记。首先按任务、几何族、原bank、是否已有物体接触或达到目标、拒绝实际时刻（T1早于约12s、T2在12–28.8s）拆开，不用一个“approach”类掩盖。
