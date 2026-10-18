@@ -139,7 +139,7 @@ class Meter:
     def guard(self):
         if time.time() >= self.deadline or time.process_time() - self.started >= self.cap:
             raise TimeoutError('FD1_CPU_OR_WALL_BOUND')
-        if (self.operation == 'shadow' and time.time() >= self.m['limits']['stop_new_shadow_epoch']):
+        if (self.operation.startswith('shadow') and time.time() >= self.m['limits']['stop_new_shadow_epoch']):
             raise TimeoutError('FD1_SHADOW_CLOCK')
         if self.ledger['shadow_ticks'] + self.ticks > self.m['limits']['shadow_ticks']:
             raise RuntimeError('FD1_SHADOW_TICK_BOUND')
@@ -344,7 +344,7 @@ def run(root,operation):
         meter=Meter(root,operation)
         if operation=='atlas':
             value=atlas(meter)
-        elif operation=='shadow':
+        elif operation in ['shadow','shadow-recovery-01']:
             from scripts.pi0294.fd1_shadow import run_shadow
             value=run_shadow(meter)
         else:
@@ -366,6 +366,6 @@ if __name__=='__main__':
     import argparse
     p=argparse.ArgumentParser()
     p.add_argument('--root',required=True)
-    p.add_argument('--operation',required=True,choices=['atlas','shadow'])
+    p.add_argument('--operation',required=True,choices=['atlas','shadow','shadow-recovery-01'])
     a=p.parse_args()
     print(json.dumps(run(a.root,a.operation)),flush=True)

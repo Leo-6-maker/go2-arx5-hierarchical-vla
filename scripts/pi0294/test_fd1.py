@@ -51,6 +51,11 @@ class FD1Tests(unittest.TestCase):
                 if isinstance(node,ast.ImportFrom):
                     self.assertNotIn(node.module,['scripts.pi0294.scene','scripts.pi0291_arx5_data.engine'])
 
+    def test_transitive_readonly_imports_exist_without_engine(self):
+        for name in ['scripts.iteration.rgb_cache','scripts.pi0294.e1.initial_history',
+                     'scripts.pi0294.e1.collision']:
+            self.assertIsNotNone(importlib.import_module(name))
+
     def test_exclusive_artifact_writes(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)/'receipt.json'
