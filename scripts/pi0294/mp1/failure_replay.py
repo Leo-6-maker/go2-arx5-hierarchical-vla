@@ -21,6 +21,7 @@ from scripts.pi0294.e1.initial_history import qualify_recorded_initial
 from scripts.pi0294.episode import _robot_contact
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.scene import make_engine
+from scripts.pi0294.s1_preflight import fingerprint
 from scripts.pi0294.teacher import make_teacher
 from . import failure_config as config
 from .science import validate_runtime,Ledger
@@ -57,7 +58,17 @@ def bound_inputs(root):
     return source,cases,binding
 
 
-def replay_case(root,source,case,ledger,guard):
+def observe_prefix(engine,sequence,poses,opening,observer):
+    if observer is None:return
+    before=fingerprint(engine)
+    action=hashlib.sha256(poses.tobytes()+opening.tobytes()).hexdigest()
+    observer(engine,sequence,poses,opening)
+    if (fingerprint(engine)!=before
+            or hashlib.sha256(poses.tobytes()+opening.tobytes()).hexdigest()!=action):
+        raise RuntimeError('READONLY_REPLAY_OBSERVER_CHANGED_SOURCE_OR_ACTION')
+
+
+def replay_case(root,source,case,ledger,guard,*,prefix_observer=None):
     identifier=case['attempt_id'];expected=config.ATTEMPTS[identifier]
     folder=source/'episodes'/identifier;card=read(folder/'CARD.json')
     adjudication=read(folder/'MP1_ADJUDICATION.json')
@@ -113,6 +124,8 @@ def replay_case(root,source,case,ledger,guard):
             original=forecasts[sequence]
             if original['action_sha256']!=fingerprint or original['sequence']!=sequence*8:
                 raise ValueError('ORIGINAL_S1_EXACT_INSTALLED_PREFIX_IDENTITY')
+            if sequence in case['sequences']:
+                observe_prefix(engine,sequence,poses[:8],opening[:8],prefix_observer)
             ack=folder/'relay/acks'/f'{sequence:03d}.json'
             if sequence==last:
                 if ack.exists() or original['decision']!='REJECT':

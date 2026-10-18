@@ -18,6 +18,10 @@ INPUTS='plans/ANCHOR_DYNAMIC_INPUTS.private.json'
 TRACE_SCHEMA='MP1_N1_SINGLE_FAILED_ANCHOR_TRACE_DIAGNOSTIC_V1'
 TRACE_CHILD='n1-anchor-failure-trace-02'
 TRACE_CARD='plans/N1_ANCHOR_FAILURE_TRACE_V1.json'
+ABLATION_SCHEMA='MP1_N1_FAILED_ANCHOR_NATIVE_COPY_ABLATION_V1'
+ABLATION_CHILD='n1-anchor-native-copy-ablation-03'
+ABLATION_CARD='plans/N1_ANCHOR_NATIVE_COPY_ABLATION_V1.json'
+TRACE02_FAILURE='6054695caaac588df42a36529a7793c83d63c2d375140aca991b3abd5cbd7294'
 FAILED_STATE='PI0294-MP1-S-BC-512-TRAIN4-F1-000-T1-S026'
 PRIOR_FAILURE='03a229d3e8ac414bcb54c42408ad7d83fcb892a073ecd9e3c0c43de15841e6c6'
 PRIOR_LEDGER='d4926aa3d22c961d348b7129e5016f72307c6b7d550c012af7cfe754c66c5ca5'
@@ -27,7 +31,7 @@ B1_MANIFEST='42b96f244d1d51c37950b3f12d014dfaf53f663cb8a00a4492021e24b4c3ff76'
 B1_SOURCE_INPUTS='99549abd8cb8e6479862e6a07e3fb5574d53b1be3f7296758ad366541971082b'
 
 
-def is_diagnostic(stage):return stage.get('schema') in [SCHEMA,TRACE_SCHEMA]
+def is_diagnostic(stage):return stage.get('schema') in [SCHEMA,TRACE_SCHEMA,ABLATION_SCHEMA]
 
 
 def specification(stage):
@@ -38,6 +42,10 @@ def specification(stage):
         return dict(child=TRACE_CHILD,scope='MP1_N1_SINGLE_FAILED_ANCHOR_TRACE_NOT_FULL_QUALIFICATION',
             caps=dict(CAPS,main_starts=1,shadow_integrations=200),CPU_core_s=dict(core=600,hopper=0),
             wall_s=600,card=TRACE_CARD,states=1,parents=1,trace_only=True)
+    if stage.get('schema')==ABLATION_SCHEMA:
+        return dict(child=ABLATION_CHILD,scope='MP1_N1_SINGLE_FAILED_ANCHOR_NATIVE_COPY_ABLATION',
+            caps=dict(CAPS,main_starts=2,shadow_integrations=5600),CPU_core_s=dict(core=1800,hopper=0),
+            wall_s=1800,card=ABLATION_CARD,states=1,parents=1,trace_only=True,ablation_only=True)
     raise PermissionError('EXACT_ANCHOR_DYNAMIC_OR_SINGLE_FAILED_TRACE_STAGE')
 
 
@@ -67,6 +75,10 @@ def validate_window(root,manifest,now):
     if spec['trace_only'] and (card['only_state']!=FAILED_STATE or card['prior_failure_sha256']!=PRIOR_FAILURE
             or card['single_state_pass_can_qualify_all_eight'] is not False):
         raise PermissionError('ONLY_RECORDED_FAILED_STATE_TRACE_NOT_GATE_PROMOTION')
+    if spec.get('ablation_only') and (card['trace02_failure_sha256']!=TRACE02_FAILURE
+            or card['branches']!=['FULL_NATIVE_COPY','FRESH_ENGINE_INTEGRATION_RESTORE','NATIVE_COPY_INTEGRATION_RESTORE']
+            or card['original_history_shadow_ticks']!=5200 or card['maximum_original_prefix_ticks_per_branch']!=63):
+        raise PermissionError('EXACT_SINGLE_STATE_THREE_BRANCH_ENGINEERING_ABLATION')
     began=stage['diagnostic_created_epoch'];end=stage['diagnostic_deadline_epoch']
     if (not delta['autonomy_started_epoch']<=began<delta['new_submission_and_candidate_cutoff_epoch']
             or not began<=now<end<=min(began+spec['wall_s'],delta['new_experiment_cutoff_epoch'])):

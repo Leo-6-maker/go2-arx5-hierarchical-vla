@@ -128,6 +128,24 @@ class AnchorDynamicTests(unittest.TestCase):
         bad=rows.copy();bad[0,-2]=2
         with self.assertRaises(ValueError):dynamic.project_observed_to_highrate(engine,bad,mj=mj)
 
+    def test_ablation_window_rejects_unbound_branch_state_budget_and_threshold_changes(self):
+        old=self.root;self.root=old.parent/config.ABLATION_CHILD;old.rename(self.root)
+        self.stage.update(schema=config.ABLATION_SCHEMA,diagnostic_deadline_epoch=self.stage['diagnostic_created_epoch']+1800)
+        self.put('MP1_STAGE_BINDING.json',self.stage)
+        repo=Path(__file__).resolve().parents[2]
+        card=json.loads((repo/'reports/PI0294/design/N1_ANCHOR_NATIVE_COPY_ABLATION_V1.json').read_text())
+        def seal(value):
+            self.put(config.ABLATION_CARD,value,True)
+            self.manifest['execution']['sealed_inputs']={p:sha(self.root/p) for p in [config.ABLATION_CARD,config.INPUTS]}
+        seal(card);value=config.validate_window(self.root,self.manifest,self.clock)
+        self.assertEqual(value['deadline_epoch'],self.stage['diagnostic_created_epoch']+1800)
+        for key,bad in [('only_state','OTHER'),('branches',['FULL_NATIVE_COPY']),
+                        ('trace02_failure_sha256','0'*64),('original_history_shadow_ticks',0),
+                        ('comparison_absolute_tolerance',1e-8),('single_state_pass_can_qualify_all_eight',True)]:
+            changed=deepcopy(card);changed[key]=bad;seal(changed)
+            with self.subTest(key=key),self.assertRaises(PermissionError):
+                config.validate_window(self.root,self.manifest,self.clock)
+
     def test_input_hash_path_and_original_source_cpu_pool_are_not_bypassed(self):
         p=self.root/'owned';p.write_text('owned');digest=sha(p)
         self.assertEqual(dynamic.checked_member(self.root,'owned',digest),p)

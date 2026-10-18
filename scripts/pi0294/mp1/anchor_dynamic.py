@@ -84,6 +84,13 @@ def bound_inputs(root):
                 or sha(prior/'evidence/CLOSED_RECEIPT.private.json')!=q['prior_diagnostic_closed_sha256']
                 or read(read(prior/'OUTPUT_BINDING.private.json')['lease'])['status']!='CLOSED'):
             raise PermissionError('EXACT_OLD_FAILED_DIAGNOSTIC_REMAINS_CLOSED')
+        if spec.get('ablation_only'):
+            trace=parent/'children'/config.TRACE_CHILD
+            if (Path(q['trace02_root']).resolve()!=trace.resolve() or trace.is_symlink()
+                    or sha(trace/'evidence/ANCHOR_DYNAMIC_PARITY/FAILURE.private.json')!=config.TRACE02_FAILURE
+                    or sha(trace/'evidence/CLOSED_RECEIPT.private.json')!=q['trace02_closed_sha256']
+                    or read(read(trace/'OUTPUT_BINDING.private.json')['lease'])['status']!='CLOSED'):
+                raise PermissionError('EXACT_CLOSED_TRACE02_COMPONENT_FAILURE_REQUIRED')
         states=[s for s in states if s['id']==config.FAILED_STATE]
         if len(states)!=1:raise PermissionError('EXACT_SINGLE_RECORDED_MISMATCH_INPUT')
     return old,source,states,q
@@ -182,7 +189,9 @@ def qualify(engine,record,states,old,source,ledger,*,trace_folder=None):
 def run(root):
     root=Path(root);manifest=validate_runtime(root,'4080-simulation');stage=read(root/'MP1_STAGE_BINDING.json')
     if not config.is_diagnostic(stage):raise PermissionError('EXACT_DYNAMIC_PARITY_STAGE')
-    window=config.validate_window(root,manifest,time.time());spec=config.specification(stage);old,source,states,binding=bound_inputs(root)
+    window=config.validate_window(root,manifest,time.time());spec=config.specification(stage)
+    if spec.get('ablation_only'):raise PermissionError('USE_SEPARATELY_BOUND_NATIVE_COPY_ABLATION_ENTRYPOINT')
+    old,source,states,binding=bound_inputs(root)
     require_disjoint_cpu(source,window['CPU_ids']);os.sched_setaffinity(0,set(window['CPU_ids']))
     ledger=Ledger(root,'core');ledger.guard();remaining=int(spec['CPU_core_s']['core']-read(ledger.path)['Core_CPU_s'])
     if remaining<=0:raise PermissionError('DYNAMIC_CPU_BUDGET_REMAINING_REQUIRED')
