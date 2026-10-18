@@ -1,5 +1,15 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Confirmation02 cold guard prepared, not yet deployed or submitted.**
+[Exact preparation scope](reports/PI0294/design/SOURCE_CONFIRMATION02_COLD_REPAIR_PREPARATION.json)
+and [cold-boundary requirements](docs/protocols/PI0294_SOURCE_CONFIRM_V1_FINITE_IMPLEMENTATION.md#confirmation02-cold-repair-preparation)
+preserve oldSTOPab07 atits originalpath androute onlyfuture02 faults to a new
+STOP. Native safety cannot be resolved. Requires exactprior20rows/930effects/
+8456GPUseconds,alloldprocessesclosed,originalplan/candidate/27protectedhashes,
+both approved entries andownfresh600s/80cycle qualification. Originalbinding
+artifacts remain;allocation02 owner now refuses the old6b firstbinding artifact.
+CPU620tests/566subtestsPASS;actualcoldactivation/newPBS/model/physics0 atpreparation.
+
 **Actual CPU transport diagnosis: redundant inflight progress fsync removed; native continuation pending.**
 [Actual80-cycle recorded-byte route and controlled before/after proof](reports/PI0294/20261016T191445Z-localpc-mp1/N1_ACTUAL_RECORDED_TRANSPORT_AND_PROGRESS_JOURNAL_REPAIR.json).
 160RPCs over the original dualSSH route,one95081-byte original double-camera

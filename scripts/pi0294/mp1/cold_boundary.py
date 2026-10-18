@@ -138,6 +138,9 @@ class Guard:
 
 def blocked(root,allocation_number):
     root=Path(root)
+    from . import confirmation_boundary
+    if read(root/'RUN_MANIFEST.json')['execution'].get(confirmation_boundary.KEY):
+        return confirmation_boundary.Guard(root,allocation_number).blocked()
     from . import cold_boundary05 as fifth
     from . import n1_boundary
     relative=read(root/'RUN_MANIFEST.json')['execution'].get('cold_engineering_binding_relative')
@@ -154,6 +157,9 @@ def blocked(root,allocation_number):
 
 def stop_target(root,allocation_number):
     root=Path(root)
+    from . import confirmation_boundary
+    if read(root/'RUN_MANIFEST.json')['execution'].get(confirmation_boundary.KEY):
+        return confirmation_boundary.stop_target(root,allocation_number)
     from . import cold_boundary05 as fifth
     from . import n1_boundary
     relative=read(root/'RUN_MANIFEST.json')['execution'].get('cold_engineering_binding_relative')

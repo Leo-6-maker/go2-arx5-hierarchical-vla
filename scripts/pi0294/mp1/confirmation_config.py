@@ -95,6 +95,9 @@ def authority(root,manifest=None):
         raise PermissionError('ONE_ACTUAL_PREDECLARED_RANKED_ENDPOINT_CANDIDATE')
     result['confirmation']=dict(GPU_s=57600,PBS=2,prior_GPU_s=42833,prior_PBS=10,prior_queries=2406,
         generation_queries=6400,job_wall_s_max=28800,output_bytes=8*1024**3)
+    if 'confirmation_engineering_binding_relative' in m['execution']:
+        from .confirmation_boundary import validate
+        validate(root,m)
     return result
 
 

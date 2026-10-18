@@ -17,6 +17,7 @@ from .native_transport_qualification import run as qualify
 from .owner_heartbeat import read_live_owner
 from .plans import remaining_panel
 from .science import Ledger
+from .confirmation_boundary import Guard
 
 
 def run(root,request_path):
@@ -35,11 +36,12 @@ def run(root,request_path):
     if remaining<=0:raise PermissionError('FINITE_CONFIRMATION_HOPPER_CPU_REMAINING')
     resource.setrlimit(resource.RLIMIT_CPU,(remaining,remaining));owner=OwnerLock(root/'NEURAL_OWNER.lock')
     started=time.process_time();instance=None;status='FAILED_PRESERVED';records=[];stage='PREMODEL_QUALIFICATION'
-    active_end=allocation['allocation_end_epoch']-2700
+    active_end=allocation['allocation_end_epoch']-2700;cold_guard=Guard(root,request['submit_count'])
     def guard():
         ledger.guard()
         if time.time()>=active_end:raise TimeoutError('ORIGINAL_2700S_ALLOCATION_CLOSEOUT')
-        for name in ['RELAY_ENGINEERING_STOP.json','SOURCE_PHYSICS_STOP.json','SOURCE_SAFETY_STOP_FROM_CORE.json']:
+        if cold_guard.blocked():raise PermissionError('CONFIRMATION_ENGINEERING_STOP_PRESERVED_NO_NEXT_MODEL')
+        for name in ['SOURCE_PHYSICS_STOP.json','SOURCE_SAFETY_STOP_FROM_CORE.json']:
             if (root/name).exists():raise PermissionError('CONFIRMATION_STOP_PRESERVED_NO_NEXT_CASE_OR_MODEL')
         read_live_owner(root,root.name)
         l=read(ledger.path)

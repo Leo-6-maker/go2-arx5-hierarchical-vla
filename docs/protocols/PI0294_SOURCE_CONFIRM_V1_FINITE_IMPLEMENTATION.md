@@ -128,3 +128,52 @@ revision, then upload READY last and repeat fixed-revision file-set/size/hash
 readback. No model or historical repository download, visibility change,
 unknown-outcome blind retry, secret or private asset publication is permitted.
 Actual HF upload/revision acceptance is still NOT_RUN at this code publication.
+
+## Confirmation02 Cold Repair Preparation
+
+The first confirmation allocation is now terminal with20 actual attempts,
+18 qualified conditions and930 fully classified generations. Its actual
+receipt is `N1_SOURCE_CONFIRM_ALLOCATION01_TERMINAL_PARTIAL_COVERAGE.json`;
+the subsequent recorded-byte CPU mechanism test and progress-journal repair
+are in `N1_ACTUAL_RECORDED_TRANSPORT_AND_PROGRESS_JOURNAL_REPAIR.json`.
+Neither CPU proof substitutes for a new job's native qualification.
+
+The confirmation-specific `confirmation_boundary.py` is PREPARED/CPU-tested,
+NOT deployed and NOT an actual cold-adoption or PBS receipt. It cannot reuse
+the source-pair generic `cold_engineering_binding_relative` overlay. Only the
+new `confirmation_engineering_binding_relative` field may bind the original
+child's LAST allocation02; no third child allocation or13th source-family PBS.
+The original scope card, candidate94ad, plan6e5a, parent model, stats, attempts,
+15 numerical/12 learning hashes, output/entry/lease identity and N1 clocks
+remain unchanged.
+
+Before any pointer advance, seal both sites' original manifests/capsules,
+the actual immutable allocation01 closure4ab4ec99, settled prior Hopper ledger,
+exact own native673388 F/1 cost proof, fresh all-recorded-process closure and
+the actual CPU diagnostic receipt. The original root engineeringSTOP remains
+byte-for-byte at `RELAY_ENGINEERING_STOP.json`, sha256
+`ab07d1c59567c0be0b705e5504e2063800a19f6e8e4f4016a8a07a1bc4093248`.
+New faults stop only at `RELAY_ENGINEERING_STOP_ALLOCATION02.json`.
+The repair never resolves SOURCE_PHYSICS_STOP, propagated native safety or
+target TF-R3 STOP. Version accounting retains all previous N1 attempts and
+must establish a conservative component-native-version upper bound<=6.
+
+Proposed capsules/immutable worker manifests must pass the existing approved
+node entry with fixed-source seals before activation. Recheck native/process
+terminal identities, pending effects and exact old pointer bytes immediately
+before each atomic pointer advance. A partial two-site activation is NOT
+permission to dispatch; finish or report the exact cold state without qsub.
+Preserve original first-binding artifacts. Record a separate actual
+`COLD_POLICY_ALLOCATION02_NATIVE_BINDINGS.private.json` only after BOTH new
+entries, unchanged protected hashes/plan/candidate, retained old STOP and
+absent new STOP are verified. The private finite owner refuses allocation02
+without this artifact and binds its exact client/journal/shutdown dependencies.
+
+Only then recheck project authentication, owned peer jobs, personal quota,
+remaining original conditions, cumulative costs/reservations and site limits.
+Submission still requires a single native intent, original resource gate and
+absolute cutoffs; this preparation dispatches zero GPU/PBS/models/physics.
+The last allocation must pass its OWN600s/80cycle/all-fault qualification
+before model load. Skip18 already valid conditions before loading; keep all
+negatives/partials and only original engineering replacements. New code,
+deployment, native qualification and complete40 results remain separate claims.
