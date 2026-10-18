@@ -1,6 +1,29 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Current N1: source08 ended F/1; six CORR DEV cells qualified, one engineering gap and one unrun.**
+**Current N1: source09 native qualification PASS; original two-condition remainder running.**
+[Actual cold binding,single submission,real qualification and RPC journals](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE09_ACTUAL_COLD_SINGLE_SUBMISSION_AND_RPC_JOURNAL.json).
+673298/source976b9584 passed independent same-job raw readback:81actual
+post-read samples/600.021045657s,79distinct owner epochs,80real94080byte
+RGBtransport cycles,all8isolatedfaultsPASS. Models/NN/physics were0at the
+qualification boundary;only afterward did the originalCORR2048remainder
+start. No new complete condition is claimed yet. OnlyF2/T1sole engineering
+replacement and F2/T2original may run;no training,no automatic10.
+Nine cumulative sourcePBS/twelve parentHopperPBS,source40132settled+
+28800reservedGPU seconds,parent44632+same reservation. Current actualGPU
+cost isOPEN,notzero.109priorprocess records closed;all33outcomes/2230old
+draws/4096formalupdates/oldSTOPs and firstN1clock retained. No hot switch.
+New local-client prewire/failure journals keep20/60/900s and no-retry rules;
+80CPUechoes/actual20.0016stimeout/exit72are local evidence,not site proof.
+
+Single-state trace02 is alsoCLOSED:63shadow ticks reproduce the original
+S1reject,but savedfullstate mismatch is3.4268961e-9 at row5/column42 versus
+unchanged1e-10. Exact arrays are preserved;unique cause is unproved. Its
+180.60674454CPU ledger seconds include180registrationupper+0.60674454
+measuredworker seconds. No live action/NN/labels/PBS. OldB1/dynamic01remain
+CLOSED;16endpoint-anchorNNremainNOT_RUN. A separately scoped read-only API
+decoder is published/CIpassed,not yet dispatched at this snapshot.
+
+**Previous source08 terminal: six CORR DEV cells qualified, one engineering gap and one unrun.**
 [Actual terminal,unused-action closure and STOP-inventory repair](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE08_ACTUAL_TERMINAL_EFFECT_CLOSURE_AND_STOP_REPAIR.json).
 673235 ended07:38:41SGT after the original20sFILE_RPCtimeout. F2/T1 stopped
 at12.4s,31ACKs/6200live ticks,249real dual-camera frames,zero live native
