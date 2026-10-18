@@ -41,6 +41,8 @@ def admit_new_support(manifest,route):
         raise PermissionError('PV1_MINIMUM_INDEPENDENT_SUPPORT_NOT_MET')
     if route=='CLEARANCE_PAIR' and len(common)<64:
         raise PermissionError('PV1_MARGIN_PAIR_NEEDS_64_COMMON_SUCCESS_GROUPS')
+    if route=='CLEARANCE_PAIR' and any(sum(t2[g]['direction']==d for g in common)<16 for d in ('+Y','-Y')):
+        raise PermissionError('PV1_COMMON_T2_SUPPORT_MUST_RETAIN_BOTH_DIRECTION_MINIMA')
     if route=='CLEARANCE_PAIR' and any(t2[g]['direction']!=bank['T2',.012][g]['direction'] for g in common):
         raise PermissionError('PV1_PAIR_MUST_HAVE_SAME_SCENE_DIRECTION')
     return dict(T1_groups=sorted(t1),original_T2_groups=sorted(t2),common_T2_groups=common,

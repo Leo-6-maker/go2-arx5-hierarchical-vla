@@ -13,16 +13,17 @@ PROTOCOL = 'docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md'
 ROLE = 'PI0294_PV1_CORE_POPULATION_STATIC_V1'
 CAPTURE_ROLE = 'PI0294_PV1_CORE_TRAIN_CAPTURE_V1'
 REAUDIT_ROLE = 'PI0294_PV1_CORE_SAVED_RAW_AUDIT_V1'
+EXPORT_ROLE = 'PI0294_PV1_CORE_SAVED_TRAIN_EXPORT_V1'
 
 
 def registry_role(scope,run_uuid):
-    if scope not in (ROLE,CAPTURE_ROLE,REAUDIT_ROLE) or not run_uuid or run_uuid in ('.','..') or '/' in run_uuid or '\\' in run_uuid:
+    if scope not in (ROLE,CAPTURE_ROLE,REAUDIT_ROLE,EXPORT_ROLE) or not run_uuid or run_uuid in ('.','..') or '/' in run_uuid or '\\' in run_uuid:
         raise PermissionError('PV1_FIXED_ROLE_AND_SINGLE_RUN_IDENTITY')
-    return scope+'__'+run_uuid if scope==CAPTURE_ROLE else scope
+    return scope+'__'+run_uuid if scope in (CAPTURE_ROLE,EXPORT_ROLE) else scope
 
 
 def validate(root, role=ROLE):
-    if role not in (ROLE, CAPTURE_ROLE, REAUDIT_ROLE):
+    if role not in (ROLE, CAPTURE_ROLE, REAUDIT_ROLE, EXPORT_ROLE):
         raise PermissionError('PV1_ONLY_VERSIONED_CPU_CHILD_ROLES')
     root = Path(root)
     m = read(root/'RUN_MANIFEST.json')
@@ -94,7 +95,8 @@ def validate(root, role=ROLE):
     if any(sha(infra/n) != m['execution'][key] for n,key in
            [('enter.sh','entry_sha256'),('doctor.py','doctor_sha256')]):
         raise ValueError('PV1_APPROVED_EXISTING_ENTRY_VERSION')
-    data_file = {ROLE:'EXCLUSIONS.json',CAPTURE_ROLE:'CAPTURE_PLAN.json',REAUDIT_ROLE:'SAVED_AUDIT_PLAN.private.json'}[role]
+    data_file = {ROLE:'EXCLUSIONS.json',CAPTURE_ROLE:'CAPTURE_PLAN.json',REAUDIT_ROLE:'SAVED_AUDIT_PLAN.private.json',
+        EXPORT_ROLE:'SAVED_EXPORT_PLAN.private.json'}[role]
     if (sha(root/'plans'/data_file) != m['data']['manifest_sha256']
             or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or 'PBS_JOBID' in os.environ):
         raise PermissionError('PV1_EXCLUSIONS_IDENTITY_CPU_ONLY_NO_PBS')

@@ -4,9 +4,9 @@ from scripts.pi0294.e1.scope import STATS
 from scripts.pi0294.pv1.dataset import admit_new_support,TRAIN_GROUPS,POPULATION
 
 
-def manifest():
+def manifest(count=64):
     rows=[]
-    for i,(group,direction) in enumerate(list(TRAIN_GROUPS.items())[:64]):
+    for i,(group,direction) in enumerate(list(TRAIN_GROUPS.items())[:count]):
         for task,margin in [('T1',.004),('T2',.004),('T2',.012)]:
             rows.append(dict(id=f'PV1-{i}-{task}-{margin}',scene_group=group,
                 task=task,nominal_clearance_m=margin,split='TRAIN',full_task_success=True,
@@ -44,3 +44,12 @@ class DatasetAdmissionTests(unittest.TestCase):
     def test_same_prefix_is_not_membership_in_the_sealed_train_population(self):
         m=manifest();m['episodes'][0]['scene_group']='PI0294/PV1/TRAIN/F1/063'
         with self.assertRaises(PermissionError):admit_new_support(m,'CLEARANCE_PAIR')
+
+    def test_common_pair_not_only_original_bank_needs_negative_direction_coverage(self):
+        m=manifest(96)
+        remove={r['id'] for r in m['episodes'] if r['task']=='T2' and r['nominal_clearance_m']==.012 and r['direction']=='-Y'}
+        remove=set(sorted(remove)[:3])
+        m['episodes']=[r for r in m['episodes'] if r['id'] not in remove]
+        self.assertGreater(len(set(r['scene_group'] for r in m['episodes'] if r['nominal_clearance_m']==.012)),64)
+        with self.assertRaises(PermissionError):admit_new_support(m,'CLEARANCE_PAIR')
+        admit_new_support(m,'COVERAGE_FIRST')
