@@ -1,8 +1,10 @@
 """Bounded direct file reads and metadata-only RPC phase timings."""
 from contextlib import contextmanager
 import json
+import hashlib
 import os
 from pathlib import Path
+import re
 import time
 
 MAX_FILE_BYTES=2*1024**2
@@ -24,15 +26,25 @@ def read_available(path):
 class PhaseTrace:
     """stderr only: no observation, action, model output, path or credential text."""
     def __init__(self,stream,*,clock=time.monotonic):
-        self.stream,self.clock=stream,clock;self.sequence=0
+        self.stream,self.clock=stream,clock;self.sequence=0;self.context={}
+
+    def bind_rpc(self,packet):
+        nonce=packet.get('rpc_id') if isinstance(packet,dict) else None
+        args=packet.get('args') if isinstance(packet,dict) else None
+        operation=args.get('operation') if isinstance(args,dict) else None
+        if (isinstance(nonce,str) and 1<=len(nonce)<=64
+                and operation in ['observation','ack','install','query','response']):
+            identity=dict(rpc_id=nonce) if re.fullmatch(r'[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}',nonce) else dict(rpc_id_sha256=hashlib.sha256(nonce.encode()).hexdigest())
+            self.context=dict(identity,operation=operation)
+        else:self.context={}
 
     @contextmanager
     def phase(self,name):
         if name not in ['guard','invoke','accounting','emit']:raise ValueError('EXACT_RPC_PHASE')
         start=self.clock();self.sequence+=1;sequence=self.sequence
-        self.stream.write(json.dumps(dict(event='FILE_RPC_PHASE_BEGIN',phase=name,sequence=sequence))+'\n');self.stream.flush()
+        self.stream.write(json.dumps(dict(event='FILE_RPC_PHASE_BEGIN',phase=name,sequence=sequence,**self.context))+'\n');self.stream.flush()
         status='FAILED_OR_UNKNOWN'
         try:yield;status='RETURNED'
         finally:
             self.stream.write(json.dumps(dict(event='FILE_RPC_PHASE_END',phase=name,sequence=sequence,
-                elapsed_s=self.clock()-start,status=status))+'\n');self.stream.flush()
+                elapsed_s=self.clock()-start,status=status,**self.context))+'\n');self.stream.flush()

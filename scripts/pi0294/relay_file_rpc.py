@@ -100,6 +100,7 @@ def serve(root,role,label):
             if not line:break
             if len(line)>MAX_LINE_BYTES or not line.endswith(b'\n'):raise ValueError('BOUNDED_ONE_JSON_LINE_REQUIRED')
             packet=json.loads(line);nonce=packet.get('rpc_id') if isinstance(packet,dict) else None
+            trace.bind_rpc(packet)
             try:
                 def checked(args):
                     with trace.phase('guard'):guard(args)
@@ -114,6 +115,7 @@ def serve(root,role,label):
     except Exception as exc:status='FAILED_SESSION_PRESERVED';error=type(exc).__name__+': '+str(exc);raise
     finally:
         cpu=time.process_time()-started
+        trace.bind_rpc(None)
         with trace.phase('accounting'):settlement=metrics.settle(ledger,cpu)
         terminal=root/'evidence/file-rpc-sessions'/name;terminal.mkdir(parents=True,exist_ok=True,mode=0o700)
         write(terminal/'TERMINAL.json',dict(status=status,error=error,operations=metrics.operations,CPU_s=cpu,
