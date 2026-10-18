@@ -11,6 +11,7 @@ from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.pv1 import heartbeat_capture as heartbeat
 from scripts.pi0294.pv1 import pre_model_qualification as qualification
 from scripts.pi0294.pv1 import native_transport_qualification as transport
+from scripts.pi0294.pv1 import transport_fixture as fixture
 from scripts.pi0294.pv1.decision import AUTHORITY
 from scripts.pi0294.test_mp1_transport_fixture import put
 
@@ -112,6 +113,34 @@ class NativeHeartbeatContracts(unittest.TestCase):
 
 
 class ReferenceContracts(unittest.TestCase):
+    def test_existing_actual_audit_location_is_bound_without_copying_or_relabeling(self):
+        from scripts.pi0294.test_mp1_transport_fixture import reference
+        with tempfile.TemporaryDirectory() as tmp:
+            old=Path(tmp)/'closed-old';root=Path(tmp)/'new';old.mkdir();root.mkdir()
+            plan,_,_=reference(old,1000);episode=old/'episodes/fixture-closed'
+            put(episode/'RESULT.json',dict(status='VALID_COMPLETE',physics_steps=16000))
+            put(episode/'FILE_MANIFEST.json',[]);put(episode/'S1_RESULT.json',dict(live_native_failures=0))
+            put(old/'lease.json',dict(status='CLOSED'));put(old/'OUTPUT_BINDING.private.json',dict(uid=fixture.os.getuid(),lease=str(old/'lease.json')))
+            audit=old/'evidence/audits/fixture-closed/AUDIT.private.json'
+            value=dict(status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT',checks=dict(full_raw=True),errors=[],
+                actual_native_safety_flag_rows=0,adjudication=dict(attempt_id=episode.name,pipeline_trustworthy=True,
+                    live_native_failures=0,result_sha256=sha(episode/'RESULT.json')))
+            put(audit,value)
+            binding=dict(original_root=str(old),original_observation_relative=plan['recorded_observation_relative'],
+                original_audit_relative=str(audit.relative_to(old)),audit_sha256=sha(audit),raw_manifest_sha256=sha(episode/'FILE_MANIFEST.json'))
+            p=root/'reference/RAW_REFERENCE_BINDING.private.json';put(p,binding,True)
+            observed=root/'reference/RECORDED_OBSERVATION.json';observed.write_bytes((old/plan['recorded_observation_relative']).read_bytes());observed.chmod(0o400)
+            plan.update(raw_reference_binding_relative=str(p.relative_to(root)),raw_reference_binding_sha256=sha(p),recorded_observation_relative=str(observed.relative_to(root)))
+            m=dict(execution=dict(sealed_inputs={str(p.relative_to(root)):sha(p)}))
+            self.assertEqual(fixture.reference_proof(root,plan,m)['original_audit_sha256'],sha(audit))
+            self.assertFalse((episode/'AUDIT.json').exists())
+            for field in ('checks','errors','actual_native_safety_flag_rows'):
+                bad=deepcopy(value)
+                bad[field]={'full_raw':False} if field=='checks' else ['wrong'] if field=='errors' else 1
+                put(audit,bad);binding['audit_sha256']=sha(audit);put(p,binding,True)
+                plan['raw_reference_binding_sha256']=sha(p);m['execution']['sealed_inputs'][str(p.relative_to(root))]=sha(p)
+                with self.subTest(field=field),self.assertRaises(PermissionError):fixture.reference_proof(root,plan,m)
+
     def test_core_raw_reference_is_presealed_not_just_an_owner_pass_string(self):
         with tempfile.TemporaryDirectory() as tmp:
             folder=Path(tmp);v=dict(status='PASS_ACTUAL_CLOSED_SOURCE_RECORDED_TWO_CAMERA_REFERENCE',

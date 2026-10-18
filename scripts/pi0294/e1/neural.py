@@ -5,6 +5,7 @@ import json
 import math
 import os
 from pathlib import Path
+import re
 import resource
 import signal
 import time
@@ -34,11 +35,21 @@ def checkpoint_identity(checkpoint,label,source_sha):
     validate_identity(identity['relay_identity']);return identity
 
 
-def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_status='E1_NATIVE_MODEL_READY',noise_namespace='PI0294',terminal_status='E1_STAGE_TERMINAL_NOT_TASK_SUCCESS'):
+def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_status='E1_NATIVE_MODEL_READY',noise_namespace='PI0294',terminal_status='E1_STAGE_TERMINAL_NOT_TASK_SUCCESS',native_pre_model_qualification=None):
+    if ready_status=='PV1_NATIVE_MODEL_READY':
+        proof=native_pre_model_qualification
+        if (not isinstance(proof,dict) or proof.get('status')!='PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK'
+                or not re.fullmatch('[0-9a-f]{64}',proof.get('receipt_sha256',''))
+                or proof.get('heartbeat_elapsed_s',0)<600 or proof.get('transport_cycles')!=80
+                or proof.get('new_model_queries')!=0 or proof.get('new_physics')!=0):
+            raise PermissionError('PV1_MODEL_READY_NEEDS_SAME_JOB_NATIVE_PREMODEL_READBACK')
+    elif native_pre_model_qualification is not None:
+        raise PermissionError('PV1_PROOF_CANNOT_BE_ATTACHED_TO_LEGACY_MODEL_READY')
     directory=root/'evidence'/label/'resident';directory.mkdir(parents=True,exist_ok=False)
     for n in ['inbox','outbox','receipts']:(directory/n).mkdir()
     state=dict(status=ready_status,label=label,run_uuid=root.name,job_id=os.environ['PBS_JOBID'],
         pid=os.getpid(),identity=instance.identity,allocation_end_epoch=allocation['allocation_end_epoch'],queries=0)
+    if native_pre_model_qualification is not None:state['native_pre_model_qualification']=native_pre_model_qualification
     write(root/'pbs/MODEL_STATE.json',state);write(directory/'STATE.json',state)
     registry_path=root/'plans'/label/'REGISTRY.json';wait=time.time()+180
     while not registry_path.exists():

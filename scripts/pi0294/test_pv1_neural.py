@@ -8,6 +8,8 @@ import unittest
 from unittest.mock import patch
 
 from scripts.pi0294.pv1 import neural
+from scripts.pi0294.e1 import neural as mature
+from types import SimpleNamespace
 from scripts.pi0294.pv1.dataset import POPULATION
 from scripts.pi0294.pv1.decision import AUTHORITY
 from scripts.pi0294.pv1.evaluation_plan import development,POPULATION_FILE
@@ -17,6 +19,23 @@ from scripts.pi0294.test_pv1_evaluation_plan import groups
 
 
 class NeuralEntryContracts(unittest.TestCase):
+    def test_pv1_model_ready_carries_actual_proof_contract_before_core_physics(self):
+        proof=dict(status='PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK',receipt_sha256='a'*64,
+            heartbeat_elapsed_s=600.1,transport_cycles=80,new_model_queries=0,new_physics=0)
+        with tempfile.TemporaryDirectory() as tmp,patch.dict(mature.os.environ,{'PBS_JOBID':'CPU_FIXTURE_NOT_A_JOB'}):
+            root=Path(tmp);(root/'pbs').mkdir();instance=SimpleNamespace(identity=dict(global_step=2048))
+            def stop():raise RuntimeError('CPU_FIXTURE_STOP_BEFORE_MODEL_OR_ROUTE')
+            for invalid in (None,dict(proof,transport_cycles=79)):
+                with self.assertRaisesRegex(PermissionError,'SAME_JOB_NATIVE_PREMODEL'):
+                    mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000),None,stop,
+                        ready_status='PV1_NATIVE_MODEL_READY',native_pre_model_qualification=invalid)
+                self.assertFalse((root/'pbs/MODEL_STATE.json').exists())
+            with self.assertRaisesRegex(RuntimeError,'CPU_FIXTURE_STOP'):
+                mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000),None,stop,
+                    ready_status='PV1_NATIVE_MODEL_READY',native_pre_model_qualification=proof)
+            state=json.loads((root/'pbs/MODEL_STATE.json').read_text())
+            self.assertEqual(state['native_pre_model_qualification'],proof)
+
     def test_no_native_allocation_or_unimplemented_phase_rejected_before_model(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);request=root/'REQUEST.json';put(request,dict(stage='B0_DEV'))

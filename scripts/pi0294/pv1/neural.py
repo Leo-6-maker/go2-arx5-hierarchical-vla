@@ -229,7 +229,8 @@ def run(root,request_path):
                         elif sealed_registry[0]!=current:raise PermissionError('PV1_MODEL_REGISTRY_CHANGED_NO_HOT_REBIND')
                 serve(root,label,instance,allocation,ledger,panel_guard,max_queries=24*80,
                     ready_status='PV1_NATIVE_MODEL_READY',noise_namespace=spec['noise_namespace'],
-                    terminal_status='PV1_NATIVE_PANEL_TERMINAL_OUTCOMES_AUDITED_SEPARATELY')
+                    terminal_status='PV1_NATIVE_PANEL_TERMINAL_OUTCOMES_AUDITED_SEPARATELY',
+                    native_pre_model_qualification=require_current(root,allocation))
                 records.append(dict(panel=label,status='NATIVE_PANEL_TERMINAL_NOT_TASK_SUCCESS'))
             status='PV1_DEV_NATIVE_PANELS_TERMINAL_ACTUAL_OUTCOMES_AUDITED_SEPARATELY'
         else:

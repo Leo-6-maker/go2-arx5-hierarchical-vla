@@ -18,21 +18,34 @@ def logged_call(session,args):
     return dict(packet=packet,wire=json.loads(lines[0]))
 
 
-def drive(sessions,fault_sessions,plan,registry,emit,certify_fault,certify_nominal,publish,heartbeat,*,registry_sha256):
+def drive(sessions,fault_sessions,plan,registry,emit,certify_fault,certify_nominal,publish,heartbeat,*,registry_sha256,
+          fixture_base=BASE,reference_proof_sha256=None):
     closed=set()
-    try:return _drive(sessions,fault_sessions,plan,registry,emit,certify_fault,certify_nominal,publish,heartbeat,registry_sha256,closed)
+    try:
+        if (fixture_base not in (BASE,'PV1-PREMODEL')
+                or fixture_base=='PV1-PREMODEL' and not re.fullmatch('[0-9a-f]{64}',reference_proof_sha256 or '')
+                or fixture_base==BASE and reference_proof_sha256 is not None):
+            raise PermissionError('EXACT_VERSIONED_FIXTURE_NAMESPACE_AND_REFERENCE_BINDING')
+        return _drive(sessions,fault_sessions,plan,registry,emit,certify_fault,certify_nominal,publish,heartbeat,
+            registry_sha256,closed,fixture_base,reference_proof_sha256)
     finally:
         for session in [*sessions.values(),*fault_sessions.values()]:
             if id(session) not in closed:session.close();closed.add(id(session))
 
 
-def _drive(sessions,fault_sessions,plan,registry,emit,certify_fault,certify_nominal,publish,heartbeat,registry_sha256,closed):
+def _drive(sessions,fault_sessions,plan,registry,emit,certify_fault,certify_nominal,publish,heartbeat,registry_sha256,closed,
+           fixture_base,reference_proof_sha256):
     if set(sessions)!={'core','hopper'} or set(fault_sessions)!={'late_response','process_exit'}:
         raise PermissionError('FIXED_EXISTING_TWO_SSH_CHANNELS_AND_TWO_ISOLATED_FAULT_CHANNELS')
     if (not re.fullmatch('[0-9a-f]{64}',registry_sha256)
+            or not re.fullmatch(re.escape(fixture_base)+r'-ALLOCATION-(?:0[1-9]|1[0-9]|2[0-4])',registry['label'])
             or any(s.role!=role or s.label!=registry['label'] for role,s in sessions.items())
             or len({id(s) for s in [*sessions.values(),*fault_sessions.values()]})!=4):
         raise PermissionError('EXACT_DISJOINT_EXISTING_FIXTURE_CHANNEL_IDENTITIES')
+    for name,session in fault_sessions.items():
+        expected=registry['label'].replace(fixture_base,fixture_base+('-FAULT-LATE' if name=='late_response' else '-FAULT-EXIT'),1)
+        if session.role!='hopper' or session.label!=expected:
+            raise PermissionError('ISOLATED_FAULT_NAMESPACE_NOT_A_PRODUCTION_SESSION')
     def call(role,args):
         heartbeat();return logged_call(sessions[role],args)
     rows=route(call,plan,registry,emit)
@@ -44,8 +57,8 @@ def _drive(sessions,fault_sessions,plan,registry,emit,certify_fault,certify_nomi
             raise PermissionError('ACTUAL_NOMINAL_FIXTURE_RPC_PROCESS_MUST_CLOSE_BEFORE_MODEL')
     faults={}
     for name in ['late_response','process_exit']:
-        session=fault_sessions[name];expected=BASE+('-FAULT-LATE' if name=='late_response' else '-FAULT-EXIT')
-        if session.role!='hopper' or session.label!=registry['label'].replace(BASE,expected,1):
+        session=fault_sessions[name];expected=fixture_base+('-FAULT-LATE' if name=='late_response' else '-FAULT-EXIT')
+        if session.role!='hopper' or session.label!=registry['label'].replace(fixture_base,expected,1):
             raise PermissionError('ISOLATED_FAULT_NAMESPACE_NOT_A_PRODUCTION_SESSION')
         heartbeat();began=time.monotonic();error=None
         try:session.call(dict(operation='observation',sequence=0))
@@ -66,7 +79,9 @@ def _drive(sessions,fault_sessions,plan,registry,emit,certify_fault,certify_nomi
             raise PermissionError('EXACT_FAULT_PROCESS_TERMINAL_AND_ONE_RAW_REQUEST_REQUIRED')
         faults[name]=dict(native,status='PASS',failed_closed=True,unknown_effects_resent=0,
             second_call_blocked_before_send=True,actual_client_error=error,actual_client_wall_s=elapsed)
-    value=dict(schema='MP1_N1_OWNER_TRANSPORT_FAULTS_V1',run_uuid=registry['run_uuid'],label=registry['label'],
+    value=dict(schema='PI0294_PV1_OWNER_TRANSPORT_FAULTS_V1' if fixture_base=='PV1-PREMODEL' else 'MP1_N1_OWNER_TRANSPORT_FAULTS_V1',
+        run_uuid=registry['run_uuid'],label=registry['label'],
         job_id=registry['job_id'],registry_sha256=registry_sha256,nominal_cycles=len(rows),
         nominal_cycles_sha256=digest(rows),nominal_terminals=nominal,faults=faults,heartbeat_writer=False,new_models=0,new_physics=0)
+    if reference_proof_sha256 is not None:value['reference_proof_sha256']=reference_proof_sha256
     publish(value);return value

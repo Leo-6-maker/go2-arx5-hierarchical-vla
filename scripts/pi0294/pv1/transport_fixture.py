@@ -62,10 +62,22 @@ def reference_proof(root,plan,m):
     if output['uid']!=os.getuid() or read(output['lease'])['status']!='CLOSED':
         raise PermissionError('PV1_RECORDED_REFERENCE_ONLY_OWN_CLOSED_ORIGINAL_SOURCE')
     p=inside(old,b['original_observation_relative']);episode=p.parent.parent.parent
+    audit_path=inside(old,b['original_audit_relative']) if 'original_audit_relative' in b else episode/'AUDIT.json'
+    audit=read(audit_path)
+    if 'original_audit_relative' in b:
+        if (audit_path.resolve()!=(old/'evidence/audits'/episode.name/'AUDIT.private.json').resolve()
+                or audit['status']!='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT' or audit['errors']
+                or not audit['checks'] or not all(v is True for v in audit['checks'].values())
+                or audit['actual_native_safety_flag_rows'] or audit['adjudication']['attempt_id']!=episode.name
+                or audit['adjudication']['pipeline_trustworthy'] is not True
+                or audit['adjudication']['live_native_failures']
+                or audit['adjudication']['result_sha256']!=sha(episode/'RESULT.json')):
+            raise PermissionError('PV1_REFERENCE_EXACT_ORIGINAL_COMPLETE_ACTUAL_EVIDENCE_AUDIT')
+    elif audit['status']!='PASS_INDEPENDENT_RAW_AUDIT':
+        raise PermissionError('PV1_REFERENCE_ORIGINAL_FULL_RAW_AUDIT_REQUIRED')
     if (sha(p)!=plan['recorded_observation_file_sha256']
             or sha(episode/'FILE_MANIFEST.json')!=b['raw_manifest_sha256']
-            or sha(episode/'AUDIT.json')!=b['audit_sha256']
-            or read(episode/'AUDIT.json')['status']!='PASS_INDEPENDENT_RAW_AUDIT'):
+            or sha(audit_path)!=b['audit_sha256']):
         raise PermissionError('PV1_REFERENCE_REAL_ORIGINAL_RAW_AND_AUDIT_IDENTITY')
     result=read(episode/'RESULT.json');s1=read(episode/'S1_RESULT.json')
     if result['status']!='VALID_COMPLETE' or result['physics_steps']!=16000 or s1['live_native_failures']:

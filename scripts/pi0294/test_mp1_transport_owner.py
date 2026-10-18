@@ -44,6 +44,24 @@ class OwnerFixturePhaseTests(unittest.TestCase):
                 lambda:None,registry_sha256='b'*64)
         self.assertEqual(len(calls),1);self.assertTrue(all(s.closed==1 for s in [*self.sessions.values(),*self.faults.values()]))
 
+    def test_pv1_reuses_identical_wire_driver_with_exact_versioned_reference(self):
+        self.registry['label']=self.registry['label'].replace('N1-PREMODEL','PV1-PREMODEL')
+        for s in [*self.sessions.values(),*self.faults.values()]:s.label=s.label.replace('N1-PREMODEL','PV1-PREMODEL')
+        clock=iter([0.,20.25,30.,30.01])
+        with patch.object(owner,'route',return_value=[dict(sequence=i) for i in range(80)]),\
+                patch.object(owner.time,'monotonic',side_effect=lambda:next(clock)):
+            value=owner.drive(self.sessions,self.faults,{},self.registry,lambda row:None,self.native,self.native,
+                lambda value:None,lambda:None,registry_sha256='b'*64,fixture_base='PV1-PREMODEL',reference_proof_sha256='c'*64)
+        self.assertEqual(value['schema'],'PI0294_PV1_OWNER_TRANSPORT_FAULTS_V1')
+        self.assertEqual(value['reference_proof_sha256'],'c'*64)
+        self.assertTrue(all(s.sent==1 and s.closed==1 for s in self.faults.values()))
+
+    def test_pv1_cannot_claim_reference_or_namespace_by_implicit_legacy_mode(self):
+        with self.assertRaisesRegex(PermissionError,'REFERENCE_BINDING'):
+            owner.drive(self.sessions,self.faults,{},self.registry,lambda row:None,self.native,self.native,
+                lambda value:self.fail('NO_PUBLISH'),lambda:None,registry_sha256='b'*64,fixture_base='PV1-PREMODEL')
+        self.assertTrue(all(s.sent==0 and s.closed==1 for s in [*self.sessions.values(),*self.faults.values()]))
+
     def test_alive_remote_fault_process_cannot_be_claimed_qualified(self):
         clock=iter([0.,20.25])
         with patch.object(owner,'route',return_value=[dict(sequence=i) for i in range(80)]),patch.object(owner.time,'monotonic',side_effect=lambda:next(clock)),self.assertRaises(PermissionError):
