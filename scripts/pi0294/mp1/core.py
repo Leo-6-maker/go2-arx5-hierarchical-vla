@@ -16,7 +16,11 @@ from .science import validate_runtime,Ledger
 
 
 def run(root,card_path):
-    root=Path(root);m=validate_runtime(root,'4080-simulation');ledger=Ledger(root,'core');ledger.guard()
+    root=Path(root);m=validate_runtime(root,'4080-simulation')
+    from . import confirmation_config as confirmation
+    if confirmation.is_confirmation(read(root/'MP1_STAGE_BINDING.json')):
+        confirmation.validate_plan(root)
+    ledger=Ledger(root,'core');ledger.guard()
     if (root/'SOURCE_PHYSICS_STOP.json').exists():raise PermissionError('MP1_SOURCE_SAFETY_STOP_PRESERVED')
     card_path=Path(card_path);card_path=card_path if card_path.is_absolute() else root/card_path
     if not card_path.resolve().is_relative_to(root.resolve()):raise PermissionError('MP1_REGISTERED_CARD_ONLY')

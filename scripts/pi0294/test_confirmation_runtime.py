@@ -10,6 +10,7 @@ import numpy as np
 from scripts.pi0292.durable import write
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.mp1 import confirmation_config as c,confirmation_static as s
+from scripts.pi0294.mp1 import core
 
 
 class ConfirmationRuntimeTests(unittest.TestCase):
@@ -82,6 +83,13 @@ class ConfirmationRuntimeTests(unittest.TestCase):
             with self.assertRaises(PermissionError):c.candidate_checkpoint(Path('/not-used'))
         with patch.object(s,'validate_runtime',return_value=dict(execution=dict(confirmation_phase='POLICY_FROZEN'))):
             with self.assertRaises(PermissionError):s.run(Path('/not-used'))
+
+    def test_policy_core_rejects_static_only_phase_before_any_resource_or_engine(self):
+        with patch.object(core,'validate_runtime',return_value={}),patch.object(core,'read',return_value=dict(schema=c.SCHEMA)), \
+                patch.object(c,'validate_plan',side_effect=PermissionError('STATIC_ONLY_NOT_POLICY')),patch.object(core,'Ledger') as ledger:
+            with self.assertRaisesRegex(PermissionError,'STATIC_ONLY_NOT_POLICY'):
+                core.run(Path('/not-used'),'not-opened.json')
+            ledger.assert_not_called()
 
 
 if __name__=='__main__':unittest.main()

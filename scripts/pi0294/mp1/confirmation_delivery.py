@@ -10,7 +10,6 @@ import time
 from scripts.pi0292.durable import OwnerLock,read,write
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.public_checkpoint import reject_private
-from scripts.pi0294.checkpoint_delivery import verify_remote
 from . import confirmation_config as config,n1_limits as n1
 from .scope import validate as validate_parent,charge_cpu
 from .science import validate_runtime,Ledger
@@ -19,6 +18,20 @@ REPO='leoyuer/pi0294-public-artifacts'
 NAME='SOURCE_CONFIRM_STATIC_TEN_GROUPS_V1'
 PREFIX='PI0294/'+n1.PARENT_RUN+'/'+NAME
 MAX_BYTES=32*1024**2
+
+
+def verify_static(api,revision,files,download,token):
+    if (not files or sum(v['bytes'] for v in files.values())>MAX_BYTES
+            or any(Path(n).is_absolute() or '..' in Path(n).parts or not n.endswith(('.json','.png')) for n in files)):
+        raise PermissionError('ONLY_NEW_BOUNDED_STATIC_JSON_PNG_NO_MODEL_DOWNLOAD')
+    rows={r.path:r for r in api.list_repo_tree(REPO,repo_type='dataset',revision=revision,
+        path_in_repo=PREFIX,recursive=True) if hasattr(r,'size')}
+    if set(rows)!={PREFIX+'/'+n for n in files}:raise ValueError('EXACT_STATIC_REVISION_FILE_SET')
+    for name,expected in files.items():
+        if rows[PREFIX+'/'+name].size!=expected['bytes']:raise ValueError('STATIC_REVISION_MEMBER_SIZE')
+        p=Path(download(REPO,PREFIX+'/'+name,repo_type='dataset',revision=revision,token=token))
+        if p.stat().st_size!=expected['bytes'] or sha(p)!=expected['sha256']:
+            raise ValueError('ACTUAL_STATIC_REVISION_READBACK_MEMBER_HASH')
 
 
 def inventory(root):
@@ -89,7 +102,7 @@ def publish(root,token_file):
             operations=[CommitOperationAdd(path_in_repo=PREFIX+'/'+n,path_or_fileobj=str(p)) for n,p in sources.items()]).oid
         state.update(status='PAYLOAD_COMMITTED_READBACK_PENDING',data_revision=rev);write(out/'TRANSFER.private.json',state)
         def download(*args,**kwargs):return hf_hub_download(*args,**kwargs,local_dir=out/'readback')
-        verify_remote(api,REPO,PREFIX,rev,files,download,token)
+        verify_static(api,rev,files,download,token)
         ready=dict(status='READY_ACTUAL_ZERO_STEP_SOURCE_CONFIRM_STATIC_NOT_POLICY_RESULTS',files=files,
             parent_run=n1.PARENT_RUN,child=config.plan.CHILD,data_revision=rev,groups=10,task_qualifications=20,
             actual_physics_integrations=0,new_model_queries=0,new_Teacher_labels=0)
@@ -98,11 +111,49 @@ def publish(root,token_file):
             commit_message='READY after all actual static qualification payload hashes read back',
             operations=[CommitOperationAdd(path_in_repo=PREFIX+'/READY.json',path_or_fileobj=str(out/'READY.json'))]).oid
         final_files=dict(files,**{'READY.json':dict(bytes=(out/'READY.json').stat().st_size,sha256=sha(out/'READY.json'))})
-        verify_remote(api,REPO,PREFIX,final,final_files,download,token)
+        verify_static(api,final,final_files,download,token)
         state.update(status='PASS_SOURCE_CONFIRM_STATIC_FIXED_REVISION_READBACK',revision=final,
             READY_sha256=sha(out/'READY.json'),READY_uploaded_last=True,payload_bytes=sum(r['bytes'] for r in files.values()))
         write(out/'TRANSFER.private.json',state);return state
     finally:signal.alarm(0);ledger.cpu(time.process_time()-began);lock.close()
+
+
+def finish(root,token_file):
+    """Known pre-READY readback failure: verify existing commit, never reupload."""
+    root=Path(root);ledger=Ledger(root,'core');ledger.guard();began=time.process_time()
+    resource.setrlimit(resource.RLIMIT_CPU,(600,600));signal.alarm(1800)
+    owner=OwnerLock(root/'CONFIRM_STATIC_DELIVERY.lock');out=root/'artifacts'/NAME
+    try:
+        sources,_,_=inventory(root);sources['SCENE_EXCLUSIONS.json']=out/'SCENE_EXCLUSIONS.json'
+        files={n:dict(bytes=p.stat().st_size,sha256=sha(p)) for n,p in sources.items()}
+        journal=out/'TRANSFER.private.json';state=read(journal)
+        if (state['status']!='PAYLOAD_COMMITTED_READBACK_PENDING' or state['repo_id']!=REPO or state['prefix']!=PREFIX
+                or state['files']!=files or len(files)!=63 or (out/'READY.json').exists()):
+            raise PermissionError('ONLY_KNOWN_PRE_READY_FAILURE_EXACT_EXISTING_PAYLOAD_NO_BLIND_RETRY')
+        archive=out/'TRANSFER_PRE_READY_FAILURE.private.json'
+        if archive.exists():raise FileExistsError('ONE_EVIDENCED_PRE_READY_READBACK_RECOVERY_ONLY')
+        write(archive,state);archive.chmod(0o400)
+        from huggingface_hub import HfApi,CommitOperationAdd,hf_hub_download
+        os.environ['HF_HUB_OFFLINE']='0';token=Path(token_file).read_text().strip();api=HfApi(token=token)
+        info=api.repo_info(REPO,repo_type='dataset');rev=state['data_revision']
+        if info.private or info.sha!=rev:raise PermissionError('NO_CONCURRENT_HF_WRITER_OR_PAYLOAD_REPLACEMENT')
+        def download(*args,**kwargs):return hf_hub_download(*args,**kwargs,local_dir=out/'readback')
+        verify_static(api,rev,files,download,token)
+        ready=dict(status='READY_ACTUAL_ZERO_STEP_SOURCE_CONFIRM_STATIC_NOT_POLICY_RESULTS',files=files,
+            parent_run=n1.PARENT_RUN,child=config.plan.CHILD,data_revision=rev,groups=10,task_qualifications=20,
+            actual_physics_integrations=0,new_model_queries=0,new_Teacher_labels=0)
+        write(out/'READY.json',ready)
+        final=api.create_commit(REPO,repo_type='dataset',parent_commit=rev,
+            commit_message='READY after exact bounded static JSON and camera evidence readback',
+            operations=[CommitOperationAdd(path_in_repo=PREFIX+'/READY.json',path_or_fileobj=str(out/'READY.json'))]).oid
+        state.update(status='READY_COMMITTED_FINAL_READBACK_PENDING',revision=final);write(journal,state)
+        final_files=dict(files,**{'READY.json':dict(bytes=(out/'READY.json').stat().st_size,sha256=sha(out/'READY.json'))})
+        verify_static(api,final,final_files,download,token)
+        state.update(status='PASS_SOURCE_CONFIRM_STATIC_FIXED_REVISION_READBACK',READY_sha256=sha(out/'READY.json'),
+            READY_uploaded_last=True,payload_bytes=sum(v['bytes'] for v in files.values()),payload_reuploaded=False,
+            recovery='EXACT_EXISTING_PAYLOAD_BOUNDED_STATIC_METADATA_READBACK_NOT_LARGE_MODEL')
+        write(journal,state);return state
+    finally:signal.alarm(0);ledger.cpu(time.process_time()-began);owner.close()
 
 
 def consume(parent,binding_relative,token_file):
@@ -152,9 +203,9 @@ def consume(parent,binding_relative,token_file):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('role',choices=['publish','consume']);p.add_argument('--root',required=True)
+    p=argparse.ArgumentParser();p.add_argument('role',choices=['publish','finish','consume']);p.add_argument('--root',required=True)
     p.add_argument('--binding');p.add_argument('--existing-token-file',required=True);a=p.parse_args()
     def expire(signum,frame):raise TimeoutError('FINITE_STATIC_HF_DELIVERY_WALL')
     signal.signal(signal.SIGALRM,expire);os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
-    v=publish(a.root,a.existing_token_file) if a.role=='publish' else consume(a.root,a.binding,a.existing_token_file)
+    v=publish(a.root,a.existing_token_file) if a.role=='publish' else finish(a.root,a.existing_token_file) if a.role=='finish' else consume(a.root,a.binding,a.existing_token_file)
     print(json.dumps(dict(status=v['status'],new_physics=0,new_queries=0)),flush=True)

@@ -3,6 +3,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
+from types import SimpleNamespace
 
 import numpy as np
 from PIL import Image
@@ -15,6 +16,19 @@ from scripts.pi0294 import test_confirmation_plan as plan_fixture
 
 
 class ConfirmationDeliveryTests(unittest.TestCase):
+    def test_new_static_json_can_exceed_model_verifier_limit_without_allowing_models(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p=Path(folder)/'static.json';p.write_bytes(b' '*(5*1024**2+1))
+            files={'SOURCE_CONFIRM_PLAN.json':dict(bytes=p.stat().st_size,sha256=sha(p))}
+            api=SimpleNamespace(list_repo_tree=lambda *a,**k:[SimpleNamespace(path=d.PREFIX+'/SOURCE_CONFIRM_PLAN.json',size=p.stat().st_size)])
+            download=lambda *a,**k:str(p)
+            d.verify_static(api,'fixed-revision',files,download,'not-a-real-token')
+            for name in ['weights.safetensors','../escape.json','/absolute.png']:
+                with self.subTest(name=name),self.assertRaises(PermissionError):
+                    d.verify_static(api,'fixed-revision',{name:next(iter(files.values()))},download,'not-a-real-token')
+            with self.assertRaises(PermissionError):
+                d.verify_static(api,'fixed-revision',{'too-large.json':dict(bytes=d.MAX_BYTES+1,sha256=sha(p))},download,'not-a-real-token')
+
     def setup_bundle(self,root):
         (root/'plans').mkdir();(root/'worker_processes').mkdir()
         c,g,r=plan_fixture.ConfirmationPlanTests().fixture()
