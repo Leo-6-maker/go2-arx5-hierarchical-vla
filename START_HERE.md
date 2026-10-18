@@ -1,5 +1,16 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Current actual NI16 terminal: 673318 native F/0, all16 diagnostic draws verified.**
+[Terminal and independent same-job qualification](reports/PI0294/20261016T191445Z-localpc-mp1/NI16_ACTUAL_TERMINAL_AND_NATIVE_QUALIFICATION.json).
+81 actual post-read samples/600.027s/78 distinct owner epochs,80 real transport
+cycles and all8 isolated faults PASS before model load. Original8 TRAIN
+observations/noise tensors reused for BC2048 and CORR2048;16 original query
+journals/array hashes and own PBS_PROCESS_FINAL reconciled,not policy results.
+741 native wall/745 conservative H200s settled once;source42833,parent47333,
+GPU reserves0,sourcePBS10/parent13. Combined4096updates unchanged,new physics0.
+HF handoff and matched Core shadows NOT_RUN at this snapshot;no automatic11,
+no new training or optional method selected. Old snapshots below are historical.
+
 **Current N1: missing16 endpoint-anchor draws have one actual bounded H200 job.**
 [Actual NI16 cold binding and single submission](reports/PI0294/20261016T191445Z-localpc-mp1/NI16_ACTUAL_COLD_SINGLE_SUBMISSION.json).
 673318 nativeR/7200s/oneH200,source0ad0cc3a/exactCI39085543322SUCCESS,
