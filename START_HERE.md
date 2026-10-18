@@ -1,6 +1,35 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Current N1: source09 native qualification PASS; original remainder and audits running.**
+**Current N1: both2048endpoint TRAIN/DEV panels complete and independently audited.**
+[Actual source09 terminal and complete paired endpoint evidence](reports/PI0294/20261016T191445Z-localpc-mp1/SOURCE09_ACTUAL_TERMINAL_AND_COMPLETE_ENDPOINT_PAIR.json).
+BC TRAIN3/4,DEV3/8(T1=2/4,T2=1/4);CORR TRAIN3/4,DEV5/8(T1=4/4,T2=1/4).
+Two paired T1 DEV improvements,no success-status regressions;T2 success
+membership unchanged. CORR has1T2 S1reject+2safe32sobject-goalfailures,
+versus BC2rejects+1objectfailure. Exposed4layout DEV,one training seed,
+not hidden confirmation or proof of a general causal/onlineDAgger benefit.
+Same M1/recipe,matched actualT2 and retainedT1 consumption remain audited;
+C1 windows derive from4parents/8segments,not independent demonstrations.
+All24endpoint conditions qualified;fixedmatrix31/32 across35actualattempts,
+one exhausted CORR512F1/T1 midpoint gap retained,no third attempt.
+All33priorattemptrows,4exactgeometries and16fixedHFlinks preserved.
+
+Source09 actual673298 nativeF/exit0,1953nativewall/1956conservativeH200s
+settled once:source42088,parentHopper46588,reservation0,sourcePBS9/parent12.
+All2390native draws/originalarrays,1941executedACKs,14originalS1zero-live
+installs independently reconciled;allrecorded related processes terminal,
+unknown/pendingeffects0. Same600s/80cycle qualification remains actual.
+No new training,no automatic10,no sourcepolicy/WBC/safety changes.
+Separate [native-copy vs integration-restore ablation03](reports/PI0294/20261016T191445Z-localpc-mp1/N1_NATIVE_COPY_ABLATION03_ACTUAL.json)
+is now actuallyCLOSED:5200originalhistoryticks exact;nativefullcopy reproduces
+all63rejectedshadowrows exactly,while fresh-engine restore and native-copy
+plus restore both reproduce the3.4268961e-9gap. This identifies a sufficient
+native-history/copy route at one state,not a unique cache/forward cause or
+full8anchor qualification.2starts/5452shadow/183.625143285CPUledgerseconds
+settledonce,zero live/NN/PBS,original1e-10. Runtime d3aed7fc,
+exactCI39083647224PASS;original leases/T0/caps/STOPs unchanged.
+SOURCE_CONFIRM and16endpoint-anchor NN NOT_RUN;selected/deploymentNONE.
+
+**Previous source09 admission snapshot and read-only component decode.**
 [Actual read-only native state-component decode](reports/PI0294/20261016T191445Z-localpc-mp1/N1_TRACE02_COMPONENT_DECODE_ACTUAL.json)
 locates the only above-1e-10 trace difference at live mjSTATE_WARMSTART:
 3.4268961e-9. Decoded highrate physical maximum1.3173e-14,steps/safetyexact,

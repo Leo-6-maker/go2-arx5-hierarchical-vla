@@ -1,6 +1,6 @@
 {
   "schema": "MP1_N1_MATCHED_SOURCE_PAIR_FINAL_V1",
-  "status": "SOURCE08_TERMINAL_6_CORR_DEV_QUALIFIED_1_ENGINEERING_GAP_1_UNRUN",
+  "status": "BOTH2048_ENDPOINTS_ALL24_TRAIN_DEV_CONDITIONS_INDEPENDENTLY_AUDITED",
   "full_scientific_goal_complete": false,
   "report_created_epoch": 1792269357.6681342,
   "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
@@ -2225,13 +2225,13 @@
   "behavior": {
     "matrix": "BEHAVIOR_AND_FAILURE_MATRIX.json",
     "fixed_conditions": 32,
-    "actual_qualified_conditions": 29,
-    "all_endpoint_policy_conditions_complete": false,
-    "CORR2048_TRAIN4_DEV8": "TRAIN4_COMPLETE_6_DEV_QUALIFIED_1_ENGINEERING_GAP_1_UNRUN",
+    "actual_qualified_conditions": 31,
+    "all_endpoint_policy_conditions_complete": true,
+    "CORR2048_TRAIN4_DEV8": "ALL12_QUALIFIED_TRAIN3/4_DEV5/8",
     "F1_T1_midpoint": "ENGINEERING_GAP_TWO_ATTEMPTS_EXHAUSTED_NO_THIRD",
     "F1_T2_midpoint": "SOLE_REPLACEMENT_AUDITED_VALID_ORIGINAL_S1_NEGATIVE_NO_REPLAY",
-    "matrix_Core_snapshot_epoch": 1792281116.5875533,
-    "matrix_Hopper_snapshot_epoch": 1792281117.1365166
+    "matrix_Core_snapshot_epoch": 1792284166.282681,
+    "matrix_Hopper_snapshot_epoch": 1792284166.3933372
   },
   "measured_Hopper_audit_CPU_s": {
     "consumption": 4.609122720000002,
@@ -2244,24 +2244,24 @@
   "matrix_metadata_CPU_upper_s": 540,
   "matrix_metadata_reserved_s": 0,
   "publication_metadata_CPU_upper_s": 540,
-  "publication_metadata_settlement": "NEW_SECOND_DEV_AND_DYNAMIC_GAP_PUBLICATION_540S_OPEN_UNTIL_EXACT_READBACK_OLD_PUBLICATIONS_SETTLED",
+  "publication_metadata_settlement": "SOURCE09_TERMINAL_EFFECT_AND_PAIRED_REPORT_3000S_UPPER_OPEN_UNTIL_EXACT_READBACK;OLD_PUBLICATIONS_SETTLED",
   "native_job": {
-    "job_id": "673235.hopper-m-02",
+    "job_id": "673298.hopper-m-02",
     "state": "F",
-    "source_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
-    "source_PBS_used": 8,
-    "source_GPU_settled_s": 40132,
+    "source_sha": "976b958443bf0bdd297c552e7db3e31dde080e00",
+    "source_PBS_used": 9,
+    "source_GPU_settled_s": 42088,
     "source_GPU_reserved_s": 0,
     "combined_optimizer_updates": 4096,
     "CORR_updates": 2048,
     "pending_updates": 0,
-    "native_current_model_session": "S-CORR-2048-DEV8-ALLOCATION-08",
+    "native_current_model_session": "S-CORR-2048-DEV8-ALLOCATION-09",
     "request_wall_s": 28800,
     "native_terminal_marker_is_not_all32_complete": true,
     "new_PBS_for_this_audit": 0,
-    "exit_status": 1,
-    "parent_Hopper_GPU_settled_s": 44632,
-    "actual_allocation_GPU_s": 3525
+    "exit_status": 0,
+    "parent_Hopper_GPU_settled_s": 46588,
+    "actual_allocation_GPU_s": 1956
   },
   "evidence_receipts_sha256": {
     "consumption": "3cb70c767efe71356edc239a8eb96ea4f1deec87bbc7d7687eb02e34e98698f2",
@@ -2281,9 +2281,20 @@
     "CORR2048TRAIN4 now has four independently audited task outcomes:3/4success,T1=1/2,T2=2/2,zero native safety faults. BC2048TRAIN4also3/4butT1layout success swaps. No aggregateTRAINgain orDEV/causalDAgger/targetWBC/deployment claim;DEV8stillinprogress.",
     "Historical fifth allocation ended naturally with exit0 and source cumulative35511GPU seconds. Its two audited F0 DEV successes remain immutable. Source08 adds audited F1/000T1 success and F1/000T2 original S1 rejection at23.2s;four DEV conditions remain pending. No full DEV rate or causal DAgger benefit is claimed.",
     "Source08 additionally audited F1/001T1 full32sSUCCESS and F1/001T2 safe32sOBJECT_TASK_RESULT failure. Six CORR DEV cells are qualified,two remain;no full DEV rate or causal gain yet. Dynamic saved-state qualification stopped on the sixth anchor at unchanged1e-10 tolerance;no new endpoint anchor inference was run.",
-    "Source08 ended nativeF/1 after original20sFILE_RPCtimeout. F2/T1partial12.4s remains engineering-incomplete,not policyfailure. Its32ndnativeaction was generated but never installed;31ACKs/6200live ticks and all cumulative2230draws now independently reconciled. F2/T2wasnotrun. Actual3525GPU seconds settled once;source40132,parent44632,reservation0. OriginalSTOPbytes retained;new5876ce18ancestor-inventoryfix passed actual frozen partial audit,not a newscienceadmission or provennetworkrepair."
+    "Source08 ended nativeF/1 after original20sFILE_RPCtimeout. F2/T1partial12.4s remains engineering-incomplete,not policyfailure. Its32ndnativeaction was generated but never installed;31ACKs/6200live ticks and all cumulative2230draws now independently reconciled. F2/T2wasnotrun. Actual3525GPU seconds settled once;source40132,parent44632,reservation0. OriginalSTOPbytes retained;new5876ce18ancestor-inventoryfix passed actual frozen partial audit,not a newscienceadmission or provennetworkrepair.",
+    {
+      "BC_TRAIN": "3/4:T1=1/2,T2=2/2",
+      "CORR_TRAIN": "3/4:T1=1/2,T2=2/2",
+      "BC_exposed_DEV": "3/8:T1=2/4,T2=1/4",
+      "CORR_exposed_DEV": "5/8:T1=4/4,T2=1/4",
+      "paired_gain": "T1_F1/000_AND_F1/001_ONLY;NO_SUCCESS_STATUS_REGRESSIONS;T2_SUCCESS_MEMBERSHIP_UNCHANGED",
+      "T2_failure_stages": "BC:2S1_REJECT+1SAFE_OBJECT_FAIL;CORR:1S1_REJECT+2SAFE_OBJECT_FAIL",
+      "causal_generalization_or_online_DAgger_effect_proven": false,
+      "limitations": "One training seed;four exposed DEV layout groups,not hidden confirmation. C1 derives from four parents/eight segments,not16384independent demonstrations. Same actual T2 and retainedT1 cursors do not establish a general causal DAgger claim.",
+      "domain": "FIXED_BASE_ARX5_D0_NOT_FULL_GO2_WBC_OR_REAL_ROBOT"
+    }
   ],
-  "N1_native_600s_80cycles": "PASS_REAL_SAME_JOB_SOURCE08_81_READS_600_021983S_80_CYCLES_ALL8_FAULTS",
+  "N1_native_600s_80cycles": "PASS_REAL_SAME_JOB_SOURCE09_81_READS_600_021045657S_80_CYCLES_ALL8_FAULTS",
   "same_state_eight_anchor_endpoint_draws": "NOT_RUN_DYNAMIC_RESTORE_GATE_NOT_PASSED",
   "optional_method_selected": "NONE_PENDING_FULL_EVIDENCE",
   "SOURCE_CONFIRM": "NOT_RUN",
@@ -2292,7 +2303,7 @@
   "TF_R3_STOP": "PRESERVED",
   "selected": "NONE",
   "deployment": "NONE",
-  "report_updated_epoch": 1792281168.3518112,
+  "report_updated_epoch": 1792284294.4288874,
   "CORR2048_TRAIN4_actual_audited_cases": [
     {
       "attempt_id": "PI0294-MP1-S-CORR-2048-TRAIN4-F0-000-T1",
@@ -2743,7 +2754,7 @@
     "last_session": "S-CORR-2048-DEV8-ALLOCATION-05",
     "native_terminal_marker_is_not_all32_complete": true
   },
-  "latest_case_auditor_source": "5876ce182e47dee3704ca75587cfeeb76e2793f7",
+  "latest_case_auditor_source": "976b958443bf0bdd297c552e7db3e31dde080e00",
   "scientific_runtime_source_scope": "ORIGINAL_TRAINING_KERNEL_NOT_CURRENT_EVALUATION_ENTRY",
   "CORR2048_DEV8_actual_audited_cases": [
     {
@@ -2997,10 +3008,316 @@
       "semantic_chain_sha256": "c5571027d53bc122536d9a5e92a119eb5a1cafee9033d81a584df26914fb4edf",
       "raw_result_sha256": "3848da97adcdac42adc42eac10194b1a06ce1baf67100db75ab85c1eb13f220a",
       "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1-REPLACEMENT-01",
+      "model": "S-CORR-2048-DEV8",
+      "task": "T1",
+      "split": "DEV",
+      "scene_group": "PI0294/DEV/F2/000",
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": true,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "976b958443bf0bdd297c552e7db3e31dde080e00",
+      "video": {
+        "sha256": "d21e411917ac5a7ec71e4d7f2fca623b7862ddc9789bc1618875c6c98f4a4297",
+        "bytes": 1314361,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1-REPLACEMENT-01"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-2048-DEV8-ALLOCATION-09",
+      "semantic_raw_audit_sha256": "77052197af61211280fd1b1034a662ad7d676380da7b1b594c1684e7c09ec84a",
+      "semantic_chain_sha256": "48cfb04dd59d819f6c055d9909a6595a43f52e3d27d0260b54ec275e2129b3f1",
+      "raw_result_sha256": "95615bc7e422a2cb9070d88886728f5e22c64f276fc2d7c5a9b90949c52761a2",
+      "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T2",
+      "model": "S-CORR-2048-DEV8",
+      "task": "T2",
+      "split": "DEV",
+      "scene_group": "PI0294/DEV/F2/000",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "OBJECT_TASK_RESULT",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": false,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "976b958443bf0bdd297c552e7db3e31dde080e00",
+      "video": {
+        "sha256": "b0467d1a865a536ee4b17eedee3ec8fc1ee51f39feca166cf8a9c8a687b46161",
+        "bytes": 1052808,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F2-000-T2"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-2048-DEV8-ALLOCATION-09",
+      "semantic_raw_audit_sha256": "fc17201604c1658b88e4cc21f0d48de4dcdfcd064a3b5d05a899b17afb6bfa48",
+      "semantic_chain_sha256": "25ace72b349bd87a8ed074091b3dbc1f28ce8fbf088783f822f51512610831fa",
+      "raw_result_sha256": "3f3c49856c99b1dc795248c5927eca5f3ca3b1a502db8c32a003d8dd6818d893",
+      "missing_audit_is_retry_authority": false
     }
   ],
-  "native_qualification_receipt": "SOURCE08_ACTUAL_NATIVE_QUALIFICATION.json",
+  "native_qualification_receipt": "SOURCE09_ACTUAL_COLD_SINGLE_SUBMISSION_AND_RPC_JOURNAL.json",
   "Vanda_native_receipt": "N1_VANDA_CAMERA03_ACTUAL_FAILURE.json",
   "anchor_dynamic_receipt": "N1_ANCHOR_DYNAMIC_PARITY_ACTUAL_GAP.json",
-  "source08_terminal_receipt": "SOURCE08_ACTUAL_TERMINAL_EFFECT_CLOSURE_AND_STOP_REPAIR.json"
+  "source08_terminal_receipt": "SOURCE08_ACTUAL_TERMINAL_EFFECT_CLOSURE_AND_STOP_REPAIR.json",
+  "source09_terminal_receipt": "SOURCE09_ACTUAL_TERMINAL_AND_COMPLETE_ENDPOINT_PAIR.json",
+  "complete_endpoint_panels": {
+    "S-BC-2048-TRAIN4": {
+      "conditions": 4,
+      "layout_groups": 2,
+      "all_conditions_have_verified_policy_results": true,
+      "tasks": {
+        "T1": {
+          "planned_conditions": 2,
+          "layout_groups": 2,
+          "actual_attempts": 2,
+          "status_counts": {
+            "SUCCESS": 1,
+            "VALID_TASK_FAIL": 1
+          },
+          "failure_stages_by_actual_attempt": {
+            "COMPLETE_SUCCESS": 1,
+            "S1_PRE_EXECUTION_REJECT": 1
+          },
+          "successes": 1,
+          "valid_results": 2,
+          "complete": true,
+          "success_fraction_only_if_complete": 0.5
+        },
+        "T2": {
+          "planned_conditions": 2,
+          "layout_groups": 2,
+          "actual_attempts": 2,
+          "status_counts": {
+            "SUCCESS": 2
+          },
+          "failure_stages_by_actual_attempt": {
+            "COMPLETE_SUCCESS": 2
+          },
+          "successes": 2,
+          "valid_results": 2,
+          "complete": true,
+          "success_fraction_only_if_complete": 1.0
+        }
+      },
+      "exposed_development": false,
+      "independent_hidden_confirmation": false
+    },
+    "S-BC-2048-DEV8": {
+      "conditions": 8,
+      "layout_groups": 4,
+      "all_conditions_have_verified_policy_results": true,
+      "tasks": {
+        "T1": {
+          "planned_conditions": 4,
+          "layout_groups": 4,
+          "actual_attempts": 4,
+          "status_counts": {
+            "SUCCESS": 2,
+            "VALID_TASK_FAIL": 2
+          },
+          "failure_stages_by_actual_attempt": {
+            "COMPLETE_SUCCESS": 2,
+            "S1_PRE_EXECUTION_REJECT": 2
+          },
+          "successes": 2,
+          "valid_results": 4,
+          "complete": true,
+          "success_fraction_only_if_complete": 0.5
+        },
+        "T2": {
+          "planned_conditions": 4,
+          "layout_groups": 4,
+          "actual_attempts": 4,
+          "status_counts": {
+            "SUCCESS": 1,
+            "VALID_TASK_FAIL": 3
+          },
+          "failure_stages_by_actual_attempt": {
+            "COMPLETE_SUCCESS": 1,
+            "S1_PRE_EXECUTION_REJECT": 2,
+            "OBJECT_TASK_RESULT": 1
+          },
+          "successes": 1,
+          "valid_results": 4,
+          "complete": true,
+          "success_fraction_only_if_complete": 0.25
+        }
+      },
+      "exposed_development": true,
+      "independent_hidden_confirmation": false
+    },
+    "S-CORR-2048-TRAIN4": {
+      "conditions": 4,
+      "layout_groups": 2,
+      "all_conditions_have_verified_policy_results": true,
+      "tasks": {
+        "T1": {
+          "planned_conditions": 2,
+          "layout_groups": 2,
+          "actual_attempts": 2,
+          "status_counts": {
+            "VALID_TASK_FAIL": 1,
+            "SUCCESS": 1
+          },
+          "failure_stages_by_actual_attempt": {
+            "S1_PRE_EXECUTION_REJECT": 1,
+            "COMPLETE_SUCCESS": 1
+          },
+          "successes": 1,
+          "valid_results": 2,
+          "complete": true,
+          "success_fraction_only_if_complete": 0.5
+        },
+        "T2": {
+          "planned_conditions": 2,
+          "layout_groups": 2,
+          "actual_attempts": 2,
+          "status_counts": {
+            "SUCCESS": 2
+          },
+          "failure_stages_by_actual_attempt": {
+            "COMPLETE_SUCCESS": 2
+          },
+          "successes": 2,
+          "valid_results": 2,
+          "complete": true,
+          "success_fraction_only_if_complete": 1.0
+        }
+      },
+      "exposed_development": false,
+      "independent_hidden_confirmation": false
+    },
+    "S-CORR-2048-DEV8": {
+      "conditions": 8,
+      "layout_groups": 4,
+      "all_conditions_have_verified_policy_results": true,
+      "tasks": {
+        "T1": {
+          "planned_conditions": 4,
+          "layout_groups": 4,
+          "actual_attempts": 5,
+          "status_counts": {
+            "SUCCESS": 4
+          },
+          "failure_stages_by_actual_attempt": {
+            "COMPLETE_SUCCESS": 4,
+            "ENGINEERING_OR_UNKNOWN": 1
+          },
+          "successes": 4,
+          "valid_results": 4,
+          "complete": true,
+          "success_fraction_only_if_complete": 1.0
+        },
+        "T2": {
+          "planned_conditions": 4,
+          "layout_groups": 4,
+          "actual_attempts": 4,
+          "status_counts": {
+            "SUCCESS": 1,
+            "VALID_TASK_FAIL": 3
+          },
+          "failure_stages_by_actual_attempt": {
+            "COMPLETE_SUCCESS": 1,
+            "S1_PRE_EXECUTION_REJECT": 1,
+            "OBJECT_TASK_RESULT": 2
+          },
+          "successes": 1,
+          "valid_results": 4,
+          "complete": true,
+          "success_fraction_only_if_complete": 0.25
+        }
+      },
+      "exposed_development": true,
+      "independent_hidden_confirmation": false
+    }
+  },
+  "paired_DEV_outcomes": [
+    {
+      "task": "T1",
+      "scene_group": "PI0294/DEV/F0/000",
+      "BC": "SUCCESS",
+      "CORR": "SUCCESS"
+    },
+    {
+      "task": "T1",
+      "scene_group": "PI0294/DEV/F1/000",
+      "BC": "VALID_TASK_FAIL",
+      "CORR": "SUCCESS"
+    },
+    {
+      "task": "T1",
+      "scene_group": "PI0294/DEV/F1/001",
+      "BC": "VALID_TASK_FAIL",
+      "CORR": "SUCCESS"
+    },
+    {
+      "task": "T1",
+      "scene_group": "PI0294/DEV/F2/000",
+      "BC": "SUCCESS",
+      "CORR": "SUCCESS"
+    },
+    {
+      "task": "T2",
+      "scene_group": "PI0294/DEV/F0/000",
+      "BC": "SUCCESS",
+      "CORR": "SUCCESS"
+    },
+    {
+      "task": "T2",
+      "scene_group": "PI0294/DEV/F1/000",
+      "BC": "VALID_TASK_FAIL",
+      "CORR": "VALID_TASK_FAIL"
+    },
+    {
+      "task": "T2",
+      "scene_group": "PI0294/DEV/F1/001",
+      "BC": "VALID_TASK_FAIL",
+      "CORR": "VALID_TASK_FAIL"
+    },
+    {
+      "task": "T2",
+      "scene_group": "PI0294/DEV/F2/000",
+      "BC": "VALID_TASK_FAIL",
+      "CORR": "VALID_TASK_FAIL"
+    }
+  ]
 }

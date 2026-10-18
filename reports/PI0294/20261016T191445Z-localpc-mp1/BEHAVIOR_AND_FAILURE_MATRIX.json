@@ -432,12 +432,13 @@
       "split": "DEV",
       "task": "T1",
       "scene_group": "PI0294/DEV/F2/000",
-      "status": "ENGINEERING_INCOMPLETE",
-      "valid_policy_outcome": false,
+      "status": "SUCCESS",
+      "valid_policy_outcome": true,
       "actual_attempt_ids": [
-        "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1"
+        "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1",
+        "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1-REPLACEMENT-01"
       ],
-      "actual_attempts": 1,
+      "actual_attempts": 2,
       "actual_native_safety_fault_present": false
     },
     {
@@ -446,10 +447,12 @@
       "split": "DEV",
       "task": "T2",
       "scene_group": "PI0294/DEV/F2/000",
-      "status": "PENDING_OR_IN_PROGRESS",
-      "valid_policy_outcome": false,
-      "actual_attempt_ids": [],
-      "actual_attempts": 0,
+      "status": "VALID_TASK_FAIL",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T2"
+      ],
+      "actual_attempts": 1,
       "actual_native_safety_fault_present": false
     }
   ],
@@ -2055,6 +2058,90 @@
       "semantic_chain_sha256": null,
       "raw_result_sha256": "3f163d9d8993588327ce2062bdaec9e3527d37a94669accd487ab2ab46efed0b",
       "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1-REPLACEMENT-01",
+      "model": "S-CORR-2048-DEV8",
+      "task": "T1",
+      "split": "DEV",
+      "scene_group": "PI0294/DEV/F2/000",
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": true,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "976b958443bf0bdd297c552e7db3e31dde080e00",
+      "video": {
+        "sha256": "d21e411917ac5a7ec71e4d7f2fca623b7862ddc9789bc1618875c6c98f4a4297",
+        "bytes": 1314361,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1-REPLACEMENT-01"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-2048-DEV8-ALLOCATION-09",
+      "semantic_raw_audit_sha256": "77052197af61211280fd1b1034a662ad7d676380da7b1b594c1684e7c09ec84a",
+      "semantic_chain_sha256": "48cfb04dd59d819f6c055d9909a6595a43f52e3d27d0260b54ec275e2129b3f1",
+      "raw_result_sha256": "95615bc7e422a2cb9070d88886728f5e22c64f276fc2d7c5a9b90949c52761a2",
+      "missing_audit_is_retry_authority": false
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T2",
+      "model": "S-CORR-2048-DEV8",
+      "task": "T2",
+      "split": "DEV",
+      "scene_group": "PI0294/DEV/F2/000",
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "OBJECT_TASK_RESULT",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "teacher_takeover": false,
+      "adjudication_pipeline_trustworthy": true,
+      "raw_audit_verified": true,
+      "cross_host_chain_verified": true,
+      "qualified_policy_outcome": true,
+      "persistent_success": false,
+      "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "actual_execution_source_sha": "976b958443bf0bdd297c552e7db3e31dde080e00",
+      "video": {
+        "sha256": "b0467d1a865a536ee4b17eedee3ec8fc1ee51f39feca166cf8a9c8a687b46161",
+        "bytes": 1052808,
+        "decoded_frames": 641,
+        "actual_paired_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "native_duration_s": 32.0,
+        "initial_frame_included": true,
+        "padding_or_interpolation": false,
+        "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-2048-DEV8-F2-000-T2"
+      },
+      "public_video_url": null,
+      "first_illegal_geometry": "NOT_APPLICABLE_NO_S1_OR_NATIVE_UNSAFE_PREFIX",
+      "geometry_from_another_model_imputed": false,
+      "registry_session_label": "S-CORR-2048-DEV8-ALLOCATION-09",
+      "semantic_raw_audit_sha256": "fc17201604c1658b88e4cc21f0d48de4dcdfcd064a3b5d05a899b17afb6bfa48",
+      "semantic_chain_sha256": "25ace72b349bd87a8ed074091b3dbc1f28ce8fbf088783f822f51512610831fa",
+      "raw_result_sha256": "3f3c49856c99b1dc795248c5927eca5f3ca3b1a502db8c32a003d8dd6818d893",
+      "missing_audit_is_retry_authority": false
     }
   ],
   "panels": {
@@ -2268,43 +2355,41 @@
     "S-CORR-2048-DEV8": {
       "conditions": 8,
       "layout_groups": 4,
-      "all_conditions_have_verified_policy_results": false,
+      "all_conditions_have_verified_policy_results": true,
       "tasks": {
         "T1": {
           "planned_conditions": 4,
           "layout_groups": 4,
-          "actual_attempts": 4,
+          "actual_attempts": 5,
           "status_counts": {
-            "SUCCESS": 3,
-            "ENGINEERING_INCOMPLETE": 1
+            "SUCCESS": 4
           },
           "failure_stages_by_actual_attempt": {
-            "COMPLETE_SUCCESS": 3,
+            "COMPLETE_SUCCESS": 4,
             "ENGINEERING_OR_UNKNOWN": 1
           },
-          "successes": 3,
-          "valid_results": 3,
-          "complete": false,
-          "success_fraction_only_if_complete": null
+          "successes": 4,
+          "valid_results": 4,
+          "complete": true,
+          "success_fraction_only_if_complete": 1.0
         },
         "T2": {
           "planned_conditions": 4,
           "layout_groups": 4,
-          "actual_attempts": 3,
+          "actual_attempts": 4,
           "status_counts": {
             "SUCCESS": 1,
-            "VALID_TASK_FAIL": 2,
-            "PENDING_OR_IN_PROGRESS": 1
+            "VALID_TASK_FAIL": 3
           },
           "failure_stages_by_actual_attempt": {
             "COMPLETE_SUCCESS": 1,
             "S1_PRE_EXECUTION_REJECT": 1,
-            "OBJECT_TASK_RESULT": 1
+            "OBJECT_TASK_RESULT": 2
           },
           "successes": 1,
-          "valid_results": 3,
-          "complete": false,
-          "success_fraction_only_if_complete": null
+          "valid_results": 4,
+          "complete": true,
+          "success_fraction_only_if_complete": 0.25
         }
       },
       "exposed_development": true,
@@ -2337,7 +2422,11 @@
     "S-CORR-2048-DEV8-ALLOCATION-08": "eae8fca6cce7e1486ac8fea0973d72a4a7d6e0407516f38e0b5d5872e917e7b1",
     "N1-PREMODEL-FAULT-EXIT-ALLOCATION-07": "a339dc8f884155eefff65a0ac7228ed2332213b245831d63e14dcdcc1e7e558b",
     "N1-PREMODEL-FAULT-LATE-ALLOCATION-06": "26faf32d31be03f8f06df12c68d8ed99d21601c8a2bf51dad63fc7ac351c5659",
-    "N1-PREMODEL-FAULT-EXIT-ALLOCATION-06": "2089e716c0a1d2dd5ecd42985fb9f3d039281a463c61d537e596ce9263c63358"
+    "N1-PREMODEL-FAULT-EXIT-ALLOCATION-06": "2089e716c0a1d2dd5ecd42985fb9f3d039281a463c61d537e596ce9263c63358",
+    "N1-PREMODEL-FAULT-LATE-ALLOCATION-09": "f2f443eee20c87946da9e0db81edc35140a7ccdf956e1c1ec7c1547fe95e6ba9",
+    "N1-PREMODEL-ALLOCATION-09": "0d883e20c2bb168610d6b8fc805304f3a8ae4155ab4206228c7e9c419590b50e",
+    "S-CORR-2048-DEV8-ALLOCATION-09": "818130361031a38c538675dfa99f22fed115be96323d462fa0f64ad8737bdfe5",
+    "N1-PREMODEL-FAULT-EXIT-ALLOCATION-09": "b9fe6b8690bc3e60b4bc018e17c7426f532ff36463f2a9096622bee88443dca9"
   },
   "actual_safety_stop_present": false,
   "native_adjudication_not_relabelled_by_missing_audit": true,
@@ -2351,32 +2440,28 @@
   "N1_authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
   "parent_run": "20261016T191445Z-localpc-mp1",
   "original_T0_epoch": 1792178085,
-  "aggregator_source_sha": "5876ce182e47dee3704ca75587cfeeb76e2793f7",
+  "aggregator_source_sha": "d3aed7fcb418d8438196aa198cbe96b395ed9434",
   "scientific_runtime_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
-  "actual_qualified_conditions": 29,
-  "snapshot_Core_epoch": 1792281116.5875533,
-  "snapshot_Hopper_epoch": 1792281117.1365166,
+  "actual_qualified_conditions": 31,
+  "snapshot_Core_epoch": 1792284166.282681,
+  "snapshot_Hopper_epoch": 1792284166.3933372,
   "native_registries_equal_between_sites": true,
   "required_four_final_review_deliverables_complete": false,
   "matched_actual2048_consumption_report": "MATCHED_SOURCE_PAIR_FINAL.json",
   "actual_matched_endpoint_training_complete": true,
   "full_endpoint_behavior_complete": false,
-  "pending_conditions": 3,
+  "pending_conditions": 1,
   "both_endpoint_TRAIN4_audited": true,
   "fifth_native_allocation": "NATIVE_F_EXIT0_SOURCE35511_GPU_S_RESERVATION0",
   "source_scope_closed": false,
-  "remaining_fixed_DEV_conditions": 2,
+  "remaining_fixed_DEV_conditions": 0,
   "latest_evaluation_runtime_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
   "pending_condition_ids": [
-    "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1",
-    "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1",
-    "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T2"
+    "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T1"
   ],
-  "remaining_fixed_DEV_condition_ids": [
-    "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T1",
-    "PI0294-MP1-S-CORR-2048-DEV8-F2-000-T2"
-  ],
+  "remaining_fixed_DEV_condition_ids": [],
   "prior_verified_geometry_and_public_videos_preserved": true,
-  "latest_native_allocation_state": "SOURCE08_NATIVE_F_EXIT1_NO_CURRENT_GPU_RESERVATION",
-  "source08_terminal_receipt": "SOURCE08_ACTUAL_TERMINAL_EFFECT_CLOSURE_AND_STOP_REPAIR.json"
+  "latest_native_allocation_state": "SOURCE09_NATIVE_F_EXIT0_GPU_RESERVATIONS_ZERO",
+  "source08_terminal_receipt": "SOURCE08_ACTUAL_TERMINAL_EFFECT_CLOSURE_AND_STOP_REPAIR.json",
+  "source09_terminal_receipt": "SOURCE09_ACTUAL_TERMINAL_AND_COMPLETE_ENDPOINT_PAIR.json"
 }
