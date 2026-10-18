@@ -1,5 +1,14 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**FD2 dynamic expert-clearance pilot: new direct human GO (2026-10-19 SGT).**
+[Fixed protocol](docs/protocols/PI0294_FD2_DYNAMIC_EXPERT_CLEARANCE_PILOT_V1.md) ·
+[Finite new machine card](reports/PI0294/design/FD2_DYNAMIC_EXPERT_CLEARANCE_SCOPE_V1.json).
+Four new TRAIN-only layouts, original4mm versus fixed12mm, eight Teacher
+first attempts; no training/GPU/PBS, WBC/S1/score frozen. Native binding and
+execution receipts are still pending at this publication. Old FD1/N1 stay
+CLOSED; the following FD1 draft status is its historical publication state,
+not a rollover of old budget. selected/deployment NONE, TF-R3 STOP retained.
+
 **FD1 CLOSED (2026-10-19 SGT): original40/42 preserved; no training or WBC change.**
 [Final failure-attribution review](reports/PI0294/20261016T191445Z-localpc-mp1/FD1_DIAG/FD1_FINAL_ROOT_CAUSE_REVIEW.md) ·
 [Exact geometry and one explicit gap](reports/PI0294/20261016T191445Z-localpc-mp1/FD1_DIAG/FD1_S1_FIRST_GEOMETRY.json) ·
