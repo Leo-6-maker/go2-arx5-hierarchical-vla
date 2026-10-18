@@ -76,6 +76,15 @@ def bound_inputs(root):
     if len(states)!=8 or len({s['id'] for s in states})!=8 or {(s['original_attempt_id'],s['sequence']) for s in states}!=expected:
         raise PermissionError('EXACT_FIXED_EIGHT_TRAIN_ANCHORS_NO_NEW_SELECTION')
     spec=config.specification(read(root/'MP1_STAGE_BINDING.json'))
+    if spec.get('native_gate_only'):
+        mechanism=parent/'children'/config.ABLATION_CHILD
+        if (Path(q['native_copy_mechanism_root']).resolve()!=mechanism.resolve() or mechanism.is_symlink()
+                or sha(mechanism/'evidence/ANCHOR_DYNAMIC_PARITY/RESULT.json')!=config.COPY_MECHANISM_RESULT
+                or sha(mechanism/'evidence/CLOSED_RECEIPT.private.json')!=q['native_copy_mechanism_closed_sha256']):
+            raise PermissionError('EXACT_CLOSED_NATIVE_COPY_MECHANISM_EVIDENCE_REQUIRED')
+        for prior in [mechanism,parent/'children'/config.CHILD,parent/'children'/config.TRACE_CHILD]:
+            if read(read(prior/'OUTPUT_BINDING.private.json')['lease'])['status']!='CLOSED':
+                raise PermissionError('ALL_PREVIOUS_ANCHOR_LEASES_MUST_REMAIN_CLOSED')
     if spec['trace_only']:
         prior=parent/'children'/config.CHILD
         if (Path(q['prior_diagnostic_root']).resolve()!=prior.resolve() or prior.is_symlink()
@@ -190,7 +199,8 @@ def run(root):
     root=Path(root);manifest=validate_runtime(root,'4080-simulation');stage=read(root/'MP1_STAGE_BINDING.json')
     if not config.is_diagnostic(stage):raise PermissionError('EXACT_DYNAMIC_PARITY_STAGE')
     window=config.validate_window(root,manifest,time.time());spec=config.specification(stage)
-    if spec.get('ablation_only'):raise PermissionError('USE_SEPARATELY_BOUND_NATIVE_COPY_ABLATION_ENTRYPOINT')
+    if spec.get('ablation_only') or spec.get('native_gate_only'):
+        raise PermissionError('USE_SEPARATELY_BOUND_NATIVE_COPY_ENTRYPOINT')
     old,source,states,binding=bound_inputs(root)
     require_disjoint_cpu(source,window['CPU_ids']);os.sched_setaffinity(0,set(window['CPU_ids']))
     ledger=Ledger(root,'core');ledger.guard();remaining=int(spec['CPU_core_s']['core']-read(ledger.path)['Core_CPU_s'])

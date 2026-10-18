@@ -161,5 +161,22 @@ class AnchorDynamicTests(unittest.TestCase):
             dynamic.require_disjoint_cpu(self.root,[3])
             with self.assertRaises(PermissionError):dynamic.require_disjoint_cpu(self.root,[1])
 
+    def test_native_history_gate_window_pins_mechanism_and_original_budget(self):
+        old=self.root;self.root=old.parent/config.NATIVE_GATE_CHILD;old.rename(self.root)
+        self.stage.update(schema=config.NATIVE_GATE_SCHEMA)
+        self.put('MP1_STAGE_BINDING.json',self.stage)
+        repo=Path(__file__).resolve().parents[2]
+        card=json.loads((repo/'reports/PI0294/design/N1_EIGHT_NATIVE_HISTORY_COPY_PARITY_V1.json').read_text())
+        def seal(value):
+            self.put(config.NATIVE_GATE_CARD,value,True)
+            self.manifest['execution']['sealed_inputs']={p:sha(self.root/p) for p in [config.NATIVE_GATE_CARD,config.INPUTS]}
+        seal(card);config.validate_window(self.root,self.manifest,self.clock)
+        for key,bad in [('mechanism_result_sha256','0'*64),('state_reconstruction','INTEGRATION_INJECTION'),
+                        ('exact_total_shadow_ticks',0),('original_history_shadow_ticks',0),
+                        ('future_consumer_must_reconstruct_and_validate_again',False),('comparison_absolute_tolerance',1e-9)]:
+            changed=deepcopy(card);changed[key]=bad;seal(changed)
+            with self.subTest(key=key),self.assertRaises(PermissionError):
+                config.validate_window(self.root,self.manifest,self.clock)
+
 
 if __name__=='__main__':unittest.main()
