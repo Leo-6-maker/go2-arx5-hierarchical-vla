@@ -9,7 +9,13 @@ import time
 
 
 def append(path,value):
-    raw=(json.dumps(value,allow_nan=False)+'\n').encode()
+    return append_records(path,[value])
+
+
+def append_records(path,values):
+    if not isinstance(values,list) or not 1<=len(values)<=2:
+        raise ValueError('ONE_RECEIPT_OR_WRITTEN_AND_TERMINAL_PAIR')
+    raw=''.join(json.dumps(value,allow_nan=False)+'\n' for value in values).encode()
     fd=os.open(path,os.O_CREAT|os.O_APPEND|os.O_WRONLY|os.O_NOFOLLOW|os.O_NONBLOCK,0o600)
     try:
         info=os.fstat(fd)
@@ -36,18 +42,29 @@ class Attempt:
         self.identity=dict(rpc_id=nonce,role=session.role,label=session.label,operation=args['operation'],
             request_sha256=hashlib.sha256(raw).hexdigest(),request_bytes=len(raw),
             deadline_monotonic=deadline,call_watchdog_s=20,effect_retried=False)
-        self.phase='REQUEST_INTENT_BEFORE_WIRE';self.received=False;self.persistence=None
+        self.phase='REQUEST_INTENT_BEFORE_WIRE';self.received=False;self.persistence=None;self.pending_written=None
         self.record(self.phase)
 
+    def event(self,phase,**fields):
+        return dict(self.identity,event=phase,monotonic=time.monotonic(),epoch=time.time(),
+            previous_receipt_persistence=self.persistence,**fields)
+
     def record(self,phase,**fields):
-        persistence=append(self.path,dict(self.identity,event=phase,monotonic=time.monotonic(),epoch=time.time(),
-            previous_receipt_persistence=self.persistence,**fields))
+        records=[] if self.pending_written is None else [self.pending_written]
+        self.pending_written=None
+        records.append(self.event(phase,**fields))
+        persistence=append_records(self.path,records)
         self.phase=phase
-        self.persistence=dict(event=phase,**persistence)
+        self.persistence=dict(event=phase,batch_events=[r['event'] for r in records],**persistence)
 
     def __enter__(self):return self
 
-    def written(self):self.record('LOCAL_WRITE_RETURNED_NOT_REMOTE_ACK')
+    def written(self):
+        if self.pending_written is not None or self.phase!='REQUEST_INTENT_BEFORE_WIRE':
+            raise PermissionError('ONE_LOCAL_WRITE_PROGRESS_EVENT_PER_ATTEMPT')
+        # The durable pre-wire intent already represents an unknown remote effect.
+        # Persist progress with response/failure, never block reply draining for it.
+        self.phase='LOCAL_WRITE_RETURNED_NOT_REMOTE_ACK';self.pending_written=self.event(self.phase)
 
     def response(self,line,value):
         self.received=True

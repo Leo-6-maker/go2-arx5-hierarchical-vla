@@ -1,5 +1,21 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Actual CPU transport diagnosis: redundant inflight progress fsync removed; native continuation pending.**
+[Actual80-cycle recorded-byte route and controlled before/after proof](reports/PI0294/20261016T191445Z-localpc-mp1/N1_ACTUAL_RECORDED_TRANSPORT_AND_PROGRESS_JOURNAL_REPAIR.json).
+160RPCs over the original dualSSH route,one95081-byte original double-camera
+packet,all80checksums match;median cycle0.03879s/max1.24919s. This is recorded
+transport,notfresh-observation physics or a newallocation qualification.
+Controlled old written-progress fsync21.022s consumes unchanged20s watchdog;
+new batched progress returns the same isolated request in0.576s without that
+inflight fsync. Durable pre-wire intent and durable response/failure remain;
+no action/query/install retry or watchdog extension. HistoricalACK timeout's
+unique cause still NOT PROVEN. Allprobeprocesses terminal;NN930/cases20 unchanged.
+Old fault close did not observe SSH exit;later PID/start disappearance verified,
+exitcodeUNKNOWN retained. Bounded discard-only close is CPU-pipe tested,
+not yet realSSH/native accepted. Actor remains6b291000,engineeringSTOPs retained.
+Next:publish/CI,coldbinding,then own600s/80cycle qualification before anymodel
+in the last legalallocation. No newGPU/PBS/training/physics from these probes.
+
 **Current: confirmation allocation01 terminal; whole recorded effects closed, fixed40 incomplete.**
 [Actual all40-cell partial coverage, all20 raw audits and resource terminal](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ALLOCATION01_TERMINAL_PARTIAL_COVERAGE.json).
 673388 is nativeF/1,8453 wall/8456 conservativeH200seconds settled;

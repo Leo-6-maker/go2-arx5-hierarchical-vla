@@ -41,7 +41,7 @@ class FileRPCJournalTests(unittest.TestCase):
         self.assertTrue(self.session.failed);self.assertFalse(self.rows()[-1]['unknown_remote_effect'])
         self.assertTrue(self.rows()[-1]['response_received'])
 
-    def test_slow_written_fsync_is_visible_in_next_failure_without_claiming_remote_latency(self):
+    def test_prewrite_persistence_latency_is_visible_and_written_progress_does_not_fsync(self):
         clock=[0.]
         def sync(fd):clock[0]+=21.
         with patch.object(journal.os,'fsync',side_effect=sync),patch.object(
@@ -49,14 +49,35 @@ class FileRPCJournalTests(unittest.TestCase):
             with self.assertRaises(TimeoutError):
                 with self.attempt() as attempt:
                     attempt.written()
+                    self.assertEqual(clock[0],21.)
+                    self.assertEqual(len(self.rows()),1)
                     raise TimeoutError('ORIGINAL_20S_FILE_RPC_TIMEOUT_UNKNOWN_EFFECT_NO_RETRY')
         rows=self.rows();timing=rows[-1]['previous_receipt_persistence']
-        self.assertEqual(timing['event'],'LOCAL_WRITE_RETURNED_NOT_REMOTE_ACK')
+        self.assertEqual(timing['event'],'REQUEST_INTENT_BEFORE_WIRE')
         self.assertEqual(timing['fsync_elapsed_s'],21.)
         self.assertEqual(timing['fsync_ended_monotonic']-timing['fsync_started_monotonic'],21.)
         self.assertEqual(rows[-1]['call_watchdog_s'],20)
         self.assertTrue(rows[-1]['unknown_remote_effect']);self.assertTrue(self.session.failed)
         self.assertEqual(len(rows),3)
+
+    def test_written_is_persisted_with_response_before_success_can_return(self):
+        with patch.object(journal.os,'fsync',wraps=journal.os.fsync) as sync:
+            with self.attempt() as attempt:
+                self.assertEqual(sync.call_count,1)
+                attempt.written();self.assertEqual(sync.call_count,1)
+                with self.assertRaises(PermissionError):attempt.written()
+                attempt.response(b'{"ok":true}',dict(ok=True));self.assertEqual(sync.call_count,2)
+            rows=self.rows()
+            self.assertEqual([r['event'] for r in rows],['REQUEST_INTENT_BEFORE_WIRE',
+                'LOCAL_WRITE_RETURNED_NOT_REMOTE_ACK','RESPONSE_PARSED'])
+            self.assertEqual(attempt.persistence['batch_events'],['LOCAL_WRITE_RETURNED_NOT_REMOTE_ACK','RESPONSE_PARSED'])
+
+    def test_crash_before_reply_retains_durable_unknown_intent_and_no_success_claim(self):
+        attempt=self.attempt();attempt.written()
+        self.assertEqual([r['event'] for r in self.rows()],['REQUEST_INTENT_BEFORE_WIRE'])
+        self.assertTrue(self.session.failed)
+        self.assertFalse(attempt.received)
+        self.assertEqual(attempt.pending_written['event'],'LOCAL_WRITE_RETURNED_NOT_REMOTE_ACK')
 
     def test_parsed_response_then_slow_persistence_keeps_effect_known_but_session_poisoned(self):
         with self.assertRaises(TimeoutError):

@@ -1,0 +1,265 @@
+{
+  "schema": "MP1_N1_RECORDED_TRANSPORT_AND_WRITTEN_PROGRESS_JOURNAL_REPAIR_V1",
+  "status": "ACTUAL_CPU_ROUTE_DIAGNOSIS_AND_CONTROLLED_MECHANISM_REPAIR_PASS_NOT_NEW_NATIVE_QUALIFICATION",
+  "observed_epoch": 1792303379.0279348,
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+  "original_N1_T0_epoch": 1792264081,
+  "CPU_scope": "N1_CONFIRM_TRANSPORT_DIAGNOSTIC_AND_PROGRESS_JOURNAL_04",
+  "CPU_scope_T0_epoch": 1792302902.0591965,
+  "CPU_scope_deadline_epoch": 1792306502.0591965,
+  "new_N1_clock_or_budget": false,
+  "observation_scope": {
+    "original_actor_source": "6b291000858612423b67838275efa52caf8b633f",
+    "original_published_instrumentation_source": "8d34b22ef4661c9a9fc25a94a4d332f3b1cbf2b2",
+    "diagnostic_program_sha256": "6b9c3260c8b2c2eb2be00a0e3ed194001dc75b709dd7e2d9ccdd2b861dbdc48c",
+    "private_original_controller_sha256": "d8cc3ecae5d9606940b49c8be4a68de1ed12ff9e6e46b5f28d5b96beb5e009f1",
+    "private_original_client_sha256": "94625949da9b707d84d1aba85c5b4579a118a3d2bddf7d625b3d044325044677",
+    "tested_prepared_journal_sha256": "324842a05eb839a55be911737dea97c6afd357921b90acdd6e37f0f9fa649c09",
+    "recorded_original_dual_camera_packet_not_new_observation": true,
+    "not_a_closed_loop_or_new_compute_allocation_qualification": true,
+    "Core_neural_work": false,
+    "Hopper_login_neural_work": false
+  },
+  "actual_nominal80": {
+    "cycles": 80,
+    "RPCs": 160,
+    "all_actual_recorded_byte_checksums_match": true,
+    "recorded_json_bytes_per_cycle": 95081,
+    "unique_recorded_packets": 1,
+    "canonical_recorded_packet_json_sha256": "bd0100732b4169f50cdec517ecd6198b1998475f7f7d423fd122061abbd3ccfe",
+    "min_cycle_wall_s": 0.02805838899803348,
+    "median_cycle_wall_s": 0.03878993600665126,
+    "max_cycle_wall_s": 1.2491889219963923,
+    "logical_request_and_response_bytes": 15252620,
+    "roles": {
+      "core": {
+        "actual_RPCs": 80,
+        "actual_local_receipt_events": 240,
+        "min_call_wall_s": 0.013592614996014163,
+        "median_call_wall_s": 0.01599934151454363,
+        "max_call_wall_s": 0.7349353280151263,
+        "measured_previous_persistence_fsync_s_max": 0.0020551309862639755,
+        "operations": [
+          "observation"
+        ],
+        "unknown_effects_retried": 0,
+        "terminal": {
+          "local_SSH_pid": 1505712,
+          "returncode": 0,
+          "started_epoch": 1792303053.1499608,
+          "ended_epoch": 1792303057.6861696,
+          "calls": 80,
+          "unknown_process_terminal": false,
+          "healthy_GPU_jobs_cancelled": false,
+          "effects_automatically_retried": false
+        }
+      },
+      "hopper": {
+        "actual_RPCs": 80,
+        "actual_local_receipt_events": 240,
+        "min_call_wall_s": 0.010669974988559261,
+        "median_call_wall_s": 0.02169384149601683,
+        "max_call_wall_s": 0.513750648999121,
+        "measured_previous_persistence_fsync_s_max": 0.001289817999349907,
+        "operations": [
+          "ack"
+        ],
+        "unknown_effects_retried": 0,
+        "terminal": {
+          "local_SSH_pid": 1505713,
+          "returncode": 0,
+          "started_epoch": 1792303053.1512098,
+          "ended_epoch": 1792303057.718175,
+          "calls": 80,
+          "unknown_process_terminal": false,
+          "healthy_GPU_jobs_cancelled": false,
+          "effects_automatically_retried": false
+        }
+      }
+    }
+  },
+  "controlled_written_fsync_comparison": {
+    "isolated_fault_only_not_actual_scientific_RPC": true,
+    "maximum_requests": 2,
+    "actual_requests": 2,
+    "original_watchdog_s": 20,
+    "BEFORE": {
+      "instrumented_published_journal": "8d34b22ef4661c9a9fc25a94a4d332f3b1cbf2b2",
+      "injected_written_fsync_sleep_s": 21,
+      "measured_written_fsync_s": 21.022062443982577,
+      "client_error": "ORIGINAL_20S_FILE_RPC_TIMEOUT_UNKNOWN_EFFECT_NO_RETRY",
+      "response_parsed": false,
+      "session_poisoned": true,
+      "remote_checksum_request_count": 1,
+      "remote_terminal_status": "ALL_FINITE_CHECKSUM_REQUESTS_RETURNED",
+      "original_local_close_receipt": {
+        "local_SSH_pid": 1505751,
+        "returncode": null,
+        "started_epoch": 1792303057.7270453,
+        "ended_epoch": 1792303108.7608447,
+        "calls": 0,
+        "unknown_process_terminal": true,
+        "healthy_GPU_jobs_cancelled": false,
+        "effects_automatically_retried": false
+      },
+      "original_local_close_did_not_establish_terminal": true,
+      "later_local_SSH_PID_and_start_terminal_verified": true,
+      "actual_SSH_exit_code": "UNKNOWN_NOT_FABRICATED",
+      "initial_probe_controller_assertion_failure_preserved": true,
+      "no_original_fault_request_replayed": true
+    },
+    "AFTER": {
+      "prepared_progress_journal_source": "CONTAINING_COMMIT",
+      "wall_s": 0.576021123008104,
+      "same_written_persistence_hook_armed": true,
+      "inflight_written_fsync_calls": 0,
+      "injected_sleep_triggered": false,
+      "response_parsed": true,
+      "session_poisoned": false,
+      "local_SSH_exit": 0,
+      "whole_critical_call_and_response_persistence_still_subject_to_original20s": true
+    },
+    "historical_confirmation_ACK_timeout_unique_root_cause_proven": false
+  },
+  "repair": {
+    "durable_intent_before_any_wire": true,
+    "written_progress_batched_with_response_or_failure": true,
+    "durable_response_before_success_returns": true,
+    "crash_with_only_intent_remains_unknown_no_retry": true,
+    "mutation_journal_or_remote_durable_action_count_removed": false,
+    "changed_action_or_model_semantics": false,
+    "timeout_extension": false,
+    "action_query_install_retry": false,
+    "private_owner_client_close_adapter_updated_after_probe": true,
+    "abandoned_output_drain": "PREPARED_CPU_PIPE_TESTED_BOUNDED_30S_2MIB_DISCARD_NEVER_ACK_NO_SIGNAL",
+    "new_close_adapter_real_SSH_acceptance": "NOT_YET_RUN_NO_EXTRA_FAULT_REQUEST_ADDED"
+  },
+  "actual_remote_terminal_and_effects": {
+    "core": {
+      "all_recorded_probe_processes_terminal": true,
+      "process_records": [
+        {
+          "record_relative": "aux_worker_processes/offline-transport-N1-OFFLINE-WRITTEN-FSYNC-AFTER-core.json",
+          "record_sha256": "e2b36200cd67b55f210d5ccf9e38d1da294bd12908a0719934c39218fdd6ddce",
+          "terminal": true
+        },
+        {
+          "record_relative": "aux_worker_processes/offline-transport-N1-OFFLINE-WRITTEN-FSYNC-BEFORE-core.json",
+          "record_sha256": "b1f5bfcf849539a986f9819c7852a0b344ce3eb1947e79774320b4584260f7d2",
+          "terminal": true
+        },
+        {
+          "record_relative": "aux_worker_processes/offline-transport-N1-OFFLINE-RECORDED80-core.json",
+          "record_sha256": "dae8973b6e4ac5d336d292a34bb06d05e69cb0ce87e200a843b1399a05ff6493",
+          "terminal": true
+        }
+      ],
+      "terminal_receipts": [
+        {
+          "sha256": "bacf72a7bac9f882c5aefc1b3bbf0244a551e4839a9a5406b255a8ceb7a76906",
+          "status": "ALL_FINITE_CHECKSUM_REQUESTS_RETURNED",
+          "requests": 1,
+          "CPU_s": 0.00026458700000001056,
+          "source_sha": "6b291000858612423b67838275efa52caf8b633f",
+          "manifest_sha256": "3243f28277377e48e8ac7adb34f1f5e04cbf5351ec1bf8198ba181edf3e00bd9",
+          "diagnostic_program_sha256": "6b9c3260c8b2c2eb2be00a0e3ed194001dc75b709dd7e2d9ccdd2b861dbdc48c",
+          "model_queries": 0,
+          "physical_integrations": 0,
+          "policy_observations_created": 0
+        },
+        {
+          "sha256": "d84b731cfae9717c0bcbc29c697c6f8b06d5e3f957737fd41a923906111d6451",
+          "status": "ALL_FINITE_CHECKSUM_REQUESTS_RETURNED",
+          "requests": 80,
+          "CPU_s": 0.013727132000000003,
+          "source_sha": "6b291000858612423b67838275efa52caf8b633f",
+          "manifest_sha256": "3243f28277377e48e8ac7adb34f1f5e04cbf5351ec1bf8198ba181edf3e00bd9",
+          "diagnostic_program_sha256": "6b9c3260c8b2c2eb2be00a0e3ed194001dc75b709dd7e2d9ccdd2b861dbdc48c",
+          "model_queries": 0,
+          "physical_integrations": 0,
+          "policy_observations_created": 0
+        },
+        {
+          "sha256": "968b00424f2a3661c26565f2b240ee808b5cf7bceea16cdf5a5de315bea58c65",
+          "status": "ALL_FINITE_CHECKSUM_REQUESTS_RETURNED",
+          "requests": 1,
+          "CPU_s": 0.0007394430000000063,
+          "source_sha": "6b291000858612423b67838275efa52caf8b633f",
+          "manifest_sha256": "3243f28277377e48e8ac7adb34f1f5e04cbf5351ec1bf8198ba181edf3e00bd9",
+          "diagnostic_program_sha256": "6b9c3260c8b2c2eb2be00a0e3ed194001dc75b709dd7e2d9ccdd2b861dbdc48c",
+          "model_queries": 0,
+          "physical_integrations": 0,
+          "policy_observations_created": 0
+        }
+      ],
+      "measured_probe_body_CPU_s": 0.01473116200000002,
+      "source_manifest_sha256": "3243f28277377e48e8ac7adb34f1f5e04cbf5351ec1bf8198ba181edf3e00bd9",
+      "engineering_STOP_sha256": {
+        "RELAY_ENGINEERING_STOP.json": "ab07d1c59567c0be0b705e5504e2063800a19f6e8e4f4016a8a07a1bc4093248"
+      },
+      "actual_generation_queries": null,
+      "actual_main_starts": 42,
+      "actual_optimizer_updates": null
+    },
+    "hopper": {
+      "all_recorded_probe_processes_terminal": true,
+      "process_records": [
+        {
+          "record_relative": "aux_worker_processes/offline-transport-N1-OFFLINE-RECORDED80-hopper.json",
+          "record_sha256": "f87b134cc5f2580353d20e3afaae9c2165c2280c08c70b11cfa3abb68cf24edf",
+          "terminal": true
+        }
+      ],
+      "terminal_receipts": [
+        {
+          "sha256": "61bae54892c20a9b12e748a9326374a349e31e638cecbd02c1a52312d66e0156",
+          "status": "ALL_FINITE_CHECKSUM_REQUESTS_RETURNED",
+          "requests": 80,
+          "CPU_s": 0.051030381999999985,
+          "source_sha": "6b291000858612423b67838275efa52caf8b633f",
+          "manifest_sha256": "03550b20978bffb6ff434c74e4683253b37d2910e74d632144ea9b329e19e711",
+          "diagnostic_program_sha256": "6b9c3260c8b2c2eb2be00a0e3ed194001dc75b709dd7e2d9ccdd2b861dbdc48c",
+          "model_queries": 0,
+          "physical_integrations": 0,
+          "policy_observations_created": 0
+        }
+      ],
+      "measured_probe_body_CPU_s": 0.051030381999999985,
+      "source_manifest_sha256": "03550b20978bffb6ff434c74e4683253b37d2910e74d632144ea9b329e19e711",
+      "engineering_STOP_sha256": {
+        "RELAY_ENGINEERING_STOP.json": "ab07d1c59567c0be0b705e5504e2063800a19f6e8e4f4016a8a07a1bc4093248"
+      },
+      "actual_generation_queries": 930,
+      "actual_main_starts": null,
+      "actual_optimizer_updates": 0
+    }
+  },
+  "resources": {
+    "CPU_upper_s": {
+      "CoreLab": 300,
+      "Hopper": 300,
+      "local_PC": 1800
+    },
+    "total_CPU_upper_s": 2400,
+    "conservative_network_upper_charge_bytes": 134217728,
+    "new_GPU_PBS": 0,
+    "new_model_queries": 0,
+    "new_physics": 0,
+    "new_training_updates": 0,
+    "new_checkpoint_deletions": 0
+  },
+  "scientific_state": {
+    "confirmation_cases": 20,
+    "qualified_conditions": 18,
+    "actual_confirmation_generations": 930,
+    "source_family_PBS": 11,
+    "confirmation_PBS": 1,
+    "current_scientific_actor_not_hot_modified": true,
+    "remaining_last_original_allocation_not_submitted": true,
+    "cold_boundary_and_new_own600s80cycle_native_qualification_still_required": true
+  },
+  "selected": "NONE",
+  "deployment": "NONE",
+  "TF_R3": "STOP"
+}
