@@ -66,6 +66,16 @@ class FD1Tests(unittest.TestCase):
             fd1.update(p,dict(new=True))
             self.assertEqual(fd1.read(p),dict(new=True))
 
+    def test_identical_sealed_plan_reused_without_overwrite(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'plan.json'
+            fd1.seal_or_verify(p,dict(ids=['fixed']))
+            before=p.stat().st_ino,p.read_bytes()
+            fd1.seal_or_verify(p,dict(ids=['fixed']))
+            self.assertEqual(before,(p.stat().st_ino,p.read_bytes()))
+            with self.assertRaisesRegex(ValueError,'IDENTITY_CHANGED'):
+                fd1.seal_or_verify(p,dict(ids=['replacement']))
+
 
 if __name__=='__main__':
     unittest.main()

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from scripts.pi0294.fd1 import read, put, update, sha
+from scripts.pi0294.fd1 import read, put, update, sha, seal_or_verify
 
 
 def pad_clearance(engine):
@@ -219,7 +219,7 @@ def run_shadow(meter):
     rows=sorted([r for r in atlas['actual_rows'] if r['rejection']],key=lambda r:r['attempt_id'])
     if len(rows)!=23 or atlas['planned_all23_reconstruction_tick_upper']>500000:
         raise PermissionError('FD1_PREBOUND_ALL23_WITHIN_TICK_AND_START_CAP')
-    put(meter.root/'plans/SHADOW_EXACT_CASES.json',dict(selection='ALL23_ORIGINAL_REJECTIONS_NO_OUTCOME_SELECTION',
+    seal_or_verify(meter.root/'plans/SHADOW_EXACT_CASES.json',dict(selection='ALL23_ORIGINAL_REJECTIONS_NO_OUTCOME_SELECTION',
         ids=[r['attempt_id'] for r in rows],ticks_upper=atlas['planned_all23_reconstruction_tick_upper'],starts_upper=46,
         successful_controls='NOT_RUN_NO_CLAIM_EXPERT_DYNAMIC_FEASIBILITY',original_actions_only=True))
     result=[]

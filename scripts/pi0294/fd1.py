@@ -44,6 +44,16 @@ def update(path, value):
     os.replace(temp, path)
 
 
+def seal_or_verify(path, value):
+    """Reuse an already sealed identical plan; never overwrite a changed plan."""
+    path=Path(path)
+    if path.exists():
+        if path.is_symlink() or path.stat().st_mode & 0o222 or read(path)!=value:
+            raise ValueError('FD1_EXISTING_SEALED_PLAN_IDENTITY_CHANGED')
+    else:
+        put(path,value)
+
+
 def validate(root):
     root = Path(root)
     m = read(root / 'RUN_MANIFEST.json')
@@ -344,7 +354,7 @@ def run(root,operation):
         meter=Meter(root,operation)
         if operation=='atlas':
             value=atlas(meter)
-        elif operation in ['shadow','shadow-recovery-01']:
+        elif operation in ['shadow','shadow-recovery-01','shadow-recovery-02']:
             from scripts.pi0294.fd1_shadow import run_shadow
             value=run_shadow(meter)
         else:
@@ -366,6 +376,6 @@ if __name__=='__main__':
     import argparse
     p=argparse.ArgumentParser()
     p.add_argument('--root',required=True)
-    p.add_argument('--operation',required=True,choices=['atlas','shadow','shadow-recovery-01'])
+    p.add_argument('--operation',required=True,choices=['atlas','shadow','shadow-recovery-01','shadow-recovery-02'])
     a=p.parse_args()
     print(json.dumps(run(a.root,a.operation)),flush=True)
