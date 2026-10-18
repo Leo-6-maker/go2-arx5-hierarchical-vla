@@ -26,6 +26,9 @@ NATIVE_GATE_SCHEMA='MP1_N1_EIGHT_NATIVE_HISTORY_COPY_PARITY_V1'
 NATIVE_GATE_CHILD='n1-anchor-native-history-gate-04'
 NATIVE_GATE_CARD='plans/N1_EIGHT_NATIVE_HISTORY_COPY_PARITY_V1.json'
 COPY_MECHANISM_RESULT='b18b1e47bb059c3153a2a69697f8e1a704a6ea0915ebf8e6c10487e3c797af6c'
+ENDPOINT_SCHEMA='MP1_N1_ENDPOINT_NI16_MATCHED_SHADOWS_V1'
+ENDPOINT_CHILD='n1-endpoint-ni16-matched-shadows-05'
+ENDPOINT_CARD='plans/N1_ENDPOINT_NI16_MATCHED_SHADOWS_V1.json'
 FAILED_STATE='PI0294-MP1-S-BC-512-TRAIN4-F1-000-T1-S026'
 PRIOR_FAILURE='03a229d3e8ac414bcb54c42408ad7d83fcb892a073ecd9e3c0c43de15841e6c6'
 PRIOR_LEDGER='d4926aa3d22c961d348b7129e5016f72307c6b7d550c012af7cfe754c66c5ca5'
@@ -35,10 +38,14 @@ B1_MANIFEST='42b96f244d1d51c37950b3f12d014dfaf53f663cb8a00a4492021e24b4c3ff76'
 B1_SOURCE_INPUTS='99549abd8cb8e6479862e6a07e3fb5574d53b1be3f7296758ad366541971082b'
 
 
-def is_diagnostic(stage):return stage.get('schema') in [SCHEMA,TRACE_SCHEMA,ABLATION_SCHEMA,NATIVE_GATE_SCHEMA]
+def is_diagnostic(stage):return stage.get('schema') in [SCHEMA,TRACE_SCHEMA,ABLATION_SCHEMA,NATIVE_GATE_SCHEMA,ENDPOINT_SCHEMA]
 
 
 def specification(stage):
+    if stage.get('schema')==ENDPOINT_SCHEMA:
+        return dict(child=ENDPOINT_CHILD,scope='MP1_N1_ORIGINAL_EIGHT_NI16_MATCHED_SHADOWS_NO_LIVE',
+            caps=dict(CAPS,main_starts=4,shadow_integrations=32800),CPU_core_s=dict(core=3600,hopper=0),
+            wall_s=3600,card=ENDPOINT_CARD,states=8,parents=4,trace_only=False,native_gate_only=True,endpoint_only=True)
     if stage.get('schema')==SCHEMA:
         return dict(child=CHILD,scope=SCOPE,caps=CAPS,CPU_core_s=CPU_CAPS,wall_s=WALL_S,
             card=CARD,states=8,parents=4,trace_only=False)
@@ -87,11 +94,21 @@ def validate_window(root,manifest,now):
             or card['branches']!=['FULL_NATIVE_COPY','FRESH_ENGINE_INTEGRATION_RESTORE','NATIVE_COPY_INTEGRATION_RESTORE']
             or card['original_history_shadow_ticks']!=5200 or card['maximum_original_prefix_ticks_per_branch']!=63):
         raise PermissionError('EXACT_SINGLE_STATE_THREE_BRANCH_ENGINEERING_ABLATION')
-    if spec.get('native_gate_only') and (card['mechanism_result_sha256']!=COPY_MECHANISM_RESULT
-            or card['state_reconstruction']!='COMPLETE_ORIGINAL_ACKNOWLEDGED_HISTORY_THEN_NATIVE_MJDATA_COPY'
-            or card['original_history_shadow_ticks']!=27600 or card['exact_total_shadow_ticks']!=29202
-            or card['future_consumer_must_reconstruct_and_validate_again'] is not True):
-        raise PermissionError('PROVEN_NATIVE_HISTORY_COPY_ROUTE_EIGHT_ANCHORS_ONLY')
+    if spec.get('native_gate_only'):
+        count_key='exact_revalidation_shadow_ticks' if spec.get('endpoint_only') else 'exact_total_shadow_ticks'
+        if (card['mechanism_result_sha256']!=COPY_MECHANISM_RESULT
+                or card['state_reconstruction']!='COMPLETE_ORIGINAL_ACKNOWLEDGED_HISTORY_THEN_NATIVE_MJDATA_COPY'
+                or card['original_history_shadow_ticks']!=27600 or card[count_key]!=29202
+                or card['future_consumer_must_reconstruct_and_validate_again'] is not True):
+            raise PermissionError('PROVEN_NATIVE_HISTORY_COPY_ROUTE_EIGHT_ANCHORS_ONLY')
+    if spec.get('endpoint_only'):
+        from .endpoint_ni_delivery import RESULT_SHA,FINAL_SHA
+        if (card['actual_NI16_result_sha256']!=RESULT_SHA or card['actual_NI16_job_final_sha256']!=FINAL_SHA
+                or card['endpoint_prefixes']!=16 or card['maximum_new_endpoint_shadow_ticks']!=3200
+                or card['maximum_total_actual_shadow_ticks']!=32402
+                or card['future_consumer_must_reconstruct_and_validate_again'] is not True
+                or card['original_safety_reference_gate_unchanged'] is not True):
+            raise PermissionError('ONLY_SIXTEEN_ALREADY_GENERATED_MATCHED_ENDPOINT_PREFIXES')
     began=stage['diagnostic_created_epoch'];end=stage['diagnostic_deadline_epoch']
     if (not delta['autonomy_started_epoch']<=began<delta['new_submission_and_candidate_cutoff_epoch']
             or not began<=now<end<=min(began+spec['wall_s'],delta['new_experiment_cutoff_epoch'])):

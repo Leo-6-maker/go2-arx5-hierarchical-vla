@@ -38,7 +38,7 @@ def validate_runtime(root,profile,*,now=None,closeout=False):
     if diagnostic and profile!='4080-simulation':raise PermissionError('SAVED_DIAGNOSTIC_CORE_CPU_ONLY')
     if diagnostic and stage.get('diagnostic_maximum_wall_s')!=(anchor_spec['wall_s'] if anchor_spec else diag.WALL_S if diag is failure else 1800):raise PermissionError('SAVED_BOUNDED_DIAGNOSTIC_WALLTIME')
     if recovered:recovery.prior_usage(stage)
-    if (stage['schema'] not in ['MP1_SOURCE_SHARED_STAGE_V1',recovery.SCHEMA,t2.SCHEMA,failure.SCHEMA,anchor_dynamic.SCHEMA,anchor_dynamic.TRACE_SCHEMA,anchor_dynamic.ABLATION_SCHEMA,anchor_dynamic.NATIVE_GATE_SCHEMA] or stage['resource_family']!='MP1' or stage['parent_run_uuid']!=parent.name
+    if (stage['schema'] not in ['MP1_SOURCE_SHARED_STAGE_V1',recovery.SCHEMA,t2.SCHEMA,failure.SCHEMA,anchor_dynamic.SCHEMA,anchor_dynamic.TRACE_SCHEMA,anchor_dynamic.ABLATION_SCHEMA,anchor_dynamic.NATIVE_GATE_SCHEMA,anchor_dynamic.ENDPOINT_SCHEMA] or stage['resource_family']!='MP1' or stage['parent_run_uuid']!=parent.name
             or stage['run_uuid']!=root.name or stage['authority_release']!=AUTHORITY or stage['stage_caps']!=caps
             or stage['source_data_sha256']!=DATA or stage['statistics_sha256']!=STATS
             or stage['models']!=([] if diagnostic else ['M2-BC','M2-CORR'] if recovered else ['S-BC','S-CORR']) or stage['updates_per_branch']!=(0 if recovered or diagnostic else 2048)
