@@ -1,5 +1,17 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Current: second different new-source T1 condition independently verified.**
+[Second success and its retained other-noise negative](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_SECOND_INDEPENDENT_SUCCESS.json).
+F1/002 bank29202:32s/641 real paired frames/80 draws and actual ACKs,
+18 independent raw/score/safety/video checks plus separate dual-SSH chain and
+fixed-noise receipt audit PASS. Lift0.079012m/carry0.187603m/hold41/41;
+S1 refusals0/nativefault0/TeacherOFF. The same scene's bank29201 remains a
+safe32s object-task FAIL: grasp/lift/carry true but hold0/41/released0,
+despite identical initial camera bytes. Both outcomes remain, not a claim of
+stable scene success or a unique noise-cause attribution. Two positive
+conditions are not the full40-condition rate denominator. Same actor6b291000,
+job673388 still running/zero training/GPU costOPEN;selected/deploymentNONE.
+
 **Current: first new-source confirmation success independently audited.**
 [Exact single-condition receipt](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_FIRST_INDEPENDENT_SUCCESS.json).
 CORR2048, T1 F0/001, fixed bank29202: autonomous32s/16000ticks/641 paired
