@@ -1,5 +1,23 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**MP1-N1 CLOSED: complete audited40, T1 10/20 andT2 4/20; both14/20 R&D targets NOT MET.**
+[Final science review](reports/PI0294/20261016T191445Z-localpc-mp1/N1_FINAL_SCIENCE_REVIEW.md) ·
+[All40 cells/all42 actual attempts and fixed video URLs](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM40_FINAL_RESULT_AND_EVIDENCE.json) ·
+[Final native/resource/24closed leases](reports/PI0294/20261016T191445Z-localpc-mp1/N1_RESOURCE_FINAL.json).
+All42rawaudits PASS,actualnativefault0;23S1rejections and3safe32sgoalfailures
+remain failures. All2319draws=2296executedACKprefixes+23S1zero-liveprefixes,
+alloriginalnoise/arrays/freshpreviousACK-camera chains verified,unknown0.
+Last674009F/0,12680H200seconds;confirmation21136/2PBS,source63969/12PBS,
+parentH68469/15PBS,V22A40seconds. GPU/CPU/networkfuture reservations0;
+allownedscience/control consumers terminal;oldSTOPs/clock/data/models retained.
+[All42actualvideos fixed-revision readback](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM40_FINAL_VIDEO_ARCHIVE.json)
+atHF2ceea49321f5806a9312c7bcdeea06335ccf4fc4,READYlast,no missingaudit/clip.
+Protocol complete is NOT policy-milestone success or Go2/WBC/realrobot proof.
+MethodNONE/0newconfirmationtraining;selected/deploymentNONE,TF-R3STOP unchanged.
+[One nextTRAIN-onlyT2coverageBC draft](reports/PI0294/20261016T191445Z-localpc-mp1/N1_NEXT_T2_TRAIN_COVERAGE_DRAFT.md)
+isNOT_AUTHORIZED. No automaticextraPBS/oldbalanceorclock reuse. All following
+dated running/preparation entries are historical snapshots,not currentliveness.
+
 **Actual: FIRST new-source T2 confirmation success independently audited.**
 [First T2 success and finite paired progress, retaining all negatives](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION_FIRST_T2_SUCCESS_AND_FINITE_PAIRED_PROGRESS.json).
 F2/000T2bank29201:32s/641actualpairedframes/80draws-ACKs/41hold,realcontact

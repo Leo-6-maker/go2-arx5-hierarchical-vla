@@ -1,5 +1,10 @@
 # N1 Morning Report
 
+Final follow-up: [N1 final science review](N1_FINAL_SCIENCE_REVIEW.md).
+The morning observation below remains a historical snapshot. Confirmation is
+now complete/audited,resources andleases closed;T1 10/20,T2 4/20,both targets
+NOT MET. No newtraining or automatic successor is authorized by this report.
+
 2026-10-18, Asia/Singapore. Evidence captured at 09:48:50 SGT and published
 ahead of the 10:00 checkpoint; this is not a backdated 10:00 native snapshot.
 Existing single local-PC owner; goal ACTIVE / incomplete. No new scientific GO,

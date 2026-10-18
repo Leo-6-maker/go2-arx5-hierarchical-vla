@@ -1,5 +1,12 @@
 # N1 Mechanism And Next Branch
 
+**Final execution update:** [complete confirmation and science closeout](N1_FINAL_SCIENCE_REVIEW.md)
+now supersedes the execution-state snapshot below. Fixed40 is fully audited:
+T1 10/20,T2 4/20,both original14/20 R&D targets NOT MET. Jobs/leases are
+closed,42videos have fixed-revision readback,methodNONE remains unchanged.
+The rest of this file preserves the original pre-confirmation decision and
+its then-current NOT_RUN/remaining-slot statements, not current liveness.
+
 Decision: **NONE_NO_OPTIONAL_NEW_TRAINING**. No S-EVENT, capacity branch,
 new DAgger round, FlowDAgger, new backbone, or additional updates are selected.
 This is a scientific decision after actual matched evidence, not a compute block.
