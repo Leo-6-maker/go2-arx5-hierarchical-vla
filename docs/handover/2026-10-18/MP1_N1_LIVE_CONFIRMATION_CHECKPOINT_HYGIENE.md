@@ -16,7 +16,7 @@
 
 ## 执行优先级与最小非阻塞工作
 
-现有唯一 local-PC Codex owner 在不抢占/取消/热改 `673388` 和任何健康 physics/model/audio(?) 进程的前提下，开启**只读、低优先级、登记 CPU 子工作**，在 Hopper、CoreLab-4080S、AMD 中仅检查本人/本项目实际登记的 `runs/models/archive` 根。先读取最新 source-confirm 原生 job/leases/worker PID+start identities、持久 mutation journal、checkpoint manifests、model selection/endpoint references、quota 和 registry。关闭后再考察退役；若相关平台不允许无干扰扫描，就在正常作业边界执行。清理不新建 owner/第二调度器、不提交 PBS、不做模型推理/物理仿真，也不重置 N1 时钟或预算。若过了 N1 hard close，停止新增清理操作。
+现有唯一 local-PC Codex owner 在不抢占/取消/热改 `673388` 和任何健康 physics/model 进程的前提下，开启**只读、低优先级、登记 CPU 子工作**，在 Hopper、CoreLab-4080S、AMD 中仅检查本人/本项目实际登记的 `runs/models/archive` 根。先读取最新 source-confirm 原生 job/leases/worker PID+start identities、持久 mutation journal、checkpoint manifests、model selection/endpoint references、quota 和 registry。关闭后再考察退役；若相关平台不允许无干扰扫描，就在正常作业边界执行。清理不新建 owner/第二调度器、不提交 PBS、不做模型推理/物理仿真，也不重置 N1 时钟或预算。若过了 N1 hard close，停止新增清理操作。
 
 ### 必须保留的核心集合
 
