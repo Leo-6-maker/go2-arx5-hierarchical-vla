@@ -44,6 +44,20 @@ def counted_model(native_model,meter):
     return ModelProxy
 
 
+def ensure_legacy_attempt_plan(root,cards):
+    root=Path(root)
+    if len({c['id'] for c in cards})!=len(cards):
+        raise PermissionError('PV1_UNIQUE_RAW_AUDIT_BINDINGS')
+    expected=dict(schema='PI0294_PV1_LEGACY_RAW_AUDIT_BINDING_V1',
+        attempts={c['id']:dict(logical_id=c['id'],card=c) for c in cards})
+    path=root/'ATTEMPT_PLAN.json'
+    if path.exists():
+        if read(path)!=expected:
+            raise ValueError('PV1_EXISTING_RAW_AUDIT_BINDING_DIFFERS_FROM_FROZEN_CAPTURE_PLAN')
+    else:put(path,expected)
+    return expected
+
+
 def qualify_counter(meter):
     import mujoco
     from scripts.pi0294.scene import make_engine
@@ -104,6 +118,7 @@ class Meter:
                 or self.plan['capture_cards_sha256']!=digest(self.plan['cards'])
                 or any(c['split']!='TRAIN' or c.get('relay_request_relative') for c in self.plan['cards'])):
             raise PermissionError('PV1_FRESH_EXACT_TRAIN_TEACHER_BATCH_ONLY')
+        ensure_legacy_attempt_plan(self.root,self.plan['cards'])
         cpus=self.m['limits']['cpus']
         if len(cpus)!=1 or not set(cpus)<=os.sched_getaffinity(0):
             raise PermissionError('PV1_INDEPENDENT_SINGLE_CORE_WORKER_ASSIGNMENT')
@@ -142,7 +157,8 @@ class Meter:
 
     def progress(self,**values):
         self.ledger.update(ticks=self.ticks,live_ticks=self.live_ticks,shadow_ticks=self.shadow_ticks,
-            engine_starts=self.starts,worker_CPU_s=time.process_time()-self.started,**values)
+            engine_starts=self.starts,episode_starts=len(self.ledger['attempted_cells']),
+            worker_CPU_s=time.process_time()-self.started,**values)
         write(self.root/'RESOURCE_LEDGER.json',self.ledger)
 
 

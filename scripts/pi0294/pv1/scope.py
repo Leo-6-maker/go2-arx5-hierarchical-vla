@@ -12,10 +12,11 @@ SCOPE = 'reports/PI0294/design/PV1_MULTITASK_POLICY_SCOPE_20261019.json'
 PROTOCOL = 'docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md'
 ROLE = 'PI0294_PV1_CORE_POPULATION_STATIC_V1'
 CAPTURE_ROLE = 'PI0294_PV1_CORE_TRAIN_CAPTURE_V1'
+REAUDIT_ROLE = 'PI0294_PV1_CORE_SAVED_RAW_AUDIT_V1'
 
 
 def validate(root, role=ROLE):
-    if role not in (ROLE, CAPTURE_ROLE):
+    if role not in (ROLE, CAPTURE_ROLE, REAUDIT_ROLE):
         raise PermissionError('PV1_ONLY_VERSIONED_CPU_CHILD_ROLES')
     root = Path(root)
     m = read(root/'RUN_MANIFEST.json')
@@ -84,7 +85,7 @@ def validate(root, role=ROLE):
     if any(sha(infra/n) != m['execution'][key] for n,key in
            [('enter.sh','entry_sha256'),('doctor.py','doctor_sha256')]):
         raise ValueError('PV1_APPROVED_EXISTING_ENTRY_VERSION')
-    data_file = 'EXCLUSIONS.json' if role == ROLE else 'CAPTURE_PLAN.json'
+    data_file = {ROLE:'EXCLUSIONS.json',CAPTURE_ROLE:'CAPTURE_PLAN.json',REAUDIT_ROLE:'SAVED_AUDIT_PLAN.private.json'}[role]
     if (sha(root/'plans'/data_file) != m['data']['manifest_sha256']
             or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or 'PBS_JOBID' in os.environ):
         raise PermissionError('PV1_EXCLUSIONS_IDENTITY_CPU_ONLY_NO_PBS')

@@ -7,13 +7,28 @@ import unittest
 
 import numpy as np
 
-from scripts.pi0294.pv1.capture import Meter, capture_cards, counted_model
+from scripts.pi0294.pv1.capture import Meter, capture_cards, counted_model,ensure_legacy_attempt_plan
 from scripts.pi0294.pv1.negative_audit import audit
 from scripts.pi0294.pv1.plan import original_group
 from scripts.pi0294.fd1 import sha
 
 
 class CaptureTests(unittest.TestCase):
+    def test_mature_auditor_attempt_plan_is_derived_from_exact_frozen_card(self):
+        cards=capture_cards([original_group('TRAIN','F0',0,0)],'CLEARANCE_PAIR')
+        with tempfile.TemporaryDirectory() as tmp:
+            plan=ensure_legacy_attempt_plan(tmp,cards)
+            for card in cards:
+                binding=plan['attempts'][card['id']]
+                self.assertEqual(binding['logical_id'],card['id'])
+                self.assertEqual(binding['card'],card)
+                self.assertEqual(binding['card']['seed'],card['seed'])
+            before=(Path(tmp)/'ATTEMPT_PLAN.json').read_bytes()
+            ensure_legacy_attempt_plan(tmp,cards)
+            self.assertEqual((Path(tmp)/'ATTEMPT_PLAN.json').read_bytes(),before)
+            cards[0]['seed']+=1
+            with self.assertRaises(ValueError):ensure_legacy_attempt_plan(tmp,cards)
+
     def test_constructor_counter_changes_no_arguments_or_returned_type(self):
         seen=[];charged=[];actual=object()
         class Native:
