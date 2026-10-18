@@ -4,7 +4,7 @@
 状态：**USER-DIRECTED CHECKPOINT HYGIENE / EXISTING SINGLE-OWNER HANDOFF / NO DELETION RECEIPT / NO NEW COMPUTE GO**。
 适用仓库：`Leo-6-maker/go2-arx5-hierarchical-vla`，现役分支 `pi0267/executor-decoupled-recovery`。
 基线审计 commit：`27e47eb80e692b7ac319db892c185cd5d3f9cc1b`（2026-10-18 12:14:42 SGT）；现役执行 actor `6b291000858612423b67838275efa52caf8b633f`，不要将 GitHub HEAD 热加载到在途进程。
-用户新增要求：**“在推进实验的同时，需要清理明确失败的中间checkpoint”**。本卡只把已允许的失败 checkpoint 退役整理为随实验持续运行的安全流程；没有通过本卡直接访问或删除 Hopper/CoreLab 文件。遵守 `AGENTS.md`、`START_HERE.md`、统一工作区入口，原 MP1/N1 权限、单 owner、clock、财政账、安全与数据合同全部保留。
+用户新增要求：**“在推进实验的同时，需要清理明确失败的中间checkpoint”**。**同一目标的交接已先行登记为[唯一规范清理卡](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/b7e1d91b7e37f2950f34925636c98ad6a4142651/docs/handover/2026-10-18/CHECKPOINT_RETIREMENT_DURING_SOURCE_CONFIRMATION.md)与 #47/6245823881；本文件仅补充固定 checkpoint 哈希与 fail-closed 检查，不另开清理 lane、第二 owner、第二次盘点或第二套删除名单。** 不应分别执行两份文档。没有通过本卡直接访问或删除 Hopper/CoreLab 文件。遵守 `AGENTS.md`、`START_HERE.md`、统一工作区入口，原 MP1/N1 权限、单 owner、clock、财政账、安全与数据合同全部保留。
 
 ## 最新科研阶段事实（不要让清理耽误确认）
 
@@ -52,7 +52,7 @@
 
 ## 现场回报与科研线路
 
-将此次新的现场清理审核记为 **`reports/PI0294/20261016T191445Z-localpc-mp1/FAILED_CHECKPOINT_RETIREMENT_CHECK_02.json`**（名称为应交产物，**当前未产生**），至少包含 actual observation time、唯一owner、各根候选数和理由、protected identities、all excluded items、删除意图/实际作用与对应哈希、实际磁盘/个人quota前后、释放字节、全部受影响/未影响 job/lease、资源CPU实际/保守计费和运行安全。不上传真实私有绝对路径、token、原始模型权重或图片到 GitHub。
+本工作流唯一实际回执沿用较早交接卡中的 **`reports/PI0294/20261016T191445Z-localpc-mp1/CHECKPOINT_RETIREMENT_DURING_CONFIRMATION_ACTUAL.json`**（名称为应交产物，**当前未产生**；若已存在须版本化，不覆盖），至少包含 actual observation time、唯一owner、各根候选数和理由、protected identities、all excluded items、删除意图/实际作用与对应哈希、实际磁盘/个人quota前后、释放字节、全部受影响/未影响 job/lease、资源CPU实际/保守计费和运行安全。不上传真实私有绝对路径、token、原始模型权重或图片到 GitHub。
 
 优先向 **Issue #47** 登记清理的真实技术收据；只有确实影响候选资格/原生模型执行或科学资源时，才在 **Issue #11** 交叉记录。不要以清理报告替代确认评估报告，也不要以“视频发布完成”冒充 40 条任务成功。
 
