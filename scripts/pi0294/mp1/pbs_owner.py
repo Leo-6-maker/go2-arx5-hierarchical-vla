@@ -64,6 +64,9 @@ def prepare(root,*,output_rebinding=None,memory_gb=225):
     wall=min(bound.get('job_wall_s_max',14400),queue_proof['maximum_wall_s'] if queue_proof is not None else 14400,
         (bound['GPU_s']-l['GPU_allocated_s'])//60*60,
         int(a['new_experiment_cutoff_epoch']-time.time())//60*60)
+    from . import endpoint_anchor_ni as ni
+    ni_binding=ni.current(root) if 'n1_authority_binding' in m['execution'] else None
+    if ni_binding is not None:wall=min(wall,7200)
     if wall<=2760:raise PermissionError('MP1_PRESERVE_45_MIN_ALLOCATION_CLOSEOUT')
     upper=bound['output_bytes'];rebinding=None;management_source=m['code']['vla_commit']
     if output_rebinding is not None:
@@ -72,7 +75,7 @@ def prepare(root,*,output_rebinding=None,memory_gb=225):
         upper,m=checked_estimate(root,rebinding,m)
     used=int(subprocess.check_output(['du','-s','-B1',str(root)],text=True,timeout=30).split()[0])
     if used>upper:raise PermissionError('MP1_SOURCE_STUDY_OUTPUT_ESTIMATE_REQUIRES_EVIDENCED_REBINDING')
-    additional=max(8*1024**3,upper-used);q=personal_quota(os.environ['USER'])
+    additional=max(8*1024**3,67108864 if ni_binding is not None else upper-used);q=personal_quota(os.environ['USER'])
     if not 0<=time.time()-q['report_epoch']<=900 or q['hard_bytes']-q['used_bytes']<additional:raise PermissionError('MP1_NATIVE_QUOTA_FOR_NEW_SOURCE_OUTPUT')
     number=len(l['PBS_submissions'])+1;d=root/'pbs'/('alloc-'+str(number).zfill(2));d.mkdir(mode=0o700)
     if queue_proof is not None:write(d/'NATIVE_QUEUE_LIMIT.json',queue_proof)

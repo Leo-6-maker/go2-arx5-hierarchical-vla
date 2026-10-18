@@ -58,7 +58,7 @@ def assert_no_consumers(root):
 
 
 def stage(root, number, source, contents, *, prior_ledger, native_terminals,
-          outcomes, effects, processes, authority_files, fixture_plan):
+          outcomes, effects, processes, authority_files, fixture_plan,endpoint_probe_files=None):
     root = Path(root)
     names = boundary.paths(number)
     if not re.fullmatch('[0-9a-f]{40}', source) or (root / 'pbs' / f'alloc-{number:02}').exists():
@@ -99,6 +99,14 @@ def stage(root, number, source, contents, *, prior_ledger, native_terminals,
         target_allocation_number=number, effective_source_PBS_cap=12, new_source_sha=source,
         prior_manifest_sha256=sha(root / names[1]), adoption_delta_sha256=sha(root / n1.DELTA),
         new_attempt_rights=False, old_STOP_removed=False, preserved_STOP_hashes=stops)
+    extra=[]
+    if endpoint_probe_files is not None:
+        from . import endpoint_anchor_ni as ni
+        if number!=10 or set(endpoint_probe_files)!=set(ni.FILES):
+            raise PermissionError('ONLY_COMPLETE_NI16_COLD_ALLOCATION10_FILE_BUNDLE')
+        for name,raw in endpoint_probe_files.items():put(root/name,raw)
+        value['endpoint_probe_binding_relative']=ni.PLAN
+        extra=ni.FILES
     jput(root / names[0], value)
     proposed = deepcopy(old)
     proposed['code'].update(vla_commit=source, capsule_relative=str(code.relative_to(root)),
@@ -106,7 +114,7 @@ def stage(root, number, source, contents, *, prior_ledger, native_terminals,
         unchanged_learning_files=learning)
     proposed['execution'].update(cold_engineering_binding_relative=names[0],
         n1_authority_binding=dict(release=n1.RELEASE, adoption_delta_sha256=sha(root / n1.DELTA)))
-    for name in names + n1.FILES + list(stops) + [boundary.TRANSPORT_PLAN]:
+    for name in names + n1.FILES + list(stops) + [boundary.TRANSPORT_PLAN]+extra:
         proposed['execution']['sealed_inputs'][name] = sha(root / name)
     boundary.validate(root, proposed_manifest=proposed)
     pinned = code.parent / 'WORKER_RUN_MANIFEST.json'

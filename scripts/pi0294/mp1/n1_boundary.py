@@ -149,13 +149,18 @@ def validate(root, worker_manifest=None, *, proposed_manifest=None,_descendant_s
     if ({k:v for k,v in m['code'].items() if k not in variable}
             != {k:v for k,v in old['code'].items() if k not in variable}):
         raise PermissionError('N1_CANNOT_CHANGE_UPSTREAM_OR_NUMERICAL_BINDINGS')
+    from . import endpoint_anchor_ni as ni
+    extra=ni.binding_files(q)
     expected = dict(old['execution']['sealed_inputs'],
-                    **{n:sha(root / n) for n in names + n1.FILES + list(stops) + [TRANSPORT_PLAN]})
+                    **{n:sha(root / n) for n in names + n1.FILES + list(stops) + [TRANSPORT_PLAN]+extra})
     if (number > 6 and old['execution']['sealed_inputs'].get(TRANSPORT_PLAN)
             != expected[TRANSPORT_PLAN]):
         raise PermissionError('N1_RECORDED_TRANSPORT_REFERENCE_CANNOT_CHANGE_ON_RESUME')
     if m['execution']['sealed_inputs'] != expected:
         raise PermissionError('N1_NO_REMOVED_OR_UNDECLARED_INPUTS')
+    if extra:
+        ni.validate_binding(root,q,m)
+        ni.checked_source_boundary(root,past,rows)
     native_history(past, native, number, effective['source'])
     previous_ledger = read(root / (fifth.LEDGER if number == 6 else paths(number - 1)[2]))
     for key in ['GPU_allocated_s', 'generation_queries', 'optimizer_updates', 'CPU_s']:

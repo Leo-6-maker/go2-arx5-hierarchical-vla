@@ -198,11 +198,15 @@ def hopper(root,core_proof):
                 raise PermissionError('FIXED_PROBE_DRAWS_NOT_COMPLETELY_RECONCILED')
             probes.append(dict(label=f'{branch}-{step}-TRAIN4',draws=len(value['completed_draw_ids']),
                 checkpoint_manifest_sha256=sha(checkpoint/'CHECKPOINT_COMPLETE.json')))
-    total=generated+sum(p['draws'] for p in probes)
+    from .endpoint_anchor_ni import closed_draws,LABEL as NI_LABEL
+    diagnostic_draws=closed_draws(root)
+    total=generated+sum(p['draws'] for p in probes)+diagnostic_draws
     if total!=ledger['generation_queries']:
         raise PermissionError('ALL_RESIDENT_AND_FIXED_PROBE_DRAWS_MUST_MATCH_CUMULATIVE_LEDGER')
     return dict(status='PASS_ALL_NATIVE_DRAWS_CLASSIFIED_AND_ARRAYS_VERIFIED',
         cumulative_generation_queries=total,resident_generations=generated,fixed_probes=probes,
+        separately_bound_current_anchor_endpoint_diagnostic_draws=diagnostic_draws,
+        endpoint_diagnostic_result_sha256=sha(root/'evidence'/NI_LABEL/'RESULT.json') if diagnostic_draws else None,
         classified=classified,actual_executed_prefixes=len(executed),
         native_draws_all_classified=True,all_action_arrays_verified=True,pending_queries=0,
         new_model_queries=0,new_physics=0)

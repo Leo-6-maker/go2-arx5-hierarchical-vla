@@ -18,6 +18,17 @@ def request_contract(root,request,manifest,ledger,now):
     from .n1_limits import clock
     a=clock(root,a,manifest)
     p=root/'MP1_STAGE_BINDING.json';bound=limits(read(p) if p.exists() else {},root=root)
+    if 'n1_authority_binding' in manifest.get('execution',{}):
+        from .n1_boundary import paths
+        boundary_path=root/paths(request['submit_count'])[0]
+        if boundary_path.exists():
+            boundary=read(boundary_path)
+            if 'endpoint_probe_binding_relative' in boundary:
+                from . import endpoint_anchor_ni as ni
+                ni.validate_binding(root,boundary,manifest)
+                if (request['submit_count']!=10 or request['walltime_s']>7200
+                        or request['prior_GPU_allocated_s']!=42088 or request['additional_output_upper_bytes']!=8*1024**3):
+                    raise PermissionError('NI16_SINGLE_TWO_HOUR_NATIVE_REQUEST_AND_MEASURED_OUTPUT_HEADROOM')
     if bound.get('job_wall_s_max',14400)>14400:
         from .n1_boundary import target
         if target(manifest['execution'].get('cold_engineering_binding_relative'))!=request['submit_count']:

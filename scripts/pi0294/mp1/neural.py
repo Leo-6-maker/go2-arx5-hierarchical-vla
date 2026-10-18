@@ -129,6 +129,12 @@ def run(root,request_path):
             write(request_path.parent/'N1_PREMODEL_QUALIFICATION_READBACK.json',proof)
         parent=read(root/'plans/SOURCE_PARENT_CHECKPOINT.json');parent_path=Path(parent['checkpoint'])
         if sha(parent_path/'CHECKPOINT_COMPLETE.json')!=parent['checkpoint_manifest_sha256']:raise PermissionError('MP1_AUDITED_M1_1024_PARENT_CHANGED')
+        from . import endpoint_anchor_ni as ni
+        if ni.current(root) is not None:
+            stage='N1-CURRENT-EIGHT-ENDPOINT-NI16'
+            result=ni.run(root,r,ledger,guard,load,unload,lambda:instance)
+            records.append(result);status='N1_FIXED16_ENDPOINT_DRAWS_TERMINAL_NOT_POLICY_EVALUATION'
+            return dict(status=status,records=records)
         for branch in ['S-BC','S-CORR']:
             if branch=='S-CORR' and source_stopped():
                 records.append(dict(branch=branch,status='NOT_RUN_CORRECTION_SOURCE_SAFETY_STOP'));continue
