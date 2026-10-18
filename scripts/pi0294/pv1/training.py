@@ -2,6 +2,7 @@
 import json
 import os
 from pathlib import Path
+import resource
 import time
 
 from scripts.pi0292.durable import write
@@ -13,6 +14,29 @@ from scripts.pi0294.e1.scope import STATS
 from .dataset import PV1Dataset
 from .recipe import PARENT,validate_primary,begin_update,commit_update,run_key
 from .pre_model_qualification import current_directory,require_current
+
+
+def save_known_completed_step(root,key,trainer,ledger,torch):
+    root=Path(root);v=read(ledger.path);step=trainer.state.global_step
+    if (type(step) is not int or not 0<step<=4096 or trainer.consumed!=step*32
+            or v['pending_updates'] or v['unknown_effects']
+            or v['training_runs'].get(key,{}).get('last_native_step')!=step):
+        return dict(status='NOT_SAVED_UNKNOWN_OR_UNCOMMITTED_UPDATE_PRESERVED',global_step=step)
+    checkpoint=root/'training'/key/('checkpoint-'+str(step))
+    if checkpoint.exists():
+        complete=checkpoint/'CHECKPOINT_COMPLETE.json'
+        if not complete.exists():return dict(status='NOT_OVERWRITTEN_PRIOR_PARTIAL_SAVE',global_step=step)
+        value=read(complete)
+        if value['global_step']!=step or value['full_resume'] is not True:
+            raise PermissionError('PV1_EXISTING_COMPLETE_CHECKPOINT_IDENTITY')
+        return dict(status='PRIOR_COMPLETE_STATE_PRESERVED_NO_REWRITE',global_step=step,checkpoint_manifest_sha256=sha(complete))
+    torch.cuda.synchronize()
+    trainer._save_checkpoint(trainer.model,None)
+    complete=read(checkpoint/'CHECKPOINT_COMPLETE.json');saved=read(checkpoint/'SAMPLER_STATE.json')
+    if complete['global_step']!=step or complete['full_resume'] is not True or saved['sampler']['cursor']!=trainer.consumed:
+        raise PermissionError('PV1_KNOWN_INTERRUPTED_STATE_MUST_BE_FULL_NATIVE_RESUME')
+    return dict(status='SAVED_ONLY_THE_LAST_KNOWN_COMMITTED_NATIVE_UPDATE',global_step=step,
+        checkpoint_manifest_sha256=sha(checkpoint/'CHECKPOINT_COMPLETE.json'),extra_optimizer_updates=0)
 
 
 def checked_resume(root,arm,checkpoint,recipe,dataset):
@@ -156,11 +180,24 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
             if state.global_step in [1024,4096]:control.should_save=True
             if state.global_step==stop_after_step or time.time()>=allocation['allocation_end_epoch']-2730:
                 control.should_save=True;control.should_training_stop=True
+            cpu_limit=resource.getrlimit(resource.RLIMIT_CPU)[0]
+            if cpu_limit!=resource.RLIM_INFINITY and time.process_time()>=cpu_limit-120:
+                control.should_save=True;control.should_training_stop=True
     torch.cuda.reset_peak_memory_stats()
     started=time.monotonic()
     trainer=make_trainer_class()(model=instance.model,args=args,train_dataset=dataset,
         data_collator=ProcessedCollator(dataset.processor),callbacks=[Audit()],evidence_dir=evidence,recipe=recipe,smoke=False)
-    result=trainer.train(resume_from_checkpoint=str(resume_checkpoint) if start else None)
+    try:result=trainer.train(resume_from_checkpoint=str(resume_checkpoint) if start else None)
+    except BaseException as original_error:
+        closing=dict(original_error=type(original_error).__name__+': '+str(original_error),extra_optimizer_updates=0)
+        try:
+            if time.time()<allocation['allocation_end_epoch']:
+                closing.update(save_known_completed_step(root,key,trainer,ledger,torch))
+            else:closing['status']='NATIVE_ALLOCATION_ENDED_NO_LATE_CUDA_OR_SAVE_ATTEMPT'
+        except BaseException as save_error:
+            closing.update(status='SAVE_FAILED_PRESERVED_NO_STATE_ROLLBACK',save_error_type=type(save_error).__name__)
+        write(evidence/'INTERRUPTED_NATIVE_STATE.json',closing)
+        raise
     final=parameter_inventory(instance.model)
     unchanged=all(p['sha256']==initial[n]['sha256'] for n,p in final.items() if not p['requires_grad'])
     changed=[n for n,p in final.items() if p['requires_grad'] and p['sha256']!=initial[n]['sha256']]

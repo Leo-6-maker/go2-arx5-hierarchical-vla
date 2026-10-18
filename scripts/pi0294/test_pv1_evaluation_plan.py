@@ -1,7 +1,8 @@
 from copy import deepcopy
 import unittest
+import uuid
 
-from scripts.pi0294.pv1.evaluation_plan import development,remaining_panel
+from scripts.pi0294.pv1.evaluation_plan import development,remaining_panel,validate_registry
 from scripts.pi0294.pv1.plan import COUNTS,original_group
 
 
@@ -54,6 +55,9 @@ class DevelopmentContracts(unittest.TestCase):
         self.assertEqual(replacement['pv1_replacement_of'],self.card['id'])
         second=deepcopy(row);second['attempt_id']=replacement['id']
         self.assertEqual(len(remaining_panel([row,second],self.spec)),23)
+        missing=deepcopy(row);missing.pop('confirmed_engineering_failure')
+        with self.assertRaisesRegex(PermissionError,'ORIGINAL_SETTLED_DIAGNOSIS'):
+            remaining_panel([missing,second],self.spec)
         third=deepcopy(second);third['attempt_id']+='-AGAIN'
         with self.assertRaises(PermissionError):remaining_panel([row,second,third],self.spec)
 
@@ -63,3 +67,24 @@ class DevelopmentContracts(unittest.TestCase):
             if change=='ACTUAL_SAFETY_FAIL':row['status']=change
             else:row['failure_stage']=change
             with self.assertRaises(PermissionError):remaining_panel([row],self.spec)
+
+    def test_live_registry_cannot_change_task_noise_order_or_checkpoint_between_candidates(self):
+        identity=dict(global_step=2048,relay_identity=dict(profile='B1'))
+        peer={k:'a'*40 if k.endswith('source_sha') else 'b'*64
+            for k in ('core_source_sha','hopper_source_sha','core_manifest_sha256','hopper_manifest_sha256')}
+        registry=dict(run_uuid='fixture',job_id='123',checkpoint_identity=identity,deadline_epoch=10000,cases={},**peer)
+        for i,card in enumerate(self.spec['cards']):
+            episode=str(uuid.uuid4());registry['cases'][episode]=dict(episode_uuid=episode,attempt_id=card['id'],run_uuid='fixture',
+                identity=identity['relay_identity'],card=card,layout_id=card['scene_group']+'/'+card['task'],panel_index=i,
+                deadline_epoch=10000,hopper_session_relative='evidence/'+card['pv1_session_label']+'/resident')
+        def check(r):return validate_registry(r,self.spec,identity,run_uuid='fixture',job_id='123',peer=peer,prior_rows=[])
+        self.assertTrue(check(registry))
+        for change in ('candidate_noise','wrong_task','extra_condition','wrong_weight','order','peer'):
+            r=deepcopy(registry);case=next(iter(r['cases'].values()))
+            if change=='candidate_noise':case['layout_id']='OTHER_CANDIDATE/'+case['layout_id']
+            if change=='wrong_task':case['card']['task']='T2' if case['card']['task']=='T1' else 'T1'
+            if change=='extra_condition':r['cases'].pop(next(iter(r['cases'])))
+            if change=='wrong_weight':r['checkpoint_identity']['global_step']=1024
+            if change=='order':case['panel_index']=23
+            if change=='peer':r['core_source_sha']='c'*40
+            with self.subTest(change=change),self.assertRaises(PermissionError):check(r)

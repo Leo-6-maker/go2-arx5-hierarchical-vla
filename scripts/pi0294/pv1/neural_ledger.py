@@ -23,6 +23,11 @@ def check(value,*,final=False,allow_unknown=False):
             or value['used']['PBS_submissions']!=len(value['PBS_submissions'])
             or len(value.get('training_runs',{}))>5):
         raise PermissionError('PV1_EXACT_SINGLE_CAMPAIGN_COUNTERS_AND_UNKNOWN_EFFECT_FENCE')
+    for key in ('new_storage_peak_bytes','new_storage_current_bytes','storage_reserved_bytes'):
+        if key in value and (type(value[key]) is not int or value[key]<0):
+            raise PermissionError('PV1_NONNEGATIVE_ACTUAL_AND_RESERVED_STORAGE_COUNTERS')
+    if value.get('new_storage_current_bytes',0)>value.get('new_storage_peak_bytes',0):
+        raise PermissionError('PV1_RESIDENT_STORAGE_CANNOT_EXCEED_RECORDED_PEAK')
     admit_resources(value['used'],value['reserved'],{},final=final)
     return value
 

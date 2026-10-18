@@ -33,6 +33,20 @@ class DeliveryContracts(unittest.TestCase):
             with patch.dict(os.environ,{'PBS_JOBID':''}),self.assertRaisesRegex(PermissionError,'ONLY_INSIDE_OWN_NATIVE'):
                 delivery.consume(root,dict(job_id='123.hopper-m-02'),lambda:None)
 
+    def test_only_the_fixed_dataset_download_temporarily_opens_hub_network_and_restores_offline(self):
+        constants=SimpleNamespace(HF_HUB_OFFLINE=True);calls=[]
+        def get(*args,**kwargs):
+            self.assertFalse(constants.HF_HUB_OFFLINE);self.assertEqual(os.environ['HF_HUB_OFFLINE'],'0')
+            calls.append(kwargs);return '/CPU-fixture-not-an-actual-download'
+        module=SimpleNamespace(constants=constants,hf_hub_download=get)
+        with patch.dict('sys.modules',{'huggingface_hub':module}),patch.dict(os.environ,{'HF_HUB_OFFLINE':'1'}):
+            delivery.download_dataset('fixture','prefix/READY.json',revision='a'*40,local_dir='/CPU-fixture')
+            self.assertTrue(constants.HF_HUB_OFFLINE);self.assertEqual(os.environ['HF_HUB_OFFLINE'],'1')
+            self.assertEqual(calls[0]['repo_type'],'dataset')
+            module.hf_hub_download=lambda *a,**kw:(_ for _ in ()).throw(TimeoutError('READ_FAILED'))
+            with self.assertRaises(TimeoutError):delivery.download_dataset('fixture','prefix/READY.json',revision='a'*40)
+            self.assertTrue(constants.HF_HUB_OFFLINE);self.assertEqual(os.environ['HF_HUB_OFFLINE'],'1')
+
     def test_fixed_hf_readback_requires_exact_members_size_and_sha(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);path=root/'small.json';path.write_text('{}\n')

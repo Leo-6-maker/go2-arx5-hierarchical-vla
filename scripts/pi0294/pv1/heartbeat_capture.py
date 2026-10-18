@@ -12,7 +12,7 @@ from scripts.pi0292.allocation_admission import owned_jobs
 from scripts.pi0292.durable import OwnerLock,read,write
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.mp1.native_heartbeat_capture import collect
-from .allocation import single_h200_select
+from .allocation import single_h200_select,native_request_binding
 from .decision import AUTHORITY
 from .transport_fixture import immutable,namespace,BASE
 
@@ -46,6 +46,7 @@ def identity(root,directory,allocation):
     if (not j or j['job_state']!='R' or j['Job_Owner'].split('@')[0]!=user
             or j['project']!=r['project'] or int(j['Resource_List']['ngpus'])!=1
             or not single_h200_select(j['Resource_List'],r['ncpus'])
+            or not native_request_binding(j,r)
             or j['Job_Name']!=r['job_name']
             or host.split('.')[0] not in {x.split('/')[0].split('.')[0] for x in j['exec_host'].split('+')}):
         raise PermissionError('PV1_FRESH_OWN_RUNNING_SELECTED_PROJECT_H200_REQUIRED')

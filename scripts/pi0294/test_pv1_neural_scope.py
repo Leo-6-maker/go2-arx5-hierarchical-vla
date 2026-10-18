@@ -96,6 +96,18 @@ class NativeScopeContracts(unittest.TestCase):
                 admit('/nonexistent','/nonexistent')
             root.assert_not_called()
 
+    def test_source_safety_stop_allows_only_lease_bounded_metadata_closeout_not_admission(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root,code,worker,digest,_=prepared_fixture(tmp)
+            with patch.dict(os.environ,{'PV1_RUN_MANIFEST':str(worker),'CUDA_VISIBLE_DEVICES':''},clear=True),\
+                    patch.object(neural_scope,'__file__',str(code/'scripts/pi0294/pv1/neural_scope.py')),\
+                    patch.object(neural_scope,'sha',side_effect=digest):
+                (root/'SOURCE_SAFETY_STOP_FROM_CORE.json').write_text('{}')
+                with self.assertRaisesRegex(PermissionError,'SAFETY_STOP_NO_NEW_NEURAL'):validate(root)
+                self.assertEqual(validate(root,closeout=True)[0]['run_uuid'],root.name)
+                with self.assertRaises(PermissionError):admit(root,root/'pbs/alloc-01/REQUEST.json')
+                with self.assertRaises(PermissionError):validate(root,closeout='metadata')
+
     def test_unregistered_schema_rejected_before_neural_input_imports(self):
         with tempfile.TemporaryDirectory() as tmp,patch('scripts.pi0294.pv1.neural_scope.read',return_value=dict(schema='OLD_NOT_PV1')):
             with self.assertRaisesRegex(PermissionError,'COLD_HOPPER_CHILD'):

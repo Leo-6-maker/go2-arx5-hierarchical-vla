@@ -23,6 +23,7 @@ def inside(root,name):
 
 
 def validate(root,*,closeout=False):
+    if type(closeout) is not bool:raise PermissionError('PV1_EXPLICIT_BOOLEAN_METADATA_CLOSEOUT_ONLY')
     root=Path(root);m=read(root/'RUN_MANIFEST.json');b=read(root/'OUTPUT_BINDING.private.json')
     if (root.is_symlink() or root.stat().st_uid!=os.getuid()
             or m['schema']!='PI0294_PV1_NEURAL_CHILD_RUN_MANIFEST_V1' or m['scope']!=ROLE
@@ -96,6 +97,7 @@ def validate(root,*,closeout=False):
             or sha(Path(inputs['CORR_parent_checkpoint'])/'CHECKPOINT_COMPLETE.json')!=PARENT):
         raise PermissionError('PV1_ORIGINAL_DATA_CORR_PARENT_C1_AND_ACTUALLY_ADMITTED_NEW_BANK')
     admit_new_support(read(new/'DATASET_MANIFEST.json'),stage['route'])
-    for p in [root/'STOP.json',parent/'STOP.json',root/'SOURCE_PHYSICS_STOP.json',root/'SOURCE_SAFETY_STOP_FROM_CORE.json']:
-        if p.exists():raise PermissionError('PV1_PARENT_OR_SOURCE_SAFETY_STOP_NO_NEW_NEURAL_WORK')
+    if not closeout:
+        for p in [root/'STOP.json',parent/'STOP.json',root/'SOURCE_PHYSICS_STOP.json',root/'SOURCE_SAFETY_STOP_FROM_CORE.json']:
+            if p.exists():raise PermissionError('PV1_PARENT_OR_SOURCE_SAFETY_STOP_NO_NEW_NEURAL_WORK')
     return m,bindings,inputs,stage,a

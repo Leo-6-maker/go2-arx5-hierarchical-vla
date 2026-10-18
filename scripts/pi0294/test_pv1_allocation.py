@@ -15,6 +15,7 @@ def fixture():
         new_bank_manifest_sha256='a'*64,numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',walltime_s=7200,
         project='PROJECT-B',job_name='pi0294_pv1_01',submission_nonce='fixture',ncpus=12,additional_output_upper_bytes=64*1024**3)
     job=dict(job_state='R',Job_Owner=user+'@fixture',project=r['project'],Job_Name=r['job_name'],
+        Rerunable='False',Variable_List=dict(PV1_REQUEST_ID=r['request_id'],PV1_SUBMISSION_NONCE=r['submission_nonce']),
         exec_host='hopper-c-01/0',stime=now-60,Resource_List=dict(ngpus=1,ncpus=12,
             select='1:ngpus=1:gpu_model=H200:ncpus=12:mem=120GB',walltime='02:00:00'))
     ledger=dict(used=dict(H200_s=0,PBS_submissions=1),reserved=dict(H200_s=7200),
@@ -38,7 +39,7 @@ class AllocationTests(unittest.TestCase):
         self.assertFalse(p['unrelated_owned_jobs_cancelled'])
 
     def test_before_data_queue_stale_project_login_and_foreign_node_fail_closed(self):
-        for change in ('data','proof','project','node','wall','clock','quota','overlap','GPUmodel','CPU'):
+        for change in ('data','proof','project','node','wall','clock','quota','overlap','GPUmodel','CPU','nonce','rerun','storage_batch'):
             f=fixture()
             if change=='data':f['request']['data_bank_status']='PENDING'
             if change=='proof':f['project_proof']['observed_epoch']=f['now']-1801
@@ -50,6 +51,9 @@ class AllocationTests(unittest.TestCase):
             if change=='overlap':f['jobs']['2']=dict(job_state='R',Job_Name='pi0294_pv1_other_project')
             if change=='GPUmodel':f['jobs'][f['job_id']]['Resource_List']['select']='1:ngpus=1:gpu_model=A100:ncpus=12'
             if change=='CPU':f['jobs'][f['job_id']]['Resource_List']['ncpus']=4
+            if change=='nonce':f['jobs'][f['job_id']]['Variable_List']['PV1_SUBMISSION_NONCE']='other'
+            if change=='rerun':f['jobs'][f['job_id']]['Rerunable']='True'
+            if change=='storage_batch':f['ledger']['storage_reserved_bytes']=240*1024**3
             with self.subTest(change=change):
                 with self.assertRaises(PermissionError):validate_native(**f)
 

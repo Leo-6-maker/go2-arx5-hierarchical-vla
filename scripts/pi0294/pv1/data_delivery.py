@@ -24,6 +24,35 @@ INDEX='ARCHIVE_MEMBER_MANIFEST.json'
 SOURCE_READY='SEALED_FULL_SUCCESS_OFFICIAL_CODEC_ADMITTED'
 
 
+def data_network():
+    previous=os.environ.get('HF_HUB_OFFLINE')
+    from huggingface_hub import constants
+    original=constants.HF_HUB_OFFLINE
+    os.environ['HF_HUB_OFFLINE']='0';constants.HF_HUB_OFFLINE=False
+    def restore():
+        constants.HF_HUB_OFFLINE=original
+        if previous is None:os.environ.pop('HF_HUB_OFFLINE',None)
+        else:os.environ['HF_HUB_OFFLINE']=previous
+    return restore
+
+
+def download_dataset(*args,**kwargs):
+    restore=data_network()
+    try:
+        from huggingface_hub import hf_hub_download
+        return hf_hub_download(*args,repo_type='dataset',**kwargs)
+    finally:restore()
+
+
+def existing_token(bindings):
+    name=bindings.get('hf_token_file')
+    if name is None:return None
+    p=Path(name)
+    if not p.is_absolute() or not p.is_file() or p.stat().st_uid!=os.getuid():
+        raise PermissionError('PV1_ONLY_EXISTING_OWN_PRIVATE_HF_AUTH_LOCATOR')
+    return p.read_text().strip()
+
+
 def safe_json(value):
     if isinstance(value,dict):
         for key,item in value.items():safe_json(key);safe_json(item)
@@ -155,8 +184,7 @@ def verify_remote(api,repo,prefix,revision,files,guard,readback_root):
 
 def upload(root,guard):
     """One public fixed-prefix transaction. Unknown commits require reconciliation."""
-    from huggingface_hub import HfApi,CommitOperationAdd
-    root=Path(root);m,_=validate(root,role=EXPORT_ROLE)
+    root=Path(root);m,inputs=validate(root,role=EXPORT_ROLE)
     plan=read(root/'plans/SAVED_EXPORT_PLAN.private.json');output=root/'delivery'
     result=read(root/'evidence/PACK_RESULT.json');index=read(output/INDEX)
     if (result['status']!='PASS_NEW_TRAIN_BANK_PACKAGED_FULL_MEMBER_HASHES'
@@ -170,8 +198,11 @@ def upload(root,guard):
     if journal.exists():lock.close();raise FileExistsError('PV1_RECONCILE_PRIOR_HF_INTENT_NO_BLIND_COMMIT_RETRY')
     state=dict(status='PRECOMMIT_READONLY',source_sha=m['code']['vla_commit'],repo_id=repo,prefix=prefix,
         READY_claim=False,unknown_mutation=False);write(journal,state)
+    restore=None
     try:
-        api=HfApi();info=api.repo_info(repo,repo_type='dataset')
+        restore=data_network()
+        from huggingface_hub import HfApi,CommitOperationAdd
+        api=HfApi(token=existing_token(inputs));info=api.repo_info(repo,repo_type='dataset')
         if info.private:raise PermissionError('PV1_EXPLICITLY_AUTHORIZED_PUBLIC_SANITIZED_DATA_REPO_ONLY')
         if any(n.startswith(prefix+'/') for n in api.list_repo_files(repo,repo_type='dataset')):
             raise FileExistsError('PV1_NEVER_OVERWRITE_EXISTING_HF_PREFIX')
@@ -205,7 +236,9 @@ def upload(root,guard):
         state.update(status='PASS_FIXED_REVISION_READY_LAST_EXACT_FULL_SET_SIZE_SHA256',READY_claim=True,
             data_bank_status=SOURCE_READY,dataset_manifest_sha256=index['dataset_manifest_sha256'])
         return state
-    finally:write(journal,state);lock.close()
+    finally:
+        if restore is not None:restore()
+        write(journal,state);lock.close()
 
 
 def run(root):
@@ -246,8 +279,7 @@ def consume(root,allocation,guard):
         raise PermissionError('PV1_LARGE_BANK_CONSUMPTION_ONLY_INSIDE_OWN_NATIVE_ALLOCATION')
     from .neural_scope import validate as validate_neural,inside
     from scripts.pi0292.data_consumer import extract_checked
-    from huggingface_hub import hf_hub_download
-    root=Path(root);m,_,inputs,stage,a=validate_neural(root)
+    root=Path(root);m,bindings,inputs,stage,a=validate_neural(root)
     matches=[p.parent for p in (root/'pbs').glob('alloc-*/ALLOCATION_ADMISSION.json') if read(p)==allocation]
     if (len(matches)!=1
             or os.uname().nodename!=allocation['hostname'] or allocation['status']!='PASS_PV1_OWN_NATIVE_H200_ALLOCATION'):
@@ -284,7 +316,8 @@ def consume(root,allocation,guard):
     folder=root/'data/new_bank_download';folder.mkdir(parents=True,exist_ok=False)
     def get(name):
         guard();row=files[name]
-        p=Path(hf_hub_download(receipt['repo_id'],row['path'],repo_type='dataset',revision=receipt['revision'],local_dir=folder))
+        p=Path(download_dataset(receipt['repo_id'],row['path'],revision=receipt['revision'],local_dir=folder,
+            token=existing_token(bindings)))
         if p.stat().st_size!=row['bytes'] or sha(p)!=row['sha256']:
             raise ValueError('PV1_ACTUAL_FIXED_REVISION_DOWNLOAD_SIZE_AND_HASH')
         return p
@@ -310,11 +343,30 @@ def consume(root,allocation,guard):
         seen.update(proof['member_sha256'])
     manifest,ready,members=bank_members(target,guard)
     if seen!=set(members):raise PermissionError('PV1_DELIVERY_ARCHIVES_MUST_EXACTLY_COVER_ACTUAL_BANK_MEMBERS')
+    from scripts.pi0294.native_dataset import NativeDataset
+    from .export import batch_inventory
+    dataset=NativeDataset(target,bindings['source'],bindings['cosmos'],for_optimization=True,
+        raw_bindings=read(inputs['new_raw_bindings']))
+    dataset.initialize();lookup={(r['id'],anchor):i for i,(r,anchor) in enumerate(dataset.rows)}
+    parents=[]
+    for task in ('T1','T2'):
+        task_rows=[r for r in manifest['episodes'] if r['task']==task]
+        parents.extend([task_rows[0]['id'],task_rows[-1]['id']])
+    batches=[];mixed=[]
+    for parent in dict.fromkeys(parents):
+        for anchor in (0,320,600):
+            guard();processed=dataset[lookup[parent,anchor]]['processed']
+            batch=batch_inventory(dataset.processor.collator([processed]),1)
+            batches.append(dict(parent=parent,anchor=anchor,batch=batch))
+            if anchor==0:mixed.append(processed)
+    mixed_batch=batch_inventory(dataset.processor.collator([mixed[0],mixed[-1]]),2)
     value=dict(status='PASS_ACTUAL_FULL_NEW_BANK_CONSUMPTION',delivery_binding_sha256=sha(binding),
         dataset_manifest_sha256=sha(target/'DATASET_MANIFEST.json'),source_ready_sha256=sha(target/'READY.json'),
         statistics_sha256=STATS,download_revision=receipt['revision'],job_id=allocation['job_id'],
         files=len(members),parent_episodes=len(manifest['episodes']),actual_payload_bytes=sum(p.stat().st_size for p in members.values()),
-        full_member_hashes_verified=True,old_banks_reuploaded_or_redownloaded=False,new_queries=0,new_physics=0)
+        full_member_hashes_verified=True,old_banks_reuploaded_or_redownloaded=False,new_queries=0,new_physics=0,
+        actual_Hopper_official_processor_and_collator_batches=batches,mixed_CPU_batch=mixed_batch,
+        native_loss_forward_or_optimizer_executed=False)
     write(terminal,value);terminal.chmod(0o400)
     return value
 

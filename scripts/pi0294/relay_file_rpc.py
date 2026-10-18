@@ -54,11 +54,28 @@ def serve(root,role,label):
     if label.startswith('N1-PREMODEL'):
         from scripts.pi0294.mp1.transport_fixture import serve as serve_fixture
         return serve_fixture(root,role,label)
-    root=Path(root);os.sched_setaffinity(0,{sorted(os.sched_getaffinity(0))[3 if role=='core' else 0]})
+    root=Path(root);pv1=(root/'PV1_STAGE_BINDING.json').is_file()
+    if pv1:
+        cpu=read(root/'RUN_MANIFEST.json')['limits']['rpc_cpu']
+        if type(cpu) is not int or cpu not in os.sched_getaffinity(0):raise PermissionError('PV1_REGISTERED_RPC_CPU_ONLY')
+        os.sched_setaffinity(0,{cpu})
+    else:os.sched_setaffinity(0,{sorted(os.sched_getaffinity(0))[3 if role=='core' else 0]})
     resource.setrlimit(resource.RLIMIT_CPU,(7200,7200));resource.setrlimit(resource.RLIMIT_CORE,(0,0));started=PROCESS_STARTED_CPU
     os.environ.pop('E1_RUN_MANIFEST',None);os.environ.pop('MP1_RUN_MANIFEST',None)
     original_manifest=(root/'RUN_MANIFEST.json').read_bytes();m=json.loads(original_manifest)
-    if root.name=='20261016T150228Z-localpc-e1':
+    if pv1:
+        if (root/'MP1_STAGE_BINDING.json').exists():raise PermissionError('PV1_NO_MIXED_OLD_STAGE_AUTHORITY')
+        from scripts.pi0294.relay_endpoint import Endpoint
+        from scripts.pi0294.pv1.evaluation_plan import session_spec
+        from scripts.pi0294.pv1.core_ledger import Ledger as CoreLedger
+        from scripts.pi0294.pv1.neural_ledger import Ledger as NeuralLedger
+        session_spec(root,label)
+        def Ledger(path,side):
+            if side=='core':return CoreLedger(path)
+            if side=='hopper':return NeuralLedger(path)
+            raise PermissionError('PV1_EXACT_SOURCE_POLICY_RPC_ROLE')
+        adjudication='PV1_ADJUDICATION.json'
+    elif root.name=='20261016T150228Z-localpc-e1':
         if label not in ['M1-1024-CANONICAL-REMAINDER-03','M2-BC-REMAINDER-03','M2-CORR-REMAINDER-03']:raise PermissionError('E1_FAST_FILE_RPC_ONLY_LAST_FIXED_REMAINDER')
         from scripts.pi0294.e1.endpoint import Endpoint
         from scripts.pi0294.e1.scope import Ledger

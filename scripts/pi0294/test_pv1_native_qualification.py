@@ -23,7 +23,7 @@ class NativeHeartbeatContracts(unittest.TestCase):
         put(self.root/'RUN_MANIFEST.json',dict(code=dict(vla_commit='a'*40)),True)
         self.request=dict(submit_count=24,run_uuid=self.root.name,source_sha='a'*40,
             run_manifest_sha256=sha(self.root/'RUN_MANIFEST.json'),project='CFP05-CF-025',ncpus=12,
-            job_name='pi0294_pv1_24')
+            job_name='pi0294_pv1_24',request_id='sealed-request',submission_nonce='sealed-nonce')
         put(self.directory/'REQUEST.json',self.request,True)
         self.allocation=dict(status='PASS_PV1_OWN_NATIVE_H200_ALLOCATION',run_uuid=self.root.name,
             job_id='123.hopper-m-02',hostname='hopper-h200-01',project=self.request['project'],
@@ -31,13 +31,15 @@ class NativeHeartbeatContracts(unittest.TestCase):
         put(self.directory/'ALLOCATION_ADMISSION.json',self.allocation,True)
         self.job=dict(job_state='R',Job_Owner='fixture@host',project=self.request['project'],
             Job_Name=self.request['job_name'],exec_host='hopper-h200-01/0',
+            Rerunable='False',run_count=1,
+            Variable_List=dict(PV1_REQUEST_ID='sealed-request',PV1_SUBMISSION_NONCE='sealed-nonce'),
             Resource_List=dict(ngpus=1,ncpus=12,select='1:ngpus=1:gpu_model=H200:ncpus=12:mem=128GB'))
 
     def test_actual_native_host_job_owner_project_gpu_and_no_model_before_endurance(self):
         with patch.dict(heartbeat.os.environ,{'PBS_JOBID':self.allocation['job_id'],'USER':'fixture'}),\
                 patch.object(heartbeat.socket,'gethostname',return_value=self.allocation['hostname']),\
                 patch.object(heartbeat.time,'time',return_value=2000):
-            for change in ('good','foreign_project','foreign_user','foreign_node','not_running','two_gpu','A40','loaded'):
+            for change in ('good','foreign_project','foreign_user','foreign_node','not_running','two_gpu','A40','loaded','rerun','nonce'):
                 job=deepcopy(self.job);model=self.root/'pbs/MODEL_STATE.json'
                 if model.exists():model.unlink()
                 if change=='foreign_project':job['project']='other'
@@ -47,6 +49,8 @@ class NativeHeartbeatContracts(unittest.TestCase):
                 if change=='two_gpu':job['Resource_List']['ngpus']=2
                 if change=='A40':job['Resource_List']['select']=job['Resource_List']['select'].replace('H200','A40')
                 if change=='loaded':put(model,dict(job_id=self.allocation['job_id']))
+                if change=='rerun':job['Rerunable']='True'
+                if change=='nonce':job['Variable_List']['PV1_SUBMISSION_NONCE']='other'
                 with self.subTest(change=change),patch.object(heartbeat,'owned_jobs',return_value={self.allocation['job_id']:job}):
                     if change=='good':self.assertEqual(heartbeat.identity(self.root,self.directory,self.allocation)['source_sha'],'a'*40)
                     else:

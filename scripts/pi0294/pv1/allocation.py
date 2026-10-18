@@ -1,6 +1,5 @@
 """PV1 native admission: projects fund one shared, bounded H200 campaign."""
 from datetime import datetime,timedelta,timezone
-import math
 
 from scripts.pi0294.e0_scope import pbs_epoch
 from .decision import AUTHORITY
@@ -19,6 +18,13 @@ def single_h200_select(resources,cpus):
         fields[pair[0]]=pair[1]
     return (type(cpus) is int and cpus>=4 and resources.get('ncpus')==cpus
         and fields.get('gpu_model')=='H200' and fields.get('ngpus')=='1' and fields.get('ncpus')==str(cpus))
+
+
+def native_request_binding(job,request):
+    variables=job.get('Variable_List')
+    return (job.get('Rerunable') in ('False',False) and int(job.get('run_count',1))==1
+        and isinstance(variables,dict) and variables.get('PV1_REQUEST_ID')==request['request_id']
+        and variables.get('PV1_SUBMISSION_NONCE')==request['submission_nonce'])
 
 
 def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledger,project_proof,queue_proof,
@@ -63,6 +69,7 @@ def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledge
     if (not job or job['job_state']!='R' or job['Job_Owner'].split('@')[0]!=user
             or job.get('project')!=request['project'] or int(job['Resource_List']['ngpus'])!=1
             or not single_h200_select(job['Resource_List'],request['ncpus'])
+            or not native_request_binding(job,request)
             or job.get('Job_Name')!=request['job_name'] or not request['job_name'].startswith('pi0294_pv1_')):
         raise PermissionError('PV1_OWN_RUNNING_SELECTED_PROJECT_SINGLE_GPU_PBS_ONLY')
     registered={s['job_id'] for s in ledger['PBS_submissions'] if s.get('job_id')}
@@ -91,12 +98,16 @@ def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledge
         raise PermissionError('PV1_SELECTED_PROJECT_DATE_MEMBER_CLUSTER_AND_POSITIVE_BALANCE')
     extra=request['additional_output_upper_bytes']
     reserve=0 if final else 40*1024**3
+    reserved_storage=ledger.get('storage_reserved_bytes',extra)
+    current_storage=ledger.get('new_storage_current_bytes',ledger['new_storage_peak_bytes'])
     if (type(extra) is not int or extra<=0 or extra>250*1024**3
             or quota['user']!=user or not 0<=now-quota['report_epoch']<=900
             or any(type(quota[k]) is not int or quota[k]<0 for k in ('used_bytes','hard_bytes'))
-            or quota['hard_bytes']-quota['used_bytes']<extra+reserve
-            or not math.isfinite(ledger['new_storage_peak_bytes'])
-            or ledger['new_storage_peak_bytes']+extra+reserve>250*1024**3):
+            or quota['hard_bytes']-quota['used_bytes']<reserved_storage+reserve
+            or type(ledger['new_storage_peak_bytes']) is not int or not 0<=ledger['new_storage_peak_bytes']<=250*1024**3
+            or type(current_storage) is not int or not 0<=current_storage<=ledger['new_storage_peak_bytes']
+            or type(reserved_storage) is not int or reserved_storage<extra
+            or current_storage+reserved_storage+reserve>250*1024**3):
         raise PermissionError('PV1_REAL_PERSONAL_QUOTA_AND_FINAL_STORAGE_RESERVE')
     admit_resources(ledger['used'],ledger['reserved'],{},final=final,active_GPUs=1)
     return dict(status='PASS_PV1_OWN_NATIVE_H200_ALLOCATION',job_id=job_id,project=request['project'],
