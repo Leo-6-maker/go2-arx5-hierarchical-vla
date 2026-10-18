@@ -173,7 +173,8 @@ def consume(parent,binding_relative,token_file):
     if (t['status']!='PASS_SOURCE_CONFIRM_STATIC_FIXED_REVISION_READBACK' or t['repo_id']!=REPO or t['prefix']!=PREFIX
             or len(t['files'])!=63 or not t['READY_uploaded_last'] or sum(r['bytes'] for r in t['files'].values())>MAX_BYTES):
         raise PermissionError('EXACT_FIXED_SOURCE_CONFIRM_STATIC_DELIVERY')
-    resource.setrlimit(resource.RLIMIT_CPU,(600,600));signal.alarm(max(1,int(q['deadline_epoch']-time.time())))
+    # The remaining 180 seconds of the 600-second scope cover registration.
+    resource.setrlimit(resource.RLIMIT_CPU,(420,420));signal.alarm(max(1,int(q['deadline_epoch']-time.time())))
     owner=OwnerLock(parent/'CONFIRM_STATIC_CONSUME.lock');began=time.process_time();out=parent/'datasets'/NAME;out.mkdir(mode=0o700)
     try:
         from huggingface_hub import hf_hub_download
