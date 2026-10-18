@@ -12,6 +12,16 @@ stable scene success or a unique noise-cause attribution. Two positive
 conditions are not the full40-condition rate denominator. Same actor6b291000,
 job673388 still running/zero training/GPU costOPEN;selected/deploymentNONE.
 
+**Actual checkpoint maintenance, without blocking confirmation:**
+[Current scoped inspection receipt](reports/PI0294/20261016T191445Z-localpc-mp1/CHECKPOINT_RETIREMENT_DURING_CONFIRMATION_ACTUAL.json).
+Hopper905/CoreSSD2309/AMDshared1425 directories;31 checkpoint-shaped
+containers,9 intact large learning states retained,eligible failedpayload0,
+deleted0/freed0. BC1631 is valid superseded state, not a failed checkpoint:
+current inference does not load it, but actual historical resume witness
+and payload-replay independence remain distinct; no unsafe retirement.
+Core/Hopper original manifest/plan/candidate/leases unchanged and nativeR
+after observation;no model/physics/PBS/cancellation or historical bytes counted.
+
 **Current: first new-source confirmation success independently audited.**
 [Exact single-condition receipt](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_FIRST_INDEPENDENT_SUCCESS.json).
 CORR2048, T1 F0/001, fixed bank29202: autonomous32s/16000ticks/641 paired
