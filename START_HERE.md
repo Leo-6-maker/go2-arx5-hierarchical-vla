@@ -1,6 +1,19 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Current: source confirmation first native allocation running, qualification pending.**
+**Current: own native qualification PASS, confirmation evaluation in progress.**
+[Actual qualification and selected engineering-effect closure](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_QUALIFICATION_AND_SELECTED_CLOSURE.json).
+673388 own81reads/600.0083296215162s/80realcycles/all8faults independently
+verified;models/queries/physics0 duringqualification,rawreceipt1a3938d73a0021393d0b4ab06099ba229ea68c9ae529f3da30e25aa2546dc450.
+Actor remainsimmutable6b291000 andnativeR atreceipt;no newtraining.
+One T2 condition is preservedENGINEERING_INCOMPLETE at15.6s,notpolicyfailure.
+Its39actualdraws/39ACKs/7800integrations andallrawarrays joined,selected
+worker andbothRPCs terminal/no pendingdraws. Only one provenidleorphan
+controlRPC wasterminated afteritsSSHclient exited255;noGPU/physicsworker
+cancelled. Connectionfailure's unique cause remainsunproven. This isnot
+whole-runclosure or finalindependenttaskaudit;rawcoverage is explicitly
+preliminary. Purecoverage/noiseauditcode isCPUtested/prepared,notactorcode.
+
+**Prior snapshot: first native allocation running, qualification pending.**
 [Actual one-job native receipt](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ALLOCATION01_ACTUAL_SUBMISSION.json).
 673388.hopper-m-02 is actualR/oneGPU/8h,sourcefamily11/12,parentHopper14/24.
 It has its own600s/80cycle/all-fault qualification before model load;models0

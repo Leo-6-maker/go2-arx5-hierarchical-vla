@@ -1,7 +1,7 @@
 {
   "schema": "MP1_N1_ENGINEERING_ENDURANCE_AND_FAULT_INJECTION_V1",
-  "status": "PRIOR_PAIR_AND_NI10_CLOSED_CONFIRMATION01_NATIVE_QUALIFICATION_RUNNING_NOT_TASK_RESULTS",
-  "authoritative_current_native_receipt": "N1_SOURCE_CONFIRM_ALLOCATION01_ACTUAL_SUBMISSION.json",
+  "status": "CONFIRMATION01_OWN_NATIVE_QUALIFICATION_PASS_SELECTED_ENGINEERING_CASE_CLOSED_EVALUATION_ACTIVE",
+  "authoritative_current_native_receipt": "N1_SOURCE_CONFIRM_QUALIFICATION_AND_SELECTED_CLOSURE.json",
   "historical_snapshots_below_are_not_current_job_state": true,
   "latest_source07_receipt": "SOURCE07_RECEIVER_CLOCK_FAILURE_AND_REPAIR.json",
   "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
@@ -487,6 +487,66 @@
   "runtime_source_sha": "6b291000858612423b67838275efa52caf8b633f",
   "containing_report_commit_is_not_runtime_identity": true,
   "current_source_confirmation01": {
+    "observed_epoch": 1792295194.7473333,
+    "qualification": {
+      "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+      "job_id": "673388.hopper-m-02",
+      "source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "samples": 81,
+      "elapsed_s": 600.0083296215162,
+      "cycles": 80,
+      "faults": {
+        "actual_expired_heartbeat": "PASS",
+        "actual_future_heartbeat": "PASS",
+        "wrong_run_heartbeat": "PASS",
+        "concurrent_replace": "PASS",
+        "metadata_read_failure": "PASS",
+        "statistics_lock": "PASS",
+        "late_response": "PASS",
+        "process_exit": "PASS"
+      },
+      "models_at_qualification": 0,
+      "NN_at_qualification": 0,
+      "physics_at_qualification": 0,
+      "raw_receipt_sha256": "1a3938d73a0021393d0b4ab06099ba229ea68c9ae529f3da30e25aa2546dc450"
+    },
+    "native_snapshot": {
+      "job_id": "673388.hopper-m-02",
+      "state": "R",
+      "model_load_intents": 2,
+      "generation_queries": 230,
+      "optimizer_updates": 0,
+      "GPU_reserved_s": 28800,
+      "GPU_cost": "OPEN_NOT_SETTLED",
+      "source_family_submission_number": 11,
+      "child_submission_number": 1
+    },
+    "selected_engineering_case": {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B0-F0-000-T2",
+      "status": "ENGINEERING_INCOMPLETE",
+      "pipeline_trustworthy": false,
+      "actual_integrations": 7800,
+      "actual_draws": 39,
+      "actual_ACKs": 39,
+      "generated_uninstalled_actions": 0,
+      "inbox_only_requests": 0,
+      "all_actual_action_arrays_and_ACKs_joined": true,
+      "selected_physical_worker_terminal": true,
+      "selected_Core_and_Hopper_RPC_terminal": true,
+      "pending_model_queries": 0,
+      "whole_run_closure_or_independent_task_audit_claimed": false,
+      "scientific_policy_failure": false,
+      "reexecuted_commands": 0,
+      "new_model_queries_for_diagnostic": 0,
+      "new_physics_for_diagnostic": 0,
+      "network_unique_root_cause": "UNPROVEN",
+      "raw_failure_and_all_partial_data_retained": true
+    },
+    "receipt": "N1_SOURCE_CONFIRM_QUALIFICATION_AND_SELECTED_CLOSURE.json",
+    "whole_run_task_results_not_yet_audited": true,
+    "actor_source_unchanged": "6b291000858612423b67838275efa52caf8b633f"
+  },
+  "historical_confirmation01_qualification_pending_snapshot": {
     "observed_epoch": 1792292871.5171838,
     "receipt": "N1_SOURCE_CONFIRM_ALLOCATION01_ACTUAL_SUBMISSION.json",
     "native": {
