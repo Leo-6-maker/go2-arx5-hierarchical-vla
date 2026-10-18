@@ -11,7 +11,7 @@ from scripts.pi0294.native_train import parameter_inventory
 from scripts.pi0294.mp1.trainer import make_trainer_class
 from scripts.pi0294.e1.scope import STATS
 from .dataset import PV1Dataset
-from .recipe import PARENT,validate_primary,begin_update,commit_update
+from .recipe import PARENT,validate_primary,begin_update,commit_update,run_key
 
 
 def checked_resume(root,arm,checkpoint,recipe,dataset):
@@ -40,20 +40,27 @@ def checked_resume(root,arm,checkpoint,recipe,dataset):
     return step
 
 
-def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint=None,stop_after_step=1024):
+def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint=None,stop_after_step=1024,replica=False):
     root=Path(root)
     guard()
     if (allocation.get('status')!='PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
             or not os.environ.get('PBS_JOBID') or allocation['job_id']!=os.environ['PBS_JOBID']
-            or stop_after_step not in (1024,4096) or not request_id
+            or stop_after_step not in (1024,4096) or type(replica) is not bool or not request_id
             or request_id in ('.','..') or Path(request_id).name!=request_id):
         raise PermissionError('PV1_NATIVE_ALLOCATION_BEFORE_ANY_TRAINING_AND_FIXED_PRIMARY_STOPS')
     original=read(root/'plans/FROZEN_SOURCE_PAIR_RECIPE.json')
-    recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][arm]
+    key=('REPLICA_' if replica else '')+arm
+    recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][key]
     validate_primary(recipe,original)
+    if run_key(recipe)!=key or recipe['arm']!=arm:
+        raise PermissionError('PV1_SEPARATE_PREBOUND_PRIMARY_AND_REPLICA_ARTIFACT_IDENTITY')
     b=read(root/'NEURAL_BINDINGS.private.json')
     inputs=read(root/'plans/PV1_TRAIN_INPUTS.private.json')
-    evidence=root/'training'/arm/('session-'+request_id)
+    evidence=root/'training'/key/('session-'+request_id)
+    prior=list((root/'training'/key).glob('checkpoint-*/CHECKPOINT_COMPLETE.json'))
+    if prior and (resume_checkpoint is None or Path(resume_checkpoint).resolve()!=
+            max((p.parent for p in prior),key=lambda p:read(p/'CHECKPOINT_COMPLETE.json')['global_step']).resolve()):
+        raise PermissionError('PV1_ONLY_LATEST_COMPLETE_RESUME_NO_FRESH_RESTART_OR_ROLLBACK')
     if evidence.exists():raise FileExistsError('PV1_PRESERVE_FIRST_NATIVE_TRAINING_SESSION')
     evidence.mkdir(parents=True)
     dataset=PV1Dataset(b['dataset'],b['source'],b['cosmos'],for_optimization=True,
@@ -62,7 +69,7 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
         new_root=inputs['new_dataset'],new_raw_bindings=read(inputs['new_raw_bindings']),
         route=recipe['route'],arm=arm,seed=recipe['seed'])
     dataset.initialize()
-    start=checked_resume(root,arm,resume_checkpoint,recipe,dataset) if resume_checkpoint else 0
+    start=checked_resume(root,key,resume_checkpoint,recipe,dataset) if resume_checkpoint else 0
     if stop_after_step<=start:
         raise PermissionError('PV1_COMPLETED_TRAINING_BLOCK_NOT_REPEATED')
     current=read(ledger.path)
@@ -85,7 +92,7 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
     write(evidence/'RECIPE.json',recipe)
     set_seed(recipe['seed'])
     instance.model.train()
-    args=TrainingArguments(output_dir=str(root/'training'/arm),max_steps=4096,per_device_train_batch_size=2,
+    args=TrainingArguments(output_dir=str(root/'training'/key),max_steps=4096,per_device_train_batch_size=2,
         gradient_accumulation_steps=16,learning_rate=recipe['learning_rate'],weight_decay=recipe['weight_decay'],
         adam_beta1=recipe['adam_beta1'],adam_beta2=recipe['adam_beta2'],adam_epsilon=recipe['adam_epsilon'],
         max_grad_norm=recipe['max_grad_norm'],bf16=True,tf32=True,optim=recipe['optimizer'],
@@ -145,7 +152,7 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
     if not unchanged or not changed:
         raise ValueError('PV1_FROZEN_VLM_CHANGED_OR_NO_REAL_LEARNING')
     value=dict(status='PV1_PRIMARY_4096_TERMINAL' if trainer.state.global_step==4096 else 'PV1_EXACT_PARTIAL_STATE_PRESERVED',
-        arm=arm,global_step=trainer.state.global_step,resumed_from_step=start,
+        arm=arm,training_run_key=key,replica=replica,global_step=trainer.state.global_step,resumed_from_step=start,
         actual_updates_this_attempt=trainer.state.global_step-start,actual_samples_this_attempt=trainer.consumed-start*32,
         actual_consumed_cursor=trainer.consumed,sampler=trainer.sampler.state_dict(trainer.consumed),
         parent_checkpoint_manifest_sha256=PARENT,loaded_checkpoint_manifest_sha256=instance.identity['checkpoint_manifest_sha256'],

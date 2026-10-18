@@ -38,6 +38,10 @@ def validate_primary(recipe,original):
     return expected
 
 
+def run_key(recipe):
+    return ('REPLICA_' if recipe['replication_of_local_recipe'] else '')+recipe['arm']
+
+
 def begin_update(ledger,*,arm,local_step,request_id,recipe):
     if (recipe.get('schema')!='PI0294_PV1_PRIMARY_LEARNING_RECIPE_V1'
             or arm!=recipe['arm'] or type(local_step) is not int or not 0<=local_step<4096
@@ -45,7 +49,15 @@ def begin_update(ledger,*,arm,local_step,request_id,recipe):
             or ledger['optimizer_updates']>=16384):
         raise PermissionError('PV1_ONE_KNOWN_AUTHORIZED_LOCAL_UPDATE_WITHIN_CAMPAIGN_CAP')
     value=deepcopy(ledger)
-    value['pending_updates']=[dict(arm=arm,local_step_before=local_step,request_id=request_id)]
+    key=run_key(recipe)
+    runs=value.setdefault('training_runs',{})
+    if key not in runs:
+        if local_step!=0 or len(runs)>=5:
+            raise PermissionError('PV1_NEW_RUN_ONLY_AT_ZERO_WITHIN_FIVE_TRAINING_RUNS')
+        runs[key]=dict(recipe_sha256=digest(recipe),last_native_step=0)
+    if runs[key]!=dict(recipe_sha256=digest(recipe),last_native_step=local_step):
+        raise PermissionError('PV1_RUN_RECIPE_AND_EXACT_CHARGED_STEP_NO_RESTART_OR_REPLAY')
+    value['pending_updates']=[dict(arm=arm,run_key=key,local_step_before=local_step,request_id=request_id)]
     return value
 
 
@@ -56,6 +68,10 @@ def commit_update(ledger,*,arm,local_step_after,request_id):
             or ledger['optimizer_updates']>=16384):
         raise PermissionError('PV1_COMMIT_ONLY_THE_EXACT_PENDING_NATIVE_OPTIMIZER_STEP')
     value=deepcopy(ledger)
+    key=pending[0]['run_key']
+    if value['training_runs'][key]['last_native_step']!=pending[0]['local_step_before']:
+        raise PermissionError('PV1_COMMIT_RUN_PROGRESS_MUST_MATCH_PENDING_NATIVE_UPDATE')
+    value['training_runs'][key]['last_native_step']=local_step_after
     value['optimizer_updates']+=1
     value['pending_updates']=[]
     return value

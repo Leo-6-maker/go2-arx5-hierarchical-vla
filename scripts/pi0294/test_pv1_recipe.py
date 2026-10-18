@@ -3,6 +3,7 @@ import unittest
 
 from scripts.pi0294.mp1.train import validate_recipe as legacy_validate
 from scripts.pi0294.pv1.recipe import primary_recipe,validate_primary,begin_update,commit_update,PARENT
+from scripts.pi0294.scene_cards import digest
 
 
 def old_recipe():
@@ -41,7 +42,8 @@ class RecipeTests(unittest.TestCase):
 
     def test_pending_updates_not_erased_by_retry_or_wrong_job(self):
         r=primary_recipe(old_recipe(),'CLEARANCE_PAIR','A_4MM')
-        l=dict(optimizer_updates=100,pending_updates=[])
+        l=dict(optimizer_updates=100,pending_updates=[],
+            training_runs={'A_4MM':dict(recipe_sha256=digest(r),last_native_step=99)})
         pending=begin_update(l,arm='A_4MM',local_step=99,request_id='J1',recipe=r)
         self.assertEqual(l['pending_updates'],[])
         with self.assertRaises(PermissionError):begin_update(pending,arm='A_4MM',local_step=99,request_id='J1',recipe=r)
@@ -49,6 +51,16 @@ class RecipeTests(unittest.TestCase):
         final=commit_update(pending,arm='A_4MM',local_step_after=100,request_id='J1')
         self.assertEqual(final['optimizer_updates'],101)
         with self.assertRaises(PermissionError):commit_update(final,arm='A_4MM',local_step_after=100,request_id='J1')
+
+    def test_replica_has_separate_artifacts_and_cannot_restart_a_consumed_arm(self):
+        r=primary_recipe(old_recipe(),'CLEARANCE_PAIR','A_4MM')
+        l=commit_update(begin_update(dict(optimizer_updates=0,pending_updates=[]),
+            arm='A_4MM',local_step=0,request_id='J1',recipe=r),arm='A_4MM',local_step_after=1,request_id='J1')
+        with self.assertRaises(PermissionError):begin_update(l,arm='A_4MM',local_step=0,request_id='J2',recipe=r)
+        replica=primary_recipe(old_recipe(),'CLEARANCE_PAIR','A_4MM',replica=True)
+        pending=begin_update(l,arm='A_4MM',local_step=0,request_id='J3',recipe=replica)
+        self.assertEqual(pending['pending_updates'][0]['run_key'],'REPLICA_A_4MM')
+        self.assertEqual(len(pending['training_runs']),2)
 
     def test_total_updates_cap_includes_all_arms_and_replayed_work(self):
         r=primary_recipe(old_recipe(),'CLEARANCE_PAIR','A_4MM')

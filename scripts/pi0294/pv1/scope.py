@@ -14,6 +14,8 @@ ROLE = 'PI0294_PV1_CORE_POPULATION_STATIC_V1'
 CAPTURE_ROLE = 'PI0294_PV1_CORE_TRAIN_CAPTURE_V1'
 REAUDIT_ROLE = 'PI0294_PV1_CORE_SAVED_RAW_AUDIT_V1'
 EXPORT_ROLE = 'PI0294_PV1_CORE_SAVED_TRAIN_EXPORT_V1'
+CPU_PROFILES={ROLE:'4080-simulation',CAPTURE_ROLE:'4080-simulation',REAUDIT_ROLE:'4080-simulation',
+    EXPORT_ROLE:'4080-cpu-data'}
 
 
 def registry_role(scope,run_uuid):
@@ -38,7 +40,7 @@ def validate(root, role=ROLE):
         raise PermissionError('PV1_SOURCE_CAPSULE_MUST_STAY_IN_REGISTERED_CHILD')
     if (m['schema'] != 'PI0294_PV1_CPU_CHILD_RUN_MANIFEST_V1' or m['scope'] != role
             or m['owner'] != 'EXISTING_LOCAL_PC' or m['run_uuid'] != root.name
-            or m['execution']['profile'] != '4080-simulation'
+            or m['execution']['profile'] != CPU_PROFILES[role]
             or m['execution']['host'] != os.uname().nodename or m['execution']['uid'] != os.getuid()
             or os.environ.get('PV1_RUN_MANIFEST') != str(code.parent/'WORKER_RUN_MANIFEST.json')
             or read(code.parent/'WORKER_RUN_MANIFEST.json') != m):
