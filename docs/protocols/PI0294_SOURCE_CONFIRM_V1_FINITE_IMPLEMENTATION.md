@@ -92,3 +92,39 @@ Selected/deployment NONE until a separately authorized future decision.
 
 At publication of this plan no source-confirm child, static qualifier, model,
 PBS or physical rollout has been dispatched. Existing native jobs are terminal.
+
+## Final Video Archive Preparation
+
+The paragraph immediately above records this plan's original publication time,
+not current execution state. START_HERE and its dated actual receipts provide
+the later binding, native allocation, qualification and independent results.
+
+[CPU-only archive card](../../reports/PI0294/design/SOURCE_CONFIRM_FINAL_VIDEO_DELIVERY.json)
+and confirmation_video_delivery.py prepare one final immutable HF prefix. This
+code is not deployed into the active actor and has uploaded nothing. The
+running scientific source remains6b291000; no model/physics/training is added.
+
+Dispatch only after all actual native allocations are F with costs reconciled,
+all child model/physics/audit/RPC processes are terminal, and every generated
+action and physical effect is classified. Bind a sealed final closure to the
+original plan SHA and the digest of ALL terminal raw rows; a selected-success
+subset is rejected. The existing approved parent CPU-data profile, authority,
+registry, lease, output binding and original N1 clock remain mandatory.
+
+Inventory reuses the independent frozen-attempt audits and exact existing
+MP4 bytes, including negative, engineering and initial-frame-only attempts.
+It renders no new video, does not replay actions, never loads a model and
+does not copy source clips into an intermediate delivery tree. Gaps remain
+explicit, and a partial archive cannot claim complete forty-cell confirmation.
+
+Before actual dispatch, reserve at most1800 CPU core-seconds (1620 worker,
+180 registration/control),3600 wall-seconds bounded by original hard closeout,
+one CPU affinity and128MiB total payload. Metadata subprocesses are serial,
+at most15 seconds each for at most80 clips; the publisher itself has a420s
+CPU limit. These are bounds within existing MP1/N1 resources, not a new grant.
+
+Upload payload once, read and hash only this bounded new prefix at a fixed
+revision, then upload READY last and repeat fixed-revision file-set/size/hash
+readback. No model or historical repository download, visibility change,
+unknown-outcome blind retry, secret or private asset publication is permitted.
+Actual HF upload/revision acceptance is still NOT_RUN at this code publication.
