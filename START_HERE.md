@@ -1,5 +1,21 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Actual: allocation02 qualified; first T1 scene succeeds under BOTH fixed banks.**
+[Own native qualification, full independent audits and exact paired-scene evidence](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION02_NATIVE_QUALIFICATION_AND_FIRST_COMPLETE_SUCCESS_PAIR.json).
+674009 nativeR/source887e6562:own81reads/600.084s/80realcycles/all8faultsPASS
+BEFORE model load,raw5625953d...,originalwatchdogs preserved. NewF0/001T1
+bank29201 completes32s/641pairs/80draws-ACKs/41hold,0S1/nativefault,TeacherOFF;
+18raw/score/safety/video checks plus fresh saved-camera/action/ACK/fixed-noise
+chainPASS. With originalbank29202 success,this is the first2/2T1scene,
+not twoindependent scenes,full40reliability or Go2/WBC/realrobot proof.
+T2F0/000bank29201 sole engineeringreplacement is a valid originalS1rejection
+at20.4s/409pairs/19auditchecksPASS,not success;oldpartial retained,no retry.
+Exact22frozen-attempt snapshot:T1qualified10/success4,T2qualified10/success0;
+6incomplete scene-pairs/task are NOT0/2pairs. Laterinflightwork excluded.
+Samecandidate94ad/plan6e5a;no newtraining/candidate/clock or safetychange.
+NativeGPUcostOPEN,remainingconditions continue;finalall-effect/video closure
+pending. Source12of12/confirmation2of2,noautomatic extraPBS.
+
 **Actual: LAST original confirmation allocation02 submitted once, native Q.**
 [Exact submission, queue memory readback and original resource limits](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ALLOCATION02_ACTUAL_SUBMISSION.json).
 674009/source887e6562,CFP04-CF-007,auto->small,1GPU/12CPU/128GB/8h.

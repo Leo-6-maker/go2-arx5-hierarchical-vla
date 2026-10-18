@@ -1,7 +1,26 @@
 {
   "schema": "MP1_N1_ENGINEERING_ENDURANCE_AND_FAULT_INJECTION_V1",
-  "status": "CONFIRMATION02_LAST_ORIGINAL_NATIVE_SUBMITTED_QUEUED_QUALIFICATION_NOT_RUN",
-  "authoritative_current_native_receipt": "N1_SOURCE_CONFIRM_ALLOCATION02_ACTUAL_SUBMISSION.json",
+  "status": "CONFIRMATION02_ACTUAL_OWN_NATIVE_QUALIFICATION_PASS_FIRST_COMPLETE_T1_TWO_BANK_SUCCESS_PAIR",
+  "authoritative_current_native_receipt": "N1_CONFIRMATION02_NATIVE_QUALIFICATION_AND_FIRST_COMPLETE_SUCCESS_PAIR.json",
+  "confirmation02_actual_qualification_and_first_success_pair": {
+    "job_id": "674009.hopper-m-02",
+    "state": "R",
+    "source_sha": "887e65629291f16f73863e2b111123007542d268",
+    "heartbeat_reads": 81,
+    "heartbeat_elapsed_s": 600.0843495819718,
+    "real_transport_cycles": 80,
+    "all_eight_faults_PASS": true,
+    "raw_qualification_sha256": "5625953d3830d097cd8aca6279326a8f2201b16df48a5d807ac440df49d2b6e4",
+    "models_queries_physics_during_qualification": 0,
+    "new_T1_F0_001_bank29201_success_raw_checks_PASS": 18,
+    "new_T1_actual_draws_ACKs_fresh_snapshots": 80,
+    "T1_F0_001_both_fixed_banks_successes": 2,
+    "paired_trials_are_independent_scene_groups": false,
+    "T2_F0_000_bank29201_replacement": "VALID_ORIGINAL_S1_REJECTION_AT_20_4S_19_RAW_AUDIT_CHECKS_PASS",
+    "new_training_updates": 0,
+    "whole40_complete": false,
+    "GPU_cost": "OPEN_NATIVE_RUNNING_NOT_SETTLED"
+  },
   "confirmation02_actual_native_submission": {
     "job_id": "674009.hopper-m-02",
     "native_state": "Q",
