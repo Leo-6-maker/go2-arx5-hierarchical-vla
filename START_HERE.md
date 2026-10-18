@@ -1,5 +1,17 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Observer preflight caught a derived-manifest incompatibility BEFORE the last PBS.**
+[Actual legacy rejection and prepared strict V2 repair](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION02_OBSERVER_MANIFEST_COMPATIBILITY.json).
+The rootb379ce20 cold entries below remain valid,but its qualified read-only
+observer clone was actually rejected by the root-authority comparison.
+No observer/model/PBS/physics was launched in the preflight. Strict V2 repair
+keeps identical source/seal/profile/authority/data/limits and only admits the
+exactvisibility subcapsule plus immutable session-bindinghash. CPU622tests/
+569subtestsPASS;actual repaired derived-profile andV2deployment still pending.
+OriginalV1inputs/capsules stayattheir paths;CPU-onlyb379 prototype mustremain
+zero newnative/model/case consumption. Original40/candidate/noise/clock/STOPs
+unchanged;source11of12/confirmation1of2,not a policyfailure ornewbudget.
+
 **Actual: both confirmation02 cold entries PASS; last original allocation not yet submitted.**
 [Actual two-site cold adoption and preserved resource/effect identities](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION02_ACTUAL_COLD_ADOPTION.json).
 Both nodes now use immutableb379ce20/sourceCI39103735777SUCCESS;623members,

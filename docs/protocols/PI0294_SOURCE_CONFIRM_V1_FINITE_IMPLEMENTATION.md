@@ -177,3 +177,35 @@ The last allocation must pass its OWN600s/80cycle/all-fault qualification
 before model load. Skip18 already valid conditions before loading; keep all
 negatives/partials and only original engineering replacements. New code,
 deployment, native qualification and complete40 results remain separate claims.
+
+## Readonly Observer Compatibility V2
+
+An actual CPU-only derived-worker profile preflight caught the first cold
+guard rejecting the qualified session visibility reader's immutable binding
+annotation. The root entries passed, but that was insufficient evidence of
+the complete observer startup path. No last-slot PBS was submitted.
+
+V2 keeps the first cold proof/capsules at their original paths and adds
+`plans/CONFIRM_ENGINEERING_ALLOCATION02/V2/BOUNDARY.json`. Its sealed original
+science baseline remains6b291000, while the exact CPU-only b379ce20 prototype
+manifest and original V1 input hashes remain separately anchored. The prior
+native count must still be1,model-load count5,draws930,GPU8456; V2 is NOT a
+second native repair attempt or extra experiment. All original STOPs/counters
+and scientific identities remain unchanged.
+
+A qualified read-only clone may normalize to current root authority ONLY
+when all manifest/entry/authority/data/limits/source/seal identities match
+exactly. Only the existing visibility subcapsule paths and exact immutable
+`session_visibility_binding_sha256` annotation may differ; arbitrary code,
+UID/profile/authority/input changes remain rejected. The original visibility
+runner still requires the exact actual session registry/job/ready/deadline,
+zero packet mutations and approved directories. This does not authorize a
+model service, action, install or new physics.
+
+Before the last original submission, the repaired derived manifest must pass
+the REAL existing Hopper runtime profile on an isolated CPU-only manifest
+fixture. Do not fabricate a MODEL_READY marker or start an observer for this
+preflight. Only after both V2 entries and this real manifest validation PASS
+may the existing finite owner use a new V2 cold receipt; the old first receipt
+must not satisfy the last-slot gate. Own600s/80cycle native qualification is
+still separately required in the actual new allocation before model load.

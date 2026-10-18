@@ -15,7 +15,7 @@ class ConfirmationBoundaryTests(unittest.TestCase):
         if p.exists():p.chmod(0o600)
         p.write_text(json.dumps(value,indent=2)+'\n');p.chmod(0o400)
 
-    def fixture(self):
+    def fixture(self,profile='4080-simulation'):
         temp=tempfile.TemporaryDirectory();self.addCleanup(temp.cleanup)
         root=Path(temp.name)/c.n1.PARENT_RUN/'children/source-confirm-01';root.mkdir(parents=True)
         self.put(root/c.OLD_STOP,dict(native_safety_stop=False,scientific_policy_failure=False))
@@ -24,12 +24,12 @@ class ConfirmationBoundaryTests(unittest.TestCase):
         old=dict(run_uuid=root.name,scope='MP1_SINGLE_SOURCE_CONFIRMATION_NO_TRAINING',
             code=dict(vla_commit=c.OLD_SOURCE,capsule_relative='old/code',source_seal_relative='old/SOURCE_SEAL.json',
                 source_seal_sha256=sha(root/'old/SOURCE_SEAL.json'),unchanged_learning_files={'fixed':'same'}),
-            execution=dict(profile='4080-simulation',confirmation_phase='POLICY_FROZEN',
+            execution=dict(profile=profile,confirmation_phase='POLICY_FROZEN',
                 confirmation_n1_binding=dict(release=c.n1.RELEASE,adoption_delta_sha256=c.n1.ADOPTED_DELTA_SHA),
                 sealed_inputs={'plans/SOURCE_EVALUATION_PLAN.json':sha(root/'plans/SOURCE_EVALUATION_PLAN.json')}))
         self.put(root/c.PRIOR,old)
         self.put(root/c.LEDGER,dict(run_uuid=root.name,GPU_allocated_s=8456,GPU_reserved_s=0,
-            generation_queries=930,optimizer_updates=0,pending_updates=[],CPU_reserved_s=0,
+            generation_queries=930,optimizer_updates=0,pending_updates=[],CPU_reserved_s=0,model_loads=5,
             PBS_submissions=[dict(request_id='alloc-01',status='NATIVE_TERMINAL',job_id='673388.hopper-m-02',GPU_conservative_charge_s=8456)]))
         self.put(root/c.NATIVE,dict(job_id='673388.hopper-m-02',native=dict(job_state='F',Exit_status=1,
             project='CFP04-CF-007',Job_Owner='e1192548@fixture',resources_used=dict(walltime='02:20:53'),
@@ -106,6 +106,49 @@ class ConfirmationBoundaryTests(unittest.TestCase):
             value=original(root,manifest);(root/c.OLD_STOP).chmod(0o600);return value
         with patch.object(c,'validate',side_effect=race):
             with self.assertRaisesRegex(PermissionError,'CHANGED_DURING_ADMISSION'):c.Guard(root,2)
+
+    def test_qualified_visibility_clone_keeps_root_authority_and_exact_binding(self):
+        root,m,q=self.fixture('hopper-neural');label='CPU-OBSERVER-MANIFEST-QUAL02'
+        binding=root/'plans'/label/'METADATA_READER_BINDING.json';self.put(binding,dict(readonly=True))
+        derived=deepcopy(m)
+        derived['code'].update(capsule_relative='new/visibility/'+label+'/code',
+            source_seal_relative='new/visibility/'+label+'/SOURCE_SEAL.json')
+        derived['execution']['session_visibility_binding_sha256']=sha(binding)
+        self.assertEqual(c.validate(root,derived),q)
+        for field,value in [('uid',123),('profile','4080-simulation'),('session_visibility_binding_sha256','0'*64)]:
+            with self.subTest(field=field):
+                bad=deepcopy(derived);bad['execution'][field]=value
+                with self.assertRaises(PermissionError):c.validate(root,bad)
+        bad=deepcopy(derived);bad['code']['vla_commit']='0'*40
+        with self.assertRaises(PermissionError):c.validate(root,bad)
+        bad=deepcopy(derived);bad['code']['capsule_relative']='elsewhere/'+label+'/code'
+        with self.assertRaises(PermissionError):c.validate(root,bad)
+        binding.chmod(0o600)
+        with self.assertRaises(PermissionError):c.validate(root,derived)
+
+    def test_versioned_cpu_only_prototype_preserves_original_inputs_without_extra_job(self):
+        root,m,q=self.fixture('hopper-neural')
+        prototype=deepcopy(m);prototype['code'].update(vla_commit=c.PROTOTYPE_SOURCE,
+            capsule_relative='prototype/code',source_seal_relative='prototype/SOURCE_SEAL.json')
+        self.put(root/'prototype/SOURCE_SEAL.json',dict(source_sha=c.PROTOTYPE_SOURCE,files={}))
+        prototype['code']['source_seal_sha256']=sha(root/'prototype/SOURCE_SEAL.json')
+        proto_q=dict(q,new_source_sha=c.PROTOTYPE_SOURCE);self.put(root/c.BINDING,proto_q)
+        prototype['execution']['sealed_inputs'][c.BINDING]=sha(root/c.BINDING)
+        names=c.required_names(c.V2_BINDING)
+        for old,new in zip(c.NAMES[:6],names[:6]):
+            self.put(root/new,q if old==c.BINDING else json.loads((root/old).read_text()))
+        self.put(root/c.V2_PROTOTYPE,prototype)
+        expected=dict(c.PROTOTYPE_MANIFESTS,**{'hopper-neural':sha(root/c.V2_PROTOTYPE)})
+        current=deepcopy(m);current['execution'][c.KEY]=c.V2_BINDING
+        original=json.loads((root/c.PRIOR).read_text())
+        current['execution']['sealed_inputs']=dict(original['execution']['sealed_inputs'],**{n:sha(root/n) for n in names})
+        self.put(root/'RUN_MANIFEST.json',current)
+        with patch.object(c,'PROTOTYPE_MANIFESTS',expected):
+            self.assertEqual(c.validate(root),q);self.assertFalse(c.Guard(root,2).blocked())
+            ledger=json.loads((root/names[2]).read_text());ledger['model_loads']=6
+            self.put(root/names[2],ledger);current['execution']['sealed_inputs'][names[2]]=sha(root/names[2])
+            with self.assertRaises(PermissionError):c.validate(root,current)
+        self.assertTrue((root/c.BINDING).is_file());self.assertTrue((root/c.OLD_STOP).is_file())
 
 
 if __name__=='__main__':unittest.main()
