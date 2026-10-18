@@ -1,5 +1,18 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
+**Current: first new-source confirmation success independently audited.**
+[Exact single-condition receipt](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_FIRST_INDEPENDENT_SUCCESS.json).
+CORR2048, T1 F0/001, fixed bank29202: autonomous32s/16000ticks/641 paired
+frames; original S1 refusals0/nativefault0, lift0.083652m/carry0.165017m,
+hold41/41. All18 original raw/score/safety/video checks PASS. Separate
+dual-SSH readback joins80 actual draws/ACKs/fresh observations and original
+arrays/camera hashes/fixed-noise receipts; no model or physics rerun.
+One condition is not complete40-condition confirmation or target-WBC success.
+673388 continues on immutable6b291000; GPU costOPEN, zero training,
+selected/deploymentNONE. Actual decoded641-frame video exists locally;
+public video upload is NOT yet performed. Pure archive inventory code is
+CPU-tested/prepared, not deployed in the actor;597 PI0294 tests PASS.
+
 **Current: own native qualification PASS, confirmation evaluation in progress.**
 [Actual qualification and selected engineering-effect closure](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_QUALIFICATION_AND_SELECTED_CLOSURE.json).
 673388 own81reads/600.0083296215162s/80realcycles/all8faults independently
