@@ -1,27 +1,24 @@
 {
   "schema": "MP1_N1_ENGINEERING_ENDURANCE_AND_FAULT_INJECTION_V1",
-  "status": "SOURCE09_NATIVE_ENDURANCE_AND_BOUNDED_REMAINDER_TERMINAL_PASS_CURRENT_NI10_GATE_IN_PROGRESS",
-  "authoritative_current_native_receipt": "NI16_ACTUAL_COLD_SINGLE_SUBMISSION.json",
+  "status": "PRIOR_PAIR_AND_NI10_CLOSED_CONFIRMATION01_NATIVE_QUALIFICATION_RUNNING_NOT_TASK_RESULTS",
+  "authoritative_current_native_receipt": "N1_SOURCE_CONFIRM_ALLOCATION01_ACTUAL_SUBMISSION.json",
   "historical_snapshots_below_are_not_current_job_state": true,
   "latest_source07_receipt": "SOURCE07_RECEIVER_CLOCK_FAILURE_AND_REPAIR.json",
   "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
   "N1_T0_epoch": 1792264081,
   "original_MP1_T0_epoch": 1792178085,
-  "code_in_containing_commit": true,
+  "code_in_containing_commit": false,
   "CPU_PASS": {
-    "status": "PASS_LOCAL_ONLY_NOT_NATIVE_EVIDENCE",
-    "focused_tests": 37,
-    "focused_subtests": 41,
-    "PI0294_tests": 496,
-    "PI0294_subtests": 372,
+    "status": "PASS_LOCAL_AND_FIXED_RUNTIME_CI_NOT_NATIVE_TASK_EVIDENCE",
+    "PI0294_tests": 585,
+    "PI0294_subtests": 499,
     "main_tests": 827,
-    "main_skipped": 14,
+    "main_existing_private_skips": 14,
     "main_subtests": 58,
-    "PI0292_tests": 108,
-    "PI0292_subtests": 150,
-    "learning_files_hash_equal_to_e418bb79": 12,
-    "numerical_files_hash_equal_to_e418bb79": 15,
-    "actual_CI_of_containing_commit": "NOT_YET_RUN_AT_COMMIT"
+    "actual_runtime_CI_run": 39091231819,
+    "actual_runtime_CI_conclusion": "SUCCESS",
+    "frozen_numerical_files": 15,
+    "frozen_learning_files": 12
   },
   "cold_binding_and_effect_closure_engineering": {
     "status": "IMPLEMENTED_CPU_TESTED_NOT_NATIVE_DEPLOYED_AT_COMMIT",
@@ -466,5 +463,72 @@
     "TF_R3_STOP": "PRESERVED",
     "goal": "ACTIVE_INCOMPLETE"
   },
-  "latest_actual_NI16_Core_shadow_and_HF_receipt": "N1_CURRENT_EIGHT_ENDPOINT_MATCHED_SHADOWS_ACTUAL.json"
+  "latest_actual_NI16_Core_shadow_and_HF_receipt": "N1_CURRENT_EIGHT_ENDPOINT_MATCHED_SHADOWS_ACTUAL.json",
+  "historical_top_level_before_source_confirmation01": {
+    "status": "SOURCE09_NATIVE_ENDURANCE_AND_BOUNDED_REMAINDER_TERMINAL_PASS_CURRENT_NI10_GATE_IN_PROGRESS",
+    "authoritative_current_native_receipt": "NI16_ACTUAL_COLD_SINGLE_SUBMISSION.json",
+    "CPU_PASS": {
+      "status": "PASS_LOCAL_ONLY_NOT_NATIVE_EVIDENCE",
+      "focused_tests": 37,
+      "focused_subtests": 41,
+      "PI0294_tests": 496,
+      "PI0294_subtests": 372,
+      "main_tests": 827,
+      "main_skipped": 14,
+      "main_subtests": 58,
+      "PI0292_tests": 108,
+      "PI0292_subtests": 150,
+      "learning_files_hash_equal_to_e418bb79": 12,
+      "numerical_files_hash_equal_to_e418bb79": 15,
+      "actual_CI_of_containing_commit": "NOT_YET_RUN_AT_COMMIT"
+    },
+    "code_in_containing_commit": true
+  },
+  "runtime_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+  "containing_report_commit_is_not_runtime_identity": true,
+  "current_source_confirmation01": {
+    "observed_epoch": 1792292871.5171838,
+    "receipt": "N1_SOURCE_CONFIRM_ALLOCATION01_ACTUAL_SUBMISSION.json",
+    "native": {
+      "job_id": "673388.hopper-m-02",
+      "state": "R",
+      "project": "CFP04-CF-007",
+      "queue": "small",
+      "actual_resources": {
+        "ncpus": 12,
+        "mem": "225gb",
+        "ngpus": 1,
+        "select": "1:ncpus=12:mem=225GB:ngpus=1",
+        "walltime": "08:00:00"
+      },
+      "source_family_submission_number": 11,
+      "child_submission_number": 1,
+      "parent_Hopper_submission_number": 14,
+      "released": true,
+      "qualification_started": true,
+      "qualification_passed": false,
+      "qualification_required_before_model": {
+        "heartbeat_s": 600,
+        "real_cycles": 80,
+        "all_faults": true
+      },
+      "actual_cost": "OPEN_RUNNING_NOT_SETTLED",
+      "prior_source_H200_s": 42833,
+      "prior_parent_H200_s": 47333,
+      "reservation_H200_s": 28800,
+      "healthy_jobs_cancelled": false
+    },
+    "actual_counters": {
+      "model_load_intents": 0,
+      "generation_queries": 0,
+      "optimizer_updates": 0,
+      "pending_updates": []
+    },
+    "qualification_summary": null,
+    "zero_training_updates": true,
+    "old_qualification_not_reused": true,
+    "original_N1_T0_epoch": 1792264081,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
 }

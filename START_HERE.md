@@ -1,6 +1,17 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Current: source confirmation actually frozen on both sites, not yet run.**
+**Current: source confirmation first native allocation running, qualification pending.**
+[Actual one-job native receipt](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ALLOCATION01_ACTUAL_SUBMISSION.json).
+673388.hopper-m-02 is actualR/oneGPU/8h,sourcefamily11/12,parentHopper14/24.
+It has its own600s/80cycle/all-fault qualification before model load;models0
+andqueries0 at this snapshot.28800H200seconds reserved,actual costOPEN,
+not settled or a task result. Runtime6b291000,originalN1clock/final6hreserve
+unchanged,no automaticnextsubmission. One local import-pin rejection occurred
+before any native request;retained and repaired with immutable package lookup
+and the mature visibility observer,zeroPBS/GPUcost for that local rejection.
+6000preparationCPUupperclosedonce;active3960controlupper separatelyreserved.
+
+**Prior boundary: source confirmation actually frozen on both sites, before PBS.**
 [Actual static qualification and both native bindings](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ACTUAL_BINDING.json).
 One CORR2048 candidate,10 new groups/2 tasks/2 fixed noise banks=40 conditions.
 11 original static candidates/22 engine initializations/0 integrations;one
