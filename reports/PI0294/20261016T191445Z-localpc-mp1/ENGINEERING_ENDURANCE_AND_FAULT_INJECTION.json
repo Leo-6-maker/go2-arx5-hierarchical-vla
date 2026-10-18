@@ -1,8 +1,23 @@
 {
   "schema": "MP1_N1_ENGINEERING_ENDURANCE_AND_FAULT_INJECTION_V1",
-  "status": "CONFIRMATION01_NATIVE_F_ALL_RECORDED_EFFECTS_CLOSED_CONFIRM40_INCOMPLETE_NO_AUTO_NEXT",
-  "authoritative_current_native_receipt": "N1_SOURCE_CONFIRM_ALLOCATION01_TERMINAL_PARTIAL_COVERAGE.json",
+  "status": "CONFIRMATION02_BOTH_ACTUAL_COLD_ENTRIES_PASS_NO_NEW_PBS_OR_NATIVE_QUALIFICATION",
+  "authoritative_current_native_receipt": "N1_CONFIRMATION02_ACTUAL_COLD_ADOPTION.json",
   "historical_snapshots_below_are_not_current_job_state": true,
+  "confirmation02_actual_cold_adoption": {
+    "receipt": "N1_CONFIRMATION02_ACTUAL_COLD_ADOPTION.json",
+    "source_sha": "b379ce202bd36cae22e873780d1b21753a7e4803",
+    "source_CI_run": 39103735777,
+    "source_CI_conclusion": "SUCCESS",
+    "source_changed_blobs_exact_readback": 9,
+    "both_approved_entries_and_immutable_worker_manifests_PASS": true,
+    "original_recorded_Core_processes_terminal": 52,
+    "original_recorded_Hopper_processes_terminal": 14,
+    "both_source_capsule_members": 623,
+    "unchanged_numerical_and_learning_files": [15, 12],
+    "original_STOPs_and_capsules_preserved": true,
+    "new_native_qualification": "NOT_RUN",
+    "new_GPU_PBS_models_physics_training": 0
+  },
   "latest_actual_transport_repair_receipt": "N1_ACTUAL_RECORDED_TRANSPORT_AND_PROGRESS_JOURNAL_REPAIR.json",
   "confirmation02_cold_repair_preparation": {
     "status": "PREPARED_CPU_TESTED_NOT_DEPLOYED_NOT_SUBMITTED",

@@ -1,6 +1,19 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**Confirmation02 cold guard prepared, not yet deployed or submitted.**
+**Actual: both confirmation02 cold entries PASS; last original allocation not yet submitted.**
+[Actual two-site cold adoption and preserved resource/effect identities](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CONFIRMATION02_ACTUAL_COLD_ADOPTION.json).
+Both nodes now use immutableb379ce20/sourceCI39103735777SUCCESS;623members,
+15numerical+12learning hashes unchanged. Original52Core/14Hopper recorded
+processes terminal;old673388F/8456GPU seconds/930draws remain accounted.
+Both approved entries andimmutableworker manifests PASS after atomic pointer
+advance. OldSTOPab07 retained,new02STOPabsent,candidate94ad/plan6e5a unchanged.
+Originalprivateowner/clientbytes exactly recoverable;no oldcapsule overwritten.
+Sourcefamily11of12/confirmation1of2 still;newGPU/PBS/models/physics/training0.
+Next:fresh project/auth/quota/peer gates andthe lastoriginal boundedallocation,
+then own600s/80cycle/all-faultqualification before anymodel. Notnewnative
+qualification orcomplete40;selected/deploymentNONE,originalN1clockunchanged.
+
+**Prior preparation: confirmation02 cold guard implemented and CPU-tested.**
 [Exact preparation scope](reports/PI0294/design/SOURCE_CONFIRMATION02_COLD_REPAIR_PREPARATION.json)
 and [cold-boundary requirements](docs/protocols/PI0294_SOURCE_CONFIRM_V1_FINITE_IMPLEMENTATION.md#confirmation02-cold-repair-preparation)
 preserve oldSTOPab07 atits originalpath androute onlyfuture02 faults to a new
