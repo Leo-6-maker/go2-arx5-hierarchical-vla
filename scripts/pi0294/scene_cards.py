@@ -22,7 +22,7 @@ def digest(value):
 
 
 def scene_group(split, family, index, *, candidate_index=0):
-    if split not in ('TRAIN', 'DEV', 'COMMISSIONING', 'PILOT', 'CONFIRM_CORE', 'CONFIRM_CHALLENGE'):
+    if split not in ('TRAIN', 'DEV', 'COMMISSIONING', 'PILOT', 'CONFIRM_CORE', 'CONFIRM_CHALLENGE', 'SOURCE_CONFIRM_V1'):
         raise ValueError('Unregistered split')
     if family not in ('F0', 'F1', 'F2', 'F3') or index < 0:
         raise ValueError('Invalid scene identity')

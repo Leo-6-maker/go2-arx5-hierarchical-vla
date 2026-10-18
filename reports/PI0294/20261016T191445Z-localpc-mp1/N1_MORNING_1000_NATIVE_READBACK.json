@@ -1,0 +1,69 @@
+{
+  "schema": "MP1_N1_ACTUAL_1000_MORNING_READBACK_V1",
+  "status": "ACTUAL_AFTER_1000_NATIVE_READONLY_NOT_NEW_COMPUTE",
+  "reported_epoch": 1792288810.5569224,
+  "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+  "N1_T0_epoch": 1792264081,
+  "native": {
+    "hopper": {
+      "observed_epoch": 1792288809.3773665,
+      "owned_live_PBS_ids": [],
+      "source_PBS": 10,
+      "source_GPU_s": 42833,
+      "source_GPU_reserved_s": 0,
+      "source_NN": 2406,
+      "formal_updates": 4096,
+      "recorded_delivery_workers_terminal": [
+        "N1_NI16_CPU_HANDOFF_PUBLISH_01"
+      ]
+    },
+    "core": {
+      "observed_epoch": 1792288810.555299,
+      "recorded_delivery_workers_terminal": [
+        "N1_NI16_CPU_HANDOFF_CONSUME_01",
+        "N1_CORR2048_TRAIN4_VIDEO_PUBLISH_01",
+        "N1_CORR2048_DEV8_VIDEO_PUBLISH_01"
+      ],
+      "matched_shadow_worker_terminal": true,
+      "matched_shadow_lease": "CLOSED",
+      "matched_shadow_integrations": 32025,
+      "source_physics_pending_reservations": 0,
+      "source_native_safety_STOP": false
+    }
+  },
+  "GPU_allocated_s": {
+    "Hopper": 47333,
+    "Vanda": 22
+  },
+  "GPU_reserved_s": {
+    "Hopper": 0,
+    "Vanda": 0
+  },
+  "CPU_s": {
+    "CoreLab": 27920.483674336,
+    "Vanda": 3643,
+    "Hopper": 31282.450192201,
+    "local_PC": 86820
+  },
+  "open_CPU_reservations": [
+    {
+      "id": "N1_SOURCE_CONFIRM_SCOPE_ENGINEERING_01",
+      "reserved_s": 6000
+    }
+  ],
+  "source_starts": 76,
+  "all_physics_integrations": 1062630,
+  "formal_updates": 4096,
+  "unknown_effects": [],
+  "new_GPU_PBS": 0,
+  "new_neural_queries": 0,
+  "new_physics": 0,
+  "new_training": 0,
+  "confirmation": "PURE_PLAN_AND_SCOPE_CODE_BEING_PREPARED_NOT_FROZEN_NOT_REGISTERED_NOT_SUBMITTED",
+  "morning_fixed_report": "4535da0d09111e7d612f7d93d9a5f6d08bf24c19",
+  "morning_science_comment": 6244432055,
+  "morning_engineering_comment": 6244435016,
+  "goal": "ACTIVE_INCOMPLETE",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

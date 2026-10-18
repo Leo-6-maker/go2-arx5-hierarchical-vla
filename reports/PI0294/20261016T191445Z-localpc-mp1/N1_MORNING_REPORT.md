@@ -5,6 +5,16 @@ ahead of the 10:00 checkpoint; this is not a backdated 10:00 native snapshot.
 Existing single local-PC owner; goal ACTIVE / incomplete. No new scientific GO,
 second owner, budget reset or clock reset is claimed.
 
+Actual 10:00 follow-up: [fresh native readbacks](N1_MORNING_1000_NATIVE_READBACK.json)
+were captured on Hopper at10:00:09SGT and Core at10:00:10SGT. Hopper owned
+live queue is empty; all four recorded delivery workers and the matched-shadow
+worker are terminal, shadow lease CLOSED, source physics reservations0,
+source42833H200seconds/10PBS/2406draws/4096updates unchanged. Earlier3180CPU
+publication upper is now settled once. One new6000CPU engineering preparation
+upper is registered for the confirmation scope; no new model/PBS/physics.
+Pure confirmation planner and finite scope are prepared, not a frozen scene
+manifest or native-admitted execution path. No eleventh source-family PBS.
+
 ## Scientific Result
 
 **The complete BC/CORR2048 endpoint comparison is now available.** Both have
