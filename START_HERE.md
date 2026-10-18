@@ -1,14 +1,29 @@
 # Current Entry: E1 Results and Single MP1 Execution
 
-**2026-10-18 morning checkpoint:**
+**Current: source confirmation actually frozen on both sites, not yet run.**
+[Actual static qualification and both native bindings](reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ACTUAL_BINDING.json).
+One CORR2048 candidate,10 new groups/2 tasks/2 fixed noise banks=40 conditions.
+11 original static candidates/22 engine initializations/0 integrations;one
+static-only failure retained. All20 selected task qualifications PASS.
+Fixed HF756ee34c4139bb1acf8930a3861c49da2356e73a actually consumed onHopper;
+63payload files+READY,allhashes readback,no payload reupload or modeldownload.
+Both immutable runtime6b291000 entries/15numerical+12learning hashes PASS;
+exact CI39091231819SUCCESS. Static-only policy execution explicitly rejected.
+New confirmation PBS/GPU/models/queries/policy conditions all0 at binding.
+Original source42833GPU seconds/10PBS/2406draws/4096updates andN1clock retained.
+Next finite native admission and fresh own600s/80cycle qualification;no new
+training,optional method NONE,WBCfrozen/TF-R3STOP retained,selected/deploymentNONE.
+Older snapshots below retain their original times and are not current job states.
+
+**2026-10-18 morning checkpoint before confirmation binding:**
 [N1 morning report, actual09:48:50SGT snapshot](reports/PI0294/20261016T191445Z-localpc-mp1/N1_MORNING_REPORT.md).
 The [actual10:00native follow-up](reports/PI0294/20261016T191445Z-localpc-mp1/N1_MORNING_1000_NATIVE_READBACK.json)
 has empty ownedHopperqueue/all delivery+shadowworkers terminal,sourcecosts
 unchanged. [Confirmation scope preparation](docs/protocols/PI0294_SOURCE_CONFIRM_V1_FINITE_IMPLEMENTATION.md)
-is pureplan/cardcode only,not frozen scenes,registered child or GPUadmission.
+was pureplan/cardcode only at that snapshot,not native admission.
 Complete paired endpoints,16matched prefixdiagnostics andall12CORRvideos
 are actual. Nooptionalnewtraining;oneCORR2048confirmationcandidate ranks
-firstunderoriginalrule. ConfirmationNOT_FROZEN/NOT_RUN,goalACTIVE/incomplete.
+firstunderoriginalrule. ConfirmationwasNOT_FROZEN/NOT_RUN then,goalACTIVE/incomplete.
 
 **Current N1: actual matched anchor diagnosis and all12 CORR endpoint videos delivered.**
 [Closed NI16/HF/Core matched shadows](reports/PI0294/20261016T191445Z-localpc-mp1/N1_CURRENT_EIGHT_ENDPOINT_MATCHED_SHADOWS_ACTUAL.json)

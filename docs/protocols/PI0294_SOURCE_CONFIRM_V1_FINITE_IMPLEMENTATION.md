@@ -4,6 +4,11 @@ Status: PREPARED, NOT NATIVE ADMITTED, NOT OPEN FOR POLICY.
 This implements MP1 B3 / N1 N4, not a new scientific GO or budget.
 The current sole owner must retain the original MP1/N1 clocks and all costs.
 
+Update: [actual static/HF/two-site binding receipt](../../reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ACTUAL_BINDING.json)
+supersedes the initial preparation status above. Ten scenes are now statically
+qualified and both runtime entries frozen; no PBS or policy condition had run
+at that receipt. The machine card and original authority bytes remain unchanged.
+
 ## Candidate And Conditions
 
 The completed paired evidence ranks S-CORR2048 first: worst-task exposed DEV
