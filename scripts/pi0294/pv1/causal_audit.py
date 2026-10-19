@@ -37,11 +37,14 @@ def _names(folder,count):
         raise PermissionError('PV1_CAUSAL_AUDIT_EXACT_CONTIGUOUS_SAVED_SEQUENCES')
 
 
-def core(root,identifier):
+def core(root,identifier,*,engineering=False):
+    if type(engineering) is not bool:raise PermissionError('PV1_EXPLICIT_ENGINEERING_READ_SIDE_ONLY')
     root=Path(root);before=terminal_attempt(root,identifier);folder=root/'episodes'/identifier
     row=read(folder/'PV1_ADJUDICATION.json');card=read(folder/'CARD.json');relay=folder/'relay'
     audit=read(root/'evidence/PV1_AUDIT_RECEIPTS'/(identifier+'.json'))
-    if (row['status'] not in ('SUCCESS','VALID_TASK_FAIL') or row['pipeline_trustworthy'] is not True
+    valid=(row['status']=='ENGINEERING_INCOMPLETE' and row['pipeline_trustworthy'] is False
+        if engineering else row['status'] in ('SUCCESS','VALID_TASK_FAIL') and row['pipeline_trustworthy'] is True)
+    if (not valid
             or row['live_native_failures'] or row['teacher_takeover']
             or audit['status']!='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT' or audit['adjudication']!=row):
         raise PermissionError('PV1_CAUSAL_AUDIT_VALID_TERMINAL_INDEPENDENTLY_AUDITED_CONDITION')
@@ -51,11 +54,27 @@ def core(root,identifier):
     s1_veto=row['failure_stage']=='S1_PRE_EXECUTION_REJECT'
     if (type(steps) is not int or not 0<=steps<=16000 or steps%200
             or row['S1_rejections']!=int(s1_veto)
-            or not (reference_veto or s1_veto or steps==16000)):
+            or not (reference_veto or s1_veto or steps==16000 or engineering and 0<steps<16000)):
         raise PermissionError('PV1_CAUSAL_AUDIT_EXACT_FULL_TASK_OR_ORIGINAL_VETO')
     count=executed+int(reference_veto or s1_veto)
     if not 0<count<=80:raise PermissionError('PV1_CAUSAL_AUDIT_ORIGINAL_EIGHTY_DRAW_BOUND')
-    for kind,n in [('observations',count),('commands',executed+int(s1_veto)),
+    terminal_extra=None
+    observations=len(list((relay/'observations').glob('*.json')))
+    if engineering:
+        if reference_veto or s1_veto or observations not in (count,count+1):
+            raise PermissionError('PV1_ENGINEERING_ONLY_COMPLETE_ACK_PREFIXES_AND_OPTIONAL_UNUSED_OBSERVATION')
+        if observations==count+1:
+            packet=read(relay/'observations'/f'{count:03}.json');body=unseal(packet)
+            if (body['run_uuid']!=root.name or body['sequence']!=count or body['tick']!=steps
+                    or len(body['payload']['images'])!=2):
+                raise PermissionError('PV1_ENGINEERING_TERMINAL_UNUSED_OBSERVATION_IDENTITY')
+            for image,camera in zip(body['payload']['images'],('body_rgb','wrist_rgb')):
+                if image['sha256']!=sha(folder/camera/f'{count*8:04}.png'):
+                    raise PermissionError('PV1_ENGINEERING_UNUSED_OBSERVATION_ACTUAL_CAMERA_HASH')
+            terminal_extra=dict(sequence=count,observation_sha256=packet['sha256'],
+                episode_uuid=body['episode_uuid'],snapshot_uuid=body['payload']['snapshot_uuid'],
+                model_query_generated=False,action_installed=False,live_integrations=0)
+    for kind,n in [('observations',observations if engineering else count),('commands',executed+int(s1_veto)),
             ('intents',executed+int(s1_veto)),('acks',executed)]:_names(relay/kind,n)
     previous=None;entries=[];snapshots=set();episode=None
     for sequence in range(count):
@@ -106,13 +125,15 @@ def core(root,identifier):
                 action_sha256=bundle['action']['sha256'],ACK_sha256=None if ack_packet is None else ack_packet['sha256'])
             if ack_packet is not None:previous=ack_packet['sha256']
         entries.append(entry)
-    if len({v['query_uuid'] for v in entries})!=count or terminal_attempt(root,identifier)!=before:
+    if (terminal_extra and (terminal_extra['episode_uuid']!=episode or terminal_extra['snapshot_uuid'] in snapshots)
+            or len({v['query_uuid'] for v in entries})!=count or terminal_attempt(root,identifier)!=before):
         raise PermissionError('PV1_CAUSAL_AUDIT_UNIQUE_QUERIES_AND_UNCHANGED_TERMINAL_INPUTS')
-    return dict(status='PASS_ACTUAL_TERMINAL_CORE_FRESH_CAMERA_COMMAND_ACK_CHAIN',attempt_id=identifier,
+    return dict(status='PASS_ACTUAL_ENGINEERING_PREFIX_EFFECTS_NOT_VALID_POLICY_OUTCOME' if engineering
+            else 'PASS_ACTUAL_TERMINAL_CORE_FRESH_CAMERA_COMMAND_ACK_CHAIN',attempt_id=identifier,
         episode_uuid=episode,card=card,adjudication=row,raw_hashes=before,entries=entries,
         model_ready=ready,
         executed_ACKs=executed,draws=count,raw_camera_hashes_matched=count*2,
-        new_integrations=0,new_model_queries=0)
+        new_integrations=0,new_model_queries=0,terminal_unused_observation=terminal_extra)
 
 
 def hopper(root,core_proof):
@@ -180,16 +201,29 @@ def hopper(root,core_proof):
         new_integrations=0,new_model_queries=0,noise_RNG_reexecuted=False)
 
 
-def join(core_proof,hopper_proof):
-    if (core_proof['status']!='PASS_ACTUAL_TERMINAL_CORE_FRESH_CAMERA_COMMAND_ACK_CHAIN'
+def _join(core_proof,hopper_proof,engineering):
+    expected='PASS_ACTUAL_ENGINEERING_PREFIX_EFFECTS_NOT_VALID_POLICY_OUTCOME' if engineering else 'PASS_ACTUAL_TERMINAL_CORE_FRESH_CAMERA_COMMAND_ACK_CHAIN'
+    if (core_proof['status']!=expected
             or hopper_proof['status']!='PASS_ACTUAL_NATIVE_GENERATION_FIXED_NOISE_AND_CAUSAL_ACTION_CHAIN'
             or core_proof['attempt_id']!=hopper_proof['attempt_id']
             or core_proof['draws']!=hopper_proof['draws']
             or core_proof['executed_ACKs']!=hopper_proof['executed_ACKs']
             or core_proof['model_ready']['identity']!=hopper_proof['identity']):
         raise PermissionError('PV1_CAUSAL_AUDIT_EXACT_TWO_SITE_READ_SIDE_PROOFS')
-    return dict(status='PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN',
+    return dict(status='PASS_INDEPENDENT_ACTUAL_ENGINEERING_EFFECT_CLOSURE_NOT_POLICY_RESULT' if engineering
+            else 'PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN',
         attempt_id=core_proof['attempt_id'],adjudication_sha256=core_proof['raw_hashes']['PV1_ADJUDICATION.json'],
         identity=hopper_proof['identity'],draws=hopper_proof['draws'],executed_ACKs=hopper_proof['executed_ACKs'],
         core_proof_sha256=digest(core_proof),hopper_proof_sha256=digest(hopper_proof),
         new_integrations=0,new_model_queries=0)
+
+
+def join(core_proof,hopper_proof):return _join(core_proof,hopper_proof,False)
+
+
+def join_engineering(core_proof,hopper_proof):
+    row=core_proof['adjudication']
+    if row['status']!='ENGINEERING_INCOMPLETE' or row['pipeline_trustworthy'] is not False:
+        raise PermissionError('PV1_ENGINEERING_EFFECT_CLOSURE_CANNOT_RELABEL_POLICY_OUTCOME')
+    result=_join(core_proof,hopper_proof,True)
+    return dict(result,policy_outcome_valid=False,replacement_admitted=False)

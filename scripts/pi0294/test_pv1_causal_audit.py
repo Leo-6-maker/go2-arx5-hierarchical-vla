@@ -140,3 +140,37 @@ class CausalAudit(unittest.TestCase):
         write(self.core/'evidence/PV1_AUDIT_RECEIPTS'/(self.identifier+'.json'),
             dict(status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT',adjudication=row))
         with self.assertRaisesRegex(PermissionError,'CONTIGUOUS'):self.proof()
+
+    def engineering_fixture(self):
+        self.row.update(status='ENGINEERING_INCOMPLETE',pipeline_trustworthy=False,failure_stage='ENGINEERING_OR_UNKNOWN')
+        write(self.folder/'PV1_ADJUDICATION.json',self.row)
+        write(self.core/'evidence/PV1_AUDIT_RECEIPTS'/(self.identifier+'.json'),
+            dict(status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT',adjudication=self.row))
+        for name in ('inbox/CPU_QUERY_1.json','outbox/CPU_QUERY_1.json','receipts/CPU_QUERY_1.json','receipts/CPU_QUERY_1.npz'):
+            (self.resident/name).unlink()
+        state=read(self.resident/'QUERY_STATE.json');state['queries']=state['queries'][:1]
+        state['episodes']['CPU_EPISODE']['next_sequence']=1;write(self.resident/'QUERY_STATE.json',state)
+        (self.folder/'MODEL_REJECT.json').unlink()
+
+    def test_engineering_prefix_closure_is_separate_from_valid_outcome_and_preserves_unused_snapshot(self):
+        self.engineering_fixture()
+        with self.assertRaises(PermissionError):self.proof()
+        core=audit.core(self.core,self.identifier,engineering=True);hopper=audit.hopper(self.hopper,core)
+        self.assertEqual((core['draws'],core['executed_ACKs']),(1,1))
+        self.assertFalse(core['terminal_unused_observation']['model_query_generated'])
+        with self.assertRaises(PermissionError):audit.join(core,hopper)
+        result=audit.join_engineering(core,hopper)
+        self.assertEqual(result['status'],'PASS_INDEPENDENT_ACTUAL_ENGINEERING_EFFECT_CLOSURE_NOT_POLICY_RESULT')
+        self.assertFalse(result['policy_outcome_valid']);self.assertFalse(result['replacement_admitted'])
+        (self.relay/'acks/000.json').unlink()
+        with self.assertRaisesRegex(PermissionError,'CONTIGUOUS'):
+            audit.core(self.core,self.identifier,engineering=True)
+
+    def test_engineering_unused_camera_or_unclassified_native_draw_cannot_be_hidden(self):
+        self.engineering_fixture();core=audit.core(self.core,self.identifier,engineering=True)
+        state=read(self.resident/'QUERY_STATE.json');state['queries'].append(dict(query_uuid='UNKNOWN',episode_uuid='CPU_EPISODE'))
+        write(self.resident/'QUERY_STATE.json',state)
+        with self.assertRaises(PermissionError):audit.hopper(self.hopper,core)
+        (self.folder/'body_rgb/0008.png').write_bytes(b'WRONG_UNUSED_CAMERA')
+        with self.assertRaisesRegex(PermissionError,'UNUSED_OBSERVATION_ACTUAL_CAMERA'):
+            audit.core(self.core,self.identifier,engineering=True)

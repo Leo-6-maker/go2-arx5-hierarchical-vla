@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from scripts.pi0294.pv1.decision import AUTHORITY
 from scripts.pi0294.pv1.resources import TOTAL
@@ -16,6 +17,26 @@ def value():
 
 
 class NeuralLedgerContracts(unittest.TestCase):
+    def test_read_only_closeout_preserves_STOP_and_unknowns_without_admitting_new_effects(self):
+        with tempfile.TemporaryDirectory() as tmp,patch('scripts.pi0294.pv1.neural_ledger.time.time',return_value=1000):
+            parent=Path(tmp)/'campaign';root=parent/'children/policy-01';root.mkdir(parents=True)
+            p=parent/'HOPPER_RESOURCE_LEDGER.json';p.write_text(json.dumps(value()))
+            (parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json').write_text(json.dumps(dict(run_uuid='ORIGINAL_CAMPAIGN',
+                T0_epoch=900,stop_new_physics_epoch=1100,hard_closeout_epoch=1200)))
+            lease=root/'lease.json';lease.write_text(json.dumps(dict(status='ACTIVE',run_uuid=root.name,
+                authority_release=AUTHORITY,deadline_epoch=1200)))
+            (root/'OUTPUT_BINDING.private.json').write_text(json.dumps(dict(lease=str(lease))))
+            stop=root/'STOP.json';stop.write_bytes(b'PRESERVED_ENGINEERING_STOP')
+            ledger=Ledger(root)
+            with self.assertRaises(PermissionError):ledger.guard()
+            ledger.guard(closeout=True)
+            v=json.loads(p.read_text());v['unknown_effects']=['PRESERVED'];p.write_text(json.dumps(v))
+            ledger.guard(closeout=True)
+            with self.assertRaises(PermissionError):ledger.charge('generation_queries',1)
+            with self.assertRaises(PermissionError):ledger.guard(closeout='yes')
+            self.assertEqual(stop.read_bytes(),b'PRESERVED_ENGINEERING_STOP')
+            self.assertEqual(json.loads(p.read_text())['unknown_effects'],['PRESERVED'])
+
     def test_native_queries_and_optimizer_updates_share_original_campaign_counter(self):
         with tempfile.TemporaryDirectory() as tmp:
             parent=Path(tmp)/'campaign';root=parent/'children/policy-01';root.mkdir(parents=True)

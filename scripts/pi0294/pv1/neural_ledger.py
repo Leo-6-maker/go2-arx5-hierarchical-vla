@@ -75,13 +75,14 @@ class Ledger:
         with self.transaction() as value:value['CPU_s']+=cost
 
     def guard(self,*,closeout=False):
+        if type(closeout) is not bool:raise PermissionError('PV1_EXPLICIT_READ_ONLY_CLOSEOUT_FLAG')
         a=read(self.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
         cutoff=a['hard_closeout_epoch'] if closeout else a['stop_new_physics_epoch']
         if not a['T0_epoch']<=time.time()<cutoff:raise TimeoutError('PV1_ORIGINAL_CAMPAIGN_CUTOFF')
-        if any(p.exists() for p in [self.parent/'STOP.json',self.root/'STOP.json',self.root/'SOURCE_SAFETY_STOP_FROM_CORE.json']):
+        if not closeout and any(p.exists() for p in [self.parent/'STOP.json',self.root/'STOP.json',self.root/'SOURCE_SAFETY_STOP_FROM_CORE.json']):
             raise PermissionError('PV1_SOURCE_OR_CAMPAIGN_STOP')
         binding=read(self.root/'OUTPUT_BINDING.private.json');lease=read(binding['lease'])
         if (lease['status']!='ACTIVE' or lease['run_uuid']!=self.root.name or lease['authority_release']!=AUTHORITY
                 or time.time()>=lease['deadline_epoch']):
             raise PermissionError('PV1_NEURAL_LEDGER_REQUIRES_LIVE_CHILD_LEASE')
-        return check(read(self.path),final=self.final)
+        return check(read(self.path),final=self.final,allow_unknown=closeout)

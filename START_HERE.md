@@ -1,5 +1,16 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 B0 third allocation ended on a diagnosed finite-control cap, not training.**
+[Actual native termination, preserved outcomes and cold repair](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_03_FINITE_RPC_EXHAUSTION_AND_COLD_REPAIR.json):
+675394 F/1;6success/3validfailure/1engineering-incomplete. Core RPC exited
+normally at its original40000call cap; the interrupted T2 recorded29prefixes
+and5800live ticks. Raw audits PASS/nativefault0, but independent partial-effect
+closure/replacement eligibility still pending. STOPs/raw evidence retained.
+9612H200s charged here,11154 cumulative,0GPUreserved/0updates/642draws.
+New250ms/150000call finite PV1 control envelope is CPU-tested preparation,
+not a native fix claim or resubmission; legacy40000/50ms defaults remain.
+846CPU/778subtests PASS;fresh same-job qualification required after cold binding.
+
 **PV1 actual seven-condition snapshot and next-cold training admission.**
 [Seven raw/causal-audited B0 outcomes and terminal cost evidence](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_SEVEN_ACTUAL_B0_CONDITIONS_AND_COST_EVIDENCE.json):
 5success/2validfailure,0nativefault,all7 independent chains PASS;not complete48.

@@ -64,6 +64,35 @@ class RelayTransportTests(unittest.TestCase):
             self.assertTrue(state['network_outcome_unknown']);self.assertEqual(state['acknowledgements'],0)
             self.assertEqual(state['status'],'STOPPED_PRESERVED_NO_AUTOMATIC_RETRY')
 
+    def test_versioned_read_polling_keeps_eighty_one_shot_queries_and_fresh_ACK_chain(self):
+        case,core,hopper,now,events,installs=self.fixture();sleeps=[];pending={};queries=[]
+        observation=core.observation;ack=core.ack;first_observation=[True];ack_reads={};responses={}
+        def observe(c,s):
+            if first_observation[0]:first_observation[0]=False;return None
+            return observation(c,s)
+        def query(c,q,t):
+            key=unseal(q)['query_uuid'];queries.append(key);pending[key]=teacher_action(q,t);return None
+        def response(c,key):
+            responses[key]=responses.get(key,0)+1
+            return None if responses[key]==1 else pending[key]
+        def read_ack(c,s):
+            ack_reads[s]=ack_reads.get(s,0)+1
+            return None if ack_reads[s]==1 else ack(c,s)
+        core.observation=observe;core.ack=read_ack;hopper.query=query;hopper.response=response
+        with tempfile.TemporaryDirectory() as directory:
+            result=run_episode(directory,case,core,hopper,now=now,sleep=sleeps.append,poll_interval=.25)
+            self.assertEqual(result['acknowledgements'],80);self.assertEqual(installs,list(range(80)))
+            self.assertEqual(len(queries),80);self.assertEqual(len(set(queries)),80)
+            self.assertEqual(sleeps,[.25]*161)
+
+    def test_arbitrary_poll_mode_is_rejected_before_any_dispatch(self):
+        case,core,hopper,now,events,installs=self.fixture()
+        with tempfile.TemporaryDirectory() as directory:
+            for interval in (0,.01,.5,True,float('nan')):
+                with self.subTest(interval=interval),self.assertRaises(PermissionError):
+                    run_episode(directory,case,core,hopper,now=now,poll_interval=interval)
+        self.assertEqual(installs,[]);self.assertEqual(events,[])
+
     def test_teacher_cannot_supply_model_or_stale_observation_answer(self):
         case,core,hopper,now,events,installs=self.fixture()
         with tempfile.TemporaryDirectory() as directory:

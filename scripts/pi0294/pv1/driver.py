@@ -11,6 +11,7 @@ from scripts.pi0292.relay_protocol import unseal
 from scripts.pi0294.e1.journal import Journal
 from scripts.pi0294.relay_transport import run_episode
 from .evaluation_plan import remaining_panel,validate_registry
+from .control_budget import PROFILE,POLL_S
 
 LIVE_READINESS='c2ca87bda6942f17b037d47bdacf33f069f2bd1ecb2f8d57126d87ba8a69ed5c'
 
@@ -41,12 +42,15 @@ def registry(spec,ready,peers,prior,*,deadline_epoch,now=None):
             core_request_relative=relative,core_request_sha256=digest,core_request=request,card=card,panel_index=index,
             hopper_session_relative='evidence/'+ready['label']+'/resident')
     value=dict(run_uuid=ready['run_uuid'],job_id=ready['job_id'],deadline_epoch=deadline_epoch,cases=cases,
-        checkpoint_identity=ready['identity'],native_pre_model_receipt_sha256=proof['receipt_sha256'],**peers)
+        checkpoint_identity=ready['identity'],native_pre_model_receipt_sha256=proof['receipt_sha256'],
+        control_budget_profile=PROFILE,**peers)
     validate_registry(value,spec,ready['identity'],run_uuid=ready['run_uuid'],job_id=ready['job_id'],peer=peers,prior_rows=prior)
     return value
 
 
 def routes(remote,base,session,ready,bound,start_worker,transport,terminal_audit,heartbeat):
+    if bound.get('control_budget_profile')!=PROFILE:
+        raise PermissionError('PV1_PREBOUND_FINITE_CONTROL_PROFILE_REQUIRED')
     journal=Journal(base/'mutation-journal',ready['run_uuid']);rows=[]
     def rpc(role,args):
         heartbeat();value=transport.call(role,args)
@@ -79,7 +83,7 @@ def routes(remote,base,session,ready,bound,start_worker,transport,terminal_audit
         journal.once('start-'+case['attempt_id'],dict(attempt_id=case['attempt_id']),
             lambda:start_worker('scripts.pi0294.pv1.core',case['attempt_id'],args))
         failure=None;rejection=None;hopper.last=None
-        try:run_episode(base/'routes'/case['episode_uuid'],case,core,hopper)
+        try:run_episode(base/'routes'/case['episode_uuid'],case,core,hopper,poll_interval=POLL_S)
         except BaseException as exc:
             failure=dict(type=type(exc).__name__,message=str(exc))
             if hopper.last and not poisoned():

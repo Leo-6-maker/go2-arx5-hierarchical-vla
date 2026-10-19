@@ -112,12 +112,14 @@ def teacher_action(query,teacher):
         dict(trajectory_eef10=teacher['trajectory_eef10'],offsets_ns=[i*50000000 for i in range(40)])))
 
 
-def run_episode(directory,case,core,hopper,*,now=time.time,sleep=time.sleep):
+def run_episode(directory,case,core,hopper,*,now=time.time,sleep=time.sleep,poll_interval=.05):
     """Injected endpoints must implement bounded actual SSH reads/writes.
 
     A dispatched command is never resent after an uncertain network outcome.
     Read-only polling is allowed; generation and command sends are one-shot.
     """
+    if type(poll_interval) not in (int,float) or poll_interval not in (.05,.25):
+        raise PermissionError('ONLY_LEGACY_OR_VERSIONED_FINITE_READ_POLL_INTERVAL')
     directory=Path(directory)
     exchange=RelayExchange(directory,run_uuid=case['run_uuid'],episode_uuid=case['episode_uuid'],
         identity=case['identity'],now=now())
@@ -132,7 +134,7 @@ def run_episode(directory,case,core,hopper,*,now=time.time,sleep=time.sleep):
             packet=None
             while packet is None and now()<end:
                 packet=core.observation(case,sequence)
-                if packet is None:sleep(.05)
+                if packet is None:sleep(poll_interval)
             if packet is None:raise TimeoutError('NO_FRESH_CORE_OBSERVATION')
             query=exchange.observe(packet,now());state['fresh_observations']+=1
             # Durable exchange state already contains the query before network dispatch.
@@ -142,7 +144,7 @@ def run_episode(directory,case,core,hopper,*,now=time.time,sleep=time.sleep):
                 stop=min(end,unseal(query)['expires'])
                 while action is None and now()<stop:
                     action=hopper.response(case,unseal(query)['query_uuid'])
-                    if action is None:sleep(.05)
+                    if action is None:sleep(poll_interval)
             if action is None:raise TimeoutError('GENERATION_RESPONSE_UNKNOWN_NO_RESAMPLE')
             command=exchange.action(action,now())
             state['status']='COMMAND_DISPATCH_INTENT_NO_REPLAY';write(path,state)
@@ -151,7 +153,7 @@ def run_episode(directory,case,core,hopper,*,now=time.time,sleep=time.sleep):
             ack=None;end=min(case['deadline_epoch'],unseal(query)['expires'])
             while ack is None and now()<end:
                 ack=core.ack(case,sequence)
-                if ack is None:sleep(.05)
+                if ack is None:sleep(poll_interval)
             if ack is None:raise TimeoutError('PHYSICAL_PROGRESS_UNKNOWN_DO_NOT_RESEND')
             exchange.acknowledge(ack,now());state['acknowledgements']+=1
             write(path,state)
