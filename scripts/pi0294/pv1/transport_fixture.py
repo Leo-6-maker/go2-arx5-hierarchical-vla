@@ -15,8 +15,10 @@ from scripts.pi0294.e1.control_read import read
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.relay_endpoint import inside
 from scripts.pi0294.rpc_metrics import SessionMetrics
+from scripts.pi0294.relay_io import read_available
 from scripts.pi0294.mp1.transport_fixture import (
-    Endpoint as OriginalEndpoint,Pump as OriginalPump,immutable,check_observation)
+    Endpoint as OriginalEndpoint,Pump as OriginalPump,immutable,check_observation,
+    CYCLES,receive_query,response_for)
 from .decision import AUTHORITY
 from .runtime import validate_runtime
 
@@ -136,6 +138,14 @@ class Endpoint(OriginalEndpoint):
             if sha(path)!=self.plan['reference_proof_sha256']:
                 raise PermissionError('PV1_REFERENCE_PROOF_MUST_EQUAL_PRESEALED_CORE_RAW_IDENTITY')
 
+    def invoke(self,args):
+        if self.role=='hopper' and args.get('operation')=='response':
+            self.guard(args)
+            lock=OwnerLock(self.folder/('ENDPOINT-'+self.role+'.lock'))
+            try:return read_available(self.path('outbox',args['sequence']))
+            finally:lock.close()
+        return super().invoke(args)
+
 
 class Pump(OriginalPump):
     def __init__(self,root,label,allocation,guard):
@@ -158,6 +168,18 @@ class Pump(OriginalPump):
         for name in ('inbox','outbox','compute-intents','completed'):inside(self.folder,name).mkdir(exist_ok=True,mode=0o700)
         write(self.folder/'COMPUTE_STARTED.json',dict(job_id=allocation['job_id'],hostname=allocation['hostname'],
             pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],models_loaded=0,new_queries=0,new_physics=0))
+
+    def poll(self):
+        if self.next>=CYCLES:return
+        path=inside(self.folder,'inbox/'+str(self.next).zfill(3)+'.json')
+        query=read_available(path)
+        if query is None:return
+        self.guard();q=receive_query(query,self.registry,self.plan)
+        if q['sequence']!=self.next:raise ValueError('CONTIGUOUS_EIGHTY_NATIVE_FIXTURE_QUERIES')
+        intent=inside(self.folder,'compute-intents/'+path.name);response=inside(self.folder,'outbox/'+path.name)
+        if intent.exists() or response.exists():raise PermissionError('UNKNOWN_FIXTURE_COMPUTE_EFFECT_NO_REPLAY')
+        write(intent,dict(request_sha256=query['sha256'],sequence=self.next,started_epoch=time.time()))
+        write(response,response_for(query,self.registry,self.plan,time.time()));self.next+=1
 
 
 def serve(root,role,label):
