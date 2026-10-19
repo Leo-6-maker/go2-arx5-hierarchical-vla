@@ -1,6 +1,13 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
-**PV1 actual update: complete native qualification and bank consumption PASS; B0 DEV started.**
+**PV1 actual update: first new-DEV T2 success and T1 valid failure; B0 still incomplete.**
+[First two actual outcomes and independent two-site causal audits](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_FIRST_TWO_B0_ACTUAL_RESULTS_AND_CAUSAL_AUDITS.json):
+same CORR2048/F0-000/bank294101, T2 completes32s/641pairs/80draws-ACKs/41hold;
+T1 stops28.8s at original H40 linear-speed gate2.102>2.0m/s,73draws/72ACKs,
+zero executed rejected prefix,0S1preflight/nativefault. Both raw and real
+camera/action/ACK/noise/array chains PASS; actual initial state and both cameras
+equal across tasks. Only2/48 reported,not aggregate reliability or new training.
+Coverage bank unchanged; actual two-row admission correctly rejects incomplete48.
 [Current qualification, consumed-bank identity and first live DEV snapshot](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_NATIVE_QUALIFICATION_BANK_CONSUMPTION_AND_B0_STARTED.json).
 675394/policy-b0-03 actually passed its own600s/80cycles/all8faults and loaded
 CORR2048 after full fixed-revision139-parent bank hashes/official collator checks.
