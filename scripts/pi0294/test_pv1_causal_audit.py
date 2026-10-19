@@ -16,6 +16,20 @@ from scripts.pi0294.test_mp1_transport_fixture import put as write
 
 
 class CausalAudit(unittest.TestCase):
+    def test_cross_platform_metric_ulps_do_not_change_gate_semantics_or_thresholds(self):
+        original=dict(decision='REJECT',issues=[dict(code='LINEAR_SPEED_REJECT',severity='REJECT',observed=2.102065784832548,threshold=2.)],
+            metrics=dict(chunk_id='fixed',angular_speed_radps=dict(median=.09643620197621688),
+                initial_rotation_discontinuity_rad=.0045055063981939755),provenance=dict(corrective_action='NONE'))
+        recomputed=deepcopy(original);recomputed['metrics']['angular_speed_radps']['median']=.0964362019762169
+        recomputed['metrics']['initial_rotation_discontinuity_rad']=.004505506398193975
+        self.assertTrue(audit.same_gate(original,recomputed))
+        for changed in (dict(recomputed,decision='PASS'),dict(recomputed,provenance={}),
+                dict(recomputed,metrics=dict(chunk_id='OTHER')),
+                dict(recomputed,issues=[dict(original['issues'][0],threshold=2.0000000000001)]),
+                dict(recomputed,issues=[dict(original['issues'][0],observed=2.1)]),
+                dict(recomputed,metrics=dict(chunk_id='fixed',bad=float('nan')))):
+            with self.subTest(changed=changed):self.assertFalse(audit.same_gate(original,changed))
+
     def setUp(self):
         temp=tempfile.TemporaryDirectory();self.addCleanup(temp.cleanup)
         self.base=Path(temp.name);self.core=self.base/'core';self.hopper=self.base/'other-site'/'core'

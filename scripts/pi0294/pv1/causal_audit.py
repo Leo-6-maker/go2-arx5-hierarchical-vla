@@ -1,5 +1,6 @@
 """Read-only per-condition joins of saved cameras, draws, commands and ACKs."""
 import hashlib
+import math
 from pathlib import Path
 import re
 
@@ -9,6 +10,26 @@ from scripts.pi0292.relay_protocol import digest,unseal
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.mp1.effect_closure import rejected_prefix
 from .audit import terminal_attempt
+
+
+def same_gate(original,recomputed):
+    """Allow cross-platform ULPs in diagnostic metrics, not gate semantics."""
+    def numeric(a,b):
+        if isinstance(a,dict) and isinstance(b,dict):
+            return a.keys()==b.keys() and all(numeric(a[k],b[k]) for k in a)
+        if isinstance(a,list) and isinstance(b,list):
+            return len(a)==len(b) and all(numeric(x,y) for x,y in zip(a,b))
+        if type(a) in (int,float) and type(b) in (int,float):
+            return math.isfinite(a) and math.isfinite(b) and math.isclose(a,b,rel_tol=1e-12,abs_tol=1e-12)
+        return type(a) is type(b) and a==b
+    if (original.keys()!=recomputed.keys() or original['decision']!=recomputed['decision']
+            or original['provenance']!=recomputed['provenance']
+            or len(original['issues'])!=len(recomputed['issues'])):return False
+    for a,b in zip(original['issues'],recomputed['issues']):
+        if ({k:v for k,v in a.items() if k!='observed'}!={k:v for k,v in b.items() if k!='observed'}
+                or ('observed' in a)!=('observed' in b)
+                or 'observed' in a and not numeric(a['observed'],b['observed'])):return False
+    return numeric(original['metrics'],recomputed['metrics'])
 
 
 def _names(folder,count):
@@ -149,7 +170,7 @@ def hopper(root,core_proof):
             raise PermissionError('PV1_CAUSAL_AUDIT_FIXED_NOISE_SEED_AND_ORIGINAL_PRECISION')
         if entry['classification']=='ORIGINAL_REFERENCE_GATE_UNINSTALLED_ZERO_LIVE':
             gate=gate_action(action['payload']['trajectory_eef10'],entry['state_eef10'],query['tick']*.002,query['reference_uuid'])
-            if gate!=entry['original_reference_gate'] or gate['decision']!='REJECT':
+            if not same_gate(entry['original_reference_gate'],gate) or gate['decision']!='REJECT':
                 raise PermissionError('PV1_CAUSAL_AUDIT_ORIGINAL_REFERENCE_VETO_RECOMPUTED_FROM_SAVED_ACTION')
         records.append(dict(sequence=entry['sequence'],query_uuid=key,seed=seed,noise_sha256=noise['sha256'],
             action_sha256=action_packet['sha256'],arrays_sha256=receipt['arrays_sha256'],classification=entry['classification']))
