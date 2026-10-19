@@ -70,6 +70,11 @@ def ready_case(binding,root):
     audit=source/'evidence/audits'/binding['id']/'CAPTURE_AUDIT.json'
     if not audit.exists():
         lease=read(b['lease']);ledger=read(source/'RESOURCE_LEDGER.json')
+        folder=source/'episodes'/binding['id']
+        if ledger['status']=='FAILED_PRESERVED' and (folder/'AUDIT.json').exists():
+            from .data_rejection import saved_case
+            if ledger['unknown_effects']:raise PermissionError('PV1_UNKNOWN_CAPTURE_EFFECT_NOT_A_TYPED_DATA_REJECTION')
+            return saved_case(binding,source,unpublished=True)
         if lease['status']=='CLOSED' or ledger['status'] in ('FAILED_PRESERVED','TERMINAL_CAPTURE_BATCH'):
             raise PermissionError('PV1_TERMINAL_CAPTURE_WITHOUT_EXPECTED_RAW_AUDIT_NO_BLIND_REPLAY')
         return None
@@ -84,6 +89,12 @@ def ready_case(binding,root):
         return dict(id=binding['id'],source_episode=str(folder),card_sha256=binding['card_sha256'],
             raw_manifest_sha256=receipt['raw_manifest_sha256'],audit_file=str(folder/'AUDIT.json'),
             audit_sha256=receipt['audit_sha256'],capture_publication_sha256=sha(audit))
+    if receipt.get('data_readside_rejection'):
+        from .data_rejection import saved_case
+        value=saved_case(binding,source)
+        if value['audit_sha256']!=receipt['audit_sha256']:
+            raise PermissionError('PV1_PUBLISHED_DATA_REJECTION_AUDIT_CHANGED')
+        return value
     if receipt['audit_status'] not in ('PASS_INDEPENDENT_RAW_AUDIT','PASS_INDEPENDENT_PARTIAL_NEGATIVE_WITNESS'):
         raise PermissionError('PV1_STREAM_NEGATIVE_NEEDS_ORIGINAL_AUDIT_WITNESS')
     return dict(id=binding['id'],status='VALID_NEGATIVE_NOT_TRAINING',task=receipt['task'],
@@ -158,6 +169,13 @@ def run(root):
         ledger['status']='RUNNING_WAITING_ONLY_PRESEALED_CAPTURE_ORDER';write(root/'RESOURCE_LEDGER.json',ledger)
         for index,binding in enumerate(plan['cards']):
             guard()
+            if 'retired_unattempted_alternate_source' in binding:
+                from .data_rejection import retired_alternate
+                row=retired_alternate(binding,root,active_route)
+                records.append(row);put(root/'evidence/rows'/(binding['id']+'.json'),row)
+                ledger.update(completed_prefix=index+1,admitted=len(positive),waiting_cell=None,worker_CPU_s=time.process_time()-started)
+                write(root/'RESOURCE_LEDGER.json',ledger)
+                continue
             if 'reuse_export_root' in binding:
                 source=Path(binding['reuse_export_root']);receipt=source/'EXPORT_RECEIPT.json'
                 if (not source.resolve().is_relative_to(root.parent.resolve())

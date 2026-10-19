@@ -243,7 +243,9 @@ def run_cell(meter,card):
             audited=audit.audit_episode(root,card['id'],meter.inputs['asset_root'])
             audit_file=folder/'AUDIT.json'
             if audited['status']!='PASS_INDEPENDENT_RAW_AUDIT':
-                raise ValueError('PV1_INDEPENDENT_RAW_AUDIT_FAILED_PRESERVED')
+                from .data_rejection import contact_force_only
+                if not contact_force_only(result,audited,s1 or {}):
+                    raise ValueError('PV1_INDEPENDENT_RAW_AUDIT_FAILED_PRESERVED')
         else:
             from .negative_audit import audit as negative_audit
             audited=negative_audit(root,card,result,s1)
@@ -258,7 +260,9 @@ def run_cell(meter,card):
         receipt=dict(id=card['id'],scene_group=card['group_id'],task=card['task'],split='TRAIN',
             nominal_clearance_m=card['nominal_clearance_m'],status=result['status'],
             task_success=bool(audited['admitted']),audit_status=audited['status'],
-            raw_manifest_sha256=audited['manifest_sha256'],audit_sha256=sha(audit_file),
+            raw_task_score_success=bool(result.get('score',{}).get('persistent_success')),
+            data_readside_rejection=audited['status']=='AUDIT_FAIL_PRESERVED',
+            raw_manifest_sha256=sha(folder/'FILE_MANIFEST.json'),audit_sha256=sha(audit_file),
             live_ticks=result['physics_steps'],camera_pairs=result['rgb_pairs'],video=movie,
             S1_rejections=0 if not s1 else s1['pre_execution_rejections'],
             native_faults=0 if not s1 else s1['live_native_failures'],
