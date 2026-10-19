@@ -1,4 +1,4 @@
-"""PV1 baseline, primary blocks and terminal DEV through mature primitives."""
+"""PV1 baseline, primary/local-replica blocks and terminal DEV primitives."""
 import argparse
 import json
 import os
@@ -25,25 +25,85 @@ from .native_transport_qualification import run as qualify_transport
 from .neural_ledger import Ledger
 from .pre_model_qualification import require_current
 from .probes import run as probes
-from .recipe import PARENT
-from .training import run as train
+from .recipe import PARENT,validate_primary,run_key
+from .training import run as train,checked_resume
 from .visibility import refresh
+from .baseline import admission as dev_admission
+
+
+TRAIN_STAGES=('P2_PRIMARY','P4_REPLICA')
+STAGES=('B0_DEV','P2_PRIMARY','P4_DEV','P4_REPLICA')
+
+
+def replica_selection(root,input_,stage):
+    """Recompute the P2 winner from sealed actual DEV evidence, not summaries."""
+    root=Path(root);selection=input_('plans/PV1_P4_REPLICA_SELECTION.json')
+    if selection.get('local_recipe_stage')!='P2':
+        raise PermissionError('PV1_P3_REPLICATION_2048_NOT_IMPLEMENTED')
+    input_(POPULATION_FILE)
+    if (sha(root/POPULATION_FILE)!=POPULATION
+            or selection.get('schema')!='PI0294_PV1_P2_REPLICA_SELECTION_V1'
+            or selection.get('authority_release')!=AUTHORITY
+            or selection.get('population_plan_sha256')!=POPULATION
+            or selection.get('route')!=stage['route']
+            or selection.get('new_bank_manifest_sha256')!=stage['new_bank_manifest_sha256']
+            or selection.get('LOCKBOX_opened') is not False
+            or selection.get('replica_seed')!=20261020
+            or selection.get('replica_steps')!=4096
+            or set(selection.get('candidates',{}))!={'B0_CORR',*ARMS[stage['route']]}):
+        raise PermissionError('PV1_EXACT_P2_PAIR_AND_B0_ONLY_UNOPENED_LOCKBOX_SELECTION')
+    summaries={}
+    for candidate,declared in selection['candidates'].items():
+        checkpoint=declared.get('checkpoint_manifest_sha256','')
+        if (not re.fullmatch('[0-9a-f]{64}',checkpoint)
+                or declared.get('global_step')!=(2048 if candidate=='B0_CORR' else 4096)
+                or candidate=='B0_CORR' and checkpoint!=PARENT):
+            raise PermissionError('PV1_SELECTION_EXACT_TERMINAL_CHECKPOINT_IDENTITY')
+        evidence=[]
+        for item in declared['evidence']:
+            actual={}
+            for kind,name in item.items():
+                input_(name)
+                actual[kind]=(root/name).read_bytes()
+            evidence.append(actual)
+        verified=dev_admission((root/POPULATION_FILE).read_bytes(),route=stage['route'],
+            new_bank_manifest_sha256=stage['new_bank_manifest_sha256'],evidence=evidence,
+            candidate=candidate,checkpoint_manifest_sha256=checkpoint)
+        valid=[json.loads(item['adjudication']) for item in evidence
+            if json.loads(item['adjudication'])['status'] in ('SUCCESS','VALID_TASK_FAIL')]
+        summaries[candidate]=dict(successes=verified['successes'],
+            S1_rejections=sum(r['S1_rejections'] for r in valid))
+    baseline=summaries['B0_CORR']['successes']
+    # P2 arms have equal intervention complexity; their predeclared IDs break ties.
+    ranked=sorted(ARMS[stage['route']],key=lambda c:(-min(summaries[c]['successes'].values()),
+        -sum(summaries[c]['successes'].values()),summaries[c]['S1_rejections'],c))
+    winner=ranked[0];scores=summaries[winner]['successes']
+    if (selection.get('winner')!=winner or min(scores.values())<18
+            or any(scores[t]<baseline[t]-1 for t in scores)
+            or min(scores.values())<=min(baseline.values())):
+        raise PermissionError('PV1_REPLICA_ONLY_ACTUAL_DEV_QUALIFIED_PREDECLARED_WINNER')
+    return winner
 
 
 def stage_work(root,request):
-    if request['stage'] not in ('B0_DEV','P2_PRIMARY','P4_DEV'):
+    if request['stage'] not in STAGES:
         raise PermissionError('PV1_ONLY_IMPLEMENTED_PREDECLARED_PHASES')
     root=Path(root);m=read(root/'RUN_MANIFEST.json');sealed=m['execution']['sealed_inputs']
     def input_(name):
+        relative=Path(name)
+        if relative.is_absolute() or '..' in relative.parts:
+            raise PermissionError('PV1_ONLY_OWN_SEALED_PHASE_INPUT_PATHS')
         p=root/name
-        if p.is_symlink() or p.stat().st_mode&0o222 or sealed.get(name)!=sha(p):
+        if (p.is_symlink() or not p.resolve().is_relative_to(root.resolve())
+                or p.stat().st_mode&0o222 or sealed.get(name)!=sha(p)):
             raise PermissionError('PV1_PRESEALED_NATIVE_PHASE_INPUT:'+name)
         return read(p)
     stage=input_('PV1_STAGE_BINDING.json');evaluation=input_('plans/SOURCE_EVALUATION_PLAN.json')
     prior=input_('plans/PRIOR_EVALUATION_OUTCOMES.json')
     if request['stage']=='P4_DEV':
         checkpoint=input_('plans/EVALUATION_CHECKPOINT.private.json')
-        if (evaluation['candidate'] not in ARMS[stage['route']]
+        allowed=ARMS[stage['route']]+tuple('REPLICA_'+a for a in ARMS[stage['route']])
+        if (evaluation['candidate'] not in allowed
                 or request['evaluation_candidate']!=evaluation['candidate'] or request.get('training_block')
                 or checkpoint['candidate']!=evaluation['candidate'] or checkpoint['global_step']!=4096):
             raise PermissionError('PV1_ONLY_FROZEN_TERMINAL_PRIMARY_CHECKPOINT_DEVELOPMENT')
@@ -51,6 +111,19 @@ def stage_work(root,request):
         if (p.stat().st_uid!=os.getuid() or sha(p/'CHECKPOINT_COMPLETE.json')!=checkpoint['checkpoint_manifest_sha256']
                 or complete['global_step']!=4096 or complete['full_resume'] is not True):
             raise PermissionError('PV1_ACTUAL_COMPLETE_NATIVE_4096_CHECKPOINT_REQUIRED')
+        if evaluation['candidate'].startswith('REPLICA_'):
+            arm=evaluation['candidate'].removeprefix('REPLICA_')
+            if replica_selection(root,input_,stage)!=arm:
+                raise PermissionError('PV1_REPLICA_DEV_ONLY_ACTUAL_SELECTED_LOCAL_RECIPE')
+            saved=read(p/'SAMPLER_STATE.json');recipe=input_('plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][evaluation['candidate']]
+            validate_primary(recipe,input_('plans/FROZEN_SOURCE_PAIR_RECIPE.json'))
+            value=read(Ledger(root).path)
+            if (run_key(recipe)!=evaluation['candidate'] or recipe['replication_of_local_recipe'] is not True
+                    or recipe['seed']!=20261020 or saved.get('recipe')!=recipe
+                    or complete.get('files',{}).get('SAMPLER_STATE.json')!=sha(p/'SAMPLER_STATE.json')
+                    or value['pending_updates'] or value['unknown_effects']
+                    or value.get('training_runs',{}).get(evaluation['candidate'],{}).get('last_native_step')!=4096):
+                raise PermissionError('PV1_REPLICA_DEV_EXACT_TRAINED_SECOND_SEED_AND_CHARGED_4096')
         count=sum(len(remaining_panel(prior,session_spec(root,label))) for label in evaluation['panels'])
         if not count:raise PermissionError('PV1_NO_REMAINING_DEV_CONDITIONS_NO_NEW_MODEL_LOAD')
         input_('plans/INITIAL_CORR_PARAMETER_INVENTORY.json')
@@ -63,9 +136,18 @@ def stage_work(root,request):
         if not count:raise PermissionError('PV1_NO_REMAINING_BASELINE_CONDITIONS_NO_NEW_MODEL_LOAD')
         return
     block=input_('plans/PRIMARY_TRAIN_BLOCK.json')
+    replica=request['stage']=='P4_REPLICA'
     if (block!=request['training_block'] or block['arm'] not in ARMS[stage['route']]
-            or block['replica'] is not False or block['stop_after_step'] not in (1024,4096)):
+            or block['replica'] is not replica or block['stop_after_step'] not in (1024,4096)):
         raise PermissionError('PV1_EXACT_PRIMARY_ARM_AND_STOPS')
+    key=('REPLICA_' if replica else '')+block['arm']
+    if replica:
+        if replica_selection(root,input_,stage)!=block['arm']:
+            raise PermissionError('PV1_REPLICA_ARM_MUST_MATCH_ACTUAL_DEV_WINNER')
+        recipe=input_('plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][key]
+        validate_primary(recipe,input_('plans/FROZEN_SOURCE_PAIR_RECIPE.json'))
+        if run_key(recipe)!=key or recipe['seed']!=20261020:
+            raise PermissionError('PV1_REPLICA_SEPARATE_IDENTITY_AND_FIXED_SECOND_SEED')
     baseline=input_('plans/PV1_B0_DEV_ADMISSION.json');population=input_(POPULATION_FILE)
     if sealed[POPULATION_FILE]!=POPULATION:raise PermissionError('PV1_ACTUAL_PREFROZEN_SCENE_POPULATION_SHA')
     expected=development(population['groups'],route=stage['route'],candidate='B0_CORR',
@@ -85,18 +167,32 @@ def stage_work(root,request):
         raise PermissionError('PV1_COMPLETE_REAL_B0_BEFORE_NEW_TRAINING_NO_SUCCESS_RATE_GATE')
     input_('plans/INITIAL_CORR_PARAMETER_INVENTORY.json');input_('plans/PV1_FIXED_TRAIN_PROBES.json')
     relative=block.get('resume_checkpoint_relative')
+    probe_only=block.get('probe_only',False)
+    if type(probe_only) is not bool or probe_only and (not relative or block['stop_after_step']!=1024):
+        raise PermissionError('PV1_PROBE_ONLY_REQUIRES_EXACT_COMPLETE_1024_NO_UPDATES')
     if not relative:
         if block['stop_after_step']!=1024:raise PermissionError('PV1_1024_FIXED_PROBES_BEFORE_LATER_PRIMARY_UPDATES')
     else:
         p=Path(relative)
-        if p.is_absolute() or '..' in p.parts or p.parent!=Path('training')/block['arm']:
+        if (p.is_absolute() or '..' in p.parts or p.parent!=Path('training')/key
+                or (root/p).is_symlink() or not (root/p).resolve().is_relative_to(root.resolve())):
             raise PermissionError('PV1_ONLY_OWN_NATIVE_PRIMARY_FULL_RESUME')
         complete=read(root/p/'CHECKPOINT_COMPLETE.json')
         step=complete['global_step']
         if (complete['full_resume'] is not True or not 0<step<4096 or p.name!='checkpoint-'+str(step)
-                or block['stop_after_step']!=(1024 if step<1024 else 4096)):
+                or block['stop_after_step']!=(1024 if step<1024 or probe_only else 4096)):
             raise PermissionError('PV1_EXACT_COMPLETE_PARTIAL_PHASE_CONTINUATION')
-        if step>=1024:
+        if probe_only:
+            value=read(Ledger(root).path)
+            if (step!=1024 or value['pending_updates'] or value['unknown_effects']
+                    or value.get('training_runs',{}).get(key,{}).get('last_native_step')!=1024):
+                raise PermissionError('PV1_PROBE_ONLY_EXACT_CHARGED_1024_NO_UNKNOWN_OPTIMIZER_EFFECTS')
+            completed=root/'evidence'/(key+'-1024')/'TRAIN_PROBES/RESULT.json'
+            if ((completed.exists() and read(completed).get('complete') is True)
+                    or 'plans/COMPLETED_1024_TRAIN_PROBES.json' in sealed
+                    and input_('plans/COMPLETED_1024_TRAIN_PROBES.json').get('complete') is True):
+                raise PermissionError('PV1_NO_REMAINING_1024_PROBES_NO_NEW_MODEL_LOAD')
+        elif step>=1024:
             result=input_('plans/COMPLETED_1024_TRAIN_PROBES.json')
             if (result['status']!='ACTUAL_FIXED_TRAIN_PROBES_NOT_TASK_SUCCESS' or result['complete'] is not True
                     or len(result['records'])!=12 or result['probe_plan_sha256']!=sealed['plans/PV1_FIXED_TRAIN_PROBES.json']
@@ -141,7 +237,7 @@ def record_candidate(ledger,candidate,identity):
 
 def run(root,request_path):
     root,request_path=Path(root),Path(request_path);r=read(request_path)
-    if r.get('stage') not in ('B0_DEV','P2_PRIMARY','P4_DEV'):
+    if r.get('stage') not in STAGES:
         raise PermissionError('PV1_THIS_DISPATCHER_ONLY_B0_PRIMARY_AND_TERMINAL_DEV_PHASES')
     allocation=admit(root,request_path);ledger=Ledger(root)
     lock=OwnerLock(root/'NEURAL_OWNER.lock');started=time.process_time();children=resource.getrusage(resource.RUSAGE_CHILDREN)
@@ -154,7 +250,7 @@ def run(root,request_path):
         ledger.guard()
         if time.time()>=allocation['allocation_end_epoch']-2700:
             raise TimeoutError('PV1_ORIGINAL_NATIVE_45_MIN_CLOSEOUT_RESERVE')
-        if r['stage']=='P2_PRIMARY':
+        if r['stage'] in TRAIN_STAGES:
             a=read(root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
             if time.time()>=a['stop_new_training_epoch']:raise TimeoutError('PV1_ORIGINAL_TRAINING_CUTOFF')
         try:read_live_owner(root,root.name)
@@ -235,25 +331,38 @@ def run(root,request_path):
                 records.append(dict(panel=label,status='NATIVE_PANEL_TERMINAL_NOT_TASK_SUCCESS'))
             status='PV1_DEV_NATIVE_PANELS_TERMINAL_ACTUAL_OUTCOMES_AUDITED_SEPARATELY'
         else:
-            block=r['training_block'];phase='PRIMARY_TRAIN_INPUT'
-            if block!=read(root/'plans/PRIMARY_TRAIN_BLOCK.json') or block['replica'] is not False:
+            block=r['training_block'];replica=r['stage']=='P4_REPLICA'
+            key=('REPLICA_' if replica else '')+block['arm'];phase=key+'-TRAIN-INPUT'
+            if block!=read(root/'plans/PRIMARY_TRAIN_BLOCK.json') or block['replica'] is not replica:
                 raise PermissionError('PV1_EXACT_PREFROZEN_PRIMARY_TRAINING_BLOCK')
             relative=block.get('resume_checkpoint_relative');checkpoint=root/relative if relative else parent
             if relative and (Path(relative).is_absolute() or '..' in Path(relative).parts):
                 raise PermissionError('PV1_ONLY_OWN_EXACT_NATIVE_PRIMARY_RESUME')
-            identity=load(checkpoint,block['arm']+'-TRAIN-INPUT',trainable=True)
-            phase=block['arm']+'-TRAIN-TO'+str(block['stop_after_step'])
-            result=train(root,instance,allocation,guard,ledger,arm=block['arm'],request_id=r['request_id'],
-                resume_checkpoint=checkpoint if relative else None,stop_after_step=block['stop_after_step'])
-            records.append({k:result[k] for k in ('status','global_step','actual_updates_this_attempt','actual_consumed_cursor')})
-            step=result['global_step'];unload()
-            if step==1024:
-                phase=block['arm']+'-1024-FIXED-TRAIN-PROBES'
-                checkpoint=root/'training'/block['arm']/'checkpoint-1024'
-                load(checkpoint,block['arm']+'-1024',trainable=False)
+            probe_only=block.get('probe_only',False)
+            identity=load(checkpoint,key+('-1024' if probe_only else '-TRAIN-INPUT'),trainable=not probe_only)
+            phase=key+'-TRAIN-TO'+str(block['stop_after_step'])
+            if probe_only:
                 dataset=train_dataset(root);dataset.initialize()
-                records.append(probes(root,block['arm']+'-1024',instance,dataset,ledger,guard))
-            status='PV1_PRIMARY_4096_NATIVE_CHECKPOINT_TERMINAL_DEV_PENDING' if step==4096 else 'PV1_PRIMARY_EXACT_PARTIAL_STATE_PRESERVED'
+                recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][key]
+                validate_primary(recipe,read(root/'plans/FROZEN_SOURCE_PAIR_RECIPE.json'))
+                if run_key(recipe)!=key or checked_resume(root,key,checkpoint,recipe,dataset)!=1024:
+                    raise PermissionError('PV1_PROBE_ONLY_EXACT_FULL_RECIPE_OPTIMIZER_RNG_SAMPLER_CHECKPOINT')
+                phase=key+'-1024-FIXED-TRAIN-PROBES'
+                records.append(probes(root,key+'-1024',instance,dataset,ledger,guard))
+                status='PV1_EXACT_1024_PROBES_RECOVERED_ZERO_OPTIMIZER_UPDATES'
+            else:
+                result=train(root,instance,allocation,guard,ledger,arm=block['arm'],request_id=r['request_id'],
+                    resume_checkpoint=checkpoint if relative else None,stop_after_step=block['stop_after_step'],replica=replica)
+                records.append({k:result[k] for k in ('status','global_step','actual_updates_this_attempt','actual_consumed_cursor')})
+                step=result['global_step'];unload()
+                if step==1024:
+                    phase=key+'-1024-FIXED-TRAIN-PROBES'
+                    checkpoint=root/'training'/key/'checkpoint-1024'
+                    load(checkpoint,key+'-1024',trainable=False)
+                    dataset=train_dataset(root);dataset.initialize()
+                    records.append(probes(root,key+'-1024',instance,dataset,ledger,guard))
+                prefix='PV1_REPLICA' if replica else 'PV1_PRIMARY'
+                status=prefix+'_4096_NATIVE_CHECKPOINT_TERMINAL_DEV_PENDING' if step==4096 else prefix+'_EXACT_PARTIAL_STATE_PRESERVED'
         return dict(status=status,records=records)
     except BaseException as exc:error=type(exc).__name__+': '+str(exc);raise
     finally:

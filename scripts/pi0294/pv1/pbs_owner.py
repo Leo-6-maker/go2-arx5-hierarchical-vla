@@ -81,8 +81,11 @@ def budget_request(value,request):
     if (type(peak) is not int or not 0<=peak<=250*1024**3 or type(current) is not int or not 0<=current<=peak
             or current+reserved+extra+reserve>250*1024**3):
         raise PermissionError('PV1_ALL_QUEUED_OUTPUT_UPPERS_AND_FINAL_STORAGE_RESERVE')
-    if request['stage']=='P2_PRIMARY':
-        block=request['training_block'];key=block['arm']
+    if request['stage'] in ('P2_PRIMARY','P4_REPLICA'):
+        block=request['training_block'];replica=request['stage']=='P4_REPLICA'
+        if block.get('replica',False) is not replica:
+            raise PermissionError('PV1_EXACT_NATIVE_PRIMARY_OR_REPLICA_RUN_IDENTITY')
+        key=('REPLICA_' if replica else '')+block['arm']
         if any(s.get('training_run_key')==key for s in active_items(value)):
             raise PermissionError('PV1_NO_DUPLICATE_QUEUED_OR_RUNNING_TRAINING_BLOCK')
         progress=value.get('training_runs',{}).get(key,{}).get('last_native_step',0)
@@ -96,7 +99,7 @@ def budget_request(value,request):
 def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_bytes=80*1024**3,memory_gb=128):
     if os.environ.get('PBS_JOBID'):raise PermissionError('PV1_QSUB_OWNER_ON_LOGIN_ONLY')
     root=Path(root);m,bindings,_,bound,a=validate(root);ledger=Ledger(root)
-    if stage not in ('B0_DEV','P2_PRIMARY','P4_DEV') or memory_gb not in (128,225):
+    if stage not in ('B0_DEV','P2_PRIMARY','P4_DEV','P4_REPLICA') or memory_gb not in (128,225):
         raise PermissionError('PV1_ONLY_IMPLEMENTED_PHASES_AND_MATURE_MEMORY_PROFILES')
     if not a['T0_epoch']<=time.time()<a['stop_new_jobs_epoch']:
         raise PermissionError('PV1_ORIGINAL_NEW_SUBMISSION_CUTOFF')
@@ -127,7 +130,7 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
         queue_limit_relative=queue_name,queue_limit_sha256=sha(root/queue_name),
         sealed_inputs={n:sha(root/n) for n in sorted(names)},python=bindings['python'],
         dependency_afterok=dependency_for(value))
-    if stage=='P2_PRIMARY':
+    if stage in ('P2_PRIMARY','P4_REPLICA'):
         block=read(root/'plans/PRIMARY_TRAIN_BLOCK.json');r['training_block']=block
         p=block.get('resume_checkpoint_relative')
         r['expected_native_start_step']=read(root/p/'CHECKPOINT_COMPLETE.json')['global_step'] if p else 0
@@ -171,7 +174,8 @@ def submit(root,number):
                 project=r['project'],job_name=r['job_name'],stage=r['stage'],request_sha256=sha(directory/'REQUEST.json'),
                 reserved_H200_s=r['walltime_s'],accounting_pad_s=PAD,additional_output_upper_bytes=r['additional_output_upper_bytes'],
                 dependency_afterok=r['dependency_afterok'],started_epoch=time.time())
-            if r['stage']=='P2_PRIMARY':item['training_run_key']=r['training_block']['arm']
+            if r['stage'] in ('P2_PRIMARY','P4_REPLICA'):
+                item['training_run_key']=('REPLICA_' if r['stage']=='P4_REPLICA' else '')+r['training_block']['arm']
             else:item['evaluation_candidate']=r['evaluation_candidate']
             value['PBS_submissions'].append(item);value['used']['PBS_submissions']=len(value['PBS_submissions'])
             value['reserved']['H200_s']=value['reserved'].get('H200_s',0)+r['walltime_s']+PAD

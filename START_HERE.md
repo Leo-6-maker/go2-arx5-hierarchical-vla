@@ -1,5 +1,13 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 parallel CPU preparation, not an early training launch.**
+[Probe recovery, P2 second-seed dispatch and future-work forecast](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_PARALLEL_TRAINING_READINESS_PREPARATION.json):
+821 CPU tests/742 subtests PASS;15 frozen numerical hashes unchanged.
+Five actual B0 conditions independently audited (4success/1validfailure), not48.
+Current675394 stays on e6cd88c4,0optimizer updates. Preparation has no native
+deployment claim; forecast integration and full actual B0 admission remain required.
+One publisher/native owner and one GPU; no extra budget or clock.
+
 **PV1 actual update: first new-DEV T2 success and T1 valid failure; B0 still incomplete.**
 [First two actual outcomes and independent two-site causal audits](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_FIRST_TWO_B0_ACTUAL_RESULTS_AND_CAUSAL_AUDITS.json):
 same CORR2048/F0-000/bank294101, T2 completes32s/641pairs/80draws-ACKs/41hold;

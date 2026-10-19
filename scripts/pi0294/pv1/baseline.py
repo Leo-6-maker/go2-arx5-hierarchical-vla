@@ -37,12 +37,17 @@ def _read(raw):
     return value,hashlib.sha256(raw).hexdigest()
 
 
-def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence):
+def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence,
+        candidate='B0_CORR',checkpoint_manifest_sha256=PARENT):
     """Evidence contains original adjudication/result/audit bytes for ALL attempts."""
     population,population_sha=_read(population_bytes)
     if population_sha!=POPULATION:
         raise PermissionError('PV1_BASELINE_ORIGINAL_FROZEN_POPULATION_BYTES_REQUIRED')
-    plan=development(population['groups'],route=route,candidate='B0_CORR',
+    if (not re.fullmatch('[0-9a-f]{64}',checkpoint_manifest_sha256)
+            or (candidate=='B0_CORR')!=(checkpoint_manifest_sha256==PARENT)):
+        raise PermissionError('PV1_ACTUAL_DEV_CANDIDATE_CHECKPOINT_IDENTITY_REQUIRED')
+    step=2048 if candidate=='B0_CORR' else 4096
+    plan=development(population['groups'],route=route,candidate=candidate,
         new_bank_manifest_sha256=new_bank_manifest_sha256)
     cards={c['condition_id']:c for p in plan['panels'].values() for c in p['cards']}
     rows=[];result_hashes={};audit_hashes={};attempt_hashes={}
@@ -60,8 +65,8 @@ def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence):
         identity=ready.get('identity',{});proof=ready.get('native_pre_model_qualification',{})
         if (ready.get('status')!='PV1_NATIVE_MODEL_READY' or ready.get('label')!=card['pv1_session_label']
                 or not ready.get('job_id') or not ready.get('run_uuid')
-                or identity.get('label')!='B0_CORR' or identity.get('global_step')!=2048
-                or identity.get('checkpoint_manifest_sha256')!=PARENT
+                or identity.get('label')!=candidate or identity.get('global_step')!=step
+                or identity.get('checkpoint_manifest_sha256')!=checkpoint_manifest_sha256
                 or identity.get('statistics_sha256')!=STATS
                 or identity.get('relay_identity',{}).get('source_sha')!=result['source_sha']
                 or proof.get('status')!='PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK'
@@ -69,7 +74,7 @@ def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence):
                 or proof.get('new_model_queries')!=0 or proof.get('new_physics')!=0
                 or not re.fullmatch('[0-9a-f]{64}',proof.get('receipt_sha256',''))):
             raise PermissionError('PV1_BASELINE_ACTUAL_ORIGINAL_CORR_MODEL_AND_NATIVE_QUALIFICATION')
-        if (row['model']!='B0_CORR' or row['result_sha256']!=result_sha or result['id']!=identifier
+        if (row['model']!=candidate or row['result_sha256']!=result_sha or result['id']!=identifier
                 or result['physics_steps']!=row['main_integrations'] or result['rgb_pairs']!=row['RGB_pairs']
                 or row['duration_s']!=row['main_integrations']*.002
                 or any(row[k]!=card[k] for k in ('task','split','scene_group','noise_bank','family'))
@@ -145,9 +150,9 @@ def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence):
     if set(result_hashes)!=set(cards):
         raise PermissionError('PV1_BASELINE_EACH_DEV_CONDITION_NEEDS_VALID_AUDITED_RESULT')
     successes={task:sum(r['task']==task and r['status']=='SUCCESS' for r in rows) for task in ('T1','T2')}
-    return dict(schema='PI0294_PV1_B0_ACTUAL_DEV_ADMISSION_V1',
-        status='PASS_COMPLETE_ACTUAL_B0_DEV48_EVIDENCE',authority_release=AUTHORITY,
-        population_plan_sha256=POPULATION,checkpoint_manifest_sha256=PARENT,
+    return dict(schema='PI0294_PV1_B0_ACTUAL_DEV_ADMISSION_V1' if candidate=='B0_CORR' else 'PI0294_PV1_CANDIDATE_ACTUAL_DEV_ADMISSION_V1',
+        status='PASS_COMPLETE_ACTUAL_B0_DEV48_EVIDENCE' if candidate=='B0_CORR' else 'PASS_COMPLETE_ACTUAL_CANDIDATE_DEV48_EVIDENCE',authority_release=AUTHORITY,
+        population_plan_sha256=POPULATION,checkpoint_manifest_sha256=checkpoint_manifest_sha256,
         new_bank_manifest_sha256=new_bank_manifest_sha256,
         condition_result_sha256=result_hashes,independent_audit_sha256=audit_hashes,
         all_actual_attempts=attempt_hashes,real_native_faults=0,Teacher_takeover=False,

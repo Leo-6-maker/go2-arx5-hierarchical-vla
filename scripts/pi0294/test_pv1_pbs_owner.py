@@ -31,6 +31,20 @@ def root_ledger(tmp):
 
 
 class PbsOwnerContracts(unittest.TestCase):
+    def test_replica_queues_have_separate_progress_and_no_duplicate_run_key(self):
+        v=value();v.update(new_storage_peak_bytes=0,training_runs={'B_COVERAGE':dict(last_native_step=4096)})
+        r=dict(stage='P4_REPLICA',walltime_s=7200,additional_output_upper_bytes=40*1024**3,
+            dependency_afterok=None,training_block=dict(arm='B_COVERAGE',replica=True),expected_native_start_step=0)
+        owner.budget_request(v,r)
+        v['training_runs']['REPLICA_B_COVERAGE']=dict(last_native_step=1024)
+        with self.assertRaisesRegex(PermissionError,'ACTUAL_CHARGED_PROGRESS'):owner.budget_request(v,r)
+        r['expected_native_start_step']=1024;owner.budget_request(v,r)
+        first=submitted();first['training_run_key']='REPLICA_B_COVERAGE';v['PBS_submissions']=[first]
+        v['used']['PBS_submissions']=1;v['reserved']['H200_s']=7260;r['dependency_afterok']=first['job_id']
+        with self.assertRaisesRegex(PermissionError,'DUPLICATE_QUEUED'):owner.budget_request(v,r)
+        r['training_block']['replica']=False
+        with self.assertRaisesRegex(PermissionError,'REPLICA_RUN_IDENTITY'):owner.budget_request(v,r)
+
     def test_existing_eligible_project_membership_dates_and_auth_fail_closed(self):
         p=dict(name='CFP05-CF-025',active=True,users=['fixture'],cluster=['hopper-m-02'],start_date='2000-01-01',end_date='2100-01-01')
         def query(args,**kwargs):
