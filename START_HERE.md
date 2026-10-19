@@ -1,5 +1,19 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 GPU-efficiency implementation: actual CPU findings, not a measured speedup.**
+[Execution boundaries and first100-update instrumentation](docs/operations/2026-10-19_PV1_GPU_EFFICIENCY_SAME_SEMANTICS.md) ·
+[Actual642-array attribution,537-tensor CPU equivalence and bank units](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_GPU_EFFICIENCY_ACTUAL_CPU_AND_COLD_IMPLEMENTATION.json).
+The original2.102m/s T1 veto is at H40 points24->25, not Prefix8; it stays
+REJECT. This does not establish tail-loss causation or bypass full-H40 safety.
+537 gradients match exactly across four native CPU dtypes;1074 scalar reads
+become1, not yet a CUDA speed measurement. The opt-in cold performance plan
+keeps legacy audit through100 local updates, requires3 exact actual CUDA/RNG
+checks before later batched scalar transport, and adds no updates/queries.
+Both arms require the same plan; B0 remains on its pinned1c4cdc9a capsule.
+868CPU/816subtests PASS,15 numerical hashes unchanged. Actual P2 profiling,
+CUDA equivalence, full B0_48 and native cold primary bindings remain pending.
+New statistics/loss/history/workers/features/multi-actor changes are not adopted.
+
 **PV1 B0 third allocation actual effects and resources are now closed.**
 [All ten original attempts, nine valid chains and one engineering closure](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_03_ACTUAL_CLOSED_EFFECTS_AND_RESULTS.json):
 6success/3validfailure/1engineering-incomplete; all10 raw audits PASS,

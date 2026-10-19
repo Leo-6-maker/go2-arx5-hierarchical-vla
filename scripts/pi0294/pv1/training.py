@@ -1,5 +1,6 @@
 """Versioned PV1 primary training around the mature official-loss Trainer."""
 import json
+from contextlib import nullcontext
 import os
 from pathlib import Path
 import resource
@@ -142,36 +143,49 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
         save_strategy='no',save_total_limit=None,save_only_model=False,gradient_checkpointing=False,
         report_to=[],disable_tqdm=True,ignore_data_skip=True,load_best_model_at_end=False)
     trainer=None
+    from .performance import configured,Observer,observed_trainer
+    observer=Observer(root,evidence,allocation,torch,ledger,start_step=start) if configured(root) else None
     times=[]
     began=None
+    optimizer_began=None
     class Audit(TrainerCallback):
         def on_step_begin(self,arguments,state,control,**kwargs):
             nonlocal began
             guard()
             torch.cuda.synchronize()
             began=time.monotonic()
-            with ledger.transaction() as l:
-                updated=begin_update(l,arm=arm,local_step=state.global_step,request_id=request_id,recipe=recipe)
-                l.clear();l.update(updated)
+            with observer.scope('LEDGER_BEGIN') if observer else nullcontext():
+                with ledger.transaction() as l:
+                    updated=begin_update(l,arm=arm,local_step=state.global_step,request_id=request_id,recipe=recipe)
+                    l.clear();l.update(updated)
 
         def on_pre_optimizer_step(self,arguments,state,control,model=None,**kwargs):
-            values=dict(projector=0.,diffusion=0.)
-            for name,p in model.named_parameters():
-                if p.grad is None:continue
-                if not p.requires_grad or not bool(torch.isfinite(p.grad).all()):
-                    raise ValueError('PV1_NONFINITE_OR_FROZEN_PARAMETER_GRADIENT')
-                if name.startswith('action_head.'):
-                    key='diffusion' if name.startswith('action_head.model.') else 'projector'
-                    values[key]+=float(p.grad.float().square().sum())
+            nonlocal optimizer_began
+            if observer:values=observer.gradients(model.named_parameters())
+            else:
+                values=dict(projector=0.,diffusion=0.)
+                for name,p in model.named_parameters():
+                    if p.grad is None:continue
+                    if not p.requires_grad or not bool(torch.isfinite(p.grad).all()):
+                        raise ValueError('PV1_NONFINITE_OR_FROZEN_PARAMETER_GRADIENT')
+                    if name.startswith('action_head.'):
+                        key='diffusion' if name.startswith('action_head.model.') else 'projector'
+                        values[key]+=float(p.grad.float().square().sum())
             if not all(v>0 for v in values.values()):
                 raise ValueError('PV1_ACTUAL_PROJECTOR_AND_DIT_GRADIENTS_REQUIRED')
             with (evidence/'GRADIENTS.jsonl').open('a') as f:
                 f.write(json.dumps(dict(step=state.global_step,norm_squared=values))+'\n')
+            optimizer_began=time.monotonic()
+
+        def on_optimizer_step(self,arguments,state,control,**kwargs):
+            if observer and optimizer_began is not None and observer.window.completed<100:
+                observer.phase_wall['OPTIMIZER_CALLBACK_INTERVAL']=time.monotonic()-optimizer_began
 
         def on_step_end(self,arguments,state,control,**kwargs):
-            with ledger.transaction() as l:
-                updated=commit_update(l,arm=arm,local_step_after=state.global_step,request_id=request_id)
-                l.clear();l.update(updated)
+            with observer.scope('LEDGER_COMMIT') if observer else nullcontext():
+                with ledger.transaction() as l:
+                    updated=commit_update(l,arm=arm,local_step_after=state.global_step,request_id=request_id)
+                    l.clear();l.update(updated)
             torch.cuda.synchronize()
             times.append(time.monotonic()-began)
             row=dict(step=state.global_step,cursor=trainer.consumed,native_loss=trainer.last_native_loss,
@@ -179,6 +193,7 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
             with (evidence/'OPTIMIZER_STEPS.jsonl').open('a') as f:
                 f.write(json.dumps(row)+'\n');f.flush()
             write(evidence/'PROGRESS.json',row)
+            if observer:observer.after_step(trainer,state.global_step,times[-1])
             if state.global_step in [1024,4096]:control.should_save=True
             if state.global_step==stop_after_step or time.time()>=allocation['allocation_end_epoch']-2730:
                 control.should_save=True;control.should_training_stop=True
@@ -187,9 +202,13 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
                 control.should_save=True;control.should_training_stop=True
     torch.cuda.reset_peak_memory_stats()
     started=time.monotonic()
-    trainer=make_trainer_class()(model=instance.model,args=args,train_dataset=dataset,
+    trainer_class=make_trainer_class()
+    if observer:trainer_class=observed_trainer(trainer_class,observer)
+    trainer=trainer_class(model=instance.model,args=args,train_dataset=dataset,
         data_collator=ProcessedCollator(dataset.processor),callbacks=[Audit()],evidence_dir=evidence,recipe=recipe,smoke=False)
-    try:result=trainer.train(resume_from_checkpoint=str(resume_checkpoint) if start else None)
+    try:
+        if observer:observer.start(instance.model)
+        result=trainer.train(resume_from_checkpoint=str(resume_checkpoint) if start else None)
     except BaseException as original_error:
         closing=dict(original_error=type(original_error).__name__+': '+str(original_error),extra_optimizer_updates=0)
         try:
@@ -200,6 +219,8 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
             closing.update(status='SAVE_FAILED_PRESERVED_NO_STATE_ROLLBACK',save_error_type=type(save_error).__name__)
         write(evidence/'INTERRUPTED_NATIVE_STATE.json',closing)
         raise
+    finally:
+        if observer:observer.close()
     final=parameter_inventory(instance.model)
     unchanged=all(p['sha256']==initial[n]['sha256'] for n,p in final.items() if not p['requires_grad'])
     changed=[n for n,p in final.items() if p['requires_grad'] and p['sha256']!=initial[n]['sha256']]
@@ -216,6 +237,13 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
         frozen_parameters_unchanged=unchanged,changed_trainable_parameters=changed,final_parameters=final,
         peak_GPU_bytes=torch.cuda.max_memory_allocated(),development_evaluation_executed=False,
         selected='NONE',real_robot_deployment='NONE')
+    if observer:
+        from .performance import PLAN
+        value['performance_observation']=dict(plan_sha256=sha(root/PLAN),
+            terminal_sha256=sha(evidence/'PERFORMANCE/TERMINAL.json'),
+            actual_local_committed_updates=observer.window.completed,
+            actual_CUDA_exact_gradient_qualifications=observer.window.qualifications,
+            no_extra_optimizer_updates=True)
     write(evidence/'TRAINING_RUN.json',value)
     del trainer
     return value
