@@ -74,6 +74,29 @@
     "current_job_walltime_h": 8,
     "interpretation": "At the observed maximum cost, one 8-hour allocation is not sufficient for all 39 remaining conditions. This is a conservative runway signal, not an assertion that every remaining condition will take the maximum. Valid partial results must be preserved and settled at the native wall boundary; unrun conditions are not scientific failures."
   },
+  "exact_remaining_route_readback": {
+    "status": "PASS_READ_ONLY_EXACT_REMAINDER",
+    "implementation": "scripts.pi0294.pv1.evaluation_plan.remaining_panel",
+    "prior_outcomes_sha256": "08583f088f95c3afcfd6c0cd4056162ea2aa2154e2efc8700533cd4a2e122971",
+    "prior_rows": 10,
+    "valid_prior_results_preserved": 9,
+    "confirmed_engineering_incomplete_prior": 1,
+    "panels": {
+      "B0_CORR-DEV-N294101": {
+        "remaining_attempts": 15,
+        "contains_single_diagnosed_replacement": true,
+        "replacement_attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-002-T2-N294101-REPLACEMENT-01"
+      },
+      "B0_CORR-DEV-N294102": {
+        "remaining_attempts": 24,
+        "contains_single_diagnosed_replacement": false
+      }
+    },
+    "total_remaining_attempts": 39,
+    "valid_policy_outcomes_repeated": false,
+    "valid_S1_rejections_preserved_not_replaced": true,
+    "interpretation": "The exact frozen implementation, executed read-only against the current sealed Hopper child, produces 39 attempts. It skips all nine valid prior outcomes and emits only the one evidence-qualified replacement for the diagnosed engineering interruption."
+  },
   "training_actual_update_cost": {
     "samples": [
       {
