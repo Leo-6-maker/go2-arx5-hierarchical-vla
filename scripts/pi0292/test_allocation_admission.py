@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 from types import SimpleNamespace
 import unittest
-from scripts.pi0292.allocation_admission import ENGINEERING_AUTHORITY, GIB, PARALLEL_AUTHORITY, PROJECT, RELEASE, SOURCE, allocation_project_receipt, current_project, owned_jobs, sha, validate, validate_engineering_revision
+from scripts.pi0292.allocation_admission import ENGINEERING_AUTHORITY, GIB, PARALLEL_AUTHORITY, PROJECT, RELEASE, SOURCE, allocation_project_receipt, current_project, owned_jobs, personal_quota, sha, validate, validate_engineering_revision
 
 
 def engineering_revision():
@@ -73,6 +73,17 @@ class TestAllocationAdmission(unittest.TestCase):
     def test_unknown_scheduler_does_not_mean_empty(self):
         def query(*args,**kwargs):return SimpleNamespace(returncode=1,stdout='',stderr='offline')
         with self.assertRaises(PermissionError):owned_jobs('owner',query)
+
+    def test_personal_quota_retries_report_rewrite_but_keeps_exact_row_gate(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'quota.txt';path.write_text('40@1 1 0 /other 1 2 0 0 0 0 --\n')
+            def finish_report(_):
+                path.write_text('40@2 1 0 /owner 10 200 0 0 0 0 --\n')
+            self.assertEqual(personal_quota('owner',path,attempts=2,delay_s=0,sleeper=finish_report),
+                dict(user='owner',used_bytes=10,hard_bytes=200,report_epoch=path.stat().st_mtime))
+            path.write_text('40@2 1 0 /owner 10 200 0 0 0 0 --\n40@3 1 0 /owner 11 200 0 0 0 0 --\n')
+            with self.assertRaisesRegex(PermissionError,'EXACT_OWN_PERSONAL_QUOTA_ROW_REQUIRED'):
+                personal_quota('owner',path,attempts=2,delay_s=0,sleeper=lambda _:None)
 
     def test_project_is_requeried_not_refreshed_from_stale_receipt(self):
         calls=[]

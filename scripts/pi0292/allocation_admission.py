@@ -76,18 +76,28 @@ def owned_jobs(user, query=subprocess.run):
     return jobs
 
 
-def personal_quota(user, path='/home/svu/ccepbs/nushpc/quota_hw_report/hpfs_quota_raw.txt'):
+def personal_quota(user, path='/home/svu/ccepbs/nushpc/quota_hw_report/hpfs_quota_raw.txt',
+                   attempts=3, delay_s=1, sleeper=time.sleep):
     path = Path(path)
-    rows = []
-    with path.open() as handle:
-        for line in handle:
-            fields = line.split()
-            if '/'+user in fields:
-                rows.append(fields)
-    if len(rows) != 1 or rows[0][3] != '/'+user:
-        raise PermissionError('EXACT_OWN_PERSONAL_QUOTA_ROW_REQUIRED')
-    return dict(user=user, used_bytes=int(rows[0][4]), hard_bytes=int(rows[0][5]),
-                report_epoch=path.stat().st_mtime)
+    if type(attempts) is not int or attempts < 1 or delay_s < 0:
+        raise ValueError('POSITIVE_QUOTA_READ_ATTEMPTS_REQUIRED')
+    for attempt in range(attempts):
+        before = path.stat()
+        rows = []
+        with path.open() as handle:
+            for line in handle:
+                fields = line.split()
+                if '/'+user in fields:
+                    rows.append(fields)
+        after = path.stat()
+        stable = (before.st_ino, before.st_size, before.st_mtime_ns) == (
+            after.st_ino, after.st_size, after.st_mtime_ns)
+        if stable and len(rows) == 1 and rows[0][3] == '/'+user:
+            return dict(user=user, used_bytes=int(rows[0][4]), hard_bytes=int(rows[0][5]),
+                        report_epoch=after.st_mtime)
+        if attempt + 1 < attempts:
+            sleeper(delay_s)
+    raise PermissionError('EXACT_OWN_PERSONAL_QUOTA_ROW_REQUIRED')
 
 
 def current_project(query=subprocess.check_output, executable='amgr'):
