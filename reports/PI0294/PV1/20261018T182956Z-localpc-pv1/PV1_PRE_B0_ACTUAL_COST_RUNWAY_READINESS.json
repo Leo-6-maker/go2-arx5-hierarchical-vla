@@ -1,0 +1,129 @@
+{
+  "schema": "PI0294_PV1_PRE_B0_ACTUAL_COST_RUNWAY_READINESS_V1",
+  "status": "PROVISIONAL_READ_ONLY_NOT_TRAINING_ADMISSION",
+  "observed_at": "2026-10-19T20:29:29+08:00",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "goal_release": "127253737ae0a5ba0e4fed349b3745b9c87beace",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "purpose": "Use already published actual evaluation and training costs to expose likely runway constraints while the original B0 job waits for a GPU. This is not a fresh budget admission, a training release, or a scheduler action.",
+  "live_native_snapshot": {
+    "job_id": "675967.hopper-m-02",
+    "run_uuid": "policy-b0-04",
+    "job_state": "Q",
+    "project": "CFP04-CF-007",
+    "queue": "small",
+    "select": "1:ncpus=12:mem=128gb:ngpus=1:gpu_model=H200",
+    "walltime_s": 28800,
+    "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus",
+    "same_original_job_after_one_memory_reconciliation": true,
+    "qsub_cancel_or_retry_from_this_readiness_work": 0,
+    "model_loaded_by_this_job": false,
+    "optimizer_updates_by_this_job": 0,
+    "physics_started_by_this_job": false
+  },
+  "live_ledger_snapshot": {
+    "revision": 696,
+    "used_H200_s": 11154,
+    "reserved_H200_s": 28860,
+    "PBS_submissions_used": 4,
+    "PBS_submissions_limit": 24,
+    "optimizer_updates": 0,
+    "generation_queries": 642,
+    "unknown_effects": [],
+    "pending_updates": []
+  },
+  "actual_cost_sources": [
+    {
+      "path": "reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_SEVEN_ACTUAL_B0_CONDITIONS_AND_COST_EVIDENCE.json",
+      "sha256": "651017f435c6136d475fb096c23ee792235cd262883f1775b33f0bf2e282628b",
+      "git_blob": "8b3b5b46063e8fc17fc991e5a1a84af4cda0a180",
+      "use": "Seven actual B0 condition wall times"
+    },
+    {
+      "path": "reports/PI0294/20261016T150228Z-localpc-e1/M1_FIRST_ALLOCATION_ACTUAL.json",
+      "sha256": "9c8230e93aff334427924946520431ac53e02cee51a052626fceef4fdb72cdbf",
+      "git_blob": "db2da338d156fc471a53a14f244d0d2d3512c74a",
+      "use": "Actual 1024-update training wall and peak GPU memory"
+    },
+    {
+      "path": "reports/PI0294/20261016T191445Z-localpc-mp1/S_BC2048_TRAINING_AND_FIRST_AUTONOMOUS_SUCCESS.json",
+      "sha256": "ce21cf094238206dc54bc02d1dcba5bb5a78143f7d4d1d2b1a298183a5b0b8bf",
+      "git_blob": "7eb5d0365f5541ebbc81e1d183cfe485370617e2",
+      "use": "Actual 417-update resumed training partition wall and peak GPU memory"
+    }
+  ],
+  "B0_actual_condition_cost": {
+    "valid_conditions_complete": 9,
+    "presealed_DEV_conditions": 48,
+    "remaining_conditions": 39,
+    "seven_reported_RESULT_wall_s": [
+      767.6942408131436,
+      781.3644742500037,
+      846.6502160909586,
+      747.0647937147878,
+      890.8798307231627,
+      785.5997426039539,
+      282.70920408004895
+    ],
+    "minimum_s": 282.70920408004895,
+    "median_s": 781.3644742500037,
+    "mean_s": 728.851786039437,
+    "maximum_s": 890.8798307231627,
+    "remaining_39_at_observed_max_s": 34744.31339820335,
+    "remaining_39_at_observed_max_h": 9.651198166167596,
+    "current_job_walltime_h": 8,
+    "interpretation": "At the observed maximum cost, one 8-hour allocation is not sufficient for all 39 remaining conditions. This is a conservative runway signal, not an assertion that every remaining condition will take the maximum. Valid partial results must be preserved and settled at the native wall boundary; unrun conditions are not scientific failures."
+  },
+  "training_actual_update_cost": {
+    "samples": [
+      {
+        "identity": "E1_M1_1024",
+        "updates": 1024,
+        "wall_s": 4459.486231670016,
+        "wall_s_per_update": 4.35496702311525,
+        "peak_GPU_bytes": 35403078656
+      },
+      {
+        "identity": "MP1_S_BC_LAST_PARTITION_417",
+        "updates": 417,
+        "wall_s": 1939.4276672042906,
+        "wall_s_per_update": 4.6509056767488985,
+        "peak_GPU_bytes": 35409708544
+      }
+    ],
+    "conservative_observed_wall_s_per_update": 4.6509056767488985,
+    "one_4096_update_endpoint_observed_rate_s": 19050.10965196349,
+    "one_4096_update_endpoint_observed_rate_h": 5.291697125545413,
+    "planning_headroom_fraction": 0.25,
+    "one_4096_update_endpoint_with_headroom_h": 6.614621406931767,
+    "fits_one_8h_job_at_this_provisional_rate": true,
+    "interpretation": "Each A_CONTROL or B_COVERAGE endpoint is provisionally compatible with one 8-hour job when using the slower of two published actual update rates plus 25 percent planning headroom. Cold qualification, full-state checkpoint IO and any future native measurement remain outside the measured update wall and must be admitted after B0."
+  },
+  "bank_reuse_readback": {
+    "delivery_revision": "e4f603a1b768018077a8b5c9640250be67500902",
+    "dataset_manifest_sha256": "60f7c35a05766fe23974eba3a72f53ca4db5545a3768e6c1cfea164ab4e58294",
+    "parents": 139,
+    "scene_groups": 77,
+    "paired_T1_T2_scene_groups": 62,
+    "reuse_source_child": "policy-b0-03",
+    "read_only_shared_input": true,
+    "new_download_bytes_if_reuse_qualifies": 0,
+    "new_extraction_bytes_if_reuse_qualifies": 0,
+    "current_consumption_ready_receipt_exists": false,
+    "required_on_allocation": "Rehash all bank members and rerun the official processor/collator consumption proof before model use. Reuse does not waive data identity or model-plus-optimizer peak-memory proof."
+  },
+  "decision_boundary": {
+    "B0_must_complete_before_training": true,
+    "success_rate_is_not_a_training_gate": true,
+    "fresh_future_budget_forecast_required_after_B0": true,
+    "replica_mode_not_decided_pre_B0": true,
+    "validated_route_requires_replica_if_budget_admits": true,
+    "resource_critical_replica_omission_caps_grade_at": "BETA",
+    "final_20_H200_hours_remain_protected": true,
+    "no_new_PBS_or_GPU_authorized_by_this_report": true,
+    "no_training_admission_claim": true,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "next_native_action": "Keep the sole owner attached to 675967. When the scheduler starts the same job, perform fresh identity, project, bank-consumption and pre-model qualification checks; run only not-yet-valid B0 conditions; preserve actual partial results and settle native resources before any fresh forecast or subsequent submission decision."
+}
