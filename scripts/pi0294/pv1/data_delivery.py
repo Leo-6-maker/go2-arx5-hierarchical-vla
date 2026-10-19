@@ -297,8 +297,11 @@ def consume(root,allocation,guard):
             or receipt['dataset_manifest_sha256']!=stage['new_bank_manifest_sha256']):
         raise PermissionError('PV1_ONLY_EXACT_QUALIFIED_NEW_DATA_HF_PREFIX')
     target=Path(inputs['new_dataset'])
-    if target.is_symlink() or not target.resolve().is_relative_to(root.resolve()):
-        raise PermissionError('PV1_DOWNLOAD_ONLY_REGISTERED_CHILD_NEW_BANK')
+    reuse=None
+    if target.is_symlink():raise PermissionError('PV1_DOWNLOAD_ONLY_REGISTERED_CHILD_NEW_BANK')
+    if not target.resolve().is_relative_to(root.resolve()):
+        from .bank_reuse import validate as validate_reuse
+        reuse=validate_reuse(root,target,receipt,stage)
     terminal=root/'evidence/NEW_BANK_CONSUMPTION_READY.private.json'
     if terminal.exists():
         proof=read(terminal)
@@ -307,6 +310,12 @@ def consume(root,allocation,guard):
             raise PermissionError('PV1_PRIOR_CONSUMPTION_RECEIPT_IDENTITY_CHANGED')
         bank_members(target,guard)
         return proof
+    if reuse is not None:
+        guard();manifest,ready,members=bank_members(target,guard)
+        value=official_consumption(root,allocation,guard,bindings,inputs,binding,target,receipt,manifest,members)
+        value.update(qualified_closed_sibling_reuse=reuse,new_download_bytes=0,new_extraction_bytes=0)
+        write(terminal,value);terminal.chmod(0o400)
+        return value
     journal=root/'evidence/NEW_BANK_DOWNLOAD_INTENT.private.json'
     if journal.exists():raise FileExistsError('PV1_RECONCILE_EXISTING_DOWNLOAD_NO_BLIND_RESTART')
     write(journal,dict(job_id=allocation['job_id'],delivery_binding_sha256=sha(binding),started_epoch=time.time()))
@@ -343,6 +352,13 @@ def consume(root,allocation,guard):
         seen.update(proof['member_sha256'])
     manifest,ready,members=bank_members(target,guard)
     if seen!=set(members):raise PermissionError('PV1_DELIVERY_ARCHIVES_MUST_EXACTLY_COVER_ACTUAL_BANK_MEMBERS')
+    value=official_consumption(root,allocation,guard,bindings,inputs,binding,target,receipt,manifest,members)
+    value['new_download_bytes']=sum(r['bytes'] for r in files.values())
+    write(terminal,value);terminal.chmod(0o400)
+    return value
+
+
+def official_consumption(root,allocation,guard,bindings,inputs,binding,target,receipt,manifest,members):
     from scripts.pi0294.native_dataset import NativeDataset
     from .export import batch_inventory
     dataset=NativeDataset(target,bindings['source'],bindings['cosmos'],for_optimization=True,
@@ -367,7 +383,6 @@ def consume(root,allocation,guard):
         full_member_hashes_verified=True,old_banks_reuploaded_or_redownloaded=False,new_queries=0,new_physics=0,
         actual_Hopper_official_processor_and_collator_batches=batches,mixed_CPU_batch=mixed_batch,
         native_loss_forward_or_optimizer_executed=False)
-    write(terminal,value);terminal.chmod(0o400)
     return value
 
 

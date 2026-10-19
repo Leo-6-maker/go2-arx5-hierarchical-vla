@@ -8,9 +8,41 @@ from unittest.mock import patch
 
 from scripts.pi0294.pv1 import data_delivery as delivery
 from scripts.pi0294.native_dataset import sha
+from scripts.pi0294.test_mp1_transport_fixture import put
 
 
 class DeliveryContracts(unittest.TestCase):
+    def test_closed_sibling_reuse_rehashes_and_runs_official_batches_without_download_or_extract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            parent=Path(tmp);root=parent/'child';target=parent/'closed/datasets/FROZEN_TRAIN_BANK';target.mkdir(parents=True)
+            allocation=dict(job_id='CPU_FIXTURE_NOT_A_JOB',hostname=os.uname().nodename,status='PASS_PV1_OWN_NATIVE_H200_ALLOCATION')
+            directory=root/'pbs/alloc-01';put(directory/'ALLOCATION_ADMISSION.json',allocation)
+            put(directory/'REQUEST.json',dict(CPU_FIXTURE=True));allocation['request_sha256']=sha(directory/'REQUEST.json')
+            put(directory/'ALLOCATION_ADMISSION.json',allocation)
+            receipt=dict(status='PASS_FIXED_REVISION_READY_LAST_EXACT_FULL_SET_SIZE_SHA256',
+                repo_id='leoyuer/pi0294-public-artifacts',prefix='PI0294/fixture/PV1_NEW_TRAIN_BANK_V1',
+                revision='a'*40,dataset_manifest_sha256='b'*64)
+            path=root/'plans/PV1_HF_BANK_DELIVERY.json';put(path,receipt);(root/'evidence').mkdir()
+            m=dict(execution=dict(sealed_inputs={'plans/PV1_HF_BANK_DELIVERY.json':sha(path)}))
+            inputs=dict(new_dataset=str(target));stage=dict(new_bank_manifest_sha256='b'*64)
+            binding=dict(status='PASS_PRESEALED_CLOSED_SIBLING_BANK_REUSE_NOT_YET_REHASHED')
+            official=dict(status='PASS_ACTUAL_FULL_NEW_BANK_CONSUMPTION',
+                delivery_binding_sha256=sha(path),dataset_manifest_sha256='b'*64)
+            with patch.dict(os.environ,{'PBS_JOBID':allocation['job_id']}),\
+                    patch('scripts.pi0294.pv1.neural_scope.validate',return_value=(m,{},inputs,stage,dict(run_uuid='fixture'))),\
+                    patch('scripts.pi0294.pv1.bank_reuse.validate',return_value=binding),\
+                    patch.object(delivery,'bank_members',return_value=({}, {}, {})) as hashes,\
+                    patch.object(delivery,'official_consumption',return_value=official) as batches,\
+                    patch.object(delivery,'download_dataset') as download:
+                result=delivery.consume(root,allocation,lambda:None)
+                hashes.assert_called_once();batches.assert_called_once();download.assert_not_called()
+                self.assertEqual(result['new_download_bytes'],0)
+                self.assertEqual(result['qualified_closed_sibling_reuse'],binding)
+                delivery.consume(root,allocation,lambda:None)
+                self.assertEqual(hashes.call_count,2);self.assertEqual(batches.call_count,1)
+                hashes.side_effect=ValueError('CORRUPT_FIXED_MEMBER')
+                with self.assertRaisesRegex(ValueError,'CORRUPT_FIXED_MEMBER'):delivery.consume(root,allocation,lambda:None)
+
     def test_hardlinked_raw_pixels_are_regular_archive_members_and_all_hashes_verified(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);a=root/'a.png';b=root/'b.png';a.write_bytes(b'CPU fixture, not native image');os.link(a,b)

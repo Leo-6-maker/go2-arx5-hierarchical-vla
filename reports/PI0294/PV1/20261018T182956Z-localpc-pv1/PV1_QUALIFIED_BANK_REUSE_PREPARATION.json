@@ -1,0 +1,46 @@
+{
+  "schema": "PI0294_PV1_CLOSED_SIBLING_BANK_REUSE_PREPARATION_V1",
+  "status": "CPU_IMPLEMENTED_NOT_DEPLOYED_OR_ACTUALLY_REUSED",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "T0_epoch": 1792348196,
+  "motivation": "Later cold jobs should reuse the one exact consumed bank rather than repeat its HF download and 178341-member extraction",
+  "source_child_admission": {
+    "registered_sibling_under_same_campaign_children_root": true,
+    "owner_UID_exact": true,
+    "source_manifest_and_output_binding_hashes_exact": true,
+    "same_original_authority_and_campaign": true,
+    "source_lease_CLOSED_and_registered_workers_terminal": true,
+    "all_source_native_jobs_settled_terminal": true,
+    "unknown_effects_or_pending_updates_forbid_reuse": true,
+    "prior_actual_consumption_receipt_hash_presealed": true,
+    "fixed_HF_revision_manifest_READY_and_original_statistics_unchanged": true,
+    "symlink_arbitrary_cache_or_hot_data_rejected": true
+  },
+  "new_consumer_requirements": {
+    "new_root_has_sealed_REUSED_NEW_BANK_BINDING_private_JSON": true,
+    "only_inside_own_legal_native_allocation": true,
+    "full_member_hashes_reverified_under_current_guards": true,
+    "official_processor_collator_anchor_and_mixed_batches_rerun_without_model": true,
+    "prior_success_receipt_never_substitutes_current_hash_verification": true,
+    "new_HF_download_bytes_if_reuse_qualifies": 0,
+    "new_archive_extraction_bytes_if_reuse_qualifies": 0,
+    "ordinary_first_download_path_retained": true
+  },
+  "baseline_admission_strengthening": {
+    "only_complete_independently_audited_DEV48_may_admit_training": true,
+    "SUCCESS_requires_16000_live_ticks_32_seconds_641_RGB_and_independent_task_score": true,
+    "row_counts_and_duration_must_match_original_RESULT_bytes": true,
+    "valid_task_failures_are_not_repeated_or_filtered": true,
+    "zero_success_rate_does_not_block_training": true
+  },
+  "current_actor_source_unchanged": "e6cd88c406783b8b5d8843449f6f8d86ef50fc13",
+  "current_actor_hot_modified": false,
+  "current_675394_cancelled_or_restarted": false,
+  "new_GPU_PBS_model_or_physics_from_preparation": 0,
+  "all_15_original_numerical_file_hashes_unchanged": true,
+  "full_B0_DEV48_and_new_training_still_pending": true,
+  "policy_goal_complete": false,
+  "selected": "NONE",
+  "real_robot_deployment": "NONE"
+}

@@ -70,6 +70,8 @@ def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence):
                 or not re.fullmatch('[0-9a-f]{64}',proof.get('receipt_sha256',''))):
             raise PermissionError('PV1_BASELINE_ACTUAL_ORIGINAL_CORR_MODEL_AND_NATIVE_QUALIFICATION')
         if (row['model']!='B0_CORR' or row['result_sha256']!=result_sha or result['id']!=identifier
+                or result['physics_steps']!=row['main_integrations'] or result['rgb_pairs']!=row['RGB_pairs']
+                or row['duration_s']!=row['main_integrations']*.002
                 or any(row[k]!=card[k] for k in ('task','split','scene_group','noise_bank','family'))
                 or row['teacher_takeover'] is not False or row['live_native_failures']!=0
                 or row['status']=='ACTUAL_SAFETY_FAIL' or row['failure_stage']=='S1_INTEGRITY'
@@ -101,6 +103,12 @@ def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence):
                     or audit['status']!='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT'
                     or not set(AUDIT_CHECKS)<=set(audit['checks'])):
                 raise PermissionError('PV1_BASELINE_COMPLETE_ACTUAL_RAW_AUDIT_FOR_EACH_VALID_OUTCOME')
+            if row['status']=='SUCCESS' and (row['main_integrations']!=16000 or row['duration_s']!=32.
+                    or row['RGB_pairs']!=641 or row['S1_rejections']!=0
+                    or row['failure_stage']!='COMPLETE_SUCCESS'
+                    or any(audit['score'].get(k) is not True
+                        for k in ('complete_32s','clock_valid','safety_valid','persistent_success'))):
+                raise PermissionError('PV1_BASELINE_SUCCESS_REQUIRES_FULL_ACTUAL_TASK_NOT_ONLY_TRUSTED_PIPELINE')
             if condition in result_hashes:
                 raise PermissionError('PV1_BASELINE_VALID_CONDITION_MUST_NOT_BE_REPEATED')
             result_hashes[condition]=row_sha;audit_hashes[condition]=audit_sha

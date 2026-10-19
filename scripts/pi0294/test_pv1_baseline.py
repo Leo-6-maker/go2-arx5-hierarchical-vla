@@ -20,11 +20,11 @@ def fixtures():
     rows=[]
     for panel in plan['panels'].values():
         for card in panel['cards']:
-            result=raw(dict(id=card['id'],source_sha='a'*40))
+            result=raw(dict(id=card['id'],source_sha='a'*40,physics_steps=16000,rgb_pairs=641))
             row={k:card[k] for k in ('condition_id','task','split','scene_group','noise_bank','family')}
             row.update(attempt_id=card['id'],model='B0_CORR',status='VALID_TASK_FAIL',
                 pipeline_trustworthy=True,failure_stage='OBJECT_TASK_RESULT',live_native_failures=0,main_integrations=16000,
-                teacher_takeover=False,result_sha256=hashlib.sha256(result).hexdigest())
+                teacher_takeover=False,duration_s=32.,RGB_pairs=641,S1_rejections=0,result_sha256=hashlib.sha256(result).hexdigest())
             audit=dict(attempt_id=row['attempt_id'],status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT',
                 adjudication=row,errors=[],checks={k:True for k in AUDIT_CHECKS},
                 actual_native_safety_flag_rows=0,model_autonomous_evaluation=True,
@@ -98,6 +98,16 @@ class BaselineAdmission(unittest.TestCase):
             with self.subTest(change=change),self.assertRaises(PermissionError):build(changed)
         changed=deepcopy(rows);changed[0].pop('causal_chain')
         with self.assertRaises(PermissionError):build(changed)
+
+    def test_success_requires_independently_scored_full_safe_32_second_task(self):
+        rows=fixtures();row=json.loads(rows[0]['adjudication']);row.update(status='SUCCESS',failure_stage='COMPLETE_SUCCESS')
+        rows[0]['adjudication']=raw(row)
+        audit=json.loads(rows[0]['audit']);audit.update(adjudication=row,score=dict(complete_32s=True,clock_valid=True,safety_valid=True,persistent_success=True))
+        rows[0]['audit']=raw(audit);chain=json.loads(rows[0]['causal_chain']);chain['adjudication_sha256']=hashlib.sha256(rows[0]['adjudication']).hexdigest();rows[0]['causal_chain']=raw(chain)
+        self.assertEqual(build(rows)['successes']['T1'],1)
+        for field in ('complete_32s','clock_valid','safety_valid','persistent_success'):
+            changed=deepcopy(rows);value=deepcopy(audit);value['score'][field]=False;changed[0]['audit']=raw(value)
+            with self.subTest(field=field),self.assertRaisesRegex(PermissionError,'FULL_ACTUAL_TASK'):build(changed)
 
     def test_wrong_checkpoint_stale_panel_or_incomplete_native_qualification_rejected(self):
         rows=fixtures()
