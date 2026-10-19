@@ -1,5 +1,17 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 actual update: complete native qualification and bank consumption PASS; B0 DEV started.**
+[Current qualification, consumed-bank identity and first live DEV snapshot](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_NATIVE_QUALIFICATION_BANK_CONSUMPTION_AND_B0_STARTED.json).
+675394/policy-b0-03 actually passed its own600s/80cycles/all8faults and loaded
+CORR2048 after full fixed-revision139-parent bank hashes/official collator checks.
+First DEV condition has real observation/action/ACK progress, not a terminal task
+result or complete48. Running source remains immutablee6cd88c4; this report/helper
+publication does not hot-update it. Earlier qualification failures remain.
+The new baseline-admission helper is CPU preparation only: all48 actual audited
+conditions required, no added baseline success-rate gate. Training, replica,
+unique-candidate80 and runnable policy package are still pending. The following
+first-capture/read-side/preparation paragraphs retain their historical snapshots.
+
 **PV1 ADOPTED: one source-domain shared T1/T2 policy, independent seven-day scope.**
 [Fixed execution entry](docs/handover/2026-10-19/PV1_MULTITASK_POLICY_EXECUTE.md) ·
 [Actual adoption](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_ADOPTION_AND_RESOURCE_BINDING.json) ·
