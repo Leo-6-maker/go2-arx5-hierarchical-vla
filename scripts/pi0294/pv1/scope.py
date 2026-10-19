@@ -15,20 +15,21 @@ CAPTURE_ROLE = 'PI0294_PV1_CORE_TRAIN_CAPTURE_V1'
 REAUDIT_ROLE = 'PI0294_PV1_CORE_SAVED_RAW_AUDIT_V1'
 EXPORT_ROLE = 'PI0294_PV1_CORE_SAVED_TRAIN_EXPORT_V1'
 EVAL_ROLE = 'PI0294_PV1_CORE_POLICY_EVALUATION_V1'
+FINAL_EVAL_ROLE = 'PI0294_PV1_CORE_LOCKBOX_EVALUATION_V1'
 CPU_PROFILES={ROLE:'4080-simulation',CAPTURE_ROLE:'4080-simulation',REAUDIT_ROLE:'4080-simulation',
-    EXPORT_ROLE:'4080-cpu-data',EVAL_ROLE:'4080-simulation'}
+    EXPORT_ROLE:'4080-cpu-data',EVAL_ROLE:'4080-simulation',FINAL_EVAL_ROLE:'4080-simulation'}
 
 
 def registry_role(scope,run_uuid):
     if scope not in CPU_PROFILES or not run_uuid or run_uuid in ('.','..') or '/' in run_uuid or '\\' in run_uuid:
         raise PermissionError('PV1_FIXED_ROLE_AND_SINGLE_RUN_IDENTITY')
-    return scope+'__'+run_uuid if scope in (CAPTURE_ROLE,EXPORT_ROLE,EVAL_ROLE) else scope
+    return scope+'__'+run_uuid if scope in (CAPTURE_ROLE,EXPORT_ROLE,EVAL_ROLE,FINAL_EVAL_ROLE) else scope
 
 
 def validate(root, role=ROLE,*,closeout=False):
     if role not in CPU_PROFILES:
         raise PermissionError('PV1_ONLY_VERSIONED_CPU_CHILD_ROLES')
-    if type(closeout) is not bool or closeout and role!=EVAL_ROLE:
+    if type(closeout) is not bool or closeout and role not in (EVAL_ROLE,FINAL_EVAL_ROLE):
         raise PermissionError('PV1_CLOSEOUT_ONLY_TYPED_EVALUATION_METADATA_NOT_NEW_CAPTURE')
     root = Path(root)
     m = read(root/'RUN_MANIFEST.json')
@@ -102,7 +103,8 @@ def validate(root, role=ROLE,*,closeout=False):
            [('enter.sh','entry_sha256'),('doctor.py','doctor_sha256')]):
         raise ValueError('PV1_APPROVED_EXISTING_ENTRY_VERSION')
     data_file = {ROLE:'EXCLUSIONS.json',CAPTURE_ROLE:'CAPTURE_PLAN.json',REAUDIT_ROLE:'SAVED_AUDIT_PLAN.private.json',
-        EXPORT_ROLE:'SAVED_EXPORT_PLAN.private.json',EVAL_ROLE:'SOURCE_EVALUATION_PLAN.json'}[role]
+        EXPORT_ROLE:'SAVED_EXPORT_PLAN.private.json',EVAL_ROLE:'SOURCE_EVALUATION_PLAN.json',
+        FINAL_EVAL_ROLE:'PV1_P5_LOCKBOX_PLAN.json'}[role]
     if (sha(root/'plans'/data_file) != m['data']['manifest_sha256']
             or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or 'PBS_JOBID' in os.environ):
         raise PermissionError('PV1_EXCLUSIONS_IDENTITY_CPU_ONLY_NO_PBS')

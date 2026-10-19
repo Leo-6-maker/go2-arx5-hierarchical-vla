@@ -8,7 +8,7 @@ import time
 from scripts.pi0292.durable import write
 from scripts.pi0294.e1.control_read import read
 from .decision import AUTHORITY
-from .scope import EVAL_ROLE
+from .scope import EVAL_ROLE,FINAL_EVAL_ROLE
 
 KINDS=('live_and_recovery_integrations','shadow_integrations')
 
@@ -18,7 +18,7 @@ class Ledger:
     def __init__(self,root):
         self.root=Path(root);self.path=self.root/'RESOURCE_LEDGER.json'
         self.m=read(self.root/'RUN_MANIFEST.json');self.a=read(self.root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
-        if self.m['scope']!=EVAL_ROLE or self.m['authority']['protocol_ref']!=AUTHORITY or self.a['authority_release']!=AUTHORITY:
+        if self.m['scope'] not in (EVAL_ROLE,FINAL_EVAL_ROLE) or self.m['authority']['protocol_ref']!=AUTHORITY or self.a['authority_release']!=AUTHORITY:
             raise PermissionError('PV1_TYPED_CORE_POLICY_COUNTERS_ONLY')
         self.limits=self.m['limits'];self._guard_at=0.;self._guard_value=None;self._guard_closeout=None
         self.check(read(self.path))

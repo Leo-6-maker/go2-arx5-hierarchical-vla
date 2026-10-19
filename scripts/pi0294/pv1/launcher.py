@@ -42,7 +42,8 @@ def native_bootstrap(root,request_path):
 
 def run(root,request_path):
     root=Path(root);began=time.process_time();children=resource.getrusage(resource.RUSAGE_CHILDREN)
-    m,r,directory,job_id,host=native_bootstrap(root,request_path);ledger=Ledger(root)
+    m,r,directory,job_id,host=native_bootstrap(root,request_path)
+    ledger=Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root)
     ready=directory/'PBS_READY.json';release=directory/'START_NEURAL.json';status='FAILED_PRESERVED';code=None;error=None
     if ready.exists():raise FileExistsError('PV1_PRESERVE_FIRST_NATIVE_BOOTSTRAP_NO_RESTART')
     started=time.time();request_sha=sha(request_path)

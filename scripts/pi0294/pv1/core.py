@@ -13,7 +13,7 @@ from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.scene_cards import digest
 from .capture import counted_model,qualify_counter
 from .core_ledger import Ledger
-from .evaluation_plan import session_spec,remaining_panel
+from .evaluation_plan import session_spec,final_session_spec,remaining_panel
 from .runtime import validate_runtime
 
 
@@ -26,7 +26,7 @@ class Counter:
 
 def qualify(root,label):
     root=Path(root);validate_runtime(root,'4080-simulation');ledger=Ledger(root);ledger.guard()
-    spec=session_spec(root,label);inputs=read(root/'INPUT_BINDINGS.private.json')
+    spec=(final_session_spec if 'LOCKBOX' in label else session_spec)(root,label);inputs=read(root/'INPUT_BINDINGS.private.json')
     lock=OwnerLock(root/'PV1_SOURCE_OWNER.lock');began=time.process_time()
     try:
         if (root/'evidence/COUNTER_NATIVE_QUALIFICATION.json').exists():
@@ -42,7 +42,8 @@ def run(root,card_path):
     if not card_path.is_absolute():card_path=root/card_path
     if card_path.is_symlink() or not card_path.resolve().is_relative_to(root.resolve()):
         raise PermissionError('PV1_REGISTERED_AUTONOMOUS_CARD_ONLY')
-    card=read(card_path);session=card['pv1_session_label'];spec=session_spec(root,session)
+    card=read(card_path);session=card['pv1_session_label']
+    spec=(final_session_spec if card.get('split')=='LOCKBOX' else session_spec)(root,session)
     prior=read(root/'plans/PRIOR_EVALUATION_OUTCOMES.json')
     if m['execution']['sealed_inputs'].get('plans/PRIOR_EVALUATION_OUTCOMES.json')!=sha(root/'plans/PRIOR_EVALUATION_OUTCOMES.json'):
         raise PermissionError('PV1_SETTLED_PRIOR_CONDITIONS_REQUIRED_BEFORE_ANY_REPLACEMENT')

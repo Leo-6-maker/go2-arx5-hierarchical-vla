@@ -98,8 +98,9 @@ def budget_request(value,request):
 
 def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_bytes=80*1024**3,memory_gb=128):
     if os.environ.get('PBS_JOBID'):raise PermissionError('PV1_QSUB_OWNER_ON_LOGIN_ONLY')
-    root=Path(root);m,bindings,_,bound,a=validate(root);ledger=Ledger(root)
-    if stage not in ('B0_DEV','P2_PRIMARY','P4_DEV','P4_REPLICA') or memory_gb not in (128,225):
+    root=Path(root);m,bindings,_,bound,a=validate(root)
+    ledger=Ledger(root,final=True) if stage=='P5_FINAL' else Ledger(root)
+    if stage not in ('B0_DEV','P2_PRIMARY','P4_DEV','P4_REPLICA','P5_FINAL') or memory_gb not in (128,225):
         raise PermissionError('PV1_ONLY_IMPLEMENTED_PHASES_AND_MATURE_MEMORY_PROFILES')
     if not a['T0_epoch']<=time.time()<a['stop_new_jobs_epoch']:
         raise PermissionError('PV1_ORIGINAL_NEW_SUBMISSION_CUTOFF')
@@ -107,12 +108,12 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
     queue['source']='NATIVE_QSTAT_EFFECTIVE_QUEUE_LIMITS'
     if (type(walltime_s) is not int or not 2760<walltime_s<=min(8*3600,queue['maximum_wall_s'])
             or type(additional_output_upper_bytes) is not int or not 0<additional_output_upper_bytes<=210*1024**3
-            or q['hard_bytes']-q['used_bytes']<additional_output_upper_bytes+40*1024**3
+            or q['hard_bytes']-q['used_bytes']<additional_output_upper_bytes+(0 if stage=='P5_FINAL' else 40*1024**3)
             or not 0<=time.time()-q['report_epoch']<=900):
         raise PermissionError('PV1_REAL_NATIVE_WALLTIME_PERSONAL_QUOTA_AND_OUTPUT_HEADROOM')
     value=read(ledger.path);native_chain(value);number=len(value['PBS_submissions'])+1
     future_storage=sum(s['additional_output_upper_bytes'] for s in active_items(value))+additional_output_upper_bytes
-    if q['hard_bytes']-q['used_bytes']<future_storage+40*1024**3:
+    if q['hard_bytes']-q['used_bytes']<future_storage+(0 if stage=='P5_FINAL' else 40*1024**3):
         raise PermissionError('PV1_PERSONAL_QUOTA_FOR_ALL_QUEUED_OUTPUT_UPPERS')
     if number>24:raise PermissionError('PV1_TOTAL_24_PBS_SUBMISSIONS_ACROSS_ALL_PROJECTS')
     directory=root/'pbs'/('alloc-'+str(number).zfill(2));directory.mkdir(mode=0o700)
@@ -134,11 +135,12 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
         block=read(root/'plans/PRIMARY_TRAIN_BLOCK.json');r['training_block']=block
         p=block.get('resume_checkpoint_relative')
         r['expected_native_start_step']=read(root/p/'CHECKPOINT_COMPLETE.json')['global_step'] if p else 0
+    elif stage=='P5_FINAL':r['evaluation_candidate']=read(root/'plans/PV1_P5_LOCKBOX_PLAN.json')['candidate_freeze']['candidate']
     else:r['evaluation_candidate']=read(root/'plans/SOURCE_EVALUATION_PLAN.json')['candidate']
     from .neural import stage_work
     stage_work(root,r);budget_request(value,r)
     from .future_admission import prequeue
-    future=prequeue(root,r,'PREPARE')
+    future=None if stage=='P5_FINAL' else prequeue(root,r,'PREPARE')
     if future is not None:write(directory/'FUTURE_BUDGET_PREPARE.json',future)
     write(directory/'REQUEST.json',r);(directory/'REQUEST.json').chmod(0o400)
     code=root/m['code']['capsule_relative'];hours,remainder=divmod(walltime_s,3600);minutes,seconds=divmod(remainder,60)
@@ -161,8 +163,9 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
 
 
 def submit(root,number):
-    root=Path(root);validate(root);ledger=Ledger(root);lock=OwnerLock(root/'PV1_QSUB_OWNER.lock')
+    root=Path(root);validate(root);lock=OwnerLock(root/'PV1_QSUB_OWNER.lock')
     directory=root/'pbs'/('alloc-'+str(number).zfill(2));r=read(directory/'REQUEST.json')
+    ledger=Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root)
     binding=read(directory/'JOB_SCRIPT_BINDING.json')
     try:
         if (sha(directory/'REQUEST.json')!=binding['request_sha256'] or sha(directory/'job.pbs')!=binding['job_script_sha256']
@@ -174,7 +177,7 @@ def submit(root,number):
                 raise PermissionError('PV1_ONE_NEXT_GLOBAL_SUBMISSION_INTENT_NO_RETRY')
             budget_request(value,r)
             from .future_admission import prequeue
-            future=prequeue(root,r,'SUBMIT',request_bytes=(directory/'REQUEST.json').read_bytes())
+            future=None if r['stage']=='P5_FINAL' else prequeue(root,r,'SUBMIT',request_bytes=(directory/'REQUEST.json').read_bytes())
             if future is not None:write(directory/'FUTURE_BUDGET_SUBMIT.json',future)
             item=dict(status='QSUB_INTENT_OUTCOME_UNKNOWN_NO_RETRY',request_id=r['request_id'],run_uuid=root.name,
                 project=r['project'],job_name=r['job_name'],stage=r['stage'],request_sha256=sha(directory/'REQUEST.json'),
@@ -206,7 +209,8 @@ def submit(root,number):
 
 def release(root,number):
     root=Path(root);validate(root);directory=root/'pbs'/('alloc-'+str(number).zfill(2));r=read(directory/'REQUEST.json')
-    ready=read(directory/'PBS_READY.json');job=native(ready['job_id']);ledger=Ledger(root)
+    ready=read(directory/'PBS_READY.json');job=native(ready['job_id'])
+    ledger=Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root)
     item=next(s for s in read(ledger.path)['PBS_submissions'] if s['request_id']==r['request_id'])
     if (item['job_id']!=ready['job_id'] or job['job_state']!='R' or job['Job_Owner'].split('@')[0]!=os.environ['USER']
             or job['project']!=r['project'] or job['Job_Name']!=r['job_name']
@@ -227,7 +231,7 @@ def release(root,number):
 
 
 def settle(root):
-    root=Path(root);validate(root,closeout=True);ledger=Ledger(root);rows=[]
+    root=Path(root);validate(root,closeout=True);ledger=Ledger(root,final=True);rows=[]
     snapshot=read(ledger.path);facts={}
     for item in active_items(snapshot):
         if not item.get('job_id'):raise PermissionError('PV1_UNKNOWN_QSUB_INTENT_NOT_A_ZERO_COST_JOB')

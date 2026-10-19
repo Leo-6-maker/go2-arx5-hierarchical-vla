@@ -33,7 +33,7 @@ def registry(spec,ready,peers,prior,*,deadline_epoch,now=None):
         relative='plans/'+ready['label']+'/requests/'+card['id']+'.json'
         request=dict(run_uuid=ready['run_uuid'],attempt_id=card['id'],source_sha=peers['core_source_sha'],
             run_manifest_sha256=peers['core_manifest_sha256'],initial_state_sha256=card['initial_state_sha256'],
-            profile='B1',category='DEV',identity=ready['identity']['relay_identity'],episode_uuid=episode,
+            profile='B1',category=spec['split'],identity=ready['identity']['relay_identity'],episode_uuid=episode,
             deadline_epoch=deadline_epoch,live_readiness_sha256=LIVE_READINESS)
         digest=hashlib.sha256((json.dumps(request,indent=2,allow_nan=False)+'\n').encode()).hexdigest()
         card.update(relay_request_relative=relative,relay_request_sha256=digest)

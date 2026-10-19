@@ -16,8 +16,8 @@ from scripts.pi0294.numerics import prepare_environment,configure_torch
 from scripts.pi0294.mp1.owner_heartbeat import read_live_owner
 from .data_delivery import consume
 from .dataset import PV1Dataset,POPULATION
-from .evaluation_plan import session_spec,validate_registry,remaining_panel
-from .evaluation_plan import development,POPULATION_FILE
+from .evaluation_plan import session_spec,final_session_spec,validate_registry,remaining_panel
+from .evaluation_plan import development,final_confirmation,POPULATION_FILE,FINAL_PLAN
 from .decision import AUTHORITY
 from .sampler import ARMS
 from .native_admission import admit
@@ -32,7 +32,7 @@ from .baseline import admission as dev_admission
 
 
 TRAIN_STAGES=('P2_PRIMARY','P4_REPLICA')
-STAGES=('B0_DEV','P2_PRIMARY','P4_DEV','P4_REPLICA')
+STAGES=('B0_DEV','P2_PRIMARY','P4_DEV','P4_REPLICA','P5_FINAL')
 
 
 def replica_selection(root,input_,stage):
@@ -98,8 +98,24 @@ def stage_work(root,request):
                 or p.stat().st_mode&0o222 or sealed.get(name)!=sha(p)):
             raise PermissionError('PV1_PRESEALED_NATIVE_PHASE_INPUT:'+name)
         return read(p)
-    stage=input_('PV1_STAGE_BINDING.json');evaluation=input_('plans/SOURCE_EVALUATION_PLAN.json')
+    stage=input_('PV1_STAGE_BINDING.json')
+    evaluation=input_(FINAL_PLAN if request['stage']=='P5_FINAL' else 'plans/SOURCE_EVALUATION_PLAN.json')
     prior=input_('plans/PRIOR_EVALUATION_OUTCOMES.json')
+    if request['stage']=='P5_FINAL':
+        checkpoint=input_('plans/P5_CANDIDATE_CHECKPOINT.private.json')
+        freeze=evaluation['candidate_freeze'];expected=final_confirmation(input_(POPULATION_FILE)['groups'],freeze)
+        if (evaluation!=expected or request.get('training_block')
+                or request.get('evaluation_candidate')!=freeze['candidate']
+                or checkpoint.get('candidate')!=freeze['candidate'] or checkpoint.get('global_step')!=4096
+                or checkpoint.get('checkpoint_manifest_sha256')!=freeze['checkpoint_manifest_sha256']):
+            raise PermissionError('PV1_P5_ONLY_EXACT_UNIQUE_FROZEN_CANDIDATE_AND_LOCKBOX80')
+        p=Path(checkpoint['checkpoint']);complete=read(p/'CHECKPOINT_COMPLETE.json')
+        if (p.stat().st_uid!=os.getuid() or sha(p/'CHECKPOINT_COMPLETE.json')!=freeze['checkpoint_manifest_sha256']
+                or complete.get('global_step')!=4096 or complete.get('full_resume') is not True):
+            raise PermissionError('PV1_P5_ACTUAL_COMPLETE_NATIVE_FROZEN_CHECKPOINT_REQUIRED')
+        count=sum(len(remaining_panel(prior,final_session_spec(root,label))) for label in evaluation['panels'])
+        if not count:raise PermissionError('PV1_P5_NO_REMAINING_LOCKBOX_CONDITIONS_NO_NEW_MODEL_LOAD')
+        return
     if request['stage']=='P4_DEV':
         checkpoint=input_('plans/EVALUATION_CHECKPOINT.private.json')
         allowed=ARMS[stage['route']]+tuple('REPLICA_'+a for a in ARMS[stage['route']])
@@ -238,8 +254,9 @@ def record_candidate(ledger,candidate,identity):
 def run(root,request_path):
     root,request_path=Path(root),Path(request_path);r=read(request_path)
     if r.get('stage') not in STAGES:
-        raise PermissionError('PV1_THIS_DISPATCHER_ONLY_B0_PRIMARY_AND_TERMINAL_DEV_PHASES')
-    allocation=admit(root,request_path);ledger=Ledger(root)
+        raise PermissionError('PV1_THIS_DISPATCHER_ONLY_B0_PRIMARY_TERMINAL_DEV_AND_P5_PHASES')
+    allocation=admit(root,request_path)
+    ledger=Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root)
     lock=OwnerLock(root/'NEURAL_OWNER.lock');started=time.process_time();children=resource.getrusage(resource.RUSAGE_CHILDREN)
     directory=request_path.parent;status='FAILED_PRESERVED';phase='NATIVE_ENTRY';instance=None;records=[];error=None
     if (directory/'PBS_PROCESS_STARTED.json').exists():
@@ -292,10 +309,11 @@ def run(root,request_path):
         if not os.environ.get('CUDA_VISIBLE_DEVICES') or torch.cuda.device_count()!=1 or 'H200' not in torch.cuda.get_device_name(0):
             raise PermissionError('PV1_ONE_VISIBLE_NATIVE_H200_ONLY')
         configure_torch(torch,r['numerical_mode']);torch.set_num_threads(4)
-        if r['stage'] in ('B0_DEV','P4_DEV'):
-            plan=read(root/'plans/SOURCE_EVALUATION_PLAN.json')
-            candidate=plan['candidate'];phase=candidate+'-LOAD'
-            checkpoint=parent if r['stage']=='B0_DEV' else Path(read(root/'plans/EVALUATION_CHECKPOINT.private.json')['checkpoint'])
+        if r['stage'] in ('B0_DEV','P4_DEV','P5_FINAL'):
+            final=r['stage']=='P5_FINAL';plan=read(root/(FINAL_PLAN if final else 'plans/SOURCE_EVALUATION_PLAN.json'))
+            candidate=plan['candidate_freeze']['candidate'] if final else plan['candidate'];phase=candidate+'-LOAD'
+            checkpoint=(parent if r['stage']=='B0_DEV' else
+                Path(read(root/'plans/P5_CANDIDATE_CHECKPOINT.private.json' if final else 'plans/EVALUATION_CHECKPOINT.private.json')['checkpoint']))
             identity=load(checkpoint,candidate,trainable=r['stage']=='B0_DEV')
             record_candidate(ledger,candidate,identity)
             inventory=parameter_inventory(instance.model)
@@ -305,10 +323,11 @@ def run(root,request_path):
                 if set(original)!=set(inventory) or any(v['sha256']!=inventory[n]['sha256'] for n,v in original.items() if not v['requires_grad']):
                     raise PermissionError('PV1_ORIGINAL_FROZEN_VLM_CHANGED_BEFORE_DEVELOPMENT')
                 write(directory/'FROZEN_VLM_PROOF.json',dict(status='PASS_ORIGINAL_FROZEN_VLM_NATIVE_PARAMETER_HASHES'))
-                from .future_admission import wait_native_release
-                wait_native_release(root,directory,allocation,guard)
+                if not final:
+                    from .future_admission import wait_native_release
+                    wait_native_release(root,directory,allocation,guard)
             for label in plan['panels']:
-                spec=session_spec(root,label)
+                spec=(final_session_spec if final else session_spec)(root,label)
                 if spec['candidate']!=candidate:raise PermissionError('PV1_ONE_SHARED_CHECKPOINT_ACROSS_BOTH_TASKS_AND_NOISE_BANKS')
                 prior=read(root/'plans/PRIOR_EVALUATION_OUTCOMES.json')
                 if not remaining_panel(prior,spec):
@@ -326,12 +345,13 @@ def run(root,request_path):
                                 job_id=allocation['job_id'],peer=peer,prior_rows=prior)
                             sealed_registry[0]=current
                         elif sealed_registry[0]!=current:raise PermissionError('PV1_MODEL_REGISTRY_CHANGED_NO_HOT_REBIND')
-                serve(root,label,instance,allocation,ledger,panel_guard,max_queries=24*80,
+                serve(root,label,instance,allocation,ledger,panel_guard,max_queries=len(spec['cards'])*80,
                     ready_status='PV1_NATIVE_MODEL_READY',noise_namespace=spec['noise_namespace'],
                     terminal_status='PV1_NATIVE_PANEL_TERMINAL_OUTCOMES_AUDITED_SEPARATELY',
                     native_pre_model_qualification=require_current(root,allocation),visibility_refresh=refresh)
                 records.append(dict(panel=label,status='NATIVE_PANEL_TERMINAL_NOT_TASK_SUCCESS'))
-            status='PV1_DEV_NATIVE_PANELS_TERMINAL_ACTUAL_OUTCOMES_AUDITED_SEPARATELY'
+            status=('PV1_P5_LOCKBOX80_NATIVE_PANELS_TERMINAL_ACTUAL_OUTCOMES_AUDITED_SEPARATELY'
+                if final else 'PV1_DEV_NATIVE_PANELS_TERMINAL_ACTUAL_OUTCOMES_AUDITED_SEPARATELY')
         else:
             block=r['training_block'];replica=r['stage']=='P4_REPLICA'
             key=('REPLICA_' if replica else '')+block['arm'];phase=key+'-TRAIN-INPUT'

@@ -13,6 +13,7 @@ from .recipe import PARENT
 from .sampler import ARMS
 
 PLAN='plans/SOURCE_EVALUATION_PLAN.json'
+FINAL_PLAN='plans/PV1_P5_LOCKBOX_PLAN.json'
 POPULATION_FILE='plans/PV1_DATA_PLAN_AND_SPLIT_SEAL.json'
 
 
@@ -42,6 +43,40 @@ def development(groups,*,route,candidate,new_bank_manifest_sha256):
         final_LOCKBOX_opened=False,policy_selection='NONE')
 
 
+def final_confirmation(groups,freeze):
+    """Build the sealed P5 panels only after one DEV-qualified candidate freezes."""
+    hashes=('checkpoint_manifest_sha256','processor_manifest_sha256','runtime_manifest_sha256',
+        'precision_manifest_sha256','selection_evidence_sha256','candidate_DEV_admission_sha256')
+    if (freeze.get('schema')!='PI0294_PV1_P4_UNIQUE_CANDIDATE_FREEZE_V1'
+            or freeze.get('authority_release')!=AUTHORITY
+            or freeze.get('status')!='PASS_UNIQUE_DEV_QUALIFIED_SHARED_CANDIDATE_FROZEN'
+            or freeze.get('LOCKBOX_opened') is not False
+            or freeze.get('Teacher_takeover') is not False
+            or freeze.get('evaluation_training_updates')!=0
+            or freeze.get('global_step')!=4096
+            or freeze.get('qualifying_candidates')!=[freeze.get('candidate')]
+            or any(not re.fullmatch('[0-9a-f]{64}',freeze.get(k,'')) for k in hashes)):
+        raise PermissionError('PV1_P5_ONLY_ONE_DEV_QUALIFIED_FULLY_FROZEN_SHARED_CANDIDATE')
+    candidate=freeze['candidate'];panels={}
+    for bank in BANKS:
+        label=candidate+'-LOCKBOX-N'+str(bank);cards=[]
+        for base in evaluation_cards(groups,'LOCKBOX'):
+            if base['noise_bank']!=bank:continue
+            c=deepcopy(base);c.update(id=candidate+'-'+base['id'],policy_candidate=candidate,
+                pv1_model_label=candidate,pv1_session_label=label)
+            cards.append(c)
+        if len(cards)!=40:raise PermissionError('PV1_P5_EXACT_20_SCENE_TWO_TASK_PANEL_PER_NOISE_BANK')
+        panels[label]=dict(candidate=candidate,checkpoint_step=4096,split='LOCKBOX',noise_bank=bank,
+            noise_namespace='PI0294/PV1/LOCKBOX/N'+str(bank),cards=cards,Teacher_takeover=False,
+            complete_task_duration_s=32)
+    return dict(schema='PI0294_PV1_P5_PRESEALED_LOCKBOX80_V1',authority_release=AUTHORITY,
+        population_plan_sha256=POPULATION,candidate_freeze=freeze,panels=panels,
+        regular_conditions=80,unique_scene_groups=20,conditions_per_task=40,
+        evaluation_conditions_teacher_success_screened=False,original_S1_and_score=True,
+        engineering_replacements_per_condition_max=1,valid_policy_outcomes_repeated=False,
+        final_LOCKBOX_opened=True,policy_selection=candidate)
+
+
 def session_spec(root,label):
     root=Path(root);m=read(root/'RUN_MANIFEST.json')
     if (sha(root/POPULATION_FILE)!=POPULATION
@@ -53,6 +88,19 @@ def session_spec(root,label):
         new_bank_manifest_sha256=plan['new_bank_manifest_sha256'])
     if plan!=expected or label not in expected['panels']:
         raise PermissionError('PV1_EXACT_PREFROZEN_DEVELOPMENT_PANEL_NO_NEW_DISTRIBUTIONS')
+    return expected['panels'][label]
+
+
+def final_session_spec(root,label):
+    root=Path(root);m=read(root/'RUN_MANIFEST.json')
+    if (sha(root/POPULATION_FILE)!=POPULATION
+            or m['execution']['sealed_inputs'].get(POPULATION_FILE)!=POPULATION
+            or m['execution']['sealed_inputs'].get(FINAL_PLAN)!=sha(root/FINAL_PLAN)):
+        raise PermissionError('PV1_P5_SEALED_STATIC_POPULATION_AND_LOCKBOX80_PLAN')
+    plan=read(root/FINAL_PLAN);groups=read(root/POPULATION_FILE)['groups']
+    expected=final_confirmation(groups,plan['candidate_freeze'])
+    if plan!=expected or label not in expected['panels']:
+        raise PermissionError('PV1_P5_EXACT_PREFROZEN_LOCKBOX80_NO_NEW_DISTRIBUTIONS')
     return expected['panels'][label]
 
 
