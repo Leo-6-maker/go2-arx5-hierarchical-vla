@@ -21,6 +21,23 @@
     "optimizer_updates_by_this_job": 0,
     "physics_started_by_this_job": false
   },
+  "sanitized_scheduler_capacity_readback": {
+    "observed_at": "2026-10-19T20:38:53+08:00",
+    "source": "PBS pbsnodes -a -F json and qstat -f -F json read-only aggregation",
+    "H200_nodes_total": 40,
+    "AISG_debug_bound_H200_nodes": 16,
+    "non_AISG_debug_H200_nodes": 24,
+    "non_AISG_debug_nodes_with_at_least_one_unassigned_GPU_counter": 1,
+    "non_AISG_debug_aggregate_unassigned_GPU_counter": 7,
+    "nodes_fitting_one_GPU_12_CPU_128GiB_by_unassigned_counters": 1,
+    "fitting_nodes_not_offline": 0,
+    "small_queue_enabled": true,
+    "small_queue_started": true,
+    "job_project_unchanged": "CFP04-CF-007",
+    "job_resource_expression_unchanged": "1:ncpus=12:mem=128gb:ngpus=1:gpu_model=H200",
+    "scheduler_comment_unchanged": "Not Running: Insufficient amount of resource: ngpus",
+    "interpretation": "At this readback, the only non-AISG_debug H200 node whose unassigned resource counters could fit the complete request was offline. No non-offline node simultaneously exposed one H200 GPU, 12 CPUs and 128 GiB. This supports a site-capacity wait, not a malformed project, queue, memory or GPU request. Node names and other-user job identities are intentionally omitted."
+  },
   "live_ledger_snapshot": {
     "revision": 696,
     "used_H200_s": 11154,
