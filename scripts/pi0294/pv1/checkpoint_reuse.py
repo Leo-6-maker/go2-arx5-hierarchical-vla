@@ -1,9 +1,10 @@
-"""Plan a full-state cold continuation from a closed registered sibling only."""
+"""Validate and atomically copy full-state cold continuations between siblings."""
+import hashlib
 import os
 from pathlib import Path
 import re
 
-from scripts.pi0292.durable import read
+from scripts.pi0292.durable import read,write
 from scripts.pi0294.e1.journal import process_is_same
 from scripts.pi0294.e1.scope import STATS
 from scripts.pi0294.native_dataset import sha
@@ -14,6 +15,8 @@ from .training import checked_resume
 from .neural_scope import ROLE
 
 PLAN='plans/REUSED_CHECKPOINT_BINDING.private.json'
+INTENT='evidence/CHECKPOINT_REUSE_COPY_INTENT.private.json'
+RECEIPT='evidence/CHECKPOINT_REUSE_COPY_RECEIPT.private.json'
 
 
 def member(root,name):
@@ -36,7 +39,7 @@ def sealed(root,manifest,name):
     return read(p)
 
 
-def validate(root,recipe,dataset):
+def validate(root,recipe,dataset,*,allow_existing_destination=False):
     """Return a copy plan; do not copy, submit, change counters or reset cursors."""
     root=Path(root)
     if root.is_symlink() or not root.is_absolute() or root.resolve()!=root or root.parent.name!='children':
@@ -117,7 +120,8 @@ def validate(root,recipe,dataset):
             or complete['origin_source_sha']!=plan['source_code_sha']
             or not any(v.get('job_id')==complete['origin_job_id'] and v.get('training_run_key')==key for v in jobs)
             or campaign.get('training_runs',{}).get(key)!=dict(recipe_sha256=digest(recipe),last_native_step=step)
-            or campaign['optimizer_updates']<step or destination.exists()
+            or campaign['optimizer_updates']<step
+            or (destination.exists() and not allow_existing_destination)
             or plan['copy_full_resume_state'] is not True or plan['additional_optimizer_updates']!=0):
         raise PermissionError('PV1_CHECKPOINT_REUSE_EXACT_ALREADY_CHARGED_STEP_AND_ABSENT_DESTINATION')
     for name in complete['files']:
@@ -136,3 +140,120 @@ def validate(root,recipe,dataset):
         copy_logical_bytes=sum((checkpoint/name).stat().st_size for name in files),
         actual_copy_executed=False,current_destination_full_hash_verification_still_required=True,
         current_native_permissions_and_resource_admission_still_required=True)
+
+
+def _actual_files(checkpoint):
+    checkpoint=Path(checkpoint);names=[]
+    for p in checkpoint.rglob('*'):
+        if p.is_symlink():
+            raise PermissionError('PV1_CHECKPOINT_COPY_NO_SYMLINK_OUTPUT')
+        if p.is_file():names.append(p.relative_to(checkpoint).as_posix())
+        elif not p.is_dir():raise PermissionError('PV1_CHECKPOINT_COPY_REGULAR_FILES_ONLY')
+    return set(names)
+
+
+def _verify(checkpoint,files):
+    checkpoint=Path(checkpoint)
+    if (checkpoint.is_symlink() or not checkpoint.is_dir()
+            or _actual_files(checkpoint)!=set(files)):
+        raise PermissionError('PV1_CHECKPOINT_COPY_EXACT_MEMBER_SET_REQUIRED')
+    for name,expected in files.items():
+        p=member(checkpoint,name)
+        if not p.is_file() or p.is_symlink() or p.stat().st_uid!=os.getuid() or sha(p)!=expected:
+            raise PermissionError('PV1_CHECKPOINT_COPY_MEMBER_READBACK:'+name)
+
+
+def _copy_one(source,destination,expected):
+    destination.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+    if destination.exists():
+        if (destination.is_symlink() or not destination.is_file()
+                or destination.stat().st_uid!=os.getuid() or sha(destination)!=expected):
+            raise PermissionError('PV1_CHECKPOINT_PARTIAL_COPY_CHANGED:'+destination.name)
+        return False
+    flags=os.O_WRONLY|os.O_CREAT|os.O_EXCL
+    if hasattr(os,'O_NOFOLLOW'):flags|=os.O_NOFOLLOW
+    source_flags=os.O_RDONLY|(os.O_NOFOLLOW if hasattr(os,'O_NOFOLLOW') else 0)
+    source_fd=os.open(source,source_flags);destination_fd=None
+    try:
+        destination_fd=os.open(destination,flags,0o400)
+        digest_=hashlib.sha256()
+        while True:
+            chunk=os.read(source_fd,8*1024*1024)
+            if not chunk:break
+            digest_.update(chunk)
+            view=memoryview(chunk)
+            while view:
+                written=os.write(destination_fd,view)
+                if written<=0:raise OSError('PV1_CHECKPOINT_COPY_SHORT_WRITE')
+                view=view[written:]
+        os.fsync(destination_fd)
+        if digest_.hexdigest()!=expected:
+            raise ValueError('PV1_CHECKPOINT_SOURCE_CHANGED_DURING_COPY:'+source.name)
+    except BaseException:
+        if destination_fd is not None:os.close(destination_fd);destination_fd=None
+        if destination.exists() and not destination.is_symlink():destination.unlink()
+        raise
+    finally:
+        os.close(source_fd)
+        if destination_fd is not None:os.close(destination_fd)
+    return True
+
+
+def execute(root,recipe,dataset):
+    """Copy once without changing optimizer/update accounting or source bytes."""
+    root=Path(root);result=validate(root,recipe,dataset,allow_existing_destination=True)
+    source=Path(result['source_checkpoint']);destination=Path(result['destination_checkpoint'])
+    receipt_path=member(root,RECEIPT);intent_path=member(root,INTENT)
+    if receipt_path.exists():
+        receipt=read(receipt_path)
+        if (receipt.get('status')!='PASS_FULL_STATE_CHECKPOINT_COPIED_AND_REHASHED'
+                or receipt.get('binding_sha256')!=result['binding_sha256']
+                or receipt.get('checkpoint_manifest_sha256')!=result['checkpoint_manifest_sha256']):
+            raise PermissionError('PV1_CHECKPOINT_COPY_RECEIPT_IDENTITY')
+        _verify(destination,result['files'])
+        if checked_resume(root,result['training_run_key'],destination,recipe,dataset)!=result['global_step']:
+            raise PermissionError('PV1_CHECKPOINT_COPIED_RESUME_READBACK')
+        return receipt
+    intent=dict(schema='PI0294_PV1_CHECKPOINT_REUSE_COPY_INTENT_V1',authority_release=AUTHORITY,
+        binding_sha256=result['binding_sha256'],source_child_uuid=result['source_child_uuid'],
+        source_checkpoint=result['source_checkpoint'],destination_checkpoint=result['destination_checkpoint'],
+        checkpoint_manifest_sha256=result['checkpoint_manifest_sha256'],files=result['files'],
+        optimizer_updates_already_charged=result['optimizer_updates_already_charged'],
+        additional_optimizer_updates=0)
+    intent_path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+    if intent_path.exists():
+        if read(intent_path)!=intent:raise PermissionError('PV1_CHECKPOINT_COPY_INTENT_IDENTITY')
+    else:write(intent_path,intent);intent_path.chmod(0o400)
+    destination.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+    staging=destination.with_name('.'+destination.name+'.copying-'+result['binding_sha256'][:16])
+    copied=0;resumed_partial=staging.exists()
+    if destination.exists():
+        if staging.exists():raise PermissionError('PV1_CHECKPOINT_DESTINATION_AND_STAGING_BOTH_EXIST')
+        recovered_existing=True
+    else:
+        recovered_existing=False
+        staging.mkdir(mode=0o700,parents=False,exist_ok=True)
+        unexpected=_actual_files(staging)-set(result['files'])
+        if unexpected:raise PermissionError('PV1_CHECKPOINT_PARTIAL_COPY_UNEXPECTED_MEMBERS')
+        for name in sorted(result['files'],key=lambda n:(n=='CHECKPOINT_COMPLETE.json',n)):
+            copied+=_copy_one(member(source,name),member(staging,name),result['files'][name])
+        _verify(staging,result['files'])
+        os.replace(staging,destination)
+        directory_fd=os.open(destination.parent,os.O_RDONLY|os.O_DIRECTORY)
+        try:os.fsync(directory_fd)
+        finally:os.close(directory_fd)
+    _verify(destination,result['files'])
+    step=checked_resume(root,result['training_run_key'],destination,recipe,dataset)
+    if step!=result['global_step']:
+        raise PermissionError('PV1_CHECKPOINT_COPIED_RESUME_READBACK')
+    receipt=dict(schema='PI0294_PV1_CHECKPOINT_REUSE_COPY_RECEIPT_V1',
+        status='PASS_FULL_STATE_CHECKPOINT_COPIED_AND_REHASHED',authority_release=AUTHORITY,
+        binding_sha256=result['binding_sha256'],source_child_uuid=result['source_child_uuid'],
+        training_run_key=result['training_run_key'],global_step=step,
+        resume_sample_cursor=result['resume_sample_cursor'],checkpoint_manifest_sha256=result['checkpoint_manifest_sha256'],
+        files=result['files'],logical_bytes=result['copy_logical_bytes'],members_copied_this_call=copied,
+        resumed_partial_staging=resumed_partial,recovered_existing_destination=recovered_existing,
+        source_unchanged=True,additional_optimizer_updates=0,ledger_mutations=0,
+        current_native_permissions_and_resource_admission_still_required=True)
+    write(receipt_path,receipt);receipt_path.chmod(0o400)
+    return receipt

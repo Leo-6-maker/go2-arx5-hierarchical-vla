@@ -1,0 +1,43 @@
+{
+  "schema": "PI0294_PV1_FULL_STATE_CHECKPOINT_REUSE_CPU_IMPLEMENTATION_V1",
+  "status": "PASS_CPU_IMPLEMENTED_NOT_NATIVE_EXECUTED",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "run_uuid": "20261018T182956Z-localpc-pv1",
+  "purpose": "Allow a later registered PV1 child to resume an already charged full checkpoint from a closed sibling without silently restarting or dropping optimizer, scheduler, RNG, sampler, processor or statistics state.",
+  "implemented_contract": [
+    "The existing validator still requires same-campaign registered siblings, a closed source lease, terminal native jobs, no unknown or pending effects, an exact recipe, a complete checkpoint and an already charged sampler cursor.",
+    "Every source member is opened without following symlinks, streamed through a content-bound staging directory and checked against the sealed checkpoint manifest.",
+    "CHECKPOINT_COMPLETE.json is copied last; the exact member set is verified before a same-filesystem atomic rename exposes the destination.",
+    "An interrupted staging directory can continue only when every existing member has the expected hash; changed or unexpected members are preserved and rejected.",
+    "An already atomically exposed destination without a final receipt can be recovered only after exact member and native checked-resume validation.",
+    "The final readback reruns the original resume contract for recipe, sample cursor, manifest, statistics and full state before emitting a receipt.",
+    "The operation records zero additional optimizer updates and makes no campaign-ledger mutation."
+  ],
+  "verification": {
+    "focused_tests": 11,
+    "focused_subtests": 20,
+    "full_tests": 879,
+    "full_subtests": 818,
+    "full_suite_wall_seconds": 49.53,
+    "result": "PASS"
+  },
+  "current_native_delta": {
+    "real_checkpoint_copies": 0,
+    "new_gpu_allocations": 0,
+    "new_pbs_submissions": 0,
+    "new_model_loads": 0,
+    "new_optimizer_updates": 0,
+    "new_neural_queries": 0,
+    "new_physics_ticks": 0,
+    "running_capsule_changes": 0
+  },
+  "remaining_gates": [
+    "Complete and independently audit all actual B0 DEV48 conditions.",
+    "Close the B0 native child and recompute the full mandatory-work resource admission.",
+    "Register the matched A_CONTROL and B_COVERAGE cold children with exact source, data, recipe and output bindings.",
+    "Execute the copy only for an actual interrupted training continuation; fresh step-zero arms continue directly from the common CORR2048 parent.",
+    "Obtain current native permissions and a legal one-GPU PBS allocation before any model load or update."
+  ],
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -79,6 +79,10 @@ class CheckpointReuse(unittest.TestCase):
         with patch.object(reuse,'STATS',self.stats),patch.object(training,'STATS',self.stats):
             return reuse.validate(self.root,self.recipe,self.dataset)
 
+    def execute(self):
+        with patch.object(reuse,'STATS',self.stats),patch.object(training,'STATS',self.stats):
+            return reuse.execute(self.root,self.recipe,self.dataset)
+
     def test_full_state_copy_plan_preserves_source_counters_and_exact_sample_cursor_without_copy(self):
         ledger=self.parent/'HOPPER_RESOURCE_LEDGER.json';before=ledger.read_bytes()
         result=self.validate()
@@ -91,6 +95,47 @@ class CheckpointReuse(unittest.TestCase):
         self.assertEqual(set(result['files']),set(self.complete['files'])|{'CHECKPOINT_COMPLETE.json'})
         self.assertEqual(result['copy_logical_bytes'],sum((self.checkpoint/n).stat().st_size for n in result['files']))
         self.assertEqual(result['source_code_sha'],'a'*40);self.assertEqual(result['destination_code_sha'],'b'*40)
+
+    def test_execute_copies_every_byte_atomically_and_preserves_accounting(self):
+        ledger=self.parent/'HOPPER_RESOURCE_LEDGER.json';before=ledger.read_bytes()
+        source={p.relative_to(self.checkpoint).as_posix():p.read_bytes()
+            for p in self.checkpoint.rglob('*') if p.is_file()}
+        result=self.execute();destination=self.root/self.relative
+        self.assertEqual(result['status'],'PASS_FULL_STATE_CHECKPOINT_COPIED_AND_REHASHED')
+        self.assertEqual(result['members_copied_this_call'],len(source))
+        self.assertFalse(result['resumed_partial_staging']);self.assertFalse(result['recovered_existing_destination'])
+        self.assertEqual({p.relative_to(destination).as_posix():p.read_bytes()
+            for p in destination.rglob('*') if p.is_file()},source)
+        self.assertEqual(result['additional_optimizer_updates'],0);self.assertEqual(result['ledger_mutations'],0)
+        self.assertEqual(ledger.read_bytes(),before)
+        again=self.execute();self.assertEqual(again,result);self.assertEqual(ledger.read_bytes(),before)
+
+    def test_execute_resumes_exact_partial_staging_without_overwriting_members(self):
+        plan=self.validate();destination=Path(plan['destination_checkpoint'])
+        staging=destination.with_name('.'+destination.name+'.copying-'+plan['binding_sha256'][:16])
+        existing='config.json';target=staging/existing;target.parent.mkdir(parents=True)
+        target.write_bytes((self.checkpoint/existing).read_bytes());target.chmod(0o400)
+        before=target.stat().st_mtime_ns
+        result=self.execute()
+        self.assertTrue(result['resumed_partial_staging']);self.assertEqual(result['members_copied_this_call'],len(plan['files'])-1)
+        self.assertEqual((destination/existing).stat().st_mtime_ns,before)
+        self.assertFalse(staging.exists())
+
+    def test_changed_partial_staging_and_unexpected_member_are_preserved_and_rejected(self):
+        for mode in ('changed','unexpected'):
+            with self.subTest(mode=mode):
+                # Rebuild the complete fixture because a failed attempt must remain untouched.
+                plan=self.validate();destination=Path(plan['destination_checkpoint'])
+                staging=destination.with_name('.'+destination.name+'.copying-'+plan['binding_sha256'][:16])
+                staging.mkdir(parents=True)
+                name='config.json' if mode=='changed' else 'UNEXPECTED'
+                (staging/name).write_bytes(b'preserve-me')
+                with self.assertRaises(PermissionError):self.execute()
+                self.assertEqual((staging/name).read_bytes(),b'preserve-me')
+                for p in sorted(staging.rglob('*'),reverse=True):
+                    if p.is_file():p.unlink()
+                    elif p.is_dir():p.rmdir()
+                staging.rmdir()
 
     def test_unknown_pending_active_native_or_newer_committed_step_never_rolls_back(self):
         for kind in ('unknown','pending','active_job','newer_step','wrong_recipe','wrong_origin_job'):

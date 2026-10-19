@@ -1,5 +1,16 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 full-state checkpoint reuse now has an executable cold path, not a native copy receipt.**
+[CPU implementation receipt](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_FULL_STATE_CHECKPOINT_REUSE_CPU_IMPLEMENTATION.json):
+the existing closed-sibling validator now performs an exact member copy through
+a content-bound staging directory, reuses already verified partial members after
+an interruption, atomically exposes the completed checkpoint, and reruns the
+native resume reader before writing a receipt. Source bytes and campaign update
+counters stay unchanged; changed or extra partial members fail without cleanup.
+879 tests/818 subtests PASS. No real checkpoint was copied, no GPU/PBS/model was
+started, and current B0 job675967 remains on its immutable source. Actual use
+still requires complete B0, registered cold peers and fresh resource admission.
+
 **PV1 evaluation efficiency: actual service and serial-control cost measured.**
 [Original642 service envelopes and65411 local RPC metrics](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_ACTUAL_EVALUATION_SERVICE_AND_RPC_COST.json):
 same-Hopper inclusive service mean0.31655s/total203.2243s; serial RPC blocking
