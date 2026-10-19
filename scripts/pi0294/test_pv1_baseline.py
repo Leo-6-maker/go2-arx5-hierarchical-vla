@@ -23,7 +23,7 @@ def fixtures():
             result=raw(dict(id=card['id'],source_sha='a'*40))
             row={k:card[k] for k in ('condition_id','task','split','scene_group','noise_bank','family')}
             row.update(attempt_id=card['id'],model='B0_CORR',status='VALID_TASK_FAIL',
-                pipeline_trustworthy=True,failure_stage='S1_REJECTION',live_native_failures=0,
+                pipeline_trustworthy=True,failure_stage='OBJECT_TASK_RESULT',live_native_failures=0,main_integrations=16000,
                 teacher_takeover=False,result_sha256=hashlib.sha256(result).hexdigest())
             audit=dict(attempt_id=row['attempt_id'],status='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT',
                 adjudication=row,errors=[],checks={k:True for k in AUDIT_CHECKS},
@@ -36,7 +36,11 @@ def fixtures():
                     statistics_sha256=STATS,relay_identity=dict(source_sha='a'*40)),
                 native_pre_model_qualification=dict(status='PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK',
                     heartbeat_elapsed_s=600.01,transport_cycles=80,new_model_queries=0,new_physics=0,receipt_sha256='e'*64))
-            rows.append(dict(adjudication=raw(row),result=result,audit=raw(audit),model_ready=raw(ready)))
+            chain=dict(status='PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN',attempt_id=row['attempt_id'],
+                adjudication_sha256=hashlib.sha256(raw(row)).hexdigest(),identity=ready['identity'],
+                new_integrations=0,new_model_queries=0,executed_ACKs=80,draws=80,
+                core_proof_sha256='a'*64,hopper_proof_sha256='b'*64)
+            rows.append(dict(adjudication=raw(row),result=result,audit=raw(audit),model_ready=raw(ready),causal_chain=raw(chain)))
     return rows
 
 
@@ -85,6 +89,16 @@ class BaselineAdmission(unittest.TestCase):
         changed=deepcopy(rows);changed[0]['audit']={}
         with self.assertRaisesRegex(PermissionError,'ACTUAL_FILE_BYTES'):build(changed)
 
+    def test_missing_or_foreign_causal_evidence_never_admits_training(self):
+        rows=fixtures()
+        for change in [dict(status='NOT_VERIFIED'),dict(adjudication_sha256='f'*64),dict(identity={}),
+                dict(executed_ACKs=79),dict(draws=81),dict(new_integrations=1),dict(core_proof_sha256='')]:
+            changed=deepcopy(rows);chain=json.loads(changed[0]['causal_chain']);chain.update(change)
+            changed[0]['causal_chain']=raw(chain)
+            with self.subTest(change=change),self.assertRaises(PermissionError):build(changed)
+        changed=deepcopy(rows);changed[0].pop('causal_chain')
+        with self.assertRaises(PermissionError):build(changed)
+
     def test_wrong_checkpoint_stale_panel_or_incomplete_native_qualification_rejected(self):
         rows=fixtures()
         for section,key,value in [(None,'label','WRONG'),(None,'job_id',None),
@@ -116,6 +130,9 @@ class BaselineAdmission(unittest.TestCase):
         replacement['result_sha256']=hashlib.sha256(rows[1]['result']).hexdigest()
         audit=json.loads(rows[1]['audit']);audit.update(attempt_id=replacement['attempt_id'],adjudication=replacement)
         rows[1].update(adjudication=raw(replacement),audit=raw(audit))
+        chain=json.loads(rows[1]['causal_chain']);chain.update(attempt_id=replacement['attempt_id'],
+            adjudication_sha256=hashlib.sha256(raw(replacement)).hexdigest())
+        rows[1]['causal_chain']=raw(chain)
         self.assertEqual(len(build(rows)['all_actual_attempts']),49)
         self.assertEqual(rows[0]['adjudication'],original_bytes)
         for change in [dict(original_adjudication_sha256='e'*64),dict(native_process_terminal_verified=False),

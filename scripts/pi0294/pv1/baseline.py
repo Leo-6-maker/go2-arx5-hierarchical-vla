@@ -86,6 +86,17 @@ def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence):
         if row['status'] in ('SUCCESS','VALID_TASK_FAIL'):
             if 'engineering_diagnosis' in item:
                 raise PermissionError('PV1_BASELINE_VALID_POLICY_OUTCOME_IS_NOT_ENGINEERING')
+            chain,chain_sha=_read(item.get('causal_chain'))
+            if (chain.get('status')!='PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN'
+                    or chain.get('attempt_id')!=identifier or chain.get('adjudication_sha256')!=row_sha
+                    or chain.get('identity')!=identity or chain.get('new_integrations')!=0
+                    or chain.get('new_model_queries')!=0
+                    or type(chain.get('executed_ACKs')) is not int or type(chain.get('draws')) is not int
+                    or chain.get('executed_ACKs')*200!=row['main_integrations']
+                    or not chain['executed_ACKs']<=chain.get('draws',-1)<=80
+                    or any(not re.fullmatch('[0-9a-f]{64}',chain.get(k,''))
+                        for k in ('core_proof_sha256','hopper_proof_sha256'))):
+                raise PermissionError('PV1_BASELINE_INDEPENDENT_ACTUAL_CAUSAL_CHAIN_REQUIRED')
             if (row['pipeline_trustworthy'] is not True
                     or audit['status']!='PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT'
                     or not set(AUDIT_CHECKS)<=set(audit['checks'])):
@@ -113,6 +124,8 @@ def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence):
         else:raise PermissionError('PV1_BASELINE_UNKNOWN_OUTCOME_NOT_ADMITTED')
         attempt_hashes[identifier]=dict(adjudication_sha256=row_sha,result_sha256=result_sha,
             independent_audit_sha256=audit_sha,model_ready_sha256=ready_sha)
+        if row['status'] in ('SUCCESS','VALID_TASK_FAIL'):
+            attempt_hashes[identifier]['causal_chain_sha256']=chain_sha
         if 'engineering_diagnosis' in item:
             attempt_hashes[identifier]['engineering_diagnosis_sha256']=hashlib.sha256(item['engineering_diagnosis']).hexdigest()
         rows.append(row)
