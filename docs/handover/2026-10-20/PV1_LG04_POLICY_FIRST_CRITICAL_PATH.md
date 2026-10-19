@@ -3,7 +3,7 @@
 - 日期：2026-10-20，Asia/Singapore
 - Goal ID：`PV1_LG04_POLICY_FIRST_CRITICAL_PATH_V1`
 - 状态：**USER_REQUESTED_PRIORITY_HANDOFF_ONLY / REMOTE_OWNER_ADOPTION_NOT_YET_EVIDENCED / NO_NEW_SCIENTIFIC_OR_RESOURCE_GO**
-- Git审核基线：`85fa1d8d15eae05978c1076d33cf7159b3b69329`，现役分支`pi0267/executor-decoupled-recovery`。最新可见原生收据是Issue #47 `626?`之外的**`6272938836`**（2026-10-20 01:16 SGT）；科学#11`6270506505`、`6272012619`和`6272769694`。本文件**不是**2026-10-20 05:13 SGT的直接PBS查询。
+- Git审核基线：`85fa1d8d15eae05978c1076d33cf7159b3b69329`，现役分支`pi0267/executor-decoupled-recovery`。最新可见原生收据为Issue #47 **`6272938836`**（2026-10-20 01:16 SGT）；科学#11`6270506505`、`6272012619`和`6272769694`。本文件**不是**2026-10-20 05:13 SGT的直接PBS查询。
 - 权威仍为原PV1已采用`9eff29a44a193dd4d3620dc0bfe5764a402eff42`，原协议`docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md`及机器预算`reports/PI0294/design/PV1_MULTITASK_POLICY_SCOPE_20261019.json`。已采用LG03`42faa3f7bce84877b1fd51c3c31de1d8686a15df`不重做；本Goal仅调整**优先级、剩余作业机会与科学交付证据**，不重写原协议或任何旧结果。
 - 唯一执行角色：**现有single local-PC owner**，既有可跨聊天中断的合法本地会话、统一workspace entry、原NFS单mutation owner和集成publisher。用户此前停止的子代理不恢复；没有第二调度器、第二owner或后台新任务。
 
