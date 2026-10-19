@@ -76,6 +76,31 @@ training receipt and exact-resume evidence, never independent scientific GO.
 
 ## Other Recommendations and Explicit Holds
 
+### Actual Evaluation Service Versus Control Cost
+
+An additional read-only join covers all642 original native query starts and
+original action-file mtimes on the same Hopper host. The inclusive service
+envelope is203.2243s total,0.31655s mean,0.31054s median,0.33167s p95,
+1.32642s maximum. It includes ledger, processing, transfer, generation, decode,
+array/receipt IO and outbox write, **not just GPU kernels**. This observation
+does not establish historical NTP stability or a GPU utilization percentage.
+
+The original local monotonic RPC metrics independently record65411 serial calls,
+3346.3777s blocking wall, including34214 ACK polls and24769 response polls.
+The original9612 allocated H200 seconds include qualification, all CPU/SSH/NFS
+wait and closeout. RPC intervals can overlap service intervals; do not sum or
+subtract them into GPU utilization. These actual figures support investigating
+control IO rather than assuming every allocated second was useful model compute.
+
+For a later cold capsule only, `PV1_LOCAL_OWNER_HEARTBEAT_ONLY_V1` requires an
+explicit matching manifest/stage authority binding. RPC then verifies the
+existing owner heartbeat without rewriting it on every poll. The local owner
+continues its60s renewal and the original300s stale-owner failure remains;
+continuous RPC calls cannot mask owner loss. Old capsules keep their old writer
+semantics. All scope/lease/source/model-terminal/unknown-effect/action checks
+remain. This is CPU-tested cold source, **not native-qualified or deployed**,
+and not a promised throughput improvement. Do not retrofit the queued04 capsule.
+
 The fixed bank was actually recounted:139 trajectories,77 unique scene groups,
 62 groups with both tasks,83539 overlapping windows. These are distinct units.
 Continue the current coverage A/B first; do not call the window count independent

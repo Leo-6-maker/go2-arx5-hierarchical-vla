@@ -1,0 +1,122 @@
+{
+  "schema": "PI0294_PV1_ACTUAL_EVALUATION_CONTROL_COST_V1",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "campaign": "20261018T182956Z-localpc-pv1",
+  "status": "ACTUAL_END_TO_END_SERVICE_AND_RPC_EVIDENCE_NOT_GPU_UTILIZATION",
+  "original_actor_source_sha": "e6cd88c406783b8b5d8843449f6f8d86ef50fc13",
+  "current_queued_actor_source_sha": "1c4cdc9aac8dbe1748f83f7003a8959842449ed6",
+  "original_job": "675394.hopper-m-02",
+  "original_allocation_H200_s_upper": 9612,
+  "original_native_draws": 642,
+  "valid_conditions": 9,
+  "engineering_incomplete": 1,
+  "full_private_readback_sha256": "2b8b845ac3ea1632f6ce13eb6516414badea83336bcab02ace20163258d639a5",
+  "original_QUERY_STATE_sha256": "6d166fd66f6c7ecedddeb74546553e07c2f9a7bfdfc2deff3d44918fa9969863",
+  "same_Hopper_host_service_envelope": {
+    "count": 642,
+    "sum_s": 203.22428798675537,
+    "mean_s": 0.31654873518186194,
+    "median_s": 0.31053948402404785,
+    "p95_s": 0.3316688537597656,
+    "max_s": 1.3264193534851074
+  },
+  "service_envelope_definition": [
+    "QUERY_LEDGER_WRITE",
+    "PROCESSOR_AND_TRANSFER",
+    "MODEL_GENERATION",
+    "DECODE",
+    "ARRAY_AND_RECEIPT_IO",
+    "OUTBOX_WRITE"
+  ],
+  "clock_definition": "SAME_HOPPER_HOST_REALTIME_INTENT_AND_ORIGINAL_OUTBOX_MTIME",
+  "NTP_adjustment_history_verified": false,
+  "clock_resolution_is_not_GPU_event_or_kernel_time": true,
+  "original_local_serial_RPC": [
+    {
+      "role": "core",
+      "source_file_sha256": "6f52887cb63924496d95af171e70c62adee6c0bbbb7cd48e786f3d2d59ea3d53",
+      "operations": {
+        "ack": {
+          "count": 34214,
+          "sum_s": 1233.6112216529436,
+          "mean_s": 0.03605574389585969,
+          "median_s": 0.01496999450318981,
+          "p95_s": 0.23798548599006608,
+          "max_s": 14.616316297004232
+        },
+        "install": {
+          "count": 641,
+          "sum_s": 198.92957753600786,
+          "mean_s": 0.3103425546583586,
+          "median_s": 0.2377351449977141,
+          "p95_s": 0.6754213589883875,
+          "max_s": 4.66925918898778
+        },
+        "observation": {
+          "count": 5145,
+          "sum_s": 362.73185832143645,
+          "mean_s": 0.07050181891573108,
+          "median_s": 0.015333382005337626,
+          "p95_s": 0.31943005800712854,
+          "max_s": 3.810338793002302
+        }
+      },
+      "total_calls": 40000,
+      "sum_blocking_call_s": 1795.272657510388,
+      "request_bytes": 75669135,
+      "response_bytes": 64613718
+    },
+    {
+      "role": "hopper",
+      "source_file_sha256": "125bbee445b3a610e77ae2ecf1e89a80d9266c2b98525dd419e763ad09080fb6",
+      "operations": {
+        "query": {
+          "count": 642,
+          "sum_s": 210.06892707938096,
+          "mean_s": 0.327210166790313,
+          "median_s": 0.22933931849547662,
+          "p95_s": 0.7151948249957059,
+          "max_s": 4.173884318995988
+        },
+        "response": {
+          "count": 24769,
+          "sum_s": 1341.0361570104142,
+          "mean_s": 0.05414171573379685,
+          "median_s": 0.033491720008896664,
+          "p95_s": 0.24196035898057744,
+          "max_s": 3.2828711819893215
+        }
+      },
+      "total_calls": 25411,
+      "sum_blocking_call_s": 1551.1050840897951,
+      "request_bytes": 66757845,
+      "response_bytes": 8257273
+    }
+  ],
+  "measured_serial_blocking_RPC_s": 3346.377741600183,
+  "sleep_or_idle_between_calls_not_in_RPC_wall_sum": true,
+  "service_and_RPC_intervals_may_overlap_do_not_add_or_subtract_as_GPU_utilization": true,
+  "GPU_utilization_percent": null,
+  "measured_kernel_time": null,
+  "measured_cold_repair_speedup": null,
+  "evidence_supported_next_action": "REDUCE_CONTROL_PLANE_IO_AND_MEASURE_LEGAL_COLD_ACTUAL_THROUGHPUT_BEFORE_MORE_GPU",
+  "cold_opt_in_owner_heartbeat": {
+    "policy": "PV1_LOCAL_OWNER_HEARTBEAT_ONLY_V1",
+    "old_capsules_unchanged": true,
+    "manifest_AND_stage_authority_policy_required": true,
+    "local_owner_heartbeat_interval_s": 60,
+    "original_lost_owner_watchdog_s": 300,
+    "RPC_verifies_owner_but_cannot_renew_it": true,
+    "all_original_action_scope_lease_unknown_effect_guards_retained": true,
+    "current_capsule_hot_changed": false,
+    "native_deployed": false,
+    "performance_improvement_measured": false
+  },
+  "relationship_to_control_poll_repair": "CURRENT_QUEUED_04_HAS_PRIOR_250MS_150000_CALL_PROFILE_NOT_THIS_NEW_HEARTBEAT_POLICY",
+  "original_T0_and_final_reserves_unchanged": true,
+  "new_queries": 0,
+  "new_physics": 0,
+  "new_optimizer_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

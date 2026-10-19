@@ -1,5 +1,16 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 evaluation efficiency: actual service and serial-control cost measured.**
+[Original642 service envelopes and65411 local RPC metrics](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_ACTUAL_EVALUATION_SERVICE_AND_RPC_COST.json):
+same-Hopper inclusive service mean0.31655s/total203.2243s; serial RPC blocking
+3346.3777s versus9612s original allocation. Service includes preprocessing/IO;
+intervals overlap, so neither is a GPU utilization or kernel-time measurement.
+Cold opt-in owner-only heartbeat avoids RPC renewing owner liveness on every
+poll while retaining the original300s stale-owner stop and actual60s owner
+renewal. Both manifest/stage must opt in; old04 stays on1c4cdc9a unchanged.
+876CPU/816subtests PASS. No native deployment or speedup claim, no new queries,
+updates, physics or budget. Full B0 and matched A/B remain the scientific path.
+
 **PV1 TRAIN event audit: all139 frozen parents read, no sampling intervention.**
 [Actual500Hz/20Hz event exposures and all parent raw identities](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_ADMITTED_TRAIN_PHYSICAL_EVENT_EXPOSURE.json):
 all139 original scores recomputed exactly; T1 transport-then-native-grasp-end

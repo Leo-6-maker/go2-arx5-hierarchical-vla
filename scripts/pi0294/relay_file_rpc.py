@@ -111,6 +111,10 @@ def serve(root,role,label):
         manifest_relative=str(copy.relative_to(root)),manifest_sha256=hashlib.sha256(original_manifest).hexdigest(),source_live_worker=False,
         work_type='CONTROL_FILE_RPC_NO_MODEL_NO_PHYSICS',maximum_CPU_s=7200,deadline_epoch=endpoint.registry['deadline_epoch'],started_epoch=time.time()))
     max_calls,control=operation_budget(root,m,endpoint.registry,pv1=pv1)
+    owner_heartbeat_only=False
+    if pv1:
+        from scripts.pi0294.pv1.control_heartbeat import owner_only,keepalive
+        owner_heartbeat_only=owner_only(root,m)
     if control and endpoint.registry['deadline_epoch']-time.time()>control['wall_limit_s']:
         raise PermissionError('PV1_ORIGINAL_MAXIMUM_ALLOCATION_CONTROL_WALL')
     seen=set();metrics=SessionMetrics();status='SESSION_EOF_OR_DEADLINE';error=None;trace=PhaseTrace(sys.stderr)
@@ -125,7 +129,9 @@ def serve(root,role,label):
             if any(metadata(p)!=v for p,v in file_metadata.items()):raise PermissionError('SEALED_SOURCE_METADATA_CHANGED_NO_HOT_RELOAD')
             if (root/'SOURCE_PHYSICS_STOP.json').exists() or (root/'SOURCE_SAFETY_STOP_FROM_CORE.json').exists():raise PermissionError('SOURCE_SAFETY_STOP_PRESERVED')
         if role=='hopper':ensure_model_not_terminal(root,label)
-        if role=='hopper':write(root/'OWNER_HEARTBEAT.json',dict(run_uuid=root.name,observed_epoch=time.time()))
+        if role=='hopper':
+            if pv1:keepalive(root,role,readonly_owner=owner_heartbeat_only)
+            else:write(root/'OWNER_HEARTBEAT.json',dict(run_uuid=root.name,observed_epoch=time.time()))
     try:
         while time.time()<endpoint.registry['deadline_epoch'] and metrics.operations<max_calls:
             readable,_,_=select.select([sys.stdin],[],[],min(30,max(0,endpoint.registry['deadline_epoch']-time.time())))
