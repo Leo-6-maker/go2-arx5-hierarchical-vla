@@ -1,0 +1,146 @@
+{
+  "schema": "PV1_LG04_POLICY_FIRST_TASK_CARD_V1",
+  "status": "HANDOFF_ONLY_NOT_NEW_COMPUTE_OR_SCIENCE_GO",
+  "date_SGT": "2026-10-20",
+  "goal_id": "PV1_LG04_POLICY_FIRST_CRITICAL_PATH_V1",
+  "authority": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "protocol": "docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md",
+  "instructions": "docs/handover/2026-10-20/PV1_LG04_POLICY_FIRST_CRITICAL_PATH.md",
+  "existing_owner_only": true,
+  "audit_baseline": "85fa1d8d15eae05978c1076d33cf7159b3b69329",
+  "source_CI": {
+    "run": 39286536601,
+    "result": "completed_success"
+  },
+  "last_publication_snapshot": {
+    "time_SGT": "2026-10-20T01:16:14+08:00",
+    "B0_valid": 12,
+    "B0_total": 48,
+    "B0_success": 8,
+    "B0_task_fail": 4,
+    "B0_remaining": 36,
+    "job": "676926.hopper-m-02",
+    "PBS_submission_number": 5,
+    "PBS_status": "Q_AFTER_OWNED_MEMORY_ADJUSTMENT_128GB_BLOCKED_NGPUS_AT_LAST_READ",
+    "last_native_updated": "MUST_RECHECK",
+    "optimizer_updates": 0,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "old_child05": "CLOSED_ZERO_PBS"
+  },
+  "goals": [
+    {
+      "stage": "G0",
+      "outcome": "B0_48_VALID_AUDITED_NO_REPLAY"
+    },
+    {
+      "stage": "G1",
+      "outcome": "A_CONTROL_4096_UPDATES_PLUS_1024_TRAIN_ONLY_PROBE"
+    },
+    {
+      "stage": "G2",
+      "outcome": "B_COVERAGE_4096_UPDATES_PLUS_1024_TRAIN_ONLY_PROBE"
+    },
+    {
+      "stage": "G3",
+      "outcome": "A_AND_B_MATCHED_DEV48_EACH_INDEPENDENTLY_AUDITED"
+    },
+    {
+      "stage": "G4",
+      "outcome": "COMPLETE_MATCHED_AB_SCIENCE_REVIEW_AND_DEV_GATE"
+    },
+    {
+      "stage": "G5",
+      "outcome": "ONE_QUALIFIED_FROZEN_POLICY_LOCKBOX80_AND_RESEARCH_PACKAGE_IF_RESOURCES"
+    }
+  ],
+  "CPU_readiness_while_B0": [
+    "C0_SINGLE_OWNER_HEALTH_AND_NATIVE_JOB_LEDGER",
+    "C1_EXACT_UNRUN_B0_CASES_AND_INCREMENTAL_AUDIT",
+    "C2_A_B_COLD_PREPARED_NOT_SUBMITTED",
+    "C3_REUSE_P5_CPU_PATH_NO_REAL_LOCKBOX",
+    "C4_FRESH_FULL_MANDATORY_RESOURCE_AND_QUEUE_RUNWAY"
+  ],
+  "sampling": {
+    "parent": "CORR2048",
+    "route": "COVERAGE_FIRST",
+    "new_demonstrations": 139,
+    "independent_scene_groups": 77,
+    "paired_groups": 62,
+    "action_schema": "EEF10_H40_PREFIX8",
+    "A_batch32": {
+      "old_T1": 8,
+      "C1_T1": 8,
+      "old_T2": 16
+    },
+    "B_batch32": {
+      "old_T1": 4,
+      "new_T1": 4,
+      "C1_T1": 8,
+      "old_T2": 8,
+      "new_T2": 8
+    },
+    "steps_per_arm": 4096,
+    "batch": 32,
+    "trained_from_same_parent": true,
+    "native_loss_and_stats_frozen": true
+  },
+  "scoring": {
+    "DEV_task_success_min_out_of24": 18,
+    "DEV_no_task_decline_vs_B0_more_than_one": true,
+    "DEV_worst_task_strict_improvement": true,
+    "final_lockbox_conditions": 80,
+    "independent_scene_groups": 20,
+    "PV1_VALIDATED_success_min_each_task": 32,
+    "PV1_BETA_success_min_each_task": 28,
+    "second_seed_missing_max_grade": "PV1_BETA",
+    "zero_native_safety_faults": true
+  },
+  "limits": {
+    "GPU_H200_total_hours": 96,
+    "PBS_total_submissions": 24,
+    "max_simultaneous_H200": 1,
+    "max_job_hours": 8,
+    "final_min_reserved_H200_hours": 20,
+    "hard_closeout_SGT": "2026-10-26T02:29:56+08:00",
+    "stop_new_jobs_SGT": "2026-10-25T02:29:56+08:00",
+    "no_clock_or_budget_reset": true
+  },
+  "resource_context": {
+    "previous_settled_H200_seconds": 14706,
+    "queue_reservation_not_spend": true,
+    "B0_36_case_mean_scenario_hours": 7.29,
+    "A_B_combined_training_with_planning_headroom_hours": 13.23,
+    "A_B_DEV96_case_mean_scenario_hours": 19.44,
+    "final_up_to100_attempts_mean_scenario_hours_without_overhead": 20.25,
+    "all_scenarios_not_native_admission": true
+  },
+  "stop_and_amendment": {
+    "B0_complete_before_training": "REMAINS_HARD_GATE",
+    "possible_future_amendment": "SEPARATE_EXPLICIT_HUMAN_SCIENTIFIC_GO_ONLY",
+    "P3_extra_training": "DEFAULT_SKIP",
+    "replica": "ONLY_IF_PROTECTED_FINAL_COST_REMAINING",
+    "if_fail": "HONEST_NEGATIVE_OR_RESOURCE_BLOCKER_NO_FALSE_POLICY"
+  },
+  "frozen": [
+    "WBC",
+    "LEG_POLICY",
+    "PLANT",
+    "GRIPPER_PD",
+    "S1",
+    "SCORING",
+    "NORMALIZER",
+    "ORIGINAL_DATASPLIT",
+    "ORIGINAL_TASK_CLOCK"
+  ],
+  "new_scope_granted": {
+    "GPU": 0,
+    "PBS": 0,
+    "training_updates": 0,
+    "model_queries": 0,
+    "physics_ticks": 0
+  },
+  "owner_reply": "POLICY_FIRST_LG04_ADOPTED_OR_EXACT_BLOCKER",
+  "science_issue": 11,
+  "engineering_issue": 47
+}
