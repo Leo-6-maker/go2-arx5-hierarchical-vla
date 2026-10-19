@@ -257,6 +257,36 @@ class FutureBudgetContracts(unittest.TestCase):
         self.assertEqual(out['future_required_additional']['H200_s'],
             original['future_required_additional']['H200_s']-resources['H200_s'])
 
+    def test_cold_non_gpu_reserve_credits_only_actual_cpu_without_gpu_or_timing_credit(self):
+        original=run();job=next(j for j in original['mandatory_jobs'] if j['kind']=='TRAIN')
+        s=snapshot();resources=dict(Core_CPU_s=15,Core_storage_bytes=1234)
+        row=dict(work_id=job['work_id'],reservation_id='cold-child-core-reserve',job_id=None,
+            reservation_scope='COLD_NON_GPU_ONLY',kind='TRAIN',submission_already_charged=False,
+            resources=resources)
+        s.update(reserved=resources,work_reservations=[row])
+        out=run(snapshot=s)
+        for key in ('H200_s','PBS_submissions','optimizer_updates','neural_queries'):
+            self.assertEqual(out['future_required_additional'][key],original['future_required_additional'][key])
+        self.assertEqual(out['projected_finish_epoch'],original['projected_finish_epoch'])
+        self.assertEqual(out['future_required_additional']['Core_CPU_s'],original['future_required_additional']['Core_CPU_s']-15)
+        self.assertEqual(out['matching_reserved_credits']['Core_storage_bytes'],0)
+        self.assertEqual(out['reserved']['Core_storage_bytes'],1234)
+        for change in (dict(job_id='fake.pbs'),dict(submission_already_charged=True),
+                dict(resources=dict(resources,H200_s=1)),dict(resources=dict(resources,neural_queries=1))):
+            with self.subTest(change=change):
+                bad=deepcopy(s);bad['work_reservations'][0].update(change)
+                with self.assertRaisesRegex(PermissionError,'COLD_NON_GPU'):
+                    run(snapshot=bad)
+
+    def test_cold_reservation_cannot_reassign_kind_or_hide_unknown_reserve(self):
+        job=next(j for j in run()['mandatory_jobs'] if j['kind']=='TRAIN')
+        s=snapshot();s.update(reserved=dict(Core_CPU_s=15),work_reservations=[dict(
+            work_id=job['work_id'],reservation_id='cold',job_id=None,reservation_scope='COLD_NON_GPU_ONLY',
+            kind='DEV',submission_already_charged=False,resources=dict(Core_CPU_s=15))])
+        with self.assertRaisesRegex(PermissionError,'KIND_CANNOT_BE_REASSIGNED'):run(snapshot=s)
+        s['work_reservations'][0]['kind']='TRAIN';s['reserved']['Core_CPU_s']+=1
+        with self.assertRaisesRegex(PermissionError,'RECONCILED'):run(snapshot=s)
+
     def test_stale_unknown_nonfinite_boolean_and_unknown_dimensions_fail_closed(self):
         for mutate in (lambda s:s.update(observed_epoch=NOW-901),
                        lambda s:s.update(unknown_effects=['unsettled_query']),

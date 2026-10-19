@@ -370,14 +370,25 @@ def forecast(*, snapshot, progress_bytes, baseline_admission_bytes, case_cost,
         _fail('PACKAGE_CLOSEOUT_NOT_UNDECLARED_SCIENCE')
     for key in CAPS:
         jobs[-1]['resources'][key] += final_extra[key]
-    funded = {};reserved_sum = {key:0 for key in CAPS};seen_jobs = set()
+    funded = {};reserved_sum = {key:0 for key in CAPS};seen_jobs = set();seen_reservations = set()
     for row in snapshot['work_reservations']:
         key = row['work_id']
-        if key in funded or row['job_id'] in seen_jobs:
+        scope = row.get('reservation_scope', 'NATIVE_ALLOCATION')
+        identity = row.get('reservation_id', row.get('job_id'))
+        if (not isinstance(identity, str) or not identity or identity in seen_reservations
+                or key in funded or scope not in ('NATIVE_ALLOCATION', 'COLD_NON_GPU_ONLY')):
             _fail('UNIQUE_WORK_AND_NATIVE_JOB_RESERVATION_IDS')
-        seen_jobs.add(row['job_id']);resources = _vector(row['resources'])
+        seen_reservations.add(identity);resources = _vector(row['resources'])
         if resources['PBS_submissions'] or type(row['submission_already_charged']) is not bool:
             _fail('SUBMISSION_CHARGED_ONCE_SEPARATELY_FROM_FUTURE_RESERVE')
+        if scope == 'COLD_NON_GPU_ONLY':
+            if (row.get('job_id') is not None or row['submission_already_charged']
+                    or any(resources[k] for k in ('H200_s', 'optimizer_updates', 'neural_queries'))):
+                _fail('COLD_NON_GPU_RESERVATION_NOT_NATIVE_SUBMISSION_OR_NEURAL_WORK')
+        else:
+            if not isinstance(row.get('job_id'), str) or not row['job_id'] or row['job_id'] in seen_jobs:
+                _fail('UNIQUE_WORK_AND_NATIVE_JOB_RESERVATION_IDS')
+            seen_jobs.add(row['job_id'])
         funded[key] = row
         for dimension in CAPS:
             reserved_sum[dimension] += resources[dimension]
@@ -396,10 +407,12 @@ def forecast(*, snapshot, progress_bytes, baseline_admission_bytes, case_cost,
                 _fail('RESERVED_WORK_KIND_CANNOT_BE_REASSIGNED')
             credit = _vector(row['resources'])
             credit['PBS_submissions'] = int(row['submission_already_charged'])
-            if any(credit[key] < resources[key] for key in ('H200_s','PBS_submissions')):
+            cold = row.get('reservation_scope') == 'COLD_NON_GPU_ONLY'
+            if not cold and any(credit[key] < resources[key] for key in ('H200_s','PBS_submissions')):
                 _fail('MATCHING_RESERVATION_MUST_FULLY_FUND_GPU_AND_SUBMISSION')
         else:
-            credit = {key:0 for key in CAPS}
+            credit = {key:0 for key in CAPS};cold = False
+        if not row or cold:
             count = resources['PBS_submissions']
             for _ in range(count):
                 submission_times.append(cursor)
