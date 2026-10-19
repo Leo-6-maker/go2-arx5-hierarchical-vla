@@ -65,7 +65,7 @@ def serve(root,role,label):
     original_manifest=(root/'RUN_MANIFEST.json').read_bytes();m=json.loads(original_manifest)
     if pv1:
         if (root/'MP1_STAGE_BINDING.json').exists():raise PermissionError('PV1_NO_MIXED_OLD_STAGE_AUTHORITY')
-        from scripts.pi0294.relay_endpoint import Endpoint
+        from scripts.pi0294.pv1.visibility import Endpoint
         from scripts.pi0294.pv1.evaluation_plan import session_spec
         from scripts.pi0294.pv1.core_ledger import Ledger as CoreLedger
         from scripts.pi0294.pv1.neural_ledger import Ledger as NeuralLedger

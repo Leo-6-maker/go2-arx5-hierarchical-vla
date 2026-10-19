@@ -28,13 +28,20 @@ class NeuralEntryContracts(unittest.TestCase):
             for invalid in (None,dict(proof,transport_cycles=79)):
                 with self.assertRaisesRegex(PermissionError,'SAME_JOB_NATIVE_PREMODEL'):
                     mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000),None,stop,
-                        ready_status='PV1_NATIVE_MODEL_READY',native_pre_model_qualification=invalid)
+                        ready_status='PV1_NATIVE_MODEL_READY',native_pre_model_qualification=invalid,visibility_refresh=lambda p:None)
                 self.assertFalse((root/'pbs/MODEL_STATE.json').exists())
-            with self.assertRaisesRegex(RuntimeError,'CPU_FIXTURE_STOP'):
+            with self.assertRaisesRegex(PermissionError,'SAME_JOB_NATIVE_PREMODEL'):
                 mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000),None,stop,
                     ready_status='PV1_NATIVE_MODEL_READY',native_pre_model_qualification=proof)
+            with self.assertRaisesRegex(PermissionError,'LEGACY_MODEL_READY'):
+                mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000),None,stop,
+                    visibility_refresh=lambda p:None)
+            with self.assertRaisesRegex(RuntimeError,'CPU_FIXTURE_STOP'):
+                mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000),None,stop,
+                    ready_status='PV1_NATIVE_MODEL_READY',native_pre_model_qualification=proof,visibility_refresh=lambda p:None)
             state=json.loads((root/'pbs/MODEL_STATE.json').read_text())
             self.assertEqual(state['native_pre_model_qualification'],proof)
+            self.assertEqual(state['NFS_lookup_cache_assistance'],'QUALIFIED_STATX_FORCE_SYNC_AND_DIRECTORY_ENUMERATION_V2')
 
     def test_no_native_allocation_or_unimplemented_phase_rejected_before_model(self):
         with tempfile.TemporaryDirectory() as tmp:

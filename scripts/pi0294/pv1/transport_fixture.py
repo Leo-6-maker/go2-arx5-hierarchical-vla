@@ -15,7 +15,7 @@ from scripts.pi0294.e1.control_read import read
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.relay_endpoint import inside
 from scripts.pi0294.rpc_metrics import SessionMetrics
-from scripts.pi0294.relay_io import read_available
+from .visibility import read_visible,ALGORITHM
 from scripts.pi0294.mp1.transport_fixture import (
     Endpoint as OriginalEndpoint,Pump as OriginalPump,immutable,check_observation,
     CYCLES,receive_query,response_for)
@@ -38,7 +38,8 @@ def prepared_plan(root,m):
     if (m['execution']['sealed_inputs'].get(PLAN)!=sha(p)
             or v['schema']!='PI0294_PV1_RECORDED_TRANSPORT_FIXTURE_V1'
             or v['run_uuid']!=root.name or v['scope']!='RECORDED_OBSERVATION_NO_MODEL_NO_PHYSICS'
-            or v['cycles']!=80 or v['recorded_observation_relative']!='reference/RECORDED_OBSERVATION.json'
+            or v['cycles']!=80 or v.get('NFS_lookup_cache_assistance')!=ALGORITHM
+            or v['recorded_observation_relative']!='reference/RECORDED_OBSERVATION.json'
             or v['raw_reference_binding_relative']!='reference/RAW_REFERENCE_BINDING.private.json'
             or not re.fullmatch(r'[0-9a-f]{64}',v['raw_reference_binding_sha256'])
             or not re.fullmatch(r'[0-9a-f]{64}',v['recorded_observation_file_sha256'])
@@ -142,7 +143,7 @@ class Endpoint(OriginalEndpoint):
         if self.role=='hopper' and args.get('operation')=='response':
             self.guard(args)
             lock=OwnerLock(self.folder/('ENDPOINT-'+self.role+'.lock'))
-            try:return read_available(self.path('outbox',args['sequence']))
+            try:return read_visible(self.path('outbox',args['sequence']))
             finally:lock.close()
         return super().invoke(args)
 
@@ -172,7 +173,7 @@ class Pump(OriginalPump):
     def poll(self):
         if self.next>=CYCLES:return
         path=inside(self.folder,'inbox/'+str(self.next).zfill(3)+'.json')
-        query=read_available(path)
+        query=read_visible(path)
         if query is None:return
         self.guard();q=receive_query(query,self.registry,self.plan)
         if q['sequence']!=self.next:raise ValueError('CONTIGUOUS_EIGHTY_NATIVE_FIXTURE_QUERIES')

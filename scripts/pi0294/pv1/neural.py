@@ -27,6 +27,7 @@ from .pre_model_qualification import require_current
 from .probes import run as probes
 from .recipe import PARENT
 from .training import run as train
+from .visibility import refresh
 
 
 def stage_work(root,request):
@@ -230,7 +231,7 @@ def run(root,request_path):
                 serve(root,label,instance,allocation,ledger,panel_guard,max_queries=24*80,
                     ready_status='PV1_NATIVE_MODEL_READY',noise_namespace=spec['noise_namespace'],
                     terminal_status='PV1_NATIVE_PANEL_TERMINAL_OUTCOMES_AUDITED_SEPARATELY',
-                    native_pre_model_qualification=require_current(root,allocation))
+                    native_pre_model_qualification=require_current(root,allocation),visibility_refresh=refresh)
                 records.append(dict(panel=label,status='NATIVE_PANEL_TERMINAL_NOT_TASK_SUCCESS'))
             status='PV1_DEV_NATIVE_PANELS_TERMINAL_ACTUAL_OUTCOMES_AUDITED_SEPARATELY'
         else:
