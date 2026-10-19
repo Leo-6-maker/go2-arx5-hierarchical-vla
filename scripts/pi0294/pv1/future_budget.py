@@ -396,8 +396,8 @@ def forecast(*, snapshot, progress_bytes, baseline_admission_bytes, case_cost,
                 _fail('RESERVED_WORK_KIND_CANNOT_BE_REASSIGNED')
             credit = _vector(row['resources'])
             credit['PBS_submissions'] = int(row['submission_already_charged'])
-            if any(credit[key] < resources[key] for key in CAPS):
-                _fail('MATCHING_RESERVATION_MUST_FULLY_FUND_SAME_REMAINING_WORK')
+            if any(credit[key] < resources[key] for key in ('H200_s','PBS_submissions')):
+                _fail('MATCHING_RESERVATION_MUST_FULLY_FUND_GPU_AND_SUBMISSION')
         else:
             credit = {key:0 for key in CAPS}
             count = resources['PBS_submissions']

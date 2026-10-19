@@ -245,6 +245,18 @@ class FutureBudgetContracts(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError,'RECONCILED'):
             run(snapshot=s)
 
+    def test_native_gpu_only_reserve_does_not_credit_unreserved_cpu_updates_or_queries(self):
+        original=run();job=next(j for j in original['mandatory_jobs'] if j['kind']=='TRAIN')
+        s=snapshot();resources=dict(H200_s=job['resources']['H200_s'])
+        s.update(reserved=resources,reserved_sequential_wall_upper_s=resources['H200_s']+60,
+            work_reservations=[dict(work_id=job['work_id'],job_id='fixture.pbs',kind='TRAIN',
+                submission_already_charged=True,resources=resources)])
+        s['used']['PBS_submissions']=1;out=run(snapshot=s)
+        for key in ('optimizer_updates','neural_queries','Core_CPU_s','Hopper_CPU_s','local_CPU_s'):
+            self.assertEqual(out['future_required_additional'][key],original['future_required_additional'][key])
+        self.assertEqual(out['future_required_additional']['H200_s'],
+            original['future_required_additional']['H200_s']-resources['H200_s'])
+
     def test_stale_unknown_nonfinite_boolean_and_unknown_dimensions_fail_closed(self):
         for mutate in (lambda s:s.update(observed_epoch=NOW-901),
                        lambda s:s.update(unknown_effects=['unsettled_query']),

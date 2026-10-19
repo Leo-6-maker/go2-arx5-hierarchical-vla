@@ -125,6 +125,8 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
     if (instance.identity['global_step']!=(start or 2048)
             or (not start and instance.identity['checkpoint_manifest_sha256']!=PARENT)):
         raise PermissionError('PV1_CORR2048_PARENT_NOT_M1_OR_A_PREVIOUS_ARM')
+    from .future_admission import wait_native_release
+    wait_native_release(root,directory,allocation,guard)
     import torch
     from transformers import TrainingArguments,TrainerCallback,set_seed
     write(evidence/'INITIAL_PARAMETERS.json',initial)

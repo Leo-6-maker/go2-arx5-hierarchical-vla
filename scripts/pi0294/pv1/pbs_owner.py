@@ -137,6 +137,9 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
     else:r['evaluation_candidate']=read(root/'plans/SOURCE_EVALUATION_PLAN.json')['candidate']
     from .neural import stage_work
     stage_work(root,r);budget_request(value,r)
+    from .future_admission import prequeue
+    future=prequeue(root,r,'PREPARE')
+    if future is not None:write(directory/'FUTURE_BUDGET_PREPARE.json',future)
     write(directory/'REQUEST.json',r);(directory/'REQUEST.json').chmod(0o400)
     code=root/m['code']['capsule_relative'];hours,remainder=divmod(walltime_s,3600);minutes,seconds=divmod(remainder,60)
     lines=['#!/bin/bash -l','#PBS -N '+r['job_name'],'#PBS -P '+project_name,'#PBS -q auto',
@@ -170,6 +173,9 @@ def submit(root,number):
             if number!=len(value['PBS_submissions'])+1 or number!=r['submit_count']:
                 raise PermissionError('PV1_ONE_NEXT_GLOBAL_SUBMISSION_INTENT_NO_RETRY')
             budget_request(value,r)
+            from .future_admission import prequeue
+            future=prequeue(root,r,'SUBMIT',request_bytes=(directory/'REQUEST.json').read_bytes())
+            if future is not None:write(directory/'FUTURE_BUDGET_SUBMIT.json',future)
             item=dict(status='QSUB_INTENT_OUTCOME_UNKNOWN_NO_RETRY',request_id=r['request_id'],run_uuid=root.name,
                 project=r['project'],job_name=r['job_name'],stage=r['stage'],request_sha256=sha(directory/'REQUEST.json'),
                 reserved_H200_s=r['walltime_s'],accounting_pad_s=PAD,additional_output_upper_bytes=r['additional_output_upper_bytes'],

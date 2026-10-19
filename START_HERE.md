@@ -1,5 +1,16 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 actual seven-condition snapshot and next-cold training admission.**
+[Seven raw/causal-audited B0 outcomes and terminal cost evidence](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_SEVEN_ACTUAL_B0_CONDITIONS_AND_COST_EVIDENCE.json):
+5success/2validfailure,0nativefault,all7 independent chains PASS;not complete48.
+The second negative is original S1 pre-execution veto at11.2s,29draws/28ACKs,
+zero live execution of its rejected prefix. Earlier reference-speed veto retained.
+[Cold full-state continuation and fresh mandatory-work budget admission](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_COLD_RESUME_AND_FRESH_FUTURE_ADMISSION_PREPARATION.json):
+838 CPU tests/773subtests PASS,source integrated but NOT native deployed.
+Prepare/submit recomputation and fresh same-job pre-training/DEV release are
+required for the new cold code. Private binder/coordinator integration and actual
+B0 completion still pending. Subagents stopped;one original owner continues.
+
 **PV1 parallel CPU preparation, not an early training launch.**
 [Probe recovery, P2 second-seed dispatch and future-work forecast](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_PARALLEL_TRAINING_READINESS_PREPARATION.json):
 821 CPU tests/742 subtests PASS;15 frozen numerical hashes unchanged.

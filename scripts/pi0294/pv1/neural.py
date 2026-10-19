@@ -305,6 +305,8 @@ def run(root,request_path):
                 if set(original)!=set(inventory) or any(v['sha256']!=inventory[n]['sha256'] for n,v in original.items() if not v['requires_grad']):
                     raise PermissionError('PV1_ORIGINAL_FROZEN_VLM_CHANGED_BEFORE_DEVELOPMENT')
                 write(directory/'FROZEN_VLM_PROOF.json',dict(status='PASS_ORIGINAL_FROZEN_VLM_NATIVE_PARAMETER_HASHES'))
+                from .future_admission import wait_native_release
+                wait_native_release(root,directory,allocation,guard)
             for label in plan['panels']:
                 spec=session_spec(root,label)
                 if spec['candidate']!=candidate:raise PermissionError('PV1_ONE_SHARED_CHECKPOINT_ACROSS_BOTH_TASKS_AND_NOISE_BANKS')
