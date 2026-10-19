@@ -1,5 +1,17 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 TRAIN event audit: all139 frozen parents read, no sampling intervention.**
+[Actual500Hz/20Hz event exposures and all parent raw identities](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_ADMITTED_TRAIN_PHYSICAL_EVENT_EXPOSURE.json):
+all139 original scores recomputed exactly; T1 transport-then-native-grasp-end
+appears in all75 parents but only1.1647% of Prefix8/6.4892% of H40 windows.
+T2's12419 raw contact-bit transitions in64 trajectories are contact chatter,
+not independent interactions. Categories overlap; new-bank exposure is not the
+combined actual A/B/C1 sampler consumption. No fitted-error/causal-underexposure
+or P3 qualification claim. Frozen raw+full-audit hashes select the admitted
+saved-audit view without overwriting original failed audits; card canonical
+digest and file-byte hashes stay separate. 871CPU/816subtests PASS,0new
+queries/updates/physics,15 numerical files unchanged. Continue original B0/A-B.
+
 **PV1 GPU-efficiency implementation: actual CPU findings, not a measured speedup.**
 [Execution boundaries and first100-update instrumentation](docs/operations/2026-10-19_PV1_GPU_EFFICIENCY_SAME_SEMANTICS.md) ·
 [Actual642-array attribution,537-tensor CPU equivalence and bank units](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_GPU_EFFICIENCY_ACTUAL_CPU_AND_COLD_IMPLEMENTATION.json).
