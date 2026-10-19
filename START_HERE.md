@@ -1,5 +1,18 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 B0 third allocation actual effects and resources are now closed.**
+[All ten original attempts, nine valid chains and one engineering closure](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_03_ACTUAL_CLOSED_EFFECTS_AND_RESULTS.json):
+6success/3validfailure/1engineering-incomplete; all10 raw audits PASS,
+all9 valid independent two-site chains PASS. All642 native draws classified:
+639 executed prefixes,1 uninstalled reference veto,2 zero-live S1 vetoes.
+The partial T2 has29 real draws/ACKs plus1 unused observation, unknown effects[].
+Both old leases CLOSED/all workers terminal/original STOPs retained. Local
+projection repaired once from saved native receipts, without remote closure replay.
+Exactly39 conditions remain, including one diagnosed engineering replacement;
+no completed valid condition repeats. New cold binding is not qualification
+or a completed continuation; each next allocation must pass its own real checks.
+0optimizer updates; cumulative11154H200s/3PBS before any new allocation.
+
 **PV1 B0 third allocation ended on a diagnosed finite-control cap, not training.**
 [Actual native termination, preserved outcomes and cold repair](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_03_FINITE_RPC_EXHAUSTION_AND_COLD_REPAIR.json):
 675394 F/1;6success/3validfailure/1engineering-incomplete. Core RPC exited
