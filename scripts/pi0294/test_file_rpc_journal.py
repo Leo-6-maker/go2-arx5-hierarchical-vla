@@ -1,5 +1,6 @@
 import io
 import json
+import os
 from pathlib import Path
 import tempfile
 from types import SimpleNamespace
@@ -9,6 +10,7 @@ from unittest.mock import patch
 from .mp1.file_rpc_journal import Attempt,append
 from .mp1 import file_rpc_journal as journal
 from .relay_io import PhaseTrace
+from .e1.stdio import FrameReader
 
 
 class FileRPCJournalTests(unittest.TestCase):
@@ -108,6 +110,33 @@ class FileRPCJournalTests(unittest.TestCase):
         trace.bind_rpc(dict(rpc_id='not-an-opaque-request-id',args=dict(operation='query')))
         self.assertNotIn('rpc_id',trace.context);self.assertEqual(len(trace.context['rpc_id_sha256']),64)
         trace.bind_rpc(dict(other='invalid'));self.assertEqual(trace.context,{})
+
+    def test_unbuffered_frame_reader_consumes_prefetched_second_frame_without_select_sleep(self):
+        source,sink=os.pipe();self.addCleanup(os.close,source);self.addCleanup(os.close,sink)
+        os.write(sink,b'{"rpc_id":"one"}\n{"rpc_id":"two"}\n')
+        reader=FrameReader(source,1024)
+        self.assertEqual(reader.read(1),b'{"rpc_id":"one"}\n')
+        with patch('scripts.pi0294.e1.stdio.select.select',side_effect=AssertionError('buffered frame must not poll fd')):
+            self.assertEqual(reader.read(1),b'{"rpc_id":"two"}\n')
+
+    def test_unbuffered_frame_reader_preserves_timeout_eof_and_size_contract(self):
+        source,sink=os.pipe();self.addCleanup(os.close,source)
+        reader=FrameReader(source,8)
+        self.assertIsNone(reader.read(0))
+        os.write(sink,b'123456789\n');os.close(sink)
+        with self.assertRaisesRegex(ValueError,'BOUNDED_ONE_JSON_LINE_REQUIRED'):reader.read(1)
+
+    def test_unbuffered_frame_reader_joins_partial_reads_until_deadline(self):
+        reader=FrameReader(17,1024)
+        with patch('scripts.pi0294.e1.stdio.select.select',side_effect=[([17],[],[]),([17],[],[])]), \
+             patch('scripts.pi0294.e1.stdio.os.read',side_effect=[b'{"rpc_id":',b'"split"}\n']):
+            self.assertEqual(reader.read(1),b'{"rpc_id":"split"}\n')
+
+    def test_unbuffered_frame_reader_exposes_incomplete_frame_at_eof(self):
+        reader=FrameReader(17,1024)
+        with patch('scripts.pi0294.e1.stdio.select.select',side_effect=[([17],[],[]),([17],[],[])]), \
+             patch('scripts.pi0294.e1.stdio.os.read',side_effect=[b'{"rpc_id":',b'']):
+            self.assertEqual(reader.read(1),b'{"rpc_id":')
 
 
 if __name__=='__main__':unittest.main()

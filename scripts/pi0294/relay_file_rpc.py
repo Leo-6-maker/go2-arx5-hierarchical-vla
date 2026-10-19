@@ -5,7 +5,6 @@ import json
 import os
 from pathlib import Path
 import resource
-import select
 import sys
 import time
 
@@ -117,7 +116,9 @@ def serve(root,role,label):
         owner_heartbeat_only=owner_only(root,m)
     if control and endpoint.registry['deadline_epoch']-time.time()>control['wall_limit_s']:
         raise PermissionError('PV1_ORIGINAL_MAXIMUM_ALLOCATION_CONTROL_WALL')
+    from scripts.pi0294.e1.stdio import FrameReader
     seen=set();metrics=SessionMetrics();status='SESSION_EOF_OR_DEADLINE';error=None;trace=PhaseTrace(sys.stderr)
+    frames=FrameReader(sys.stdin.fileno(),MAX_LINE_BYTES)
     def guard(args):
         ledger.guard()
         if time.time()>=endpoint.registry['deadline_epoch']:raise TimeoutError('ORIGINAL_PANEL_DEADLINE_UNCHANGED')
@@ -134,9 +135,8 @@ def serve(root,role,label):
             else:write(root/'OWNER_HEARTBEAT.json',dict(run_uuid=root.name,observed_epoch=time.time()))
     try:
         while time.time()<endpoint.registry['deadline_epoch'] and metrics.operations<max_calls:
-            readable,_,_=select.select([sys.stdin],[],[],min(30,max(0,endpoint.registry['deadline_epoch']-time.time())))
-            if not readable:continue
-            line=sys.stdin.buffer.readline(MAX_LINE_BYTES+1)
+            line=frames.read(min(30,max(0,endpoint.registry['deadline_epoch']-time.time())))
+            if line is None:continue
             if not line:break
             if len(line)>MAX_LINE_BYTES or not line.endswith(b'\n'):raise ValueError('BOUNDED_ONE_JSON_LINE_REQUIRED')
             packet=json.loads(line);nonce=packet.get('rpc_id') if isinstance(packet,dict) else None
