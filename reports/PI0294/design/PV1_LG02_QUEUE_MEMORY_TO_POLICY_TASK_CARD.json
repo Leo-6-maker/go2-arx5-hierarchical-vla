@@ -1,0 +1,180 @@
+{
+  "schema": "PI0294_PV1_LG02_QUEUE_MEMORY_TO_SHARED_POLICY_GOAL_V1",
+  "dated_SGT": "2026-10-19",
+  "status": "USER_REQUESTED_PV1_EXISTING_AUTHORITY_LONG_GOAL_HANDOFF_NOT_NATIVE_ADOPTED",
+  "goal_id": "PV1_LG02_QUEUE_MEMORY_TO_SHARED_POLICY_V1",
+  "existing_authority": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "existing_campaign": "20261018T182956Z-localpc-pv1",
+  "existing_owner": "EXISTING_SINGLE_LOCAL_PC_COORDINATOR",
+  "single_owner": true,
+  "no_second_agent_or_nfs_publisher": true,
+  "reference_commit_at_handoff": "5a49c50d01ddd0520228d35aba8e2ef1c31f002b",
+  "canonical_handoff": "docs/handover/2026-10-19/PV1_LONG_GOAL_QUEUE_MEMORY_TO_SHARED_POLICY.md",
+  "original_science_protocol": "docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md",
+  "original_budget_contract": "reports/PI0294/design/PV1_MULTITASK_POLICY_SCOPE_20261019.json",
+  "long_term_strategy": "docs/protocols/GR00T_TASKSPACE_POLICY_WORLD_MODEL_LONG_TERM_STRATEGY_V1.md",
+  "user_reported_job_snapshot": {
+    "job_id": "675967.hopper-m-02",
+    "state": "Q",
+    "queue": "small",
+    "apparent_requested_main_RAM_GB": 225,
+    "native_host_reason": "TEMPORARILY_NOT_ENOUGH_FREE_RAM",
+    "already_queued_PBS_submission_number": 4,
+    "original_recorded_draws": 642,
+    "optimizer_updates_new": 0,
+    "actual_unknown_effects": [],
+    "new_allocated_GPU_time_for_this_Q_job": 0,
+    "old_script_memory_value": "REQUIRE_NATIVE_READBACK",
+    "current_live_state": "REQUIRE_FRESH_NATIVE_RECHECK",
+    "running_capsule_source_sha": "1c4cdc9aac8dbe1748f83f7003a8959842449ed6"
+  },
+  "repo_code_memory_facts": {
+    "source_path": "scripts/pi0294/pv1/pbs_owner.py",
+    "python_prepare_default_memory_gb": 128,
+    "CLI_default_memory_gb": 128,
+    "allowed_memory_profiles_gb": [
+      128,
+      225
+    ],
+    "native_script_line_pattern": "select=1:ncpus=12:mem={memory_gb}gb:ngpus=1:gpu_model=H200",
+    "memory_means": "HOST_RAM_NOT_GPU_HBM",
+    "native_queue_rewrite_possible": true,
+    "historical_native_site_rewrite_128_to_225_then_safely_adjusted_same_job": true,
+    "historical_proof": "reports/PI0294/20261016T191445Z-localpc-mp1/N1_SOURCE_CONFIRM_ALLOCATION02_ACTUAL_SUBMISSION.json",
+    "actual_current_225_origin_unverified": true,
+    "actual_peak_RSS_or_vmem_for_128_fitness": "UNMEASURED_IN_PUBLIC_RECEIPTS"
+  },
+  "P0_memory_triage": {
+    "read_fresh": [
+      "owned_job_qstat_f",
+      "native_queue_and_destination_facts",
+      "original_JOB_SCRIPT_BINDING_and_job_pbs",
+      "original_REQUEST_json_and_submission_nonce",
+      "actual_native_Resource_List_select_and_mem",
+      "current_job_state_and_owner",
+      "campaign_ledger_and_other_jobs",
+      "prior_sibling_actual_highwater_memory_and_Resource_List",
+      "native_site_policy_and_mature_owner_only_memory_modifier"
+    ],
+    "branch_site_rewrite": "If immutable original script requested128 but qstat now225, classify SITE_REWRITE_CONFIRMED; do not assume intentional225.",
+    "branch_explicit": "If immutable original script requested225, classify EXPLICIT_225_CONFIRMED; need verified actual RAM safety and provenance before any reduction.",
+    "branch_unknown": "If anything missing or conflicting, PROVENANCE_UNKNOWN, fail closed; no unverified modification.",
+    "allow_one_existing_queued_job_memory_only_adjustment_conditionally": true,
+    "mandatory_conditions": [
+      "Exact current 675967 ownership/campaign/project/nonce/registered active qstat state Q; never modify R or terminal jobs",
+      "Native site and existing PV1 scope authorize owner-only memory-only change; mature tested path supported",
+      "128GB host RAM sufficient with credible past native high-water + conservative margin or validated equivalent proof",
+      "No qsub, cancel, requeue, duplicate, or other scientific request change; original job script/manifest bytes kept",
+      "Write one immutable intent, one mutation at most, fresh native Resource_List and full identity readback",
+      "Uncertain outcome requires journal/qstat reconciliation before any next action"
+    ],
+    "prohibited": [
+      "blind_qalter",
+      "cancel_healthy_queued_job",
+      "duplicate_qsub",
+      "alter_ncpus_ngpus_walltime_project_model_data_safety",
+      "assume_GiB_from_GB",
+      "assume_GPU_VRAM_is_PBS_mem",
+      "reduce_to128_without_highwater_evidence",
+      "reset_T0_or_budget"
+    ],
+    "output": "P0_QUEUE_MEMORY_675967_PROVENANCE.json"
+  },
+  "plan": [
+    {
+      "stage": "P0",
+      "goal": "Verify site resource rewrite or explicit225, native memory demand, queue identity; safe same-owned queued adjustment only on complete proof",
+      "new_scientific_compute": 0
+    },
+    {
+      "stage": "P1",
+      "goal": "Pass own 600s/80cycles/8fault native admission; finish and audit B0 DEV48 without replaying nine valid outcomes; only exact one engineering replacement",
+      "remaining_conditions_at_report": 39,
+      "original_valid_conditions": 9,
+      "engineering_partial": 1
+    },
+    {
+      "stage": "P2",
+      "goal": "Train A_CONTROL and B_COVERAGE from same original CORR2048 parent, each4096 official updates after full B0 admission; 1024 TRAIN probes and exact resume",
+      "steps_per_primary_arm": 4096,
+      "matched_total_task_exposure": "T1:T2=1:1",
+      "new_training_started_at_snapshot": false
+    },
+    {
+      "stage": "P3",
+      "goal": "Optional single scientifically qualified paired corrective intervention; skip if no proof or resources"
+    },
+    {
+      "stage": "P4",
+      "goal": "Freeze one candidate by precommitted DEV gates and scientific decision; second seed replay if funded and qualified"
+    },
+    {
+      "stage": "P5",
+      "goal": "Evaluate exactly one frozen shared checkpoint on 80 fresh lockbox conditions and deliver runnable research package or honest unqualified candidate"
+    }
+  ],
+  "model_frozen": {
+    "parent": "S-CORR@2048",
+    "manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "original_statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "training_route": "COVERAGE_FIRST",
+    "new_train_parent_episodes": 139,
+    "unique_new_scene_groups": 77,
+    "paired_T1_T2_scene_groups": 62,
+    "stage_action_contract": "EEF10_H40_PREFIX8",
+    "WBC_and_leg_policy": "FROZEN",
+    "plant_gripper_PD_S1_score": "FROZEN",
+    "TF_R3_STOP": "PRESERVED"
+  },
+  "limits_unchanged": {
+    "T0_SGT": "2026-10-19T02:29:56+08:00",
+    "stop_new_jobs_SGT": "2026-10-25T02:29:56+08:00",
+    "stop_new_training_SGT": "2026-10-25T14:29:56+08:00",
+    "stop_new_physics_SGT": "2026-10-25T18:29:56+08:00",
+    "hard_closeout_SGT": "2026-10-26T02:29:56+08:00",
+    "max_H200_allocated_hours": 96,
+    "max_GPU_PBS_submissions": 24,
+    "max_concurrent_H200": 1,
+    "protected_final_H200_hours_inside_total": 20,
+    "original_settled_H200_seconds_before_fourth_allocation": 11154,
+    "initial_fourth_Q_reservation_not_allocated_spend": true,
+    "max_optimizer_updates_campaign": 16384,
+    "all_cpu_query_episode_storage_network_caps": "UNCHANGED_OR_SITE_SMALLER",
+    "no_new_resource_authority_by_this_file": true
+  },
+  "acceptance_preserved": {
+    "source_only_fixed_base_ARX5": true,
+    "one_shared_weight_for_T1_T2": true,
+    "DEV_min_success_per_task_of_24": 18,
+    "PV1_VALIDATED_min_success_each_task_of_40": 32,
+    "PV1_BETA_min_success_each_task_of_40": 28,
+    "final_conditions": 80,
+    "final_independent_scene_groups": 20,
+    "independent_audit_per_condition": true,
+    "no_select_after_opening_lockbox": true,
+    "no_dev_or_lockbox_as_training_data": true,
+    "native_safety_faults_allowed": 0,
+    "no_unsupported_Go2_or_real_robot_claim": true,
+    "selected_deployment_before_acceptance": "NONE"
+  },
+  "communication": {
+    "adopter_response": "LONG_GOAL_ADOPTED or EXACT_BLOCKER",
+    "science_issue": 11,
+    "engineering_issue": 47,
+    "verify_fixed_SHA_and_both_blob_SHA_before_owner_action": true,
+    "report_queue_memory_actual_change_or_NONE": true,
+    "report_native_leases_and_pending_unknown": true,
+    "do_not_claim_running_or_GPU_training_based_only_on_GitHub_publication": true
+  },
+  "publication_effects": {
+    "new_job": 0,
+    "old_job_modified": 0,
+    "new_GPU_allocations": 0,
+    "new_query": 0,
+    "model_loads": 0,
+    "optimizer_updates": 0,
+    "physics_ticks": 0,
+    "checkpoint_deletions": 0
+  },
+  "status_if_no_confirmed_result": "PREPARED_ONLY_NOT_NATIVE_ADOPTION"
+}
