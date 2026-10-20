@@ -269,6 +269,10 @@ def run(root,request_path):
         pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],started_epoch=time.time(),models_loaded=0))
     def guard():
         ledger.guard()
+        if r.get('scientific_admission_version')=='DEC1_SOURCE_TRAIN_STAGE_V1':
+            limit=resource.getrlimit(resource.RLIMIT_CPU)[0]
+            if limit!=resource.RLIM_INFINITY and time.process_time()>=limit-300:
+                raise TimeoutError('DEC1_PHASE_CPU_BOUND_PRESERVE_KNOWN_STEP_AND_CHECKPOINT_RESERVE')
         if time.time()>=allocation['allocation_end_epoch']-2700:
             raise TimeoutError('PV1_ORIGINAL_NATIVE_45_MIN_CLOSEOUT_RESERVE')
         if r['stage'] in TRAIN_STAGES:
@@ -298,6 +302,8 @@ def run(root,request_path):
         prepare_environment(r['numerical_mode'])
         os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
         remaining=int(160*3600-read(ledger.path)['CPU_s'])
+        from scripts.pi0294.dec1.future_admission import bounded_process_cpu
+        remaining=bounded_process_cpu(r,remaining)
         if remaining<=30:raise PermissionError('PV1_HOPPER_ACTUAL_CPU_BUDGET_EXHAUSTED')
         resource.setrlimit(resource.RLIMIT_CPU,(remaining,remaining));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
         stage_work(root,r)

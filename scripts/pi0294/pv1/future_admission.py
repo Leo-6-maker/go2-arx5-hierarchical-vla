@@ -228,6 +228,11 @@ def _ledger(root, snapshot, progress):
 
 def recompute(root, *, request_bytes, snapshot_bytes, progress_bytes, purpose, now_epoch):
     """Read sealed original evidence and current ledger, then recompute and fail closed."""
+    from scripts.pi0294.dec1.source_admission import VERSION as dec1_version
+    if budget._read(request_bytes)[0].get('scientific_admission_version')==dec1_version:
+        from scripts.pi0294.dec1.future_admission import recompute as dec1_recompute
+        return dec1_recompute(root,request_bytes=request_bytes,snapshot_bytes=snapshot_bytes,
+            progress_bytes=progress_bytes,purpose=purpose,now_epoch=now_epoch)
     if purpose not in ('PREPARE', 'SUBMIT', 'NATIVE_PRETRAIN'):
         _fail('EXPLICIT_PREQUEUE_OR_FRESH_NATIVE_PRETRAIN_PURPOSE')
     request, request_sha, manifest, index, files = _inputs(root, request_bytes)
@@ -357,6 +362,8 @@ def verify_release(root, *, request_bytes, attestation_bytes, expected_job_id,
 
 
 def needs_forecast(request):
+    from scripts.pi0294.dec1.source_admission import VERSION as dec1_version
+    if request.get('scientific_admission_version')==dec1_version:return True
     if request['stage']=='B0_DEV':return False
     # Recovery-only archived draws neither create a candidate nor apply updates.
     # Their mature query/CPU/allocation caps remain mandatory, including unknowns.

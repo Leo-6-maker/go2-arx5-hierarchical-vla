@@ -143,7 +143,10 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
         sealed_inputs={n:sha(root/n) for n in sorted(names)},python=bindings['python'],
         dependency_afterok=dependency_for(value))
     admission_version=m.get('authority',{}).get('training_admission_version')
-    if admission_version is not None:r['scientific_admission_version']=admission_version
+    if admission_version is not None:
+        r['scientific_admission_version']=admission_version
+        from scripts.pi0294.dec1.future_admission import declared_phase_cpu
+        r['dec1_phase_Hopper_CPU_upper_s']=declared_phase_cpu(root)
     if stage in ('P2_PRIMARY','P4_REPLICA'):
         block=read(root/'plans/PRIMARY_TRAIN_BLOCK.json');r['training_block']=block
         p=block.get('resume_checkpoint_relative')
@@ -203,6 +206,11 @@ def submit(root,number):
                 project=r['project'],job_name=r['job_name'],stage=r['stage'],request_sha256=sha(directory/'REQUEST.json'),
                 reserved_H200_s=r['walltime_s'],accounting_pad_s=PAD,additional_output_upper_bytes=r['additional_output_upper_bytes'],
                 dependency_afterok=r['dependency_afterok'],started_epoch=time.time())
+            if r.get('scientific_admission_version'):
+                from scripts.pi0294.dec1.future_admission import INDEX as dec1_index
+                index=read(root/dec1_index)
+                item['scientific_admission_version']=r['scientific_admission_version']
+                item['dec1_work_id']=read(root/index['request_work_binding'])['work_id']
             if r['stage'] in ('P2_PRIMARY','P4_REPLICA'):
                 item['training_run_key']=('REPLICA_' if r['stage']=='P4_REPLICA' else '')+r['training_block']['arm']
             else:item['evaluation_candidate']=r['evaluation_candidate']
