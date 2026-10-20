@@ -1,5 +1,21 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**Latest actual: child12 is system-held before launcher, not queued or a task failure.**
+[Native hook rejection, owner DNS interruption and CR2 static/data effects](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_CHILD12_SITE_HOLD_AND_CR2_STATIC_ACTUAL.json).
+679029 is H/Hold_Types=s,exit-16,run_count1. tracejob says an execution hook
+rejected the request; noPBS_READY/START/model/queries/episodes appeared.
+The local owner separately exited on transient SSH hostname resolution.
+No qrls/qdel/qsub/release retry; the installed official qrls manual requires
+manager/admin privilege for a system hold. Hook identity/cause remainUNKNOWN.
+Keep28860H200seconds reserved; the20-21s prelaunch allocation is not zero cost
+or a terminal settlement. B014/48,updates0,selected/deploymentNONE unchanged.
+CR2 has native newT0=21Oct00:03:40SGT,stopdispatch22Oct16:03:40,hardclose
+23Oct00:03:40. D0 all12groups pass with32constructors/0integrations,
+45.184645CPU seconds; staticleaseCLOSED. Its first-four single worker is
+actually collecting, not yet qualified data. Fresh same-job H/noexec/noREADY
+and zero-effect evidence establish no current GPU allocation; any R/unknown
+state blocks new CR2 dispatch. Original PV1 and closed COV1/CR1 stay untouched.
+
 **CR2 now has explicit user GO; do not reopen DATA-COV1 or change PV1.**
 The user approved the full fixed5d139315 CR2 package in reply
 call_656187cffb8b43519e678e7561b78575. [Exact new scope](reports/PI0294/design/CR2_FIXED_R1_BANK_PILOT_SCOPE_20261020.json):
