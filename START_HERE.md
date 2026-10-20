@@ -1,5 +1,21 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**DEC1 fixed CORR assets are now actually delivered to Vanda, not model-qualified.**
+[Full native handoff, preserved failure, costs and closed leases](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_CORR_VANDA_ASSET_HANDOFF_ACTUAL.json).
+HF READY68afb6503982613ad47fe60d8a1ae66a580dec60 follows actual independent
+Vanda full-byte readback of the CORR@2048 delta and its reused frozen shard.
+It is not old M2048 or E1 M2-CORR, nor a full-resume export. Only two private
+Cosmos locators are relocated; weights/index/R0 are unchanged. All four CPU
+children are CLOSED, including the preserved pre-client missing-locator failure.
+Its replacement uses explicit anonymous fixed-public reads, no credential copy
+or repeated weight upload. Actual runtime e0792964/869f3100 passed exact CI.
+There is no new PBS/model/query/update/physics or policy improvement. The
+same original budget includes 15313692088 logical transfer upper bytes and
+8329724022 new GPU-site output upper bytes across both sites; future storage
+forecasts must include them. A40 numerical/precision and cross-platform
+accounting/admission remain pending, as do source native interface qualification
+and the frozen target task ABI. Do not run the expired old standalone probe.
+
 **DEC1 source cold inputs now use actual saved bytes, but are not native-bound.**
 [Actual identity/timing/storage evidence](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SOURCE_COLD_INPUTS_AND_STORAGE_IMPLEMENTATION.json) ·
 [Narrow storage implementation and remaining gates](docs/protocols/DEC1_SOURCE_TRAINING_COLD_INPUTS_AND_STORAGE_V1.md).
