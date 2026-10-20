@@ -76,11 +76,13 @@ class PbsOwnerContracts(unittest.TestCase):
             r=dict(stage='B0_DEV',evaluation_candidate='B0_CORR',walltime_s=7200,additional_output_upper_bytes=40*1024**3,
                 dependency_afterok=None,created_epoch=owner.time.time(),submit_count=1,
                 cold_bank_preflight=dict(CPU_fixture=True),
+                cold_model_input_preflight=dict(CPU_fixture=True),
                 request_id='fixture-1',project='CFP04-CF-007',job_name='pi0294_pv1_01')
             put(directory/'REQUEST.json',r,True);(directory/'job.pbs').write_text('CPU fixture, not executable PBS')
             put(directory/'JOB_SCRIPT_BINDING.json',dict(request_sha256=sha(directory/'REQUEST.json'),job_script_sha256=sha(directory/'job.pbs')))
             with patch.object(owner,'validate',return_value=({},None,{},None,None)),\
                     patch.object(owner,'bank_preflight',return_value=r['cold_bank_preflight']),patch.object(owner,'native_chain'),\
+                    patch.object(owner,'model_preflight',return_value=r['cold_model_input_preflight']),\
                     patch.object(owner.subprocess,'run',side_effect=subprocess.TimeoutExpired('qsub',45)) as qsub:
                 with self.assertRaises(subprocess.TimeoutExpired):owner.submit(root,1)
                 v=json.loads(ledger.path.read_text());self.assertEqual(v['reserved']['H200_s'],7260)

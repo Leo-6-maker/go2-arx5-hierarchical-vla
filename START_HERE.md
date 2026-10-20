@@ -1,5 +1,23 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**DATA-COV1 is natively adopted; PV1 child09 is closed before model loading.**
+[Independent data window and actual static qualification](reports/PI0294/DATA_COV1/DATA_COV1_ADOPTION_AND_SCOPE.json) ·
+[Prefrozen crossed-factor population and24 static-qualified TRAIN groups](reports/PI0294/DATA_COV1/DATA_COV1_FROZEN_POPULATION.json) ·
+[PV1 model-alias failure and two-site closure](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_09_MODEL_ALIAS_FAILURE_AND_CLOSURE.json).
+Explicit FULL_CONDITIONAL_CAMPAIGN approval is recorded at#11/6284943603.
+DATA-COV1 T0 is2026-10-20 15:04:42 SGT; runtime03860679 passed exact
+Actions39383323045/job118497224191. P24 static24 passed with54 constructors,
+74.9464 CPU seconds and0 integrations; renderer is actual Mesa llvmpipe.
+The original four-task raw/codec barrier is still pending; no full data-stage
+success or new READY bank is claimed. PV1's139 bank remains unchanged.
+677540 passed its600s/80cycle qualification and fully hashed178341 members,
+then failed B0_CORR-LOAD because a required Cosmos symlink was dereferenced
+by the cold binder. No model/query/episode/update ran. Both leases are CLOSED;
+1105 H200 seconds settled, campaign17201 seconds/PBS8, B0 still12/48.
+The frozen loader is unchanged; the cold repair creates only the exact existing
+snapshot alias and checks it before prepare and submit. No new PBS is claimed
+by this entry. The queued paragraphs below are historical snapshots.
+
 **Future-data D0 is closed; PV1's frozen bank and critical path are unchanged.**
 [Actual 43-row CPU qualification and prospective coverage](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/FUTURE_DATA_D0_ACTUAL_SUMMARY.md):
 32 PASS/11 codec exclusions; one additional raw-audit FAIL was excluded before
