@@ -28,6 +28,7 @@ def _join(cards,rows):
 def first_four(groups,rows):
     cards=capture_cards(groups,'P24')[:4];actual=_join(cards,rows)
     checks=dict(all_four_terminal=len(actual)==4,
+        all_four_identity_and_clock_audited=all(r.get('auditable_identity_and_clock') is True for r in actual.values()),
         known_effects=all(not r['unknown_effects'] for r in actual.values()),
         native_safety=all(r['native_faults']==0 for r in actual.values()),
         at_least_three_full_admissions=sum(r['admitted'] for r in actual.values())>=3,

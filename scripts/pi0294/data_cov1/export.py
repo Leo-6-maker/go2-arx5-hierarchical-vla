@@ -103,14 +103,25 @@ def run(root):
     def expire(*args):raise TimeoutError('DATA_COV1_EXPORT_WALL')
     try:
         signal.signal(signal.SIGALRM,expire);signal.alarm(max(1,int(m['limits']['operation_deadline_epoch']-time.time())))
-        cpu_guard();processor=build_processor(inputs['official_source'],inputs['cosmos'],read(root/'plans/statistics.json'))
+        cpu_guard();processor=None
         ledger['status']='RUNNING';write(root/'RESOURCE_LEDGER.json',ledger)
         for case in plan['cases']:
-            guard();source=Path(case['source_episode']);card=read(source/'CARD.json');packet(read(source/'samples.json'),card)
+            guard();source=Path(case['source_episode']);card=read(source/'CARD.json')
             binding=read(source.parent.parent/'OUTPUT_BINDING.private.json')
             if (read(binding['lease'])['status']!='CLOSED' or card!=case['card']
                     or read(source.parent.parent/'RESOURCE_LEDGER.json')['unknown_effects']):
                 raise PermissionError('DATA_COV1_CLOSED_CAPTURE_AND_EXACT_STATIC_CARD')
+            if case.get('kind')=='SAVED_UNSCORABLE_FAILURE_WITNESS':
+                from .failed_witness import score_input_failure_witness
+                if sha(source/'FILE_MANIFEST.json')!=case['raw_manifest_sha256']:
+                    raise ValueError('DATA_COV1_FAILED_RAW_EXACT_BOUND_MANIFEST')
+                row=score_input_failure_witness(source,card,guard)
+                row['admitted_for_training']=False
+                put(root/'evidence'/(card['id']+'-FAILED_RAW_WITNESS.json'),row);rows.append(row)
+                continue
+            packet(read(source/'samples.json'),card)
+            if processor is None:
+                processor=build_processor(inputs['official_source'],inputs['cosmos'],read(root/'plans/statistics.json'))
             out=root/'datasets'/case['id'];out.mkdir(parents=True)
             os.link(root/'plans/statistics.json',out/'statistics.json')
             row=export_committed_case(case,out,processor,inputs['official_source'],inputs['cosmos'],guard,

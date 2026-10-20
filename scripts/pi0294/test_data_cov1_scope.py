@@ -21,6 +21,15 @@ def adoption():
 
 
 class DataCov1Scope(unittest.TestCase):
+    def test_amended_pool_without_its_sealed_GO_is_not_a_geometry_permission(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)/'children/worker';(root/'plans').mkdir(parents=True)
+            (root/'plans/WORK_PLAN.private.json').write_text('{}')
+            self.assertIsNone(scope.geometry_amendment(root,{}))
+            with self.assertRaisesRegex(PermissionError,'SEALED_EXPLICIT_GO'):
+                scope.geometry_amendment(root,dict(geometry_revision=scope.NEAR_REVISION))
+            with self.assertRaises(PermissionError):scope.geometry_amendment(root,dict(geometry_revision='unapproved'))
+
     def test_no_GO_old_lease_budget_or_clock_reassignment_is_not_authority(self):
         self.assertEqual(scope.approval(adoption())['approval_level'],'FULL_CONDITIONAL_CAMPAIGN')
         for field,value in [('approval_ref',None),('approval_level','PLAN_ONLY'),

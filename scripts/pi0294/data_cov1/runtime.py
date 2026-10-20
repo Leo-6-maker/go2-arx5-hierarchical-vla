@@ -9,8 +9,8 @@ from scripts.pi0292.durable import OwnerLock,read,write
 from scripts.pi0294.fd1 import put,sha
 from scripts.pi0294.scene_cards import digest,near_duplicate_report,task_card
 from scripts.pi0294.pv1.capture import Meter as OriginalMeter,ensure_legacy_attempt_plan,qualify_counter,run_cell
-from .plan import candidate,capture_cards,stage_groups,validate_group
-from .scope import dispatch_priority,sealed_file,validate
+from .plan import candidate,capture_cards,stage_groups,validate_group,preflight_score_geometry
+from .scope import dispatch_priority,sealed_file,validate,geometry_amendment
 
 
 def rendering_identity():
@@ -35,8 +35,10 @@ class Meter(OriginalMeter):
         sealed_file(self.plan['static_plan_path'],self.plan['static_plan_sha256'])
         if static['status']!='SEALED_STATIC_QUALIFIED_BEFORE_TASK_RESULTS':
             raise PermissionError('DATA_COV1_CAPTURE_REQUIRES_ORIGINAL_NATIVE_STATIC_QUALIFICATION')
-        population=read(self.root.parent.parent/'plans/DATA_COV1_CANDIDATE_POOL.private.json')
-        sealed_file(self.root.parent.parent/'plans/DATA_COV1_CANDIDATE_POOL.private.json',static['candidate_pool_sha256'])
+        pool_path=self.plan.get('candidate_pool_path',str(self.root.parent.parent/'plans/DATA_COV1_CANDIDATE_POOL.private.json'))
+        population=read(pool_path)
+        sealed_file(pool_path,static['candidate_pool_sha256'])
+        geometry_amendment(self.root,population)
         full=capture_cards(static['groups'],self.m['stage'])
         indexed={c['id']:c for c in full}
         if (self.ledger['status']!='RESERVED' or self.ledger['unknown_effects'] or self.ledger['attempted_cells']
@@ -54,6 +56,7 @@ class Meter(OriginalMeter):
         self.ticks=self.live_ticks=self.shadow_ticks=self.starts=0
         self.geometry_rows=[]
         self.render_times=[]
+        for card in self.plan['cards']:preflight_score_geometry(card)
         ensure_legacy_attempt_plan(self.root,self.plan['cards'])
         os.sched_setaffinity(0,set(self.m['limits']['cpus']))
         resource.setrlimit(resource.RLIMIT_CPU,(self.m['limits']['CPU_s'],self.m['limits']['CPU_s']))
@@ -143,6 +146,7 @@ def static(root):
     root=Path(root);lock=OwnerLock(root/'DATA_COV1_WORKER.lock')
     m,inputs=validate(root,'STATIC');work=read(root/'plans/WORK_PLAN.private.json')
     pool=read(work['candidate_pool_path']);sealed_file(work['candidate_pool_path'],work['candidate_pool_sha256'])
+    geometry_amendment(root,pool)
     exclusions=read(work['exclusions_path']);sealed_file(work['exclusions_path'],work['exclusions_sha256'])
     prior=[] if work.get('prior_static_path') is None else read(work['prior_static_path'])['groups']
     if work.get('prior_static_path'):sealed_file(work['prior_static_path'],work['prior_static_sha256'])

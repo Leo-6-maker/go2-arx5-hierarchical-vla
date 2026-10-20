@@ -6,7 +6,7 @@ import time
 from scripts.pi0292.durable import read
 from scripts.pi0294.fd1 import sha
 from scripts.pi0294.e1.scope import STATS
-from .plan import CARD,CARD_SHA256,PLAN_RELEASE,protocol_card
+from .plan import CARD,CARD_SHA256,PLAN_RELEASE,protocol_card,NEAR_REVISION,AMENDMENT_CARD,AMENDMENT_CARD_SHA256
 
 ROLES=dict(STATIC='4080-simulation',CAPTURE='4080-simulation',EXPORT='4080-cpu-data',PACK='4080-cpu-data')
 SCOPE='PI0294_DATA_COV1_CPU_CHILD_V1'
@@ -37,6 +37,33 @@ def approval(adoption):
     if type(t0) not in (int,float) or not 0<t0<=time.time():
         raise PermissionError('DATA_COV1_ONE_VALID_ORIGINAL_T0')
     return adoption
+
+
+def geometry_amendment(root,pool):
+    if pool.get('geometry_revision') is None:return None
+    if pool['geometry_revision']!=NEAR_REVISION:
+        raise PermissionError('DATA_COV1_UNKNOWN_GEOMETRY_AMENDMENT')
+    root=Path(root);parent=root.parent.parent;work=read(root/'plans/WORK_PLAN.private.json')
+    proof_path=work.get('geometry_amendment_path')
+    if not proof_path or not work.get('geometry_amendment_sha256'):
+        raise PermissionError('DATA_COV1_AMENDED_POOL_REQUIRES_SEALED_EXPLICIT_GO')
+    sealed_file(proof_path,work['geometry_amendment_sha256']);proof=read(proof_path)
+    adoption=read(parent/'DATA_COV1_ADOPTION_AND_SCOPE.json')
+    original=parent/'plans/DATA_COV1_CANDIDATE_POOL.private.json'
+    m=read(root/'RUN_MANIFEST.json');code=root/m['code']['capsule_relative']
+    sealed_file(code/AMENDMENT_CARD,AMENDMENT_CARD_SHA256)
+    if (proof.get('schema')!='PI0294_DATA_COV1_NATIVE_GEOMETRY_AMENDMENT_V2'
+            or proof.get('revision')!=NEAR_REVISION or not proof.get('approval_ref')
+            or proof.get('original_adoption_sha256')!=sealed_file(parent/'DATA_COV1_ADOPTION_AND_SCOPE.json')
+            or proof.get('original_T0_epoch')!=adoption['T0_epoch']
+            or proof.get('original_pool_sha256')!=sealed_file(original)
+            or pool.get('parent_pool_sha256')!=proof['original_pool_sha256']
+            or pool.get('geometry_amendment_approval_ref')!=proof['approval_ref']
+            or proof.get('public_amendment_card_sha256')!=AMENDMENT_CARD_SHA256
+            or proof.get('budgets_and_stage_gates_unchanged') is not True
+            or proof.get('physical_replacements')!=0):
+        raise PermissionError('DATA_COV1_NARROW_AMENDMENT_NO_NEW_CLOCK_BUDGET_OR_RETRY')
+    return proof
 
 
 def validate(root,role):

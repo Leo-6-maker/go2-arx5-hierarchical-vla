@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from scripts.pi0294.data_cov1.plan import candidate,slots,stage_groups,capture_cards,protocol_card,validate_group
+from scripts.pi0294.data_cov1.plan import candidate,slots,stage_groups,capture_cards,protocol_card,validate_group,amend_near_pool,candidate_pool,NEAR_REVISION,preflight_score_geometry
 from scripts.pi0294.data_cov1.gates import first_four,stage_gate,next_stage
 from scripts.pi0294.pv1.capture import capture_cards as legacy_cards
 
@@ -15,10 +15,34 @@ def groups():return [candidate(**s,index=0) for s in slots()]
 def admitted(cards):
     return [dict(id=c['id'],scene_group=c['group_id'],task=c['task'],status='ADMITTED',
         task_success=True,admitted=True,raw_admitted=True,codec_admitted=True,
-        native_faults=0,unknown_effects=[]) for c in cards]
+        native_faults=0,unknown_effects=[],auditable_identity_and_clock=True) for c in cards]
 
 
 class DataCov1Plan(unittest.TestCase):
+    def test_explicit_near_revision_preserves_original_and_other_factors(self):
+        original=candidate_pool([]);before=deepcopy(original)
+        revised=amend_near_pool(original,approval_ref='USER_EXPLICIT_GO',parent_pool_sha256='a'*64)
+        self.assertEqual(original,before)
+        for old,new in zip(original['slots'],revised['slots']):
+            if old['split']!='TRAIN' or old['distance_bin']!='NEAR':
+                self.assertEqual(old,new);continue
+            for a,b in zip(old['candidates'],new['candidates']):
+                validate_group(b)
+                self.assertEqual(b['geometry_revision'],NEAR_REVISION)
+                self.assertGreaterEqual(preflight_score_geometry(b),.15)
+                for key in ('seed','seed_identity','cube_yaw','visual','layout_candidate_index','group_id'):
+                    self.assertEqual(a[key],b[key])
+                self.assertAlmostEqual(a['source_xy'][0],b['source_xy'][0])
+                self.assertAlmostEqual(a['goal_xy'][0],b['goal_xy'][0])
+                self.assertAlmostEqual(sum(a['source_xy'][1:]+a['goal_xy'][1:]),sum(b['source_xy'][1:]+b['goal_xy'][1:]))
+                with self.assertRaises(PermissionError):preflight_score_geometry(a)
+        with self.assertRaises(PermissionError):amend_near_pool(original,approval_ref='',parent_pool_sha256='a'*64)
+
+    def test_first_four_requires_real_identity_clock_witness_not_counts_alone(self):
+        cards=capture_cards(groups(),'P24');rows=admitted(cards[:4])
+        rows[0]['auditable_identity_and_clock']=False
+        self.assertFalse(first_four(groups(),rows)['count_gate_pass'])
+
     def test_crossed_finite_population_distance_and_legacy_namespace_rejection(self):
         own=groups();self.assertEqual(len(own),144)
         for stage,count in [('P24',24),('P72',72),('P144',144)]:

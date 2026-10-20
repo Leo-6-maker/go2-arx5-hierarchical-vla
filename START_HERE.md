@@ -1,5 +1,14 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1 child10 is submitted; DATA-COV1 NEAR revision is explicitly approved.**
+[Actual submission and narrow geometry amendment](docs/handover/2026-10-20/DATA_COV1_NEAR_AMENDMENT_AND_PV1_CHILD10.md).
+678041/globalPBS9 uses exact-CI runtime79161e32,225GB,oneH200; last observedQ,
+sole owner attached, no new model/query/physics/update. DATA's first attempt
+is an unscorable engineering failure, not a task result; its raw and32k ticks
+remain counted. The user approved unexecuted NEAR0.15-0.18m only, with no
+replacement/new budget/T0. New static qualification and first-four codec gate
+are pending. Do not reuse the following historical queued/adoption snapshots.
+
 **DATA-COV1 is natively adopted; PV1 child09 is closed before model loading.**
 [Independent data window and actual static qualification](reports/PI0294/DATA_COV1/DATA_COV1_ADOPTION_AND_SCOPE.json) ·
 [Prefrozen crossed-factor population and24 static-qualified TRAIN groups](reports/PI0294/DATA_COV1/DATA_COV1_FROZEN_POPULATION.json) ·

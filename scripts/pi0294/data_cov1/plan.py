@@ -15,6 +15,9 @@ NAMESPACE = 'PI0294/DATA_COV1'
 PROFILES = ('AP0','AP1','AP2')
 DIRECTIONS = ('+Y','-Y')
 DISTANCES = dict(NEAR=(.12,.15), FAR=(.19,.22))
+NEAR_REVISION = 'NEAR_015_018_USER_AMENDMENT_V2'
+AMENDMENT_CARD = 'reports/PI0294/design/DATA_COV1_NEAR_GEOMETRY_AMENDMENT_20261020.json'
+AMENDMENT_CARD_SHA256 = 'cc1c95edb38ad8669451e3ea4e2ba97460371d2dd906d1bc5cfc99cb921effff'
 STAGE_REPLICATES = dict(P24=2,P72=6,P144=12)
 
 
@@ -41,15 +44,18 @@ def slots(split='TRAIN'):
         for ap in PROFILES for direction in DIRECTIONS for distance in DISTANCES]
 
 
-def candidate(split,appearance_profile,direction,distance_bin,replicate,index):
+def candidate(split,appearance_profile,direction,distance_bin,replicate,index,geometry_revision='V1'):
     identity=slot_id(split,appearance_profile,direction,distance_bin,replicate)
     if type(index) is not int or not 0<=index<32:
         raise PermissionError('DATA_COV1_MAXIMUM_32_PREFROZEN_STATIC_CANDIDATES')
+    if geometry_revision not in ('V1',NEAR_REVISION):
+        raise PermissionError('DATA_COV1_UNKNOWN_GEOMETRY_REVISION')
     seed_identity=f'DATA_COV1/V1/{split}/{appearance_profile}/{direction}/{distance_bin}/{replicate}/{index}'
     seed=int.from_bytes(hashlib.sha256(seed_identity.encode()).digest()[:8],'big')
     rng=np.random.Generator(np.random.PCG64(seed))
     x=float(rng.uniform(.425,.475));cy=float(rng.uniform(-.025,.025))
-    dx=float(rng.uniform(-.012,.012));d=float(rng.uniform(*DISTANCES[distance_bin]))
+    limits=(.15,.18) if geometry_revision==NEAR_REVISION and distance_bin=='NEAR' else DISTANCES[distance_bin]
+    dx=float(rng.uniform(-.012,.012));d=float(rng.uniform(*limits))
     dy=(1 if direction=='+Y' else -1)*np.sqrt(d*d-dx*dx)
     visual=deepcopy(scene_group('PILOT','F0',0)['visual'])
     if appearance_profile=='AP1':
@@ -64,6 +70,8 @@ def candidate(split,appearance_profile,direction,distance_bin,replicate,index):
         cube_yaw=float(rng.uniform(-.16,.16)),table_top_m=scene_group('PILOT','F0',0)['table_top_m'],
         visual=visual,euclidean_distance_m=d,legacy_family_not_redefined=True,
         qualification='NOT_STATIC_OR_DYNAMIC_QUALIFIED')
+    if geometry_revision==NEAR_REVISION and distance_bin=='NEAR':
+        group['geometry_revision']=NEAR_REVISION
     validate_group(group)
     return group
 
@@ -78,7 +86,9 @@ def validate_group(group):
     source,goal=np.asarray(group['source_xy']),np.asarray(group['goal_xy'])
     if source.shape!=(2,) or goal.shape!=(2,) or not np.isfinite(np.r_[source,goal,group['cube_yaw']]).all():
         raise ValueError('DATA_COV1_FINITE_EXACT_PLANAR_GEOMETRY')
-    low,high=DISTANCES[group['distance_bin']]
+    revision=group.get('geometry_revision','V1')
+    if revision not in ('V1',NEAR_REVISION):raise PermissionError('DATA_COV1_UNKNOWN_GEOMETRY_REVISION')
+    low,high=(.15,.18) if revision==NEAR_REVISION and group['distance_bin']=='NEAR' else DISTANCES[group['distance_bin']]
     distance=float(np.linalg.norm(goal-source))
     if (not low-1e-12<=distance<=high+1e-12 or abs(distance-group['euclidean_distance_m'])>1e-12
             or not .425<=source[0]<=.475 or abs(goal[0]-source[0])>.012+1e-12
@@ -101,6 +111,31 @@ def candidate_pool(exclusions):
         future_evaluation_metadata_only=True,future_evaluation_static_or_dynamic_execution=False,
         Teacher_or_student_success_screening=False,integrations=0,
         status='PREFREEZE_DESIGN_ONLY_NOT_NATIVE_QUALIFICATION_OR_AUTHORITY')
+
+
+def amend_near_pool(original,*,approval_ref,parent_pool_sha256):
+    """Append a new TRAIN design; do not rewrite old pools or redraw from outcomes."""
+    if (not approval_ref or len(parent_pool_sha256)!=64
+            or original['schema']!='PI0294_DATA_COV1_FINITE_POOL_V1'):
+        raise PermissionError('DATA_COV1_EXPLICIT_NEAR_AMENDMENT_AND_ORIGINAL_POOL')
+    value=deepcopy(original)
+    for slot in value['slots']:
+        if slot['split']=='TRAIN' and slot['distance_bin']=='NEAR':
+            keys={k:slot[k] for k in ('split','appearance_profile','direction','distance_bin','replicate')}
+            slot['candidates']=[candidate(**keys,index=i,geometry_revision=NEAR_REVISION) for i in range(32)]
+    value.update(geometry_revision=NEAR_REVISION,parent_pool_sha256=parent_pool_sha256,
+        geometry_amendment_approval_ref=approval_ref,original_attempts_preserved=True,
+        physical_replacements=0,original_T0_and_budgets_unchanged=True,
+        future_evaluation_metadata_revision='ORIGINAL_V1_METADATA_ONLY_NOT_ADOPTED_FOR_EVALUATION')
+    return value
+
+
+def preflight_score_geometry(card):
+    """Reject impossible scorer inputs before spending constructors or physics."""
+    distance=float(np.linalg.norm(np.asarray(card['goal_xy'])-np.asarray(card['source_xy'])))
+    if not np.isfinite(distance) or distance<.15:
+        raise PermissionError('DATA_COV1_FROZEN_SCORER_REQUIRES_SOURCE_GOAL_AT_LEAST_015M')
+    return distance
 
 
 def stage_groups(groups,stage):
