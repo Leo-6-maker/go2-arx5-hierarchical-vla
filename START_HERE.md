@@ -1,5 +1,36 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**CR1 R0-R4 is actually complete and CLOSED: RANGE_SUPPORTED, offline only.**
+[Full review and next scientific decision](reports/PI0294/CR1/20261020T105832Z-localpc-cr1/CR1_FINAL_REVIEW.md) ·
+[Paired results and actual official readers](reports/PI0294/CR1/20261020T105832Z-localpc-cr1/CR1_PAIRED_RESULTS_AND_READER.json) ·
+[Independent final resources](reports/PI0294/CR1/20261020T105832Z-localpc-cr1/CR1_RESOURCE_FINAL.json).
+The explicit e7593fdd GO was adopted once at18:58:32SGT on20Oct. Runtime
+8e2097ed passed exact Actions39412546118/job118593595499 and a755-member
+immutable CPU capsule.194saved TRAIN parents:141FIT/50DIAGNOSTIC/3known
+challenge; all601windows and six real dual-camera reader anchors per variant
+were checked. Seven diagnostic FAILs across six disjoint lineages recover;
+all139retention parents stayPASS. One sealed PAD5 relative-EEF9 range only;
+no feedback refit, no state/gripper/clamp/gate change. Independent JSON QA
+and native seven-file/lease readback PASS. Core4328.4369CPU seconds including
+600control upper; local2400seconds upper; CR1leaseCLOSED/reservations0,
+unknown=[]; model/physics/GPU/PBS/updates0. Frozen15numerical files,
+26native assets, oldDATA13closed leases,139bank and originalstats unchanged.
+This is not a new policy, bankREADY, BF16 qualification or rollout success.
+The candidate must not be installed on oldCORR as the original B0 decoder.
+Old DATA-COV1 remains2/4FAIL andCLOSED; a new small bank/taskpilot needs GO.
+
+**PV1 child11 is now F, NOT the queued/healthy snapshots below.**
+[Exact model-before-auth engineering terminal, pending settlement](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_11_FRESH_AUTH_PREMODEL_TERMINAL_PENDING_SETTLEMENT.json).
+678230 allocated19:37:53SGT, then failed exit1 after fresh project auth15006
+prevented owner release; wrapper models_loaded_by_launcher=0. Original owner
+service exited. B0 remains14/48(9success/5valid task failures),updates0,
+queries1054,unknown=[]; this is not another valid task failure. Both child
+leases remainACTIVE and28860H200/43200CoreCPU seconds are still reserved,
+pending original-PV1 settlement; do not claim zero GPU charge or released
+resources. CR1 did not retry, re-release, alter or settle this job. Preserve
+B0-complete-before-training and all PV1 freezes/budget/deadline. The following
+paragraphs are historical receipts, not current queue or owner state.
+
 **DATA required saved-parent audit now PASS; collection stays CLOSED/failed gate.**
 [Final dataset card and actual cross-episode consumption](reports/PI0294/DATA_COV1/DATA_COV1_DATASET_CARD.md) ·
 [Resource/render/storage addendum](reports/PI0294/DATA_COV1/DATA_COV1_RESOURCE_FINAL.json).
