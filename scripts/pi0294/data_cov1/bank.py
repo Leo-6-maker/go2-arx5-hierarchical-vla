@@ -53,7 +53,7 @@ def manifest(groups,stage,captures,exports,*,actual_cards,population_sha256,adop
 
 
 def validate_manifest(value):
-    if (value.get('schema')!=SCHEMA or value.get('statistics_sha256')!=STATS
+    if (value.get('schema')!=SCHEMA or value.get('domain')!='FIXED_BASE_ARX5_TASK_SIM' or value.get('statistics_sha256')!=STATS
             or value.get('statistics_refit') is not False or value.get('later_rows_hot_injected') is not False
             or value.get('evaluation_rows_used_for_training') is not False or value.get('PV1_bank_changed') is not False
             or value.get('stage') not in ('P24','P72','P144') or not value.get('episodes')
@@ -100,10 +100,18 @@ def parent_files(root,row,guard):
     return members
 
 
+def assembly_plan(plan,value,sources):
+    if (plan.get('operation')!='ASSEMBLE_STAGE_BANK' or plan.get('stage_manifest_identity')!=digest(value)
+            or plan.get('qualified_export_sources_identity')!=digest(sources)):
+        raise PermissionError('DATA_COV1_BANK_INPUTS_MUST_MATCH_FINAL_SEALED_PACK_PLAN')
+
+
 def assemble(root,value,sources,processor,official_source,cosmos,guard):
     """Caller provides a registered PACK scope, reservation and deadline guard."""
     from .scope import validate
     root=Path(root);m,_=validate(root,'PACK');validate_manifest(value)
+    plan=read(root/'plans/WORK_PLAN.private.json')
+    assembly_plan(plan,value,sources)
     if (m['stage']!=value['stage'] or sha(root/'plans/statistics.json')!=STATS
             or any(m['limits'][k] for k in ('Teacher_episodes','engine_starts','physics_ticks','GR00T_queries','training_updates','PBS_submissions'))):
         raise PermissionError('DATA_COV1_REGISTERED_PACK_ZERO_PHYSICS_AND_NEURAL_BUDGET')

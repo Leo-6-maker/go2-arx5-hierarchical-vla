@@ -6,12 +6,21 @@ import unittest
 
 import numpy as np
 
-from scripts.pi0294.data_cov1.bank import manifest,validate_manifest,parent_files,bank_members,public_json
+from scripts.pi0294.data_cov1.bank import manifest,validate_manifest,parent_files,bank_members,public_json,assembly_plan
+from scripts.pi0294.scene_cards import digest
 from scripts.pi0294.test_data_cov1_reports import fixtures
 from scripts.pi0294.fd1 import sha
 
 
 class DataCov1Bank(unittest.TestCase):
+    def test_final_bound_pack_plan_cannot_receive_substituted_bank_or_source_paths(self):
+        value=dict(CPU_fixture=True);sources=dict(parent='REGISTERED_CLOSED_SOURCE_FIXTURE')
+        plan=dict(operation='ASSEMBLE_STAGE_BANK',stage_manifest_identity=digest(value),
+            qualified_export_sources_identity=digest(sources))
+        assembly_plan(plan,value,sources)
+        for p,v,s in (({},value,sources),(plan,dict(CPU_fixture=False),sources),(plan,value,dict(parent='OTHER'))):
+            with self.assertRaises(PermissionError):assembly_plan(p,v,s)
+
     def manifest_fixture(self):
         groups,cards,captures,exports=fixtures()
         for row in exports.values():
