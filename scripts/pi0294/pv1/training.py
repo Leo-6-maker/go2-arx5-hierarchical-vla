@@ -204,6 +204,8 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
     started=time.monotonic()
     trainer_class=make_trainer_class()
     if observer:trainer_class=observed_trainer(trainer_class,observer)
+    from scripts.pi0294.dec1.checkpoint_storage import wrap_trainer
+    trainer_class=wrap_trainer(trainer_class,root,guard)
     trainer=trainer_class(model=instance.model,args=args,train_dataset=dataset,
         data_collator=ProcessedCollator(dataset.processor),callbacks=[Audit()],evidence_dir=evidence,recipe=recipe,smoke=False)
     try:

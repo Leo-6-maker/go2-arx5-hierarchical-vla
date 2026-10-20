@@ -1,5 +1,19 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**DEC1 source cold inputs now use actual saved bytes, but are not native-bound.**
+[Actual identity/timing/storage evidence](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SOURCE_COLD_INPUTS_AND_STORAGE_IMPLEMENTATION.json) ·
+[Narrow storage implementation and remaining gates](docs/protocols/DEC1_SOURCE_TRAINING_COLD_INPUTS_AND_STORAGE_V1.md).
+Both unchanged source arms have CORR/R0/139/C1/population/recipe/probe inputs;
+no full-B0 PASS was invented. A_CONTROL still has zero new-bank optimization
+visits. Native source registration and a complete fresh budget/lifecycle seal
+are pending. The opt-in Trainer wrapper shares only an exact fully frozen
+shard after a full save and preserves original parent bytes/mode. It does not
+retire a checkpoint or constitute a native storage/backup receipt. Actual
+parent logs show maximum5.64634s/update; the new data has not been trained.
+Hopper's own queue was empty and all registered campaign children closed at
+the cited fresh read. Hook cause remains unconfirmed; no blind same-hook job
+was submitted. Existing H200 guards, final reserve and original clock remain.
+
 **Latest CR2 is fully CLOSED and its fixed-R1 bank is delivered, not collecting.**
 [All24 real attempts and final HF/readback/resources](reports/PI0294/CR2/20261020T160340Z-localpc-cr2/CR2_FINAL_REPORT.md).
 T1 12/12 and T2 12/12 Teacher/data success, 12paired new TRAIN geometries,
