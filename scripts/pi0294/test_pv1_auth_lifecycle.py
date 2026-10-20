@@ -5,7 +5,7 @@ from pathlib import Path
 import sys
 import unittest
 
-from scripts.pi0294.pv1.auth_lifecycle import Maintainer,masked_login,HumanAuthRequired,SiteClock,existing_job_auth
+from scripts.pi0294.pv1.auth_lifecycle import Maintainer,masked_login,HumanAuthRequired,AuthenticationUnavailable,SiteClock,existing_job_auth
 
 
 class AuthLifecycleTests(unittest.TestCase):
@@ -78,13 +78,20 @@ class AuthLifecycleTests(unittest.TestCase):
     def test_login_error_diagnostics_never_include_raw_output_or_secret(self):
         secret='CPU_FIXTURE_NOT_A_REAL_PASSWORD'
         program="import getpass;getpass.getpass('Password: ');print('Connection timed out; Code 15006');raise SystemExit(1)"
-        with self.assertRaises(ConnectionError) as caught:
+        with self.assertRaises(AuthenticationUnavailable) as caught:
             masked_login([sys.executable,'-c',program],secret,timeout_s=3)
         diagnostic=caught.exception.diagnostic
         self.assertEqual(diagnostic['server_codes'],[15006])
         self.assertTrue(diagnostic['password_prompt_answered'])
         self.assertFalse(diagnostic['raw_output_logged'])
         self.assertNotIn(secret,str(diagnostic)+str(caught.exception))
+
+    def test_server_rejection_is_not_proof_of_a_human_only_challenge(self):
+        program="import getpass;getpass.getpass('Password: ');print('Authentication failed: Code 15006');raise SystemExit(1)"
+        with self.assertRaises(AuthenticationUnavailable) as caught:
+            masked_login([sys.executable,'-c',program],'CPU_FIXTURE_ONLY',timeout_s=3)
+        self.assertNotIsInstance(caught.exception,HumanAuthRequired)
+        self.assertEqual(caught.exception.diagnostic['server_codes'],[15006])
 
     def test_stale_and_pre_R_proofs_rejected(self):
         m=self.manager();m.bind();m.query=lambda:dict(observed_epoch=self.now-31)

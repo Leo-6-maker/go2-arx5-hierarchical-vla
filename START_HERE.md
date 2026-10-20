@@ -1,5 +1,17 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**Native auth round2: official login API returns HTTP401; no new PBS.**
+[Actual transport/cache/logout evidence and bounded cost](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/AUTH_NATIVE_SERVER_DIAGNOSTIC_ROUND2.json).
+Same-context normal login reached the official service and received401 after
+10.04seconds; subsequent project query remains15006. The CLI-opened auth cache
+is owned/readable/writable,0600,parent writable. Supported logout also exit1;
+no manual token edit, credential collection, MFA bypass or unchanged login loop.
+The CLI's timeout prose alone is not evidence of a lost SSH connection, bad
+password or mandatory human challenge. Diagnostic error classification is
+corrected with27 focused tests; real auth renewal remains unproven. E0 stays
+CLOSED, H200spent20473/reserved0, PBS10/24, B014/48,updates0,selectedNONE.
+Neither another PBS authorization nor CR2 approval fixes this native auth gate.
+
 **POST-CR1 E0 is actually CLOSED; E1 CPU repair is tested, native auth still blocked.**
 [Child11 actual settlement and both-site closure](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_CHILD11_SETTLED_AND_CLOSED.json) ·
 [Authentication lifecycle repair and native readback](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/AUTH_LIFECYCLE_REPAIR_AND_NATIVE_READBACK.json).

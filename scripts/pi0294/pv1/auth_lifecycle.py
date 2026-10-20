@@ -11,9 +11,13 @@ import termios
 import time
 
 
-class HumanAuthRequired(PermissionError):
+class AuthenticationUnavailable(PermissionError):
     def __init__(self,message,*,diagnostic=None):
         super().__init__(message);self.diagnostic=diagnostic or {}
+
+
+class HumanAuthRequired(AuthenticationUnavailable):
+    pass
 
 
 class SiteClock:
@@ -86,13 +90,8 @@ def masked_login(argv,secret,*,timeout_s=45):
             if process.returncode==255:raise ConnectionError('AUTH_SSH_TRANSPORT_FAILURE_REDACTED')
             diagnostic=dict(CLI_exit_status=process.returncode,password_prompt_answered=sent,
                 server_codes=sorted(codes),classified_hints=sorted(hints),raw_output_logged=False)
-            if 'TRANSPORT_OR_SERVER_CONNECTIVITY' in hints and 'SERVER_REJECTED_CREDENTIALS' not in hints:
-                error=ConnectionError('AUTH_LOGIN_SERVER_CONNECTIVITY_FAILURE_REDACTED')
-                error.diagnostic=diagnostic
-                raise error
-            raise HumanAuthRequired('HUMAN_AUTH_ONCE_REQUIRED_LOGIN_REJECTED_OR_UNEXPECTED_PROMPT',diagnostic=dict(
-                CLI_exit_status=process.returncode,password_prompt_answered=sent,server_codes=sorted(codes),
-                classified_hints=sorted(hints),raw_output_logged=False))
+            # CLI prose is only a hint: native HTTP 401 can also mention a timeout.
+            raise AuthenticationUnavailable('AUTH_LOGIN_NOT_ACCEPTED_NATIVE_READBACK_REQUIRED',diagnostic=diagnostic)
         return dict(status='CLI_LOGIN_EXIT_SUCCESS_REQUIRES_FRESH_NATIVE_QUERY',password_prompt_answered=sent,
                     credential_saved=False,raw_output_logged=False)
     finally:
