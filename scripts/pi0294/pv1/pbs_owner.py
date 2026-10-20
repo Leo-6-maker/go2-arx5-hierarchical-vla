@@ -22,6 +22,7 @@ from .decision import AUTHORITY
 from .neural_ledger import Ledger
 from .neural_scope import validate
 from .resources import admit_resources,project_eligible
+from .bank_reuse import preflight as bank_preflight
 
 PAD=60
 AMGR='/opt/am/python/bin/amgr'
@@ -98,7 +99,8 @@ def budget_request(value,request):
 
 def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_bytes=80*1024**3,memory_gb=128):
     if os.environ.get('PBS_JOBID'):raise PermissionError('PV1_QSUB_OWNER_ON_LOGIN_ONLY')
-    root=Path(root);m,bindings,_,bound,a=validate(root)
+    root=Path(root);m,bindings,inputs,bound,a=validate(root)
+    cold_bank=bank_preflight(root,m,inputs,bound)
     ledger=Ledger(root,final=True) if stage=='P5_FINAL' else Ledger(root)
     if stage not in ('B0_DEV','P2_PRIMARY','P4_DEV','P4_REPLICA','P5_FINAL') or memory_gb not in (128,225):
         raise PermissionError('PV1_ONLY_IMPLEMENTED_PHASES_AND_MATURE_MEMORY_PROFILES')
@@ -127,7 +129,8 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
         request_id=str(uuid.uuid4()),submission_nonce=str(uuid.uuid4()),project=project_name,
         job_name='pi0294_pv1_'+str(number).zfill(2),created_epoch=time.time(),walltime_s=walltime_s,ncpus=12,
         numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',data_bank_status='SEALED_FULL_SUCCESS_OFFICIAL_CODEC_ADMITTED',
-        new_bank_manifest_sha256=bound['new_bank_manifest_sha256'],additional_output_upper_bytes=additional_output_upper_bytes,
+        new_bank_manifest_sha256=bound['new_bank_manifest_sha256'],cold_bank_preflight=cold_bank,
+        additional_output_upper_bytes=additional_output_upper_bytes,
         queue_limit_relative=queue_name,queue_limit_sha256=sha(root/queue_name),
         sealed_inputs={n:sha(root/n) for n in sorted(names)},python=bindings['python'],
         dependency_afterok=dependency_for(value))
@@ -163,11 +166,15 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
 
 
 def submit(root,number):
-    root=Path(root);validate(root);lock=OwnerLock(root/'PV1_QSUB_OWNER.lock')
+    root=Path(root);m,_,inputs,bound,_=validate(root)
+    cold_bank=bank_preflight(root,m,inputs,bound)
+    lock=OwnerLock(root/'PV1_QSUB_OWNER.lock')
     directory=root/'pbs'/('alloc-'+str(number).zfill(2));r=read(directory/'REQUEST.json')
     ledger=Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root)
     binding=read(directory/'JOB_SCRIPT_BINDING.json')
     try:
+        if cold_bank!=r['cold_bank_preflight']:
+            raise PermissionError('PV1_PREQUEUE_BANK_BINDING_CHANGED_AFTER_PREPARE')
         if (sha(directory/'REQUEST.json')!=binding['request_sha256'] or sha(directory/'job.pbs')!=binding['job_script_sha256']
                 or time.time()-r['created_epoch']>=120):
             raise PermissionError('PV1_FRESH_IMMUTABLE_PREPARED_REQUEST_AND_NATIVE_QUEUE_LIMIT')

@@ -75,16 +75,30 @@ class PbsOwnerContracts(unittest.TestCase):
             root,ledger=root_ledger(tmp);directory=root/'pbs/alloc-01';directory.mkdir(parents=True)
             r=dict(stage='B0_DEV',evaluation_candidate='B0_CORR',walltime_s=7200,additional_output_upper_bytes=40*1024**3,
                 dependency_afterok=None,created_epoch=owner.time.time(),submit_count=1,
+                cold_bank_preflight=dict(CPU_fixture=True),
                 request_id='fixture-1',project='CFP04-CF-007',job_name='pi0294_pv1_01')
             put(directory/'REQUEST.json',r,True);(directory/'job.pbs').write_text('CPU fixture, not executable PBS')
             put(directory/'JOB_SCRIPT_BINDING.json',dict(request_sha256=sha(directory/'REQUEST.json'),job_script_sha256=sha(directory/'job.pbs')))
-            with patch.object(owner,'validate'),patch.object(owner,'native_chain'),\
+            with patch.object(owner,'validate',return_value=({},None,{},None,None)),\
+                    patch.object(owner,'bank_preflight',return_value=r['cold_bank_preflight']),patch.object(owner,'native_chain'),\
                     patch.object(owner.subprocess,'run',side_effect=subprocess.TimeoutExpired('qsub',45)) as qsub:
                 with self.assertRaises(subprocess.TimeoutExpired):owner.submit(root,1)
                 v=json.loads(ledger.path.read_text());self.assertEqual(v['reserved']['H200_s'],7260)
                 self.assertEqual(v['storage_reserved_bytes'],40*1024**3);self.assertEqual(v['used']['PBS_submissions'],1)
                 with self.assertRaises(PermissionError):owner.submit(root,1)
                 self.assertEqual(qsub.call_count,1)
+
+    def test_missing_bank_fails_before_prepare_or_submit_has_any_side_effect(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root,ledger=root_ledger(tmp);before=ledger.path.read_bytes()
+            with patch.object(owner,'validate',return_value=(dict(execution=dict(sealed_inputs={})),None,{},None,None)),\
+                    patch.object(owner.subprocess,'run') as native:
+                for operation in (lambda:owner.prepare(root,stage='B0_DEV',project_name='CFP04-CF-007'),
+                                  lambda:owner.submit(root,1)):
+                    with self.assertRaisesRegex(PermissionError,'IMMUTABLE_FILE'):operation()
+                    self.assertEqual(ledger.path.read_bytes(),before)
+                    self.assertFalse((root/'pbs').exists())
+                native.assert_not_called()
 
     def test_terminal_native_reads_are_outside_the_shared_training_counter_lock(self):
         with tempfile.TemporaryDirectory() as tmp,patch.dict(os.environ,{'USER':'fixture'}):

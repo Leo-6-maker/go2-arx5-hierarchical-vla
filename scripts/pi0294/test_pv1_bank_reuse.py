@@ -86,3 +86,40 @@ class BankReuse(unittest.TestCase):
         (self.root/reuse.PLAN).chmod(0o400)
         put(self.source/'worker_processes/live.json',dict(pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21]))
         with self.assertRaisesRegex(PermissionError,'STILL_ACTIVE'):self.validate()
+
+    def cold_fixture(self):
+        root=self.root;bank=root/'datasets/FROZEN_TRAIN_BANK'
+        put(bank/'DATASET_MANIFEST.json',dict(episodes=[dict(id='parent',file='numeric/parent.npz')]))
+        put(bank/'PAYLOAD_MANIFEST.json',[])
+        put(bank/'statistics.json',dict(CPU_fixture=True))
+        put(bank/'READY.json',dict(payload_manifest_sha256=sha(bank/'PAYLOAD_MANIFEST.json')))
+        put(bank/'numeric/parent.npz',dict(CPU_fixture=True));(bank/'raw/parent').mkdir(parents=True)
+        raw=root/'plans/raw.json';put(raw,dict(parent=str(bank/'raw/parent')),True)
+        put(root/'OUTPUT_BINDING.private.json',dict(CPU_fixture=True),True)
+        m=dict(execution=dict(sealed_inputs={'plans/raw.json':sha(raw)}))
+        put(root/'RUN_MANIFEST.json',m,True)
+        return bank,m,dict(new_dataset=str(bank),new_raw_bindings=str(raw)),dict(
+            new_bank_manifest_sha256=sha(bank/'DATASET_MANIFEST.json'),new_bank_ready_sha256=sha(bank/'READY.json'))
+
+    def test_prequeue_rejects_metadata_only_sibling_and_stale_rgb_bindings(self):
+        bank,m,inputs,stage=self.cold_fixture()
+        with patch.object(reuse,'STATS',sha(bank/'statistics.json')):
+            self.assertTrue(reuse.preflight(self.root,m,inputs,stage)['full_member_hashes_still_required_inside_allocation'])
+            raw=(bank/'PAYLOAD_MANIFEST.json').read_bytes();(bank/'PAYLOAD_MANIFEST.json').unlink()
+            with self.assertRaisesRegex(PermissionError,'COMPLETE_BANK_METADATA_REQUIRED'):
+                reuse.preflight(self.root,m,inputs,stage)
+            (bank/'PAYLOAD_MANIFEST.json').write_bytes(raw)
+            put(Path(inputs['new_raw_bindings']),dict(parent=str(self.target/'raw/parent')),True)
+            with self.assertRaisesRegex(PermissionError,'ACTUAL_BANK'):
+                reuse.preflight(self.root,m,inputs,stage)
+
+    def test_prequeue_rejects_mutable_final_fixture_and_changed_payload(self):
+        bank,m,inputs,stage=self.cold_fixture()
+        with patch.object(reuse,'STATS',sha(bank/'statistics.json')):
+            (self.root/'plans/raw.json').chmod(0o644)
+            with self.assertRaisesRegex(PermissionError,'IMMUTABLE_FILE'):
+                reuse.preflight(self.root,m,inputs,stage)
+            (self.root/'plans/raw.json').chmod(0o400)
+            put(bank/'PAYLOAD_MANIFEST.json',[dict(changed=True)])
+            with self.assertRaisesRegex(PermissionError,'METADATA_HASHES'):
+                reuse.preflight(self.root,m,inputs,stage)

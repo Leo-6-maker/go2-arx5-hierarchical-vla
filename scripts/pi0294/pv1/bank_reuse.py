@@ -10,6 +10,48 @@ from .decision import AUTHORITY
 PLAN='plans/REUSED_NEW_BANK_BINDING.private.json'
 
 
+def preflight(root,manifest,inputs,stage):
+    """Reject stale metadata-only bank bindings before reserving a GPU job."""
+    root=Path(root)
+    for name in {'RUN_MANIFEST.json','OUTPUT_BINDING.private.json',*manifest['execution']['sealed_inputs']}:
+        path=root/name
+        if (path.is_symlink() or not path.is_file() or not path.resolve().is_relative_to(root.resolve())
+                or path.stat().st_uid!=os.getuid() or path.stat().st_mode&0o222):
+            raise PermissionError('PV1_PREQUEUE_FINAL_BINDING_MUST_BE_OWN_IMMUTABLE_FILE:'+name)
+    target=Path(inputs['new_dataset'])
+    if target.is_symlink() or not target.is_dir() or target.stat().st_uid!=os.getuid():
+        raise PermissionError('PV1_PREQUEUE_NEW_BANK_OWN_DIRECTORY')
+    hashes={}
+    for name in ('DATASET_MANIFEST.json','READY.json','statistics.json','PAYLOAD_MANIFEST.json'):
+        path=target/name
+        if path.is_symlink() or not path.is_file() or path.stat().st_uid!=os.getuid():
+            raise PermissionError('PV1_PREQUEUE_COMPLETE_BANK_METADATA_REQUIRED:'+name)
+        hashes[name]=sha(path)
+    ready=read(target/'READY.json')
+    if (hashes['DATASET_MANIFEST.json']!=stage['new_bank_manifest_sha256']
+            or hashes['READY.json']!=stage['new_bank_ready_sha256']
+            or hashes['statistics.json']!=STATS
+            or ready['payload_manifest_sha256']!=hashes['PAYLOAD_MANIFEST.json']):
+        raise PermissionError('PV1_PREQUEUE_FIXED_BANK_METADATA_HASHES')
+    parents=read(target/'DATASET_MANIFEST.json')['episodes']
+    raw=read(inputs['new_raw_bindings'])
+    if set(raw)!={row['id'] for row in parents}:
+        raise PermissionError('PV1_PREQUEUE_EXACT_BANK_RAW_BINDING_MEMBERS')
+    for row in parents:
+        folder=target/'raw'/row['id'];numeric=target/row['file']
+        if (not folder.is_dir() or folder.is_symlink() or not numeric.is_file() or numeric.is_symlink()
+                or not numeric.resolve().is_relative_to(target.resolve())
+                or Path(raw[row['id']]).resolve()!=folder.resolve()):
+            raise PermissionError('PV1_PREQUEUE_RAW_AND_NUMERIC_MUST_USE_ACTUAL_BANK')
+    reuse=None
+    if not target.resolve().is_relative_to(root.resolve()):
+        reuse=validate(root,target,read(root/'plans/PV1_HF_BANK_DELIVERY.json'),stage)
+    return dict(status='PASS_PREQUEUE_IMMUTABLE_COMPLETE_BANK_BINDING_NOT_FULL_PAYLOAD_REHASH',
+                metadata_sha256=hashes,parent_episodes=len(parents),
+                source_child_uuid=None if reuse is None else reuse['source_child_uuid'],
+                full_member_hashes_still_required_inside_allocation=True)
+
+
 def validate(root,target,delivery,stage):
     root,target=Path(root),Path(target);manifest=read(root/'RUN_MANIFEST.json');path=root/PLAN
     if (path.is_symlink() or path.stat().st_mode&0o222
