@@ -1,5 +1,15 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**15:37 SGT actual update: child10 is R, not Q; future-data physics is waiting.**
+[Native amendment, first-attempt witness, resource and allocation receipt](reports/PI0294/DATA_COV1/DATA_COV1_NEAR_V2_NATIVE_AND_FIRST_ATTEMPT_RECEIPT.json).
+678041 started onhopper-19 at15:30 with225GB; original premodel qualification
+is in progress, model readiness is not yet claimed. AmendedDATA runtime34079e41
+passed exactActions39387023857/job118509187552 and is natively appended with
+originalT0 unchanged. Saved-byte witness closed with641 camera pairs/16000
+clock rows checked, no invented score or admission. StaticV2/first-four remain
+pending; finite one-worker continuation waits for PV1 priority, with no bulk
+dispatch, retries, replacements or new clock. Historical snapshots follow.
+
 **PV1 child10 is submitted; DATA-COV1 NEAR revision is explicitly approved.**
 [Actual submission and narrow geometry amendment](docs/handover/2026-10-20/DATA_COV1_NEAR_AMENDMENT_AND_PV1_CHILD10.md).
 678041/globalPBS9 uses exact-CI runtime79161e32,225GB,oneH200; last observedQ,
