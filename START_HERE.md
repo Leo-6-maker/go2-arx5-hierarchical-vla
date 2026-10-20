@@ -1,5 +1,20 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**Native authentication recovered; child12 is actually submitted once, not running science yet.**
+[Fresh project, cold binding and actual native continuation](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/NEXT_NATIVE_ALLOCATION_AND_B0_PROGRESS.json).
+Fresh same-context CFP04-CF-007 active/member/cluster/positive-balance PASS.
+All old child leases CLOSED, own queue empty and unknown[] before binding.
+Exact runtime30e2e152 passed Actions39436335491/job118674212836; both cold
+capsules757members match that commit. Original139bank/R0/parent unchanged.
+679029.hopper-m-02 is Q at23:39SGT20Oct:1H200/12CPU/225GB/8h, PBS11/24,
+spent20473H200seconds/reserved28860. Sole finite owner service is active,
+Q-auth health enabled; credentials stay memory-only, no identical login loop.
+B0 remains14/48(9success/5valid fail),34remaining,queries1054,updates0.
+No new model/physics or training is claimed. Original175s release and own
+allocation qualification still required. B0 must finish before A/B; final20h
+and original deadline remain. CR1/COV1 CLOSED,CR2 NOT_AUTHORIZED,selectedNONE.
+Authentication-blocked paragraphs below are preserved historical snapshots.
+
 **Official-guide/session round3: no client-method mismatch found; no password retry or PBS.**
 [Official-source access scope, four native session checks and CPU-only request proof](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/AUTH_OFFICIAL_GUIDE_AND_SESSION_AUDIT_ROUND3.md).
 Fresh/reused SSH and clean/inherited Python environments all return401/15006
