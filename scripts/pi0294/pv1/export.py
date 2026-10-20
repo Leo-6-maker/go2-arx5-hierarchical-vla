@@ -31,6 +31,14 @@ def packet(samples,card):
             or (card['task']=='T1' and card['nominal_clearance_m']!=.004)
             or any(s['policy_obs']['instruction']!=card['instruction'] for s in samples)):
         raise PermissionError('PV1_SAVED_EXPORT_ONLY_SEALED_TRAIN_COMMITTED_LANGUAGE')
+    return committed_packet(samples,card)
+
+
+def committed_packet(samples,card):
+    """Shared label construction; each caller must separately admit its scope."""
+    validate_samples(samples)
+    if any(s['policy_obs']['instruction']!=card['instruction'] for s in samples):
+        raise PermissionError('SAVED_EXPORT_ONLY_ACTUALLY_OBSERVED_TASK_LANGUAGE')
     states=np.asarray([pose10(s['policy_obs']['actual_tcp'],s['policy_obs']['actual_gripper']) for s in samples])
     commands=np.asarray([pose10(s['supervision']['committed'],s['supervision']['committed_gripper']) for s in samples[:640]])
     return dict(actual_state10=states,committed_absolute10=commands,
@@ -50,7 +58,7 @@ def physical_errors(expected,actual):
         SO3_rad=float(np.max(np.arccos(cosine))),gripper=float(np.max(np.abs(expected[:,9]-actual[:,9]))))
 
 
-def codec_packet(arrays,processor,guard=lambda:None):
+def codec_packet(arrays,processor,guard=lambda:None,*,diagnostic_sink=None):
     from gr00t.data.types import ActionType,ActionFormat
     from gr00t.data.embodiment_tags import EmbodimentTag
     sap=processor.state_action_processor
@@ -81,6 +89,9 @@ def codec_packet(arrays,processor,guard=lambda:None):
             {k:v[None] for k,v in state_dict.items()})
         actual=np.concatenate([decoded[k] for k in ('eef_9d','gripper_position')],axis=-1)[0]
         for name,error in physical_errors(target,actual).items():maxima[name]=max(maxima[name],error)
+        if diagnostic_sink is not None:
+            diagnostic_sink(anchor=anchor,state=state.copy(),target=target.copy(),expected_relative=expected.copy(),
+                native_relative=relative.copy(),normalized=normalized.copy(),packed=packed.copy(),actual=actual.copy())
     passed=all(maxima[k]<=v for k,v in GATES.items())
     return dict(status='PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP' if passed else 'BLOCKED_FROZEN_CODEC_PHYSICAL_ERROR',
         H40_windows_actually_checked=601,committed_label_elements_checked=601*40*10,
@@ -110,6 +121,14 @@ def batch_inventory(batch,count):
 
 
 def export_case(case,out,processor,source,cosmos,guard):
+    return export_committed_case(case,out,processor,source,cosmos,guard,
+        packet_builder=packet,codec_auditor=codec_packet,
+        direction_for_card=lambda c:TRAIN_GROUPS[c['group_id']])
+
+
+def export_committed_case(case,out,processor,source,cosmos,guard,*,packet_builder,codec_auditor,
+        direction_for_card,origin='PV1_ACTUAL_COMMITTED_TEACHER_TRAIN'):
+    """Shared full raw/official-chain reader; scope-specific callers bind both gates."""
     folder=Path(case['source_episode']);card=read(folder/'CARD.json')
     audit=read(case['audit_file']);result=read(folder/'RESULT.json');s1=read(folder/'S1_RESULT.json')
     if (card['id']!=case['id'] or digest(card)!=case['card_sha256']
@@ -128,14 +147,14 @@ def export_case(case,out,processor,source,cosmos,guard):
                 or p.stat().st_size!=row['bytes'] or sha(p)!=row['sha256']):
             raise ValueError('PV1_SAVED_RAW_MEMBER_CHANGED_OR_ESCAPED')
     samples=read(folder/'samples.json');validate_samples(samples,verify_images=folder)
-    arrays=packet(samples,card)
-    codec=codec_packet(arrays,processor,guard)
+    arrays=packet_builder(samples,card)
+    codec=codec_auditor(arrays,processor,guard)
     record=dict(id=card['id'],scene_group=card['group_id'],task=card['task'],split='TRAIN',family=card['family'],
-        direction=TRAIN_GROUPS[card['group_id']],nominal_clearance_m=card['nominal_clearance_m'],
+        direction=direction_for_card(card),nominal_clearance_m=card['nominal_clearance_m'],
         full_task_success=True,independent_raw_admitted=True,windows=601,source_raw_manifest_sha256=case['raw_manifest_sha256'],
         source_full_audit_sha256=case['audit_sha256'],source_card_sha256=case['card_sha256'],
         capture_source_sha=result['source_sha'],codec=codec,
-        raw_root='EXPLICIT_PRIVATE_BINDING_REQUIRED',origin='PV1_ACTUAL_COMMITTED_TEACHER_TRAIN')
+        raw_root='EXPLICIT_PRIVATE_BINDING_REQUIRED',origin=origin)
     if codec['status']!='PASS_FIXED_ORIGINAL_V3_0_NO_SILENT_CLIP':
         record.update(status='BLOCKED_FROZEN_CODEC_PHYSICAL_ERROR',admitted_for_training=False)
         return record

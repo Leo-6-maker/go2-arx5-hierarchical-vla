@@ -162,7 +162,7 @@ class Meter:
         write(self.root/'RESOURCE_LEDGER.json',self.ledger)
 
 
-def run_cell(meter,card):
+def run_cell(meter,card,*,engine_observer=None):
     import mujoco
     from scripts.pi0294 import episode,teacher as teachers,s1_preflight,r3_teacher,scene,audit
     from scripts.pi0294.fd2 import adapt_teacher
@@ -182,6 +182,7 @@ def run_cell(meter,card):
 
     def engine(c,assets):
         value=old_engine(c,assets)
+        if engine_observer is not None:engine_observer(value)
         cls=type(value)
         original=cls.step
         def step(self,target,opening):
