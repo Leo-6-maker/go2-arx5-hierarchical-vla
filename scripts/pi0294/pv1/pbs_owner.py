@@ -142,6 +142,8 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
         queue_limit_relative=queue_name,queue_limit_sha256=sha(root/queue_name),
         sealed_inputs={n:sha(root/n) for n in sorted(names)},python=bindings['python'],
         dependency_afterok=dependency_for(value))
+    admission_version=m.get('authority',{}).get('training_admission_version')
+    if admission_version is not None:r['scientific_admission_version']=admission_version
     if stage in ('P2_PRIMARY','P4_REPLICA'):
         block=read(root/'plans/PRIMARY_TRAIN_BLOCK.json');r['training_block']=block
         p=block.get('resume_checkpoint_relative')

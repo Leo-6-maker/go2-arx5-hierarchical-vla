@@ -1,0 +1,183 @@
+{
+  "schema": "DEC1_EXECUTOR_POLICY_INTERFACE_MANIFESTS_V1",
+  "observed_epoch": 1792517024.9195123,
+  "authority_release": "a7a7ecd9a6be62a7221af25a5e32a0009b076a84",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "status": "SOURCE_IDENTITY_VERIFIED_TARGET_DEC1_TASK_DELIVERY_NOT_QUALIFIED",
+  "policy": {
+    "label": "CORR@2048",
+    "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "global_step": 2048,
+    "full_resume_manifest": true,
+    "manifest_members": 15,
+    "tensor_payloads_rehashed_this_inventory": false,
+    "R0_statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "new_source_bank_manifest_sha256": "60f7c35a05766fe23974eba3a72f53ca4db5545a3768e6c1cfea164ab4e58294",
+    "source_bank_READY_sha256": "e896959171cd66394b2eba60c081d035bd2688be2f874a887077ed8b5c4a5cbc",
+    "source_bank_READY_status": "SEALED_FULL_SUCCESS_OFFICIAL_CODEC_ADMITTED",
+    "action_schema": "EEF10_H40_PREFIX8",
+    "policy_hz": 2.5,
+    "reference_hz": 20,
+    "episode_physical_seconds": 32,
+    "target_result_model_reselection": false,
+    "R1_hot_swap": false,
+    "high_level_source_lineage": "EXISTING_FIXED_BASE_SOURCE_CORR_LINEAGE_NOT_REAUDITED_BY_THIS_METADATA_INVENTORY",
+    "target_WBC_original_training_provenance": "DISCLOSURE_REQUIRED_NOT_INFERRED_FROM_FREEZE"
+  },
+  "E_SOURCE": {
+    "status": "REGISTERED_EXISTING_SOURCE_IDENTITY_VERIFIED_NO_NEW_TASK",
+    "source_capsule_sha": "30e2e1526394787d892c153dd68a49afe45c7b46",
+    "frozen_numerical_files": 15,
+    "frozen_numerical_hashes_PASS": true,
+    "native_asset_count": 26,
+    "native_asset_hashes_PASS": true,
+    "native_amendment_sha256": "21e5a6fafafd73873c5ba0c8e06c2245be37e1d8e0068b69d09f10caa8450433",
+    "control_binding_sha256": "c2c28c5aac2675f4bd84a8074bfa3fc03e04f387be89593f6f5707187d73a567",
+    "new_physics": 0
+  },
+  "E_TARGET": {
+    "status": "TARGET_EXECUTOR_NOT_DELIVERED_FOR_DEC1_QUALIFIED_TASK_ABI",
+    "available": "ORIGINAL_WBC_SOURCE_ASSET_AND_EXPIRED_R4_TF_R3_RECORDS_NOT_A_NEW_TASK_DELIVERY",
+    "source_asset_small_file_identities": {
+      "README.md": {
+        "sha256": "aef02f0eee2cf1acc282f04cc24853d29be20736a9bfd32c98be042b32956241",
+        "bytes": 4124
+      },
+      "SOURCE_MANIFEST.json": {
+        "sha256": "b654eca8d377ba723a0bb0b4b04b5525171047ce49f4b32bd56dc19c89bf0da8",
+        "bytes": 2307
+      },
+      "SHA256SUMS": {
+        "sha256": "09f8e9539edca98d343d027e61ca98b0da574e4318e73ab3c545b351ec033e04",
+        "bytes": 1757006
+      },
+      "VALIDATION.md": {
+        "sha256": "e20816699bd1363fab49198849220b1ebda3896b9b667498879066f3bdc08d25",
+        "bytes": 2117
+      }
+    },
+    "Core_team_executor_manifest_count": 0,
+    "old_native_target_records": [
+      {
+        "lease_status_text": "ACTIVE",
+        "lease_deadline_epoch": 1792040970,
+        "lease_is_current": false,
+        "active_recorded_processes": 0,
+        "safety_stops": [],
+        "legacy_scope_reopened": false
+      },
+      {
+        "lease_status_text": "ACTIVE",
+        "lease_deadline_epoch": 1792150183.494512,
+        "lease_is_current": false,
+        "active_recorded_processes": 0,
+        "safety_stops": [
+          {
+            "name": "TASK_PHYSICS_STOP.json",
+            "sha256": "22d554d5f39bd30e3b8fddf1bd44f0b6dbb1865e888ba6dbd1c0f9f196ba6b79"
+          }
+        ],
+        "legacy_scope_reopened": false
+      }
+    ],
+    "Vanda_registered_delivery": {
+      "observed_epoch": 1792516856.009919,
+      "registered_roles": [
+        {
+          "role": "VANDA_PROJECT_RUNS",
+          "exists": true,
+          "lease_status": null,
+          "lease_deadline": null,
+          "executor_manifests": []
+        },
+        {
+          "role": "USER_SELECTED_WBC_MINIMAL_TAR",
+          "exists": false,
+          "lease_status": null,
+          "lease_deadline": null,
+          "executor_manifests": []
+        },
+        {
+          "role": "VANDA_NATIVE_BUILD_01",
+          "exists": true,
+          "lease_status": "CLOSED",
+          "lease_deadline": 1792238100,
+          "executor_manifests": []
+        },
+        {
+          "role": "VANDA_NATIVE_BUILD_02",
+          "exists": true,
+          "lease_status": "CLOSED",
+          "lease_deadline": 1792238100,
+          "executor_manifests": []
+        },
+        {
+          "role": "VANDA_NATIVE_CLOCK_REFERENCE",
+          "exists": true,
+          "lease_status": null,
+          "lease_deadline": null,
+          "executor_manifests": []
+        },
+        {
+          "role": "PI0294_MP1_VANDA_CONTROL",
+          "exists": true,
+          "lease_status": "CLOSED",
+          "lease_deadline": 1792782885,
+          "executor_manifests": []
+        },
+        {
+          "role": "PI0294_MP1_VANDA_CPU_BUILD_01",
+          "exists": true,
+          "lease_status": "CLOSED",
+          "lease_deadline": 1792265081.545344,
+          "executor_manifests": []
+        },
+        {
+          "role": "PI0294_MP1_VANDA_EGL_CAMERAS_01",
+          "exists": true,
+          "lease_status": "CLOSED",
+          "lease_deadline": 1792227301.689387,
+          "executor_manifests": []
+        },
+        {
+          "role": "PI0294_MP1_VANDA_EGL_CAMERAS_02",
+          "exists": true,
+          "lease_status": "CLOSED",
+          "lease_deadline": 1792227404.1295059,
+          "executor_manifests": []
+        },
+        {
+          "role": "PI0294_MP1_VANDA_EGL_CAMERAS_N1_03",
+          "exists": true,
+          "lease_status": "CLOSED",
+          "lease_deadline": 1792321418.5060692,
+          "executor_manifests": []
+        }
+      ],
+      "new_GPU": 0,
+      "new_PBS": 0,
+      "new_model": 0,
+      "new_physics": 0
+    },
+    "required_missing_or_unqualified": [
+      "FROZEN_EXECUTOR_MANIFEST_AND_TASK_ENTRY",
+      "DECLARED_FRAME_TCP_FIXED_PREVIEW_AND_GRIPPER_ABI",
+      "ACTUAL_TCP_GRIPPER_TIME_RESET_REJECT_STOP_CONTRACT",
+      "TARGET_NATIVE_SHADOW_SAFETY_AND_TASK_OVERLAY_QUALIFICATION",
+      "COMMON_REACHABLE_TASK_WORKSPACE_AND_LOW_LEVEL_TRAINING_PROVENANCE"
+    ],
+    "ideal_tracker_or_welded_base_substituted": false,
+    "TF_R3_STOP_released": false
+  },
+  "interfaces": {
+    "I_TIME": "EXISTING_OFFLINE_CONVERTER_WITH_SHARED_FRAME_FIX_CPU_TESTED_NOT_TARGET_TASK_QUALIFIED",
+    "I_PROGRESS": "NOT_IMPLEMENTED_OR_SOURCE_FROZEN_YET",
+    "parameter_source": "SOURCE_TRAIN_AND_TASK_BLIND_FIXTURES_ONLY",
+    "raw_full_H40_and_mapped_full_reference_and_prefix_checks": "REQUIRED_NOT_BYPASSED",
+    "new_target_physics": false
+  },
+  "selected": "NONE",
+  "deployment": "NONE",
+  "matrix_cells_executed": 0,
+  "new_training_updates": 0
+}

@@ -99,6 +99,8 @@ def stage_work(root,request):
             raise PermissionError('PV1_PRESEALED_NATIVE_PHASE_INPUT:'+name)
         return read(p)
     stage=input_('PV1_STAGE_BINDING.json')
+    from scripts.pi0294.dec1.source_admission import admitted as dec1_admitted
+    dec1_source_training=dec1_admitted(root,m,request,stage,input_)
     evaluation=input_(FINAL_PLAN if request['stage']=='P5_FINAL' else 'plans/SOURCE_EVALUATION_PLAN.json')
     prior=input_('plans/PRIOR_EVALUATION_OUTCOMES.json')
     if request['stage']=='P5_FINAL':
@@ -164,12 +166,14 @@ def stage_work(root,request):
         validate_primary(recipe,input_('plans/FROZEN_SOURCE_PAIR_RECIPE.json'))
         if run_key(recipe)!=key or recipe['seed']!=20261020:
             raise PermissionError('PV1_REPLICA_SEPARATE_IDENTITY_AND_FIXED_SECOND_SEED')
-    baseline=input_('plans/PV1_B0_DEV_ADMISSION.json');population=input_(POPULATION_FILE)
+    population=input_(POPULATION_FILE)
     if sealed[POPULATION_FILE]!=POPULATION:raise PermissionError('PV1_ACTUAL_PREFROZEN_SCENE_POPULATION_SHA')
     expected=development(population['groups'],route=stage['route'],candidate='B0_CORR',
         new_bank_manifest_sha256=stage['new_bank_manifest_sha256'])
     conditions={c['condition_id'] for p in expected['panels'].values() for c in p['cards']}
-    if (baseline['schema']!='PI0294_PV1_B0_ACTUAL_DEV_ADMISSION_V1'
+    if not dec1_source_training:
+        baseline=input_('plans/PV1_B0_DEV_ADMISSION.json')
+        if (baseline['schema']!='PI0294_PV1_B0_ACTUAL_DEV_ADMISSION_V1'
             or baseline['status']!='PASS_COMPLETE_ACTUAL_B0_DEV48_EVIDENCE'
             or baseline['authority_release']!=AUTHORITY or baseline['population_plan_sha256']!=POPULATION
             or baseline['checkpoint_manifest_sha256']!=PARENT
@@ -180,7 +184,7 @@ def stage_work(root,request):
                 for table in ('condition_result_sha256','independent_audit_sha256') for v in baseline[table].values())
             or baseline['real_native_faults'] or baseline['Teacher_takeover']
             or baseline['all_condition_evidence_audits_PASS'] is not True):
-        raise PermissionError('PV1_COMPLETE_REAL_B0_BEFORE_NEW_TRAINING_NO_SUCCESS_RATE_GATE')
+            raise PermissionError('PV1_COMPLETE_REAL_B0_BEFORE_NEW_TRAINING_NO_SUCCESS_RATE_GATE')
     input_('plans/INITIAL_CORR_PARAMETER_INVENTORY.json');input_('plans/PV1_FIXED_TRAIN_PROBES.json')
     relative=block.get('resume_checkpoint_relative')
     probe_only=block.get('probe_only',False)

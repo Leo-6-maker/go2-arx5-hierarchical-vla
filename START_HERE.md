@@ -1,5 +1,36 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**DEC1 is natively adopted inside the original PV1 window, not a second budget.**
+[Adoption and actual nonadditive limits](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_NATIVE_ADOPTION_AND_BUDGET.json) ·
+[Actual source identity and missing target delivery](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_EXECUTOR_POLICY_INTERFACE_MANIFESTS.json).
+**Latest native job state: child12 F and both leases CLOSED, not still H.**
+[Exact owned-held disposition and original pinned settlement](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_HELD_JOB_DISPOSITION_AND_SETTLEMENT.json).
+Official installed PBS permits owner deletion. The exact H/noexec/noSTART job
+was first user-held to exclude recovery, then deleted once; no system-hold
+release, healthy-R cancellation or hook bypass. Original obit interval20s plus
+one-second uncertainty upper gives21charged H200 seconds, total20494,
+reserved0, PBS11/24. Both child12 leases and Core43200-second reservation
+are actually closed; no new model/query/task/physics/update. Hook cause is
+stillUNKNOWN: no same-hook blind retry. [Current budget reconciliation](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_CURRENT_RESOURCE_RECONCILIATION.json)
+also corrects initially omitted old child episode/tick/constructor reservations;
+the effective DEC1 caps were unchanged and no scientific dispatch used that
+projection. Original adoption bytes and all history remain preserved.
+Both sites read back identical DEC1 adoptionSHA21e5a6fafafd73873c5ba0c8e06c2245be37e1d8e0068b69d09f10caa8450433,
+through the existing parent control roles/leases. Original T0/cutoffs/final20h
+and old costs/reservations remain; no second owner or new science from adoption.
+DEC1_SOURCE_TRAIN_STAGE_V1 explicitly admits only unchanged A/B source stages
+before full B0. Legacy stages still require complete B0; native scope/recipe/
+resume checks remain. Fresh DEC1 future-budget integration, cold binding and
+exact CI are still required before any training; CPU fixtures are not admission.
+The confirmed common frame-transform omission is fixed with2red-to-green
+regressions; no WBC/controller code changed and no running capsule was patched.
+I_PROGRESS/source-only freeze and the64-cell matrix are not implemented/run yet.
+Source CORR/R0/139bank manifests and15numerical/26asset hashes read back.
+Core/Vanda registries contain no qualified DEC1 task executor delivery; old
+R4/TF-R3 leases are expired despite ACTIVE text, no recorded worker is live,
+and TF-R3 native safety STOP hash22d554d5 remains. Do not reopen those scopes.
+Target absence does not block the newly authorized source training direction.
+
 **Latest CR2 actual: first four closed, remaining twenty collecting on two CPUs.**
 [Actual paired codec, readers, closed leases and resource snapshot](reports/PI0294/CR2/20261020T160340Z-localpc-cr2/CR2_FIRST_FOUR_ACTUAL_PAIRED_AND_REMAINDER.json).
 The first4 original attempts (2geometry groups, T1/T2 each) all completed
@@ -22,7 +53,7 @@ CORR@2048/R0; CR2 is independent, not a prerequisite or hot data injection.
 This paragraph is not a native adoption, GPU allocation or target delivery
 receipt. Older B0-before-training statements below describe their old scopes.
 
-**Latest actual: child12 is system-held before launcher, not queued or a task failure.**
+**Historical pre-disposition observation: child12 was system-held before launcher.**
 [Native hook rejection, owner DNS interruption and CR2 static/data effects](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_CHILD12_SITE_HOLD_AND_CR2_STATIC_ACTUAL.json).
 679029 is H/Hold_Types=s,exit-16,run_count1. tracejob says an execution hook
 rejected the request; noPBS_READY/START/model/queries/episodes appeared.

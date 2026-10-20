@@ -71,6 +71,28 @@ def test_frame_mismatch_requires_explicit_transform():
         )
 
 
+@pytest.mark.parametrize("rotation_rad", [0.0, np.pi / 2])
+def test_expected_source_frame_still_applies_explicit_wbc_transform(rotation_rad):
+    ts, xyz, rot6d = chunk_inputs()
+    c, s = np.cos(rotation_rad), np.sin(rotation_rad)
+    transform = np.eye(4)
+    transform[:3, :3] = [[c, -s, 0], [s, c, 0], [0, 0, 1]]
+    transform[:3, 3] = [0.3, -0.2, 0.1]
+    kwargs = dict(chunk_id="frame", observation_timestamp=0.0,
+                  point_timestamps=ts, eef_xyz=xyz, eef_rot6d=rot6d,
+                  controller_timestamp=0.05, gripper=np.linspace(0, 1, len(ts)))
+    source_preview, source_grip = adapter().adapt_xyz_rot6d(**kwargs)
+    mapped, grip = GR00TToWBCAdapter(ReferenceAdapterConfig(
+        "source_world", "wbc_world", "arx5_tcp_v0", frame_transform=transform
+    )).adapt_xyz_rot6d(**kwargs)
+    assert mapped.source_frame == "wbc_world"
+    assert np.allclose(mapped.eef_position,
+                       source_preview.eef_position @ transform[:3, :3].T + transform[:3, 3])
+    assert np.allclose(rot6d_rows_to_matrix(mapped.eef_rot6d),
+                       transform[:3, :3] @ rot6d_rows_to_matrix(source_preview.eef_rot6d))
+    assert grip.normalized_command == source_grip.normalized_command
+
+
 def test_rotation_is_not_linear_rot6d_interpolation():
     ts = np.array([0.0, 1.0])
     xyz = np.zeros((2, 3))
