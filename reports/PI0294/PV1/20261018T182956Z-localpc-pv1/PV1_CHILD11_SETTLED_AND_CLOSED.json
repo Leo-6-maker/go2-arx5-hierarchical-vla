@@ -1,0 +1,55 @@
+{
+  "schema": "PI0294_PV1_CHILD11_SETTLED_AND_CLOSED_V1",
+  "status": "CHILD11_SETTLED_BOTH_LEASES_CLOSED",
+  "engineering_goal": "5d1393154054b977134b7d8c456f66ca478d0bf9",
+  "original_authority": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "original_clock_unchanged": true,
+  "job_id": "678230.hopper-m-02",
+  "source_sha": "d7dc38ef842263e605be210401fbfa6bb5ef2052",
+  "native_exit": 1,
+  "native_H200_wall_s": 188,
+  "conservative_H200_charge_s": 198,
+  "campaign_H200_used_s": 20473,
+  "H200_reserved_s": 0,
+  "H200_remaining_s": 325127,
+  "protected_final_H200_s": 72000,
+  "nonfinal_H200_available_s": 253127,
+  "PBS_used": 10,
+  "PBS_remaining": 14,
+  "Core_CPU_reserved_s": 0,
+  "local_CPU_reserved_s": 0,
+  "child_Core_CPU_s": 2.499696956,
+  "Core_closeout_control_upper_s": 180,
+  "local_closeout_control_upper_s": 300,
+  "leases": {
+    "core": {
+      "status": "CLOSED",
+      "sha256": "e13b83e7f2f3dd0cfdfb16f3543c4d3f152c5b1781f4a978690cdffed086031e",
+      "closure_receipt_sha256": "dcb5678be8a7eceb63ec395263c3b190b029e96f92513230b9f54350cccc7eb6"
+    },
+    "hopper": {
+      "status": "CLOSED",
+      "sha256": "7470d1ae25c09dd189c6ff52ad4d8bbc21bbd5f7c6b86cd3bed003ed2727e671",
+      "closure_receipt_sha256": "d0e6fb4287d64b5f5023ace34985ad324d47c75c759a368c285b68f98564fee0"
+    }
+  },
+  "B0": {
+    "valid": 14,
+    "total": 48,
+    "successes": 9,
+    "valid_task_failures": 5,
+    "remaining": 34
+  },
+  "queries": 1054,
+  "optimizer_updates": 0,
+  "new_model_loads": 0,
+  "new_queries": 0,
+  "new_episodes": 0,
+  "new_live_or_shadow_ticks": 0,
+  "unknown_effects": [],
+  "previous_owner_exited": true,
+  "previous_auth_helper_exited": true,
+  "new_PBS": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

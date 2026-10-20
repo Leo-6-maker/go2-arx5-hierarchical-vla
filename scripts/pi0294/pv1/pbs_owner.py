@@ -1,6 +1,7 @@
 """One native PV1 submission chain across actually eligible Hopper projects."""
 import argparse
 import ast
+import fcntl
 from datetime import datetime,timedelta,timezone
 import json
 import os
@@ -17,7 +18,8 @@ from scripts.pi0294.e0_scope import pbs_epoch
 from scripts.pi0294.e1.pbs_owner import native
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.mp1.pbs_owner import native_queue_limit
-from .allocation import PROJECT_SOURCE
+from .allocation import PROJECT_SOURCE,native_request_binding
+from .auth_lifecycle import context as auth_context
 from .decision import AUTHORITY
 from .neural_ledger import Ledger
 from .neural_scope import validate
@@ -108,7 +110,9 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
         raise PermissionError('PV1_ONLY_IMPLEMENTED_PHASES_AND_MATURE_MEMORY_PROFILES')
     if not a['T0_epoch']<=time.time()<a['stop_new_jobs_epoch']:
         raise PermissionError('PV1_ORIGINAL_NEW_SUBMISSION_CUTOFF')
-    proof=project(project_name);q=personal_quota(os.environ['USER']);queue=native_queue_limit()
+    proof=project(project_name);context=auth_context()
+    proof['authentication_context_fingerprint']=context['fingerprint']
+    q=personal_quota(os.environ['USER']);queue=native_queue_limit()
     queue['source']='NATIVE_QSTAT_EFFECTIVE_QUEUE_LIMITS'
     if (type(walltime_s) is not int or not 2760<walltime_s<=min(8*3600,queue['maximum_wall_s'])
             or type(additional_output_upper_bytes) is not int or not 0<additional_output_upper_bytes<=210*1024**3
@@ -129,6 +133,7 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
         run_uuid=root.name,campaign_run_uuid=a['run_uuid'],source_sha=m['code']['vla_commit'],
         run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),stage=stage,submit_count=number,
         request_id=str(uuid.uuid4()),submission_nonce=str(uuid.uuid4()),project=project_name,
+        authentication_context_fingerprint=context['fingerprint'],authentication_principal=context['principal'],
         job_name='pi0294_pv1_'+str(number).zfill(2),created_epoch=time.time(),walltime_s=walltime_s,ncpus=12,
         numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',data_bank_status='SEALED_FULL_SUCCESS_OFFICIAL_CODEC_ADMITTED',
         new_bank_manifest_sha256=bound['new_bank_manifest_sha256'],cold_bank_preflight=cold_bank,
@@ -220,27 +225,154 @@ def submit(root,number):
     finally:lock.close()
 
 
+def publish_release_record(path,value):
+    """Publish an already-0400 inode, exclusively; never expose a writable START."""
+    path=Path(path);temporary=path.with_name('.'+path.name+'.new-'+uuid.uuid4().hex)
+    try:
+        with temporary.open('xb') as handle:
+            handle.write((json.dumps(value,indent=2,allow_nan=False)+'\n').encode())
+            handle.flush();os.fchmod(handle.fileno(),0o400);os.fsync(handle.fileno())
+        os.link(temporary,path)
+    finally:
+        if temporary.exists():temporary.unlink()
+    directory=os.open(path.parent,os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(directory)
+    finally:os.close(directory)
+
+
 def release(root,number):
-    root=Path(root);validate(root);directory=root/'pbs'/('alloc-'+str(number).zfill(2));r=read(directory/'REQUEST.json')
+    root=Path(root);validate(root);directory=root/'pbs'/('alloc-'+str(number).zfill(2))
+    if directory.is_symlink() or not directory.resolve().is_relative_to(root.resolve()):
+        raise PermissionError('PV1_RELEASE_DIRECTORY_MUST_REMAIN_IN_REGISTERED_ROOT')
+    r=read(directory/'REQUEST.json')
     ready=read(directory/'PBS_READY.json');job=native(ready['job_id'])
     ledger=Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root)
     item=next(s for s in read(ledger.path)['PBS_submissions'] if s['request_id']==r['request_id'])
     if (item['job_id']!=ready['job_id'] or job['job_state']!='R' or job['Job_Owner'].split('@')[0]!=os.environ['USER']
             or job['project']!=r['project'] or job['Job_Name']!=r['job_name']
-            or time.time()-ready['observed_epoch']>=175 or (directory/'START_NEURAL.json').exists()
+            or not native_request_binding(job,r)
             or ready['request_sha256']!=sha(directory/'REQUEST.json')):
         raise PermissionError('PV1_EXACT_OWN_RUNNING_JOB_SINGLE_FRESH_RELEASE')
-    value=project(r['project'])
-    value.update(schema='PI0294_PV1_RUNNING_JOB_PROJECT_ATTESTATION_V1',run_uuid=root.name,
-        request_id=r['request_id'],job_id=ready['job_id'],submission_nonce=r['submission_nonce'])
-    proof=directory/'RUNNING_PROJECT_ATTESTATION.json'
-    if proof.exists():raise FileExistsError('PV1_PRESERVE_FIRST_NATIVE_RELEASE_PROOF')
-    write(proof,value);proof.chmod(0o400)
-    write(directory/'START_NEURAL.json',dict(run_uuid=root.name,job_id=ready['job_id'],
-        request_sha256=sha(directory/'REQUEST.json'),submission_nonce=r['submission_nonce'],
-        project_attestation_sha256=sha(proof),observed_epoch=time.time()))
-    (directory/'START_NEURAL.json').chmod(0o400)
-    return dict(status='PV1_CURRENT_PROJECT_RELEASED_REQUEST_UNCHANGED',job_id=ready['job_id'],project=r['project'])
+    lock=OwnerLock(directory/'PV1_RELEASE_OWNER.lock');attempt=None;failure=None
+    try:
+        proof=directory/'RUNNING_PROJECT_ATTESTATION.json';start=directory/'START_NEURAL.json'
+        def sealed(path):
+            if path.is_symlink() or not path.is_file() or path.stat().st_uid!=os.getuid() or path.stat().st_mode&0o777!=0o400:
+                raise PermissionError('PV1_PRESERVE_EXACT_OWN_SEALED_RELEASE_RECORD')
+            return read(path)
+        def original_window():
+            if not 0<=time.time()-ready['observed_epoch']<175:
+                raise PermissionError('PV1_ORIGINAL_175_SECOND_FIRST_RELEASE_WINDOW')
+        def bound_proof(value):
+            if (value.get('schema')!='PI0294_PV1_RUNNING_JOB_PROJECT_ATTESTATION_V1'
+                    or value.get('source')!=PROJECT_SOURCE or value.get('run_uuid')!=root.name
+                    or value.get('request_id')!=r['request_id'] or value.get('job_id')!=ready['job_id']
+                    or value.get('submission_nonce')!=r['submission_nonce']
+                    or value.get('authentication_context_fingerprint')!=r.get('authentication_context_fingerprint')
+                    or value['project']['name']!=r['project']
+                    or not ready['observed_epoch']<=value['observed_epoch']<ready['observed_epoch']+175):
+                raise PermissionError('PV1_EXISTING_RELEASE_PROOF_EXACT_JOB_NONCE_CONTEXT_AND_TIME')
+        if start.exists():
+            existing=sealed(start);attestation=sealed(proof);bound_proof(attestation)
+            if (existing['run_uuid']!=root.name or existing['job_id']!=ready['job_id']
+                    or existing['request_sha256']!=sha(directory/'REQUEST.json')
+                    or existing['submission_nonce']!=r['submission_nonce']
+                    or existing['project_attestation_sha256']!=sha(proof)
+                    or not attestation['observed_epoch']<=existing['observed_epoch']<ready['observed_epoch']+175):
+                raise PermissionError('PV1_EXISTING_START_NOT_AN_EXACT_ORIGINAL_RELEASE')
+            return dict(status='PV1_ALREADY_RELEASED_EXACT_NO_SECOND_WRITE',job_id=ready['job_id'],project=r['project'])
+        original_window();context=auth_context()
+        if (context['fingerprint']!=r.get('authentication_context_fingerprint')
+                or context['principal']!=r.get('authentication_principal') or context['principal']!=os.environ['USER']):
+            raise PermissionError('PV1_SUBMIT_HELPER_RELEASE_AUTH_CONTEXT_MISMATCH')
+        recovered=proof.exists()
+        if recovered:bound_proof(sealed(proof))
+        attempts=directory/'release_attempts'
+        if attempts.is_symlink():raise PermissionError('PV1_RELEASE_JOURNAL_MUST_BE_IN_REGISTERED_DIRECTORY')
+        attempts.mkdir(exist_ok=True,mode=0o700)
+        attempt=attempts/(uuid.uuid4().hex+'.json')
+        publish_release_record(attempt,dict(schema='PV1_JOB_BOUND_RELEASE_ATTEMPT_V1',run_uuid=root.name,
+            request_sha256=sha(directory/'REQUEST.json'),request_id=r['request_id'],submission_nonce=r['submission_nonce'],
+            job_id=ready['job_id'],hostname=os.uname().nodename,pid=os.getpid(),
+            proc_start=Path('/proc/self/stat').read_text().split()[21],observed_epoch=time.time(),
+            authentication_context_fingerprint=context['fingerprint'],models_loaded_by_control=0))
+        # This is always a new site query after READY, even on partial-proof recovery.
+        def release_query(arguments,**kwargs):
+            remaining=175-(time.time()-ready['observed_epoch'])
+            upper=min(10.,(remaining-5)/2)
+            if upper<=0:raise TimeoutError('PV1_NO_PROJECT_QUERY_PAST_ORIGINAL_RELEASE_WINDOW')
+            kwargs['timeout']=min(kwargs.get('timeout',30),upper)
+            return subprocess.run(arguments,**kwargs)
+        value=project(r['project'],query=release_query);original_window()
+        if (auth_context()['fingerprint']!=context['fingerprint']
+                or not ready['observed_epoch']<=value['observed_epoch']<=time.time()
+                or not 0<=time.time()-value['observed_epoch']<=30):
+            raise PermissionError('PV1_FRESH_RUNNING_PROJECT_AND_UNCHANGED_AUTH_CONTEXT')
+        if not recovered:
+            value.update(schema='PI0294_PV1_RUNNING_JOB_PROJECT_ATTESTATION_V1',run_uuid=root.name,
+                request_id=r['request_id'],job_id=ready['job_id'],submission_nonce=r['submission_nonce'],
+                authentication_context_fingerprint=context['fingerprint'])
+            publish_release_record(proof,value)
+        original_window()
+        publish_release_record(start,dict(run_uuid=root.name,job_id=ready['job_id'],request_sha256=sha(directory/'REQUEST.json'),
+            submission_nonce=r['submission_nonce'],project_attestation_sha256=sha(proof),observed_epoch=time.time()))
+        return dict(status='PV1_CURRENT_PROJECT_RELEASED_REQUEST_UNCHANGED',job_id=ready['job_id'],project=r['project'],
+                    recovered_existing_project_attestation=recovered)
+    except BaseException as exc:
+        failure=type(exc).__name__;raise
+    finally:
+        try:
+            if attempt is not None and attempt.exists():
+                publish_release_record(attempt.with_suffix('.FINAL.json'),dict(
+                    attempt_sha256=sha(attempt),failure_type=failure,completed_epoch=time.time(),
+                    start_sha256=sha(directory/'START_NEURAL.json') if (directory/'START_NEURAL.json').is_file() else None,
+                    proof_sha256=sha(directory/'RUNNING_PROJECT_ATTESTATION.json') if (directory/'RUNNING_PROJECT_ATTESTATION.json').is_file() else None,
+                    reconcile_exact_files_before_any_retry=True))
+        finally:lock.close()
+
+
+def release_readback(root,number):
+    """Read exact publication and live PID evidence after an uncertain control reply."""
+    root=Path(root);validate(root,closeout=True);d=root/'pbs'/('alloc-'+str(number).zfill(2))
+    if d.is_symlink() or not d.resolve().is_relative_to(root.resolve()):
+        raise PermissionError('PV1_RELEASE_READBACK_DIRECTORY_ESCAPE')
+    request=read(d/'REQUEST.json');ready=read(d/'PBS_READY.json');entries=[];active=[];locked=False
+    lock_path=d/'PV1_RELEASE_OWNER.lock'
+    if lock_path.exists():
+        with lock_path.open('r+') as handle:
+            try:fcntl.flock(handle,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            except BlockingIOError:locked=True
+    for p in (d/'release_attempts').glob('*.json'):
+        if p.name.endswith('.FINAL.json'):continue
+        if p.is_symlink() or p.stat().st_uid!=os.getuid() or p.stat().st_mode&0o777!=0o400:
+            raise PermissionError('PV1_RELEASE_JOURNAL_UNSEALED')
+        v=read(p)
+        if (v['run_uuid']!=root.name or v['request_sha256']!=sha(d/'REQUEST.json')
+                or v['request_id']!=request['request_id'] or v['submission_nonce']!=request['submission_nonce']
+                or v['job_id']!=ready['job_id'] or v['hostname']!=os.uname().nodename):
+            raise PermissionError('PV1_RELEASE_READBACK_CHANGED_JOB_OR_HOST_NO_REPLAY')
+        q=Path('/proc',str(v['pid']),'stat');fields=q.read_text().split() if q.exists() else None
+        live=bool(fields and fields[2]!='Z' and fields[21]==str(v['proc_start']))
+        final=p.with_suffix('.FINAL.json')
+        if final.exists() and (final.is_symlink() or final.stat().st_uid!=os.getuid()
+                or final.stat().st_mode&0o777!=0o400 or read(final)['attempt_sha256']!=sha(p)):
+            raise PermissionError('PV1_RELEASE_FINAL_JOURNAL_INTEGRITY_STOP')
+        if live and not final.exists():active.append(dict(pid=v['pid'],proc_start=v['proc_start']))
+        entries.append(dict(sha256=sha(p),final_present=final.exists()))
+    publications={}
+    for name in ('RUNNING_PROJECT_ATTESTATION.json','START_NEURAL.json'):
+        p=d/name
+        if p.exists():
+            if p.is_symlink() or p.stat().st_uid!=os.getuid() or p.stat().st_mode&0o777!=0o400:
+                raise PermissionError('PV1_RELEASE_READBACK_PUBLICATION_UNSEALED')
+            publications[name]=dict(sha256=sha(p),record=read(p))
+    if 'START_NEURAL.json' in publications and 'RUNNING_PROJECT_ATTESTATION.json' not in publications:
+        raise PermissionError('PV1_RELEASE_START_WITHOUT_PROOF_INTEGRITY_STOP')
+    status=('LIVE_RELEASE_PROCESS_DO_NOT_REPLAY' if active else 'UNKNOWN_INFLIGHT_RELEASE_LOCK_NO_REPLAY' if locked
+            else 'TERMINAL_RELEASE_WRITER_EXACT_FILES_FOR_RECONCILIATION')
+    return dict(status=status,
+                job_id=ready['job_id'],active=active,attempts=entries,publications=publications,
+                new_release=False,new_model_loads=0)
 
 
 def settle(root):

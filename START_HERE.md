@@ -1,5 +1,25 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**POST-CR1 E0 is actually CLOSED; E1 CPU repair is tested, native auth still blocked.**
+[Child11 actual settlement and both-site closure](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_CHILD11_SETTLED_AND_CLOSED.json) ·
+[Authentication lifecycle repair and native readback](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/AUTH_LIFECYCLE_REPAIR_AND_NATIVE_READBACK.json).
+678230 is F/exit1, settled once through its original pinned owner path:
+198 conservative H200 seconds, campaign total20473, GPU reservation0,
+PBS10/24. Both child11 leases CLOSED; Core43200-second reservation released.
+B0 remains14/48(9success/5valid task failures),queries1054,updates0,unknown[].
+The same-context normal masked login did not restore project admission:
+fresh query still15006; a connectivity/timeout hint is not proof of a bad
+password or a human-only challenge. No password/token/raw CLI output is stored.
+26 focused and967 PI0294 CPU tests pass (836 subtests). Q-health/fresh-R
+authentication, original175-second deadline, sealed exclusive publication,
+partial-proof recovery and exact unknown-reply readback are CPU-tested.
+The mature private owner adapter passes CPU injection; no new native owner
+loop, child binding or PBS has started. Exact push CI and real native auth
+remain prerequisites; do not claim engineering recovery or policy improvement.
+PV1 original R0/139-bank/B0-before-training/budget/deadline and all frozen
+numerical modules stay unchanged. CR1/COV1 stay CLOSED; CR2 awaits science GO.
+The earlier child11 pending-settlement and queued paragraphs below are history.
+
 **CR1 R0-R4 is actually complete and CLOSED: RANGE_SUPPORTED, offline only.**
 [Full review and next scientific decision](reports/PI0294/CR1/20261020T105832Z-localpc-cr1/CR1_FINAL_REVIEW.md) ·
 [Paired results and actual official readers](reports/PI0294/CR1/20261020T105832Z-localpc-cr1/CR1_PAIRED_RESULTS_AND_READER.json) ·
