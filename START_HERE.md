@@ -1,5 +1,27 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1-LG04 is adopted; child08 is the sole active B0 continuation.**
+[Cold identity, native submission and running snapshot](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_08_COLD_BIND_AND_NATIVE_RUNNING_RECEIPT.json):
+exact runtime `fb00da44` passed Actions39348602625/job118387138067 and both
+native child identities. Core zero-integration model/RGB parity passed. The
+single native submission is677341 under CFP04-CF-007, global PV1 PBS7. Its
+site-rewritten225GB request was changed in-place once back to the immutable
+128GB request with every non-memory identity unchanged. It reached native R on
+hopper-24 and the sole local owner is attached at low frequency. Fresh project
+identity passed and the same job was released exactly once; its original native
+premodel qualification is running, with no qualified model state at the report
+snapshot.
+B0 remains12/48 (8success/4valid task failures), selected/deployment=NONE.
+A/B training remains gated on independently audited B0=48/48.
+
+**PV1 child07 is closed as a zero-science premodel engineering failure.**
+[Immutable-fixture mode failure and resource closure](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_07_IMMUTABLE_BINDING_PREMODEL_FAILURE.json):
+job677332 exited before model load because a sealed fixture was rebound0644
+instead of required0400. It used58 conservative H200 seconds; both leases are
+CLOSED and GPU reservation is0. There were no new queries, physics, task
+episodes, optimizer updates or unknown effects. This is not a valid task
+failure and does not change the12/48 B0 science baseline.
+
 **PV1-LG04 is adopted; child06 is a closed premodel engineering failure, not a task result.**
 [Native failure, zero-science closeout and bounded NFS visibility repair](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_06_PREMODEL_NFS_VISIBILITY_FAILURE_AND_REPAIR.json):
 job676926 completed the real80-cycle transport fixture and both process faults,

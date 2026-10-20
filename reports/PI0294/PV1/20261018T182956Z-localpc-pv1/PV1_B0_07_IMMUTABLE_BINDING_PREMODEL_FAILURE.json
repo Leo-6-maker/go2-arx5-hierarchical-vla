@@ -1,0 +1,67 @@
+{
+  "schema": "PI0294_PV1_B0_07_IMMUTABLE_BINDING_PREMODEL_FAILURE_V1",
+  "status": "CLOSED_PREMODEL_ENGINEERING_FAILURE_ZERO_SCIENCE",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "child_run_uuid": "policy-b0-07",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "LG04_reference": "738a369c25dd24fff408bdedae0120f010623cfd",
+  "runtime_source_sha": "fb00da44f122c3ce96d0970ba23c2f223470cd33",
+  "runtime_CI": {
+    "run_id": 39348602625,
+    "job_id": 118387138067,
+    "conclusion": "success",
+    "source_members": 719
+  },
+  "native_submission": {
+    "job_id": "677332.hopper-m-02",
+    "submit_count": 6,
+    "project": "CFP04-CF-007",
+    "stage": "B0_DEV",
+    "walltime_s": 28800,
+    "ncpus": 12,
+    "ngpus": 1,
+    "gpu_model": "H200",
+    "qsub_calls": 1,
+    "cancel_calls": 0,
+    "resubmissions": 0,
+    "native_host": "hopper-25",
+    "native_exit_status": 1
+  },
+  "terminal_classification": {
+    "phase": "ACTUAL_NATIVE_PREMODEL_QUALIFICATION",
+    "error": "IMMUTABLE_FIXTURE_BINDING_REQUIRED",
+    "engineering_failure": true,
+    "valid_task_failure": false,
+    "model_loaded": false,
+    "new_neural_queries": 0,
+    "new_physics": 0,
+    "new_task_episodes": 0,
+    "new_optimizer_updates": 0,
+    "unknown_effects": []
+  },
+  "resource_settlement": {
+    "conservative_H200_s": 58,
+    "cumulative_H200_s": 15398,
+    "GPU_reserved_s_after_settlement": 0,
+    "core_lease": "CLOSED",
+    "hopper_lease": "CLOSED",
+    "core_closure_receipt_sha256": "9e81a6bbcf38d0b98c3ddf41a75ffe9448962fc26e79f4b80b7cbee5fc23314d",
+    "hopper_closure_receipt_sha256": "83259b124b13162b5e8633e16d950e22a2997bd9e411998687678616d829849a"
+  },
+  "repair_boundary": {
+    "cause": "binder_rewrote_a_sealed_fixture_with_mode_0644_instead_of_required_0400",
+    "child07_modified_after_terminal": false,
+    "replacement_requires_fresh_cold_binding_and_new_native_admission": true
+  },
+  "science_state": {
+    "B0_valid_conditions": 12,
+    "B0_total_conditions": 48,
+    "B0_successes": 8,
+    "B0_valid_task_failures": 4,
+    "remaining_conditions": 36,
+    "A_CONTROL_updates": 0,
+    "B_COVERAGE_updates": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}
