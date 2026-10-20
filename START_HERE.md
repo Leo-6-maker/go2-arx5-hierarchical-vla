@@ -1,5 +1,27 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**Latest CR2 actual: first four closed, remaining twenty collecting on two CPUs.**
+[Actual paired codec, readers, closed leases and resource snapshot](reports/PI0294/CR2/20261020T160340Z-localpc-cr2/CR2_FIRST_FOUR_ACTUAL_PAIRED_AND_REMAINDER.json).
+The first4 original attempts (2geometry groups, T1/T2 each) all completed
+real32s Teacher tasks and fixedR1 admission. Every episode has601actual H40
+windows checked under both frozen ranges, six actual dual-camera reader
+anchors per variant, and actual cross-parent batches. Transitions:2PASS->PASS,
+2FAIL->PASS,0PASS->FAIL; no range refit/native fault/unknown effect.
+Capture/export leases are CLOSED; their costs are settled once. The remaining
+20first attempts are running on2single-core workers under the original CR2
+clock/limits, not twenty completed results. Bank/HF READY remainsfalse;
+Teacher/data evidence is not GR00T learning or target-WBC migration evidence.
+
+**DEC1 is the latest scientific authority; native implementation is pending.**
+[Fixed a7a7ecd9 protocol](docs/protocols/DEC1_CONTROLLER_DISJOINT_VLA_SCIENCE_GO_20261021.md)
+and [machine limits](reports/PI0294/design/DEC1_CONTROLLER_DISJOINT_SCIENCE_GO_20261021.json)
+explicitly allow unchanged source A/B training before B0 completes, through
+a new versioned admission only. Old authority replay and baseline-relative
+selection/LOCKBOX still require full B0. First DEC1 matrix remains fixed
+CORR@2048/R0; CR2 is independent, not a prerequisite or hot data injection.
+This paragraph is not a native adoption, GPU allocation or target delivery
+receipt. Older B0-before-training statements below describe their old scopes.
+
 **Latest actual: child12 is system-held before launcher, not queued or a task failure.**
 [Native hook rejection, owner DNS interruption and CR2 static/data effects](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_CHILD12_SITE_HOLD_AND_CR2_STATIC_ACTUAL.json).
 679029 is H/Hold_Types=s,exit-16,run_count1. tracejob says an execution hook
