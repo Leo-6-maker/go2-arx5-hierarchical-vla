@@ -1,0 +1,112 @@
+{
+  "schema": "CR2_BANK_GATE_AND_FULL_READBACK_READY_V1",
+  "authority_release": "5d1393154054b977134b7d8c456f66ca478d0bf9",
+  "run_uuid": "20261020T160340Z-localpc-cr2",
+  "native_adoption_sha256": "6ea3f8d5348bf81f6f490329f215db6b5e6f91afe6fa2181c578214883b8b793",
+  "capture_source_sha": "520f5a5a8db536237c5da2bbe9bbef2dc990d8db",
+  "bank_and_actual_delivery_source_sha": "89ac3f7cc13dbb1134daa119a905f59d3bc6eb82",
+  "R0_statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "R1_statistics_sha256": "50d9672397fd0b5353da2011b9f9f568dc9c65c26fb271458f87d60b2d497fa8",
+  "new_models": 0,
+  "new_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_GPU_or_PBS": 0,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "status": "CR2_FIXED_R1_P12_READY_AND_SCOPE_CLOSED",
+  "gate": {
+    "status": "PASS_CR2_DATA_BANK_GATE",
+    "successes": {
+      "T1": 12,
+      "T2": 12
+    },
+    "admitted": {
+      "T1": 12,
+      "T2": 12
+    },
+    "paired_groups": 12,
+    "coverage": {
+      "AP0/+Y/T1": 2,
+      "AP0/+Y/T2": 2,
+      "AP0/-Y/T1": 2,
+      "AP0/-Y/T2": 2,
+      "AP1/+Y/T1": 2,
+      "AP1/+Y/T2": 2,
+      "AP1/-Y/T1": 2,
+      "AP1/-Y/T2": 2,
+      "AP2/+Y/T1": 2,
+      "AP2/+Y/T2": 2,
+      "AP2/-Y/T1": 2,
+      "AP2/-Y/T2": 2
+    },
+    "planned": 24,
+    "accounted": 24,
+    "safety_and_no_regression": true,
+    "policy_success_claim": false
+  },
+  "parents": 24,
+  "new_geometries": 12,
+  "simulated_seconds_per_episode": 32,
+  "camera_pairs_per_episode": 641,
+  "actual_RGB_images": 30768,
+  "H40_windows_per_episode": 601,
+  "total_overlapping_H40_windows": 14424,
+  "windows_are_not_independent_demonstrations": true,
+  "per_version_reader_anchors": [
+    0,
+    80,
+    160,
+    320,
+    480,
+    600
+  ],
+  "every_admitted_parent_in_actual_R1_cross_parent_batch": true,
+  "maximum_mixed_batch_samples": 12,
+  "actual_complete_archive_bytes": 1138087675,
+  "archive_index_sha256": "758047304df975e8d64cfeb0237b36469b4011af8d04d0ce11f5af967be88e15",
+  "dataset_manifest_sha256": "3b818f7c53e155a6b47cc2e2116abc34b921a73ea26d6665a623f2bb9e699f44",
+  "HF_repo": "leoyuer/pi0294-public-artifacts",
+  "HF_prefix": "PI0294/20261020T160340Z-localpc-cr2/CR2_FIXED_R1_P12",
+  "HF_data_revision": "3538419e8092a9c792793259ba286f3a2ab12607",
+  "HF_READY_revision": "9435ba48fa98336b6e88431ed145382724b16b44",
+  "HF_files": [
+    {
+      "path": "PI0294/20261020T160340Z-localpc-cr2/CR2_FIXED_R1_P12/ARCHIVE_MEMBER_MANIFEST.json",
+      "bytes": 4620408,
+      "sha256": "758047304df975e8d64cfeb0237b36469b4011af8d04d0ce11f5af967be88e15"
+    },
+    {
+      "path": "PI0294/20261020T160340Z-localpc-cr2/CR2_FIXED_R1_P12/metadata.tar.gz",
+      "bytes": 1203825,
+      "sha256": "43cfdd50565231f0b7eb0f37f82a4ed369593a891152174087a18f97afc241e1"
+    },
+    {
+      "path": "PI0294/20261020T160340Z-localpc-cr2/CR2_FIXED_R1_P12/parents-000.tar.gz",
+      "bytes": 372707542,
+      "sha256": "d534917757af7c0a419509589daf1629b650161478c970384a47a1fb7f1b24cf"
+    },
+    {
+      "path": "PI0294/20261020T160340Z-localpc-cr2/CR2_FIXED_R1_P12/parents-001.tar.gz",
+      "bytes": 372401331,
+      "sha256": "c0fb4f195e7d81ba5d1dd0c345a97c07708363ab99570829c7f99f695d967bff"
+    },
+    {
+      "path": "PI0294/20261020T160340Z-localpc-cr2/CR2_FIXED_R1_P12/parents-002.tar.gz",
+      "bytes": 387154569,
+      "sha256": "6c7e30799e9124dc11bb473f17bdf4d6b0774a69ff255e0bd471b5d3384980b8"
+    },
+    {
+      "path": "PI0294/20261020T160340Z-localpc-cr2/CR2_FIXED_R1_P12/READY.json",
+      "bytes": 3185,
+      "sha256": "ea138879dd910978497a8da313b85c350b16cb565c2b62b7d06028e73c50ef58"
+    }
+  ],
+  "complete_payload_and_all_archive_members_actually_readback": true,
+  "READY_uploaded_last": true,
+  "original_banks_or_models_reuploaded": false,
+  "Hopper_actual_consumption_or_neural_qualification": false,
+  "optional_CR1_archive_union_built": false,
+  "PV1_bank_or_statistics_changed": false,
+  "first_HF_401_preserved_and_proven_zero_commit_reconciled": true,
+  "teacher_data_not_policy_improvement": true
+}
