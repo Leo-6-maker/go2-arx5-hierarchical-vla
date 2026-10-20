@@ -1,5 +1,18 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**17:09 SGT: DATA first-four is terminal2/4 admitted; independent window CLOSED.**
+[Dataset qualification card and exact native evidence](reports/PI0294/DATA_COV1/DATA_COV1_P24_DATA_CARD.md).
+Three known full task successes, one unknown engineering result; two parents
+pass raw/all601codec/officialCPUchain, one succeeds but fails frozen codec.
+First-four requires3admissions, so gateFAIL. All11child leases and parent
+control leaseCLOSED; reservations0/unknown0. All44remaining P24 rows are
+NOT_RUN; noP72/P144, no stage bank/HF READY or PV1 data injection.
+OriginalT0/counters/failures remain. Do not restart this closed scope or count
+per-parent data success as GR00T/Go2 success. PV1 child11/678230 remainsQ at
+the latest17:10read, B014/48,updates0, one existing owner and225GB request.
+The queue paragraph below remains its binding; earlier DATA-running snapshots
+are historical. Continue PV1 B0 before A/B, with all freezes unchanged.
+
 **DATA first revised T2 succeeds physically but fails the unchanged codec gate.**
 [Actual task/raw/codec distinction and first-four support limit](reports/PI0294/DATA_COV1/DATA_COV1_FIRST_REVISED_T2_TASK_SUCCESS_CODEC_REJECT.json).
 32s/16000live/641RGBpairs/raw audit PASS,41/41hold,0native faults. All601H40

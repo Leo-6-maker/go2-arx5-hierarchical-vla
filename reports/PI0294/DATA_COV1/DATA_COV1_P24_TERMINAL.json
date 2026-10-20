@@ -1,0 +1,80 @@
+{
+  "schema": "PI0294_DATA_COV1_FAILED_FIRST_FOUR_NATIVE_CLOSE_V1",
+  "status": "CLOSED_FIRST_FOUR_QUALIFICATION_GATE_NOT_MET",
+  "run_uuid": "20261020T070432Z-localpc-data-cov1",
+  "original_T0_epoch": 1792479882,
+  "closed_epoch": 1792487388.4452357,
+  "original_runtime_sha": "0386067950de2c2905d1f87e03240965c477d1d8",
+  "amended_runtime_sha": "34079e414a46a3a7b74e1061e09d104d8679944d",
+  "report_analysis_source_sha": "d7dc38ef842263e605be210401fbfa6bb5ef2052",
+  "adoption_sha256": "e2365b29cdc6e035f8abbfa2a413f00d765df9fa066fe99cce7f420c8254c40d",
+  "terminal_sha256": "cb1d11049b552e7a7528ac439f545b0a4d66c974419cc4608e4b60575e6ebece",
+  "control_lease_status": "CLOSED",
+  "control_lease_sha256": "e643281d76a0a17fab9018ed965af1f0fa4b7dba603f5dbe452cfc7e71f75e00",
+  "all_11_child_leases": "CLOSED",
+  "all_registered_native_workers": "TERMINAL",
+  "independent_native_report_and_lease_readback": true,
+  "actual_first_attempts": 4,
+  "known_task_successes": 3,
+  "unknown_task_results": 1,
+  "valid_task_failures": 0,
+  "per_parent_full_admissions": 2,
+  "admitted_geometries": 1,
+  "same_actual_geometry_task_pairs": 1,
+  "first_four_required_full_admissions": 3,
+  "first_four_gate_pass": false,
+  "P24_remaining_44": "NOT_RUN_STAGE_GATE_STOP",
+  "P72_P144": "NOT_RUN_FIRST_FOUR_GATE_NOT_MET",
+  "physical_replacements": 0,
+  "unused_budget_does_not_authorize_bypassing_gate": true,
+  "resources": {
+    "CoreLab_CPU_seconds_including_conservative_control_charges": 5057.476842139,
+    "local_CPU_seconds_conservative_charged": 2700.0,
+    "static_constructors": 78,
+    "dynamic_constructors": 356,
+    "live_ticks": 64000,
+    "shadow_ticks": 64000,
+    "all_reservations": 0,
+    "unknown_effects": [],
+    "native_safety_faults_recorded": 0,
+    "new_GPU_PBS": 0,
+    "neural_queries": 0,
+    "optimizer_updates": 0,
+    "own_tree_du_bytes_at_close": 338321408,
+    "du_is_within_tree_accounting_not_incremental_filesystem_allocation": true,
+    "control_transfer_charged_upper_bytes": 134217728
+  },
+  "original_native_report_file_hashes_also_matched_by_public_JSON_files": {
+    "DATA_COV1_P24_FIRST_FOUR_GATE.json": "7de495ad6925a2af5ef8515188f6aab639745cecf15e7cb84c9b6be3c81daae4",
+    "DATA_COV1_P24_ALL_ATTEMPTS.json": "36020cc2c0e3391e04de47ea8c1edae3d7fe7cb543653be1cffb98d4f5eaf148",
+    "DATA_COV1_P24_COVERAGE_AND_EVENTS.json": "4612ab205df4c60162bc582b18ef0341859ee2b58ec91feff6d57c7581d5a38a",
+    "DATA_COV1_P24_STAGE_GATE.json": "74d3b3c893907c26dcc31b47e132a27c8a2c3d649a19a59da55abcaf989ef614"
+  },
+  "control_close_argument_failure": {
+    "kind": "COUNTER_REPR_NAMEERROR_BEFORE_PROGRAM_BODY",
+    "native_ledger_and_lease_unchanged_before_bounded_repaired_close": true,
+    "no_native_report_or_STOP_file_existed_before_repaired_close": true,
+    "scientific_effect_retry": false
+  },
+  "qualified_parents_preserved_not_a_released_bank": [
+    {
+      "id": "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T1-C04",
+      "raw_audit_sha256": "8522a979bea4924db9fd67504186b537824d34f2ed1b6b734b5657d6212c765f",
+      "raw_manifest_sha256": "8246d681474516ae9dbbbcb4012b1ece8a2c1d230d90cb8f2379fce7e1f898c3",
+      "export_result_sha256": "4523f4456986e7abf893b260bffc5075a2e28c7b13ae36d211021be77eee0727"
+    },
+    {
+      "id": "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T2-C04",
+      "raw_audit_sha256": "711060adde6eaf1195eea82efd9deb3eeeca19cc28593ae0016dc439334a1140",
+      "raw_manifest_sha256": "25049b2d3eff872f5ff6ff234f7f3ff9e0c0bd8ea1258dea2338c608c6697105",
+      "export_result_sha256": "dc5dccc1b3789b11fc889a3df3077de49b4754f00869ef1e21da52121e0708d6"
+    }
+  ],
+  "stage_bank_READY": false,
+  "cross_parent_bank_batch_qualification": "NOT_RUN_STAGE_GATE_FAILED",
+  "HF_fixed_revision_full_bank_readback": "NOT_RUN_NO_QUALIFIED_STAGE_BANK",
+  "PV1_139_bank_changed": false,
+  "WBC_S1_scoring_statistics_and_decoder_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

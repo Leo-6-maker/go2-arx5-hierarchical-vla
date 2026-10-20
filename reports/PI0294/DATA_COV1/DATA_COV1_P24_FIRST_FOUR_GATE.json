@@ -1,0 +1,26 @@
+{
+  "schema": "PI0294_DATA_COV1_FIRST_FOUR_GATE_V1",
+  "checks": {
+    "all_four_terminal": true,
+    "all_four_identity_and_clock_audited": true,
+    "known_effects": true,
+    "native_safety": true,
+    "at_least_three_full_admissions": false,
+    "each_task_has_full_admission": true
+  },
+  "count_gate_pass": false,
+  "attempt_ids": [
+    "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T1-C04",
+    "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04",
+    "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T1-C04",
+    "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T2-C04"
+  ],
+  "statuses": {
+    "ENGINEERING_INCOMPLETE": 1,
+    "CODEC_REJECT": 1,
+    "ADMITTED": 2
+  },
+  "missing": [],
+  "native_identity_and_fresh_resource_admission_still_required": true,
+  "effective_failures_must_not_be_retried": true
+}
