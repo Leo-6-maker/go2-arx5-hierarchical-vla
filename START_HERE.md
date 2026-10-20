@@ -1,5 +1,18 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**Official-guide/session round3: no client-method mismatch found; no password retry or PBS.**
+[Official-source access scope, four native session checks and CPU-only request proof](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/AUTH_OFFICIAL_GUIDE_AND_SESSION_AUDIT_ROUND3.md).
+Fresh/reused SSH and clean/inherited Python environments all return401/15006
+through the administrator-configured gateway. A network-denied official-CLI
+fixture verifies Basic current-user/dummy-password login, not cached Bearer
+reuse; the real nested SSH/PTTY dummy-input fixture also passes. These are
+not real authentication success. Vendor default10-second server auth timeout
+is consistent with the earlier10.04-second login failure, not a proven root
+cause or NUS server setting. Full Hopper presentation is behind NUS SSO and
+was not read; public NUS guides and the matching vendor manual were read.
+No global auth/config/cache edits, new password attempt, GPU/PBS or science.
+Native auth must pass before any continuation; original PV1 gates stay fixed.
+
 **Native auth round2: official login API returns HTTP401; no new PBS.**
 [Actual transport/cache/logout evidence and bounded cost](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/AUTH_NATIVE_SERVER_DIAGNOSTIC_ROUND2.json).
 Same-context normal login reached the official service and received401 after
