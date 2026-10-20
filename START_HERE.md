@@ -1,5 +1,17 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1-LG04 is adopted; child06 is a closed premodel engineering failure, not a task result.**
+[Native failure, zero-science closeout and bounded NFS visibility repair](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_06_PREMODEL_NFS_VISIBILITY_FAILURE_AND_REPAIR.json):
+job676926 completed the real80-cycle transport fixture and both process faults,
+then exited before model load when a rapidly replaced isolated heartbeat was
+temporarily invisible. It charged634 conservative H200 seconds; both leases are
+CLOSED and Core/Hopper reservations are0. The fixture-only ENOENT/ESTALE
+recovery is fixed at `fb00da44`, with exact Actions39348602625/job118387138067
+success. Production heartbeat/watchdog and raw-member/hash gates are unchanged.
+B0 remains12/48 (8success/4valid task failures), updates0,
+selected/deployment=NONE. Next work is fresh cold admission for only the36
+unrun B0 conditions; no A/B training before complete B0.
+
 **PV1 full-state checkpoint reuse now has an executable cold path, not a native copy receipt.**
 [CPU implementation receipt](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_FULL_STATE_CHECKPOINT_REUSE_CPU_IMPLEMENTATION.json):
 the existing closed-sibling validator now performs an exact member copy through

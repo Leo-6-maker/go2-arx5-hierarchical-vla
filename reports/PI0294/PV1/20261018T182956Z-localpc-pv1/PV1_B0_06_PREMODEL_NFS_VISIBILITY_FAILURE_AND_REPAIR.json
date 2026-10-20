@@ -1,0 +1,61 @@
+{
+  "schema": "PI0294_PV1_B0_06_PREMODEL_NFS_VISIBILITY_FAILURE_AND_REPAIR_V1",
+  "status": "ENGINEERING_FAILURE_CLOSED_REPAIR_CI_PASS_SCIENCE_UNCHANGED",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "lg04_release": "738a369c25dd24fff408bdedae0120f010623cfd",
+  "owner": "EXISTING_SINGLE_LOCAL_PC_COORDINATOR",
+  "child": "policy-b0-06",
+  "native_job": "676926.hopper-m-02",
+  "executed_source_sha": "85fa1d8d15eae05978c1076d33cf7159b3b69329",
+  "native_terminal": {
+    "exit_status": 1,
+    "phase": "ACTUAL_NATIVE_PREMODEL_QUALIFICATION",
+    "failure_class": "TRANSIENT_NFS_VISIBILITY_DURING_ISOLATED_CONCURRENT_REPLACE_FIXTURE",
+    "isolated_transport_cycles_completed": 80,
+    "late_response_fault_pass": true,
+    "process_exit_fault_pass": true,
+    "models_loaded_by_launcher": 0,
+    "new_neural_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_policy_episode_starts": 0,
+    "new_physics_integrations": 0,
+    "unknown_effects": [],
+    "conservative_H200_seconds": 634,
+    "valid_task_result": false
+  },
+  "closeout": {
+    "core_CPU_reserved_seconds": 0,
+    "hopper_H200_reserved_seconds": 0,
+    "core_lease": "CLOSED",
+    "hopper_lease": "CLOSED",
+    "failed_evidence_preserved": true
+  },
+  "campaign_after_closeout": {
+    "B0_valid": 12,
+    "B0_total": 48,
+    "B0_success": 8,
+    "B0_valid_task_fail": 4,
+    "B0_remaining": 36,
+    "H200_seconds_used": 15340,
+    "PBS_submissions_used": 5,
+    "neural_queries": 862,
+    "optimizer_updates": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "repair": {
+    "source_sha": "fb00da44f122c3ce96d0970ba23c2f223470cd33",
+    "scope": "ISOLATED_FIXTURE_READ_VISIBILITY_ONLY",
+    "bounded_recovery": "ENOENT_OR_ESTALE_ONLY_MAX_31_ATTEMPTS_AT_100MS",
+    "concurrent_replace_period_seconds": 0.02,
+    "production_owner_watchdog_changed": false,
+    "required_raw_member_or_hash_relaxed": false,
+    "local_focused_tests": 36,
+    "github_actions_run": 39348602625,
+    "github_actions_job": 118387138067,
+    "github_actions_conclusion": "success"
+  },
+  "next_action": "FRESH_ADMISSION_AND_COLD_BIND_ONLY_UNRUN_B0_CONDITIONS_FROM_FIXED_SHA",
+  "B0_complete_before_training": true,
+  "WBC_S1_scoring_statistics_changed": false
+}
