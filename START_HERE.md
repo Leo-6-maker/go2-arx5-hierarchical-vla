@@ -1,5 +1,19 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**16:40 SGT: child10 effects and leases are CLOSED; child11 is queued once.**
+[Actual closure and native225GB continuation](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_10_EFFECT_CLOSED_AND_CHILD11_QUEUED.json).
+678230 isQ, oneH200/12CPU/225GB/8h, globalPBS10; sole existing owner attached.
+Exact runtime d7dc38ef passed Actions39393487629/job118530396143. The37/36
+engineering tail is independently accounted as generated but uninstalled,
+with0live effect and no unknowns. Child10 STOP/raw remain preserved; its
+two leases and reservations are closed. B0 remains14/48 (9success/5valid fail),
+updates0. No new model/query/physics is claimed for queued child11.
+[Revised DATA static qualification and bounded first-four continuation](reports/PI0294/DATA_COV1/DATA_COV1_NEAR_V2_STATIC_AND_FIRST_FOUR_CONTINUATION.json):
+24groups static PASS,24new constructors,33.7242CPUsec,0integration. Original
+first failure stays in48; second physical task is active, not yet admitted.
+No bulk dispatch/stage bank/HF READY. Original clocks and PV1 priority stay
+fixed. All following snapshots are historical, not the current native state.
+
 **Child10 is terminal after two valid results and a separate ENFILE interruption.**
 [Exact engineering terminal, resource settlement and pending effect closure](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_10_ENFILE_TERMINAL_PENDING_EFFECT_CLOSURE.json).
 678041 isF/exit1; owner settled3074H200s and exited. Total20275H200s,
