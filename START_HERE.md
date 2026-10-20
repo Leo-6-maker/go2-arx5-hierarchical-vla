@@ -22,8 +22,12 @@ DEC1_SOURCE_TRAIN_STAGE_V1 explicitly admits only unchanged A/B source stages
 before full B0. Legacy stages still require complete B0; native scope/recipe/
 resume checks remain. Fresh DEC1 future-budget integration, cold binding and
 exact CI are still required before any training; CPU fixtures are not admission.
-The confirmed common frame-transform omission is fixed with2red-to-green
-regressions; no WBC/controller code changed and no running capsule was patched.
+The confirmed frame-transform omission is corrected in explicit
+GR00TToWBCAdapterV2 for BOTH new DEC1 interfaces. Historical V1 bytes and
+Stage35's frozen-file guard remain unchanged; no wrong V1 baseline is allowed
+in DEC1. Source7328828e CI39466956612 failed the old V1-byte guard, so it is
+not a deployable success. The V2 correction retains2red-to-green regressions
+and adds same-frame equivalence; no WBC or running capsule was patched.
 I_PROGRESS/source-only freeze and the64-cell matrix are not implemented/run yet.
 Source CORR/R0/139bank manifests and15numerical/26asset hashes read back.
 Core/Vanda registries contain no qualified DEC1 task executor delivery; old

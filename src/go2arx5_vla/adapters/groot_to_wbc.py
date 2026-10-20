@@ -55,7 +55,6 @@ class GR00TToWBCAdapter:
                     f"frame mismatch: source frame {chunk.source_frame!r} is not the WBC frame "
                     f"{self.config.wbc_frame!r}; provide an explicit frame_transform"
                 )
-            chunk = chunk.transformed(self.config.frame_transform, target_frame=self.config.wbc_frame)
         return chunk
 
     def adapt(
