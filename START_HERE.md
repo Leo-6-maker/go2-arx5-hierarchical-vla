@@ -1,5 +1,20 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**DEC1 current CORR cold checks passed; one A40 job is queued with a resource mismatch.**
+[Actual cold binding, native request, owner and same-budget reservations](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_A40_COMPAT_COLD_AND_SUBMISSION_ACTUAL.json).
+Runtime a2caf6a54f37cb76f64f8d7f42abd5f0e3252339 passed exact Actions39501594922
+/job118900166184 and full changed-file GitHub readback. The registered candidate
+actually hashed all current CORR/Cosmos inputs and decoded its original saved
+dual-camera TRAIN input without loading a model. Only one job1471903.stdct-mgmt-02
+was submitted, inside the same original budget:1860 GPU seconds and17 queries
+reserved, no training or physics. Its native Q record rewrote4CPU/32GB to
+36CPU/240GB; cause is unconfirmed. The fixed native launcher requires4CPU,
+so this is NOT a healthy model-ready queue or numerical qualification PASS.
+The same sole owner watches; it cannot release a mismatched allocation and
+does not qalter/cancel/resubmit automatically. One explicit same-job original
+select restoration question is pending. Local prepaid CPU is near its original
+8h bound. No new learning result, target WBC qualification or CR2 expansion.
+
 **DEC1 fixed CORR assets are now actually delivered to Vanda, not model-qualified.**
 [Full native handoff, preserved failure, costs and closed leases](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_CORR_VANDA_ASSET_HANDOFF_ACTUAL.json).
 HF READY68afb6503982613ad47fe60d8a1ae66a580dec60 follows actual independent
@@ -9,11 +24,11 @@ Cosmos locators are relocated; weights/index/R0 are unchanged. All four CPU
 children are CLOSED, including the preserved pre-client missing-locator failure.
 Its replacement uses explicit anonymous fixed-public reads, no credential copy
 or repeated weight upload. Actual runtime e0792964/869f3100 passed exact CI.
-There is no new PBS/model/query/update/physics or policy improvement. The
+That completed asset-only stage added no PBS/model/query/update/physics or policy improvement. The
 same original budget includes 15313692088 logical transfer upper bytes and
 8329724022 new GPU-site output upper bytes across both sites; future storage
-forecasts must include them. A40 numerical/precision and cross-platform
-accounting/admission remain pending, as do source native interface qualification
+forecasts must include them. Cross-platform accounting is now implemented above;
+A40 numerical/precision remains pending, as do source native interface qualification
 and the frozen target task ABI. Do not run the expired old standalone probe.
 
 **DEC1 source cold inputs now use actual saved bytes, but are not native-bound.**
