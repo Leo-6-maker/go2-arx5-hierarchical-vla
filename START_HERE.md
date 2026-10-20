@@ -1,5 +1,16 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**DATA first revised T2 succeeds physically but fails the unchanged codec gate.**
+[Actual task/raw/codec distinction and first-four support limit](reports/PI0294/DATA_COV1/DATA_COV1_FIRST_REVISED_T2_TASK_SUCCESS_CODEC_REJECT.json).
+32s/16000live/641RGBpairs/raw audit PASS,41/41hold,0native faults. All601H40
+windows checked: first SO3 error0.00013817rad exceeds frozen0.0001rad, at
+anchor209/action31 with channels4/6 inverse-clipped. Not admitted; official
+chain not run after codec reject. No stats/decoder/threshold change or retry.
+Together with the preserved first engineering failure, even two later passes
+cannot reach3/4 admissions. Complete only the remaining fixed first-four
+diagnostics; do not dispatch44 more, expand stages or claim a READY bank.
+PV1 child11 remains the independent queued B0 continuation described below.
+
 **16:40 SGT: child10 effects and leases are CLOSED; child11 is queued once.**
 [Actual closure and native225GB continuation](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_10_EFFECT_CLOSED_AND_CHILD11_QUEUED.json).
 678230 isQ, oneH200/12CPU/225GB/8h, globalPBS10; sole existing owner attached.
