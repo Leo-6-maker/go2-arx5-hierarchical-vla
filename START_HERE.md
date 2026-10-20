@@ -1,5 +1,12 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**Future-data D0 is closed; PV1's frozen bank and critical path are unchanged.**
+[Actual 43-row CPU qualification and prospective coverage](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/FUTURE_DATA_D0_ACTUAL_SUMMARY.md):
+32 PASS/11 codec exclusions; one additional raw-audit FAIL was excluded before
+reading. The 29 qualified original-reference rows could expand future coverage
+77 to93 groups, but are not injected into PV1. No new physics/GPU/PBS/training;
+the independent lease is CLOSED. The 24-group future pilot is NOT_AUTHORIZED.
+
 **PV1-LG04: child09 is queued once; the existing sole owner is attached.**
 [Actual continuation with complete-bank binding and native queue receipt](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_09_COMPLETE_BANK_COLD_AND_NATIVE_QUEUE.json) ·
 [Actual owner continuity](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_WORK_WINDOW_HANDOVER_ACTUAL.json).
