@@ -77,8 +77,14 @@ def recompute(root,*,request_bytes,snapshot_bytes,progress_bytes,purpose,now_epo
         if any(before.get(k)!=after.get(k) for k in ('job_id','request_id','run_uuid','request_sha256','project')):
             fail('HISTORICAL_NATIVE_JOB_IDENTITIES_PRESERVED')
     new_items=ledger['PBS_submissions'][original_count:]
-    if any(s.get('scientific_admission_version')!=VERSION for s in new_items):
-        fail('POST_ADOPTION_NATIVE_JOBS_REQUIRE_EXPLICIT_DEC1_CLASSIFICATION')
+    from .alternate_accounting import VERSION as ALTERNATE_VERSION,validate_item as alternate_item
+    for item in new_items:
+        if item.get('scientific_admission_version')==ALTERNATE_VERSION:
+            alternate_item(item)
+            if item['status']!='NATIVE_TERMINAL':
+                fail('ALTERNATE_QUALIFICATION_MUST_TERMINATE_BEFORE_SOURCE_ADMISSION')
+        elif item.get('scientific_admission_version')!=VERSION:
+            fail('POST_ADOPTION_NATIVE_JOBS_REQUIRE_EXPLICIT_DEC1_CLASSIFICATION')
     active=[s for s in ledger['PBS_submissions'] if s['status'] not in mature.TERMINAL]
     current=[s for s in active if s['request_id']==request['request_id']]
     if len(active)>1 or active and (len(current)!=1 or not active[0].get('job_id')):

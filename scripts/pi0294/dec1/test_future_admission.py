@@ -101,6 +101,22 @@ class BridgeTests(unittest.TestCase):
         self.assertTrue(result['forecast']['admissible_forecast'])
         self.assertFalse(result['old_PV1_release_or_LOCKBOX_admitted'])
 
+    def test_closed_typed_alternate_cost_is_preserved_before_source_training(self):
+        from .test_alternate_accounting import AccountingTests,NOW as ALT_NOW
+        from .alternate_accounting import settle
+        helper=AccountingTests();bound=helper.bound();native,effects=helper.terminal(bound)
+        closed=settle(bound,helper.request['request_id'],native_proof=native,effects=effects,now_epoch=ALT_NOW+201)
+        self.ledger['PBS_submissions'].append(closed['PBS_submissions'][-1])
+        self.ledger['used'].update(PBS_submissions=12,H200_s=20614,neural_queries=1071)
+        self.ledger['generation_queries']=1071;self.ledger['CPU_s']+=87
+        self.s['used'].update(PBS_submissions=12,H200_s=20614,neural_queries=1071,Hopper_CPU_s=7087)
+        self.s['dec1_used'].update(PBS_submissions=1,H200_s=120,neural_queries=17,Hopper_CPU_s=267)
+        self.write_ledger()
+        result=self.recompute()
+        self.assertTrue(result['forecast']['admissible_forecast'])
+        self.ledger['PBS_submissions'][-1]['native_platform']='unclassified';self.write_ledger()
+        with self.assertRaises(PermissionError):self.recompute()
+
     def test_native_ledger_or_adoption_baseline_cannot_be_a_fake_zero(self):
         self.ledger['generation_queries']+=1
         put(self.root.parent.parent/'HOPPER_RESOURCE_LEDGER.json',self.ledger)

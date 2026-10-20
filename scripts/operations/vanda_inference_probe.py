@@ -71,8 +71,15 @@ def validate(path, *, execute=False):
     return m
 
 
-def probe(path):
+def probe(path, *, events=None):
     m = validate(path, execute=True)
+    dec1 = m.get('dec1_qualification_version') is not None
+    if dec1:
+        from scripts.pi0294.dec1.alternate_accounting import VERSION
+        if m['dec1_qualification_version']!=VERSION or not callable(events):
+            raise PermissionError('DEC1_EXPLICIT_COMPATIBILITY_OBSERVER_REQUIRED')
+    elif events is not None:
+        raise PermissionError('LEGACY_VANDA_PROBE_HAS_NO_NEW_OBSERVER')
     root = Path(m['output_root'])
     lock = (root/'PROBE_OWNER.lock').open('a')
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -83,7 +90,12 @@ def probe(path):
         raise TimeoutError('ALLOCATION_TERMINATION')
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGALRM, stop)
-    signal.alarm(1600)
+    alarm_s=1600
+    if dec1:
+        allocation=read(root/'ALLOCATION_ADMISSION.json')
+        alarm_s=min(alarm_s,int(allocation['allocation_end_epoch']-time.time()-60))
+        if alarm_s<=0:raise TimeoutError('DEC1_ALLOCATION_CLOSEOUT_RESERVE')
+    signal.alarm(alarm_s)
     started = time.time()
     result = dict(run_uuid=m['run_uuid'], job_id=os.environ['PBS_JOBID'],
                   status='INITIALIZING', model_loads=0, queries=[],
@@ -99,6 +111,10 @@ def probe(path):
         result['torch'] = torch.__version__
         result['gpu'] = torch.cuda.get_device_name(0)
         from scripts.pi0294.resident import ResidentModel
+        base_model=ResidentModel
+        if dec1:
+            from scripts.pi0294.e1.model import E1ResidentModel
+            base_model=E1ResidentModel
         from scripts.pi0292.train_adapter import official_import, build_processor
         from scripts.pi0294.local_backbone import local_model_name
         from scripts.pi0294.neural import COSMOS_REVISION
@@ -113,7 +129,7 @@ def probe(path):
         from transformers import AutoModel
         import gr00t.model.gr00t_n1d7.gr00t_n1d7
 
-        class VandaProbeModel(ResidentModel):
+        class VandaProbeModel(base_model):
             # The parent H200/E0 admission is not invoked by this new platform;
             # validate() above owns this distinct, bounded engineering scope.
             def __init__(self):
@@ -135,22 +151,46 @@ def probe(path):
 
         load_start = time.monotonic()
         torch.cuda.reset_peak_memory_stats()
+        if dec1:events('MODEL_LOAD_BEGIN',{})
         model = VandaProbeModel()
         torch.cuda.synchronize()
         result.update(model_loads=1, load_wall_s=time.monotonic()-load_start)
+        if dec1:events('MODEL_LOAD_COMPLETE',dict(load_wall_s=result['load_wall_s']))
         payload = read(m['observation'])['payload']
         for index in range(17):
+            target=root/f'query-{index:02}.npz'
+            if dec1:
+                if target.exists():raise FileExistsError('DEC1_NO_REPEATED_SAVED_QUERY')
+                events('QUERY_BEGIN',dict(index=index,seed=29400+index))
             torch.cuda.synchronize()
             began = time.monotonic()
-            output = model.generate(payload, seed=29400+index)
-            torch.cuda.synchronize()
-            elapsed = time.monotonic()-began
-            h40 = output['physical_H40']
-            assert h40.shape == (40, 10) and np.isfinite(h40).all(), 'H40_FINITE'
-            np.savez_compressed(root/f'query-{index:02}.npz', physical_H40=h40, normalized=output['normalized'])
-            result['queries'].append(dict(index=index, seed=29400+index, wall_s=elapsed,
-                warmup=index == 0, physical_H40_sha256=hashlib.sha256(h40.tobytes()).hexdigest(),
-                normalized_outside_unit_components=output['normalized_outside_unit_components']))
+            try:
+                output = model.generate(payload, seed=29400+index)
+                torch.cuda.synchronize()
+                elapsed = time.monotonic()-began
+                h40 = output['physical_H40']
+                assert h40.shape == (40, 10) and np.isfinite(h40).all(), 'H40_FINITE'
+                row=dict(index=index,seed=29400+index,wall_s=elapsed,warmup=index==0,
+                    physical_H40_sha256=hashlib.sha256(h40.tobytes()).hexdigest(),
+                    normalized_outside_unit_components=output['normalized_outside_unit_components'])
+                if dec1:
+                    if output['normalized'].shape!=(1,40,132) or not np.isfinite(output['normalized']).all():
+                        raise ValueError('DEC1_COMPLETE_NORMALIZED_FINITE_SHAPE')
+                    from scripts.pi0294.e1.artifacts import atomic_npz
+                    atomic_npz(target,physical_H40=h40,normalized=output['normalized'],
+                        noise_seed=np.asarray(29400+index,dtype=np.uint64),
+                        noise_fingerprint_json=np.asarray(json.dumps(output['noise'],sort_keys=True)),
+                        inference_precision_json=np.asarray(json.dumps(output['inference_precision'],sort_keys=True)),
+                        request_id=np.asarray(m['dec1_request_id']),
+                        observation_file_sha256=np.asarray(sha(m['observation'])))
+                    row.update(noise=output['noise'],inference_precision=output['inference_precision'],arrays_sha256=sha(target))
+                else:
+                    np.savez_compressed(target,physical_H40=h40,normalized=output['normalized'])
+                result['queries'].append(row)
+                if dec1:events('QUERY_COMPLETE',row)
+            except BaseException as error:
+                if dec1:events('QUERY_FAILURE',dict(index=index,seed=29400+index,error_type=type(error).__name__))
+                raise
         times = [row['wall_s'] for row in result['queries'] if not row['warmup']]
         result.update(status='PASS_SAVED_OBSERVATION_A40_INFERENCE_ONLY',
                       timed_queries=16, median_wall_s=float(np.median(times)),
@@ -167,11 +207,18 @@ def probe(path):
         child = resource.getrusage(resource.RUSAGE_CHILDREN)
         result.update(completed_epoch=time.time(), elapsed_s=time.time()-started,
                       cpu_s=usage.ru_utime+usage.ru_stime+child.ru_utime+child.ru_stime)
+        if dec1:
+            try:events('FINAL',dict(status=result['status'],model_loads=result['model_loads'],completed_queries=len(result['queries'])))
+            except BaseException as error:
+                result.update(status='ENGINEERING_INCOMPLETE',observer_final_error=type(error).__name__)
         with (root/'RESULT.private.json').open('x') as stream:
             json.dump(result, stream, indent=2)
         lease = read(m['lease'])
         lease.update(status='CLOSED', result_status=result['status'], completed_epoch=time.time())
-        Path(m['lease']).write_text(json.dumps(lease, indent=2)+'\n')
+        if dec1:
+            from scripts.pi0292.durable import write
+            write(m['lease'],lease)
+        else:Path(m['lease']).write_text(json.dumps(lease, indent=2)+'\n')
         lock.close()
     return result
 

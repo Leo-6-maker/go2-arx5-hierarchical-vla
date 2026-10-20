@@ -54,6 +54,8 @@ def active_items(value):
 
 
 def dependency_for(value):
+    from scripts.pi0294.dec1.alternate_accounting import require_hopper_active_chain
+    require_hopper_active_chain(value)
     active=active_items(value)
     if not active:return None
     if any(not s.get('job_id') for s in active):
@@ -62,6 +64,8 @@ def dependency_for(value):
 
 
 def native_chain(value):
+    from scripts.pi0294.dec1.alternate_accounting import require_hopper_active_chain
+    require_hopper_active_chain(value)
     registered={s['job_id']:s for s in value['PBS_submissions'] if s.get('job_id')}
     jobs={k:j for k,j in owned_jobs(os.environ['USER']).items() if j.get('Job_Name','').startswith('pi0294_pv1_')}
     if set(jobs)-set(registered) or sum(j['job_state']=='R' for j in jobs.values())>1:
@@ -388,12 +392,20 @@ def release_readback(root,number):
 def settle(root):
     root=Path(root);validate(root,closeout=True);ledger=Ledger(root,final=True);rows=[]
     snapshot=read(ledger.path);facts={}
+    from scripts.pi0294.dec1.alternate_accounting import require_hopper_active_chain
+    require_hopper_active_chain(snapshot)
     for item in active_items(snapshot):
         if not item.get('job_id'):raise PermissionError('PV1_UNKNOWN_QSUB_INTENT_NOT_A_ZERO_COST_JOB')
         facts[item['request_id']]=native(item['job_id'])
     allocated=None
     if any(j['job_state']=='F' for j in facts.values()):
         allocated=int(subprocess.check_output(['du','-s','-B1',str(root.parent.parent)],text=True,timeout=180).split()[0])
+        # External assets are part of the same conservative storage cap even
+        # though a Hopper-only du cannot see their physical files.
+        external=snapshot.get('external_asset_storage_by_site',{})
+        if (not isinstance(external,dict) or any(type(n) is not int or n<0 for n in external.values())):
+            raise PermissionError('PV1_EXTERNAL_STORAGE_PROJECTION_CANNOT_BE_DROPPED')
+        allocated+=sum(external.values())
     with ledger.transaction() as value:
         for item in value['PBS_submissions']:
             if item['status'] in ('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB'):continue

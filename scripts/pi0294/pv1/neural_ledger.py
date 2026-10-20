@@ -28,6 +28,13 @@ def check(value,*,final=False,allow_unknown=False):
             raise PermissionError('PV1_NONNEGATIVE_ACTUAL_AND_RESERVED_STORAGE_COUNTERS')
     if value.get('new_storage_current_bytes',0)>value.get('new_storage_peak_bytes',0):
         raise PermissionError('PV1_RESIDENT_STORAGE_CANNOT_EXCEED_RECORDED_PEAK')
+    if any(s.get('native_platform') is not None for s in value['PBS_submissions']):
+        from scripts.pi0294.dec1.alternate_accounting import validate_items
+        validate_items(value)
+    if (type(value.get('CPU_reserved_s',0)) not in (int,float)
+            or not math.isfinite(value.get('CPU_reserved_s',0)) or value.get('CPU_reserved_s',0)<0
+            or value['CPU_s']+value.get('CPU_reserved_s',0)>160*3600):
+        raise PermissionError('PV1_ALL_GPU_SITE_CPU_RESERVATIONS_INSIDE_ORIGINAL_CAP')
     admit_resources(value['used'],value['reserved'],{},final=final)
     return value
 
