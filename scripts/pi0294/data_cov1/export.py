@@ -30,16 +30,42 @@ def packet(samples,card):
     return committed_packet(samples,card)
 
 
-def physical_events(folder,card,geometry):
-    with np.load(folder/'physics.npz',allow_pickle=False) as z:data={k:z[k].copy() for k in z.files}
+def event_index(data,card):
     result=event_exposure(data,card)
     micro=data['contact_audit'];times=data['contact_time_s'];initial=data['object_pose'][0,2,3]
     lift=_edges(times,(micro[:,1].astype(bool))&(micro[:,3]-initial>=.02),True)
     result['events']['lift_2cm_while_native_grasp']=dict(count=len(lift),first_s=lift[0] if lift else None,
         last_s=lift[-1] if lift else None,prefix8_0_to_0p35s=_coverage(lift,.35),H40_0_to_1p95s=_coverage(lift,1.95))
-    result.update(schema='PI0294_DATA_COV1_PHYSICAL_EVENTS_V1',
-        original_score=read(folder/'SCORE.json'),lift_event_threshold_m=.02,
+    contact=micro[:,0].astype(bool);grasp=micro[:,1].astype(bool)
+    moved=np.maximum.accumulate(micro[:,2])>=.10
+    obj=data['object_pose'];tcp=data['tcp_world'];t=data['time_s']
+    import itertools
+    offsets=np.asarray(list(itertools.product((-.02,.02),repeat=3)))
+    corners=np.einsum('nij,kj->nki',obj[:,:3,:3],offsets)+obj[:,:3,3][:,None,:]
+    zone=(np.abs(corners[:,:,:2]-np.asarray(card['goal_xy']))<=.07).all(axis=(1,2))
+    clear=np.linalg.norm(tcp[:,:3,3]-obj[:,:3,3],axis=1)>=.08
+    release=_edges(times,grasp,False);separation=_edges(times,contact,False)
+    after_transport=lambda values:[v for v in values if moved[min(int(round(v/.002))-1,15999)]]
+    event_times=dict(contact_start=_edges(times,contact,True),contact_end=separation,
+        native_grasp_start=_edges(times,grasp,True),native_grasp_end=release,
+        native_grasp_end_after_10cm_transport=after_transport(release),
+        separation_after_10cm_transport=after_transport(separation),
+        zone_entry_20Hz=_edges(t,zone,True),TCP_clear_entry_20Hz=_edges(t,clear,True),
+        lift_2cm_while_native_grasp=lift)
+    if any(len(v)!=result['events'][k]['count'] for k,v in event_times.items()):
+        raise ValueError('DATA_COV1_FULL_EVENT_INDEX_MUST_MATCH_ORIGINAL_EXPOSURE_COUNTS')
+    result.update(schema='PI0294_DATA_COV1_PHYSICAL_EVENTS_V2',event_times_s=event_times,
+        terminal_41_observation_times_s=t[-41:].tolist(),
+        actual_highrate_displacement_10cm_first_s=times[np.flatnonzero(moved)[0]] if moved.any() else None,
+        lift_event_threshold_m=.02,transport_event_threshold_m=.10,
         native_grasp_end_is_not_complete_release_success=True,terminal_hold_from_original_unchanged_score=True)
+    return result
+
+
+def physical_events(folder,card,geometry):
+    with np.load(folder/'physics.npz',allow_pickle=False) as z:data={k:z[k].copy() for k in z.files}
+    result=event_index(data,card);result['original_score']=read(folder/'SCORE.json')
+    times=data['contact_time_s']
     info=read(geometry.with_suffix('.json'));sealed_file(geometry.with_suffix('.json'))
     sealed_file(geometry,info['sha256'])
     with np.load(geometry,allow_pickle=False) as z:rows=z['rows'].copy()

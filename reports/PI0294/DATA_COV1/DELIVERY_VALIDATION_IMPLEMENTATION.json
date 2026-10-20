@@ -1,0 +1,27 @@
+{
+  "schema": "PI0294_DATA_COV1_DELIVERY_VALIDATION_IMPLEMENTATION_V1",
+  "status": "CPU_CONTRACTS_PASS_NOT_NATIVE_BANK_ACCEPTANCE",
+  "purpose": "Complete required reporting and cross-parent reader checks while PV1 owns the physical-resource priority.",
+  "reports_module": "scripts/pi0294/data_cov1/reports.py",
+  "reports": ["all planned first-attempt terminal states including NOT_RUN", "unknown task result distinct from valid task failure", "12 crossed strata per task", "paired support using actual geometry fingerprint", "original first-four and cumulative stage gates", "bound first codec error and physical-event evidence", "compact H8/boundary/H40 maxima with full arrays retained in the bound export receipt"],
+  "mixed_batch_module": "scripts/pi0294/data_cov1/mixed_batch.py",
+  "mixed_batch": {
+    "reader": "Existing native CPU dataset and original official processor/collator",
+    "anchors_each_parent": [0, 80, 160, 320, 480, 600],
+    "maximum_distinct_parents_per_batch": 2,
+    "maximum_samples_per_batch": 12,
+    "odd_parent_count": "Final parent is paired with its predecessor; repeated validation is not another demonstration.",
+    "requires_distinct_raw_manifest_hashes": true,
+    "deterministic_repeat": true,
+    "neural_forward": false
+  },
+  "event_index": "All observed transition times are retained, checked against unchanged native exposure counts, with original 41 terminal observation times. No task success is inferred from event presence.",
+  "tests": {"PI0294_passed": 926, "subtests_passed": 818},
+  "not_claimed": ["native mixed-parent PASS", "first-four PASS", "P24/P72/P144 PASS", "FROZEN_LOCAL_MANIFEST", "PACKAGED", "HF fixed-revision full readback", "READY_LAST", "downstream native consumption", "policy improvement"],
+  "runtime_note": "PV1 remains pinned to 79161e32b04535dc22019b5b8658d95ca31d0a8d; the current DATA-COV1 cold continuation remains pinned to 34079e414a46a3a7b74e1061e09d104d8679944d. This source publication does not hot-update either capsule.",
+  "remaining": ["Actual first-four capture/export gate after PV1 resource release", "qualified 1-to-2-to-4 worker scaling within original bounds", "conditional cumulative stages and all-attempt accounting", "native cross-parent qualification on actual admitted exports", "stage bank assembly/package/fixed-revision full member readback and READY-last", "dataset card/reader reproduction/optional original4mm union qualification", "resource and lease final closure"],
+  "WBC_S1_scoring_statistics_PV1_bank_changed": false,
+  "new_budget_or_clock": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}
