@@ -2,170 +2,155 @@
 
 日期：2026-10-21，Asia/Singapore。Decision/Goal ID：DEC1_CONTROLLER_DISJOINT_VLA_V1。
 状态：USER_AUTHORIZED_NEW_SCIENCE_PLAN_PENDING_NATIVE_ADOPTION。
-授权依据：本轮用户原话「你思考确定一下我们的创新、贡献点，我们focus在VLA和WBC的解耦，确定后给出新的授权计划，尽快拿到科学结论」。这是对科研重点、实验变量和依赖关系的明确新决定；不是再次把所有新实验标成NOT_AUTHORIZED。发布不等于现场已采用或运行。
-审核基线：2d6c4d68380d22a284412167aa465609903fdf35。原PV1 authority：9eff29a44a193dd4d3620dc0bfe5764a402eff42。现有workspace、单owner、站点准入与原始安全规则继续适用。
+授权依据：本轮用户原话「你思考确定一下我们的创新、贡献点，我们focus在VLA和WBC的解耦，确定后给出新的授权计划，尽快拿到科学结论」。本文件将这次新科研决定限定为下述可执行实验、依赖修订和预算重分配；不是再次把所有新实验标成NOT_AUTHORIZED。发布不等于现场已经采用或运行。
+审核基线：2d6c4d68380d22a284412167aa465609903fdf35。原PV1 authority：9eff29a44a193dd4d3620dc0bfe5764a402eff42。单owner、原生站点权限、已有workspace与运行安全继续适用。
 
-## 1. 确定论文主线：不是首次分层，而是可检验的控制器隔离迁移
+## 1. 论文定位与三个待验证贡献
 
 工作标题：Controller-Disjoint VLA: Execution-Grounded Task-Space Trajectories for Frozen Whole-Body Control。
-核心问题：不使用目标WBC产生的任务示范来训练高层，不联合训练或调参目标WBC，同一份语言条件EEF策略能否通过明确的任务空间接口，在源执行器和独立冻结的目标WBC间复用？实际执行进度反馈能否降低这种迁移中的失效？
+核心问题：不使用目标WBC产生的任务示范训练高层、不联合训练或调参目标WBC，同一份语言条件EEF策略能否跨源执行器和独立冻结的目标WBC复用？实际执行进度反馈能否降低这种迁移的失效？
 
-贡献候选（实验前均为待验证，不在论文中写成已证实）：
-1. 数据/学习解耦：高层学习来自源域的视觉-语言-实际状态到提交EEF参考，不学习目标关节/力矩、目标WBC latent或目标任务轨迹；目标控制器独立交付冻结。准确称target-controller-disjoint training，不称所有数据与所有执行器无关。
-2. 接口/执行解耦：将任务空间几何、执行进度、夹爪事件和实际反馈明确对齐；比较原时钟锚定与实测进度锚定，而不是假设期望EEF已经实现。新增方法只在高层与WBC之间，不修改WBC内部控制。
-3. 证据与边界：同一高层权重跨两个冻结执行器的全交叉对照，分开报告语义任务正确性、接口合法性、跟踪响应与物体任务结果；用实际交换执行器检验可替换性，不以模块图或RMS代替任务结果。
+C1 数据/学习解耦：高层从源域视觉、语言、实际状态学习提交的EEF参考，不学习目标关节/力矩或目标WBC latent。目标控制器由另一团队独立交付并冻结。准确称target-controller-disjoint training，不称所有数据都与任何执行器无关。
+C2 接口/执行解耦：把任务空间几何、实际执行进度和夹爪事件对齐；比较时钟锚定与实际反馈锚定。新增方法位于高层接口，不修改WBC控制律，且不假设期望EEF就是实际EEF。
+C3 可替换性的实证：同一权重在两个冻结执行器上的全交叉任务对照；区分任务语义、接口合法性、执行跟踪和物体结果，用真实交换执行器而非模块图证明复用边界。
 
-CR1的范围修复是可靠接口和数据表示的支撑证据/消融素材，不能把min-max扩范围单独包装成主要算法创新。当前两个固定任务只支持双任务语言条件控制，不自动支持开放词汇、任意任务、灵巧力控制、任意本体或实时部署。
+这些是实验前贡献假设，不是已证创新。CR1范围研究属于接口可靠性支撑证据/消融，不把min-max扩范围单独包装为主要算法创新。两个固定任务不能自动支持开放词汇、任意本体、力控制、学得移动意图或实时部署。
 
-## 2. 最近相关工作与不能主张的“创新”
+## 2. 最近相关工作与新颖性边界
 
-- HAMSTER (2025)：高层VLM输出2D EEF路径、低层3D策略执行，并利用off-domain数据。https://arxiv.org/abs/2502.05485
-- 3D HAMSTER (2026)：已经直接研究高层metric 3D轨迹指导低层控制。https://arxiv.org/abs/2606.31329
-- UMI (RSS 2024)：相对轨迹、推理延迟匹配与跨机器人部署已是明确贡献。https://roboticsproceedings.org/rss20/p045.html
-- LeVERB (2025)：视觉语言latent与RL whole-body control分层已存在。https://arxiv.org/abs/2506.13751
-- H-VLA (2026)：关键动作与运动生成、统一相机坐标动作空间已存在。https://arxiv.org/abs/2609.22895
-- Opt2VLA (2026)：单多任务VLA输出几何/接触力、任务特定RL WBC执行。https://arxiv.org/abs/2609.23968
+HAMSTER：off-domain数据训练高层2D EEF路径、低层3D策略执行。https://arxiv.org/abs/2502.05485
+3D HAMSTER：高层metric 3D轨迹指导下游控制。https://arxiv.org/abs/2606.31329
+UMI：相对轨迹、推理延迟匹配和跨机器人部署。https://roboticsproceedings.org/rss20/p045.html
+LeVERB：视觉语言latent与RL whole-body控制分层。https://arxiv.org/abs/2506.13751
+H-VLA：关键动作与运动生成、统一相机坐标动作空间。https://arxiv.org/abs/2609.22895
+Opt2VLA：多任务VLA输出几何与接触力、任务特定RL WBC执行。https://arxiv.org/abs/2609.23968
 
-因此不声称“首次VLA+WBC”“首次EEF动作”“首次层次化”“首次机器人无关表示/延迟处理”。预期差异是：在目标任务示范与目标控制器训练都不参与高层学习的约束下，研究冻结控制器可替换性的失效及反馈接口。上述组合的学术新颖性与实证价值仍需结果和持续文献核对；不能保证录用或优于已有全部方法。
+不声称首次VLA+WBC、首次EEF、首次分层、首次机器人无关表示或首次处理延迟。预期差异是在目标任务示范与目标控制器训练不参与高层学习的约束下，研究冻结控制器迁移的失效及执行反馈接口。方法组合的新颖性、性能价值和CVPR竞争力仍需实验和文献检验，不能保证优于已有全部方法或保证录用。
 
-## 3. 已有证据和当前阻断（不是实时服务器查询）
+## 3. 当前证据与主线阻断
 
-- CR1 e710f150：独立TRAIN诊断7条旧FAIL恢复、6个几何lineage；原139条codec无回归。R1统计SHA256=50d9672397fd0b5353da2011b9f9f568dc9c65c26fb271458f87d60b2d497fa8。无模型/物理/训练改善证明。
-- PV1最后B0=14/48（9成功、5有效失败），A/B optimizer=0。原共享CORR@2048权重已经存在，可以立即研究接口/执行器迁移，不必等新模型训练或通过80%发布门。
-- 2d6c4d68新收据：child12 / 679029.hopper-m-02为H/Hold_Types=s、execution hook rejected、exit -16，而非普通Q。没有PBS_READY、START_NEURAL或新模型/任务效果；约20–21秒prelaunch分配仍需记录。原H200 spent20473秒、reserved28860秒、PBS11/24尚是快照。
-- 同收据显示原local owner因只读SSH临时DNS失败退出，与站点hook失败是否相关未知。系统hold需要站点管理员处理，不能把客户端重试当作释放系统hold的权限。
-- CR2已独立批准并采用；12组零积分静态资格完成，首四条采集开始，尚无终局数据READY。CR2执行其原48h/32Core核时上限，不自动扩采。
-- src/go2arx5_vla/adapters/groot_to_wbc.py当前是离线转换器，使用SE3弧长preview，但锚定controller_timestamp、gripper按时间取值；不是已验证的目标任务闭环。已有预览/相对表示必须复用并正确归属，不假称新发明。
+- CR1 e710f150：诊断7条旧FAIL/6个独立于FIT的几何组恢复，旧139条codec无回归。R1 SHA256=50d9672397fd0b5353da2011b9f9f568dc9c65c26fb271458f87d60b2d497fa8。不是模型/物理成功的改进。
+- PV1最后已证B0=14/48，9成功/5有效失败，A/B新更新0。共享CORR@2048权重已存在，可直接做接口迁移实验，不必等新权重。
+- 2d6c4d68收据显示child12/679029.hopper-m-02为H、Hold_Types=s、execution hook rejected/exit -16，不是普通Q。无PBS_READY/START/模型/任务效果；约20–21秒prelaunch分配需保留。原spent20473 H200秒、reserved28860秒、PBS11/24仍为待实时刷新快照。
+- 原local owner另因只读SSH临时DNS失败退出；与站点hook拒绝是否因果相关未知。系统hold需管理员处理，不可由普通owner擅自qrls或绕过hook。
+- CR2独立批准且已采用；12组零积分静态资格完成，首四条实际采集开始，尚无终局READY。它保留原48h/32Core核时上限，不自动扩采。
+- 现有groot_to_wbc.py只是离线参考转换：使用SE3弧长preview，但controller_timestamp锚定、gripper按时间取值；不能称已具备目标WBC物体闭环。复用已有实现并正确归属。
 
-## 4. 本轮新授权：明确替代旧依赖，保留旧结论
+## 4. 本轮明确授权的变化与保留项
 
-### 4.1 现在批准的改变
+### 4.1 新决定
 
-A. 移除“B0全48是任何新源域优化器更新的前提”。已封存的PV1 A_CONTROL/B_COVERAGE配方可以在独立训练数据资格、全状态恢复、站点预算和安全满足后先训练；它们不读取部分B0表现调配方。B0全48仍是任何使用B0相对门槛的正式选模、PV1_VALIDATED/BETA和原LOCKBOX80的前提。旧14格和原协议历史不重写。
-B. 允许DEC1独立仿真研究：将已有CORR@2048/R0在源执行器及WBC团队交付的一个冻结目标执行器上执行T1/T2；允许本文两个版本的高层参考适配器。所有变化只进入新DEC1 scope/冷源码，不能偷偷热改旧B0。
-C. 允许为上述新scope建立最小任务overlay、真实相机/夹爪/状态/记录连接和CPU测试；仅复用已有合格物理资产。不得改原机器人质量/摩擦/惯量、夹爪PD、安全阈值，或私自修理WBC。
-D. DEC1结果独立报告，不需要先达到旧PV1的18/24或最终80%门才允许测量。它是科学实验，不是降低PV1发布等级。
-E. 本轮同语义工程修复、故障证据、CI、冷态续接、预算内阶段转换无需再次请求每一步GO。真正的站点权限、未知副作用、物理安全和不可支付资源仍阻断对应lane。
+A. 解除“B0全48必须先于任何新源域训练”的依赖。原先封存的A_CONTROL/B_COVERAGE可以在数据、真实样本、完整恢复、站点预算与安全合格后先训练；不得根据部分B0成绩改变配方。完整B0仍是任何baseline-relative正式选模、原PV1等级和LOCKBOX80的前提。
+B. 新增DEC1仿真scope：已有CORR@2048/R0在源执行器和WBC团队交付的一个冻结目标执行器上运行T1/T2；批准下述两个高层接口模式。新代码与结果独立版本化，不热改旧B0胶囊。
+C. 允许最小任务接线、相机/状态/记录器与CPU接口测试，仅复用已有合格物理资产；目标为模拟环境，不是真实机器人。
+D. DEC1可以在旧B0不完整、新权重未完成或未达到旧发布成功率门时运行，结果单列。这是取得科学证据，不是降低旧PV1发布要求。
+E. 工程修复、精确CI、冷绑定、预算内阶段转换无需逐项另请GO；真实站点权限、未知副作用、安全和预算硬限制仍有效。
 
-### 4.2 未获准的改变
+### 4.2 不允许改变
 
-不改WBC代码/权重/增益/cost/solver/腿策略，不引入force head、task-specific关节脚本或目标WBC示范训练高层；不训练world model、增加DAgger或扩CR2规模；不热换R0/R1，不改原任务成功谓词/32s截止/安全门，不将EEF10补零称为学得BASE意图。不运行真实机器人。
+WBC代码/权重/增益/cost/solver/腿策略、plant质量/摩擦/惯量、夹爪PD、原安全阈值/物体评分/32s任务时限保持。无force head、目标任务关节脚本、目标示范训练高层、world model、新DAgger、CR2扩采、EEF13补零假标签或真实机器人。
+建立显式新admission版本：旧authority仍按旧B0训练前门测试；DEC1授权可先训练，但完整B0缺失时仍禁止原baseline-relative选模/LOCKBOX。原历史14格、失败、scope和时钟不重写。
 
-本次授权只改变训练前置关系和新增有限解耦测量，不把所有旧门删除。增加版本化admission flag及测试：旧authority仍拒绝未完成B0的新更新；新DEC1 authority允许独立source训练，但没有完整B0时仍拒绝旧baseline-relative selection与LOCKBOX。
+## 5. 固定策略身份、接口方法和两种执行器
 
-## 5. 方法规格：一份VLA、两个接口模式、两个冻结执行器
+第一轮权重固定CORR@2048，checkpoint manifest SHA256：94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38。
+原R0 statistics：fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7。
+原新数据银行manifest：60f7c35a05766fe23974eba3a72f53ca4db5545a3768e6c1cfea164ab4e58294。
+输入/输出保持真实双RGB、语言、实际EEF/夹爪状态→H40 EEF10；原20Hz参考、Prefix8、2.5Hz模型重规划和推理精度。WBC自身频率按冻结交付披露，不伪装统一频率。
 
-高层继续使用原RGB/语言/实际EEF与夹爪输入，生成H40 EEF10，原2.5Hz重规划/20Hz参考/Prefix8等现役频率不变。第一轮固定权重CORR@2048，manifest=94ad4d0eaaa5bf7df0c55a7b0c9c5f9242aa9798b1只是错误示例，禁止使用；正确manifest必须为下述完整校验值。
-正确CORR manifest SHA256：94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38。
-原R0 stats：fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7。
-原新数据银行：60f7c35a05766fe23974eba3a72f53ca4db5545a3768e6c1cfea164ab4e58294。
+E_SOURCE为现有已注册的固定底座ARX5任务执行器。E_TARGET为WBC团队独立交付、版本权重配置冻结的Go2+ARX5真实动力学仿真执行器。第一轮只研究共同可达近场T1/T2；不要求学习导航/BASE，free-root平衡由原WBC承担。不得以理想跟踪、焊死base或覆盖关节状态假装目标WBC。目标未交付则TARGET_EXECUTOR_NOT_DELIVERED，只阻断target测量，不阻断source训练。
 
-### 5.1 两种执行器
+源/目标可能还同时改变身体、相机和动力学，因此准确称executor-domain transfer。纯WBC因果结论需要其他因素固定的后继对照；不能通过改source gains造一个“新WBC”。
 
-E_SOURCE：当前已注册、固定底座ARX5任务执行器。
-E_TARGET：WBC团队独立交付、版本/权重/配置冻结的Go2+ARX5真实动力学仿真执行器。第一轮只研究已声明共同可达的近场抓放和推送，不要求学得导航/BASE；free-root平衡由原WBC承担。不能换理想跟踪器、焊死base或覆盖关节状态冒充WBC。若团队尚未交付可执行目标，标TARGET_EXECUTOR_NOT_DELIVERED，source训练与接口CPU工作不停止。
+### 5.1 I_TIME：正确的时钟锚定对照
 
-两者不是必然仅控制器不同，视觉、身体、可达性与动力学也可能不同；结果应叫executor-domain transfer。只有控制其他因素后，才可归因为单纯WBC差异。纯控制器更换实验可由WBC团队以后交付，但不能VLA团队自己改gain造第二WBC。
+使用现役语义正确的时间锚定接口：相同frame/TCP/动作与观测频率，原preview转换、gripper时间序列。所有确证软件bug对两臂共同修复，不能保留错误基线。特别核对_prepare_chunk在source等于expected_source_frame、却不同wbc_frame时，传入frame_transform是否真的应用；一旦证实遗漏，两臂用同一修复。
 
-### 5.2 I_TIME对照
+### 5.2 I_PROGRESS：Execution-Grounded Trajectory Interface
 
-使用现役语义正确的时钟锚定参考接口：相同输出坐标、相同观测/重规划频率，几何preview按原方式转换，gripper按原时间序列。
-所有已确证的坐标/身份软件bug必须在I_TIME与I_PROGRESS两臂共同修复。尤其当前_prepare_chunk的expected_source_frame==chunk.source_frame且与wbc_frame不同分支，应检查是否真的应用了frame_transform；不要给基线故意保留漏变换。不能给基线错误frame/旧观测使新方法虚假获益。
+唯一研究干预是以实际TCP/夹爪反馈而非名义时间锚定当前已接纳轨迹的执行进度。概念上在局部单调有界SE3路径上投影实际状态：s_hat=argmin d_SE3(T_actual,gamma(s))，再使用原固定空间preview offsets。高层仍按同频率从新观测重规划。
 
-### 5.3 I_PROGRESS实验：Execution-Grounded Trajectory Interface
+进度局部窗口、SE3权重与停留规则只由source TRAIN/无物体CPU接口fixture固定，target结果不能调参。禁止读物体真值、接触oracle、Teacher phase或task ID来决定轨迹/夹爪。新chunk必须重新锚定，不把旧chunk的归一化s直接沿用。
 
-只改变锚定和阶段推进依据：以实际测得TCP姿态/夹爪状态，在当前已接纳chunk的局部、单调有界SE3路径上估计执行进度，按原空间preview offsets取参考。参数只能用source TRAIN轨迹/无物体接口fixture确定，提交前固定；不按target成功率校准，不读取物体真值/接触oracle/任务ID来决定动作。
+夹爪事件保留原模型开合顺序与幅值，只与相同路径进度一致绑定，不加task-specific抓取/释放脚本。静止段、纯旋转、重复waypoint、原地开合和停留必须有明确局部时间/索引规则，避免最近点投影死锁或跳过抓持。推理次数、最长物理时限不增加。
 
-概念：s_hat=argmin over a bounded forward neighborhood of d_SE3(T_actual,gamma(s))；高层新观测仍参与每次重规划，WBC仅跟踪已发布preview。不要把desired pose当actual pose。相邻chunk的进度要重新对齐，不能把上一chunk的归一化s直接当下一条曲线的进度。
+源侧冻结前通过：恒等/刚体frame变换，actual progress等于名义进度时两臂一致，局部不倒退/过跳，静止/旋转/夹爪平台段，chunk reset/stale/NaN/reject停止。所有实际参数形成一个固定配置，不在确认集搜超参。若WBC已内部做同样的路径推进，核对ABI避免双重进度估计；结果可能是接口等价或无额外收益。
 
-几何/夹爪事件的约束必须一并满足：只能保留原预测的开合顺序和幅值，不增加task-specific抓/推脚本；gripper转换在同一几何进度上发生。零位移、纯旋转、重复waypoint、停留和原地开合要有明确局部时间/索引规则，不能因最近点投影永远停在首点或跳过抓持。不得根据隐藏Teacher phase/物体到区真值触发释放。
+### 5.3 安全不能由重参数化绕过
 
-冻结实际实现前需通过：身份映射、刚体frame等变、反馈=理想进度时两臂一致、局部不倒退/不过度跳跃、静止/纯旋转/夹爪平台段、chunk切换/reset、stale/NaN/reject安全停止。具体局部窗口/权重/停留规则形成一个固定配置，不在确认集上搜索。
+两臂先检查原始完整H40合法性，再检查实际映射后的完整参考和将执行prefix。不能用平滑/重计时使原非法H40绕过原速度门。source沿原S1；target必须使用该真实模型对应、由WBC团队提供并冻结的安全/停止与预测链，不能把source专用shadow误称target安全。
 
-此方法是待验证的高层接口干预，不是已经成功的新模块，更不是WBC控制律改进。若现有WBC已经内部推进相同路径，必须核对接口避免重复相位估计；以实际ABI为准，必要时报告方法在该控制器下等价/无额外收益。
+两臂同推理精度、噪声张量/次数上限、实际32s任务时长、20Hz观测和原保持谓词；不延长到成功、不best-of-N、不修改夹爪/物理。wall-time通信等待与sim-time分开，不能声称实时。WBC不能接受语言/T1-T2 ID选择两套任务脚本。
 
-### 5.4 安全和可比性
+## 6. 首轮64格核心对照：无需新训练即可取得解耦结论
 
-两臂都先检查原始完整H40参考合法性；不能通过重新计时将原来非法的H40包装成合法绕过旧速度门。实际映射/重参数化后的完整参考和每个将执行的prefix仍按同一原数值门及对应执行器的冻结native安全检查验证。当前S1若只支持source模型，不能直接宣称它保护target；target必须有WBC团队提供的等价安全/停止链和对应仿真预测，算法/阈值不放宽。
-两臂相同推理精度、噪声张量、推理次数上限、任务物理时间32s、20Hz观测、持久保持谓词和总预算。不延长到成功、不挑seed、不best-of-N。通信等待wall-time与模拟时间分开，不能声称实时控制。WBC不接受语言或T1/T2 ID切换到两个任务脚本；夹爪仍由高层输出控制。
+### 6.1 Commissioning与封存
 
-## 6. 最小实验：先用已有模型拿到结论，不等待新训练
+最多8次接口任务：2个source TRAIN或专用commissioning几何×2任务×2执行器。target仅用于输入/设备/安全资格，不训练高层、调WBC或挑容易确认场景。任何target任务驱动的接口调参都应披露并将“零目标适应”降为calibrated transfer。
 
-### 6.1 预实验与数据隔离
+随后在任何新确认结果前封存8个独立新几何：2个既有外观×2方向×2距离。NEAR0.15–0.18m、FAR0.19–0.22m；每槽32个事前静态候选。与所有旧TRAIN/C1、CR1/CR2/COV1、PV1 DEV/CONFIRM/LOCKBOX及同几何兄弟排重。只用获准几何索引，不读评价图像/结果；仅按共同声明工作域、静态安全/可达/视野/评分输入条件选，不按Teacher或policy成功筛选。池耗尽报告域不可行，不无界换seed。
 
-在source TRAIN/专用commissioning几何上最多8次真实任务/接口资格：2个几何×2任务×2执行器。target的这部分仅为设备就绪与接口资格，不训练高层、调target WBC或按结果选容易确认场景；如有target特定适配/参数选择必须披露且降为calibrated transfer，不能声称零目标适应。所有物理启动计数。
+### 6.2 64格矩阵
 
-确认集在读取新结果前封存8个独立新几何组：2个既有外观×2方向×2距离。准确slot/32个有限静态候选池/排重规则，复用CR2已修正合法几何域NEAR0.15–0.18、FAR0.19–0.22。需与旧TRAIN/C1、CR1/CR2/COV1、PV1 DEV/CONFIRM/LOCKBOX和所有同几何兄弟排重。只能按接口共同工作域、物理静态安全/可达性/视野/评分输入合同选，不依Teacher/task成功筛选。池耗尽说明任务域不可行，不改分母或无界换seed。
+8几何×2任务×2执行器×2接口×1预定噪声bank=64格。
+每个执行器/接口16次，逐任务8次。同几何内相关，不能称64独立场景。固定噪声bank在四单元复用事前张量，按决策序号读取，不给失败额外抽样。
 
-### 6.2 固定64格核心矩阵
+第一轮只用已固定CORR@2048/R0，不选择新中间checkpoint；不等待新训练、更多数据或B048。真实初态物体/目标在统一task frame配对，但各执行器用自己的实际机器人/相机观测，不能伪造后续RGB相同。以几何block交错执行，避免先看一方法结果再改另一方法。
 
-8几何 × T1/T2 × E_SOURCE/E_TARGET × I_TIME/I_PROGRESS × 1预定噪声bank = 64格。
-每个执行器/接口有16条任务，逐任务8条；一个几何内的两任务及所有对照成组相关，不能把64条叫64独立场景。固定一个新的噪声bank并在四单元对照复用相同事前张量，噪声随着已发生决策按索引取；不能为失败轨迹追加样本。实际初始物体/目标在统一task frame匹配、真实相机/robot状态各自渲染，不伪造两执行器后续观测完全一致。
+目标未ready不能用source重复凑矩阵。完整64即使负结果也交付；有效失败不重跑，工程未完保留且按有限规则替补。新target确认数据不能回流训练。
 
-首轮矩阵只用已存在CORR@2048/R0，不选中间checkpoint，不等待新数据/BC loss/B0全48或目标Teacher高成功率。目标接口未ready时不能将source重复四次凑64；产出明确缺失矩阵，训练lane可继续。
+### 6.3 主要结果和允许的结论
 
-运行顺序按预注册几何block交错，避免先跑完一个方法后基于失败调另一方法。source固定训练数据独立于target确认；高层和接口配置的hash在打开确认集前封存，target闭环结果不回流训练。
+报告任务成功矩阵、逐任务/方向、H40参考拒绝、S1/target-native拒绝、抓持/无抬升/释放/脱离/保持、实际跟踪残差与进度延迟、模型/控制器hash、target任务训练示范数和实际GPU/CPU成本。
+Delta_target=SR(target,progress)-SR(target,time)。Delta_source同理。Interaction=Delta_target-Delta_source，仅说明这两个执行域上的交互，不能排除相机/身体等改变。
 
-### 6.3 主要指标与结论规则
+以8个几何block做配对与聚类重采样区间，不把两任务当独立机器人场景。源策略弱时不能以“小迁移差”宣称鲁棒；单噪声bank不支持随机性稳健结论。主要区间跨0则PILOT_SIGNAL_OR_INCONCLUSIVE，不宣称显著。仅目标成功但接口无增益，结论是初步可复用/无额外接口收益；无目标执行器数据则没有主要解耦证据。
 
-主要结果是完整物体任务成功，分别报告两个任务/两个执行器/两个接口；安全/参考拒绝、释放/无抬升/撤离/保持等原谓词作为机制分解。
-Delta_target = SR(E_TARGET,I_PROGRESS)-SR(E_TARGET,I_TIME)。
-Delta_source = SR(E_SOURCE,I_PROGRESS)-SR(E_SOURCE,I_TIME)。
-Interaction = Delta_target-Delta_source：只作为任务/执行域上的交互证据，不冒充纯动力学因果。
-同时报告源到目标绝对下降、目标示范训练数=0的来源审计、目标WBC/高层hash不变、实际跟踪残差与进度滞后；源成功率低时不以很小迁移差宣称鲁棒。
+早期继续线索不是验收成功率门：两任务均出现target完整成功、无native故障/泄漏，Delta_target为正且无明显相反任务趋势，则值得扩大确认。否定或不确定结果同样发布，不事后调整标准。
 
-按8个几何block做成组重采样区间/配对结果，单个噪声bank不支持随机种子鲁棒性主张。若主要区间跨0，称PILOT_SIGNAL_OR_INCONCLUSIVE，不把点估计包装成显著改善。无足够source能力/target接口不可行/缺数据分别为SOURCE_POLICY_LIMITED、TARGET_EXECUTOR_BLOCKED、INCOMPLETE，不“证明解耦无效”。
+### 6.4 可选32格stress
 
-初步继续门（不是发表/部署门）：I_PROGRESS在两任务均有target完整成功、无native安全故障、无测试泄漏；若Delta_target为正且两任务没有明显相反趋势，则值得安排后续更大新确认。完整64格即使负结果也必须交付，不依结果裁减样本。旧PV1 BETA/VALIDATED不由此获得。
+仅在最初plan已预登记、核心64完整且预算充足后：同8几何×2任务×2接口，仅target加入100ms执行接口延迟，共32格。不是调WBC、改物理频率或放宽watchdog；须有明确的延迟buffer/当前状态安全检查CPU资格。无法保持原安全语义则NOT_RUN。它是已打开几何的预注册stress，不叫新盲测。不同时追加语言/物体/world-model实验。
 
-### 6.4 后续消融只选一项且受总预算约束
+## 7. 原源域A/B训练可以前置，但不污染首轮解耦对照
 
-核心64完成之后，若剩余预算完整可支付，最多增加32格高层反馈消融：同8几何×2任务×2接口，仅target，使用预封存的额外100ms执行接口延迟（不是改变WBC参数/实际物理积分频率）。必须在最初plan中预登记并通过独立安全/时序fixture；未能保持原安全语义则不运行。它是已公开核心几何上的预注册stress，不是新的独立测试集。不同时增加新语言/物体/WorldModel。
+新authority允许原A/B先于B0全48更新：同CORR父、独立同配方optimizer、R0、139新数据银行/原C1配比、4096步/臂、1024 TRAIN-only探针、原BF16/TF32设置与batch32，全状态checkpoint/真实消费/恢复保持。源域配方不能看部分B0或DEC1目标结果改变。
 
-## 7. 源域训练与第一版policy：可以先做，但不等它才测解耦
+事前调度规则：两个执行器和接口ready且有合法GPU时，优先已有CORR的64格矩阵；target未交付而训练资格ready时，优先两份源域4096端点。不能因为B0不完整让GPU空转，也不依target成绩选择先训哪臂。可在同一合法allocation内衔接已预登记的阶段，完整预算与8h墙钟必须满足；健康同allocation不因每个checkpoint重复资格。
 
-新authority明确允许原A_CONTROL/B_COVERAGE先于B0全48更新。两臂仍同CORR父、新独立optimizer、原R0、原139新银行/原C1配比、4096更新、1024 TRAIN-only探针、原BF16/TF32区分、有效batch32。没有新统计量/动作head/样本配比；真正的更新/消费/完整checkpoint与精确resume逐项落账。可在同一合法allocation内按可支付时间完成多个预登记阶段，资格不因每个checkpoint重复；不得超单job8h。
+新端点不替换本次预选CORR矩阵。未来新赢家的迁移需新预登记确认；完整B0和两臂DEV仍是原baseline-relative发布条件。原旧可选P3/额外seed暂停；剩余预算不够时明确哪些旧承诺未完成，不能把DEC1结果称为原PV1已验收。
+CR2按其独立GO继续且不挤占活跃主线；R1神经适配以后单独研究，不热混入DEC1。
 
-调度的事前规则：两执行器与新接口已ready且有合法GPU时，优先固定CORR的64格核心；target未交付而训练全部资格具备时，优先产生两份新4096端点，不因B0不完整空转。不能根据target成绩决定先训练哪臂或重新挑配方。
+## 8. 本轮有限预算：既有预算内重分配，不无限追加
 
-这些源域新端点是研究资产，不自动替换本次64格的预选CORR；要用新赢家验证迁移，须在下一预登记确认集上比较，不能看过DEC1 target结果后替换本矩阵模型。完整B0/两臂DEV可在新计算预算余量内继续，原baseline-relative发布仍须全48和原80格最终门。若资源不能同时容纳所有旧可选计划，暂停P3/额外seed及重复旧指标，报告哪些旧承诺本轮未完成；不虚构PV1已闭合。
+全项目原PV1累计96 GPU分配小时、24PBS、单卡、旧截止与20小时final保护不增加。DEC1新增目标仿真/接口实验可从原未用source episode/CPU配额重分配，作为显式新分类记账，不删除任何已用或预留费用；CR2独立预算不借用。
 
-CR2沿原授权完成固定R1小银行，不热混入DEC1。旧CORR+新decoder不是原模型；R1神经适配作为以后独立问题，不加入本轮解耦干预。
+DEC1上限：48 GPU分配小时（包含提前的A/B合计8192步，不另加训练预算）、8次新GPU作业提交、8192新optimizer updates、14000神经生成、136物理starts（8commissioning+64核心+32可选stress+16原TRAIN探针+16工程替补）、5000000 live/shadow/reconstruction总ticks、12000构造、96Core核时、96Hopper CPU核时、8local核时。Core最多4核，单科学owner；Hopper/Core新输出各64GiB、local8GiB、新传输64GiB。始终取本上限、原累计扣除spent/reserved/final保护后余量、站点权限三者最小。
 
-## 8. 本轮有限预算和原预算关系（实际授权，不是无限追加）
+每格工程替补最多一次、总16，必须确证工程而非策略失败且已闭合副作用。target WBC真实CPU成本未知则先用commissioning计量，不能把source耗时当target上界。预算不足先省stress/可选工作，不缩核心64到有利子集。
 
-DEC1是原PV1预算内的明确科研重分配：总H200/可等价核准GPU累计96小时、24PBS、单卡和旧截止不增；原20小时final保护不挪用。新目标仿真/接口试验允许从原未用source episode预算转为DEC1明细，原每次作用与费用不能漏记或重置。原CR2单独已批准的资源不拿来暗补DEC1。
+旧held作业reservation和可能恢复的占用需核清；不是无当前GPU就可并行开第二卡。备用GPU仅限用户已有合法使用权、已注册许可的资源，有界数值/精度/模型兼容后才可使用，计入本48/原96且全程单卡。不得购云卡、发出新的付费承诺或向未授权主机转移私有模型；平台不同则四单元全部匹配该平台，不混用旧Hopper结果。无法排除held恢复并行则只准备备用方案，不实际使用。
 
-本轮DEC1执行上限：48 GPU分配小时（含允许提前的两臂8192更新，不额外再加一份训练预算）、8次新增GPU提交、8192新optimizer updates、14000模型生成、136物理starts（8commissioning+64核心+32可选stress+16原TRAIN探针+16确证工程替补）、5,000,000总live/shadow/reconstruction ticks、12000构造、96 CoreLab核时、96 Hopper CPU核时、8local核时。最多4个Core CPU，始终一个科学调度owner。新输出Hopper/ Core各64GiB、local8GiB、总新传输64GiB，均还必须满足原累计更小余量与站点配额。
+原时间不重置：10月25日02:29:56SGT停新job/候选；14:29:56停新训练；18:29:56停新物理；10月26日02:29:56关账。10月23日20:00SGT提交第一份真实对照或精确阻断表，硬截止交完整或诚实partial包；这是决策时点，不是成功保证。
 
-每格工程替补至多一次、总16，仅原生确证的工程不完整且副作用闭合；有效策略/安全门拒绝不能重试。target实际WBC成本未知时先commissioning实测；不能用source速度假定完整目标矩阵可支付。若136项不是都能支付，先完整核心64，省略明确可选stress，而不是把核心裁成有利子样本。
+## 9. 两团队交付与工程自助
 
-实际支出门=min(本卡剩余,原PV1所有已用/预留/final保护后剩余,站点限制)。旧held job预约未结清时继续占用预算和单卡约束，不能凭无当前GPU占用当作不会再次启动。原clock：10月25日02:29:56SGT停新job/候选；14:29:56停新训练；18:29:56停新物理；10月26日02:29:56全部关账。DEC1不得重置T0；到10月23日20:00SGT交第一份实测结果或明确阻断表，到硬截止交完整或诚实partial科学包。这些是决策时点，不是成功保证。
+WBC团队提供EXECUTOR_MANIFEST：机器人/权重/config/checksums、参考ABI/frame/TCP/夹爪、固定preview offsets、实际EEF/时间反馈、reset/reject/stop、安全链、通用工作域与运行入口；说明底层训练任务/数据依赖。高层团队提供POLICY_MANIFEST：共享权重、processor/stats、source数据lineage、真实提交参考标签、观测与推理/噪声/频率、两个接口配置。
 
-同一新目标研究若需要不同GPU资源：只允许在用户已有合法使用权、项目注册许可的资源上先做有界兼容性资格，所有GPU时/费用仍纳入本48/原96，单卡；不购云卡、不转移秘密到未授权主机。必须证明held作业不可能并行恢复、旧占用与reservation可核清；若不能，就只准备备用方案，不实际启用第二GPU。平台/精度变化必须同一核心四单元一致并单列，不能把旧Hopper结果直接当匹配结果。
+必要rigidframe/相机同步校准与task-blind接口资格允许，target任务性能调参不属于零适应主张。WBC未交付时不理想化替代，不在上层改控制器；一个执行器的两个函数名字不构成controller-disjoint测试。
 
-## 9. WBC团队的交付与高层团队边界
+当前工程先刷新679029的H/Q/R/F、两端lease、tracejob和pending，有限恢复唯一owner的只读DNS/SSH状态机，不开第二dispatcher。系统hold不在普通owner权限：准备准确job/time/hook拒绝和无launcher证据的脱敏管理员请求，通过已有合规支持渠道按权限处理；不擅自qrls/改hook/伪造认证/重复qsub绕过问题。若站点允许删除准确的自有held作业，且无科学效果、费用和原件可保留，可按本新调度授权安全终止该已阻断job，确认终态后再冷续接；不取消健康R任务。
 
-WBC团队交付EXECUTOR_MANIFEST：机器人/控制器版本、权重/config/checksums、实际参考ABI/frame/TCP/夹爪约定、原preview offsets、实际EEF与时间反馈、reset/reject/stop与原安全链、通用可行工作域及运行入口。说明WBC训练数据/任务依赖；独立冻结不等于整个系统没用过机器人数据。
-高层团队交付POLICY_MANIFEST：共享权重、processor/stats、图像与state模态、source数据lineage、submit-vs-achieved标签、推理精度/噪声/频率与接口版本。校准只限必要rigidframe/传感器同步和task-blind接口资格，任何target task表现驱动调参必须披露。
+未来提交前核对最后写入后的权限/hash、完整RGB/numeric、模型alias、frame/codec、精确CI、quota/认证、FD和预算。未知qsub/release/install/update先journal，不盲重试。相同故障最多3轮有实质变化的CPU修复后报告精确阻断，不用昂贵分配测试能CPU发现的静态错误。
 
-不要求WBC团队在本计划内修改控制器。其交付未到，不以理想执行或某个source gain扰动冒充第二控制器。若只有一个真实执行器，论文只能报告source task-space控制，不能把软件两个函数名称为VLA-WBC解耦验证。
+## 10. 交付、采用与论文节奏
 
-## 10. 工程自助与当前站点hold的正确处理
+固定小工件：DEC1_NATIVE_ADOPTION_AND_BUDGET.json、DEC1_EXECUTOR_POLICY_INTERFACE_MANIFESTS.json、DEC1_SOURCE_ONLY_INTERFACE_FREEZE.json、DEC1_EVALUATION_PANEL_SEAL.json、DEC1_ALL_ATTEMPTS_AND_PAIRED_RESULTS.json、DEC1_FINAL_SCIENCE_REVIEW.md、DEC1_RESOURCE_FINAL.json。原始数组/视频留注册私有存储，Git只发布脱敏指标、hash与索引。
 
-先刷新679029准确H/Q/R/F、owner和两端lease、tracejob、pending效果及现有CR2 worker。恢复唯一owner的只读DNS/SSH有限退避与状态机，不启动第二dispatcher；故障指纹相同的重复密码/submit不能称修复。
-系统hold不在普通owner释放权限内：准备包含准确job/time/hook-rejected/无launcher证据的脱敏管理员请求，沿用户已有站点支持渠道按其权限处理；不擅自qrls、改hook/认证配置或伪造proof。管理员未授权解除/处置前不重复qsub绕过同一问题。若站点允许删除确切自有held job且原owner完成无科学作用与计费归档，可在本新调度授权内安全终止该已阻断作业并核对真实终态后冷换下一作业；不取消健康R科学作业、不删除旧证据。无法获得站点许可则SITE_HOLD_REQUIRES_ADMIN，不无限折腾研究代码。
+owner首次回DEC1_AUTHORITY_ADOPTED或精准native blocker，明确B0门修订、实际余量、target交付和下一source训练/固定CORR矩阵动作。不要再次把整个计划置为等待新科学GO，也不能声称文件发布就是原生采用。重要新结果回#11，工程/site阻断回#47，不再新建重复LG调度体系。
 
-未来提交前静态检查final binder权限/哈希、RGB与numeric全成员、模型alias、state/frame/codec、sourceCI、quota/认证、FD关闭及自身资源余量。未知qsub/release/install/update先journal对账，不能盲重试。普通同语义修复自主，最多3轮有实质变化的CPU诊断后报告最小阻断；不得烧H200来测试已可CPU复现的文件错误。
+结果分类：SUPPORTED_PILOT、NO_ADDITIONAL_INTERFACE_BENEFIT、SOURCE_POLICY_LIMITED、TARGET_EXECUTOR_BLOCKED、INCOMPLETE_RESOURCE_OR_SITE。没有两执行器结果就不声称解耦；不确定区间和负结果照实保留。
 
-## 11. 交付、决策与论文节奏
+CVPR2027官方注册11月10日AoE、全文11月16日AoE，约为新加坡11月11日/17日19:59：https://cvpr.thecvf.com/Conferences/2027/CallForPapers 。先用本阶段产生有限实证，10月26日后20+几何、多噪声/seed、语言泛化、第三执行器或硬件等论文确认实验需独立资源安排，不自动超出本预算。方法/相关工作/论文表格和两团队接口沟通现在并行。
 
-最少固定工件：DEC1_NATIVE_ADOPTION_AND_BUDGET.json、DEC1_EXECUTOR_POLICY_INTERFACE_MANIFESTS.json、DEC1_SOURCE_ONLY_INTERFACE_FREEZE.json、DEC1_EVALUATION_PANEL_SEAL.json、DEC1_ALL_ATTEMPTS_AND_PAIRED_RESULTS.json、DEC1_FINAL_SCIENCE_REVIEW.md、DEC1_RESOURCE_FINAL.json。必要私有raw数组/视频留注册存储，Git只有脱敏指标/完整hash/来源。
-
-首次owner回DEC1_AUTHORITY_ADOPTED或准确native blocker：明确旧B0门已按本新决定改为选模前、剩余预算、目标WBC是否可执行、source训练或固定CORR矩阵下一动作。不能把本计划再次标成全局等待新GO；也不能把发布当成已经使用GPU。每次新科学结果合并回#11，工程/站点阻断回#47，不继续创建LG05/LG06等平行owner文档。
-
-结果分类：SUPPORTED_PILOT、NO_ADDITIONAL_INTERFACE_BENEFIT、SOURCE_POLICY_LIMITED、TARGET_EXECUTOR_BLOCKED、INCOMPLETE_RESOURCE_OR_SITE。无显著收益就明确说没有额外接口收益；有目标成功但无反馈优势，只能主张初步可迁移性；没有两个执行器真实任务数据，就没有主要解耦证据。
-
-CVPR2027官方注册11月10日AoE、全文11月16日AoE（对应新加坡11月11日/17日19:59附近）：https://cvpr.thecvf.com/Conferences/2027/CallForPapers 。本阶段先取得有限真实科学结论，10月26日以后扩大20+几何、多噪声/训练seed、语言改写、第三执行器或硬件的论文确认实验，需要独立有资源的后继范围；它们不是本次自动追加支出。论文写作/相关工作/接口团队沟通现在并行，不需要等policy发布。
-
-最终原则：贡献主张必须随证据降级或升级。训练数据不含关节标签不证明动力学完全无关；冻结不证明控制器可替换；没有target示范训练不等于没做target校准；两任务语言区分不等于开放世界语义。我们要交付的是在这些明确边界下可复现的VLA-WBC解耦结论，而非新的模块示意图。
+贡献随证据升级或降级：无joint标签不证明动力学完全无关；冻结不证明可替换；无target示范训练不等于无target校准；两任务条件化不等于开放世界。目标是尽快交付这些明确边界下真实的VLA-WBC解耦科学结论。
