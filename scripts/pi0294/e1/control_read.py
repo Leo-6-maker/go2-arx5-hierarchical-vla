@@ -1,4 +1,4 @@
-"""Bounded read-only recovery for NFS rename visibility; never retries mutations."""
+"""Bounded read-only recovery for NFS visibility or transient file-table pressure."""
 import errno
 import time
 
@@ -9,5 +9,5 @@ def read(path):
     for attempt in range(6):
         try:return original_read(path)
         except OSError as exc:
-            if exc.errno not in (errno.ENOENT,errno.ESTALE) or attempt==5:raise
+            if exc.errno not in (errno.ENOENT,errno.ESTALE,errno.ENFILE,errno.EMFILE) or attempt==5:raise
             time.sleep(.1)

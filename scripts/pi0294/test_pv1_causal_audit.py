@@ -157,7 +157,8 @@ class CausalAudit(unittest.TestCase):
         with self.assertRaises(PermissionError):self.proof()
         core=audit.core(self.core,self.identifier,engineering=True);hopper=audit.hopper(self.hopper,core)
         self.assertEqual((core['draws'],core['executed_ACKs']),(1,1))
-        self.assertFalse(core['terminal_unused_observation']['model_query_generated'])
+        self.assertEqual(core['terminal_unused_observation']['model_query_generated'],'UNKNOWN_UNTIL_NATIVE_READBACK')
+        self.assertFalse(hopper['terminal_unused_observation_model_query_generated'])
         with self.assertRaises(PermissionError):audit.join(core,hopper)
         result=audit.join_engineering(core,hopper)
         self.assertEqual(result['status'],'PASS_INDEPENDENT_ACTUAL_ENGINEERING_EFFECT_CLOSURE_NOT_POLICY_RESULT')
@@ -174,3 +175,29 @@ class CausalAudit(unittest.TestCase):
         (self.folder/'body_rgb/0008.png').write_bytes(b'WRONG_UNUSED_CAMERA')
         with self.assertRaisesRegex(PermissionError,'UNUSED_OBSERVATION_ACTUAL_CAMERA'):
             audit.core(self.core,self.identifier,engineering=True)
+
+    def test_complete_generated_tail_is_accounted_without_inventing_an_install_or_ACK(self):
+        saved={n:(self.resident/n).read_bytes() for n in ('inbox/CPU_QUERY_1.json','outbox/CPU_QUERY_1.json',
+            'receipts/CPU_QUERY_1.json','receipts/CPU_QUERY_1.npz','QUERY_STATE.json')}
+        self.engineering_fixture()
+        for name,raw in saved.items():(self.resident/name).write_bytes(raw)
+        core=audit.core(self.core,self.identifier,engineering=True);hopper=audit.hopper(self.hopper,core)
+        self.assertEqual(hopper['draws'],2);self.assertEqual(hopper['executed_ACKs'],1)
+        self.assertEqual(hopper['engineering_generated_uninstalled_draws'],1)
+        self.assertEqual(hopper['records'][-1]['classification'],'ENGINEERING_GENERATED_UNINSTALLED_ZERO_LIVE_TAIL')
+        result=audit.join_engineering(core,hopper)
+        self.assertFalse(result['policy_outcome_valid']);self.assertFalse(result['replacement_admitted'])
+        self.assertEqual(result['engineering_generated_uninstalled_draws'],1)
+        self.assertFalse((self.relay/'commands/001.json').exists());self.assertFalse((self.relay/'acks/001.json').exists())
+        with self.assertRaises(PermissionError):audit.join(core,hopper)
+        bad=deepcopy(core);bad['terminal_unused_observation']['live_integrations']=1
+        with self.assertRaises(PermissionError):audit.join_engineering(bad,hopper)
+
+    def test_uninstalled_tail_wrong_previous_ack_or_wrong_saved_camera_is_not_effect_closure(self):
+        saved={n:(self.resident/n).read_bytes() for n in ('inbox/CPU_QUERY_1.json','outbox/CPU_QUERY_1.json',
+            'receipts/CPU_QUERY_1.json','receipts/CPU_QUERY_1.npz','QUERY_STATE.json')}
+        self.engineering_fixture()
+        for name,raw in saved.items():(self.resident/name).write_bytes(raw)
+        core=audit.core(self.core,self.identifier,engineering=True)
+        path=self.resident/'inbox/CPU_QUERY_1.json';v=read(path)['body'];v['previous_ack']=None;write(path,sealed(v))
+        with self.assertRaises(PermissionError):audit.hopper(self.hopper,core)

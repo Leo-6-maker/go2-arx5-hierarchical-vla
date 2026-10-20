@@ -1,5 +1,16 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**Child10 is terminal after two valid results and a separate ENFILE interruption.**
+[Exact engineering terminal, resource settlement and pending effect closure](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_10_ENFILE_TERMINAL_PENDING_EFFECT_CLOSURE.json).
+678041 isF/exit1; owner settled3074H200s and exited. Total20275H200s,
+reservation0, PBS9,queries1054,updates0. B0 stays14/48:9success/5valid failures.
+F2/000/T1's14.4s interruption is ENGINEERING_INCOMPLETE after a login-side
+file-table exhaustion error. Preserve37generated draws/36executed prefixes;
+close the generated-but-uninstalled tail explicitly before any replacement.
+No live native safety fault is recorded. DATA new dispatch waits for exact
+engineering-effect closure/priority reconciliation, with originalT0 unchanged.
+Do not treat the R/healthy-owner paragraphs below as current native state.
+
 **B0 now14/48:9successes and5valid task failures;34conditions remain.**
 [Second child10 condition and independent causal evidence](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_10_SECOND_AUDITED_CONDITION.json).
 F1/004/T2/N294101 stopped at29.6s under originalS1 predicted-contact rejection,

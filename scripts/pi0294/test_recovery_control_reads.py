@@ -13,6 +13,18 @@ control_read=sys.modules[recovery_neural.read.__module__]
 
 
 class RecoveryControlReadTests(unittest.TestCase):
+    def test_transient_file_table_pressure_retries_only_same_read_not_rpc_mutation(self):
+        for code in (errno.ENFILE,errno.EMFILE):
+            with patch.object(control_read,'original_read',side_effect=[OSError(code,'file table'),{'exact':'readback'}]) as read,\
+                    patch.object(control_read.time,'sleep') as sleep:
+                self.assertEqual(control_read.read('fixed-read-only-binding'),{'exact':'readback'})
+                self.assertEqual(read.call_args_list,[unittest.mock.call('fixed-read-only-binding')]*2)
+                sleep.assert_called_once_with(.1)
+            with patch.object(control_read,'original_read',side_effect=OSError(code,'persistent')) as read,\
+                    patch.object(control_read.time,'sleep') as sleep:
+                with self.assertRaises(OSError):control_read.read('fixed-read-only-binding')
+                self.assertEqual(read.call_count,6);self.assertEqual(sleep.call_count,5)
+
     def test_recovery_uses_existing_bounded_control_reader(self):
         self.assertEqual(recovery_neural.read.__module__,'scripts.pi0294.e1.control_read')
         fresh={'run_uuid':'owned','observed_epoch':123}

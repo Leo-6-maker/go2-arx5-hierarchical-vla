@@ -73,7 +73,9 @@ def core(root,identifier,*,engineering=False):
                     raise PermissionError('PV1_ENGINEERING_UNUSED_OBSERVATION_ACTUAL_CAMERA_HASH')
             terminal_extra=dict(sequence=count,observation_sha256=packet['sha256'],
                 episode_uuid=body['episode_uuid'],snapshot_uuid=body['payload']['snapshot_uuid'],
-                model_query_generated=False,action_installed=False,live_integrations=0)
+                payload_sha256=digest(body['payload']),anchor_sha256=digest(body['payload']['state_eef10']),
+                state_eef10=body['payload']['state_eef10'],
+                model_query_generated='UNKNOWN_UNTIL_NATIVE_READBACK',action_installed=False,live_integrations=0)
     for kind,n in [('observations',observations if engineering else count),('commands',executed+int(s1_veto)),
             ('intents',executed+int(s1_veto)),('acks',executed)]:_names(relay/kind,n)
     previous=None;entries=[];snapshots=set();episode=None
@@ -156,12 +158,23 @@ def hopper(root,core_proof):
             or sha(allocation[0].parent/'PV1_NATIVE_ENDURANCE_AND_TRANSPORT.json')!=proof['receipt_sha256']):
         raise PermissionError('PV1_CAUSAL_AUDIT_SAME_JOB_ORIGINAL_QUALIFICATION_RECEIPT')
     state=read(folder/'QUERY_STATE.json');draws=[v for v in state['queries'] if v['episode_uuid']==episode]
-    if (len(draws)!=core_proof['draws'] or len({v['query_uuid'] for v in draws})!=len(draws)
+    entries=list(core_proof['entries']);extra=core_proof.get('terminal_unused_observation')
+    engineering=core_proof['status']=='PASS_ACTUAL_ENGINEERING_PREFIX_EFFECTS_NOT_VALID_POLICY_OUTCOME'
+    tail=int(engineering and extra is not None and len(draws)==core_proof['draws']+1)
+    if tail:
+        candidates=[v for v in draws if v.get('sequence')==extra['sequence']]
+        if len(candidates)!=1 or 'response_sha256' not in candidates[0]:
+            raise PermissionError('PV1_ENGINEERING_ONLY_ONE_COMPLETE_GENERATED_UNINSTALLED_TAIL')
+        previous=entries[-1]['ACK_sha256'] if entries else None
+        entries.append(dict(extra,previous_ACK_sha256=previous,query_uuid=candidates[0]['query_uuid'],
+            action_sha256=candidates[0]['response_sha256'],request_sha256=None,ACK_sha256=None,
+            classification='ENGINEERING_GENERATED_UNINSTALLED_ZERO_LIVE_TAIL'))
+    if (len(draws)!=core_proof['draws']+tail or len({v['query_uuid'] for v in draws})!=len(draws)
             or state['episodes'][episode]['next_sequence']!=len(draws)
             or any('error' in v or 'response_sha256' not in v for v in draws)):
         raise PermissionError('PV1_CAUSAL_AUDIT_ALL_AND_ONLY_COMPLETED_NATIVE_CONDITION_DRAWS')
     draws={v['query_uuid']:v for v in draws};records=[]
-    for entry in core_proof['entries']:
+    for entry in entries:
         key=entry['query_uuid'];query_packet=read(folder/'inbox'/(key+'.json'));query=unseal(query_packet)
         action_packet=read(folder/'outbox'/(key+'.json'));action=unseal(action_packet)
         receipt=read(folder/'receipts'/(key+'.json'));record=draws[key]
@@ -198,6 +211,8 @@ def hopper(root,core_proof):
     return dict(status='PASS_ACTUAL_NATIVE_GENERATION_FIXED_NOISE_AND_CAUSAL_ACTION_CHAIN',
         attempt_id=row['attempt_id'],job_id=model['job_id'],identity=identity,draws=len(records),
         records=records,executed_ACKs=core_proof['executed_ACKs'],Teacher_takeover=False,
+        engineering_generated_uninstalled_draws=tail,
+        terminal_unused_observation_model_query_generated=bool(tail) if engineering and extra is not None else None,
         new_integrations=0,new_model_queries=0,noise_RNG_reexecuted=False)
 
 
@@ -206,7 +221,7 @@ def _join(core_proof,hopper_proof,engineering):
     if (core_proof['status']!=expected
             or hopper_proof['status']!='PASS_ACTUAL_NATIVE_GENERATION_FIXED_NOISE_AND_CAUSAL_ACTION_CHAIN'
             or core_proof['attempt_id']!=hopper_proof['attempt_id']
-            or core_proof['draws']!=hopper_proof['draws']
+            or core_proof['draws']+(hopper_proof.get('engineering_generated_uninstalled_draws',0) if engineering else 0)!=hopper_proof['draws']
             or core_proof['executed_ACKs']!=hopper_proof['executed_ACKs']
             or core_proof['model_ready']['identity']!=hopper_proof['identity']):
         raise PermissionError('PV1_CAUSAL_AUDIT_EXACT_TWO_SITE_READ_SIDE_PROOFS')
@@ -226,4 +241,11 @@ def join_engineering(core_proof,hopper_proof):
     if row['status']!='ENGINEERING_INCOMPLETE' or row['pipeline_trustworthy'] is not False:
         raise PermissionError('PV1_ENGINEERING_EFFECT_CLOSURE_CANNOT_RELABEL_POLICY_OUTCOME')
     result=_join(core_proof,hopper_proof,True)
-    return dict(result,policy_outcome_valid=False,replacement_admitted=False)
+    tail=hopper_proof.get('engineering_generated_uninstalled_draws',0)
+    if tail not in (0,1) or tail and (not core_proof.get('terminal_unused_observation')
+            or hopper_proof['records'][-1]['classification']!='ENGINEERING_GENERATED_UNINSTALLED_ZERO_LIVE_TAIL'
+            or core_proof['terminal_unused_observation']['action_installed'] is not False
+            or core_proof['terminal_unused_observation']['live_integrations']!=0):
+        raise PermissionError('PV1_ENGINEERING_TAIL_MUST_HAVE_EXACT_UNUSED_OBSERVATION_AND_ZERO_LIVE_EFFECTS')
+    return dict(result,policy_outcome_valid=False,replacement_admitted=False,
+        engineering_generated_uninstalled_draws=tail,executed_draws=core_proof['executed_ACKs'])
