@@ -1,5 +1,20 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**DATA required saved-parent audit now PASS; collection stays CLOSED/failed gate.**
+[Final dataset card and actual cross-episode consumption](reports/PI0294/DATA_COV1/DATA_COV1_DATASET_CARD.md) ·
+[Resource/render/storage addendum](reports/PI0294/DATA_COV1/DATA_COV1_RESOURCE_FINAL.json).
+Exact audit source16a4c2d6 passed Actions39400354340/job118553219899;746-member
+cold capsule, originalCPUentry, separately registered finite saved-data lease.
+Both distinct qualified episodes/all2566numeric+RGBmembers were read;12real
+anchor samples collate/repeat PASS, no model/physics. Full event times for3raw
+parents are saved. Audit4.6209CPUsec; its lease alsoCLOSED. Original collection
+STOP/terminal/ledger/11child leases remain immutable andCLOSED, T0 unchanged.
+CumulativeCore5242.0977CPUsec/local3000upper, reservations0/unknown0. Stage gate
+still2/4<3; no remaining44, noP72/P144, no bank/HFREADY or PV1 data injection.
+Native render timings/current inode-aware bytes are reported; historicalI/O
+peak is explicitly unmeasured, not invented. Follow-up range draft is
+NOT_AUTHORIZED. Continue the independent PV1 B0 job, not this closed scope.
+
 **17:09 SGT: DATA first-four is terminal2/4 admitted; independent window CLOSED.**
 [Dataset qualification card and exact native evidence](reports/PI0294/DATA_COV1/DATA_COV1_P24_DATA_CARD.md).
 Three known full task successes, one unknown engineering result; two parents
