@@ -159,6 +159,20 @@ def run(root):
         value=manifest(static['groups'],rows,population_sha256=work['static_plan_sha256'],
             adoption_sha256=m['authority']['adoption_sha256'])
         if len(cases)>400:raise PermissionError('CR2_SAVED_PARENT_READ_LIMIT')
+        guard()
+        raw_upper=0
+        for row in value['episodes']:
+            case=cases[row['id']];raw=Path(case['source_episode'])
+            closed_child(parent,raw.parent.parent,'CAPTURE','TERMINAL_CAPTURE')
+            raw_file(raw/'FILE_MANIFEST.json',case['raw_manifest_sha256'])
+            raw_upper+=sum(member['bytes'] for member in read(raw/'FILE_MANIFEST.json'))
+        archive_bound=work['maximum_archive_bytes']
+        if type(archive_bound) is not int or not 0<archive_bound<=7*1024**3:
+            raise PermissionError('CR2_BOUNDED_ARCHIVES_AND_FULL_READBACK_TRANSFER_RESERVE')
+        # Keep a conservative pre-write envelope, including copies, numeric
+        # members, tar overhead and control metadata, not just periodic samples.
+        if peak+2*raw_upper+archive_bound+1024**3>output_limit:
+            raise PermissionError('CR2_PREWRITE_ALL_OUTPUT_AND_ARCHIVE_HEADROOM')
         out.mkdir();os.link(r/'plans/R1_statistics.json',out/'statistics.json')
         for row in value['episodes']:
             guard();identifier=row['id'];case=cases[identifier];raw=Path(case['source_episode'])
@@ -196,8 +210,7 @@ def run(root):
         put(out/'LOCAL_FROZEN.json',local);members['LOCAL_FROZEN.json']=out/'LOCAL_FROZEN.json'
         for name in ('ALL24_PAIRED_ATTEMPTS.json','DATASET_MANIFEST.json','CROSS_PARENT_QUALIFICATION.json','LOCAL_FROZEN.json'):
             public_json(read(out/name))
-        bound=work['maximum_archive_bytes']
-        if type(bound) is not int or not 0<bound<=7*1024**3:raise PermissionError('CR2_BOUNDED_ARCHIVES_AND_FULL_READBACK_TRANSFER_RESERVE')
+        bound=archive_bound
         upper=sum(p.stat().st_size for p in members.values())+len(members)*4096+1024**2
         if upper>bound:raise PermissionError('CR2_ARCHIVE_PAYLOAD_AND_HEADERS_EXCEED_BOUND')
         output=r/'delivery';output.mkdir();archives={}
@@ -212,6 +225,7 @@ def run(root):
         public_json(index);put(output/'ARCHIVE_MEMBER_MANIFEST.json',index)
         size=sum(p.stat().st_size for p in output.iterdir())
         if size>bound:raise PermissionError('CR2_ACTUAL_INDEX_INCLUSIVE_ARCHIVE_BOUND')
+        last_storage=0.;guard()
         result=dict(status='PASS_CR2_LOCAL_BANK_AND_PACK_NOT_HF_READY',gate=value['gate'],parents=len(value['episodes']),
             archive_bytes=size,archive_index_sha256=sha(output/'ARCHIVE_MEMBER_MANIFEST.json'),
             dataset_manifest_sha256=local['dataset_manifest_sha256'],new_models=0,new_queries=0,new_physics=0,HF_READY=False)
