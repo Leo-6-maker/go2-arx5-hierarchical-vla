@@ -1,5 +1,15 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**16:07 SGT: child10 model is ready; B0 has13/48 trustworthy conditions.**
+[First new audited DEV success and exact progress](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_10_FIRST_AUDITED_SUCCESS_AND_PROGRESS.json).
+678041 remainsR. F1/004/T1/N294101's preauthorized REPLACEMENT-01 completed
+32s autonomously, raw/physics audit PASS,80 fresh camera/action/ACK joins PASS
+on both sites,41/41 hold,0S1 rejection/0native fault. B0 totals9success/4valid
+task failures;35 remain. No A/B optimizer updates, selection or deployment.
+DATA first-four continuation still waits for PV1-R priority; originalT0 and
+all frozen components stay fixed. The model-not-ready/Q paragraphs below are
+historical snapshots, not current runtime state.
+
 **15:37 SGT actual update: child10 is R, not Q; future-data physics is waiting.**
 [Native amendment, first-attempt witness, resource and allocation receipt](reports/PI0294/DATA_COV1/DATA_COV1_NEAR_V2_NATIVE_AND_FIRST_ATTEMPT_RECEIPT.json).
 678041 started onhopper-19 at15:30 with225GB; original premodel qualification
