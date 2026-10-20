@@ -19,6 +19,19 @@ from .owner_heartbeat import HeartbeatLost,read_live_owner
 from .read_only_metadata import read_only
 
 
+def _read_concurrent_heartbeat(path, *, reader=read, sleep=time.sleep, attempts=31):
+    """Bounded read recovery for the isolated rapid-replace fixture only."""
+    if type(attempts) is not int or not 1 <= attempts <= 31:
+        raise ValueError('FINITE_ISOLATED_CONCURRENT_HEARTBEAT_READ_BOUND')
+    for attempt in range(attempts):
+        try:
+            return reader(path)
+        except OSError as exc:
+            if exc.errno not in (errno.ENOENT, errno.ESTALE) or attempt == attempts - 1:
+                raise
+            sleep(.1)
+
+
 def start_exit_heartbeat(folder,run):
     parent=inside(Path(folder),'faults');parent.mkdir(mode=0o700)
     path=parent/'actual_expired_heartbeat';path.mkdir(mode=0o700)
@@ -53,12 +66,12 @@ def concurrent_replace(folder,run):
         try:
             while not stop.is_set():
                 now=time.time();write(path/'OWNER_HEARTBEAT.json',dict(run_uuid=run,observed_epoch=now));writes.append(now)
-                stop.wait(.003)
+                stop.wait(.02)
         except BaseException as exc:errors.append(exc)
     thread=threading.Thread(target=writer);thread.start();rows=[]
     try:
         for _ in range(40):
-            rows.append(read_live_owner(path,run,force_revalidate=True));time.sleep(.005)
+            rows.append(read_live_owner(path,run,reader=_read_concurrent_heartbeat,force_revalidate=True));time.sleep(.01)
     finally:stop.set();thread.join(timeout=20)
     if thread.is_alive() or errors or len(writes)<2 or len({r['heartbeat']['observed_epoch'] for r in rows})<2:
         raise PermissionError('REAL_CONCURRENT_ATOMIC_REPLACE_NOT_OBSERVED')

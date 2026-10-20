@@ -1,4 +1,5 @@
 from pathlib import Path
+import errno
 import tempfile
 import time
 import unittest
@@ -23,6 +24,24 @@ class TransportFaultPrimitiveTests(unittest.TestCase):
         value=faults.concurrent_replace(self.folder,'fixture-run')
         self.assertEqual(value['status'],'PASS');self.assertGreater(value['actual_replaces'],1)
         self.assertEqual(value['post_read_samples'],40)
+
+    def test_isolated_concurrent_reader_outlasts_default_six_read_visibility_window(self):
+        path=self.folder/'heartbeat.json';write(path,dict(run_uuid='fixture-run',observed_epoch=time.time()))
+        attempts=[]
+        def delayed_visibility(candidate):
+            attempts.append(candidate)
+            if len(attempts)<=6:raise FileNotFoundError(errno.ENOENT,'fixture rename not visible',candidate)
+            return read(candidate)
+        value=faults._read_concurrent_heartbeat(path,reader=delayed_visibility,sleep=lambda _:None)
+        self.assertEqual(value['run_uuid'],'fixture-run');self.assertEqual(len(attempts),7)
+
+    def test_isolated_concurrent_reader_does_not_retry_unclassified_errors(self):
+        calls=[]
+        def denied(candidate):
+            calls.append(candidate);raise PermissionError(errno.EACCES,'denied',candidate)
+        with self.assertRaises(PermissionError):
+            faults._read_concurrent_heartbeat(self.folder/'heartbeat.json',reader=denied,sleep=lambda _:None)
+        self.assertEqual(len(calls),1)
 
     def test_classified_estale_retry_is_bounded_and_only_in_fixture(self):
         value=faults.metadata_failure(self.folder)
