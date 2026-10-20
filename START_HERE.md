@@ -1,5 +1,14 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**CR2 now has explicit user GO; do not reopen DATA-COV1 or change PV1.**
+The user approved the full fixed5d139315 CR2 package in reply
+call_656187cffb8b43519e678e7561b78575. [Exact new scope](reports/PI0294/design/CR2_FIXED_R1_BANK_PILOT_SCOPE_20261020.json):
+12new TRAIN groups/24first attempts, fixedR1, original4mm Teacher, paired
+saved-raw R0/R1,32Core/4localCPUhours,48h,2single-core workers maximum.
+Native T0/lease and exact sourceCI are still required before dispatch.
+This authorization does not claim new data, a READY bank, training or policy
+improvement. PV1 has priority; its R0/139bank/B0-before-training stay frozen.
+
 **Native authentication recovered; child12 is actually submitted once, not running science yet.**
 [Fresh project, cold binding and actual native continuation](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/NEXT_NATIVE_ALLOCATION_AND_B0_PROGRESS.json).
 Fresh same-context CFP04-CF-007 active/member/cluster/positive-balance PASS.
