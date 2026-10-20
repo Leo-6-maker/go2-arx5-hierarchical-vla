@@ -1,0 +1,70 @@
+{
+  "schema": "DEC1_PROGRESS_CPU_IMPLEMENTATION_V1",
+  "status": "CPU_IMPLEMENTED_NATIVE_COMMISSIONING_REQUIRED",
+  "authority_release": "a7a7ecd9a6be62a7221af25a5e32a0009b076a84",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "implementation": "src/go2arx5_vla/adapters/execution_progress.py",
+  "implementation_sha256": "3ee1920f0509d5dd7b65cb2edd0af7a28e9b397ab67aa5408aff654327d745ed",
+  "documentation": "docs/protocols/DEC1_EXECUTION_PROGRESS_CPU_REFERENCE_V1.md",
+  "source_rules": "DEC1_SOURCE_ONLY_INTERFACE_FREEZE.json",
+  "native_source_qualification": false,
+  "native_target_qualification": false,
+  "key_contracts": [
+    "Explicit native row-rot6d conversion after original complete raw H40 check",
+    "Both modes share frame-corrected V2 and original-pose dwell duration interpretation",
+    "I_TIME original timestamps versus task-blind bounded local actual SE3 progress",
+    "Pure rotation, repeated poses, local stationary clock and preserved predicted gripper order/amplitude",
+    "Fresh post-execution actual feedback and predecessor ACK, no forecast-as-observation",
+    "No phase commit before matching execution ACK, known ACK readback is idempotent",
+    "New chunk identity and reanchor, no carried old normalized progress",
+    "Raw complete H40 before mapped complete reference and Prefix8 legality callbacks",
+    "Explicit accept-or-raise callbacks, uninterpreted false/decision objects rejected",
+    "Latched stale/NaN/frame/TCP/reject/unknown stop and dispatched-wire mutation digest"
+  ],
+  "synthetic_evidence_not_task_results": {
+    "nominal_identity_and_rigid_transform_equivalence": true,
+    "synthetic_lag_distinguishes_modes": true,
+    "late_gripper_transition_and_illegal_raw_tail_rejection": true,
+    "frozen_historical_V1_unchanged": true,
+    "actual_WBC_or_source_native_safety_qualification": false,
+    "task_success_or_transfer_claim": false
+  },
+  "validation": {
+    "focused_execution_progress_CPU_tests": 56,
+    "root_CPU_tests": 886,
+    "root_skipped_private_or_physical_requirements": 14,
+    "PI0292_CPU_tests": 109,
+    "PI0292_subtests": 150,
+    "PI0294_CPU_tests": 1007,
+    "PI0294_subtests": 863,
+    "exact_GitHub_CI": "REQUIRES_PUBLISHED_COMMIT_AND_INDEPENDENT_READBACK"
+  },
+  "fresh_native_observation": {
+    "Core_epoch": 1792524627.8373768,
+    "Hopper_epoch": 1792524628.2574866,
+    "parent_control_lease_checked_on_both_sites": true,
+    "both_child12_leases": "CLOSED",
+    "both_parent_STOP": false,
+    "DEC1_adoption_present_on_both_sites": true,
+    "child12_native_PBS_state": "F",
+    "global_H200_allocated_seconds": 20494,
+    "global_PBS_submissions": 11,
+    "global_H200_reserved_seconds": 0,
+    "neural_queries": 1054,
+    "optimizer_updates": 0,
+    "unknown_effects": []
+  },
+  "remaining_main_path": [
+    "Native raw/full/prefix safety binding and actual source-only commissioning",
+    "Frozen target task executor ABI and safety delivery; old TF-R3 STOP stays preserved",
+    "Pre-result 8-geometry 64-cell panel seal and actual paired science",
+    "Independent source-first complete budget inputs, cold training binding and lawful GPU qualification",
+    "Actual source A/B training or native core matrix; CPU implementation is not goal completion"
+  ],
+  "new_GPU_PBS_model_loads_queries_updates_physics_episodes": 0,
+  "CR2": "CLOSED_FIXED_R1_BANK_READY_INDEPENDENT_NOT_HOT_INJECTED",
+  "WBC_plant_gripper_PD_S1_scoring_statistics_frozen": true,
+  "original_T0_and_hard_close_unchanged": true,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

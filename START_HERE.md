@@ -1,5 +1,27 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**Latest CR2 is fully CLOSED and its fixed-R1 bank is delivered, not collecting.**
+[All24 real attempts and final HF/readback/resources](reports/PI0294/CR2/20261020T160340Z-localpc-cr2/CR2_FINAL_REPORT.md).
+T1 12/12 and T2 12/12 Teacher/data success, 12paired new TRAIN geometries,
+14R0PASS->R1PASS/10R0FAIL->R1PASS/0regressions; all children/control CLOSED.
+HF READY9435ba48fa98336b6e88431ed145382724b16b44 was published only after
+full new-payload/member readback. No GR00T learning or target transfer is
+claimed. R1 is not hot-injected into DEC1/PV1's original R0/139bank.
+
+**DEC1 CPU reference implementation now exists; native qualification is pending.**
+[Paired interface rules and explicit boundary](docs/protocols/DEC1_EXECUTION_PROGRESS_CPU_REFERENCE_V1.md) ·
+[CPU scalars fixed, NOT a native-qualified freeze](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SOURCE_ONLY_INTERFACE_FREEZE.json).
+Both I_TIME/I_PROGRESS use frame-corrected V2, shared original-pose stationary
+duration semantics, complete raw H40 before mapped full/prefix checks, and
+post-action actual feedback/ACK. CPU fixtures are not native S1 qualification
+or 64-cell task results. Target ABI, source native binding/commissioning and
+evaluation-panel seal remain absent; no WBC/plant/S1/scoring changes.
+Fresh source-training budget bridge a9eac69e passed exact dependency-complete
+CI39474334901/job118806274229; see its implementation report. Native budget
+inputs, cold source-training binding and legal GPU qualification still remain.
+The older snapshots below are preserved as historical observations, not the
+current CR2 status or a reason to wait for already successful exact CI.
+
 **DEC1 is natively adopted inside the original PV1 window, not a second budget.**
 [Adoption and actual nonadditive limits](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_NATIVE_ADOPTION_AND_BUDGET.json) ·
 [Actual source identity and missing target delivery](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_EXECUTOR_POLICY_INTERFACE_MANIFESTS.json).
@@ -20,22 +42,23 @@ through the existing parent control roles/leases. Original T0/cutoffs/final20h
 and old costs/reservations remain; no second owner or new science from adoption.
 DEC1_SOURCE_TRAIN_STAGE_V1 explicitly admits only unchanged A/B source stages
 before full B0. Legacy stages still require complete B0; native scope/recipe/
-resume checks remain. Fresh DEC1 future-budget integration, cold binding and
-exact CI are still required before any training; CPU fixtures are not admission.
+resume checks remain. The published fresh DEC1 future-budget bridge passed
+exact CI; its native budget inputs, cold binding and allocation qualification
+are still required before training. CPU fixtures are not admission.
 The confirmed frame-transform omission is corrected in explicit
 GR00TToWBCAdapterV2 for BOTH new DEC1 interfaces. Historical V1 bytes and
 Stage35's frozen-file guard remain unchanged; no wrong V1 baseline is allowed
 in DEC1. Source7328828e CI39466956612 failed the old V1-byte guard, so it is
 not a deployable success. The V2 correction retains2red-to-green regressions
 and adds same-frame equivalence; no WBC or running capsule was patched.
-I_PROGRESS/source-only freeze and the64-cell matrix are not implemented/run yet.
+I_PROGRESS native source commissioning and the64-cell matrix are not run yet.
 Source CORR/R0/139bank manifests and15numerical/26asset hashes read back.
 Core/Vanda registries contain no qualified DEC1 task executor delivery; old
 R4/TF-R3 leases are expired despite ACTIVE text, no recorded worker is live,
 and TF-R3 native safety STOP hash22d554d5 remains. Do not reopen those scopes.
 Target absence does not block the newly authorized source training direction.
 
-**Latest CR2 actual: first four closed, remaining twenty collecting on two CPUs.**
+**Historical CR2 snapshot: first four closed, remaining twenty then collecting.**
 [Actual paired codec, readers, closed leases and resource snapshot](reports/PI0294/CR2/20261020T160340Z-localpc-cr2/CR2_FIRST_FOUR_ACTUAL_PAIRED_AND_REMAINDER.json).
 The first4 original attempts (2geometry groups, T1/T2 each) all completed
 real32s Teacher tasks and fixedR1 admission. Every episode has601actual H40
