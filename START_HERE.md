@@ -14,6 +14,11 @@ The same sole owner watches; it cannot release a mismatched allocation and
 does not qalter/cancel/resubmit automatically. One explicit same-job original
 select restoration question is pending. Local prepaid CPU is near its original
 8h bound. No new learning result, target WBC qualification or CR2 expansion.
+[Subsequent native historical comparison](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_A40_HISTORICAL_ALLOCATION_RESOURCE_COMPARISON.json)
+shows the old successful A40 probe also had36CPU/240GB. The additional strict
+native4CPU gate is new; mature affinity4 is not allocated-ncpus4. This is an
+admission-contract conflict, not a model failure or proof the site is broken.
+Whether normal same-job resource restoration is allowed/effective is untested.
 
 **DEC1 fixed CORR assets are now actually delivered to Vanda, not model-qualified.**
 [Full native handoff, preserved failure, costs and closed leases](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_CORR_VANDA_ASSET_HANDOFF_ACTUAL.json).
