@@ -1,0 +1,109 @@
+{
+  "schema": "PI0294_PV1_B0_09_COMPLETE_BANK_COLD_AND_NATIVE_QUEUE_V1",
+  "status": "POLICY_FIRST_LG04_ADOPTED_CHILD09_QUEUED_WITH_ONE_OWNER",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "child_run_uuid": "policy-b0-09",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "runtime_source_sha": "2ac48b1a666bb752c048ae7e03357e4dac7fe9f0",
+  "exact_source_CI": {
+    "run_id": 39364285377,
+    "job_id": 118437383591,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "repository_PI0292_and_PI0294_test_steps": "success"
+  },
+  "cold_binding": {
+    "core": "PASS_FINAL_NATIVE_VALIDATION",
+    "hopper": "PASS_FINAL_NATIVE_VALIDATION_AND_BANK_PREFLIGHT",
+    "all_final_sealed_inputs": "OWN_NON_SYMLINK_READ_ONLY_HASH_VERIFIED",
+    "source_members_verified": 719,
+    "unchanged_frozen_numerical_files": 15,
+    "complete_bank_source_child": "policy-b0-03",
+    "read_only_closed_sibling_reuse": true,
+    "metadata_only_child04_not_used_for_numeric_or_RGB": true,
+    "all_139_raw_bindings_match_actual_bank": true,
+    "new_download_bytes": 0,
+    "new_extraction_bytes": 0,
+    "each_allocation_full_payload_rehash_retained": true,
+    "metadata_sha256": {
+      "DATASET_MANIFEST.json": "60f7c35a05766fe23974eba3a72f53ca4db5545a3768e6c1cfea164ab4e58294",
+      "READY.json": "e896959171cd66394b2eba60c081d035bd2688be2f874a887077ed8b5c4a5cbc",
+      "statistics.json": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+      "PAYLOAD_MANIFEST.json": "a5fa18394fb3763384cc190798d2ba580e3dcbcc2963899303b55cacd6efcf85"
+    }
+  },
+  "core_counter_qualification": {
+    "status": "PASS_ORIGINAL_VS_COUNTED_NATIVE_MODEL_STATE_XML_AND_TWO_RGB",
+    "integrations": 0,
+    "task_episodes": 0
+  },
+  "native_admission": {
+    "fresh_project": "CFP04-CF-007",
+    "project_active_member_positive_balance": true,
+    "stable_personal_quota": "PASS",
+    "prior_native_jobs": "TERMINAL",
+    "unknown_effects": [],
+    "full_future_resource_admission_prepare_and_submit": "PASS"
+  },
+  "submission": {
+    "job_id": "677540.hopper-m-02",
+    "submit_count": 8,
+    "stage": "B0_DEV",
+    "project": "CFP04-CF-007",
+    "ncpus": 12,
+    "ngpus": 1,
+    "gpu_model": "H200",
+    "walltime_s": 28800,
+    "memory_gb": 128,
+    "request_sha256": "c28bb51495bf4e7b41e6d4185b52230dda68f87c58fb932d72c81401273cf365",
+    "script_sha256": "a4a4576e919a8cf972dcf992d8c32cb0b530e5b2fd563e0638eb5afac4c2ba41",
+    "qsub_calls": 1,
+    "cancel_calls": 0,
+    "resubmissions": 0,
+    "dependency": null
+  },
+  "memory_change": {
+    "status": "P0_MEMORY_CHANGE_APPLIED_NATIVE_READBACK",
+    "queued_same_job_only": true,
+    "qalter_calls": 1,
+    "site_rewrite_gb": 225,
+    "readback_gb": 128,
+    "nonmemory_identity_unchanged": true
+  },
+  "snapshot": {
+    "native_state": "Q",
+    "reason": "INSUFFICIENT_NGPUS",
+    "PBS_READY": false,
+    "new_model_state": false,
+    "single_local_owner_service": "ACTIVE",
+    "poll_s": 60,
+    "new_queries": 0,
+    "new_physics": 0,
+    "new_training_updates": 0
+  },
+  "resources": {
+    "settled_H200_s": 16096,
+    "reserved_H200_s": 28860,
+    "PBS_submissions": 8,
+    "neural_queries": 862,
+    "optimizer_updates": 0,
+    "unknown_effects": [],
+    "protected_final_reserve_preserved": true,
+    "original_budget_and_absolute_deadlines_preserved": true
+  },
+  "science": {
+    "B0_valid": 12,
+    "B0_total": 48,
+    "B0_success": 8,
+    "B0_valid_task_failures": 4,
+    "remaining_conditions": 36,
+    "remaining_T1": 18,
+    "remaining_T2": 18,
+    "completed_valid_conditions_replayed": false,
+    "B0_48_before_training_retained": true,
+    "WBC_S1_scoring_statistics_frozen": true,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}

@@ -1,5 +1,29 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**PV1-LG04: child09 is queued once; the existing sole owner is attached.**
+[Actual continuation with complete-bank binding and native queue receipt](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_09_COMPLETE_BANK_COLD_AND_NATIVE_QUEUE.json) ·
+[Actual owner continuity](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_WORK_WINDOW_HANDOVER_ACTUAL.json).
+Runtime2ac48b1a passed exact push Actions39364285377/job118437383591.
+Both cold identities, final immutable inputs and139numeric/RGB bindings pass;
+the full bank is directly reused from closed child03 with unchanged hashes.
+677540 is PV1 PBS8, CFP04-CF-007,1H200/12CPU/128GB/8h, nativeQ for ngpus.
+The site225GB rewrite was corrected once within the same queued job; no replay
+or cancel. Its own600s/80cycle/fault and full payload checks remain pending
+allocation. B0 remains12/48,8success/4validfailure; updates0,queries862,
+selected/deployment NONE. Settled16096H200s/reserved28860s, no unknown effects.
+
+**PV1 child08 is closed; the full frozen bank remains intact in child03.**
+[Qualification, data-binding diagnosis and actual two-site closeout](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_08_DATA_BINDING_FAILURE_AND_CLOSURE.json):
+677341 passed its own600s/80cycle/fault qualification, then failed before model
+load because child04's metadata-only directory was bound as the full bank.
+The original child03 bank has the exact frozen metadata; no data reconstruction
+or new download was required. Child08 charged698 H200 seconds; both leases
+are CLOSED and all CPU/GPU reservations are0. Source2ac48b1a adds checks for
+complete bank metadata, actual raw/numeric paths and final immutable inputs
+before prepare/qsub. 894PI0294 tests/818subtests and827repository tests PASS;
+15numerical hashes unchanged. B0 remains12/48, updates0, queries862,
+selected/deployment NONE. The following running paragraph is historical.
+
 **PV1-LG04 is adopted; child08 is the sole active B0 continuation.**
 [Cold identity, native submission and running snapshot](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_08_COLD_BIND_AND_NATIVE_RUNNING_RECEIPT.json):
 exact runtime `fb00da44` passed Actions39348602625/job118387138067 and both
