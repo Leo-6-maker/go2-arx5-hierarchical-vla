@@ -80,9 +80,10 @@ class TransactionTests(unittest.TestCase):
         stack=ExitStack();self.addCleanup(stack.close)
         stack.enter_context(patch.dict(sys.modules,{'huggingface_hub':module}))
         for name,replacement in (
-            ('validate',lambda *a: (dict(limits=dict(operation_deadline_epoch=time.time()+60,CPU_s=120)),{})),
+            ('validate',lambda *a: (dict(limits=dict(operation_deadline_epoch=time.time()+60,CPU_s=120)),
+                dict(hf_token_file='/fixture/existing-writer-locator-not-a-real-credential'))),
             ('closed_child',lambda *a:source),('bind_cpu',lambda *a:None),('wait_priority',lambda *a:None),
-            ('data_network',lambda:lambda:None),('existing_token',lambda *a:None),
+            ('data_network',lambda:lambda:None),('existing_token',lambda *a:'synthetic-not-a-real-token'),
             ('verify_remote',lambda api,repo,prefix,revision,files,*a: self.assertEqual(set(snapshots[revision]),{f['path'] for f in files})),
         ):stack.enter_context(patch.object(delivery,name,replacement))
         stack.enter_context(patch.object(delivery.shutil,'disk_usage',return_value=SimpleNamespace(free=100*1024**3)))
@@ -111,6 +112,16 @@ class TransactionTests(unittest.TestCase):
             with self.assertRaises(ValueError):delivery.run(root)
             self.assertNotIn('COMMIT_READY',events)
             self.assertFalse(read(root/'evidence/HF_TRANSFER.private.json')['READY_claim'])
+
+    def test_missing_explicit_writer_locator_cannot_fall_back_to_anonymous_profile(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root,events=self.run_fixture(folder)
+            with patch.object(delivery,'validate',return_value=(dict(limits=dict(
+                    operation_deadline_epoch=time.time()+60,CPU_s=120)),{})):
+                with self.assertRaisesRegex(PermissionError,'WRITER_LOCATOR'):delivery.run(root)
+            self.assertEqual(events,[])
+            self.assertEqual(read(root/'RESOURCE_LEDGER.json')['unknown_effects'],[])
+            self.assertFalse(read(root/'evidence/HF_TRANSFER.private.json')['unknown_mutation'])
 
 
 if __name__=='__main__':unittest.main()

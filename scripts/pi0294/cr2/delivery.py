@@ -99,9 +99,13 @@ def run(root):
         resident_upper=resident+payload_bytes+64*1024**2
         if resident_upper>48*1024**3:
             raise PermissionError('CR2_FULL_READBACK_MUST_FIT_ORIGINAL_ALL_OUTPUT_PEAK')
+        if not inputs.get('hf_token_file'):
+            raise PermissionError('CR2_EXPLICIT_EXISTING_WRITER_LOCATOR_REQUIRED_BEFORE_REMOTE_INTENT')
+        token=existing_token(inputs)
+        if not token:raise PermissionError('CR2_EXISTING_WRITER_CREDENTIAL_EMPTY_NO_DEFAULT_PROFILE_FALLBACK')
         restore=data_network()
         from huggingface_hub import HfApi,CommitOperationAdd,hf_hub_download
-        api=HfApi(token=existing_token(inputs));info=api.repo_info(REPO,repo_type='dataset')
+        api=HfApi(token=token);info=api.repo_info(REPO,repo_type='dataset')
         if info.private:raise PermissionError('CR2_ONLY_EXPLICITLY_AUTHORIZED_SANITIZED_PUBLIC_ARTIFACT_REPO')
         if any(n.startswith(prefix+'/') for n in api.list_repo_files(REPO,repo_type='dataset')):
             raise FileExistsError('CR2_NEVER_OVERWRITE_OR_BLINDLY_RETRY_EXISTING_PREFIX')

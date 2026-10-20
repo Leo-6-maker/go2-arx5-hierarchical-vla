@@ -1,0 +1,59 @@
+{
+  "schema": "CR2_HF_PREUPLOAD_AUTH_RECONCILIATION_V1",
+  "authority_release": "5d1393154054b977134b7d8c456f66ca478d0bf9",
+  "run_uuid": "20261020T160340Z-localpc-cr2",
+  "failed_child": "deliver-r1-p12-01",
+  "native_source_sha": "89ac3f7cc13dbb1134daa119a905f59d3bc6eb82",
+  "failure_class": "ENGINEERING_AUTH_BINDING_NOT_TASK_OR_CODEC_FAILURE",
+  "failure": {
+    "HTTP_status": 401,
+    "stage": "HF_PREUPLOAD",
+    "explicit_existing_writer_locator_in_failed_input_binding": false,
+    "default_auth_profile_was_not_an_accepted_writer": true,
+    "READY_claim": false,
+    "original_native_failure_and_HF_intent_preserved": true,
+    "original_worker_ledger_sha256": "36b14680966d852f6d7f844cfe43419b7611184b2e4e7de50a6033d945c7fa3d",
+    "original_HF_intent_sha256": "83c2a80abff6ebb62eff4821bf7edda3576eca3542f89c4c950de2f4a9ba7cb8"
+  },
+  "actual_reconciliation": {
+    "observed_epoch": 1792522387,
+    "public_repo_head_before_and_after": "e4f603a1b768018077a8b5c9640250be67500902",
+    "public_repo_head_unchanged": true,
+    "target_prefix_file_count": 0,
+    "worker_terminal": true,
+    "remote_payload_or_READY_commit": false,
+    "native_reconciliation_receipt_sha256": "91c2065af2caff6eb948da7c1abc85891f14fd94ca5510f9fcc2280c4ed7762c",
+    "reconciled_unknowns": [],
+    "failed_child_lease_closed": true,
+    "failed_child_costs_not_reset": true,
+    "full_logical_transfer_reserve_kept_conservatively": true
+  },
+  "repair": {
+    "reused_existing_canonical_HF_writer_locator": true,
+    "configured_credential_actual_whoami_succeeded": true,
+    "configured_account": "leoyuer",
+    "credential_role": "fineGrained",
+    "own_namespace_repo_write_permission_verified": true,
+    "new_credentials_created_or_requested": false,
+    "credential_content_saved_or_published": false,
+    "old_failed_input_binding_not_rewritten": true,
+    "new_cold_child": "deliver-r1-p12-02",
+    "new_child_manifest_sha256": "fd4b3cd1a3efc3a6a77b7a14ab18cacef1c5d16154920152d0dcdfd3d2902ee7",
+    "new_child_exact_cold_import": "PASS_ZERO_EFFECT",
+    "new_child_source_sha": "89ac3f7cc13dbb1134daa119a905f59d3bc6eb82",
+    "new_child_dispatched_once": true,
+    "new_child_full_HF_result": "PENDING_AT_THIS_RECEIPT",
+    "reusable_source_guard_now_rejects_missing_explicit_locator_before_remote_intent": true,
+    "guard_not_hot_deployed_into_the_running_child": true
+  },
+  "unchanged_science": {
+    "new_physical_attempts_for_this_repair": 0,
+    "new_GPU_or_PBS": 0,
+    "new_models_queries_or_updates": 0,
+    "24_actual_demonstrations_preserved": true,
+    "R0_R1_Teacher_WBC_S1_scoring_unchanged": true,
+    "PV1_unchanged": true,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}
