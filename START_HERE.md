@@ -1,5 +1,16 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**B0 now14/48:9successes and5valid task failures;34conditions remain.**
+[Second child10 condition and independent causal evidence](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_10_SECOND_AUDITED_CONDITION.json).
+F1/004/T2/N294101 stopped at29.6s under originalS1 predicted-contact rejection,
+75draws/74executedACKs, rejected-prefix live ticks0, native safety flags0.
+Raw audit and both-site causal chain PASS. It is a valid task failure, not an
+engineering retry or initial-approach diagnosis. Do not repeat this condition.
+Native child10 remains on its pinned source; no new training has begun.
+[Stage-bank packaging contract implementation](reports/PI0294/DATA_COV1/STAGE_BANK_IMPLEMENTATION.json)
+is tested source only, not actual bank/HF READY; DATA new physics still waits
+for PV1 priority and original first-four/stage gates. Historical counts follow.
+
 **16:07 SGT: child10 model is ready; B0 has13/48 trustworthy conditions.**
 [First new audited DEV success and exact progress](reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_B0_10_FIRST_AUDITED_SUCCESS_AND_PROGRESS.json).
 678041 remainsR. F1/004/T1/N294101's preauthorized REPLACEMENT-01 completed
