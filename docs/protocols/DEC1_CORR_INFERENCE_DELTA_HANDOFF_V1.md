@@ -71,6 +71,15 @@ A future bounded A40 compatibility allocation still needs global GPU/PBS/query
 accounting, exclusive native queue proof, fresh site authority and its own
 standard cold admission. Existing H200-only guards are not weakened here.
 
+The public consumer can explicitly bind `public_anonymous_read=true` with no
+credential locator. It then passes `token=False` to the Hub, not an ambient
+token or the other site's Home path. Publishers and READY writers still need
+their existing local writer file, checked before dispatch. No credential is
+copied between sites. A failed pre-download consumer is preserved and closed
+only after proving it made no Hub calls; a new cold child, not a hot edit or
+blind restart, performs the corrected read. Its CPU must still fit the already
+prepaid finite pool and all failed control/source-copy bytes remain accounted.
+
 At source publication this component has CPU fixtures only. A native delivery
 must be reported separately with actual revisions, full readback and costs.
 `selected/deployment=NONE` throughout.

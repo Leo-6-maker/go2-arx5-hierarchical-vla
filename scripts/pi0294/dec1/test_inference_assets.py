@@ -150,7 +150,7 @@ class AssetTests(unittest.TestCase):
         lease=self.root/'lease.json';registry=self.root/'registry.json'
         put(lease,dict(status='ACTIVE',run_uuid=root.name,authority_release=assets.AUTHORITY,deadline_epoch=assets.HARD_CLOSE))
         put(registry,dict(entries=[dict(role='one',path=str(root))]))
-        small={'BINDINGS.private.json':dict(existing_token_file='NOT_READ_IN_CPU_FIXTURE'),
+        small={'BINDINGS.private.json':dict(public_anonymous_read=True),
             'CPU_BUDGET_PREPAID.json':dict(authority_release=assets.AUTHORITY,original_T0_epoch=1792348196,
                 campaign_run_uuid='20261018T182956Z-localpc-pv1',costs_inside_original_PV1_and_DEC1=True,
                 CPU_upper_s_by_mode=dict(publish=4500,consume=4500,ready=180),
@@ -184,6 +184,17 @@ class AssetTests(unittest.TestCase):
             (root/'BINDINGS.private.json').chmod(0o400)
             put(lease,dict(status='CLOSED'))
             with self.assertRaises(PermissionError):assets.guard(root,'consume')
+
+    def test_public_consumer_uses_explicit_false_not_ambient_credentials(self):
+        with patch.dict(os.environ,{'HF_TOKEN':'DUMMY_NOT_A_REAL_CREDENTIAL'}):
+            self.assertIs(assets.authentication(dict(public_anonymous_read=True),'consume'),False)
+        for mode in ('publish','ready'):
+            with self.assertRaisesRegex(PermissionError,'CONSUMER_ONLY'):
+                assets.authentication(dict(public_anonymous_read=True),mode)
+        with self.assertRaises(PermissionError):
+            assets.authentication(dict(public_anonymous_read=True,existing_token_file='another-site'),'consume')
+        with self.assertRaisesRegex(PermissionError,'LOCAL_EXISTING_WRITER'):
+            assets.authentication(dict(existing_token_file=str(self.root/'absent')),'consume')
 
 
 if __name__=='__main__':unittest.main()

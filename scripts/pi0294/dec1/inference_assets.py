@@ -53,6 +53,20 @@ def verify_dependency(api):
         fail('FIXED_HF_DEPENDENCY_SHA256')
 
 
+def authentication(bindings, mode):
+    """Explicit public reads never inherit an unrelated site's credential path."""
+    if bindings.get('public_anonymous_read') is True:
+        if mode!='consume' or bindings.get('existing_token_file') is not None:
+            fail('ANONYMOUS_IS_EXPLICIT_FIXED_PUBLIC_CONSUMER_ONLY')
+        return False
+    path=Path(bindings['existing_token_file'])
+    if not path.is_file() or path.stat().st_uid!=os.getuid():
+        fail('LOCAL_EXISTING_WRITER_LOCATOR_REQUIRED_BEFORE_DISPATCH')
+    token=path.read_text().strip()
+    if not token:fail('EMPTY_EXISTING_WRITER_CREDENTIAL')
+    return token
+
+
 def validate_manifest(value):
     reject_private(value)
     if (value.get('schema') != SCHEMA or value.get('authority_release') != AUTHORITY
@@ -135,7 +149,9 @@ def guard(root, mode):
             or paid.get('transfer_reserved_bytes')!=16*1024**3
             or paid.get('unknown_effects')!=[]):
         fail('EXPLICIT_NONADDITIVE_CPU_AND_TRANSFER_PREPAYMENT')
-    return m, read(root/'BINDINGS.private.json')
+    bindings=read(root/'BINDINGS.private.json')
+    authentication(bindings,mode)
+    return m, bindings
 
 
 def publish(root, bindings, *, api, add, download):
@@ -297,7 +313,7 @@ def run(root):
     started=time.process_time(); result=dict(status='FAILED_OR_UNKNOWN_PRESERVED_NO_RETRY',mode=mode)
     try:
         from huggingface_hub import HfApi,CommitOperationAdd,hf_hub_download
-        token = Path(b['existing_token_file']).read_text().strip()
+        token = authentication(b,mode)
         api = HfApi(token=token)
         if mode=='publish': result=publish(root,b,api=api,add=CommitOperationAdd,download=hf_hub_download)
         elif mode=='consume': result=consume(root,b,download=lambda *a,**kw:hf_hub_download(*a,token=token,**kw))
