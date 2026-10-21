@@ -24,13 +24,26 @@ SCHEMA='PI0294_CR2_FIXED_R1_P12_BANK_V1'
 LOCAL='CR2_LOCAL_FROZEN_FULL_READER_QUALIFIED_NOT_HF_READY'
 
 
-def manifest(groups, rows, *, population_sha256, adoption_sha256):
-    gate=bank_gate(rows,groups)
-    if gate['status']!='PASS_CR2_DATA_BANK_GATE':
+def configuration(profile=None):
+    if profile is None:
+        return dict(auth=AUTH,validate=validate,priority=None,cards=cards,gate=bank_gate,
+            gate_status='PASS_CR2_DATA_BANK_GATE',schema=SCHEMA,bank='CR2_FIXED_R1_P12',
+            family='CR2_FIXED_R1',local=LOCAL,adoption='CR2_ADOPTION_AND_SCOPE.json',
+            operation='CR2_ASSEMBLE_AND_PACK_FIXED_R1_P12',attempts='ALL24_PAIRED_ATTEMPTS.json',
+            output_cap=48*1024**3,archive_cap=7*1024**3,
+            pack_status='PASS_CR2_LOCAL_BANK_AND_PACK_NOT_HF_READY',
+            local_schema='PI0294_CR2_LOCAL_FROZEN_V1',index_schema='PI0294_CR2_ARCHIVE_INDEX_V1')
+    from scripts.pi0294.vap1.bank import configuration as vap1_configuration
+    return vap1_configuration(profile)
+
+
+def manifest(groups, rows, *, population_sha256, adoption_sha256, profile=None):
+    cfg=configuration(profile);gate=cfg['gate'](rows,groups)
+    if gate['status']!=cfg['gate_status']:
         raise PermissionError('CR2_COMPLETE_ORIGINAL_24_DENOMINATOR_AND_BANK_GATE_REQUIRED')
     if any(not re.fullmatch('[0-9a-f]{64}',v) for v in (population_sha256,adoption_sha256)):
         raise PermissionError('CR2_EXACT_NATIVE_POPULATION_AND_ADOPTION_IDENTITIES')
-    indexed={c['id']:c for c in cards(groups)};episodes=[];raws=set()
+    indexed={c['id']:c for c in cfg['cards'](groups)};episodes=[];raws=set()
     for row in sorted(rows,key=lambda r:r['id']):
         if not row['admitted']:continue
         card=indexed[row['id']];reader=row['official_reader']['R1'];codec=row['R1']
@@ -46,28 +59,31 @@ def manifest(groups, rows, *, population_sha256, adoption_sha256):
                 or row['source_raw_manifest_sha256'] in raws):
             raise PermissionError('CR2_ONLY_DISTINCT_ACTUALLY_QUALIFIED_R1_TRAIN_PARENTS')
         raws.add(row['source_raw_manifest_sha256'])
-        episodes.append(dict(id=card['id'],split='TRAIN',task=card['task'],family='CR2_FIXED_R1',
+        episodes.append(dict(id=card['id'],split='TRAIN',task=card['task'],family=cfg['family'],
             scene_group=card['group_id'],appearance_profile=card['appearance_profile'],direction=card['direction'],
             distance_bin=card['distance_bin'],windows=601,file='numeric/'+card['id']+'.npz',
             raw_root='raw/'+card['id'],nominal_clearance_m=.004,source_raw_manifest_sha256=row['source_raw_manifest_sha256'],
             paired_receipt_identity=digest(row),transition=row['transition'],full_task_success=True))
-    value=dict(schema=SCHEMA,domain='FIXED_BASE_ARX5_TASK_SIM',bank='CR2_FIXED_R1_P12',statistics_sha256=R1,
+    value=dict(schema=cfg['schema'],domain='FIXED_BASE_ARX5_TASK_SIM',bank=cfg['bank'],statistics_sha256=R1,
         population_sha256=population_sha256,adoption_sha256=adoption_sha256,gate=gate,
         all_24_paired_attempts_identity=digest(rows),episodes=episodes,statistics_refit=False,
         PV1_bank_changed=False,later_rows_hot_injected=False,evaluation_rows_used_for_training=False,
         policy_success_claim=False,selected='NONE',deployment='NONE')
+    if profile is not None:
+        value['all_paired_attempts_identity']=value.pop('all_24_paired_attempts_identity')
     public_json(value)
     return value
 
 
-def closed_child(parent, root, role, state):
+def closed_child(parent, root, role, state, *, profile=None):
+    cfg=configuration(profile)
     root=Path(root);parent=Path(parent)
     if root.is_symlink() or root.parent.resolve()!=(parent/'children').resolve():
         raise PermissionError('CR2_ONLY_REGISTERED_SAME_CAMPAIGN_SIBLING')
     binding=read(root/'OUTPUT_BINDING.private.json');m=read(root/'RUN_MANIFEST.json');ledger=read(root/'RESOURCE_LEDGER.json')
     if (binding['uid']!=os.getuid() or binding['host']!=os.uname().nodename
             or Path(binding['run_root']).resolve()!=root.resolve() or m['role']!=role
-            or m['authority']['protocol_release']!=AUTH or read(binding['lease'])['status']!='CLOSED'
+            or m['authority']['protocol_release']!=cfg['auth'] or read(binding['lease'])['status']!='CLOSED'
             or ledger['status']!=state or ledger['unknown_effects'] or (root/'STOP.json').exists()):
         raise PermissionError('CR2_EXACT_CLOSED_KNOWN_EFFECT_SOURCE_ONLY')
     return root
@@ -95,7 +111,8 @@ def copy_raw(source, target, expected):
     raw_file(source,expected);sealed_file(target,expected)
 
 
-def qualify_all(bank, value, processor, inputs, guard):
+def qualify_all(bank, value, processor, inputs, guard, *, profile=None):
+    cfg=configuration(profile)
     dataset=NativeDataset(bank,inputs['official_source'],inputs['cosmos'],for_optimization=True,
         raw_bindings={r['id']:str(bank/r['raw_root']) for r in value['episodes']})
     dataset.processor=processor;lookup={(r['id'],a):i for i,(r,a) in enumerate(dataset.rows)}
@@ -103,7 +120,9 @@ def qualify_all(bank, value, processor, inputs, guard):
     if len(ids)%2:pairs.append(ids[-2:])
     batches=[]
     for pair in pairs:
-        wait_priority(bank.parent.parent,guard);samples=[]
+        if cfg['priority'] is None:wait_priority(bank.parent.parent,guard)
+        else:wait_priority(bank.parent.parent,guard,cfg['priority'])
+        samples=[]
         for identifier in pair:
             for anchor in (0,80,160,320,480,600):
                 guard();samples.append(dataset[lookup[identifier,anchor]]['processed'])
@@ -119,15 +138,16 @@ def qualify_all(bank, value, processor, inputs, guard):
         model_forward=False,new_physics=0,new_constructors=0)
 
 
-def run(root):
-    r=Path(root);m,inputs=validate(r,'PACK');work=read(r/'plans/WORK_PLAN.private.json')
+def run(root, *, profile=None):
+    cfg=configuration(profile)
+    r=Path(root);m,inputs=cfg['validate'](r,'PACK');work=read(r/'plans/WORK_PLAN.private.json')
     ledger=read(r/'RESOURCE_LEDGER.json');assert ledger['status']=='RESERVED' and not ledger['unknown_effects']
-    if work.get('operation')!='CR2_ASSEMBLE_AND_PACK_FIXED_R1_P12':
+    if work.get('operation')!=cfg['operation']:
         raise PermissionError('CR2_EXPLICIT_NEW_BANK_PACK_PLAN')
     lock=OwnerLock(r/'CR2_WORKER.lock');began=time.process_time();failure=None;bind_cpu(m)
-    parent=r.parent.parent;out=r/'datasets/CR2_FIXED_R1_P12';last_storage=0.;peak=0
+    parent=r.parent.parent;out=r/'datasets'/cfg['bank'];last_storage=0.;peak=0
     output_limit=work['maximum_output_peak_bytes']
-    if type(output_limit) is not int or not 0<output_limit<=48*1024**3:
+    if type(output_limit) is not int or not 0<output_limit<=cfg['output_cap']:
         lock.close();raise PermissionError('CR2_ORIGINAL_ALL_OUTPUT_PEAK_LIMIT')
     def guard():
         nonlocal last_storage,peak
@@ -144,12 +164,14 @@ def run(root):
             peak=max(peak,size);last_storage=time.monotonic()
             if peak>output_limit:raise PermissionError('CR2_ACTUAL_ALL_OUTPUT_UNIQUE_INODE_PEAK_LIMIT')
     try:
-        install_import_guard();cpu_guard();wait_priority(r,guard)
+        install_import_guard();cpu_guard()
+        if cfg['priority'] is None:wait_priority(r,guard)
+        else:wait_priority(r,guard,cfg['priority'])
         ledger['status']='RUNNING';write(r/'RESOURCE_LEDGER.json',ledger)
         sealed_file(work['static_plan_path'],work['static_plan_sha256']);static=read(work['static_plan_path'])
         rows=[];sources={};cases={}
         for source in work['closed_exports']:
-            child=closed_child(parent,source['root'],'EXPORT','TERMINAL_EXPORT')
+            child=closed_child(parent,source['root'],'EXPORT','TERMINAL_EXPORT',profile=profile)
             result=child/'evidence/PAIRED_EXPORT_RESULT.private.json';sealed_file(result,source['result_sha256'])
             rows.extend(read(result)['rows'])
             for case in read(child/'plans/WORK_PLAN.private.json')['cases']:
@@ -157,17 +179,17 @@ def run(root):
                 cases[case['id']]=case;sources[case['id']]=child
         if set(cases)!={row['id'] for row in rows}:raise PermissionError('CR2_EXACT_ALL_ATTEMPTS_AND_SOURCE_BINDINGS')
         value=manifest(static['groups'],rows,population_sha256=work['static_plan_sha256'],
-            adoption_sha256=m['authority']['adoption_sha256'])
+            adoption_sha256=m['authority']['adoption_sha256'],profile=profile)
         if len(cases)>400:raise PermissionError('CR2_SAVED_PARENT_READ_LIMIT')
         guard()
         raw_upper=0
         for row in value['episodes']:
             case=cases[row['id']];raw=Path(case['source_episode'])
-            closed_child(parent,raw.parent.parent,'CAPTURE','TERMINAL_CAPTURE')
+            closed_child(parent,raw.parent.parent,'CAPTURE','TERMINAL_CAPTURE',profile=profile)
             raw_file(raw/'FILE_MANIFEST.json',case['raw_manifest_sha256'])
             raw_upper+=sum(member['bytes'] for member in read(raw/'FILE_MANIFEST.json'))
         archive_bound=work['maximum_archive_bytes']
-        if type(archive_bound) is not int or not 0<archive_bound<=7*1024**3:
+        if type(archive_bound) is not int or not 0<archive_bound<=cfg['archive_cap']:
             raise PermissionError('CR2_BOUNDED_ARCHIVES_AND_FULL_READBACK_TRANSFER_RESERVE')
         # Keep a conservative pre-write envelope, including copies, numeric
         # members, tar overhead and control metadata, not just periodic samples.
@@ -176,7 +198,7 @@ def run(root):
         out.mkdir();os.link(r/'plans/R1_statistics.json',out/'statistics.json')
         for row in value['episodes']:
             guard();identifier=row['id'];case=cases[identifier];raw=Path(case['source_episode'])
-            closed_child(parent,raw.parent.parent,'CAPTURE','TERMINAL_CAPTURE')
+            closed_child(parent,raw.parent.parent,'CAPTURE','TERMINAL_CAPTURE',profile=profile)
             raw_file(raw/'FILE_MANIFEST.json',case['raw_manifest_sha256'])
             raw_file(raw/'AUDIT.json',case['audit_sha256'])
             source=sources[identifier]/'datasets/R1'/identifier
@@ -195,20 +217,20 @@ def run(root):
                     copy_raw(raw/name,dest/(str(i).zfill(4)+'.png'),raw_entries[name]['sha256'])
             parent_files(out,row,guard)
         public_json(value);public_json(rows)
-        put(out/'DATASET_MANIFEST.json',value);put(out/'ALL24_PAIRED_ATTEMPTS.json',rows)
+        put(out/'DATASET_MANIFEST.json',value);put(out/cfg['attempts'],rows)
         processor=build_processor(inputs['official_source'],inputs['cosmos'],read(out/'statistics.json'))
         if serial(processor.state_action_processor.norm_params)!=read(r/'plans/FIXED_EFFECTIVE_PARAMS.private.json')['candidate_effective_params']:
             raise ValueError('CR2_BANK_ACTUAL_FIXED_R1_PROCESSOR_EFFECTIVE_PARAMS')
-        mixed=qualify_all(out,value,processor,inputs,guard);put(out/'CROSS_PARENT_QUALIFICATION.json',mixed)
+        mixed=qualify_all(out,value,processor,inputs,guard,profile=profile);put(out/'CROSS_PARENT_QUALIFICATION.json',mixed)
         members={p.relative_to(out).as_posix():p for p in out.rglob('*') if p.is_file()}
         entries=[dict(path=n,bytes=p.stat().st_size,sha256=sha(p)) for n,p in sorted(members.items())]
         put(out/'PAYLOAD_MANIFEST.json',entries);members['PAYLOAD_MANIFEST.json']=out/'PAYLOAD_MANIFEST.json'
-        local=dict(schema='PI0294_CR2_LOCAL_FROZEN_V1',status=LOCAL,statistics_sha256=R1,
+        local=dict(schema=cfg['local_schema'],status=cfg['local'],statistics_sha256=R1,
             dataset_manifest_sha256=sha(out/'DATASET_MANIFEST.json'),payload_manifest_sha256=sha(out/'PAYLOAD_MANIFEST.json'),
             actual_cross_parent_sha256=sha(out/'CROSS_PARENT_QUALIFICATION.json'),parents=len(value['episodes']),
             HF_READY=False,later_rows_hot_injected=False)
         put(out/'LOCAL_FROZEN.json',local);members['LOCAL_FROZEN.json']=out/'LOCAL_FROZEN.json'
-        for name in ('ALL24_PAIRED_ATTEMPTS.json','DATASET_MANIFEST.json','CROSS_PARENT_QUALIFICATION.json','LOCAL_FROZEN.json'):
+        for name in (cfg['attempts'],'DATASET_MANIFEST.json','CROSS_PARENT_QUALIFICATION.json','LOCAL_FROZEN.json'):
             public_json(read(out/name))
         bound=archive_bound
         upper=sum(p.stat().st_size for p in members.values())+len(members)*4096+1024**2
@@ -219,14 +241,15 @@ def run(root):
             subset={n:p for n,p in members.items() if any(n=='numeric/'+x+'.npz' or n.startswith('raw/'+x+'/') for x in ids)}
             name='parents-'+str(i//8).zfill(3)+'.tar.gz';archives[name]=pack_archive(output/name,subset,guard)
         archives['metadata.tar.gz']=pack_archive(output/'metadata.tar.gz',{n:p for n,p in members.items() if '/' not in n},guard)
-        index=dict(schema='PI0294_CR2_ARCHIVE_INDEX_V1',archives=archives,statistics_sha256=R1,
+        index=dict(schema=cfg['index_schema'],archives=archives,statistics_sha256=R1,
             dataset_manifest_sha256=local['dataset_manifest_sha256'],source_local_frozen_sha256=sha(out/'LOCAL_FROZEN.json'),
-            new_CR2_only=True,old_models_and_banks_reuploaded=False,READY_LAST_not_yet_published=True)
+            source_bank=cfg['bank'],old_models_and_banks_reuploaded=False,READY_LAST_not_yet_published=True)
+        if profile is None:index['new_CR2_only']=True
         public_json(index);put(output/'ARCHIVE_MEMBER_MANIFEST.json',index)
         size=sum(p.stat().st_size for p in output.iterdir())
         if size>bound:raise PermissionError('CR2_ACTUAL_INDEX_INCLUSIVE_ARCHIVE_BOUND')
         last_storage=0.;guard()
-        result=dict(status='PASS_CR2_LOCAL_BANK_AND_PACK_NOT_HF_READY',gate=value['gate'],parents=len(value['episodes']),
+        result=dict(status=cfg['pack_status'],gate=value['gate'],parents=len(value['episodes']),
             archive_bytes=size,archive_index_sha256=sha(output/'ARCHIVE_MEMBER_MANIFEST.json'),
             dataset_manifest_sha256=local['dataset_manifest_sha256'],new_models=0,new_queries=0,new_physics=0,HF_READY=False)
         put(r/'evidence/PACK_RESULT.private.json',result)

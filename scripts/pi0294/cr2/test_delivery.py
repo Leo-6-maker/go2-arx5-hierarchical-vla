@@ -51,13 +51,35 @@ class PackageTests(unittest.TestCase):
 
 
 class TransactionTests(unittest.TestCase):
-    def run_fixture(self,folder,*,commit_unknown=False,corrupt=False):
+    def run_fixture(self,folder,*,commit_unknown=False,corrupt=False,profile=None):
         parent,source,result=fixture(folder);root=parent/'children/delivery';(root/'plans').mkdir(parents=True)
         (root/'evidence').mkdir();events=[];snapshots={};prefix='PI0294/original-cr2/CR2_FIXED_R1_P12'
+        cfg=delivery.configuration(profile)
+        if profile is not None:
+            old=source/'datasets/CR2_FIXED_R1_P12';old.rename(source/'datasets'/cfg['bank'])
+            index=read(source/'delivery'/delivery.INDEX);index['schema']=cfg['index_schema']
+            write(source/'delivery'/delivery.INDEX,index);(source/'delivery'/delivery.INDEX).chmod(0o400)
+            bank=source/'datasets'/cfg['bank'];local=read(bank/'LOCAL_FROZEN.json');local['status']=cfg['local']
+            write(bank/'LOCAL_FROZEN.json',local);(bank/'LOCAL_FROZEN.json').chmod(0o400)
+            members={p.name:p for p in bank.iterdir()}
+            (source/'delivery/metadata.tar.gz').unlink()
+            index['archives']={'metadata.tar.gz':pack_archive(source/'delivery/metadata.tar.gz',members,lambda:None)}
+            index['source_local_frozen_sha256']=sha(bank/'LOCAL_FROZEN.json')
+            write(source/'delivery'/delivery.INDEX,index);(source/'delivery'/delivery.INDEX).chmod(0o400)
+            result_path=source/'evidence/PACK_RESULT.private.json';value=read(result_path)
+            value.update(status=cfg['pack_status'],gate=dict(status=cfg['gate_status']),
+                         archive_index_sha256=sha(source/'delivery'/delivery.INDEX))
+            write(result_path,value);result_path.chmod(0o400);result=sha(result_path)
+            prefix='PI0294/original-vap1/'+cfg['bank']
+            put(parent/cfg['adoption'],dict(run_uuid='original-vap1'))
         put(parent/'CR2_ADOPTION_AND_SCOPE.json',dict(run_uuid='original-cr2'))
         write(parent/'RESOURCE_LEDGER.json',dict(network_bytes_upper=64*1024**2))
         put(root/'plans/WORK_PLAN.private.json',dict(operation='CR2_FIXED_REVISION_HF_DELIVERY',repo_id=delivery.REPO,
             maximum_transfer_bytes=16*1024**3,closed_pack_root=str(source),source_pack_result_sha256=result,HF_prefix=prefix))
+        if profile is not None:
+            plan_path=root/'plans/WORK_PLAN.private.json';value=read(plan_path)
+            value.update(operation='VAP1_FIXED_REVISION_HF_DELIVERY',maximum_transfer_bytes=24*1024**3)
+            write(plan_path,value);plan_path.chmod(0o400)
         write(root/'RESOURCE_LEDGER.json',dict(status='RESERVED',unknown_effects=[]))
         class API:
             token=None
@@ -86,6 +108,10 @@ class TransactionTests(unittest.TestCase):
             ('data_network',lambda:lambda:None),('existing_token',lambda *a:'synthetic-not-a-real-token'),
             ('verify_remote',lambda api,repo,prefix,revision,files,*a: self.assertEqual(set(snapshots[revision]),{f['path'] for f in files})),
         ):stack.enter_context(patch.object(delivery,name,replacement))
+        if profile is not None:
+            cfg=dict(cfg,validate=delivery.validate)
+            stack.enter_context(patch.object(delivery,'configuration',return_value=cfg))
+            stack.enter_context(patch.object(delivery,'closed_child',lambda *a,**k:source))
         stack.enter_context(patch.object(delivery.shutil,'disk_usage',return_value=SimpleNamespace(free=100*1024**3)))
         return root,events
 
@@ -122,6 +148,16 @@ class TransactionTests(unittest.TestCase):
             self.assertEqual(events,[])
             self.assertEqual(read(root/'RESOURCE_LEDGER.json')['unknown_effects'],[])
             self.assertFalse(read(root/'evidence/HF_TRANSFER.private.json')['unknown_mutation'])
+
+    def test_VAP1_both_profiles_use_actual_full_readback_before_READY(self):
+        for profile in ('VAP1_D24','VAP1_D48'):
+            with self.subTest(profile=profile),tempfile.TemporaryDirectory() as folder:
+                root,events=self.run_fixture(folder,profile=profile)
+                value=delivery.run(root,profile=profile)
+                self.assertEqual(value['status'],'PASS_VAP1_FIXED_REVISION_FULL_PAYLOAD_MEMBER_READBACK_READY_LAST')
+                self.assertTrue(value['prefix'].endswith('VAP1_R1_D'+profile[-2:]))
+                self.assertLess(events.index('READ_metadata.tar.gz'),events.index('COMMIT_READY'))
+                self.assertEqual(events[-1],'READ_READY.json')
 
 
 if __name__=='__main__':unittest.main()
