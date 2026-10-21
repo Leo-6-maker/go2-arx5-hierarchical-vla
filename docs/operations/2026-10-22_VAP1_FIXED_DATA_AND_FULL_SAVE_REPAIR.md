@@ -53,3 +53,24 @@ and first optimizer release. Real updates, not these tests, remain the goal.
 
 Selected/deployment remains NONE. This is a published repair description,
 not a new allocation, reader PASS, checkpoint or policy-improvement receipt.
+
+## Subsequent Native Timeout And Bounded Carry
+
+Cache03 actually passed cold validation and started, then terminated after
+6.713544245 process-CPU seconds because qselect timed out after25seconds.
+It did not load a model, run physics or dispatch a GPU job. Preserve this
+failure and its partial data. The GPU owner stopped without submitting.
+
+A new explicitly sealed `terminal_only_no_scheduler_poll=true` option uses
+the exact already-CLOSED old probe's terminal binding without polling the
+scheduler every15seconds. Default historical and unclosed-probe behavior
+is unchanged. This CPU-only option does not admit a current GPU job; its
+full fresh queue/project checks still occur before GPU submission/release.
+
+One additional cold reader may reuse the same CPU prepayment after the
+failed process, lease and incremental storage are reconciled. Bind that
+exact CLOSED timeout result/manifest/lease in CLOSED_PREVIOUS_CPU_COST.json.
+Carry60CPU seconds, including a conservative child-query allowance, into
+the unchanged4500CPU-second scope: new hard limit4440, no refund or reset.
+No chained carry or second such retry is allowed. Partial output/transfer
+remains part of the original reservation and must be charged at closure.

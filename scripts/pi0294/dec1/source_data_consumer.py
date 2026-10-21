@@ -33,6 +33,7 @@ CPU=4500
 TRANSFER=8*1024**3
 OUTPUT=24*1024**3
 PRIORITY='plans/CLOSED_HISTORICAL_PROBE_PRIORITY.json'
+COST_CARRY='plans/CLOSED_PREVIOUS_CPU_COST.json'
 
 
 def bulk_priority(root=None,*, query=subprocess.check_output):
@@ -52,6 +53,10 @@ def bulk_priority(root=None,*, query=subprocess.check_output):
                 or terminal.get('project')!='CFP04-CF-007' or terminal.get('owner')!='e1192548'
                 or terminal.get('recorded_process_terminal') is not True):
             raise PermissionError('SOURCE_DATA_EXACT_CLOSED_HISTORICAL_PRIORITY_BINDING')
+        if v.get('terminal_only_no_scheduler_poll') is True:
+            # This sealed opt-in concerns only the irreversibly closed old
+            # probe. It grants no GPU or current-job admission.
+            return True
         # Current complete native selection still protects a live old probe.
         # Its terminal receipt does not expire with PBS history retention.
         ids=query(['/opt/pbs/bin/qselect','-u','e1192548'],text=True,timeout=25).split()
@@ -74,6 +79,33 @@ def sealed(root, name, expected=None, *, parse=True):
             or expected is not None and sha(p)!=expected):
         raise PermissionError('SOURCE_DATA_OWN_SEALED_INPUT')
     return read(p) if parse else p
+
+
+def prior_CPU_cost(root,manifest):
+    if COST_CARRY not in manifest['sealed_inputs']:return 0
+    root=Path(root);plan=sealed(root,COST_CARRY,manifest['sealed_inputs'][COST_CARRY]);old=Path(plan['root'])
+    if (plan.get('schema')!='ONE_CLOSED_SCHEDULER_TIMEOUT_CPU_CARRY_V1' or plan.get('CPU_upper_s')!=60
+            or old==root or old.is_symlink() or old.parent.resolve()!=root.parent.resolve()
+            or old.stat().st_uid!=os.getuid() or sha(old/'RUN_MANIFEST.json')!=plan['manifest_sha256']
+            or sha(old/'RESULT.private.json')!=plan['result_sha256']):
+        raise PermissionError('SOURCE_DATA_EXACT_ONE_CLOSED_CPU_COST_CARRY')
+    previous=read(old/'RUN_MANIFEST.json');result=read(old/'RESULT.private.json');binding=read(old/'OUTPUT_BINDING.private.json')
+    lease=read(binding['lease']);process=read(old/'PROCESS.private.json');p=Path('/proc',str(process['pid']),'stat')
+    fields=p.read_text().rsplit(')',1)[1].split() if p.exists() else None
+    if (COST_CARRY in previous['sealed_inputs'] or previous.get('source_data_profile')!='ORIGINAL126_C1'
+            or manifest.get('source_data_profile')!='ORIGINAL126_C1'
+            or not isinstance(manifest.get('resource_prepaid_key'),str) or not manifest['resource_prepaid_key']
+            or any(previous.get(k)!=manifest.get(k) for k in ('authority_release','original_T0_epoch','resource_prepaid_key'))
+            or sha(binding['lease'])!=plan['lease_sha256'] or lease.get('status')!='CLOSED_FAILED_CPU_STAGING_PRESERVED'
+            or lease.get('run_uuid')!=old.name or lease.get('owner')!='EXISTING_LOCAL_PC'
+            or binding.get('host')!=os.uname().nodename
+            or fields and fields[0]!='Z' and fields[19]==str(process['proc_start'])
+            or result.get('status')!='FAILED_PRESERVED_NO_MODEL_OR_HF_MUTATION'
+            or not 0<=result.get('CPU_s',CPU)<60
+            or result.get('failure')!={'error_type':'TimeoutExpired',
+                'error':"Command '['/opt/pbs/bin/qselect', '-u', 'e1192548']' timed out after 25 seconds"}):
+        raise PermissionError('SOURCE_DATA_CLOSED_KNOWN_TIMEOUT_NO_CHAINED_CPU_RESET')
+    return 60
 
 
 def validate(root, *, now=time.time):
@@ -105,6 +137,7 @@ def validate(root, *, now=time.time):
             or len(matches)!=1 or Path(matches[0]['path']).resolve()!=r.resolve()):
         raise PermissionError('SOURCE_DATA_UNIQUE_NATIVE_REGISTRY_AND_ACTIVE_LEASE')
     for name,digest in m['sealed_inputs'].items():sealed(r,name,digest,parse=False)
+    prior_CPU_cost(r,m)
     required={'BINDINGS.private.json','CPU_BUDGET_PREPAID.json','PUBLICATION_AND_CI.json',
         'plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json',
         'capsule/code/scripts/pi0294/dec1/source_data_consumer.py','SOURCE_SEAL.json'}
@@ -209,7 +242,8 @@ def run(root):
     r=Path(root);m,inputs,receipt=validate(r);lock=OwnerLock(r/'CPU_CONSUMER.lock')
     if (r/'RESULT.private.json').exists() or (r/'CONSUMPTION_INTENT.private.json').exists():
         lock.close();raise FileExistsError('SOURCE_DATA_PRESERVE_PRIOR_ATTEMPT_NO_BLIND_RESTART')
-    os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resource.RLIMIT_CPU,(CPU,CPU))
+    prior_cost=prior_CPU_cost(r,m);remaining_CPU=CPU-prior_cost
+    os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resource.RLIMIT_CPU,(remaining_CPU,remaining_CPU))
     resource.setrlimit(resource.RLIMIT_CORE,(0,0));began=time.process_time();failure=None;result={};last_size=0.;resident=0;last_priority=0.
     def expired(*unused):raise TimeoutError('SOURCE_DATA_FINITE_WALL_CUTOFF')
     previous=signal.signal(signal.SIGALRM,expired);signal.setitimer(signal.ITIMER_REAL,m['deadline_epoch']-time.time())
@@ -227,7 +261,7 @@ def run(root):
             resident=budget.reserved if budget is not None else 0
         elif time.monotonic()-last_size>15:
             resident=sum(p.stat().st_size for p in r.rglob('*') if p.is_file() and not p.is_symlink());last_size=time.monotonic()
-        if (time.time()>=m['deadline_epoch'] or time.process_time()-began>=CPU-60
+        if (time.time()>=m['deadline_epoch'] or time.process_time()-began>=remaining_CPU-60
                 or resident+extra>OUTPUT or shutil.disk_usage(r).free<extra+40*1024**3 or (r/'STOP.json').exists()):
             raise PermissionError('SOURCE_DATA_CPU_STORAGE_CLOCK_OR_STOP_BOUND')
     try:
@@ -265,6 +299,7 @@ def run(root):
     except BaseException as e:failure=dict(error_type=type(e).__name__,error=str(e)[-800:]);raise
     finally:
         result.update(CPU_s=time.process_time()-began,finished_epoch=time.time(),failure=failure)
+        if prior_cost:result.update(prior_failed_CPU_upper_s=prior_cost,combined_CPU_s_upper=time.process_time()-began+prior_cost)
         if failure:result['status']='FAILED_PRESERVED_NO_MODEL_OR_HF_MUTATION'
         write(r/'RESULT.private.json',result);signal.setitimer(signal.ITIMER_REAL,0)
         signal.signal(signal.SIGALRM,previous);lock.close()

@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import tempfile
 import tarfile
+import time
 import unittest
 from unittest.mock import patch
 
@@ -18,6 +19,48 @@ def put(path,value):
 
 
 class SourceCPUContracts(unittest.TestCase):
+    def test_one_closed_timeout_cost_cannot_reset_or_chain_CPU_budget(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'next';old=Path(tmp)/'old';root.mkdir();old.mkdir()
+            original=dict(source_data_profile='ORIGINAL126_C1',authority_release=c.AUTHORITY,
+                original_T0_epoch=1792348196,resource_prepaid_key='same-existing-prepayment',sealed_inputs={})
+            manifest=dict(original,sealed_inputs={})
+            old_sha=put(old/'RUN_MANIFEST.json',original)
+            result=dict(status='FAILED_PRESERVED_NO_MODEL_OR_HF_MUTATION',CPU_s=6.7,
+                failure=dict(error_type='TimeoutExpired',error="Command '['/opt/pbs/bin/qselect', '-u', 'e1192548']' timed out after 25 seconds"))
+            result_sha=put(old/'RESULT.private.json',result)
+            lease=put(old/'lease.json',dict(status='CLOSED_FAILED_CPU_STAGING_PRESERVED',run_uuid=old.name,owner='EXISTING_LOCAL_PC'))
+            put(old/'OUTPUT_BINDING.private.json',dict(lease=str(old/'lease.json'),host=os.uname().nodename))
+            put(old/'PROCESS.private.json',dict(pid=99999999,proc_start='no-process'))
+            plan=dict(schema='ONE_CLOSED_SCHEDULER_TIMEOUT_CPU_CARRY_V1',root=str(old),CPU_upper_s=60,
+                manifest_sha256=old_sha,result_sha256=result_sha,lease_sha256=lease)
+            digest=put(root/c.COST_CARRY,plan);manifest['sealed_inputs'][c.COST_CARRY]=digest
+            self.assertEqual(c.prior_CPU_cost(root,manifest),60)
+            for change in ('budget-reset','live-lease','chained'):
+                with self.subTest(change=change):
+                    bad=copy.deepcopy(manifest)
+                    if change=='budget-reset':bad['resource_prepaid_key']='different-prepayment'
+                    elif change=='live-lease':put(old/'lease.json',dict(status='ACTIVE'))
+                    else:
+                        previous=dict(original,sealed_inputs={c.COST_CARRY:'prior-chain'})
+                        plan['manifest_sha256']=put(old/'RUN_MANIFEST.json',previous)
+                        digest=put(root/c.COST_CARRY,plan);bad['sealed_inputs'][c.COST_CARRY]=digest
+                    with self.assertRaises(PermissionError):c.prior_CPU_cost(root,bad)
+                    put(old/'lease.json',dict(status='CLOSED_FAILED_CPU_STAGING_PRESERVED',run_uuid=old.name,owner='EXISTING_LOCAL_PC'))
+
+    def test_actual_run_deducts_carried_cost_from_CPU_limit(self):
+        from scripts.pi0294.dec1 import source_data_original as original
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);m=dict(sealed_inputs={},deadline_epoch=time.time()+60,source_data_profile='ORIGINAL126_C1')
+            with patch.object(c,'validate',return_value=(m,{},None)),patch.object(c,'prior_CPU_cost',return_value=60),\
+                    patch.object(c,'cpu_guard'),patch.object(c,'bulk_priority',return_value=True),\
+                    patch.object(c.resource,'setrlimit') as limit,patch.object(c.os,'sched_setaffinity'),\
+                    patch.object(c.signal,'setitimer'),patch.object(original,'consume',return_value=dict(status='CPU_fixture')):
+                result=c.run(root)
+            self.assertIn(((c.resource.RLIMIT_CPU,(4440,4440)),{}),limit.call_args_list)
+            self.assertEqual(result['prior_failed_CPU_upper_s'],60)
+            self.assertLess(result['combined_CPU_s_upper'],4500)
+
     def test_original_cache_cold_validation_checks_python_bytes_not_json(self):
         from scripts.pi0294.dec1 import source_data_original as original, source_original_cache as cache
         with tempfile.TemporaryDirectory() as tmp:
@@ -60,6 +103,11 @@ class SourceCPUContracts(unittest.TestCase):
                 calls.append(args);return '1499999.stdct-mgmt-02\n'
             self.assertTrue(c.bulk_priority(root,query=query))
             self.assertEqual(calls,[['/opt/pbs/bin/qselect','-u','e1192548']])
+            v['terminal_only_no_scheduler_poll']=True;digest=put(root/c.PRIORITY,v)
+            put(root/'RUN_MANIFEST.json',dict(registered_runs_root=str(Path(tmp)),sealed_inputs={c.PRIORITY:digest}))
+            with patch.object(c.subprocess,'check_output',side_effect=AssertionError('NO_SCHEDULER_FOR_CLOSED_PROBE')):
+                self.assertTrue(c.bulk_priority(root))
+            v.pop('terminal_only_no_scheduler_poll')
             lease=put(old/'lease.json',dict(status='CLOSED',run_uuid=old.name,owner='EXISTING_SINGLE_LOCAL_PC'))
             v['lease_sha256']=lease;digest=put(root/c.PRIORITY,v)
             put(root/'RUN_MANIFEST.json',dict(registered_runs_root=str(Path(tmp)),sealed_inputs={c.PRIORITY:digest}))
