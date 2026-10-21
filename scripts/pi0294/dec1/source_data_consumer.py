@@ -46,7 +46,8 @@ def bulk_priority(root=None,*, query=subprocess.check_output):
                 or not old.resolve().is_relative_to(Path(m['registered_runs_root']).resolve())
                 or sha(old/'RUN_MANIFEST.json')!=v['manifest_sha256']
                 or sha(b['lease'])!=v['lease_sha256'] or lease.get('status')!='CLOSED'
-                or lease.get('run_uuid')!=old.name or lease.get('owner')!='EXISTING_LOCAL_PC'
+                or lease.get('run_uuid')!=old.name
+                or lease.get('owner') not in ('EXISTING_LOCAL_PC','EXISTING_SINGLE_LOCAL_PC')
                 or terminal.get('job_id')!='1471903.stdct-mgmt-02' or terminal.get('job_state')!='F'
                 or terminal.get('project')!='CFP04-CF-007' or terminal.get('owner')!='e1192548'
                 or terminal.get('recorded_process_terminal') is not True):

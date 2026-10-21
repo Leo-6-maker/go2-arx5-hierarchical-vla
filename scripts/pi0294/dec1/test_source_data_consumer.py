@@ -35,6 +35,10 @@ class SourceCPUContracts(unittest.TestCase):
                 calls.append(args);return '1499999.stdct-mgmt-02\n'
             self.assertTrue(c.bulk_priority(root,query=query))
             self.assertEqual(calls,[['/opt/pbs/bin/qselect','-u','e1192548']])
+            lease=put(old/'lease.json',dict(status='CLOSED',run_uuid=old.name,owner='EXISTING_SINGLE_LOCAL_PC'))
+            v['lease_sha256']=lease;digest=put(root/c.PRIORITY,v)
+            put(root/'RUN_MANIFEST.json',dict(registered_runs_root=str(Path(tmp)),sealed_inputs={c.PRIORITY:digest}))
+            self.assertTrue(c.bulk_priority(root,query=query))
             with self.assertRaises(PermissionError):c.bulk_priority(root,query=lambda *a,**kw:'Welcome banner')
             put(old/'lease.json',dict(status='ACTIVE',run_uuid=old.name,owner='EXISTING_LOCAL_PC'))
             with self.assertRaises(PermissionError):c.bulk_priority(root,query=query)
