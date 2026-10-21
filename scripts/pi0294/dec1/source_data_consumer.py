@@ -94,6 +94,12 @@ def validate(root, *, now=time.time):
         if profile!='PV1_139':raise PermissionError('SOURCE_DATA_CACHE_ONLY_FIXED_139_BANK')
         from .source_data_cache import previous
         previous(r)
+    if 'plans/CLOSED_ORIGINAL126_STAGING_CACHE_REUSE.json' in m['sealed_inputs']:
+        if profile!='ORIGINAL126_C1':raise PermissionError('SOURCE_DATA_ORIGINAL_CACHE_ONLY_FIXED_ORIGINAL126_C1')
+        sealed(r,'capsule/code/scripts/pi0294/dec1/source_original_cache.py',
+            m['sealed_inputs'].get('capsule/code/scripts/pi0294/dec1/source_original_cache.py','MISSING'))
+        from .source_original_cache import previous
+        previous(r)
     sealed(r,'plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json',ADOPTION)
     proof=read(r/'PUBLICATION_AND_CI.json');source=m['code']['vla_commit']
     if (proof.get('source_sha')!=source or proof.get('CI_head_sha')!=source
@@ -184,6 +190,7 @@ def run(root):
     def expired(*unused):raise TimeoutError('SOURCE_DATA_FINITE_WALL_CUTOFF')
     previous=signal.signal(signal.SIGALRM,expired);signal.setitimer(signal.ITIMER_REAL,m['deadline_epoch']-time.time())
     cache_mode='plans/CLOSED_STAGING_CACHE_REUSE.json' in m['sealed_inputs']
+    original_cache_mode='plans/CLOSED_ORIGINAL126_STAGING_CACHE_REUSE.json' in m['sealed_inputs']
     budget=None
     def guard(extra=0):
         nonlocal last_size,resident,last_priority
@@ -192,7 +199,7 @@ def run(root):
                 if time.time()+20>=m['deadline_epoch']:raise TimeoutError('SOURCE_DATA_PRIORITY_WAIT_FINITE_CUTOFF')
                 time.sleep(15)
             last_priority=time.monotonic()
-        if cache_mode:
+        if cache_mode or original_cache_mode:
             resident=budget.reserved if budget is not None else 0
         elif time.monotonic()-last_size>15:
             resident=sum(p.stat().st_size for p in r.rglob('*') if p.is_file() and not p.is_symlink());last_size=time.monotonic()
@@ -215,7 +222,14 @@ def run(root):
         elif m.get('source_data_profile','PV1_139')=='PV1_139':result=consume(r,receipt,inputs,guard)
         else:
             from .source_data_original import consume as original
-            result=original(r,receipt,inputs,guard)
+            if original_cache_mode:
+                from .source_original_cache import previous as prior,Cache
+                cache=Cache(r,prior(r),guard,upper=OUTPUT);budget=cache.budget
+                result=original(r,receipt,inputs,guard,cache=cache)
+                result.update(output_logical_upper_bytes=budget.reserved,
+                    reused_closed_downloads=cache.reused_downloads,new_downloads=cache.new_downloads,
+                    cache_archives=cache.archives,old_failure_preserved=True)
+            else:result=original(r,receipt,inputs,guard)
     except BaseException as e:failure=dict(error_type=type(e).__name__,error=str(e)[-800:]);raise
     finally:
         result.update(CPU_s=time.process_time()-began,finished_epoch=time.time(),failure=failure)

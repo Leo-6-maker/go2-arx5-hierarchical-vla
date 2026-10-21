@@ -35,8 +35,9 @@ def train_rows(manifest):
 
 
 class FixedFiles:
-    def __init__(self, root, spec, guard, *, get=download_dataset):
+    def __init__(self, root, spec, guard, *, get=download_dataset, cache=None):
         self.root,self.spec,self.guard,self.get=Path(root),spec,guard,get
+        self.cache=cache;self.new_bytes=0
         if (spec['repo_id']!=REPO or spec['revision'] not in (V1,V2,V3,C0,C1)
                 or not spec['prefix'].startswith(('PI0291/','PI0292/','PI0294/'))):
             raise PermissionError('SOURCE126_EXISTING_PRIVATE_FIXED_REVISIONS_ONLY')
@@ -53,18 +54,25 @@ class FixedFiles:
             raise PermissionError('SOURCE126_ONLY_PRESEALED_DELIVERY_MEMBERS')
         if name in self.fetched:raise FileExistsError('SOURCE126_DO_NOT_FETCH_SAME_MEMBER_TWICE')
         row=self.files[name];self.guard(row.get('bytes',1024**2))
-        path=Path(self.get(REPO,row['path'],revision=self.spec['revision'],local_dir=self.root,token=None))
+        if self.cache is None:
+            path=Path(self.get(REPO,row['path'],revision=self.spec['revision'],local_dir=self.root,token=None));new=True
+        else:path,new=self.cache.download(self,name,row,self.get)
         if (sha(path)!=row['sha256'] or path.stat().st_size!=row.get('bytes',path.stat().st_size)
                 or name=='READY.json' and path.stat().st_size>1024**2):
             raise ValueError('SOURCE126_ACTUAL_FIXED_REVISION_MEMBER_CHANGED')
         self.bytes+=path.stat().st_size;self.fetched.append(name)
+        if new:self.new_bytes+=path.stat().st_size
         return path
 
     def archive(self,name,proof,target):
         path=self.fetch(name)
         if path.stat().st_size!=proof['bytes'] or sha(path)!=proof['sha256']:
             raise ValueError('SOURCE126_ARCHIVE_INDEX_IDENTITY')
-        extract_checked(path,target,proof['member_sha256'],self.guard)
+        self.extract(path,target,proof['member_sha256'])
+
+    def extract(self,path,target,members):
+        if self.cache is None:return extract_checked(path,target,members,self.guard)
+        return self.cache.extract(path,target,members)
 
 
 def correction(root, client, guard, previous=None):
@@ -74,7 +82,7 @@ def correction(root, client, guard, previous=None):
             or ready['files']!=spec['files'] or ready['statistics_sha256']!=R0
             or ready['manifest_sha256']!=spec['manifest_sha256'] or ready.get('READY_uploaded_last') is not True):
         raise PermissionError('SOURCE126_EXACT_PRIVATE_CORRECTION_READY')
-    archive=client.fetch('correction.tar.gz');extract_checked(archive,root,members,guard)
+    archive=client.fetch('correction.tar.gz');client.extract(archive,root,members)
     manifest=read(root/'DATASET_MANIFEST.json')
     if sha(root/'DATASET_MANIFEST.json')!=spec['manifest_sha256'] or sha(root/'statistics.json')!=R0:
         raise ValueError('SOURCE126_CORRECTION_MANIFEST_OR_R0_CHANGED')
@@ -95,10 +103,10 @@ def correction(root, client, guard, previous=None):
     return bindings,audit
 
 
-def consume(root, unused_receipt, inputs, guard):
+def consume(root, unused_receipt, inputs, guard, *, cache=None):
     r=Path(root);datasets=r/'datasets';datasets.mkdir();downloads=r/'download';downloads.mkdir()
     specs={name:read(r/'plans'/file) for name,file in (('v3','V3_TRANSFER.json'),('C0','C0_TRANSFER.json'),('C1','C1_TRANSFER.json'))}
-    clients={name:FixedFiles(downloads/name,spec,guard) for name,spec in specs.items()}
+    clients={name:FixedFiles(downloads/name,spec,guard,cache=cache) for name,spec in specs.items()}
     v3=clients['v3'];ready=read(v3.fetch('READY.json'));index=read(v3.fetch('ARCHIVE_MEMBER_MANIFEST.json'))
     dependency_path=v3.fetch('ORIGINAL_DEPENDENCY.json');dependency=read(dependency_path)
     if (v3.spec['revision']!=V3 or ready['version']!='v3.0' or ready['fixture'] is not False
@@ -110,8 +118,8 @@ def consume(root, unused_receipt, inputs, guard):
     if sha(original/'DATASET_MANIFEST.json')!=DATA or sha(original/'statistics.json')!=R0:
         raise ValueError('SOURCE126_ORIGINAL_FROZEN_MANIFEST_OR_STATISTICS')
     manifest=read(original/'DATASET_MANIFEST.json');rows=train_rows(manifest)
-    clients['v2']=FixedFiles(downloads/'v2',dependency,guard)
-    early=dependency['original_dependency'];clients['v1']=FixedFiles(downloads/'v1',early,guard)
+    clients['v2']=FixedFiles(downloads/'v2',dependency,guard,cache=cache)
+    early=dependency['original_dependency'];clients['v1']=FixedFiles(downloads/'v1',early,guard,cache=cache)
     indices={}
     for name in ('v1','v2'):
         client=clients[name];value=read(client.fetch('READY.json'))
@@ -160,5 +168,5 @@ def consume(root, unused_receipt, inputs, guard):
         frozen_native_metadata_and_numeric_DEV_retained_verbatim_not_used_for_optimization=True,DEV_raw_fetched=0,
         correction_independent_readers=dict(C0=audit0,C1=audit1),actual_CPU_official_batches=probes,mixed_CPU_batch=mixed,
         full_member_hashes_verified=True,all_original_TRAIN_raw_bindings_complete=True,
-        new_download_bytes=sum(x.bytes for x in clients.values()),files_fetched={n:c.fetched for n,c in clients.items()},
+        new_download_bytes=sum(x.new_bytes for x in clients.values()),files_fetched={n:c.fetched for n,c in clients.items()},
         GPU=0,PBS=0,models=0,new_optimizer_updates=0,new_physics=0,training_qualification=False)
