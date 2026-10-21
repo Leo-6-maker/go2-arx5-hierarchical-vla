@@ -24,11 +24,14 @@ from .runtime import bind_cpu
 from .scope import sealed_file, validate
 
 
-def packet(samples, card):
-    validate_group(card)
+def packet(samples, card, *, profile=None):
+    from .runtime import context
+    _, _, _, group_validator, _ = context(profile)
+    group_validator(card)
+    prefix = 'PI0294-VAP1_DATA-TRAIN-' if profile == 'VAP1' else 'PI0294-CR2_FIXED_R1-TRAIN-'
     if (card['nominal_clearance_m'] != .004 or card['task'] not in ('T1', 'T2')
             or card['instruction'] != task_card(card, card['task'])['instruction']
-            or not card['id'].startswith('PI0294-CR2_FIXED_R1-TRAIN-')
+            or not card['id'].startswith(prefix)
             or any(s['causal_history']['episode_id'] != card['id'] for s in samples)):
         raise PermissionError('CR2_EXACT_OBSERVED_LANGUAGE_AND_COMMITTED_TRAIN_LABELS')
     return committed_packet(samples, card)
@@ -54,7 +57,9 @@ def readers(out, case, numeric, processor, statistics_sha, source, cosmos, guard
                 statistics_sha256=statistics_sha, batch_sha256=[digest(v) for v in batches]), processed[0]
 
 
-def run(root):
+def run(root, *, profile=None):
+    from .runtime import context
+    validate, _, _, _, _ = context(profile)
     r = Path(root); lock = OwnerLock(r / 'CR2_WORKER.lock')
     m, inputs = validate(r, 'EXPORT'); work = read(r / 'plans/WORK_PLAN.private.json')
     ledger = read(r / 'RESOURCE_LEDGER.json'); assert ledger['status'] == 'RESERVED' and not ledger['unknown_effects']
@@ -110,7 +115,7 @@ def run(root):
                         or path.stat().st_size != member['bytes'] or sha(path) != member['sha256']):
                     raise ValueError('CR2_RAW_MEMBER_IDENTITY_CHANGED_OR_ESCAPE')
             samples = read(folder / 'samples.json'); validate_samples(samples, verify_images=folder)
-            arrays = packet(samples, card)
+            arrays = packet(samples, card, profile=profile)
             with np.load(folder / 'physics.npz', allow_pickle=False) as z:
                 physics = {k: z[k].copy() for k in z.files}
             events = event_index(physics, card); events['original_score'] = score

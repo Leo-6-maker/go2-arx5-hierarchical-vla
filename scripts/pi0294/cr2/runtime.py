@@ -14,8 +14,17 @@ from .plan import cards, validate_group
 from .scope import priority, sealed_file, validate
 
 
-def wait_priority(root, guard):
-    while not priority(root):
+def context(profile=None):
+    if profile is None:
+        return validate, priority, cards, validate_group, 12
+    if profile != 'VAP1':
+        raise PermissionError('EXACT_VERSIONED_CAPTURE_PROFILE_REQUIRED')
+    from scripts.pi0294.vap1 import plan, scope
+    return scope.validate, scope.priority, plan.cards, plan.validate_group, 24
+
+
+def wait_priority(root, guard, check=priority):
+    while not check(root):
         guard()
         time.sleep(60)
 
@@ -27,15 +36,16 @@ def bind_cpu(m):
     os.nice(15)
 
 
-def static(root):
+def static(root, *, profile=None):
     import mujoco
     from scripts.pi0294.scene import make_engine, qualify_engine
+    validate, priority, cards, validate_group, slots = context(profile)
     r = Path(root); lock = OwnerLock(r / 'CR2_WORKER.lock')
     m, inputs = validate(r, 'STATIC'); work = read(r / 'plans/WORK_PLAN.private.json')
     sealed_file(work['candidate_pool_path'], work['candidate_pool_sha256'])
     sealed_file(work['exclusions_path'], work['exclusions_sha256'])
     pool, exclusions = read(work['candidate_pool_path']), read(work['exclusions_path'])
-    if pool['task_results_seen'] is not False or len(pool['slots']) != 12:
+    if pool['task_results_seen'] is not False or len(pool['slots']) != slots:
         raise PermissionError('CR2_SEALED_PRERESULT_TWELVE_SLOT_POOL_REQUIRED')
     ledger = read(r / 'RESOURCE_LEDGER.json'); assert ledger['status'] == 'RESERVED'
     accepted = []; rejected = []; receipts = []; starts = 0; began = time.process_time(); failure = None
@@ -51,7 +61,7 @@ def static(root):
         mujoco.mj_step = mujoco.mj_step1 = mujoco.mj_step2 = forbidden
         ledger['status'] = 'RUNNING'; write(r / 'RESOURCE_LEDGER.json', ledger)
         for slot in pool['slots']:
-            wait_priority(r, guard)
+            wait_priority(r, guard, priority)
             for group in slot['candidates']:
                 guard(); validate_group(group)
                 conflicts = near_duplicate_report([group], [*exclusions, *accepted])['conflicts']
@@ -61,7 +71,7 @@ def static(root):
                     continue
                 pair = []
                 for task in ('T1', 'T2'):
-                    wait_priority(r, guard)
+                    wait_priority(r, guard, priority)
                     if starts >= m['limits']['engine_starts']:
                         raise PermissionError('CR2_STATIC_CONSTRUCTOR_BOUND')
                     starts += 1; ledger.update(engine_starts=starts, worker_CPU_s=time.process_time() - began)
@@ -116,7 +126,8 @@ def static(root):
 
 
 class Meter(CovMeter):
-    def __init__(self, root):
+    def __init__(self, root, *, profile=None):
+        validate, self.priority, cards, _, _ = context(profile)
         self.root = Path(root); self.started = time.process_time(); self.children = resource.getrusage(resource.RUSAGE_CHILDREN)
         self.m, self.inputs = validate(root, 'CAPTURE')
         self.ledger = read(self.root / 'RESOURCE_LEDGER.json'); self.plan = read(self.root / 'plans/WORK_PLAN.private.json')
@@ -136,14 +147,14 @@ class Meter(CovMeter):
         self.ledger['status'] = 'RUNNING'; self.progress()
 
 
-def capture(root):
+def capture(root, *, profile=None):
     import numpy as np
     from scripts.pi0294.e1.artifacts import atomic_npz
     r = Path(root); lock = OwnerLock(r / 'CR2_WORKER.lock'); meter = None; rows = []; failure = None
     try:
-        meter = Meter(r); wait_priority(r, meter.guard); qualify_counter(meter)
+        meter = Meter(r, profile=profile); wait_priority(r, meter.guard, meter.priority); qualify_counter(meter)
         for card in meter.plan['cards']:
-            wait_priority(r, meter.guard); meter.guard()
+            wait_priority(r, meter.guard, meter.priority); meter.guard()
             if (card['id'] in meter.ledger['attempted_cells'] or meter.ticks + 32000 > meter.m['limits']['physics_ticks']
                     or meter.starts + 88 > meter.m['limits']['engine_starts']):
                 raise PermissionError('CR2_ONE_FIRST_ATTEMPT_FULL_RESERVE_NO_PHYSICAL_REPLACEMENT')
