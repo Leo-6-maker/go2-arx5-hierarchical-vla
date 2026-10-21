@@ -1,0 +1,273 @@
+{
+  "schema": "VAP1_ADOPTION_AND_ACTUAL_FIRST_SPINE_RECEIPT_V1",
+  "status": "VAP1_ADOPTED_DATA_FIRST_PAIR_RUNNING",
+  "authority_release": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+  "original_DEC1_authority": "a7a7ecd9a6be62a7221af25a5e32a0009b076a84",
+  "observed_epoch": 1792557341.508806,
+  "adoption": {
+    "schema": "VAP1_ADOPTION_AND_DELTA_BUDGET_V1",
+    "status": "VAP1_ADOPTED_CONTROL_D_POPULATION_PENDING_STATIC",
+    "authority_release": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+    "authority_files_sha256": {
+      "docs/handover/2026-10-21/VAP1_VANDA_AUTONOMOUS_POLICY_DATA_TEACHER_GOAL.md": "d9131f73213159521e102f21e8a524c8b0d43550e48e96af1796f952960ef0aa",
+      "reports/PI0294/design/VAP1_VANDA_POLICY_DATA_TEACHER_SCOPE_20261021.json": "0c3989761443d4123b04c3830ae0d658cc1f96510110891ffaaeb63c5b0de5db"
+    },
+    "owner": "EXISTING_SINGLE_LOCAL_PC_COORDINATOR",
+    "adopted_epoch": 1792556553.0716627,
+    "original_T0_epoch": 1792348196,
+    "original_hard_close_epoch": 1792952996,
+    "GPU_global_hours": 96,
+    "GPU_DEC1_hours": 48,
+    "global_PBS_limit": 24,
+    "DEC1_new_PBS_limit": 8,
+    "concurrent_GPUs": 1,
+    "final_GPU_protected_s": 72000,
+    "cumulative_subcap_delta": {
+      "local_CPU_s": [
+        28800,
+        57600
+      ],
+      "CoreLab_CPU_s": [
+        345600,
+        576000
+      ],
+      "GPU_site_output_bytes": [
+        68719476736,
+        171798691840
+      ],
+      "CoreLab_output_bytes": [
+        68719476736,
+        137438953472
+      ],
+      "transfer_bytes": [
+        68719476736,
+        137438953472
+      ]
+    },
+    "observed_used": {
+      "GPU_s": 20494,
+      "PBS": 12,
+      "neural_queries": 1054,
+      "optimizer_updates": 0,
+      "CPU_s": {
+        "CoreLab": 136671.29660915694,
+        "Hopper": 17830.822133859,
+        "local_PC": 27923.974682508997
+      },
+      "GPU_site_new_storage_bytes": 36657483894
+    },
+    "observed_reserved": {
+      "GPU_s": 1860,
+      "queries": 17,
+      "GPU_site_CPU_s": 7440,
+      "output_bytes": 268435456
+    },
+    "new_source_D_T_limits": {
+      "CoreLab_CPU_s": 230400,
+      "episodes": 72,
+      "live_ticks": 1152000,
+      "shadow_ticks": 1152000,
+      "all_ticks": 2800000,
+      "constructors": 12000,
+      "Core_output_bytes": 34359738368,
+      "transfer_bytes": 25769803776,
+      "saved_parents_audited": 400
+    },
+    "data_population": "24_NEW_GROUPS_48_FIXED_FIRST_ATTEMPTS_FINITE_POOL_PENDING_NATIVE_STATIC_SEAL",
+    "source_training_requires_complete_B0": false,
+    "source_training_waits_for_new_R1_data": false,
+    "legacy_baseline_selection_and_LOCKBOX_require_complete_B0": true,
+    "current_job_scope_unchanged": "1471903_ONLY17_SAVED_TRAIN_INFERENCE_NO_TRAINING_NO_PHYSICS",
+    "current_native_job_state": "Q",
+    "current_resources": {
+      "ngpus": 1,
+      "ncpus": 4,
+      "memory_GB": 32
+    },
+    "old_owner_observation_failure": "DNS_READ_ONLY_EXIT_NOT_A_PBS_TERMINAL_OR_RESTART_AUTHORITY",
+    "data_window_T0": "BIND_ONCE_AT_NEW_CORE_NATIVE_REGISTRATION",
+    "old_clocks_and_counters_reset": false,
+    "old_files_retained": true,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "new_science_effects": 0
+  },
+  "native_adoption_sha256": "a26aeb5076e075791e1dfea4e5da0ccaae05ccbb7fa578a1583dea1c4764ed89",
+  "same_adoption_on_Core_and_Hopper": true,
+  "old_DEC1_ledger_bytes_preserved_before_amendment": true,
+  "GPU": {
+    "job_id": "1471903.stdct-mgmt-02",
+    "native_observed_epoch": 1792557341.3099988,
+    "native_state": "Q",
+    "project": "CFP04-CF-007",
+    "resources": {
+      "ngpus": 1,
+      "ncpus": 4,
+      "mem": "32gb",
+      "walltime": "00:30:00"
+    },
+    "scope": "ORIGINAL17_SAVED_TRAIN_INPUTS_ONLY",
+    "neural_source": "a2caf6a54f37cb76f64f8d7f42abd5f0e3252339",
+    "model_records_observed": [],
+    "new_qsub": 0,
+    "new_qalter": 0,
+    "cancel": 0,
+    "resource_cache_billing_not_verified": true
+  },
+  "owner": {
+    "services": {
+      "dec1-vanda-compat-owner-03.service": {
+        "MainPID": "4010517",
+        "ActiveState": "active"
+      },
+      "vap1-first-pair-lane.service": {
+        "MainPID": "4015900",
+        "ActiveState": "active"
+      }
+    },
+    "previous_process_3934448_proven_terminal": true,
+    "previous_exit": "2026-10-21T10:55:41+08:00_DNS_READ_FAILURE_NOT_PBS_FAILURE",
+    "observation_retry_source": "766f4b7bdca010aaa0e4e2a2a6035320f8400980",
+    "CI_run": 39543431667,
+    "CI_job": 119036149196,
+    "exact_CI_success_and_two_changed_blobs_read_back": true,
+    "neural_capsule_not_hot_changed": true,
+    "new_cloud_or_autonomous_agent_owners": 0
+  },
+  "data": {
+    "run_uuid": "20261021T042730Z-localpc-vap1-data",
+    "T0_epoch": 1792556850,
+    "stop_dispatch_epoch": 1792700850,
+    "stop_compute_epoch": 1792715250,
+    "hard_close_epoch": 1792729650,
+    "adoption_sha256": "38f4ac878a685d533f37e83827ac1ecc2feb7c7f576018db38608b9b09107c67",
+    "source_sha": "dd23eeca6fccc385a33cc09e896e3d245ba6bcc9",
+    "CI_run": 39543926717,
+    "CI_job": 119037697652,
+    "exact_CI_success_and_eight_blobs_read_back": true,
+    "focused_contract_tests": 29,
+    "namespace": "PI0294/VAP1_DATA/TRAIN",
+    "groups": 24,
+    "cards": 48,
+    "static_population_sha256": "466a211e8213f09d46be4fdff9cda5141ab16f1e3a48641f44ade3dab8197826",
+    "static_constructors": 48,
+    "static_integrations": 0,
+    "static_CPU_s": 67.136904834,
+    "static_lease_closed": true,
+    "frozen_numerical_source_members": 15,
+    "frozen_native_asset_members": 26,
+    "same_CR2_original_4mm_Teacher": true,
+    "R1_refits": 0,
+    "closed_CR2_not_reopened": true,
+    "initial_worker_pool": [
+      18,
+      19
+    ],
+    "worker_CPU": [
+      19
+    ],
+    "capture_state": {
+      "active": true,
+      "native_observed_epoch": 1792557339.5027359,
+      "ledger": {
+        "status": "RUNNING",
+        "CPU_s": 0,
+        "CPU_reserved_s": 7200,
+        "unknown_effects": [],
+        "attempted_cells": [
+          "PI0294-VAP1_DATA-TRAIN-AP0-+Y-FAR-000-T1-C04"
+        ],
+        "engine_starts": 28,
+        "episode_starts": 1,
+        "live_ticks": 4000,
+        "shadow_ticks": 4200,
+        "ticks": 8200,
+        "worker_CPU_s": 133.168534763,
+        "current_cell": "PI0294-VAP1_DATA-TRAIN-AP0-+Y-FAR-000-T1-C04"
+      },
+      "STOP": false
+    },
+    "completed_bank_or_READY_claim": false,
+    "physical_replacements": 0,
+    "partial_binding_failure": {
+      "reason": "CR2_ROLE_PREFIX_COLLISION_IN_NEW_PRIVATE_SCOPE_ADAPTER",
+      "unregistered_child_preserved": true,
+      "unregistered_lease": "CLOSED_UNREGISTERED_ZERO_EFFECT_BIND_FAILURE",
+      "independent_zero_effect_witness_epoch": 1792557030.6200063,
+      "old_registry_entry_untouched": true,
+      "physical_effects": 0,
+      "scope_corrected_before_new_static02_registration": true
+    }
+  },
+  "teacher": {
+    "status": "SAVED_TRAIN_STATE_AVAILABILITY_PRECHECK_ONLY",
+    "parents_inspected": 24,
+    "observed_epoch": 1792557278.769027,
+    "origin": "TEACHER_ON_MANIFOLD_NOT_ACTUAL_STUDENT",
+    "saved_physics_fields": [
+      "time_s.npy",
+      "object_pose.npy",
+      "object_linear_velocity.npy",
+      "object_angular_velocity.npy",
+      "robot_object_contact.npy",
+      "object_present.npy",
+      "contact_valid.npy",
+      "gripper_state_valid.npy",
+      "native_grasp.npy",
+      "left_object_contact.npy",
+      "right_object_contact.npy",
+      "safety_valid.npy",
+      "native_abort.npy",
+      "illegal_contact.npy",
+      "joint_limit_penetration.npy",
+      "reset.npy",
+      "takeover.npy",
+      "tcp_world.npy",
+      "contact_time_s.npy",
+      "contact_audit.npy"
+    ],
+    "explicit_restore_members_found": 0,
+    "full_sim_state_warmstart_ctrl_RNG_history_not_bound": true,
+    "actual_student_TRAIN_full_restore_state": "NOT_YET_BOUND",
+    "teacher_changed": false,
+    "new_dev_attempts": 0,
+    "new_verification_attempts": 0,
+    "recovery_or_DAgger_qualification": false
+  },
+  "current_global_projection": {
+    "CPU_s": {
+      "CoreLab": 136791.29660915694,
+      "Hopper": 18130.822133859,
+      "local_PC": 29123.974682508997
+    },
+    "CPU_reserved_s": {
+      "CoreLab": 230400,
+      "Hopper": 0,
+      "local_PC": 0
+    },
+    "GPU_allocated_s": 20494,
+    "GPU_reserved_s": 1860,
+    "neural_queries": 1054,
+    "optimizer_updates": 0,
+    "new_D_T_global_escrow": {
+      "Core_CPU_s": 230400,
+      "episodes": 72,
+      "all_ticks": 2800000,
+      "constructors": 12000
+    },
+    "final_GPU_protected_s": 72000,
+    "old_spent_and_reservations_not_reset": true
+  },
+  "remaining_required": [
+    "ACTUAL_A40_MODEL_AND_NUMERICAL_TERMINAL_WITH_SETTLEMENT",
+    "FOLLOWUP_SOURCE_TRAINING_OR_DEC1_MATRIX_NATIVE_ADMISSION",
+    "D24_FULL_RAW_CODEC_READER_GATE_AND_FIXED_REVISION_READY_LAST",
+    "CONDITIONAL_D48_AFTER_D24",
+    "TEACHER_FULL_STATE_LINEAGE_AND_DEV_VERIFICATION_OR_PRECISE_NOT_RUN",
+    "VAP1_RESULTS_AND_RESOURCES_COMPLETE_CLOSEOUT"
+  ],
+  "WBC_plant_gripper_PD_S1_scoring_R0_and_AB_recipe_frozen": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "scientific_goal_complete": false
+}

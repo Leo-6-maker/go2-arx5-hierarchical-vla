@@ -1,5 +1,14 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**VAP1 is now natively adopted; the first new TRAIN pair is collecting.**
+[Actual adoption, nonadditive budget migration, owner recovery and frozen48-card population](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_ADOPTION_AND_DELTA_BUDGET.json).
+The same A40 job remainsQ/4CPU/32GB, with no model effects or resubmission.
+Owner03 resumed only after owner02's DNS-only exit was proven terminal; the
+original neural capsule is unchanged. Data static24groups/48cards passed with
+48constructors and zero integrations; its lease is closed. First-pair capture
+is live on one isolated Core CPU, not a completed bank. Teacher saved-TRAIN
+state availability is only a precheck, not recovery or DAgger qualification.
+
 **DEC1 separately approved corrected qalter succeeded on the same queued job.**
 [Actual correction and independent native readback](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SAME_JOB_RESOURCE_CORRECTION02_ACTUAL.json).
 At epoch1792550964 the one additional explicitly approved call used the exact
