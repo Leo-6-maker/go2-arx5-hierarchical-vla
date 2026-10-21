@@ -54,6 +54,8 @@ def sealed(root, name, expected=None, *, parse=True):
 
 def validate(root, *, now=time.time):
     r=Path(root);m=sealed(r,'RUN_MANIFEST.json');b=sealed(r,'OUTPUT_BINDING.private.json')
+    profile=m.get('source_data_profile','PV1_139')
+    if profile not in ('PV1_139','ORIGINAL126_C1'):raise PermissionError('SOURCE_DATA_EXACT_TWO_SAVED_TRAIN_PROFILES')
     if (r.is_symlink() or r.stat().st_uid!=os.getuid()
             or m.get('schema')!=SCHEMA or m.get('run_uuid')!=r.name
             or m.get('authority_release')!=AUTHORITY or m.get('amendment')!=VAP1
@@ -80,8 +82,13 @@ def validate(root, *, now=time.time):
         raise PermissionError('SOURCE_DATA_UNIQUE_NATIVE_REGISTRY_AND_ACTIVE_LEASE')
     for name,digest in m['sealed_inputs'].items():sealed(r,name,digest,parse=False)
     required={'BINDINGS.private.json','CPU_BUDGET_PREPAID.json','PUBLICATION_AND_CI.json',
-        'plans/PV1_HF_BANK_DELIVERY.json','plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json',
+        'plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json',
         'capsule/code/scripts/pi0294/dec1/source_data_consumer.py','SOURCE_SEAL.json'}
+    if profile=='PV1_139':required.add('plans/PV1_HF_BANK_DELIVERY.json')
+    else:
+        from .source_data_original import INPUTS
+        required.update(INPUTS)
+        required.add('capsule/code/scripts/pi0294/dec1/source_data_original.py')
     if not required<=set(m['sealed_inputs']):raise PermissionError('SOURCE_DATA_EXPLICIT_PREPAID_INPUTS')
     sealed(r,'plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json',ADOPTION)
     proof=read(r/'PUBLICATION_AND_CI.json');source=m['code']['vla_commit']
@@ -96,8 +103,17 @@ def validate(root, *, now=time.time):
             or paid.get('campaign_run_uuid')!=m['campaign_run_uuid']
             or paid.get('costs_inside_original_PV1_and_DEC1') is not True
             or paid.get('CPU_upper_s')!=CPU or paid.get('transfer_reserved_bytes')!=TRANSFER
-            or paid.get('output_reserved_bytes')!=OUTPUT or paid.get('unknown_effects')!=[]):
+            or paid.get('output_reserved_bytes')!=OUTPUT or paid.get('unknown_effects')!=[]
+            or paid.get('source_data_profile','PV1_139')!=profile):
         raise PermissionError('SOURCE_DATA_NONADDITIVE_PREPAYMENT_REQUIRED')
+    if profile=='ORIGINAL126_C1':
+        for name,digest in INPUTS.items():sealed(r,name,digest)
+        inputs=read(r/'BINDINGS.private.json');source=inputs['official_source']
+        actual=subprocess.check_output(['git','-C',source,'rev-parse','HEAD'],text=True,timeout=20).strip()
+        clean=subprocess.run(['git','-C',source,'diff','--quiet','HEAD','--'],timeout=20).returncode==0
+        if actual!='51d4c89f72fda44cbf77285c6a8114b52676b8a1' or not clean:
+            raise PermissionError('SOURCE_DATA_EXACT_CLEAN_OFFICIAL_PROCESSOR_SOURCE')
+        return m,inputs,None
     receipt=sealed(r,'plans/PV1_HF_BANK_DELIVERY.json',DELIVERY)
     if (receipt.get('status')!='PASS_FIXED_REVISION_READY_LAST_EXACT_FULL_SET_SIZE_SHA256'
             or receipt.get('repo_id')!='leoyuer/pi0294-public-artifacts' or receipt.get('prefix')!=PREFIX
@@ -173,7 +189,10 @@ def run(root):
         cpu_guard();guard()
         write(r/'CONSUMPTION_INTENT.private.json',dict(epoch=time.time(),CPU_upper_s=CPU,
             revision=REVISION,model_loads=0,PBS=0,physics=0,no_blind_restart=True))
-        result=consume(r,receipt,inputs,guard)
+        if m.get('source_data_profile','PV1_139')=='PV1_139':result=consume(r,receipt,inputs,guard)
+        else:
+            from .source_data_original import consume as original
+            result=original(r,receipt,inputs,guard)
     except BaseException as e:failure=dict(error_type=type(e).__name__,error=str(e)[-800:]);raise
     finally:
         result.update(CPU_s=time.process_time()-began,finished_epoch=time.time(),failure=failure)
