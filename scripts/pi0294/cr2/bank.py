@@ -178,6 +178,8 @@ def run(root, *, profile=None):
                 if case['id'] in cases:raise PermissionError('CR2_NO_DUPLICATE_CAPTURE_OR_EXPORT_PARENT')
                 cases[case['id']]=case;sources[case['id']]=child
         if set(cases)!={row['id'] for row in rows}:raise PermissionError('CR2_EXACT_ALL_ATTEMPTS_AND_SOURCE_BINDINGS')
+        if cfg.get('qualify_attempts') is not None:
+            rows=cfg['qualify_attempts'](rows,cases,guard)
         value=manifest(static['groups'],rows,population_sha256=work['static_plan_sha256'],
             adoption_sha256=m['authority']['adoption_sha256'],profile=profile)
         if len(cases)>400:raise PermissionError('CR2_SAVED_PARENT_READ_LIMIT')

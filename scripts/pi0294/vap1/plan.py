@@ -2,6 +2,7 @@
 from copy import deepcopy
 import hashlib
 import itertools
+import re
 
 import numpy as np
 
@@ -98,8 +99,20 @@ def bank_gate(rows, groups, *, cumulative=False):
         for ap, direction, task in itertools.product(AP, DIRECTIONS, ('T1', 'T2'))}
     distance = {f'{d}/{t}': sum(c['id'] in good for c in planned if (c['distance_bin'], c['task']) == (d, t))
                 for d, t in itertools.product(DISTANCES, ('T1', 'T2'))}
+    def accounted(row):
+        if row.get('evidence_qualified') is True:return True
+        proof=row.get('attempt_evidence',{})
+        return (row.get('status')=='PRESERVED_NEGATIVE_NOT_SUCCESS_DATA'
+            and row.get('admitted') is False and row.get('task_success') is False
+            and proof.get('status')=='PASS_REHASHED_ORIGINAL_LEGAL_PARTIAL_NEGATIVE'
+            and proof.get('complete_success_data') is False and proof.get('admitted') is False
+            and proof.get('rejected_prefix_live_ticks')==0 and proof.get('raw_and_video_rehashed') is True
+            and proof.get('new_integrations')==0 and proof.get('new_constructors')==0
+            and proof.get('original_raw_manifest_sha256')==row.get('source_raw_manifest_sha256')
+            and all(re.fullmatch('[0-9a-f]{64}',proof.get(k,'')) for k in
+                ('partial_negative_audit_sha256','original_capture_audit_sha256','original_raw_manifest_sha256')))
     safe = all(r.get('native_faults') == 0 and r.get('unknown_effects') == []
-               and r.get('R0_PASS_to_R1_FAIL') is False and r.get('evidence_qualified') is True for r in rows)
+               and r.get('R0_PASS_to_R1_FAIL') is False and accounted(r) for r in rows)
     passed = (len(rows) == len(planned) and min(success.values()) >= (20 if cumulative else 10)
               and min(admitted.values()) >= (20 if cumulative else 10) and pairs >= (18 if cumulative else 9)
               and min(coverage.values()) >= (2 if cumulative else 1)

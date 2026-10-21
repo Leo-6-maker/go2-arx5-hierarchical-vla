@@ -3,6 +3,7 @@ from . import plan, scope
 
 
 def configuration(profile):
+    from .attempts import qualify
     if profile not in ('VAP1_D24','VAP1_D48'):
         raise PermissionError('VAP1_EXACT_TWO_BANKS_NO_ARBITRARY_EXPANSION')
     cumulative=profile=='VAP1_D48'
@@ -14,7 +15,7 @@ def configuration(profile):
         adoption='VAP1_ADOPTION_AND_SCOPE.json',operation='VAP1_ASSEMBLE_AND_PACK_'+name,
         attempts='ALL_PAIRED_ATTEMPTS.json',output_cap=32*1024**3,archive_cap=(5 if cumulative else 3)*1024**3,
         pack_status='PASS_VAP1_LOCAL_BANK_AND_PACK_NOT_HF_READY',
-        local_schema='PI0294_VAP1_LOCAL_FROZEN_V1',index_schema='PI0294_VAP1_ARCHIVE_INDEX_V1')
+        local_schema='PI0294_VAP1_LOCAL_FROZEN_V1',index_schema='PI0294_VAP1_ARCHIVE_INDEX_V1',qualify_attempts=qualify)
 
 
 def run(root):
