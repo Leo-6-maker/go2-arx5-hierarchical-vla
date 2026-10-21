@@ -9,6 +9,26 @@ def fail(message):
     raise PermissionError('VAP1_A40_FUTURE_'+message)
 
 
+def pending_source_reservations(h,d):
+    """CPU data reservations remain liabilities while the GPU job queues."""
+    from .a40_allocation import T0
+    active=lambda rows:{k:v for k,v in rows.items() if v.get('status')!='CLOSED'}
+    rows=active(d.get('source_data_reservations',{}))
+    if rows!=active(h.get('external_CPU_source_data_reservations',{})):
+        fail('SAME_PENDING_CPU_DATA_RESERVATIONS_ON_BOTH_LEDGERS')
+    output=transfer=0
+    for key,row in rows.items():
+        if (row.get('source_data_profile')!='ORIGINAL126_C1'
+                or row.get('authority_release')!=AUTHORITY or row.get('original_T0_epoch')!=T0
+                or row.get('unknown_effects')!=[] or row.get('new_PBS')!=0 or row.get('new_models')!=0
+                or row.get('costs_inside_original_PV1_and_DEC1') is not True
+                or key not in h.get('engineering_CPU_upper_settlements',{})):
+            fail('ONLY_ALREADY_PREPAID_FIXED_ORIGINAL_CPU_READER_MAY_BE_PENDING')
+        output+=old._number(row['output_reserved_bytes'],integer=True,positive=True)
+        transfer+=old._number(row['transfer_reserved_bytes'],integer=True,positive=True)
+    return dict(output_bytes=output,transfer_bytes=transfer)
+
+
 def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
               progress_bytes, plan_bytes, amendment_bytes, now_epoch, job_id,
               purpose='NATIVE_PRETRAIN'):
@@ -44,8 +64,10 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
     du=old._vector(s['dec1_used']);dr=old._vector(s['dec1_reserved'])
     expected=dict(h['used'],Hopper_CPU_s=h['CPU_s'],
         Hopper_storage_bytes=h['new_storage_current_bytes'])
+    pending=pending_source_reservations(h,d)
     expected_reserved=dict(h['reserved'],Hopper_CPU_s=h.get('CPU_reserved_s',0),
-        Hopper_storage_bytes=h['storage_reserved_bytes'])
+        Hopper_storage_bytes=h['storage_reserved_bytes']+pending['output_bytes'])
+    expected_reserved['transfer_bytes']=h['reserved'].get('transfer_bytes',0)+pending['transfer_bytes']
     for observed,native in ((used,expected),(reserved,expected_reserved)):
         if any(observed[k]!=v for k,v in native.items()):
             fail('GLOBAL_SPENT_AND_ALL_PLATFORM_RESERVATIONS_EXACT_NOT_RESET')
@@ -58,7 +80,7 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         neural_queries=d.get('neural_queries_reserved',0),
         optimizer_updates=d.get('optimizer_updates_reserved',0),
         transfer_bytes=d.get('network_transfer_reserved_bytes',0),
-        Hopper_storage_bytes=d.get('GPU_site_output_reserved_bytes',0))
+        Hopper_storage_bytes=d.get('GPU_site_output_reserved_bytes',0)+pending['output_bytes'])
     for observed,native in ((du,expected_d),(dr,expected_dr)):
         if any(observed[k]!=v for k,v in native.items()):
             fail('DEC1_NATIVE_SPENT_RESERVED_CPU_AND_IO_EXACT')
