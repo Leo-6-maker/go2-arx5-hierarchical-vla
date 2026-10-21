@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import stat
 import struct
+import shutil
 import time
 
 from scripts.pi0294.native_dataset import sha
@@ -181,6 +182,37 @@ def share_after_native_save(root, checkpoint, guard):
     return result
 
 
+def prewrite_headroom(root):
+    """Optional own-root physical upper; never walk the external data bank."""
+    if not configured(root):return
+    root=Path(root);policy=_read(root/POLICY);bound=policy.get('prewrite_headroom')
+    if bound is None:return
+    if (set(bound)!={'resident_upper_bytes','full_save_upper_bytes','metadata_upper_bytes','filesystem_reserve_bytes'}
+            or any(type(v) is not int or v<=0 for v in bound.values())
+            or bound['full_save_upper_bytes']>bound['resident_upper_bytes']
+            or bound['filesystem_reserve_bytes']<40*1024**3):
+        fail('PRESEALED_POSITIVE_FULL_SAVE_AND_FINAL_RESERVE')
+    parent=Path(_read(root/'plans/PV1_TRAIN_INPUTS.private.json')['CORR_parent_checkpoint'])
+    existing=set()
+    for name,expected in policy['members'].items():
+        p=_owned_file(parent/name,parent)
+        if sha(p)!=expected:fail('PREWRITE_PROTECTED_PARENT_CHANGED')
+        s=p.stat();existing.add((s.st_dev,s.st_ino))
+    seen=set();resident=0
+    for folder,dirs,names in os.walk(root,followlinks=False):
+        for name in dirs:
+            p=Path(folder)/name
+            if p.is_symlink() or p.stat().st_uid!=os.getuid():fail('PREWRITE_OWN_ROOT_NO_DIRECTORY_ESCAPE')
+        for name in names:
+            p=_owned_file(Path(folder)/name,root);s=p.stat();key=(s.st_dev,s.st_ino)
+            if key not in seen and key not in existing:resident+=max(s.st_size,s.st_blocks*512)
+            seen.add(key)
+    required=bound['full_save_upper_bytes']+bound['metadata_upper_bytes']
+    if resident+required>bound['resident_upper_bytes']:fail('OWN_RESIDENT_PLUS_COMPLETE_TRANSIENT_SAVE_BOUND')
+    if shutil.disk_usage(root).free<required+bound['filesystem_reserve_bytes']:
+        fail('ACTUAL_FILESYSTEM_FULL_SAVE_AND_FINAL_RESERVE')
+
+
 def wrap_trainer(base, root, guard):
     if not configured(root):return base
 
@@ -209,6 +241,8 @@ def wrap_trainer(base, root, guard):
                     if sha(_owned_file(checkpoint/name,checkpoint))!=expected:
                         fail('EXISTING_COMPLETE_MEMBER_CHANGED_NO_OVERWRITE')
                 return
+            if 'prewrite_headroom' in _read(Path(root)/POLICY):
+                guard();prewrite_headroom(root)
             super()._save_checkpoint(model,trial)
             share_after_native_save(root,checkpoint,guard)
 

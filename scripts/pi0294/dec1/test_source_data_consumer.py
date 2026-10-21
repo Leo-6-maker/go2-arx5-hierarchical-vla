@@ -18,6 +18,31 @@ def put(path,value):
 
 
 class SourceCPUContracts(unittest.TestCase):
+    def test_original_cache_cold_validation_checks_python_bytes_not_json(self):
+        from scripts.pi0294.dec1 import source_data_original as original, source_original_cache as cache
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'child';root.mkdir();m,b,seals=self.fixture(root)
+            m['source_data_profile']='ORIGINAL126_C1'
+            paid=c.read(root/'CPU_BUDGET_PREPAID.json');paid['source_data_profile']='ORIGINAL126_C1'
+            seals['CPU_BUDGET_PREPAID.json']=put(root/'CPU_BUDGET_PREPAID.json',paid)
+            seals['BINDINGS.private.json']=put(root/'BINDINGS.private.json',dict(official_source='fixture-official'))
+            name='capsule/code/scripts/pi0294/dec1/source_original_cache.py'
+            (root/name).write_text('import os\nVALUE = 17\n');(root/name).chmod(0o400);seals[name]=c.sha(root/name)
+            seals['capsule/code/scripts/pi0294/dec1/source_data_original.py']=put(
+                root/'capsule/code/scripts/pi0294/dec1/source_data_original.py','fixture')
+            seals[cache.PLAN]=put(root/cache.PLAN,dict(fixture=True))
+            put(root/'RUN_MANIFEST.json',m);b['run_manifest_sha256']=c.sha(root/'RUN_MANIFEST.json')
+            put(root/'OUTPUT_BINDING.private.json',b)
+            own=root/'capsule/code/scripts/pi0294/dec1/source_data_consumer.py'
+            with patch.object(c,'__file__',str(own)),patch.object(original,'INPUTS',{}),\
+                    patch.object(cache,'previous',return_value=root.parent/'old') as previous,\
+                    patch.object(c,'ADOPTION',seals['plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json']),\
+                    patch.object(c.subprocess,'check_output',return_value='51d4c89f72fda44cbf77285c6a8114b52676b8a1\n'),\
+                    patch.object(c.subprocess,'run',return_value=type('Result',(),{'returncode':0})()),\
+                    patch.dict(os.environ,dict(CUDA_VISIBLE_DEVICES='',PBS_JOBID='')):
+                self.assertEqual(c.validate(root,now=lambda:1792559000),(m,dict(official_source='fixture-official'),None))
+                previous.assert_called_once_with(root)
+
     def test_closed_priority_does_not_depend_on_scheduler_history_retention(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)/'cpu';root.mkdir();old=Path(tmp)/'old';old.mkdir()

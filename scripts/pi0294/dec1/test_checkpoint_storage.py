@@ -53,6 +53,53 @@ def fixture():
 
 
 class SharingTests(unittest.TestCase):
+    def headroom_policy(self,root,**changes):
+        p=storage._read(root/storage.POLICY)
+        p['prewrite_headroom']=dict(resident_upper_bytes=1000000,full_save_upper_bytes=1000,
+            metadata_upper_bytes=1000,filesystem_reserve_bytes=40*1024**3)
+        p['prewrite_headroom'].update(changes)
+        (root/storage.POLICY).chmod(0o600)
+        digest=put(root/storage.POLICY,p);(root/storage.POLICY).chmod(0o400)
+        m=storage._read(root/'RUN_MANIFEST.json');m['execution']['sealed_inputs'][storage.POLICY]=digest
+        put(root/'RUN_MANIFEST.json',m)
+
+    def test_prewrite_counts_unique_new_inodes_and_not_parent_link(self):
+        with fixture() as (root,parent,checkpoint,guard,calls,_):
+            os.link(parent/NAME,root/'parent-linked-member')
+            self.headroom_policy(root)
+            inode=(parent/NAME).stat().st_ino;seen=set();resident=0
+            for p in root.rglob('*'):
+                if p.is_file():
+                    s=p.stat()
+                    if s.st_ino not in seen and s.st_ino!=inode:resident+=max(s.st_size,s.st_blocks*512)
+                    seen.add(s.st_ino)
+            self.headroom_policy(root,resident_upper_bytes=resident+2000)
+            with patch.object(storage.shutil,'disk_usage',return_value=SimpleNamespace(free=10**12)):
+                storage.prewrite_headroom(root)
+            with patch.object(storage.shutil,'disk_usage',return_value=SimpleNamespace(free=1)),\
+                    self.assertRaisesRegex(PermissionError,'ACTUAL_FILESYSTEM'):
+                storage.prewrite_headroom(root)
+
+    def test_prewrite_bound_rejects_before_native_writer(self):
+        with fixture() as (root,parent,checkpoint,guard,calls,_):
+            shutil.rmtree(checkpoint);self.headroom_policy(root,resident_upper_bytes=2000)
+            class Base:
+                def _save_checkpoint(self,*args):raise AssertionError('WRITER_MUST_NOT_RUN')
+            wrapped=storage.wrap_trainer(Base,root,guard)()
+            wrapped.args=SimpleNamespace(output_dir=checkpoint.parent);wrapped.state=SimpleNamespace(global_step=1024)
+            with self.assertRaisesRegex(PermissionError,'OWN_RESIDENT_PLUS_COMPLETE_TRANSIENT'):
+                wrapped._save_checkpoint(None,None)
+            self.assertFalse(checkpoint.exists())
+
+    def test_prewrite_refuses_symlink_and_reduced_final_reserve(self):
+        for failure in ('symlink','reserve'):
+            with self.subTest(failure=failure),fixture() as (root,parent,checkpoint,guard,calls,_):
+                self.headroom_policy(root)
+                if failure=='symlink':(root/'escape').symlink_to(parent,target_is_directory=True)
+                else:
+                    self.headroom_policy(root,filesystem_reserve_bytes=1)
+                with self.assertRaises(PermissionError):storage.prewrite_headroom(root)
+
     def test_exact_new_duplicate_shares_without_changing_parent_or_full_state(self):
         with fixture() as (root,parent,checkpoint,guard,calls,complete):
             original=(parent/NAME).read_bytes();mode=(parent/NAME).stat().st_mode

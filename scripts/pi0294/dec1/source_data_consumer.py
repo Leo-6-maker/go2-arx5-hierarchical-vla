@@ -121,7 +121,7 @@ def validate(root, *, now=time.time):
     if 'plans/CLOSED_ORIGINAL126_STAGING_CACHE_REUSE.json' in m['sealed_inputs']:
         if profile!='ORIGINAL126_C1':raise PermissionError('SOURCE_DATA_ORIGINAL_CACHE_ONLY_FIXED_ORIGINAL126_C1')
         sealed(r,'capsule/code/scripts/pi0294/dec1/source_original_cache.py',
-            m['sealed_inputs'].get('capsule/code/scripts/pi0294/dec1/source_original_cache.py','MISSING'))
+            m['sealed_inputs'].get('capsule/code/scripts/pi0294/dec1/source_original_cache.py','MISSING'),parse=False)
         from .source_original_cache import previous
         previous(r)
     sealed(r,'plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json',ADOPTION)
