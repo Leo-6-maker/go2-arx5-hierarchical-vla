@@ -1,4 +1,16 @@
-# Current Entry: PV1 Shared Policy and Closed FD2 Evidence
+# Current Entry: VAP1 A40 Source Training
+
+**A_CONTROL is actually training on its own A40 allocation; first32 passed.**
+[Actual data closure, allocation, model qualification and optimizer evidence](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_A40_FIRST32_AND_REAL_TRAINING_ACTUAL.json).
+Job1474116.stdct-mgmt-02 isR onGN-A40-034 underCFP04-CF-007. Runtimeb2a82480
+passed exactCI39652926789/job119405661124. Both fixed CPU readers are CLOSED
+and settled; original126/C1 and139bank identities/R0 are unchanged, noR1 mix.
+Seventeen saved-TRAIN draws passed;32real A_CONTROL updates met the presealed
+A40 cost gate and training continued (56committed at epoch1792613090).
+This is not a4096endpoint, A/B result, task success or target qualification.
+The running job retains its sealed source; newer report commits are not hot
+updates. Originalclock/budgets/final20h and selected/deploymentNONE remain.
+Older queue/CPU snapshots below are historical, not the current GPU state.
 
 **VAP1 first2 parents are actually R1 admitted; saved-TRAIN Teacher T0 is closed.**
 [Raw successes, both codecs/readers, videos, Teacher replay and claim boundaries](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_FIRST_PAIR_AND_TEACHER_T0_ACTUAL.json).
