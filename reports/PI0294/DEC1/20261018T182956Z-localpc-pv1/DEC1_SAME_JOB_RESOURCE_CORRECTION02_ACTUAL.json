@@ -1,0 +1,110 @@
+{
+  "schema": "DEC1_SEPARATELY_APPROVED_CORRECTED_QALTER_ACTUAL_V1",
+  "status": "RESTORED_ORIGINAL_SELECT_IMMEDIATE_AND_INDEPENDENT_READBACK",
+  "job_id": "1471903.stdct-mgmt-02",
+  "project": "CFP04-CF-007",
+  "approval": {
+    "question_id": "call_c48bd32578f34ad5a87b8329da558008",
+    "direct_human_reply": "允许这一次纠正调用",
+    "maximum_additional_qalter_calls": 1,
+    "only_if_Q_and_never_allocated": true,
+    "stop_if_allocated_or_rewritten": true
+  },
+  "exact_argv": [
+    "/opt/pbs/bin/qalter",
+    "-l",
+    "select=1:ngpus=1:ncpus=4:mem=32gb",
+    "1471903.stdct-mgmt-02"
+  ],
+  "exact_argv_asserted_before_effect": true,
+  "fresh_native_checks": {
+    "Q_no_stime_exec_host_exec_vnode_run_count_or_resources_used": true,
+    "exact_owner_project_job_name_nonce_request_source": true,
+    "ACTIVE_original_lease_and_registered_output": true,
+    "sealed_inputs_and_script_manifest_request_hashes": true,
+    "no_model_allocation_or_effect_journals": true,
+    "only_owned_Vanda_job_and_existing_global_GPU_reservation": true,
+    "immediate_native_recheck_before_call": true
+  },
+  "started_epoch": 1792550964.4877613,
+  "immediate_readback_epoch": 1792550964.9091058,
+  "completed_epoch": 1792550964.9129622,
+  "qalter_returncode": 0,
+  "qalter_stdout": "",
+  "qalter_stderr": "",
+  "additional_qalter_calls": 1,
+  "total_actual_qalter_calls_including_preserved_prior_failure": 2,
+  "prior_failure": {
+    "returncode": 187,
+    "reason": "OWN_COMMAND_MISSING_SELECT_EQUALS",
+    "receipt": "DEC1_SAME_JOB_RESOURCE_RESTORE_ATTEMPT_ACTUAL.json",
+    "unchanged_original_receipt_source": "ddeb3546e7a477d803cb5049b1319e6d870a1193",
+    "preserved_not_relabelled_as_dry_run": true
+  },
+  "before": {
+    "state": "Q",
+    "select": "1:ngpus=1:ncpus=36:mem=240GB",
+    "ngpus": 1,
+    "ncpus": 36,
+    "mem": "240gb",
+    "walltime": "00:30:00"
+  },
+  "immediate_after": {
+    "state": "Q",
+    "select": "1:ngpus=1:ncpus=4:mem=32gb",
+    "ngpus": 1,
+    "ncpus": 4,
+    "mem": "32gb",
+    "walltime": "00:30:00"
+  },
+  "independent_readback": {
+    "observed_epoch": 1792550985.0348535,
+    "state": "Q",
+    "select": "1:ngpus=1:ncpus=4:mem=32gb",
+    "ngpus": 1,
+    "ncpus": 4,
+    "mem": "32gb",
+    "walltime": "00:30:00",
+    "native_process_allocation_admission_and_effect_records_present": []
+  },
+  "all_nonresource_identity_unchanged": true,
+  "original_neural_source_sha": "a2caf6a54f37cb76f64f8d7f42abd5f0e3252339",
+  "native_manifest_sha256": "e05048a1b723bcb260d6d91f827d6277a07e69ec507a86d7eac7d6fd3da48334",
+  "script_sha256": "41531c77b016ce2894879c4d1b7bd2f6f104e7cfeecf0e11ff6c30e9cf850318",
+  "request_file_sha256": "6a41022482e92b216aa6cb4a64ef6c482c5cd53ee08568bd763ef34a0da3bbf1",
+  "correction_native_intent_sha256": "31bf6c5b8dc36af085fc43a8d302b8817452925c212b9cf40ce430882333ea61",
+  "same_existing_owner": {
+    "service": "dec1-vanda-compat-owner-02",
+    "PID": 3934448,
+    "active_running_at_readback": true,
+    "restarted_by_this_operation": false,
+    "new_cloud_or_scientific_owner": false
+  },
+  "preserved_accounting": {
+    "global_PBS_submissions": 12,
+    "DEC1_new_GPU_submissions": 1,
+    "allocated_GPU_seconds_settled_before_this_queued_job": 20494,
+    "reserved_GPU_seconds": 1860,
+    "reserved_neural_queries": 17,
+    "reserved_GPU_site_CPU_seconds": 7440,
+    "reserved_output_bytes": 268435456,
+    "unchanged_original_T0_deadline_and_final_20_GPU_hours": true
+  },
+  "remaining_unknowns": [
+    "Native am_job_cache still contains job.ncpus=36.0; actual allocation and billing semantics remain unverified.",
+    "Observed select stability across two reads does not guarantee future scheduler/allocation stability.",
+    "No model/CUDA/numerical qualification has occurred; original allocation-time admission is still mandatory."
+  ],
+  "new_qsub": 0,
+  "cancel": 0,
+  "automatic_retry": false,
+  "additional_budget": 0,
+  "new_models_observed": 0,
+  "new_queries_observed": 0,
+  "new_training_updates": 0,
+  "new_physics": 0,
+  "WBC_plant_gripper_PD_S1_scoring_statistics_inputs_unchanged": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "scientific_goal_complete": false
+}

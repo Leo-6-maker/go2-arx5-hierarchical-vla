@@ -1,5 +1,20 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**DEC1 separately approved corrected qalter succeeded on the same queued job.**
+[Actual correction and independent native readback](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SAME_JOB_RESOURCE_CORRECTION02_ACTUAL.json).
+At epoch1792550964 the one additional explicitly approved call used the exact
+`select=1:ngpus=1:ncpus=4:mem=32gb` argument and returned0. Immediate and separate
+epoch1792550985 native reads show1471903.stdct-mgmt-02 stillQ/1GPU/4CPU/32GB/30min,
+with all nonresource job/input identities unchanged and no model/effect records.
+The old rc187 syntax failure below is preserved; total actual qalter calls2,
+each separately approved. No cancellation, resubmission, new owner, hot capsule
+change or extra budget. Native am_job_cache still mentions36CPU; actual billing
+and allocation-time resource stability remain unverified, not overwritten here.
+Same owner service02/PID3934448 is active and continues low-frequency watching.
+This removes the observed queued select mismatch only, not model qualification,
+training admission or scientific completion. All original reserves/frozen items
+remain; selected/deployment=NONE.
+
 **DEC1 one approved same-job resource restore was attempted, not successful.**
 [Actual one-call error, unchanged native resources and control-reader recovery](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SAME_JOB_RESOURCE_RESTORE_ATTEMPT_ACTUAL.json).
 Job1471903.stdct-mgmt-02 remainsQ/36CPU/240GB with no neural process at the
