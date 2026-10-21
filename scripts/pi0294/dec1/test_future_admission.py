@@ -13,13 +13,29 @@ from scripts.pi0294.pv1.evaluation_plan import POPULATION_FILE
 from scripts.pi0294.test_mp1_transport_fixture import put
 from scripts.pi0294.test_pv1_future_budget import raw
 from . import test_source_admission as source_fixture
-from .test_future_budget import fixtures,NOW,T0
+from .test_future_budget import fixtures,NOW,T0,amendment
+from scripts.pi0294.dec1 import future_budget as dec_budget,future_admission as dec_bridge
 from .source_admission import COPY,VERSION
 from .authority import AUTHORITY,PARENT_AUTHORITY,PARENT
 from .future_admission import INDEX,bounded_process_cpu
 
 
 class BridgeTests(unittest.TestCase):
+    def test_VAP1_caps_require_native_identical_manifest_sealed_copy(self):
+        value=amendment();data=raw(value);digest=hashlib.sha256(data).hexdigest()
+        name='plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json'
+        self.index['budget_amendment']=name;self.values[name]=value
+        put(self.root.parent.parent/'authority/VAP1/VAP1_ADOPTION_AND_DELTA_BUDGET.json',value,True)
+        self.plan['storage_lifecycle']['new_output_peak_upper_bytes']['Hopper_storage_bytes']=128*1024**3
+        self.bind()
+        native=self.root.parent.parent/'authority/VAP1/VAP1_ADOPTION_AND_DELTA_BUDGET.json'
+        native.chmod(0o600);native.write_bytes(data);native.chmod(0o400)
+        with patch.object(dec_budget,'VAP1_ADOPTION',digest),patch.object(dec_bridge,'VAP1_ADOPTION',digest):
+            result=self.recompute();self.assertTrue(result['forecast']['admissible_forecast'])
+            self.assertEqual(result['forecast']['effective_DEC1_VAP1_caps']['Hopper_storage_bytes'],160*1024**3)
+            put(self.root.parent.parent/'authority/VAP1/VAP1_ADOPTION_AND_DELTA_BUDGET.json',dict(value,clock_reset=True),True)
+            with self.assertRaisesRegex(PermissionError,'NATIVE_VAP1'):self.recompute()
+
     def setUp(self):
         tmp=tempfile.TemporaryDirectory();self.addCleanup(tmp.cleanup)
         self.root,values,authority,request,_,self.path_sha=source_fixture.StageTests().fixture(tmp.name)

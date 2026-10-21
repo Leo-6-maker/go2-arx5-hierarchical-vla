@@ -1,14 +1,26 @@
 """Synthetic arithmetic only: no claim of native timing, GPU or target readiness."""
 from copy import deepcopy
+import hashlib
 import unittest
+from unittest.mock import patch
 
 from scripts.pi0294.pv1 import future_budget as old
 from scripts.pi0294.test_pv1_future_budget import raw,T0,HASH
 from .authority import AUTHORITY,BANK,PARENT_AUTHORITY
 from .future_budget import forecast
+from . import future_budget as budget
 
 NOW=T0+48*3600
 GIB=1024**3
+
+
+def amendment():
+    return dict(schema='VAP1_ADOPTION_AND_DELTA_BUDGET_V1',authority_release=budget.VAP1,
+        original_T0_epoch=1792348196,original_hard_close_epoch=budget.HARD_CLOSE,
+        cumulative_subcap_delta=dict(local_CPU_s=[28800,57600],CoreLab_CPU_s=[345600,576000],
+            GPU_site_output_bytes=[64*GIB,160*GIB],CoreLab_output_bytes=[64*GIB,128*GIB],transfer_bytes=[64*GIB,128*GIB]),
+        old_clocks_and_counters_reset=False,GPU_global_hours=96,GPU_DEC1_hours=48,
+        global_PBS_limit=24,DEC1_new_PBS_limit=8,concurrent_GPUs=1,final_GPU_protected_s=72000)
 
 
 def fixtures():
@@ -52,6 +64,26 @@ def fixtures():
 
 
 class ForecastTests(unittest.TestCase):
+    def test_explicit_exact_amendment_changes_only_existing_non_GPU_subcaps(self):
+        value=amendment();data=raw(value)
+        with patch.object(budget,'VAP1_ADOPTION',hashlib.sha256(data).hexdigest()):
+            caps=budget.effective_caps(data)
+            self.assertEqual(caps['Hopper_storage_bytes'],160*GIB)
+            self.assertEqual(caps['Core_storage_bytes'],128*GIB)
+            self.assertEqual(caps['local_CPU_s'],16*3600)
+            for key in ('H200_s','PBS_submissions','optimizer_updates','neural_queries','Hopper_CPU_s','episode_starts','physics_ticks'):
+                self.assertEqual(caps[key],budget.CAPS[key])
+            s,p,q=fixtures();q['storage_lifecycle']['new_output_peak_upper_bytes']['Hopper_storage_bytes']=128*GIB
+            with self.assertRaises(PermissionError):forecast(snapshot=s,progress_bytes=raw(p),plan=q,now_epoch=NOW)
+            v=forecast(snapshot=s,progress_bytes=raw(p),plan=q,now_epoch=NOW,amendment_bytes=data)
+            self.assertTrue(v['admissible_forecast']);self.assertEqual(v['original_final_protection']['H200_s'],72000)
+            self.assertEqual(v['budget_amendment_sha256'],hashlib.sha256(data).hexdigest())
+            for key,wrong in (('concurrent_GPUs',2),('GPU_DEC1_hours',96),('old_clocks_and_counters_reset',True)):
+                bad=deepcopy(value);bad[key]=wrong
+                with self.subTest(key=key),self.assertRaises(PermissionError):budget.effective_caps(raw(bad))
+        with self.assertRaises(PermissionError):budget.effective_caps(data)
+        self.assertEqual(budget.effective_caps(),budget.CAPS)
+
     def test_pre_b0_source_is_funded_but_target_feasibility_not_fabricated(self):
         s,p,plan=fixtures();v=forecast(snapshot=s,progress_bytes=raw(p),plan=plan,now_epoch=NOW)
         self.assertTrue(v['admissible_forecast'])

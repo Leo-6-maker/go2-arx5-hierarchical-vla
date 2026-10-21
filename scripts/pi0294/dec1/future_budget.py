@@ -5,6 +5,7 @@ measurement. This permits the source-first schedule authorized by DEC1 without
 claiming that the target matrix or the old PV1 release can already be finished.
 """
 import math
+import hashlib
 
 from scripts.pi0294.pv1 import future_budget as old
 from .authority import AUTHORITY, BANK, HARD_CLOSE, PARENT_AUTHORITY
@@ -14,13 +15,35 @@ CAPS=dict(old.CAPS,H200_s=48*3600,PBS_submissions=8,optimizer_updates=8192,
     episode_starts=136,neural_queries=14000,physics_ticks=5000000,engine_starts=12000,
     Core_CPU_s=96*3600,Hopper_CPU_s=96*3600,local_CPU_s=8*3600,
     transfer_bytes=64*GIB,Hopper_storage_bytes=64*GIB,Core_storage_bytes=64*GIB,local_storage_bytes=8*GIB)
+VAP1='43f7fe6f86c683f2e38e5c8802eb8cde208e575c'
+VAP1_ADOPTION='a26aeb5076e075791e1dfea4e5da0ccaae05ccbb7fa578a1583dea1c4764ed89'
 
 
 def fail(reason):
     raise PermissionError('DEC1_FUTURE_'+reason)
 
 
-def forecast(*,snapshot,progress_bytes,plan,now_epoch):
+def effective_caps(amendment_bytes=None):
+    if amendment_bytes is None:return dict(CAPS)
+    value,digest=old._read(amendment_bytes)
+    expected=dict(local_CPU_s=[28800,57600],CoreLab_CPU_s=[345600,576000],
+        GPU_site_output_bytes=[64*GIB,160*GIB],CoreLab_output_bytes=[64*GIB,128*GIB],
+        transfer_bytes=[64*GIB,128*GIB])
+    if (digest!=VAP1_ADOPTION or value.get('schema')!='VAP1_ADOPTION_AND_DELTA_BUDGET_V1'
+            or value.get('authority_release')!=VAP1 or value.get('original_T0_epoch')!=1792348196
+            or value.get('original_hard_close_epoch')!=HARD_CLOSE
+            or value.get('cumulative_subcap_delta')!=expected
+            or value.get('old_clocks_and_counters_reset') is not False
+            or value.get('GPU_global_hours')!=96 or value.get('GPU_DEC1_hours')!=48
+            or value.get('global_PBS_limit')!=24 or value.get('DEC1_new_PBS_limit')!=8
+            or value.get('concurrent_GPUs')!=1 or value.get('final_GPU_protected_s')!=72000):
+        fail('EXACT_NATIVE_VAP1_NONADDITIVE_ADOPTION_NO_GPU_OR_CLOCK_CHANGE')
+    return dict(CAPS,local_CPU_s=57600,Core_CPU_s=576000,Hopper_storage_bytes=160*GIB,
+        Core_storage_bytes=128*GIB,transfer_bytes=128*GIB)
+
+
+def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None):
+    caps=effective_caps(amendment_bytes)
     progress,progress_sha=old._read(progress_bytes)
     for v in (snapshot,progress):
         old._fresh(v['observed_epoch'],now_epoch,120)
@@ -55,7 +78,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch):
         fail('EXPLICIT_NONADDITIVE_SOURCE_FIRST_PLAN_NOT_OLD_RELEASE')
     used=old._vector(snapshot['used']);reserved=old._vector(snapshot['reserved'])
     dec_used=old._vector(snapshot['dec1_used']);dec_reserved=old._vector(snapshot['dec1_reserved'])
-    for key in CAPS:
+    for key in caps:
         if dec_used[key]>used[key] or dec_reserved[key]>reserved[key]:
             fail('DEC1_COSTS_INSIDE_NOT_ADDED_TO_ORIGINAL')
     for label,vector in (('global',used),('dec1',dec_used)):
@@ -64,7 +87,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch):
             fail('ALL_SITE_CURRENT_AND_PEAK_STORAGE')
         for key,peak in peaks.items():
             old._number(peak,integer=True)
-            if not vector[key]<=peak<=(old.CAPS if label=='global' else CAPS)[key]:
+            if not vector[key]<=peak<=(old.CAPS if label=='global' else caps)[key]:
                 fail('CURRENT_STORAGE_CANNOT_ERASE_HISTORICAL_PEAK')
     pad=old._number(plan['accounting_pad_s'],integer=True)
     wall_max=min(8*3600,old._number(plan['site_wall_limit_s'],integer=True,positive=True))
@@ -134,7 +157,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch):
             fail('FULL_MATRIX_64_AND_BOUNDED_COMMISSIONING_REPLACEMENT_CEILING')
         jobs.append(dict(work_id='DEC1_CORE_MATRIX_AND_COMMISSIONING',kind='MATRIX_ENVELOPE',
             walltime_upper_s=mr['H200_s'],resources=mr))
-    funded={};all_reserved={k:0 for k in CAPS};charged=0
+    funded={};all_reserved={k:0 for k in caps};charged=0
     for row in snapshot['work_reservations']:
         key=row['work_id'];rv=old._vector(row['resources'])
         cold=row.get('reservation_scope')=='COLD_NON_GPU_ONLY'
@@ -145,11 +168,11 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch):
                 or not cold and (not row.get('job_id') or not row['submission_already_charged'])):
             fail('ONE_EXACT_NATIVE_ALLOCATION_RESERVATION_CREDIT')
         funded[key]=row;charged+=int(row['submission_already_charged'])
-        for k in CAPS:all_reserved[k]+=rv[k]
+        for k in caps:all_reserved[k]+=rv[k]
     if (all_reserved!=reserved or len(funded)>1 or charged>used['PBS_submissions']
             or funded and snapshot.get('current_native_request_work_id') not in funded):
         fail('NO_HIDDEN_OTHER_JOB_OR_DOUBLE_CREDIT')
-    extra={k:0 for k in CAPS};credit={k:0 for k in CAPS}
+    extra={k:0 for k in caps};credit={k:0 for k in caps}
     queue=old._number(plan['queue_delay_upper_s_per_job']);cursor=now_epoch
     training_finish=now_epoch;submission_times=[]
     for job in jobs:
@@ -161,7 +184,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch):
             submission_times.append(cursor);cursor+=queue*rv['PBS_submissions']
         cursor+=job['walltime_upper_s']
         if job['kind']=='TRAIN':training_finish=cursor
-        for k in CAPS:
+        for k in caps:
             amount=min(rv[k],cr[k]);credit[k]+=amount;extra[k]+=rv[k]-amount
     if funded:fail('RESERVATION_NOT_BOUND_TO_PLANNED_REMAINING_WORK')
     # Storage is resident peak, unlike cumulative GPU/CPU/transfer counters.
@@ -179,14 +202,14 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch):
         fail('ALL_SITE_PRESEALED_OUTPUT_PEAKS')
     for key,peak in peaks.items():
         old._number(peak,integer=True,positive=True)
-        if peak>CAPS[key] or peak<dec_used[key]+dec_reserved[key] or key=='Hopper_storage_bytes' and peak<2*payload:
+        if peak>caps[key] or peak<dec_used[key]+dec_reserved[key] or key=='Hopper_storage_bytes' and peak<2*payload:
             fail('FULL_CHECKPOINT_TRANSIENT_AND_RESIDENT_PEAK_WITHIN_CAP')
         extra[key]=max(0,peak-dec_used[key]-dec_reserved[key])
     finish=cursor+old._number(plan['package_closeout_wall_s'],positive=True)
     global_over={k:used[k]+reserved[k]+extra[k]+old.FINAL.get(k,0)-old.CAPS[k]
-                 for k in CAPS if used[k]+reserved[k]+extra[k]+old.FINAL.get(k,0)>old.CAPS[k]}
-    dec_over={k:dec_used[k]+dec_reserved[k]+extra[k]-CAPS[k]
-              for k in CAPS if dec_used[k]+dec_reserved[k]+extra[k]>CAPS[k]}
+                 for k in caps if used[k]+reserved[k]+extra[k]+old.FINAL.get(k,0)>old.CAPS[k]}
+    dec_over={k:dec_used[k]+dec_reserved[k]+extra[k]-caps[k]
+              for k in caps if dec_used[k]+dec_reserved[k]+extra[k]>caps[k]}
     time_errors=[]
     if submission_times and max(submission_times)>=clock['stop_new_jobs_epoch']:time_errors.append('NEW_JOB_CUTOFF')
     if training_finish>=clock['stop_training_epoch']:time_errors.append('TRAINING_CUTOFF')
@@ -200,4 +223,5 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch):
         global_shortfalls=global_over,DEC1_shortfalls=dec_over,clock_failures=time_errors,
         projected_finish_epoch=finish,clock=clock,target_cost_feasibility='UNKNOWN_UNTIL_NATIVE_COMMISSIONING',
         matrix_ceiling_not_proven_runtime=True,old_PV1_release_and_LOCKBOX_admitted=False,
-        optional_stress_funded=False,site_permissions_and_scientific_guards_still_required=True)
+        optional_stress_funded=False,site_permissions_and_scientific_guards_still_required=True,
+        effective_DEC1_VAP1_caps=caps,budget_amendment_sha256=hashlib.sha256(amendment_bytes).hexdigest() if amendment_bytes is not None else None)

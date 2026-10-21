@@ -5,7 +5,7 @@ from scripts.pi0294.pv1 import future_admission as mature
 from scripts.pi0294.pv1 import future_budget as old
 from .authority import AUTHORITY,PARENT_AUTHORITY,PARENT
 from .source_admission import VERSION,COPY
-from .future_budget import forecast
+from .future_budget import forecast,effective_caps,VAP1_ADOPTION
 
 INDEX='plans/DEC1_FUTURE_BUDGET_INPUT_INDEX.json'
 
@@ -35,6 +35,7 @@ def inputs(root,request_bytes):
         fail('NEW_SEALED_INDEX_SAME_ORIGINAL_CAMPAIGN')
     fields=('plan','request_work_binding','baseline_hopper_ledger','performance_evidence',
             'checkpoint_size_evidence','storage_lifecycle_evidence')
+    if 'budget_amendment' in index:fields+=('budget_amendment',)
     names=[index[k] for k in fields]
     if len(set(names))!=len(names) or INDEX in names:
         fail('NO_ALIASED_OR_SELF_REFERENTIAL_SEALED_EVIDENCE')
@@ -139,7 +140,14 @@ def recompute(root,*,request_bytes,snapshot_bytes,progress_bytes,purpose,now_epo
         fail('EXACT_SOURCE_BLOCK_AND_ACTUAL_CHARGED_FULL_RESUME_STEP')
     if current and current[0].get('dec1_work_id')!=binding['work_id']:
         fail('CURRENT_JOB_WORK_ID_CANNOT_BE_REASSIGNED')
-    output=forecast(snapshot=snapshot,progress_bytes=progress_bytes,plan=plan,now_epoch=now_epoch)
+    amendment=None
+    if 'budget_amendment' in index:
+        amendment=files[index['budget_amendment']]
+        native=mature._file(root.parent.parent,'authority/VAP1/VAP1_ADOPTION_AND_DELTA_BUDGET.json')
+        if amendment!=native or mature._digest(amendment)!=VAP1_ADOPTION:
+            fail('EXACT_NATIVE_VAP1_AMENDMENT_COPY_NO_SYNTHETIC_SUBCAP')
+    caps=effective_caps(amendment)
+    output=forecast(snapshot=snapshot,progress_bytes=progress_bytes,plan=plan,now_epoch=now_epoch,amendment_bytes=amendment)
     jobs=[j for j in output['mandatory_jobs'] if j['work_id']==binding['work_id']]
     if len(jobs)!=1:fail('ONE_REQUIRED_REMAINING_SOURCE_BLOCK')
     job=jobs[0];new_output=request['additional_output_upper_bytes']
@@ -153,7 +161,7 @@ def recompute(root,*,request_bytes,snapshot_bytes,progress_bytes,purpose,now_epo
     # transitions must already have produced enough actual resident headroom.
     # A lifecycle plan is never accepted in place of this live pre-write bound.
     already_reserved=expected_reserved['Hopper_storage_bytes'] if current else 0
-    if snapshot['dec1_used'].get('Hopper_storage_bytes',0)+new_output+snapshot['dec1_reserved'].get('Hopper_storage_bytes',0)-already_reserved>64*1024**3:
+    if snapshot['dec1_used'].get('Hopper_storage_bytes',0)+new_output+snapshot['dec1_reserved'].get('Hopper_storage_bytes',0)-already_reserved>caps['Hopper_storage_bytes']:
         fail('ACTUAL_CHECKPOINT_RESIDENT_HEADROOM_REQUIRED_BEFORE_QUEUE_OR_UPDATE')
     if not output['admissible_forecast']:fail('NEGATIVE_ORIGINAL_OR_DEC1_REMAINING_RUNWAY')
     return dict(schema='DEC1_RECOMPUTED_SOURCE_FUTURE_ADMISSION_V1',
