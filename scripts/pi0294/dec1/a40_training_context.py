@@ -62,7 +62,7 @@ def validate_root(root,request_path,*,verify_all=False):
             or len(rows)!=1 or Path(rows[0]['path']).resolve()!=root.resolve()):
         fail('ONE_ACTIVE_EXISTING_OWNER_LEASE_AND_REGISTRY')
     inputs=m['execution']['sealed_inputs']
-    required={CONSUMERS,'NEURAL_BINDINGS.private.json','plans/PV1_TRAIN_INPUTS.private.json',
+    required={CONSUMERS,'SOURCE_SEAL.json','NEURAL_BINDINGS.private.json','plans/PV1_TRAIN_INPUTS.private.json',
         'plans/VAP1_DUAL_PLATFORM_CONCURRENCY_ADOPTION.json','plans/PUBLICATION_AND_CI.json',
         'plans/PRIMARY_LEARNING_RECIPES.json','plans/FROZEN_SOURCE_PAIR_RECIPE.json',
         'plans/INITIAL_CORR_PARAMETER_INVENTORY.json','plans/PV1_FIXED_TRAIN_PROBES.json',
@@ -78,6 +78,18 @@ def validate_root(root,request_path,*,verify_all=False):
     if (proof.get('source_sha')!=r['source_sha'] or proof.get('CI_head_sha')!=r['source_sha']
             or proof.get('CI_conclusion')!='success' or proof.get('CI_status')!='completed'
             or proof.get('files_exact_readback') is not True):fail('EXACT_SOURCE_CI_AND_READBACK')
+    source=sealed(root,'SOURCE_SEAL.json');members=source.get('files',{})
+    prefix=Path(m['code']['capsule_relative'])
+    critical={str(prefix/'scripts/pi0294/dec1'/name) for name in (
+        'a40_training_context.py','a40_training_runtime.py','a40_native_ledger.py','a40_allocation.py')}
+    if (source.get('source_sha')!=r['source_sha'] or not critical<=set(members)
+            or m['code'].get('source_seal_sha256')!=sha(root/'SOURCE_SEAL.json')
+            or any(inputs.get(name)!=digest or not Path(name).is_relative_to(prefix)
+                for name,digest in members.items())):
+        fail('FULL_ORIGINAL_CAPSULE_SEAL_NOT_JUST_A_COMMIT_LABEL')
+    for name in members if verify_all else critical:
+        sealed(root,name,parse=False)
+        if sha(root/name)!=members[name]:fail('EXECUTING_SOURCE_MEMBER_CHANGED:'+name)
     grant_path=root/'plans/VAP1_DUAL_PLATFORM_CONCURRENCY_ADOPTION.json'
     grant(grant_path.read_bytes())
     native_grant=root.parent.parent/'authority/VAP1/VAP1_DUAL_PLATFORM_CONCURRENCY_ADOPTION.json'

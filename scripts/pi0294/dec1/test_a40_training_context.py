@@ -33,13 +33,18 @@ def root_fixture(base):
     inputs['plans/PUBLICATION_AND_CI.json']=dict(source_sha=r['source_sha'],CI_head_sha=r['source_sha'],
         CI_conclusion='success',CI_status='completed',files_exact_readback=True)
     inputs['plans/VAP1_DUAL_PLATFORM_CONCURRENCY_ADOPTION.json']=dict(fixture=True)
+    members={}
+    for name in ('a40_training_context.py','a40_training_runtime.py','a40_native_ledger.py','a40_allocation.py'):
+        path='capsule/code/scripts/pi0294/dec1/'+name;put(root/path,dict(synthetic_source_fixture=name))
+        members[path]=sha(root/path)
+    inputs['SOURCE_SEAL.json']=dict(source_sha=r['source_sha'],files=members)
     for name,value in inputs.items():put(root/name,value)
     put(root.parent.parent/'authority/VAP1/VAP1_DUAL_PLATFORM_CONCURRENCY_ADOPTION.json',dict(fixture=True))
     m=dict(schema='PI0294_PV1_NEURAL_CHILD_RUN_MANIFEST_V1',platform_training_version=a.VERSION,
         owner='EXISTING_LOCAL_PC',owner_uid=os.getuid(),owner_user='e1192548',run_uuid=root.name,
         output_root=str(root),registered_runs_root=str(base),
-        execution=dict(profile=c.PROFILE,sealed_inputs={n:sha(root/n) for n in inputs}),
-        code=dict(vla_commit=r['source_sha'],capsule_relative='capsule/code'),
+        execution=dict(profile=c.PROFILE,sealed_inputs={**{n:sha(root/n) for n in inputs},**members}),
+        code=dict(vla_commit=r['source_sha'],capsule_relative='capsule/code',source_seal_sha256=sha(root/'SOURCE_SEAL.json')),
         authority=dict(protocol_ref=a.PARENT_AUTHORITY,amendments=[a.AUTHORITY],training_admission_version=a.SCIENCE_VERSION))
     put(root/'RUN_MANIFEST.json',m)
     put(base/'lease.json',dict(status='ACTIVE',run_uuid=root.name,authority_release=a.PARENT_AUTHORITY,
@@ -88,7 +93,7 @@ def consumers_fixture(base):
 
 class ContextTests(unittest.TestCase):
     def test_root_requires_real_profile_sealed_inputs_environment_and_source(self):
-        for mutation in (None,'profile','lease','grant','mode','CI','request'):
+        for mutation in (None,'profile','lease','grant','mode','CI','request','source'):
             with self.subTest(mutation=mutation),tempfile.TemporaryDirectory() as tmp:
                 base=Path(tmp);root,request=root_fixture(base)
                 if mutation=='profile':
@@ -100,6 +105,7 @@ class ContextTests(unittest.TestCase):
                 elif mutation=='CI':put(root/'plans/PUBLICATION_AND_CI.json',dict(CI_conclusion='success',source_sha='other'))
                 elif mutation=='request':
                     v=read(request);v['source_sha']='f'*40;put(request,v)
+                elif mutation=='source':put(root/'capsule/code/scripts/pi0294/dec1/a40_training_runtime.py',dict(changed=True))
                 with (patch.object(c.time,'time',return_value=fixture()['now']),patch.object(c,'grant'),
                      patch.object(c,'admitted',return_value=True),
                      patch.object(c,'__file__',str(root/'capsule/code/scripts/pi0294/dec1/a40_training_context.py'))):
