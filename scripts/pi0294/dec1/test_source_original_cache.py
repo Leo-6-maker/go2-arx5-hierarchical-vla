@@ -48,6 +48,9 @@ class OriginalCacheTests(unittest.TestCase):
             self.assertTrue(os.path.samefile(old/'raw/E/images/0.png',new/'raw/E/images/0.png'))
             self.assertEqual(sha(new/'raw/E/samples.json'),expected['E/samples.json'])
             self.assertEqual(cache.budget.reserved,64*1024**2+sum(map(len,files.values())))
+            stat=(new/'raw/E/samples.json').stat()
+            self.assertEqual(cache.incremental,dict(new_regular_files=1,
+                new_regular_file_allocated_bytes=max(stat.st_size,stat.st_blocks*512)))
             with self.assertRaises(PermissionError):cache.extract(archive,new/'raw',expected)
 
     def test_fixed_download_reuses_only_exact_bytes_and_counts_only_new_transfer(self):
@@ -69,6 +72,8 @@ class OriginalCacheTests(unittest.TestCase):
                 calls.append((repo,path,kw));out=Path(kw['local_dir'])/path;put(out,b'{}\n');return out
             client=FixedFiles(new/'download/v3b',spec,lambda *a:None,cache=cache,get=get)
             client.fetch('new.json');self.assertEqual(client.new_bytes,3);self.assertIsNone(calls[0][2]['token'])
+            self.assertEqual(cache.incremental['new_regular_files'],1)
+            self.assertGreaterEqual(cache.incremental['new_regular_file_allocated_bytes'],3)
 
     def fixture(self,base):
         old=base/'old';root=base/'new';old.mkdir();root.mkdir()

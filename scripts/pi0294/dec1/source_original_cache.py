@@ -60,6 +60,7 @@ class Cache:
     def __init__(self,root,old,guard,*,upper):
         self.root,self.old,self.guard=Path(root),Path(old),guard
         self.budget=OutputBudget(upper);self.reused_downloads=[];self.new_downloads=[];self.archives=[]
+        self.incremental=dict(new_regular_file_allocated_bytes=0,new_regular_files=0)
 
     def download(self,client,name,row,get):
         relative=client.root.relative_to(self.root);member=Path(row['path'])
@@ -78,11 +79,15 @@ class Cache:
             return target,False
         target=Path(get(client.spec['repo_id'],row['path'],revision=client.spec['revision'],
             local_dir=client.root,token=None))
+        stat=target.stat()
+        self.incremental['new_regular_file_allocated_bytes']+=max(stat.st_size,stat.st_blocks*512)
+        self.incremental['new_regular_files']+=1
         self.new_downloads.append(dict(relative=str(target.relative_to(self.root)),bytes=target.stat().st_size))
         return target,True
 
     def extract(self,path,target,expected):
         relative=Path(target).relative_to(self.root)
-        result=extract(path,target,expected,self.guard,old_target=self.old/relative,budget=self.budget)
+        result=extract(path,target,expected,self.guard,old_target=self.old/relative,budget=self.budget,
+            incremental_accounting=self.incremental)
         self.archives.append(dict(target_relative=str(relative),archive_sha256=sha(path),**result))
         return result

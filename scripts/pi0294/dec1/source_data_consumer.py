@@ -250,9 +250,17 @@ def run(root):
                 from .source_original_cache import previous as prior,Cache
                 cache=Cache(r,prior(r),guard,upper=OUTPUT);budget=cache.budget
                 result=original(r,receipt,inputs,guard,cache=cache)
+                allocated_upper=cache.incremental['new_regular_file_allocated_bytes']+1024**3
+                if allocated_upper>OUTPUT or sum(row['members'] for row in cache.archives)>500000:
+                    raise PermissionError('SOURCE_DATA_INCREMENTAL_METADATA_AND_OUTPUT_UPPER')
                 result.update(output_logical_upper_bytes=budget.reserved,
                     reused_closed_downloads=cache.reused_downloads,new_downloads=cache.new_downloads,
-                    cache_archives=cache.archives,old_failure_preserved=True)
+                    cache_archives=cache.archives,old_failure_preserved=True,
+                    incremental_cache_allocation=dict(cache.incremental,
+                        prior_payload_still_charged=True,reused_hardlink_payload_is_not_new_bytes=True,
+                        directory_link_HF_metadata_and_control_upper_bytes=1024**3,
+                        new_output_allocated_upper_bytes=allocated_upper,
+                        is_independent_backup=False))
             else:result=original(r,receipt,inputs,guard)
     except BaseException as e:failure=dict(error_type=type(e).__name__,error=str(e)[-800:]);raise
     finally:

@@ -67,7 +67,7 @@ def cached_download(root, old, receipt, get, budget, guard):
     return fetch,reused,downloaded
 
 
-def extract(path,target,expected,guard,*,old_target,budget):
+def extract(path,target,expected,guard,*,old_target,budget,incremental_accounting=None):
     target,old_target=Path(target),Path(old_target);seen=set();reused=0;written=0
     target.mkdir(parents=True,exist_ok=True)
     with tarfile.open(path,'r|gz') as archive:
@@ -90,6 +90,10 @@ def extract(path,target,expected,guard,*,old_target,budget):
                     shutil.copyfileobj(archive.extractfile(member),stream,1<<20)
                 if sha(output)!=expected[member.name]:raise ValueError('SOURCE_CACHE_NEW_MEMBER_HASH_MISMATCH')
                 output.chmod(0o400);written+=1
+                if incremental_accounting is not None:
+                    stat=output.stat()
+                    incremental_accounting['new_regular_file_allocated_bytes']+=max(stat.st_size,stat.st_blocks*512)
+                    incremental_accounting['new_regular_files']+=1
             seen.add(member.name)
     if seen!=set(expected):raise ValueError('SOURCE_CACHE_INCOMPLETE_ARCHIVE')
     return dict(members=len(seen),reused_hash_verified_members=reused,new_members=written)
