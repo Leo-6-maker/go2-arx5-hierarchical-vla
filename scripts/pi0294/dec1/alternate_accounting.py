@@ -95,8 +95,17 @@ def validate_item(s):
 
 def validate_items(value):
     typed=[s for s in value['PBS_submissions'] if s.get('native_platform') is not None]
-    if len(typed)>1:fail('ONE_COMPATIBILITY_ALLOCATION_NOT_AUTOMATIC_RETRIES')
-    for s in typed:validate_item(s)
+    compatibility=[s for s in typed if s.get('platform_training_version') is None]
+    source=[s for s in typed if s.get('platform_training_version') is not None]
+    if len(compatibility)>1:fail('ONE_COMPATIBILITY_ALLOCATION_NOT_AUTOMATIC_RETRIES')
+    for s in compatibility:validate_item(s)
+    if source:
+        from .a40_accounting import validate_item as source_item
+        if len(source)>7 or sum(s['status'] not in TERMINAL for s in source)>1:
+            fail('BOUNDED_SOURCE_JOBS_AND_ONE_ACTIVE_A40_CHAIN')
+        for s in source:source_item(s)
+        if sum(s.get('reserved_optimizer_updates',0) for s in source)>value['reserved'].get('optimizer_updates',0):
+            fail('NO_DROPPED_ALTERNATE_SOURCE_UPDATE_RESERVATION')
     if sum(s.get('reserved_neural_queries',0) for s in typed if s['status'] not in TERMINAL)>value['reserved'].get('neural_queries',0):
         fail('NO_DROPPED_EXTERNAL_QUERY_RESERVATION')
     return value

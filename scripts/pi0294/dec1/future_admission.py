@@ -61,6 +61,8 @@ def recompute(root,*,request_bytes,snapshot_bytes,progress_bytes,purpose,now_epo
             or snapshot['T0_epoch']!=index['T0_epoch']):
         fail('NO_NEW_CLOCK_OR_PARALLEL_CAMPAIGN')
     ledger,ledger_sha=mature._ledger(root,snapshot,progress)
+    if ledger.get('DEC1_source_pair_platform')=='VANDA_A40':
+        fail('A40_SOURCE_PAIR_REQUIRES_ITS_TYPED_NATIVE_CONTRACT_NOT_HOPPER_MIGRATION')
     adopted,_=old._read(files[COPY])
     baseline,_=old._read(files[index['baseline_hopper_ledger']])
     left=adopted['accounting']['original_remaining_after_spent_reservations_and_final']

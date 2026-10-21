@@ -21,6 +21,12 @@ from .future_admission import INDEX,bounded_process_cpu
 
 
 class BridgeTests(unittest.TestCase):
+    def test_claimed_A40_pair_cannot_be_silently_migrated_through_old_hopper_contract(self):
+        self.ledger['DEC1_source_pair_platform']='VANDA_A40'
+        self.write_ledger()
+        with self.assertRaisesRegex(PermissionError,'A40_SOURCE_PAIR'):
+            self.recompute()
+
     def test_VAP1_caps_require_native_identical_manifest_sealed_copy(self):
         value=amendment();data=raw(value);digest=hashlib.sha256(data).hexdigest()
         name='plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json'
