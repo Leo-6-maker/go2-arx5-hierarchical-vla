@@ -90,6 +90,10 @@ def validate(root, *, now=time.time):
         required.update(INPUTS)
         required.add('capsule/code/scripts/pi0294/dec1/source_data_original.py')
     if not required<=set(m['sealed_inputs']):raise PermissionError('SOURCE_DATA_EXPLICIT_PREPAID_INPUTS')
+    if 'plans/CLOSED_STAGING_CACHE_REUSE.json' in m['sealed_inputs']:
+        if profile!='PV1_139':raise PermissionError('SOURCE_DATA_CACHE_ONLY_FIXED_139_BANK')
+        from .source_data_cache import previous
+        previous(r)
     sealed(r,'plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json',ADOPTION)
     proof=read(r/'PUBLICATION_AND_CI.json');source=m['code']['vla_commit']
     if (proof.get('source_sha')!=source or proof.get('CI_head_sha')!=source
@@ -122,7 +126,7 @@ def validate(root, *, now=time.time):
     return m,read(r/'BINDINGS.private.json'),receipt
 
 
-def consume(root, receipt, inputs, guard, *, get=download_dataset):
+def consume(root, receipt, inputs, guard, *, get=download_dataset, cache=None):
     """Reuse mature full member extraction and official reader qualification."""
     r=Path(root);folder=r/'download';target=r/'datasets/FROZEN_TRAIN_BANK'
     folder.mkdir();target.parent.mkdir();prefix=receipt['prefix']+'/'
@@ -148,7 +152,13 @@ def consume(root, receipt, inputs, guard, *, get=download_dataset):
         p=fetch(name)
         if sha(p)!=proof['sha256'] or p.stat().st_size!=proof['bytes']:
             raise ValueError('SOURCE_DATA_ARCHIVE_PROOF_CHANGED')
-        extract_checked(p,target,proof['member_sha256'],guard);seen.update(proof['member_sha256'])
+        if cache is None:extract_checked(p,target,proof['member_sha256'],guard)
+        else:
+            from .source_data_cache import extract
+            progress=extract(p,target,proof['member_sha256'],guard,old_target=cache['old_target'],budget=cache['budget'])
+            record=r/'archive_progress'/name.replace('.tar.gz','.json');record.parent.mkdir(exist_ok=True)
+            write(record,dict(archive=name,archive_sha256=proof['sha256'],**progress,epoch=time.time()))
+        seen.update(proof['member_sha256'])
     manifest,source_ready,members=bank_members(target,lambda:guard())
     if (seen!=set(members) or sha(target/'DATASET_MANIFEST.json')!=BANK
             or sha(target/'READY.json')!=SOURCE_READY or len(manifest['episodes'])!=139):
@@ -173,6 +183,8 @@ def run(root):
     resource.setrlimit(resource.RLIMIT_CORE,(0,0));began=time.process_time();failure=None;result={};last_size=0.;resident=0;last_priority=0.
     def expired(*unused):raise TimeoutError('SOURCE_DATA_FINITE_WALL_CUTOFF')
     previous=signal.signal(signal.SIGALRM,expired);signal.setitimer(signal.ITIMER_REAL,m['deadline_epoch']-time.time())
+    cache_mode='plans/CLOSED_STAGING_CACHE_REUSE.json' in m['sealed_inputs']
+    budget=None
     def guard(extra=0):
         nonlocal last_size,resident,last_priority
         if time.monotonic()-last_priority>15:
@@ -180,7 +192,9 @@ def run(root):
                 if time.time()+20>=m['deadline_epoch']:raise TimeoutError('SOURCE_DATA_PRIORITY_WAIT_FINITE_CUTOFF')
                 time.sleep(15)
             last_priority=time.monotonic()
-        if time.monotonic()-last_size>15:
+        if cache_mode:
+            resident=budget.reserved if budget is not None else 0
+        elif time.monotonic()-last_size>15:
             resident=sum(p.stat().st_size for p in r.rglob('*') if p.is_file() and not p.is_symlink());last_size=time.monotonic()
         if (time.time()>=m['deadline_epoch'] or time.process_time()-began>=CPU-60
                 or resident+extra>OUTPUT or shutil.disk_usage(r).free<extra+40*1024**3 or (r/'STOP.json').exists()):
@@ -189,7 +203,16 @@ def run(root):
         cpu_guard();guard()
         write(r/'CONSUMPTION_INTENT.private.json',dict(epoch=time.time(),CPU_upper_s=CPU,
             revision=REVISION,model_loads=0,PBS=0,physics=0,no_blind_restart=True))
-        if m.get('source_data_profile','PV1_139')=='PV1_139':result=consume(r,receipt,inputs,guard)
+        if cache_mode:
+            from .source_data_cache import previous as prior,OutputBudget,cached_download
+            old=prior(r);budget=OutputBudget(OUTPUT)
+            getter,reused,downloaded=cached_download(r,old,receipt,download_dataset,budget,guard)
+            result=consume(r,receipt,inputs,guard,get=getter,cache=dict(old_target=old/'datasets/FROZEN_TRAIN_BANK',budget=budget))
+            index={v['path']:v for v in receipt['files']}
+            result.update(reused_closed_cache_files=reused,new_download_files=downloaded,
+                new_download_bytes=sum(index[n]['bytes'] for n in downloaded),
+                output_logical_upper_bytes=budget.reserved,old_failure_preserved=True)
+        elif m.get('source_data_profile','PV1_139')=='PV1_139':result=consume(r,receipt,inputs,guard)
         else:
             from .source_data_original import consume as original
             result=original(r,receipt,inputs,guard)
