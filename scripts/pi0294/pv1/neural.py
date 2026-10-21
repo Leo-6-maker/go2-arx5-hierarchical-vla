@@ -188,10 +188,12 @@ def stage_work(root,request):
     input_('plans/INITIAL_CORR_PARAMETER_INVENTORY.json');input_('plans/PV1_FIXED_TRAIN_PROBES.json')
     relative=block.get('resume_checkpoint_relative')
     probe_only=block.get('probe_only',False)
+    from scripts.pi0294.dec1.long_training import admitted as long_admitted
+    long_training=long_admitted(root,m,request)
     if type(probe_only) is not bool or probe_only and (not relative or block['stop_after_step']!=1024):
         raise PermissionError('PV1_PROBE_ONLY_REQUIRES_EXACT_COMPLETE_1024_NO_UPDATES')
     if not relative:
-        if block['stop_after_step']!=1024:raise PermissionError('PV1_1024_FIXED_PROBES_BEFORE_LATER_PRIMARY_UPDATES')
+        if block['stop_after_step']!=1024 and not long_training:raise PermissionError('PV1_1024_FIXED_PROBES_BEFORE_LATER_PRIMARY_UPDATES')
     else:
         p=Path(relative)
         if (p.is_absolute() or '..' in p.parts or p.parent!=Path('training')/key
@@ -200,7 +202,7 @@ def stage_work(root,request):
         complete=read(root/p/'CHECKPOINT_COMPLETE.json')
         step=complete['global_step']
         if (complete['full_resume'] is not True or not 0<step<4096 or p.name!='checkpoint-'+str(step)
-                or block['stop_after_step']!=(1024 if step<1024 or probe_only else 4096)):
+                or block['stop_after_step']!=(4096 if long_training else (1024 if step<1024 or probe_only else 4096))):
             raise PermissionError('PV1_EXACT_COMPLETE_PARTIAL_PHASE_CONTINUATION')
         if probe_only:
             value=read(Ledger(root).path)
@@ -383,11 +385,30 @@ def run(root,request_path):
                 records.append(probes(root,key+'-1024',instance,dataset,ledger,guard))
                 status='PV1_EXACT_1024_PROBES_RECOVERED_ZERO_OPTIMIZER_UPDATES'
             else:
-                result=train(root,instance,allocation,guard,ledger,arm=block['arm'],request_id=r['request_id'],
-                    resume_checkpoint=checkpoint if relative else None,stop_after_step=block['stop_after_step'],replica=replica)
-                records.append({k:result[k] for k in ('status','global_step','actual_updates_this_attempt','actual_consumed_cursor')})
+                from scripts.pi0294.dec1 import long_training
+                start=read(checkpoint/'CHECKPOINT_COMPLETE.json')['global_step'] if relative else 0
+                long_run=long_training.admitted(root,read(root/'RUN_MANIFEST.json'),r) and start<1024
+                if long_run:
+                    def train_phase(*,stop,phase,checkpoint):
+                        return train(root,instance,allocation,guard,ledger,arm=block['arm'],request_id=r['request_id'],
+                            resume_checkpoint=checkpoint or (root/relative if relative else None),
+                            stop_after_step=stop,replica=False,long_phase=phase)
+                    def fixed_probes():
+                        dataset=train_dataset(root);dataset.initialize()
+                        value=probes(root,key+'-1024',instance,dataset,ledger,guard)
+                        long_training.probe_receipt(root,key)
+                        return value
+                    result,phases=long_training.execute(start_step=start,train=train_phase,probe=fixed_probes,
+                        unload=unload,load=lambda p,trainable:load(p,key+'-LONG-'+('TRAIN' if trainable else 'PROBES'),trainable=trainable),
+                        guard=guard,checkpoint=root/'training'/key/'checkpoint-1024')
+                    records.extend({k:v[k] for k in ('status','global_step','actual_updates_this_attempt','actual_consumed_cursor') if k in v}
+                        if 'global_step' in v else v for v in phases)
+                else:
+                    result=train(root,instance,allocation,guard,ledger,arm=block['arm'],request_id=r['request_id'],
+                        resume_checkpoint=checkpoint if relative else None,stop_after_step=block['stop_after_step'],replica=replica)
+                    records.append({k:result[k] for k in ('status','global_step','actual_updates_this_attempt','actual_consumed_cursor')})
                 step=result['global_step'];unload()
-                if step==1024:
+                if step==1024 and not long_run:
                     phase=key+'-1024-FIXED-TRAIN-PROBES'
                     checkpoint=root/'training'/key/'checkpoint-1024'
                     load(checkpoint,key+'-1024',trainable=False)

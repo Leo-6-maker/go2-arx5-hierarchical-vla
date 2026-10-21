@@ -66,7 +66,7 @@ def checked_resume(root,arm,checkpoint,recipe,dataset):
     return step
 
 
-def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint=None,stop_after_step=1024,replica=False):
+def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint=None,stop_after_step=1024,replica=False,long_phase=None):
     root=Path(root)
     guard()
     if (allocation.get('status')!='PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
@@ -78,10 +78,14 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
     submitted=read(directory/'REQUEST.json')
     block=submitted.get('training_block',{})
     resume_relative=Path(resume_checkpoint).resolve().relative_to(root.resolve()).as_posix() if resume_checkpoint else None
+    if long_phase is not None:
+        from scripts.pi0294.dec1.long_training import phase
+        phase(root,read(root/'RUN_MANIFEST.json'),submitted,name=long_phase,
+            stop=stop_after_step,resume_relative=resume_relative)
     if (submitted['request_id']!=request_id or submitted['stage']!=('P4_REPLICA' if replica else 'P2_PRIMARY')
             or block.get('arm')!=arm or block.get('replica')!=replica
-            or block.get('stop_after_step')!=stop_after_step
-            or block.get('resume_checkpoint_relative')!=resume_relative):
+            or long_phase is None and (block.get('stop_after_step')!=stop_after_step
+                or block.get('resume_checkpoint_relative')!=resume_relative)):
         raise PermissionError('PV1_ONLY_THE_EXACT_SUBMITTED_ARM_REPLICA_AND_TRAINING_BLOCK')
     consumed=read(root/'evidence/NEW_BANK_CONSUMPTION_READY.private.json')
     if (consumed['status']!='PASS_ACTUAL_FULL_NEW_BANK_CONSUMPTION' or consumed['full_member_hashes_verified'] is not True
@@ -96,7 +100,7 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
         raise PermissionError('PV1_SEPARATE_PREBOUND_PRIMARY_AND_REPLICA_ARTIFACT_IDENTITY')
     b=read(root/'NEURAL_BINDINGS.private.json')
     inputs=read(root/'plans/PV1_TRAIN_INPUTS.private.json')
-    evidence=root/'training'/key/('session-'+request_id)
+    evidence=root/'training'/key/('session-'+request_id+('-'+long_phase if long_phase else ''))
     prior=list((root/'training'/key).glob('checkpoint-*/CHECKPOINT_COMPLETE.json'))
     if prior and (resume_checkpoint is None or Path(resume_checkpoint).resolve()!=
             max((p.parent for p in prior),key=lambda p:read(p/'CHECKPOINT_COMPLETE.json')['global_step']).resolve()):

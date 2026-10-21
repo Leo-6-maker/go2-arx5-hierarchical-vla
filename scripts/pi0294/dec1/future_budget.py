@@ -116,17 +116,24 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None):
         for block in blocks:
             start=old._number(block['start_step'],integer=True);stop=old._number(block['stop_step'],integer=True)
             probe_only=block.get('probe_only',False)
+            long_run=block.get('same_allocation_1024_probes',False)
+            if type(long_run) is not bool:fail('EXPLICIT_LONG_ALLOCATION_BOOLEAN')
+            if long_run:
+                from .long_training import POLICY_SHA
+                if (amendment_bytes is None or plan.get('long_allocation_policy_sha256')!=POLICY_SHA
+                        or probe_only or stop!=4096 or start>=1024):
+                    fail('LONG_ALLOCATION_EXACT_VAP1_POLICY_WITH_FIXED_IN_JOB_PROBES')
             if type(probe_only) is not bool or start!=cursor:
                 fail('EXACT_REMAINING_BLOCK_CURSOR_NOT_RESTART_OR_ROLLBACK')
             if probe_only:
                 if start!=stop or start!=1024 or probe_done:fail('ONE_MISSING_FIXED_PROBE_ONLY_BLOCK')
                 count=0;probes=12;probe_done=True
             else:
-                if not start<stop<=4096 or stop!=(1024 if start<1024 else 4096):
+                if not start<stop<=4096 or stop!=(4096 if long_run else (1024 if start<1024 else 4096)):
                     fail('WHOLE_SOURCE_PHASES_KEEP_ORIGINAL_1024_GATE')
                 if start>=1024 and not probe_done:fail('FIXED_PROBE_BEFORE_SOURCE_REMAINDER')
-                count=stop-start;probes=12 if stop==1024 else 0
-                cursor=stop;probe_done=probe_done or stop==1024
+                count=stop-start;probes=12 if stop==1024 or long_run else 0
+                cursor=stop;probe_done=probe_done or stop==1024 or long_run
             resources=old._vector(block['resources']);wall=old._number(block['walltime_upper_s'],integer=True,positive=True)
             work_id=block['work_id']
             if (not isinstance(work_id,str) or work_id in seen or not work_id.startswith('TRAIN:'+arm+':')
@@ -135,7 +142,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None):
                     or resources['optimizer_updates']!=count or resources['neural_queries']<probes
                     or resources['Hopper_CPU_s']<=0 or resources['local_CPU_s']<=0
                     or resources['Hopper_storage_bytes']<payload
-                    or resources['engine_starts']<2
+                    or resources['engine_starts']<(3 if long_run else 2)
                     or any(resources[k] for k in ('episode_starts','physics_ticks'))):
                 fail('FIXED_TRAINING_JOB_ALL_DIMENSION_UPPER')
             seen.add(work_id);jobs.append(dict(block,kind='TRAIN',resources=resources))
