@@ -1,5 +1,21 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**DEC1 one approved same-job resource restore was attempted, not successful.**
+[Actual one-call error, unchanged native resources and control-reader recovery](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SAME_JOB_RESOURCE_RESTORE_ATTEMPT_ACTUAL.json).
+Job1471903.stdct-mgmt-02 remainsQ/36CPU/240GB with no neural process at the
+independent readback. The singleqalter returned187 because our control command
+omitted `select=`; this is not evidence of a site policy rejection. No second
+qalter, cancellation or new submission occurred. A corrected call is only
+proposed, awaiting a separate explicit reply. Do not erase the failed attempt.
+The earlier user-filtered queue parser also failed before any qalter; its
+zero-effect witness is preserved. Reader597a97594278932d9b7ac825fd8131ab138144ec
+reuses existing qselect/individual-json-qstat, passed exact CI39531282509
+/job118997503156, full GitHub readback and both native site views. Only the
+read-only control watcher was handed over, oldPID3776138 terminal before new
+PID3934448/service dec1-vanda-compat-owner-02; same logical owner/session,
+original neural capsulea2caf6a5/inputs/leases/T0/budget and PBS job unchanged.
+No model readiness, training, physics, scientific result or DEC1 completion.
+
 **DEC1 current CORR cold checks passed; one A40 job is queued with a resource mismatch.**
 [Actual cold binding, native request, owner and same-budget reservations](reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_A40_COMPAT_COLD_AND_SUBMISSION_ACTUAL.json).
 Runtime a2caf6a54f37cb76f64f8d7f42abd5f0e3252339 passed exact Actions39501594922
