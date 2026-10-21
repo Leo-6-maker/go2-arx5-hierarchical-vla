@@ -60,14 +60,43 @@ class DualPlatformTests(unittest.TestCase):
         with self.assertRaises(PermissionError):self.observe(raw,jobs,items,epochs=dict(HOPPER_H200=800,VANDA_A40=1000))
 
     def test_original_gpu_sum_budget_final_reserve_and_grant_are_not_relaxed(self):
-        raw,jobs,items=fixture();view=self.observe(raw,jobs,items)
+        raw,jobs,items=fixture();view=self.observe(raw,{p:{} for p in d.PLATFORMS},[])
+        arguments=dict(grant_bytes=raw,view=view,used={},reserved={},extra=dict(H200_s=8*3600,PBS_submissions=1),
+            platform='VANDA_A40',job_wall_s=8*3600,now_epoch=1000)
         with patch.object(d,'GRANT_SHA',hashlib.sha256(raw).hexdigest()):
-            d.reserve_check(grant_bytes=raw,view=view,used={},reserved={},extra=dict(H200_s=2*8*3600,PBS_submissions=2))
+            proof=d.reserve_check(**arguments)
+            self.assertEqual(proof['concurrent_GPU_limit'],2)
+            self.assertFalse(proof['DEC1_subcaps_and_native_permission_checked'])
             with self.assertRaises(PermissionError):
-                d.reserve_check(grant_bytes=raw,view=view,used=dict(H200_s=80*3600),reserved={},extra=dict(H200_s=1))
+                d.reserve_check(**dict(arguments,used=dict(H200_s=70*3600)))
+            with self.assertRaises(PermissionError):
+                d.reserve_check(**dict(arguments,reserved=dict(H200_s=70*3600)))
         with self.assertRaises(PermissionError):d.grant(raw)
         bad=json.loads(raw);bad['budget']['global_GPU_hours']=192;changed=json.dumps(bad).encode()
         with patch.object(d,'GRANT_SHA',hashlib.sha256(changed).hexdigest()),self.assertRaises(PermissionError):d.grant(changed)
+
+    def test_one_new_platform_only_and_no_duplicate_even_while_queued(self):
+        raw,jobs,items=fixture();jobs['VANDA_A40'].clear();items=items[:1]
+        jobs['HOPPER_H200']['13.hopper-m-02']['job_state']='Q'
+        view=self.observe(raw,jobs,items)
+        arguments=dict(grant_bytes=raw,view=view,used={},reserved={},extra=dict(H200_s=3600,PBS_submissions=1),
+            platform='VANDA_A40',job_wall_s=3600,now_epoch=1000)
+        with patch.object(d,'GRANT_SHA',hashlib.sha256(raw).hexdigest()):
+            d.reserve_check(**arguments)
+            changes=[dict(platform='HOPPER_H200'),dict(platform='UNKNOWN'),dict(now_epoch=1121),
+                dict(extra=dict(H200_s=3600,PBS_submissions=2)),dict(job_wall_s=True),
+                dict(job_wall_s=28801),dict(site_wall_limit_s=1800),dict(job_wall_s=7200)]
+            for change in changes:
+                with self.subTest(change=change),self.assertRaises(PermissionError):
+                    d.reserve_check(**dict(arguments,**change))
+
+    def test_unknown_platform_and_other_unregistered_scientific_prefix_refused(self):
+        raw,jobs,items=fixture();items[0]['native_platform']='OTHER'
+        with self.assertRaises(PermissionError):self.observe(raw,jobs,items)
+        raw,jobs,items=fixture()
+        jobs['HOPPER_H200']['15.hopper-m-02']=dict(Job_Name='pi0294_new_lane',project='other',
+            Job_Owner='fixture@host',job_state='Q')
+        self.assertEqual(self.observe(raw,jobs,items)['status'],'STOP_UNKNOWN_CAMPAIGN_STATE')
 
 
 if __name__=='__main__':unittest.main()

@@ -54,6 +54,7 @@ def observe(*,grant_bytes,site_jobs,ledger_items,user,now_epoch,observed_epochs)
             item=registered.get(job_id)
             if item is not None:
                 if (item.get('project')!=row['project'] or item.get('job_name')!=row['name']
+                        or item.get('native_platform') not in (None,*PLATFORMS)
                         or (item.get('native_platform')=='VANDA_A40')!=(platform=='VANDA_A40')
                         or item['status'] in TERMINAL and row['state']!='F'):
                     raise PermissionError('DUAL_PLATFORM_LEDGER_NATIVE_IDENTITY_OR_TERMINAL_CONTRADICTION')
@@ -64,7 +65,7 @@ def observe(*,grant_bytes,site_jobs,ledger_items,user,now_epoch,observed_epochs)
                     if row['state'] not in ('Q','R'):unknown.append(row)
             elif (job_id==known['job_id'] and row['project']==known['project']
                     and row['name']==known['job_name']):confirmed.append(row)
-            elif row['name'] and row['name'].startswith(('pi0294_pv1_','pi0294_dec1_')):
+            elif row['name'] and row['name'].startswith('pi0294_'):
                 unknown.append(row)
             else:
                 outside.append(dict(row,classification='OUTSIDE_REGISTERED_CAMPAIGN_NOT_ADOPTED',
@@ -85,12 +86,26 @@ def observe(*,grant_bytes,site_jobs,ledger_items,user,now_epoch,observed_epochs)
         account_view_filtered_or_forged_empty=False,other_jobs_modified=False)
 
 
-def reserve_check(*,grant_bytes,view,used,reserved,extra,final=False):
+def reserve_check(*,grant_bytes,view,used,reserved,extra,platform,job_wall_s,
+                  now_epoch,site_wall_limit_s=8*3600,final=False):
     grant(grant_bytes)
-    if view.get('status')!='PASS_TWO_PLATFORM_CAMPAIGN_VIEW' or view.get('grant_sha256')!=GRANT_SHA:
+    if (view.get('status')!='PASS_TWO_PLATFORM_CAMPAIGN_VIEW' or view.get('grant_sha256')!=GRANT_SHA
+            or not 0<=now_epoch-view['observed_epoch']<=120):
         raise PermissionError('DUAL_PLATFORM_KNOWN_CAMPAIGN_BEFORE_NEW_RESERVATION')
+    if (platform not in PLATFORMS or extra.get('PBS_submissions')!=1
+            or type(job_wall_s) is not int or type(site_wall_limit_s) is not int
+            or not 0<job_wall_s<=min(8*3600,site_wall_limit_s)):
+        raise PermissionError('DUAL_PLATFORM_ONE_TYPED_BOUNDED_JOB_PER_ATOMIC_RESERVATION')
+    jobs=view['campaign_jobs']
+    if (len(jobs)>=2 or any(j['platform']==platform for j in jobs)
+            or any(j['state'] not in ('Q','R') for j in jobs)):
+        raise PermissionError('DUAL_PLATFORM_NO_DUPLICATE_QUEUED_OR_RUNNING_CHAIN')
     # The new explicit concurrency check replaces only the legacy single-GPU
     # predicate. All original monetary/resource caps and final reserves remain.
     if sum(view['campaign_running_by_platform'].values())>2:
         raise PermissionError('DUAL_PLATFORM_RUNNING_LIMIT')
-    return resources.admit_resources(used,reserved,extra,final=final,active_GPUs=0)
+    proof=resources.admit_resources(used,reserved,extra,final=final,active_GPUs=0,
+        requested_GPUs=1,job_wall_s=job_wall_s,site_wall_limit_s=site_wall_limit_s)
+    return dict(proof,status='PASS_DUAL_PLATFORM_GLOBAL_RESOURCE_CHECK_NOT_NATIVE_OR_DEC1_ADMISSION',
+        concurrent_GPU_limit=2,per_platform_GPU_limit=1,requested_platform=platform,
+        grant_sha256=GRANT_SHA,DEC1_subcaps_and_native_permission_checked=False)
