@@ -1,3 +1,4 @@
+import subprocess
 import unittest
 
 from scripts.operations.read_observation import observe
@@ -26,6 +27,31 @@ class ReadObservationTests(unittest.TestCase):
             raise TimeoutError('SSH read timed out')
 
         with self.assertRaises(TimeoutError):
+            observe(read, sleep=lambda _: None)
+        self.assertEqual(len(calls), 3)
+
+    def test_subprocess_timeout_retries_only_the_read(self):
+        calls = []
+        sleeps = []
+
+        def read():
+            calls.append('same-process-status')
+            if len(calls) == 1:
+                raise subprocess.TimeoutExpired(['ssh', 'site', 'read-only-status'], 110)
+            return {'active': True}
+
+        self.assertEqual(observe(read, sleep=sleeps.append), {'active': True})
+        self.assertEqual(calls, ['same-process-status'] * 2)
+        self.assertEqual(sleeps, [15])
+
+    def test_exhausted_subprocess_timeout_preserves_unknown_observation(self):
+        calls = []
+
+        def read():
+            calls.append(1)
+            raise subprocess.TimeoutExpired(['ssh', 'site', 'read-only-status'], 110)
+
+        with self.assertRaises(subprocess.TimeoutExpired):
             observe(read, sleep=lambda _: None)
         self.assertEqual(len(calls), 3)
 

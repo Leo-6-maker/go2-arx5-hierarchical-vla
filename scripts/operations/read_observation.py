@@ -1,4 +1,5 @@
 """Bounded retries for read-only observations, never effect-bearing RPCs."""
+import subprocess
 import time
 
 
@@ -7,7 +8,7 @@ def observe(read, *, sleep=time.sleep, delays=(15, 45)):
     for attempt in range(len(delays) + 1):
         try:
             return read()
-        except (RuntimeError, OSError, TimeoutError) as error:
+        except (RuntimeError, OSError, TimeoutError, subprocess.TimeoutExpired) as error:
             transient = any(marker in str(error) for marker in (
                 'Temporary failure in name resolution', 'Could not resolve hostname',
                 'Connection timed out', 'Connection reset', 'Broken pipe', 'timed out'))
