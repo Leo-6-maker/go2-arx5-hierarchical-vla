@@ -12,7 +12,7 @@ from scripts.pi0292.durable import read,write
 from scripts.pi0294.fd1 import put,sha
 from scripts.pi0294.pv1.data_delivery import pack_archive
 from . import delivery
-from .bank import LOCAL
+from .bank import LOCAL,configuration as bank_configuration
 from .plan import R1
 
 
@@ -54,7 +54,7 @@ class TransactionTests(unittest.TestCase):
     def run_fixture(self,folder,*,commit_unknown=False,corrupt=False,profile=None):
         parent,source,result=fixture(folder);root=parent/'children/delivery';(root/'plans').mkdir(parents=True)
         (root/'evidence').mkdir();events=[];snapshots={};prefix='PI0294/original-cr2/CR2_FIXED_R1_P12'
-        cfg=delivery.configuration(profile)
+        cfg=bank_configuration(profile)
         if profile is not None:
             old=source/'datasets/CR2_FIXED_R1_P12';old.rename(source/'datasets'/cfg['bank'])
             index=read(source/'delivery'/delivery.INDEX);index['schema']=cfg['index_schema']
