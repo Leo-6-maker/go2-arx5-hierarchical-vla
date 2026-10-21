@@ -67,7 +67,11 @@ class Window:
 
 class Observer:
     def __init__(self,root,evidence,allocation,torch,ledger,*,start_step):
-        if (not configured(root) or allocation.get('status')!='PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
+        from scripts.pi0294.dec1.a40_allocation import STATUS as A40_STATUS
+        if allocation.get('status')==A40_STATUS:
+            from scripts.pi0294.dec1.a40_training_context import require_training
+            require_training(root,allocation)
+        if (not configured(root) or allocation.get('status') not in ('PASS_PV1_OWN_NATIVE_H200_ALLOCATION',A40_STATUS)
                 or not os.environ.get('PBS_JOBID') or allocation['job_id']!=os.environ['PBS_JOBID']
                 or not time.time()<allocation['allocation_end_epoch']):
             raise PermissionError('PV1_PERFORMANCE_ONLY_IN_EXISTING_LEGAL_ALLOCATION')
@@ -152,7 +156,7 @@ class Observer:
                     manifest=read(self.root/'RUN_MANIFEST.json')
                     with record.open('x') as f:json.dump(dict(pid=process.pid,proc_start=start,
                         operation='PV1_OWN_ALLOCATION_GPU_TELEMETRY_ONLY',job_id=self.allocation['job_id'],
-                        owner='EXISTING_LOCAL_PC',run_uuid=self.root.name,profile='hopper-neural',
+                        owner='EXISTING_LOCAL_PC',run_uuid=self.root.name,profile=manifest['execution'].get('profile','hopper-neural'),
                         source_sha=manifest['code']['vla_commit'],manifest_sha256=sha(self.root/'RUN_MANIFEST.json')),f)
                     record.chmod(0o400)
                 try:stdout,stderr=process.communicate(timeout=2)

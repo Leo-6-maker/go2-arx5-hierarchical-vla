@@ -232,7 +232,7 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
             or number(quota['available_bytes'],integer=True)<reserved+40*GIB
             or number(budget_proof['DEC1_GPU_site_output_used_and_reserved_bytes'],integer=True)>160*GIB):
         fail('ACTUAL_PROJECT_AND_FILESYSTEM_HEADROOM_WITH_BOTH_OUTPUT_CAPS_AND_FINAL_RESERVE')
-    return dict(status=STATUS,job_id=job_id,request_sha256=request_sha,
+    return dict(status=STATUS,job_id=job_id,submit_count=r['submit_count'],request_sha256=request_sha,
         request_id=r['request_id'],submission_nonce=r['submission_nonce'],run_uuid=r['run_uuid'],
         source_sha=r['source_sha'],manifest_sha256=r['run_manifest_sha256'],
         native_platform=PLATFORM,physical_GPU='NVIDIA_A40',hostname=hostname,project=r['project'],

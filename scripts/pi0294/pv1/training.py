@@ -19,11 +19,35 @@ from .pre_model_qualification import current_directory,require_current
 
 def authorize_phase(root,directory,allocation,guard,long_phase):
     guard()
+    from scripts.pi0294.dec1.a40_allocation import STATUS as A40_STATUS
+    if allocation.get('status')==A40_STATUS:
+        from scripts.pi0294.dec1.a40_training_context import authorize_phase as a40_phase
+        return a40_phase(root,directory,allocation,guard,long_phase)
     if long_phase=='AFTER_PROBES':
         from scripts.pi0294.dec1.long_training import continuation_authorization
         return continuation_authorization(root,directory,allocation)
     from .future_admission import wait_native_release
     return wait_native_release(root,directory,allocation,guard)
+
+
+def native_training_directory(root,allocation):
+    from scripts.pi0294.dec1.a40_allocation import STATUS as A40_STATUS
+    if allocation.get('status')==A40_STATUS:
+        from scripts.pi0294.dec1.a40_training_context import require_training
+        return require_training(root,allocation)
+    if allocation.get('status')!='PASS_PV1_OWN_NATIVE_H200_ALLOCATION':
+        raise PermissionError('PV1_EXACT_TYPED_NATIVE_TRAINING_PLATFORM')
+    directory=current_directory(root,allocation);require_current(root,allocation)
+    return directory
+
+
+def commit_completed_update(ledger,synchronize,*,arm,local_step_after,request_id):
+    # A failed asynchronous CUDA update must remain a pending intent, not a
+    # committed step that could later be replayed as if it had finished.
+    synchronize()
+    with ledger.transaction() as value:
+        updated=commit_update(value,arm=arm,local_step_after=local_step_after,request_id=request_id)
+        value.clear();value.update(updated)
 
 
 def save_known_completed_step(root,key,trainer,ledger,torch):
@@ -78,12 +102,11 @@ def checked_resume(root,arm,checkpoint,recipe,dataset):
 def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint=None,stop_after_step=1024,replica=False,long_phase=None):
     root=Path(root)
     guard()
-    if (allocation.get('status')!='PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
-            or not os.environ.get('PBS_JOBID') or allocation['job_id']!=os.environ['PBS_JOBID']
+    if (not os.environ.get('PBS_JOBID') or allocation.get('job_id')!=os.environ['PBS_JOBID']
             or stop_after_step not in (1024,4096) or type(replica) is not bool or not request_id
             or request_id in ('.','..') or Path(request_id).name!=request_id):
         raise PermissionError('PV1_NATIVE_ALLOCATION_BEFORE_ANY_TRAINING_AND_FIXED_PRIMARY_STOPS')
-    directory=current_directory(root,allocation);require_current(root,allocation)
+    directory=native_training_directory(root,allocation)
     submitted=read(directory/'REQUEST.json')
     block=submitted.get('training_block',{})
     resume_relative=Path(resume_checkpoint).resolve().relative_to(root.resolve()).as_posix() if resume_checkpoint else None
@@ -96,11 +119,17 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
             or long_phase is None and (block.get('stop_after_step')!=stop_after_step
                 or block.get('resume_checkpoint_relative')!=resume_relative)):
         raise PermissionError('PV1_ONLY_THE_EXACT_SUBMITTED_ARM_REPLICA_AND_TRAINING_BLOCK')
-    consumed=read(root/'evidence/NEW_BANK_CONSUMPTION_READY.private.json')
-    if (consumed['status']!='PASS_ACTUAL_FULL_NEW_BANK_CONSUMPTION' or consumed['full_member_hashes_verified'] is not True
-            or consumed['delivery_binding_sha256']!=sha(root/'plans/PV1_HF_BANK_DELIVERY.json')
-            or consumed['dataset_manifest_sha256']!=read(root/'PV1_STAGE_BINDING.json')['new_bank_manifest_sha256']):
-        raise PermissionError('PV1_ACTUAL_FULL_FIXED_HF_BANK_CONSUMPTION_BEFORE_TRAINING')
+    from scripts.pi0294.dec1.a40_allocation import STATUS as A40_STATUS
+    is_A40=allocation.get('status')==A40_STATUS
+    if is_A40:
+        from scripts.pi0294.dec1.a40_training_context import verify_consumers
+        verify_consumers(root)
+    else:
+        consumed=read(root/'evidence/NEW_BANK_CONSUMPTION_READY.private.json')
+        if (consumed['status']!='PASS_ACTUAL_FULL_NEW_BANK_CONSUMPTION' or consumed['full_member_hashes_verified'] is not True
+                or consumed['delivery_binding_sha256']!=sha(root/'plans/PV1_HF_BANK_DELIVERY.json')
+                or consumed['dataset_manifest_sha256']!=read(root/'PV1_STAGE_BINDING.json')['new_bank_manifest_sha256']):
+            raise PermissionError('PV1_ACTUAL_FULL_FIXED_HF_BANK_CONSUMPTION_BEFORE_TRAINING')
     original=read(root/'plans/FROZEN_SOURCE_PAIR_RECIPE.json')
     key=('REPLICA_' if replica else '')+arm
     recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][key]
@@ -195,10 +224,8 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
 
         def on_step_end(self,arguments,state,control,**kwargs):
             with observer.scope('LEDGER_COMMIT') if observer else nullcontext():
-                with ledger.transaction() as l:
-                    updated=commit_update(l,arm=arm,local_step_after=state.global_step,request_id=request_id)
-                    l.clear();l.update(updated)
-            torch.cuda.synchronize()
+                commit_completed_update(ledger,torch.cuda.synchronize,arm=arm,
+                    local_step_after=state.global_step,request_id=request_id)
             times.append(time.monotonic()-began)
             row=dict(step=state.global_step,cursor=trainer.consumed,native_loss=trainer.last_native_loss,
                 learning_rate=trainer.lr_scheduler.get_last_lr(),synchronized_s=times[-1],epoch=time.time())
@@ -206,6 +233,12 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
                 f.write(json.dumps(row)+'\n');f.flush()
             write(evidence/'PROGRESS.json',row)
             if observer:observer.after_step(trainer,state.global_step,times[-1])
+            if is_A40 and arm=='A_CONTROL' and state.global_step==32 and start==0:
+                from scripts.pi0294.dec1.a40_training_context import first32
+                qualification=first32(root,directory,allocation,times,
+                    native_loss=trainer.last_native_loss,peak_bytes=torch.cuda.max_memory_allocated())
+                if not qualification['continue_same_state']:
+                    control.should_save=True;control.should_training_stop=True
             if state.global_step in [1024,4096]:control.should_save=True
             if state.global_step==stop_after_step or time.time()>=allocation['allocation_end_epoch']-2730:
                 control.should_save=True;control.should_training_stop=True
