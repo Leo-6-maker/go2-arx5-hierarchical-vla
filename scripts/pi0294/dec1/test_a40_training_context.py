@@ -92,6 +92,38 @@ def consumers_fixture(base):
 
 
 class ContextTests(unittest.TestCase):
+    def test_deferred_reader_allows_queue_identity_but_never_open_data(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root,records=consumers_fixture(Path(tmp));child=Path(records['original126_C1']['root'])
+            records['original126_C1']={k:v for k,v in records['original126_C1'].items()
+                if k in ('root','manifest_sha256')}
+            records['original126_C1']['binding_mode']=c.DEFERRED
+            put(root/c.CONSUMERS,records)
+            v=read(child/'lease.json');v['status']='ACTIVE';put(child/'lease.json',v)
+            self.assertEqual(c.consumer_records(root,require_closed=False)['original126_C1']['binding_mode'],c.DEFERRED)
+            with self.assertRaisesRegex(PermissionError,'NOT_CLOSED'):c.consumer_records(root)
+            with self.assertRaisesRegex(TimeoutError,'NO_MODEL_LOADED'):
+                c.wait_for_consumers(root,lambda:None,maximum_s=1,sleep=lambda _:None,
+                    clock=iter([0,0,0,2]).__next__)
+            v['status']='CLOSED';put(child/'lease.json',v)
+            resolved=c.consumer_records(root)['original126_C1']
+            self.assertEqual(resolved['result_sha256'],sha(child/'RESULT.private.json'))
+            self.assertEqual(resolved['lease_sha256'],sha(child/'lease.json'))
+
+    def test_deferred_binding_cannot_change_parent_or_accept_failed_reader(self):
+        for mutation in ('new139','manifest','result','mode','extra'):
+            with self.subTest(mutation=mutation),tempfile.TemporaryDirectory() as tmp:
+                root,records=consumers_fixture(Path(tmp));kind='new139' if mutation=='new139' else 'original126_C1'
+                child=Path(records[kind]['root'])
+                records[kind]={k:v for k,v in records[kind].items() if k in ('root','manifest_sha256')}
+                records[kind]['binding_mode']=c.DEFERRED
+                if mutation=='extra':records[kind]['result_sha256']='f'*64
+                put(root/c.CONSUMERS,records)
+                if mutation=='manifest':put(child/'RUN_MANIFEST.json',dict(changed=True))
+                if mutation=='result':put(child/'RESULT.private.json',dict(status='FAILED_PRESERVED'))
+                if mutation=='mode':(child/'RESULT.private.json').chmod(0o600)
+                with self.assertRaises(PermissionError):c.wait_for_consumers(root,lambda:None)
+
     def test_root_requires_real_profile_sealed_inputs_environment_and_source(self):
         for mutation in (None,'profile','lease','grant','mode','CI','request','source'):
             with self.subTest(mutation=mutation),tempfile.TemporaryDirectory() as tmp:

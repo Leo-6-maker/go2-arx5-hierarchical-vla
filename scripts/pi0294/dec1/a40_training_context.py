@@ -18,6 +18,38 @@ PROFILE='vanda-neural-training'
 CONSUMERS='plans/A40_CLOSED_SOURCE_DATA_CONSUMERS.private.json'
 QUALIFICATION='A40_PREMODEL_QUALIFICATION.json'
 COMPATIBILITY='A40_COMPATIBILITY/RESULT.json'
+DEFERRED='FIXED_MANIFEST_AWAIT_CLOSED_READER_V1'
+
+
+def consumer_records(root,*,require_closed=True):
+    """Permit queueing a fixed CPU consumer, never using its unfinished data."""
+    records=sealed(root,CONSUMERS)
+    if set(records)!={'new139','original126_C1'}:fail('BOTH_FIXED_TRAIN_CONSUMERS')
+    resolved={}
+    for kind,original in records.items():
+        row=dict(original)
+        if row.get('binding_mode')==DEFERRED:
+            if kind!='original126_C1' or set(row)!={'root','manifest_sha256','binding_mode'}:
+                fail('ONLY_PREBOUND_ORIGINAL_CPU_CONSUMER_MAY_FINISH_IN_QUEUE')
+            child=Path(row['root'])
+            manifest=sealed(child,'RUN_MANIFEST.json')
+            binding=sealed(child,'OUTPUT_BINDING.private.json')
+            if (sha(child/'RUN_MANIFEST.json')!=row['manifest_sha256']
+                    or binding.get('run_manifest_sha256')!=row['manifest_sha256']
+                    or manifest.get('source_data_profile')!='ORIGINAL126_C1'
+                    or manifest.get('authority_release')!=native.AUTHORITY
+                    or manifest.get('owner')!='EXISTING_LOCAL_PC'
+                    or manifest.get('owner_uid')!=os.getuid()):
+                fail('ORIGINAL_QUEUED_CPU_MANIFEST_IDENTITY')
+            if require_closed:
+                result=sealed(child,'RESULT.private.json')
+                lease_path=Path(binding['lease'])
+                lease=sealed(lease_path.parent,lease_path.name)
+                if lease.get('status')!='CLOSED':fail('CPU_READER_NOT_CLOSED_BEFORE_MODEL')
+                row.update(result_sha256=sha(child/'RESULT.private.json'),lease_sha256=sha(lease_path))
+        elif 'binding_mode' in row:fail('UNKNOWN_CPU_CONSUMER_BINDING_MODE')
+        resolved[kind]=row
+    return resolved
 
 
 def fail(message):raise PermissionError('VAP1_A40_CONTEXT_'+message)
@@ -147,7 +179,7 @@ def owner_guard(root,allocation):
 def verify_consumers(root):
     from scripts.pi0294.e1.scope import DATA
     from .source_data_original import C1_MANIFEST
-    root=Path(root);records=sealed(root,CONSUMERS)
+    root=Path(root);records=consumer_records(root)
     b=sealed(root,'NEURAL_BINDINGS.private.json');inputs=sealed(root,'plans/PV1_TRAIN_INPUTS.private.json')
     if set(records)!= {'new139','original126_C1'}:fail('BOTH_CLOSED_FIXED_TRAIN_CONSUMERS')
     actual={}
@@ -195,6 +227,28 @@ def verify_consumers(root):
         if not valid:fail('FIXED_R0_DATASET_AND_ACTUAL_RAW_BINDING_PATHS')
         actual[kind]=row['result_sha256']
     return actual
+
+
+def wait_for_consumers(root,guard,*,maximum_s=300,sleep=time.sleep,clock=time.monotonic):
+    """Bounded allocation time, before torch/CUDA, for the exact queued reader."""
+    if not 0<maximum_s<=300:fail('BOUNDED_DATA_WAIT_AT_MOST_300_SECONDS')
+    records=consumer_records(root,require_closed=False);started=clock()
+    pending=[row for row in records.values() if row.get('binding_mode')==DEFERRED]
+    while True:
+        guard()
+        ready=True
+        for row in pending:
+            child=Path(row['root']);binding=sealed(child,'OUTPUT_BINDING.private.json')
+            lease=read(binding['lease'])
+            if lease.get('status') not in ('ACTIVE','CLOSED'):fail('CPU_READER_INVALID_LEASE_STATE')
+            if (child/'RESULT.private.json').exists():
+                result=sealed(child,'RESULT.private.json')
+                if result.get('status')!='PASS_VANDA_CPU_ORIGINAL126_AND_C1_FIXED_MEMBERS_AND_OFFICIAL_READER':
+                    fail('CPU_READER_TERMINAL_FAILURE_NO_RETRY')
+            ready=ready and lease.get('status')=='CLOSED'
+        if ready:return verify_consumers(root)
+        if clock()-started>=maximum_s:raise TimeoutError('A40_FIXED_CPU_READER_NOT_READY_NO_MODEL_LOADED')
+        sleep(min(15,maximum_s-(clock()-started)))
 
 
 def require_premodel(root,allocation):

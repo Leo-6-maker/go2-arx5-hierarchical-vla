@@ -121,6 +121,18 @@ def run(root,request_path):
     status='FAILED_PRESERVED';final_step=r['expected_native_start_step']
     try:
         if (directory/'PBS_PROCESS_FINAL.json').exists():raise FileExistsError('A40_NATIVE_PROCESS_NO_RESTART')
+        phase='FIXED_CPU_DATA_WAIT_BEFORE_CUDA'
+        if any(row.get('binding_mode')==context.DEFERRED for row in context.consumer_records(root,require_closed=False).values()):
+            once(directory/'INPUT_WAIT_READY.json',dict(job_id=os.environ.get('PBS_JOBID'),
+                observed_epoch=time.time(),maximum_s=300,models_loaded=0,CUDA_initialized=False,
+                request_sha256=sha(request_path),allocation_wait_is_charged=True))
+            def input_guard():
+                native_job(r)
+                binding=read(root/'OUTPUT_BINDING.private.json')
+                if ((root/'STOP.json').exists() or (root.parent.parent/'STOP.json').exists()
+                        or read(binding['lease']).get('status')!='ACTIVE'
+                        or time.time()>=native.T0+156*3600):fail('STOP_OR_LEASE_DURING_INPUT_WAIT')
+            context.wait_for_consumers(root,input_guard)
         allocated=allocation(root,directory,r)
         os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
         if len(os.sched_getaffinity(0))!=4:fail('FOUR_OWN_ACTIVE_PROCESS_CPUS')
