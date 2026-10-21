@@ -54,6 +54,7 @@ class SourceCPUContracts(unittest.TestCase):
             root=Path(tmp);m=dict(sealed_inputs={},deadline_epoch=time.time()+60,source_data_profile='ORIGINAL126_C1')
             with patch.object(c,'validate',return_value=(m,{},None)),patch.object(c,'prior_CPU_cost',return_value=60),\
                     patch.object(c,'cpu_guard'),patch.object(c,'bulk_priority',return_value=True),\
+                    patch.object(c.shutil,'disk_usage',return_value=type('Usage',(),{'free':10**12})()),\
                     patch.object(c.resource,'setrlimit') as limit,patch.object(c.os,'sched_setaffinity'),\
                     patch.object(c.signal,'setitimer'),patch.object(original,'consume',return_value=dict(status='CPU_fixture')):
                 result=c.run(root)
