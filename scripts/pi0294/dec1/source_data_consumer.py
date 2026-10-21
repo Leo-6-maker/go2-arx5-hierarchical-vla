@@ -4,11 +4,13 @@ This future cold scope does not change the H200-only consumer or the active
 A40 probe. Source training remains separately allocation/recipe qualified.
 """
 import argparse
+import json
 import os
 from pathlib import Path
 import resource
 import shutil
 import signal
+import subprocess
 import time
 
 from scripts.pi0291_arx5_data.native_dataset import cpu_guard
@@ -17,6 +19,7 @@ from scripts.pi0292.durable import OwnerLock, read, write
 from scripts.pi0294.fd1 import sha
 from scripts.pi0294.pv1.data_delivery import bank_members, download_dataset, official_consumption
 from .authority import AUTHORITY, PARENT_AUTHORITY, R0, BANK, HARD_CLOSE
+from scripts.operations.read_observation import observe
 
 VAP1='43f7fe6f86c683f2e38e5c8802eb8cde208e575c'
 SCHEMA='DEC1_VAP1_SOURCE_DATA_CPU_CHILD_V1'
@@ -28,6 +31,16 @@ PREFIX='PI0294/20261018T182956Z-localpc-pv1/PV1_NEW_TRAIN_BANK_V1'
 CPU=4500
 TRANSFER=8*1024**3
 OUTPUT=24*1024**3
+
+
+def bulk_priority(*, query=subprocess.check_output):
+    raw=observe(lambda:query(['/opt/pbs/bin/qstat','-x','-f','-F','json','1471903.stdct-mgmt-02'],
+        text=True,timeout=25))
+    job=json.loads(raw)['Jobs']['1471903.stdct-mgmt-02']
+    if (job.get('project')!='CFP04-CF-007' or job.get('Job_Owner','').split('@')[0]!='e1192548'
+            or job.get('job_state') not in ('Q','R','F')):
+        raise PermissionError('SOURCE_DATA_CURRENT_PROBE_PRIORITY_UNKNOWN_NO_BULK')
+    return job['job_state']!='R'
 
 
 def sealed(root, name, expected=None, *, parse=True):
@@ -141,11 +154,16 @@ def run(root):
     if (r/'RESULT.private.json').exists() or (r/'CONSUMPTION_INTENT.private.json').exists():
         lock.close();raise FileExistsError('SOURCE_DATA_PRESERVE_PRIOR_ATTEMPT_NO_BLIND_RESTART')
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))});resource.setrlimit(resource.RLIMIT_CPU,(CPU,CPU))
-    resource.setrlimit(resource.RLIMIT_CORE,(0,0));began=time.process_time();failure=None;result={};last_size=0.;resident=0
+    resource.setrlimit(resource.RLIMIT_CORE,(0,0));began=time.process_time();failure=None;result={};last_size=0.;resident=0;last_priority=0.
     def expired(*unused):raise TimeoutError('SOURCE_DATA_FINITE_WALL_CUTOFF')
     previous=signal.signal(signal.SIGALRM,expired);signal.setitimer(signal.ITIMER_REAL,m['deadline_epoch']-time.time())
     def guard(extra=0):
-        nonlocal last_size,resident
+        nonlocal last_size,resident,last_priority
+        if time.monotonic()-last_priority>15:
+            while not bulk_priority():
+                if time.time()+20>=m['deadline_epoch']:raise TimeoutError('SOURCE_DATA_PRIORITY_WAIT_FINITE_CUTOFF')
+                time.sleep(15)
+            last_priority=time.monotonic()
         if time.monotonic()-last_size>15:
             resident=sum(p.stat().st_size for p in r.rglob('*') if p.is_file() and not p.is_symlink());last_size=time.monotonic()
         if (time.time()>=m['deadline_epoch'] or time.process_time()-began>=CPU-60

@@ -18,6 +18,17 @@ def put(path,value):
 
 
 class SourceCPUContracts(unittest.TestCase):
+    def test_bulk_staging_yields_to_the_existing_probe_without_modifying_job(self):
+        job=dict(project='CFP04-CF-007',Job_Owner='e1192548@fixture',job_state='Q')
+        calls=[]
+        def query(args,**kw):
+            calls.append(args);return json.dumps(dict(Jobs={'1471903.stdct-mgmt-02':job}))
+        self.assertTrue(c.bulk_priority(query=query));job['job_state']='R'
+        self.assertFalse(c.bulk_priority(query=query));job['job_state']='F'
+        self.assertTrue(c.bulk_priority(query=query));job['job_state']='H'
+        with self.assertRaises(PermissionError):c.bulk_priority(query=query)
+        self.assertTrue(all(a[:4]==['/opt/pbs/bin/qstat','-x','-f','-F'] for a in calls))
+
     def fixture(self,r):
         receipt=dict(status='PASS_FIXED_REVISION_READY_LAST_EXACT_FULL_SET_SIZE_SHA256',
             repo_id='leoyuer/pi0294-public-artifacts',prefix=c.PREFIX,revision=c.REVISION,dataset_manifest_sha256=c.BANK)
