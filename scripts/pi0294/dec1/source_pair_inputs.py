@@ -28,13 +28,20 @@ def prepare_B(qualified_A,original_pair,*,source_sha):
     for name,value in a.items():
         if name not in ARM_INPUTS|RELOCATED and qualified_A['small'].get(name)!=value:
             raise PermissionError('SOURCE_PAIR_UNCHANGED_COMMON_RECIPE_AND_DATA_INPUTS:'+name)
-    for name in ('metadata_windows','metadata_composite_manifest_sha256','metadata_sampler_support_sha256'):
+    for name in ('metadata_windows','metadata_sampler_support_sha256'):
         if original_pair['A_CONTROL'][name]!=original_pair['B_COVERAGE'][name]:
             raise PermissionError('SOURCE_PAIR_MATCHED_METADATA_SUPPORT')
+    # The mature composite identity includes the arm, unlike its support hash.
+    composite=original_pair['B_COVERAGE']['metadata_composite_manifest_sha256']
+    if re.fullmatch('[0-9a-f]{64}',composite) is None:
+        raise PermissionError('SOURCE_PAIR_CANONICAL_B_COMPOSITE_IDENTITY')
     prepared=deepcopy(qualified_A);prepared['arm']='B_COVERAGE'
     for name in ARM_INPUTS:prepared['small'][name]=b[name]
     prepared['cold_pair_binding']=dict(status='COLD_B_METADATA_ONLY_NOT_ADMISSION_OR_SUBMISSION',
         same_source=True,same_qualified_closed_data_references=True,canonical_arm_overrides=sorted(ARM_INPUTS),
+        metadata_windows=original_pair['B_COVERAGE']['metadata_windows'],
+        metadata_sampler_support_sha256=original_pair['B_COVERAGE']['metadata_sampler_support_sha256'],
+        metadata_composite_manifest_sha256=composite,
         previous_A_terminal_audit_and_settlement_required=True,fresh_native_remaining_work_admission_required=True,
         new_GPU=0,new_PBS=0,new_queries=0,new_optimizer_updates=0,new_physics=0)
     return prepared
