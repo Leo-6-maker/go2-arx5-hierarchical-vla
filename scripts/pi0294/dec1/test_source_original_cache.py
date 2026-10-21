@@ -22,6 +22,15 @@ def put(path,value):
 
 
 class OriginalCacheTests(unittest.TestCase):
+    def test_only_exact_zero_model_history_guard_failure_can_be_reused(self):
+        result=dict(failure=dict(error_type='CalledProcessError',
+            error="Command '['/opt/pbs/bin/qstat', '-x', '-f', '-F', 'json', '1471903.stdct-mgmt-02']' returned non-zero exit status 1."))
+        self.assertTrue(c.reusable_failure(result,c.HISTORY_REASON))
+        self.assertFalse(c.reusable_failure(result,c.REASON))
+        result['failure']['error']=result['failure']['error'].replace('1471903','OTHER_JOB')
+        self.assertFalse(c.reusable_failure(result,c.HISTORY_REASON))
+        self.assertFalse(c.reusable_failure(dict(failure=dict(error='scientific failure')),c.HISTORY_REASON))
+
     def test_reuse_and_new_members_have_identical_bytes_without_full_tree_scans(self):
         with tempfile.TemporaryDirectory() as tmp:
             base=Path(tmp);old=base/'old';new=base/'new';old.mkdir();new.mkdir()

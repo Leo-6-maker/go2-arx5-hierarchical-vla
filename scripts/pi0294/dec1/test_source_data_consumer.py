@@ -18,6 +18,27 @@ def put(path,value):
 
 
 class SourceCPUContracts(unittest.TestCase):
+    def test_closed_priority_does_not_depend_on_scheduler_history_retention(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'cpu';root.mkdir();old=Path(tmp)/'old';old.mkdir()
+            manifest=put(old/'RUN_MANIFEST.json',dict(fixture=True))
+            lease=put(old/'lease.json',dict(status='CLOSED',run_uuid=old.name,owner='EXISTING_LOCAL_PC'))
+            put(old/'OUTPUT_BINDING.private.json',dict(lease=str(old/'lease.json')))
+            v=dict(schema='CLOSED_HISTORICAL_A40_PRIORITY_ONLY_V1',not_model_qualification=True,
+                root=str(old),manifest_sha256=manifest,lease_sha256=lease,
+                native_proof=dict(job_id='1471903.stdct-mgmt-02',job_state='F',project='CFP04-CF-007',
+                    owner='e1192548',recorded_process_terminal=True))
+            digest=put(root/c.PRIORITY,v)
+            put(root/'RUN_MANIFEST.json',dict(registered_runs_root=str(Path(tmp)),sealed_inputs={c.PRIORITY:digest}))
+            calls=[]
+            def query(args,**kwargs):
+                calls.append(args);return '1499999.stdct-mgmt-02\n'
+            self.assertTrue(c.bulk_priority(root,query=query))
+            self.assertEqual(calls,[['/opt/pbs/bin/qselect','-u','e1192548']])
+            with self.assertRaises(PermissionError):c.bulk_priority(root,query=lambda *a,**kw:'Welcome banner')
+            put(old/'lease.json',dict(status='ACTIVE',run_uuid=old.name,owner='EXISTING_LOCAL_PC'))
+            with self.assertRaises(PermissionError):c.bulk_priority(root,query=query)
+
     def test_bulk_staging_yields_to_the_existing_probe_without_modifying_job(self):
         job=dict(project='CFP04-CF-007',Job_Owner='e1192548@fixture',job_state='Q')
         calls=[]

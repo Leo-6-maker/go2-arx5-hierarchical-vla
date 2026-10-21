@@ -8,6 +8,16 @@ from .source_data_cache import OutputBudget, extract
 
 PLAN='plans/CLOSED_ORIGINAL126_STAGING_CACHE_REUSE.json'
 REASON='ENGINEERING_NFS_GUARD_FULL_TREE_RESCAN'
+HISTORY_REASON='ENGINEERING_RETIRED_PBS_HISTORY_PRIORITY_GUARD'
+
+
+def reusable_failure(result,reason):
+    failure=result.get('failure',{})
+    if reason==REASON:return failure.get('error')=='SOURCE_DATA_CPU_STORAGE_CLOCK_OR_STOP_BOUND'
+    if reason==HISTORY_REASON:
+        return (failure.get('error_type')=='CalledProcessError'
+            and failure.get('error')=="Command '['/opt/pbs/bin/qstat', '-x', '-f', '-F', 'json', '1471903.stdct-mgmt-02']' returned non-zero exit status 1.")
+    return False
 
 
 def previous(root):
@@ -35,10 +45,10 @@ def previous(root):
             or om.get('original_T0_epoch')!=m['original_T0_epoch']
             or om.get('zero_effects')!=dict(GPU=0,PBS=0,models=0,queries=0,updates=0,physics=0)
             or result.get('status')!='FAILED_PRESERVED_NO_MODEL_OR_HF_MUTATION'
-            or result.get('failure',{}).get('error')!='SOURCE_DATA_CPU_STORAGE_CLOCK_OR_STOP_BOUND'
+            or not reusable_failure(result,stop.get('reason'))
             or stop_path.is_symlink() or stop_path.stat().st_mode&0o222
             or sha(stop_path)!=plan.get('source_stop_sha256')
-            or stop.get('reason')!=REASON or stop.get('administrative_CPU_only') is not True
+            or stop.get('reason') not in (REASON,HISTORY_REASON) or stop.get('administrative_CPU_only') is not True
             or stop.get('new_GPU_or_PBS_or_physics')!=0):
         raise PermissionError('ORIGINAL_CACHE_NO_LIVE_UNKNOWN_OR_SCIENTIFIC_STOP')
     for name in ('plans/V3_TRANSFER.json','plans/C0_TRANSFER.json','plans/C1_TRANSFER.json'):

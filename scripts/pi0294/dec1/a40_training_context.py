@@ -41,6 +41,10 @@ def consumer_records(root,*,require_closed=True):
                     or manifest.get('owner')!='EXISTING_LOCAL_PC'
                     or manifest.get('owner_uid')!=os.getuid()):
                 fail('ORIGINAL_QUEUED_CPU_MANIFEST_IDENTITY')
+            if (child/'RESULT.private.json').exists():
+                result=sealed(child,'RESULT.private.json')
+                if result.get('status')!='PASS_VANDA_CPU_ORIGINAL126_AND_C1_FIXED_MEMBERS_AND_OFFICIAL_READER':
+                    fail('CPU_READER_TERMINAL_FAILURE_BEFORE_QUEUE_OR_MODEL')
             if require_closed:
                 result=sealed(child,'RESULT.private.json')
                 lease_path=Path(binding['lease'])

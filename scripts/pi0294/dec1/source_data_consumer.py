@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import resource
+import re
 import shutil
 import signal
 import subprocess
@@ -31,9 +32,31 @@ PREFIX='PI0294/20261018T182956Z-localpc-pv1/PV1_NEW_TRAIN_BANK_V1'
 CPU=4500
 TRANSFER=8*1024**3
 OUTPUT=24*1024**3
+PRIORITY='plans/CLOSED_HISTORICAL_PROBE_PRIORITY.json'
 
 
-def bulk_priority(*, query=subprocess.check_output):
+def bulk_priority(root=None,*, query=subprocess.check_output):
+    if root is not None and PRIORITY in read(Path(root)/'RUN_MANIFEST.json')['sealed_inputs']:
+        r=Path(root);m=read(r/'RUN_MANIFEST.json');v=sealed(r,PRIORITY,m['sealed_inputs'][PRIORITY])
+        old=Path(v['root']);b=read(old/'OUTPUT_BINDING.private.json');lease=read(b['lease'])
+        terminal=v['native_proof']
+        if (v.get('schema')!='CLOSED_HISTORICAL_A40_PRIORITY_ONLY_V1'
+                or v.get('not_model_qualification') is not True
+                or old.is_symlink() or old.stat().st_uid!=os.getuid()
+                or not old.resolve().is_relative_to(Path(m['registered_runs_root']).resolve())
+                or sha(old/'RUN_MANIFEST.json')!=v['manifest_sha256']
+                or sha(b['lease'])!=v['lease_sha256'] or lease.get('status')!='CLOSED'
+                or lease.get('run_uuid')!=old.name or lease.get('owner')!='EXISTING_LOCAL_PC'
+                or terminal.get('job_id')!='1471903.stdct-mgmt-02' or terminal.get('job_state')!='F'
+                or terminal.get('project')!='CFP04-CF-007' or terminal.get('owner')!='e1192548'
+                or terminal.get('recorded_process_terminal') is not True):
+            raise PermissionError('SOURCE_DATA_EXACT_CLOSED_HISTORICAL_PRIORITY_BINDING')
+        # Current complete native selection still protects a live old probe.
+        # Its terminal receipt does not expire with PBS history retention.
+        ids=query(['/opt/pbs/bin/qselect','-u','e1192548'],text=True,timeout=25).split()
+        if len(ids)!=len(set(ids)) or any(re.fullmatch(r'[0-9]+(?:\[[0-9]*\])?\.stdct-mgmt-[0-9]+',x) is None for x in ids):
+            raise PermissionError('SOURCE_DATA_CURRENT_NATIVE_SELECTION_NOT_A_TABLE_OR_BANNER')
+        if '1471903.stdct-mgmt-02' not in ids:return True
     raw=observe(lambda:query(['/opt/pbs/bin/qstat','-x','-f','-F','json','1471903.stdct-mgmt-02'],
         text=True,timeout=25))
     job=json.loads(raw)['Jobs']['1471903.stdct-mgmt-02']
@@ -195,7 +218,7 @@ def run(root):
     def guard(extra=0):
         nonlocal last_size,resident,last_priority
         if time.monotonic()-last_priority>15:
-            while not bulk_priority():
+            while not bulk_priority(r):
                 if time.time()+20>=m['deadline_epoch']:raise TimeoutError('SOURCE_DATA_PRIORITY_WAIT_FINITE_CUTOFF')
                 time.sleep(15)
             last_priority=time.monotonic()
