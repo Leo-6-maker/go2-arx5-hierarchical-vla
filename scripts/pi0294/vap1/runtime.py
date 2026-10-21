@@ -11,4 +11,9 @@ def capture(root):
 
 
 def run(root):
+    from pathlib import Path
+    from scripts.pi0292.durable import read
+    if read(Path(root)/'plans/WORK_PLAN.private.json').get('operation') == 'VAP1_SAVED_TRAIN_TEACHER_EVENT_AUDIT':
+        from .teacher_audit import run as audit
+        return audit(root)
     return export.run(root, profile='VAP1')
