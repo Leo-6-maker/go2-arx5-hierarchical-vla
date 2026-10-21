@@ -1,0 +1,57 @@
+{
+  "schema": "VAP1_DUAL_PLATFORM_CONCURRENCY_V1",
+  "status": "AUTHORIZED_BY_EXPLICIT_USER_REPLY",
+  "parent_authority_release": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+  "decision_source": "USER_CONFIRMED_H200_AND_A40_ONE_GPU_EACH_IN_PARALLEL",
+  "scope": "CURRENT_GR00T_PV1_DEC1_VAP1_CAMPAIGN_ONLY",
+  "owner": "EXISTING_LOCAL_PC_ONLY",
+  "maximum_running_scientific_GPUs": 2,
+  "maximum_running_GPUs_by_platform": {"HOPPER_H200": 1, "VANDA_A40": 1},
+  "other_independent_projects": "NOT_ADOPTED_MODIFIED_OR_CHARGED_TO_THIS_CAMPAIGN",
+  "known_user_confirmed_independent_job": {
+    "job_id": "680209.hopper-m-02",
+    "project": "CFP04-CF-031",
+    "job_name": "ock-e1192548-1",
+    "confirmation_issue11_comment": 6310965098
+  },
+  "new_or_unclassified_own_account_jobs": "READ_ONLY_IDENTIFY_NOT_AUTOMATICALLY_ASSUMED_INDEPENDENT",
+  "budget": {
+    "additional_GPU_hours": 0,
+    "additional_PBS_submissions": 0,
+    "global_GPU_hours": 96,
+    "DEC1_GPU_hours": 48,
+    "global_PBS_limit": 24,
+    "DEC1_new_PBS_limit_including_old_attempts": 8,
+    "global_final_GPU_protected_s": 72000,
+    "original_T0_epoch": 1792348196,
+    "original_hard_close_epoch": 1792952996,
+    "GPU_accounting": "SUM_BOTH_ALLOCATIONS_GPU_SECONDS_NOT_SHARED_WALLCLOCK",
+    "reservations": "RESERVE_EACH_JOB_FULL_ENVELOPE_ATOMICALLY_WITHIN_ONE_EXISTING_PARENT_LEDGER",
+    "unknown_effect_or_submission_intent_blind_retry": false
+  },
+  "scientific_constraints": {
+    "AB_comparison": "SAME_PLATFORM_SAME_RECIPE_COMMON_PARENT_INDEPENDENT_ARMS",
+    "different_platform_results_silently_pooled": false,
+    "duplicate_training_or_condition_evaluation_for_queue_racing": false,
+    "long_allocations_default": true,
+    "same_allocation_1024_fixed_probes_then_full_state_resume": true,
+    "maximum_job_wall_s": 28800,
+    "stricter_site_limit_wins": true,
+    "WBC_plant_gripper_PD_S1_scoring_statistics": "FROZEN",
+    "new_R1_data_hot_injected_into_current_R0_AB": false,
+    "LOCKBOX_opened_by_this_change": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "implementation_boundary": {
+    "fresh_project_auth_and_quota_before_submit_and_release": true,
+    "platform_bound_lease_request_nonce_source_and_entry_required": true,
+    "versioned_campaign_vs_account_queue_classification_required": true,
+    "old_immutable_empty_account_queue_contract_automatically_bypassed": false,
+    "old_A40_job_1471903": "TERMINAL_ENGINEERING_ZERO_MODEL_EFFECT_BOTH_LEASES_CLOSED",
+    "future_A40_replacement_requires_new_cold_typed_contract": true,
+    "H200_long_training_code": "IMPLEMENTED_CPU_CONTRACT_TESTED_NATIVE_DEPLOYMENT_PENDING",
+    "dual_platform_live_dispatch_and_accounting": "NOT_YET_IMPLEMENTED_OR_NATIVE_QUALIFIED",
+    "publication_is_submission_or_runtime_acceptance": false
+  }
+}
