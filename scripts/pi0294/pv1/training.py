@@ -17,6 +17,15 @@ from .recipe import PARENT,validate_primary,begin_update,commit_update,run_key
 from .pre_model_qualification import current_directory,require_current
 
 
+def authorize_phase(root,directory,allocation,guard,long_phase):
+    guard()
+    if long_phase=='AFTER_PROBES':
+        from scripts.pi0294.dec1.long_training import continuation_authorization
+        return continuation_authorization(root,directory,allocation)
+    from .future_admission import wait_native_release
+    return wait_native_release(root,directory,allocation,guard)
+
+
 def save_known_completed_step(root,key,trainer,ledger,torch):
     root=Path(root);v=read(ledger.path);step=trainer.state.global_step
     if (type(step) is not int or not 0<step<=4096 or trainer.consumed!=step*32
@@ -130,8 +139,7 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
     if (instance.identity['global_step']!=(start or 2048)
             or (not start and instance.identity['checkpoint_manifest_sha256']!=PARENT)):
         raise PermissionError('PV1_CORR2048_PARENT_NOT_M1_OR_A_PREVIOUS_ARM')
-    from .future_admission import wait_native_release
-    wait_native_release(root,directory,allocation,guard)
+    authorize_phase(root,directory,allocation,guard,long_phase)
     import torch
     from transformers import TrainingArguments,TrainerCallback,set_seed
     write(evidence/'INITIAL_PARAMETERS.json',initial)

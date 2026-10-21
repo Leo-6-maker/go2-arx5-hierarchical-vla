@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from . import long_training as long
+from scripts.pi0294.dec1 import long_training as long
 from . import future_budget as budget
 from .source_admission import VERSION
 from .test_future_budget import fixtures, amendment, raw, NOW
@@ -81,6 +81,33 @@ class LongTrainingTests(unittest.TestCase):
             'unload','guard',('load','OWN_CHECKPOINT_1024',False),'probe','unload','guard',
             ('load','OWN_CHECKPOINT_1024',True),
             ('train',dict(stop=4096,phase='AFTER_PROBES',checkpoint='OWN_CHECKPOINT_1024'))])
+
+    def test_continuation_reuses_whole_job_proof_not_second_first_update_handshake(self):
+        self.probe_fixture()
+        request=dict(self.request,request_id='R',submission_nonce='N',expected_native_start_step=0,walltime_s=25200)
+        self.put('RUN_MANIFEST.json',self.manifest)
+        directory=self.root/'pbs/alloc-13';self.put('pbs/alloc-13/REQUEST.json',request)
+        job=dict(work_id='TRAIN:A_CONTROL:LONG',arm='A_CONTROL',start_step=0,stop_step=4096,
+            same_allocation_1024_probes=True,walltime_upper_s=25200,resources=dict(optimizer_updates=4096))
+        proof=dict(schema='DEC1_RECOMPUTED_SOURCE_FUTURE_ADMISSION_V1',purpose='NATIVE_PRETRAIN',
+            request_sha256=long.sha(directory/'REQUEST.json'),work_id=job['work_id'],
+            forecast=dict(admissible_forecast=True,mandatory_jobs=[job]))
+        binding=dict(job_id='JOB',request_id='R',submission_nonce='N',request_sha256=proof['request_sha256'])
+        self.put('pbs/alloc-13/PV1_FUTURE_PHASE_READY.json',binding)
+        self.put('pbs/alloc-13/PV1_FUTURE_NATIVE_RECOMPUTATION.json',proof)
+        self.put('pbs/alloc-13/PV1_FUTURE_OWNER_ATTESTATION.private.json',dict(binding,recomputed_proof=proof))
+        for p in directory.iterdir():p.chmod(0o400)
+        result=long.continuation_authorization(self.root,directory,dict(job_id='JOB'))
+        self.assertFalse(result['new_submission_or_budget'])
+        with self.assertRaises(PermissionError):long.continuation_authorization(self.root,directory,dict(job_id='OTHER'))
+        from scripts.pi0294.pv1 import training,future_admission
+        guards=[]
+        with patch.object(long,'continuation_authorization',return_value=result) as continuation, \
+                patch.object(future_admission,'wait_native_release') as first:
+            training.authorize_phase(self.root,directory,dict(job_id='JOB'),lambda:guards.append(1),'BEFORE_PROBES')
+            first.assert_called_once()
+            training.authorize_phase(self.root,directory,dict(job_id='JOB'),lambda:guards.append(1),'AFTER_PROBES')
+            first.assert_called_once();continuation.assert_called_once();self.assertEqual(len(guards),2)
 
     def test_partial_or_probe_failure_never_repeats_or_continues_training(self):
         for partial in (True,False):

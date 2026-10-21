@@ -62,6 +62,49 @@ def phase(root, manifest, request, *, name, stop, resume_relative):
         raise PermissionError('VAP1_LONG_TRAIN_ONLY_PREDECLARED_1024_AND_4096_PHASES')
 
 
+def continuation_authorization(root, directory, allocation):
+    """Reuse the admitted whole block, not a second first-update handshake."""
+    from scripts.pi0294.pv1.future_admission import _file
+    root, directory = Path(root), Path(directory)
+    relative = directory.relative_to(root)
+    request = read(directory/'REQUEST.json')
+    manifest = read(root/'RUN_MANIFEST.json')
+    if not admitted(root, manifest, request):
+        raise PermissionError('VAP1_LONG_TRAIN_ONLY_EXPLICIT_WHOLE_BLOCK_RESERVATION')
+    def sealed(name):
+        import json
+        return json.loads(_file(root, str(relative/name)))
+    attestation = sealed('PV1_FUTURE_OWNER_ATTESTATION.private.json')
+    proof = sealed('PV1_FUTURE_NATIVE_RECOMPUTATION.json')
+    ready = sealed('PV1_FUTURE_PHASE_READY.json')
+    request_sha = sha(directory/'REQUEST.json')
+    for value in (attestation, ready):
+        if (value.get('job_id') != allocation['job_id']
+                or value.get('request_id') != request['request_id']
+                or value.get('submission_nonce') != request['submission_nonce']
+                or value.get('request_sha256') != request_sha):
+            raise PermissionError('VAP1_LONG_TRAIN_SAME_NATIVE_JOB_ORIGINAL_FIRST_UPDATE_PROOF')
+    jobs = [j for j in proof.get('forecast', {}).get('mandatory_jobs', [])
+        if j.get('work_id') == proof.get('work_id')]
+    if (attestation.get('recomputed_proof') != proof
+            or proof.get('schema') != 'DEC1_RECOMPUTED_SOURCE_FUTURE_ADMISSION_V1'
+            or proof.get('purpose') != 'NATIVE_PRETRAIN'
+            or proof.get('request_sha256') != request_sha
+            or proof.get('forecast', {}).get('admissible_forecast') is not True
+            or len(jobs) != 1 or jobs[0].get('same_allocation_1024_probes') is not True
+            or jobs[0].get('arm') != request['training_block']['arm']
+            or jobs[0].get('start_step') != request['expected_native_start_step']
+            or jobs[0].get('stop_step') != 4096
+            or jobs[0].get('walltime_upper_s') != request['walltime_s']
+            or jobs[0].get('resources', {}).get('optimizer_updates') != 4096-request['expected_native_start_step']):
+        raise PermissionError('VAP1_LONG_TRAIN_ORIGINAL_ADMITTED_4096_ENVELOPE_NOT_A_1024_JOB')
+    probe_receipt(root, request['training_block']['arm'])
+    return dict(status='PASS_SAME_ALLOCATION_FULL_BLOCK_AUTHORIZATION_AFTER_FIXED_PROBES',
+        job_id=allocation['job_id'], request_sha256=request_sha,
+        initial_native_recomputation_sha256=sha(directory/'PV1_FUTURE_NATIVE_RECOMPUTATION.json'),
+        new_submission_or_budget=False)
+
+
 def execute(*, start_step, train, probe, unload, load, guard, checkpoint):
     """Keep native model calls injectable so ordering is testable without CUDA."""
     if type(start_step) is not int or not 0 <= start_step < 1024:
