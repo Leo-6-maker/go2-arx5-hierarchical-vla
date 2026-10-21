@@ -1,5 +1,13 @@
 # Current Entry: PV1 Shared Policy and Closed FD2 Evidence
 
+**VAP1 first2 parents are actually R1 admitted; saved-TRAIN Teacher T0 is closed.**
+[Raw successes, both codecs/readers, videos, Teacher replay and claim boundaries](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_FIRST_PAIR_AND_TEACHER_T0_ACTUAL.json).
+Both T1/T2 completed32s, raw auditsPASS, R0FAIL->R1PASS; all601windows and real
+dual-camera/mixed-parent readers passed, no safety/unknown effects. Not D24 READY.
+T0 reproduced15384saved observations/1920H40 blocks and all original events
+across24CR2 Teacher parents without physics; no student-state recovery claim.
+Two next single-core first-batch captures are live; current A40 remainsQ.
+
 **VAP1 is now natively adopted; the first new TRAIN pair is collecting.**
 [Actual adoption, nonadditive budget migration, owner recovery and frozen48-card population](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_ADOPTION_AND_DELTA_BUDGET.json).
 The same A40 job remainsQ/4CPU/32GB, with no model effects or resubmission.
