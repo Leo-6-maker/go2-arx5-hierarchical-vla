@@ -1,3 +1,11 @@
+# Current engineering continuation: mature PV1 seams and existing EEF wire converter
+
+[Mature PV1 mapped ACK seams](reports/PI0294/design/WDR1_MATURE_PV1_MAPPED_ACK_SEAMS_CPU_ACTUAL_20261023.json) passed34 CPU tests/5subtests: actual resident.QueryReservations, e1.neural.serve original sealed packets and existing relay_transport owner route now have explicit optional contract injection. Default RAW and old admissions remain strict. This implements the precise previously identified mature-route seam; actual DEC1 evaluation admission/factory and source stop/meter/persistence remain pending.
+
+[Existing target EEF10 wire converter](reports/PI0294/design/WDR1_TARGET_EXISTING_EEF10_WIRE_CPU_ACTUAL_20261023.json) passed8 CPU tests/6subtests, with1 explicitly skipped private-native-parser test. The existing world41-point EEF serialization is shared with original EEF13; EEF10 requires no fabricated BASE labels. Frame/TCP qualification, original safety/gripper/install ACK/clock/stop and frozen target T1/T2 commissioning remain mandatory. No native qualification is inferred from conversion.
+
+Healthy current A job1477527 keeps immutable0cf86cbc runtime and original owner/grant/clock. Both existing helpers are reused only for source commissioning/seal intake and synchronous stop preparation. No B/native evaluation submission occurred. Older snapshots below are historical.
+
 [Exact mapped-ACK CI/readback and mature PV1 route gap](reports/PI0294/design/WDR1_MAPPED_ACK_EXACT_CI_READBACK_AND_MATURE_ROUTE_GAP_20261023.json): source641acd1be36d4525846830a208e0badf06e3d988 passedCI39844023081/job120052390525;14 changed files fully read back. Generic pi0292 query consumer and RelayExchange are CPU verified. Mature PV1 actually uses resident.QueryReservations through e1.neural.serve; that resident seam and relay_transport.run_episode cold injection remain unfinished. The existing science helper is preparing this precise delta. Actual sealed evaluation panel/condition and native commissioning remain pending. This is not a source/target task PASS.
 
 # Current continuation: A running; B chain and mapped ACK consumers CPU verified

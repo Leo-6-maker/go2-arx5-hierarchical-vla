@@ -112,7 +112,7 @@ def teacher_action(query,teacher):
         dict(trajectory_eef10=teacher['trajectory_eef10'],offsets_ns=[i*50000000 for i in range(40)])))
 
 
-def run_episode(directory,case,core,hopper,*,now=time.time,sleep=time.sleep,poll_interval=.05):
+def run_episode(directory,case,core,hopper,*,now=time.time,sleep=time.sleep,poll_interval=.05,mapped_ack_contract=None):
     """Injected endpoints must implement bounded actual SSH reads/writes.
 
     A dispatched command is never resent after an uncertain network outcome.
@@ -121,8 +121,9 @@ def run_episode(directory,case,core,hopper,*,now=time.time,sleep=time.sleep,poll
     if type(poll_interval) not in (int,float) or poll_interval not in (.05,.25):
         raise PermissionError('ONLY_LEGACY_OR_VERSIONED_FINITE_READ_POLL_INTERVAL')
     directory=Path(directory)
+    exchange_options={} if mapped_ack_contract is None else dict(mapped_ack_contract=mapped_ack_contract)
     exchange=RelayExchange(directory,run_uuid=case['run_uuid'],episode_uuid=case['episode_uuid'],
-        identity=case['identity'],now=now())
+        identity=case['identity'],now=now(),**exchange_options)
     state=dict(status='ACTUAL_ROUTE_START_NOT_TASK_SUCCESS',episode_uuid=case['episode_uuid'],
         profile=case['identity']['profile'],fresh_observations=0,commands_sent=0,acknowledgements=0,
         network_outcome_unknown=False,model_calls_local=0,physics_integrations_local=0)

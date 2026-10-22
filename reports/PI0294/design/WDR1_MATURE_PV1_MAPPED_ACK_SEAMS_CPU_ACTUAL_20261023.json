@@ -1,0 +1,38 @@
+{
+  "schema": "WDR1_MATURE_PV1_MAPPED_ACK_SEAMS_CPU_ACTUAL_V1",
+  "status": "CPU_TESTED_OPTIONAL_SEAMS_NOT_NATIVE_EVALUATION_ADMISSION",
+  "observed_epoch": 1792699417.9703102,
+  "source_baseline": "25d28084a67dd86d399d93a6cd1eaa35f9f10708",
+  "files_sha256": {
+    "scripts/pi0294/resident.py": "50f6563dd50611619b59ac55a12a829b00c78ecd4362a174ee9a7abd1bfea280",
+    "scripts/pi0294/e1/neural.py": "53719293d1e92c08930c860b6287fad7cf0be7051e70419164fe87294dd55c1d",
+    "scripts/pi0294/relay_transport.py": "8ae58a118d372edd70ce91d5127083925df11f4b73294f2d5c8be6dad53bc8e8",
+    "scripts/pi0294/dec1/test_resident_mapped_seam.py": "3e40a37fbcb5079feb5c33137172785443b04a40caf5d47b68a5fd951f07deca"
+  },
+  "actual_call_chain": [
+    "pv1.neural -> e1.neural.serve -> pi0294.resident.QueryReservations",
+    "Existing relay_transport.run_episode -> RelayExchange"
+  ],
+  "CPU_tests_passed": 34,
+  "subtests_passed": 5,
+  "denied_native_attempts": 0,
+  "preserved": [
+    "Default strict RAW ACK, original PROTOCOL and legacy admissions",
+    "Original completed action response SHA, raw H40/command/prefix and full extended previous_ack",
+    "No-op/stripped/wrong-mode/omitted-contract rejection",
+    "Original registered case set and per-stage query count",
+    "Original one-shot route; contract selected only by explicit cold caller, never case/request flag",
+    "Original replay, snapshot, deadline and unknown-effect rules"
+  ],
+  "pending": [
+    "Actual DEC1 source-evaluation role/stage, child RUN_MANIFEST/lease and fresh complete budget admission",
+    "Actual source commissioning conditions and later panel seal; exact CORR2048/R0 identity",
+    "Source factory: original RelayTeacher plus SourceInterfaceTeacher and original episode sole step owner",
+    "Existing ledger meter/clone callback lifecycle with durable partial and unknown costs",
+    "Actual synchronous source stop barrier and persistent S1/result readback",
+    "Original finite native commissioning; separate frozen target WBC T1/T2 qualification"
+  ],
+  "native_registered_or_dispatched": false,
+  "new_GPU_PBS_models_queries_updates_physics": 0,
+  "active_A_runtime_unchanged": true
+}

@@ -2,10 +2,39 @@
 import unittest
 import numpy as np
 from go2arx5_vla.trajectory.so3 import rotation_matrix_to_rot6d_rows,quat_to_matrix
-from .base_intent import base_endpoints,native_document,measured_base,rotation
+from .base_intent import base_endpoints,eef_document,native_document,measured_base,rotation
 
 
 class BaseIntentTests(unittest.TestCase):
+    def test_eef10_retains_world_path_rotation_and_final_hold_without_BASE(self):
+        a=np.zeros((40,10));a[:,:3]=[.4,-.2,.6]
+        a[:,0]+=np.arange(40)*.001;a[:,3:9]=rotation_matrix_to_rot6d_rows(rotation(.3))
+        a[:,9]=np.linspace(0,1,40);original=a.copy()
+        doc=eef_document(a);self.assertEqual(set(doc),{'version','ee'})
+        self.assertEqual(doc['ee']['frame'],'world')
+        points=doc['ee']['waypoints'];self.assertEqual(len(points),41)
+        self.assertEqual(points[0]['position'],[.4,-.2,.6])
+        np.testing.assert_allclose(points[39]['position'],[.439,-.2,.6],rtol=0,atol=1e-12)
+        self.assertEqual(points[40]['position'],points[39]['position'])
+        np.testing.assert_allclose([p['time'] for p in points],np.arange(41)*.05,rtol=0,atol=1e-12)
+        np.testing.assert_allclose(quat_to_matrix(points[0]['quaternion_xyzw']),rotation(.3),atol=1e-12)
+        np.testing.assert_array_equal(a,original)
+        # A real measured mount and valid base intervals affect only the
+        # explicitly enabled BASE field in the original EEF13 interface.
+        full=np.concatenate([a,np.zeros((40,3))],axis=1)
+        for base_valid in (False,True):
+            legacy=native_document(full,np.eye(4),base_valid=base_valid,previous_velocity=[0,0,0])
+            self.assertEqual(legacy['ee'],doc['ee']);self.assertEqual('base' in legacy,base_valid)
+
+    def test_eef10_does_not_clip_or_discard_invalid_unexecuted_tail(self):
+        a=np.zeros((40,10));a[:,3:9]=rotation_matrix_to_rot6d_rows(np.eye(3));a[:,9]=.5
+        for column,value in ((0,np.nan),(9,-.001),(9,1.001)):
+            bad=a.copy();bad[39,column]=value;before=bad.copy()
+            with self.subTest(column=column,value=value),self.assertRaises(ValueError):eef_document(bad)
+            np.testing.assert_equal(bad,before)
+        for bad in (a[:8],np.zeros((40,13)),a[None]):
+            with self.subTest(shape=bad.shape),self.assertRaises(ValueError):eef_document(bad)
+
     def test_signed_exact_se2_and_tilted_origin(self):
         mount=np.eye(4)
         for axis in range(3):

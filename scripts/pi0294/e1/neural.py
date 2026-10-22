@@ -35,7 +35,7 @@ def checkpoint_identity(checkpoint,label,source_sha):
     validate_identity(identity['relay_identity']);return identity
 
 
-def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_status='E1_NATIVE_MODEL_READY',noise_namespace='PI0294',terminal_status='E1_STAGE_TERMINAL_NOT_TASK_SUCCESS',native_pre_model_qualification=None,visibility_refresh=None):
+def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_status='E1_NATIVE_MODEL_READY',noise_namespace='PI0294',terminal_status='E1_STAGE_TERMINAL_NOT_TASK_SUCCESS',native_pre_model_qualification=None,visibility_refresh=None,mapped_ack_contracts=None):
     if ready_status=='PV1_NATIVE_MODEL_READY':
         proof=native_pre_model_qualification
         if (not callable(visibility_refresh) or not isinstance(proof,dict) or proof.get('status')!='PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK'
@@ -67,7 +67,13 @@ def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_st
         time.sleep(.2)
     registry=read(registry_path)
     if registry['checkpoint_identity']!=instance.identity or registry['run_uuid']!=root.name:raise PermissionError('E1_EXACT_STAGE_MODEL_REGISTRY')
-    reservations=QueryReservations(directory,root.name,max_queries=max_queries)
+    # Only the already admitted cold caller supplies these owner-pinned objects.
+    # Default legacy callers still construct the original strict RAW consumer.
+    if mapped_ack_contracts is not None and set(mapped_ack_contracts)!=set(registry['cases']):
+        raise PermissionError('COLD_MAPPED_ACK_CONTRACTS_MUST_COVER_EXACT_REGISTERED_CASES')
+    reservation_options=dict(max_queries=max_queries)
+    if mapped_ack_contracts is not None:reservation_options['mapped_ack_contracts']=mapped_ack_contracts
+    reservations=QueryReservations(directory,root.name,**reservation_options)
     seen=set()
     def expire(signum,frame):raise TimeoutError('E1_FRESH_MODEL_DRAW_EXPIRED_NO_RESAMPLE')
     signal.signal(signal.SIGALRM,expire)
@@ -112,7 +118,9 @@ def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_st
                     frame=body['payload']['frame'],tcp=body['payload']['tcp'],expires=body['expires']))
                 arrays=directory/'receipts'/(path.stem+'.npz');atomic_npz(arrays,normalized=value['normalized'],physical=value['physical_H40'])
                 write(directory/'receipts'/path.name,dict(seed=seed,noise=value['noise'],inference_precision=value['inference_precision'],action_sha256=action['sha256'],arrays_sha256=sha(arrays),physics_steps=0,extra_correction=False))
-                reservations.complete(body,action['sha256'],prefix_sha256=digest(physical[:8]),command_sha256=command['sha256'])
+                completion_options={} if mapped_ack_contracts is None else dict(action_packet=action,command_packet=command)
+                reservations.complete(body,action['sha256'],prefix_sha256=digest(physical[:8]),command_sha256=command['sha256'],
+                    **completion_options)
                 write(directory/'outbox'/path.name,action);state['queries']+=1;write(directory/'STATE.json',state)
             except BaseException as exc:
                 reservations.fail(body,type(exc).__name__+': '+str(exc),known_terminal=False);raise

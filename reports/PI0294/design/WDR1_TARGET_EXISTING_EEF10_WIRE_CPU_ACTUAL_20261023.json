@@ -1,0 +1,31 @@
+{
+  "schema": "WDR1_TARGET_EXISTING_EEF10_WIRE_CPU_ACTUAL_V1",
+  "status": "CPU_WIRE_CONVERTER_ONLY_NOT_NATIVE_TARGET_QUALIFICATION",
+  "observed_epoch": 1792699417.9704847,
+  "files_sha256": {
+    "scripts/pi0294/base_intent.py": "3ec12edeb3f3973a4ff966a76ec9e4cd76751e35dd62d2a93575e3a2d3a491ea",
+    "scripts/pi0294/test_base_intent.py": "81b875e1f02aebb09c313b2809983f561e58e428b62c2d8b59ae77e9a45062b8"
+  },
+  "callable": "scripts.pi0294.base_intent.eef_document",
+  "implementation": "Extract existing world TCP 41-point serialization from original EEF13 native_document, accept exact full40x10 without fabricating BASE channels; original EEF13 reuses same converter",
+  "CPU_tests_passed": 8,
+  "subtests_passed": 6,
+  "skipped_tests": 1,
+  "skip_reason": "Actual private native parser is on CoreLab; target reference suite keeps original explicit skip, no native parser PASS inferred",
+  "denied_native_attempts": 0,
+  "contracts": [
+    "Existing world EE JSON with41 points at0..2s, final H40 sample held once",
+    "Original row-rot6d to xyzw interpretation and world orientation",
+    "No implicit clipping or mutation, nonfinite/unbounded gripper in unexecuted tail rejected",
+    "No BASE key from EEF10; original explicit EEF13 BASE behavior preserved"
+  ],
+  "caller_still_requires": [
+    "Already-qualified actual world frame/TCP with explicit rigid frame binding",
+    "Original raw and mapped full H40 legality and actual target-native prefix safety",
+    "Original separate gripper path, native installation ACK/clock/TTL/stop",
+    "Registered frozen WBC binary/config/plant and task commissioning"
+  ],
+  "WBC_controller_or_plant_changed": false,
+  "native_execution": false,
+  "new_GPU_PBS_models_physics": 0
+}

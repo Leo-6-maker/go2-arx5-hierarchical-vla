@@ -98,13 +98,23 @@ class ResidentModel:
 
 class QueryReservations:
     """A durable intent makes a lost response non-retryable, not replayable."""
-    def __init__(self,directory,run,max_queries=32000):
+    def __init__(self,directory,run,max_queries=32000,*,mapped_ack_contracts=None):
         if type(max_queries) is not int or not 0<max_queries<=32000:
             raise ValueError('BOUNDED_REGISTERED_RESIDENT_QUERY_COUNT_REQUIRED')
+        # Cold owner injection only. No student-request flag selects this map.
+        self.mapped_ack_contracts=dict(mapped_ack_contracts or {})
+        if self.mapped_ack_contracts:
+            from scripts.pi0294.dec1.mapped_ack import FixedMappedAckContract
+            for episode,contract in self.mapped_ack_contracts.items():
+                if (not isinstance(contract,FixedMappedAckContract)
+                        or contract.condition['episode_uuid']!=episode or contract.condition['run_uuid']!=run):
+                    raise TypeError('OWNER_FIXED_RESIDENT_EPISODE_ACK_CONTRACTS_REQUIRED')
         self.max_queries=max_queries
         self.directory=Path(directory);self.run=run;self.path=self.directory/'QUERY_STATE.json'
         if self.path.exists():raise FileExistsError('Never restart an existing live model session')
         self.state=dict(run_uuid=run,episodes={},queries=[],pending=None)
+        if self.mapped_ack_contracts:
+            self.state['mapped_ack_conditions']={k:v.condition_sha256 for k,v in self.mapped_ack_contracts.items()}
         write(self.path,self.state)
 
 
@@ -117,12 +127,33 @@ class QueryReservations:
         if (episode['stopped'] or body['sequence']!=episode['next_sequence'] or now>=episode['started_epoch']+900
                 or body['payload']['snapshot_uuid'] in episode['snapshots']):
             raise ValueError('STOPPED_STALE_REORDERED_OR_REUSED_LIVE_OBSERVATION')
+        # __new__ is used by the existing legacy teacher endpoint to read its
+        # old RAW state. It has no injected contract and remains strictly RAW.
+        contracts=getattr(self,'mapped_ack_contracts',{})
+        pins=self.state.get('mapped_ack_conditions',{})
+        if pins!={k:v.condition_sha256 for k,v in contracts.items()}:
+            raise ValueError('RESIDENT_COLD_ACK_CONTRACT_CHANGED_OR_OMITTED')
+        contract=contracts.get(body['episode_uuid']);initial_adapter_ack_id=None
+        if contract is not None and body['identity']!=contract.condition['identity']:
+            raise ValueError('RESIDENT_MAPPED_ACK_FIXED_MODEL_IDENTITY_CHANGED')
+        if contract is not None and body['sequence']==0 and body['previous_ack'] is not None:
+            raise ValueError('INITIAL_MAPPED_QUERY_HAS_NO_PREVIOUS_ACK')
         if body['sequence']:
             previous=next(row for row in reversed(self.state['queries']) if row['episode_uuid']==body['episode_uuid'])
             ack=unseal(body['previous_ack'])
             exact_keys(ack,('protocol','kind','run_uuid','episode_uuid','sequence','tick','payload'))
-            actual=ack['payload'];exact_keys(actual,('query_uuid','reference_uuid','command_sha256','prefix_sha256',
-                'tick_after','integrations','physics_receipt_sha256'))
+            actual=ack['payload']
+            if contract is None:
+                exact_keys(actual,('query_uuid','reference_uuid','command_sha256','prefix_sha256',
+                    'tick_after','integrations','physics_receipt_sha256'))
+            else:
+                from scripts.pi0294.dec1.mapped_ack import ValidatedMappedAck
+                if previous['mapped_ack_binding']['response_sha256']!=previous['response_sha256']:
+                    raise ValueError('ORIGINAL_RESIDENT_COMPLETED_RESPONSE_SHA_CHANGED')
+                checked=contract.validate(body['previous_ack'],expected=previous['mapped_ack_binding'])
+                if not isinstance(checked,ValidatedMappedAck) or checked.packet_sha256!=body['previous_ack']['sha256']:
+                    raise ValueError('FULL_PREVIOUS_RESIDENT_MAPPED_ACK_REQUIRED')
+                initial_adapter_ack_id=checked.final_adapter_ack_id
             if (any(type(ack[key]) is not int for key in ('sequence','tick'))
                     or any(type(actual[key]) is not int for key in ('tick_after','integrations'))
                     or not isinstance(actual['physics_receipt_sha256'],str)
@@ -140,11 +171,25 @@ class QueryReservations:
         if len(self.state['queries'])>=self.max_queries:raise PermissionError('PI0294_REGISTERED_GENERATION_LIMIT')
         self.state['pending']=dict(query_uuid=body['query_uuid'],episode_uuid=body['episode_uuid'],
             reference_uuid=body['reference_uuid'],sequence=body['sequence'],observation_sha256=body['observation_sha256'],started_epoch=now,expires=body['expires'])
+        if contract is not None:self.state['pending']['initial_adapter_ack_id']=initial_adapter_ack_id
         self.state['queries'].append(dict(self.state['pending']));episode['snapshots'].append(body['payload']['snapshot_uuid'])
         write(self.path,self.state)
 
-    def complete(self,body,response_sha256,*,prefix_sha256,command_sha256):
+    def complete(self,body,response_sha256,*,prefix_sha256,command_sha256,action_packet=None,command_packet=None):
         if self.state['pending']['query_uuid']!=body['query_uuid']:raise ValueError('WRONG_GENERATION_COMPLETION')
+        contracts=getattr(self,'mapped_ack_contracts',{})
+        if self.state.get('mapped_ack_conditions',{})!={k:v.condition_sha256 for k,v in contracts.items()}:
+            raise ValueError('RESIDENT_COLD_ACK_CONTRACT_CHANGED_OR_OMITTED')
+        contract=contracts.get(body['episode_uuid'])
+        if contract is not None:
+            binding=contract.bind_action(action_packet,command_packet,
+                initial_adapter_ack_id=self.state['pending']['initial_adapter_ack_id'])
+            if (binding['response_sha256']!=response_sha256 or binding['command_sha256']!=command_sha256
+                    or binding['prefix_sha256']!=prefix_sha256 or binding['query_uuid']!=body['query_uuid']
+                    or binding['reference_uuid']!=body['reference_uuid'] or binding['sequence']!=body['sequence']
+                    or binding['tick']!=body['tick']):
+                raise ValueError('RESIDENT_ORIGINAL_FULL_RESPONSE_BINDING_REQUIRED')
+            self.state['queries'][-1]['mapped_ack_binding']=binding
         episode=self.state['episodes'][body['episode_uuid']];episode['next_sequence']+=1
         self.state['queries'][-1].update(response_sha256=response_sha256,
             expected_prefix_sha256=prefix_sha256,expected_command_sha256=command_sha256)

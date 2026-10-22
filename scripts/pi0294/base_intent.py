@@ -42,6 +42,26 @@ def base_endpoints(mount,velocity):
     return np.asarray(result)
 
 
+def _world_waypoints(poses):
+    return [dict(time=k*DT,position=p[:3,3].tolist(),quaternion_xyzw=matrix_to_quat(p[:3,:3]).tolist())
+            for k,p in enumerate(poses)]
+
+
+def eef_document(action):
+    """Serialize already frame-qualified world TCP EEF10, without a BASE intent.
+
+    This reuses the existing native 41-point grid and held final sample. It is
+    only a wire converter: original raw/mapped H40 safety, frame/TCP identity,
+    separate gripper execution, native shadow, clock/ACK and stop stay with the
+    admitted caller. It neither creates BASE labels nor qualifies execution.
+    """
+    a=np.asarray(action,dtype=float)
+    if a.shape!=(40,10) or not np.isfinite(a).all() or np.any(a[:,9]<0) or np.any(a[:,9]>1):
+        raise ValueError('FINITE_WORLD_EEF10_H40_WITH_ORIGINAL_GRIPPER_RANGE_REQUIRED')
+    eef=matrix10(a);eef=np.concatenate([eef,eef[-1:]])
+    return dict(version=1,ee=dict(frame='world',start_delay=0.,lead_in=0.,waypoints=_world_waypoints(eef)))
+
+
 def native_document(action,mount,*,base_valid,previous_velocity,speed=SPEED,acceleration=ACCEL):
     """No implicit clipping, body attachment, or second relative EEF transform."""
     a=np.asarray(action,dtype=float);previous=np.asarray(previous_velocity,dtype=float)
@@ -56,11 +76,8 @@ def native_document(action,mount,*,base_valid,previous_velocity,speed=SPEED,acce
     if (np.any(a[:,9]<0) or np.any(a[:,9]>1) or np.any(np.abs(v)>speed+1e-12)
             or np.any(np.abs(np.diff(np.vstack([previous,v]),axis=0))>acceleration*DT+1e-12)):
         raise ValueError('OUT_OF_ENVELOPE_REJECT_WITHOUT_CORRECTION')
-    eef=matrix10(a[:,:10]);eef=np.concatenate([eef,eef[-1:]])
-    def waypoints(poses):
-        return [dict(time=k*DT,position=p[:3,3].tolist(),quaternion_xyzw=matrix_to_quat(p[:3,:3]).tolist()) for k,p in enumerate(poses)]
-    document=dict(version=1,ee=dict(frame='world',start_delay=0.,lead_in=0.,waypoints=waypoints(eef)))
-    if base_valid:document['base']=dict(frame='world',start_delay=0.,lead_in=0.,waypoints=waypoints(base_endpoints(mount,v)))
+    document=eef_document(a[:,:10])
+    if base_valid:document['base']=dict(frame='world',start_delay=0.,lead_in=0.,waypoints=_world_waypoints(base_endpoints(mount,v)))
     return document
 
 
