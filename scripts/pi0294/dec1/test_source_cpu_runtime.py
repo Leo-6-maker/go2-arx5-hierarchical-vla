@@ -199,3 +199,20 @@ def test_actual_cost_overrun_remains_visible_for_closeout_only(registered):
     with pytest.raises(PermissionError,match='COSTS_PRESERVED_AND_BOUNDED'):unit.validate(h['root'])
     assert unit.validate(h['root'],closeout=True)==h['m']
     assert h['current']['CPU_s']==cost
+
+
+def test_runtime_does_not_drop_preexisting_external_holds_after_new_costs(registered):
+    h=registered;b=deepcopy(h['p']['budget']);b['DEC1_reserved']['CoreLab_CPU_s']=50
+    cap=unit.intake.CAPS['CoreLab_CPU_s'];h['current']['CPU_s']=cap-b['requested']['CoreLab_CPU_s']-25
+    h['current']['source_cpu_current_classification']['CoreLab_CPU_s']=h['current']['CPU_s']
+    with pytest.raises(PermissionError,match='COSTS_PRESERVED_AND_BOUNDED'):
+        unit._reservation(h['root'],h['m'],h['p']['stage'],b,h['current'],h['p']['dec1'],
+            closeout=False,now=h['p']['now_epoch'])
+
+
+def test_prior_source_extension_is_subtracted_once_from_total_holds(packet):
+    p=packet;pre=deepcopy(p['dec1']);pre['source_cpu_reserved']=dict.fromkeys(unit.intake.DIMS,0)
+    pre['source_cpu_reserved']['CoreLab_CPU_s']=100;p['budget']['DEC1_reserved']['CoreLab_CPU_s']=125
+    assert unit._other_reserved(p['budget'],pre)['CoreLab_CPU_s']==25
+    p['budget']['DEC1_reserved']['CoreLab_CPU_s']=99
+    with pytest.raises(PermissionError,match='HOLDS_NOT_LOST'):unit._other_reserved(p['budget'],pre)

@@ -34,6 +34,8 @@ REQUIRED_RUNTIME_FILES=(
     'scripts/pi0294/dec1/source_component_ack.py','scripts/pi0294/dec1/source_episode_wire.py',
     'scripts/pi0294/dec1/source_single_pose_prefix.py','scripts/pi0294/dec1/source_sync_stop.py',
     'scripts/pi0294/dec1/source_component_factory.py',
+    'scripts/pi0294/dec1/source_component_anchor.py','scripts/pi0294/dec1/source_component_terminal.py',
+    'scripts/pi0294/dec1/source_cpu_once_io.py','scripts/pi0294/dec1/source_cpu_reservation.py',
     'scripts/pi0294/pv1/scope.py','scripts/pi0294/pv1/core_ledger.py',
     'scripts/pi0294/pv1/runtime.py','scripts/pi0294/pv1/core.py')
 
@@ -78,9 +80,18 @@ def _existing_amendment(root,parent,pre):
     return raw
 
 
+def _other_reserved(budget,pre):
+    """Keep pre-existing external holds without counting our rows twice."""
+    old=_dims(pre.get('source_cpu_reserved',dict.fromkeys(intake.DIMS,0)),'pre.source_reserved')
+    total=_dims(budget['DEC1_reserved'],'budget.all_reserved')
+    _need(all(total[k]>=old[k] for k in intake.DIMS),'SOURCE_CPU_PREEXISTING_HOLDS_NOT_LOST')
+    return {k:total[k]-old[k] for k in intake.DIMS}
+
+
 def _reservation(root,m,stage,budget,current,pre,*,closeout,now,caps=None):
     """Verify native once intent; read-only. Historical/GPU fields untouched."""
     caps=intake.CAPS if caps is None else caps
+    other_reserved=_other_reserved(budget,pre)
     _need(current.get('schema')=='DEC1_NONADDITIVE_RESOURCE_CLASSIFICATION_V1'
         and current.get('authority_release')==intake.AUTHORITY
         and current.get('campaign_run_uuid')==stage['campaign_run_uuid']
@@ -139,7 +150,7 @@ def _reservation(root,m,stage,budget,current,pre,*,closeout,now,caps=None):
     for key,field in (('CoreLab_CPU_s','CPU_s'),('episode_starts','episode_starts'),
             ('physics_ticks','physics_ticks'),('constructors','constructors')):
         value=intake._number(current[field],'current.'+field,key!='CoreLab_CPU_s')
-        _need(value>=pre[field] and (closeout or value+aggregate[key]<=caps[key]),
+        _need(value>=pre[field] and (closeout or value+aggregate[key]+other_reserved[key]<=caps[key]),
             'SOURCE_CPU_CURRENT_COSTS_PRESERVED_AND_BOUNDED:'+key)
     # Local/output/transfer classification needs the native owner's complete
     # actual projection; old Core metadata has no sufficient legacy fields.
@@ -150,7 +161,7 @@ def _reservation(root,m,stage,budget,current,pre,*,closeout,now,caps=None):
         and projection['constructors']==current['constructors'],
         'SOURCE_CPU_CURRENT_NATIVE_CLASSIFICATION_COUNTERS_MATCH')
     _need(all(projection[k]>=budget['DEC1_used'][k]
-        and (closeout or projection[k]+aggregate[k]<=caps[k]) for k in intake.DIMS),
+        and (closeout or projection[k]+aggregate[k]+other_reserved[k]<=caps[k]) for k in intake.DIMS),
         'SOURCE_CPU_COMPLETE_NATIVE_CLASSIFICATION_NO_RESET_OR_EXTRA_ALLOWANCE')
 
 

@@ -335,4 +335,10 @@ class SourceComponentFactory:
             raise SourceComponentUnknown('KEEP_ORIGINAL_LIVE_BOUND_WITHOUT_COMPONENT_CLOSEOUT')
         # Meter propagates component_unknown into the existing Ledger.steps
         # exception path. A known partial scientific rejection exits normally.
-        return self.meters.reconcile_outer(steps)
+        actual=self.meters.reconcile_outer(steps)
+        self._outer_reconciled=True
+        return actual
+
+    def terminal_anchor(self,*,manifest_sha256):
+        from .source_component_anchor import capture_terminal_anchor
+        return capture_terminal_anchor(self,manifest_sha256=manifest_sha256)

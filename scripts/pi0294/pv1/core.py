@@ -221,6 +221,9 @@ def _source_component(root,card_path,m):
                     secondary=next((e for e in reversed(errors) if e is not primary),None)
                     if secondary is not None and primary.__cause__ is None:raise primary from secondary
                     raise primary
+            # Capture AFTER real close+reconcile, while this original live
+            # context still retains its bound if any readback is unknown.
+            terminal_anchor=factory.terminal_anchor(manifest_sha256=sha(root/'RUN_MANIFEST.json'))
         s1=read(folder/'S1_RESULT.json')
         unknown=(factory.unknown or s1.get('engineering_unknown') is not False
             or s1.get('events_readback_valid') is not True or s1.get('terminal_stop_error') is not None)
@@ -246,6 +249,7 @@ def _source_component(root,card_path,m):
             original_Teacher_task_success_diagnostic=result.get('score',{}).get('persistent_success'),
             component_plan_sha256=PLAN_SHA256,result_sha256=sha(folder/'RESULT.json'),S1_sha256=sha(folder/'S1_RESULT.json'),
             native_STOP_return_and_owner_event_confirmed=True,independent_terminal_audit='PENDING_OWNER_READBACK',
+            terminal_anchor_relative=terminal_anchor['relative'],terminal_anchor_sha256=terminal_anchor['sha256'],
             student_neural_ACK_qualification=False,new_training_data=False,GR00T_queries=0,
             selected='NONE',deployment='NONE')
         write(folder/'DEC1_SOURCE_COMPONENT_ATTEMPT.json',row)

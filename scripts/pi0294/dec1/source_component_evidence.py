@@ -20,6 +20,39 @@ def canonical(value):
     return json.dumps(jsonable(value),sort_keys=True,separators=(',',':'),allow_nan=False).encode()
 
 
+def verify_event_bytes(raw,*,episode_id,executor_id,maximum_bytes,expected_offset,
+                       expected_sequence,expected_previous):
+    """Original strict readback loop, with EXTERNALLY confirmed final anchors.
+
+    Neither parsing the supplied bytes nor hashing their last line supplies
+    those anchors. Caller must retain the live owner anchors or sealed terminal
+    readback of them. No IO/native/state producer is performed here.
+    """
+    if (type(raw) is not bytes or type(maximum_bytes) is not int or maximum_bytes<1
+            or type(expected_offset) is not int or expected_offset<0
+            or type(expected_sequence) is not int or expected_sequence<0
+            or not isinstance(expected_previous,str) or len(expected_previous)!=64
+            or any(c not in '0123456789abcdef' for c in expected_previous)):
+        raise ValueError('EXACT_OWNER_CONFIRMED_EVENT_ANCHORS_REQUIRED')
+    if len(raw)!=expected_offset or len(raw)>maximum_bytes or raw and not raw.endswith(b'\n'):
+        raise ValueError('SOURCE_EVENT_CHAIN_TRUNCATED_OR_EXTRA_BYTES')
+    events=[];previous=ZERO
+    for sequence,line in enumerate(raw.splitlines()):
+        record=json.loads(line);body={k:v for k,v in record.items() if k!='sha256'}
+        if (set(record)!={'schema','episode_id','executor_id','sequence','previous_sha256','event','sha256'}
+                or record['schema']!=SCHEMA or record['episode_id']!=episode_id
+                or record['executor_id']!=executor_id or type(record['sequence']) is not int
+                or record['sequence']!=sequence or record['previous_sha256']!=previous
+                or type(record['event']) is not dict
+                or hashlib.sha256(canonical(body)).hexdigest()!=record['sha256']
+                or canonical(record)!=line):
+            raise ValueError('SOURCE_EVENT_CHAIN_IDENTITY_SEQUENCE_OR_BYTES_CHANGED')
+        events.append(record['event']);previous=record['sha256']
+    if len(events)!=expected_sequence or previous!=expected_previous:
+        raise ValueError('SOURCE_EVENT_CHAIN_NOT_LAST_CONFIRMED_OWNER_APPEND')
+    return events
+
+
 class SourceComponentEvidence:
     def __init__(self,path,*,episode_id,executor_id,maximum_bytes):
         self.path=Path(path)
@@ -89,23 +122,9 @@ class SourceComponentEvidence:
         if self.unknown:raise PermissionError('SOURCE_EVENT_OUTCOME_UNKNOWN_NO_RECEIPT')
         try:
             with self._open_read() as h:raw=h.read(self.maximum+1)
-            if len(raw)!=self.offset or len(raw)>self.maximum or raw and not raw.endswith(b'\n'):
-                raise ValueError('SOURCE_EVENT_CHAIN_TRUNCATED_OR_EXTRA_BYTES')
-            events=[];previous=ZERO
-            for sequence,line in enumerate(raw.splitlines()):
-                record=json.loads(line);body={k:v for k,v in record.items() if k!='sha256'}
-                if (set(record)!={'schema','episode_id','executor_id','sequence','previous_sha256','event','sha256'}
-                        or record['schema']!=SCHEMA or record['episode_id']!=self.episode_id
-                        or record['executor_id']!=self.executor_id or type(record['sequence']) is not int
-                        or record['sequence']!=sequence or record['previous_sha256']!=previous
-                        or type(record['event']) is not dict
-                        or hashlib.sha256(canonical(body)).hexdigest()!=record['sha256']
-                        or canonical(record)!=line):
-                    raise ValueError('SOURCE_EVENT_CHAIN_IDENTITY_SEQUENCE_OR_BYTES_CHANGED')
-                events.append(record['event']);previous=record['sha256']
-            if len(events)!=self.sequence or previous!=self.previous:
-                raise ValueError('SOURCE_EVENT_CHAIN_NOT_LAST_CONFIRMED_OWNER_APPEND')
-            return events
+            return verify_event_bytes(raw,episode_id=self.episode_id,executor_id=self.executor_id,
+                maximum_bytes=self.maximum,expected_offset=self.offset,
+                expected_sequence=self.sequence,expected_previous=self.previous)
         except BaseException:self.unknown=True;raise
 
     def close(self):
