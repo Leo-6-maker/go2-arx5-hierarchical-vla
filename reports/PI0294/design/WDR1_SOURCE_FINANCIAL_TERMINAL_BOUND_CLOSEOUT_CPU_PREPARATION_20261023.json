@@ -1,0 +1,95 @@
+{
+  "schema": "WDR1_SOURCE_FINANCIAL_TERMINAL_BOUND_CLOSEOUT_CPU_PREPARATION_V1",
+  "status": "CPU_AND_FRESH_READONLY_READY_NOT_SETTLED_OR_CLOSED",
+  "observed_epoch": 1792707011.048865,
+  "source_baseline": "c296d730b3631819c8ccb1fcadd48f4c6c7fba7f",
+  "files_sha256": {
+    "scripts/pi0294/dec1/source_cpu_closeout.py": "8f751a96ea4e3f762988e1e60a989328ebbbbbd6e7f45155002db8f54eaf2881",
+    "scripts/pi0294/dec1/test_source_cpu_closeout.py": "3df4500fd59181fc1df05f1a94297db2a0d08371488ba6555ea349f43c0b207a"
+  },
+  "tests": {
+    "financial_pure_cases": 24,
+    "related_total_passed": 135,
+    "denied_native_external_attempts": 0,
+    "private_fake_backend_cases": 7,
+    "private_fake_backend_additional_subcases": 7,
+    "fake_backend_is_not_native_settlement": true
+  },
+  "financial_boundary": {
+    "scientific_verdict_stays": "ENGINEERING_INCOMPLETE_UNKNOWN",
+    "original_child_RESOURCE_LEDGER_UNKNOWN_and_live_reservation_immutable": true,
+    "no_STOP_ACK_created": true,
+    "no_source_qualification": true,
+    "charged_live_unknown_upper": 16000,
+    "known_shadow_ticks": 490,
+    "physics_financial_upper": 16490,
+    "observed_live_lower_bound": 400,
+    "observed_actual_attempts": 1,
+    "constructors_charged": 6,
+    "Core_CPU_financial_upper_s": 1039.537288565,
+    "Core_CPU_basis": "max(original child CPU, registration prepay120 plus two actual process-exit CPU values) + full control300 + audit600",
+    "local_CPU_financial_upper_s": 720,
+    "IO_upper_remains_original_full_namespace_request": true,
+    "only_unstarted_or_known_unused_work_can_be_unreserved_after_actual_actors_terminal_and_lease_closed": true,
+    "conservative_ticks_are_separate_from_original_observed_live_shadow_buckets": true,
+    "old_GPU_training_costs_and_checkpoints_unchanged": true
+  },
+  "once_writer": {
+    "Core_financial_first_then_original_lease_close": true,
+    "LOCAL_parent_after_confirmed_Core_close": true,
+    "same_original_LOCAL_projection_lock": true,
+    "actual_parent_rebase_preserves_concurrent_A_history": true,
+    "unknown_write_retains_parent_full_hold_and_requires_readonly_reconciliation": true,
+    "no_Core_or_lease_automatic_retry": true
+  },
+  "fresh_native_readonly": {
+    "observed_epoch": 1792706977.8445122,
+    "actors_or_exit_records": 4,
+    "active_actors": 0,
+    "files_SHA_bound": 13,
+    "highrate_shape": [
+      400,
+      45
+    ],
+    "original_child_CPU_s": 139.158001888,
+    "original_child_unknowns": [
+      {
+        "identifier": "DEC1-SOURCE-COMMISSION-F0-000-T1-I_TIME",
+        "error": "SourceComponentUnknown",
+        "reservation_retained": true
+      }
+    ],
+    "original_source_lease": "ACTIVE",
+    "new_mutations": 0
+  },
+  "previous_repair_exact_CI": {
+    "source": "c296d730b3631819c8ccb1fcadd48f4c6c7fba7f",
+    "run": 39860658998,
+    "job": 120110199920,
+    "attempt": 1,
+    "conclusion": "success",
+    "all_12_steps_success": true,
+    "all_21_files_full_readback": true,
+    "repair_natively_deployed": false
+  },
+  "active_A": {
+    "job": "1477527.stdct-mgmt-02",
+    "observed_epoch": 1792706999.3857298,
+    "state": "R",
+    "last_native_step": 3754,
+    "unknown_effects": [],
+    "source_unchanged": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "owner_unchanged": 431568,
+    "A4096_complete": false,
+    "B_started": false
+  },
+  "pending": [
+    "Current exact-source publication/readback/CI before once native financial adoption",
+    "Actual dual financial settlement/original lease close and independent retained-child/actor/record readback",
+    "Complete B resource classification must include separately closed Core source-side costs; no fake zero or training credit",
+    "Finite cold source continuation or proven engineering replacement only after closure and full resource/site qualification; old failures stay UNKNOWN",
+    "Actual A4096 full-state audit/once settlement/dual close before independent B1/B2; separate frozen target science remains"
+  ],
+  "all_original_caps_clocks_grants_science_freezes_preserved": true,
+  "overall_goal_complete": false
+}
