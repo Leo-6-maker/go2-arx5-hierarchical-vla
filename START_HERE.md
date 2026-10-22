@@ -1,4 +1,18 @@
-# Current Entry: VAP1 Authorized State32 Segment Actually Queued
+# Current Entry: VAP1 A1 Complete2048; A2 Storage Admission Pending
+
+**A1 job1474599 is now F/Exit0, fully audited and once settled.**
+[Actual2048 full-state verification and both lease closures](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A1_2048_FULL_STATE_TERMINAL_SETTLEMENT_AND_CLOSURE_ACTUAL_20261022.json).
+A_CONTROL_SAVE_RECOVERY1 reached2048/cursor65536; complete1024 and2048
+states and the original12 TRAIN probes passed independent byte checks.
+GPU and CPU-control leases are CLOSED, reservations0 and unknown effects empty.
+Original lost1024 costs remain charged; this is not a4096endpoint or task success.
+[Updated active goal and parallel science preparation](reports/PI0294/design/parallel-science-20261022/GOAL_SUPPLEMENT_AND_PARALLEL_TASK_CARD.json)
+includes actual A2048 continuation metadata, independent B preparation, frozen
+data inventory and saved evaluation conditions. A2 is not registered/submitted.
+[Current storage admission assessment](reports/PI0294/design/parallel-science-20261022/A2_STORAGE_ADMISSION_PREPARATION_20261022.json)
+requires a concrete remaining-work lifecycle before further dispatch. No files
+have been deleted; original budgets, deadlines, scientific states and freezes remain.
+Queue/running snapshots below are historical.
 
 **Human-approved segmented continuation is adopted; job1474599 is nativelyQ.**
 [Actual authorization, exact CI, cold binding and one native submission](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_SEGMENT_A1_AUTH_ADOPTION_AND_GPU_SUBMISSION_ACTUAL.json).

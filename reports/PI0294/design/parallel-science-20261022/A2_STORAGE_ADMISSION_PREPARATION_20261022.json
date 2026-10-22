@@ -1,0 +1,58 @@
+{
+  "schema": "VAP1_A2_STORAGE_ADMISSION_PREPARATION_V1",
+  "status": "READ_ONLY_NOT_RETIREMENT_NOT_ADMISSION",
+  "observed_epoch": 1792667581.3143559,
+  "actual_predecessor_receipt": {
+    "commit": "bbd694a700c80a4666a8064e2c86fcf96206882e",
+    "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A1_2048_FULL_STATE_TERMINAL_SETTLEMENT_AND_CLOSURE_ACTUAL_20261022.json",
+    "blob": "daacfb9b58d98deecdee7c54fcfd07a219c1f976",
+    "exact_remote_readback": true
+  },
+  "current_DEC1_output_upper_bytes": 165520902171,
+  "DEC1_cap_bytes": 188978561024,
+  "A2_prepared_output_upper_bytes": 70000000000,
+  "future_A2_control_output_upper_bytes": 67108864,
+  "gap_before_retirement_bytes": 46542341147,
+  "engineering32_stat_only_candidate": {
+    "source_copies": 2,
+    "leases": {
+      "original_recovery32": "CLOSED",
+      "A1_imported32": "CLOSED"
+    },
+    "bulk_unique_inodes": 8,
+    "bulk_inodes_with_no_outside_hardlinks": 7,
+    "conditional_accounting_reduction_upper_bytes": 46107310292,
+    "basis": "SUM_MAX_LOGICAL_ALLOCATED_PER_UNIQUE_INODE_WITH_ALL_LINKS_IN_EXACT_CANDIDATE_SET",
+    "protected_shared_frozen_inode_not_counted": true,
+    "successor2048_independently_validated": true,
+    "zero_consumers_proven": false,
+    "candidate_payload_rehashed_in_this_assessment": false,
+    "retired_bytes": 0
+  },
+  "conditional_gap_after_all_stat_eligible32_retired_bytes": 435030855,
+  "conditional_gap_including_A2_control_bytes": 502139719,
+  "conditional_global_residence_plus_A2_and_final40GiB_bytes": 260758133575,
+  "global_output_cap_bytes": 268435456000,
+  "interpretation": [
+    "No candidate retirement or accounting decrement has occurred.",
+    "Even all stat-eligible engineering32 payload retirement does not fit the prepared70GB A2 reservation plus control output.",
+    "This is an immediate A2 reservation calculation, not a certified full remaining A/B storage lifecycle or a new resource request.",
+    "A2 imports full1024 and2048 states, retaining source copies; B2 has the same structural duplication. Later engineering2048 retirement requires a validated4096 successor.",
+    "Lowering a reservation requires a defensible complete prewrite bound including transient saves, metadata and profiling; no lower bound is adopted here.",
+    "Protect scientific1024/4096 states, original parent shared inodes and historical costs/peaks. Do not refund the old failed-cache charge."
+  ],
+  "implementation_status": {
+    "current_residence_retirement_accounting": "NOT_IMPLEMENTED",
+    "exact_registered_retirement_worker": "NOT_PREPARED",
+    "full_A2_B1_B2_storage_lifecycle": "NEEDS_CONCRETE_VALIDATION"
+  },
+  "next_actions": [
+    "Prove zero consumers and exact eligible engineering32 members under the existing retirement scope.",
+    "Prepare once-only current-residence accounting that preserves historical peaks and all spent costs.",
+    "Recompute full A2, B1, B2 and evaluation storage lifecycle with the actual imported checkpoint copies.",
+    "Admit A2 only when real storage, whole remaining-work forecast and native resource checks pass."
+  ],
+  "new_GPU_PBS_models_updates_physics": 0,
+  "files_deleted": 0,
+  "budget_clock_reset": false
+}

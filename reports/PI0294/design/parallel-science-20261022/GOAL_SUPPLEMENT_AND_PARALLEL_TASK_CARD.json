@@ -21,17 +21,20 @@
     "new_concurrent_GPU_or_training_authorized_by_this_card": false
   },
   "current_native_snapshot": {
-    "observed_epoch": 1792663268.5080824,
+    "observed_epoch": 1792667507.703622,
     "job": "1474599.stdct-mgmt-02",
-    "state": "R",
+    "state": "F",
+    "Exit_status": 0,
     "active_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
-    "step": 1633,
-    "cursor": 52256,
-    "latest_complete_checkpoint": 1024,
+    "step": 2048,
+    "cursor": 65536,
+    "latest_complete_checkpoint": 2048,
+    "independent_full_state_audit": "PASS_1024_AND_2048_ALL_MEMBERS",
     "unknown_effects": [],
-    "owned_pending_updates": 1,
-    "pending_description": "HEALTHY_NATIVE_NEXT_OPTIMIZER_TRANSACTION_NOT_NEW_ORPHAN",
-    "original12_TRAIN_probes": "12_ACCEPT_REFERENCE_SAFETY_NOT_TASK_SUCCESS",
+    "owned_pending_updates": 0,
+    "original12_TRAIN_probes": "AUDITED_NOT_REPEATED_NOT_TASK_SUCCESS",
+    "GPU_lease": "CLOSED",
+    "CPU_control_lease": "CLOSED",
     "A4096": "NOT_YET_COMPLETE",
     "B_updates": 0,
     "selected": "NONE",
@@ -40,7 +43,7 @@
   "workstreams": [
     {
       "id": "TRAIN",
-      "status": "A1_RUNNING_FUTURE_COLD_ONLY",
+      "status": "A1_COMPLETE_A2_ACTUAL_INPUTS_PREPARED_STORAGE_ADMISSION_PENDING",
       "order": [
         "A32_TO2048",
         "A2048_TO4096",
@@ -49,7 +52,7 @@
       ],
       "same_platform_R0_recipe_sampler": true,
       "deliverable": "FULL4096_A_AND_B_PLUS_ACTUAL_CONSUMPTION_COST_AND_FAILURE_RECORDS",
-      "next_gate": "A1_ACTUAL_SUCCESSFUL_TERMINAL_FULL_AUDIT_ONCE_SETTLEMENT_AND_BOTH_LEASE_CLOSURES"
+      "next_gate": "EXACT_AUTHORIZED_STORAGE_LIFECYCLE_AND_FRESH_COMPLETE_REMAINING_WORK_ADMISSION"
     },
     {
       "id": "DATA",
@@ -89,7 +92,7 @@
       "result": "COMPLETED_SUCCESS"
     },
     "B1_inputs": "PREPARED_NOT_REGISTERED_NOT_SUBMITTED",
-    "A2_inputs": "WAIT_FOR_ACTUAL_CLOSED2048",
+    "A2_inputs": "ACTUAL_CLOSED2048_METADATA_PREPARED_NOT_REGISTERED_NOT_SUBMITTED",
     "A2_local_adapter": {
       "status": "PASS_LOCAL_BOUNDARY_CHECKS_NOT_NATIVE_ADMISSION",
       "controller_sha256": "749a6eea92c830f46e427c11bdb773fc89c58025c355f7adddfeabc6c7e00827",
@@ -98,7 +101,21 @@
       "resource_gap_before_credentials_or_launch_intent": true,
       "new_native_RPC_or_qsub": 0
     },
-    "actual_native_qualification_admission": "REQUIRED_AFTER_PREDECESSOR_CLOSED_WITH_FRESH_BUDGET_STORAGE_AND_QUEUE_CHECKS"
+    "actual_native_qualification_admission": "REQUIRED_AFTER_PREDECESSOR_CLOSED_WITH_FRESH_BUDGET_STORAGE_AND_QUEUE_CHECKS",
+    "A2_actual_metadata": {
+      "sha256": "a47f10e98f24b961261967a39c93b7c7cef0ed05b7fa91a88b14a3c98c05b69a",
+      "source_files": 838,
+      "small_inputs": 27,
+      "resume_step": 2048,
+      "cursor": 65536,
+      "source_full_states": [
+        1024,
+        2048
+      ],
+      "original12_probes_preserved": true,
+      "new_remote_calls": 0,
+      "new_GPU_PBS_models_updates": 0
+    }
   },
   "preserved": {
     "original_T0_epoch": 1792348196,
@@ -116,5 +133,24 @@
     "paired_source_or_DEC1_results_only_if_original_scope_and_fresh_resources_admit",
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
-  "this_preparation_is_goal_completion": false
+  "this_preparation_is_goal_completion": false,
+  "updated_epoch": 1792668231.1700628,
+  "latest_actual_receipt": {
+    "commit": "bbd694a700c80a4666a8064e2c86fcf96206882e",
+    "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A1_2048_FULL_STATE_TERMINAL_SETTLEMENT_AND_CLOSURE_ACTUAL_20261022.json",
+    "blob": "daacfb9b58d98deecdee7c54fcfd07a219c1f976",
+    "exact_remote_readback": true
+  },
+  "current_resource_work": {
+    "report": "A2_STORAGE_ADMISSION_PREPARATION_20261022.json",
+    "status": "READ_ONLY_ASSESSMENT_NO_RETIREMENT_OR_ADMISSION",
+    "retain_scientific_1024_4096": true,
+    "do_not_repeat_A1_settlement": true,
+    "next_actions": [
+      "Prove zero consumers and exact eligible engineering32 members under the existing retirement scope.",
+      "Prepare once-only current-residence accounting that preserves historical peaks and all spent costs.",
+      "Recompute full A2, B1, B2 and evaluation storage lifecycle with the actual imported checkpoint copies.",
+      "Admit A2 only when real storage, whole remaining-work forecast and native resource checks pass."
+    ]
+  }
 }
