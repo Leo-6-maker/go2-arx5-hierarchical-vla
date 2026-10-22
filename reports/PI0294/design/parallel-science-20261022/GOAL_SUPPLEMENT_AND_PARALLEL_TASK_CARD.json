@@ -92,7 +92,7 @@
       "result": "COMPLETED_SUCCESS"
     },
     "B1_inputs": "PREPARED_NOT_REGISTERED_NOT_SUBMITTED",
-    "A2_inputs": "ACTUAL_CLOSED2048_METADATA_PREPARED_NOT_REGISTERED_NOT_SUBMITTED",
+    "A2_inputs": "V2_ACTUAL_CLOSED2048_METADATA_WITH_CORRECT_REMAINING_THREE_BLOCKS_NOT_REGISTERED_NOT_SUBMITTED",
     "A2_local_adapter": {
       "status": "PASS_LOCAL_BOUNDARY_CHECKS_NOT_NATIVE_ADMISSION",
       "controller_sha256": "749a6eea92c830f46e427c11bdb773fc89c58025c355f7adddfeabc6c7e00827",
@@ -103,7 +103,7 @@
     },
     "actual_native_qualification_admission": "REQUIRED_AFTER_PREDECESSOR_CLOSED_WITH_FRESH_BUDGET_STORAGE_AND_QUEUE_CHECKS",
     "A2_actual_metadata": {
-      "sha256": "a47f10e98f24b961261967a39c93b7c7cef0ed05b7fa91a88b14a3c98c05b69a",
+      "sha256": "4e5f818bf86b89b0b1821295bd35689e82b6a0a072b0fabdb845377f92611023",
       "source_files": 838,
       "small_inputs": 27,
       "resume_step": 2048,
@@ -114,7 +114,9 @@
       ],
       "original12_probes_preserved": true,
       "new_remote_calls": 0,
-      "new_GPU_PBS_models_updates": 0
+      "new_GPU_PBS_models_updates": 0,
+      "remaining_training_blocks": 3,
+      "prior_metadata_preserved": true
     }
   },
   "preserved": {
@@ -134,7 +136,7 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792668231.1700628,
+  "updated_epoch": 1792669100.8506253,
   "latest_actual_receipt": {
     "commit": "bbd694a700c80a4666a8064e2c86fcf96206882e",
     "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A1_2048_FULL_STATE_TERMINAL_SETTLEMENT_AND_CLOSURE_ACTUAL_20261022.json",
@@ -142,15 +144,15 @@
     "exact_remote_readback": true
   },
   "current_resource_work": {
-    "report": "A2_STORAGE_ADMISSION_PREPARATION_20261022.json",
-    "status": "READ_ONLY_ASSESSMENT_NO_RETIREMENT_OR_ADMISSION",
+    "report": "FULL_REMAINING_STORAGE_ONLY_AMENDMENT_DRAFT_20261022.json",
+    "status": "COMPLETE_STORAGE_ONLY_PROPOSAL_PENDING_USER_DECISION",
     "retain_scientific_1024_4096": true,
     "do_not_repeat_A1_settlement": true,
     "next_actions": [
-      "Prove zero consumers and exact eligible engineering32 members under the existing retirement scope.",
-      "Prepare once-only current-residence accounting that preserves historical peaks and all spent costs.",
-      "Recompute full A2, B1, B2 and evaluation storage lifecycle with the actual imported checkpoint copies.",
-      "Admit A2 only when real storage, whole remaining-work forecast and native resource checks pass."
+      "Explicit user approval of these two storage cap changes; no automatic adoption.",
+      "Publish and validate a narrow storage-only authorization adapter; preserve all existing resource/science gates.",
+      "Read back exact code and grant, cold bind new inputs, and rerun fresh complete native resource admission.",
+      "Keep one mutation owner and one authorized A40 training allocation at a time."
     ]
   }
 }
