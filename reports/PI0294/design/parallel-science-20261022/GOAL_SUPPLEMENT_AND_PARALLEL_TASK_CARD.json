@@ -130,6 +130,13 @@
       "actual_native_audit": false,
       "expected_total_charged_updates": 5891,
       "service": "vap1-a40-heartbeat-recovery2-watch-resume-01"
+    },
+    "B1_dispatch_interface": {
+      "report": "B1_CURRENT_SCOPE_DISPATCH_AND_B2_STATIC_AUDIT_CPU_20261023.json",
+      "status": "PURE_INTERFACE_COMPILED_CPU_VERIFIED_NOT_NATIVE_CONNECTED",
+      "CPU_tests_passed": 4,
+      "interface_sha256": "e723b96022a0dd9a72c4e79fd576ed644c76f0fb529967cddf2aabe319558b88",
+      "actual_native_connected": false
     }
   },
   "preserved": {
@@ -149,7 +156,7 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792690936.7955165,
+  "updated_epoch": 1792691428.2533271,
   "latest_actual_receipt": {
     "path": "reports/PI0294/design/parallel-science-20261022/RECOVERY2_WATCH_READONLY_STOP_RECONNECT_ACTUAL_20261023.json",
     "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
@@ -422,5 +429,12 @@
     "status": "ACTUAL_EXISTING_JOB_WATCH_ONLY_RECONNECTED_HEARTBEAT_CONFIRMED",
     "no_new_PBS": true,
     "no_unknown_write": true
+  },
+  "watch_control_mux": {
+    "report": "RECOVERY2_CANONICAL_SSH_MUX_RESTORE_ACTUAL_20261023.json",
+    "master_PID": 374134,
+    "old_socket_reused": true,
+    "watch_restarted": false,
+    "per_call_limits_unchanged": true
   }
 }
