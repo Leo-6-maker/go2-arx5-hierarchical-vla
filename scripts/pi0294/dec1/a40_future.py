@@ -31,7 +31,7 @@ def pending_source_reservations(h,d):
 
 def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
               progress_bytes, plan_bytes, amendment_bytes, now_epoch, job_id,
-              purpose='NATIVE_PRETRAIN',recovery_bytes=None,segment_bytes=None,storage_bytes=None):
+              purpose='NATIVE_PRETRAIN',recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None):
     from .a40_allocation import request_scope, PLATFORM, T0
     r,request_sha=old._read(request_bytes);request_scope(r,now=now_epoch)
     if purpose not in ('PREQUEUE','NATIVE_PRETRAIN'):
@@ -56,6 +56,13 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         if any(v.get('storage_authorization_release')!=storage.RELEASE or v.get('storage_grant_sha256')!=storage.GRANT_SHA for v in (s,p)):
             fail('EXACT_STORAGE_SCOPE_ON_FRESH_PLAN_AND_SNAPSHOT')
     elif storage_bytes is not None:fail('NO_STORAGE_CAP_WITH_LEGACY_REQUEST')
+    from . import heartbeat_recovery as heartbeat
+    heartbeat_scope=heartbeat.enabled(r)
+    if heartbeat_scope:
+        if heartbeat_bytes is None:fail('EXACT_SEALED_HEARTBEAT_RECOVERY_GRANT')
+        heartbeat.grant(heartbeat_bytes);heartbeat.validate_adopted(h,d)
+        if any(not heartbeat.enabled(v) for v in (s,p)):fail('HEARTBEAT_PLAN_SNAPSHOT_BINDING')
+    elif heartbeat_bytes is not None:fail('NO_HEARTBEAT_CAP_WITH_LEGACY_REQUEST')
     if r.get('recovery_authorization_release') is not None:
         from .lost_save_recovery import grant,validate_adopted,GRANT_SHA
         if recovery_bytes is None:fail('SEALED_RECOVERY_AUTHORIZATION_BYTES_REQUIRED')
@@ -88,6 +95,13 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
             or any(h.get('training_runs',{}).get(name,{}).get('last_native_step',0)>0
                 for name in ('A_CONTROL','B_COVERAGE')) and h.get('DEC1_source_pair_platform')!=PLATFORM):
         fail('SAME_PLATFORM_PAIR_NOT_A_PARALLEL_HOPPER_SOURCE_ARM_OR_MIGRATION')
+    if heartbeat_scope:
+        if current[0].get('training_lineage_key')!=heartbeat.lineage(r):fail('CURRENT_EXACT_NEW_LINEAGE')
+        progress,_=old._read(progress_bytes)
+        for arm in ('A_CONTROL','B_COVERAGE'):
+            key=heartbeat.LINEAGE if arm=='A_CONTROL' else arm
+            if progress['candidates'][arm]['optimizer_updates_committed']!=h.get('training_runs',{}).get(key,{}).get('last_native_step',0):
+                fail('PROGRESS_EQUALS_ADOPTED_LOGICAL_LINEAGE_NOT_CUMULATIVE_COST')
     used=old._vector(s['used']);reserved=old._vector(s['reserved'])
     du=old._vector(s['dec1_used']);dr=old._vector(s['dec1_reserved'])
     expected=dict(h['used'],Hopper_CPU_s=h['CPU_s'],
@@ -113,7 +127,7 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         if any(observed[k]!=v for k,v in native.items()):
             fail('DEC1_NATIVE_SPENT_RESERVED_CPU_AND_IO_EXACT')
     forecasted=forecast(snapshot=s,progress_bytes=progress_bytes,plan=p,
-        amendment_bytes=amendment_bytes,now_epoch=now_epoch,recovery_bytes=recovery_bytes,segment_bytes=segment_bytes,storage_bytes=storage_bytes)
+        amendment_bytes=amendment_bytes,now_epoch=now_epoch,recovery_bytes=recovery_bytes,segment_bytes=segment_bytes,storage_bytes=storage_bytes,heartbeat_bytes=heartbeat_bytes)
     if not forecasted['admissible_forecast']:
         fail('COMPLETE_SOURCE_PAIR_MATRIX_AND_ORIGINAL_FINAL_RESERVE_DO_NOT_FIT')
     rows=[x for x in h['PBS_submissions'] if x['request_id']==r['request_id']]
@@ -135,4 +149,5 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         result.update(source_recovery_grant_sha256=GRANT_SHA,DEC1_native_recovery_view=d)
     if segment:result['segmented_grant_sha256']=SEGMENT_SHA
     if storage_scope:result.update(storage_authorization_release=storage.RELEASE,storage_grant_sha256=storage.GRANT_SHA)
+    if heartbeat_scope:result.update(heartbeat_recovery_release=heartbeat.RELEASE,heartbeat_recovery_grant_sha256=heartbeat.GRANT_SHA)
     return result

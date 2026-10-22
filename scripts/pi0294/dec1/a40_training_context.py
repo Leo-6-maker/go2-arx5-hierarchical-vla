@@ -102,6 +102,8 @@ def validate_root(root,request_path,*,verify_all=False):
     if enabled(r):segment_admitted(root,m,r)
     from .storage_expansion import admitted as storage_admitted
     storage_admitted(root,m,r)
+    from .heartbeat_recovery import admitted as heartbeat_admitted
+    heartbeat_admitted(root,m,r)
     if r.get('recovery_authorization_release') is not None:
         from .lost_save_recovery import PLAN,RELEASE,grant as recovery_grant
         if (m['authority'].get('recovery_authorization_release')!=RELEASE
@@ -361,6 +363,8 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
                 if r.get('segmented_authorization_release') is not None else None),
             storage_bytes=((root/'plans/VAP1_STORAGE_ONLY_AUTHORIZATION.json').read_bytes()
                 if r.get('storage_authorization_release') is not None else None),
+            heartbeat_bytes=((root/'plans/A2_HEARTBEAT_RECOVERY_AUTHORIZATION.json').read_bytes()
+                if r.get('heartbeat_recovery_release') is not None else None),
             now_epoch=time.time(),job_id=allocation['job_id'])
         def stable(value):
             v=deepcopy(value);v.pop('observed_epoch',None);v['forecast'].pop('projected_finish_epoch',None);return v

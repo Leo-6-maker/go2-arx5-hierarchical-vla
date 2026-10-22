@@ -1,3 +1,7 @@
+# Current entry: approved A2048 heartbeat recovery; native adoption pending
+
+Human approval is recorded in [the exact recovery grant](reports/PI0294/design/parallel-science-20261022/A2_HEARTBEAT_RECOVERY_AUTHORIZATION_20261023.json). DEC1 updates9987/PBS12/storage418GiB and global485GiB replace only the four approved limits. All historical costs, checkpoints, scientific freezes and clocks remain. [250 CPU tests and the offline accounting chain](reports/PI0294/design/parallel-science-20261022/HEARTBEAT_RECOVERY_SCOPE_CPU_ACTUAL_20261023.json) passed; synthetic future jobs are not native evidence. New scope source CI/readback, actual registration/adoption and fresh admission remain required. Old job1475719 and its owner stay closed. A4096 must be truly complete and closed before independent B. Earlier pending-approval snapshots below are historical.
+
 # Current Entry: A2 Failed2819, Settled and Closed; Cold Recovery Draft Pending
 
 A2 job1475719 ended with HeartbeatLost after771 new updates. The latest full

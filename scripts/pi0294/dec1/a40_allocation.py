@@ -131,7 +131,7 @@ def request_scope(request, *, now):
         if not re.fullmatch('[0-9a-f]{'+str(length)+'}',r.get(key,'')):
             fail('EXACT_SOURCE_REQUEST_MANIFEST_HASH')
     start=number(r['expected_native_start_step'],integer=True)
-    from .lost_save_recovery import lineage
+    from .heartbeat_recovery import lineage
     lineage(r)
     expected_resume=f"training/{block['arm']}/checkpoint-{start}" if start else None
     if (not segment and start>=1024) or block.get('resume_checkpoint_relative')!=expected_resume:
@@ -269,7 +269,11 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
             or planned[0]['resources'].get('neural_queries',0)<29):
         fail('EXACT_CURRENT_JOB_IN_COMPLETE_SOURCE_PAIR_AND_MATRIX_FORECAST')
     from . import storage_expansion as storage
-    global_output_cap,dec1_output_cap=storage.caps(r)
+    from . import heartbeat_recovery as heartbeat
+    global_output_cap,dec1_output_cap=heartbeat.caps(r)
+    if heartbeat.enabled(r):
+        heartbeat.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
+        if not heartbeat.enabled(budget_proof):fail('HEARTBEAT_SCOPE_IN_NATIVE_BUDGET_PROOF')
     if storage.enabled(r):
         storage.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
         if budget_proof.get('storage_authorization_release')!=storage.RELEASE or budget_proof.get('storage_grant_sha256')!=storage.GRANT_SHA:

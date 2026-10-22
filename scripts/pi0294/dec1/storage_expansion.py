@@ -107,6 +107,10 @@ def global_cap_from_ledger(h):
             or h.get('optimizer_updates',0)<3072
             or h.get('optimizer_updates')!=h.get('used',{}).get('optimizer_updates')):
         fail('GLOBAL_CAP_REQUIRES_ORIGINAL_COMPLETE_ADOPTED_MARKERS_AND_CAMPAIGN')
+    from . import heartbeat_recovery as heartbeat
+    if heartbeat.FIELD in h:
+        heartbeat.validate_global(h)
+        return 485*GIB
     return 419*GIB
 
 

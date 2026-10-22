@@ -101,7 +101,10 @@ def validate_items(value):
     for s in compatibility:validate_item(s)
     if source:
         from .a40_accounting import validate_item as source_item
-        if len(source)>7 or sum(s['status'] not in TERMINAL for s in source)>1:
+        from . import heartbeat_recovery as heartbeat
+        if heartbeat.FIELD in value:heartbeat.validate_global(value)
+        max_source=8 if heartbeat.FIELD in value else 7
+        if len(source)>max_source or sum(s['status'] not in TERMINAL for s in source)>1:
             fail('BOUNDED_SOURCE_JOBS_AND_ONE_ACTIVE_A40_CHAIN')
         for s in source:source_item(s)
         if sum(s.get('reserved_optimizer_updates',0) for s in source)>value['reserved'].get('optimizer_updates',0):
