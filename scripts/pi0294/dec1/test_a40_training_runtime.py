@@ -25,7 +25,7 @@ def put(path,value):
 
 class RuntimeTests(unittest.TestCase):
     def test_storage_failure_is_caught_before_torch_or_model_load_with_committed_step_in_final(self):
-        from . import checkpoint_storage
+        from scripts.pi0294.dec1 import checkpoint_storage
         from scripts.pi0294 import numerics
         for committed in (0,1024):
             with self.subTest(committed=committed),tempfile.TemporaryDirectory() as tmp:
