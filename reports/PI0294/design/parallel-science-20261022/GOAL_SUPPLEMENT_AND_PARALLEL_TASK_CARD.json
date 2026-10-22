@@ -41,7 +41,7 @@
       "A40_NATIVE_EFFECT_LEDGER.json"
     ],
     "model_start_release": true,
-    "first_update_release": false,
+    "first_update_release": true,
     "new_updates_at_observation": "NOT_YET_INDEPENDENTLY_AUDITED",
     "owner_service": "vap1-a40-zero-update-resume-owner-01",
     "owner_pid": 431568,
@@ -62,7 +62,12 @@
     "CPU_reserved_s": 54000,
     "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
     "last_recoverable_complete_step": 2048,
-    "training_completion_claimed": false
+    "training_completion_claimed": false,
+    "observed_epoch": 1792697825.1701148,
+    "last_returned_training_step": 2057,
+    "new_returned_updates": 9,
+    "compatibility_queries": 17,
+    "model_load_attempts": 2
   },
   "workstreams": [
     {
@@ -109,26 +114,24 @@
     }
   ],
   "cold_training_preparation": {
-    "runtime": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+    "runtime": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
     "exact_CI": {
-      "run": 39819312716,
-      "job": 119966060288,
+      "run": 39837369784,
+      "job": 120029092603,
       "result": "COMPLETED_SUCCESS"
     },
-    "CPU_tests_passed": 250,
+    "CPU_tests_passed": 260,
     "source_and_input_byte_readbacks": true,
     "new_owner_registered_and_bound": true,
     "A2048_restore": "CLOSED_A1_FULL_STATE_IDENTITIES_PRESERVED_ALLOCATED_STAGE_RECHECK_REQUIRED",
     "B1_inputs": {
-      "status": "PASS_LOCAL_METADATA_ONLY_NOT_NATIVE_ADMISSION",
-      "version": "RECOVERY2_V4",
-      "report": "B1_RECOVERY2_V4_METADATA_CPU_ACTUAL_20261023.json",
-      "metadata_sha256": "aeff1929638ddd6893d6376bfa53138497ee800f3e0dffa0914dd3b823eb5a44",
-      "CPU_tests_passed": 5,
-      "original_CORR0": true,
-      "unchanged_R0_data_recipe_probes": true,
-      "unfinished_A_in_plan": true,
-      "actual_admission": false
+      "status": "LOCAL_V5_ZERO_SCOPE_METADATA_CPU_TESTED_NOT_NATIVE_ADMISSION",
+      "version": "ZERO_SCOPE_V5",
+      "report": "B1_ZERO_SCOPE_V5_COLD_PREPARATION_CPU_ACTUAL_20261023.json",
+      "metadata_sha256": "37879c835b80f37c80353583c8c2220a256ffc8c6ab553226d9f7736ba4b004c",
+      "CPU_tests": 17,
+      "unfinished_A_preserved": true,
+      "actual_A_closed_required": true
     },
     "terminal_adapter": {
       "status": "PREPARED_LOCAL_ONLY_CPU_VERIFIED_NOT_NATIVE_TERMINAL",
@@ -568,8 +571,31 @@
   "WDR1_source_single_pose_preparation": {
     "status": "CALLABLE_PRIMITIVE_CPU_TESTED_EPISODE_WIRING_AND_NATIVE_QUALIFICATION_PENDING",
     "report": "reports/PI0294/design/WDR1_SINGLE_POSE_PREFIX8_CPU_PREPARATION_20261023.json",
-    "new_CPU_tests": 19,
-    "combined_with_original_progress": 75,
-    "new_native_physics": 0
+    "new_CPU_tests": 20,
+    "combined_with_original_progress": 76,
+    "new_native_physics": 0,
+    "previous_published_exact_CI": {
+      "source": "757a5817c23020cfe08acbf17bdd4c0e7c5d071b",
+      "run": 39839902342,
+      "job": 120037843920,
+      "status": "completed",
+      "conclusion": "success",
+      "changed_files_full_readback": 5
+    }
+  },
+  "WDR1_source_episode_wiring": {
+    "status": "EXISTING_EPISODE_HOOKS_CPU_TESTED_NATIVE_BINDINGS_PENDING",
+    "report": "reports/PI0294/design/WDR1_SOURCE_EPISODE_WIRING_CPU_PREPARATION_20261023.json",
+    "CPU_tests_combined": 92,
+    "native_qualified": false
+  },
+  "first_update_native_actual_report": "ZERO_UPDATE_RESUME_FIRST_UPDATE_NATIVE_ACTUAL_20261023.json",
+  "parallel_helpers_current_adoption": {
+    "status": "PARALLEL_HELPERS_ADOPTED_AND_DISPATCHED",
+    "new_helpers_spawned": 0,
+    "training_helper": "science_training_prep",
+    "science_helper": "science_data_prep",
+    "root_is_only_native_mutation_owner": true,
+    "helpers_only_text_preparation": true
   }
 }

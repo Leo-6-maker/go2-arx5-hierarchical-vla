@@ -269,3 +269,16 @@ def test_frozen_shared_reference_parameters_cannot_change(changed):
         unit.SinglePosePrefixExecutor(h.engine,h.executor.adapter,executor_id='CPU_SINGLE_POSE',
             guard=lambda:None,reserve=h.reserve,charge=h.charge,finish=h.finish,record=h.events.append,stop=h.stop)
     assert not h.clones and h.engine.steps==0
+
+
+def test_original_full_H40_gate_runs_on_raw_and_mapped_source_intent(harness):
+    from scripts.pi0292.eval_contract import gate_action as original_gate
+    h=harness()
+    with patch.object(unit,'gate_action',wraps=original_gate) as gate:
+        result=prepare(h);h.executor.execute_prefix(result['nonce'])
+        assert gate.call_count>=32 and h.engine.steps==200
+        assert all(np.asarray(call.args[0]).shape==(40,10) for call in gate.call_args_list)
+    h=harness();bad=raw();bad[-1,0]=5.
+    with patch.object(unit,'gate_action',wraps=original_gate):
+        with pytest.raises(PermissionError,match='FULL_H40_REJECT'):prepare(h,bad)
+    assert h.engine.steps==0 and not h.clones and h.executor.state()['stop_confirmed']

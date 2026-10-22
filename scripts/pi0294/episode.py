@@ -162,9 +162,13 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
                                      privileged_teacher_stage=plan['stage'], source=plan.get('source','ACTUAL_FEEDBACK_TEACHER'), committed_prefix_count=0))
                 k = step % 8
                 target, opening = plan['poses'][k], float(plan['opening'][k])
+                desired, desired_gripper = target.copy(), opening
+                if hasattr(teacher, 'reference_action'):
+                    # Preserve original raw H40; resolve mapped action before labels.
+                    target, opening = teacher.reference_action(k)
                 supervisor = dict(ref_id=ref_id, sequence=step, point_index=k, command_time_s=state['time_s'],
-                                  desired=target, accepted=target.copy(), installed=target.copy(), committed=target.copy(),
-                                  desired_gripper=opening, committed_gripper=opening, valid=True, actually_committed=True)
+                                  desired=desired, accepted=target.copy(), installed=target.copy(), committed=target.copy(),
+                                  desired_gripper=desired_gripper, committed_gripper=opening, valid=True, actually_committed=True)
                 refs[-1]['committed_prefix_count'] += 1
             physical.append({k: state[k] for k in ('time_s', 'object_pose', 'tcp', 'object_linear_velocity',
                                                    'object_angular_velocity', 'robot_object_contact', *BOOL_FIELDS)})
@@ -187,13 +191,30 @@ def run_episode(card, output_dir, asset_root, source_sha, reservation, progress=
                 raise RuntimeError('STATIC_QUALIFICATION_FAILED_NO_INTEGRATION')
             if step < 640:
                 for tick in range(25):
-                    if hasattr(teacher, 'guard_prefix'):teacher.guard_prefix()
-                    try:
-                        engine.step(target, opening)
-                    except Exception:
+                    if hasattr(teacher, 'before_native_tick'):
+                        # Existing outer loop is the sole live Engine.step owner.
+                        teacher.before_native_tick(engine, target, opening)
+                        native_error = None
+                        try:
+                            engine.step(target, opening)
+                        except Exception as caught:
+                            native_error = caught
+                        try:
+                            record_tick()
+                        except Exception as record_error:
+                            teacher.after_native_tick(engine, native_error, record_error)
+                            raise
+                        teacher.after_native_tick(engine, native_error, None)
+                        if native_error is not None:
+                            raise native_error
+                    else:
+                        if hasattr(teacher, 'guard_prefix'):teacher.guard_prefix()
+                        try:
+                            engine.step(target, opening)
+                        except Exception:
+                            record_tick()
+                            raise
                         record_tick()
-                        raise
-                    record_tick()
                 if step % 8 == 7 and hasattr(teacher, 'acknowledge'):
                     teacher.acknowledge(engine, highrate[-200:])
         status = 'VALID_COMPLETE'

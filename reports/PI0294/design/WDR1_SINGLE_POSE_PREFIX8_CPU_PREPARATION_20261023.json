@@ -4,9 +4,9 @@
   "observed_epoch": 1792697040.2985587,
   "files": {
     "source_single_pose_prefix.py": "9ec4eb2c9b97fbffc7a38f21ffd326c77e0b985375d2827c735babcdf33b1367",
-    "test_source_single_pose_prefix.py": "59674d803fdf741faec74dbe2c192fbcbf99ce27cb39d51dffa62ff902430bd3"
+    "test_source_single_pose_prefix.py": "c535e553e94a2ddf45c53db82cd4e80eceffbdcb8932019f64af4dedabd6d4fc"
   },
-  "CPU_tests_passed": 19,
+  "CPU_tests_passed": 20,
   "native_process_network_MuJoCo_model_imports_denied": true,
   "scope": {
     "Teacher_source": "ORIGINAL_PI0291_FIXED_BASE_ARX5_IK_PD_MUJOCO",
@@ -41,7 +41,8 @@
     "nonce_replay",
     "nonfinite_observed_state",
     "authority_guard_stop",
-    "changed_common_mapping_parameters"
+    "changed_common_mapping_parameters",
+    "actual_original_full_H40_safety_gate_unexecuted_tail_reject"
   ],
   "remaining": [
     "Wire same primitives to original episode.run outer tick loop without nested200 shadow per reference or double charging",
@@ -58,5 +59,6 @@
   "native_GPU_PBS_models_physics": 0,
   "scientific_qualification_claimed": false,
   "related_existing_progress_contracts_passed": 56,
-  "combined_CPU_tests_passed": 75
+  "combined_CPU_tests_passed": 76,
+  "original_full_H40_safety_gate_actual_CPU_path_exercised": true
 }
