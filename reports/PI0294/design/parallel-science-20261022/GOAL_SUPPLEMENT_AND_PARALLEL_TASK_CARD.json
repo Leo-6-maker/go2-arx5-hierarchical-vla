@@ -173,7 +173,7 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792680923.6943085,
+  "updated_epoch": 1792682179.91046,
   "latest_actual_receipt": {
     "path": "reports/PI0294/design/parallel-science-20261022/A2_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261022.json",
     "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
@@ -184,13 +184,15 @@
     "retain_all_checkpoints": true,
     "do_not_repeat_A1_settlement": true,
     "next_actions": [
-      "Implement and CPU-test phase-aware cold owner timeout/readback fix without changing old owner or300s watchdog.",
+      "Integrate tested phase-aware components into a separate cold owner and fault-test the complete call path; no restart or modification of the failed owner.",
       "Validate exact retained-output and full remaining-work proposal, then seek only necessary recovery/grant changes.",
       "Do not submit B1 until actual recovered A4096 qualified and closed; keep frozen science gates."
     ],
     "recovery_scope_draft": "reports/PI0294/design/parallel-science-20261022/A2_FAILED2819_RECOVERY_SCOPE_DRAFT_20261022.json",
     "forensics": "reports/PI0294/design/parallel-science-20261022/A2_OWNER_TIMEOUT_FORENSICS_20261022.json",
-    "draft_not_approved": true
+    "draft_not_approved": true,
+    "cold_transport_components": "reports/PI0294/design/parallel-science-20261022/COLD_OWNER_TRANSPORT_FIX_CPU_ACTUAL_20261022.json",
+    "cold_transport_status": "CPU_COMPONENTS_TESTED_NOT_OWNER_INTEGRATED_NOT_DEPLOYED"
   },
   "storage_only_authority": {
     "release": "1abb20973d84836b29baebf1d73466377c98759c",

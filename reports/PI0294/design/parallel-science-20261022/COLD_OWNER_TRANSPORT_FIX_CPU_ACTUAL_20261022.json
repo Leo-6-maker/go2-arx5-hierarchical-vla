@@ -1,0 +1,53 @@
+{
+  "schema": "VAP1_COLD_OWNER_TRANSPORT_FIX_CPU_RECEIPT_V1",
+  "created_epoch": 1792682179.91046,
+  "status": "CPU_COMPONENTS_TESTED_NOT_OWNER_INTEGRATED_NOT_DEPLOYED",
+  "problem": "Legacy owner treated whole-loop timeouts including heartbeat writes as read-only retryable failures; timed-out transport left no phase receipt.",
+  "changes": [
+    "Durable per-operation intent/error/confirmation records and one persistent unresolved-write latch bound to run/job/source/request.",
+    "Only explicit transport read failures become ReadOnlyFailure; native guard/schema failures propagate.",
+    "Uncertain writes raise a separate UnknownMutation and cannot enter the old read retry handler.",
+    "Heartbeat reply loss may be resolved only by exact intent-token readback with original lease/STOP/effects/view guards; mismatch, missing receipt, timeout and interruption retain the latch.",
+    "Native heartbeat publication has a permanent per-intent marker, rejects duplicate tokens even after a newer heartbeat, and rejects late RPC starts; readback never renews heartbeat.",
+    "Canonical SSH argv is injected; subprocess deadline enforced at40s reads/30s heartbeat, no subprocess retry.",
+    "Original300s training watchdog and120s campaign view remain unchanged."
+  ],
+  "files": {
+    "owner_transport.py": "536bb0ebd9ad0d0214930607de3efa13446933d047ebb971fd8770e859870d70",
+    "owner_heartbeat_publish.py": "89d106ab9f64f7c0070d6cf08ae10b0f4e7afa821899962576e242152003ab17",
+    "owner_rpc.py": "fdabdce19c21ebc4c7b074215c603baac83a1e04f7802fcb2c7e47e24004638e",
+    "test_owner_transport.py": "c5d8f67daafda4b814f438e2c3f1d29fe81365f6b014efc96a2edf79447769da"
+  },
+  "verification": {
+    "new_test_cases": 26,
+    "existing_watchdog_tests": 16,
+    "existing_control_heartbeat_tests": 5,
+    "total_passed": 47,
+    "guard_installed_before_test_imports": true,
+    "network_and_subprocess_events": "DENIED",
+    "actual_native_IO_attempts": 0,
+    "passed_test_wall_s": 0.47,
+    "passed_test_CPU_s": 0.23,
+    "prior_targeted_test_runner_import_failure": "Missing src on test runner path; corrected runner, product code unchanged.",
+    "prior_failed_runner_CPU_s": 0.22,
+    "CI": "PENDING_EXACT_PUBLICATION_HEAD"
+  },
+  "unchanged": {
+    "failed_job": "1475719.stdct-mgmt-02",
+    "immutable_training_source": "3a1420e76c492196fa83905f4bde92924cc12c28",
+    "old_owner_restart": false,
+    "native_job_submissions": 0,
+    "native_heartbeats_written": 0,
+    "ledger_or_authority_changes": false,
+    "checkpoint_deletions": 0
+  },
+  "remaining_before_use": [
+    "Bind these components to a separately registered cold owner; replace broad whole-loop timeout handling with phase-aware exceptions.",
+    "Preserve approved canonical host binding and native campaign-view construction; do not substitute legacy unbounded RPCs.",
+    "Run CPU integration fault tests of the complete owner call path and isolation guards before any native deployment.",
+    "Exact-source CI/readback and explicit recovery grant/lineage plus fresh complete native admission remain required."
+  ],
+  "recovery_budget_draft": "A2_FAILED2819_RECOVERY_SCOPE_DRAFT_20261022.json",
+  "grant_approved": false,
+  "goal_complete": false
+}
