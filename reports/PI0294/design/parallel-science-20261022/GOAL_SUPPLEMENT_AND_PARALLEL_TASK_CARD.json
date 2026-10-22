@@ -1,13 +1,13 @@
 {
   "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
   "created_epoch": 1792663428.495236,
-  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
-  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
+  "user_direction": "\u5e76\u884c\u51c6\u5907\u540e\u7eed\u7684\u6570\u636e\u4ee5\u53ca\u8bad\u7ec3\uff0c\u79d1\u5b66\u4e3b\u7ebf\uff0c\u66f4\u65b0goal",
+  "objective": "\u7ee7\u7eed\u65e2\u6709A/B\u5206\u6bb5\u8bad\u7ec3\u4e0e\u79d1\u5b66\u8bc4\u4ef7\uff0c\u540c\u65f6\u5e76\u884c\u4ea4\u4ed8\u540e\u7eed\u6570\u636e\u3001\u8bad\u7ec3\u548c\u8bc4\u4ef7\u51c6\u5907\uff1b\u4f4e\u9891\u89c2\u5bdfGPU\uff0c\u4ee5\u771f\u5b9e\u7aef\u70b9\u53ca\u914d\u5bf9\u95ed\u73af\u8bc1\u636e\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\u3002",
   "goal_panel": {
-    "status": "BLOCKED_LAST_TOOL_OBSERVATION",
+    "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
     "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET",
-    "actual_work": "FAILED_PREMODEL_ONCE_SETTLED_DUAL_CLOSED_PREPARING_NARROW_PBS_STORAGE_RECOVERY",
+    "actual_work": "NEW_APPROVED_A2048_TO4096_NATIVE_R_ONE_HEALTHY_OWNER",
     "resume_API_available": false,
     "no_goal_recreated_or_usage_reset": true
   },
@@ -24,44 +24,50 @@
     "new_concurrent_GPU_or_training_authorized_by_this_card": false
   },
   "current_native_snapshot": {
-    "job_id": "1477127.stdct-mgmt-02",
-    "native_state": "F",
-    "Exit_status": 1,
-    "observed_epoch": 1792694434.2668056,
-    "source_sha": "df6427f791fdbe8f175906f240eb3413bf096cbf",
-    "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
-    "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
+    "job_id": "1477527.stdct-mgmt-02",
+    "request_id": "56d0211f-751f-44b9-945a-27367cf6c7ab",
+    "request_sha256": "c7d42e846b002dcc8b8efa769e1ea3c09f3587fe3a04ad886621b5c676dcceac",
+    "submission_nonce": "87c7d492-5339-4f4a-8487-3979e930ea4d",
     "lineage": "A_CONTROL_HEARTBEAT_RECOVERY2",
     "start_step": 2048,
     "target_step": 4096,
-    "last_recoverable_complete_step": 2048,
-    "new_updates": 0,
-    "model_loads": 0,
-    "queries": 0,
-    "owner_service": "vap1-a40-heartbeat-recovery2-watch-resume-02",
-    "owner_pid": 0,
-    "owner_status": "FAILED_PRESERVED_NOT_RESTARTABLE",
-    "GPU_lease": "CLOSED",
-    "CPU_control_lease": "CLOSED",
+    "native_state": "R",
+    "native_observed_epoch": 1792696865.2754936,
+    "new_submission_count": 1,
+    "native_receipts": [
+      "PBS_READY.json",
+      "ALLOCATION_ADMISSION.json",
+      "START_NEURAL.json",
+      "A40_NATIVE_EFFECT_LEDGER.json"
+    ],
+    "model_start_release": true,
+    "first_update_release": false,
+    "new_updates_at_observation": "NOT_YET_INDEPENDENTLY_AUDITED",
+    "owner_service": "vap1-a40-zero-update-resume-owner-01",
+    "owner_pid": 431568,
+    "owner_status": "ACTIVE",
+    "GPU_lease": "ACTIVE",
+    "CPU_control_lease": "ACTIVE",
     "used": {
-      "H200_s": 49117.0,
-      "PBS_submissions": 18,
+      "H200_s": 49117,
+      "PBS_submissions": 19,
       "optimizer_updates": 3843,
       "neural_queries": 1134
     },
     "reserved": {
-      "H200_s": 0,
-      "neural_queries": 0,
-      "optimizer_updates": 0
+      "H200_s": 22560,
+      "optimizer_updates": 2048,
+      "neural_queries": 29
     },
-    "CPU_reserved_s": 0,
-    "unknown_effects": [],
+    "CPU_reserved_s": 54000,
+    "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "last_recoverable_complete_step": 2048,
     "training_completion_claimed": false
   },
   "workstreams": [
     {
       "id": "TRAIN",
-      "status": "A_RECOVERY2_FAILED_ZERO_UPDATES_WAIT_NARROW_SCOPE_AND_FRESH_COLD_ADMISSION",
+      "status": "A_ZERO_UPDATE_RECOVERY_SUCCESSOR_NATIVE_R",
       "order": [
         "A32_TO2048",
         "A2048_TO4096",
@@ -542,5 +548,21 @@
       "reports/PI0294/design/WDR1_EXISTING_INTERFACE_EVIDENCE_AND_GAP_20261023.json",
       "reports/PI0294/design/WDR1_TEACHER_EXECUTOR_PROVENANCE_20261023.json"
     ]
+  },
+  "current_zero_update_resume_actual": {
+    "report": "ZERO_UPDATE_RESUME_NATIVE_ADOPTION_ACTUAL_20261023.json",
+    "authority": {
+      "release": "871094ee31b18c47183c7403459ebd5fdad88b1f",
+      "grant_sha256": "f32922b15138816517de3e9bd63d4c413698f74b49c20908bb1d4dfea9a279a8",
+      "dual_native_adoption": true,
+      "DEC1_updates": 9987,
+      "DEC1_PBS": 13,
+      "DEC1_GPU_site_storage_GiB": 483,
+      "global_storage_GiB": 550,
+      "all_other_caps_clocks_freezes_unchanged": true
+    },
+    "terminal_CPU_tests": 9,
+    "existing_WBC_interfaces_reused": true,
+    "target_task_qualification_does_not_block_source_training": true
   }
 }

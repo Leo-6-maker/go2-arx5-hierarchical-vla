@@ -1,0 +1,119 @@
+{
+  "schema": "VAP1_ZERO_UPDATE_RESUME_NATIVE_ADOPTION_AND_DISPATCH_V1",
+  "status": "ACTUAL_NEW_A2048_TO4096_REQUEST_BOUND_NATIVE_R",
+  "observed_epoch": 1792696868.3425772,
+  "authority": {
+    "release": "871094ee31b18c47183c7403459ebd5fdad88b1f",
+    "grant_sha256": "f32922b15138816517de3e9bd63d4c413698f74b49c20908bb1d4dfea9a279a8",
+    "dual_native_adoption": true,
+    "DEC1_updates": 9987,
+    "DEC1_PBS": 13,
+    "DEC1_GPU_site_storage_GiB": 483,
+    "global_storage_GiB": 550,
+    "all_other_caps_clocks_freezes_unchanged": true
+  },
+  "source": {
+    "commit": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "CI_run": 39837369784,
+    "CI_job": 120029092603,
+    "CI_status": "completed",
+    "CI_conclusion": "success",
+    "all_12_steps_success": true,
+    "changed_files_full_readback": 14,
+    "cold_capsule_source_members": 856,
+    "sealed_GPU_members": 891,
+    "contract_tests": 260,
+    "contract_subtests": 421,
+    "private_owner_CPU_tests": 5,
+    "terminal_CPU_tests": 9
+  },
+  "job": {
+    "job_id": "1477527.stdct-mgmt-02",
+    "request_id": "56d0211f-751f-44b9-945a-27367cf6c7ab",
+    "request_sha256": "c7d42e846b002dcc8b8efa769e1ea3c09f3587fe3a04ad886621b5c676dcceac",
+    "submission_nonce": "87c7d492-5339-4f4a-8487-3979e930ea4d",
+    "lineage": "A_CONTROL_HEARTBEAT_RECOVERY2",
+    "start_step": 2048,
+    "target_step": 4096,
+    "native_state": "R",
+    "native_observed_epoch": 1792696865.2754936,
+    "new_submission_count": 1,
+    "native_receipts": [
+      "PBS_READY.json",
+      "ALLOCATION_ADMISSION.json",
+      "START_NEURAL.json",
+      "A40_NATIVE_EFFECT_LEDGER.json"
+    ],
+    "model_start_release": true,
+    "first_update_release": false,
+    "new_updates_at_observation": "NOT_YET_INDEPENDENTLY_AUDITED"
+  },
+  "owner": {
+    "service": "vap1-a40-zero-update-resume-owner-01",
+    "pid": 431568,
+    "active": true,
+    "Restart": "no",
+    "both_site_mux_only": true,
+    "original_RPC_and_native_watchdog_limits_unchanged": true,
+    "heartbeat_journal_state": "CONFIRMED",
+    "latest_heartbeat_epoch": 1792696865.2790146,
+    "controller_sha256": "01ed3ca47c4315be70bf22a54e2dd0134321b1a26acc9301e8b4330725c0cec9",
+    "terminal_script_sha256": "86268158898cea930cc0f215ce569eedad0bb60d8a0eba88337226b33cf42f57",
+    "terminal_verifier_sha256": "47105ef261a172c1a87b3836bfa0ca793c052cda8da29b211df177507463eb70"
+  },
+  "registration": {
+    "CPU_manifest_sha256": "d88aba84606725c14f193a1c2a069ace830eec74f17fd7c2c532c60051542bcb",
+    "GPU_manifest_sha256": "aea2b92a6e02fb102027a74c8ee024f742b2b92262105a678aec34d22bbc7ba9",
+    "GPU_lease_sha256": "1f83927000e156d631461148b521e860a8ccde49a574db4bbdca14d8c0b70629",
+    "both_registered_ACTIVE": true,
+    "partial_write": {
+      "status": "EXACT_ALL_PARTIAL_WRITES_READ_BACK_THEN_MISSING_TAIL_COMPLETED",
+      "reason": "Canonical new authority mirror absent on GPU site before final manifest",
+      "source_and_sealed_members_verified": true,
+      "generated_import_bytecode_verified_against_sealed_sources": true,
+      "prior_unknown_event_retained": true,
+      "old_full_registration_replayed": false,
+      "separate_tail_intent": true,
+      "new_GPU_PBS_or_models_during_reconciliation": 0
+    }
+  },
+  "budget": {
+    "cumulative_updates": 3843,
+    "global_GPU_seconds": 49117,
+    "global_PBS": 19,
+    "DEC1_PBS": 8,
+    "reserved_GPU_seconds": 22560,
+    "reserved_updates": 2048,
+    "reserved_queries": 29,
+    "reserved_CPU_seconds": 54000,
+    "reserved_output_bytes": 70000000000,
+    "complete_remaining_A_B_matrix_final_protection_forecast_pass": true,
+    "final_GPU_hours_preserved": 20,
+    "final_storage_GiB_preserved": 40
+  },
+  "preservation": {
+    "old_job": "1477127.stdct-mgmt-02",
+    "old_terminal": "F_EXIT1_ZERO_UPDATE_PREMODEL_HEARTBEAT_LOST",
+    "old_GPU_seconds": 754,
+    "old_CPU_seconds": 259,
+    "old_output_upper_bytes": 70000000000,
+    "old_GPU_and_CPU_leases": "CLOSED",
+    "old_A1024_and_A2819_lineages_unchanged": true,
+    "all_checkpoints_retained": true,
+    "original_T0": 1792348196,
+    "hard_close": 1792952996
+  },
+  "next_actions": [
+    "Reuse healthy owner; no restart/hot-edit/duplicate/probe",
+    "Actual A4096 F/Exit0 and naturally successful owner exit before independent complete-state audit, once settlement and both closures/readbacks",
+    "Only then fresh independent original CORR B0->2048->4096",
+    "Prepare source single-pose prefix8 separately from existing target WBC task qualification"
+  ],
+  "scientific_claims": {
+    "A4096_complete": false,
+    "B_started": false,
+    "DEC1_matrix_executed": false,
+    "source_prefix_native_qualified": false,
+    "target_WBC_T1_T2_qualified": false
+  }
+}
