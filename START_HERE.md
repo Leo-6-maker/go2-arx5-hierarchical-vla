@@ -1,4 +1,21 @@
-# Current Entry: VAP1 A40 Source Training
+# Current Entry: VAP1 A40 Save Failure Closed
+
+**A_CONTROL reached1024 committed updates, then failed before checkpoint write.**
+[Actual failure, independent absence-of-state audit, typed settlement and closed lease](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_A40_1024_SAVE_FAILURE_AND_SETTLEMENT_ACTUAL.json).
+Job1474116.stdct-mgmt-02 isF/Exit1; owner03 is inactive. The new storage guard
+incorrectly rejected the approved Cosmos input alias. Native and fallback saves
+both failed; no complete checkpoint exists and no1024-state resume is possible.
+Actual1024updates/17queries/5861GPU seconds/5969CPU seconds are now settled;
+all its reservations are released, leaseCLOSED, unknown effects empty. Global
+updates1024/PBS14/GPU26675s; DEC1 updates1024/newPBS3/GPU6181s. No rollback,
+deletion or resubmission occurred. The cold engineering fix93899748 passed153
+local DEC1 tests and1155 PI0294 tests; exact CI39704727441/job119581956584
+is completed/success (all12steps), with four changed files byte/blob read back.
+A new matched4096+4096 pair would require9216 cumulative DEC1 updates, exceeding
+the unchanged8192subcap. Replacement lineage/subcap authorization is requested,
+not assumed. Fresh complete resource forecast and site gates remain required.
+Originalclock/final20h and WBC/S1/R0/recipe remain frozen; selected/deploymentNONE.
+The running-training snapshot below is historical, not current job state.
 
 **A_CONTROL is actually training on its own A40 allocation; first32 passed.**
 [Actual data closure, allocation, model qualification and optimizer evidence](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_A40_FIRST32_AND_REAL_TRAINING_ACTUAL.json).
