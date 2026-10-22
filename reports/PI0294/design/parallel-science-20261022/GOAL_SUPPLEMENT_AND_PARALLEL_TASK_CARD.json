@@ -26,7 +26,7 @@
   "current_native_snapshot": {
     "job_id": "1477127.stdct-mgmt-02",
     "native_state": "Q",
-    "observed_epoch": 1792690884.2421815,
+    "observed_epoch": 1792692081.7272065,
     "source_sha": "df6427f791fdbe8f175906f240eb3413bf096cbf",
     "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
     "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
@@ -35,8 +35,8 @@
     "target_step": 4096,
     "last_recoverable_complete_step": 2048,
     "training_started": false,
-    "owner_service": "vap1-a40-heartbeat-recovery2-watch-resume-01",
-    "owner_pid": 369896,
+    "owner_service": "vap1-a40-heartbeat-recovery2-watch-resume-02",
+    "owner_pid": 382102,
     "GPU_lease": "ACTIVE",
     "CPU_control_lease": "ACTIVE",
     "used": {
@@ -124,19 +124,26 @@
     "terminal_adapter": {
       "status": "PREPARED_LOCAL_ONLY_CPU_VERIFIED_NOT_NATIVE_TERMINAL",
       "report": "HEARTBEAT_RECOVERY2_TERMINAL_PREPARATION_CPU_20261023.json",
-      "wrapper_sha256": "7264082932f0082dd11408c3631c49661d75087e7ad26a6e02fa7f50e15e1ffe",
+      "wrapper_sha256": "522207831ee741aa2bdf83801fce11dd23f5aef1dbbee4afbf00304e8302d3f2",
       "test_sha256": "9889404f0a97061d2dded70e19ed475a7d28fc2ecb57b006d4e41ad8166b4e7c",
       "tests_passed": 9,
       "actual_native_audit": false,
       "expected_total_charged_updates": 5891,
-      "service": "vap1-a40-heartbeat-recovery2-watch-resume-01"
+      "service": "vap1-a40-heartbeat-recovery2-watch-resume-02"
     },
     "B1_dispatch_interface": {
       "report": "B1_CURRENT_SCOPE_DISPATCH_AND_B2_STATIC_AUDIT_CPU_20261023.json",
       "status": "PURE_INTERFACE_COMPILED_CPU_VERIFIED_NOT_NATIVE_CONNECTED",
       "CPU_tests_passed": 4,
-      "interface_sha256": "e723b96022a0dd9a72c4e79fd576ed644c76f0fb529967cddf2aabe319558b88",
+      "interface_sha256": "c94a5fe2d62c99a99f17f1a66ca4d154b2b7d7080c40bbf8d9c998b6e8671e93",
       "actual_native_connected": false
+    },
+    "B1_cold_owner": {
+      "report": "B1_ISOLATED_COLD_OWNER_CPU_PREPARATION_20261023.json",
+      "status": "PREPARED_COLD_OWNER_ENTRYPOINTS_CPU_VERIFIED_NOT_NATIVE_DEPLOYED",
+      "owner_sha256": "9a61accb1dd055272c5403a34c329630d8112099ac95290b2b46a1a60f1c5e75",
+      "CPU_tests_passed": 6,
+      "actual_native_deployed": false
     }
   },
   "preserved": {
@@ -156,9 +163,9 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792691428.2533271,
+  "updated_epoch": 1792692174.6937087,
   "latest_actual_receipt": {
-    "path": "reports/PI0294/design/parallel-science-20261022/RECOVERY2_WATCH_READONLY_STOP_RECONNECT_ACTUAL_20261023.json",
+    "path": "reports/PI0294/design/parallel-science-20261022/RECOVERY2_NATIVE_READ_STOP_DIAGNOSTIC_RESUME2_ACTUAL_20261023.json",
     "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
   },
   "current_resource_work": {
@@ -436,5 +443,11 @@
     "old_socket_reused": true,
     "watch_restarted": false,
     "per_call_limits_unchanged": true
+  },
+  "watch_native_read_stop_resume2": {
+    "report": "RECOVERY2_NATIVE_READ_STOP_DIAGNOSTIC_RESUME2_ACTUAL_20261023.json",
+    "status": "ACTUAL_SAME_JOB_WATCH_RESUMED_DIAGNOSTIC_STDERR_PRESERVED",
+    "stderr_preserved": true,
+    "root_cause_previous_native_error": "UNKNOWN"
   }
 }

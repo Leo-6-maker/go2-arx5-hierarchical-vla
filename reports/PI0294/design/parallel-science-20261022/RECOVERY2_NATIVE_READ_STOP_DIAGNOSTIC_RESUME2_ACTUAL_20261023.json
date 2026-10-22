@@ -1,0 +1,71 @@
+{
+  "schema": "VAP1_EXISTING_RECOVERY2_NATIVE_READ_STOP_RESUME2_ACTUAL_V1",
+  "observed_epoch": 1792692174.687191,
+  "status": "ACTUAL_SAME_JOB_WATCH_RESUMED_DIAGNOSTIC_STDERR_PRESERVED",
+  "job_id": "1477127.stdct-mgmt-02",
+  "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+  "runtime_source": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+  "previous_unit": "vap1-a40-heartbeat-recovery2-watch-resume-01",
+  "previous_PID": 0,
+  "previous_ExecMainStatus": 1,
+  "previous_stop": {
+    "epoch": 1792691676.5723531,
+    "type": "RuntimeError",
+    "message": "NATIVE_CONTROL_PROGRAM_FAILED:1",
+    "automatic_mutation_retry": false,
+    "new_PBS": 0
+  },
+  "previous_error_classification": "READ_ONLY_VANDA_NATIVE_PROGRAM_RETURNCODE1_NOT_UNKNOWN_MUTATION",
+  "previous_error_root_cause": "UNKNOWN_ORIGINAL_ADAPTER_DID_NOT_RETAIN_STDERR",
+  "canonical_mux": "MASTER374134_CONFIRMED_LIVE_WHEN_ERROR_INVESTIGATED",
+  "independent_current_read": {
+    "status": "PASS_EXACT_CONFIGURED_NATIVE_READ",
+    "returncode": 0,
+    "full_queue_real": true,
+    "job_state": "Q"
+  },
+  "exclusive_preflight_status": "PASS_EXISTING_JOB_EXCLUSIVE_QUEUED_NO_EFFECTS_READ_ONLY_RECONNECT",
+  "exclusive_preflight_epoch": 1792692059.201355,
+  "both_A_leases": "ACTIVE",
+  "allocation_markers": {},
+  "effect_ledger_exists": false,
+  "whole_remaining_forecast": "PASS_ORIGINAL_GLOBAL_AND_DEC1_REMAINING_WORK",
+  "new_watch_unit": "vap1-a40-heartbeat-recovery2-watch-resume-02",
+  "new_watch_PID": 382102,
+  "new_watch_active": true,
+  "watch_wrapper_sha256": "58560e598750ff1672caeb2e3a196229b84cb25764aed8741f50ff7e38e520f2",
+  "watch_test_sha256": "57c361ebb68a192722ba8a2c00a0b292d461d10436a68a1893de2b4ef82ba56c",
+  "watch_CPU_tests_passed": 4,
+  "changed_behavior": "Private stderr/returncode/program-hash receipts retained for diagnosis. Success/SSH255/native-error/timeout classification, per-call limits and retry policy unchanged.",
+  "source_capsule_and_original_controllers_unchanged": true,
+  "current_native_state": "Q",
+  "current_native_observed_epoch": 1792692081.7272065,
+  "current_RPC": {
+    "status": "CONFIRMED",
+    "phase": "HEARTBEAT",
+    "started_epoch": 1792692143.6808288
+  },
+  "used": {
+    "H200_s": 48363.0,
+    "PBS_submissions": 18,
+    "optimizer_updates": 3843,
+    "neural_queries": 1134
+  },
+  "reserved": {
+    "H200_s": 22560,
+    "neural_queries": 29,
+    "optimizer_updates": 2048
+  },
+  "CPU_reserved_s": 54000,
+  "unknown_effects": [],
+  "pending_updates": [],
+  "maximum_new_qsub": 0,
+  "new_PBS_models_updates": 0,
+  "old_costs_preserved": true,
+  "terminal_wrapper_current_unit": "vap1-a40-heartbeat-recovery2-watch-resume-02",
+  "terminal_wrapper_sha256": "522207831ee741aa2bdf83801fce11dd23f5aef1dbbee4afbf00304e8302d3f2",
+  "terminal_CPU_tests_passed": 9,
+  "no_terminal_audit_or_settlement_claimed": true,
+  "hard_close": 1792952996,
+  "goal_complete": false
+}
