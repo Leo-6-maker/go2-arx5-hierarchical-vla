@@ -1,0 +1,65 @@
+{
+  "schema": "VAP1_ORIGINAL_MATCHED_B_RECIPE_ACCOUNTING_FIX_PREPARATION_V1",
+  "status": "COLD_ENGINEERING_FIX_LOCAL_TESTED_NOT_DEPLOYED_PENDING_EXACT_CI",
+  "problem": {
+    "trigger": "B_COVERAGE source request opts into the approved shared recovery amendment",
+    "prior_behavior": "Terminal settlement compared every recovery-authorized arm against the A_CONTROL recipe digest and rejected the actual original B recipe",
+    "reproduced_on_source": "2ba5211e738c24e7848a169687af9f043ce7ecd0",
+    "prior_error": "VAP1_A40_ACCOUNTING_RECOVERY_PRESERVES_ORIGINAL_MATCHED_RECIPE",
+    "reproduction_used_synthetic_metadata_only": true,
+    "actual_ledger_mutations": 0
+  },
+  "original_frozen_identity": {
+    "A_recipe_sha256": "eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7",
+    "B_recipe_sha256": "eebe7c57a25d5a1672659457b9d9905d059123d6b5961eeaad843d6e05ff4ac9",
+    "matched_recipe_difference_keys": [
+      "arm"
+    ],
+    "sealed_recipe_plan_sha256": "af36b1467822a2172d70b2136b2120d2e41da01ba6a801b2bf7cfb8d130ea1cb",
+    "qualified_A1_metadata_sha256": "32ea85a944a8cee6908472b6d18dfd5f3ae14b952bf8cf2813e45c4f0e46b8cb"
+  },
+  "fix": {
+    "behavior": "Bind terminal recipe digest to the exact original recipe of the registered arm",
+    "A_original_digest_guard_unchanged": true,
+    "B_accepts_only_original_B_digest": true,
+    "cross_arm_and_arbitrary_recipes_rejected": true,
+    "old_lost_A1024_and_all_costs_progress_preserved": true,
+    "legacy_nonrecovery_scope_unchanged": true,
+    "training_loss_model_data_sampler_or_physics_changed": false
+  },
+  "validation": {
+    "targeted_unit_tests_passed": 33,
+    "local_PI0294_tests_passed": 1187,
+    "local_PI0294_subtests_passed": 1123,
+    "local_PI0294_wall_s": 53.59,
+    "tests_CPU_only": true,
+    "real_neural_or_PBS_execution": false,
+    "exact_source_CI": "PENDING_PUBLICATION_AND_FRESH_READBACK"
+  },
+  "operational_scope": {
+    "active_A1_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+    "active_owner_and_runtime_unchanged": true,
+    "hot_patch": false,
+    "deploy_to_active_run": false,
+    "source_pair_science_complete": false,
+    "old_B_packet_source_requires_cold_refresh_before_admission": true,
+    "new_GPU": 0,
+    "new_PBS": 0,
+    "new_models": 0,
+    "new_queries": 0,
+    "new_updates": 0,
+    "new_physics": 0,
+    "original_clock_and_resource_caps_unchanged": true,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "transient_observation": {
+    "original_owner_recovered_native_PBS_reads_without_restart": true,
+    "last_verified_native_epoch": 1792661051.752066,
+    "job_id": "1474599.stdct-mgmt-02",
+    "state": "R",
+    "step": 1212,
+    "observation_timeout_was_not_terminal": true,
+    "latest_complete_checkpoint": 1024
+  }
+}

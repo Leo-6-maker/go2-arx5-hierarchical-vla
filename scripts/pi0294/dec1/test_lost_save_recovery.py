@@ -61,6 +61,34 @@ def inputs_for(f,h,d):
 
 
 class RecoveryTests(unittest.TestCase):
+    def test_original_B_recipe_settles_to_B_without_accepting_A_or_changing_old_loss(self):
+        with recovered() as (f,h,d,c):
+            h,d=rec.adopt(h,d,grant_bytes=CARD.read_bytes(),closure_bytes=c,now_epoch=f['now'])
+            values=inputs_for(f,h,d);r=json.loads(values['request_bytes'])
+            r['training_block']['arm']='B_COVERAGE';r['training_lineage_key']='B_COVERAGE'
+            values['request_bytes']=raw(r);f['request_bytes']=values['request_bytes']
+            with patch.object(budget,'VAP1_ADOPTION',hashlib.sha256(values['amendment_bytes']).hexdigest()):
+                proof=future.recompute(**values)
+            with patch.object(dual,'GRANT_SHA',hashlib.sha256(f['grant_bytes']).hexdigest()):
+                v,dd=accounting.reserve(h,d,request_bytes=f['request_bytes'],budget_proof=proof,
+                    grant_bytes=f['grant_bytes'],campaign_view=f['campaign_view'],now_epoch=f['now'])
+            v,dd=accounting.bind_job(v,dd,request_id=r['request_id'],job_id=f['job_id'],now_epoch=f['now'])
+            native,effects=terminal(f);effects.update(arm='B_COVERAGE',recipe_sha256=rec.MATCHED_RECIPES['B_COVERAGE'])
+            before,dbefore=deepcopy(v),deepcopy(dd)
+            for wrong in (rec.RECIPE,'f'*64):
+                bad=deepcopy(effects);bad['recipe_sha256']=wrong
+                with self.subTest(wrong_recipe=wrong),self.assertRaisesRegex(PermissionError,'MATCHED_RECIPE'):
+                    accounting.settle(v,dd,request_id=r['request_id'],native_proof=native,effects=bad,now_epoch=f['now'])
+                self.assertEqual(v,before);self.assertEqual(dd,dbefore)
+            settled,ds=accounting.settle(v,dd,request_id=r['request_id'],native_proof=native,effects=effects,now_epoch=f['now'])
+            self.assertEqual(settled['training_runs']['A_CONTROL'],h['training_runs']['A_CONTROL'])
+            self.assertNotIn(rec.LINEAGE,settled['training_runs'])
+            self.assertEqual(settled['training_runs']['B_COVERAGE'],dict(last_native_step=32,
+                recipe_sha256=rec.MATCHED_RECIPES['B_COVERAGE']))
+            self.assertEqual(settled['optimizer_updates'],1056);self.assertEqual(ds['optimizer_updates'],1056)
+            self.assertEqual(v,before);self.assertEqual(dd,dbefore)
+            rec.validate_adopted(settled,ds)
+
     def test_exact_grant_and_old_cap_unchanged_without_opt_in(self):
         self.assertEqual(rec.grant(CARD.read_bytes())['cumulative_DEC1_optimizer_update_cap']['new'],9216)
         self.assertEqual(budget.effective_caps()['optimizer_updates'],8192)
@@ -117,6 +145,11 @@ class RecoveryTests(unittest.TestCase):
                     grant_bytes=f['grant_bytes'],campaign_view=f['campaign_view'],now_epoch=f['now'])
             r=json.loads(f['request_bytes']);v,dd=accounting.bind_job(v,dd,request_id=r['request_id'],job_id=f['job_id'],now_epoch=f['now'])
             native,effects=terminal(f);effects['recipe_sha256']=rec.RECIPE
+            before,dbefore=deepcopy(v),deepcopy(dd)
+            bad=deepcopy(effects);bad['recipe_sha256']=rec.MATCHED_RECIPES['B_COVERAGE']
+            with self.assertRaisesRegex(PermissionError,'MATCHED_RECIPE'):
+                accounting.settle(v,dd,request_id=r['request_id'],native_proof=native,effects=bad,now_epoch=f['now'])
+            self.assertEqual(v,before);self.assertEqual(dd,dbefore)
             v,dd=accounting.settle(v,dd,request_id=r['request_id'],native_proof=native,effects=effects,now_epoch=f['now'])
             self.assertEqual(v['optimizer_updates'],1056);self.assertEqual(dd['optimizer_updates'],1056)
             self.assertEqual(v['training_runs']['A_CONTROL']['last_native_step'],1024)

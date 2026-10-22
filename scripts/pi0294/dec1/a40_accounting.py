@@ -201,8 +201,8 @@ def settle(value, DEC1_value, *, request_id, native_proof, effects, now_epoch):
         recipe=effects.get('recipe_sha256','')
         if re.fullmatch('[0-9a-f]{64}',recipe) is None:fail('ACTUAL_RECIPE_HASH_FOR_COMMITTED_RUN')
         if row.get('recovery_authorization_release') is not None:
-            from .lost_save_recovery import RECIPE
-            if recipe!=RECIPE:fail('RECOVERY_PRESERVES_ORIGINAL_MATCHED_RECIPE')
+            from .lost_save_recovery import MATCHED_RECIPES
+            if recipe!=MATCHED_RECIPES[row['arm']]:fail('RECOVERY_PRESERVES_ORIGINAL_MATCHED_RECIPE')
         runs=v.setdefault('training_runs',{});run_key=lineage(row);prior=runs.get(run_key,{})
         if (prior.get('last_native_step',0)!=row['start_native_step']
                 or prior and prior.get('recipe_sha256')!=recipe):

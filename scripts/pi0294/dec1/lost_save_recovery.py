@@ -11,6 +11,10 @@ LINEAGE='A_CONTROL_SAVE_RECOVERY1'
 FAILED_REQUEST='e24d2ce8-b243-4daf-b9f3-f68c9e1ce19f'
 CLOSURE_SHA='2a8cb4b37194557810ec239b5944d343a54a20313ea825d1fc5ecd5783bff2e7'
 RECIPE='eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7'
+# The original matched recipes include the arm in their canonical digest.
+# B stays independent of the replacement A lineage and keeps its own recipe.
+MATCHED_RECIPES={'A_CONTROL':RECIPE,
+    'B_COVERAGE':'eebe7c57a25d5a1672659457b9d9905d059123d6b5961eeaad843d6e05ff4ac9'}
 FIELD='source_lost_save_recovery'
 
 
