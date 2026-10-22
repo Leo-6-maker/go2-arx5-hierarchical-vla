@@ -1,0 +1,43 @@
+{
+  "schema": "VAP1_HEARTBEAT_RECOVERY2_TERMINAL_PREPARATION_V1",
+  "observed_epoch": 1792689797.5976303,
+  "status": "PREPARED_LOCAL_ONLY_CPU_VERIFIED_NOT_NATIVE_TERMINAL",
+  "runtime_source": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+  "bound_job": "1477127.stdct-mgmt-02",
+  "wrapper_sha256": "14aa0f59d42a00095bf569367fbdc3ee98a8b10e59428f9979d3de8d9d128c89",
+  "test_sha256": "9889404f0a97061d2dded70e19ed475a7d28fc2ecb57b006d4e41ad8166b4e7c",
+  "CPU_tests_passed": 9,
+  "test_native_IO": "AUDIT_HOOK_DENIES_NETWORK_SUBPROCESS_EXEC_BEFORE_PROJECT_IMPORTS",
+  "test_scope": [
+    "Preserve original imported1024/2048 checkpoint and original12 probe identities; require new4096 origin/cursor131072 and full member hashes.",
+    "Reject nonterminal/failed/wrong native request, incomplete state, changed probe identity and unknown effects.",
+    "Replay captured actual request/prequeue ledgers in memory through reserve/bind/settle; synthetic successful terminal gives5891 paid updates, old1024/2819 unchanged, new recovery4096.",
+    "Reject duplicate settlement and erased/incorrect recovery authority; release12 unused reserved queries.",
+    "Require live watcher exited naturally before terminal transport or settlement; separate request-bound durable terminal RPC journal, no automatic write retry.",
+    "Compile original full-state evidence and both closure programs with new lineage and5891 cumulative cost."
+  ],
+  "expected_success": {
+    "start": 2048,
+    "stop": 4096,
+    "new_updates": 2048,
+    "prior_paid_updates": 3843,
+    "total_paid_updates": 5891,
+    "queries": 17,
+    "model_loads": 2
+  },
+  "old_controller_sha256": "9949a3ddb691ac1632ea9f2a71a4d487244bd1bf876594f36a2b12965ba4a90e",
+  "active_controller_sha256": "9566c0c2cd1199917eb86831d20d1efe6952394cd3fddbd11e8c640471f18a2f",
+  "active_runtime_changed": false,
+  "actual_terminal_audit": false,
+  "actual_settlement": false,
+  "actual_lease_close": false,
+  "new_native_calls": 0,
+  "new_PBS_GPU_models_queries_updates_physics": 0,
+  "all_checkpoint_files_preserved": true,
+  "CPU_usage": "WITHIN_EXISTING_LOCAL_CONTROL_PREPAY_NO_BUDGET_RESET",
+  "next_action": "Reuse current live owner; execute this endpoint-specific wrapper only after actual successful terminal then independently read back both closures. Failure/unknown outcomes require actual-effects reconciliation, not successful-terminal path.",
+  "B1": "Independent CORR0 metadata remains reusable; current-scope request and resource admission follow actual closed A4096.",
+  "scientific_closed_loop_qualified": false,
+  "original_hard_close": 1792952996,
+  "goal_complete": false
+}
