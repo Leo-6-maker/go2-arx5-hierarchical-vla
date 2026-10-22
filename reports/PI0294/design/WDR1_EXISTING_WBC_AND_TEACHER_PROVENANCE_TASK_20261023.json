@@ -1,0 +1,181 @@
+{
+  "schema": "WDR1_EXISTING_WBC_INTERFACE_AND_TEACHER_SOURCE_V1",
+  "goal_id": "WDR1_EXISTING_INTERFACE_SOURCE_TARGET_SEPARATION_V1",
+  "status": "USER_DIRECTION_DEPENDENCY_CORRECTION_PENDING_NATIVE_ADOPTION",
+  "date_SGT": "2026-10-23",
+  "review_baseline": "76a73b1956cf2e1c1e8790c003917f70aafbffa3",
+  "protocol": "docs/handover/2026-10-23/WDR1_EXISTING_WBC_INTERFACE_AND_TEACHER_SOURCE_SEPARATION_GOAL.md",
+  "existing_interface": {
+    "status": "EXISTS_HISTORICALLY_NATIVE_EXECUTED_NOT_DEC1_TASK_QUALIFIED",
+    "canonical": [
+      "src/go2arx5_vla/contracts/trajectory.py",
+      "src/go2arx5_vla/adapters/groot_to_wbc.py",
+      "src/go2arx5_vla/wbc/reference_source.py",
+      "docs/contracts/WBC_EXTERNAL_REFERENCE_V1.md"
+    ],
+    "native_evidence": [
+      "reports/STAGE20S_NATIVE_WBC_CLOSED_LOOP.md",
+      "scripts/stage21_native_receding_horizon.py"
+    ],
+    "distinctions": [
+      "OLDER_ISAACGYM_STAGE1_STAGE2_SPATIAL_WBCPREVIEW9",
+      "NEWER_MUJOCO_OCS2_REFERENCE_MANAGER_NOT_AUTOMATICALLY_IDENTICAL"
+    ],
+    "user_requires_new_WBC_interface_before_source_Teacher_or_train": false,
+    "need_reask_whole_WBC_archive_or_weights": false
+  },
+  "teacher_source": {
+    "use_WBC_delivered_assets_for_geometry": true,
+    "calls_frozen_target_WBC_controller_for_PI0290_PI0291_PV1_CR2_VAP1": false,
+    "domains": [
+      "INDEPENDENT_DYNAMIC_TOOL_MUJOCO",
+      "FIXED_BASE_ARX5_TASK_SIM"
+    ],
+    "source_identity": [
+      "docs/protocols/PI0290_INDEPENDENT_MUJOCO_TASK_TEACHER_AND_DATA_PILOT_V1.md",
+      "scripts/pi0291_arx5_data/scene.py",
+      "scripts/pi0291_arx5_data/engine.py",
+      "scripts/pi0294/pv1/capture.py",
+      "scripts/pi0294/cr2/runtime.py",
+      "scripts/pi0294/vap1/runtime.py"
+    ],
+    "actual_controller": "INDEPENDENT_FINITE_TOOL_OR_ARX5_JOINT_IK_PD",
+    "success_data_gate": "ACTUAL_TASK_SUCCESS_NATIVE_SAFETY_TRUE_COMMITTED_REFERENCES_SYNC_AND_SPLIT",
+    "WBC_hold_RMS_as_global_source_gate": false,
+    "CR2_admitted": 24,
+    "VAP1_attempts": 48,
+    "VAP1_admitted": 46,
+    "VAP1_geometry_groups": 24,
+    "VAP1_paired_groups": 22,
+    "frozen_original_R0_training_recipe_unmodified": true,
+    "hot_inject_new_R1": false
+  },
+  "WBC_target": {
+    "controller_archive_and_runtime_code_present": true,
+    "target_T1_T2_task_native_qualified": false,
+    "preserved_sources": [
+      "scripts/pi0294/task_native_worker.py",
+      "src/go2arx5_vla/target_mujoco/reference.py",
+      "scripts/stage21_native_receding_horizon.py"
+    ],
+    "desired_status": "REUSE_EXISTING_NATIVE_REFERENCE_AND_ONLY_DELTA_GAPS",
+    "exact_runtime_identity_and_frame_TCP_gripper_clock_feedback_ACK_stop_required": true,
+    "target_WBC_task_demos_for_highlevel_DEC1_train": false,
+    "native_task_safety_required": true,
+    "no_WBC_tuning": true
+  },
+  "corrected_dependencies": [
+    {
+      "task": "SOURCE_TEACHER_DATA",
+      "requires_target_WBC_native_task_success": false,
+      "requires_independent_sim_task_safety": true
+    },
+    {
+      "task": "SOURCE_R0_A_B_TRAINING",
+      "requires_target_WBC_runtime": false,
+      "requires_original_R0_data_and_normal_training_gates": true
+    },
+    {
+      "task": "SOURCE_B0_DEV",
+      "requires_target_WBC_runtime": false,
+      "requires_qualified_source_eval_and_fresh_budget": true
+    },
+    {
+      "task": "DEC1_FULL_64_PAIRED_TARGET",
+      "requires_target_WBC_actual_task_safety": true,
+      "requires_source_actual_safety": true
+    },
+    {
+      "task": "SOURCE_NATIVE_PREFIX",
+      "WBC_preview9_required": false,
+      "requires": "ORIGINAL_SINGLE_POSE_EXECUTOR_EIGHT_PREFIX_NATIVE_S1_AND_ACTUAL_TICK_PARITY"
+    },
+    {
+      "task": "TARGET_NATIVE_REFERENCE",
+      "requires": "VERSIONED_FROZEN_NATIVE_WBC_OLD_SPATIAL9_OR_NEW_OCS2_TIME_REFERENCE"
+    }
+  ],
+  "original_science": {
+    "model": "CORR_AT2048_R0",
+    "group_count": 8,
+    "tasks": 2,
+    "executors": 2,
+    "interfaces": [
+      "I_TIME",
+      "I_PROGRESS"
+    ],
+    "panel_cells": 64,
+    "target_controller_disjoint_train": true,
+    "source_and_target_use_actual_native_observation_not_spoofed_camera": true,
+    "original_raw_and_mapped_full_H40_safety_mandatory": true,
+    "source_prefix_shadow_current_status": "NOT_SUPPORTED_FAIL_CLOSED",
+    "target_task_native_qualified": false,
+    "protect_original_B0_denominator_48": true,
+    "B0_valid": 14,
+    "B0_success": 9,
+    "B0_failure": 5,
+    "DEC1_completed_cells": 0
+  },
+  "priorities": [
+    {
+      "id": "P0",
+      "action": "READ_ONLY_REUSE_EXISTING_WBC_AND_TEACHER_PROVENANCE_EVIDENCE",
+      "deliverable": "WDR1_EXISTING_INTERFACE_EVIDENCE_AND_GAP.json"
+    },
+    {
+      "id": "P1",
+      "action": "PROTECT_EXISTING_1477127_GPU_QUEUE_AND_FINISH_A4096_THEN_B",
+      "deliverable": "A_B_FULL_STATES_OR_ACTUAL_TERMINAL_BLOCKER"
+    },
+    {
+      "id": "P2",
+      "action": "USE_SOURCE_SINGLE_POSE_EXECUTOR_WITH_REAL_NATIVE_S1_PREFIX_GATE",
+      "deliverable": "DEC1_SOURCE_NATIVE_SAFETY_OR_PRECISE_UNQUALIFIED"
+    },
+    {
+      "id": "P3",
+      "action": "QUALIFY_EXISTING_FROZEN_NATIVE_WBC_FOR_T1_T2_DELTA_ONLY",
+      "deliverable": "TARGET_EXECUTOR_TASK_ABI_NATIVE_RECEIPT_OR_DELTA_BLOCKER"
+    },
+    {
+      "id": "P4",
+      "action": "EXISTING_AUTHORITY_B0_AND_FIXED_CORR_64_MATRIX",
+      "deliverable": "ACTUAL_ATTEMPT_RESULTS_OR_NOT_RUN"
+    }
+  ],
+  "campaign_snapshot": {
+    "job": "1477127.stdct-mgmt-02",
+    "last_native_state": "Q",
+    "last_native_epoch": 1792692081.7272065,
+    "source_sha": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+    "recoverable_A_step": 2048,
+    "B_updates": 0,
+    "spent_optimizer_updates": 3843,
+    "DEC1_core_cells": 0,
+    "DEC1_update_cap": 9987,
+    "DEC1_new_PBS_cap": 12,
+    "DEC1_GPU_hours_cap": 52,
+    "global_GPU_hours_cap": 96,
+    "global_PBS_cap": 24,
+    "DEC1_output_GiB_cap": 418,
+    "global_output_GiB_cap": 485,
+    "final_GPU_hours_protected": 20,
+    "hard_close_SGT": "2026-10-26T02:29:56+08:00",
+    "stale_snapshot_requires_native_refresh": true
+  },
+  "owner": "EXISTING_SINGLE_LOCAL_PC_NATIVE_MUTATION_OWNER",
+  "maximum_new_native_owners": 0,
+  "additional_GPU_PBS_physics_updates_or_clock": 0,
+  "no_model_or_WBC_hot_changes": true,
+  "owner_reply": "WDR1_ADOPTED_OR_EXACT_EXISTING_INTERFACE_DELTA_BLOCKER",
+  "publication_effects": {
+    "remote_login": 0,
+    "qsub": 0,
+    "qalter": 0,
+    "GPU_models": 0,
+    "optimizer_updates": 0,
+    "physics": 0,
+    "checkpoints_deleted": 0,
+    "WBC_modified": 0
+  }
+}
