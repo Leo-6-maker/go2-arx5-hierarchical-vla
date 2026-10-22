@@ -128,7 +128,8 @@ class A40AllocationTests(unittest.TestCase):
         f['ledger']['PBS_submissions'][-1].update(CPU_envelope_profile=a.BOUNDED_CPU_PROFILE,
             CPU_upper_s=80000,request_sha256=hashlib.sha256(f['request_bytes']).hexdigest())
         prepared(f);result=self.validate(f)
-        self.assertEqual(result['process_CPU_time_upper_s'],80000)
+        self.assertEqual(result['process_CPU_time_upper_s'],79760)
+        self.assertEqual(result['CPU_accounting_upper_s'],80000)
         self.assertEqual(result['actual_process_CPU_limit'],4)
         self.assertEqual(result['CPU_envelope_profile'],a.BOUNDED_CPU_PROFILE)
         self.assertEqual(f['budget_proof']['forecast']['original_final_protection']['H200_s'],72000)
@@ -138,8 +139,10 @@ class A40AllocationTests(unittest.TestCase):
     def test_stricter_CPU_profile_requires_exact_limit_and_eight_hour_scope(self):
         r=json.loads(fixture()['request_bytes'])
         self.assertEqual(a.cpu_envelope(r,28800),115560)
+        self.assertEqual(a.process_cpu_limit(r),115560)
         r.update(CPU_envelope_profile=a.BOUNDED_CPU_PROFILE,CPU_upper_s=80000)
         a.request_scope(r,now=NOW)
+        self.assertEqual(a.process_cpu_limit(r),79760)
         for key,value in [('CPU_upper_s',79999),('CPU_upper_s',115560),
                           ('CPU_envelope_profile','unbounded'),('walltime_s',28799)]:
             with self.subTest(key=key,value=value):

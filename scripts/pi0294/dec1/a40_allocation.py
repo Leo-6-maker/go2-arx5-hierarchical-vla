@@ -23,6 +23,7 @@ PAD = 60
 GIB = 1024**3
 CAPACITY_PROFILES = ((4,32*GIB), (36,240*GIB))
 BOUNDED_CPU_PROFILE = 'A40_EIGHT_HOUR_PROCESS_CPU_80000_V1'
+BOUNDED_CPU_ACCOUNTING_MARGIN = 240
 
 
 def fail(reason):
@@ -44,6 +45,14 @@ def cpu_envelope(value, wall):
     if profile!=BOUNDED_CPU_PROFILE or wall!=28800 or 80000>=original:
         fail('EXACT_STRICTER_EIGHT_HOUR_PROCESS_CPU_PROFILE')
     return 80000
+
+
+def process_cpu_limit(request):
+    upper=request['CPU_upper_s']
+    if request.get('CPU_envelope_profile') is None:return upper
+    if upper!=cpu_envelope(request,request['walltime_s']):fail('EXACT_ENFORCED_CPU_ACCOUNTING_UPPER')
+    # Leave room for the native wrapper/observer and terminal accounting pad.
+    return upper-BOUNDED_CPU_ACCOUNTING_MARGIN
 
 
 def memory_bytes(text):
@@ -254,5 +263,6 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
         allocation_end_epoch=allocation_end,
         native_select=limits['select'],native_allocated_ncpus=cpus,native_allocated_memory_bytes=mem,
         actual_process_CPU_limit=4,site_capacity_is_not_actual_process_CPU=True,
-        process_CPU_time_upper_s=r['CPU_upper_s'],CPU_envelope_profile=r.get('CPU_envelope_profile'),
+        process_CPU_time_upper_s=process_cpu_limit(r),CPU_accounting_upper_s=r['CPU_upper_s'],
+        CPU_envelope_profile=r.get('CPU_envelope_profile'),
         request_or_native_resources_modified=False,model_loaded=False,new_optimizer_updates=0)

@@ -30,7 +30,8 @@ class RuntimeTests(unittest.TestCase):
         for committed in (0,1024):
             with self.subTest(committed=committed),tempfile.TemporaryDirectory() as tmp:
                 root=Path(tmp);directory=root/'pbs/alloc-01';request=directory/'REQUEST.json'
-                r=dict(expected_native_start_step=0,CPU_upper_s=80000,source_sha='a'*40)
+                r=dict(expected_native_start_step=0,CPU_upper_s=80000,source_sha='a'*40,
+                    CPU_envelope_profile=runtime.native.BOUNDED_CPU_PROFILE,walltime_s=28800)
                 put(request,r)
                 ledger=SimpleNamespace(initialize=lambda:None,guard=lambda:None,
                     summary=lambda:dict(last_native_step=committed,optimizer_updates_committed=committed))
@@ -43,7 +44,7 @@ class RuntimeTests(unittest.TestCase):
                       patch.object(numerics,'prepare_environment') as torch_environment):
                     with self.assertRaisesRegex(PermissionError,'FIXTURE_STORAGE'):runtime.run(root,request)
                     prewrite.assert_called_once_with(root);torch_environment.assert_not_called()
-                    limits.assert_any_call(runtime.resource.RLIMIT_CPU,(80000,80000))
+                    limits.assert_any_call(runtime.resource.RLIMIT_CPU,(79760,79760))
                 final=json.loads((directory/'PBS_PROCESS_FINAL.json').read_bytes())
                 self.assertEqual(final['phase'],'ACTUAL_NATIVE_SOURCE_PREMODEL')
                 self.assertEqual(final['global_step'],committed)
