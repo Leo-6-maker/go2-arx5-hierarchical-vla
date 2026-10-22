@@ -1,0 +1,175 @@
+{
+  "schema": "VAP1_A1_CUDA_FULL_STATE32_RESUME_FIRST_UPDATES_ACTUAL_V1",
+  "status": "ACTUAL_NATIVE_CUDA_FULL_RESUME_AND_POST32_COMMITS",
+  "observed_epoch": 1792653605.3203921,
+  "timezone": "Asia/Singapore",
+  "campaign": "20261018T182956Z-localpc-pv1",
+  "fixed_handover_release": "cee4b1da182187a221ec0a2c9cda01ba0dc796b5",
+  "prior_takeover_receipt_release": "587a15f94dde787f423e46108a2c76ca0f6c7e58",
+  "publication_parent": "77c1dc7504c75feff32af89fafcf9eb4f311769b",
+  "active_management_HEAD": "369644855d475e91d8a95d584bd003eebcf8653a",
+  "runtime_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+  "authority_release": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+  "job": {
+    "job_id": "1474599.stdct-mgmt-02",
+    "state": "R",
+    "native_start_SGT": "2026-10-22T15:03:57+08:00",
+    "node": "GN-A40-010",
+    "physical_GPU": "NVIDIA_A40",
+    "GPU_count": 1,
+    "project": "CFP04-CF-007",
+    "request_id": "75e12289-7b99-4f46-bd69-bbe64ff9cad0",
+    "nonce": "8e718e1c-b5d4-46ba-b2f4-00dd8520d2cd",
+    "request_sha256": "b2d088dec7aa9174970b19284b3f4ee85206d3819941899dd65be295d357c651",
+    "allocation_end_epoch": 1792675137,
+    "wall_s": 22500,
+    "site_capacity": {
+      "CPU": 36,
+      "RAM_GiB": 240
+    },
+    "actual_process_threads": 4,
+    "CPU_hard_s": 53760,
+    "CPU_accounting_upper_s": 54000
+  },
+  "same_owner": {
+    "service": "vap1-a40-segment-a1-owner-01",
+    "PID": 33137,
+    "heartbeat_age_s": 11.816985130310059,
+    "original_two_release_chain": true,
+    "new_submit": false,
+    "source_hot_updated": false,
+    "STOP": false,
+    "parent_STOP": false
+  },
+  "recovery": {
+    "lineage": "A_CONTROL_SAVE_RECOVERY1",
+    "full_start_step": 32,
+    "full_start_cursor": 1024,
+    "complete_sha256": "1c50579c172367894fe83921d84e4053803dd451c1c3e693d7881f1ff673e6f8",
+    "model_optimizer_scheduler_RNG_sampler_processor_recipe_R0": "MATURE_FULL_STATE_IMPORT_AND_TRAINER_RESUME_THEN_NATIVE_SYNCHRONIZED_COMMITS",
+    "cold_import_status": "PASS_COLD_OWN_FULL_STATE32_BYTES_NOT_ALLOCATION_OR_CUDA_RESUME",
+    "cold_import_sha256": "336242dbcb9ccdc0fbc3b339911b30509741cd16f0e2bd91156405fa692c4ff3",
+    "first_new_committed_update": {
+      "step": 33,
+      "cursor": 1056,
+      "native_loss": 0.005759648513048887,
+      "learning_rate": [
+        5.156250000000001e-06,
+        5.156250000000001e-06
+      ],
+      "synchronized_s": 5.7251156428828835,
+      "epoch": 1792653368.5793285
+    },
+    "last_observed_committed_update": {
+      "step": 43,
+      "cursor": 1376,
+      "native_loss": 0.036849431693553925,
+      "learning_rate": [
+        6.718750000000001e-06,
+        6.718750000000001e-06
+      ],
+      "synchronized_s": 5.9682241403497756,
+      "epoch": 1792653604.5013828
+    },
+    "new_committed_updates_in_this_allocation": 11,
+    "contiguous_committed_rows": 11,
+    "old_32_not_replayed": true,
+    "optimizer_not_reinitialized": true,
+    "latest_verified_complete_checkpoint_step": 32,
+    "live_committed_step_is_not_a_new_complete_checkpoint": true,
+    "checkpoint1024_exists": false,
+    "checkpoint2048_exists": false,
+    "old_irrecoverable_lineage_updates": 1024,
+    "settled_cumulative_cost_updates": 1056,
+    "cost_total_not_model_step": true
+  },
+  "qualification": {
+    "compatibility_saved_TRAIN_queries": 17,
+    "model_loads": 2,
+    "CUDA_exact_gradient_qualifications": 3,
+    "exact_gradient_norms_RNG_and_tensor_versions_unchanged": true,
+    "qualification_added_optimizer_updates": 0,
+    "first_update_admission": "PASS_NATIVE_A40_FIRST_UPDATE_FULL_BLOCK_RECOMPUTATION",
+    "first_update_admission_sha256": "0946dd1e6ab0071c93d14aa40619d34005910812422104f8f2951332b4ec1712",
+    "original_recipe_sha256": "eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7",
+    "R0_statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "performance_operator_summary": {
+      "status": "ACTUAL_OPERATOR_TIMINGS_NOT_END_TO_END_UTILIZATION_PERCENT",
+      "total_operator_keys": 453,
+      "CUDA_event_data_present": true,
+      "missing_device_events_are_not_zero_utilization": true,
+      "summed_nested_or_overlapping_times_are_not_wall_percentages": true
+    },
+    "no_new_physics_or_task_rollouts": true
+  },
+  "native_transaction": {
+    "unknown_effects": [],
+    "active_pending_updates": [
+      {
+        "arm": "A_CONTROL",
+        "run_key": "A_CONTROL",
+        "local_step_before": 43,
+        "request_id": "75e12289-7b99-4f46-bd69-bbe64ff9cad0"
+      }
+    ],
+    "pending_belongs_to_live_original_actor": true,
+    "next_update_not_yet_counted_as_committed": true,
+    "active_intent_not_a_reason_to_restart_or_settle": true
+  },
+  "native_release_hashes": {
+    "PBS_READY.json": "2dba50bb887119ef71f9229518bd29a43b2affe68d804733f2edba4d217632bb",
+    "ALLOCATION_ADMISSION.json": "422e524e155d70bffd7d761ee377bff76452ae5f04f2e670b206acced0087e05",
+    "START_NEURAL.json": "c0586c07716fbbae894bb18de94bc1c56dea58ca20557707c670753ca9195d95",
+    "A40_PRETRAIN_READY.json": "41f06d43367c1ae4ac60cfc8ed0d50cd61db1333cd1f4ee818f9c2d32fc50ec6",
+    "A40_PRETRAIN_RELEASE.json": "0949af8796b48a4b5355c8862154979fd573897b98dd644a8690f5b63dff65a1"
+  },
+  "central_accounting": {
+    "observed_epoch": 1792653661.6238277,
+    "global_used": {
+      "H200_s": 27701.0,
+      "PBS_submissions": 16,
+      "optimizer_updates": 1056,
+      "neural_queries": 1088
+    },
+    "global_reserved": {
+      "H200_s": 22560,
+      "neural_queries": 29,
+      "optimizer_updates": 2016
+    },
+    "DEC1_used": {
+      "GPU_s": 7207.0,
+      "PBS": 5,
+      "optimizer_updates": 1056,
+      "neural_queries": 34
+    },
+    "DEC1_reserved": {
+      "GPU_s": 22560,
+      "CPU_s": 54000,
+      "updates": 2016,
+      "queries": 29
+    },
+    "global_unknown": [],
+    "global_pending": [],
+    "DEC1_unknown": [],
+    "live_allocation_updates_queries_and_GPU_costs_are_inside_existing_reservation": true,
+    "not_yet_terminal_settled": true,
+    "no_double_charge": true,
+    "new_PBS_from_this_continuation": 0
+  },
+  "next_milestone": "SAME_A1_FULL1024_SAVE_VERIFY_ORIGINAL12_TRAIN_PROBES_THEN_CONTINUE_SAME_STATE_TO2048",
+  "target": {
+    "human_confirmed": "NOT_YET_DELIVERED_CONTINUE_SOURCE_TRAINING",
+    "source_training_waits_for_target": false,
+    "DEC1_cells": 0,
+    "DEC1_total": 64,
+    "new_target_physics": 0
+  },
+  "original_T0_epoch": 1792348196,
+  "hard_close_epoch": 1792952996,
+  "clock_or_budget_reset": false,
+  "A4096_complete": false,
+  "B_training_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "limitation": "THIS_PROVES_REAL_CUDA_RESUME_AND_UPDATES_ONLY_NOT_1024_2048_4096_COMPLETION_OR_POLICY_TASK_SUCCESS"
+}
