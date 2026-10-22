@@ -30,6 +30,7 @@ DOCTOR_SHA256='013e7cea41740b10fdd213e30f6d65b0fbcaee295cce44b624fc61e23fe6d861'
 ASSET_CANONICAL_SHA256='edcd253c9f6a1ee09237bba9135957015e3e901d3fa25ff9a8cdd9c8643ec4a0'
 REQUIRED_RUNTIME_FILES=(
     'scripts/pi0294/dec1/source_cpu_runtime.py','scripts/pi0294/dec1/source_cpu_intake.py',
+    'scripts/pi0294/dec1/source_cpu_history.py',
     'scripts/pi0294/dec1/source_component_meter.py','scripts/pi0294/dec1/source_component_evidence.py',
     'scripts/pi0294/dec1/source_component_ack.py','scripts/pi0294/dec1/source_episode_wire.py',
     'scripts/pi0294/dec1/source_single_pose_prefix.py','scripts/pi0294/dec1/source_sync_stop.py',
@@ -88,9 +89,21 @@ def _other_reserved(budget,pre):
     return {k:total[k]-old[k] for k in intake.DIMS}
 
 
-def _reservation(root,m,stage,budget,current,pre,*,closeout,now,caps=None):
+def _reservation(root,m,stage,budget,current,pre,*,closeout,now,caps=None,
+                 history_bytes=None,engineering_bytes=None,parent_bytes=None,source_members=None):
     """Verify native once intent; read-only. Historical/GPU fields untouched."""
     caps=intake.CAPS if caps is None else caps
+    if history_bytes is not None:
+        _need(type(parent_bytes) is bytes and _sha(parent_bytes)==budget['parent_snapshot_sha256']
+            and m['execution']['sealed_inputs'].get(PARENT_SNAPSHOT)==_sha(parent_bytes)
+            and source_members is not None,'SOURCE_CPU_NATIVE_EXACT_HISTORY_PARENT_AND_CODE_MEMBERS')
+        parent_snapshot=intake._object(parent_bytes,'sealed source history parent')
+    else:parent_snapshot={}
+    # Metadata closeout revalidates the sealed admission proof. It never
+    # clears a later UNKNOWN or presents that later state as new admission.
+    history=intake.closed_history(m,budget,parent_snapshot,pre if closeout else current,history_bytes=history_bytes,
+        engineering_bytes=engineering_bytes,now_epoch=budget['observed_epoch'] if closeout else now,
+        source_members=source_members)
     other_reserved=_other_reserved(budget,pre)
     _need(current.get('schema')=='DEC1_NONADDITIVE_RESOURCE_CLASSIFICATION_V1'
         and current.get('authority_release')==intake.AUTHORITY
@@ -127,8 +140,10 @@ def _reservation(root,m,stage,budget,current,pre,*,closeout,now,caps=None):
     remaining=_dims(row.get('remaining'),'native.remaining')
     _need(requested==budget['requested'] and all(remaining[k]<=requested[k] for k in intake.DIMS),
         'SOURCE_CPU_EXACT_NATIVE_TOTAL_AND_REMAINING_RESERVATION')
+    _need(row.get('continuation')==budget.get('continuation'),
+        'SOURCE_CPU_NATIVE_CONTINUATION_SAME_SEALED_BUDGET')
     aggregate=dict.fromkeys(intake.DIMS,0)
-    source_slots=0
+    source_slots=0;engineering_slots=0
     for request_id,item in rows.items():
         _need(type(item) is dict and item.get('request_id')==request_id
             and item.get('role')==ROLE and item.get('schema')==RESERVATION_SCHEMA,
@@ -143,8 +158,18 @@ def _reservation(root,m,stage,budget,current,pre,*,closeout,now,caps=None):
                 'SOURCE_CPU_OTHER_UNKNOWN_SOURCE_RESERVATION')
             for key in intake.DIMS:aggregate[key]+=left[key]
         else:_need(not any(left.values()),'SOURCE_CPU_SETTLED_RESERVATION_REMAINS_RESERVED')
-        source_slots+=item['requested']['episode_starts']
+        if closeout and history is not None:
+            if request_id==intake.history.OLD_REQUEST:
+                _need(item==history['original_row'],'SOURCE_CPU_CLOSED_OLD_FINANCIAL_ROW_UNCHANGED')
+                counts=dict(commissioning_count=1,engineering_count=0)
+            else:
+                _need(request_id==budget['request_id'],
+                    'SOURCE_CPU_NO_THIRD_REQUEST_IN_METADATA_CLOSEOUT')
+                counts=intake.history.validate_continuation(item,history)
+        else:counts=intake.history.row_slots(item,current,history)
+        source_slots+=counts['commissioning_count'];engineering_slots+=counts['engineering_count']
     _need(source_slots<=4,'SOURCE_CPU_ORIGINAL_FOUR_SOURCE_SLOTS_NOT_MULTIPLIED')
+    _need(engineering_slots<=1,'SOURCE_CPU_ONE_SAME_CONDITION_ENGINEERING_REPLACEMENT')
     _need(_dims(current.get('source_cpu_reserved'),'native.aggregate')==aggregate,
         'SOURCE_CPU_ALL_NATIVE_RESERVATIONS_RECONCILE')
     for key,field in (('CoreLab_CPU_s','CPU_s'),('episode_starts','episode_starts'),
@@ -225,6 +250,14 @@ def validate(root,profile='4080-simulation',*,closeout=False):
         and original['stop_new_physics_epoch']==original['T0_epoch']+160*3600,
         'SOURCE_CPU_ACTUAL_PARENT_AUTHORITY_CLOCK_NOT_SNAPSHOT_ONLY')
     stage=intake._object(raw['stage'],'stage');budget=intake._object(raw['budget'],'budget')
+    history_raw=engineering_raw=None
+    if intake.history.HISTORY_PLAN in sealed or 'continuation' in budget:
+        _need(intake.history.HISTORY_PLAN in sealed and intake.history.REPAIR_PLAN in sealed,
+            'SOURCE_CPU_COLD_CONTINUATION_ALL_HISTORY_AND_ENGINEERING_EVIDENCE')
+        history_raw=_file(root/intake.history.HISTORY_PLAN,within=root,readonly=True)
+        engineering_raw=_file(root/intake.history.REPAIR_PLAN,within=root,readonly=True)
+        _need(Path(intake.history.__file__).resolve()==(code/'scripts/pi0294/dec1/source_cpu_history.py').resolve(),
+            'SOURCE_CPU_ACTUAL_IMPORTED_COLD_HISTORY_MODULE')
     projection=_json(root/PROJECTION,within=root,readonly=True)
     _need(projection.get('schema')==PROJECTION_SCHEMA and projection.get('authority_release')==intake.AUTHORITY
         and projection.get('campaign_run_uuid')==original['run_uuid']
@@ -239,6 +272,8 @@ def validate(root,profile='4080-simulation',*,closeout=False):
             'source_commissioning_used','source_commissioning_reserved','target_component_reserved'):
         _need(key in projection and projection[key]==budget[key],
             'SOURCE_CPU_NATIVE_PROJECTION_VALUE_CHANGED:'+key)
+    _need(projection.get('continuation')==budget.get('continuation'),
+        'SOURCE_CPU_NATIVE_CONTINUATION_PROJECTION_CHANGED')
     active=m['limits'].get('active_cores');other=projection.get('other_registered_CoreLab_cores')
     _need(type(active) is int and len(cpus)<=active<=budget['concurrent_CoreLab_cores']<=4
         and type(other) is int and 0<=other and len(cpus)+other<=budget['concurrent_CoreLab_cores'],
@@ -252,10 +287,12 @@ def validate(root,profile='4080-simulation',*,closeout=False):
         budget_bytes=raw['budget'],source_files=source_files,
         # Revalidate the sealed admission snapshot for metadata closeout;
         # never present an expired projection as permission for new work.
-        now_epoch=budget['observed_epoch'] if closeout else time.time(),amendment_bytes=amendment)
+        now_epoch=budget['observed_epoch'] if closeout else time.time(),amendment_bytes=amendment,
+        history_bytes=history_raw,engineering_bytes=engineering_raw)
     current=_json(parent/CURRENT_DEC1,within=parent)
     _reservation(root,m,stage,budget,current,pre,closeout=closeout,now=time.time(),
-        caps=intake.effective_caps(current,amendment))
+        caps=intake.effective_caps(current,amendment),history_bytes=history_raw,
+        engineering_bytes=engineering_raw,parent_bytes=parent_raw,source_members=members)
     # The shared core_ledger constructor/guard owns the same typed child meter
     # and limits. This layer adds only the once source budget binding.
     child=_json(root/'RESOURCE_LEDGER.json',within=root)

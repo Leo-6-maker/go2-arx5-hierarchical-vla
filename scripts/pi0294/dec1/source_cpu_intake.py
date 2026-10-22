@@ -10,6 +10,7 @@ import json
 import math
 import re
 from . import source_commissioning_plan as commissioning
+from . import source_cpu_history as history
 from .authority import AUTHORITY,PARENT_AUTHORITY,HARD_CLOSE
 
 ROLE='DEC1_SOURCE_CPU_COMPONENT_COMMISSIONING_V1'
@@ -142,7 +143,24 @@ def effective_caps(dec1,amendment_bytes=None):
     return caps
 
 
-def validate_budget(budget,parent,dec1,adoption,*,now_epoch,caps=None):
+def closed_history(manifest,budget,parent,dec1,*,history_bytes=None,
+                   engineering_bytes=None,now_epoch,source_members=None):
+    """Bind exact historical evidence to a NEW sealed request, never a restart."""
+    sealed=manifest.get('execution',{}).get('sealed_inputs',{})
+    if history_bytes is None:
+        _require(engineering_bytes is None and history.HISTORY_PLAN not in sealed
+            and history.REPAIR_PLAN not in sealed,
+            'SOURCE_CPU_HISTORY_BYTES_REQUIRED_WHEN_SEALED')
+    else:
+        _require(sealed.get(history.HISTORY_PLAN)==_sha(history_bytes),
+            'SOURCE_CPU_SEALED_CLOSED_FINANCIAL_HISTORY')
+    result=history.validate_history(history_bytes,parent,dec1,now_epoch=now_epoch)
+    history.validate_continuation(budget,result)
+    history.validate_repair(manifest,budget,result,engineering_bytes,source_members=source_members)
+    return result
+
+
+def validate_budget(budget,parent,dec1,adoption,*,now_epoch,caps=None,history_bytes=None):
     """Nonadditive snapshot math; fresh native truth/leases stay outer-scope IO."""
     _require(budget.get('schema')==BUDGET_SCHEMA and budget.get('native_complete') is True,
         'SOURCE_CPU_NATIVE_COMPLETE_BUDGET_REQUIRED')
@@ -190,8 +208,19 @@ def validate_budget(budget,parent,dec1,adoption,*,now_epoch,caps=None):
     caps=CAPS if caps is None else caps
     _require(all(used[k]+reserved[k]+requested[k]<=caps[k] for k in DIMS),
         'SOURCE_CPU_DEC1_NONADDITIVE_CAP')
+    known=history.validate_history(history_bytes,parent,dec1,now_epoch=now_epoch)
+    slots=history.validate_continuation(budget,known)
+    if known is not None:
+        _require(budget['request_id'] not in dec1['source_cpu_reservations']
+            and budget['continuation'].get('engineering_fix_evidence_sha256')==history.REPAIR_SHA,
+            'SOURCE_CPU_NEW_REQUEST_AND_EXACT_ENGINEERING_EVIDENCE_BINDING')
+        counts=[(r,history.row_slots(r,dec1,known)) for r in dec1['source_cpu_reservations'].values()]
+        _require(budget['source_commissioning_used']==sum(c['commissioning_count'] for r,c in counts if r['status']=='SETTLED')
+            and budget['source_commissioning_reserved']==sum(c['commissioning_count'] for r,c in counts if r['status']!='SETTLED')
+            and sum(c['engineering_count'] for _,c in counts)+slots['engineering_count']<=1,
+            'SOURCE_CPU_EXACT_ACTUAL_COMMISSIONING_AND_UNIQUE_ENGINEERING_SLOT')
     _require(_number(budget['source_commissioning_used'],'source_used',True)
-        +_number(budget['source_commissioning_reserved'],'source_reserved',True)+4<=4
+        +_number(budget['source_commissioning_reserved'],'source_reserved',True)+slots['commissioning_count']<=4
         and budget.get('target_component_reserved')==4
         and type(budget.get('target_component_reserved')) is int,
         'SOURCE_CPU_FOUR_SOURCE_FOUR_TARGET_WITHIN_ORIGINAL_EIGHT')
@@ -204,10 +233,13 @@ def validate_budget(budget,parent,dec1,adoption,*,now_epoch,caps=None):
         'SOURCE_CPU_ALL_PARENT_CHILD_CPU_RESERVATIONS_PRESERVED')
     pending={k:sum(_number(c.get(k+'_reserved',0),'child.'+k,True) for c in children)
         for k in ('episode_starts','physics_ticks','engine_starts')}
-    physics=parent['physics_ticks'];_require(type(physics) is dict
-        and set(physics)=={'live','shadow','reconstruction'},'SOURCE_CPU_PARENT_TICK_DOMAINS')
+    physics=parent['physics_ticks']
+    if known is None:
+        _require(type(physics) is dict and set(physics)=={'live','shadow','reconstruction'},
+            'SOURCE_CPU_PARENT_TICK_DOMAINS')
+    total_ticks=history.physics_total(parent,known)
     parent_used=dict(CoreLab_CPU_s=parent['CPU_s']['CoreLab'],local_CPU_s=parent['CPU_s']['local_PC'],
-        episode_starts=parent['episode_starts'],physics_ticks=sum(_number(v,'parent.tick',True) for v in physics.values()),
+        episode_starts=parent['episode_starts'],physics_ticks=total_ticks,
         constructors=parent['engine_starts'])
     parent_pending=dict(CoreLab_CPU_s=parent['CPU_reserved_s']['CoreLab'],
         local_CPU_s=parent['CPU_reserved_s']['local_PC'],episode_starts=pending['episode_starts'],
@@ -241,7 +273,8 @@ def validate_budget(budget,parent,dec1,adoption,*,now_epoch,caps=None):
 
 
 def validate(manifest,*,stage_bytes,plan_bytes,population_bytes,adoption_bytes,
-             parent_bytes,dec1_bytes,budget_bytes,source_files,now_epoch,amendment_bytes=None):
+             parent_bytes,dec1_bytes,budget_bytes,source_files,now_epoch,amendment_bytes=None,
+             history_bytes=None,engineering_bytes=None):
     """Validate supplied intake ONLY. Never a native dispatch/lease assertion."""
     _number(now_epoch,'now_epoch')
     stage=_object(stage_bytes,'stage');plan=_object(plan_bytes,'plan')
@@ -304,7 +337,10 @@ def validate(manifest,*,stage_bytes,plan_bytes,population_bytes,adoption_bytes,
     _require(manifest.get('data',{}).get('manifest_sha256')==PLAN_SHA256,
         'SOURCE_CPU_DATA_IS_COMPONENT_PLAN_NOT_DEV_OR_READY')
     pins=validate_pins(source_files,code,stage)
-    requested=validate_budget(budget,parent,dec1,adoption,now_epoch=now_epoch,caps=caps)
+    closed_history(manifest,budget,parent,dec1,history_bytes=history_bytes,
+        engineering_bytes=engineering_bytes,now_epoch=now_epoch)
+    requested=validate_budget(budget,parent,dec1,adoption,now_epoch=now_epoch,caps=caps,
+        history_bytes=history_bytes)
     limits=manifest['limits']
     expected_limits=dict(CPU_s=requested['CoreLab_CPU_s'],local_CPU_upper_s=requested['local_CPU_s'],
         physics_ticks=requested['physics_ticks'],engine_starts=requested['constructors'],

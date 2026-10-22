@@ -32,7 +32,7 @@
     "start_step": 0,
     "target_step": 2048,
     "native_state": "R",
-    "native_observed_epoch": 1792709962.030506,
+    "native_observed_epoch": 1792711019.6027555,
     "owner_service": "vap1-a40-zero-update-b1-owner-01",
     "owner_pid": 567538,
     "owner_status": "ACTIVE",
@@ -40,7 +40,7 @@
     "CPU_control_lease": "ACTIVE",
     "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
     "unknown_effects": [],
-    "new_training_effects": "NOT_YET_OBSERVED",
+    "new_training_effects": "ACTUAL_RETURNED_NOT_TERMINALLY_SETTLED",
     "training_completion_claimed": false,
     "used": {
       "H200_s": 61462,
@@ -54,7 +54,9 @@
       "neural_queries": 29
     },
     "CPU_reserved_s": 54000,
-    "model_start_release": true
+    "model_start_release": true,
+    "last_returned_training_step": 78,
+    "first_update_release": true
   },
   "workstreams": [
     {
@@ -594,14 +596,14 @@
   },
   "first_update_native_actual_report": "ZERO_UPDATE_RESUME_FIRST_UPDATE_NATIVE_ACTUAL_20261023.json",
   "parallel_helpers_current_adoption": {
-    "status": "SAME_TWO_REUSED_OFFLINE_SOURCE_STOP_AND_SEAL_INTAKE",
+    "status": "SAME_TWO_FINISHED_ISOLATED_HISTORY_AND_INTEGRATION_TEXT_PREPARATION",
     "new_helpers_spawned": 0,
     "training_helper": "science_training_prep",
     "science_helper": "science_data_prep",
     "root_is_only_native_mutation_owner": true,
     "helpers_only_text_preparation": true,
-    "training_helper_scope": "EXISTING_DEC1_SOURCE_COMMISSIONING_SEAL_INTAKE_TEXT_ONLY",
-    "science_helper_scope": "ACTUAL_SYNCHRONOUS_SOURCE_STOP_BARRIER_TEXT_ONLY"
+    "training_helper_scope": "CLOSED_SOURCE_FINANCIAL_HISTORY_AND_SLOT_CODE",
+    "science_helper_scope": "INTAKE_DUAL_PROPOSAL_RUNTIME_CPU_INTEGRATION_FIXTURES"
   },
   "B1_zero_scope_terminal_B2_metadata": {
     "report": "B1_ZERO_SCOPE_TERMINAL_B2_METADATA_CPU_ACTUAL_20261023.json",
@@ -894,5 +896,12 @@
     "CPU_closure_receipt_sha256": "74fa0dd0bb773263957ba42edba173a311507044a928b81520715e88e3d55800",
     "retired_or_deleted_checkpoints": 0,
     "old_failed1024_2819_costs_preserved": true
+  },
+  "latest_source_cold_history_intake": {
+    "report": "reports/PI0294/design/WDR1_SOURCE_CLOSED_HISTORY_COLD_INTAKE_CPU_ACTUAL_20261023.json",
+    "status": "CODE_AND_CPU_CONTRACTS_VERIFIED_NOT_NATIVE_SOURCE_CONTINUATION",
+    "CPU_tests": 240,
+    "actual_history_offline_bytes_checked": true,
+    "native_source_continuation": false
   }
 }

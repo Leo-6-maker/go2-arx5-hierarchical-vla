@@ -1,3 +1,9 @@
+# Current source engineering: exact closed-history cold intake implemented
+
+[Closed-source history, slot and financial-upper cold integration](reports/PI0294/design/WDR1_SOURCE_CLOSED_HISTORY_COLD_INTAKE_CPU_ACTUAL_20261023.json):240 related CPU tests pass/0external or native attempts. Intake, once dual reservation and runtime preserve the actual old requested4/UNKNOWN/costs while counting charged commissioning1, remaining originals3 and at most one separately bound engineering replacement. Five actual historical byte pins and the exact tested STOP repair/report are required; financial upper16490 is counted once, never relabeled actual live. Expired/UNKNOWN state remains read-only metadata closeout only. No new source child or physical continuation has run.
+
+B1 **1478518** remains healthy R under unchanged0cf86cbc/owner567538; same-receipt returned78updates/17queries/2loads/unknown[], with an active next update. A4096 remains fully closed. Source-owner cold metadata/cross-domain holds/fresh native admission and separate frozen-target task qualification remain required; budgets, clocks and frozen science are unchanged. Earlier entries below are historical.
+
 # Current experiment: A4096 fully closed; independent B1 running
 
 [A4096 actual audit, settlement, dual closure and B1 adoption](reports/PI0294/design/parallel-science-20261022/A4096_ACTUAL_CLOSURE_AND_B1_NATIVE_ADOPTION_20261023.json): A1477527 is F/Exit0, original owner naturally exited; three15-member states and original12probe records independently verified. One settlement retained all history/checkpoints, cumulative5891updates/61462GPU seconds/1151queries, both leases CLOSED. Closed Core costs were projected once into inactive Hopper DEC1 with no second global charge.

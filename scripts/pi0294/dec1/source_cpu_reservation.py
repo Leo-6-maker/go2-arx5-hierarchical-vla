@@ -36,10 +36,10 @@ def _same(a,b):
     return json.dumps(a,sort_keys=True,allow_nan=False)==json.dumps(b,sort_keys=True,allow_nan=False)
 
 
-def _prior_rows(current,request_id,root,campaign):
+def _prior_rows(current,request_id,root,campaign,history=None):
     rows=current.get('source_cpu_reservations',{})
     _need(type(rows) is dict and request_id not in rows,'SOURCE_RESERVE_REQUEST_NEVER_REUSED_EVEN_SETTLED')
-    total=dict.fromkeys(intake.DIMS,0);slots=0
+    total=dict.fromkeys(intake.DIMS,0);slots=0;engineering=0
     for key,item in rows.items():
         _need(type(item) is dict and item.get('schema')==SCHEMA and item.get('role')==ROLE
             and item.get('request_id')==key and item.get('authority_release')==intake.AUTHORITY
@@ -54,18 +54,21 @@ def _prior_rows(current,request_id,root,campaign):
             'SOURCE_RESERVE_CHILD_NEVER_REGISTERED_TWICE')
         original=_dims(item.get('requested'),'old requested');left=_dims(item.get('remaining'),'old remaining')
         _need(all(left[k]<=original[k] for k in intake.DIMS),'SOURCE_RESERVE_PRIOR_REMAINING_NOT_EXPANDED')
-        slots+=original['episode_starts']
+        counts=intake.history.row_slots(item,current,history)
+        slots+=counts['commissioning_count'];engineering+=counts['engineering_count']
         if item['status']=='SETTLED':_need(not any(left.values()),'SOURCE_RESERVE_SETTLED_REMAINDER_ZERO')
         else:
             for k in intake.DIMS:total[k]+=left[k]
     _need(not rows or 'source_cpu_reserved' in current,'SOURCE_RESERVE_PRIOR_AGGREGATE_REQUIRED')
     aggregate=_dims(current.get('source_cpu_reserved',dict.fromkeys(intake.DIMS,0)),'old aggregate')
     _need(_same(aggregate,total),'SOURCE_RESERVE_CURRENT_AGGREGATE_EXACT')
+    _need(engineering<=1,'SOURCE_RESERVE_ONE_SOURCE_ENGINEERING_REPLACEMENT')
     return rows,aggregate,slots
 
 
 def propose(*,snapshot_bytes,budget_bytes,manifest_bytes,stage_bytes,projection_bytes,
-            source_seal_bytes,child_root,now_epoch,amendment_bytes=None):
+            source_seal_bytes,child_root,now_epoch,amendment_bytes=None,
+            history_bytes=None,engineering_bytes=None,history_parent_bytes=None):
     """Return a copied ledger and request row; every input byte remains intact.
 
     Legacy Core may lack source CPU extension fields only before its FIRST row.
@@ -110,6 +113,13 @@ def propose(*,snapshot_bytes,budget_bytes,manifest_bytes,stage_bytes,projection_
             and '..' not in PurePosixPath(n).parts and _hash(h) for n,h in seal['files'].items()),
         'SOURCE_RESERVE_FINAL_MANIFEST_SOURCE_SEAL_BINDING')
     sealed=m.get('execution',{}).get('sealed_inputs',{})
+    if history_bytes is not None:
+        _need(type(history_parent_bytes) is bytes and _sha(history_parent_bytes)==budget['parent_snapshot_sha256'],
+            'SOURCE_RESERVE_HISTORY_REQUIRES_EXACT_BOUND_PARENT_BYTES')
+        parent=intake._object(history_parent_bytes,'history LOCAL parent')
+    else:parent={}
+    known=intake.closed_history(m,budget,parent,current,history_bytes=history_bytes,
+        engineering_bytes=engineering_bytes,now_epoch=now,source_members=seal.get('files'))
     _need(type(sealed) is dict and ((amendment_bytes is None and intake.VAP1_PLAN not in sealed)
         or (amendment_bytes is not None and sealed.get(intake.VAP1_PLAN)==_sha(amendment_bytes))),
         'SOURCE_RESERVE_EXACT_MANIFEST_ADOPTED_VAP1_SEAL')
@@ -146,6 +156,8 @@ def propose(*,snapshot_bytes,budget_bytes,manifest_bytes,stage_bytes,projection_
             'site_remaining','source_commissioning_used','source_commissioning_reserved','target_component_reserved'):
         _need(key in projection and key in budget and _same(projection[key],budget[key]),
             'SOURCE_RESERVE_PROJECTION_BUDGET_BINDING:'+key)
+    _need(projection.get('continuation')==budget.get('continuation'),
+        'SOURCE_RESERVE_CONTINUATION_PROJECTION_BINDING')
     components=budget.get('components')
     _need(type(components) is dict and set(components)==intake.COMPONENTS,
         'SOURCE_RESERVE_COMPLETE_COMPONENTS_NOT_JUST_MAIN')
@@ -163,10 +175,11 @@ def propose(*,snapshot_bytes,budget_bytes,manifest_bytes,stage_bytes,projection_
     if 'source_cpu_current_classification' in current:
         _need(_same(_dims(current['source_cpu_current_classification'],'old classification'),used),
             'SOURCE_RESERVE_COMPLETE_CURRENT_CLASSIFICATION_NOT_RESET')
-    rows,aggregate,slots=_prior_rows(current,request_id,root,campaign)
-    _need(slots+requested['episode_starts']<=4
+    counts=intake.history.validate_continuation(budget,known)
+    rows,aggregate,slots=_prior_rows(current,request_id,root,campaign,known)
+    _need(slots+counts['commissioning_count']<=4
         and intake._number(budget['source_commissioning_used'],'old source starts',True)
-            +intake._number(budget['source_commissioning_reserved'],'pending source starts',True)+4<=4
+            +intake._number(budget['source_commissioning_reserved'],'pending source starts',True)+counts['commissioning_count']<=4
         and type(budget.get('target_component_reserved')) is int and budget['target_component_reserved']==4,
         'SOURCE_RESERVE_ORIGINAL_FOUR_SOURCE_FOUR_TARGET')
     parent_left=_dims(budget.get('parent_remaining_after_spent_reserved_and_final'),'parent remaining')
@@ -181,6 +194,7 @@ def propose(*,snapshot_bytes,budget_bytes,manifest_bytes,stage_bytes,projection_
         pre_reservation_DEC1_sha256=_sha(snapshot_bytes),native_projection_receipt_sha256=_sha(projection_bytes),
         status='RESERVED',unknown_effects=[],reserved_epoch=now,deadline_epoch=deadline,
         requested=deepcopy(requested),remaining=deepcopy(requested))
+    if known is not None:row['continuation']=deepcopy(budget['continuation'])
     after=deepcopy(current)
     after.setdefault('source_cpu_reservations',{})[request_id]=row
     after['source_cpu_reserved']={k:aggregate[k]+requested[k] for k in intake.DIMS}
@@ -198,6 +212,10 @@ def propose_parent(*,parent_bytes,adoption_bytes,**reservation_inputs):
     complete projection/budget and adopted bytes are used; old output/transfer
     consumption is never inferred as zero. Core and local writes remain pending.
     """
+    if reservation_inputs.get('history_bytes') is not None:
+        _need(reservation_inputs.get('history_parent_bytes',parent_bytes)==parent_bytes,
+            'SOURCE_PARENT_SAME_HISTORY_SNAPSHOT_BYTES')
+        reservation_inputs=dict(reservation_inputs,history_parent_bytes=parent_bytes)
     core=propose(**reservation_inputs)
     parent=intake._object(parent_bytes,'immutable LOCAL parent')
     adoption=intake._object(adoption_bytes,'actual DEC1 adoption')
@@ -224,9 +242,12 @@ def propose_parent(*,parent_bytes,adoption_bytes,**reservation_inputs):
     caps=intake.effective_caps(current,reservation_inputs.get('amendment_bytes'))
     # Reuse original parent spent/pending/final arithmetic, not a new allowance.
     intake.validate_budget(budget,parent,current,adoption,
-        now_epoch=reservation_inputs['now_epoch'],caps=caps)
-    rows,aggregate,slots=_prior_rows(parent,row['request_id'],root,campaign)
-    _need(slots+requested['episode_starts']<=4,'SOURCE_PARENT_ORIGINAL_FOUR_SOURCE_SLOTS')
+        now_epoch=reservation_inputs['now_epoch'],caps=caps,history_bytes=reservation_inputs.get('history_bytes'))
+    known=intake.history.validate_history(reservation_inputs.get('history_bytes'),parent,current,
+        now_epoch=reservation_inputs['now_epoch'])
+    counts=intake.history.validate_continuation(budget,known)
+    rows,aggregate,slots=_prior_rows(parent,row['request_id'],root,campaign,known)
+    _need(slots+counts['commissioning_count']<=4,'SOURCE_PARENT_ORIGINAL_FOUR_SOURCE_SLOTS')
     children=parent['children']
     _need(all(c.get('unknown_effects',[])==[] for c in children),
         'SOURCE_PARENT_CHILD_UNKNOWN_NO_NEW_RESERVATION')
