@@ -152,6 +152,13 @@ def run(root,request_path):
             recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes']['A_CONTROL']
             imported=stage_in_allocation(root,recipe=recipe,dataset=dataset,guard=guard,allocation=allocated)
             once(directory/'RECOVERY32_FULL_STATE_PREMODEL.json',imported)
+        elif segmented(r) and r['expected_native_start_step']==2048:
+            from scripts.pi0294.pv1.neural import train_dataset
+            from .segment_intake import stage
+            dataset=train_dataset(root);dataset.initialize()
+            recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][r['training_block']['arm']]
+            imported=stage(root,recipe=recipe,dataset=dataset,guard=guard,allocation=allocated)
+            once(directory/'SEGMENT2048_FULL_STATE_PREMODEL.json',imported)
         once(directory/'CHECKPOINT_STORAGE_PREFLIGHT.json',dict(storage=storage,models_loaded=0,
             optimizer_updates=0,job_id=allocated['job_id'],request_sha256=allocated['request_sha256']))
         from scripts.pi0294.numerics import prepare_environment,configure_torch

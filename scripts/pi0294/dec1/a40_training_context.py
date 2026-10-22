@@ -317,7 +317,13 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
         if long_phase=='SEGMENT_REENTRY':
             from .segmented_training import enabled,limits
             if not enabled(r) or limits(r)!=(2048,4096):fail('EXPLICIT_SEGMENT_FULL_STATE2048_REENTRY')
-            probe_receipt(root,r['training_block']['arm'])
+            probes=probe_receipt(root,r['training_block']['arm'])
+            folder=root/'evidence'/(r['training_block']['arm']+'-1024')/'TRAIN_PROBES'
+            sealed(root,str((folder/'RESULT.json').relative_to(root)))
+            for row in probes['records']:
+                path=folder/(row['id']+'.npz')
+                sealed(root,str(path.relative_to(root)),parse=False)
+                if sha(path)!=row['arrays_sha256']:fail('IMPORTED_FIXED_PROBE_ARRAY_CHANGED_BEFORE_REENTRY')
         if ready.exists():raise FileExistsError('A40_PRETRAIN_READY_PRESERVED_NO_RESTART')
         now=time.time();write(ready,dict(job_id=allocation['job_id'],request_sha256=allocation['request_sha256'],
             submission_nonce=r['submission_nonce'],observed_epoch=now,expected_start_step=r['expected_native_start_step'],
