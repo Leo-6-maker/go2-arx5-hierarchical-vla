@@ -1,4 +1,23 @@
-# Current Entry: VAP1 Authorized Recovery A40 Queued
+# Current Entry: VAP1 State32 Verified, Terminal Settled
+
+**Recovery job1474352 is F/Exit1, not queued or healthy training.**
+[Actual32 updates, full-state audit, typed settlement and both closed leases](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_RECOVERY32_FULL_STATE_AND_TERMINAL_ACTUAL.json).
+The first32 measured cost gate stopped at9.010780s with headroom versus the
+sealed6.1s ceiling. A subsequent optional sharing step incorrectly expected a
+full parent manifest in an inference-only consumer. Unlike the old lost1024,
+native checkpoint32 is complete:15members/25540965550bytes passed full hashes
+and mature optimizer/RNG/sampler/recipe/statistics resume checks; cursor1024.
+CUDA reentry has not run. Preserve this state; do not restart its32updates.
+The job is settled once:1026GPU seconds/736CPU seconds/32updates/17queries;
+global GPU27701s/PBS15/updates1056/queries1088, DEC1 GPU7207s/newPBS4.
+Original lostA1024 remains charged in its old lineage; recoverylineage is32.
+GPU/CPU/update/query/output reservations are0, both leases CLOSED, owner MainPID0.
+Fix84f8c32c passed exactCI39712534631/job119606981111 and1165local tests,
+with both changed files byte/blob read back; no hot edit or newqsub occurred.
+[Segmented continuation and precise resource-gap draft: NOT_AUTHORIZED](reports/PI0294/design/VAP1_A40_STATE32_SEGMENTED_RECOVERY_DRAFT_20261022.json).
+The prior two8h job forecast no longer fits measured costs. The draft does
+not increase any cap or admit a job. Original clock/freezes/final20h remain,
+selected/deploymentNONE. Queue/running snapshots below are historical.
 
 **Bounded lost-save recovery is natively adopted; a new A40 job is actually Q.**
 [Actual authorization adoption, cold binding, complete forecast and native submission](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_LOST_SAVE_RECOVERY_ADOPTED_AND_A40_SUBMITTED_ACTUAL.json).
