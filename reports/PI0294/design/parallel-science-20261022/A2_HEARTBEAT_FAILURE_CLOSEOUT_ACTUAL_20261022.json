@@ -1,0 +1,130 @@
+{
+  "schema": "VAP1_A2_HEARTBEAT_FAILURE_ACTUAL_CLOSEOUT_V1",
+  "observed_epoch": 1792680458.462084,
+  "status": "FAILED_KNOWN_EFFECTS_SETTLED_BOTH_LEASES_CLOSED",
+  "job_id": "1475719.stdct-mgmt-02",
+  "runtime_source": "3a1420e76c492196fa83905f4bde92924cc12c28",
+  "request_sha256": "298d68cf547e1540e2a259c0e5318e5bb5c7a07bccb3afea01dae43878d67200",
+  "native_state": "F",
+  "exit_status": 1,
+  "native_error": {
+    "type": "HeartbeatLost",
+    "message": "MP1_SINGLE_OWNER_HEARTBEAT_LOST_AFTER_SERVER_REVALIDATION"
+  },
+  "effects": {
+    "schema": "VAP1_A40_NATIVE_SOURCE_EFFECT_SUMMARY_V1",
+    "job_id": "1475719.stdct-mgmt-02",
+    "request_id": "9d1582d5-1c87-41bf-ad53-4e049cc21fe9",
+    "request_sha256": "298d68cf547e1540e2a259c0e5318e5bb5c7a07bccb3afea01dae43878d67200",
+    "source_sha": "3a1420e76c492196fa83905f4bde92924cc12c28",
+    "arm": "A_CONTROL",
+    "start_native_step": 2048,
+    "optimizer_updates_committed": 771,
+    "last_native_step": 2819,
+    "query_attempts": 17,
+    "model_load_attempts": 2,
+    "pending_updates": [],
+    "unknown_query_intents": [],
+    "recipe_sha256": "eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7",
+    "effect_journal_complete": true,
+    "new_physics": 0,
+    "new_episodes": 0,
+    "finished_epoch": 1792680263.4752097
+  },
+  "latest_complete_step": 2048,
+  "checkpoint_manifest_readback": {
+    "1024": {
+      "complete_sha256": "50528e38c1e785533916fbcdd0a48d63df27f2624bb317e6d0ed113e05318f4e",
+      "members": 15,
+      "origin_preserved": true
+    },
+    "2048": {
+      "complete_sha256": "1336326d908bbc91c36f871f0846b316c2bea08bada2bcee0b1bcc9bcb0e5486",
+      "members": 15,
+      "origin_preserved": true
+    }
+  },
+  "checkpoint_payload_rehashed_this_closeout": false,
+  "checkpoint_payload_prior_A1_audit_preserved": true,
+  "A4096_exists": false,
+  "native_terminal_proof": {
+    "schema": "VAP1_NATIVE_A40_SOURCE_TERMINAL_V1",
+    "job_id": "1475719.stdct-mgmt-02",
+    "job_state": "F",
+    "project": "CFP04-CF-007",
+    "job_name": "pi0294_dec1_a40_train",
+    "owner": "e1192548",
+    "ngpus": 1,
+    "request_id": "9d1582d5-1c87-41bf-ad53-4e049cc21fe9",
+    "submission_nonce": "3104eb01-637c-4afa-b33e-9aca24bd8204",
+    "recorded_process_terminal": true,
+    "observed_epoch": 1792680263.4912307,
+    "conservative_GPU_s": 7550.0,
+    "conservative_CPU_s": 6929,
+    "Exit_status": 1,
+    "new_resident_allocated_upper_bytes": 70000000000,
+    "native_wall_s": 7465,
+    "native_elapsed_s": 7490.0,
+    "native_CPU_s": 6809,
+    "native_record_sha256": "721fdf18b1187312f872dd572d6e4d9476b7374f5a7215bb58f88609636870cb",
+    "process_final_sha256": "51e9dd6cdc75c716de0b2169904cf31b1e28823eecfee748128fd6657e1697b7",
+    "wrapper_final_sha256": "887dda516933e182916b57f6392e13ad8c8b304fdb8cedafc953c346b649fcd5"
+  },
+  "settlement": {
+    "status": "EXACT_NATIVE_A2_HEARTBEAT_FAILURE_SETTLED",
+    "job_id": "1475719.stdct-mgmt-02",
+    "request_id": "9d1582d5-1c87-41bf-ad53-4e049cc21fe9",
+    "conservative_GPU_s": 7550.0,
+    "conservative_CPU_s": 6929,
+    "GPU_total_s": 48363.0,
+    "GPU_reserved_s": 0,
+    "CPU_reserved_s": 0,
+    "updates": 3843,
+    "queries": 1134,
+    "unknown_effects": []
+  },
+  "dual_close_readback": {
+    "observed_epoch": 1792680366.3304665,
+    "vanda": {
+      "lease_status": "CLOSED",
+      "terminal_status": "CLOSED_A2_HEARTBEAT_FAILURE_2819_PRESERVED",
+      "terminal_receipt_sha256": "22e1f8d50c54b9f9bfa83cde3ca0075d0472aafed375db4da1c4a50ec7ee3a77",
+      "lease_sha256": "9bfcb76bc54a22b867657b61bed9f4254ec1653589c5693f5690b7aed910161a",
+      "registry_lifecycle": "CLOSED_A2_HEARTBEAT_FAILURE_2819_PRESERVED"
+    },
+    "hopper": {
+      "lease_status": "CLOSED",
+      "terminal_status": "CLOSED_CPU_A2_HEARTBEAT_FAILURE_CONTROL_AFTER_KNOWN_EFFECTS_SETTLEMENT",
+      "terminal_receipt_sha256": "abadf79ee98699adb57a2a52802c87485a534208565c75df6e13195aac97cb4b",
+      "lease_sha256": "e1fe17d51867b46d2f9ed6419225ef3ec50ff3d19e08dd4f053404244dcd9a21",
+      "registry_lifecycle": "CLOSED_CPU_A2_HEARTBEAT_FAILURE_CONTROL"
+    }
+  },
+  "new_submissions_in_closeout": 0,
+  "checkpoint_files_deleted": 0,
+  "owner_service": "FAILED_MAINPID0_NOT_RESTARTED",
+  "recovery_constraints": {
+    "charged_updates": 3843,
+    "remaining_A_updates_from_complete2048": 2048,
+    "remaining_independent_B_updates": 4096,
+    "minimum_total_updates_to_complete": 9987,
+    "current_DEC1_update_cap": 9216,
+    "update_shortfall": 771,
+    "lineage": "Current actual ledger remains2819. Resuming2048 requires an explicit preserved-cost recovery lineage; no rollback or reuse of settled request.",
+    "storage": "Failed A2 charged original70GB conservative bound, not measured physical footprint; full retained-output forecast must be recomputed before any amendment/admission.",
+    "draft_scope": "No new recovery grant, cap change, or submission proposed as already authorized.",
+    "B1": "Held by original actual_A4096 predecessor requirement; auxiliary review adds no new gate."
+  },
+  "helper_patch_CI": {
+    "source": "a51c732e7d16b68ab1b6734cea60a2edbcc19e26",
+    "run": 39795202586,
+    "status": "completed",
+    "conclusion": "success",
+    "root_targeted_tests": 95,
+    "native_qualification": false
+  },
+  "selected": "NONE",
+  "deployment": "NONE",
+  "goal_complete": false,
+  "original_hard_close_epoch": 1792952996
+}

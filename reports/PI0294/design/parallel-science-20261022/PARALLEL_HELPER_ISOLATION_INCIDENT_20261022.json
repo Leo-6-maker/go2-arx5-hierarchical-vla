@@ -1,0 +1,55 @@
+{
+  "schema": "VAP1_PARALLEL_HELPER_ISOLATION_INCIDENT_V1",
+  "status": "CONTAINED_NEW_CONNECTION_NOT_QUALIFIED",
+  "agent": "/root/science_training_prep",
+  "affected_deliverable": "New local B1 cold-connection draft, separate from published original12-test review",
+  "cause": "Fixture clone overwrote overridden fake RPC with a real legacy RPC function.",
+  "test008_start_SGT": "2026-10-22T22:30:05.285497597+08:00",
+  "test008_end_SGT": "2026-10-22T22:30:42.340589465+08:00",
+  "Hopper_attempt": {
+    "actual_remote_execution": true,
+    "outcome": "FileNotFoundError reading fixture RUN_MANIFEST before Ledger import/transaction/write",
+    "remote_write_observed": false,
+    "receipt_sha256": "4ec3d2d0eaef0ba3b11ba464bdbe2aa8c058328c017b600ac4f4d814cb3d9998",
+    "receipt_embedded_epoch": "Mocked test epoch; use receipt filename and filesystem/test time for ordering."
+  },
+  "Vanda_attempt": {
+    "payload": "Read-only quota/report/statvfs",
+    "remote_arrival": "UNKNOWN_NO_COMPLETED_RECEIPT",
+    "write_or_PBS_operations_in_payload": false,
+    "automatic_retry": false
+  },
+  "independent_check": {
+    "B1_prepay_marker_in_both_native_ledgers": false,
+    "global_used_reserved_changed_by_helper_attempt": false,
+    "native_unknown_effects": [],
+    "actual_B1_submission": false
+  },
+  "containment": {
+    "test_and_its_SSH_child_terminated": true,
+    "A2_process_not_killed_by_helper": true,
+    "both_helpers_idle": true,
+    "new_connection_adoption": false,
+    "evidence_preserved": true
+  },
+  "outputs": {
+    "test008_fixture_bytes": 10560865,
+    "T_directory_bytes": 10686751,
+    "S_directory_bytes": 95273,
+    "aggregate_under_user_16MiB": true,
+    "T_exceeded_root_8MiB_suballocation": true
+  },
+  "local_test_CPU_s": {
+    "T_including_tests005_to009": 5.31,
+    "S": 13.98,
+    "charged_original_combined_upper": 7200
+  },
+  "remote_CPU_incident_cost": "Not measured; cannot report zero. Further accounting review required without resetting prepaid costs.",
+  "A2_heartbeat_failure_causation": "UNDETERMINED. Temporal overlap and control-plane timeouts do not establish causal attribution.",
+  "required_before_any_resume": [
+    "Parent reviews fail-closed network/subprocess/write guards installed before imports.",
+    "Use small fixture metadata references, not full10MB input copies.",
+    "Stay within existing helper resource scope; no live native calls."
+  ],
+  "no_new_training_or_resource_authority": true
+}
