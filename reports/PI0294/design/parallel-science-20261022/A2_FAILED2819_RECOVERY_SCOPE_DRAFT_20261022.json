@@ -1,7 +1,7 @@
 {
   "schema": "VAP1_A2_FAILED2819_RECOVERY_SCOPE_DRAFT_V1",
   "status": "DRAFT_NOT_AUTHORIZED_NOT_ADOPTED_NOT_NATIVE_ADMISSION",
-  "created_epoch": 1792680828.881191,
+  "created_epoch": 1792683017.0461338,
   "basis": "Immutable A2 settled ledgers plus original sealed remaining-work plan; offline arithmetic, not fresh quota/queue admission.",
   "closed_job": "1475719.stdct-mgmt-02",
   "current_runtime": "3a1420e76c492196fa83905f4bde92924cc12c28",
@@ -38,7 +38,11 @@
     "failed_lineage_or_cost_rollback": false,
     "new_request_and_registration_required": true,
     "B_independent_original_CORR": true,
-    "original12_A_probes_preserved_no_repeat": true
+    "original12_A_probes_preserved_no_repeat": true,
+    "proposed_lineage_key": "A_CONTROL_HEARTBEAT_RECOVERY2",
+    "seed_full_state_step": 2048,
+    "failed_lineage_preserved": "A_CONTROL_SAVE_RECOVERY1",
+    "seed_is_imported_state_not_new_charged_updates": true
   },
   "remaining_training": [
     {
@@ -278,10 +282,10 @@
       "hard_closeout_epoch": 1792952996
     },
     "original_queue_delay_upper_per_PBS_s": 3600,
-    "last_submission_epoch": 1792759128.881191,
-    "training_finish_epoch": 1792759128.881191,
-    "matrix_finish_epoch": 1792856508.881191,
-    "package_finish_epoch": 1792860108.881191,
+    "last_submission_epoch": 1792761317.0461338,
+    "training_finish_epoch": 1792761317.0461338,
+    "matrix_finish_epoch": 1792858697.0461338,
+    "package_finish_epoch": 1792862297.0461338,
     "clock_failures": [],
     "target_runtime_feasibility": "UNKNOWN_NATIVE_COMMISSIONING_STILL_REQUIRED",
     "scheduling_or_resource_reservation": false
@@ -298,12 +302,25 @@
     "original_T0_and_cutoffs"
   ],
   "engineering_prerequisites": [
-    "Cold owner phase-aware timeout journal and unknown-heartbeat-write readback; no blanket read-only retry.",
-    "Keep original300s watchdog, exact native dual-platform view, STOP/lease and authority gates.",
-    "Bound control calls and qualify controller transport under CPU-only injected failures before native adoption.",
-    "Reject helper connection draft until guards run before imports and no real RPC can escape.",
-    "Publish exact cold recovery source, targeted tests/CI, explicit grant if approved, fresh native quota/queue/full forecast."
+    "Exact cold call-chain source CI/readback before adoption.",
+    "Explicit new recovery grant and adopted preserved-cost recovery2 lineage; original failed2819 lineage remains unchanged.",
+    "Actual new registered owner proof, fresh original2048 byte audit and exact source/host binding.",
+    "Fresh quota/queue/full-budget admission; original watchdog300s, all science gates and original deadlines unchanged.",
+    "Rejected helper connection draft remains unused; recovery uses the root-reviewed cold call path."
   ],
   "new_GPU_PBS_models_physics": 0,
-  "goal_complete": false
+  "goal_complete": false,
+  "engineering_preparation": {
+    "component_source": "a3d5d91b1745900adf15587035c7e9bed085c32d",
+    "component_CI": {
+      "run": 39803337300,
+      "status": "completed",
+      "conclusion": "success",
+      "exact_head": "a3d5d91b1745900adf15587035c7e9bed085c32d"
+    },
+    "call_chain_receipt": "COLD_OWNER_CALL_CHAIN_CPU_ACTUAL_20261022.json",
+    "total_CPU_tests_passed": 62,
+    "native_deployment": false,
+    "exact_call_chain_head_CI": "PENDING_PUBLICATION"
+  }
 }

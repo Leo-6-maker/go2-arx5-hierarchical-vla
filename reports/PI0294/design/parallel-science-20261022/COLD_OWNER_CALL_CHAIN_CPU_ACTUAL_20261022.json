@@ -1,0 +1,63 @@
+{
+  "schema": "VAP1_COLD_OWNER_CALL_CHAIN_CPU_INTEGRATION_V1",
+  "created_epoch": 1792683017.067001,
+  "status": "PASS_CPU_CALL_CHAIN_PENDING_EXACT_HEAD_CI_AND_NATIVE_AUTHORITY",
+  "component_release": "a3d5d91b1745900adf15587035c7e9bed085c32d",
+  "component_CI": {
+    "run": 39803337300,
+    "status": "completed",
+    "conclusion": "success",
+    "exact_head": "a3d5d91b1745900adf15587035c7e9bed085c32d"
+  },
+  "changes": [
+    "ColdRPC binds only validated fresh two-platform observations and current registered request; new unknown RPC labels default to mutation.",
+    "Explicit cold binding requires a new registered owner, prior owner closure and adopted recovery authority proof; old owner is not rebound.",
+    "Complete watch lifecycle retains original queue/run/terminal behavior, before-model and first-update release gates, periodic auth, hard training cutoff and outer owner lock.",
+    "Only ReadOnlyFailure is caught for bounded read retry; uncertain heartbeat/release writes, auth timeout, identity/permission/schema errors stop.",
+    "Same-call heartbeat uncertainty uses one exact readback; native helpers and the real bounded adapter execute in CPU fixture tests."
+  ],
+  "files": {
+    "cold_owner.py": "6c96ca5b5f9220d419920cb5bb46924d90f39d87fc788ae5d07ad1cc6eaa529a",
+    "test_cold_owner.py": "938f43bcd854aa0240cee3ae96b9321aeed68c48637962f73785c4f49cfccfdd"
+  },
+  "tests": {
+    "new_call_chain_cases": 15,
+    "component_cases": 26,
+    "original_watchdog_cases": 16,
+    "original_control_cases": 5,
+    "total_passed": 62,
+    "wall_s": 1.27,
+    "CPU_s": 0.5,
+    "audit_guard_before_imports": true,
+    "native_network_or_subprocess_attempts": 0,
+    "fixtures_not_native_qualification": true,
+    "first_integration_failure": "Fixture fake1000 clock differed from native-helper default real clock; fixture clock injection corrected without relaxing production guards."
+  },
+  "explicit_fault_coverage": [
+    "three read timeouts then stop, no heartbeat/release",
+    "lost heartbeat reply, exact readback, no second publication",
+    "heartbeat attempt with missing receipt or readback timeout holds dependent release",
+    "model-start release timeout preserves once-intent, no repeated release",
+    "first-update release timeout preserves once-intent, no repeated release",
+    "auth timeout stops without read-retry classification",
+    "wrong native job identity blocks every write",
+    "terminal job records native terminal without heartbeat or release",
+    "immutable request/output binding/lease preserved by watch",
+    "unclassified RPC treated as mutation",
+    "old/false registration proof and repeated binding rejected"
+  ],
+  "native_state": {
+    "old_owner_restarted": false,
+    "new_owner_registered": false,
+    "new_GPU_or_PBS_or_model_or_physics": 0,
+    "runtime_capsule_changed": false,
+    "budget_or_clock_changed": false
+  },
+  "remaining_native_steps": [
+    "Obtain explicit narrow recovery scope approval; publish/adopt exact grant and preserve old2819 lineage/costs.",
+    "Bind actual new registry/lease/request and original canonical host/source entries, implement adopted recovery2 lineage/cap validation.",
+    "Audit original2048 full state and original probes; run fresh complete resource/queue/quota/native identity admission.",
+    "Submit at most one newly authorized recovery job only after all gates; B remains after actual qualified A4096 closure."
+  ],
+  "goal_complete": false
+}
