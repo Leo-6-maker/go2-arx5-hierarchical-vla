@@ -1,3 +1,11 @@
+# Current source continuation: four slots sealed, original ledger callbacks and durable events CPU tested
+
+[Actual component seal and ledger/IO receipt](reports/PI0294/design/WDR1_SOURCE_COMPONENT_SEAL_AND_EXISTING_LEDGER_IO_CPU_ACTUAL_20261023.json): the four original source slots are now privately sealed once, SHA65f9d193239105ca3ff78916bb468856d002938981c1d75cb65bdedb4c6307ad, from fixed80854c8d owner predeclaration. Its exactCI39848664403/job120068649927 passed all12steps and all11 changed files were fully read back. A later runtime code release is pinned separately; conditions are not reselected.
+
+35 CPU tests passed for existing Core ledger callbacks and durable event IO, including actual Ledger.steps fixtures: live remains one outer debit; known partial shadow rejection settles actual counts; unknown effects retain both original bounds and are not retried. Append records require fsync, exact byte readback and complete sequence/hash-chain validation. These are component preparations, not native execution evidence. Class/clone compatibility is statically consistent; actual snapshot fingerprint idempotence remains native qualification.
+
+Healthy A1477527 remains under the same immutable0cf86cbc owner; no B or source component native worker was started. Continue the explicit CPU role/intake, original entry registration/fresh reservation and original episode factory. Source4/target4, no GR00T in this component stage, original CORR/R0 matrix and all science/resource/clock boundaries remain. Older snapshots below are historical.
+
 # Current engineering continuation: source component plan, stop and interruption accounting
 
 [Source plan/stop/interruption CPU receipt](reports/PI0294/design/WDR1_SOURCE_COMPONENT_PLAN_STOP_INTERRUPT_CPU_ACTUAL_20261023.json):146 tests passed with zero external/native attempts. Four predeclared Teacher-driven source commissioning slots use two existing TRAIN geometries and balanced I_TIME/I_PROGRESS assignment; four target slots remain reserved. This qualifies components only, with zero GR00T queries and no new training data. Synchronous stop and actual partial-step accounting are CPU verified; native source compatibility and dispatch remain pending.
