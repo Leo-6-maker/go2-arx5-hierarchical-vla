@@ -1,8 +1,8 @@
 {
   "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
   "created_epoch": 1792663428.495236,
-  "user_direction": "\u5e76\u884c\u51c6\u5907\u540e\u7eed\u7684\u6570\u636e\u4ee5\u53ca\u8bad\u7ec3\uff0c\u79d1\u5b66\u4e3b\u7ebf\uff0c\u66f4\u65b0goal",
-  "objective": "\u7ee7\u7eed\u65e2\u6709A/B\u5206\u6bb5\u8bad\u7ec3\u4e0e\u79d1\u5b66\u8bc4\u4ef7\uff0c\u540c\u65f6\u5e76\u884c\u4ea4\u4ed8\u540e\u7eed\u6570\u636e\u3001\u8bad\u7ec3\u548c\u8bc4\u4ef7\u51c6\u5907\uff1b\u4f4e\u9891\u89c2\u5bdfGPU\uff0c\u4ee5\u771f\u5b9e\u7aef\u70b9\u53ca\u914d\u5bf9\u95ed\u73af\u8bc1\u636e\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\u3002",
+  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
+  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
   "goal_panel": {
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
@@ -32,7 +32,7 @@
     "start_step": 2048,
     "target_step": 4096,
     "native_state": "R",
-    "native_observed_epoch": 1792696865.2754936,
+    "native_observed_epoch": 1792698785.2152934,
     "new_submission_count": 1,
     "native_receipts": [
       "PBS_READY.json",
@@ -42,7 +42,7 @@
     ],
     "model_start_release": true,
     "first_update_release": true,
-    "new_updates_at_observation": "NOT_YET_INDEPENDENTLY_AUDITED",
+    "new_updates_at_observation": "ACTUAL_RETURNED_NOT_TERMINALLY_SETTLED",
     "owner_service": "vap1-a40-zero-update-resume-owner-01",
     "owner_pid": 431568,
     "owner_status": "ACTIVE",
@@ -63,11 +63,12 @@
     "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
     "last_recoverable_complete_step": 2048,
     "training_completion_claimed": false,
-    "observed_epoch": 1792697825.1701148,
-    "last_returned_training_step": 2057,
-    "new_returned_updates": 9,
+    "observed_epoch": 1792698785.2152934,
+    "last_returned_training_step": 2229,
+    "new_returned_updates": 181,
     "compatibility_queries": 17,
-    "model_load_attempts": 2
+    "model_load_attempts": 2,
+    "unknown_effects": []
   },
   "workstreams": [
     {
@@ -133,45 +134,53 @@
       "unfinished_A_preserved": true,
       "actual_A_closed_required": true
     },
-    "terminal_adapter": {
-      "status": "PREPARED_LOCAL_ONLY_CPU_VERIFIED_NOT_NATIVE_TERMINAL",
-      "report": "HEARTBEAT_RECOVERY2_TERMINAL_PREPARATION_CPU_20261023.json",
-      "wrapper_sha256": "522207831ee741aa2bdf83801fce11dd23f5aef1dbbee4afbf00304e8302d3f2",
-      "test_sha256": "9889404f0a97061d2dded70e19ed475a7d28fc2ecb57b006d4e41ad8166b4e7c",
-      "tests_passed": 9,
-      "actual_native_audit": false,
-      "expected_total_charged_updates": 5891,
-      "service": "vap1-a40-heartbeat-recovery2-watch-resume-02"
+    "previous_recovery2_preparation": {
+      "terminal_adapter": {
+        "status": "PREPARED_LOCAL_ONLY_CPU_VERIFIED_NOT_NATIVE_TERMINAL",
+        "report": "HEARTBEAT_RECOVERY2_TERMINAL_PREPARATION_CPU_20261023.json",
+        "wrapper_sha256": "522207831ee741aa2bdf83801fce11dd23f5aef1dbbee4afbf00304e8302d3f2",
+        "test_sha256": "9889404f0a97061d2dded70e19ed475a7d28fc2ecb57b006d4e41ad8166b4e7c",
+        "tests_passed": 9,
+        "actual_native_audit": false,
+        "expected_total_charged_updates": 5891,
+        "service": "vap1-a40-heartbeat-recovery2-watch-resume-02"
+      },
+      "B1_dispatch_interface": {
+        "report": "B1_CURRENT_SCOPE_DISPATCH_AND_B2_STATIC_AUDIT_CPU_20261023.json",
+        "status": "PURE_INTERFACE_COMPILED_CPU_VERIFIED_NOT_NATIVE_CONNECTED",
+        "CPU_tests_passed": 4,
+        "interface_sha256": "c94a5fe2d62c99a99f17f1a66ca4d154b2b7d7080c40bbf8d9c998b6e8671e93",
+        "actual_native_connected": false
+      },
+      "B1_cold_owner": {
+        "report": "B1_ISOLATED_COLD_OWNER_CPU_PREPARATION_20261023.json",
+        "status": "PREPARED_COLD_OWNER_ENTRYPOINTS_CPU_VERIFIED_NOT_NATIVE_DEPLOYED",
+        "owner_sha256": "9a61accb1dd055272c5403a34c329630d8112099ac95290b2b46a1a60f1c5e75",
+        "CPU_tests_passed": 6,
+        "actual_native_deployed": false
+      },
+      "B1_terminal_B2_import": {
+        "report": "B1_TERMINAL_B2_METADATA_CPU_PREPARATION_20261023.json",
+        "status": "PREPARED_CPU_VERIFIED_NOT_NATIVE_B_EVIDENCE",
+        "CPU_tests_passed": 6,
+        "B1_terminal_sha256": "ae7154d2263e9cc871fa2ecc948398a732f62cfaec7fd63cb6096f4fe5a06c54",
+        "B2_metadata_sha256": "3d5507e82d9f8114ccd652e1e49668565f379775ac41fc41e2990cbd023d9718",
+        "actual_native_audit_or_adoption": false
+      },
+      "B2_cold_owner_terminal": {
+        "report": "B2_ISOLATED_OWNER_FINAL_TERMINAL_CPU_PREPARATION_20261023.json",
+        "status": "PREPARED_CPU_VERIFIED_NOT_NATIVE_B2_DEPLOYED",
+        "CPU_tests_passed": 5,
+        "owner_sha256": "fd5777fee8a5632ae656a0a8d8b993f1550aa652469f39e3c2f717df0b8df9a8",
+        "terminal_sha256": "7efddf3e1d06fca2ef5e35c4198d567c29651551a32b1d1966e8cfbdd6e9f842",
+        "actual_native_deployed": false
+      }
     },
-    "B1_dispatch_interface": {
-      "report": "B1_CURRENT_SCOPE_DISPATCH_AND_B2_STATIC_AUDIT_CPU_20261023.json",
-      "status": "PURE_INTERFACE_COMPILED_CPU_VERIFIED_NOT_NATIVE_CONNECTED",
-      "CPU_tests_passed": 4,
-      "interface_sha256": "c94a5fe2d62c99a99f17f1a66ca4d154b2b7d7080c40bbf8d9c998b6e8671e93",
-      "actual_native_connected": false
-    },
-    "B1_cold_owner": {
-      "report": "B1_ISOLATED_COLD_OWNER_CPU_PREPARATION_20261023.json",
-      "status": "PREPARED_COLD_OWNER_ENTRYPOINTS_CPU_VERIFIED_NOT_NATIVE_DEPLOYED",
-      "owner_sha256": "9a61accb1dd055272c5403a34c329630d8112099ac95290b2b46a1a60f1c5e75",
-      "CPU_tests_passed": 6,
-      "actual_native_deployed": false
-    },
-    "B1_terminal_B2_import": {
-      "report": "B1_TERMINAL_B2_METADATA_CPU_PREPARATION_20261023.json",
-      "status": "PREPARED_CPU_VERIFIED_NOT_NATIVE_B_EVIDENCE",
-      "CPU_tests_passed": 6,
-      "B1_terminal_sha256": "ae7154d2263e9cc871fa2ecc948398a732f62cfaec7fd63cb6096f4fe5a06c54",
-      "B2_metadata_sha256": "3d5507e82d9f8114ccd652e1e49668565f379775ac41fc41e2990cbd023d9718",
-      "actual_native_audit_or_adoption": false
-    },
-    "B2_cold_owner_terminal": {
-      "report": "B2_ISOLATED_OWNER_FINAL_TERMINAL_CPU_PREPARATION_20261023.json",
-      "status": "PREPARED_CPU_VERIFIED_NOT_NATIVE_B2_DEPLOYED",
-      "CPU_tests_passed": 5,
-      "owner_sha256": "fd5777fee8a5632ae656a0a8d8b993f1550aa652469f39e3c2f717df0b8df9a8",
-      "terminal_sha256": "7efddf3e1d06fca2ef5e35c4198d567c29651551a32b1d1966e8cfbdd6e9f842",
-      "actual_native_deployed": false
+    "A_terminal_current": {
+      "status": "CPU_TESTED_NOT_NATIVE_TERMINAL",
+      "CPU_tests_passed": 9,
+      "service": "vap1-a40-zero-update-resume-owner-01",
+      "expected_total_updates": 5891
     }
   },
   "preserved": {
@@ -191,19 +200,19 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792695979.891762,
+  "updated_epoch": 1792698771.563043,
   "latest_actual_receipt": {
     "path": "reports/PI0294/design/parallel-science-20261022/RECOVERY2_PREMODEL_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261023.json",
     "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
   },
   "current_resource_work": {
-    "status": "NEW_HUMAN_SCOPE_APPROVED_CPU_VERIFIED_PENDING_EXACT_CI_AND_NATIVE_COLD_ADOPTION",
+    "status": "APPROVED_DUAL_LEDGER_ADOPTED_SAME_HEALTHY_A_RUNNING",
     "retain_all_checkpoints": true,
-    "report": "reports/PI0294/design/parallel-science-20261022/RECOVERY2_PREMODEL_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261023.json",
+    "report": "reports/PI0294/design/parallel-science-20261022/ZERO_UPDATE_RESUME_NATIVE_ADOPTION_ACTUAL_20261023.json",
     "next_actions": [
-      "Do not restart closed request or failed owners.",
-      "Apply exact approved zero-update scope through fresh cold registration and once dual-ledger adoption; no further approval required.",
-      "Fresh cold registration, full-source/seed/current-budget/native admission before A2048-to4096; independent B only after real A4096 close."
+      "Reuse healthy existing A owner; no hot edit, restart or duplicate submission.",
+      "Actual A4096 full-state terminal audit, once settlement and both lease closures.",
+      "Independent B1 then B2 under current zero-scope grant and fresh complete remaining-work admission."
     ],
     "draft_not_approved": false
   },
@@ -587,15 +596,41 @@
     "status": "EXISTING_EPISODE_HOOKS_CPU_TESTED_NATIVE_BINDINGS_PENDING",
     "report": "reports/PI0294/design/WDR1_SOURCE_EPISODE_WIRING_CPU_PREPARATION_20261023.json",
     "CPU_tests_combined": 92,
-    "native_qualified": false
+    "native_qualified": false,
+    "exact_previous_CI": {
+      "source": "cbc0225482cb7992d8dec78357f7ad13c5adf2d5",
+      "run": 39842134018,
+      "job": 120045666146,
+      "status": "completed",
+      "conclusion": "success",
+      "full_readback_files": 11
+    }
   },
   "first_update_native_actual_report": "ZERO_UPDATE_RESUME_FIRST_UPDATE_NATIVE_ACTUAL_20261023.json",
   "parallel_helpers_current_adoption": {
-    "status": "PARALLEL_HELPERS_ADOPTED_AND_DISPATCHED",
+    "status": "BOTH_EXISTING_HELPERS_DELIVERED_ROOT_REVIEWED_CPU_TESTED_NO_NEW_HELPERS",
     "new_helpers_spawned": 0,
     "training_helper": "science_training_prep",
     "science_helper": "science_data_prep",
     "root_is_only_native_mutation_owner": true,
     "helpers_only_text_preparation": true
+  },
+  "B1_zero_scope_terminal_B2_metadata": {
+    "report": "B1_ZERO_SCOPE_TERMINAL_B2_METADATA_CPU_ACTUAL_20261023.json",
+    "CPU_tests_passed": 10,
+    "native_B_executed": false,
+    "actual_B2048_required": true
+  },
+  "B2_zero_scope_owner_terminal": {
+    "report": "B2_ZERO_SCOPE_OWNER_TERMINAL_CPU_ACTUAL_20261023.json",
+    "CPU_tests_passed": 10,
+    "native_B_executed": false,
+    "actual_B1_closed_required": true
+  },
+  "WDR1_mapped_ACK_consumers": {
+    "report": "reports/PI0294/design/WDR1_MAPPED_ACK_CONSUMERS_CPU_ACTUAL_20261023.json",
+    "CPU_tests_passed": 168,
+    "subtests_passed": 35,
+    "native_qualified": false
   }
 }

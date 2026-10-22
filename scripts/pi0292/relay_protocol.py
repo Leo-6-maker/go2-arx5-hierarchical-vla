@@ -107,7 +107,15 @@ def validate_observation(payload):
 class RelayExchange:
     """One durable, single-owner episode; all protocol errors stop the attempt."""
 
-    def __init__(self, directory, *, run_uuid=None, episode_uuid=None, identity=None, now=None):
+    def __init__(self, directory, *, run_uuid=None, episode_uuid=None, identity=None, now=None,
+                 mapped_ack_contract=None):
+        # Only a cold, owner-pinned factory may inject this object. Packets and
+        # requests have no mode flag, and the default RAW validator is unchanged.
+        if mapped_ack_contract is not None:
+            from scripts.pi0294.dec1.mapped_ack import FixedMappedAckContract
+            if not isinstance(mapped_ack_contract,FixedMappedAckContract):
+                raise TypeError('OWNER_PINNED_MAPPED_ACK_CONTRACT_REQUIRED')
+        self.mapped_ack_contract=mapped_ack_contract
         self.root = Path(directory)
         self.root.mkdir(parents=True, exist_ok=True)
         self.lock = OwnerLock(self.root / 'OWNER.lock')
@@ -129,7 +137,17 @@ class RelayExchange:
                 self.state = dict(protocol=PROTOCOL, run_uuid=run_uuid, episode_uuid=episode_uuid,
                     identity=copy.deepcopy(identity), started=now, last_wall=now, deadline=now + 900,
                     phase='WAIT_OBSERVATION', sequence=0, tick=0, history=[], used_snapshots=[], pending=None)
+                if mapped_ack_contract is not None:
+                    self.state['mapped_ack_condition_sha256']=mapped_ack_contract.condition_sha256
                 write(self.path, self.state)
+            pin=self.state.get('mapped_ack_condition_sha256')
+            if pin!=(None if mapped_ack_contract is None else mapped_ack_contract.condition_sha256):
+                raise ValueError('COLD_ACK_CONTRACT_CHANGED_OR_OMITTED_ON_REOPEN')
+            if mapped_ack_contract is not None:
+                c=mapped_ack_contract.condition
+                if (c['run_uuid']!=self.state['run_uuid'] or c['episode_uuid']!=self.state['episode_uuid']
+                        or c['identity']!=self.state['identity']):
+                    raise ValueError('COLD_ACK_CONTRACT_EXCHANGE_IDENTITY_CHANGED')
         except BaseException:
             self.lock.close()
             raise
@@ -231,6 +249,10 @@ class RelayExchange:
                 prefix_eef10=prefix, prefix_sha256=digest(prefix), advance_integrations=200,
                 frame=FRAME, tcp=TCP, expires=self.state['pending']['expires']))
             self.state['pending'].update(command_sha256=command['sha256'], prefix_sha256=digest(prefix))
+            if self.mapped_ack_contract is not None:
+                self.state['pending']['response_sha256']=packet['sha256']
+                self.state['pending']['mapped_ack_binding']=self.mapped_ack_contract.bind_action(
+                    packet,command,initial_adapter_ack_id=self.state.get('mapped_last_adapter_ack_id'))
             self.state.update(phase='WAIT_ACK')
             write(self.root / ('command-%03d.json' % self.state['sequence']), command)
             write(self.path, self.state)
@@ -247,8 +269,17 @@ class RelayExchange:
             body = unseal(packet)
             self._envelope(body, 'ack')
             value = body['payload']
-            exact_keys(value, ('query_uuid', 'reference_uuid', 'command_sha256', 'prefix_sha256',
-                               'tick_after', 'integrations', 'physics_receipt_sha256'))
+            if self.mapped_ack_contract is None:
+                exact_keys(value, ('query_uuid', 'reference_uuid', 'command_sha256', 'prefix_sha256',
+                                   'tick_after', 'integrations', 'physics_receipt_sha256'))
+            else:
+                from scripts.pi0294.dec1.mapped_ack import ValidatedMappedAck
+                if self.state['pending']['mapped_ack_binding']['response_sha256']!=self.state['pending']['response_sha256']:
+                    raise ValueError('ORIGINAL_PREBIND_RESPONSE_SHA_CHANGED')
+                checked=self.mapped_ack_contract.validate(packet,
+                    expected=self.state['pending']['mapped_ack_binding'])
+                if not isinstance(checked,ValidatedMappedAck) or checked.packet_sha256!=packet['sha256']:
+                    raise ValueError('COMPLETE_MAPPED_ACK_VALIDATION_REQUIRED')
             for key in ('query_uuid', 'reference_uuid', 'command_sha256', 'prefix_sha256'):
                 if value[key] != self.state['pending'][key]:
                     raise ValueError('ACK_COMMAND_BINDING_MISMATCH')
@@ -257,6 +288,8 @@ class RelayExchange:
             receipt = value['physics_receipt_sha256']
             if not isinstance(receipt, str) or len(receipt) != 64 or any(c not in '0123456789abcdef' for c in receipt):
                 raise ValueError('PHYSICS_RECEIPT_HASH_REQUIRED')
+            if self.mapped_ack_contract is not None:
+                self.state['mapped_last_adapter_ack_id']=checked.final_adapter_ack_id
             write(self.root / ('ack-%03d.json' % self.state['sequence']), packet)
             self.state['history'].append(dict(sequence=self.state['sequence'], tick_before=self.state['tick'],
                 tick_after=value['tick_after'], query_uuid=value['query_uuid'], ack_sha256=packet['sha256']))

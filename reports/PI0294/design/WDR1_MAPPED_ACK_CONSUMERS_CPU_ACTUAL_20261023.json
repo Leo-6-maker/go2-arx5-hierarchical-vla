@@ -1,0 +1,45 @@
+{
+  "schema": "WDR1_MAPPED_ACK_CONSUMERS_CPU_ACTUAL_V1",
+  "status": "CPU_BINDINGS_VERIFIED_NOT_NATIVE_QUALIFICATION",
+  "observed_epoch": 1792698771.563043,
+  "files_sha256": {
+    "scripts/pi0294/dec1/mapped_ack.py": "01682ddc63bee78e5e823f70b6e364e583037d878acececa465401d6cf7a7ee4",
+    "scripts/pi0294/dec1/mapped_relay_ack.py": "13b6fc73dc78fee33f698891c94aa2f84bcc30313350b677cadfdf3cb129de50",
+    "scripts/pi0294/dec1/test_mapped_ack.py": "185e27c87342371c78d95e116c5d9c76252520a68d84faeb9e954d00e914bb29",
+    "scripts/pi0294/dec1/test_mapped_wire_proof.py": "1d547f5f3a5cc4ffc3b839a9566676def31420b26bf8aea387b8c76189d9551a",
+    "scripts/pi0294/dec1/source_episode_wire.py": "ed370f79e093f0fa3e5c26cf4cfd56dc7156b329f15b3860832189b7465a22d6",
+    "scripts/pi0292/relay_protocol.py": "39b19c67678ca177a8c88309adcadb2a0995a1ea1117399f047bfba3a3523aa1",
+    "scripts/pi0292/neural_relay.py": "565c673e705f5e4a5abc7799a6f84e82a6f1e6df2d00ec181fa5ee136dca7a11",
+    "scripts/pi0294/relay_teacher.py": "8418fa938a19df4266d4d51901adfc6831a969101bd0ac3253ae723eb2cb407b"
+  },
+  "test_results": {
+    "passed": 168,
+    "subtests_passed": 35,
+    "deselected": 1,
+    "deselected_reason": "Original clean-import subprocess test excluded by audit envelope; exact import assertion separately passed directly under same no-process/no-network/no-native-import hook",
+    "blocked_native_attempts_final": 0
+  },
+  "initial_validation": {
+    "failures": 10,
+    "nine_failures_same_real_bug": "Event builder already supplies episode/executor IDs; root fixed duplicate kwargs at source PREFIX200 event emission",
+    "one_guard_rejection": "Existing local clean-import subprocess assertion blocked before process spawn; no remote or native execution occurred"
+  },
+  "preserved": [
+    "Default RAW exact-key semantics and PROTOCOL",
+    "Original completed full-response SHA plus raw H40/raw command/prefix identities",
+    "Explicit mapped action hash and eight actually collected reference ACKs",
+    "Original S1 PASS forecast, 200 shadow and actual200 live clocks, 1e-10 parity",
+    "Full extended ACK retained verbatim as next previous_ack",
+    "Original episode sole live step owner and existing meters",
+    "Active A immutable runtime and all authority/freezes unchanged"
+  ],
+  "pending_native": [
+    "Actual sealed DEC1 source condition attachment and admitted cold owner factory",
+    "Matching explicit contract injection at both consumers and source ACK callback",
+    "Original S1 and result persistence, actual stop/partial-cost callbacks",
+    "Original finite single-pose commissioning and persisted receipt readback",
+    "Executor-specific existing frozen target WBC task qualification"
+  ],
+  "new_native_GPU_PBS_models_queries_updates_physics": 0,
+  "native_source_or_target_PASS": false
+}

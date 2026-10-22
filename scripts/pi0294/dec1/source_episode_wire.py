@@ -92,7 +92,8 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
             self._event('SOURCE_MAPPED_PREFIX_BIND_CONFIRMED',nonce=nonce)
             reservation=self._reserve('live',0)
             self.outer=dict(reservation=reservation,start_count=self.counts['live'],
-                start_step=self.engine.steps,index=0,inflight=None,proposal=None,finished=False)
+                start_step=self.engine.steps,index=0,inflight=None,proposal=None,finished=False,
+                actual_acks=[],initial_adapter_ack_id=self.adapter.state()['predecessor_ack_id'])
             box={'actual':self.engine.snapshot()}
             self.outer['box']=box
             self._bind(self.adapter,box,_digest(pending['chunk']))
@@ -178,7 +179,19 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
                 end=engine.snapshot()['time_s']
                 if end!=record['execution_end_timestamp']:
                     raise PrefixFailure('SOURCE_ACTUAL_ACK_CLOCK_DIFFERS_FROM_SHADOW')
-                self.adapter.acknowledge(a['proposal'].command_id,execution_end_timestamp=end)
+                predecessor=self.adapter.state()['predecessor_ack_id']
+                actual_proposal=a['proposal']
+                target,opening=_action(actual_proposal)
+                self.adapter.acknowledge(actual_proposal.command_id,execution_end_timestamp=end)
+                actual_ack=dict(reference=attempt['context']['reference'],command_id=actual_proposal.command_id,
+                    proposal_sha256=_proposal_digest(actual_proposal),phase=float(actual_proposal.phase),
+                    predecessor_ack_id=predecessor,ack_id=self.adapter.state()['predecessor_ack_id'],
+                    tick_before=self.engine.steps-25,tick_after=self.engine.steps,
+                    execution_end_timestamp=end,target=target.tolist(),opening=opening)
+                # These are ACTUAL successful acknowledge results, not copied
+                # predicted shadow records. Owner persists the event unchanged.
+                self._event('SOURCE_ACTUAL_REFERENCE_ACK',nonce=self.pending['nonce'],**actual_ack)
+                a['actual_acks'].append(actual_ack)
                 self._event('SOURCE_REFERENCE_ACK',nonce=self.pending['nonce'],reference=attempt['context']['reference'],
                     command_id=a['proposal'].command_id,execution_end_timestamp=end,actual_ticks=25)
                 a['proposal']=None
@@ -189,17 +202,23 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
             self._open();a=self.outer
             if (engine is not self.engine or a is None or a['finished'] or a['index']!=PREFIX_TICKS
                     or a['inflight'] is not None or a['proposal'] is not None or len(rows)!=PREFIX_TICKS
+                    or len(a['actual_acks'])!=8
                     or engine.steps!=a['start_step']+PREFIX_TICKS
                     or self.counts['live']-a['start_count']!=PREFIX_TICKS):
                 raise PrefixFailure('SOURCE_EXACT_PREFIX200_ACK_REQUIRED')
             proof=dict(nonce=self.pending['nonce'],raw_chunk_id=self.pending['chunk'].chunk_id,
+                episode_id=self.episode_id,executor_id=self.executor_id,
                 raw_h40_sha256=hashlib.sha256(self.pending['raw'].tobytes()).hexdigest(),
                 action_sha256=self.pending['forecast']['action_sha256'],
                 proposal_digests=[r['digest'] for r in self.pending['records']],
                 phases=[r['phase'] for r in self.pending['records']],actual_ticks=PREFIX_TICKS,
                 tick_before=a['start_step'],tick_after=engine.steps,
+                initial_adapter_ack_id=a['initial_adapter_ack_id'],
+                s1=deepcopy(self.pending['forecast']),actual_reference_acks=deepcopy(a['actual_acks']),
+                maximum_live_shadow_difference=self.maximum_parity,
                 ABI='SINGLE_4x4_POSE_PLUS_GRIPPER_NOT_PREVIEW9')
-            self._event('SOURCE_PREFIX200_ACK',**proof)
+            self._event('SOURCE_PREFIX200_ACK',**{key:value for key,value in proof.items()
+                if key not in ('episode_id','executor_id')})
             self._close_live('PASS')
             self.pending=None;self.outer=None
             return proof

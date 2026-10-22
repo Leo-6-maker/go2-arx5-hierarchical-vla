@@ -94,7 +94,8 @@ class RelayTeacher:
         if intent.exists():raise FileExistsError('PHYSICAL_PREFIX_ALREADY_RESERVED_NO_REPLAY')
         write(intent,dict(status='RESERVED_BEFORE_FIRST_INTEGRATION',command_sha256=bundle['command']['sha256'],
             requested_integrations=200,tick_before=tick,query_uuid=command['query_uuid'],gate=gate))
-        self.pending=dict(command=command,command_sha256=bundle['command']['sha256'])
+        self.pending=dict(command=command,command_sha256=bundle['command']['sha256'],
+            command_packet=bundle['command'],action_packet=bundle['action'])
         trajectory=np.asarray(unseal(bundle['action'])['payload']['trajectory_eef10'],dtype=float)
         return dict(poses=matrix10(trajectory),opening=trajectory[:,9],offset_s=np.arange(40)/20,
             stage='AUDIT_ONLY_'+self.teacher.stage,
