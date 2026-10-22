@@ -69,10 +69,19 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
     def _fail(self,error):
         if self.outer is not None and self.outer['inflight'] is not None:
             self.unknown['live']=True
+        halt_error=None
         try:self._halt(error)
-        finally:self._close_live('NATIVE_SAFETY_ERROR' if str(error) in (
+        except BaseException as caught:halt_error=caught
+        try:self._close_live('NATIVE_SAFETY_ERROR' if str(error) in (
             'SOURCE_ORIGINAL_NATIVE_S1_REJECT','S1_ACTUAL_LIVE_SHADOW_PARITY_MISMATCH')
             else 'ENGINEERING_MISSING')
+        except BaseException as close_error:
+            interrupted=next((e for e in (error,halt_error) if e is not None and not isinstance(e,Exception)),None)
+            if interrupted is not None:
+                if interrupted.__cause__ is None:raise interrupted from close_error
+                raise interrupted
+            raise
+        if halt_error is not None:raise halt_error
         raise error
 
     def begin_prefix(self,nonce):

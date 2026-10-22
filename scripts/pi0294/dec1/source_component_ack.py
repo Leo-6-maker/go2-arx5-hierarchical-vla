@@ -360,4 +360,4 @@ class SourceComponentAcknowledger:
         return dict(sequence=self._sequence, unknown=self._unknown, entered=self._busy,
             pending_raw_plan=self._pending is not None, last_adapter_ack_id=self._prior_ack,
             policy=POLICY, purpose=PURPOSE, student_neural_ACK_qualification=False,
-            native_qualification='NATIVE_COMMISSIONING_NOT_RUN')
+            native_qualification='NOT_ASSERTED_BY_THIS_COMPONENT_CLASS')

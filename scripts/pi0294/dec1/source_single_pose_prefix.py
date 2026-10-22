@@ -99,10 +99,13 @@ class SinglePosePrefixExecutor:
                     raise PrefixFailure('SOURCE_ACTUAL_STOP_ACK_MISSING') from error
                 self._event('SOURCE_STOP_ACK',receipt_id=ack.receipt_id,reason=self.stop_reason)
                 self.stop_confirmed=True
-            except BaseException:
+            except BaseException as cleanup_error:
                 # Stop intent is already latched; an interrupted durable/native
                 # callback must not permit a second stop or release liabilities.
                 self.unknown['live']=True
+                if not isinstance(error,Exception) and cleanup_error is not error:
+                    if error.__cause__ is None:raise error from cleanup_error
+                    raise error
                 raise
 
     def _gate(self,rows,snapshot,identifier):
@@ -176,7 +179,7 @@ class SinglePosePrefixExecutor:
         self._open()
         if self.pending is not None:
             error=PrefixFailure('SOURCE_PREFIX_ALREADY_RESERVED_NO_RETRY');self._halt(error);raise error
-        shadow=None;reservation=None;before=None;start_count=self.counts['shadow'];status='ENGINEERING_MISSING'
+        shadow=None;reservation=None;before=None;start_count=self.counts['shadow'];status='ENGINEERING_MISSING';primary_error=None
         try:
             raw=np.asarray(raw_eef10,dtype=float).copy()
             actual=self.engine.snapshot()
@@ -218,10 +221,15 @@ class SinglePosePrefixExecutor:
             return dict(status='PASS_SHADOW_ONLY_NATIVE_QUALIFICATION_PENDING',nonce=nonce,
                 shadow_ticks=PREFIX_TICKS,clone_attempts=1)
         except BaseException as error:
+            primary_error=error
             status='ENGINEERING_MISSING'  # An interrupted completion event is not PASS.
             if isinstance(error,PrefixFailure) and str(error)=='SOURCE_ORIGINAL_NATIVE_S1_REJECT':status='S1_REJECT'
             elif isinstance(error,PrefixFailure) and str(error)=='SOURCE_ORIGINAL_FULL_H40_REJECT':status='REFERENCE_REJECT'
-            self._halt(error);raise
+            try:self._halt(error)
+            except BaseException as halt_error:
+                if not isinstance(halt_error,Exception):primary_error=halt_error
+                raise
+            raise
         finally:
             cleanup_error=None
             try:
@@ -241,7 +249,16 @@ class SinglePosePrefixExecutor:
             except BaseException as error:
                 self.unknown['shadow']=True;cleanup_error=cleanup_error or error
             if cleanup_error is not None:
-                self._halt(cleanup_error);raise cleanup_error
+                try:self._halt(cleanup_error)
+                except BaseException as halt_error:
+                    if primary_error is not None and not isinstance(primary_error,Exception):
+                        if primary_error.__cause__ is None:raise primary_error from halt_error
+                        raise primary_error
+                    raise
+                if primary_error is not None and not isinstance(primary_error,Exception):
+                    if primary_error.__cause__ is None:raise primary_error from cleanup_error
+                    raise primary_error
+                raise cleanup_error
 
     def execute_prefix(self,nonce):
         self._open();reservation=None;start_count=self.counts['live'];status='ENGINEERING_MISSING'

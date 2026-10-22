@@ -211,7 +211,7 @@ class SourceSyncStopBarrier:
         return dict(latched=self._latched,inflight=self._inflight,stop_attempted=self._stop_attempted,
             stop_acknowledged=self._acknowledged,unknown=self._unknown,fault=self._fault,
             last_observed_native_steps=self._observed_steps,last_attempt=self._last_attempt,
-            native_qualification='NATIVE_COMMISSIONING_NOT_RUN')
+            native_qualification='NOT_ASSERTED_BY_THIS_COMPONENT_CLASS')
 
     # No live-object detach/unlatch method is supplied: restoring its original
     # class while it is still owned would permit a post-ACK owned integration.

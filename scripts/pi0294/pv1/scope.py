@@ -16,20 +16,45 @@ REAUDIT_ROLE = 'PI0294_PV1_CORE_SAVED_RAW_AUDIT_V1'
 EXPORT_ROLE = 'PI0294_PV1_CORE_SAVED_TRAIN_EXPORT_V1'
 EVAL_ROLE = 'PI0294_PV1_CORE_POLICY_EVALUATION_V1'
 FINAL_EVAL_ROLE = 'PI0294_PV1_CORE_LOCKBOX_EVALUATION_V1'
+SOURCE_COMPONENT_ROLE = 'DEC1_SOURCE_CPU_COMPONENT_COMMISSIONING_V1'
 CPU_PROFILES={ROLE:'4080-simulation',CAPTURE_ROLE:'4080-simulation',REAUDIT_ROLE:'4080-simulation',
-    EXPORT_ROLE:'4080-cpu-data',EVAL_ROLE:'4080-simulation',FINAL_EVAL_ROLE:'4080-simulation'}
+    EXPORT_ROLE:'4080-cpu-data',EVAL_ROLE:'4080-simulation',FINAL_EVAL_ROLE:'4080-simulation',
+    SOURCE_COMPONENT_ROLE:'4080-simulation'}
 
 
 def registry_role(scope,run_uuid):
     if scope not in CPU_PROFILES or not run_uuid or run_uuid in ('.','..') or '/' in run_uuid or '\\' in run_uuid:
         raise PermissionError('PV1_FIXED_ROLE_AND_SINGLE_RUN_IDENTITY')
-    return scope+'__'+run_uuid if scope in (CAPTURE_ROLE,EXPORT_ROLE,EVAL_ROLE,FINAL_EVAL_ROLE) else scope
+    return scope+'__'+run_uuid if scope in (CAPTURE_ROLE,EXPORT_ROLE,EVAL_ROLE,FINAL_EVAL_ROLE,SOURCE_COMPONENT_ROLE) else scope
+
+
+def validate_numerical_files(code,code_binding,role,stage=None):
+    """The two explicit glue deltas apply only to the new component role."""
+    if role not in CPU_PROFILES:raise PermissionError('PV1_ONLY_VERSIONED_CPU_CHILD_ROLES')
+    if role==SOURCE_COMPONENT_ROLE:
+        from scripts.pi0294.dec1.source_cpu_intake import validate_pins,ORIGINAL_13,GLUE_2
+        validate_pins({name:(Path(code)/name).read_bytes() for name in set(ORIGINAL_13)|set(GLUE_2)},
+            code_binding,stage or {})
+    else:
+        frozen=code_binding['frozen_numerical_files']
+        if len(frozen)!=15 or any(sha(Path(code)/name)!=h for name,h in frozen.items()):
+            raise ValueError('PV1_FROZEN_ORIGINAL_NUMERICAL_FILES')
+
+
+def lease_time_allowed(role,closeout,now,adoption,lease):
+    # Metadata closeout of the new component never starts physics. It must
+    # remain callable after its worker deadline, including legal hard-close
+    # settlement. Existing roles retain their original deadline semantics.
+    if role==SOURCE_COMPONENT_ROLE and closeout:
+        return adoption['T0_epoch']<=now
+    return adoption['T0_epoch']<=now<min(lease['deadline_epoch'],
+        adoption['hard_closeout_epoch'] if closeout else adoption['stop_new_physics_epoch'])
 
 
 def validate(root, role=ROLE,*,closeout=False):
     if role not in CPU_PROFILES:
         raise PermissionError('PV1_ONLY_VERSIONED_CPU_CHILD_ROLES')
-    if type(closeout) is not bool or closeout and role not in (EVAL_ROLE,FINAL_EVAL_ROLE):
+    if type(closeout) is not bool or closeout and role not in (EVAL_ROLE,FINAL_EVAL_ROLE,SOURCE_COMPONENT_ROLE):
         raise PermissionError('PV1_CLOSEOUT_ONLY_TYPED_EVALUATION_METADATA_NOT_NEW_CAPTURE')
     root = Path(root)
     m = read(root/'RUN_MANIFEST.json')
@@ -70,8 +95,7 @@ def validate(root, role=ROLE,*,closeout=False):
     if (lease['status'] != 'ACTIVE' or lease['run_uuid'] != root.name
             or lease['owner'] != 'EXISTING_LOCAL_PC' or lease['authority_release'] != AUTHORITY
             or lease['deadline_epoch'] != m['limits']['operation_deadline_epoch']
-            or not adoption['T0_epoch'] <= time.time() < min(lease['deadline_epoch'],
-                adoption['hard_closeout_epoch'] if closeout else adoption['stop_new_physics_epoch'])):
+            or not lease_time_allowed(role,closeout,time.time(),adoption,lease)):
         raise PermissionError('PV1_FRESH_CHILD_LEASE_AND_TIME')
     registry = read(b['registry'])['entries']
     matches = [x for x in registry if x.get('role') == expected_role]
@@ -92,9 +116,8 @@ def validate(root, role=ROLE,*,closeout=False):
             or any(sha(code/name) != h for name, h in seal['files'].items())
             or Path(__file__).resolve() != (code/'scripts/pi0294/pv1/scope.py').resolve()):
         raise ValueError('PV1_ACTUAL_IMPORTED_PINNED_SOURCE')
-    frozen = m['code']['frozen_numerical_files']
-    if len(frozen) != 15 or any(sha(code/name) != h for name, h in frozen.items()):
-        raise ValueError('PV1_FROZEN_ORIGINAL_NUMERICAL_FILES')
+    validate_numerical_files(code,m['code'],role,
+        read(root/'PV1_STAGE_BINDING.json') if role==SOURCE_COMPONENT_ROLE else None)
     assets = read(root/'plans/ASSET_IDENTITY.private.json')
     if len(assets['absolute_files']) != 26 or any(sha(p) != h for p, h in assets['absolute_files'].items()):
         raise ValueError('PV1_FROZEN_26_NATIVE_ASSETS')
@@ -104,7 +127,7 @@ def validate(root, role=ROLE,*,closeout=False):
         raise ValueError('PV1_APPROVED_EXISTING_ENTRY_VERSION')
     data_file = {ROLE:'EXCLUSIONS.json',CAPTURE_ROLE:'CAPTURE_PLAN.json',REAUDIT_ROLE:'SAVED_AUDIT_PLAN.private.json',
         EXPORT_ROLE:'SAVED_EXPORT_PLAN.private.json',EVAL_ROLE:'SOURCE_EVALUATION_PLAN.json',
-        FINAL_EVAL_ROLE:'PV1_P5_LOCKBOX_PLAN.json'}[role]
+        FINAL_EVAL_ROLE:'PV1_P5_LOCKBOX_PLAN.json',SOURCE_COMPONENT_ROLE:'DEC1_SOURCE_CPU_COMPONENT_PLAN.json'}[role]
     if (sha(root/'plans'/data_file) != m['data']['manifest_sha256']
             or os.environ.get('CUDA_VISIBLE_DEVICES') != '' or 'PBS_JOBID' in os.environ):
         raise PermissionError('PV1_EXCLUSIONS_IDENTITY_CPU_ONLY_NO_PBS')

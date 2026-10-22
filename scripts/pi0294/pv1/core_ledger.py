@@ -8,7 +8,7 @@ import time
 from scripts.pi0292.durable import write
 from scripts.pi0294.e1.control_read import read
 from .decision import AUTHORITY
-from .scope import EVAL_ROLE,FINAL_EVAL_ROLE
+from .scope import EVAL_ROLE,FINAL_EVAL_ROLE,SOURCE_COMPONENT_ROLE
 
 KINDS=('live_and_recovery_integrations','shadow_integrations')
 
@@ -18,7 +18,7 @@ class Ledger:
     def __init__(self,root):
         self.root=Path(root);self.path=self.root/'RESOURCE_LEDGER.json'
         self.m=read(self.root/'RUN_MANIFEST.json');self.a=read(self.root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
-        if self.m['scope'] not in (EVAL_ROLE,FINAL_EVAL_ROLE) or self.m['authority']['protocol_ref']!=AUTHORITY or self.a['authority_release']!=AUTHORITY:
+        if self.m['scope'] not in (EVAL_ROLE,FINAL_EVAL_ROLE,SOURCE_COMPONENT_ROLE) or self.m['authority']['protocol_ref']!=AUTHORITY or self.a['authority_release']!=AUTHORITY:
             raise PermissionError('PV1_TYPED_CORE_POLICY_COUNTERS_ONLY')
         self.limits=self.m['limits'];self._guard_at=0.;self._guard_value=None;self._guard_closeout=None
         self.check(read(self.path))
@@ -52,8 +52,10 @@ class Ledger:
         self._guard_at=0.
 
     def guard(self,*,closeout=False):
+        component_closeout=self.m['scope']==SOURCE_COMPONENT_ROLE and closeout
         cutoff=self.a['hard_closeout_epoch'] if closeout else self.a['stop_new_physics_epoch']
-        if not self.a['T0_epoch']<=time.time()<min(cutoff,self.limits['operation_deadline_epoch']):
+        if not (self.a['T0_epoch']<=time.time() and (component_closeout
+                or time.time()<min(cutoff,self.limits['operation_deadline_epoch']))):
             raise TimeoutError('PV1_ORIGINAL_PHYSICS_OR_CLOSEOUT_CUTOFF')
         if not closeout and any(p.exists() for p in (self.root/'STOP.json',self.root/'SOURCE_PHYSICS_STOP.json',self.root.parent.parent/'STOP.json')):
             raise PermissionError('PV1_CORE_SAFETY_OR_PARENT_STOP')
@@ -62,7 +64,7 @@ class Ledger:
             binding=read(self.root/'OUTPUT_BINDING.private.json');lease=read(binding['lease'])
             if lease['status']!='ACTIVE' or lease['run_uuid']!=self.root.name or lease['authority_release']!=AUTHORITY:
                 raise PermissionError('PV1_LIVE_CORE_EVALUATION_LEASE')
-            self._guard_value=self.check(read(self.path),limits=True,allow_unknown=closeout)
+            self._guard_value=self.check(read(self.path),limits=not component_closeout,allow_unknown=closeout)
             self._guard_at=now;self._guard_closeout=closeout
         return self._guard_value
 

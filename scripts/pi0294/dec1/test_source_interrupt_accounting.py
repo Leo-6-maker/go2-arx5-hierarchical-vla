@@ -244,3 +244,40 @@ def test_teacher_finish_durable_callback_interrupt_is_latched_not_retried(harnes
     with pytest.raises(PermissionError,match='NO_RETRY'):teacher.finish('FAILED_PRESERVED','DO_NOT_RETRY')
     assert len(saved)==1 and len(base.finished)==1
     assert_latched(h)
+
+
+def test_primary_interrupt_survives_secondary_stop_failure_and_preserves_existing_cause(harness):
+    h=harness();primary=KeyboardInterrupt('PRIMARY_INTERRUPT');earlier=OSError('PERSIST_FAILED_FIRST')
+    primary.__cause__=earlier
+    def bad(reason):h.stops.append(reason);raise RuntimeError('STOP_ACK_UNKNOWN')
+    h.executor.stop=bad
+    with pytest.raises(KeyboardInterrupt) as caught:h.executor._halt(primary)
+    assert caught.value is primary and caught.value.__cause__ is earlier
+    assert h.executor.stopped and not h.executor.stop_confirmed and h.executor.unknown['live']
+    assert len(h.stops)==1
+
+
+def test_shadow_interrupt_survives_finish_error_without_losing_native_count(harness):
+    h=harness();original=FakeEngine.step
+    def interrupted(engine,target,opening):
+        original(engine,target,opening)
+        if engine.role=='shadow':raise KeyboardInterrupt('PRIMARY_NATIVE_INTERRUPT')
+    def failed_finish(*args):h.finish(*args);raise OSError('SECONDARY_FINISH_IO')
+    h.executor.finish=failed_finish
+    with patch.object(FakeEngine,'step',interrupted):
+        with pytest.raises(KeyboardInterrupt,match='PRIMARY_NATIVE_INTERRUPT') as caught:prepare(h)
+    assert isinstance(caught.value.__cause__,OSError)
+    assert h.executor.counts['shadow']==1 and h.executor.unknown['shadow'] and len(h.finishes)==1
+    assert h.engine.steps==0 and h.clones[0].closed and len(h.stops)==1
+
+
+def test_outer_interrupt_survives_finish_error_and_keeps_one_real_live_tick(harness):
+    h=outer(harness);start(h);target,opening=h.executor.reference_action(0)
+    h.executor.before_native_tick(h.engine,target,opening);h.engine.step(target,opening)
+    def failed_finish(*args):h.finish(*args);raise OSError('SECONDARY_LIVE_FINISH_IO')
+    h.executor.finish=failed_finish
+    with pytest.raises(KeyboardInterrupt,match='PRIMARY_LIVE_INTERRUPT'):
+        h.executor.after_native_tick(h.engine,KeyboardInterrupt('PRIMARY_LIVE_INTERRUPT'))
+    assert h.executor.counts['live']==1 and h.executor.unknown['live']
+    assert h.executor.state()['live_finish_attempted'] and not h.executor.state()['live_reservation_closed']
+    assert len(h.finishes)==2 and len(h.stops)==1

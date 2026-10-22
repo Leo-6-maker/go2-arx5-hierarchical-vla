@@ -6,7 +6,7 @@ from scripts.pi0294.e1.scope import STATS
 from scripts.pi0294.fd1 import sha
 from .dataset import POPULATION,admit_new_support
 from .decision import AUTHORITY
-from .scope import EVAL_ROLE,FINAL_EVAL_ROLE,validate as validate_core
+from .scope import EVAL_ROLE,FINAL_EVAL_ROLE,SOURCE_COMPONENT_ROLE,validate as validate_core
 from .neural_scope import validate as validate_neural
 
 
@@ -19,6 +19,9 @@ def validate_runtime(root,profile,*,closeout=False,now=None):
     if profile!='4080-simulation':
         raise PermissionError('PV1_ONLY_BOUND_CORE_OR_HOPPER_POLICY_RUNTIME')
     raw_manifest=read(root/'RUN_MANIFEST.json')
+    if raw_manifest.get('scope')==SOURCE_COMPONENT_ROLE:
+        from scripts.pi0294.dec1.source_cpu_runtime import validate as validate_component
+        return validate_component(root,profile,closeout=closeout)
     role=FINAL_EVAL_ROLE if raw_manifest.get('scope')==FINAL_EVAL_ROLE else EVAL_ROLE
     m,inputs=validate_core(root,role=role,closeout=closeout)
     stage=read(root/'PV1_STAGE_BINDING.json')
