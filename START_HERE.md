@@ -1,4 +1,22 @@
-# Current Entry: VAP1 A40 Save Failure Closed
+# Current Entry: VAP1 Authorized Recovery A40 Queued
+
+**Bounded lost-save recovery is natively adopted; a new A40 job is actually Q.**
+[Actual authorization adoption, cold binding, complete forecast and native submission](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_LOST_SAVE_RECOVERY_ADOPTED_AND_A40_SUBMITTED_ACTUAL.json).
+Human authorization1d84e4cf changes only DEC1 cumulative updates8192->9216.
+Old A1024spent updates, costs, closed failure and original training_runs entry
+are preserved. New lineage A_CONTROL_SAVE_RECOVERY1 starts0 from the same CORR
+parent, not an invented1024resume; A/B remain4096each on original R0/recipe.
+Job1474352.stdct-mgmt-02 was submitted once underCFP04-CF-007 and read backQ
+at epoch1792635039 (node_pool insufficient). Request1A40/4CPU/32GiB/8h was
+rewritten to the cold-declared36CPU/240GiB capacity; no qalter/cancel/resubmit.
+Actual process affinity4, CPU hard79760/accounting80000. Runtime78427dd1 passed
+exact CI39708750610/job119594810704,11-file byte/blob readback and1163local tests.
+Both native ledgers adopted the grant once with no cost reset; full source-pair,
+matrix-ceiling/final20h forecast and fresh native auth/quota/queue checks passed.
+Same owner service vap1-a40-lost-save-recovery-owner-01/PID563461 is active and
+polls the same queued handle every60s. No new model/update/physics at snapshot.
+Original clock/budgets/final20h and all freezes remain; selected/deploymentNONE.
+The unapproved-recovery and failed-training snapshots below are historical.
 
 **A_CONTROL reached1024 committed updates, then failed before checkpoint write.**
 [Actual failure, independent absence-of-state audit, typed settlement and closed lease](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_A40_1024_SAVE_FAILURE_AND_SETTLEMENT_ACTUAL.json).
