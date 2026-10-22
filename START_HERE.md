@@ -11,6 +11,15 @@ updates1024/PBS14/GPU26675s; DEC1 updates1024/newPBS3/GPU6181s. No rollback,
 deletion or resubmission occurred. The cold engineering fix93899748 passed153
 local DEC1 tests and1155 PI0294 tests; exact CI39704727441/job119581956584
 is completed/success (all12steps), with four changed files byte/blob read back.
+The same published guard subsequently passed a read-only check on the actual
+Vanda filesystem (epoch1792632268); old receipts/capsule were unchanged. This
+is not a full native checkpoint save or a recovered1024-state claim. A stricter
+enforced CPU-time profile is cold-prepared to fit the existing96core-hour cap;
+no job or active ledger has adopted it. Sourceb2663d88 passed exact complete
+CI39706081300/job119586316785, nine-file byte/blob readback and1159 local tests.
+The80000CPU-second envelope includes a79760process hard limit and240seconds
+for wrapper/observer/accounting; four threads, recipe and site-billing gates
+are unchanged. It is a stricter enforceable bound, not added CPU permission.
 A new matched4096+4096 pair would require9216 cumulative DEC1 updates, exceeding
 the unchanged8192subcap. Replacement lineage/subcap authorization is requested,
 not assumed. Fresh complete resource forecast and site gates remain required.
