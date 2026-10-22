@@ -1,3 +1,11 @@
+# Current experiment: A4096 fully closed; independent B1 running
+
+[A4096 actual audit, settlement, dual closure and B1 adoption](reports/PI0294/design/parallel-science-20261022/A4096_ACTUAL_CLOSURE_AND_B1_NATIVE_ADOPTION_20261023.json): A1477527 is F/Exit0, original owner naturally exited; three15-member states and original12probe records independently verified. One settlement retained all history/checkpoints, cumulative5891updates/61462GPU seconds/1151queries, both leases CLOSED. Closed Core costs were projected once into inactive Hopper DEC1 with no second global charge.
+
+B1 **1478518.stdct-mgmt-02** is actual R on GN-A40-016, independent original CORR0 start0→2048 under unchanged0cf86cbc, request22cdd5d4-c735-4dfc-901c-3b9dda2ca246. Unique service vap1-a40-zero-update-b1-owner-01/PID567538 is healthy;888 sealed members read back, full remaining budget/clock admissible, final20GPUh/40GiB protected. Native compute-ready identity verified; original owner released model start, training updates not yet observed. Reuse this owner and request; actual B2048 audit/settlement/both CLOSED leases precede B2.
+
+Two existing helpers also prepared finite source continuation classification and multi-child aggregation:15+14 pure CPU tests pass/0external attempts. Intake financial-upper and historical slot accounting still require cold code integration/native qualification; old Source UNKNOWN and three NOT_RUN remain. Existing WBC interfaces are reused, student/target task qualification and64cells remain incomplete. All original caps/clocks/freezes persist; goal ACTIVE. Earlier entries are historical snapshots.
+
 # Current training boundary: A native F / Exit0; independent saved-state audit in progress
 
 [Cold B fee-catchup and snapshot CPU preparation](reports/PI0294/design/parallel-science-20261022/B_CLOSED_SOURCE_COLD_NATIVE_AND_SNAPSHOT_PREPARATION_CPU_20261023.json):10 private synthetic/filesystem tests with25subcases pass,0external/native attempts. The existing B1 journal gets a once inactive-Hopper metadata CAS; active A/CPU/GPU holds/open lease/changed bytes reject before write, lost write return cannot be replayed. Only closed Core-side cumulative costs are projected; global neural ledger remains byte-identical.

@@ -1,0 +1,179 @@
+{
+  "schema": "A4096_ACTUAL_CLOSURE_AND_B1_NATIVE_ADOPTION_V1",
+  "observed_epoch": 1792709968.4317443,
+  "status": "A4096_AUDITED_SETTLED_DUAL_CLOSED_B1_UNIQUELY_SUBMITTED_RUNNING",
+  "A": {
+    "job_id": "1477527.stdct-mgmt-02",
+    "source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "native_state": "F",
+    "Exit_status": 0,
+    "owner_naturally_exited": true,
+    "full_state_checkpoints": {
+      "1024": {
+        "complete_sha256": "50528e38c1e785533916fbcdd0a48d63df27f2624bb317e6d0ed113e05318f4e",
+        "members": 15,
+        "actual_consumed_cursor": 32768
+      },
+      "2048": {
+        "complete_sha256": "1336326d908bbc91c36f871f0846b316c2bea08bada2bcee0b1bcc9bcb0e5486",
+        "members": 15,
+        "actual_consumed_cursor": 65536
+      },
+      "4096": {
+        "complete_sha256": "e0b9d8cb67efc82ae8daa67d71f95df8fb5c607e0f75e26d58cf01412a3e807a",
+        "members": 15,
+        "actual_consumed_cursor": 131072
+      }
+    },
+    "original_probe_count": 12,
+    "probe_result_sha256": "c8e6f4b76fdb9df234386efe432d9351ba894e6b5188a63b985d2a448006ab34",
+    "new_probe_queries": 0,
+    "effects": {
+      "schema": "VAP1_A40_NATIVE_SOURCE_EFFECT_SUMMARY_V1",
+      "job_id": "1477527.stdct-mgmt-02",
+      "request_id": "56d0211f-751f-44b9-945a-27367cf6c7ab",
+      "request_sha256": "c7d42e846b002dcc8b8efa769e1ea3c09f3587fe3a04ad886621b5c676dcceac",
+      "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+      "arm": "A_CONTROL",
+      "start_native_step": 2048,
+      "optimizer_updates_committed": 2048,
+      "last_native_step": 4096,
+      "query_attempts": 17,
+      "model_load_attempts": 2,
+      "pending_updates": [],
+      "unknown_query_intents": [],
+      "recipe_sha256": "eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7",
+      "effect_journal_complete": true,
+      "new_physics": 0,
+      "new_episodes": 0,
+      "finished_epoch": 1792709112.1668684
+    },
+    "CPU_readonly_audit_s": 201.95105994399998,
+    "GPU_charged_s": 12345.0,
+    "CPU_charged_s": 11963,
+    "cumulative_GPU_s": 61462.0,
+    "cumulative_updates": 5891,
+    "cumulative_queries": 1151,
+    "GPU_lease": "CLOSED",
+    "CPU_lease": "CLOSED",
+    "GPU_lease_sha256": "139d8de94536a156d3dd474b17f86823dc5d3ce0f353bc104ce2eed8d0d6adb6",
+    "CPU_lease_sha256": "b9070551d3cb7aa88c817b118962ccf1b93c837714c0a4c43b40b128a77c0321",
+    "GPU_closure_receipt_sha256": "5a6aeca113b7d71dd22bdd8ce649220c63f28dd889fee6e1694526ec322b8ed7",
+    "CPU_closure_receipt_sha256": "74fa0dd0bb773263957ba42edba173a311507044a928b81520715e88e3d55800",
+    "retired_or_deleted_checkpoints": 0,
+    "old_failed1024_2819_costs_preserved": true
+  },
+  "closed_Core_cost_catchup": {
+    "status": "ACTUAL_INACTIVE_HOPPER_DEC1_SOURCE_COST_CATCHUP_INDEPENDENTLY_READ_BACK",
+    "native": {
+      "status": "INACTIVE_HOPPER_DEC1_CLOSED_CORE_COST_CATCHUP_CONFIRMED",
+      "receipt": {
+        "schema": "DEC1_SOURCE_CPU_ONCE_METADATA_RECEIPT_V1",
+        "request_id": "23da1121-b1cd-4fef-83b4-a28e45e108b1-inactive-Hopper-cost-catchup",
+        "target": "/scratch/e1192548/Projects/GR00T-WBC/runs/PI0294/20261018T182956Z-localpc-pv1/authority/DEC1/DEC1_RESOURCE_LEDGER.json",
+        "before_sha256": "440f902152607ecb514a560db9a6359517dbc758c2438e552a24b09f19718eb4",
+        "after_sha256": "d179fbda3a40ec428cc4edfa701e5e79d324446a35d1928df6e4a07c28734118",
+        "intent_sha256": "4b7dc148b2817c89b1c0152f594e18441238577b45357b1351ea44db19927761",
+        "status": "CONFIRMED_SINGLE_METADATA_WRITE_NOT_CROSS_SITE_ADMISSION",
+        "native_dispatch_admitted": false
+      },
+      "source_invoice_sha256": "391dc276e498418a8b8abfb17342f527e3573eeb3edbe569081f5fa78b3fd809",
+      "global_Hopper_ledger_unchanged_sha256": "e70a549877cf0b7a1bb92d67c8e11010fc3e0548111f59ef13c6bdeab995226a",
+      "financial_charged": {
+        "CoreLab_CPU_s": 1039.537288565,
+        "local_CPU_s": 720,
+        "episode_starts": 1,
+        "physics_ticks": 16490,
+        "constructors": 6,
+        "CoreLab_output_bytes": 3506438144,
+        "local_output_bytes": 67108864,
+        "transfer_bytes": 1073741824
+      },
+      "new_global_charge": false,
+      "new_PBS_GPU_models_updates_queries_physics": 0
+    },
+    "actual_DEC1_sha256": "d179fbda3a40ec428cc4edfa701e5e79d324446a35d1928df6e4a07c28734118",
+    "global_ledger_sha256": "e70a549877cf0b7a1bb92d67c8e11010fc3e0548111f59ef13c6bdeab995226a",
+    "no_second_global_charge": true,
+    "Core_output_upper_to_add_to_cold_B_peak": 3506438144,
+    "new_PBS_GPU_models": 0
+  },
+  "B1": {
+    "job_id": "1478518.stdct-mgmt-02",
+    "request_id": "22cdd5d4-c735-4dfc-901c-3b9dda2ca246",
+    "request_sha256": "ff5aa468d934c04d383208257adc278f65def4aaa047e386c3a77862cd319d49",
+    "submission_nonce": "112afadb-85a4-4fb4-b267-3514bdd77755",
+    "source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "state": "R",
+    "native_observed_epoch": 1792709962.030506,
+    "owner_service": "vap1-a40-zero-update-b1-owner-01",
+    "observed_owner_PID": 567538,
+    "start_step": 0,
+    "stop_step": 2048,
+    "lineage": "B_COVERAGE",
+    "independent_original_CORR0": true,
+    "A_weights_optimizer_resume_identity_inherited": false,
+    "manifest_sha256": "8c549bbca0fed64e05112444e9e460ec66fa4bc487a0983cd8d1ddf20772669d",
+    "sealed_members_read_back": 888,
+    "maximum_new_qsub": 1,
+    "full_budget_admissible": true,
+    "global_shortfalls": {},
+    "DEC1_shortfalls": {},
+    "clock_failures": [],
+    "original_final_protection": {
+      "H200_s": 72000,
+      "episode_starts": 100,
+      "neural_queries": 9000,
+      "physics_ticks": 3200000,
+      "Hopper_storage_bytes": 42949672960
+    },
+    "future_B2048_cumulative_updates": 7939,
+    "future_B4096_cumulative_updates": 9987,
+    "native_compute_ready": {
+      "run_uuid": "vap1-a40-zero-update-b1-01",
+      "job_id": "1478518.stdct-mgmt-02",
+      "hostname": "GN-A40-016",
+      "pid": 3870846,
+      "proc_start": "332941011",
+      "observed_epoch": 1792709918.0101628,
+      "request_sha256": "ff5aa468d934c04d383208257adc278f65def4aaa047e386c3a77862cd319d49",
+      "models_loaded": 0,
+      "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+      "amgr_login_in_compute": false
+    },
+    "model_start_release_actual": true,
+    "training_updates": "NOT_YET_OBSERVED"
+  },
+  "preparation_publication": {
+    "source": "ff35729bd1863db347ffe2a96f722c471d7a1eb9",
+    "CI_run": 39867591660,
+    "CI_job": 120133586822,
+    "all_12_steps_success": true,
+    "all_3_full_text_readbacks": true
+  },
+  "parallel_offline_source_preparation": {
+    "reused_helpers": 2,
+    "new_helpers": 0,
+    "classification_CPU_tests": 15,
+    "aggregation_CPU_tests": 14,
+    "external_native_attempts": 0,
+    "finite_admission_and_native_slot_seams_still_pending": true,
+    "new_source_continuation_run": false
+  },
+  "scientific_status": {
+    "old_source": "ENGINEERING_INCOMPLETE_UNKNOWN",
+    "remaining_original_source_components": "3_NOT_RUN",
+    "new_engineering_replacement": "NOT_RUN_PENDING_ORIGINAL_RULES_AND_FRESH_NATIVE_ADMISSION",
+    "source_lease_financial_closed": true,
+    "student_qualified": false,
+    "target_WBC_task_qualified": false,
+    "core64_cells": 0,
+    "all_scientific_freezes_caps_clocks_unchanged": true
+  },
+  "next": [
+    "Reuse healthy sole B1 owner; no restart/hot edit/duplicate request",
+    "Actual B2048 full-state independent audit, once settlement and both lease closures before B2",
+    "Continue finite source engineering/admission and separate frozen WBC task qualification within original bounds"
+  ],
+  "goal_complete": false
+}

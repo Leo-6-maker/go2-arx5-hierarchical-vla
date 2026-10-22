@@ -24,35 +24,29 @@
     "new_concurrent_GPU_or_training_authorized_by_this_card": false
   },
   "current_native_snapshot": {
-    "job_id": "1477527.stdct-mgmt-02",
-    "request_id": "56d0211f-751f-44b9-945a-27367cf6c7ab",
-    "request_sha256": "c7d42e846b002dcc8b8efa769e1ea3c09f3587fe3a04ad886621b5c676dcceac",
-    "submission_nonce": "87c7d492-5339-4f4a-8487-3979e930ea4d",
-    "lineage": "A_CONTROL_HEARTBEAT_RECOVERY2",
-    "start_step": 2048,
-    "target_step": 4096,
-    "native_state": "F",
-    "native_observed_epoch": 1792709013.5235732,
-    "new_submission_count": 1,
-    "native_receipts": [
-      "PBS_READY.json",
-      "ALLOCATION_ADMISSION.json",
-      "START_NEURAL.json",
-      "A40_NATIVE_EFFECT_LEDGER.json"
-    ],
-    "model_start_release": true,
-    "first_update_release": true,
-    "new_updates_at_observation": "ACTUAL_RETURNED_NOT_TERMINALLY_SETTLED",
-    "owner_service": "vap1-a40-zero-update-resume-owner-01",
-    "owner_pid": 0,
-    "owner_status": "NATURALLY_EXITED_SUCCESS",
+    "job_id": "1478518.stdct-mgmt-02",
+    "request_id": "22cdd5d4-c735-4dfc-901c-3b9dda2ca246",
+    "request_sha256": "ff5aa468d934c04d383208257adc278f65def4aaa047e386c3a77862cd319d49",
+    "submission_nonce": "112afadb-85a4-4fb4-b267-3514bdd77755",
+    "lineage": "B_COVERAGE",
+    "start_step": 0,
+    "target_step": 2048,
+    "native_state": "R",
+    "native_observed_epoch": 1792709962.030506,
+    "owner_service": "vap1-a40-zero-update-b1-owner-01",
+    "owner_pid": 567538,
+    "owner_status": "ACTIVE",
     "GPU_lease": "ACTIVE",
     "CPU_control_lease": "ACTIVE",
+    "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "unknown_effects": [],
+    "new_training_effects": "NOT_YET_OBSERVED",
+    "training_completion_claimed": false,
     "used": {
-      "H200_s": 49117,
-      "PBS_submissions": 19,
-      "optimizer_updates": 3843,
-      "neural_queries": 1134
+      "H200_s": 61462,
+      "optimizer_updates": 5891,
+      "neural_queries": 1151,
+      "PBS_submissions": 20
     },
     "reserved": {
       "H200_s": 22560,
@@ -60,17 +54,7 @@
       "neural_queries": 29
     },
     "CPU_reserved_s": 54000,
-    "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
-    "last_recoverable_complete_step": "4096_MANIFEST_SAVED_PENDING_INDEPENDENT_MEMBER_AUDIT",
-    "training_completion_claimed": false,
-    "observed_epoch": 1792709013.5235732,
-    "last_returned_training_step": 4096,
-    "new_returned_updates": 2048,
-    "compatibility_queries": 17,
-    "model_load_attempts": 2,
-    "unknown_effects": [],
-    "Exit_status": 0,
-    "independent_full_state_audit": "IN_PROGRESS"
+    "model_start_release": true
   },
   "workstreams": [
     {
@@ -204,17 +188,17 @@
   "this_preparation_is_goal_completion": false,
   "updated_epoch": 1792699417.9707558,
   "latest_actual_receipt": {
-    "path": "reports/PI0294/design/parallel-science-20261022/RECOVERY2_PREMODEL_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261023.json",
+    "path": "reports/PI0294/design/parallel-science-20261022/A4096_ACTUAL_CLOSURE_AND_B1_NATIVE_ADOPTION_20261023.json",
     "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
   },
   "current_resource_work": {
-    "status": "A_NATIVE_F_EXIT0_OWNER_EXITED_INDEPENDENT_AUDIT_RUNNING_B_COLD_PREPARED",
+    "status": "A4096_CLOSED_B1_UNIQUELY_SUBMITTED_RUNNING",
     "retain_all_checkpoints": true,
-    "report": "reports/PI0294/design/parallel-science-20261022/ZERO_UPDATE_RESUME_NATIVE_ADOPTION_ACTUAL_20261023.json",
+    "report": "reports/PI0294/design/parallel-science-20261022/A4096_ACTUAL_CLOSURE_AND_B1_NATIVE_ADOPTION_20261023.json",
     "next_actions": [
-      "Reuse healthy existing A owner; no hot edit, restart or duplicate submission.",
-      "Actual A4096 full-state terminal audit, once settlement and both lease closures.",
-      "Independent B1 then B2 under current zero-scope grant and fresh complete remaining-work admission."
+      "Reuse healthy sole B1 owner; no restart/hot edit/duplicate request",
+      "Actual B2048 full-state independent audit, once settlement and both lease closures before B2",
+      "Continue finite source engineering/admission and separate frozen WBC task qualification within original bounds"
     ],
     "draft_not_approved": false
   },
@@ -387,7 +371,7 @@
     "training_completion_claimed": false,
     "observed_epoch": 1792680458.462084
   },
-  "current_authority_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
+  "current_authority_release": "871094ee31b18c47183c7403459ebd5fdad88b1f",
   "native_recovery_adoption_receipt": "HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_20261023.json",
   "historical_resource_work_before_approval": {
     "report": "reports/PI0294/design/parallel-science-20261022/A2_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261022.json",
@@ -849,5 +833,66 @@
     "subcases": 25,
     "native_adopted": false,
     "B_submitted": false
+  },
+  "previous_A4096_closed_snapshot": {
+    "job_id": "1477527.stdct-mgmt-02",
+    "source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "native_state": "F",
+    "Exit_status": 0,
+    "owner_naturally_exited": true,
+    "full_state_checkpoints": {
+      "1024": {
+        "complete_sha256": "50528e38c1e785533916fbcdd0a48d63df27f2624bb317e6d0ed113e05318f4e",
+        "members": 15,
+        "actual_consumed_cursor": 32768
+      },
+      "2048": {
+        "complete_sha256": "1336326d908bbc91c36f871f0846b316c2bea08bada2bcee0b1bcc9bcb0e5486",
+        "members": 15,
+        "actual_consumed_cursor": 65536
+      },
+      "4096": {
+        "complete_sha256": "e0b9d8cb67efc82ae8daa67d71f95df8fb5c607e0f75e26d58cf01412a3e807a",
+        "members": 15,
+        "actual_consumed_cursor": 131072
+      }
+    },
+    "original_probe_count": 12,
+    "probe_result_sha256": "c8e6f4b76fdb9df234386efe432d9351ba894e6b5188a63b985d2a448006ab34",
+    "new_probe_queries": 0,
+    "effects": {
+      "schema": "VAP1_A40_NATIVE_SOURCE_EFFECT_SUMMARY_V1",
+      "job_id": "1477527.stdct-mgmt-02",
+      "request_id": "56d0211f-751f-44b9-945a-27367cf6c7ab",
+      "request_sha256": "c7d42e846b002dcc8b8efa769e1ea3c09f3587fe3a04ad886621b5c676dcceac",
+      "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+      "arm": "A_CONTROL",
+      "start_native_step": 2048,
+      "optimizer_updates_committed": 2048,
+      "last_native_step": 4096,
+      "query_attempts": 17,
+      "model_load_attempts": 2,
+      "pending_updates": [],
+      "unknown_query_intents": [],
+      "recipe_sha256": "eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7",
+      "effect_journal_complete": true,
+      "new_physics": 0,
+      "new_episodes": 0,
+      "finished_epoch": 1792709112.1668684
+    },
+    "CPU_readonly_audit_s": 201.95105994399998,
+    "GPU_charged_s": 12345.0,
+    "CPU_charged_s": 11963,
+    "cumulative_GPU_s": 61462.0,
+    "cumulative_updates": 5891,
+    "cumulative_queries": 1151,
+    "GPU_lease": "CLOSED",
+    "CPU_lease": "CLOSED",
+    "GPU_lease_sha256": "139d8de94536a156d3dd474b17f86823dc5d3ce0f353bc104ce2eed8d0d6adb6",
+    "CPU_lease_sha256": "b9070551d3cb7aa88c817b118962ccf1b93c837714c0a4c43b40b128a77c0321",
+    "GPU_closure_receipt_sha256": "5a6aeca113b7d71dd22bdd8ce649220c63f28dd889fee6e1694526ec322b8ed7",
+    "CPU_closure_receipt_sha256": "74fa0dd0bb773263957ba42edba173a311507044a928b81520715e88e3d55800",
+    "retired_or_deleted_checkpoints": 0,
+    "old_failed1024_2819_costs_preserved": true
   }
 }
