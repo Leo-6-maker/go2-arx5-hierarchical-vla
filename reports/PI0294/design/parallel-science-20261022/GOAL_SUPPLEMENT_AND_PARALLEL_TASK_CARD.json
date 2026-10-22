@@ -1,0 +1,119 @@
+{
+  "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
+  "created_epoch": 1792663428.495236,
+  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
+  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
+  "goal_panel": {
+    "status": "ACTIVE",
+    "objective_edit_API_available": false,
+    "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET"
+  },
+  "original_handover": {
+    "commit": "cee4b1da182187a221ec0a2c9cda01ba0dc796b5",
+    "path": "docs/handover/2026-10-22/NEW_WORK_STATE32_HANDOVER_AND_SCIENCE_CONTINUATION.md"
+  },
+  "authority_release": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+  "parallelism": {
+    "one_native_mutation_owner": true,
+    "read_only_preparation_workers": 2,
+    "assistant_native_observation_minimum_interval_s": 300,
+    "original_owner_heartbeats_unchanged": true,
+    "new_concurrent_GPU_or_training_authorized_by_this_card": false
+  },
+  "current_native_snapshot": {
+    "observed_epoch": 1792663268.5080824,
+    "job": "1474599.stdct-mgmt-02",
+    "state": "R",
+    "active_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+    "step": 1633,
+    "cursor": 52256,
+    "latest_complete_checkpoint": 1024,
+    "unknown_effects": [],
+    "owned_pending_updates": 1,
+    "pending_description": "HEALTHY_NATIVE_NEXT_OPTIMIZER_TRANSACTION_NOT_NEW_ORPHAN",
+    "original12_TRAIN_probes": "12_ACCEPT_REFERENCE_SAFETY_NOT_TASK_SUCCESS",
+    "A4096": "NOT_YET_COMPLETE",
+    "B_updates": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "workstreams": [
+    {
+      "id": "TRAIN",
+      "status": "A1_RUNNING_FUTURE_COLD_ONLY",
+      "order": [
+        "A32_TO2048",
+        "A2048_TO4096",
+        "B_ORIGINAL_CORR_0_TO2048",
+        "B2048_TO4096"
+      ],
+      "same_platform_R0_recipe_sampler": true,
+      "deliverable": "FULL4096_A_AND_B_PLUS_ACTUAL_CONSUMPTION_COST_AND_FAILURE_RECORDS",
+      "next_gate": "A1_ACTUAL_SUCCESSFUL_TERMINAL_FULL_AUDIT_ONCE_SETTLEMENT_AND_BOTH_LEASE_CLOSURES"
+    },
+    {
+      "id": "DATA",
+      "status": "PREPARED_METADATA_ARTIFACTS",
+      "artifacts": [
+        "DATA_ASSET_AND_PURPOSE_INDEX.json",
+        "EXPECTED_TRAINING_EXPOSURE.tsv",
+        "RECOVERY_SUPERVISION_PREPARATION.json"
+      ],
+      "current_AB_bank_frozen": true,
+      "reserve_R1_current_AB_use": false,
+      "new_capture_dispatched": false
+    },
+    {
+      "id": "SCIENCE",
+      "status": "PREPARED_TEMPLATE_NOT_NATIVE_QUALIFICATION",
+      "artifacts": [
+        "EVALUATION_AND_CLAIM_PREPARATION.json",
+        "DEC1_64_CELL_RESULT_TEMPLATE.tsv"
+      ],
+      "source_AB_and_original_CORR_DEC1_are_separate_questions": true,
+      "target_missing_does_not_block_source_training": true
+    },
+    {
+      "id": "FUTURE_TEACHER",
+      "status": "REQUIREMENTS_PREPARED_RECOVERY_NOT_QUALIFIED",
+      "new_Teacher_DAgger_or_R1_training_grant": false,
+      "required_next_evidence": "ACTUAL_STUDENT_FULL_STATE_AND_INDEPENDENT_RECOVERY_VERIFICATION_UNDER_VALID_SCOPE"
+    }
+  ],
+  "cold_training_preparation": {
+    "runtime": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+    "exact_CI": {
+      "run": 39755484145,
+      "job": 119746292613,
+      "result": "COMPLETED_SUCCESS"
+    },
+    "B1_inputs": "PREPARED_NOT_REGISTERED_NOT_SUBMITTED",
+    "A2_inputs": "WAIT_FOR_ACTUAL_CLOSED2048",
+    "A2_local_adapter": {
+      "status": "PASS_LOCAL_BOUNDARY_CHECKS_NOT_NATIVE_ADMISSION",
+      "controller_sha256": "749a6eea92c830f46e427c11bdb773fc89c58025c355f7adddfeabc6c7e00827",
+      "verifier_sha256": "85fa53b9e7154671f127517e98af082c04db842c914ee34a3dc08771314021a2",
+      "eight_actions_reject_missing_predecessor_before_intent": true,
+      "resource_gap_before_credentials_or_launch_intent": true,
+      "new_native_RPC_or_qsub": 0
+    },
+    "actual_native_qualification_admission": "REQUIRED_AFTER_PREDECESSOR_CLOSED_WITH_FRESH_BUDGET_STORAGE_AND_QUEUE_CHECKS"
+  },
+  "preserved": {
+    "original_T0_epoch": 1792348196,
+    "new_jobs_cutoff_epoch": 1792866596,
+    "training_cutoff_epoch": 1792909796,
+    "physics_cutoff_epoch": 1792924196,
+    "hard_close_epoch": 1792952996,
+    "budgets_spent_reservations_historical_failures_unchanged": true,
+    "no_new_capture_training_physics_or_budget_by_preparation": true,
+    "WBC_S1_score_R0_frozen": true
+  },
+  "completion_criteria": [
+    "actual_A4096_and_independent_B4096_full_states",
+    "actual_consumption_probes_lineages_and_costs_auditable",
+    "paired_source_or_DEC1_results_only_if_original_scope_and_fresh_resources_admit",
+    "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
+  ],
+  "this_preparation_is_goal_completion": false
+}

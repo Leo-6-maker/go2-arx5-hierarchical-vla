@@ -1,0 +1,184 @@
+{
+  "schema": "VAP1_PARALLEL_DATA_PREPARATION_V1",
+  "status": "PREPARED_FROM_EXISTING_SAVED_METADATA_NOT_NEW_BANK_ADMISSION",
+  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
+  "sources": [
+    {
+      "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_PROGRESS20_AND_FIXED_SOURCE_PREPARATION.json",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "be226bb666c800ea5ed7983b772dc49a3c01d7f0e1c2c0e3d7a967f22af61208"
+    },
+    {
+      "path": "reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_FIRST_FROZEN_BANK_AND_HF_ACTUAL.json",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "29294f52fffc044b12745febd84d1ce99e574607fbcadb7470c239254bd17f2c"
+    },
+    {
+      "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_D48_CLOSED_DUAL_QUEUE_AND_CPU_CACHE_ACTUAL.json",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "0543424c3c19966cb06e9111fe5711ce7944bd6836150564dceb9d1aa8d5c9aa"
+    },
+    {
+      "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_FIRST_PAIR_AND_TEACHER_T0_ACTUAL.json",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "99829f69ffaad4e0abb10ee103dda45ec58b3bdf3ae7a5a35e45380be4d57303"
+    },
+    {
+      "path": "reports/PI0294/CR2/20261020T160340Z-localpc-cr2/CR2_FINAL_REPORT.md",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "d90ccd07000c5d43c2f75bc60a475da590a130f6c8cdbea73857bfecbf1bb40a"
+    },
+    {
+      "path": "reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SOURCE_COLD_INPUTS_AND_STORAGE_IMPLEMENTATION.json",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "3de27deeb6959fb5213bec4de4065aa98cdedbc3f1190cf1b2edb4b2c42b3ee7"
+    },
+    {
+      "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/B1_FIXED_RUNTIME_COLD_PACKET_REFRESH_ACTUAL_20261022.json",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "0e4f21514512c26bfa0d21eedd26848c59f42e974bb8e0c8f4010b185837d1bd"
+    },
+    {
+      "path": "scripts/pi0294/pv1/sampler.py",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "c34b50e81b526f33676697aa414fc0f732402dd7420ad04882e33f6b65f744c9"
+    },
+    {
+      "path": "scripts/pi0294/pv1/export.py",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "ac010a119fe7709fb3296cb2461a99a6fd3e29ed57683e6bf4fc4a4d9757b67e"
+    },
+    {
+      "path": "scripts/pi0294/pv1/dataset.py",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "1a8ab1c87f4b44feef8e68704c0578172798520cec1999e6953755fc2683f387"
+    },
+    {
+      "path": "scripts/pi0294/pv1/recipe.py",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "c756b46a1eb2139d631625577e5c322179387ffb143cbece1be3bbd791fe3358"
+    },
+    {
+      "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_A40_FIRST32_AND_REAL_TRAINING_ACTUAL.json",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825",
+      "sha256": "16c7aa69565673e5ca853a021ab7f7728d534c4143824523eb7f03743b43dc81"
+    }
+  ],
+  "current_AB": {
+    "original126": {
+      "R0_statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+      "original_manifest_sha256": "b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df",
+      "C1_manifest_sha256": "a6c029e3e07f264a08ab47a757eb899b752e350e7a93f1db2dd87c03b88f0052",
+      "legacy_TRAIN64": 64,
+      "new_TRAIN62": 62,
+      "expected_original_TRAIN_parents": 126,
+      "expected_C1_rows": 8,
+      "expected_C1_student_parents": 4,
+      "fixed_revisions": {
+        "original56": "c25eeadf9be0aa7d46bb6f7b65e260cbf3a305ea",
+        "supplement8": "6075aac0cdc44b8d252d7540efbac208701c30b3",
+        "original_v3": "6aa94f4f40d791bedd6b4e75489e4ede6504d10d",
+        "C0": "8132a0f689b63592d821a28b9d027e4e5bcbf5b6",
+        "C1": "ce5faf453266689f7f889b8e452dd4f0a9c61200"
+      },
+      "original_manifest_and_statistics_retained_verbatim": true,
+      "DEV_raw_not_requested": true,
+      "new_models_downloaded": false,
+      "new_R1_mixed_into_AB": false
+    },
+    "C1_rows_are_not_independent_parents": true,
+    "PV1_TRAIN139": {
+      "manifest_sha256": "60f7c35a05766fe23974eba3a72f53ca4db5545a3768e6c1cfea164ab4e58294",
+      "ready_revision": "e4f603a1b768018077a8b5c9640250be67500902",
+      "T1": 75,
+      "T2": 64,
+      "geometry_groups": 77,
+      "paired_groups": 62
+    },
+    "R0": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "composite_sha256": {
+      "A_CONTROL": "4aa1d671fb4b1862af28ea9f9c39c3ca0df7f00eee92bcd512467b1da3e6311b",
+      "B_COVERAGE": "bc4adae1dabff73f215b04f76c9b71c561251ca38ce6b5be63729c43d87448ca"
+    },
+    "sampler_support_sha256": "8b5e8810f076bf49cd67c906787205e2e14ef684fe467a6c446b521be25b80ac",
+    "input_identity_change_requires_requalification": true,
+    "unchanged_reader_or_RGB_reaudit_required_now": false
+  },
+  "reserve_banks": [
+    {
+      "id": "CR2",
+      "attempts": 24,
+      "admitted": 24,
+      "paired_geometries": 12,
+      "manifest_sha256": "3b818f7c53e155a6b47cc2e2116abc34b921a73ea26d6665a623f2bb9e699f44",
+      "ready_revision": "9435ba48fa98336b6e88431ed145382724b16b44",
+      "current_AB_use": false
+    },
+    {
+      "id": "VAP1_R1_D48",
+      "attempts": 48,
+      "admitted": 46,
+      "geometries": 24,
+      "paired_groups": 22,
+      "manifest_sha256": "da3666314dd6db796eb922bf7ec2b919a33b403502aa49958017303fde194dad",
+      "ready_revision": "17899d11a8a8d22ed6fc33c3a86d732856870a2d",
+      "current_AB_use": false,
+      "two_legal_T2_failures_preserved": true
+    }
+  ],
+  "reserve_union": {
+    "candidate_attempts": 72,
+    "status": "NOT_SEALED_NOT_DEDUPLICATED_NOT_TRAINING_BOUND",
+    "R1_new_neural_comparison_adopted": false
+  },
+  "labels": {
+    "inputs": "ACTUAL_SYNCHRONIZED_STATE_AND_DUAL_RGB",
+    "targets": "ACTUALLY_COMMITTED_EEF10_NOT_FUTURE_ACHIEVED_STATE",
+    "observations_per_parent": 641,
+    "committed_actions_per_parent": 640,
+    "H40_anchors_per_parent": 601,
+    "reference_Hz": 20,
+    "prefix_steps": 8,
+    "EEF10": [
+      "XYZ",
+      "rot6d",
+      "gripper"
+    ],
+    "official_action_shape": [
+      "N",
+      40,
+      132
+    ],
+    "valid_dimensions": 10,
+    "masked_dimensions": 122,
+    "BASE_zero_padding": false,
+    "codec": "CURRENT_AB_FROZEN_R0_RESERVE_CR2_D48_R1_SEPARATE",
+    "fixed_parent_lengths_apply_to": "FULL_TEACHER_DEMONSTRATION_BANKS_ONLY_NOT_C1",
+    "C1": "EXISTING_ROW_SPECIFIC_EXPERT_COMMANDS_AND_LEGAL_ANCHORS_NO_H40_PADDING",
+    "C1_total_legal_H40_windows": 1665
+  },
+  "teacher": {
+    "status": "T0_SAVED_TEACHER_DISTRIBUTION_REPLAY_COMPLETE_NOT_RECOVERY",
+    "result_sha256": "7d7f6ea93f55c372edf176d3c3fe47bbcd7882470f53dba628c5f4acfd138eac",
+    "parents": 24,
+    "observations": 15384,
+    "H40_blocks": 1920,
+    "development_attempts": 0,
+    "verification_attempts": 0,
+    "DAgger_ready": false,
+    "actual_student_full_state_binding": "PENDING_NOT_FAKED_FROM_POSE_RESET"
+  },
+  "split_rules": {
+    "TRAIN_only_for_training": true,
+    "DEV_CONFIRM_LOCKBOX_DEC1_target_backflow": false,
+    "retain_attempt_denominators": true,
+    "independence_unit": "ACTUAL_PARENT_AND_GEOMETRY_NOT_WINDOWS"
+  },
+  "actual_effects": {
+    "new_data_capture": 0,
+    "new_model": 0,
+    "new_training": 0,
+    "new_physics": 0,
+    "new_GPU_PBS": 0
+  }
+}
