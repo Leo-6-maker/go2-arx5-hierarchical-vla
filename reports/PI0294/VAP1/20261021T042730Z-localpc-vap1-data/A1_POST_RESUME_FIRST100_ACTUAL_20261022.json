@@ -1,0 +1,86 @@
+{
+  "schema": "VAP1_A1_POST_RESUME_FIRST100_ACTUAL_V1",
+  "status": "VERIFIED_100_EXISTING_FORMAL_UPDATES_NOT_EXTRA_TRAINING",
+  "observed_epoch": 1792654262.551935,
+  "timezone": "Asia/Singapore",
+  "job_id": "1474599.stdct-mgmt-02",
+  "runtime_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+  "authority": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+  "lineage": "A_CONTROL_SAVE_RECOVERY1",
+  "parent_report_release": "728cf0edbd9ab4dfba035a8d5e55360267fd5475",
+  "first100": {
+    "status": "ACTUAL_FIRST100_FORMAL_UPDATES_NOT_EXTRA_BENCHMARK_TRAINING",
+    "start_global_step": 32,
+    "end_global_step": 132,
+    "actual_consumed_cursor": 4224,
+    "effective_samples": 3200,
+    "elapsed_including_trainer_setup_profiling_and_audit_s": 797.6299246638082,
+    "effective_samples_per_s": 4.011885588857218,
+    "formal_updates_per_s": 0.12537142465178805,
+    "parent_loader_wait_s": 128.77234912384301,
+    "CUDA_exact_gradient_qualifications": 3,
+    "scientific_recipe_unchanged": true,
+    "additional_optimizer_updates": 0
+  },
+  "all_native_steps_33_through132_and_cursor32x_verified": true,
+  "sample_visits": 3200,
+  "sample_visits_are_not_independent_demonstrations": true,
+  "native_receipt_hashes": {
+    "FIRST100_TERMINAL.json_sha256": "90a7edeecb39419c310b542b84ee7e6741df62fd5eda725951ab7550806f8989",
+    "FIRST100_UPDATES.jsonl_sha256": "90801088110db3c0ecc53953cbb3b03eccfb1b37af61098e979bee1a17665b86",
+    "ACTUAL_CUDA_GRADIENT_EQUIVALENCE.jsonl_sha256": "6b33c39c46cb21076eab726f8ff45a34bdf04608228935a7646aabb4662d74e2"
+  },
+  "CUDA_exact_gradient_qualifications": 3,
+  "torch_peak_GPU_allocated_bytes": 35406000640,
+  "synchronized_step_seconds": {
+    "min": 4.31016155378893,
+    "median": 4.466863170498982,
+    "max": 8.796085922047496
+  },
+  "all_in_window_seconds_per_formal_update": 7.9762992466380815,
+  "timing_includes_trainer_setup_profiler_and_audit": true,
+  "steady_state_speedup_or_guaranteed_completion_claimed": false,
+  "approved_9s_rate_plan_not_rewritten": true,
+  "latest_observed_progress": {
+    "step": 150,
+    "cursor": 4800,
+    "native_loss": 0.02799433469772339,
+    "learning_rate": [
+      9.989901064207107e-06,
+      9.989901064207107e-06
+    ],
+    "synchronized_s": 6.814571431837976,
+    "epoch": 1792654255.7136755
+  },
+  "new_committed_updates_in_current_allocation": 118,
+  "allocation_native_state": "R",
+  "heartbeat_age_s": 22.47021174430847,
+  "unknown": [],
+  "active_pending": [
+    {
+      "arm": "A_CONTROL",
+      "run_key": "A_CONTROL",
+      "local_step_before": 150,
+      "request_id": "75e12289-7b99-4f46-bd69-bbe64ff9cad0"
+    }
+  ],
+  "active_pending_belongs_to_live_original_actor": true,
+  "STOP": false,
+  "parent_STOP": false,
+  "latest_verified_complete_checkpoint_step": 32,
+  "checkpoint1024_complete": false,
+  "checkpoint2048_complete": false,
+  "original12_TRAIN_probes_at1024": "NOT_YET_RUN",
+  "next_milestone": "ORIGINAL_SAME_ALLOCATION_FULL1024_SAVE_12_TRAIN_PROBES_THEN2048",
+  "central_accounting": "CURRENT_GPU_QUERIES_UPDATES_INSIDE_ORIGINAL_RESERVATION_UNTIL_TERMINAL_SETTLEMENT",
+  "original_budget_and_clock_preserved": true,
+  "original_T0_epoch": 1792348196,
+  "hard_close_epoch": 1792952996,
+  "new_PBS": 0,
+  "extra_optimizer_updates_for_measurement": 0,
+  "extra_queries_for_measurement": 0,
+  "new_physics": 0,
+  "target_formal_ABI": "HUMAN_CONFIRMED_NOT_YET_DELIVERED_SOURCE_TRAINING_CONTINUES",
+  "selected": "NONE",
+  "deployment": "NONE"
+}
