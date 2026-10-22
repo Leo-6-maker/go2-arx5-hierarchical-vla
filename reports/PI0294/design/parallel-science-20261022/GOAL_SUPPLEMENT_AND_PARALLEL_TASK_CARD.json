@@ -7,7 +7,7 @@
     "status": "BLOCKED_LAST_TOOL_OBSERVATION",
     "objective_edit_API_available": false,
     "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET",
-    "actual_work": "HUMAN_APPROVED_RECOVERY_ADOPTED_NEW_JOB_QUEUED_SINGLE_OWNER_ACTIVE",
+    "actual_work": "FAILED_PREMODEL_ONCE_SETTLED_DUAL_CLOSED_PREPARING_NARROW_PBS_STORAGE_RECOVERY",
     "resume_API_available": false,
     "no_goal_recreated_or_usage_reset": true
   },
@@ -25,8 +25,9 @@
   },
   "current_native_snapshot": {
     "job_id": "1477127.stdct-mgmt-02",
-    "native_state": "Q",
-    "observed_epoch": 1792692081.7272065,
+    "native_state": "F",
+    "Exit_status": 1,
+    "observed_epoch": 1792694434.2668056,
     "source_sha": "df6427f791fdbe8f175906f240eb3413bf096cbf",
     "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
     "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
@@ -34,31 +35,33 @@
     "start_step": 2048,
     "target_step": 4096,
     "last_recoverable_complete_step": 2048,
-    "training_started": false,
+    "new_updates": 0,
+    "model_loads": 0,
+    "queries": 0,
     "owner_service": "vap1-a40-heartbeat-recovery2-watch-resume-02",
-    "owner_pid": 382102,
-    "GPU_lease": "ACTIVE",
-    "CPU_control_lease": "ACTIVE",
+    "owner_pid": 0,
+    "owner_status": "FAILED_PRESERVED_NOT_RESTARTABLE",
+    "GPU_lease": "CLOSED",
+    "CPU_control_lease": "CLOSED",
     "used": {
-      "H200_s": 48363,
+      "H200_s": 49117.0,
       "PBS_submissions": 18,
       "optimizer_updates": 3843,
       "neural_queries": 1134
     },
     "reserved": {
-      "H200_s": 22560,
-      "neural_queries": 29,
-      "optimizer_updates": 2048
+      "H200_s": 0,
+      "neural_queries": 0,
+      "optimizer_updates": 0
     },
-    "CPU_reserved_s": 54000,
-    "unknown_campaign_jobs": [],
-    "training_completion_claimed": false,
-    "prior_watch_readonly_failure_reconnected": true
+    "CPU_reserved_s": 0,
+    "unknown_effects": [],
+    "training_completion_claimed": false
   },
   "workstreams": [
     {
       "id": "TRAIN",
-      "status": "NEW_A2048_TO4096_RECOVERY_QUEUED",
+      "status": "A_RECOVERY2_FAILED_ZERO_UPDATES_WAIT_NARROW_SCOPE_AND_FRESH_COLD_ADMISSION",
       "order": [
         "A32_TO2048",
         "A2048_TO4096",
@@ -152,6 +155,14 @@
       "B1_terminal_sha256": "ae7154d2263e9cc871fa2ecc948398a732f62cfaec7fd63cb6096f4fe5a06c54",
       "B2_metadata_sha256": "3d5507e82d9f8114ccd652e1e49668565f379775ac41fc41e2990cbd023d9718",
       "actual_native_audit_or_adoption": false
+    },
+    "B2_cold_owner_terminal": {
+      "report": "B2_ISOLATED_OWNER_FINAL_TERMINAL_CPU_PREPARATION_20261023.json",
+      "status": "PREPARED_CPU_VERIFIED_NOT_NATIVE_B2_DEPLOYED",
+      "CPU_tests_passed": 5,
+      "owner_sha256": "fd5777fee8a5632ae656a0a8d8b993f1550aa652469f39e3c2f717df0b8df9a8",
+      "terminal_sha256": "7efddf3e1d06fca2ef5e35c4198d567c29651551a32b1d1966e8cfbdd6e9f842",
+      "actual_native_deployed": false
     }
   },
   "preserved": {
@@ -171,21 +182,21 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792692769.2233138,
+  "updated_epoch": 1792694760.8497636,
   "latest_actual_receipt": {
-    "path": "reports/PI0294/design/parallel-science-20261022/RECOVERY2_NATIVE_READ_STOP_DIAGNOSTIC_RESUME2_ACTUAL_20261023.json",
+    "path": "reports/PI0294/design/parallel-science-20261022/RECOVERY2_PREMODEL_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261023.json",
     "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
   },
   "current_resource_work": {
-    "status": "APPROVED_ADOPTED_RESERVED_ONE_RECOVERY_JOB_QUEUED",
-    "report": "reports/PI0294/design/parallel-science-20261022/HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_20261023.json",
+    "status": "CURRENT_CLOSED_SCOPE_NO_NATIVE_TRAINING_DISPATCH",
     "retain_all_checkpoints": true,
+    "report": "reports/PI0294/design/parallel-science-20261022/RECOVERY2_PREMODEL_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261023.json",
     "next_actions": [
-      "Reuse healthy owner for queued1477127; no restart, duplicate submission or hot edits.",
-      "Validate real A4096 endpoint, full state, terminal effects, once settlement and both lease closures.",
-      "Only then independently start B(CORR0) with current grant and fresh whole-resource admission."
+      "Do not restart closed request or failed owners.",
+      "Obtain exact narrow PBS/storage authority only after the reviewable recovery draft and engineering evidence are published.",
+      "Fresh cold registration, full-source/seed/current-budget/native admission before A2048-to4096; independent B only after real A4096 close."
     ],
-    "draft_not_approved": false
+    "draft_not_approved": true
   },
   "storage_only_authority": {
     "release": "1abb20973d84836b29baebf1d73466377c98759c",
@@ -457,5 +468,64 @@
     "status": "ACTUAL_SAME_JOB_WATCH_RESUMED_DIAGNOSTIC_STDERR_PRESERVED",
     "stderr_preserved": true,
     "root_cause_previous_native_error": "UNKNOWN"
+  },
+  "previous_recovery2_queued_snapshot": {
+    "job_id": "1477127.stdct-mgmt-02",
+    "native_state": "Q",
+    "observed_epoch": 1792692081.7272065,
+    "source_sha": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+    "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+    "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
+    "lineage": "A_CONTROL_HEARTBEAT_RECOVERY2",
+    "start_step": 2048,
+    "target_step": 4096,
+    "last_recoverable_complete_step": 2048,
+    "training_started": false,
+    "owner_service": "vap1-a40-heartbeat-recovery2-watch-resume-02",
+    "owner_pid": 382102,
+    "GPU_lease": "ACTIVE",
+    "CPU_control_lease": "ACTIVE",
+    "used": {
+      "H200_s": 48363,
+      "PBS_submissions": 18,
+      "optimizer_updates": 3843,
+      "neural_queries": 1134
+    },
+    "reserved": {
+      "H200_s": 22560,
+      "neural_queries": 29,
+      "optimizer_updates": 2048
+    },
+    "CPU_reserved_s": 54000,
+    "unknown_campaign_jobs": [],
+    "training_completion_claimed": false,
+    "prior_watch_readonly_failure_reconnected": true
+  },
+  "pending_zero_update_recovery": {
+    "report": "RECOVERY2_ZERO_UPDATE_RESUME_SCOPE_DRAFT_20261023.json",
+    "requested_narrow_changes": {
+      "DEC1_new_PBS": [
+        12,
+        13
+      ],
+      "DEC1_GPU_site_output_GiB": [
+        418,
+        483
+      ],
+      "global_GPU_site_output_GiB": [
+        485,
+        550
+      ]
+    },
+    "human_authorized": false
+  },
+  "science_dependency_correction": {
+    "fixed_reference": "f439982ba3afcaec175d238edef027d2bdd3a40f",
+    "existing_WBC_interface_and_historical_native_execution": true,
+    "source_Teacher_is_independent_executor": true,
+    "target_task_native_qualification_pending": true,
+    "source_prefix8_reuses_single_pose_native_safety_not_forced_preview9": true,
+    "source_training_not_waiting_target": true,
+    "new_science_compute": 0
   }
 }

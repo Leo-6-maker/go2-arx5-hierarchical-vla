@@ -1,0 +1,48 @@
+{
+  "schema": "VAP1_B2_ISOLATED_OWNER_AND_FINAL_TERMINAL_CPU_PREPARATION_V1",
+  "observed_epoch": 1792693861.9699998,
+  "status": "PREPARED_CPU_VERIFIED_NOT_NATIVE_B2_DEPLOYED",
+  "runtime_source": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+  "owner_sha256": "fd5777fee8a5632ae656a0a8d8b993f1550aa652469f39e3c2f717df0b8df9a8",
+  "terminal_sha256": "7efddf3e1d06fca2ef5e35c4198d567c29651551a32b1d1966e8cfbdd6e9f842",
+  "test_sha256": "85f4a4634aafc446484fa146feda4bb9824fdef453b32a34e420b02e22e82a60",
+  "CPU_tests_passed": 5,
+  "test_native_IO": "AUDIT_HOOK_BEFORE_IMPORTS_DENIES_NETWORK_SUBPROCESS_EXEC",
+  "fixtures": "Captured real prior ledgers with explicit synthetic A4096/B2048/B4096 request and terminal identities, entirely in memory; no native future evidence file.",
+  "tests": [
+    "Missing real B1 audit/settlement/GPU+CPU closures rejects all13 B2 owner entries and all6 terminal entries before native IO.",
+    "Sealed B2048 proof, both full state member tables, original12 probe bytes and array hashes, original CORR/R0/recipe and final-only remaining block are required; changed or partial inputs rejected.",
+    "Fresh B2-local configuration and mature native programs compile without connections; final terminal checks retain A1024/2819/4096 and exact B4096 plus9987 cumulative cost.",
+    "Intercepted original submit interface constructs exact B2048 reentry request before first intent, without creating a native request.",
+    "Pure forecast/exact request reserve-bind-settle fixture reaches9987 and rejects double settlement; full4096 audit rejects partial final, wrong queries, wrong cursor, missing final checkpoint or changed probe result, and distinguishes imported B1 origins from new B2 origin."
+  ],
+  "expected_final_segment": {
+    "arm": "B_COVERAGE",
+    "start": 2048,
+    "stop": 4096,
+    "additional_updates": 2048,
+    "queries": 17,
+    "model_loads": 2,
+    "cursor": 131072,
+    "cumulative_paid_updates": 9987,
+    "original_B1024_probes_repeated": 0
+  },
+  "preserved_lineages": {
+    "old_A": 1024,
+    "failed_A_recovery": 2819,
+    "new_A_recovery": 4096,
+    "B_final": 4096
+  },
+  "original_R0_recipe_data_and_science_freezes": true,
+  "read_only_precheck_not_relabelled_native_admission": true,
+  "new_B2_native_request_owner_lease_or_job": false,
+  "actual_B4096_state_or_terminal_audit": false,
+  "actual_native_registration_and_admission_still_required": true,
+  "once_only_journals_and_unknown_write_latches_preserved": true,
+  "no_new_scientific_gate": true,
+  "checkpoint_deletion_or_retirement_credit": 0,
+  "new_GPU_PBS_models_queries_updates_physics": 0,
+  "hard_close": 1792952996,
+  "goal_complete": false,
+  "after_recovery2_failure": "Prepared predecessor paths refer to the now-failed A job. Rebind and CPU-verify against a future actual A4096 successor before native adoption; never fabricate old completion."
+}

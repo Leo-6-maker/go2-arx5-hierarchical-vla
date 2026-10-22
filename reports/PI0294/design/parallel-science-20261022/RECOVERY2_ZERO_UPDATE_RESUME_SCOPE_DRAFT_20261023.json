@@ -1,0 +1,323 @@
+{
+  "schema": "VAP1_RECOVERY2_ZERO_UPDATE_RESUME_SCOPE_DRAFT_V1",
+  "status": "DRAFT_NOT_AUTHORIZED_NOT_ADOPTED_NO_NEW_NATIVE_JOB",
+  "created_epoch": 1792694760.8497636,
+  "basis": "Actual once-settled3843 updates and closed native1477127 plus original remaining-work bounds. No quota/queue or model admission.",
+  "prior_authorization": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
+  "closed_job": "1477127.stdct-mgmt-02",
+  "settlement_sha256": "6ebb8148b4ee43044401993e2813b6177f10840b926ab5f559f61e3e61a4fe10",
+  "requested_narrow_changes": {
+    "DEC1_new_PBS": [
+      12,
+      13
+    ],
+    "DEC1_GPU_site_output_GiB": [
+      418,
+      483
+    ],
+    "global_GPU_site_output_GiB": [
+      485,
+      550
+    ]
+  },
+  "updates_cap_unchanged": 9987,
+  "global_PBS_cap_unchanged": 24,
+  "recovery_semantics": {
+    "original_A2048_seed": true,
+    "cursor": 65536,
+    "new_request_new_registration_new_lease_required": true,
+    "reuse_logical_A_CONTROL_HEARTBEAT_RECOVERY2_lineage_with_zero_new_effects": true,
+    "no_closed_request_or_owner_restart": true,
+    "A_remaining_updates": 2048,
+    "B_independent_original_CORR_remaining_updates": 4096,
+    "all_cumulative_updates_at_completion": 9987,
+    "old1024_2819_and_zero_update_failure_costs_preserved": true,
+    "all_checkpoints_retained": true,
+    "no_repeat_A12probes": true
+  },
+  "remaining_jobs": [
+    {
+      "CPU_envelope_profile": "A40_SEGMENT_22500S_PROCESS_CPU54000_V1",
+      "arm": "A_CONTROL",
+      "resources": {
+        "H200_s": 22560,
+        "PBS_submissions": 1,
+        "optimizer_updates": 2048,
+        "episode_starts": 0,
+        "neural_queries": 29,
+        "physics_ticks": 0,
+        "engine_starts": 3,
+        "Core_CPU_s": 180,
+        "Hopper_CPU_s": 54000,
+        "local_CPU_s": 120,
+        "transfer_bytes": 2147483648,
+        "Hopper_storage_bytes": 70000000000,
+        "Core_storage_bytes": 0,
+        "local_storage_bytes": 0
+      },
+      "same_allocation_1024_probes": true,
+      "segmented_authorization_release": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+      "segmented_grant_sha256": "2eb61986e4d87ca428ec386e703df323c8480916c5ddb0ea9abaef3bf26f5615",
+      "start_step": 2048,
+      "stop_step": 4096,
+      "walltime_upper_s": 22500,
+      "work_id": "TRAIN:A_CONTROL:SEGMENT:4096",
+      "heartbeat_recovery_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
+      "heartbeat_recovery_grant_sha256": "b27902561f14d963bc1b307b6cbe7a73db6556b08ab52128f4eca5b928903f18",
+      "training_lineage_key": "A_CONTROL_HEARTBEAT_RECOVERY2",
+      "kind": "TRAIN"
+    },
+    {
+      "CPU_envelope_profile": "A40_SEGMENT_22500S_PROCESS_CPU54000_V1",
+      "arm": "B_COVERAGE",
+      "resources": {
+        "H200_s": 22560,
+        "PBS_submissions": 1,
+        "optimizer_updates": 2048,
+        "episode_starts": 0,
+        "neural_queries": 29,
+        "physics_ticks": 0,
+        "engine_starts": 3,
+        "Core_CPU_s": 180,
+        "Hopper_CPU_s": 54000,
+        "local_CPU_s": 120,
+        "transfer_bytes": 2147483648,
+        "Hopper_storage_bytes": 70000000000,
+        "Core_storage_bytes": 0,
+        "local_storage_bytes": 0
+      },
+      "same_allocation_1024_probes": true,
+      "segmented_authorization_release": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+      "segmented_grant_sha256": "2eb61986e4d87ca428ec386e703df323c8480916c5ddb0ea9abaef3bf26f5615",
+      "start_step": 0,
+      "stop_step": 2048,
+      "walltime_upper_s": 22500,
+      "work_id": "TRAIN:B_COVERAGE:SEGMENT:2048",
+      "heartbeat_recovery_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
+      "heartbeat_recovery_grant_sha256": "b27902561f14d963bc1b307b6cbe7a73db6556b08ab52128f4eca5b928903f18",
+      "training_lineage_key": "B_COVERAGE",
+      "kind": "TRAIN"
+    },
+    {
+      "CPU_envelope_profile": "A40_SEGMENT_22500S_PROCESS_CPU54000_V1",
+      "arm": "B_COVERAGE",
+      "resources": {
+        "H200_s": 22560,
+        "PBS_submissions": 1,
+        "optimizer_updates": 2048,
+        "episode_starts": 0,
+        "neural_queries": 29,
+        "physics_ticks": 0,
+        "engine_starts": 3,
+        "Core_CPU_s": 180,
+        "Hopper_CPU_s": 54000,
+        "local_CPU_s": 120,
+        "transfer_bytes": 2147483648,
+        "Hopper_storage_bytes": 70000000000,
+        "Core_storage_bytes": 0,
+        "local_storage_bytes": 0
+      },
+      "same_allocation_1024_probes": true,
+      "segmented_authorization_release": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+      "segmented_grant_sha256": "2eb61986e4d87ca428ec386e703df323c8480916c5ddb0ea9abaef3bf26f5615",
+      "start_step": 2048,
+      "stop_step": 4096,
+      "walltime_upper_s": 22500,
+      "work_id": "TRAIN:B_COVERAGE:SEGMENT:4096",
+      "heartbeat_recovery_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
+      "heartbeat_recovery_grant_sha256": "b27902561f14d963bc1b307b6cbe7a73db6556b08ab52128f4eca5b928903f18",
+      "training_lineage_key": "B_COVERAGE",
+      "kind": "TRAIN"
+    },
+    {
+      "work_id": "DEC1_CORE_MATRIX_AND_COMMISSIONING",
+      "kind": "MATRIX_ENVELOPE",
+      "walltime_upper_s": 86580,
+      "resources": {
+        "H200_s": 86580,
+        "PBS_submissions": 3,
+        "optimizer_updates": 0,
+        "episode_starts": 88,
+        "neural_queries": 7040,
+        "physics_ticks": 2816000,
+        "engine_starts": 7128,
+        "Core_CPU_s": 200000,
+        "Hopper_CPU_s": 80000,
+        "local_CPU_s": 3600,
+        "transfer_bytes": 5368709120,
+        "Hopper_storage_bytes": 2147483648,
+        "Core_storage_bytes": 21474836480,
+        "local_storage_bytes": 1073741824
+      }
+    }
+  ],
+  "future_control_extra": {
+    "Hopper_CPU_s": 5520,
+    "local_CPU_s": 3600,
+    "transfer_bytes": 805306368,
+    "Hopper_storage_bytes": 201326592
+  },
+  "additional_small_output_upper_bytes": 16777216,
+  "resource_dimension_forecast": {
+    "H200_s": {
+      "DEC1_projected": 182883.0,
+      "DEC1_current_cap": 187200,
+      "global_projected_with_final_protection": 275377.0,
+      "global_current_cap": 345600,
+      "DEC1_proposed_cap": 187200,
+      "global_proposed_cap": 345600
+    },
+    "PBS_submissions": {
+      "DEC1_projected": 13,
+      "DEC1_current_cap": 12,
+      "global_projected_with_final_protection": 24,
+      "global_current_cap": 24,
+      "DEC1_proposed_cap": 13,
+      "global_proposed_cap": 24
+    },
+    "optimizer_updates": {
+      "DEC1_projected": 9987,
+      "DEC1_current_cap": 9987,
+      "global_projected_with_final_protection": 9987,
+      "global_current_cap": 16384,
+      "DEC1_proposed_cap": 9987,
+      "global_proposed_cap": 16384
+    },
+    "episode_starts": {
+      "DEC1_projected": 88,
+      "DEC1_current_cap": 136,
+      "global_projected_with_final_protection": 526,
+      "global_current_cap": 1000,
+      "DEC1_proposed_cap": 136,
+      "global_proposed_cap": 1000
+    },
+    "neural_queries": {
+      "DEC1_projected": 7207,
+      "DEC1_current_cap": 14000,
+      "global_projected_with_final_protection": 17261,
+      "global_current_cap": 48000,
+      "DEC1_proposed_cap": 14000,
+      "global_proposed_cap": 48000
+    },
+    "physics_ticks": {
+      "DEC1_projected": 2816000,
+      "DEC1_current_cap": 5000000,
+      "global_projected_with_final_protection": 16666404,
+      "global_current_cap": 40000000,
+      "DEC1_proposed_cap": 5000000,
+      "global_proposed_cap": 40000000
+    },
+    "engine_starts": {
+      "DEC1_projected": 7137,
+      "DEC1_current_cap": 12000,
+      "global_projected_with_final_protection": 36754,
+      "global_current_cap": 100000,
+      "DEC1_proposed_cap": 12000,
+      "global_proposed_cap": 100000
+    },
+    "Core_CPU_s": {
+      "DEC1_projected": 369171.8168228789,
+      "DEC1_current_cap": 576000,
+      "global_projected_with_final_protection": 369171.8168228789,
+      "global_current_cap": 1152000,
+      "DEC1_proposed_cap": 576000,
+      "global_proposed_cap": 1152000
+    },
+    "Hopper_CPU_s": {
+      "DEC1_projected": 313518.0,
+      "DEC1_current_cap": 345600,
+      "global_projected_with_final_protection": 320188.82213385904,
+      "global_current_cap": 576000,
+      "DEC1_proposed_cap": 345600,
+      "global_proposed_cap": 576000
+    },
+    "local_CPU_s": {
+      "DEC1_projected": 51983.974682509,
+      "DEC1_current_cap": 57600,
+      "global_projected_with_final_protection": 51983.974682509,
+      "global_current_cap": 172800,
+      "DEC1_proposed_cap": 57600,
+      "global_proposed_cap": 172800
+    },
+    "transfer_bytes": {
+      "DEC1_projected": 48796951853,
+      "DEC1_current_cap": 137438953472,
+      "global_projected_with_final_protection": 68184674945,
+      "global_current_cap": 322122547200,
+      "DEC1_proposed_cap": 137438953472,
+      "global_proposed_cap": 322122547200
+    },
+    "Hopper_storage_bytes": {
+      "DEC1_projected": 518020707355,
+      "DEC1_current_cap": 448824082432,
+      "global_projected_with_final_protection": 589298140187,
+      "global_current_cap": 520764784640,
+      "DEC1_proposed_cap": 518617300992,
+      "global_proposed_cap": 590558003200
+    },
+    "Core_storage_bytes": {
+      "DEC1_projected": 107374182400,
+      "DEC1_current_cap": 137438953472,
+      "global_projected_with_final_protection": 128849018880,
+      "global_current_cap": 322122547200,
+      "DEC1_proposed_cap": 137438953472,
+      "global_proposed_cap": 322122547200
+    },
+    "local_storage_bytes": {
+      "DEC1_projected": 8589934592,
+      "DEC1_current_cap": 8589934592,
+      "global_projected_with_final_protection": 10737418240,
+      "global_current_cap": 21474836480,
+      "DEC1_proposed_cap": 8589934592,
+      "global_proposed_cap": 21474836480
+    }
+  },
+  "storage": {
+    "current_DEC1_allocated_upper_bytes": 305655119899,
+    "current_global_allocated_upper_bytes": 333982879771,
+    "remaining_training_bound_bytes": 210000000000,
+    "DEC1_retained_peak_upper_bytes": 518020707355,
+    "rounded_DEC1_cap_bytes": 518617300992,
+    "global_other_bytes": 28327759872,
+    "rounded_global_cap_bytes": 590558003200,
+    "failed_job_charge_not_reduced": true,
+    "no_future_retirement_or_dedup_credit": true,
+    "old_sealed_peak_not_actual_remaining_retention_calculation": true
+  },
+  "original_clock": {
+    "stop_new_jobs_epoch": 1792866596,
+    "stop_training_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_closeout_epoch": 1792952996
+  },
+  "clock_forecast": {
+    "original_plan_finish_epoch": 1792873921.8567753,
+    "clock_failures": [],
+    "queue_delay_upper_per_job_s": 3600,
+    "not_actual_reservation": true
+  },
+  "engineering_prepared": {
+    "module": "scripts/pi0294/dec1/owner_mux.py",
+    "CPU_tests_passed": 4,
+    "authenticated_both_site_mux_readonly_actual": true,
+    "no_fresh_network_session_fallback": true,
+    "unknown_write_no_retry_unchanged": true,
+    "original_watchdog300s_and_RPC30_40s_unchanged": true,
+    "not_native_training_deployed": true,
+    "requires_new_cold_owner_binding_terminal_and_B1_predecessor_update": true,
+    "exact_new_source_CI_readback_still_required": true
+  },
+  "unchanged": [
+    "DEC1_52GPUh",
+    "global96GPUh",
+    "global24PBS",
+    "updates9987",
+    "all_CPU_query_physics_transfer_caps",
+    "final20GPUh_and40GiB",
+    "R0_WBC_S1_recipe_sampler_score",
+    "all_checkpoints",
+    "originalT0_and_cutoffs"
+  ],
+  "native_registration_or_submit": 0,
+  "goal_complete": false
+}
