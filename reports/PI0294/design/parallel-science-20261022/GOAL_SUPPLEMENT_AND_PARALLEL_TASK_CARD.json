@@ -7,7 +7,7 @@
     "status": "BLOCKED_LAST_TOOL_OBSERVATION",
     "objective_edit_API_available": false,
     "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET",
-    "actual_work": "LEGAL_FAILURE_CLOSEOUT_DONE_RECOVERY_AND_SCIENCE_PREPARATION_CONTINUES",
+    "actual_work": "HUMAN_APPROVED_RECOVERY_ADOPTED_NEW_JOB_QUEUED_SINGLE_OWNER_ACTIVE",
     "resume_API_available": false,
     "no_goal_recreated_or_usage_reset": true
   },
@@ -24,34 +24,40 @@
     "new_concurrent_GPU_or_training_authorized_by_this_card": false
   },
   "current_native_snapshot": {
-    "job_id": "1475719.stdct-mgmt-02",
-    "native_state": "F",
-    "Exit_status": 1,
-    "current_step": 2819,
+    "job_id": "1477127.stdct-mgmt-02",
+    "native_state": "Q",
+    "observed_epoch": 1792689189.186219,
+    "source_sha": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+    "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+    "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
+    "lineage": "A_CONTROL_HEARTBEAT_RECOVERY2",
+    "start_step": 2048,
+    "target_step": 4096,
     "last_recoverable_complete_step": 2048,
-    "new_optimizer_updates": 771,
-    "owner_service": "FAILED_MAINPID0",
-    "GPU_lease": "CLOSED",
-    "CPU_control_lease": "CLOSED",
+    "training_started": false,
+    "owner_service": "vap1-a40-heartbeat-recovery2-owner-01",
+    "owner_pid": 353761,
+    "GPU_lease": "ACTIVE",
+    "CPU_control_lease": "ACTIVE",
     "used": {
-      "H200_s": 48363.0,
-      "PBS_submissions": 17,
+      "H200_s": 48363,
+      "PBS_submissions": 18,
       "optimizer_updates": 3843,
       "neural_queries": 1134
     },
     "reserved": {
-      "H200_s": 0,
-      "neural_queries": 0,
-      "optimizer_updates": 0
+      "H200_s": 22560,
+      "neural_queries": 29,
+      "optimizer_updates": 2048
     },
-    "unknown_effects": [],
-    "training_completion_claimed": false,
-    "observed_epoch": 1792680458.462084
+    "CPU_reserved_s": 54000,
+    "unknown_campaign_jobs": [],
+    "training_completion_claimed": false
   },
   "workstreams": [
     {
       "id": "TRAIN",
-      "status": "A2_FAILED_CLOSED_RECOVERY_FEASIBILITY_PENDING",
+      "status": "NEW_A2048_TO4096_RECOVERY_QUEUED",
       "order": [
         "A32_TO2048",
         "A2048_TO4096",
@@ -60,7 +66,7 @@
       ],
       "same_platform_R0_recipe_sampler": true,
       "deliverable": "FULL4096_A_AND_B_PLUS_ACTUAL_CONSUMPTION_COST_AND_FAILURE_RECORDS",
-      "next_gate": "FIX_HEARTBEAT_CAUSE_AND_PREPARE_PRESERVED_COST_RECOVERY_SCOPE_BEFORE_ANY_RESUBMISSION"
+      "next_gate": "ACTUAL_A4096_FULL_STATE_TERMINAL_AUDIT_ONCE_SETTLEMENT_BOTH_LEASE_CLOSURES_THEN_INDEPENDENT_B"
     },
     {
       "id": "DATA",
@@ -338,5 +344,32 @@
     "new_lineage": "A_CONTROL_HEARTBEAT_RECOVERY2",
     "next_action": "Exact CI/readback then new registered cold owner with once-only adoption and fresh admission",
     "goal_complete": false
-  }
+  },
+  "prior_closed_native_snapshot": {
+    "job_id": "1475719.stdct-mgmt-02",
+    "native_state": "F",
+    "Exit_status": 1,
+    "current_step": 2819,
+    "last_recoverable_complete_step": 2048,
+    "new_optimizer_updates": 771,
+    "owner_service": "FAILED_MAINPID0",
+    "GPU_lease": "CLOSED",
+    "CPU_control_lease": "CLOSED",
+    "used": {
+      "H200_s": 48363.0,
+      "PBS_submissions": 17,
+      "optimizer_updates": 3843,
+      "neural_queries": 1134
+    },
+    "reserved": {
+      "H200_s": 0,
+      "neural_queries": 0,
+      "optimizer_updates": 0
+    },
+    "unknown_effects": [],
+    "training_completion_claimed": false,
+    "observed_epoch": 1792680458.462084
+  },
+  "current_authority_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
+  "native_recovery_adoption_receipt": "HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_20261023.json"
 }

@@ -1,8 +1,10 @@
-# Current entry: approved A2048 heartbeat recovery; native adoption pending
+# Current entry: approved recovery adopted; A2048→4096 job queued
 
-Human approval is recorded in [the exact recovery grant](reports/PI0294/design/parallel-science-20261022/A2_HEARTBEAT_RECOVERY_AUTHORIZATION_20261023.json). DEC1 updates9987/PBS12/storage418GiB and global485GiB replace only the four approved limits. All historical costs, checkpoints, scientific freezes and clocks remain. [250 CPU tests and the offline accounting chain](reports/PI0294/design/parallel-science-20261022/HEARTBEAT_RECOVERY_SCOPE_CPU_ACTUAL_20261023.json) passed; synthetic future jobs are not native evidence. New scope source CI/readback, actual registration/adoption and fresh admission remain required. Old job1475719 and its owner stay closed. A4096 must be truly complete and closed before independent B. Earlier pending-approval snapshots below are historical.
+Human-approved recovery is now natively adopted. New job **1477127.stdct-mgmt-02** is Q, with one active cold owner and fixed runtime **df6427f791fdbe8f175906f240eb3413bf096cbf**. [Actual adoption, registration, reservation and submission](reports/PI0294/design/parallel-science-20261022/HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_20261023.json) records exact CI39819312716 success, 250 CPU tests and byte readbacks. A registration reply timeout was resolved by complete read-only evidence; no write was replayed. Queue reason: insufficient node_pool resource. Training has not started at this observation.
 
-# Current Entry: A2 Failed2819, Settled and Closed; Cold Recovery Draft Pending
+[Exact human grant](reports/PI0294/design/parallel-science-20261022/A2_HEARTBEAT_RECOVERY_AUTHORIZATION_20261023.json) sets DEC1 updates9987/PBS12/storage418GiB and global485GiB. Historical spent3843 updates and failed2819 lineage remain charged; the new lineage starts at the original full2048 checkpoint. Existing owner handles the queued job; do not restart, duplicate-submit or hot-modify it. A4096 must finish, pass full-state/terminal audit and settle/close both leases before independent B(CORR0). Original clocks, other caps and science freezes remain. Native preview9/rawS1/target WBC qualification is still missing; this is not scientific closure. All snapshots below are historical.
+
+# Historical entry: A2 Failed2819, Settled and Closed; Cold Recovery Draft Pending
 
 A2 job1475719 ended with HeartbeatLost after771 new updates. The latest full
 checkpoint is2048; A4096 does not exist. Once-only settlement and both GPU/CPU

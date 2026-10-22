@@ -1,0 +1,91 @@
+{
+  "schema": "VAP1_HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_V1",
+  "observed_epoch": 1792689431.4128666,
+  "authorization_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
+  "runtime_source": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+  "CI_run": 39819312716,
+  "CI_job": 119966060288,
+  "CI_conclusion": "success",
+  "all12_changed_files_exact_readback": true,
+  "CPU_tests_passed": 250,
+  "native_adoption_status": "ACTUAL_ONCE_HEARTBEAT_RECOVERY_ADOPTED_READBACK_VERIFIED",
+  "adoption_epoch": 1792688871.102433,
+  "independent_native_readback": {
+    "observed_epoch": 1792688890.176633,
+    "global_sha": "4ed6e922177dcf8314d35141809d7e611beddc7264167959232dfba061da4b23",
+    "DEC1_sha": "5db2ab16a214c7f36c524ef1f90617b42659f9ad8ecbe631ecd0e0cf8c845755",
+    "used": {
+      "H200_s": 48363.0,
+      "PBS_submissions": 17,
+      "optimizer_updates": 3843,
+      "neural_queries": 1134
+    },
+    "new_lineage": {
+      "last_native_step": 2048,
+      "recipe_sha256": "eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7"
+    },
+    "old_lineage": {
+      "last_native_step": 2819,
+      "recipe_sha256": "eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7"
+    },
+    "campaign_jobs": []
+  },
+  "CPU_manifest_sha256": "5e7f92c49717c6a5937b10eaf197a0351adfc89b860ef43097bf8d24c7cc1a28",
+  "GPU_manifest_sha256": "02dd8597d62293c966900149be7df29fa892edc8d313168b30b07912c582720e",
+  "GPU_lease_sha256": "93565b4776576d85e06a0b02e3be401236bf0eb98f8777268fc8838d6bcd0d4d",
+  "source_members": 852,
+  "sealed_inputs": 886,
+  "registration_reply_timeout": {
+    "timeout_s": 40,
+    "original_result": "UNKNOWN_WRITE_LATCHED",
+    "resolution": "EXACT_READONLY_SOURCE_INPUT_MANIFEST_REGISTRY_LEASE_READBACK",
+    "replayed": false,
+    "full_readback_epoch": 1792689039.9902434
+  },
+  "controller_sha256": "9566c0c2cd1199917eb86831d20d1efe6952394cd3fddbd11e8c640471f18a2f",
+  "new_owner_service": "vap1-a40-heartbeat-recovery2-owner-01",
+  "new_owner_pid_observed": 353761,
+  "service_active_observed": true,
+  "native_job": "1477127.stdct-mgmt-02",
+  "training_progress": "QUEUED_NOT_STARTED",
+  "old_A2_owner_restarted": false,
+  "prior_costs_preserved": true,
+  "old2819_lineage_preserved": true,
+  "seed2048_is_not_new_charged_updates": true,
+  "all_checkpoints_preserved": true,
+  "original_T0": 1792348196,
+  "hard_close": 1792952996,
+  "goal_complete": false,
+  "native_state": "Q",
+  "native_observed_epoch": 1792689189.186219,
+  "native_queue_comment": "Not Running: Insufficient amount of resource: node_pool ",
+  "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+  "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
+  "once_qsub_reply": {
+    "returncode": 0,
+    "stdout": "1477127.stdct-mgmt-02",
+    "stderr": "",
+    "observed_epoch": 1792689181.887744,
+    "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+    "script_sha256": "50b39f628080254fe326864bb8302a4f94891f46ed14c79fe8684654a53f8900"
+  },
+  "reservation": {
+    "status": "EXACT_A40_SOURCE_FULL_JOB_RESERVED_BEFORE_ONE_QSUB",
+    "observed_epoch": 1792689180.1958413,
+    "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+    "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
+    "reserved": {
+      "H200_s": 22560,
+      "neural_queries": 29,
+      "optimizer_updates": 2048
+    },
+    "CPU_reserved_s": 54000,
+    "GPU_used_s": 48363.0,
+    "global_PBS": 18,
+    "DEC1_PBS": 7
+  },
+  "cold_owner_binding_status": "PASS_NEW_REGISTERED_COLD_OWNER",
+  "campaign_job_count": 1,
+  "unknown_campaign_jobs": [],
+  "running_heartbeat_status": "CONFIRMED"
+}
