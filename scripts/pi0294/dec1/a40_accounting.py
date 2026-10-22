@@ -12,6 +12,7 @@ from .alternate_accounting import digest, finite
 from .dual_platform import reserve_check
 from .lost_save_recovery import lineage,validate_adopted
 from .segmented_training import enabled,limits
+from . import storage_expansion as storage
 
 TERMINAL=('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB')
 
@@ -22,6 +23,7 @@ def fail(message):
 
 def validate_item(row):
     lineage(row)
+    storage.enabled(row)
     wall=finite(row.get('reserved_H200_s'),integer=True)
     start=finite(row.get('start_native_step'),integer=True)
     segment=enabled(row);stop=limits(row)[1] if segment else 4096
@@ -100,11 +102,16 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
     reserve_check(grant_bytes=grant_bytes,view=campaign_view,used=v['used'],reserved=v['reserved'],
         extra=dict(H200_s=r['walltime_s']+a.PAD,PBS_submissions=1,optimizer_updates=count,neural_queries=29),
         platform=a.PLATFORM,job_wall_s=r['walltime_s'],now_epoch=now_epoch)
+    global_output_cap,dec1_output_cap=storage.caps(r)
+    if storage.enabled(r):
+        storage.validate_adopted(v,d)
+        if budget_proof.get('storage_authorization_release')!=storage.RELEASE or budget_proof.get('storage_grant_sha256')!=storage.GRANT_SHA:
+            fail('EXACT_STORAGE_SCOPE_IN_RESERVATION_PROOF')
     if (v['CPU_s']+v.get('CPU_reserved_s',0)+r['CPU_upper_s']>160*3600
             or d['CPU_s']+d.get('CPU_reserved_s',0)+r['CPU_upper_s']>96*3600
-            or v['new_storage_current_bytes']+v.get('storage_reserved_bytes',0)+r['additional_output_upper_bytes']+40*a.GIB>250*a.GIB
+            or v['new_storage_current_bytes']+v.get('storage_reserved_bytes',0)+r['additional_output_upper_bytes']+40*a.GIB>global_output_cap
             or d.get('new_GPU_site_output_allocated_upper_bytes',0)+d.get('GPU_site_output_reserved_bytes',0)
-                +r['additional_output_upper_bytes']>(176 if enabled(r) else 160)*a.GIB):
+                +r['additional_output_upper_bytes']>dec1_output_cap):
         fail('ACTUAL_CPU_AND_OUTPUT_HEADROOM_NOT_ONLY_GPU_HOURS')
     row=dict(status='QSUB_INTENT_OUTCOME_UNKNOWN_NO_RETRY',job_id=None,
         request_id=r['request_id'],submission_nonce=r['submission_nonce'],request_sha256=request_sha,
@@ -120,7 +127,8 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
         optimizer_update_limit=count,reserved_optimizer_updates=count,reserved_neural_queries=29,
         additional_output_upper_bytes=r['additional_output_upper_bytes'],submitted_intent_epoch=now_epoch)
     if 'CPU_envelope_profile' in r:row['CPU_envelope_profile']=r['CPU_envelope_profile']
-    for key in ('recovery_authorization_release','recovery_adoption_sha256','training_lineage_key'):
+    for key in ('recovery_authorization_release','recovery_adoption_sha256','training_lineage_key',
+                'storage_authorization_release','storage_grant_sha256'):
         if key in r:row[key]=r[key]
     if enabled(r):row.update(segmented_authorization_release=r['segmented_authorization_release'],
         segmented_grant_sha256=r['segmented_grant_sha256'],segment_stop_step=r['training_block']['stop_after_step'])

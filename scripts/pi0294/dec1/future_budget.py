@@ -23,7 +23,12 @@ def fail(reason):
     raise PermissionError('DEC1_FUTURE_'+reason)
 
 
-def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None):
+def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None):
+    if storage_bytes is not None:
+        from .storage_expansion import grant
+        grant(storage_bytes)
+        if segment_bytes is None:fail('STORAGE_REQUIRES_ORIGINAL_SEGMENT_AUTHORIZATION')
+        return dict(effective_caps(amendment_bytes,recovery_bytes,segment_bytes),Hopper_storage_bytes=352*GIB)
     if segment_bytes is not None:
         from .segmented_training import grant
         grant(segment_bytes)
@@ -53,8 +58,16 @@ def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None):
         Core_storage_bytes=128*GIB,transfer_bytes=128*GIB)
 
 
-def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None):
-    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes)
+def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None):
+    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes)
+    global_caps=dict(old.CAPS)
+    if storage_bytes is not None:
+        from .storage_expansion import RELEASE as STORAGE_RELEASE,GRANT_SHA as STORAGE_SHA
+        if any(v.get('storage_authorization_release')!=STORAGE_RELEASE or v.get('storage_grant_sha256')!=STORAGE_SHA for v in (snapshot,plan)):
+            fail('EXACT_STORAGE_ONLY_SCOPE_ON_SNAPSHOT_AND_PLAN')
+        global_caps['Hopper_storage_bytes']=419*GIB
+    elif any('storage_authorization_release' in v or 'storage_grant_sha256' in v for v in (snapshot,plan)):
+        fail('NO_UNBOUND_STORAGE_SCOPE')
     segment=segment_bytes is not None
     if segment:
         from .segmented_training import GRANT_SHA as SEGMENT_SHA,RELEASE as SEGMENT_RELEASE,RATE,CPU_PROFILE
@@ -112,7 +125,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
             fail('ALL_SITE_CURRENT_AND_PEAK_STORAGE')
         for key,peak in peaks.items():
             old._number(peak,integer=True)
-            if not vector[key]<=peak<=(old.CAPS if label=='global' else caps)[key]:
+            if not vector[key]<=peak<=(global_caps if label=='global' else caps)[key]:
                 fail('CURRENT_STORAGE_CANNOT_ERASE_HISTORICAL_PEAK')
     pad=old._number(plan['accounting_pad_s'],integer=True)
     wall_max=min(8*3600,old._number(plan['site_wall_limit_s'],integer=True,positive=True))
@@ -247,8 +260,8 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
             fail('FULL_CHECKPOINT_TRANSIENT_AND_RESIDENT_PEAK_WITHIN_CAP')
         extra[key]=max(0,peak-dec_used[key]-dec_reserved[key])
     finish=cursor+old._number(plan['package_closeout_wall_s'],positive=True)
-    global_over={k:used[k]+reserved[k]+extra[k]+old.FINAL.get(k,0)-old.CAPS[k]
-                 for k in caps if used[k]+reserved[k]+extra[k]+old.FINAL.get(k,0)>old.CAPS[k]}
+    global_over={k:used[k]+reserved[k]+extra[k]+old.FINAL.get(k,0)-global_caps[k]
+                 for k in caps if used[k]+reserved[k]+extra[k]+old.FINAL.get(k,0)>global_caps[k]}
     dec_over={k:dec_used[k]+dec_reserved[k]+extra[k]-caps[k]
               for k in caps if dec_used[k]+dec_reserved[k]+extra[k]>caps[k]}
     time_errors=[]
@@ -265,4 +278,4 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
         projected_finish_epoch=finish,clock=clock,target_cost_feasibility='UNKNOWN_UNTIL_NATIVE_COMMISSIONING',
         matrix_ceiling_not_proven_runtime=True,old_PV1_release_and_LOCKBOX_admitted=False,
         optional_stress_funded=False,site_permissions_and_scientific_guards_still_required=True,
-        effective_DEC1_VAP1_caps=caps,budget_amendment_sha256=hashlib.sha256(amendment_bytes).hexdigest() if amendment_bytes is not None else None)
+        effective_DEC1_VAP1_caps=caps,effective_global_caps=global_caps,budget_amendment_sha256=hashlib.sha256(amendment_bytes).hexdigest() if amendment_bytes is not None else None)

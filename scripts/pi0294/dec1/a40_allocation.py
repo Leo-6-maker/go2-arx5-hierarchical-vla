@@ -94,6 +94,8 @@ def request_scope(request, *, now):
     r=request;block=r.get('training_block',{})
     from .segmented_training import enabled,limits
     segment=enabled(r)
+    from .storage_expansion import enabled as storage_enabled
+    storage_enabled(r)
     stop=limits(r)[1] if segment else 4096
     if (r.get('schema')!='PI0294_PV1_NATIVE_ALLOCATION_REQUEST_V1'
             or r.get('platform_training_version')!=VERSION or r.get('native_platform')!=PLATFORM
@@ -266,14 +268,20 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
             or planned[0].get('CPU_envelope_profile')!=r.get('CPU_envelope_profile')
             or planned[0]['resources'].get('neural_queries',0)<29):
         fail('EXACT_CURRENT_JOB_IN_COMPLETE_SOURCE_PAIR_AND_MATRIX_FORECAST')
+    from . import storage_expansion as storage
+    global_output_cap,dec1_output_cap=storage.caps(r)
+    if storage.enabled(r):
+        storage.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
+        if budget_proof.get('storage_authorization_release')!=storage.RELEASE or budget_proof.get('storage_grant_sha256')!=storage.GRANT_SHA:
+            fail('EXACT_STORAGE_SCOPE_IN_NATIVE_BUDGET_PROOF')
     extra=number(r['additional_output_upper_bytes'],integer=True,positive=True)
     current=number(ledger['new_storage_current_bytes'],integer=True)
     reserved=number(ledger['storage_reserved_bytes'],integer=True)
-    if (reserved<extra or current+reserved+40*GIB>250*GIB
+    if (reserved<extra or current+reserved+40*GIB>global_output_cap
             or quota.get('user')!=user or quota.get('scope')!='OWN_PROJECT_AND_FILESYSTEM_MINIMUM'
             or not 0<=now-quota['observed_epoch']<=900
             or number(quota['available_bytes'],integer=True)<reserved+40*GIB
-            or number(budget_proof['DEC1_GPU_site_output_used_and_reserved_bytes'],integer=True)>(176 if enabled(r) else 160)*GIB):
+            or number(budget_proof['DEC1_GPU_site_output_used_and_reserved_bytes'],integer=True)>dec1_output_cap):
         fail('ACTUAL_PROJECT_AND_FILESYSTEM_HEADROOM_WITH_BOTH_OUTPUT_CAPS_AND_FINAL_RESERVE')
     return dict(status=STATUS,job_id=job_id,submit_count=r['submit_count'],request_sha256=request_sha,
         request_id=r['request_id'],submission_nonce=r['submission_nonce'],run_uuid=r['run_uuid'],

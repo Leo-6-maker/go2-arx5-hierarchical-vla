@@ -31,7 +31,7 @@ def pending_source_reservations(h,d):
 
 def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
               progress_bytes, plan_bytes, amendment_bytes, now_epoch, job_id,
-              purpose='NATIVE_PRETRAIN',recovery_bytes=None,segment_bytes=None):
+              purpose='NATIVE_PRETRAIN',recovery_bytes=None,segment_bytes=None,storage_bytes=None):
     from .a40_allocation import request_scope, PLATFORM, T0
     r,request_sha=old._read(request_bytes);request_scope(r,now=now_epoch)
     if purpose not in ('PREQUEUE','NATIVE_PRETRAIN'):
@@ -48,6 +48,14 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         segment_grant(segment_bytes);segment_adopted(h,d)
         if s.get('segmented_grant_sha256')!=SEGMENT_SHA:fail('ADOPTED_SEGMENT_SNAPSHOT')
     elif segment_bytes is not None:fail('NO_SEGMENT_CAP_FOR_LEGACY_REQUEST')
+    from . import storage_expansion as storage
+    storage_scope=storage.enabled(r)
+    if storage_scope:
+        if storage_bytes is None:fail('EXACT_STORAGE_AUTHORIZATION_BYTES_REQUIRED')
+        storage.grant(storage_bytes);storage.validate_adopted(h,d)
+        if any(v.get('storage_authorization_release')!=storage.RELEASE or v.get('storage_grant_sha256')!=storage.GRANT_SHA for v in (s,p)):
+            fail('EXACT_STORAGE_SCOPE_ON_FRESH_PLAN_AND_SNAPSHOT')
+    elif storage_bytes is not None:fail('NO_STORAGE_CAP_WITH_LEGACY_REQUEST')
     if r.get('recovery_authorization_release') is not None:
         from .lost_save_recovery import grant,validate_adopted,GRANT_SHA
         if recovery_bytes is None:fail('SEALED_RECOVERY_AUTHORIZATION_BYTES_REQUIRED')
@@ -105,7 +113,7 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         if any(observed[k]!=v for k,v in native.items()):
             fail('DEC1_NATIVE_SPENT_RESERVED_CPU_AND_IO_EXACT')
     forecasted=forecast(snapshot=s,progress_bytes=progress_bytes,plan=p,
-        amendment_bytes=amendment_bytes,now_epoch=now_epoch,recovery_bytes=recovery_bytes,segment_bytes=segment_bytes)
+        amendment_bytes=amendment_bytes,now_epoch=now_epoch,recovery_bytes=recovery_bytes,segment_bytes=segment_bytes,storage_bytes=storage_bytes)
     if not forecasted['admissible_forecast']:
         fail('COMPLETE_SOURCE_PAIR_MATRIX_AND_ORIGINAL_FINAL_RESERVE_DO_NOT_FIT')
     rows=[x for x in h['PBS_submissions'] if x['request_id']==r['request_id']]
@@ -126,4 +134,5 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
     if recovery_bytes is not None:
         result.update(source_recovery_grant_sha256=GRANT_SHA,DEC1_native_recovery_view=d)
     if segment:result['segmented_grant_sha256']=SEGMENT_SHA
+    if storage_scope:result.update(storage_authorization_release=storage.RELEASE,storage_grant_sha256=storage.GRANT_SHA)
     return result

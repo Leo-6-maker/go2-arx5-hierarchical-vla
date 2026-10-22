@@ -96,18 +96,20 @@ def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledge
             or 'hopper-m-02' not in project['cluster']
             or not project_eligible(dict(project,member=user in project['users'],balance_su=p['balance_su']),today)):
         raise PermissionError('PV1_SELECTED_PROJECT_DATE_MEMBER_CLUSTER_AND_POSITIVE_BALANCE')
+    from scripts.pi0294.dec1.storage_expansion import global_cap_from_ledger
+    global_output_cap=global_cap_from_ledger(ledger)
     extra=request['additional_output_upper_bytes']
     reserve=0 if final else 40*1024**3
     reserved_storage=ledger.get('storage_reserved_bytes',extra)
     current_storage=ledger.get('new_storage_current_bytes',ledger['new_storage_peak_bytes'])
-    if (type(extra) is not int or extra<=0 or extra>250*1024**3
+    if (type(extra) is not int or extra<=0 or extra>global_output_cap
             or quota['user']!=user or not 0<=now-quota['report_epoch']<=900
             or any(type(quota[k]) is not int or quota[k]<0 for k in ('used_bytes','hard_bytes'))
             or quota['hard_bytes']-quota['used_bytes']<reserved_storage+reserve
-            or type(ledger['new_storage_peak_bytes']) is not int or not 0<=ledger['new_storage_peak_bytes']<=250*1024**3
+            or type(ledger['new_storage_peak_bytes']) is not int or not 0<=ledger['new_storage_peak_bytes']<=global_output_cap
             or type(current_storage) is not int or not 0<=current_storage<=ledger['new_storage_peak_bytes']
             or type(reserved_storage) is not int or reserved_storage<extra
-            or current_storage+reserved_storage+reserve>250*1024**3):
+            or current_storage+reserved_storage+reserve>global_output_cap):
         raise PermissionError('PV1_REAL_PERSONAL_QUOTA_AND_FINAL_STORAGE_RESERVE')
     admit_resources(ledger['used'],ledger['reserved'],{},final=final,active_GPUs=1)
     return dict(status='PASS_PV1_OWN_NATIVE_H200_ALLOCATION',job_id=job_id,project=request['project'],

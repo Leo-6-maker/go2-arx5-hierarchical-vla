@@ -85,9 +85,11 @@ def budget_request(value,request):
     admit_resources(value['used'],value['reserved'],dict(H200_s=request['walltime_s']+PAD,PBS_submissions=1),final=final)
     extra=request['additional_output_upper_bytes'];reserve=0 if final else 40*1024**3
     reserved=sum(s['additional_output_upper_bytes'] for s in active_items(value))
+    from scripts.pi0294.dec1.storage_expansion import global_cap_from_ledger
+    global_output_cap=global_cap_from_ledger(value)
     peak=value['new_storage_peak_bytes'];current=value.get('new_storage_current_bytes',peak)
-    if (type(peak) is not int or not 0<=peak<=250*1024**3 or type(current) is not int or not 0<=current<=peak
-            or current+reserved+extra+reserve>250*1024**3):
+    if (type(peak) is not int or not 0<=peak<=global_output_cap or type(current) is not int or not 0<=current<=peak
+            or current+reserved+extra+reserve>global_output_cap):
         raise PermissionError('PV1_ALL_QUEUED_OUTPUT_UPPERS_AND_FINAL_STORAGE_RESERVE')
     if request['stage'] in ('P2_PRIMARY','P4_REPLICA'):
         block=request['training_block'];replica=request['stage']=='P4_REPLICA'
