@@ -54,6 +54,12 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         fail('ACTUAL_NATIVE_LEDGER_BYTES_AND_EXPLICIT_NOT_MEASURED_A40_CEILING')
     if h['used']['PBS_submissions']!=len(h['PBS_submissions']):
         fail('NO_UNCOUNTED_SUBMISSIONS')
+    current=[x for x in p['training_jobs'] if x['arm']==r['training_block']['arm']
+        and x['start_step']==r['expected_native_start_step']]
+    if (len(current)!=1 or current[0]['walltime_upper_s']!=r['walltime_s']
+            or current[0]['resources'].get('Hopper_CPU_s')!=r['CPU_upper_s']
+            or current[0].get('CPU_envelope_profile')!=r.get('CPU_envelope_profile')):
+        fail('PREQUEUE_CURRENT_CPU_PROFILE_AND_COMPLETE_FORECAST_MUST_MATCH')
     if (any(x.get('stage')=='P2_PRIMARY' and x.get('native_platform')!=PLATFORM
             and x.get('status') not in ('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB')
             for x in h['PBS_submissions'])

@@ -87,13 +87,15 @@ def future_inputs(args):
         plan['training_jobs'].append(dict(work_id='TRAIN:'+arm+':LONG',arm=arm,start_step=0,stop_step=4096,
             same_allocation_1024_probes=True,walltime_upper_s=28800,
             resources=dict(H200_s=28860,PBS_submissions=1,optimizer_updates=4096,neural_queries=29,
-                Hopper_CPU_s=115560,Core_CPU_s=180,local_CPU_s=120,engine_starts=3,
+                Hopper_CPU_s=r['CPU_upper_s'],Core_CPU_s=180,local_CPU_s=120,engine_starts=3,
                 transfer_bytes=10*a.GIB,Hopper_storage_bytes=r['additional_output_upper_bytes'])))
+        if 'CPU_envelope_profile' in r:
+            plan['training_jobs'][-1]['CPU_envelope_profile']=r['CPU_envelope_profile']
     plan['storage_lifecycle']['new_output_peak_upper_bytes']['Hopper_storage_bytes']=144*a.GIB
     d=dict(authority_release=a.AUTHORITY,campaign_run_uuid=r['campaign_run_uuid'],unknown_effects=[],
         GPU_allocated_s=251,new_submissions=[dict(request_id='old-compat'),h['PBS_submissions'][-1]],
         GPU_reserved_s=28860,optimizer_updates=0,optimizer_updates_reserved=4096,neural_queries=0,
-        neural_queries_reserved=29,CPU_s=25920.,CPU_reserved_s=115560,episode_starts=0,physics_ticks=0,constructors=0,
+        neural_queries_reserved=29,CPU_s=25920.,CPU_reserved_s=h['CPU_reserved_s'],episode_starts=0,physics_ticks=0,constructors=0,
         new_GPU_site_output_allocated_upper_bytes=34*a.GIB,GPU_site_output_reserved_bytes=r['additional_output_upper_bytes'])
     s['paired_source_training_platform']=a.PLATFORM
     s['used'].update(h['used'],Hopper_CPU_s=h['CPU_s'],Hopper_storage_bytes=h['new_storage_current_bytes'])
@@ -119,6 +121,42 @@ def prepared(args):
 
 
 class A40AllocationTests(unittest.TestCase):
+    def test_full_native_admission_binds_stricter_profile_on_request_ledger_and_both_future_jobs(self):
+        f=fixture();r=json.loads(f['request_bytes'])
+        r.update(CPU_envelope_profile=a.BOUNDED_CPU_PROFILE,CPU_upper_s=80000)
+        f['request_bytes']=raw(r);f['ledger']['CPU_reserved_s']=80000
+        f['ledger']['PBS_submissions'][-1].update(CPU_envelope_profile=a.BOUNDED_CPU_PROFILE,
+            CPU_upper_s=80000,request_sha256=hashlib.sha256(f['request_bytes']).hexdigest())
+        prepared(f);result=self.validate(f)
+        self.assertEqual(result['process_CPU_time_upper_s'],80000)
+        self.assertEqual(result['actual_process_CPU_limit'],4)
+        self.assertEqual(result['CPU_envelope_profile'],a.BOUNDED_CPU_PROFILE)
+        self.assertEqual(f['budget_proof']['forecast']['original_final_protection']['H200_s'],72000)
+        f['ledger']['PBS_submissions'][-1]['CPU_envelope_profile']='not-bound'
+        with self.assertRaises(PermissionError):self.validate(f)
+
+    def test_stricter_CPU_profile_requires_exact_limit_and_eight_hour_scope(self):
+        r=json.loads(fixture()['request_bytes'])
+        self.assertEqual(a.cpu_envelope(r,28800),115560)
+        r.update(CPU_envelope_profile=a.BOUNDED_CPU_PROFILE,CPU_upper_s=80000)
+        a.request_scope(r,now=NOW)
+        for key,value in [('CPU_upper_s',79999),('CPU_upper_s',115560),
+                          ('CPU_envelope_profile','unbounded'),('walltime_s',28799)]:
+            with self.subTest(key=key,value=value):
+                changed=deepcopy(r);changed[key]=value
+                with self.assertRaises(PermissionError):a.request_scope(changed,now=NOW)
+
+    def test_future_CPU_reduction_without_enforced_profile_is_rejected(self):
+        for wrong in ('missing','wrong-profile','request-mismatch'):
+            inputs=future_inputs(fixture());plan=json.loads(inputs['plan_bytes'])
+            for row in plan['training_jobs']:
+                row['resources']['Hopper_CPU_s']=80000
+                if wrong!='missing':row['CPU_envelope_profile']=a.BOUNDED_CPU_PROFILE
+                if wrong=='wrong-profile':row['CPU_envelope_profile']='not-enforced'
+            inputs['plan_bytes']=raw(plan)
+            with self.subTest(wrong=wrong),patch.object(budget,'VAP1_ADOPTION',hashlib.sha256(inputs['amendment_bytes']).hexdigest()):
+                with self.assertRaises(PermissionError):future.recompute(**inputs)
+
     def validate(self,args):
         checksum=hashlib.sha256(args['grant_bytes']).hexdigest()
         with patch.object(dual,'GRANT_SHA',checksum),patch.object(a,'GRANT_SHA',checksum):

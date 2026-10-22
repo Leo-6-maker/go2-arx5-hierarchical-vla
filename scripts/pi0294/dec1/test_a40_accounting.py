@@ -6,6 +6,7 @@ import unittest
 from unittest.mock import patch
 
 from . import a40_accounting as accounting
+from . import a40_allocation as allocation
 from . import a40_future as future
 from . import future_budget as budget
 from . import dual_platform as dual
@@ -48,6 +49,25 @@ def terminal(f):
 
 
 class SourceAccountingTests(unittest.TestCase):
+    def test_stricter_profile_is_reserved_and_settled_without_reducing_other_budgets(self):
+        f=prequeue();r=json.loads(f['request_bytes'])
+        r.update(CPU_envelope_profile=allocation.BOUNDED_CPU_PROFILE,CPU_upper_s=80000)
+        f['request_bytes']=raw(r)
+        f['budget_proof']['request_sha256']=hashlib.sha256(f['request_bytes']).hexdigest()
+        # Reserve consumes the already-verified pure proof; native recomputation
+        # separately checks the matching sealed plan and all future job limits.
+        v,d=self.reserve(f)
+        self.assertEqual(v['CPU_reserved_s'],80000);self.assertEqual(d['CPU_reserved_s'],80000)
+        self.assertEqual(v['reserved']['H200_s'],28860);self.assertEqual(v['reserved']['optimizer_updates'],4096)
+        row=v['PBS_submissions'][-1]
+        self.assertEqual(row['CPU_envelope_profile'],allocation.BOUNDED_CPU_PROFILE)
+        v,d=accounting.bind_job(v,d,request_id=r['request_id'],job_id=f['job_id'],now_epoch=f['now'])
+        n,e=terminal(f)
+        closed,dc=accounting.settle(v,d,request_id=r['request_id'],native_proof=n,effects=e,now_epoch=f['now'])
+        self.assertEqual(closed['CPU_reserved_s'],0);self.assertEqual(dc['CPU_reserved_s'],0)
+        row=deepcopy(row);row['CPU_upper_s']=115560
+        with self.assertRaises(PermissionError):accounting.validate_item(row)
+
     def reserve(self,f):
         with patch.object(dual,'GRANT_SHA',hashlib.sha256(f['grant_bytes']).hexdigest()):
             return accounting.reserve(f['ledger'],f['DEC1'],request_bytes=f['request_bytes'],

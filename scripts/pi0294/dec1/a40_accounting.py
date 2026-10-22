@@ -26,7 +26,7 @@ def validate_item(row):
         stage='P2_PRIMARY',project='CFP04-CF-007',job_name='pi0294_dec1_a40_train',
         parent_checkpoint_manifest_sha256=a.PARENT,statistics_sha256=a.R0,new_bank_manifest_sha256=a.BANK,
         physical_GPU_kind='NVIDIA_A40',physical_GPU_count=1,legacy_GPU_seconds_field_is_projection=True,
-        accounting_pad_s=a.PAD,CPU_upper_s=4*(wall+a.PAD)+120,query_limit=29,
+        accounting_pad_s=a.PAD,CPU_upper_s=a.cpu_envelope(row,wall),query_limit=29,
         optimizer_update_limit=4096-start)
     if (any(row.get(k)!=v for k,v in expected.items()) or not 2760<wall<=28800
             or start>=1024 or row.get('arm') not in ('A_CONTROL','B_COVERAGE')
@@ -109,6 +109,7 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
         reserved_H200_s=r['walltime_s'],accounting_pad_s=a.PAD,CPU_upper_s=r['CPU_upper_s'],query_limit=29,
         optimizer_update_limit=count,reserved_optimizer_updates=count,reserved_neural_queries=29,
         additional_output_upper_bytes=r['additional_output_upper_bytes'],submitted_intent_epoch=now_epoch)
+    if 'CPU_envelope_profile' in r:row['CPU_envelope_profile']=r['CPU_envelope_profile']
     validate_item(row);v['PBS_submissions'].append(row);v['used']['PBS_submissions']+=1
     for k,c in dict(H200_s=r['walltime_s']+a.PAD,optimizer_updates=count,neural_queries=29).items():
         v['reserved'][k]=v['reserved'].get(k,0)+c

@@ -135,6 +135,10 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None):
                 count=stop-start;probes=12 if stop==1024 or long_run else 0
                 cursor=stop;probe_done=probe_done or stop==1024 or long_run
             resources=old._vector(block['resources']);wall=old._number(block['walltime_upper_s'],integer=True,positive=True)
+            if plan.get('native_platform')=='VANDA_A40':
+                from .a40_allocation import cpu_envelope
+                if resources['Hopper_CPU_s']!=cpu_envelope(block,wall):
+                    fail('FUTURE_A40_CPU_ENVELOPE_MUST_MATCH_ENFORCED_COLD_PROFILE')
             work_id=block['work_id']
             if (not isinstance(work_id,str) or work_id in seen or not work_id.startswith('TRAIN:'+arm+':')
                     or not overhead+count*per_update+probes*per_probe<=wall<=wall_max

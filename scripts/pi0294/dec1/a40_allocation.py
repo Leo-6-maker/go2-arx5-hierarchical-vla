@@ -22,6 +22,7 @@ T0 = 1792348196
 PAD = 60
 GIB = 1024**3
 CAPACITY_PROFILES = ((4,32*GIB), (36,240*GIB))
+BOUNDED_CPU_PROFILE = 'A40_EIGHT_HOUR_PROCESS_CPU_80000_V1'
 
 
 def fail(reason):
@@ -33,6 +34,16 @@ def number(value, *, integer=False, positive=False):
             or value < 0 or integer and type(value) is not int or positive and value <= 0):
         fail('FINITE_NONNEGATIVE_EXACT_RESOURCE')
     return value
+
+
+def cpu_envelope(value, wall):
+    """A stricter cold process limit, not a smaller claimed site allocation."""
+    original=4*(wall+PAD)+120
+    profile=value.get('CPU_envelope_profile')
+    if profile is None:return original
+    if profile!=BOUNDED_CPU_PROFILE or wall!=28800 or 80000>=original:
+        fail('EXACT_STRICTER_EIGHT_HOUR_PROCESS_CPU_PROFILE')
+    return 80000
 
 
 def memory_bytes(text):
@@ -108,7 +119,7 @@ def request_scope(request, *, now):
     wall=number(r['walltime_s'],integer=True,positive=True)
     if not 2760<wall<=8*3600 or now+2700>=HARD_CLOSE:
         fail('ORIGINAL_EIGHT_HOUR_OR_SHORTER_SITE_LIMIT_WITH_SAVE_RESERVE')
-    if r.get('CPU_upper_s')!=4*(wall+PAD)+120:
+    if r.get('CPU_upper_s')!=cpu_envelope(r,wall):
         fail('FULL_ACTIVE_PROCESS_CPU_AND_PERFORMANCE_OBSERVER_ENVELOPE')
     return r
 
@@ -187,6 +198,7 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
         global_submit_count=r['submit_count'],
         reserved_optimizer_updates=updates,reserved_neural_queries=29,
         CPU_upper_s=r['CPU_upper_s'],physical_GPU_kind='NVIDIA_A40',physical_GPU_count=1,
+        CPU_envelope_profile=r.get('CPU_envelope_profile'),
         legacy_GPU_seconds_field_is_projection=True,parent_checkpoint_manifest_sha256=PARENT,
         statistics_sha256=R0,new_bank_manifest_sha256=BANK,
         additional_output_upper_bytes=r['additional_output_upper_bytes'])
@@ -221,6 +233,8 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
             or planned[0].get('stop_step')!=4096 or planned[0].get('same_allocation_1024_probes') is not True
             or planned[0].get('walltime_upper_s')!=native_wall
             or planned[0].get('resources',{}).get('optimizer_updates')!=updates
+            or planned[0]['resources'].get('Hopper_CPU_s')!=r['CPU_upper_s']
+            or planned[0].get('CPU_envelope_profile')!=r.get('CPU_envelope_profile')
             or planned[0]['resources'].get('neural_queries',0)<29):
         fail('EXACT_CURRENT_JOB_IN_COMPLETE_SOURCE_PAIR_AND_MATRIX_FORECAST')
     extra=number(r['additional_output_upper_bytes'],integer=True,positive=True)
@@ -240,4 +254,5 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
         allocation_end_epoch=allocation_end,
         native_select=limits['select'],native_allocated_ncpus=cpus,native_allocated_memory_bytes=mem,
         actual_process_CPU_limit=4,site_capacity_is_not_actual_process_CPU=True,
+        process_CPU_time_upper_s=r['CPU_upper_s'],CPU_envelope_profile=r.get('CPU_envelope_profile'),
         request_or_native_resources_modified=False,model_loaded=False,new_optimizer_updates=0)

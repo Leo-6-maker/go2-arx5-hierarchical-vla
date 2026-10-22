@@ -30,7 +30,7 @@ class RuntimeTests(unittest.TestCase):
         for committed in (0,1024):
             with self.subTest(committed=committed),tempfile.TemporaryDirectory() as tmp:
                 root=Path(tmp);directory=root/'pbs/alloc-01';request=directory/'REQUEST.json'
-                r=dict(expected_native_start_step=0,CPU_upper_s=1000,source_sha='a'*40)
+                r=dict(expected_native_start_step=0,CPU_upper_s=80000,source_sha='a'*40)
                 put(request,r)
                 ledger=SimpleNamespace(initialize=lambda:None,guard=lambda:None,
                     summary=lambda:dict(last_native_step=committed,optimizer_updates_committed=committed))
@@ -38,11 +38,12 @@ class RuntimeTests(unittest.TestCase):
                       patch.object(c,'consumer_records',return_value={}),
                       patch.object(runtime,'allocation',return_value=dict(job_id='fixture',request_sha256='b'*64)),
                       patch.object(runtime.os,'sched_setaffinity'),patch.object(runtime.os,'sched_getaffinity',return_value={0,1,2,3}),
-                      patch.object(runtime.resource,'setrlimit'),patch.object(runtime,'Ledger',return_value=ledger),
+                      patch.object(runtime.resource,'setrlimit') as limits,patch.object(runtime,'Ledger',return_value=ledger),
                       patch.object(checkpoint_storage,'prewrite_headroom',side_effect=PermissionError('FIXTURE_STORAGE')) as prewrite,
                       patch.object(numerics,'prepare_environment') as torch_environment):
                     with self.assertRaisesRegex(PermissionError,'FIXTURE_STORAGE'):runtime.run(root,request)
                     prewrite.assert_called_once_with(root);torch_environment.assert_not_called()
+                    limits.assert_any_call(runtime.resource.RLIMIT_CPU,(80000,80000))
                 final=json.loads((directory/'PBS_PROCESS_FINAL.json').read_bytes())
                 self.assertEqual(final['phase'],'ACTUAL_NATIVE_SOURCE_PREMODEL')
                 self.assertEqual(final['global_step'],committed)
