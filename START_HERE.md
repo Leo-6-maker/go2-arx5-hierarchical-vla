@@ -1,3 +1,11 @@
+# Current training boundary: A native F / Exit0; independent saved-state audit in progress
+
+[Cold B fee-catchup and snapshot CPU preparation](reports/PI0294/design/parallel-science-20261022/B_CLOSED_SOURCE_COLD_NATIVE_AND_SNAPSHOT_PREPARATION_CPU_20261023.json):10 private synthetic/filesystem tests with25subcases pass,0external/native attempts. The existing B1 journal gets a once inactive-Hopper metadata CAS; active A/CPU/GPU holds/open lease/changed bytes reject before write, lost write return cannot be replayed. Only closed Core-side cumulative costs are projected; global neural ledger remains byte-identical.
+
+B1/B2 preserve original0cf86cbc numerical source and mature once owner. Closed Core output is included in the existing storage peaks before original full-budget recomputation; LOCAL8GiB remains inclusive only with fresh known-namespace allocation readback. Explicit task-specific cold launchers retain this callback in actual serve. Missing real predecessor receipts reject before historical owner import/configure/transport. No B registration, Hopper cost catchup or submission has run.
+
+A1477527 is actual native F/Exit0 at4096, and the original service naturally exited successfully with MainPID0. The original once-only independent full-state audit is now running; settlement and both lease closures have not yet run. Priorc2ac3ff6 exactCI39864981215/job120124778381/all12steps and8file readback passed. Source financial closure remains confirmed; raw source UNKNOWN and failed artifacts remain. All budgets, freezes and clocks are unchanged. Older entries below are historical.
+
 # Current source continuation: actual dual financial close; B cost catchup prepared
 
 [Actual dual financial closure and cold B cost projection](reports/PI0294/design/WDR1_SOURCE_DUAL_FINANCIAL_CLOSURE_AND_B_COST_PROJECTION_CPU_ACTUAL_20261023.json): Source request23da1121 was once settled at1792707417.8988905 on Core and LOCAL; original source lease isCLOSED. Independent actual readback confirms all8 source holds0, both source actors terminal,13 original failed files and the original child ledger unchanged. The child still retains UNKNOWN and its16000 live reservation as historical evidence. Scientific state remains1 ENGINEERING_INCOMPLETE_UNKNOWN+3 NOT_RUN; no STOP ACK or qualification is invented.

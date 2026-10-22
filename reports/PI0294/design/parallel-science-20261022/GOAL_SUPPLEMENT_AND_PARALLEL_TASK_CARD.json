@@ -1,8 +1,8 @@
 {
   "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
   "created_epoch": 1792663428.495236,
-  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
-  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
+  "user_direction": "\u5e76\u884c\u51c6\u5907\u540e\u7eed\u7684\u6570\u636e\u4ee5\u53ca\u8bad\u7ec3\uff0c\u79d1\u5b66\u4e3b\u7ebf\uff0c\u66f4\u65b0goal",
+  "objective": "\u7ee7\u7eed\u65e2\u6709A/B\u5206\u6bb5\u8bad\u7ec3\u4e0e\u79d1\u5b66\u8bc4\u4ef7\uff0c\u540c\u65f6\u5e76\u884c\u4ea4\u4ed8\u540e\u7eed\u6570\u636e\u3001\u8bad\u7ec3\u548c\u8bc4\u4ef7\u51c6\u5907\uff1b\u4f4e\u9891\u89c2\u5bdfGPU\uff0c\u4ee5\u771f\u5b9e\u7aef\u70b9\u53ca\u914d\u5bf9\u95ed\u73af\u8bc1\u636e\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\u3002",
   "goal_panel": {
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
@@ -31,8 +31,8 @@
     "lineage": "A_CONTROL_HEARTBEAT_RECOVERY2",
     "start_step": 2048,
     "target_step": 4096,
-    "native_state": "R",
-    "native_observed_epoch": 1792698785.2152934,
+    "native_state": "F",
+    "native_observed_epoch": 1792709013.5235732,
     "new_submission_count": 1,
     "native_receipts": [
       "PBS_READY.json",
@@ -44,8 +44,8 @@
     "first_update_release": true,
     "new_updates_at_observation": "ACTUAL_RETURNED_NOT_TERMINALLY_SETTLED",
     "owner_service": "vap1-a40-zero-update-resume-owner-01",
-    "owner_pid": 431568,
-    "owner_status": "ACTIVE",
+    "owner_pid": 0,
+    "owner_status": "NATURALLY_EXITED_SUCCESS",
     "GPU_lease": "ACTIVE",
     "CPU_control_lease": "ACTIVE",
     "used": {
@@ -61,14 +61,16 @@
     },
     "CPU_reserved_s": 54000,
     "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
-    "last_recoverable_complete_step": 2048,
+    "last_recoverable_complete_step": "4096_MANIFEST_SAVED_PENDING_INDEPENDENT_MEMBER_AUDIT",
     "training_completion_claimed": false,
-    "observed_epoch": 1792698785.2152934,
-    "last_returned_training_step": 2229,
-    "new_returned_updates": 181,
+    "observed_epoch": 1792709013.5235732,
+    "last_returned_training_step": 4096,
+    "new_returned_updates": 2048,
     "compatibility_queries": 17,
     "model_load_attempts": 2,
-    "unknown_effects": []
+    "unknown_effects": [],
+    "Exit_status": 0,
+    "independent_full_state_audit": "IN_PROGRESS"
   },
   "workstreams": [
     {
@@ -206,7 +208,7 @@
     "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
   },
   "current_resource_work": {
-    "status": "APPROVED_DUAL_LEDGER_ADOPTED_SAME_HEALTHY_A_RUNNING",
+    "status": "A_NATIVE_F_EXIT0_OWNER_EXITED_INDEPENDENT_AUDIT_RUNNING_B_COLD_PREPARED",
     "retain_all_checkpoints": true,
     "report": "reports/PI0294/design/parallel-science-20261022/ZERO_UPDATE_RESUME_NATIVE_ADOPTION_ACTUAL_20261023.json",
     "next_actions": [
@@ -818,5 +820,34 @@
       "Bounded cold source repair/remaining conditions or proven finite engineering replacement under original scope and fresh resource admission; preserve first unknown",
       "Frozen-target T1/T2 and original CORR/R0 source/target64 still incomplete"
     ]
+  },
+  "latest_cold_B_source_cost_native_and_snapshot_preparation": {
+    "report": "reports/PI0294/design/parallel-science-20261022/B_CLOSED_SOURCE_COLD_NATIVE_AND_SNAPSHOT_PREPARATION_CPU_20261023.json",
+    "status": "CPU_AND_FAKE_FILESYSTEM_PREPARED_NOT_NATIVE_ADOPTED_OR_B_SUBMITTED",
+    "actual_A": {
+      "job": "1477527.stdct-mgmt-02",
+      "observed_epoch": 1792709013.5235732,
+      "state": "F",
+      "last_native_step": 4096,
+      "unknown_effects": [],
+      "owner_PID": 431568,
+      "still_requires_real_F_Exit0_natural_owner_exit_full_state_audit_settle_dual_close": true
+    },
+    "pending": [
+      "Actual A4096 native terminal and owner natural exit; original independent full-state audit then once settle and both lease closes",
+      "One cold inactive-Hopper cost catchup through original B1 journal and full independent readback",
+      "Adopt tested B1 cold snapshot wrapper with fresh complete resource/project/queue admission; register/submit only once",
+      "Independent B2048 complete state audit/settle/close then B2, original costs and all checkpoints retained",
+      "Source cold finite engineering continuation and frozen target/source neural qualification remain incomplete"
+    ],
+    "B_started": false
+  },
+  "latest_B_closed_source_preparation": {
+    "report": "reports/PI0294/design/parallel-science-20261022/B_CLOSED_SOURCE_COLD_NATIVE_AND_SNAPSHOT_PREPARATION_CPU_20261023.json",
+    "private_bundle_frozen_sha256": "7c232360a42610408bb452f8fe9b75611a119dcc55af882788c3d2d680eded02",
+    "CPU_tests": 10,
+    "subcases": 25,
+    "native_adopted": false,
+    "B_submitted": false
   }
 }
