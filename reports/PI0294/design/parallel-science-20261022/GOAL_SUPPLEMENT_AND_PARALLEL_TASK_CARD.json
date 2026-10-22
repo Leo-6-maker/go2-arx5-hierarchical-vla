@@ -38,9 +38,9 @@
     "original_1024_TRAIN_probes": "PRESERVED_NOT_REPEATED",
     "single_qsub": true,
     "owner_service": "ACTIVE_RUNNING",
-    "native_first_update_admission": "PENDING_FULL_STATE_IMPORT_AND_NATIVE_FIRST_UPDATE",
+    "native_first_update_admission": "PASS_ACTUAL_SEALED_FULL_BUDGET_RECOMPUTATION",
     "training_completion_claimed": false,
-    "observed_epoch": 1792672563.4128501,
+    "observed_epoch": 1792673126.0022082,
     "used": {
       "H200_s": 40813.0,
       "PBS_submissions": 17,
@@ -55,15 +55,17 @@
     "unknown_effects": [],
     "selected": "NONE",
     "deployment": "NONE",
-    "current_step": 2048,
-    "new_queries": 0,
-    "new_model_loads": 0,
-    "new_optimizer_updates": 0
+    "current_step": 2053,
+    "new_queries": 17,
+    "new_model_loads": 2,
+    "new_optimizer_updates": 5,
+    "last_recoverable_complete_step": 2048,
+    "live_progress_is_not_checkpoint": true
   },
   "workstreams": [
     {
       "id": "TRAIN",
-      "status": "A1_CLOSED_A2_RUNNING_NATIVE_STARTUP",
+      "status": "A2_ACTUALLY_TRAINING_FIRST_UPDATE_ADMISSION_PASSED",
       "order": [
         "A32_TO2048",
         "A2048_TO4096",
@@ -72,7 +74,7 @@
       ],
       "same_platform_R0_recipe_sampler": true,
       "deliverable": "FULL4096_A_AND_B_PLUS_ACTUAL_CONSUMPTION_COST_AND_FAILURE_RECORDS",
-      "next_gate": "COMPLETE_FULL_STATE_IMPORT_COMPATIBILITY_AND_FIRST_UPDATE_ADMISSION"
+      "next_gate": "ACTUAL_A4096_NATIVE_TERMINAL_FULL_STATE_AUDIT_AND_ONCE_SETTLEMENT"
     },
     {
       "id": "DATA",
@@ -112,12 +114,12 @@
       "result": "COMPLETED_SUCCESS"
     },
     "B1_inputs": "V3_PREPARED_LOCAL_ONLY_A4096_PREDECESSOR_CLOSURE_STILL_REQUIRED",
-    "A2_inputs": "ACTUALLY_COLD_REGISTERED_GRANTED_AND_RUNNING_STARTUP",
+    "A2_inputs": "ACTUALLY_COLD_REGISTERED_GRANTED_NATIVE_FIRST_UPDATE_PASSED_TRAINING",
     "A2_local_adapter": {
       "status": "LIVE_PINNED_NO_HOT_EDIT",
       "controller_sha256": "9949a3ddb691ac1632ea9f2a71a4d487244bd1bf876594f36a2b12965ba4a90e"
     },
-    "actual_native_qualification_admission": "COLD_CONTEXT_PASS_QUEUE_BOUND_FIRST_UPDATE_PENDING",
+    "actual_native_qualification_admission": "PASS_ACTUAL_A2_PREMODEL_AND_FIRST_UPDATE_FULL_BUDGET_RECOMPUTATION",
     "A2_actual_metadata": {
       "sha256": "5a1be79d6043ed961e93c725329c236af182b892c76e8e20ecea35ac5b206686",
       "source_files": 841,
@@ -185,18 +187,18 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792672714.744769,
+  "updated_epoch": 1792673395.1966863,
   "latest_actual_receipt": {
-    "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A2_STORAGE_AUTH_ADOPTION_AND_QUEUE_ACTUAL_20261022.json",
+    "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A2_FIRST_UPDATE_ADMISSION_AND_TRAINING_STARTED_ACTUAL_20261022.json",
     "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
   },
   "current_resource_work": {
     "report": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A2_STORAGE_AUTH_ADOPTION_AND_QUEUE_ACTUAL_20261022.json",
-    "status": "APPROVED_AND_NATIVE_ADOPTED_A2_RUNNING_STARTUP_FULL_REMAINING_COSTS_FIT",
+    "status": "APPROVED_NATIVE_STORAGE_SCOPE_AND_FIRST_UPDATE_ADMISSION_PASS_A2_TRAINING",
     "retain_all_checkpoints": true,
     "do_not_repeat_A1_settlement": true,
     "next_actions": [
-      "Reuse existing owner while queued; no duplicate submissions.",
+      "Reuse healthy original owner while training; low-frequency observation and no duplicate submissions.",
       "After A2 terminal, audit 4096 full state and actual effects, settle once and close GPU/CPU leases.",
       "Continue independent original-CORR B segments after predecessor closure and fresh full resource admission."
     ]

@@ -1,0 +1,72 @@
+{
+  "schema": "VAP1_A2_FIRST_UPDATE_ADMISSION_AND_TRAINING_STARTED_ACTUAL_V1",
+  "status": "ACTUAL_FIRST_UPDATE_ADMITTED_AND_NEW_OPTIMIZER_UPDATES_OBSERVED",
+  "published_from_observation_epoch": 1792673126.0022082,
+  "source": "3a1420e76c492196fa83905f4bde92924cc12c28",
+  "job": "1475719.stdct-mgmt-02",
+  "state": "R",
+  "admission": {
+    "status": "ACTUAL_NATIVE_A2_FIRST_UPDATE_STORAGE_AND_FULL_BUDGET_ADMISSION_VERIFIED",
+    "receipt_sha256": "f91196d6dad6fdd0630ab95be2be648301728248023836fead2e65b26c8dfb7b",
+    "run_manifest_sha256": "ae5acd27be71fb05c46c8a801c7b080877e5887ec9fbc481171aa5cea5d066e1",
+    "request_sha256": "298d68cf547e1540e2a259c0e5318e5bb5c7a07bccb3afea01dae43878d67200",
+    "lease_status": "ACTIVE",
+    "full_remaining_work_admissible": true,
+    "storage_authority": "1abb20973d84836b29baebf1d73466377c98759c"
+  },
+  "progress": {
+    "observed_step": 2053,
+    "new_A2_updates": 5,
+    "cursor": 65696,
+    "compatibility_queries": 17,
+    "model_loads": 2,
+    "inflight_updates_at_snapshot": [],
+    "unknown_effects": [],
+    "all_observed_losses_finite": true,
+    "first_native_update_epoch": 1792673047.5688572,
+    "last_logged_update_epoch": 1792673077.3428674,
+    "sample_count": 5,
+    "synchronized_step_mean_s": 5.712272757291794,
+    "synchronized_step_max_s": 6.705218365881592,
+    "small_initial_sample_not_completion_or_throughput_guarantee": true
+  },
+  "recoverability": {
+    "last_independently_audited_complete_checkpoint": 2048,
+    "last_checkpoint_cursor": 65536,
+    "live2053_is_not_new_complete_checkpoint": true,
+    "A4096_complete": false,
+    "original_1024_probe_results_preserved": true
+  },
+  "accounting": {
+    "settled_used": {
+      "H200_s": 40813.0,
+      "PBS_submissions": 17,
+      "optimizer_updates": 3072,
+      "neural_queries": 1117
+    },
+    "current_reserved": {
+      "H200_s": 22560,
+      "neural_queries": 29,
+      "optimizer_updates": 2048
+    },
+    "CPU_reserved_s": 54000,
+    "output_reserved_bytes": 70000000000,
+    "global_unknown": [],
+    "DEC1_unknown": [],
+    "live_updates_will_be_settled_once_at_actual_terminal": true
+  },
+  "owner": {
+    "original_service": "ACTIVE_RUNNING",
+    "only_campaign_job": "1475719.stdct-mgmt-02",
+    "restart_or_resubmit": false,
+    "hot_runtime_changes": false
+  },
+  "scientific_scope": {
+    "R0_recipe_sampler_WBC_S1_scoring_unchanged": true,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "B1": "LOCAL_V3_PREPARED_NOT_SUBMITTED_REQUIRES_ACTUAL_A4096_CLOSURE"
+  },
+  "next": "LOW_FREQUENCY_EXISTING_OWNER_OBSERVATION_THEN_ACTUAL_TERMINAL_FULL_STATE_AUDIT_AND_ONCE_SETTLEMENT",
+  "goal_complete": false
+}
