@@ -1,4 +1,23 @@
-# Current Entry: VAP1 A1 Complete2048; A2 Storage Admission Pending
+# Current Entry: A2 Failed2819, Settled and Closed; Cold Recovery Draft Pending
+
+A2 job1475719 ended with HeartbeatLost after771 new updates. The latest full
+checkpoint is2048; A4096 does not exist. Once-only settlement and both GPU/CPU
+lease closures were independently read back. The failed owner has MainPID0.
+[Actual closeout](reports/PI0294/design/parallel-science-20261022/A2_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261022.json),
+[timeout forensics](reports/PI0294/design/parallel-science-20261022/A2_OWNER_TIMEOUT_FORENSICS_20261022.json), and
+[recovery resource draft — NOT AUTHORIZED](reports/PI0294/design/parallel-science-20261022/A2_FAILED2819_RECOVERY_SCOPE_DRAFT_20261022.json).
+The draft preserves all spent costs and files: DEC1 updates9216→9987, newPBS11→12,
+DEC1 storage352→418GiB and global419→485GiB. GPU/CPU caps, original clocks,
+final20GPUh/40GiB, R0/WBC/S1/recipes remain. This is offline arithmetic, not
+native resource admission or authority. Cold timeout/readback engineering is
+still pending. Do not restart the settled A2 request or submit B1 early.
+[Helper isolation incident](reports/PI0294/design/parallel-science-20261022/PARALLEL_HELPER_ISOLATION_INCIDENT_20261022.json)
+is contained; the new connection draft is not qualified. No causal attribution
+to A2 is established. Evaluation patch a51c732e passed CI39795202586 but native
+preview9/rawS1/target ABI qualification remains missing. Older snapshots below
+are historical and do not supersede these receipts or the latest goal card.
+
+# Historical entry: A1 Complete2048; A2 Storage Admission Pending
 
 **A1 job1474599 is now F/Exit0, fully audited and once settled.**
 [Actual2048 full-state verification and both lease closures](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A1_2048_FULL_STATE_TERMINAL_SETTLEMENT_AND_CLOSURE_ACTUAL_20261022.json).

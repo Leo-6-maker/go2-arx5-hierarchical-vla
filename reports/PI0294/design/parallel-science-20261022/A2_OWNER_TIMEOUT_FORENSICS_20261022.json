@@ -1,0 +1,66 @@
+{
+  "schema": "VAP1_A2_OWNER_TIMEOUT_FORENSICS_V1",
+  "status": "LOCAL_EVIDENCE_ANALYZED_COLD_FIX_PENDING",
+  "created_epoch": 1792680923.6943085,
+  "job_id": "1475719.stdct-mgmt-02",
+  "facts": {
+    "last_successful_heartbeat_epoch": 1792679334.4377499,
+    "last_successful_native_observation_epoch": 1792679399.093195,
+    "last_observed_step": 2800,
+    "first_timeout_epoch": 1792679519.2037637,
+    "first_timeout_after_last_native_observation_s": 120.11056876182556,
+    "native_failure_epoch": 1792679640.2011015,
+    "heartbeat_age_at_final_effect_s": 305.76335167884827,
+    "watchdog_s": 300,
+    "owner_interruption_records": [
+      {
+        "epoch": 1792679519.2037637,
+        "type": "TimeoutExpired",
+        "unknown_mutations_not_retried": true,
+        "job_id": "1475719.stdct-mgmt-02"
+      },
+      {
+        "epoch": 1792679669.9743416,
+        "type": "TimeoutExpired",
+        "unknown_mutations_not_retried": true,
+        "job_id": "1475719.stdct-mgmt-02"
+      },
+      {
+        "epoch": 1792679789.2077696,
+        "type": "ConnectionError",
+        "unknown_mutations_not_retried": true,
+        "job_id": "1475719.stdct-mgmt-02"
+      }
+    ],
+    "owner_terminal_epoch": 1792679789.2079751,
+    "systemd_owner_CPU_s": 19.838,
+    "systemd_MainPID": 0,
+    "systemd_exit_status": 1
+  },
+  "source_review": {
+    "fresh": "Reads Hopper and Vanda sequentially before campaign view validation.",
+    "heartbeat": "After fresh view and native snapshot persistence, writes heartbeat by separate SSH RPC. View must be younger than120s; lease and bothSTOP files checked.",
+    "transport": "Vanda SSH RPC outer timeout120s; qstat subprocess timeout25s. No completed receipt is saved when outer subprocess times out.",
+    "watch": "One try/except wraps fresh reads, heartbeat mutation, release calls and periodic auth; TimeoutExpired/ConnectionError are all labeled READ_ONLY_OBSERVATION_INTERRUPTION, sleep30, up to3 failures.",
+    "diagnostic_defect": "Timeout receipt lacks phase/label/start timestamp. A heartbeat write timeout can be misclassified as read-only; generic retry cannot safely distinguish unknown mutation."
+  },
+  "inference": {
+    "first_timeout_location": "After native snapshot at1792679399.093195, next operation is heartbeat RPC. First timeout120.110569s later matches outer RPC deadline. This strongly supports heartbeat RPC stage, but no per-call timeout journal proves whether the remote process started.",
+    "no_later_successful_heartbeat": "Terminal heartbeat readback still contains1792679334.4377499, consistent with watchdog expiry.",
+    "loss_mechanism": "No fresh verified owner heartbeat reached the training watchdog for more than300s.",
+    "underlying_transport_or_site_cause": "UNDETERMINED; no attribution to helper incident solely from temporal overlap."
+  },
+  "cold_fix_specification": [
+    "Journal each phase and request identity before RPC; append bounded success/error/elapsed receipt even on timeout.",
+    "Treat only explicit read-only observation timeouts as retryable.",
+    "On heartbeat write timeout, stop dependent actions and perform a read-only exact-identity heartbeat readback; do not retry unknown writes.",
+    "Keep source/run/job/request identity, STOP/lease, dual-platform queue checks and original300s watchdog.",
+    "Bound serial observation/heartbeat/auth work under the freshness deadline; do not renew from stale observations or loosen watcher thresholds.",
+    "CPU fault tests must cover read timeout, heartbeat unknown/matching/mismatched readback, aged view, STOP/closed lease, and no second publication on unknown write.",
+    "Deploy only in a separately registered cold owner after exact published-source/CI/readback; failed owner and immutable training capsule remain untouched."
+  ],
+  "implemented_or_deployed": false,
+  "native_calls_during_this_analysis": 0,
+  "no_new_GPU_PBS_models_physics": true,
+  "helper_causation": "UNDETERMINED"
+}
