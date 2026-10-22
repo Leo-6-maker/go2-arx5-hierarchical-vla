@@ -109,7 +109,17 @@
     "source_and_input_byte_readbacks": true,
     "new_owner_registered_and_bound": true,
     "A2048_restore": "CLOSED_A1_FULL_STATE_IDENTITIES_PRESERVED_ALLOCATED_STAGE_RECHECK_REQUIRED",
-    "B1_inputs": "V3_INDEPENDENT_CORR_METADATA_REUSABLE_CURRENT_SCOPE_AND_CLOSED_A4096_REQUIRED",
+    "B1_inputs": {
+      "status": "PASS_LOCAL_METADATA_ONLY_NOT_NATIVE_ADMISSION",
+      "version": "RECOVERY2_V4",
+      "report": "B1_RECOVERY2_V4_METADATA_CPU_ACTUAL_20261023.json",
+      "metadata_sha256": "aeff1929638ddd6893d6376bfa53138497ee800f3e0dffa0914dd3b823eb5a44",
+      "CPU_tests_passed": 5,
+      "original_CORR0": true,
+      "unchanged_R0_data_recipe_probes": true,
+      "unfinished_A_in_plan": true,
+      "actual_admission": false
+    },
     "terminal_adapter": {
       "status": "PREPARED_LOCAL_ONLY_CPU_VERIFIED_NOT_NATIVE_TERMINAL",
       "report": "HEARTBEAT_RECOVERY2_TERMINAL_PREPARATION_CPU_20261023.json",
@@ -137,7 +147,7 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792689797.5979612,
+  "updated_epoch": 1792690057.8188047,
   "latest_actual_receipt": {
     "path": "reports/PI0294/design/parallel-science-20261022/HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_20261023.json",
     "publication": "7345df64b0b75ddc2f50a472e2c6d0d426fd1c1b",
