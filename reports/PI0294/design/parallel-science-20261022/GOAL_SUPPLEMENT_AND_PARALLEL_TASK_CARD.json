@@ -251,5 +251,38 @@
     "last_full_checkpoint": 2048,
     "B1_native_submission": false,
     "helper_review_not_new_B1_gate": true
+  },
+  "parallel_helpers_completed_review": {
+    "observed_epoch": 1792678962.0769174,
+    "T": {
+      "agent": "/root/science_training_prep",
+      "status": "DONE_REUSED",
+      "tests": 12,
+      "runtime_patch": false,
+      "report": "reports/PI0294/design/parallel-science-20261022/B_CHAIN_AGENT_REVIEW.json"
+    },
+    "S": {
+      "agent": "/root/science_data_prep",
+      "status": "DONE_PATCH_TESTED_WITH_EXACT_NATIVE_GAPS",
+      "root_integrated_tests": 95,
+      "report": "reports/PI0294/design/parallel-science-20261022/DEC1_WIRING_AGENT_REVIEW.json",
+      "native_preview9_shadow": "NOT_SUPPORTED_FAIL_CLOSED",
+      "raw_physical_S1": "NOT_BOUND",
+      "target": "TARGET_NOT_DELIVERED",
+      "native_commissioning": "NOT_RUN"
+    },
+    "native_training_owner_and_A2_runtime_unchanged": true,
+    "latest_live_A2_observation": {
+      "epoch": 1792678581.1146407,
+      "step": 2716,
+      "last_full_checkpoint": 2048,
+      "state": "R",
+      "unknown_effects": []
+    },
+    "B1_and_B2_real_bindings": "PENDING_OWNER_COLD_CONNECTION_AFTER_PREDECESSOR_FULL_AUDIT_SETTLEMENT_AND_DUAL_CLOSE",
+    "selected": "NONE",
+    "deployment": "NONE",
+    "goal_complete": false,
+    "helper_review_adds_new_B1_gate": false
   }
 }

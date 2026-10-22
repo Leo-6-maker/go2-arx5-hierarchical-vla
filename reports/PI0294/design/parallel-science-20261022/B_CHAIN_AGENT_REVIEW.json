@@ -1,0 +1,215 @@
+{
+  "schema": "VAP1_B_CHAIN_AGENT_REVIEW_V1",
+  "task_id": "T_B_CHAIN_READY",
+  "ACTUAL_AGENT_ID": "/root/science_training_prep",
+  "status": "DONE_REUSED",
+  "BASE_SHA": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+  "runtime_sha": "3a1420e76c492196fa83905f4bde92924cc12c28",
+  "EXCLUSIVE_LOCAL_PATHS": [
+    "PRIVATE_LOCAL_ASSET:train-next"
+  ],
+  "native_admission": "PENDING_UNTIL_A4096_CLOSED",
+  "observed_native_state": "OWNER_REPORTED_A2_R_STEP2599_NO4096_TERMINAL; NOT_POLLED_BY_AGENT",
+  "frozen_dispatch": {
+    "instructions_sha256": "e6d8c1201c1747adeffc2a14855db395035e225d5a22a3fd0195fe372bafe597",
+    "dispatch_sha256": "b291cc1a91553a5ad9c8cb0cf3be4d005b511ae388139d0d4fd845a0993ed518",
+    "exact_bytes_match_60b787ed": true,
+    "publication_head_observed_after_review": "bd916b442522efa45fdf838d7f4a463f3c87e27f",
+    "newer_publication_not_used_as_new_scientific_authority": true
+  },
+  "REUSED_ARTIFACTS": [
+    {
+      "path": "PRIVATE_LOCAL_ASSET:vap1_segment_b1_cold_owner.py",
+      "sha256": "f5e56e801a063c57c5e1de8d384c8778f2dd38dbdb758b5611a3900b4e262117",
+      "bytes": 20484,
+      "mode": "READ_ONLY_REUSED_NO_EDIT"
+    },
+    {
+      "path": "PRIVATE_LOCAL_ASSET:verify_vap1_b1_cold_owner.py",
+      "sha256": "2c4d1a84406fcd4f6babd18b1c4a40511598ceaaadf3195c67e62417e065ad64",
+      "bytes": 16646,
+      "mode": "READ_ONLY_REUSED_NO_EDIT"
+    },
+    {
+      "path": "PRIVATE_LOCAL_ASSET:vap1_segment_a2_terminal.py",
+      "sha256": "74c591d1973703156639b0a3f32ba8a4651ebf4a24a776c1a47551026885575f",
+      "bytes": 20722,
+      "mode": "READ_ONLY_REUSED_NO_EDIT"
+    },
+    {
+      "path": "PRIVATE_LOCAL_ASSET:verify_vap1_a2_terminal.py",
+      "sha256": "1acc4dbe92aee7392d72fef3270708aa1e64d7255f4c2ede23c5c48f4ca6259a",
+      "bytes": 15196,
+      "mode": "READ_ONLY_REUSED_NO_EDIT"
+    },
+    {
+      "path": "PRIVATE_LOCAL_ASSET:B1_COLD_INPUTS_METADATA_V3.private.json",
+      "sha256": "3b4e33f3995c3a778a96096f341766fda069bd4c8a0396c76e987fe1900250d4",
+      "bytes": 10563738,
+      "mode": "READ_ONLY_REUSED_NO_EDIT"
+    }
+  ],
+  "readonly_runtime_source_refs": {
+    "scripts/pi0294/dec1/segment_intake.py": {
+      "lines": [
+        43,
+        58,
+        71,
+        117,
+        144
+      ],
+      "purpose": "Full1024/full2048/original12 array hash audit; closed source identity; immutable copy; no partial overwrite",
+      "sha256": "da67f23a31d0de013f34cc28000a78602a1153ea0c4b642523cb4eed56c85e00"
+    },
+    "scripts/pi0294/dec1/segmented_training.py": {
+      "lines": [
+        39,
+        94,
+        107
+      ],
+      "purpose": "Only four authorized segments; B phase/probe continuity; 2048 reentry requires full state and makes no new probe draw",
+      "sha256": "f79a8047556de1cbab68e8857646de9f5e41799a9731938b55edc18717608d14"
+    },
+    "scripts/pi0294/dec1/a40_accounting.py": {
+      "lines": [
+        67,
+        149,
+        163,
+        209,
+        235
+      ],
+      "purpose": "Fresh full-plan escrow; once bind/settle; matched B recipe; old A/lost1024 costs preserved; unknown intents retained",
+      "sha256": "eeb7f3160f249a9577aa189e749f40d3bee89353ca22e2fe8301d97c3e82b84c"
+    },
+    "scripts/pi0294/dec1/a40_future.py": {
+      "lines": [
+        32
+      ],
+      "purpose": "Pure full remaining-work recomputation, original matrix/final guard and adopted storage/CPU caps",
+      "sha256": "5fd3d497ad1563e434be47a5a792baad64df671acadeabbd222c155b55d19369"
+    },
+    "scripts/pi0294/dec1/a40_training_runtime.py": {
+      "lines": [
+        200,
+        204,
+        220,
+        221
+      ],
+      "purpose": "Fixed compatibility then TRAIN-INPUT loading and generic segmented execution; final returned step controls successful status",
+      "sha256": "583c924a99c22370f7d1b4fcffeb822d1a47c8d969d87c33d2ec523716edb178"
+    },
+    "scripts/pi0294/pv1/training.py": {
+      "lines": [
+        76
+      ],
+      "purpose": "Same-arm full optimizer/RNG/sampler recipe/statistics/member checks; terminal4096 audit keeps resume permission closed",
+      "sha256": "8a5ac279fa5d51f436def1438ef2a1c8514e459f06651fa58436c33e7b2c7aa1"
+    }
+  },
+  "CHECKS": [
+    {
+      "check": "B_ORIGINAL_CORR_INDEPENDENT_ZERO_AND_FROZEN_RECIPE",
+      "status": "PASS_CPU",
+      "evidence": "Existing V3 digest and validate_template; B0 request has resume None, B lineage, original R0/CORR and B composite/sampler; no A intake/probe plan."
+    },
+    {
+      "check": "ACTUAL_A4096_CLOSURE_REQUIRED_BEFORE_B1",
+      "status": "PASS_CPU",
+      "evidence": "Existing five tests reused: actual-record semantic fixture validates full audit/once settlement/GPU+CPU closure/natural owner exit; R, missing4096, unknown, active lease and bad probe fail. No actual receipt produced."
+    },
+    {
+      "check": "B1_B2_FULL_REMAINING_FORECAST",
+      "status": "PASS_CPU",
+      "evidence": "Actual recompute/reserve/bind/settle functions with synthetic metadata: B0->2048 gives7168 cumulative; B2048->4096 gives9216, A and oldlost1024 unchanged; original matrix and final20GPUh/40GiB preserved."
+    },
+    {
+      "check": "B1024_PROBES_AND_B2048_RECOVERY",
+      "status": "PASS_CPU",
+      "evidence": "B phase callbacks run0->1024, original12 once, then2048; B intake hashes original1024+2048 full member manifests and 12 original arrays. Tiny fixture files contain no tensor/model data."
+    },
+    {
+      "check": "B2_4096_CONTINUATION",
+      "status": "PASS_CPU",
+      "evidence": "Generic B2048->4096 executes one SEGMENT_REENTRY callback, no repeated probes; read-only4096 full-state validator rejects missing optimizer, changed recipe, wrong sampler cursor; ordinary checked_resume still rejects4096."
+    },
+    {
+      "check": "FAILURE_BRANCHES",
+      "status": "PASS_CPU",
+      "evidence": "Wrong arm/A recipe, stale source, missing1024 optimizer/probe array, partial copy, live predecessor, duplicate settlement, native R and insufficient CPU/storage reject. Known partial2111 stays partial. Pending update is charged as known effects and retained unknown with one reserved update; no retry."
+    },
+    {
+      "check": "RUNNER_MINIMALITY",
+      "status": "DONE_REUSED",
+      "evidence": "No confirmed runtime engineering gap. Existing qualified B1 path receives no new gate. No source patch, runner clone, manifest alteration or scientific change."
+    },
+    {
+      "check": "OUTPUT_AND_WRITE_ISOLATION",
+      "status": "PASS_CPU",
+      "evidence": "Final test run has Python audit guard: no outside-root file mutation and no subprocess/fork/network events; blocked events empty. Initial guard diagnostic incorrectly resolved dir_fd cleanup and was corrected locally; all CPU attempts included."
+    }
+  ],
+  "PATCH_AND_TESTS": {
+    "runtime_patch": null,
+    "reason": "No proven engineering defect; reuse frozen runtime and reviewed B1 adapter unchanged.",
+    "isolated_targeted_test": "test_b_chain_review.py",
+    "original_B1_tests_reused": 5,
+    "new_B_specific_tests": 7,
+    "final_tests": 12,
+    "final_result": "PASS",
+    "log": "targeted-tests-final.log",
+    "final_guard_blocked_events": [],
+    "diagnostic_log": "targeted-tests.log",
+    "diagnostic_reason": "Test-only isolation guard needed dir_fd-relative cleanup resolution; not a runtime failure."
+  },
+  "CPU_IO_ACCOUNTING": {
+    "cpu": "CPU_ACCOUNTING.json",
+    "targeted_test_CPU_s": 3.22,
+    "output_manifest": "ARTIFACT_BYTES.json",
+    "output_cap_bytes": 8388608
+  },
+  "B2_existing_qualification": {
+    "runtime_modules": [
+      "scripts/pi0294/dec1/segment_intake.py",
+      "scripts/pi0294/dec1/segmented_training.py",
+      "scripts/pi0294/dec1/a40_accounting.py",
+      "scripts/pi0294/dec1/a40_future.py",
+      "scripts/pi0294/dec1/a40_training_runtime.py",
+      "scripts/pi0294/pv1/training.py"
+    ],
+    "exact_runtime_CI": "39777328633/job119819488833 (owner/published evidence; not rerun by helper)",
+    "synthetic_CPU_checks_are_not_CUDA_recovery": true
+  },
+  "UNPROVEN_NATIVE_GATES": [
+    "Actual A4096 native F/Exit0, full1024/2048/4096 member audit and original12 probe hash preservation, no unknown effects, one real typed settlement, GPU and CPU-control CLOSED, old owner natural exit.",
+    "Owner cold-connects existing B1 adapter: original independent CORR B0 identities, actual A4096 progress, fresh raw ledgers/quota/project/complete-own-queue/space/full remaining-work admission; once prepayment/registration/submission using mature owner.",
+    "Actual B1 full1024 and2048 state + original12 TRAIN probe result/arrays and effects29queries/4loads; native once audit/settlement and both lease closures before B2.",
+    "B2 binding/proof/native manifest/request populated from actual closed B1 bytes. Preserve original1024/2048 origins; new4096 origin belongs to B2. Actual B2 terminal audit/settlement and both closures. No B1/B2 real job/request/nonce or terminal receipt is fabricated here.",
+    "B1/B2 stage-specific private terminal/owner connections must be cold-bound by sole owner to actual records; A2 private terminal is A-specific and must not be invoked unmodified for B."
+  ],
+  "next_owner_actions": [
+    "Keep current healthy A2 unchanged. This review adds no B1 prerequisite and does not block an already-qualified original B1 path.",
+    "After actual A4096 closure, reuse B1 prepare_after_closed_a2/preflight_material/compile_submit_adapter and ROOT_CONNECTIONS_REQUIRED; prune only completed A2 from V3 plan.",
+    "After actual B1 closes, retain both B1024/B2048 full states plus original probes, remove only completed B1 block and fresh-admit B2 with original start2048/resume B2048 and same70GB/54000CPU/22500wall envelopes.",
+    "Integrate optional targeted test only in a cold later source if useful; no runtime patch or repeated whole-repository suite required for this read-only review."
+  ],
+  "effects": {
+    "remote_calls": 0,
+    "credentials": 0,
+    "new_native_jobs": 0,
+    "lease_or_ledger_writes": 0,
+    "model_loads": 0,
+    "optimizer_updates": 0,
+    "physics": 0,
+    "real_checkpoint_copies_or_deletions": 0,
+    "shared_checkout_writes": 0,
+    "new_B1_gates": 0,
+    "GitHub_publication": 0
+  },
+  "owner_review": {
+    "status": "ACCEPTED_READ_ONLY_REUSE_REVIEW",
+    "original_private_report_sha256": "e64e65ce049c576f0560ffd457464a7a33ebc5641cb19211e05b9f7edf8699ff",
+    "runtime_patch": false,
+    "native_B1_and_B2_not_started": true,
+    "helper_review_not_new_B1_gate": true
+  }
+}

@@ -1,0 +1,284 @@
+{
+  "agent_id": "/root/science_data_prep",
+  "aggregation": {
+    "A_B_winner_substitution": false,
+    "CLI": "python -m scripts.pi0294.dec1.paired_results ROWS.tsv SEALED_IDENTITIES.json",
+    "actual_panel_sealed": false,
+    "actual_rows_aggregated": 0,
+    "classifications": [
+      "SUCCESS",
+      "VALID_TASK_FAILURE",
+      "REFERENCE_REJECT",
+      "S1_REJECT",
+      "NATIVE_SAFETY_ERROR",
+      "ENGINEERING_MISSING",
+      "NOT_RUN"
+    ],
+    "default_bootstrap_draws": 2000,
+    "default_bootstrap_seed": 20261021,
+    "entry": "scripts.pi0294.dec1.paired_results.aggregate",
+    "explicit_case_keys": 64,
+    "independent_geometry_blocks": 8,
+    "mandatory_actual_completed_row_extensions": [
+      "checkpoint_manifest_sha256",
+      "statistics_sha256"
+    ],
+    "model": "ORIGINAL_CORR_AT2048_R0",
+    "original_template_reused": true,
+    "paired_geometry_cluster_resampling": "ALL_EIGHT_CELLS_PER_GEOMETRY_REMAIN_TOGETHER",
+    "rejects": [
+      "MISSING_ROW",
+      "MISSING_REQUIRED_KEY",
+      "DUPLICATE_CASE",
+      "MIXED_MODEL",
+      "WRONG_CHECKPOINT_UNDER_SAME_LABEL",
+      "MIXED_R0_R1",
+      "MIXED_NOISE",
+      "MIXED_GEOMETRY",
+      "STATUS_OUTCOME_CONTRADICTION",
+      "UNQUALIFIED_COMPLETED_CASE"
+    ],
+    "unknown_or_native_fault_panel_effect_estimates": null,
+    "unrun_or_missing_stratum_success_rate": null
+  },
+  "base_sha": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+  "current_live_A2_modified": false,
+  "deployment": "NONE",
+  "exclusive_root": "PRIVATE_LOCAL_ASSET:science-next",
+  "new_effects": {
+    "GPU": 0,
+    "PBS": 0,
+    "SSH": 0,
+    "checkpoint_deletions": 0,
+    "ledger_or_lease_mutations": 0,
+    "models": 0,
+    "physics": 0,
+    "remote_polls": 0
+  },
+  "observed_epoch": 1792678861.9704964,
+  "patches": [
+    {
+      "bytes": 6167,
+      "path": "scripts/pi0294/dec1/paired_results.py",
+      "sha256": "2cb3a3b07d983da2c02d00191263665f7e9d4652d6f33dd5e0b6592a8664983f"
+    },
+    {
+      "bytes": 2982,
+      "path": "scripts/pi0294/dec1/source_interface.py",
+      "sha256": "c10453deb20e762a28ec1940dfed3afc0502d1b9ea9f2a1a63e68453fe1c107a"
+    },
+    {
+      "bytes": 9436,
+      "path": "src/go2arx5_vla/adapters/execution_progress_binding.py",
+      "sha256": "129744a67a9e72781f2421e420b6d729489174d9ad3922633349090afd85e6e8"
+    },
+    {
+      "bytes": 15059,
+      "path": "tests/test_dec1_wiring_and_results.py",
+      "sha256": "d7dafed3803dcd42a25cf9990227dfa80a5a433e38cfea6fe070d794c5219af0"
+    }
+  ],
+  "remaining_native_gates": [
+    "QUALIFIED_NATIVE_PREVIEW9_SHADOW_MATCHING_THE_ACTUAL_DISPATCH_ABI",
+    "RAW_PHYSICAL_S1_BEFORE_MAPPING_BINDING",
+    "OWNER_REVIEW_AND_ONCE_EXACT_PUBLICATION_CI_FOR_COLD_RELEASE",
+    "ORIGINAL_SOURCE_PROFILE_AUTHORITY_MANIFEST_LEASE_RESOURCE_ADMISSION",
+    "ACTUAL_SOURCE_NATIVE_CALL_BINDING_AND_ORIGINAL_PARITY",
+    "SOURCE_COMMISSIONING_CLOCK_RESET_ACK_STOP_AND_MEASURED_TICK_CPU_COST",
+    "TARGET_EXECUTOR_MANIFEST_DELIVERY_AND_NATIVE_QUALIFICATION",
+    "PRESEALED_EIGHT_GEOMETRIES_NOISE_AND_ACTUAL64_OUTCOMES"
+  ],
+  "revision": "ROOT_REVIEW_CORRECTED_SINGLE_POSE_VS_PREVIEW_ABI_AND_KNOWN_REJECT_ACCOUNTING",
+  "role": "S_DEC1_WIRING_AND_RESULTS",
+  "schema": "DEC1_WIRING_AGENT_REVIEW_V1",
+  "scientific_goal_complete": false,
+  "selected": "NONE",
+  "source_reads_verified_equal_base": [
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "src/go2arx5_vla/adapters/execution_progress.py",
+      "sha256": "3ee1920f0509d5dd7b65cb2edd0af7a28e9b397ab67aa5408aff654327d745ed"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "src/go2arx5_vla/adapters/groot_to_wbc_v2.py",
+      "sha256": "d8f8fc0ce1f4679b8dc4571c205721019ab281e223512e5f64c4771c9de666ba"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "scripts/pi0292/eval_contract.py",
+      "sha256": "8d18bef9216672d3b7d9d8f4d90a7592c524ea257947187c4f2b8c97dd2a6075"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "scripts/pi0294/s1_preflight.py",
+      "sha256": "9ada71cf25a4347d6cd12232e42d32c7901e552ee839de091b0cc725d69205ec"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "scripts/pi0294/r3_teacher.py",
+      "sha256": "5b6161d2ed2d99d49f4886e57430329659ba304f9113e8e5da2fda9a96aca573"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "scripts/pi0294/relay_teacher.py",
+      "sha256": "2b362069fc883724889994cb3c28bffb8dfa5459d2d866d81187c02ce1836554"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SOURCE_ONLY_INTERFACE_FREEZE.json",
+      "sha256": "cca5706d122cd697d4e7d524957ee7639b3a97eaa5954a242017abd76d498fe3"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_EXECUTOR_POLICY_INTERFACE_MANIFESTS.json",
+      "sha256": "4c172d894b6613ef1323c35a027bddeb13f6adb5aad7a99c7350cbcd67513627"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "reports/PI0294/design/parallel-science-20261022/DEC1_64_CELL_RESULT_TEMPLATE.tsv",
+      "sha256": "f572c20902568327086372255ab445d817e6fd1770dba8529151509c2c511b05"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "scripts/pi0291_arx5_data/engine.py",
+      "sha256": "623dc5ebf59fd9c470152ee3d60bb15b11ea554ef4b41bf911e62c20dec46c30"
+    },
+    {
+      "commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "path": "scripts/pi0294/episode.py",
+      "sha256": "ec8205fdb01cc238425e3bcfca5539711640f8aa2a6d7883c0c2ad4bc7ae8728"
+    }
+  ],
+  "source_wiring_status": "BLOCKED_UNSUPPORTED_NATIVE_PREVIEW9_SHADOW_ABI",
+  "status": "DONE_PATCH_TESTED",
+  "superseded_review_sha256": "e8b7340b58eeb0a41f2c870efad07a308baa3e10b3d55c95b9e7848f044b8f68",
+  "target": {
+    "WBC_tar_archive_is_formal_ABI": false,
+    "evidence_scope": "EXISTING_SMALL_SOURCE_RECEIPT_AND_HUMAN_REPLY_NO_NEW_REMOTE_INVENTORY",
+    "human_confirmed_not_delivered": true,
+    "missing": [
+      "FROZEN_EXECUTOR_MANIFEST_ROBOT_CONTROLLER_WEIGHTS_CONFIG_CHECKSUMS",
+      "FRAME_TCP_GRIPPER_FIXED_PREVIEW_ABI",
+      "ACTUAL_FEEDBACK_AND_CLOCK_FRESHNESS_PREDECESSOR_ACK",
+      "NATIVE_RESET_REJECT_STOP_WITH_ACK",
+      "CALLABLE_TASK_ENTRY_AND_ENVIRONMENT",
+      "NATIVE_SHADOW_SAFETY_TASK_OVERLAY_COMMISSIONING",
+      "COMMON_WORKSPACE_AND_LOW_LEVEL_TRAINING_PROVENANCE"
+    ],
+    "source_training_blocked": false,
+    "status": "TARGET_NOT_DELIVERED",
+    "target_physics_or_ideal_executor_used": false
+  },
+  "tests": {
+    "CPU_limit_s": 3600,
+    "OMP_NUM_THREADS": 1,
+    "OPENBLAS_NUM_THREADS": 1,
+    "PYTHONDONTWRITEBYTECODE": 1,
+    "additional_full_repo_suite": false,
+    "engineering_CPU_overhead_conservative_upper_s": 60,
+    "final_elapsed_s": 0.75,
+    "final_new_tests": 39,
+    "final_passed": 39,
+    "final_reused_execution_progress_tests": 56,
+    "final_validation_scope": "39_PATCH_TESTS_FINAL_PLUS_56_UNCHANGED_BASE_ADAPTER_TESTS_PREVIOUSLY_REUSED; OWNER_RUNS_ONE_ACTUAL_INTEGRATION",
+    "last_combined_passed_before_final_malformed_gate_cases": 91,
+    "measured_test_CPU_s": 13.979999999999999,
+    "per_test_timeout_s": 60,
+    "scope": "TARGETED_CPU_FAKE_TRANSPORT_AND_EXISTING_ADAPTER_CONTRACTS_NO_PHYSICS_OR_MODEL",
+    "single_core": 1,
+    "time_records": [
+      {
+        "exit_code": 0,
+        "record": "time-01.txt",
+        "system_s": 0.01,
+        "user_s": 0.63
+      },
+      {
+        "exit_code": 0,
+        "record": "time-02.txt",
+        "system_s": 0.01,
+        "user_s": 0.67
+      },
+      {
+        "exit_code": 0,
+        "record": "time-03.txt",
+        "system_s": 0.01,
+        "user_s": 2.66
+      },
+      {
+        "exit_code": 0,
+        "record": "time-04.txt",
+        "system_s": 0.01,
+        "user_s": 0.69
+      },
+      {
+        "exit_code": 0,
+        "record": "time-05.txt",
+        "system_s": 0.02,
+        "user_s": 2.69
+      },
+      {
+        "exit_code": 0,
+        "record": "time-06.txt",
+        "system_s": 0.02,
+        "user_s": 2.67
+      },
+      {
+        "exit_code": 0,
+        "record": "time-07.txt",
+        "system_s": 0.03,
+        "user_s": 3.0
+      },
+      {
+        "exit_code": 0,
+        "record": "time-08.txt",
+        "system_s": 0.01,
+        "user_s": 0.85
+      }
+    ]
+  },
+  "total_output_logical_bytes": 95273,
+  "unified_patch": {
+    "path": "SCIENCE_NEXT.patch",
+    "sha256": "df549eeb31dbdea1114fbef6a70436b6c6d3ea1a07f8bcbed2886cccd20720cc"
+  },
+  "wiring": {
+    "actual_feedback_predecessor_ACK_order_and_age": true,
+    "actual_source_driver_and_original_per_tick_live_shadow_parity_binding": "OWNER_COLD_BINDING_AND_NATIVE_COMMISSIONING_REQUIRED",
+    "entry": "go2arx5_vla.adapters.execution_progress_binding.BoundProgressExecutor",
+    "frozen_progress_parameters_and_V2_bytes_unchanged": true,
+    "generic_preview_callback_boundary": "CPU_TESTED_ONLY_REQUIRES_QUALIFIED_NATIVE_SAME_PREVIEW_ABI_CALLBACKS",
+    "known_S1_partial_tick_reject": "IDENTITY_RECEIPT_PRESERVES_ACTUAL_TICKS_AND_REJECT_DISTINCT_FROM_UNKNOWN",
+    "mapped_full_H40_original_gate": "NUMERICAL_REFERENCE_LEGALITY_NOT_PREVIEW_EXECUTION_SHADOW",
+    "mapped_prefix_original_S1_predict_and_bind_install": false,
+    "native_shadow_cost": "MUST_MEASURE_IN_ORIGINAL_BOUNDED_COMMISSIONING_AND_FRESH_FORECAST_NOT_INFERRED_FROM_CPU_FAKE",
+    "native_status": "NATIVE_COMMISSIONING_NOT_RUN",
+    "original_native_S1_thresholds_and_scoring_unchanged": true,
+    "owner_guide": "OWNER_COLD_CALL_GUIDE.md",
+    "paired_preview_gripper_single_dispatch": true,
+    "prefix_shadow_and_live_actual_tick_receipts": true,
+    "raw_H40_before_any_mapping": "EXISTING_NUMERICAL_GATE_ONLY_NOT_PHYSICAL_S1",
+    "raw_physical_S1_before_mapping": "NOT_BOUND_NOT_QUALIFIED",
+    "same_anchor_different_lookahead_cannot_reuse_single_pose_PASS": true,
+    "source_engine_ABI": "SINGLE_4x4_TARGET_POSE_PLUS_SCALAR_GRIPPER_NOT_WBC_PREVIEW9",
+    "source_prefix_shadow_status": "NOT_SUPPORTED_FAIL_CLOSED_ZERO_INTEGRATION_NO_DISPATCH",
+    "source_safety_entry": "scripts.pi0294.dec1.source_interface.full_h40_validators_and_SourcePrefixShadow",
+    "stop_latch_requires_explicit_native_stop_ACK": true,
+    "unknown_effects_never_retried": true,
+    "unknown_shadow_exception": "RETAINS_UNKNOWN_NO_AUTOMATIC_RETRY"
+  },
+  "withdrawn_claim": "Original source single-pose predict/bind_install does not qualify mapped nine-point preview shadow; earlier review overclaimed this wiring.",
+  "owner_review": {
+    "status": "MINIMAL_COLD_CODE_ACCEPTED_WITH_EXPLICIT_UNSUPPORTED_NATIVE_PREVIEW_ABI",
+    "single_pose_predictor_is_not_preview9_qualification": true,
+    "running_A2_unchanged": true,
+    "source_training_blocked": false,
+    "exact_publication_CI": "PENDING",
+    "root_integrated_targeted_tests": 95,
+    "root_integrated_tests_result": "PASS",
+    "runtime_deployment": "NONE",
+    "raw_physical_S1": "NOT_BOUND",
+    "native_preview9_shadow": "NOT_SUPPORTED_FAIL_CLOSED"
+  }
+}
