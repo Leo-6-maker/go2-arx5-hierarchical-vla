@@ -13,7 +13,7 @@ import shutil
 import time
 
 from scripts.pi0294.native_dataset import sha
-from .authority import AUTHORITY, PARENT
+from .authority import AUTHORITY, PARENT, R0
 from .source_admission import VERSION
 
 POLICY = 'plans/DEC1_CHECKPOINT_STORAGE_POLICY.json'
@@ -88,6 +88,34 @@ def configured(root):
     return True
 
 
+def _parent_files(root,parent):
+    complete=parent/'CHECKPOINT_COMPLETE.json'
+    if complete.exists():
+        if sha(_owned_file(complete,parent))!=PARENT:fail('PROTECTED_ORIGINAL_PARENT_IDENTITY')
+        return _read(complete)['files']
+    # The qualified inference consumer intentionally has no optimizer/full-
+    # resume manifest. Its sealed original-parent identity may anchor only the
+    # exact frozen bytes, never a claim that this input is a full resume state.
+    sealed=_read(root/'RUN_MANIFEST.json')['execution']['sealed_inputs'];values={}
+    for name in ('ASSET_CONSUMPTION.json','POLICY_IDENTITY.json','plans/PV1_TRAIN_INPUTS.private.json'):
+        path=_owned_file(root/name,root)
+        if path.stat().st_mode&0o222 or sealed.get(name)!=sha(path):
+            fail('SEALED_DERIVED_INFERENCE_PARENT_ANCHORS')
+        values[name]=_read(path)
+    consumed=values['ASSET_CONSUMPTION.json'];identity=values['POLICY_IDENTITY.json']
+    files=consumed.get('inference_files_sha256')
+    if (consumed.get('schema')!='DEC1_CORR_INFERENCE_DELTA_V1'
+            or consumed.get('status')!='PASS_FULL_CONSUMER_BYTES_AND_REUSED_FROZEN_SHARD_NO_MODEL'
+            or consumed.get('original_checkpoint_manifest_sha256')!=PARENT
+            or consumed.get('statistics_sha256')!=R0 or consumed.get('full_resume') is not False
+            or identity.get('checkpoint_manifest_sha256')!=PARENT or identity.get('files')!=files
+            or identity.get('global_step')!=2048 or identity.get('statistics_sha256')!=R0
+            or type(files) is not dict
+            or Path(values['plans/PV1_TRAIN_INPUTS.private.json']['CORR_parent_checkpoint'])!=parent):
+        fail('QUALIFIED_ORIGINAL_CORR_INFERENCE_FROZEN_BYTES_NOT_PARENT_OPTIMIZER_STATE')
+    return files
+
+
 def share_after_native_save(root, checkpoint, guard):
     root=Path(root);checkpoint=Path(checkpoint)
     if not configured(root):return dict(status='NOT_CONFIGURED_OR_LEGACY_SAVE_UNCHANGED')
@@ -108,9 +136,9 @@ def share_after_native_save(root, checkpoint, guard):
         fail('CURRENT_JOB_COMPLETE_FULL_STATE_BEFORE_SHARING')
     inputs=_read(root/'plans/PV1_TRAIN_INPUTS.private.json')
     parent=Path(inputs['CORR_parent_checkpoint'])
-    if parent.is_symlink() or sha(_owned_file(parent/'CHECKPOINT_COMPLETE.json',parent))!=PARENT:
+    if parent.is_symlink():
         fail('PROTECTED_ORIGINAL_PARENT_IDENTITY')
-    parent_complete=_read(parent/'CHECKPOINT_COMPLETE.json')
+    parent_files=_parent_files(root,parent)
     inventory=_read(root/'plans/INITIAL_CORR_PARAMETER_INVENTORY.json')
     destinations=[]
     for name,expected in policy['members'].items():
@@ -119,7 +147,7 @@ def share_after_native_save(root, checkpoint, guard):
             fail('EXPLICIT_TOP_LEVEL_SAFETENSORS_MEMBER_ONLY')
         source=_owned_file(parent/name,parent);target=_owned_file(checkpoint/name,checkpoint)
         before=source.stat();duplicate=target.stat()
-        if (parent_complete['files'].get(name)!=expected or complete['files'].get(name)!=expected
+        if (parent_files.get(name)!=expected or complete['files'].get(name)!=expected
                 or before.st_dev!=duplicate.st_dev or before.st_size!=duplicate.st_size
                 or sha(source)!=expected or sha(target)!=expected):
             fail('EXACT_COMPLETE_SAME_FILESYSTEM_BYTES_NOT_APPROXIMATE_WEIGHTS')

@@ -53,6 +53,51 @@ def fixture():
 
 
 class SharingTests(unittest.TestCase):
+    def derived_parent(self,root,parent):
+        parent_sha=storage.sha(parent/'CHECKPOINT_COMPLETE.json')
+        files=storage._read(parent/'CHECKPOINT_COMPLETE.json')['files']
+        consumed=dict(schema='DEC1_CORR_INFERENCE_DELTA_V1',
+            status='PASS_FULL_CONSUMER_BYTES_AND_REUSED_FROZEN_SHARD_NO_MODEL',
+            original_checkpoint_manifest_sha256=parent_sha,statistics_sha256=storage.R0,
+            full_resume=False,inference_files_sha256=files)
+        identity=dict(checkpoint_manifest_sha256=parent_sha,statistics_sha256=storage.R0,
+            global_step=2048,files=files)
+        m=storage._read(root/'RUN_MANIFEST.json')
+        for name,value in (('ASSET_CONSUMPTION.json',consumed),('POLICY_IDENTITY.json',identity),
+                ('plans/PV1_TRAIN_INPUTS.private.json',dict(CORR_parent_checkpoint=str(parent)))):
+            digest=put(root/name,value);(root/name).chmod(0o400)
+            m['execution']['sealed_inputs'][name]=digest
+        put(root/'RUN_MANIFEST.json',m);(parent/'CHECKPOINT_COMPLETE.json').unlink()
+
+    def test_qualified_inference_parent_without_full_resume_manifest_shares_exact_frozen_bytes(self):
+        with fixture() as (root,parent,checkpoint,guard,_,complete):
+            self.derived_parent(root,parent)
+            result=storage.share_after_native_save(root,checkpoint,guard)
+            self.assertEqual(result['status'],'EXACT_FROZEN_SHARDS_SHARED_FULL_STATE_UNCHANGED')
+            self.assertTrue(os.path.samefile(parent/NAME,checkpoint/NAME))
+            self.assertEqual(storage.sha(checkpoint/'CHECKPOINT_COMPLETE.json'),complete)
+            self.assertFalse((parent/'CHECKPOINT_COMPLETE.json').exists())
+            self.assertFalse(storage._read(root/'ASSET_CONSUMPTION.json')['full_resume'])
+
+    def test_derived_parent_wrong_or_unsealed_identity_never_replaces_native_state(self):
+        for bad in ('mutable','hash','parent','files','full-resume'):
+            with self.subTest(bad=bad),fixture() as (root,parent,checkpoint,guard,_,complete):
+                self.derived_parent(root,parent);p=root/'ASSET_CONSUMPTION.json'
+                if bad=='mutable':p.chmod(0o600)
+                else:
+                    v=storage._read(p)
+                    if bad=='parent':v['original_checkpoint_manifest_sha256']='a'*64
+                    if bad=='files':v['inference_files_sha256']={}
+                    if bad=='full-resume':v['full_resume']=True
+                    if bad=='hash':v['changed_unsealed']=True
+                    p.chmod(0o600);digest=put(p,v);p.chmod(0o400)
+                    if bad!='hash':
+                        m=storage._read(root/'RUN_MANIFEST.json');m['execution']['sealed_inputs'][p.name]=digest
+                        put(root/'RUN_MANIFEST.json',m)
+                with self.assertRaises(PermissionError):storage.share_after_native_save(root,checkpoint,guard)
+                self.assertFalse(os.path.samefile(parent/NAME,checkpoint/NAME))
+                self.assertEqual(storage.sha(checkpoint/'CHECKPOINT_COMPLETE.json'),complete)
+
     def headroom_policy(self,root,**changes):
         p=storage._read(root/storage.POLICY)
         p['prewrite_headroom']=dict(resident_upper_bytes=1000000,full_save_upper_bytes=1000,
