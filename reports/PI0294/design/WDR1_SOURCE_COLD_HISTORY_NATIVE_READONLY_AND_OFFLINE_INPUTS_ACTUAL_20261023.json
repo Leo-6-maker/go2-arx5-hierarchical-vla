@@ -1,0 +1,109 @@
+{
+  "schema": "WDR1_SOURCE_COLD_HISTORY_NATIVE_READONLY_AND_OFFLINE_INPUTS_ACTUAL_V1",
+  "status": "EXACT_CI_PASSED_ACTUAL_INPUTS_READ_ONLY_OFFLINE_CONTINUATION_NOT_NATIVE_ADOPTED",
+  "observed_epoch": 1792711726.5414033,
+  "qualified_source": "47dc6001227572f031ebc3cc33d56a487027d8cb",
+  "exact_CI": {
+    "run": 39871262132,
+    "job": 120145986402,
+    "attempt": 1,
+    "conclusion": "success",
+    "all_12_steps_success": true,
+    "all_25_changed_runtime_and_repair_file_full_readbacks": true,
+    "proof_sha256": "754c93bc0c2230585c6dd39abf3a4d2ac7b9d084616547f7dd333880e4ac41f0"
+  },
+  "previous_CI_failure_retained": {
+    "source": "dd38e733f036afef919da3c98929d9741f1dc1cd",
+    "run": 39870808963,
+    "job": 120144469010,
+    "failed_test_cases": 5,
+    "cause": "Test report lookup used a LOCAL absolute path",
+    "fixed_relative_to_test_checkout": true,
+    "31_portability_tests_in_distinct_temporary_checkout_passed": true
+  },
+  "actual_native_readonly": {
+    "receipt_sha256": "79259d07f9db82cd668a8478bbc1129950808f01499a6882d230147877aea2bc",
+    "observed_epoch": 1792711515.0653424,
+    "Core_DEC1_ledger_sha256": "c6ebba2cdeeac1498b32ea134418a9e0039684d302d50f78c53e9ec288ae4a92",
+    "26_assets_verified": true,
+    "old_13_failure_artifacts_verified": true,
+    "old_UNKNOWN_child_ledger_and_CLOSED_lease_exact_hashes_verified": true,
+    "retained_closed_financial_unknowns": [
+      {
+        "child": "dec1-source-component-01",
+        "scientific_verdict": "ENGINEERING_INCOMPLETE_UNKNOWN",
+        "child_ledger_sha256": "256d94a2347f6546c83aab5963cb2808730c9913907592acc742807a4288021d",
+        "closed_lease_sha256": "20bf44b798a746910cf2b406a760d096d91322ec46a288abd2ca0de278f12777"
+      }
+    ],
+    "other_unknowns": [],
+    "active_source_workers": 0,
+    "Core_control_CPU_s": 0.028686765000000003,
+    "new_ledger_lease_registration_models_physics_PBS": 0
+  },
+  "offline_source_component_02": {
+    "request_id": "081c5299-5594-4ff6-8676-d48b9652cf52",
+    "source_sha": "47dc6001227572f031ebc3cc33d56a487027d8cb",
+    "manifest_sha256": "14ce2f841c8db3de7e2eb9c191e95fc9b26720f628493774e4fd954012556b0f",
+    "code_members": 913,
+    "all_input_members": 937,
+    "cold_inputs_sha256": "9017f494c25e87c76e3fe214f31b6ca0058662741a17cce58fb4acef4fefc90d",
+    "pure_dual_reservation_preview_sha256": "ee090d6eafea7feb5c123076a3dc11209fe8345b49693c2c370c4139d7984266",
+    "pure_dual_reservation_status": "ACTUAL_SEALED_INPUTS_PURE_DUAL_PROPOSAL_PASS_NOT_NATIVE_REGISTRATION",
+    "continuation": {
+      "history_sha256": "3fa07f7132ccf092cb95860cf5a17edc09eb1a1ce9e0e881db4e1adface68267",
+      "original_commissioning_requested": 3,
+      "engineering_replacements_requested": 1,
+      "replacement_condition_id": "DEC1-SOURCE-COMMISSION-F0-000-T1-I_TIME",
+      "replacement_of_request_id": "23da1121-b1cd-4fef-83b4-a28e45e108b1",
+      "original_condition_ids": [
+        "DEC1-SOURCE-COMMISSION-F0-000-T2-I_PROGRESS",
+        "DEC1-SOURCE-COMMISSION-F1-000-T1-I_PROGRESS",
+        "DEC1-SOURCE-COMMISSION-F1-000-T2-I_TIME"
+      ],
+      "replacement_index": 1,
+      "engineering_fix_evidence_sha256": "28221c1935f960b51945516924088b76d414cbaa26eafb9c2e208fe3f766d8ba"
+    },
+    "requested_eight_dimensions": {
+      "CoreLab_CPU_s": 15540,
+      "local_CPU_s": 720,
+      "episode_starts": 4,
+      "physics_ticks": 128000,
+      "constructors": 326,
+      "CoreLab_output_bytes": 3506438144,
+      "local_output_bytes": 67108864,
+      "transfer_bytes": 1073741824
+    },
+    "actual_native_registration": false,
+    "actual_parent_or_Core_reservation": false,
+    "actual_child_lease": false,
+    "actual_counter_or_components_run": false,
+    "new_native_effects": 0
+  },
+  "private_cold_controller_sha256": {
+    "read_core_closed_source_inputs.py": "84d4840feddedfff7709313ba7c5a8f115bf64f592e51a8dfb202796a4e4966c",
+    "prepare_source_continuation_inputs.py": "dcbf50e312a14ddfe3f6d4c199248a71315f306693bbc85c1ae246c13ae12b95"
+  },
+  "B1": {
+    "job": "1478518.stdct-mgmt-02",
+    "native_state": "R",
+    "observed_epoch": 1792711701.7320547,
+    "returned_updates": 172,
+    "queries": 17,
+    "model_loads": 2,
+    "unknown_effects": [],
+    "global_settled_updates_still": 5891,
+    "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "owner_service": "vap1-a40-zero-update-b1-owner-01",
+    "source_changes_restarts_resubmissions": 0
+  },
+  "remaining_work": [
+    "Cold owner once metadata/native registration must accept sealed history/engineering bytes and the exact new request; do not call the old fixed-child registration owner",
+    "Fresh complete actual active-hold/resource admission and original entry/lease/actor/science gates before finite source components",
+    "Prepare and qualify source terminal settlement/closure for real all-attempt outcomes before dispatch",
+    "Reuse healthy B1, then real B2048 terminal audit/once settlement/both lease closures before B2; no source scientific success gate added to B",
+    "Existing frozen WBC T1/T2 task qualification and fixed original CORR/R0 neural/64-cell evaluation still incomplete"
+  ],
+  "goal_complete": false,
+  "budgets_clocks_original_failures_checkpoints_and_science_unchanged": true
+}
