@@ -141,6 +141,10 @@ def run(root,request_path):
         ledger=Ledger(root,allocated);ledger.initialize()
         guard=ledger.guard;guard()
         phase='ACTUAL_NATIVE_SOURCE_PREMODEL'
+        from .checkpoint_storage import prewrite_headroom
+        storage=prewrite_headroom(root)
+        once(directory/'CHECKPOINT_STORAGE_PREFLIGHT.json',dict(storage=storage,models_loaded=0,
+            optimizer_updates=0,job_id=allocated['job_id'],request_sha256=allocated['request_sha256']))
         from scripts.pi0294.numerics import prepare_environment,configure_torch
         prepare_environment(r['numerical_mode'])
         import torch
@@ -201,7 +205,10 @@ def run(root,request_path):
             source_sha=r['source_sha'],request_sha256=sha(request_path),CPU_actual_s=time.process_time()-began,
             global_step=final_step,records=records,new_physics=0,new_episodes=0,selected='NONE',deployment='NONE')
         if ledger is not None:
-            try:result['effects']=ledger.summary()
+            try:
+                result['effects']=ledger.summary()
+                result['last_returned_training_step']=final_step
+                result['global_step']=result['effects']['last_native_step']
             except BaseException as e:result['effect_summary_error']=dict(type=type(e).__name__)
         if instance is not None and allocated is not None and time.time()<allocated['allocation_end_epoch']:
             try:

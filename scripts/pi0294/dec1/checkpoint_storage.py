@@ -198,11 +198,26 @@ def prewrite_headroom(root):
         p=_owned_file(parent/name,parent)
         if sha(p)!=expected:fail('PREWRITE_PROTECTED_PARENT_CHANGED')
         s=p.stat();existing.add((s.st_dev,s.st_ino))
-    seen=set();resident=0
+    seen=set();resident=0;input_aliases=[]
     for folder,dirs,names in os.walk(root,followlinks=False):
-        for name in dirs:
+        for name in list(dirs):
             p=Path(folder)/name
-            if p.is_symlink() or p.stat().st_uid!=os.getuid():fail('PREWRITE_OWN_ROOT_NO_DIRECTORY_ESCAPE')
+            if p.is_symlink():
+                relative=p.relative_to(root).as_posix()
+                if relative!='model_inputs/nvidia/Cosmos-Reason2-2B':
+                    fail('PREWRITE_OWN_ROOT_NO_DIRECTORY_ESCAPE:'+relative)
+                # The mature loader's one sealed input alias is not output.
+                # Validate it with the same selector, and never walk its cache.
+                binding='NEURAL_BINDINGS.private.json'
+                b=_owned_file(root/binding,root)
+                sealed=_read(root/'RUN_MANIFEST.json')['execution']['sealed_inputs']
+                if b.stat().st_mode&0o222 or sealed.get(binding)!=sha(b):
+                    fail('PREWRITE_MODEL_INPUT_REQUIRES_SEALED_BINDING')
+                from scripts.pi0294.pv1.model_inputs import preflight
+                preflight(root,_read(b))
+                dirs.remove(name);input_aliases.append(relative)
+            elif p.stat().st_uid!=os.getuid():
+                fail('PREWRITE_OWN_ROOT_NO_DIRECTORY_ESCAPE:'+p.relative_to(root).as_posix())
         for name in names:
             p=_owned_file(Path(folder)/name,root);s=p.stat();key=(s.st_dev,s.st_ino)
             if key not in seen and key not in existing:resident+=max(s.st_size,s.st_blocks*512)
@@ -211,6 +226,8 @@ def prewrite_headroom(root):
     if resident+required>bound['resident_upper_bytes']:fail('OWN_RESIDENT_PLUS_COMPLETE_TRANSIENT_SAVE_BOUND')
     if shutil.disk_usage(root).free<required+bound['filesystem_reserve_bytes']:
         fail('ACTUAL_FILESYSTEM_FULL_SAVE_AND_FINAL_RESERVE')
+    return dict(status='PASS_OWN_RESIDENT_AND_COMPLETE_SAVE_HEADROOM',resident_bytes=resident,
+        full_save_and_metadata_upper_bytes=required,approved_input_aliases_not_traversed=input_aliases)
 
 
 def wrap_trainer(base, root, guard):

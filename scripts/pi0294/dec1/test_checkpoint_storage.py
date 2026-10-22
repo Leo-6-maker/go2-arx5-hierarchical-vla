@@ -100,6 +100,62 @@ class SharingTests(unittest.TestCase):
                     self.headroom_policy(root,filesystem_reserve_bytes=1)
                 with self.assertRaises(PermissionError):storage.prewrite_headroom(root)
 
+    def model_alias(self,root,parent):
+        snapshot=parent/'cosmos-snapshot';snapshot.mkdir()
+        put(snapshot/'config.json',dict(model_type='fixture'))
+        (snapshot/'external-cache-payload').write_bytes(b'x'*2000000)
+        digest=put(root/'NEURAL_BINDINGS.private.json',dict(cosmos=str(snapshot)))
+        (root/'NEURAL_BINDINGS.private.json').chmod(0o400)
+        m=storage._read(root/'RUN_MANIFEST.json')
+        m['execution']['sealed_inputs']['NEURAL_BINDINGS.private.json']=digest
+        put(root/'RUN_MANIFEST.json',m)
+        alias=root/'model_inputs/nvidia/Cosmos-Reason2-2B';alias.parent.mkdir(parents=True)
+        alias.symlink_to(snapshot,target_is_directory=True)
+        return alias,snapshot
+
+    def test_prewrite_accepts_exact_sealed_loader_alias_without_counting_external_cache(self):
+        with fixture() as (root,parent,checkpoint,guard,calls,_):
+            alias,snapshot=self.model_alias(root,parent);self.headroom_policy(root)
+            with patch.object(storage.shutil,'disk_usage',return_value=SimpleNamespace(free=10**12)):
+                result=storage.prewrite_headroom(root)
+            self.assertEqual(result['approved_input_aliases_not_traversed'],
+                             ['model_inputs/nvidia/Cosmos-Reason2-2B'])
+            self.assertLess(result['resident_bytes'],1000000)
+            self.assertTrue(alias.is_symlink());self.assertTrue(snapshot.is_dir())
+
+    def test_alias_exemption_never_accepts_changed_unsealed_or_output_links(self):
+        for failure in ('target','mutable','hash','unsealed','output','alias-parent'):
+            with self.subTest(failure=failure),fixture() as (root,parent,checkpoint,guard,calls,_):
+                alias,snapshot=self.model_alias(root,parent);self.headroom_policy(root)
+                if failure=='target':alias.unlink();alias.symlink_to(parent,target_is_directory=True)
+                elif failure=='mutable':(root/'NEURAL_BINDINGS.private.json').chmod(0o600)
+                elif failure=='hash':
+                    p=root/'NEURAL_BINDINGS.private.json';p.chmod(0o600)
+                    put(p,dict(cosmos=str(parent)));p.chmod(0o400)
+                elif failure=='unsealed':
+                    m=storage._read(root/'RUN_MANIFEST.json')
+                    del m['execution']['sealed_inputs']['NEURAL_BINDINGS.private.json']
+                    put(root/'RUN_MANIFEST.json',m)
+                elif failure=='output':(checkpoint/'output-escape').symlink_to(snapshot,target_is_directory=True)
+                else:
+                    alias.unlink();alias.parent.rmdir();alias.parent.symlink_to(parent,target_is_directory=True)
+                with self.assertRaises(PermissionError):storage.prewrite_headroom(root)
+
+    def test_actual_loader_alias_does_not_prevent_native_full_save_or_fallback(self):
+        with fixture() as (root,parent,checkpoint,guard,calls,_):
+            self.model_alias(root,parent);self.headroom_policy(root)
+            template=checkpoint.with_name('unsaved-template');checkpoint.rename(template)
+            class Base:
+                def _save_checkpoint(self,model,trial):
+                    calls.append('native-full-save');shutil.copytree(template,checkpoint)
+            wrapped=storage.wrap_trainer(Base,root,guard)()
+            wrapped.args=SimpleNamespace(output_dir=checkpoint.parent)
+            wrapped.state=SimpleNamespace(global_step=1024);wrapped.consumed=1024*32
+            with patch.object(storage.shutil,'disk_usage',return_value=SimpleNamespace(free=10**12)):
+                wrapped._save_checkpoint(None,None);wrapped._save_checkpoint(None,None)
+            self.assertEqual(calls.count('native-full-save'),1)
+            self.assertTrue((checkpoint/'CHECKPOINT_COMPLETE.json').is_file())
+
     def test_exact_new_duplicate_shares_without_changing_parent_or_full_state(self):
         with fixture() as (root,parent,checkpoint,guard,calls,complete):
             original=(parent/NAME).read_bytes();mode=(parent/NAME).stat().st_mode
