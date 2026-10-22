@@ -1,0 +1,128 @@
+{
+  "schema": "WDR1_SOURCE_DUAL_FINANCIAL_CLOSURE_AND_B_COST_PROJECTION_CPU_ACTUAL_V1",
+  "status": "SOURCE_DUAL_FINANCIAL_SETTLED_LEASE_CLOSED_UNKNOWN_EVIDENCE_IMMUTABLE_B_PROJECTION_CPU_ONLY",
+  "observed_epoch": 1792707920.2004638,
+  "native_runtime": "55e73c7b6e2c6584f90b14d64ef9f5b842fd2e2c",
+  "financial_code": "751e0d623174cc74bf4294057cae1e7ade44d8b2",
+  "exact_financial_publication": {
+    "CI_run": 39863169664,
+    "CI_job": 120118710154,
+    "attempt": 1,
+    "conclusion": "success",
+    "all_12_steps_success": true,
+    "all_7_files_full_readback": true
+  },
+  "once_actual_financial": {
+    "request_id": "23da1121-b1cd-4fef-83b4-a28e45e108b1",
+    "settled_epoch": 1792707417.8988905,
+    "invoice_sha256": "391dc276e498418a8b8abfb17342f527e3573eeb3edbe569081f5fa78b3fd809",
+    "Core_after_sha256": "c6ebba2cdeeac1498b32ea134418a9e0039684d302d50f78c53e9ec288ae4a92",
+    "Core_lease_sha256": "20bf44b798a746910cf2b406a760d096d91322ec46a288abd2ca0de278f12777",
+    "Core_financial_proof_sha256": "c6f31b24517f229946cd94d7f827de5dadfd550e6b458ca5a89c4edf3ffd2078",
+    "LOCAL_after_sha256": "e25109cbac71093477fabaddee4902834f3e18931a58869111958368eb3318a9",
+    "financial_charged": {
+      "CoreLab_CPU_s": 1039.537288565,
+      "local_CPU_s": 720,
+      "episode_starts": 1,
+      "physics_ticks": 16490,
+      "constructors": 6,
+      "CoreLab_output_bytes": 3506438144,
+      "local_output_bytes": 67108864,
+      "transfer_bytes": 1073741824
+    },
+    "unstarted_or_known_unused": {
+      "CoreLab_CPU_s": 14500.462711435,
+      "local_CPU_s": 0,
+      "episode_starts": 3,
+      "physics_ticks": 111510,
+      "constructors": 320,
+      "CoreLab_output_bytes": 0,
+      "local_output_bytes": 0,
+      "transfer_bytes": 0
+    },
+    "global_Core_CPU_after_s": 169671.35411144394,
+    "global_local_CPU_after_s": 46343.974682509,
+    "global_original_other_CPU_unchanged": 74468.82213385901,
+    "original_global_and_DEC1_budget_caps_not_reset": true,
+    "new_PBS_GPU_models_physics_workers": 0
+  },
+  "independent_readback": {
+    "observed_epoch": 1792707487.9878967,
+    "source_lease": "CLOSED",
+    "source_current_hold": {
+      "CoreLab_CPU_s": 0,
+      "local_CPU_s": 0,
+      "episode_starts": 0,
+      "physics_ticks": 0,
+      "constructors": 0,
+      "CoreLab_output_bytes": 0,
+      "local_output_bytes": 0,
+      "transfer_bytes": 0
+    },
+    "local_CPU_hold": {
+      "CoreLab": 0,
+      "Hopper": 0,
+      "local_PC": 0
+    },
+    "Core_CPU_after_s": 1579.537288565,
+    "Core_episode_cost": 1,
+    "Core_physics_financial_upper": 16490,
+    "original_13_failure_files_full_SHA_unchanged": true,
+    "original_child_ledger_unchanged": true,
+    "original_child_UNKNOWN_and_16000_live_reservation_preserved": true,
+    "no_active_source_workers": true
+  },
+  "scientific_verdict": {
+    "first_component": "ENGINEERING_INCOMPLETE_UNKNOWN",
+    "other_source_components": "NOT_RUN",
+    "actual_returned_STOP_ACK": false,
+    "source_interface_qualified": false,
+    "student_qualified": false,
+    "target_qualified": false,
+    "core64_cells": 0,
+    "new_training_data": false,
+    "budget_16490_is_upper_not_actual_rollout_ticks": true,
+    "observed_live_lower_bound": 400,
+    "known_shadow_ticks": 490
+  },
+  "B_cost_projection": {
+    "status": "CPU_ONLY_NOT_NATIVE_ADOPTION_OR_B_SUBMISSION",
+    "files_sha256": {
+      "scripts/pi0294/dec1/closed_source_cost_projection.py": "e59caf85c45f1fcda3c580b60ef512d87e01e382a15352df0b889a1c27b04228",
+      "scripts/pi0294/dec1/test_closed_source_cost_projection.py": "bfbd196d2c0622f1193e74936ee943114aa6f4e874185ffcffb7186af9858ea3"
+    },
+    "combined_tests_passed": 40,
+    "subtests_passed": 19,
+    "denied_external_native_attempts": 0,
+    "catches_up_only_inactive_Hopper_DEC1_cumulative_Core_side_episode_tick_constructor_transfer_costs": true,
+    "Core_and_local_CPU_stay_inside_already_charged_global_parent": true,
+    "GPU_site_CPU_GPU_updates_queries_submissions_checkpoints_unchanged": true,
+    "no_second_global_charge": true,
+    "explicit_A4096_F_Exit0_full_state_settle_dual_close_and_natural_owner_exit_required": true,
+    "active_A_or_any_native_GPU_reservation_rejected": true,
+    "current_source_S1_unknown_not_reclassified": true,
+    "Core_output_legacy_peak_addition_bound": 3506438144,
+    "local_output_keeps_inclusive_campaign_peak_only_with_actual_namespace_readback": true,
+    "native_writer_and_B1_B2_cold_snapshot_adoption_still_pending": true
+  },
+  "active_A": {
+    "job": "1477527.stdct-mgmt-02",
+    "observed_epoch": 1792707898.725707,
+    "state": "R",
+    "last_native_step": 3925,
+    "unknown_effects": [],
+    "runtime": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "owner_PID": 431568,
+    "A4096_complete": false,
+    "B_started": false
+  },
+  "next": [
+    "Exact current CPU projection publication/readback/CI",
+    "Prepare once inactive-Hopper financial projection and explicit B1/B2 Core-storage snapshot integration, CPU/fake-backend tests; no active A or model changes",
+    "Actual successful A4096 full-state/terminal audit, once settle/dual close then financial cost catchup and independent B1 admission",
+    "Bounded cold source repair/remaining conditions or proven finite engineering replacement under original scope and fresh resource admission; preserve first unknown",
+    "Frozen-target T1/T2 and original CORR/R0 source/target64 still incomplete"
+  ],
+  "all_grants_clocks_R0_CORR_WBC_S1_score_recipes_and_all_checkpoints_preserved": true,
+  "goal_complete": false
+}
