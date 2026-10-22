@@ -1,6 +1,6 @@
 {
   "schema": "VAP1_ORIGINAL_MATCHED_B_RECIPE_ACCOUNTING_FIX_PREPARATION_V1",
-  "status": "COLD_ENGINEERING_FIX_LOCAL_TESTED_NOT_DEPLOYED_PENDING_EXACT_CI",
+  "status": "COLD_ENGINEERING_FIX_EXACT_SOURCE_CI_QUALIFIED_NOT_DEPLOYED",
   "problem": {
     "trigger": "B_COVERAGE source request opts into the approved shared recovery amendment",
     "prior_behavior": "Terminal settlement compared every recovery-authorized arm against the A_CONTROL recipe digest and rejected the actual original B recipe",
@@ -34,7 +34,42 @@
     "local_PI0294_wall_s": 53.59,
     "tests_CPU_only": true,
     "real_neural_or_PBS_execution": false,
-    "exact_source_CI": "PENDING_PUBLICATION_AND_FRESH_READBACK"
+    "exact_source_CI": {
+      "source_sha": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+      "CI_head_sha": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+      "CI_status": "completed",
+      "CI_conclusion": "success",
+      "CI_run_id": 39755484145,
+      "CI_job_id": 119746292613,
+      "CI_all_12_steps_success": true,
+      "files_exact_readback": true,
+      "file_readback_details": [
+        {
+          "path": "scripts/pi0294/dec1/a40_accounting.py",
+          "blob_sha": "7c0404305e52cfd50622f9b5abe00242f1b68f6a",
+          "exact_bytes": true
+        },
+        {
+          "path": "scripts/pi0294/dec1/lost_save_recovery.py",
+          "blob_sha": "4a09f47f2b82ba03f21e803a91922bedff83edb9",
+          "exact_bytes": true
+        },
+        {
+          "path": "scripts/pi0294/dec1/test_lost_save_recovery.py",
+          "blob_sha": "97cbf01ba938edc5e13739d97e2b6e66e1895348",
+          "exact_bytes": true
+        },
+        {
+          "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/B_MATCHED_RECIPE_ACCOUNTING_FIX_PREPARATION_20261022.json",
+          "blob_sha": "d9b767de0ab21f0bb4457c3dec08be6a96a4e6b8",
+          "exact_bytes": true
+        }
+      ],
+      "local_PI0294_tests": 1187,
+      "local_PI0294_subtests": 1123,
+      "not_deployed_to_active_A1": true,
+      "observed_epoch": 1792661441.7186985
+    }
   },
   "operational_scope": {
     "active_A1_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
@@ -51,7 +86,8 @@
     "new_physics": 0,
     "original_clock_and_resource_caps_unchanged": true,
     "selected": "NONE",
-    "deployment": "NONE"
+    "deployment": "NONE",
+    "actual_future_B_registration_or_submission": false
   },
   "transient_observation": {
     "original_owner_recovered_native_PBS_reads_without_restart": true,
@@ -61,5 +97,19 @@
     "step": 1212,
     "observation_timeout_was_not_terminal": true,
     "latest_complete_checkpoint": 1024
+  },
+  "runtime_source_release": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+  "latest_native_observation": {
+    "observed_epoch": 1792661389.7398198,
+    "job_id": "1474599.stdct-mgmt-02",
+    "native_state": "R",
+    "step": 1276,
+    "cursor": 40832,
+    "latest_complete_checkpoint": 1024,
+    "unknown_effects": [],
+    "owned_pending_updates": 1,
+    "root_STOP": false,
+    "parent_STOP": false,
+    "active_source_unchanged": "2b141e9f40babfa749b508f33ea5f6057f59ba33"
   }
 }
