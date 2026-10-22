@@ -1,14 +1,14 @@
 {
   "schema": "VAP1_A1_TERMINAL_BOUNDARY_COLD_PREPARATION_V1",
   "status": "COLD_TERMINAL_WRAPPER_CPU_BOUNDARY_CHECKED_NOT_EXECUTED",
-  "observed_epoch": 1792654868.3452632,
+  "observed_epoch": 1792656223.6967542,
   "job_id": "1474599.stdct-mgmt-02",
   "native_state": "R",
   "existing_owner_PID": 33137,
   "existing_runtime": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
   "existing_management_HEAD": "369644855d475e91d8a95d584bd003eebcf8653a",
   "authority": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
-  "private_terminal_wrapper_sha256": "fe1f025404aa2991a2ec321823b38e372e7c2dc39a17977599ab40087404777a",
+  "private_terminal_wrapper_sha256": "96097393d7cdb35ac46b790262a44ceb037d330c42993d950b452d5fa3a8a696",
   "wrapper_role": "EXISTING_A1_OWNER_SUCCESSFUL_SEGMENT_TERMINAL_ONLY",
   "reused_typed_settlement_program_sha256": "4999fed69efb89e320aaa4f9d93a47c245b2b676d395fcf5fe00c22a5c7a8094",
   "ledger_accounting_reimplemented": false,
@@ -35,8 +35,15 @@
     "only_after_native_F": true
   },
   "validation": {
-    "status": "PASS_A1_SUCCESSFUL_TERMINAL_WRAPPER_CPU_BOUNDARY_CONTRACT",
+    "status": "PASS_TERMINAL_WRAPPER_PREEXISTING_INODE_ACCOUNTING_AND_NATIVE_BOUNDARIES",
+    "epoch": 1792656223.6967542,
+    "script_sha256": "96097393d7cdb35ac46b790262a44ceb037d330c42993d950b452d5fa3a8a696",
     "checks": [
+      "verified_parent_inode_not_recharged",
+      "new_trained_state_counted",
+      "same_filename_different_inode_still_counted",
+      "duplicate_output_inode_counted_once",
+      "unapproved_directory_symlink_rejected",
       "job_state=Q",
       "job_state=R",
       "job_state=H",
@@ -50,12 +57,11 @@
       "wrong_PV1_SUBMISSION_NONCE",
       "active_watcher_blocks_before_evidence_or_mutation"
     ],
-    "script_sha256": "fe1f025404aa2991a2ec321823b38e372e7c2dc39a17977599ab40087404777a",
-    "native_terminal_or_full2048_validated": false,
+    "actual_terminal_execution": false,
+    "old_ledger_charges_modified": false,
     "models": 0,
     "PBS": 0,
-    "physics": 0,
-    "central_accounting_implementation": "UNCHANGED_EXISTING_TYPED_SETTLE"
+    "physics": 0
   },
   "actual_current_R_probe": "WAIT_ORIGINAL_ALLOCATION_NOT_TERMINAL_ZERO_EFFECTS",
   "original_controller_unchanged": true,
@@ -70,5 +76,38 @@
   "hard_close_epoch": 1792952996,
   "new_budget_or_clock": false,
   "selected": "NONE",
-  "deployment": "NONE"
+  "deployment": "NONE",
+  "previous_preparation_release": "ad7997aee5a601972002a6878cb57fdad77d2b47",
+  "previous_unexecuted_private_wrapper_sha256": "fe1f025404aa2991a2ec321823b38e372e7c2dc39a17977599ab40087404777a",
+  "preexisting_frozen_input_accounting": {
+    "correction": "EXCLUDE_ONLY_VERIFIED_ORIGINAL_PARENT_INODE_FROM_NEW_OUTPUT_SAME_AS_NATIVE_PREWRITE_GUARD",
+    "basis": "SEALED_POLICY_AND_ORIGINAL_PARENT_IDENTITY_FULL_MEMBER_SHA_THEN_EXACT_DEVICE_INODE_MATCH",
+    "filename_or_content_similarity_alone_excluded": false,
+    "new_independent_copy_of_same_name_still_counted": true,
+    "all_prior_storage_charges_and_peaks_preserved": true,
+    "all_GPU_CPU_update_query_fees_and_current_reservations_preserved": true,
+    "settlement_or_reconciliation_executed": false
+  },
+  "protected32_input_metadata_readonly": {
+    "observed_epoch": 1792655980.0295713,
+    "roles": {
+      "closed_source32": {
+        "complete_sha256": "1c50579c172367894fe83921d84e4053803dd451c1c3e693d7881f1ff673e6f8",
+        "logical_bytes": 25540965550,
+        "allocated_bytes": 23032659968,
+        "active_input": true,
+        "decision": "KEEP_NO_CURRENT_RETIREMENT_QUALIFICATION"
+      },
+      "active_A1_input32": {
+        "complete_sha256": "1c50579c172367894fe83921d84e4053803dd451c1c3e693d7881f1ff673e6f8",
+        "logical_bytes": 25540965550,
+        "allocated_bytes": 23022977024,
+        "active_input": true,
+        "decision": "KEEP_NO_CURRENT_RETIREMENT_QUALIFICATION"
+      }
+    },
+    "payloads_read_or_deleted": false,
+    "new_storage_scan": false
+  },
+  "future_storage_transition": "REQUIRES_ACTUAL_COMPLETE_SUCCESSOR_CLOSED_CONSUMERS_ORIGINAL_RETIREMENT_AUTHORITY_AND_FRESH_PEAK_ADMISSION_NOT_ESTABLISHED_BY_THIS_PREPARATION"
 }
