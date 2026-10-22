@@ -1,0 +1,119 @@
+{
+  "schema": "WDR1_SOURCE_CPU_INTAKE_COMPONENT_ACK_CPU_ACTUAL_V1",
+  "status": "PURE_INTAKE_AND_DURABLE_COMPONENT_ACK_CPU_TESTED_NOT_NATIVE_ADMISSION",
+  "observed_epoch": 1792701625.102011,
+  "source_baseline": "5e344282d381671f7ac1253dbd920815af3333bf",
+  "files_sha256": {
+    "scripts/pi0294/dec1/source_cpu_intake.py": "b377fe4affdd71515434717f13ced20ff62a8204b6c01ae16bdc3d8cbd4fcfa5",
+    "scripts/pi0294/dec1/test_source_cpu_intake.py": "c1ae8b3d726b1ed54e8c7cc8dd59412986d2ca28941187302349debf471351f5",
+    "scripts/pi0294/dec1/source_component_ack.py": "efbfb6e4d16a68e40664cc52b180c680dce3832df81b16a72e0ea1e4d8fb750a",
+    "scripts/pi0294/dec1/test_source_component_ack.py": "efa07e9dfa48cb582745e0781230266e7ac295eccbc55b6c48c6be4bd5bd95b7"
+  },
+  "tests": {
+    "combined_unique_passed": 264,
+    "source_CPU_intake_cases": 33,
+    "component_ACK_cases": 50,
+    "previous_meter_event_and_original_ledger_cases": 35,
+    "previous_prefix_wire_stop_and_interrupt_cases": 146,
+    "actual_event_chain_reader_to_component_ACK_integration_cases": 2,
+    "denied_external_and_native_attempts": 0,
+    "native_integrations_models_queries_PBS": 0
+  },
+  "source_CPU_intake": {
+    "explicit_role": "DEC1_SOURCE_CPU_COMPONENT_COMMISSIONING_V1",
+    "existing_stage_dispatch_path": "PV1_STAGE_BINDING.json",
+    "new_stage_schema": "DEC1_SOURCE_CPU_COMPONENT_STAGE_V1",
+    "no_legacy_DEV_or_fake_REMOTE_READY": true,
+    "old_admissions_unmodified": true,
+    "exact_once_plan_sha256": "65f9d193239105ca3ff78916bb468856d002938981c1d75cb65bdedb4c6307ad",
+    "original_plan_owner_release": "80854c8d3914ffc77d55259e07257b904795ca0d",
+    "runtime_source_separate": true,
+    "thirteen_original_files_and_two_exact_explicit_glue_deltas": true,
+    "complete_budget_requires": [
+      "Main four conditions",
+      "Original zero-time two-constructor counter qualification",
+      "Registration",
+      "Control",
+      "Static/reconstruction including explicit zero when not used",
+      "Independent audit/closeout"
+    ],
+    "resource_dimensions": [
+      "CoreLab CPU",
+      "Local CPU",
+      "Episode starts",
+      "All physics ticks",
+      "All constructors",
+      "CoreLab output",
+      "Local output",
+      "Transfer"
+    ],
+    "preserves_parent_final_protection_and_all_spent_reserved_costs": true,
+    "requires_actual_projection_receipt": true,
+    "healthy_active_A_not_a_zero_GPU_CPU_exclusion": true,
+    "pure_return": "PASS_PURE_SOURCE_CPU_INTAKE_NOT_NATIVE_ADMISSION"
+  },
+  "component_ACK": {
+    "controller": "ORIGINAL_FEEDBACK_TEACHER_NO_GR00T",
+    "original_Teacher_call_exactly_once_then_full_raw_H40_prebound_before_shadow": true,
+    "actual_same_adapter_mode_episode_and_final_ACK_readback": true,
+    "full_raw_plan_mapped8_one_shadow200_live200_actual8ACK_and_native_clock_bound": true,
+    "owner_persisted_source_event_chain_independently_read_twice": true,
+    "actual_physics_NPZ_exclusive_creation_fsync_full_array_readback": true,
+    "original_durable_ACK_byte_readback_before_NativeMappedPrefixAck_return": true,
+    "lost_IO_or_bad_binding_latches_no_retry": true,
+    "no_fake_neural_identity_or_relay_pending": true,
+    "student_neural_ACK_qualification": false,
+    "new_training_data": false,
+    "hash_consistency_alone_not_native_proof": true
+  },
+  "previous_exact_source_verification": {
+    "commit": "5e344282d381671f7ac1253dbd920815af3333bf",
+    "CI_run": 39849902290,
+    "job": 120072955878,
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "all_12_steps_success": true,
+    "all_7_changed_files_full_readback": true
+  },
+  "actual_Core_preflight": {
+    "observed_epoch": 1792701485.0149698,
+    "registered_active_workers": 0,
+    "parent_lease": "ACTIVE_CONTROL_PLANE_ONLY",
+    "parent_STOP": false,
+    "child_unknown_effects": 0,
+    "DEC1_CPU_s": 540,
+    "DEC1_physics_ticks": 0,
+    "DEC1_constructors": 0,
+    "available_filesystem_bytes": 360021770240,
+    "control_CPU_s": 0.012635276,
+    "historical_policy_child_STOP_markers": 7,
+    "source_physics_STOP_markers": 0,
+    "historical_marker_meanings_require_owner_exact_closure_review": false,
+    "new_registration_or_scientific_dispatch": false,
+    "historical_stop_binding_readback_epoch": 1792701592.7275836,
+    "all_seven_policy_child_leases_CLOSED": true,
+    "all_seven_pending_reservations_empty": true,
+    "all_seven_unknown_effects_empty": true,
+    "all_seven_SOURCE_PHYSICS_STOP_absent": true,
+    "preserved_historical_stop_reasons": [
+      "OWNER_CONTINUATION_EXCEPTION_NO_NEW_EFFECTS",
+      "OWNER_ENGINEERING_EXCEPTION_NO_NEW_EFFECTS",
+      "SOURCE_OR_ENGINEERING_STOP_PRESERVED"
+    ],
+    "old_failures_not_relabelled_or_deleted": true,
+    "historical_existing_source_ticks_not_replayed": true,
+    "historical_STOP_flags_are_not_new_child_or_parent_safety_clearance": true
+  },
+  "pending": [
+    "Wire new explicit role into existing standard scope/runtime with actual native receipt validation",
+    "Native owner complete budget/once reservation/registered child RUN_MANIFEST/lease/source/assets/CI admission",
+    "Original pv1.core single episode factory, synchronous stop and S1 persistence wiring",
+    "Finite native source commissioning and truthful result/partial/unknown settlement",
+    "Original CORR2048/R0 neural source qualification and separate frozen target task qualification"
+  ],
+  "source_component_native_started": false,
+  "B_native_started": false,
+  "active_A_runtime_unchanged": true,
+  "overall_goal_complete": false
+}
