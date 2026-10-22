@@ -4,9 +4,12 @@
   "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
   "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
   "goal_panel": {
-    "status": "ACTIVE",
+    "status": "BLOCKED_LAST_TOOL_OBSERVATION",
     "objective_edit_API_available": false,
-    "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET"
+    "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET",
+    "actual_work": "RESUMED_UNDER_EXPLICIT_HUMAN_STORAGE_APPROVAL",
+    "resume_API_available": false,
+    "no_goal_recreated_or_usage_reset": true
   },
   "original_handover": {
     "commit": "cee4b1da182187a221ec0a2c9cda01ba0dc796b5",
@@ -21,29 +24,42 @@
     "new_concurrent_GPU_or_training_authorized_by_this_card": false
   },
   "current_native_snapshot": {
-    "observed_epoch": 1792667507.703622,
-    "job": "1474599.stdct-mgmt-02",
-    "state": "F",
-    "Exit_status": 0,
-    "active_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
-    "step": 2048,
-    "cursor": 65536,
-    "latest_complete_checkpoint": 2048,
-    "independent_full_state_audit": "PASS_1024_AND_2048_ALL_MEMBERS",
+    "job_id": "1475719.stdct-mgmt-02",
+    "native_state": "Q",
+    "request_id": "9d1582d5-1c87-41bf-ad53-4e049cc21fe9",
+    "submission_nonce": "3104eb01-637c-4afa-b33e-9aca24bd8204",
+    "request_sha256": "298d68cf547e1540e2a259c0e5318e5bb5c7a07bccb3afea01dae43878d67200",
+    "run_manifest_sha256": "ae5acd27be71fb05c46c8a801c7b080877e5887ec9fbc481171aa5cea5d066e1",
+    "arm": "A_CONTROL",
+    "lineage": "A_CONTROL_SAVE_RECOVERY1",
+    "start_step": 2048,
+    "target_step": 4096,
+    "start_cursor": 65536,
+    "original_1024_TRAIN_probes": "PRESERVED_NOT_REPEATED",
+    "single_qsub": true,
+    "owner_service": "ACTIVE_RUNNING",
+    "native_first_update_admission": "PENDING_GPU_ALLOCATION",
+    "training_completion_claimed": false,
+    "observed_epoch": 1792672030.0908883,
+    "used": {
+      "H200_s": 40813.0,
+      "PBS_submissions": 17,
+      "optimizer_updates": 3072,
+      "neural_queries": 1117
+    },
+    "reserved": {
+      "H200_s": 22560,
+      "neural_queries": 29,
+      "optimizer_updates": 2048
+    },
     "unknown_effects": [],
-    "owned_pending_updates": 0,
-    "original12_TRAIN_probes": "AUDITED_NOT_REPEATED_NOT_TASK_SUCCESS",
-    "GPU_lease": "CLOSED",
-    "CPU_control_lease": "CLOSED",
-    "A4096": "NOT_YET_COMPLETE",
-    "B_updates": 0,
     "selected": "NONE",
     "deployment": "NONE"
   },
   "workstreams": [
     {
       "id": "TRAIN",
-      "status": "A1_COMPLETE_A2_ACTUAL_INPUTS_PREPARED_STORAGE_ADMISSION_PENDING",
+      "status": "A1_CLOSED_A2_ACTUALLY_QUEUED_STORAGE_HOLD_RESOLVED",
       "order": [
         "A32_TO2048",
         "A2048_TO4096",
@@ -52,7 +68,7 @@
       ],
       "same_platform_R0_recipe_sampler": true,
       "deliverable": "FULL4096_A_AND_B_PLUS_ACTUAL_CONSUMPTION_COST_AND_FAILURE_RECORDS",
-      "next_gate": "EXACT_AUTHORIZED_STORAGE_LIFECYCLE_AND_FRESH_COMPLETE_REMAINING_WORK_ADMISSION"
+      "next_gate": "NATIVE_GPU_ALLOCATION_AND_ORIGINAL_FIRST_UPDATE_RESOURCE_ADMISSION"
     },
     {
       "id": "DATA",
@@ -85,27 +101,23 @@
     }
   ],
   "cold_training_preparation": {
-    "runtime": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+    "runtime": "3a1420e76c492196fa83905f4bde92924cc12c28",
     "exact_CI": {
-      "run": 39755484145,
-      "job": 119746292613,
+      "run": 39777328633,
+      "job": 119819488833,
       "result": "COMPLETED_SUCCESS"
     },
     "B1_inputs": "PREPARED_NOT_REGISTERED_NOT_SUBMITTED",
-    "A2_inputs": "V2_ACTUAL_CLOSED2048_METADATA_WITH_CORRECT_REMAINING_THREE_BLOCKS_NOT_REGISTERED_NOT_SUBMITTED",
+    "A2_inputs": "ACTUALLY_COLD_REGISTERED_GRANTED_AND_QUEUED",
     "A2_local_adapter": {
-      "status": "PASS_LOCAL_BOUNDARY_CHECKS_NOT_NATIVE_ADMISSION",
-      "controller_sha256": "749a6eea92c830f46e427c11bdb773fc89c58025c355f7adddfeabc6c7e00827",
-      "verifier_sha256": "85fa53b9e7154671f127517e98af082c04db842c914ee34a3dc08771314021a2",
-      "eight_actions_reject_missing_predecessor_before_intent": true,
-      "resource_gap_before_credentials_or_launch_intent": true,
-      "new_native_RPC_or_qsub": 0
+      "status": "LIVE_PINNED_NO_HOT_EDIT",
+      "controller_sha256": "9949a3ddb691ac1632ea9f2a71a4d487244bd1bf876594f36a2b12965ba4a90e"
     },
-    "actual_native_qualification_admission": "REQUIRED_AFTER_PREDECESSOR_CLOSED_WITH_FRESH_BUDGET_STORAGE_AND_QUEUE_CHECKS",
+    "actual_native_qualification_admission": "COLD_CONTEXT_PASS_QUEUE_BOUND_FIRST_UPDATE_PENDING",
     "A2_actual_metadata": {
-      "sha256": "4e5f818bf86b89b0b1821295bd35689e82b6a0a072b0fabdb845377f92611023",
-      "source_files": 838,
-      "small_inputs": 27,
+      "sha256": "5a1be79d6043ed961e93c725329c236af182b892c76e8e20ecea35ac5b206686",
+      "source_files": 841,
+      "small_inputs": 28,
       "resume_step": 2048,
       "cursor": 65536,
       "source_full_states": [
@@ -113,8 +125,13 @@
         2048
       ],
       "original12_probes_preserved": true,
-      "new_remote_calls": 0,
-      "new_GPU_PBS_models_updates": 0,
+      "new_remote_calls": "ACTUAL_COLD_REGISTER_AND_ONE_QSUB_COMPLETED",
+      "new_GPU_PBS_models_updates": {
+        "PBS": 1,
+        "GPU_allocated_s": 0,
+        "model_queries": 0,
+        "optimizer_updates": 0
+      },
       "remaining_training_blocks": 3,
       "prior_metadata_preserved": true
     }
@@ -136,23 +153,55 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792669100.8506253,
+  "updated_epoch": 1792672211.9831204,
   "latest_actual_receipt": {
-    "commit": "bbd694a700c80a4666a8064e2c86fcf96206882e",
-    "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A1_2048_FULL_STATE_TERMINAL_SETTLEMENT_AND_CLOSURE_ACTUAL_20261022.json",
-    "blob": "daacfb9b58d98deecdee7c54fcfd07a219c1f976",
-    "exact_remote_readback": true
+    "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A2_STORAGE_AUTH_ADOPTION_AND_QUEUE_ACTUAL_20261022.json",
+    "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
   },
   "current_resource_work": {
-    "report": "FULL_REMAINING_STORAGE_ONLY_AMENDMENT_DRAFT_20261022.json",
-    "status": "COMPLETE_STORAGE_ONLY_PROPOSAL_PENDING_USER_DECISION",
-    "retain_scientific_1024_4096": true,
+    "report": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/A2_STORAGE_AUTH_ADOPTION_AND_QUEUE_ACTUAL_20261022.json",
+    "status": "HUMAN_APPROVED_BOTH_NATIVE_LEDGERS_ADOPTED_FULL_FORECAST_PASS_A2_QUEUED",
+    "retain_all_checkpoints": true,
     "do_not_repeat_A1_settlement": true,
     "next_actions": [
-      "Explicit user approval of these two storage cap changes; no automatic adoption.",
-      "Publish and validate a narrow storage-only authorization adapter; preserve all existing resource/science gates.",
-      "Read back exact code and grant, cold bind new inputs, and rerun fresh complete native resource admission.",
-      "Keep one mutation owner and one authorized A40 training allocation at a time."
+      "Reuse existing owner while queued; no duplicate submissions.",
+      "After A2 terminal, audit 4096 full state and actual effects, settle once and close GPU/CPU leases.",
+      "Continue independent original-CORR B segments after predecessor closure and fresh full resource admission."
     ]
+  },
+  "storage_only_authority": {
+    "release": "1abb20973d84836b29baebf1d73466377c98759c",
+    "grant_sha256": "fd8761efd5a0c8a49b2e5f5c378965502c23a201f7fbd9c37eb681e5430862cd",
+    "approved_draft": "75faef9ec9eb11f36116dd89721d4348019fb4a7",
+    "DEC1_cap_bytes": 377957122048,
+    "global_cap_bytes": 449897824256,
+    "all_checkpoints_preserved": true,
+    "retirement_credit_bytes": 0
+  },
+  "previous_A1_closed_snapshot": {
+    "observed_epoch": 1792667507.703622,
+    "job": "1474599.stdct-mgmt-02",
+    "state": "F",
+    "Exit_status": 0,
+    "active_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+    "step": 2048,
+    "cursor": 65536,
+    "latest_complete_checkpoint": 2048,
+    "independent_full_state_audit": "PASS_1024_AND_2048_ALL_MEMBERS",
+    "unknown_effects": [],
+    "owned_pending_updates": 0,
+    "original12_TRAIN_probes": "AUDITED_NOT_REPEATED_NOT_TASK_SUCCESS",
+    "GPU_lease": "CLOSED",
+    "CPU_control_lease": "CLOSED",
+    "A4096": "NOT_YET_COMPLETE",
+    "B_updates": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "low_frequency_followup": {
+    "same_thread_low_frequency_minutes": 15,
+    "automation_id": "vanda",
+    "original_owner_heartbeat_unchanged": true,
+    "unchanged_queue_no_repeated_notifications": true
   }
 }
