@@ -1,0 +1,128 @@
+{
+  "schema": "VAP1_B1_SEGMENT_COLD_METADATA_PREPARATION_ACTUAL_V1",
+  "status": "LOCAL_B0_TO2048_COLD_METADATA_PREPARED_NOT_ADMITTED",
+  "scope": "EXISTING_APPROVED_B0_TO2048_LOCAL_METADATA_ONLY",
+  "actual": {
+    "status": "LOCAL_B0_TO2048_COLD_METADATA_PREPARED_NOT_ADMITTED",
+    "runtime_source": "2ba5211e738c24e7848a169687af9f043ce7ecd0",
+    "arm": "B_COVERAGE",
+    "start_step": 0,
+    "stop_step": 2048,
+    "source_members": 838,
+    "small_inputs": 24,
+    "metadata_sha256": "baaf761c4d5979b40d16bab2d0bd23f944f583dd5a5e6b887d04c8a218a47b10",
+    "independent_original_CORR": true,
+    "A1_input_unchanged": true,
+    "A_recovery_references_removed": true,
+    "B_composite_manifest_sha256": "bc4adae1dabff73f215b04f76c9b71c561251ca38ce6b5be63729c43d87448ca",
+    "sampler_support_sha256": "8b5e8810f076bf49cd67c906787205e2e14ef684fe467a6c446b521be25b80ac",
+    "new_GPU": 0,
+    "new_PBS": 0,
+    "new_models": 0,
+    "new_queries": 0,
+    "new_updates": 0,
+    "new_physics": 0,
+    "cold_registration_and_fresh_full_remaining_work_admission_required": true,
+    "A4096_terminal_and_settlement_required_before_submission": true,
+    "observed_epoch": 1792659097.3685865
+  },
+  "runtime_publication": {
+    "source_sha": "2ba5211e738c24e7848a169687af9f043ce7ecd0",
+    "CI_head_sha": "2ba5211e738c24e7848a169687af9f043ce7ecd0",
+    "CI_status": "completed",
+    "CI_conclusion": "success",
+    "CI_run_id": 39720002227,
+    "CI_job_id": 119631028448,
+    "files_exact_readback": true,
+    "file_readback_details": [
+      {
+        "path": "scripts/pi0294/dec1/a40_training_context.py",
+        "blob_sha": "9db309fd95435fb56b2c18a7ea8e3ea1fb56ca97",
+        "exact_bytes": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/a40_training_runtime.py",
+        "blob_sha": "9fd931515327fbda711b40a0894c3c62d2368d03",
+        "exact_bytes": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/segment_intake.py",
+        "blob_sha": "18ff7303dd8ca223bd7141a58254c814c8e719b0",
+        "exact_bytes": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/test_segment_intake.py",
+        "blob_sha": "49f26503961947082ea1d4b050e8339fd14b28d4",
+        "exact_bytes": true
+      },
+      {
+        "path": "scripts/pi0294/pv1/neural.py",
+        "blob_sha": "66b2ceb08af2666ea865290813bc33df27be8ec0",
+        "exact_bytes": true
+      }
+    ],
+    "observed_epoch": 1792659009.751301
+  },
+  "local_boundary_checks": {
+    "status": "PASS_LOCAL_COLD_B1_METADATA_BOUNDARIES",
+    "checks": [
+      "REAL_CANONICAL_B_IDENTITY_AND_ZERO_START",
+      "ORIGINAL_B_EVALUATION_TEMPLATE",
+      "A_RECOVERY_REFERENCES_REMOVED",
+      "ACTIVE_A_BYTES_UNCHANGED",
+      "REJECT_wrong_arm",
+      "REJECT_stale_A_start",
+      "REJECT_wrong_A_lineage",
+      "REJECT_wrong_common_data",
+      "REJECT_bad_CI",
+      "REJECT_wrong_published_member",
+      "REJECT_foreign2048_import",
+      "REJECT_noncanonical_A_block"
+    ],
+    "checks_count": 12,
+    "source": "2ba5211e738c24e7848a169687af9f043ce7ecd0",
+    "new_GPU_PBS_models_queries_updates_physics": 0,
+    "controller_sha256": "6708e112138c806a91aa8a61f9d54e3562e66d3ac119eb9c5f9ab2c5c0d0d1be",
+    "observed_epoch": 1792659083.0511165
+  },
+  "active_A1_snapshot": {
+    "observed_epoch": 1792659097.620854,
+    "job_id": "1474599.stdct-mgmt-02",
+    "native_state": "R",
+    "step": 980,
+    "cursor": 31360,
+    "latest_complete_checkpoint": 32,
+    "unknown_effects": [],
+    "root_STOP": false,
+    "parent_STOP": false,
+    "runtime_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+    "runtime_or_owner_modified": false
+  },
+  "preserved": {
+    "original_CORR_parent": true,
+    "R0_statistics": true,
+    "original_B_recipe_sampler_and_evaluation_identity": true,
+    "original_twelve_TRAIN_probes": true,
+    "A1_input_bytes": true,
+    "WBC_S1_score": true,
+    "original_clock_spent_costs_and_reservations": true
+  },
+  "remaining_gates": [
+    "A full4096 endpoint must actually complete and be audited and settled before B submission",
+    "Register cold control and neural capsule through existing owner/profile/authority/lease entry",
+    "Fresh native queue/project/quota and full remaining-work GPU_CPU_PBS_storage_deadline admission",
+    "B actual original-parent model qualification, native1024 full save and original12 probes remain unexecuted"
+  ],
+  "claim_boundaries": {
+    "B_native_registration": false,
+    "B_PBS_submitted": false,
+    "B_model_loaded": false,
+    "B_neural_qualification": false,
+    "A1024_complete_at_snapshot": false,
+    "source_pair_science_complete": false,
+    "target_executor_qualified": false,
+    "new_data_or_WBC_change": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}
