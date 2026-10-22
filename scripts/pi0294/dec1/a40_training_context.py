@@ -98,6 +98,13 @@ def validate_root(root,request_path,*,verify_all=False):
             or len(rows)!=1 or Path(rows[0]['path']).resolve()!=root.resolve()):
         fail('ONE_ACTIVE_EXISTING_OWNER_LEASE_AND_REGISTRY')
     inputs=m['execution']['sealed_inputs']
+    if r.get('recovery_authorization_release') is not None:
+        from .lost_save_recovery import PLAN,RELEASE,grant as recovery_grant
+        if (m['authority'].get('recovery_authorization_release')!=RELEASE
+                or PLAN not in inputs or sha(sealed(root,PLAN,parse=False))!=inputs[PLAN]
+                or (root/PLAN).read_bytes()!=(root.parent.parent/'authority/DEC1'/Path(PLAN).name).read_bytes()):
+            fail('EXACT_NATIVE_AND_MANIFEST_SEALED_RECOVERY_AUTHORIZATION')
+        recovery_grant((root/PLAN).read_bytes())
     required={CONSUMERS,'SOURCE_SEAL.json','NEURAL_BINDINGS.private.json','plans/PV1_TRAIN_INPUTS.private.json',
         'plans/VAP1_DUAL_PLATFORM_CONCURRENCY_ADOPTION.json','plans/PUBLICATION_AND_CI.json',
         'plans/PRIMARY_LEARNING_RECIPES.json','plans/FROZEN_SOURCE_PAIR_RECIPE.json',
@@ -333,6 +340,8 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
             ledger_bytes=values['ledger'],DEC1_ledger_bytes=values['DEC1_ledger'],snapshot_bytes=values['snapshot'],
             progress_bytes=values['progress'],plan_bytes=(root/proof['plan_relative']).read_bytes(),
             amendment_bytes=(root/'plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json').read_bytes(),
+            recovery_bytes=((root/'plans/DEC1_LOST_SAVE_RECOVERY_AUTHORIZATION.json').read_bytes()
+                if r.get('recovery_authorization_release') is not None else None),
             now_epoch=time.time(),job_id=allocation['job_id'])
         def stable(value):
             v=deepcopy(value);v.pop('observed_epoch',None);v['forecast'].pop('projected_finish_epoch',None);return v

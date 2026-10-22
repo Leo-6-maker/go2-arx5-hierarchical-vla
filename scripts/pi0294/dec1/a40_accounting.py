@@ -10,6 +10,7 @@ from scripts.pi0294.pv1.future_budget import _read
 from . import a40_allocation as a
 from .alternate_accounting import digest, finite
 from .dual_platform import reserve_check
+from .lost_save_recovery import lineage,validate_adopted
 
 TERMINAL=('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB')
 
@@ -19,6 +20,7 @@ def fail(message):
 
 
 def validate_item(row):
+    lineage(row)
     wall=finite(row.get('reserved_H200_s'),integer=True)
     start=finite(row.get('start_native_step'),integer=True)
     expected=dict(native_platform=a.PLATFORM,platform_training_version=a.VERSION,
@@ -85,7 +87,9 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
     if (any(v.get('training_runs',{}).get(name,{}).get('last_native_step',0)>0
             for name in ('A_CONTROL','B_COVERAGE')) and v.get('DEC1_source_pair_platform')!=a.PLATFORM):
         fail('DO_NOT_IMPORT_AN_ALREADY_STARTED_HOPPER_SOURCE_ARM')
-    prior=v.get('training_runs',{}).get(arm,{})
+    run_key=lineage(r)
+    if r.get('recovery_authorization_release') is not None:validate_adopted(v,d)
+    prior=v.get('training_runs',{}).get(run_key,{})
     if prior.get('last_native_step',0)!=start:
         fail('EXACT_KNOWN_SAME_ARM_PROGRESS_NO_RESTART_OR_ROLLBACK')
     reserve_check(grant_bytes=grant_bytes,view=campaign_view,used=v['used'],reserved=v['reserved'],
@@ -110,6 +114,8 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
         optimizer_update_limit=count,reserved_optimizer_updates=count,reserved_neural_queries=29,
         additional_output_upper_bytes=r['additional_output_upper_bytes'],submitted_intent_epoch=now_epoch)
     if 'CPU_envelope_profile' in r:row['CPU_envelope_profile']=r['CPU_envelope_profile']
+    for key in ('recovery_authorization_release','recovery_adoption_sha256','training_lineage_key'):
+        if key in r:row[key]=r[key]
     validate_item(row);v['PBS_submissions'].append(row);v['used']['PBS_submissions']+=1
     for k,c in dict(H200_s=r['walltime_s']+a.PAD,optimizer_updates=count,neural_queries=29).items():
         v['reserved'][k]=v['reserved'].get(k,0)+c
@@ -186,11 +192,14 @@ def settle(value, DEC1_value, *, request_id, native_proof, effects, now_epoch):
     if committed:
         recipe=effects.get('recipe_sha256','')
         if re.fullmatch('[0-9a-f]{64}',recipe) is None:fail('ACTUAL_RECIPE_HASH_FOR_COMMITTED_RUN')
-        runs=v.setdefault('training_runs',{});prior=runs.get(row['arm'],{})
+        if row.get('recovery_authorization_release') is not None:
+            from .lost_save_recovery import RECIPE
+            if recipe!=RECIPE:fail('RECOVERY_PRESERVES_ORIGINAL_MATCHED_RECIPE')
+        runs=v.setdefault('training_runs',{});run_key=lineage(row);prior=runs.get(run_key,{})
         if (prior.get('last_native_step',0)!=row['start_native_step']
                 or prior and prior.get('recipe_sha256')!=recipe):
             fail('NO_OTHER_ARM_OR_CHANGED_RECIPE_PROGRESS_OVERWRITE')
-        runs[row['arm']]=dict(last_native_step=effects['last_native_step'],recipe_sha256=recipe)
+        runs[run_key]=dict(last_native_step=effects['last_native_step'],recipe_sha256=recipe)
     v['used']['H200_s']+=gpu;v['used']['optimizer_updates']+=committed;v['used']['neural_queries']+=queries
     v['optimizer_updates']=v['used']['optimizer_updates'];v['generation_queries']=v['used']['neural_queries']
     v['model_loads']=v.get('model_loads',0)+loads;v['CPU_s']+=cpu

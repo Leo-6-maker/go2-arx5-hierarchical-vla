@@ -23,7 +23,12 @@ def fail(reason):
     raise PermissionError('DEC1_FUTURE_'+reason)
 
 
-def effective_caps(amendment_bytes=None):
+def effective_caps(amendment_bytes=None,recovery_bytes=None):
+    if recovery_bytes is not None:
+        from .lost_save_recovery import grant
+        grant(recovery_bytes)
+        if amendment_bytes is None:fail('RECOVERY_REQUIRES_ORIGINAL_VAP1_ADOPTION')
+        return dict(effective_caps(amendment_bytes),optimizer_updates=9216)
     if amendment_bytes is None:return dict(CAPS)
     value,digest=old._read(amendment_bytes)
     expected=dict(local_CPU_s=[28800,57600],CoreLab_CPU_s=[345600,576000],
@@ -42,9 +47,18 @@ def effective_caps(amendment_bytes=None):
         Core_storage_bytes=128*GIB,transfer_bytes=128*GIB)
 
 
-def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None):
-    caps=effective_caps(amendment_bytes)
+def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None):
+    caps=effective_caps(amendment_bytes,recovery_bytes)
     progress,progress_sha=old._read(progress_bytes)
+    lost=0
+    if recovery_bytes is not None:
+        from .lost_save_recovery import GRANT_SHA,RELEASE
+        if (snapshot.get('source_recovery_grant_sha256')!=GRANT_SHA
+                or progress.get('source_recovery_authorization_release')!=RELEASE
+                or progress.get('known_irrecoverable_optimizer_updates')!=1024):
+            fail('EXACT_KNOWN_LOST_UPDATES_NOT_FAKE_ACTIVE_CHECKPOINT_PROGRESS')
+        lost=1024
+    elif progress.get('known_irrecoverable_optimizer_updates',0):fail('NO_UNAUTHORIZED_LOST_UPDATE_CREDIT')
     for v in (snapshot,progress):
         old._fresh(v['observed_epoch'],now_epoch,120)
         if (v.get('authority_release')!=AUTHORITY or v.get('unknown_effects')!=[]
@@ -151,7 +165,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None):
                 fail('FIXED_TRAINING_JOB_ALL_DIMENSION_UPPER')
             seen.add(work_id);jobs.append(dict(block,kind='TRAIN',resources=resources))
         if cursor!=4096 or not probe_done:fail('BOTH_FULL_4096_ENDPOINTS_AND_FIXED_PROBES_FUNDED')
-    if len(jobs)!=len(plan['training_jobs']) or used['optimizer_updates']<committed or dec_used['optimizer_updates']!=committed:
+    if len(jobs)!=len(plan['training_jobs']) or used['optimizer_updates']<committed+lost or dec_used['optimizer_updates']!=committed+lost:
         fail('NO_EXTRA_ARM_OR_UNCHARGED_UPDATES')
     matrix=plan['remaining_matrix_envelope'];mr=old._vector(matrix['resources'])
     if schedule['core_matrix_complete']:

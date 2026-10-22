@@ -31,7 +31,7 @@ def pending_source_reservations(h,d):
 
 def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
               progress_bytes, plan_bytes, amendment_bytes, now_epoch, job_id,
-              purpose='NATIVE_PRETRAIN'):
+              purpose='NATIVE_PRETRAIN',recovery_bytes=None):
     from .a40_allocation import request_scope, PLATFORM, T0
     r,request_sha=old._read(request_bytes);request_scope(r,now=now_epoch)
     if purpose not in ('PREQUEUE','NATIVE_PRETRAIN'):
@@ -40,6 +40,12 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         fail('FRESH_UNSUBMITTED_PREQUEUE_REQUEST_ONLY')
     h,ledger_sha=old._read(ledger_bytes);d,dec_sha=old._read(DEC1_ledger_bytes)
     s,snapshot_sha=old._read(snapshot_bytes);p,plan_sha=old._read(plan_bytes)
+    if r.get('recovery_authorization_release') is not None:
+        from .lost_save_recovery import grant,validate_adopted,GRANT_SHA
+        if recovery_bytes is None:fail('SEALED_RECOVERY_AUTHORIZATION_BYTES_REQUIRED')
+        grant(recovery_bytes);validate_adopted(h,d)
+        if s.get('source_recovery_grant_sha256')!=GRANT_SHA:fail('ACTUAL_ADOPTED_RECOVERY_SNAPSHOT')
+    elif recovery_bytes is not None:fail('NO_RECOVERY_CAP_WITH_LEGACY_REQUEST')
     if (h.get('authority_release')!=PARENT_AUTHORITY or d.get('authority_release')!=AUTHORITY
             or h.get('campaign_run_uuid')!=r['campaign_run_uuid']
             or d.get('campaign_run_uuid')!=r['campaign_run_uuid']
@@ -91,14 +97,14 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         if any(observed[k]!=v for k,v in native.items()):
             fail('DEC1_NATIVE_SPENT_RESERVED_CPU_AND_IO_EXACT')
     forecasted=forecast(snapshot=s,progress_bytes=progress_bytes,plan=p,
-        amendment_bytes=amendment_bytes,now_epoch=now_epoch)
+        amendment_bytes=amendment_bytes,now_epoch=now_epoch,recovery_bytes=recovery_bytes)
     if not forecasted['admissible_forecast']:
         fail('COMPLETE_SOURCE_PAIR_MATRIX_AND_ORIGINAL_FINAL_RESERVE_DO_NOT_FIT')
     rows=[x for x in h['PBS_submissions'] if x['request_id']==r['request_id']]
     if (purpose=='PREQUEUE' and rows or purpose=='NATIVE_PRETRAIN'
             and (len(rows)!=1 or not job_id or rows[0].get('job_id')!=job_id or rows[0]['request_sha256']!=request_sha)):
         fail('EXACT_CURRENT_RESERVED_NATIVE_REQUEST')
-    return dict(schema='VAP1_A40_RECOMPUTED_REMAINING_WORK_ADMISSION_V1',
+    result=dict(schema='VAP1_A40_RECOMPUTED_REMAINING_WORK_ADMISSION_V1',
         status='PASS_ORIGINAL_GLOBAL_AND_DEC1_REMAINING_WORK',purpose=purpose,job_id=job_id,request_sha256=request_sha,
         observed_epoch=now_epoch,original_T0_epoch=T0,hard_close_epoch=HARD_CLOSE,
         native_global_ledger_sha256=ledger_sha,native_DEC1_ledger_sha256=dec_sha,
@@ -109,3 +115,6 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         final_GPU_protected_s=72000,new_R1_in_AB=False,
         DEC1_GPU_site_output_used_and_reserved_bytes=du['Hopper_storage_bytes']+dr['Hopper_storage_bytes'],
         forecast=forecasted,not_proof_of_A40_throughput_or_final_completion=True)
+    if recovery_bytes is not None:
+        result.update(source_recovery_grant_sha256=GRANT_SHA,DEC1_native_recovery_view=d)
+    return result

@@ -122,6 +122,8 @@ def request_scope(request, *, now):
         if not re.fullmatch('[0-9a-f]{'+str(length)+'}',r.get(key,'')):
             fail('EXACT_SOURCE_REQUEST_MANIFEST_HASH')
     start=number(r['expected_native_start_step'],integer=True)
+    from .lost_save_recovery import lineage
+    lineage(r)
     expected_resume=f"training/{block['arm']}/checkpoint-{start}" if start else None
     if start>=1024 or block.get('resume_checkpoint_relative')!=expected_resume:
         fail('ORIGINAL_PRE1024_START_OR_EXACT_SAME_ARM_FULL_RESUME')
@@ -235,6 +237,12 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
             or budget_proof.get('full_remaining_work_admissible') is not True
             or budget_proof.get('forecast',{}).get('admissible_forecast') is not True):
         fail('FRESH_NATIVE_FULL_REMAINING_WORK_NOT_ONLY_CURRENT_JOB_FITS')
+    if r.get('recovery_authorization_release') is not None:
+        from .lost_save_recovery import validate_adopted,GRANT_SHA as RECOVERY_SHA
+        validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
+        if (budget_proof.get('source_recovery_grant_sha256')!=RECOVERY_SHA
+                or digest(budget_proof['DEC1_native_recovery_view'])!=budget_proof.get('DEC1_ledger_canonical_sha256')):
+            fail('EXACT_ADOPTED_RECOVERY_IN_NATIVE_BUDGET_PROOF')
     planned=[j for j in budget_proof['forecast'].get('mandatory_jobs',[])
         if j.get('work_id')==row.get('dec1_work_id')]
     if (len(planned)!=1 or planned[0].get('arm')!=r['training_block']['arm']
