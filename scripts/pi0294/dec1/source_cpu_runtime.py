@@ -70,8 +70,17 @@ def _json(path,*,within=None,readonly=False):
 def _dims(value,name):return intake._mapping(value,name)
 
 
-def _reservation(root,m,stage,budget,current,pre,*,closeout,now):
+def _existing_amendment(root,parent,pre):
+    if pre.get('VAP1_authority_release') is None:return None
+    raw=_file(root/intake.VAP1_PLAN,within=root,readonly=True)
+    _need(raw==_file(parent/'authority/VAP1/VAP1_ADOPTION_AND_DELTA_BUDGET.json',
+        within=parent,readonly=True),'SOURCE_CPU_ACTUAL_NATIVE_VAP1_ADOPTION_BYTES')
+    return raw
+
+
+def _reservation(root,m,stage,budget,current,pre,*,closeout,now,caps=None):
     """Verify native once intent; read-only. Historical/GPU fields untouched."""
+    caps=intake.CAPS if caps is None else caps
     _need(current.get('schema')=='DEC1_NONADDITIVE_RESOURCE_CLASSIFICATION_V1'
         and current.get('authority_release')==intake.AUTHORITY
         and current.get('campaign_run_uuid')==stage['campaign_run_uuid']
@@ -130,7 +139,7 @@ def _reservation(root,m,stage,budget,current,pre,*,closeout,now):
     for key,field in (('CoreLab_CPU_s','CPU_s'),('episode_starts','episode_starts'),
             ('physics_ticks','physics_ticks'),('constructors','constructors')):
         value=intake._number(current[field],'current.'+field,key!='CoreLab_CPU_s')
-        _need(value>=pre[field] and (closeout or value+aggregate[key]<=intake.CAPS[key]),
+        _need(value>=pre[field] and (closeout or value+aggregate[key]<=caps[key]),
             'SOURCE_CPU_CURRENT_COSTS_PRESERVED_AND_BOUNDED:'+key)
     # Local/output/transfer classification needs the native owner's complete
     # actual projection; old Core metadata has no sufficient legacy fields.
@@ -141,7 +150,7 @@ def _reservation(root,m,stage,budget,current,pre,*,closeout,now):
         and projection['constructors']==current['constructors'],
         'SOURCE_CPU_CURRENT_NATIVE_CLASSIFICATION_COUNTERS_MATCH')
     _need(all(projection[k]>=budget['DEC1_used'][k]
-        and (closeout or projection[k]+aggregate[k]<=intake.CAPS[k]) for k in intake.DIMS),
+        and (closeout or projection[k]+aggregate[k]<=caps[k]) for k in intake.DIMS),
         'SOURCE_CPU_COMPLETE_NATIVE_CLASSIFICATION_NO_RESET_OR_EXTRA_ALLOWANCE')
 
 
@@ -225,15 +234,17 @@ def validate(root,profile='4080-simulation',*,closeout=False):
         'SOURCE_CPU_WORKER_PLUS_PROJECTED_CONTROL_WITHIN_ORIGINAL_FOUR')
     frozen=set(intake.ORIGINAL_13)|set(intake.GLUE_2)
     source_files={name:_file(code/name,within=code,readonly=True) for name in frozen}
+    pre=intake._object(dec1_raw,'pre-reservation Core DEC1')
+    amendment=_existing_amendment(root,parent,pre)
     intake.validate(m,stage_bytes=raw['stage'],plan_bytes=raw['plan'],population_bytes=raw['population'],
         adoption_bytes=raw['adoption'],parent_bytes=parent_raw,dec1_bytes=dec1_raw,
         budget_bytes=raw['budget'],source_files=source_files,
         # Revalidate the sealed admission snapshot for metadata closeout;
         # never present an expired projection as permission for new work.
-        now_epoch=budget['observed_epoch'] if closeout else time.time())
-    pre=intake._object(dec1_raw,'pre-reservation Core DEC1')
+        now_epoch=budget['observed_epoch'] if closeout else time.time(),amendment_bytes=amendment)
     current=_json(parent/CURRENT_DEC1,within=parent)
-    _reservation(root,m,stage,budget,current,pre,closeout=closeout,now=time.time())
+    _reservation(root,m,stage,budget,current,pre,closeout=closeout,now=time.time(),
+        caps=intake.effective_caps(current,amendment))
     # The shared core_ledger constructor/guard owns the same typed child meter
     # and limits. This layer adds only the once source budget binding.
     child=_json(root/'RESOURCE_LEDGER.json',within=root)

@@ -103,9 +103,12 @@ def call(p):
         'plans/PUBLICATION_AND_CI.private.json':p['stage']['runtime_CI_receipt_sha256'],
         'plans/SOURCE_ORIGINAL_PIN_IDENTITY.json':unit.PIN_REPORT_SHA256,
         'plans/SOURCE_CPU_NATIVE_RESOURCE_PROJECTION.json':p['budget'].get('native_projection_receipt_sha256')})
+    amendment=p.get('_amendment_bytes')
+    if amendment is not None:p['manifest']['execution']['sealed_inputs'][unit.VAP1_PLAN]=sha(amendment)
     return unit.validate(p['manifest'],stage_bytes=raw['stage'],plan_bytes=raw['plan'],
         population_bytes=raw['population'],adoption_bytes=raw['adoption'],parent_bytes=raw['parent'],
-        dec1_bytes=raw['dec1'],budget_bytes=raw['budget'],source_files=p['source_files'],now_epoch=p['now_epoch'])
+        dec1_bytes=raw['dec1'],budget_bytes=raw['budget'],source_files=p['source_files'],now_epoch=p['now_epoch'],
+        amendment_bytes=amendment)
 
 
 def test_complete_four_teacher_pure_intake_allows_active_A_without_native_GO(packet):

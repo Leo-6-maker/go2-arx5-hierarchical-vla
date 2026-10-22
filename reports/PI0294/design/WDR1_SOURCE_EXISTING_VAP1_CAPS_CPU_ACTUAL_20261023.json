@@ -1,0 +1,75 @@
+{
+  "schema": "WDR1_SOURCE_EXISTING_VAP1_CAPS_CPU_ACTUAL_V1",
+  "status": "EXACT_PREVIOUSLY_ADOPTED_CAPS_REUSED_NOT_NEW_AUTHORIZATION_OR_NATIVE_ADMISSION",
+  "observed_epoch": 1792703291.033873,
+  "source_baseline": "392b9a629f743584b04883cf9e5549dcc8fa85d4",
+  "files_sha256": {
+    "scripts/pi0294/dec1/source_cpu_intake.py": "fb88365a416f9fa6101f8de48662a263f70459748c5fb9822cacf5358dcbc378",
+    "scripts/pi0294/dec1/source_cpu_runtime.py": "7138c899d81154fab5068a67783677161aec4f86a3e3835b349a0fdf343fef26",
+    "scripts/pi0294/dec1/test_source_cpu_intake.py": "5155e4e61f35d7751a60a352af48038b87c0167b1f7e4d57050a90f6a7990dbe",
+    "scripts/pi0294/dec1/test_source_cpu_existing_amendment.py": "8563354d19c372a7f6ada25d99cd8d7bed42a603768466ab4ddb0e2ac2e9aa5b"
+  },
+  "tests": {
+    "combined_unique_passed": 338,
+    "subtests_passed": 9,
+    "existing_amendment_cases": 14,
+    "denied_external_native_attempts": 0,
+    "physics_models_queries_PBS": 0,
+    "actual_native_parent_readonly_file_binding_cases": 5
+  },
+  "defect": {
+    "old_code_used_legacy_Core_CPU_hours": 96,
+    "old_code_used_legacy_local_CPU_hours": 8,
+    "old_Core_output_and_transfer_GiB": 64,
+    "actual_previously_adopted_Core_CPU_hours": 160,
+    "actual_previously_adopted_local_CPU_hours": 16,
+    "actual_previously_adopted_Core_output_and_transfer_GiB": 128,
+    "not_a_new_approval_gate": true
+  },
+  "exact_native_readonly": {
+    "observed_epoch": 1792703230.7024837,
+    "authority_release": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+    "adoption_sha256": "a26aeb5076e075791e1dfea4e5da0ccaae05ccbb7fa578a1583dea1c4764ed89",
+    "original_T0_epoch": 1792348196,
+    "hard_close_epoch": 1792952996,
+    "native_Core_CPU_cap_s": 576000,
+    "native_local_CPU_cap_s": 57600,
+    "native_Core_output_and_transfer_cap_bytes": 137438953472,
+    "actual_Core_DEC1_CPU_s": 540,
+    "unknown_effects": [],
+    "control_CPU_s": 0.0003430950000000016,
+    "native_mutations": 0
+  },
+  "implementation": {
+    "legacy_without_adoption_keeps_legacy_caps": true,
+    "requires_exact_adopted_bytes_hash_and_matching_native_release_caps_IO": true,
+    "requires_same_original_campaign_clock": true,
+    "requires_manifest_explicit_VAP1_amendment_and_sealed_input": true,
+    "runtime_requires_actual_parent_adoption_bytes_equal_child_sealed_bytes": true,
+    "native_current_reservation_uses_exact_same_effective_caps": true,
+    "no_new_GPU_PBS_physics_or_local_output_allowance": true,
+    "old_used_and_reserved_costs_not_reset": true
+  },
+  "previous_exact_publication": {
+    "commit": "392b9a629f743584b04883cf9e5549dcc8fa85d4",
+    "CI_run": 39854114371,
+    "job": 120087722050,
+    "attempt": 1,
+    "conclusion": "success",
+    "all_12_steps_success": true,
+    "all_18_changed_files_full_readback": true,
+    "three_additional_runtime_dependencies_full_readback": true
+  },
+  "source_CPU_native_registered_or_dispatched": false,
+  "helper_once_proposal": {
+    "status": "TEXT_ONLY_UNEXECUTED_NOT_ADOPTED",
+    "new_native_writer": false
+  },
+  "pending": [
+    "Exact current publication/full readback/CI",
+    "Actual complete eight-dimensional parent and DEC1 classification, once cross-ledger writer and registered child",
+    "Bounded original native counter/source component attempts and independent terminal audit",
+    "Original CORR/R0 neural qualification and separate frozen-target T1/T2 qualification"
+  ],
+  "overall_goal_complete": false
+}

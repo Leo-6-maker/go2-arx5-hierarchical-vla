@@ -53,6 +53,9 @@ PATHS=dict(stage='PV1_STAGE_BINDING.json',
 DIMS=('CoreLab_CPU_s','local_CPU_s','episode_starts','physics_ticks','constructors',
     'CoreLab_output_bytes','local_output_bytes','transfer_bytes')
 CAPS=dict(zip(DIMS,(96*3600,8*3600,136,5000000,12000,64*1024**3,8*1024**3,64*1024**3)))
+VAP1_AUTHORITY='43f7fe6f86c683f2e38e5c8802eb8cde208e575c'
+VAP1_ADOPTION_SHA256='a26aeb5076e075791e1dfea4e5da0ccaae05ccbb7fa578a1583dea1c4764ed89'
+VAP1_PLAN='plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json'
 COMPONENTS={'main','counter_qualification','registration','control','static_reconstruction','audit_closeout'}
 
 
@@ -109,7 +112,37 @@ def validate_pins(source_files,code,stage):
     return deepcopy(expected)
 
 
-def validate_budget(budget,parent,dec1,adoption,*,now_epoch):
+def effective_caps(dec1,amendment_bytes=None):
+    """Use only the already adopted exact VAP1 delta; no new allowance."""
+    caps=deepcopy(CAPS)
+    if dec1.get('VAP1_authority_release') is None:
+        _require(amendment_bytes is None,'SOURCE_CPU_UNADOPTED_VAP1_DELTA')
+        return caps
+    _require(dec1['VAP1_authority_release']==VAP1_AUTHORITY
+        and type(amendment_bytes) is bytes and _sha(amendment_bytes)==VAP1_ADOPTION_SHA256,
+        'SOURCE_CPU_EXACT_ALREADY_ADOPTED_VAP1_BYTES')
+    a=_object(amendment_bytes,'VAP1 adopted delta')
+    delta=dict(local_CPU_s=[28800,57600],CoreLab_CPU_s=[345600,576000],
+        GPU_site_output_bytes=[68719476736,171798691840],
+        CoreLab_output_bytes=[68719476736,137438953472],transfer_bytes=[68719476736,137438953472])
+    _require(a.get('schema')=='VAP1_ADOPTION_AND_DELTA_BUDGET_V1'
+        and a.get('authority_release')==VAP1_AUTHORITY
+        and a.get('original_T0_epoch')==dec1['original_T0_epoch']
+        and a.get('original_hard_close_epoch')==dec1['hard_close_epoch']==HARD_CLOSE
+        and a.get('old_clocks_and_counters_reset') is False
+        and a.get('cumulative_subcap_delta')==delta,
+        'SOURCE_CPU_EXISTING_VAP1_SCOPE_CLOCK_AND_EXACT_DELTA')
+    _require(dec1.get('caps',{}).get('CoreLab_CPU_s')==576000
+        and dec1['caps'].get('local_CPU_s')==57600
+        and dec1.get('VAP1_cumulative_io_caps_bytes',{}).get('CoreLab')==137438953472
+        and dec1['VAP1_cumulative_io_caps_bytes'].get('transfer')==137438953472,
+        'SOURCE_CPU_NATIVE_VAP1_COUNTER_CAPS_NOT_OLD_COPY')
+    caps.update(CoreLab_CPU_s=576000,local_CPU_s=57600,
+        CoreLab_output_bytes=137438953472,transfer_bytes=137438953472)
+    return caps
+
+
+def validate_budget(budget,parent,dec1,adoption,*,now_epoch,caps=None):
     """Nonadditive snapshot math; fresh native truth/leases stay outer-scope IO."""
     _require(budget.get('schema')==BUDGET_SCHEMA and budget.get('native_complete') is True,
         'SOURCE_CPU_NATIVE_COMPLETE_BUDGET_REQUIRED')
@@ -154,7 +187,8 @@ def validate_budget(budget,parent,dec1,adoption,*,now_epoch):
     _require(type(budget.get('native_projection_receipt_sha256')) is str
         and re.fullmatch('[0-9a-f]{64}',budget['native_projection_receipt_sha256']) is not None,
         'SOURCE_CPU_NATIVE_FULL_PROJECTION_RECEIPT_REQUIRED')
-    _require(all(used[k]+reserved[k]+requested[k]<=CAPS[k] for k in DIMS),
+    caps=CAPS if caps is None else caps
+    _require(all(used[k]+reserved[k]+requested[k]<=caps[k] for k in DIMS),
         'SOURCE_CPU_DEC1_NONADDITIVE_CAP')
     _require(_number(budget['source_commissioning_used'],'source_used',True)
         +_number(budget['source_commissioning_reserved'],'source_reserved',True)+4<=4
@@ -207,7 +241,7 @@ def validate_budget(budget,parent,dec1,adoption,*,now_epoch):
 
 
 def validate(manifest,*,stage_bytes,plan_bytes,population_bytes,adoption_bytes,
-             parent_bytes,dec1_bytes,budget_bytes,source_files,now_epoch):
+             parent_bytes,dec1_bytes,budget_bytes,source_files,now_epoch,amendment_bytes=None):
     """Validate supplied intake ONLY. Never a native dispatch/lease assertion."""
     _number(now_epoch,'now_epoch')
     stage=_object(stage_bytes,'stage');plan=_object(plan_bytes,'plan')
@@ -216,8 +250,10 @@ def validate(manifest,*,stage_bytes,plan_bytes,population_bytes,adoption_bytes,
     _require(type(manifest) is dict and manifest.get('scope')==ROLE
         and manifest.get('schema')=='PI0294_PV1_CPU_CHILD_RUN_MANIFEST_V1',
         'SOURCE_CPU_EXACT_NEW_ROLE_NOT_OLD_DEV')
+    caps=effective_caps(dec1,amendment_bytes)
+    amendments=[AUTHORITY]+([VAP1_AUTHORITY] if amendment_bytes is not None else [])
     _require(manifest.get('authority',{}).get('protocol_ref')==PARENT_AUTHORITY
-        and manifest['authority'].get('amendments')==[AUTHORITY],
+        and manifest['authority'].get('amendments')==amendments,
         'SOURCE_CPU_EXPLICIT_NONADDITIVE_DEC1_AUTHORITY')
     _require(stage.get('schema')==STAGE_SCHEMA and stage.get('role')==ROLE
         and stage.get('authority_release')==AUTHORITY
@@ -254,6 +290,8 @@ def validate(manifest,*,stage_bytes,plan_bytes,population_bytes,adoption_bytes,
     raw=dict(stage=stage_bytes,plan=plan_bytes,population=population_bytes,
         adoption=adoption_bytes,budget=budget_bytes)
     sealed=manifest.get('execution',{}).get('sealed_inputs',{})
+    _require(amendment_bytes is None or sealed.get(VAP1_PLAN)==_sha(amendment_bytes),
+        'SOURCE_CPU_SEALED_EXISTING_VAP1_DELTA')
     _require(all(sealed.get(PATHS[k])==_sha(v) for k,v in raw.items())
         and sealed.get('plans/PUBLICATION_AND_CI.private.json')==stage['runtime_CI_receipt_sha256']
         and sealed.get('plans/SOURCE_ORIGINAL_PIN_IDENTITY.json')==PIN_REPORT_SHA256
@@ -266,7 +304,7 @@ def validate(manifest,*,stage_bytes,plan_bytes,population_bytes,adoption_bytes,
     _require(manifest.get('data',{}).get('manifest_sha256')==PLAN_SHA256,
         'SOURCE_CPU_DATA_IS_COMPONENT_PLAN_NOT_DEV_OR_READY')
     pins=validate_pins(source_files,code,stage)
-    requested=validate_budget(budget,parent,dec1,adoption,now_epoch=now_epoch)
+    requested=validate_budget(budget,parent,dec1,adoption,now_epoch=now_epoch,caps=caps)
     limits=manifest['limits']
     expected_limits=dict(CPU_s=requested['CoreLab_CPU_s'],local_CPU_upper_s=requested['local_CPU_s'],
         physics_ticks=requested['physics_ticks'],engine_starts=requested['constructors'],
