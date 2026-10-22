@@ -1,0 +1,101 @@
+{
+  "schema": "VAP1_A2_COLD_INPUT_ASSEMBLER_PREPARATION_V1",
+  "status": "PURE_LOCAL_ASSEMBLER_PREPARED_REAL_A2_INPUTS_NOT_MATERIALIZED",
+  "local_boundary_checks": {
+    "status": "PASS_LOCAL_A2_ASSEMBLER_FIXTURE_BOUNDARIES_NOT_NATIVE2048_EVIDENCE",
+    "checks": [
+      "FIXTURE_EXACT_A2_RESUME2048",
+      "FIXTURE_ORIGINAL_PROBE_BYTES_PRESERVED",
+      "A1_BYTES_UNCHANGED",
+      "REJECT_live",
+      "REJECT_failed_exit",
+      "REJECT_active_lease",
+      "REJECT_failed_terminal",
+      "REJECT_pending_effect",
+      "REJECT_wrong_arm",
+      "REJECT_missing1024",
+      "REJECT_missing_optimizer",
+      "REJECT_wrong_statistics",
+      "REJECT_missing_probe_array",
+      "REJECT_corrupt_probe_bytes",
+      "REJECT_bad_CI"
+    ],
+    "checks_count": 15,
+    "assembler_sha256": "bdb7f890da1e8b34c805216481640d91a15d33a84e501447212fd568d7ae8e25",
+    "source": "2ba5211e738c24e7848a169687af9f043ce7ecd0",
+    "real_A2_metadata_materialized": false,
+    "actual_closed2048_source_export_available": false,
+    "new_GPU_PBS_models_queries_updates_physics": 0,
+    "observed_epoch": 1792659427.8777235
+  },
+  "runtime_source": "2ba5211e738c24e7848a169687af9f043ce7ecd0",
+  "native_runtime_CI": {
+    "run_id": 39720002227,
+    "job_id": 119631028448,
+    "status": "completed",
+    "conclusion": "success",
+    "five_changed_files_exact_byte_blob_readback": true
+  },
+  "active_A1_snapshot": {
+    "observed_epoch": 1792659452.0183015,
+    "job_id": "1474599.stdct-mgmt-02",
+    "native_state": "R",
+    "global_step": 1024,
+    "latest_complete_recoverable_step": 32,
+    "checkpoint1024_directory_exists": true,
+    "checkpoint1024_complete_marker": false,
+    "original_twelve_probe_result_exists": false,
+    "native_pending_updates": 0,
+    "native_unknown_effects": [],
+    "generation_queries": 17,
+    "model_loads": 2,
+    "root_STOP": false,
+    "parent_STOP": false,
+    "interpretation": "1024_UPDATES_COMMITTED_SAVE_IN_PROGRESS_NOT_A_COMPLETE_CHECKPOINT_CLAIM"
+  },
+  "assembler_scope": {
+    "input": "Actual successful closed A1 source export and its mature full-state audit, original probe bytes, fixed source/CI",
+    "output": "A2048 to4096 local cold metadata only",
+    "source_arm": "A_CONTROL",
+    "start_step": 2048,
+    "stop_step": 4096,
+    "training_lineage": "A_CONTROL_SAVE_RECOVERY1",
+    "preserve_scientific1024_and_original_twelve_probe_arrays": true,
+    "remove_superseded_recovery32_import_references_from_new_metadata_only": true,
+    "existing_input_files_modified": false,
+    "network_or_transport_entry_points": false,
+    "submit_release_settle_close_or_delete_entry_points": false
+  },
+  "remaining": [
+    "Actual A1 successful native F at2048 with original actor naturally exited",
+    "Original successful terminal full-state1024/2048 audit, settlement and closed lease; export must bind exact job/request/source/checkpoint/probe hashes",
+    "Only then materialize A2 inputs; existing entry registration/profile/authority/lease and fresh full remaining-work budget/project/quota/queue/storage/deadline admission still required",
+    "Funded native segment_intake.stage independently reaudits source and complete copied states before models/training"
+  ],
+  "preserved": {
+    "original_clock": true,
+    "spent_costs_and_reservations": true,
+    "WBC_S1_R0_recipe_score": true,
+    "original_CORR_and_B_independence": true,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "new_effects": {
+    "GPU": 0,
+    "PBS": 0,
+    "models": 0,
+    "queries": 0,
+    "optimizer_updates": 0,
+    "physics": 0
+  },
+  "claim_boundaries": {
+    "real_source2048_available": false,
+    "real_A2_metadata_materialized": false,
+    "A2_native_registration": false,
+    "A2_budget_admission": false,
+    "A2_PBS_submission": false,
+    "actual_native_checkpoint_import": false,
+    "source_pair_science_complete": false,
+    "private_assembler_fixture_checks_are_not_runtime_CI": true
+  }
+}
