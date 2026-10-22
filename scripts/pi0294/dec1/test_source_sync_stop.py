@@ -270,3 +270,35 @@ def test_install_fingerprint_mismatch_restores_class_but_never_restores_native_o
     assert type(engine) is FakeEngine and engine.steps==0 and engine.raw_calls==0
     assert engine.ik_data.time==.001  # No repair to manufacture a matching hash.
     assert not (tmp_path/'STOP.json').exists()
+
+
+def test_stop_never_calls_mutating_original_snapshot_or_changes_integration_fingerprint(tmp_path,monkeypatch):
+    calls=[]
+    def native_style_snapshot(engine):
+        calls.append(engine.steps)
+        engine.ik_data.time+=.001  # Stand-in for mj_forward warm-start mutation.
+        return dict(time_s=engine.data.time)
+    monkeypatch.setattr(FakeEngine,'snapshot',native_style_snapshot)
+    engine=FakeEngine();barrier=install(engine,tmp_path)
+    engine.failure='after'
+    with pytest.raises(RuntimeError,match='ORIGINAL_FAKE_S1'):engine.step(object(),.5)
+    before=fake_fingerprint(engine)
+    ack=barrier.stop('KNOWN_NATIVE_REJECTION_NO_EXTRA_FORWARD')
+    assert ack.stopped and calls==[] and fake_fingerprint(engine)==before
+    assert barrier.state()['stop_acknowledged'] and not barrier.state()['unknown']
+    assert read(tmp_path/'STOP.json')['native_state_sha256']==before
+
+
+def test_stop_direct_clock_must_still_match_owned_integration_count(tmp_path):
+    engine=FakeEngine();barrier=install(engine,tmp_path);engine.data.time=.002
+    with pytest.raises(PermissionError,match='COUNTER_OR_CLOCK_NOT_QUIESCENT'):
+        barrier.stop('UNOWNED_CLOCK_NO_ACK')
+    assert barrier.state()['unknown'] and not barrier.state()['stop_acknowledged']
+
+
+def test_stop_still_rejects_changed_frozen_snapshot_function_without_calling_it(tmp_path,monkeypatch):
+    engine=FakeEngine();barrier=install(engine,tmp_path)
+    monkeypatch.setattr(FakeEngine,'snapshot',lambda engine:dict(time_s=engine.data.time))
+    with pytest.raises(PermissionError,match='BINDING_CHANGED'):
+        barrier.stop('FROZEN_FUNCTION_IDENTITY_MUST_REMAIN')
+    assert barrier.state()['unknown'] and not barrier.state()['stop_acknowledged']

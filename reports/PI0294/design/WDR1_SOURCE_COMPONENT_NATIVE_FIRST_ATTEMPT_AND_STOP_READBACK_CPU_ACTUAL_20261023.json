@@ -1,0 +1,146 @@
+{
+  "schema": "WDR1_SOURCE_COMPONENT_NATIVE_FIRST_ATTEMPT_AND_STOP_READBACK_CPU_ACTUAL_V1",
+  "status": "NATIVE_COUNTER_PASS_FIRST_COMPONENT_ENGINEERING_UNKNOWN_RETAINED_STOP_REPAIR_CPU_ONLY",
+  "observed_epoch": 1792705912.9144733,
+  "executed_source": "55e73c7b6e2c6584f90b14d64ef9f5b842fd2e2c",
+  "exact_CI": {
+    "run": 39858937721,
+    "job": 120104294749,
+    "attempt": 1,
+    "conclusion": "success",
+    "all_12_steps_success": true,
+    "all_15_changed_and_9_additional_runtime_files_full_readback": true
+  },
+  "actual_registration": {
+    "request_id": "23da1121-b1cd-4fef-83b4-a28e45e108b1",
+    "manifest_sha256": "cfc054345e48b5dfe9a4b9f82a1f0b8db22c72c25183affe04cde4a0760232bd",
+    "source_sha": "55e73c7b6e2c6584f90b14d64ef9f5b842fd2e2c",
+    "files_full_readback": 928,
+    "independent_dual_reservation_lease_registry_readback": true,
+    "no_duplicate_registration": true,
+    "Core_CPU_reserved_s": 15540,
+    "local_CPU_reserved_s": 720,
+    "episodes_reserved": 4,
+    "all_ticks_reserved": 128000,
+    "constructors_reserved": 326,
+    "Core_output_reserved_bytes": 3506438144,
+    "local_output_reserved_bytes": 67108864,
+    "transfer_reserved_bytes": 1073741824
+  },
+  "counter": {
+    "status": "PASS_ORIGINAL_VS_COUNTED_NATIVE_MODEL_STATE_XML_AND_TWO_RGB",
+    "model_constructor_attempts": 2,
+    "integrations": 0,
+    "Teacher_episodes": 0,
+    "exit_status": 0,
+    "original_model_fingerprint_and_two_camera_pixels_equal": true
+  },
+  "first_component": {
+    "condition_id": "DEC1-SOURCE-COMMISSION-F0-000-T1-I_TIME",
+    "interface": "I_TIME",
+    "task": "T1",
+    "native_process_terminal": true,
+    "exit_status": 1,
+    "observed_native_live_lower_bound": 400,
+    "observed_native_shadow_integrations": 490,
+    "complete_prefixes": 2,
+    "original_native_safety_rejection_on_third_shadow": true,
+    "error": "PrefixFailure: SOURCE_SHADOW_CHANGED_LIVE_OR_RNG",
+    "stop_error": "SourceComponentUnknown:ACTUAL_RETURNED_COMPONENT_STOP_ACK_REQUIRED",
+    "STOP_file_exists": true,
+    "actual_returned_STOP_ack": false,
+    "original_source_unknowns_and_16000_live_reservation_retained": true,
+    "child_Core_CPU_s": 139.158001888,
+    "child_constructor_attempts": 6,
+    "child_main_starts": 1,
+    "original_live_ledger_spent": 0,
+    "events_count": 1917,
+    "events_sha256": "122f6f55623f4c502b578acfab4c49b90c1c72d18aa90c4b4e5bf07a5cf98d0b",
+    "maximum_completed_prefix_live_shadow_difference": 1.442255630419265e-13,
+    "parent_STOP": false,
+    "SOURCE_PHYSICS_STOP": false,
+    "not_valid_task_failure_or_scientific_success": true
+  },
+  "independent_terminal_audit": {
+    "schema": "DEC1_SOURCE_COMPONENT_INDEPENDENT_TERMINAL_AUDIT_V1",
+    "conditions": [
+      {
+        "condition_id": "DEC1-SOURCE-COMMISSION-F0-000-T1-I_TIME",
+        "status": "ENGINEERING_INCOMPLETE_UNKNOWN",
+        "reason": "ValueError:OWNER_TERMINAL_ANCHOR_BYTES_CHANGED"
+      },
+      {
+        "condition_id": "DEC1-SOURCE-COMMISSION-F0-000-T2-I_PROGRESS",
+        "status": "NOT_RUN"
+      },
+      {
+        "condition_id": "DEC1-SOURCE-COMMISSION-F1-000-T1-I_PROGRESS",
+        "status": "NOT_RUN"
+      },
+      {
+        "condition_id": "DEC1-SOURCE-COMMISSION-F1-000-T2-I_TIME",
+        "status": "NOT_RUN"
+      }
+    ],
+    "component_counts": {
+      "ENGINEERING_INCOMPLETE_UNKNOWN": 1,
+      "NOT_RUN": 3
+    },
+    "purpose": "SOURCE_INTERFACE_COMPONENT_QUALIFICATION_ONLY",
+    "student_neural_ACK_qualification": false,
+    "target_qualification": false,
+    "core64_cells": 0,
+    "new_training_data": false
+  },
+  "native_bootstrap": {
+    "original_preflight_missing_import_path_failed_before_worker_or_counter": true,
+    "actual_readback_engine_starts_0_integrations_0_before_fix": true,
+    "existing_explicit_capsule_sys_path_binding_restored_in_cold_client_only": true,
+    "new_standard_entry_original_runtime_unchanged": true,
+    "no_unknown_dispatch_replayed": true
+  },
+  "repair": {
+    "files_sha256": {
+      "scripts/pi0294/dec1/source_sync_stop.py": "952d6a349066bb8c4feb2b14ce0f3f0a1447ffa5cfecc280b5cecb91c603f8f4",
+      "scripts/pi0294/dec1/test_source_sync_stop.py": "01b296617470231a67ece2f71ccce78ecc35b597d758270f3967f14851f76b6e"
+    },
+    "finding": "Original Engine.snapshot calls mj_forward; STOP readback must not invoke that state-mutating observation",
+    "change": "Read owned native data.time and steps directly; retain original function binding, complete before/after integration+Python+RNG fingerprint, latch, once IO and actor checks",
+    "numerical_engine_or_original_S1_changed": false,
+    "tests_passed": 107,
+    "regression_cases_added": 3,
+    "regression_covers_nonidempotent_snapshot_and_known_native_safety_error": true,
+    "native_deployment_or_reexecution": false,
+    "original_failed_capsule_and_receipts_immutable": true
+  },
+  "current_A": {
+    "job": "1477527.stdct-mgmt-02",
+    "observed_epoch": 1792705912.1774716,
+    "state": "R",
+    "last_native_step": 3547,
+    "unknown_effects": [],
+    "immutable_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "owner_PID": 431568,
+    "A4096_complete": false,
+    "B_native_started": false
+  },
+  "pending": [
+    "Exact repair publication/CI/readback",
+    "Preserve source unknowns and original holds; independently reconcile accounting and terminal process before any future source dispatch",
+    "Bounded continuation only for original unattempted conditions after actual lawful remaining resource admission; no replay of first failed condition",
+    "Do not clear unknown flags or invent STOP ACK/fingerprint evidence from repaired code",
+    "Actual successful A4096 full-state audit and once dual settlement/closure before B1/B2",
+    "Separate original CORR/R0 neural and frozen-target task qualification remain incomplete"
+  ],
+  "final_scope": {
+    "original_T0": 1792348196,
+    "hard_close_epoch": 1792952996,
+    "all_original_caps_grants_costs_checkpoints_freezes_preserved": true,
+    "source_commissioning_slots": 4,
+    "target_commissioning_slots": 4,
+    "new_GR00T_queries": 0,
+    "new_training_data": false,
+    "core64_cells": 0
+  },
+  "overall_goal_complete": false
+}

@@ -690,5 +690,62 @@
       "Actual source terminal audit, truthful costs and closure; separate student and frozen-target qualification",
       "Actual A4096 full-state terminal settlement and dual closure before independent B1/B2"
     ]
+  },
+  "latest_source_native_first_attempt": {
+    "report": "reports/PI0294/design/WDR1_SOURCE_COMPONENT_NATIVE_FIRST_ATTEMPT_AND_STOP_READBACK_CPU_ACTUAL_20261023.json",
+    "status": "NATIVE_COUNTER_PASS_FIRST_COMPONENT_ENGINEERING_UNKNOWN_RETAINED_STOP_REPAIR_CPU_ONLY",
+    "counter": {
+      "status": "PASS_ORIGINAL_VS_COUNTED_NATIVE_MODEL_STATE_XML_AND_TWO_RGB",
+      "model_constructor_attempts": 2,
+      "integrations": 0,
+      "Teacher_episodes": 0,
+      "exit_status": 0,
+      "original_model_fingerprint_and_two_camera_pixels_equal": true
+    },
+    "first_component": {
+      "condition_id": "DEC1-SOURCE-COMMISSION-F0-000-T1-I_TIME",
+      "interface": "I_TIME",
+      "task": "T1",
+      "native_process_terminal": true,
+      "exit_status": 1,
+      "observed_native_live_lower_bound": 400,
+      "observed_native_shadow_integrations": 490,
+      "complete_prefixes": 2,
+      "original_native_safety_rejection_on_third_shadow": true,
+      "error": "PrefixFailure: SOURCE_SHADOW_CHANGED_LIVE_OR_RNG",
+      "stop_error": "SourceComponentUnknown:ACTUAL_RETURNED_COMPONENT_STOP_ACK_REQUIRED",
+      "STOP_file_exists": true,
+      "actual_returned_STOP_ack": false,
+      "original_source_unknowns_and_16000_live_reservation_retained": true,
+      "child_Core_CPU_s": 139.158001888,
+      "child_constructor_attempts": 6,
+      "child_main_starts": 1,
+      "original_live_ledger_spent": 0,
+      "events_count": 1917,
+      "events_sha256": "122f6f55623f4c502b578acfab4c49b90c1c72d18aa90c4b4e5bf07a5cf98d0b",
+      "maximum_completed_prefix_live_shadow_difference": 1.442255630419265e-13,
+      "parent_STOP": false,
+      "SOURCE_PHYSICS_STOP": false,
+      "not_valid_task_failure_or_scientific_success": true
+    },
+    "next": [
+      "Exact repair publication/CI/readback",
+      "Preserve source unknowns and original holds; independently reconcile accounting and terminal process before any future source dispatch",
+      "Bounded continuation only for original unattempted conditions after actual lawful remaining resource admission; no replay of first failed condition",
+      "Do not clear unknown flags or invent STOP ACK/fingerprint evidence from repaired code",
+      "Actual successful A4096 full-state audit and once dual settlement/closure before B1/B2",
+      "Separate original CORR/R0 neural and frozen-target task qualification remain incomplete"
+    ],
+    "active_A": {
+      "job": "1477527.stdct-mgmt-02",
+      "observed_epoch": 1792705912.1774716,
+      "state": "R",
+      "last_native_step": 3547,
+      "unknown_effects": [],
+      "immutable_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+      "owner_PID": 431568,
+      "A4096_complete": false,
+      "B_native_started": false
+    }
   }
 }

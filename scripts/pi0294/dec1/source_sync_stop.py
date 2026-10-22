@@ -152,10 +152,13 @@ class SourceSyncStopBarrier:
         steps=engine.steps
         if type(steps) is not int or steps!=self._observed_steps:
             raise self._violation('STOP_COUNTER_DIFFERS_FROM_LAST_OWNED_NATIVE_EFFECT')
-        direct=float(engine.data.time);snapshot=engine.snapshot();clock=float(snapshot['time_s'])
-        if (engine.steps!=steps or not math.isfinite(clock) or not math.isfinite(direct)
-                or float(engine.data.time)!=direct or clock!=direct or abs(clock-steps*.002)>1e-8):
-            raise self._violation('STOP_NATIVE_COUNTER_OR_SNAPSHOT_CLOCK_NOT_QUIESCENT')
+        # Original snapshot() calls mj_forward and may update integration
+        # warm-start state. STOP must observe the owned native clock directly,
+        # without invoking a state-mutating observation or repairing state.
+        clock=float(engine.data.time)
+        if (engine.steps!=steps or not math.isfinite(clock)
+                or float(engine.data.time)!=clock or abs(clock-steps*.002)>1e-8):
+            raise self._violation('STOP_NATIVE_COUNTER_OR_CLOCK_NOT_QUIESCENT')
         # Stop is not a new task/safety-success gate. A known native safety
         # exception may leave an unsafe TCP; stopped still means no more owned
         # integration, not a safe or successful task outcome. Only clock/counter
