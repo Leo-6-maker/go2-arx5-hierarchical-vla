@@ -1,4 +1,26 @@
-# Current Entry: VAP1 State32 Verified, Terminal Settled
+# Current Entry: VAP1 Authorized State32 Segment Actually Queued
+
+**Human-approved segmented continuation is adopted; job1474599 is nativelyQ.**
+[Actual authorization, exact CI, cold binding and one native submission](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_SEGMENT_A1_AUTH_ADOPTION_AND_GPU_SUBMISSION_ACTUAL.json).
+Fixed authorization3335c862 changes only DEC1 GPU48->52h, PBS8->11 and
+GPU-site output160->176GiB inside the unchanged global budget and clock.
+Runtime2b141e9f passed exactCI39718431394/job119626031301(all12steps),
+14-file full byte/blob readback and1180local PI0294 tests/1110subtests.
+Both cold capsules have836members; old capsules and closed states unchanged.
+Job1474599.stdct-mgmt-02 is the once-submitted A32->2048 segment underCF007,
+1A40/6h15m, nativeQ at epoch1792641134(node_pool insufficient). Site capacity
+36CPU/240GiB is cold-declared; actual process4threads, CPUhard53760 within54000.
+No qalter/cancel/resubmit. GlobalPBS16/24, DEC1newPBS5/11, globalGPU27701s,
+updates1056 remain spent:old lost1024 plus full-state32, never reset or replayed.
+Current reservations22560GPU seconds/2016updates/29queries/54000CPU/70GBoutput.
+Complete remaining pair+matrix-ceiling+final20h forecast passes; target runtime
+feasibility remains unknown. New state copy/model/CUDA/training have not run at
+thisQ snapshot. Same owner service vap1-a40-segment-a1-owner-01/PID630834 is
+active, Q60s/R30s checks; no second owner. Once allocated, verify native release,
+copy and fully recheck saved32 inside its funded own root, then original1024
+fullsave/12TRAINprobes before2048. WBC/R0/recipe/score freezes, original clock,
+global96h/24PBS/final20h and selected/deploymentNONE remain. Earlier draft
+NOT_AUTHORIZED and oldQ snapshots below are historical, not current permission.
 
 **Recovery job1474352 is F/Exit1, not queued or healthy training.**
 [Actual32 updates, full-state audit, typed settlement and both closed leases](reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/VAP1_RECOVERY32_FULL_STATE_AND_TERMINAL_ACTUAL.json).
