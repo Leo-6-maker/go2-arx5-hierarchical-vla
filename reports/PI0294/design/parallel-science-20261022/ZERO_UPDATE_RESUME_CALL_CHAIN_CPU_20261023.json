@@ -1,0 +1,47 @@
+{
+  "schema": "VAP1_ZERO_UPDATE_RESUME_CALL_CHAIN_CPU_V1",
+  "status": "CPU_VERIFIED_HUMAN_APPROVED_NOT_NATIVE_ADOPTED_OR_SUBMITTED",
+  "created_epoch": 1792695979.8912673,
+  "authorization_release": "871094ee31b18c47183c7403459ebd5fdad88b1f",
+  "grant_sha256": "f32922b15138816517de3e9bd63d4c413698f74b49c20908bb1d4dfea9a279a8",
+  "scope": {
+    "DEC1_new_PBS": 13,
+    "DEC1_GPU_site_output_GiB": 483,
+    "global_GPU_site_output_GiB": 550,
+    "optimizer_updates": 9987
+  },
+  "CPU_tests": {
+    "contract_tests": 260,
+    "subtests": 421,
+    "private_cold_owner_tests": 4,
+    "private_native_IO_denied": true,
+    "metadata_based_on_actual_predecessor": true,
+    "future_success_fixture_memory_only_not_native_evidence": true
+  },
+  "private_owner_sha256": "9bfaf60db2030ce48663d8f97178c782cdd0fa5eccd1278a2e8b1935d3c28626",
+  "private_tests_sha256": "b5b58c09cc3ea0bfaed65c8c223ccf8d3e9dc695fbdde8d017a01fc934a6cf2e",
+  "coverage": [
+    "Exact three-change grant and original clocks, zero-effect terminal and dual closure identities.",
+    "Only two new identical ledger markers; no training lineage, history, costs or update seed rewritten.",
+    "Old scope caps retained; new fields require matching grant, both markers, sealed request/manifest and full snapshot/plan/progress scope.",
+    "PREQUEUE and NATIVE_PRETRAIN full remaining work recomputation, reservation, once bind and typed terminal settlement with old costs preserved.",
+    "CPU-only specification rejects all native entrypoints; cold registration and adoption programs compile.",
+    "Both canonical mux sockets required, no fresh session DNS fallback, original30/40s deadlines include local master checks."
+  ],
+  "native_effects": {
+    "new_registration": 0,
+    "new_PBS": 0,
+    "new_models": 0,
+    "new_updates": 0,
+    "new_physics": 0
+  },
+  "next_required": [
+    "Exact source commit CI and full changed-file readback.",
+    "Immutable local code capsule and actual CPU/control prepay and cold registration.",
+    "Fresh predecessor closure readback, once new grant adoption and byte-sealed GPU registration.",
+    "Fresh quota/queue and all-remaining budget before one new request/reservation/submit/bind.",
+    "Actual original A2048 intake, same job first-update release, independent A4096 terminal and once dual close before independent B."
+  ],
+  "native_recovery_complete": false,
+  "goal_complete": false
+}

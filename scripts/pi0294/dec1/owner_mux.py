@@ -30,7 +30,10 @@ def mux_argv(argv, socket_path):
 
 def checked_master(argv, socket_path, *, runner=subprocess.run):
     """Local socket check only; a missing master cannot open a fresh session."""
-    path=Path(socket_path);parent=path.parent.stat();s=path.lstat()
+    path=Path(socket_path)
+    try:parent=path.parent.stat();s=path.lstat()
+    except FileNotFoundError as error:
+        raise ConnectionError('CANONICAL_MUX_MISSING_NO_FRESH_CONNECTION_FALLBACK') from error
     if (parent.st_uid!=os.getuid() or parent.st_mode&0o077
             or not stat.S_ISSOCK(s.st_mode) or s.st_uid!=os.getuid()):
         raise PermissionError('OWN_PRIVATE_CANONICAL_CONTROL_SOCKET')

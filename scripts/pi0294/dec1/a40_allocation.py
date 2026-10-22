@@ -96,6 +96,8 @@ def request_scope(request, *, now):
     segment=enabled(r)
     from .storage_expansion import enabled as storage_enabled
     storage_enabled(r)
+    from . import zero_update_recovery as zero
+    if zero.enabled(r):zero.caps(r)
     stop=limits(r)[1] if segment else 4096
     if (r.get('schema')!='PI0294_PV1_NATIVE_ALLOCATION_REQUEST_V1'
             or r.get('platform_training_version')!=VERSION or r.get('native_platform')!=PLATFORM
@@ -274,6 +276,10 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
     if heartbeat.enabled(r):
         heartbeat.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
         if not heartbeat.enabled(budget_proof):fail('HEARTBEAT_SCOPE_IN_NATIVE_BUDGET_PROOF')
+    from . import zero_update_recovery as zero
+    if zero.enabled(r):
+        zero.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
+        if not zero.enabled(budget_proof):fail('EXACT_ZERO_UPDATE_RESUME_SCOPE_IN_NATIVE_PROOF')
     if storage.enabled(r):
         storage.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
         if budget_proof.get('storage_authorization_release')!=storage.RELEASE or budget_proof.get('storage_grant_sha256')!=storage.GRANT_SHA:

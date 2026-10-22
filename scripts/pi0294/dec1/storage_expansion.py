@@ -110,6 +110,10 @@ def global_cap_from_ledger(h):
     from . import heartbeat_recovery as heartbeat
     if heartbeat.FIELD in h:
         heartbeat.validate_global(h)
+        from . import zero_update_recovery as zero
+        if zero.FIELD in h:
+            zero.validate_global(h)
+            return 550*GIB
         return 485*GIB
     return 419*GIB
 

@@ -80,6 +80,8 @@ def enabled(row):
 
 
 def caps(row):
+    from . import zero_update_recovery as zero
+    if zero.enabled(row):return zero.caps(row)
     if not enabled(row):return storage.caps(row)
     if not seg.enabled(row) or not storage.enabled(row):
         fail('NEW_CAP_REQUIRES_ORIGINAL_STORAGE_AND_SEGMENT_SCOPE')

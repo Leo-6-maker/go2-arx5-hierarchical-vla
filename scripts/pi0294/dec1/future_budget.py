@@ -23,7 +23,12 @@ def fail(reason):
     raise PermissionError('DEC1_FUTURE_'+reason)
 
 
-def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None):
+def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None):
+    if zero_update_bytes is not None:
+        from .zero_update_recovery import grant
+        grant(zero_update_bytes)
+        if heartbeat_bytes is None:fail('ZERO_UPDATE_REQUIRES_ORIGINAL_HEARTBEAT_AUTHORIZATION')
+        return dict(effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes),PBS_submissions=13,Hopper_storage_bytes=483*GIB)
     if heartbeat_bytes is not None:
         from .heartbeat_recovery import grant
         grant(heartbeat_bytes)
@@ -64,8 +69,8 @@ def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,s
         Core_storage_bytes=128*GIB,transfer_bytes=128*GIB)
 
 
-def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None):
-    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes)
+def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None):
+    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes)
     global_caps=dict(old.CAPS)
     if storage_bytes is not None:
         from .storage_expansion import RELEASE as STORAGE_RELEASE,GRANT_SHA as STORAGE_SHA
@@ -78,6 +83,10 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
     for value in (snapshot,plan):
         if heartbeat.enabled(value)!=(heartbeat_bytes is not None):fail('EXACT_HEARTBEAT_GRANT_SNAPSHOT_PLAN_SCOPE')
     if heartbeat_bytes is not None:global_caps['Hopper_storage_bytes']=485*GIB
+    from . import zero_update_recovery as zero
+    for value in (snapshot,plan):
+        if zero.enabled(value)!=(zero_update_bytes is not None):fail('EXACT_ZERO_UPDATE_RESUME_PLAN_SNAPSHOT_SCOPE')
+    if zero_update_bytes is not None:global_caps['Hopper_storage_bytes']=550*GIB
     segment=segment_bytes is not None
     if segment:
         from .segmented_training import GRANT_SHA as SEGMENT_SHA,RELEASE as SEGMENT_RELEASE,RATE,CPU_PROFILE
@@ -93,6 +102,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
             fail('EXACT_KNOWN_LOST_UPDATES_NOT_FAKE_ACTIVE_CHECKPOINT_PROGRESS')
         lost=1024
     elif progress.get('known_irrecoverable_optimizer_updates',0):fail('NO_UNAUTHORIZED_LOST_UPDATE_CREDIT')
+    if zero.enabled(progress)!=(zero_update_bytes is not None):fail('EXACT_ZERO_UPDATE_RESUME_PROGRESS_SCOPE')
     if heartbeat.enabled(progress)!=(heartbeat_bytes is not None):fail('EXACT_HEARTBEAT_PROGRESS_SCOPE')
     if heartbeat_bytes is not None:
         if (progress.get('heartbeat_failed_paid_updates')!=771
@@ -174,6 +184,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
                 if not heartbeat.enabled(block) or block.get('training_lineage_key')!=(heartbeat.LINEAGE if arm=='A_CONTROL' else 'B_COVERAGE'):
                     fail('EXACT_HEARTBEAT_RECOVERY_PLAN_LINEAGE')
             elif heartbeat.enabled(block):fail('NO_UNBOUND_HEARTBEAT_PLAN_BLOCK')
+            if zero.enabled(block)!=(zero_update_bytes is not None):fail('EXACT_ZERO_UPDATE_RESUME_TRAIN_BLOCK_SCOPE')
             start=old._number(block['start_step'],integer=True);stop=old._number(block['stop_step'],integer=True)
             probe_only=block.get('probe_only',False)
             long_run=block.get('same_allocation_1024_probes',False)

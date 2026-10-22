@@ -27,6 +27,12 @@ class Tests(unittest.TestCase):
             runner=Mock(return_value=SimpleNamespace(returncode=255))
             with self.assertRaises(ConnectionError):checked_master(self.argv('hopper'),'/CPU_FIXTURE/control.sock',runner=runner)
             self.assertEqual(runner.call_count,1)
+    def test_missing_socket_is_transport_failure_and_never_reconnects(self):
+        runner=Mock()
+        with patch.object(Path,'stat',side_effect=FileNotFoundError()),self.assertRaises(ConnectionError):
+            checked_master(self.argv('hopper'),'/CPU_FIXTURE/missing.sock',runner=runner)
+        runner.assert_not_called()
+
     def test_foreign_public_or_non_socket_rejected_before_process(self):
         for uid,pmode,smode in [(os.getuid()+1,0o40700,stat.S_IFSOCK),(os.getuid(),0o40755,stat.S_IFSOCK),(os.getuid(),0o40700,stat.S_IFREG)]:
             runner=Mock()
