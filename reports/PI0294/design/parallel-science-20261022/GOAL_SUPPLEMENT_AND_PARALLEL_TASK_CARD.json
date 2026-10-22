@@ -99,68 +99,18 @@
     }
   ],
   "cold_training_preparation": {
-    "runtime": "3a1420e76c492196fa83905f4bde92924cc12c28",
+    "runtime": "df6427f791fdbe8f175906f240eb3413bf096cbf",
     "exact_CI": {
-      "run": 39777328633,
-      "job": 119819488833,
+      "run": 39819312716,
+      "job": 119966060288,
       "result": "COMPLETED_SUCCESS"
     },
-    "B1_inputs": "V3_PREPARED_LOCAL_ONLY_A4096_PREDECESSOR_CLOSURE_STILL_REQUIRED",
-    "A2_inputs": "TERMINAL_FAILED2819_LATEST_FULL2048_NOT_REUSABLE_AS_NEW_REQUEST",
-    "A2_local_adapter": {
-      "status": "TERMINAL_OWNER_FAILED_NO_HOT_EDIT_NO_RESTART",
-      "controller_sha256": "9949a3ddb691ac1632ea9f2a71a4d487244bd1bf876594f36a2b12965ba4a90e"
-    },
-    "actual_native_qualification_admission": "PASS_ACTUAL_A2_PREMODEL_AND_FIRST_UPDATE_FULL_BUDGET_RECOMPUTATION",
-    "A2_actual_metadata": {
-      "sha256": "5a1be79d6043ed961e93c725329c236af182b892c76e8e20ecea35ac5b206686",
-      "source_files": 841,
-      "small_inputs": 28,
-      "resume_step": 2048,
-      "cursor": 65536,
-      "source_full_states": [
-        1024,
-        2048
-      ],
-      "original12_probes_preserved": true,
-      "new_remote_calls": "ACTUAL_COLD_REGISTER_AND_ONE_QSUB_COMPLETED",
-      "new_GPU_PBS_models_updates": {
-        "PBS": 1,
-        "GPU_allocated_s": 0,
-        "model_queries": 0,
-        "optimizer_updates": 0
-      },
-      "remaining_training_blocks": 3,
-      "prior_metadata_preserved": true
-    },
-    "parallel_continuation": {
-      "B1": {
-        "status": "PASS_LOCAL_METADATA_ONLY_NOT_NATIVE_ADMISSION",
-        "metadata_sha256": "3b4e33f3995c3a778a96096f341766fda069bd4c8a0396c76e987fe1900250d4",
-        "checks_passed": 31,
-        "source": "3a1420e76c492196fa83905f4bde92924cc12c28",
-        "source_members": 841,
-        "small_inputs": 25,
-        "original_CORR0_independent": true,
-        "R0_recipes_data_sampler_unchanged": true,
-        "remaining_plan_keeps_unfinished_A2": true,
-        "requires_actual_A4096_audit_settlement_GPU_CPU_closure_and_fresh_admission": true
-      },
-      "A2_terminal": {
-        "status": "LOCAL_A2_4096_TERMINAL_ADAPTER_PREPARED_AND_PURE_TESTED_NOT_EXECUTED",
-        "wrapper_sha256": "74c591d1973703156639b0a3f32ba8a4651ebf4a24a776c1a47551026885575f",
-        "test_sha256": "1acc4dbe92aee7392d72fef3270708aa1e64d7255f4c2ede23c5c48f4ca6259a",
-        "tests_passed": 8,
-        "actual_audit_or_settlement": false,
-        "expected_success_effects": {
-          "new_updates": 2048,
-          "queries": 17,
-          "model_loads": 2,
-          "total_charged_updates": 5120
-        },
-        "observed_epoch": 1792672424.8133981
-      }
-    }
+    "CPU_tests_passed": 250,
+    "source_and_input_byte_readbacks": true,
+    "new_owner_registered_and_bound": true,
+    "A2048_restore": "CLOSED_A1_FULL_STATE_IDENTITIES_PRESERVED_ALLOCATED_STAGE_RECHECK_REQUIRED",
+    "B1_inputs": "V3_INDEPENDENT_CORR_METADATA_REUSABLE_CURRENT_SCOPE_AND_CLOSED_A4096_REQUIRED",
+    "terminal_adapter": "OLD_A2_ADAPTER_HISTORICAL_REBIND_TO_NEW_LINEAGE_AND_PRESERVED_COST5891_BEFORE_USE"
   },
   "preserved": {
     "original_T0_epoch": 1792348196,
@@ -179,27 +129,22 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792683017.067001,
+  "updated_epoch": 1792689526.4492357,
   "latest_actual_receipt": {
-    "path": "reports/PI0294/design/parallel-science-20261022/A2_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261022.json",
-    "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
+    "path": "reports/PI0294/design/parallel-science-20261022/HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_20261023.json",
+    "publication": "7345df64b0b75ddc2f50a472e2c6d0d426fd1c1b",
+    "exact_remote_readback": true
   },
   "current_resource_work": {
-    "report": "reports/PI0294/design/parallel-science-20261022/A2_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261022.json",
-    "status": "FAILED_KNOWN_EFFECTS_SETTLED_BOTH_LEASES_CLOSED",
+    "status": "APPROVED_ADOPTED_RESERVED_ONE_RECOVERY_JOB_QUEUED",
+    "report": "reports/PI0294/design/parallel-science-20261022/HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_20261023.json",
     "retain_all_checkpoints": true,
-    "do_not_repeat_A1_settlement": true,
     "next_actions": [
-      "Verify exact published cold call-chain CI; present the complete narrow recovery scope for human approval.",
-      "After approval only, implement exact grant adoption/new recovery2 lineage and actual new cold registry/request binding.",
-      "Fresh native admission and original2048 audit before one new recovery job; no B1 before qualified closed A4096."
+      "Reuse healthy owner for queued1477127; no restart, duplicate submission or hot edits.",
+      "Validate real A4096 endpoint, full state, terminal effects, once settlement and both lease closures.",
+      "Only then independently start B(CORR0) with current grant and fresh whole-resource admission."
     ],
-    "recovery_scope_draft": "reports/PI0294/design/parallel-science-20261022/A2_FAILED2819_RECOVERY_SCOPE_DRAFT_20261022.json",
-    "forensics": "reports/PI0294/design/parallel-science-20261022/A2_OWNER_TIMEOUT_FORENSICS_20261022.json",
-    "draft_not_approved": true,
-    "cold_transport_components": "reports/PI0294/design/parallel-science-20261022/COLD_OWNER_TRANSPORT_FIX_CPU_ACTUAL_20261022.json",
-    "cold_transport_status": "PASS_CPU_CALL_CHAIN_PENDING_EXACT_HEAD_CI_AND_NATIVE_AUTHORITY",
-    "cold_call_chain_receipt": "reports/PI0294/design/parallel-science-20261022/COLD_OWNER_CALL_CHAIN_CPU_ACTUAL_20261022.json"
+    "draft_not_approved": false
   },
   "storage_only_authority": {
     "release": "1abb20973d84836b29baebf1d73466377c98759c",
@@ -334,7 +279,7 @@
   "heartbeat_recovery_approved_20261023": {
     "authorization_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
     "authorization_sha256": "b27902561f14d963bc1b307b6cbe7a73db6556b08ab52128f4eca5b928903f18",
-    "status": "HUMAN_APPROVED_IMPLEMENTATION_CPU_VERIFIED_NATIVE_PENDING",
+    "status": "HUMAN_APPROVED_NATIVE_ADOPTED_ONE_RECOVERY_JOB_QUEUED",
     "DEC1_updates": 9987,
     "DEC1_new_PBS": 12,
     "DEC1_storage_GiB": 418,
@@ -342,7 +287,7 @@
     "original_clocks_unchanged": true,
     "cumulative_actual_updates": 3843,
     "new_lineage": "A_CONTROL_HEARTBEAT_RECOVERY2",
-    "next_action": "Exact CI/readback then new registered cold owner with once-only adoption and fresh admission",
+    "next_action": "Monitor existing owner through A4096 and independent full-state terminal audit; preserve all costs.",
     "goal_complete": false
   },
   "prior_closed_native_snapshot": {
@@ -371,5 +316,86 @@
     "observed_epoch": 1792680458.462084
   },
   "current_authority_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
-  "native_recovery_adoption_receipt": "HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_20261023.json"
+  "native_recovery_adoption_receipt": "HEARTBEAT_RECOVERY2_NATIVE_ADOPTION_ACTUAL_20261023.json",
+  "historical_resource_work_before_approval": {
+    "report": "reports/PI0294/design/parallel-science-20261022/A2_HEARTBEAT_FAILURE_CLOSEOUT_ACTUAL_20261022.json",
+    "status": "FAILED_KNOWN_EFFECTS_SETTLED_BOTH_LEASES_CLOSED",
+    "retain_all_checkpoints": true,
+    "do_not_repeat_A1_settlement": true,
+    "next_actions": [
+      "Verify exact published cold call-chain CI; present the complete narrow recovery scope for human approval.",
+      "After approval only, implement exact grant adoption/new recovery2 lineage and actual new cold registry/request binding.",
+      "Fresh native admission and original2048 audit before one new recovery job; no B1 before qualified closed A4096."
+    ],
+    "recovery_scope_draft": "reports/PI0294/design/parallel-science-20261022/A2_FAILED2819_RECOVERY_SCOPE_DRAFT_20261022.json",
+    "forensics": "reports/PI0294/design/parallel-science-20261022/A2_OWNER_TIMEOUT_FORENSICS_20261022.json",
+    "draft_not_approved": true,
+    "cold_transport_components": "reports/PI0294/design/parallel-science-20261022/COLD_OWNER_TRANSPORT_FIX_CPU_ACTUAL_20261022.json",
+    "cold_transport_status": "PASS_CPU_CALL_CHAIN_PENDING_EXACT_HEAD_CI_AND_NATIVE_AUTHORITY",
+    "cold_call_chain_receipt": "reports/PI0294/design/parallel-science-20261022/COLD_OWNER_CALL_CHAIN_CPU_ACTUAL_20261022.json"
+  },
+  "historical_cold_training_preparation": {
+    "runtime": "3a1420e76c492196fa83905f4bde92924cc12c28",
+    "exact_CI": {
+      "run": 39777328633,
+      "job": 119819488833,
+      "result": "COMPLETED_SUCCESS"
+    },
+    "B1_inputs": "V3_PREPARED_LOCAL_ONLY_A4096_PREDECESSOR_CLOSURE_STILL_REQUIRED",
+    "A2_inputs": "TERMINAL_FAILED2819_LATEST_FULL2048_NOT_REUSABLE_AS_NEW_REQUEST",
+    "A2_local_adapter": {
+      "status": "TERMINAL_OWNER_FAILED_NO_HOT_EDIT_NO_RESTART",
+      "controller_sha256": "9949a3ddb691ac1632ea9f2a71a4d487244bd1bf876594f36a2b12965ba4a90e"
+    },
+    "actual_native_qualification_admission": "PASS_ACTUAL_A2_PREMODEL_AND_FIRST_UPDATE_FULL_BUDGET_RECOMPUTATION",
+    "A2_actual_metadata": {
+      "sha256": "5a1be79d6043ed961e93c725329c236af182b892c76e8e20ecea35ac5b206686",
+      "source_files": 841,
+      "small_inputs": 28,
+      "resume_step": 2048,
+      "cursor": 65536,
+      "source_full_states": [
+        1024,
+        2048
+      ],
+      "original12_probes_preserved": true,
+      "new_remote_calls": "ACTUAL_COLD_REGISTER_AND_ONE_QSUB_COMPLETED",
+      "new_GPU_PBS_models_updates": {
+        "PBS": 1,
+        "GPU_allocated_s": 0,
+        "model_queries": 0,
+        "optimizer_updates": 0
+      },
+      "remaining_training_blocks": 3,
+      "prior_metadata_preserved": true
+    },
+    "parallel_continuation": {
+      "B1": {
+        "status": "PASS_LOCAL_METADATA_ONLY_NOT_NATIVE_ADMISSION",
+        "metadata_sha256": "3b4e33f3995c3a778a96096f341766fda069bd4c8a0396c76e987fe1900250d4",
+        "checks_passed": 31,
+        "source": "3a1420e76c492196fa83905f4bde92924cc12c28",
+        "source_members": 841,
+        "small_inputs": 25,
+        "original_CORR0_independent": true,
+        "R0_recipes_data_sampler_unchanged": true,
+        "remaining_plan_keeps_unfinished_A2": true,
+        "requires_actual_A4096_audit_settlement_GPU_CPU_closure_and_fresh_admission": true
+      },
+      "A2_terminal": {
+        "status": "LOCAL_A2_4096_TERMINAL_ADAPTER_PREPARED_AND_PURE_TESTED_NOT_EXECUTED",
+        "wrapper_sha256": "74c591d1973703156639b0a3f32ba8a4651ebf4a24a776c1a47551026885575f",
+        "test_sha256": "1acc4dbe92aee7392d72fef3270708aa1e64d7255f4c2ede23c5c48f4ca6259a",
+        "tests_passed": 8,
+        "actual_audit_or_settlement": false,
+        "expected_success_effects": {
+          "new_updates": 2048,
+          "queries": 17,
+          "model_loads": 2,
+          "total_charged_updates": 5120
+        },
+        "observed_epoch": 1792672424.8133981
+      }
+    }
+  }
 }
