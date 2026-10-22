@@ -1,0 +1,62 @@
+{
+  "schema": "WDR1_SINGLE_POSE_PREFIX8_CPU_PREPARATION_V1",
+  "status": "CALLABLE_COLD_SOURCE_PRIMITIVE_CPU_TESTED_NOT_NATIVE_QUALIFICATION",
+  "observed_epoch": 1792697040.2985587,
+  "files": {
+    "source_single_pose_prefix.py": "9ec4eb2c9b97fbffc7a38f21ffd326c77e0b985375d2827c735babcdf33b1367",
+    "test_source_single_pose_prefix.py": "59674d803fdf741faec74dbe2c192fbcbf99ce27cb39d51dffa62ff902430bd3"
+  },
+  "CPU_tests_passed": 19,
+  "native_process_network_MuJoCo_model_imports_denied": true,
+  "scope": {
+    "Teacher_source": "ORIGINAL_PI0291_FIXED_BASE_ARX5_IK_PD_MUJOCO",
+    "ABI": "SINGLE_4x4_POSE_AND_GRIPPER",
+    "same_original_feedback_phase_algorithms": [
+      "I_TIME",
+      "I_PROGRESS"
+    ],
+    "raw_H40_gate": "ORIGINAL_FULL_H40",
+    "mapped_H40_gate": "ORIGINAL_FULL_H40_EACH_REFERENCE",
+    "shadow_clones_per_prefix": 1,
+    "shadow_integrations_per_prefix": 200,
+    "live_integrations_per_prefix": 200,
+    "original_native_clone_bind_state_nonce_action": true,
+    "observed_state_parity_tolerance": 1e-10,
+    "actual_reference_ACKs": 8,
+    "original_WBC_preview_parameters_frozen": true,
+    "task_oracle_enters_phase": false
+  },
+  "covered_failures": [
+    "raw_unexecuted_tail_reject",
+    "mapped_H40_midshadow_reject_50_known_ticks",
+    "actual_Engine_step_native_safety_exception_37_known_ticks",
+    "counter_unknown_after6_ticks",
+    "live_parity_mismatch_after11_ticks",
+    "proposal_digest_mismatch",
+    "clock_gap_before_ACK",
+    "live_RNG_mutation",
+    "stop_missing_ACK",
+    "reserve_reply_unknown",
+    "finish_unknown",
+    "nonce_replay",
+    "nonfinite_observed_state",
+    "authority_guard_stop",
+    "changed_common_mapping_parameters"
+  ],
+  "remaining": [
+    "Wire same primitives to original episode.run outer tick loop without nested200 shadow per reference or double charging",
+    "Use existing admitted registry/manifest/lease and original finite commissioning resources",
+    "Actual source native phase/feedback/safety/stop qualification",
+    "Existing target frozen WBC T1/T2 runtime/task qualification remains separate"
+  ],
+  "unchanged": [
+    "Existing source preview9 NOT_SUPPORTED path",
+    "WBC/plant/gains/solver/scoring/S1 thresholds",
+    "Data/checkpoints/R0/recipe",
+    "Running A code capsule0cf86cbc"
+  ],
+  "native_GPU_PBS_models_physics": 0,
+  "scientific_qualification_claimed": false,
+  "related_existing_progress_contracts_passed": 56,
+  "combined_CPU_tests_passed": 75
+}
