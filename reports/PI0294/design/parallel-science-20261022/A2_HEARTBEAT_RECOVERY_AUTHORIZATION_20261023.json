@@ -1,0 +1,83 @@
+{
+  "schema": "VAP1_A2_HEARTBEAT_RECOVERY_AUTHORIZATION_V1",
+  "status": "HUMAN_AUTHORIZED_EXACT_PRESERVED_COST_RECOVERY",
+  "human_reply": "批准四项调整并继续原实验（推荐）",
+  "approval_question_id": "call_3e27ebe522534bd18b64e95f44b0a7ca:0",
+  "recorded_epoch": 1792687959.244639,
+  "approved_proposal_release": "91a31c060e9964e32428cb118d3a711ae2ac4115",
+  "approved_proposal_sha256": "725bee03fbe7ae1c0870d1619553c8c66cab7ac2877f4e46ff83c1b5111a7860",
+  "narrow_changes": {
+    "DEC1_cumulative_updates": [
+      9216,
+      9987
+    ],
+    "DEC1_new_PBS": [
+      11,
+      12
+    ],
+    "DEC1_GPU_site_output_GiB": [
+      352,
+      418
+    ],
+    "global_GPU_site_output_GiB": [
+      419,
+      485
+    ]
+  },
+  "recovery_semantics": {
+    "latest_complete_step": 2048,
+    "saved_cursor": 65536,
+    "failed_lineage_actual_step": 2819,
+    "old_lost_updates": 1024,
+    "new_lost_updates": 771,
+    "all_charged_updates_before_recovery": 3843,
+    "A_remaining_updates": 2048,
+    "B_remaining_updates": 4096,
+    "total_required_updates": 9987,
+    "new_named_lineage_required": true,
+    "failed_lineage_or_cost_rollback": false,
+    "new_request_and_registration_required": true,
+    "B_independent_original_CORR": true,
+    "original12_A_probes_preserved_no_repeat": true,
+    "proposed_lineage_key": "A_CONTROL_HEARTBEAT_RECOVERY2",
+    "seed_full_state_step": 2048,
+    "failed_lineage_preserved": "A_CONTROL_SAVE_RECOVERY1",
+    "seed_is_imported_state_not_new_charged_updates": true
+  },
+  "original_T0_epoch": 1792348196,
+  "original_clock": {
+    "stop_new_jobs_epoch": 1792866596,
+    "stop_training_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_closeout_epoch": 1792952996
+  },
+  "unchanged": [
+    "global96GPUh",
+    "DEC1_52GPUh",
+    "global24PBS",
+    "originalCPU/query/physics/transfer_caps",
+    "final20GPUh_and40GiB",
+    "singleGPU",
+    "R0_recipes_sampler_WBC_S1_scoring",
+    "all_checkpoints_retained",
+    "original_T0_and_cutoffs"
+  ],
+  "failed_job": "1475719.stdct-mgmt-02",
+  "failed_request": "9d1582d5-1c87-41bf-ad53-4e049cc21fe9",
+  "failed_runtime": "3a1420e76c492196fa83905f4bde92924cc12c28",
+  "closed_gpu_receipt_sha256": "22e1f8d50c54b9f9bfa83cde3ca0075d0472aafed375db4da1c4a50ec7ee3a77",
+  "closed_control_receipt_sha256": "abadf79ee98699adb57a2a52802c87485a534208565c75df6e13195aac97cb4b",
+  "seed_checkpoint2048_sha256": "1336326d908bbc91c36f871f0846b316c2bea08bada2bcee0b1bcc9bcb0e5486",
+  "prior_storage_release": "1abb20973d84836b29baebf1d73466377c98759c",
+  "retirement_credit_bytes": 0,
+  "all_checkpoints_preserved": true,
+  "native_adopted": false,
+  "new_job_submitted": false,
+  "implementation_requires": [
+    "Exact grant byte and preserved-cost lineage adoption",
+    "Cold source exact CI and readback",
+    "New registered owner and full-state audit",
+    "Fresh full resource and queue admission"
+  ],
+  "goal_complete": false
+}
