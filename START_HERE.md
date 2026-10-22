@@ -1,3 +1,9 @@
+# Current source continuation: native metadata and zero-integration counter passed
+
+[Source02 actual metadata/counter and known-terminal CPU contracts](reports/PI0294/design/WDR1_SOURCE02_NATIVE_METADATA_COUNTER_AND_KNOWN_TERMINAL_CPU_ACTUAL_20261023.json): Source02 was registered once with937sealed files fully read back and both resource holds bound. Original zero-integration native counter passed with2constructors, identical native fingerprint/two RGB cameras and Exit0. Four source conditions remain NOT_RUN. The original failed Source01 UNKNOWN,13failed files, closed lease and all financial costs remain immutable.
+
+Known-terminal pure proposal now has21CPU cases;261related cases and7private metadata-only owner test methods pass. Actual live/shadow costs stay separate; old16490financial upper stays unchanged. All actual attempt PID/start/exit pairs and independent byte audit are required; unknown writes never retry. New code still requires exact CI/full readback before adoption. B1 continues R with296actual returned updates, unchanged0cf86cbc/owner567538; no restart/hot change. Source success is not a B gate. Native component dispatch/terminal close and target/student/core64 qualification remain incomplete. Earlier entries below are historical.
+
 # Current source continuation: actual read-only check and full cold input package
 
 [Actual closed-source inventory and offline continuation inputs](reports/PI0294/design/WDR1_SOURCE_COLD_HISTORY_NATIVE_READONLY_AND_OFFLINE_INPUTS_ACTUAL_20261023.json): qualified47dc6001 passed exactCI39871262132/job120145986402/all12steps and25full-file readbacks. Actual Core read-only check verified26assets,13failed artifacts, exact old UNKNOWN ledger and CLOSED lease,0active source workers/0other unknowns. No native resource or lease writes occurred.

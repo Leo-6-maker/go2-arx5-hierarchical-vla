@@ -1,0 +1,119 @@
+{
+  "schema": "WDR1_SOURCE02_NATIVE_METADATA_COUNTER_AND_KNOWN_TERMINAL_CPU_ACTUAL_V1",
+  "observed_epoch": 1792712619.995223,
+  "status": "ACTUAL_DUAL_METADATA_AND_ZERO_INTEGRATION_COUNTER_KNOWN_TERMINAL_CODE_CPU_ONLY",
+  "source_capsule": "47dc6001227572f031ebc3cc33d56a487027d8cb",
+  "request_id": "081c5299-5594-4ff6-8676-d48b9652cf52",
+  "manifest_sha256": "14ce2f841c8db3de7e2eb9c191e95fc9b26720f628493774e4fd954012556b0f",
+  "registration": {
+    "receipt_sha256": "e4c7f046039ed367fce31588a29feaf4ec5ea08f5121180c76b74f0af04710be",
+    "local_after_sha256": "c97e3a46744c536576bb95f52f8b8eff82596b16900a28ba7d903482b84eb6e6",
+    "Core_after_sha256": "ebc7375ea6fd855f543878b23311bfe06c12896e7fc5cc4aa0ae0d7f459c14d0",
+    "files_full_readback": 937,
+    "lease_sha256": "bb5801d3df9629b3ae8938a762399c4b992ee18d1231c7b48f5042ac373d2efd",
+    "registry_sha256": "419eef5079edc9d5533c6749d0957c0c01c4514279148975107c70dc8ebb6d03",
+    "actual_Core_CPU_s": 0.124967003,
+    "once": true,
+    "new_workers": 0,
+    "new_integrations": 0,
+    "new_GPU_PBS_models": 0
+  },
+  "counter": {
+    "receipt_sha256": "a6aed45fb5d70c05f6a50f3bdc1723d941a41b76156b48889a9485222fde965e",
+    "observed_epoch": 1792712424.5753915,
+    "PID": 2267494,
+    "proc_start": "248143243",
+    "active": false,
+    "exit_status": 0,
+    "process_CPU_s": 3.0493889149999998,
+    "qualification": {
+      "status": "PASS_ORIGINAL_VS_COUNTED_NATIVE_MODEL_STATE_XML_AND_TWO_RGB",
+      "model_constructor_attempts": 2,
+      "integrations": 0,
+      "Teacher_episodes": 0,
+      "identical_native_fingerprint": "8c7460bec2cd8f81b88aa3f415adc623d53896caedd7f62d9216041997ae1b6f",
+      "identical_two_camera_pixels": {
+        "body_rgb": "1e99e88653d7fa9d141d396b4fd1c2b04a03d22f972cac6cf94c53306e2750ac",
+        "wrist_rgb": "c6c250899e4e7bef713cd41e78825d355b28fc1a1c37446498ba4c7ff81067d3"
+      },
+      "no_private_state_or_qualification_frames_used_for_learning": true
+    },
+    "child_meter": {
+      "schema": "PI0294_PV1_CORE_POLICY_LEDGER_V1",
+      "run_uuid": "dec1-source-component-02",
+      "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+      "source_budget_request_id": "081c5299-5594-4ff6-8676-d48b9652cf52",
+      "Core_CPU_s": 122.867707916,
+      "CPU_reserved_s": 15540,
+      "main_starts": 0,
+      "engine_starts": 2,
+      "live_and_recovery_integrations": 0,
+      "shadow_integrations": 0,
+      "reservations": {},
+      "unknown_effects": []
+    }
+  },
+  "known_terminal_code": {
+    "pure_cases_passed": 21,
+    "all_related_cases_passed": 261,
+    "related_test_wall_s": 1.51,
+    "private_owner_test_methods_passed": 7,
+    "private_metadata_tests_before_adoption_passed": 5,
+    "original_dispatcher_regression_tests_passed": 4,
+    "independent_audit_and_actual_actor_byte_readback_required": true,
+    "all_actual_attempt_actors_with_PID_start_exit_required": true,
+    "original_counter_exit0_required": true,
+    "result_classes": [
+      "COMPONENT_COMPLETE",
+      "KNOWN_REFERENCE_OR_S1_REJECT",
+      "NATIVE_SAFETY_FAIL",
+      "NOT_RUN"
+    ],
+    "unknown_rejected": true,
+    "actual_live_and_shadow_separate": true,
+    "old_UNKNOWN_invoice_and_16490_financial_upper_immutable": true,
+    "new_distinct_known_terminal_index": true,
+    "unknown_Core_or_lease_or_LOCAL_replace_result_never_retried": true,
+    "known_terminal_native_settlement_executed": false
+  },
+  "files_sha256": {
+    "scripts/pi0294/dec1/source_cpu_known_terminal.py": "4ff786a6488865b8f6b3ddb2dbc9433675f5636d14f100e7335c9538dc4c3c1e",
+    "scripts/pi0294/dec1/test_source_cpu_known_terminal.py": "d1969dc42342b78e9206f4be49a3ff3d515d46cb57b441c791975ba6a18290ec"
+  },
+  "private_controller_sha256": {
+    "register_source_continuation_metadata.py": "440b97a8182c9e9c1a6ec0bcac8ec2a9494fb2aa1040f98981dfc731bafe86e9",
+    "verify_source_continuation_metadata.py": "1cdc2b5b9e4a244d38918cc95ef7c07b5d68205441d7a9448853d3169545b099",
+    "source_continuation_native.py": "1ec886910aa693280d125657665fe71eb43f9319048fa1e1edfb57c1a1bd41b6",
+    "source_known_terminal_owner.py": "aafbfdcfa37a8c261425f247315e837de127103e4494e8876c5f3b5b9521048c",
+    "verify_source_known_terminal_owner.py": "15f009e7b624e7fff960a2ea357739836ade5036f04d2f0345e9ead7caa34e9e"
+  },
+  "B1": {
+    "job_id": "1478518.stdct-mgmt-02",
+    "observed_epoch": 1792712599.787906,
+    "native_state": "R",
+    "returned_updates": 296,
+    "queries": 17,
+    "loads": 2,
+    "unknown_effects": [],
+    "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "hot_changes_restarts_resubmissions": 0,
+    "settled_global_updates_still": 5891
+  },
+  "science": {
+    "original_failed_condition": "ENGINEERING_INCOMPLETE_UNKNOWN",
+    "new_source_conditions": "4_NOT_RUN",
+    "new_physical_integrations": 0,
+    "student_neural_ACK_qualified": false,
+    "target_WBC_task_qualified": false,
+    "core64_cells": 0
+  },
+  "next": [
+    "Exact new known-terminal module CI/full readback and actual readonly adapter verification before finite component dispatch",
+    "Dispatch the unchanged fixed four conditions once through the original standard entry; known safety rejection is a result, unknown preserves evidence and blocks further dispatch",
+    "Actual independent audit, once dual settlement, lease close/readback; no CPU fixture is native evidence",
+    "Future cold B2 must preserve every active Source eight-dimensional hold or exact known settlement costs; B1 remains untouched and source success is not a new B gate",
+    "Existing frozen WBC task qualification and fixed original CORR/R0 neural/core64 evaluation remain incomplete"
+  ],
+  "goal_complete": false,
+  "original_budgets_clocks_costs_freezes_and_checkpoints_preserved": true
+}

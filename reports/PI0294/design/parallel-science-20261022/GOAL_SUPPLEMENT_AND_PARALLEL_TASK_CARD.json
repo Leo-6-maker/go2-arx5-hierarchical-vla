@@ -1,13 +1,13 @@
 {
   "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
   "created_epoch": 1792663428.495236,
-  "user_direction": "\u5e76\u884c\u51c6\u5907\u540e\u7eed\u7684\u6570\u636e\u4ee5\u53ca\u8bad\u7ec3\uff0c\u79d1\u5b66\u4e3b\u7ebf\uff0c\u66f4\u65b0goal",
-  "objective": "\u7ee7\u7eed\u65e2\u6709A/B\u5206\u6bb5\u8bad\u7ec3\u4e0e\u79d1\u5b66\u8bc4\u4ef7\uff0c\u540c\u65f6\u5e76\u884c\u4ea4\u4ed8\u540e\u7eed\u6570\u636e\u3001\u8bad\u7ec3\u548c\u8bc4\u4ef7\u51c6\u5907\uff1b\u4f4e\u9891\u89c2\u5bdfGPU\uff0c\u4ee5\u771f\u5b9e\u7aef\u70b9\u53ca\u914d\u5bf9\u95ed\u73af\u8bc1\u636e\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\u3002",
+  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
+  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
   "goal_panel": {
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
     "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET",
-    "actual_work": "NEW_APPROVED_A2048_TO4096_NATIVE_R_ONE_HEALTHY_OWNER",
+    "actual_work": "A4096_CLOSED_B1_NATIVE_R_SOURCE02_METADATA_AND_ZERO_INTEGRATION_COUNTER_PASS",
     "resume_API_available": false,
     "no_goal_recreated_or_usage_reset": true
   },
@@ -32,7 +32,7 @@
     "start_step": 0,
     "target_step": 2048,
     "native_state": "R",
-    "native_observed_epoch": 1792711701.7320547,
+    "native_observed_epoch": 1792712599.787906,
     "owner_service": "vap1-a40-zero-update-b1-owner-01",
     "owner_pid": 567538,
     "owner_status": "ACTIVE",
@@ -55,13 +55,13 @@
     },
     "CPU_reserved_s": 54000,
     "model_start_release": true,
-    "last_returned_training_step": 172,
+    "last_returned_training_step": 296,
     "first_update_release": true
   },
   "workstreams": [
     {
       "id": "TRAIN",
-      "status": "A_ZERO_UPDATE_RECOVERY_SUCCESSOR_NATIVE_R",
+      "status": "A4096_CLOSED_INDEPENDENT_B0_TO2048_NATIVE_R",
       "order": [
         "A32_TO2048",
         "A2048_TO4096",
@@ -70,7 +70,7 @@
       ],
       "same_platform_R0_recipe_sampler": true,
       "deliverable": "FULL4096_A_AND_B_PLUS_ACTUAL_CONSUMPTION_COST_AND_FAILURE_RECORDS",
-      "next_gate": "ACTUAL_A4096_FULL_STATE_TERMINAL_AUDIT_ONCE_SETTLEMENT_BOTH_LEASE_CLOSURES_THEN_INDEPENDENT_B"
+      "next_gate": "REAL_B2048_FULL_STATE_TERMINAL_AUDIT_ONCE_SETTLEMENT_BOTH_LEASE_CLOSURES_THEN_FRESH_B2"
     },
     {
       "id": "DATA",
@@ -188,11 +188,8 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792699417.9707558,
-  "latest_actual_receipt": {
-    "path": "reports/PI0294/design/parallel-science-20261022/A4096_ACTUAL_CLOSURE_AND_B1_NATIVE_ADOPTION_20261023.json",
-    "publication": "THIS_COMMIT_EXACT_REMOTE_READBACK_REQUIRED"
-  },
+  "updated_epoch": 1792712619.995223,
+  "latest_actual_receipt": "reports/PI0294/design/WDR1_SOURCE02_NATIVE_METADATA_COUNTER_AND_KNOWN_TERMINAL_CPU_ACTUAL_20261023.json",
   "current_resource_work": {
     "status": "A4096_CLOSED_B1_UNIQUELY_SUBMITTED_RUNNING",
     "retain_all_checkpoints": true,
@@ -910,5 +907,17 @@
     "exact_CI": "SUCCESS_12_STEPS_25_FULL_READBACKS",
     "native_source_registration_or_run": false,
     "actual_registered_source_workers": 0
+  },
+  "latest_source02_metadata_counter_known_terminal": {
+    "report": "reports/PI0294/design/WDR1_SOURCE02_NATIVE_METADATA_COUNTER_AND_KNOWN_TERMINAL_CPU_ACTUAL_20261023.json",
+    "request_id": "081c5299-5594-4ff6-8676-d48b9652cf52",
+    "source_sha": "47dc6001227572f031ebc3cc33d56a487027d8cb",
+    "manifest_sha256": "14ce2f841c8db3de7e2eb9c191e95fc9b26720f628493774e4fd954012556b0f",
+    "native_metadata_adopted": true,
+    "counter_exit0": true,
+    "new_source_integrations": 0,
+    "new_components": "4_NOT_RUN",
+    "known_terminal_21_CPU_cases_passed": true,
+    "known_terminal_native_settlement": false
   }
 }
