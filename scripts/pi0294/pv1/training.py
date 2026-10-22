@@ -103,12 +103,17 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
     root=Path(root)
     guard()
     if (not os.environ.get('PBS_JOBID') or allocation.get('job_id')!=os.environ['PBS_JOBID']
-            or stop_after_step not in (1024,4096) or type(replica) is not bool or not request_id
+            or stop_after_step not in (1024,2048,4096) or type(replica) is not bool or not request_id
+            or stop_after_step==2048 and long_phase is None
             or request_id in ('.','..') or Path(request_id).name!=request_id):
         raise PermissionError('PV1_NATIVE_ALLOCATION_BEFORE_ANY_TRAINING_AND_FIXED_PRIMARY_STOPS')
     directory=native_training_directory(root,allocation)
     submitted=read(directory/'REQUEST.json')
     block=submitted.get('training_block',{})
+    if stop_after_step==2048:
+        from scripts.pi0294.dec1.segmented_training import enabled
+        if long_phase is None or not enabled(submitted):
+            raise PermissionError('PV1_2048_ONLY_EXPLICIT_AUTHORIZED_SEGMENT_NOT_LEGACY_OVERRIDE')
     resume_relative=Path(resume_checkpoint).resolve().relative_to(root.resolve()).as_posix() if resume_checkpoint else None
     if long_phase is not None:
         from scripts.pi0294.dec1.long_training import phase

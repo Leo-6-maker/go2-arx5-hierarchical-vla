@@ -23,7 +23,13 @@ def fail(reason):
     raise PermissionError('DEC1_FUTURE_'+reason)
 
 
-def effective_caps(amendment_bytes=None,recovery_bytes=None):
+def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None):
+    if segment_bytes is not None:
+        from .segmented_training import grant
+        grant(segment_bytes)
+        if recovery_bytes is None:fail('SEGMENT_REQUIRES_ORIGINAL_LOST_SAVE_AUTHORIZATION')
+        return dict(effective_caps(amendment_bytes,recovery_bytes),H200_s=52*3600,
+            PBS_submissions=11,Hopper_storage_bytes=176*GIB)
     if recovery_bytes is not None:
         from .lost_save_recovery import grant
         grant(recovery_bytes)
@@ -47,8 +53,13 @@ def effective_caps(amendment_bytes=None,recovery_bytes=None):
         Core_storage_bytes=128*GIB,transfer_bytes=128*GIB)
 
 
-def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None):
-    caps=effective_caps(amendment_bytes,recovery_bytes)
+def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None):
+    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes)
+    segment=segment_bytes is not None
+    if segment:
+        from .segmented_training import GRANT_SHA as SEGMENT_SHA,RELEASE as SEGMENT_RELEASE,RATE,CPU_PROFILE
+        if (snapshot.get('segmented_grant_sha256')!=SEGMENT_SHA or plan.get('segmented_authorization_release')!=SEGMENT_RELEASE
+                or plan.get('seconds_per_update_upper',0)<RATE):fail('SEGMENT_FRESH_SCOPE_AND_ACTUAL_COST_BOUND')
     progress,progress_sha=old._read(progress_bytes)
     lost=0
     if recovery_bytes is not None:
@@ -135,19 +146,24 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
             if long_run:
                 from .long_training import POLICY_SHA
                 if (amendment_bytes is None or plan.get('long_allocation_policy_sha256')!=POLICY_SHA
-                        or probe_only or stop!=4096 or start>=1024):
+                        or probe_only or (not segment and (stop!=4096 or start>=1024))):
                     fail('LONG_ALLOCATION_EXACT_VAP1_POLICY_WITH_FIXED_IN_JOB_PROBES')
+                if segment and ((arm,start,stop) not in (('A_CONTROL',32,2048),('A_CONTROL',2048,4096),
+                        ('B_COVERAGE',0,2048),('B_COVERAGE',2048,4096))
+                        or block.get('segmented_authorization_release')!=SEGMENT_RELEASE
+                        or block.get('segmented_grant_sha256')!=SEGMENT_SHA
+                        or block.get('CPU_envelope_profile')!=CPU_PROFILE):fail('EXACT_AUTHORIZED_FOUR_SEGMENT_PLAN')
             if type(probe_only) is not bool or start!=cursor:
                 fail('EXACT_REMAINING_BLOCK_CURSOR_NOT_RESTART_OR_ROLLBACK')
             if probe_only:
                 if start!=stop or start!=1024 or probe_done:fail('ONE_MISSING_FIXED_PROBE_ONLY_BLOCK')
                 count=0;probes=12;probe_done=True
             else:
-                if not start<stop<=4096 or stop!=(4096 if long_run else (1024 if start<1024 else 4096)):
+                if not start<stop<=4096 or stop!=((2048 if start<1024 else 4096) if segment else (4096 if long_run else (1024 if start<1024 else 4096))):
                     fail('WHOLE_SOURCE_PHASES_KEEP_ORIGINAL_1024_GATE')
                 if start>=1024 and not probe_done:fail('FIXED_PROBE_BEFORE_SOURCE_REMAINDER')
-                count=stop-start;probes=12 if stop==1024 or long_run else 0
-                cursor=stop;probe_done=probe_done or stop==1024 or long_run
+                count=stop-start;probes=12 if stop==1024 or long_run and start<1024 else 0
+                cursor=stop;probe_done=probe_done or stop==1024 or long_run and start<1024
             resources=old._vector(block['resources']);wall=old._number(block['walltime_upper_s'],integer=True,positive=True)
             if plan.get('native_platform')=='VANDA_A40':
                 from .a40_allocation import cpu_envelope

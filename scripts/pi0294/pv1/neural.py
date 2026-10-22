@@ -85,7 +85,7 @@ def replica_selection(root,input_,stage):
     return winner
 
 
-def stage_work(root,request):
+def stage_work(root,request,*,allow_pending_segment_copy=False):
     if request['stage'] not in STAGES:
         raise PermissionError('PV1_ONLY_IMPLEMENTED_PREDECLARED_PHASES')
     root=Path(root);m=read(root/'RUN_MANIFEST.json');sealed=m['execution']['sealed_inputs']
@@ -154,9 +154,11 @@ def stage_work(root,request):
         if not count:raise PermissionError('PV1_NO_REMAINING_BASELINE_CONDITIONS_NO_NEW_MODEL_LOAD')
         return
     block=input_('plans/PRIMARY_TRAIN_BLOCK.json')
+    from scripts.pi0294.dec1.segmented_training import enabled as segment_enabled
+    segment=segment_enabled(request)
     replica=request['stage']=='P4_REPLICA'
     if (block!=request['training_block'] or block['arm'] not in ARMS[stage['route']]
-            or block['replica'] is not replica or block['stop_after_step'] not in (1024,4096)):
+            or block['replica'] is not replica or block['stop_after_step'] not in ((1024,2048,4096) if segment else (1024,4096))):
         raise PermissionError('PV1_EXACT_PRIMARY_ARM_AND_STOPS')
     key=('REPLICA_' if replica else '')+block['arm']
     if replica:
@@ -199,10 +201,18 @@ def stage_work(root,request):
         if (p.is_absolute() or '..' in p.parts or p.parent!=Path('training')/key
                 or (root/p).is_symlink() or not (root/p).resolve().is_relative_to(root.resolve())):
             raise PermissionError('PV1_ONLY_OWN_NATIVE_PRIMARY_FULL_RESUME')
+        if allow_pending_segment_copy and segment and request['expected_native_start_step']==32:
+            proof=input_('plans/RECOVERY32_FULL_STATE_IMPORT.private.json')
+            source=input_('plans/RECOVERY32_SOURCE_BINDING.private.json')
+            from scripts.pi0294.dec1.recovery32_intake import EXPECTED
+            if ((root/p).exists() or proof.get('source')!=EXPECTED or proof.get('global_step')!=32
+                    or source.get('checkpoint_complete_sha256')!=EXPECTED['complete_sha256']):
+                raise PermissionError('DEC1_ONLY_COLD_PENDING_STATE32_COPY_NOT_MODEL_READINESS')
+            return
         complete=read(root/p/'CHECKPOINT_COMPLETE.json')
         step=complete['global_step']
         if (complete['full_resume'] is not True or not 0<step<4096 or p.name!='checkpoint-'+str(step)
-                or block['stop_after_step']!=(4096 if long_training else (1024 if step<1024 or probe_only else 4096))):
+                or block['stop_after_step']!=((2048 if step<1024 else 4096) if segment else (4096 if long_training else (1024 if step<1024 or probe_only else 4096)))):
             raise PermissionError('PV1_EXACT_COMPLETE_PARTIAL_PHASE_CONTINUATION')
         if probe_only:
             value=read(Ledger(root).path)

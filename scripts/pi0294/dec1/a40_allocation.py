@@ -42,6 +42,10 @@ def cpu_envelope(value, wall):
     original=4*(wall+PAD)+120
     profile=value.get('CPU_envelope_profile')
     if profile is None:return original
+    from .segmented_training import CPU_PROFILE,enabled
+    if profile==CPU_PROFILE:
+        if not enabled(value) or wall!=22500:fail('EXACT_AUTHORIZED_SEGMENT_CPU_PROFILE')
+        return 54000
     if profile!=BOUNDED_CPU_PROFILE or wall!=28800 or 80000>=original:
         fail('EXACT_STRICTER_EIGHT_HOUR_PROCESS_CPU_PROFILE')
     return 80000
@@ -88,6 +92,9 @@ def select_profile(limits, request):
 
 def request_scope(request, *, now):
     r=request;block=r.get('training_block',{})
+    from .segmented_training import enabled,limits
+    segment=enabled(r)
+    stop=limits(r)[1] if segment else 4096
     if (r.get('schema')!='PI0294_PV1_NATIVE_ALLOCATION_REQUEST_V1'
             or r.get('platform_training_version')!=VERSION or r.get('native_platform')!=PLATFORM
             or r.get('authority_release')!=PARENT_AUTHORITY or r.get('authority_amendment')!=AUTHORITY
@@ -106,7 +113,7 @@ def request_scope(request, *, now):
             or r.get('new_robot_physics')!=0 or r.get('LOCKBOX_opened') is not False
             or block.get('arm') not in ('A_CONTROL','B_COVERAGE')
             or block.get('replica') is not False or block.get('same_allocation_1024_probes') is not True
-            or block.get('stop_after_step')!=4096 or block.get('probe_only',False)
+            or block.get('stop_after_step')!=stop or block.get('probe_only',False)
             or not T0<=r.get('created_epoch',0)<T0+144*3600
             or not T0<=now<T0+156*3600):
         fail('EXPLICIT_SOURCE_ONLY_ORIGINAL_PAIR_CLOCK_RECIPE_AND_PLATFORM')
@@ -125,7 +132,7 @@ def request_scope(request, *, now):
     from .lost_save_recovery import lineage
     lineage(r)
     expected_resume=f"training/{block['arm']}/checkpoint-{start}" if start else None
-    if start>=1024 or block.get('resume_checkpoint_relative')!=expected_resume:
+    if (not segment and start>=1024) or block.get('resume_checkpoint_relative')!=expected_resume:
         fail('ORIGINAL_PRE1024_START_OR_EXACT_SAME_ARM_FULL_RESUME')
     wall=number(r['walltime_s'],integer=True,positive=True)
     if not 2760<wall<=8*3600 or now+2700>=HARD_CLOSE:
@@ -139,6 +146,7 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
                     project_proof, quota, queue_proof, budget_proof,
                     grant_bytes, campaign_view):
     """Reject stale or synthetic metadata; return a distinct A40 allocation type."""
+    from .segmented_training import enabled
     grant(grant_bytes)
     if type(request_bytes) is not bytes or len(request_bytes)>1024**2:
         fail('BOUNDED_ORIGINAL_SEALED_REQUEST_BYTES')
@@ -200,7 +208,7 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
     if (len(rows)!=1 or r['submit_count']>len(ledger['PBS_submissions'])
             or ledger['PBS_submissions'][r['submit_count']-1]['request_id']!=r['request_id']):
         fail('ONE_DURABLE_BEFORE_QSUB_RESERVATION')
-    row=rows[0];updates=4096-r['expected_native_start_step']
+    row=rows[0];updates=r['training_block']['stop_after_step']-r['expected_native_start_step']
     expected=dict(job_id=job_id,native_platform=PLATFORM,platform_training_version=VERSION,
         scientific_admission_version=SCIENCE_VERSION,project=r['project'],job_name=r['job_name'],
         source_sha=r['source_sha'],request_sha256=request_sha,
@@ -243,11 +251,15 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
         if (budget_proof.get('source_recovery_grant_sha256')!=RECOVERY_SHA
                 or digest(budget_proof['DEC1_native_recovery_view'])!=budget_proof.get('DEC1_ledger_canonical_sha256')):
             fail('EXACT_ADOPTED_RECOVERY_IN_NATIVE_BUDGET_PROOF')
+    if enabled(r):
+        from .segmented_training import validate_adopted,GRANT_SHA as SEGMENT_SHA
+        validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
+        if budget_proof.get('segmented_grant_sha256')!=SEGMENT_SHA:fail('NATIVE_SEGMENT_GRANT_IN_BUDGET')
     planned=[j for j in budget_proof['forecast'].get('mandatory_jobs',[])
         if j.get('work_id')==row.get('dec1_work_id')]
     if (len(planned)!=1 or planned[0].get('arm')!=r['training_block']['arm']
             or planned[0].get('start_step')!=r['expected_native_start_step']
-            or planned[0].get('stop_step')!=4096 or planned[0].get('same_allocation_1024_probes') is not True
+            or planned[0].get('stop_step')!=r['training_block']['stop_after_step'] or planned[0].get('same_allocation_1024_probes') is not True
             or planned[0].get('walltime_upper_s')!=native_wall
             or planned[0].get('resources',{}).get('optimizer_updates')!=updates
             or planned[0]['resources'].get('Hopper_CPU_s')!=r['CPU_upper_s']
@@ -261,7 +273,7 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
             or quota.get('user')!=user or quota.get('scope')!='OWN_PROJECT_AND_FILESYSTEM_MINIMUM'
             or not 0<=now-quota['observed_epoch']<=900
             or number(quota['available_bytes'],integer=True)<reserved+40*GIB
-            or number(budget_proof['DEC1_GPU_site_output_used_and_reserved_bytes'],integer=True)>160*GIB):
+            or number(budget_proof['DEC1_GPU_site_output_used_and_reserved_bytes'],integer=True)>(176 if enabled(r) else 160)*GIB):
         fail('ACTUAL_PROJECT_AND_FILESYSTEM_HEADROOM_WITH_BOTH_OUTPUT_CAPS_AND_FINAL_RESERVE')
     return dict(status=STATUS,job_id=job_id,submit_count=r['submit_count'],request_sha256=request_sha,
         request_id=r['request_id'],submission_nonce=r['submission_nonce'],run_uuid=r['run_uuid'],

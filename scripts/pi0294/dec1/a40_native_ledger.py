@@ -40,6 +40,8 @@ class Ledger:
 
     def check(self,v):
         r=self.request;arm=r['training_block']['arm'];start=r['expected_native_start_step']
+        from .segmented_training import enabled
+        segmented=enabled(r)
         if (v.get('schema')!='VAP1_A40_LOCAL_NATIVE_EFFECT_LEDGER_V1'
                 or v.get('platform_training_version')!=VERSION or v.get('job_id')!=self.allocation['job_id']
                 or v.get('request_sha256')!=self.allocation['request_sha256'] or v.get('source_sha')!=r['source_sha']
@@ -58,8 +60,11 @@ class Ledger:
             fail('EXACT_SINGLE_PENDING_UPDATE_IDENTITY')
         if (v['optimizer_updates']>start or v['pending_updates']) and v['generation_queries']<17:
             fail('NO_UPDATE_BEFORE_SEVENTEEN_COMPATIBILITY_DRAWS')
-        if (v['optimizer_updates']>1024 or v['pending_updates'] and v['pending_updates'][0]['local_step_before']>=1024) and v['generation_queries']!=29:
+        if (not(segmented and start==2048) and (v['optimizer_updates']>1024 or v['pending_updates'] and v['pending_updates'][0]['local_step_before']>=1024) and v['generation_queries']!=29):
             fail('NO_UPDATE_1025_BEFORE_ORIGINAL_TWELVE_PROBES')
+        if segmented and start==2048 and (v['optimizer_updates']>start or v['pending_updates']):
+            from .long_training import probe_receipt
+            probe_receipt(self.root,arm)
         return v
 
     @contextmanager

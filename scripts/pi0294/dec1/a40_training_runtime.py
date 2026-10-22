@@ -144,6 +144,14 @@ def run(root,request_path):
         phase='ACTUAL_NATIVE_SOURCE_PREMODEL'
         from .checkpoint_storage import prewrite_headroom
         storage=prewrite_headroom(root)
+        from .segmented_training import enabled as segmented
+        if segmented(r) and r['training_block']['arm']=='A_CONTROL' and r['expected_native_start_step']==32:
+            from scripts.pi0294.pv1.neural import train_dataset
+            from .recovery32_intake import stage_in_allocation
+            dataset=train_dataset(root);dataset.initialize()
+            recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes']['A_CONTROL']
+            imported=stage_in_allocation(root,recipe=recipe,dataset=dataset,guard=guard,allocation=allocated)
+            once(directory/'RECOVERY32_FULL_STATE_PREMODEL.json',imported)
         once(directory/'CHECKPOINT_STORAGE_PREFLIGHT.json',dict(storage=storage,models_loaded=0,
             optimizer_updates=0,job_id=allocated['job_id'],request_sha256=allocated['request_sha256']))
         from scripts.pi0294.numerics import prepare_environment,configure_torch
@@ -188,15 +196,20 @@ def run(root,request_path):
         load(checkpoint,'TRAIN-INPUT',trainable=True,original=not relative)
         from scripts.pi0294.pv1.training import run as train
         from .long_training import execute
+        from .segmented_training import enabled,execute as segmented_execute
         def training(*,stop,phase,checkpoint):
             return train(root,instance,allocated,guard,ledger,arm=arm,request_id=r['request_id'],
                 stop_after_step=stop,resume_checkpoint=checkpoint or (root/relative if relative else None),long_phase=phase)
         def probe():
             return fixed_probes(root,arm,instance,ledger,guard)
         phase='SOURCE_LONG_TRAIN_SAME_ALLOCATION'
-        final,history=execute(start_step=r['expected_native_start_step'],train=training,probe=probe,unload=unload,
+        options=dict(start_step=r['expected_native_start_step'],train=training,probe=probe,unload=unload,
             load=lambda path,trainable:load(path,'PROBES' if not trainable else 'TRAIN-REENTRY',trainable=trainable),
             guard=guard,checkpoint=root/'training'/arm/'checkpoint-1024')
+        if enabled(r):
+            options.update(stop_step=r['training_block']['stop_after_step'],resume_checkpoint=root/relative if relative else None)
+            final,history=segmented_execute(**options)
+        else:final,history=execute(**options)
         records.extend(history);final_step=final['global_step']
         status='A40_SOURCE_4096_COMPLETE' if final_step==4096 else 'A40_KNOWN_PARTIAL_FULL_STATE_PRESERVED'
         return dict(status=status,global_step=final_step,records=records)

@@ -11,6 +11,7 @@ from . import a40_allocation as a
 from .alternate_accounting import digest, finite
 from .dual_platform import reserve_check
 from .lost_save_recovery import lineage,validate_adopted
+from .segmented_training import enabled,limits
 
 TERMINAL=('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB')
 
@@ -23,16 +24,17 @@ def validate_item(row):
     lineage(row)
     wall=finite(row.get('reserved_H200_s'),integer=True)
     start=finite(row.get('start_native_step'),integer=True)
+    segment=enabled(row);stop=limits(row)[1] if segment else 4096
     expected=dict(native_platform=a.PLATFORM,platform_training_version=a.VERSION,
         scientific_admission_version=a.SCIENCE_VERSION,authority_amendment=a.AUTHORITY,
         stage='P2_PRIMARY',project='CFP04-CF-007',job_name='pi0294_dec1_a40_train',
         parent_checkpoint_manifest_sha256=a.PARENT,statistics_sha256=a.R0,new_bank_manifest_sha256=a.BANK,
         physical_GPU_kind='NVIDIA_A40',physical_GPU_count=1,legacy_GPU_seconds_field_is_projection=True,
         accounting_pad_s=a.PAD,CPU_upper_s=a.cpu_envelope(row,wall),query_limit=29,
-        optimizer_update_limit=4096-start)
+        optimizer_update_limit=stop-start)
     if (any(row.get(k)!=v for k,v in expected.items()) or not 2760<wall<=28800
-            or start>=1024 or row.get('arm') not in ('A_CONTROL','B_COVERAGE')
-            or row.get('dec1_work_id')!='TRAIN:'+row['arm']+':LONG'):
+            or (not segment and start>=1024) or row.get('arm') not in ('A_CONTROL','B_COVERAGE')
+            or row.get('dec1_work_id')!=('TRAIN:'+row['arm']+f':SEGMENT:{stop}' if segment else 'TRAIN:'+row['arm']+':LONG')):
         fail('EXACT_TYPED_PRE1024_SOURCE_LONG_JOB_ENVELOPE')
     for key,length in (('request_sha256',64),('run_manifest_sha256',64),('source_sha',40)):
         if re.fullmatch('[0-9a-f]{'+str(length)+'}',row.get(key,'')) is None:
@@ -68,7 +70,7 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
             or v.get('unknown_effects')!=[] or v.get('pending_updates')!=[] or d.get('unknown_effects')!=[]
             or v['used']['PBS_submissions']!=len(v['PBS_submissions'])
             or r['submit_count']!=len(v['PBS_submissions'])+1
-            or len(d['new_submissions'])>=8 or len(v['PBS_submissions'])>=24
+            or len(d['new_submissions'])>=(11 if enabled(r) else 8) or len(v['PBS_submissions'])>=24
             or any(s.get('request_id')==r['request_id'] for s in v['PBS_submissions'])
             or v.get('DEC1_source_pair_platform',a.PLATFORM)!=a.PLATFORM
             or not now_epoch<a.T0+144*3600
@@ -83,7 +85,10 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
             or not 0<=now_epoch-budget_proof['observed_epoch']<=120
             or budget_proof.get('forecast',{}).get('admissible_forecast') is not True):
         fail('FRESH_RECOMPUTED_WHOLE_WORK_BEFORE_ATOMIC_RESERVATION')
-    start=r['expected_native_start_step'];arm=r['training_block']['arm'];count=4096-start
+    start=r['expected_native_start_step'];arm=r['training_block']['arm'];count=r['training_block']['stop_after_step']-start
+    if enabled(r):
+        from .segmented_training import validate_adopted as segment_adopted
+        segment_adopted(v,d)
     if (any(v.get('training_runs',{}).get(name,{}).get('last_native_step',0)>0
             for name in ('A_CONTROL','B_COVERAGE')) and v.get('DEC1_source_pair_platform')!=a.PLATFORM):
         fail('DO_NOT_IMPORT_AN_ALREADY_STARTED_HOPPER_SOURCE_ARM')
@@ -99,14 +104,15 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
             or d['CPU_s']+d.get('CPU_reserved_s',0)+r['CPU_upper_s']>96*3600
             or v['new_storage_current_bytes']+v.get('storage_reserved_bytes',0)+r['additional_output_upper_bytes']+40*a.GIB>250*a.GIB
             or d.get('new_GPU_site_output_allocated_upper_bytes',0)+d.get('GPU_site_output_reserved_bytes',0)
-                +r['additional_output_upper_bytes']>160*a.GIB):
+                +r['additional_output_upper_bytes']>(176 if enabled(r) else 160)*a.GIB):
         fail('ACTUAL_CPU_AND_OUTPUT_HEADROOM_NOT_ONLY_GPU_HOURS')
     row=dict(status='QSUB_INTENT_OUTCOME_UNKNOWN_NO_RETRY',job_id=None,
         request_id=r['request_id'],submission_nonce=r['submission_nonce'],request_sha256=request_sha,
         global_submit_count=r['submit_count'],
         source_sha=r['source_sha'],run_manifest_sha256=r['run_manifest_sha256'],run_uuid=r['run_uuid'],
         native_platform=a.PLATFORM,platform_training_version=a.VERSION,scientific_admission_version=a.SCIENCE_VERSION,
-        authority_amendment=a.AUTHORITY,stage='P2_PRIMARY',arm=arm,dec1_work_id='TRAIN:'+arm+':LONG',
+        authority_amendment=a.AUTHORITY,stage='P2_PRIMARY',arm=arm,
+        dec1_work_id=('TRAIN:'+arm+f':SEGMENT:{r["training_block"]["stop_after_step"]}' if enabled(r) else 'TRAIN:'+arm+':LONG'),
         project=r['project'],job_name=r['job_name'],parent_checkpoint_manifest_sha256=a.PARENT,
         statistics_sha256=a.R0,new_bank_manifest_sha256=a.BANK,start_native_step=start,
         physical_GPU_kind='NVIDIA_A40',physical_GPU_count=1,legacy_GPU_seconds_field_is_projection=True,
@@ -116,6 +122,8 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
     if 'CPU_envelope_profile' in r:row['CPU_envelope_profile']=r['CPU_envelope_profile']
     for key in ('recovery_authorization_release','recovery_adoption_sha256','training_lineage_key'):
         if key in r:row[key]=r[key]
+    if enabled(r):row.update(segmented_authorization_release=r['segmented_authorization_release'],
+        segmented_grant_sha256=r['segmented_grant_sha256'],segment_stop_step=r['training_block']['stop_after_step'])
     validate_item(row);v['PBS_submissions'].append(row);v['used']['PBS_submissions']+=1
     for k,c in dict(H200_s=r['walltime_s']+a.PAD,optimizer_updates=count,neural_queries=29).items():
         v['reserved'][k]=v['reserved'].get(k,0)+c
@@ -178,7 +186,7 @@ def settle(value, DEC1_value, *, request_id, native_proof, effects, now_epoch):
     if (committed>row['optimizer_update_limit'] or queries>29 or loads>4
             or effects['last_native_step']!=row['start_native_step']+committed
             or (committed or queries) and (not loads or not gpu) or loads and not gpu
-            or committed and queries<17 or effects['last_native_step']>1024 and queries!=29):
+            or committed and queries<17 or effects['last_native_step']>1024 and row['start_native_step']<1024 and queries!=29):
         fail('BOUNDED_ACTUAL_COMMITTED_STEPS_AND_QUERY_ATTEMPTS')
     pending=effects['pending_updates'];unknown_queries=effects['unknown_query_intents']
     if (type(pending) is not list or len(pending)>1 or type(unknown_queries) is not list

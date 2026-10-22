@@ -31,7 +31,7 @@ def pending_source_reservations(h,d):
 
 def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
               progress_bytes, plan_bytes, amendment_bytes, now_epoch, job_id,
-              purpose='NATIVE_PRETRAIN',recovery_bytes=None):
+              purpose='NATIVE_PRETRAIN',recovery_bytes=None,segment_bytes=None):
     from .a40_allocation import request_scope, PLATFORM, T0
     r,request_sha=old._read(request_bytes);request_scope(r,now=now_epoch)
     if purpose not in ('PREQUEUE','NATIVE_PRETRAIN'):
@@ -40,6 +40,14 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         fail('FRESH_UNSUBMITTED_PREQUEUE_REQUEST_ONLY')
     h,ledger_sha=old._read(ledger_bytes);d,dec_sha=old._read(DEC1_ledger_bytes)
     s,snapshot_sha=old._read(snapshot_bytes);p,plan_sha=old._read(plan_bytes)
+    from .segmented_training import enabled
+    segment=enabled(r)
+    if segment:
+        from .segmented_training import grant as segment_grant,validate_adopted as segment_adopted,GRANT_SHA as SEGMENT_SHA
+        if segment_bytes is None:fail('EXACT_SEALED_SEGMENT_AUTHORIZATION_BYTES')
+        segment_grant(segment_bytes);segment_adopted(h,d)
+        if s.get('segmented_grant_sha256')!=SEGMENT_SHA:fail('ADOPTED_SEGMENT_SNAPSHOT')
+    elif segment_bytes is not None:fail('NO_SEGMENT_CAP_FOR_LEGACY_REQUEST')
     if r.get('recovery_authorization_release') is not None:
         from .lost_save_recovery import grant,validate_adopted,GRANT_SHA
         if recovery_bytes is None:fail('SEALED_RECOVERY_AUTHORIZATION_BYTES_REQUIRED')
@@ -53,7 +61,7 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
             or s.get('actual_Hopper_ledger_sha256')!=ledger_sha
             or s.get('actual_DEC1_ledger_sha256')!=dec_sha
             or p.get('native_platform')!=PLATFORM
-            or p.get('performance_basis')!='UNMEASURED_A40_OWNER_CEILING_REVALIDATE_FIRST32'
+            or p.get('performance_basis')!=('MEASURED_A40_FIRST32_MAX_WITH_HEADROOM_V1' if segment else 'UNMEASURED_A40_OWNER_CEILING_REVALIDATE_FIRST32')
             or p.get('H200_timing_is_A40_measurement') is not False
             or p.get('first32_are_counted_A_CONTROL_updates') is not True
             or s.get('paired_source_training_platform')!=PLATFORM):
@@ -97,7 +105,7 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         if any(observed[k]!=v for k,v in native.items()):
             fail('DEC1_NATIVE_SPENT_RESERVED_CPU_AND_IO_EXACT')
     forecasted=forecast(snapshot=s,progress_bytes=progress_bytes,plan=p,
-        amendment_bytes=amendment_bytes,now_epoch=now_epoch,recovery_bytes=recovery_bytes)
+        amendment_bytes=amendment_bytes,now_epoch=now_epoch,recovery_bytes=recovery_bytes,segment_bytes=segment_bytes)
     if not forecasted['admissible_forecast']:
         fail('COMPLETE_SOURCE_PAIR_MATRIX_AND_ORIGINAL_FINAL_RESERVE_DO_NOT_FIT')
     rows=[x for x in h['PBS_submissions'] if x['request_id']==r['request_id']]
@@ -117,4 +125,5 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         forecast=forecasted,not_proof_of_A40_throughput_or_final_completion=True)
     if recovery_bytes is not None:
         result.update(source_recovery_grant_sha256=GRANT_SHA,DEC1_native_recovery_view=d)
+    if segment:result['segmented_grant_sha256']=SEGMENT_SHA
     return result

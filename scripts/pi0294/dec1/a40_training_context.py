@@ -98,6 +98,8 @@ def validate_root(root,request_path,*,verify_all=False):
             or len(rows)!=1 or Path(rows[0]['path']).resolve()!=root.resolve()):
         fail('ONE_ACTIVE_EXISTING_OWNER_LEASE_AND_REGISTRY')
     inputs=m['execution']['sealed_inputs']
+    from .segmented_training import enabled,admitted as segment_admitted
+    if enabled(r):segment_admitted(root,m,r)
     if r.get('recovery_authorization_release') is not None:
         from .lost_save_recovery import PLAN,RELEASE,grant as recovery_grant
         if (m['authority'].get('recovery_authorization_release')!=RELEASE
@@ -296,6 +298,7 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
     if require_training(root,allocation)!=directory:fail('EXACT_CURRENT_PHASE_DIRECTORY')
     guard()
     r=read(directory/'REQUEST.json');ready=directory/'A40_PRETRAIN_READY.json';release=directory/'A40_PRETRAIN_RELEASE.json'
+    stop=r['training_block']['stop_after_step']
     if long_phase=='AFTER_PROBES':
         if not release.is_file():fail('ORIGINAL_WHOLE_JOB_FIRST_UPDATE_RELEASE_REQUIRED')
         proof=sealed(root,str(release.relative_to(root)))
@@ -307,10 +310,14 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
             sealed(root,str(path.relative_to(root)),parse=False)
             if sha(path)!=row['arrays_sha256']:fail('FIXED_PROBE_ARRAY_CHANGED_BEFORE_UPDATE_1025')
         native=sealed(root,str((directory/'A40_FIRST_UPDATE_ADMISSION.json').relative_to(root)))
-        if (proof.get('whole_block_stop_step')!=4096 or native.get('release_sha256')!=sha(release)
+        if (proof.get('whole_block_stop_step')!=stop or native.get('release_sha256')!=sha(release)
                 or native.get('request_sha256')!=allocation['request_sha256']):
             fail('NO_1024_ONLY_RESERVATION_PROMOTED_TO_4096')
-    elif long_phase=='BEFORE_PROBES':
+    elif long_phase in ('BEFORE_PROBES','SEGMENT_REENTRY'):
+        if long_phase=='SEGMENT_REENTRY':
+            from .segmented_training import enabled,limits
+            if not enabled(r) or limits(r)!=(2048,4096):fail('EXPLICIT_SEGMENT_FULL_STATE2048_REENTRY')
+            probe_receipt(root,r['training_block']['arm'])
         if ready.exists():raise FileExistsError('A40_PRETRAIN_READY_PRESERVED_NO_RESTART')
         now=time.time();write(ready,dict(job_id=allocation['job_id'],request_sha256=allocation['request_sha256'],
             submission_nonce=r['submission_nonce'],observed_epoch=now,expected_start_step=r['expected_native_start_step'],
@@ -342,6 +349,8 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
             amendment_bytes=(root/'plans/VAP1_ADOPTION_AND_DELTA_BUDGET.json').read_bytes(),
             recovery_bytes=((root/'plans/DEC1_LOST_SAVE_RECOVERY_AUTHORIZATION.json').read_bytes()
                 if r.get('recovery_authorization_release') is not None else None),
+            segment_bytes=((root/'plans/DEC1_SEGMENTED_RECOVERY_AUTHORIZATION.json').read_bytes()
+                if r.get('segmented_authorization_release') is not None else None),
             now_epoch=time.time(),job_id=allocation['job_id'])
         def stable(value):
             v=deepcopy(value);v.pop('observed_epoch',None);v['forecast'].pop('projected_finish_epoch',None);return v
@@ -352,7 +361,7 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
             request_sha256=allocation['request_sha256'],release_sha256=sha(release),recomputed_budget=result))
     else:fail('EXPLICIT_ORIGINAL_LONG_TRAIN_PHASE_ONLY')
     if (proof.get('job_id')!=allocation['job_id'] or proof.get('request_sha256')!=allocation['request_sha256']
-            or proof.get('submission_nonce')!=r['submission_nonce'] or proof.get('whole_block_stop_step')!=4096):
+            or proof.get('submission_nonce')!=r['submission_nonce'] or proof.get('whole_block_stop_step')!=stop):
         fail('SAME_ALLOCATION_WHOLE_BLOCK_RELEASE')
     return dict(status='PASS_A40_SAME_JOB_WHOLE_BLOCK_AUTHORIZATION',new_allocation_or_budget=False)
 

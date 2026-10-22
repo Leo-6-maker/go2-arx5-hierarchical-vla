@@ -10,6 +10,8 @@ POLICY_SHA = '25fa1dcf70db3974bc7a0462293a1a0360777f6f47a1ca1c5ab2c304e736c3f6'
 
 
 def admitted(root, manifest, request):
+    from .segmented_training import admitted as segmented
+    if segmented(root,manifest,request):return True
     block = request.get('training_block', {})
     if 'same_allocation_1024_probes' not in block:
         return False
@@ -51,6 +53,8 @@ def phase(root, manifest, request, *, name, stop, resume_relative):
     if not admitted(root, manifest, request):
         raise PermissionError('VAP1_LONG_TRAIN_NOT_A_LEGACY_PHASE_OVERRIDE')
     block = request['training_block']
+    from .segmented_training import enabled,phase as segment_phase
+    if enabled(request):return segment_phase(root,request,name=name,stop=stop,resume_relative=resume_relative)
     if name == 'BEFORE_PROBES':
         valid = stop == 1024 and resume_relative == block.get('resume_checkpoint_relative')
     elif name == 'AFTER_PROBES':
