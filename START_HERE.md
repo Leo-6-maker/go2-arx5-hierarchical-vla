@@ -1,3 +1,11 @@
+# Current engineering continuation: source component plan, stop and interruption accounting
+
+[Source plan/stop/interruption CPU receipt](reports/PI0294/design/WDR1_SOURCE_COMPONENT_PLAN_STOP_INTERRUPT_CPU_ACTUAL_20261023.json):146 tests passed with zero external/native attempts. Four predeclared Teacher-driven source commissioning slots use two existing TRAIN geometries and balanced I_TIME/I_PROGRESS assignment; four target slots remain reserved. This qualifies components only, with zero GR00T queries and no new training data. Synchronous stop and actual partial-step accounting are CPU verified; native source compatibility and dispatch remain pending.
+
+[Original source pins and actual Core parent read](reports/PI0294/design/WDR1_SOURCE_ORIGINAL_PINS_AND_CORE_PARENT_READONLY_ACTUAL_20261023.json):13 original files remain byte-identical; episode.py and relay_protocol.py have two explicitly recorded interface-glue deltas. New DEC1 CPU intake must verify those deltas without weakening old PV1 admission. Core parent control lease is active, STOP absent and DEC1 physics0. This is control preflight, not a newly registered scientific child or complete resource admission.
+
+Prior source4893b721 passed exactCI39845583235/job120057874835 (all12steps), all10 changed files fully read back. Same healthy A1477527 continues immutable0cf86cbc; no B or new component worker dispatched. Next: publish/read back this source, seal the private component plan, then complete the versioned CPU role and existing parent/DEC1 admission. Original clocks, costs, checkpoints and freezes remain. Older snapshots below are historical.
+
 # Current engineering continuation: mature PV1 seams and existing EEF wire converter
 
 [Mature PV1 mapped ACK seams](reports/PI0294/design/WDR1_MATURE_PV1_MAPPED_ACK_SEAMS_CPU_ACTUAL_20261023.json) passed34 CPU tests/5subtests: actual resident.QueryReservations, e1.neural.serve original sealed packets and existing relay_transport owner route now have explicit optional contract injection. Default RAW and old admissions remain strict. This implements the precise previously identified mature-route seam; actual DEC1 evaluation admission/factory and source stop/meter/persistence remain pending.

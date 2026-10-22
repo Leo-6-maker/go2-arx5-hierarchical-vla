@@ -56,11 +56,13 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
     def _close_live(self,status):
         active=self.outer
         if active is None or active['finished']:return
-        active['finished']=True  # A failed durable finish is not retried.
+        active['finished']=True  # A failed/interrupted durable finish is not retried.
+        active['finish_confirmed']=False
         try:
             self.finish('live',active['reservation'],self.counts['live']-active['start_count'],
                 self.unknown['live'],status)
-        except Exception:
+            active['finish_confirmed']=True
+        except BaseException:
             self.unknown['live']=True
             raise
 
@@ -99,7 +101,7 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
             self._bind(self.adapter,box,_digest(pending['chunk']))
             self.adapter.load_chunk(pending['chunk'],self._feedback(box['actual'],self.adapter),
                 controller_timestamp=box['actual']['time_s'])
-        except Exception as error:self._fail(error)
+        except BaseException as error:self._fail(error)
 
     def reference_action(self,reference):
         """Called once per 20 Hz reference, before supervisor action logging."""
@@ -120,7 +122,7 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
                 raise PrefixFailure('SOURCE_LIVE_PROPOSAL_DIFFERS_FROM_200TICK_SHADOW')
             a['proposal']=proposal
             return target.copy(),opening
-        except Exception as error:self._fail(error)
+        except BaseException as error:self._fail(error)
 
     def before_native_tick(self,engine,target,opening):
         try:
@@ -135,7 +137,7 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
             context=dict(reference=a['index']//25,tick=a['index']%25)
             self._event('SOURCE_NATIVE_TICK_INTENT',domain='live',native_step_before=engine.steps,**context)
             a['inflight']=dict(before=engine.steps,context=context)
-        except Exception as error:self._fail(error)
+        except BaseException as error:self._fail(error)
 
     def after_native_tick(self,engine,native_error=None,record_error=None):
         """Must run even when Engine.step OR original record_tick raises."""
@@ -150,9 +152,11 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
             self.unknown['live']|=uncertain
             # Existing core's outer meter debits actual engine.steps separately.
             try:self.charge('live',known,uncertain,dict(attempt['context'],native_delta=delta))
-            except Exception:
+            except BaseException:
                 self.unknown['live']=True;raise
-            if uncertain:raise PrefixFailure('SOURCE_NATIVE_TICK_ACCOUNTING_UNCERTAIN')
+            if uncertain:
+                if native_error is not None and not isinstance(native_error,Exception):raise native_error
+                raise PrefixFailure('SOURCE_NATIVE_TICK_ACCOUNTING_UNCERTAIN') from native_error
             a['index']+=1
             if record_error is not None:
                 self.unknown['live']=True
@@ -164,7 +168,7 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
                 expected=self.pending['records'][attempt['context']['reference']]['expected_states'][attempt['context']['tick']]
                 if observed.ndim!=1 or not observed.size or not np.isfinite(observed).all():
                     raise PrefixFailure('SOURCE_NONFINITE_OR_MISSING_NATIVE_OBSERVED_STATE')
-            except Exception:
+            except BaseException:
                 self.unknown['live']=True;raise
             if engine.safety:raise PrefixFailure('SOURCE_ORIGINAL_NATIVE_S1_REJECT') from native_error
             if native_error is not None:raise native_error
@@ -195,7 +199,7 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
                 self._event('SOURCE_REFERENCE_ACK',nonce=self.pending['nonce'],reference=attempt['context']['reference'],
                     command_id=a['proposal'].command_id,execution_end_timestamp=end,actual_ticks=25)
                 a['proposal']=None
-        except Exception as error:self._fail(error)
+        except BaseException as error:self._fail(error)
 
     def complete_prefix(self,engine,rows):
         try:
@@ -222,7 +226,7 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
             self._close_live('PASS')
             self.pending=None;self.outer=None
             return proof
-        except Exception as error:self._fail(error)
+        except BaseException as error:self._fail(error)
 
     def abort_outer(self,error):
         """Owner calls on episode failure; no hidden physics or retry."""
@@ -234,7 +238,8 @@ class OuterLoopSinglePosePrefixExecutor(SinglePosePrefixExecutor):
     def state(self):
         state=super().state()
         state.update(outer_tick_index=None if self.outer is None else self.outer['index'],
-            live_reservation_closed=None if self.outer is None else self.outer['finished'],
+            live_reservation_closed=None if self.outer is None else self.outer.get('finish_confirmed',False),
+            live_finish_attempted=None if self.outer is None else self.outer['finished'],
             maximum_live_shadow_difference=self.maximum_parity)
         return state
 
@@ -256,6 +261,7 @@ class SourceInterfaceTeacher:
         self.acknowledge_source,self.persist=acknowledge_source,persist
         self.plan_count=0;self.nonce=None
         self.protocol_ack_unknown=False
+        self.finish_unknown=False
 
     def __getattr__(self,name):return getattr(self.teacher,name)
     def observe(self,state):return self.teacher.observe(state)
@@ -279,7 +285,7 @@ class SourceInterfaceTeacher:
         try:
             if hasattr(self.teacher,'guard_prefix'):self.teacher.guard_prefix()  # Original wire TTL.
             self.executor.before_native_tick(engine,target,opening)
-        except Exception as error:self.executor.abort_outer(error)
+        except BaseException as error:self.executor.abort_outer(error)
 
     def after_native_tick(self,engine,native_error=None,record_error=None):
         return self.executor.after_native_tick(engine,native_error,record_error)
@@ -303,23 +309,40 @@ class SourceInterfaceTeacher:
             self.executor._event('SOURCE_PROTOCOL_ACK_READBACK',nonce=ack.nonce,receipt_id=ack.receipt_id,
                 acknowledgement_sha256=ack.acknowledgement_sha256,physics_receipt_sha256=ack.physics_receipt_sha256)
             self.protocol_ack_unknown=False
-        except Exception as error:self.executor.abort_outer(error)
+        except BaseException as error:self.executor.abort_outer(error)
 
     def finish(self,status,error):
-        finish_error=None
+        if self.finish_unknown:raise PrefixFailure('SOURCE_FINISH_OUTCOME_UNKNOWN_NO_RETRY')
+        finish_error=None;interrupted=None
         try:
             if not self.executor.stopped and (self.executor.outer is not None or self.executor.pending is not None):
                 self.executor.abort_outer(PrefixFailure(error or 'SOURCE_EPISODE_ENDED_WITH_PENDING_PREFIX'))
-        except Exception as caught:
+        except BaseException as caught:
+            if not isinstance(caught,Exception):
+                interrupted=caught;self.finish_unknown=True
             # episode's original finally must continue saving raw evidence. The
             # native failure remains latched; this is never successful STOP proof.
             finish_error=type(caught).__name__+':'+str(caught)
         finally:
             state=self.executor.state();state['finish_error']=finish_error
             state['protocol_ack_unknown']=self.protocol_ack_unknown
+            state['finish_unknown']=self.finish_unknown
             effective='FAILED_PRESERVED' if finish_error or status=='VALID_COMPLETE' and (
                 state['stopped'] or self.protocol_ack_unknown or any(state['unknown'].values())) else status
             effective_error=error or finish_error or ('SOURCE_UNRESOLVED_EXECUTION_OR_ACK' if effective!=status else None)
             try:self.persist(effective,effective_error,state)
+            except BaseException as caught:
+                # Persist may have committed before interruption. Keep its
+                # outcome unknown and never call it again to obtain a new ACK.
+                self.finish_unknown=True;self.executor.unknown['live']=True
+                effective='FAILED_PRESERVED';effective_error=type(caught).__name__+':'+str(caught)
+                self.executor._halt(caught)
+                raise
             finally:
-                if hasattr(self.teacher,'finish'):self.teacher.finish(effective,effective_error)
+                if hasattr(self.teacher,'finish'):
+                    try:self.teacher.finish(effective,effective_error)
+                    except BaseException as caught:
+                        self.finish_unknown=True;self.executor.unknown['live']=True
+                        self.executor._halt(caught)
+                        raise
+        if interrupted is not None:raise interrupted

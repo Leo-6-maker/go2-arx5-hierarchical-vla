@@ -1,0 +1,98 @@
+{
+  "schema": "WDR1_SOURCE_COMPONENT_PLAN_STOP_INTERRUPT_CPU_ACTUAL_V1",
+  "status": "CPU_TESTED_NATIVE_COMPONENT_DISPATCH_NOT_ADMITTED",
+  "observed_epoch": 1792700660.0203726,
+  "source_baseline": "4893b7215b4771c19257622553f18de4b5f2561d",
+  "files_sha256": {
+    "scripts/pi0294/dec1/source_commissioning_plan.py": "755a2e1bcc7ea1b1db426906e83c8dc0178da32962a3d289a0c5394ffd8b7a65",
+    "scripts/pi0294/dec1/source_sync_stop.py": "1fd2f87071cde2757c22af48782efb7719d7235147b041a01b714a6533b9e8c5",
+    "scripts/pi0294/dec1/source_single_pose_prefix.py": "40ebe6fc7e6684e0373d7e69cc3a272b4cdde87a5865b9b2b912dcc7e4feea52",
+    "scripts/pi0294/dec1/source_episode_wire.py": "bdc886fbfc9e6c2b6ef46c2b8c04adf7f83b85a855895c6a98049ec58c6a8422",
+    "scripts/pi0294/dec1/test_source_commissioning_plan.py": "1561f3becb1c25760842fc57590ef0c54b18994b3b185b883d92d34ae0a8e920",
+    "scripts/pi0294/dec1/test_source_sync_stop.py": "43d1baeff863918a041cd6ffa3ff3250ec9e827b1581ba0045d4f573664556ed",
+    "scripts/pi0294/dec1/test_source_interrupt_accounting.py": "02c7b702728dddcefdc9eba669e7298f3dc1209f6e5cd750233977837d5ca827"
+  },
+  "tests": {
+    "combined_passed": 146,
+    "plan_cases": 15,
+    "stop_cases": 25,
+    "interrupt_cases": 23,
+    "denied_external_attempts": 0,
+    "original_source_prefix_episode_mapped_ack_and_wire_regressions_included": true,
+    "physics_models_GPU_PBS": 0
+  },
+  "original_population_actual_intake": {
+    "sha256": "288be5e878baf1b112190a8ac69c1b507336ca03f550ae9b4f4672f13ef90db1",
+    "actual_bytes_and_four_original_static_card_receipts_matched": true,
+    "task_success_screening": false,
+    "live_contact_qualified": false
+  },
+  "predeclared_component_scope": {
+    "source_slots": 4,
+    "target_slots_reserved": 4,
+    "total_original_slots": 8,
+    "selected_groups": [
+      "PI0294/PV1/TRAIN/F0/000",
+      "PI0294/PV1/TRAIN/F1/000"
+    ],
+    "assignments": [
+      "F0/T1/I_TIME",
+      "F0/T2/I_PROGRESS",
+      "F1/T1/I_PROGRESS",
+      "F1/T2/I_TIME"
+    ],
+    "assignment_basis": "NEW_OWNER_BALANCED_PREDECLARATION_WITHIN_EXISTING_FOUR_SOURCE_SLOTS_NOT_HISTORICAL_MODE_SPECIFICATION",
+    "controller": "ORIGINAL_FEEDBACK_TEACHER_NO_GR00T",
+    "new_training_data": false,
+    "student_neural_ACK_qualified": false,
+    "component_upper": {
+      "live_ticks": 64000,
+      "shadow_ticks": 64000,
+      "prefix_clones": 320,
+      "main_engines": 4,
+      "RGB_pairs": 2564
+    },
+    "budget_upper_complete": false,
+    "extra_static_reconstruction_control_and_closeout_must_be_added": true
+  },
+  "synchronous_stop": {
+    "external_state_registry": true,
+    "original_engine_instance_fields_unmodified": true,
+    "original_step_forwarded_for_private_S1_clones": true,
+    "one_thread_one_owner": true,
+    "durable_native_counter_clock_snapshot_and_original_fingerprint_readback": true,
+    "unknown_effects_or_interruptions_keep_latch_and_no_repeat": true,
+    "known_native_safety_fault_can_stop_without_becoming_safe_or_successful": true,
+    "renderer_close_is_not_native_stop": true,
+    "native_compatibility_pending": true
+  },
+  "interrupt_accounting": {
+    "actual_native_steps_reconciled_before_BaseException_unwinds": true,
+    "already_integrated_steps_not_refunded": true,
+    "attempted_finish_not_confirmed_closure": true,
+    "lost_reserve_charge_finish_stop_or_result_IO_never_retried": true,
+    "stop_ack_record_must_return_before_confirmation": true,
+    "original_outer_meter_remains_only_live_debit": true
+  },
+  "previous_exact_CI": {
+    "commit": "4893b7215b4771c19257622553f18de4b5f2561d",
+    "run": 39845583235,
+    "job": 120057874835,
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "all_12_steps_success": true,
+    "all_10_changed_files_full_readback": true
+  },
+  "pending": [
+    "Exact publication/CI/readback for this source",
+    "Private source component plan seal bound to published owner release",
+    "Versioned CPU component role/standard entry/child registration/fresh parent and DEC1 reservation",
+    "Original native source numerical identity and real stop/fingerprint/meter/persistence qualification",
+    "Source four finite component attempts; separate target frozen-WBC commissioning",
+    "Later original CORR2048/R0 full neural and paired task matrix; no CPU Teacher substitution"
+  ],
+  "native_component_started": false,
+  "active_A_runtime_modified": false,
+  "B_native_started": false
+}

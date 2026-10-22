@@ -87,17 +87,23 @@ class SinglePosePrefixExecutor:
     def _open(self):
         if self.stopped:raise PrefixFailure('SOURCE_STOP_LATCHED:'+self.stop_reason)
         try:self.guard()
-        except Exception as error:self._halt(error);raise
+        except BaseException as error:self._halt(error);raise
 
     def _halt(self,error):
         if not self.stopped:
             self.stopped=True;self.stop_reason=type(error).__name__+':'+str(error);self.stop_calls+=1
-            ack=self.stop(self.stop_reason)
-            if (not isinstance(ack,NativeStopReceipt) or ack.episode_id!=self.episode_id
-                    or ack.executor_id!=self.executor_id or not ack.receipt_id or ack.stopped is not True):
-                raise PrefixFailure('SOURCE_ACTUAL_STOP_ACK_MISSING') from error
-            self.stop_confirmed=True
-            self._event('SOURCE_STOP_ACK',receipt_id=ack.receipt_id,reason=self.stop_reason)
+            try:
+                ack=self.stop(self.stop_reason)
+                if (not isinstance(ack,NativeStopReceipt) or ack.episode_id!=self.episode_id
+                        or ack.executor_id!=self.executor_id or not ack.receipt_id or ack.stopped is not True):
+                    raise PrefixFailure('SOURCE_ACTUAL_STOP_ACK_MISSING') from error
+                self._event('SOURCE_STOP_ACK',receipt_id=ack.receipt_id,reason=self.stop_reason)
+                self.stop_confirmed=True
+            except BaseException:
+                # Stop intent is already latched; an interrupted durable/native
+                # callback must not permit a second stop or release liabilities.
+                self.unknown['live']=True
+                raise
 
     def _gate(self,rows,snapshot,identifier):
         result=gate_action(rows,_row10(snapshot),snapshot['time_s'],identifier)
@@ -132,7 +138,7 @@ class SinglePosePrefixExecutor:
         self.guard();before=engine.steps;error=None
         self._event('SOURCE_NATIVE_TICK_INTENT',domain=kind,native_step_before=before,**context)
         try:engine.step(target,opening)
-        except Exception as caught:error=caught
+        except BaseException as caught:error=caught  # Reconcile even an interrupted native step.
         try:
             delta=engine.steps-before
             if type(delta) is not int or delta!=1:
@@ -140,14 +146,15 @@ class SinglePosePrefixExecutor:
                 known=delta if type(delta) is int and delta>0 else 0
                 self.counts[kind]+=known
                 self.charge(kind,known,True,dict(context,native_delta=delta,error='COUNTER_UNCERTAIN'))
-                raise PrefixFailure('SOURCE_NATIVE_TICK_ACCOUNTING_UNCERTAIN')
+                if error is not None and not isinstance(error,Exception):raise error
+                raise PrefixFailure('SOURCE_NATIVE_TICK_ACCOUNTING_UNCERTAIN') from error
             self.counts[kind]+=1
             self.charge(kind,1,False,dict(context,native_step_after=engine.steps))
             engine.snapshot()  # Same original post-step record_tick observation.
             state=np.asarray(native.observed_state(engine)).copy()
             if state.ndim!=1 or not state.size or not np.isfinite(state).all():
                 raise PrefixFailure('SOURCE_NONFINITE_OR_MISSING_NATIVE_OBSERVED_STATE')
-        except Exception:
+        except BaseException:
             # An already charged step remains charged even if post-state or the
             # durable charge callback failed; never claim a zero-effect retry.
             self.unknown[kind]=True
@@ -159,7 +166,7 @@ class SinglePosePrefixExecutor:
     def _reserve(self,kind,clones):
         self._event('SOURCE_PREFIX_RESERVE_INTENT',domain=kind,upper_ticks=PREFIX_TICKS,clone_attempts=clones)
         try:identifier=self.reserve(kind,PREFIX_TICKS,clones)
-        except Exception:
+        except BaseException:
             self.unknown[kind]=True;raise
         if not isinstance(identifier,str) or not identifier:
             self.unknown[kind]=True;raise PrefixFailure('SOURCE_RESERVATION_ACK_REQUIRED')
@@ -210,7 +217,8 @@ class SinglePosePrefixExecutor:
                 clone_attempts=1,proposal_digests=[r['digest'] for r in records],phases=[r['phase'] for r in records])
             return dict(status='PASS_SHADOW_ONLY_NATIVE_QUALIFICATION_PENDING',nonce=nonce,
                 shadow_ticks=PREFIX_TICKS,clone_attempts=1)
-        except Exception as error:
+        except BaseException as error:
+            status='ENGINEERING_MISSING'  # An interrupted completion event is not PASS.
             if isinstance(error,PrefixFailure) and str(error)=='SOURCE_ORIGINAL_NATIVE_S1_REJECT':status='S1_REJECT'
             elif isinstance(error,PrefixFailure) and str(error)=='SOURCE_ORIGINAL_FULL_H40_REJECT':status='REFERENCE_REJECT'
             self._halt(error);raise
@@ -220,16 +228,17 @@ class SinglePosePrefixExecutor:
                 if before is not None and native.fingerprint(self.engine)!=before:
                     self.unknown['live']=True
                     raise PrefixFailure('SOURCE_SHADOW_CHANGED_LIVE_OR_RNG')
-            except Exception as error:cleanup_error=error
+            except BaseException as error:
+                self.unknown['live']=True;cleanup_error=error
             try:
                 if shadow is not None:shadow.close()
-            except Exception as error:
+            except BaseException as error:
                 self.unknown['shadow']=True;cleanup_error=cleanup_error or error
             try:
                 if reservation is not None:
                     self.finish('shadow',reservation,self.counts['shadow']-start_count,
                         self.unknown['shadow'],'ENGINEERING_MISSING' if cleanup_error else status)
-            except Exception as error:
+            except BaseException as error:
                 self.unknown['shadow']=True;cleanup_error=cleanup_error or error
             if cleanup_error is not None:
                 self._halt(cleanup_error);raise cleanup_error
@@ -266,14 +275,15 @@ class SinglePosePrefixExecutor:
             self.pending=None;status='PASS'
             self._event('SOURCE_PREFIX200_ACK',nonce=nonce,actual_ticks=PREFIX_TICKS,final_command_id=proposal.command_id)
             return dict(status='PASS_SINGLE_POSE_PREFIX200',actual_ticks=PREFIX_TICKS,nonce=nonce)
-        except Exception as error:
+        except BaseException as error:
+            status='ENGINEERING_MISSING'
             if isinstance(error,PrefixFailure) and str(error) in ('SOURCE_ORIGINAL_NATIVE_S1_REJECT','S1_ACTUAL_LIVE_SHADOW_PARITY_MISMATCH'):
                 status='NATIVE_SAFETY_ERROR'
             self._halt(error);raise
         finally:
             if reservation is not None:
                 try:self.finish('live',reservation,self.counts['live']-start_count,self.unknown['live'],status)
-                except Exception as error:
+                except BaseException as error:
                     self.unknown['live']=True;self._halt(error);raise
 
     def state(self):
