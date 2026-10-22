@@ -8,7 +8,7 @@
     "scripts/pi0294/dec1/source_cpu_intake.py": "98292aae15c547b2e98f4743158497f04821c547489a1465be39563843450c00",
     "scripts/pi0294/dec1/source_cpu_reservation.py": "54a170fe2046caa6077e9cf90128caffb2815cbcec8bfc14029e6eb4175518d2",
     "scripts/pi0294/dec1/source_cpu_runtime.py": "b0f203b31d420cfab85268cb309e9ec0ee25e06748b27ce089afa5e91f5e770f",
-    "scripts/pi0294/dec1/test_source_cpu_history.py": "c3f22fd0f96dc1693a7b500e671a69addb0324c86d6b2c9715b923a9b88b76a0",
+    "scripts/pi0294/dec1/test_source_cpu_history.py": "db479f6f55428370318dbe7a5e4ec3b9f940ce0570de37d1760032837ff69b84",
     "scripts/pi0294/dec1/test_source_cpu_history_integration.py": "6d5221e3cdc73a23ad1de2a8a9064b1e9e4e28ca9a37b1fcaddcb5d362df4b02"
   },
   "tests": {
@@ -99,5 +99,19 @@
     "Continue existing frozen WBC task delta and fixed original CORR/R0 qualification without WBC tuning or data recapture"
   ],
   "goal_complete": false,
-  "caps_clocks_freezes_costs_checkpoints_unchanged": true
+  "caps_clocks_freezes_costs_checkpoints_unchanged": true,
+  "CI_portability_remediation": {
+    "first_commit": "dd38e733f036afef919da3c98929d9741f1dc1cd",
+    "first_run": 39870808963,
+    "first_job": 120144469010,
+    "result": "FAIL_5_TEST_CASES_LOCAL_ABSOLUTE_REPORT_PATH_NOT_IN_CI_CHECKOUT",
+    "isolated_other_cases_passed": 1764,
+    "isolated_subtests_passed": 1284,
+    "fix": "Locate the immutable report relative to this test checkout",
+    "new_history_and_integration_tests_passed": 54,
+    "independent_temporary_checkout_history_tests_passed": 31,
+    "temporary_checkout_test_seconds": 0.06,
+    "native_runtime_or_B_source_changed_by_fix": false,
+    "replacement_exact_CI_still_required": true
+  }
 }

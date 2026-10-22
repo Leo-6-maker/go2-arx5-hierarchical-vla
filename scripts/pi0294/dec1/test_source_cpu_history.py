@@ -153,7 +153,8 @@ def repair_packet(facts):
     b['continuation']['engineering_fix_evidence_sha256']=u.REPAIR_SHA
     m=dict(execution=dict(sealed_inputs={u.REPAIR_PLAN:u.REPAIR_SHA}))
     # Exact actual published evidence is a read-only local text fixture, not execution.
-    raw=Path('/home/liuyu/ISSAC-GR00T/work/state32-handover-publish/reports/PI0294/design/WDR1_SOURCE_COMPONENT_NATIVE_FIRST_ATTEMPT_AND_STOP_READBACK_CPU_ACTUAL_20261023.json').read_bytes()
+    root=Path(__file__).resolve().parents[3]
+    raw=(root/'reports/PI0294/design/WDR1_SOURCE_COMPONENT_NATIVE_FIRST_ATTEMPT_AND_STOP_READBACK_CPU_ACTUAL_20261023.json').read_bytes()
     return h,b,m,raw
 
 
