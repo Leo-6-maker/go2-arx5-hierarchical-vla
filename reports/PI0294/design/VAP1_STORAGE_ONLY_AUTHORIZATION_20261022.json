@@ -1,0 +1,61 @@
+{
+  "schema": "VAP1_STORAGE_ONLY_AUTHORIZATION_V1",
+  "status": "HUMAN_AUTHORIZED_STORAGE_ONLY_CONTINUATION",
+  "approved_draft_release": "75faef9ec9eb11f36116dd89721d4348019fb4a7",
+  "approved_draft_path": "reports/PI0294/design/parallel-science-20261022/FULL_REMAINING_STORAGE_ONLY_AMENDMENT_DRAFT_20261022.json",
+  "human_approval": "批准这两个存储上限，继续原实验（推荐）",
+  "approval_scope": "Explicit reply to DEC1 176→352 GiB and global250→419 GiB only.",
+  "original_segmented_authority": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+  "storage_cap_bytes": {
+    "DEC1": [
+      188978561024,
+      377957122048
+    ],
+    "global": [
+      268435456000,
+      449897824256
+    ]
+  },
+  "original_T0_epoch": 1792348196,
+  "new_job_cutoff_epoch": 1792866596,
+  "training_cutoff_epoch": 1792909796,
+  "physics_cutoff_epoch": 1792924196,
+  "hard_close_epoch": 1792952996,
+  "unchanged": {
+    "global_GPU_s": 345600,
+    "DEC1_GPU_s": 187200,
+    "global_PBS_submissions": 24,
+    "DEC1_new_PBS_submissions": 11,
+    "global_optimizer_updates": 16384,
+    "DEC1_optimizer_updates": 9216,
+    "DEC1_CPU_s": 345600,
+    "per_training_job_wall_s": 22500,
+    "per_training_job_CPU_upper_s": 54000,
+    "per_training_job_output_upper_bytes": 70000000000,
+    "final_GPU_s": 72000,
+    "final_output_bytes": 42949672960
+  },
+  "continue_segments": [
+    [
+      "A_CONTROL",
+      2048,
+      4096
+    ],
+    [
+      "B_COVERAGE",
+      0,
+      2048
+    ],
+    [
+      "B_COVERAGE",
+      2048,
+      4096
+    ]
+  ],
+  "same_original_R0_recipe_sampler_WBC_S1_scoring": true,
+  "all_checkpoints_preserved": true,
+  "retirement_credit_bytes": 0,
+  "prior_costs_historical_peaks_clocks_and_closed_leases_preserved": true,
+  "new_scientific_experiments_or_LOCKBOX_permission": false,
+  "native_adoption_or_submission_claimed_by_this_file": false
+}
