@@ -1,0 +1,61 @@
+{
+  "schema": "VAP1_A1_TERMINAL_AUDIT_READ_TIMEOUT_REPAIR_PREPARATION_V1",
+  "status": "LOCAL_BOUNDARY_QUALIFIED_READONLY_AUDIT_CORRECTION_NOT_SETTLED",
+  "observed_epoch": 1792666823.9783683,
+  "job_id": "1474599.stdct-mgmt-02",
+  "native_terminal": {
+    "state": "F",
+    "Exit_status": 0,
+    "step": 2048,
+    "cursor": 65536,
+    "complete_manifest_present": true,
+    "full_independent_terminal_readback": "PENDING"
+  },
+  "original_owner_naturally_exited": true,
+  "first_audit": {
+    "transport_timeout_s": 600,
+    "settlement_intent_created": false,
+    "matching_audit_interpreter_processes_after_timeout": 0,
+    "checkpoint_corruption_proven": false,
+    "exact_slow_stage": "NOT_ISOLATED_NO_PROGRESS_STREAM_IN_FIRST_ATTEMPT",
+    "CPU_upper_s": 480
+  },
+  "management_correction": {
+    "prior_wrapper_sha256": "a21ef94017ebe97e61bf4c530ee07e1a3943a4f0867f8220b8a17985148da049",
+    "wrapper_sha256": "937be625e0371ce88b2315ed1b400732e8b927d0944bab915e2ae36ac2447374",
+    "original_checked_resume_validator_retained": true,
+    "full_member_hash_reads_retained": true,
+    "processor_initialization_removed": "NOT_USED_BY_METADATA_AND_SAMPLER_RESUME_VALIDATOR",
+    "stream_hash_chunk_bytes": 8388608,
+    "file_identity_before_after_checked": true,
+    "per_file_progress_saved": true,
+    "second_attempt_transport_wall_bound_s": 1200,
+    "second_attempt_CPU_hard_s": 480,
+    "both_attempts_CPU_upper_s": 960,
+    "existing_control_prepaid_CPU_upper_s": 1800,
+    "automatic_retry": false
+  },
+  "tests": {
+    "original_terminal_and_A2_handoff_boundaries_passed": 32,
+    "exact_stream_hash_matches": true,
+    "midread_file_change_rejected": true,
+    "fixture_tests_are_not_native_admission": true
+  },
+  "preserved": {
+    "runtime_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+    "future_cold_runtime_source": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+    "original_source_models_recipes_R0_WBC": true,
+    "ledger_and_leases_not_changed": true,
+    "prior_timeout_evidence_retained": true
+  },
+  "new_effects": {
+    "GPU": 0,
+    "PBS": 0,
+    "models": 0,
+    "queries": 0,
+    "updates": 0,
+    "physics": 0,
+    "settlement": 0
+  },
+  "next": "ONE_OBSERVABLE_FULL_READONLY_AUDIT_THEN_ORIGINAL_ONCE_TYPED_SETTLEMENT_ONLY_IF_PASS"
+}
