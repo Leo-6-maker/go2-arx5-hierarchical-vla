@@ -1,0 +1,124 @@
+{
+  "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c",
+  "method": "BOUNDED_LOCAL_TEXT_REVIEW_NO_PROJECT_IMPORT_NO_NATIVE_IO",
+  "helper": "EXISTING_science_data_prep",
+  "read_only_helper_review_completed": true,
+  "new_native_GPU_PBS_models_physics": 0,
+  "created_epoch": 1792694999.2668378,
+  "not_native_task_qualification": true,
+  "schema": "WDR1_TEACHER_EXECUTOR_PROVENANCE_V1",
+  "status": "STATIC_IDENTITY_AND_PURPOSE_SEPARATION_NOT_NEW_DATA",
+  "executors": [
+    {
+      "type": "INDEPENDENT_TOOL_MUJOCO",
+      "project": "PI0290",
+      "WBC_asset_use": "Read-only geometric/TCP reference from minimal archive",
+      "target_WBC_policy": "NOT_EXECUTED",
+      "purpose": "SIM_ONLY_INDEPENDENT_SOURCE",
+      "evidence": [
+        {
+          "path": "src/go2arx5_vla/task_data/scene.py",
+          "line": 1,
+          "sha256": "1e5ba10ba850882b427dfd4c2d3d012b008792621b67c1008a87132b58a32a1f",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "src/go2arx5_vla/task_data/engine.py",
+          "line": 1,
+          "sha256": "c06278d96a25eef866bbe607fc7b045747ce850c0e90c75d992b6bc768dfcd31",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "src/go2arx5_vla/task_data/teacher.py",
+          "line": 1,
+          "sha256": "be47a9d85d894165b4bb999840280a5d1a1dbf098ec57f1d3b969a72e8c78580",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        }
+      ]
+    },
+    {
+      "type": "FIXED_BASE_ARX5_TASK_SIM",
+      "projects": [
+        "PI0291",
+        "PV1",
+        "CR2",
+        "VAP1"
+      ],
+      "WBC_asset_use": "Derived robot geometry/XML; base freejoint and old controller actuator/sensor are replaced for independent source executor",
+      "target_WBC_policy": "NOT_EXECUTED",
+      "control": "ARX5 joint IK/PD, finite finger force and MuJoCo contact",
+      "purpose": "FROZEN_SOURCE_TRAIN_BANK_UNDER_ORIGINAL_R0_RECIPE",
+      "evidence": [
+        {
+          "path": "scripts/pi0291_arx5_data/scene.py",
+          "line": 23,
+          "sha256": "86d15d28cf294c1289b941f792c9c949180e1914142f1bb3794549717db6fb49",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "scripts/pi0291_arx5_data/engine.py",
+          "line": 195,
+          "sha256": "623dc5ebf59fd9c470152ee3d60bb15b11ea554ef4b41bf911e62c20dec46c30",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "scripts/pi0294/scene.py",
+          "line": 40,
+          "sha256": "29570d70e6d75519eae4fed02aad0a582efe6119deeea048b30bc99e2cf05b11",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "scripts/pi0294/pv1/capture.py",
+          "line": 1,
+          "sha256": "f131093fbd890b6153970a2494ea2b53fbafe44a9441dbd4a4c694f7930c3955",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "scripts/pi0294/cr2/runtime.py",
+          "line": 1,
+          "sha256": "11e1a5adb9387643504de2093137f62b1d505386b4ba06d886998cb65456d22f",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "scripts/pi0294/vap1/runtime.py",
+          "line": 1,
+          "sha256": "7182ff0ebe41737ad7192300f12c792ea955fd7797b41cf7ae7099b07964a6ce",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        }
+      ]
+    },
+    {
+      "type": "FROZEN_FULLBODY_WBC_TASK_SIM",
+      "projects": [
+        "R4A_TARGET_PILOT"
+      ],
+      "target_WBC_policy": "ONLY_WHEN_ACTUAL_NATIVE_FORWARD_EXECUTION_AND_FREE_BASE_ARE_PROVEN",
+      "purpose": "TARGET_QUALIFICATION_OR_HELDOUT_EVALUATION_NOT_SOURCE_TRAIN",
+      "evidence": [
+        {
+          "path": "scripts/pi0294/task_native_worker.py",
+          "line": 1,
+          "sha256": "9a3c240f1a7d7ccbc5921a242f8f235e75be0f37b8bf698a65424f3dd23eec91",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        }
+      ],
+      "prohibited": "Target task demonstrations cannot flow into the source TRAIN bank under the current controller-disjoint claim."
+    },
+    {
+      "type": "STUDENT_DEV_OR_DEC1_ROLLOUT",
+      "purpose": "EVALUATION_ONLY",
+      "prohibited": "No positive Teacher TRAIN relabeling without separate authority; task oracle/Teacher phase never student inputs."
+    }
+  ],
+  "frozen_boundaries": [
+    "R0 and R1 are not mixed",
+    "Actual desired submitted action is supervision; achieved EEF is not future desired action",
+    "Fixed-base EEF10 does not acquire BASE labels by padding",
+    "Teacher task success is not student success or full-body WBC success",
+    "Controller version, asset source and actual executor provenance remain distinct"
+  ],
+  "new_capture": false,
+  "new_data_export": false,
+  "new_training": false,
+  "goal_complete": false
+}
