@@ -1,0 +1,429 @@
+{
+  "schema": "FAILED2970_ACTUAL_VANDA_ONCE_FINANCIAL_GPU_CLOSURE_AND_NARROW_RETRY_SCOPE_DRAFT_V1",
+  "status": "ACTUAL_FAILED_REQUEST_ONCE_SETTLED_GPU_CLOSED_RETRY_SCOPE_DRAFT_NOT_AUTHORIZATION",
+  "failure": {
+    "job": "1480817.stdct-mgmt-02",
+    "request_sha256": "8e437f152edf4c2f3f28c11795d31594b65fca9f6fb91666e8017edb13e3be24",
+    "native_F1_observed_epoch": 1792756412.9734638,
+    "terminal": "F/Exit1/HeartbeatLost",
+    "last_step": 2970,
+    "paid_unsaved_updates": 922,
+    "query_attempts": 17,
+    "model_loads": 2
+  },
+  "actual_once_closeout": {
+    "status": "INDEPENDENT_VANDA_FAILED2970_SETTLEMENT_AND_GPU_CLOSURE_CONFIRMED_OLD_HOPPER_CPU_FENCED_NOT_CLOSED",
+    "observed_epoch": 1792766222.2538633,
+    "global_sha256": "07386139a397e1e7e7a3c6b77423747e6873bbfbaad0f5d88b6293927f85201f",
+    "DEC1_sha256": "5eb727f3e4e042ff10c96b099e533268c30e07df1f12ad523ed231e5b1d4384b",
+    "once_reconcile": [
+      {
+        "status": "CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT",
+        "request_id": "FAILED2970_VANDA_SETTLEMENT",
+        "actual_sha256": "07386139a397e1e7e7a3c6b77423747e6873bbfbaad0f5d88b6293927f85201f",
+        "receipt_binding_valid": true,
+        "read_only": true,
+        "native_dispatch_admitted": false,
+        "automatic_retry_allowed": false
+      },
+      {
+        "status": "CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT",
+        "request_id": "FAILED2970_VANDA_SETTLEMENT",
+        "actual_sha256": "5eb727f3e4e042ff10c96b099e533268c30e07df1f12ad523ed231e5b1d4384b",
+        "receipt_binding_valid": true,
+        "read_only": true,
+        "native_dispatch_admitted": false,
+        "automatic_retry_allowed": false
+      }
+    ],
+    "pair_intent_sha256": "34e1876ef351f139749934929817132a7fe14e506728da2ca29e1a1d13c50638",
+    "GPU_lease_sha256": "9945644cb5a41c695a18b17ee412cab4cb1bf126d4fcb8193624eede2a21f032",
+    "GPU_terminal_sha256": "548b23720524f46e8008fd256be480b842d9be19536b1f628e9ba0dc507bfddc",
+    "current_Vanda_administrative_control_lease": "ACTIVE",
+    "old_Hopper_CPU_physical_lease": "UNAVAILABLE_FENCED_NOT_CLOSED",
+    "canonical_financial_reservations": 0,
+    "updates": 9666,
+    "queries": 1214,
+    "global_GPU_s": 90738,
+    "DEC1_GPU_s": 70244,
+    "CPU_actual_s": 0.023008024000000002
+  },
+  "independent_readback_sha256": "e0e4400694adff0c5e250e6e0345ba93a164025b9a8861b2db4030e473fce971",
+  "known_finality_code": {
+    "source": "c0fe1fec243016f437e12390559ad309d9230612",
+    "CI_run": 39970390264,
+    "CI_job": 120471199144,
+    "all12steps_success": true,
+    "full_raw_and_Gitblob_readbacks": 6,
+    "original_PBS_timestamp_not_changed": true,
+    "new_distinct_current_native_files_accounting_only": true,
+    "full_CPU_tests": 2379,
+    "related_subtests": 1644,
+    "private_parser_skips": 13,
+    "temp_once_IO_cases": 5
+  },
+  "all_historical_checkpoints_and_probes_preserved": true,
+  "no_failed_owner_or_request_restarted": true,
+  "old_Hopper_CPU_physical_close_not_claimed": true,
+  "LOCAL_actual_projection": {
+    "status": "SYNCED_FROM_ACTUAL_VANDA_AUTHORITY_NOT_FRESH_HOPPER",
+    "updates": 9666,
+    "queries": 1214,
+    "GPU_s": 90738,
+    "after_sha256": "068e11ffd553220edc27c6f47fa3b4875cc4997395ce0f5456ef5256c66d8563",
+    "no_duplicate_CPU_charge": true
+  },
+  "scope_review": {
+    "status": "OFFLINE_COMPLETE_REMAINING_SCOPE_ARITHMETIC_NOT_NATIVE_ADMISSION_OR_NEW_AUTHORIZATION",
+    "source_state": "ACTUAL_ONCE_SETTLED_ON_VANDA_GPU_CLOSED_AND_INDEPENDENT_PAIR_READBACK",
+    "only_proposed_cap_changes": {
+      "DEC1_optimizer_updates": [
+        10792,
+        11714
+      ],
+      "DEC1_PBS": [
+        15,
+        16
+      ],
+      "global_PBS": [
+        26,
+        27
+      ],
+      "DEC1_GPU_site_storage_GiB": [
+        549,
+        614
+      ],
+      "global_GPU_site_storage_GiB": [
+        615,
+        680
+      ]
+    },
+    "all_dimensions": {
+      "H200_s": {
+        "global_used": 90738.0,
+        "DEC1_used": 70244.0,
+        "future": 109140,
+        "global_final_protected": 72000,
+        "global_total": 271878.0,
+        "DEC1_total": 179384.0,
+        "global_cap": 345600,
+        "DEC1_cap": 187200,
+        "global_proposed_cap": 345600,
+        "DEC1_proposed_cap": 187200,
+        "global_margin": 73722.0,
+        "DEC1_margin": 7816.0
+      },
+      "PBS_submissions": {
+        "global_used": 23,
+        "DEC1_used": 12,
+        "future": 4,
+        "global_final_protected": 0,
+        "global_total": 27,
+        "DEC1_total": 16,
+        "global_cap": 26,
+        "DEC1_cap": 15,
+        "global_proposed_cap": 27,
+        "DEC1_proposed_cap": 16,
+        "global_margin": 0,
+        "DEC1_margin": 0
+      },
+      "optimizer_updates": {
+        "global_used": 9666,
+        "DEC1_used": 9666,
+        "future": 2048,
+        "global_final_protected": 0,
+        "global_total": 11714,
+        "DEC1_total": 11714,
+        "global_cap": 16384,
+        "DEC1_cap": 10792,
+        "global_proposed_cap": 16384,
+        "DEC1_proposed_cap": 11714,
+        "global_margin": 4670,
+        "DEC1_margin": 0
+      },
+      "episode_starts": {
+        "global_used": 343,
+        "DEC1_used": 5,
+        "future": 88,
+        "global_final_protected": 100,
+        "global_total": 531,
+        "DEC1_total": 93,
+        "global_cap": 1000,
+        "DEC1_cap": 136,
+        "global_proposed_cap": 1000,
+        "DEC1_proposed_cap": 136,
+        "global_margin": 469,
+        "DEC1_margin": 43
+      },
+      "neural_queries": {
+        "global_used": 1214,
+        "DEC1_used": 160,
+        "future": 7069,
+        "global_final_protected": 9000,
+        "global_total": 17283,
+        "DEC1_total": 7229,
+        "global_cap": 48000,
+        "DEC1_cap": 14000,
+        "global_proposed_cap": 48000,
+        "DEC1_proposed_cap": 14000,
+        "global_margin": 30717,
+        "DEC1_margin": 6771
+      },
+      "physics_ticks": {
+        "global_used": 10681025,
+        "DEC1_used": 30621,
+        "future": 2816000,
+        "global_final_protected": 3200000,
+        "global_total": 16697025,
+        "DEC1_total": 2846621,
+        "global_cap": 40000000,
+        "DEC1_cap": 5000000,
+        "global_proposed_cap": 40000000,
+        "DEC1_proposed_cap": 5000000,
+        "global_margin": 23302975,
+        "DEC1_margin": 2153379
+      },
+      "engine_starts": {
+        "global_used": 29671,
+        "DEC1_used": 54,
+        "future": 7131,
+        "global_final_protected": 0,
+        "global_total": 36802,
+        "DEC1_total": 7185,
+        "global_cap": 100000,
+        "DEC1_cap": 12000,
+        "global_proposed_cap": 100000,
+        "DEC1_proposed_cap": 12000,
+        "global_margin": 63198,
+        "DEC1_margin": 4815
+      },
+      "Core_CPU_s": {
+        "global_used": 172750.36220953896,
+        "DEC1_used": 172750.36220953896,
+        "future": 200180,
+        "global_final_protected": 0,
+        "global_total": 372930.36220953893,
+        "DEC1_total": 372930.36220953893,
+        "global_cap": 1152000,
+        "DEC1_cap": 576000,
+        "global_proposed_cap": 1152000,
+        "DEC1_proposed_cap": 576000,
+        "global_margin": 779069.6377904611,
+        "DEC1_margin": 203069.63779046107
+      },
+      "Hopper_CPU_s": {
+        "global_used": 139638.19877712202,
+        "DEC1_used": 132967.376643263,
+        "future": 139520,
+        "global_final_protected": 0,
+        "global_total": 279158.198777122,
+        "DEC1_total": 272487.37664326304,
+        "global_cap": 576000,
+        "DEC1_cap": 345600,
+        "global_proposed_cap": 576000,
+        "DEC1_proposed_cap": 345600,
+        "global_margin": 296841.801222878,
+        "DEC1_margin": 73112.62335673696
+      },
+      "local_CPU_s": {
+        "global_used": 50243.974682509,
+        "DEC1_used": 50243.974682509,
+        "future": 7320,
+        "global_final_protected": 0,
+        "global_total": 57563.974682509,
+        "DEC1_total": 57563.974682509,
+        "global_cap": 172800,
+        "DEC1_cap": 57600,
+        "global_proposed_cap": 172800,
+        "DEC1_proposed_cap": 57600,
+        "global_margin": 115236.025317491,
+        "DEC1_margin": 36.02531749100308
+      },
+      "transfer_bytes": {
+        "global_used": 59326304897,
+        "DEC1_used": 39938581805,
+        "future": 8321499136,
+        "global_final_protected": 0,
+        "global_total": 67647804033,
+        "DEC1_total": 48260080941,
+        "global_cap": 322122547200,
+        "DEC1_cap": 137438953472,
+        "global_proposed_cap": 322122547200,
+        "DEC1_proposed_cap": 137438953472,
+        "global_margin": 254474743167,
+        "DEC1_margin": 89178872531
+      },
+      "Hopper_storage_bytes": {
+        "global_used": 607510477636,
+        "DEC1_used": 579182717764,
+        "future": 79442971836,
+        "global_final_protected": 42949672960,
+        "global_total": 729903122432,
+        "DEC1_total": 658625689600,
+        "global_cap": 660351221760,
+        "DEC1_cap": 589484261376,
+        "global_proposed_cap": 730144440320,
+        "DEC1_proposed_cap": 659277479936,
+        "global_margin": 241317888,
+        "DEC1_margin": 651790336
+      },
+      "Core_storage_bytes": {
+        "global_used": 114521276416,
+        "DEC1_used": 93046439936,
+        "future": 17968398336,
+        "global_final_protected": 0,
+        "global_total": 132489674752,
+        "DEC1_total": 111014838272,
+        "global_cap": 322122547200,
+        "DEC1_cap": 137438953472,
+        "global_proposed_cap": 322122547200,
+        "DEC1_proposed_cap": 137438953472,
+        "global_margin": 189632872448,
+        "DEC1_margin": 26424115200
+      },
+      "local_storage_bytes": {
+        "global_used": 8589934592,
+        "DEC1_used": 8589934592,
+        "future": 0,
+        "global_final_protected": 0,
+        "global_total": 8589934592,
+        "DEC1_total": 8589934592,
+        "global_cap": 21474836480,
+        "DEC1_cap": 8589934592,
+        "global_proposed_cap": 21474836480,
+        "DEC1_proposed_cap": 8589934592,
+        "global_margin": 12884901888,
+        "DEC1_margin": 0
+      }
+    },
+    "mandatory_jobs": [
+      {
+        "CPU_envelope_profile": "A40_SEGMENT_22500S_PROCESS_CPU54000_V1",
+        "arm": "B_COVERAGE",
+        "heartbeat_recovery_grant_sha256": "b27902561f14d963bc1b307b6cbe7a73db6556b08ab52128f4eca5b928903f18",
+        "heartbeat_recovery_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
+        "resources": {
+          "H200_s": 22560,
+          "PBS_submissions": 1,
+          "optimizer_updates": 2048,
+          "episode_starts": 0,
+          "neural_queries": 29,
+          "physics_ticks": 0,
+          "engine_starts": 3,
+          "Core_CPU_s": 180,
+          "Hopper_CPU_s": 54000,
+          "local_CPU_s": 120,
+          "transfer_bytes": 2147483648,
+          "Hopper_storage_bytes": 70000000000,
+          "Core_storage_bytes": 0,
+          "local_storage_bytes": 0
+        },
+        "same_allocation_1024_probes": true,
+        "segmented_authorization_release": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+        "segmented_grant_sha256": "2eb61986e4d87ca428ec386e703df323c8480916c5ddb0ea9abaef3bf26f5615",
+        "start_step": 2048,
+        "stop_step": 4096,
+        "training_lineage_key": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+        "walltime_upper_s": 22500,
+        "work_id": "TRAIN:B_COVERAGE:SEGMENT:4096",
+        "zero_update_resume_grant_sha256": "f32922b15138816517de3e9bd63d4c413698f74b49c20908bb1d4dfea9a279a8",
+        "zero_update_resume_release": "871094ee31b18c47183c7403459ebd5fdad88b1f",
+        "B_heartbeat_recovery_release": "09ae7896b90e4a9447ee401a2c1b5763a0fa745d",
+        "B_heartbeat_recovery_grant_sha256": "c122a853baf84b49a00af89caa24ffea72690fc6791e18a8112b2345a2ecc8a2",
+        "recovery_authorization_release": "1d84e4cfa4f10c84d0cb33c42b06129b048c90c4",
+        "recovery_adoption_sha256": "ef7cb5feb3395e653873affe189fb7a4bdb5e38b1cbed099f5180e91f4d6a28c",
+        "storage_authorization_release": "1abb20973d84836b29baebf1d73466377c98759c",
+        "storage_grant_sha256": "fd8761efd5a0c8a49b2e5f5c378965502c23a201f7fbd9c37eb681e5430862cd",
+        "B_failed_saved2048_reuse_release": "918c675a7b7f778b947005fc69777f4b6364f792",
+        "B_failed_saved2048_reuse_grant_sha256": "c8f36abdbadd362156a6cd28d5599da6e0bc72d708de47a218fa536271c2b253",
+        "kind": "TRAIN"
+      },
+      {
+        "work_id": "DEC1_CORE_MATRIX_AND_COMMISSIONING",
+        "kind": "MATRIX_ENVELOPE",
+        "walltime_upper_s": 86580,
+        "resources": {
+          "H200_s": 86580,
+          "PBS_submissions": 3,
+          "optimizer_updates": 0,
+          "episode_starts": 88,
+          "neural_queries": 7040,
+          "physics_ticks": 2816000,
+          "engine_starts": 7128,
+          "Core_CPU_s": 200000,
+          "Hopper_CPU_s": 80000,
+          "local_CPU_s": 3600,
+          "transfer_bytes": 5368709120,
+          "Hopper_storage_bytes": 2147483648,
+          "Core_storage_bytes": 21474836480,
+          "local_storage_bytes": 1073741824
+        }
+      }
+    ],
+    "all_prior_controller_ceiling": {
+      "Hopper_CPU_s": 5520,
+      "local_CPU_s": 3600,
+      "transfer_bytes": 805306368
+    },
+    "clocks": {
+      "evaluated_epoch": 1792766371.9416962,
+      "original_T0": 1792348196,
+      "original": {
+        "stop_new_jobs_epoch": 1792866596,
+        "stop_training_epoch": 1792909796,
+        "stop_physics_epoch": 1792924196,
+        "hard_closeout_epoch": 1792952996
+      },
+      "projected_training_finish": 1792792471.9416962,
+      "projected_matrix_ceiling_finish": 1792889851.9416962,
+      "projected_close": 1792893451.9416962
+    },
+    "no_cap_or_native_ledger_changed": true,
+    "no_new_GPU_or_PBS": true,
+    "proposed_new_lineage": "B_COVERAGE_HEARTBEAT_RECOVERY2",
+    "seed": {
+      "step": 2048,
+      "cursor": 65536,
+      "sha256": "db2b2be84e1d2e6eeca1715107f6eb42a8b151e38fe513ddac6029e8db97bbcf"
+    },
+    "old_lineages_preserved": {
+      "B_COVERAGE": 1829,
+      "B_COVERAGE_HEARTBEAT_RECOVERY1": 2970
+    },
+    "lost_paid_updates_preserved": [
+      805,
+      922
+    ],
+    "all_training_and_background_control": "VANDA",
+    "Hopper_not_a_future_dependency": true,
+    "original_CORR_R0_recipe_S1_WBC_and_64_cells_unchanged": true
+  },
+  "recovery_conditions": [
+    "Human approval of only the five proposed counters/storage caps, no silent native cap adoption",
+    "Keep failed B1829/805lost and failed B2970/922lost and every cost; new B lineage starts from already independently audited complete B2048/cursor65536",
+    "All future training and resident single-owner control on Vanda; no unavailable Hopper login prerequisite",
+    "Cold qualified lineage/accounting/standard capsule and registry; current administrative lease remains ACTIVE, old unavailable Hopper CPU lease explicitly fenced, never forged CLOSED",
+    "Server-resident owner and normal authorized own-account authentication renewal must remove agent/SSH-session liveness dependency",
+    "Full PV1 original126/C1/new139 processed-batch equivalence and original order/cursor/RNG before opting in to loader2; aggregate parent/worker CPU inside54000",
+    "Fresh complete Vanda project/quota/all-account queue/native permissions and all remaining resources before unique new request/qsub and again before model/first-update",
+    "Original recipes/effective batch32/micro2/accum16/BF16/fusedAdamW/R0/old12probe/S1/WBC/target science and all original clocks unchanged"
+  ],
+  "allocation_efficiency": {
+    "allocated_CPU_count": 36,
+    "old_process_affinity": 4,
+    "old_data_workers": 0,
+    "CPU_full_job_upper_s": 54000,
+    "first_proposed_data_workers": 2,
+    "original_main_plus_workers_counted_together": true,
+    "maximum36_busy_cores_not_equivalent_to_maximum_training_efficiency": true,
+    "GPU_fully_utilized_not_proven": true,
+    "new_GPU_speedup_not_claimed": true
+  },
+  "goal": {
+    "status": "ACTIVE_INCOMPLETE",
+    "target_task_native_qualified": false,
+    "core64": 0,
+    "original_final_GPU_s": 72000,
+    "original_final_storage_GiB": 40
+  }
+}
