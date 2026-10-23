@@ -20,6 +20,9 @@ CAPS=dict(zip(DIMS,(160*3600,16*3600,136,5000000,12000,128*1024**3,8*1024**3,128
 VAP1_AUTHORITY='43f7fe6f86c683f2e38e5c8802eb8cde208e575c'
 VAP1_SHA='a26aeb5076e075791e1dfea4e5da0ccaae05ccbb7fa578a1583dea1c4764ed89'
 PROJECTION='plans/TARGET_ZERO_COUNTER_NATIVE_RESOURCE_PROJECTION.private.json'
+PROTECTED='plans/EXISTING_FULL_REMAINING_BUDGET_PROTECTION.private.json'
+RECOVERY_RELEASE='871094ee31b18c47183c7403459ebd5fdad88b1f'
+RECOVERY_GRANT='f32922b15138816517de3e9bd63d4c413698f74b49c20908bb1d4dfea9a279a8'
 
 
 def need(ok,why):
@@ -64,7 +67,7 @@ def totals(ledger):
     return total
 
 
-def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_bytes,VAP1_bytes,*,now_epoch):
+def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_bytes,VAP1_bytes,*,protected_budget_bytes,now_epoch):
     """Return proposed LOCAL/Core ledgers; existing once writer owns each CAS."""
     p,c,q,m,x=map(obj,(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_bytes))
     need(sha(VAP1_bytes)==VAP1_SHA and c['VAP1_authority_release']==VAP1_AUTHORITY,'ACTUAL_ADOPTED_VAP1_CAPS')
@@ -80,7 +83,7 @@ def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_byte
          and m['authority']['protocol_ref']==PARENT_AUTHORITY
          and m['authority']['amendments']==[AUTHORITY,VAP1_AUTHORITY],
          'EXPLICIT_NEW_ZERO_COUNTER_ROLE_UNDER_EXISTING_AUTHORITY')
-    need(q['observed_epoch']<=now_epoch<q['deadline_epoch']<=t0+160*3600
+    need(q['observed_epoch']<=now_epoch<q['deadline_epoch']<=t0+144*3600
          and 0<=now_epoch-q['observed_epoch']<=120
          and m['limits']['operation_deadline_epoch']==q['deadline_epoch']
          and m['limits']['PV1_T0_epoch']==t0 and m['limits']['PV1_hard_close_epoch']==HARD_CLOSE,
@@ -113,7 +116,28 @@ def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_byte
             baseline=vector(c[prior]);need(all(used[k]>=baseline[k] for k in DIMS),'PRIOR_FULL_CLASSIFICATION_PRESERVED')
     source=vector(c.get('source_cpu_reserved',dict.fromkeys(DIMS,0)))
     need(all(reserved[k]>=source[k]+old[k] for k in DIMS),'ALL_EXISTING_SOURCE_AND_TARGET_HOLDS_PRESERVED')
-    need(all(used[k]+reserved[k]+REQUESTED[k]<=CAPS[k] for k in DIMS),'DEC1_NONADDITIVE_CAPS')
+    protected=obj(protected_budget_bytes)['budget_proof']
+    need(protected['full_remaining_work_admissible'] is True
+         and protected['all_old_spent_and_reserved_preserved'] is True
+         and protected['original_T0_epoch']==t0 and protected['hard_close_epoch']==HARD_CLOSE
+         and protected['zero_update_resume_release']==RECOVERY_RELEASE
+         and protected['zero_update_resume_grant_sha256']==RECOVERY_GRANT
+         and protected['forecast']['admissible_forecast'] is True
+         and protected['forecast']['original_final_protection']['H200_s']==72000
+         and protected['forecast']['original_final_protection']['Hopper_storage_bytes']==40*1024**3,
+         'ORIGINAL_FUNDED_FULL_REMAINING_WORK_AND_FINAL_PROTECTION')
+    need(now_epoch+300<protected['forecast']['projected_finish_epoch']
+         and protected['forecast']['projected_finish_epoch']+300<=protected['forecast']['clock']['stop_new_jobs_epoch']==t0+144*3600,
+         'ORIGINAL_FULL_PLAN_AND_COUNTER_WALL_HEADROOM_NO_CLOCK_RESET')
+    forecast=protected['forecast']['future_required_additional']
+    mapping=dict(CoreLab_CPU_s='Core_CPU_s',local_CPU_s='local_CPU_s',episode_starts='episode_starts',
+        physics_ticks='physics_ticks',constructors='engine_starts',CoreLab_output_bytes='Core_storage_bytes',
+        local_output_bytes='local_storage_bytes',transfer_bytes='transfer_bytes')
+    remaining=vector({k:forecast[v] for k,v in mapping.items()})
+    need(x['protected_remaining']==remaining and x['protected_budget_sha256']==sha(protected_budget_bytes)
+         and m['execution']['sealed_inputs'][PROTECTED]==sha(protected_budget_bytes),
+         'SEALED_UNREDUCED_EXISTING_FUTURE_FORECAST_NO_FREED_B1_CREDIT')
+    need(all(used[k]+reserved[k]+REQUESTED[k]+remaining[k]<=CAPS[k] for k in DIMS),'DEC1_NONADDITIVE_CAPS')
     floor=p['final_reserve_inside_total'];need(floor['H200_s']==72000 and floor['episode_starts']==100
          and floor['live_ticks']==floor['shadow_ticks']==1600000,'ORIGINAL_FINAL_RESERVE_INTACT')
     parent_used=dict(CoreLab_CPU_s=p['CPU_s']['CoreLab'],local_CPU_s=p['CPU_s']['local_PC'],
@@ -123,7 +147,7 @@ def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_byte
         physics_ticks=sum(a.get('physics_ticks_reserved',0) for a in children),
         constructors=sum(a.get('engine_starts_reserved',0) for a in children))
     original=dict(CoreLab_CPU_s=320*3600,local_CPU_s=48*3600,episode_starts=900,physics_ticks=36800000,constructors=100000)
-    for k in original:need(parent_used[k]+pending[k]+REQUESTED[k]<=original[k],'PARENT_AND_PROTECTED_FINAL_CAP_'+k)
+    for k in original:need(parent_used[k]+pending[k]+REQUESTED[k]+remaining[k]<=original[k],'PARENT_AND_PROTECTED_FINAL_CAP_'+k)
     need(all(REQUESTED[k]<=min(vector(x['site_remaining'])[k],vector(x['parent_remaining'])[k]) for k in DIMS),
          'ALL_NATIVE_SITE_AND_PARENT_DIMENSIONS')
     need(x['site_permission']=='EXISTING_REGISTERED_CORELAB_4080_SIMULATION'

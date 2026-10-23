@@ -46,14 +46,17 @@ def validate(root):
          'CURRENT_EXPLICIT_ZERO_COUNTER_SCOPE_NOT_OLD_PILOT')
     e=m['execution'];need(e['profile']=='4080-simulation' and e['host']==os.uname().nodename
          and e['uid']==os.getuid()==b['uid'] and os.environ.get('CUDA_VISIBLE_DEVICES')==''
-         and 'PBS_JOBID' not in os.environ and os.environ.get('GR00T_WBC_PYTHON')==sys.executable==inputs['runtime_python']
+         and 'PBS_JOBID' not in os.environ and not os.environ.get('LD_PRELOAD') and os.environ.get('GR00T_WBC_PYTHON')==sys.executable==inputs['runtime_python']
          and os.environ.get('PV1_RUN_MANIFEST')==str(code.parent/'WORKER_RUN_MANIFEST.json')
          and read(code.parent/'WORKER_RUN_MANIFEST.json')==m,'ACTUAL_STANDARD_PROFILE_HOST_UID_AND_WORKER_MANIFEST')
     parent=root.parent.parent;adoption=read(parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
+    for relative in ('authority/DEC1/DEC1_NATIVE_ADOPTION_AND_BUDGET.json','authority/VAP1/VAP1_ADOPTION_AND_DELTA_BUDGET.json'):
+        need((root/'plans'/Path(relative).name).read_bytes()==(parent/relative).read_bytes(),'ACTUAL_CURRENT_ADOPTION_BYTES')
+    need(filehash(parent/'authority/VAP1/VAP1_ADOPTION_AND_DELTA_BUDGET.json')==contract.VAP1_SHA,'ADOPTED_VAP1_BYTES')
     need(q['schema']==contract.REQUEST_SCHEMA and q['authority_release']==contract.AUTHORITY
          and q['original_T0_epoch']==m['limits']['PV1_T0_epoch']==adoption['T0_epoch']==1792348196
          and m['limits']['PV1_hard_close_epoch']==adoption['hard_closeout_epoch']==contract.HARD_CLOSE
-         and now<q['deadline_epoch']==m['limits']['operation_deadline_epoch']<=adoption['stop_new_physics_epoch'],
+         and now<q['deadline_epoch']==m['limits']['operation_deadline_epoch']<=min(adoption['stop_new_physics_epoch'],1792866596),
          'ACTUAL_ORIGINAL_CLOCK_NO_REOPENED_WINDOW')
     contract.vector(q['requested'])
     need(q['requested']==contract.REQUESTED and m['limits']['engine_starts']==2
@@ -97,6 +100,9 @@ def validate(root):
     need(read(root/'plans/TARGET_ZERO_COUNTER_PLAN.json')==plan
          and filehash(root/'plans/TARGET_ZERO_COUNTER_PLAN.json')==m['data']['manifest_sha256'],
          'EXACT_PREDECLARED_ZERO_TIME_TRAIN_GEOMETRY')
+    need(filehash(e['entry_path'])==e['entry_sha256']=='0c7973e0a3bc0e585e7ab96cfcc9033532a98f56e9c9410882282a291bb7082f'
+         and filehash(e['doctor_path'])==e['doctor_sha256']=='013e7cea41740b10fdd213e30f6d65b0fbcaee295cce44b624fc61e23fe6d861',
+         'ACTUAL_EXISTING_STANDARD_ENTRY_AND_DOCTOR')
     current=read(parent/'authority/DEC1/DEC1_RESOURCE_LEDGER.json');rid=q['request_id']
     need(current['unknown_effects']==[],'NO_UNKNOWN_CORE_METADATA')
     row=current['target_zero_counter_reservations'][rid]

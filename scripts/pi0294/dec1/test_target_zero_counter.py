@@ -32,14 +32,22 @@ def fixture(monkeypatch):
         authority=dict(protocol_ref=unit.PARENT_AUTHORITY,amendments=[unit.AUTHORITY,unit.VAP1_AUTHORITY]),
         limits=dict(operation_deadline_epoch=q['deadline_epoch'],PV1_T0_epoch=p['T0_epoch'],PV1_hard_close_epoch=unit.HARD_CLOSE,
             engine_starts=2,policy_episodes=0,physics_ticks=0),execution=dict(sealed_inputs={}),code=dict(vla_commit='e'*40))
-    return p,c,q,m,x,adoption
+    future=dict(Core_CPU_s=200360,local_CPU_s=7440,episode_starts=88,physics_ticks=2816000,engine_starts=7134,Core_storage_bytes=17968398336,local_storage_bytes=0,transfer_bytes=10468982784)
+    protected=dict(budget_proof=dict(full_remaining_work_admissible=True,all_old_spent_and_reserved_preserved=True,
+        original_T0_epoch=p['T0_epoch'],hard_close_epoch=unit.HARD_CLOSE,zero_update_resume_release=unit.RECOVERY_RELEASE,
+        zero_update_resume_grant_sha256=unit.RECOVERY_GRANT,forecast=dict(admissible_forecast=True,
+            original_final_protection=dict(H200_s=72000,Hopper_storage_bytes=40*1024**3),future_required_additional=future,projected_finish_epoch=1792863000.,clock=dict(stop_new_jobs_epoch=1792866596))))
+    return p,c,q,m,x,adoption,unit.encode(protected)
 
 
 def call(fixture,now=1792720001.):
-    p,c,q,m,x,a=deepcopy(fixture);pr,cr=map(unit.encode,(p,c));q['parent_before_sha256']=x['parent_before_sha256']=unit.sha(pr)
+    p,c,q,m,x,a,protected=deepcopy(fixture);pr,cr=map(unit.encode,(p,c));q['parent_before_sha256']=x['parent_before_sha256']=unit.sha(pr)
     q['Core_before_sha256']=x['Core_before_sha256']=unit.sha(cr);qr,xr=map(unit.encode,(q,x))
-    m['execution']['sealed_inputs'].update({unit.PROJECTION:unit.sha(xr),'REQUEST.json':unit.sha(qr)})
-    return unit.reserve(pr,cr,qr,unit.encode(m),xr,a,now_epoch=now)
+    remaining=unit.obj(protected)['budget_proof']['forecast']['future_required_additional']
+    mapping=dict(CoreLab_CPU_s='Core_CPU_s',local_CPU_s='local_CPU_s',episode_starts='episode_starts',physics_ticks='physics_ticks',constructors='engine_starts',CoreLab_output_bytes='Core_storage_bytes',local_output_bytes='local_storage_bytes',transfer_bytes='transfer_bytes')
+    x['protected_remaining']={k:remaining[v] for k,v in mapping.items()};x['protected_budget_sha256']=unit.sha(protected);xr=unit.encode(x)
+    m['execution']['sealed_inputs'].update({unit.PROJECTION:unit.sha(xr),'REQUEST.json':unit.sha(qr),unit.PROTECTED:unit.sha(protected)})
+    return unit.reserve(pr,cr,qr,unit.encode(m),xr,a,protected_budget_bytes=protected,now_epoch=now)
 
 
 def test_current_reservation_keeps_gpu_clocks_source_failures_and_final_unchanged(fixture):
@@ -55,7 +63,7 @@ def test_current_reservation_keeps_gpu_clocks_source_failures_and_final_unchange
 @pytest.mark.parametrize('fault',['policy','physical','constructors','GPU','old_scope','unknown_Core','unknown_LOCAL',
     'time','local_CPU','Core_CPU','missing_dimension','source_hold_omitted','site','final','bool_cost'])
 def test_counter_cannot_borrow_science_authority_reset_history_or_drop_cost(fixture,fault):
-    p,c,q,m,x,a=fixture
+    p,c,q,m,x,a,protected=fixture
     if fault=='policy':q['policy_episodes']=1
     elif fault=='physical':q['requested']['physics_ticks']=1
     elif fault=='constructors':q['requested']['constructors']=3
@@ -125,3 +133,10 @@ def test_no_admission_no_model_import_or_intent(tmp_path,monkeypatch):
         m.setattr(builtins,'__import__',check)
         with pytest.raises(FileNotFoundError):runtime.run(tmp_path)
     assert native==[] and not(tmp_path/'evidence/ZERO_COUNTER_INTENT.json').exists()
+
+
+def test_original_remaining_work_cannot_be_reduced_or_final_clock_extended(fixture):
+    p,c,q,m,x,a,protected=fixture
+    value=unit.obj(protected);value['budget_proof']['forecast']['projected_finish_epoch']=1792866590.
+    modified=(*fixture[:6],unit.encode(value))
+    with pytest.raises(PermissionError,match='WALL_HEADROOM'):call(modified)
