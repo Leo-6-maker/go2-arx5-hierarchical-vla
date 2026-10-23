@@ -1,8 +1,8 @@
 {
   "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
   "created_epoch": 1792663428.495236,
-  "user_direction": "\u5e76\u884c\u51c6\u5907\u540e\u7eed\u7684\u6570\u636e\u4ee5\u53ca\u8bad\u7ec3\uff0c\u79d1\u5b66\u4e3b\u7ebf\uff0c\u66f4\u65b0goal",
-  "objective": "\u7ee7\u7eed\u65e2\u6709A/B\u5206\u6bb5\u8bad\u7ec3\u4e0e\u79d1\u5b66\u8bc4\u4ef7\uff0c\u540c\u65f6\u5e76\u884c\u4ea4\u4ed8\u540e\u7eed\u6570\u636e\u3001\u8bad\u7ec3\u548c\u8bc4\u4ef7\u51c6\u5907\uff1b\u4f4e\u9891\u89c2\u5bdfGPU\uff0c\u4ee5\u771f\u5b9e\u7aef\u70b9\u53ca\u914d\u5bf9\u95ed\u73af\u8bc1\u636e\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\u3002",
+  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
+  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
   "goal_panel": {
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
@@ -1273,5 +1273,17 @@
     "native_adopted": false,
     "B2_submitted": false,
     "goal_complete": false
+  },
+  "latest_approved_saved2048_B2_actual": {
+    "report": "reports/PI0294/design/parallel-science-20261022/B_APPROVED_SAVED2048_TO4096_UNIQUE_NATIVE_SUBMISSION_ACTUAL_20261023.json",
+    "job_id": "1480412.stdct-mgmt-02",
+    "request_sha256": "4455e91b4f49c7f627d82dd9dacab0ec939a23e11cbf1034468d73d43f4523f9",
+    "runtime": "07937041d7b330354dfe004ed6bf5a179588147e",
+    "native_grant_adopted": true,
+    "owner_healthy_Q_heartbeat": true,
+    "settled_updates": 8744,
+    "reserved_updates": 2048,
+    "full_goal_complete": false,
+    "earlier_no_B2_native_statements_are_history": true
   }
 }
