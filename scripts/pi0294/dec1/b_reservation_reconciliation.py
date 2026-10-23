@@ -68,3 +68,32 @@ def propose(global_bytes,DEC1_bytes,intent_bytes,request_bytes,*,now_epoch):
         original_intent_sha256=INTENT_SHA,DEC1_rewrite=False,new_request=False,
         native_dispatch_admitted=False,automatic_retry=False,old_unknown_journal_preserved=True,
         new_GPU_PBS_models_queries_updates_physics=0)
+
+
+COMPLETED_GLOBAL_SHA='1f1f7cfd36317e0cc255a594af612c31ef233d44bd62bf9dfdb862e238b00246'
+
+
+def validate_funded_preqsub(snapshot,row,*,b_recovery_bytes):
+    """Credit an actual recorded reservation without inventing a PBS job ID.
+
+    This exact one-request scope only affects resource arithmetic. It never
+    authorizes qsub, resolves an unknown write, or changes runtime admission.
+    Queue delay remains part of the forecast because qsub has not happened.
+    """
+    need(b_recovery_bytes is not None,'EXACT_ADOPTED_B_GRANT_REQUIRED')
+    b.grant(b_recovery_bytes)
+    need(snapshot.get('actual_Hopper_ledger_sha256')==COMPLETED_GLOBAL_SHA
+         and snapshot.get('actual_DEC1_ledger_sha256')==DEC1_SHA,
+         'ACTUAL_COMPLETED_RESERVATION_DUAL_BYTES')
+    need(row.get('request_id')==REQUEST and row.get('request_sha256')==REQUEST_SHA
+         and row.get('original_reservation_intent_sha256')==INTENT_SHA
+         and row.get('job_id') is None and row.get('submission_already_charged') is True
+         and row.get('work_id')=='TRAIN:B_COVERAGE:SEGMENT:2048'
+         and row.get('kind')=='TRAIN','EXACT_PREQSUB_NOT_AN_INVENTED_JOB')
+    resources=row['resources']
+    need(resources.get('H200_s')==22560 and resources.get('Hopper_CPU_s')==54000
+         and resources.get('optimizer_updates')==1024 and resources.get('neural_queries')==29
+         and resources.get('PBS_submissions',0)==0
+         and resources.get('Hopper_storage_bytes')==70000000000,
+         'FULL_RECORDED_ENVELOPE_NO_NEW_RESERVATION')
+    return row

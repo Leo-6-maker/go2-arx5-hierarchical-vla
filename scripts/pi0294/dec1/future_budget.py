@@ -268,11 +268,15 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
     for row in snapshot['work_reservations']:
         key=row['work_id'];rv=old._vector(row['resources'])
         cold=row.get('reservation_scope')=='COLD_NON_GPU_ONLY'
+        preqsub=row.get('reservation_scope')=='EXACT_B_RECOVERY_RECORDED_PREQSUB'
+        if preqsub:
+            from .b_reservation_reconciliation import validate_funded_preqsub
+            validate_funded_preqsub(snapshot,row,b_recovery_bytes=b_recovery_bytes)
         if (key in funded or rv['PBS_submissions'] or row.get('kind')!='TRAIN'
                 or type(row.get('submission_already_charged')) is not bool
                 or cold and (row.get('job_id') is not None or row['submission_already_charged']
                     or any(rv[k] for k in ('H200_s','optimizer_updates','neural_queries')))
-                or not cold and (not row.get('job_id') or not row['submission_already_charged'])):
+                or not cold and not preqsub and (not row.get('job_id') or not row['submission_already_charged'])):
             fail('ONE_EXACT_NATIVE_ALLOCATION_RESERVATION_CREDIT')
         funded[key]=row;charged+=int(row['submission_already_charged'])
         for k in caps:all_reserved[k]+=rv[k]
@@ -287,6 +291,8 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
         if row and row.get('reservation_scope')!='COLD_NON_GPU_ONLY':
             cr['PBS_submissions']=int(row['submission_already_charged'])
             if cr['H200_s']!=rv['H200_s']:fail('CURRENT_JOB_FULL_ENVELOPE_MATCH')
+            if row.get('reservation_scope')=='EXACT_B_RECOVERY_RECORDED_PREQSUB':
+                submission_times.append(cursor);cursor+=queue*rv['PBS_submissions']
         else:
             submission_times.append(cursor);cursor+=queue*rv['PBS_submissions']
         cursor+=job['walltime_upper_s']
