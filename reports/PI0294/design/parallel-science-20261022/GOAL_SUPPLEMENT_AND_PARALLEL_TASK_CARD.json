@@ -32,7 +32,7 @@
     "start_step": 0,
     "target_step": 2048,
     "native_state": "R",
-    "native_observed_epoch": 1792713901.9384985,
+    "native_observed_epoch": 1792714899.939083,
     "owner_service": "vap1-a40-zero-update-b1-owner-01",
     "owner_pid": 567538,
     "owner_status": "ACTIVE",
@@ -55,7 +55,7 @@
     },
     "CPU_reserved_s": 54000,
     "model_start_release": true,
-    "last_returned_training_step": 476,
+    "last_returned_training_step": 615,
     "first_update_release": true
   },
   "workstreams": [
@@ -188,8 +188,8 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792714613.8556726,
-  "latest_actual_receipt": "reports/PI0294/design/WDR1_SOURCE02_FINITE_NATIVE_PROGRESS_AND_B2_CLOSED_COSTS_CPU_ACTUAL_20261023.json",
+  "updated_epoch": 1792714915.616207,
+  "latest_actual_receipt": "reports/PI0294/design/WDR1_EXISTING_TARGET_IDENTITY_AND_B2_COLD_ENTRY_CPU_ACTUAL_20261023.json",
   "current_resource_work": {
     "status": "A4096_CLOSED_B1_UNIQUELY_SUBMITTED_RUNNING",
     "retain_all_checkpoints": true,
@@ -927,13 +927,20 @@
     "known_conditions": 4,
     "last_actor_active": false,
     "known_terminal_native_settlement": true,
-    "new_qualified_code_pending_CI": true,
+    "new_qualified_code_pending_CI": false,
     "related_CPU_cases": 302,
     "subtests": 19,
     "source_lease_closed": true,
     "independent_readback_sha256": "85f4d31ce10cc4dfbb0ced2408f05b8091a2799124d38bce6623ae245b24a65b",
     "owner_service_status": "NATURAL_SUCCESSFUL_EXIT_MAINPID0",
-    "source_task_successes": 0
+    "source_task_successes": 0,
+    "qualified_code_CI": {
+      "source": "53698763ca155f4342492be129e63b2ec3711546",
+      "run": 39877207308,
+      "job": 120165586286,
+      "all_12_steps_success": true,
+      "full_readback_files": 9
+    }
   },
   "CI_test_isolation_remediation": {
     "failed_commit": "5de4ae8c898447656773af93fd59247e868bd5cf",
@@ -946,7 +953,23 @@
     "local_passed": 1828,
     "local_subtests_passed": 1284,
     "wall_s": 75.37,
-    "exact_fixed_commit_CI": "PENDING_PUBLICATION",
+    "exact_fixed_commit_CI": {
+      "source": "53698763ca155f4342492be129e63b2ec3711546",
+      "run": 39877207308,
+      "job": 120165586286,
+      "all_12_steps_success": true,
+      "full_readback_files": 9
+    },
     "native_runtime_changes": 0
+  },
+  "latest_target_identity_and_B2_cold_entry": {
+    "report": "reports/PI0294/design/WDR1_EXISTING_TARGET_IDENTITY_AND_B2_COLD_ENTRY_CPU_ACTUAL_20261023.json",
+    "target_tests": 17,
+    "related_target_cases": 36,
+    "related_subtests": 46,
+    "B2_context_entry_tests": 9,
+    "B2_launcher_tests": 12,
+    "native_B2_writes": 0,
+    "target_native_qualified": false
   }
 }
