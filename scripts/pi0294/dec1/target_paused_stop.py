@@ -64,26 +64,37 @@ class OwnedTargetQuota:
     """
     def __init__(self, folder, *, clock_path, episode_id, executor_id,
                  run_uuid, manifest_sha256, guard, spin, maximum_native_step):
+        need(type(maximum_native_step) is int and 0 < maximum_native_step <= 20000, 'ORIGINAL_QUOTA_CAP')
+        self._initialize(folder, clock_path=clock_path, episode_id=episode_id,
+            executor_id=executor_id, run_uuid=run_uuid, manifest_sha256=manifest_sha256,
+            guard=guard, spin=spin, maximum_native_step=maximum_native_step)
+
+    def _initialize(self, folder, *, clock_path, episode_id, executor_id,
+                    run_uuid, manifest_sha256, guard, spin, maximum_native_step,
+                    owner_extra=None):
         self.clock = frozen_clock(clock_path)
         need(all(isinstance(v, str) and v for v in (episode_id, executor_id, run_uuid)), 'EXPLICIT_OWNER_IDENTITIES')
         need(isinstance(manifest_sha256, str) and len(manifest_sha256) == 64
              and all(c in '0123456789abcdef' for c in manifest_sha256), 'MANIFEST_HASH')
         need(callable(guard) and callable(spin), 'EXISTING_OWNER_GUARD_AND_SPIN')
-        need(type(maximum_native_step) is int and 0 < maximum_native_step <= 20000, 'ORIGINAL_QUOTA_CAP')
         self.root = Path(folder)
         need(self.root.is_dir() and not self.root.is_symlink(), 'REGISTERED_OUTPUT_DIRECTORY')
         self.guard, self.spin = guard, spin
         self.episode_id, self.executor_id = episode_id, executor_id
         self.identity = dict(run_uuid=run_uuid, manifest_sha256=manifest_sha256,
                              episode_id=episode_id, executor_id=executor_id)
+        if owner_extra is not None:
+            need(not set(owner_extra).intersection(self.identity), 'NO_OWNER_IDENTITY_OVERRIDE')
+            self.identity.update(owner_extra)
         self.pid, self.thread = os.getpid(), threading.get_ident()
         self.maximum, self.last, self.sequence = maximum_native_step, None, 0
         self.latched = self.unknown = self.stop_attempted = self.acknowledged = False
         self.lock = None
         guard(closeout=False)
         for name in ('TARGET_QUOTA_OWNER.json', 'TARGET_QUOTA_OWNER.lock', 'TARGET_STOP_INTENT.json',
-                     'TARGET_STOP_ACK.json', 'step_quota', 'state.bin', 'pause_ack.json'):
+                     'TARGET_STOP_ACK.json', 'step_quota', 'step_quota.pending', 'state.bin', 'pause_ack.json'):
             need(not (self.root / name).exists() and not (self.root / name).is_symlink(), 'NEW_UNESCAPED_OWNER_ONLY')
+        need(not any(self.root.glob('TARGET_QUOTA_*_INTENT.json')), 'NEW_UNESCAPED_OWNER_ONLY')
         self.lock = OwnerLock(self.root / 'TARGET_QUOTA_OWNER.lock')
         try:
             need(not (self.root / 'TARGET_QUOTA_OWNER.json').exists(), 'NO_SECOND_OWNER')
@@ -113,27 +124,31 @@ class OwnedTargetQuota:
             self.guard(closeout=False)
             need(type(step) is int and 0 < step <= self.maximum
                  and (self.last is None or step > self.last), 'ORIGINAL_MONOTONIC_NATIVE_QUOTA')
-            intent = self.root / ('TARGET_QUOTA_%06d_INTENT.json' % self.sequence)
-            need(not intent.exists(), 'NO_QUOTA_INTENT_REPLAY')
-            write(intent, dict(self.identity, native_step=step, no_automatic_retry=True))
-            path = self.root / 'step_quota'
-            temporary = self.root / 'step_quota.pending'
-            with temporary.open('xb') as handle:
-                handle.write((str(step) + '\n').encode())
-                handle.flush()
-                os.fsync(handle.fileno())
-            os.replace(temporary, path)
-            fd = os.open(self.root, os.O_RDONLY | os.O_DIRECTORY)
-            try:
-                os.fsync(fd)
-            finally:
-                os.close(fd)
-            need(self._bytes('step_quota', 32) == (str(step) + '\n').encode(), 'QUOTA_RETURN_READBACK')
-            self.last = step
-            self.sequence += 1
+            self._publish_quota(step)
         except BaseException:
             self.latched = self.unknown = True
             raise
+
+    def _publish_quota(self, step):
+        """Shared durable IO only; the caller validates its distinct quota cap."""
+        intent = self.root / ('TARGET_QUOTA_%06d_INTENT.json' % self.sequence)
+        need(not intent.exists() and not intent.is_symlink(), 'NO_QUOTA_INTENT_REPLAY')
+        write(intent, dict(self.identity, native_step=step, no_automatic_retry=True))
+        path = self.root / 'step_quota'
+        temporary = self.root / 'step_quota.pending'
+        with temporary.open('xb') as handle:
+            handle.write((str(step) + '\n').encode())
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+        fd = os.open(self.root, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        need(self._bytes('step_quota', 32) == (str(step) + '\n').encode(), 'QUOTA_RETURN_READBACK')
+        self.last = step
+        self.sequence += 1
 
     def _boundary(self):
         raw = self._bytes('state.bin', 2 * 1024**2)
