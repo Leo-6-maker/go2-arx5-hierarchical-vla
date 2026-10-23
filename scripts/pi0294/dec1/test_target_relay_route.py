@@ -136,6 +136,23 @@ def test_target_factory_rejects_wrong_cold_binding_before_creating_route(tmp_pat
     assert not folder.exists()
 
 
+def test_first_durable_target_state_is_pinned_even_if_write_return_is_lost(tmp_path,monkeypatch):
+    from scripts.pi0294.dec1 import target_relay_exchange as module
+    body,c,*_=fixture();original_write=module.write;captured=[]
+    def lose_return(path,value):
+        captured.append(deepcopy(value));original_write(path,value)
+        raise ConnectionError('CPU_LOST_COLD_STATE_WRITE_RETURN')
+    monkeypatch.setattr(module,'write',lose_return)
+    with pytest.raises(ConnectionError):TargetRelayExchange(tmp_path,run_uuid=body['run_uuid'],
+        episode_uuid=body['episode_uuid'],identity=body['identity'],now=100.,mapped_ack_contract=c)
+    assert len(captured)==1 and captured[0]['mapped_ack_condition_sha256']==c.condition_sha256
+    assert read(tmp_path/'STATE.json')==captured[0]
+    with pytest.raises(ValueError,match='COLD_ACK_CONTRACT_CHANGED_OR_OMITTED'):
+        RelayExchange(tmp_path)
+    with pytest.raises(FileExistsError):TargetRelayExchange(tmp_path,mapped_ack_contract=c)
+    assert len(captured)==1
+
+
 @pytest.mark.parametrize('mode',['I_TIME','I_PROGRESS'])
 def test_case_flag_cannot_select_target_contract_in_default_raw_route(tmp_path,mode):
     cas,c,core,hopper,now,seen,_=endpoints(tmp_path,mode,'none')

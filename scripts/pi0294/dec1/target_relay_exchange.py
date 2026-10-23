@@ -7,8 +7,10 @@ durable generation/command intents, ACK checks and stop behavior are inherited.
 It provides no native admission, execution, retry or safety qualification.
 """
 from pathlib import Path
-from scripts.pi0292.durable import write
-from scripts.pi0292.relay_protocol import RelayExchange
+from copy import deepcopy
+import math
+from scripts.pi0292.durable import OwnerLock,write
+from scripts.pi0292.relay_protocol import RelayExchange,PROTOCOL,uuid_string,validate_identity
 from .target_mapped_ack import FixedTargetTimeAckContract
 
 
@@ -21,12 +23,21 @@ class TargetRelayExchange(RelayExchange):
             raise FileExistsError('NEVER_REOPEN_OR_RESTART_EXISTING_TARGET_EXCHANGE')
         if c['run_uuid']!=run_uuid or c['episode_uuid']!=episode_uuid or c['identity']!=identity:
             raise ValueError('COLD_TARGET_EXCHANGE_EXACT_OWNER_CONDITION_REQUIRED')
-        # The original constructor validates UUID/model/wall clock and owns its
-        # lock. It receives no source contract or fabricated source S1 wrapper.
-        super().__init__(directory,run_uuid=run_uuid,episode_uuid=episode_uuid,identity=identity,now=now)
+        if not isinstance(run_uuid,str) or not run_uuid:raise ValueError('RUN_UUID_REQUIRED')
+        uuid_string(episode_uuid);validate_identity(identity)
+        if type(now) not in (int,float) or not math.isfinite(now):raise ValueError('WALL_CLOCK_REQUIRED')
+        # Only fresh construction differs from the sealed source constructor:
+        # pin the target ABI in the FIRST durable state. Calling super first
+        # would transiently leave an unpinned RAW state after a lost return.
+        self.root=Path(directory);self.root.mkdir(parents=True,exist_ok=True)
+        self.lock=OwnerLock(self.root/'OWNER.lock');self.path=self.root/'STATE.json'
         try:
+            if self.path.exists():raise FileExistsError('NEVER_REOPEN_OR_RESTART_EXISTING_TARGET_EXCHANGE')
             self.mapped_ack_contract=mapped_ack_contract
-            self.state['mapped_ack_condition_sha256']=mapped_ack_contract.condition_sha256
+            self.state=dict(protocol=PROTOCOL,run_uuid=run_uuid,episode_uuid=episode_uuid,
+                identity=deepcopy(identity),started=now,last_wall=now,deadline=now+900,
+                phase='WAIT_OBSERVATION',sequence=0,tick=0,history=[],used_snapshots=[],pending=None,
+                mapped_ack_condition_sha256=mapped_ack_contract.condition_sha256)
             write(self.path,self.state)
         except BaseException:
             self.close()
