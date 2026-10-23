@@ -17,6 +17,8 @@ def check(value,*,final=False,allow_unknown=False):
     from scripts.pi0294.dec1 import b_vanda_recovery2 as vanda2
     vanda2_scope=vanda2.FIELD in value
     if vanda2_scope:vanda2.validate_global(value)
+    from scripts.pi0294.dec1 import b_precuda_retry as precuda
+    if precuda.FIELD in value:precuda.validate_global(value)
     if b_scope:b.validate_global(value)
     if (type(final) is not bool or value['schema']!='PI0294_PV1_HOPPER_CAMPAIGN_LEDGER_V1'
             or type(allow_unknown) is not bool or value['authority_release']!=AUTHORITY

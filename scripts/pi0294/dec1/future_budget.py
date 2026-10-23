@@ -23,7 +23,12 @@ def fail(reason):
     raise PermissionError('DEC1_FUTURE_'+reason)
 
 
-def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None,vanda2_bytes=None):
+def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None,vanda2_bytes=None,precuda_bytes=None):
+    if precuda_bytes is not None:
+        from .b_precuda_retry import grant
+        grant(precuda_bytes)
+        if vanda2_bytes is None:fail('PRECUDA_REQUIRES_ALL_PRIOR_GRANTS')
+        return dict(effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes,b_recovery_bytes,retry_bytes,vanda2_bytes),PBS_submissions=17)
     if vanda2_bytes is not None:
         from .b_vanda_recovery2 import grant
         grant(vanda2_bytes)
@@ -86,8 +91,8 @@ def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,s
         Core_storage_bytes=128*GIB,transfer_bytes=128*GIB)
 
 
-def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None,vanda2_bytes=None):
-    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes,b_recovery_bytes,retry_bytes,vanda2_bytes)
+def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None,vanda2_bytes=None,precuda_bytes=None):
+    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes,b_recovery_bytes,retry_bytes,vanda2_bytes,precuda_bytes)
     global_caps=dict(old.CAPS)
     if storage_bytes is not None:
         from .storage_expansion import RELEASE as STORAGE_RELEASE,GRANT_SHA as STORAGE_SHA
@@ -124,6 +129,10 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
         if vanda2.enabled(value)!=(vanda2_bytes is not None):fail('EXACT_VANDA2_GRANT_PLAN_SNAPSHOT_PROGRESS')
     B_lineage=vanda2.LINEAGE if vanda2_bytes is not None else b.LINEAGE
     if vanda2_bytes is not None:global_caps.update(PBS_submissions=27,Hopper_storage_bytes=680*GIB)
+    from . import b_precuda_retry as precuda
+    for value in (snapshot,plan,progress):
+        if precuda.enabled(value)!=(precuda_bytes is not None):fail('EXACT_PRECUDA_GRANT_PLAN_SNAPSHOT_PROGRESS')
+    if precuda_bytes is not None:global_caps['PBS_submissions']=28
     if retry.enabled(progress)!=(retry_bytes is not None):fail('EXACT_RETRY_PROGRESS_SCOPE')
     lost=0
     if recovery_bytes is not None:
@@ -229,6 +238,7 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
             if zero.enabled(block)!=(zero_update_bytes is not None):fail('EXACT_ZERO_UPDATE_RESUME_TRAIN_BLOCK_SCOPE')
             if b.enabled(block)!=(b_recovery_bytes is not None):fail('EXACT_B_RECOVERY_TRAIN_BLOCK_SCOPE')
             if vanda2.enabled(block)!=(vanda2_bytes is not None):fail('EXACT_VANDA2_TRAIN_BLOCK_SCOPE')
+            if precuda.enabled(block)!=(precuda_bytes is not None):fail('EXACT_PRECUDA_TRAIN_BLOCK_SCOPE')
             if b_recovery_bytes is not None:b.lineage(block)
             start=old._number(block['start_step'],integer=True);stop=old._number(block['stop_step'],integer=True)
             probe_only=block.get('probe_only',False)

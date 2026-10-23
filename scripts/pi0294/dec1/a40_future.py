@@ -31,7 +31,7 @@ def pending_source_reservations(h,d):
 
 def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
               progress_bytes, plan_bytes, amendment_bytes, now_epoch, job_id,
-              purpose='NATIVE_PRETRAIN',recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None,vanda2_bytes=None):
+              purpose='NATIVE_PRETRAIN',recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None,vanda2_bytes=None,precuda_bytes=None):
     from .a40_allocation import request_scope, PLATFORM, T0
     r,request_sha=old._read(request_bytes);request_scope(r,now=now_epoch)
     if purpose not in ('PREQUEUE','NATIVE_PRETRAIN'):
@@ -83,6 +83,13 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         vanda2.grant(vanda2_bytes);vanda2.validate_adopted(h,d)
         if any(not vanda2.enabled(v) for v in (s,p)):fail('VANDA2_PLAN_SNAPSHOT_SCOPE')
     elif vanda2_bytes is not None:fail('NO_VANDA2_CAP_WITH_OLD_SCOPE')
+    from . import b_precuda_retry as precuda
+    precuda_scope=precuda.request(r)
+    if precuda_scope:
+        if precuda_bytes is None:fail('EXACT_PRECUDA_BYTES_REQUIRED')
+        precuda.grant(precuda_bytes);precuda.validate_adopted(h,d)
+        if any(not precuda.enabled(v) for v in (s,p)):fail('PRECUDA_PLAN_SNAPSHOT_SCOPE')
+    elif precuda_bytes is not None or precuda.FIELD in h:fail('NO_PRECUDA_SCOPE_DROP')
     if retry_scope:
         if retry_bytes is None:fail('EXACT_RETRY_BYTES_REQUIRED')
         retry.grant(retry_bytes);retry.validate_adopted(h,d)
@@ -157,7 +164,7 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
         if any(observed[k]!=v for k,v in native.items()):
             fail('DEC1_NATIVE_SPENT_RESERVED_CPU_AND_IO_EXACT')
     forecasted=forecast(snapshot=s,progress_bytes=progress_bytes,plan=p,
-        amendment_bytes=amendment_bytes,now_epoch=now_epoch,recovery_bytes=recovery_bytes,segment_bytes=segment_bytes,storage_bytes=storage_bytes,heartbeat_bytes=heartbeat_bytes,zero_update_bytes=zero_update_bytes,b_recovery_bytes=b_recovery_bytes,retry_bytes=retry_bytes,vanda2_bytes=vanda2_bytes)
+        amendment_bytes=amendment_bytes,now_epoch=now_epoch,recovery_bytes=recovery_bytes,segment_bytes=segment_bytes,storage_bytes=storage_bytes,heartbeat_bytes=heartbeat_bytes,zero_update_bytes=zero_update_bytes,b_recovery_bytes=b_recovery_bytes,retry_bytes=retry_bytes,vanda2_bytes=vanda2_bytes,precuda_bytes=precuda_bytes)
     if not forecasted['admissible_forecast']:
         fail('COMPLETE_SOURCE_PAIR_MATRIX_AND_ORIGINAL_FINAL_RESERVE_DO_NOT_FIT')
     rows=[x for x in h['PBS_submissions'] if x['request_id']==r['request_id']]
@@ -184,4 +191,5 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
     if b_scope:result.update(dict(zip(b.SCOPE_KEYS,(b.RELEASE,b.GRANT_SHA))))
     if retry_scope:result.update(retry.scope())
     if vanda2_scope:result.update(vanda2.scope())
+    if precuda_scope:result.update(precuda.scope())
     return result

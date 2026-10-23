@@ -110,6 +110,8 @@ def validate_root(root,request_path,*,verify_all=False):
     b_admitted(root,m,r)
     from .b_vanda_recovery2 import admitted as vanda2_admitted
     vanda2_admitted(root,m,r)
+    from .b_precuda_retry import admitted as precuda_admitted
+    precuda_admitted(root,m,r)
     if r.get('recovery_authorization_release') is not None:
         from .lost_save_recovery import PLAN,RELEASE,grant as recovery_grant
         if (m['authority'].get('recovery_authorization_release')!=RELEASE
@@ -388,6 +390,8 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
                 if r.get('B_system_startup_retry_release') is not None else None),
             vanda2_bytes=((root/'plans/B2970_RECOVERY2_FIVE_CAP_AUTHORIZATION.json').read_bytes()
                 if r.get('B_Vanda_recovery2_release') is not None else None),
+            precuda_bytes=((root/'plans/B_PRECUDA1481489_RETRY_PBS_AUTHORIZATION.json').read_bytes()
+                if r.get('B_precuda_retry_release') is not None else None),
             now_epoch=time.time(),job_id=allocation['job_id'])
         def stable(value):
             v=deepcopy(value);v.pop('observed_epoch',None);v['forecast'].pop('projected_finish_epoch',None);return v

@@ -15,6 +15,9 @@ def pbs_limit(ledger):
     if b.FIELD not in ledger:
         return TOTAL['PBS_submissions']
     b.validate_global(ledger)
+    from scripts.pi0294.dec1 import b_precuda_retry as precuda
+    if precuda.FIELD in ledger:
+        precuda.validate_global(ledger);return 28
     from scripts.pi0294.dec1 import b_vanda_recovery2 as vanda2
     if vanda2.FIELD in ledger:
         vanda2.validate_global(ledger);return 27

@@ -130,7 +130,9 @@ def request_scope(request, *, now):
     retry_scope=retry.request(r)
     from . import b_vanda_recovery2 as vanda2
     vanda2_scope=vanda2.request(r)
-    if (type(r.get('submit_count')) is not int or not 1<=r['submit_count']<=(27 if vanda2_scope else (26 if retry_scope else (25 if new_b else 24)))
+    from . import b_precuda_retry as precuda
+    precuda_scope=precuda.request(r)
+    if (type(r.get('submit_count')) is not int or not 1<=r['submit_count']<=(28 if precuda_scope else 27 if vanda2_scope else (26 if retry_scope else (25 if new_b else 24)))
             or re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,127}',r.get('run_uuid','')) is None
             or r['run_uuid']==r['campaign_run_uuid']):
         fail('EXACT_CHILD_RUN_AND_GLOBAL_SUBMISSION_ORDINAL')
@@ -258,6 +260,11 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
     if vanda2.request(r):
         vanda2.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
         if not vanda2.enabled(budget_proof):fail('VANDA2_SCOPE_IN_FRESH_NATIVE_PROOF')
+    from . import b_precuda_retry as precuda
+    if precuda.request(r):
+        precuda.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
+        if not precuda.enabled(budget_proof):fail('PRECUDA_SCOPE_IN_FRESH_NATIVE_PROOF')
+    elif precuda.FIELD in ledger:fail('ADOPTED_PRECUDA_SCOPE_MUST_NOT_BE_DROPPED')
     admit_resources(ledger['used'],ledger['reserved'],{},
         b_recovery_ledgers=(ledger,budget_proof['DEC1_native_recovery_view']) if b_scope else None)
     if (budget_proof.get('schema')!='VAP1_A40_RECOMPUTED_REMAINING_WORK_ADMISSION_V1'
