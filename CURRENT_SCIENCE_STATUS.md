@@ -2,11 +2,13 @@
 
 ## 2026-10-24 实际训练增量
 
-同一作业 **1481574** 已获 FIRST_UPDATE 放行；02:13:57 SGT 的原生回读确认 **B2211（从2048新增163次更新）、17次实际查询、2次加载、unknown=[]**，驻留owner和心跳正常。B4096及目标资格仍未完成，core64=0。运行胶囊36925d27未改变；冷态终局接线已独立资格且只允许真实F/Exit0和owner自然成功退出后使用。此后新增进度以同一身份链原生回执为准。
+同一作业 **1481574** 已获 FIRST_UPDATE 放行；02:48:21 SGT 的原生回读确认 **B2598（从2048新增550次更新）、17次实际查询、2次加载、unknown=[]**，驻留owner和心跳正常。B4096及目标资格仍未完成，core64=0。运行胶囊36925d27未改变；冷态终局接线已独立资格且只允许真实F/Exit0和owner自然成功退出后使用。此后新增进度以同一身份链原生回执为准。
 
 [实际首次更新和终局接线](reports/PI0294/design/parallel-science-20261022/B1481574_FIRST_UPDATES_AND_COLD_TERMINAL_CONNECTED_ACTUAL_20261024.json)。下方审核保留01:46基线及后继计划，不覆盖本段更晚的实际更新；计划不重置本轮预算和截止。
 
 目标接线新增[同一 owner 的 quota／暂停 STOP IO](reports/PI0294/design/WDR1_TARGET_OWNED_QUOTA_PAUSED_STOP_CPU_20261024.json)，显式绑定实际冻结82004c31时钟；未知写不重发，完整状态／FSM／leg history不变且新鲜pause ACK后才返回停止回执。当前仅冷态代码与CPU资格，尚无新目标child、物理执行或任务资格；core64仍为0。
+
+[冻结SDK实际链接输入](reports/PI0294/design/WDR1_ACTUAL_FROZEN_MPC_SDK_LINK_INPUTS_20261024.json)已定位并核对部分约束／预测函数体；它们可用于原实现薄封装的接续，尚不证明header/class ABI、完整链接来源或目标前缀安全。未重编／修改WBC，未新增目标模型、child或物理执行。
 
 ## 2026-10-24 审核摘要
 
