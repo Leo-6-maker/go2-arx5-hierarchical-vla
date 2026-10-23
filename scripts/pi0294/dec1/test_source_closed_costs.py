@@ -1,8 +1,9 @@
 """Pure source settlement projection contracts, no owner/native operations."""
 import sys
 _BLOCK=[]
+_GUARD_ACTIVE=False
 def deny(event,args):
-    if event.startswith(('socket.','subprocess.')) or event in ('os.system','os.fork','os.forkpty','os.posix_spawn'):
+    if _GUARD_ACTIVE and (event.startswith(('socket.','subprocess.')) or event in ('os.system','os.fork','os.forkpty','os.posix_spawn')):
         _BLOCK.append(event);raise PermissionError('NO_EXTERNAL_EFFECT')
 sys.addaudithook(deny)
 from copy import deepcopy
@@ -73,7 +74,16 @@ def facts(monkeypatch):
     d[u.OLD_MARKER]={u.OLD:oldmarker}
     closures={u.OLD:dict(dual_receipt_bytes=u.encode(dual1),closed_lease_bytes=u.encode(lease1)),
         u.NEW:dict(dual_receipt_bytes=u.encode(dual2),closed_lease_bytes=u.encode(lease2),Core_proof_bytes=u.encode(proof2))}
-    return dict(p=p,c=c,d=d,closures=closures,oldmarker=oldmarker)
+    # CPython audit hooks cannot be removed. Keep this hook inactive during
+    # collection and every unrelated test in the same pytest process. Both this
+    # module and storage consumers activate it only while using this fixture.
+    global _GUARD_ACTIVE
+    _GUARD_ACTIVE=True
+    try:
+        yield dict(p=p,c=c,d=d,closures=closures,oldmarker=oldmarker)
+    finally:
+        _GUARD_ACTIVE=False
+        assert not _BLOCK
 
 
 def call(f):return u.propose(u.encode(f['p']),u.encode(f['c']),u.encode(f['d']),closures=f['closures'])

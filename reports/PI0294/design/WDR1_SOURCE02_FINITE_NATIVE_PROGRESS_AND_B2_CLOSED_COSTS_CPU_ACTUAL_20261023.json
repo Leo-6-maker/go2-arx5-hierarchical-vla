@@ -176,7 +176,7 @@
   ],
   "files_sha256": {
     "scripts/pi0294/dec1/source_closed_costs.py": "b730b63ccda2dda3767a36c973ee76c612c3b08920597e5414322981e0cbbedf",
-    "scripts/pi0294/dec1/test_source_closed_costs.py": "0d7ac24436ae57f7b8537ba0a2805160ba3108415e5c8d5b3402c7fcdf50fca1",
+    "scripts/pi0294/dec1/test_source_closed_costs.py": "a7b163bf700f624dd63c8e03da3b88fa0cc4621184518af2d6a23cdd9145a442",
     "scripts/pi0294/dec1/source_closed_storage.py": "245f75892e08186000f8a9227a74c09b792d8583beffb0eaa66b59f2e421aa5f",
     "scripts/pi0294/dec1/test_source_closed_storage.py": "12ba92632ed3befcab3a40c0845f070a546c389deacdfa2e2df357fae2eb16a1",
     "scripts/pi0294/dec1/source_component_continuation_v2.py": "ba1a81fd20203cb02b27ad3b8ae5b22f47d366ee50293398d70c64dfe11dddc5",
@@ -239,5 +239,19 @@
     "unprojected_Core_output_upper_bytes": 3506438144,
     "actual_native_Hopper_or_global_writes": 0,
     "requires_real_B2048_inactive_boundary": true
+  },
+  "CI_test_isolation_remediation": {
+    "failed_commit": "5de4ae8c898447656773af93fd59247e868bd5cf",
+    "failed_run": 39876083728,
+    "failed_job": 120161901302,
+    "failures": 35,
+    "cause": "Unconditional process-global audit hook in a newly added test interfered with unrelated subprocess mocks during whole-directory collection.",
+    "fix": "Hook inactive at collection and outside scoped fixture; try/finally deactivates it after cost/storage fixtures. No production or active runtime changes.",
+    "local_exact_workflow_command": "python -m pytest -q scripts/pi0294",
+    "local_passed": 1828,
+    "local_subtests_passed": 1284,
+    "wall_s": 75.37,
+    "exact_fixed_commit_CI": "PENDING_PUBLICATION",
+    "native_runtime_changes": 0
   }
 }
