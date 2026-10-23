@@ -44,3 +44,20 @@ def test_unknown_original_link_shape_cannot_be_repaired_implicitly(records,monke
     a,b=records;b=b.replace(unit.NODE_OBJECT.encode(),b'unknown_source.o')
     monkeypatch.setattr(unit,'LINK_SHA256',hashlib.sha256(b).hexdigest())
     with pytest.raises(PermissionError):plan((a,b))
+
+
+def test_delivered_transitive_dependencies_are_explicit_pinned_inputs_and_runtime_dependencies(records):
+    value=plan(records);argv=value['link_argv'];deps=value['dependent_shared_library_sha256']
+    assert set(deps)=={'/dependency-root/usr/lib/x86_64-linux-gnu/'+x for x in unit.DEPENDENCY_SHARED_SHA256}
+    start=argv.index('-Wl,--push-state,--no-as-needed');stop=argv.index('-Wl,--pop-state')
+    assert argv[start+1:stop]==list(deps)
+    assert set(deps)<=set(value['existing_link_inputs'])
+    assert '-Wl,-rpath-link,/dependency-root/usr/lib/x86_64-linux-gnu' in argv
+    assert '-Wl,-rpath,/dependency-root/usr/lib/x86_64-linux-gnu' in argv
+    assert value['vendor_sources_compiled']==[] and value['vendor_binaries_modified'] is False
+
+
+@pytest.mark.parametrize('sdk',['/sdk,inject/sdk','/sdk:inject/sdk','/sdk\ninject/sdk'])
+def test_search_directory_cannot_inject_extra_linker_paths(records,sdk):
+    with pytest.raises(PermissionError):
+        unit.plan(*records,sdk_root=sdk,sealed_client_directory='/registered/code',registered_build_directory='/registered/out')

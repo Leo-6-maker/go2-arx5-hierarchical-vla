@@ -107,6 +107,9 @@ def validate(root):
     need(set(plan['existing_link_inputs'])<=set(inputs['original_readonly_files'])
          and inputs['mobile_archive'] in plan['existing_link_inputs']
          and inputs['core_archive'] in plan['existing_link_inputs'],'SDK_ALL_ACTUAL_LINK_INPUTS_PINNED')
+    need(all(inputs['original_readonly_files'].get(path)==pin
+             for path,pin in plan['dependent_shared_library_sha256'].items()),
+         'SDK_EXACT_DELIVERED_TRANSITIVE_SHARED_LIBRARIES')
     cpus=m['limits']['cpus']
     need(len(cpus) in (1,2) and len(set(cpus))==len(cpus) and set(cpus)<=os.sched_getaffinity(0)
          and 0<m['limits']['memory_bytes']<=8*1024**3,'SDK_ORIGINAL_CPU_MEMORY_PARTITION')

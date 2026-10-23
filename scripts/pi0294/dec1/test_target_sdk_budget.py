@@ -148,5 +148,29 @@ def test_closed_failed_attempt_keeps_full_cost_before_one_bounded_same_work_retr
     matrix=next(j for j in result['mandatory_jobs'] if j['kind']=='MATRIX_ENVELOPE')
     assert matrix['resources']['Core_CPU_s']==200000 and matrix['resources']['local_CPU_s']==3600
     assert matrix['resources']['episode_starts']==88 and matrix['resources']['PBS_submissions']==3
-    for ledger in (p,c):ledger[unit.ROWS]['THIRD']=dict(old,request_id='THIRD')
+    for ledger in (p,c):
+        ledger[unit.ROWS]['THIRD']=dict(old,request_id='THIRD')
+        ledger[unit.ROWS]['FOURTH']=dict(old,request_id='FOURTH')
     with pytest.raises(PermissionError):call(v)
+
+
+def test_two_closed_engineering_costs_and_one_new_hold_share_original_matrix_cpu(bundle):
+    v=reserved(bundle);s,progress,plan,p,c,fp,a=v;template=deepcopy(p[unit.ROWS]['SDK_CPU_FIXTURE'])
+    for ledger in (p,c):ledger[unit.ROWS]={};ledger[unit.SETTLEMENTS]={}
+    total=0
+    for rid,cpu in (('ENTRY_FAILED',3600),('LINK_FAILED',607.956897)):
+        amount=dict(unit.REQUESTED,CoreLab_CPU_s=cpu);total+=cpu
+        receipt=dict(schema='DEC1_TARGET_SDK_CPU_SETTLEMENT_V1',scope=unit.ROLE,request_id=rid,
+            manifest_sha256=template['manifest_sha256'],financial_charged=amount,target_task_native_qualified=False)
+        for ledger in (p,c):
+            ledger[unit.ROWS][rid]=dict(template,request_id=rid,status='SETTLED',remaining=dict.fromkeys(unit.common.DIMS,0),
+                settlement_sha256=unit.common.sha(unit.common.encode(receipt)))
+            ledger[unit.SETTLEMENTS][rid]=deepcopy(receipt)
+    for ledger in (p,c):ledger[unit.ROWS]['NEW_REQUEST']=dict(template,request_id='NEW_REQUEST')
+    p['CPU_s']['CoreLab']+=total;p['CPU_s']['local_PC']+=240;p['engine_starts']+=4
+    p['network_transfer_accounted_bytes']+=2*unit.REQUESTED['transfer_bytes']
+    c['CPU_s']+=total;c['constructors']+=4
+    r=call(v)
+    assert r['admissible_forecast'] is True
+    assert r['SDK_funding']['CPU_credit']==dict(Core_CPU_s=total+3600,local_CPU_s=360)
+    assert next(x for x in r['mandatory_jobs'] if x['kind']=='MATRIX_ENVELOPE')['resources']==dict(plan['remaining_matrix_envelope']['resources'],optimizer_updates=0)

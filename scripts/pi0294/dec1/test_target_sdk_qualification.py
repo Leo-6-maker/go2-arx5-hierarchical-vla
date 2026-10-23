@@ -130,6 +130,12 @@ def full_entry(packet,tmp_path,monkeypatch):
     flags=tmp_path/'flags.make';flags.write_bytes(b'CXX_DEFINES = -DCPU_FIXTURE\nCXX_INCLUDES = -I/cpu-fixture\nCXX_FLAGS = -std=gnu++17\n')
     link=tmp_path/'link.txt';link.write_bytes(('/usr/bin/c++ '+unit.build_plan.NODE_OBJECT+
         ' -o mobile_manipulator_mpc_node libmobile.a ../ocs2_core/libcore.a\n').encode())
+    dependencies=[];dependency_pins={}
+    for name in unit.build_plan.DEPENDENCY_SHARED_SHA256:
+        path=sdk.parent/'dependency-root/usr/lib/x86_64-linux-gnu'/name
+        path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(('CPU dependency '+name).encode())
+        dependencies.append(path);dependency_pins[name]=unit.filehash(path)
+    monkeypatch.setattr(unit.build_plan,'DEPENDENCY_SHARED_SHA256',dependency_pins)
     monkeypatch.setattr(unit.build_plan,'FLAGS_SHA256',unit.filehash(flags));monkeypatch.setattr(unit.build_plan,'LINK_SHA256',unit.filehash(link))
     task=tmp_path/'task.info';task.write_bytes(b'CPU original task fixture')
     clock=tmp_path/'clock.py';clock.write_bytes(b'CPU original frozen clock fixture')
@@ -150,7 +156,7 @@ def full_entry(packet,tmp_path,monkeypatch):
     inputs=dict(runtime_python=sys.executable,sdk_root=str(sdk),flags_file=str(flags),link_file=str(link),
         original_task=str(task),urdf=str(urdf),urdf_sha256=unit.filehash(urdf),mobile_archive=str(mobile),
         core_archive=str(core),frozen_clock=str(clock),frames=['-','-','-'],
-        original_readonly_files={str(p):unit.filehash(p) for p in (mobile,core,flags,link,urdf)})
+        original_readonly_files={str(p):unit.filehash(p) for p in (mobile,core,flags,link,urdf,*dependencies)})
     write(root/'INPUT_BINDINGS.private.json',inputs)
     write(root/'capsule/SOURCE_SEAL.json',dict(source_sha='a'*40,files=pins))
     write(root/'plans/PUBLICATION_AND_CI.private.json',dict(source='a'*40,CI_conclusion='success',all_12_steps_success=True,full_readback_file_sha256=pins))

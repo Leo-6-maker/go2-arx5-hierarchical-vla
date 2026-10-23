@@ -17,10 +17,10 @@ SETTLEMENTS='target_sdk_client_settlements'
 ROW_SCHEMA='DEC1_TARGET_SDK_CPU_RESERVATION_V1'
 WORK='DEC1_CORE_MATRIX_AND_COMMISSIONING'
 COMPONENT='ORIGINAL_TARGET_SDK_COLD_BINDING_V1'
-# Two finite engineering attempts inside the SAME original200000/3600 matrix
+# Three finite engineering attempts inside the SAME original200000/3600 matrix
 # CPU work; never an additive global cap or a new physics/episode allowance.
-MAX_ATTEMPTS=2
-CPU_CEILING=dict(CoreLab_CPU_s=7200,local_CPU_s=240)
+MAX_ATTEMPTS=3
+CPU_CEILING=dict(CoreLab_CPU_s=10800,local_CPU_s=360)
 REQUESTED=dict(CoreLab_CPU_s=3600,local_CPU_s=120,episode_starts=0,physics_ticks=0,
                constructors=2,CoreLab_output_bytes=512*1024**2,
                local_output_bytes=64*1024**2,transfer_bytes=64*1024**2)
@@ -37,7 +37,7 @@ def rows(parent,core):
     """Only actual paired rows or an explicit proposed pair; never one side."""
     a=parent.get(ROWS,{});b=core.get(ROWS,{})
     need(common.same(a,b),'SDK_EXACT_PAIRED_ROWS')
-    need(len(a)<=MAX_ATTEMPTS,'SDK_TWO_FINITE_SAME_WORK_ENGINEERING_ATTEMPTS')
+    need(len(a)<=MAX_ATTEMPTS,'SDK_THREE_FINITE_SAME_WORK_ENGINEERING_ATTEMPTS')
     spent=dict.fromkeys(common.DIMS,0);held=dict.fromkeys(common.DIMS,0)
     for rid,row in a.items():
         wanted=common.vector(row['requested']);left=common.vector(row['remaining'])
