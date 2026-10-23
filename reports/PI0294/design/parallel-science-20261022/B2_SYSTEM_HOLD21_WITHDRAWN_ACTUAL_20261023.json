@@ -1,0 +1,86 @@
+{
+  "schema": "B2_PBS_SYSTEM_HOLD21_WITHDRAWN_ACTUAL_V1",
+  "observed_epoch": 1792743574.2494004,
+  "supersedes_healthy_Q_snapshot_release": "f6c0babee64361a2503189c6539c00d381ce811b",
+  "goal_complete": false,
+  "job_id": "1480412.stdct-mgmt-02",
+  "request_id": "9895f812-13f5-4fb0-9dcb-0c27ebb97d41",
+  "request_sha256": "4455e91b4f49c7f627d82dd9dacab0ec939a23e11cbf1034468d73d43f4523f9",
+  "runtime": "07937041d7b330354dfe004ed6bf5a179588147e",
+  "owner": {
+    "healthy": false,
+    "MainPID": 0,
+    "ActiveState": "failed",
+    "ExecMainStatus": 1,
+    "stopped_epoch": 1792743195.5517046,
+    "cause": "Original dual-platform view correctly rejected native H system-hold as STOP_UNKNOWN_CAMPAIGN_STATE",
+    "last_heartbeat_status": "CONFIRMED",
+    "last_heartbeat_epoch": 1792743134.6909556,
+    "not_restarted": true
+  },
+  "native": {
+    "system_hold": true,
+    "Hold_Types": "s",
+    "run_count": 21,
+    "Exit_status": "-3",
+    "scheduler_comment_before": "job held, too many failed attempts to run",
+    "Rerunable": false,
+    "run_count_is_scheduler_report_not_extra_qsub": true,
+    "unique_qsub_count": 1,
+    "ready_or_model_or_first_update_release_receipts": [],
+    "model_load_intent_directory_exists": false,
+    "native_effect_ledger_exists": false,
+    "PBS_process_or_wrapper_final_exists": false,
+    "tracejob_returncode": 1,
+    "tracejob_message": "Could not find exact job in past one day logs",
+    "error_file_exists": false,
+    "underlying_scheduler_or_MOM_reason": "UNKNOWN_USER_SIDE_LOGS_UNAVAILABLE"
+  },
+  "withdrawal": {
+    "once": true,
+    "exact_owned_system_hold_identity_checked": true,
+    "only_this_job_modified": true,
+    "returncode": 0,
+    "native_post_read_job_state": "F",
+    "native_post_read_Exit_status": "-3",
+    "no_unhold_or_requeue_or_resubmission": true,
+    "checkpoint_and_code_files_preserved": true
+  },
+  "accounting": {
+    "settlement_not_yet_performed": true,
+    "GPU_and_CPU_leases_not_yet_closed": true,
+    "known_settled_updates": 8744,
+    "known_settled_GPU_s": 81773,
+    "known_settled_queries": 1197,
+    "global_PBS": 22,
+    "DEC1_PBS": 11,
+    "GPU_reserved_s_retained": 22560,
+    "CPU_reserved_s_retained": 54000,
+    "updates_reserved_retained": 2048,
+    "queries_reserved_retained": 29,
+    "no_unknown_cost_refund": true,
+    "no_false_process_final_created": true,
+    "no_training_success_claimed": true,
+    "new_180LOCAL_control_prepay_retained": true,
+    "old_all_history_costs_and_final_protection_retained": true
+  },
+  "evidence_sha256": {
+    "SYSTEM_HOLD21_NATIVE_DIAGNOSTIC": "15f53dfa190dfa1df0996be4bdd2c2b4c2391ee3733caea6f85c659dc86cb4c0",
+    "SYSTEM_HOLD21_WITHDRAW_INTENT": "8bbc662f900be85d493e594069220f25b9e070d5f681ea29d4bd855b034fd05b",
+    "SYSTEM_HOLD21_WITHDRAW_REPLY": "ebca99321dfa08da416b1b90e50fb92c7b539efe9f6c9c9e1386d22131766c00",
+    "SYSTEM_HOLD21_POST_WITHDRAW_NATIVE": "145079bc0e94cf85899808f52bae216146f6d8b4dd81c0dbfc3c5702965688ea"
+  },
+  "publication": {
+    "prior_Q_snapshot_CI_run": 39923083495,
+    "prior_Q_snapshot_CI_status": "completed",
+    "prior_Q_snapshot_CI_conclusion": "success",
+    "prior_Q_snapshot_is_history_not_current_health": true
+  },
+  "next": {
+    "human_action": "Cluster administrator server/MOM/accounting records for exact1480412 are needed to establish startup failure and true charged effects/cost. Request sent once; do not unhold/retry.",
+    "engineering": "Prepare a versioned administrative pre-wrapper failure financial closeout without fabricating PBS_PROCESS_FINAL or applying successful-training terminal. Preserve reservations until valid once settlement and closure proof.",
+    "scope": "No new PBS or recovery experiment authorized by this site failure. Earlier saved-B2048 reuse approval and caps/clocks remain exact; any further request must pass remaining-work scope and resource admission.",
+    "WDR1_target_task_native_qualified": false,
+    "core64_completed": 0
+  }
+}
