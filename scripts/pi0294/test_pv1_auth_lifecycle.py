@@ -110,6 +110,18 @@ class AuthLifecycleTests(unittest.TestCase):
         self.assertNotIn(secret,output.getvalue())
         self.assertLessEqual(len(list(Path('/proc/self/fd').iterdir())),before+1)
 
+    def test_resident_login_child_has_explicit_cpu_fence_without_logging_credentials(self):
+        secret='CPU_FIXTURE_NOT_A_REAL_PASSWORD'
+        program="import getpass;getpass.getpass('Password: ');exec('while True: pass')"
+        with self.assertRaises(AuthenticationUnavailable) as caught:
+            masked_login([sys.executable,'-c',program],secret,timeout_s=4,process_cpu_limit_s=1)
+        self.assertLess(caught.exception.diagnostic['CLI_exit_status'],0)
+        self.assertFalse(caught.exception.diagnostic['raw_output_logged'])
+        self.assertNotIn(secret,str(caught.exception)+str(caught.exception.diagnostic))
+        for bound in (True,1.0,0,121,-1):
+            with self.subTest(bound=bound),self.assertRaises(ValueError):
+                masked_login([sys.executable,'-c','pass'],secret,process_cpu_limit_s=bound)
+
     def test_mfa_is_not_bypassed_and_secret_not_put_in_command_arguments(self):
         with self.assertRaises(HumanAuthRequired):masked_login(
             [sys.executable,'-c',"print('OTP verification code: ',flush=True);input()"],'fixture',timeout_s=3)

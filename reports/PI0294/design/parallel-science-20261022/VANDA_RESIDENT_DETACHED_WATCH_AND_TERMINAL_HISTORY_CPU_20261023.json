@@ -1,0 +1,45 @@
+{
+  "schema": "VANDA_RESIDENT_DETACHED_WATCH_AND_TERMINAL_HISTORY_CPU_V1",
+  "status": "CPU_QUALIFIED_COLD_BINDING_NOT_NATIVE_DEPLOYED",
+  "epoch": 1792770850.6141648,
+  "problem": "A finished registered job can leave the current account queue before its costs are settled. A separate fresh native terminal history read is required to let the existing owner return normally.",
+  "resulting_behavior": {
+    "current_queue": "Retain exact complete qselect/qstat current account proof",
+    "terminal_history": "Distinct qstat -x single handle, exact F and integer Exit_status, same owner/project/job name/request and nonce; never fabricate a current queue entry",
+    "view_schema": "WDR1_VANDA_ONLY_CURRENT_CAMPAIGN_VIEW_V2",
+    "terminal_does_not_settle_or_release": true,
+    "failed_history_is_not_terminal_or_empty": true,
+    "detached_watch": "Existing cold_owner.watch remains running after its launcher exits; the real OS CPU fixture continues heartbeats and returns exact terminal without resubmission",
+    "ordinary_login_CPU_bound": "Optional explicit process CPU limit for the ordinary masked login child; default old callers unchanged",
+    "watchdog_RPC_read_retry_and_all_original_clocks": "UNCHANGED"
+  },
+  "validation": {
+    "new_CPU_cases": 23,
+    "focused_cases": 103,
+    "focused_subtests": 5,
+    "full_CPU_cases": 2467,
+    "full_subtests": 1649,
+    "private_parser_skips": 13,
+    "detached_CPU_fixture": "Launcher exited, child still live and produced multiple heartbeats; independent matching terminal then normal watch return; no native PBS/auth/model/GPU",
+    "masked_login_CPU_fixture": "Real dummy password-prompt subprocess killed by 1CPU-second limit, no raw secret/output logged"
+  },
+  "adopted_five_caps_unchanged": {
+    "DEC1_updates": 11714,
+    "DEC1_PBS": 16,
+    "global_PBS": 27,
+    "DEC1_GPUsite_storage_GiB": 614,
+    "global_GPUsite_storage_GiB": 680
+  },
+  "actual_settled_updates": 9666,
+  "old_lineage2970_and_paid922_preserved": true,
+  "no_new_GPU_request_qsub_or_control_prepayment": true,
+  "scheduler_latest": "Prior three10s qselect reads plus original25s qstat read timed out. A later low-frequency same own-qstat25s also timed out; queue remains unknown, never assumed empty.",
+  "resident_binding": "Private cold templates are in progress; new source CI/full readback, versioned inputs, registration/integration and fresh native admission still required",
+  "runtime_before_this_change": {
+    "source": "2d323e5574abba6419920fc0fd240fc10c7572b5",
+    "CI39976861380_all12_success": true
+  },
+  "full_goal": "ACTIVE",
+  "target_task_native_qualified": false,
+  "core64": 0
+}

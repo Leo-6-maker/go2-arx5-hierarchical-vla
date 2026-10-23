@@ -129,3 +129,60 @@ def test_actual_collector_uses_only_bounded_own_vanda_commands_and_preserves_fai
     def failed(argv,**kw):return SimpleNamespace(returncode=162,stdout='',stderr='real scheduler diagnostic')
     with pytest.raises(c.ReadOnlyFailure) as caught:c.collect_queue(runner=failed)
     assert caught.value.diagnostic['returncode']==162 and caught.value.diagnostic['stderr']=='real scheduler diagnostic'
+
+def terminal_fixture():
+    h,d,a,q=fixture();item=h['PBS_submissions'][-1]
+    item.update(request_id='fixture-original-request',submission_nonce='fixture-original-nonce')
+    jobs=json.loads(q['qstat']['stdout'])['Jobs'];terminal=jobs.pop(item['job_id'])
+    q['qselect']['stdout']='15.stdct-mgmt-02\n';q['qstat']['argv']=['/opt/pbs/bin/qstat','-f','-F','json','15.stdct-mgmt-02'];q['qstat']['stdout']=json.dumps(dict(Jobs=jobs))
+    terminal.update(job_state='F',Exit_status=0,Variable_List=dict(PV1_REQUEST_ID=item['request_id'],PV1_SUBMISSION_NONCE=item['submission_nonce']))
+    proof=dict(schema=c.TERMINAL_HISTORY,user='e1192548',observed_epoch=1000.,argv=['/opt/pbs/bin/qstat','-x','-f','-F','json',item['job_id']],returncode=0,stdout=json.dumps(dict(Jobs={item['job_id']:terminal})),stderr='')
+    a.update(global_sha256=c.sha(raw(h)),DEC1_sha256=c.sha(raw(d)))
+    return h,d,a,q,proof
+
+def observe_terminal(h,d,a,q,proof):
+    grant=(Path(__file__).resolve().parents[3]/c.handoff.PLAN).read_bytes()
+    return c.observe(grant_bytes=grant,global_ledger_bytes=raw(h),DEC1_ledger_bytes=raw(d),authority_readback=a,queue_readback=q,terminal_readbacks=[proof],now_epoch=1001.)
+
+@pytest.mark.parametrize('exit_status',[0,1,-3])
+def test_actual_terminal_history_is_distinct_from_complete_current_account_queue(exit_status):
+    h,d,a,q,proof=terminal_fixture();v=json.loads(proof['stdout']);v['Jobs']['14.stdct-mgmt-02']['Exit_status']=exit_status;proof['stdout']=json.dumps(v)
+    before=deepcopy((h,d,a,q,proof));view=observe_terminal(h,d,a,q,proof)
+    assert before==(h,d,a,q,proof) and view['status']==c.PASS and view['campaign_jobs']==[]
+    assert [r['job_id'] for r in view['current_Vanda_account_owned_jobs']]==['15.stdct-mgmt-02']
+    assert len(view['outside_registered_campaign_jobs'])==1 and view['native_terminal_history_readbacks']==[proof]
+    assert h['PBS_submissions'][-1]['status']=='SUBMITTED_PENDING_NATIVE' # no settlement or release
+    c.validate(view,ledger=h,DEC1_ledger=d,now_epoch=1002.)
+
+@pytest.mark.parametrize('fault',['nonzero','stale','future','wrong_command','other_job','wrong_request','wrong_nonce',
+    'missing_exit','bool_exit','not_F','other_user','other_project','other_name','missing_jobs','duplicate_history',
+    'current_and_terminal','modified_retained_bytes','wrong_digest'])
+def test_failed_or_unbound_history_is_never_a_terminal_inference(fault):
+    h,d,a,q,proof=terminal_fixture();parsed=json.loads(proof['stdout']);job=parsed['Jobs']['14.stdct-mgmt-02']
+    if fault=='nonzero':proof['returncode']=162
+    elif fault=='stale':proof['observed_epoch']=800.
+    elif fault=='future':proof['observed_epoch']=1002.
+    elif fault=='wrong_command':proof['argv'].remove('-x')
+    elif fault=='other_job':proof['argv'][-1]='999.stdct-mgmt-02'
+    elif fault=='wrong_request':job['Variable_List']['PV1_REQUEST_ID']='different'
+    elif fault=='wrong_nonce':job['Variable_List']['PV1_SUBMISSION_NONCE']='different'
+    elif fault=='missing_exit':job.pop('Exit_status')
+    elif fault=='bool_exit':job['Exit_status']=True
+    elif fault=='not_F':job['job_state']='R'
+    elif fault=='other_user':job['Job_Owner']='other@login'
+    elif fault=='other_project':job['project']='different'
+    elif fault=='other_name':job['Job_Name']='different'
+    elif fault=='missing_jobs':parsed['Jobs']={}
+    elif fault=='current_and_terminal':
+        jobs=json.loads(q['qstat']['stdout'])['Jobs'];jobs['14.stdct-mgmt-02']=deepcopy(job)
+        q['qselect']['stdout']+='14.stdct-mgmt-02\n';q['qstat']['argv'].append('14.stdct-mgmt-02');q['qstat']['stdout']=json.dumps(dict(Jobs=jobs))
+    proof['stdout']=json.dumps(parsed)
+    if fault=='duplicate_history':
+        with pytest.raises(PermissionError):c.terminal_rows([proof,proof],ledger=h,current_rows=[],now_epoch=1001.)
+    elif fault in ('modified_retained_bytes','wrong_digest'):
+        view=observe_terminal(h,d,a,q,proof)
+        if fault=='wrong_digest':view['native_terminal_history_sha256']='0'*64
+        else:view['native_terminal_history_readbacks'][0]['returncode']=162
+        with pytest.raises(PermissionError):c.validate(view,ledger=h,DEC1_ledger=d,now_epoch=1002.)
+    else:
+        with pytest.raises(PermissionError):observe_terminal(h,d,a,q,proof)

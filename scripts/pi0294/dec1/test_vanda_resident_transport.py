@@ -12,6 +12,7 @@ import shutil
 import subprocess
 import sys
 import time
+import signal
 from types import SimpleNamespace
 from unittest.mock import patch
 import pytest
@@ -86,6 +87,59 @@ def test_runtime_heartbeat_survives_real_accounting_progress_between_heartbeats(
     c.validate_owner_heartbeat(out['heartbeat'],ledger=later,now_epoch=time.time())
     later['unknown_effects']=['unresolved_effect']
     with pytest.raises(PermissionError):c.validate_owner_heartbeat(out['heartbeat'],ledger=later,now_epoch=time.time())
+
+def test_existing_watch_survives_launcher_exit_and_returns_distinct_native_terminal(tmp_path):
+    """Detached CPU fixture, original watch; no scheduler, model or auth call."""
+    fixture_script=tmp_path/'detached_fixture.py'
+    fixture_script.write_text('''
+import json,os,sys,time
+from pathlib import Path
+from types import SimpleNamespace
+from scripts.pi0292.durable import read,write
+from scripts.pi0294.dec1.cold_owner import watch
+from scripts.pi0294.dec1 import vanda_campaign as c
+from scripts.pi0294.dec1.test_vanda_campaign import fixture,terminal_fixture,raw
+base=Path(sys.argv[1]);job='14.stdct-mgmt-02';ticks=0
+for n,v in [('SOURCE_REQUEST.private.json',dict(request=dict(submit_count=14),directory=str(base))),('SOURCE_JOB_BOUND.private.json',dict(job_id=job)),('TRAIN_REGISTERED.private.json',dict(root=str(base)))]:write(base/n,v)
+def fresh(*a,**kw):
+    done=(base/'finish').exists();now=time.time()
+    if done:h,d,authority,queue,terminal=terminal_fixture();terminal['observed_epoch']=now
+    else:h,d,authority,queue=fixture();terminal=None
+    authority.update(observed_epoch=now,global_sha256=c.sha(raw(h)),DEC1_sha256=c.sha(raw(d)));queue['observed_epoch']=now
+    grant=Path(__import__('scripts.pi0294.dec1.test_vanda_campaign',fromlist=['x']).__file__).resolve().parents[3]/c.handoff.PLAN
+    view=c.observe(grant_bytes=grant.read_bytes(),global_ledger_bytes=raw(h),DEC1_ledger_bytes=raw(d),authority_readback=authority,queue_readback=queue,terminal_readbacks=[terminal] if terminal else [],now_epoch=time.time())
+    c.validate(view,ledger=h,DEC1_ledger=d,now_epoch=time.time())
+    native=json.loads(terminal['stdout'])['Jobs'][job] if done else dict(Job_Name='pi0294_dec1_a40_train',project='CFP04-CF-007',job_state='Q')
+    return dict(view=view,rows=dict(vanda=dict(jobs={} if done else {job:native},terminal_job=native if done else None,receipts={})))
+def rpc(*a,**kw):
+    global ticks
+    ticks+=1;write(base/'heartbeat.json',dict(ticks=ticks,pid=os.getpid(),ppid=os.getppid(),CPU_fixture=True))
+def record(name,value):write(base/(name+'.json'),value);return value
+owner=SimpleNamespace(BASE=base,cold_rpc_bound=True,native=SimpleNamespace(T0=1792348196),read=read,record=record,update=write,
+    fresh=fresh,previous=SimpleNamespace(rpc=rpc),HEARTBEAT='',auth=lambda secret:dict(CPU_fixture=True),release=lambda *a,**kw:(_ for _ in ()).throw(AssertionError('NO_RELEASE_IN_Q_F_FIXTURE')))
+result=watch(owner,None,sleep=lambda _:time.sleep(.05));write(base/'done.json',dict(result=result,CPU_fixture=True,pid=os.getpid()))
+''')
+    launcher=('import subprocess,sys,json; p=subprocess.Popen([sys.executable,'+repr(str(fixture_script))+','+repr(str(tmp_path))+'],stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=open('+repr(str(tmp_path/'fixture.stderr'))+',"w"),start_new_session=True); print(json.dumps(dict(pid=p.pid,launcher=__import__("os").getpid())))')
+    parent=subprocess.run([sys.executable,'-c',launcher],capture_output=True,text=True,timeout=5,check=True)
+    identity=json.loads(parent.stdout);pid=identity['pid'];proc=Path('/proc')/str(pid)
+    try:
+        end=time.monotonic()+8;seen=None
+        while time.monotonic()<end:
+            path=tmp_path/'heartbeat.json'
+            if path.exists():
+                seen=read(path)
+                if seen['ticks']>=2 and seen['ppid']!=identity['launcher']:break
+            time.sleep(.02)
+        assert seen and seen['ticks']>=2 and seen['ppid']!=identity['launcher'],(tmp_path/'fixture.stderr').read_text()
+        assert proc.exists() and seen['pid']==pid
+        (tmp_path/'finish').touch()
+        while time.monotonic()<end and not(tmp_path/'done.json').exists():time.sleep(.02)
+        result=read(tmp_path/'done.json')['result']
+        assert result['status']=='NATIVE_TERMINAL_PRESERVED_NEEDS_ACTUAL_EFFECT_SETTLEMENT'
+        assert result['native']['job_state']=='F' and result['native']['Exit_status']==0
+        assert result['do_not_resubmit'] is True
+    finally:
+        if not(tmp_path/'done.json').exists() and proc.exists():os.kill(pid,signal.SIGTERM)
 
 def test_typed_queue_failure_cannot_turn_effect_bearing_call_into_retry(tmp_path):
     diagnostic=dict(schema=c.QUEUE_FAILURE,queue_known=False,diagnostic=dict(argv=['/opt/pbs/bin/qselect','-u','e1192548'],returncode=162,stdout='',stderr='PBS unavailable'))

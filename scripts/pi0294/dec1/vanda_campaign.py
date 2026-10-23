@@ -15,11 +15,12 @@ from . import dual_platform as dual, vanda_control_handoff as handoff
 from .alternate_accounting import digest
 from .owner_transport import ReadOnlyFailure
 
-SCHEMA='WDR1_VANDA_ONLY_CURRENT_CAMPAIGN_VIEW_V1'
+SCHEMA='WDR1_VANDA_ONLY_CURRENT_CAMPAIGN_VIEW_V2'
 PASS='PASS_VANDA_ONLY_CAMPAIGN_VIEW'
 AUTHORITY='WDR1_VANDA_CURRENT_AUTHORITY_READBACK_V1'
 QUEUE='WDR1_VANDA_COMPLETE_ACCOUNT_QUEUE_READBACK_V1'
 QUEUE_FAILURE='WDR1_VANDA_NATIVE_QUEUE_READ_FAILURE_V1'
+TERMINAL_HISTORY='WDR1_VANDA_FRESH_TERMINAL_HISTORY_READBACK_V1'
 PLATFORM='VANDA_A40'
 
 def need(ok,why):
@@ -157,19 +158,52 @@ def classify(h,rows):
     need(len(campaign)<=1,'ONE_VANDA_ACTIVE_CHAIN_NO_DUPLICATE_Q_OR_R')
     return campaign,outside,unknown
 
-def observe(*,grant_bytes,global_ledger_bytes,DEC1_ledger_bytes,authority_readback,queue_readback,now_epoch):
+def terminal_rows(proofs,*,ledger,current_rows,now_epoch):
+    """A separate exact current qstat-history read, never a fabricated queue row."""
+    need(type(proofs) is list and len(proofs)<=1,'AT_MOST_ONE_CURRENT_REGISTERED_TERMINAL_HISTORY')
+    out=[];current={v['job_id'] for v in current_rows}
+    for proof in proofs:
+        need(type(proof) is dict,'EXACT_NATIVE_TERMINAL_READBACK_OBJECT')
+        fresh(proof.get('observed_epoch'),now_epoch)
+        need(proof.get('schema')==TERMINAL_HISTORY and proof.get('user')=='e1192548'
+             and type(proof.get('returncode')) is int and proof['returncode']==0,'REAL_SUCCESSFUL_TERMINAL_HISTORY_READ')
+        argv=proof.get('argv',[])
+        need(len(argv)==6 and argv[:5]==['/opt/pbs/bin/qstat','-x','-f','-F','json']
+             and re.fullmatch(r'[0-9]+\.stdct-mgmt-02',argv[5]) is not None,'EXACT_SINGLE_VANDA_HISTORY_HANDLE')
+        jid=argv[5];registered=[v for v in ledger['PBS_submissions'] if v.get('job_id')==jid]
+        jobs=json.loads(proof['stdout'])['Jobs']
+        need(jid not in current and set(jobs)=={jid} and len(registered)==1,'MISSING_CURRENT_JOB_WITH_OWN_DISTINCT_NATIVE_HISTORY')
+        item=registered[0];job=jobs[jid];variables=job.get('Variable_List',{})
+        need(item.get('native_platform')==PLATFORM and item['status'] not in dual.TERMINAL
+             and job.get('job_state')=='F' and type(job.get('Exit_status')) is int
+             and job.get('Job_Owner','').split('@')[0]=='e1192548'
+             and job.get('project')==item.get('project')=='CFP04-CF-007'
+             and job.get('Job_Name')==item.get('job_name')=='pi0294_dec1_a40_train'
+             and isinstance(item.get('request_id'),str) and isinstance(item.get('submission_nonce'),str)
+             and variables.get('PV1_REQUEST_ID')==item['request_id']
+             and variables.get('PV1_SUBMISSION_NONCE')==item['submission_nonce'],
+             'KNOWN_F_EXIT_AND_EXACT_ORIGINAL_REQUEST_NONCE_NOT_INFERRED_TERMINAL')
+        out.append(dict(platform=PLATFORM,job_id=jid,state='F',project=job['project'],name=job['Job_Name'],
+            ngpus=job.get('Resource_List',{}).get('ngpus',0)))
+    return out
+
+def observe(*,grant_bytes,global_ledger_bytes,DEC1_ledger_bytes,authority_readback,queue_readback,now_epoch,terminal_readbacks=None):
     handoff.grant(grant_bytes)
     need(type(global_ledger_bytes) is bytes and type(DEC1_ledger_bytes) is bytes,'ACTUAL_CURRENT_PAIRED_BYTES')
     h,d=json.loads(global_ledger_bytes),json.loads(DEC1_ledger_bytes)
     history=authority(h,d,authority_readback,now_epoch=now_epoch)
     need(authority_readback.get('global_sha256')==sha(global_ledger_bytes)
          and authority_readback.get('DEC1_sha256')==sha(DEC1_ledger_bytes),'FRESH_AUTHORITY_BINDS_FULL_CURRENT_PAIRED_BYTES')
-    rows=queue_rows(queue_readback,now_epoch=now_epoch);campaign,outside,unknown=classify(h,rows)
+    rows=queue_rows(queue_readback,now_epoch=now_epoch)
+    terminal_readbacks=[] if terminal_readbacks is None else terminal_readbacks
+    terminals=terminal_rows(terminal_readbacks,ledger=h,current_rows=rows,now_epoch=now_epoch)
+    campaign,outside,unknown=classify(h,rows+terminals)
     return dict(schema=SCHEMA,status=PASS if not unknown else 'STOP_UNKNOWN_VANDA_CAMPAIGN_STATE',
         observed_epoch=min(authority_readback['observed_epoch'],queue_readback['observed_epoch']),
         grant_sha256=handoff.GRANT_SHA,authority=deepcopy(authority_readback),
         global_ledger_canonical_sha256=digest(h),DEC1_ledger_canonical_sha256=digest(d),migration_marker_sha256=digest(h[handoff.FIELD]),
         complete_Vanda_account_queue_sha256=digest(queue_readback),queue_observed_epoch=queue_readback['observed_epoch'],
+        native_terminal_history_readbacks=deepcopy(terminal_readbacks),native_terminal_history_sha256=digest(terminal_readbacks),
         current_Vanda_account_owned_jobs=rows,account_owned_job_count=len(rows),campaign_jobs=campaign,
         campaign_running_by_platform=({PLATFORM:1} if campaign and campaign[0]['state']=='R' else {}),
         outside_registered_campaign_jobs=outside,user_confirmed_independent_jobs=[],unknown_campaign_jobs=unknown,
@@ -189,7 +223,10 @@ def validate(view,*,ledger,DEC1_ledger=None,now_epoch):
     need(isinstance(view.get('complete_Vanda_account_queue_sha256'),str)
          and re.fullmatch('[0-9a-f]{64}',view['complete_Vanda_account_queue_sha256']) is not None,
          'RETAINED_COMPLETE_VANDA_QUEUE_READBACK_DIGEST')
-    campaign,outside,unknown=classify(ledger,view['current_Vanda_account_owned_jobs'])
+    terminal_proofs=view.get('native_terminal_history_readbacks')
+    terminals=terminal_rows(terminal_proofs,ledger=ledger,current_rows=view['current_Vanda_account_owned_jobs'],now_epoch=now_epoch)
+    need(view.get('native_terminal_history_sha256')==digest(terminal_proofs),'UNCHANGED_SEPARATE_TERMINAL_HISTORY_BYTES')
+    campaign,outside,unknown=classify(ledger,view['current_Vanda_account_owned_jobs']+terminals)
     need(not unknown and view.get('campaign_jobs')==campaign and view.get('outside_registered_campaign_jobs')==outside
          and view.get('unknown_campaign_jobs')==[] and view.get('account_owned_job_count')==len(view['current_Vanda_account_owned_jobs'])
          and view.get('historical_Hopper_registered_terminal_jobs')==history

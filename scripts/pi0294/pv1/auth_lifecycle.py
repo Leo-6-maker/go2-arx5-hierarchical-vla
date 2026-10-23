@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import pty
 import re
+import resource
 import select
 import subprocess
 import termios
@@ -49,16 +50,21 @@ def context():
                 control_host=value['host'],credential_content_read=False,TTL='UNKNOWN_NOT_EXPOSED_BY_SUPPORTED_CLI')
 
 
-def masked_login(argv,secret,*,timeout_s=45):
+def masked_login(argv,secret,*,timeout_s=45,process_cpu_limit_s=None):
     """Use an ordinary supported password prompt; discard every byte of CLI output."""
     if (not isinstance(secret,str) or not secret or any(c in secret for c in ('\r','\n','\0'))
             or any(secret in str(a) for a in argv) or '--password' in argv):
         raise ValueError('AUTH_CREDENTIAL_ONLY_IN_MEMORY_AND_MASKED_STDIN')
+    if process_cpu_limit_s is not None and (type(process_cpu_limit_s) is not int or not 1<=process_cpu_limit_s<=120):
+        raise ValueError('AUTH_EXPLICIT_BOUNDED_POSITIVE_PROCESS_CPU_LIMIT')
     master,slave=pty.openpty();process=None;data=b'';sent=False;reason=None;codes=set();hints=set()
     try:
         attrs=termios.tcgetattr(slave);attrs[3]&=~termios.ECHO
         termios.tcsetattr(slave,termios.TCSANOW,attrs)
-        process=subprocess.Popen(argv,stdin=slave,stdout=slave,stderr=slave,close_fds=True)
+        options={}
+        if process_cpu_limit_s is not None:
+            options['preexec_fn']=lambda:resource.setrlimit(resource.RLIMIT_CPU,(process_cpu_limit_s,process_cpu_limit_s))
+        process=subprocess.Popen(argv,stdin=slave,stdout=slave,stderr=slave,close_fds=True,**options)
         os.close(slave);slave=None;end=time.monotonic()+timeout_s
         while time.monotonic()<end:
             if select.select([master],[],[],.1)[0]:
