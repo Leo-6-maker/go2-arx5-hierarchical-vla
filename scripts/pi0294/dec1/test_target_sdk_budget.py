@@ -149,15 +149,15 @@ def test_closed_failed_attempt_keeps_full_cost_before_one_bounded_same_work_retr
     assert matrix['resources']['Core_CPU_s']==200000 and matrix['resources']['local_CPU_s']==3600
     assert matrix['resources']['episode_starts']==88 and matrix['resources']['PBS_submissions']==3
     for ledger in (p,c):
-        for rid in ('THIRD','FOURTH','FIFTH'):ledger[unit.ROWS][rid]=dict(old,request_id=rid)
+        for rid in ('THIRD','FOURTH','FIFTH','SIXTH','SEVENTH'):ledger[unit.ROWS][rid]=dict(old,request_id=rid)
     with pytest.raises(PermissionError):call(v)
 
 
-def test_three_closed_engineering_costs_and_one_new_hold_share_original_matrix_cpu(bundle):
+def test_four_closed_engineering_costs_and_one_new_hold_share_original_matrix_cpu(bundle):
     v=reserved(bundle);s,progress,plan,p,c,fp,a=v;template=deepcopy(p[unit.ROWS]['SDK_CPU_FIXTURE'])
     for ledger in (p,c):ledger[unit.ROWS]={};ledger[unit.SETTLEMENTS]={}
     total=0
-    for rid,cpu in (('ENTRY_FAILED',3600),('LINK_FAILED',607.956897),('LOADER_FAILED',607.859879)):
+    for rid,cpu in (('ENTRY_FAILED',3600),('LINK_FAILED',607.956897),('LOADER_FAILED',607.859879),('MESH_FAILED',607.904754)):
         amount=dict(unit.REQUESTED,CoreLab_CPU_s=cpu);total+=cpu
         receipt=dict(schema='DEC1_TARGET_SDK_CPU_SETTLEMENT_V1',scope=unit.ROLE,request_id=rid,
             manifest_sha256=template['manifest_sha256'],financial_charged=amount,target_task_native_qualified=False)
@@ -166,10 +166,10 @@ def test_three_closed_engineering_costs_and_one_new_hold_share_original_matrix_c
                 settlement_sha256=unit.common.sha(unit.common.encode(receipt)))
             ledger[unit.SETTLEMENTS][rid]=deepcopy(receipt)
     for ledger in (p,c):ledger[unit.ROWS]['NEW_REQUEST']=dict(template,request_id='NEW_REQUEST')
-    p['CPU_s']['CoreLab']+=total;p['CPU_s']['local_PC']+=360;p['engine_starts']+=6
-    p['network_transfer_accounted_bytes']+=3*unit.REQUESTED['transfer_bytes']
-    c['CPU_s']+=total;c['constructors']+=6
+    p['CPU_s']['CoreLab']+=total;p['CPU_s']['local_PC']+=480;p['engine_starts']+=8
+    p['network_transfer_accounted_bytes']+=4*unit.REQUESTED['transfer_bytes']
+    c['CPU_s']+=total;c['constructors']+=8
     r=call(v)
     assert r['admissible_forecast'] is True
-    assert r['SDK_funding']['CPU_credit']==dict(Core_CPU_s=total+3600,local_CPU_s=480)
+    assert r['SDK_funding']['CPU_credit']==dict(Core_CPU_s=total+3600,local_CPU_s=600)
     assert next(x for x in r['mandatory_jobs'] if x['kind']=='MATRIX_ENVELOPE')['resources']==dict(plan['remaining_matrix_envelope']['resources'],optimizer_updates=0)

@@ -65,6 +65,8 @@ class SdkClientPins:
     owner_source_sha: str
     owner_request_id: str
     initialization_mode: str
+    package_roots: tuple = ()
+    mesh_members: tuple = ()
 
 
 def validate_pins(pins):
@@ -88,7 +90,24 @@ def validate_pins(pins):
     need(type(pins.frames) is tuple and len(pins.frames) == 3
          and all(type(s) is str and 0 < len(s) <= 256 and '\x00' not in s for s in pins.frames),
          'EXPLICIT_ORIGINAL_FRAME_OVERRIDES')
+    package_environment(pins)
     return pins
+
+
+def package_environment(pins):
+    if not pins.package_roots:
+        need(pins.mesh_members==(),'NO_UNBOUND_PACKAGE_MESHES')
+        return dict(ROS_PACKAGE_PATH='',AMENT_PREFIX_PATH='')
+    need(type(pins.package_roots) is tuple and type(pins.mesh_members) is tuple,
+         'SEALED_PACKAGE_MEMBER_TUPLES')
+    from . import target_sdk_package_assets as assets
+    m=json.loads(Path(pins.owner_manifest).read_bytes());root=Path(pins.owner_manifest).parent
+    raw=(root/'INPUT_BINDINGS.private.json').read_bytes()
+    need(digest(raw)==m['execution']['input_binding_sha256'],'OWNER_SEALED_PACKAGE_INPUTS')
+    inputs=json.loads(raw)
+    need(dict(pins.package_roots)==inputs['sdk_package_roots']
+         and dict(pins.mesh_members)==inputs['sdk_package_mesh_sha256'], 'EXACT_OWNER_PACKAGE_AND_MESH_BINDINGS')
+    return assets.environment(Path(pins.urdf).read_bytes(),dict(pins.package_roots),dict(pins.mesh_members))
 
 
 def _validate_readonly_cache(cache,members):
@@ -147,6 +166,7 @@ class SdkClient:
             # interposers used by a full-body task subprocess.
             env.pop('LD_PRELOAD',None);env.pop('LD_AUDIT',None);env.pop('LD_LIBRARY_PATH',None)
             env.update(CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+            env.update(package_environment(pins))
             self.process = subprocess.Popen(argv, stdin=subprocess.PIPE, stdout=self.log, stderr=self.log,
                                             pass_fds=(response,), bufsize=0, start_new_session=True,env=env)
             os.close(response); response = None

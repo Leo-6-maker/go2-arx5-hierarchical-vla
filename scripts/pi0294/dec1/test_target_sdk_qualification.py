@@ -139,7 +139,9 @@ def full_entry(packet,tmp_path,monkeypatch):
     monkeypatch.setattr(unit.build_plan,'FLAGS_SHA256',unit.filehash(flags));monkeypatch.setattr(unit.build_plan,'LINK_SHA256',unit.filehash(link))
     task=tmp_path/'task.info';task.write_bytes(b'CPU original task fixture')
     clock=tmp_path/'clock.py';clock.write_bytes(b'CPU original frozen clock fixture')
-    urdf=tmp_path/'model.urdf';urdf.write_bytes(b'CPU original URDF fixture')
+    package=tmp_path/'packages/robot_fixture';(package/'meshes').mkdir(parents=True)
+    mesh=package/'meshes/link.glb';mesh.write_bytes(b'CPU_MESH_FIXTURE_NOT_NATIVE_GEOMETRY')
+    urdf=tmp_path/'model.urdf';urdf.write_bytes(b'<robot name="CPU"><link name="base"><visual><geometry><mesh filename="package://robot_fixture/meshes/link.glb"/></geometry></visual></link></robot>')
     entry=tmp_path/'enter.sh';entry.write_bytes(b'CPU standard entry fixture')
     doctor=tmp_path/'doctor.py';doctor.write_bytes(b'CPU standard doctor fixture')
     for key,path in (('MOBILE_SDK_SHA256',mobile),('CORE_SDK_SHA256',core),('FROZEN_TASK_SHA256',task),
@@ -156,7 +158,8 @@ def full_entry(packet,tmp_path,monkeypatch):
     inputs=dict(runtime_python=sys.executable,sdk_root=str(sdk),flags_file=str(flags),link_file=str(link),
         original_task=str(task),urdf=str(urdf),urdf_sha256=unit.filehash(urdf),mobile_archive=str(mobile),
         core_archive=str(core),frozen_clock=str(clock),frames=['-','-','-'],
-        original_readonly_files={str(p):unit.filehash(p) for p in (mobile,core,flags,link,urdf,*dependencies)})
+        sdk_package_roots={'robot_fixture':str(package)},sdk_package_mesh_sha256={str(mesh):unit.filehash(mesh)},
+        original_readonly_files={str(p):unit.filehash(p) for p in (mobile,core,flags,link,urdf,mesh,*dependencies)})
     write(root/'INPUT_BINDINGS.private.json',inputs)
     write(root/'capsule/SOURCE_SEAL.json',dict(source_sha='a'*40,files=pins))
     write(root/'plans/PUBLICATION_AND_CI.private.json',dict(source='a'*40,CI_conclusion='success',all_12_steps_success=True,full_readback_file_sha256=pins))

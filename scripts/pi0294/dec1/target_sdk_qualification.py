@@ -29,6 +29,7 @@ FROZEN_CLOCK_SHA='82004c3171cc8cd2a0486f391595ac39424bad96882d12c5936c4eca55fe3b
 REQUIRED_CODE=('target_sdk_qualification.py','target_sdk_resources.py','target_sdk_budget.py',
     'target_sdk_build_plan.py','target_sdk_client.py','target_sdk_constraint_wire.py',
     'target_sdk_client.cpp','target_sdk_constraints.hpp','target_zero_counter.py','target_zero_counter_contract.py')
+REQUIRED_CODE+=('target_sdk_package_assets.py',)
 
 
 def validate(root):
@@ -98,6 +99,10 @@ def validate(root):
          'SDK_ORIGINAL_TASK_ARCHIVES_AND_EXPLICIT_FROZEN_CLOCK')
     for name,pin in inputs['original_readonly_files'].items():
         need(Path(name).is_absolute() and filehash(name)==pin,'SDK_PINNED_ORIGINAL_LINK_AND_ABI_INPUTS')
+    from . import target_sdk_package_assets as assets
+    need(all(inputs['original_readonly_files'].get(p)==pin for p,pin in inputs['sdk_package_mesh_sha256'].items()),
+         'SDK_ALL_ORIGINAL_MESH_BYTES_IN_SEALED_ASSETS')
+    assets.environment(Path(inputs['urdf']).read_bytes(),inputs['sdk_package_roots'],inputs['sdk_package_mesh_sha256'])
     out=root/'evidence/sdk-build';cache=root/'evidence/sdk-cache';io=root/'evidence/sdk-client'
     for path in (out,cache,io):
         need(path.is_dir() and not path.is_symlink() and not any(path.iterdir()),'SDK_NEW_EMPTY_OWNED_OUTPUT')
@@ -216,6 +221,8 @@ def run(root):
             private_readonly_cache=str(root/'evidence/sdk-cache'),cache_members=(),frames=tuple(inputs['frames']),
             owner_manifest=str(root/'RUN_MANIFEST.json'),owner_manifest_sha256=filehash(root/'RUN_MANIFEST.json'),
             owner_run_uuid=root.name,owner_source_sha=m['code']['vla_commit'],owner_request_id=q['request_id'],
+            package_roots=tuple(sorted(inputs['sdk_package_roots'].items())),
+            mesh_members=tuple(sorted(inputs['sdk_package_mesh_sha256'].items())),
             initialization_mode='ORIGINAL_SDK_INITIALIZE')
         put(root/'evidence/SDK_BUILT_CLIENT_PINS.json',asdict(pin));guard();attempts=1
         client=SdkClient(root/'evidence/sdk-client',pin,guard=guard,maximum_requests=80,startup_timeout_s=120)

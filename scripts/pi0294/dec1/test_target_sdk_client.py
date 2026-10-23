@@ -295,3 +295,20 @@ def test_other_thread_cannot_exchange_or_kill_owner(pins,prediction,tmp_path):
     thread=threading.Thread(target=other);thread.start();thread.join()
     try:assert len(errors)==2;client.exchange(prediction)
     finally:client.close()
+
+
+def test_nonempty_package_environment_is_bound_to_exact_owner_input_and_mesh_bytes(pins,tmp_path):
+    root=tmp_path/'packages/robot_fixture';(root/'meshes').mkdir(parents=True)
+    mesh=root/'meshes/link.glb';mesh.write_bytes(b'CPU_MESH_BYTES_NOT_NATIVE')
+    urdf=Path(pins.urdf);urdf.write_bytes(b'<robot name="CPU"><link name="base"><collision><geometry><mesh filename="package://robot_fixture/meshes/link.glb"/></geometry></collision></link></robot>')
+    roots={'robot_fixture':str(root)};meshes={str(mesh):unit.digest(mesh.read_bytes())}
+    inputs=Path(pins.owner_manifest).parent/'INPUT_BINDINGS.private.json'
+    inputs.write_text(json.dumps(dict(sdk_package_roots=roots,sdk_package_mesh_sha256=meshes)))
+    manifest=Path(pins.owner_manifest);m=json.loads(manifest.read_bytes());m['execution']['input_binding_sha256']=unit.digest(inputs.read_bytes());manifest.write_text(json.dumps(m))
+    bound=replace(pins,owner_manifest_sha256=unit.digest(manifest.read_bytes()),urdf_sha256=unit.digest(urdf.read_bytes()),package_roots=tuple(roots.items()),mesh_members=tuple(meshes.items()))
+    unit.validate_pins(bound)
+    assert unit.package_environment(bound)==dict(ROS_PACKAGE_PATH=str(root.parent),AMENT_PREFIX_PATH='')
+    with pytest.raises(PermissionError):unit.package_environment(replace(bound,mesh_members=((str(mesh),'0'*64),)))
+    inputs.write_text('{}')
+    with pytest.raises(PermissionError):unit.package_environment(bound)
+    assert not list(tmp_path.rglob('SDK_CLIENT_INTENT.json'))
