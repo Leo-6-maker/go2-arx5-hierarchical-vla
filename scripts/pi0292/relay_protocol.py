@@ -113,7 +113,8 @@ class RelayExchange:
         # requests have no mode flag, and the default RAW validator is unchanged.
         if mapped_ack_contract is not None:
             from scripts.pi0294.dec1.mapped_ack import FixedMappedAckContract
-            if not isinstance(mapped_ack_contract,FixedMappedAckContract):
+            from scripts.pi0294.dec1.target_mapped_ack import FixedTargetTimeAckContract
+            if not isinstance(mapped_ack_contract,(FixedMappedAckContract,FixedTargetTimeAckContract)):
                 raise TypeError('OWNER_PINNED_MAPPED_ACK_CONTRACT_REQUIRED')
         self.mapped_ack_contract=mapped_ack_contract
         self.root = Path(directory)

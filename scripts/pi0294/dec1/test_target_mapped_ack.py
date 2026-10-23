@@ -40,12 +40,16 @@ def contract(c,**kw):
     return unit.FixedTargetTimeAckContract(raw,**options)
 
 
-def fixture(mode='I_PROGRESS',sequence=0,initial_ack=None):
-    body,_,_,action,command,_=packets();body['identity']['statistics_sha256']=R0
-    a=unseal(action);a['sequence']=sequence;a['tick']=sequence*200;a['payload']['identity']=body['identity']
-    raw,*_=time_fixture(mode);a['payload']['trajectory_eef10']=raw.tolist()
-    cmd=unseal(command);cmd.update(sequence=sequence,tick=sequence*200,prefix_eef10=raw[:8].tolist(),prefix_sha256=digest(raw[:8].tolist()))
-    action=sealed(a);command=sealed(cmd)
+def fixture(mode='I_PROGRESS',sequence=0,initial_ack=None,generation=None):
+    if generation is None:
+        body,_,_,action,command,_=packets();body['identity']['statistics_sha256']=R0
+        a=unseal(action);a['sequence']=sequence;a['tick']=sequence*200;a['payload']['identity']=body['identity']
+        raw,*_=time_fixture(mode);a['payload']['trajectory_eef10']=raw.tolist()
+        cmd=unseal(command);cmd.update(sequence=sequence,tick=sequence*200,prefix_eef10=raw[:8].tolist(),prefix_sha256=digest(raw[:8].tolist()))
+        action=sealed(a);command=sealed(cmd)
+    else:
+        request,action,command=generation;body=unseal(request)
+        assert body['sequence']==sequence and body['identity']['statistics_sha256']==R0
     s,*_=source_fixture(mode=mode,run=body['run_uuid'],episode=body['episode_uuid'],identity=body['identity'])
     c=contract(target_condition(s.condition));expected=c.bind_action(action,command,initial_adapter_ack_id=initial_ack)
     refs=[];prior=initial_ack;start=2500+sequence*200
@@ -78,7 +82,7 @@ def fixture(mode='I_PROGRESS',sequence=0,initial_ack=None):
 
 
 @pytest.mark.parametrize('mode',['I_TIME','I_PROGRESS'])
-@pytest.mark.parametrize('sequence',[0,1])
+@pytest.mark.parametrize('sequence',[0,1,79])
 def test_existing_receiver_and_original_float32_MPC_bind_eight_target_references(mode,sequence):
     body,c,e,a,cmd,p=fixture(mode,sequence,initial_ack='previous-real-command' if sequence else None);before=deepcopy(p)
     checked=c.validate(p,expected=e)
