@@ -126,3 +126,27 @@ def test_GPU_shortfall_or_original_clock_failure_never_disappears(bundle):
     v=reserved(bundle);v[0]['used']['H200_s']=200000;v[0]['dec1_used']['H200_s']=48*3600
     r=call(v);assert r['admissible_forecast'] is False and r['DEC1_shortfalls']['H200_s']>0
     assert r['SDK_funding']['full_original_forecast_before_component_credit']['DEC1_shortfalls']['H200_s']==r['DEC1_shortfalls']['H200_s']
+
+
+def test_closed_failed_attempt_keeps_full_cost_before_one_bounded_same_work_retry(bundle):
+    v=reserved(bundle);s,progress,plan,p,c,fp,a=v;first='SDK_CPU_FIXTURE';second='SDK_CPU_FIXTURE_SECOND'
+    old=deepcopy(p[unit.ROWS][first]);charge=deepcopy(unit.REQUESTED)
+    receipt=dict(schema='DEC1_TARGET_SDK_CPU_SETTLEMENT_V1',scope=unit.ROLE,request_id=first,
+        manifest_sha256=old['manifest_sha256'],financial_charged=charge,target_task_native_qualified=False)
+    for ledger in (p,c):
+        ledger[unit.ROWS][first].update(status='SETTLED',remaining=dict.fromkeys(unit.common.DIMS,0),
+            settlement_sha256=unit.common.sha(unit.common.encode(receipt)))
+        ledger[unit.SETTLEMENTS]={first:deepcopy(receipt)}
+        ledger[unit.ROWS][second]=dict(old,request_id=second)
+    p['CPU_s']['CoreLab']+=3600;p['CPU_s']['local_PC']+=120
+    p['engine_starts']+=2;p['network_transfer_accounted_bytes']+=charge['transfer_bytes']
+    c['CPU_s']+=3600;c['constructors']+=2
+    result=call(v)
+    assert result['admissible_forecast'] is True
+    assert result['SDK_funding']['CPU_credit']==dict(Core_CPU_s=7200,local_CPU_s=240)
+    assert result['SDK_funding']['actual_spent_and_held']['actual_spent']==charge
+    matrix=next(j for j in result['mandatory_jobs'] if j['kind']=='MATRIX_ENVELOPE')
+    assert matrix['resources']['Core_CPU_s']==200000 and matrix['resources']['local_CPU_s']==3600
+    assert matrix['resources']['episode_starts']==88 and matrix['resources']['PBS_submissions']==3
+    for ledger in (p,c):ledger[unit.ROWS]['THIRD']=dict(old,request_id='THIRD')
+    with pytest.raises(PermissionError):call(v)

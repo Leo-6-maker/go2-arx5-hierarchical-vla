@@ -1,0 +1,130 @@
+{
+  "schema": "WDR1_F0_TRAIN_FAILED_READER_AND_SDK_ENTRY_FAILURE_ACTUAL_V1",
+  "status": "ACTUAL_F0_B4096_EFFECTS_READONLY_FULL_AUDIT_RUNNING_FAILED_SDK01_CLOSED",
+  "training": {
+    "job_id": "1481574.stdct-mgmt-02",
+    "source": "36925d272095d000ba1ad3ce5e9cdc44373fdce6",
+    "native_state": "F",
+    "native_exit": 0,
+    "final_process_status": "A40_SOURCE_4096_COMPLETE",
+    "start_step": 2048,
+    "last_returned_step": 4096,
+    "actual_new_updates": 2048,
+    "actual_queries": 17,
+    "actual_loads": 2,
+    "actual_effects_unknown": [],
+    "training_finished_epoch": 1792789503.4594963,
+    "qstat_CPU_s": 11706,
+    "qstat_wall_s": 12063,
+    "final_scheduler_GPU_telemetry_not_a_measured_training_utilization_claim": true,
+    "full1024_2048_4096_independent_audit": "RUNNING_ORIGINAL_480CPU_1800WALL_AUDITOR",
+    "native_audit_models_queries_updates_physics": 0,
+    "independent_B4096_full_state_pass": false,
+    "once_settlement": false,
+    "current_Vanda_GPU_CPU_leases_closed": false,
+    "settled_cumulative_updates_still": 9666,
+    "settled_cumulative_queries_still": 1214,
+    "settled_global_GPU_s_still": 91003,
+    "all_old_checkpoints_costs_and_3522_paid_lost_updates_preserved": true
+  },
+  "failed_reader": {
+    "owner_pid": 372546,
+    "owner_start": "28323899",
+    "wrapper_pid": 372539,
+    "wrapper_start": "28323898",
+    "actual_OS_exit": 1,
+    "foreground_wait_completed": true,
+    "failed_phase": "READ_ONLY_838268923C8968CCD5E7",
+    "failed_read_started_epoch": 1792789532.2705033,
+    "error": "VANDA_LOCAL_CONTROL_PROGRAM_FAILED:1",
+    "last_effect_RPC": "CONFIRMED_HEARTBEAT",
+    "unknown_write": false,
+    "owner_and_wrapper_both_actually_absent": true,
+    "original_owner0_success_boundary_satisfied": false,
+    "original_success_helper_not_used_or_modified": true,
+    "historical_underlying_stderr": "NOT_RETAINED_BY_OLD_GENERIC_EXCEPTION_PATH",
+    "later_exact_original_program_reproduction": {
+      "returncode": 0,
+      "program_sha256": "2cdccf143c571d09784ff58465cab2da2b263dbcdcb95303bc9337a0bd1b617e",
+      "proof": "CURRENT_READONLY_NOT_THE_LOST_HISTORICAL_STDERR",
+      "original_cause": "UNKNOWN_NOT_ATTRIBUTED_TO_CORE_OR_SDK"
+    },
+    "no_owner_restart_or_request_resubmission": true
+  },
+  "SDK01": {
+    "source": "3e446dafdfb9baa0244063f80ee74e30ddf85694",
+    "request_id": "f8cb4d7e-97d6-4dca-8225-19f6c1cdc8d4",
+    "manifest_sha256": "e9318ed45f5e92ff0d6c2081c4ac2665607419bbe65e40e27c36646679d712ce",
+    "native_registered_files_readback": 242,
+    "stage": "CURRENT_STANDARD_CPU_ENTRY_IDENTITY_CHECK_BEFORE_FIRST_COMPILE_INTENT",
+    "error": "METADATA_MISBOUND_SIMULATION_PYTHON_INSTEAD_OF_ACTUAL_CPU_PROFILE_PYTHON",
+    "actual_CPU_entry_identity_readback": true,
+    "actual_compilers": 0,
+    "actual_SDK_constructors": 0,
+    "actual_MuJoCo_constructors": 0,
+    "physics_ticks": 0,
+    "episodes": 0,
+    "worker_result_missing": true,
+    "financial_upper_charged_in_full": {
+      "Core_CPU_s": 3600,
+      "LOCAL_CPU_s": 120,
+      "constructors": 2,
+      "Core_output_bytes": 536870912,
+      "LOCAL_output_bytes": 67108864,
+      "transfer_bytes": 67108864
+    },
+    "no_unknown_cost_refund": true,
+    "once_dual_settled": true,
+    "lease_closed": true,
+    "actors_active": 0,
+    "all8holds_zero": true,
+    "Core_after_sha256": "3dabfa0841ab51a1d861459c958868e91af2f21661d868eaff73f3da299474e0",
+    "closed_lease_sha256": "f975669cc1c07be849de54ffff3bad69c98cf5672c09996f0f4f2e304bbfac1c",
+    "LOCAL_after_sha256": "ca49e08a493585bfc3e2b1745fc9cbb2957848c3596238b884cfbca1b28b4de5",
+    "independent_closure_proof_sha256": "cce9f84ceea8f7df49cd54d96150bc6132d619bfbc74249b30a42162e5ba3687",
+    "old_request_and_actor_never_replayed": true
+  },
+  "engineering_fix": {
+    "financial_boundary": "scripts/pi0294/dec1/b_f0_read_failure_closeout.py",
+    "financial_only": "Actual F0/full15member4096/probe/query audit AND exact post-training READ_ONLY failure, real OS exit1 and absent original PID/start pairs, complete error census and CONFIRMED last write. It cannot return checkpoint reuse/new science permission or satisfy the original owner0 predicate.",
+    "SDK_retry": "Correct the cold input binding to the actually deployed CPU-profile runtime. New UUID/root/manifest/reservations; old closed request untouched.",
+    "SDK_same_work_limit": {
+      "maximum_finite_attempts": 2,
+      "combined_Core_CPU_s": 7200,
+      "combined_LOCAL_CPU_s": 240
+    },
+    "funding": "Both actual spent/held attempts belong to the SAME original matrix preparation CPU component. Credit only this paired committed CPU once within original200000Core/3600LOCAL matrix work. Full original64core/88episode/3PBS/7040query/2816000tick/7128constructor resource rows and all future controller ceilings stay intact.",
+    "new_global_or_DEC1_cap": false,
+    "new_GPU_or_PBS": false,
+    "new_physics_or_episode_scope": false,
+    "T0_or_deadline_reset": false,
+    "new_science_or_checkpoint_reuse_GO": false
+  },
+  "validation": {
+    "targeted_CPU_cases_passed": 119,
+    "full_local_cases_passed": 2638,
+    "subtests_passed": 1499,
+    "private_runtime_skips": 13,
+    "seconds": 110.01,
+    "exact_new_source_CI": "PENDING_AFTER_PUBLICATION",
+    "previous3e446daf_CI": {
+      "run_id": 40023120054,
+      "job_id": 120652454672,
+      "conclusion": "success",
+      "steps": 12
+    },
+    "actual_native_F0_and_PBS_final_bytes_used_as_history_not_mocked_success": true
+  },
+  "scientific_status": {
+    "full_WDR1": "ACTIVE_INCOMPLETE",
+    "target_task_native_qualified": false,
+    "core64": 0,
+    "fixed_CORR2048_R0_identity_unchanged": true,
+    "Source_Teacher_independent_of_target_WBC": true
+  },
+  "next": [
+    "Finish the already running independent full-state audit; then only legal once financial failure closeout with failed-reader provenance and independent dual closure.",
+    "Qualify/read back cold changes; independently re-admit one bounded same-work SDK metadata correction on the true CPU profile, with all closed SDK01 costs retained.",
+    "SDK construction does not prove target prefix safety or task success. Continue actual feedback/ACK/STOP/original target4 and fixed CORR2048/R0 core64 under unchanged gates and limits."
+  ]
+}
