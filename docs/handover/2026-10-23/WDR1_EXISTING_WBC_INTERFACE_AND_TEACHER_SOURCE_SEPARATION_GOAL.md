@@ -97,3 +97,5 @@ Human approved exactly DEC1PBS16→17/globalPBS27→28 after actual pre-CUDA1481
 PBS17/28 integration CPU result: `reports/PI0294/design/parallel-science-20261022/B_PRECUDA1481489_PBS17_28_RUNTIME_CPU_20261024.json`; new native grant adoption and fresh GPU submission are pending, never infer them from CPU PASS.
 
 Latest actual: `reports/PI0294/design/parallel-science-20261022/VANDA_PRECUDA_RETRY_PBS17_28_UNIQUE_GPU_SUBMISSION_ACTUAL_20261024.json`. Job1481574 is uniquely bound/Q, owner healthy/server-resident, no model or first-update release observed; precise runtime36925d27 CI all12 success. PBS17/28 adopted once. Whole goal remains ACTIVE/core64=0.
+
+Updated actual: job1481574 R and model-start released; first-update release not yet observed. Healthy server-resident owner and CONFIRMED heartbeat. Earlier f8054201 Q report is preserved history; no hot change to runtime36925d27.

@@ -1,7 +1,7 @@
 {
   "schema": "VANDA_PRECUDA_RETRY_PBS17_28_UNIQUE_GPU_SUBMISSION_ACTUAL_V1",
-  "status": "ACTUAL_UNIQUE_SUBMISSION_BOUND_Q_BACKGROUND_OWNER_HEALTHY_NOT_TRAINING_PASS",
-  "observed_epoch": 1792777494.8432832,
+  "status": "ACTUAL_UNIQUE_SUBMISSION_BOUND_R_MODEL_RELEASED_FIRST_UPDATE_NOT_YET_OBSERVED",
+  "observed_epoch": 1792777571.0412414,
   "runtime_source": "36925d272095d000ba1ad3ce5e9cdc44373fdce6",
   "runtime_CI": {
     "run": 39996540379,
@@ -62,7 +62,7 @@
     "request_id": "310edd77-f972-4dbd-baa8-4c2c674c08ea",
     "script_sha256": "686b3d5052d5a7e9518344193c778ea47489111e0da19288551b787b05f9aa8a"
   },
-  "native_state": "Q",
+  "native_state": "R",
   "owner": {
     "wrapper_pid": 372539,
     "owner_pid": 372546,
@@ -72,7 +72,7 @@
     "maximum_qsub": 1,
     "running_rpc_status": "CONFIRMED"
   },
-  "model_start_released": false,
+  "model_start_released": true,
   "first_update_released": false,
   "new_training_effects_observed": false,
   "training": {
@@ -120,5 +120,7 @@
   },
   "whole_goal_complete": false,
   "target_task_native_qualified": false,
-  "core64": 0
+  "core64": 0,
+  "native_observed_epoch": 1792777553.9212556,
+  "previous_Q_snapshot_release": "f8054201658144301334487ac2c48be1e06ff817"
 }
