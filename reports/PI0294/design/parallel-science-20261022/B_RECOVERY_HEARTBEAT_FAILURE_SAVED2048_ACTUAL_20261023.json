@@ -3,7 +3,7 @@
   "observed_epoch": 1792738961.7295408,
   "job_id": "1479559.stdct-mgmt-02",
   "request_id": "185541e4-2348-4a3c-bee7-1a5703369780",
-  "status": "ACTUAL_F_EXIT1_HEARTBEAT_FAILURE_B2048_SAVED_METADATA_FULL_AUDIT_RUNNING_NOT_SETTLED",
+  "status": "ACTUAL_FAILED_F_EXIT1_FULL_B2048_AUDITED_ONCE_SETTLED_GPU_AND_BOTH_CPU_CLOSED",
   "native_state": "F",
   "native_Exit_status": 1,
   "process_status": "FAILED_PRESERVED",
@@ -48,9 +48,9 @@
       "full_resume": true
     }
   },
-  "full_audit_complete": false,
-  "once_settled": false,
-  "leases_closed": false,
+  "full_audit_complete": true,
+  "once_settled": true,
+  "leases_closed": true,
   "owner": {
     "unit": "vap1-a40-b-recovery1-preqsub-resume-01",
     "MainPID": 0,
@@ -83,7 +83,8 @@
     "original_reservation_and_unknown_journals_preserved": true,
     "Source02_and_C0_cost_mirrors_not_replayed": true,
     "globalPBS": 21,
-    "DEC1PBS": 10
+    "DEC1PBS": 10,
+    "historical_before_this_closeout": true
   },
   "CPU_qualification": {
     "full_PI0294_passed": 1991,
@@ -92,7 +93,19 @@
     "focused_completion_cases": 4,
     "focused_subtests": 23,
     "private_failure_captured_and_temp_once_cases": 4,
-    "new_code_exact_CI": "PENDING"
+    "new_code_exact_CI": {
+      "source": "104a33588d44f8364db1e063fbfab05e8347832b",
+      "run": 39916204002,
+      "job": 120290220651,
+      "status": "in_progress",
+      "all12steps_observed_success": true,
+      "completed_run_not_yet_confirmed": true,
+      "full_file_SHA_and_Git_blob_readback5": true,
+      "job_status": "completed",
+      "job_conclusion": "success",
+      "run_status_last_read": "in_progress",
+      "run_conclusion_last_read": null
+    }
   },
   "B2": {
     "started": false,
@@ -100,7 +113,18 @@
     "prepaid": false,
     "original_success_boundary_satisfied": false,
     "reason": "F_EXIT1_AND_FAILED_OWNER_CANNOT_BE_RELABELLED_F_EXIT0_NATURAL_OWNER_SUCCESS",
-    "same_full_saved_state_reuse_not_yet_authorized_by_success_only_boundary": true
+    "same_full_saved_state_reuse_not_yet_authorized_by_success_only_boundary": true,
+    "offline_all_remaining_resource_math": {
+      "admissible_forecast": true,
+      "global_shortfalls": {},
+      "DEC1_shortfalls": {},
+      "clock_failures": [],
+      "projected_updates_after_B4096": 10792,
+      "native_admission": false,
+      "original_final_20GPUh40GiB_unchanged": true,
+      "original_all_future_ceilings_retained": true
+    },
+    "exception_draft": "B_FAILED_SAVED2048_REUSE_EXCEPTION_DRAFT_20261023.json"
   },
   "T0": 1792348196,
   "hard_close": 1792952996,
@@ -117,6 +141,93 @@
     "native_read": "d48e8e995971a7c48c3f73c76577d98887023486ac6e41d2ad9ab191b9a05f66",
     "checkpoint_metadata": "2cb6a6c10a18e9aa045ce06371f3b820120f15965efb24fbf4d848bff8478a42",
     "process_final": "dd1c005261055351685be64b5dc91ac1d26c9771448286d369b8995dcee651ed",
-    "wrapper_final": "6caed6598f2853a7eacec9cbc58443d8ac6d449ff7ad77093705534f4eccaea3"
-  }
+    "wrapper_final": "6caed6598f2853a7eacec9cbc58443d8ac6d449ff7ad77093705534f4eccaea3",
+    "full_audit": "6e4afd1cf1c09cce3c6555bd677737a9dee2d99f580365372d6540abe45239f3",
+    "settlement": "d127e45d648ab3997cbef85db2fb23a7ba3533f7646344be2b59ae752283e36e",
+    "GPU_closure": "bd1ca5ce5f74dd57a3345c0b8af11672640d58009206c6933bb5abfc122de9ae",
+    "CPU_pair_closure": "bf3e1cfd8bb200935b173aae0749f7d68755f2e4a1f3e14140088f5ef2d58206"
+  },
+  "completed_epoch": 1792739923.418176,
+  "full_state_audit": {
+    "checkpoints": {
+      "1024": {
+        "complete_sha256": "7da8aad42b835edb1181c38daaa1859ffb94516bce693609ebde4e2c10a38e2b",
+        "members": 15,
+        "actual_consumed_cursor": 32768
+      },
+      "2048": {
+        "complete_sha256": "db2b2be84e1d2e6eeca1715107f6eb42a8b151e38fe513ddac6029e8db97bbcf",
+        "members": 15,
+        "actual_consumed_cursor": 65536
+      }
+    },
+    "original_probe_result_sha256": "074ffbcce72e9917caecd70a2855ca67eb9b60afbb20dd6daf9ab98343130154",
+    "probe_count": 12,
+    "all_original_members_streamed_and_original_validator": true,
+    "frozen_inputs_read_and_storage_inodes_verified": true,
+    "models_loaded": 0,
+    "new_queries": 0,
+    "new_updates": 0,
+    "new_physics": 0
+  },
+  "failure_effects_without_new_complete_state": 0,
+  "settlement": {
+    "status": "EXACT_NATIVE_A40_B_RECOVERY_FAILED_SAVED2048_TERMINAL_SETTLED",
+    "job_id": "1479559.stdct-mgmt-02",
+    "request_id": "185541e4-2348-4a3c-bee7-1a5703369780",
+    "conservative_GPU_s": 6115.0,
+    "conservative_CPU_s": 6339.376643263,
+    "GPU_total_s": 81773.0,
+    "GPU_reserved_s": 0,
+    "CPU_reserved_s": 0,
+    "updates": 8744,
+    "queries": 1197,
+    "unknown_effects": []
+  },
+  "closures": {
+    "GPU": {
+      "lease_sha256": "eb358f7df8f6b25d4c74a0b61374895e69b4c4ceee3e94577824f351c86d1191",
+      "terminal_receipt_sha256": "4801d547e8d099313818422857fd29768ca2b84472d5cd5a81fc51dc3811fcf2",
+      "lease_status": "CLOSED"
+    },
+    "CPU_controls": [
+      {
+        "run_manifest_sha256": "ea8099f68298adbcc34fec1ddd1823f84e964c37cf524203d6daedefd8ae9c5d",
+        "lease_sha256": "3bd638f24591bbb98030a472f53c9f1264a809d60f6e864fb34608e4c1b9033a",
+        "terminal_receipt_sha256": "2ef7dc6f6aa951f856e38cb1290924a4d1bcaea2f3e1ef23120966237bd7ea79",
+        "lease_status": "CLOSED"
+      },
+      {
+        "run_manifest_sha256": "0cdb53676d7903b470d1c00db9f3aa008b0623c853ac0da7158b4c5b7088eb68",
+        "lease_sha256": "26ba734f8723a3ead6ddfc9cd4cedd9a05889d35fb6c79bb3fb9235e9f7bb03d",
+        "terminal_receipt_sha256": "c1e465807b9eb466b16c682d35db429778eebce19cdf4f50df2304a9b46626f2",
+        "lease_status": "CLOSED"
+      }
+    ],
+    "shared_original_control_prepaid": true,
+    "new_CPU_charge_s": 0,
+    "independent_readback_sha256": "e2af68a30c04a8fc9d32379676db3f48126fba15bc7ad8a3d280953c376a9a67",
+    "global_after_sha256": "b8d37d60c3ef1145a7f7749b857ec67ec8e0b249d8d4b6af953955b397948b05",
+    "DEC1_after_sha256": "02f16800220a6890d0aa714f05891a6a3cef16bb3822b9705b0f1fcdf3ae4789",
+    "all_reserves_zero": true
+  },
+  "settled_accounting": {
+    "updates": 8744,
+    "GPU_s": 81773,
+    "queries": 1197,
+    "globalPBS": 21,
+    "DEC1PBS": 10,
+    "unknown_effects": [],
+    "all_GPU_and_CPU_reserves_zero": true,
+    "new_charge": {
+      "updates": 1024,
+      "queries": 17,
+      "model_loads": 2,
+      "GPU_s": 6115,
+      "CPU_s": 6339.376643263,
+      "output_financial_upper_bytes": 70000000000
+    },
+    "original_B1829_and_lost805_preserved": true
+  },
+  "retired_or_deleted_files": 0
 }
