@@ -1,0 +1,78 @@
+{
+  "schema": "B_FAILED_SAVED2048_REUSE_AUTHORIZATION_V1",
+  "approval_recorded_epoch": 1792740189.1965473,
+  "human_answer": "批准复用已审计的 B2048",
+  "approval_question_id": "call_56868c1b553246b48413c49151f9d820:0",
+  "approved_draft_release": "6107a5a8707491ca0686c851049e055af63852b8",
+  "approved_draft_sha256": "c56aa4c2e16bf2969003cc4e37f327928f9b9ca1ee369419c11e01c24810c2a1",
+  "exception": "ONLY_EXACT_AUDITED_CLOSED_F_EXIT1_SAVED_B2048_TO_ORIGINAL_REMAINING_B4096",
+  "native_failure_not_relabelled_success": true,
+  "job_id": "1479559.stdct-mgmt-02",
+  "request_id": "185541e4-2348-4a3c-bee7-1a5703369780",
+  "request_sha256": "6c6d12d14895e4e22fa7a835c7edac8579ff341825911fd0d3b5fbbec76809ca",
+  "source_sha": "2ed8aea9f782741dfc0298438f5762c592e87149",
+  "native_exit_status": 1,
+  "owner_exit_status": 1,
+  "last_returned_training_step": 1024,
+  "training_lineage_key": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+  "checkpoint2048_sha256": "db2b2be84e1d2e6eeca1715107f6eb42a8b151e38fe513ddac6029e8db97bbcf",
+  "checkpoint1024_sha256": "7da8aad42b835edb1181c38daaa1859ffb94516bce693609ebde4e2c10a38e2b",
+  "original_probe_result_sha256": "074ffbcce72e9917caecd70a2855ca67eb9b60afbb20dd6daf9ab98343130154",
+  "actual_consumed_cursor": 65536,
+  "members": 15,
+  "original_probe_count": 12,
+  "GPU_terminal_sha256": "4801d547e8d099313818422857fd29768ca2b84472d5cd5a81fc51dc3811fcf2",
+  "GPU_lease_sha256": "eb358f7df8f6b25d4c74a0b61374895e69b4c4ceee3e94577824f351c86d1191",
+  "CPU_controls": [
+    {
+      "run_manifest_sha256": "ea8099f68298adbcc34fec1ddd1823f84e964c37cf524203d6daedefd8ae9c5d",
+      "lease_sha256": "3bd638f24591bbb98030a472f53c9f1264a809d60f6e864fb34608e4c1b9033a",
+      "terminal_receipt_sha256": "2ef7dc6f6aa951f856e38cb1290924a4d1bcaea2f3e1ef23120966237bd7ea79"
+    },
+    {
+      "run_manifest_sha256": "0cdb53676d7903b470d1c00db9f3aa008b0623c853ac0da7158b4c5b7088eb68",
+      "lease_sha256": "26ba734f8723a3ead6ddfc9cd4cedd9a05889d35fb6c79bb3fb9235e9f7bb03d",
+      "terminal_receipt_sha256": "c1e465807b9eb466b16c682d35db429778eebce19cdf4f50df2304a9b46626f2"
+    }
+  ],
+  "independent_closure_readback_sha256": "e2af68a30c04a8fc9d32379676db3f48126fba15bc7ad8a3d280953c376a9a67",
+  "cumulative_paid_updates": 8744,
+  "old_failed_B1829_and_lost805_preserved": true,
+  "new_paid_updates_without_complete_state": 0,
+  "continuation": {
+    "start_step": 2048,
+    "stop_step": 4096,
+    "maximum_additional_updates": 2048,
+    "maximum_GPU_s": 22560,
+    "maximum_CPU_s": 54000,
+    "maximum_queries": 29,
+    "output_upper_bytes": 70000000000,
+    "same_original_B_recipe_CORR_R0_and_original12probes": true,
+    "no_A_inheritance": true,
+    "old_owner_or_request_replay": false,
+    "new_cold_registration_and_full_remaining_work_admission_required": true
+  },
+  "prior_B_grant_release": "09ae7896b90e4a9447ee401a2c1b5763a0fa745d",
+  "prior_B_grant_sha256": "c122a853baf84b49a00af89caa24ffea72690fc6791e18a8112b2345a2ecc8a2",
+  "new_caps_or_budget_or_clock": false,
+  "existing_caps": {
+    "DEC1_updates": 10792,
+    "DEC1_PBS": 14,
+    "global_PBS": 25,
+    "DEC1_GPU_site_GiB": 549,
+    "global_GPU_site_GiB": 615
+  },
+  "original_T0": 1792348196,
+  "original_clock": {
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996
+  },
+  "original_final": {
+    "GPU_s": 72000,
+    "GPU_site_storage_bytes": 42949672960
+  },
+  "all_costs_checkpoints_WBC_S1_R0_recipe_scoring_preserved": true,
+  "Source02_and_C0_mirrors_not_replayed": true
+}
