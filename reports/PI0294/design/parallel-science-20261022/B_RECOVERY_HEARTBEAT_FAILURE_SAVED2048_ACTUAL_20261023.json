@@ -1,0 +1,122 @@
+{
+  "schema": "B_RECOVERY_HEARTBEAT_FAILURE_SAVED2048_ACTUAL_V1",
+  "observed_epoch": 1792738961.7295408,
+  "job_id": "1479559.stdct-mgmt-02",
+  "request_id": "185541e4-2348-4a3c-bee7-1a5703369780",
+  "status": "ACTUAL_F_EXIT1_HEARTBEAT_FAILURE_B2048_SAVED_METADATA_FULL_AUDIT_RUNNING_NOT_SETTLED",
+  "native_state": "F",
+  "native_Exit_status": 1,
+  "process_status": "FAILED_PRESERVED",
+  "error": {
+    "type": "HeartbeatLost",
+    "message": "MP1_SINGLE_OWNER_HEARTBEAT_LOST_AFTER_SERVER_REVALIDATION"
+  },
+  "last_returned_training_step": 1024,
+  "actual_effects": {
+    "schema": "VAP1_A40_NATIVE_SOURCE_EFFECT_SUMMARY_V1",
+    "job_id": "1479559.stdct-mgmt-02",
+    "request_id": "185541e4-2348-4a3c-bee7-1a5703369780",
+    "request_sha256": "6c6d12d14895e4e22fa7a835c7edac8579ff341825911fd0d3b5fbbec76809ca",
+    "source_sha": "2ed8aea9f782741dfc0298438f5762c592e87149",
+    "arm": "B_COVERAGE",
+    "start_native_step": 1024,
+    "optimizer_updates_committed": 1024,
+    "last_native_step": 2048,
+    "query_attempts": 17,
+    "model_load_attempts": 2,
+    "pending_updates": [],
+    "unknown_query_intents": [],
+    "recipe_sha256": "eebe7c57a25d5a1672659457b9d9905d059123d6b5961eeaad843d6e05ff4ac9",
+    "effect_journal_complete": true,
+    "new_physics": 0,
+    "new_episodes": 0,
+    "finished_epoch": 1792738963.2697222
+  },
+  "saved_state_metadata": {
+    "1024": {
+      "exists": true,
+      "complete_sha256": "7da8aad42b835edb1181c38daaa1859ffb94516bce693609ebde4e2c10a38e2b",
+      "members": 15,
+      "origin_job_id": "1478518.stdct-mgmt-02",
+      "full_resume": true
+    },
+    "2048": {
+      "exists": true,
+      "complete_sha256": "db2b2be84e1d2e6eeca1715107f6eb42a8b151e38fe513ddac6029e8db97bbcf",
+      "members": 15,
+      "origin_job_id": "1479559.stdct-mgmt-02",
+      "full_resume": true
+    }
+  },
+  "full_audit_complete": false,
+  "once_settled": false,
+  "leases_closed": false,
+  "owner": {
+    "unit": "vap1-a40-b-recovery1-preqsub-resume-01",
+    "MainPID": 0,
+    "ActiveState": "failed",
+    "ExecMainStatus": 1,
+    "stop": {
+      "epoch": 1792736928.8443458,
+      "type": "ReadOnlyFailure",
+      "message": "READ_ONLY_READ_ONLY_5F863BA6D5F25AB527A5_FAILED",
+      "automatic_write_retry": false
+    },
+    "immediate_read_failure": "CANONICAL_MUX_MISSING_NO_FRESH_CONNECTION_FALLBACK",
+    "cause_of_socket_disappearance": "UNKNOWN",
+    "old_owner_not_restarted": true
+  },
+  "connectivity": {
+    "both_original_masters_restored": true,
+    "NUS_DNS_and_VPN_recovered": true,
+    "both_complete_queues_read": true,
+    "both_observed_empty": true,
+    "queue_failure_not_interpreted_as_empty": true
+  },
+  "accounting": {
+    "still_settled_updates": 7720,
+    "still_settled_GPU_s": 75658,
+    "still_settled_queries": 1180,
+    "new_updates_to_settle": 1024,
+    "expected_cumulative_after_settlement": 8744,
+    "old_B1829_and_lost805_preserved": true,
+    "original_reservation_and_unknown_journals_preserved": true,
+    "Source02_and_C0_cost_mirrors_not_replayed": true,
+    "globalPBS": 21,
+    "DEC1PBS": 10
+  },
+  "CPU_qualification": {
+    "full_PI0294_passed": 1991,
+    "full_PI0294_subtests_passed": 1391,
+    "private_parser_skips": 13,
+    "focused_completion_cases": 4,
+    "focused_subtests": 23,
+    "private_failure_captured_and_temp_once_cases": 4,
+    "new_code_exact_CI": "PENDING"
+  },
+  "B2": {
+    "started": false,
+    "registered": false,
+    "prepaid": false,
+    "original_success_boundary_satisfied": false,
+    "reason": "F_EXIT1_AND_FAILED_OWNER_CANNOT_BE_RELABELLED_F_EXIT0_NATURAL_OWNER_SUCCESS",
+    "same_full_saved_state_reuse_not_yet_authorized_by_success_only_boundary": true
+  },
+  "T0": 1792348196,
+  "hard_close": 1792952996,
+  "goal_complete": false,
+  "target_task_native_qualified": false,
+  "core64_completed": 0,
+  "previous_submission_document_CI": {
+    "run": 39900790464,
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f4d0c8508ae8507ee68dcb7164ce16c6cbb4753e"
+  },
+  "proof_sha256": {
+    "native_read": "d48e8e995971a7c48c3f73c76577d98887023486ac6e41d2ad9ab191b9a05f66",
+    "checkpoint_metadata": "2cb6a6c10a18e9aa045ce06371f3b820120f15965efb24fbf4d848bff8478a42",
+    "process_final": "dd1c005261055351685be64b5dc91ac1d26c9771448286d369b8995dcee651ed",
+    "wrapper_final": "6caed6598f2853a7eacec9cbc58443d8ac6d449ff7ad77093705534f4eccaea3"
+  }
+}
