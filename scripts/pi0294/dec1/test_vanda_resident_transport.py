@@ -79,6 +79,14 @@ def test_local_lost_heartbeat_reply_uses_exact_readback_without_second_publicati
     assert len(list((Path(rpc.root)/'control/HEARTBEAT_PUBLICATION_INTENTS').glob('*.json')))==1
     c.validate_owner_heartbeat(out['heartbeat'],ledger=h,now_epoch=time.time())
 
+def test_runtime_heartbeat_survives_real_accounting_progress_between_heartbeats(tmp_path):
+    args,state,h,_=setup(tmp_path);rpc=create(args);rpc.bind_observation(state);out=beat(rpc)
+    later=deepcopy(h);later['optimizer_updates']=later.get('optimizer_updates',0)+1
+    later.setdefault('used',{})['optimizer_updates']=later['optimizer_updates'];later['revision']=later.get('revision',0)+1
+    c.validate_owner_heartbeat(out['heartbeat'],ledger=later,now_epoch=time.time())
+    later['unknown_effects']=['unresolved_effect']
+    with pytest.raises(PermissionError):c.validate_owner_heartbeat(out['heartbeat'],ledger=later,now_epoch=time.time())
+
 def test_typed_queue_failure_cannot_turn_effect_bearing_call_into_retry(tmp_path):
     diagnostic=dict(schema=c.QUEUE_FAILURE,queue_known=False,diagnostic=dict(argv=['/opt/pbs/bin/qselect','-u','e1192548'],returncode=162,stdout='',stderr='PBS unavailable'))
     def failed(*a,**kw):return SimpleNamespace(returncode=75,stdout='',stderr=json.dumps(diagnostic))

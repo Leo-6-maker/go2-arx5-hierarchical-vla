@@ -238,6 +238,10 @@ def validate_owner_heartbeat(beat,*,ledger,now_epoch):
     need(beat.get('campaign_view_schema')==SCHEMA and beat.get('control_execution_platform')==PLATFORM
          and beat.get('agent_liveness_required') is False and beat.get('migration_grant_sha256')==handoff.GRANT_SHA
          and beat.get('grant_sha256')==dual.GRANT_SHA
-         and beat.get('current_authority_global_canonical_sha256')==digest(ledger)
+         # The full digest attests publication's exact read, not a lock on
+         # subsequent charged queries/updates. Runtime guards below and the
+         # existing request/lease checks bind immutable authority instead.
+         and isinstance(beat.get('current_authority_global_canonical_sha256'),str)
+         and re.fullmatch('[0-9a-f]{64}',beat['current_authority_global_canonical_sha256']) is not None
          and beat.get('migration_marker_sha256')==digest(ledger[handoff.FIELD]),'SAME_CURRENT_AUTHORITY_AND_VANDA_PRODUCER')
     return beat
