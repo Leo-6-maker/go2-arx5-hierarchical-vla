@@ -13,6 +13,7 @@ from scripts.pi0294.native_dataset import sha
 from .allocation import single_h200_select,native_request_binding
 from .neural_ledger import Ledger
 from .neural_scope import validate
+from .resources import pbs_limit
 
 
 def native_bootstrap(root,request_path):
@@ -20,9 +21,10 @@ def native_bootstrap(root,request_path):
     if not os.environ.get('PBS_JOBID'):
         raise PermissionError('PV1_LAUNCHER_ONLY_IN_OWN_NATIVE_PBS_NO_LOGIN_MODELS')
     m,_,_,_,a=validate(root);r=read(request_path);directory=request_path.parent
+    submission_limit=pbs_limit(read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json'))
     job_id=os.environ['PBS_JOBID'];host=socket.gethostname();user=os.environ['USER']
     if (directory.is_symlink() or directory.parent.resolve()!=(root/'pbs').resolve()
-            or directory.name!='alloc-'+str(r['submit_count']).zfill(2) or not 1<=r['submit_count']<=24
+            or directory.name!='alloc-'+str(r['submit_count']).zfill(2) or not 1<=r['submit_count']<=submission_limit
             or request_path.is_symlink() or request_path.name!='REQUEST.json' or request_path.stat().st_mode&0o222
             or r['run_uuid']!=root.name or r['campaign_run_uuid']!=a['run_uuid']
             or r['source_sha']!=m['code']['vla_commit'] or r['run_manifest_sha256']!=sha(root/'RUN_MANIFEST.json')):

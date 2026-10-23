@@ -209,6 +209,10 @@ def stage_work(root,request,*,allow_pending_segment_copy=False):
                     or source.get('checkpoint_complete_sha256')!=EXPECTED['complete_sha256']):
                 raise PermissionError('DEC1_ONLY_COLD_PENDING_STATE32_COPY_NOT_MODEL_READINESS')
             return
+        if allow_pending_segment_copy and segment and request['expected_native_start_step']==1024:
+            from scripts.pi0294.dec1.b_recovery_intake import cold_binding
+            cold_binding(root,request,input_)
+            return
         if allow_pending_segment_copy and segment and request['expected_native_start_step']==2048:
             from scripts.pi0294.dec1.segment_intake import BINDING,PROOF,valid_binding
             binding=input_(BINDING);proof=input_(PROOF);valid_binding(binding,block['arm'])
@@ -219,7 +223,7 @@ def stage_work(root,request,*,allow_pending_segment_copy=False):
         complete=read(root/p/'CHECKPOINT_COMPLETE.json')
         step=complete['global_step']
         if (complete['full_resume'] is not True or not 0<step<4096 or p.name!='checkpoint-'+str(step)
-                or block['stop_after_step']!=((2048 if step<1024 else 4096) if segment else (4096 if long_training else (1024 if step<1024 or probe_only else 4096)))):
+                or block['stop_after_step']!=((2048 if step<1024 or request.get('B_heartbeat_recovery_release') is not None and step==1024 else 4096) if segment else (4096 if long_training else (1024 if step<1024 or probe_only else 4096)))):
             raise PermissionError('PV1_EXACT_COMPLETE_PARTIAL_PHASE_CONTINUATION')
         if probe_only:
             value=read(Ledger(root).path)

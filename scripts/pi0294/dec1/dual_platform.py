@@ -87,7 +87,7 @@ def observe(*,grant_bytes,site_jobs,ledger_items,user,now_epoch,observed_epochs)
 
 
 def reserve_check(*,grant_bytes,view,used,reserved,extra,platform,job_wall_s,
-                  now_epoch,site_wall_limit_s=8*3600,final=False):
+                  now_epoch,site_wall_limit_s=8*3600,final=False,b_recovery_ledgers=None):
     grant(grant_bytes)
     if (view.get('status')!='PASS_TWO_PLATFORM_CAMPAIGN_VIEW' or view.get('grant_sha256')!=GRANT_SHA
             or not 0<=now_epoch-view['observed_epoch']<=120):
@@ -105,7 +105,7 @@ def reserve_check(*,grant_bytes,view,used,reserved,extra,platform,job_wall_s,
     if sum(view['campaign_running_by_platform'].values())>2:
         raise PermissionError('DUAL_PLATFORM_RUNNING_LIMIT')
     proof=resources.admit_resources(used,reserved,extra,final=final,active_GPUs=0,
-        requested_GPUs=1,job_wall_s=job_wall_s,site_wall_limit_s=site_wall_limit_s)
+        requested_GPUs=1,job_wall_s=job_wall_s,site_wall_limit_s=site_wall_limit_s,b_recovery_ledgers=b_recovery_ledgers)
     return dict(proof,status='PASS_DUAL_PLATFORM_GLOBAL_RESOURCE_CHECK_NOT_NATIVE_OR_DEC1_ADMISSION',
         concurrent_GPU_limit=2,per_platform_GPU_limit=1,requested_platform=platform,
         grant_sha256=GRANT_SHA,DEC1_subcaps_and_native_permission_checked=False)

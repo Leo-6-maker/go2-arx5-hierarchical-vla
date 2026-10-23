@@ -16,6 +16,7 @@ from . import heartbeat_recovery as heartbeat
 from .segmented_training import enabled,limits
 from . import storage_expansion as storage
 from . import zero_update_recovery as zero
+from . import b_heartbeat_recovery as b
 
 TERMINAL=('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB')
 
@@ -71,12 +72,16 @@ def validate_item(row):
 def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, campaign_view, now_epoch):
     r,request_sha=_read(request_bytes);a.request_scope(r,now=now_epoch)
     v,d=deepcopy(value),deepcopy(DEC1_value)
+    b_scope=b.enabled(r)
+    if b_scope:
+        b.validate_adopted(v,d)
+        if not b.enabled(budget_proof):fail('B_SCOPE_IN_RESERVATION_PROOF')
     if (v.get('authority_release')!=a.PARENT_AUTHORITY or d.get('authority_release')!=a.AUTHORITY
             or v.get('campaign_run_uuid')!=r['campaign_run_uuid'] or d.get('campaign_run_uuid')!=r['campaign_run_uuid']
             or v.get('unknown_effects')!=[] or v.get('pending_updates')!=[] or d.get('unknown_effects')!=[]
             or v['used']['PBS_submissions']!=len(v['PBS_submissions'])
             or r['submit_count']!=len(v['PBS_submissions'])+1
-            or len(d['new_submissions'])>=(13 if zero.enabled(r) else (12 if heartbeat.enabled(r) else (11 if enabled(r) else 8))) or len(v['PBS_submissions'])>=24
+            or len(d['new_submissions'])>=(14 if b_scope else (13 if zero.enabled(r) else (12 if heartbeat.enabled(r) else (11 if enabled(r) else 8)))) or len(v['PBS_submissions'])>=(25 if b_scope else 24)
             or any(s.get('request_id')==r['request_id'] for s in v['PBS_submissions'])
             or v.get('DEC1_source_pair_platform',a.PLATFORM)!=a.PLATFORM
             or not now_epoch<a.T0+144*3600
@@ -105,7 +110,8 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
         fail('EXACT_KNOWN_SAME_ARM_PROGRESS_NO_RESTART_OR_ROLLBACK')
     reserve_check(grant_bytes=grant_bytes,view=campaign_view,used=v['used'],reserved=v['reserved'],
         extra=dict(H200_s=r['walltime_s']+a.PAD,PBS_submissions=1,optimizer_updates=count,neural_queries=29),
-        platform=a.PLATFORM,job_wall_s=r['walltime_s'],now_epoch=now_epoch)
+        platform=a.PLATFORM,job_wall_s=r['walltime_s'],now_epoch=now_epoch,
+        b_recovery_ledgers=(v,d) if b_scope else None)
     global_output_cap,dec1_output_cap=heartbeat.caps(r)
     if heartbeat.enabled(r):
         heartbeat.validate_adopted(v,d)
@@ -138,7 +144,7 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
         additional_output_upper_bytes=r['additional_output_upper_bytes'],submitted_intent_epoch=now_epoch)
     if 'CPU_envelope_profile' in r:row['CPU_envelope_profile']=r['CPU_envelope_profile']
     for key in ('recovery_authorization_release','recovery_adoption_sha256','training_lineage_key',
-                'storage_authorization_release','storage_grant_sha256','heartbeat_recovery_release','heartbeat_recovery_grant_sha256','zero_update_resume_release','zero_update_resume_grant_sha256'):
+                'storage_authorization_release','storage_grant_sha256','heartbeat_recovery_release','heartbeat_recovery_grant_sha256','zero_update_resume_release','zero_update_resume_grant_sha256',*b.SCOPE_KEYS):
         if key in r:row[key]=r[key]
     if enabled(r):row.update(segmented_authorization_release=r['segmented_authorization_release'],
         segmented_grant_sha256=r['segmented_grant_sha256'],segment_stop_step=r['training_block']['stop_after_step'])
@@ -178,6 +184,7 @@ def settle(value, DEC1_value, *, request_id, native_proof, effects, now_epoch):
     if len(rows)!=1 or len(dr)!=1:fail('ONE_EXACT_GLOBAL_AND_DEC1_SETTLEMENT')
     if heartbeat.enabled(rows[0]):heartbeat.validate_adopted(v,d)
     if zero.enabled(rows[0]):zero.validate_adopted(v,d)
+    if b.enabled(rows[0]):b.validate_adopted(v,d)
     row=validate_item(rows[0])
     if row['status']=='NATIVE_TERMINAL':fail('ALREADY_SETTLED_NO_SECOND_CHARGE')
     if v.get('pending_updates') or v.get('unknown_effects') or d.get('unknown_effects'):

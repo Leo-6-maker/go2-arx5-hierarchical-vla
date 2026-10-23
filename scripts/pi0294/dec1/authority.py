@@ -51,7 +51,8 @@ def available(adoption, local, hopper):
     cpu = local['CPU_s']; cpu_reserved = local['CPU_reserved_s']
     pending = {key:sum(number(c.get(key+'_reserved', 0)) for c in local.get('children', []))
                for key in ('episode_starts', 'physics_ticks', 'engine_starts')}
-    remaining = dict(GPU_s=gpu, GPU_submissions=24-len(hopper['PBS_submissions']),
+    from scripts.pi0294.pv1.resources import pbs_limit
+    remaining = dict(GPU_s=gpu, GPU_submissions=pbs_limit(hopper)-len(hopper['PBS_submissions']),
         optimizer_updates=16384-number(hopper['optimizer_updates']),
         neural_queries=48000-number(hopper['generation_queries'])-number(floor['neural_queries']),
         CoreLab_CPU_s=320*3600-number(cpu['CoreLab'])-number(cpu_reserved['CoreLab']),

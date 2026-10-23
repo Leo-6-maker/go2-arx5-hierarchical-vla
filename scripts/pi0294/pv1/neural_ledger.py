@@ -12,6 +12,9 @@ from .resources import admit_resources
 
 
 def check(value,*,final=False,allow_unknown=False):
+    from scripts.pi0294.dec1 import b_heartbeat_recovery as b
+    b_scope=b.FIELD in value
+    if b_scope:b.validate_global(value)
     if (type(final) is not bool or value['schema']!='PI0294_PV1_HOPPER_CAMPAIGN_LEDGER_V1'
             or type(allow_unknown) is not bool or value['authority_release']!=AUTHORITY
             or type(value['unknown_effects']) is not list or value['unknown_effects'] and not allow_unknown
@@ -21,7 +24,7 @@ def check(value,*,final=False,allow_unknown=False):
             or value['used']['optimizer_updates']!=value['optimizer_updates']
             or value['used']['neural_queries']!=value['generation_queries']
             or value['used']['PBS_submissions']!=len(value['PBS_submissions'])
-            or len(value.get('training_runs',{}))>5):
+            or len(value.get('training_runs',{}))>(6 if b_scope else 5)):
         raise PermissionError('PV1_EXACT_SINGLE_CAMPAIGN_COUNTERS_AND_UNKNOWN_EFFECT_FENCE')
     for key in ('new_storage_peak_bytes','new_storage_current_bytes','storage_reserved_bytes'):
         if key in value and (type(value[key]) is not int or value[key]<0):
@@ -35,7 +38,7 @@ def check(value,*,final=False,allow_unknown=False):
             or not math.isfinite(value.get('CPU_reserved_s',0)) or value.get('CPU_reserved_s',0)<0
             or value['CPU_s']+value.get('CPU_reserved_s',0)>160*3600):
         raise PermissionError('PV1_ALL_GPU_SITE_CPU_RESERVATIONS_INSIDE_ORIGINAL_CAP')
-    admit_resources(value['used'],value['reserved'],{},final=final)
+    admit_resources(value['used'],value['reserved'],{},final=final,b_recovery_global=value if b_scope else None)
     return value
 
 

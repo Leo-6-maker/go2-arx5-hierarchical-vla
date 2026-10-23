@@ -23,7 +23,7 @@ from .auth_lifecycle import context as auth_context
 from .decision import AUTHORITY
 from .neural_ledger import Ledger
 from .neural_scope import validate
-from .resources import admit_resources,project_eligible
+from .resources import admit_resources,project_eligible,pbs_limit,recovery_resource_kwargs
 from .bank_reuse import preflight as bank_preflight
 from .model_inputs import preflight as model_preflight
 
@@ -82,7 +82,8 @@ def budget_request(value,request):
         raise PermissionError('PV1_EXACT_LAST_OWN_JOB_DEPENDENCY_FOR_ONE_GPU_CHAIN')
     if value['unknown_effects']:raise PermissionError('PV1_UNKNOWN_NATIVE_EFFECT_NO_NEW_SUBMISSION')
     final=request['stage']=='P5_FINAL'
-    admit_resources(value['used'],value['reserved'],dict(H200_s=request['walltime_s']+PAD,PBS_submissions=1),final=final)
+    admit_resources(value['used'],value['reserved'],dict(H200_s=request['walltime_s']+PAD,PBS_submissions=1),
+        final=final,**recovery_resource_kwargs(value))
     extra=request['additional_output_upper_bytes'];reserve=0 if final else 40*1024**3
     reserved=sum(s['additional_output_upper_bytes'] for s in active_items(value))
     from scripts.pi0294.dec1.storage_expansion import global_cap_from_ledger
@@ -129,7 +130,7 @@ def prepare(root,*,stage,project_name,walltime_s=14400,additional_output_upper_b
     future_storage=sum(s['additional_output_upper_bytes'] for s in active_items(value))+additional_output_upper_bytes
     if q['hard_bytes']-q['used_bytes']<future_storage+(0 if stage=='P5_FINAL' else 40*1024**3):
         raise PermissionError('PV1_PERSONAL_QUOTA_FOR_ALL_QUEUED_OUTPUT_UPPERS')
-    if number>24:raise PermissionError('PV1_TOTAL_24_PBS_SUBMISSIONS_ACROSS_ALL_PROJECTS')
+    if number>pbs_limit(value):raise PermissionError('PV1_TOTAL_AUTHORIZED_PBS_SUBMISSIONS_ACROSS_ALL_PROJECTS')
     directory=root/'pbs'/('alloc-'+str(number).zfill(2));directory.mkdir(mode=0o700)
     write(directory/'NATIVE_QUEUE_LIMIT.json',queue);(directory/'NATIVE_QUEUE_LIMIT.json').chmod(0o400)
     write(directory/'PREQUEUE_PROJECT.private.json',proof)

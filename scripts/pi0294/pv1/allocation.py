@@ -3,7 +3,7 @@ from datetime import datetime,timedelta,timezone
 
 from scripts.pi0294.e0_scope import pbs_epoch
 from .decision import AUTHORITY
-from .resources import admit_resources,project_eligible
+from .resources import admit_resources,project_eligible,pbs_limit,recovery_resource_kwargs
 
 PROJECT_SOURCE='HOPPER_LOGIN_NATIVE_AMGR_LS_AND_CHECKBALANCE'
 
@@ -62,7 +62,7 @@ def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledge
     submission=[s for s in ledger['PBS_submissions'] if s['request_id']==request['request_id']]
     if (len(submission)!=1 or submission[0]['job_id']!=job_id
             or submission[0]['project']!=request['project'] or submission[0]['reserved_H200_s']!=wall
-            or ledger['reserved']['H200_s']<wall or not 1<=len(ledger['PBS_submissions'])<=24
+            or ledger['reserved']['H200_s']<wall or not 1<=len(ledger['PBS_submissions'])<=pbs_limit(ledger)
             or ledger['used']['PBS_submissions']!=len(ledger['PBS_submissions'])):
         raise PermissionError('PV1_ONE_EXACT_NATIVE_INTENT_AND_FULL_ALLOCATION_RESERVATION')
     job=jobs.get(job_id)
@@ -111,7 +111,7 @@ def validate_native(*,now,user,hostname,job_id,jobs,quota,adoption,request,ledge
             or type(reserved_storage) is not int or reserved_storage<extra
             or current_storage+reserved_storage+reserve>global_output_cap):
         raise PermissionError('PV1_REAL_PERSONAL_QUOTA_AND_FINAL_STORAGE_RESERVE')
-    admit_resources(ledger['used'],ledger['reserved'],{},final=final,active_GPUs=1)
+    admit_resources(ledger['used'],ledger['reserved'],{},final=final,active_GPUs=1,**recovery_resource_kwargs(ledger))
     return dict(status='PASS_PV1_OWN_NATIVE_H200_ALLOCATION',job_id=job_id,project=request['project'],
         hostname=hostname,observed_epoch=now,allocation_start_epoch=started,
         allocation_end_epoch=min(started+wall,cutoff),resource_clock_reset=False,

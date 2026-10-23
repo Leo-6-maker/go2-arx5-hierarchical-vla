@@ -152,6 +152,10 @@ def run(root,request_path):
             recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes']['A_CONTROL']
             imported=stage_in_allocation(root,recipe=recipe,dataset=dataset,guard=guard,allocation=allocated)
             once(directory/'RECOVERY32_FULL_STATE_PREMODEL.json',imported)
+        elif segmented(r) and r['expected_native_start_step']==1024:
+            from .b_recovery_intake import stage
+            imported=stage(root,guard=guard,allocation=allocated)
+            once(directory/'B_RECOVERY1024_FULL_STATE_PREMODEL.json',imported)
         elif segmented(r) and r['expected_native_start_step']==2048:
             from scripts.pi0294.pv1.neural import train_dataset
             from .segment_intake import stage
@@ -214,7 +218,8 @@ def run(root,request_path):
             load=lambda path,trainable:load(path,'PROBES' if not trainable else 'TRAIN-REENTRY',trainable=trainable),
             guard=guard,checkpoint=root/'training'/arm/'checkpoint-1024')
         if enabled(r):
-            options.update(stop_step=r['training_block']['stop_after_step'],resume_checkpoint=root/relative if relative else None)
+            options.update(stop_step=r['training_block']['stop_after_step'],resume_checkpoint=root/relative if relative else None,
+                recovery_request=r)
             final,history=segmented_execute(**options)
         else:final,history=execute(**options)
         records.extend(history);final_step=final['global_step']

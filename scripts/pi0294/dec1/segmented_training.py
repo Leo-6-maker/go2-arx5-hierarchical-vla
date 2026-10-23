@@ -41,8 +41,12 @@ def limits(row):
     block=row.get('training_block',{})
     arm=row.get('arm',block.get('arm'));start=row.get('start_native_step',row.get('expected_native_start_step'))
     stop=row.get('segment_stop_step',block.get('stop_after_step'))
+    from . import b_heartbeat_recovery as b
+    extra=[]
+    if b.enabled(row):
+        b.lineage(row);extra=[('B_COVERAGE',1024,2048)]
     if ((arm,start,stop) not in (('A_CONTROL',32,2048),('A_CONTROL',2048,4096),
-            ('B_COVERAGE',0,2048),('B_COVERAGE',2048,4096))
+            ('B_COVERAGE',0,2048),('B_COVERAGE',2048,4096),*extra)
             or row.get('CPU_envelope_profile')!=CPU_PROFILE):
         fail('ONLY_FOUR_AUTHORIZED_EXACT_SEGMENTS_NO_RESTART_OR_ROLLBACK')
     return start,stop
@@ -97,14 +101,25 @@ def phase(root,request,*,name,stop,resume_relative):
         if name=='BEFORE_PROBES':valid=stop==1024 and resume_relative==request['training_block']['resume_checkpoint_relative']
         elif name=='AFTER_PROBES':valid=stop==end and resume_relative==f'training/{arm}/checkpoint-1024'
         else:valid=False
+    elif start==1024:
+        from . import b_heartbeat_recovery as b
+        valid=(b.enabled(request) and b.lineage(request)==b.LINEAGE and name=='B_RECOVERY_REENTRY'
+            and stop==2048 and resume_relative=='training/B_COVERAGE/checkpoint-1024')
     else:valid=name=='SEGMENT_REENTRY' and stop==end and resume_relative==f'training/{arm}/checkpoint-2048'
     if not valid:fail('EXACT_SEGMENT_PHASE_NO_1024_PROBE_SKIP')
-    if name in ('AFTER_PROBES','SEGMENT_REENTRY'):
+    if name in ('AFTER_PROBES','SEGMENT_REENTRY','B_RECOVERY_REENTRY'):
         from .long_training import probe_receipt
         probe_receipt(root,arm)
 
 
-def execute(*,start_step,stop_step,train,probe,unload,load,guard,checkpoint,resume_checkpoint=None):
+def execute(*,start_step,stop_step,train,probe,unload,load,guard,checkpoint,resume_checkpoint=None,recovery_request=None):
+    if start_step==1024:
+        from . import b_heartbeat_recovery as b
+        if (recovery_request is None or not b.enabled(recovery_request) or b.lineage(recovery_request)!=b.LINEAGE
+                or limits(recovery_request)!=(1024,2048) or stop_step!=2048 or resume_checkpoint is None):
+            fail('EXACT_NEW_B1024_IMPORT_NOT_LEGACY_PROBE_SKIP')
+        final=train(stop=2048,phase='B_RECOVERY_REENTRY',checkpoint=resume_checkpoint)
+        return final,[final]
     if stop_step not in (2048,4096) or start_step not in (0,32,2048):fail('EXACT_EXECUTION_SEGMENTS')
     if start_step==2048:
         if stop_step!=4096 or resume_checkpoint is None:fail('FULL_STATE2048_REENTRY_REQUIRED')

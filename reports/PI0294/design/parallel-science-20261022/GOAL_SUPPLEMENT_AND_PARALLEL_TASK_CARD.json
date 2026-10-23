@@ -1,13 +1,13 @@
 {
   "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
   "created_epoch": 1792663428.495236,
-  "user_direction": "\u5e76\u884c\u51c6\u5907\u540e\u7eed\u7684\u6570\u636e\u4ee5\u53ca\u8bad\u7ec3\uff0c\u79d1\u5b66\u4e3b\u7ebf\uff0c\u66f4\u65b0goal",
-  "objective": "\u7ee7\u7eed\u65e2\u6709A/B\u5206\u6bb5\u8bad\u7ec3\u4e0e\u79d1\u5b66\u8bc4\u4ef7\uff0c\u540c\u65f6\u5e76\u884c\u4ea4\u4ed8\u540e\u7eed\u6570\u636e\u3001\u8bad\u7ec3\u548c\u8bc4\u4ef7\u51c6\u5907\uff1b\u4f4e\u9891\u89c2\u5bdfGPU\uff0c\u4ee5\u771f\u5b9e\u7aef\u70b9\u53ca\u914d\u5bf9\u95ed\u73af\u8bc1\u636e\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\u3002",
+  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
+  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
   "goal_panel": {
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
     "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET",
-    "actual_work": "A4096_CLOSED_B1_FAILED1829_B1024_FULL_AUDITED_ONCE_SETTLED_DUAL_CLOSED_TARGET_ZERO_TIME_COUNTER_PASS_TASK_PENDING",
+    "actual_work": "A4096_CLOSED_B1_FAILED1829_DUAL_CLOSED_FIVE_RECOVERY_CHANGES_APPROVED_RUNTIME_CPU_PREPARED_NOT_NATIVE_ADOPTED",
     "resume_API_available": false,
     "no_goal_recreated_or_usage_reset": true
   },
@@ -61,7 +61,7 @@
   "workstreams": [
     {
       "id": "TRAIN",
-      "status": "A4096_CLOSED_INDEPENDENT_B0_TO2048_NATIVE_R",
+      "status": "A4096_CLOSED_B_FAILED1829_CLOSED_RECOVERY_APPROVED_NOT_NATIVE_ADOPTED",
       "order": [
         "A32_TO2048",
         "A2048_TO4096",
@@ -70,7 +70,7 @@
       ],
       "same_platform_R0_recipe_sampler": true,
       "deliverable": "FULL4096_A_AND_B_PLUS_ACTUAL_CONSUMPTION_COST_AND_FAILURE_RECORDS",
-      "next_gate": "REAL_B2048_FULL_STATE_TERMINAL_AUDIT_ONCE_SETTLEMENT_BOTH_LEASE_CLOSURES_THEN_FRESH_B2"
+      "next_gate": "EXACT_RUNTIME_CI_READBACK_COLD_BINDING_ONCE_ADOPTION_CLOSED_COST_MIRROR_FRESH_NATIVE_ADMISSION"
     },
     {
       "id": "DATA",
@@ -1149,5 +1149,26 @@
     "recovery_draft": "reports/PI0294/design/parallel-science-20261022/B1_FAILED1829_RECOVERY_SCOPE_DRAFT_20261023.json",
     "approval_received": false,
     "latest_minimum_cumulative_updates": 10792
+  },
+  "B_failed1829_human_approved_recovery": {
+    "authority_release": "09ae7896b90e4a9447ee401a2c1b5763a0fa745d",
+    "grant_sha256": "c122a853baf84b49a00af89caa24ffea72690fc6791e18a8112b2345a2ecc8a2",
+    "caps": {
+      "DEC1_updates": 10792,
+      "DEC1_PBS": 14,
+      "global_PBS": 25,
+      "DEC1_GPU_site_GiB": 549,
+      "global_GPU_site_GiB": 615
+    },
+    "runtime_report": "reports/PI0294/design/parallel-science-20261022/B1024_PRESERVED_COST_RECOVERY_RUNTIME_CPU_20261023.json",
+    "native_adoption": false,
+    "new_registration": false,
+    "new_submission": false,
+    "all_costs_preserved": true,
+    "old_failed_B_step": 1829,
+    "new_lineage": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+    "seed_step": 1024,
+    "seed_cursor": 32768,
+    "old_owner_restarted": false
   }
 }

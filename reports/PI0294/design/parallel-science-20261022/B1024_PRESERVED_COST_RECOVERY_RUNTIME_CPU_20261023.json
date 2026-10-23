@@ -1,0 +1,118 @@
+{
+  "schema": "DEC1_B1024_EXACT_PRESERVED_COST_RUNTIME_CPU_V1",
+  "status": "HUMAN_APPROVED_RUNTIME_CPU_VERIFIED_NOT_NATIVE_ADOPTED",
+  "observed_epoch": 1792726988.3064585,
+  "authority_release": "09ae7896b90e4a9447ee401a2c1b5763a0fa745d",
+  "grant_sha256": "c122a853baf84b49a00af89caa24ffea72690fc6791e18a8112b2345a2ecc8a2",
+  "approved_caps": {
+    "DEC1_updates": 10792,
+    "DEC1_PBS": 14,
+    "global_PBS": 25,
+    "DEC1_GPU_site_GiB": 549,
+    "global_GPU_site_GiB": 615
+  },
+  "native_status": {
+    "grant_adopted": false,
+    "new_request_registered": false,
+    "new_training_submitted": false,
+    "charged_updates": 7720,
+    "old_B_failed_step": 1829,
+    "latest_full_B": 1024,
+    "old_GPU_and_CPU_leases": "CLOSED"
+  },
+  "new_lineage": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+  "seed_cursor": 32768,
+  "remaining_segments": [
+    [
+      1024,
+      2048
+    ],
+    [
+      2048,
+      4096
+    ]
+  ],
+  "lost805_updates_paid_and_preserved": true,
+  "implementation": {
+    "exact_dual_ledger_adoption": true,
+    "old_B1829_row_and_costs_preserved": true,
+    "imported_seed_is_not_a_charged_update": true,
+    "original_full_state_and_twelve_probes_reused": true,
+    "funded_copy_before_model": true,
+    "full_optimizer_scheduler_RNG_sampler_processor_statistics": true,
+    "split_B1024_old_origin_B2048_new_origin": true,
+    "original_training_optimizer_dataset_recipe_functions_unchanged": true,
+    "legacy_caps_unchanged_without_exact_adopted_grant": true,
+    "global25_enforced_at_prepare_request_bootstrap_admission_and_resources": true,
+    "original_final_20GPUh_40GiB_protected": true,
+    "original_clock_preserved": true
+  },
+  "captured_actual_bytes_CPU": {
+    "status": "PASS_NO_MOCK_NO_NATIVE_WRITE",
+    "proof_sha256": "9a407076bd6212f00d1377862ee4d6568ff3e2aa434f0e3cc89bc5a93b7fe796",
+    "old_used_equals_new_used": true,
+    "old_training_runs_preserved": true,
+    "global_ledger_validator_pass": true
+  },
+  "tests": {
+    "full_pi0294_passed": 1978,
+    "subtests_passed": 1350,
+    "skipped_private_parser": 13,
+    "duration_s": 77.43,
+    "latest_targeted_passed": 24,
+    "latest_targeted_subtests": 60
+  },
+  "exact_CI": "PENDING_THIS_COMMIT_NOT_NATIVE_QUALIFICATION",
+  "source_files_sha256": {
+    "scripts/pi0294/dec1/a40_accounting.py": "7f82640bdeadaacefceefadf3c9495d4715342052614a84e3be693695709c95b",
+    "scripts/pi0294/dec1/a40_allocation.py": "1a9b296c6cbf212ad0679cf426b223fec7fb1c00635cb66459fcd2071bf5c11e",
+    "scripts/pi0294/dec1/a40_future.py": "a1f89853eb2347639ad9b613abf755937ab7e5afd83a88505d0d98afe4470985",
+    "scripts/pi0294/dec1/a40_native_ledger.py": "b8dbf0cb4f6d6166f2f870af13e5b431660a58e52da35934310afb86e6e56ce1",
+    "scripts/pi0294/dec1/a40_training_context.py": "b4452261a77ffb95cf1f440b4a52a4a3ef5ce70b4ec85edd45c7e4107480a2bb",
+    "scripts/pi0294/dec1/a40_training_runtime.py": "faa180212fd0c5b3480baaa5b49180641149783f9bacd3505c74d10745a23d9c",
+    "scripts/pi0294/dec1/authority.py": "1fb4678ae968bbbe5695f1de0bf6ec604eba642790638d73fcb34e1edb70ee8e",
+    "scripts/pi0294/dec1/dual_platform.py": "ed8fd39b2eed2880d84057eef5254979cd32146a0c44e0d5fd0265d12692263a",
+    "scripts/pi0294/dec1/future_budget.py": "3c45838445b85f92eee2c697ce7ffd78c2af84e832c4aa814037d674c3ac38ee",
+    "scripts/pi0294/dec1/heartbeat_recovery.py": "98cb5b7b680141d5a772ad71451070462032c1e3b0289dabffff51471aa9ed20",
+    "scripts/pi0294/dec1/segment_intake.py": "a39a02c3216770ad0d1b7bf85db000a40582ed4662b1c942e6f8b328fa6cd749",
+    "scripts/pi0294/dec1/segmented_training.py": "87c1b2d14195b590be70f6eb583ad729272cefd0f42f48becc1a6c795e0e8731",
+    "scripts/pi0294/dec1/storage_expansion.py": "65046f7789506b397efbc72771ec80c942427e9521f0421419beef14ee4ba0a3",
+    "scripts/pi0294/pv1/allocation.py": "8c40935e106a385308cdd158a05f9914d7052513e4a5c22615b7a7f22c27ded1",
+    "scripts/pi0294/pv1/launcher.py": "0893f049a9ea25d57808fb95e73a303ce954dd9bde5ef244969a2e0e423acfcf",
+    "scripts/pi0294/pv1/native_admission.py": "1eb469db0d687d9889b9649c09d452050e3e7245e68eb2e7ea1ed0c4f70bc1b5",
+    "scripts/pi0294/pv1/neural.py": "940a1a18f1e8a26b840831a1c3ab5c3b679d35ce4012e66e456412486e4facc0",
+    "scripts/pi0294/pv1/neural_ledger.py": "fe396ef6ed1e9280eff66b1903aa3d5b10fa7056802cd038cd374df46639837a",
+    "scripts/pi0294/pv1/pbs_owner.py": "a26cbbf88e7e2c3a48504070f0fd3f380113af428fd225b4e586cf95f18ef553",
+    "scripts/pi0294/pv1/resources.py": "41eae1386dbd51bd8dad20b9dae0413c742e86e4f69a0d3ee88a219162f4cfcd",
+    "scripts/pi0294/dec1/b_heartbeat_recovery.py": "e166691af3d2d76803bca641daef76db971d652ced5f67fc383b359bc6d109a1",
+    "scripts/pi0294/dec1/b_recovery_intake.py": "e04a7532ca4cfc34a2299e6bd8a5f2e553ea622c14176cc526429f851eb8689c",
+    "scripts/pi0294/dec1/test_b_heartbeat_recovery.py": "e508b323acf4b0fd068de38fcca847b8b2c9c8244bbf179f7cf8e330d87c2a15",
+    "scripts/pi0294/dec1/test_b_recovery_forecast.py": "18684c31794af06321db5bf55ed8c669fa5ffcbbf056b03bde321e72f5ff0c0d",
+    "scripts/pi0294/dec1/test_b_recovery_intake.py": "17989c0003460a756e8a83ede324aba23d552f0d2f5b19f2a34fb96ccdf50957"
+  },
+  "remaining_projection": {
+    "future_GPU_s": 131700,
+    "DEC1_GPU_total": 186864,
+    "DEC1_GPU_cap": 187200,
+    "DEC1_GPU_margin_s": 336,
+    "future_updates": 3072,
+    "future_PBS": 5,
+    "DEC1_output_peak_bytes": 588617300992,
+    "global_peak_including_final_bytes": 659894733824
+  },
+  "before_native_training": [
+    "EXACT_COMMIT_CI_AND_FULL_FILE_READBACK",
+    "NEW_COLD_CONTROL_BINDING",
+    "ONCE_DUAL_LEDGER_GRANT_ADOPTION",
+    "INACTIVE_FAILED_B1_SOURCE02_AND_TWO_CLOSED_COUNTER_COST_PROJECTION_ONCE",
+    "FRESH_COMPLETE_RESOURCES_AND_NATIVE_SITE_ADMISSION",
+    "UNIQUE_NEW_REQUEST_B1024_TO2048",
+    "REAL_B2048_AUDIT_SETTLEMENT_DUAL_CLOSURE_BEFORE_B2"
+  ],
+  "WDR1": {
+    "target_counter_passed": true,
+    "target_prefix_feedback_ACK_STOP_task_qualified": false,
+    "core64_completed": 0,
+    "goal_status": "ACTIVE"
+  }
+}

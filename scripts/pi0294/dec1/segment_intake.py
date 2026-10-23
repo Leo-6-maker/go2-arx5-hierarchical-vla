@@ -28,15 +28,34 @@ def fail(reason):raise PermissionError('DEC1_SEGMENT2048_INTAKE_'+reason)
 def read(path):return json.loads(owned(path).read_bytes())
 
 
+def b_seed_identity():
+    from . import b_heartbeat_recovery as b
+    return dict(authority_release=b.RELEASE,grant_sha256=b.GRANT_SHA,job_id=b.FAILED_JOB,
+        source_sha=b.FAILED_SOURCE,checkpoint1024_sha256=b.SEED_SHA,probe_result_sha256=b.PROBE_SHA)
+
+
+def recovery_seed(value,arm):
+    if 'B_heartbeat_recovery_seed' not in value:return False
+    if arm!='B_COVERAGE' or value['B_heartbeat_recovery_seed']!=b_seed_identity():
+        fail('EXACT_ORIGINAL_B1024_SEED_IDENTITY')
+    return True
+
+
 def valid_binding(value,arm):
     required={'root','arm','job_id','request_id','request_sha256','source_sha','run_manifest_sha256',
         'terminal_sha256','lease_sha256','checkpoint1024_sha256','checkpoint2048_sha256','probe_result_sha256'}
+    new_b=recovery_seed(value,arm)
+    if new_b:required.add('B_heartbeat_recovery_seed')
     if (set(value)!=required or value['arm']!=arm or arm not in ('A_CONTROL','B_COVERAGE')
             or re.fullmatch(r'[0-9]+\.stdct-mgmt-02',value['job_id']) is None
             or not Path(value['root']).is_absolute()
             or any(re.fullmatch('[0-9a-f]{'+str(40 if k=='source_sha' else 64)+'}',value[k]) is None
                 for k in required if k.endswith('sha256') or k=='source_sha')):
         fail('EXACT_COLD_OWNER_SOURCE_IDENTITY_AND_HASH_SET')
+    if new_b:
+        from . import b_heartbeat_recovery as b
+        if (value['job_id']==b.FAILED_JOB or value['checkpoint1024_sha256']!=b.SEED_SHA
+                or value['probe_result_sha256']!=b.PROBE_SHA):fail('NEW_B2048_JOB_PRESERVES_OLD1024_AND_PROBES')
     return value
 
 
@@ -86,13 +105,18 @@ def audit_closed_source(binding,*,recipe,dataset):
             or terminal.get('job_id')!=binding['job_id'] or terminal.get('recoverable_full_state') is not True
             or terminal.get('global_step')!=2048 or terminal.get('settlement',{}).get('unknown_effects')!=[]):
         fail('CLOSED2048_KNOWN_EFFECTS_NOT_A_RUNNING_OR_FAILED_PARTIAL_SOURCE')
+    new_b=recovery_seed(binding,arm)
+    if new_b:
+        from . import b_heartbeat_recovery as b
+        if any(m.get('authority',{}).get(k)!=v for k,v in zip(b.SCOPE_KEYS,(b.RELEASE,b.GRANT_SHA))):
+            fail('EXACT_NEW_B_AUTHORITY_ON_COMPLETED2048_MANIFEST')
     e=terminal['effects']
     if (e.get('job_id')!=binding['job_id'] or e.get('request_id')!=binding['request_id']
             or e.get('request_sha256')!=binding['request_sha256'] or e.get('source_sha')!=binding['source_sha']
             or e.get('arm')!=arm or e.get('last_native_step')!=2048 or e.get('recipe_sha256')!=digest(recipe)
             or e.get('pending_updates')!=[] or e.get('unknown_query_intents')!=[]
-            or e.get('query_attempts')!=29 or e.get('effect_journal_complete') is not True
-            or e.get('start_native_step') not in (0,32)
+            or e.get('query_attempts')!=(17 if new_b else 29) or e.get('effect_journal_complete') is not True
+            or e.get('start_native_step') not in ((1024,) if new_b else (0,32))
             or e.get('optimizer_updates_committed')!=2048-e['start_native_step']):
         fail('SAME_ARM_ACTUAL2048_SETTLED_EFFECT_JOURNAL')
     if recipe.get('arm')!=arm:fail('SAME_ARM_RECIPE_NOT_OTHER_SHARED_POLICY')
@@ -100,7 +124,8 @@ def audit_closed_source(binding,*,recipe,dataset):
     complete={}
     for step in (1024,2048):
         c=full_state(root,arm,step,recipe,dataset,binding[f'checkpoint{step}_sha256'])
-        if c.get('origin_job_id')!=binding['job_id'] or c.get('origin_source_sha')!=binding['source_sha']:
+        origin=binding['B_heartbeat_recovery_seed'] if new_b and step==1024 else dict(job_id=binding['job_id'],source_sha=binding['source_sha'])
+        if c.get('origin_job_id')!=origin['job_id'] or c.get('origin_source_sha')!=origin['source_sha']:
             fail('BOTH_SCIENTIFIC1024_AND_ENGINEERING2048_FROM_SAME_SETTLED_JOB')
         complete[str(step)]=c['files']
     result,files=probes(root,arm)
@@ -109,7 +134,7 @@ def audit_closed_source(binding,*,recipe,dataset):
     if before!={k:sha(p) for k,p in paths.items()}:fail('SOURCE_METADATA_CHANGED_DURING_AUDIT')
     return dict(schema='DEC1_SEGMENT2048_CLOSED_FULL_STATE_IMPORT_PROOF_V1',
         status='PASS_CLOSED2048_FULL_STATES_AND_ORIGINAL1024_PROBES_NOT_TRAINING_ADMISSION',
-        authority_release=RELEASE,arm=arm,training_lineage_key=LINEAGE if arm=='A_CONTROL' else arm,
+        authority_release=RELEASE,arm=arm,training_lineage_key=(b.LINEAGE if new_b else (LINEAGE if arm=='A_CONTROL' else arm)),
         source=dict(binding),global_step=2048,actual_consumed_cursor=65536,recipe_sha256=digest(recipe),
         statistics_sha256=R0,checkpoint_members=complete,probe_files=files,new_GPU_PBS_models_queries_updates_physics=0)
 
@@ -118,9 +143,12 @@ def verify_copy(root,*,recipe,dataset):
     from .a40_training_context import sealed
     root=Path(root);binding=sealed(root,BINDING);proof=sealed(root,PROOF);arm=binding['arm']
     valid_binding(binding,arm)
+    new_b=recovery_seed(binding,arm)
+    if new_b:
+        from . import b_heartbeat_recovery as b
     expected=dict(schema='DEC1_SEGMENT2048_CLOSED_FULL_STATE_IMPORT_PROOF_V1',
         status='PASS_CLOSED2048_FULL_STATES_AND_ORIGINAL1024_PROBES_NOT_TRAINING_ADMISSION',
-        authority_release=RELEASE,arm=arm,training_lineage_key=LINEAGE if arm=='A_CONTROL' else arm,
+        authority_release=RELEASE,arm=arm,training_lineage_key=(b.LINEAGE if new_b else (LINEAGE if arm=='A_CONTROL' else arm)),
         source=binding,global_step=2048,actual_consumed_cursor=65536,recipe_sha256=digest(recipe),statistics_sha256=R0,
         new_GPU_PBS_models_queries_updates_physics=0)
     if set(proof)!=set(expected)|{'checkpoint_members','probe_files'} or any(proof.get(k)!=v for k,v in expected.items()):

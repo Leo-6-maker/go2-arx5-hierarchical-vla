@@ -121,7 +121,10 @@ def request_scope(request, *, now):
             or not T0<=r.get('created_epoch',0)<T0+144*3600
             or not T0<=now<T0+156*3600):
         fail('EXPLICIT_SOURCE_ONLY_ORIGINAL_PAIR_CLOCK_RECIPE_AND_PLATFORM')
-    if (type(r.get('submit_count')) is not int or not 1<=r['submit_count']<=24
+    from . import b_heartbeat_recovery as b
+    new_b=b.enabled(r)
+    if new_b:b.lineage(r)
+    if (type(r.get('submit_count')) is not int or not 1<=r['submit_count']<=(25 if new_b else 24)
             or re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,127}',r.get('run_uuid','')) is None
             or r['run_uuid']==r['campaign_run_uuid']):
         fail('EXACT_CHILD_RUN_AND_GLOBAL_SUBMISSION_ORDINAL')
@@ -233,7 +236,13 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
             or ledger.get('CPU_reserved_s',0)<r['CPU_upper_s']
             or number(ledger['CPU_s'])+number(ledger['CPU_reserved_s'])>160*3600):
         fail('FULL_WALL_UPDATE_QUERY_OUTPUT_ENVELOPE_RESERVED_IN_SAME_GLOBAL_TOTAL')
-    admit_resources(ledger['used'],ledger['reserved'],{})
+    from . import b_heartbeat_recovery as b
+    b_scope=b.enabled(r)
+    if b_scope:
+        b.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
+        if not b.enabled(budget_proof):fail('B_RECOVERY_SCOPE_IN_NATIVE_BUDGET_PROOF')
+    admit_resources(ledger['used'],ledger['reserved'],{},
+        b_recovery_ledgers=(ledger,budget_proof['DEC1_native_recovery_view']) if b_scope else None)
     if (budget_proof.get('schema')!='VAP1_A40_RECOMPUTED_REMAINING_WORK_ADMISSION_V1'
             or budget_proof.get('status')!='PASS_ORIGINAL_GLOBAL_AND_DEC1_REMAINING_WORK'
             or budget_proof.get('purpose')!='NATIVE_PRETRAIN'

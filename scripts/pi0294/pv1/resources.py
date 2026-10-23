@@ -9,6 +9,19 @@ FINAL = dict(H200_s=20*3600, episode_starts=100, neural_queries=9000,
     live_ticks=1600000, shadow_ticks=1600000, storage_bytes=40*1024**3)
 
 
+def pbs_limit(ledger):
+    """Only the exact adopted B failure grant extends the campaign count."""
+    from scripts.pi0294.dec1 import b_heartbeat_recovery as b
+    if b.FIELD not in ledger:
+        return TOTAL['PBS_submissions']
+    b.validate_global(ledger)
+    return 25
+
+
+def recovery_resource_kwargs(ledger):
+    return dict(b_recovery_global=ledger) if pbs_limit(ledger)==25 else {}
+
+
 def project_eligible(project, today):
     today = dt.date.fromisoformat(today)
     return bool(project['active'] and project['member']
@@ -17,7 +30,7 @@ def project_eligible(project, today):
 
 
 def admit_resources(used, reserved, request, *, final=False, active_GPUs=0, requested_GPUs=0,
-                    job_wall_s=0, site_wall_limit_s=8*3600):
+                    job_wall_s=0, site_wall_limit_s=8*3600, b_recovery_ledgers=None, b_recovery_global=None):
     if (isinstance(active_GPUs, bool) or isinstance(requested_GPUs, bool)
             or active_GPUs < 0 or requested_GPUs < 0 or active_GPUs + requested_GPUs > 1
             or requested_GPUs not in (0, 1)):
@@ -32,7 +45,20 @@ def admit_resources(used, reserved, request, *, final=False, active_GPUs=0, requ
             raise PermissionError('PV1_UNKNOWN_RESOURCE_DIMENSION')
         if any(isinstance(v, bool) or not math.isfinite(v) or v < 0 for v in mapping.values()):
             raise PermissionError('PV1_FINITE_NONNEGATIVE_RESOURCE_ACCOUNTING')
-    for key, cap in TOTAL.items():
+    caps=dict(TOTAL)
+    if b_recovery_ledgers is not None:
+        from scripts.pi0294.dec1 import b_heartbeat_recovery as b
+        h,d=b_recovery_ledgers;b.validate_adopted(h,d)
+        if used!=h.get("used") or reserved!=h.get("reserved"):
+            raise PermissionError("PV1_B_RECOVERY_ACTUAL_ADOPTED_LEDGER_VECTORS")
+        caps["PBS_submissions"]=25
+    if b_recovery_global is not None:
+        from scripts.pi0294.dec1 import b_heartbeat_recovery as b
+        b.validate_global(b_recovery_global)
+        if b_recovery_ledgers is not None or used!=b_recovery_global.get("used") or reserved!=b_recovery_global.get("reserved"):
+            raise PermissionError("PV1_B_RECOVERY_EXACT_GLOBAL_LEDGER")
+        caps["PBS_submissions"]=25
+    for key, cap in caps.items():
         reserve = FINAL.get(key, 0)
         if key == 'physics_ticks':
             reserve = FINAL['live_ticks'] + FINAL['shadow_ticks']

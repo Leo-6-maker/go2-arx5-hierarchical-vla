@@ -106,6 +106,8 @@ def validate_root(root,request_path,*,verify_all=False):
     heartbeat_admitted(root,m,r)
     from .zero_update_recovery import admitted as zero_admitted
     zero_admitted(root,m,r)
+    from .b_heartbeat_recovery import admitted as b_admitted
+    b_admitted(root,m,r)
     if r.get('recovery_authorization_release') is not None:
         from .lost_save_recovery import PLAN,RELEASE,grant as recovery_grant
         if (m['authority'].get('recovery_authorization_release')!=RELEASE
@@ -319,7 +321,10 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
         if (proof.get('whole_block_stop_step')!=stop or native.get('release_sha256')!=sha(release)
                 or native.get('request_sha256')!=allocation['request_sha256']):
             fail('NO_1024_ONLY_RESERVATION_PROMOTED_TO_4096')
-    elif long_phase in ('BEFORE_PROBES','SEGMENT_REENTRY'):
+    elif long_phase in ('BEFORE_PROBES','SEGMENT_REENTRY','B_RECOVERY_REENTRY'):
+        if long_phase=='B_RECOVERY_REENTRY':
+            from .b_recovery_intake import verify_copy
+            verify_copy(root)
         if long_phase=='SEGMENT_REENTRY':
             from .segmented_training import enabled,limits
             if not enabled(r) or limits(r)!=(2048,4096):fail('EXPLICIT_SEGMENT_FULL_STATE2048_REENTRY')
@@ -369,6 +374,8 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
                 if r.get('heartbeat_recovery_release') is not None else None),
             zero_update_bytes=((root/'plans/ZERO_UPDATE_RESUME_AUTHORIZATION.json').read_bytes()
                 if r.get('zero_update_resume_release') is not None else None),
+            b_recovery_bytes=((root/'plans/B1_HEARTBEAT_RECOVERY_AUTHORIZATION.json').read_bytes()
+                if r.get('B_heartbeat_recovery_release') is not None else None),
             now_epoch=time.time(),job_id=allocation['job_id'])
         def stable(value):
             v=deepcopy(value);v.pop('observed_epoch',None);v['forecast'].pop('projected_finish_epoch',None);return v

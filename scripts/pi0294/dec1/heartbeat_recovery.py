@@ -80,6 +80,8 @@ def enabled(row):
 
 
 def caps(row):
+    from . import b_heartbeat_recovery as b
+    if b.enabled(row):return b.caps(row)
     from . import zero_update_recovery as zero
     if zero.enabled(row):return zero.caps(row)
     if not enabled(row):return storage.caps(row)
@@ -89,6 +91,8 @@ def caps(row):
 
 
 def lineage(row):
+    from . import b_heartbeat_recovery as b
+    if b.enabled(row):return b.lineage(row)
     if not enabled(row):return recovery.lineage(row)
     arm=row.get('arm',row.get('training_block',{}).get('arm'))
     expected=LINEAGE if arm=='A_CONTROL' else 'B_COVERAGE'
