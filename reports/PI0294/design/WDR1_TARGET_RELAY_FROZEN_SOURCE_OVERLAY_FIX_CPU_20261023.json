@@ -1,0 +1,97 @@
+{
+  "schema": "WDR1_TARGET_RELAY_FROZEN_SOURCE_OVERLAY_FIX_CPU_V1",
+  "observed_epoch": 1792755240.983875,
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "failed_publication": {
+    "source": "7919c972dc84e3703971671eba705a222c2e22ef",
+    "run": 39943324436,
+    "job": 120379813087,
+    "conclusion": "failure",
+    "root_tests": "934passed/14skipped/60subtests",
+    "PI0292": "109passed/150subtests",
+    "PI0294": "2failed/2067passed/13skipped/1494subtests",
+    "failures": [
+      "test_source_component_shared_scope.py::test_new_role_requires_exact_original_pins_and_explicit_glue_provenance",
+      "test_source_cpu_intake.py::test_exact_published_thirteen_and_two_glue_static_bytes_only"
+    ],
+    "reason": "A target-type acceptance edit changed original sealed source glue relay_protocol.py. Original15-file source intake correctly rejected it.",
+    "native_deployed": false,
+    "history_rewritten": false
+  },
+  "fix": {
+    "restored_frozen_file": "scripts/pi0292/relay_protocol.py",
+    "restored_SHA256": "39b19c67678ca177a8c88309adcadb2a0995a1ea1117399f047bfba3a3523aa1",
+    "original13_and2_glue_pin_tables_unchanged": true,
+    "original_source_type_guard_preserved": true,
+    "additive_target_layer": "scripts/pi0294/dec1/target_relay_exchange.py",
+    "cold_owner_injection": "scripts/pi0294/relay_transport.py:run_episode",
+    "no_new_runner_or_controller": true,
+    "original_inherited_operations": [
+      "observe",
+      "action",
+      "acknowledge",
+      "_clock",
+      "_fail",
+      "check_timeout",
+      "close"
+    ],
+    "source_contract_not_wrapped_or_forged": true,
+    "fresh_target_exchange_only_no_reopen_or_restart": true,
+    "wrong_owner_or_source_contract_rejected_before_directory_creation": true,
+    "explicit_target_contract_required_no_case_flag": true,
+    "base_RAW_and_source_behaviors_preserved": true
+  },
+  "tests": {
+    "original_frozen_role_and_pin_failures_now_pass": true,
+    "focused_frozen_and_target_group_passed": 52,
+    "final_target_route_cases_passed": 16,
+    "full_PI0292_PI0294_before_last3_factory_negative_cases": {
+      "passed": 2179,
+      "skipped": 13,
+      "subtests_passed": 1644,
+      "seconds": 102.46
+    },
+    "last3_factory_negative_cases_included_in_final16_isolated_pass": true,
+    "no_model_solver_simulator_network_or_native_physics": true
+  },
+  "current_actual_training": {
+    "job_id": "1480817.stdct-mgmt-02",
+    "observed_epoch": 1792755109.9010599,
+    "native_state": "R",
+    "step": 2821,
+    "new_updates_since2048": 773,
+    "queries": 17,
+    "loads": 2,
+    "unknown_effects": [],
+    "owner": "vap1-a40-b-recovery1-b2-retry1-owner-01",
+    "owner_MainPID": 933683,
+    "owner_active": true,
+    "heartbeat": "CONFIRMED",
+    "complete_dual_campaign_view": "PASS_TWO_PLATFORM_CAMPAIGN_VIEW",
+    "running_entry_SHA256": "7c1c098888e4ff9051da5a2edea95137e131cc87ee3778c850c9bffdebe61ade",
+    "hot_modified": false,
+    "new_native_request_or_PBS_or_prepay": false
+  },
+  "scientific_boundaries": {
+    "original_CORR2048_R0_matrix_unchanged": true,
+    "new_A_B_weights_not_matrix_substitutes": true,
+    "original_raw_mapped_H40_and_native_prefix_gates_not_relaxed": true,
+    "hash_or_CPU_ACK_is_not_native_safety": true,
+    "MPC12_not_wholebody_or_contact_qualification": true,
+    "target_native_qualification": false,
+    "core64": 0,
+    "no_new_Core_child_or_physics": true,
+    "no_Source_C0_old_pilot_replay": true,
+    "current_B_success_terminal_not_executed": true,
+    "original_T0_caps_deadlines_final20GPUh40GiB_and_all_historical_costs_preserved": true
+  },
+  "next": [
+    "Qualify the corrected exact source through CI/full raw and Git blob readback before any future cold adoption.",
+    "Keep current unique healthy B4096 owner. Actual F/Exit0 plus natural owner success still precedes qualified648 terminal independent3x15 states/12probes/once settle/both closures.",
+    "After lawful current-resource cold admission, reuse existing target native worker components under DEC1 rather than expired oldR4 run. Actual native full-prefix, feedback/clock, installation ACK and STOP/T1/T2 still remain required before matrix physical dispatch."
+  ],
+  "publication": {
+    "new_exact_CI_status": "PENDING",
+    "native_deployment": false
+  }
+}

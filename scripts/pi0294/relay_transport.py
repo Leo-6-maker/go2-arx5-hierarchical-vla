@@ -121,8 +121,14 @@ def run_episode(directory,case,core,hopper,*,now=time.time,sleep=time.sleep,poll
     if type(poll_interval) not in (int,float) or poll_interval not in (.05,.25):
         raise PermissionError('ONLY_LEGACY_OR_VERSIONED_FINITE_READ_POLL_INTERVAL')
     directory=Path(directory)
+    exchange_class=RelayExchange
+    if mapped_ack_contract is not None:
+        from scripts.pi0294.dec1.target_mapped_ack import FixedTargetTimeAckContract
+        if isinstance(mapped_ack_contract,FixedTargetTimeAckContract):
+            from scripts.pi0294.dec1.target_relay_exchange import TargetRelayExchange
+            exchange_class=TargetRelayExchange
     exchange_options={} if mapped_ack_contract is None else dict(mapped_ack_contract=mapped_ack_contract)
-    exchange=RelayExchange(directory,run_uuid=case['run_uuid'],episode_uuid=case['episode_uuid'],
+    exchange=exchange_class(directory,run_uuid=case['run_uuid'],episode_uuid=case['episode_uuid'],
         identity=case['identity'],now=now(),**exchange_options)
     state=dict(status='ACTUAL_ROUTE_START_NOT_TASK_SUCCESS',episode_uuid=case['episode_uuid'],
         profile=case['identity']['profile'],fresh_observations=0,commands_sent=0,acknowledgements=0,

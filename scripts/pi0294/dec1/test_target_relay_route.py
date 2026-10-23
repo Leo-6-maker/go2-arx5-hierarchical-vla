@@ -11,6 +11,7 @@ from scripts.pi0292.relay_protocol import RelayExchange,PROTOCOL,sealed,unseal,d
 from scripts.pi0294.relay_transport import run_episode
 from scripts.pi0294.resident import QueryReservations
 from scripts.pi0294.dec1.test_target_mapped_ack import fixture
+from scripts.pi0294.dec1.target_relay_exchange import TargetRelayExchange
 
 
 class BoundedCPUStop(RuntimeError):pass
@@ -94,13 +95,45 @@ def test_actual_route_and_resident_share_the_unmodified_target_ack_and_preserve_
 
 @pytest.mark.parametrize('change',['omit','other_condition'])
 def test_reopening_original_relay_cannot_drop_or_change_cold_target_contract(tmp_path,change):
-    body,c,*_=fixture();x=RelayExchange(tmp_path,run_uuid=body['run_uuid'],episode_uuid=body['episode_uuid'],identity=body['identity'],now=100.,mapped_ack_contract=c);x.close()
+    body,c,*_=fixture();x=TargetRelayExchange(tmp_path,run_uuid=body['run_uuid'],episode_uuid=body['episode_uuid'],identity=body['identity'],now=100.,mapped_ack_contract=c);x.close()
     if change=='other_condition':
         from scripts.pi0294.dec1.test_target_mapped_ack import contract
         d=c.condition;d['condition_id']='different-condition';c=contract(d)
     else:c=None
-    with pytest.raises(ValueError,match='COLD_ACK_CONTRACT_CHANGED_OR_OMITTED'):
-        RelayExchange(tmp_path,mapped_ack_contract=c)
+    if c is None:
+        with pytest.raises(TypeError,match='EXPLICIT_COLD_TARGET_ACK_CONTRACT_REQUIRED'):
+            TargetRelayExchange(tmp_path,mapped_ack_contract=c)
+    else:
+        with pytest.raises(FileExistsError,match='NEVER_REOPEN_OR_RESTART'):
+            TargetRelayExchange(tmp_path,mapped_ack_contract=c)
+
+
+def test_original_sealed_source_glue_still_rejects_target_contract(tmp_path):
+    import hashlib
+    from pathlib import Path
+    from scripts.pi0294.dec1.source_cpu_intake import GLUE_2
+    path='scripts/pi0292/relay_protocol.py';root=Path(__file__).resolve().parents[3]
+    assert hashlib.sha256((root/path).read_bytes()).hexdigest()==GLUE_2[path]['current_sha256']
+    body,c,*_=fixture()
+    with pytest.raises(TypeError,match='OWNER_PINNED_MAPPED_ACK_CONTRACT_REQUIRED'):
+        RelayExchange(tmp_path,run_uuid=body['run_uuid'],episode_uuid=body['episode_uuid'],identity=body['identity'],now=100.,mapped_ack_contract=c)
+
+
+def test_target_overlay_inherits_original_action_intents_ACK_and_stop_implementation():
+    for method in ('observe','action','acknowledge','_clock','_fail','check_timeout','close'):
+        assert getattr(TargetRelayExchange,method) is getattr(RelayExchange,method)
+
+
+@pytest.mark.parametrize('fault',['owner_identity','source_contract'])
+def test_target_factory_rejects_wrong_cold_binding_before_creating_route(tmp_path,fault):
+    body,c,*_=fixture();folder=tmp_path/'not-created';identity=deepcopy(body['identity'])
+    if fault=='owner_identity':identity['source_sha']='0'*40
+    else:
+        from scripts.pi0294.dec1.test_mapped_ack import fixture as source_fixture
+        c,*_=source_fixture()
+    with pytest.raises((TypeError,ValueError)):
+        TargetRelayExchange(folder,run_uuid=body['run_uuid'],episode_uuid=body['episode_uuid'],identity=identity,now=100.,mapped_ack_contract=c)
+    assert not folder.exists()
 
 
 @pytest.mark.parametrize('mode',['I_TIME','I_PROGRESS'])
