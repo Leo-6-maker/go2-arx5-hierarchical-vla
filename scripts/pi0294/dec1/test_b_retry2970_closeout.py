@@ -64,3 +64,57 @@ def test_missing_or_unbounded_audit_cost_cannot_be_dropped(cost):
     expected,value,digest=saved();value['CPU_audit_actual_s']=cost
     with patch.object(c.failed.prior.b,'PROBE_SHA',digest),pytest.raises(PermissionError):
         c.financial_evidence(value,dict(job=value['raw_native'],observed_epoch=100.),expected,now_epoch=102.)
+
+
+def reserved_readonly():
+    e,v,digest=saved();e['request']['CPU_upper_s']=54000
+    marker=dict(grant_sha256=c.handoff.GRANT_SHA,old_parent_mutations_permitted=False,
+        origin_is_fresh_native_read=False,one_mutation_owner=True)
+    h=dict(CPU_reserved_s=54000,optimizer_updates=8744,unknown_effects=[],pending_updates=[],
+        PBS_submissions=[dict(request_id=c.failed.REQUEST,job_id=c.failed.JOB,status='SUBMITTED_PENDING_NATIVE')])
+    d=dict(CPU_reserved_s=54000,optimizer_updates=8744,unknown_effects=[])
+    h[c.handoff.FIELD]=deepcopy(marker);d[c.handoff.FIELD]=deepcopy(marker)
+    allocation=dict(schema=c.READONLY_CPU_SCOPE,job_id=c.failed.JOB,request_sha256=c.failed.REQUEST_SHA,
+        previous_failed_audit_receipt_sha256=c.FAILED_AUDIT_SHA,previous_audit_actor_confirmed_absent=True,
+        prior_all_audit_and_admin_CPU_upper_s=480,new_finite_audit_CPU_upper_s=600,
+        observer_CPU_upper_s=1500,remaining_closeout_CPU_upper_s=120,native_PBS_CPU_s=8323,
+        original_job_CPU_reserved_s=54000,new_CPU_prepayment=0)
+    v.update(prior_failed_audit_CPU_upper_s=480,CPU_audit_actual_s=550.)
+    v['native_proof']['conservative_CPU_s']=11023
+    return e,v,digest,h,d,allocation
+
+
+def test_failed480_group_stays_spent_separate600_reads_fit_same_54000_job_hold():
+    e,v,digest,h,d,a=reserved_readonly();before=deepcopy((v,h,d,a))
+    with patch.object(c.failed.prior.b,'PROBE_SHA',digest):
+        result=c.financial_evidence(v,dict(job=v['raw_native'],observed_epoch=100.),e,now_epoch=102.,readonly_allocation=a,budget_before=(h,d))
+    assert (v,h,d,a)==before
+    assert result['readonly_audit_allocation']==a and result['native_proof']['conservative_CPU_s']==11023
+    assert result['CPU_audit_actual_s']==550. and result['prior_failed_audit_CPU_upper_s']==480
+    assert result['effects']['optimizer_updates_committed']==922
+
+
+@pytest.mark.parametrize('fault',['missing_budget','released_hold','different_hold','other_job','prior_refund','newlimit',
+    'observer_dropped','unknown','new_prepay','bool_prepay','floatlimit','missing_failure','active_actor','source_grant',
+    'CPU_bill_dropped','overrun','wrong_request_CPU'])
+def test_readonly_reallocation_never_adds_cpu_or_erases_failed_attempts(fault):
+    e,v,digest,h,d,a=reserved_readonly();budget=(h,d)
+    if fault=='missing_budget':budget=None
+    elif fault=='released_hold':h['CPU_reserved_s']=0
+    elif fault=='different_hold':d['CPU_reserved_s']=60000
+    elif fault=='other_job':h['PBS_submissions'][0]['job_id']='other'
+    elif fault=='prior_refund':a['prior_all_audit_and_admin_CPU_upper_s']=0
+    elif fault=='newlimit':a['new_finite_audit_CPU_upper_s']=601
+    elif fault=='observer_dropped':a['observer_CPU_upper_s']=0
+    elif fault=='unknown':h['unknown_effects']=[{}]
+    elif fault=='new_prepay':a['new_CPU_prepayment']=1
+    elif fault=='bool_prepay':a['new_CPU_prepayment']=False
+    elif fault=='floatlimit':a['new_finite_audit_CPU_upper_s']=600.
+    elif fault=='missing_failure':a['previous_failed_audit_receipt_sha256']='0'*64
+    elif fault=='active_actor':a['previous_audit_actor_confirmed_absent']=False
+    elif fault=='source_grant':h[c.handoff.FIELD]['grant_sha256']='0'*64
+    elif fault=='CPU_bill_dropped':v['native_proof']['conservative_CPU_s']=10423
+    elif fault=='overrun':v['CPU_audit_actual_s']=601.
+    else:e['request']['CPU_upper_s']=60000
+    with patch.object(c.failed.prior.b,'PROBE_SHA',digest),pytest.raises(PermissionError):
+        c.financial_evidence(v,dict(job=v['raw_native'],observed_epoch=100.),e,now_epoch=102.,readonly_allocation=a,budget_before=budget)
