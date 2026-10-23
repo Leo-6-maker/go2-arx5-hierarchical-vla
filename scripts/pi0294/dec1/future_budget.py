@@ -348,6 +348,13 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
         fail('ALL_SITE_PRESEALED_OUTPUT_PEAKS')
     for key,peak in peaks.items():
         old._number(peak,integer=True,positive=True)
+        # Recovery2 preserves every historical output and checkpoint. Check
+        # the full remaining storage envelope before reserve/qsub as well as
+        # after the current request has become a real native reservation.
+        # Otherwise an obsolete plan can pass PREQUEUE, then reject the same
+        # paid job at NATIVE_PRETRAIN solely because its hold now exists.
+        if vanda2_bytes is not None and key=='Hopper_storage_bytes' and peak<dec_used[key]+dec_reserved[key]+extra[key]:
+            fail('RECOVERY2_PREQUEUE_PEAK_COVERS_ALL_REMAINING_OUTPUT_WITHOUT_RETIREMENT')
         if peak>caps[key] or peak<dec_used[key]+dec_reserved[key] or key=='Hopper_storage_bytes' and peak<2*payload:
             fail('FULL_CHECKPOINT_TRANSIENT_AND_RESIDENT_PEAK_WITHIN_CAP')
         extra[key]=max(0,peak-dec_used[key]-dec_reserved[key])
