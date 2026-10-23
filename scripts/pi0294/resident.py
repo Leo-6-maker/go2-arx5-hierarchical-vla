@@ -105,8 +105,9 @@ class QueryReservations:
         self.mapped_ack_contracts=dict(mapped_ack_contracts or {})
         if self.mapped_ack_contracts:
             from scripts.pi0294.dec1.mapped_ack import FixedMappedAckContract
+            from scripts.pi0294.dec1.target_mapped_ack import FixedTargetTimeAckContract
             for episode,contract in self.mapped_ack_contracts.items():
-                if (not isinstance(contract,FixedMappedAckContract)
+                if (not isinstance(contract,(FixedMappedAckContract,FixedTargetTimeAckContract))
                         or contract.condition['episode_uuid']!=episode or contract.condition['run_uuid']!=run):
                     raise TypeError('OWNER_FIXED_RESIDENT_EPISODE_ACK_CONTRACTS_REQUIRED')
         self.max_queries=max_queries
