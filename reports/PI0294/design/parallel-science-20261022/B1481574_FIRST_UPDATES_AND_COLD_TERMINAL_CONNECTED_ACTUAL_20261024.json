@@ -1,0 +1,99 @@
+{
+  "schema": "B1481574_FIRST_UPDATES_AND_COLD_TERMINAL_CONNECTED_ACTUAL_V1",
+  "status": "ACTUAL_NATIVE_TRAINING_STARTED_AND_COLD_TERMINAL_READY_NOT_B4096_COMPLETE",
+  "job_id": "1481574.stdct-mgmt-02",
+  "runtime_source": "36925d272095d000ba1ad3ce5e9cdc44373fdce6",
+  "request_sha256": "e02b55d3a0946ef1453c3f38e5a8f5c13655c4b6cd225349d49ce7077e9131a2",
+  "native_observed_epoch": 1792778491.1688766,
+  "native_state": "R",
+  "native_node": "GN-A40-027",
+  "model_start_release": true,
+  "first_update_release": true,
+  "first_update_release_sha256": "ba34804e747a5886b831b4a9ba3387502e147e8710d22874d0219f35a3230d33",
+  "native_step_observed": 2074,
+  "segment_start": 2048,
+  "new_committed_updates_observed": 26,
+  "actual_query_attempts_observed": 17,
+  "actual_model_load_attempts_observed": 2,
+  "unknown_effects": [],
+  "one_current_update_intent_expected_while_training": true,
+  "owner": {
+    "owner_pid": 372546,
+    "wrapper_pid": 372539,
+    "both_actual_same_instances_present": true,
+    "heartbeat_status": "CONFIRMED",
+    "server_resident": true,
+    "agent_connection_required": false
+  },
+  "native_GPU_accounting_snapshot": {
+    "scheduler_reported_usagePerc": 44.344,
+    "window_includes_model_load_and_compatibility_startup": true,
+    "steady_training_utilization_not_yet_claimed": true,
+    "allocated_ngpus": 1,
+    "allocated_ncpus": 36,
+    "active_CPU_limit_unchanged": 4,
+    "worker_count_unchanged": 0,
+    "no_runtime_config_hot_change": true
+  },
+  "cold_terminal": {
+    "helper_source": "5c9a6de763c6f74b7731809f72b2dd54e6ca47de",
+    "CI_run": 39999597863,
+    "CI_job": 120571953478,
+    "CI_status": "completed",
+    "CI_conclusion": "success",
+    "CI_all12steps": true,
+    "fullraw_and_Gitblob_readback_files": 7,
+    "public_terminal_cases": 72,
+    "full_PI0294_passed": 2456,
+    "full_subtests": 1499,
+    "private_temp_original_settle_GPU_CPU_close_readback_LOCAL_cases": 11,
+    "private_independent_query_file_reader_cases": 8,
+    "actual_full_captured_registered_identity_checked_without_mocks": true,
+    "original_finite_full_state_auditor_and_once_accounting_connected": true,
+    "live_owner_pretransport_gate_refused": true,
+    "native_audit_settlement_or_close_performed": false
+  },
+  "accounting": {
+    "last_settled_updates": 9666,
+    "last_settled_global_GPU_s": 91003,
+    "last_settled_queries": 1214,
+    "global_PBS": 25,
+    "DEC1_PBS": 14,
+    "approved_caps": {
+      "DEC1_PBS": 17,
+      "global_PBS": 28,
+      "updates": 11714,
+      "GPUsite_storage_GiB": [
+        614,
+        680
+      ]
+    },
+    "GPU_reserved_s": 22560,
+    "CPU_reserved_s": 54000,
+    "updates_reserved": 2048,
+    "queries_reserved": 29,
+    "no_reserved29_as_actual_queries": true,
+    "all_prior_costs_and805_922_losses_preserved": true
+  },
+  "unchanged": {
+    "T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "final_GPU_s": 72000,
+    "final_storage_GiB": 40,
+    "all_other_caps_and_scientific_conditions": true,
+    "three_original_matrix_jobs": true,
+    "old_Hopper_CPU_physical_lease": "UNAVAILABLE_FENCED_NOT_CLOSED"
+  },
+  "remaining": [
+    "real B4096 full state and F Exit0 natural owner success",
+    "independent full audit once settlement and both current Vanda lease closures",
+    "target-native T1 T2 full-prefix actual feedback ACK STOP qualification",
+    "original CORR2048 R0 64-cell controller comparison and final acceptance"
+  ],
+  "target_task_native_qualified": false,
+  "core64": 0,
+  "whole_goal_complete": false
+}
