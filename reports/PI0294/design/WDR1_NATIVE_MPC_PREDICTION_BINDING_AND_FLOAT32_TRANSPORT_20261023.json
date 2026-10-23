@@ -1,0 +1,127 @@
+{
+  "schema": "WDR1_NATIVE_MPC_PREDICTION_BINDING_FLOAT32_TRANSPORT_V1",
+  "observed_epoch": 1792718862.7828674,
+  "status": "ACTUAL_INSTALLED_IDL_AND_CLOSED_NATIVE_TRACE_TRANSPORT_CONFIRMED_CPU_BINDING_IMPLEMENTED_NOT_NATIVE_ADMISSION",
+  "actual_existing_native_reads": {
+    "bounded_54_files_401932bytes_receipt_sha256": "44545809111abe299d39ad96b4dd254fbb7cc085f7d7655f5ed3c70daf105c59",
+    "native_node_seams_receipt_sha256": "f5467b982514efe3d01c6c4323e7317560f64d6b9302a5c41bb4cab77cef2cd8",
+    "native_MRT_and_installed_policy_IDL_receipt_sha256": "1cc9d72daf12c07d4284af18c2d815c1fdfc3817a3da15b38e40ddac93cefbd5",
+    "state_input_IDL_and_frozen_task_config_receipt_sha256": "9faefbd501be558cb3e24ccdeae5dc444488fcd5970cff6d5496123410b47ee0",
+    "frozen_task_config_sha256": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+    "native_model_type": 3,
+    "state_dimension": 12,
+    "input_dimension": 12,
+    "prediction_horizon_s": 1.0,
+    "existing_MRT_initRollout_evaluatePolicy_rolloutPolicy_present": true,
+    "current_vendor_source_is_not_independently_proven_to_equal_all_frozen_executable_build_inputs": true,
+    "unregistered_new_build_or_native_code_change": false
+  },
+  "deployed_transport": {
+    "MpcFlattenedController_sha256": "636597f8e5132ff83f8d4c5848a61cfbfb0c9b4b737e320f8520991d05683ef0",
+    "MpcTargetTrajectories_sha256": "25466eb6aaa378652c1f0dbe11c4d34477debe06642cbb822e0aeaa144853fae",
+    "MpcState_sha256": "bd5dc349d705491a86e78cb525e1efb30afbf63644ccdb922ce8cfe6f206aebc",
+    "MpcInput_sha256": "109e5528c62920c2671c7ffed6094f84e95ae69206eb4195ab7eb5365a20c891",
+    "state_and_input": "float32[]",
+    "time": "float64[]",
+    "old_double_comparison_could_falsely_reject_actual_installed_pose": true,
+    "fix": "Reproduce original float32 transport exactly, keep time precision and every original raw/mapped/prefix safety gate; no tolerance expansion."
+  },
+  "actual_closed_trace_CPU_replay": {
+    "receipt_sha256": "a3f93ebdd4044cb9c60cfd701c495a710bc8f6ee6ce7b6282f36f4f86e70022f",
+    "old_episode": "TASK-PILOT-W0-T2-engineering04",
+    "old_quality_status": "COMPLETE_TASK_QUALITY_FAIL",
+    "old_success": false,
+    "old_closure_and_result_bytes_unchanged": true,
+    "samples": 41,
+    "pose_width": 14,
+    "EE_and_explicit_BASE_historical_wire": true,
+    "exact_float32_parser_roundtrip_match": true,
+    "exact_double_roundtrip_match": false,
+    "maximum_double_difference": 2.9768814080455286e-08,
+    "child_CPU_s": 0.13202499999999998,
+    "service_s": 0.14702636282891035,
+    "current_control_manifest_lease_registry_DEC1_ledger_unchanged": true,
+    "no_simulator_or_ROS_or_model_import": true,
+    "new_physics": 0,
+    "old_pilot_reexecuted": false,
+    "not_current_EEF_only_task_or_policy_qualification": true
+  },
+  "new_prediction_binding": {
+    "existing_message": "MpcFlattenedController",
+    "retained_exact_policy_bytes_and_independent_actual_MPC_observation": true,
+    "solver_echoed_plan_target_matches_actual_install_trace": true,
+    "full_original_prefix_0p4s_horizon_required": true,
+    "original_continuous_model_and_float32_12D_vectors": true,
+    "source_S1_not_target_safety": true,
+    "body_leg_contact_dynamics_are_not_in_this_MPC_state": true,
+    "model_predictions_never_substitute_actual_state": true,
+    "grants_physical_quota": false,
+    "qualifies_native_safety": false
+  },
+  "CPU_tests": {
+    "related_passed": 169,
+    "new_prediction_cases": 29,
+    "target_transaction_cases": 38,
+    "actual_private_parser_cases": 12,
+    "private_parser_sha256": "3fd59ca29b257a4fec2a66409d33099d0cc0befe4ef6a5039d80b44d03dadf90",
+    "both_modes": true,
+    "clock_delay_boundaries_s": [
+      0.0,
+      0.0125,
+      0.025
+    ],
+    "changing_SO3_and_noncommuting_frame_transform": true,
+    "std_array_float32_roundtrip_independent_from_numpy_verifier": true,
+    "one_float32_ULP_position_substitution_rejected": true,
+    "wall_s": 4.08,
+    "actual_current_ROS_policy_or_full_safety_qualification": false
+  },
+  "retained_development_failures": {
+    "first_broad_source_reader_hit6000_file_bound_readonly": true,
+    "broad_failed_receipt_sha256": "90a69cb2c7be730174d2aadae9f8b2a37d2d951e16b6589cdce16d0d4191ffda",
+    "then_narrowed_to_exact_native_packages": true,
+    "local_replay_path_join_type_error_before_any_remote_call": true,
+    "first_historical_replay_first12_records_insufficient": true,
+    "then128_records_inside_same_2MiB_bound": true,
+    "no_unknown_write_or_retry_or_cost_reset": true
+  },
+  "B1_actual_cached_observation": {
+    "job": "1478518.stdct-mgmt-02",
+    "observed_epoch": 1792718857.8974879,
+    "state": "R",
+    "returned_updates": 1106,
+    "queries": 29,
+    "loads": 4,
+    "unknown": [],
+    "fixed_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "no_hot_change": true
+  },
+  "previous_exact_document_CI": {
+    "source": "eef24f6bf2f0fbcfdcc258c39ccfb91f9d82ed01",
+    "run": 39882400419,
+    "job": 120182589505,
+    "all12steps_success": true
+  },
+  "new_code_publication_exact_CI": "PENDING",
+  "current_native_admission": false,
+  "target_task_native_qualified": false,
+  "actual_current_policy_native_prefix_safety_and_STOP_qualified": false,
+  "core64_cells": 0,
+  "new_GPU": 0,
+  "new_PBS": 0,
+  "new_current_physics": 0,
+  "new_models": 0,
+  "goal_complete": false,
+  "next_actual_work": [
+    "Pin exact publication/CI/readback before cold adoption.",
+    "Attach original native policy publication and independent observation trace at the existing receiver/worker seam, retain real physical safety and STOP chain.",
+    "Under current complete resource admission qualify actual target raw+mappedH40/prefix and task lifecycle; a matched 12D MPC trajectory alone does not prove full-body safety.",
+    "Protect B1; real B2048 successful full-state audit/once settlement/dual closure precede Source02 inactive cost mirror and fresh B2."
+  ],
+  "files_sha256": {
+    "scripts/pi0294/dec1/target_time_transaction.py": "017a04f4bc288848ea5de55e3de65fb2cb31fbb5eb0d61581a6e2e10bf969321",
+    "scripts/pi0294/dec1/test_target_time_transaction.py": "48ef3e022b470d87582a1ced5f23184f3208b5f2712bf2db80ef9ec604c01a45",
+    "scripts/pi0294/dec1/target_mpc_prediction.py": "00004bf96bce051084e365cf7fc6eb53ae510332d75b2b95091ebf2b098a0d82",
+    "scripts/pi0294/dec1/test_target_mpc_prediction.py": "22a5b7d1cb31ba19abcf1a47d876c9c89ab16d46896ef9709ca50b1e2d9a8950"
+  }
+}

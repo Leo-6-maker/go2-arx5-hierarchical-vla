@@ -121,9 +121,14 @@ def require_install_ack(prepared,events):
         left=np.minimum(np.searchsorted(knots,relative,side='right')-1,len(knots)-2)
         fraction=(relative-knots[left])/(knots[left+1]-knots[left])
         expected_orientation=quat_slerp(orientation[left],orientation[left+1],fraction)
-        need(np.allclose(poses[:,:3],expected_position,rtol=0,atol=1e-10)
-             and np.allclose(quat_to_matrix(poses[:,3:]),quat_to_matrix(expected_orientation),rtol=0,atol=1e-10),
-             'ACTUAL_INSTALLED_POSES_MUST_MATCH_BOUND_WORLD_REFERENCE')
+        # Deployed MpcState.value is float32[] (IDL bd5dc349...), while
+        # time_trajectory is float64[]. Reproduce that transport conversion;
+        # this changes neither the raw reference nor any safety threshold.
+        native_position=expected_position.astype(np.float32).astype(float)
+        native_orientation=expected_orientation.astype(np.float32).astype(float)
+        need(np.array_equal(poses[:,:3],native_position)
+             and np.allclose(quat_to_matrix(poses[:,3:]),quat_to_matrix(native_orientation),rtol=0,atol=1e-10),
+             'ACTUAL_INSTALLED_POSES_MUST_MATCH_ORIGINAL_FLOAT32_WORLD_REFERENCE')
     return dict(status='BOUND_ORIGINAL_MUJOCO_RECEIVER_INSTALL_ACK',wire_sha256=ref,
         command_id=prepared.command_id,source_mpc_s=source,accept_rows=len(accepted),install_rows=len(installed),
         physics_advance_authorized=False,target_task_native_qualified=False,stop_qualified=False)
