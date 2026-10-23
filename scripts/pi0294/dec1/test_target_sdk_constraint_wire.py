@@ -83,6 +83,7 @@ def test_cache_switch_requires_exact_frozen_bytes():
 SDK_FIXTURE = r'''
 #pragma once
 #include <cmath>
+#include <cstdlib>
 #include <map>
 #include <memory>
 #include <string>
@@ -96,17 +97,19 @@ enum class Request { Constraint=4, SoftConstraint=8 };
 inline int operator+(Request a, Request b) { return int(a)+int(b); }
 struct PreComputation {
   int calls=0; void request(int flags,double,const vector_t&,const vector_t&) {
-    if(flags!=12) throw std::runtime_error("WRONG_REQUEST"); ++calls;
+    if(flags!=12) throw std::runtime_error("WRONG_REQUEST");
+    ++calls;
   }
 };
 struct TargetTrajectories {};
 struct StateCost { virtual ~StateCost()=default; };
 struct StateInputCost { virtual ~StateInputCost()=default; };
 struct StateConstraint {
-  bool active=true; size_t width=2; vector_t values{.01,-.002}; bool second_failure=false;
+  bool active=true; size_t width=2; vector_t values{.01,-.002}; bool second_failure=false,require_exec_denied=false;
   bool isActive(double) { return active; }
   size_t getNumConstraints(double) { return width; }
   vector_t getValue(double t,const vector_t&,const PreComputation&) {
+    if(require_exec_denied && std::system("exit 0")==0)throw std::runtime_error("QUERY_EXEC_NOT_DENIED");
     return second_failure && t>.1 ? vector_t{} : values;
   }
 };

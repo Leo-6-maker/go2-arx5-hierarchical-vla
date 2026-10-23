@@ -2,7 +2,7 @@
 
 ## 2026-10-24 实际训练增量
 
-同一作业 **1481574** 已获 FIRST_UPDATE 放行；03:08:12 SGT 的原生回读确认 **B2822（从2048新增774次更新）、17次实际查询、2次加载、unknown=[]**，驻留owner和心跳正常。B4096及目标资格仍未完成，core64=0。运行胶囊36925d27未改变；冷态终局接线已独立资格且只允许真实F/Exit0和owner自然成功退出后使用。此后新增进度以同一身份链原生回执为准。
+同一作业 **1481574** 已获 FIRST_UPDATE 放行；03:54:24 SGT 的原生回读确认 **B3346（从2048新增1298次更新）、17次实际查询、2次加载、unknown=[]**，驻留owner和心跳正常。B4096及目标资格仍未完成，core64=0。运行胶囊36925d27未改变；冷态终局接线已独立资格且只允许真实F/Exit0和owner自然成功退出后使用。此后新增进度以同一身份链原生回执为准。
 
 [实际首次更新和终局接线](reports/PI0294/design/parallel-science-20261022/B1481574_FIRST_UPDATES_AND_COLD_TERMINAL_CONNECTED_ACTUAL_20261024.json)。下方审核保留01:46基线及后继计划，不覆盖本段更晚的实际更新；计划不重置本轮预算和截止。
 
@@ -11,6 +11,8 @@
 [冻结SDK实际链接输入](reports/PI0294/design/WDR1_ACTUAL_FROZEN_MPC_SDK_LINK_INPUTS_20261024.json)已定位并核对部分约束／预测函数体；它们可用于原实现薄封装的接续，尚不证明header/class ABI、完整链接来源或目标前缀安全。未重编／修改WBC，未新增目标模型、child或物理执行。
 
 [原 SDK 薄约束读取器](reports/PI0294/design/WDR1_ORIGINAL_SDK_CONSTRAINT_CLIENT_CPU_20261024.json)已按实际 SoftBox 成本／自碰撞余量 API 接线，32项新CPU测试通过。修正了将 jointLimits 误当通用约束向量的接线假设；惩罚成本不作为安全阈值。实际SDK编译／独立客户端生命周期与目标native资格仍待完成，未修改原控制器或启动新目标物理。
+
+[原 SDK 有限客户端及构建计划](reports/PI0294/design/WDR1_FINITE_ORIGINAL_SDK_CLIENT_AND_BUILD_PLAN_CPU_20261024.json)已完成独立二进制管道、同一进程复用、当前请求／输出绑定、编译器禁用及未知不重发接线；新增31项CPU测试，相关63项通过。真实安装SDK的编译／构造及当前DEC1双账本准入仍待完成，未新增Core child或物理运行。
 
 ## 2026-10-24 审核摘要
 
