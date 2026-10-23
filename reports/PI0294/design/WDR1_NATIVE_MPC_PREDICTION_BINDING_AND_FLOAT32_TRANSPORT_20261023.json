@@ -90,9 +90,9 @@
   },
   "B1_actual_cached_observation": {
     "job": "1478518.stdct-mgmt-02",
-    "observed_epoch": 1792718857.8974879,
+    "observed_epoch": 1792719774.9851556,
     "state": "R",
-    "returned_updates": 1106,
+    "returned_updates": 1235,
     "queries": 29,
     "loads": 4,
     "unknown": [],
@@ -105,7 +105,7 @@
     "job": 120182589505,
     "all12steps_success": true
   },
-  "new_code_publication_exact_CI": "PENDING_FOR_EXACT_FROZEN_CLOCK_COMPARISON_DELTA",
+  "new_code_publication_exact_CI": "PASS_ALL12_STEPS_8_FULL_READBACKS",
   "current_native_admission": false,
   "target_task_native_qualified": false,
   "actual_current_policy_native_prefix_safety_and_STOP_qualified": false,
@@ -145,12 +145,23 @@
     "raw_packet_and_ROS_times_retained": true,
     "original_25ms_threshold_unchanged": true,
     "positive_and_negative_1e_13s_packet_representation_drift_cases": 2,
-    "no_sleep_clock_refresh_watchdog_widening": true
+    "no_sleep_clock_refresh_watchdog_widening": true,
+    "actual_frozen_function_CPU_equivalence_receipt_sha256": "8c60c11f449dfda7371b10a0d8a7407aed8db6fa855107f5d469c8111c7dd5fa",
+    "return_expression_AST_exact_match": true,
+    "actual_frozen_require_pause_executed_in_CPU_fixture": true
   },
   "previous_exact_public_code_qualification": {
     "source": "36b364c33431776cefaad8ebe888e9ce9805ee98",
     "CI_run": 39884421946,
     "CI_job": 120189140121,
+    "CI_conclusion": "success",
+    "all_12_steps_success": true,
+    "full_readback_files": 8
+  },
+  "exact_public_code_qualification": {
+    "source": "20139662b3578922299348fa6bfccfadfa426d39",
+    "CI_run": 39885088506,
+    "CI_job": 120191290395,
     "CI_conclusion": "success",
     "all_12_steps_success": true,
     "full_readback_files": 8
