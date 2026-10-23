@@ -1296,5 +1296,33 @@
     "administrator_accounting_records_requested_once": true,
     "no_retry": true,
     "full_goal_complete": false
+  },
+  "latest_human_B2_retry_direction": {
+    "report": "reports/PI0294/design/parallel-science-20261022/B2_SYSTEM_HOLD21_RETRY_DIRECTION_AND_AUTH_BLOCK_20261023.json",
+    "directive": "通过amgr login检查project额度并重试",
+    "auth_query": "TOKEN_EXPIRED",
+    "masked_terminal_login_requested": true,
+    "new_PBS": false,
+    "no_cap_or_clock_change": true
+  },
+  "latest_auth_mail_startup_financial_and_retry_scope_CPU": {
+    "report": "reports/PI0294/design/parallel-science-20261022/B2_SYSTEM_STARTUP_FAILURE_FINANCIAL_AND_RETRY_SCOPE_CPU_20261023.json",
+    "amgr_login_and_project_readback": "SUCCESS",
+    "email_optout_native_readback": true,
+    "old_job_stays_F_minus3": true,
+    "financial_helper_CPU_only": true,
+    "explicit_PBS_adjustment_needed": {
+      "DEC1": [
+        14,
+        15
+      ],
+      "global_limit": [
+        25,
+        26
+      ]
+    },
+    "all_other_caps_unchanged": true,
+    "no_retry_yet": true,
+    "goal_complete": false
   }
 }
