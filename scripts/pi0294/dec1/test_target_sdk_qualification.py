@@ -216,3 +216,32 @@ def test_complete_entry_faults_refuse_before_compilation_or_constructor(full_ent
         p=root/unit.contract.FORECAST;p.chmod(0o600);p.write_bytes(b'{}')
     with pytest.raises((PermissionError,KeyError)):unit.validate(root)
     assert not (root/'evidence/SDK_QUALIFICATION_INTENT.json').exists()
+
+
+def test_real_transitive_RUNPATH_failure_and_RPATH_resolution_before_any_SDK(tmp_path):
+    """Three trivial C objects, no installed SDK, controller, model or physics."""
+    import shutil,subprocess
+    compiler=shutil.which('cc')
+    if compiler is None:pytest.skip('CPU C compiler unavailable')
+    base=tmp_path/'base';middle=tmp_path/'middle';base.mkdir();middle.mkdir()
+    (base/'base.c').write_text('int fixture_base(void){return 0;}\n')
+    (middle/'middle.c').write_text('extern int fixture_base(void);int fixture_middle(void){return fixture_base();}\n')
+    main=tmp_path/'main.c';main.write_text('extern int fixture_middle(void);int main(void){return fixture_middle();}\n')
+    def build(argv):
+        p=subprocess.run([compiler,*map(str,argv)],capture_output=True,timeout=20)
+        assert p.returncode==0,p.stderr.decode()
+    build(['-shared','-fPIC',base/'base.c','-Wl,-soname,libfixture_base.so','-o',base/'libfixture_base.so'])
+    build(['-shared','-fPIC',middle/'middle.c','-L'+str(base),'-lfixture_base','-Wl,-soname,libfixture_middle.so','-o',middle/'libfixture_middle.so'])
+    for transitive in (False,True):
+        root=tmp_path/('RPATH' if transitive else 'RUNPATH');(root/'evidence/sdk-build').mkdir(parents=True)
+        binary=root/'evidence/sdk-build/client'
+        args=[main,'-L'+str(middle),'-lfixture_middle','-Wl,-rpath-link,'+str(base),'-Wl,-rpath,'+str(middle)+':'+str(base),'-o',binary]
+        if transitive:args.append('-Wl,--disable-new-dtags')
+        build(args)
+        if transitive:
+            unit.runtime_link(root,str(binary),guard=lambda:None,deadline=time.time()+10)
+            assert (root/'evidence/SDK_RUNTIME_LINK_RETURNED.json').is_file()
+        else:
+            with pytest.raises(PermissionError):unit.runtime_link(root,str(binary),guard=lambda:None,deadline=time.time()+10)
+            assert 'not found' in (root/'evidence/SDK_RUNTIME_LINK.log').read_text()
+        with pytest.raises(FileExistsError):unit.runtime_link(root,str(binary),guard=lambda:None,deadline=time.time()+10)

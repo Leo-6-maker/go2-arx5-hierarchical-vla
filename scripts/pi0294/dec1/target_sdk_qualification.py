@@ -157,7 +157,7 @@ def resource_guard(root,m,q,b):
     return guard
 
 
-def phase(root,label,argv,*,guard,deadline):
+def phase(root,label,argv,*,guard,deadline,env=None):
     """A durable intent, one owned process group, finite wait, no restart."""
     guard();need(time.time()<deadline,'SDK_NO_BUILD_AFTER_FINITE_DEADLINE')
     put(root/('evidence/SDK_'+label+'_INTENT.json'),dict(argv=argv,once=True,no_retry=True))
@@ -166,7 +166,7 @@ def phase(root,label,argv,*,guard,deadline):
         try:
             guard();need(time.time()<deadline,'SDK_FRESH_BUILD_DEADLINE_BEFORE_EXEC')
             child=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=log,stderr=log,
-                cwd=root/'evidence/sdk-build',start_new_session=True)
+                cwd=root/'evidence/sdk-build',start_new_session=True,env=env)
             put(root/('evidence/SDK_'+label+'_STARTED.json'),dict(pid=child.pid,
                 proc_start=Path('/proc/%d/stat'%child.pid).read_text().rsplit(')',1)[1].split()[19]))
             while child.poll() is None:
@@ -187,6 +187,16 @@ def phase(root,label,argv,*,guard,deadline):
                     child.wait(timeout=5)
 
 
+def runtime_link(root,binary,*,guard,deadline):
+    """Bounded loader inspection before the SDK constructor intent; no retry."""
+    env=dict(os.environ,PATH='/usr/bin:/bin')
+    for name in ('LD_PRELOAD','LD_AUDIT','LD_LIBRARY_PATH'):env.pop(name,None)
+    phase(root,'RUNTIME_LINK',['/usr/bin/ldd',binary],guard=guard,
+          deadline=min(deadline,time.time()+15),env=env)
+    log=(root/'evidence/SDK_RUNTIME_LINK.log').read_text()
+    need('not found' not in log and '=>' in log,'SDK_ALL_DYNAMIC_DEPENDENCIES_RESOLVED_BEFORE_CONSTRUCTOR')
+
+
 def run(root):
     root=Path(root);m,q,inputs,plan,guard=validate(root)
     put(root/'evidence/SDK_QUALIFICATION_INTENT.json',dict(request_id=q['request_id'],once=True,
@@ -199,6 +209,7 @@ def run(root):
     try:
         phase(root,'COMPILE',plan['compile_argv'],guard=guard,deadline=deadline)
         phase(root,'LINK',plan['link_argv'],guard=guard,deadline=deadline)
+        runtime_link(root,plan['binary'],guard=guard,deadline=deadline)
         pin=SdkClientPins(executable=plan['binary'],executable_sha256=filehash(plan['binary']),
             client_task=inputs['original_task'],urdf=inputs['urdf'],urdf_sha256=inputs['urdf_sha256'],
             mobile_archive=inputs['mobile_archive'],core_archive=inputs['core_archive'],

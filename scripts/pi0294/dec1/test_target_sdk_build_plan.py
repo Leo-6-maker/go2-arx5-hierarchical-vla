@@ -55,6 +55,8 @@ def test_delivered_transitive_dependencies_are_explicit_pinned_inputs_and_runtim
     assert '-Wl,-rpath-link,/dependency-root/usr/lib/x86_64-linux-gnu' in argv
     assert '-Wl,-rpath,/dependency-root/usr/lib/x86_64-linux-gnu' in argv
     assert value['vendor_sources_compiled']==[] and value['vendor_binaries_modified'] is False
+    assert '-Wl,--disable-new-dtags' in argv
+    assert set(value['runtime_library_directories'])=={'/dependency-root/usr/lib/x86_64-linux-gnu','/usr/lib'}
 
 
 @pytest.mark.parametrize('sdk',['/sdk,inject/sdk','/sdk:inject/sdk','/sdk\ninject/sdk'])

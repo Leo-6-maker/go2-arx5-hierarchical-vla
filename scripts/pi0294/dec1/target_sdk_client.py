@@ -145,7 +145,7 @@ class SdkClient:
             env=dict(os.environ)
             # The SDK companion must not inherit the sim clock/actuation
             # interposers used by a full-body task subprocess.
-            env.pop('LD_PRELOAD',None);env.pop('LD_AUDIT',None)
+            env.pop('LD_PRELOAD',None);env.pop('LD_AUDIT',None);env.pop('LD_LIBRARY_PATH',None)
             env.update(CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
             self.process = subprocess.Popen(argv, stdin=subprocess.PIPE, stdout=self.log, stderr=self.log,
                                             pass_fds=(response,), bufsize=0, start_new_session=True,env=env)

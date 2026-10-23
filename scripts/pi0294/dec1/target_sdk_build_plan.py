@@ -71,10 +71,19 @@ def plan(flags_bytes, link_bytes, *, sdk_root, sealed_client_directory, register
     link.extend(['-Wl,--push-state,--no-as-needed', *dependencies, '-Wl,--pop-state',
                  '-Wl,-rpath-link,'+dependency_directory, '-Wl,-rpath,'+dependency_directory])
     inputs.extend(dependencies)
+    # RUNPATH only applies to direct dependencies. The installed original SDK
+    # also has indirect dependencies (including HPIPM); retain every pinned
+    # shared-library directory as transitive RPATH on OUR binary only.
+    runtime_directories = sorted({str(PurePosixPath(p).parent) for p in inputs
+                                  if p.endswith('.so') or '.so.' in PurePosixPath(p).name})
+    need(all(not any(c in p for c in (',', ':', '\n')) for p in runtime_directories),
+         'UNAMBIGUOUS_ALL_RUNTIME_DIRECTORIES')
+    link.extend(['-Wl,--disable-new-dtags', '-Wl,-rpath,'+':'.join(runtime_directories)])
     return dict(status='PURE_COMPANION_BUILD_PLAN_NOT_NATIVE_ADMISSION',
                 compile_argv=compile_argv, link_argv=link, cwd=out,
                 new_sources=[source+'/target_sdk_client.cpp', source+'/target_sdk_constraints.hpp'],
                 existing_link_inputs=inputs, dependency_file=out+'/target_sdk_client.d', binary=binary,
                 dependent_shared_library_sha256=dependencies,
+                runtime_library_directories=runtime_directories,
                 vendor_sources_compiled=[], vendor_binaries_modified=False,
                 model_constructors_during_build=0, native_action=False)
