@@ -1,5 +1,30 @@
 # Current Science Status
 
+## 2026-10-24 审核摘要
+
+完整审核基线36925d27，增量复核至 **5d9f2a82a6aa4830481f7197298f666cdc4aad0c（01:46:45 SGT）**。原生读数01:45:53、回执01:46:11；本页是固定时间快照，不是实时集群监控。
+
+| 项目 | 最后可证状态 |
+|---|---|
+| 源域学生确认 | N1：T1 10/20、T2 4/20，尚未达到该轮各14/20 |
+| A/B | A4096完整；B完整恢复点2048，历史2970不是完整checkpoint |
+| 当前作业 | Vanda1481574已转R，server-resident owner健康；MODEL_START已放行，FIRST_UPDATE未放行，未观察新增更新 |
+| 失败与成本 | 保留B2970的922丢失更新及1481489 pre-CUDA失败；当前campaign9666更新，3522未保留 |
+| PBS | 17/28已实际采用；已用DEC1/global14/25，余原3matrix提交位置 |
+| 源终点评估 | 旧B0 14/48（9成功5失败），新A/B完整终点评估未完成 |
+| 目标与主矩阵 | 目标本轮原生资格未完成；core64=0，NOT_RUN |
+| 最近截止 | 10-25 02:29:56 SGT停新作业／候选；10-26 02:29:56硬收尾 |
+
+[详细审核](docs/reviews/2026-10-24_GR00T_WBC_PROGRESS_AUDIT.md) · [长程计划V3](docs/roadmap/2026-10-24_GR00T_WBC_LONG_HORIZON_PLAN_V3.md) · [当前接续交接](docs/handover/2026-10-24/GR00T_WBC_NEXT_EXECUTION_HANDOFF.md) · [最新实际运行／启动放行回执](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/5d9f2a82a6aa4830481f7197298f666cdc4aad0c/reports/PI0294/design/parallel-science-20261022/VANDA_PRECUDA_RETRY_PBS17_28_UNIQUE_GPU_SUBMISSION_ACTUAL_20261024.json)
+
+沿用冻结WBC／任务数据优先、Vanda-only及原科学协议。当前运行源码仍为36925d27，GitHub文档更新不热切capsule；已批准且实际采用的范围不重复索权，后继提案不自动增加计算额度。
+
+发布并发复核：**5c9a6de763c6f74b7731809f72b2dd54e6ca47de，2026-10-24 01:59:22 SGT** 新增[1481574共享终局契约及精确身份CPU验证](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/5c9a6de763c6f74b7731809f72b2dd54e6ca47de/reports/PI0294/design/parallel-science-20261022/B_PRECUDA_RETRY1481574_SHARED_TERMINAL_CONTRACT_CPU_20261024.json)。它尚未产生原生终局审计／结算／关闭，未宣称首次更新；运行capsule仍为36925d27，上述科学与训练实际状态不变。
+
+## 历史状态记录
+
+以下原文保留；其中“Latest”、R/Q、未采用／未提交等字样只描述当时快照，不覆盖上方带日期的最新回执。
+
 **Latest: N1allocation06 failed its pre-model engineering gate,not learning.**
 [Exact raw-sample/resource receipt and repair](reports/PI0294/20261016T191445Z-localpc-mp1/ENGINEERING_ENDURANCE_AND_FAULT_INJECTION.json).
 673223F/exit1,653GPU seconds;source36164,parent40664,reservations0.
