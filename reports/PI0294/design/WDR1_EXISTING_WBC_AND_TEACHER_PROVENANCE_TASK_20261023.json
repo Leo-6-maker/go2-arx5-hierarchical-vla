@@ -487,5 +487,109 @@
       "teacher_source_independent_of_WBC": true,
       "original_CORR_R0_and_recipes_unchanged": true
     }
+  },
+  "latest_actual_MP1_loader_worker_forwarding_CPU": {
+    "schema": "WDR1_PV1_REAL_MP1_LOADER_FORWARDING_CPU_V1",
+    "status": "CPU_ENGINEERING_FIX_NOT_FULL_PV1_NATIVE_WORKER_QUALIFICATION",
+    "actual_call_path": [
+      "scripts/pi0294/pv1/training.py:run",
+      "scripts/pi0294/mp1/trainer.py:make_trainer_class",
+      "MP1Trainer.get_train_dataloader"
+    ],
+    "problem": "Actual MP1 override hardcoded num_workers0; changing TrainingArguments alone did not start data workers",
+    "change": {
+      "legacy_workers": 0,
+      "opt_in_workers": [
+        2,
+        4
+      ],
+      "multiprocessing": "spawn",
+      "prefetch_factor": 2,
+      "worker_torch_threads": 1,
+      "persistent_workers": false,
+      "pin_memory_explicit": true,
+      "original_data_seed_generator_and_consumed_cursor_preserved": true,
+      "training_recipe_batch32_microbatch2_accum16_precision_optimizer_and_loss_unchanged": true
+    },
+    "CPU_evidence": {
+      "new_cases": 16,
+      "selected_combined_cases": 39,
+      "related_subtests": 14,
+      "actual_torch_CPU_DataLoader_worker2_started": true,
+      "ordered_batch_tensors_equal": true,
+      "resume_cursor64_preserved": true,
+      "main_Python_NumPy_torch_RNG_unchanged": true,
+      "tiny_fixture_not_full_PV1_scientific_qualification": true
+    },
+    "native_adoption": false,
+    "current_old_numeric_capsules_unchanged": true,
+    "existing_PV1_TrainingArguments_still_worker0": true,
+    "actual_performance_history": {
+      "failed_job_mean_update_s": 6.5829385553,
+      "allocated_CPU_count": 36,
+      "active_process_affinity_count": 4,
+      "actual_workers": 0,
+      "whole_job_GPU_usagePerc": 23.489,
+      "steady_GPU_utilization_not_proven": true,
+      "no_new_speedup_claim": true
+    },
+    "current_Vanda_audit": {
+      "qualified_source": "7ac5617d1c2ea75b3f154487c42bc61ecaee374a",
+      "exact_CI_run": 39964074288,
+      "exact_CI_job": 120449236499,
+      "all12steps_success": true,
+      "full_readbacks": 5,
+      "distinct_finite_CPU600_native_started": true,
+      "PID": 3686647,
+      "procstart": "26932890",
+      "program_sha256": "9ab558783e283377a29e8fd3d00148d7ee8cfde0120426130c24d6752cf88e4c",
+      "agent_connection_required": false,
+      "CPU_from_original_held54000": true,
+      "last_exact_observation": "COMPLETED_EXIT0_PERSISTED_AND_INDEPENDENT_FULL_RESULT_READBACK",
+      "full_state_audit_or_settlement_not_yet_claimed": false,
+      "full_state_audit_pass": true,
+      "audit_result_sha256": "3f48052b44f3097658381bdaef70a8585700b3581664d2e3082d658b016c49eb",
+      "wrapper_CPU_actual_s": 214.80498733,
+      "checkpoints": [
+        {
+          "step": 1024,
+          "members": 15,
+          "cursor": 32768
+        },
+        {
+          "step": 2048,
+          "members": 15,
+          "cursor": 65536
+        }
+      ],
+      "original_probes": 12,
+      "unique_inodes": 53,
+      "bytes_streamed_with_independent_second_full_read": 92192549770,
+      "settlement_not_yet_claimed": true
+    },
+    "auth_findings": {
+      "normal_own_amgr_sshlogin": "RETURN1_NOT_ALLOWED_NO_ESCALATION_OR_RETRY",
+      "subsequent_own_project_read": {
+        "active": true,
+        "member": true,
+        "cluster": "stdct-mgmt-02"
+      },
+      "existing_normal_session_used": true,
+      "token_refresh_solution_still_required_for_resident_training_owner": true,
+      "no_password_or_token_in_report": true
+    },
+    "required_before_workers_native": [
+      "Full original126 plus existingC1 plus new139 PV1 processed-batch equivalence at real resume cursor",
+      "Aggregate parent and spawned-worker CPU accounting inside same request upper",
+      "Explicit sealed cold execution overlay recording physical workers; preserve original scientific recipe",
+      "Exact source CI/full readback and fresh complete resource/native admission",
+      "Measure real steady update time and native assigned GPU utilization after deployment"
+    ],
+    "goal": {
+      "status": "ACTIVE_INCOMPLETE",
+      "target_task_native_qualified": false,
+      "core64": 0,
+      "original_CORR2048_R0_and_frozen_WBC_unchanged": true
+    }
   }
 }
