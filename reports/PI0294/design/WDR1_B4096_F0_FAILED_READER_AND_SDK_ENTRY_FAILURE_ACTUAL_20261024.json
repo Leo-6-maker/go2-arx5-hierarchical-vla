@@ -1,6 +1,6 @@
 {
   "schema": "WDR1_F0_TRAIN_FAILED_READER_AND_SDK_ENTRY_FAILURE_ACTUAL_V1",
-  "status": "ACTUAL_F0_B4096_EFFECTS_READONLY_FULL_AUDIT_RUNNING_FAILED_SDK01_CLOSED",
+  "status": "ACTUAL_F0_FULL_STATE_AUDIT_PASS_FAILED_READER_FINANCIAL_CLOSEOUT_PENDING",
   "training": {
     "job_id": "1481574.stdct-mgmt-02",
     "source": "36925d272095d000ba1ad3ce5e9cdc44373fdce6",
@@ -17,15 +17,20 @@
     "qstat_CPU_s": 11706,
     "qstat_wall_s": 12063,
     "final_scheduler_GPU_telemetry_not_a_measured_training_utilization_claim": true,
-    "full1024_2048_4096_independent_audit": "RUNNING_ORIGINAL_480CPU_1800WALL_AUDITOR",
+    "full1024_2048_4096_independent_audit": "PASS_ORIGINAL_FULL15_MEMBER_AND_PROBES_ACTUAL_READONLY",
     "native_audit_models_queries_updates_physics": 0,
-    "independent_B4096_full_state_pass": false,
+    "independent_B4096_full_state_pass": true,
     "once_settlement": false,
     "current_Vanda_GPU_CPU_leases_closed": false,
     "settled_cumulative_updates_still": 9666,
     "settled_cumulative_queries_still": 1214,
     "settled_global_GPU_s_still": 91003,
-    "all_old_checkpoints_costs_and_3522_paid_lost_updates_preserved": true
+    "all_old_checkpoints_costs_and_3522_paid_lost_updates_preserved": true,
+    "B4096_complete_manifest_sha256": "be7ab71dee0fb68e17efae06a04ff8dde9cd776ff429c1d6c408ae01323a9c19",
+    "consumed_cursor": 131072,
+    "audit_CPU_s": 325.464087518,
+    "audited_conservative_GPU_s": 12145,
+    "audited_conservative_CPU_s": 12151.459820636
   },
   "failed_reader": {
     "owner_pid": 372546,
@@ -98,7 +103,8 @@
     "new_GPU_or_PBS": false,
     "new_physics_or_episode_scope": false,
     "T0_or_deadline_reset": false,
-    "new_science_or_checkpoint_reuse_GO": false
+    "new_science_or_checkpoint_reuse_GO": false,
+    "training_finish_clock": "Use immutable PBS_PROCESS_FINAL.effects.finished_epoch for post-training error order, not the auditor effect_summary read-time timestamp. Neither original timestamp is overwritten."
   },
   "validation": {
     "targeted_CPU_cases_passed": 119,
@@ -113,7 +119,9 @@
       "conclusion": "success",
       "steps": 12
     },
-    "actual_native_F0_and_PBS_final_bytes_used_as_history_not_mocked_success": true
+    "actual_native_F0_and_PBS_final_bytes_used_as_history_not_mocked_success": true,
+    "previous_full_local_source": "7869604080d35f511bbda2b1918de8816578ca47",
+    "latest_relevant_CPU_cases_passed": 120
   },
   "scientific_status": {
     "full_WDR1": "ACTIVE_INCOMPLETE",

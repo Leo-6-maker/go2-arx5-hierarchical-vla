@@ -35,6 +35,14 @@ def test_financial_failure_path_never_turns_original_owner_success_or_science_tr
     with pytest.raises(PermissionError):unit.original.owner(p,e,now_epoch=106)
 
 
+def test_auditor_summary_read_time_never_replaces_immutable_training_finish(failed):
+    e,v,p=failed;v['effects']['finished_epoch']=106
+    assert v['process_final']['effects']['finished_epoch']==100
+    assert call(failed)['accounting_close_permitted'] is True
+    v['process_final']['effects']['finished_epoch']=106
+    with pytest.raises(PermissionError):call(failed)
+
+
 @pytest.mark.parametrize('fault',['live_owner','live_wrapper','stale','other_PID','missing_stop','write_error','unknown_RPC',
     'extra_error','before_training','changed_grant','native_F1','missing_4096','wrong_error_identity','restarted_owner','timeout_inferred_exit'])
 def test_missing_true_F0_full_state_or_exact_known_failed_reader_cannot_close(failed,fault):
