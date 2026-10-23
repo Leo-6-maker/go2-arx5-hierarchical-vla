@@ -1,0 +1,94 @@
+{
+  "schema": "WDR1_ZERO_INTEGRATION_NATIVE_OBSERVER_CPU_AND_ACTUAL_ABI_V1",
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "status": "OWNED_IO_COMPONENT_COMPILED_WITH_CPU_MOCKS_ACTUAL_FROZEN_ABI_READ_ONLY_NOT_DISPATCHED",
+  "target_task_native_qualified": false,
+  "core64_cells": 0,
+  "precise_engineering_delta": {
+    "problem": "Original task_actuation produces the state journal only after positive integration and cannot provide a zero-step state boundary",
+    "new_owned_source": "scripts/pi0294/dec1/target_zero_observer.cpp",
+    "old_task_actuation_and_frozen_WBC_binaries_unchanged": true,
+    "capture": "Copy the actual GRTSTATE qpos, qvel, ctrl and contacts during the original frozen pause ACK rename, while the original native sim mutex remains held",
+    "no_polling_thread_reads_live_mjData": true,
+    "pause_entry": "ORIGINAL_GR00TTaskPause_ZERO_ONCE_AFTER_CURRENT_OWNER_REQUEST",
+    "ACK_caller": "ORIGINAL_PAUSE_METHOD_OR_INLINED_C_ABI_IN_EXACT_MAIN_EXECUTABLE_INODE",
+    "no_CXX_private_layout_or_field_offset_assumptions": true,
+    "all_public_integration_entries_denied_before_original": [
+      "mj_step", "mj_step1", "mj_step2", "mj_Euler", "mj_RungeKutta", "mj_implicit"
+    ],
+    "native_state_dimensions": [34, 32, 20],
+    "native_step_and_time_cap": 0,
+    "cleanup": "Disable captures, acknowledge observer stopped, then permit owned native process teardown; reject deleting observed data first",
+    "no_qpos_qvel_ctrl_controller_or_solver_write": true
+  },
+  "validation": {
+    "new_compiled_CPU_ABI_mock_cases": 20,
+    "related_CPU_passed": 176,
+    "private_parser_tests_skipped": 12,
+    "mock_compilation_optimization": "O2",
+    "tests_are_not_MuJoCo_model_ROS_or_native_qualification": true,
+    "fixture_clock": "FIXED_REALTIME_ONLY_IN_FAKE_CPU_LIBRARY_NEVER_A_NATIVE_DISPATCH_INPUT",
+    "covered": [
+      "ACTUAL_PACKET_AND_CONTACT_BYTES_COPIED_ONLY_WITH_ORIGINAL_MUTEX_HELD",
+      "ORIGINAL_METHOD_AND_C_ABI_INLINING_CALLERS",
+      "ALL_SIX_INTEGRATION_ENTRY_ORIGINAL_EFFECT_MARKERS_ABSENT",
+      "NONZERO_CLOCK_NONFINITE_STATE_SECOND_DATA_POINTER_AND_WRONG_RUNTIME_REJECT",
+      "UNRELATED_ACK_CALLER_AND_DELETE_BEFORE_STOPPED_REJECT",
+      "OLD_OUTPUT_WRONG_ROLE_NONZERO_QUOTA_EXPIRED_DEADLINE_AND_MISSING_NATIVE_RENAME_REJECT"
+    ],
+    "previous_zero_quota_source": "046ff30254514605acb461792b517267ddba963f",
+    "previous_exact_CI_run": 40040948760,
+    "previous_exact_CI_job": 120711637375,
+    "previous_all12_success": true,
+    "previous_full_text_and_Git_blob_files": 10,
+    "this_source_exact_CI_and_readback": "REQUIRED_AFTER_COMMIT_NOT_CLAIMED_HERE"
+  },
+  "new_actual_read_only_ABI_evidence": {
+    "receipt_sha256": "17e75214c309abd2cce791ad91cf13298939d3cdc19592fd837d66269139f7c5",
+    "linked_original_runtime": "libmujoco.so.3.2.7",
+    "MuJoCo_header_version": 327,
+    "actual_mujoco_header_sha256": "5000ece36eee31541447b426e83fdf7a216472a8527244be7d2f3abe44ed68d7",
+    "actual_mjdata_header_sha256": "3f32fbe69b9b7bc748727c30cadcda84e71d50f6bca6723629a6565a5ae785a1",
+    "actual_mjmodel_header_sha256": "00ca48f7d9c06f49e6414b62f1d39cdbc9a2018b56738bd4fe43c7fec93e22ed",
+    "actual_mjtnum_header_sha256": "23e59bf6fe00d62509f5e4f75ffe2d53877cb5e913731675092fa46c21abb738",
+    "all_ten_used_C_function_signatures_match_actual_header": true,
+    "frozen_binary_imports_mj_step_and_rename": true,
+    "actual_exported_pause_method": "_ZN6RL_Sim14PauseTaskClockEm",
+    "actual_exported_pause_method_bytes": 1183,
+    "metadata_only_runtime_package_lookup_no_native_import": true,
+    "Core_CPU_s": 0.006346873,
+    "metadata_child_CPU_s": 0.013885,
+    "Core_and_LOCAL_ledgers_and_control_metadata_unchanged": true,
+    "models_physics_builds_new_native_workers_or_writes": 0
+  },
+  "native_dispatch_still_requires": [
+    "CURRENT_STANDARD_ENTRY_MANIFEST_AND_REGISTERED_ZERO_IO_ROLE_BEFORE_NATIVE_IMPORT",
+    "ACTUAL_PAIRED_EIGHT_DIMENSION_RESERVATIONS_AND_FRESH_ALL_REMAINING_WORK_FORECAST",
+    "ALL_CLOSED_SDK_COSTS_AND_ANY_NEW_IO_COST_OR_HOLD_CORRECTLY_INCLUDED",
+    "FULL_REAL_HEADER_AND_NATIVE_BINARY_OVERLAY_BUILD_AND_ENVIRONMENT_SEAL",
+    "ACTUAL_ORIGINAL_RECEIVER_FEEDBACK_INSTALL_ACK_AND_ZERO_PAUSE_STOP_READBACK",
+    "ACTUAL_EFFECTS_ONCE_SETTLEMENT_AND_LEASE_CLOSE"
+  ],
+  "scientific_boundary": {
+    "zero_IO_is_not_native_prefix_safety": true,
+    "SDK12_is_not_fullbody_prediction": true,
+    "original_H40_mapped_H40_native_prefix_T1_T2_and_CORR2048_R0_core64_still_required": true,
+    "no_source_Teacher_success_or_hold_RMS_gate_added": true,
+    "no_old_pilot_or_closed_counter_replay": true
+  },
+  "SDK_projection": {
+    "old_journal_UNKNOWN_preserved": true,
+    "old_write_reissued": false,
+    "previous_known_zero_exception_human_question": "STILL_PENDING_NO_DUPLICATE_REQUEST"
+  },
+  "unchanged": {
+    "T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "all_caps_costs_checkpoints_failure_history_and_final_protection": true,
+    "new_GPU_PBS_or_native_physics": 0,
+    "automation": "PAUSED"
+  }
+}
