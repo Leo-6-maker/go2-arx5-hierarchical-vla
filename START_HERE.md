@@ -1,4 +1,17 @@
 Latest material progress: job1481574 has actual first-update release and native B2074 observed (26 new committed updates from2048),17 real queries/2loads/unknown[]. Healthy server-resident owner/CONFIRMED heartbeat. Original runtime36925d27 unchanged. Independent cold terminal helper5c9a6de7 exactCI39999597863 all12 success/full7files; original finite audit/once settlement/dual close/LOCAL projection connected and temp-tested, refuses live owner before transport. No actual terminal audit/settle/close. Source and task qualification remain separate; wholeWDR1 ACTIVE/core64=0. Actual: `reports/PI0294/design/parallel-science-20261022/B1481574_FIRST_UPDATES_AND_COLD_TERMINAL_CONNECTED_ACTUAL_20261024.json`.
+## 2026-10-24 进度审核与长程计划 V3
+
+证据截至 **5d9f2a82，2026-10-24 01:46:45 SGT**（原生读数01:45:53；回执01:46:11）。A4096完整；B恢复点2048；**新Vanda作业1481574已唯一提交并转R、server-resident owner健康，MODEL_START已放行，FIRST_UPDATE未放行且未观察新更新**。PBS17/28已实际采用，当前已用global25／DEC1 14；保持同一owner，禁止重复采用或qsub。目标任务资格仍未完成，core64=0；旧学生完整确认仍T1 10/20、T2 4/20。
+
+- [进度审核：实际结果、失败、成本与证据边界](docs/reviews/2026-10-24_GR00T_WBC_PROGRESS_AUDIT.md)
+- [长程计划V3：阶段、验收、分支与完整预算](docs/roadmap/2026-10-24_GR00T_WBC_LONG_HORIZON_PLAN_V3.md)
+- [当前接续交接：保护现作业、最小目标接入、原时钟收尾](docs/handover/2026-10-24/GR00T_WBC_NEXT_EXECUTION_HANDOFF.md)
+
+此次为文档更新，未改变运行capsule、科学GO、预算或截止。10-25 02:29:56 SGT停新作业／候选，10-26 02:29:56硬收尾。下方旧状态按其原时间解释；真正接续仍刷新唯一owner原生状态。
+
+发布并发复核：**5c9a6de763c6f74b7731809f72b2dd54e6ca47de，2026-10-24 01:59:22 SGT** 新增[1481574共享终局契约及精确身份CPU验证](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/5c9a6de763c6f74b7731809f72b2dd54e6ca47de/reports/PI0294/design/parallel-science-20261022/B_PRECUDA_RETRY1481574_SHARED_TERMINAL_CONTRACT_CPU_20261024.json)。它尚未产生原生终局审计／结算／关闭，未宣称首次更新；运行capsule仍为36925d27，上述科学与训练实际状态不变。
+
+---
 
 Cold terminal preparation for the actual live job1481574: `reports/PI0294/design/parallel-science-20261022/B_PRECUDA_RETRY1481574_SHARED_TERMINAL_CONTRACT_CPU_20261024.json`. Existing source90 checks extracted into shared pure predicates and retained; new binding pins actual source36925d27/request/manifests/owner instances. 2456 PI0294 +1499 subtests pass. Actual full captured request identity passes, and live-owner terminal path refuses before transport. No native audit/settle/close yet; active training capsule unchanged, WDR1/core64 remain incomplete.
 
