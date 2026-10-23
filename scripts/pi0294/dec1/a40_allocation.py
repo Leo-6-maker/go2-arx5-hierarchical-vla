@@ -124,6 +124,8 @@ def request_scope(request, *, now):
     from . import b_heartbeat_recovery as b
     new_b=b.enabled(r)
     if new_b:b.lineage(r)
+    from . import b_saved_state_reuse as saved
+    saved.request(r)
     if (type(r.get('submit_count')) is not int or not 1<=r['submit_count']<=(25 if new_b else 24)
             or re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,127}',r.get('run_uuid','')) is None
             or r['run_uuid']==r['campaign_run_uuid']):

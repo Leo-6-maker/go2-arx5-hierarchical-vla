@@ -17,6 +17,7 @@ from .segmented_training import enabled,limits
 from . import storage_expansion as storage
 from . import zero_update_recovery as zero
 from . import b_heartbeat_recovery as b
+from . import b_saved_state_reuse as saved
 
 TERMINAL=('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB')
 
@@ -27,6 +28,7 @@ def fail(message):
 
 def validate_item(row):
     lineage(row)
+    saved.request(row)
     storage.enabled(row)
     zero.enabled(row)
     wall=finite(row.get('reserved_H200_s'),integer=True)
@@ -72,6 +74,7 @@ def validate_item(row):
 def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, campaign_view, now_epoch):
     r,request_sha=_read(request_bytes);a.request_scope(r,now=now_epoch)
     v,d=deepcopy(value),deepcopy(DEC1_value)
+    if saved.request(r):saved.validate_adopted(v,d)
     b_scope=b.enabled(r)
     if b_scope:
         b.validate_adopted(v,d)
@@ -144,7 +147,7 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
         additional_output_upper_bytes=r['additional_output_upper_bytes'],submitted_intent_epoch=now_epoch)
     if 'CPU_envelope_profile' in r:row['CPU_envelope_profile']=r['CPU_envelope_profile']
     for key in ('recovery_authorization_release','recovery_adoption_sha256','training_lineage_key',
-                'storage_authorization_release','storage_grant_sha256','heartbeat_recovery_release','heartbeat_recovery_grant_sha256','zero_update_resume_release','zero_update_resume_grant_sha256',*b.SCOPE_KEYS):
+                'storage_authorization_release','storage_grant_sha256','heartbeat_recovery_release','heartbeat_recovery_grant_sha256','zero_update_resume_release','zero_update_resume_grant_sha256',*b.SCOPE_KEYS,*saved.SCOPE_KEYS):
         if key in r:row[key]=r[key]
     if enabled(r):row.update(segmented_authorization_release=r['segmented_authorization_release'],
         segmented_grant_sha256=r['segmented_grant_sha256'],segment_stop_step=r['training_block']['stop_after_step'])

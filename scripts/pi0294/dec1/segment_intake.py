@@ -17,6 +17,7 @@ from .lost_save_recovery import LINEAGE,RECIPE
 from .segmented_training import RELEASE,limits
 from .recovery32_intake import owned
 from .long_training import probe_receipt
+from . import b_saved_state_reuse as saved
 
 BINDING='plans/SEGMENT2048_SOURCE_BINDING.private.json'
 PROOF='plans/SEGMENT2048_FULL_STATE_IMPORT.private.json'
@@ -46,6 +47,9 @@ def valid_binding(value,arm):
         'terminal_sha256','lease_sha256','checkpoint1024_sha256','checkpoint2048_sha256','probe_result_sha256'}
     new_b=recovery_seed(value,arm)
     if new_b:required.add('B_heartbeat_recovery_seed')
+    if saved.binding(value):
+        if not new_b:fail('APPROVED_FAILED_SAVE_REQUIRES_ORIGINAL_B_RECOVERY_SEED')
+        required.add(saved.KEY)
     if (set(value)!=required or value['arm']!=arm or arm not in ('A_CONTROL','B_COVERAGE')
             or re.fullmatch(r'[0-9]+\.stdct-mgmt-02',value['job_id']) is None
             or not Path(value['root']).is_absolute()
@@ -87,8 +91,10 @@ def probes(root,arm):
     return result,files
 
 
-def audit_closed_source(binding,*,recipe,dataset):
+def audit_closed_source(binding,*,recipe,dataset,reuse_grant_bytes=None):
     arm=binding['arm'];valid_binding(binding,arm);root=Path(binding['root'])
+    failed_saved=saved.binding(binding)
+    if failed_saved:saved.grant(reuse_grant_bytes)
     if root.is_symlink() or root.stat().st_uid!=os.getuid():fail('OWN_CLOSED_REGISTERED_SOURCE_ROOT')
     b=read(root/'OUTPUT_BINDING.private.json');lease_path=owned(b['lease'])
     paths={'run_manifest_sha256':root/'RUN_MANIFEST.json','terminal_sha256':root/'TERMINAL_RECONCILIATION.json',
@@ -96,14 +102,16 @@ def audit_closed_source(binding,*,recipe,dataset):
     before={k:sha(owned(p,root if k!='lease_sha256' else None)) for k,p in paths.items()}
     if any(binding[k]!=v for k,v in before.items()):fail('ACTUAL_IMMUTABLE_MANIFEST_CLOSURE_AND_LEASE')
     m=read(paths['run_manifest_sha256']);terminal=read(paths['terminal_sha256']);lease=read(lease_path)
+    if failed_saved:saved.terminal(terminal)
     if (b.get('run_root')!=str(root) or b.get('uid')!=os.getuid() or b.get('run_manifest_sha256')!=binding['run_manifest_sha256']
             or m['code'].get('vla_commit')!=binding['source_sha']
             or m.get('authority',{}).get('segmented_authorization_release')!=RELEASE
             or lease.get('status')!='CLOSED' or lease.get('run_uuid')!=root.name
             or lease.get('terminal_receipt_sha256')!=binding['terminal_sha256']
-            or terminal.get('status')!='CLOSED_SEGMENT_FULL_STATE_PRESERVED'
+            or not failed_saved and terminal.get('status')!='CLOSED_SEGMENT_FULL_STATE_PRESERVED'
             or terminal.get('job_id')!=binding['job_id'] or terminal.get('recoverable_full_state') is not True
-            or terminal.get('global_step')!=2048 or terminal.get('settlement',{}).get('unknown_effects')!=[]):
+            or not failed_saved and terminal.get('global_step')!=2048
+            or terminal.get('settlement',{}).get('unknown_effects')!=[]):
         fail('CLOSED2048_KNOWN_EFFECTS_NOT_A_RUNNING_OR_FAILED_PARTIAL_SOURCE')
     new_b=recovery_seed(binding,arm)
     if new_b:
@@ -133,7 +141,7 @@ def audit_closed_source(binding,*,recipe,dataset):
         fail('EXACT_TWELVE_COMPLETED_ORIGINAL_TRAIN_PROBES')
     if before!={k:sha(p) for k,p in paths.items()}:fail('SOURCE_METADATA_CHANGED_DURING_AUDIT')
     return dict(schema='DEC1_SEGMENT2048_CLOSED_FULL_STATE_IMPORT_PROOF_V1',
-        status='PASS_CLOSED2048_FULL_STATES_AND_ORIGINAL1024_PROBES_NOT_TRAINING_ADMISSION',
+        status=('PASS_CLOSED_FAILED_SAVED2048_FULL_STATES_NOT_TRAINING_ADMISSION' if failed_saved else 'PASS_CLOSED2048_FULL_STATES_AND_ORIGINAL1024_PROBES_NOT_TRAINING_ADMISSION'),
         authority_release=RELEASE,arm=arm,training_lineage_key=(b.LINEAGE if new_b else (LINEAGE if arm=='A_CONTROL' else arm)),
         source=dict(binding),global_step=2048,actual_consumed_cursor=65536,recipe_sha256=digest(recipe),
         statistics_sha256=R0,checkpoint_members=complete,probe_files=files,new_GPU_PBS_models_queries_updates_physics=0)
@@ -143,11 +151,13 @@ def verify_copy(root,*,recipe,dataset):
     from .a40_training_context import sealed
     root=Path(root);binding=sealed(root,BINDING);proof=sealed(root,PROOF);arm=binding['arm']
     valid_binding(binding,arm)
+    failed_saved=saved.binding(binding)
+    if failed_saved:saved.grant(owned(root/saved.PLAN,root).read_bytes())
     new_b=recovery_seed(binding,arm)
     if new_b:
         from . import b_heartbeat_recovery as b
     expected=dict(schema='DEC1_SEGMENT2048_CLOSED_FULL_STATE_IMPORT_PROOF_V1',
-        status='PASS_CLOSED2048_FULL_STATES_AND_ORIGINAL1024_PROBES_NOT_TRAINING_ADMISSION',
+        status=('PASS_CLOSED_FAILED_SAVED2048_FULL_STATES_NOT_TRAINING_ADMISSION' if failed_saved else 'PASS_CLOSED2048_FULL_STATES_AND_ORIGINAL1024_PROBES_NOT_TRAINING_ADMISSION'),
         authority_release=RELEASE,arm=arm,training_lineage_key=(b.LINEAGE if new_b else (LINEAGE if arm=='A_CONTROL' else arm)),
         source=binding,global_step=2048,actual_consumed_cursor=65536,recipe_sha256=digest(recipe),statistics_sha256=R0,
         new_GPU_PBS_models_queries_updates_physics=0)
@@ -178,7 +188,15 @@ def stage(root,*,recipe,dataset,guard,allocation):
         fail('EXACT_FUNDED_NATIVE2048_TO4096_COPY_SCOPE')
     binding=sealed(root,BINDING);arm=request['training_block']['arm']
     if binding['arm']!=arm:fail('NO_OTHER_ARM_IMPORTED')
-    proof=audit_closed_source(binding,recipe=recipe,dataset=dataset)
+    reuse_grant=None
+    if saved.binding(binding):
+        if not saved.request(request):fail('FAILED_SAVE_REQUIRES_EXPLICIT_REQUEST_SCOPE')
+        reuse_grant=owned(root/saved.PLAN,root).read_bytes();saved.grant(reuse_grant)
+        manifest=read(root/'RUN_MANIFEST.json')
+        if (any(manifest.get('authority',{}).get(k)!=v for k,v in saved.scope().items())
+                or manifest['execution']['sealed_inputs'].get(saved.PLAN)!=sha(root/saved.PLAN)):
+            fail('FAILED_SAVE_GRANT_SEALED_IN_CURRENT_MANIFEST')
+    proof=audit_closed_source(binding,recipe=recipe,dataset=dataset,reuse_grant_bytes=reuse_grant)
     if proof!=sealed(root,PROOF):fail('ACTUAL_SOURCE_EQUALS_PRESEALED_CLOSED_PROOF')
     source=Path(binding['root']);policy=sealed(root,POLICY)
     parent=Path(sealed(root,'plans/PV1_TRAIN_INPUTS.private.json')['CORR_parent_checkpoint'])

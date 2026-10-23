@@ -72,6 +72,8 @@ def recompute(*, request_bytes, ledger_bytes, DEC1_ledger_bytes, snapshot_bytes,
     elif zero_update_bytes is not None:fail('NO_ZERO_UPDATE_CAP_WITH_LEGACY_REQUEST')
     from . import b_heartbeat_recovery as b
     b_scope=b.enabled(r)
+    from . import b_saved_state_reuse as saved
+    if saved.request(r):saved.validate_adopted(h,d)
     if b_scope:
         if b_recovery_bytes is None:fail('EXACT_B_RECOVERY_GRANT_BYTES')
         b.grant(b_recovery_bytes);b.validate_adopted(h,d)
