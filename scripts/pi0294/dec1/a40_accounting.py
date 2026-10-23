@@ -203,7 +203,12 @@ def settle(value, DEC1_value, *, request_id, native_proof, effects, now_epoch):
     if row['status']=='NATIVE_TERMINAL':fail('ALREADY_SETTLED_NO_SECOND_CHARGE')
     if v.get('pending_updates') or v.get('unknown_effects') or d.get('unknown_effects'):
         fail('PRESERVE_OTHER_UNKNOWN_EFFECTS_BEFORE_TERMINAL_RECONCILIATION')
-    expected=dict(schema='VAP1_NATIVE_A40_SOURCE_TERMINAL_V1',job_id=row['job_id'],job_state='F',
+    terminal_schema='VAP1_NATIVE_A40_SOURCE_TERMINAL_V1'
+    if native_proof.get('schema')=='VAP1_A40_KNOWN_FINAL_NATIVE_FILES_ACCOUNTING_V1':
+        from .b_retry2970_finality import validate_accounting_proof
+        validate_accounting_proof(native_proof,row=row,effects=effects,now_epoch=now_epoch)
+        terminal_schema='VAP1_A40_KNOWN_FINAL_NATIVE_FILES_ACCOUNTING_V1'
+    expected=dict(schema=terminal_schema,job_id=row['job_id'],job_state='F',
         project=row['project'],job_name=row['job_name'],owner='e1192548',ngpus=1,
         request_id=request_id,submission_nonce=row['submission_nonce'],recorded_process_terminal=True)
     if (any(native_proof.get(k)!=n for k,n in expected.items())

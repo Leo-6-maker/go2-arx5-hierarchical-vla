@@ -591,5 +591,118 @@
       "core64": 0,
       "original_CORR2048_R0_and_frozen_WBC_unchanged": true
     }
+  },
+  "latest_failed2970_known_finality_CPU": {
+    "schema": "FAILED2970_KNOWN_REAL_PBS_FINALITY_AND_CURRENT_NATIVE_FILES_CPU_V1",
+    "status": "QUALIFIED_CPU_COMPOSITION_PENDING_EXACT_CI_AND_NATIVE_ONCE_SETTLEMENT",
+    "actual_prior_PBS": {
+      "job": "1480817.stdct-mgmt-02",
+      "state": "F",
+      "Exit_status": 1,
+      "error": "HeartbeatLost",
+      "observed_epoch": 1792756412.9734638,
+      "request_sha256": "8e437f152edf4c2f3f28c11795d31594b65fca9f6fb91666e8017edb13e3be24",
+      "retained_full_readback_sha256": "e4d4c3b99ae080c8ec1888d0f9d8a779a43cc43ab4ab2787a1f669a0ff46b2b0",
+      "Rerunable": false,
+      "run_count": 1
+    },
+    "completed_independent_audit": {
+      "result_sha256": "3f48052b44f3097658381bdaef70a8585700b3581664d2e3082d658b016c49eb",
+      "completed_receipt_sha256": "afeb97399fb0c068bdbbbd755a0c90f3870a4a0f98571064075d3fdd29f102db",
+      "CPU_actual_s": 214.80498733,
+      "full_states": [
+        1024,
+        2048
+      ],
+      "members_per_state": 15,
+      "original_probes": 12,
+      "unique_inodes": 53,
+      "bytes_streamed_including_independent_second_full_read": 92192549770
+    },
+    "current_native_read": {
+      "observed_epoch": 1792765595.2169087,
+      "all_exact_terminal_artifacts_unchanged": true,
+      "actual_complete_effect_journal": {
+        "updates": 922,
+        "queries": 17,
+        "loads": 2,
+        "last_step": 2970,
+        "pending": [],
+        "unknown": []
+      },
+      "old_owner_inactive": true,
+      "auditor_absent": true,
+      "new_PBS_observation": false,
+      "new_native_write": false
+    },
+    "preserved_scheduler_read_failures": {
+      "exact_history_read_timeouts": 3,
+      "original25_second_read_timeout_unchanged": true,
+      "no_timeout_terminal_inference": true,
+      "no_blind_fourth_history_read": true
+    },
+    "known_finality_accounting": {
+      "basis": "REAL_PRIOR_F1_NONRERUNNABLE_PLUS_FRESH_EXACT_NATIVE_TERMINAL_FILES_ACCOUNTING_ONLY",
+      "original_PBS_proof_and_timestamp_preserved": true,
+      "explicit_distinct_accounting_schema": "VAP1_A40_KNOWN_FINAL_NATIVE_FILES_ACCOUNTING_V1",
+      "original_generic_terminal_freshness_gate_unchanged": true,
+      "current_native_files_max_age_s": 120,
+      "exact_job_request_source_and_all3_full_actual_readback_hashes_pinned": true,
+      "new_training_admission": false,
+      "current_training_queue_project_quota_must_still_be_fresh": true
+    },
+    "authoritative_semantics": {
+      "source": "https://2021.help.altair.com/2021.1.2/PBS%20Professional/PBSUserGuide2021.1.2.pdf",
+      "section": "9.1.2.2 / UG164",
+      "finding": "Finished jobs are no longer running and their stored information cannot be altered; qrerun/qrun/qalter do not operate on finished jobs"
+    },
+    "pure_actual_capture": {
+      "status": "ACTUAL_CAPTURED_BYTES_PURE_KNOWN_FINALITY_ONCE_SETTLEMENT_PASSED_NOT_NATIVE",
+      "evaluated_at_captured_read_epoch": true,
+      "new_native_write": false,
+      "updates": 9666,
+      "queries": 1214,
+      "GPU_s": 90738.0,
+      "DEC1_GPU_s": 70244.0,
+      "CPU_conservative_s": 11023,
+      "global_output_after": 607510477636,
+      "DEC1_output_after": 579182717764,
+      "prior_PBS_observed_epoch": 1792756412.9734638,
+      "new_accounting_kind": "VAP1_A40_KNOWN_FINAL_NATIVE_FILES_ACCOUNTING_V1"
+    },
+    "CPU_tests": {
+      "new_cases": 41,
+      "combined": 104,
+      "related_subtests": 13,
+      "private_temp_once_IO": 5,
+      "exact_captured_pair_arithmetic": true,
+      "full_PI0292_PI0294": 2379,
+      "full_related_subtests": 1644,
+      "private_parser_skips": 13
+    },
+    "prior_loader_code": {
+      "source": "f31c7fb84d50e0e60c6ca79119c6bcc613335494",
+      "CI_run": 39966977551,
+      "CI_job": 120459277216,
+      "all12steps_success": true,
+      "full_raw_and_Gitblob_readbacks": 5,
+      "full_PV1_processed_data_qualification": false,
+      "native_adopted": false
+    },
+    "current_native_financial_state": {
+      "settled_updates": 8744,
+      "settled_queries": 1197,
+      "failed922_not_yet_settled": true,
+      "all_failed_reservations_preserved": true,
+      "GPU_or_CPU_closure_not_claimed": true
+    },
+    "goal": {
+      "status": "ACTIVE_INCOMPLETE",
+      "all_future_training_and_background_control": "VANDA",
+      "Hopper_origin": "UNAVAILABLE_FENCED_NOT_FRESH",
+      "target_task_native_qualified": false,
+      "core64": 0,
+      "original_caps_clocks_final_protection_recipes_and_frozen_WBC_unchanged": true
+    }
   }
 }
