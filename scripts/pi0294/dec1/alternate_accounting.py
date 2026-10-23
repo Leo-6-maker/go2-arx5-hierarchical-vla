@@ -110,6 +110,9 @@ def validate_items(value):
             # The exact B1024 grant retains both failed attempts and permits
             # the two remaining B segments; it does not open another arm.
             max_source=10
+            from . import b_system_startup_retry as retry
+            if retry.FIELD in value:
+                retry.validate_global(value);max_source=11
         if len(source)>max_source or sum(s['status'] not in TERMINAL for s in source)>1:
             fail('BOUNDED_SOURCE_JOBS_AND_ONE_ACTIVE_A40_CHAIN')
         for s in source:source_item(s)

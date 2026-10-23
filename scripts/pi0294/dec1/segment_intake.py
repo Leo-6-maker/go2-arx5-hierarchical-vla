@@ -189,6 +189,8 @@ def stage(root,*,recipe,dataset,guard,allocation):
     binding=sealed(root,BINDING);arm=request['training_block']['arm']
     if binding['arm']!=arm:fail('NO_OTHER_ARM_IMPORTED')
     reuse_grant=None
+    from . import b_system_startup_retry as retry
+    retry.admitted(root,read(root/'RUN_MANIFEST.json'),request)
     if saved.binding(binding):
         if not saved.request(request):fail('FAILED_SAVE_REQUIRES_EXPLICIT_REQUEST_SCOPE')
         reuse_grant=owned(root/saved.PLAN,root).read_bytes();saved.grant(reuse_grant)

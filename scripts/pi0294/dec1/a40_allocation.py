@@ -126,7 +126,9 @@ def request_scope(request, *, now):
     if new_b:b.lineage(r)
     from . import b_saved_state_reuse as saved
     saved.request(r)
-    if (type(r.get('submit_count')) is not int or not 1<=r['submit_count']<=(25 if new_b else 24)
+    from . import b_system_startup_retry as retry
+    retry_scope=retry.request(r)
+    if (type(r.get('submit_count')) is not int or not 1<=r['submit_count']<=(26 if retry_scope else (25 if new_b else 24))
             or re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,127}',r.get('run_uuid','')) is None
             or r['run_uuid']==r['campaign_run_uuid']):
         fail('EXACT_CHILD_RUN_AND_GLOBAL_SUBMISSION_ORDINAL')
@@ -243,6 +245,10 @@ def validate_native(*, now, user, hostname, job_id, job, request_bytes, ledger,
     if b_scope:
         b.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
         if not b.enabled(budget_proof):fail('B_RECOVERY_SCOPE_IN_NATIVE_BUDGET_PROOF')
+    from . import b_system_startup_retry as retry
+    if retry.request(r):
+        retry.validate_adopted(ledger,budget_proof['DEC1_native_recovery_view'])
+        if not retry.enabled(budget_proof):fail('RETRY_SCOPE_IN_FRESH_NATIVE_PROOF')
     admit_resources(ledger['used'],ledger['reserved'],{},
         b_recovery_ledgers=(ledger,budget_proof['DEC1_native_recovery_view']) if b_scope else None)
     if (budget_proof.get('schema')!='VAP1_A40_RECOMPUTED_REMAINING_WORK_ADMISSION_V1'

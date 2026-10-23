@@ -15,11 +15,14 @@ def pbs_limit(ledger):
     if b.FIELD not in ledger:
         return TOTAL['PBS_submissions']
     b.validate_global(ledger)
+    from scripts.pi0294.dec1 import b_system_startup_retry as retry
+    if retry.FIELD in ledger:
+        retry.validate_global(ledger);return 26
     return 25
 
 
 def recovery_resource_kwargs(ledger):
-    return dict(b_recovery_global=ledger) if pbs_limit(ledger)==25 else {}
+    return dict(b_recovery_global=ledger) if pbs_limit(ledger)>=25 else {}
 
 
 def project_eligible(project, today):
@@ -51,13 +54,13 @@ def admit_resources(used, reserved, request, *, final=False, active_GPUs=0, requ
         h,d=b_recovery_ledgers;b.validate_adopted(h,d)
         if used!=h.get("used") or reserved!=h.get("reserved"):
             raise PermissionError("PV1_B_RECOVERY_ACTUAL_ADOPTED_LEDGER_VECTORS")
-        caps["PBS_submissions"]=25
+        caps["PBS_submissions"]=pbs_limit(h)
     if b_recovery_global is not None:
         from scripts.pi0294.dec1 import b_heartbeat_recovery as b
         b.validate_global(b_recovery_global)
         if b_recovery_ledgers is not None or used!=b_recovery_global.get("used") or reserved!=b_recovery_global.get("reserved"):
             raise PermissionError("PV1_B_RECOVERY_EXACT_GLOBAL_LEDGER")
-        caps["PBS_submissions"]=25
+        caps["PBS_submissions"]=pbs_limit(b_recovery_global)
     for key, cap in caps.items():
         reserve = FINAL.get(key, 0)
         if key == 'physics_ticks':

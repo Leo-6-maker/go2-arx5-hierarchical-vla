@@ -376,6 +376,8 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
                 if r.get('zero_update_resume_release') is not None else None),
             b_recovery_bytes=((root/'plans/B1_HEARTBEAT_RECOVERY_AUTHORIZATION.json').read_bytes()
                 if r.get('B_heartbeat_recovery_release') is not None else None),
+            retry_bytes=((root/'plans/B2_SYSTEM_STARTUP_RETRY_PBS_AUTHORIZATION.json').read_bytes()
+                if r.get('B_system_startup_retry_release') is not None else None),
             now_epoch=time.time(),job_id=allocation['job_id'])
         def stable(value):
             v=deepcopy(value);v.pop('observed_epoch',None);v['forecast'].pop('projected_finish_epoch',None);return v

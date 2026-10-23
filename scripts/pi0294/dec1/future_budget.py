@@ -23,7 +23,12 @@ def fail(reason):
     raise PermissionError('DEC1_FUTURE_'+reason)
 
 
-def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None):
+def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None):
+    if retry_bytes is not None:
+        from .b_system_startup_retry import grant
+        grant(retry_bytes)
+        if b_recovery_bytes is None:fail("RETRY_REQUIRES_PRIOR_B_GRANT")
+        return dict(effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes,b_recovery_bytes),PBS_submissions=15)
     if b_recovery_bytes is not None:
         from .b_heartbeat_recovery import grant
         grant(b_recovery_bytes)
@@ -75,8 +80,8 @@ def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,s
         Core_storage_bytes=128*GIB,transfer_bytes=128*GIB)
 
 
-def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None):
-    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes,b_recovery_bytes)
+def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None):
+    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes,b_recovery_bytes,retry_bytes)
     global_caps=dict(old.CAPS)
     if storage_bytes is not None:
         from .storage_expansion import RELEASE as STORAGE_RELEASE,GRANT_SHA as STORAGE_SHA
@@ -98,12 +103,17 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
         if b.enabled(value)!=(b_recovery_bytes is not None):fail('EXACT_B_RECOVERY_SNAPSHOT_PLAN_SCOPE')
     if b_recovery_bytes is not None:
         global_caps.update(PBS_submissions=25,Hopper_storage_bytes=615*GIB)
+    from . import b_system_startup_retry as retry
+    for value in (snapshot,plan):
+        if retry.enabled(value)!=(retry_bytes is not None):fail("EXACT_RETRY_GRANT_PLAN_SNAPSHOT_SCOPE")
+    if retry_bytes is not None:global_caps["PBS_submissions"]=26
     segment=segment_bytes is not None
     if segment:
         from .segmented_training import GRANT_SHA as SEGMENT_SHA,RELEASE as SEGMENT_RELEASE,RATE,CPU_PROFILE
         if (snapshot.get('segmented_grant_sha256')!=SEGMENT_SHA or plan.get('segmented_authorization_release')!=SEGMENT_RELEASE
                 or plan.get('seconds_per_update_upper',0)<RATE):fail('SEGMENT_FRESH_SCOPE_AND_ACTUAL_COST_BOUND')
     progress,progress_sha=old._read(progress_bytes)
+    if retry.enabled(progress)!=(retry_bytes is not None):fail('EXACT_RETRY_PROGRESS_SCOPE')
     lost=0
     if recovery_bytes is not None:
         from .lost_save_recovery import GRANT_SHA,RELEASE
