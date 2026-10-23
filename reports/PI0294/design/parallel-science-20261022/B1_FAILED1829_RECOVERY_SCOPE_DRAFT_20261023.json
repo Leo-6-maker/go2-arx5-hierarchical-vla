@@ -1,0 +1,293 @@
+{
+  "schema": "VAP1_B1_FAILED1829_EXACT_RECOVERY_SCOPE_DRAFT_V1",
+  "status": "DRAFT_REQUIRES_NEW_HUMAN_APPROVAL_NOT_ADOPTED",
+  "actual_failure_report": "reports/PI0294/design/parallel-science-20261022/B1_FAILED1829_ACTUAL_AUDIT_AND_DUAL_CLOSURE_20261023.json",
+  "actual_cumulative_updates": 7720,
+  "latest_full_state": {
+    "step": 1024,
+    "cursor": 32768,
+    "members": 15,
+    "checkpoint_manifest_sha256": "7da8aad42b835edb1181c38daaa1859ffb94516bce693609ebde4e2c10a38e2b",
+    "origin_job_id": "1478518.stdct-mgmt-02",
+    "original_12_probe_result_sha256": "074ffbcce72e9917caecd70a2855ca67eb9b60afbb20dd6daf9ab98343130154"
+  },
+  "old_B_lineage_preserved": {
+    "name": "B_COVERAGE",
+    "actual_failed_step": 1829,
+    "paid_updates": 1829,
+    "unrecoverable_since_full_state": 805
+  },
+  "proposed_recovery": {
+    "new_named_lineage": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+    "new_request_new_registration_new_leases": true,
+    "seed_step": 1024,
+    "seed_is_imported_not_new_updates": true,
+    "original_CORR0_B_model_family_unchanged": true,
+    "A_weights_or_optimizer_inherited": false,
+    "first_segment": [
+      1024,
+      2048
+    ],
+    "second_segment": [
+      2048,
+      4096
+    ],
+    "remaining_updates": 3072,
+    "required_cumulative_updates": 10792,
+    "original_12_B1024_probes_preserved_no_repeat": true,
+    "original_B_arm_recipe_R0_WBC_S1_gripper_scoring_unchanged": true
+  },
+  "narrow_changes": {
+    "DEC1_cumulative_updates": [
+      9987,
+      10792
+    ],
+    "DEC1_new_PBS": [
+      13,
+      14
+    ],
+    "global_PBS": [
+      24,
+      25
+    ],
+    "DEC1_GPU_site_output_GiB": [
+      483,
+      549
+    ],
+    "global_GPU_site_output_GiB": [
+      550,
+      615
+    ]
+  },
+  "why_five_changes": {
+    "updates": "7720 + (2048-1024) + (4096-2048) =10792; preserve all805 paid lost updates",
+    "PBS": "actual DEC1/global9/20 +two training and original three matrix jobs =14/25",
+    "storage": "Retain failed B1 full70GB bound and every checkpoint; replace the unfinished B1 output envelope rather than claim retirement credit. Minimum rounded caps549/615GiB include original global final40GiB."
+  },
+  "full_remaining_original_envelope_preserved": {
+    "H200_s": 131700,
+    "PBS_submissions": 5,
+    "optimizer_updates": 3072,
+    "episode_starts": 88,
+    "neural_queries": 7098,
+    "physics_ticks": 2816000,
+    "engine_starts": 7134,
+    "Core_CPU_s": 200360,
+    "Hopper_CPU_s": 193520,
+    "local_CPU_s": 7440,
+    "transfer_bytes": 10468982784,
+    "Hopper_storage_bytes": 149577189564,
+    "Core_storage_bytes": 17968398336,
+    "local_storage_bytes": 0
+  },
+  "conservative_projection_all_dimensions": {
+    "H200_s": {
+      "DEC1_actual_or_conservative_classified_used": 55164.0,
+      "global_actual_or_conservative_classified_used": 75658.0,
+      "full_remaining_original_envelope": 131700,
+      "global_protected_final_inside_total": 72000,
+      "DEC1_projected_total": 186864.0,
+      "DEC1_proposed_cap": 187200,
+      "DEC1_margin": 336.0,
+      "global_projected_total": 279358.0,
+      "global_proposed_cap": 345600,
+      "global_margin": 66242.0
+    },
+    "PBS_submissions": {
+      "DEC1_actual_or_conservative_classified_used": 9,
+      "global_actual_or_conservative_classified_used": 20,
+      "full_remaining_original_envelope": 5,
+      "global_protected_final_inside_total": 0,
+      "DEC1_projected_total": 14,
+      "DEC1_proposed_cap": 14,
+      "DEC1_margin": 0,
+      "global_projected_total": 25,
+      "global_proposed_cap": 25,
+      "global_margin": 0
+    },
+    "optimizer_updates": {
+      "DEC1_actual_or_conservative_classified_used": 7720,
+      "global_actual_or_conservative_classified_used": 7720,
+      "full_remaining_original_envelope": 3072,
+      "global_protected_final_inside_total": 0,
+      "DEC1_projected_total": 10792,
+      "DEC1_proposed_cap": 10792,
+      "DEC1_margin": 0,
+      "global_projected_total": 10792,
+      "global_proposed_cap": 16384,
+      "global_margin": 5592
+    },
+    "episode_starts": {
+      "DEC1_actual_or_conservative_classified_used": 5,
+      "global_actual_or_conservative_classified_used": 343,
+      "full_remaining_original_envelope": 88,
+      "global_protected_final_inside_total": 100,
+      "DEC1_projected_total": 93,
+      "DEC1_proposed_cap": 136,
+      "DEC1_margin": 43,
+      "global_projected_total": 531,
+      "global_proposed_cap": 1000,
+      "global_margin": 469
+    },
+    "neural_queries": {
+      "DEC1_actual_or_conservative_classified_used": 126,
+      "global_actual_or_conservative_classified_used": 1180,
+      "full_remaining_original_envelope": 7098,
+      "global_protected_final_inside_total": 9000,
+      "DEC1_projected_total": 7224,
+      "DEC1_proposed_cap": 14000,
+      "DEC1_margin": 6776,
+      "global_projected_total": 17278,
+      "global_proposed_cap": 48000,
+      "global_margin": 30722
+    },
+    "physics_ticks": {
+      "DEC1_actual_or_conservative_classified_used": 30621,
+      "global_actual_or_conservative_classified_used": 10681025,
+      "full_remaining_original_envelope": 2816000,
+      "global_protected_final_inside_total": 3200000,
+      "DEC1_projected_total": 2846621,
+      "DEC1_proposed_cap": 5000000,
+      "DEC1_margin": 2153379,
+      "global_projected_total": 16697025,
+      "global_proposed_cap": 40000000,
+      "global_margin": 23302975
+    },
+    "engine_starts": {
+      "DEC1_actual_or_conservative_classified_used": 54,
+      "global_actual_or_conservative_classified_used": 29671,
+      "full_remaining_original_envelope": 7134,
+      "global_protected_final_inside_total": 0,
+      "DEC1_projected_total": 7188,
+      "DEC1_proposed_cap": 12000,
+      "DEC1_margin": 4812,
+      "global_projected_total": 36805,
+      "global_proposed_cap": 100000,
+      "global_margin": 63195
+    },
+    "Core_CPU_s": {
+      "DEC1_actual_or_conservative_classified_used": 172750.36220953896,
+      "global_actual_or_conservative_classified_used": 172750.36220953896,
+      "full_remaining_original_envelope": 200360,
+      "global_protected_final_inside_total": 0,
+      "DEC1_projected_total": 373110.36220953893,
+      "DEC1_proposed_cap": 576000,
+      "DEC1_margin": 202889.63779046107,
+      "global_projected_total": 373110.36220953893,
+      "global_proposed_cap": 1152000,
+      "global_margin": 778889.6377904611
+    },
+    "Hopper_CPU_s": {
+      "DEC1_actual_or_conservative_classified_used": 96621.0,
+      "global_actual_or_conservative_classified_used": 103291.82213385901,
+      "full_remaining_original_envelope": 193520,
+      "global_protected_final_inside_total": 0,
+      "DEC1_projected_total": 290141.0,
+      "DEC1_proposed_cap": 345600,
+      "DEC1_margin": 55459.0,
+      "global_projected_total": 296811.82213385904,
+      "global_proposed_cap": 576000,
+      "global_margin": 279188.17786614096
+    },
+    "local_CPU_s": {
+      "DEC1_actual_or_conservative_classified_used": 48863.974682509,
+      "global_actual_or_conservative_classified_used": 48863.974682509,
+      "full_remaining_original_envelope": 7440,
+      "global_protected_final_inside_total": 0,
+      "DEC1_projected_total": 56303.974682509,
+      "DEC1_proposed_cap": 57600,
+      "DEC1_margin": 1296.025317491003,
+      "global_projected_total": 56303.974682509,
+      "global_proposed_cap": 172800,
+      "global_margin": 116496.025317491
+    },
+    "transfer_bytes": {
+      "DEC1_actual_or_conservative_classified_used": 39401710893,
+      "global_actual_or_conservative_classified_used": 58789433985,
+      "full_remaining_original_envelope": 10468982784,
+      "global_protected_final_inside_total": 0,
+      "DEC1_projected_total": 49870693677,
+      "DEC1_proposed_cap": 137438953472,
+      "DEC1_margin": 87568259795,
+      "global_projected_total": 69258416769,
+      "global_proposed_cap": 322122547200,
+      "global_margin": 252864130431
+    },
+    "Hopper_storage_bytes": {
+      "DEC1_actual_or_conservative_classified_used": 439040111428,
+      "global_actual_or_conservative_classified_used": 467367871300,
+      "full_remaining_original_envelope": 149577189564,
+      "global_protected_final_inside_total": 42949672960,
+      "DEC1_projected_total": 588617300992,
+      "DEC1_proposed_cap": 589484261376,
+      "DEC1_margin": 866960384,
+      "global_projected_total": 659894733824,
+      "global_proposed_cap": 660351221760,
+      "global_margin": 456487936
+    },
+    "Core_storage_bytes": {
+      "DEC1_actual_or_conservative_classified_used": 93046439936,
+      "global_actual_or_conservative_classified_used": 114521276416,
+      "full_remaining_original_envelope": 17968398336,
+      "global_protected_final_inside_total": 0,
+      "DEC1_projected_total": 111014838272,
+      "DEC1_proposed_cap": 137438953472,
+      "DEC1_margin": 26424115200,
+      "global_projected_total": 132489674752,
+      "global_proposed_cap": 322122547200,
+      "global_margin": 189632872448
+    },
+    "local_storage_bytes": {
+      "DEC1_actual_or_conservative_classified_used": 8589934592,
+      "global_actual_or_conservative_classified_used": 8589934592,
+      "full_remaining_original_envelope": 0,
+      "global_protected_final_inside_total": 0,
+      "DEC1_projected_total": 8589934592,
+      "DEC1_proposed_cap": 8589934592,
+      "DEC1_margin": 0,
+      "global_projected_total": 8589934592,
+      "global_proposed_cap": 21474836480,
+      "global_margin": 12884901888
+    }
+  },
+  "projection_status": "PURE_COMPLETE_RESOURCE_ARITHMETIC_UNDER_PROPOSED_SCOPE_NOT_NATIVE_ADMISSION",
+  "tightest_existing_GPU_margin_s": 336,
+  "original_GPU_CPU_query_physics_transfer_caps_unchanged": true,
+  "original_final": {
+    "GPU_s": 72000,
+    "Hopper_storage_bytes": 42949672960
+  },
+  "original_T0_epoch": 1792348196,
+  "original_clock": {
+    "stop_new_jobs_epoch": 1792866596,
+    "stop_training_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_closeout_epoch": 1792952996
+  },
+  "new_owner_must_keep_original_native_watchdog_and_RPC_timeouts": true,
+  "queue_fix": {
+    "module": "scripts/pi0294/dec1/queue_read_guard.py",
+    "CPU_tests": 17,
+    "native_adopted": false,
+    "queue_failures_never_empty_success": true,
+    "typed_read_failure_only_uses_existing_three_read_retry_policy": true,
+    "mutation_errors_still_unknown_and_no_retry": true,
+    "underlying_qselect_stderr_preserved": true,
+    "related_CPU_tests": 58,
+    "related_CPU_subtests": 18
+  },
+  "execution_before_new_training": [
+    "EXACT_NEW_HUMAN_GRANT_AND_TWO_LEDGER_ADOPTION_WITH_PRESERVED_FAILURE_LINEAGE",
+    "PUBLISH_PIN_AND_NATIVE_READBACK_COLD_RECOVERY_SOURCE_AND_QUEUE_GUARD",
+    "CLOSED_SOURCE02_AND_TWO_COUNTER_COST_PROJECTIONS_AT_REAL_INACTIVE_FAILED_B1_BOUNDARY_WITH_NO_SECOND_GLOBAL_CHARGE",
+    "FRESH_FULL_NATIVE_QUEUE_SITE_STORAGE_ALL_RESOURCE_ADMISSION",
+    "ONE_NEW_REQUEST_B1024_TO2048_FULL_STATE_AUDIT_ONCE_SETTLE_DUAL_CLOSE",
+    "NEW_FRESH_ADMISSION_B2048_TO4096"
+  ],
+  "current_authority_still_enforced": true,
+  "approval_received": false,
+  "new_native_training_submitted": false,
+  "all_checkpoints_retained": true,
+  "retirement_credit": 0,
+  "goal_complete": false
+}

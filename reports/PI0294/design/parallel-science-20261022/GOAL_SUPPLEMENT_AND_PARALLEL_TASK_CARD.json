@@ -7,7 +7,7 @@
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
     "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET",
-    "actual_work": "A4096_CLOSED_B1_NATIVE_R_SOURCE02_KNOWN_CLOSED_TARGET_ZERO_TIME_SCENE_COUNTER_PASS_NOT_TASK_QUALIFIED",
+    "actual_work": "A4096_CLOSED_B1_FAILED1829_B1024_FULL_AUDITED_ONCE_SETTLED_DUAL_CLOSED_TARGET_ZERO_TIME_COUNTER_PASS_TASK_PENDING",
     "resume_API_available": false,
     "no_goal_recreated_or_usage_reset": true
   },
@@ -31,31 +31,31 @@
     "lineage": "B_COVERAGE",
     "start_step": 0,
     "target_step": 2048,
-    "native_state": "R",
-    "native_observed_epoch": 1792723707.9280658,
+    "native_state": "F",
+    "native_observed_epoch": 1792724614.2312522,
     "owner_service": "vap1-a40-zero-update-b1-owner-01",
-    "owner_pid": 567538,
-    "owner_status": "ACTIVE",
-    "GPU_lease": "ACTIVE",
-    "CPU_control_lease": "ACTIVE",
+    "owner_pid": 0,
+    "owner_status": "FAILED_ABSENT",
+    "GPU_lease": "CLOSED",
+    "CPU_control_lease": "CLOSED",
     "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
     "unknown_effects": [],
-    "new_training_effects": "ACTUAL_RETURNED_NOT_TERMINALLY_SETTLED",
+    "new_training_effects": "ACTUAL_FAILED_ONCE_SETTLED",
     "training_completion_claimed": false,
     "used": {
-      "H200_s": 61462,
-      "optimizer_updates": 5891,
-      "neural_queries": 1151,
+      "H200_s": 75658,
+      "optimizer_updates": 7720,
+      "neural_queries": 1180,
       "PBS_submissions": 20
     },
     "reserved": {
-      "H200_s": 22560,
-      "optimizer_updates": 2048,
-      "neural_queries": 29
+      "H200_s": 0,
+      "optimizer_updates": 0,
+      "neural_queries": 0
     },
-    "CPU_reserved_s": 54000,
+    "CPU_reserved_s": 0,
     "model_start_release": true,
-    "last_returned_training_step": 1786,
+    "last_returned_training_step": 1829,
     "first_update_release": true
   },
   "workstreams": [
@@ -1131,5 +1131,23 @@
     ],
     "goal_complete": false,
     "report": "reports/PI0294/design/WDR1_TARGET_ACTUAL_CURRENT_COUNTER_AND_CLOSED_B2_COSTS_20261023.json"
+  },
+  "current_B1_failed1829": {
+    "status": "FAILED1829_KNOWN_EFFECTS_ONCE_SETTLED_B1024_FULL_AUDITED_DUAL_CLOSED",
+    "full_checkpoint": {
+      "1024": {
+        "complete_sha256": "7da8aad42b835edb1181c38daaa1859ffb94516bce693609ebde4e2c10a38e2b",
+        "members": 15,
+        "actual_consumed_cursor": 32768
+      }
+    },
+    "GPU_lease_sha256": "28a7252b7b05a9d7cdf7fdd7c1ff168f3ee303d5e97392e361b9562c2564e524",
+    "CPU_lease_sha256": "3333b13b3370a68ee2ba6bd4ceb5fdac908ed5bcab66c574bf7512a608c0a774",
+    "independent_dual_readback_sha256": "cb8fc0acfb400a503c416556a2a0880e421f24cd768dd4b1ae567410c9a79135",
+    "goal_complete": false,
+    "actual_report": "reports/PI0294/design/parallel-science-20261022/B1_FAILED1829_ACTUAL_AUDIT_AND_DUAL_CLOSURE_20261023.json",
+    "recovery_draft": "reports/PI0294/design/parallel-science-20261022/B1_FAILED1829_RECOVERY_SCOPE_DRAFT_20261023.json",
+    "approval_received": false,
+    "latest_minimum_cumulative_updates": 10792
   }
 }
