@@ -1,0 +1,129 @@
+{
+  "schema": "B_RETRY1_TOKEN_EXPIRED_HEARTBEAT_FAILURE2970_ACTUAL_V1",
+  "observed_epoch": 1792756868.8783824,
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "actual_owner": {
+    "unit": "vap1-a40-b-recovery1-b2-retry1-owner-01",
+    "MainPID": 0,
+    "ActiveState": "failed",
+    "ExecMainStatus": 1,
+    "stop_epoch": 1792755974.8454535,
+    "error": "PermissionError: VANDA_PROJECT_TOKEN_EXPIRED",
+    "last_running_RPC": "CONFIRMED_HEARTBEAT",
+    "entry_SHA256": "7c1c098888e4ff9051da5a2edea95137e131cc87ee3778c850c9bffdebe61ade",
+    "entry_or_capsule_hot_modified": false,
+    "owner_restarted": false
+  },
+  "actual_native": {
+    "job_id": "1480817.stdct-mgmt-02",
+    "request_id": "28efd26a-f579-454b-b14a-a4c9847cbfa2",
+    "request_SHA256": "8e437f152edf4c2f3f28c11795d31594b65fca9f6fb91666e8017edb13e3be24",
+    "source_sha": "36b5ed27d41f71a74767c17f0e028149c34ac8a1",
+    "observed_epoch": 1792756412.9734638,
+    "job_state": "F",
+    "Exit_status": 1,
+    "process_error": "HeartbeatLost: MP1_SINGLE_OWNER_HEARTBEAT_LOST_AFTER_SERVER_REVALIDATION",
+    "start_step": 2048,
+    "last_native_step": 2970,
+    "committed_updates": 922,
+    "query_attempts": 17,
+    "model_load_attempts": 2,
+    "pending_updates": [],
+    "unknown_query_intents": [],
+    "effect_journal_complete": true,
+    "last_returned_block_step": 2048,
+    "original_4096_goal_achieved": false,
+    "complete_Vanda_account_queue_read": true,
+    "readback_SHA256": "e4d4c3b99ae080c8ec1888d0f9d8a779a43cc43ab4ab2787a1f669a0ff46b2b0"
+  },
+  "transport": {
+    "initial_exact_read_prevented_before_dispatch_by_missing_Hopper_mux": true,
+    "Vanda_canonical_mux_independently_healthy": true,
+    "exact_Vanda_only_read_reused_healthy_mux_and_original_deadline": true,
+    "no_fresh_fallback_inside_RPC": true,
+    "Hopper_old_master_missing": true,
+    "normal_key_authentication_rejected": true,
+    "one_normal_password_authentication_rejected_no_automatic_retry": true,
+    "manual_original_Hopper_connection_restore_requested": true,
+    "no_authentication_bypass_or_credential_persistence": true
+  },
+  "failure_closeout": {
+    "success_terminal648_not_executed": true,
+    "new_failure_contract": "scripts/pi0294/dec1/b_retry2970_failure.py",
+    "CPU_cases_and_subtests": "27passed/65subtests with unchanged success/failure contracts",
+    "actual_captured_request_native_F1_and922_effects_pure_checked": true,
+    "independent_two15member_state_and_original12probe_streaming_audit": "PREPARED_COMPILED_NOT_EXECUTED_PENDING_EXACT_CONTRACT_CI",
+    "native_settlement": false,
+    "GPU_lease_closed": false,
+    "CPU_lease_closed": false,
+    "independent_closure_readback": false,
+    "reservations_released": false,
+    "all_costs_and_checkpoints_preserved": true,
+    "settlement_blocker": "Hopper regular authentication unavailable; parent dual ledger inaccessible.",
+    "readonly_Vanda_audit_still_possible": true
+  },
+  "cumulative": {
+    "last_settled_updates": 8744,
+    "unsettled_actual_updates": 922,
+    "total_after_once_settlement_expected": 9666,
+    "last_settled_global_GPU_s": 82257,
+    "last_settled_queries": 1197,
+    "PBS_global_used": 23,
+    "PBS_DEC1_used": 12,
+    "existing_current_reserved_GPU_s": 22560,
+    "existing_current_reserved_CPU_s": 54000,
+    "existing_current_reserved_updates": 2048,
+    "existing_current_reserved_queries": 29,
+    "existing_current_reserved_output_bytes": 70000000000,
+    "not_yet_settled": true
+  },
+  "scope": {
+    "current_DEC1_updates_cap": 10792,
+    "current_DEC1_PBS_cap": 15,
+    "current_global_PBS_cap": 26,
+    "current_DEC1_GPUsite_GiB": 549,
+    "current_global_GPUsite_GiB": 615,
+    "latest_adopted_grant": "e48db225033ba0510230d96b43f58c0743b05912",
+    "new_scope_not_granted_or_adopted": true,
+    "new_recovery_request_registry_prepaid_qsub": 0,
+    "original_T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "final_GPU_s": 72000,
+    "final_output_GiB": 40
+  },
+  "arithmetic_only_pending_audit_and_fresh_dual_ledgers": {
+    "if_only_original2048_full_state_survives": true,
+    "minimum_cumulative_updates_for_one_new2048segment": 11714,
+    "current_cap_shortfall": 922,
+    "old_922_paid_updates_must_not_roll_back": true,
+    "one_new_training_plus_original_three_matrix_PBS_would_require": {
+      "DEC1": 16,
+      "global_parent": 27
+    },
+    "no_authorization_or_native_admission_inferred": true
+  },
+  "target_input_code": {
+    "source": "068b64a4adf45bab2bf34ff08cf2115a46821ade",
+    "CI_run": 39948666350,
+    "CI_job": 120397480955,
+    "status": "completed/success/all12",
+    "five_full_raw_Gitblob_readbacks": true,
+    "new_CPU_cases": 31,
+    "prior_full_CPU": "2214passed/1644subtests/13private_skips",
+    "native_target_qualification": false,
+    "core64": 0,
+    "new_Core_child_or_physics": false
+  },
+  "next": [
+    "Finish genuinely independent full saved-state/probe audit on Vanda, keeping F/Exit1 and all paid effects.",
+    "Once ordinary Hopper authentication is restored, fresh exact ledgers plus once typed failed settlement and both lawful lease closures/readback; no automatic resends.",
+    "Only after actual state audit, full fresh remaining-work review and any precisely necessary new human scope grant may a new cold recovery be registered. Do not silently exceed current10792/15/26/549/615 or restart this failed request."
+  ],
+  "publication": {
+    "exact_new_failure_contract_CI": "PENDING",
+    "published_report_is_not_settlement_or_new_recovery_GO": true
+  }
+}
