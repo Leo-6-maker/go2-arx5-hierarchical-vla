@@ -68,7 +68,7 @@
     "inclusive_POOL_bytes": 8589934592
   },
   "validation": {
-    "new_targeted_CPU_cases": 70,
+    "new_targeted_CPU_cases": 71,
     "complete_temp_standard_entry_and_original_forecast": true,
     "real_process_success_failure_and_no_replay": true,
     "actual_installed_SDK_compiler_or_constructor": false,
@@ -77,8 +77,11 @@
       "cases_passed": 2620,
       "subtests_passed": 1499,
       "private_runtime_skips": 13,
-      "seconds": 111.08
-    }
+      "seconds": 111.08,
+      "source": "a55e5e56f31f34172469904983b0a5fcfeac0c10"
+    },
+    "latest_clock_fix_CPU_cases": 77,
+    "latest_clock_fix_subtests": 10
   },
   "current_training_snapshot": {
     "job_id": "1481574.stdct-mgmt-02",
@@ -114,5 +117,24 @@
   ],
   "full_goal_status": "ACTIVE_INCOMPLETE",
   "target_task_native_qualified": false,
-  "core64": 0
+  "core64": 0,
+  "previous_qualified_entry_source": "a55e5e56f31f34172469904983b0a5fcfeac0c10",
+  "previous_entry_exact_CI": {
+    "run_id": 40021832581,
+    "job_id": 120648037331,
+    "status": "completed",
+    "conclusion": "success",
+    "all_steps": 12,
+    "full_readback_files": 16
+  },
+  "actual_original_SDK_inputs": {
+    "full_link_and_asset_files": 192,
+    "all_fixed_pins_matched": true,
+    "CPU_s": 0.046582741999999996,
+    "proof_sha256": "db926bce45d02b2b967c6833a3486b113380023a5e7f210700c1e00b5d2829d4",
+    "new_compilers": 0,
+    "new_SDK_constructors": 0,
+    "new_physics": 0
+  },
+  "clock_fix": "Sealed preparation epoch stays exact to original snapshot/request. The later native recomputation uses its real current time and requires the sealed preparation still within120s; never pass historical now or reset the original clock. Actual later-now and stale121s rejection tested."
 }

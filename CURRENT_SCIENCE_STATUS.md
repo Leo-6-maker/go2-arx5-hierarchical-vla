@@ -1,3 +1,5 @@
+SDK入口 a55e5e56 精确CI40021832581／job120648037331已全部12步成功，16份全文／Git blob回读一致。实际192项SDK链接与资产输入已完整只读回验；新Core child／编译／SDK构造／物理仍0。接续时修复了准备时间必须与稍后原生重算时间浮点相等的工程错误：封存输入时间不变，原生用真实当前时间重算并保留120秒新鲜度；77项相关CPU及10子测试通过。新修复CI仍须独立验证。
+
 原 SDK 的[完整 CPU 资金接线和当前标准入口](reports/PI0294/design/WDR1_SDK_COMPLETE_FUNDING_AND_CURRENT_STANDARD_ENTRY_CPU_20261024.json)已实现：同一矩阵准备 CPU 一次抵扣，全部原64格／88条件上界／三项矩阵作业及其他资源保持；当前双账本、role、lease、源码与标准入口全检查后才允许独立 SDK 有界编译／构造。70项针对性CPU验证通过，真实安装SDK及新Core child仍未执行。训练同一1481574在04:34:45 SGT实查B3802（新增1754）、17查询／2加载／unknown=[]，owner健康；未宣称完整保存4096。完整WDR1 ACTIVE/core64=0。
 
 # Current Science Status

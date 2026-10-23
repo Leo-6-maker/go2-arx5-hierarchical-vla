@@ -29,7 +29,7 @@ def packet(bundle,monkeypatch):
     return dict(parent=pb,Core=cb,q=q,x=x,args=args,space=space,VAP1=a)
 
 
-def reserve(v):
+def reserve(v,*,now_epoch=NOW):
     q,x=v['q'],v['x'];qb=unit.common.encode(q);xb=unit.common.encode(x)
     m=dict(schema='PI0294_PV1_CPU_CHILD_RUN_MANIFEST_V1',scope=unit.ROLE,run_uuid=q['child_run_uuid'],
         authority=dict(protocol_ref=unit.common.PARENT_AUTHORITY,amendments=[unit.common.AUTHORITY,unit.common.VAP1_AUTHORITY]),
@@ -39,7 +39,7 @@ def reserve(v):
             'REQUEST.json':unit.common.sha(qb),unit.PROJECTION:unit.common.sha(xb),
             unit.FORECAST:unit.common.sha(unit.forecast_pack(v['args']))}))
     return unit.reserve(v['parent'],v['Core'],qb,unit.common.encode(m),xb,v['VAP1'],
-        forecast_inputs=v['args'],namespace_proof=v['space'],now_epoch=NOW)
+        forecast_inputs=v['args'],namespace_proof=v['space'],now_epoch=now_epoch)
 
 
 def terminal(r,*,result=True,meter=True):
@@ -86,6 +86,14 @@ def test_unknown_result_and_meter_charge_full_upper_and_never_claim_closed_lease
     assert v['settlement']['scientific_verdict']=='SDK_ENGINEERING_UNKNOWN_FULL_UPPER_CHARGED'
     assert v['actual_once_Core_LOCAL_lease_close_and_independent_readback_still_required'] is True
     assert v['settlement']['target_task_native_qualified'] is False
+
+
+def test_native_recomputation_uses_actual_later_now_without_rewriting_sealed_inputs(packet):
+    before=deepcopy(packet);first=reserve(packet);later=reserve(packet,now_epoch=NOW+3)
+    assert packet==before and later['reservation']==first['reservation']
+    assert later['forecast']['projected_finish_epoch']==first['forecast']['projected_finish_epoch']+3
+    assert later['forecast']['admissible_forecast'] is True
+    with pytest.raises(PermissionError):reserve(packet,now_epoch=NOW+121)
 
 
 @pytest.mark.parametrize('fault',['original_clock','new_physics','too_late','expired','unsealed_grant','unsealed_plan',

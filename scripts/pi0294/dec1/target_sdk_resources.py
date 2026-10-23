@@ -137,7 +137,9 @@ def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_byte
         CPU_reserved_s=requested['CoreLab_CPU_s'],local_CPU_reserved_s=requested['local_CPU_s'],
         engine_starts_reserved=2,episode_starts_reserved=0,physics_ticks_reserved=0,unknown_effects=[]))
     args=deepcopy(forecast_inputs)
-    need(args.pop('now_epoch',now_epoch)==now_epoch,'SDK_ACTUAL_FORECAST_CLOCK_NOT_REBUILT')
+    prepared_at=args.pop('now_epoch',q['observed_epoch'])
+    need(prepared_at==q['observed_epoch'] and 0<=now_epoch-prepared_at<120,
+         'SDK_PREPARED_INPUT_CLOCK_AND_FRESH_ACTUAL_NATIVE_RECOMPUTATION')
     result=budget.forecast(parent_bytes=common.encode(parent),Core_bytes=common.encode(core),
         namespace_proof=namespace_proof,now_epoch=now_epoch,**args)
     need(result['admissible_forecast'] is True,'SDK_ALL_REMAINING_DIMENSIONS_AND_ORIGINAL_CLOCK')
