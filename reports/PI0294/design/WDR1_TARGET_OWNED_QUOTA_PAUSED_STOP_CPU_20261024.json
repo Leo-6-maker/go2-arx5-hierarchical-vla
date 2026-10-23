@@ -1,0 +1,82 @@
+{
+  "schema": "WDR1_TARGET_OWNED_QUOTA_PAUSED_STOP_CPU_V1",
+  "status": "COLD_IO_IMPLEMENTED_CPU_VERIFIED_NOT_NATIVE_ADOPTED",
+  "scientific_goal": "WDR1_EXISTING_INTERFACE_REUSE_SOURCE_TEACHER_INDEPENDENT_TARGET_NATIVE_QUALIFICATION",
+  "plan": "GROOT_WBC_LONG_HORIZON_V3_20261024",
+  "problem": "The original task worker owns step_quota and pause IO inside its expired R4 pilot loop. DEC1 target glue needs a one-owner STOP callback without invoking that old run, reopening its lease, or substituting the management HEAD clock.",
+  "change": {
+    "module": "scripts/pi0294/dec1/target_paused_stop.py",
+    "old_task_worker_run_invoked": false,
+    "new_controller_runner_or_simulator": false,
+    "same_owner_only_quota_writer_with_no_reopen": true,
+    "all_original_raw_mapped_native_safety_and_install_gates_still_required": true,
+    "quota_write_is_not_a_safety_verdict_or_admission": true,
+    "quota_unknown_latches_no_reissue": true,
+    "stop_latches_before_any_IO": true,
+    "stop_requires_actual_last_quota_pause_and_fresh_ACK": true,
+    "stop_requires_byte_equal_complete_native_state_before_after_and_after_durable_readback": true,
+    "stop_never_calls_mj_forward_or_edits_state": true,
+    "stop_does_not_advance_physics_or_publish_reference": true,
+    "unsafe_but_quiescent_state_may_stop_without_claiming_safety_or_task_success": true,
+    "no_quota_after_stop_or_unknown": true,
+    "existing_NativeStopReceipt_consumed_by_existing_progress_executor": true
+  },
+  "explicit_frozen_overlay": {
+    "file": "scripts/pi0294/dec1/frozen_assets/task_clock_82004c31.py",
+    "sha256": "82004c3171cc8cd2a0486f391595ac39424bad96882d12c5936c4eca55fe3b08",
+    "original_public_source": "5e361f6fa1f6226c6646ba47f3d8baa9e1455dc5",
+    "original_member": "scripts/pi0294/task_clock.py",
+    "equals_previously_full_native_readback_hash": true,
+    "management_HEAD_substitution_rejected": true,
+    "future_new_capsule_must_seal_overlay_explicitly": true,
+    "old_native_binaries_clock_and_controller_unmodified": true
+  },
+  "CPU_validation": {
+    "new_cases": 24,
+    "full_PI0294_cases_passed": 2480,
+    "full_PI0294_subtests_passed": 1499,
+    "private_runtime_tests_skipped": 13,
+    "full_local_regression_seconds": 109.89,
+    "fixtures": "TEMP_FILES_REAL_NATIVE_STATE_ABI_AND_EXACT_FROZEN_PYTHON_CLOCK_NOT_REAL_PHYSICS",
+    "original_paused_prediction_seam_uses_exact_frozen_require_pause": true,
+    "original_progress_executor_raw_gate_failure_consumes_IO_STOP_receipt_type": true,
+    "faults": [
+      "management_clock_changed", "already_escaped_or_existing_owner", "stale_pause_ACK",
+      "physics_FSM_history_or_clock_change", "running_boundary", "full_state_change",
+      "quota_changed", "unknown_quota_replace_return", "duplicate_or_nonfinite_pause_fields",
+      "symlinked_state", "foreign_owner_thread", "closeout_guard_failure",
+      "native_motion_after_durable_ACK_shaped_write", "STOP_or_quota_reissue"
+    ],
+    "ACK_shaped_file_alone_is_not_returned_STOP_or_native_evidence": true
+  },
+  "native_effects": {
+    "new_requests_submissions_models_queries_physics_constructors": 0,
+    "new_Core_child_or_native_ledger_write": false,
+    "active_training_capsule_modified": false,
+    "runtime_training_source": "36925d272095d000ba1ad3ce5e9cdc44373fdce6",
+    "active_training_job": "1481574.stdct-mgmt-02",
+    "native_target_task_qualified": false,
+    "core64_completed": 0
+  },
+  "existing_training_readback_context": {
+    "observed_native_epoch": 1792779237.7568362,
+    "job_id": "1481574.stdct-mgmt-02",
+    "state": "R",
+    "same_owner_and_wrapper_instances_live": true,
+    "heartbeat": "CONFIRMED",
+    "checkpoint_start_native_step": 2048,
+    "committed_native_step": 2211,
+    "new_updates": 163,
+    "actual_queries": 17,
+    "actual_model_loads": 2,
+    "unknown_effects": [],
+    "B4096_completed": false
+  },
+  "remaining": [
+    "Use this IO only in a new currently admitted DEC1 target owner; this is not a native deployment or qualification receipt.",
+    "The current owner must retain exclusive physical/quota ownership, invoke unchanged raw/mapped H40 and original target-native prefix safety, and verify installation ACK before increasing quota.",
+    "A running, unreached or unknown pause produces no STOP receipt. The original owner must retain unknown effects and perform its existing process teardown; this helper does not invent synchronous in-flight cancellation.",
+    "Actual frozen full-body prefix safety, actual feedback, installation ACK, complete STOP cases and T1/T2 qualification remain missing before the core64 target lane.",
+    "All new Core/LOCAL CPU, constructors, live/shadow, output and transfer costs require complete fresh admission and future projection before a new native child. No current scope, clock, budget or final protection is extended."
+  ]
+}
