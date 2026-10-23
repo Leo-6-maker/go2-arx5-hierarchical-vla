@@ -29,7 +29,7 @@ FROZEN_CLOCK_SHA='82004c3171cc8cd2a0486f391595ac39424bad96882d12c5936c4eca55fe3b
 REQUIRED_CODE=('target_sdk_qualification.py','target_sdk_resources.py','target_sdk_budget.py',
     'target_sdk_build_plan.py','target_sdk_client.py','target_sdk_constraint_wire.py',
     'target_sdk_client.cpp','target_sdk_constraints.hpp','target_zero_counter.py','target_zero_counter_contract.py')
-REQUIRED_CODE+=('target_sdk_package_assets.py',)
+REQUIRED_CODE+=('target_sdk_package_assets.py','target_sdk_cost_rows.py')
 
 
 def validate(root):
