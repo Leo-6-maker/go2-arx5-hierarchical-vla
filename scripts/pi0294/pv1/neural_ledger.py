@@ -14,6 +14,9 @@ from .resources import admit_resources
 def check(value,*,final=False,allow_unknown=False):
     from scripts.pi0294.dec1 import b_heartbeat_recovery as b
     b_scope=b.FIELD in value
+    from scripts.pi0294.dec1 import b_vanda_recovery2 as vanda2
+    vanda2_scope=vanda2.FIELD in value
+    if vanda2_scope:vanda2.validate_global(value)
     if b_scope:b.validate_global(value)
     if (type(final) is not bool or value['schema']!='PI0294_PV1_HOPPER_CAMPAIGN_LEDGER_V1'
             or type(allow_unknown) is not bool or value['authority_release']!=AUTHORITY
@@ -24,7 +27,7 @@ def check(value,*,final=False,allow_unknown=False):
             or value['used']['optimizer_updates']!=value['optimizer_updates']
             or value['used']['neural_queries']!=value['generation_queries']
             or value['used']['PBS_submissions']!=len(value['PBS_submissions'])
-            or len(value.get('training_runs',{}))>(6 if b_scope else 5)):
+            or len(value.get('training_runs',{}))>(7 if vanda2_scope else (6 if b_scope else 5))):
         raise PermissionError('PV1_EXACT_SINGLE_CAMPAIGN_COUNTERS_AND_UNKNOWN_EFFECT_FENCE')
     for key in ('new_storage_peak_bytes','new_storage_current_bytes','storage_reserved_bytes'):
         if key in value and (type(value[key]) is not int or value[key]<0):

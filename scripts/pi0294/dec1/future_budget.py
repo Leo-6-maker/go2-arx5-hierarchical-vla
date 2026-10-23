@@ -23,7 +23,13 @@ def fail(reason):
     raise PermissionError('DEC1_FUTURE_'+reason)
 
 
-def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None):
+def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None,vanda2_bytes=None):
+    if vanda2_bytes is not None:
+        from .b_vanda_recovery2 import grant
+        grant(vanda2_bytes)
+        if retry_bytes is None:fail('VANDA2_REQUIRES_ALL_PRIOR_GRANTS')
+        return dict(effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes,b_recovery_bytes,retry_bytes),
+            optimizer_updates=11714,PBS_submissions=16,Hopper_storage_bytes=614*GIB)
     if retry_bytes is not None:
         from .b_system_startup_retry import grant
         grant(retry_bytes)
@@ -80,8 +86,8 @@ def effective_caps(amendment_bytes=None,recovery_bytes=None,segment_bytes=None,s
         Core_storage_bytes=128*GIB,transfer_bytes=128*GIB)
 
 
-def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None):
-    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes,b_recovery_bytes,retry_bytes)
+def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recovery_bytes=None,segment_bytes=None,storage_bytes=None,heartbeat_bytes=None,zero_update_bytes=None,b_recovery_bytes=None,retry_bytes=None,vanda2_bytes=None):
+    caps=effective_caps(amendment_bytes,recovery_bytes,segment_bytes,storage_bytes,heartbeat_bytes,zero_update_bytes,b_recovery_bytes,retry_bytes,vanda2_bytes)
     global_caps=dict(old.CAPS)
     if storage_bytes is not None:
         from .storage_expansion import RELEASE as STORAGE_RELEASE,GRANT_SHA as STORAGE_SHA
@@ -113,6 +119,11 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
         if (snapshot.get('segmented_grant_sha256')!=SEGMENT_SHA or plan.get('segmented_authorization_release')!=SEGMENT_RELEASE
                 or plan.get('seconds_per_update_upper',0)<RATE):fail('SEGMENT_FRESH_SCOPE_AND_ACTUAL_COST_BOUND')
     progress,progress_sha=old._read(progress_bytes)
+    from . import b_vanda_recovery2 as vanda2
+    for value in (snapshot,plan,progress):
+        if vanda2.enabled(value)!=(vanda2_bytes is not None):fail('EXACT_VANDA2_GRANT_PLAN_SNAPSHOT_PROGRESS')
+    B_lineage=vanda2.LINEAGE if vanda2_bytes is not None else b.LINEAGE
+    if vanda2_bytes is not None:global_caps.update(PBS_submissions=27,Hopper_storage_bytes=680*GIB)
     if retry.enabled(progress)!=(retry_bytes is not None):fail('EXACT_RETRY_PROGRESS_SCOPE')
     lost=0
     if recovery_bytes is not None:
@@ -129,15 +140,19 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
         if (progress.get('heartbeat_failed_paid_updates')!=771
                 or progress.get('failed_lineage_preserved_step')!=2819
                 or progress['candidates']['A_CONTROL'].get('training_lineage_key')!=heartbeat.LINEAGE
-                or progress['candidates']['B_COVERAGE'].get('training_lineage_key')!=(b.LINEAGE if b_recovery_bytes is not None else 'B_COVERAGE')):
+                or progress['candidates']['B_COVERAGE'].get('training_lineage_key')!=(B_lineage if b_recovery_bytes is not None else 'B_COVERAGE')):
             fail('OLD_PAID771_AND_EXPLICIT_NEW_SEEDED_LINEAGE_NO_COST_RESET')
         lost+=771
     if b.enabled(progress)!=(b_recovery_bytes is not None):fail('EXACT_B_RECOVERY_PROGRESS_SCOPE')
     if b_recovery_bytes is not None:
         if (progress.get('B_failed_paid_lost_updates')!=805 or progress.get('B_failed_lineage_preserved_step')!=1829
-                or progress['candidates']['B_COVERAGE'].get('training_lineage_key')!=b.LINEAGE):
+                or progress['candidates']['B_COVERAGE'].get('training_lineage_key')!=B_lineage):
             fail('PRESERVED_B805_LOSS_AND_NEW_IMPORTED1024_LINEAGE')
         lost+=805
+    if vanda2_bytes is not None:
+        if (progress.get('B_recovery1_paid_lost_updates')!=922
+                or progress.get('B_recovery1_preserved_step')!=2970):fail('PRESERVED_PAID922_AND_OLD2970_LINEAGE')
+        lost+=922
     for v in (snapshot,progress):
         old._fresh(v['observed_epoch'],now_epoch,120)
         if (v.get('authority_release')!=AUTHORITY or v.get('unknown_effects')!=[]
@@ -208,11 +223,12 @@ def forecast(*,snapshot,progress_bytes,plan,now_epoch,amendment_bytes=None,recov
         blocks=[j for j in plan['training_jobs'] if j['arm']==arm]
         for block in blocks:
             if heartbeat_bytes is not None:
-                if not heartbeat.enabled(block) or block.get('training_lineage_key')!=(heartbeat.LINEAGE if arm=='A_CONTROL' else (b.LINEAGE if b_recovery_bytes is not None else 'B_COVERAGE')):
+                if not heartbeat.enabled(block) or block.get('training_lineage_key')!=(heartbeat.LINEAGE if arm=='A_CONTROL' else (B_lineage if b_recovery_bytes is not None else 'B_COVERAGE')):
                     fail('EXACT_HEARTBEAT_RECOVERY_PLAN_LINEAGE')
             elif heartbeat.enabled(block):fail('NO_UNBOUND_HEARTBEAT_PLAN_BLOCK')
             if zero.enabled(block)!=(zero_update_bytes is not None):fail('EXACT_ZERO_UPDATE_RESUME_TRAIN_BLOCK_SCOPE')
             if b.enabled(block)!=(b_recovery_bytes is not None):fail('EXACT_B_RECOVERY_TRAIN_BLOCK_SCOPE')
+            if vanda2.enabled(block)!=(vanda2_bytes is not None):fail('EXACT_VANDA2_TRAIN_BLOCK_SCOPE')
             if b_recovery_bytes is not None:b.lineage(block)
             start=old._number(block['start_step'],integer=True);stop=old._number(block['stop_step'],integer=True)
             probe_only=block.get('probe_only',False)

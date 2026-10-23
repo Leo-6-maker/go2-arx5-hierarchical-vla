@@ -108,6 +108,8 @@ def validate_root(root,request_path,*,verify_all=False):
     zero_admitted(root,m,r)
     from .b_heartbeat_recovery import admitted as b_admitted
     b_admitted(root,m,r)
+    from .b_vanda_recovery2 import admitted as vanda2_admitted
+    vanda2_admitted(root,m,r)
     if r.get('recovery_authorization_release') is not None:
         from .lost_save_recovery import PLAN,RELEASE,grant as recovery_grant
         if (m['authority'].get('recovery_authorization_release')!=RELEASE
@@ -188,6 +190,12 @@ def owner_guard(root,allocation):
             or (root/'STOP.json').exists() or (root.parent.parent/'STOP.json').exists()
             or m['code']['vla_commit']!=allocation['source_sha']):fail('LIVE_ROOT_SCOPE_LEASE_AND_ORIGINAL_SOURCE')
     beat=read_live_owner(root/'control',root.name)['heartbeat']
+    from . import vanda_campaign as single
+    resident=m.get('execution',{}).get('control_execution_platform')=='VANDA_A40'
+    if resident!=(beat.get('campaign_view_schema')==single.SCHEMA):
+        fail('EXACT_PRESEALED_CONTROL_PLATFORM_NOT_DROPPED_OR_INJECTED')
+    if resident:
+        single.validate_owner_heartbeat(beat,ledger=read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json'),now_epoch=time.time())
     if (beat.get('owner')!='EXISTING_LOCAL_PC' or beat.get('job_id')!=allocation['job_id']
             or beat.get('request_sha256')!=allocation['request_sha256']
             or beat.get('source_sha')!=allocation['source_sha'] or beat.get('global_unknown_effects')!=[]
@@ -378,6 +386,8 @@ def authorize_phase(root,directory,allocation,guard,long_phase,*,sleep=time.slee
                 if r.get('B_heartbeat_recovery_release') is not None else None),
             retry_bytes=((root/'plans/B2_SYSTEM_STARTUP_RETRY_PBS_AUTHORIZATION.json').read_bytes()
                 if r.get('B_system_startup_retry_release') is not None else None),
+            vanda2_bytes=((root/'plans/B2970_RECOVERY2_FIVE_CAP_AUTHORIZATION.json').read_bytes()
+                if r.get('B_Vanda_recovery2_release') is not None else None),
             now_epoch=time.time(),job_id=allocation['job_id'])
         def stable(value):
             v=deepcopy(value);v.pop('observed_epoch',None);v['forecast'].pop('projected_finish_epoch',None);return v

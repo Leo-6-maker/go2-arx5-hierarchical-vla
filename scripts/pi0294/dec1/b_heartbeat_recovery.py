@@ -76,6 +76,8 @@ def enabled(row):
 
 
 def lineage(row):
+    from . import b_vanda_recovery2 as vanda2
+    if vanda2.enabled(row):return vanda2.lineage(row)
     if not enabled(row):fail('EXPLICIT_NEW_B_SCOPE')
     arm=row.get('arm',row.get('training_block',{}).get('arm'))
     if (arm!='B_COVERAGE' or row.get('training_lineage_key')!=LINEAGE
@@ -89,6 +91,8 @@ def lineage(row):
 
 def caps(row):
     lineage(row)
+    from . import b_vanda_recovery2 as vanda2
+    if vanda2.enabled(row):return 680*GIB,614*GIB
     return 615*GIB,549*GIB
 
 

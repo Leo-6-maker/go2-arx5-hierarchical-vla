@@ -43,6 +43,8 @@ def enabled(row):
 
 def request(row):
  if not enabled(row):return False
+ from . import b_vanda_recovery2 as vanda2
+ if vanda2.enabled(row):return vanda2.request(row)
  if (not saved.request(row) or b.lineage(row)!=b.LINEAGE
      or row.get('expected_native_start_step',row.get('start_native_step'))!=2048
      or row.get('segment_stop_step',row.get('training_block',{}).get('stop_after_step'))!=4096

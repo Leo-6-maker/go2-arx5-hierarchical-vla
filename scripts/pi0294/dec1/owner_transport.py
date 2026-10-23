@@ -49,9 +49,13 @@ def checked_heartbeat(value, intent, *, now):
     if not _finite(now) or not isinstance(value, dict):
         raise ValueError('FINITE_POST_READ_CLOCK_AND_HEARTBEAT_RECEIPT')
     beat = value.get('heartbeat', {})
+    view_status=value.get('campaign_view_status')
+    if view_status=='PASS_VANDA_ONLY_CAMPAIGN_VIEW':
+        from .vanda_campaign import validate_heartbeat_receipt
+        validate_heartbeat_receipt(value,intent,now_epoch=now)
     if (value.get('lease_status') != 'ACTIVE' or value.get('run_STOP') is not False
             or value.get('parent_STOP') is not False
-            or value.get('campaign_view_status') != 'PASS_TWO_PLATFORM_CAMPAIGN_VIEW'
+            or view_status not in ('PASS_TWO_PLATFORM_CAMPAIGN_VIEW','PASS_VANDA_ONLY_CAMPAIGN_VIEW')
             or value.get('unknown_effects') != [] or value.get('pending_updates') != []
             or beat.get('native_job_state') not in ('Q', 'R')
             or beat.get('rpc_intent_id') != intent['operation_id']

@@ -31,10 +31,13 @@ def _guard(root, directory, job, view, ledger, identity, now):
             or ledger.get('unknown_effects') != [] or ledger.get('pending_updates') != []):
         raise PermissionError('ORIGINAL_ACTIVE_LEASE_STOP_AND_EFFECT_GUARDS')
     epoch = view.get('observed_epoch')
+    from . import vanda_campaign as single
+    vanda_only=view.get('schema')==single.SCHEMA
+    if vanda_only:single.validate(view,ledger=ledger,now_epoch=now)
     if (type(now) not in (int, float) or not math.isfinite(now)
             or type(epoch) not in (int, float) or not math.isfinite(epoch)
             or not 0 <= now-epoch < 120
-            or view.get('status') != 'PASS_TWO_PLATFORM_CAMPAIGN_VIEW'):
+            or view.get('status') != (single.PASS if vanda_only else 'PASS_TWO_PLATFORM_CAMPAIGN_VIEW')):
         raise PermissionError('FRESH_ORIGINAL_TWO_PLATFORM_CAMPAIGN_VIEW')
     own = [v for v in view['campaign_jobs'] if v['job_id'] == job]
     if len(own) != 1 or own[0]['state'] not in ('Q', 'R'):
@@ -43,10 +46,13 @@ def _guard(root, directory, job, view, ledger, identity, now):
 
 
 def _receipt(root, view, heartbeat):
-    return dict(heartbeat=heartbeat, lease_status='ACTIVE', run_STOP=False,
+    value=dict(heartbeat=heartbeat, lease_status='ACTIVE', run_STOP=False,
                 parent_STOP=False, campaign_view_status=view['status'],
                 campaign_view_observed_epoch=view['observed_epoch'],
                 unknown_effects=[], pending_updates=[])
+    from . import vanda_campaign as single
+    if view.get('schema')==single.SCHEMA:value['vanda_campaign_view']=view
+    return value
 
 
 def publish(root, directory, job, view, ledger, intent, *, clock=time.time):
@@ -83,6 +89,17 @@ def publish(root, directory, job, view, ledger, intent, *, clock=time.time):
                     global_unknown_effects=[], original_parent_STOP=False,
                     native_job_state=own['state'], source_pair_platform='VANDA_A40',
                     grant_sha256=view['grant_sha256'], observed_epoch=clock())
+        from . import vanda_campaign as single
+        if view.get('schema')==single.SCHEMA:
+            from .dual_platform import GRANT_SHA
+            # Preserve the logical scientific owner/base concurrency grant.
+            # Explicitly record where its new controller actually executes.
+            beat.update(grant_sha256=GRANT_SHA,campaign_view_schema=single.SCHEMA,
+                control_execution_platform='VANDA_A40',agent_liveness_required=False,
+                migration_grant_sha256=view['grant_sha256'],
+                current_authority_global_canonical_sha256=view['global_ledger_canonical_sha256'],
+                migration_marker_sha256=view['migration_marker_sha256'],
+                control_authority_proof=view['authority'],queue_observed_epoch=view['queue_observed_epoch'])
         if not 0 <= beat['observed_epoch']-started <= 30:
             raise PermissionError('HEARTBEAT_PUBLICATION_RPC_DEADLINE')
         write(path, beat)

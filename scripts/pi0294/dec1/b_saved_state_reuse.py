@@ -81,7 +81,7 @@ def request(row):
             or block and (block.get('arm')!='B_COVERAGE' or block.get('stop_after_step')!=4096)
             or 'start_native_step' in row and row['start_native_step']!=2048
             or 'segment_stop_step' in row and row['segment_stop_step']!=4096
-            or row.get('training_lineage_key')!=b.LINEAGE):fail('ONLY_ORIGINAL_REMAINING_B2048_TO4096')
+            or row.get('training_lineage_key')!=b.lineage(row)):fail('ONLY_ORIGINAL_REMAINING_B2048_TO4096')
     return True
 
 

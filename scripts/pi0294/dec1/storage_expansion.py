@@ -116,6 +116,9 @@ def global_cap_from_ledger(h):
             from . import b_heartbeat_recovery as b
             if b.FIELD in h:
                 b.validate_global(h)
+                from . import b_vanda_recovery2 as vanda2
+                if vanda2.FIELD in h:
+                    vanda2.validate_global(h);return 680*GIB
                 return 615*GIB
             return 550*GIB
         return 485*GIB

@@ -19,6 +19,7 @@ from . import zero_update_recovery as zero
 from . import b_heartbeat_recovery as b
 from . import b_saved_state_reuse as saved
 from . import b_system_startup_retry as retry
+from . import b_vanda_recovery2 as vanda2
 
 TERMINAL=('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB')
 
@@ -79,6 +80,10 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
     if saved.request(r):saved.validate_adopted(v,d)
     b_scope=b.enabled(r)
     retry_scope=retry.request(r)
+    vanda2_scope=vanda2.request(r)
+    if vanda2_scope:
+        vanda2.validate_adopted(v,d)
+        if not vanda2.enabled(budget_proof):fail('VANDA2_SCOPE_IN_RESERVATION_PROOF')
     if retry_scope:
         retry.validate_adopted(v,d)
         if not retry.enabled(budget_proof):fail("RETRY_SCOPE_IN_RESERVATION_PROOF")
@@ -90,7 +95,7 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
             or v.get('unknown_effects')!=[] or v.get('pending_updates')!=[] or d.get('unknown_effects')!=[]
             or v['used']['PBS_submissions']!=len(v['PBS_submissions'])
             or r['submit_count']!=len(v['PBS_submissions'])+1
-            or len(d['new_submissions'])>=(15 if retry_scope else (14 if b_scope else (13 if zero.enabled(r) else (12 if heartbeat.enabled(r) else (11 if enabled(r) else 8))))) or len(v['PBS_submissions'])>=(26 if retry_scope else (25 if b_scope else 24))
+            or len(d['new_submissions'])>=(16 if vanda2_scope else (15 if retry_scope else (14 if b_scope else (13 if zero.enabled(r) else (12 if heartbeat.enabled(r) else (11 if enabled(r) else 8)))))) or len(v['PBS_submissions'])>=(27 if vanda2_scope else (26 if retry_scope else (25 if b_scope else 24)))
             or any(s.get('request_id')==r['request_id'] for s in v['PBS_submissions'])
             or v.get('DEC1_source_pair_platform',a.PLATFORM)!=a.PLATFORM
             or not now_epoch<a.T0+144*3600
@@ -120,7 +125,7 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
     reserve_check(grant_bytes=grant_bytes,view=campaign_view,used=v['used'],reserved=v['reserved'],
         extra=dict(H200_s=r['walltime_s']+a.PAD,PBS_submissions=1,optimizer_updates=count,neural_queries=29),
         platform=a.PLATFORM,job_wall_s=r['walltime_s'],now_epoch=now_epoch,
-        b_recovery_ledgers=(v,d) if b_scope else None)
+        b_recovery_ledgers=(v,d) if b_scope else None,campaign_authority_ledgers=(v,d))
     global_output_cap,dec1_output_cap=heartbeat.caps(r)
     if heartbeat.enabled(r):
         heartbeat.validate_adopted(v,d)
@@ -153,7 +158,7 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
         additional_output_upper_bytes=r['additional_output_upper_bytes'],submitted_intent_epoch=now_epoch)
     if 'CPU_envelope_profile' in r:row['CPU_envelope_profile']=r['CPU_envelope_profile']
     for key in ('recovery_authorization_release','recovery_adoption_sha256','training_lineage_key',
-                'storage_authorization_release','storage_grant_sha256','heartbeat_recovery_release','heartbeat_recovery_grant_sha256','zero_update_resume_release','zero_update_resume_grant_sha256',*b.SCOPE_KEYS,*saved.SCOPE_KEYS,*retry.SCOPE_KEYS):
+                'storage_authorization_release','storage_grant_sha256','heartbeat_recovery_release','heartbeat_recovery_grant_sha256','zero_update_resume_release','zero_update_resume_grant_sha256',*b.SCOPE_KEYS,*saved.SCOPE_KEYS,*retry.SCOPE_KEYS,*vanda2.SCOPE_KEYS):
         if key in r:row[key]=r[key]
     if enabled(r):row.update(segmented_authorization_release=r['segmented_authorization_release'],
         segmented_grant_sha256=r['segmented_grant_sha256'],segment_stop_step=r['training_block']['stop_after_step'])

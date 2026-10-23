@@ -113,6 +113,9 @@ def validate_items(value):
             from . import b_system_startup_retry as retry
             if retry.FIELD in value:
                 retry.validate_global(value);max_source=11
+            from . import b_vanda_recovery2 as vanda2
+            if vanda2.FIELD in value:
+                vanda2.validate_global(value);max_source=12
         if len(source)>max_source or sum(s['status'] not in TERMINAL for s in source)>1:
             fail('BOUNDED_SOURCE_JOBS_AND_ONE_ACTIVE_A40_CHAIN')
         for s in source:source_item(s)
