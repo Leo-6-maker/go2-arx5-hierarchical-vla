@@ -1,0 +1,92 @@
+{
+  "schema": "WDR1_TARGET_SHARED_REFERENCE_TIME_TRANSACTION_CPU_V1",
+  "observed_epoch": 1792717546.0239427,
+  "status": "CPU_SHARED_MAPPER_TO_EXISTING_TARGET_RECEIVER_BINDING_PASS_NOT_NATIVE_QUALIFICATION",
+  "implementation": {
+    "shared_mapper": "ExecutionProgressAdapter / GR00TToWBCAdapterV2",
+    "modes": [
+      "I_TIME",
+      "I_PROGRESS"
+    ],
+    "full_raw_H40_owner_identity": true,
+    "raw_and_mapped_original_gate_action": true,
+    "target_original_working_gripper_law_no_clipping": true,
+    "explicit_target_native_prefix_validator_required": true,
+    "source_S1_receipt_not_target_qualification": true,
+    "existing_converter": "base_intent.eef_document",
+    "existing_receiver": "native_receiver.bind_packet",
+    "original_wire": "EEF_ONLY_WORLD_41_POINTS_20HZ_2S_TTL_0.4",
+    "new_controller_or_runner": false
+  },
+  "ACK_checks": [
+    "exact wire hash/raw/clock/TTL and original accept+installed events",
+    "original uniform window merged with bound path knots",
+    "actual installed XYZ and quaternion rotation interpolation matches serialized reference",
+    "EEF-only7D poses and original12D zero inputs; no BASE padding"
+  ],
+  "CPU_verification": {
+    "new_cases": 30,
+    "related_cases_passed": 132,
+    "related_skipped": 0,
+    "local_wall_s": 3.11,
+    "actual_frozen_private_parser_sha256": "3fd59ca29b257a4fec2a66409d33099d0cc0befe4ef6a5039d80b44d03dadf90",
+    "both_modes_noncommuting_world_transform": true,
+    "parser_receiver_delays_s": [
+      0.0,
+      0.0125,
+      0.025
+    ],
+    "private_parser_cross_checks": 6,
+    "prefix_validator_and_trace_rows_are_synthetic_CPU_fixtures": true,
+    "these_are_not_actual_native_ACK_receipts": true,
+    "retained_test_development_failures": [
+      "Two initial positive assertions incorrectly expected raw action0 instead of the existing shared .01m mapped lookahead; corrected test only.",
+      "One combined private-parser test run leaked the loader module cache; corrected per-test monkeypatch scope."
+    ]
+  },
+  "untouched": {
+    "B1_fixed_numerical_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "controller_weights_gains_solver": true,
+    "original_H40_and_prefix_safety": true,
+    "R0_and_scoring": true,
+    "all_checkpoint_and_historical_costs": true,
+    "original_clocks": true
+  },
+  "B1_actual_cached_observation": {
+    "job_id": "1478518.stdct-mgmt-02",
+    "observed_epoch": 1792717527.0581965,
+    "state": "R",
+    "returned_updates": 980,
+    "queries": 17,
+    "loads": 2,
+    "unknown_effects": []
+  },
+  "code_qualification": {
+    "publication_and_exact_CI": "PENDING_FOR_THIS_NEW_CODE",
+    "previous_target_document_source": "447bc1f59ccfa0b9e728fb204e6a71b88b21b4a8",
+    "previous_target_document_CI": 39880696923,
+    "previous_target_document_job": 120177101553,
+    "previous_all12steps_success": true
+  },
+  "current_native_admission": false,
+  "target_native_prefix_safety_qualified": false,
+  "target_task_native_qualified": false,
+  "physics_advance_authorized": false,
+  "actual_install_ACK_and_stop_qualified": false,
+  "new_native_or_external_calls": 0,
+  "new_physics": 0,
+  "new_models": 0,
+  "new_GPU_or_PBS": 0,
+  "core64_cells": 0,
+  "goal_complete": false,
+  "next_actual_requirements": [
+    "Publish and full-byte readback/exact CI before cold adoption.",
+    "Bind actual target native prefix safety, native feedback, install ACK and STOP in the original qualified lifecycle and new current resource admission.",
+    "Preserve actual frozen target task_clock82004c31 and old closed quality pilots; never reuse expired target window.",
+    "Protect B1; only actual B2048 full audit, once settlement and both closures permit inactive Source02 cost mirror then fresh B2 admission."
+  ],
+  "files_sha256": {
+    "scripts/pi0294/dec1/target_time_transaction.py": "1060ad42139c47e0b9d0aa9ec2be5be0c3acd2f0dbe84de460aa25f01b1784d5",
+    "scripts/pi0294/dec1/test_target_time_transaction.py": "e1070e1a3f3e1decd780145d6ea565b015bbed0402f784febc0f5b201ef07dd2"
+  }
+}
