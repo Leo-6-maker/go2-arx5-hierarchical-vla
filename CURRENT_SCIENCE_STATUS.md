@@ -1,3 +1,5 @@
+原 SDK 的[完整 CPU 资金接线和当前标准入口](reports/PI0294/design/WDR1_SDK_COMPLETE_FUNDING_AND_CURRENT_STANDARD_ENTRY_CPU_20261024.json)已实现：同一矩阵准备 CPU 一次抵扣，全部原64格／88条件上界／三项矩阵作业及其他资源保持；当前双账本、role、lease、源码与标准入口全检查后才允许独立 SDK 有界编译／构造。70项针对性CPU验证通过，真实安装SDK及新Core child仍未执行。训练同一1481574在04:34:45 SGT实查B3802（新增1754）、17查询／2加载／unknown=[]，owner健康；未宣称完整保存4096。完整WDR1 ACTIVE/core64=0。
+
 # Current Science Status
 
 ## 2026-10-24 实际训练增量
