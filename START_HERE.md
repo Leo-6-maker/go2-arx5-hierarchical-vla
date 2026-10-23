@@ -1,3 +1,9 @@
+# Current target evidence: frozen runtime located and byte-verified
+
+[Actual target assets and native time-wire CPU qualification](reports/PI0294/design/WDR1_ACTUAL_FROZEN_TARGET_READBACK_AND_TIME_WIRE_CPU_20261023.json): actual registered metadata,356sealed code members,9native config/weights/executables,5clock/pause/adapter binaries and all14startup pins including the74MBplant match. The geometry root differs from the actual native execution root in the startup config; no missing WBC runtime is inferred from geometry-only paths. Current process view has0matching native workers. Original task pilot4/0success and expired window are preserved, never retried or relabeled current DEC1 results.
+
+The actual private pure parser passed local CPU tests using the existing H40→41point world converter and original receiver: first action preserved, final hold, no BASE padding,11invalid clock/identity/grid/tail cases rejected. No ROS node, model, controller or physics started. Exact publication CI/readback and real Core standard-entry CPU revalidation remain pending; no native ACK/stop/prefix/task qualification is claimed. Future target bindings must preserve actual frozen task_clock82004c31 rather than silently use management HEAD9f4286bd. B1 remains protected and independent.
+
 # Current preparation: existing target identity and future B2 cold entry
 
 [Existing target identity and B2 cold entry CPU report](reports/PI0294/design/WDR1_EXISTING_TARGET_IDENTITY_AND_B2_COLD_ENTRY_CPU_ACTUAL_20261023.json): existing full-body MuJoCo WBC task entry, native41-point world-reference converter, gripper/clock/ACK/STOP seams are identified.17new identity cases and36related cases/46subtests pass. The historical task window remains closed; source FD2 metadata is not target WBC qualification. No new controller, manifest, role or native target execution occurred. Current target task qualification remains pending and does not block source training.
