@@ -1,0 +1,260 @@
+{
+  "schema": "WDR1_ACTUAL_FROZEN_TARGET_CURRENT_CHILD_ZERO_TIME_COUNTER_AND_B2_FINANCE_V1",
+  "date_SGT": "2026-10-23",
+  "observed_epoch": 1792723921.0695944,
+  "status": "ACTIVE_NATIVE_ZERO_TIME_ASSET_COUNTER_PASS_FULL_TASK_NOT_QUALIFIED",
+  "exact_runtime_source": "06afc60c43ee012fa3295f50ff788a29a6c23741",
+  "exact_runtime_CI": {
+    "run": 39889132414,
+    "job": 120204381902,
+    "conclusion": "success",
+    "all_12_steps_success": true,
+    "full_file_readbacks": 12
+  },
+  "prior_201_runtime_CI_success": true,
+  "prior_a6bd_document_CI": {
+    "run": 39885603759,
+    "job": 120192948801,
+    "conclusion": "success",
+    "all_12_steps_success": true
+  },
+  "native_current_children": [
+    {
+      "child": "dec1-target-zero-counter-01",
+      "request_id": "9b12a75c-6eac-4968-90be-97f78c4d3c34",
+      "manifest_sha256": "e7612e9e8f492701b3cb8078aee6910fd66e4ebe2c172ae8efe8b7a764895f78",
+      "native_exit_status": 1,
+      "all_actors_terminal": true,
+      "real_counter_result": null,
+      "scientific_verdict": "COUNTER_ENGINEERING_INCOMPLETE_UNKNOWN_FULL_UPPER_CHARGED",
+      "financial_charged": {
+        "CoreLab_CPU_s": 1200,
+        "local_CPU_s": 300,
+        "episode_starts": 0,
+        "physics_ticks": 0,
+        "constructors": 2,
+        "CoreLab_output_bytes": 67108864,
+        "local_output_bytes": 134217728,
+        "transfer_bytes": 268435456
+      },
+      "dual_receipt_sha256": "e8e9f65cc2e0735b7911e259a1384a1d44372a159cd3ddcf6320e33f42bcb0df",
+      "Core_after_sha256": "8df10d39677f0864650012f29ae700fe7009f43e19ac1651beb26ddb2e793318",
+      "closed_lease_sha256": "5a12e960dddcf7893889f36b85a85e062361a2860b0b4ca9eac5eb745df08134",
+      "Core_proof_sha256": "8f9741dac0078cea7249dec978d99862d1ab50b007c58d22236e6e9fc0fddac9",
+      "independent_readback_sha256": "4d976e356763f4e1f03430d47194ecf00860328dbb652f7d821bc06754272389"
+    },
+    {
+      "child": "dec1-target-zero-counter-02",
+      "request_id": "e75002f8-2007-4f2a-a898-de83f5090d62",
+      "manifest_sha256": "24a7f3b298ec1ef6bd543fbf531d598043548ea4966f0a0525fb526d9dabfcc6",
+      "native_exit_status": 0,
+      "all_actors_terminal": true,
+      "real_counter_result": {
+        "status": "PASS_FROZEN_FULLBODY_TASK_ZERO_INTEGRATION_ASSET_COUNTER_ONLY",
+        "frozen_robot": {
+          "status": "COMPILED_NATIVE_PROPERTIES_EXACTLY_PRESERVED",
+          "checked": {
+            "mjtObj.mjOBJ_BODY": {
+              "count": 27,
+              "fields": [
+                "body_pos",
+                "body_quat",
+                "body_mass",
+                "body_inertia",
+                "body_ipos",
+                "body_iquat"
+              ]
+            },
+            "mjtObj.mjOBJ_JOINT": {
+              "count": 19,
+              "fields": [
+                "jnt_type",
+                "jnt_axis",
+                "jnt_pos",
+                "jnt_range",
+                "jnt_limited",
+                "jnt_qposadr",
+                "jnt_dofadr"
+              ]
+            },
+            "mjtObj.mjOBJ_ACTUATOR": {
+              "count": 18,
+              "fields": [
+                "actuator_trntype",
+                "actuator_trnid",
+                "actuator_gear",
+                "actuator_ctrlrange",
+                "actuator_gainprm",
+                "actuator_biasprm"
+              ]
+            },
+            "mjtObj.mjOBJ_SENSOR": {
+              "count": 59,
+              "fields": [
+                "sensor_type",
+                "sensor_objtype",
+                "sensor_objid",
+                "sensor_adr",
+                "sensor_dim"
+              ]
+            }
+          },
+          "original_robot_body_mass_kg": 18.491453999999997,
+          "task_robot_body_mass_kg": 18.491453999999997,
+          "added_object_mass_kg": 0.05,
+          "new_gripper_joints": 2,
+          "new_gripper_actuators": 2,
+          "zero_WBC_parameter_changes": true
+        },
+        "nq": 34,
+        "nv": 32,
+        "nu": 20,
+        "MuJoCo_version": "3.2.7",
+        "zero_time_state_sha256": "c3d079a446147563f1372f9d264f91d4fdddf7fdecd629728f3dda9fb0251cd8",
+        "task_xml_sha256": "caaee6ed1ceb59bd1737a3c22b2b1a2d9fd4bb8627afc0245cf94b483c18111e",
+        "images": {
+          "body_rgb": {
+            "sha256": "3a0012b36a25bc4a5de7db80afdd16211691da26dbe96267f4a61b932d62eb0a",
+            "shape": [
+              256,
+              256,
+              3
+            ],
+            "bytes": 196608
+          },
+          "wrist_rgb": {
+            "sha256": "817fa4150e3deab17bff8b6aa428bfdd3c3de29d77aa415f39458dad60e110c7",
+            "shape": [
+              256,
+              256,
+              3
+            ],
+            "bytes": 196608
+          }
+        },
+        "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+        "scope": "DEC1_FROZEN_TARGET_ZERO_INTEGRATION_COUNTER_V1",
+        "request_id": "e75002f8-2007-4f2a-a898-de83f5090d62",
+        "manifest_sha256": "24a7f3b298ec1ef6bd543fbf531d598043548ea4966f0a0525fb526d9dabfcc6",
+        "constructor_attempts": 2,
+        "constructor_labels": [
+          "ORIGINAL_FROZEN_COMPILED_FULLBODY",
+          "ORIGINAL_FROZEN_TASK_OVERLAY"
+        ],
+        "integration_attempts": [],
+        "physics_ticks": 0,
+        "policy_episodes": 0,
+        "WBC_or_leg_policy_forwards": 0,
+        "GR00T_queries": 0,
+        "target_task_native_qualified": false,
+        "current_policy_prefix_ACK_STOP_qualified": false,
+        "qualification_frames_not_training_data": true,
+        "actual_worker_CPU_s": 1.886718508
+      },
+      "scientific_verdict": "ZERO_TIME_ASSET_COUNTER_PASS_NOT_NATIVE_TASK_QUALIFICATION",
+      "financial_charged": {
+        "CoreLab_CPU_s": 601.886718508,
+        "local_CPU_s": 300,
+        "episode_starts": 0,
+        "physics_ticks": 0,
+        "constructors": 2,
+        "CoreLab_output_bytes": 67108864,
+        "local_output_bytes": 134217728,
+        "transfer_bytes": 268435456
+      },
+      "dual_receipt_sha256": "96c74374233664ef9c88664bdbc112acc9484e4c2e90d681cdf7d0f7d2539545",
+      "Core_after_sha256": "71bca985d1bf548b89cbdc7201c5431b59866b0c73eb201e48fd33c4fd812565",
+      "closed_lease_sha256": "b5131ba1c5281e092d6f98cd4afc9163a9df615e179d5d07ee8e9ff05d4243f2",
+      "Core_proof_sha256": "79d857e584a03d0ff96757b9dbf4f46504e0a3d78655d027312e2e5afb22b5e9",
+      "independent_readback_sha256": "e2ce6f1af4889336500c68a96c10316a4f8e4db7a686638c61cf3392d1837356"
+    }
+  ],
+  "first_failure": {
+    "cause": "STANDARD_ENTRY_REPLACED_PYTHONPATH_AND_CWD_BEFORE_MODULE_RESOLUTION",
+    "real_constructors_before_import_failure": 0,
+    "physics_before_failure": 0,
+    "missing_result_full_financial_upper_preserved": true,
+    "old_request_replayed": false
+  },
+  "cold_entry_correction": {
+    "standard_entry_unchanged": true,
+    "original_runtime_python_unchanged": true,
+    "immutable_capsule_path_inserted_in_post_entry_python_bootstrap": true,
+    "separate_new_request_and_dual_resource_admission": true,
+    "original_request_and_costs_retained": true,
+    "new_controller": false,
+    "new_training_runner": false
+  },
+  "B1": {
+    "job_id": "1478518.stdct-mgmt-02",
+    "observed_epoch": 1792723707.9280658,
+    "native_state": "R",
+    "returned_updates": 1786,
+    "queries": 29,
+    "loads": 4,
+    "unknown_effects": [],
+    "numerical_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "owner_unchanged": true,
+    "terminal": false
+  },
+  "B2_cold_accounting": {
+    "private_cold_readback_sha256": "c7005626af5e234e94fe7e9b2cf4739a7e851ea914a5f1473e5d711802772877",
+    "files": {
+      "B2_counter_closed_context.py": "ab753a10ec82396fcb8eea6edef6dbbab93dec19467f70d70169b59d56e770eb",
+      "B2_inactive_target_zero_cost_mirror.py": "156152a2ed9c158120c58e9959035e7bb579f41c06fa417d6485a974f73931d3",
+      "B2_INACTIVE_TARGET_ZERO_COST_MIRROR_NATIVE.py.txt": "54c0a791c5bb203c1d720fa9d8d7b9d0754ed663fa6625de5fc94fab1cbd9174",
+      "B2_closed_sources_counter_launcher.py": "91ecdd0f172ed2997bb8aab113333df092a6fe9dbad90bc4e297592623fd414f",
+      "test_B2_closed_sources_counter.py": "d026bc326db9df3786ee1d86dd4a53b8b861b56fb7aa68f73fc665c20cf5a3d0"
+    },
+    "combined_private_CPU_tests": 45,
+    "private_counter_owner_tests": 14,
+    "original_Source01_and_Source02_closures_retained": true,
+    "pending_real_native_Hopper_projection": {
+      "Source02": {
+        "episodes": 4,
+        "physics_ticks": 14131,
+        "constructors": 44,
+        "transfer_bytes": 1073741824
+      },
+      "target_zero_counters": {
+        "episodes": 0,
+        "physics_ticks": 0,
+        "constructor_financial_upper": 4,
+        "actual_model_constructor_attempts": 2,
+        "transfer_bytes": 536870912
+      }
+    },
+    "retained_Core_outputs": {
+      "sources": 7012876288,
+      "target_zero_counters": 134217728
+    },
+    "local_peak_inclusive_GiB": 8,
+    "global_costs_already_charged_no_second_charge": true,
+    "actual_Hopper_mirrors": 0,
+    "actual_B2_registration_or_submit": 0,
+    "actual_B2048_predecessor_required": true,
+    "future_order": [
+      "REAL_B2048_AUDIT_ONCE_SETTLE_DUAL_CLOSE_NATURAL_EXIT",
+      "ORIGINAL_SOURCE02_MIRROR_ONCE",
+      "TARGET_ZERO_COUNTERS_MIRROR_ONCE",
+      "FRESH_FULL_REMAINING_ADMISSION_AND_ORIGINAL_B2_ACTIONS"
+    ]
+  },
+  "scientific_limits": {
+    "target_native_prefix_safety": false,
+    "current_policy_feedback_ACK_STOP_qualified": false,
+    "target_T1_T2_task_qualified": false,
+    "core64_completed": 0,
+    "qualification_RGB_is_training_data": false,
+    "zero_time_counter_is_task_success": false,
+    "source_training_independent_of_target_success": true,
+    "original_CORR2048_R0_unchanged": true
+  },
+  "next": [
+    "REAL_B2048_AUDIT_ONCE_SETTLEMENT_DUAL_CLOSE_THEN_INACTIVE_COST_PROJECTIONS_AND_FRESH_B2_ADMISSION",
+    "CURRENT_DEC1_TARGET_NATIVE_BINDING_REUSING_FROZEN_TASK_CLOCK_NATIVE_RECEIVER_MPC_AND_CONSTRAINTS_NO_CONTROLLER_CHANGE",
+    "REAL_FULL_RAW_MAPPED_PREFIX_SAFETY_ACTUAL_FEEDBACK_INSTALL_ACK_AND_STOP_BEFORE_TASK_QUALIFICATION"
+  ],
+  "goal_complete": false,
+  "budget_or_T0_or_deadline_reset": false
+}
