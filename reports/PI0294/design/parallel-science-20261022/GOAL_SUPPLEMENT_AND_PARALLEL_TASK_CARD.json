@@ -1,8 +1,8 @@
 {
   "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
   "created_epoch": 1792663428.495236,
-  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
-  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
+  "user_direction": "\u5e76\u884c\u51c6\u5907\u540e\u7eed\u7684\u6570\u636e\u4ee5\u53ca\u8bad\u7ec3\uff0c\u79d1\u5b66\u4e3b\u7ebf\uff0c\u66f4\u65b0goal",
+  "objective": "\u7ee7\u7eed\u65e2\u6709A/B\u5206\u6bb5\u8bad\u7ec3\u4e0e\u79d1\u5b66\u8bc4\u4ef7\uff0c\u540c\u65f6\u5e76\u884c\u4ea4\u4ed8\u540e\u7eed\u6570\u636e\u3001\u8bad\u7ec3\u548c\u8bc4\u4ef7\u51c6\u5907\uff1b\u4f4e\u9891\u89c2\u5bdfGPU\uff0c\u4ee5\u771f\u5b9e\u7aef\u70b9\u53ca\u914d\u5bf9\u95ed\u73af\u8bc1\u636e\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\u3002",
   "goal_panel": {
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
@@ -1161,14 +1161,54 @@
       "global_GPU_site_GiB": 615
     },
     "runtime_report": "reports/PI0294/design/parallel-science-20261022/B1024_PRESERVED_COST_RECOVERY_RUNTIME_CPU_20261023.json",
-    "native_adoption": false,
-    "new_registration": false,
+    "native_adoption": true,
+    "new_registration": true,
     "new_submission": false,
     "all_costs_preserved": true,
     "old_failed_B_step": 1829,
     "new_lineage": "B_COVERAGE_HEARTBEAT_RECOVERY1",
     "seed_step": 1024,
     "seed_cursor": 32768,
-    "old_owner_restarted": false
+    "old_owner_restarted": false,
+    "runtime_CI_run": 39896527594
+  },
+  "B_recovery_current_preqsub_reconciliation": {
+    "report": "reports/PI0294/design/parallel-science-20261022/B_RECOVERY_ACTUAL_ADOPTION_COLD_SEAL_AND_PREQSUB_RECONCILIATION_20261023.json",
+    "status": "GRANT_ADOPTED_NATIVE_COLD_INPUTS_SEALED_PREQSUB_PARTIAL_RESERVATION_READONLY_CONFIRMED",
+    "request_id": "185541e4-2348-4a3c-bee7-1a5703369780",
+    "request_sha256": "6c6d12d14895e4e22fa7a835c7edac8579ff341825911fd0d3b5fbbec76809ca",
+    "no_qsub": true,
+    "preserve_original_unknown_journal": true,
+    "partial_RESERVE_actual": {
+      "local_owner_naturally_stopped": true,
+      "phase": "GLOBAL_RESERVATION_BEFORE_QSUB",
+      "cause": "Legacy alternate_accounting allowed at most8source allocations despite exact new recovery requiring9and10",
+      "native_request_created_once": true,
+      "actual_global_matches_original_intent": true,
+      "actual_DEC1_matches_planned_intent": true,
+      "global_sha256": "bb193e1c8183e608e68f0c8e1d8c395e861486688458de9f820b82a5be609516",
+      "DEC1_sha256": "65c5ec3699ef26d8fcb3481e5ddc0d63a82d72ff65e5527fbe31f4f631298dc2",
+      "intent_sha256": "7229c15e8d28ebcd80cce31b722cfcf19210e64742f655afb145119b4f194c29",
+      "DEC1_reservation": {
+        "GPU_s": 22560,
+        "CPU_s": 54000,
+        "updates": 1024,
+        "queries": 29
+      },
+      "global_reservation": {
+        "H200_s": 0,
+        "neural_queries": 0,
+        "optimizer_updates": 0
+      },
+      "qsub_intent": false,
+      "qsub_reply": false,
+      "pbs_script": false,
+      "actual_neural_effects_file": false,
+      "unknown_journal_preserved": true,
+      "no_automatic_retry": true,
+      "read_only_exact_effects_reconciled": true,
+      "native_partial_completion_not_yet_performed": true
+    },
+    "goal_complete": false
   }
 }

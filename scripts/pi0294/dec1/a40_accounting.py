@@ -159,6 +159,10 @@ def reserve(value, DEC1_value, *, request_bytes, budget_proof, grant_bytes, camp
     for k,c in dict(GPU_reserved_s=r['walltime_s']+a.PAD,CPU_reserved_s=r['CPU_upper_s'],
         neural_queries_reserved=29,optimizer_updates_reserved=count,
         GPU_site_output_reserved_bytes=r['additional_output_upper_bytes']).items():d[k]=d.get(k,0)+c
+    # Validate the whole proposed source chain before returning either ledger
+    # to a caller that may write DEC1 before committing its global transaction.
+    from .alternate_accounting import validate_items
+    validate_items(v)
     return v,d
 
 

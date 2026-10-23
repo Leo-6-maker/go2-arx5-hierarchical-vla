@@ -104,6 +104,12 @@ def validate_items(value):
         from . import heartbeat_recovery as heartbeat
         if heartbeat.FIELD in value:heartbeat.validate_global(value)
         max_source=8 if heartbeat.FIELD in value else 7
+        from . import b_heartbeat_recovery as b
+        if b.FIELD in value:
+            b.validate_global(value)
+            # The exact B1024 grant retains both failed attempts and permits
+            # the two remaining B segments; it does not open another arm.
+            max_source=10
         if len(source)>max_source or sum(s['status'] not in TERMINAL for s in source)>1:
             fail('BOUNDED_SOURCE_JOBS_AND_ONE_ACTIVE_A40_CHAIN')
         for s in source:source_item(s)
