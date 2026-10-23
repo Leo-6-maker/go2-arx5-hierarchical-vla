@@ -61,8 +61,8 @@
     "qualifies_native_safety": false
   },
   "CPU_tests": {
-    "related_passed": 180,
-    "new_prediction_cases": 29,
+    "related_passed": 182,
+    "new_prediction_cases": 31,
     "target_transaction_cases": 38,
     "actual_private_parser_cases": 12,
     "private_parser_sha256": "3fd59ca29b257a4fec2a66409d33099d0cc0befe4ef6a5039d80b44d03dadf90",
@@ -75,7 +75,7 @@
     "changing_SO3_and_noncommuting_frame_transform": true,
     "std_array_float32_roundtrip_independent_from_numpy_verifier": true,
     "one_float32_ULP_position_substitution_rejected": true,
-    "wall_s": 4.4,
+    "wall_s": 4.39,
     "actual_current_ROS_policy_or_full_safety_qualification": false,
     "paused_planning_cases": 11
   },
@@ -105,7 +105,7 @@
     "job": 120182589505,
     "all12steps_success": true
   },
-  "new_code_publication_exact_CI": "PASS_ALL12_STEPS_8_FULL_READBACKS",
+  "new_code_publication_exact_CI": "PENDING_FOR_EXACT_FROZEN_CLOCK_COMPARISON_DELTA",
   "current_native_admission": false,
   "target_task_native_qualified": false,
   "actual_current_policy_native_prefix_safety_and_STOP_qualified": false,
@@ -122,10 +122,10 @@
     "Protect B1; real B2048 successful full-state audit/once settlement/dual closure precede Source02 inactive cost mirror and fresh B2."
   ],
   "files_sha256": {
-    "scripts/pi0294/dec1/target_time_transaction.py": "85fc5932f079ce63c342213bcc1fd99c742d75b48ecd1815928732f65ab5dc4a",
+    "scripts/pi0294/dec1/target_time_transaction.py": "2c53848a72609cbfde3f0fc045e65da965ee59422f752ce1ac0df9365dec9f3f",
     "scripts/pi0294/dec1/test_target_time_transaction.py": "48ef3e022b470d87582a1ced5f23184f3208b5f2712bf2db80ef9ec604c01a45",
-    "scripts/pi0294/dec1/target_mpc_prediction.py": "00004bf96bce051084e365cf7fc6eb53ae510332d75b2b95091ebf2b098a0d82",
-    "scripts/pi0294/dec1/test_target_mpc_prediction.py": "22a5b7d1cb31ba19abcf1a47d876c9c89ab16d46896ef9709ca50b1e2d9a8950",
+    "scripts/pi0294/dec1/target_mpc_prediction.py": "950bd45fd2e33f313326fac1791526c2d07ed319855d4b80379f993c69ae5573",
+    "scripts/pi0294/dec1/test_target_mpc_prediction.py": "8e32ec6c63d8638c0d09f7aebf74f55b9a91b090fd1a81f964eed29728c0af12",
     "scripts/pi0294/dec1/test_target_paused_prediction.py": "42de42f0c8de83925af351b685787a0422ba1ba3635d5c24ec22dd51fdf66efb"
   },
   "paused_planning_stage": {
@@ -139,7 +139,15 @@
     "native_owner_must_inject_actual_byte_pinned_82004c31_clock_validator": true,
     "candidate_generation_or_prediction_identity_is_not_safety_GO": true
   },
-  "exact_public_code_qualification": {
+  "frozen_source_clock_comparison": {
+    "source_clock_sha256": "82004c3171cc8cd2a0486f391595ac39424bad96882d12c5936c4eca55fe3b08",
+    "rule": "round(actual_mjData_packet_time*1e9)/1e9 - raw_ROS_source_time",
+    "raw_packet_and_ROS_times_retained": true,
+    "original_25ms_threshold_unchanged": true,
+    "positive_and_negative_1e_13s_packet_representation_drift_cases": 2,
+    "no_sleep_clock_refresh_watchdog_widening": true
+  },
+  "previous_exact_public_code_qualification": {
     "source": "36b364c33431776cefaad8ebe888e9ce9805ee98",
     "CI_run": 39884421946,
     "CI_job": 120189140121,

@@ -18,6 +18,10 @@ from go2arx5_vla.trajectory.so3 import quat_to_matrix,quat_slerp,rotation_matrix
 def need(ok,why):
     if not ok:raise PermissionError('DEC1_TARGET_TIME_'+why)
 
+def native_source_age(packet_time,source):
+    """Exact task_clock82004c31 ROS-nanosecond comparison, raw clocks retained."""
+    return round(packet_time*1e9)/1e9-source
+
 def raw_hash(rows):return hashlib.sha256(np.asarray(rows,dtype='<f8').tobytes()).hexdigest()
 
 @dataclass(frozen=True)
@@ -94,7 +98,7 @@ def _prepare(raw_h40,proposal,*,expected_raw_sha256,raw_actual_state10,mapped_ac
          'EXPLICIT_TARGET_NATIVE_PREFIX_OR_PAUSED_PLANNING_ONLY')
     now=proposal.controller_timestamp
     need(type(source_mpc_s) in (int,float) and math.isfinite(source_mpc_s)
-         and np.isfinite(now) and 0<=now-source_mpc_s<=.025,'ORIGINAL_SOURCE_CLOCK_MAX_25MS')
+         and np.isfinite(now) and 0<=native_source_age(now,source_mpc_s)<=.025,'ORIGINAL_SOURCE_CLOCK_MAX_25MS')
     raw=np.asarray(raw_h40,dtype=float).copy()
     need(raw.shape==(40,10) and raw_hash(raw)==expected_raw_sha256,'OWNER_RETAINED_FULL_RAW_H40_IDENTITY')
     full=proposal.mapped_full

@@ -10,7 +10,7 @@ import hashlib
 import json
 import math
 import numpy as np
-from .target_time_transaction import PreparedTimeReference,require_install_ack
+from .target_time_transaction import PreparedTimeReference,require_install_ack,native_source_age
 
 # Independently read installed interface identities, not private asset copies.
 POLICY_IDL_SHA256='636597f8e5132ff83f8d4c5848a61cfbfb0c9b4b737e320f8520991d05683ef0'
@@ -82,7 +82,7 @@ def bind(prepared,events,policy_bytes,*,expected_policy_sha256,actual_observatio
     now=actual['time']
     need(type(now) in (int,float) and type(actual['mode']) is int and actual['mode']==0
          and 0<=now-prepared.source_mpc_s<=.025
-         and 0<=prepared.controller_timestamp-now<=.025,'ORIGINAL_NATIVE_OBSERVATION_CLOCK_AND_MODE')
+         and 0<=native_source_age(prepared.controller_timestamp,now)<=.025,'ORIGINAL_NATIVE_OBSERVATION_CLOCK_AND_MODE')
     need(json.dumps(p['init_observation'],sort_keys=True,allow_nan=False)==json.dumps(actual,sort_keys=True,allow_nan=False),
          'PLAN_INITIAL_OBSERVATION_MUST_MATCH_INDEPENDENT_ACTUAL_STATE')
     target=p['plan_target_trajectories']

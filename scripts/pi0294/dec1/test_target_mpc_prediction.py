@@ -9,15 +9,15 @@ from .test_target_time_transaction import fixture,events
 from .target_time_transaction import prepare
 
 
-def case(mode='I_PROGRESS',controller_delta=0.):
-    raw,proposal,args,*_=fixture(mode,controller_time=controller_delta);args['source_mpc_s']=0.
+def case(mode='I_PROGRESS',controller_delta=0.,clock_origin=0.):
+    raw,proposal,args,*_=fixture(mode,controller_time=clock_origin+controller_delta);args['source_mpc_s']=clock_origin
     prepared=prepare(raw,proposal,**args);trace=events(prepared)
-    row=trace[1];observation=dict(time=0.,state={'value':array('f',[.1]*12).tolist()},input={'value':[0.]*12},mode=0)
+    row=trace[1];observation=dict(time=clock_origin,state={'value':array('f',[.1]*12).tolist()},input={'value':[0.]*12},mode=0)
     policy=dict(controller_type=2,init_observation=deepcopy(observation),
         plan_target_trajectories=dict(time_trajectory=row['times'].copy(),
             state_trajectory=[{'value':x.copy()} for x in row['poses']],
             input_trajectory=[{'value':x.copy()} for x in row['inputs']]),
-        time_trajectory=[i*.05 for i in range(21)],state_trajectory=[{'value':array('f',[.1]*12).tolist()} for _ in range(21)],
+        time_trajectory=[clock_origin+i*.05 for i in range(21)],state_trajectory=[{'value':array('f',[.1]*12).tolist()} for _ in range(21)],
         input_trajectory=[{'value':[0.]*12} for _ in range(21)],post_event_indices=[],
         mode_schedule=dict(event_times=[],mode_sequence=[0]),data=[],performance_indices={})
     return prepared,trace,observation,policy
@@ -74,3 +74,11 @@ def test_duplicate_trace_fields_cannot_select_a_different_policy():
     prepared,trace,obs,p=case();raw=json.dumps(p).encode();raw=b'{"controller_type":1,'+raw[1:]
     with pytest.raises(PermissionError,match='NO_DUPLICATE_JSON_FIELDS'):
         unit.bind(prepared,trace,raw,expected_policy_sha256=hashlib.sha256(raw).hexdigest(),actual_observation=obs)
+
+
+@pytest.mark.parametrize('drift',[-1e-13,1e-13])
+def test_original_mjdata_to_ROS_nanosecond_clock_rule_keeps_raw_observation_times(drift):
+    prepared,trace,obs,p=case(clock_origin=5.,controller_delta=drift)
+    assert prepared.controller_timestamp==5.+drift and prepared.source_mpc_s==5.
+    bound=invoke(prepared,trace,obs,p)
+    assert bound.observation_time_s==5. and not bound.physics_advance_authorized
