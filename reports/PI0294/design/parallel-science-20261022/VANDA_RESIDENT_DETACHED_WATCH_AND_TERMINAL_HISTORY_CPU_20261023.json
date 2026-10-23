@@ -41,5 +41,20 @@
   },
   "full_goal": "ACTIVE",
   "target_task_native_qualified": false,
-  "core64": 0
+  "core64": 0,
+  "CI_failed_history": {
+    "source": "026fd575b7ed01ff55202ff166ed0bc1a7f616ae",
+    "run": 39982253385,
+    "job": 120512269822,
+    "conclusion": "failure",
+    "failure": "Only the new detached CPU fixture failed to import scripts in a child launched outside the repository without PYTHONPATH. Main and PI0292 CPU steps succeeded; PI0294 had2357passed/1failed/13skips/1499subtests.",
+    "native_deployed": false
+  },
+  "fixture_repair": {
+    "explicit_repository_import_path": true,
+    "launcher_environment_removes_PYTHONPATH": true,
+    "selected_file_tests_passed": 20,
+    "exact_new_CI": "PENDING",
+    "production_code_changed": false
+  }
 }

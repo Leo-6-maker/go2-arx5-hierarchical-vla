@@ -91,7 +91,8 @@ def test_runtime_heartbeat_survives_real_accounting_progress_between_heartbeats(
 def test_existing_watch_survives_launcher_exit_and_returns_distinct_native_terminal(tmp_path):
     """Detached CPU fixture, original watch; no scheduler, model or auth call."""
     fixture_script=tmp_path/'detached_fixture.py'
-    fixture_script.write_text('''
+    repo=Path(__file__).resolve().parents[3]
+    fixture_script.write_text('import sys\nsys.path[:0]='+repr([str(repo),str(repo/'src')])+'\n'+'''
 import json,os,sys,time
 from pathlib import Path
 from types import SimpleNamespace
@@ -120,7 +121,8 @@ owner=SimpleNamespace(BASE=base,cold_rpc_bound=True,native=SimpleNamespace(T0=17
 result=watch(owner,None,sleep=lambda _:time.sleep(.05));write(base/'done.json',dict(result=result,CPU_fixture=True,pid=os.getpid()))
 ''')
     launcher=('import subprocess,sys,json; p=subprocess.Popen([sys.executable,'+repr(str(fixture_script))+','+repr(str(tmp_path))+'],stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=open('+repr(str(tmp_path/'fixture.stderr'))+',"w"),start_new_session=True); print(json.dumps(dict(pid=p.pid,launcher=__import__("os").getpid())))')
-    parent=subprocess.run([sys.executable,'-c',launcher],capture_output=True,text=True,timeout=5,check=True)
+    isolated_env={k:v for k,v in os.environ.items() if k!='PYTHONPATH'}
+    parent=subprocess.run([sys.executable,'-c',launcher],capture_output=True,text=True,timeout=5,check=True,env=isolated_env)
     identity=json.loads(parent.stdout);pid=identity['pid'];proc=Path('/proc')/str(pid)
     try:
         end=time.monotonic()+8;seen=None
