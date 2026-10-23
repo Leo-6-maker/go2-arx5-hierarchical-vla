@@ -34,9 +34,49 @@ class PreparedTimeReference:
     raw_h40_sha256: str
     mapped_h40_sha256: str
 
-def prepare(raw_h40,proposal,*,expected_raw_sha256,raw_actual_state10,mapped_actual_state10,
+@dataclass(frozen=True)
+class PausedReferenceCandidate(PreparedTimeReference):
+    """Numerically gated candidate solely for planning while physics is paused."""
+    pause_anchor_sha256: str
+    native_prefix_validation_pending: bool=True
+    physics_advance_authorized: bool=False
+
+
+def prepare(raw_h40,proposal,**kwargs):
+    """Original path: caller native-prefix validation precedes serialization."""
+    need('_pause_anchor' not in kwargs,'NO_CALLER_PLANNING_TOKEN_IN_PREVALIDATED_PATH')
+    return _prepare(raw_h40,proposal,**kwargs)
+
+
+def prepare_for_paused_prediction(raw_h40,proposal,*,pause_before,pause_after,
+                                  actual_step,require_frozen_pause,**kwargs):
+    """Plan under the ORIGINAL paused lifecycle before checking the prediction.
+
+    The owner supplies the actual frozen task_clock82004c31 require_pause and
+    fresh native read_state step callback, not management HEAD substitutions.
+    Raw/mapped complete gates still precede reference publication. The native
+    solver needs a candidate target to produce its corresponding prediction;
+    only this paused planning phase may precede target prefix validation. The
+    original native guard must inspect the bound prediction before ANY quota
+    release. This candidate never certifies safety, admission, or execution.
+    """
+    need('_pause_anchor' not in kwargs and 'validate_target_native_prefix' not in kwargs,
+         'PLANNING_CANDIDATE_CANNOT_CLAIM_PREVALIDATED_PREFIX')
+    need(callable(actual_step) and callable(require_frozen_pause),'ORIGINAL_PAUSE_AND_FRESH_NATIVE_STEP_CALLBACKS')
+    step=actual_step()
+    need(type(step) is int and step>=0,'FRESH_NATIVE_INTEGER_STEP')
+    need(require_frozen_pause(pause_before,pause_after,step) is None,'ORIGINAL_FROZEN_PAUSE_VALIDATOR_REQUIRED')
+    need(pause_after['time_s']==proposal.controller_timestamp,'PROPOSAL_MUST_MATCH_ACTUAL_PAUSED_STATE_CLOCK')
+    anchor=hashlib.sha256(json.dumps(dict(before=pause_before,after=pause_after,actual_step=step),
+        sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+    candidate=_prepare(raw_h40,proposal,validate_target_native_prefix=None,_pause_anchor=anchor,**kwargs)
+    need(actual_step()==step,'NO_PHYSICS_ADVANCE_DURING_PLANNING_CANDIDATE_PREPARATION')
+    return candidate
+
+
+def _prepare(raw_h40,proposal,*,expected_raw_sha256,raw_actual_state10,mapped_actual_state10,
             episode,sequence,source_mpc_s,expected_world_frame,expected_tcp,
-            validate_target_native_prefix,record_gate):
+            validate_target_native_prefix,record_gate,_pause_anchor=None):
     """Use an owner-retained raw identity and the shared V2 mapper's proposal.
 
     Distinct source/target frames require explicitly frame-qualified actual
@@ -49,7 +89,9 @@ def prepare(raw_h40,proposal,*,expected_raw_sha256,raw_actual_state10,mapped_act
     need(isinstance(proposal,ReferenceProposal),'SHARED_PROGRESS_PROPOSAL_REQUIRED')
     need(isinstance(episode,str) and episode and type(sequence) is int and sequence>=0,
          'OWNER_EPISODE_AND_RECEIVER_SEQUENCE')
-    need(callable(validate_target_native_prefix) and callable(record_gate),'EXPLICIT_TARGET_NATIVE_PREFIX_AND_RECORDER')
+    need(callable(record_gate),'EXPLICIT_GATE_RECORDER')
+    need(callable(validate_target_native_prefix) if _pause_anchor is None else validate_target_native_prefix is None,
+         'EXPLICIT_TARGET_NATIVE_PREFIX_OR_PAUSED_PLANNING_ONLY')
     now=proposal.controller_timestamp
     need(type(source_mpc_s) in (int,float) and math.isfinite(source_mpc_s)
          and np.isfinite(now) and 0<=now-source_mpc_s<=.025,'ORIGINAL_SOURCE_CLOCK_MAX_25MS')
@@ -71,12 +113,15 @@ def prepare(raw_h40,proposal,*,expected_raw_sha256,raw_actual_state10,mapped_act
     require_working_target(mapped[:,9])  # Original target V2 mechanical fractions, never clip/rescale.
     opening=float(proposal.gripper.normalized_command)
     need(not proposal.gripper.stale and opening==float(mapped[0,9]),'ACTUAL_FIRST_MAPPED_GRIPPER_EVENT')
-    need(validate_target_native_prefix(proposal) is None,'TARGET_NATIVE_PREFIX_MUST_RAISE_OR_RETURN_NONE')
+    if _pause_anchor is None:
+        need(validate_target_native_prefix(proposal) is None,'TARGET_NATIVE_PREFIX_MUST_RAISE_OR_RETURN_NONE')
     document=eef_document(mapped)
     document['_pi0294']=dict(episode=episode,sequence=sequence,source_mpc_s=source_mpc_s,ttl_s=.4,operation='install')
     wire=json.dumps(document,separators=(',',':'),allow_nan=False)
-    return PreparedTimeReference(episode,sequence,proposal.command_id,float(proposal.phase),float(source_mpc_s),
-        float(now),wire,hashlib.sha256(wire.encode()).hexdigest(),opening,expected_raw_sha256,raw_hash(mapped))
+    kind=PreparedTimeReference if _pause_anchor is None else PausedReferenceCandidate
+    extra={} if _pause_anchor is None else dict(pause_anchor_sha256=_pause_anchor)
+    return kind(episode,sequence,proposal.command_id,float(proposal.phase),float(source_mpc_s),
+        float(now),wire,hashlib.sha256(wire.encode()).hexdigest(),opening,expected_raw_sha256,raw_hash(mapped),**extra)
 
 def require_install_ack(prepared,events):
     """Match original receiver accept+installed events for this exact wire.

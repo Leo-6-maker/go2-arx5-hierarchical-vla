@@ -59,7 +59,7 @@
     "qualifies_native_safety": false
   },
   "CPU_tests": {
-    "related_passed": 169,
+    "related_passed": 180,
     "new_prediction_cases": 29,
     "target_transaction_cases": 38,
     "actual_private_parser_cases": 12,
@@ -73,8 +73,9 @@
     "changing_SO3_and_noncommuting_frame_transform": true,
     "std_array_float32_roundtrip_independent_from_numpy_verifier": true,
     "one_float32_ULP_position_substitution_rejected": true,
-    "wall_s": 4.08,
-    "actual_current_ROS_policy_or_full_safety_qualification": false
+    "wall_s": 4.4,
+    "actual_current_ROS_policy_or_full_safety_qualification": false,
+    "paused_planning_cases": 11
   },
   "retained_development_failures": {
     "first_broad_source_reader_hit6000_file_bound_readonly": true,
@@ -119,9 +120,21 @@
     "Protect B1; real B2048 successful full-state audit/once settlement/dual closure precede Source02 inactive cost mirror and fresh B2."
   ],
   "files_sha256": {
-    "scripts/pi0294/dec1/target_time_transaction.py": "017a04f4bc288848ea5de55e3de65fb2cb31fbb5eb0d61581a6e2e10bf969321",
+    "scripts/pi0294/dec1/target_time_transaction.py": "85fc5932f079ce63c342213bcc1fd99c742d75b48ecd1815928732f65ab5dc4a",
     "scripts/pi0294/dec1/test_target_time_transaction.py": "48ef3e022b470d87582a1ced5f23184f3208b5f2712bf2db80ef9ec604c01a45",
     "scripts/pi0294/dec1/target_mpc_prediction.py": "00004bf96bce051084e365cf7fc6eb53ae510332d75b2b95091ebf2b098a0d82",
-    "scripts/pi0294/dec1/test_target_mpc_prediction.py": "22a5b7d1cb31ba19abcf1a47d876c9c89ab16d46896ef9709ca50b1e2d9a8950"
+    "scripts/pi0294/dec1/test_target_mpc_prediction.py": "22a5b7d1cb31ba19abcf1a47d876c9c89ab16d46896ef9709ca50b1e2d9a8950",
+    "scripts/pi0294/dec1/test_target_paused_prediction.py": "42de42f0c8de83925af351b685787a0422ba1ba3635d5c24ec22dd51fdf66efb"
+  },
+  "paused_planning_stage": {
+    "candidate_type": "PausedReferenceCandidate",
+    "factory": "prepare_for_paused_prediction",
+    "only_under_original_frozen_task_clock_pause_and_fresh_state_step": true,
+    "raw_mapped_full_H40_gates_before_reference": true,
+    "native_prefix_validation_pending_explicit": true,
+    "physics_advance_authorized": false,
+    "reason": "The native solver needs an installed candidate to predict it. Use original pause barrier while planning, then bound actual policy and unchanged native safety before any physical quota release.",
+    "native_owner_must_inject_actual_byte_pinned_82004c31_clock_validator": true,
+    "candidate_generation_or_prediction_identity_is_not_safety_GO": true
   }
 }
