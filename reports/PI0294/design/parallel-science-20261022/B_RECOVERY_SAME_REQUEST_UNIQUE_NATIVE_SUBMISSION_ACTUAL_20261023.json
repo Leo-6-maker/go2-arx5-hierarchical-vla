@@ -1,0 +1,80 @@
+{
+  "schema": "B_RECOVERY_SAME_REQUEST_ACTUAL_UNIQUE_NATIVE_SUBMISSION_V1",
+  "observed_epoch": 1792729876.6171782,
+  "status": "ACTUAL_UNIQUE_REQUEST_QSUB_BOUND_REAL_Q_AND_OWNER_HEARTBEAT_CONFIRMED",
+  "job_id": "1479559.stdct-mgmt-02",
+  "request_id": "185541e4-2348-4a3c-bee7-1a5703369780",
+  "request_sha256": "6c6d12d14895e4e22fa7a835c7edac8579ff341825911fd0d3b5fbbec76809ca",
+  "submission_nonce": "32c6d970-f39c-445e-b418-49aed8bf08c2",
+  "GPU_source": "2ed8aea9f782741dfc0298438f5762c592e87149",
+  "GPU_manifest": "38ab2df346439796c65b0bf85f8c90266c5bef50662ce8251c9affd48a4ae225",
+  "control_source": "e4bc25c423f3d3524c1654c10562cea599b7656c",
+  "control_manifest": "0cdb53676d7903b470d1c00db9f3aa008b0623c853ac0da7158b4c5b7088eb68",
+  "pure_preqsub_math": {
+    "source": "2d4c7f3b649e7e68d01be762d2e457f1c73b9d48",
+    "CI_run": 39900376419,
+    "CI_job": 120240344574,
+    "conclusion": "success",
+    "all12steps_success": true,
+    "fullfiles_readback6": true,
+    "all_CPU_passed": 1987,
+    "subtests": 1368
+  },
+  "owner": {
+    "unit": "vap1-a40-b-recovery1-preqsub-resume-01",
+    "systemd_actual": "MainPID=761624\nExecMainStatus=0\nActiveState=active\n",
+    "entry": "vap1_b_recovery1_same_request_resume.py",
+    "controller_sha256": "39a1b639d3bf1a9454f293543a167bc5c4398f5eea0ecc2eedb04ca2a130026e",
+    "cold_context_sha256": "daa7ea94d1fd5926609cbb54b6426d9df97dce3d3261905fe2c66a52984427ab",
+    "existing_prepaid_key": "VAP1_B_HEARTBEAT_RECOVERY1_CONTROL_CPU1800_LOCAL1200_TRANSFER256M_OUTPUT64M_V1",
+    "shared_original_Hopper_LOCAL_CPU_upper_s": [
+      1800,
+      1200
+    ],
+    "no_second_prepay": true,
+    "Restart": "no",
+    "RPC_deadlines_unchanged": true,
+    "native_watchdog_unchanged": true
+  },
+  "real_native": {
+    "state": "Q",
+    "observed_epoch": 1792729827.7983308,
+    "receipts": {},
+    "new_updates": 0,
+    "models_released": false,
+    "first_update_released": false
+  },
+  "accounting": {
+    "cumulative_updates": 7720,
+    "GPU_s": 75658.0,
+    "queries": 1180,
+    "global_PBS": 21,
+    "DEC1_PBS": 10,
+    "reserved": {
+      "H200_s": 22560,
+      "neural_queries": 29,
+      "optimizer_updates": 1024
+    },
+    "CPU_reserved_s": 54000,
+    "storage_reserved_bytes": 70000000000,
+    "grant_adopted_both": true,
+    "closed_Source02_C0_mirrors_once": true,
+    "missing_global_half_completed_once": true,
+    "DEC1_not_reserved_twice": true,
+    "no_new_request_after_partial": true
+  },
+  "original_failed_actors_and_unknown_journals_preserved": true,
+  "native_qsub_calls": 1,
+  "goal_complete": false,
+  "target_task_native_qualified": false,
+  "core64_completed": 0,
+  "original_T0": 1792348196,
+  "hard_close": 1792952996,
+  "next": "REUSE_HEALTHY_OWNER_NO_HOT_EDITS_PREPARE_NEW_LINEAGE_B2048_REAL_FULL_AUDIT_ONCE_SETTLE_DUAL_CPU_CONTROL_CLOSURES_USING_FIXED_CONTROL_BEFORE_B2",
+  "proof_hashes": {
+    "SOURCE_QSUB_REPLY": "bfa417026cd76318ed2d564cb23ec63de7923b80297d816ed8aca086ecd045a9",
+    "SOURCE_JOB_BOUND": "9dc385508fcdbba8b81eeadb0fe764961e8ea925c555136ead8d8b9b79bde2ad",
+    "COLD_RUNNING_BINDING": "218961f2ca2ad9b36e0ed71f434b66f459506f8260d8e94dd530e9fe097fdad9",
+    "LATEST_NATIVE": "d876803cefc4f971c73909ff35d4cb698e1031b89ff0c487c2ce73fb517fcf75"
+  }
+}
