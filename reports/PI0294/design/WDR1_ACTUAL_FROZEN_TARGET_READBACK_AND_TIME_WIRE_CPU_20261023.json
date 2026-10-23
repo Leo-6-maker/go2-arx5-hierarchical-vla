@@ -1,7 +1,7 @@
 {
   "schema": "WDR1_ACTUAL_FROZEN_TARGET_READBACK_AND_TIME_WIRE_CPU_V1",
-  "observed_epoch": 1792716306.1738074,
-  "status": "ACTUAL_REGISTERED_TARGET_ASSETS_IDENTIFIED_LOCAL_ACTUAL_PARSER_CPU_PASS_CORE_CPU_REVALIDATION_PENDING",
+  "observed_epoch": 1792716691.7844768,
+  "status": "ACTUAL_FROZEN_TARGET_ASSETS_AND_CORE_STANDARD_ENTRY_TIME_WIRE_CPU_PASS_NOT_TASK_QUALIFICATION",
   "registered_readback": {
     "metadata_receipt_sha256": "02280d644371df6967228dc0bd024645ab3c7d0aa4281c0f2b11dcefd6b92b0d",
     "source_and_overlay_receipt_sha256": "d032c109fbc1a788cdd2b0b51cfd17a28bf410c04d41e7731d51ea220376f226",
@@ -62,11 +62,16 @@
     "final_sample_held": true,
     "no_BASE_padding_or_frame_correction": true,
     "explicit_cancel_parser_semantics_only_not_live_STOP": true,
-    "Core_standard_entry_CPU_validation": "PENDING_EXACT_CODE_CI_BEFORE_EXECUTION",
-    "full_native_ACK_stop_prefix_safety_or_task_qualification": false
+    "Core_standard_entry_CPU_validation": "ACTUAL_PASS",
+    "full_native_ACK_stop_prefix_safety_or_task_qualification": false,
+    "actual_Core_receipt_sha256": "10c5bae1411cebb2025251b102f873c9d6cf8b46ea15915d1b20d1117ebf35a3",
+    "actual_Core_child_CPU_s": 0.157063,
+    "actual_Core_service_s": 0.22251787316054106,
+    "current_control_manifest_lease_registry_and_DEC1_ledger_unchanged": true,
+    "external_or_file_write_attempts": 0,
+    "torch_mujoco_rclpy_packages_imported": false
   },
   "remaining_actual_work": [
-    "Exact published CPU code/readback/CI then real standard-entry Core parser/receiver CPU validation",
     "Current valid DEC1 target-native binding/resource admission rather than old window or old pilot rerun",
     "Target-native full-reference/prefix safety and actual feedback/install ACK/stop lifecycle qualification under fixed controller",
     "Original fixed CORR/R0 source/target64 only after corresponding native qualification; independent source A/B remains unaffected"
@@ -83,5 +88,23 @@
   "files_sha256": {
     "scripts/pi0294/dec1/target_time_wire_cpu.py": "1cf197fc8281357d8fb4f796be05e0ccf7960175b1a52580fc49fa244f0a14b6",
     "scripts/pi0294/dec1/test_target_time_wire_cpu.py": "6408f2dda5a66176c7210a95d67314b2afefd589dfc5096ef2cdd0f2e6c0080d"
+  },
+  "exact_published_code_qualification": {
+    "source": "5447d639791d90dda6f6c8915bbf03ada87c44b7",
+    "CI_run": 39880036692,
+    "CI_job": 120174926979,
+    "all_12_steps_success": true,
+    "full_readback_files": 5
+  },
+  "B1_actual_cached_observation": {
+    "job_id": "1478518.stdct-mgmt-02",
+    "observed_epoch": 1792716687.277398,
+    "state": "R",
+    "returned_updates": 863,
+    "queries": 17,
+    "loads": 2,
+    "unknown_effects": [],
+    "fixed_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "no_restarts_hot_changes_or_duplicate_submissions": true
   }
 }
