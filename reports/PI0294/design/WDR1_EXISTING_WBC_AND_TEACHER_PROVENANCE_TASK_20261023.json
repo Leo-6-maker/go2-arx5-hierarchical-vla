@@ -328,5 +328,98 @@
     "native_adoption": false,
     "new_training": false,
     "all_historical_costs_caps_and_reservations_preserved": true
+  },
+  "latest_Vanda_native_control_adoption_and_storage_discrepancy": {
+    "schema": "WDR1_VANDA_CONTROL_NATIVE_ADOPTION_ACTUAL_V1",
+    "status": "ACTUAL_ADMINISTRATIVE_ADOPTION_NO_NEW_TRAINING",
+    "runtime_source": "68ac087f7c3d221c8c2b52ad739784f21c0962c5",
+    "exact_CI": {
+      "run": 39957384368,
+      "job": 120426504285,
+      "completed": true,
+      "conclusion": "success",
+      "all12steps": true,
+      "full_file_readbacks": 5
+    },
+    "actual_registration": {
+      "parent_manifest_sha256": "4ed272c45ff67c031eda5c0151c75739914a9af19a29b8dd7c29348542325554",
+      "controller_manifest_sha256": "b9938b47703e89e0337c9bf1a6e3e2411f9f7ee85e998f5a86577005373980a5",
+      "source_members_each": 955,
+      "independent_full_sealed_bytes_readback": true,
+      "bootstrap_CPU_actual_s": 5.6441055129999995
+    },
+    "actual_authority": {
+      "global_sha256": "02c068abc4f51cd6caca530e6f6c5aabc8b9d094434ea9dfbbe4955f7ab48aff",
+      "DEC1_sha256": "53a8f7d0f611b0d85911344251adcf19e7b90fbc65b67a47098aeb39c21ecdb0",
+      "revision_before": 1252,
+      "revision_after": 1253,
+      "origin": "HOPPER_UNAVAILABLE_FENCED_NOT_FRESH",
+      "old_parent_reconciliation_required": true,
+      "one_mutation_owner": true,
+      "all_old_costs_caps_and_reservations_preserved": true
+    },
+    "storage_forecast_discrepancy": {
+      "prior_four_root_projection_upper_bytes": 64995328,
+      "actual_migration_metadata_allocated_upper_bytes": 5885952,
+      "combined_conservative_upper_bytes": 70881280,
+      "original_control_charge_bytes": 67108864,
+      "prior_fit_claim_invalidated_by_actual_readback": true,
+      "new_pure_once_charge_bytes": 8388608,
+      "additional_finite_audit_output_bound_bytes": 2097152,
+      "within_existing549_615GiB_caps_and_final40GiB": true,
+      "native_supplement_not_yet_charged": true,
+      "old64MiB_charge_not_refunded": true
+    },
+    "failure_preserved": {
+      "last_job_failed": true,
+      "last_native_step": 2970,
+      "paid_updates_pending_settlement": 922,
+      "last_full_state": 2048,
+      "settled_updates": 8744,
+      "settled_queries": 1197,
+      "GPU_reserved_s": 22560,
+      "CPU_reserved_s": 54000,
+      "updates_reserved": 2048,
+      "queries_reserved": 29,
+      "output_reserved_bytes": 70000000000,
+      "actual_settlement_or_closures": false
+    },
+    "readonly_failures_retained": {
+      "initial_full_read_exit": 1,
+      "original_stderr_not_captured": true,
+      "two_subsequent_transport_exit255": true,
+      "master_remained_alive": true,
+      "exact_seal_read_succeeded": true,
+      "separate_metadata_only_read_succeeded": true,
+      "failures_not_converted_to_PASS_or_mutation_retries": true
+    },
+    "CPU_validation": {
+      "new_storage_cases": 18,
+      "selected_combined_cases": 72,
+      "private_temp_bootstrap_cases": 7,
+      "actual_captured_paired_ledger_pure_arithmetic": true,
+      "native_science_effects": 0
+    },
+    "next_steps": [
+      "Qualify supplemental administrative output arithmetic with exact CI and full readback; charge once within existing caps",
+      "Run finite server-resident original-state audit with native persisted result and CPU/wall guards",
+      "Settle actual922paid updates and all CPU/IO overhead once; preserve failed status",
+      "Qualify full-composed-data worker2/4 ordering/resume and aggregate CPU accounting before any faster training profile",
+      "Fresh full remaining-work forecast and necessary narrow human scope before another training submission"
+    ],
+    "original_caps": {
+      "updates": 10792,
+      "DEC1_PBS": 15,
+      "global_PBS": 26,
+      "DEC1_GPUsite_GiB": 549,
+      "global_GPUsite_GiB": 615
+    },
+    "goal": {
+      "WDR1": "ACTIVE_INCOMPLETE",
+      "target_task_native_qualified": false,
+      "core64": 0,
+      "original_CORR2048_R0_unchanged": true,
+      "new_models_or_PBS_or_updates_or_physics": 0
+    }
   }
 }
