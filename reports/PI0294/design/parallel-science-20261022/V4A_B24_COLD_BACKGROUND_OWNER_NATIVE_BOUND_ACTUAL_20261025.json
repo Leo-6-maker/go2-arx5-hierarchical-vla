@@ -1,0 +1,237 @@
+{
+  "schema": "V4A_B24_COLD_SERVER_RESIDENT_ACTUAL_STATE_V1",
+  "status": "ONE_ORIGINAL_B24_BACKGROUND_OWNER_AND_NATIVE_GPU_BOUND_QUALIFICATION",
+  "observed_epoch": 1792864227.7003407,
+  "source_sha": "a6991fca99f82e8dc413816e8bde6c8f0e1552ea",
+  "source_files_full_readback": 1070,
+  "original15_numerical_files_match": true,
+  "private_cold_control_manifest_sha256": "08d05c0eb5dbabe7f38639ff2e0cb27bbcc983b4eea827f0dd0fda50928a00d9",
+  "request_id": "b43a9ef7-1636-4e91-a3e0-e1edb33eeb38",
+  "request_sha256": "d7f0f25a9e6318d1672002eddd3ce20f642a429147f1435dbdcf49e7c17b84b4",
+  "submission_nonce": "4b6da539-7c56-4386-9dea-a03c1053a9e0",
+  "native_handle": "coregpu:3bc113d7-9a7b-42d8-b942-6ccd573b3bf5:4095094:263329486",
+  "actual_platform": "CORELAB_RTX4080",
+  "actual_PBS_alias": false,
+  "new_PBS": 0,
+  "owner": {
+    "MainPID": 4094919,
+    "active": "active",
+    "service_restart": "no",
+    "runtime_control": "FINITE_SERVER_RESIDENT_NO_FOREGROUND_AGENT_DEPENDENCY"
+  },
+  "GPU_process": {
+    "pid": 4095094,
+    "active": "active",
+    "walltime": "8h",
+    "status": "BOUND_QUALIFICATION"
+  },
+  "current_phase": {
+    "original_600s_80cycle_transport_qualification": "RUNNING_NOT_YET_PASSED",
+    "native_identity_resource_admission": "PASS",
+    "models_loaded": 0,
+    "queries": 0,
+    "physical_conditions_started": 0,
+    "native_physics_ticks": 0,
+    "full_scientific_task_qualification": false
+  },
+  "actual_authorization_adoption": {
+    "grant_sha256": "8f5998df61c2935c8cd3248e6cb4338150dfea271659931fcf17efad161d6101",
+    "both_existing_ledgers_match": true,
+    "GPU_site_storage_GiB": 811,
+    "Core_storage_GiB": 329,
+    "adopted_epoch": 1792864177.7748902,
+    "all_other_caps_unchanged": true
+  },
+  "fresh_full_resource_proof": {
+    "shortfalls": {},
+    "all_remaining_costs_fit": true,
+    "dimensions": {
+      "H200_s": {
+        "cap": 435600,
+        "used": 117310.0,
+        "reserved": 0,
+        "remaining_stage_upper": 28860,
+        "matrix": 86580,
+        "final": 72000,
+        "projected": 304750.0,
+        "shortfall": 0
+      },
+      "PBS_submissions": {
+        "cap": 34,
+        "used": 25,
+        "reserved": 0,
+        "remaining_stage_upper": 1,
+        "matrix": 3,
+        "final": 0,
+        "projected": 29,
+        "shortfall": 0
+      },
+      "optimizer_updates": {
+        "cap": 16384,
+        "used": 11714,
+        "reserved": 0,
+        "remaining_stage_upper": 0,
+        "matrix": 0,
+        "final": 0,
+        "projected": 11714,
+        "shortfall": 0
+      },
+      "episode_starts": {
+        "cap": 1000,
+        "used": 367,
+        "reserved": 0,
+        "remaining_stage_upper": 24,
+        "matrix": 88,
+        "final": 100,
+        "projected": 579,
+        "shortfall": 0
+      },
+      "neural_queries": {
+        "cap": 48000,
+        "used": 2850,
+        "reserved": 0,
+        "remaining_stage_upper": 1937,
+        "matrix": 7040,
+        "final": 9000,
+        "projected": 20827,
+        "shortfall": 0
+      },
+      "physics_ticks": {
+        "cap": 40000000,
+        "used": 11325778,
+        "reserved": 0,
+        "remaining_stage_upper": 768000,
+        "matrix": 2816000,
+        "final": 3200000,
+        "projected": 18109778,
+        "shortfall": 0
+      },
+      "engine_starts": {
+        "cap": 100000,
+        "used": 31443,
+        "reserved": 0,
+        "remaining_stage_upper": 1946,
+        "matrix": 7128,
+        "final": 0,
+        "projected": 40517,
+        "shortfall": 0
+      },
+      "Core_CPU_s": {
+        "cap": 1152000,
+        "used": 205295.23270724597,
+        "reserved": 93600,
+        "remaining_stage_upper": 182000,
+        "matrix": 193968.05627,
+        "final": 0,
+        "projected": 674863.288977246,
+        "shortfall": 0
+      },
+      "Hopper_CPU_s": {
+        "cap": 766800,
+        "used": 172817.658597758,
+        "reserved": 7200,
+        "remaining_stage_upper": 87800,
+        "matrix": 85520,
+        "final": 0,
+        "projected": 353337.65859775804,
+        "shortfall": 0
+      },
+      "local_CPU_s": {
+        "cap": 172800,
+        "used": 66058.974682509,
+        "reserved": 7200.0,
+        "remaining_stage_upper": 7800,
+        "matrix": 6600,
+        "final": 0,
+        "projected": 87658.974682509,
+        "shortfall": 0
+      },
+      "transfer_bytes": {
+        "cap": 322122547200,
+        "used": 110907719521,
+        "reserved": 0,
+        "remaining_stage_upper": 51996194416,
+        "matrix": 6174015488,
+        "final": 0,
+        "projected": 169077929425,
+        "shortfall": 0
+      },
+      "Hopper_storage_bytes": {
+        "cap": 870804619264,
+        "used": 779623818276,
+        "reserved": 0,
+        "remaining_stage_upper": 38346128184,
+        "matrix": 9442971836,
+        "final": 42949672960,
+        "projected": 870362591256,
+        "shortfall": 0
+      },
+      "Core_storage_bytes": {
+        "cap": 353261060096,
+        "used": 276562832608,
+        "reserved": 0,
+        "remaining_stage_upper": 58210351928,
+        "matrix": 17968398336,
+        "final": 0,
+        "projected": 352741582872,
+        "shortfall": 0
+      },
+      "local_storage_bytes": {
+        "cap": 21474836480,
+        "used": 8791261184,
+        "reserved": 0,
+        "remaining_stage_upper": 67108864,
+        "matrix": 0,
+        "final": 0,
+        "projected": 8858370048,
+        "shortfall": 0
+      }
+    },
+    "clock": {
+      "first_stage_remaining_wall_upper_s": 28860,
+      "both_stage_panels_fit_original_physics_window": true,
+      "last_stage_submission_fits_original_stop_new": true,
+      "original_matrix_and_final_resources_protected": true,
+      "all_protected_future_jobs_wall_completion_promised": false
+    },
+    "original_matrix_and_final_protected": true
+  },
+  "reserved": {
+    "GPU_seconds": 28860,
+    "GPU_process_CPU_seconds": 80000,
+    "control_CPU_seconds": 7200,
+    "physical_Core_CPU_seconds": 86400,
+    "queries": 1937,
+    "optimizer_updates": 0,
+    "neural_output_bytes": 38346128184
+  },
+  "readback": {
+    "native_capture_sha256": "8880466aeb3448126b746585ffc94568ad2aadb7602a0877aa6e017e49509b71",
+    "GLOBAL_full_bytes_sha256": "c0e03b130e195426fb4150434ff54bfabfd2a7b406d8d651fef20171368b8f52",
+    "LOCAL_full_bytes_sha256": "0dba7e05eb7a9bcfa482294b7998e234c31e5faa36179b6cd7acb766c29b6cd1",
+    "unknown_effects": [],
+    "both_role_leases": {
+      "core": "ACTIVE",
+      "hopper": "ACTIVE"
+    }
+  },
+  "historical_costs_and_requests_preserved": true,
+  "A24_result_preserved": {
+    "success": 11,
+    "valid": 24,
+    "T1": "7/12",
+    "T2": "4/12",
+    "actual_native_safety_faults": 0
+  },
+  "B24_valid": 0,
+  "B_minus_A": null,
+  "later_noises_baseline_and_training": "NOT_AUTOMATICALLY_SCHEDULED",
+  "terminal_policy": "Independent actual audit, known-effects once settlement and both lease closures; failures/unknowns never automatically replayed",
+  "T0_epoch": 1792348196,
+  "stop_new_epoch": 1792866596,
+  "stop_physics_epoch": 1792924196,
+  "hard_close_epoch": 1792952996,
+  "full_goal": "ACTIVE_INCOMPLETE",
+  "target_task_native_qualified": false,
+  "core64": 0
+}
