@@ -1,5 +1,7 @@
 # GR00T＋冻结 WBC：长程实验计划 V3
 
+> **2026-10-24 优先级更新：当前执行顺序以[科学主线优先 Goal V4](../protocols/GR00T_WBC_SCIENCE_FIRST_LONG_HORIZON_GOAL_V4_20261024.md)为准。** 先完成固定CORR核心64格和独立源域A/B行为比较；本V3保留为后继设计背景，世界模型／BASE等不按旧周次自动启动。下文01:46状态与预算是历史快照，当前A/B已完成训练、目标零步feedback／STOP已实际通过；原科学门槛及历史证据不改。
+
 日期：2026-10-24，Asia/Singapore。  
 Plan ID：GROOT_WBC_LONG_HORIZON_V3_20261024。  
 状态：**PLAN_UPDATE / NO_NEW_COMPUTE_GO / NO_NATIVE_ACTION_BY_THIS_PUBLICATION**。  

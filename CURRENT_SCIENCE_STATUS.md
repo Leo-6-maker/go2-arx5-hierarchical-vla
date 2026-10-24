@@ -1,3 +1,23 @@
+## 当前科学主线与长程 Goal V4（2026-10-24）
+
+以 **[科学主线优先 Goal V4](docs/protocols/GR00T_WBC_SCIENCE_FIRST_LONG_HORIZON_GOAL_V4_20261024.md)** 作为当前优先级入口。事实复核至 **24a2bc794bcbfcb23f769a4a62696051d8e85816，13:05:24 SGT**。
+
+| 主线 | 当前状态 | 下一科学交付 |
+|---|---|---|
+| 固定CORR/R0的DEC1 | core64=0；零步真实feedback／双相机／STOP已通过，WBC工作模式下prefix／安装和任务资格未完成 | 最小必要接缝及原commissioning之后，优先完整64格配对结果 |
+| 源域覆盖比较 | A/B4096训练终点完成；B复用准入待闭合；B0已有14/48，新A/B完整DEV未产出 | 有覆盖即独立推进，完成匹配源域行为表；不等待目标成功 |
+| 科学完成标准 | 完整有效的正向、负向或不确定结果均交付；NOT_RUN不当迁移失败 | 任务成功／拒绝／完整失败／工程缺失分开，按几何配对分析 |
+| 当前资源 | 11714更新；global103148GPU秒；PBS已用25／14，原剩余matrix3；LOCAL cap57660、used51058.974682509、future6600 | 先核完整比较覆盖；源130不自动挤入原7040query封套 |
+| 当前截止 | 10-25 02:29:56停新job／候选；10-25 18:29:56停新物理；10-26 02:29:56硬关闭（SGT） | V4不重置旧clock，后继第1／3／6／12周另按有效范围推进 |
+
+既有授权内的普通必要修复直接接续；工程项只服务上述两张表。当前不新训、不扩采，不重新建设已通过的零步组件。后续扩展由结果触发。
+
+### 以下为历史与实际回执记录
+
+旧段落中的B2048、R、首次更新未放行及“零步尚未执行”按原时间解释，不覆盖上方当前状态。
+
+---
+
 完整目标继续推进：[原RL编译库真实重定位绑定只读结果](reports/PI0294/design/WDR1_FROZEN_RL_EXACT_LINK_BINDING_ACTUAL_20261024.json)。新source542fbbd1已普通push／四份全文回读，实际47个含重定位函数／2446字段中，858个具名链接目标精确匹配、已解析项0不一致；1587个外部／局部section与常量目标未解析、1个GOT类未支持，实际具名常量完整字节验证0。不能把旧52个屏蔽重定位函数体匹配或当前858局部绑定当成完整header/state ABI、腿历史snapshot／prefix安全。10初始／11当前CPU测试包含错误call仍过masked-body却被精确绑定拒绝、常量内容替换拒绝，以及NOBITS不冒充文件常量。新Core只读CPU0.066413277秒，控制metadata／Core／LOCAL账本与两SDK UNKNOWN均不变，模型／构建／物理／原生写0；未重跑已关闭零步IO。下一项精确解析PLT/GOT和局部section／常量，再核验原状态ABI；不猜offset、不重编WBC，不用12D MPC替代完整全身prefix。原生零步feedback／双相机／STOP已真实通过／关闭；安装ACK／完整prefix／T1T2／CORR-R0 core64仍未完成，完整goal ACTIVE。
 
 原冻结目标的服务器零步IO已真实跑通并一次关闭：[实际反馈／双相机／STOP与独立关闭](reports/PI0294/design/WDR1_ORIGINAL_NATIVE_ZERO_IO_FEEDBACK_STOP_CLOSED_ACTUAL_20261024.json)。source802886e4／request45c7a884／manifestfafa2a0b；311封存成员现场回读、新鲜完整8D与全未来预算通过，单一有限后台monitor自运行，worker自然Exit0。实际700条odom／699条arm反馈，原生暂停step0/time0、双相机、持久STOP及真实ACK，observer已停止且0积分／157快照；7构造尝试、worker+children14.299281312CPU秒。Core614.299281312／LOCAL60及原IO金融upper一次结算，lease CLOSED、独立actor0／全部IO hold0，旧两次IO失败和SDK两UNKNOWN保持。人类批准的LOCAL57600→57660已真实双once采用／独立回读，其余预算与原时钟不改；已用LOCAL51058.974682509，保留原未来6600后余1.025317491秒。原WBC／求解器数值不改，原107依赖封存；Actions账单恢复不再是前置。**本轮actual_mode_WBC_before_pause=false，policy-prefix0／reference-install未资格；完整全身prefix／安装ACK／T1T2／固定CORR-R0 core64仍未完成**。不得重跑已关闭零步请求或把零步组件PASS当任务PASS；下一项沿现成原生IO接缝补齐完整目标安全与策略安装闭环，完整goal未达成。

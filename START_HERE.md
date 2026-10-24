@@ -1,3 +1,15 @@
+## 当前优先 Goal：科学主线优先 V4（2026-10-24）
+
+**[执行本轮长程 Goal：先交科学结果](docs/protocols/GR00T_WBC_SCIENCE_FIRST_LONG_HORIZON_GOAL_V4_20261024.md)**。当前最多两条在制科学线：固定旧CORR/R0的DEC1核心64格，以及独立的B0／A4096／B4096源域DEV比较。两执行器和接口合格时优先核心64；目标受阻不暂停已合格源域工作。完整负结果照常交付，18/24是PV1发布门，不是科学结果前门。
+
+事实复核至 **24a2bc794bcbfcb23f769a4a62696051d8e85816（2026-10-24 13:05:24 SGT）**：A/B训练终点已完成；B保存审计及资源关闭完成，后续复用边界仍待闭合。目标真实零步feedback／双相机／STOP已完成并关闭；零步未进入WBC工作模式，安装／完整prefix／T1T2尚未资格，core64=0；部分实际链接绑定不替代此资格。下一项是复用已有接缝补齐必要动作执行链，取得原科学矩阵，已关闭零步请求不重跑。
+
+当前收尾窗口暂停新训练候选与扩采；world model、BASE和更多泛化移出当前日程。LOCAL一分钟已采用并消费，原时钟与所有已用成本保持。V4更新优先级，不新增计算额度；旧V3与01:46交接保留为历史和设计背景。
+
+下方按原时间保存历史记录；接续时使用最新同一身份链的原生回执。
+
+---
+
 完整目标继续推进：[原RL编译库真实重定位绑定只读结果](reports/PI0294/design/WDR1_FROZEN_RL_EXACT_LINK_BINDING_ACTUAL_20261024.json)。新source542fbbd1已普通push／四份全文回读，实际47个含重定位函数／2446字段中，858个具名链接目标精确匹配、已解析项0不一致；1587个外部／局部section与常量目标未解析、1个GOT类未支持，实际具名常量完整字节验证0。不能把旧52个屏蔽重定位函数体匹配或当前858局部绑定当成完整header/state ABI、腿历史snapshot／prefix安全。10初始／11当前CPU测试包含错误call仍过masked-body却被精确绑定拒绝、常量内容替换拒绝，以及NOBITS不冒充文件常量。新Core只读CPU0.066413277秒，控制metadata／Core／LOCAL账本与两SDK UNKNOWN均不变，模型／构建／物理／原生写0；未重跑已关闭零步IO。下一项精确解析PLT/GOT和局部section／常量，再核验原状态ABI；不猜offset、不重编WBC，不用12D MPC替代完整全身prefix。原生零步feedback／双相机／STOP已真实通过／关闭；安装ACK／完整prefix／T1T2／CORR-R0 core64仍未完成，完整goal ACTIVE。
 
 原冻结目标的服务器零步IO已真实跑通并一次关闭：[实际反馈／双相机／STOP与独立关闭](reports/PI0294/design/WDR1_ORIGINAL_NATIVE_ZERO_IO_FEEDBACK_STOP_CLOSED_ACTUAL_20261024.json)。source802886e4／request45c7a884／manifestfafa2a0b；311封存成员现场回读、新鲜完整8D与全未来预算通过，单一有限后台monitor自运行，worker自然Exit0。实际700条odom／699条arm反馈，原生暂停step0/time0、双相机、持久STOP及真实ACK，observer已停止且0积分／157快照；7构造尝试、worker+children14.299281312CPU秒。Core614.299281312／LOCAL60及原IO金融upper一次结算，lease CLOSED、独立actor0／全部IO hold0，旧两次IO失败和SDK两UNKNOWN保持。人类批准的LOCAL57600→57660已真实双once采用／独立回读，其余预算与原时钟不改；已用LOCAL51058.974682509，保留原未来6600后余1.025317491秒。原WBC／求解器数值不改，原107依赖封存；Actions账单恢复不再是前置。**本轮actual_mode_WBC_before_pause=false，policy-prefix0／reference-install未资格；完整全身prefix／安装ACK／T1T2／固定CORR-R0 core64仍未完成**。不得重跑已关闭零步请求或把零步组件PASS当任务PASS；下一项沿现成原生IO接缝补齐完整目标安全与策略安装闭环，完整goal未达成。
