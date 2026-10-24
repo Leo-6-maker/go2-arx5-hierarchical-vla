@@ -1,3 +1,5 @@
+V4已实际接续：[两条科学线与必要缺口](reports/PI0294/design/WDR1_V4_SCIENCE_FIRST_ADOPTION_AND_BOUNDED_BINDING_ACTUAL_20261024.json)。S1仍core64=0，目标完整前缀／参考安装和source当前资格未闭合；S2保留B0有效14/48（9成功、5失败），A4096／B4096训练已完成、DEV各0/48。剩余130条件需10400查询及4160000 live+shadow ticks，不能借原核心矩阵7040查询。global已用25/28 PBS，余3份全属原matrix；保护matrix86580GPU秒和最终72000后另余83872GPU秒，独立源评估完整CPU／IO／平台／提交覆盖仍须一次核清，当前不是准入。此前已派发的只读链接检查实际完成：83函数／3275字段，3251局部地址／常量或PLT-GOT名字已核对，0已检查不一致，24局部引用未解析；动态DSO实现和完整状态ABI仍未资格。停止通用链接／vendor逆向扩展，只补直接解除原生prefix接缝的必要项。LOCAL一分钟已用且原6600未来不减；两SDK UNKNOWN和全部历史保留，无新模型／物理／PBS／账本写，完整goal ACTIVE。
+
 ## 当前优先 Goal：科学主线优先 V4（2026-10-24）
 
 **[执行本轮长程 Goal：先交科学结果](docs/protocols/GR00T_WBC_SCIENCE_FIRST_LONG_HORIZON_GOAL_V4_20261024.md)**。当前最多两条在制科学线：固定旧CORR/R0的DEC1核心64格，以及独立的B0／A4096／B4096源域DEV比较。两执行器和接口合格时优先核心64；目标受阻不暂停已合格源域工作。完整负结果照常交付，18/24是PV1发布门，不是科学结果前门。
