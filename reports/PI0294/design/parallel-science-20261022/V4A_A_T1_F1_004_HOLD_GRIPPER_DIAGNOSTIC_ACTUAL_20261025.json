@@ -1,0 +1,175 @@
+{
+  "schema": "ORIGINAL_SAVED_A_T1_FULL_TASK_FAILURE_GRIPPER_H40_DIAGNOSTIC_V1",
+  "condition_id": "PI0294/PV1/DEV/F1/004/T1/N294101",
+  "original_score": {
+    "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+    "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+    "complete_32s": true,
+    "clock_valid": true,
+    "safety_valid": true,
+    "history": {
+      "sustained_grasp": true,
+      "sustained_lift": true,
+      "horizontal_carry": true
+    },
+    "hold_observed": 41,
+    "hold_pass": 0,
+    "hold_subpredicates": {
+      "zone_corners": 0,
+      "table_height": 0,
+      "linear_speed": 1,
+      "angular_speed": 25,
+      "released": 0,
+      "tcp_clear": 0,
+      "object_and_contacts_valid": 41
+    },
+    "persistent_success": false,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "task": "T1",
+    "domain": "FIXED_BASE_ARX5_TASK_SIM",
+    "maximum_actual_lift_m": 0.09151970303425244,
+    "maximum_actual_carry_xy_m": 0.20337087221510003,
+    "physics_sha256": "657ac2f95b3917b52223729cdfecf2fc8104ff8dbf12437e5f984ef05be43031",
+    "raw_sample_count": 641
+  },
+  "original_actual_command_and_audit_evidence": {
+    "reference_file_sha256": "141b2b0e6675e820a3387dcec821bb63fe5f0c8351537dbf627d5e17074ff8f9",
+    "FILE_MANIFEST_sha256": "4c6c5bb1a76105bb147a9a5fd80fd7e70f55935f1282bdd00fc09dd063d6edac",
+    "physics_sha256": "657ac2f95b3917b52223729cdfecf2fc8104ff8dbf12437e5f984ef05be43031",
+    "independent_audit_sha256": "d713d1c48327219baa817b9f46e179747285e5f8089ba3b7edc9f737796a2cc5",
+    "causal_wrapper_sha256": "94475c13f239a3380a63df090b7623fc2e840baabdf005a506a3cc3216e73f3a",
+    "saved_reference_readback_sha256": "6dd31a99d9230a40ccc1ee51e02af3c4703813015885bd983e73a36f55584984",
+    "original_full_reference_and_actual_ACK_checks_PASS": true,
+    "reference_labels_exact_committed_maximum_difference": 0
+  },
+  "original_frozen_semantics": {
+    "source_commit": "7cc751803e18b911fbe6ad896efd9a1c0ed936b0",
+    "source_files_sha256": {
+      "scripts/pi0291_arx5_data/teacher.py": "7b1a8b64a2b01573394323a945ecdd9d05821fc3ae83a1ad257adc44874fb234",
+      "scripts/pi0291_arx5_data/engine.py": "623dc5ebf59fd9c470152ee3d60bb15b11ea554ef4b41bf911e62c20dec46c30",
+      "scripts/pi0291_arx5_data/config.py": "debc6d9d0358bc6dcf5a1107c5723bb6eb8ff4b396fc35f7901fb67f771f593c"
+    },
+    "fraction_zero_is_closed_travel_target": true,
+    "fraction_one_is_open_travel_target": true,
+    "Teacher_release_uses_original_open_target": 1.0,
+    "Teacher_logic_is_semantics_only_not_replayed_or_new_labels": true,
+    "no_new_open_threshold_or_safety_gate": true
+  },
+  "original_hold_window": {
+    "first_s": 28,
+    "last_s": 30,
+    "sample_count": 41,
+    "committed_gripper_target_min": 0.01055985689163208,
+    "committed_gripper_target_max": 0.05330270528793335,
+    "entire_H40_min_over_six_hold_window_draws": 0.0,
+    "entire_H40_max_over_six_hold_window_draws": 0.06879276037216187,
+    "measured_fraction_at_six_actual_policy_observations_min": 0.4307302263161526,
+    "measured_fraction_at_six_actual_policy_observations_max": 0.43635341141006007,
+    "native_grasp_true_20Hz_samples": 41,
+    "object_center_height_range_m": [
+      0.5294114824989005,
+      0.5458182854365468
+    ],
+    "original_goal_center_height_m": 0.46,
+    "per_draw_summary": [
+      {
+        "decision_index": 70,
+        "original_grid_time_s": 28.0,
+        "measured_fraction_at_policy_observation": 0.43635341141006007,
+        "installed_prefix8_min": 0.026641011238098145,
+        "installed_prefix8_max": 0.0530734658241272,
+        "entire_H40_min": 0.026641011238098145,
+        "entire_H40_max": 0.06879276037216187,
+        "actual_ACK_sha256": "9bed961dcc80d20ec9fa6453273f92d66c96df55afa38518e5e01b07c5a0b6b7"
+      },
+      {
+        "decision_index": 71,
+        "original_grid_time_s": 28.400000000000002,
+        "measured_fraction_at_policy_observation": 0.4307302263161526,
+        "installed_prefix8_min": 0.033728063106536865,
+        "installed_prefix8_max": 0.05330270528793335,
+        "entire_H40_min": 0.029737412929534912,
+        "entire_H40_max": 0.06515872478485107,
+        "actual_ACK_sha256": "c484661e6156467ebf5d51c52059430ed37ff0a61859fcccb40a8b4559e59814"
+      },
+      {
+        "decision_index": 72,
+        "original_grid_time_s": 28.8,
+        "measured_fraction_at_policy_observation": 0.4361343499951229,
+        "installed_prefix8_min": 0.01055985689163208,
+        "installed_prefix8_max": 0.036006152629852295,
+        "entire_H40_min": 0.01055985689163208,
+        "entire_H40_max": 0.054162561893463135,
+        "actual_ACK_sha256": "be9b3b2ce26d4a521f89fe90f73750bc4a46daeadba49a4dde49dc7dc9a6f724"
+      },
+      {
+        "decision_index": 73,
+        "original_grid_time_s": 29.200000000000003,
+        "measured_fraction_at_policy_observation": 0.43593574626873766,
+        "installed_prefix8_min": 0.01267242431640625,
+        "installed_prefix8_max": 0.042752981185913086,
+        "entire_H40_min": 0.011185884475708008,
+        "entire_H40_max": 0.05550128221511841,
+        "actual_ACK_sha256": "45ad7823710eff35062382167cc392f94a58bd103266a6b9d4309f1a84cc0431"
+      },
+      {
+        "decision_index": 74,
+        "original_grid_time_s": 29.6,
+        "measured_fraction_at_policy_observation": 0.435770926426848,
+        "installed_prefix8_min": 0.013421177864074707,
+        "installed_prefix8_max": 0.04509997367858887,
+        "entire_H40_min": 0.0035009384155273438,
+        "entire_H40_max": 0.06167909502983093,
+        "actual_ACK_sha256": "d2d85512c0d59a8316096771dbb7bea5af898209899ced2d59ecd6a6ff9c1e77"
+      },
+      {
+        "decision_index": 75,
+        "original_grid_time_s": 30.0,
+        "measured_fraction_at_policy_observation": 0.43483643752022566,
+        "installed_prefix8_min": 0.011104822158813477,
+        "installed_prefix8_max": 0.034142136573791504,
+        "entire_H40_min": 0.0,
+        "entire_H40_max": 0.05637127161026001,
+        "actual_ACK_sha256": "d9d1e527e0f80ad059435db1e02a4e79f4c0cdc7af1256baa95c92901838f206"
+      }
+    ]
+  },
+  "bounded_interpretation": {
+    "late_entire_H40_targets_remain_near_closed_end_not_only_the_executed_prefix": true,
+    "this_condition_is_not_evidence_of_a_correct_open_command_hidden_only_in_unused_H40_tail": true,
+    "original_complete_grasp_lift_carry_did_not_finish_place_release_withdraw_hold": true,
+    "opening_measured_about_0p43_does_not_by_itself_mean_actuator_tracking_fault": true,
+    "cause_of_learning_or_data_gap_unproven": true,
+    "one_condition_does_not_establish_AB_effect_or_general_failure_rate": true,
+    "do_not_convert_DEV_to_TRAIN_labels": true,
+    "no_sampler_loss_data_or_model_changed": true,
+    "observed_place_release_withdraw_chain_incomplete_not_proof_which_training_intervention_works": true,
+    "opening_alone_is_not_qualified_as_a_recovery_label_from_this_diagnostic": true,
+    "H40_gripper_inference_scope_is_only_original_hold_28_to30_s": true
+  },
+  "Core_readonly_CPU_s": 0.020088078,
+  "analysis_source_sha256": "fc430fbcbcf4905ae1d81c02b1fa27d588a3bda20eff193b3011be8e75fa8bcf",
+  "new_model_queries": 0,
+  "new_physics": 0,
+  "new_TRAIN_labels": 0,
+  "full_goal": "ACTIVE",
+  "source_private_derivation_sha256": "1ba45bd3533546fa2918824691ff5e6959d233f862e077915907c7ef9015ef70",
+  "separate_current_background_snapshot": {
+    "observed_epoch": 1792860810.7419755,
+    "readback_sha256": "8cc3eb3e5a32778c965672bf8474e2be17bc66f056d80245730187010731c15a",
+    "original_terminal_capture_sha256": "5c4dbefd1d75fab912ffa418e90d202e969b218615c9a985f9935070c271fed5",
+    "A_independent_valid": 22,
+    "A_successes": 11,
+    "A_valid_failures": 11,
+    "A_failure_stages": {
+      "ORIGINAL_REFERENCE_GATE_REJECT": 1,
+      "S1_PRE_EXECUTION_REJECT": 7,
+      "OBJECT_TASK_RESULT": 3
+    },
+    "B_independent_valid": 0,
+    "B_minus_A_unknown": true,
+    "owner_same_live_PID_and_proc_start": true,
+    "not_complete_original_first_noise_panel_or_DEV48": true
+  }
+}
