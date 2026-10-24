@@ -11,6 +11,7 @@ from scripts.pi0292.allocation_admission import owned_jobs
 from scripts.pi0292.durable import read,write
 from scripts.pi0294.native_dataset import sha
 from .allocation import single_h200_select,native_request_binding
+from .evaluation_ledger import for_request as ledger_for_request
 from .neural_ledger import Ledger
 from .neural_scope import validate
 from .resources import pbs_limit
@@ -45,7 +46,9 @@ def native_bootstrap(root,request_path):
 def run(root,request_path):
     root=Path(root);began=time.process_time();children=resource.getrusage(resource.RUSAGE_CHILDREN)
     m,r,directory,job_id,host=native_bootstrap(root,request_path)
-    ledger=Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root)
+    ledger=(ledger_for_request(root,request_path,final=r['stage']=='P5_FINAL')
+        if 'platform_evaluation_version' in r else
+        Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root))
     ready=directory/'PBS_READY.json';release=directory/'START_NEURAL.json';status='FAILED_PRESERVED';code=None;error=None
     if ready.exists():raise FileExistsError('PV1_PRESERVE_FIRST_NATIVE_BOOTSTRAP_NO_RESTART')
     started=time.time();request_sha=sha(request_path)

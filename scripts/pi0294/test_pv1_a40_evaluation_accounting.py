@@ -90,8 +90,8 @@ def test_unknown_qsub_keeps_full_escrow_without_invented_job_or_retry():
 def test_terminal_failed_costs_are_preserved_without_creating_optimizer_effects():
     r=row();r.update(status='NATIVE_TERMINAL',native_exit_status=1,terminal_native_sha256='9'*64,
         terminal_effect_summary_sha256='a'*64,conservative_H200_s=200,conservative_CPU_s=160,
-        query_attempts=17,reserved_neural_queries=0,committed_optimizer_updates=0)
-    v=global_fixture(r);v.update(CPU_reserved_s=0,storage_reserved_bytes=0)
+        query_attempts=17,model_load_attempts=1,reserved_neural_queries=0,committed_optimizer_updates=0)
+    v=global_fixture(r);v.update(CPU_reserved_s=0,storage_reserved_bytes=0,CPU_s=160,generation_queries=17,model_loads=1,used=dict(H200_s=200))
     v['reserved']=dict(H200_s=0,neural_queries=0,optimizer_updates=0)
     legacy.validate_items(v);assert r['conservative_H200_s']==200
     r['committed_optimizer_updates']=1

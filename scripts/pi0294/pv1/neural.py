@@ -23,6 +23,7 @@ from .sampler import ARMS
 from .native_admission import admit
 from .native_transport_qualification import run as qualify_transport
 from .neural_ledger import Ledger
+from .evaluation_ledger import for_request as ledger_for_request
 from .pre_model_qualification import require_current
 from .probes import run as probes
 from .recipe import PARENT,validate_primary,run_key
@@ -283,7 +284,9 @@ def run(root,request_path):
     if r.get('stage') not in STAGES:
         raise PermissionError('PV1_THIS_DISPATCHER_ONLY_B0_PRIMARY_TERMINAL_DEV_AND_P5_PHASES')
     allocation=admit(root,request_path)
-    ledger=Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root)
+    ledger=(ledger_for_request(root,request_path,final=r['stage']=='P5_FINAL')
+        if 'platform_evaluation_version' in r else
+        Ledger(root,final=True) if r['stage']=='P5_FINAL' else Ledger(root))
     lock=OwnerLock(root/'NEURAL_OWNER.lock');started=time.process_time();children=resource.getrusage(resource.RUSAGE_CHILDREN)
     directory=request_path.parent;status='FAILED_PRESERVED';phase='NATIVE_ENTRY';instance=None;records=[];error=None
     if (directory/'PBS_PROCESS_STARTED.json').exists():
