@@ -1,0 +1,115 @@
+{
+  "schema": "V4A_ACTUAL_CORE_ORIGINAL_PREMODEL_PASSED_A_MODEL_READY_AND_REAL_DEV_STARTED_V1",
+  "observed_epoch": 1792848420.5723383,
+  "source_sha": "7cc751803e18b911fbe6ad896efd9a1c0ed936b0",
+  "goal_status": "ACTIVE",
+  "stage": {
+    "plan": "V4A",
+    "noise_bank": 294101,
+    "conditions_per_candidate": 24,
+    "maximum_candidates": 2,
+    "maximum_concurrent_GPU_processes": 1,
+    "no_automatic_other_panels_or_training": true
+  },
+  "actual_A": {
+    "native_process": {
+      "pid": 3913148,
+      "proc_start": 261669660,
+      "active": true
+    },
+    "server_owner": {
+      "pid": 3912915,
+      "proc_start": 261668446,
+      "active": true,
+      "independent_of_agent_keepalive": true
+    },
+    "original_qualification": {
+      "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+      "receipt_sha256": "56b1c2c7ba6bbc00ebfe9eba31decc04685a8a77b13791e9a16eff3fb90384ae",
+      "heartbeat_elapsed_s": 600.0085985539481,
+      "transport_cycles": 80,
+      "new_model_queries": 0,
+      "new_physics": 0
+    },
+    "qualification_acquired_before_models_queries_physics": true,
+    "both_existing_fresh_native_release_gates_observed": true,
+    "model_state_sha256": "6625f00151c6adac35d1b46bba2d4363b1242142754a2e4007386be6e57664c5",
+    "model_ready_status": "PV1_NATIVE_MODEL_READY",
+    "checkpoint_manifest_sha256": "e0b9d8cb67efc82ae8daa67d71f95df8fb5c607e0f75e26d58cf01412a3e807a",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "global_step": 4096,
+    "actual_frozen_VLM_parameter_proof": {
+      "sha256": "0619e997958c0e059acda3f76c425275d3904c0364040937a4a555e16e2086fd",
+      "value": {
+        "status": "PASS_ORIGINAL_FROZEN_VLM_NATIVE_PARAMETER_HASHES"
+      }
+    },
+    "neural_query_attempts": 19,
+    "completed_neural_draws": 19,
+    "unknown_or_failed_draws": 0,
+    "pending_neural_query": null,
+    "native_query_state_sha256": "e973588313cb2d1a3b3d1d49ae5e0d98ed0898c6148728c75e2670c34148551e",
+    "real_original_policy_workers_started": 1,
+    "physical_counter": {
+      "schema": "PI0294_PV1_CORE_POLICY_LEDGER_V1",
+      "run_uuid": "pv1-v4a-a4096-n294101-01",
+      "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+      "Core_CPU_s": 0.316999211,
+      "CPU_reserved_s": 86400,
+      "main_starts": 1,
+      "engine_starts": 24,
+      "live_and_recovery_integrations": 0,
+      "shadow_integrations": 3800,
+      "reservations": {
+        "A_CONTROL-PI0294-PV1-DEV-F0-000-T1-N294101": {
+          "kind": "live_and_recovery_integrations",
+          "maximum": 16000,
+          "started_epoch": 1792848260.3035815
+        }
+      },
+      "unknown_effects": [],
+      "RPC_calls": 240
+    },
+    "physical_live_count_is_final": false,
+    "active_live_reservation_not_refunded": true,
+    "independently_audited_valid_conditions": 0,
+    "adjudication_statuses": [],
+    "scientific_success_not_claimed_before_terminal_raw_audit_and_causal_join": true
+  },
+  "actual_B": {
+    "request_already_native_queue_accepted": true,
+    "registered_both_peers": true,
+    "native_GPU_process_started": false,
+    "model_loads": 0,
+    "new_queries": 0,
+    "new_physics": 0
+  },
+  "interpretation": {
+    "A_B_effect_estimate": "NOT_YET_OBSERVED",
+    "A_first_original_condition": "RUNNING_NOT_A_VALID_TERMINAL_RESULT_YET",
+    "B0_valid_DEV14_preserved": true,
+    "S1_core64": 0,
+    "target_task_native_qualified": false,
+    "not_full_goal_completion": true
+  },
+  "unchanged": {
+    "original_T0_epoch": 1792348196,
+    "stop_new_epoch": 1792866596,
+    "stop_train_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_close_epoch": 1792952996,
+    "original15_numeric_source_files": true,
+    "checkpoint_statistics_processor_recipe_scoring_and_S1": true,
+    "full_original_noise_panel_and_all_prior_failures": true,
+    "all_PBS25_and_optimizer_updates11714": true,
+    "DEC1_caps": true,
+    "matrix_and_final_protections": true
+  },
+  "next": {
+    "owner_action": "Continue the healthy existing background owner and original driver/core/audit; no restart, hot edit, new request or repeated qualification.",
+    "measurement": "Count only independent terminal raw-audit plus causal-join outcomes; valid negatives remain outcomes, missing/engineering stay explicit.",
+    "B_dispatch": "Only after A actual native terminal, independent whole original panel audit and dual closure."
+  },
+  "CI_success_claimed": false,
+  "actual_native_readback_sha256": "45e1e57a4d78b0edfd0c78583d1dc2303243183c88bf74cd747a5e1101b302e3"
+}
