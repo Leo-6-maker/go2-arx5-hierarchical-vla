@@ -1,0 +1,17 @@
+{
+  "schema": "WDR1_FROZEN_RL_EXPLICIT_LINK_BINDING_CPU_V1",
+  "status": "READONLY_TOOL_CPU_QUALIFIED_ACTUAL_BINDINGS_NOT_YET_READ",
+  "tests_passed": 10,
+  "proof_strength": "Checks actual relocation field values against unique named link targets and complete named constant bytes; unsupported and ambiguous targets remain explicit",
+  "counterexamples": [
+    "A substituted call target still passes relocation-masked body equality but fails exact binding",
+    "Changed constant bytes fail even if the relocated address is unchanged"
+  ],
+  "code_loading_or_native_model_execution": false,
+  "frozen_WBC_rebuilt": false,
+  "header_object_state_ABI_qualified": false,
+  "native_prefix_safety_qualified": false,
+  "target_task_native_qualified": false,
+  "core64": 0,
+  "objective_complete": false
+}
