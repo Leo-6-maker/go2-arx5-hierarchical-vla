@@ -42,7 +42,12 @@ def require_native_device(request,allocation,torch):
     visible=os.environ.get('CUDA_VISIBLE_DEVICES')
     count=torch.cuda.device_count() if visible else 0
     name=torch.cuda.get_device_name(0) if count==1 else None
-    if any('platform_evaluation_version' in v for v in (request,allocation)):
+    from . import evaluation_core_accounting as core
+    if request.get('platform_evaluation_version')==core.VERSION or allocation.get('platform_evaluation_version')==core.VERSION:
+        from .evaluation_core_identity import require_device
+        require_device(request,allocation,visible=visible,count=count,name=name,
+            memory_bytes=torch.cuda.get_device_properties(0).total_memory if count==1 else 0)
+    elif any('platform_evaluation_version' in v for v in (request,allocation)):
         evaluation.require_device(request,allocation,visible=visible,count=count,name=name)
     elif not visible or count!=1 or 'H200' not in name:
         raise PermissionError('PV1_ONE_VISIBLE_NATIVE_H200_ONLY')
@@ -51,10 +56,17 @@ def require_native_device(request,allocation,torch):
 def evaluation_labels(request,plan,prior):
     """V4 requests own one original whole noise panel; legacy owns both."""
     if 'platform_evaluation_version' not in request:return tuple(plan['panels'])
-    if (request['platform_evaluation_version']!=evaluation.VERSION
+    from . import evaluation_core_accounting as core
+    if (request['platform_evaluation_version'] not in (evaluation.VERSION,core.VERSION)
             or request.get('stage') not in ('B0_DEV','P4_DEV')
             or plan.get('candidate')!=request.get('evaluation_candidate')):
         raise PermissionError('PV1_V4_ONE_PRESEALED_DEV_PANEL_ONLY')
+    if request['platform_evaluation_version']==core.VERSION:
+        if (request.get('stage')!='P4_DEV' or request.get('evaluation_candidate') not in core.stage.CANDIDATES
+                or request.get('noise_bank')!=294101 or request.get('remaining_conditions')!=24
+                or request.get('optimizer_updates')!=0 or request.get('statistics_sha256')!=core.old.R0
+                or request.get('checkpoint_manifest_sha256')!=core.old.ENDPOINTS[request['evaluation_candidate']]):
+            raise PermissionError('PV1_CORE_ONLY_ORIGINAL_FIRST_AB_PANEL')
     labels=[label for label,spec in plan['panels'].items()
         if spec.get('noise_bank')==request.get('noise_bank')]
     if (len(labels)!=1 or len(remaining_panel(prior,plan['panels'][labels[0]]))!=request.get('remaining_conditions')
@@ -308,6 +320,10 @@ def record_candidate(ledger,candidate,identity):
 
 def run(root,request_path):
     root,request_path=Path(root),Path(request_path);r=read(request_path)
+    from . import evaluation_core_accounting as core
+    if r.get('platform_evaluation_version')==core.VERSION:
+        from .evaluation_core_runtime import run as run_Core_evaluation
+        return run_Core_evaluation(root,request_path)
     if r.get('stage') not in STAGES:
         raise PermissionError('PV1_THIS_DISPATCHER_ONLY_B0_PRIMARY_TERMINAL_DEV_AND_P5_PHASES')
     allocation=admit(root,request_path)

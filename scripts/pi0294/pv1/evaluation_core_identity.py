@@ -174,6 +174,25 @@ def current_handle():
     return value
 
 
+def require_device(request,allocation,*,visible,count,name,memory_bytes):
+    """CUDA metadata after real admission and qualification; no new precision."""
+    r,a=request,allocation
+    need(r.get('platform_evaluation_version')==a.get('platform_evaluation_version')==c.VERSION
+         and a.get('status')==STATUS and r.get('stage')==a.get('stage')=='P4_DEV'
+         and r.get('evaluation_candidate') in c.stage.CANDIDATES
+         and a.get('evaluation_candidate')==r['evaluation_candidate']
+         and r.get('checkpoint_manifest_sha256')==a.get('checkpoint_manifest_sha256')==c.old.ENDPOINTS[r['evaluation_candidate']]
+         and r.get('statistics_sha256')==a.get('statistics_sha256')==c.old.R0
+         and type(r.get('optimizer_updates')) is int and r['optimizer_updates']==0
+         and r.get('native_platform')=='CORELAB_RTX4080'
+         and visible==r.get('GPU_uuid') and type(count) is int and count==1
+         and name=='NVIDIA GeForce RTX 4080 SUPER'
+         and type(memory_bytes) is int and memory_bytes>=30*1024**3
+         and not any('platform_training_version' in v or 'training_block' in v for v in (r,a)),
+         'ONE_REAL_VISIBLE_MINIMUM_30GIB_CORE_DEVICE_ONLY_FOR_FROZEN_AB_DEV')
+    return True
+
+
 def parse_GPU_rows(raw,process_raw,*,GPU_uuid,own_pid=None):
     """Parse raw nvidia-smi output; an empty/failed read is not a free device."""
     devices=list(csv.reader(io.StringIO(raw)));matches=[]

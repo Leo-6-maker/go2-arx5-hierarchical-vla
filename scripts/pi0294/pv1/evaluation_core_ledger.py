@@ -148,6 +148,7 @@ class Ledger:
         result=self.journal.call(('READ_' if operation=='STATE' else 'WRITE_')+operation,
             'READ_ONLY' if operation=='STATE' else 'MUTATION',invoke)
         raw=base64.b64decode(result['global_base64'],validate=True);self.sequence+=1
+        self.raw_state_bytes=raw
         value=json.loads(raw);write(self.path,value);self.path.chmod(0o400)
         return value
 

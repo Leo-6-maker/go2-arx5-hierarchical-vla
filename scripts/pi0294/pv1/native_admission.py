@@ -13,6 +13,12 @@ from .resources import pbs_limit
 
 
 def admit(root,request_path):
+    if (os.uname().nodename=='corelab-4080s' and os.getuid()==2009
+            and not os.environ.get('PBS_JOBID')):
+        from .evaluation_core_identity import cold_profile as Core_profile
+        if Core_profile(read(Path(root)/'RUN_MANIFEST.json')):
+            from .evaluation_core_native import admit as Core_admit
+            return Core_admit(root,request_path)
     if not os.environ.get('PBS_JOBID'):
         raise PermissionError('PV1_NO_MODEL_ON_HOPPER_LOGIN_OR_WITHOUT_NATIVE_ALLOCATION')
     root=Path(root);m,b,inputs,stage,a=validate(root)

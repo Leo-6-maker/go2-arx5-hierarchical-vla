@@ -17,6 +17,16 @@ from scripts.pi0294.e1.scope import DATA,STATS
 
 PARENT_BINDING_SHA='7903f13a83ec13ffd6e6737709eb7cc38f3e68af96003ae3339473dad54b6818'
 ORIGINAL_NUMERICAL_TABLE_SHA='7666e26ed616dc9facc93fc5b5ac554ab737ba99f1f3e6c2c9887bf5dd207f9b'
+COSMOS_PROCESSOR_PINS={
+    'chat_template.json':'6f8a6a55027e3da5160105556cda5dd69f6423f1c32645f6730d32de7773d0c4',
+    'config.json':'bec4b3d446efa05807365c9e1cec03ac590836879d02f3a6da879971154bdd3b',
+    'generation_config.json':'1e241830b48b397cb0900101421df5450baddc7adf01e5fc86b5615865f3bae4',
+    'merges.txt':'599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3',
+    'preprocessor_config.json':'27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516',
+    'tokenizer.json':'a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7',
+    'tokenizer_config.json':'c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399',
+    'video_preprocessor_config.json':'7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13',
+    'vocab.json':'ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910'}
 
 
 def need(ok,why):
@@ -133,6 +143,8 @@ def validate(root,*,closeout=False):
          and Path(bindings['source']).is_dir() and Path(bindings['python']).is_file()
          and Path(bindings['cosmos']).name=='9ce19a195e423419c349abfc86fd07178b230561',
          'EXISTING_PINNED_OFFICIAL_SOURCE_AND_COSMOS_RUNTIME')
+    need(all(sha(Path(bindings['cosmos'])/n)==pin for n,pin in COSMOS_PROCESSOR_PINS.items()),
+         'ORIGINAL_DEPLOYED_ENTRY_TOKENIZER_AND_PROCESSOR_BYTES')
     original=Path(bindings['dataset']);bank=Path(inputs['new_dataset'])
     need(sha(original/'DATASET_MANIFEST.json')==DATA and sha(original/'statistics.json')==STATS
          and sha(bank/'DATASET_MANIFEST.json')==BANK and sha(bank/'statistics.json')==STATS
