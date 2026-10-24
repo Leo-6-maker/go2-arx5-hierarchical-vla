@@ -1,0 +1,63 @@
+{
+  "schema": "WDR1_FROZEN_ORIGINAL_RL_LINK_BINDING_ACTUAL_READONLY_V1",
+  "status": "PARTIAL_REAL_LINK_BINDINGS_NOT_COMPLETE_ABI_OR_PREFIX",
+  "actual_read_tool_source": "542fbbd115b24c953b63df7c3a1cefc4d5116abd",
+  "actual_receipt_sha256": "130b0593e7b2fef4bc1373217a2c17b28e9c510de558bfed74d2a5e5e7ed1733",
+  "frozen_binary_sha256": "809a46593feb7f6117ef482aa68ea74f0a6ffda02b4e6c3f807892254796644c",
+  "original_four_archive_sha256": {
+    "librl_sdk.a": "2aaeaed7353ec4f32161ab700ca8e27694ca1192ba90fb5714f161e9e4adc1a5",
+    "libobservation_buffer.a": "b4f2e61ab276de5ae7d4b11cb10e3e63e7adffd93944d7345c7d447f590c7fb4",
+    "libinference_runtime.a": "8e82c0b20dd11bc94a18aeeb2a9027566745fd0fe303fd9b61ced911a898af79",
+    "libmotion_loader.a": "36999c22b3744b5098eaa25423289856753d48af2876f572b45d4ccb303db6fd"
+  },
+  "exact_binding_evidence": {
+    "relocation_fields": 2446,
+    "functions_with_relocations": 47,
+    "counts": {
+      "EXACT_NAMED_BINDING_MATCH": 858,
+      "UNRESOLVED_OR_AMBIGUOUS_TARGET": 1587,
+      "UNSUPPORTED_BINDING_KIND": 1
+    },
+    "checked_named_bindings_without_mismatch": 858,
+    "actual_named_constant_bytes_verified": 0,
+    "unresolved_by_relocation_type": {
+      "2": 926,
+      "4": 661
+    },
+    "unresolved_by_object_symbol_type": {
+      "0": 1058,
+      "3": 529
+    }
+  },
+  "validation": {
+    "published_initial_CPU_tests_passed": 10,
+    "current_CPU_tests_passed": 11,
+    "counterexample": "Wrong call target passes relocation-masked body comparison but fails exact binding",
+    "second_counterexample": "Changed named constant bytes fail despite a correct relocated address",
+    "NOBITS_handling": "Addresses can be bound; non-file storage is never compared as constant bytes"
+  },
+  "actual_read_effects": {
+    "Core_and_control_metadata_unchanged": true,
+    "LOCAL_ledger_unchanged_sha256": "f8c4da84c789b8d84e97d911d694db671314cb57550c8ed7dc2f3067f3750642",
+    "both_SDK_UNKNOWNs_unchanged": true,
+    "Core_read_CPU_s": 0.066413277,
+    "new_models_physics_builds_or_native_writes": 0
+  },
+  "evidence_limits": {
+    "all_relocations_resolved": false,
+    "complete_header_object_state_ABI_qualified": false,
+    "complete_leg_history_snapshot_or_replay_qualified": false,
+    "native_prefix_safety_qualified": false,
+    "target_task_native_qualified": false,
+    "core64": 0,
+    "zero_IO_feedback_STOP_component_already_passed_and_closed": true,
+    "zero_IO_not_repeated": true
+  },
+  "next_required": [
+    "Resolve external PLT/GOT and local section/constant references with explicit evidence, not masked fields",
+    "Verify exact original state/header ABI before any compiled RL/state client is linked or constructed",
+    "Complete real native policy-prefix, actual install ACK and original target safety before physical quota"
+  ],
+  "all_original_caps_clocks_failures_costs_and_checkpoints_preserved": true,
+  "objective_complete": false
+}

@@ -11,7 +11,7 @@ def linked(tmp_path):
     cc=shutil.which('cc');ar=shutil.which('ar')
     if not cc or not ar:pytest.skip('system C compiler/ar absent')
     source=tmp_path/'fixture.c'
-    source.write_text('int original_constant=37;\nint binding_callee(int x){return x+1;}\nint binding_other(int x){return x+2;}\nint binding_candidate(int x){return binding_callee(x)+original_constant;}\nint main(void){return binding_candidate(0);}\n')
+    source.write_text('int original_constant=37; int original_bss;\nint binding_callee(int x){return x+1;}\nint binding_other(int x){return x+2;}\nint binding_candidate(int x){return binding_callee(x)+original_constant+original_bss;}\nint main(void){return binding_candidate(0);}\n')
     obj=tmp_path/'fixture.o';binary=tmp_path/'fixture';archive=tmp_path/'fixture.a'
     subprocess.run([cc,'-O0','-fno-pie','-c',str(source),'-o',str(obj)],check=True,capture_output=True)
     subprocess.run([cc,'-no-pie',str(obj),'-o',str(binary)],check=True,capture_output=True)
@@ -42,3 +42,11 @@ def test_changed_constant_contents_are_not_hidden_by_correct_address(linked):
     changed=bytearray(raw);changed[offset:offset+size]=(38).to_bytes(size,'little')
     result=unit.inspect(bytes(changed),archives,contains=('binding_candidate',))
     assert result['counts']['NAMED_CONSTANT_BYTES_MISMATCH']==1 and not result['all_relocations_resolved']
+
+
+def test_bss_address_is_bound_without_inventing_file_contents(linked):
+    raw,archives=linked;value=unit.inspect(raw,archives,contains=('binding_candidate',))
+    row=next(r for r in value['relocations'] if r['object_target']['name']=='original_bss')
+    assert row['status']=='EXACT_NAMED_BINDING_MATCH'
+    assert row['named_object_storage']=='NOBITS_NOT_FILE_BYTES'
+    assert 'named_object_bytes_equal' not in row

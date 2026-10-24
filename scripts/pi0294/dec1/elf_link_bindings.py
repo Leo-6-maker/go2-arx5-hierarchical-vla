@@ -77,6 +77,10 @@ def inspect(binary,archives,contains=('RL','ObservationBuffer','InferenceRuntime
                             candidates=[a for a in addresses if a[0]==symbol and a[2]==target['size']]
                             if len(candidates)==1:
                                 _,section,size=candidates[0];begin=symbol-linked.sections[section][3]
+                                if obj.sections[target['section']][1]==8 or linked.sections[section][1]==8:
+                                    row['named_object_storage']='NOBITS_NOT_FILE_BYTES'
+                                    rows.append(row)
+                                    continue
                                 a=obj.section(target['section'])[target['value']:target['value']+size]
                                 b=linked.section(section)[begin:begin+size]
                                 check(len(a)==len(b)==size,'BIND_NAMED_OBJECT_RANGE')
