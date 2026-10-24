@@ -15,6 +15,7 @@ from scripts.pi0294.mp1.native_heartbeat_capture import collect
 from .allocation import single_h200_select,native_request_binding
 from .decision import AUTHORITY
 from .transport_fixture import immutable,namespace,BASE
+from . import evaluation_platform as evaluation
 
 FILENAME='PV1_NATIVE_HEARTBEAT_CAPTURE.json'
 CLOCK='CLOCK_REALTIME_AFTER_EACH_READ_AND_CLOCK_MONOTONIC'
@@ -27,12 +28,14 @@ def identity(root,directory,allocation):
         raise PermissionError('PV1_EXACT_OWNED_NATIVE_CAPTURE_PATH')
     _,number,_=namespace(root,BASE+'-ALLOCATION-'+directory.name.removeprefix('alloc-'))
     m=immutable(root/'RUN_MANIFEST.json');r=immutable(directory/'REQUEST.json')
+    if allocation.get('status')!=evaluation.STATUS and any('platform_evaluation_version' in x for x in (m,r,allocation)):
+        raise PermissionError('PV1_EVALUATION_IDENTITY_CANNOT_FALL_BACK_TO_H200')
     if (directory.name!='alloc-'+str(number).zfill(2) or r['submit_count']!=number
             or r['run_uuid']!=root.name or r['source_sha']!=m['code']['vla_commit']
             or r['run_manifest_sha256']!=sha(root/'RUN_MANIFEST.json')
             or allocation['request_sha256']!=sha(directory/'REQUEST.json')
             or immutable(directory/'ALLOCATION_ADMISSION.json')!=allocation
-            or allocation['status']!='PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
+            or allocation['status'] not in ('PASS_PV1_OWN_NATIVE_H200_ALLOCATION',evaluation.STATUS)
             or allocation['run_uuid']!=root.name or allocation['project']!=r['project']):
         raise PermissionError('PV1_SAME_SEALED_REQUEST_MANIFEST_NATIVE_ADMISSION')
     host=socket.gethostname();job_id=os.environ.get('PBS_JOBID');user=os.environ.get('USER')
@@ -42,14 +45,19 @@ def identity(root,directory,allocation):
     for p in (directory/'PBS_PROCESS_FINAL.json',root/'pbs/MODEL_STATE.json'):
         if p.exists() and read(p).get('job_id')==job_id:
             raise PermissionError('PV1_ENDURANCE_MUST_PRECEDE_MODEL_AND_TERMINAL')
-    j=owned_jobs(user).get(job_id)
-    if (not j or j['job_state']!='R' or j['Job_Owner'].split('@')[0]!=user
+    if allocation['status']==evaluation.STATUS:
+        evaluation.current_identity(m,r,allocation,run_uuid=root.name,
+            manifest_sha256=sha(root/'RUN_MANIFEST.json'),request_sha256=sha(directory/'REQUEST.json'),
+            user=user,hostname=host,job_id=job_id)
+    else:
+        j=owned_jobs(user).get(job_id)
+        if (not j or j['job_state']!='R' or j['Job_Owner'].split('@')[0]!=user
             or j['project']!=r['project'] or int(j['Resource_List']['ngpus'])!=1
             or not single_h200_select(j['Resource_List'],r['ncpus'])
             or not native_request_binding(j,r)
             or j['Job_Name']!=r['job_name']
             or host.split('.')[0] not in {x.split('/')[0].split('.')[0] for x in j['exec_host'].split('+')}):
-        raise PermissionError('PV1_FRESH_OWN_RUNNING_SELECTED_PROJECT_H200_REQUIRED')
+            raise PermissionError('PV1_FRESH_OWN_RUNNING_SELECTED_PROJECT_H200_REQUIRED')
     return dict(job_id=job_id,hostname=host,request_sha256=sha(directory/'REQUEST.json'),
         source_sha=m['code']['vla_commit'],manifest_sha256=sha(root/'RUN_MANIFEST.json'))
 
@@ -102,6 +110,10 @@ def verify(root,directory,allocation):
     if directory.is_symlink() or directory.parent.resolve()!=(root/'pbs').resolve():
         raise PermissionError('PV1_IMMUTABLE_SAME_JOB_CAPTURE_DIRECTORY')
     raw=path.read_bytes();v=immutable(path)
+    if allocation.get('status')==evaluation.STATUS:
+        evaluation.sealed_identity(immutable(root/'RUN_MANIFEST.json'),immutable(directory/'REQUEST.json'),
+            allocation,run_uuid=root.name,manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+            request_sha256=sha(directory/'REQUEST.json'))
     if (v['schema']!='PI0294_PV1_NATIVE_HEARTBEAT_CAPTURE_V1'
             or v['status']!='PASS_NATIVE_HEARTBEAT_FRAGMENT_ONLY' or v['authority_release']!=AUTHORITY
             or v['run_uuid']!=root.name or v['job_id']!=allocation['job_id'] or v['hostname']!=allocation['hostname']
