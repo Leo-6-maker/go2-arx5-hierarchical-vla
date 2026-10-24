@@ -21,6 +21,7 @@ from .target_zero_counter import read, filehash, put
 
 need=budget.need
 REQUIRED_CODE=('target_native_io_entry.py','target_native_io_graph.py',
+    'target_native_io_ros_environment.py',
     'target_native_io_resources.py','target_native_io_budget.py','target_zero_quota.py',
     'target_paused_stop.py','target_zero_observer.cpp','target_time_transaction.py',
     'target_mpc_prediction.py','target_sdk_qualification.py')
@@ -124,6 +125,8 @@ def validate(root):
          'IO_ORIGINAL_PREDECLARED_NON_OBJECT_TRAIN_GEOMETRY')
     for name,pin in inputs['original_readonly_files'].items():
         need(Path(name).is_absolute() and not Path(name).is_symlink() and filehash(name)==pin,'IO_ORIGINAL_NATIVE_ASSET_OR_TOOLCHAIN_CHANGED')
+    from .target_native_io_ros_environment import validate_binding
+    validate_binding(inputs)
     # The entire current MuJoCo include closure, not just its first header, is
     # sealed before compiling OUR observer. No vendor/controller is compiled.
     include=Path(inputs['mujoco_include']);headers=inputs['mujoco_headers']
@@ -167,6 +170,8 @@ def validate(root):
 
 def run(root):
     root=Path(root);m,q,inputs,guard=validate(root)
+    from .target_native_io_ros_environment import ensure_startup
+    ensure_startup(root,root/m['code']['capsule_relative'],inputs,guard)
     # Native graph imports occur only after ALL admission above has passed.
     from .target_native_io_graph import run_graph
     put(root/'evidence/NATIVE_IO_OWNER_INTENT.json',dict(request_id=q['request_id'],

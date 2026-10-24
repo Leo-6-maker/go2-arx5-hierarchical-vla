@@ -10,6 +10,7 @@ import pytest
 
 from . import target_native_io_entry as unit
 from . import target_native_io_graph as graph
+from . import target_native_io_ros_environment as ros_environment
 from .test_target_native_io_resources import proposal,reserve,manifest
 from .test_target_native_io_budget import context
 from .test_target_sdk_budget import bundle,NOW
@@ -26,6 +27,9 @@ def write(path,v):
 def owned(proposal,tmp_path,monkeypatch):
     """All files are isolated CPU doubles; no fixture is a native proof."""
     v=deepcopy(proposal);b=unit.budget;c=b.common;m=manifest(v);q=v['q']
+    # ROS origins/loader startup have their own isolated tests. These existing
+    # fixtures exercise every standard entry and paired resource rejection.
+    monkeypatch.setattr(ros_environment,'validate_binding',lambda inputs:None)
     root=tmp_path/b.CAMPAIGN/'children'/q['child_run_uuid'];root.mkdir(parents=True)
     parent=root.parent.parent;code=root/'code/capsule';code.mkdir(parents=True)
     monkeypatch.setattr(unit,'__file__',str(code/'scripts/pi0294/dec1/target_native_io_entry.py'))
