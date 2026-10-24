@@ -1,0 +1,135 @@
+{
+  "schema": "WDR1_EXACT_FROZEN_TYPE_LAYOUT_DEBUG_READ_AND_NATIVE_CI_GATE_V1",
+  "status": "ACTUAL_SCOPED_TYPE_LAYOUT_DEBUG_ABSENCE_NATIVE_GO_NOT_PROVEN",
+  "exact_private_read_receipt_sha256": "1c5180148c6e9a94411f94f8e8c5c83a1c3331f89f8bcb29bb86257c72585fd1",
+  "objects_and_archive_members": [
+    {
+      "object": "rl_sim_mujoco.cpp.o",
+      "bytes": 3597208,
+      "sha256": "c1a3b938af1759327bf8cab7d33ced45aeb124b1f42caf20d44411381d1ce0b9",
+      "type_layout_sections": {},
+      "has_DWARF_type_info": false,
+      "has_external_debug_link": false
+    },
+    {
+      "object": "rl_sim_mujoco",
+      "bytes": 2912248,
+      "sha256": "809a46593feb7f6117ef482aa68ea74f0a6ffda02b4e6c3f807892254796644c",
+      "type_layout_sections": {},
+      "has_DWARF_type_info": false,
+      "has_external_debug_link": false
+    },
+    {
+      "archive": "librl_sdk.a",
+      "sha256": "2aaeaed7353ec4f32161ab700ca8e27694ca1192ba90fb5714f161e9e4adc1a5",
+      "bytes": 453358,
+      "members": [
+        {
+          "member": "rl_sdk.cpp.o",
+          "sha256": "90844608c4d497c980456a96451b7bbc21b2687e099bd7887961ced3371566b1",
+          "type_layout_sections": {},
+          "has_DWARF_type_info": false,
+          "has_external_debug_link": false
+        }
+      ]
+    },
+    {
+      "archive": "libobservation_buffer.a",
+      "sha256": "b4f2e61ab276de5ae7d4b11cb10e3e63e7adffd93944d7345c7d447f590c7fb4",
+      "bytes": 18706,
+      "members": [
+        {
+          "member": "observation_buffer.cpp.o",
+          "sha256": "a397039b2a5b7ba44c3190d9e3f517a938703e388f5d2a1c6a3f67be0e39ecb1",
+          "type_layout_sections": {},
+          "has_DWARF_type_info": false,
+          "has_external_debug_link": false
+        }
+      ]
+    },
+    {
+      "archive": "libinference_runtime.a",
+      "sha256": "8e82c0b20dd11bc94a18aeeb2a9027566745fd0fe303fd9b61ced911a898af79",
+      "bytes": 115144,
+      "members": [
+        {
+          "member": "inference_runtime.cpp.o",
+          "sha256": "e7c90717f17c6e1994700c700a7c5a9831202d2266fdc4dc2d84621402e00c50",
+          "type_layout_sections": {},
+          "has_DWARF_type_info": false,
+          "has_external_debug_link": false
+        }
+      ]
+    },
+    {
+      "archive": "libmotion_loader.a",
+      "sha256": "36999c22b3744b5098eaa25423289856753d48af2876f572b45d4ccb303db6fd",
+      "bytes": 44712,
+      "members": [
+        {
+          "member": "motion_loader.cpp.o",
+          "sha256": "14c23143ea1bb8c9fa3e7e22005b16d01e58bec706c49b86e1d4f397a57f6fdf",
+          "type_layout_sections": {},
+          "has_DWARF_type_info": false,
+          "has_external_debug_link": false
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "direct_ELF_objects": 2,
+    "archives": 4,
+    "archive_ELF_members": 4,
+    "type_layout_sections_found": 0,
+    "external_debug_links_found": 0,
+    "scope": "Only these hash-bound existing artifacts; not a claim about all installed files or missing WBC interfaces"
+  },
+  "limitations": {
+    "full_header_object_state_ABI_qualified": false,
+    "relocation_and_constant_binding_still_not_fully_verified": true,
+    "original_52_masked_numeric_body_matches_not_promoted_to_full_ABI": true,
+    "existing_state_journal_not_a_complete_leg_history_snapshot": true,
+    "no_private_offset_guessing": true,
+    "no_controller_replacement_or_recompilation": true
+  },
+  "read_effects": {
+    "Core_control_and_ledger_unchanged": true,
+    "LOCAL_ledger_unchanged": true,
+    "both_SDK_UNKNOWNs_unchanged": true,
+    "actual_Core_read_CPU_s": 0.011294069,
+    "new_build_models_physics_native_writes_GPU_PBS": 0
+  },
+  "current_next_native_gate": {
+    "runtime_source": "5671da2b48a930d9a670091a5bd9847516ccf493",
+    "exact_CI_run": 40052632537,
+    "job": 120748430019,
+    "conclusion": "failure",
+    "runner": "",
+    "steps": [],
+    "all12success": false,
+    "entry_requires_exact_success": true,
+    "existing_signed_session_confirmed_account_side_startup_restriction": true,
+    "same_blocking_condition_confirmed_three_consecutive_goal_turns": true,
+    "account_owner_action_required": true,
+    "account_settings_unchanged": true,
+    "account_private_details_not_published": true,
+    "local_CPU_tests_not_a_substitute_for_CI_or_native_qualification": true
+  },
+  "prepared_work": {
+    "full_remaining_8D_cold_continuation": true,
+    "exact_closed_predecessor": true,
+    "full_temporary_registration_settlement_close_replay": true,
+    "original_clock_caps_and_three_matrix_envelopes_preserved": true
+  },
+  "still_required": [
+    "EXACT_RUNTIME_CI_AND_COLD_ADOPTION",
+    "FRESH_COMPLETE_RESOURCE_ADMISSION",
+    "ACTUAL_NATIVE_FEEDBACK_AND_STOP",
+    "FULL_TARGET_NATIVE_PREFIX_AND_INSTALL_ACK",
+    "FROZEN_WBC_T1_T2_QUALIFICATION",
+    "ORIGINAL_CORR2048_R0_64_PAIRED_CELLS"
+  ],
+  "objective_achieved": false,
+  "target_task_native_qualified": false,
+  "core64": 0
+}
