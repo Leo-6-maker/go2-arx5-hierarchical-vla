@@ -131,7 +131,7 @@ def validate(root):
     return m,q,inputs,plan,guard
 
 
-def resource_guard(root,m,q,b):
+def resource_guard(root,m,q,b,*,contract=contract,budget=budget):
     parent=root.parent.parent;manifest_pin=filehash(root/'RUN_MANIFEST.json')
     def guard(closeout=False):
         need(filehash(root/'RUN_MANIFEST.json')==manifest_pin,'SDK_OWNER_MANIFEST_UNCHANGED')
