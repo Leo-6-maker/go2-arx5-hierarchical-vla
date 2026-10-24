@@ -1,3 +1,5 @@
+Corelab接续实查：原 CUDA 推理环境、官方51d4源码及模型/processor CPU导入已通过；已有 HF token 认证有效，公开仓库可读。A/B各9份推理文件、每臂12576324408bytes的精确传输/私有原配置恢复计划已生成，原完整Trainer保留，尚未上传/下载。AMD仅CPU；4080节点现场报告32/16GiB两卡，查询时无计算进程，未分配GPU。[实际环境、认证、传输准备与保守复算](reports/PI0294/design/parallel-science-20261022/V4A_CORELAB_NEURAL_ENV_AUTH_AND_MODEL_TRANSFER_PREPARATION_ACTUAL_20261024.json)。Core进程分配/原账本once会计、fresh准入及原600s/80轮资格仍待；不伪造Vanda PBS身份。A/B DEV仍0，core64=0，不自动训练/采数，目标ACTIVE。
+
 V4A接续：当前提交门只允许A/B同bank294101各24条件，最多2份原面板，后续B0／第二bank不自动派发；已采用大额cap保持。[冷态接线与现场终点元数据](reports/PI0294/design/parallel-science-20261022/V4A_PAIRED_STAGE_NATIVE_AND_CONTROL_COLD_CPU_20261024.json)。原matrix／final及截止保持；两份完整阶段和第二次提交时钟均检查，真实标准入口／驻留owner与同job资格仍待，尚无新GPU或Eval结果。
 
 > **当前唯一原生执行优先级（V4A）：** [完整原噪声bank294101的A/B匹配评估](docs/protocols/GR00T_WBC_V4A_EVAL_FIRST_STAGED_EXECUTION_20261024.md)，若实际全链成本/截止可容纳则A24+B24（最多两PBS）再决定其它。V4.1的A8+B8小诊断只是[需要新增合法子面板冷准入的备选](docs/handover/2026-10-24/SCIENCE_FIRST_MINIMUM_SPEND_EVAL_V4_1.md)，**不得当作现有成熟24格eval程序已支持的执行请求**；不得同时排两种，结果不可重复计数。当前A/B DEV仍0/48，DEC1 core64=0；已采用大cap不等于消费指令。
