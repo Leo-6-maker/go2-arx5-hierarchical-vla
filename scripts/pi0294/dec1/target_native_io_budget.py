@@ -12,6 +12,7 @@ from . import target_zero_counter_contract as common
 from . import target_sdk_budget as sdk
 from . import target_sdk_closed_costs as closed_sdk
 from .target_zero_quota import ROLE, SCHEMA as REQUEST_SCHEMA
+from . import target_native_io_predecessor as predecessor
 
 CAMPAIGN,T0,STOP_NEW,HARD_CLOSE = sdk.CAMPAIGN,sdk.T0,sdk.STOP_NEW,sdk.HARD_CLOSE
 ROWS='target_native_IO_reservations'
@@ -39,7 +40,15 @@ def identity(p,c):
 
 def rows(p,c):
     identity(p,c);a=p.get(ROWS,{})
-    need(common.same(a,c.get(ROWS,{})) and len(a)<=1,'IO_ONE_EXACT_PAIRED_COMPONENT_NOT_A_RETRY_POOL')
+    need(common.same(a,c.get(ROWS,{})) and len(a)<=2,'IO_EXACT_PAIRED_COMPONENT_AND_ONE_KNOWN_ZERO_COLD_REPAIR')
+    need(sum(row['status']=='RESERVED' for row in a.values())<=1,'IO_ONE_CURRENT_NATIVE_OWNER')
+    if len(a)==2:
+        need(predecessor.REQUEST in a,'IO_COLD_REPAIR_ONLY_EXACT_ORIGINAL_IMPORT_FAILURE')
+        original=a[predecessor.REQUEST]
+        current=next(row for rid,row in a.items() if rid!=predecessor.REQUEST)
+        packet=base64.b64decode(current['predecessor_packet_base64'],validate=True)
+        cert=predecessor.verify(packet,prior_row=original,prior_settlement=p[SETTLEMENTS][predecessor.REQUEST])
+        need(current['predecessor_certificate']==cert,'IO_ORIGINAL_CLOSED_PREDECESSOR_CERTIFICATE_UNCHANGED')
     spent=dict.fromkeys(common.DIMS,0);held=dict.fromkeys(common.DIMS,0)
     for rid,row in a.items():
         wanted=common.vector(row['requested']);left=common.vector(row['remaining'])

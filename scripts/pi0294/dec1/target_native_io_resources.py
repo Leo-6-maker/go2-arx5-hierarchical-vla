@@ -21,10 +21,10 @@ FORECAST=budget.FORECAST
 
 
 def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_bytes,VAP1_bytes,
-            *,forecast_inputs,DEC1_bytes,SDK_closures,namespace_proof,now_epoch):
+            *,forecast_inputs,DEC1_bytes,SDK_closures,namespace_proof,now_epoch,predecessor_bytes=None):
     p,c,q,m,x=map(common.obj,(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_bytes))
     budget.identity(p,c);prior,spent,held=budget.rows(p,c)
-    need(not prior and not any(held.values()),'IO_NEW_COMPONENT_ONCE_NOT_CLOSED_REQUEST_REPLAY')
+    need(len(prior)<2 and not any(held.values()),'IO_NEW_COMPONENT_ONCE_NOT_CLOSED_REQUEST_REPLAY')
     need(common.sha(VAP1_bytes)==common.VAP1_SHA,'IO_EXACT_ADOPTED_NON_GPU_GRANT')
     need(common.vector(q['requested'])==budget.REQUESTED,'IO_FIXED_ALL_EIGHT_REQUESTED_DIMENSIONS')
     need(q['schema']==REQUEST_SCHEMA and q['scope']==m['scope']==ROLE
@@ -41,6 +41,18 @@ def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_byte
     rid=q['request_id'];run=q['child_run_uuid']
     need(str(uuid.UUID(rid))==rid and re.fullmatch(r'[A-Za-z0-9_-]{1,128}',run)
          and m['run_uuid']==run and m['owner']=='EXISTING_LOCAL_PC','IO_EXACT_NEW_REQUEST_AND_OWNER')
+    need(rid not in prior and all(row['child_run_uuid']!=run for row in prior.values()),'IO_NEVER_REPLAY_CLOSED_REQUEST_OR_CHILD')
+    certificate=None
+    if prior:
+        old=budget.predecessor
+        need(set(prior)=={old.REQUEST} and type(predecessor_bytes) is bytes,'IO_ONE_EXACT_KNOWN_ZERO_PREDECESSOR_REQUIRED')
+        certificate=old.verify(predecessor_bytes,prior_row=prior[old.REQUEST],prior_settlement=p[budget.SETTLEMENTS][old.REQUEST])
+        need(q['closed_predecessor_packet_sha256']==common.sha(predecessor_bytes)
+             and m['execution']['sealed_inputs'][old.PACK]==common.sha(predecessor_bytes),
+             'IO_NEW_REQUEST_SEALS_ORIGINAL_CLOSED_PREDECESSOR_BYTES')
+    else:
+        need(predecessor_bytes is None and 'closed_predecessor_packet_sha256' not in q,
+             'IO_NO_FAKE_PREDECESSOR_ON_FIRST_COMPONENT')
     need(q['parent_before_sha256']==x['parent_before_sha256']==common.sha(parent_bytes)
          and q['Core_before_sha256']==x['Core_before_sha256']==common.sha(Core_bytes)
          and q['observed_epoch']==x['observed_epoch']==forecast_inputs['snapshot']['observed_epoch']
@@ -85,6 +97,9 @@ def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_byte
         manifest_sha256=common.sha(manifest_bytes),request_sha256=common.sha(request_bytes),
         projection_sha256=common.sha(projection_bytes),requested=deepcopy(budget.REQUESTED),
         remaining=deepcopy(budget.REQUESTED),status='RESERVED',unknown_effects=[],deadline_epoch=q['deadline_epoch'])
+    if certificate is not None:
+        import base64
+        row.update(predecessor_packet_base64=base64.b64encode(predecessor_bytes).decode(),predecessor_certificate=certificate)
     parent,core=deepcopy(p),deepcopy(c)
     for ledger in (parent,core):
         ledger.setdefault(budget.ROWS,{})[rid]=deepcopy(row)

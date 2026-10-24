@@ -22,6 +22,7 @@ from .target_zero_counter import read, filehash, put
 need=budget.need
 REQUIRED_CODE=('target_native_io_entry.py','target_native_io_graph.py',
     'target_native_io_ros_environment.py',
+    'target_native_io_predecessor.py',
     'target_native_io_resources.py','target_native_io_budget.py','target_zero_quota.py',
     'target_paused_stop.py','target_zero_observer.cpp','target_time_transaction.py',
     'target_mpc_prediction.py','target_sdk_qualification.py')
@@ -160,6 +161,22 @@ def validate(root):
     confirm=read(root/'LOCAL_RESERVATION_CONFIRMED.private.json')
     pb=base64.b64decode(confirm['parent_after_base64'],validate=True)
     cb=(parent/'authority/DEC1/DEC1_RESOURCE_LEDGER.json').read_bytes()
+    paired,_,_=budget.rows(budget.common.obj(pb),budget.common.obj(cb))
+    row=paired[q['request_id']]
+    if 'predecessor_certificate' in row:
+        packet=(root/budget.predecessor.PACK).read_bytes()
+        need(e['sealed_inputs'].get(budget.predecessor.PACK)==filehash(root/budget.predecessor.PACK)
+             ==q['closed_predecessor_packet_sha256']==row['predecessor_certificate']['packet_sha256']
+             and base64.b64decode(row['predecessor_packet_base64'],validate=True)==packet,
+             'IO_COLD_REPAIR_SEALED_PREDECESSOR_AND_ACTUAL_RESERVATIONS_IDENTICAL')
+        original=parent/'children'/budget.predecessor.RUN
+        original_binding=read(original/'OUTPUT_BINDING.private.json')
+        need(inputs['known_zero_predecessor_native_lease']==original_binding['lease']
+             and inputs['original_readonly_files'].get(original_binding['lease'])
+                 ==filehash(original_binding['lease'])==budget.predecessor.ANCHORS['lease_bytes']
+             and filehash(original/'evidence/NATIVE_IO_RESULT.json')==budget.predecessor.ANCHORS['result_bytes']
+             and read(original_binding['lease'])['status']=='CLOSED',
+             'IO_FRESH_ORIGINAL_NATIVE_CLOSED_LEASE_AND_RESULT_NOT_ONLY_PAST_PACKET')
     need(budget.common.sha(pb)==confirm['parent_after_sha256'],'IO_FULL_ACTUAL_LOCAL_RESERVED_LEDGER')
     args,db,closures=budget.unpack_forecast((root/budget.FORECAST).read_bytes());args.pop('now_epoch',None)
     forecast=budget.forecast(parent_bytes=pb,Core_bytes=cb,DEC1_bytes=db,SDK_closures=closures,
