@@ -84,11 +84,19 @@ def validate_pair(global_ledger,local):
     if recovery_field in global_ledger or recovery_field in local:
         need(global_ledger.get(recovery_field)==local.get(recovery_field)
              and validated(global_ledger) is not None,'SAME_EXACT_KNOWN_ZERO_COLD_BOUNDARY_BOTH_LEDGERS')
+    from .evaluation_core_zero_start_storage import FIELD as storage_field,validate as storage_validate
+    if storage_field in global_ledger or storage_field in local:
+        need(global_ledger.get(storage_field)==local.get(storage_field)
+             and storage_validate(global_ledger) is not None,'SAME_TWO_STORAGE_CAP_MARKER_BOTH_LEDGERS')
     return m
 
 
 def caps(global_ledger):
-    if FIELD in global_ledger:validate_global(global_ledger);return dict(CAPS)
+    if FIELD in global_ledger:
+        validate_global(global_ledger);caps=dict(CAPS)
+        from .evaluation_core_zero_start_storage import FIELD as storage_field,validate as storage_validate
+        if storage_field in global_ledger:storage_validate(global_ledger);caps.update(Hopper_storage_bytes=811*1024**3,Core_storage_bytes=329*1024**3)
+        return caps
     return dict(OLD)
 
 

@@ -117,3 +117,10 @@ The subsequent B4096 process failed before model load, query or physics. The ori
 The narrow cold repair prepares one fresh B24 request with exact audited A bytes copied into its own sealed inputs. It retains the original two-row accepted queue, both historical rows, all failed costs, A24 results, the strict read-only gate and all original clocks. There is no automatic retry pool, A replay, new noise bank or new training. CPU preparation alone is not native adoption: full fresh resources, unique registration and the original native communication qualification still precede model permission.
 
 Actual report: [A24 terminal and B known-zero closure](../../../reports/PI0294/design/parallel-science-20261022/V4A_A24_COMPLETE_AND_B_ZERO_START_CLOSED_ACTUAL_20261025.json). P0/P1 remain the existing Failure Atlas and actual retained training exposure audit; future Teacher candidates remain metadata-only and NOT_RUN. Full goal remains ACTIVE and core64=0.
+
+
+### 2026-10-25 — human approved exactly the two storage changes
+
+The human directly approved only GPU-site storage 810→811 GiB and Core storage 300→329 GiB for the one original B24 cold replacement. [Exact authorization](../../../reports/PI0294/design/parallel-science-20261022/V4A_B_ZERO_START_TWO_STORAGE_CAP_AUTHORIZATION_20261025.json). The captured-byte full all-resource proposal now has zero shortfalls, retains the 70-second failed startup and its full output bound, original three matrix jobs, and final 20 GPUh/40 GiB protection. GPU/CPU/PBS/query/physics/transfer caps, all clocks and scientific gates are unchanged.
+
+This approval is not yet actual dual-ledger adoption, registration, native model permission or an Eval result. The cold-only helper and related tests pass 152 cases. A broader local environment attempt is not represented as an all-green suite (missing Torch/safetensors, old pytest fixture compatibility and separate target ABI tests); no CI success is claimed. The next action is exact dual-ledger once adoption, fresh unique request/resources, standard registration, and the original native qualification before B model load.
