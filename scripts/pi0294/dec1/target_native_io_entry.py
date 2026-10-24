@@ -15,6 +15,7 @@ from types import SimpleNamespace
 
 from . import target_native_io_resources as contract
 from . import target_native_io_budget as budget
+from .target_native_io_qualification import verify as verify_qualification
 from .target_paused_stop import FROZEN_CLOCK
 from .target_sdk_qualification import ENTRY_SHA, DOCTOR_SHA, resource_guard
 from .target_zero_counter import read, filehash, put
@@ -22,7 +23,7 @@ from .target_zero_counter import read, filehash, put
 need=budget.need
 REQUIRED_CODE=('target_native_io_entry.py','target_native_io_graph.py',
     'target_native_io_ros_environment.py',
-    'target_native_io_predecessor.py',
+    'target_native_io_predecessor.py','target_native_io_qualification.py',
     'target_native_io_resources.py','target_native_io_budget.py','target_zero_quota.py',
     'target_paused_stop.py','target_zero_observer.cpp','target_time_transaction.py',
     'target_mpc_prediction.py','target_sdk_qualification.py')
@@ -90,8 +91,8 @@ def validate(root):
     need(filehash(parent/'authority/VAP1/VAP1_ADOPTION_AND_DELTA_BUDGET.json')==budget.common.VAP1_SHA,'IO_NON_GPU_AMENDMENT')
     seal=read(root/m['code']['source_seal_relative']);ci=read(root/'plans/PUBLICATION_AND_CI.private.json')
     need(filehash(root/m['code']['source_seal_relative'])==m['code']['source_seal_sha256']
-         and seal['source_sha']==m['code']['vla_commit']==ci['source']
-         and ci['CI_conclusion']=='success' and ci['all_12_steps_success'] is True,'IO_EXACT_QUALIFIED_SOURCE')
+         and seal['source_sha']==m['code']['vla_commit']==ci['source'],'IO_EXACT_QUALIFIED_SOURCE')
+    verify_qualification(ci,seal)
     for name in REQUIRED_CODE:
         name='scripts/pi0294/dec1/'+name
         need(name in seal['files'] and seal['files'][name]==ci['full_readback_file_sha256'].get(name),'IO_ALL_RUNTIME_GUARDS_QUALIFIED')
