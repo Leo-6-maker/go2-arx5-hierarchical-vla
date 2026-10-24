@@ -1,0 +1,1274 @@
+{
+  "schema": "V4_S2_DEV48_ACTUAL_PARTIAL_COMPARISON_V1",
+  "status": "PARTIAL_NOT_FULL_COMPARISON",
+  "authority_source": "3342175f5bff51dd3e963c0529622ef34a074946",
+  "original_population_sha256": "288be5e878baf1b112190a8ac69c1b507336ca03f550ae9b4f4672f13ef90db1",
+  "original_bank_sha256": "60f7c35a05766fe23974eba3a72f53ca4db5545a3768e6c1cfea164ab4e58294",
+  "planned_conditions_per_model": 48,
+  "models": [
+    "B0_CORR2048",
+    "A_CONTROL4096",
+    "B_COVERAGE4096"
+  ],
+  "summary_by_task": {
+    "T1": {
+      "planned_per_model": 24,
+      "B0_observed": 7,
+      "B0_success": 5,
+      "B0_valid_failure": 2,
+      "A_observed": 0,
+      "B_observed": 0
+    },
+    "T2": {
+      "planned_per_model": 24,
+      "B0_observed": 7,
+      "B0_success": 4,
+      "B0_valid_failure": 3,
+      "A_observed": 0,
+      "B_observed": 0
+    }
+  },
+  "complete_B_minus_A_effect": null,
+  "baseline_retention_effect": null,
+  "geometry_pair_interval": null,
+  "partial_observed_success_fraction_not_population_estimate": true,
+  "valid_negative_repeated": false,
+  "original_engineering_attempts_preserved": 3,
+  "source_cost_receipt_sha256": "4abc561382c6ca11cd6ec179c995b0f4171fa2d143d48ddba870b97eced73b97",
+  "condition_rows": [
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/000/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F0/000",
+      "task": "T1",
+      "family": "F0",
+      "noise_bank": 294101,
+      "initial_state_sha256": "1fdc985fcc49a44b2aa84db6213f66bc22a933fed0c6d101c3dc1e6027b1235b",
+      "B0": {
+        "status": "VALID_TASK_FAIL",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-000-T1-N294101",
+        "result_sha256": "1192252acbf6f0d1dbbd6277b3b8974ef4ec7c2cfeb7b0e9ec1204158bb9a4c9",
+        "worker_receipt_sha256": "ed31b045ae1b3bf8abffd47d7c22821212361a1a05f6c10e81c83572b7f555cb",
+        "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-000-T1-N294101",
+          "status": "VALID_TASK_FAIL",
+          "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+          "pipeline_trustworthy": true,
+          "result_sha256": "1192252acbf6f0d1dbbd6277b3b8974ef4ec7c2cfeb7b0e9ec1204158bb9a4c9"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/000/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F0/000",
+      "task": "T2",
+      "family": "F0",
+      "noise_bank": 294101,
+      "initial_state_sha256": "1fdc985fcc49a44b2aa84db6213f66bc22a933fed0c6d101c3dc1e6027b1235b",
+      "B0": {
+        "status": "SUCCESS",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-000-T2-N294101",
+        "result_sha256": "8cf19659ee68811bd18b6bb0357812d7acbec51351d4015063530c74f847b474",
+        "worker_receipt_sha256": "db138d307de03fe93eea2eb555ed690c5ec76ae64df87a0db17ead987754c21d",
+        "failure_stage": "COMPLETE_SUCCESS"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-000-T2-N294101",
+          "status": "SUCCESS",
+          "failure_stage": "COMPLETE_SUCCESS",
+          "pipeline_trustworthy": true,
+          "result_sha256": "8cf19659ee68811bd18b6bb0357812d7acbec51351d4015063530c74f847b474"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/001/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F0/001",
+      "task": "T1",
+      "family": "F0",
+      "noise_bank": 294101,
+      "initial_state_sha256": "7d81650a91e54e867d7eb3f824689c06fc76cfcfd84162ecc35662855ffecf4b",
+      "B0": {
+        "status": "SUCCESS",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-001-T1-N294101",
+        "result_sha256": "09e5bfe722196466dad3c9e5bc821f780ea0c236c9f1c0b46e08823cfe30d726",
+        "worker_receipt_sha256": "e1e8592a12a8d5053cec7ce05d821260a015749562ccca8cfa28525fc9e534a9",
+        "failure_stage": "COMPLETE_SUCCESS"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-001-T1-N294101",
+          "status": "SUCCESS",
+          "failure_stage": "COMPLETE_SUCCESS",
+          "pipeline_trustworthy": true,
+          "result_sha256": "09e5bfe722196466dad3c9e5bc821f780ea0c236c9f1c0b46e08823cfe30d726"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/001/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F0/001",
+      "task": "T2",
+      "family": "F0",
+      "noise_bank": 294101,
+      "initial_state_sha256": "7d81650a91e54e867d7eb3f824689c06fc76cfcfd84162ecc35662855ffecf4b",
+      "B0": {
+        "status": "SUCCESS",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-001-T2-N294101",
+        "result_sha256": "a351bf1336c7014c69c82acd7eda99522d84fc648ab3f305655c9841747f8790",
+        "worker_receipt_sha256": "4db902388284a4bf811acc0a4328bde0bce3b7257054efa9855ab32e0e51f812",
+        "failure_stage": "COMPLETE_SUCCESS"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-001-T2-N294101",
+          "status": "SUCCESS",
+          "failure_stage": "COMPLETE_SUCCESS",
+          "pipeline_trustworthy": true,
+          "result_sha256": "a351bf1336c7014c69c82acd7eda99522d84fc648ab3f305655c9841747f8790"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/000/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/000",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "58af8ae60ed80f03f0345aa43d18007083b93c942fb4c028e9bb8fa0a0807abc",
+      "B0": {
+        "status": "SUCCESS",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-000-T1-N294101",
+        "result_sha256": "e110408a4409ae88500df8367b4f32f1010a2279cce743b6b68ab00c0eac2152",
+        "worker_receipt_sha256": "3232eb098becbf5ac97cf3d612feeb22f69be4a58e120e61b5ef27fdf6c9670c",
+        "failure_stage": "COMPLETE_SUCCESS"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-000-T1-N294101",
+          "status": "SUCCESS",
+          "failure_stage": "COMPLETE_SUCCESS",
+          "pipeline_trustworthy": true,
+          "result_sha256": "e110408a4409ae88500df8367b4f32f1010a2279cce743b6b68ab00c0eac2152"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/000/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/000",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "58af8ae60ed80f03f0345aa43d18007083b93c942fb4c028e9bb8fa0a0807abc",
+      "B0": {
+        "status": "SUCCESS",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-000-T2-N294101",
+        "result_sha256": "2dd95745508ef0abde637ba73f2d88772af94e11a599c6c049111732af175a49",
+        "worker_receipt_sha256": "091d023c588ef9af008dd7e2c63a77847c504ffa02f5a4bf3304559a3dd3240e",
+        "failure_stage": "COMPLETE_SUCCESS"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-000-T2-N294101",
+          "status": "SUCCESS",
+          "failure_stage": "COMPLETE_SUCCESS",
+          "pipeline_trustworthy": true,
+          "result_sha256": "2dd95745508ef0abde637ba73f2d88772af94e11a599c6c049111732af175a49"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/001/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/001",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "3867841e7473bff506a077947306b6ef1aac3f1825227f9b0b6a01530825d981",
+      "B0": {
+        "status": "VALID_TASK_FAIL",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-001-T1-N294101",
+        "result_sha256": "5e1f3c066caaa772412d78b34010549dee00976634c159d0ab71dcea2d5cf031",
+        "worker_receipt_sha256": "622109f69ba2e54c92c9252a3c5229dfa3d86c6450c137812abc1bd2f7e643c2",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-001-T1-N294101",
+          "status": "VALID_TASK_FAIL",
+          "failure_stage": "S1_PRE_EXECUTION_REJECT",
+          "pipeline_trustworthy": true,
+          "result_sha256": "5e1f3c066caaa772412d78b34010549dee00976634c159d0ab71dcea2d5cf031"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/001/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/001",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "3867841e7473bff506a077947306b6ef1aac3f1825227f9b0b6a01530825d981",
+      "B0": {
+        "status": "VALID_TASK_FAIL",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-001-T2-N294101",
+        "result_sha256": "86b8a82b7322cec21289be19307e3ecc48c64f524a50ec8a9e82c4641de8326d",
+        "worker_receipt_sha256": "ee6993ce90aa822f2ecfb29e36c66c836952f5c926ed258c7b19379cd917c84b",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-001-T2-N294101",
+          "status": "VALID_TASK_FAIL",
+          "failure_stage": "S1_PRE_EXECUTION_REJECT",
+          "pipeline_trustworthy": true,
+          "result_sha256": "86b8a82b7322cec21289be19307e3ecc48c64f524a50ec8a9e82c4641de8326d"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/002/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/002",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "b820f85f9cf9208763afa0f2badd4cd081309f12ab2a3499a371e0b276e99cde",
+      "B0": {
+        "status": "SUCCESS",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-002-T1-N294101",
+        "result_sha256": "14c69baaf592098352cb3b61fb3cddba9abcecdadcc3fdaa57b9fbcc400b9009",
+        "worker_receipt_sha256": "47895c767d57f02dd643b87c78d3925838d31544b6dcca66bf629439cbf9ff3f",
+        "failure_stage": "COMPLETE_SUCCESS"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-002-T1-N294101",
+          "status": "SUCCESS",
+          "failure_stage": "COMPLETE_SUCCESS",
+          "pipeline_trustworthy": true,
+          "result_sha256": "14c69baaf592098352cb3b61fb3cddba9abcecdadcc3fdaa57b9fbcc400b9009"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/002/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/002",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "b820f85f9cf9208763afa0f2badd4cd081309f12ab2a3499a371e0b276e99cde",
+      "B0": {
+        "status": "SUCCESS",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-002-T2-N294101-REPLACEMENT-01",
+        "result_sha256": "787920e1801b84b281d458ffe0fdc88bcc9fda7dc4f31a338ec42b50edb888a5",
+        "worker_receipt_sha256": "27c251714528a4820be590046d0e9e4fcc6beaf50faa215b8fb423318876cf02",
+        "failure_stage": "COMPLETE_SUCCESS"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-002-T2-N294101",
+          "status": "ENGINEERING_INCOMPLETE",
+          "failure_stage": "ENGINEERING_OR_UNKNOWN",
+          "pipeline_trustworthy": false,
+          "result_sha256": "fe2751234bca976955edca3a730c0eb063c00ab9473e069809c83b35b04211c9"
+        },
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-002-T2-N294101-REPLACEMENT-01",
+          "status": "SUCCESS",
+          "failure_stage": "COMPLETE_SUCCESS",
+          "pipeline_trustworthy": true,
+          "result_sha256": "787920e1801b84b281d458ffe0fdc88bcc9fda7dc4f31a338ec42b50edb888a5"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/003/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/003",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "463870adc44e103e84e82417f733bbd2829a77338d94db0576ef253085b4c659",
+      "B0": {
+        "status": "SUCCESS",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-003-T1-N294101",
+        "result_sha256": "2a24fde7c2b8558f5dde03f818cc24ba148a804cf0f6c3e3d6d4482a887e433f",
+        "worker_receipt_sha256": "9700381de0fa5770ea8c0f5c1c1cb76e28a62f2c1f3dc1ccaee8a6bc389e7668",
+        "failure_stage": "COMPLETE_SUCCESS"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-003-T1-N294101",
+          "status": "SUCCESS",
+          "failure_stage": "COMPLETE_SUCCESS",
+          "pipeline_trustworthy": true,
+          "result_sha256": "2a24fde7c2b8558f5dde03f818cc24ba148a804cf0f6c3e3d6d4482a887e433f"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/003/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/003",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "463870adc44e103e84e82417f733bbd2829a77338d94db0576ef253085b4c659",
+      "B0": {
+        "status": "VALID_TASK_FAIL",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-003-T2-N294101",
+        "result_sha256": "e6ec267e3405af56846f4edfe0ec6120eb77472ad6952d13f4ff099098e0e76b",
+        "worker_receipt_sha256": "548c98763fde8bd7fbb8d65c841c522ceded33e90e1c433b96c7f72115e842f2",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-003-T2-N294101",
+          "status": "VALID_TASK_FAIL",
+          "failure_stage": "S1_PRE_EXECUTION_REJECT",
+          "pipeline_trustworthy": true,
+          "result_sha256": "e6ec267e3405af56846f4edfe0ec6120eb77472ad6952d13f4ff099098e0e76b"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/004/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/004",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "9414986fcb81c7c5f911f6bdfa7343e9b6d63f4e5f127c4f68a9798d4b586b1b",
+      "B0": {
+        "status": "SUCCESS",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101-REPLACEMENT-01",
+        "result_sha256": "dd2a379bd9d4a54e271cf05752abadf86807ee9b32a2060c0f554158a105ee99",
+        "worker_receipt_sha256": "20ae1287f539d52d1c70560607c6f5bdc2cc065b07c2c833fe3ac712216a16b4",
+        "failure_stage": "COMPLETE_SUCCESS"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101",
+          "status": "ENGINEERING_INCOMPLETE",
+          "failure_stage": "ENGINEERING_OR_UNKNOWN",
+          "pipeline_trustworthy": false,
+          "result_sha256": "e75ca80ed57b6304276a6053cb8d0df95998c3653489b4f6982f1dde20e48ffe"
+        },
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101-REPLACEMENT-01",
+          "status": "SUCCESS",
+          "failure_stage": "COMPLETE_SUCCESS",
+          "pipeline_trustworthy": true,
+          "result_sha256": "dd2a379bd9d4a54e271cf05752abadf86807ee9b32a2060c0f554158a105ee99"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/004/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F1/004",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294101,
+      "initial_state_sha256": "9414986fcb81c7c5f911f6bdfa7343e9b6d63f4e5f127c4f68a9798d4b586b1b",
+      "B0": {
+        "status": "VALID_TASK_FAIL",
+        "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T2-N294101",
+        "result_sha256": "00fa2d5fdb926a281d473ad694f6cabeab7bde1d120386deb7a32ab9899a1290",
+        "worker_receipt_sha256": "c4f099ceb13665d4ec29242e6073bee0c2828684fb411668b486f5a8269b13f5",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T2-N294101",
+          "status": "VALID_TASK_FAIL",
+          "failure_stage": "S1_PRE_EXECUTION_REJECT",
+          "pipeline_trustworthy": true,
+          "result_sha256": "00fa2d5fdb926a281d473ad694f6cabeab7bde1d120386deb7a32ab9899a1290"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/000/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/000",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "d0d46d5d5ab38a5b6ac39d5fc3b5d220ff5426b8df1529b8a51e1062e6463392",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-000-T1-N294101-REPLACEMENT-01"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": [
+        {
+          "attempt_id": "B0_CORR-PI0294-PV1-DEV-F2-000-T1-N294101",
+          "status": "ENGINEERING_INCOMPLETE",
+          "failure_stage": "ENGINEERING_OR_UNKNOWN",
+          "pipeline_trustworthy": false,
+          "result_sha256": "c8079ab87d7840902f5c76c861ccf3133a7e3004c18a55683fc59d022e679da3"
+        }
+      ]
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/000/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/000",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "d0d46d5d5ab38a5b6ac39d5fc3b5d220ff5426b8df1529b8a51e1062e6463392",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-000-T2-N294101"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/001/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/001",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "553db097726b0e3a826e01062cd6f6b43a3c6a05dbe5bdcfe36d85d1aceca367",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-001-T1-N294101"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/001/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/001",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "553db097726b0e3a826e01062cd6f6b43a3c6a05dbe5bdcfe36d85d1aceca367",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-001-T2-N294101"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/002/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/002",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "859929e7a3c49d63db3c94f82d06f99effccd6f1dc102f4d6ffe1d1597c54e91",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-002-T1-N294101"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/002/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/002",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "859929e7a3c49d63db3c94f82d06f99effccd6f1dc102f4d6ffe1d1597c54e91",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-002-T2-N294101"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/003/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/003",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "7f2dc83e7ad46a32ae6a0cd6a388d504f33efdc275248f7dda8f13c520421f3a",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-003-T1-N294101"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/003/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/003",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "7f2dc83e7ad46a32ae6a0cd6a388d504f33efdc275248f7dda8f13c520421f3a",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-003-T2-N294101"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/004/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/004",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "9ec5369b9ba68e2bc2a1b38ef2ed1a9681a3abd9d26e35a49278ad78ff51c53d",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-004-T1-N294101"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/004/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/004",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294101,
+      "initial_state_sha256": "9ec5369b9ba68e2bc2a1b38ef2ed1a9681a3abd9d26e35a49278ad78ff51c53d",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-004-T2-N294101"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/000/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F0/000",
+      "task": "T1",
+      "family": "F0",
+      "noise_bank": 294102,
+      "initial_state_sha256": "1fdc985fcc49a44b2aa84db6213f66bc22a933fed0c6d101c3dc1e6027b1235b",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F0-000-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/000/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F0/000",
+      "task": "T2",
+      "family": "F0",
+      "noise_bank": 294102,
+      "initial_state_sha256": "1fdc985fcc49a44b2aa84db6213f66bc22a933fed0c6d101c3dc1e6027b1235b",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F0-000-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/001/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F0/001",
+      "task": "T1",
+      "family": "F0",
+      "noise_bank": 294102,
+      "initial_state_sha256": "7d81650a91e54e867d7eb3f824689c06fc76cfcfd84162ecc35662855ffecf4b",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F0-001-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/001/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F0/001",
+      "task": "T2",
+      "family": "F0",
+      "noise_bank": 294102,
+      "initial_state_sha256": "7d81650a91e54e867d7eb3f824689c06fc76cfcfd84162ecc35662855ffecf4b",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F0-001-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/000/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/000",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "58af8ae60ed80f03f0345aa43d18007083b93c942fb4c028e9bb8fa0a0807abc",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-000-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/000/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/000",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "58af8ae60ed80f03f0345aa43d18007083b93c942fb4c028e9bb8fa0a0807abc",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-000-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/001/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/001",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "3867841e7473bff506a077947306b6ef1aac3f1825227f9b0b6a01530825d981",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-001-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/001/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/001",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "3867841e7473bff506a077947306b6ef1aac3f1825227f9b0b6a01530825d981",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-001-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/002/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/002",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "b820f85f9cf9208763afa0f2badd4cd081309f12ab2a3499a371e0b276e99cde",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-002-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/002/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/002",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "b820f85f9cf9208763afa0f2badd4cd081309f12ab2a3499a371e0b276e99cde",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-002-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/003/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/003",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "463870adc44e103e84e82417f733bbd2829a77338d94db0576ef253085b4c659",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-003-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/003/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/003",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "463870adc44e103e84e82417f733bbd2829a77338d94db0576ef253085b4c659",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-003-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/004/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/004",
+      "task": "T1",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "9414986fcb81c7c5f911f6bdfa7343e9b6d63f4e5f127c4f68a9798d4b586b1b",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/004/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F1/004",
+      "task": "T2",
+      "family": "F1",
+      "noise_bank": 294102,
+      "initial_state_sha256": "9414986fcb81c7c5f911f6bdfa7343e9b6d63f4e5f127c4f68a9798d4b586b1b",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F1-004-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/000/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/000",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "d0d46d5d5ab38a5b6ac39d5fc3b5d220ff5426b8df1529b8a51e1062e6463392",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-000-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/000/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/000",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "d0d46d5d5ab38a5b6ac39d5fc3b5d220ff5426b8df1529b8a51e1062e6463392",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-000-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/001/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/001",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "553db097726b0e3a826e01062cd6f6b43a3c6a05dbe5bdcfe36d85d1aceca367",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-001-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/001/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/001",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "553db097726b0e3a826e01062cd6f6b43a3c6a05dbe5bdcfe36d85d1aceca367",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-001-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/002/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/002",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "859929e7a3c49d63db3c94f82d06f99effccd6f1dc102f4d6ffe1d1597c54e91",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-002-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/002/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/002",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "859929e7a3c49d63db3c94f82d06f99effccd6f1dc102f4d6ffe1d1597c54e91",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-002-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/003/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/003",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "7f2dc83e7ad46a32ae6a0cd6a388d504f33efdc275248f7dda8f13c520421f3a",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-003-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/003/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/003",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "7f2dc83e7ad46a32ae6a0cd6a388d504f33efdc275248f7dda8f13c520421f3a",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-003-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/004/T1/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/004",
+      "task": "T1",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "9ec5369b9ba68e2bc2a1b38ef2ed1a9681a3abd9d26e35a49278ad78ff51c53d",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-004-T1-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F2/004/T2/N294102",
+      "scene_group": "PI0294/PV1/DEV/F2/004",
+      "task": "T2",
+      "family": "F2",
+      "noise_bank": 294102,
+      "initial_state_sha256": "9ec5369b9ba68e2bc2a1b38ef2ed1a9681a3abd9d26e35a49278ad78ff51c53d",
+      "B0": {
+        "status": "NOT_RUN_OR_ENGINEERING_INCOMPLETE_NO_VALID_RESULT",
+        "predeclared_next_attempt": "B0_CORR-PI0294-PV1-DEV-F2-004-T2-N294102"
+      },
+      "A4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true
+      },
+      "B4096": {
+        "status": "NOT_RUN",
+        "training_endpoint_complete": true,
+        "reuse_admission_complete": false
+      },
+      "B0_all_original_attempts": []
+    }
+  ],
+  "new_native_scientific_conditions": 0,
+  "objective_complete": false
+}
