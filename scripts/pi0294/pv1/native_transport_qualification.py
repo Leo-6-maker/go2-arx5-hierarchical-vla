@@ -119,7 +119,15 @@ def run(root,directory,allocation,guard):
         user_extra=after.ru_utime-children_before.ru_utime
         system_extra=after.ru_stime-children_before.ru_stime
         if min(user_extra,system_extra)<0:raise ValueError('NONNEGATIVE_NATIVE_FIXTURE_CHILD_CPU')
-        endpoint.ledger.cpu(user_extra+system_extra)
+        from .evaluation_platform import STATUS as DEV_STATUS
+        if allocation.get('status')==DEV_STATUS:
+            # This is a child of neural.run, whose final CPU record includes
+            # these monotonic child counters. Separate login RPC actors still
+            # settle their own CPU once through the original metrics ledger.
+            write(directory/'FIXTURE_CHILD_CPU_DEFERRED_TO_NEURAL_FINAL.json',dict(
+                job_id=allocation['job_id'],child_CPU_s=user_extra+system_extra,
+                charged_here=False,included_in_enclosing_neural_process_CPU=True))
+        else:endpoint.ledger.cpu(user_extra+system_extra)
 
 
 def verify(root,directory,allocation,value):

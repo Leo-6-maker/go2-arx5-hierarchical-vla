@@ -32,6 +32,29 @@ ENDPOINTS=dict(B0_CORR=PARENT,
     B_COVERAGE='be7ab71dee0fb68e17efae06a04ff8dde9cd776ff429c1d6c408ae01323a9c19')
 
 
+def file_RPC_profile(manifest,role):
+    """Select a physical role before the full unchanged runtime validator."""
+    need(role in ('core','hopper'),'EXACT_FILE_RPC_ROLE')
+    if role=='core':return '4080-simulation'
+    return PROFILE if cold_profile(manifest) else 'hopper-neural'
+
+
+def fixture_job_pattern(manifest,role):
+    """Both sealed peers must explicitly name the Vanda evaluation seam."""
+    typed=cold_profile(manifest) if role=='hopper' else 'evaluation_peer_platform' in manifest
+    if not typed:return r'[0-9]+\.hopper-m-[0-9]+'
+    if role=='core':
+        from . import evaluation_stage as stage,evaluation_scope as scope
+        need(manifest.get('evaluation_peer_platform')==VERSION
+             and manifest.get('scope')=='PI0294_PV1_CORE_POLICY_EVALUATION_V1'
+             and manifest.get('execution',{}).get('profile')=='4080-simulation'
+             and manifest['execution']['sealed_inputs'].get(stage.PLAN)==stage.PLAN_SHA
+             and manifest['execution']['sealed_inputs'].get(stage.CARD)==stage.CARD_SHA
+             and manifest['execution']['sealed_inputs'].get('plans/V4_S2_GLOBAL_RESOURCE_AUTHORIZATION.json')==scope.GRANT_SHA,
+             'EXACT_PRESEALED_CORE_PEER_FOR_VANDA_DEV_FIXTURE')
+    return r'[0-9]+\.stdct-mgmt-02'
+
+
 def need(ok,reason):
     if not ok:raise PermissionError('PV1_A40_DEV_'+reason)
 

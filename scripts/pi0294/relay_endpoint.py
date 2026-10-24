@@ -25,7 +25,11 @@ class Endpoint:
         self.root, self.role, self.now = Path(root), role, now
         if role not in ('core', 'hopper'):
             raise PermissionError('EXACT_ENDPOINT_ROLE_REQUIRED')
-        manifest = validate(self.root, profile='4080-simulation' if role == 'core' else 'hopper-neural')
+        profile='4080-simulation' if role=='core' else 'hopper-neural'
+        if (self.root/'PV1_STAGE_BINDING.json').is_file():
+            from .pv1.evaluation_platform import file_RPC_profile
+            profile=file_RPC_profile(read(self.root/'RUN_MANIFEST.json'),role)
+        manifest = validate(self.root, profile=profile)
         path = inside(self.root, registry_relative)
         if sha(path) != registry_sha256:
             raise PermissionError('SEALED_ENDPOINT_REGISTRY_REQUIRED')

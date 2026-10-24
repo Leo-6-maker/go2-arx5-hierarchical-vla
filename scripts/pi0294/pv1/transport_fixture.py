@@ -22,6 +22,7 @@ from scripts.pi0294.mp1.transport_fixture import (
 from .decision import AUTHORITY
 from .resources import namespace_submission
 from .runtime import validate_runtime
+from . import evaluation_platform as evaluation
 
 PLAN='plans/PV1_TRANSPORT_FIXTURE.json'
 BASE='PV1-PREMODEL'
@@ -115,7 +116,8 @@ class Endpoint(OriginalEndpoint):
         self.root,self.role,self.label,self.now=Path(root),role,label,now
         if role not in ('core','hopper'):raise PermissionError('PV1_TYPED_FIXTURE_ROLE')
         self.folder,number,self.mode=namespace(root,label)
-        self.manifest=validate_runtime(root,'4080-simulation' if role=='core' else 'hopper-neural')
+        profile=evaluation.file_RPC_profile({} if role=='core' else read(self.root/'RUN_MANIFEST.json'),role)
+        self.manifest=validate_runtime(root,profile)
         self.plan=prepared_plan(root,self.manifest);self.registry_path=inside(self.root,'plans/'+label+'/REGISTRY.json')
         self.registry=immutable(self.registry_path);self.registry_sha=sha(self.registry_path)
         self.manifest_sha=sha(self.root/'RUN_MANIFEST.json');self.ledger=ledger(root,role)
@@ -126,7 +128,7 @@ class Endpoint(OriginalEndpoint):
                 or r[role+'_manifest_sha256']!=self.manifest_sha
                 or r[role+'_source_sha']!=self.manifest['code']['vla_commit']
                 or not self.now()<r['deadline_epoch']<=min(r['allocation_end_epoch']-2700,a['stop_new_physics_epoch'])
-                or not re.fullmatch(r'[0-9]+\.hopper-m-[0-9]+',r['job_id'])):
+                or not re.fullmatch(evaluation.fixture_job_pattern(self.manifest,role),r['job_id'])):
             raise PermissionError('PV1_SAME_ALLOCATION_SOURCE_AUTHORITY_AND_ORIGINAL_DEADLINE')
         uuid.UUID(r['fixture_uuid'])
         self.folder.mkdir(parents=True,exist_ok=True,mode=0o700)
@@ -159,7 +161,13 @@ class Pump(OriginalPump):
         r=immutable(self.root/'plans'/label/'REGISTRY.json');self.registry=r
         m=read(self.root/'RUN_MANIFEST.json');self.plan=prepared_plan(root,m)
         admission=self.root/'pbs'/('alloc-'+str(number).zfill(2))/'ALLOCATION_ADMISSION.json'
-        if (read(admission)!=allocation or allocation['status']!='PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
+        typed=evaluation.cold_profile(m)
+        expected=evaluation.STATUS if typed else 'PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
+        if typed:
+            request=self.root/'pbs'/('alloc-'+str(number).zfill(2))/'REQUEST.json'
+            evaluation.sealed_identity(m,read(request),allocation,run_uuid=self.root.name,
+                manifest_sha256=sha(self.root/'RUN_MANIFEST.json'),request_sha256=sha(request))
+        if (read(admission)!=allocation or allocation['status']!=expected
                 or r['job_id']!=allocation['job_id'] or r['label']!=label
                 or r['allocation_number']!=number or r['hopper_manifest_sha256']!=sha(self.root/'RUN_MANIFEST.json')
                 or r['hopper_source_sha']!=m['code']['vla_commit']):

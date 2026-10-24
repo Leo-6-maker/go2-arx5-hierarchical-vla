@@ -12,6 +12,15 @@ import time
 from scripts.pi0292.durable import OwnerLock, read, write
 
 
+def publication_path(root):
+    """DEV uses the original neural reader's root path, with no symlink."""
+    root=Path(root);manifest=root/'RUN_MANIFEST.json'
+    if manifest.is_file():
+        from scripts.pi0294.pv1.evaluation_platform import cold_profile
+        if cold_profile(read(manifest)):return root/'OWNER_HEARTBEAT.json'
+    return root/'control/OWNER_HEARTBEAT.json'
+
+
 def _guard(root, directory, job, view, ledger, identity, now):
     root, directory = Path(root), Path(directory)
     if root.is_symlink() or directory.is_symlink() or not directory.resolve().is_relative_to(root.resolve()):
@@ -70,7 +79,7 @@ def publish(root, directory, job, view, ledger, intent, *, clock=time.time):
     control = root/'control'
     if control.is_symlink() or not control.is_dir():
         raise PermissionError('EXISTING_REGISTERED_CONTROL_DIRECTORY')
-    path = control/'OWNER_HEARTBEAT.json'
+    path = publication_path(root)
     if path.is_symlink():
         raise PermissionError('ORIGINAL_HEARTBEAT_NOT_SYMLINK')
     lock = OwnerLock(control/'HEARTBEAT_PUBLICATION.lock')
@@ -114,7 +123,7 @@ def publish(root, directory, job, view, ledger, intent, *, clock=time.time):
 def readback(root, directory, job, view, ledger, intent, *, clock=time.time):
     """No heartbeat renewal; a missing/old/different intent remains unresolved."""
     _guard(root, directory, job, view, ledger, intent['identity'], clock())
-    path = Path(root)/'control/OWNER_HEARTBEAT.json'
+    path = publication_path(root)
     if path.is_symlink() or path.parent.is_symlink():
         raise PermissionError('ORIGINAL_HEARTBEAT_NOT_SYMLINK')
     return _receipt(root, view, read(path))
