@@ -15,6 +15,10 @@ def validate_runtime(root,profile,*,closeout=False,now=None):
     if now is not None:
         raise PermissionError('PV1_NATIVE_RUNTIME_CLOCK_ONLY_NO_INJECTED_DATE')
     root=Path(root)
+    from . import evaluation_core_accounting as core_GPU
+    if profile==core_GPU.PROFILE:
+        from .evaluation_core_scope import validate as validate_Core_GPU
+        return validate_Core_GPU(root,closeout=closeout)[0]
     if profile in ('hopper-neural',evaluation.PROFILE):
         manifest=validate_neural(root,closeout=closeout)[0]
         if manifest['execution']['profile']!=profile:

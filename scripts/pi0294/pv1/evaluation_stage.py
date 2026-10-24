@@ -40,6 +40,10 @@ def first_stage(work,*,manifest,current_request,global_ledger,purpose):
     stage['jobs']=[j for j in original_jobs if j['candidate'] in CANDIDATES and j['noise_bank']==294101]
     stage['resources']=resource_upper(stage['jobs'])
     rows=[v for v in global_ledger['PBS_submissions'] if v.get('platform_evaluation_version')==e.VERSION]
+    from . import evaluation_core_accounting as core_GPU
+    if core_GPU.FIELD in global_ledger:
+        core_GPU.validate_global(global_ledger)
+        rows+=list(global_ledger[core_GPU.FIELD].values())
     need(all(v.get('evaluation_execution_stage')==VERSION and v.get('noise_bank')==294101
          and v.get('evaluation_candidate') in CANDIDATES for v in rows),
          'NO_UNCLASSIFIED_OR_AUTOMATIC_OTHER_STAGE_EVALUATION')

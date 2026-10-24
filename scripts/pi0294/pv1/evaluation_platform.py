@@ -36,11 +36,33 @@ def file_RPC_profile(manifest,role):
     """Select a physical role before the full unchanged runtime validator."""
     need(role in ('core','hopper'),'EXACT_FILE_RPC_ROLE')
     if role=='core':return '4080-simulation'
+    from . import evaluation_core_accounting as core_GPU
+    if manifest.get('platform_evaluation_version')==core_GPU.VERSION:
+        need(manifest.get('scope')==core_GPU.ROLE
+             and manifest.get('execution',{}).get('profile')==core_GPU.PROFILE,
+             'EXACT_TYPED_CORE_GPU_ROLE_NOT_H200_FALLBACK')
+        return core_GPU.PROFILE
     return PROFILE if cold_profile(manifest) else 'hopper-neural'
 
 
 def fixture_job_pattern(manifest,role):
     """Both sealed peers must explicitly name the Vanda evaluation seam."""
+    from . import evaluation_core_accounting as core_GPU
+    if manifest.get('platform_evaluation_version')==core_GPU.VERSION or manifest.get('evaluation_peer_platform')==core_GPU.VERSION:
+        from . import evaluation_stage as stage,evaluation_scope as scope
+        need(role=='hopper' and manifest.get('scope')==core_GPU.ROLE
+             and manifest.get('platform_evaluation_version')==core_GPU.VERSION
+             and manifest.get('execution',{}).get('profile')==core_GPU.PROFILE
+             or role=='core' and manifest.get('scope')=='PI0294_PV1_CORE_POLICY_EVALUATION_V1'
+             and manifest.get('evaluation_peer_platform')==core_GPU.VERSION
+             and 'platform_evaluation_version' not in manifest
+             and manifest.get('execution',{}).get('profile')=='4080-simulation',
+             'ACTUAL_CORELAB_PEER_ROLE')
+        need(manifest['execution']['sealed_inputs'].get(stage.PLAN)==stage.PLAN_SHA
+             and manifest['execution']['sealed_inputs'].get(stage.CARD)==stage.CARD_SHA
+             and manifest['execution']['sealed_inputs'].get('plans/V4_S2_GLOBAL_RESOURCE_AUTHORIZATION.json')==scope.GRANT_SHA,
+             'EXACT_PRESEALED_CORELAB_STAGE_NOT_AN_UNREGISTERED_MODEL')
+        return r'coregpu:[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}:[1-9][0-9]*:[1-9][0-9]*'
     typed=cold_profile(manifest) if role=='hopper' else 'evaluation_peer_platform' in manifest
     if not typed:return r'[0-9]+\.hopper-m-[0-9]+'
     if role=='core':

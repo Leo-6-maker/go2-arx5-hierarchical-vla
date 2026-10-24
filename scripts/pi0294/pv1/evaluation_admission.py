@@ -79,7 +79,8 @@ def resource_floor(global_ledger,local):
     # These separate namespaces are already represented in the original LOCAL
     # campaign. Sum non-CPU holds; CPU_s/CPU_reserved_s may already aggregate them.
     pending={}
-    names=('source_cpu_reserved','target_zero_counter_reserved','target_sdk_client_reserved','target_native_IO_reserved')
+    names=('source_cpu_reserved','target_zero_counter_reserved','target_sdk_client_reserved','target_native_IO_reserved',
+           'Core_native_GPU_reserved')
     mapping=dict(CoreLab_CPU_s='Core_CPU_s',local_CPU_s='local_CPU_s',episode_starts='episode_starts',
         physics_ticks='physics_ticks',constructors='engine_starts',CoreLab_output_bytes='Core_storage_bytes',
         local_output_bytes='local_storage_bytes',transfer_bytes='transfer_bytes')

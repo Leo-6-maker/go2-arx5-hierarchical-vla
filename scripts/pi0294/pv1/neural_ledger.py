@@ -45,6 +45,8 @@ def check(value,*,final=False,allow_unknown=False):
             or not math.isfinite(value.get('CPU_reserved_s',0)) or value.get('CPU_reserved_s',0)<0
             or value['CPU_s']+value.get('CPU_reserved_s',0)>CPU_cap):
         raise PermissionError('PV1_ALL_GPU_SITE_CPU_RESERVATIONS_INSIDE_ORIGINAL_CAP')
+    from . import evaluation_core_accounting as core_GPU
+    core_GPU.validate_global(value)
     admit_resources(value['used'],value['reserved'],{},final=final,b_recovery_global=value if b_scope else None)
     return value
 

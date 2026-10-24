@@ -26,6 +26,10 @@ def inside(root,name):
 def validate(root,*,closeout=False):
     if type(closeout) is not bool:raise PermissionError('PV1_EXPLICIT_BOOLEAN_METADATA_CLOSEOUT_ONLY')
     root=Path(root);m=read(root/'RUN_MANIFEST.json');b=read(root/'OUTPUT_BINDING.private.json')
+    from . import evaluation_core_accounting as core_GPU
+    if m.get('platform_evaluation_version')==core_GPU.VERSION or m.get('scope')==core_GPU.ROLE:
+        from .evaluation_core_scope import validate as validate_Core_GPU
+        return validate_Core_GPU(root,closeout=closeout)
     a40_evaluation=evaluation.cold_profile(m)
     role=evaluation.ROLE if a40_evaluation else ROLE
     profile=evaluation.PROFILE if a40_evaluation else 'hopper-neural'
