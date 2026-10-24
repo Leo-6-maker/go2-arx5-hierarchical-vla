@@ -1,8 +1,10 @@
 V4A接续：当前提交门只允许A/B同bank294101各24条件，最多2份原面板，后续B0／第二bank不自动派发；已采用大额cap保持。[冷态接线与现场终点元数据](reports/PI0294/design/parallel-science-20261022/V4A_PAIRED_STAGE_NATIVE_AND_CONTROL_COLD_CPU_20261024.json)。原matrix／final及截止保持；两份完整阶段和第二次提交时钟均检查，真实标准入口／驻留owner与同job资格仍待，尚无新GPU或Eval结果。
 
+> **2026-10-24 两份并行修订已统一优先级（防止重复派发）：** [V4A：现行可执行的最小原DEV配对阶段](docs/protocols/GR00T_WBC_V4A_EVAL_FIRST_STAGED_EXECUTION_20261024.md)＝同一个原噪声bank294101，A/B各24条件、最多2个原生PBS，**仅在两个完整面板的真实资源与截止均通过后**执行；不自动申请/使用130条评估。此前[V4.1：16次小诊断备选](docs/handover/2026-10-24/SCIENCE_FIRST_MINIMUM_SPEND_EVAL_V4_1.md)因现有runner强制24格完整面板，当前状态为**备选设计、未获子面板原生准入，不是第二个可并行派发的实验**。不得两方案同时提交、重复有效DEV或提前训练。global121GPUh/34PBS是已采用cap非消耗目标；两张主表仍待行为结果。
+
 > **最新执行优先级修订 V4A（2026-10-24）：先用现有 A/B4096 在同一原封存 DEV 噪声面板完成配对闭环 Eval，再由真实 B−A 结果决定是否扩展评估或提出新的训练干预。** [V4A 分阶段最小评价执行计划](docs/protocols/GR00T_WBC_V4A_EVAL_FIRST_STAGED_EXECUTION_20261024.md)；原121GPUh／34PBS／213CPUh／810GiB global 上限已真实采用，但仅是安全预算天花板，绝不要求先消耗完整130条件或注册全部六个S2面板。没有新增GPU作业／资格，也不撤销原已采用账本；先保证必要 native 安全、B4096 精确复用准入、矩阵／最终保护和原截止。下方旧 S2“完整执行包”只是当时批准的最大作用域，不是当前自动派发清单。
 
-> **2026-10-24 V4.1 执行顺序修订（现行）：[先做小规模配对 Eval，再决定扩大评估／修改训练](docs/handover/2026-10-24/SCIENCE_FIRST_MINIMUM_SPEND_EVAL_V4_1.md)。** 已批准并实际采用的global121GPUh／34PBS等是上限，**不是必须花完的执行目标**。新A/B DEV仍0/48、旧B0 14/48、core64=0；优先冷态资格下的4几何×2任务×A/B＝16条新行为诊断，结果出现前不扩训练。原完整DEV和S1/最终保护不降低；8格子面板目前**尚未经原生支持/准入**，不允许从旧24格作业偷偷截断。本次GitHub发布不启动任何作业或重算已采用账本。
+> **历史并发V4.1低成本诊断备选（不属于当前原生派发）：[先做小规模配对 Eval，再决定扩大评估／修改训练](docs/handover/2026-10-24/SCIENCE_FIRST_MINIMUM_SPEND_EVAL_V4_1.md)。** 已批准并实际采用的global121GPUh／34PBS等是上限，**不是必须花完的执行目标**。新A/B DEV仍0/48、旧B0 14/48、core64=0；优先冷态资格下的4几何×2任务×A/B＝16条新行为诊断，结果出现前不扩训练。原完整DEV和S1/最终保护不降低；8格子面板目前**尚未经原生支持/准入**，不允许从旧24格作业偷偷截断。本次GitHub发布不启动任何作业或重算已采用账本。
 
 S2整包已真实一次采用：[服务器＋LOCAL独立回读](reports/PI0294/design/parallel-science-20261022/V4_S2_ACTUAL_DUAL_ONCE_ADOPTION_20261024.json)。global121GPUh／34PBS／213站点CPUh／810GiB及精确B4096只读DEV例外已双账本落地；25条closed原记录、全部失败成本／训练进度、DEC1／其他限额／matrix／final／时钟均未改变。连接消失与首次非空队列只读拒绝保留，任何未知写未重发。账号另有1481491、CFP04-CF-031双GPU作业，人类已明确确认属其他独立工作；只精确区分该作业，不使用／修改／停止或计入本实验，其他未知作业仍拒绝。**无新GPU／PBS／模型／物理**；继续fresh typed native admission与独立DEV release，core64=0，B0有效14（9成功5失败）、A/B各0，goal ACTIVE。
 
