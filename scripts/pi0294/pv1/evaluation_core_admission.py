@@ -59,6 +59,14 @@ def request_identity(manifest,request,manifest_sha):
          and all(r.get(k)==v and type(r[k]) is type(v) for k,v in expected.items()),
          'ORIGINAL_AB_R0_WHOLE_PANEL_ZERO_TRAINING_ONLY')
     stage.request(m,r)
+    if 'startup_recovery_sha256' in r:
+        from .evaluation_core_zero_start_recovery import SCHEMA
+        need(r.get('evaluation_candidate')=='B_COVERAGE' and c.canonical_uuid(r.get('control_id'))
+             and r['run_uuid']=='pv1-v4a-b4096-n294101-zero-start-recovery-01'
+             and m['execution']['sealed_inputs'].get('plans/CORE_B_ZERO_START_COLD_RECOVERY.json')
+             ==r['sealed_inputs'].get('plans/CORE_B_ZERO_START_COLD_RECOVERY.json')
+             and type(r.get('startup_recovery_sha256')) is str and len(r['startup_recovery_sha256'])==64,
+             'EXACT_SEALED_SINGLE_KNOWN_ZERO_COLD_B_REPLACEMENT')
     queue_fields=[k for k in r if k.startswith('queue_')]
     if queue_fields:
         from . import evaluation_core_queue as queue

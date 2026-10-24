@@ -1027,3 +1027,10 @@ strata;no newmodel/query/physics/teacher labels. Two workers terminal,
 Audit83405c41 passes426tests/285subtests/actualCI39059634999;runninge418bb79
 and healthy673008 unchanged. CORR2048/full paired final still pending.
 
+
+
+### 2026-10-25 A24 terminal / B zero-effect startup closure
+
+A N294101 is complete and independently audited: 11/24 success (T1 7/12, T2 4/12), 13 valid failures, 0 actual native safety faults. A is once settled and dual-closed. Automatic B startup failed pre-model at the strict read-only predecessor evidence gate; B remains 0 valid, B−A unknown. B was charged once (70 GPU seconds, 1 process CPU second; original conservative bounds retained) and dual-closed with independent readback. One fresh cold B24 replacement is in CPU preparation only, preserving all original rows/costs, A24 and clocks; no native adoption or new training is implied. [Actual report](reports/PI0294/design/parallel-science-20261022/V4A_A24_COMPLETE_AND_B_ZERO_START_CLOSED_ACTUAL_20261025.json). Full goal ACTIVE; core64=0.
+
+Fresh B24 cold replay of actual captured full ledgers found only two storage gaps while retaining every failed cost and all future bounds: GPU-site peak 810.58833 GiB against 810 GiB; Core peak 328.51620 GiB against 300 GiB. A [two-cap draft](reports/PI0294/design/parallel-science-20261022/V4A_B_ZERO_START_REPLACEMENT_EXACT_STORAGE_SCOPE_DRAFT_20261025.json) proposes 811/329 GiB. This is not adopted authority or native admission; no new B registration or dispatch has occurred.

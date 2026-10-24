@@ -82,7 +82,10 @@ def run(root,request_path):
             # bind it. During this bounded zero-model wait, observe the actual
             # already accepted resident owner rather than inventing a live
             # GPU heartbeat before a native handle has been bound.
-            identity.current_queue(root,request,request_sha256=sha(request_path))
+            if 'startup_recovery_sha256' in request:
+                from .evaluation_core_zero_start_recovery import current_owner
+                current_owner(root,request)
+            else:identity.current_queue(root,request,request_sha256=sha(request_path))
         else:
             read_live_owner(root,root.name);ledger.guard()
     try:

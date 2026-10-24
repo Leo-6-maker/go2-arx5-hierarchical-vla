@@ -93,7 +93,7 @@ except (PermissionError,FileNotFoundError):print('REFUSED_BEFORE_NATIVE_IMPORT')
 else:raise AssertionError('invalid root admitted')
 '''
     result=subprocess.run([sys.executable,'-c',program,str(tmp_path/'missing')],capture_output=True,text=True,
-        timeout=15,env=dict(os.environ,PYTHONPATH=str(root.parent)+':'+str(root.parent/'src'),CUDA_VISIBLE_DEVICES='',PYTHONDONTWRITEBYTECODE='1'))
+        timeout=15,env=dict(os.environ,PYTHONPATH=str(root)+':'+str(root/'src'),CUDA_VISIBLE_DEVICES='',PYTHONDONTWRITEBYTECODE='1'))
     assert result.returncode==0,result.stderr
     assert result.stdout.strip()=='REFUSED_BEFORE_NATIVE_IMPORT'
 

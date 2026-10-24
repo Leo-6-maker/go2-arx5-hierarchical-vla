@@ -112,10 +112,13 @@ def validate_global(value):
         return value
     scope.validate_global(value)
     rows=value[FIELD]
-    need(type(rows) is dict and 1<=len(rows)<=2,'BOUNDED_ORIGINAL_STAGE_CORE_INDEX')
+    from .evaluation_core_zero_start_recovery import validated,effective_rows
+    recovery=validated(value)
+    scientific=effective_rows(value)
+    need(type(rows) is dict and 1<=len(rows)<=(3 if recovery else 2),'BOUNDED_ORIGINAL_STAGE_CORE_INDEX')
     for key,r in rows.items():
         need(key==row(r)['request_id'],'EXACT_REQUEST_INDEX')
-    paired=list(rows.values())+[r for r in value['PBS_submissions']
+    paired=scientific+[r for r in value['PBS_submissions']
         if r.get('platform_evaluation_version')==old.VERSION]
     need(len(paired)<=2 and all(sum(r['evaluation_candidate']==c for r in paired)<=1
          for c in stage.CANDIDATES),'ONE_PANEL_PER_ARM_ACROSS_BOTH_PLATFORMS')

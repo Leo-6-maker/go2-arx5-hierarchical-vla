@@ -114,9 +114,18 @@ def resource_inputs(root,request_path,ledger,process):
     binding=read(member(root,'plans/CORE_RESIDENT_QUEUE_BINDINGS.private.json'))
     queue_root=Path(binding['queue_root'])
     need(queue_root.parent==root.parent.parent/'control'
-         and queue_root.name=='v4a-core-resident-'+r['queue_id'],'ORIGINAL_RESIDENT_CONTROL_CUSTODY')
+         and queue_root.name=='v4a-core-resident-'+r.get('queue_id',r.get('control_id','MISSING')),'ORIGINAL_RESIDENT_CONTROL_CUSTODY')
     from scripts.pi0294.dec1.source_cpu_once_io import _file as ledger_file
-    local_raw=ledger_file(queue_root/'LOCAL_RESOURCE_LEDGER.private.json')
+    if 'startup_recovery_sha256' in r:
+        from .evaluation_core_zero_start_recovery import validated
+        recovery=validated(global_ledger)
+        need(recovery is not None and c.digest(recovery)==r['startup_recovery_sha256'],
+             'SAME_FULL_DUAL_KNOWN_ZERO_BOUNDARY')
+        original_control=root.parent.parent/'control'/('v4a-core-resident-'+global_ledger['Core_native_GPU_stage_queue']['plan']['queue_id'])
+        need(binding.get('canonical_LOCAL_ledger')==str(original_control/'LOCAL_RESOURCE_LEDGER.private.json'),
+             'ORIGINAL_CANONICAL_LOCAL_LEDGER_NOT_A_NEW_COPY')
+        local_raw=ledger_file(original_control/'LOCAL_RESOURCE_LEDGER.private.json')
+    else:local_raw=ledger_file(queue_root/'LOCAL_RESOURCE_LEDGER.private.json')
     return dict(manifest_bytes=_file(root,'RUN_MANIFEST.json'),request_bytes=_file(root,str(request_path.relative_to(root))),
         population_bytes=population,evidence_by_candidate=evidence,global_bytes=raw_global,local_bytes=local_raw,
         snapshot_bytes=_file(root,original.FRESH_SNAPSHOT),now_epoch=time.time(),

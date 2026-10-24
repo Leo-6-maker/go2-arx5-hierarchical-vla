@@ -106,3 +106,14 @@ A 的 reader 虽加载新库支持，但实际新库通道消费为 **0**；B �
 主要来源是原 [T2 TRAIN30 事件审计](../../../reports/PI0294/20261016T191445Z-localpc-mp1/T2_TRAIN30_EVENT_AND_H40_COVERAGE.json)、[PV1 新库物理事件审计](../../../reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_ADMITTED_TRAIN_PHYSICAL_EVENT_EXPOSURE.json)、[冻结候选总体](../../../reports/PI0294/DATA_COV1/DATA_COV1_FROZEN_POPULATION.json)，以及本次原始 checkpoint／worker／forward／Eval 回执的精确哈希。新读取只作用于终态文件；未运行新的模型、训练或物理任务，未宣称新的 CI 成功。笔记本已从头到尾执行 8 个代码单元，原字节事件连接／16 条 score 等值复核全部通过，3 张图及原笔记本 HTML 已渲染检查。
 
 原 T0、预算、矩阵与最终保护不变。停止新增 job／候选为 **2026-10-25 02:29:56 SGT**，停止新增物理为 **18:29:56 SGT**，硬关闭为 **2026-10-26 02:29:56 SGT**。这份分析和未来候选元数据不延长战役。
+
+
+## 2026-10-25 — first A panel complete; B startup known-zero and closed
+
+A4096 has completed all 24 original N294101 conditions: 11 success and 13 valid task failures (T1 7/12, T2 4/12). The failure categories are 1 original reference-speed rejection, 8 original S1 preexecution rejections, and 4 complete object-task failures; actual native safety faults are zero. Independent full-panel audit, once GPU/control settlement and both actual lease closures are complete. This is one original noise bank, not complete DEV48 or independent confirmation.
+
+The subsequent B4096 process failed before model load, query or physics. The original owner hit the strict owned-read-only evidence gate because 73 exact closed-A evidence files were writable. Its STOP request is preserved as the secondary B exit cause. B has zero valid outcomes, so B−A remains unknown. The failed process has been independently read back terminal, charged once (70 GPU seconds and 1 GPU-process CPU second, original output/control bounds retained), and both leases are closed.
+
+The narrow cold repair prepares one fresh B24 request with exact audited A bytes copied into its own sealed inputs. It retains the original two-row accepted queue, both historical rows, all failed costs, A24 results, the strict read-only gate and all original clocks. There is no automatic retry pool, A replay, new noise bank or new training. CPU preparation alone is not native adoption: full fresh resources, unique registration and the original native communication qualification still precede model permission.
+
+Actual report: [A24 terminal and B known-zero closure](../../../reports/PI0294/design/parallel-science-20261022/V4A_A24_COMPLETE_AND_B_ZERO_START_CLOSED_ACTUAL_20261025.json). P0/P1 remain the existing Failure Atlas and actual retained training exposure audit; future Teacher candidates remain metadata-only and NOT_RUN. Full goal remains ACTIVE and core64=0.

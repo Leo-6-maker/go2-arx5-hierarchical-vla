@@ -80,6 +80,10 @@ def validate_pair(global_ledger,local):
     need(local.get('run_uuid')==CAMPAIGN and local.get('T0_epoch')==T0
          and local.get('hard_closeout_epoch')==HARD_CLOSE and local.get(FIELD)==m,
          'SAME_NATIVE_AND_LOCAL_MARKERS_OR_NO_NEW_REQUEST')
+    from .evaluation_core_zero_start_recovery import FIELD as recovery_field,validated
+    if recovery_field in global_ledger or recovery_field in local:
+        need(global_ledger.get(recovery_field)==local.get(recovery_field)
+             and validated(global_ledger) is not None,'SAME_EXACT_KNOWN_ZERO_COLD_BOUNDARY_BOTH_LEDGERS')
     return m
 
 

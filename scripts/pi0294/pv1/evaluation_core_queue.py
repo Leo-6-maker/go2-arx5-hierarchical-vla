@@ -81,6 +81,10 @@ def validate_global(value):
              'NO_UNREGISTERED_QUEUE_STATUS_OR_PARTIAL_QUEUE_METADATA')
         return value
     queue=value[FIELD]
+    if len(rows)>2:
+        from .evaluation_core_zero_start_recovery import validated
+        need(validated(value) is not None,'ONE_EXACT_KNOWN_ZERO_COLD_REPLACEMENT_ONLY')
+        rows=queued
     need(len(queued)==len(rows)==2 and queue.get('phase') in ('INTENT_UNKNOWN_NO_RETRY','NATIVE_ACCEPTED'),
          'ONE_FINITE_PAIR_NO_REPLACEMENT_POOL')
     ordered=sorted(queued,key=lambda r:r['queue_position']);p=plan(ordered)
