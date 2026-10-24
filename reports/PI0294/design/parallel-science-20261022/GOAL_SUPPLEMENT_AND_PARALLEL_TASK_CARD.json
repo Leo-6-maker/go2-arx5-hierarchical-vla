@@ -91,9 +91,10 @@
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
     "this_document": "DURABLE_ADDITIVE_SCOPE_UPDATE_NOT_GOAL_STATUS_OR_BUDGET_RESET",
-    "actual_work": "B2048_FAILURE_CLOSED_EXACT_SAVED_STATE_REUSE_APPROVED_COLD_B2_INTEGRATION_PENDING",
+    "actual_work": "A24_COMPLETE_B24_UNRUN_POST_CUTOFF_DEPLOYMENT_UNKNOWN_CLEANED_EXACT_LATE_EXCEPTION_PENDING",
     "resume_API_available": false,
-    "no_goal_recreated_or_usage_reset": true
+    "no_goal_recreated_or_usage_reset": true,
+    "goal_complete": false
   },
   "original_handover": {
     "commit": "cee4b1da182187a221ec0a2c9cda01ba0dc796b5",
@@ -108,44 +109,33 @@
     "new_concurrent_GPU_or_training_authorized_by_this_card": false
   },
   "current_native_snapshot": {
-    "job_id": "1478518.stdct-mgmt-02",
-    "request_id": "22cdd5d4-c735-4dfc-901c-3b9dda2ca246",
-    "request_sha256": "ff5aa468d934c04d383208257adc278f65def4aaa047e386c3a77862cd319d49",
-    "submission_nonce": "112afadb-85a4-4fb4-b267-3514bdd77755",
-    "lineage": "B_COVERAGE",
-    "start_step": 0,
-    "target_step": 2048,
-    "native_state": "F",
-    "native_observed_epoch": 1792724614.2312522,
-    "owner_service": "vap1-a40-zero-update-b1-owner-01",
-    "owner_pid": 0,
-    "owner_status": "FAILED_ABSENT",
-    "GPU_lease": "CLOSED",
-    "CPU_control_lease": "CLOSED",
-    "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
-    "unknown_effects": [],
-    "new_training_effects": "ACTUAL_FAILED_ONCE_SETTLED",
-    "training_completion_claimed": false,
-    "used": {
-      "H200_s": 75658,
-      "optimizer_updates": 7720,
-      "neural_queries": 1180,
-      "PBS_submissions": 20
-    },
-    "reserved": {
-      "H200_s": 0,
-      "optimizer_updates": 0,
-      "neural_queries": 0
-    },
-    "CPU_reserved_s": 0,
-    "model_start_release": true,
-    "last_returned_training_step": 1829,
-    "first_update_release": true
+    "schema": "V4A_POST_STOP_NEW_CURRENT_NATIVE_SNAPSHOT_V1",
+    "observed_epoch": 1792866845.431,
+    "source_of_truth_independent_exact_read_sha256": "e2109a06f20bd4caa37b348f8aa9cefc302779d705e3657474896fafbade8a6f",
+    "native_state": "NO_CURRENT_B24_NATIVE_JOB",
+    "job_id": null,
+    "unregistered_planned_request_id": "4b0f26e7-dfa9-4e5e-ac05-8de1187f6653",
+    "planned_request_registered": false,
+    "GPU_pid": null,
+    "owner_pid": null,
+    "new_control_unit_LoadState": "not-found",
+    "new_GPU_unit_LoadState": "not-found",
+    "stranded_preparation_process": "INDEPENDENTLY_MISSING_AFTER_EXACT_ONCE_CLEANUP",
+    "original_older_B_GPU_and_physical_leases": "CLOSED",
+    "new_B_role_roots": "ABSENT",
+    "actual_ledger_unknown_effects": [],
+    "deployment_RPC_unknown": "PRESERVED_NOT_REPLAYED_OR_RELABELLED_CONFIRMED",
+    "global_sha256": "8c1573fb9b9837e5852996480e3797c1ac34cfdbb12644e43a90ee81c8d7dbd5",
+    "LOCAL_sha256": "1b941550a9ff013db7d2b5143450d02cdeffcfe94c146e82c50b4b214a9f1f00",
+    "actual_dual_bytes_unchanged": true,
+    "original_stop_new_epoch": 1792866596,
+    "stop_new_reached": true,
+    "new_scientific_submission_authorized_now": false
   },
   "workstreams": [
     {
       "id": "TRAIN",
-      "status": "A4096_CLOSED_B_FAILED1829_CLOSED_RECOVERY_APPROVED_NOT_NATIVE_ADOPTED",
+      "status": "A4096_AND_B4096_FULL_STATES_COMPLETE_AUDITED_AND_CLOSED_NO_NEW_TRAINING",
       "order": [
         "A32_TO2048",
         "A2048_TO4096",
@@ -154,7 +144,8 @@
       ],
       "same_platform_R0_recipe_sampler": true,
       "deliverable": "FULL4096_A_AND_B_PLUS_ACTUAL_CONSUMPTION_COST_AND_FAILURE_RECORDS",
-      "next_gate": "EXACT_RUNTIME_CI_READBACK_COLD_BINDING_ONCE_ADOPTION_CLOSED_COST_MIRROR_FRESH_NATIVE_ADMISSION"
+      "next_gate": "ORIGINAL_EVAL_QUALIFICATION_ONLY_NO_NEW_OPTIMIZER_UPDATES",
+      "historical_status_before_post_cutoff_sync": "A4096_CLOSED_B_FAILED1829_CLOSED_RECOVERY_APPROVED_NOT_NATIVE_ADOPTED"
     },
     {
       "id": "DATA",
@@ -170,14 +161,16 @@
     },
     {
       "id": "SCIENCE",
-      "status": "PREPARED_TEMPLATE_NOT_NATIVE_QUALIFICATION",
+      "status": "A_N294101_24_COMPLETE_B_N294101_0_VALID_S1_CORE64_0",
       "artifacts": [
         "EVALUATION_AND_CLAIM_PREPARATION.json",
         "DEC1_64_CELL_RESULT_TEMPLATE.tsv",
         "SAVED_DEV48_REMAINING_CONDITIONS.json"
       ],
       "source_AB_and_original_CORR_DEC1_are_separate_questions": true,
-      "target_missing_does_not_block_source_training": true
+      "target_missing_does_not_block_source_training": true,
+      "historical_status_before_post_cutoff_sync": "PREPARED_TEMPLATE_NOT_NATIVE_QUALIFICATION",
+      "next_gate": "NO_NEW_JOB_UNTIL_EXACT_B24_EXCEPTION_APPROVED_AND_FRESH_NATIVE_ADMISSION"
     },
     {
       "id": "FUTURE_TEACHER",
@@ -272,7 +265,7 @@
     "all_unfinished_denominators_target_ABI_and_resource_gaps_explicit"
   ],
   "this_preparation_is_goal_completion": false,
-  "updated_epoch": 1792716691.7867417,
+  "updated_epoch": 1792867313.3128288,
   "latest_actual_receipt": "reports/PI0294/design/WDR1_ACTUAL_FROZEN_TARGET_READBACK_AND_TIME_WIRE_CPU_20261023.json",
   "current_resource_work": {
     "status": "A4096_CLOSED_B1_UNIQUELY_SUBMITTED_RUNNING",
@@ -1590,5 +1583,74 @@
     "one_GPU_chain_inside_this_experiment_unchanged": true
   },
   "latest_execution_priority": "V4A_MATCHED_AB_BANK294101_STAGE1_ONLY",
-  "latest_V4A_cold_runtime_report": "reports/PI0294/design/parallel-science-20261022/V4A_PAIRED_STAGE_NATIVE_AND_CONTROL_COLD_CPU_20261024.json"
+  "latest_V4A_cold_runtime_report": "reports/PI0294/design/parallel-science-20261022/V4A_PAIRED_STAGE_NATIVE_AND_CONTROL_COLD_CPU_20261024.json",
+  "historical_current_native_snapshot_before_V4A_post_cutoff_sync": {
+    "job_id": "1478518.stdct-mgmt-02",
+    "request_id": "22cdd5d4-c735-4dfc-901c-3b9dda2ca246",
+    "request_sha256": "ff5aa468d934c04d383208257adc278f65def4aaa047e386c3a77862cd319d49",
+    "submission_nonce": "112afadb-85a4-4fb4-b267-3514bdd77755",
+    "lineage": "B_COVERAGE",
+    "start_step": 0,
+    "target_step": 2048,
+    "native_state": "F",
+    "native_observed_epoch": 1792724614.2312522,
+    "owner_service": "vap1-a40-zero-update-b1-owner-01",
+    "owner_pid": 0,
+    "owner_status": "FAILED_ABSENT",
+    "GPU_lease": "CLOSED",
+    "CPU_control_lease": "CLOSED",
+    "source_sha": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "unknown_effects": [],
+    "new_training_effects": "ACTUAL_FAILED_ONCE_SETTLED",
+    "training_completion_claimed": false,
+    "used": {
+      "H200_s": 75658,
+      "optimizer_updates": 7720,
+      "neural_queries": 1180,
+      "PBS_submissions": 20
+    },
+    "reserved": {
+      "H200_s": 0,
+      "optimizer_updates": 0,
+      "neural_queries": 0
+    },
+    "CPU_reserved_s": 0,
+    "model_start_release": true,
+    "last_returned_training_step": 1829,
+    "first_update_release": true
+  },
+  "latest_V4A_post_cutoff_actual": {
+    "report": "reports/PI0294/design/parallel-science-20261022/V4A_B_FIVE_JOB_IDENTITY_CONFIRMED_PRE_RESERVE_EXIT_AND_DEPLOYMENT_UNKNOWN_ACTUAL_20261025.json",
+    "cleanup_and_transport_and_exception_report": "reports/PI0294/design/parallel-science-20261022/V4A_B24_ONLY_LATE_SUBMISSION_KNOWN_ZERO_COLD_BOUNDARY_EXCEPTION_DRAFT_20261025.json",
+    "exception_status": "DRAFT_PENDING_DIRECT_HUMAN_APPROVAL_NOT_ADOPTED",
+    "A_CONTROL_N294101": {
+      "valid": 24,
+      "success": 11,
+      "T1": "7/12",
+      "T2": "4/12",
+      "valid_failures": 13,
+      "reference_reject": 1,
+      "S1_preexecution_reject": 8,
+      "object_task_failure": 4,
+      "actual_native_safety_faults": 0,
+      "dual_closed": true
+    },
+    "B_COVERAGE_N294101": {
+      "valid": 0,
+      "status": "NOT_RUN_ENGINEERING_BLOCKED",
+      "paired_conditions": 0,
+      "B_minus_A": null
+    },
+    "full_DEV48_complete": false,
+    "core64": 0,
+    "target_task_native_qualified": false,
+    "full_goal": "ACTIVE_INCOMPLETE",
+    "storage_caps_adopted": {
+      "GPU_site_GiB": 811,
+      "Core_GiB": 329
+    },
+    "proposed_late_B24_boundary_not_authorized_epoch": 1792873796,
+    "other_original_deadlines_unchanged": true,
+    "no_new_training_or_capture": true
+  }
 }
