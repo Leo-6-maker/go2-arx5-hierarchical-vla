@@ -24,7 +24,7 @@ def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_byte
             *,forecast_inputs,DEC1_bytes,SDK_closures,namespace_proof,now_epoch,predecessor_bytes=None):
     p,c,q,m,x=map(common.obj,(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_bytes))
     budget.identity(p,c);prior,spent,held=budget.rows(p,c)
-    need(len(prior)<2 and not any(held.values()),'IO_NEW_COMPONENT_ONCE_NOT_CLOSED_REQUEST_REPLAY')
+    need(len(prior)<3 and not any(held.values()),'IO_NEW_COMPONENT_ONCE_NOT_CLOSED_REQUEST_REPLAY')
     need(common.sha(VAP1_bytes)==common.VAP1_SHA,'IO_EXACT_ADOPTED_NON_GPU_GRANT')
     need(common.vector(q['requested'])==budget.REQUESTED,'IO_FIXED_ALL_EIGHT_REQUESTED_DIMENSIONS')
     need(q['schema']==REQUEST_SCHEMA and q['scope']==m['scope']==ROLE
@@ -45,7 +45,14 @@ def reserve(parent_bytes,Core_bytes,request_bytes,manifest_bytes,projection_byte
     certificate=None
     if prior:
         old=budget.predecessor
-        need(set(prior)=={old.REQUEST} and type(predecessor_bytes) is bytes,'IO_ONE_EXACT_KNOWN_ZERO_PREDECESSOR_REQUIRED')
+        if len(prior)==2:
+            old=budget.elf;old.adopted(p,c)
+            need(set(prior)=={budget.predecessor.REQUEST,old.REQUEST},'IO_EXACT_TWO_CLOSED_PREDECESSORS')
+            need(q['LOCAL_minute_grant_sha256']==old.GRANT_SHA
+                 and m['authority']['supplemental_grants']==[old.GRANT_SHA]
+                 and m['execution']['sealed_inputs'][old.GRANT]==old.GRANT_SHA,'IO_SEALED_ONE_MINUTE_GRANT')
+        else:need(set(prior)=={old.REQUEST},'IO_ONE_EXACT_KNOWN_ZERO_PREDECESSOR_REQUIRED')
+        need(type(predecessor_bytes) is bytes,'IO_EXACT_PREDECESSOR_BYTES_REQUIRED')
         certificate=old.verify(predecessor_bytes,prior_row=prior[old.REQUEST],prior_settlement=p[budget.SETTLEMENTS][old.REQUEST])
         need(q['closed_predecessor_packet_sha256']==common.sha(predecessor_bytes)
              and m['execution']['sealed_inputs'][old.PACK]==common.sha(predecessor_bytes),

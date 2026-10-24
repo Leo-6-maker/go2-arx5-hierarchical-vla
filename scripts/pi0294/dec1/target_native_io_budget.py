@@ -13,6 +13,7 @@ from . import target_sdk_budget as sdk
 from . import target_sdk_closed_costs as closed_sdk
 from .target_zero_quota import ROLE, SCHEMA as REQUEST_SCHEMA
 from . import target_native_io_predecessor as predecessor
+from . import target_native_io_elf_repair as elf
 
 CAMPAIGN,T0,STOP_NEW,HARD_CLOSE = sdk.CAMPAIGN,sdk.T0,sdk.STOP_NEW,sdk.HARD_CLOSE
 ROWS='target_native_IO_reservations'
@@ -40,15 +41,21 @@ def identity(p,c):
 
 def rows(p,c):
     identity(p,c);a=p.get(ROWS,{})
-    need(common.same(a,c.get(ROWS,{})) and len(a)<=2,'IO_EXACT_PAIRED_COMPONENT_AND_ONE_KNOWN_ZERO_COLD_REPAIR')
+    need(common.same(a,c.get(ROWS,{})) and len(a)<=3,'IO_EXACT_PAIRED_COMPONENT_AND_ONE_KNOWN_ZERO_COLD_REPAIR')
     need(sum(row['status']=='RESERVED' for row in a.values())<=1,'IO_ONE_CURRENT_NATIVE_OWNER')
-    if len(a)==2:
+    if len(a)>=2:
         need(predecessor.REQUEST in a,'IO_COLD_REPAIR_ONLY_EXACT_ORIGINAL_IMPORT_FAILURE')
         original=a[predecessor.REQUEST]
-        current=next(row for rid,row in a.items() if rid!=predecessor.REQUEST)
+        current=a[elf.REQUEST] if len(a)==3 else next(row for rid,row in a.items() if rid!=predecessor.REQUEST)
         packet=base64.b64decode(current['predecessor_packet_base64'],validate=True)
         cert=predecessor.verify(packet,prior_row=original,prior_settlement=p[SETTLEMENTS][predecessor.REQUEST])
         need(current['predecessor_certificate']==cert,'IO_ORIGINAL_CLOSED_PREDECESSOR_CERTIFICATE_UNCHANGED')
+    if len(a)==3:
+        elf.adopted(p,c)
+        current=next(row for rid,row in a.items() if rid not in (predecessor.REQUEST,elf.REQUEST))
+        packet=base64.b64decode(current['predecessor_packet_base64'],validate=True)
+        cert=elf.verify(packet,prior_row=a[elf.REQUEST],prior_settlement=p[SETTLEMENTS][elf.REQUEST])
+        need(current['predecessor_certificate']==cert,'IO_EXACT_ELF_FAILURE_COLD_CONTINUATION')
     spent=dict.fromkeys(common.DIMS,0);held=dict.fromkeys(common.DIMS,0)
     for rid,row in a.items():
         wanted=common.vector(row['requested']);left=common.vector(row['remaining'])
@@ -154,6 +161,7 @@ def forecast(*,snapshot,plan,parent_bytes,Core_bytes,DEC1_bytes,SDK_closures,
         SDK_already_projected_deduction=dict(constructors=already_ctor,transfer_bytes=already_net))
     result=sdk.forecast(snapshot=s,plan=q,parent_bytes=common.encode(pv),Core_bytes=common.encode(cv),
         namespace_proof=namespace_proof,now_epoch=now_epoch,**original_inputs)
+    if elf.MARKER in p or elf.MARKER in c:elf.extend_forecast(result,p,c)
     # Keep the SDK's complete conservative wall bound and add this component's
     # finite interval. No CPU, constructor, output, GPU or physics credit for IO.
     result['projected_finish_epoch']+=1800
