@@ -98,3 +98,31 @@ def test_startup_loader_environment_and_metadata_origin_required(binding,tmp_pat
         unit.ensure_startup(root,code,binding,lambda:None)
         assert seen==list(unit.MODULES)
     assert not list((root/'evidence').iterdir())
+
+
+@pytest.mark.parametrize('fault',(None,'search_order','missing_program','missing_library','changed_library','changed_binary'))
+def test_exact_elf_closure_is_separate_and_cannot_expand_ros_environment(binding,monkeypatch,fault):
+    native=Path(binding['native_root']);dep=native.parent/'dependency-root'
+    extra=('/usr/lib/gcc/x86_64-linux-gnu/13','/usr/lib/x86_64-linux-gnu',
+        str(dep/'opt/ros/jazzy/lib/x86_64-linux-gnu'),str(dep/'usr/lib/x86_64-linux-gnu'))
+    path=binding['original_ROS_environment']['environment']['LD_LIBRARY_PATH']+':'+':'.join(extra)
+    library='/original/resolved/libfixture.so';pins=binding['original_readonly_files'];pins[library]='a'*64
+    checks={}
+    for key in ('sim_binary','solver_binary','controller_binary'):
+        name='/original/'+key;binding[key]=name;pins[name]='b'*64
+        checks[key]=dict(returncode=0,missing=[],resolved=[library],binary_sha256='b'*64)
+    closure=dict(schema='DEC1_ORIGINAL_FROZEN_ELF_LINKER_CLOSURE_V1',library_path=path,
+        resolved_files={library:'a'*64},programs=checks)
+    binding['original_ELF_linker_closure']=closure
+    monkeypatch.setattr(unit,'filehash',lambda p:pins[str(p)])
+    original=deepcopy(binding['original_ROS_environment'])
+    if fault=='search_order':closure['library_path']='/unbound/lib:'+path
+    elif fault=='missing_program':checks.pop('sim_binary')
+    elif fault=='missing_library':closure['resolved_files']={}
+    elif fault=='changed_library':pins[library]='c'*64
+    elif fault=='changed_binary':checks['sim_binary']['binary_sha256']='c'*64
+    if fault:
+        with pytest.raises(PermissionError):unit.desired_environment('/sealed/code',binding)
+    else:
+        assert unit.desired_environment('/sealed/code',binding)['LD_LIBRARY_PATH']==path
+    assert binding['original_ROS_environment']==original

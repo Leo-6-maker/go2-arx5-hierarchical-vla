@@ -52,9 +52,43 @@ def validate_binding(inputs):
     return value
 
 
+def loader_environment(inputs,value):
+    """Bind the already-installed ELF closure separately from ROS setup.
+
+    ROS env.sh does not cover all delivered GLFW/Pinocchio/OctoMap libraries.
+    A future cold request may carry the exact read-only ldd closure; every
+    resolved file is sealed and rehashed before the same-interpreter exec.
+    This does not build, replace or execute a WBC binary.
+    """
+    base=value['environment']['LD_LIBRARY_PATH']
+    closure=inputs.get('original_ELF_linker_closure')
+    if closure is None:return base  # Historical binding remains interpretable.
+    native=Path(inputs['native_root']);dep=native.parent/'dependency-root'
+    extra=('/usr/lib/gcc/x86_64-linux-gnu/13','/usr/lib/x86_64-linux-gnu',
+        str(dep/'opt/ros/jazzy/lib/x86_64-linux-gnu'),str(dep/'usr/lib/x86_64-linux-gnu'))
+    expected=base+':'+':'.join(extra)
+    need(closure['schema']=='DEC1_ORIGINAL_FROZEN_ELF_LINKER_CLOSURE_V1'
+         and closure['library_path']==expected,'IO_EXACT_ORIGINAL_ELF_SEARCH_ORDER')
+    files=closure['resolved_files'];checks=closure['programs'];pins=inputs['original_readonly_files']
+    need(set(checks)=={'sim_binary','solver_binary','controller_binary'} and files,
+         'IO_COMPLETE_ORIGINAL_ELF_PROGRAM_SET')
+    covered=set()
+    for key,check in checks.items():
+        need(check['returncode']==0 and check['missing']==[] and check['resolved']
+             and check['binary_sha256']==pins[inputs[key]]
+             and filehash(inputs[key])==check['binary_sha256'],'IO_ORIGINAL_ELF_BINARY_OR_DEPENDENCY')
+        covered.update(check['resolved'])
+    need(covered==set(files),'IO_EXACT_TRANSITIVE_ELF_CLOSURE')
+    for name,pin in files.items():
+        need(Path(name).is_absolute() and pins.get(name)==pin and filehash(name)==pin,
+             'IO_ORIGINAL_ELF_DEPENDENCY_CHANGED')
+    return expected
+
+
 def desired_environment(code,inputs):
     value=validate_binding(inputs)
     result=dict(os.environ);result.update(value['environment'])
+    result['LD_LIBRARY_PATH']=loader_environment(inputs,value)
     result['PYTHONPATH']=str(code)+':'+str(Path(code)/'src')+':'+value['environment']['PYTHONPATH']
     # Do not let an unrelated inherited RMW selection change the frozen graph.
     result.pop('RMW_IMPLEMENTATION',None)

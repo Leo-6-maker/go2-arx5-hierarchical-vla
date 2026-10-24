@@ -1,0 +1,53 @@
+{
+  "schema": "WDR1_ONE_LOCAL_CONTROL_MINUTE_FOR_ORIGINAL_ZERO_IO_COLD_REPAIR_DRAFT_V1",
+  "status": "DRAFT_NOT_AUTHORIZATION_OR_NATIVE_ADMISSION",
+  "reason": "Actions billing no longer blocks. Actual ROS continuation reached the original graph; an existing-library loader-path omission was diagnosed and cold repaired. Preserve all original future work.",
+  "actual_closed_predecessor_request": "b1cf63f5-040e-43fd-930d-64bc35ec49c2",
+  "actual_closed_predecessor_manifest": "7298520e5ef66a34a09b97cc353a2073cdf0f414b3fc348cee394043c3513ba9",
+  "actual_closed_predecessor_lease": "11456f0022ff1386277b7b96f57ba0d46e8774b23e450e04f45c1825400b0023",
+  "proposed_only_cap_change": {
+    "DEC1_LOCAL_CPU_s": {
+      "before": 57600,
+      "after": 57660,
+      "delta": 60
+    }
+  },
+  "current_LOCAL_CPU_used": 50998.974682509,
+  "protected_all_future_LOCAL_CPU_s": 6600,
+  "one_cold_candidate_full_LOCAL_upper_CPU_s": 60,
+  "total_required_LOCAL_CPU_s": 57658.974682509,
+  "shortfall_against_current_cap_CPU_s": 58.97468250899692,
+  "headroom_after_proposed_cap_CPU_s": 1.0253174910030793,
+  "all_other_global_and_DEC1_shortfalls": {},
+  "clock_failures": [],
+  "all_original_future_requirements": {
+    "H200_s": 86580,
+    "PBS_submissions": 3,
+    "optimizer_updates": 0,
+    "episode_starts": 88,
+    "neural_queries": 7040,
+    "physics_ticks": 2816000,
+    "engine_starts": 7128,
+    "Core_CPU_s": 193968.05627,
+    "Hopper_CPU_s": 85520,
+    "local_CPU_s": 6600,
+    "transfer_bytes": 6174015488,
+    "Hopper_storage_bytes": 9442971836,
+    "Core_storage_bytes": 17968398336,
+    "local_storage_bytes": 0
+  },
+  "grant_would_cover": "One fresh zero-physics cold engineering continuation bound to both real CLOSED IO histories; exact current-source server CPU qualification and fresh complete admission still required",
+  "not_covered": [
+    "Any SDK UNKNOWN write reissue",
+    "Any new GPU or PBS slot",
+    "Any training replay",
+    "Any increase to physics/episode/query/constructor/storage/transfer/Core/GPUsite budgets",
+    "Any original-clock reset",
+    "Any WBC change or native safety relaxation"
+  ],
+  "all_prior_costs_failures_and_checkpoints_preserved": true,
+  "full_target_prefix_still_required": true,
+  "target_task_native_qualified": false,
+  "core64": 0,
+  "pure_forecast_receipt_sha256": "fb9059e89d9d821831371437afeb4ece8dbd8334af13a2f57b3bed97967afb5c"
+}
