@@ -1,0 +1,74 @@
+{
+  "schema": "V4A_EVAL_FIRST_STAGED_EXECUTION_PLAN_V1",
+  "status": "DOCUMENT_ONLY_NOT_NATIVE_GO",
+  "plan_path": "docs/protocols/GR00T_WBC_V4A_EVAL_FIRST_STAGED_EXECUTION_20261024.md",
+  "basis_sha": "7229c93c82f0ca2824875b9d4ec1235b0ff96ae5",
+  "priority": "S2_FIRST_A_B_REAL_MATCHED_BEHAVIOR_BEFORE_FURTHER_TRAINING",
+  "current_evidence": {
+    "A4096_train_complete": true,
+    "B4096_train_complete": true,
+    "B4096_readonly_DEV_exception_adopted": true,
+    "B0_DEV_valid": 14,
+    "B0_success": 9,
+    "B0_valid_fail": 5,
+    "A_DEV": 0,
+    "B_DEV": 0,
+    "DEC1_core64": 0
+  },
+  "existing_grant": {
+    "actual_adopted": true,
+    "global_GPU_hours": 121,
+    "global_PBS_cap": 34,
+    "site_CPU_hours": 213,
+    "site_output_GiB": 810,
+    "authority": "V4_S2_GLOBAL_RESOURCE_AND_SAVED_B4096_REUSE_AUTHORIZATION_20261024.json",
+    "all_six_panels_automatically_dispatched": false,
+    "no_duplicate_grant": true
+  },
+  "first_stage": {
+    "source_population": "ORIGINAL_PV1_DEV48",
+    "noise_bank": 294101,
+    "geometry_groups": 12,
+    "task_ids": [
+      "T1",
+      "T2"
+    ],
+    "candidates": [
+      "A_CONTROL4096",
+      "B_COVERAGE4096"
+    ],
+    "episodes_per_candidate": 24,
+    "total_episode_upper": 48,
+    "planned_original_panels": 2,
+    "max_new_PBS_for_stage": 2,
+    "GPU_s_conservative_upper": 57600,
+    "task_query_upper_without_probes": 3840,
+    "live_shadow_physics_ticks_upper": 1536000,
+    "B0_new_eval_required_before_B_minus_A": false,
+    "original_full_DEV48_unchanged": true,
+    "minimum_first_report": "ACTUAL_PAIRED_OUTCOMES_EXPLORATORY_UNTIL_BOTH_COMPLETE",
+    "full_resource_and_clock_native_admission_still_required": true
+  },
+  "protected": {
+    "DEC1_original_matrix_PBS": 3,
+    "global_final_GPU_s": 72000,
+    "global_final_output_GiB": 40,
+    "safety_gates_unchanged": true,
+    "pv1_full_DEV_AND_LOCKBOX_unchanged": true,
+    "valid_negatives_not_replayed": true
+  },
+  "decision_rule": "After complete matched first bank report per-task success, paired discordance, safety/valid failures, clustered uncertainty and actual allocated cost; only then choose second bank, B0 completion or future training hypothesis; do not claim formal DEV release from one bank.",
+  "deadline_SGT": {
+    "stop_new": "2026-10-25T02:29:56",
+    "stop_physics": "2026-10-25T18:29:56",
+    "hard_close": "2026-10-26T02:29:56"
+  },
+  "execution_effects": {
+    "native_grant_revoke": false,
+    "new_GPU_or_PBS": 0,
+    "new_model_queries": 0,
+    "new_physics": 0,
+    "native_owner_changed": false,
+    "checkpoint_deleted": false
+  }
+}
