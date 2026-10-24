@@ -37,7 +37,7 @@ def _read(raw):
     return value,hashlib.sha256(raw).hexdigest()
 
 
-def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence,
+def _validated_attempts(population_bytes,*,route,new_bank_manifest_sha256,evidence,
         candidate='B0_CORR',checkpoint_manifest_sha256=PARENT):
     """Evidence contains original adjudication/result/audit bytes for ALL attempts."""
     population,population_sha=_read(population_bytes)
@@ -142,6 +142,18 @@ def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence,
         if 'engineering_diagnosis' in item:
             attempt_hashes[identifier]['engineering_diagnosis_sha256']=hashlib.sha256(item['engineering_diagnosis']).hexdigest()
         rows.append(row)
+    # Both complete admission and V4 partial history share every per-attempt
+    # check above. Only the separate complete-admission entry requires all48.
+    return plan,rows,result_hashes,audit_hashes,attempt_hashes
+
+
+def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence,
+        candidate='B0_CORR',checkpoint_manifest_sha256=PARENT):
+    """Original complete DEV48 gate, unchanged for training and selection."""
+    plan,rows,result_hashes,audit_hashes,attempt_hashes=_validated_attempts(population_bytes,
+        route=route,new_bank_manifest_sha256=new_bank_manifest_sha256,evidence=evidence,
+        candidate=candidate,checkpoint_manifest_sha256=checkpoint_manifest_sha256)
+    cards={c['condition_id']:c for p in plan['panels'].values() for c in p['cards']}
     # The existing validator enforces no repeated valid failures, and the one
     # diagnosed engineering replacement with its original attempt preserved.
     for panel in plan['panels'].values():
@@ -158,4 +170,33 @@ def admission(population_bytes,*,route,new_bank_manifest_sha256,evidence,
         all_actual_attempts=attempt_hashes,real_native_faults=0,Teacher_takeover=False,
         all_condition_evidence_audits_PASS=True,successes=successes,
         task_success_rate_is_not_training_admission_gate=True,
+        new_integrations=0,new_model_queries=0,new_training_updates=0)
+
+
+def partial_history(population_bytes,*,candidate,evidence):
+    """V4 validated supplied history; not training, selection or native GO.
+
+    The owner must supply the complete original attempt inventory. This parser
+    verifies its original bytes; it does not prove a remote directory is fully
+    enumerated. Fresh native admission must bind that independent inventory.
+    """
+    from scripts.pi0294.dec1.authority import BANK
+    from .evaluation_platform import ENDPOINTS
+    if candidate not in ENDPOINTS:
+        raise PermissionError('PV1_V4_ONLY_EXISTING_PRIMARY_DEV_ENDPOINTS')
+    plan,rows,results,audits,attempts=_validated_attempts(population_bytes,route='COVERAGE_FIRST',
+        new_bank_manifest_sha256=BANK,evidence=evidence,candidate=candidate,
+        checkpoint_manifest_sha256=ENDPOINTS[candidate])
+    remaining={label:remaining_panel(rows,panel) for label,panel in plan['panels'].items()}
+    valid=len(results);eligible=sum(len(cards) for cards in remaining.values())
+    return dict(schema='PI0294_V4_PRIMARY_DEV_VALIDATED_HISTORY_V1',authority_release=AUTHORITY,
+        status='VALIDATED_SUPPLIED_ORIGINAL_ATTEMPTS_NOT_COMPLETE_ADMISSION',candidate=candidate,
+        population_plan_sha256=POPULATION,checkpoint_manifest_sha256=ENDPOINTS[candidate],
+        new_bank_manifest_sha256=BANK,prior_rows=rows,all_actual_attempts=attempts,
+        condition_result_sha256=results,independent_audit_sha256=audits,
+        valid_conditions=valid,remaining_eligible_conditions=eligible,
+        exhausted_engineering_conditions=48-valid-eligible,remaining_panels=remaining,
+        successes={task:sum(r['task']==task and r['status']=='SUCCESS' for r in rows) for task in ('T1','T2')},
+        remote_attempt_inventory_complete_not_proven_here=True,complete_DEV48=valid==48,
+        training_or_selection_admission=False,native_or_resource_admission=False,
         new_integrations=0,new_model_queries=0,new_training_updates=0)
