@@ -93,6 +93,9 @@ def run_graph(root,m,q,inputs,guard):
             ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',ROS_DOMAIN_ID=str(inputs['ROS_DOMAIN_ID']),
             PYTHONPATH=str(code)+':'+str(code/'src')+':'+os.environ.get('PYTHONPATH',''))
         env.pop('MUJOCO_EGL_DEVICE_ID',None)
+        # Same delivered X11/tool dependency path as the original task worker.
+        # The pinned xvfb-run script must also find its original Xauth/Xvfb.
+        env['PATH']=str(native.parent/'dependency-root/usr/bin')+':'+env.get('PATH','')
         observer=build/'target_zero_observer.so'
         compiler=groups.launch('observer-build',[inputs['compiler'],'-std=c++17','-shared','-fPIC','-O2','-pthread',
             '-I'+inputs['mujoco_include'],str(code/'scripts/pi0294/dec1/target_zero_observer.cpp'),'-ldl','-o',str(observer)],cwd=build,env=env)
@@ -227,6 +230,11 @@ def run_graph(root,m,q,inputs,guard):
                 until=time.monotonic()+2
                 while not(out/'observer-stopped.json').exists() and time.monotonic()<until:time.sleep(.01)
                 result['observer_stopped']=read(out/'observer-stopped.json') if (out/'observer-stopped.json').exists() else None
+                stopped=result['observer_stopped']
+                if not (stopped and stopped.get('observer_stopped') is True
+                        and stopped.get('original_pause_called') is True
+                        and stopped.get('physics_integrations')==0 and stopped.get('snapshots',0)>0):
+                    result['status']='NATIVE_ZERO_IO_ENGINEERING_INCOMPLETE'
             except BaseException as exc:result['observer_stop_error']=repr(exc)
         try:groups.close()
         except BaseException as exc:result['teardown_error']=repr(exc);result['status']='NATIVE_ZERO_IO_ENGINEERING_INCOMPLETE'

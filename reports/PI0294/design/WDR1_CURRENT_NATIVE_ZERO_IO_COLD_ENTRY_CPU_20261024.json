@@ -41,7 +41,7 @@
   },
   "source_file_sha256": {
     "scripts/pi0294/dec1/target_native_io_entry.py": "cd7f673747a3984d36dc63ee8ca9efcd7d66bfbc54dafb0f1c6e040df9d8bfce",
-    "scripts/pi0294/dec1/target_native_io_graph.py": "bbd977fcc430e8858878c5466965533b30b31e0c9c37e0a7932f8d6fd1b488a7",
+    "scripts/pi0294/dec1/target_native_io_graph.py": "cdf585f10c52325627398ac9bef0bff00216cd758d5d67abc1ac49934d3c0972",
     "scripts/pi0294/dec1/test_target_native_io_entry.py": "bcbec75e2dcaf7808432a217fb6afd58d5a6e73c74aa566f04ddaa3e3ad9757f",
     "scripts/pi0294/dec1/target_sdk_qualification.py": "7908564333680fa1a5ef8dbf013cfbb525af60b9fd8dac72a6e4684c99038e52"
   },
@@ -68,5 +68,27 @@
   "native_prefix_safety_qualified": false,
   "core64_cells": 0,
   "goal_status": "ACTIVE",
-  "original_clocks_caps_history_and_checkpoints_preserved": true
+  "original_clocks_caps_history_and_checkpoints_preserved": true,
+  "prior_runtime_CI": {
+    "source": "47c1bde5a203d60074bc130e9aed72739866cfeb",
+    "run": 40048601126,
+    "job": 120735920361,
+    "all_12_steps_success": true,
+    "full_raw_blob_files": 20
+  },
+  "final_cold_lifecycle_delta": [
+    "Reuse exact original dependency PATH for Xvfb/Xauth",
+    "Require explicit observer stopped proof before component status can pass"
+  ],
+  "final_delta_related_cases": 61,
+  "actual_new_cold_asset_binding": {
+    "headers": 14,
+    "closed_original_math_cache_files": 30,
+    "cache_bytes": 63084,
+    "Core_CPU_s": 0.007806613,
+    "new_builds_models_physics_or_writes": 0,
+    "receipt_sha256": "26e52160f95c4eaadfe726c6faa6d68c9362f07768ff7aeaf18e0be15b5b82fa",
+    "initial_metadata_read_tool_PATH_error_preserved": true,
+    "corrected_only_exact_original_tool_paths": true
+  }
 }
