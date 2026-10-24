@@ -23,6 +23,7 @@ from .decision import AUTHORITY
 from .resources import namespace_submission
 from .runtime import validate_runtime
 from . import evaluation_platform as evaluation
+from . import evaluation_core_identity as Core_native
 
 PLAN='plans/PV1_TRANSPORT_FIXTURE.json'
 BASE='PV1-PREMODEL'
@@ -106,7 +107,10 @@ def ledger(root,role):
     if role=='core':
         from .core_ledger import Ledger
     elif role=='hopper':
-        from .neural_ledger import Ledger
+        if Core_native.cold_profile(read(Path(root)/'RUN_MANIFEST.json')):
+            from .evaluation_core_ledger import Ledger
+        else:
+            from .neural_ledger import Ledger
     else:raise PermissionError('PV1_EXACT_TRANSPORT_PEER')
     return Ledger(root)
 
@@ -156,14 +160,18 @@ class Pump(OriginalPump):
     def __init__(self,root,label,allocation,guard):
         self.root,self.label,self.allocation,self.guard=Path(root),label,allocation,guard
         self.folder,number,mode=namespace(root,label)
-        if mode!=BASE or os.environ.get('PBS_JOBID')!=allocation['job_id'] or os.uname().nodename!=allocation['hostname']:
+        if mode!=BASE or Core_native.current_handle()!=allocation['job_id'] or os.uname().nodename!=allocation['hostname']:
             raise PermissionError('PV1_FIXTURE_PUMP_ONLY_ON_OWN_ADMITTED_COMPUTE_NODE')
         r=immutable(self.root/'plans'/label/'REGISTRY.json');self.registry=r
         m=read(self.root/'RUN_MANIFEST.json');self.plan=prepared_plan(root,m)
         admission=self.root/'pbs'/('alloc-'+str(number).zfill(2))/'ALLOCATION_ADMISSION.json'
-        typed=evaluation.cold_profile(m)
-        expected=evaluation.STATUS if typed else 'PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
-        if typed:
+        core_typed=Core_native.cold_profile(m)
+        typed=False if core_typed else evaluation.cold_profile(m)
+        expected=Core_native.STATUS if core_typed else evaluation.STATUS if typed else 'PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
+        if core_typed:
+            request=self.root/'pbs'/('alloc-'+str(number).zfill(2))/'REQUEST.json'
+            Core_native.current_identity(self.root,m,read(request),allocation)
+        elif typed:
             request=self.root/'pbs'/('alloc-'+str(number).zfill(2))/'REQUEST.json'
             evaluation.sealed_identity(m,read(request),allocation,run_uuid=self.root.name,
                 manifest_sha256=sha(self.root/'RUN_MANIFEST.json'),request_sha256=sha(request))

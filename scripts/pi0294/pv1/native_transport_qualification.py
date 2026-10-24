@@ -120,7 +120,8 @@ def run(root,directory,allocation,guard):
         system_extra=after.ru_stime-children_before.ru_stime
         if min(user_extra,system_extra)<0:raise ValueError('NONNEGATIVE_NATIVE_FIXTURE_CHILD_CPU')
         from .evaluation_platform import STATUS as DEV_STATUS
-        if allocation.get('status')==DEV_STATUS:
+        from .evaluation_core_identity import STATUS as CORE_DEV_STATUS
+        if allocation.get('status') in (DEV_STATUS,CORE_DEV_STATUS):
             # This is a child of neural.run, whose final CPU record includes
             # these monotonic child counters. Separate login RPC actors still
             # settle their own CPU once through the original metrics ledger.

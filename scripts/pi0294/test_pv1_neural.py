@@ -27,7 +27,7 @@ class NeuralEntryContracts(unittest.TestCase):
             def stop():raise RuntimeError('CPU_FIXTURE_STOP_BEFORE_MODEL_OR_ROUTE')
             for invalid in (None,dict(proof,transport_cycles=79)):
                 with self.assertRaisesRegex(PermissionError,'SAME_JOB_NATIVE_PREMODEL'):
-                    mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000),None,stop,
+                    mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000,job_id='CPU_FIXTURE_NOT_A_JOB'),None,stop,
                         ready_status='PV1_NATIVE_MODEL_READY',native_pre_model_qualification=invalid,visibility_refresh=lambda p:None)
                 self.assertFalse((root/'pbs/MODEL_STATE.json').exists())
             with self.assertRaisesRegex(PermissionError,'SAME_JOB_NATIVE_PREMODEL'):
@@ -37,7 +37,7 @@ class NeuralEntryContracts(unittest.TestCase):
                 mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000),None,stop,
                     visibility_refresh=lambda p:None)
             with self.assertRaisesRegex(RuntimeError,'CPU_FIXTURE_STOP'):
-                mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000),None,stop,
+                mature.serve(root,'fixture',instance,dict(allocation_end_epoch=10000,job_id='CPU_FIXTURE_NOT_A_JOB'),None,stop,
                     ready_status='PV1_NATIVE_MODEL_READY',native_pre_model_qualification=proof,visibility_refresh=lambda p:None)
             state=json.loads((root/'pbs/MODEL_STATE.json').read_text())
             self.assertEqual(state['native_pre_model_qualification'],proof)

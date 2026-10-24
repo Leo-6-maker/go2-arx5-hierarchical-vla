@@ -36,6 +36,9 @@ def checkpoint_identity(checkpoint,label,source_sha):
 
 
 def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_status='E1_NATIVE_MODEL_READY',noise_namespace='PI0294',terminal_status='E1_STAGE_TERMINAL_NOT_TASK_SUCCESS',native_pre_model_qualification=None,visibility_refresh=None,mapped_ack_contracts=None):
+    # Logical wire job_id may be a real Core boot/PID handle. Never put it in
+    # PBS_JOBID or infer permission from this routing choice.
+    from scripts.pi0294.pv1.evaluation_core_identity import current_handle
     if ready_status=='PV1_NATIVE_MODEL_READY':
         proof=native_pre_model_qualification
         if (not callable(visibility_refresh) or not isinstance(proof,dict) or proof.get('status')!='PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK'
@@ -45,9 +48,13 @@ def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_st
             raise PermissionError('PV1_MODEL_READY_NEEDS_SAME_JOB_NATIVE_PREMODEL_READBACK')
     elif native_pre_model_qualification is not None or visibility_refresh is not None:
         raise PermissionError('PV1_PROOF_CANNOT_BE_ATTACHED_TO_LEGACY_MODEL_READY')
+    job_id=current_handle()
+    if (not job_id or job_id!=allocation.get('job_id')
+            or job_id.startswith('coregpu:') and ready_status!='PV1_NATIVE_MODEL_READY'):
+        raise PermissionError('E1_RESIDENT_MODEL_EXACT_CURRENT_NATIVE_ALLOCATION')
     directory=root/'evidence'/label/'resident';directory.mkdir(parents=True,exist_ok=False)
     for n in ['inbox','outbox','receipts']:(directory/n).mkdir()
-    state=dict(status=ready_status,label=label,run_uuid=root.name,job_id=os.environ['PBS_JOBID'],
+    state=dict(status=ready_status,label=label,run_uuid=root.name,job_id=job_id,
         pid=os.getpid(),identity=instance.identity,allocation_end_epoch=allocation['allocation_end_epoch'],queries=0)
     if native_pre_model_qualification is not None:
         state['native_pre_model_qualification']=native_pre_model_qualification
@@ -60,7 +67,7 @@ def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_st
         done=directory/'STAGE_DONE.json'
         if done.exists():
             value=read(done)
-            if value['run_uuid']!=root.name or value['job_id']!=os.environ['PBS_JOBID'] or value['label']!=label:
+            if value['run_uuid']!=root.name or value['job_id']!=job_id or value['label']!=label:
                 raise PermissionError('E1_EXACT_DISABLED_STAGE_TERMINAL_REQUEST')
             state['status']='PHYSICS_NOT_RUN_OWNER_TERMINAL_BEFORE_REGISTRY';write(directory/'STATE.json',state);return state
         if time.time()>=wait:raise TimeoutError('E1_OWNER_REGISTRY_NOT_READY_NO_IDLE_GPU')
@@ -84,7 +91,7 @@ def serve(root,label,instance,allocation,ledger,guard,*,max_queries=320,ready_st
         done=directory/'STAGE_DONE.json'
         if done.exists():
             value=read(done)
-            if value['run_uuid']!=root.name or value['job_id']!=os.environ['PBS_JOBID'] or value['label']!=label:
+            if value['run_uuid']!=root.name or value['job_id']!=job_id or value['label']!=label:
                 raise PermissionError('E1_EXACT_STAGE_TERMINAL_REQUEST')
             break
         for path in sorted((directory/'inbox').glob('*.json')):

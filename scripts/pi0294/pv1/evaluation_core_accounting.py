@@ -20,7 +20,8 @@ FIELD='Core_native_GPU_allocations'
 VERSION='PV1_CORELAB_RTX4080_SOURCE_DEV_V1'
 ROLE='PI0294_PV1_SHARED_POLICY_CORELAB_EVALUATION_V1'
 PROFILE='4080-neural-evaluation'
-STATES=('PRESTART_INTENT_UNKNOWN_NO_RETRY','BOUND_QUALIFICATION','NATIVE_RUNNING','NATIVE_TERMINAL')
+STATES=('PRESTART_INTENT_UNKNOWN_NO_RETRY','BOUND_QUALIFICATION','NATIVE_RUNNING','NATIVE_TERMINAL',
+    'STAGE_QUEUE_INTENT_UNKNOWN_NO_RETRY','NATIVE_QUEUED_NOT_RUNNING')
 CPU_UPPER=80000
 GPU_UPPER=28860
 MODEL_BYTES=12576324408
@@ -77,7 +78,7 @@ def row(value):
          'ORIGINAL_CLOCK_AND_REAL_DEVICE_UUID')
     need(r.get('status') in STATES,'KNOWN_PROCESS_LIFECYCLE')
     handle=r.get('native_handle')
-    if r['status']==STATES[0]:
+    if r['status'] in (STATES[0],STATES[4],STATES[5]):
         need(handle is None and not any(k in r for k in ('pid','proc_start','boot_id')),
              'UNBOUND_INTENT_IS_UNKNOWN_NOT_A_JOB')
     else:
@@ -106,7 +107,9 @@ def row(value):
 
 
 def validate_global(value):
-    if FIELD not in value:return value
+    if FIELD not in value:
+        need('Core_native_GPU_stage_queue' not in value,'NO_ORPHAN_QUEUE_WITHOUT_REAL_ESCROW_ROWS')
+        return value
     scope.validate_global(value)
     rows=value[FIELD]
     need(type(rows) is dict and 1<=len(rows)<=2,'BOUNDED_ORIGINAL_STAGE_CORE_INDEX')
@@ -117,8 +120,13 @@ def validate_global(value):
     need(len(paired)<=2 and all(sum(r['evaluation_candidate']==c for r in paired)<=1
          for c in stage.CANDIDATES),'ONE_PANEL_PER_ARM_ACROSS_BOTH_PLATFORMS')
     active=[r for r in rows.values() if r['status']!=STATES[3]]
-    need(len(active)+sum(r['status'] not in ('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB')
-         for r in value['PBS_submissions'])<=1,'SINGLE_CAMPAIGN_GPU_ACROSS_PLATFORMS')
+    computing=[r for r in active if r['status'] not in (STATES[4],STATES[5])]
+    pbs_active=sum(r['status'] not in ('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB')
+         for r in value['PBS_submissions'])
+    need(len(computing)+pbs_active<=1 and (not active or not pbs_active),
+         'SINGLE_CAMPAIGN_GPU_ACROSS_PLATFORMS')
+    from .evaluation_core_queue import validate_global as queue_check
+    queue_check(value)
     for key in ('request_id','submission_nonce'):
         identities=[r.get(key) for r in [*rows.values(),*value['PBS_submissions']] if r.get(key) is not None]
         need(len(identities)==len(set(identities)),'NO_REUSED_IDENTITY:'+key)
@@ -144,6 +152,7 @@ def reserve(value,record):
     """Escrow proposal only; complete fresh all-site admission is separate."""
     v=deepcopy(checked(value));scope.validate_global(v);r=deepcopy(row(record))
     need(r['status']==STATES[0] and r['request_id'] not in v.get(FIELD,{})
+         and not any(k.startswith('queue_') for k in r)
          and not v['unknown_effects'] and not v['pending_updates'],'ONE_NEW_INTENT_NO_UNKNOWN_REPLAY')
     need(progress(r)==(0,0,0),'NO_PRETEND_PREEXISTING_EFFECTS')
     v.setdefault(FIELD,{})[r['request_id']]=r
@@ -152,9 +161,14 @@ def reserve(value,record):
     return checked(v)
 
 
-def bind(value,*,request_id,process,now_epoch):
+def bind(value,*,request_id,process,now_epoch,queue_dispatch_proof=None):
     v=deepcopy(checked(value));r=v[FIELD][request_id]
-    need(r['status']==STATES[0] and r['native_handle'] is None,'ONCE_NATIVE_BIND_NO_RESTART')
+    queued=r['status']==STATES[5]
+    need(r['status'] in (STATES[0],STATES[5]) and r['native_handle'] is None,'ONCE_NATIVE_BIND_NO_RESTART')
+    if queued:
+        from .evaluation_core_queue import dispatch_check
+        dispatch_check(v,r,process,queue_dispatch_proof,now_epoch=now_epoch)
+    else:need(queue_dispatch_proof is None,'NO_QUEUE_PROOF_ON_UNQUEUED_REQUEST')
     exact=dict(hostname=r['hostname'],uid=2009,GPU_uuid=r['GPU_uuid'],request_id=request_id,
         request_sha256=r['request_sha256'],submission_nonce=r['submission_nonce'],
         run_manifest_sha256=r['run_manifest_sha256'],source_sha=r['source_sha'])
@@ -162,7 +176,8 @@ def bind(value,*,request_id,process,now_epoch):
          and process.get('schema')=='PV1_CORE_GPU_NATIVE_PROCESS_STARTED_V1'
          and process.get('process_state')=='RUNNING'
          and 0<=finite(now_epoch)-finite(process.get('observed_epoch'))<=120
-         and r['created_epoch']<=finite(process.get('started_epoch'))<old.STOP_NEW
+         and r['created_epoch']<=finite(process.get('started_epoch'))
+         and (queued or process['started_epoch']<old.STOP_NEW)
          and process['started_epoch']<=now_epoch<old.STOP_PHYSICS,
          'CURRENT_EXACT_ACTUAL_BOOT_PID_NOT_A_PREPARED_HANDLE')
     handle=process_handle(process.get('boot_id'),process.get('pid'),process.get('proc_start'))

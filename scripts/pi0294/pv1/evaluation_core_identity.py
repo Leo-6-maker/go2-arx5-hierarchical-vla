@@ -19,6 +19,147 @@ def need(ok,why):
     if not ok:raise PermissionError('PV1_CORE_NATIVE_'+why)
 
 
+def cold_profile(manifest):
+    """Reject partial Core metadata before a legacy allocation can see it."""
+    m=manifest
+    typed=(m.get('platform_evaluation_version')==c.VERSION or m.get('scope')==c.ROLE
+        or m.get('execution',{}).get('profile')==c.PROFILE)
+    if not typed:return False
+    need(m.get('platform_evaluation_version')==c.VERSION and m.get('scope')==c.ROLE
+         and m.get('execution',{}).get('profile')==c.PROFILE
+         and 'platform_training_version' not in m,'COMPLETE_DISTINCT_CORE_ROLE')
+    return True
+
+
+def sealed_identity(manifest,request,allocation,*,run_uuid,manifest_sha256,request_sha256):
+    """Join a saved native admission; never create one from a typed PASS flag."""
+    from .evaluation_core_admission import request_identity
+    need(cold_profile(manifest),'EXPLICIT_CORE_ROLE')
+    request_identity(manifest,request,manifest_sha256)
+    r,a=request,allocation
+    need(a.get('status')==STATUS and a.get('platform_evaluation_version')==c.VERSION
+         and manifest['run_uuid']==r['run_uuid']==a.get('run_uuid')==run_uuid
+         and a.get('manifest_sha256')==manifest_sha256
+         and a.get('request_sha256')==request_sha256
+         and all(a.get(k)==r[k] and type(a[k]) is type(r[k]) for k in (
+             'source_sha','request_id','submission_nonce','stage','evaluation_candidate',
+             'checkpoint_manifest_sha256','statistics_sha256','native_platform','allocation_number'))
+         and a.get('model_loaded') is False and type(a.get('new_optimizer_updates')) is int
+         and a['new_optimizer_updates']==0
+         and not any(k in a for k in ('project','submit_count','PBS_JOBID','platform_training_version')),
+         'EXACT_CORE_ADMISSION_REQUEST_JOIN_NO_PBS_ALIAS')
+    p=a.get('native_process');need(type(p) is dict,'ACTUAL_NATIVE_PROCESS_EVIDENCE_REQUIRED')
+    handle=c.process_handle(p.get('boot_id'),p.get('pid'),p.get('proc_start'))
+    exact=dict(schema='PV1_CORE_GPU_NATIVE_PROCESS_STARTED_V1',hostname='corelab-4080s',uid=2009,
+        GPU_uuid=r['GPU_uuid'],request_id=r['request_id'],request_sha256=request_sha256,
+        submission_nonce=r['submission_nonce'],run_manifest_sha256=manifest_sha256,source_sha=r['source_sha'],
+        process_state='RUNNING',native_handle=handle,native_model_permission=False,physics_authorized=False)
+    queued='queue_dispatch_mode' in r
+    if queued:
+        from .evaluation_core_queue import accepted_request
+        need(type(a.get('native_queue_acceptance')) is dict and type(a.get('native_queue_plan')) is dict,
+             'ACTUAL_QUEUE_RECEIPT_AND_PLAN_REQUIRED')
+        accepted=accepted_request(r,a['native_queue_acceptance'],a['native_queue_plan'],request_sha256=request_sha256)
+        need(accepted<=p['started_epoch'],'PROCESS_ONLY_AFTER_ACTUAL_QUEUE_ACCEPTANCE')
+    need(all(p.get(k)==v and type(p[k]) is type(v) for k,v in exact.items())
+         and a.get('native_process_sha256')==c.digest(p)
+         and a.get('job_id')==handle and a.get('native_handle')==handle
+         and a.get('hostname')==p['hostname'] and a.get('allocation_start_epoch')==p.get('started_epoch')
+         and r['created_epoch']-1<=p['started_epoch']<c.old.STOP_PHYSICS
+         and (queued or p['started_epoch']<c.old.STOP_NEW)
+         and p['started_epoch']<=p['observed_epoch']<=p['started_epoch']+120
+         and a.get('allocation_end_epoch')==min(p['started_epoch']+r['walltime_s'],c.old.STOP_PHYSICS),
+         'SAME_REAL_BOOT_PID_START_AND_ORIGINAL_WALL_NOT_A_PREPARED_HANDLE')
+    limits=p['kernel_limits'];kernel_limits(str(limits['CPU_quota'])+' '+str(limits['CPU_period']),
+        str(limits['memory_max_bytes']),str(limits['pids_max']))
+    properties=p['native_unit_properties']
+    need(properties.get('MainPID')==str(p['pid']) and properties.get('ActiveState')=='active'
+         and properties.get('RuntimeMaxUSec')=='8h' and bool(properties.get('ControlGroup')),
+         'RAW_ORIGINAL_UNIT_PID_LIMITS')
+    raw=p['native_GPU_raw']
+    need(set(raw)=={'devices','processes'} and all(type(v.get('returncode')) is int
+         and v['returncode']==0 for v in raw.values()),'SUCCESSFUL_NATIVE_NVIDIA_READS')
+    device=parse_GPU_rows(raw['devices']['stdout'],raw['processes']['stdout'],GPU_uuid=r['GPU_uuid'])
+    need(device==p['device'],'RAW_SELECTED_GPU_EQUALS_NATIVE_OBSERVATION')
+    return a
+
+
+def current_identity(root,manifest,request,allocation,*,qualified_model_readback=False):
+    """Re-observe the caller's kernel process/unit/device, not only old receipts."""
+    need(type(qualified_model_readback) is bool,'EXPLICIT_CURRENT_MODEL_CONTEXT_PHASE')
+    root=Path(root);directory=root/'pbs'/('alloc-'+str(request['allocation_number']).zfill(2))
+    sealed_identity(manifest,request,allocation,run_uuid=root.name,
+        manifest_sha256=hashlib.sha256((root/'RUN_MANIFEST.json').read_bytes()).hexdigest(),
+        request_sha256=hashlib.sha256((directory/'REQUEST.json').read_bytes()).hexdigest())
+    path=directory/'ALLOCATION_ADMISSION.json'
+    need(path.is_file() and not path.is_symlink() and not path.stat().st_mode&0o222
+         and path.stat().st_uid==2009 and json.loads(path.read_bytes())==allocation,
+         'ACTUAL_IMMUTABLE_SAME_PROCESS_ADMISSION')
+    for path in (directory/'NATIVE_PROCESS_FINAL.json',directory/'PBS_PROCESS_FINAL.json'):
+        need(not path.exists(),'PREMODEL_ONLY_BEFORE_TERMINAL_OR_MODEL_STATE')
+    state=root/'pbs/MODEL_STATE.json'
+    if qualified_model_readback:
+        # Reading a previously acquired proof after model load must still join
+        # the complete raw 600s/80-cycle receipt. It cannot acquire that proof
+        # after CUDA/model effects. Capture/Pump always use the default phase.
+        from .pre_model_qualification import require
+        require(root,directory,allocation)
+        need(not state.exists() or json.loads(state.read_bytes()).get('job_id')==allocation['native_handle'],
+             'SAME_ADMITTED_RESIDENT_MODEL_STATE')
+    else:need(not state.exists(),'PREMODEL_ONLY_BEFORE_MODEL_STATE')
+    current=observe_current(root,dict(request,request_sha256=allocation['request_sha256']),
+        allow_model_context=qualified_model_readback)
+    if 'queue_dispatch_mode' in request:
+        ack,plan=current_queue(root,request,request_sha256=allocation['request_sha256'])
+        need(ack==allocation['native_queue_acceptance'] and plan==allocation['native_queue_plan'],
+             'SAME_ACTUAL_IMMUTABLE_QUEUE_ADMISSION')
+    need(current['native_handle']==allocation['native_handle']
+         and current['started_epoch']==allocation['allocation_start_epoch']
+         and current_handle()==current['native_handle']
+         and current['observed_epoch']<allocation['allocation_end_epoch']-2700,
+         'FRESH_SAME_CALLER_PROCESS_AND_CLOSEOUT_RESERVE')
+    return current
+
+
+def current_queue(root,request,*,request_sha256):
+    """Verify the actual resident owner unit/process and its native queue ACK."""
+    from .evaluation_core_queue import accepted_request
+    root=Path(root);m=json.loads((root/'RUN_MANIFEST.json').read_bytes())
+    def sealed(name):
+        path=root/name
+        need(path.is_file() and not path.is_symlink() and path.stat().st_uid==2009
+             and not path.stat().st_mode&0o222 and hashlib.sha256(path.read_bytes()).hexdigest()==
+             m['execution']['sealed_inputs'].get(name),'PRESEALED_ACTUAL_QUEUE_INPUT:'+name)
+        return json.loads(path.read_bytes())
+    plan=sealed('plans/CORE_RESIDENT_STAGE_QUEUE.json')
+    binding=sealed('plans/CORE_RESIDENT_QUEUE_BINDINGS.private.json')
+    parent=root.parent.parent;control=Path(binding['queue_root'])
+    need(control.parent==parent/'control' and control.name=='v4a-core-resident-'+request['queue_id']
+         and not control.is_symlink() and control.stat().st_uid==2009,
+         'OWN_EXISTING_CAMPAIGN_REGISTERED_CONTROL_QUEUE')
+    paths=[root/'NATIVE_CORE_QUEUE_ACCEPTED.json',control/'NATIVE_CORE_QUEUE_ACCEPTED.json',control/'QUEUE_PLAN.json']
+    need(all(p.is_file() and not p.is_symlink() and p.stat().st_uid==2009
+         and not p.stat().st_mode&0o222 for p in paths),'ACTUAL_OWN_IMMUTABLE_NATIVE_QUEUE_RECORDS')
+    ack=json.loads(paths[0].read_bytes())
+    need(paths[0].read_bytes()==paths[1].read_bytes() and json.loads(paths[2].read_bytes())==plan
+         and hashlib.sha256(paths[2].read_bytes()).hexdigest()==request['queue_plan_sha256'],
+         'EXACT_NATIVE_ACCEPTANCE_AND_PLAN_BYTES_NOT_PREPARED_MARKERS')
+    accepted_request(request,ack,plan,request_sha256=request_sha256)
+    need(Path('/proc/sys/kernel/random/boot_id').read_text().strip()==ack['boot_id'],
+         'SAME_OWNER_BOOT_NO_STALE_QUEUE_REUSE')
+    process=Path('/proc')/str(ack['pid']);stat_raw=(process/'stat').read_text().rsplit(')',1)[1].split()
+    need(process.stat().st_uid==2009 and stat_raw[0] not in ('Z','X')
+         and int(stat_raw[19])==ack['proc_start'],'LIVE_NATIVE_OWNER_PID_NOT_REUSED_OR_TERMINAL')
+    result=subprocess.run(['systemctl','--user','show',ack['native_unit'],'-p','MainPID','-p','ActiveState',
+        '-p','ControlGroup'],capture_output=True,text=True,timeout=8)
+    props=dict(x.split('=',1) for x in result.stdout.splitlines() if '=' in x)
+    cg=(process/'cgroup').read_text().strip().split('::',1)
+    need(result.returncode==0 and props.get('MainPID')==str(ack['pid']) and props.get('ActiveState')=='active'
+         and len(cg)==2 and cg[0]=='0' and props.get('ControlGroup')==cg[1],
+         'FRESH_ACTUAL_OWNER_UNIT_AND_KERNEL_PROCESS_GROUP')
+    return ack,plan
+
+
 def current_handle():
     """A Core handle never enters PBS_JOBID; legacy callers retain PBS exactly."""
     value=os.environ.get(HANDLE_ENV)
@@ -126,7 +267,12 @@ def observe_current(root,request,*,allow_model_context=False):
     # reset the allocation wall when exec switches into the neural interpreter.
     boot_epoch=float(next(x.split()[1] for x in Path('/proc/stat').read_text().splitlines() if x.startswith('btime ')))
     started=boot_epoch+start/os.sysconf('SC_CLK_TCK');now=time.time()
-    need(r['created_epoch']-1<=started<c.old.STOP_NEW and started<=now<c.old.STOP_PHYSICS,
+    queued='queue_dispatch_mode' in r
+    if queued:
+        ack,_=current_queue(root,r,request_sha256=r['request_sha256'])
+        need(ack['accepted_epoch']<=started,'EXISTING_NATIVE_QUEUE_BEFORE_PROCESS_START')
+    need(r['created_epoch']-1<=started<c.old.STOP_PHYSICS and (queued or started<c.old.STOP_NEW)
+         and started<=now<c.old.STOP_PHYSICS,
          'ACTUAL_PROCESS_START_INSIDE_ORIGINAL_WINDOW')
     return dict(schema='PV1_CORE_GPU_NATIVE_PROCESS_STARTED_V1',hostname='corelab-4080s',uid=2009,
         GPU_uuid=r['GPU_uuid'],request_id=r['request_id'],request_sha256=r['request_sha256'],

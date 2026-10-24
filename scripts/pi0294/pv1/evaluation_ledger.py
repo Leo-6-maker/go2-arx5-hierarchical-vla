@@ -72,6 +72,11 @@ class EvaluationLedger(GlobalLedger):
 def for_request(root,request_path,*,final=False):
     if type(final) is not bool:raise PermissionError('PV1_EXPLICIT_BOOLEAN_FINAL_FLAG')
     m=read(Path(root)/'RUN_MANIFEST.json');r=read(request_path)
+    from .evaluation_core_identity import cold_profile as Core_profile
+    if Core_profile(m):
+        if final:raise PermissionError('PV1_CORE_FIRST_STAGE_CANNOT_CONSUME_FINAL_SCOPE')
+        from .evaluation_core_ledger import Ledger as CoreLedger
+        return CoreLedger(root,request_path)
     if platform.cold_profile(m) or 'platform_evaluation_version' in r:
         if final:raise PermissionError('PV1_VANDA_DEV_IS_NOT_FINAL_LOCKBOX_PERMISSION')
         return EvaluationLedger(root,request_path)

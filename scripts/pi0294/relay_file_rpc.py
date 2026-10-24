@@ -82,7 +82,12 @@ def serve(root,role,label):
         session_spec(root,label)
         def Ledger(path,side):
             if side=='core':return CoreLedger(path)
-            if side=='hopper':return NeuralLedger(path)
+            if side=='hopper':
+                from scripts.pi0294.pv1.evaluation_core_identity import cold_profile
+                if cold_profile(read(Path(path)/'RUN_MANIFEST.json')):
+                    from scripts.pi0294.pv1.evaluation_core_ledger import Ledger as CoreNeuralLedger
+                    return CoreNeuralLedger(path)
+                return NeuralLedger(path)
             raise PermissionError('PV1_EXACT_SOURCE_POLICY_RPC_ROLE')
         adjudication='PV1_ADJUDICATION.json'
     elif root.name=='20261016T150228Z-localpc-e1':

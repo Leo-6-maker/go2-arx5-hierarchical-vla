@@ -16,6 +16,7 @@ from .allocation import single_h200_select,native_request_binding
 from .decision import AUTHORITY
 from .transport_fixture import immutable,namespace,BASE
 from . import evaluation_platform as evaluation
+from . import evaluation_core_identity as Core_native
 
 FILENAME='PV1_NATIVE_HEARTBEAT_CAPTURE.json'
 CLOCK='CLOCK_REALTIME_AFTER_EACH_READ_AND_CLOCK_MONOTONIC'
@@ -28,6 +29,13 @@ def identity(root,directory,allocation):
         raise PermissionError('PV1_EXACT_OWNED_NATIVE_CAPTURE_PATH')
     _,number,_=namespace(root,BASE+'-ALLOCATION-'+directory.name.removeprefix('alloc-'))
     m=immutable(root/'RUN_MANIFEST.json');r=immutable(directory/'REQUEST.json')
+    if Core_native.cold_profile(m):
+        if r.get('allocation_number')!=number or immutable(directory/'ALLOCATION_ADMISSION.json')!=allocation:
+            raise PermissionError('PV1_CORE_SAME_SEALED_CAPTURE_ALLOCATION')
+        native=Core_native.current_identity(root,m,r,allocation)
+        return dict(job_id=native['native_handle'],hostname=native['hostname'],
+            request_sha256=sha(directory/'REQUEST.json'),source_sha=m['code']['vla_commit'],
+            manifest_sha256=sha(root/'RUN_MANIFEST.json'))
     if allocation.get('status')!=evaluation.STATUS and any('platform_evaluation_version' in x for x in (m,r,allocation)):
         raise PermissionError('PV1_EVALUATION_IDENTITY_CANNOT_FALL_BACK_TO_H200')
     if (directory.name!='alloc-'+str(number).zfill(2) or r['submit_count']!=number
@@ -110,7 +118,11 @@ def verify(root,directory,allocation):
     if directory.is_symlink() or directory.parent.resolve()!=(root/'pbs').resolve():
         raise PermissionError('PV1_IMMUTABLE_SAME_JOB_CAPTURE_DIRECTORY')
     raw=path.read_bytes();v=immutable(path)
-    if allocation.get('status')==evaluation.STATUS:
+    if allocation.get('status')==Core_native.STATUS:
+        Core_native.sealed_identity(immutable(root/'RUN_MANIFEST.json'),immutable(directory/'REQUEST.json'),
+            allocation,run_uuid=root.name,manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+            request_sha256=sha(directory/'REQUEST.json'))
+    elif allocation.get('status')==evaluation.STATUS:
         evaluation.sealed_identity(immutable(root/'RUN_MANIFEST.json'),immutable(directory/'REQUEST.json'),
             allocation,run_uuid=root.name,manifest_sha256=sha(root/'RUN_MANIFEST.json'),
             request_sha256=sha(directory/'REQUEST.json'))
