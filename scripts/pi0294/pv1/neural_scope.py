@@ -10,6 +10,7 @@ from .dataset import POPULATION,admit_new_support
 from .decision import AUTHORITY
 from .recipe import PARENT
 from .scope import SCOPE,PROTOCOL
+from . import evaluation_platform as evaluation
 
 ROLE='PI0294_PV1_SHARED_POLICY_HOPPER_V1'
 
@@ -25,16 +26,27 @@ def inside(root,name):
 def validate(root,*,closeout=False):
     if type(closeout) is not bool:raise PermissionError('PV1_EXPLICIT_BOOLEAN_METADATA_CLOSEOUT_ONLY')
     root=Path(root);m=read(root/'RUN_MANIFEST.json');b=read(root/'OUTPUT_BINDING.private.json')
+    a40_evaluation=evaluation.cold_profile(m)
+    role=evaluation.ROLE if a40_evaluation else ROLE
+    profile=evaluation.PROFILE if a40_evaluation else 'hopper-neural'
     if (root.is_symlink() or root.stat().st_uid!=os.getuid()
-            or m['schema']!='PI0294_PV1_NEURAL_CHILD_RUN_MANIFEST_V1' or m['scope']!=ROLE
+            or m['schema']!='PI0294_PV1_NEURAL_CHILD_RUN_MANIFEST_V1' or m['scope']!=role
             or m['owner']!='EXISTING_LOCAL_PC' or m['run_uuid']!=root.name
-            or m['execution']['profile']!='hopper-neural' or m['execution']['uid']!=os.getuid()
-            or b['uid']!=os.getuid() or b['role']!=ROLE+'__'+root.name
+            or m['execution']['profile']!=profile or m['execution']['uid']!=os.getuid()
+            or b['uid']!=os.getuid() or b['role']!=role+'__'+root.name
             or m['execution']['private_path_role']!=b['role']
             or Path(b['run_root']).resolve()!=root.resolve()
             or Path(b['registered_parent']).resolve()!=root.parent.resolve()
             or sha(root/'OUTPUT_BINDING.private.json')!=m['execution']['output_binding_sha256']):
         raise PermissionError('PV1_COLD_HOPPER_CHILD_UID_OWNER_PROFILE_AND_OUTPUT')
+    if a40_evaluation:
+        import re
+        host=os.uname().nodename
+        if (m.get('owner_user')!=os.environ.get('USER') or m.get('owner_user')!='e1192548'
+                or not m['execution']['control_hostnames']
+                or any(re.fullmatch(r'stdct-login-[0-9]+',h) is None for h in m['execution']['control_hostnames'])
+                or os.environ.get('PBS_JOBID') and re.fullmatch(r'gn-a40-[0-9]+',host.split('.')[0],re.IGNORECASE) is None):
+            raise PermissionError('PV1_COLD_EVALUATION_ACTUAL_VANDA_OWNER_AND_HOST')
     code=inside(root,m['code']['capsule_relative']);seal=inside(root,m['code']['source_seal_relative'])
     worker=code.parent/'WORKER_RUN_MANIFEST.json'
     if (os.environ.get('PV1_RUN_MANIFEST')!=str(worker) or worker.stat().st_mode&0o222
@@ -55,6 +67,9 @@ def validate(root,*,closeout=False):
             or stage['population_plan_sha256']!=POPULATION or stage['Teacher_takeover'] is not False
             or stage['normalizer_refit'] is not False or stage['evaluation_data_for_training'] is not False):
         raise PermissionError('PV1_EXACT_AUTHORITY_ORIGINAL_WINDOW_AND_FROZEN_STAGE')
+    if a40_evaluation and (a['run_uuid']!='20261018T182956Z-localpc-pv1'
+            or a['T0_epoch']!=evaluation.T0 or a['hard_closeout_epoch']!=evaluation.HARD_CLOSE):
+        raise PermissionError('PV1_COLD_EVALUATION_ORIGINAL_CAMPAIGN_NOT_NEW_WINDOW')
     lease=read(b['lease']);pb=read(parent/'OUTPUT_BINDING.private.json');pl=read(pb['lease'])
     now=time.time();cutoff=a['hard_closeout_epoch'] if closeout else a['stop_new_physics_epoch']
     if (not a['T0_epoch']<=now<cutoff or lease['status']!='ACTIVE'
@@ -79,6 +94,11 @@ def validate(root,*,closeout=False):
         raise ValueError('PV1_NEURAL_FIXED_SOURCE_SHA')
     for name,digest in members['files'].items():
         if sha(inside(code,name))!=digest:raise ValueError('PV1_NEURAL_SOURCE_MEMBER_CHANGED:'+name)
+    if a40_evaluation:
+        helper='scripts/pi0294/pv1/evaluation_platform.py'
+        if (Path(evaluation.__file__).resolve()!=(code/helper).resolve()
+                or members['files'].get(helper)!=sha(code/helper)):
+            raise PermissionError('PV1_COLD_EVALUATION_ACTUAL_IMPORTED_HELPER_IS_SOURCE_SEALED')
     frozen=m['code']['frozen_numerical_files']
     if len(frozen)!=15 or any(members['files'].get(n)!=h or sha(code/n)!=h for n,h in frozen.items()):
         raise ValueError('PV1_ORIGINAL_15_NUMERICAL_FILES_REQUIRED')
@@ -97,6 +117,7 @@ def validate(root,*,closeout=False):
             or sha(Path(inputs['CORR_parent_checkpoint'])/'CHECKPOINT_COMPLETE.json')!=PARENT):
         raise PermissionError('PV1_ORIGINAL_DATA_CORR_PARENT_C1_AND_ACTUALLY_ADMITTED_NEW_BANK')
     admit_new_support(read(new/'DATASET_MANIFEST.json'),stage['route'])
+    if a40_evaluation:evaluation.cold_plan(root,m,stage)
     if not closeout:
         for p in [root/'STOP.json',parent/'STOP.json',root/'SOURCE_PHYSICS_STOP.json',root/'SOURCE_SAFETY_STOP_FROM_CORE.json']:
             if p.exists():raise PermissionError('PV1_PARENT_OR_SOURCE_SAFETY_STOP_NO_NEW_NEURAL_WORK')

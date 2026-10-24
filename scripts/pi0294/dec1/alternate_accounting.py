@@ -95,8 +95,12 @@ def validate_item(s):
 
 def validate_items(value):
     typed=[s for s in value['PBS_submissions'] if s.get('native_platform') is not None]
-    compatibility=[s for s in typed if s.get('platform_training_version') is None]
-    source=[s for s in typed if s.get('platform_training_version') is not None]
+    evaluation=[s for s in value['PBS_submissions'] if 'platform_evaluation_version' in s]
+    if evaluation:
+        from scripts.pi0294.pv1.evaluation_accounting import validate_global as validate_evaluation
+        validate_evaluation(value,evaluation)
+    compatibility=[s for s in typed if s.get('platform_training_version') is None and 'platform_evaluation_version' not in s]
+    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s]
     if len(compatibility)>1:fail('ONE_COMPATIBILITY_ALLOCATION_NOT_AUTOMATIC_RETRIES')
     for s in compatibility:validate_item(s)
     if source:

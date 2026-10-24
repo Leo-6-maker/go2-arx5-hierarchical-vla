@@ -8,6 +8,7 @@ import json
 import math
 import re
 import uuid
+from pathlib import Path
 
 from scripts.pi0294.dec1.a40_allocation import select_profile
 from scripts.pi0294.dec1.authority import PARENT, R0
@@ -15,6 +16,7 @@ from scripts.pi0294.dec1.vanda_campaign import collect_queue, queue_rows
 from scripts.pi0294.e0_scope import pbs_epoch
 from .allocation import native_request_binding
 from .decision import AUTHORITY
+from .dataset import POPULATION
 
 VERSION='PV1_VANDA_A40_SOURCE_DEV_V1'
 STATUS='PASS_PV1_OWN_NATIVE_A40_SOURCE_DEV_ALLOCATION'
@@ -38,9 +40,67 @@ def finite(value):
     return type(value) in (int,float) and math.isfinite(value)
 
 
+def cold_profile(manifest):
+    """Recognize the explicit evaluation role without any runtime permission."""
+    m=manifest
+    typed=('platform_evaluation_version' in m or m.get('scope')==ROLE
+        or m.get('execution',{}).get('profile')==PROFILE)
+    if not typed:return False
+    need(m.get('platform_evaluation_version')==VERSION and 'platform_training_version' not in m
+         and m.get('scope')==ROLE and m.get('execution',{}).get('profile')==PROFILE,
+         'NO_PARTIAL_COLD_EVALUATION_ROLE_OR_PLATFORM_RELABEL')
+    return True
+
+
+def cold_plan(root,manifest,stage):
+    """Join actual sealed DEV metadata and the saved endpoint, without loading it.
+
+    The original stage_work and complete checkpoint loader remain mandatory.
+    This adds no B reuse exception, project proof, budget, or execution release.
+    """
+    from scripts.pi0292.durable import read
+    from scripts.pi0294.native_dataset import sha
+    from .neural_scope import inside
+    from .evaluation_plan import PLAN,POPULATION_FILE,development
+    root=Path(root);m=manifest
+    need(cold_profile(m),'EXPLICIT_COLD_EVALUATION_PROFILE')
+    def sealed(name):
+        p=inside(root,name)
+        need(p.is_file() and not p.stat().st_mode&0o222
+             and m['execution']['sealed_inputs'].get(name)==sha(p),'PRESEALED_DEV_INPUT:'+name)
+        return read(p)
+    need(m['limits'].get('PV1_T0_epoch')==T0 and m['limits'].get('PV1_hard_close_epoch')==HARD_CLOSE,
+         'FIXED_ORIGINAL_COLD_WINDOW')
+    plan=sealed(PLAN);population=sealed(POPULATION_FILE);candidate=plan.get('candidate')
+    need(sha(root/POPULATION_FILE)==POPULATION,'ORIGINAL_FROZEN_POPULATION_NOT_A_NEW_DEV_PANEL')
+    need(candidate in ENDPOINTS,'ONLY_EXISTING_B0_A_B_NO_NEW_MODEL_OR_REPLICA')
+    expected=development(population['groups'],route=stage['route'],candidate=candidate,
+        new_bank_manifest_sha256=stage['new_bank_manifest_sha256'])
+    need(plan==expected,'EXACT_ORIGINAL_DEV48_PLAN_NO_POST_OUTCOME_SUBSET')
+    # Prior outcomes keep all valid successes and valid negatives and are also
+    # checked against each full panel by the existing stage_work/serve path.
+    sealed('plans/PRIOR_EVALUATION_OUTCOMES.json')
+    if candidate!='B0_CORR':
+        checkpoint=sealed('plans/EVALUATION_CHECKPOINT.private.json')
+        sealed('plans/INITIAL_CORR_PARAMETER_INVENTORY.json')
+        p=Path(checkpoint['checkpoint']);complete=p/'CHECKPOINT_COMPLETE.json'
+        need(not p.is_symlink() and p.stat().st_uid==root.stat().st_uid
+             and not complete.is_symlink() and complete.is_file()
+             and checkpoint.get('candidate')==candidate and checkpoint.get('global_step')==4096
+             and checkpoint.get('checkpoint_manifest_sha256')==sha(complete)==ENDPOINTS[candidate],
+             'EXACT_OWN_SAVED4096_ENDPOINT_NOT_ANOTHER_A_OR_B')
+        saved=read(complete)
+        need(saved.get('global_step')==4096 and saved.get('full_resume') is True,
+             'ACTUAL_COMPLETE_SAVED_STATE_METADATA')
+    return dict(candidate=candidate,stage='B0_DEV' if candidate=='B0_CORR' else 'P4_DEV',
+        checkpoint_manifest_sha256=ENDPOINTS[candidate],statistics_sha256=R0,
+        resource_admission=False,model_loaded=False,physics_authorized=False)
+
+
 def sealed_identity(manifest,request,allocation,*,run_uuid,manifest_sha256,request_sha256):
     """Validate cold semantic identity only; do not authorize a model load."""
     m,r,a=manifest,request,allocation
+    need(cold_profile(m),'EXPLICIT_COLD_EVALUATION_PROFILE')
     need(a.get('status')==STATUS and a.get('platform_evaluation_version')==VERSION
          and r.get('platform_evaluation_version')==VERSION
          and m.get('platform_evaluation_version')==VERSION

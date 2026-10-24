@@ -8,14 +8,18 @@ from .dataset import POPULATION,admit_new_support
 from .decision import AUTHORITY
 from .scope import EVAL_ROLE,FINAL_EVAL_ROLE,SOURCE_COMPONENT_ROLE,validate as validate_core
 from .neural_scope import validate as validate_neural
+from . import evaluation_platform as evaluation
 
 
 def validate_runtime(root,profile,*,closeout=False,now=None):
     if now is not None:
         raise PermissionError('PV1_NATIVE_RUNTIME_CLOCK_ONLY_NO_INJECTED_DATE')
     root=Path(root)
-    if profile=='hopper-neural':
-        return validate_neural(root,closeout=closeout)[0]
+    if profile in ('hopper-neural',evaluation.PROFILE):
+        manifest=validate_neural(root,closeout=closeout)[0]
+        if manifest['execution']['profile']!=profile:
+            raise PermissionError('PV1_RUNTIME_EXACT_PHYSICAL_NEURAL_PROFILE_NO_ALIAS')
+        return manifest
     if profile!='4080-simulation':
         raise PermissionError('PV1_ONLY_BOUND_CORE_OR_HOPPER_POLICY_RUNTIME')
     raw_manifest=read(root/'RUN_MANIFEST.json')
