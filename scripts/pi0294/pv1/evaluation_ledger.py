@@ -76,3 +76,40 @@ def for_request(root,request_path,*,final=False):
         if final:raise PermissionError('PV1_VANDA_DEV_IS_NOT_FINAL_LOCKBOX_PERMISSION')
         return EvaluationLedger(root,request_path)
     return GlobalLedger(root,final=final)
+
+
+def reserve_once(root,request_path,*,now_epoch=None):
+    """Existing global owner lock/once CAS; no native dispatch or retry.
+
+    This is callable only from the registered cold login scope. All proposals
+    are recomputed from its actual sealed history and fresh owner files. The
+    native project/quota/queue/lease release is still independently required.
+    """
+    import time
+    from . import evaluation_admission as admission
+    from .neural_scope import validate
+    from .future_admission import _file
+    from scripts.pi0294.dec1 import source_cpu_once_io as once
+    if now_epoch is not None:
+        raise PermissionError('PV1_EVALUATION_RESERVE_NATIVE_CLOCK_ONLY')
+    if os.environ.get('PBS_JOBID'):
+        raise PermissionError('PV1_EVALUATION_RESERVE_ORIGINAL_LOGIN_OWNER_ONLY')
+    root,request_path=Path(root),Path(request_path)
+    manifest,*_=validate(root)
+    if not platform.cold_profile(manifest):
+        raise PermissionError('PV1_EVALUATION_RESERVE_TYPED_COLD_SCOPE_ONLY')
+    inputs=admission.file_inputs(root,request_path,now_epoch=time.time())
+    proposal=admission.reserve_proposal(inputs['global_bytes'],recompute_inputs=inputs)
+    site=admission.prequeue_site(_file(root,admission.FRESH_SITE),request_bytes=inputs['request_bytes'],
+        global_bytes=inputs['global_bytes'],resource_proof=proposal['recomputed_proof'],now_epoch=inputs['now_epoch'])
+    request,_=admission._read(inputs['request_bytes']);path=root.parent.parent/'HOPPER_RESOURCE_LEDGER.json'
+    after=proposal['proposed_global'];after['revision']+=1
+    # Same canonical path used by GlobalLedger.transaction(). An existing
+    # once intent remains a hard no-retry latch even if old bytes are observed.
+    suffix='V4-DEV-'+request['request_id']
+    receipt=once.commit(path,expected_before_sha256=admission.hashlib.sha256(inputs['global_bytes']).hexdigest(),
+        proposed_bytes=(admission.json.dumps(after,indent=2,allow_nan=False)+'\n').encode(),
+        request_id=request['request_id'],intent_path=path.with_name(suffix+'.INTENT.private.json'),
+        receipt_path=path.with_name(suffix+'.RECEIPT.private.json'),lock_path=path.with_suffix('.owner.lock'))
+    return dict(once_receipt=receipt,recomputed_proof=proposal['recomputed_proof'],
+        native_site_inputs=site,qsub_performed=False,native_or_scientific_admission=False)
