@@ -1,0 +1,360 @@
+{
+  "schema": "WDR1_V4_COMPLETE_ORIGINAL_PRIMARY17_HISTORY_ACTUAL_V1",
+  "status": "ACTUAL_PRIMARY_HISTORY_ASSEMBLED_NOT_NEW_SCIENTIFIC_RESULTS",
+  "runtime_source": "9cf4a9f50e628676014c35dd7a2eb95a98f3198c",
+  "observed_epoch": 1792826258.874913,
+  "problem": "The V4 partial-history input previously covered only two cached original attempts; the complete 17-attempt original inventory and engineering diagnoses had to be joined before any continuation.",
+  "actual_readback": {
+    "three_original_closed_children": 3,
+    "complete_directory_inventory_in_these_three_children": true,
+    "attempts": 17,
+    "original_bytes_read": 180353,
+    "Core_readonly_CPU_s": 0.009880757,
+    "primary_packet_sha256": "97f48b5190bee536f5e3c2e7699ed0c6164150e3e989b2c63a05801b5a3e8717",
+    "assembly_packet_sha256": "d337b110b375452de933d119e3bc09c7a6334744f011c375ec822b419f232641",
+    "current_control_and_closed_metadata_unchanged": true
+  },
+  "frozen_population": {
+    "bytes": 556723,
+    "sha256": "288be5e878baf1b112190a8ac69c1b507336ca03f550ae9b4f4672f13ef90db1",
+    "public_summary_not_substituted": true
+  },
+  "result": {
+    "B0_valid_conditions": 14,
+    "B0_successes": 9,
+    "B0_valid_task_failures": 5,
+    "B0_engineering_attempts": 3,
+    "B0_successes_by_task": {
+      "T1": 5,
+      "T2": 4
+    },
+    "B0_remaining": 34,
+    "A_DEV_remaining": 48,
+    "B_DEV_remaining": 48,
+    "remaining_panel_sizes": [
+      10,
+      24,
+      24,
+      24,
+      24,
+      24
+    ],
+    "remaining_conditions": 130,
+    "exhausted_engineering_conditions": 0,
+    "new_scientific_conditions": 0,
+    "core64": 0,
+    "A_DEV_valid": 0,
+    "B_DEV_valid": 0
+  },
+  "engineering_semantics": {
+    "original_diagnoses_and_adjudications_preserved": true,
+    "existing_two_replacements_already_have_valid_outcomes": true,
+    "remaining_F2_000_T1_only_original_REPLACEMENT_01": true,
+    "valid_results_never_replayed": true,
+    "V2_original_named_digest_format": "One original confirmed V2 diagnosis had named request/ACK/response/audit digests but no generic evidence_sha256 map. A derived parser view retains every original field and adds only an index over that exact diagnosis, its closed receipt and native closed manifest/lease. Original bytes are retained separately; this neither diagnoses nor authorizes another attempt.",
+    "V2_contradictory_fields_rejected": [
+      "native_process_terminal_verified",
+      "unknown_effects",
+      "native_safety_failure",
+      "replay_performed",
+      "replacement_eligible",
+      "abandoned_response_sha256",
+      "original_audit_sha256",
+      "actual_executed_ACKs",
+      "root_cause"
+    ]
+  },
+  "actual_parser_checks": {
+    "shared_original_per_attempt_validator": true,
+    "all17_results_audits_original_ready_and_required_causal_or_engineering_evidence_pass": true,
+    "original_complete_DEV48_training_admission_still_rejected": true,
+    "remaining_work_derived_from_all17_not_only_valid_rows": true,
+    "original_historical_LOCAL_joined_causal_results_reused_not_new_remote_causal_files": true
+  },
+  "remaining_regular_upper": {
+    "H200_s": 173160,
+    "PBS_submissions": 6,
+    "optimizer_updates": 0,
+    "episode_starts": 130,
+    "neural_queries": 10502,
+    "physics_ticks": 4160000,
+    "engine_starts": 10542,
+    "Core_CPU_s": 511800,
+    "Hopper_CPU_s": 523800,
+    "local_CPU_s": 43800,
+    "transfer_bytes": 140660178944,
+    "Hopper_storage_bytes": 139586437120,
+    "Core_storage_bytes": 107911053312,
+    "local_storage_bytes": 402653184
+  },
+  "unchanged": {
+    "resource_caps": true,
+    "original_matrix_and_final_protection": true,
+    "original_T0_epoch": 1792348196,
+    "stop_new_epoch": 1792866596,
+    "stop_physics_epoch": 1792924196,
+    "hard_close_epoch": 1792952996,
+    "LOCAL_minute_already_adopted_and_consumed_not_repeated": true,
+    "two_SDK_UNKNOWN_bytes": true,
+    "new_models_queries_physics_builds_or_native_ledger_writes": 0
+  },
+  "still_required": [
+    "Fresh complete remaining-resource admission and exact current prepaid/active credit",
+    "Once-only prequeue reservation integration in the original global owner",
+    "Native A40 bootstrap/model path and source numerical qualification",
+    "Applicable B4096 subsequent reuse boundary; this does not block old CORR S1 or independently qualified B0/A",
+    "One complete S2 scope package; the four proposed global caps are not approved or adopted"
+  ],
+  "private_reader_source_sha256": "e95c0a8eff76bec8bbf71cbb6398e317735f4d2ab4f96d06ffc79c32df9add69",
+  "private_assembly_source_sha256": "10ec08b171570171d00c252d1ba8d0b28e030759e01156ce65e305c0c7801f40",
+  "attempts": [
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-000-T1-N294101",
+      "condition_id": "PI0294/PV1/DEV/F0/000/T1/N294101",
+      "status": "VALID_TASK_FAIL",
+      "task": "T1",
+      "main_integrations": 14400,
+      "original_bytes_sha256": {
+        "adjudication": "fc1d19750095b3b381d641c5d36ab3eb123e3422fc074059da7a06a5d4512cd1",
+        "result": "1192252acbf6f0d1dbbd6277b3b8974ef4ec7c2cfeb7b0e9ec1204158bb9a4c9",
+        "audit": "cb94b07e6bc3e114868ceaacf47c45d51b8e7be1604f1c2e5afcaea0f5b8f629",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "causal_chain": "592a97b4a31ed92ed206d3f0ce1007b7b6284025d3e2a9a0b1e14f716c6b8081"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-000-T2-N294101",
+      "condition_id": "PI0294/PV1/DEV/F0/000/T2/N294101",
+      "status": "SUCCESS",
+      "task": "T2",
+      "main_integrations": 16000,
+      "original_bytes_sha256": {
+        "adjudication": "982f4473650b22517df4b73e5b34124f58fc3a0bd6f7a5402acf88e576187081",
+        "result": "8cf19659ee68811bd18b6bb0357812d7acbec51351d4015063530c74f847b474",
+        "audit": "a2742e99e759895005037966083362dd29a3e5b2c51c52f8f81d4b0fc0e4ed41",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "causal_chain": "f100a58dc7b858f22d2fb1fc012a64234ebba77a0398eaed55b1e220b9fb0f54"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-001-T1-N294101",
+      "condition_id": "PI0294/PV1/DEV/F0/001/T1/N294101",
+      "status": "SUCCESS",
+      "task": "T1",
+      "main_integrations": 16000,
+      "original_bytes_sha256": {
+        "adjudication": "e509dd6421929dafdfd7962ee096c9e7b2029e082e18db994c3d7cd3d13b99dc",
+        "result": "09e5bfe722196466dad3c9e5bc821f780ea0c236c9f1c0b46e08823cfe30d726",
+        "audit": "82c5d73c51ae62c2fb7ba1874fdaa671898a0d5071a171af70e1de9648d4eda7",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "causal_chain": "77ccf5217c2cce36d7c82ec4c316d82e317dbada6f4a6db45fac1d7c117e23cf"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F0-001-T2-N294101",
+      "condition_id": "PI0294/PV1/DEV/F0/001/T2/N294101",
+      "status": "SUCCESS",
+      "task": "T2",
+      "main_integrations": 16000,
+      "original_bytes_sha256": {
+        "adjudication": "0917ef9dd274c2f63729a9becc334cf2a3a2d6262278b11480f0940fbecb1350",
+        "result": "a351bf1336c7014c69c82acd7eda99522d84fc648ab3f305655c9841747f8790",
+        "audit": "2d60c26d9965fc171f7240c1b98a50bec3e68f520a237987d5b4ec507e5e609b",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "causal_chain": "05af0729b867949d8ef05cfb38910a3d8ab5a863fe939151c5a18efd49e1b515"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-000-T1-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/000/T1/N294101",
+      "status": "SUCCESS",
+      "task": "T1",
+      "main_integrations": 16000,
+      "original_bytes_sha256": {
+        "adjudication": "d4fd210f79aa7abb35d1f6e7383dcb9c3e37f2559f7cdbd4d9cf352763514e4d",
+        "result": "e110408a4409ae88500df8367b4f32f1010a2279cce743b6b68ab00c0eac2152",
+        "audit": "05a9e14fe4c9abff2c5679ccd16071c781a8c6241d0116050b4166dcacb27a1b",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "causal_chain": "1fd2590afa83949c8e332dcfdffb6f318cee531ea15d48f6f1b9a064fbfc7dd5"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-000-T2-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/000/T2/N294101",
+      "status": "SUCCESS",
+      "task": "T2",
+      "main_integrations": 16000,
+      "original_bytes_sha256": {
+        "adjudication": "c3a3364c61652a14c348e121a69c6f6e7d0ed423f1612775f121c5cbb39c086f",
+        "result": "2dd95745508ef0abde637ba73f2d88772af94e11a599c6c049111732af175a49",
+        "audit": "9884b8f8a70e4708a3a9d95090a1e2b616e0da15245418b3269d13ae48d31015",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "causal_chain": "de2540309dd6201feb49721f4724f7de81fec21eaf337707c37e62f86a8eeb42"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-001-T1-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/001/T1/N294101",
+      "status": "VALID_TASK_FAIL",
+      "task": "T1",
+      "main_integrations": 5600,
+      "original_bytes_sha256": {
+        "adjudication": "1092a4434657aedbf0ba220b5118dab9f18701a02c6b24d1c32e75090302e64c",
+        "result": "5e1f3c066caaa772412d78b34010549dee00976634c159d0ab71dcea2d5cf031",
+        "audit": "319ac9a11b1326a9c69d5ffcc36cd4e54d229da64e2375a040a6bf93314f5b85",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "causal_chain": "30cca271bf7e20dee33856553885df1a73ca31199a4de351aa203781bd241f4b"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-001-T2-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/001/T2/N294101",
+      "status": "VALID_TASK_FAIL",
+      "task": "T2",
+      "main_integrations": 6000,
+      "original_bytes_sha256": {
+        "adjudication": "f34dd001d696999f55a829f67863e7158b66192fd0cf541ee165cab4c51e8b0c",
+        "result": "86b8a82b7322cec21289be19307e3ecc48c64f524a50ec8a9e82c4641de8326d",
+        "audit": "a37f41f8f8d8f2e8e86b2a1d0b51a4ac3b26f21f602019eed798deaa7718b846",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "causal_chain": "406e003171bae93a07c147d317c7015bc0d670343370e132e5ee2bb3b0507155"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-002-T1-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/002/T1/N294101",
+      "status": "SUCCESS",
+      "task": "T1",
+      "main_integrations": 16000,
+      "original_bytes_sha256": {
+        "adjudication": "a8d212573dc7f9a991720b0d9cfc4146075ef32fa202d695ca18cfd9f729b531",
+        "result": "14c69baaf592098352cb3b61fb3cddba9abcecdadcc3fdaa57b9fbcc400b9009",
+        "audit": "f181ca68148b6e4d677cc319b40b55c6c9c9de67f93f0c92f684381e379502c6",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "causal_chain": "c462a9afb1d3a6622ea03e5586dd826f3f58bc441550b9a5ed080e4969eeef6e"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-002-T2-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/002/T2/N294101",
+      "status": "ENGINEERING_INCOMPLETE",
+      "task": "T2",
+      "main_integrations": 5800,
+      "original_bytes_sha256": {
+        "adjudication": "42de8336ea750caf222bdb17d17cf4425a7f930e70209492c625cdef383904b3",
+        "result": "fe2751234bca976955edca3a730c0eb063c00ab9473e069809c83b35b04211c9",
+        "audit": "36598d3d71e89d91a92d47555465d34167ba144bf9b69fed1979f9bc9aefa992",
+        "model_ready": "64fe3f97782066049d3251bf7fe14f67878f73c25edcd3200e44540bb0b8f793",
+        "engineering_diagnosis": "0ec35b5666a218f71f371e1d174abb55753d1e3107830f9402b37aed4e3d63ab"
+      },
+      "engineering_cause": "ORIGINAL_CORE_CONTROL_PROCESS_COMPLETED_40000_FINITE_CALL_BOUND",
+      "original_diagnosis_sha256": "0ec35b5666a218f71f371e1d174abb55753d1e3107830f9402b37aed4e3d63ab",
+      "derived_digest_index_only": false
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-002-T2-N294101-REPLACEMENT-01",
+      "condition_id": "PI0294/PV1/DEV/F1/002/T2/N294101",
+      "status": "SUCCESS",
+      "task": "T2",
+      "main_integrations": 16000,
+      "original_bytes_sha256": {
+        "adjudication": "4beb0da8f8b4857a15aa90617c9f7782302343bfd0f4ea9ab9ded16d94565643",
+        "result": "787920e1801b84b281d458ffe0fdc88bcc9fda7dc4f31a338ec42b50edb888a5",
+        "audit": "de44f8e0f6e29cf621a7868651316f0c6e979bf99640945bb17db380e8de0536",
+        "model_ready": "7c7ea827f4bac71c77d409ad84c0fc2c347e1484a7d513eebb2f3ee23e00d8bf",
+        "causal_chain": "a6589b5237bf6b855757a8cc63f4a1a9338901c763f21cc3641a7e4a256ae36b"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-003-T1-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/003/T1/N294101",
+      "status": "SUCCESS",
+      "task": "T1",
+      "main_integrations": 16000,
+      "original_bytes_sha256": {
+        "adjudication": "4097454430b9a79ddfbd8094d8a23b6fbbce39b0763c7a4fdb59fb8a24113aee",
+        "result": "2a24fde7c2b8558f5dde03f818cc24ba148a804cf0f6c3e3d6d4482a887e433f",
+        "audit": "cd69286f1d34061884b272ca135e514d966955b38209df2862ae679b3ab63432",
+        "model_ready": "7c7ea827f4bac71c77d409ad84c0fc2c347e1484a7d513eebb2f3ee23e00d8bf",
+        "causal_chain": "8b2d2ef57053f9312bcb43b702523806e5f398a7e2e430ec6cf132ae1d57af87"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-003-T2-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/003/T2/N294101",
+      "status": "VALID_TASK_FAIL",
+      "task": "T2",
+      "main_integrations": 7400,
+      "original_bytes_sha256": {
+        "adjudication": "793225805d9b80696b924ae280ecfffbbe5b594fa876334c63171a41f23ca6b8",
+        "result": "e6ec267e3405af56846f4edfe0ec6120eb77472ad6952d13f4ff099098e0e76b",
+        "audit": "d2f9f37b7460dfc4e15cc895b9654f5101644b83bcb0456c74ded3cfe5baaf57",
+        "model_ready": "7c7ea827f4bac71c77d409ad84c0fc2c347e1484a7d513eebb2f3ee23e00d8bf",
+        "causal_chain": "4208fe76b6c1bc24b3f8f56c293e4524237c6e8e847af05ffe49a35e8705b7db"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/004/T1/N294101",
+      "status": "ENGINEERING_INCOMPLETE",
+      "task": "T1",
+      "main_integrations": 4400,
+      "original_bytes_sha256": {
+        "adjudication": "9aa4c54f8c9e3849fc88d6638b6004e7585c3b5d88361667055bc98062586dcc",
+        "result": "e75ca80ed57b6304276a6053cb8d0df95998c3653489b4f6982f1dde20e48ffe",
+        "audit": "6756901d87f5f1a09006b6a16fc68aee403d74c6a5a9f15138ab63b4b08d9551",
+        "model_ready": "7c7ea827f4bac71c77d409ad84c0fc2c347e1484a7d513eebb2f3ee23e00d8bf",
+        "engineering_diagnosis": "26587c0d9ea961c5d3e6b902b49ac0beccf349106f16c5bbe2008ed4fc13b677"
+      },
+      "engineering_cause": "BUFFERED_STDIN_PREFETCH_HIDDEN_FROM_FD_SELECT",
+      "original_diagnosis_sha256": "4089e8c069ea6f18692248e05cba6ed3fd7c5a2e830deceb5397f9c5a8a19a12",
+      "derived_digest_index_only": true
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101-REPLACEMENT-01",
+      "condition_id": "PI0294/PV1/DEV/F1/004/T1/N294101",
+      "status": "SUCCESS",
+      "task": "T1",
+      "main_integrations": 16000,
+      "original_bytes_sha256": {
+        "adjudication": "d34cf2404ab6d8229116dd7e931fa03793f79b6c2e4127ac1a04055ba6bc7af3",
+        "result": "dd2a379bd9d4a54e271cf05752abadf86807ee9b32a2060c0f554158a105ee99",
+        "audit": "eed14e0241d20eb985d91fc279da9f5846fb88014429da12e10c79a2858ecf2e",
+        "model_ready": "e4702a48e1783ec7fd32c87a589b77e23cadfb8d7a8bd9dcc21105df89ad75fb",
+        "causal_chain": "9f28284c71c7c7ad187bb3cf06037e8b49f430d7b07ab1260430417b78af8e71"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T2-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/004/T2/N294101",
+      "status": "VALID_TASK_FAIL",
+      "task": "T2",
+      "main_integrations": 14800,
+      "original_bytes_sha256": {
+        "adjudication": "15a96d95fd2176052979b31c344b6dde1f415636b0d922fda41d53ad254d7c32",
+        "result": "00fa2d5fdb926a281d473ad694f6cabeab7bde1d120386deb7a32ab9899a1290",
+        "audit": "83dca6b5878fd9ad1e7214efb77c77981cad29e6179b57e510fc7ae30d166471",
+        "model_ready": "e4702a48e1783ec7fd32c87a589b77e23cadfb8d7a8bd9dcc21105df89ad75fb",
+        "causal_chain": "1bee92e1a9fafc6b07290c5d99bde8c9c8a0e75de60525a59990fbe46fbe50ec"
+      }
+    },
+    {
+      "attempt_id": "B0_CORR-PI0294-PV1-DEV-F2-000-T1-N294101",
+      "condition_id": "PI0294/PV1/DEV/F2/000/T1/N294101",
+      "status": "ENGINEERING_INCOMPLETE",
+      "task": "T1",
+      "main_integrations": 7200,
+      "original_bytes_sha256": {
+        "adjudication": "30a39f3cf99e79da9707293e5e8c2297d387bb58410e488aa53244a08aefa9ac",
+        "result": "c8079ab87d7840902f5c76c861ccf3133a7e3004c18a55683fc59d022e679da3",
+        "audit": "0813c56fe9d9923f24727a6a535abf19675fcb309fb8eeb46bdc106107198d2f",
+        "model_ready": "e4702a48e1783ec7fd32c87a589b77e23cadfb8d7a8bd9dcc21105df89ad75fb",
+        "engineering_diagnosis": "5c83499107d13d8807f45a69883b0d9bf29630554d7dfbb48c2e17a8c20a6835"
+      },
+      "engineering_cause": "HOPPER_LOGIN_CONTROL_JSON_READ_OSERROR_23_ENFILE",
+      "original_diagnosis_sha256": "5c83499107d13d8807f45a69883b0d9bf29630554d7dfbb48c2e17a8c20a6835",
+      "derived_digest_index_only": false
+    }
+  ],
+  "goal_status": "ACTIVE_NOT_COMPLETE"
+}
