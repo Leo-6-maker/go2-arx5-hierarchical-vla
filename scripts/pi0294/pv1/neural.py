@@ -30,10 +30,22 @@ from .recipe import PARENT,validate_primary,run_key
 from .training import run as train,checked_resume
 from .visibility import refresh
 from .baseline import admission as dev_admission
+from . import evaluation_platform as evaluation
 
 
 TRAIN_STAGES=('P2_PRIMARY','P4_REPLICA')
 STAGES=('B0_DEV','P2_PRIMARY','P4_DEV','P4_REPLICA','P5_FINAL')
+
+
+def require_native_device(request,allocation,torch):
+    """Physical device only; admit/qualification remain mandatory before this."""
+    visible=os.environ.get('CUDA_VISIBLE_DEVICES')
+    count=torch.cuda.device_count() if visible else 0
+    name=torch.cuda.get_device_name(0) if count==1 else None
+    if any('platform_evaluation_version' in v for v in (request,allocation)):
+        evaluation.require_device(request,allocation,visible=visible,count=count,name=name)
+    elif not visible or count!=1 or 'H200' not in name:
+        raise PermissionError('PV1_ONE_VISIBLE_NATIVE_H200_ONLY')
 
 
 def replica_selection(root,input_,stage):
@@ -330,6 +342,8 @@ def run(root,request_path):
         remaining=int(160*3600-read(ledger.path)['CPU_s'])
         from scripts.pi0294.dec1.future_admission import bounded_process_cpu
         remaining=bounded_process_cpu(r,remaining)
+        if 'platform_evaluation_version' in r:
+            remaining=evaluation.process_cpu_limit(r,remaining)
         if remaining<=30:raise PermissionError('PV1_HOPPER_ACTUAL_CPU_BUDGET_EXHAUSTED')
         resource.setrlimit(resource.RLIMIT_CPU,(remaining,remaining));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
         stage_work(root,r)
@@ -342,8 +356,7 @@ def run(root,request_path):
             checkpoint_manifest_sha256=PARENT,new_model_loads=0))
         guard()
         import torch
-        if not os.environ.get('CUDA_VISIBLE_DEVICES') or torch.cuda.device_count()!=1 or 'H200' not in torch.cuda.get_device_name(0):
-            raise PermissionError('PV1_ONE_VISIBLE_NATIVE_H200_ONLY')
+        require_native_device(r,allocation,torch)
         configure_torch(torch,r['numerical_mode']);torch.set_num_threads(4)
         if r['stage'] in ('B0_DEV','P4_DEV','P5_FINAL'):
             final=r['stage']=='P5_FINAL';plan=read(root/(FINAL_PLAN if final else 'plans/SOURCE_EVALUATION_PLAN.json'))

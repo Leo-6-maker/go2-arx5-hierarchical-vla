@@ -1,4 +1,27 @@
 {
+  "latest_V4_A40_bootstrap_and_device_CPU": {
+    "report": "reports/PI0294/design/parallel-science-20261022/V4_A40_EVALUATION_NATIVE_BOOTSTRAP_AND_DEVICE_CPU_20261024.json",
+    "new_CPU_cases": 50,
+    "full_PV1_tests": 493,
+    "full_PV1_subtests": 249,
+    "old25_captured_rows_preserved": true,
+    "native_deployed": false,
+    "native_admission": false,
+    "new_scientific_conditions": 0,
+    "S2_proposal_caps_adopted": false,
+    "goal_complete": false
+  },
+  "latest_V4_complete_primary17_actual": {
+    "report": "reports/PI0294/design/parallel-science-20261022/V4_COMPLETE_ORIGINAL_PRIMARY17_HISTORY_ACTUAL_20261024.json",
+    "source_sha": "b1bc5ac020bf63c12824f0f36e73b9b7c88ca33b",
+    "original_attempts": 17,
+    "valid": 14,
+    "engineering": 3,
+    "remaining": 130,
+    "remote_inventory_readback": true,
+    "new_scientific_conditions": 0,
+    "goal_complete": false
+  },
   "latest_V4_partial_history_and_regular_work_CPU": {
     "report": "reports/PI0294/design/parallel-science-20261022/V4_PARTIAL_PRIMARY_HISTORY_AND_COMPLETE_REGULAR_WORK_CPU_20261024.json",
     "tests": 41,
@@ -44,8 +67,8 @@
   },
   "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
   "created_epoch": 1792663428.495236,
-  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
-  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
+  "user_direction": "\u5e76\u884c\u51c6\u5907\u540e\u7eed\u7684\u6570\u636e\u4ee5\u53ca\u8bad\u7ec3\uff0c\u79d1\u5b66\u4e3b\u7ebf\uff0c\u66f4\u65b0goal",
+  "objective": "\u7ee7\u7eed\u65e2\u6709A/B\u5206\u6bb5\u8bad\u7ec3\u4e0e\u79d1\u5b66\u8bc4\u4ef7\uff0c\u540c\u65f6\u5e76\u884c\u4ea4\u4ed8\u540e\u7eed\u6570\u636e\u3001\u8bad\u7ec3\u548c\u8bc4\u4ef7\u51c6\u5907\uff1b\u4f4e\u9891\u89c2\u5bdfGPU\uff0c\u4ee5\u771f\u5b9e\u7aef\u70b9\u53ca\u914d\u5bf9\u95ed\u73af\u8bc1\u636e\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\u3002",
   "goal_panel": {
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
@@ -1342,7 +1365,7 @@
   },
   "latest_human_B2_retry_direction": {
     "report": "reports/PI0294/design/parallel-science-20261022/B2_SYSTEM_HOLD21_RETRY_DIRECTION_AND_AUTH_BLOCK_20261023.json",
-    "directive": "通过amgr login检查project额度并重试",
+    "directive": "\u901a\u8fc7amgr login\u68c0\u67e5project\u989d\u5ea6\u5e76\u91cd\u8bd5",
     "auth_query": "TOKEN_EXPIRED",
     "masked_terminal_login_requested": true,
     "new_PBS": false,
@@ -1370,7 +1393,7 @@
   },
   "latest_PBS_only_retry_human_approval": {
     "authorization": "reports/PI0294/design/parallel-science-20261022/B2_SYSTEM_STARTUP_RETRY_PBS_AUTHORIZATION_20261023.json",
-    "human_answer": "批准仅这两项 PBS 上限调整",
+    "human_answer": "\u6279\u51c6\u4ec5\u8fd9\u4e24\u9879 PBS \u4e0a\u9650\u8c03\u6574",
     "DEC1_PBS": 15,
     "global_PBS": 26,
     "other_caps_and_clocks_unchanged": true,

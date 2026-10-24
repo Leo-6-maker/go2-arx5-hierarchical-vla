@@ -15,6 +15,7 @@ from .evaluation_ledger import for_request as ledger_for_request
 from .neural_ledger import Ledger
 from .neural_scope import validate
 from .resources import pbs_limit
+from . import evaluation_platform as evaluation
 
 
 def native_bootstrap(root,request_path):
@@ -22,7 +23,8 @@ def native_bootstrap(root,request_path):
     if not os.environ.get('PBS_JOBID'):
         raise PermissionError('PV1_LAUNCHER_ONLY_IN_OWN_NATIVE_PBS_NO_LOGIN_MODELS')
     m,_,_,_,a=validate(root);r=read(request_path);directory=request_path.parent
-    submission_limit=pbs_limit(read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json'))
+    global_ledger=read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json')
+    submission_limit=pbs_limit(global_ledger)
     job_id=os.environ['PBS_JOBID'];host=socket.gethostname();user=os.environ['USER']
     if (directory.is_symlink() or directory.parent.resolve()!=(root/'pbs').resolve()
             or directory.name!='alloc-'+str(r['submit_count']).zfill(2) or not 1<=r['submit_count']<=submission_limit
@@ -30,14 +32,21 @@ def native_bootstrap(root,request_path):
             or r['run_uuid']!=root.name or r['campaign_run_uuid']!=a['run_uuid']
             or r['source_sha']!=m['code']['vla_commit'] or r['run_manifest_sha256']!=sha(root/'RUN_MANIFEST.json')):
         raise PermissionError('PV1_BOOTSTRAP_OWN_IMMUTABLE_NATIVE_REQUEST')
-    job=owned_jobs(user).get(job_id)
-    if (not job or job['job_state']!='R' or job['Job_Owner'].split('@')[0]!=user
-            or job['project']!=r['project'] or job['Job_Name']!=r['job_name']
-            or int(job['Resource_List']['ngpus'])!=1 or not single_h200_select(job['Resource_List'],r['ncpus'])
-            or not native_request_binding(job,r)
-            or host.split('.')[0].startswith(('hopper-l','hopper-m'))
-            or host.split('.')[0] not in {v.split('/')[0].split('.')[0] for v in job['exec_host'].split('+')}):
-        raise PermissionError('PV1_BOOTSTRAP_FRESH_OWN_SELECTED_PROJECT_COMPUTE_JOB')
+    if evaluation.cold_profile(m) or 'platform_evaluation_version' in r:
+        evaluation.request_identity(m,r,run_uuid=root.name,manifest_sha256=sha(root/'RUN_MANIFEST.json'))
+        proof=evaluation.collect_queue(user=user)
+        evaluation.bootstrap_identity(m,r,global_ledger,run_uuid=root.name,
+            manifest_sha256=sha(root/'RUN_MANIFEST.json'),request_sha256=sha(request_path),
+            now=time.time(),user=user,hostname=host,job_id=job_id,queue_proof=proof)
+    else:
+        job=owned_jobs(user).get(job_id)
+        if (not job or job['job_state']!='R' or job['Job_Owner'].split('@')[0]!=user
+                or job['project']!=r['project'] or job['Job_Name']!=r['job_name']
+                or int(job['Resource_List']['ngpus'])!=1 or not single_h200_select(job['Resource_List'],r['ncpus'])
+                or not native_request_binding(job,r)
+                or host.split('.')[0].startswith(('hopper-l','hopper-m'))
+                or host.split('.')[0] not in {v.split('/')[0].split('.')[0] for v in job['exec_host'].split('+')}):
+            raise PermissionError('PV1_BOOTSTRAP_FRESH_OWN_SELECTED_PROJECT_COMPUTE_JOB')
     if not os.environ.get('CUDA_VISIBLE_DEVICES'):
         raise PermissionError('PV1_NATIVE_PBS_GPU_VISIBILITY_MISSING_BEFORE_ENDURANCE_OR_MODEL')
     return m,r,directory,job_id,host
