@@ -43,6 +43,8 @@ def adopted_caps(global_ledger):
     caps=dict(CAPS)
     caps.update(PBS_submissions=pbs_limit(global_ledger),
         Hopper_storage_bytes=global_cap_from_ledger(global_ledger))
+    from . import evaluation_scope as scope
+    if scope.FIELD in global_ledger:caps.update(scope.caps(global_ledger))
     return caps
 
 
@@ -104,6 +106,8 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
     need(purpose in PURPOSES,'EXPLICIT_CURRENT_PHASE')
     manifest,manifest_sha=_read(manifest_bytes);request,request_sha=_read(request_bytes)
     global_ledger,global_sha=_read(global_bytes);local,local_sha=_read(local_bytes)
+    from . import evaluation_scope as scope
+    if scope.FIELD in global_ledger or scope.FIELD in local:scope.validate_pair(global_ledger,local)
     snapshot,snapshot_sha=_read(snapshot_bytes)
     platform.request_identity(manifest,request,run_uuid=request['run_uuid'],manifest_sha256=manifest_sha)
     accounting.checked(global_ledger)

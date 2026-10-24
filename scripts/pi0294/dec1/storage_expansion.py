@@ -81,6 +81,9 @@ def validate_adopted(h,d):
 
 def global_cap_from_ledger(h):
     """Read only the adopted global cap; this supplies no scientific scope."""
+    from scripts.pi0294.pv1 import evaluation_scope as dev
+    if dev.FIELD in h:
+        dev.validate_global(h);return dev.CAPS['Hopper_storage_bytes']
     if FIELD not in h:return 250*GIB
     _marker(h)
     old=h.get(seg.FIELD,{});lost=h.get(recovery.FIELD,{})

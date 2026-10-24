@@ -13,6 +13,8 @@ from .resources import admit_resources
 
 def check(value,*,final=False,allow_unknown=False):
     from scripts.pi0294.dec1 import b_heartbeat_recovery as b
+    from . import evaluation_scope as dev
+    CPU_cap=dev.caps(value)['Hopper_CPU_s'] if dev.FIELD in value else 160*3600
     b_scope=b.FIELD in value
     from scripts.pi0294.dec1 import b_vanda_recovery2 as vanda2
     vanda2_scope=vanda2.FIELD in value
@@ -24,7 +26,7 @@ def check(value,*,final=False,allow_unknown=False):
             or type(allow_unknown) is not bool or value['authority_release']!=AUTHORITY
             or type(value['unknown_effects']) is not list or value['unknown_effects'] and not allow_unknown
             or type(value['CPU_s']) not in (int,float) or not math.isfinite(value['CPU_s'])
-            or not 0<=value['CPU_s']<=160*3600
+            or not 0<=value['CPU_s']<=CPU_cap
             or type(value['revision']) is not int or value['revision']<0
             or value['used']['optimizer_updates']!=value['optimizer_updates']
             or value['used']['neural_queries']!=value['generation_queries']
@@ -41,7 +43,7 @@ def check(value,*,final=False,allow_unknown=False):
         validate_items(value)
     if (type(value.get('CPU_reserved_s',0)) not in (int,float)
             or not math.isfinite(value.get('CPU_reserved_s',0)) or value.get('CPU_reserved_s',0)<0
-            or value['CPU_s']+value.get('CPU_reserved_s',0)>160*3600):
+            or value['CPU_s']+value.get('CPU_reserved_s',0)>CPU_cap):
         raise PermissionError('PV1_ALL_GPU_SITE_CPU_RESERVATIONS_INSIDE_ORIGINAL_CAP')
     admit_resources(value['used'],value['reserved'],{},final=final,b_recovery_global=value if b_scope else None)
     return value

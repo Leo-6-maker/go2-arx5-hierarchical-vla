@@ -85,8 +85,8 @@
   },
   "schema": "VAP1_EXISTING_ACTIVE_GOAL_SUPPLEMENT_V1",
   "created_epoch": 1792663428.495236,
-  "user_direction": "\u5e76\u884c\u51c6\u5907\u540e\u7eed\u7684\u6570\u636e\u4ee5\u53ca\u8bad\u7ec3\uff0c\u79d1\u5b66\u4e3b\u7ebf\uff0c\u66f4\u65b0goal",
-  "objective": "\u7ee7\u7eed\u65e2\u6709A/B\u5206\u6bb5\u8bad\u7ec3\u4e0e\u79d1\u5b66\u8bc4\u4ef7\uff0c\u540c\u65f6\u5e76\u884c\u4ea4\u4ed8\u540e\u7eed\u6570\u636e\u3001\u8bad\u7ec3\u548c\u8bc4\u4ef7\u51c6\u5907\uff1b\u4f4e\u9891\u89c2\u5bdfGPU\uff0c\u4ee5\u771f\u5b9e\u7aef\u70b9\u53ca\u914d\u5bf9\u95ed\u73af\u8bc1\u636e\u63a8\u8fdb\u79d1\u5b66\u4e3b\u7ebf\u3002",
+  "user_direction": "并行准备后续的数据以及训练，科学主线，更新goal",
+  "objective": "继续既有A/B分段训练与科学评价，同时并行交付后续数据、训练和评价准备；低频观察GPU，以真实端点及配对闭环证据推进科学主线。",
   "goal_panel": {
     "status": "ACTIVE_ACTUAL_GOAL_READBACK",
     "objective_edit_API_available": false,
@@ -1383,7 +1383,7 @@
   },
   "latest_human_B2_retry_direction": {
     "report": "reports/PI0294/design/parallel-science-20261022/B2_SYSTEM_HOLD21_RETRY_DIRECTION_AND_AUTH_BLOCK_20261023.json",
-    "directive": "\u901a\u8fc7amgr login\u68c0\u67e5project\u989d\u5ea6\u5e76\u91cd\u8bd5",
+    "directive": "通过amgr login检查project额度并重试",
     "auth_query": "TOKEN_EXPIRED",
     "masked_terminal_login_requested": true,
     "new_PBS": false,
@@ -1411,7 +1411,7 @@
   },
   "latest_PBS_only_retry_human_approval": {
     "authorization": "reports/PI0294/design/parallel-science-20261022/B2_SYSTEM_STARTUP_RETRY_PBS_AUTHORIZATION_20261023.json",
-    "human_answer": "\u6279\u51c6\u4ec5\u8fd9\u4e24\u9879 PBS \u4e0a\u9650\u8c03\u6574",
+    "human_answer": "批准仅这两项 PBS 上限调整",
     "DEC1_PBS": 15,
     "global_PBS": 26,
     "other_caps_and_clocks_unchanged": true,
@@ -1444,6 +1444,80 @@
     "model_and_first_training_released": true,
     "terminal_CPU_only": true,
     "core64": 0,
+    "goal_complete": false
+  },
+  "V4_latest_approved_scope_cold_20261024": {
+    "schema": "V4_APPROVED_EXACT_SCOPE_AND_SINGLE_PANEL_COLD_CPU_V1",
+    "human_grant_release": "108ab0a09790fa148d72f6792815de9453054ecb",
+    "human_grant_sha256": "1e41c5d745e2e600d608c52ce72ef8c5dfef3b6e1acc89476e0526f3a2db0f4f",
+    "human_answer": "批准整个工作包",
+    "status": "APPROVED_COLD_IMPLEMENTED_CPU_VALIDATED_NOT_YET_NATIVE_ADOPTED",
+    "changes": {
+      "global_GPU_hours": [
+        96,
+        121
+      ],
+      "global_PBS": [
+        28,
+        34
+      ],
+      "global_GPU_site_CPU_hours": [
+        160,
+        213
+      ],
+      "global_GPU_site_output_GiB": [
+        680,
+        810
+      ]
+    },
+    "B4096": {
+      "checkpoint_sha256": "be7ab71dee0fb68e17efae06a04ff8dde9cd776ff429c1d6c408ae01323a9c19",
+      "closure_sha256": "e875123dd3f6e713ce24d3d0f5f7a294dde3ee64cd86723135b1aacda3462519",
+      "outer_owner_exit": 1,
+      "read_only_original_DEV_exception": true,
+      "native_model_or_physics_release": false
+    },
+    "implementation": [
+      "Pure once adoption requires exact inactive 25-row global and LOCAL bytes plus original independent B4096 dual closure. Adds identical byte-bound markers only; no costs, old rows or training progress change.",
+      "Existing global resource, CPU and storage adapters recognize only the exact validated marker; original DEC1 caps and other totals remain. A missing or conflicting dual marker refuses a new DEV request.",
+      "The mature neural DEV loop selects exactly the request's original whole remaining noise panel. Original full DEV48 plan remains sealed; all valid negatives are skipped and original one-engineering-replacement bound remains. Legacy paths retain original panel iteration."
+    ],
+    "validation": {
+      "new_CPU_cases": 24,
+      "complete_PV1_cases": 568,
+      "complete_PV1_subtests": 249,
+      "captured_actual_bytes_proof_sha256": "eb7ef00a2ff0748a3a9b00e422b18f5f1c8dc84de1cb17c890e53278c36e4a72",
+      "captured_actual_25rows_all_preserved": true,
+      "temp_once_repeat_refused": true
+    },
+    "native_adoption": false,
+    "new_GPU_PBS_model_queries_physics": 0,
+    "science": {
+      "core64": 0,
+      "B0_valid_DEV": 14,
+      "B0_success": 9,
+      "B0_valid_fail": 5,
+      "A_DEV": 0,
+      "B_DEV": 0
+    },
+    "unchanged": {
+      "DEC1_and_other_caps": true,
+      "original_matrix": true,
+      "final_GPU_s": 72000,
+      "final_output_GiB": 40,
+      "T0": 1792348196,
+      "stop_new": 1792866596,
+      "stop_train": 1792909796,
+      "stop_physics": 1792924196,
+      "hard_close": 1792952996
+    },
+    "remaining": [
+      "Actual once GLOBAL and LOCAL adoption with independent byte readback",
+      "Fresh producer, paid control credit, complete typed native admission and independent DEV query release",
+      "Actual current target prefix and fullbody feedback safety qualification"
+    ],
+    "full_conservative_upper_fits_original_window": false,
+    "unrun_items": "NOT_RUN",
     "goal_complete": false
   }
 }

@@ -11,6 +11,9 @@ FINAL = dict(H200_s=20*3600, episode_starts=100, neural_queries=9000,
 
 def pbs_limit(ledger):
     """Only the exact adopted B failure grant extends the campaign count."""
+    from . import evaluation_scope as dev
+    if dev.FIELD in ledger:
+        dev.validate_global(ledger);return dev.CAPS['PBS_submissions']
     from scripts.pi0294.dec1 import b_heartbeat_recovery as b
     if b.FIELD not in ledger:
         return TOTAL['PBS_submissions']
@@ -94,6 +97,12 @@ def admit_resources(used, reserved, request, *, final=False, active_GPUs=0, requ
         if b_recovery_ledgers is not None or used!=b_recovery_global.get("used") or reserved!=b_recovery_global.get("reserved"):
             raise PermissionError("PV1_B_RECOVERY_EXACT_GLOBAL_LEDGER")
         caps["PBS_submissions"]=pbs_limit(b_recovery_global)
+    current=(b_recovery_ledgers[0] if b_recovery_ledgers is not None else b_recovery_global)
+    if current is not None:
+        from . import evaluation_scope as dev
+        if dev.FIELD in current:
+            adopted=dev.caps(current)
+            caps.update({k:adopted[k] for k in ('H200_s','PBS_submissions')})
     for key, cap in caps.items():
         reserve = FINAL.get(key, 0)
         if key == 'physics_ticks':

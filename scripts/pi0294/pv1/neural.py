@@ -48,6 +48,21 @@ def require_native_device(request,allocation,torch):
         raise PermissionError('PV1_ONE_VISIBLE_NATIVE_H200_ONLY')
 
 
+def evaluation_labels(request,plan,prior):
+    """V4 requests own one original whole noise panel; legacy owns both."""
+    if 'platform_evaluation_version' not in request:return tuple(plan['panels'])
+    if (request['platform_evaluation_version']!=evaluation.VERSION
+            or request.get('stage') not in ('B0_DEV','P4_DEV')
+            or plan.get('candidate')!=request.get('evaluation_candidate')):
+        raise PermissionError('PV1_V4_ONE_PRESEALED_DEV_PANEL_ONLY')
+    labels=[label for label,spec in plan['panels'].items()
+        if spec.get('noise_bank')==request.get('noise_bank')]
+    if (len(labels)!=1 or len(remaining_panel(prior,plan['panels'][labels[0]]))!=request.get('remaining_conditions')
+            or plan['panels'][labels[0]]['candidate']!=request['evaluation_candidate']):
+        raise PermissionError('PV1_V4_WHOLE_REMAINING_NOISE_PANEL_NO_SECOND_PANEL')
+    return tuple(labels)
+
+
 def replica_selection(root,input_,stage):
     """Recompute the P2 winner from sealed actual DEV evidence, not summaries."""
     root=Path(root);selection=input_('plans/PV1_P4_REPLICA_SELECTION.json')
@@ -339,7 +354,11 @@ def run(root,request_path):
     try:
         prepare_environment(r['numerical_mode'])
         os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
-        remaining=int(160*3600-read(ledger.path)['CPU_s'])
+        current_global=read(ledger.path)
+        from . import evaluation_scope as dev_scope
+        site_CPU_cap=(dev_scope.caps(current_global)['Hopper_CPU_s']
+            if dev_scope.FIELD in current_global else 160*3600)
+        remaining=int(site_CPU_cap-current_global['CPU_s'])
         from scripts.pi0294.dec1.future_admission import bounded_process_cpu
         remaining=bounded_process_cpu(r,remaining)
         if 'platform_evaluation_version' in r:
@@ -375,7 +394,7 @@ def run(root,request_path):
                 if not final:
                     from .future_admission import wait_native_release
                     wait_native_release(root,directory,allocation,guard)
-            for label in plan['panels']:
+            for label in evaluation_labels(r,plan,read(root/'plans/PRIOR_EVALUATION_OUTCOMES.json')):
                 spec=(final_session_spec if final else session_spec)(root,label)
                 if spec['candidate']!=candidate:raise PermissionError('PV1_ONE_SHARED_CHECKPOINT_ACROSS_BOTH_TASKS_AND_NOISE_BANKS')
                 prior=read(root/'plans/PRIOR_EVALUATION_OUTCOMES.json')
