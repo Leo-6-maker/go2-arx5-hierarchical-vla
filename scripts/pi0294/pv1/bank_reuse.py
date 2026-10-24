@@ -54,6 +54,30 @@ def preflight(root,manifest,inputs,stage):
 
 def validate(root,target,delivery,stage):
     root,target=Path(root),Path(target);manifest=read(root/'RUN_MANIFEST.json');path=root/PLAN
+    from . import evaluation_platform as evaluation
+    from scripts.pi0294.dec1 import a40_training_context as context
+    if evaluation.cold_profile(manifest) and context.CONSUMERS in manifest['execution']['sealed_inputs']:
+        # Reuse the already paid, closed Vanda CPU readers. Their original
+        # validators check actual leases, registry, receipts and data paths;
+        # they do not grant a training or evaluation allocation.
+        bound=root/context.CONSUMERS
+        if (bound.is_symlink() or bound.stat().st_mode&0o222
+                or sha(bound)!=manifest['execution']['sealed_inputs'][context.CONSUMERS]):
+            raise PermissionError('PV1_VANDA_DEV_PRESEALED_CLOSED_CPU_READERS')
+        actual=context.verify_consumers(root);records=context.consumer_records(root)
+        source=Path(records['new139']['root'])
+        if (source.parent.resolve()!=root.parent.resolve() or source==root
+                or target.resolve()!=(source/'datasets/FROZEN_TRAIN_BANK').resolve()
+                or sha(source/'plans/PV1_HF_BANK_DELIVERY.json')!=sha(root/'plans/PV1_HF_BANK_DELIVERY.json')
+                or read(source/'plans/PV1_HF_BANK_DELIVERY.json')!=delivery
+                or sha(target/'READY.json')!=stage['new_bank_ready_sha256']
+                or sha(target/'statistics.json')!=STATS):
+            raise PermissionError('PV1_VANDA_DEV_EXACT_CLOSED_CPU_BANK_AND_DELIVERY')
+        return dict(status='PASS_PRESEALED_CLOSED_VANDA_CPU_BANK_REUSE_NOT_YET_REHASHED',
+            binding_sha256=sha(bound),source_child_uuid=source.name,
+            closed_CPU_readers=actual,dataset_manifest_sha256=stage['new_bank_manifest_sha256'],
+            fixed_HF_revision=delivery['revision'],new_download_bytes=0,new_extraction_bytes=0,
+            prior_consumption_does_not_replace_current_hash_verification=True)
     if (path.is_symlink() or path.stat().st_mode&0o222
             or manifest['execution']['sealed_inputs'].get(PLAN)!=sha(path)):
         raise PermissionError('PV1_REUSE_REQUIRES_PRESEALED_EXACT_BANK_BINDING')
