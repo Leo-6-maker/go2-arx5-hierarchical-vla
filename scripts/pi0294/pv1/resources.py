@@ -31,6 +31,33 @@ def recovery_resource_kwargs(ledger):
     return dict(b_recovery_global=ledger) if pbs_limit(ledger)>=25 else {}
 
 
+def namespace_submission(root, number):
+    """Bound a fixture namespace by the actual already-adopted campaign cap.
+
+    Original 1..24 namespaces retain their historical preparation semantics.
+    Higher ordinals require the original parent's complete native ledger and
+    its exact existing grant markers. This is not allocation admission.
+    """
+    from pathlib import Path
+    from scripts.pi0294.e1.control_read import read
+    from .decision import AUTHORITY
+    if type(number) is not int or number<1:
+        raise PermissionError('PV1_EXACT_POSITIVE_SUBMISSION_NAMESPACE')
+    if number<=TOTAL['PBS_submissions']:
+        return number
+    root=Path(root)
+    path=root.parent.parent/'HOPPER_RESOURCE_LEDGER.json'
+    if not root.is_absolute() or path.is_symlink() or not path.is_file():
+        raise PermissionError('PV1_EXTENDED_NAMESPACE_REQUIRES_ACTUAL_PARENT_LEDGER')
+    ledger=read(path)
+    if (ledger.get('schema')!='PI0294_PV1_HOPPER_CAMPAIGN_LEDGER_V1'
+            or ledger.get('authority_release')!=AUTHORITY
+            or ledger.get('campaign_run_uuid')!=root.parent.parent.name
+            or number>pbs_limit(ledger)):
+        raise PermissionError('PV1_NAMESPACE_OUTSIDE_EXACT_ADOPTED_PBS_CAP')
+    return number
+
+
 def project_eligible(project, today):
     today = dt.date.fromisoformat(today)
     return bool(project['active'] and project['member']

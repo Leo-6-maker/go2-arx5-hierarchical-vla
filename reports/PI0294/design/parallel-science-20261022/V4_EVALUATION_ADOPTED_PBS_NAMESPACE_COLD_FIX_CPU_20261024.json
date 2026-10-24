@@ -1,0 +1,76 @@
+{
+  "schema": "V4_EVALUATION_ADOPTED_PBS_NAMESPACE_COLD_FIX_CPU_V1",
+  "status": "CPU_VALIDATED_NOT_NATIVE_EVALUATION_ADMISSION",
+  "blocks_result_table": [
+    "S1_CORE64",
+    "S2_SOURCE_DEV"
+  ],
+  "trigger": "Current campaign has25 paid terminal submissions and exact cap28, but mature transport namespace and current-admission lookup were hard-coded1..24",
+  "change": "Use the already-adopted parent ledger cap for ordinals above24, with schema/authority/campaign checks and exact existing grant validation. Preserve original1..24 preparation behavior and all H200 native qualification predicates.",
+  "independent_CPU_tests": 29,
+  "legacy_subtests": 26,
+  "captured_CPU_proof": {
+    "receipt_sha256": "8a69f0126f9eb78ea62775724b0f28865e2a81c768f1ee603f05da046e1f5172",
+    "original_native_capture_sha256": "b27b47ec90918732ae75c8946100b5e8e38a7da97f26a30c4668b34e98550d6f",
+    "actual_grant_cap": 28,
+    "accepted_exact_parent_ordinals": [
+      25,
+      26,
+      27,
+      28
+    ],
+    "rejected_unadopted": [
+      29,
+      31,
+      34
+    ],
+    "fake_proposal_or_changed_marker_rejected": true,
+    "unmocked_actual_grant_validation": true,
+    "temporary_filesystem_only": true,
+    "native_qualification": false,
+    "final_code_sha256": {
+      "scripts/pi0294/pv1/resources.py": "444b509a569eb86f784cdf8937f7b5302955c7b5d2d303833873ced77729dedb",
+      "scripts/pi0294/pv1/pre_model_qualification.py": "dfbd969c3ea65a453f62094cd0c569bd16ce516628582c983ce07fa3a9c50c9f",
+      "scripts/pi0294/pv1/transport_fixture.py": "c33485e29e8267ee73b63da8d007723d871e5f6448e4cca01df04e0d20870d26",
+      "scripts/pi0294/test_pv1_adopted_submission_namespace.py": "493a4a830d4d5a0dc8e2b305d2376723384b1db1ef8c59954c0f1d6e0a080be1"
+    },
+    "CPU_s": 0.014061055999999988
+  },
+  "original_safety_and_science_unchanged": {
+    "native_owner_host_job_project_nonce": true,
+    "immutable_request_and_exact_submission_ordinal": true,
+    "closed_or_wrong_GPU_admission_rejected": true,
+    "original600s80cycle_and_faults_required": true,
+    "model_math_sampler_precision_H40_S1_ACK_and_score": true,
+    "cutoffs_and_final_protection": true,
+    "existing_limits_not_extended": true
+  },
+  "remaining_minimum_Vanda_eval_bridge": [
+    {
+      "path": "scripts/pi0294/pv1/neural_scope.py",
+      "missing": "Explicit cold Vanda evaluation profile/role while retaining frozen source/input/lease/registry checks"
+    },
+    {
+      "path": "scripts/pi0294/pv1/native_admission.py",
+      "missing": "Typed A40 evaluation allocation and fresh full independent source-plus-matrix resource proof; A40 training allocation is not evaluation permission"
+    },
+    {
+      "path": "scripts/pi0294/pv1/heartbeat_capture.py",
+      "missing": "Actual A40 current-job identity route for the unchanged600s80cycle transport; keep original H200 route"
+    },
+    {
+      "path": "scripts/pi0294/pv1/neural.py",
+      "missing": "Cold native GPU type branch and exact B0/A4096/B4096 reuse binding before mature evaluation serve; no optimizer or new model candidate"
+    },
+    {
+      "path": "scripts/pi0294/dec1/alternate_accounting.py",
+      "missing": "Explicit non-training PV1 evaluation row classification in same global ledger, without spending DEC1 subcaps or creating a second ledger"
+    }
+  ],
+  "complete_Vanda_eval_bridge": false,
+  "code_deployed": false,
+  "new_native_GPU_PBS_model_queries_training_physics_or_ledger_writes": 0,
+  "unknown_write_reissued": false,
+  "proposed_S2_caps_adopted": false,
+  "objective_complete": false
+}

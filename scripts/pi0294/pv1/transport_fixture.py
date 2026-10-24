@@ -20,6 +20,7 @@ from scripts.pi0294.mp1.transport_fixture import (
     Endpoint as OriginalEndpoint,Pump as OriginalPump,immutable,check_observation,
     CYCLES,receive_query,response_for)
 from .decision import AUTHORITY
+from .resources import namespace_submission
 from .runtime import validate_runtime
 
 PLAN='plans/PV1_TRANSPORT_FIXTURE.json'
@@ -28,9 +29,10 @@ BASE='PV1-PREMODEL'
 
 def namespace(root,label):
     match=re.fullmatch(r'(PV1-PREMODEL(?:-FAULT-LATE|-FAULT-EXIT)?)-ALLOCATION-([0-9]{2})',label)
-    if match is None or not 1<=int(match[2])<=24:
+    if match is None:
         raise PermissionError('PV1_EXACT_FINITE_TRANSPORT_NAMESPACE')
-    return inside(Path(root),'engineering/pv1-transport/'+label),int(match[2]),match[1]
+    number=namespace_submission(root,int(match[2]))
+    return inside(Path(root),'engineering/pv1-transport/'+label),number,match[1]
 
 
 def prepared_plan(root,m):

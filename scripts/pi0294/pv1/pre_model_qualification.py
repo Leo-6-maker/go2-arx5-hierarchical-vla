@@ -9,6 +9,7 @@ from scripts.pi0292.durable import read
 from scripts.pi0294.native_dataset import sha
 from .decision import AUTHORITY as RELEASE
 from .heartbeat_capture import FILENAME as HEARTBEAT_CAPTURE,verify as verify_heartbeat
+from .resources import namespace_submission
 
 FILENAME='PV1_NATIVE_ENDURANCE_AND_TRANSPORT.json'
 FAULTS={'concurrent_replace','metadata_read_failure','statistics_lock','late_response','process_exit',
@@ -22,10 +23,14 @@ def current_directory(root,allocation):
             or socket.gethostname()!=allocation['hostname']
             or not allocation['allocation_start_epoch']<=time.time()<allocation['allocation_end_epoch']-2700):
         raise PermissionError('PV1_NATIVE_CURRENT_ALLOCATION_BEFORE_MODEL_OR_TRAINING')
-    paths=[root/'pbs'/('alloc-'+str(n).zfill(2)) for n in range(1,25)]
+    paths=sorted((root/'pbs').glob('alloc-[0-9][0-9]'))
     matches=[p for p in paths if (p/'ALLOCATION_ADMISSION.json').exists() and read(p/'ALLOCATION_ADMISSION.json')==allocation]
     if len(matches)!=1:raise PermissionError('PV1_ONE_EXACT_CURRENT_ADMISSION')
     directory=matches[0]
+    namespace_submission(root,int(directory.name.removeprefix('alloc-')))
+    ordinal=read(directory/'REQUEST.json').get('submit_count')
+    if type(ordinal) is not int or ordinal!=int(directory.name.removeprefix('alloc-')):
+        raise PermissionError('PV1_CURRENT_REQUEST_AND_NAMESPACE_SUBMISSION_MUST_MATCH')
     if (directory.is_symlink() or (directory/'ALLOCATION_ADMISSION.json').is_symlink()
             or (directory/'ALLOCATION_ADMISSION.json').stat().st_mode&0o222
             or (directory/'REQUEST.json').is_symlink()
