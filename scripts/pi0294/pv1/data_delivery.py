@@ -281,12 +281,19 @@ def consume(root,allocation,guard):
     from scripts.pi0292.data_consumer import extract_checked
     root=Path(root);m,bindings,inputs,stage,a=validate_neural(root)
     matches=[p.parent for p in (root/'pbs').glob('alloc-*/ALLOCATION_ADMISSION.json') if read(p)==allocation]
+    from . import evaluation_platform as evaluation
+    typed=evaluation.cold_profile(m) or 'platform_evaluation_version' in allocation
+    expected=evaluation.STATUS if typed else 'PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
     if (len(matches)!=1
-            or os.uname().nodename!=allocation['hostname'] or allocation['status']!='PASS_PV1_OWN_NATIVE_H200_ALLOCATION'):
+            or os.uname().nodename!=allocation['hostname'] or allocation['status']!=expected):
         raise PermissionError('PV1_EXACT_CONSUMER_CURRENT_ADMISSION_AND_HOST')
     directory=matches[0]
     if sha(directory/'REQUEST.json')!=allocation['request_sha256']:
         raise PermissionError('PV1_NATIVE_CONSUMER_REQUEST_HASH_CHANGED')
+    if typed:
+        evaluation.current_identity(m,read(directory/'REQUEST.json'),allocation,run_uuid=root.name,
+            manifest_sha256=sha(root/'RUN_MANIFEST.json'),request_sha256=sha(directory/'REQUEST.json'),
+            user=os.environ['USER'],hostname=os.uname().nodename,job_id=os.environ['PBS_JOBID'])
     binding=inside(root,'plans/PV1_HF_BANK_DELIVERY.json');receipt=read(binding)
     if m['execution']['sealed_inputs'].get(str(binding.relative_to(root)))!=sha(binding):
         raise PermissionError('PV1_FIXED_HF_REVISION_AND_FILE_LIST_BEFORE_DOWNLOAD')

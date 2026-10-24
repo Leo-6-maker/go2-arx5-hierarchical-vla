@@ -100,8 +100,12 @@ def reserve_once(root,request_path,*,now_epoch=None):
         raise PermissionError('PV1_EVALUATION_RESERVE_TYPED_COLD_SCOPE_ONLY')
     inputs=admission.file_inputs(root,request_path,now_epoch=time.time())
     proposal=admission.reserve_proposal(inputs['global_bytes'],recompute_inputs=inputs)
+    from .evaluation_account_jobs import sealed_confirmation
+    request,_=admission._read(inputs['request_bytes'])
+    identity=sealed_confirmation(root,manifest,request)
     site=admission.prequeue_site(_file(root,admission.FRESH_SITE),request_bytes=inputs['request_bytes'],
-        global_bytes=inputs['global_bytes'],resource_proof=proposal['recomputed_proof'],now_epoch=inputs['now_epoch'])
+        global_bytes=inputs['global_bytes'],resource_proof=proposal['recomputed_proof'],now_epoch=inputs['now_epoch'],
+        independent_job_bytes=identity)
     request,_=admission._read(inputs['request_bytes']);path=root.parent.parent/'HOPPER_RESOURCE_LEDGER.json'
     after=proposal['proposed_global'];after['revision']+=1
     # Same canonical path used by GlobalLedger.transaction(). An existing

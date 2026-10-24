@@ -122,6 +122,16 @@ def validate_global(value,rows):
          and value.get('campaign_run_uuid')=='20261018T182956Z-localpc-pv1'
          and len(value['PBS_submissions'])<=pbs_limit(value),
          'SAME_GLOBAL_LEDGER_AND_ALREADY_ADOPTED_CAP_NOT_PROPOSED_S2_CAP')
+    from . import evaluation_scope as scope
+    if scope.FIELD in value:
+        from . import evaluation_stage as stage
+        need(all(row.get('evaluation_execution_stage')==stage.VERSION
+            and row.get('evaluation_stage_plan_sha256')==stage.PLAN_SHA
+            and row.get('evaluation_stage_card_sha256')==stage.CARD_SHA
+            and row.get('noise_bank')==294101 and row.get('evaluation_candidate') in stage.CANDIDATES
+            for row in rows),'EXACT_CURRENT_V4A_STAGE_NOT_AUTOMATIC_SIX_PANEL_POOL')
+        need(len(rows)<=2 and all(sum(row.get('evaluation_candidate')==c for row in rows)<=1
+            for c in stage.CANDIDATES),'MAX_TWO_STAGE_JOBS_ONE_EACH_ARM')
     for row in rows:validate_item(row)
     active=[r for r in rows if r['status']!=TERMINAL]
     need(sum(s['status'] not in (TERMINAL,'NATIVE_QSUB_REJECTED_NO_JOB') for s in value['PBS_submissions'])<=1,

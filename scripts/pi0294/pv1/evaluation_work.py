@@ -19,6 +19,18 @@ MATRIX=_vector(dict(H200_s=86580,PBS_submissions=3,optimizer_updates=0,
     Core_storage_bytes=17968398336,local_storage_bytes=0))
 
 
+def resource_upper(jobs):
+    """Original conservative whole-panel formula; no runtime permission."""
+    cases=sum(j['conditions'] for j in jobs);count=len(jobs);prep=600 if count else 0
+    return _vector(dict(H200_s=count*28860,PBS_submissions=count,optimizer_updates=0,
+        episode_starts=cases,neural_queries=80*cases+17*count,physics_ticks=32000*cases,
+        engine_starts=81*cases+2*count,Core_CPU_s=3600*cases+7200*count+prep,
+        Hopper_CPU_s=80000*count+7200*count+prep,local_CPU_s=7200*count+prep,
+        transfer_bytes=sum(j['GPU_site_output_upper_bytes'] for j in jobs)+(GIB if count else 0),
+        Hopper_storage_bytes=sum(j['GPU_site_output_upper_bytes'] for j in jobs),
+        Core_storage_bytes=cases*768*1024**2+count*512*1024**2,local_storage_bytes=count*64*1024**2))
+
+
 def remaining(population_bytes,*,evidence_by_candidate):
     if type(evidence_by_candidate) is not dict or set(evidence_by_candidate)!=set(ENDPOINTS):
         raise PermissionError('PV1_V4_ALL_THREE_ORIGINAL_CANDIDATES_EXPLICIT_HISTORY')
@@ -41,14 +53,7 @@ def remaining(population_bytes,*,evidence_by_candidate):
                 conditions=n,walltime_s=28800,accounting_pad_s=60,process_CPU_envelope_s=80000,
                 GPU_site_output_upper_bytes=output_upper(n),model_loads_upper=2,
                 TRAIN_compatibility_queries_upper=17,repeat_original_fixed_probes_authorized=False))
-    cases=sum(j['conditions'] for j in jobs);count=len(jobs);prep=600 if count else 0
-    resources=_vector(dict(H200_s=count*28860,PBS_submissions=count,optimizer_updates=0,
-        episode_starts=cases,neural_queries=80*cases+17*count,physics_ticks=32000*cases,
-        engine_starts=81*cases+2*count,Core_CPU_s=3600*cases+7200*count+prep,
-        Hopper_CPU_s=80000*count+7200*count+prep,local_CPU_s=7200*count+prep,
-        transfer_bytes=sum(j['GPU_site_output_upper_bytes'] for j in jobs)+(GIB if count else 0),
-        Hopper_storage_bytes=sum(j['GPU_site_output_upper_bytes'] for j in jobs),
-        Core_storage_bytes=cases*768*1024**2+count*512*1024**2,local_storage_bytes=count*64*1024**2))
+    resources=resource_upper(jobs)
     return dict(schema='PI0294_V4_PRIMARY_DEV_REMAINING_REGULAR_WORK_V1',
         status='BYTE_VALIDATED_WORK_UPPER_NOT_FRESH_NATIVE_ADMISSION',new_bank_manifest_sha256=BANK,
         histories=histories,jobs=jobs,resources=resources,

@@ -1,3 +1,5 @@
+V4A接续：当前提交门只允许A/B同bank294101各24条件，最多2份原面板，后续B0／第二bank不自动派发；已采用大额cap保持。[冷态接线与现场终点元数据](reports/PI0294/design/parallel-science-20261022/V4A_PAIRED_STAGE_NATIVE_AND_CONTROL_COLD_CPU_20261024.json)。原matrix／final及截止保持；两份完整阶段和第二次提交时钟均检查，真实标准入口／驻留owner与同job资格仍待，尚无新GPU或Eval结果。
+
 > **V4A 最新研究执行更正：** [先评估微调效果、再决定训练](docs/protocols/GR00T_WBC_V4A_EVAL_FIRST_STAGED_EXECUTION_20261024.md)。截至修订前最新原生回执（2026-10-24 16:10 SGT）：A/B4096训练完整；B0 DEV有效14/48（T1 5/7、T2 4/7）、A/B DEV均0/48，DEC1 core64=0。较大global上限121GPUh／34PBS／213CPUh／810GiB已经被人类批准并双账本一次采用，新增Eval运行/模型/物理/PBS仍为0；该上限**不是全部运行的调度授权**。当前优先冻结第一阶段：同一原DEV bank294101、A与B各完整24条件（共48个新条件，2个原噪声面板），先发布有效配对结果；旧B0完整、第二噪声bank及新增训练按证据后置。执行仍须新鲜原生资源、单owner、600s／80cycles、原安全与截止全门，不因文档自动提交；真实状态以更新的同一身份链回执为准。
 
 > **2026-10-24 V4.1 当前执行：** 先读[小规模配对Eval计划](docs/handover/2026-10-24/SCIENCE_FIRST_MINIMUM_SPEND_EVAL_V4_1.md)，按冻结名单P0（8条件/模型）取16条新A/B闭环行为；复用8条B0，不预订130条全部预算。已批准/采用的global上限不是消耗目标。旧S2 DEV结果B0 14/48，A/B 0/48，S1 core64 0。P0诊断不能代替正式DEV48；新分段入口须先严格冷态准入，任何真实任务/资源效果为NOT_RUN直到原生回执。

@@ -125,6 +125,11 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
         _fresh(request['created_epoch'],now_epoch,120)
         need(now_epoch<platform.STOP_NEW,'ORIGINAL_NEW_REQUEST_CUTOFF')
     work=remaining(population_bytes,evidence_by_candidate=evidence_by_candidate)
+    staged=scope.FIELD in global_ledger
+    if staged:
+        from . import evaluation_stage as execution_stage
+        work=execution_stage.first_stage(work,manifest=manifest,current_request=request,
+            global_ledger=global_ledger,purpose=purpose)
     inventory=snapshot.get('primary_attempt_inventory')
     need(type(inventory) is dict and set(inventory)==set(platform.ENDPOINTS)
          and all(type(ids) is list and len(ids)==len(set(ids))
@@ -170,6 +175,10 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
                  'stage','evaluation_candidate','checkpoint_manifest_sha256','statistics_sha256','noise_bank',
                  'remaining_conditions','planned_panel_sha256','prior_outcomes_sha256','prequeue_future_admission_sha256')),
              'EXACT_BOUND_LIVE_REQUEST_NOT_UNBOUND_UNKNOWN_OR_REASSIGNED_WORK')
+        if staged:
+            need(all(row.get(k)==request.get(k) for k in ('evaluation_execution_stage',
+                'evaluation_stage_plan_sha256','evaluation_stage_card_sha256','control_prepayment_id')),
+                'SAME_BOUND_V4A_STAGE_AND_ONCE_CONTROL_PAYMENT')
         need(queue_proof is not None,'ACTUAL_COMPLETE_CURRENT_QUEUE_FOR_BOUND_CREDIT')
         from scripts.pi0294.dec1.vanda_campaign import queue_rows,classify
         rows=queue_rows(queue_proof,now_epoch=now_epoch)
@@ -193,6 +202,9 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
              for r in global_ledger['PBS_submissions'])
              and request['submit_count']==len(global_ledger['PBS_submissions'])+1,
              'NEW_UNIQUE_REQUEST_ONLY_NO_UNKNOWN_WRITE_RETRY_OR_SECOND_OWNER')
+    from . import evaluation_control as control
+    control_credit=control.credit(global_ledger,local,request,work)
+    for key,value in control_credit.items():credit[key]+=value
     future=_vector(work['resources'])
     need(all(credit[k]<=future[k] and credit[k]<=used[k]+reserved[k] for k in CAPS),
          'ONCE_CREDIT_CANNOT_EXCEED_EXISTING_OR_REMAINING_WORK')
@@ -212,14 +224,20 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
     context_sha=digest(context)
     if purpose=='RESERVE':need(request.get('prequeue_future_admission_sha256')==context_sha,
         'EXACT_RECOMPUTED_PREQUEUE_CONTEXT_NO_CIRCULAR_OR_STALE_PROOF')
+    stage_clock=(execution_stage.clock(work,now_epoch=now_epoch,
+        current_native_facts=facts if purpose=='NATIVE_PREMODEL' else None) if staged else {})
     return dict(schema='PI0294_V4_RECOMPUTED_DEV_RESOURCE_ENVELOPE_V1',
+        execution_stage=work.get('execution_stage','LEGACY_FULL_WORK_DIAGNOSTIC_NOT_V4A_DISPATCH'),
+        stage_clock=stage_clock,current_stage_clock_fits=all(stage_clock.get(k,True) for k in
+            ('both_stage_panels_fit_original_physics_window','last_stage_submission_fits_original_stop_new')),
         status='PASS_RECOMPUTED_COST_ENVELOPE_NOT_NATIVE_PERMISSION' if not shortfalls else 'RESOURCE_SHORTFALL_NO_NEW_INTENT',
         purpose=purpose,request_sha256=request_sha,request_id=request['request_id'],
         submission_nonce=request['submission_nonce'],observed_epoch=now_epoch,work_id=job['work_id'],
         global_ledger_sha256=global_sha,LOCAL_ledger_sha256=local_sha,snapshot_sha256=snapshot_sha,
         prequeue_context_sha256=context_sha,remaining_work_sha256=digest(work),dimensions=rows,
         shortfalls=shortfalls,all_remaining_costs_fit=not shortfalls,
-        current_credit=credit,control_prepayment_credit_applied=False,
+        current_credit=credit,control_prepayment_credit_applied=any(control_credit.values()),
+        control_prepayment_credit=control_credit,
         core_LOCAL_storage_projections_require_actual_owner_readback=True,
         native_or_scientific_admission=False,original_matrix_and_final_protected=True,
         original_T0_epoch=platform.T0,hard_close_epoch=platform.HARD_CLOSE,
@@ -239,7 +257,8 @@ def reserve_proposal(global_bytes,*,recompute_inputs):
     """
     need(recompute_inputs.get('global_bytes')==global_bytes,'SAME_EXACT_BEFORE_GLOBAL_BYTES')
     proof=recompute(**dict(recompute_inputs,purpose='RESERVE'))
-    need(proof['all_remaining_costs_fit'] and proof['current_job_wall_fits_current_window'],
+    need(proof['all_remaining_costs_fit'] and proof['current_job_wall_fits_current_window']
+         and proof['current_stage_clock_fits'],
          'COMPLETE_REMAINING_RESOURCES_AND_CURRENT_STAGE_CLOCK_BEFORE_INTENT')
     old,_=_read(global_bytes);request,_=_read(recompute_inputs['request_bytes'])
     row={k:request[k] for k in ('request_id','submission_nonce','source_sha','run_manifest_sha256',
@@ -255,6 +274,8 @@ def reserve_proposal(global_bytes,*,recompute_inputs):
         status=accounting.STATES[0],job_id=None,reserved_H200_s=28800,accounting_pad_s=60,
         query_limit=80*request['remaining_conditions']+17,reserved_neural_queries=80*request['remaining_conditions']+17,
         optimizer_update_limit=0,reserved_optimizer_updates=0,charges_DEC1_subcaps=False,new_robot_physics=0)
+    for key in ('evaluation_execution_stage','evaluation_stage_plan_sha256','evaluation_stage_card_sha256','control_prepayment_id'):
+        if key in request:row[key]=request[key]
     accounting.validate_item(row)
     proposal=deepcopy(old);proposal['PBS_submissions'].append(row);proposal['used']['PBS_submissions']+=1
     proposal['reserved']['H200_s']+=28860;proposal['reserved']['neural_queries']+=row['query_limit']
@@ -306,12 +327,15 @@ def file_inputs(root,request_path,*,now_epoch):
                  'EXACT_PRIMARY_EVIDENCE_KINDS')
             names.extend(record.values());evidence[candidate].append({kind:original(name) for kind,name in record.items()})
     need(len(names)==len(set(names)),'NO_ALIASED_OR_SELF_REFERENTIAL_HISTORY_FILES')
+    global_bytes=ledger_file(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json')
+    from . import evaluation_scope as scope,evaluation_stage as stage
+    if scope.FIELD in _read(global_bytes)[0]:stage.sealed(root,manifest,request)
     return dict(manifest_bytes=manifest_raw,request_bytes=request_raw,population_bytes=population,
-        evidence_by_candidate=evidence,global_bytes=ledger_file(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json'),
+        evidence_by_candidate=evidence,global_bytes=global_bytes,
         local_bytes=_file(root,FRESH_LOCAL),snapshot_bytes=_file(root,FRESH_SNAPSHOT),now_epoch=now_epoch)
 
 
-def prequeue_site(site_bytes,*,request_bytes,global_bytes,resource_proof,now_epoch):
+def prequeue_site(site_bytes,*,request_bytes,global_bytes,resource_proof,now_epoch,independent_job_bytes=None):
     """Bound current real-site inputs before the once-only metadata effect."""
     from datetime import date,datetime,timedelta,timezone
     from scripts.pi0294.dec1.vanda_campaign import queue_rows,classify
@@ -325,10 +349,9 @@ def prequeue_site(site_bytes,*,request_bytes,global_bytes,resource_proof,now_epo
     _fresh(site['observed_epoch'],now_epoch,120)
     rows=queue_rows(site['queue_proof'],now_epoch=now_epoch)
     campaign,outside,unknown=classify(g,rows)
-    outside_ids={r['job_id'] for r in outside}
-    need(not campaign and not unknown and all(str(r['ngpus'])=='0' or r['state'] in ('F','X')
-         for r in rows if r['job_id'] in outside_ids),
-         'COMPLETE_KNOWN_INACTIVE_QUEUE_BEFORE_NEW_RESERVATION')
+    from .evaluation_account_jobs import checked_outside
+    independent=checked_outside(rows,outside,independent_job_bytes)
+    need(not campaign and not unknown,'COMPLETE_KNOWN_INACTIVE_QUEUE_BEFORE_NEW_RESERVATION')
     project=site['project'];today=datetime.fromtimestamp(now_epoch,timezone(timedelta(hours=8))).date()
     wall=request['walltime_s']+60
     capacity=max(x['ncpus'] for x in request['allowed_native_capacity_profiles'])
@@ -351,4 +374,4 @@ def prequeue_site(site_bytes,*,request_bytes,global_bytes,resource_proof,now_epo
          and _number(quota['available_bytes'],integer=True)>=required,
          'ACTUAL_QUOTA_FOR_ALL_REMAINING_OUTPUT_AND_ORIGINAL_FINAL_PROTECTION')
     return dict(site_input_sha256=hashlib.sha256(site_bytes).hexdigest(),
-        project_and_queue_and_quota_checked=True,native_or_scientific_admission=False)
+        project_and_queue_and_quota_checked=True,independent_outside_jobs=independent,native_or_scientific_admission=False)

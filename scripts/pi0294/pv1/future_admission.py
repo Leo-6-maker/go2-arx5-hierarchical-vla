@@ -362,6 +362,7 @@ def verify_release(root, *, request_bytes, attestation_bytes, expected_job_id,
 
 
 def needs_forecast(request):
+    if 'platform_evaluation_version' in request:return True
     from scripts.pi0294.dec1.source_admission import VERSION as dec1_version
     if request.get('scientific_admission_version')==dec1_version:return True
     if request['stage']=='B0_DEV':return False
@@ -373,6 +374,8 @@ def needs_forecast(request):
 
 def prequeue(root,request,purpose,*,request_bytes=None):
     """Recompute against fresh sole-owner files; never accept a PASS summary."""
+    if 'platform_evaluation_version' in request:
+        _fail('V4_DEV_REQUIRES_TYPED_FULL_RESOURCE_PREQUEUE_AND_ONCE_RESERVE')
     if not needs_forecast(request):return None
     raw=request_bytes if request_bytes is not None else (json.dumps(request,indent=2,allow_nan=False)+'\n').encode()
     if budget._read(raw)[0]!=request:_fail('EXACT_PREQUEUE_REQUEST_BYTES')
@@ -387,6 +390,9 @@ def wait_native_release(root,directory,allocation,guard,*,now=time.time,sleep=ti
     root,directory=Path(root),Path(directory)
     request_bytes=_file(root,str((directory/'REQUEST.json').relative_to(root)))
     request,_=budget._read(request_bytes)
+    if 'platform_evaluation_version' in request:
+        from .evaluation_native import wait_native_release as wait_DEV
+        return wait_DEV(root,directory,allocation,guard,now=now,sleep=sleep)
     if not needs_forecast(request):return None
     phase_started=now();ready=directory/'PV1_FUTURE_PHASE_READY.json'
     if ready.exists():raise FileExistsError('PV1_PRESERVE_FIRST_FUTURE_PHASE_NO_BLIND_RESTART')
