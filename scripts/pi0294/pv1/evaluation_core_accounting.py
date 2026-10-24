@@ -115,7 +115,7 @@ def validate_global(value):
     from .evaluation_core_zero_start_recovery import validated,effective_rows
     recovery=validated(value)
     scientific=effective_rows(value)
-    need(type(rows) is dict and 1<=len(rows)<=(3 if recovery else 2),'BOUNDED_ORIGINAL_STAGE_CORE_INDEX')
+    need(type(rows) is dict and 1<=len(rows)<=(4 if 'Core_B_known_zero_scheduler_read_recovery' in value else (3 if recovery else 2)),'BOUNDED_ORIGINAL_STAGE_CORE_INDEX')
     for key,r in rows.items():
         need(key==row(r)['request_id'],'EXACT_REQUEST_INDEX')
     paired=scientific+[r for r in value['PBS_submissions']

@@ -62,7 +62,7 @@ def request_identity(manifest,request,manifest_sha):
     if 'startup_recovery_sha256' in r:
         from .evaluation_core_zero_start_recovery import SCHEMA
         need(r.get('evaluation_candidate')=='B_COVERAGE' and c.canonical_uuid(r.get('control_id'))
-             and r['run_uuid']=='pv1-v4a-b4096-n294101-zero-start-recovery-01'
+             and r['run_uuid'] in ('pv1-v4a-b4096-n294101-zero-start-recovery-01','pv1-v4a-b4096-n294101-read-recovery-02')
              and m['execution']['sealed_inputs'].get('plans/CORE_B_ZERO_START_COLD_RECOVERY.json')
              ==r['sealed_inputs'].get('plans/CORE_B_ZERO_START_COLD_RECOVERY.json')
              and type(r.get('startup_recovery_sha256')) is str and len(r['startup_recovery_sha256'])==64,
@@ -84,6 +84,7 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
     need(native==(native_facts_bytes is not None),'NATIVE_PROCESS_FACTS_REQUIRED_ONLY_FOR_BOUND_PHASE')
     m,msha=_read(manifest_bytes);r,rsha=_read(request_bytes);g,gsha=_read(global_bytes);l,lsha=_read(local_bytes)
     snapshot,_=_read(snapshot_bytes);c.checked(g);scope.validate_pair(g,l)
+    need(snapshot.get('heartbeat_only_raw_ledger') is not True,'NO_NATIVE_OR_MODEL_ADMISSION_FROM_UNKNOWN_SCHEDULER_HEARTBEAT')
     request_identity(m,r,msha)
     need(not g['unknown_effects'] and not g['pending_updates'],'GLOBAL_UNKNOWN_OR_PENDING_FENCE')
     need(snapshot.get('schema')==original.SNAPSHOT and snapshot.get('campaign_run_uuid')==scope.CAMPAIGN

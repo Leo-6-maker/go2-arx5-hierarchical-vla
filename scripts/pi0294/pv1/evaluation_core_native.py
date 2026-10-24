@@ -117,8 +117,8 @@ def resource_inputs(root,request_path,ledger,process):
          and queue_root.name=='v4a-core-resident-'+r.get('queue_id',r.get('control_id','MISSING')),'ORIGINAL_RESIDENT_CONTROL_CUSTODY')
     from scripts.pi0294.dec1.source_cpu_once_io import _file as ledger_file
     if 'startup_recovery_sha256' in r:
-        from .evaluation_core_zero_start_recovery import validated
-        recovery=validated(global_ledger)
+        from .evaluation_core_zero_start_recovery import current_boundary
+        recovery=current_boundary(global_ledger,r['request_id'])
         need(recovery is not None and c.digest(recovery)==r['startup_recovery_sha256'],
              'SAME_FULL_DUAL_KNOWN_ZERO_BOUNDARY')
         original_control=root.parent.parent/'control'/('v4a-core-resident-'+global_ledger['Core_native_GPU_stage_queue']['plan']['queue_id'])

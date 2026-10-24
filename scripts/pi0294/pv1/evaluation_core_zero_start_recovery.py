@@ -73,7 +73,11 @@ def validated(value):
          and re.fullmatch('[0-9a-f]{64}',str(marker['independent_closure_readback_sha256'])) is not None
          and marker['replacement_run_uuid']=='pv1-v4a-b4096-n294101-zero-start-recovery-01',
          'NEW_UNIQUE_COLD_IDENTITIES_NOT_OLD_REQUEST_OR_RUN_REBIND')
-    need(set(rows) in ({PREVIOUS_A,FAILED},{PREVIOUS_A,FAILED,rid}),'NO_FOURTH_PROCESS_OR_REPLACEMENT_POOL')
+    from .evaluation_core_read_failure_recovery import FIELD as read_field,validate as read_validate
+    extra=value.get(read_field)
+    allowed=({PREVIOUS_A,FAILED},{PREVIOUS_A,FAILED,rid}) if extra is None else ({PREVIOUS_A,FAILED,rid},{PREVIOUS_A,FAILED,rid,extra.get('replacement_request_id')})
+    need(set(rows) in allowed,'NO_UNCLASSIFIED_PROCESS_OR_REPLACEMENT_POOL')
+    if extra is not None:read_validate(value,marker)
     if rid in rows:
         r=rows[rid]
         need(r['evaluation_candidate']=='B_COVERAGE' and r['noise_bank']==294101
@@ -90,7 +94,10 @@ def effective_rows(value):
     """Scientific panel count excludes only this paid zero-effect startup."""
     from .evaluation_core_accounting import FIELD as rows_field
     marker=validated(value)
-    return [r for key,r in value.get(rows_field,{}).items() if marker is None or key!=FAILED]
+    from .evaluation_core_read_failure_recovery import FIELD as read_field,FAILED as read_failed
+    excluded=set() if marker is None else {FAILED}
+    if read_field in value:excluded.add(read_failed)
+    return [r for key,r in value.get(rows_field,{}).items() if key not in excluded]
 
 
 def install(global_value,LOCAL_value,marker):
@@ -143,3 +150,13 @@ def current_owner(root,request):
          and (proc/'cgroup').read_text().strip().split('::',1)[1]==props['ControlGroup'],
          'ACTUAL_NATIVE_OWNER_UNIT_CGROUP')
     return owner
+
+
+def current_boundary(value,request_id):
+    marker=validated(value)
+    from .evaluation_core_read_failure_recovery import FIELD as read_field,validate as read_validate
+    if read_field in value:
+        latest=read_validate(value,marker)
+        if latest['replacement_request_id']==request_id:return latest
+    need(marker is not None and marker['replacement_request_id']==request_id,'EXACT_CURRENT_COLD_BOUNDARY_REQUEST')
+    return marker

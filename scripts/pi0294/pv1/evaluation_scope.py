@@ -88,6 +88,11 @@ def validate_pair(global_ledger,local):
     if storage_field in global_ledger or storage_field in local:
         need(global_ledger.get(storage_field)==local.get(storage_field)
              and storage_validate(global_ledger) is not None,'SAME_TWO_STORAGE_CAP_MARKER_BOTH_LEDGERS')
+    from .evaluation_core_read_failure_recovery import FIELD as read_field,validate as read_validate
+    if read_field in global_ledger or read_field in local:
+        from .evaluation_core_zero_start_recovery import FIELD as original_boundary
+        need(global_ledger.get(read_field)==local.get(read_field)
+             and read_validate(global_ledger,global_ledger[original_boundary]) is not None,'SAME_KNOWN_READ_FAILURE_BOUNDARY_BOTH_LEDGERS')
     return m
 
 
