@@ -70,6 +70,10 @@ def sealed(root,name,*,parse=True):
 
 def validate_root(root,request_path,*,verify_all=False):
     root=Path(root);request_path=Path(request_path)
+    from scripts.pi0294.pv1 import mix_accounting as cd
+    if read(root/'RUN_MANIFEST.json').get('platform_training_version')==cd.VERSION:
+        from scripts.pi0294.pv1.mix_native import root_context
+        return root_context(root,request_path,full=verify_all)
     m=sealed(root,'RUN_MANIFEST.json');b=sealed(root,'OUTPUT_BINDING.private.json')
     if (root.is_symlink() or root.stat().st_uid!=os.getuid()
             or m.get('schema')!='PI0294_PV1_NEURAL_CHILD_RUN_MANIFEST_V1'

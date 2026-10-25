@@ -59,11 +59,18 @@ def recompute(global_ledger,local_ledger,*,Core_storage_upper_bytes,local_storag
         used[k]=v
     if global_ledger['pending_updates'] or global_ledger['unknown_effects']:
         raise PermissionError('V5_NO_NEW_PACKAGE_WHILE_NATIVE_EFFECTS_UNKNOWN')
-    future=whole_package();rows={}
+    future=whole_package();credit={k:0 for k in future}
+    package=global_ledger.get('V5_CD_execution_package')
+    if package is not None:
+        if (package.get('schema')!='V5_CD_EXISTING_LEDGER_PACKAGE_ESCROW_V1' or package.get('scope_grant_sha256')!=GRANT_SHA):raise PermissionError('V5_REAL_EXISTING_PACKAGE_CREDIT_ONLY')
+        future=_vector(package['remaining_resources'])
+        for k in ('H200_s','optimizer_updates','neural_queries','Hopper_CPU_s','Hopper_storage_bytes','Core_CPU_s','local_CPU_s'):
+            credit[k]=min(held[k],future[k])
+    rows={}
     for k in caps:
-        total=used[k]+held[k]+future[k]+MATRIX[k]+FINAL.get(k,0)
+        total=used[k]+held[k]+future[k]-credit[k]+MATRIX[k]+FINAL.get(k,0)
         rows[k]=dict(cap=caps[k],used=used[k],reserved=held[k],successor=future[k],
-            matrix=MATRIX[k],final=FINAL.get(k,0),projected=total,shortfall=max(0,total-caps[k]))
+            exact_existing_package_credit=credit[k],matrix=MATRIX[k],final=FINAL.get(k,0),projected=total,shortfall=max(0,total-caps[k]))
     return dict(schema='V5_CD_EXISTING_CAPS_WHOLE_PACKAGE_CPU_RECOMPUTATION_V1',task=TASK,
         task_source=TASK_SOURCE,order=list(ORDER),dimensions=rows,
         shortfalls={k:v['shortfall'] for k,v in rows.items() if v['shortfall']},

@@ -104,7 +104,7 @@ def bind_cold_owner(owner, rpc, *, validate_new_registration):
     return owner
 
 
-def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=time.sleep):
+def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=time.sleep,scope_binding=None):
     """Original single-owner lifecycle, retrying only explicit read failures.
 
     Allocation/first-update releases and project authentication keep their
@@ -113,6 +113,12 @@ def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=tim
     the original independent audit and once-only settlement/closeout.
     """
     o=owner
+    deadline=o.native.T0+156*3600
+    if scope_binding is not None:
+        from scripts.pi0294.pv1 import successor_cd as cd
+        cd.validated({cd.FIELD:scope_binding})
+        if getattr(o,'successor_scope',None)!=scope_binding:raise PermissionError('EXPLICIT_REGISTERED_SUCCESSOR_WATCH_BINDING')
+        deadline=scope_binding['deadline_epoch']
     if not getattr(o,'cold_rpc_bound',False):
         raise PermissionError('EXPLICIT_NEW_COLD_BINDING_REQUIRED')
     lock=OwnerLock(o.BASE/'SOURCE_ALLOCATION_OWNER.lock')
@@ -124,7 +130,7 @@ def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=tim
         o.record('SOURCE_OWNER_PROCESS',dict(pid=os.getpid(),started_epoch=clock(),job_id=job,
             existing_owner=True,new_scientific_owner=False,credentials_saved=False))
         last=None;lastauth=0.;errors=0
-        while clock()<o.native.T0+156*3600:
+        while clock()<deadline:
             try:
                 state=o.fresh(req['submit_count'],job,light=True)
                 jobrow=state['rows']['vanda']['jobs'].get(job,state['rows']['vanda'].get('terminal_job'))

@@ -1,3 +1,5 @@
+> **V5后继scope已真实采用（2026-10-25）：** 双账本一次采用并独立全文回读；实际窗口20:52:29.813 SGT至11月1日20:52:29.813，GPU-site1021/Core393 GiB已授权生效，Vanda项目登录/额度有效。C50/D25新typed接线复用原后台watch/Trainer/once账本，512仅恢复、1024仅评价端点；当前尚未qsub/模型/训练/物理，下一步整体预留和C50实际提交，普通冷修复自主推进。见[实际进度](docs/handover/2026-10-25/AUTONOMOUS_PROGRESS.md)。旧历史时钟/失败和core64=0保留，完整goal未完成。
+
 > **V5 启动与两项存储修正已获直接批准（2026-10-25）：** 人类回复“允许启动，”，绑定上一条精确811→1021 GiB/329→393 GiB请求；[授权原件](reports/PI0294/design/parallel-science-20261022/V5_CD_TWO_STORAGE_CAPS_AND_START_AUTHORIZATION_20261025.json)。全包在真实双账本捕获字节上纯复算无缺口，11项差分CPU通过。正在一次native采用与登记168h窗口，不重复等待科学GO；本次文档发布尚非原生采用/GPU启动凭证。旧费用、clock、R0、闭合与matrix/final不变。
 
 > **V5 后继任务已接受，现场 S0 有精确存储缺口（2026-10-25）：** [自主推进实际进度](docs/handover/2026-10-25/AUTONOMOUS_PROGRESS.md)。Vanda/CoreLab 可访问，P0 已结束、R0 保留；固定 C50训练→C50 Eval24→D25训练→D25 Eval24。完整两训练＋48格及有限修复/保存/GEN1静态包只有输出上限不足：811→1021 GiB、Core329→393 GiB；其余原额度、矩阵和最终保护均足够。现有 cap 未改、尚未原生登记 T_CD/预留/提交/模型/物理，不将 TOKEN_EXPIRED 当项目额度不足；一次有效168h从未来真实登记开始。9项新差分CPU测试通过，不称native/CI通过。普通工程自修复授权已接受，不重复问阶段GO；完整goal未完成。

@@ -116,6 +116,10 @@ def fixed_probes(root,arm,instance,ledger,guard):
 def run(root,request_path):
     root,request_path=Path(root),Path(request_path)
     m,r=context.validate_root(root,request_path,verify_all=True)
+    from scripts.pi0294.pv1 import mix_accounting as cd
+    if m.get('platform_training_version')==cd.VERSION:
+        from scripts.pi0294.pv1.mix_native import run as successor_run
+        return successor_run(root,request_path)
     lock=OwnerLock(root/'A40_NATIVE_ALLOCATION_OWNER.lock');directory=request_path.parent
     began=time.process_time();allocated=None;ledger=None;instance=None;records=[];phase='BOOTSTRAP';error=None
     status='FAILED_PRESERVED';final_step=r['expected_native_start_step']

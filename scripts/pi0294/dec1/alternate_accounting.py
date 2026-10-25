@@ -100,7 +100,10 @@ def validate_items(value):
         from scripts.pi0294.pv1.evaluation_accounting import validate_global as validate_evaluation
         validate_evaluation(value,evaluation)
     compatibility=[s for s in typed if s.get('platform_training_version') is None and 'platform_evaluation_version' not in s]
-    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s]
+    from scripts.pi0294.pv1 import mix_accounting as cd
+    successor=[s for s in typed if s.get('platform_training_version')==cd.VERSION]
+    if successor:cd.validate_global(value)
+    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor]
     if len(compatibility)>1:fail('ONE_COMPATIBILITY_ALLOCATION_NOT_AUTOMATIC_RETRIES')
     for s in compatibility:validate_item(s)
     if source:
