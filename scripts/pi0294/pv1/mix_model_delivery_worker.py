@@ -50,6 +50,13 @@ print(json.dumps(dict(active=bool(f and f[0]not in('Z','X')and int(f[19])==start
 '''
 
 
+def delivery_journal(root,cfg,configuration_bytes):
+    # Journal accepts an existing registered directory, never creates it.
+    directory=Path(root)/'rpc';directory.mkdir(mode=0o700)
+    return Journal(directory,dict(run_uuid=cfg['control_run_uuid'],job_id='MODEL_ONLY_C50_NO_GPU',
+        source_sha=cfg['source_sha'],request_sha256=a.sha(configuration_bytes)))
+
+
 def main(config_path):
     began=time.process_time();started=time.time();cfg=json.loads(Path(config_path).read_bytes());root=Path(config_path).parent
     assert os.getuid()==2009 and os.uname().nodename=='corelab-4080s' and os.environ.get('CUDA_VISIBLE_DEVICES')=='' and not os.environ.get('PBS_JOBID')
@@ -58,7 +65,7 @@ def main(config_path):
     code=root/'code';seal=json.loads((root/'SOURCE_SEAL.json').read_bytes());assert seal['source_sha']==cfg['source_sha']and all(a.sha((code/n).read_bytes())==h for n,h in seal['files'].items())
     lock=OwnerLock(root/'MODEL_DELIVERY_OWNER.lock');status='FAILED_PRESERVED';phase='REGISTERED_CONTROL_ADMISSION';source_terminal=None
     put(root/'MODEL_DELIVERY_NATIVE_STARTED.json',dict(pid=os.getpid(),proc_start=int(Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19]),source_sha=cfg['source_sha'],observed_epoch=started,new_GPU_model_queries_physics=0))
-    journal=Journal(root/'rpc',dict(run_uuid=cfg['control_run_uuid'],job_id='MODEL_ONLY_C50_NO_GPU',source_sha=cfg['source_sha'],request_sha256=a.sha(Path(config_path).read_bytes())))
+    journal=delivery_journal(root,cfg,Path(config_path).read_bytes())
     b=cfg['remote_binding'];args=['ssh','-T','-S',b['master_socket'],'-o','ControlMaster=no','-o','ProxyCommand=false','-o','CanonicalizeHostname=no','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','ConnectTimeout=15','-l',b['remote_user'],b['remote_host'],shlex.join([b['remote_python'],'-'])]
     def remote(phase,effect,body,payload):
         def invoke(intent,limit):

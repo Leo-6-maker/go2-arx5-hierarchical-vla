@@ -39,3 +39,18 @@ def test_failed_source_wrapper_preserves_actual_nonzero_OS_exit(tmp_path,monkeyp
     exec(compile(w.START,'<unchanged-production-launch>','exec'),dict(P=dict(control_root=str(root),source_sha='c'*40,candidate='C50',token='FAKE')))
     assert proc[0].wait(timeout=10)==7
     assert json.loads((root/'UPLOAD_OS_EXIT.json').read_bytes())['returncode']==7
+
+
+def test_actual_original_Journal_directory_and_unknown_write_are_not_replayed(tmp_path):
+    from scripts.pi0294.dec1.owner_transport import UnknownMutation
+    cfg=dict(control_run_uuid='v5-c50-control-fixture',source_sha='c'*40)
+    journal=w.delivery_journal(tmp_path,cfg,b'CPU configuration fixture')
+    counter=tmp_path/'applied-once'
+    def apply_then_lose_reply(intent,limit):
+        counter.write_text('one actual temporary-file effect')
+        raise ConnectionError('simulated lost return after effect')
+    with pytest.raises(UnknownMutation):journal.call('SOURCE_UPLOAD_ONCE','MUTATION',apply_then_lose_reply)
+    with pytest.raises(UnknownMutation):journal.call('SOURCE_UPLOAD_ONCE','MUTATION',apply_then_lose_reply)
+    assert counter.read_text()=='one actual temporary-file effect'
+    assert json.loads((tmp_path/'rpc/RPC_EFFECT_STATE.json').read_bytes())['status']=='UNKNOWN'
+    with pytest.raises(FileExistsError):w.delivery_journal(tmp_path,cfg,b'CPU configuration fixture')
