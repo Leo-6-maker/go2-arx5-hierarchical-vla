@@ -7,7 +7,7 @@ from .future_budget import _vector, FINAL
 from .evaluation_work import MATRIX
 from .evaluation_accounting import output_upper
 from .evaluation_core_accounting import MODEL_BYTES
-from .evaluation_admission import adopted_caps, resource_floor
+from .evaluation_admission import adopted_caps as legacy_caps, resource_floor
 
 TASK='V5_CD_AUTONOMOUS_SUCCESSOR_V1'
 TASK_SOURCE='5b5de6f5d26ac90a6002c83ebcb60005acf06462'
@@ -15,6 +15,9 @@ ORDER=('TRAIN:C50:1024','EVAL:C50:N294101','TRAIN:D25:1024','EVAL:D25:N294101')
 WINDOW_S=168*3600
 TRAIN_STOP_MARGIN_S=24*3600
 GIB=1024**3
+FIELD='V5_CD_successor_scope'
+GRANT_SHA='3bb1d98abcb083e9b1204c06135e52b008f796680c79271878f749a5b2e29c5a'
+NEW_STORAGE=dict(Hopper_storage_bytes=1021*GIB,Core_storage_bytes=393*GIB)
 
 
 def scope(t_cd):
@@ -49,7 +52,8 @@ def whole_package():
 
 
 def recompute(global_ledger,local_ledger,*,Core_storage_upper_bytes,local_storage_upper_bytes):
-    used,held=resource_floor(global_ledger,local_ledger);caps=adopted_caps(global_ledger)
+    used,held=resource_floor(global_ledger,local_ledger);caps=legacy_caps(global_ledger)
+    if FIELD in global_ledger:caps.update(validated(global_ledger)['authorized_storage_caps'])
     for k,v in dict(Core_storage_bytes=Core_storage_upper_bytes,local_storage_bytes=local_storage_upper_bytes).items():
         if type(v) is not int or v<used[k]:raise PermissionError('V5_RETAIN_FULL_HISTORICAL_STORAGE_UPPER')
         used[k]=v
@@ -64,3 +68,62 @@ def recompute(global_ledger,local_ledger,*,Core_storage_upper_bytes,local_storag
         task_source=TASK_SOURCE,order=list(ORDER),dimensions=rows,
         shortfalls={k:v['shortfall'] for k,v in rows.items() if v['shortfall']},
         remaining_package=future,cap_changes={},native_admission=False,new_native_effects=0)
+
+
+def grant(data):
+    import hashlib,json
+    if type(data) is not bytes or hashlib.sha256(data).hexdigest()!=GRANT_SHA:
+        raise PermissionError('V5_EXACT_PUBLISHED_DIRECT_HUMAN_GRANT_BYTES')
+    v=json.loads(data)
+    if (v['direct_human_answer']!='允许启动，' or v['task']!=TASK or v['task_source']!=TASK_SOURCE
+        or {k:r['after'] for k,r in v['storage_caps_bytes'].items()}!=NEW_STORAGE
+        or v['other_caps_unchanged'] is not True):
+        raise PermissionError('V5_ONLY_THE_EXACT_TWO_STORAGE_CORRECTIONS')
+    return v
+
+
+def marker(t_cd,before,grant_data):
+    import re
+    grant(grant_data)
+    if set(before)!={'GLOBAL','LOCAL'} or any(not re.fullmatch('[0-9a-f]{64}',v) for v in before.values()):
+        raise PermissionError('V5_ACTUAL_TWO_LEDGER_IDENTITIES')
+    return dict(scope(t_cd),grant_sha256=GRANT_SHA,before_sha256=dict(before),
+        authorized_storage_caps=dict(NEW_STORAGE),old_clock_and_history_preserved=True,
+        scope_only_not_GPU_or_physics_admission=True)
+
+
+def validated(value):
+    import re
+    m=value.get(FIELD)
+    if type(m) is not dict:raise PermissionError('V5_SCOPE_NOT_ACTUALLY_ADOPTED')
+    expected=dict(scope(m.get('T_CD')),grant_sha256=GRANT_SHA,before_sha256=m.get('before_sha256'),
+        authorized_storage_caps=dict(NEW_STORAGE),old_clock_and_history_preserved=True,
+        scope_only_not_GPU_or_physics_admission=True)
+    b=m.get('before_sha256')
+    if (m!=expected or type(b)is not dict or set(b)!={'GLOBAL','LOCAL'}
+        or any(type(x)is not str or not re.fullmatch('[0-9a-f]{64}',x) for x in b.values())):
+        raise PermissionError('V5_EXACT_ONCE_SCOPE_MARKER_AND_CLOCK')
+    return m
+
+
+def adopt(global_raw,local_raw,*,grant_data,now_epoch,Core_storage_upper_bytes,local_storage_upper_bytes):
+    """Append the same immutable successor scope to the TWO EXISTING ledgers.
+
+    Caller persists with existing onceIO and the original owner locks. This is
+    control-plane adoption only; all actual GPU/model/physics gates still apply.
+    """
+    import hashlib,json
+    from copy import deepcopy
+    g,l=json.loads(global_raw),json.loads(local_raw)
+    if FIELD in g or FIELD in l:raise FileExistsError('V5_ONCE_SCOPE_NEVER_RESET_OR_REPLAY')
+    proof=recompute(g,l,Core_storage_upper_bytes=Core_storage_upper_bytes,local_storage_upper_bytes=local_storage_upper_bytes)
+    m=marker(now_epoch,dict(GLOBAL=hashlib.sha256(global_raw).hexdigest(),LOCAL=hashlib.sha256(local_raw).hexdigest()),grant_data)
+    proposed_g,proposed_l=deepcopy(g),deepcopy(l)
+    proposed_g[FIELD]=deepcopy(m);proposed_l[FIELD]=deepcopy(m)
+    # Recompute using the now-authorized caps, but before reserving any job.
+    approved=recompute(proposed_g,proposed_l,Core_storage_upper_bytes=Core_storage_upper_bytes,local_storage_upper_bytes=local_storage_upper_bytes)
+    if approved['shortfalls']:raise PermissionError('V5_WHOLE_PAIR_STILL_UNPAYABLE:'+str(approved['shortfalls']))
+    if any(proposed_g[k]!=v for k,v in g.items()) or any(proposed_l[k]!=v for k,v in l.items()):
+        raise AssertionError('V5_ADOPTION_CHANGED_ORIGINAL_LEDGER_MEMBERS')
+    return dict(proposed_global=proposed_g,proposed_LOCAL=proposed_l,marker=m,
+        before_cap_proof=proof,adopted_cap_proof=approved,native_dispatch_admitted=False)

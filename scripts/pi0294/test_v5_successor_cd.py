@@ -32,7 +32,7 @@ def test_existing_projection_preserves_inputs_and_all_protection(monkeypatch):
     used=s._vector({});held=s._vector({});caps={k:10**15 for k in used}
     used['Hopper_storage_bytes']=100;caps['Hopper_storage_bytes']=100
     monkeypatch.setattr(s,'resource_floor',lambda g,l:(deepcopy(used),deepcopy(held)))
-    monkeypatch.setattr(s,'adopted_caps',lambda g:deepcopy(caps))
+    monkeypatch.setattr(s,'legacy_caps',lambda g:deepcopy(caps))
     g=dict(pending_updates=[],unknown_effects=[],old_T0=1792348196);before=deepcopy(g)
     r=s.recompute(g,{},Core_storage_upper_bytes=0,local_storage_upper_bytes=0)
     assert g==before and not r['native_admission'] and r['cap_changes']=={}
@@ -46,6 +46,25 @@ def test_existing_projection_preserves_inputs_and_all_protection(monkeypatch):
 def test_pending_effects_and_historical_storage_not_discarded(monkeypatch):
     used=s._vector(dict(Core_storage_bytes=10));held=s._vector({})
     monkeypatch.setattr(s,'resource_floor',lambda g,l:(deepcopy(used),deepcopy(held)))
-    monkeypatch.setattr(s,'adopted_caps',lambda g:{k:10**15 for k in used})
+    monkeypatch.setattr(s,'legacy_caps',lambda g:{k:10**15 for k in used})
     with pytest.raises(PermissionError):s.recompute(dict(pending_updates=[],unknown_effects=[]),{},Core_storage_upper_bytes=9,local_storage_upper_bytes=0)
     with pytest.raises(PermissionError):s.recompute(dict(pending_updates=['u'],unknown_effects=[]),{},Core_storage_upper_bytes=10,local_storage_upper_bytes=0)
+
+
+def test_exact_grant_not_a_cap_inference():
+    from pathlib import Path
+    p=Path(__file__).parents[2]/'reports/PI0294/design/parallel-science-20261022/V5_CD_TWO_STORAGE_CAPS_AND_START_AUTHORIZATION_20261025.json'
+    b=p.read_bytes()
+    assert s.grant(b)['other_caps_unchanged']
+    with pytest.raises(PermissionError):s.grant(b+b' ')
+
+
+def test_marker_has_one_clock_and_exact_two_caps():
+    from pathlib import Path
+    b=(Path(__file__).parents[2]/'reports/PI0294/design/parallel-science-20261022/V5_CD_TWO_STORAGE_CAPS_AND_START_AUTHORIZATION_20261025.json').read_bytes()
+    m=s.marker(1792933000,dict(GLOBAL='a'*64,LOCAL='b'*64),b)
+    assert s.validated({s.FIELD:m})==m
+    bad=deepcopy(m);bad['deadline_epoch']+=1
+    with pytest.raises(PermissionError):s.validated({s.FIELD:bad})
+    bad=deepcopy(m);bad['authorized_storage_caps']['Hopper_storage_bytes']+=1
+    with pytest.raises(PermissionError):s.validated({s.FIELD:bad})

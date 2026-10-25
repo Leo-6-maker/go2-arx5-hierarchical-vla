@@ -4,6 +4,10 @@ Accepted task: `V5_CD_AUTONOMOUS_SUCCESSOR_V1`, protocol source `5b5de6f5d26ac90
 
 The human directly accepted the whole successor task, its one 168-hour window, ordinary cold engineering repairs, two 1024-update arms and two original N294101 panels. P0 is closed; keep R0. No repeated stage GO is required. Frozen order: **C50 train → C50 Eval24 → D25 train → D25 Eval24**. The common parent, both recipes, both populations and analysis are frozen before either neural job.
 
+## Authorization update
+
+The direct human reply “允许启动，” approves the immediately preceding exact two-storage correction and starting this accepted task. [The exact authority record](../../../reports/PI0294/design/parallel-science-20261022/V5_CD_TWO_STORAGE_CAPS_AND_START_AUTHORIZATION_20261025.json) binds that reply to the fixed b1c40468 proposal. No repeated GO is needed. Eleven differential CPU cases and a pure proposal on the actual captured dual-ledger bytes pass; the approved whole package has no shortfalls. Native adoption and first GPU are still pending in this publication; the earlier gap below is preserved as the pre-approval state.
+
 ## Actual S0 result, 2026-10-25
 
 - Independent read-only Vanda access succeeds. Complete native account queue contains only the five previously human-identified independent jobs; they were not modified. All experiment GPU holds are zero and both actual accounting views report no unknown effects.
