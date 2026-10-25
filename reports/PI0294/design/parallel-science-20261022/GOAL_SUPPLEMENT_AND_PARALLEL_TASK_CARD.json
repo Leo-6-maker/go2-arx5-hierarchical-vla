@@ -1719,5 +1719,88 @@
     "B_minus_A": "UNKNOWN",
     "goal_complete": false,
     "core64": 0
+  },
+  "latest_shared_GPU0_owner_forwarding_cold_repair": {
+    "status": "ACTUAL_SHARED_OWNER_PREMODEL_FAILURE_ONCE_SETTLED_DUAL_CLOSED_COLD_REPAIR_READY",
+    "failed_request_id": "4cc2048c-3e0f-43ea-93d0-9450a3569adc",
+    "failure": "owner fresh_process did not forward exact shared request; worker itself emitted genuine native process start",
+    "actual_valid_conditions": 0,
+    "models": 0,
+    "queries": 0,
+    "physics": 0,
+    "conservative_GPU_s": 61,
+    "conservative_process_CPU_s": 1,
+    "control_full_upper_CPU_s_each_site": 7200,
+    "actual_start_resolved_only_in_final_financial_proposal": true,
+    "no_intermediate_native_GO_committed": true,
+    "closure": {
+      "schema": "PV1_CORE_GPU_AND_PHYSICS_DUAL_CLOSURE_V1",
+      "request_id": "4cc2048c-3e0f-43ea-93d0-9450a3569adc",
+      "terminal_native_sha256": "03d98cf7f32a74f7240f3a231021ac137da93a7b8d7fb52f777c55da91dd06e4",
+      "GPU_lease_status": "CLOSED",
+      "physical_lease_status": "CLOSED",
+      "active_native_actors": 0,
+      "remaining_holds": 0,
+      "lease_sha256": {
+        "physical": "7c69365c3d82aa72f538d2222640e9526c6dd46faaed0176be1680773754186c",
+        "GPU": "b53889afc807bb81c4b43f062b544bc8e4318a7fbc76fdf6843dd6969ed77640"
+      },
+      "native_exit_status": 1,
+      "actual_valid_conditions": 0,
+      "actual_model_loads": 0,
+      "actual_queries": 0,
+      "actual_physics": 0,
+      "actual_training_updates": 0,
+      "all_original_failures_preserved": true,
+      "automatic_retry": false,
+      "observed_epoch": 1792892405.1636994
+    },
+    "independent_readback_sha256": "8e0aa571150ddc3ab44633bddea916cc342624a3df32368696a95139ed64ff4d",
+    "original_shared_human_grant_sha256": "2790bb5a88a9e456a10eb2cb6698ef2f064977ba2508d581d0fe92fe3eca858d",
+    "cold_engineering_repair_scope_sha256": "24d23684217b28c95dfe32b56b1056e77385e4a1a535da81a3651360060d95ce",
+    "new_request_id": "631b7d63-7f7b-419a-9eb9-fb1a7defa9f8",
+    "latest_start_epoch": 1792893600,
+    "complete_remaining_resource_shortfalls": {},
+    "dimensions": {
+      "Core_storage_bytes": {
+        "cap": 353261060096,
+        "used": 277077265632,
+        "reserved": 0,
+        "remaining_stage_upper": 58210351928,
+        "matrix": 17968398336,
+        "final": 0,
+        "projected": 353256015896,
+        "shortfall": 0
+      },
+      "Hopper_storage_bytes": {
+        "cap": 870804619264,
+        "used": 779919090724,
+        "reserved": 0,
+        "remaining_stage_upper": 38346128184,
+        "matrix": 9442971836,
+        "final": 42949672960,
+        "projected": 870657863704,
+        "shortfall": 0
+      },
+      "H200_s": {
+        "cap": 435600,
+        "used": 118110.0,
+        "reserved": 0,
+        "remaining_stage_upper": 28860,
+        "matrix": 86580,
+        "final": 72000,
+        "projected": 305550.0,
+        "shortfall": 0
+      }
+    },
+    "budget_changes": {},
+    "old_requests_not_restarted": true,
+    "old_UNKNOWN_not_retried": true,
+    "new_native_repair_not_yet_started": true,
+    "A24_successes": 11,
+    "B_valid_conditions": 0,
+    "B_minus_A": "UNKNOWN",
+    "goal_complete": false,
+    "core64": 0
   }
 }

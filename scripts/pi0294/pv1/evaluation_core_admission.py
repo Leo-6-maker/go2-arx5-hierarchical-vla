@@ -62,7 +62,7 @@ def request_identity(manifest,request,manifest_sha):
     if 'startup_recovery_sha256' in r:
         from .evaluation_core_zero_start_recovery import SCHEMA
         need(r.get('evaluation_candidate')=='B_COVERAGE' and c.canonical_uuid(r.get('control_id'))
-             and r['run_uuid'] in ('pv1-v4a-b4096-n294101-zero-start-recovery-01','pv1-v4a-b4096-n294101-read-recovery-02','pv1-v4a-b4096-n294101-shared-gpu0-03')
+             and r['run_uuid'] in ('pv1-v4a-b4096-n294101-zero-start-recovery-01','pv1-v4a-b4096-n294101-read-recovery-02','pv1-v4a-b4096-n294101-shared-gpu0-03','pv1-v4a-b4096-n294101-shared-gpu0-repair-04')
              and m['execution']['sealed_inputs'].get('plans/CORE_B_ZERO_START_COLD_RECOVERY.json')
              ==r['sealed_inputs'].get('plans/CORE_B_ZERO_START_COLD_RECOVERY.json')
              and type(r.get('startup_recovery_sha256')) is str and len(r['startup_recovery_sha256'])==64,

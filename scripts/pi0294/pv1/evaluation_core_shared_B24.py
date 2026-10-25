@@ -18,6 +18,9 @@ def grant(raw):
  g=json.loads(raw);need(g['direct_human_answer']=='允许直接共享GPU0做eval，显存充足，如果失败可以尝试GPU1' and g['new_request_id']==RID and g['new_control_id']==CONTROL and g['latest_native_start_epoch']==late.LATEST and g['budget_changes']=={},'EXACT_ONLY_B24_AND_UNCHANGED_CAPS_CLOCKS')
  return g
 def allowed(r):
+ if 'shared_owner_repair_scope_sha256' in r:
+  from .evaluation_core_shared_repair import allowed as repair_allowed
+  return repair_allowed(r)
  if 'shared_GPU_grant_sha256' not in r:return False
  need(r.get('shared_GPU_grant_sha256')==GRANT_SHA and r.get('late_start_grant_sha256')==late.GRANT_SHA
       and r.get('request_id')==RID and r.get('run_uuid',r.get('child_run_uuid'))==RUN
@@ -46,6 +49,9 @@ def validate(g):
 def validate_pair(g,l):
  m=validate(g);need(l.get(FIELD)==m,'SAME_ACTUALLY_ADOPTED_DUAL_SHARED_BOUNDARY');return m
 def check_request(manifest,r,g=None):
+ if 'shared_owner_repair_scope_sha256' in r:
+  from .evaluation_core_shared_repair import check_request as repair_check
+  return repair_check(manifest,r,g)
  need(allowed(r),'SHARED_REQUEST_REQUIRED')
  need(manifest['execution']['sealed_inputs'].get(PLAN)==r['sealed_inputs'].get(PLAN)==GRANT_SHA
       and manifest['execution']['sealed_inputs'].get(late.PLAN)==r['sealed_inputs'].get(late.PLAN)==late.GRANT_SHA,

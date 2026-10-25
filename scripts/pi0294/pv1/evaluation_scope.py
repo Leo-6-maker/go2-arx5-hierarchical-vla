@@ -97,6 +97,8 @@ def validate_pair(global_ledger,local):
     late_validate_pair(global_ledger,local)
     from .evaluation_core_shared_B24 import validate_pair as shared_pair
     shared_pair(global_ledger,local)
+    from .evaluation_core_shared_repair import pair as repair_pair
+    repair_pair(global_ledger,local)
     return m
 
 

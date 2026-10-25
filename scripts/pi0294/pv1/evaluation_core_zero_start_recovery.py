@@ -80,6 +80,9 @@ def validated(value):
     from . import evaluation_core_shared_B24 as shared
     if shared.FIELD in value:
         shared.validate(value);allowed=(*allowed,set(allowed[-1])|{shared.RID})
+    from . import evaluation_core_shared_repair as repair
+    if repair.FIELD in value:
+        repair.validate(value);allowed=(*allowed,set(allowed[-1])|{repair.RID})
     need(set(rows) in allowed,'NO_UNCLASSIFIED_PROCESS_OR_REPLACEMENT_POOL')
     if extra is not None:read_validate(value,marker)
     if rid in rows:
@@ -103,6 +106,8 @@ def effective_rows(value):
     if read_field in value:excluded.add(read_failed)
     from . import evaluation_core_shared_B24 as shared
     if shared.FIELD in value:shared.validate(value);excluded.add(shared.failed.RID)
+    from . import evaluation_core_shared_repair as repair
+    if repair.FIELD in value:repair.validate(value);excluded.add(shared.RID)
     return [r for key,r in value.get(rows_field,{}).items() if key not in excluded]
 
 
@@ -159,6 +164,8 @@ def current_owner(root,request):
 
 
 def current_boundary(value,request_id):
+    from . import evaluation_core_shared_repair as repair
+    if repair.FIELD in value and request_id==repair.RID:return repair.validate(value)
     from . import evaluation_core_shared_B24 as shared
     if shared.FIELD in value and request_id==shared.RID:return shared.validate(value)
     marker=validated(value)
