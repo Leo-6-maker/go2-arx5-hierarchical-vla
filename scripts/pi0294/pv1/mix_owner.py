@@ -23,6 +23,16 @@ def once(p,v):
     return v
 
 
+def prepare_request(root,template,*,source_sha,submit_count,now_epoch):
+    root=Path(root);audit_path=root/'control/COLD_INPUT_AUDIT.private.json';audit=read(audit_path)
+    need(audit.get('status')=='PASS_ACTUAL_V5_CD_COLD_INPUTS_NO_MODEL' and audit.get('run_manifest_sha256')==sha(root/'RUN_MANIFEST.json') and audit.get('source_sha')==source_sha,'ACTUAL_COLD_INPUT_AUDIT_BEFORE_REQUEST')
+    # The manifest seals the template. Bind actual manifest/audit AFTER both
+    # exist, avoiding a self-referential config/manifest hash cycle.
+    need(not {'request_sha256','run_manifest_sha256','cold_input_audit_sha256'}&set(template),'UNHASHED_IMMUTABLE_TEMPLATE_ONLY')
+    req=dict(template,run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),cold_input_audit_sha256=sha(audit_path),request_id=str(uuid.uuid4()),submission_nonce=str(uuid.uuid4()),created_epoch=now_epoch,submit_count=submit_count)
+    a.validate_request(req);return req
+
+
 class Owner:
     native=native
     read=staticmethod(read)
@@ -103,7 +113,7 @@ class Owner:
     def submit(self,secret):
         self.auth(secret);quota=self.program('QUOTA');state=self.fresh();need(not state['view']['campaign_jobs'],'NO_ACTIVE_TASK_GPU_BEFORE_REQUEST')
         g=read(self.global_path);need(quota['report_age_s']<=3600 and quota['available_bytes_lower']>=g['storage_reserved_bytes']+40*1024**3+9442971836,'ACTUAL_PROJECT_FILESYSTEM_WHOLE_OUTPUT_AND_FINAL')
-        req=dict(self.request_template,request_id=str(uuid.uuid4()),submission_nonce=str(uuid.uuid4()),created_epoch=time.time(),submit_count=len(g['PBS_submissions'])+1);a.validate_request(req)
+        req=prepare_request(self.root,self.request_template,source_sha=self.manifest['code']['vla_commit'],submit_count=len(g['PBS_submissions'])+1,now_epoch=time.time())
         directory=self.root/'pbs'/('alloc-'+str(req['submit_count']).zfill(2));directory.mkdir();once(directory/'REQUEST.json',req);request_sha=sha(directory/'REQUEST.json');self.record('SOURCE_REQUEST',dict(request=req,request_sha256=request_sha,directory=str(directory)));row=dict(req,request_sha256=request_sha)
         self.record('SOURCE_REQUEST_INTENT',dict(request_id=req['request_id'],once=True));receipt=self.write_global('REGISTER_REQUEST',lambda g:a.register_request(g,row,now_epoch=time.time()));self.record('SOURCE_GLOBAL_RESERVED',receipt)
         body='\n'.join(k+'='+repr(v) for k,v in dict(TARGET=str(self.root),DIRECTORY=str(directory),REQUEST=req,RESERVATION=dict(request_sha256=request_sha,observed_epoch=time.time(),whole_package_already_reserved=True)).items())+'\n'+self.CONFIG['programs']['SUBMIT']

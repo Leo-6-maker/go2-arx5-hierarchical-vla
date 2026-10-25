@@ -72,3 +72,16 @@ def test_original_watch_uses_registered_successor_clock_without_changing_old_clo
     assert result['native']['Exit_status']==0 and result['job_id']=='26.stdct-mgmt-02'
     assert any(n=='SOURCE_NATIVE_TERMINAL_UNSETTLED' for n,v in events)
     with pytest.raises(PermissionError):watch(owner,'',scope_binding=s.scope(time.time()))
+
+
+def test_request_binds_actual_manifest_and_audit_after_sealed_template(tmp_path):
+    from scripts.pi0294.pv1.mix_owner import prepare_request
+    from scripts.pi0292.durable import write
+    from scripts.pi0294.native_dataset import sha
+    template=dict(schema='V5_CD_ACTUAL_NATIVE_TRAINING_REQUEST_V1',platform_training_version=a.VERSION,native_platform='VANDA_A40',arm='C50',stage='V5_MATCHED_TRAIN1024',parent_checkpoint_manifest_sha256=a.PARENT,statistics_sha256=a.STATS,optimizer_update_limit=1024,query_limit=29,CPU_upper_s=54000,reserved_H200_s=22500,accounting_pad_s=60,physical_GPU_count=1,physical_GPU_kind='NVIDIA_A40',project='CFP04-CF-007',job_name='pi0294_dec1_a40_train',additional_output_upper_bytes=70000000000,source_sha='a'*40,status='QSUB_INTENT_OUTCOME_UNKNOWN_NO_RETRY',job_id=None,expected_native_start_step=0,training_block=dict(arm='C50',replica=False,stop_after_step=1024,resume_checkpoint_relative=None))
+    write(tmp_path/'RUN_MANIFEST.json',dict(template=template));audit=tmp_path/'control/COLD_INPUT_AUDIT.private.json';audit.parent.mkdir();write(audit,dict(status='PASS_ACTUAL_V5_CD_COLD_INPUTS_NO_MODEL',run_manifest_sha256=sha(tmp_path/'RUN_MANIFEST.json'),source_sha='a'*40))
+    r=prepare_request(tmp_path,template,source_sha='a'*40,submit_count=26,now_epoch=1)
+    assert 'run_manifest_sha256' not in template and r['cold_input_audit_sha256']==sha(audit) and r['run_manifest_sha256']==sha(tmp_path/'RUN_MANIFEST.json')
+    with pytest.raises(PermissionError):prepare_request(tmp_path,dict(template,request_sha256='b'*64),source_sha='a'*40,submit_count=26,now_epoch=1)
+    write(tmp_path/'RUN_MANIFEST.json',dict(changed=True))
+    with pytest.raises(PermissionError):prepare_request(tmp_path,template,source_sha='a'*40,submit_count=26,now_epoch=1)
