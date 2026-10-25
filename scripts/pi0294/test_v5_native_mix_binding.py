@@ -85,3 +85,53 @@ def test_request_binds_actual_manifest_and_audit_after_sealed_template(tmp_path)
     with pytest.raises(PermissionError):prepare_request(tmp_path,dict(template,request_sha256='b'*64),source_sha='a'*40,submit_count=26,now_epoch=1)
     write(tmp_path/'RUN_MANIFEST.json',dict(changed=True))
     with pytest.raises(PermissionError):prepare_request(tmp_path,template,source_sha='a'*40,submit_count=26,now_epoch=1)
+
+
+def test_cd_eval_is_same_original_panel_and_keeps_valid_negatives():
+    from scripts.pi0294.pv1.mix_evaluation import plan
+    from scripts.pi0294.test_pv1_evaluation_plan import groups
+    from scripts.pi0294.pv1.evaluation_plan import development,remaining_panel
+    p=plan(groups());old=development(groups(),route='COVERAGE_FIRST',candidate='A_CONTROL',new_bank_manifest_sha256='a'*64)['panels']['A_CONTROL-DEV-N294101']
+    def normalized(spec):return [{k:v for k,v in row.items()if k not in ('id','policy_candidate','pv1_model_label','pv1_session_label')}for row in spec['cards']]
+    assert normalized(p['panels']['C50'])==normalized(p['panels']['D25'])==normalized(old)
+    assert all(s['checkpoint_step']==1024 and len(s['cards'])==24 for s in p['panels'].values())
+    spec=p['panels']['D25'];c=spec['cards'][0];row=dict(model='D25',condition_id=c['condition_id'],attempt_id=c['id'],status='VALID_TASK_FAIL',failure_stage='S1_PRE_EXECUTION_REJECT',pipeline_trustworthy=True,live_native_failures=0)
+    assert len(remaining_panel([row],spec))==23
+    assert p['analysis']['bootstrap_unit']=='JOINT_T1_T2_GEOMETRY_BLOCK' and p['engineering_replacements_total_max']==4
+
+
+def test_owner_creates_original_journal_directories_once_for_setup_and_bound_job(tmp_path):
+    from scripts.pi0294.pv1.mix_owner import new_journal
+    from scripts.pi0294.dec1.owner_transport import Journal
+    identity=dict(run_uuid='fixture',job_id='NO_GPU_YET',source_sha='a'*40,request_sha256='b'*64)
+    setup=new_journal(tmp_path,'setup-rpc',identity)
+    assert isinstance(setup,Journal) and setup.call('READ','READ_ONLY',lambda intent,limit:dict(actual='read'))==dict(actual='read')
+    with pytest.raises(FileExistsError):new_journal(tmp_path,'setup-rpc',identity)
+    running=new_journal(tmp_path,'running-rpc',dict(identity,job_id='26.stdct-mgmt-02'))
+    assert isinstance(running,Journal) and running.identity['job_id']=='26.stdct-mgmt-02'
+
+
+def test_new_heartbeat_uses_real_original_journal_and_exact_native_nonce(tmp_path):
+    from scripts.pi0294.dec1.owner_transport import Journal,checked_heartbeat
+    from scripts.pi0294.dec1.test_vanda_campaign import fixture
+    from scripts.pi0294.pv1.mix_owner import new_journal
+    import time
+    h,d,auth,q=fixture();jobs=json.loads(q['qstat']['stdout'])['Jobs'];job_id='14.stdct-mgmt-02';job=jobs[job_id]
+    q['observed_epoch']=1000.;job['Variable_List']={'PV1_REQUEST_ID':'request','PV1_SUBMISSION_NONCE':'nonce'};q['qstat']['stdout']=json.dumps(dict(Jobs=jobs))
+    identity=dict(run_uuid='fixture',job_id=job_id,source_sha='a'*40,request_sha256='b'*64)
+    marker=dict(s.scope(900.),grant_sha256=s.GRANT_SHA,before_sha256=dict(GLOBAL='a'*64,LOCAL='b'*64),authorized_storage_caps=dict(s.NEW_STORAGE),old_clock_and_history_preserved=True,scope_only_not_GPU_or_physics_admission=True)
+    jdir=tmp_path/'rpc';jdir.mkdir();j=Journal(jdir,identity,clock=lambda:1000.)
+    captured=[]
+    def publish(intent,limit):
+        beat=dict(identity,request_id='request',submission_nonce='nonce',scope=s.TASK,grant_sha256=s.GRANT_SHA,rpc_intent_id=intent['operation_id'],observed_epoch=1000.,native_job_state=job['job_state'],global_unknown_effects=[])
+        value=dict(schema='V5_CD_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1',heartbeat=beat,scope_binding=marker,view=dict(status='PASS_V5_CURRENT_UNFILTERED_QUEUE',unknown_campaign_jobs=[],Hopper_current_queue_observed=False,unavailable_Hopper_is_fresh_or_empty=False,observed_epoch=1000.,complete_account_queue=q),lease_status='ACTIVE',run_STOP=False,parent_STOP=False,unknown_effects=[],pending_updates=[])
+        captured.append((value,intent));return value
+    result=j.call('HEARTBEAT','HEARTBEAT',publish);assert result==captured[0][0]
+    for key in ('nonce','unknown','stop','old_kind','stale'):
+        value,intent=deepcopy(captured[0])
+        if key=='nonce':value['heartbeat']['submission_nonce']='different'
+        if key=='unknown':value['unknown_effects']=['unresolved']
+        if key=='stop':value['parent_STOP']=True
+        if key=='old_kind':value.pop('schema')
+        if key=='stale':value['view']['observed_epoch']=800.
+        with pytest.raises((PermissionError,ValueError)):checked_heartbeat(value,intent,now=1000.)

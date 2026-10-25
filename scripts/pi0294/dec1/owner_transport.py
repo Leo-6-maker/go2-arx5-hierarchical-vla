@@ -48,6 +48,9 @@ def checked_heartbeat(value, intent, *, now):
     """A readback must join the exact publication and retain native guards."""
     if not _finite(now) or not isinstance(value, dict):
         raise ValueError('FINITE_POST_READ_CLOCK_AND_HEARTBEAT_RECEIPT')
+    if value.get('schema')=='V5_CD_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1':
+        from scripts.pi0294.pv1.mix_owner import validate_heartbeat_receipt
+        return validate_heartbeat_receipt(value,intent,now=now)
     beat = value.get('heartbeat', {})
     view_status=value.get('campaign_view_status')
     if view_status=='PASS_VANDA_ONLY_CAMPAIGN_VIEW':

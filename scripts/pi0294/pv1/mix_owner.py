@@ -23,6 +23,11 @@ def once(p,v):
     return v
 
 
+def new_journal(base,name,identity):
+    path=Path(base)/name;path.mkdir(mode=0o700)
+    return Journal(path,identity)
+
+
 def prepare_request(root,template,*,source_sha,submit_count,now_epoch):
     root=Path(root);audit_path=root/'control/COLD_INPUT_AUDIT.private.json';audit=read(audit_path)
     need(audit.get('status')=='PASS_ACTUAL_V5_CD_COLD_INPUTS_NO_MODEL' and audit.get('run_manifest_sha256')==sha(root/'RUN_MANIFEST.json') and audit.get('source_sha')==source_sha,'ACTUAL_COLD_INPUT_AUDIT_BEFORE_REQUEST')
@@ -31,6 +36,22 @@ def prepare_request(root,template,*,source_sha,submit_count,now_epoch):
     need(not {'request_sha256','run_manifest_sha256','cold_input_audit_sha256'}&set(template),'UNHASHED_IMMUTABLE_TEMPLATE_ONLY')
     req=dict(template,run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),cold_input_audit_sha256=sha(audit_path),request_id=str(uuid.uuid4()),submission_nonce=str(uuid.uuid4()),created_epoch=now_epoch,submit_count=submit_count)
     a.validate_request(req);return req
+
+
+def validate_heartbeat_receipt(value,intent,*,now):
+    import math
+    m=scope.validated({scope.FIELD:value.get('scope_binding')});beat=value.get('heartbeat',{});view=value.get('view',{})
+    need(value.get('schema')=='V5_CD_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1' and m['T_CD']<=now<m['deadline_epoch'],'EXACT_NEW_SCOPE_HEARTBEAT_KIND_AND_CLOCK')
+    need(value.get('lease_status')=='ACTIVE' and value.get('run_STOP')is False and value.get('parent_STOP')is False and value.get('unknown_effects')==value.get('pending_updates')==[],'REAL_LEASE_STOP_AND_UNKNOWN_FENCES')
+    need(all(beat.get(k)==v for k,v in intent['identity'].items()) and beat.get('rpc_intent_id')==intent['operation_id'] and beat.get('scope')==scope.TASK and beat.get('grant_sha256')==scope.GRANT_SHA and beat.get('global_unknown_effects')==[],'EXACT_NEW_BOUND_IDENTITY_AND_INTENT')
+    observed=beat.get('observed_epoch');vtime=view.get('observed_epoch')
+    need(type(observed)in(int,float) and math.isfinite(observed) and intent['started_epoch']<=observed<=now and now-observed<=300 and type(vtime)in(int,float) and math.isfinite(vtime) and 0<=now-vtime<120,'ORIGINAL_300S_OWNER_AND_120S_ACCOUNT_VIEW')
+    need(view.get('status')=='PASS_V5_CURRENT_UNFILTERED_QUEUE' and view.get('unknown_campaign_jobs')==[] and view.get('Hopper_current_queue_observed')is False and view.get('unavailable_Hopper_is_fresh_or_empty')is False,'NEW_TYPED_REAL_VANDA_VIEW_NOT_FORGED_OLD_DUAL')
+    proof=view['complete_account_queue'];rows=queue.queue_rows(proof,now_epoch=now);own=[x for x in rows if x['job_id']==beat['job_id']]
+    need(len(own)==1 and own[0]['state']==beat.get('native_job_state') and own[0]['state']in('Q','R'),'ACTUAL_CURRENT_OWN_JOB_IN_COMPLETE_ACCOUNT_QUEUE')
+    job=json.loads(proof['qstat']['stdout'])['Jobs'][beat['job_id']]
+    need(job['Job_Name']=='pi0294_dec1_a40_train' and job['project']=='CFP04-CF-007' and job['Variable_List']['PV1_REQUEST_ID']==beat.get('request_id') and job['Variable_List']['PV1_SUBMISSION_NONCE']==beat.get('submission_nonce'),'EXACT_REQUEST_NONCE_FROM_NATIVE_QSTAT')
+    return value
 
 
 class Owner:
@@ -49,7 +70,7 @@ class Owner:
         need(Path(__file__).resolve()==(self.code/'scripts/pi0294/pv1/mix_owner.py').resolve(),'RUN_OWN_IMMUTABLE_SOURCE_CAPSULE')
         self.BASE=self.root/'control/resident-owner';self.BASE.mkdir(mode=0o700)
         self.request_template=self.CONFIG['request_template'];self.scope_record=read(self.root/'plans/V5_CD_PAIRED_PACKAGE_RESERVATION.private.json');self.last=None;self.current=None;self.cold_rpc_bound=True;self.previous=SimpleNamespace(rpc=self.heartbeat_rpc);self.HEARTBEAT='V5_CD_LOCAL_BOUND_OWNER_HEARTBEAT'
-        self.setup=Journal(self.BASE/'setup-rpc',dict(run_uuid=self.root.name,job_id='NO_GPU_YET',source_sha=self.manifest['code']['vla_commit'],request_sha256=scope.GRANT_SHA));self.running=None
+        self.setup=new_journal(self.BASE,'setup-rpc',dict(run_uuid=self.root.name,job_id='NO_GPU_YET',source_sha=self.manifest['code']['vla_commit'],request_sha256=scope.GRANT_SHA));self.running=None
         os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]));resource.setrlimit(resource.RLIMIT_CPU,(1790,1800));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
     def record(self,n,v):return once(self.BASE/(n+'.private.json'),v)
     def write_global(self,phase,fn):
@@ -101,14 +122,17 @@ class Owner:
     def heartbeat_rpc(self,site,code,values,label):
         need(site=='vanda' and values['JOB']==read(self.BASE/'SOURCE_JOB_BOUND.private.json')['job_id'],'ONE_LOCAL_BOUND_JOB_HEARTBEAT')
         job=values['JOB'];req=read(self.BASE/'SOURCE_REQUEST.private.json')['request'];need(values['VIEW']==self.current['view'],'LATEST_REAL_VIEW_BEFORE_HEARTBEAT')
+        def receipt(beat):
+            g=read(self.global_path);binding=read(self.root/'OUTPUT_BINDING.private.json')
+            return dict(schema='V5_CD_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1',heartbeat=beat,scope_binding=self.successor_scope,view=self.current['view'],lease_status=read(binding['lease'])['status'],run_STOP=(self.root/'STOP.json').exists(),parent_STOP=(self.root.parent.parent/'STOP.json').exists(),unknown_effects=g['unknown_effects'],pending_updates=g['pending_updates'])
         def publish(intent,limit):
             now=time.time();need(0<=now-values['VIEW']['observed_epoch']<120,'FRESH_COMPLETE_NATIVE_VIEW')
             mark=self.root/'control/heartbeat-intents'/(intent['operation_id']+'.json');once(mark,intent)
             state=self.current['rows']['vanda']['jobs'][job]['job_state']
-            beat=dict(run_uuid=self.root.name,job_id=job,request_sha256=read(self.BASE/'SOURCE_REQUEST.private.json')['request_sha256'],source_sha=req['source_sha'],scope=scope.TASK,grant_sha256=scope.GRANT_SHA,owner='EXISTING_SOLE_VANDA_RESIDENT_OWNER',observed_epoch=time.time(),rpc_intent_id=intent['operation_id'],native_job_state=state,global_unknown_effects=[],agent_liveness_required=False)
-            write(self.root/'control/OWNER_HEARTBEAT.json',beat);return dict(heartbeat=beat)
+            beat=dict(run_uuid=self.root.name,job_id=job,request_id=req['request_id'],submission_nonce=req['submission_nonce'],request_sha256=read(self.BASE/'SOURCE_REQUEST.private.json')['request_sha256'],source_sha=req['source_sha'],scope=scope.TASK,grant_sha256=scope.GRANT_SHA,owner='EXISTING_SOLE_VANDA_RESIDENT_OWNER',observed_epoch=time.time(),rpc_intent_id=intent['operation_id'],native_job_state=state,global_unknown_effects=[],agent_liveness_required=False)
+            write(self.root/'control/OWNER_HEARTBEAT.json',beat);return receipt(beat)
         def readback(intent,limit):
-            beat=read(self.root/'control/OWNER_HEARTBEAT.json');need(beat['rpc_intent_id']==intent['operation_id'],'EXACT_HEARTBEAT_INTENT_READBACK');return dict(heartbeat=beat)
+            beat=read(self.root/'control/OWNER_HEARTBEAT.json');need(beat['rpc_intent_id']==intent['operation_id'],'EXACT_HEARTBEAT_INTENT_READBACK');return receipt(beat)
         return self.running.call('HEARTBEAT','HEARTBEAT',publish,readback=readback)
     def submit(self,secret):
         self.auth(secret);quota=self.program('QUOTA');state=self.fresh();need(not state['view']['campaign_jobs'],'NO_ACTIVE_TASK_GPU_BEFORE_REQUEST')
@@ -126,7 +150,7 @@ class Owner:
         import re
         need(reply['returncode']==0 and re.fullmatch(r'[0-9]+\.stdct-mgmt-02',reply['stdout']),'UNKNOWN_QSUB_NEVER_RESEND')
         job=reply['stdout'];self.write_global('BIND',lambda g:a.bind(g,req['request_id'],job,now_epoch=time.time()));self.record('SOURCE_JOB_BOUND',dict(job_id=job,request_id=req['request_id']));self.record('TRAIN_REGISTERED',dict(root=str(self.root),manifest_sha256=sha(self.root/'RUN_MANIFEST.json')))
-        self.running=Journal(self.BASE/'running-rpc',dict(run_uuid=self.root.name,job_id=job,source_sha=req['source_sha'],request_sha256=request_sha));return job
+        self.running=new_journal(self.BASE,'running-rpc',dict(run_uuid=self.root.name,job_id=job,source_sha=req['source_sha'],request_sha256=request_sha));return job
     def release(self,state,*,secret=None,first_update=False):
         req=read(self.BASE/'SOURCE_REQUEST.private.json')['request'];directory=Path(read(self.BASE/'SOURCE_REQUEST.private.json')['directory']);job=read(self.BASE/'SOURCE_JOB_BOUND.private.json')['job_id']
         project=self.auth(secret);quota=self.program('QUOTA');state=self.fresh(req['submit_count'],job,light=True);self.heartbeat_rpc('vanda','',dict(JOB=job,VIEW=state['view']),'fresh-before-release')
