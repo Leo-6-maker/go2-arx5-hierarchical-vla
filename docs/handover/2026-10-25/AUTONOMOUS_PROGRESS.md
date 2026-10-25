@@ -24,6 +24,14 @@ The actual cold input qualification streamed all12,576,324,408 inference bytes, 
 
 Fifteen critical source files have complete GitHub and Gitblob byte readback. Fifty-six recent targeted CPU checks pass, in addition to prior differential checks. No CI success, native model qualification or behavioral result is inferred from CPU tests.
 
+## Actual finite authentication binding
+
+The detached C50 owner received no persistent credential. Its supported project-token lifecycle is now maintained by an authentication-only subtask under the already registered S0 control, using the same prepaid1800CPU-second control envelope. The actual native login exited successfully and the separate supported project/balance query returned SUCCESS; independent readback confirms both. Password/token output is not logged and the password remains only in memory. This subtask cannot submit PBS, debit a ledger, load a model or advance physics; it exits after C50 first-update release. C50's running source and owner were not changed.
+
+Two earlier authentication-only attempts are preserved: an unproven reply followed by a successful read did not prove renewal, and the next attempt explicitly timed out. Their own actors are stopped/terminal; none was replayed. A distinct cold repair uses one kernel-created controlling terminal and bounded prompt/input timing, after targeted CPU mechanical validation. Its source056471c1 has three-file full GitHub/Gitblob readback. The combined focused regression run passes106 cases. These authentication facts are not model, CUDA or behavioral qualification. [Actual proof](../../../reports/PI0294/design/parallel-science-20261022/V5_CD_C50_FINITE_AUTH_NATIVE_ACTUAL_20261025.json).
+
+The hourly thread follow-up is now bound to this new V5 scope and quiet on unchanged state; it continues unfinished cold engineering and reads native stage receipts. It does not supply the GPU watchdog or replace the actual server owner. The former paused old-B heartbeat prompt is not reactivated.
+
 ## Next actual boundaries
 
 Cold integration now includes an explicit new-scope Core CPU role, original counter/entry dispatch, the fixed C/D panel selector, and a finite GEN1 worker that charges before native construction, prohibits integration, compares duplicate reset/render state and preserves the table-only factor. It also validates all real training terminal/audit/lease/owner-OS bytes before proposing the exact already-paid training delta to the existing Core LOCAL ledger. Ninety focused CPU regressions pass, including legacy counter/plan behavior; the actual sealed GEN1 V2 packet parses as six TRAIN geometries and twelve variants. These changes are **not deployed or natively admitted**, and no image or model result is claimed. New GPU-process admission, endpoint delivery and the existing resident Eval owner's C/D binding remain the next cold work.

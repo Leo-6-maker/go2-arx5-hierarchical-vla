@@ -1,0 +1,45 @@
+{
+  "schema": "V5_CD_C50_EXISTING_S0_FINITE_AUTH_NATIVE_ACTUAL_V1",
+  "status": "PASS_ACTUAL_MASKED_CLI_AND_FRESH_SUPPORTED_PROJECT_QUERY",
+  "observed_epoch": 1792941093.996141,
+  "job_id": "1492540.stdct-mgmt-02",
+  "training_source": "3983367bff4cc88361053f97c2904f3968ba345b",
+  "auth_cold_source": "056471c134f99289e66ac19b3f650a0abfde5198",
+  "auth_native_pid": 2849964,
+  "actual_project_query": "SUCCESS",
+  "CLI_password_prompt_answered": true,
+  "CLI_exit_success_requires_separate_query": true,
+  "credential_persisted": false,
+  "raw_password_or_token_output_logged": false,
+  "auth_CPU_upper_s": 120,
+  "auth_CPU_actual_at_first_bound_s": 0.9980612199999999,
+  "shared_prepaid_control_upper_s": 1800,
+  "new_reservation_or_prepayment": false,
+  "new_GPU": 0,
+  "new_PBS": 0,
+  "new_model_query_or_physics": 0,
+  "training_source_or_process_restarted": false,
+  "stop_auth_after_first_update_release": true,
+  "earlier_attempts": [
+    {
+      "number": 1,
+      "status": "LOGIN_REPLY_UNPROVEN_READ_ONLY_PROJECT_SUCCESS_NOT_RENEWAL_PROOF",
+      "only_own_auth_actor_stopped": true
+    },
+    {
+      "number": 2,
+      "status": "EXPLICIT_TIMEOUT_FAILED_TERMINAL_NO_REPLAY"
+    }
+  ],
+  "repair": "Kernel forkpty supplies one real controlling terminal with bounded prompt/input timing; no second shell, password argument or transcript file",
+  "CPU_validation": {
+    "combined_differential_cases": 106,
+    "CI_success_claimed": false,
+    "old_scope_tests_preserved": true
+  },
+  "private_independent_readback_sha256": "aa88bd24741d8928bd6a20901ad8a1f515bd3674b45a934a8eaa11779fca365d",
+  "Core_CD_Eval_native_deployed": false,
+  "GEN1_actual_images": 0,
+  "whole_goal_complete": false,
+  "core64": 0
+}
