@@ -47,7 +47,7 @@ def before_stage(arm):
 
 
 def remaining_stage():
-    value = a.stage_vector('EVAL')
+    value = a.stage_vector('EVAL',Core_GPU_projection=True)
     for name, amount in CONTROL.items():
         value[name] -= amount
     return value
@@ -165,6 +165,8 @@ def closed_training(g, l, terminal_capture, arm):
 
 def prepay_control(g, l, *, terminal_capture, arm, now_epoch):
     proof = closed_training(g, l, terminal_capture, arm)
+    from .mix_core_cpu_projection import validate as actual_Core_CPU
+    actual_Core_CPU(g,l)
     marker = s.validated(g)
     need(marker['T_CD'] <= a.number(now_epoch) < marker['deadline_epoch'] - 28860,
          'COMPLETE_NATIVE_PANEL_AND_CLOSEOUT_WINDOW')

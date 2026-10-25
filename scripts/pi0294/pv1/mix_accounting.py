@@ -25,13 +25,14 @@ def need(ok,msg):
 def number(v,integer=False):
     need(type(v)in(int,float) and math.isfinite(v) and v>=0 and (not integer or type(v)is int),'FINITE_COUNTER');return v
 
-def stage_vector(kind):
+def stage_vector(kind,*,Core_GPU_projection=False):
     from .evaluation_accounting import output_upper
     from .evaluation_core_accounting import MODEL_BYTES
     if kind=='TRAIN':return _vector(dict(H200_s=22560,PBS_submissions=1,optimizer_updates=1024,neural_queries=29,Hopper_CPU_s=55800,local_CPU_s=15,transfer_bytes=256*1024**2,Hopper_storage_bytes=70000000000+64*1024**2))
     need(kind=='EVAL','ONLY_TRAIN_OR_EVAL')
     output=output_upper(24)+2*output_upper(1)+MODEL_BYTES
-    return _vector(dict(H200_s=28860,episode_starts=26,neural_queries=26*80+17,physics_ticks=26*32000,engine_starts=26*81+2,Hopper_CPU_s=87200,Core_CPU_s=93900,local_CPU_s=7200,transfer_bytes=output+MODEL_BYTES+1024**3,Hopper_storage_bytes=output+64*1024**2,Core_storage_bytes=26*768*1024**2+512*1024**2+MODEL_BYTES+128*1024**2))
+    need(type(Core_GPU_projection)is bool,'EXPLICIT_PHYSICAL_CORE_CPU_CLASSIFICATION')
+    return _vector(dict(H200_s=28860,episode_starts=26,neural_queries=26*80+17,physics_ticks=26*32000,engine_starts=26*81+2,Hopper_CPU_s=87200,Core_CPU_s=93900+(80000 if Core_GPU_projection else 0),local_CPU_s=7200,transfer_bytes=output+MODEL_BYTES+1024**3,Hopper_storage_bytes=output+64*1024**2,Core_storage_bytes=26*768*1024**2+512*1024**2+MODEL_BYTES+128*1024**2))
 
 def package_view(g):
     scope.validated(g);p=g.get(PACKAGE)

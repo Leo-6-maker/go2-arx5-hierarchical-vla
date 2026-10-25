@@ -17,6 +17,19 @@ def closed():
     g['unknown_effects'] = []; g['pending_updates'] = []
     l = h.project_training_to_LOCAL(local_bytes=a.raw(l), global_bytes=a.raw(g),
         terminal_capture=capture, arm='C50')['proposed_LOCAL']
+    # Explicit CPU fixture for the additional physical Core GPU-process CPU.
+    # The production proposal also rechecks the full actual cap/matrix/final
+    # before the existing onceIO may adopt it; no fixture is native adoption.
+    from scripts.pi0294.pv1.mix_core_cpu_projection import FIELD,PER_PANEL
+    marker=dict(schema='V5_CD_EXISTING_CORE_GPU_CPU_PROJECTION_V1',task=s.TASK,
+        scope_grant_sha256=s.GRANT_SHA,per_panel_Core_CPU_upper_s=PER_PANEL,
+        additional_Core_CPU_reserved_s=2*PER_PANEL,panels=['EVAL:C50:N294101','EVAL:D25:N294101'],
+        caps_changed={},new_scientific_work=False,original_GPU_site_CPU_retained=True,
+        before_GLOBAL_sha256=a.sha(a.raw(g)),before_LOCAL_sha256=a.sha(a.raw(l)),observed_epoch=1150.)
+    for value in (g,l):
+        value[FIELD]=deepcopy(marker);value[a.PACKAGE][FIELD]=deepcopy(marker)
+        value[a.PACKAGE]['remaining_resources']['Core_CPU_s']+=2*PER_PANEL
+    l['CPU_reserved_s']['CoreLab']+=2*PER_PANEL
     return g, l, capture
 
 

@@ -29,7 +29,7 @@ def sha(raw):return hashlib.sha256(raw).hexdigest()
 def encode(value):return (json.dumps(value,indent=2,allow_nan=False)+'\n').encode()
 
 
-def model_members(complete,index):
+def model_members(complete,index,*,expected_step=4096):
     """Reject index escapes and unbound/missing shards before creating a plan."""
     files=complete.get('files',{})
     need(type(files) is dict and len(files)==15,'ORIGINAL_COMPLETE_15_MEMBER_INVENTORY')
@@ -37,8 +37,9 @@ def model_members(complete,index):
              and '..' not in PurePosixPath(n).parts and '\\' not in n
              and type(h) is str and re.fullmatch('[0-9a-f]{64}',h) for n,h in files.items()),
          'RELATIVE_MEMBERS_AND_EXACT_HASHES')
-    need(complete.get('global_step')==4096 and type(complete['global_step']) is int
-         and complete.get('full_resume') is True,'ORIGINAL_SAVED4096_NOT_NEW_TRAINING')
+    need(type(expected_step)is int and expected_step in (1024,4096)
+         and complete.get('global_step')==expected_step and type(complete['global_step']) is int
+         and complete.get('full_resume') is True,'EXACT_COMPLETE_SAVED_STEP_NOT_NEW_TRAINING')
     weights=index.get('weight_map')
     need(type(weights) is dict and weights and all(type(k) is str and k for k in weights)
          and all(type(n) is str for n in weights.values()),
@@ -67,6 +68,9 @@ def _download_identity(value):
 
 def restore_original(public_files,private_bundle,*,candidate):
     """Pure byte verification; caller still needs registered IO and admission."""
+    if candidate in ('C50','D25'):
+        from .mix_evaluation_transfer import restore_original as restore_cd
+        return restore_cd(public_files,private_bundle,arm=candidate)
     need(candidate in ('A_CONTROL','B_COVERAGE'),'ONLY_APPROVED_SAVED_AB')
     b=private_bundle
     need(b.get('schema')=='PV1_EXACT_PRIVATE_INFERENCE_RESTORATION_V1'

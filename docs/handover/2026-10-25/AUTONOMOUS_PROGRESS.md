@@ -84,3 +84,16 @@ The existing dispatcher/runtime now has explicit C/D routing, adopted window, cl
 Core native deployment is still absent. Next complete the original resident owner's cold C/D adapter, actual control custody/fresh snapshot and true closed1024 delivery, original releases and dual terminal/once-accounting. C50 must first actually finish full1024/FExit0 and its owner exit naturally with OS0. D25 remains after C50 Eval24, independently initialized from common CORR2048. GEN remains0/24, WDR core64=0 and the full task is unfinished.
 
 [Actual report](../../../reports/PI0294/design/parallel-science-20261022/V5_C50_355_AND_ORIGINAL_CORE_RUNTIME_JOIN_CPU_ACTUAL_20261026.json).
+
+
+## C50 995 actual updates; closed inference/history and physical Core CPU join — 2026-10-26
+
+At1792958138.7644691 an exact read-only capture saw original1492934/R. Its native effect snapshot1792958108.9546368 had995 committed updates,17 queries,2 loads, one normal pending optimizer update and unknown_effects=[]. None of SETTLED/CLOSED/OWNER_EXIT/OS_EXIT exists yet in that observation. No full1024 endpoint or terminal settlement is inferred. Running sourcebd7cc42f remains unchanged.
+
+Cold delivery now consumes all five actual natural-success closure members, full15 independent streamed state witnesses and bounded seven metadata files. It reuses the existing exporter/restorer, restores exact private Cosmos metadata, and excludes optimizer/scheduler/RNG/trainer payloads. C/D24 history reuses every original per-attempt raw audit, qualification, S1, task score and two-site causal-chain check; all24 valid failures remain valid and no success threshold is added. The one panel cannot claim old DEV48 training/selection admission.35 new CPU cases and468 related tests pass; all C50 closed endpoints in those tests are synthetic. No native/HF/CI PASS is claimed.
+
+A physical-site accounting omission was found before Core admission: the original80k neural CPU upper for each panel must also be reserved on actual Core, alongside its93900 physical CPU upper. A cold once proposal appends an explicit160000-second Core classification to the existing pool and LOCAL hold, preserving the original declaration, both GPU-site uppers, history, caps and clock. Full remaining work/matrix/final recomputation on captured budgets has no shortfall under the existing320h Core cap. This is not yet adopted, and requires fresh actual dual bytes after C50 full closure. It does not authorize another experiment.
+
+A bounded sole-owner handoff reader and originalJournal/onceIO LOCAL projection controller are prepared privately. No handoff write has run. Next: actual C50 full1024/FExit0/15-state-and12-probe audit/once settlement/GPUclose/natural OS0, then one paid LOCAL projection and fresh Core CPU classification. Complete the original resident owner's C/D registration, real process/releases, fixed model delivery and both terminal accounting paths before Eval. C→C24→DfreshCORR→D24 remains fixed. GEN0/24 and core64=0; full task unfinished.
+
+[Actual report](../../../reports/PI0294/design/parallel-science-20261022/V5_C50_995_AND_CD_INFERENCE_HISTORY_CORE_CPU_COLD_JOIN_ACTUAL_20261026.json).
