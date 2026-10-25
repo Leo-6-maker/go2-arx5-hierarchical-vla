@@ -1,3 +1,5 @@
+> **V5阶段成果（2026-10-25，离线核验）：** [A/B后验与一个可反驳混合假说](docs/handover/2026-10-25/AB_POSTMORTEM_AND_NEXT_HYPOTHESIS.md)、[GEN1合法NEAR版本及24图最小阻断](docs/handover/2026-10-25/GEN1_READINESS_AND_NEXT_STAGE.md)、[唯一匹配C/D草案](docs/handover/2026-10-25/MATCHED_CD_MIX_STAGE_CARD.md)已交付。265条TRAIN唯一几何关联、7差异配对/12共同失败全量分析；B旧anchor支持严格缩小，但未证明遗忘。更正零裁剪泛称：139条原误差门PASS中有5条/7动作逆限幅、28条/543 state超范围，编码裁剪0，不能混为一谈。GEN六几何V2绑定仅CPU metadata PASS，真实24图/共同home未资格；无新query/构造/积分/采集/训练/原生写。V5不重开原截止；当前先核已定位state超界，后继C/D和M2仍需有效范围，不自动重训/第二面板。完整goal未完成，core64=0。
+
 > **完整首面板已闭合（2026-10-25）：** [A24/B24完整配对结果、失败、费用与复算材料](docs/handover/2026-10-25/V4A_A24_B24_COMPLETE_FIRST_PANEL_RESULTS.md)：A11/24、B6/24；B−A为−20.8pp，12几何block配对95%区间[−41.7,0.0]pp。48条件全部独立审计、工程缺失0、live原生安全故障0；A/B实际一次结算与双lease CLOSED。B于13:56自主完成，14:34后独立回读；不再将以下历史B13/B19/ACTIVE快照当当前运行状态。未显示新增覆盖收益，暂缓自动扩采／训练／第二面板，等待完整A/B审阅与下一阶段有效范围。正式DEV48／B0保持／独立确认及core64仍未完成，完整goal未完成。
 
 B19 新增[同样成功但释放时序不同的原始证据](reports/PI0294/design/parallel-science-20261022/V4A_B19_MATCHED_T1_TIMING_ACTUAL_20261025.json)：B6成功／13有效失败，同19格A成功10。F2/002/T1两臂均完整成功，B接触结束／撤离较迟；仍是单条件描述，不作干预归因或最终效应。原后台接续，原评分／安全／数据／费用不改。
