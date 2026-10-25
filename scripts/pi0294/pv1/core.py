@@ -26,7 +26,13 @@ class Counter:
 
 
 def qualify(root,label):
-    root=Path(root);m=validate_runtime(root,'4080-simulation');ledger=Ledger(root);ledger.guard()
+    root=Path(root);m=validate_runtime(root,'4080-simulation')
+    from .successor_core_context import GEN_ROLE,GEN_ALLOCATION
+    if m.get('scope')==GEN_ROLE:
+        if label!=GEN_ALLOCATION:raise PermissionError('GEN1_ONLY_REGISTERED_STATIC24_OPERATION')
+        from scripts.pi0294.generalization.static_preview import run as static_preview
+        return static_preview(root)
+    ledger=Ledger(root);ledger.guard()
     component=m.get('scope')==SOURCE_COMPONENT_ROLE
     if component:
         if label!='DEC1_SOURCE_COMPONENT_COUNTER':raise PermissionError('DEC1_EXACT_SOURCE_COUNTER_OPERATION')

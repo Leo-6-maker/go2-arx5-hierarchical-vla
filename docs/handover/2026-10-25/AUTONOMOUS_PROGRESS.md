@@ -26,6 +26,8 @@ Fifteen critical source files have complete GitHub and Gitblob byte readback. Fi
 
 ## Next actual boundaries
 
+Cold integration now includes an explicit new-scope Core CPU role, original counter/entry dispatch, the fixed C/D panel selector, and a finite GEN1 worker that charges before native construction, prohibits integration, compares duplicate reset/render state and preserves the table-only factor. It also validates all real training terminal/audit/lease/owner-OS bytes before proposing the exact already-paid training delta to the existing Core LOCAL ledger. Ninety focused CPU regressions pass, including legacy counter/plan behavior; the actual sealed GEN1 V2 packet parses as six TRAIN geometries and twelve variants. These changes are **not deployed or natively admitted**, and no image or model result is claimed. New GPU-process admission, endpoint delivery and the existing resident Eval owner's C/D binding remain the next cold work.
+
 Keep the healthy C50 owner and await its native start. Finish the existing Core Eval entry's explicit C/D identity, endpoint delivery, fresh resource/process admission and once accounting without borrowing old B24-only sharing permission or old leases. After a true complete1024 endpoint, dispatch only the original24 conditions. GEN1 remains independent:24 static images plus finite three-home preparation, no data capture or training. P0 stays closed and R0 unchanged.
 
 [Actual submission and independent readback](../../../reports/PI0294/design/parallel-science-20261022/V5_CD_C50_UNIQUE_SUBMISSION_BACKGROUND_ACTUAL_20261025.json). The full GR00T/WBC goal is unfinished; core64=0.

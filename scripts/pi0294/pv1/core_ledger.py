@@ -17,15 +17,20 @@ class Ledger:
     role='core'
     def __init__(self,root):
         self.root=Path(root);self.path=self.root/'RESOURCE_LEDGER.json'
-        self.m=read(self.root/'RUN_MANIFEST.json');self.a=read(self.root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
-        if self.m['scope'] not in (EVAL_ROLE,FINAL_EVAL_ROLE,SOURCE_COMPONENT_ROLE) or self.m['authority']['protocol_ref']!=AUTHORITY or self.a['authority_release']!=AUTHORITY:
+        self.m=read(self.root/'RUN_MANIFEST.json')
+        from . import successor_core_context as successor
+        self.successor=self.m['scope']in successor.ROLES
+        self.authority=successor.s.TASK_SOURCE if self.successor else AUTHORITY
+        self.schema=successor.LEDGER_SCHEMA if self.successor else 'PI0294_PV1_CORE_POLICY_LEDGER_V1'
+        self.a=successor.ledger_binding(self.root,closeout=True)[0] if self.successor else read(self.root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
+        if (self.successor and self.m['authority']['protocol_ref']!=self.authority or not self.successor and (self.m['scope'] not in (EVAL_ROLE,FINAL_EVAL_ROLE,SOURCE_COMPONENT_ROLE) or self.m['authority']['protocol_ref']!=AUTHORITY or self.a['authority_release']!=AUTHORITY)):
             raise PermissionError('PV1_TYPED_CORE_POLICY_COUNTERS_ONLY')
         self.limits=self.m['limits'];self._guard_at=0.;self._guard_value=None;self._guard_closeout=None
         self.check(read(self.path))
 
     def check(self,v,*,limits=False,allow_unknown=True):
-        if (v['schema']!='PI0294_PV1_CORE_POLICY_LEDGER_V1' or v['run_uuid']!=self.root.name
-                or v['authority_release']!=AUTHORITY or type(v['unknown_effects']) is not list
+        if (v['schema']!=getattr(self,'schema','PI0294_PV1_CORE_POLICY_LEDGER_V1') or v['run_uuid']!=self.root.name
+                or v['authority_release']!=getattr(self,'authority',AUTHORITY) or type(v['unknown_effects']) is not list
                 or v['unknown_effects'] and not allow_unknown
                 or any(type(v[k]) is not int or v[k]<0 for k in (*KINDS,'engine_starts','main_starts'))
                 or type(v['Core_CPU_s']) not in (int,float) or not math.isfinite(v['Core_CPU_s']) or v['Core_CPU_s']<0):
@@ -53,16 +58,20 @@ class Ledger:
 
     def guard(self,*,closeout=False):
         component_closeout=self.m['scope']==SOURCE_COMPONENT_ROLE and closeout
-        cutoff=self.a['hard_closeout_epoch'] if closeout else self.a['stop_new_physics_epoch']
-        if not (self.a['T0_epoch']<=time.time() and (component_closeout
-                or time.time()<min(cutoff,self.limits['operation_deadline_epoch']))):
-            raise TimeoutError('PV1_ORIGINAL_PHYSICS_OR_CLOSEOUT_CUTOFF')
+        if getattr(self,'successor',False):
+            from .successor_core_context import deadline
+            deadline(self.root,self.m,closeout=closeout)
+        else:
+            cutoff=self.a['hard_closeout_epoch'] if closeout else self.a['stop_new_physics_epoch']
+            if not (self.a['T0_epoch']<=time.time() and (component_closeout
+                    or time.time()<min(cutoff,self.limits['operation_deadline_epoch']))):
+                raise TimeoutError('PV1_ORIGINAL_PHYSICS_OR_CLOSEOUT_CUTOFF')
         if not closeout and any(p.exists() for p in (self.root/'STOP.json',self.root/'SOURCE_PHYSICS_STOP.json',self.root.parent.parent/'STOP.json')):
             raise PermissionError('PV1_CORE_SAFETY_OR_PARENT_STOP')
         now=time.monotonic()
         if self._guard_value is None or self._guard_closeout!=closeout or now-self._guard_at>=.25:
             binding=read(self.root/'OUTPUT_BINDING.private.json');lease=read(binding['lease'])
-            if lease['status']!='ACTIVE' or lease['run_uuid']!=self.root.name or lease['authority_release']!=AUTHORITY:
+            if lease['status']!='ACTIVE' or lease['run_uuid']!=self.root.name or lease['authority_release']!=getattr(self,'authority',AUTHORITY):
                 raise PermissionError('PV1_LIVE_CORE_EVALUATION_LEASE')
             self._guard_value=self.check(read(self.path),limits=not component_closeout,allow_unknown=closeout)
             self._guard_at=now;self._guard_closeout=closeout

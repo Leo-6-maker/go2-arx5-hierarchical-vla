@@ -15,6 +15,10 @@ def validate_runtime(root,profile,*,closeout=False,now=None):
     if now is not None:
         raise PermissionError('PV1_NATIVE_RUNTIME_CLOCK_ONLY_NO_INJECTED_DATE')
     root=Path(root)
+    if profile=='4080-simulation':
+        from . import successor_core_context as successor
+        if read(root/'RUN_MANIFEST.json').get('scope')in successor.ROLES:
+            return successor.validate(root,profile,closeout=closeout)
     from . import evaluation_core_accounting as core_GPU
     if profile==core_GPU.PROFILE:
         from .evaluation_core_scope import validate as validate_Core_GPU
