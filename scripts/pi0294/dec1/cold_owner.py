@@ -166,7 +166,11 @@ def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=tim
                          unknown_mutations_not_retried=True,job_id=job,
                          diagnostic=getattr(error,'diagnostic',None)))
                 if errors>=3:
-                    raise
+                    # Only the explicitly registered new successor may remain
+                    # alive during site read outages. Each read keeps its old
+                    # timeout; no heartbeat/release uses stale observations.
+                    if scope_binding is None or not getattr(o,'preserve_readonly_until_deadline',False):raise
+                    o.record('READ_ONLY_SUSPENDED_NO_RELEASE-'+str(time.time_ns()),dict(job_id=job,consecutive_failures=errors,deadline_epoch=deadline,no_new_heartbeat_or_release=True))
                 sleep(30)
         return dict(status='ORIGINAL_TRAIN_STOP_WINDOW_REACHED_NO_NEW_EFFECTS',job_id=job)
     finally:

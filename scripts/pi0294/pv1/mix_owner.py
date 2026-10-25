@@ -75,7 +75,7 @@ class Owner:
         for n,h in seal['files'].items():need(sha(self.code/n)==h,'EXACT_SOURCE_BYTE:'+n)
         need(Path(__file__).resolve()==(self.code/'scripts/pi0294/pv1/mix_owner.py').resolve(),'RUN_OWN_IMMUTABLE_SOURCE_CAPSULE')
         self.BASE=self.root/'control/resident-owner';self.BASE.mkdir(mode=0o700)
-        self.request_template=self.CONFIG['request_template'];self.scope_record=read(self.root/'plans/V5_CD_PAIRED_PACKAGE_RESERVATION.private.json');self.last=None;self.current=None;self.cold_rpc_bound=True;self.previous=SimpleNamespace(rpc=self.heartbeat_rpc);self.HEARTBEAT='V5_CD_LOCAL_BOUND_OWNER_HEARTBEAT'
+        self.request_template=self.CONFIG['request_template'];self.scope_record=read(self.root/'plans/V5_CD_PAIRED_PACKAGE_RESERVATION.private.json');self.last=None;self.current=None;self.cold_rpc_bound=True;self.preserve_readonly_until_deadline=True;self.previous=SimpleNamespace(rpc=self.heartbeat_rpc);self.HEARTBEAT='V5_CD_LOCAL_BOUND_OWNER_HEARTBEAT'
         self.setup=new_journal(self.BASE,'setup-rpc',dict(run_uuid=self.root.name,job_id='NO_GPU_YET',source_sha=self.manifest['code']['vla_commit'],request_sha256=scope.GRANT_SHA));self.running=None
         os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]));resource.setrlimit(resource.RLIMIT_CPU,(1790,1800));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
     def record(self,n,v):return once(self.BASE/(n+'.private.json'),v)
@@ -99,9 +99,10 @@ class Owner:
         value=self.program('AUTH')
         if value.get('classification')=='TOKEN_EXPIRED' and secret:
             from .auth_lifecycle import masked_login
-            masked_login(['/opt/am/python/bin/amgr','login'],secret,timeout_s=45,process_cpu_limit_s=20,controlling_terminal=True)
+            self.setup.call('AUTH_RENEW','MUTATION',lambda intent,limit:masked_login(['/opt/am/python/bin/amgr','login'],secret,timeout_s=min(limit,40),process_cpu_limit_s=20,controlling_terminal=True))
             value=self.program('AUTH')
-        need(value.get('classification')=='SUCCESS','FRESH_PROJECT_AUTH')
+        if value.get('classification')!='SUCCESS':
+            error=ReadOnlyFailure('V5_PROJECT_AUTH_UNAVAILABLE_NO_RELEASE_OR_LOGIN_REPLAY');error.diagnostic=dict(classification=value.get('classification'),authentication_reply_redacted=True);raise error
         need(value['balance_GPU_hours']>8.1 and value['balance_CPU_hours']>=36*22500/3600,'REAL_SITE_PROJECT_GPU_AND_CPU_BALANCE')
         return value
     def fresh(self,number=None,job=None,*,light=False):
@@ -190,7 +191,7 @@ class Owner:
 
 
 def main(root):
-    owner=Owner(root);secret=sys.stdin.readline(257).rstrip('\n');lock=OwnerLock(owner.root/'control/STAGE_SERVER_OWNER.lock')
+    owner=Owner(root);secret=sys.stdin.readline(257).rstrip('\n');need(bool(secret),'BACKGROUND_OWNER_CREDENTIAL_IN_MEMORY_REQUIRED');lock=OwnerLock(owner.root/'control/STAGE_SERVER_OWNER.lock')
     try:
         owner.record('SERVER_OWNER_PROCESS',dict(pid=os.getpid(),proc_start_ticks=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],source_sha=owner.manifest['code']['vla_commit'],agent_liveness_required=False,scope=owner.successor_scope))
         owner.submit(secret);terminal=cold_owner.watch(owner,secret,scope_binding=owner.successor_scope);owner.record('RESIDENT_TERMINAL_RETURNED',terminal);result=owner.finish(terminal);owner.record('RESIDENT_EXIT',dict(returncode=0,observed_epoch=time.time(),endpoint_status=result['status']));return result
