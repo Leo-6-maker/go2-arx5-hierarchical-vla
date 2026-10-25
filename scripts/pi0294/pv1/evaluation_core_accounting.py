@@ -83,6 +83,9 @@ def row(value):
     if r['status'] in (STATES[0],STATES[4],STATES[5]):
         need(handle is None and not any(k in r for k in ('pid','proc_start','boot_id')),
              'UNBOUND_INTENT_IS_UNKNOWN_NOT_A_JOB')
+    elif r['status']==STATES[3] and r.get('native_start_rejected_before_binding') is True:
+        from .evaluation_core_prebind_failure import validate_row as validate_prebind_failure
+        validate_prebind_failure(r)
     else:
         need(handle==process_handle(r.get('boot_id'),r.get('pid'),r.get('proc_start'))
              and finite(r.get('process_started_epoch'))>=r['created_epoch'],
