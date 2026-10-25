@@ -76,6 +76,9 @@ def validate_global(g):
         need(g['CPU_s']+g['CPU_reserved_s']+MATRIX['Hopper_CPU_s']<=213*3600,'SITE_CPU_MATRIX_PROTECTED')
         need(g['reserved']['H200_s']>=remaining['H200_s'] and g['reserved']['optimizer_updates']>=remaining['optimizer_updates'] and g['reserved']['neural_queries']>=remaining['neural_queries'],'ALL_PACKAGE_NEURAL_ESCROW_RETAINED')
         need(g['CPU_reserved_s']>=remaining['Hopper_CPU_s'] and g['storage_reserved_bytes']>=remaining['Hopper_storage_bytes'],'ALL_PACKAGE_CPU_AND_OUTPUT_ESCROW_RETAINED')
+    if CORE_ROWS in g:
+        from .mix_core_accounting import validate_rows
+        validate_rows(g)
     return g
 
 def reserve_package(global_raw,local_raw,*,now_epoch,Core_storage_upper_bytes,local_storage_upper_bytes):

@@ -22,6 +22,8 @@ def need(ok,why):
 def cold_profile(manifest):
     """Reject partial Core metadata before a legacy allocation can see it."""
     m=manifest
+    from . import mix_core_identity as cd
+    if cd.typed(m):return cd.cold_profile(m)
     typed=(m.get('platform_evaluation_version')==c.VERSION or m.get('scope')==c.ROLE
         or m.get('execution',{}).get('profile')==c.PROFILE)
     if not typed:return False
@@ -33,6 +35,10 @@ def cold_profile(manifest):
 
 def sealed_identity(manifest,request,allocation,*,run_uuid,manifest_sha256,request_sha256):
     """Join a saved native admission; never create one from a typed PASS flag."""
+    from . import mix_core_identity as cd
+    if cd.typed(manifest) or cd.typed(request) or cd.typed(allocation):
+        return cd.sealed_identity(manifest,request,allocation,run_uuid=run_uuid,
+            manifest_sha256=manifest_sha256,request_sha256=request_sha256)
     from .evaluation_core_admission import request_identity
     need(cold_profile(manifest),'EXPLICIT_CORE_ROLE')
     request_identity(manifest,request,manifest_sha256)
@@ -177,6 +183,9 @@ def current_handle():
 def require_device(request,allocation,*,visible,count,name,memory_bytes):
     """CUDA metadata after real admission and qualification; no new precision."""
     r,a=request,allocation
+    from . import mix_core_identity as cd
+    if cd.typed(r) or cd.typed(a):
+        return cd.require_device(r,a,visible=visible,count=count,name=name,memory_bytes=memory_bytes)
     need(r.get('platform_evaluation_version')==a.get('platform_evaluation_version')==c.VERSION
          and a.get('status')==STATUS and r.get('stage')==a.get('stage')=='P4_DEV'
          and r.get('evaluation_candidate') in c.stage.CANDIDATES
@@ -257,6 +266,11 @@ def observe_current(root,request,*,allow_model_context=False):
          and hashlib.sha256(request_raw).hexdigest()==r.get('request_sha256')
          and hashlib.sha256((root/'RUN_MANIFEST.json').read_bytes()).hexdigest()==r['run_manifest_sha256'],
          'REAL_REQUEST_BYTES_NOT_A_CALLER_HANDLE_ASSERTION')
+    from . import mix_core_identity as cd
+    successor=cd.typed(r)
+    if successor:
+        cd.request_identity(json.loads((root/'RUN_MANIFEST.json').read_bytes()),
+            {k:v for k,v in r.items() if k!='request_sha256'},r['run_manifest_sha256'])
     boot=Path('/proc/sys/kernel/random/boot_id').read_text().strip();pid=os.getpid()
     stat=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split();start=int(stat[19])
     handle=c.process_handle(boot,pid,start)
@@ -298,9 +312,9 @@ def observe_current(root,request,*,allow_model_context=False):
     if queued:
         ack,_=current_queue(root,r,request_sha256=r['request_sha256'])
         need(ack['accepted_epoch']<=started,'EXISTING_NATIVE_QUEUE_BEFORE_PROCESS_START')
-    need(r['created_epoch']-1<=started<c.old.STOP_PHYSICS and (queued or started<late.start_limit(r))
-         and started<=now<c.old.STOP_PHYSICS,
-         'ACTUAL_PROCESS_START_INSIDE_ORIGINAL_WINDOW')
+    if successor:cd.check_clock(r,started_epoch=started,now_epoch=now)
+    else:need(r['created_epoch']-1<=started<c.old.STOP_PHYSICS and (queued or started<late.start_limit(r))
+         and started<=now<c.old.STOP_PHYSICS,'ACTUAL_PROCESS_START_INSIDE_ORIGINAL_WINDOW')
     return dict(schema='PV1_CORE_GPU_NATIVE_PROCESS_STARTED_V1',hostname='corelab-4080s',uid=2009,
         GPU_uuid=r['GPU_uuid'],request_id=r['request_id'],request_sha256=r['request_sha256'],
         submission_nonce=r['submission_nonce'],run_manifest_sha256=r['run_manifest_sha256'],source_sha=r['source_sha'],

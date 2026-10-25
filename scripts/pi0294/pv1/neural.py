@@ -43,7 +43,8 @@ def require_native_device(request,allocation,torch):
     count=torch.cuda.device_count() if visible else 0
     name=torch.cuda.get_device_name(0) if count==1 else None
     from . import evaluation_core_accounting as core
-    if request.get('platform_evaluation_version')==core.VERSION or allocation.get('platform_evaluation_version')==core.VERSION:
+    from . import mix_accounting as cd
+    if request.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION) or allocation.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION):
         from .evaluation_core_identity import require_device
         require_device(request,allocation,visible=visible,count=count,name=name,
             memory_bytes=torch.cuda.get_device_properties(0).total_memory if count==1 else 0)
@@ -56,6 +57,20 @@ def require_native_device(request,allocation,torch):
 def evaluation_labels(request,plan,prior):
     """V4 requests own one original whole noise panel; legacy owns both."""
     if 'platform_evaluation_version' not in request:return tuple(plan['panels'])
+    from . import mix_accounting as cd
+    if request['platform_evaluation_version']==cd.CORE_VERSION:
+        arm=request.get('evaluation_candidate');label=str(arm)+'-DEV-N294101'
+        if (arm not in ('C50','D25') or request.get('stage')!='V5_MATCHED_DEV24'
+                or request.get('checkpoint_step')!=1024 or request.get('noise_bank')!=294101
+                or request.get('remaining_conditions')!=24 or request.get('optimizer_updates')!=0
+                or plan.get('schema')!='V5_CD_SINGLE_FROZEN_DEV24_SERVICE_PLAN_V1'
+                or plan.get('candidate')!=arm or set(plan.get('panels',{}))!={label}):
+            raise PermissionError('V5_CD_ONE_FIXED_1024_ORIGINAL_NOISE_PANEL')
+        spec=plan['panels'][label]
+        if (spec.get('candidate')!=arm or spec.get('checkpoint_step')!=1024
+                or spec.get('noise_bank')!=294101 or len(remaining_panel(prior,spec))!=24):
+            raise PermissionError('V5_CD_NO_REPEATING_VALID_CONDITION_OR_SECOND_PANEL')
+        return (label,)
     from . import evaluation_core_accounting as core
     if (request['platform_evaluation_version'] not in (evaluation.VERSION,core.VERSION)
             or request.get('stage') not in ('B0_DEV','P4_DEV')
@@ -309,7 +324,7 @@ def train_dataset(root):
 
 def record_candidate(ledger,candidate,identity):
     with ledger.transaction() as v:
-        candidates=v.setdefault('development_candidates',{})
+        candidates=v.setdefault(getattr(ledger,'candidate_field','development_candidates'),{})
         proof=dict(checkpoint_manifest_sha256=identity['checkpoint_manifest_sha256'],global_step=identity['global_step'])
         if candidate in candidates:
             if candidates[candidate]!=proof:raise PermissionError('PV1_ONE_IMMUTABLE_CHECKPOINT_PER_DEV_CANDIDATE')

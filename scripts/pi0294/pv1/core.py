@@ -92,7 +92,9 @@ def run(root,card_path):
             or registry['native_pre_model_receipt_sha256']!=ready['native_pre_model_qualification']['receipt_sha256']
             or ready['job_id']!=registry['job_id']):
         raise PermissionError('PV1_CURRENT_NATIVE_MODEL_IDENTITY_AND_REAL_PREMODEL_PROOF')
-    deadline=min(read(root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')['stop_new_physics_epoch'],
+    from . import successor_core_context as successor
+    scope_deadline=successor.deadline(root,m) if m['scope']==successor.EVAL_ROLE else read(root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')['stop_new_physics_epoch']
+    deadline=min(scope_deadline,
         ready['allocation_end_epoch']-2700,m['limits']['operation_deadline_epoch'])
     if time.time()+900>=deadline:raise TimeoutError('PV1_KEEP_NATIVE_45_MIN_CLOSEOUT_AND_CASE_BOUNDARY')
     lock=OwnerLock(root/'PV1_SOURCE_OWNER.lock');started=time.process_time();folder=root/'episodes'/card['id']

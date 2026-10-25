@@ -7,8 +7,17 @@ MAX_CALLS=150000
 
 
 def validate(manifest,stage):
-    if (manifest.get('authority',{}).get('protocol_ref')!=AUTHORITY
-            or stage.get('authority_release')!=AUTHORITY
+    from . import mix_core_identity as cd
+    from .successor_core_context import EVAL_ROLE
+    successor=cd.typed(manifest) or manifest.get('scope')==EVAL_ROLE
+    authority=cd.s.TASK_SOURCE if successor else AUTHORITY
+    if successor:
+        if (manifest.get('scope')not in (cd.c.ROLE,EVAL_ROLE)
+                or manifest['authority'].get('scope_grant_sha256')!=cd.s.GRANT_SHA
+                or stage.get('task')!=cd.s.TASK or stage.get('scope_grant_sha256')!=cd.s.GRANT_SHA):
+            raise PermissionError('V5_ACTUAL_FINITE_CONTROL_AUTHORITY_NOT_OLD_B24_PERMISSION')
+    if (manifest.get('authority',{}).get('protocol_ref')!=authority
+            or stage.get('authority_release')!=authority
             or manifest.get('execution',{}).get('control_budget_profile')!=PROFILE
             or stage.get('control_budget_profile')!=PROFILE):
         raise PermissionError('PV1_PRESEALED_FINITE_CONTROL_PROFILE_BOTH_MANIFEST_AND_STAGE')

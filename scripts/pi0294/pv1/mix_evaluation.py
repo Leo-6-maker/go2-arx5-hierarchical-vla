@@ -8,6 +8,27 @@ from scripts.pi0294.e1.scope import STATS
 from .successor_cd import TASK,TASK_SOURCE,ORDER
 
 
+def candidate_plan(groups,arm):
+    """Existing service plan shape, with exactly one explicit successor panel."""
+    spec=panel(groups,arm);label=spec['cards'][0]['pv1_session_label']
+    return dict(schema='V5_CD_SINGLE_FROZEN_DEV24_SERVICE_PLAN_V1',task=TASK,
+        task_source=TASK_SOURCE,candidate=arm,population_plan_sha256=POPULATION,
+        parent_checkpoint_manifest_sha256=PARENT,statistics_sha256=STATS,
+        panels={label:spec},Teacher_takeover=False,evaluation_data_for_training=False)
+
+
+def stage(arm):
+    from .successor_cd import GRANT_SHA
+    from .control_budget import PROFILE
+    if arm not in ARMS:raise PermissionError('V5_ONLY_C50_D25_EVAL')
+    return dict(schema='V5_CD_ADMITTED_POLICY_EVALUATION_STAGE_V1',task=TASK,
+        authority_release=TASK_SOURCE,scope_grant_sha256=GRANT_SHA,candidate=arm,
+        population_plan_sha256=POPULATION,statistics_sha256=STATS,
+        parent_checkpoint_manifest_sha256=PARENT,checkpoint_step=1024,
+        Teacher_takeover=False,normalizer_refit=False,evaluation_data_for_training=False,
+        control_budget_profile=PROFILE)
+
+
 def panel(groups,arm):
     if arm not in ARMS:raise PermissionError('V5_ONLY_C50_D25_EVAL')
     label=arm+'-DEV-N294101';cards=[]

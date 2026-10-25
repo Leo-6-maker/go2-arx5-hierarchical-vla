@@ -36,6 +36,10 @@ def file_RPC_profile(manifest,role):
     """Select a physical role before the full unchanged runtime validator."""
     need(role in ('core','hopper'),'EXACT_FILE_RPC_ROLE')
     if role=='core':return '4080-simulation'
+    from . import mix_core_identity as cd
+    if cd.typed(manifest):
+        cd.cold_profile(manifest)
+        return cd.c.PROFILE
     from . import evaluation_core_accounting as core_GPU
     if manifest.get('platform_evaluation_version')==core_GPU.VERSION:
         need(manifest.get('scope')==core_GPU.ROLE
@@ -47,6 +51,24 @@ def file_RPC_profile(manifest,role):
 
 def fixture_job_pattern(manifest,role):
     """Both sealed peers must explicitly name the Vanda evaluation seam."""
+    from . import mix_core_identity as cd
+    if cd.typed(manifest) or manifest.get('evaluation_peer_platform')==cd.c.VERSION:
+        from .successor_core_context import EVAL_ROLE
+        need(role=='hopper' and cd.cold_profile(manifest)
+             or role=='core' and manifest.get('scope')==EVAL_ROLE
+             and manifest.get('candidate')in ('C50','D25')
+             and manifest.get('evaluation_peer_platform')==cd.c.VERSION
+             and 'platform_evaluation_version'not in manifest
+             and manifest.get('execution',{}).get('profile')=='4080-simulation',
+             'EXPLICIT_SUCCESSOR_NEURAL_OR_PHYSICAL_PEER')
+        need(manifest.get('authority',{}).get('protocol_ref')==cd.s.TASK_SOURCE
+             and manifest['authority'].get('scope_grant_sha256')==cd.s.GRANT_SHA,
+             'ACTUAL_NEW_SCOPE_NOT_OLD_WIRE_PROTOCOL_AUTHORITY')
+        for name in ('V5_CD_SCOPE_BINDING.json','plans/V5_CD_PAIRED_EVALUATION_PLAN.json'):
+            need(type(manifest['execution']['sealed_inputs'].get(name))is str
+                 and re.fullmatch('[0-9a-f]{64}',manifest['execution']['sealed_inputs'][name]),
+                 'SEALED_SUCCESSOR_SCOPE_AND_ORIGINAL_PANEL')
+        return r'coregpu:[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}:[1-9][0-9]*:[1-9][0-9]*'
     from . import evaluation_core_accounting as core_GPU
     if manifest.get('platform_evaluation_version')==core_GPU.VERSION or manifest.get('evaluation_peer_platform')==core_GPU.VERSION:
         from . import evaluation_stage as stage,evaluation_scope as scope

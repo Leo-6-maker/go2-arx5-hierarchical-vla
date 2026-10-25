@@ -43,6 +43,10 @@ def member(root,name):
 
 def validate(root,*,closeout=False):
     need(type(closeout) is bool,'EXPLICIT_CLOSEOUT_PHASE')
+    from . import mix_core_identity as cd
+    if cd.typed(read(Path(root)/'RUN_MANIFEST.json')):
+        from .mix_core_context import validate as validate_successor
+        return validate_successor(root,closeout=closeout)
     root=Path(root);need(root.is_absolute() and root.is_dir() and not root.is_symlink()
         and root.stat().st_uid==os.getuid()==2009 and os.uname().nodename=='corelab-4080s',
         'ACTUAL_OWN_CORE_ROOT_NOT_AMD_OR_HPC')
