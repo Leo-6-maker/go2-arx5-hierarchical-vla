@@ -3,10 +3,18 @@
 Pure request/receipt checks here do not start a process or grant model safety.
 The original reader still observes the real unit, cgroup, lock and nvidia-smi.
 """
+import hashlib
+import json
+import os
+from pathlib import Path
 import re
+import subprocess
+import time
 from . import mix_core_accounting as c, mix_accounting as a, successor_cd as s
 
 STATUS = 'PASS_V5_CD_OWN_NATIVE_CORE_ALLOCATION'
+OWNER_ROLE = 'PI0294_PV1_V5_CD_CORE_RESIDENT_OWNER_V1'
+OWNER_STARTED = 'V5_CD_NATIVE_OWNER_STARTED.private.json'
 
 
 def need(ok, message):
@@ -85,6 +93,86 @@ def check_clock(r, *, started_epoch, now_epoch):
          and start <= now < r['deadline_epoch']
          and start < r['deadline_epoch']-28860,
          'REAL_PROCESS_START_INSIDE_COMPLETE_SUCCESSOR_WINDOW')
+
+
+def current_owner(root, request, *, request_sha256):
+    """Read registered owner custody and its current kernel/unit identity.
+
+    This is the original startup wait's zero-model owner check. It does not
+    accept an old A/B queue ACK, bind a GPU, or write a heartbeat/release.
+    """
+    from .future_admission import _file
+    from scripts.pi0294.dec1.source_cpu_once_io import _file as mutable_metadata
+    from .mix_core_context import LOCAL_BINDING
+    root = Path(root)
+    mraw = _file(root, 'RUN_MANIFEST.json'); m = json.loads(mraw)
+    request_identity(m, request, hashlib.sha256(mraw).hexdigest())
+    relative = 'pbs/alloc-'+str(request['allocation_number']).zfill(2)+'/REQUEST.json'
+    raw = _file(root, relative)
+    need(hashlib.sha256(raw).hexdigest() == request_sha256 and json.loads(raw) == request,
+         'EXACT_OWN_STARTUP_REQUEST_BYTES')
+    braw = _file(root, LOCAL_BINDING)
+    need(hashlib.sha256(braw).hexdigest() == m['execution']['sealed_inputs'].get(LOCAL_BINDING),
+         'SEALED_RESIDENT_CUSTODY_BINDING')
+    binding = json.loads(braw); control = Path(binding['owner_root'])
+    parent = root.parent.parent
+    need(control.is_absolute() and control.parent == parent/'control' and not control.is_symlink()
+         and control.stat().st_uid == os.getuid() == 2009 and os.uname().nodename == 'corelab-4080s',
+         'OWN_EXISTING_CAMPAIGN_CONTROL_NAMESPACE')
+    omraw = _file(control, 'RUN_MANIFEST.json'); om = json.loads(omraw)
+    obraw = _file(control, 'OUTPUT_BINDING.private.json'); ob = json.loads(obraw)
+    need(hashlib.sha256(omraw).hexdigest() == binding['owner_manifest_sha256']
+         and om['run_uuid'] == control.name and om['output_root'] == str(control)
+         and om['scope'] == OWNER_ROLE and om['code']['vla_commit'] == request['source_sha']
+         and om['authority']['protocol_ref'] == s.TASK_SOURCE
+         and om['authority']['scope_grant_sha256'] == s.GRANT_SHA
+         and om['limits']['T_CD'] == request['T_CD']
+         and om['limits']['operation_deadline_epoch'] == request['deadline_epoch']
+         and om['execution']['profile'] == '4080-cpu-data'
+         and om['execution']['output_binding_sha256'] == hashlib.sha256(obraw).hexdigest()
+         and ob['run_root'] == str(control) and ob['run_uuid'] == control.name and ob['uid'] == 2009
+         and ob['role'] == OWNER_ROLE+'__'+control.name
+         and om['execution']['private_path_role'] == ob['role']
+         and Path(ob['registered_parent']) == control.parent,
+         'REGISTERED_SUCCESSOR_OWNER_SAME_SOURCE_SCOPE_AND_CLOCK')
+    pb = json.loads(_file(parent, 'OUTPUT_BINDING.private.json'))
+    need(ob['registry'] == pb['registry'], 'ONE_EXISTING_PARENT_REGISTRY')
+    registry = Path(ob['registry']); lease_path = Path(ob['lease'])
+    entries = json.loads(mutable_metadata(registry))['entries']
+    matches = [e for e in entries if e.get('role') == ob['role']]
+    need(len(matches) == 1 and matches[0]['path'] == str(control)
+         and matches[0]['run_uuid'] == control.name, 'ONE_ACTUAL_REGISTERED_OWNER')
+    lease = json.loads(mutable_metadata(lease_path)); now = time.time()
+    need(lease['status'] == 'ACTIVE' and lease['run_uuid'] == control.name
+         and lease['authority_release'] == s.TASK_SOURCE
+         and lease['deadline_epoch'] == request['deadline_epoch']
+         and request['T_CD'] <= now < request['deadline_epoch'], 'ACTIVE_OWN_SUCCESSOR_OWNER_LEASE')
+    owner = json.loads(_file(control, OWNER_STARTED))
+    expected = dict(schema='V5_CD_CORE_RESIDENT_OWNER_NATIVE_PROCESS_V1', hostname='corelab-4080s',
+        uid=2009, run_uuid=control.name, source_sha=request['source_sha'],
+        request_id=request['request_id'], request_sha256=request_sha256,
+        manifest_sha256=binding['owner_manifest_sha256'],
+        native_unit=control.name+'.service', task=s.TASK, scope_grant_sha256=s.GRANT_SHA,
+        T_CD=request['T_CD'], deadline_epoch=request['deadline_epoch'])
+    need(all(owner.get(k) == v and type(owner[k]) is type(v) for k, v in expected.items())
+         and type(owner.get('pid')) is int and owner['pid'] > 0
+         and type(owner.get('proc_start')) is int and owner['proc_start'] > 0
+         and request['T_CD'] <= owner['started_epoch'] <= now,
+         'EXACT_NEW_OWNER_RECEIPT_NOT_OLD_QUEUE_OR_PID_ONLY')
+    proc = Path('/proc')/str(owner['pid'])
+    fields = (proc/'stat').read_text().rsplit(')', 1)[1].split()
+    need(proc.stat().st_uid == 2009 and fields[0] not in ('Z', 'X')
+         and int(fields[19]) == owner['proc_start']
+         and Path('/proc/sys/kernel/random/boot_id').read_text().strip() == owner['boot_id'],
+         'ACTUAL_LIVE_OWNER_BOOT_PID_PROCSTART')
+    reply = subprocess.run(['systemctl', '--user', 'show', owner['native_unit'], '-p', 'MainPID',
+        '-p', 'ActiveState', '-p', 'ControlGroup'], capture_output=True, text=True, timeout=8)
+    props = dict(line.split('=', 1) for line in reply.stdout.splitlines() if '=' in line)
+    cg = (proc/'cgroup').read_text().strip().split('::', 1)
+    need(reply.returncode == 0 and props.get('MainPID') == str(owner['pid'])
+         and props.get('ActiveState') == 'active' and len(cg) == 2 and cg[0] == '0'
+         and props.get('ControlGroup') == cg[1], 'FRESH_OWNER_UNIT_AND_KERNEL_GROUP')
+    return owner
 
 
 def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha256):

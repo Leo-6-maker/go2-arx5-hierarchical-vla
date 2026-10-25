@@ -107,6 +107,22 @@ def predecessor_history(root,request,global_ledger,evidence):
 def resource_inputs(root,request_path,ledger,process):
     root,request_path=Path(root),Path(request_path)
     m=read(root/'RUN_MANIFEST.json');r=read(request_path)
+    from . import mix_core_identity as cd
+    if cd.typed(r):
+        from .mix_core_context import LOCAL_BINDING,CAPTURE
+        from scripts.pi0294.dec1.source_cpu_once_io import _file as ledger_file
+        ledger.state();raw_global=ledger.raw_state_bytes
+        binding_raw=_file(root,LOCAL_BINDING)
+        need(hashlib.sha256(binding_raw).hexdigest()==m['execution']['sealed_inputs'].get(LOCAL_BINDING),
+             'IMMUTABLE_SUCCESSOR_CANONICAL_LOCAL_BINDING')
+        binding=json.loads(binding_raw);local_path=Path(binding['canonical_LOCAL_ledger']).resolve()
+        need(local_path.name=='LOCAL_RESOURCE_LEDGER.private.json'
+             and local_path.is_relative_to((root.parent.parent/'control').resolve()),'SAME_CANONICAL_SUCCESSOR_LOCAL')
+        return dict(manifest_bytes=_file(root,'RUN_MANIFEST.json'),request_bytes=_file(root,str(request_path.relative_to(root))),
+            global_bytes=raw_global,local_bytes=ledger_file(local_path),snapshot_bytes=_file(root,original.FRESH_SNAPSHOT),
+            training_capture_bytes=_file(root,CAPTURE),population_bytes=_file(root,'plans/PV1_DATA_PLAN_AND_SPLIT_SEAL.json'),
+            plan_bytes=_file(root,'plans/SOURCE_EVALUATION_PLAN.json'),prior_bytes=_file(root,'plans/PRIOR_EVALUATION_OUTCOMES.json'),
+            native_facts_bytes=original.canonical(process),now_epoch=time.time())
     population,evidence=static_history(root,m,r)
     global_ledger=ledger.state();evidence=predecessor_history(root,r,global_ledger,evidence)
     # The exact remote raw bytes, not a reserialized summary, bind the snapshot.
@@ -134,7 +150,11 @@ def resource_inputs(root,request_path,ledger,process):
 
 def budget_now(root,request_path,ledger):
     r=read(request_path);process=identity.observe_current(root,dict(r,request_sha256=hashlib.sha256(request_path.read_bytes()).hexdigest()))
-    result=resources.recompute(**resource_inputs(root,request_path,ledger,process),purpose='NATIVE_PREMODEL')
+    from . import mix_core_identity as cd
+    if cd.typed(r):
+        from .mix_core_admission import recompute
+        result=recompute(**resource_inputs(root,request_path,ledger,process))
+    else:result=resources.recompute(**resource_inputs(root,request_path,ledger,process),purpose='NATIVE_PREMODEL')
     need(result['all_remaining_costs_fit'] is True and result['shortfalls']=={},'FRESH_COMPLETE_BUDGET')
     return result,process
 
@@ -143,7 +163,10 @@ def admit(root,request_path):
     root,request_path=Path(root),Path(request_path);m,*_=validate(root)
     need(not os.environ.get('PBS_JOBID') and request_path.name=='REQUEST.json'
          and request_path.parent.parent.resolve()==(root/'pbs').resolve(),'EXACT_CORE_REGISTERED_REQUEST_PATH')
-    r=read(request_path);resources.request_identity(m,r,hashlib.sha256(_file(root,'RUN_MANIFEST.json')).hexdigest())
+    r=read(request_path)
+    from . import mix_core_identity as cd
+    successor=cd.typed(r);checker=cd if successor else resources
+    checker.request_identity(m,r,hashlib.sha256(_file(root,'RUN_MANIFEST.json')).hexdigest())
     need(request_path.parent.name=='alloc-'+str(r['allocation_number']).zfill(2),
          'CURRENT_REQUEST_NAMESPACE_NOT_A_PBS_ORDINAL')
     out=request_path.parent/'ALLOCATION_ADMISSION.json'
@@ -152,14 +175,17 @@ def admit(root,request_path):
     os.environ[identity.HANDLE_ENV]=process['native_handle']
     ledger=Ledger(root,request_path);proof,process_now=budget_now(root,request_path,ledger)
     need(process['native_handle']==process_now['native_handle'],'SAME_ACTUAL_CALLER_DURING_NATIVE_ADMISSION')
-    value={k:r[k] for k in ('source_sha','request_id','submission_nonce','stage','evaluation_candidate',
+    if successor:
+        value=proof['allocation']
+    else:value={k:r[k] for k in ('source_sha','request_id','submission_nonce','stage','evaluation_candidate',
         'checkpoint_manifest_sha256','statistics_sha256','native_platform','allocation_number')}
-    value.update(status=identity.STATUS,platform_evaluation_version=c.VERSION,run_uuid=root.name,
-        request_sha256=hashlib.sha256(request_path.read_bytes()).hexdigest(),manifest_sha256=r['run_manifest_sha256'],
-        job_id=process['native_handle'],native_handle=process['native_handle'],hostname=process['hostname'],
-        allocation_start_epoch=process['started_epoch'],allocation_end_epoch=min(process['started_epoch']+28800,c.old.STOP_PHYSICS),
-        native_process=process,native_process_sha256=c.digest(process),model_loaded=False,new_optimizer_updates=0,
-        resource_proof_sha256=c.digest(proof),native_model_permission=False,physics_authorized=False)
+    if not successor:
+        value.update(status=identity.STATUS,platform_evaluation_version=c.VERSION,run_uuid=root.name,
+            request_sha256=hashlib.sha256(request_path.read_bytes()).hexdigest(),manifest_sha256=r['run_manifest_sha256'],
+            job_id=process['native_handle'],native_handle=process['native_handle'],hostname=process['hostname'],
+            allocation_start_epoch=process['started_epoch'],allocation_end_epoch=min(process['started_epoch']+28800,c.old.STOP_PHYSICS),
+            native_process=process,native_process_sha256=c.digest(process),model_loaded=False,new_optimizer_updates=0,
+            resource_proof_sha256=c.digest(proof),native_model_permission=False,physics_authorized=False)
     if 'queue_dispatch_mode' in r:
         ack,plan=identity.current_queue(root,r,request_sha256=value['request_sha256'])
         value.update(native_queue_acceptance=ack,native_queue_plan=plan)

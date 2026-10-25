@@ -336,7 +336,8 @@ def record_candidate(ledger,candidate,identity):
 def run(root,request_path):
     root,request_path=Path(root),Path(request_path);r=read(request_path)
     from . import evaluation_core_accounting as core
-    if r.get('platform_evaluation_version')==core.VERSION:
+    from . import mix_accounting as cd
+    if r.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION):
         from .evaluation_core_runtime import run as run_Core_evaluation
         return run_Core_evaluation(root,request_path)
     if r.get('stage') not in STAGES:

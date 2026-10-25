@@ -118,7 +118,8 @@ def verify(root,directory,allocation):
     if directory.is_symlink() or directory.parent.resolve()!=(root/'pbs').resolve():
         raise PermissionError('PV1_IMMUTABLE_SAME_JOB_CAPTURE_DIRECTORY')
     raw=path.read_bytes();v=immutable(path)
-    if allocation.get('status')==Core_native.STATUS:
+    from .mix_core_identity import STATUS as CD_CORE_STATUS
+    if allocation.get('status') in (Core_native.STATUS, CD_CORE_STATUS):
         Core_native.sealed_identity(immutable(root/'RUN_MANIFEST.json'),immutable(directory/'REQUEST.json'),
             allocation,run_uuid=root.name,manifest_sha256=sha(root/'RUN_MANIFEST.json'),
             request_sha256=sha(directory/'REQUEST.json'))

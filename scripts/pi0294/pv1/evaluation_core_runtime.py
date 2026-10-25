@@ -1,8 +1,8 @@
 """Cold Core hook into the existing model service and original DEV evaluator.
 
 No training implementation, new controller or changed scientific gate. The
-server owner must already have accepted the two exact registered requests and
-must bind the real unit/process and fresh resources before this hook proceeds.
+server owner must hold the exact registered request and bind its real unit,
+process and fresh resources before this hook proceeds. C/D keeps its own scope.
 """
 import hashlib
 import json
@@ -37,9 +37,20 @@ def put(path,value):
     write(path,value);path.chmod(0o400)
 
 
+def phase_deadline(request):
+    from . import mix_core_identity as cd,successor_cd as successor
+    if cd.typed(request):
+        need(request.get('platform_evaluation_version')==cd.c.VERSION
+             and request.get('stage')=='V5_MATCHED_DEV24' and request.get('evaluation_candidate')in ('C50','D25')
+             and request.get('deadline_epoch')==successor.scope(request.get('T_CD'))['deadline_epoch'],
+             'EXPLICIT_ADOPTED_SUCCESSOR_PHASE_NOT_OLD_AB_CLOCK')
+        return request['deadline_epoch']
+    return c.old.STOP_PHYSICS
+
+
 def release(root,directory,request,process,name,*,phase_started,guard):
     """One actual owner's immutable reply; read failure never resends a write."""
-    path=directory/name;end=min(time.time()+180,process['started_epoch']+28800-2700,c.old.STOP_PHYSICS)
+    path=directory/name;end=min(time.time()+180,process['started_epoch']+28800-2700,phase_deadline(request))
     while time.time()<end:
         guard()
         if path.exists():
@@ -60,10 +71,15 @@ def release(root,directory,request,process,name,*,phase_started,guard):
 
 def run(root,request_path):
     root,request_path=Path(root),Path(request_path);manifest,*_=validate(root);request=read(request_path)
-    need(request.get('stage')=='P4_DEV' and request.get('evaluation_candidate') in c.stage.CANDIDATES
-         and request.get('platform_evaluation_version')==c.VERSION,'ORIGINAL_AB_FIRST_STAGE_ONLY_ZERO_TRAINING')
-    from .evaluation_core_admission import request_identity
+    from . import mix_core_identity as cd
+    successor=cd.typed(request)
+    if successor:request_identity=cd.request_identity
+    else:
+        need(request.get('stage')=='P4_DEV' and request.get('evaluation_candidate')in c.stage.CANDIDATES
+             and request.get('platform_evaluation_version')==c.VERSION,'ORIGINAL_AB_FIRST_STAGE_ONLY_ZERO_TRAINING')
+        from .evaluation_core_admission import request_identity
     request_identity(manifest,request,sha(root/'RUN_MANIFEST.json'))
+    end=phase_deadline(request)
     directory=request_path.parent
     need(directory.parent.resolve()==(root/'pbs').resolve() and request_path.name=='REQUEST.json'
          and directory.name=='alloc-'+str(request['allocation_number']).zfill(2)
@@ -73,16 +89,17 @@ def run(root,request_path):
     process=None;records=[]
     def guard():
         now=time.time()
-        need(now<c.old.STOP_PHYSICS and not any(p.exists() for p in (root/'STOP.json',root.parent.parent/'STOP.json',
+        need(now<end and not any(p.exists() for p in (root/'STOP.json',root.parent.parent/'STOP.json',
             root/'SOURCE_PHYSICS_STOP.json',root/'SOURCE_SAFETY_STOP_FROM_CORE.json')),'ORIGINAL_STOP_FENCES')
-        if process is not None:need(now<min(process['started_epoch']+28800,c.old.STOP_PHYSICS)-2700,
+        if process is not None:need(now<min(process['started_epoch']+28800,end)-2700,
             'ORIGINAL_45_MINUTE_NATIVE_CLOSEOUT_RESERVE')
         if ledger is None:
             # A just-started unit announces its real PID before the owner can
             # bind it. During this bounded zero-model wait, observe the actual
             # already accepted resident owner rather than inventing a live
             # GPU heartbeat before a native handle has been bound.
-            if 'startup_recovery_sha256' in request:
+            if successor:cd.current_owner(root,request,request_sha256=sha(request_path))
+            elif 'startup_recovery_sha256' in request:
                 from .evaluation_core_zero_start_recovery import current_owner
                 current_owner(root,request)
             else:identity.current_queue(root,request,request_sha256=sha(request_path))
@@ -115,9 +132,10 @@ def run(root,request_path):
         configure_torch(torch,request['numerical_mode']);torch.set_num_threads(4)
         metadata=read(root/'plans/EVALUATION_CHECKPOINT.private.json');candidate=request['evaluation_candidate']
         checkpoint=Path(metadata['checkpoint']);phase=candidate+'-MODEL_LOAD'
+        expected_checkpoint=request['checkpoint_manifest_sha256'] if successor else c.old.ENDPOINTS[candidate]
         need(metadata.get('full_resume_files_present') is False
-             and metadata['checkpoint_manifest_sha256']==c.old.ENDPOINTS[candidate]
-             and sha(checkpoint/'CHECKPOINT_COMPLETE.json')==c.old.ENDPOINTS[candidate],
+             and metadata['checkpoint_manifest_sha256']==expected_checkpoint
+             and sha(checkpoint/'CHECKPOINT_COMPLETE.json')==expected_checkpoint,
              'EXACT_INFERENCE_VIEW_OF_CLOSED_FULL_STATE_NOT_NEW_TRAINING')
         model_identity=checkpoint_identity(checkpoint,candidate,request['source_sha'])
         intent=directory/'MODEL_LOAD_INTENTS'/ (candidate+'.json');intent.parent.mkdir(mode=0o700)
