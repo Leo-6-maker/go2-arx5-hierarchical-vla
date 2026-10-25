@@ -43,4 +43,4 @@
 
 完整 B24 尚需原后台完成后独立核验，最终 B−A 按原同几何配对方法计算；单噪声面板结果即使有效，也不是完整 DEV48 或独立泛化证据。不根据中途结果改权重、评分、数据或启动训练。
 
-[逐项身份、数据曝光与固定源码核验机读卡](../../../../reports/PI0294/design/parallel-science-20261022/V4A_AB4096_MODEL_DATA_IDENTITY_ACTUAL_20261025.json)
+[逐项身份、数据曝光与固定源码核验机读卡](../../../reports/PI0294/design/parallel-science-20261022/V4A_AB4096_MODEL_DATA_IDENTITY_ACTUAL_20261025.json)
