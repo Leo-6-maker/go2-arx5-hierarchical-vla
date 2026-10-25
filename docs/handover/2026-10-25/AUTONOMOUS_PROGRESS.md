@@ -123,3 +123,16 @@ The replacement now actually runs under the existing Core entry as `v5-c50-model
 **This is not an Eval launch.** C50 behavior remains0/24, D25 has not started, GEN0/24 and WDRcore64=0. Next finish the original resident owner's explicit C/D registered custody, fresh native process/GPU/full-resource release and dual terminal once bridge; consume actual fixed-revision Core delivery, then run C50 N29410124 before D25. Do not prepay control again or reuse the old B24-only shared-GPU permission.
 
 [Actual background delivery and failure/once evidence](../../../reports/PI0294/design/parallel-science-20261022/V5_C50_EVAL_CONTROL_PREPAID_AND_FINITE_MODEL_DELIVERY_BACKGROUND_ACTUAL_20261026.json).
+
+
+## C50 fixed model delivered; original Core native owner actually started — 2026-10-26
+
+The fixed HF revision `b9f32fe517e6396af36982ac624c2270fb26eaea` was actually downloaded and every tensor SHA matched; private metadata was restored to the original complete1024 manifest. Both finite transfer processes ended OS0. No optimizer/RNG was transferred and no upload/prepayment was repeated.
+
+The original Core resident now has actual explicit C/D owner custody, physical/neural registered peers, full1138-file source readback and original15 numerical overlay, original24 population, original assets and standard entries. The existing package slice was registered once on GLOBAL/LOCAL, with no new cap, PBS or duplicated reserve. Actual sole owner PID1260059/procstart273539853 and native GPU PID1260119/procstart273540357 are healthy; the real process is bound and fresh START_NEURAL released. Original600s/80cycles qualification is underway, not yet PASS. Models/queries/physics and behavior remain0 in this snapshot. The server owner runs independently of an agent.
+
+All early engineering failures are retained in the linked report: a bounded read census failure; restored private/HF metadata mismatch before neural registration; a queue timestamp checked before observation; an oversized read timeout; and an absent owner exception-class import. Each write uncertainty was independently reconciled; old latches were not cleared/replayed. Two undispatched cold peer leases were closed at zero GPU/model/physics; all metadata remains inside the same paid control and original300-second physical metadata upper. The failed owner terminal is preserved; the new sealed cold entry received a real whole-owner import probe before dispatch. Running capsules and scientific files were not patched.
+
+Source92dac22e has eight-file complete GitHub/Gitblob readback,117 targeted CPU regressions and six captured-byte assembly cases. No full-suite/CI/native behavioral PASS is claimed. After this original C50 Eval24 audit/settle/dual closure, D25 must train fresh from commonCORR and run the same24. The complete chain has not all been deployed. GEN0/24, core64=0, full task/goal unfinished.
+
+[Actual native startup and failure history](../../../reports/PI0294/design/parallel-science-20261022/V5_C50_MODEL_DELIVERED_AND_ORIGINAL_CORE_NATIVE_BACKGROUND_STARTED_ACTUAL_20261026.json).
