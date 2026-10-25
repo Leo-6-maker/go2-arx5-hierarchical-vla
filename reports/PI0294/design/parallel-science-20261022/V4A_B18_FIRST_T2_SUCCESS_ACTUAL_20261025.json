@@ -1,0 +1,424 @@
+{
+  "schema": "V4A_B18_FIRST_T2_SUCCESS_ACTUAL_V1",
+  "status": "EXPLORATORY_PARTIAL_NOT_FINAL",
+  "observed_epoch": 1792904764.349918,
+  "proof_sha256": {
+    "native": "e4b4d653ca6944101653ca3fb4d30409c8cd0a8f5513c5960858d112f548c18f",
+    "comparison": "ec7467cfaa8dfaf386b42499be4c8829420da91d3bdac991cde1a705a365f3e2",
+    "atlas": "b1dc9a8a25980cfc98135bb5004a8e62657def5718b4a88d84f7c30a2c6a60d9",
+    "new_original_read": "9209e3ff32115b8296016b431471eb079468cc465cb12db6a385f666a3d1ddc8"
+  },
+  "runtime_source_sha": "4940cbbad36cfeb8a89aa694b795f77fbcba99a0",
+  "request_id": "631b7d63-7f7b-419a-9eb9-fb1a7defa9f8",
+  "by_candidate_task": {
+    "A_CONTROL": {
+      "T1": {
+        "planned": 12,
+        "valid_observed": 12,
+        "successes": 7,
+        "valid_task_failures": 5,
+        "failure_stages": {
+          "ORIGINAL_REFERENCE_GATE_REJECT": 1,
+          "S1_PRE_EXECUTION_REJECT": 2,
+          "OBJECT_TASK_RESULT": 2
+        },
+        "observed_success_rate": 0.5833333333333334,
+        "complete_panel_success_rate": 0.5833333333333334,
+        "engineering_missing": 0,
+        "no_supplied_terminal_evidence": 0
+      },
+      "T2": {
+        "planned": 12,
+        "valid_observed": 12,
+        "successes": 4,
+        "valid_task_failures": 8,
+        "failure_stages": {
+          "S1_PRE_EXECUTION_REJECT": 6,
+          "OBJECT_TASK_RESULT": 2
+        },
+        "observed_success_rate": 0.3333333333333333,
+        "complete_panel_success_rate": 0.3333333333333333,
+        "engineering_missing": 0,
+        "no_supplied_terminal_evidence": 0
+      }
+    },
+    "B_COVERAGE": {
+      "T1": {
+        "planned": 12,
+        "valid_observed": 9,
+        "successes": 4,
+        "valid_task_failures": 5,
+        "failure_stages": {
+          "OBJECT_TASK_RESULT": 3,
+          "S1_PRE_EXECUTION_REJECT": 2
+        },
+        "observed_success_rate": 0.4444444444444444,
+        "complete_panel_success_rate": null,
+        "engineering_missing": 0,
+        "no_supplied_terminal_evidence": 3
+      },
+      "T2": {
+        "planned": 12,
+        "valid_observed": 9,
+        "successes": 1,
+        "valid_task_failures": 8,
+        "failure_stages": {
+          "S1_PRE_EXECUTION_REJECT": 5,
+          "OBJECT_TASK_RESULT": 3
+        },
+        "observed_success_rate": 0.1111111111111111,
+        "complete_panel_success_rate": null,
+        "engineering_missing": 0,
+        "no_supplied_terminal_evidence": 3
+      }
+    }
+  },
+  "paired_by_task": {
+    "T1": {
+      "pairs": 9,
+      "A_successes": 6,
+      "B_successes": 4,
+      "B_only_success": 0,
+      "A_only_success": 2,
+      "both_success": 4,
+      "both_fail": 3,
+      "descriptive_B_minus_A": -0.2222222222222222
+    },
+    "T2": {
+      "pairs": 9,
+      "A_successes": 3,
+      "B_successes": 1,
+      "B_only_success": 1,
+      "A_only_success": 3,
+      "both_success": 0,
+      "both_fail": 5,
+      "descriptive_B_minus_A": -0.2222222222222222
+    }
+  },
+  "paired_conditions": 18,
+  "complete_geometry_pairs": 9,
+  "unobserved_geometry_pairs": 3,
+  "effect_estimates": null,
+  "intervals": null,
+  "newly_completed_condition_timelines": [
+    {
+      "candidate": "A_CONTROL",
+      "condition_id": "PI0294/PV1/DEV/F2/001/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/001",
+      "family": "F2",
+      "task": "T2",
+      "noise_bank": 294101,
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "actual_duration_s": 20.400000000000002,
+      "live_integrations": 10200,
+      "raw_object_last_observed_s": 20.3499999999996,
+      "raw_object_samples": 408,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": false,
+        "clock_valid": false,
+        "safety_valid": false,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": false
+        },
+        "hold_observed": 0,
+        "hold_pass": 0,
+        "hold_subpredicates": {
+          "zone_corners": 0,
+          "table_height": 0,
+          "linear_speed": 0,
+          "angular_speed": 0,
+          "released": 0,
+          "robot_separated": 0,
+          "tcp_clear": 0,
+          "object_and_contacts_valid": 0
+        },
+        "maximum_center_height_rise_m": 0.0003081986383483004,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": false,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.0003081986383483004,
+        "maximum_actual_carry_xy_m": 0.16357861876672447,
+        "physics_sha256": "00144a9d8d8f97a804e302f328fccae57bb5ea086d8c5e93aa08349a725089e0",
+        "raw_sample_count": 408
+      },
+      "derived_event_timeline": {
+        "actual_contact": {
+          "first_s": 11.02200000000035,
+          "last_s": 19.260000000000204,
+          "observed_samples": 3577
+        },
+        "native_grasp_flag": {
+          "first_s": null,
+          "last_s": null,
+          "observed_samples": 0
+        },
+        "transport_at_least_10cm": {
+          "first_s": 14.936000000001657,
+          "last_s": 20.399999999999572,
+          "observed_samples": 2733
+        },
+        "native_grasp_end_after_transport": {
+          "first_s": null,
+          "last_s": null,
+          "transitions": 0
+        },
+        "contact_end_after_transport": {
+          "first_s": 14.936000000001657,
+          "last_s": 19.262000000000203,
+          "transitions": 143
+        },
+        "all_corners_in_goal_zone": {
+          "first_s": 15.250000000001762,
+          "last_s": 20.3499999999996,
+          "observed_samples": 103
+        },
+        "TCP_clear_after_transport": {
+          "first_s": null,
+          "last_s": null,
+          "observed_samples": 0
+        }
+      },
+      "chronological_first_milestones": [
+        {
+          "event": "actual_contact",
+          "first_observed_s": 11.02200000000035,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "transport_at_least_10cm",
+          "first_observed_s": 14.936000000001657,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "contact_end_after_transport",
+          "first_observed_s": 14.936000000001657,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "all_corners_in_goal_zone",
+          "first_observed_s": 15.250000000001762,
+          "time_resolution_s": 0.05
+        }
+      ],
+      "reference_ACK_timeline": {
+        "draws": 52,
+        "executed_ACKs": 51,
+        "actual_reference_rows": 51,
+        "first_reference_source_s": 0.0,
+        "last_reference_source_s": 19.999999999999794,
+        "terminal_classification": "ORIGINAL_S1_REJECTED_INSTALLED_ZERO_LIVE_PREFIX",
+        "terminal_original_grid_s": 20.400000000000002,
+        "terminal_reference_source_s": null,
+        "source_time_grid_is_audited_not_new_wallclock_measurement": true,
+        "rejected_prefix_has_no_ACK_or_live_execution": true
+      },
+      "original_S1_rejected_rows": [
+        {
+          "decision": "REJECT",
+          "error": "RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION",
+          "shadow_integrations": 56,
+          "first_predicted_violation_offset_tick": 56,
+          "live_integrations": 0,
+          "live_state_unchanged": true,
+          "actions_modified": false
+        }
+      ],
+      "original_reference_rejection": null,
+      "evidence": {
+        "adjudication_sha256": "2d471d756472c940df55fbbaf94f909b47505ac39c0e68b7dded209361d60b23",
+        "independent_audit_sha256": "180b5b4f83c2ea7c6f75425c8b07a3e7f4e4346df7efdbfc857a2aeb6094cd71",
+        "causal_wrapper_sha256": "2d94bca75869f1a43aa6d83d6b3f5589d45828bc5ce8238939c9b9f86895c9a3",
+        "physics_sha256": "00144a9d8d8f97a804e302f328fccae57bb5ea086d8c5e93aa08349a725089e0",
+        "references_sha256": "71883a244e11ee50cd07ed003d49406a6d763c42df4c4e520718bb109037c041",
+        "S1_preflights_sha256": "b8994f961768cbc32fff88734a04c21969a4fa897ecf0c16c42cdada56a5d972",
+        "original_file_manifest_sha256": "1758668c19ca3c49faa9afe3f1ee26d0d5e66150c136d55a15c1b8a54f301360"
+      },
+      "new_integrations": 0,
+      "new_model_queries": 0,
+      "shared_original_score_math_reproduced_exact": true,
+      "new_training_labels": false,
+      "causal_failure_mechanism_not_proven": true
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "condition_id": "PI0294/PV1/DEV/F2/001/T2/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/001",
+      "family": "F2",
+      "task": "T2",
+      "noise_bank": 294101,
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "actual_duration_s": 32.0,
+      "live_integrations": 16000,
+      "raw_object_last_observed_s": 31.999999999993143,
+      "raw_object_samples": 641,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.00031915863069620354,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.000287045650425366,
+        "maximum_actual_carry_xy_m": 0.11481031254288987,
+        "physics_sha256": "2a5de633a140bc885e191c70b8f251fa22d99d0fb604d6eb530d0e09273079bf",
+        "raw_sample_count": 641
+      },
+      "derived_event_timeline": {
+        "actual_contact": {
+          "first_s": 11.864000000000631,
+          "last_s": 18.080000000000858,
+          "observed_samples": 2882
+        },
+        "native_grasp_flag": {
+          "first_s": null,
+          "last_s": null,
+          "observed_samples": 0
+        },
+        "transport_at_least_10cm": {
+          "first_s": 16.69000000000163,
+          "last_s": 31.999999999993143,
+          "observed_samples": 7656
+        },
+        "native_grasp_end_after_transport": {
+          "first_s": null,
+          "last_s": null,
+          "transitions": 0
+        },
+        "contact_end_after_transport": {
+          "first_s": 16.710000000001617,
+          "last_s": 18.082000000000857,
+          "transitions": 19
+        },
+        "all_corners_in_goal_zone": {
+          "first_s": 17.900000000000958,
+          "last_s": 31.999999999993143,
+          "observed_samples": 283
+        },
+        "TCP_clear_after_transport": {
+          "first_s": 20.09999999999974,
+          "last_s": 31.999999999993143,
+          "observed_samples": 239
+        }
+      },
+      "chronological_first_milestones": [
+        {
+          "event": "actual_contact",
+          "first_observed_s": 11.864000000000631,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "transport_at_least_10cm",
+          "first_observed_s": 16.69000000000163,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "contact_end_after_transport",
+          "first_observed_s": 16.710000000001617,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "all_corners_in_goal_zone",
+          "first_observed_s": 17.900000000000958,
+          "time_resolution_s": 0.05
+        },
+        {
+          "event": "TCP_clear_after_transport",
+          "first_observed_s": 20.09999999999974,
+          "time_resolution_s": 0.05
+        }
+      ],
+      "reference_ACK_timeline": {
+        "draws": 80,
+        "executed_ACKs": 80,
+        "actual_reference_rows": 80,
+        "first_reference_source_s": 0.0,
+        "last_reference_source_s": 31.599999999993365,
+        "terminal_classification": "EXECUTED_ACKED_PREFIX",
+        "terminal_original_grid_s": 31.6,
+        "terminal_reference_source_s": 31.599999999993365,
+        "source_time_grid_is_audited_not_new_wallclock_measurement": true,
+        "rejected_prefix_has_no_ACK_or_live_execution": null
+      },
+      "original_S1_rejected_rows": [],
+      "original_reference_rejection": null,
+      "evidence": {
+        "adjudication_sha256": "b219441d5239693908b72fa90da750083d37441fa7d7182b6e39611e7ccbdfd5",
+        "independent_audit_sha256": "cf83c285e967a10e5b4c7f0fe055cb1d9deb298782b3271bff93525873321f49",
+        "causal_wrapper_sha256": "843b3cc4464cedd75bfab50acfd49281038ab5f89dc61899959ff7e0a5178c22",
+        "physics_sha256": "2a5de633a140bc885e191c70b8f251fa22d99d0fb604d6eb530d0e09273079bf",
+        "references_sha256": "3a45f39368e5e8681d11527323b117a024f2c7f62992ead265fbc7cace9d8a43",
+        "S1_preflights_sha256": "f176ed6fb8b998f33318f65c71b9b91144dddb73f6194bc4cd1add3f7d777bfe",
+        "original_file_manifest_sha256": "5a3234abe60fb0083e74f197d3a6ecb728c68e6f321900224ad477250f8662e5"
+      },
+      "new_integrations": 0,
+      "new_model_queries": 0,
+      "shared_original_score_math_reproduced_exact": true,
+      "new_training_labels": false,
+      "causal_failure_mechanism_not_proven": true
+    }
+  ],
+  "native_read": {
+    "source_bytes": 245668,
+    "CPU_s": 0.020544701999999998,
+    "mutations": 0
+  },
+  "owner": {
+    "active": true,
+    "main_pid": 313670,
+    "GPU_pid": 313964,
+    "terminal_closure": false,
+    "foreground_agent_required": false
+  },
+  "interpretation": [
+    "B has a first valid T2 success in the observed sequence; this is not proof of average coverage benefit.",
+    "A same-condition S1 rejection has no executed rejected prefix and no observed final hold; do not recode missing hold as an executed hold failure.",
+    "B completes the unchanged 32-second task, 80 executed ACKs, and all 41 final-hold samples.",
+    "Both the B-only success and five A-only successes remain in the complete fixed panel.",
+    "Do not infer a causal failure mechanism or convert DEV trajectories to TRAIN labels."
+  ],
+  "new_GPU_jobs": 0,
+  "new_training_updates": 0,
+  "new_physics_integrations": 0,
+  "new_model_queries": 0,
+  "full_goal_status": "ACTIVE",
+  "core64": 0,
+  "next": "Continue same resident B24; after terminal, independently verify all original conditions, actual settlement and both lease closures before final paired reporting."
+}
