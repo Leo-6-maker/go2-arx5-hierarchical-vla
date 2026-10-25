@@ -28,6 +28,12 @@ def new_journal(base,name,identity):
     return Journal(path,identity)
 
 
+def request_directory(root,number):
+    need(type(number)is int and 1<=number<=34,'EXACT_CURRENT_SUBMISSION_ORDINAL')
+    path=Path(root)/'pbs'/('alloc-'+str(number).zfill(2));path.mkdir(mode=0o700,parents=True)
+    return path
+
+
 def prepare_request(root,template,*,source_sha,submit_count,now_epoch):
     root=Path(root);audit_path=root/'control/COLD_INPUT_AUDIT.private.json';audit=read(audit_path)
     need(audit.get('status')=='PASS_ACTUAL_V5_CD_COLD_INPUTS_NO_MODEL' and audit.get('run_manifest_sha256')==sha(root/'RUN_MANIFEST.json') and audit.get('source_sha')==source_sha,'ACTUAL_COLD_INPUT_AUDIT_BEFORE_REQUEST')
@@ -138,7 +144,7 @@ class Owner:
         self.auth(secret);quota=self.program('QUOTA');state=self.fresh();need(not state['view']['campaign_jobs'],'NO_ACTIVE_TASK_GPU_BEFORE_REQUEST')
         g=read(self.global_path);need(quota['report_age_s']<=3600 and quota['available_bytes_lower']>=g['storage_reserved_bytes']+40*1024**3+9442971836,'ACTUAL_PROJECT_FILESYSTEM_WHOLE_OUTPUT_AND_FINAL')
         req=prepare_request(self.root,self.request_template,source_sha=self.manifest['code']['vla_commit'],submit_count=len(g['PBS_submissions'])+1,now_epoch=time.time())
-        directory=self.root/'pbs'/('alloc-'+str(req['submit_count']).zfill(2));directory.mkdir();once(directory/'REQUEST.json',req);request_sha=sha(directory/'REQUEST.json');self.record('SOURCE_REQUEST',dict(request=req,request_sha256=request_sha,directory=str(directory)));row=dict(req,request_sha256=request_sha)
+        directory=request_directory(self.root,req['submit_count']);once(directory/'REQUEST.json',req);request_sha=sha(directory/'REQUEST.json');self.record('SOURCE_REQUEST',dict(request=req,request_sha256=request_sha,directory=str(directory)));row=dict(req,request_sha256=request_sha)
         self.record('SOURCE_REQUEST_INTENT',dict(request_id=req['request_id'],once=True));receipt=self.write_global('REGISTER_REQUEST',lambda g:a.register_request(g,row,now_epoch=time.time()));self.record('SOURCE_GLOBAL_RESERVED',receipt)
         body='\n'.join(k+'='+repr(v) for k,v in dict(TARGET=str(self.root),DIRECTORY=str(directory),REQUEST=req,RESERVATION=dict(request_sha256=request_sha,observed_epoch=time.time(),whole_package_already_reserved=True)).items())+'\n'+self.CONFIG['programs']['SUBMIT']
         def submit(intent,limit):

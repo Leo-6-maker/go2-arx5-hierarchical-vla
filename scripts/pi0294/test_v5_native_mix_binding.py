@@ -135,3 +135,27 @@ def test_new_heartbeat_uses_real_original_journal_and_exact_native_nonce(tmp_pat
         if key=='old_kind':value.pop('schema')
         if key=='stale':value['view']['observed_epoch']=800.
         with pytest.raises((PermissionError,ValueError)):checked_heartbeat(value,intent,now=1000.)
+
+
+def test_submit_cpu_fixture_exercises_all_directories_and_original_journal_once(tmp_path,monkeypatch):
+    from scripts.pi0294.pv1 import mix_owner as owner
+    from scripts.pi0292.durable import read,write
+    from scripts.pi0294.native_dataset import sha
+    from types import SimpleNamespace
+    root=tmp_path/'run';root.mkdir();base=root/'control/resident-owner';base.mkdir(parents=True)
+    template=dict(schema='V5_CD_ACTUAL_NATIVE_TRAINING_REQUEST_V1',platform_training_version=a.VERSION,native_platform='VANDA_A40',arm='C50',stage='V5_MATCHED_TRAIN1024',parent_checkpoint_manifest_sha256=a.PARENT,statistics_sha256=a.STATS,optimizer_update_limit=1024,query_limit=29,CPU_upper_s=54000,reserved_H200_s=22500,accounting_pad_s=60,physical_GPU_count=1,physical_GPU_kind='NVIDIA_A40',project='CFP04-CF-007',job_name='pi0294_dec1_a40_train',additional_output_upper_bytes=70000000000,source_sha='a'*40,status='QSUB_INTENT_OUTCOME_UNKNOWN_NO_RETRY',job_id=None,expected_native_start_step=0,training_block=dict(arm='C50',replica=False,stop_after_step=1024,resume_checkpoint_relative=None))
+    write(root/'RUN_MANIFEST.json',dict(code=dict(vla_commit='a'*40)))
+    write(root/'control/COLD_INPUT_AUDIT.private.json',dict(status='PASS_ACTUAL_V5_CD_COLD_INPUTS_NO_MODEL',run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),source_sha='a'*40))
+    gp=tmp_path/'global.json';write(gp,dict(PBS_submissions=[{}]*25,storage_reserved_bytes=1))
+    o=owner.Owner.__new__(owner.Owner);o.root=root;o.BASE=base;o.global_path=gp;o.manifest=read(root/'RUN_MANIFEST.json');o.request_template=template;o.CONFIG=dict(programs=dict(SUBMIT='# CPU fixture, backend is intercepted'))
+    o.auth=lambda secret:None;o.program=lambda name:dict(report_age_s=0,available_bytes_lower=10**15);o.fresh=lambda:dict(view=dict(campaign_jobs=[]));writes=[]
+    o.write_global=lambda phase,fn:writes.append(phase)or dict(CPU_fixture_no_native_ledger_write=True)
+    o.setup=owner.new_journal(base,'setup-rpc',dict(run_uuid='run',job_id='CPU_FIXTURE_NO_GPU',source_sha='a'*40,request_sha256='b'*64));calls=[]
+    def backend(argv,**kw):
+        assert argv==[__import__('sys').executable,'-'] and 'capture_output'in kw
+        calls.append(kw['input']);return SimpleNamespace(returncode=0,stdout=json.dumps(dict(returncode=0,stdout='9999999.stdct-mgmt-02')),stderr='')
+    monkeypatch.setattr(owner.subprocess,'run',backend)
+    assert o.submit('')=='9999999.stdct-mgmt-02' and len(calls)==1 and writes==['REGISTER_REQUEST','BIND']
+    assert (root/'pbs/alloc-26/REQUEST.json').is_file() and o.running.root.is_dir()
+    assert read(o.setup.state_path)['status']=='CONFIRMED' and read(base/'SOURCE_JOB_BOUND.private.json')['job_id']=='9999999.stdct-mgmt-02'
+    with pytest.raises(FileExistsError):owner.request_directory(root,26)
