@@ -1,0 +1,148 @@
+{
+  "schema": "GEN1_METADATA_CONFIG_V1",
+  "seeds": {
+    "geometry": 29420261025,
+    "visual": 29420261026,
+    "reset": 29420261027
+  },
+  "new_layout_profile": "GEN1_LEGACY_SMALL_LAYOUT_V1",
+  "visual_profiles": {
+    "V0": [
+      0.69,
+      0.7,
+      0.66,
+      1.0
+    ],
+    "V1": [
+      0.72,
+      0.65,
+      0.58,
+      1.0
+    ],
+    "V2": [
+      0.55,
+      0.62,
+      0.7,
+      1.0
+    ]
+  },
+  "reset_profiles": [
+    "LEGACY_ABOVE_SOURCE",
+    "GEN_COMMON_HOME"
+  ],
+  "camera_profile": "ORIGINAL_DUAL_RGB",
+  "codec": "R0_EEF10_H40_PREFIX8",
+  "physics_profile_sha256": "358d410b9c6b00a3554aa850bebc776c2da54b098457eca9985e42b1345fee33",
+  "candidates_per_slot": 32,
+  "new_slots": [
+    {
+      "slot_id": "GEN1/G_DEV/+Y/NEAR/00",
+      "stratum": "+Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/+Y/NEAR/01",
+      "stratum": "+Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/+Y/NEAR/02",
+      "stratum": "+Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/+Y/FAR/00",
+      "stratum": "+Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/+Y/FAR/01",
+      "stratum": "+Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/+Y/FAR/02",
+      "stratum": "+Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/-Y/NEAR/00",
+      "stratum": "-Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/-Y/NEAR/01",
+      "stratum": "-Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/-Y/NEAR/02",
+      "stratum": "-Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/-Y/FAR/00",
+      "stratum": "-Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/-Y/FAR/01",
+      "stratum": "-Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_DEV/-Y/FAR/02",
+      "stratum": "-Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/+Y/NEAR/00",
+      "stratum": "+Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/+Y/NEAR/01",
+      "stratum": "+Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/+Y/NEAR/02",
+      "stratum": "+Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/+Y/FAR/00",
+      "stratum": "+Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/+Y/FAR/01",
+      "stratum": "+Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/+Y/FAR/02",
+      "stratum": "+Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/-Y/NEAR/00",
+      "stratum": "-Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/-Y/NEAR/01",
+      "stratum": "-Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/-Y/NEAR/02",
+      "stratum": "-Y/NEAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/-Y/FAR/00",
+      "stratum": "-Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/-Y/FAR/01",
+      "stratum": "-Y/FAR"
+    },
+    {
+      "slot_id": "GEN1/G_TEST/-Y/FAR/02",
+      "stratum": "-Y/FAR"
+    }
+  ],
+  "proposed_holdouts": [
+    [
+      "+Y",
+      "FAR",
+      "V2"
+    ],
+    [
+      "-Y",
+      "NEAR",
+      "V1"
+    ]
+  ],
+  "native_execution_authorized": false
+}
