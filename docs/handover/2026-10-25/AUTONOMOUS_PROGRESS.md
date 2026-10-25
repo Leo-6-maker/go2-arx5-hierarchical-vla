@@ -64,3 +64,12 @@ The new detached C50 owner4032776/wrapper4032775 has actual matching procstart t
 Priority is this GPU stage. Core Eval owner delivery/native admission and GEN remain undeployed; existing pure cold integration is preparation. After actual successful C50 full1024/FExit0/natural owner exit, independently verify all15 members and12probes, once settle/close and project the actual paid delta, then admit C50 N294101 Eval24. D25 follows that Eval. No new helpers, data collection, extra training, old B24 sharing exception or WBC change. Full task/goal remains unfinished; core64=0.
 
 [Sanitized actual receipt](../../../reports/PI0294/design/parallel-science-20261022/V5_C50_BOOTSTRAP_FAILURE_CLOSED_AND_UNIQUE_COLD_RETRY_ACTUAL_20261026.json).
+
+
+## C50 real first updates; full Core resource join cold validation — 2026-10-26
+
+The same job1492934 is actually R on GN-A40-022. First-update release1792950256.1260693 is preserved. Independent readback1792950492.1614926 joins the healthy original owner/procstart and its1792950490.6539943 effect snapshot: **8 committed optimizer updates /17 query attempts /2 model loads**, no unknown effects. This is real optimization; no complete1024 checkpoint or terminal cost settlement is claimed. The running bd7cc42f capsule, recipe, R0, original48 conditions and all task clocks/caps remain unchanged.
+
+The next cold Core seam now joins actual closed-training terminal bytes, both current canonical ledgers, registered request/manifest, true process/boot/PID/kernel/unit/GPU raw evidence, the full original24 population, existing-package escrow and every remaining resource dimension. Understated costs/holds, stale or heartbeat-only snapshots, old B4096/shared permission, missing owner closure, foreign GPU work and unpayable future bounds fail closed. The original matrix3 submissions and final20GPUh/40GiB remain protected; this pure proposal cannot grant model/physics permission. Thirteen new private-capture-backed CPU cases and82 related cases pass. Public environments without private captured inputs skip those fixtures; they are never represented as native evidence.
+
+This is cold code only. The original native Eval runtime/resource-input collector and resident owner still need explicit C/D binding, fresh1024 endpoint delivery and terminal dual accounting. No Core registration, new GPU request, physics or GEN action occurred in this follow-up. Continue C50 on the current autonomous owner; only its true successful complete closed endpoint can enter Eval24, then D25. Full task/goal remains unfinished; core64=0.
