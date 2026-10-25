@@ -62,7 +62,7 @@ def request_identity(manifest,request,manifest_sha):
     if 'startup_recovery_sha256' in r:
         from .evaluation_core_zero_start_recovery import SCHEMA
         need(r.get('evaluation_candidate')=='B_COVERAGE' and c.canonical_uuid(r.get('control_id'))
-             and r['run_uuid'] in ('pv1-v4a-b4096-n294101-zero-start-recovery-01','pv1-v4a-b4096-n294101-read-recovery-02')
+             and r['run_uuid'] in ('pv1-v4a-b4096-n294101-zero-start-recovery-01','pv1-v4a-b4096-n294101-read-recovery-02','pv1-v4a-b4096-n294101-shared-gpu0-03')
              and m['execution']['sealed_inputs'].get('plans/CORE_B_ZERO_START_COLD_RECOVERY.json')
              ==r['sealed_inputs'].get('plans/CORE_B_ZERO_START_COLD_RECOVERY.json')
              and type(r.get('startup_recovery_sha256')) is str and len(r['startup_recovery_sha256'])==64,
@@ -125,7 +125,7 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
              and unit.get('RuntimeMaxUSec')=='8h' and bool(unit.get('ControlGroup'))
              and set(reads)=={'devices','processes'} and all(type(x.get('returncode')) is int
                  and x['returncode']==0 for x in reads.values()),'ACTUAL_UNIT_LIMITS_AND_FULL_NVIDIA_READS')
-        need(parse_GPU_rows(reads['devices']['stdout'],reads['processes']['stdout'],GPU_uuid=r['GPU_uuid'])==facts['device'],
+        need(parse_GPU_rows(reads['devices']['stdout'],reads['processes']['stdout'],GPU_uuid=r['GPU_uuid'],shared_request=r if 'shared_GPU_grant_sha256' in r else None)==facts['device'],
              'ONE_REAL_SELECTED_CORE_DEVICE_BEFORE_CUDA_OR_MODEL')
     work=remaining(population_bytes,evidence_by_candidate=evidence_by_candidate)
     work=stage.first_stage(work,manifest=m,current_request=r,global_ledger=g,

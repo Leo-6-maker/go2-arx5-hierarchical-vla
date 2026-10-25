@@ -79,7 +79,7 @@ def sealed_identity(manifest,request,allocation,*,run_uuid,manifest_sha256,reque
     raw=p['native_GPU_raw']
     need(set(raw)=={'devices','processes'} and all(type(v.get('returncode')) is int
          and v['returncode']==0 for v in raw.values()),'SUCCESSFUL_NATIVE_NVIDIA_READS')
-    device=parse_GPU_rows(raw['devices']['stdout'],raw['processes']['stdout'],GPU_uuid=r['GPU_uuid'])
+    device=parse_GPU_rows(raw['devices']['stdout'],raw['processes']['stdout'],GPU_uuid=r['GPU_uuid'],shared_request=r if 'shared_GPU_grant_sha256' in r else None)
     need(device==p['device'],'RAW_SELECTED_GPU_EQUALS_NATIVE_OBSERVATION')
     return a
 
@@ -193,8 +193,11 @@ def require_device(request,allocation,*,visible,count,name,memory_bytes):
     return True
 
 
-def parse_GPU_rows(raw,process_raw,*,GPU_uuid,own_pid=None):
+def parse_GPU_rows(raw,process_raw,*,GPU_uuid,own_pid=None,shared_request=None):
     """Parse raw nvidia-smi output; an empty/failed read is not a free device."""
+    from .evaluation_core_shared_B24 import allowed as shared_allowed
+    shared=shared_request is not None and shared_allowed(shared_request)
+    need(not shared or GPU_uuid==shared_request['GPU_uuid'],'SHARED_ONLY_EXACT_REQUEST_GPU')
     devices=list(csv.reader(io.StringIO(raw)));matches=[]
     need(devices and all(len(r)==8 for r in devices),'COMPLETE_NATIVE_DEVICE_READ')
     for line in devices:
@@ -214,7 +217,12 @@ def parse_GPU_rows(raw,process_raw,*,GPU_uuid,own_pid=None):
         uuid,pid,_,_=[v.strip() for v in line]
         try:pid=int(pid)
         except ValueError:raise PermissionError('PV1_CORE_NATIVE_REAL_COMPUTE_PID')
-        need(uuid!=GPU_uuid or own_pid is not None and pid==own_pid,'NO_FOREIGN_COMPUTE_ON_SELECTED_DEVICE')
+        if shared and uuid==GPU_uuid:
+            try:used_memory=int(line[3].strip())
+            except ValueError:raise PermissionError('PV1_CORE_NATIVE_COMPLETE_SHARED_PROCESS_MEMORY')
+            need(0<=used_memory<=matches[0]['total_bytes']//1024**2 and bool(line[2].strip()),'ACTUAL_SHARED_PROCESS_MEMORY_AND_IDENTITY')
+        need(shared or uuid!=GPU_uuid or own_pid is not None and pid==own_pid,'NO_FOREIGN_COMPUTE_ON_SELECTED_DEVICE')
+    if shared:matches[0]['human_authorized_shared_GPU_grant_sha256']=shared_request['shared_GPU_grant_sha256']
     return matches[0]
 
 
@@ -281,7 +289,7 @@ def observe_current(root,request,*,allow_model_context=False):
         need(q.returncode==0,'NATIVE_NVIDIA_READ_FAILED_UNKNOWN_DEVICE_USE')
         raw[name]=dict(stdout=q.stdout,stderr=q.stderr,returncode=q.returncode)
     device=parse_GPU_rows(raw['devices']['stdout'],raw['processes']['stdout'],GPU_uuid=r['GPU_uuid'],
-        own_pid=pid if allow_model_context else None)
+        own_pid=pid if allow_model_context else None,shared_request=r if 'shared_GPU_grant_sha256' in r else None)
     # Kernel process start is tied to the actual boot; no caller timestamp may
     # reset the allocation wall when exec switches into the neural interpreter.
     boot_epoch=float(next(x.split()[1] for x in Path('/proc/stat').read_text().splitlines() if x.startswith('btime ')))

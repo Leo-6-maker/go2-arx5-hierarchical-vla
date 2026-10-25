@@ -77,6 +77,9 @@ def validated(value):
     from .evaluation_core_read_failure_recovery import FIELD as read_field,validate as read_validate
     extra=value.get(read_field)
     allowed=({PREVIOUS_A,FAILED},{PREVIOUS_A,FAILED,rid}) if extra is None else ({PREVIOUS_A,FAILED,rid},{PREVIOUS_A,FAILED,rid,extra.get('replacement_request_id')})
+    from . import evaluation_core_shared_B24 as shared
+    if shared.FIELD in value:
+        shared.validate(value);allowed=(*allowed,set(allowed[-1])|{shared.RID})
     need(set(rows) in allowed,'NO_UNCLASSIFIED_PROCESS_OR_REPLACEMENT_POOL')
     if extra is not None:read_validate(value,marker)
     if rid in rows:
@@ -98,6 +101,8 @@ def effective_rows(value):
     from .evaluation_core_read_failure_recovery import FIELD as read_field,FAILED as read_failed
     excluded=set() if marker is None else {FAILED}
     if read_field in value:excluded.add(read_failed)
+    from . import evaluation_core_shared_B24 as shared
+    if shared.FIELD in value:shared.validate(value);excluded.add(shared.failed.RID)
     return [r for key,r in value.get(rows_field,{}).items() if key not in excluded]
 
 
@@ -154,6 +159,8 @@ def current_owner(root,request):
 
 
 def current_boundary(value,request_id):
+    from . import evaluation_core_shared_B24 as shared
+    if shared.FIELD in value and request_id==shared.RID:return shared.validate(value)
     marker=validated(value)
     from .evaluation_core_read_failure_recovery import FIELD as read_field,validate as read_validate
     if read_field in value:

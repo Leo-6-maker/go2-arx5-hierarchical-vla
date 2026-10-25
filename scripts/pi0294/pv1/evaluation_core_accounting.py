@@ -114,6 +114,8 @@ def row(value):
 def validate_global(value):
     from .evaluation_core_B24_1000 import validate as late_validate
     late_validate(value)
+    from .evaluation_core_shared_B24 import validate as shared_validate
+    shared_validate(value)
     if FIELD not in value:
         need('Core_native_GPU_stage_queue' not in value,'NO_ORPHAN_QUEUE_WITHOUT_REAL_ESCROW_ROWS')
         return value
@@ -122,7 +124,7 @@ def validate_global(value):
     from .evaluation_core_zero_start_recovery import validated,effective_rows
     recovery=validated(value)
     scientific=effective_rows(value)
-    need(type(rows) is dict and 1<=len(rows)<=(4 if 'Core_B_known_zero_scheduler_read_recovery' in value else (3 if recovery else 2)),'BOUNDED_ORIGINAL_STAGE_CORE_INDEX')
+    need(type(rows) is dict and 1<=len(rows)<=(5 if 'Core_B24_shared_GPU0_human_boundary' in value else 4 if 'Core_B_known_zero_scheduler_read_recovery' in value else (3 if recovery else 2)),'BOUNDED_ORIGINAL_STAGE_CORE_INDEX')
     for key,r in rows.items():
         need(key==row(r)['request_id'],'EXACT_REQUEST_INDEX')
     paired=scientific+[r for r in value['PBS_submissions']

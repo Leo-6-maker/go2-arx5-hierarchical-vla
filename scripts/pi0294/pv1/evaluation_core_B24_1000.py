@@ -39,6 +39,9 @@ def grant(raw):
 
 
 def start_limit(r):
+    if 'shared_GPU_grant_sha256' in r:
+        from .evaluation_core_shared_B24 import allowed
+        need(allowed(r),'EXACT_SHARED_B24_ONLY');return LATEST
     if 'late_start_grant_sha256' not in r:return ORIGINAL_STOP_NEW
     need(r.get('late_start_grant_sha256')==GRANT_SHA and r.get('request_id')==RID
          and r.get('run_uuid',r.get('child_run_uuid'))==RUN and r.get('evaluation_candidate')=='B_COVERAGE'
@@ -96,6 +99,9 @@ def limit_for_marker(g,m):
 
 
 def check_request(manifest,r,g=None):
+    if 'shared_GPU_grant_sha256' in r:
+        from .evaluation_core_shared_B24 import check_request as shared_check
+        return shared_check(manifest,r,g)
     limit=start_limit(r)
     if limit==ORIGINAL_STOP_NEW:return limit
     need(manifest['execution']['sealed_inputs'].get(PLAN)==r['sealed_inputs'].get(PLAN)==GRANT_SHA,
