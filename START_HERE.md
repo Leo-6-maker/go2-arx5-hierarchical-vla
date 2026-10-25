@@ -1,3 +1,5 @@
+> **V5 C50 已真实挂载后台（2026-10-25 22:30 SGT 回读）：** 唯一Vanda作业 **1492540.stdct-mgmt-02**、runtime3983367b，现役server owner健康／Q心跳已确认，尚无模型或首次更新放行。168h窗口和完整C/D＋48格包已一次采用／预留，控制仅预付一次；两个pre-request冷故障均零GPU且lease已关闭，未改活动源码。C50训练已部署，Core C/D Eval接缝仍冷开发，不能声称全链已部署。见[实际进度](docs/handover/2026-10-25/AUTONOMOUS_PROGRESS.md)。完整goal未完成、core64=0；下方旧pending为历史。
+
 > **V5后继scope已真实采用（2026-10-25）：** 双账本一次采用并独立全文回读；实际窗口20:52:29.813 SGT至11月1日20:52:29.813，GPU-site1021/Core393 GiB已授权生效，Vanda项目登录/额度有效。C50/D25新typed接线复用原后台watch/Trainer/once账本，512仅恢复、1024仅评价端点；当前尚未qsub/模型/训练/物理，下一步整体预留和C50实际提交，普通冷修复自主推进。见[实际进度](docs/handover/2026-10-25/AUTONOMOUS_PROGRESS.md)。旧历史时钟/失败和core64=0保留，完整goal未完成。
 
 > **V5 启动与两项存储修正已获直接批准（2026-10-25）：** 人类回复“允许启动，”，绑定上一条精确811→1021 GiB/329→393 GiB请求；[授权原件](reports/PI0294/design/parallel-science-20261022/V5_CD_TWO_STORAGE_CAPS_AND_START_AUTHORIZATION_20261025.json)。全包在真实双账本捕获字节上纯复算无缺口，11项差分CPU通过。正在一次native采用与登记168h窗口，不重复等待科学GO；本次文档发布尚非原生采用/GPU启动凭证。旧费用、clock、R0、闭合与matrix/final不变。

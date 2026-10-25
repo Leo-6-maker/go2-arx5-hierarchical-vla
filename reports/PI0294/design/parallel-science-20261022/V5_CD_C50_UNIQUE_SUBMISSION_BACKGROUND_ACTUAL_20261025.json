@@ -1,0 +1,113 @@
+{
+  "schema": "V5_CD_C50_UNIQUE_NATIVE_SUBMISSION_AND_BACKGROUND_OWNER_ACTUAL_V1",
+  "task": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+  "status": "C50_SUBMITTED_Q_NOT_MODEL_READY",
+  "runtime_source": "3983367bff4cc88361053f97c2904f3968ba345b",
+  "job_id": "1492540.stdct-mgmt-02",
+  "request_id": "396e9816-d6a4-490b-896c-c965de774bac",
+  "request_sha256": "4b81bf4e61d020130d38affa8009bdc03da17a7d87b0bb9bea6152fb548ca715",
+  "submission_nonce": "390e0cd9-ae96-46d8-a807-ab119c667545",
+  "observed_epoch": 1792938629.4965904,
+  "last_server_heartbeat_epoch": 1792938574.407395,
+  "heartbeat_native_state": "Q",
+  "global_unknown_effects": [],
+  "owner_processes": [
+    {
+      "pid": 2320227,
+      "active": true,
+      "same_start": true,
+      "state": "S"
+    },
+    {
+      "pid": 2320229,
+      "active": true,
+      "same_start": true,
+      "state": "S"
+    }
+  ],
+  "agent_liveness_required": false,
+  "whole_package_reserved_once": true,
+  "control_prepaid_once": true,
+  "global_used": {
+    "H200_s": 133201.0,
+    "PBS_submissions": 26,
+    "optimizer_updates": 11714,
+    "neural_queries": 4424
+  },
+  "global_reserved": {
+    "H200_s": 102840,
+    "neural_queries": 4252,
+    "optimizer_updates": 2048
+  },
+  "scope_clock": {
+    "task": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+    "task_source": "5b5de6f5d26ac90a6002c83ebcb60005acf06462",
+    "T_CD": 1792932749.8133287,
+    "deadline_epoch": 1793537549.8133287,
+    "stop_new_training_epoch": 1793451149.8133287,
+    "order": [
+      "TRAIN:C50:1024",
+      "EVAL:C50:N294101",
+      "TRAIN:D25:1024",
+      "EVAL:D25:N294101"
+    ],
+    "engineering_replacements_total": 4,
+    "engineering_replacements_per_cell": 1,
+    "old_clocks_unchanged": true,
+    "grant_sha256": "3bb1d98abcb083e9b1204c06135e52b008f796680c79271878f749a5b2e29c5a",
+    "before_sha256": {
+      "GLOBAL": "4113e0fc596e392b0c046aeaaa2076ed41f8167f983d744b98fc49257a5113c3",
+      "LOCAL": "af8814a3ec144d7f3a0c2e967bbd094089ec31845b989a61d0427cb39e1ff480"
+    },
+    "authorized_storage_caps": {
+      "Hopper_storage_bytes": 1096290402304,
+      "Core_storage_bytes": 421980536832
+    },
+    "old_clock_and_history_preserved": true,
+    "scope_only_not_GPU_or_physics_admission": true
+  },
+  "scientific_effects_at_observation": {
+    "model_loads": 0,
+    "updates": 0,
+    "queries": 0,
+    "physics": 0,
+    "GEN1_images": 0
+  },
+  "order": [
+    "TRAIN:C50:1024",
+    "EVAL:C50:N294101",
+    "TRAIN:D25:1024",
+    "EVAL:D25:N294101"
+  ],
+  "continuation": {
+    "C50_train_owner": "DEPLOYED_RUNNING",
+    "Core_Eval_CD": "COLD_INTEGRATION_IN_PROGRESS_NOT_DEPLOYED",
+    "D25": "NOT_SUBMITTED",
+    "GEN1": "CPU_PREPARATION_ONLY"
+  },
+  "engineering": [
+    {
+      "cause": "JOURNAL_DIRECTORY_MISSING",
+      "request_created": false,
+      "GPU": 0,
+      "lease": "CLOSED",
+      "cold_fix": "4d5315c6_TO_2e0c3947"
+    },
+    {
+      "cause": "PBS_OUTPUT_PARENT_DIRECTORY_MISSING",
+      "request_created": false,
+      "GPU": 0,
+      "lease": "CLOSED",
+      "cold_fix": "2e0c3947_TO_3983367b"
+    }
+  ],
+  "validation": {
+    "critical_runtime_files_full_GitHub_and_Gitblob_readback": 15,
+    "recent_targeted_CPU_cases": 56,
+    "CI_success_claimed": false
+  },
+  "no_changed_running_capsule": true,
+  "whole_goal_complete": false,
+  "core64": 0,
+  "private_status_receipt_sha256": "c8f3dffa83e24f583f5ea67345453c1450bd1a52509453e2f54474b2128ce1f5"
+}
