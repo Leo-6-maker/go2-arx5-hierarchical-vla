@@ -104,7 +104,7 @@ def validate_row(r):
              'REAL_BOUND_BOOT_PID_AND_START')
     q, loads, cpu = progress(r)
     need(type(r.get('reserved_neural_queries')) is int and
-         r['reserved_neural_queries'] == r['query_limit'] - q,
+         r['reserved_neural_queries'] == (len(r.get('unknown_query_intents',[])) if r['status']==STATES[3] else r['query_limit']-q),
          'EVERY_QUERY_CHARGED_OR_HELD')
     return r
 

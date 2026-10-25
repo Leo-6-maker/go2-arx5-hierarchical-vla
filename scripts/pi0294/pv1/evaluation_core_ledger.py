@@ -66,7 +66,9 @@ elif P['operation']=='METRICS':
   control=g[cd.a.PACKAGE]['prepaid_control'][cd.key(row['evaluation_candidate'])]
   assert control['costs']==cd.CONTROL
   metrics=g.setdefault('V5_CD_prepaid_control_actual_metrics',{}).setdefault(P['request_id'],dict(CPU_s=0,RPC_calls=0))
-  assert metrics['CPU_s']+cpu<=7200 and metrics['RPC_calls']+calls<=150000
+  # The source upload and cold control metadata share this same prepaid
+  # slice. Keep their original 600-second upper before RPC metrics can spend.
+  assert metrics['CPU_s']+cpu+600<=7200 and metrics['RPC_calls']+calls<=150000
   metrics['CPU_s']+=cpu;metrics['RPC_calls']+=calls
  else:
   control=g['V4_DEV_control_reservations'][P['run_uuid']]

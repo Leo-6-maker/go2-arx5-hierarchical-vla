@@ -223,9 +223,12 @@ def charge(value,*,request_id,native_handle,kind,count,effect_id):
     return checked(v)
 
 
-def settle(value,*,request_id,native_proof,effects,now_epoch):
-    v=deepcopy(checked(value));r=v[FIELD][request_id]
-    need(r['status'] in STATES[1:3],'KNOWN_BOUND_TERMINAL_NOT_SETTLED_TWICE')
+def terminal_values(r,*,request_id,native_proof,effects,now_epoch):
+    """Original native identity/effect validation, shared by typed C/D closeout.
+
+    Caller first validates its own scope/row and persists with original onceIO.
+    No legacy identity is used to admit a new scope.
+    """
     p=native_proof
     exact=dict(schema='PV1_CORE_GPU_NATIVE_PROCESS_TERMINAL_V1',request_id=request_id,
         native_handle=r['native_handle'],hostname=r['hostname'],uid=2009,GPU_uuid=r['GPU_uuid'],
@@ -255,6 +258,15 @@ def settle(value,*,request_id,native_proof,effects,now_epoch):
     need(charged<=q<=r['query_limit'] and paid_loads<=loads<=2 and paid_cpu<=cpu
          and (not q or loads) and type(unknown) is list and len(unknown)==len(set(unknown))
          and all(type(i) is int and 0<=i<q for i in unknown),'NO_LOST_PAID_OR_UNKNOWN_EFFECTS')
+    return dict(gpu=gpu,cpu=cpu,output=output,queries=q,loads=loads,charged=charged,paid_loads=paid_loads,paid_cpu=paid_cpu,unknown=unknown)
+
+
+def settle(value,*,request_id,native_proof,effects,now_epoch):
+    v=deepcopy(checked(value));r=v[FIELD][request_id]
+    need(r['status'] in STATES[1:3],'KNOWN_BOUND_TERMINAL_NOT_SETTLED_TWICE')
+    amounts=terminal_values(r,request_id=request_id,native_proof=native_proof,effects=effects,now_epoch=now_epoch)
+    gpu,cpu,output,q,loads,charged,paid_loads,paid_cpu,unknown=(amounts[k]for k in ('gpu','cpu','output','queries','loads','charged','paid_loads','paid_cpu','unknown'))
+    p=native_proof
     v['used']['H200_s']+=gpu;v['CPU_s']+=cpu-paid_cpu
     v['generation_queries']+=q-charged;v['used']['neural_queries']+=q-charged;v['model_loads']+=loads-paid_loads
     v['reserved']['H200_s']-=GPU_UPPER;v['CPU_reserved_s']-=CPU_UPPER-paid_cpu

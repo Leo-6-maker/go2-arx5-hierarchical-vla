@@ -115,6 +115,31 @@ def ledger(root,role):
     return Ledger(root)
 
 
+def fixture_window(root,manifest,registry):
+    """Original wire contract, explicit adopted C/D execution window.
+
+    Runtime validation has already checked this exact registered peer/lease.
+    A new task never revives the old parent lease or changes its stored clock.
+    """
+    from . import mix_core_identity as cd,successor_core_context as core,successor_cd as scope
+    root=Path(root)
+    if cd.typed(manifest)or manifest.get('scope')==core.EVAL_ROLE:
+        from .mix_core_context import LOCAL_BINDING
+        path=root/LOCAL_BINDING
+        if manifest['execution']['sealed_inputs'].get(LOCAL_BINDING)!=sha(path):
+            raise PermissionError('V5_TRANSPORT_ACTUAL_SEALED_LOCAL_BINDING')
+        local=read(read(path)['canonical_LOCAL_ledger']);marker=scope.validated(local)
+        if (marker!=read(root/'V5_CD_SCOPE_BINDING.json')
+            or registry.get('execution_scope')!=scope.TASK
+            or registry.get('execution_authority_release')!=scope.TASK_SOURCE
+            or registry.get('scope_grant_sha256')!=scope.GRANT_SHA
+            or registry.get('T_CD')!=marker['T_CD']
+            or registry.get('execution_deadline_epoch')!=marker['deadline_epoch']):
+            raise PermissionError('V5_TRANSPORT_CURRENT_EXECUTION_AUTHORITY_NOT_OLD_ACK')
+        return dict(run_uuid=root.parent.parent.name,stop_new_physics_epoch=marker['deadline_epoch'])
+    return read(root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
+
+
 class Endpoint(OriginalEndpoint):
     def __init__(self,root,role,label,*,now=time.time):
         self.root,self.role,self.label,self.now=Path(root),role,label,now
@@ -125,7 +150,7 @@ class Endpoint(OriginalEndpoint):
         self.plan=prepared_plan(root,self.manifest);self.registry_path=inside(self.root,'plans/'+label+'/REGISTRY.json')
         self.registry=immutable(self.registry_path);self.registry_sha=sha(self.registry_path)
         self.manifest_sha=sha(self.root/'RUN_MANIFEST.json');self.ledger=ledger(root,role)
-        a=read(self.root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json');r=self.registry
+        r=self.registry;a=fixture_window(self.root,self.manifest,r)
         if (r['schema']!='PI0294_PV1_TRANSPORT_REGISTRY_V1' or r['authority_release']!=AUTHORITY
                 or r['run_uuid']!=self.root.name or r['campaign_run_uuid']!=a['run_uuid']
                 or r['label']!=label or r['allocation_number']!=number or r['plan_sha256']!=sha(self.root/PLAN)
