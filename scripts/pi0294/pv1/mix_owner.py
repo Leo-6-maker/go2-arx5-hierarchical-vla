@@ -99,7 +99,7 @@ class Owner:
         value=self.program('AUTH')
         if value.get('classification')=='TOKEN_EXPIRED' and secret:
             from .auth_lifecycle import masked_login
-            masked_login(['/opt/am/python/bin/amgr','login'],secret,timeout_s=45,process_cpu_limit_s=20)
+            masked_login(['/opt/am/python/bin/amgr','login'],secret,timeout_s=45,process_cpu_limit_s=20,controlling_terminal=True)
             value=self.program('AUTH')
         need(value.get('classification')=='SUCCESS','FRESH_PROJECT_AUTH')
         need(value['balance_GPU_hours']>8.1 and value['balance_CPU_hours']>=36*22500/3600,'REAL_SITE_PROJECT_GPU_AND_CPU_BALANCE')

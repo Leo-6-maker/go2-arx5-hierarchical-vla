@@ -7,6 +7,7 @@ import pty
 import re
 import resource
 import select
+import signal
 import subprocess
 import termios
 import time
@@ -19,6 +20,25 @@ class AuthenticationUnavailable(PermissionError):
 
 class HumanAuthRequired(AuthenticationUnavailable):
     pass
+
+
+class _TerminalChild:
+    """Small wait/terminate adapter for the kernel's forkpty child only."""
+    def __init__(self,pid):self.pid=pid;self.returncode=None
+    def poll(self):
+        if self.returncode is None:
+            pid,status=os.waitpid(self.pid,os.WNOHANG)
+            if pid:self.returncode=os.waitstatus_to_exitcode(status)
+        return self.returncode
+    def terminate(self):
+        try:os.kill(self.pid,signal.SIGTERM)
+        except ProcessLookupError:pass
+    def wait(self,timeout):
+        end=time.monotonic()+timeout
+        while self.poll()is None:
+            if time.monotonic()>=end:raise subprocess.TimeoutExpired('native-terminal-child',timeout)
+            time.sleep(.01)
+        return self.returncode
 
 
 class SiteClock:
@@ -50,22 +70,40 @@ def context():
                 control_host=value['host'],credential_content_read=False,TTL='UNKNOWN_NOT_EXPOSED_BY_SUPPORTED_CLI')
 
 
-def masked_login(argv,secret,*,timeout_s=45,process_cpu_limit_s=None):
+def masked_login(argv,secret,*,timeout_s=45,process_cpu_limit_s=None,controlling_terminal=False):
     """Use an ordinary supported password prompt; discard every byte of CLI output."""
     if (not isinstance(secret,str) or not secret or any(c in secret for c in ('\r','\n','\0'))
             or any(secret in str(a) for a in argv) or '--password' in argv):
         raise ValueError('AUTH_CREDENTIAL_ONLY_IN_MEMORY_AND_MASKED_STDIN')
     if process_cpu_limit_s is not None and (type(process_cpu_limit_s) is not int or not 1<=process_cpu_limit_s<=120):
         raise ValueError('AUTH_EXPLICIT_BOUNDED_POSITIVE_PROCESS_CPU_LIMIT')
-    master,slave=pty.openpty();process=None;data=b'';sent=False;reason=None;codes=set();hints=set()
+    if type(controlling_terminal)is not bool:
+        raise ValueError('AUTH_EXPLICIT_CONTROLLING_TERMINAL_MODE')
+    master=slave=process=None;data=b'';sent=False;reason=None;codes=set();hints=set()
     try:
-        attrs=termios.tcgetattr(slave);attrs[3]&=~termios.ECHO
-        termios.tcsetattr(slave,termios.TCSANOW,attrs)
-        options={}
-        if process_cpu_limit_s is not None:
-            options['preexec_fn']=lambda:resource.setrlimit(resource.RLIMIT_CPU,(process_cpu_limit_s,process_cpu_limit_s))
-        process=subprocess.Popen(argv,stdin=slave,stdout=slave,stderr=slave,close_fds=True,**options)
-        os.close(slave);slave=None;end=time.monotonic()+timeout_s
+        if controlling_terminal:
+            # forkpty gives the detached CLI its own session, foreground
+            # process group and ONE controlling terminal, without an inner
+            # shell/second PTY or any credential-bearing command argument.
+            pid,master=pty.fork()
+            if pid==0:
+                try:
+                    attrs=termios.tcgetattr(0);attrs[3]&=~termios.ECHO
+                    termios.tcsetattr(0,termios.TCSANOW,attrs)
+                    if process_cpu_limit_s is not None:resource.setrlimit(resource.RLIMIT_CPU,(process_cpu_limit_s,process_cpu_limit_s))
+                    os.execvp(argv[0],argv)
+                finally:os._exit(127)
+            process=_TerminalChild(pid)
+        else:
+            master,slave=pty.openpty()
+            attrs=termios.tcgetattr(slave);attrs[3]&=~termios.ECHO
+            termios.tcsetattr(slave,termios.TCSANOW,attrs)
+            options={}
+            if process_cpu_limit_s is not None:
+                options['preexec_fn']=lambda:resource.setrlimit(resource.RLIMIT_CPU,(process_cpu_limit_s,process_cpu_limit_s))
+            process=subprocess.Popen(argv,stdin=slave,stdout=slave,stderr=slave,close_fds=True,**options)
+            os.close(slave);slave=None
+        end=time.monotonic()+timeout_s
         while time.monotonic()<end:
             if select.select([master],[],[],.1)[0]:
                 try:chunk=os.read(master,4096)
@@ -82,6 +120,7 @@ def masked_login(argv,secret,*,timeout_s=45,process_cpu_limit_s=None):
                 if re.search(rb'(?i)\b(otp|captcha|mfa)\b|two.factor|multi.factor|verification code',data):
                     reason='HUMAN_AUTH_ONCE_REQUIRED_MFA_OR_CAPTCHA';break
                 if not sent and re.search(rb'(?i)password\s*:',data):
+                    if controlling_terminal:time.sleep(min(.05,max(0,end-time.monotonic())))
                     os.write(master,secret.encode()+b'\n');sent=True;data=b''
             if process.poll() is not None:break
         # A PTY can report EOF a few milliseconds before the child is reaped.
@@ -91,7 +130,10 @@ def masked_login(argv,secret,*,timeout_s=45,process_cpu_limit_s=None):
         if reason:
             if process.poll() is None:process.terminate();process.wait(timeout=5)
             if reason.startswith('HUMAN_'):raise HumanAuthRequired(reason)
-            raise TimeoutError(reason)
+            error=TimeoutError(reason)
+            error.diagnostic=dict(password_prompt_answered=sent,server_codes=sorted(codes),
+                classified_hints=sorted(hints),raw_output_logged=False)
+            raise error
         if process.returncode:
             if process.returncode==255:raise ConnectionError('AUTH_SSH_TRANSPORT_FAILURE_REDACTED')
             diagnostic=dict(CLI_exit_status=process.returncode,password_prompt_answered=sent,
@@ -104,7 +146,7 @@ def masked_login(argv,secret,*,timeout_s=45,process_cpu_limit_s=None):
         data=b'';secret=None
         if process is not None and process.poll() is None:process.terminate();process.wait(timeout=5)
         if slave is not None:os.close(slave)
-        os.close(master)
+        if master is not None:os.close(master)
 
 
 class Maintainer:
