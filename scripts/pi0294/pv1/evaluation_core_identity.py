@@ -9,7 +9,7 @@ from pathlib import Path
 import subprocess
 import time
 
-from . import evaluation_core_accounting as c
+from . import evaluation_core_accounting as c,evaluation_core_B24_1000 as late
 
 STATUS='PASS_PV1_OWN_NATIVE_CORELAB_GPU_ALLOCATION'
 HANDLE_ENV='PV1_CORE_NATIVE_GPU_HANDLE'
@@ -66,7 +66,7 @@ def sealed_identity(manifest,request,allocation,*,run_uuid,manifest_sha256,reque
          and a.get('job_id')==handle and a.get('native_handle')==handle
          and a.get('hostname')==p['hostname'] and a.get('allocation_start_epoch')==p.get('started_epoch')
          and r['created_epoch']-1<=p['started_epoch']<c.old.STOP_PHYSICS
-         and (queued or p['started_epoch']<c.old.STOP_NEW)
+         and (queued or p['started_epoch']<late.start_limit(r))
          and p['started_epoch']<=p['observed_epoch']<=p['started_epoch']+120
          and a.get('allocation_end_epoch')==min(p['started_epoch']+r['walltime_s'],c.old.STOP_PHYSICS),
          'SAME_REAL_BOOT_PID_START_AND_ORIGINAL_WALL_NOT_A_PREPARED_HANDLE')
@@ -290,7 +290,7 @@ def observe_current(root,request,*,allow_model_context=False):
     if queued:
         ack,_=current_queue(root,r,request_sha256=r['request_sha256'])
         need(ack['accepted_epoch']<=started,'EXISTING_NATIVE_QUEUE_BEFORE_PROCESS_START')
-    need(r['created_epoch']-1<=started<c.old.STOP_PHYSICS and (queued or started<c.old.STOP_NEW)
+    need(r['created_epoch']-1<=started<c.old.STOP_PHYSICS and (queued or started<late.start_limit(r))
          and started<=now<c.old.STOP_PHYSICS,
          'ACTUAL_PROCESS_START_INSIDE_ORIGINAL_WINDOW')
     return dict(schema='PV1_CORE_GPU_NATIVE_PROCESS_STARTED_V1',hostname='corelab-4080s',uid=2009,

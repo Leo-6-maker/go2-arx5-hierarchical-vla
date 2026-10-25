@@ -93,6 +93,8 @@ def validate_pair(global_ledger,local):
         from .evaluation_core_zero_start_recovery import FIELD as original_boundary
         need(global_ledger.get(read_field)==local.get(read_field)
              and read_validate(global_ledger,global_ledger[original_boundary]) is not None,'SAME_KNOWN_READ_FAILURE_BOUNDARY_BOTH_LEDGERS')
+    from .evaluation_core_B24_1000 import validate_pair as late_validate_pair
+    late_validate_pair(global_ledger,local)
     return m
 
 

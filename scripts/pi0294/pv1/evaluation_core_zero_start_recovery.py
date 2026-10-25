@@ -6,6 +6,7 @@ registration, current owner identity, full resources and qualification remain
 separate. No IO is performed by the proposal/index helpers.
 """
 from copy import deepcopy
+from . import evaluation_core_B24_1000 as late
 import hashlib
 import json
 import re
@@ -137,7 +138,7 @@ def current_owner(root,request):
          and owner['source_sha']==request['source_sha'] and owner['uid']==os.getuid()==2009
          and owner['hostname']==os.uname().nodename=='corelab-4080s'
          and owner['native_unit']=='pv1-core-'+marker['control_id']+'.service'
-         and c.old.T0<=owner['started_epoch']<c.old.STOP_NEW and time.time()<c.old.STOP_PHYSICS,
+         and c.old.T0<=owner['started_epoch']<late.start_limit(request) and time.time()<c.old.STOP_PHYSICS,
          'FRESH_BEFORE_CUTOFF_OWN_REGISTERED_OWNER')
     proc=Path('/proc',str(owner['pid']));fields=(proc/'stat').read_text().rsplit(')',1)[1].split()
     need(proc.stat().st_uid==2009 and fields[0] not in ('Z','X') and int(fields[19])==owner['proc_start']

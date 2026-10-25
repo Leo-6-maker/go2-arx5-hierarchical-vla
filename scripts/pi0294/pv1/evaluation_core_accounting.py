@@ -5,6 +5,7 @@ resources and original once IO must independently precede any dispatch/effect.
 The first 25 PBS rows and all failed training costs remain unchanged.
 """
 from copy import deepcopy
+from . import evaluation_core_B24_1000 as late
 import math
 import re
 import uuid
@@ -73,7 +74,8 @@ def row(value):
             ('cold_input_audit_sha256',64),('prequeue_future_admission_sha256',64)):
         need(re.fullmatch('[0-9a-f]{'+str(n)+'}',str(r.get(key,''))) is not None,
              'SEALED_PROVENANCE:'+key)
-    need(old.T0<=finite(r.get('created_epoch'))<old.STOP_NEW
+    from .evaluation_core_B24_1000 import start_limit
+    need(old.T0<=finite(r.get('created_epoch'))<start_limit(r)
          and re.fullmatch('GPU-[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}',str(r.get('GPU_uuid',''))) is not None,
          'ORIGINAL_CLOCK_AND_REAL_DEVICE_UUID')
     need(r.get('status') in STATES,'KNOWN_PROCESS_LIFECYCLE')
@@ -107,6 +109,8 @@ def row(value):
 
 
 def validate_global(value):
+    from .evaluation_core_B24_1000 import validate as late_validate
+    late_validate(value)
     if FIELD not in value:
         need('Core_native_GPU_stage_queue' not in value,'NO_ORPHAN_QUEUE_WITHOUT_REAL_ESCROW_ROWS')
         return value
@@ -180,7 +184,7 @@ def bind(value,*,request_id,process,now_epoch,queue_dispatch_proof=None):
          and process.get('process_state')=='RUNNING'
          and 0<=finite(now_epoch)-finite(process.get('observed_epoch'))<=120
          and r['created_epoch']<=finite(process.get('started_epoch'))
-         and (queued or process['started_epoch']<old.STOP_NEW)
+         and (queued or process['started_epoch']<late.start_limit(r))
          and process['started_epoch']<=now_epoch<old.STOP_PHYSICS,
          'CURRENT_EXACT_ACTUAL_BOOT_PID_NOT_A_PREPARED_HANDLE')
     handle=process_handle(process.get('boot_id'),process.get('pid'),process.get('proc_start'))

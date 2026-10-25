@@ -9,7 +9,7 @@ import hashlib
 import json
 from copy import deepcopy
 
-from . import evaluation_core_accounting as c,evaluation_scope as scope
+from . import evaluation_core_accounting as c,evaluation_scope as scope,evaluation_core_B24_1000 as late
 from . import evaluation_admission as original,evaluation_stage as stage
 from .evaluation_work import remaining,MATRIX
 from .future_budget import CAPS,FINAL,_read,_vector,_number,_fresh
@@ -67,6 +67,7 @@ def request_identity(manifest,request,manifest_sha):
              ==r['sealed_inputs'].get('plans/CORE_B_ZERO_START_COLD_RECOVERY.json')
              and type(r.get('startup_recovery_sha256')) is str and len(r['startup_recovery_sha256'])==64,
              'EXACT_SEALED_SINGLE_KNOWN_ZERO_COLD_B_REPLACEMENT')
+    late.check_request(m,r)
     queue_fields=[k for k in r if k.startswith('queue_')]
     if queue_fields:
         from . import evaluation_core_queue as queue
@@ -93,7 +94,8 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
          'CURRENT_EXACT_RAW_LEDGER_AND_ORIGINAL_CLOCK_BINDING')
     _fresh(snapshot.get('observed_epoch'),now_epoch,120)
     if not native:_fresh(r.get('created_epoch'),now_epoch,120)
-    need(c.old.T0<=now_epoch<(c.old.STOP_PHYSICS if native else c.old.STOP_NEW),'ORIGINAL_CLOCK_NO_EXTENSION')
+    limit=late.check_request(m,r,g)
+    need(c.old.T0<=now_epoch<(c.old.STOP_PHYSICS if native else limit),'ORIGINAL_CLOCK_OR_EXACT_HUMAN_B24_EXCEPTION')
     need(not any(x['status'] not in ('NATIVE_TERMINAL','NATIVE_QSUB_REJECTED_NO_JOB') for x in g['PBS_submissions'])
          and (native or not any(x['status']!=c.STATES[3] for x in g.get(c.FIELD,{}).values()))
          and (native or r['request_id'] not in g.get(c.FIELD,{}))
@@ -201,6 +203,12 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
         from .evaluation_core_queue import clock as queue_clock
         clock=queue_clock(work,now_epoch=now_epoch)
     else:clock=stage.clock(work,now_epoch=now_epoch)
+    if limit!=c.old.STOP_NEW:
+        need(len(work['jobs'])==1 and work['jobs'][0]['candidate']=='B_COVERAGE' and work['jobs'][0]['noise_bank']==294101,'ONLY_THE_ONE_B24_LATE_EXCEPTION')
+        clock['last_stage_submission_fits_original_stop_new']=(native_process['started_epoch'] if native else now_epoch)<c.old.STOP_NEW
+        clock['last_stage_submission_fits_exact_human_B24_exception']=(native_process['started_epoch'] if native else now_epoch)<limit
+        clock['exact_human_B24_start_limit_epoch']=limit
+        clock['original_stop_new_epoch_unchanged']=c.old.STOP_NEW
     shortfalls={k:x['shortfall'] for k,x in dimensions.items() if x['shortfall']}
     skeleton={k:v for k,v in r.items() if k!='prequeue_future_admission_sha256'}
     context=dict(manifest_sha256=msha,request_skeleton_sha256=digest(skeleton),global_sha256=gsha,
@@ -208,7 +216,7 @@ def recompute(*,manifest_bytes,request_bytes,population_bytes,evidence_by_candid
         work_sha256=digest(work),future_upper=future,dimensions=dimensions)
     context_sha=digest(context)
     need(not shortfalls and clock['both_stage_panels_fit_original_physics_window']
-         and clock['last_stage_submission_fits_original_stop_new'],
+         and (clock['last_stage_submission_fits_original_stop_new'] or clock.get('last_stage_submission_fits_exact_human_B24_exception') is True),
          'FULL_RESOURCES_AND_BOTH_ORIGINAL_STAGE_CLOCKS')
     if purpose=='RESERVE':need(r.get('prequeue_future_admission_sha256')==context_sha,
          'EXACT_PREPARE_CONTEXT_NO_MUTABLE_CAP_OR_CLOCK')

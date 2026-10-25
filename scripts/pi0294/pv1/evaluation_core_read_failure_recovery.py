@@ -5,6 +5,7 @@ panel, cap or clock is introduced. The sole new request still needs original
 fresh full resources, native registration and actual transport qualification.
 """
 from copy import deepcopy
+from . import evaluation_core_B24_1000 as late
 import re,hashlib,json
 FIELD='Core_B_known_zero_scheduler_read_recovery'
 SCHEMA='PV1_CORE_B_KNOWN_ZERO_SCHEDULER_READ_COLD_RECOVERY_V1'
@@ -28,7 +29,7 @@ def validate(g,first_marker):
     need(m['schema']==SCHEMA and m['previous_boundary_sha256']==c.digest(first_marker)
          and first_marker['replacement_request_id']==m['failed_request_id']==FAILED
          and m['automatic_retry'] is False and type(m['maximum_additional_replacements']) is int
-         and m['maximum_additional_replacements']==1 and c.old.T0<=m['created_epoch']<c.old.STOP_NEW,
+         and m['maximum_additional_replacements']==1 and c.old.T0<=m['created_epoch']<late.limit_for_marker(g,m),
          'PREVIOUS_ONCE_BOUNDARY_AND_UNRESET_CLOCK')
     r=rows[FAILED];p=m['failed_terminal_native'];e=m['failed_effects'];close=m['failed_dual_closure'];storage=m['known_zero_storage']
     need(r['request_sha256']==REQUEST_SHA and r['source_sha']=='a6991fca99f82e8dc413816e8bde6c8f0e1552ea'
