@@ -181,6 +181,18 @@ class Endpoint(OriginalEndpoint):
         return super().invoke(args)
 
 
+def allocation_status(manifest,*,core_typed,typed):
+    """Use the exact already-validated Core scope's native admission identity.
+
+    The C/D current_identity validator still checks the complete real process,
+    request, unit, kernel and exclusive device. Old A/B status is not an alias.
+    """
+    if core_typed:
+        from . import mix_core_identity as cd
+        return cd.STATUS if cd.typed(manifest) else Core_native.STATUS
+    return evaluation.STATUS if typed else 'PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
+
+
 class Pump(OriginalPump):
     def __init__(self,root,label,allocation,guard):
         self.root,self.label,self.allocation,self.guard=Path(root),label,allocation,guard
@@ -192,7 +204,7 @@ class Pump(OriginalPump):
         admission=self.root/'pbs'/('alloc-'+str(number).zfill(2))/'ALLOCATION_ADMISSION.json'
         core_typed=Core_native.cold_profile(m)
         typed=False if core_typed else evaluation.cold_profile(m)
-        expected=Core_native.STATUS if core_typed else evaluation.STATUS if typed else 'PASS_PV1_OWN_NATIVE_H200_ALLOCATION'
+        expected=allocation_status(m,core_typed=core_typed,typed=typed)
         if core_typed:
             request=self.root/'pbs'/('alloc-'+str(number).zfill(2))/'REQUEST.json'
             Core_native.current_identity(self.root,m,read(request),allocation)

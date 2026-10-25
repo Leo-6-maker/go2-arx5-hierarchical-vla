@@ -90,8 +90,10 @@ def propose(global_bytes,local_bytes,*,request_id,native_proof,effects,physical_
     need(q==oldq and loads==oldloads,'EVERY_MODEL_QUERY_PAID_BEFORE_EFFECT')
     v['used']['H200_s']+=gpu;v['CPU_s']+=cpu-oldcpu;v['CPU_reserved_s']-=c.CPU_UPPER-oldcpu
     v['reserved']['H200_s']-=c.GPU_UPPER;v['reserved']['neural_queries']-=before['reserved_neural_queries']
-    v['storage_reserved_bytes']-=before['additional_output_upper_bytes']
-    v['new_storage_current_bytes']+=amounts['output'];v['new_storage_peak_bytes']=max(v['new_storage_peak_bytes'],v['new_storage_current_bytes'])
+    from . import mix_core_premodel_repair as repair
+    covered=repair.output_credit(g,before)
+    v['storage_reserved_bytes']-=before['additional_output_upper_bytes']-covered
+    v['new_storage_current_bytes']+=max(0,amounts['output']-covered);v['new_storage_peak_bytes']=max(v['new_storage_peak_bytes'],v['new_storage_current_bytes'])
     row.update(status=c.STATES[3],native_exit_status=native_proof['native_exit_status'],
         conservative_GPU_s=gpu,conservative_CPU_s=cpu,query_attempts=q,model_load_attempts=loads,
         unknown_query_intents=[],reserved_neural_queries=0,terminal_native_sha256=c.digest(native_proof),
@@ -100,7 +102,7 @@ def propose(global_bytes,local_bytes,*,request_id,native_proof,effects,physical_
     local['GPU_reserved_s']-=c.GPU_UPPER;local['GPU_allocated_s']+=gpu
     local['CPU_reserved_s']['Hopper']-=c.CPU_UPPER-oldcpu;local['CPU_s']['Hopper']+=cpu-oldcpu
     local['CPU_reserved_s']['CoreLab']-=c.CPU_UPPER-oldcpu+93900-phys['physical_CPU_s'];local['CPU_s']['CoreLab']+=cpu-oldcpu
-    allocation=c.remaining_stage();held=local['Core_native_GPU_reserved']
+    allocation=repair.allocation(g,arm);held=local['Core_native_GPU_reserved']
     for name,unused in [('episode_starts',26-phys['episodes']),('constructors',2108-phys['constructors']),('physics_ticks',832000-phys['live']-phys['shadow']),('CoreLab_output_bytes',allocation['Core_storage_bytes']),('transfer_bytes',allocation['transfer_bytes'])]:
         need(held[name]>=unused,'ENTIRE_ORIGINAL_REMAINING_ESCROW:'+name);held[name]-=unused
     # Retain the original conservative stage IO/storage charge; actual delivered
@@ -114,6 +116,10 @@ def propose(global_bytes,local_bytes,*,request_id,native_proof,effects,physical_
         native_handle=before['native_handle'],GPU_s=gpu,neural_CPU_s=cpu,physical_CPU_s=phys['physical_CPU_s'],
         query_attempts=q,model_load_attempts=loads,physical=phys,
         Core_output_charged_upper_bytes=allocation['Core_storage_bytes'],transfer_charged_upper_bytes=allocation['transfer_bytes'],
+        original_gross_GPU_output_upper_bytes=before['additional_output_upper_bytes'],
+        same_panel_GPU_output_upper_already_paid=covered,
+        original_gross_Core_output_upper_bytes=c.remaining_stage()['Core_storage_bytes'],
+        original_gross_transfer_upper_bytes=c.remaining_stage()['transfer_bytes'],
         actual_model_delivery_receipt_sha256=a.sha(delivery_receipt_bytes),delivery_GPU_site_CPU_already_in_7200s_control=True,
         physical_counter_sha256=a.sha(physical_bytes),terminal_native_sha256=c.digest(native_proof),
         original_GLOBAL_sha256=a.sha(global_bytes),original_LOCAL_sha256=a.sha(local_bytes),observed_epoch=now_epoch,

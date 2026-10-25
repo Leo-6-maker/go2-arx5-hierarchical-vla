@@ -115,13 +115,16 @@ def validate_rows(g):
         return g
     marker = s.validated(g)
     rows = g[FIELD]
-    need(type(rows) is dict and 1 <= len(rows) <= 2, 'ONLY_ORIGINAL_PAIRED_PANELS')
+    from . import mix_core_premodel_repair as repair
+    repaired=repair.validated(g)
+    need(type(rows) is dict and 1 <= len(rows) <= (3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
     arms = []
     for request_id, r in rows.items():
         validate_row(r)
         need(request_id == r['request_id'] and r['T_CD'] == marker['T_CD']
              and r['deadline_epoch'] == marker['deadline_epoch'], 'ONE_ADOPTED_CLOCK')
-        arms.append(r['evaluation_candidate'])
+        repair.output_credit(g,r)
+        if not repaired or request_id!=repair.FAILED:arms.append(r['evaluation_candidate'])
         endpoint = g[a.PACKAGE]['endpoints'][r['evaluation_candidate']]
         need(endpoint['checkpoint_manifest_sha256'] == r['checkpoint_manifest_sha256'],
              'ACTUALLY_CLOSED_1024_ENDPOINT_NOT_OLD_AB')
@@ -135,7 +138,7 @@ def validate_rows(g):
     need(g['reserved']['H200_s'] >= p['H200_s'] + sum(r['reserved_GPU_s'] for r in active)
          and g['reserved']['neural_queries'] >= p['neural_queries'] + sum(r['reserved_neural_queries'] for r in active)
          and g['CPU_reserved_s'] >= p['Hopper_CPU_s'] + sum(CPU_UPPER-progress(r)[2] for r in active)
-         and g['storage_reserved_bytes'] >= p['Hopper_storage_bytes'] + sum(r['additional_output_upper_bytes'] for r in active),
+         and g['storage_reserved_bytes'] >= p['Hopper_storage_bytes'] + sum(r['additional_output_upper_bytes']-repair.output_credit(g,r) for r in active),
          'ACTIVE_AND_ALL_FUTURE_ESCROWS_RETAINED')
     return g
 
@@ -220,13 +223,19 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
     expected = dict(CPU_s=93900, physics_ticks=832000, policy_episodes=26, engine_starts=2108)
     need(all(type(m['limits'].get(n)) is int and m['limits'][n] == cost for n, cost in expected.items()),
          'ORIGINAL_FULL_PHYSICAL_UPPER_NO_NEW_SCIENCE')
-    v, w = deepcopy(g), deepcopy(l); allocation = remaining_stage()
+    from . import mix_core_premodel_repair as repair
+    repair.output_credit(g,r)
+    v, w = deepcopy(g), deepcopy(l); allocation = repair.allocation(g,arm)
     for value in (v, w):
         for n, cost in allocation.items():
             need(value[a.PACKAGE]['remaining_resources'][n] >= cost, 'STAGE_INSIDE_ORIGINAL_POOL:' + n)
             value[a.PACKAGE]['remaining_resources'][n] -= cost
         value.setdefault(FIELD, {})[r['request_id']] = deepcopy(r)
-    need(stage not in w.get('V5_CD_Core_CPU_substages', {}), 'ONE_REAL_PHYSICAL_SUBSTAGE')
+    if stage in w.get('V5_CD_Core_CPU_substages', {}):
+        repair_marker=repair.validated(g)
+        need(repair_marker is not None and r['request_id']==repair_marker['replacement_request_id']
+             and w['V5_CD_Core_CPU_substages'][stage]['status']=='SETTLED_KNOWN_NATIVE_TERMINAL', 'EXACT_CLOSED_PREMODEL_PHYSICAL_PREDECESSOR')
+        w.setdefault('V5_CD_historical_closed_Core_CPU_substages',{})[repair.FAILED]=deepcopy(w['V5_CD_Core_CPU_substages'][stage])
     w.setdefault('V5_CD_Core_CPU_substages', {})[stage] = dict(expected,
         status='RESERVED_NOT_SPENT', run_uuid=m['run_uuid'], role=EVAL_ROLE,
         source_sha=r['source_sha'], scope_grant_sha256=s.GRANT_SHA,

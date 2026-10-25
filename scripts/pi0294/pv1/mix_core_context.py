@@ -101,6 +101,9 @@ def validate(root, *, closeout=False):
          and row['source_sha'] == request['source_sha'] and row['child_run_uuid'] == root.name
          and row['status'] in c.STATES and row['run_manifest_sha256'] == sha(root/'RUN_MANIFEST.json'),
          'ACTUAL_ESCROW_ROW_BINDS_REQUEST_AND_MANIFEST')
+    from . import mix_core_premodel_repair as repair
+    if repair.output_credit({**local},row):
+        need(sealed('plans/V5_CD_SAME_PANEL_PREPAID_IO.private.json')==repair.validated(local), 'EXACT_SAME_PANEL_PAID_IO_BINDING')
     proof = captured_endpoint(sealed(CAPTURE)); arm = request['evaluation_candidate']
     need(proof['arm'] == arm and proof['checkpoint_manifest_sha256'] == request['checkpoint_manifest_sha256']
          and a.sha(a.raw(proof)) == request['training_handoff_sha256'], 'TRUE_CLOSED_COMPLETE_1024_ENDPOINT')

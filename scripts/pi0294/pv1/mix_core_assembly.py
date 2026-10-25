@@ -53,6 +53,11 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         owner_manifest_sha256=a.sha(owner_manifest_bytes))
     need(Path(canonical_LOCAL_ledger).is_relative_to(parent/'control')and Path(canonical_LOCAL_ledger).name=='LOCAL_RESOURCE_LEDGER.private.json',
          'SAME_CANONICAL_LOCAL_NO_COPIED_BUDGET')
+    from . import mix_core_premodel_repair as repair
+    repaired=repair.validated(g)
+    if repaired and arm=='C50':
+        need(request_id==repaired['replacement_request_id']and nonce==repaired['replacement_submission_nonce']
+             and run_name==repaired['replacement_run_uuid'],'EXACT_ONCE_PREMODEL_REPLACEMENT_IDENTITY')
     rows={};population=None
     for role,old in base.items():
         root=Path(roots[role]);m=deepcopy(old['manifest_template']);b=deepcopy(old['binding'])
@@ -70,6 +75,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         need(a.sha(population)==POPULATION,'EXACT_ORIGINAL_POPULATION_BYTES')
         groups=json.loads(population)['groups']
         files['V5_CD_SCOPE_BINDING.json']=a.raw(marker)
+        if repaired and arm=='C50':files['plans/V5_CD_SAME_PANEL_PREPAID_IO.private.json']=a.raw(repaired)
         files[context.CAPTURE]=training_capture_bytes;files[context.LOCAL_BINDING]=a.raw(local_binding)
         files['plans/SOURCE_EVALUATION_PLAN.json']=a.raw(evaluation.candidate_plan(groups,arm))
         files['plans/V5_CD_PAIRED_EVALUATION_PLAN.json']=a.raw(evaluation.plan(groups))
@@ -122,6 +128,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         cold_input_audit_sha256=a.sha(a.raw(dict(source_sha=source_sha,source_seal_sha256=a.sha(source_seal_bytes),manifest_sha256={k:v['manifest_sha256']for k,v in rows.items()}))),
         T_CD=marker['T_CD'],deadline_epoch=marker['deadline_epoch'],created_epoch=now_epoch,child_run_uuid=run_name,
         native_handle=None,GPU_uuid=GPU_uuid,status=c.STATES[0],reserved_neural_queries=2097)
+    if repaired and arm=='C50':record['prepaid_panel_IO_credit_sha256']=a.sha(a.raw(repaired))
     request={k:v for k,v in record.items()if k not in ('status','native_handle','child_run_uuid','reserved_neural_queries')}
     request.update(schema='V5_CD_CORE_NATIVE_GPU_REQUEST_V1',task=s.TASK,run_uuid=run_name,
         allocation_number=1 if arm=='C50'else 2,native_unit=run_name+'-neural.service',optimizer_updates=0,
