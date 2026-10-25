@@ -91,8 +91,10 @@ def collect_queue(*,user='e1192548',runner=subprocess.run,clock=time.time):
             error=ReadOnlyFailure('VANDA_QUEUE_READ_TIMEOUT_NOT_EMPTY_OR_TERMINAL')
             error.diagnostic=dict(argv=argv,error_type=type(exc).__name__,
                 stdout=getattr(exc,'stdout',None),stderr=getattr(exc,'stderr',None));raise error from exc
-        if r.returncode:
-            error=ReadOnlyFailure('VANDA_QUEUE_READ_NONZERO_NOT_EMPTY_OR_TERMINAL')
+        if r.returncode or r.stderr:
+            # Actual PBS clients can return0 with "cannot connect" on stderr
+            # and no IDs. That is UNKNOWN, never a valid empty queue.
+            error=ReadOnlyFailure('VANDA_QUEUE_READ_DIAGNOSTIC_NOT_EMPTY_OR_TERMINAL')
             error.diagnostic=dict(argv=argv,returncode=r.returncode,stdout=r.stdout,stderr=r.stderr);raise error
         return dict(argv=argv,returncode=r.returncode,stdout=r.stdout,stderr=r.stderr)
     select=call(['/opt/pbs/bin/qselect','-u',user],10)
@@ -118,11 +120,13 @@ def queue_rows(proof,*,now_epoch):
     fresh(proof.get('observed_epoch'),now_epoch)
     need(proof.get('schema')==QUEUE and proof.get('user')=='e1192548','COMPLETE_OWN_ACCOUNT_READBACK')
     s=proof['qselect'];need(s.get('argv')==['/opt/pbs/bin/qselect','-u','e1192548']
-         and type(s.get('returncode')) is int and s['returncode']==0,'ACTUAL_QSELECT_SUCCESS')
+         and type(s.get('returncode')) is int and s['returncode']==0
+         and s.get('stderr','')=='','ACTUAL_QSELECT_SUCCESS_WITHOUT_NATIVE_DIAGNOSTIC')
     ids=s['stdout'].split();need(len(ids)<=4096 and len(ids)==len(set(ids)),'NO_DROPPED_OR_DUPLICATE_HANDLES')
     if ids:
         q=proof['qstat'];need(q.get('argv')==['/opt/pbs/bin/qstat','-f','-F','json',*ids]
-             and type(q.get('returncode')) is int and q['returncode']==0,'EXACT_FULL_QSTAT_ALL_SELECTED_HANDLES')
+             and type(q.get('returncode')) is int and q['returncode']==0
+             and q.get('stderr','')=='','EXACT_FULL_QSTAT_ALL_SELECTED_HANDLES')
         jobs=json.loads(q['stdout'])['Jobs'];need(set(jobs)==set(ids),'NO_FILTERED_OR_INCOMPLETE_ACCOUNT_QUEUE')
     else:
         need(proof.get('qstat') is None,'GENUINE_EMPTY_QSELECT_NOT_FAILED_QSTAT');jobs={}
@@ -166,7 +170,8 @@ def terminal_rows(proofs,*,ledger,current_rows,now_epoch):
         need(type(proof) is dict,'EXACT_NATIVE_TERMINAL_READBACK_OBJECT')
         fresh(proof.get('observed_epoch'),now_epoch)
         need(proof.get('schema')==TERMINAL_HISTORY and proof.get('user')=='e1192548'
-             and type(proof.get('returncode')) is int and proof['returncode']==0,'REAL_SUCCESSFUL_TERMINAL_HISTORY_READ')
+             and type(proof.get('returncode')) is int and proof['returncode']==0
+             and proof.get('stderr','')=='','REAL_SUCCESSFUL_TERMINAL_HISTORY_READ')
         argv=proof.get('argv',[])
         need(len(argv)==6 and argv[:5]==['/opt/pbs/bin/qstat','-x','-f','-F','json']
              and re.fullmatch(r'[0-9]+\.stdct-mgmt-02',argv[5]) is not None,'EXACT_SINGLE_VANDA_HISTORY_HANDLE')

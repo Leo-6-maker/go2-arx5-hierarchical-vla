@@ -110,7 +110,10 @@ class Owner:
             args=['/opt/pbs/bin/qstat','-x','-f','-F','json',job]
             try:r=subprocess.run(args,capture_output=True,text=True,timeout=25)
             except subprocess.TimeoutExpired as e:raise ReadOnlyFailure('V5_EXACT_TERMINAL_READ_TIMEOUT_NOT_TERMINAL') from e
-            if r.returncode:raise ReadOnlyFailure('V5_EXACT_TERMINAL_READ_FAILED_NOT_TERMINAL')
+            if r.returncode or r.stderr:
+                error=ReadOnlyFailure('V5_EXACT_TERMINAL_READ_FAILED_NOT_TERMINAL')
+                error.diagnostic=dict(argv=args,returncode=r.returncode,stdout=r.stdout,stderr=r.stderr,observed_epoch=time.time())
+                raise error
             term=json.loads(r.stdout)['Jobs'][job];need(term['job_state']=='F' and type(term['Exit_status'])is int,'ACTUAL_F_HISTORY_ONLY')
             rows.append(dict(platform='VANDA_A40',job_id=job,state='F',project=term['project'],name=term['Job_Name'],ngpus=term['Resource_List']['ngpus']))
         campaign,outside,unknown=queue.classify(g,rows);need(not unknown,'NO_UNKNOWN_OR_UNREGISTERED_CAMPAIGN_JOB')
@@ -192,7 +195,7 @@ def main(root):
         owner.record('SERVER_OWNER_PROCESS',dict(pid=os.getpid(),proc_start_ticks=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],source_sha=owner.manifest['code']['vla_commit'],agent_liveness_required=False,scope=owner.successor_scope))
         owner.submit(secret);terminal=cold_owner.watch(owner,secret,scope_binding=owner.successor_scope);owner.record('RESIDENT_TERMINAL_RETURNED',terminal);result=owner.finish(terminal);owner.record('RESIDENT_EXIT',dict(returncode=0,observed_epoch=time.time(),endpoint_status=result['status']));return result
     except BaseException as e:
-        owner.record('PRESERVED_STOP',dict(error_type=type(e).__name__,message=str(e)[-3000:],observed_epoch=time.time(),no_automatic_qsub_replay=True));raise
+        owner.record('PRESERVED_STOP',dict(error_type=type(e).__name__,message=str(e)[-3000:],diagnostic=getattr(e,'diagnostic',None),observed_epoch=time.time(),no_automatic_qsub_replay=True));raise
     finally:secret=None;lock.close()
 
 if __name__=='__main__':

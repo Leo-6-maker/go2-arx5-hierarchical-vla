@@ -160,10 +160,11 @@ def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=tim
                 elif monotonic()-lastauth>300:
                     o.auth(secret);lastauth=monotonic()
                 errors=0;sleep(30 if status=='R' else 60)
-            except ReadOnlyFailure:
+            except ReadOnlyFailure as error:
                 errors+=1;o.record('READ_ONLY_OBSERVATION_INTERRUPTION-'+str(time.time_ns()),
                     dict(type='ReadOnlyFailure',phase_in_durable_RPC_journal=True,
-                         unknown_mutations_not_retried=True,job_id=job))
+                         unknown_mutations_not_retried=True,job_id=job,
+                         diagnostic=getattr(error,'diagnostic',None)))
                 if errors>=3:
                     raise
                 sleep(30)
