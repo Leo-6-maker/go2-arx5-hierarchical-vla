@@ -95,3 +95,7 @@ DEC1旧CORR@2048／R0的source×target×TIME/PROGRESS核心64格仍然是中期�
 - 先前130条件费用上界草案：reports/PI0294/design/parallel-science-20261022/S2_DEV130_CLOSED_COST_AND_FULL_UPPER_SCOPE_DRAFT_20261024.json（仍作为完整上界，非当前自动执行命令）
 - 冻结PV1原验收：docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md
 - 冻结DEC1原64格：docs/protocols/DEC1_CONTROLLER_DISJOINT_VLA_SCIENCE_GO_20261021.md
+
+## 2026-10-25 实际接续：原第一阶段完成
+
+[完整结果与实际关闭](../handover/2026-10-25/V4A_A24_B24_COMPLETE_FIRST_PANEL_RESULTS.md)：原N294101的A24+B24已全部独立审计，A11/24、B6/24，宏平均B−A为−20.8pp，按12几何block的95%区间[−41.7,0.0]pp。两臂一次结算与双lease CLOSED；没有新增覆盖收益证据，不自动扩采／训练或第二面板。原模型、数据、评分、安全与全部历史费用保留。正式DEV48、独立确认和固定CORR/R0 core64仍未完成；下一阶段须先审阅完整结果并具有有效范围。本节是实际接续，不重置原T0／截止或扩大许可。
