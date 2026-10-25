@@ -69,6 +69,8 @@ def figure(counts,effects,intervals,directory):
     stem=directory/'V4A_A24_B24_N294101_RESULTS_20261025'
     fig.savefig(str(stem)+'.png',dpi=180)
     fig.savefig(str(stem)+'.svg',metadata={'Date':None})
+    svg=Path(str(stem)+'.svg')
+    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
     fig.savefig(str(stem)+'.pdf',metadata={'CreationDate':None,'ModDate':None})
     plt.close(fig)
 
