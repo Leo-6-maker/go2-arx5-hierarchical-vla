@@ -60,7 +60,9 @@ def delivery_journal(root,cfg,configuration_bytes):
 def main(config_path):
     began=time.process_time();started=time.time();cfg=json.loads(Path(config_path).read_bytes());root=Path(config_path).parent
     assert os.getuid()==2009 and os.uname().nodename=='corelab-4080s' and os.environ.get('CUDA_VISIBLE_DEVICES')=='' and not os.environ.get('PBS_JOBID')
-    resource.setrlimit(resource.RLIMIT_CPU,(300,300));resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.sched_setaffinity(0,{7})
+    prior=cfg.get('Core_metadata_prior_CPU_upper_s',0);assert type(prior)is int and 0<=prior<300
+    cpu_limit=300-prior
+    resource.setrlimit(resource.RLIMIT_CPU,(cpu_limit,cpu_limit));resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.sched_setaffinity(0,{7})
     manifest=json.loads((root/'CONTROL_RUN_MANIFEST.json').read_bytes());assert manifest['configuration_sha256']==a.sha(Path(config_path).read_bytes())
     code=root/'code';seal=json.loads((root/'SOURCE_SEAL.json').read_bytes());assert seal['source_sha']==cfg['source_sha']and all(a.sha((code/n).read_bytes())==h for n,h in seal['files'].items())
     lock=OwnerLock(root/'MODEL_DELIVERY_OWNER.lock');status='FAILED_PRESERVED';phase='REGISTERED_CONTROL_ADMISSION';source_terminal=None
