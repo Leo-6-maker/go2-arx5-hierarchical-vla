@@ -279,3 +279,7 @@ G-layout：全新几何、V0、同一冻结reset；G-visual：同一全新测试
 - [R3] MuJoCo官方状态/复现文档，https://mujoco.readthedocs.io/en/3.2.0/computation/index.html ；当前文档 https://mujoco.readthedocs.io/en/latest/programming/simulation.html 。实现以项目锁定版本的真实API为准，不因文档更新升级引擎。
 
 本次发布只交付设计，不声称已实现模块、已渲染场景、已取得Teacher数据或已证明泛化。
+
+## 后续实际接续：M0
+
+[M0复用地图与原候选范围核对](gen1/REUSE_MAP.md)已完成纯源码／元数据检查。12个旧COV1 V1候选几何均通过原几何validator，但其中6个NEAR会被现有原评分前置距离门拒绝；历史静态资格保留，不直接动态派发、不静默换成修订版。GEN全历史排除索引尚未完成；M1未实现，M2–M5未运行，现役B24不变。
