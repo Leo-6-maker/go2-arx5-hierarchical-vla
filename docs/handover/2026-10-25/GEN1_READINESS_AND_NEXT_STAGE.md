@@ -35,3 +35,5 @@
 完整A/B现已可审阅，但M4还需后继有效范围、合法reset/任务前置与标签合同。小pilot固定六合法TRAIN几何×T1/T2各一次=12次首次尝试，不是12条成功；失败保留，不补抽凑数。仅当其数据能补充已识别支持缺口，才考虑M5原export及更多数据。旧已打开DEV不转TRAIN，新TEST不因Teacher成功筛选；G_DEV/G_TEST当前私有名单不为本次预览重排。
 
 源域C/D混合研究可用现有银行与LEGACY_MATCHED独立推进，不等待GEN_COMMON_HOME，也不自动夹带新GEN数据。冻结WBC仍只补原CORR/R0的完整prefix、安装ACK、实际反馈和STOP，core64=0/64；目标NOT_RUN不当负迁移结果。当前全部原数据、R0、安全评分、WBC和运行源码保持原身份。
+
+后续CPU增量：[V2加入历史分区后的检查](../../../reports/PI0294/design/parallel-science-20261022/V5_GEN1_V2_HISTORY_DELTA_CPU_ACTUAL_20261025.json)为45个唯一design、原8830条历史，无跨分区连接；未重排原DEV/TEST。真实24图仍NOT_RUN，本阶段不自动Teacher pilot。
