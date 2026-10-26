@@ -61,6 +61,10 @@ def prepared_plan(root,m):
 
 
 def reference_proof(root,plan,m):
+    from . import mix_vanda_eval_identity as colocated
+    if colocated.typed(m):
+        from .mix_vanda_recorded_reference import proof
+        return proof(root,plan,m)
     binding=inside(root,plan['raw_reference_binding_relative'])
     if (sha(binding)!=plan['raw_reference_binding_sha256']
             or m['execution']['sealed_inputs'].get(plan['raw_reference_binding_relative'])!=sha(binding)):
@@ -107,6 +111,10 @@ def ledger(root,role):
     if role=='core':
         from .core_ledger import Ledger
     elif role=='hopper':
+        from . import mix_vanda_eval_identity as colocated
+        if colocated.typed(read(Path(root)/'RUN_MANIFEST.json')):
+            from .mix_vanda_eval_ledger import Ledger
+            return Ledger(root)
         if Core_native.cold_profile(read(Path(root)/'RUN_MANIFEST.json')):
             from .evaluation_core_ledger import Ledger
         else:
@@ -123,6 +131,18 @@ def fixture_window(root,manifest,registry):
     """
     from . import mix_core_identity as cd,successor_core_context as core,successor_cd as scope
     root=Path(root)
+    from . import mix_vanda_eval_identity as colocated
+    if colocated.typed(manifest):
+        from .mix_vanda_eval_context import row
+        g,record,request=row(root,manifest);marker=scope.validated(g)
+        if (registry.get('execution_scope')!=scope.TASK
+            or registry.get('execution_authority_release')!=scope.TASK_SOURCE
+            or registry.get('scope_grant_sha256')!=scope.GRANT_SHA
+            or registry.get('T_CD')!=marker['T_CD']
+            or registry.get('execution_deadline_epoch')!=marker['deadline_epoch']
+            or registry.get('job_id')!=record['job_id']):
+            raise PermissionError('V5_TRANSPORT_CURRENT_NATIVE_VANDA_SCOPE_NOT_OLD_CORE_ACK')
+        return dict(run_uuid=root.parent.parent.name,stop_new_physics_epoch=marker['deadline_epoch'])
     if cd.typed(manifest)or manifest.get('scope')==core.EVAL_ROLE:
         from .mix_core_context import LOCAL_BINDING
         path=root/LOCAL_BINDING
@@ -187,6 +207,8 @@ def allocation_status(manifest,*,core_typed,typed):
     The C/D current_identity validator still checks the complete real process,
     request, unit, kernel and exclusive device. Old A/B status is not an alias.
     """
+    from . import mix_vanda_eval_identity as colocated
+    if colocated.typed(manifest):return colocated.STATUS
     if core_typed:
         from . import mix_core_identity as cd
         return cd.STATUS if cd.typed(manifest) else Core_native.STATUS
@@ -205,7 +227,12 @@ class Pump(OriginalPump):
         core_typed=Core_native.cold_profile(m)
         typed=False if core_typed else evaluation.cold_profile(m)
         expected=allocation_status(m,core_typed=core_typed,typed=typed)
-        if core_typed:
+        from . import mix_vanda_eval_identity as colocated
+        if colocated.typed(m):
+            from .mix_vanda_eval_context import current_identity
+            request=self.root/'pbs'/('alloc-'+str(number).zfill(2))/'REQUEST.json'
+            current_identity(self.root,m,read(request),allocation)
+        elif core_typed:
             request=self.root/'pbs'/('alloc-'+str(number).zfill(2))/'REQUEST.json'
             Core_native.current_identity(self.root,m,read(request),allocation)
         elif typed:

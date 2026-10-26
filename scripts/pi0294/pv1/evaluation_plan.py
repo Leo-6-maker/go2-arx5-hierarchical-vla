@@ -80,7 +80,8 @@ def final_confirmation(groups,freeze):
 def session_spec(root,label):
     root=Path(root);m=read(root/'RUN_MANIFEST.json')
     from . import successor_core_context as successor
-    if m.get('scope')==successor.EVAL_ROLE:
+    from . import mix_core_identity as cd,mix_vanda_eval_identity as colocated
+    if m.get('scope')==successor.EVAL_ROLE or cd.typed(m) or colocated.typed(m):
         from .mix_evaluation import session_spec as matched_session
         return matched_session(root,label)
     if (sha(root/POPULATION_FILE)!=POPULATION

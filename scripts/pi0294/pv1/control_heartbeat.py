@@ -15,10 +15,12 @@ def owner_only(root,manifest):
     policy=manifest.get('execution',{}).get('owner_heartbeat_policy')
     if policy is None:return False
     stage=read(Path(root)/'PV1_STAGE_BINDING.json')
+    from . import mix_vanda_eval_identity as colocated
+    authority=colocated.s.TASK_SOURCE if colocated.typed(manifest) else AUTHORITY
     if (policy!=POLICY or stage.get('owner_heartbeat_policy')!=POLICY
             or manifest.get('owner')!='EXISTING_LOCAL_PC'
-            or manifest.get('authority',{}).get('protocol_ref')!=AUTHORITY
-            or stage.get('authority_release')!=AUTHORITY):
+            or manifest.get('authority',{}).get('protocol_ref')!=authority
+            or stage.get('authority_release')!=authority):
         raise PermissionError('PV1_PRESEALED_SINGLE_OWNER_HEARTBEAT_POLICY_REQUIRED')
     return True
 

@@ -64,6 +64,8 @@ def recompute(global_ledger,local_ledger,*,Core_storage_upper_bytes,local_storag
     from .mix_vanda_cohost import validated as colocated
     cohost=colocated(global_ledger)
     if cohost:
+        from .mix_vanda_eval_accounting import resource_projection
+        resource_projection(global_ledger,used,held)
         # Pending LOCAL remains historical. Include the explicitly charged
         # Vanda zero-integration constructor upper without claiming a Core
         # write or moving that financial upper into actual live integrations.

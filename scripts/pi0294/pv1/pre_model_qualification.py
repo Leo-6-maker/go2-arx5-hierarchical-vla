@@ -14,6 +14,7 @@ from . import evaluation_platform as evaluation
 from . import evaluation_core_identity as Core_native
 
 from .mix_core_identity import STATUS as CD_CORE_STATUS
+from .mix_vanda_eval_identity import STATUS as COLOCATED_STATUS
 CORE_STATUSES=(Core_native.STATUS,CD_CORE_STATUS)
 
 FILENAME='PV1_NATIVE_ENDURANCE_AND_TRANSPORT.json'
@@ -23,7 +24,7 @@ FAULTS={'concurrent_replace','metadata_read_failure','statistics_lock','late_res
 
 def current_directory(root,allocation):
     root=Path(root)
-    if (allocation.get('status') not in ('PASS_PV1_OWN_NATIVE_H200_ALLOCATION',evaluation.STATUS,*CORE_STATUSES)
+    if (allocation.get('status') not in ('PASS_PV1_OWN_NATIVE_H200_ALLOCATION',evaluation.STATUS,COLOCATED_STATUS,*CORE_STATUSES)
             or not Core_native.current_handle() or Core_native.current_handle()!=allocation['job_id']
             or socket.gethostname()!=allocation['hostname']
             or not allocation['allocation_start_epoch']<=time.time()<allocation['allocation_end_epoch']-2700):
@@ -33,7 +34,7 @@ def current_directory(root,allocation):
     if len(matches)!=1:raise PermissionError('PV1_ONE_EXACT_CURRENT_ADMISSION')
     directory=matches[0]
     namespace_submission(root,int(directory.name.removeprefix('alloc-')))
-    ordinal=read(directory/'REQUEST.json').get('allocation_number' if allocation['status']in CORE_STATUSES else 'submit_count')
+    ordinal=read(directory/'REQUEST.json').get('allocation_number' if allocation['status']in (*CORE_STATUSES,COLOCATED_STATUS) else 'submit_count')
     if type(ordinal) is not int or ordinal!=int(directory.name.removeprefix('alloc-')):
         raise PermissionError('PV1_CURRENT_REQUEST_AND_NAMESPACE_SUBMISSION_MUST_MATCH')
     if (directory.is_symlink() or (directory/'ALLOCATION_ADMISSION.json').is_symlink()
@@ -43,11 +44,14 @@ def current_directory(root,allocation):
             or sha(directory/'REQUEST.json')!=allocation['request_sha256']
             or (directory/'PBS_PROCESS_FINAL.json').exists() or (directory/'NATIVE_PROCESS_FINAL.json').exists()):
         raise PermissionError('PV1_CURRENT_IMMUTABLE_REQUEST_NOT_A_TERMINAL_ALLOCATION')
-    manifest=read(root/'RUN_MANIFEST.json') if allocation['status'] in (evaluation.STATUS,*CORE_STATUSES) else None
+    manifest=read(root/'RUN_MANIFEST.json') if allocation['status'] in (evaluation.STATUS,COLOCATED_STATUS,*CORE_STATUSES) else None
     request=read(directory/'REQUEST.json')
-    if allocation['status'] not in (evaluation.STATUS,*CORE_STATUSES) and any('platform_evaluation_version' in x for x in (request,allocation)):
+    if allocation['status'] not in (evaluation.STATUS,COLOCATED_STATUS,*CORE_STATUSES) and any('platform_evaluation_version' in x for x in (request,allocation)):
         raise PermissionError('PV1_EVALUATION_IDENTITY_CANNOT_FALL_BACK_TO_H200')
-    if allocation['status']in CORE_STATUSES:
+    if allocation['status']==COLOCATED_STATUS:
+        from .mix_vanda_eval_context import current_identity
+        current_identity(root,manifest,request,allocation)
+    elif allocation['status']in CORE_STATUSES:
         Core_native.current_identity(root,manifest,request,allocation,qualified_model_readback=True)
     elif allocation['status']==evaluation.STATUS:
         evaluation.sealed_identity(manifest,request,allocation,

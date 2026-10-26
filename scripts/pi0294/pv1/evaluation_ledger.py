@@ -72,6 +72,11 @@ class EvaluationLedger(GlobalLedger):
 def for_request(root,request_path,*,final=False):
     if type(final) is not bool:raise PermissionError('PV1_EXPLICIT_BOOLEAN_FINAL_FLAG')
     m=read(Path(root)/'RUN_MANIFEST.json');r=read(request_path)
+    from . import mix_vanda_eval_identity as colocated
+    if colocated.typed(m):
+        if final:raise PermissionError('V5_COLOCATED_DEV_IS_NOT_FINAL_PERMISSION')
+        from .mix_vanda_eval_ledger import Ledger as ColocatedLedger
+        return ColocatedLedger(root,request_path)
     from .evaluation_core_identity import cold_profile as Core_profile
     if Core_profile(m):
         if final:raise PermissionError('PV1_CORE_FIRST_STAGE_CANNOT_CONSUME_FINAL_SCOPE')

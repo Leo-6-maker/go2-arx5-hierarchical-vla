@@ -36,6 +36,10 @@ def file_RPC_profile(manifest,role):
     """Select a physical role before the full unchanged runtime validator."""
     need(role in ('core','hopper'),'EXACT_FILE_RPC_ROLE')
     if role=='core':return '4080-simulation'
+    from . import mix_vanda_eval_identity as colocated
+    if colocated.typed(manifest):
+        colocated.cold_profile(manifest)
+        return colocated.NEURAL_PROFILE
     from . import mix_core_identity as cd
     if cd.typed(manifest):
         cd.cold_profile(manifest)
@@ -51,6 +55,16 @@ def file_RPC_profile(manifest,role):
 
 def fixture_job_pattern(manifest,role):
     """Both sealed peers must explicitly name the Vanda evaluation seam."""
+    from . import mix_vanda_eval_identity as colocated
+    if colocated.typed(manifest):
+        need(role=='hopper' and colocated.cold_profile(manifest)
+             or role=='core' and manifest.get('scope')==colocated.PHYSICAL_ROLE
+             and manifest.get('evaluation_peer_platform')==colocated.VERSION
+             and manifest.get('execution',{}).get('profile')==colocated.PHYSICAL_PROFILE,
+             'EXPLICIT_COLOCATED_PHYSICAL_OR_NEURAL_ROLE')
+        need(manifest['authority']['protocol_ref']==colocated.s.TASK_SOURCE
+             and manifest['authority']['scope_grant_sha256']==colocated.s.GRANT_SHA,'EXACT_ADOPTED_SUCCESSOR_AUTHORITY')
+        return r'[0-9]+\.stdct-mgmt-02'
     from . import mix_core_identity as cd
     if cd.typed(manifest) or manifest.get('evaluation_peer_platform')==cd.c.VERSION:
         from .successor_core_context import EVAL_ROLE

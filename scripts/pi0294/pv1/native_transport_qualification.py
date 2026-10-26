@@ -122,7 +122,8 @@ def run(root,directory,allocation,guard):
         from .evaluation_platform import STATUS as DEV_STATUS
         from .evaluation_core_identity import STATUS as CORE_DEV_STATUS
         from .mix_core_identity import STATUS as CD_CORE_STATUS
-        if allocation.get('status') in (DEV_STATUS,CORE_DEV_STATUS,CD_CORE_STATUS):
+        from .mix_vanda_eval_identity import STATUS as COLOCATED_STATUS
+        if allocation.get('status') in (DEV_STATUS,CORE_DEV_STATUS,CD_CORE_STATUS,COLOCATED_STATUS):
             # This is a child of neural.run, whose final CPU record includes
             # these monotonic child counters. Separate login RPC actors still
             # settle their own CPU once through the original metrics ledger.

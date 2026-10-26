@@ -9,10 +9,13 @@ MAX_CALLS=150000
 def validate(manifest,stage):
     from . import mix_core_identity as cd
     from .successor_core_context import EVAL_ROLE
-    successor=cd.typed(manifest) or manifest.get('scope')==EVAL_ROLE
+    from . import mix_vanda_eval_identity as colocated
+    cohost=colocated.typed(manifest)
+    successor=cohost or cd.typed(manifest) or manifest.get('scope')==EVAL_ROLE
     authority=cd.s.TASK_SOURCE if successor else AUTHORITY
     if successor:
-        if (manifest.get('scope')not in (cd.c.ROLE,EVAL_ROLE)
+        roles=(colocated.NEURAL_ROLE,colocated.PHYSICAL_ROLE) if cohost else (cd.c.ROLE,EVAL_ROLE)
+        if (manifest.get('scope')not in roles
                 or manifest['authority'].get('scope_grant_sha256')!=cd.s.GRANT_SHA
                 or stage.get('task')!=cd.s.TASK or stage.get('scope_grant_sha256')!=cd.s.GRANT_SHA):
             raise PermissionError('V5_ACTUAL_FINITE_CONTROL_AUTHORITY_NOT_OLD_B24_PERMISSION')

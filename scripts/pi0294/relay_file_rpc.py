@@ -83,6 +83,10 @@ def serve(root,role,label):
         def Ledger(path,side):
             if side=='core':return CoreLedger(path)
             if side=='hopper':
+                from scripts.pi0294.pv1 import mix_vanda_eval_identity as colocated
+                if colocated.typed(read(Path(path)/'RUN_MANIFEST.json')):
+                    from scripts.pi0294.pv1.mix_vanda_eval_ledger import Ledger as VandaNeuralLedger
+                    return VandaNeuralLedger(path)
                 from scripts.pi0294.pv1.evaluation_core_identity import cold_profile
                 if cold_profile(read(Path(path)/'RUN_MANIFEST.json')):
                     from scripts.pi0294.pv1.evaluation_core_ledger import Ledger as CoreNeuralLedger
@@ -122,7 +126,9 @@ def serve(root,role,label):
     if control and endpoint.registry['deadline_epoch']-time.time()>control['wall_limit_s']:
         raise PermissionError('PV1_ORIGINAL_MAXIMUM_ALLOCATION_CONTROL_WALL')
     from scripts.pi0294.e1.stdio import FrameReader
-    seen=set();metrics=SessionMetrics();status='SESSION_EOF_OR_DEADLINE';error=None;trace=PhaseTrace(sys.stderr)
+    from scripts.pi0294.pv1.mix_vanda_eval_identity import typed as colocated
+    seen=set();metrics=SessionMetrics(maximum=max_calls) if pv1 and colocated(m) else SessionMetrics()
+    status='SESSION_EOF_OR_DEADLINE';error=None;trace=PhaseTrace(sys.stderr)
     frames=FrameReader(sys.stdin.fileno(),MAX_LINE_BYTES)
     def guard(args):
         ledger.guard()

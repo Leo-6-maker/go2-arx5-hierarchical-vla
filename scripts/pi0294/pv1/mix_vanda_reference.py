@@ -104,3 +104,31 @@ def create_view(view, plan, audit):
     return dict(status='EXACT_NINE_MEMBER_REFERENCE_VIEW_CREATED_NO_MODEL',view=str(view),
                 plan_sha256=a.sha(a.raw(plan)),new_tensor_bytes=0,source_inodes_unchanged=True,
                 full_resume_payload_in_view=False,native_admission=False)
+
+
+def inference_member(root,checkpoint,name,digest):
+    """Narrow original-loader seam for these nine sealed local input links.
+
+    It does not make arbitrary external checkpoint members legal. The native
+    entry has separately validated the live allocation, phase and actor. The
+    original loader still streams and compares the complete member SHA.
+    """
+    from . import mix_vanda_eval_identity as identity
+    root,checkpoint=Path(root),Path(checkpoint);m=json.loads((root/'RUN_MANIFEST.json').read_bytes())
+    need(identity.cold_profile(m) and checkpoint==root/'model_views'/m['candidate'],'ONLY_NEW_TYPED_NINE_MEMBER_VIEW')
+    name_path=Path(name);need(not name_path.is_absolute() and '..' not in name_path.parts,'EXACT_MEMBER_NAME')
+    plan_path=root/'plans/VANDA_READONLY_INFERENCE_REFERENCE.private.json';plan_bytes=plan_path.read_bytes()
+    need(not plan_path.is_symlink() and not plan_path.stat().st_mode&0o222
+         and m['execution']['sealed_inputs'].get(str(plan_path.relative_to(root)))==a.sha(plan_bytes),'IMMUTABLE_PRESEALED_REFERENCE_PLAN')
+    plan=json.loads(plan_bytes);member=plan['files'].get(name)
+    need(plan['schema']=='V5_CD_VANDA_CLOSED1024_READONLY_INFERENCE_REFERENCE_V1'
+         and plan['arm']==m['candidate'] and len(plan['files'])==9
+         and plan['tensor_copies']==plan['source_hardlinks']==0 and plan['source_chmod'] is False
+         and type(member) is dict and member['sha256']==digest
+         and plan['checkpoint_manifest_sha256']==a.sha((checkpoint/'CHECKPOINT_COMPLETE.json').read_bytes()),
+         'EXACT_AUDITED_ORIGINAL_INFERENCE_MEMBER')
+    p=checkpoint/name
+    need(p.is_symlink() and p.resolve()==Path(member['path'])
+         and Path(member['path']).parent==Path(plan['checkpoint_root'])/name_path.parent
+         and metadata(member['path'])['bytes']==member['bytes'],'EXACT_ORIGINAL_CANONICAL_READONLY_INPUT')
+    return p

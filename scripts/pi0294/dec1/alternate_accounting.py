@@ -100,6 +100,10 @@ def validate_items(value):
     if render_rows:render.validate_global(value)
     typed=[s for s in typed if s not in render_rows]
     evaluation=[s for s in value['PBS_submissions'] if 'platform_evaluation_version' in s]
+    from scripts.pi0294.pv1 import mix_vanda_eval_accounting as colocated
+    colocated_rows=[s for s in evaluation if s.get('platform_evaluation_version')==colocated.VERSION]
+    if colocated_rows:colocated.validate_global(value,colocated_rows)
+    evaluation=[s for s in evaluation if s not in colocated_rows]
     if evaluation:
         from scripts.pi0294.pv1.evaluation_accounting import validate_global as validate_evaluation
         validate_evaluation(value,evaluation)

@@ -19,10 +19,13 @@ class Ledger:
         self.root=Path(root);self.path=self.root/'RESOURCE_LEDGER.json'
         self.m=read(self.root/'RUN_MANIFEST.json')
         from . import successor_core_context as successor
-        self.successor=self.m['scope']in successor.ROLES
+        from . import mix_vanda_eval_context as vanda,mix_vanda_eval_identity as vanda_identity
+        self.vanda=self.m['scope']==vanda_identity.PHYSICAL_ROLE
+        self.successor=self.vanda or self.m['scope']in successor.ROLES
         self.authority=successor.s.TASK_SOURCE if self.successor else AUTHORITY
-        self.schema=successor.LEDGER_SCHEMA if self.successor else 'PI0294_PV1_CORE_POLICY_LEDGER_V1'
-        self.a=successor.ledger_binding(self.root,closeout=True)[0] if self.successor else read(self.root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')
+        self.schema=vanda.LEDGER_SCHEMA if self.vanda else successor.LEDGER_SCHEMA if self.successor else 'PI0294_PV1_CORE_POLICY_LEDGER_V1'
+        self.a=(vanda.s.validated(vanda.row(self.root,closeout=True)[0]) if self.vanda else
+            successor.ledger_binding(self.root,closeout=True)[0] if self.successor else read(self.root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json'))
         if (self.successor and self.m['authority']['protocol_ref']!=self.authority or not self.successor and (self.m['scope'] not in (EVAL_ROLE,FINAL_EVAL_ROLE,SOURCE_COMPONENT_ROLE) or self.m['authority']['protocol_ref']!=AUTHORITY or self.a['authority_release']!=AUTHORITY)):
             raise PermissionError('PV1_TYPED_CORE_POLICY_COUNTERS_ONLY')
         self.limits=self.m['limits'];self._guard_at=0.;self._guard_value=None;self._guard_closeout=None
@@ -59,7 +62,8 @@ class Ledger:
     def guard(self,*,closeout=False):
         component_closeout=self.m['scope']==SOURCE_COMPONENT_ROLE and closeout
         if getattr(self,'successor',False):
-            from .successor_core_context import deadline
+            if getattr(self,'vanda',False):from .mix_vanda_eval_context import deadline
+            else:from .successor_core_context import deadline
             deadline(self.root,self.m,closeout=closeout)
         else:
             cutoff=self.a['hard_closeout_epoch'] if closeout else self.a['stop_new_physics_epoch']

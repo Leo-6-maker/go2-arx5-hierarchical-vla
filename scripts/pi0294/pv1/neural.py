@@ -44,7 +44,11 @@ def require_native_device(request,allocation,torch):
     name=torch.cuda.get_device_name(0) if count==1 else None
     from . import evaluation_core_accounting as core
     from . import mix_accounting as cd
-    if request.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION) or allocation.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION):
+    from . import mix_vanda_eval_identity as colocated
+    if request.get('platform_evaluation_version')==colocated.VERSION or allocation.get('platform_evaluation_version')==colocated.VERSION:
+        colocated.require_device(request,allocation,visible=visible,count=count,name=name,
+            memory_bytes=torch.cuda.get_device_properties(0).total_memory if count==1 else 0)
+    elif request.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION) or allocation.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION):
         from .evaluation_core_identity import require_device
         require_device(request,allocation,visible=visible,count=count,name=name,
             memory_bytes=torch.cuda.get_device_properties(0).total_memory if count==1 else 0)
@@ -58,7 +62,8 @@ def evaluation_labels(request,plan,prior):
     """V4 requests own one original whole noise panel; legacy owns both."""
     if 'platform_evaluation_version' not in request:return tuple(plan['panels'])
     from . import mix_accounting as cd
-    if request['platform_evaluation_version']==cd.CORE_VERSION:
+    from . import mix_vanda_eval_identity as colocated
+    if request['platform_evaluation_version'] in (cd.CORE_VERSION,colocated.VERSION):
         arm=request.get('evaluation_candidate');label=str(arm)+'-DEV-N294101'
         if (arm not in ('C50','D25') or request.get('stage')!='V5_MATCHED_DEV24'
                 or request.get('checkpoint_step')!=1024 or request.get('noise_bank')!=294101
@@ -337,7 +342,8 @@ def run(root,request_path):
     root,request_path=Path(root),Path(request_path);r=read(request_path)
     from . import evaluation_core_accounting as core
     from . import mix_accounting as cd
-    if r.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION):
+    from . import mix_vanda_eval_identity as colocated
+    if r.get('platform_evaluation_version') in (core.VERSION,cd.CORE_VERSION,colocated.VERSION):
         from .evaluation_core_runtime import run as run_Core_evaluation
         return run_Core_evaluation(root,request_path)
     if r.get('stage') not in STAGES:

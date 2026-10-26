@@ -29,6 +29,14 @@ def identity(root,directory,allocation):
         raise PermissionError('PV1_EXACT_OWNED_NATIVE_CAPTURE_PATH')
     _,number,_=namespace(root,BASE+'-ALLOCATION-'+directory.name.removeprefix('alloc-'))
     m=immutable(root/'RUN_MANIFEST.json');r=immutable(directory/'REQUEST.json')
+    from . import mix_vanda_eval_identity as colocated
+    if colocated.typed(m):
+        if r.get('allocation_number')!=number or immutable(directory/'ALLOCATION_ADMISSION.json')!=allocation:
+            raise PermissionError('V5_COLOCATED_CURRENT_NATIVE_CAPTURE_ALLOCATION')
+        from .mix_vanda_eval_context import current_identity
+        native=current_identity(root,m,r,allocation)
+        return dict(job_id=native['job_id'],hostname=native['hostname'],request_sha256=sha(directory/'REQUEST.json'),
+                    source_sha=m['code']['vla_commit'],manifest_sha256=sha(root/'RUN_MANIFEST.json'))
     if Core_native.cold_profile(m):
         if r.get('allocation_number')!=number or immutable(directory/'ALLOCATION_ADMISSION.json')!=allocation:
             raise PermissionError('PV1_CORE_SAME_SEALED_CAPTURE_ALLOCATION')

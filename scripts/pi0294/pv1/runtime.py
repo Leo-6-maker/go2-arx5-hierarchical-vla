@@ -15,6 +15,16 @@ def validate_runtime(root,profile,*,closeout=False,now=None):
     if now is not None:
         raise PermissionError('PV1_NATIVE_RUNTIME_CLOCK_ONLY_NO_INJECTED_DATE')
     root=Path(root)
+    from . import mix_vanda_eval_identity as colocated
+    manifest=read(root/'RUN_MANIFEST.json') if (root/'RUN_MANIFEST.json').is_file() else {}
+    if colocated.typed(manifest):
+        from .mix_vanda_eval_context import validate as validate_colocated
+        physical=manifest.get('scope')==colocated.PHYSICAL_ROLE
+        # Frozen source workers use this legacy logical API name; the actual
+        # manifest/profile/PBS/UID stay explicit Vanda and are fully checked.
+        if profile!=(('4080-simulation' if physical else colocated.NEURAL_PROFILE)):
+            raise PermissionError('V5_COLOCATED_EXACT_LOGICAL_WORKER_API_AND_ACTUAL_SITE_ROLE')
+        return validate_colocated(root,closeout=closeout)[0]
     if profile=='4080-simulation':
         from . import successor_core_context as successor
         if read(root/'RUN_MANIFEST.json').get('scope')in successor.ROLES:

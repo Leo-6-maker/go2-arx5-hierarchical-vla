@@ -39,6 +39,12 @@ def put(path,value):
 
 def phase_deadline(request):
     from . import mix_core_identity as cd,successor_cd as successor
+    from . import mix_vanda_eval_identity as colocated
+    if colocated.typed(request):
+        need(request.get('stage')=='V5_MATCHED_DEV24' and request.get('evaluation_candidate') in ('C50','D25')
+             and request.get('deadline_epoch')==successor.scope(request.get('T_CD'))['deadline_epoch'],
+             'EXPLICIT_ADOPTED_COLOCATED_WINDOW')
+        return request['deadline_epoch']
     if cd.typed(request):
         need(request.get('platform_evaluation_version')==cd.c.VERSION
              and request.get('stage')=='V5_MATCHED_DEV24' and request.get('evaluation_candidate')in ('C50','D25')
@@ -70,10 +76,19 @@ def release(root,directory,request,process,name,*,phase_started,guard):
 
 
 def run(root,request_path):
-    root,request_path=Path(root),Path(request_path);manifest,*_=validate(root);request=read(request_path)
+    root,request_path=Path(root),Path(request_path);request=read(request_path)
+    from . import mix_vanda_eval_identity as colocated
+    cohost=colocated.typed(request)
+    validator,process_identity,backend,ledger_type=validate,identity,native,Ledger
+    if cohost:
+        from . import mix_vanda_eval_context as process_identity,mix_vanda_eval_native as backend
+        from .mix_vanda_eval_ledger import Ledger as ledger_type
+        validator=process_identity.validate
+    manifest,*_=validator(root)
     from . import mix_core_identity as cd
-    successor=cd.typed(request)
-    if successor:request_identity=cd.request_identity
+    successor=cohost or cd.typed(request)
+    if cohost:request_identity=colocated.request_identity
+    elif successor:request_identity=cd.request_identity
     else:
         need(request.get('stage')=='P4_DEV' and request.get('evaluation_candidate')in c.stage.CANDIDATES
              and request.get('platform_evaluation_version')==c.VERSION,'ORIGINAL_AB_FIRST_STAGE_ONLY_ZERO_TRAINING')
@@ -98,7 +113,8 @@ def run(root,request_path):
             # bind it. During this bounded zero-model wait, observe the actual
             # already accepted resident owner rather than inventing a live
             # GPU heartbeat before a native handle has been bound.
-            if successor:cd.current_owner(root,request,request_sha256=sha(request_path))
+            if cohost:process_identity.owner_current(root,request,request_sha256=sha(request_path))
+            elif successor:cd.current_owner(root,request,request_sha256=sha(request_path))
             elif 'startup_recovery_sha256' in request:
                 from .evaluation_core_zero_start_recovery import current_owner
                 current_owner(root,request)
@@ -107,13 +123,13 @@ def run(root,request_path):
             read_live_owner(root,root.name);ledger.guard()
     try:
         # The actual process is observed before any Torch/CUDA import or model.
-        process=identity.observe_current(root,dict(request,request_sha256=sha(request_path)))
-        os.environ[identity.HANDLE_ENV]=process['native_handle']
+        process=process_identity.observe_current(root,dict(request,request_sha256=sha(request_path)))
+        if not cohost:os.environ[identity.HANDLE_ENV]=process['native_handle']
         resource.setrlimit(resource.RLIMIT_CPU,(79760,79760));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
         put(directory/'NATIVE_CORE_PROCESS_STARTED.json',process)
         phase='WAIT_ACTUAL_GLOBAL_BIND_AND_PREMODEL_RELEASE'
         release(root,directory,request,process,'START_NEURAL.json',phase_started=process['observed_epoch'],guard=guard)
-        allocation=native.admit(root,request_path);ledger=Ledger(root,request_path)
+        allocation=backend.admit(root,request_path);ledger=ledger_type(root,request_path)
         phase='ACTUAL_NATIVE_600S_80_CYCLE_QUALIFICATION'
         qualification=qualify_transport(root,directory,allocation,guard)
         put(directory/'PV1_PREMODEL_QUALIFICATION_READBACK.json',qualification)
@@ -123,7 +139,7 @@ def run(root,request_path):
             source_sha=request['source_sha'],run_uuid=root.name,phase_started_epoch=phase_started,
             qualification_receipt_sha256=qualification['receipt_sha256'],new_models=0,new_queries=0,new_physics=0))
         release(root,directory,request,process,'CORE_MODEL_RELEASE.json',phase_started=phase_started,guard=guard)
-        proof,_=native.budget_now(root,request_path,ledger)
+        proof,_=backend.budget_now(root,request_path,ledger)
         put(directory/'POST_QUALIFICATION_NATIVE_RESOURCE_PROOF.json',proof)
         require_current(root,allocation);guard();prepare_environment(request['numerical_mode'])
         import torch

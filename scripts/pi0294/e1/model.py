@@ -50,7 +50,14 @@ def load(root,checkpoint,identity,*,trainable=True):
         raise ValueError('E1_ORIGINAL_DATA_STATS_CHANGED')
     for name,digest in identity['files'].items():
         p=checkpoint/name
-        if not p.resolve().is_relative_to(checkpoint.resolve()) or sha(p)!=digest:raise ValueError('E1_CHECKPOINT_CHANGED:'+name)
+        if not p.resolve().is_relative_to(checkpoint.resolve()):
+            from scripts.pi0294.pv1.mix_vanda_eval_identity import VERSION
+            manifest=root/'RUN_MANIFEST.json'
+            if not manifest.is_file() or read(manifest).get('platform_evaluation_version')!=VERSION:
+                raise ValueError('E1_CHECKPOINT_CHANGED:'+name)
+            from scripts.pi0294.pv1.mix_vanda_reference import inference_member
+            inference_member(root,checkpoint,name,digest)
+        if sha(p)!=digest:raise ValueError('E1_CHECKPOINT_CHANGED:'+name)
     official_import(bindings['source'])
     import torch
     from transformers import AutoModel

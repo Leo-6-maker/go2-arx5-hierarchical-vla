@@ -3,12 +3,15 @@ import math
 
 
 class SessionMetrics:
-    def __init__(self):
+    def __init__(self,*,maximum=40000):
+        if type(maximum) is not int or maximum not in (40000,150000):
+            raise PermissionError('ONLY_ORIGINAL_OR_VERSIONED_FINITE_RPC_ENVELOPE')
+        self.maximum=maximum
         self.operations=0
         self.settlement_started=False
 
     def reply(self,value,emit):
-        if self.settlement_started or self.operations>=40000:
+        if self.settlement_started or self.operations>=self.maximum:
             raise PermissionError('FINITE_OPEN_RPC_METRICS_SESSION_ONLY')
         self.operations+=1
         emit(value)

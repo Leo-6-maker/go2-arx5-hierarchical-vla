@@ -93,7 +93,11 @@ def run(root,card_path):
             or ready['job_id']!=registry['job_id']):
         raise PermissionError('PV1_CURRENT_NATIVE_MODEL_IDENTITY_AND_REAL_PREMODEL_PROOF')
     from . import successor_core_context as successor
-    scope_deadline=successor.deadline(root,m) if m['scope']==successor.EVAL_ROLE else read(root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')['stop_new_physics_epoch']
+    from . import mix_vanda_eval_identity as colocated
+    if m['scope']==colocated.PHYSICAL_ROLE:
+        from .mix_vanda_eval_context import deadline as colocated_deadline
+        scope_deadline=colocated_deadline(root,m)
+    else:scope_deadline=successor.deadline(root,m) if m['scope']==successor.EVAL_ROLE else read(root.parent.parent/'PV1_ADOPTION_AND_RESOURCE_BINDING.json')['stop_new_physics_epoch']
     deadline=min(scope_deadline,
         ready['allocation_end_epoch']-2700,m['limits']['operation_deadline_epoch'])
     if time.time()+900>=deadline:raise TimeoutError('PV1_KEEP_NATIVE_45_MIN_CLOSEOUT_AND_CASE_BOUNDARY')
