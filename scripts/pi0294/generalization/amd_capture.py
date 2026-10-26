@@ -10,6 +10,7 @@ from . import amd_adoption as a,amd_pilot_scope as p,static_preview as preview
 
 ROLE='GEN1_AMD_FIRST_ATTEMPT_TEACHER_V1'
 PROFILE='amd-gen1-teacher-capture'
+COUNTER_POLICY='GEN1_ORIGINAL_TASK81_NEGATIVE4_RAWAUDIT3_V2'
 
 
 def read(path):return json.loads(Path(path).read_bytes())
@@ -49,12 +50,21 @@ def binding(root):
         and b['run_manifest_sha256']==sha(r/'RUN_MANIFEST.json'),'OWN_CAPTURE_MANIFEST')
     g=read(r/'plans/ACTUAL_GLOBAL_CAPTURE_ALLOCATION.private.json');mark=a.validate(g);pool=mark['teacher_pilot']
     row=pool['workers'][str(m['worker_index'])]
-    a.need(pool['status']=='RESERVED_FIRST_ATTEMPTS_ONLY'and row['manifest_sha256']==b['run_manifest_sha256']
+    if row['root']!=str(r):
+        repair=pool.get('engineering_recovery',{})
+        a.need(pool['status']=='NATIVE_ENGINEERING_TERMINAL'
+            and repair.get('status')=='RESERVED_ENGINEERING_CONTINUATION'
+            and m.get('engineering_failure_audit_sha256')==pool['actual']['independent_audit_sha256'],
+            'EXACT_CLOSED_ENGINEERING_PREDECESSOR_NOT_VALID_FAILURE_REPLAY')
+        pool=repair;row=pool['workers'][str(m['worker_index'])]
+    a.need(pool['status']in('RESERVED_FIRST_ATTEMPTS_ONLY','RESERVED_ENGINEERING_CONTINUATION')
+        and row['manifest_sha256']==b['run_manifest_sha256']
         and row['root']==str(r)and row['attempt_ids']==[c['id']for c in cards((r/preview.PACKET).read_bytes(),m['worker_index'])],
         'REAL_GLOBAL_UNIQUE_FIRST_ATTEMPT_ALLOCATION')
     limits=m['limits'];a.need(all(limits.get(k)==v for k,v in dict(CPU_s=21600,physics_ticks=192000,
-        engine_starts=504,policy_episodes=6,per_cell_CPU_s=3600,per_cell_ticks=32000,
+        engine_starts=528,policy_episodes=6,per_cell_CPU_s=3600,per_cell_ticks=32000,
         per_cell_task_shadow_constructors=81,per_cell_readonly_audit_constructors=3,
+        per_cell_zero_integration_negative_constructors=4,counter_policy=COUNTER_POLICY,
         memory_bytes=8*1024**3).items()),'ORIGINAL_TWELVE_TASK_AND_EXPLICIT_READONLY_AUDIT_ENVELOPE')
     a.need(type(limits['cpus'])is list and len(limits['cpus'])==1
         and set(limits['cpus'])<=os.sched_getaffinity(0),'ACTUAL_SINGLE_CORE_WORKER')
@@ -107,6 +117,7 @@ def run(root):
                 'FRESH_WORKER_EFFECT_LEDGER')
             self.ticks=self.live_ticks=self.shadow_ticks=self.starts=0;self.cell=None;self.cell_cpu=0.;self.cell_ticks=self.cell_starts=0
             self.audit_phase=False;self.audit_starts=self.cell_audit_starts=0
+            self.negative_phase=False;self.negative_starts=self.cell_negative_starts=0
             self.lease_path=read(r/'OUTPUT_BINDING.private.json')['lease'];self.lease_check_at=0.
             original.ensure_legacy_attempt_plan(r,plan);self.progress(status='RUNNING')
         def guard(self):
@@ -114,8 +125,9 @@ def run(root):
             if self.cell is not None:
                 a.need(time.process_time()-self.cell_cpu<3570,'FINITE_CELL_CPU_SAVING_MARGIN')
                 audit=self.audit_starts-self.cell_audit_starts
-                a.need(self.ticks-self.cell_ticks<=32000 and self.starts-self.cell_starts-audit<=81
-                    and audit<=3,'FINITE_TASK_AND_SEPARATE_READONLY_AUDIT_CONSTRUCTORS')
+                negative=self.negative_starts-self.cell_negative_starts
+                a.need(self.ticks-self.cell_ticks<=32000 and self.starts-self.cell_starts-audit-negative<=81
+                    and audit<=3 and negative<=4,'FINITE_TASK_AUDIT_AND_ZERO_INTEGRATION_NEGATIVES')
             if any(x.exists()for x in(r/'STOP.json',coordinator/'STOP.json')):raise PermissionError('GEN1_SOURCE_STOP')
             now=time.monotonic()
             if now-self.lease_check_at>=.25:
@@ -123,10 +135,13 @@ def run(root):
         def start(self):
             if self.cell is not None:
                 audit=self.audit_starts-self.cell_audit_starts
-                a.need(audit<3 if self.audit_phase else self.starts-self.cell_starts-audit<81,
+                negative=self.negative_starts-self.cell_negative_starts
+                a.need(audit<3 if self.audit_phase else negative<4 if self.negative_phase
+                    else self.starts-self.cell_starts-audit-negative<81,
                     'TASK_OR_READONLY_AUDIT_CAP_BEFORE_CALL')
             value=original.Meter.start(self)
             if self.audit_phase:self.audit_starts+=1
+            if self.negative_phase:self.negative_starts+=1
             return value
         def step(self,engine,method,target,opening,live):
             if self.cell is not None:a.need(self.ticks-self.cell_ticks<32000,'CELL_TICK_CAP_BEFORE_CALL')
@@ -139,6 +154,13 @@ def run(root):
         try:return original_audit(*args,**kwargs)
         finally:meter.audit_phase=False
     raw_audit.audit_episode=audit_with_classified_cost
+    from scripts.pi0294 import r3_teacher
+    original_negatives=r3_teacher.ProtectedTeacher.check_negatives
+    def negatives_with_classified_cost(self,*args,**kwargs):
+        meter.negative_phase=True
+        try:return original_negatives(self,*args,**kwargs)
+        finally:meter.negative_phase=False
+    r3_teacher.ProtectedTeacher.check_negatives=negatives_with_classified_cost
     def stop(reason):
         try:original.put(coordinator/'STOP.json',dict(reason=reason,worker=r.name))
         except FileExistsError:pass  # First safety signal remains authoritative.
@@ -150,13 +172,16 @@ def run(root):
     try:
         for card in plan:
             meter.guard();a.need(card['id']not in meter.ledger['attempted_cells'],'FIRST_ATTEMPT_ONLY')
-            meter.cell=card['id'];meter.cell_cpu=time.process_time();meter.cell_ticks=meter.ticks;meter.cell_starts=meter.starts;meter.cell_audit_starts=meter.audit_starts
+            meter.cell=card['id'];meter.cell_cpu=time.process_time();meter.cell_ticks=meter.ticks;meter.cell_starts=meter.starts;meter.cell_audit_starts=meter.audit_starts;meter.cell_negative_starts=meter.negative_starts
             meter.ledger['attempted_cells'].append(card['id']);meter.progress(current_cell=card['id'])
             value=original.run_cell(meter,card)
             rows.append(dict(attempt_id=card['id'],study_split='G_TRAIN',geometry_id=card['geometry_id'],
                 design_hash=card['GEN1_design_hash'],visual_profile='V0',native_scope=ROLE,
                 original_capture_receipt=value,legacy_receipt_split_is_compatibility_only=True,
-                full_task_success=value['task_success'],codec_for_training='NOT_RUN_REQUIRES_VANDA_OFFICIAL_EXPORT'))
+                full_task_success=value['task_success'],codec_for_training='NOT_RUN_REQUIRES_VANDA_OFFICIAL_EXPORT',
+                engineering_predecessor_audit_sha256=m.get('engineering_failure_audit_sha256'),
+                prior_failed_physical_attempt_retained=card['id']in m.get('engineering_failed_condition_ids',[]),
+                legacy_first_attempt_field_is_compatibility_only=True))
             write(r/'GEN1_CAPTURE_PROGRESS.json',dict(attempts=rows,expected_ids=[c['id']for c in plan]))
             meter.cell=None
             if(r/'STOP.json').exists():stop('CAPTURE_NATIVE_SAFETY_OR_INTEGRITY');break
@@ -168,13 +193,16 @@ def run(root):
         raise
     finally:
         raw_audit.audit_episode=original_audit
+        r3_teacher.ProtectedTeacher.check_negatives=original_negatives
         after=resource.getrusage(resource.RUSAGE_CHILDREN);cost=time.process_time()-started+after.ru_utime+after.ru_stime-children.ru_utime-children.ru_stime
         meter.progress(status='TERMINAL_KNOWN'if failure is None else'FAILED_PRESERVED_UNKNOWN_EFFECTS',
             CPU_s=cost,source_sha=source_sha)
         write(r/'GEN1_CAPTURE_RESULT.json',dict(status='KNOWN_FIRST_ATTEMPTS_TERMINAL'if failure is None else'FAILED_PRESERVED',
             attempts=rows,expected_ids=[c['id']for c in plan],error=failure,CPU_s=cost,
             updates=0,model_loads=0,queries=0,counter_probe_reused=True,source_sha=source_sha,
-            readonly_audit_constructor_attempts=meter.audit_starts))
+            readonly_audit_constructor_attempts=meter.audit_starts,
+            zero_integration_negative_constructor_attempts=meter.negative_starts,
+            counter_policy=COUNTER_POLICY))
         lock.close()
 
 

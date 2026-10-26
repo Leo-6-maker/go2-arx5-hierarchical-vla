@@ -39,6 +39,37 @@ def test_terminal_cpu_accounting_uses_original_meter_without_duplicate_keyword(t
     assert value['ticks']==700 and value['live_ticks']==300 and value['episode_starts']==1
 
 
+@pytest.mark.parametrize('phase',['task','negative','audit'])
+def test_actual_original_meter_is_charged_for_all_three_finite_phases(phase):
+    import ast,time
+    from scripts.pi0294.pv1 import capture as original
+    # Execute the actual nested class, with no constructor/model/physics import.
+    node=next(x for x in ast.walk(ast.parse(Path(c.__file__).read_text()))
+              if isinstance(x,ast.ClassDef)and x.name=='Meter')
+    namespace=dict(original=original,a=a,time=time)
+    exec(compile(ast.fix_missing_locations(ast.Module(body=[node],type_ignores=[])),
+                 '<actual-cold-counter-class>','exec'),namespace)
+    m=namespace['Meter'].__new__(namespace['Meter'])
+    m.cell='fixture';m.cell_starts=m.starts=m.cell_audit_starts=m.audit_starts=0
+    m.cell_negative_starts=m.negative_starts=0;m.negative_phase=m.audit_phase=False
+    m.m=dict(limits=dict(engine_starts=528));m.guard=lambda:None
+    m.start()  # one real-task constructor
+    m.negative_phase=True
+    for _ in range(4):m.start()
+    if phase=='negative':
+        with pytest.raises(PermissionError):m.start()
+    m.negative_phase=False
+    for _ in range(80):m.start()  # original eighty prefix clones
+    if phase=='task':
+        with pytest.raises(PermissionError):m.start()
+    m.audit_phase=True
+    for _ in range(3):m.start()
+    if phase=='audit':
+        with pytest.raises(PermissionError):m.start()
+    assert m.starts==88 and m.negative_starts==4 and m.audit_starts==3
+    assert c.COUNTER_POLICY=='GEN1_ORIGINAL_TASK81_NEGATIVE4_RAWAUDIT3_V2'
+
+
 @pytest.mark.parametrize('index',[True,-1,2])
 def test_no_extra_worker_or_resampled_packet(index):
     with pytest.raises(PermissionError):c.cards(P.read_bytes(),index)

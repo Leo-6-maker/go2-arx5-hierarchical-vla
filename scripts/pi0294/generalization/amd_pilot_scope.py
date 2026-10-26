@@ -92,13 +92,26 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
         for k,x in values.items():add[k]+=x
     # AMD source:36 paired-task/repeat+6 home static+2 parity constructions.
     # Preserve two complete raw envelopes rather than assume hardlink credit.
-    # Keep81 task/shadow starts, and separately budget up to3 readonly raw
-    # audit reconstructions. This corrects the pre-dispatch accounting seam;
-    # it adds no episode/integration and does not increase any campaign cap.
-    plus(dict(episode_starts=12,physics_ticks=12*32000,engine_starts=12*(81+3)+44,
+    # Keep81 task/shadow starts, the original four zero-integration install
+    # negatives, and up to3 readonly raw-audit reconstructions separately.
+    # The original safety procedures and all campaign caps are unchanged.
+    plus(dict(episode_starts=12,physics_ticks=12*32000,engine_starts=12*(81+4+3)+44,
         Core_CPU_s=1200+12*3600+1800,local_CPU_s=1800,
         Core_storage_bytes=20*GIB+64*1024**2,Hopper_storage_bytes=10*GIB,
         transfer_bytes=12*GIB))
+    failed=g.get('GEN1_AMD_layout_CORR1024_authority',{}).get('teacher_pilot',{})
+    if failed.get('status')=='NATIVE_ENGINEERING_TERMINAL':
+        # Real failed costs remain in addition to a complete future twelve;
+        # no scientific negative is removed or used to choose another layout.
+        actual=failed['actual']
+        need(failed['all_old_costs_and_files_preserved']is True
+             and actual['unknown_effects']==[]and actual['admitted_demonstrations']==0,
+             'CLOSED_ENGINEERING_EFFECTS_RETAINED')
+        plus(dict(episode_starts=actual['episode_starts'],
+            physics_ticks=actual['live_ticks']+actual['shadow_ticks'],
+            engine_starts=actual['engine_starts'],Core_CPU_s=actual['Core_CPU_s']+600,
+            local_CPU_s=600,Core_storage_bytes=320*1024**2,
+            Hopper_storage_bytes=64*1024**2,transfer_bytes=64*1024**2))
     # Export in an independent CPU PBS allocation, using Vanda's existing
     # official processor environment. Train receives a closed immutable bank.
     plus(dict(PBS_submissions=1,Hopper_CPU_s=36600,local_CPU_s=600))
