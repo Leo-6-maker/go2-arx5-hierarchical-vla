@@ -144,6 +144,9 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
     # replays a Teacher valid failure or an UNKNOWN write.
     plus(dict(PBS_submissions=1,H200_s=3600,Hopper_CPU_s=3600,local_CPU_s=600,
         Hopper_storage_bytes=64*1024**2,Core_storage_bytes=64*1024**2,transfer_bytes=64*1024**2))
+    if 'GEN1_AMD_layout_CORR1024_authority'in g:
+        from .amd_export_accounting import forecast_credit
+        for key,amount in forecast_credit(g).items():add[key]-=amount
     rows={};required={}
     for key,v in base['dimensions'].items():
         cap=adopted.get(key,v['cap']);projected=v['projected']+add[key];shortfall=max(0,projected-cap)

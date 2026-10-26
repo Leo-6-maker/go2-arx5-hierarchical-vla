@@ -127,7 +127,7 @@ def export_case(case,out,processor,source,cosmos,guard):
 
 
 def export_committed_case(case,out,processor,source,cosmos,guard,*,packet_builder,codec_auditor,
-        direction_for_card,origin='PV1_ACTUAL_COMMITTED_TEACHER_TRAIN'):
+        direction_for_card,origin='PV1_ACTUAL_COMMITTED_TEACHER_TRAIN',reuse_registered_source_rgb=False):
     """Shared full raw/official-chain reader; scope-specific callers bind both gates."""
     folder=Path(case['source_episode']);card=read(folder/'CARD.json')
     audit=read(case['audit_file']);result=read(folder/'RESULT.json');s1=read(folder/'S1_RESULT.json')
@@ -160,14 +160,9 @@ def export_committed_case(case,out,processor,source,cosmos,guard,*,packet_builde
         return record
     path=out/'numeric'/(card['id']+'.npz');path.parent.mkdir(exist_ok=True)
     atomic_npz(path,**arrays)
-    raw=out/'raw'/card['id'];raw.mkdir(parents=True)
-    for names,digests in zip(arrays['rgb_paths'],arrays['rgb_sha256']):
-        for name,digest_value in zip(names,digests):
-            guard();p=folder/str(name);target=raw/str(name)
-            if Path(str(name)).is_absolute() or '..' in Path(str(name)).parts or sha(p)!=str(digest_value):
-                raise ValueError('PV1_EXPORTED_RGB_HASH_AND_RELATIVE_PATH')
-            target.parent.mkdir(exist_ok=True)
-            os.link(p,target)
+    raw=materialize_rgb(folder,out,card,arrays,guard,reuse_registered_source_rgb=reuse_registered_source_rgb)
+    if reuse_registered_source_rgb:
+        record['RGB_materialization']='EXPLICIT_GEN1_REGISTERED_IMMUTABLE_SOURCE_INPUT'
     record.update(file=str(path.relative_to(out)),sha256=sha(path),bytes=path.stat().st_size)
     # The same production reader, processor and official collator see actual images/labels.
     write(out/'DATASET_MANIFEST.json',dict(domain='FIXED_BASE_ARX5_TASK_SIM',statistics_sha256=STATS,episodes=[record]))
@@ -184,6 +179,32 @@ def export_committed_case(case,out,processor,source,cosmos,guard,*,packet_builde
             full_641_two_camera_raw_RGB256_verified=True,image_crop_fraction=1.,image_target_size=[256,256],
             model_forward=False,privileged_policy_metadata=False))
     return record
+
+
+def materialize_rgb(folder,out,card,arrays,guard,*,reuse_registered_source_rgb=False):
+    """Legacy links by default; GEN1 may bind its sole registered raw input.
+
+    No generated image is substituted. Both modes verify every actual frame.
+    The caller's native scope must establish closed custody before either.
+    """
+    if type(reuse_registered_source_rgb)is not bool:
+        raise PermissionError('SAVED_EXPORT_EXPLICIT_RGB_MATERIALIZATION_POLICY')
+    folder,out=Path(folder),Path(out)
+    if reuse_registered_source_rgb:
+        if (card.get('study_split')!='G_TRAIN' or card.get('split')!='G_TRAIN'
+                or not card.get('id','').startswith('GEN1-PILOT-') or folder.is_symlink()):
+            raise PermissionError('SAVED_EXPORT_RAW_REUSE_ONLY_EXPLICIT_GEN1_SOURCE_INPUT')
+        raw=folder
+    else:
+        raw=out/'raw'/card['id'];raw.mkdir(parents=True)
+    for names,digests in zip(arrays['rgb_paths'],arrays['rgb_sha256']):
+        for name,digest_value in zip(names,digests):
+            guard();p=folder/str(name);target=raw/str(name)
+            if Path(str(name)).is_absolute() or '..' in Path(str(name)).parts or sha(p)!=str(digest_value):
+                raise ValueError('PV1_EXPORTED_RGB_HASH_AND_RELATIVE_PATH')
+            if not reuse_registered_source_rgb:
+                target.parent.mkdir(exist_ok=True);os.link(p,target)
+    return raw
 
 
 def run(root):

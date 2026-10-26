@@ -5,6 +5,8 @@ the explicit GEN1 request and original independent CORR2048 initialization.
 """
 from functools import partial
 import hashlib
+import os
+from pathlib import Path
 from types import SimpleNamespace
 import numpy as np
 from . import amd_bank as bank,amd_pilot_scope as scope
@@ -51,6 +53,17 @@ class Dataset(SourceDataset):
         super().__init__(*args,**kwargs);self.base_rows=len(self.rows);base_manifest=self.manifest_sha
         self.new_reader=NativeDataset(new_root,self.source,self.cosmos,for_optimization=True,raw_bindings=new_raw_bindings)
         self.support=bank.validate(self.new_reader.manifest,packet_bytes)
+        scope.need(type(new_raw_bindings)is dict
+            and set(new_raw_bindings)==set(self.support['admitted']),
+            'GEN_READER_EXPLICIT_ALL_REGISTERED_RAW_PARENTS')
+        from scripts.pi0292.durable import read
+        from .amd_export import exact_card
+        for row in self.new_reader.manifest['episodes']:
+            raw=Path(new_raw_bindings[row['id']])
+            scope.need(raw.is_absolute()and raw.is_dir()and not raw.is_symlink()
+                and raw.stat().st_uid==os.getuid(),'GEN_READER_OWN_REAL_RAW_INPUT_DIRECTORY')
+            card=exact_card(read(raw/'CARD.json'),packet_bytes)
+            scope.need(digest(card)==row['source_card_sha256'],'GEN_READER_SAME_SEALED_NATIVE_CARD')
         scope.need(self.new_reader.statistics_sha==self.statistics_sha==scope.a.STATS,
             'GEN_READER_SAME_FROZEN_R0')
         metadata={};original=[]

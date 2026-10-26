@@ -25,7 +25,8 @@ def packet(samples, card, packet_bytes):
     return committed_packet(samples, card)
 
 
-def export_case(case, out, processor, source, cosmos, guard, *, packet_bytes, statistics_bytes):
+def export_case(case, out, processor, source, cosmos, guard, *, packet_bytes, statistics_bytes,
+        reuse_registered_source_rgb=False):
     """Invoke the full original raw reader, codec, loader and collator chain."""
     from scripts.pi0292.durable import read
     from scripts.pi0294.pv1.export import export_committed_case, codec_packet
@@ -43,7 +44,8 @@ def export_case(case, out, processor, source, cosmos, guard, *, packet_bytes, st
         codec_auditor=codec_packet,
         direction_for_card=lambda c: next(r['layout_stratum'].split('/')[0]
             for r in scope.pilot_plan(packet_bytes)['attempts'] if r['attempt_id'] == c['id']),
-        origin='GEN1_ACTUAL_COMMITTED_ORIGINAL_TEACHER_G_TRAIN')
+        origin='GEN1_ACTUAL_COMMITTED_ORIGINAL_TEACHER_G_TRAIN',
+        reuse_registered_source_rgb=reuse_registered_source_rgb)
     # The shared reader's TRAIN field is an internal reader compatibility tag.
     # Explicit GEN identity remains authoritative and must reach the bank gate.
     row.update(study_split='G_TRAIN', geometry_id=card['geometry_id'],

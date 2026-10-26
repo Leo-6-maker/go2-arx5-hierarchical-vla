@@ -63,7 +63,11 @@ def validate_global(g):
     # come only from the exact adopted four-cap grant, never a manifest wish.
     caps=dict(PBS_submissions=34,Hopper_storage_bytes=scope.NEW_STORAGE['Hopper_storage_bytes'])
     from scripts.pi0294.generalization import amd_adoption as gen1
-    if gen1.FIELD in g:caps.update(gen1.validate(g)['caps'])
+    if gen1.FIELD in g:
+        caps.update(gen1.validate(g)['caps'])
+        if 'official_export'in g[gen1.FIELD]:
+            from scripts.pi0294.generalization.amd_export_accounting import rows as GEN_export_rows
+            GEN_export_rows(g)
     from .mix_vanda_cohost import validated as cohost_marker
     cohost_marker(g)
     need(len(rows)<=6,'TWO_ARMS_MAX_THREE_ENGINEERING_ATTEMPTS_EACH')
