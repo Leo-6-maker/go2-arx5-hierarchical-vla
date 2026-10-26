@@ -25,7 +25,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     capture=json.loads(training_capture_bytes);proof=context.captured_endpoint(capture)
     marker=s.validated(g);key=c.key(arm)
     need(proof['arm']==arm and key in g[a.PACKAGE]['prepaid_control']
-         and g[a.PACKAGE]['completed_stages']==c.before_stage(arm), 'REAL_CLOSED_SAME_ARM_AND_PAID_CONTROL')
+         and g[a.PACKAGE]['completed_stages']==c.before_stage(arm,g), 'REAL_CLOSED_SAME_ARM_AND_PAID_CONTROL')
     need(type(source_sha)is str and re.fullmatch('[0-9a-f]{40}',source_sha)
          and c.canonical_uuid(request_id)and c.canonical_uuid(nonce)
          and re.fullmatch(r'v5-cd-(c50|d25)-n294101-[0-9]{2}',run_name)

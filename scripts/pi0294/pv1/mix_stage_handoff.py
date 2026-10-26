@@ -20,8 +20,8 @@ def load(raw):
 def closed_endpoint(*,global_bytes,settled_bytes,lease_bytes,closed_bytes,owner_exit_bytes,OS_exit_bytes,arm):
     g=load(global_bytes);a.validate_global(g);p=a.package_view(g)
     need(arm in ('C50','D25'),'ONLY_PREDECLARED_TWO_ARMS')
-    expected=list(s.ORDER[:1 if arm=='C50' else 3])
-    need(p['completed_stages']==expected,'EXACT_TRAIN_THEN_EVAL_SEQUENCE')
+    order=s.execution_order(g)
+    need(order.index('TRAIN:'+arm+':1024')<len(p['completed_stages'])<=order.index('EVAL:'+arm+':N294101'),'EXACT_TRAIN_THEN_EVAL_SEQUENCE')
     settled=load(settled_bytes);lease=load(lease_bytes);closed=load(closed_bytes)
     owner=load(owner_exit_bytes);os_exit=load(OS_exit_bytes)
     native,effects,audit=settled['native'],settled['effects'],settled['audit']
@@ -80,8 +80,8 @@ def project_training_to_LOCAL(*,local_bytes,global_bytes,terminal_capture,arm):
     need(key not in mirrors and not any(r.get('request_id')==key for r in l['PBS_submissions']),
          'NO_SECOND_ACCOUNTING_MIRROR_OR_SUBMISSION')
     local_package=a.package_view(l);global_package=a.package_view(g)
-    need(local_package['completed_stages']==list(s.ORDER[:0 if arm=='C50' else 2])
-         and global_package['completed_stages']==list(s.ORDER[:1 if arm=='C50' else 3]),'ONE_EXACT_LOCAL_STAGE_ADVANCE')
+    need(local_package['completed_stages']==list(s.execution_order(g)[:s.execution_order(g).index('TRAIN:'+arm+':1024')])
+         and global_package['completed_stages']==list(s.execution_order(g)[:s.execution_order(g).index('TRAIN:'+arm+':1024')+1]),'ONE_EXACT_LOCAL_STAGE_ADVANCE')
     # Controls were prepaid in BOTH ledgers before this request. Only this
     # actual allocation's original reserved vector is now removed once.
     allocation=dict(H200_s=22560,PBS_submissions=1,optimizer_updates=1024,neural_queries=29,

@@ -37,8 +37,8 @@ def stage_vector(kind,*,Core_GPU_projection=False):
 def package_view(g):
     scope.validated(g);p=g.get(PACKAGE)
     need(type(p)is dict and p.get('schema')=='V5_CD_EXISTING_LEDGER_PACKAGE_ESCROW_V1','PACKAGE_ACTUALLY_RESERVED')
-    need(p['order']==list(scope.ORDER) and p['scope_grant_sha256']==scope.GRANT_SHA,'FROZEN_ORDER_AND_AUTHORITY')
-    _vector(p['remaining_resources']);need(p['completed_stages']==list(scope.ORDER[:len(p['completed_stages'])]),'NO_SKIP_REORDER_OR_NEW_CANDIDATE')
+    need(p['order']==list(scope.execution_order(g)) and p['scope_grant_sha256']==scope.GRANT_SHA,'FROZEN_ORDER_AND_AUTHORITY')
+    _vector(p['remaining_resources']);need(p['completed_stages']==list(scope.execution_order(g)[:len(p['completed_stages'])]),'NO_SKIP_REORDER_OR_NEW_CANDIDATE')
     need(p['engineering_replacements_used']in range(5),'TOTAL_FOUR_ENGINEERING_REPLACEMENTS')
     return p
 
@@ -99,7 +99,7 @@ def reserve_package(global_raw,local_raw,*,now_epoch,Core_storage_upper_bytes,lo
     return dict(proposed_global=v,proposed_LOCAL=w,proof=proof,not_native_GPU_admission=True)
 
 def prepay_training_control(g,*,arm,now_epoch):
-    v=deepcopy(g);p=package_view(v);need(p['completed_stages']==list(scope.ORDER[:(0 if arm=='C50' else 2)]),'PRIOR_CANDIDATE_AND_EVAL_BEFORE_NEXT_ARM')
+    v=deepcopy(g);p=package_view(v);need(p['completed_stages']==list(scope.execution_order(g)[:scope.execution_order(g).index('TRAIN:'+arm+':1024')]),'PRIOR_CANDIDATE_AND_EVAL_BEFORE_NEXT_ARM')
     key='TRAIN:'+arm+':1024';charges=p.setdefault('prepaid_control',{});need(key not in charges,'CONTROL_PAID_ONCE')
     costs=dict(Hopper_CPU_s=1800,Hopper_storage_bytes=64*1024**2,transfer_bytes=256*1024**2,local_CPU_s=15)
     charges[key]=dict(costs=costs,epoch=now_epoch,financial_upper_not_actual_process_CPU=True)
@@ -137,7 +137,7 @@ def settle_training(g,request_id,*,native,effects,audit,now_epoch):
     v['new_storage_current_bytes']+=70000000000;v['new_storage_peak_bytes']=max(v['new_storage_peak_bytes'],v['new_storage_current_bytes'])
     r.update(status='NATIVE_TERMINAL',native_exit_status=native['Exit_status'],conservative_H200_s=gpu,conservative_CPU_s=cpu,committed_optimizer_updates=steps,query_attempts=queries,model_load_attempts=loads,reserved_neural_queries=0,reserved_optimizer_updates=0,settled_epoch=now_epoch,terminal_native_sha256=sha(raw(native)),terminal_effect_summary_sha256=sha(raw(effects)),full_checkpoint_audit_sha256=sha(raw(audit)),scientific_endpoint_complete=success)
     if success:
-        key='TRAIN:'+r['arm']+':1024';need(scope.ORDER[len(p['completed_stages'])]==key,'FIXED_STAGE_ORDER');p['completed_stages'].append(key)
+        key='TRAIN:'+r['arm']+':1024';need(scope.execution_order(g)[len(p['completed_stages'])]==key,'FIXED_STAGE_ORDER');p['completed_stages'].append(key)
         p.setdefault('endpoints',{})[r['arm']]=dict(checkpoint_manifest_sha256=audit['checkpoint_manifest_sha256'],checkpoint_root=audit['checkpoint_root'],global_step=1024,request_id=request_id,job_id=r['job_id'],source_sha=r['source_sha'],audit_sha256=sha(raw(audit)))
     else:p['blocked_stage']=dict(request_id=request_id,arm=r['arm'],reason='FAILED_OR_INCOMPLETE_NOT_A_VALID_SCIENTIFIC_ENDPOINT',autonomous_cold_repair_required=True)
     validate_global(v);return v

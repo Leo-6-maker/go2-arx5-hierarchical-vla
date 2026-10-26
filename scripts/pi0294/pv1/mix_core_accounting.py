@@ -42,8 +42,9 @@ def key(arm):
     return 'EVAL:' + arm + ':N294101'
 
 
-def before_stage(arm):
-    return list(s.ORDER[:1 if arm == 'C50' else 3])
+def before_stage(arm, g=None):
+    order=s.execution_order(g) if g is not None else s.ORDER
+    return list(order[:order.index(key(arm))])
 
 
 def remaining_stage():
@@ -144,6 +145,8 @@ def validate_rows(g):
 
 
 def paired(g, l):
+    from .mix_vanda_first import pending
+    need(not pending(g), 'ACTUAL_LOCAL_RECONCILIATION_REQUIRED_BEFORE_CORE_ADMISSION')
     a.validate_global(g)
     need(s.validated(l) == s.validated(g) and l[a.PACKAGE] == g[a.PACKAGE],
          'EXACT_REAL_BOTH_LEDGER_PACKAGE_NOT_STALE_CACHED_LOCAL')
@@ -162,7 +165,7 @@ def closed_training(g, l, terminal_capture, arm):
          and mirror['handoff']['closed_lease_sha256'] == proof['closed_lease_sha256']
          and mirror['handoff']['OS_exit_sha256'] == proof['OS_exit_sha256'],
          'TRAINING_COST_ALREADY_MIRRORED_ONCE_TO_CANONICAL_LOCAL')
-    need(a.package_view(g)['completed_stages'] == before_stage(arm), 'NO_SKIP_OR_D_INHERITANCE')
+    need(a.package_view(g)['completed_stages'] == before_stage(arm, g), 'NO_SKIP_OR_D_INHERITANCE')
     return proof
 
 

@@ -31,6 +31,12 @@ def scope(t_cd):
         same_root_cause_native_attempts_max=3,old_clocks_unchanged=True)
 
 
+def execution_order(value):
+    from .mix_vanda_first import validated
+    marker=validated(value)
+    return tuple(marker['physical_order']) if marker else ORDER
+
+
 def whole_package():
     # Mature 70GB training output bound: full endpoint, one complete recovery
     # save plus bounded trace/temporary/control data. No checkpoint deletion.
@@ -52,6 +58,8 @@ def whole_package():
 
 
 def recompute(global_ledger,local_ledger,*,Core_storage_upper_bytes,local_storage_upper_bytes):
+    from .mix_vanda_first import budget_LOCAL
+    local_ledger=budget_LOCAL(global_ledger,local_ledger)
     used,held=resource_floor(global_ledger,local_ledger);caps=legacy_caps(global_ledger)
     if FIELD in global_ledger:caps.update(validated(global_ledger)['authorized_storage_caps'])
     for k,v in dict(Core_storage_bytes=Core_storage_upper_bytes,local_storage_bytes=local_storage_upper_bytes).items():

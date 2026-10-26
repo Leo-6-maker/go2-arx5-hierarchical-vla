@@ -142,7 +142,7 @@ def complete_stage(global_bytes,local_bytes,*,request_id,population_bytes,eviden
     r=g[c.FIELD][request_id];arm=r['evaluation_candidate'];key=c.key(arm)
     need(r['status']==c.STATES[3]and r['native_exit_status']==0
          and r['unknown_query_intents']==[]and l['unknown_effects']==[]
-         and g[a.PACKAGE]['completed_stages']==c.before_stage(arm), 'TRUE_SUCCESSFUL_NATIVE_CLOSE_BOUNDARY')
+         and g[a.PACKAGE]['completed_stages']==c.before_stage(arm,g), 'TRUE_SUCCESSFUL_NATIVE_CLOSE_BOUNDARY')
     settlement=l.get('V5_CD_Core_terminal_settlements',{}).get(request_id)
     need(type(settlement)is dict and settlement['terminal_native_sha256']==r['terminal_native_sha256']
          and settlement['checkpoint_manifest_sha256']==r['checkpoint_manifest_sha256'], 'ACTUAL_ONCE_DUAL_FINANCIAL_TERMINAL')

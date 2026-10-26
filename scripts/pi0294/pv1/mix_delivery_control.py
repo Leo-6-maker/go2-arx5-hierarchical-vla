@@ -77,7 +77,7 @@ def upload_admission(g, plan, *, now_epoch, checkpoint_complete_bytes):
          and marker.get('model_identity')==model_identity(plan), 'ACTUAL_AUTHORIZED_EXACT_MODEL')
     need(stage in p.get('prepaid_control',{})
          and p['prepaid_control'][stage]['costs']==c.CONTROL
-         and p['completed_stages']==c.before_stage(arm)
+         and p['completed_stages']==c.before_stage(arm,g)
          and all(r['status']in a.TERMINAL for r in g['PBS_submissions'])
          and not any(r['status']!='NATIVE_TERMINAL'for r in g.get(a.CORE_ROWS,{}).values()),
          'CLOSED_TRAINING_AND_ONCE_PAID_CONTROL_BEFORE_EVAL')
