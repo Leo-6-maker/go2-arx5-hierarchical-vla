@@ -104,9 +104,11 @@ def run(root,card_path):
     lock=OwnerLock(root/'PV1_SOURCE_OWNER.lock');started=time.process_time();folder=root/'episodes'/card['id']
     original,original_relay=episode.make_teacher,relay_teacher.RelayTeacher
     native_model=None;old_clone=s1_preflight.clone;old_r3_clone=r3_teacher.clone;engines=[];result=None
+    from .mix_vanda_affinity import physical_cpus
+    assigned_cpus=physical_cpus(root,m)
     reservation=dict(schema='PI0294_LIVE_RESERVATION_V1',fixture=False,id=card['id'],card=card,
         card_sha256=digest(card),source_sha=m['code']['vla_commit'],root=str(root),output=str(folder),deadline_epoch=deadline,
-        cpus=m['limits']['cpus'],reservation=dict(physics_starts=1,physics_steps=16000,rgb_pairs=641,
+        cpus=assigned_cpus,reservation=dict(physics_starts=1,physics_steps=16000,rgb_pairs=641,
             cpu_s=3600,memory_bytes=8*1024**3,output_bytes=768*1024**2))
     def guard():
         ledger.guard()
@@ -118,7 +120,7 @@ def run(root,card_path):
     try:
         import mujoco
         native_model=mujoco.MjModel
-        if len(m['limits']['cpus'])>3 or not set(m['limits']['cpus'])<=os.sched_getaffinity(0):
+        if len(assigned_cpus)>3 or not set(assigned_cpus)<=os.sched_getaffinity(0):
             raise PermissionError('PV1_BOUND_CORE_CPU_AFFINITY')
         ledger.charge('main_starts',1)
         with ledger.steps('live_and_recovery_integrations',16000,card['id']) as meter:

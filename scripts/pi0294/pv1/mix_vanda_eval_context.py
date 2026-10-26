@@ -133,6 +133,17 @@ def owner_current(root,request,*,request_sha256):
     proc=Path('/proc',str(v['pid']));fields=(proc/'stat').read_text().rsplit(')',1)[1].split()
     need(fields[0] not in ('Z','X') and int(fields[19])==v['proc_start']
          and proc.stat().st_uid==22182 and (proc/'cgroup').read_text()==v['cgroup'], 'LIVE_KERNEL_OWNER_PROCSTART_AND_CGROUP')
+    if m['execution'].get('CPU_slot_policy') is not None:
+        from . import mix_vanda_affinity as affinity
+        need(m['execution']['CPU_slot_policy']==affinity.POLICY,'EXPLICIT_NATIVE_CPU_SLOT_POLICY')
+        affinity.checked(v['CPU_slot_binding'],v)
+        allowed=(proc/'status').read_text().split('Cpus_allowed_list:\t',1)[1].splitlines()[0]
+        def expand(text):
+            result=set()
+            for term in text.split(','):
+                pair=term.split('-');result.update(range(int(pair[0]),int(pair[-1])+1))
+            return result
+        need(expand(allowed)==set(affinity.cpus(v['CPU_slot_binding'],'owner')),'LIVE_OWNER_EXACT_RPC_PAIR')
     return v
 
 

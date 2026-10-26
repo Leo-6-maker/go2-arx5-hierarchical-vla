@@ -76,3 +76,19 @@ def test_pure_packet_cannot_replace_actual_cold_readback():
  for key in ('all_source_files_full_SHA','all_fifteen_original_numerical_files','nine_original_model_inodes_unchanged','actual_registry_and_own_ACTIVE_leases'):
   bad=deepcopy(audit);bad[key]=False
   with pytest.raises(PermissionError):build.bind_actual_cold_readback(packet,audit_bytes=a.raw(bad),global_bytes=x['global_bytes'],now_epoch=time.time())
+
+
+def test_new_cpu_slot_policy_is_explicit_in_all_sealed_manifests_and_config():
+ from scripts.pi0294.pv1.mix_vanda_affinity import POLICY
+ x=args();old=build.assemble(**x)
+ assert all('CPU_slot_policy'not in r['manifest']['execution']for r in old['rows'].values())
+ x['cpu_slot_policy']=POLICY;packet=build.assemble(**x);owner=packet['owner'];cfg=owner['config']
+ assert cfg['CPU_slot_policy']==owner['manifest']['execution']['CPU_slot_policy']==POLICY
+ assert a.sha(a.raw(cfg))==owner['manifest']['execution']['configuration_sha256']
+ assert packet['request']['owner_manifest_sha256']==a.sha(a.raw(owner['manifest']))
+ for row in packet['rows'].values():
+  assert row['manifest']['execution']['CPU_slot_policy']==POLICY
+  assert a.sha(a.raw(row['manifest']))==row['manifest_sha256']
+ assert packet['rows']['core']['manifest']['limits']['cpus']==[4,5]
+ x['cpu_slot_policy']='UNKNOWN_POLICY'
+ with pytest.raises(PermissionError):build.assemble(**x)

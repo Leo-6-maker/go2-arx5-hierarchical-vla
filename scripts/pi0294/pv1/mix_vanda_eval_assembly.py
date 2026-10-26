@@ -26,8 +26,10 @@ def assemble(template,*,global_bytes,historical_LOCAL_bytes,training_capture_byt
              source_sha,source_seal_bytes,parent,registry,environment_registry,profiles,
              native_neural_bindings,native_training_inputs,asset_plan,codec_toolchain,codec_preparation_root,codec_closed_lease_bytes,
              queue_limit_bytes,independent_job_bytes,owner_code,programs,
-             request_id,nonce,run_name,now_epoch):
+             request_id,nonce,run_name,now_epoch,cpu_slot_policy=None):
     """Build immutable bytes without request/owner-manifest hash cycles."""
+    from .mix_vanda_affinity import POLICY
+    need(cpu_slot_policy in (None,POLICY),'EXPLICIT_CPU_SLOT_POLICY')
     g=json.loads(global_bytes);accounting.checked(g);marker=cohost.validated(g)
     need(marker is not None and a.sha(historical_LOCAL_bytes)==cohost.first.LOCAL_SHA,
          'EXACT_ADOPTED_SITE_AND_HISTORICAL_LOCAL_NOT_FRESH')
@@ -110,6 +112,7 @@ def assemble(template,*,global_bytes,historical_LOCAL_bytes,training_capture_byt
         m['execution']=dict(profile=profiles[role]['name'],environment_registry=environment_registry,environment_profile_sha256=a.sha(a.raw(profiles[role])),
             private_path_role=binding['role'],output_binding_sha256=a.sha(a.raw(binding)),sealed_inputs={n:a.sha(v)for n,v in files.items()},
             control_budget_profile='PV1_FINITE_POLL250MS_CALL150000_V1',owner_heartbeat_policy='PV1_LOCAL_OWNER_HEARTBEAT_ONLY_V1',agent_liveness_required=False)
+        if cpu_slot_policy is not None:m['execution']['CPU_slot_policy']=cpu_slot_policy
         m['limits']=dict(T_CD=marker['T_CD'],operation_deadline_epoch=marker['deadline_epoch'],CPU_s=93900 if role=='core'else 80000,
             cpus=[4,5]if role=='core'else[0,1,2,3],active_cores=2 if role=='core'else 4,rpc_cpu=6 if role=='core'else 7,
             engine_starts=2108 if role=='core'else 0,physics_ticks=832000 if role=='core'else 0,policy_episodes=26 if role=='core'else 0,
@@ -128,6 +131,10 @@ def assemble(template,*,global_bytes,historical_LOCAL_bytes,training_capture_byt
         owner_uid=22182,authority=deepcopy(rows['hopper']['manifest']['authority']),code=dict(vla_commit=source_sha,capsule_relative='capsules/'+source_sha+'/code'),
         execution=dict(configuration_sha256=a.sha(a.raw(cfg)),owner_code_sha256={n:a.sha(b)for n,b in owner_code.items()},
                        output_binding_sha256=a.sha(a.raw(owner_binding)),agent_liveness_required=False),limits=dict(CPU_s=7200,T_CD=marker['T_CD'],operation_deadline_epoch=marker['deadline_epoch']))
+    if cpu_slot_policy is not None:
+        cfg['CPU_slot_policy']=cpu_slot_policy
+        om['execution']['CPU_slot_policy']=cpu_slot_policy
+        om['execution']['configuration_sha256']=a.sha(a.raw(cfg))
     request=dict(platform_evaluation_version=identity.VERSION,native_platform='VANDA_A40',campaign_run_uuid=parent.name,
         authority_release=s.TASK_SOURCE,scope_grant_sha256=s.GRANT_SHA,project='CFP04-CF-007',job_name=identity.JOB_NAME,owner_user='e1192548',owner_uid=22182,
         stage='V5_MATCHED_DEV24',noise_bank=294101,remaining_conditions=24,checkpoint_step=1024,parent_checkpoint_manifest_sha256=a.PARENT,statistics_sha256=a.STATS,
