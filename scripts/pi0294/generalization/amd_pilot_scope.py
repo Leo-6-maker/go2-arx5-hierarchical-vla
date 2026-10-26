@@ -80,6 +80,13 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
     need(type(global_bytes)is bytes and type(historical_LOCAL_bytes)is bytes,'FULL_ORIGINAL_CAPTURED_BYTES')
     g,l=json.loads(global_bytes),json.loads(historical_LOCAL_bytes)
     base=s.recompute(g,l,Core_storage_upper_bytes=first.CORE_STORAGE,local_storage_upper_bytes=first.LOCAL_STORAGE)
+    # The original installed accounting capsule predates GEN1. Read the four
+    # real adopted dimensions from their exact validated grant, rather than
+    # assuming that capsule already knows a future scope. No other cap moves.
+    adopted={}
+    if 'GEN1_AMD_layout_CORR1024_authority' in g:
+        from .amd_adoption import validate as adopted_GEN1
+        adopted=adopted_GEN1(g)['caps']
     need(g[a.PACKAGE]['completed_stages']==['TRAIN:C50:1024','TRAIN:D25:1024']
          and g['pending_updates']==g['unknown_effects']==[],'BOTH_CLOSED_TRAININGS_NO_CURRENT_EFFECTS')
     # The conservative historical LOCAL projection already retains the two
@@ -132,10 +139,10 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
         Hopper_storage_bytes=64*1024**2,Core_storage_bytes=64*1024**2,transfer_bytes=64*1024**2))
     rows={};required={}
     for key,v in base['dimensions'].items():
-        projected=v['projected']+add[key];shortfall=max(0,projected-v['cap'])
-        requested=math.ceil(projected/GIB)*GIB if shortfall and key.endswith('bytes')else projected if shortfall else v['cap']
-        rows[key]=dict(v,additional=add[key],projected=projected,shortfall=shortfall,proposed_cap=requested)
-        if shortfall:required[key]=dict(before=v['cap'],after=requested,
+        cap=adopted.get(key,v['cap']);projected=v['projected']+add[key];shortfall=max(0,projected-cap)
+        requested=math.ceil(projected/GIB)*GIB if shortfall and key.endswith('bytes')else projected if shortfall else cap
+        rows[key]=dict(v,cap=cap,additional=add[key],projected=projected,shortfall=shortfall,proposed_cap=requested)
+        if shortfall:required[key]=dict(before=cap,after=requested,
             after_GiB=requested//GIB if key.endswith('bytes')else None)
     return dict(task=TASK,GLOBAL_sha256=hashlib.sha256(global_bytes).hexdigest(),
         LOCAL_is_historical=True,native_admission=False,scope_adopted=False,

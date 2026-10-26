@@ -69,6 +69,24 @@ def test_actual_failed_cost_plus_complete_cold_future_fits_same_caps(actual):
     assert proof['T_CD']==1792932749.8133287 and proof['deadline']==1793537549.8133287
 
 
+def test_actual_adopted_four_caps_survive_an_old_installed_accounting_resolver(actual,monkeypatch):
+    from scripts.pi0294.generalization import amd_pilot_scope as scope
+    g,audit=actual;n=r.failure_proposal(g,audit,now_epoch=audit['epoch']+1)['proposed_global']
+    local=base64.b64decode(json.loads((B/'GEN1_AMD_PILOT01_PREPARED.private.json').read_bytes())['historical_LOCAL_base64'])
+    original=scope.s.recompute
+    def old_resolver(*args,**kwargs):
+        v=original(*args,**kwargs)
+        for k,cap in dict(PBS_submissions=34,Hopper_storage_bytes=1021*1024**3,
+            Core_storage_bytes=393*1024**3,transfer_bytes=300*1024**3).items():v['dimensions'][k]['cap']=cap
+        return v
+    monkeypatch.setattr(scope.s,'recompute',old_resolver)
+    proof=scope.full_forecast(a.raw(n),local)
+    assert proof['cap_changes_required']=={}
+    assert all(proof['dimensions'][k]['cap']==cap for k,cap in a.CAPS.items())
+    n[a.FIELD]['grant_sha256']='0'*64
+    with pytest.raises(PermissionError):scope.full_forecast(a.raw(n),local)
+
+
 @pytest.mark.parametrize('bad',[None,'active_lease','different_audit','old_root','resample','duplicate','late','scientific_failure'])
 def test_cold_recovery_requires_closed_exact_engineering_boundary(actual,bad):
     from scripts.pi0294.generalization.amd_capture import cards,COUNTER_POLICY
