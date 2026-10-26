@@ -21,6 +21,24 @@ def test_fixed_twelve_raw_ids_keep_gen_lineage_and_original_tasks():
     for i in(0,1):assert [x['task']for x in c.cards(P.read_bytes(),i)].count('T1')==3
 
 
+def test_terminal_cpu_accounting_uses_original_meter_without_duplicate_keyword(tmp_path):
+    """Actual original durable writer, never a native physics fixture."""
+    import ast,time
+    from types import SimpleNamespace
+    from scripts.pi0294.pv1.capture import Meter
+    tree=ast.parse(Path(c.__file__).read_text())
+    terminal=[node for node in ast.walk(tree)if isinstance(node,ast.Call)
+        and isinstance(node.func,ast.Attribute)and node.func.attr=='progress'
+        and any(k.arg=='source_sha'for k in node.keywords)]
+    assert len(terminal)==1 and 'worker_CPU_s'not in {k.arg for k in terminal[0].keywords}
+    meter=SimpleNamespace(root=tmp_path,ledger=dict(attempted_cells=['fixed-first-attempt']),
+        ticks=700,live_ticks=300,shadow_ticks=400,starts=7,started=time.process_time())
+    Meter.progress(meter,status='TERMINAL_KNOWN',CPU_s=12.5,source_sha='cpu-fixture')
+    value=json.loads((tmp_path/'RESOURCE_LEDGER.json').read_bytes())
+    assert value['CPU_s']==12.5 and value['worker_CPU_s']>=0
+    assert value['ticks']==700 and value['live_ticks']==300 and value['episode_starts']==1
+
+
 @pytest.mark.parametrize('index',[True,-1,2])
 def test_no_extra_worker_or_resampled_packet(index):
     with pytest.raises(PermissionError):c.cards(P.read_bytes(),index)

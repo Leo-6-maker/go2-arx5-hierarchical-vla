@@ -170,7 +170,7 @@ def run(root):
         raw_audit.audit_episode=original_audit
         after=resource.getrusage(resource.RUSAGE_CHILDREN);cost=time.process_time()-started+after.ru_utime+after.ru_stime-children.ru_utime-children.ru_stime
         meter.progress(status='TERMINAL_KNOWN'if failure is None else'FAILED_PRESERVED_UNKNOWN_EFFECTS',
-            worker_CPU_s=cost,source_sha=source_sha)
+            CPU_s=cost,source_sha=source_sha)
         write(r/'GEN1_CAPTURE_RESULT.json',dict(status='KNOWN_FIRST_ATTEMPTS_TERMINAL'if failure is None else'FAILED_PRESERVED',
             attempts=rows,expected_ids=[c['id']for c in plan],error=failure,CPU_s=cost,
             updates=0,model_loads=0,queries=0,counter_probe_reused=True,source_sha=source_sha,
