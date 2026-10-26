@@ -1,0 +1,280 @@
+{
+  "schema": "V5_VANDA_COLOCATED_EVAL_ACTUAL_READONLY_FEASIBILITY_V1",
+  "status": "MIGRATION_CANDIDATE_EXISTING_ASSETS_AND_CONTAINER_CONFIRMED_NOT_NATIVE_READY",
+  "direct_user_request": "gpu4080s暂不可通 检查能不能直接在vanda做eval",
+  "observed_epoch": 1793015872.1075952,
+  "observed_SGT": "2026-10-26T19:57:52.107595+08:00",
+  "scope": "Original C50/D25 closed1024, same N29410124 each; no new training, conditions, controller or threshold.",
+  "actual_environment": {
+    "login_host_machine": "x86_64",
+    "training_python_version": "3.12.14 (main, Aug 14 2026, 15:34:45) [Clang 22.1.3 ]",
+    "training_packages": {
+      "torch": "2.9.0+cu128",
+      "transformers": "4.57.3",
+      "mujoco": null,
+      "glfw": null,
+      "PyOpenGL": null,
+      "numpy": "1.26.4",
+      "scipy": "1.15.3",
+      "Pillow": "12.2.0",
+      "imageio": "2.37.3",
+      "imageio-ffmpeg": null,
+      "safetensors": "0.7.0",
+      "huggingface-hub": "0.36.2"
+    },
+    "training_env_has_physics_package": false,
+    "login_graphics_loader_names": {
+      "EGL": "libEGL.so.1",
+      "OSMesa": "libOSMesa.so.8",
+      "GL": "libGL.so.1",
+      "glfw": null
+    },
+    "login_loader_presence_is_not_compute_render_qualification": true,
+    "reused_existing_container_sha256": "2cae97d18c6a41450bb102e3bd54819d0c30552605d222d73ffc387c6ec14c8c",
+    "existing_container_matches_original_qualified_build": true,
+    "actual_container_package_metadata": {
+      "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+      "packages": {
+        "mujoco": "3.2.7",
+        "numpy": "1.26.4",
+        "PyOpenGL": "3.1.7",
+        "glfw": "2.11.0",
+        "scipy": "1.11.4",
+        "Pillow": "10.4.0"
+      },
+      "native_modules_imported": []
+    },
+    "container_metadata_check_imported_no_mujoco_torch_or_OpenGL": true,
+    "isolated_container_installed_or_modified": false
+  },
+  "assets": {
+    "original_members_expected": 26,
+    "archive_members_matched": 26,
+    "existing_extracted_members_matched": 26,
+    "all_current_original_asset_SHA_match": true,
+    "no_asset_extraction_or_transfer_performed": true,
+    "no_WBC_binary_rebuild_or_launch": true
+  },
+  "existing_models": {
+    "C50_checkpoint": "179af34b0d1b0922aa3679516b44fe4755d122738eb53fab87b4e710bc975475",
+    "D25_checkpoint": "8cf977b964411a3ae97f022edd3e3ca390cd2d71fd61a914ab21466efa3a9e9b",
+    "both_full1024_resident_on_Vanda": true,
+    "both_training_audit_settlement_and_close_already_complete": true,
+    "model_upload_needed_for_Vanda_only_evaluation": false
+  },
+  "rendering": {
+    "original_Core_worker_settings": {
+      "MUJOCO_GL": "egl",
+      "LIBGL_ALWAYS_SOFTWARE": "1",
+      "Mesa_vendor_selected": true
+    },
+    "original_dual_RGB_256x256_and_physics_must_remain_unchanged": true,
+    "current_compute_render_probe": "NOT_RUN",
+    "old_target_camera_probe": {
+      "job_id": "1464745.stdct-mgmt-02",
+      "native_exit": 1,
+      "status": "ENGINEERING_INCOMPLETE",
+      "physics_steps": 0,
+      "original_hardware_EGL_goal": true,
+      "actual_error": "GL.glGetString returned None; device permission warnings were preserved.",
+      "not_a_source_Eval_PASS": true,
+      "old_run_not_replayed": true
+    },
+    "migration_requirement": "Reuse original source renderer and validate zero-integration two-camera output under its original software-rendering contract. A new NVIDIA hardware-rendering image is not automatically equivalent."
+  },
+  "entry_and_scope": {
+    "deployed_Vanda_profiles": [
+      "vanda-qualification",
+      "vanda-native-build",
+      "vanda-neural-training"
+    ],
+    "existing_typed_Vanda_neural_Eval_seam": "scripts/pi0294/pv1/evaluation_platform.py",
+    "existing_Vanda_seam_is_not_cohosted_physics": true,
+    "existing_Vanda_seam_supports_old_AB_scope_not_current_CD": true,
+    "current_CD_registered_runtime_requires_Core_physical_profile": true,
+    "cold_C_D_Vanda_scope_and_host_adapters": "NOT_IMPLEMENTED_NOT_ADOPTED",
+    "new_scheduler_required": false,
+    "required_reuse": [
+      "original model loader and four-step numerical path",
+      "original source engine, driver, relay, raw ACK and scoring",
+      "original owner, standard manifest, registry and onceIO"
+    ],
+    "Core_canonical_LOCAL_actual_read": false,
+    "Core_LOCAL_sync": "PENDING",
+    "historical_LOCAL_not_claimed_fresh": true,
+    "deferred_LOCAL_authority_and_all_site_accounting_must_be_resolved_before_dispatch": true
+  },
+  "native_scheduler": {
+    "queue_read_returncode": 0,
+    "queue_enabled": "True",
+    "queue_started": "True",
+    "maximum_walltime": "168:00:00",
+    "per_user_max_run": "[u:PBS_GENERIC=4]",
+    "full_account_queue_observed_epoch": 1793015872.1447442,
+    "qselect_returncode": 0,
+    "qselect_stdout": "",
+    "fresh_project_amgr_balance": "NOT_RECHECKED_IN_THIS_READONLY_FEASIBILITY",
+    "future_actual_GPU_memory_and_process_admission": "NOT_RUN"
+  },
+  "resource_feasibility": {
+    "project_filesystem_available_bytes": 41551148351488,
+    "storage_filesystem_not_demonstrated_full": true,
+    "original_scope_budget_proof_uses_confirmed_historical_LOCAL": true,
+    "arithmetic": {
+      "schema": "V5_VANDA_COLOCATED_EVAL_FEASIBILITY_ARITHMETIC_NOT_ADMISSION_V1",
+      "observed_epoch": 1793015920.5428765,
+      "GLOBAL_sha256": "dc4185069e64ba524b319da9f611d5664fb100d6b6b29d79a6a65f2c501f496b",
+      "LOCAL_historical_sha256": "7cea556c4c80765582644ce1ed47d71f3c0c3084b445d02dd16a55854b386f1a",
+      "canonical_LOCAL_actual_read": false,
+      "original_all_remaining_dimensions": {
+        "H200_s": {
+          "cap": 435600,
+          "projected": 366579.0,
+          "shortfall": 0
+        },
+        "PBS_submissions": {
+          "cap": 34,
+          "projected": 31,
+          "shortfall": 0
+        },
+        "optimizer_updates": {
+          "cap": 16384,
+          "projected": 13762,
+          "shortfall": 0
+        },
+        "episode_starts": {
+          "cap": 1000,
+          "projected": 631,
+          "shortfall": 0
+        },
+        "neural_queries": {
+          "cap": 48000,
+          "projected": 24716,
+          "shortfall": 0
+        },
+        "physics_ticks": {
+          "cap": 40000000,
+          "projected": 19631979,
+          "shortfall": 0
+        },
+        "engine_starts": {
+          "cap": 100000,
+          "projected": 44511,
+          "shortfall": 0
+        },
+        "Core_CPU_s": {
+          "cap": 1152000,
+          "projected": 794392.034141355,
+          "shortfall": 0
+        },
+        "Hopper_CPU_s": {
+          "cap": 766800,
+          "projected": 492824.65859775804,
+          "shortfall": 0
+        },
+        "local_CPU_s": {
+          "cap": 172800,
+          "projected": 123988.974682509,
+          "shortfall": 0
+        },
+        "transfer_bytes": {
+          "cap": 322122547200,
+          "projected": 230536473665,
+          "shortfall": 0
+        },
+        "Hopper_storage_bytes": {
+          "cap": 1096290402304,
+          "projected": 1096258821768,
+          "shortfall": 0
+        },
+        "Core_storage_bytes": {
+          "cap": 421980536832,
+          "projected": 421828099720,
+          "shortfall": 0
+        },
+        "local_storage_bytes": {
+          "cap": 21474836480,
+          "projected": 9395240960,
+          "shortfall": 0
+        }
+      },
+      "scenarios": {
+        "PBS_submissions": {
+          "baseline": {
+            "cap": 34,
+            "projected": 31,
+            "shortfall": 0
+          },
+          "increment": 2,
+          "projected": 33,
+          "shortfall": 0,
+          "assumption": "One PBS allocation per original C/D24 panel, no extra qualification allocation."
+        },
+        "Hopper_CPU_s": {
+          "baseline": {
+            "cap": 766800,
+            "projected": 492824.65859775804,
+            "shortfall": 0
+          },
+          "increment": 189000,
+          "projected": 681824.658597758,
+          "shortfall": 0,
+          "assumption": "Add original physical/source/Core-control CPU upper to Vanda; existing neural upper remains once. No CPU refund."
+        },
+        "Hopper_storage_bytes": {
+          "baseline": {
+            "cap": 1096290402304,
+            "projected": 1096258821768,
+            "shortfall": 0
+          },
+          "increment": 34252487480,
+          "projected": 1130511309248,
+          "shortfall": 34220906944,
+          "assumption": "Naive relocation of original remaining Core output envelope to Vanda, before validating any same-host inode deduplication or archive placement."
+        }
+      },
+      "storage_headroom_bytes": 31580536,
+      "exact_migration_storage_requirement_determined": false,
+      "old_C50_paid_IO_cross_site_credit_proven": false,
+      "no_deduplication_credit_applied": true,
+      "caps_or_ledgers_changed": false,
+      "native_admission": false,
+      "new_GPU_PBS_model_physics": 0
+    },
+    "notes": [
+      "The original two panels already hold57720GPU seconds. Moving them does not by itself add another two full GPU envelopes.",
+      "Two new PBS allocations would make the complete remaining-plus-matrix count33 of34 before any separate qualification/retry allocation.",
+      "The CPU scenario adds189000 physical/control seconds to GPU-site CPU while retaining all existing costs and protected work.",
+      "The GPU-site retained-output envelope has only31580536 bytes of conservative headroom after original remaining work, matrix and final protection. This is a scope accounting limit, not a full filesystem.",
+      "Naively moving the original remaining Core output envelope produces a34220906944-byte arithmetic shortfall. This is not an exact minimum migration request: cohosted views, duplicated records, already-paid C50 IO, actual retention and peak placement have not been proven.",
+      "No output credit, deletion/refund, cap increase, native adoption or new allocation was performed. First assemble a coherent actual cohosted storage/authority plan."
+    ]
+  },
+  "readback_proofs": {
+    "D25_VANDA_FIRST_VANDA_EVAL_READONLY_ENVIRONMENT_1793015635263339401.private.json": "ef25cca66759dc6ad0531a071aaab49bb5e3d5884465de6e156346ca5271413c",
+    "D25_VANDA_FIRST_VANDA_EVAL_READONLY_ASSETS_ENTRY_1793015672448176530.private.json": "2d453466826338e30b2220985b865eebce15e2a6f209d68fd36bb429a44edaf9",
+    "D25_VANDA_FIRST_VANDA_EVAL_READONLY_EXISTING_NATIVE_CONTAINER_1793015747906134240.private.json": "a2c659efea4bf29497a967b425ccefbf4936c20923fcd59ae22cc9af4253fd94",
+    "D25_VANDA_FIRST_VANDA_EVAL_READONLY_QUEUE_CONTAINER_PACKAGES_1793015879694236486.private.json": "d1274e170adb9ed10bb5c5a926c4b915a6c8030d7b312a6dbc902430c4758431",
+    "VANDA_EVAL_FEASIBILITY_ARITHMETIC_1793015920542886195.private.json": "43cd77496d2d054310ae640cbcb02d0256f54779dc959d98b1797d022eb99a14"
+  },
+  "new_effects": {
+    "GPU_allocations": 0,
+    "PBS_submissions": 0,
+    "model_loads": 0,
+    "queries": 0,
+    "physics_steps": 0,
+    "constructors": 0,
+    "remote_experiment_files_written": 0,
+    "packages_installed": 0,
+    "ledger_writes": 0,
+    "checkpoints_deleted": 0
+  },
+  "remaining": {
+    "C50_behavior": 0,
+    "D25_behavior": 0,
+    "GEN_images": 0,
+    "WDR_core64": 0,
+    "goal": "ACTIVE_UNFINISHED",
+    "next_minimal_work": "Cold cohosted source/neural C/D identity and authority binding, actual same-host retained storage plan, then a registered same-allocation zero-step dual-camera and original600s80cycle qualification before original C24/D24. No direct job submission from the check."
+  }
+}
