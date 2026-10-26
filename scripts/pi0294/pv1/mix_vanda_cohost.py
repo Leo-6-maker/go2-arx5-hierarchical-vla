@@ -129,6 +129,8 @@ def validated(g):
              and proof['global_step'] == 1024 and proof['request_id'] == end['request_id']
              and proof['independent_audit_sha256'] == end['audit_sha256'], 'EXACT_RETAINED_ENDPOINT:'+arm)
     need(marker['C50_paid_IO_marker_sha256'] == a.sha(a.raw(repair.validated(g))), 'ONLY_EXACT_C50_PAID_IO')
+    need(type(marker.get('render_constructor_upper_charged',0)) is int
+         and marker.get('render_constructor_upper_charged',0) in (0,2), 'ONLY_DECLARED_FINANCIAL_CONSTRUCTOR_UPPER')
     return marker
 
 

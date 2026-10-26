@@ -13,7 +13,7 @@ from scripts.pi0294.pv1 import mix_vanda_first as f, successor_cd as s
 
 @pytest.fixture
 def captured():
-    workspace = Path(os.environ.get('PI0294_PRIVATE_WORKSPACE', '/home/liuyu/ISSAC-GR00T'))
+    workspace = Path(os.environ.get('PI0294_PRIVATE_WORKSPACE', str(Path(__file__).resolve().parents[4])))
     base = workspace/'work/private/v5-execution-20261025'
     paths = sorted(base.glob('D25_VANDA_FIRST_REAL_CLOSED_HANDOFF_READONLY_*'))
     if not paths:
@@ -98,3 +98,14 @@ def test_symlink_and_mountlike_path_escape_rejected(tmp_path):
     (tmp_path/'escape').symlink_to('/tmp', target_is_directory=True)
     with pytest.raises(PermissionError): c.tree_bytes(tmp_path)
     with pytest.raises(PermissionError): c.tree_bytes(tmp_path, exclude=['/etc'])
+
+
+def test_cohost_constructor_upper_is_financial_integer_and_old_LOCAL_sync_cannot_overwrite(captured):
+    v = c.propose(**captured)['proposed_global']
+    v[c.FIELD]['render_constructor_upper_charged'] = False
+    with pytest.raises(PermissionError): c.validated(v)
+    v[c.FIELD]['render_constructor_upper_charged'] = 2
+    assert c.validated(v)
+    terminal = {k:base64.b64decode(b) for k,b in captured['captures']['D25']['terminal_capture_base64'].items()}
+    with pytest.raises(PermissionError,match='COLOCATED_EXECUTION'):
+        f.reconcile_LOCAL(a.raw(v),captured['historical_LOCAL_bytes'],D25_terminal_capture=terminal)

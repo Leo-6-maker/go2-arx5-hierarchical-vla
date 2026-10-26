@@ -162,6 +162,8 @@ def reconcile_LOCAL(global_bytes, local_bytes, *, D25_terminal_capture):
     from . import mix_stage_handoff as handoff
     from . import mix_core_premodel_repair as repair, mix_core_accounting as core
     g, l = json.loads(global_bytes), json.loads(local_bytes)
+    from .mix_vanda_cohost import FIELD as cohost_field
+    need(cohost_field not in g, 'COLOCATED_EXECUTION_REQUIRES_ITS_ACTUAL_TERMINAL_COST_MIRROR_NOT_OLD_D25_ONLY_CATCHUP')
     need(pending(g) and a.sha(local_bytes) == LOCAL_SHA,
          'ACTUAL_CANONICAL_LOCAL_STILL_EXACT_CONFIRMED_BEFORE_BYTES')
     proof = handoff.closed_endpoint(global_bytes=global_bytes, arm='D25',

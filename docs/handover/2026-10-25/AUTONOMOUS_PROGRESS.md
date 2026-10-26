@@ -1,3 +1,5 @@
+> **Vanda同机接续已实际采用，首CPU封装拒绝已闭合（2026-10-26）：** source9b1695e8已全SHA/Gitblob回读，1146源码及15原冻结成员已独立冷部署；原GLOBAL一次登记站点接续，Core LOCAL明确PENDING、旧费用/上限/时钟/matrix/final不变。CPU作业1496295 F/Exit1，在MuJoCo导入前因容器未转发PBS_JOBID被身份门拒绝；实际2CPU秒、0GPU/模型/构造/积分/行为，已一次结算、CPU lease CLOSED并独立回读。未知profile调用已精确证明alias检查前零写，旧UNKNOWN保留，新canonical冷边界完成。新封装显式转发当前PBS编号；模型引用保持原九文件12576324650字节，不再复制tensor或改原inode。309项相关CPU通过，仍非native render/Eval资格。只剩原两份Eval的PBS名额与原matrix3均保留，下一不另开独立探针：完成原owner/两端同PBS接线后，在C24启动前渲染及600秒80cycle，再C24→D24。两训练已闭合，行为各0/24、GEN0/24、core64=0，完整goal未完成。见[实际采用、失败及关闭](../../../reports/PI0294/design/parallel-science-20261022/V5_VANDA_COHOST_ADOPTED_AND_RENDER_PREIMPORT_FAILURE_CLOSED_ACTUAL_20261026.json)。
+
 # V5 C50/D25 actual autonomous progress
 
 The accepted task is `V5_CD_AUTONOMOUS_SUCCESSOR_V1`, protocol `5b5de6f5d26ac90a6002c83ebcb60005acf06462`. The direct human reply “允许启动，” approved the two precise storage corrections and starting the task. Both existing ledgers adopted this authority once; the full paired package is reserved once.
