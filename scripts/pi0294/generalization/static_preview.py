@@ -102,6 +102,23 @@ def compare_reset(a,b,*,same_visual):
     else:need(a['table_rgba_xml']!=b['table_rgba_xml'],'TABLE_COLOR_FACTOR_NOT_APPLIED')
 
 
+def inspect_task_pair(spec,asset_root,*,construct,guard,save_images=None):
+    """Three finite constructions: repeated T1 and independently reset T2.
+
+    The caller must already hold its own registered native scope. This helper
+    is not a launcher and does not expand the old30-constructor V5 static run.
+    """
+    from .spec import design_cards
+    t1,t2=design_cards(spec)
+    first=inspect(t1,asset_root,construct=construct,guard=guard,save_images=save_images)
+    repeat=inspect(t1,asset_root,construct=construct,guard=guard)
+    paired=inspect(t2,asset_root,construct=construct,guard=guard)
+    compare_reset(first,repeat,same_visual=True)
+    compare_reset(first,paired,same_visual=True)
+    return dict(first=first,repeat=repeat,T2=paired,actual_task_pair_reset_checked=True,
+                deterministic_repeat_checked=True,constructors=3,integrations=0)
+
+
 def run(root):
     from scripts.pi0294.pv1.runtime import validate_runtime
     from scripts.pi0294.pv1.successor_core_context import GEN_ROLE
