@@ -81,6 +81,20 @@ def test_new_output_partition_preserves_every_raw_file_on_overflow(tmp_path):
     assert p.exists() and p.stat().st_size==768*1024**2+1
 
 
+def test_retained_codec_preparation_chunks_remain_inside_original_output_upper(tmp_path):
+    parent=tmp_path/'campaign';neural=parent/'neural-children/panel';physical=parent/'children/panel';owner=parent/'control/owner'
+    for p in (neural,physical,owner):p.mkdir(parents=True)
+    source=tmp_path/'payload';source.mkdir();plan=fixture_plan(source)
+    view=neural/'model_views/C50';view.parent.mkdir();reference.create_view(view,plan,reference.audit_reference(plan))
+    (physical/'episodes').mkdir();aux=owner.parent/'v5-cd-c50-vanda-codec-cold-01';aux.mkdir()
+    put(physical/'plans/VANDA_AUDIT_CODEC_TOOLCHAIN.private.json',dict(delivery_preparation_root=str(aux)))
+    chunk=aux/'retained-input.chunk';chunk.write_bytes(b'keep exact input')
+    assert output.enforce(neural,physical,owner,plan)['other_artifacts_bytes']>=chunk.stat().st_size
+    with chunk.open('wb')as f:f.truncate(3*1024**3+1)
+    with pytest.raises(PermissionError,match='OTHER_RETAINED_OUTPUT_OVERFLOW'):output.enforce(neural,physical,owner,plan)
+    assert chunk.exists()and chunk.stat().st_size==3*1024**3+1
+
+
 def test_source_render_reuses_original_counter_and_never_calls_integrator():
     from scripts.pi0294.pv1 import mix_vanda_eval_render as render
     tree=ast.parse(Path(render.__file__).read_bytes())

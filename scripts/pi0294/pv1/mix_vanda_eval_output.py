@@ -45,6 +45,18 @@ def enforce(neural,physical,owner,reference_plan):
     for root,excluded in [(neural,[view,*[p for p,_ in query if p.is_relative_to(neural)]]),
                           (physical,[episodes]),(owner,[p for p,_ in query if p.is_relative_to(owner)])]:
         remaining.append(storage.tree_bytes(root,exclude=excluded))
+    # Finite audit-tool delivery is retained alongside this panel, including
+    # its exclusive input chunks. It cannot disappear from peak accounting
+    # merely because it is outside the three original worker roots.
+    codec=physical/'plans/VANDA_AUDIT_CODEC_TOOLCHAIN.private.json'
+    if codec.is_file():
+        import json
+        metadata=json.loads(codec.read_bytes());aux=metadata.get('delivery_preparation_root')
+        if aux is not None:
+            root=Path(aux)
+            need(root.parent==owner.parent and root.name=='v5-cd-c50-vanda-codec-cold-01'
+                 and root.is_dir() and not root.is_symlink(),'EXACT_RETAINED_FINITE_AUDIT_TOOL_INPUT_ROOT')
+            remaining.append(storage.tree_bytes(root))
     other=sum(max(v['logical_bytes'],v['allocated_bytes']) for v in remaining)
     need(other<=contract['other_artifacts_bytes'],'OTHER_RETAINED_OUTPUT_OVERFLOW_PRESERVE_ALL')
     return dict(schema='V5_CD_COLOCATED_ACTUAL_RETAINED_OUTPUT_READBACK_V1',

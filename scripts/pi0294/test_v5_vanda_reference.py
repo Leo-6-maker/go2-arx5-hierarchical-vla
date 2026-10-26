@@ -54,6 +54,29 @@ def test_reference_view_leaves_original_inode_ctime_nlink_and_mode_unchanged(tmp
     with pytest.raises(PermissionError): cohost.tree_bytes(view)
 
 
+@pytest.mark.parametrize('change',[None,'device','inode','bytes','mtime_ns','ctime_ns','digest','not_rechecked'])
+def test_closed_stream_reuse_needs_every_actual_kernel_witness_field(tmp_path,monkeypatch,change):
+    """Closed endpoint parser is an explicit fixture; real temp inodes are used."""
+    plan=fixture_plan(tmp_path);rows=[]
+    for name,member in plan['files'].items():
+        rows.append(dict(r.metadata(member['path']),path=member['path'],sha256=member['sha256']))
+    witness=dict(paths=rows,all_paths_rechecked=True,all_unique_inodes_independently_rehashed=True)
+    proof=dict(arm='C50',checkpoint_manifest_sha256=plan['checkpoint_manifest_sha256'])
+    audit=dict(checkpoint_root=plan['checkpoint_root'],streamed_witness=witness)
+    if change in ('device','inode','bytes','mtime_ns','ctime_ns'):rows[0][change]+=1
+    elif change=='digest':rows[0]['sha256']='0'*64
+    elif change=='not_rechecked':witness['all_paths_rechecked']=False
+    monkeypatch.setattr(r.delivery,'endpoint',lambda raw:({},proof,audit))
+    if change:
+        with pytest.raises(PermissionError):r.reuse_closed_stream_witness(plan,b'EXPLICIT_CPU_CLOSED_ENDPOINT_FIXTURE')
+        assert not(tmp_path/'view').exists()
+    else:
+        result=r.reuse_closed_stream_witness(plan,b'EXPLICIT_CPU_CLOSED_ENDPOINT_FIXTURE')
+        assert result['current_tensor_bytes_restreamed']==0 and result['model_loader_independent_full_SHA_still_required']
+        assert result['schema']=='V5_CD_VANDA_UNCHANGED_CLOSED_STREAM_WITNESS_V1'
+        r.create_view(tmp_path/'view',plan,result)
+
+
 @pytest.mark.parametrize('change',['bytes','symlink','changed_after_audit','orphan_audit'])
 def test_source_substitution_cannot_create_reference_view(tmp_path, change):
     plan = fixture_plan(tmp_path); audit = r.audit_reference(plan); member = Path(next(iter(plan['files'].values()))['path'])

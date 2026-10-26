@@ -79,11 +79,50 @@ def audit_reference(plan):
         reference_plan_sha256=a.sha(a.raw(plan)),members=rows,model_loaded=False,new_tensors_written=0)
 
 
+def reuse_closed_stream_witness(plan,capture_bytes):
+    """Join the actual independent full-state stream to unchanged native inodes.
+
+    This does not claim another tensor stream. The original model loader still
+    independently streams every inference file before loading. Kernel ctime,
+    mtime, device, inode and size must all match the closed audit exactly.
+    """
+    need(plan['schema']=='V5_CD_VANDA_CLOSED1024_READONLY_INFERENCE_REFERENCE_V1'
+         and plan['arm'] in ('C50','D25') and len(plan['files'])==9
+         and plan['tensor_copies']==plan['source_hardlinks']==0 and plan['source_chmod'] is False
+         and a.sha(base64.b64decode(plan['original_complete_base64'],validate=True))==plan['checkpoint_manifest_sha256'],
+         'ONLY_EXACT_NINE_INFERENCE_REFERENCES')
+    capture,proof,audit=delivery.endpoint(capture_bytes)
+    need(proof['arm']==plan['arm'] and proof['checkpoint_manifest_sha256']==plan['checkpoint_manifest_sha256']
+         and audit['checkpoint_root']==plan['checkpoint_root'], 'EXACT_REAL_CLOSED_FULL_STATE_AUDIT')
+    witness=audit['streamed_witness']
+    need(witness['all_paths_rechecked'] is True and witness['all_unique_inodes_independently_rehashed'] is True,
+         'ORIGINAL_INDEPENDENT_FULL_STATE_STREAM_REQUIRED')
+    rows={}
+    for name,member in plan['files'].items():
+        path=Path(plan['checkpoint_root'])/name
+        need(not Path(name).is_absolute() and '..'not in Path(name).parts
+             and not any(n in name.lower() for n in ('optimizer','scheduler','rng','sampler'))
+             and str(path)==member['path'],'ONLY_SAME_CANONICAL_INFERENCE_MEMBER')
+        matches=[r for r in witness['paths'] if r['path']==member['path']]
+        need(len(matches)==1 and matches[0]['sha256']==member['sha256'],'SAME_ORIGINAL_STREAMED_INFERENCE_MEMBER')
+        current=metadata(member['path']);expected=matches[0]
+        need(all(current[k]==expected[k] and type(current[k]) is type(expected[k])
+                 for k in ('device','inode','bytes','mtime_ns','ctime_ns')),
+             'CLOSED_STREAM_SOURCE_CHANGED_REQUIRES_NEW_REGISTERED_STREAM_AUDIT')
+        rows[name]=dict(current,sha256=expected['sha256'])
+    return dict(schema='V5_CD_VANDA_UNCHANGED_CLOSED_STREAM_WITNESS_V1',arm=plan['arm'],
+        reference_plan_sha256=a.sha(a.raw(plan)),members=rows,actual_closed_capture_sha256=a.sha(capture_bytes),
+        original_full_state_stream_retained=True,current_tensor_bytes_restreamed=0,
+        model_loader_independent_full_SHA_still_required=True,model_loaded=False,new_tensors_written=0)
+
+
 def create_view(view, plan, audit):
     """Called only by a separately admitted, registered cold input packer."""
     view = Path(view)
     need(view.is_absolute() and not view.exists() and not view.is_symlink(), 'NEW_EXACT_REGISTERED_INPUT_VIEW')
-    need(audit['reference_plan_sha256'] == a.sha(a.raw(plan)) and audit['arm'] == plan['arm']
+    need(audit.get('schema') in ('V5_CD_VANDA_NINE_INFERENCE_REFERENCE_STREAM_AUDIT_V1',
+                                 'V5_CD_VANDA_UNCHANGED_CLOSED_STREAM_WITNESS_V1')
+         and audit['reference_plan_sha256'] == a.sha(a.raw(plan)) and audit['arm'] == plan['arm']
          and set(audit['members']) == set(plan['files']), 'FULL_STREAMED_CURRENT_REFERENCE_AUDIT')
     before = {}
     for name,member in plan['files'].items():
