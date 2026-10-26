@@ -119,6 +119,13 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
             engine_starts=actual['engine_starts'],Core_CPU_s=actual['Core_CPU_s']+600,
             local_CPU_s=600,Core_storage_bytes=320*1024**2,
             Hopper_storage_bytes=64*1024**2,transfer_bytes=64*1024**2))
+        repair=failed.get('engineering_recovery',{})
+        if repair.get('status')=='NATIVE_AUDIT_ENGINEERING_TERMINAL':
+            # Its two full trajectories are part of the twelve logical cells,
+            # so never reserve twelve new Teacher executions on top of them.
+            # Separate saved-state audit and next cold preparation are finite
+            # engineering work; all old native and failed-audit costs remain.
+            plus(dict(engine_starts=4,Core_CPU_s=1200,local_CPU_s=900))
     # Export in an independent CPU PBS allocation, using Vanda's existing
     # official processor environment. Train receives a closed immutable bank.
     plus(dict(PBS_submissions=1,Hopper_CPU_s=36600,local_CPU_s=600))
