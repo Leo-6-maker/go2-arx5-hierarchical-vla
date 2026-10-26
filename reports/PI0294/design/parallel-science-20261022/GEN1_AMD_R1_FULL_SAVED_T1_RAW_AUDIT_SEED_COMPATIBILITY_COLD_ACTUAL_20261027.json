@@ -53,9 +53,15 @@
     "native_reaudit": "NOT_RUN"
   },
   "typed_financial": {
-    "actual_once_settlement": "NOT_RUN_AT_THIS_COMMIT",
-    "three_own_lease_closures": "NOT_RUN_AT_THIS_COMMIT",
-    "actual_effects_proposal_only": true
+    "actual_once_settlement": "COMPLETED_INDEPENDENTLY_READ_BACK",
+    "GLOBAL_sha256": "be8a75f6bee5b0567349b92b2ba42c9d5c109c1f824bc57ae9f8fcf55933bd8b",
+    "three_own_lease_closures": "CLOSED_INDEPENDENTLY_READ_BACK",
+    "lease_SHA256": {
+      "owner": "09a6a3277643a4923ae0190f555466b07118e958be7915a199e41e778fe9d36a",
+      "0": "f846c8ec022771fd6bd5de2e7f74f1331dad963f5569d65dcda2dc3aabd2020b",
+      "1": "7ad55bfef7bc533f1692a27287cfb894747ae69e5c65be273abf23ee10c9b436"
+    },
+    "old_effects_and_failed_audits_preserved": true
   },
   "full_future": {
     "task": "GEN1_AMD_LAYOUT_PILOT_CORR1024_V1",
@@ -255,14 +261,23 @@
     "deadline": 1793537549.8133287,
     "stop_new_training": 1793451149.8133287
   },
-  "related_public_CPU_tests_passed": 146,
+  "related_public_CPU_tests_passed": 150,
   "cold_code_native_adopted": false,
   "new_training_submitted": false,
   "fullgoal_complete": false,
   "next_minimum_boundary": [
-    "Once exact saved-native-effect settlement and three closure readbacks",
     "New finite saved-data audit role: four constructor upper, zero integrations, no Teacher rerun, original full raw checks and original video auditor",
     "Only the ten never-attempted original logical conditions may continue after this compatibility repair",
     "Original official R0 export and four task-stratum support gate before independent CORR1024 training"
-  ]
+  ],
+  "finite_saved_only_worker": {
+    "prepared": true,
+    "native_deployed": false,
+    "native_reaudit": "NOT_RUN",
+    "constructors_upper": 4,
+    "integrations": 0,
+    "Teacher_replay": false,
+    "own_registered_root_required": true,
+    "original_auditor_and_video_reused": true
+  }
 }
