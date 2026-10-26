@@ -70,6 +70,32 @@ def test_actual_original_meter_is_charged_for_all_three_finite_phases(phase):
     assert c.COUNTER_POLICY=='GEN1_ORIGINAL_TASK81_NEGATIVE4_RAWAUDIT3_V2'
 
 
+@pytest.mark.parametrize('bad',[None,'active','changed_ABI','changed_consumer','different_reference'])
+def test_closed_codec_is_an_explicit_input_not_a_restarted_actor(tmp_path,bad):
+    import hashlib
+    old=tmp_path/'closed';new=tmp_path/'new';old.mkdir();new.mkdir()
+    def put(path,value):
+        path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value));return c.sha(path)
+    lease=tmp_path/'closed-lease.json';put(lease,dict(status='CLOSED'))
+    old_manifest=dict(code=dict(vla_commit='3'*40))
+    mh=put(old/'RUN_MANIFEST.json',old_manifest)
+    put(old/'OUTPUT_BINDING.private.json',dict(run_manifest_sha256=mh,lease=str(lease)))
+    ah=put(old/'CODEC_NATIVE_ABI_RESULT.json',dict(status='PASS_ORIGINAL_AUDITOR_CODEC_IN_ORIGINAL_SIF'))
+    oh=put(old/'control/CODEC_ABI_OS_EXIT.json',dict(returncode=0))
+    files={n:'a'*64 for n in ('scripts/pi0294/e1/audit.py','scripts/pi0294/pv1/mix_vanda_codec.py')}
+    put(old/'SOURCE_SEAL.json',dict(files=files));put(new/'SOURCE_SEAL.json',dict(files=files))
+    ref=dict(root=str(old),manifest_sha256=mh,closed_lease_sha256=c.sha(lease),
+        ABI_result_sha256=ah,ABI_OS_sha256=oh,source_sha='3'*40)
+    rh=put(new/c.CODEC_REFERENCE,ref);manifest=dict(execution=dict(sealed_inputs={c.CODEC_REFERENCE:rh}))
+    if bad=='active':put(lease,dict(status='ACTIVE'))
+    elif bad=='changed_ABI':put(old/'control/CODEC_ABI_OS_EXIT.json',dict(returncode=1))
+    elif bad=='changed_consumer':put(new/'SOURCE_SEAL.json',dict(files={n:'b'*64 for n in files}))
+    elif bad=='different_reference':put(new/c.CODEC_REFERENCE,dict(ref,source_sha='4'*40))
+    if bad is None:assert c.codec_context(new,manifest)==(old,old_manifest)
+    else:
+        with pytest.raises(PermissionError):c.codec_context(new,manifest)
+
+
 @pytest.mark.parametrize('index',[True,-1,2])
 def test_no_extra_worker_or_resampled_packet(index):
     with pytest.raises(PermissionError):c.cards(P.read_bytes(),index)

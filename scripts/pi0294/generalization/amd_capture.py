@@ -9,8 +9,9 @@ from pathlib import Path
 from . import amd_adoption as a,amd_pilot_scope as p,static_preview as preview
 
 ROLE='GEN1_AMD_FIRST_ATTEMPT_TEACHER_V1'
-PROFILE='amd-gen1-teacher-capture'
+PROFILE='amd-gen1-teacher-capture-r1'
 COUNTER_POLICY='GEN1_ORIGINAL_TASK81_NEGATIVE4_RAWAUDIT3_V2'
+CODEC_REFERENCE='plans/CLOSED_ORIGINAL_CODEC_REFERENCE.private.json'
 
 
 def read(path):return json.loads(Path(path).read_bytes())
@@ -19,6 +20,30 @@ def sha(path):
     with Path(path).open('rb')as f:
         for b in iter(lambda:f.read(4<<20),b''):h.update(b)
     return h.hexdigest()
+
+
+def codec_context(root,manifest):
+    """A closed codec is a sealed input, never a restarted predecessor actor."""
+    root=Path(root);ref=read(root/CODEC_REFERENCE)
+    a.need(sha(root/CODEC_REFERENCE)==manifest['execution']['sealed_inputs'][CODEC_REFERENCE],
+           'EXACT_CLOSED_CODEC_REFERENCE')
+    old=Path(ref['root']);a.need(old.is_absolute()and old!=root and not old.is_symlink(),
+        'SEPARATE_CLOSED_READONLY_CODEC_INPUT')
+    old_manifest=read(old/'RUN_MANIFEST.json');binding=read(old/'OUTPUT_BINDING.private.json')
+    a.need(sha(old/'RUN_MANIFEST.json')==ref['manifest_sha256']==binding['run_manifest_sha256']
+        and sha(binding['lease'])==ref['closed_lease_sha256']
+        and read(binding['lease'])['status']=='CLOSED','REAL_CLOSED_CODEC_CUSTODY')
+    a.need(sha(old/'CODEC_NATIVE_ABI_RESULT.json')==ref['ABI_result_sha256']
+        and sha(old/'control/CODEC_ABI_OS_EXIT.json')==ref['ABI_OS_sha256']
+        and read(old/'CODEC_NATIVE_ABI_RESULT.json')['status']=='PASS_ORIGINAL_AUDITOR_CODEC_IN_ORIGINAL_SIF'
+        and read(old/'control/CODEC_ABI_OS_EXIT.json')['returncode']==0
+        and old_manifest['code']['vla_commit']==ref['source_sha'],
+        'ACTUAL_PRIOR_CODEC_OS0_NOT_SYNTHETIC_TRAINING')
+    old_seal=read(old/'SOURCE_SEAL.json');new_seal=read(root/'SOURCE_SEAL.json')
+    for name in ('scripts/pi0294/e1/audit.py','scripts/pi0294/pv1/mix_vanda_codec.py'):
+        a.need(old_seal['files'][name]==new_seal['files'][name],
+            'UNCHANGED_ORIGINAL_CODEC_CONSUMER')
+    return old,old_manifest
 
 
 def cards(packet_bytes,index):
@@ -104,8 +129,9 @@ def run(root):
     from scripts.pi0294.pv1.mix_vanda_codec import validate as codec_validate
     from scripts.pi0292.durable import write,OwnerLock
     r=Path(root);m,assets=validate(r);coordinator=r.parent.parent
-    codec_validate(coordinator,read(coordinator/'RUN_MANIFEST.json'))
-    a.need(read(coordinator/'CODEC_NATIVE_ABI_RESULT.json')['status']=='PASS_ORIGINAL_AUDITOR_CODEC_IN_ORIGINAL_SIF',
+    codec_root,codec_manifest=codec_context(r,m)
+    codec_validate(codec_root,codec_manifest)
+    a.need(read(codec_root/'CODEC_NATIVE_ABI_RESULT.json')['status']=='PASS_ORIGINAL_AUDITOR_CODEC_IN_ORIGINAL_SIF',
         'REAL_CODEC_ABI_BEFORE_ANY_CONSTRUCTOR')
     plan=cards((r/preview.PACKET).read_bytes(),m['worker_index']);source_sha=m['code']['vla_commit']
     lock=OwnerLock(r/'GEN1_CAPTURE_OWNER.lock');a.need(not(r/'GEN1_CAPTURE_STARTED.json').exists(),'FIRST_ATTEMPTS_NOT_REPLAYED')
