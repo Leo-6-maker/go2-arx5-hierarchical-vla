@@ -61,6 +61,13 @@ def recompute(global_ledger,local_ledger,*,Core_storage_upper_bytes,local_storag
     from .mix_vanda_first import budget_LOCAL
     local_ledger=budget_LOCAL(global_ledger,local_ledger)
     used,held=resource_floor(global_ledger,local_ledger);caps=legacy_caps(global_ledger)
+    from .mix_vanda_cohost import validated as colocated
+    cohost=colocated(global_ledger)
+    if cohost:
+        # Pending LOCAL remains historical. Include the explicitly charged
+        # Vanda zero-integration constructor upper without claiming a Core
+        # write or moving that financial upper into actual live integrations.
+        used['engine_starts']+=cohost.get('render_constructor_upper_charged',0)
     if FIELD in global_ledger:caps.update(validated(global_ledger)['authorized_storage_caps'])
     for k,v in dict(Core_storage_bytes=Core_storage_upper_bytes,local_storage_bytes=local_storage_upper_bytes).items():
         if type(v) is not int or v<used[k]:raise PermissionError('V5_RETAIN_FULL_HISTORICAL_STORAGE_UPPER')

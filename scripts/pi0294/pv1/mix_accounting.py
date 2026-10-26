@@ -59,6 +59,8 @@ def validate_item(r):
 
 def validate_global(g):
     m=scope.validated(g);rows=[r for r in g['PBS_submissions'] if r.get('platform_training_version')==VERSION]
+    from .mix_vanda_cohost import validated as cohost_marker
+    cohost_marker(g)
     need(len(rows)<=6,'TWO_ARMS_MAX_THREE_ENGINEERING_ATTEMPTS_EACH')
     for r in rows:
         validate_item(r);need(r['T_CD']==m['T_CD'] and r['deadline_epoch']==m['deadline_epoch'] and r['scope_grant_sha256']==scope.GRANT_SHA,'ONE_ACTUAL_SCOPE_CLOCK')

@@ -151,7 +151,11 @@ def classify(h,rows):
                  and not(item['status'] in dual.TERMINAL and row['state']!='F'),
                  'NO_NATIVE_IDENTITY_OR_PRIOR_TERMINAL_CONTRADICTION')
             if row['state']!='F':
-                need(type(row['ngpus']) in (int,str) and str(row['ngpus'])=='1','ONE_ACTUAL_CAMPAIGN_GPU')
+                from scripts.pi0294.pv1 import mix_vanda_render as render
+                render_only=item.get('platform_qualification_version')==render.VERSION
+                if render_only:render.validate_row(item,h)
+                need(type(row['ngpus']) in (int,str) and str(row['ngpus'])==('0' if render_only else '1'),
+                     'EXACT_TYPED_ZERO_GPU_RENDER_OR_ONE_CAMPAIGN_GPU')
                 campaign.append(short)
                 if row['state'] not in ('Q','R'):unknown.append(short)
         elif row['name'] and row['name'].startswith('pi0294_'):unknown.append(short)

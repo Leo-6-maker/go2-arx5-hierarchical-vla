@@ -95,6 +95,10 @@ def validate_item(s):
 
 def validate_items(value):
     typed=[s for s in value['PBS_submissions'] if s.get('native_platform') is not None]
+    from scripts.pi0294.pv1 import mix_vanda_render as render
+    render_rows=[s for s in typed if s.get('platform_qualification_version')==render.VERSION]
+    if render_rows:render.validate_global(value)
+    typed=[s for s in typed if s not in render_rows]
     evaluation=[s for s in value['PBS_submissions'] if 'platform_evaluation_version' in s]
     if evaluation:
         from scripts.pi0294.pv1.evaluation_accounting import validate_global as validate_evaluation
