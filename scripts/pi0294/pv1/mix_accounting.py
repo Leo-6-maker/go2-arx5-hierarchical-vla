@@ -59,6 +59,11 @@ def validate_item(r):
 
 def validate_global(g):
     m=scope.validated(g);rows=[r for r in g['PBS_submissions'] if r.get('platform_training_version')==VERSION]
+    # New GEN1 jobs still use this original ledger. Its two corrected caps
+    # come only from the exact adopted four-cap grant, never a manifest wish.
+    caps=dict(PBS_submissions=34,Hopper_storage_bytes=scope.NEW_STORAGE['Hopper_storage_bytes'])
+    from scripts.pi0294.generalization import amd_adoption as gen1
+    if gen1.FIELD in g:caps.update(gen1.validate(g)['caps'])
     from .mix_vanda_cohost import validated as cohost_marker
     cohost_marker(g)
     need(len(rows)<=6,'TWO_ARMS_MAX_THREE_ENGINEERING_ATTEMPTS_EACH')
@@ -73,9 +78,9 @@ def validate_global(g):
         p=package_view(g);remaining=p['remaining_resources']
         from .evaluation_work import MATRIX
         from .future_budget import FINAL
-        need(g['new_storage_current_bytes']+g['storage_reserved_bytes']+MATRIX['Hopper_storage_bytes']+FINAL['Hopper_storage_bytes']<=scope.NEW_STORAGE['Hopper_storage_bytes'],'OUTPUT_MATRIX_AND_FINAL_PROTECTED')
+        need(g['new_storage_current_bytes']+g['storage_reserved_bytes']+MATRIX['Hopper_storage_bytes']+FINAL['Hopper_storage_bytes']<=caps['Hopper_storage_bytes'],'OUTPUT_MATRIX_AND_FINAL_PROTECTED')
         need(g['used']['H200_s']+g['reserved']['H200_s']+MATRIX['H200_s']+FINAL['H200_s']<=121*3600,'GPU_MATRIX_AND_FINAL_PROTECTED')
-        need(g['used']['PBS_submissions']+remaining['PBS_submissions']+MATRIX['PBS_submissions']<=34,'MATRIX_THREE_PBS_PROTECTED')
+        need(g['used']['PBS_submissions']+remaining['PBS_submissions']+MATRIX['PBS_submissions']<=caps['PBS_submissions'],'MATRIX_THREE_PBS_PROTECTED')
         need(g['CPU_s']+g['CPU_reserved_s']+MATRIX['Hopper_CPU_s']<=213*3600,'SITE_CPU_MATRIX_PROTECTED')
         need(g['reserved']['H200_s']>=remaining['H200_s'] and g['reserved']['optimizer_updates']>=remaining['optimizer_updates'] and g['reserved']['neural_queries']>=remaining['neural_queries'],'ALL_PACKAGE_NEURAL_ESCROW_RETAINED')
         need(g['CPU_reserved_s']>=remaining['Hopper_CPU_s'] and g['storage_reserved_bytes']>=remaining['Hopper_storage_bytes'],'ALL_PACKAGE_CPU_AND_OUTPUT_ESCROW_RETAINED')
