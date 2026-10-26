@@ -45,6 +45,8 @@ def adopted_caps(global_ledger):
         Hopper_storage_bytes=global_cap_from_ledger(global_ledger))
     from . import evaluation_scope as scope
     if scope.FIELD in global_ledger:caps.update(scope.caps(global_ledger))
+    from scripts.pi0294.generalization import amd_adoption as gen1
+    if gen1.FIELD in global_ledger:caps.update(gen1.validate(global_ledger)['caps'])
     return caps
 
 

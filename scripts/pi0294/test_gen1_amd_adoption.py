@@ -25,6 +25,10 @@ def test_captured_exact_four_caps_history_and_window(inputs):
     assert all(g[k]==x for k,x in old.items()if k!='revision')
     assert set(g)-set(old)=={m.FIELD} and not v['actual_LOCAL_changed']
     assert m.validate(g)['caps']==m.CAPS
+    from scripts.pi0294.pv1.resources import pbs_limit
+    from scripts.pi0294.pv1.evaluation_admission import adopted_caps
+    assert pbs_limit(old)==34 and pbs_limit(g)==36
+    assert all(adopted_caps(g)[k]==x for k,x in m.CAPS.items())
     proof=p.full_forecast(m.raw(g),lb)
     assert proof['cap_changes_required']=={} and proof['dimensions']['H200_s']['projected']==421663
     assert proof['matrix3_and_final20GPUh40GiB_retained']
@@ -58,3 +62,22 @@ def test_environment_only_allocation_is_once_bounded_and_not_teacher(inputs):
     assert not any(v['row'][k]for k in ('constructors','physics_ticks','models','PBS'))
     assert all(v['proposed_global'][k]==x for k,x in g.items()if k not in(m.FIELD,'revision'))
     with pytest.raises(PermissionError):m.environment_allocation(v['proposed_global'],run_uuid='gen1-amd-environment-01',manifest_sha256='a'*64,now_epoch=1793041402.)
+
+
+@pytest.mark.parametrize('bad',[None,'environment_failed','wrong_SIF','native_effect','duplicate','clock'])
+def test_static_counter_allocation_requires_actual_environment_contract(inputs,bad):
+    gb,lb,grant=inputs;g=m.propose(gb,lb,grant,now_epoch=1793041400.)['proposed_global']
+    e=dict(status='PASS_ACTUAL_AMD_CONTAINER_METADATA_ONLY',SIF_sha256=m.SIF_SHA,
+           returncode=0,constructors=0,physics_ticks=0,models=0)
+    now=1793041401.
+    if bad=='environment_failed':e['status']='FAILED'
+    elif bad=='wrong_SIF':e['SIF_sha256']='0'*64
+    elif bad=='native_effect':e['physics_ticks']=1
+    elif bad=='duplicate':g[m.FIELD]['static_previews']={}
+    elif bad=='clock':now=1793537549.8133287
+    call=lambda:m.static_allocation(g,run_uuid='gen1-amd-static24-01',manifest_sha256='b'*64,environment_result=e,now_epoch=now)
+    if bad is None:
+        v=call();assert v['row']['engine_starts']==44 and v['row']['Core_CPU_upper_s']==1200
+        assert v['row']['physics_ticks']==v['row']['episode_starts']==v['row']['models']==0
+    else:
+        with pytest.raises(PermissionError):call()

@@ -100,3 +100,24 @@ def environment_allocation(value,*,run_uuid,manifest_sha256,now_epoch):
     need(all(out[k]==v for k,v in value.items()if k not in(FIELD,'revision')),
          'ENVIRONMENT_ONLY_CLASSIFICATION')
     return dict(proposed_global=out,row=row,new_GPU=0,new_PBS=0)
+
+
+def static_allocation(value,*,run_uuid,manifest_sha256,environment_result,now_epoch):
+    """Original GEN1 M2, exactly44 constructor upper and zero integrations."""
+    m=validate(value)
+    need(m['T_CD']<=now_epoch<m['deadline_epoch'],'LIVE_STATIC_WINDOW')
+    need('static_previews'not in m and run_uuid=='gen1-amd-static24-01'
+         and type(manifest_sha256)is str and len(manifest_sha256)==64,'ONE_FIXED_M2_CHILD')
+    need(environment_result.get('status')=='PASS_ACTUAL_AMD_CONTAINER_METADATA_ONLY'
+         and environment_result.get('SIF_sha256')==SIF_SHA
+         and environment_result.get('returncode')==0
+         and environment_result.get('constructors')==environment_result.get('physics_ticks')
+             ==environment_result.get('models')==0,'REAL_ENVIRONMENT_METADATA_PREDECESSOR')
+    out=deepcopy(value)
+    row=dict(run_uuid=run_uuid,manifest_sha256=manifest_sha256,status='RESERVED_NOT_SPENT',
+        site='corelab-amd-server',Core_CPU_upper_s=1200,engine_starts=44,
+        physics_ticks=0,episode_starts=0,models=0,RGB_images=24,
+        environment_result_sha256=sha(raw(environment_result)),
+        included_in_existing_GEN1_full_forecast=True)
+    out[FIELD]['static_previews']=row;out['revision']+=1
+    return dict(proposed_global=out,row=row,new_GPU=0,new_PBS=0)
