@@ -162,3 +162,14 @@ The external route currently reaches the management host and the GPU host's pinn
 On restored authentication, first read the exact pending outcome, then install the new immutable source and perform the distinct cold once classification/registration with actual fresh full resource/process/device admission. Do not use the old controller's completed writes or old requests, prepay, transfer, settlement or closure. C50Eval24 must actually finish/audit/close before D25. Original caps, T_CD/deadline, matrix3/final protection and valid failures remain. Full task/goal ACTIVE; C50 behavior0/24, D25 not started, GEN0/24, core64=0.
 
 [Actual external hold and cold proof](../../../reports/PI0294/design/parallel-science-20261022/V5_C50_COLD_CONTINUATION_READY_CORE_SSH_AUTH_EXTERNAL_HOLD_ACTUAL_20261026.json).
+
+
+## User-authorized failed-checkpoint cleanup; actual disk check — 2026-10-26
+
+The user explicitly requested checking whether storage exhaustion explains the SSH issue and deleting failed checkpoints. This supersedes the blanket no-deletion instruction only for actual unused failed/incomplete checkpoint payloads, after exact ownership, terminal and dependency checks. It does not authorize deleting valid endpoints, recovery inputs, raw data, failure receipts, source capsules or other users' work. No repeat approval is needed for the authorized cleanup.
+
+Actual management-root availability is287763521536 bytes with118294747 free inodes; shared Home availability is1504376332288 bytes. Neither observed filesystem is full. Btrfs reports zero inode totals, which is an unavailable count rather than exhaustion. The GPU host's node-local SSD is not mounted on the management host, and its direct bounded disk query still times out during SSH authentication. These observations cannot verify or exclude GPU-host local disk exhaustion.
+
+No checkpoint has been deleted and no bytes have been freed: there is no freshly verified reachable failed payload. The known zero-model C50 Eval created no training checkpoint; its referenced complete1024 is the required existing evaluation endpoint. On restored access or console evidence, inspect actual GPU-host free space and exact failed-file references, delete only the authorized unused failed payloads, preserve a before/after inventory and retain all original financial charges and failure records. Do not clear UNKNOWN or infer a process terminal from the connection failure. C50 behavior remains0/24; the full task is unfinished.
+
+[Actual space audit and direct cleanup authority](../../../reports/PI0294/design/parallel-science-20261022/V5_USER_FAILED_CHECKPOINT_CLEANUP_SPACE_AUDIT_ACTUAL_20261026.json).

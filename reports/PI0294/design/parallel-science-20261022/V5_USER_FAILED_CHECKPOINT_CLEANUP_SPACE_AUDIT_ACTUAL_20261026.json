@@ -1,0 +1,49 @@
+{
+  "schema": "V5_USER_AUTHORIZED_FAILED_CHECKPOINT_SPACE_AUDIT_V1",
+  "observed_epoch": 1792976862.9746482,
+  "authority": {
+    "direct_human_instruction": "排查是不是空间占满导致，删除失败checkpoint",
+    "scope": "INSPECT_STORAGE_AND_DELETE_VERIFIED_UNUSED_FAILED_CHECKPOINT_PAYLOADS",
+    "overrides_prior_blanket_no_checkpoint_deletion_only_for_this_exact_scope": true,
+    "new_experiment_or_budget_or_clock": false
+  },
+  "actual_readonly": {
+    "management_root_total_bytes": 1944978128896,
+    "management_root_available_bytes": 287763521536,
+    "management_root_inodes": 120684544,
+    "management_root_free_inodes": 118294747,
+    "shared_Home_total_bytes": 4000785104896,
+    "shared_Home_available_bytes": 1504376332288,
+    "shared_Home_inode_count": "NOT_REPORTED_BY_BTRFS_NOT_EVIDENCE_OF_EXHAUSTION",
+    "GPU_host_node_local_SSD": "NOT_ACCESSIBLE_ON_MANAGEMENT_HOST_AND_SSH_AUTH_READ_TIMEOUT",
+    "management_snapshot_sha256": "2ee226767449c02b4672a490a999862e5d76c4becc855020201ba7e264fa3b88",
+    "GPU_host_disk_read_receipt_sha256": "7115ab204fab338fd47f4d75531aa00dc686dc23f6220261501dc572466c57ab"
+  },
+  "causal_conclusion": "MANAGEMENT_AND_SHARED_HOME_NOT_FULL_GPU_HOST_LOCAL_DISK_EXHAUSTION_NOT_VERIFIED_OR_EXCLUDED",
+  "checkpoint_boundary": {
+    "prior_C50_eval_failure_created_no_new_training_checkpoint": true,
+    "existing_C50_complete1024_is_required_for_next_Eval_and_not_a_failed_payload": true,
+    "protected": [
+      "CURRENT_RECOVERY_INPUTS",
+      "COMMON_CORR2048",
+      "R0",
+      "A4096",
+      "B4096",
+      "C50_COMPLETE1024",
+      "ORIGINAL_PROBES",
+      "RAW_DATA_AND_IMMUTABLE_FAILURE_METADATA"
+    ],
+    "candidate_requires": "ACTUAL_OWNED_REGULAR_FAILED_OR_INCOMPLETE_CHECKPOINT_UNUSED_BY_ACTIVE_OR_PLANNED_RUNS_WITH_REAL_TERMINAL_AND_INODE_REFERENCE_CHECK",
+    "no_recursive_delete_of_a_run_or_shared_model_cache": true,
+    "all_original_financial_fees_and_failure_records_retained": true
+  },
+  "actual_deletion": {
+    "files": 0,
+    "bytes_freed": 0,
+    "reason": "NO_FRESHLY_VERIFIED_REACHABLE_FAILED_CHECKPOINT_CANDIDATE_ON_GPU_HOST"
+  },
+  "next": "GPU_HOST_CONSOLE_OR_RESTORED_AUTH_READ_ACTUAL_DF_AND_FAILED_PAYLOAD_INVENTORY_THEN_EXACT_AUTHORIZED_CLEANUP_NO_REPEATED_GO",
+  "C50_behavior": 0,
+  "D25": "NOT_STARTED",
+  "full_goal": "ACTIVE_UNFINISHED"
+}
