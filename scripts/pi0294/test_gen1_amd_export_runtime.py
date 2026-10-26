@@ -17,6 +17,19 @@ def native_fixture():
 def test_exact_zero_gpu_cpu_allocation():
  job,req=native_fixture();assert r.native_allocation(job,job_id='123.stdct-mgmt-02',hostname='compute-fixture',request=req)is job
 
+def test_original_vanda_environment_binding_not_amd_script_guess():
+ execution=dict(python=r.ORIGINAL_PYTHON,venv_prefix=r.ORIGINAL_PREFIX,
+  python_binary_sha256=r.ORIGINAL_PYTHON_SHA)
+ r.python_environment(execution,executable=r.ORIGINAL_PYTHON,
+  prefix=r.ORIGINAL_PREFIX,binary_sha256=r.ORIGINAL_PYTHON_SHA)
+ for field in ('python','venv_prefix','python_binary_sha256'):
+  changed=dict(execution);changed[field]='other-environment'
+  with pytest.raises(PermissionError):r.python_environment(changed,
+   executable=r.ORIGINAL_PYTHON,prefix=r.ORIGINAL_PREFIX,binary_sha256=r.ORIGINAL_PYTHON_SHA)
+ for values in (dict(executable=sys.executable,prefix='/other',binary_sha256=r.ORIGINAL_PYTHON_SHA),
+  dict(executable=r.ORIGINAL_PYTHON,prefix=r.ORIGINAL_PREFIX,binary_sha256='0'*64)):
+  with pytest.raises(PermissionError):r.python_environment(execution,**values)
+
 @pytest.mark.parametrize('bad',['host','project','GPU','select_GPU','name','CPU','wall','nonce','job_id'])
 def test_other_job_or_hardware_cannot_enter_export(bad):
  job,req=native_fixture();host='compute-fixture';jid='123.stdct-mgmt-02'

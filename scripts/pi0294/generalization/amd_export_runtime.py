@@ -13,6 +13,9 @@ from scripts.pi0294.e1.scope import STATS
 ROLE=accounting.VERSION
 PROFILE=accounting.PROFILE
 READY_STATUS='SEALED_GEN1_RAW_R0_OFFICIAL_BANK_READY'
+ORIGINAL_PYTHON='/scratch/e1192548/gr00t/env/bin/python'
+ORIGINAL_PREFIX='/scratch/e1192548/gr00t/env'
+ORIGINAL_PYTHON_SHA='8f9781a98200d9ecda7e00464e4c64b1327abae788ae8e6979d5c859311410c7'
 
 
 def read(path):return json.loads(Path(path).read_bytes())
@@ -27,6 +30,16 @@ def member(root,name):
         and p.is_file()and not p.is_symlink()and p.resolve().is_relative_to(root.resolve()),
         'EXPORT_REGISTERED_FILE_NO_LINK_OR_ESCAPE:'+str(name))
     return p
+
+
+def python_environment(execution,*,executable,prefix,binary_sha256):
+    """Vanda uses its registered Python/PBS entry, not AMD enter.sh/doctor.py."""
+    a.need(execution['python']==ORIGINAL_PYTHON
+        and execution['venv_prefix']==ORIGINAL_PREFIX
+        and execution['python_binary_sha256']==binary_sha256==ORIGINAL_PYTHON_SHA
+        and Path(executable).resolve()==Path(ORIGINAL_PYTHON).resolve()
+        and Path(prefix).resolve()==Path(ORIGINAL_PREFIX).resolve(),
+        'EXPORT_ORIGINAL_REGISTERED_VANDA_PYTHON_ENVIRONMENT')
 
 
 def native_allocation(job,*,job_id,hostname,request):
@@ -79,6 +92,7 @@ def validate(root,*,compute=True):
     profiles=read(b['environment'])['profiles'];matches=[x for x in profiles if x['name']==PROFILE]
     a.need(len(matches)==1 and matches[0]['manifest']==str(root/'RUN_MANIFEST.json')
         and matches[0]['entry_module']=='scripts.pi0294.generalization.amd_export_runtime'
+        and matches[0]['python']==ORIGINAL_PYTHON
         and matches[0]['PBS_required']is True and matches[0]['ngpus']==0,
         'EXPORT_STANDARD_ENTRY_EXPLICIT_NEW_CPU_PROFILE')
     code=root/m['code']['capsule_relative'];seal=read(member(root,'SOURCE_SEAL.json'))
@@ -97,8 +111,8 @@ def validate(root,*,compute=True):
         'plans/statistics.json','plans/DELIVERED_RAW_MEMBERS.private.json','plans/OFFICIAL_CPU_INPUT_IDENTITIES.private.json'}
     a.need(required<=set(m['execution']['sealed_inputs']),'EXPORT_ALL_REQUIRED_INPUTS_SEALED')
     for name,h in m['execution']['sealed_inputs'].items():a.need(sha(member(root,name))==h,'EXPORT_INPUT:'+name)
-    for name,key in [('enter.sh','entry_sha256'),('doctor.py','doctor_sha256')]:
-        a.need(sha(Path(b['registry']).parent/name)==m['execution'][key],'EXPORT_UNCHANGED_ORIGINAL_ENTRY')
+    python_environment(m['execution'],executable=sys.executable,prefix=sys.prefix,
+        binary_sha256=sha(ORIGINAL_PYTHON))
     a.need(os.environ.get('CUDA_VISIBLE_DEVICES')==''and os.environ.get('HF_HUB_OFFLINE')=='1'
         and os.environ.get('PYTHONDONTWRITEBYTECODE')=='1'
         and os.environ.get('TRANSFORMERS_OFFLINE')=='1'and not any(x.exists()for x in(root/'STOP.json',root.parent.parent/'STOP.json')),

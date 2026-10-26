@@ -1,0 +1,36 @@
+{
+  "schema": "GEN1_ORIGINAL_VANDA_CPU_ENTRY_ACTUAL_INPUT_IDENTITY_COLD_REPAIR_V1",
+  "date": "2026-10-27",
+  "actual": {
+    "official_source_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "processor_files": 9,
+    "processor_input_bytes": 11499994,
+    "frozen_statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "existing_registered_training_environment_python_binary_sha256": "8f9781a98200d9ecda7e00464e4c64b1327abae788ae8e6979d5c859311410c7",
+    "models": 0,
+    "queries": 0,
+    "physics": 0,
+    "new_GPU": 0,
+    "new_PBS": 0
+  },
+  "cold_change": "Bind the original Vanda Python/PBS entry and actual frozen Python binary; do not assume AMD enter.sh and doctor.py exist on Vanda.",
+  "validation": {
+    "targeted_CPU_tests": 28,
+    "original_entry_path_read_failed_preserved": true,
+    "initial_pytest_collection_without_src_path_failed_preserved": true,
+    "corrected_explicit_PYTHONPATH_tests_pass": true,
+    "native_export": false,
+    "CUDA": false,
+    "CI_claim": false
+  },
+  "Teacher": {
+    "independently_known_logical_conditions": 11,
+    "full_T1": 6,
+    "full_T2": 4,
+    "valid_T2_S1_rejection": 1,
+    "remaining_T2_running": 1,
+    "final_success_rate_not_claimed": true
+  },
+  "limits": "Original adopted caps, clocks, all valid negatives and science rules unchanged.",
+  "next": "Only after all twelve known outcomes and actual seven source roles closed: original GLOBAL CPU reservation, registered raw custody, actual official CPU/R0 export, then fresh independent CORR2048 training admission."
+}
