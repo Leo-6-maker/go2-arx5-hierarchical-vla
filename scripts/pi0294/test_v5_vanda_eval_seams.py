@@ -95,6 +95,20 @@ def test_retained_codec_preparation_chunks_remain_inside_original_output_upper(t
     assert chunk.exists()and chunk.stat().st_size==3*1024**3+1
 
 
+def test_only_original_sealed_cosmos_alias_is_excluded_as_an_input(tmp_path):
+    root=tmp_path/'neural';root.mkdir();snapshot=tmp_path/'snapshot';snapshot.mkdir()
+    put(root/'NEURAL_BINDINGS.private.json',dict(cosmos=str(snapshot)))
+    m=typed_manifest();m['run_uuid']='panel';m['code']=dict(vla_commit='b'*40)
+    m['execution']['sealed_inputs']={'NEURAL_BINDINGS.private.json':a.sha((root/'NEURAL_BINDINGS.private.json').read_bytes())};put(root/'RUN_MANIFEST.json',m)
+    folder=root/'model_inputs';(folder/'nvidia').mkdir(parents=True);alias=folder/'nvidia/Cosmos-Reason2-2B';alias.symlink_to(snapshot)
+    assert output.cosmos_view(root)==folder
+    hidden=folder/'hidden-output';hidden.write_bytes(b'preserve')
+    with pytest.raises(PermissionError,match='NO_HIDDEN_OUTPUT'):output.cosmos_view(root)
+    assert hidden.read_bytes()==b'preserve';hidden.unlink()  # fixture only
+    alias.unlink();other=tmp_path/'different';other.mkdir();alias.symlink_to(other)
+    with pytest.raises(PermissionError,match='EXACT_EXISTING_PINNED'):output.cosmos_view(root)
+
+
 def test_source_render_reuses_original_counter_and_never_calls_integrator():
     from scripts.pi0294.pv1 import mix_vanda_eval_render as render
     tree=ast.parse(Path(render.__file__).read_bytes())

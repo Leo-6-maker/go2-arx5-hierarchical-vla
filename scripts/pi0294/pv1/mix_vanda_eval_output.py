@@ -25,12 +25,33 @@ def reference_view(root,plan):
     return view
 
 
+def cosmos_view(root):
+    """One original official-backbone input alias, never an output escape."""
+    import json
+    root=Path(root);folder=root/'model_inputs'
+    if not folder.exists():return None
+    need(folder.is_dir()and not folder.is_symlink()and (folder/'nvidia').is_dir()
+         and not(folder/'nvidia').is_symlink(),'REAL_COSMOS_INPUT_NAMESPACE')
+    path=root/'NEURAL_BINDINGS.private.json';manifest=root/'RUN_MANIFEST.json'
+    need(path.is_file()and not path.is_symlink()and not path.stat().st_mode&0o222,'SEALED_COSMOS_BINDINGS')
+    m=json.loads(manifest.read_bytes());need(m['execution']['sealed_inputs'].get(path.name)==a.sha(path.read_bytes()),'EXACT_COSMOS_BINDING_BYTES')
+    from .mix_vanda_eval_identity import cold_profile
+    need(cold_profile(m),'ONLY_NEW_TYPED_MODEL_INPUT_ALIAS')
+    actual={str(p.relative_to(folder))for p in folder.rglob('*')}
+    need(actual=={'nvidia','nvidia/Cosmos-Reason2-2B'},'NO_HIDDEN_OUTPUT_IN_COSMOS_INPUT_ROLE')
+    alias=folder/'nvidia/Cosmos-Reason2-2B';bindings=json.loads(path.read_bytes())
+    need(alias.is_symlink()and alias.lstat().st_uid==os.getuid()
+         and alias.resolve(strict=True)==Path(bindings['cosmos']).resolve(strict=True),'EXACT_EXISTING_PINNED_BACKBONE_INPUT')
+    return folder
+
+
 def enforce(neural,physical,owner,reference_plan):
     neural,physical,owner=map(Path,(neural,physical,owner));contract=storage.storage_contract()
     need(neural.parent.name=='neural-children' and physical.parent.name=='children' and owner.parent.name=='control'
          and neural.name==physical.name and neural.parent.parent==physical.parent.parent==owner.parent.parent,
          'ACTUAL_DISTINCT_SAME_CAMPAIGN_OUTPUT_ROLES')
     view=reference_view(neural,reference_plan)
+    backbone=cosmos_view(neural)
     episodes=physical/'episodes';need(episodes.is_dir() and not episodes.is_symlink(),'REAL_ORIGINAL_EPISODE_NAMESPACE')
     folders=list(episodes.iterdir());need(len(folders)<=26 and all(p.is_dir() and not p.is_symlink() for p in folders),'ORIGINAL_REGULAR_AND_REPLACEMENT_BOUND')
     physical_rows={p.name:storage.enforce_output(p,contract['physical_per_attempt_bytes']) for p in folders}
@@ -42,7 +63,7 @@ def enforce(neural,physical,owner,reference_plan):
     query_upper=contract['query_calls']*contract['additional_per_query_bytes']
     need(sum(max(v['logical_bytes'],v['allocated_bytes']) for _,v in query)<=query_upper,'ADDITIONAL_QUERY_OUTPUT_OVERFLOW_PRESERVE_ALL')
     remaining=[]
-    for root,excluded in [(neural,[view,*[p for p,_ in query if p.is_relative_to(neural)]]),
+    for root,excluded in [(neural,[view,*([backbone]if backbone else[]),*[p for p,_ in query if p.is_relative_to(neural)]]),
                           (physical,[episodes]),(owner,[p for p,_ in query if p.is_relative_to(owner)])]:
         remaining.append(storage.tree_bytes(root,exclude=excluded))
     # Finite audit-tool delivery is retained alongside this panel, including

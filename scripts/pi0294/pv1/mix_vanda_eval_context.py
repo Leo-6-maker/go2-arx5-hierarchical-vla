@@ -262,6 +262,8 @@ def validate(root,*,closeout=False,compute=True):
         need(m['code']['official_gr00t_commit']=='51d4c89f72fda44cbf77285c6a8114b52676b8a1'
              and Path(bindings['source']).is_dir() and Path(bindings['python']).is_file(),'EXISTING_OFFICIAL_MODEL_RUNTIME')
         need(all(sha(Path(bindings['cosmos'])/n)==h for n,h in COSMOS_PROCESSOR_PINS.items()),'ORIGINAL_PROCESSOR_AND_TOKENIZER')
+        from .mix_vanda_eval_output import cosmos_view
+        need(cosmos_view(root)==root/'model_inputs','ORIGINAL_OFFICIAL_BACKBONE_ALIAS_REQUIRED_BEFORE_ENTRY')
         from scripts.pi0294.e1.scope import DATA,STATS
         from scripts.pi0294.dec1.authority import BANK
         need(sha(Path(bindings['dataset'])/'DATASET_MANIFEST.json')==DATA
