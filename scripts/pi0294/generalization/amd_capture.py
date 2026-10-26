@@ -70,24 +70,33 @@ def binding(root):
     r=Path(root);a.need(os.getuid()==2009 and os.uname().nodename=='corelab-amd-server'
         and r.is_absolute()and not r.is_symlink(),'GEN1_CAPTURE_HOST_UID')
     m=read(r/'RUN_MANIFEST.json');b=read(r/'OUTPUT_BINDING.private.json')
-    a.need(m['scope']==ROLE and m['execution']['profile']==PROFILE
+    from . import amd_remaining as remaining
+    is_remaining=m['execution']['profile']==remaining.PROFILE
+    a.need(m['scope']==ROLE and m['execution']['profile']in(PROFILE,remaining.PROFILE)
         and m['output_root']==b['run_root']==str(r)and m['run_uuid']==r.name
         and b['run_manifest_sha256']==sha(r/'RUN_MANIFEST.json'),'OWN_CAPTURE_MANIFEST')
     g=read(r/'plans/ACTUAL_GLOBAL_CAPTURE_ALLOCATION.private.json');mark=a.validate(g);pool=mark['teacher_pilot']
+    plan=(remaining.cards if is_remaining else cards)((r/preview.PACKET).read_bytes(),m['worker_index'])
     row=pool['workers'][str(m['worker_index'])]
-    if row['root']!=str(r):
+    if is_remaining:
+        recovery=pool['engineering_recovery'];pool=recovery['remaining_conditions'];row=pool['workers'][str(m['worker_index'])]
+        a.need(recovery['saved_data_reaudit']['status']=='KNOWN_SAVED_RAW_REAUDIT_SETTLED'
+            and pool['independent_saved_audit_sha256']==m.get('saved_reaudit_sha256'),
+            'REMAINING_SAVED_CASES_CLOSED_NOT_RECAPTURED')
+    elif row['root']!=str(r):
         repair=pool.get('engineering_recovery',{})
         a.need(pool['status']=='NATIVE_ENGINEERING_TERMINAL'
             and repair.get('status')=='RESERVED_ENGINEERING_CONTINUATION'
             and m.get('engineering_failure_audit_sha256')==pool['actual']['independent_audit_sha256'],
             'EXACT_CLOSED_ENGINEERING_PREDECESSOR_NOT_VALID_FAILURE_REPLAY')
         pool=repair;row=pool['workers'][str(m['worker_index'])]
-    a.need(pool['status']in('RESERVED_FIRST_ATTEMPTS_ONLY','RESERVED_ENGINEERING_CONTINUATION')
+    a.need(pool['status']in('RESERVED_FIRST_ATTEMPTS_ONLY','RESERVED_ENGINEERING_CONTINUATION',remaining.STATUS)
         and row['manifest_sha256']==b['run_manifest_sha256']
-        and row['root']==str(r)and row['attempt_ids']==[c['id']for c in cards((r/preview.PACKET).read_bytes(),m['worker_index'])],
+        and row['root']==str(r)and row['attempt_ids']==[c['id']for c in plan],
         'REAL_GLOBAL_UNIQUE_FIRST_ATTEMPT_ALLOCATION')
-    limits=m['limits'];a.need(all(limits.get(k)==v for k,v in dict(CPU_s=21600,physics_ticks=192000,
-        engine_starts=528,policy_episodes=6,per_cell_CPU_s=3600,per_cell_ticks=32000,
+    count=5 if is_remaining else 6
+    limits=m['limits'];a.need(all(limits.get(k)==v for k,v in dict(CPU_s=count*3600,physics_ticks=count*32000,
+        engine_starts=count*88,policy_episodes=count,per_cell_CPU_s=3600,per_cell_ticks=32000,
         per_cell_task_shadow_constructors=81,per_cell_readonly_audit_constructors=3,
         per_cell_zero_integration_negative_constructors=4,counter_policy=COUNTER_POLICY,
         memory_bytes=8*1024**3).items()),'ORIGINAL_TWELVE_TASK_AND_EXPLICIT_READONLY_AUDIT_ENVELOPE')
@@ -133,7 +142,10 @@ def run(root):
     codec_validate(codec_root,codec_manifest)
     a.need(read(codec_root/'CODEC_NATIVE_ABI_RESULT.json')['status']=='PASS_ORIGINAL_AUDITOR_CODEC_IN_ORIGINAL_SIF',
         'REAL_CODEC_ABI_BEFORE_ANY_CONSTRUCTOR')
-    plan=cards((r/preview.PACKET).read_bytes(),m['worker_index']);source_sha=m['code']['vla_commit']
+    from . import amd_remaining as remaining
+    is_remaining=m['execution']['profile']==remaining.PROFILE
+    packet=(r/preview.PACKET).read_bytes()
+    plan=(remaining.cards if is_remaining else cards)(packet,m['worker_index']);source_sha=m['code']['vla_commit']
     lock=OwnerLock(r/'GEN1_CAPTURE_OWNER.lock');a.need(not(r/'GEN1_CAPTURE_STARTED.json').exists(),'FIRST_ATTEMPTS_NOT_REPLAYED')
     class Meter(original.Meter):
         def __init__(self):
@@ -177,7 +189,15 @@ def run(root):
     original_audit=raw_audit.audit_episode
     def audit_with_classified_cost(*args,**kwargs):
         meter.audit_phase=True
-        try:return original_audit(*args,**kwargs)
+        try:
+            if is_remaining:
+                import importlib,sys
+                from .amd_seed_audit import legacy_identity_read_view
+                sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'pi0291_arx5_data'))
+                base=importlib.import_module('scripts.pi0292.audit_data')
+                card=next(x for x in plan if x['id']==args[1])
+                with legacy_identity_read_view(base,r,card,packet):return original_audit(*args,**kwargs)
+            return original_audit(*args,**kwargs)
         finally:meter.audit_phase=False
     raw_audit.audit_episode=audit_with_classified_cost
     from scripts.pi0294 import r3_teacher
@@ -190,7 +210,7 @@ def run(root):
     def stop(reason):
         try:original.put(coordinator/'STOP.json',dict(reason=reason,worker=r.name))
         except FileExistsError:pass  # First safety signal remains authoritative.
-    resource.setrlimit(resource.RLIMIT_CPU,(21600,21600));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+    resource.setrlimit(resource.RLIMIT_CPU,(m['limits']['CPU_s'],m['limits']['CPU_s']));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
     write(r/'GEN1_CAPTURE_STARTED.json',dict(epoch=time.time(),pid=os.getpid(),
         procstart=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],
         boot=Path('/proc/sys/kernel/random/boot_id').read_text().strip(),source_sha=source_sha,

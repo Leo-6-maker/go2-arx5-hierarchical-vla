@@ -86,3 +86,42 @@ def reaudit_allocation(value,*,run_uuid,manifest_sha256,closed_leases,now_epoch)
         input_cases_sha256=a.sha(a.raw(row['saved_full_cases'])))
     out['revision']+=1
     return dict(proposed_global=out,new_GPU=0,new_PBS=0)
+
+
+def reaudit_settlement(value,audit,*,now_epoch):
+    """Classify only the new saved-data role; no old raw/failed audit edits."""
+    mark=a.validate(value);old=mark['teacher_pilot']['engineering_recovery']
+    pool=old['saved_data_reaudit']
+    a.need(pool['status']=='RESERVED_SAVED_DATA_ONLY'
+        and audit['status']=='PASS_INDEPENDENT_SAVED_RAW_REAUDIT_OS0_AND_CUSTODY'
+        and audit['manifest_sha256']==pool['manifest_sha256']and audit['run_uuid']==pool['run_uuid']
+        and audit['actual_OS_returncode']==0 and audit['all_processes_terminal']is True
+        and audit['raw_admitted']==2 and audit['engine_starts']==4
+        and audit['unknown_native_effects']==[]and audit['original_files_modified']is False
+        and audit['formal_R0_export']=='NOT_RUN','REAUDIT_REAL_TERMINAL_NO_TRAINING_ADMISSION')
+    a.need(all(audit[k]==0 for k in ('integrations','episode_starts','models','queries','updates','new_GPU','new_PBS')),
+        'REAUDIT_SAVED_DATA_ONLY')
+    a.need(mark['T_CD']<=audit['epoch']<=now_epoch and math.isfinite(now_epoch),
+        'REAUDIT_FINANCIAL_CURRENT_OR_LATE_CLOSE')
+    a.need(type(audit['Core_CPU_s'])in(int,float)and math.isfinite(audit['Core_CPU_s'])
+        and 0<audit['Core_CPU_s']<=600 and 0<audit['retained_logical_bytes']<=16*1024**2,
+        'REAUDIT_ACTUAL_BOUNDED_CPU_OUTPUT')
+    a.need(set(audit['cases'])==set(old['saved_full_cases'])=={'0','1'},'REAUDIT_TWO_ORIGINAL_CASES')
+    for key,row in audit['cases'].items():
+        original=old['saved_full_cases'][key]
+        a.need(all(row[k]==original[k]for k in ('attempt_id','raw_root','manifest_sha256','raw_manifest_sha256'))
+            and row['original_failed_audit_sha256']==original['original_audit_sha256']
+            and row['raw_admitted']is True and row['original_custody_and_all_raw_members_verified']is True
+            and row['original_files_unchanged']is True,'REAUDIT_UNCHANGED_EXACT_ORIGINAL_FULL_CASE')
+        for name in ('independent_audit_sha256','video_sha256'):
+            a.need(type(row[name])is str and len(row[name])==64,'REAUDIT_BOUND_DERIVATIVE_OUTPUTS')
+    out=deepcopy(value);row=out[a.FIELD]['teacher_pilot']['engineering_recovery']['saved_data_reaudit']
+    row.update(status='KNOWN_SAVED_RAW_REAUDIT_SETTLED',actual=dict(engine_starts=4,physics_ticks=0,
+        episode_starts=0,Core_CPU_s=audit['Core_CPU_s'],retained_logical_bytes=audit['retained_logical_bytes'],
+        models=0,queries=0,updates=0,unknown_native_effects=[]),raw_admitted_cases=deepcopy(audit['cases']),
+        independent_terminal_audit_sha256=a.sha(a.raw(audit)),formal_R0_export_required=True,
+        original_failed_audits_preserved=True,native_training_admitted=False)
+    out['revision']+=1
+    a.need(all(out[k]==v for k,v in value.items()if k not in(a.FIELD,'revision')),
+        'REAUDIT_ONLY_ONCE_CLASSIFICATION')
+    return dict(proposed_global=out,actual=deepcopy(row['actual']),new_GPU=0,new_PBS=0)
