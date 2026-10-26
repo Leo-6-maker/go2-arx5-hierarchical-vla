@@ -121,3 +121,34 @@ def static_allocation(value,*,run_uuid,manifest_sha256,environment_result,now_ep
         included_in_existing_GEN1_full_forecast=True)
     out[FIELD]['static_previews']=row;out['revision']+=1
     return dict(proposed_global=out,row=row,new_GPU=0,new_PBS=0)
+
+
+def capture_allocation(value,*,packet_bytes,workers,static_closure_sha256,now_epoch):
+    """Bind all twelve predeclared first attempts inside the original envelope."""
+    from .amd_capture import cards
+    m=validate(value);prior=m.get('static_previews',{})
+    need(prior.get('status')=='NATIVE_TERMINAL'and prior.get('native_OS_returncode')==0
+         and prior.get('actual_images')==24 and prior.get('actual_constructor_attempts')==44
+         and prior.get('actual_integrations')==0,'REAL_M2_TERMINAL_FIRST')
+    need('teacher_pilot'not in m and type(workers)is dict and set(workers)=={'0','1'},
+         'TWO_FIXED_WORKERS_NO_PILOT_REPLAY')
+    need(m['T_CD']<=now_epoch<m['stop_new_training_epoch']-18.25*3600,
+         'TIME_REMAINS_FOR_EXPORT_AND_ORIGINAL_TRAINING')
+    need(type(static_closure_sha256)is str and len(static_closure_sha256)==64,'BOUND_STATIC_CLOSURE')
+    for index in(0,1):
+        row=workers[str(index)];expected=[c['id']for c in cards(packet_bytes,index)]
+        need(row['attempt_ids']==expected and row['run_uuid']=='gen1-amd-teacher-'+str(index).zfill(2)
+             and type(row['manifest_sha256'])is str and len(row['manifest_sha256'])==64
+             and type(row['root'])is str and row['root'].endswith('/children/'+row['run_uuid']),
+             'EXACT_GEN_TRAIN_WORKER_AND_NO_RESAMPLED_CELL')
+    need(len({r['root']for r in workers.values()})==2,'DISJOINT_NATIVE_OUTPUTS')
+    out=deepcopy(value)
+    row=dict(status='RESERVED_FIRST_ATTEMPTS_ONLY',workers=deepcopy(workers),
+        episode_starts=12,physics_ticks=384000,engine_starts=1008,Core_CPU_s=43200,
+        per_cell_task_shadow_constructors=81,per_cell_readonly_audit_constructors=3,
+        maximum_workers=2,static_closure_sha256=static_closure_sha256,
+        static_native_counter_reused_with_same_capture_py_and_SIF=True,
+        all_valid_failures_retained=True,extra_counter_probes=0,
+        updates=0,queries=0,models=0)
+    out[FIELD]['teacher_pilot']=row;out['revision']+=1
+    return dict(proposed_global=out,row=row,new_GPU=0,new_PBS=0)

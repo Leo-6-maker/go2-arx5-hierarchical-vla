@@ -92,7 +92,10 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
         for k,x in values.items():add[k]+=x
     # AMD source:36 paired-task/repeat+6 home static+2 parity constructions.
     # Preserve two complete raw envelopes rather than assume hardlink credit.
-    plus(dict(episode_starts=12,physics_ticks=12*32000,engine_starts=12*81+44,
+    # Keep81 task/shadow starts, and separately budget up to3 readonly raw
+    # audit reconstructions. This corrects the pre-dispatch accounting seam;
+    # it adds no episode/integration and does not increase any campaign cap.
+    plus(dict(episode_starts=12,physics_ticks=12*32000,engine_starts=12*(81+3)+44,
         Core_CPU_s=1200+12*3600+1800,local_CPU_s=1800,
         Core_storage_bytes=20*GIB+64*1024**2,Hopper_storage_bytes=10*GIB,
         transfer_bytes=12*GIB))
