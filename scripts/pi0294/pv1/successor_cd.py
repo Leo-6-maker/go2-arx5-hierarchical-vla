@@ -71,6 +71,8 @@ def recompute(global_ledger,local_ledger,*,Core_storage_upper_bytes,local_storag
         # write or moving that financial upper into actual live integrations.
         used['engine_starts']+=cohost.get('render_constructor_upper_charged',0)
     if FIELD in global_ledger:caps.update(validated(global_ledger)['authorized_storage_caps'])
+    from scripts.pi0294.generalization import amd_adoption as gen1
+    if gen1.FIELD in global_ledger:caps.update(gen1.validate(global_ledger)['caps'])
     for k,v in dict(Core_storage_bytes=Core_storage_upper_bytes,local_storage_bytes=local_storage_upper_bytes).items():
         if type(v) is not int or v<used[k]:raise PermissionError('V5_RETAIN_FULL_HISTORICAL_STORAGE_UPPER')
         used[k]=v
