@@ -186,8 +186,13 @@ def effective_original_eval_PBS(g,remaining_PBS):
     # back to Core (no PBS). Keep its original escrow bytes and both original
     # GPU/Core-CPU panels; expose that same physical projection to validation.
     m=authority.validate(g);rows(g);marker=m[FIELD]
+    # The preserved original D PBS is a historical reservation, including
+    # after either Core panel closes. Only full audited24/dual-closed markers
+    # may advance that phase; an appended stage string grants no credit.
+    from .amd_pilot_scope import original_remaining_panels
+    remaining=original_remaining_panels(g)
     need(marker['original_C_D_Eval_deferred_to_Core_no_new_Vanda_PBS']is True
-        and g[original.PACKAGE]['completed_stages']==['TRAIN:C50:1024','TRAIN:D25:1024']
+        and remaining in (['C50','D25'],['D25'],[])
         and remaining_PBS==1,'TRAIN_EXACT_UNDISPATCHED_ORIGINAL_D_CORE_EVAL_PROJECTION')
     return 0
 

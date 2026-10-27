@@ -14,7 +14,8 @@ torch = pytest.importorskip('torch')
 from torch import nn
 
 from scripts.pi0294.generalization.minimal_adapter import (
-    ARMS, ParameterContract, export_official_state, frozen_fingerprint,
+    ARMS, LEAVES, ParameterContract, export_official_state, frozen_fingerprint,
+    consume_for_official_inference,
 )
 
 
@@ -83,3 +84,27 @@ def test_actual_pinned_leaf_zero_step_132d_h40_backward_export(official, arm):
     assert frozen_fingerprint(model) == frozen
     original.load_state_dict(export_official_state(model), strict=True)
     assert torch.equal(original(*args), model(*args))
+
+
+@pytest.mark.parametrize('arm',ARMS)
+def test_pinned_leaf_one_way_official_export_exact_and_no_second_full_table(official,arm):
+    # Actual pinned upstream leaves, tiny hidden widths: not full GR00T proof.
+    torch.manual_seed(20261019);original=miniature_model(official)
+    model=deepcopy(original);contract=ParameterContract(model,arm,10)
+    with torch.no_grad():
+        for path in LEAVES:model.get_submodule(path).target_b.add_(.125)
+    original.load_state_dict(export_official_state(model),strict=True)
+    args=(torch.randn(2,1,132),torch.randn(2,40,132),torch.tensor([23,76]),torch.tensor([10,1]))
+    with torch.no_grad():expected=model(*args).clone()
+    pointers={path:model.get_submodule(path).frozen_W.data_ptr()for path in LEAVES}
+    contract._training_session_used=True
+    rng=torch.get_rng_state().clone();result=consume_for_official_inference(contract)
+    assert result is model and torch.equal(torch.get_rng_state(),rng)
+    assert set(model.state_dict())==set(original.state_dict())
+    assert all(type(model.get_submodule(path))is official.CategorySpecificLinear for path in LEAVES)
+    assert all(model.get_submodule(path).W.data_ptr()==pointers[path]for path in LEAVES)
+    with torch.no_grad():assert torch.equal(model(*args),expected)
+    for name,value in model.state_dict().items():assert torch.equal(value,original.state_dict()[name])
+    assert all(not p.requires_grad for p in model.parameters())
+    with pytest.raises(ValueError):contract.validate()
+    with pytest.raises(ValueError):consume_for_official_inference(contract)

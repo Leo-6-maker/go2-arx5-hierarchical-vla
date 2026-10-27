@@ -47,6 +47,9 @@ class TargetCategoryLinear(nn.Module):
              and not list(original.named_buffers()), 'ONLY_PINNED_CATEGORY_LINEAR_LAYOUT')
         self.target = target
         self.num_categories = w.shape[0]
+        # The already-qualified upstream leaf type is needed for ordinary
+        # inference export. It is not a child module or saved tensor.
+        self._official_linear_type = type(original)
         self.register_buffer('frozen_W', w.detach().clone())
         self.register_buffer('frozen_b', b.detach().clone())
         self.target_W = nn.Parameter(w[target].detach().clone())
@@ -158,6 +161,55 @@ def export_official_state(model):
                 del out[prefix + key]
             out[prefix + 'W'], out[prefix + 'b'] = module.official_tables()
     return out
+
+
+def consume_for_official_inference(contract):
+    """One-way ordinary upstream reconstruction after the full save.
+
+    This does no inference, disk write, checkpoint admission or accounting.
+    The native caller must first seal the full wrapped training checkpoint,
+    debit a load, save/reload the ordinary inference package, then use the
+    original fixed_draw for the reserved same-input/seed output comparison.
+    Reusing this consumed contract for any training or restore is forbidden.
+
+    Reuse frozen table storage after substituting the learned target. Building
+    a second whole12GB model/state_dict beside AdamW would inflate peak memory.
+    The original full-state checkpoint on disk remains unchanged.
+    """
+    contract.validate()
+    need(getattr(contract,'_training_session_used',False)
+         and not getattr(contract,'_official_inference_consumed',False),
+         'ONLY_COMPLETED_TRAINING_CONTRACT_ONCE_FOR_INFERENCE')
+    leaves=[(name,contract.model.get_submodule(name))for name in LEAVES]
+    replacements=[]
+    # Validate all ordinary leaf constructors before consuming any table.
+    for path,wrapped in leaves:
+        with torch.random.fork_rng(devices=[]),torch.device('meta'):
+            ordinary=wrapped._official_linear_type(wrapped.num_categories,
+                wrapped.frozen_W.shape[1],wrapped.frozen_W.shape[2])
+        need(set(dict(ordinary.named_parameters()))=={'W','b'}
+             and not list(ordinary.named_buffers())
+             and ordinary.W.shape==wrapped.frozen_W.shape
+             and ordinary.b.shape==wrapped.frozen_b.shape,
+             'EXACT_ORIGINAL_UPSTREAM_CATEGORY_LINEAR_EXPORT')
+        replacements.append((path,wrapped,ordinary))
+    contract._official_inference_consumed=True
+    contract.model.requires_grad_(False)
+    with torch.no_grad():
+        for path,wrapped,ordinary in replacements:
+            wrapped.frozen_W[wrapped.target].copy_(wrapped.target_W)
+            wrapped.frozen_b[wrapped.target].copy_(wrapped.target_b)
+            ordinary.W=nn.Parameter(wrapped.frozen_W.detach(),requires_grad=False)
+            ordinary.b=nn.Parameter(wrapped.frozen_b.detach(),requires_grad=False)
+            parent,_,name=path.rpartition('.')
+            setattr(contract.model.get_submodule(parent),name,ordinary)
+    for handle in contract.hooks:handle.remove()
+    contract.hooks=[]
+    contract.model.eval()
+    need(not any(isinstance(m,TargetCategoryLinear)for m in contract.model.modules())
+         and not any(p.requires_grad for p in contract.model.parameters()),
+         'OFFICIAL_INFERENCE_HAS_NO_WRAPPER_OR_TRAINABLE_STATE')
+    return contract.model
 
 
 def restore_parameter_state(contract, state, saved_contract):

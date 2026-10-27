@@ -66,7 +66,8 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
     parts = components()
     from .minimal_package import validate as package, reservation_credit
     adopted_package=package(global_value)
-    additional = (dict(adopted_package['remaining_resources'])if adopted_package is not None else
+    from .minimal_execution import forecast_remaining
+    additional = (forecast_remaining(global_value)if adopted_package is not None else
                   _vector({key: sum(row[key] for row in parts.values())
                            for key in baseline['dimensions']}))
     own_credit=reservation_credit(global_value,historical_LOCAL_bytes,baseline)

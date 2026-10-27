@@ -122,7 +122,11 @@ def validate_items(value):
     from scripts.pi0294.generalization import amd_training_accounting as gen_train
     GEN_training=[s for s in typed if s.get('platform_training_version')==gen_train.VERSION]
     if GEN_training and gen_train.rows(value)!=GEN_training:fail('EXACT_GEN1_INDEPENDENT_TRAINING_ROWS')
-    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor and s not in GEN_training]
+    from scripts.pi0294.generalization import minimal_execution as minimal
+    minimal_rows=[s for s in typed if s.get('platform_training_version')==minimal.VERSION]
+    if minimal_rows and minimal.rows(value)!=minimal_rows:
+        fail('EXACT_ADOPTED_MINIMAL_FIRST512_MAIN_NOT_OLD_SOURCE_ARM')
+    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor and s not in GEN_training and s not in minimal_rows]
     if len(compatibility)>1:fail('ONE_COMPATIBILITY_ALLOCATION_NOT_AUTOMATIC_RETRIES')
     for s in compatibility:validate_item(s)
     if source:

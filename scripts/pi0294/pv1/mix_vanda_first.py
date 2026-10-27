@@ -51,7 +51,11 @@ def budget_LOCAL(g, local):
     """Pure budget projection; never a native read, write or Core permission."""
     m = validated(g)
     from . import mix_core_recovery as recovered
-    if recovered.FIELD in g:return recovered.budget_LOCAL(g,local)
+    if recovered.FIELD in g:
+        value=recovered.budget_LOCAL(g,local)
+        from scripts.pi0294.generalization import minimal_execution
+        if minimal_execution.FIELD in g:return minimal_execution.budget_LOCAL(g,value)
+        return value
     if m is None or m['LOCAL_sync'] == 'SYNCED':
         return local
     need(a.sha(a.raw(local)) == LOCAL_SHA, 'EXACT_LAST_CONFIRMED_LOCAL_BYTES')

@@ -38,7 +38,11 @@ def native_job(r):
             or job.get('Variable_List',{}).get('PV1_SUBMISSION_NONCE')!=r['submission_nonce']
             or host.split('.')[0] not in {v.split('/')[0].split('.')[0] for v in job['exec_host'].split('+')}):
         fail('OWN_ACTUAL_RUNNING_JOB_REQUEST_AND_NODE_BEFORE_RELEASE')
-    native.select_profile(job['Resource_List'],r)
+    from scripts.pi0294.generalization import minimal_execution
+    if r.get('platform_training_version')==minimal_execution.VERSION:
+        minimal_execution.select_profile(job['Resource_List'],r)
+    else:
+        native.select_profile(job['Resource_List'],r)
     return job_id,host,job
 
 

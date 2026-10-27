@@ -60,12 +60,15 @@ def validate(g):
     remaining=_vector(p['remaining_resources'])
     authority.need(all(remaining[k]<=p['original_resources'][k]for k in remaining),
                    'PACKAGE_NONNEGATIVE_ORIGINAL_REMAINING_RESOURCES')
-    # This transition implements only whole reservation. Dispatch and terminal
-    # session transitions require their typed native rows in a later owner join.
-    authority.need(p['completed_sessions']==[] and p['registered_requests']==[]
-        and p['remaining_resources']==p['original_resources']
-        and p['status']=='GLOBAL_RESERVED_CORE_LOCAL_PENDING_NO_DISPATCH',
-        'PACKAGE_RESERVATION_ONLY_NOT_FAKE_SESSION_COMPLETION')
+    from . import minimal_execution as execution
+    if execution.FIELD in g:
+        execution.validate(g)
+        remaining=execution.forecast_remaining(g)
+    else:
+        authority.need(p['completed_sessions']==[] and p['registered_requests']==[]
+            and p['remaining_resources']==p['original_resources']
+            and p['status']=='GLOBAL_RESERVED_CORE_LOCAL_PENDING_NO_DISPATCH',
+            'PACKAGE_RESERVATION_ONLY_NOT_FAKE_SESSION_COMPLETION')
     old=g[original.PACKAGE]['remaining_resources']
     for key in TRACKED:
         authority.need(g['reserved'][key]>=remaining[key]+old[key],
@@ -95,7 +98,8 @@ def reservation_credit(g, historical_LOCAL_bytes, baseline):
     from scripts.pi0294.pv1.evaluation_admission import resource_floor
     projected_LOCAL=budget_LOCAL(g,json.loads(historical_LOCAL_bytes))
     _,held=resource_floor(g,projected_LOCAL)
-    view=deepcopy(g);v=p['remaining_resources']
+    from .minimal_execution import forecast_remaining
+    view=deepcopy(g);v=forecast_remaining(g)
     for key in TRACKED:view['reserved'][key]-=v[key]
     view['CPU_reserved_s']-=v['Hopper_CPU_s']
     view['storage_reserved_bytes']-=v['Hopper_storage_bytes']

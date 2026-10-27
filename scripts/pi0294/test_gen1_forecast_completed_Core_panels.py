@@ -37,3 +37,22 @@ def test_no_credit_for_engineering_partial_unknown_or_only_completed_string(actu
     elif kind=='lease':proof['GPU_lease_sha256']=None
     else:proof['history']['schema']='SUMMARY_NOT_VALIDATED_ORIGINAL24'
     with pytest.raises(PermissionError):s.original_remaining_panels(g)
+
+
+def test_original_virtual_D_PBS_projection_survives_audited_C_close(actual):
+    from scripts.pi0294.generalization.amd_training_accounting import effective_original_eval_PBS
+    from scripts.pi0294.generalization.minimal_package import validate
+    g=completed_fixture(actual)
+    assert g[a.PACKAGE]['remaining_resources']['PBS_submissions']==1
+    assert effective_original_eval_PBS(g,1)==0
+    # Exercise the original GLOBAL entry, not only the phase parser. It calls
+    # minimal_package -> original GEN1 projection on the real captured grants.
+    a.validate_global(g);validate(g)
+
+
+def test_stage_string_alone_never_removes_legacy_D_PBS_hold(actual):
+    from scripts.pi0294.generalization.amd_training_accounting import effective_original_eval_PBS
+    g=deepcopy(actual);g[a.PACKAGE]['completed_stages'].append(c.key('C50'))
+    with pytest.raises(PermissionError):effective_original_eval_PBS(g,1)
+    for count in (0,2):
+        with pytest.raises(PermissionError):effective_original_eval_PBS(actual,count)
