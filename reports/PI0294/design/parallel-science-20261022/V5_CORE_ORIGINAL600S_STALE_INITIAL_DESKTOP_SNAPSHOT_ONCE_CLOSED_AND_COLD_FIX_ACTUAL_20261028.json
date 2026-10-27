@@ -1,0 +1,67 @@
+{
+  "schema": "V5_CORE_ORIGINAL600S_STALE_INITIAL_DESKTOP_EPOCH_REPAIR_ACTUAL_V1",
+  "date": "2026-10-28",
+  "runtime_source": "f4c00131ce5011f619233a0eaa4f67d123ebc1c9",
+  "request_id": "d6a4e1a8-5a2e-4581-b7cd-651dc7108fd1",
+  "observed_epoch": 1793120227.3393092,
+  "native_exit_status": 1,
+  "original_owner_natural_OS_exit_status": 0,
+  "behavior_conditions": 0,
+  "model_load_attempts": 0,
+  "neural_queries": 0,
+  "physics_integrations": 0,
+  "actual_nominal_cycles": 80,
+  "actual_matching_ACKs": 80,
+  "actual_saved_heartbeat_reads": 81,
+  "actual_saved_heartbeat_elapsed_s": 600.0083491681144,
+  "full_premodel_qualification": false,
+  "model_release": false,
+  "failure": "Final current_identity first reparsed the immutable initial desktop observation against current wall clock after600s. It rejected that saved snapshot as older than120s before reaching the fresh current kernel/GPU reader.",
+  "engineering_cold_fix": "Reparse the immutable initial raw GPU/kernel snapshot at its bound process observation epoch. Keep fresh observe_current kernel/device reads and the original120s current freshness checks.",
+  "original120s_freshness_unchanged": true,
+  "original600s80cycle_and_watchdogs_unchanged": true,
+  "actual_spending": {
+    "GPU_s": 679,
+    "neural_CPU_s": 4,
+    "physical_CPU_s": 303.128309523
+  },
+  "financial_GLOBAL_sha256": "1a212e26e9cec2349e7a61b5abcb3c2227fa44ae2a584e8b234d0af1c4de63dc",
+  "financial_LOCAL_sha256": "9cc68c315eacdb11717a215d59114ab091bbc741b142771b98d080618de5ec4e",
+  "original_once_settlement_independently_reconciled": true,
+  "three_actual_lease_states": {
+    "GPU": "CLOSED",
+    "physical": "CLOSED",
+    "control": "CLOSED"
+  },
+  "control_only_remaining_close": "Independent original-owner dual settlement/GPU/physical close confirmed; a distinct once action closed only the remaining control lease. No settlement or other close replay.",
+  "original_terminal_native_sha256": "166dbe306e07c826b8d31dcda53724c6cbccc941ac010978bd9310e53ccfad1f",
+  "actual_saved_terminal_readback_sha256": "c2d8d018c9b623809f08ea8a5a5a9f638e457a9c24b40e7e3f51b3e7cecde72f",
+  "pure_next_continuation": {
+    "new_request_id": "75c63c6e-c3f6-41cc-adae-a62971b26e74",
+    "full_future_shortfalls": {},
+    "all_old_rows_costs_peaks_preserved": true,
+    "new_PBS": 0,
+    "native_adopted": false
+  },
+  "CPU_tests": {
+    "exact_desktop_actual_capture_and_related": 115,
+    "broader_unchanged_paths": 80,
+    "actual_C08_saved_immutable_admission_reparse_ages_s": [
+      601,
+      1201,
+      3601
+    ],
+    "live_current_reader_still_required": true,
+    "future_actor_and_source_are_CPU_fixtures": true,
+    "initial_missing_explicit_private_capture_skips": 15,
+    "explicit_capture_rerun": "15 PASS",
+    "total_nonduplicated_pass": 195
+  },
+  "original15_numerical_files_unchanged": true,
+  "new_cap": false,
+  "new_clock": false,
+  "matrix3_and_final20GPUh40GiB_protected": true,
+  "E1_E2_actual_qualification_or512": false,
+  "whole_goal_complete": false,
+  "next_minimum_blocker": "New cold source full publication/readback and once exact zero-effect continuation; fresh actual registered process and complete original600s80cycles/model gates, then originalC50 Dev24. Do not reuse historical C08 samples as a new native qualification."
+}

@@ -62,6 +62,29 @@ def filter_processes(process_raw,request,*,proof,now_epoch):
     return out.getvalue(),dict(grant_sha256=GRANT_SHA,kernel_read=proof,authorized_desktop_rows=authorized)
 
 
+def recorded_device(process,request):
+    """Reparse an immutable initial observation, without granting current use.
+
+    The initial kernel and GPU reads belong to the process's recorded epoch.
+    Current admission still calls observe_current, which obtains new raw reads
+    and applies the original 120-second freshness requirement against now.
+    """
+    from .evaluation_core_identity import parse_GPU_rows
+    proof=process['device']['exact_desktop_coexistence']['kernel_read']
+    need(process['boot_id']==proof['boot_id']
+         and process['started_epoch']<=proof['observed_epoch']<=process['observed_epoch'],
+         'RECORDED_KERNEL_READ_BOUND_TO_INITIAL_PROCESS_OBSERVATION')
+    raw=process['native_GPU_raw']
+    filtered,receipt=filter_processes(raw['processes']['stdout'],request,
+        proof=proof,now_epoch=process['observed_epoch'])
+    device=parse_GPU_rows(raw['devices']['stdout'],filtered,
+        GPU_uuid=request['GPU_uuid'],own_pid=process['pid'])
+    need(device['total_bytes']-device['used_bytes']>=30*1024**3,
+         'RECORDED_PREMODEL_30GIB_FREE')
+    device['exact_desktop_coexistence']=receipt
+    return device
+
+
 def owner_kernel_helpers(original_bytes):
     """Cold fix of the exact original helper; never rewrite a running owner."""
     import hashlib,ast

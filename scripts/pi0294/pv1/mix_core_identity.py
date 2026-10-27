@@ -215,10 +215,11 @@ def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha2
     raw = p['native_GPU_raw']
     need(set(raw) == {'devices', 'processes'} and all(type(v.get('returncode')) is int
          and v['returncode'] == 0 for v in raw.values()), 'SUCCESSFUL_COMPLETE_NATIVE_GPU_READS')
-    need(original.parse_GPU_rows(raw['devices']['stdout'], raw['processes']['stdout'],
-         GPU_uuid=r['GPU_uuid'],own_pid=p['pid']if 'Core_desktop_coexistence_grant_sha256'in r else None,
-         desktop_request=r if 'Core_desktop_coexistence_grant_sha256'in r else None,
-         desktop_proof=p['device'].get('exact_desktop_coexistence',{}).get('kernel_read')) == p['device'], 'EXACT_DEVICE_RAW_READ_MATCH_WITHOUT_OLD_SHARED_GRANT')
+    from . import mix_core_desktop as desktop
+    device=(desktop.recorded_device(p,r)if desktop.FIELD in r else
+        original.parse_GPU_rows(raw['devices']['stdout'],raw['processes']['stdout'],
+            GPU_uuid=r['GPU_uuid']))
+    need(device == p['device'], 'EXACT_DEVICE_RAW_READ_MATCH_WITHOUT_OLD_SHARED_GRANT')
     return allocation
 
 
