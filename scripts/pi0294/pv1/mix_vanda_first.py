@@ -50,6 +50,8 @@ def validated(g):
 def budget_LOCAL(g, local):
     """Pure budget projection; never a native read, write or Core permission."""
     m = validated(g)
+    from . import mix_core_recovery as recovered
+    if recovered.FIELD in g:return recovered.budget_LOCAL(g,local)
     if m is None or m['LOCAL_sync'] == 'SYNCED':
         return local
     need(a.sha(a.raw(local)) == LOCAL_SHA, 'EXACT_LAST_CONFIRMED_LOCAL_BYTES')
@@ -150,7 +152,8 @@ def propose(global_bytes, local_bytes, *, authority_bytes, closure_capture_bytes
 
 def pending(g):
     m = validated(g)
-    return m is not None and m['LOCAL_sync'] == 'PENDING'
+    from . import mix_core_recovery as recovered
+    return m is not None and m['LOCAL_sync'] == 'PENDING' and recovered.validate(g)is None
 
 
 def reconcile_LOCAL(global_bytes, local_bytes, *, D25_terminal_capture):

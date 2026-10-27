@@ -148,6 +148,8 @@ def paired(g, l):
     from .mix_vanda_first import pending
     need(not pending(g), 'ACTUAL_LOCAL_RECONCILIATION_REQUIRED_BEFORE_CORE_ADMISSION')
     a.validate_global(g)
+    from . import mix_core_recovery as recovered
+    recovered.paired(g,l)
     need(s.validated(l) == s.validated(g) and l[a.PACKAGE] == g[a.PACKAGE],
          'EXACT_REAL_BOTH_LEDGER_PACKAGE_NOT_STALE_CACHED_LOCAL')
     need(g.get('unknown_effects') == g.get('pending_updates') == []
@@ -236,6 +238,8 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
         value.setdefault(FIELD, {})[r['request_id']] = deepcopy(r)
     if stage in w.get('V5_CD_Core_CPU_substages', {}):
         repair_marker=repair.validated(g)
+        from . import mix_core_recovery as recovered
+        repair_marker=recovered.validate(g)or repair_marker
         need(repair_marker is not None and r['request_id']==repair_marker['replacement_request_id']
              and w['V5_CD_Core_CPU_substages'][stage]['status']=='SETTLED_KNOWN_NATIVE_TERMINAL', 'EXACT_CLOSED_PREMODEL_PHYSICAL_PREDECESSOR')
         w.setdefault('V5_CD_historical_closed_Core_CPU_substages',{})[repair.FAILED]=deepcopy(w['V5_CD_Core_CPU_substages'][stage])

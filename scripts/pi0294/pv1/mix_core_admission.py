@@ -83,6 +83,8 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
          and used['local_storage_bytes']>=snap['LOCAL_storage_upper_bytes'],
          'COMPLETE_ORIGINAL_NATIVE_STORAGE_CENSUS_UPPER')
     future=_vector(a.package_view(g)['remaining_resources']);caps=adopted_caps(g);caps.update(marker['authorized_storage_caps'])
+    from scripts.pi0294.generalization.minimal_adoption import effective_caps
+    caps=effective_caps(g,caps)
     credit={k:0 for k in future}
     for k in ('H200_s','optimizer_updates','neural_queries','Hopper_CPU_s','Hopper_storage_bytes','Core_CPU_s','local_CPU_s'):
         credit[k]=min(reserved[k],future[k])
@@ -92,6 +94,16 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
         dimensions[k]=dict(cap=caps[k],used=used[k],reserved=reserved[k],remaining_package=future[k],
             exact_existing_package_credit=credit[k],matrix=MATRIX[k],final=FINAL.get(k,0),
             projected=total,shortfall=max(0,total-caps[k]))
+    from . import mix_core_recovery as recovered
+    recovery_future=None
+    if recovered.validate(g) is not None:
+        from scripts.pi0294.generalization.minimal_scope import first512_forecast
+        recovery_future=first512_forecast(global_bytes,local_bytes)
+        # The complete forecast retains GEN1 and both minimal-adaptation arms.
+        # A larger actual snapshot can only increase its paid/reserved floors.
+        for k,full in recovery_future['dimensions'].items():
+            total=full['projected']+max(0,used[k]-full['used'])+max(0,reserved[k]-full['reserved'])
+            dimensions[k]=dict(full,projected=total,shortfall=max(0,total-full['cap']))
     shortfalls={k:v['shortfall']for k,v in dimensions.items()if v['shortfall']}
     need(not shortfalls,'ALL_ORIGINAL_REMAINING_DIMENSIONS_AND_FINAL_PROTECTED:'+str(shortfalls))
     current_end=start+28860
@@ -104,5 +116,6 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
         request_id=r['request_id'],request_sha256=a.sha(request_bytes),GLOBAL_sha256=a.sha(global_bytes),
         LOCAL_sha256=a.sha(local_bytes),snapshot_sha256=a.sha(snapshot_bytes),native_process_sha256=c.digest(process),
         training_handoff_sha256=r['training_handoff_sha256'],dimensions=dimensions,shortfalls={},
+        recovered_full_campaign_future=recovery_future,
         all_remaining_costs_fit=True,allocation=allocation,original_matrix_and_final_protected=True,
         native_or_scientific_admission=False,model_permission=False,physics_authorized=False,new_native_writes=0)

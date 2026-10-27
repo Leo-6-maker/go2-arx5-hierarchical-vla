@@ -82,9 +82,12 @@ def allocation(g,arm):
 
 def output_credit(g,row):
     m=validated(g)
-    if m and row['request_id']==m['replacement_request_id']:
-        need(row['evaluation_candidate']=='C50'and row['submission_nonce']==m['replacement_submission_nonce']
-             and row['child_run_uuid']==m['replacement_run_uuid']
+    from . import mix_core_recovery as recovered
+    continuation=recovered.validate(g)
+    identity_marker=continuation if continuation and row['request_id']==continuation['replacement_request_id']else m
+    if m and row['request_id']==identity_marker['replacement_request_id']:
+        need(row['evaluation_candidate']=='C50'and row['submission_nonce']==identity_marker['replacement_submission_nonce']
+             and row['child_run_uuid']==identity_marker['replacement_run_uuid']
              and row.get('prepaid_panel_IO_credit_sha256')==a.sha(a.raw(m)), 'NO_CREDIT_ON_ANOTHER_REQUEST_OR_ARM')
         return m['paid_IO_credit']['Hopper_storage_bytes']
     need('prepaid_panel_IO_credit_sha256'not in row,'NO_ORPHAN_PREPAID_PANEL_IO')

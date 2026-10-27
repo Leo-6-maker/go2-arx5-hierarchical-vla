@@ -104,6 +104,9 @@ def validate(root, *, closeout=False):
     from . import mix_core_premodel_repair as repair
     if repair.output_credit({**local},row):
         need(sealed('plans/V5_CD_SAME_PANEL_PREPAID_IO.private.json')==repair.validated(local), 'EXACT_SAME_PANEL_PAID_IO_BINDING')
+        from . import mix_core_recovery as recovered
+        continuation=recovered.validate(local)
+        if continuation is not None:need(sealed('plans/V5_CD_CORE_RECOVERY.private.json')==continuation,'ACTUAL_RECOVERY_CUSTODY_BINDING')
     proof = captured_endpoint(sealed(CAPTURE)); arm = request['evaluation_candidate']
     need(proof['arm'] == arm and proof['checkpoint_manifest_sha256'] == request['checkpoint_manifest_sha256']
          and a.sha(a.raw(proof)) == request['training_handoff_sha256'], 'TRUE_CLOSED_COMPLETE_1024_ENDPOINT')
