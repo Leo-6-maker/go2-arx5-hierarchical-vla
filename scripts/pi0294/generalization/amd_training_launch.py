@@ -2,7 +2,7 @@
 from copy import deepcopy
 from . import amd_training_accounting as a,amd_learning
 
-def template(original_template,*,source_sha,run_uuid,request_id,submission_nonce,scope_marker,closed,original_recipe):
+def template(original_template,*,source_sha,run_uuid,request_id,submission_nonce,scope_marker,closed,original_recipe,retry_marker=None):
     v=deepcopy(original_template)
     v.update(schema='GEN1_ACTUAL_NATIVE_TRAINING_REQUEST_V1',platform_training_version=a.VERSION,
         scope_grant_sha256=a.authority.GRANT_SHA,arm=a.bank.IDENTITY,stage='GEN1_INDEPENDENT_TRAIN1024',
@@ -16,6 +16,15 @@ def template(original_template,*,source_sha,run_uuid,request_id,submission_nonce
     # Manifest and actual cold audit hashes are joined after these immutable
     # files exist. They must never be fabricated/self-referential placeholders.
     for k in ('run_manifest_sha256','cold_input_audit_sha256','request_sha256','submit_count','created_epoch'):v.pop(k,None)
+    if retry_marker is not None:
+        from . import amd_training_retry as retry
+        a.need(retry.GRANT_SHA is not None and retry_marker['grant_sha256']==retry.GRANT_SHA,
+            'TRAIN_COLD_TEMPLATE_REQUIRES_REAL_PINNED_RETRY_AUTHORITY')
+        v.update(retry_generation=1,retry_scope_grant_sha256=retry.GRANT_SHA,
+            retry_predecessor_context_sha256=retry_marker['context_sha256'])
+    else:
+        from .amd_training_retry import REQUEST_KEYS
+        a.need(not any(k in v for k in REQUEST_KEYS),'TRAIN_ORIGINAL_TEMPLATE_HAS_NO_HIDDEN_RETRY')
     return v
 
 def programs(original):

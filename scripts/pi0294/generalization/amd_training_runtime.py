@@ -41,7 +41,7 @@ def root_context(root,request_path,*,full=False):
     g=read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json');mark=authority.validate(g);rows=a.rows(g)
     need(m['scope']==a.VERSION and m['platform_training_version']==a.VERSION
         and m['science']['arm']==r['arm']==training.bank.IDENTITY
-        and m['execution']['profile']==a.PROFILE and m['execution']['agent_liveness_required']is False
+        and m['execution']['profile']==a.profile(r) and m['execution']['agent_liveness_required']is False
         and m['output_root']==b['run_root']==str(root)and m['run_uuid']==root.name
         and b['uid']==os.getuid()==22182 and b['run_manifest_sha256']==sha(root/'RUN_MANIFEST.json')==r['run_manifest_sha256']
         and m['code']['vla_commit']==r['source_sha']and r['T_CD']==mark['T_CD']
@@ -54,7 +54,7 @@ def root_context(root,request_path,*,full=False):
     need(lease['status']=='ACTIVE'and lease['run_uuid']==root.name and lease['manifest_sha256']==r['run_manifest_sha256']
         and lease['deadline_epoch']==r['deadline_epoch']and len(reg)==1 and reg[0]['path']==str(root)
         and mark['T_CD']<=time.time()<mark['deadline_epoch'],'TRAIN_REAL_OWN_LEASE_REGISTRY_AND_ORIGINAL_CLOCK')
-    profiles=[x for x in read(b['environment'])['profiles']if x['name']==a.PROFILE]
+    profiles=[x for x in read(b['environment'])['profiles']if x['name']==a.profile(r)]
     need(len(profiles)==1 and profiles[0]['manifest']==str(root/'RUN_MANIFEST.json')
         and profiles[0]['entry_module']=='scripts.pi0294.generalization.amd_training_runtime'
         and profiles[0]['PBS_required']is True,'TRAIN_REGISTERED_EXPLICIT_GEN_ENVIRONMENT_PROFILE')
@@ -79,6 +79,9 @@ def root_context(root,request_path,*,full=False):
         and sha(source_binding['lease'])==closed['lease_sha256']and read(source_binding['lease'])['status']=='CLOSED'
         and sha(source/'RESOURCE_LEDGER.json')==closed['all_captured_files_sha256']['RESOURCE_LEDGER.json'],
         'TRAIN_FRESH_ORIGINAL_CLOSED_SOURCE_ROLE_AND_PRESERVED_FAILED_COUNTER')
+    if r.get('retry_generation')==1:
+        from .amd_training_retry import verify_registered_root
+        verify_registered_root(root,r)
     verify_consumers(root);return m,r
 
 def guard(root,allocation,*,startup=False):

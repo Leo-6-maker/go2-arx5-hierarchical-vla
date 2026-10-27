@@ -65,6 +65,8 @@ def validate_global(g):
     from scripts.pi0294.generalization import amd_adoption as gen1
     if gen1.FIELD in g:
         caps.update(gen1.validate(g)['caps'])
+        from scripts.pi0294.generalization.amd_training_retry import effective_caps
+        caps=effective_caps(g,caps)
         if 'official_export'in g[gen1.FIELD]:
             from scripts.pi0294.generalization.amd_export_accounting import rows as GEN_export_rows
             GEN_export_rows(g)

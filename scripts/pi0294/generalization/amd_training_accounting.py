@@ -1,4 +1,4 @@
-"""One explicit GEN1 training row in the original campaign, never a C/D arm.
+"""Explicit GEN1 rows in the original campaign, never a C/D arm.
 
 Pure proposals only. Actual owner/PBS, project, source, data and release checks
 remain required. Existing C/D escrow, paid failures and clocks are immutable.
@@ -138,13 +138,28 @@ def validate_request(r,*,central=False):
     else:need(re.fullmatch(r'[0-9]+\.stdct-mgmt-02',r['job_id'])is not None,'TRAIN_ACTUAL_VANDA_JOB')
     if central:need(re.fullmatch('[0-9a-f]{64}',r.get('request_sha256',''))is not None,'TRAIN_CENTRAL_REQUEST_HASH')
     else:need('request_sha256'not in r,'TRAIN_NO_SELF_REFERENTIAL_REQUEST_HASH')
+    from . import amd_training_retry as retry
+    if any(k in r for k in retry.REQUEST_KEYS):retry.validate_request(r)
     return r
+
+def profile(r):
+    from . import amd_training_retry as retry
+    if any(k in r for k in retry.REQUEST_KEYS):
+        retry.validate_request(r);return retry.PROFILE
+    return PROFILE
 
 def rows(g):
     adopted=authority.validate(g);items=[r for r in g['PBS_submissions']if r.get('platform_training_version')==VERSION]
-    marker=adopted.get(FIELD);need(len(items)<=1 and bool(items)==bool(marker),'TRAIN_ONE_GEN_REQUEST_NO_AUTORETRY')
-    for r in items:
+    from . import amd_training_retry as retry
+    original_marker=adopted.get(FIELD);new=retry.validate(g)
+    need(len(items)<=(2 if new else 1)and bool(items)==bool(original_marker)
+        and (not new or ('training'in new)==(len(items)==2)),
+        'TRAIN_ONE_GEN_REQUEST_OR_EXACT_GRANTED_SINGLE_COLD_RETRY')
+    for index,r in enumerate(items):
+        marker=original_marker if index==0 else retry.marker_for(g,index)
         validate_request(r,central=True)
+        if index==1:retry.check_bound(g,r)
+        else:need(not any(k in r for k in retry.REQUEST_KEYS),'TRAIN_FIRST_ROW_NOT_A_RETRY_ALIAS')
         need(r['T_CD']==adopted['T_CD']and r['deadline_epoch']==adopted['deadline_epoch']
             and all(marker[k]==r[k]for k in ('request_id','request_sha256','run_manifest_sha256',
                 'closed_export_sha256','bank_manifest_sha256','recipe_sha256')),'TRAIN_EXACT_ACTUAL_BINDING_AND_CLOCK')
@@ -178,7 +193,11 @@ def effective_original_eval_PBS(g,remaining_PBS):
 
 def register(g,r,*,closed,original_recipe,historical_LOCAL_bytes,now_epoch):
     from . import amd_learning
-    adopted=authority.validate(g);validate_request(r,central=True);need(not rows(g),'TRAIN_REGISTER_ONLY_ONCE')
+    from . import amd_training_retry as retry
+    adopted=authority.validate(g);validate_request(r,central=True);previous=rows(g)
+    if previous:
+        need(retry.FIELD in g,'TRAIN_REGISTER_ONLY_ONCE');retry.require_register(g,r)
+    else:need(not any(k in r for k in retry.REQUEST_KEYS),'TRAIN_FIRST_REGISTRATION_IS_NOT_A_RETRY')
     source=export.rows(g)[0]
     need(source['status']==STATES[-1]and (
             source['export_finished']is True and source['training_bank_qualified']is True
@@ -213,14 +232,17 @@ def register(g,r,*,closed,original_recipe,historical_LOCAL_bytes,now_epoch):
         LOCAL_CPU_s=15,site_output_bytes=64*1024**2,transfer_bytes=256*1024**2),
         actual_LOCAL_written=False,closed_export=deepcopy(closed),registered_epoch=now_epoch,
         original_C_D_Eval_deferred_to_Core_no_new_Vanda_PBS=True)
-    out[authority.FIELD][FIELD]=marker;out['revision']+=1;rows(out);original.validate_global(out)
+    if previous:out[retry.FIELD]['training']=marker
+    else:out[authority.FIELD][FIELD]=marker
+    out['revision']+=1;rows(out);original.validate_global(out)
     forecast=scope.full_forecast(raw(out),historical_LOCAL_bytes)
     need(not forecast['cap_changes_required'],'TRAIN_ALL_FUTURE_MATRIX_FINAL_NO_SHORTFALL')
     return dict(proposed_global=out,full_remaining_proof=forecast,native_admission=False,
         original_C_D_package_unchanged=out[original.PACKAGE]==g[original.PACKAGE])
 
 def bind(g,request_id,job_id,*,now_epoch):
-    out=deepcopy(g);r=rows(out)[0];need(r['request_id']==request_id and r['job_id']is None
+    out=deepcopy(g);matches=[r for r in rows(out)if r['request_id']==request_id]
+    need(len(matches)==1,'TRAIN_EXACT_ONE_REGISTERED_REQUEST_TO_BIND');r=matches[0];need(r['job_id']is None
         and r['status']==STATES[0],'TRAIN_ONE_KNOWN_QSUB_REPLY_NOT_RESEND')
     r.update(job_id=job_id,status=STATES[1],native_reply_epoch=now_epoch);out['revision']+=1;rows(out);return out
 
@@ -228,7 +250,7 @@ def forecast_credit(g):
     items=rows(g)
     if not items:return {}
     credit={}
-    if items[0]['status']!=STATES[-1]or items[0]['scientific_endpoint_complete']:
+    if items[-1]['status']!=STATES[-1]or items[-1]['scientific_endpoint_complete']:
         credit=dict(H200_s=22560,PBS_submissions=1,optimizer_updates=1024,neural_queries=29,
             Hopper_CPU_s=55800,Hopper_storage_bytes=70000000000+64*1024**2)
     closed=authority.validate(g)[FIELD]['closed_export']
@@ -241,7 +263,8 @@ def forecast_credit(g):
     return credit
 
 def settle_training(g,request_id,*,native,effects,audit,now_epoch):
-    out=deepcopy(g);r=rows(out)[0];need(r['request_id']==request_id and r['status']==STATES[1],
+    out=deepcopy(g);matches=[r for r in rows(out)if r['request_id']==request_id]
+    need(len(matches)==1,'TRAIN_EXACT_ONE_REGISTERED_REQUEST_TO_SETTLE');r=matches[0];need(r['status']==STATES[1],
         'TRAIN_KNOWN_BOUND_NOT_ALREADY_SETTLED')
     need(native['job_state']=='F'and native['job_id']==r['job_id']and native['request_id']==request_id
         and native['submission_nonce']==r['submission_nonce']and type(native['Exit_status'])is int,
@@ -269,5 +292,9 @@ def settle_training(g,request_id,*,native,effects,audit,now_epoch):
         conservative_H200_s=gpu,conservative_CPU_s=cpu,reserved_optimizer_updates=0,reserved_neural_queries=0,
         terminal_native_sha256=sha(raw(native)),terminal_effect_summary_sha256=sha(raw(effects)),
         full_checkpoint_audit_sha256=sha(raw(audit)),settled_epoch=now_epoch)
-    if success:out[authority.FIELD][FIELD]['endpoint']=deepcopy(audit)
+    if success:
+        if r.get('retry_generation')==1:
+            from . import amd_training_retry as retry
+            out[retry.FIELD]['endpoint']=deepcopy(audit)
+        else:out[authority.FIELD][FIELD]['endpoint']=deepcopy(audit)
     out['revision']+=1;rows(out);original.validate_global(out);return out

@@ -48,7 +48,7 @@ class Owner(mature.Owner):
         need(os.getuid()==22182 and os.uname().nodename.startswith('stdct-login-')and os.environ.get('CUDA_VISIBLE_DEVICES')=='',
             'TRAIN_ORIGINAL_METADATA_LOGIN_OWNER_ONLY')
         need(self.manifest['scope']==self.manifest['platform_training_version']==a.VERSION
-            and self.manifest['execution']['profile']==a.PROFILE and self.manifest['execution']['agent_liveness_required']is False
+            and self.manifest['execution']['profile']==a.profile(self.CONFIG['request_template']) and self.manifest['execution']['agent_liveness_required']is False
             and self.binding['run_manifest_sha256']==sha(self.root/'RUN_MANIFEST.json')
             and read(self.binding['lease'])['status']=='ACTIVE','TRAIN_STANDARD_OWN_REGISTERED_ACTIVE_GEN_ROLE')
         rows=[x for x in read(self.binding['registry'])['entries']if x.get('role')==self.binding['role']]
@@ -59,6 +59,13 @@ class Owner(mature.Owner):
             'TRAIN_OWN_IMMUTABLE_GEN_SOURCE_CAPSULE')
         for n,h in seal['files'].items():need(sha(self.code/n)==h,'TRAIN_SOURCE:'+n)
         for n,h in self.manifest['execution']['sealed_inputs'].items():need(sha(self.root/n)==h,'TRAIN_SEALED_INPUT:'+n)
+        if self.CONFIG['request_template'].get('retry_generation')==1:
+            from .amd_training_retry import verify_registered_root
+            # Submit later joins the manifest/audit hashes into the template;
+            # this early same-root check uses its already sealed manifest.
+            verify_registered_root(self.root,dict(self.CONFIG['request_template'],
+                run_manifest_sha256=sha(self.root/'RUN_MANIFEST.json'),
+                cold_input_audit_sha256=sha(self.root/'control/COLD_INPUT_AUDIT.private.json')))
         self.BASE=self.root/'control/resident-owner';self.BASE.mkdir(mode=0o700)
         self.request_template=self.CONFIG['request_template'];self.scope_record=read(self.root/'plans/GEN1_OWNER_RESOURCES.private.json')
         self.last=None;self.current=None;self.cold_rpc_bound=True;self.preserve_readonly_until_deadline=True

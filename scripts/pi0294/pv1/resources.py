@@ -10,9 +10,11 @@ FINAL = dict(H200_s=20*3600, episode_starts=100, neural_queries=9000,
 
 
 def pbs_limit(ledger):
-    """Only the exact adopted B failure grant extends the campaign count."""
+    """Return only the count in an exact adopted campaign authority."""
     from scripts.pi0294.generalization import amd_adoption as gen1
-    if gen1.FIELD in ledger:return gen1.validate(ledger)['caps']['PBS_submissions']
+    if gen1.FIELD in ledger:
+        from scripts.pi0294.generalization.amd_training_retry import effective_caps
+        return effective_caps(ledger,gen1.validate(ledger)['caps'])['PBS_submissions']
     from . import evaluation_scope as dev
     if dev.FIELD in ledger:
         dev.validate_global(ledger);return dev.CAPS['PBS_submissions']
@@ -107,7 +109,7 @@ def admit_resources(used, reserved, request, *, final=False, active_GPUs=0, requ
             caps.update({k:adopted[k] for k in ('H200_s','PBS_submissions')})
         from scripts.pi0294.generalization import amd_adoption as gen1
         if gen1.FIELD in current:
-            caps['PBS_submissions']=gen1.validate(current)['caps']['PBS_submissions']
+            caps['PBS_submissions']=pbs_limit(current)
     for key, cap in caps.items():
         reserve = FINAL.get(key, 0)
         if key == 'physics_ticks':

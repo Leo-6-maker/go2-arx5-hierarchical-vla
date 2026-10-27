@@ -108,6 +108,8 @@ def closed_predecessor(capture,readback):
         all_prior_submission_nonces=[r['submission_nonce']for r in g['PBS_submissions']
             if 'submission_nonce'in r],
         original_C_D_package_sha256=a.sha(a.raw(g[a.original.PACKAGE])),
+        original_C_D_package_identity={k:deepcopy(g[a.original.PACKAGE][k])for k in
+            ('schema','scope_grant_sha256','order','created_epoch','original_resources','endpoints')},
         previous_paid_totals=dict(GPU_s=g['used']['H200_s'],PBS=g['used']['PBS_submissions'],
             updates=g['optimizer_updates'],queries=g['generation_queries'],CPU_s=g['CPU_s'],
             current_output_bytes=g['new_storage_current_bytes'],peak_output_bytes=g['new_storage_peak_bytes']),
@@ -124,7 +126,7 @@ def closed_predecessor(capture,readback):
         additional_explicit_human_count_authority_required=True,
         repeat_Teacher_or_official_export=False,bank_pack_before_model_still_required=True)
 
-def verify_preserved_history(g,context):
+def verify_preserved_history(g,context,*,check_package=True):
     """Fresh downstream readers retain exact prior rows and all paid totals.
 
     This deliberately supplies no second-row schema or mutation permission;
@@ -137,10 +139,18 @@ def verify_preserved_history(g,context):
     a.need(len(rows)>=len(old)and all(a.sha(a.raw(rows[i]))==h for i,h in enumerate(old)),
         'RETRY_EVERY_OLD_SUBMISSION_AND_FAILURE_IMMUTABLE')
     own=[r for r in rows if r.get('request_id')==failure.REQUEST]
-    a.need(len(own)==1 and own[0]==context['original_row']
+    a.need(type(check_package)is bool and len(own)==1 and own[0]==context['original_row']
         and a.sha(a.raw(a.authority.validate(g)[a.FIELD]))==context['original_marker_sha256']
-        and a.sha(a.raw(g[a.original.PACKAGE]))==context['original_C_D_package_sha256'],
-        'RETRY_EXACT_PREDECESSOR_AND_ORIGINAL_C_D_ESCROW')
+        and all(g[a.original.PACKAGE][k]==v for k,v in context['original_C_D_package_identity'].items()),
+        'RETRY_EXACT_PREDECESSOR_AND_ORIGINAL_C_D_PACKAGE_IDENTITY')
+    if check_package:
+        a.need(a.sha(a.raw(g[a.original.PACKAGE]))==context['original_C_D_package_sha256'],
+            'RETRY_BEFORE_REGISTRATION_ALL_ORIGINAL_C_D_ESCROW_UNCHANGED')
+    else:
+        # A permanent count marker must not freeze legitimate later original
+        # Eval accounting. Existing package/order/resource validators retain
+        # those gates; this flag grants no stage or model permission.
+        a.original.package_view(g)
     paid=context['previous_paid_totals']
     current=dict(GPU_s=g['used']['H200_s'],PBS=g['used']['PBS_submissions'],
         updates=g['optimizer_updates'],queries=g['generation_queries'],CPU_s=g['CPU_s'],
@@ -162,7 +172,11 @@ def verify_cold_science(manifest,request,seal,context):
     """
     a.need(context['status']==STATUS and context['registration_admitted']is False,
         'RETRY_EXACT_PREDECESSOR_CONTEXT')
-    a.validate_request(request)
+    # This function checks science parity while count approval may still be
+    # pending. Actual request/root/owner admission validates every retry
+    # authority field separately; never turn CPU parity into such approval.
+    from . import amd_training_retry as retry
+    a.validate_request({k:v for k,v in request.items()if k not in retry.REQUEST_KEYS})
     a.need(request['request_id']not in context['all_prior_request_ids']
         and request['submission_nonce']not in context['all_prior_submission_nonces']
         and request['job_id']is None and request['status']==a.STATES[0],

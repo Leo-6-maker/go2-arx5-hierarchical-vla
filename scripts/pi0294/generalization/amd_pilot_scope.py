@@ -87,6 +87,8 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
     if 'GEN1_AMD_layout_CORR1024_authority' in g:
         from .amd_adoption import validate as adopted_GEN1
         adopted=adopted_GEN1(g)['caps']
+        from .amd_training_retry import effective_caps
+        adopted=effective_caps(g,adopted)
     need(g[a.PACKAGE]['completed_stages']==['TRAIN:C50:1024','TRAIN:D25:1024']
          and g['pending_updates']==g['unknown_effects']==[],'BOTH_CLOSED_TRAININGS_NO_CURRENT_EFFECTS')
     # The conservative historical LOCAL projection already retains the two
