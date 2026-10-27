@@ -112,3 +112,58 @@ def test_unload_releases_contract_reference_before_original_model_cleanup():
     m.unload(instance);gc.collect()
     assert instance.parameter_contract is None and not hasattr(instance,'model')
     assert weak()is None
+
+
+@pytest.fixture
+def saved_tiny_model(tmp_path,monkeypatch):
+    """Real tiny tensor values and file hashes; no GR00T/CUDA qualification."""
+    from test_minimal_arx5_adapter_contract import fixture_pair
+    from scripts.pi0294.generalization.minimal_adapter import parameter_state_fingerprint
+    from scripts.pi0292.durable import write
+    _,model,_,contract,_=fixture_pair()
+    stats=b'{"CPU_FIXTURE_NOT_R0":true}\n';(tmp_path/'statistics.json').write_bytes(stats)
+    monkeypatch.setattr(study,'R0',hashlib.sha256(stats).hexdigest())
+    files=['optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json','config.json',
+        'SAMPLER_STATE.json','FROZEN_PARAMETER_IDENTITY.json','FULL_TRAINING_STATE_IDENTITY.json',
+        'model.safetensors','processor/processor_config.json']
+    for name in files:
+        p=tmp_path/name;p.parent.mkdir(exist_ok=True);p.write_bytes(b'CPU_MEMBER_FIXTURE')
+    write(tmp_path/'ADAPTER_PARAMETER_CONTRACT.json',contract.describe())
+    write(tmp_path/'MODEL_PARAMETER_STATE_IDENTITY.json',parameter_state_fingerprint(model))
+    members={str(p.relative_to(tmp_path)):hashlib.sha256(p.read_bytes()).hexdigest()for p in tmp_path.rglob('*')if p.is_file()}
+    complete=dict(global_step=2,training_identity=contract.arm,qualification_only=True,full_resume=True,
+        session_terminal=True,scheduler_horizon=1024,parameter_state_format='WRAPPED_CATEGORY_TABLES_FULL_RESUME_ONLY',files=members)
+    write(tmp_path/'CHECKPOINT_COMPLETE.json',complete)
+    instance=SimpleNamespace(model=model,parameter_contract=contract,identity=dict(mode=contract.arm,
+        global_step=0,pretrained_revision=m.RAW_REVISION,statistics_sha256=study.R0,files=dict(m.FILES)))
+    return instance,tmp_path,complete
+
+
+def test_trained_or_restored_queries_bind_actual_saved_state_not_raw_parent_hashes(saved_tiny_model):
+    instance,root,_=saved_tiny_model;raw=dict(instance.identity);calls=[]
+    out=m.bind_saved_checkpoint(instance,root,guard=lambda:calls.append('CURRENT_OWNER'))
+    assert calls==['CURRENT_OWNER','CURRENT_OWNER']
+    assert instance.identity['global_step']==2 and instance.identity['files']!=raw['files']
+    assert instance.identity['checkpoint_manifest_sha256']==hashlib.sha256((root/'CHECKPOINT_COMPLETE.json').read_bytes()).hexdigest()
+    assert instance.identity['raw_parent_files_identity']==m.RAW_PARENT_FILES_ID
+    assert instance.identity['raw_parent_files']==m.FILES
+    assert out['actual_parameter_identity']
+
+
+@pytest.mark.parametrize('change',['changed_memory','changed_member','other_arm','not_full','wrong_step','missing_optimizer','wrong_contract'])
+def test_query_provenance_cannot_label_other_model_or_partial_state_as_trained_checkpoint(saved_tiny_model,change):
+    from scripts.pi0292.durable import write
+    instance,root,complete=saved_tiny_model;before=deepcopy(instance.identity)
+    if change=='changed_memory':
+        import torch
+        with torch.no_grad():next(instance.model.parameters()).add_(1)
+    elif change=='changed_member':(root/'model.safetensors').write_bytes(b'CHANGED')
+    elif change=='other_arm':complete['training_identity']='E2_SHARED_ACTION_HEAD'
+    elif change=='not_full':complete['full_resume']=False
+    elif change=='wrong_step':complete['global_step']=1024
+    elif change=='missing_optimizer':complete['files'].pop('optimizer.pt')
+    else:
+        path=root/'ADAPTER_PARAMETER_CONTRACT.json';write(path,dict(wrong=True));complete['files']['ADAPTER_PARAMETER_CONTRACT.json']=hashlib.sha256(path.read_bytes()).hexdigest()
+    write(root/'CHECKPOINT_COMPLETE.json',complete)
+    with pytest.raises(ValueError):m.bind_saved_checkpoint(instance,root,guard=lambda:None)
+    assert instance.identity==before

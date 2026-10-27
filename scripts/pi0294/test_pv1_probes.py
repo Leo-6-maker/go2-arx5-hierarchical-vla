@@ -109,6 +109,38 @@ class FixedProbeContracts(unittest.TestCase):
             draw.assert_not_called();self.assertEqual(original.read_text(),'UNRELATED_ORIGINAL_BYTES')
             self.assertTrue(instance.model.training)
 
+    def test_minimal512_reuses_original_all_twelve_plan_and_journal_without_1024_alias(self):
+        from scripts.pi0294.generalization import minimal_execution as e
+        with tempfile.TemporaryDirectory()as tmp:
+            root=Path(tmp);dataset,instance=self.probe_inputs(root);path=root/probes.PLAN;original=path.read_bytes()
+            manifest=json.loads((root/'RUN_MANIFEST.json').read_bytes());manifest.update(scope=e.scope.SCOPE,platform_training_version=e.VERSION)
+            manifest['execution']['profile']=e.PROFILE;(root/'RUN_MANIFEST.json').write_text(json.dumps(manifest));dataset.statistics_sha=e.R0
+            instance.identity.update(schema='ARX5_MINIMAL_ACTUAL_WRAPPED_CHECKPOINT_IDENTITY_V1',global_step=512,
+                mode=e.training.ARMS[0],qualification_only=False,parameter_state_format='WRAPPED_CATEGORY_TABLES_FULL_RESUME_ONLY',
+                raw_parent_files_identity=e.training.RAW_PARENT_FILES_ID,statistics_sha256=e.R0)
+            operations=[]
+            with patch.object(probes.model,'payload',return_value={'fixed':'observation'}),\
+                    patch.object(probes.model,'fixed_draw',side_effect=self.journal_draw(root,operations)),\
+                    patch.object(probes,'error_metrics',return_value={'CPU_fixture':True}),\
+                    patch.object(probes,'gate_action',return_value={'decision':'REJECT'}):
+                with self.assertRaises(PermissionError):probes.run(root,'OLD1024',instance,dataset,None,lambda:None)
+                self.assertEqual(operations,[])
+                value=probes.run_minimal512(root,'E1-FORMAL512',instance,dataset,None,lambda:None)
+                self.assertEqual(len(operations),12);self.assertEqual(value['checkpoint_step'],512)
+                self.assertEqual(value['original_probe_plan_checkpoint_step'],1024)
+                self.assertEqual(path.read_bytes(),original)
+                self.assertEqual([{k:r[k]for k in('id','lane','task','parent','anchor','noise_seed','split')}for r in value['records']],plan(dataset.rows)['windows'])
+                again=probes.run_minimal512(root,'E1-FORMAL512',instance,dataset,None,lambda:None)
+                self.assertEqual(again['actual_new_queries_this_invocation'],0)
+                self.assertEqual(len(operations),12)
+                for field,bad in [('global_step',1024),('mode','E0_RAW'),('qualification_only',True),('statistics_sha256','CHANGED')]:
+                    saved=instance.identity[field];instance.identity[field]=bad
+                    with self.subTest(field=field),self.assertRaises(PermissionError):probes.run_minimal512(root,'NEW-FORBIDDEN',instance,dataset,None,lambda:None)
+                    instance.identity[field]=saved
+                manifest['platform_training_version']='OLD_CD_SCOPE';(root/'RUN_MANIFEST.json').write_text(json.dumps(manifest))
+                with self.assertRaises(PermissionError):probes.run_minimal512(root,'OTHER-SCOPE',instance,dataset,None,lambda:None)
+                self.assertEqual(len(operations),12)
+
     @staticmethod
     def probe_inputs(root):
         path=root/probes.PLAN;path.parent.mkdir(parents=True)

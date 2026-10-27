@@ -62,21 +62,50 @@ def test_wire_input_hash_excludes_UUID_but_checks_actual_PNG_state_and_instructi
 
 
 def test_existing_wire_payload_preserves_real_observation_and_never_sends_teacher_target(tmp_path):
+    import numpy as np
     panel, capture = fixture_capture()
     obs = capture['observations'][0]
     for row in obs['images']:
         f = tmp_path/(row['camera'] + '.png'); data = row['camera'].encode(); f.write_bytes(data)
-        row['path'] = str(f)
+        row['path'] = '/OLD_OTHER_HOST_NOT_MOUNTED/'+f.name
     prepared = p.prepare(capture, panel)
     case = prepared['cases'][2]  # Same T1 state, the paired T2 instruction.
+    numeric=tmp_path/'numeric.npz'
+    np.savez(numeric,rgb_paths=np.array([[x['camera']+'.png'for x in obs['images']]]*17),
+        rgb_sha256=np.array([[x['sha256']for x in obs['images']]]*17))
+    digest=hashlib.sha256(numeric.read_bytes()).hexdigest()
+    # Deliberately tiny numeric fixture, not a frozen production parent.
+    obs['source_numeric_sha256']['T1']=digest
     class Reader:
-        rows = [({'id': case['source_parent']}, 16)]
+        root=tmp_path
+        raw_bindings={case['source_parent']:str(tmp_path)}
+        rows = [({'id': case['source_parent'],'file':'numeric.npz','sha256':digest,'raw_root':'/OLD_HOST'}, 16)]
         def raw(self, index):
             return obs['state_eef10'], 'TEACHER_ARRAY_MUST_NOT_BE_SENT', None, obs['instructions']['T1']
     payload = p.payload_for_case(case, capture, Reader())
     assert set(payload) == {'snapshot_uuid', 'state_eef10', 'images', 'language', 'frame', 'tcp'}
     assert payload['language'] == obs['instructions']['T2']
     assert p.wire_input_fingerprint(payload) == case['semantic_input_sha256']
+    # An old capture path being unreadable was irrelevant; changing the real
+    # selected host's PNG still fails, without recompressing or substituting it.
+    (tmp_path/'external_rgb.png').write_bytes(b'CHANGED')
+    with pytest.raises(ValueError,match='PNG_BYTES_CHANGED'):
+        p.payload_for_case(case,capture,Reader())
+
+
+@pytest.mark.parametrize('escape',['../outside.png','/outside.png'])
+def test_native_language_payload_rejects_numeric_image_escape(tmp_path,escape):
+    import numpy as np
+    from types import SimpleNamespace
+    h=hashlib.sha256(b'CPU_PNG').hexdigest();numeric=tmp_path/'n.npz'
+    np.savez(numeric,rgb_paths=np.array([[escape,'wrist.png']]*17),rgb_sha256=np.array([[h,h]]*17))
+    digest=hashlib.sha256(numeric.read_bytes()).hexdigest()
+    obs=dict(anchor=16,parent_T1='CPU_PARENT',source_numeric_sha256=dict(T1=digest),
+        images=[dict(camera=x,sha256=h)for x in ['external_rgb','wrist_rgb']])
+    reader=SimpleNamespace(root=tmp_path,raw_bindings={'CPU_PARENT':str(tmp_path)},
+        rows=[(dict(id='CPU_PARENT',file='n.npz',sha256=digest,raw_root=str(tmp_path)),16)])
+    with pytest.raises(ValueError,match='ORIGINAL_TWO_PNG_PATHS'):
+        p.bound_reader_images(obs,reader,0)
 
 
 def test_actual_precontact_capture_freezes_all24_without_neural_or_physics(tmp_path):

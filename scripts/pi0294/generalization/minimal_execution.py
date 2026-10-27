@@ -174,7 +174,10 @@ def validate(g):
     r=items[0];request(r,central=True)
     request_bytes=base64.b64decode(marker['request_base64'],validate=True);saved=json.loads(request_bytes);request(saved)
     need(sha(request_bytes)==r['request_sha256']and all(r.get(k)==v and type(r.get(k))is type(v)for k,v in saved.items())
-        and set(r)-set(saved)<=set(('request_sha256','status','job_id','submitted_epoch','native_reply_epoch')),
+        and set(r)-set(saved)<=set(('request_sha256','status','job_id','submitted_epoch','native_reply_epoch',
+            'native_exit_status','conservative_H200_s','conservative_CPU_s','committed_optimizer_updates',
+            'query_attempts','model_load_attempts','terminal_native_sha256','terminal_effect_summary_sha256',
+            'independent_audit_sha256','settled_epoch','scientific_endpoint_complete')),
         'EXECUTION_ACTUAL_REQUEST_BYTES_NOT_RESTAMPED_ROW')
     from .minimal_measurement import validate as measurement
     proof=measurement(g,base64.b64decode(marker['Core_measurement_capture_base64'],validate=True))
@@ -191,10 +194,13 @@ def validate(g):
         and g['CPU_s']>=marker['before']['CPU_s']+CONTROL['Hopper_CPU_s']
         and g['new_storage_current_bytes']>=marker['before']['new_storage_current_bytes']+CONTROL['Hopper_storage_bytes'],
         'EXECUTION_OLD_COSTS_AND_ONCE_CONTROL_RETAINED')
-    need(type(p['completed_sessions'])is list and p['completed_sessions']==[],
-        'EXECUTION_SESSION_TERMINAL_IMPORT_NOT_IMPLEMENTED_NO_FAKE_COMPLETION')
-    need(r['status']in STATES[:2]and p['status']=='MAIN_NATIVE_REGISTERED',
-        'EXECUTION_REGISTER_BIND_ONLY_NO_UNIMPLEMENTED_TERMINAL')
+    if r['status']==STATES[2]:
+        from .minimal_terminal import validate_terminal
+        validate_terminal(g,r,marker)
+    else:
+        need(type(p['completed_sessions'])is list and p['completed_sessions']==[]
+            and p['status']=='MAIN_NATIVE_REGISTERED'and 'terminal'not in marker,
+            'EXECUTION_ACTIVE_MAIN_HAS_NO_INVENTED_TERMINAL')
     remaining=_vector(p['remaining_resources']);expected=package.resources()
     subtract(expected,main_resources())
     need(remaining==expected,'EXECUTION_EXACT_UNUSED_CORE_EVAL_AND_REPLACEMENT_ESCROW')
@@ -210,6 +216,8 @@ def forecast_remaining(g):
     p=g[package.FIELD]
     if FIELD not in g:return dict(p['remaining_resources'])
     validate(g);v=dict(p['remaining_resources'])
+    if next(r for r in g['PBS_submissions']if r.get('platform_training_version')==VERSION)['status']==STATES[2]:
+        return _vector(v)
     for k,n in native_resources().items():
         # PBS was consumed at registration; transfer/LOCAL CPU were part of
         # the original once control, not a new projected metadata allowance.

@@ -87,14 +87,38 @@ def payload_for_case(case, capture, reader):
     state = [float(v) for v in state]
     study.need(state == obs['state_eef10'] and original_text == obs['instructions']['T1'],
                'CURRENT_ACTUAL_STATE_AND_ORIGINAL_TASK_TEXT_UNCHANGED')
-    images = []
-    for row in obs['images']:
-        image = Path(row['path']).read_bytes()
-        study.need(hashlib.sha256(image).hexdigest() == row['sha256'], 'ORIGINAL_PNG_BYTES_CHANGED')
-        images.append(dict(camera=row['camera'], sha256=row['sha256'],
-                           png_base64=base64.b64encode(image).decode()))
+    images=bound_reader_images(obs,reader,indices[0])
     payload = dict(snapshot_uuid=str(uuid.uuid4()), state_eef10=state, images=images,
                    language=obs['instructions'][case['instruction_task']], frame=FRAME, tcp=TCP)
     study.need(wire_input_fingerprint(payload) == case['semantic_input_sha256'],
                'PREFROZEN_SEMANTIC_MODEL_INPUT_CHANGED')
     return payload
+
+
+def bound_reader_images(observation,reader,index):
+    """Use actual current-host raw bindings, never a capture's old host path.
+
+    The original numeric member selects the two exact PNG files at anchor16.
+    Preserve their encoded bytes; no render, PNG recompression or copied raw
+    data is introduced. The original reader has already checked actual state
+    and image format before this bounded wire-payload read.
+    """
+    import numpy as np
+    from scripts.pi0294.native_dataset import sha
+    row,anchor=reader.rows[index];numeric=Path(reader.root)/row['file']
+    study.need(anchor==observation['anchor']==16 and row['id']==observation['parent_T1']
+        and numeric.resolve().is_relative_to(Path(reader.root).resolve())
+        and sha(numeric)==row['sha256']==observation['source_numeric_sha256']['T1'],
+        'ACTUAL_BOUND_READER_SAME_FROZEN_NUMERIC_MEMBER')
+    rawroot=Path(reader.raw_bindings.get(row['id'],row['raw_root'])).resolve();images=[]
+    with np.load(numeric,allow_pickle=False)as packet:
+        for camera,old in enumerate(observation['images']):
+            rel=Path(str(packet['rgb_paths'][anchor,camera]));path=(rawroot/rel).resolve()
+            study.need(not rel.is_absolute()and '..'not in rel.parts and path.is_relative_to(rawroot)
+                and str(packet['rgb_sha256'][anchor,camera])==old['sha256'],
+                'ACTUAL_BOUND_READER_ORIGINAL_TWO_PNG_PATHS_AND_HASHES')
+            image=path.read_bytes()
+            study.need(hashlib.sha256(image).hexdigest()==old['sha256'],'ORIGINAL_PNG_BYTES_CHANGED')
+            images.append(dict(camera=old['camera'],sha256=old['sha256'],
+                png_base64=base64.b64encode(image).decode()))
+    return images

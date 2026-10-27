@@ -39,11 +39,40 @@ def plan(rows):
 
 
 def run(root,label,instance,dataset,ledger,guard):
+    return _run(root,label,instance,dataset,ledger,guard,minimal512=False)
+
+
+def run_minimal512(root,label,instance,dataset,ledger,guard):
+    """Same twelve inputs/noise, explicitly bound to own minimal512 state.
+
+    The frozen original plan still declares its historical1024 endpoint. Do
+    not rewrite that plan, label512 as1024, change the TRAIN reader or reselect
+    rows. Only a new minimal-scope manifest and actual trained identity may
+    consume this endpoint adapter. Old callers retain their exact1024 gate.
+    """
+    return _run(root,label,instance,dataset,ledger,guard,minimal512=True)
+
+
+def _run(root,label,instance,dataset,ledger,guard,*,minimal512):
     if not isinstance(label,str) or not label or label in ('.','..') or Path(label).name!=label:
         raise PermissionError('PV1_FIXED_TRAIN_PROBE_LABEL_ONLY')
     root=Path(root);manifest=read(root/'RUN_MANIFEST.json');path=root/PLAN;declared=read(path)
+    step=512 if minimal512 else 1024;endpoint={}
+    if minimal512:
+        from scripts.pi0294.generalization import minimal_execution as e
+        identity=instance.identity
+        e.need(manifest.get('scope')==e.scope.SCOPE and manifest.get('platform_training_version')==e.VERSION
+            and manifest['execution'].get('profile')==e.PROFILE
+            and identity.get('schema')=='ARX5_MINIMAL_ACTUAL_WRAPPED_CHECKPOINT_IDENTITY_V1'
+            and identity.get('mode')in e.training.ARMS and identity.get('qualification_only')is False
+            and identity.get('parameter_state_format')=='WRAPPED_CATEGORY_TABLES_FULL_RESUME_ONLY'
+            and identity.get('raw_parent_files_identity')==e.training.RAW_PARENT_FILES_ID
+            and identity.get('statistics_sha256')==getattr(dataset,'statistics_sha',None)==e.R0,
+            'PROBES_EXACT_NEW_MINIMAL512_MANIFEST_CURRENT_CHECKPOINT_AND_ORIGINAL_R0_READER')
+        endpoint=dict(checkpoint_step=512,original_probe_plan_checkpoint_step=1024,
+            minimal_scope=e.scope.SCOPE,arm=identity['mode'])
     if (manifest['execution']['sealed_inputs'].get(PLAN)!=sha(path)
-            or declared!=plan(dataset.rows) or instance.identity['global_step']!=1024):
+            or declared!=plan(dataset.rows) or instance.identity['global_step']!=step):
         raise PermissionError('PV1_EXACT_PREFROZEN_1024_TRAIN_PROBE_NO_ADAPTIVE_RESELECTION')
     by_key={}
     for index,(row,anchor) in enumerate(dataset.rows):
@@ -59,7 +88,7 @@ def run(root,label,instance,dataset,ledger,guard):
     original_training=instance.model.training;records=[];new_queries=0;reused_draws=0
     try:
         binding=dict(probe_plan_sha256=sha(path),dataset_manifest_sha256=dataset.manifest_sha,
-            checkpoint_manifest_sha256=instance.identity['checkpoint_manifest_sha256'],label=label)
+            checkpoint_manifest_sha256=instance.identity['checkpoint_manifest_sha256'],label=label,**endpoint)
         binding_path=folder/'BINDING.json'
         if binding_path.is_symlink():
             raise PermissionError('PV1_NO_PROBE_BINDING_SYMLINK')
@@ -89,7 +118,7 @@ def run(root,label,instance,dataset,ledger,guard):
                 checkpoint_manifest_sha256=instance.identity['checkpoint_manifest_sha256'],
                 new_queries=len(records),actual_new_queries_this_invocation=new_queries,
                 reused_completed_draws=reused_draws,new_physics=0,physical_success_gate=False,
-                records_sha256=digest(records)))
+                records_sha256=digest(records),**endpoint))
         return read(folder/'RESULT.json')
     finally:
         try:instance.model.train(original_training)

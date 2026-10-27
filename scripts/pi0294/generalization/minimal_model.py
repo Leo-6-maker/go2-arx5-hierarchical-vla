@@ -193,3 +193,53 @@ def unload(instance):
     contract=None
     from scripts.pi0294.e1.model import unload as original
     return original(instance)
+
+
+def bind_saved_checkpoint(instance,checkpoint,*,guard):
+    """Bind subsequent original fixed_draw intents to the actual trained state.
+
+    Training or full qualification restore changes the in-memory parameters.
+    Keeping raw-parent file hashes after that mutation would mislabel every
+    saved query. Require the complete own state and actual parameter identity,
+    then retain raw provenance separately from the current checkpoint bytes.
+    This function performs no load, optimizer step or generation.
+    """
+    study.need(callable(guard),'CURRENT_ORIGINAL_OWNER_GUARD_BEFORE_CHECKPOINT_BIND')
+    guard();root=Path(checkpoint)
+    from scripts.pi0292.durable import read
+    from scripts.pi0294.native_dataset import sha
+    from . import minimal_training as training
+    from .minimal_adapter import parameter_state_fingerprint
+    contract=instance.parameter_contract;contract.validate();complete=read(root/'CHECKPOINT_COMPLETE.json')
+    step=complete.get('global_step')
+    study.need(instance.identity.get('mode')==contract.arm in ARMS
+        and instance.identity.get('pretrained_revision')==RAW_REVISION
+        and instance.identity.get('statistics_sha256')==study.R0
+        and step in(2,512)and complete.get('training_identity')==contract.arm
+        and complete.get('qualification_only')is(step==2)
+        and complete.get('full_resume')is True and complete.get('session_terminal')is True
+        and complete.get('scheduler_horizon')==1024
+        and complete.get('parameter_state_format')=='WRAPPED_CATEGORY_TABLES_FULL_RESUME_ONLY',
+        'ONLY_OWN_COMPLETE_STEP2_OR512_NOT_RAW_OR_OTHER_ARM')
+    members=training.checkpoint_members(root,complete['files'])
+    required={'optimizer.pt','scheduler.pt','rng_state.pth','trainer_state.json','config.json',
+        'SAMPLER_STATE.json','statistics.json','ADAPTER_PARAMETER_CONTRACT.json',
+        'FROZEN_PARAMETER_IDENTITY.json','MODEL_PARAMETER_STATE_IDENTITY.json',
+        'FULL_TRAINING_STATE_IDENTITY.json'}
+    study.need(members==complete['files']and members.get('statistics.json')==study.R0
+        and required<=set(members)and any(n.endswith('.safetensors')for n in members)
+        and any(n.startswith('processor/')for n in members)
+        and read(root/'ADAPTER_PARAMETER_CONTRACT.json')==contract.describe(),
+               'CURRENT_COMPLETE_FULL_STATE_MEMBER_BYTES_AND_R0')
+    actual=parameter_state_fingerprint(instance.model)
+    study.need(actual==read(root/'MODEL_PARAMETER_STATE_IDENTITY.json'),
+               'ACTUAL_IN_MEMORY_MODEL_MUST_MATCH_SAVED_OR_RESTORED_CHECKPOINT')
+    guard()
+    identity=dict(schema='ARX5_MINIMAL_ACTUAL_WRAPPED_CHECKPOINT_IDENTITY_V1',mode=contract.arm,
+        global_step=step,checkpoint_manifest_sha256=sha(root/'CHECKPOINT_COMPLETE.json'),
+        files=members,statistics_sha256=study.R0,pretrained_revision=RAW_REVISION,
+        raw_parent_files_identity=RAW_PARENT_FILES_ID,raw_parent_files=dict(FILES),
+        processor='EXISTING_ARX5_NEW_EMBODIMENT10_R0',full_model_loading_exact=True,
+        parameter_state_format=complete['parameter_state_format'],qualification_only=step==2)
+    instance.identity=identity
+    return dict(identity=identity,actual_parameter_identity=actual)

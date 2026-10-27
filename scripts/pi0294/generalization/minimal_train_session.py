@@ -135,14 +135,15 @@ def run_training(root,instance,allocation,ledger,session_id,*,guard,authorize_tr
         'SESSION_ORIGINAL_EXACT_COMMITTED_ENDPOINT_NO_PARTIAL_AS_COMPLETE')
     need(frozen_fingerprint(instance.model)==initial_frozen,'SESSION_FROZEN_PARAMETERS_AND_BUFFERS_UNCHANGED')
     cp=Path(trainer.args.output_dir)/('checkpoint-'+str(expected));complete=read(cp/'CHECKPOINT_COMPLETE.json')
-    need(training.checkpoint_members(cp,complete['files'])==complete['files']
-        and complete['global_step']==expected and complete['full_resume']is True
+    need(complete['global_step']==expected and complete['full_resume']is True
         and complete['qualification_only']is(not context['spec']['formal_candidate']),
         'SESSION_FULL_ORIGINAL_TRAINER_STATE_SAVED_NOT_INFERENCE_ONLY')
+    from .minimal_model import bind_saved_checkpoint
+    current=bind_saved_checkpoint(instance,cp,guard=guard)
     record=dict(status='ACTUAL_MINIMAL_ORIGINAL_TRAINER_SESSION_ENDPOINT_SAVED',session_id=session_id,
         arm=context['spec']['arm'],global_step=expected,cursor=trainer.consumed,
         checkpoint_manifest_sha256=sha(cp/'CHECKPOINT_COMPLETE.json'),
-        full_model_parameter_state=parameter_state_fingerprint(instance.model),
+        full_model_parameter_state=current['actual_parameter_identity'],
         scheduler_horizon=1024,sampler=trainer.sampler.state_dict(trainer.consumed),
         frozen_tensors_unchanged=True,wall_s=time.monotonic()-started,
         synchronized_step_s=context['times'],peak_GPU_bytes=torch.cuda.max_memory_allocated(),
