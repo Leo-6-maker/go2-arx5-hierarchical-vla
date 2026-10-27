@@ -1,0 +1,70 @@
+{
+  "schema": "GEN1_EXACT_CLOSED_PREDECESSOR_COLD_CONTEXT_CPU_ACTUAL_V1",
+  "status": "CPU_CODE_AND_CAPTURED_REAL_INPUTS_VERIFIED_NOT_NATIVE_RETRY_ADOPTION",
+  "code_source": "5dd76acc334903317690ec171659fb5193acd241",
+  "publication_readback": {
+    "full_files": 2,
+    "GitHub_and_gitblob_equal": true
+  },
+  "inputs": {
+    "predecessor_job": "1497713.stdct-mgmt-02",
+    "actual_closed_GLOBAL_sha256": "56bd5f8498e5595564b6d317ad7741f228f7f428ec55ce841086ec045840c764",
+    "actual_closed_lease_sha256": "efa09e3f32bfa1934fb80d4977ac1cce944a63f21b400441d3dbc2b84f62e5af",
+    "context_sha256": "77af96c2b1f82ea535ce61cd86bafa2743d8f0b6557939c6b882c1800e423f8e",
+    "old_rows_preserved": 33,
+    "old_rows_with_actual_nonce": 22,
+    "legacy_rows_without_nonce": 11,
+    "no_legacy_nonce_fabricated": true,
+    "captured_bytes_not_a_new_native_snapshot": true
+  },
+  "implemented": [
+    "Exact sealed failure audit and byte-for-byte full settlement proposal equality",
+    "Both actual once intent/receipt pairs,targets,original before/after hashes and intent hashes",
+    "Exact own CLOSED GPU/control lease and unchanged original deadline",
+    "All old request rows/paid totals/peak and original C/D escrow retained",
+    "Cold packet checks require distinct request/nonce,immutable root/source and same saved exports/bank/recipe",
+    "CommonCORR2048 fresh optimizer1024,R0,all15 frozen numerical files and true887e6562 overlay provenance retained",
+    "Original single-row registration still rejects any second request; predecessor is never counted as approval"
+  ],
+  "validation": {
+    "new_CPU_cases": 44,
+    "related_directed_CPU_passed": 78,
+    "all_locally_runnable_GEN1_CPU_passed": 384,
+    "registered_RGB_torch_dependency_not_run": true,
+    "CI_success_claim": false,
+    "native_scope_or_model_PASS_claim": false,
+    "prior_intermediate_failure_preserved": {
+      "passed": 47,
+      "failed": 12,
+      "errors": 19,
+      "cause": "New context expansion wrongly required nonce on11 legacyHopper rows; preserve entire rows and actual request IDs,record only22 real nonces; no invented legacy values",
+      "repaired_and_rerun": true
+    }
+  },
+  "actual_new_effects": {
+    "PBS": 0,
+    "GPU": 0,
+    "model": 0,
+    "queries": 0,
+    "updates": 0,
+    "physics": 0,
+    "new_requests": 0,
+    "registry": 0,
+    "prepay": 0,
+    "cap_grants": 0
+  },
+  "remaining_minimal_blocker": {
+    "current_PBS_cap": 36,
+    "required_PBS_cap": 37,
+    "prior_exact_question_pending": true,
+    "no_repeated_question": true
+  },
+  "still_required": [
+    "Direct narrow count authority and once adopted marker,if approved",
+    "Integrate new cold request/accounting/owner with exact closed predecessor and fresh fullresource/quota/completequeue admission",
+    "Actual isolated CPU bank qualification before any model release",
+    "Actual independent CORR2048->1024,full state/probe audit,once settlement/closure and later uniform Eval"
+  ],
+  "all_original_caps_clocks_recipe_valid_failures_and_matrix_final_protections_unchanged": true,
+  "goal_complete": false
+}
