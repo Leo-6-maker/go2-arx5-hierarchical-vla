@@ -1,0 +1,41 @@
+{
+  "status": "ACTUAL_ALL_RAW_DELIVERED_KNOWN_PREQUEUE_OWNER_FAILURE_COLD_REPAIR_NOT_NATIVE",
+  "science_source": "8cc8541f219a7988ddbfb88240355487f920bebe",
+  "original_control_source": "f0ab20e60b34c5f3c199ccdb0df2545fbf5b13cf",
+  "raw": {
+    "successful_parents": 11,
+    "files": 14316,
+    "bytes": 690473939,
+    "delivered_table_sha256": "86138319baee74f5ed1480b18040485cb679f64491b2f6392ddeb5899830fd9f",
+    "actual_all_root_logical_bytes_including_retained_chunks": 1268551096,
+    "actual_full_cold_validation": true,
+    "official_processor_run": false
+  },
+  "failure": {
+    "owner_OS_exit": 1,
+    "CPU_s": 10.287214531,
+    "reason": "Login wrapper omitted HF_HUB_OFFLINE and TRANSFORMERS_OFFLINE before immutable runtime validation",
+    "native_job": null,
+    "models": 0,
+    "updates": 0,
+    "processor": false,
+    "GLOBAL_unchanged": true,
+    "original_Journal_or_PBS_directory_created": false,
+    "old_source_and_evidence_preserved": true
+  },
+  "cold_repair": {
+    "original_owner_and_science_unchanged": true,
+    "new_versioned_wrapper": true,
+    "sets_original_compute_offline_flags": true,
+    "requires_exact_failure_OS_and_stderr_and_inactive_actors": true,
+    "requires_unchanged_GLOBAL_and_same_unbound_request": true,
+    "additional_PBS_reservation": 0,
+    "additional_prepay": 0,
+    "old_CPU_preserved_in_original_600s_control": true,
+    "CPU_tests": 23,
+    "initial_test_failure": "changed_GLOBAL fixture raised KeyError; ordered hash guard before parsing and all23 rerun PASS",
+    "native_deployment": false
+  },
+  "next_minimum_blocker": "Publish/full readback the cold wrapper; install versioned metadata and launch same unbound CPU request; actual official R0 support and closed bank precede fresh independent GEN1 CORR1024 training",
+  "goal_complete": false
+}
