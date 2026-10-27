@@ -17,21 +17,26 @@ def candidate_plan(groups,arm):
         panels={label:spec},Teacher_takeover=False,evaluation_data_for_training=False)
 
 
-def stage(arm,*,colocated=False):
+CORE_CONTROL='V5_CD_CORE_PRESEALED_PRODUCTION_RPC_CONTROL_V1'
+
+
+def stage(arm,*,colocated=False,original_core_control=False):
     from .successor_cd import GRANT_SHA
     from .control_budget import PROFILE
     if arm not in ARMS:raise PermissionError('V5_ONLY_C50_D25_EVAL')
-    if type(colocated) is not bool:raise PermissionError('V5_EXPLICIT_COLOCATED_CONTROL_ADAPTER')
+    if type(colocated) is not bool or type(original_core_control) is not bool or (colocated and original_core_control):
+        raise PermissionError('V5_EXPLICIT_DISTINCT_CONTROL_ADAPTER')
     value=dict(schema='V5_CD_ADMITTED_POLICY_EVALUATION_STAGE_V1',task=TASK,
         authority_release=TASK_SOURCE,scope_grant_sha256=GRANT_SHA,candidate=arm,
         population_plan_sha256=POPULATION,statistics_sha256=STATS,
         parent_checkpoint_manifest_sha256=PARENT,checkpoint_step=1024,
         Teacher_takeover=False,normalizer_refit=False,evaluation_data_for_training=False,
         control_budget_profile=PROFILE)
-    if colocated:
+    if colocated or original_core_control:
         from .control_heartbeat import POLICY
         from .visibility import ALGORITHM
         value.update(owner_heartbeat_policy=POLICY,NFS_lookup_cache_assistance=ALGORITHM)
+    if original_core_control:value['production_RPC_control']=CORE_CONTROL
     return value
 
 

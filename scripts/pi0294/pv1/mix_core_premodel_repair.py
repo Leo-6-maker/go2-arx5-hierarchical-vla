@@ -78,8 +78,9 @@ def allocation(g,arm):
     if m and arm=='C50':
         for k,v in m['paid_IO_credit'].items():result[k]-=v
     from . import mix_core_caps_continuation as cont
-    if arm=='C50'and cont.validate_rpc_limit(g)is not None:
-        result['episode_starts']-=1;result['engine_starts']-=1
+    if arm=='C50':
+        consumed=2 if cont.validate_production_control(g)is not None else 1 if cont.validate_rpc_limit(g)is not None else 0
+        result['episode_starts']-=consumed;result['engine_starts']-=consumed
     return result
 
 
@@ -96,7 +97,8 @@ def output_credit(g,row):
     desktop_retry=caps_cont.validate_recorded_desktop(g)
     bound_retry=caps_cont.validate_bound_age(g)
     limit_retry=caps_cont.validate_rpc_limit(g)
-    identity_marker=(limit_retry if limit_retry and row['request_id']==limit_retry['replacement_request_id']else bound_retry if bound_retry and row['request_id']==bound_retry['replacement_request_id']else desktop_retry if desktop_retry and row['request_id']==desktop_retry['replacement_request_id']else peer_retry if peer_retry and row['request_id']==peer_retry['replacement_request_id']else rpc_retry if rpc_retry and row['request_id']==rpc_retry['replacement_request_id']else cap_retry if cap_retry and row['request_id']==cap_retry['replacement_request_id']else next_continuation if next_continuation and row['request_id']==next_continuation['replacement_request_id']else continuation if continuation and row['request_id']==continuation['replacement_request_id']else m)
+    control_retry=caps_cont.validate_production_control(g)
+    identity_marker=(control_retry if control_retry and row['request_id']==control_retry['replacement_request_id']else limit_retry if limit_retry and row['request_id']==limit_retry['replacement_request_id']else bound_retry if bound_retry and row['request_id']==bound_retry['replacement_request_id']else desktop_retry if desktop_retry and row['request_id']==desktop_retry['replacement_request_id']else peer_retry if peer_retry and row['request_id']==peer_retry['replacement_request_id']else rpc_retry if rpc_retry and row['request_id']==rpc_retry['replacement_request_id']else cap_retry if cap_retry and row['request_id']==cap_retry['replacement_request_id']else next_continuation if next_continuation and row['request_id']==next_continuation['replacement_request_id']else continuation if continuation and row['request_id']==continuation['replacement_request_id']else m)
     if m and row['request_id']==identity_marker['replacement_request_id']:
         need(row['evaluation_candidate']=='C50'and row['submission_nonce']==identity_marker['replacement_submission_nonce']
              and row['child_run_uuid']==identity_marker['replacement_run_uuid']

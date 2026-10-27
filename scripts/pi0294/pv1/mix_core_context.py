@@ -125,6 +125,8 @@ def validate(root, *, closeout=False):
         if minimal_gpu_repair.validate(local)is not None:need(sealed('plans/V5_CD_GPU148_AUTHORITY.private.json')==local[minimal_gpu_repair.FIELD],'EXACT_ADOPTED_GPU148_AUTHORITY')
         limit_retry=caps_cont.validate_rpc_limit(local)
         if limit_retry is not None:need(sealed('plans/V5_CD_ZERO_INTEGRATION_RPC_CPU_LIMIT_CONTINUATION.private.json')==limit_retry,'ACTUAL_RPC_CPU_LIMIT_CONTINUATION')
+        control_retry=caps_cont.validate_production_control(local)
+        if control_retry is not None:need(sealed('plans/V5_CD_ZERO_INTEGRATION_PRODUCTION_RPC_CONTROL_CONTINUATION.private.json')==control_retry,'ACTUAL_PRODUCTION_RPC_CONTROL_CONTINUATION')
     proof = captured_endpoint(sealed(CAPTURE)); arm = request['evaluation_candidate']
     need(proof['arm'] == arm and proof['checkpoint_manifest_sha256'] == request['checkpoint_manifest_sha256']
          and a.sha(a.raw(proof)) == request['training_handoff_sha256'], 'TRUE_CLOSED_COMPLETE_1024_ENDPOINT')
@@ -134,11 +136,13 @@ def validate(root, *, closeout=False):
          and checkpoint['full_resume_files_present'] is False
          and Path(checkpoint['checkpoint']).resolve() == (root/'model_views'/arm).resolve(),
          'FIXED_1024_INFERENCE_VIEW_NOT_A_NEW_TRAIN_OR_OLD_AB_MODEL')
-    from .mix_evaluation import session_spec, candidate_plan, stage
+    from .mix_evaluation import session_spec, candidate_plan, stage, CORE_CONTROL
+    control_selector=m['execution'].get('production_RPC_control')
+    need(control_selector in (None,CORE_CONTROL),'KNOWN_PRESEALED_PRODUCTION_CONTROL_VERSION')
     session_spec(root, arm+'-DEV-N294101')
     population=sealed('plans/PV1_DATA_PLAN_AND_SPLIT_SEAL.json')
     need(sealed('plans/SOURCE_EVALUATION_PLAN.json')==candidate_plan(population['groups'],arm)
-         and sealed('PV1_STAGE_BINDING.json')==stage(arm)
+         and sealed('PV1_STAGE_BINDING.json')==stage(arm,original_core_control=control_selector==CORE_CONTROL)
          and m['execution']['sealed_inputs']['plans/SOURCE_EVALUATION_PLAN.json']==request['planned_panel_sha256'],
          'SAME_ORIGINAL_PANEL_AND_FROZEN_CONTROL_STAGE')
     sealed('plans/INITIAL_CORR_PARAMETER_INVENTORY.json'); sealed('plans/PRIOR_EVALUATION_OUTCOMES.json')

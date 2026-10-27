@@ -71,7 +71,8 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     desktop_retry=caps_cont.validate_recorded_desktop(g)
     bound_retry=caps_cont.validate_bound_age(g)
     limit_retry=caps_cont.validate_rpc_limit(g)
-    identity_marker=limit_retry or bound_retry or desktop_retry or peer_retry or rpc_retry or cap_retry or next_continuation or continuation or repaired
+    control_retry=caps_cont.validate_production_control(g)
+    identity_marker=control_retry or limit_retry or bound_retry or desktop_retry or peer_retry or rpc_retry or cap_retry or next_continuation or continuation or repaired
     if repaired and arm=='C50':
         need(request_id==identity_marker['replacement_request_id']and nonce==identity_marker['replacement_submission_nonce']
              and run_name==identity_marker['replacement_run_uuid'],'EXACT_ONCE_PREMODEL_REPLACEMENT_IDENTITY')
@@ -102,12 +103,13 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         if desktop_retry is not None:files['plans/V5_CD_ZERO_MODEL_RECORDED_DESKTOP_EPOCH_CONTINUATION.private.json']=a.raw(desktop_retry)
         if bound_retry is not None:files['plans/V5_CD_ZERO_MODEL_POST600_BOUND_AGE_CONTINUATION.private.json']=a.raw(bound_retry)
         if limit_retry is not None:files['plans/V5_CD_ZERO_INTEGRATION_RPC_CPU_LIMIT_CONTINUATION.private.json']=a.raw(limit_retry)
+        if control_retry is not None:files['plans/V5_CD_ZERO_INTEGRATION_PRODUCTION_RPC_CONTROL_CONTINUATION.private.json']=a.raw(control_retry)
         from scripts.pi0294.generalization import minimal_gpu_repair
         if minimal_gpu_repair.validate(g)is not None:files['plans/V5_CD_GPU148_AUTHORITY.private.json']=a.raw(g[minimal_gpu_repair.FIELD])
         files[context.CAPTURE]=training_capture_bytes;files[context.LOCAL_BINDING]=a.raw(local_binding)
         files['plans/SOURCE_EVALUATION_PLAN.json']=a.raw(evaluation.candidate_plan(groups,arm))
         files['plans/V5_CD_PAIRED_EVALUATION_PLAN.json']=a.raw(evaluation.plan(groups))
-        files['PV1_STAGE_BINDING.json']=a.raw(evaluation.stage(arm));files['plans/PRIOR_EVALUATION_OUTCOMES.json']=a.raw([])
+        files['PV1_STAGE_BINDING.json']=a.raw(evaluation.stage(arm,original_core_control=True));files['plans/PRIOR_EVALUATION_OUTCOMES.json']=a.raw([])
         fixture=json.loads(files['plans/PV1_TRANSPORT_FIXTURE.json']);fixture['run_uuid']=run_name
         files['plans/PV1_TRANSPORT_FIXTURE.json']=a.raw(fixture)
         files['plans/EVALUATION_CHECKPOINT.private.json']=a.raw(dict(candidate=arm,global_step=1024,
@@ -129,7 +131,9 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         m['authority']=dict(protocol_ref=s.TASK_SOURCE,scope_grant_sha256=s.GRANT_SHA)
         m['code'].update(vla_commit=source_sha,capsule_relative='capsules/'+source_sha+'/code',
             source_seal_relative='capsules/'+source_sha+'/SOURCE_SEAL.json',source_seal_sha256=a.sha(source_seal_bytes))
-        m['execution'].update(private_path_role=b['role'],sealed_inputs={n:a.sha(v)for n,v in files.items()})
+        from .control_heartbeat import POLICY
+        m['execution'].update(private_path_role=b['role'],sealed_inputs={n:a.sha(v)for n,v in files.items()},
+            production_RPC_control=evaluation.CORE_CONTROL,owner_heartbeat_policy=POLICY)
         m['limits'].pop('PV1_T0_epoch',None);m['limits'].pop('PV1_hard_close_epoch',None)
         m['limits'].update(T_CD=marker['T_CD'],operation_deadline_epoch=marker['deadline_epoch'])
         if role=='core':

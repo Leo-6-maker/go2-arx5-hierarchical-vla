@@ -71,6 +71,29 @@ def bounded_CPU_limit():
     return limit
 
 
+def production_contract(root,role,label):
+    """Read the real production contracts before creating any RPC worker files.
+
+    This also supports the registered cold admission: it starts no endpoint
+    operation, model, constructor or heartbeat and grants no such permission.
+    The PREMODEL transport fixture deliberately cannot substitute for this.
+    """
+    root=Path(root)
+    if label.startswith(('PV1-PREMODEL','N1-PREMODEL')):
+        raise PermissionError('PRODUCTION_PANEL_LABEL_REQUIRED_NOT_TRANSPORT_FIXTURE')
+    from scripts.pi0294.pv1.evaluation_plan import session_spec
+    from scripts.pi0294.pv1.visibility import Endpoint
+    from scripts.pi0294.pv1.control_heartbeat import owner_only
+    manifest=read(root/'RUN_MANIFEST.json');session_spec(root,label)
+    registry=root/'plans'/label/'REGISTRY.json'
+    endpoint=Endpoint(root,str(registry.relative_to(root)),sha(registry),role)
+    maximum,control=operation_budget(root,manifest,endpoint.registry,pv1=True)
+    readonly_owner=owner_only(root,manifest)
+    if control and endpoint.registry['deadline_epoch']-time.time()>control['wall_limit_s']:
+        raise PermissionError('PV1_ORIGINAL_MAXIMUM_ALLOCATION_CONTROL_WALL')
+    return endpoint,maximum,control,readonly_owner
+
+
 def serve(root,role,label):
     if label.startswith('PV1-PREMODEL'):
         from scripts.pi0294.pv1.transport_fixture import serve as serve_fixture
@@ -121,7 +144,12 @@ def serve(root,role,label):
         adjudication='MP1_ADJUDICATION.json'
     else:raise PermissionError('ADOPTED_E1_REMAINDER_OR_MP1_SOURCE_ONLY')
     ledger=Ledger(root,role);registry=root/'plans'/label/'REGISTRY.json';registry_hash=sha(registry)
-    endpoint=Endpoint(root,str(registry.relative_to(root)),registry_hash,role)
+    if pv1:
+        endpoint,max_calls,control,owner_heartbeat_only=production_contract(root,role,label)
+    else:
+        endpoint=Endpoint(root,str(registry.relative_to(root)),registry_hash,role)
+        max_calls,control=operation_budget(root,m,endpoint.registry,pv1=False)
+        owner_heartbeat_only=False
     binding=read(root/'OUTPUT_BINDING.private.json');seal=root/m['code']['source_seal_relative'];seal_hash=sha(seal)
     code=root/m['code']['capsule_relative'];files=[code/name for name in read(seal)['files']];file_metadata={p:metadata(p) for p in files}
     copy=code.parent/('STDIO_MANIFEST_'+role+'_'+label+'.json')
@@ -132,16 +160,13 @@ def serve(root,role,label):
     write(record,dict(pid=os.getpid(),proc_start=Path('/proc/self/stat').read_text().split()[21],source_sha=m['code']['vla_commit'],
         manifest_relative=str(copy.relative_to(root)),manifest_sha256=hashlib.sha256(original_manifest).hexdigest(),source_live_worker=False,
         work_type='CONTROL_FILE_RPC_NO_MODEL_NO_PHYSICS',maximum_CPU_s=7200,deadline_epoch=endpoint.registry['deadline_epoch'],started_epoch=time.time()))
-    max_calls,control=operation_budget(root,m,endpoint.registry,pv1=pv1)
-    owner_heartbeat_only=False
     if pv1:
-        from scripts.pi0294.pv1.control_heartbeat import owner_only,keepalive
-        owner_heartbeat_only=owner_only(root,m)
-    if control and endpoint.registry['deadline_epoch']-time.time()>control['wall_limit_s']:
-        raise PermissionError('PV1_ORIGINAL_MAXIMUM_ALLOCATION_CONTROL_WALL')
+        from scripts.pi0294.pv1.control_heartbeat import keepalive
     from scripts.pi0294.e1.stdio import FrameReader
     from scripts.pi0294.pv1.mix_vanda_eval_identity import typed as colocated
-    seen=set();metrics=SessionMetrics(maximum=max_calls) if pv1 and colocated(m) else SessionMetrics()
+    from scripts.pi0294.pv1.mix_evaluation import CORE_CONTROL
+    explicit_core=m.get('execution',{}).get('production_RPC_control')==CORE_CONTROL
+    seen=set();metrics=SessionMetrics(maximum=max_calls) if pv1 and (colocated(m) or explicit_core) else SessionMetrics()
     status='SESSION_EOF_OR_DEADLINE';error=None;trace=PhaseTrace(sys.stderr)
     frames=FrameReader(sys.stdin.fileno(),MAX_LINE_BYTES)
     def guard(args):

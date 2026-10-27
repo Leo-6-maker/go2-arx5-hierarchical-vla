@@ -16,7 +16,17 @@ def owner_only(root,manifest):
     if policy is None:return False
     stage=read(Path(root)/'PV1_STAGE_BINDING.json')
     from . import mix_vanda_eval_identity as colocated
-    authority=colocated.s.TASK_SOURCE if colocated.typed(manifest) else AUTHORITY
+    from . import mix_core_identity as cd
+    from .successor_core_context import EVAL_ROLE
+    successor=colocated.typed(manifest) or cd.typed(manifest) or manifest.get('scope')==EVAL_ROLE
+    authority=cd.s.TASK_SOURCE if successor else AUTHORITY
+    if successor:
+        roles=(colocated.NEURAL_ROLE,colocated.PHYSICAL_ROLE) if colocated.typed(manifest) else (cd.c.ROLE,EVAL_ROLE)
+        if (manifest.get('scope') not in roles
+                or manifest.get('authority',{}).get('scope_grant_sha256')!=cd.s.GRANT_SHA
+                or stage.get('scope_grant_sha256')!=cd.s.GRANT_SHA
+                or stage.get('task')!=cd.s.TASK):
+            raise PermissionError('PV1_EXACT_SUCCESSOR_OWNER_HEARTBEAT_AUTHORITY')
     if (policy!=POLICY or stage.get('owner_heartbeat_policy')!=POLICY
             or manifest.get('owner')!='EXISTING_LOCAL_PC'
             or manifest.get('authority',{}).get('protocol_ref')!=authority
