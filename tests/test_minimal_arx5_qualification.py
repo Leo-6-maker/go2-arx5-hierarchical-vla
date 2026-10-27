@@ -9,6 +9,16 @@ from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint, pa
 from scripts.pi0294.e1.trainer import learning_rate_multiplier
 
 
+def test_restore_output_pair_fits_seventeen_without_reusing_formal_or_raw_reference():
+    rows=q.draw_plan()
+    assert len(rows)==17 and [r['index']for r in rows]==list(range(17))
+    assert len({r['seed']for r in rows[:15]})==15
+    assert all(r['phase']=='ZERO_STEP_MATCHED'and r['optimizer_step']==0 for r in rows[:15])
+    assert rows[15]['seed']==rows[16]['seed']==rows[0]['seed']
+    assert rows[15]['optimizer_step']==rows[16]['optimizer_step']==2
+    assert rows[15]['phase']!=rows[16]['phase']
+
+
 @pytest.mark.parametrize('arm',[0,1])
 def test_original_LambdaLR_first_call_does_not_update_second_call_does(arm):
     _,a,b,ca,cb=fixture_pair();model,contract=(a,ca)if arm==0 else(b,cb)

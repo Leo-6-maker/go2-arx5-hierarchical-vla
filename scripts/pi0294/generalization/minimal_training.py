@@ -194,6 +194,10 @@ def make_trainer_class():
             return result
 
         def train(self, resume_from_checkpoint=None, **kwargs):
+            study.need(not getattr(self,'_train_invoked',False)
+                       and not getattr(self,'_qualification_restore_audit',False),
+                       'ONE_TRAIN_INVOCATION_NO_QUALIFICATION_RESTORE_AS_FRESH')
+            self._train_invoked=True
             if resume_from_checkpoint:
                 study.need(not self.qualification_only, 'QUALIFICATION_NEVER_RESUMES_OR_BECOMES_FORMAL_DATA')
                 cp = Path(resume_from_checkpoint)
@@ -210,6 +214,10 @@ def make_trainer_class():
                 study.need(self.session_stop == 512 or self.qualification_only,
                            'CONTINUATION_MUST_RESTORE_OWN512_OR_LATER_FULL_STATE')
             return super().train(resume_from_checkpoint=resume_from_checkpoint, **kwargs)
+
+        def restore_qualification_for_audit(self,checkpoint,*,guard):
+            from .minimal_resume import restore_qualification
+            return restore_qualification(self,checkpoint,guard=guard)
 
         def _load_from_checkpoint(self, resume_from_checkpoint, model=None):
             result = super()._load_from_checkpoint(resume_from_checkpoint, model=model)
@@ -248,6 +256,8 @@ def make_trainer_class():
             write(cp/'ADAPTER_PARAMETER_CONTRACT.json', self.parameter_contract.describe())
             write(cp/'FROZEN_PARAMETER_IDENTITY.json', self.frozen_baseline)
             write(cp/'MODEL_PARAMETER_STATE_IDENTITY.json', parameter_state_fingerprint(self.model))
+            from .minimal_resume import FILENAME,save_identity
+            write(cp/FILENAME,save_identity(self,cp))
             if qualification is not None:
                 write(cp/'QUALIFICATION_PARAMETER_UPDATE.json', qualification)
             files = {str(p.relative_to(cp)): sha(p) for p in sorted(cp.rglob('*')) if p.is_file()}

@@ -119,6 +119,10 @@ def validate(root, *, closeout=False):
         if peer_retry is not None:need(sealed('plans/V5_CD_ZERO_MODEL_PHYSICAL_PEER_IDENTITY_CONTINUATION.private.json')==peer_retry,'ACTUAL_PHYSICAL_PEER_IDENTITY_COLD_CONTINUATION')
         desktop_retry=caps_cont.validate_recorded_desktop(local)
         if desktop_retry is not None:need(sealed('plans/V5_CD_ZERO_MODEL_RECORDED_DESKTOP_EPOCH_CONTINUATION.private.json')==desktop_retry,'ACTUAL_RECORDED_DESKTOP_EPOCH_COLD_CONTINUATION')
+        bound_retry=caps_cont.validate_bound_age(local)
+        if bound_retry is not None:need(sealed('plans/V5_CD_ZERO_MODEL_POST600_BOUND_AGE_CONTINUATION.private.json')==bound_retry,'ACTUAL_POST600_BOUND_AGE_CONTINUATION')
+        from scripts.pi0294.generalization import minimal_gpu_repair
+        if minimal_gpu_repair.validate(local)is not None:need(sealed('plans/V5_CD_GPU148_AUTHORITY.private.json')==local[minimal_gpu_repair.FIELD],'EXACT_ADOPTED_GPU148_AUTHORITY')
     proof = captured_endpoint(sealed(CAPTURE)); arm = request['evaluation_candidate']
     need(proof['arm'] == arm and proof['checkpoint_manifest_sha256'] == request['checkpoint_manifest_sha256']
          and a.sha(a.raw(proof)) == request['training_handoff_sha256'], 'TRUE_CLOSED_COMPLETE_1024_ENDPOINT')

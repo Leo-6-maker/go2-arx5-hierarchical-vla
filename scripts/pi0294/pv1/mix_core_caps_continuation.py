@@ -320,3 +320,83 @@ def propose_recorded_desktop(global_bytes,local_bytes,*,closed_readback,new_requ
     full=first512_forecast(a.raw(v),a.raw(w));need(not full['cap_changes_required'],'ENTIRE_FUTURE_MATRIX_FINAL:'+str(full['cap_changes_required']))
     need(all(v[k]==value for k,value in g.items()if k not in(DESKTOP_FIELD,'revision',a.PACKAGE,'reserved','CPU_reserved_s','storage_reserved_bytes')),'ALL_OLD_COSTS_AND_ROWS_RETAINED')
     return dict(proposed_global=v,proposed_LOCAL=w,full_future_proof=full,new_scientific_admission=False,original_onceIO_required=True)
+
+BOUND_FIELD='V5_CD_exact75c63c6e_zero_model_post600_bound_age_continuation'
+BOUND_FAILED='75c63c6e-c3f6-41cc-adae-a62971b26e74'
+BOUND_SOURCE='945595ccd6fbca8f50a51fde963085f9c286be39'
+
+def validate_bound_age(g):
+    m=g.get(BOUND_FIELD)
+    if m is None:return None
+    from . import mix_core_accounting as c,mix_core_prebind_terminal as prior
+    parent=validate_recorded_desktop(g);r=g[c.FIELD][BOUND_FAILED]
+    need(parent is not None and parent['replacement_request_id']==BOUND_FAILED
+         and r['status']==c.STATES[3]and r['native_exit_status']==1 and r['source_sha']==BOUND_SOURCE
+         and r['native_handle']and r['query_attempts']==r['model_load_attempts']==0
+         and r['unknown_query_intents']==[]and r['reserved_neural_queries']==0,
+         'ACTUAL_CLOSED_BOUND_ZERO_MODEL_PREDECESSOR')
+    # A registered replacement may already exist; only its immutable identity is
+    # checked here. The proposal separately rejects every prior UUID/nonce.
+    need(m['schema']=='V5_CD_ZERO_MODEL_POST600_BOUND_AGE_COLD_CONTINUATION_V1'
+         and m['failed_request_id']==BOUND_FAILED and m['terminal_native_sha256']==r['terminal_native_sha256']
+         and m['scope_grant_sha256']==s.GRANT_SHA and m['maximum_continuations']==1
+         and m['new_PBS']==0 and m['new_models_queries_physics_valid_conditions']==0
+         and m['all_prior_rows_costs_unknowns_caps_and_clock_preserved']is True
+         and m['replacement_run_uuid']=='v5-cd-c50-n294101-10'
+         and c.canonical_uuid(m['replacement_request_id'])and c.canonical_uuid(m['replacement_submission_nonce'])
+         and m['replacement_request_id']!=BOUND_FAILED and m['replacement_submission_nonce']!=r['submission_nonce'],
+         'NEW_EXACT_CUSTODY')
+    proof=m['native_proof'];effects=m['effects'];physical=m['physical'];clock=s.validated(g)
+    need(c.digest(proof)==r['terminal_native_sha256']and c.digest(effects)==r['terminal_effect_summary_sha256']
+         and proof['native_exit_status']==1 and proof['recorded_process_terminal']is True
+         and proof['terminal_inventory_stable']is True and effects['effect_journal_complete']is True
+         and all(effects[k]==0 for k in('query_attempts','model_load_attempts','optimizer_updates_committed','new_physics','new_episodes'))
+         and effects['unknown_query_intents']==[]and physical['reservations']=={}and physical['unknown_effects']==[]
+         and all(physical[k]==0 for k in('main_starts','engine_starts','live_and_recovery_integrations','shadow_integrations'))
+         and m['T_CD']==clock['T_CD']and m['deadline_epoch']==clock['deadline_epoch'],
+         'ORIGINAL_TERMINAL_EFFECTS_COUNTERS_AND_CLOCK')
+    need(set(m['closed_leases'])=={'GPU','physical','control'},'ALL_THREE_REAL_LEASES')
+    for role,lease in m['closed_leases'].items():
+        need(lease['status']=='CLOSED'and lease['terminal_native_sha256']==r['terminal_native_sha256']
+             and lease['all_actual_workers_terminal']is True and lease['authority_release']==s.TASK_SOURCE
+             and lease['run_uuid']==('v5-cd-c50-eval-owner-08'if role=='control'else r['child_run_uuid']),
+             'ACTUAL_PREDECESSOR_LEASE_CLOSED')
+    return m
+
+def propose_bound_age(global_bytes,local_bytes,*,closed_readback,new_request_id,new_nonce,now_epoch):
+    from . import mix_core_accounting as c,mix_core_prebind_terminal as prior,mix_core_premodel_repair as repair
+    g,l=json.loads(global_bytes),json.loads(local_bytes);c.checked(g);c.paired(g,l);p=closed_readback
+    from scripts.pi0294.generalization import minimal_gpu_repair
+    need(minimal_gpu_repair.validate(g)is not None,'APPROVED_148_HOURS_ACTUALLY_ADOPTED')
+    need(BOUND_FIELD not in g and BOUND_FIELD not in l and validate_recorded_desktop(g)['replacement_request_id']==BOUND_FAILED
+         and all(r['status']==c.STATES[3]for r in g[c.FIELD].values())and g['unknown_effects']==g['pending_updates']==[],
+         'COLD_ALL_REAL_TERMINALS_NO_CURRENT_EFFECT')
+    need(p['status']=='ACTUAL_75C63C6E_BOUND_ZERO_MODEL_THREE_CLOSED_READONLY'
+         and p['request_id']==BOUND_FAILED and p['host']=='corelab-4080s'and p['uid']==2009
+         and p['GLOBAL_sha256']==a.sha(global_bytes)and p['LOCAL_sha256']==a.sha(local_bytes)
+         and 0<=now_epoch-p['observed_epoch']<=120,
+         'FRESH_COMPLETE_ACTUAL_DUAL_BYTES_AND_LEASES')
+    need(not any(r.get('request_id')==new_request_id or r.get('submission_nonce')==new_nonce
+         for r in[*g[c.FIELD].values(),*g['PBS_submissions'],*g.get('Core_native_GPU_allocations',{}).values()]),'NEW_IDENTITY_NO_REPLAY')
+    clock=s.validated(g);need(clock['T_CD']<=now_epoch<clock['deadline_epoch']-28860,'FULL_ORIGINAL_PANEL_WINDOW')
+    m=dict(schema='V5_CD_ZERO_MODEL_POST600_BOUND_AGE_COLD_CONTINUATION_V1',failed_request_id=BOUND_FAILED,
+        terminal_native_sha256=g[c.FIELD][BOUND_FAILED]['terminal_native_sha256'],scope_grant_sha256=s.GRANT_SHA,
+        maximum_continuations=1,new_PBS=0,new_models_queries_physics_valid_conditions=0,
+        all_prior_rows_costs_unknowns_caps_and_clock_preserved=True,
+        replacement_request_id=new_request_id,replacement_submission_nonce=new_nonce,
+        replacement_run_uuid='v5-cd-c50-n294101-10',closed_leases=deepcopy(p['leases']),
+        native_proof=deepcopy(p['native_proof']),effects=deepcopy(p['effects']),physical=deepcopy(p['physical']),
+        closed_readback_sha256=a.sha(a.raw(p)),T_CD=clock['T_CD'],deadline_epoch=clock['deadline_epoch'],created_epoch=now_epoch)
+    v,w=deepcopy(g),deepcopy(l);restore=repair.allocation(g,'C50')
+    for val in(v,w):
+        val[BOUND_FIELD]=deepcopy(m)
+        for k,x in restore.items():val[a.PACKAGE]['remaining_resources'][k]+=x
+    for k in('H200_s','neural_queries','optimizer_updates'):v['reserved'][k]+=restore[k]
+    v['CPU_reserved_s']+=restore['Hopper_CPU_s'];v['storage_reserved_bytes']+=restore['Hopper_storage_bytes']
+    w['GPU_reserved_s']+=restore['H200_s']
+    for k,site in [('Hopper_CPU_s','Hopper'),('Core_CPU_s','CoreLab'),('local_CPU_s','local_PC')]:w['CPU_reserved_s'][site]+=restore[k]
+    v['revision']+=1;validate_bound_age(v);c.checked(v);c.paired(v,w)
+    from scripts.pi0294.generalization.minimal_scope import first512_forecast
+    full=first512_forecast(a.raw(v),a.raw(w));need(not full['cap_changes_required'],'ENTIRE_FUTURE_MATRIX_FINAL:'+str(full['cap_changes_required']))
+    need(all(v[k]==value for k,value in g.items()if k not in(BOUND_FIELD,'revision',a.PACKAGE,'reserved','CPU_reserved_s','storage_reserved_bytes')),'ALL_OLD_COSTS_AND_ROWS_RETAINED')
+    return dict(proposed_global=v,proposed_LOCAL=w,full_future_proof=full,new_scientific_admission=False,original_onceIO_required=True)

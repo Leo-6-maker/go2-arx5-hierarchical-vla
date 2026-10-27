@@ -163,3 +163,16 @@ R0保留，不重开P0；这属于固定统计校准下的12示范研究，不�
 108项适配CPU与54项旧准入回归、20subtests通过，不是CI、真实GR00T/Transformers/CUDA或闭环资格。首次本地报告生成漏src路径，import即失败，未写报告或触碰native；修正路径后完成，失败保留。无新GPU/PBS/模型/query/优化/物理。
 
 Core恢复后先精确核UNKNOWN和canonical LOCAL、同步原账本并恢复原测量链。新scope后续按用户目标绑定一Vanda训练与一Core评估的并行角色，累计真实GPU秒，旧scope和其他任务不可借用；当前未部署新并行准入。正式新训练仍须测量链有效，旧模型成功率不是GO门。wholegoal未完成。
+
+
+## 2026-10-28：原Trainer完整恢复的冷态接线
+
+`minimal_resume` 已接入现有 `minimal_training.Trainer`。原框架保存模型、optimizer、scheduler、RNG之后，新增小型 `FULL_TRAINING_STATE_IDENTITY.json`；它绑定实际optimizer组内参数名称顺序、所有状态tensor的dtype/device/value、固定1024日程、R0和sampler。不能只比较数值兼容的parameter ID，否则同形状参数换序仍可能错误接收另一参数的AdamW状态。
+
+资格恢复仅允许原本体臂自己的完整step2/cursor64 checkpoint，使用实际原Trainer的 `_load_from_checkpoint`、`_load_optimizer_and_scheduler`、`_load_rng_state`，恢复后重新比较完整模型、optimizer、scheduler、RNG和sampler；没有第三次优化调用。恢复对象不能作为fresh正式512模型，也不能在同一Trainer再次train。正式512依然从原始父fresh开始。
+
+这些是CPU和framework-fixture验证的库接线，不是已登记的Vanda入口。实际Vanda读核框架版本4.57.3及四个方法签名；未在登录节点导入或加载完整GR00T。真实原生资格仍须由现有owner/session会计、完整资源与模型准入发起，并完成原固定输入推理的保存／重载输出一致性。原17次资格query额度、科学训练配方、两臂512、原24条件和全部截止不变，不因本节增加模型或训练许可。
+
+新最小适配资格在每臂原17次query上限内固定分配：前15次用seed29400..29414做raw/E1/E2第零步匹配；完成2次已计费资格更新后，用同一TRAIN输入和seed29400保存一次输出，再在完整state重载后比较一次输出。两次更新后的输出不冒称第零步等价，且不能作为正式512模型。17总数、整个原资源向量和旧C/D/GEN的原17次执行规则均不变；新增分配必须由新scope的原owner/context封存后才执行，CPU中的小模型重载相等不代替这对真实模型query。
+
+原Core的all-PBS-terminal与全局pending-update门目前仍是串行语义。Vanda新作业与Core旧capsule并行前，必须在新冷source内完成最小适配typed会话／请求／完整资源和跨scope并发接线，精确识别当前本研究自己的唯一Vanda作业与其已知pending update。不能直接删掉全局unknown栅栏，不能启动Vanda后让未改的Core模型准入因合法训练而错误退出，也不能热改运行capsule。资格恢复库接通不等于这条原生链已经部署。

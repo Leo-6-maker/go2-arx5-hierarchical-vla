@@ -23,8 +23,8 @@ def components():
     Two full checkpoint envelopes retain qualification and own512 state.
     Each two-step qualification is real additional accounting, followed by a
     fresh raw start for formal training; its effects/costs are never erased.
-    The original17 zero-step qualification draws per arm are also used for
-    matched E0/E1/E2 equivalence. Each original12 end-TRAIN probes remains.
+    Each arm's17 qualification calls comprise15 matched zero-step draws and
+    the trained/restored step2 same-noise pair. Each original12 end-TRAIN probe remains.
     The additional language24/model is separate from those qualifications.
     """
     rows = {}

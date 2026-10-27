@@ -178,6 +178,15 @@ def test_training_step_delegates_through_matched_rng_and_enforces512_boundary(mo
     a.session_stop = 1024
     with pytest.raises(ValueError, match='CONTINUATION_MUST_RESTORE'):
         a.train()
+    with pytest.raises(ValueError, match='ONE_TRAIN_INVOCATION'):
+        a.train()
+    b._qualification_restore_audit = True
+    with pytest.raises(ValueError, match='ONE_TRAIN_INVOCATION'):
+        b.train()
+    fresh = instance(training.ARMS[0])
+    assert fresh.train()['CPU_FRAMEWORK_FIXTURE']
+    with pytest.raises(ValueError, match='ONE_TRAIN_INVOCATION'):
+        fresh.train()
     from scripts.pi0294.generalization.minimal_adapter import parameter_state_fingerprint
     expected = parameter_state_fingerprint(a.model)
     (tmp_path/'MODEL_PARAMETER_STATE_IDENTITY.json').write_text(json.dumps(expected))

@@ -10,6 +10,19 @@ from . import minimal_study as study
 STEPS = 2
 
 
+def draw_plan():
+    """Keep17 total:15 matched raw draws, then trained/restored same-noise pair.
+
+    This is the new minimal-adaptation scope's cold qualification plan. The
+    historical C/D/GEN seventeen-before-update qualification is unchanged.
+    All calls still use the original fixed_draw and pre-effect query debit.
+    """
+    return [dict(index=i,phase='ZERO_STEP_MATCHED',seed=29400+i,optimizer_step=0)
+            for i in range(15)]+[
+        dict(index=15,phase='QUALIFIED2_SAVED_REFERENCE',seed=29400,optimizer_step=2),
+        dict(index=16,phase='QUALIFIED2_FULL_RESTORE',seed=29400,optimizer_step=2)]
+
+
 def gradients(contract):
     """Call after the original final-microbatch backward, before optimizer."""
     import torch

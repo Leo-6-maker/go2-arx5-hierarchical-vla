@@ -44,8 +44,8 @@
     },
     {
       "id": "save_reload_resume",
-      "status": "CPU_VERIFIED_COLD_TRAINER_JOIN_IMPLEMENTED_ACTUAL_FRAMEWORK_PENDING",
-      "evidence_or_missing": "OriginalTrainer factory + fixed512 observer + strict full-model post-load identity; local framework fixture, not actual Transformers/CUDA; qualification2 checkpoint and consumed model cannot become fresh formal512; actual framework/native restoration still pending"
+      "status": "ORIGINAL_TRAINER_FULL_STATE_AUDIT_JOIN_CPU_VERIFIED_NATIVE_PENDING",
+      "evidence_or_missing": "ActualVanda Transformers4.57.3 restore signatures read; original full model/optimizer/scheduler/RNG loaders joined for ownqualification step2/cursor64; model allstate/optimizer group names+order/scheduler/RNG/sampler checks and no second train. Real fullGR00T fixed query output equivalence and native owner/session entry still pending."
     },
     {
       "id": "twelve_paired_TRAIN_demonstrations",
@@ -146,5 +146,111 @@
   "first_phase_qualification_optimizer_calls_per_arm": 2,
   "first_phase_total_optimizer_calls": 1028,
   "latest_legacy_regression_checks": 54,
-  "native_GPU_or_model_admission": false
+  "native_GPU_or_model_admission": false,
+  "cold_qualification_query_plan_per_arm": [
+    {
+      "index": 0,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29400,
+      "optimizer_step": 0
+    },
+    {
+      "index": 1,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29401,
+      "optimizer_step": 0
+    },
+    {
+      "index": 2,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29402,
+      "optimizer_step": 0
+    },
+    {
+      "index": 3,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29403,
+      "optimizer_step": 0
+    },
+    {
+      "index": 4,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29404,
+      "optimizer_step": 0
+    },
+    {
+      "index": 5,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29405,
+      "optimizer_step": 0
+    },
+    {
+      "index": 6,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29406,
+      "optimizer_step": 0
+    },
+    {
+      "index": 7,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29407,
+      "optimizer_step": 0
+    },
+    {
+      "index": 8,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29408,
+      "optimizer_step": 0
+    },
+    {
+      "index": 9,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29409,
+      "optimizer_step": 0
+    },
+    {
+      "index": 10,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29410,
+      "optimizer_step": 0
+    },
+    {
+      "index": 11,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29411,
+      "optimizer_step": 0
+    },
+    {
+      "index": 12,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29412,
+      "optimizer_step": 0
+    },
+    {
+      "index": 13,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29413,
+      "optimizer_step": 0
+    },
+    {
+      "index": 14,
+      "phase": "ZERO_STEP_MATCHED",
+      "seed": 29414,
+      "optimizer_step": 0
+    },
+    {
+      "index": 15,
+      "phase": "QUALIFIED2_SAVED_REFERENCE",
+      "seed": 29400,
+      "optimizer_step": 2
+    },
+    {
+      "index": 16,
+      "phase": "QUALIFIED2_FULL_RESTORE",
+      "seed": 29400,
+      "optimizer_step": 2
+    }
+  ],
+  "cold_qualification_query_plan_native_adopted": false,
+  "first_phase_qualification_model_restore_is_not_formal_resume": true
 }

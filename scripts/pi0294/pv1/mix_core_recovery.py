@@ -91,6 +91,8 @@ def budget_LOCAL(g,l):
     if rpc_retry is not None:w['CPU_s']['CoreLab']+=rpc_retry['physical']['Core_CPU_s']+rpc_retry['native_proof']['conservative_CPU_s']
     peer_retry=caps_cont.validate_peer(g)
     if peer_retry is not None:w['CPU_s']['CoreLab']+=peer_retry['physical']['Core_CPU_s']+peer_retry['native_proof']['conservative_CPU_s']
+    bound_retry=caps_cont.validate_bound_age(g)
+    if bound_retry is not None:w['CPU_s']['CoreLab']+=bound_retry['physical']['Core_CPU_s']+bound_retry['native_proof']['conservative_CPU_s']
     desktop_retry=caps_cont.validate_recorded_desktop(g)
     if desktop_retry is not None:w['CPU_s']['CoreLab']+=desktop_retry['physical']['Core_CPU_s']+desktop_retry['native_proof']['conservative_CPU_s']
     w['optimizer_updates']=max(w['optimizer_updates'],g['used']['optimizer_updates'])
