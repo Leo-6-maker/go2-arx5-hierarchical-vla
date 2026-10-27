@@ -58,6 +58,23 @@ def test_qsub_unknown_latches_before_bind_without_resubmitting(owner,monkeypatch
  with pytest.raises(FileExistsError):owner.submit(None)
  assert len(calls)==1
 
+def test_original_fresh_full_budget_accepts_only_exact_unbound_CPU_join(owner,monkeypatch):
+    from scripts.pi0294.generalization import amd_export_queue
+    from scripts.pi0294.dec1 import vanda_campaign
+    import time
+    p=w.read(B/'GEN1_VANDA_OFFICIAL_EXPORT_OWNER_COLD_PREPARED.private.json')
+    owner.CONFIG=p['config'];owner.queue=amd_export_queue
+    owner.auth=lambda secret:dict(balance_CPU_hours=100000,balance_GPU_hours=100000)
+    owner.program=lambda name:dict(report_age_s=0,available_bytes_lower=10**15)
+    proof=dict(schema=vanda_campaign.QUEUE,user='e1192548',observed_epoch=time.time(),qselect=dict(argv=['/opt/pbs/bin/qselect','-u','e1192548'],returncode=0,stdout='',stderr=''),qstat=None)
+    monkeypatch.setattr(vanda_campaign,'collect_queue',lambda:proof)
+    value=w.Owner.fresh(owner,None)
+    assert value['own']==[]and value['exact_CPU_queue_join']['own_CPU_unbound']
+    assert not value['full_remaining_proof']['cap_changes_required']
+    assert value['full_queue']==proof and value['full_remaining_proof']['LOCAL_is_historical']
+    g=w.read(owner.global_path);g['PBS_submissions'].append(dict(request_id='unrelated-unknown',job_id=None,status=e.STATES[0]));owner.global_path.write_bytes(w.raw(g))
+    with pytest.raises(PermissionError,match='COMPLETE_ACCOUNT_QUEUE_NO_UNKNOWN'):w.Owner.fresh(owner,None)
+
 def test_complete_CPU_with_failed_R0_support_settles_but_never_claims_training_bank(owner):
  from scripts.pi0294.generalization import amd_export,amd_pilot_scope as scope
  p=w.read(B/'GEN1_VANDA_OFFICIAL_EXPORT_PREPARED.private.json');plan=json.loads(base64.b64decode(p['small']['plans/GEN1_SAVED_EXPORT_PLAN.private.json']));packet=base64.b64decode(p['packet_base64']);identities={x['attempt_id']:x for x in scope.pilot_plan(packet)['attempts']};records=[]

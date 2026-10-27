@@ -63,26 +63,37 @@ fd=os.open(r/'control/CPU_COMPUTE_PROCESS.json',os.O_WRONLY|os.O_CREAT|os.O_EXCL
     return ('\n'.join(lines)+'\n').encode()
 
 class Owner:
-    def __init__(self,root):
+    def __init__(self,root,*,control_relative=None):
         self.root=Path(root);self.m=read(self.root/'RUN_MANIFEST.json');self.binding=read(self.root/'OUTPUT_BINDING.private.json');self.code=self.root/self.m['code']['capsule_relative']
         sys.path[:0]=[str(self.code),str(self.code/'src')]
         from scripts.pi0294.generalization import amd_export_accounting as accounting,amd_export_runtime as runtime
         from scripts.pi0294.pv1 import mix_owner as mature
         from scripts.pi0294.dec1.owner_transport import Journal,ReadOnlyFailure
         self.e,self.runtime,self.mature=accounting,runtime,mature;self.ReadOnlyFailure=ReadOnlyFailure
-        self.CONFIG=read(self.root/'control/CPU_OWNER_CONFIG.private.json');pin=read(self.root/'control/CPU_OWNER_BINDING.private.json')
+        need(control_relative in(None,'control/cpu-owner-queue-repair-03'),'EXPLICIT_COLD_CONTROL_SLOT')
+        self.control=self.root/(control_relative or 'control')
+        self.CONFIG=read(self.control/'CPU_OWNER_CONFIG.private.json');pin=read(self.control/'CPU_OWNER_BINDING.private.json')
         need(os.getuid()==22182 and os.uname().nodename.startswith('stdct-login-')and os.environ.get('CUDA_VISIBLE_DEVICES')=='','ORIGINAL_REGISTERED_LOGIN_METADATA_ONLY')
         need(pin['schema']=='GEN1_CPU_EXPORT_OWNER_BINDING_V1'
             and re.fullmatch('[0-9a-f]{40}',pin['control_source_sha'])is not None
             and pin['parent_manifest_sha256']==sha((self.root/'RUN_MANIFEST.json').read_bytes())
             and pin['owner_code_sha256']==sha(Path(__file__).read_bytes())
-            and pin['configuration_sha256']==sha((self.root/'control/CPU_OWNER_CONFIG.private.json').read_bytes())
+            and pin['configuration_sha256']==sha((self.control/'CPU_OWNER_CONFIG.private.json').read_bytes())
             and pin['science_source_sha']==self.m['code']['vla_commit']
-            and Path(__file__).resolve()==(self.root/'control-code/amd_export_owner.py').resolve(),
+            and Path(__file__).resolve()==((self.control/'amd_export_owner.py')if control_relative else(self.root/'control-code/amd_export_owner.py')).resolve(),
             'VERSIONED_COLD_CONTROL_BINDING_NOT_PARENT_HOTPATCH')
         need(read(self.binding['lease'])['status']=='ACTIVE','OWN_CPU_LEASE_ACTIVE')
         self.runtime.validate(self.root,compute=False)
-        self.BASE=self.root/'control/original-cpu-owner';self.BASE.mkdir(mode=0o700)
+        if control_relative:
+            import importlib.util
+            path=self.control/'amd_export_queue.py'
+            need(sha(path.read_bytes())==pin['queue_adapter_sha256'],'EXACT_COLD_QUEUE_ADAPTER')
+            spec=importlib.util.spec_from_file_location('scripts.pi0294.generalization.amd_export_queue',path)
+            self.queue=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.queue)
+        else:
+            from scripts.pi0294.generalization import amd_export_queue
+            self.queue=amd_export_queue
+        self.BASE=self.control/'original-cpu-owner';self.BASE.mkdir(mode=0o700)
         self.global_path=self.root.parent.parent/'HOPPER_RESOURCE_LEDGER.json';self.request=read(self.root/'REQUEST.json')
         self.setup=mature.new_journal(self.BASE,'setup-rpc',dict(run_uuid=self.root.name,job_id='ONE_CPU_REQUEST',source_sha=pin['control_source_sha'],request_sha256=sha((self.root/'REQUEST.json').read_bytes())))
         resource.setrlimit(resource.RLIMIT_CORE,(0,0));resource.setrlimit(resource.RLIMIT_CPU,(175,180));os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
@@ -96,14 +107,14 @@ class Owner:
             return dict(receipt=receipt,GLOBAL_sha256=sha(self.global_path.read_bytes()))
         return self.setup.call('WRITE_'+sha(key.encode()).upper()[:40],'MUTATION',invoke)
     def fresh(self,secret):
-        from scripts.pi0294.dec1.vanda_campaign import collect_queue,queue_rows,classify
+        from scripts.pi0294.dec1.vanda_campaign import collect_queue,queue_rows
         from scripts.pi0294.pv1.evaluation_account_jobs import checked_outside
-        g=read(self.global_path);self.e.rows(g);project=self.auth(secret);quota=self.program('QUOTA');queue=collect_queue();rows=queue_rows(queue,now_epoch=time.time());owned,outside,unknown=classify(g,rows);need(not unknown,'COMPLETE_ACCOUNT_QUEUE_NO_UNKNOWN_CAMPAIGN')
+        g=read(self.global_path);self.e.rows(g);project=self.auth(secret);quota=self.program('QUOTA');queue=collect_queue();rows=queue_rows(queue,now_epoch=time.time());joined=self.queue.view(g,rows,request_id=self.request['request_id']);owned,outside,unknown=joined['own'],joined['outside'],joined['unknown'];need(not unknown,'COMPLETE_ACCOUNT_QUEUE_NO_UNKNOWN_CAMPAIGN')
         checked_outside(rows,outside,base64.b64decode(self.CONFIG['outside_confirmation_base64']))
         proof=self.e.scope.full_forecast(raw(g),base64.b64decode(self.CONFIG['historical_LOCAL_base64']));need(proof['cap_changes_required']=={},'ALL_FUTURE_MATRIX_FINAL_NO_SHORTFALL')
         future=proof['dimensions'];need(project['balance_CPU_hours']>=(future['Hopper_CPU_s']['projected']-g['CPU_s'])/3600 and project['balance_GPU_hours']>=(future['H200_s']['projected']-g['used']['H200_s'])/3600,'REAL_PROJECT_BALANCE_ALL_REMAINING_WORK')
         need(quota['report_age_s']<=3600 and quota['available_bytes_lower']>=max(g['storage_reserved_bytes']+40*1024**3+9442971836,future['Hopper_storage_bytes']['projected']-g['new_storage_current_bytes']),'REAL_PROJECT_FULL_REMAINING_OUTPUT_AND_FINAL')
-        return dict(GLOBAL_sha256=sha(self.global_path.read_bytes()),project=project,quota=quota,full_queue=queue,queue_rows=rows,own=owned,full_remaining_proof=proof,observed_epoch=time.time())
+        return dict(GLOBAL_sha256=sha(self.global_path.read_bytes()),project=project,quota=quota,full_queue=queue,queue_rows=rows,own=owned,exact_CPU_queue_join=joined,full_remaining_proof=proof,observed_epoch=time.time())
     def submit(self,secret):
         state=self.fresh(secret);need(not state['own'],'NO_OTHER_CAMPAIGN_JOB')
         need(time.time()<self.m['execution']['operation_deadline_epoch']-36600,'TIME_FOR_THE_COMPLETE_BOUND_CPU_STAGE')
@@ -171,8 +182,8 @@ class Owner:
         raise TimeoutError('ORIGINAL_SCOPE_DEADLINE_PRESERVE_EXISTING_CPU_JOB_AND_EVIDENCE')
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--root',required=True);args=p.parse_args();secret=sys.stdin.readline().rstrip('\n')or None;owner=Owner(args.root)
-    once(owner.root/'control/CPU_OWNER_PROCESS.json',dict(pid=os.getpid(),procstart=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],boot=Path('/proc/sys/kernel/random/boot_id').read_text().strip(),host=os.uname().nodename,source_control_sha=read(owner.root/'control/CPU_OWNER_BINDING.private.json')['control_source_sha'],epoch=time.time()))
+    p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--control-relative');args=p.parse_args();secret=sys.stdin.readline().rstrip('\n')or None;owner=Owner(args.root,control_relative=args.control_relative)
+    once(owner.control/'CPU_OWNER_PROCESS.json',dict(pid=os.getpid(),procstart=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],boot=Path('/proc/sys/kernel/random/boot_id').read_text().strip(),host=os.uname().nodename,source_control_sha=read(owner.control/'CPU_OWNER_BINDING.private.json')['control_source_sha'],epoch=time.time()))
     result=owner.run(secret);print(json.dumps(dict(status='FINITE_ORIGINAL_CPU_OWNER_NATURAL_SUCCESS',training_bank_qualified=result,native_training_permission=False)))
 
 if __name__=='__main__':main()
