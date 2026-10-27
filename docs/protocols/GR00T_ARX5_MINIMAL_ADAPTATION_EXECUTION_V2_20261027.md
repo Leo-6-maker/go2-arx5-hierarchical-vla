@@ -107,3 +107,31 @@ R0保留，不重开P0；这属于固定统计校准下的12示范研究，不�
 - `minimal_training.py`从原成熟recipe继承优化器/数值和原Trainer/loss/loader/scheduler，显式绑定raw父清单0e493187、E1/E2身份和固定panel。Trainer的max_steps保持1024，追加只读boundary observer在原owner commit callback之后核更新数/pending/unknown并于512保存停止，另有training_step拒绝第513步。无owner的真实效果回读不能启动这条新链。
 - 全保存额外绑定参数白名单、冻结基线、所有参数与buffer的实际fingerprint；框架重载后必须逐项一致，防止宽松加载静默漏掉切片。optimizer/scheduler/RNG/sampler及processor/R0仍由原完整保存流程负责。
 - 48CPU通过（此前30项+18项新增）；新的框架分发测试明确使用CPU fixture，本机没有Transformers/Accelerate，不冒称原框架或真实模型已通过。实际注册owner、有限模型资格、资源采用、两臂训练与所有Eval仍未执行。
+
+## 9. 实施增量：真实接触前语言输入、原始加载器与首阶段全资源复算
+
+最新报告 `ARX5_MINIMAL_RAW_LOADER_LANGUAGE_PANEL_AND_FULL_RESOURCE_CPU_ACTUAL_20261027.json` 记录76项CPU通过（新增28项，含6项全资源检查），无skip；真实完整GR00T、Transformers Trainer、CUDA和科学执行仍未运行。`minimal_model.py`只是原loader/processor/native-job路径的冷态消费者：新scope与same-job原owner release、完整七文件摘要、当前stat、原R0、严格loading info、H40/132/四步均须实际通过。尚无原生注册owner为此scope发release，库代码不构成GO。
+
+两份完整raw shard的首次只读全流核验超过原40秒观测界，后续精确原进程句柄不存在，但没有最终摘要回执。保留未知结果与CPU费用不确定性，不将缺回包称作hash成功，不自动重复整份权重读取；后续应由合法作业原owner在原生命周期内完成并保存七文件核验。本次不延长RPC、不新增后台auditor。
+
+已从六组冻结TRAIN几何读取真实anchor16双RGB/EEF10及原配对指令，六组第一次接触均在anchor29。按同观测、两合法任务指令、两固定noise seed，冻结每模型24次语言生成。72次是三模型语言部分，另有零步/兼容和末端TRAIN探针；首阶段训练侧全部生成上界147。输入不是抓住物体悬空后改推物，counterfactual语言从不成为BC标签；不重新渲染、采集或伪造视觉干预。语言反应差异不是任务成功。
+
+完整首阶段草案为 `ARX5_MINIMAL_FIRST512_FULL_RESOURCE_PACKAGE_SCOPE_DRAFT_20261027.json`。它在captured实际GLOBAL993ea3f7与历史LOCAL7cea上复用原完整forecast，保留C50/D25/GEN1待Eval、原失败/current/peak、matrix3和最终20GPUh/40GiB。历史LOCAL仍PENDING，不是假fresh或原生准入。
+
+| 维度 | 已采用上限 | 草案全包上限 |
+|---|---:|---:|
+| GPU小时 | 121 | 147 |
+| PBS次数 | 37 | 39 |
+| Vanda站点CPU小时 | 213 | 265 |
+| Core CPU小时 | 320 | 380 |
+| 总传输GiB | 332 | 455 |
+| GPU站点输出GiB | 1176 | 1399 |
+| Core输出GiB | 477 | 550 |
+
+这些是**尚未采用**的精确变更；其他上限/原时钟不变。新增完整工作上界33.57GPU小时，但已有余量抵扣后总cap只需增加26小时；不把上界称必须花费。两臂保留原1024训练成本包络而不事先承诺512或少参数减半耗时。拟用一份16.5小时walltime PBS串行独立raw初始化的E1/E2资格与512，另保留一次严格已闭合零模型/查询/更新/构造/积分的冷工程替换；不重放UNKNOWN或有效行为失败。
+
+实际资格每臂允许一次真实原Trainer更新和完整保存恢复验证，再从raw父fresh开始正式512。因此本阶段计1024正式更新+2资格更新=1026，累计15812仍在16384内；这两次费用不会擦除。该一更新资格路径仍待原owner/Trainer冷接线与真实验证，不能按已完成计。若后来共同续1024，计入资格后至少16836更新，超旧上限452，仍须条件范围，未预留或自动批准。
+
+每臂保留70GB完整状态上界（资格与512状态均保留），每份推理包保守16GiB。沿原Eval向量只调整其中已有模型复制槽位，不另加第三份模型、不借旧paidIO或历史删除退款；实际保存/显存/速度仍须量测，超界即不得继续。两Eval保留原26start/600秒80cycles资格与所有原失败/S1/评分。Vanda预算中原Eval侧保守CPU上界不擅自扣减，Core神经CPU显式保留。
+
+首阶段资源采用、真实原始模型资格、Core管理侧恢复与原测量资格仍是未完成项。4080S未恢复前默认不启动两臂完整训练；即使以后批准资源，也不能用批准替代真实测量链资格。没有新request、预付、qsub、GPU、模型、物理或账本写入，wholegoal未完成。
