@@ -6,6 +6,7 @@ Metadata/HF IO is inside the original stage, never a second delivery invoice.
 """
 from copy import deepcopy
 import json,re
+from decimal import Decimal
 from . import mix_accounting as a,mix_core_accounting as c,successor_cd as s
 from .evaluation_core_accounting import terminal_values
 from .successor_core_context import LEDGER_SCHEMA
@@ -15,6 +16,25 @@ FIELD='V5_CD_actual_Core_stage_projection'
 
 def need(ok,why):
     if not ok:raise PermissionError('V5_CD_CORE_CLOSE_'+why)
+
+
+def release_CPU(reserved,*,neural_paid,physical_paid=None):
+    """Release the exact unused decimal CPU envelope; no epsilon or clamp.
+
+    Kernel CPU debits have decimal seconds. Grouping binary subtractions can
+    undershoot an untouched future escrow by one ULP after a fractional debit.
+    Preserve those recorded decimal values when removing the remaining hold.
+    """
+    paid=a.number(neural_paid)
+    need(paid<=c.CPU_UPPER,'NEURAL_PAID_WITHIN_ORIGINAL_CPU_ENVELOPE')
+    value=Decimal(str(a.number(reserved)))
+    value-=Decimal(c.CPU_UPPER)-Decimal(str(paid))
+    if physical_paid is not None:
+        physical=a.number(physical_paid)
+        need(physical<=93900,'PHYSICAL_PAID_WITHIN_ORIGINAL_CPU_ENVELOPE')
+        value-=Decimal(93900)-Decimal(str(physical))
+    need(value>=0,'NONNEGATIVE_EXACT_UNUSED_CPU_RELEASE')
+    return float(value)
 
 
 def physical(physical_bytes,row):
@@ -88,7 +108,8 @@ def propose(global_bytes,local_bytes,*,request_id,native_proof,effects,physical_
     v=deepcopy(g);row=v[c.FIELD][request_id];gpu,cpu,q,loads=(amounts[k]for k in ('gpu','cpu','queries','loads'))
     oldq,oldloads,oldcpu=c.progress(before)
     need(q==oldq and loads==oldloads,'EVERY_MODEL_QUERY_PAID_BEFORE_EFFECT')
-    v['used']['H200_s']+=gpu;v['CPU_s']+=cpu-oldcpu;v['CPU_reserved_s']-=c.CPU_UPPER-oldcpu
+    v['used']['H200_s']+=gpu;v['CPU_s']+=cpu-oldcpu
+    v['CPU_reserved_s']=release_CPU(v['CPU_reserved_s'],neural_paid=oldcpu)
     v['reserved']['H200_s']-=c.GPU_UPPER;v['reserved']['neural_queries']-=before['reserved_neural_queries']
     from . import mix_core_premodel_repair as repair
     covered=repair.output_credit(g,before)
@@ -100,8 +121,11 @@ def propose(global_bytes,local_bytes,*,request_id,native_proof,effects,physical_
         terminal_effect_summary_sha256=c.digest(effects),settled_epoch=now_epoch)
     need(request_id not in local.get('V5_CD_Core_terminal_settlements',{}),'ONE_NATIVE_FINANCIAL_TERMINAL')
     local['GPU_reserved_s']-=c.GPU_UPPER;local['GPU_allocated_s']+=gpu
-    local['CPU_reserved_s']['Hopper']-=c.CPU_UPPER-oldcpu;local['CPU_s']['Hopper']+=cpu-oldcpu
-    local['CPU_reserved_s']['CoreLab']-=c.CPU_UPPER-oldcpu+93900-phys['physical_CPU_s'];local['CPU_s']['CoreLab']+=cpu-oldcpu
+    local['CPU_reserved_s']['Hopper']=release_CPU(local['CPU_reserved_s']['Hopper'],neural_paid=oldcpu)
+    local['CPU_s']['Hopper']+=cpu-oldcpu
+    local['CPU_reserved_s']['CoreLab']=release_CPU(local['CPU_reserved_s']['CoreLab'],
+        neural_paid=oldcpu,physical_paid=phys['physical_CPU_s'])
+    local['CPU_s']['CoreLab']+=cpu-oldcpu
     allocation=repair.allocation(g,arm);held=local['Core_native_GPU_reserved']
     for name,unused in [('episode_starts',26-phys['episodes']),('constructors',2108-phys['constructors']),('physics_ticks',832000-phys['live']-phys['shadow']),('CoreLab_output_bytes',allocation['Core_storage_bytes']),('transfer_bytes',allocation['transfer_bytes'])]:
         need(held[name]>=unused,'ENTIRE_ORIGINAL_REMAINING_ESCROW:'+name);held[name]-=unused

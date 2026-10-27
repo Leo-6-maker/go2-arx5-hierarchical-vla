@@ -70,7 +70,8 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
         native_handle=process['native_handle'],native_process=process,native_process_sha256=c.digest(process),
         hostname=process['hostname'],allocation_start_epoch=start,
         allocation_end_epoch=min(start+28800,r['deadline_epoch']),model_loaded=False,new_optimizer_updates=0)
-    n.sealed_identity(m,r,allocation,run_uuid=r['run_uuid'],manifest_sha256=a.sha(manifest_bytes),request_sha256=a.sha(request_bytes))
+    n.sealed_identity(m,r,allocation,run_uuid=r['run_uuid'],manifest_sha256=a.sha(manifest_bytes),
+        request_sha256=a.sha(request_bytes),same_bound_process=row)
     need(0<=now-process['observed_epoch']<=120 and process['observed_epoch']>=start
          and all(process.get(k)==row.get(v)for k,v in [('native_handle','native_handle'),('boot_id','boot_id'),
              ('pid','pid'),('proc_start','proc_start'),('started_epoch','process_started_epoch')]),

@@ -1,0 +1,63 @@
+{
+  "schema": "V5_CORE_C50_ACTUAL_NATIVE600S_PASS_POSTQUALIFICATION_BOUND_IDENTITY_FAILURE_AND_COLD_FIX_V1",
+  "date": "2026-10-28",
+  "runtime_source": "945595ccd6fbca8f50a51fde963085f9c286be39",
+  "request_id": "75c63c6e-c3f6-41cc-adae-a62971b26e74",
+  "actual_native_exit_status": 1,
+  "actual_owner_exit_status": 1,
+  "original_same_job_qualification": {
+    "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+    "receipt_sha256": "5b5c8d73a0789f72136e4a6a4894e7c6a3bdb45cb4520cf33d6c5dc381ad69cb",
+    "heartbeat_elapsed_s": 600.0053174588829,
+    "transport_cycles": 80,
+    "new_model_queries": 0,
+    "new_physics": 0
+  },
+  "qualification_is_not_model_or_behavior_success": true,
+  "actual_model_loads": 0,
+  "actual_queries": 0,
+  "actual_constructors": 0,
+  "actual_integrations": 0,
+  "actual_valid_conditions": 0,
+  "actual_native_terminal_GPU_s": 691,
+  "actual_native_terminal_neural_CPU_s": 4,
+  "actual_physical_CPU_s": 303.151122091,
+  "failure": "Owner post600s resource recompile reused the initial-process observation<=120s constraint for a fresh reading of the same already bound process. Owner stopped only its own neural child, which exited without model release.",
+  "cold_fix": {
+    "initial_observation_still_requires120s": true,
+    "later_context_requires_full_validated_canonical_bound_row": true,
+    "exact_boot_PID_procstart_start_handle_request_and_manifest_match": true,
+    "current_process_and_desktop_reads_still_fresh_within120s": true,
+    "original_walltime_deadline_qualification_S1_scoring_unchanged": true
+  },
+  "fractional_CPU_settlement_fix": {
+    "actual_prepaid_CPU_s": 2.794319455,
+    "binary_residual_before": 449612.99999999994,
+    "exact_recorded_decimal_residual": 449613.0,
+    "no_epsilon_clamp_or_refund": true
+  },
+  "settlement_and_three_lease_close": "PENDING_NATIVE: pure original full terminal proposal passes after decimal reservation fix; no settlement mutation has been dispatched.",
+  "native_terminal_readback_sha256": "2f4a328bf80c578cb46d1f53f7222e7d3a4394df1e44ce9fc392325090efa4e2",
+  "CPU_tests": {
+    "actual_complete_post600_input_replay_with_explicit_later_live_process_fixture": 10,
+    "decimal_terminal": 6,
+    "original_terminal": 15,
+    "additional_identity_and_full_admission": 49,
+    "total_nonduplicated": 80,
+    "first_replay_after_final_CPU_charge_failed_then_exact_historical_GLOBAL_reconstruction_joined_saved_snapshot_SHA": true
+  },
+  "remaining_resource_projection": {
+    "native_adopted": false,
+    "requires_only_GPU_hours_change": {
+      "before": 147,
+      "proposed": 148,
+      "exact_extra_seconds_before_hour_rounding": 172
+    },
+    "all_other_dimensions_fit": true,
+    "all_original_costs_IO_unknowns_caps_clocks_matrix3_and_final_protection_preserved": true
+  },
+  "C_D_GEN_valid_behavior_each": 0,
+  "E1_E2_actual_GR00T_qualification_and_formal512": false,
+  "whole_goal_complete": false,
+  "next_minimum_blocker": "Publish/readback this cold fix, legally settle the actual C09 terminal and close its leases once, then confirm full actual future forecast. NewC50 allocation cannot launch while its remaining full-package GPU cap shortfall is unapproved."
+}

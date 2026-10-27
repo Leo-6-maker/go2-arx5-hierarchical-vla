@@ -177,7 +177,8 @@ def current_owner(root, request, *, request_sha256):
     return owner
 
 
-def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha256):
+def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha256,
+                    same_bound_process=None):
     from . import evaluation_core_identity as original
     request_identity(m, r, manifest_sha256)
     p = allocation.get('native_process')
@@ -203,8 +204,23 @@ def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha2
          and allocation.get('allocation_start_epoch') == p['started_epoch']
          and allocation.get('allocation_end_epoch') == min(p['started_epoch']+28800, r['deadline_epoch'])
          and allocation.get('hostname') == p['hostname']
-         and 0 <= p['observed_epoch']-p['started_epoch'] <= 120,
+         and 0 <= p['observed_epoch']-p['started_epoch'],
          'SAME_RAW_BOOT_PID_START_NOT_A_PREPARED_HANDLE')
+    if same_bound_process is None:
+        need(p['observed_epoch']-p['started_epoch']<=120,'INITIAL_PROCESS_BIND_WITHIN120S')
+    else:
+        # Recompiling resources after endurance is not another initial bind.
+        # The caller supplies the already validated canonical GLOBAL row, and
+        # independently checks the newly read process against now below.
+        c.validate_row(same_bound_process)
+        need(same_bound_process['status']in c.STATES[1:3]
+             and same_bound_process['request_id']==r['request_id']
+             and same_bound_process['request_sha256']==request_sha256
+             and same_bound_process['run_manifest_sha256']==manifest_sha256
+             and all(same_bound_process.get(k)==p.get(v)for k,v in
+                 [('native_handle','native_handle'),('boot_id','boot_id'),('pid','pid'),
+                  ('proc_start','proc_start'),('process_started_epoch','started_epoch')]),
+             'LATER_READ_ONLY_OF_THE_SAME_ACTUALLY_BOUND_PROCESS')
     check_clock(r, started_epoch=p['started_epoch'], now_epoch=p['observed_epoch'])
     limits = p['kernel_limits']
     original.kernel_limits(str(limits['CPU_quota'])+' '+str(limits['CPU_period']),
