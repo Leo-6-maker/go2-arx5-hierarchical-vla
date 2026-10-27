@@ -101,6 +101,9 @@ def validate_row(r):
     if r['status'] == STATES[0]:
         need(r.get('native_handle') is None and not any(n in r for n in
              ('boot_id', 'pid', 'proc_start', 'process_started_epoch')), 'UNKNOWN_IS_NOT_RUNNING')
+    elif r.get('terminal_identity_kind')=='V5_CD_KNOWN_ZERO_PREBIND_DESKTOP_CHECK_TERMINAL_V1':
+        from .mix_core_prebind_terminal import row as exact_prebind_row
+        exact_prebind_row(r)
     else:
         need(r.get('native_handle') == process_handle(r.get('boot_id'), r.get('pid'), r.get('proc_start'))
              and r['created_epoch'] <= r['process_started_epoch'] < r['deadline_epoch'] - 28860,
@@ -120,6 +123,8 @@ def validate_rows(g):
     rows = g[FIELD]
     from . import mix_core_premodel_repair as repair
     repaired=repair.validated(g)
+    from . import mix_core_prebind_terminal as prebind
+    prebind.validate(g)
     need(type(rows) is dict and 1 <= len(rows) <= (3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
     arms = []
     for request_id, r in rows.items():

@@ -60,3 +60,17 @@ def filter_processes(process_raw,request,*,proof,now_epoch):
     need(len(authorized)<=1,'NO_DUPLICATE_GPU_DESKTOP_IDENTITY')
     out=io.StringIO();csv.writer(out,lineterminator='\n').writerows(keep)
     return out.getvalue(),dict(grant_sha256=GRANT_SHA,kernel_read=proof,authorized_desktop_rows=authorized)
+
+
+def owner_kernel_helpers(original_bytes):
+    """Cold fix of the exact original helper; never rewrite a running owner."""
+    import hashlib,ast
+    need(hashlib.sha256(original_bytes).hexdigest()==
+         '925bb0c0ae4709df25636906c353a39d32a22ddd0758634909e5a5ff60aa08e1',
+         'EXACT_ORIGINAL_OWNER_HELPER_BYTES')
+    text=original_bytes.decode();old="GPU_uuid=r['GPU_uuid'])"
+    need(text.count(old)==1,'ONE_ORIGINAL_OWNER_DEVICE_READER')
+    text=text.replace(old,"GPU_uuid=r['GPU_uuid'],own_pid=pid if list((owner.directory/'MODEL_LOAD_INTENTS').glob('*.json'))else None,desktop_request=r if 'Core_desktop_coexistence_grant_sha256'in r else None)")
+    tree=ast.parse(text);calls=[x for x in ast.walk(tree)if isinstance(x,ast.Call)and isinstance(x.func,ast.Name)and x.func.id=='parse_GPU_rows']
+    need(len(calls)==1 and {'own_pid','desktop_request'}<={k.arg for k in calls[0].keywords},'ALL_OWNER_CALLS_BIND_NEW_SCOPE_AND_OWN_MODEL_PID')
+    return text.encode()
