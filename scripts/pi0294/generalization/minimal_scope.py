@@ -56,13 +56,19 @@ def components():
 def first512_forecast(global_bytes, historical_LOCAL_bytes):
     """Add the entire first phase while preserving every baseline dimension."""
     baseline = full_forecast(global_bytes, historical_LOCAL_bytes)
+    # A new direct grant overlays only its seven dimensions. This is still a
+    # pure forecast, not a package reservation or native model admission.
+    import json
+    from .minimal_adoption import effective_caps
+    caps = effective_caps(json.loads(global_bytes),
+                          {k:r['cap'] for k,r in baseline['dimensions'].items()})
     parts = components()
     additional = _vector({key: sum(row[key] for row in parts.values())
                           for key in baseline['dimensions']})
     dimensions, changes = {}, {}
     for key, old in baseline['dimensions'].items():
         projected = old['projected'] + additional[key]
-        cap = old['cap']
+        cap = caps[key]
         shortfall = max(0, projected - cap)
         proposed = cap
         if shortfall:

@@ -39,7 +39,7 @@ def test_all_prior_dimensions_and_protections_survive(monkeypatch):
                T_CD=1, deadline=3, stop_new_training=2)
     pristine = deepcopy(old)
     monkeypatch.setattr(s, 'full_forecast', lambda a,b: old)
-    p = s.first512_forecast(b'global',b'local')
+    p = s.first512_forecast(b'{}',b'local')
     assert old == pristine
     assert p['scope_adopted'] is p['native_admission'] is False
     assert p['LOCAL_is_historical'] is True
@@ -56,7 +56,7 @@ def test_resource_rounding_never_lowers_an_adopted_cap(monkeypatch):
     old=dict(dimensions={k:dict(cap=1,projected=1)for k in _vector({})},
              T_CD=1,deadline=3,stop_new_training=2)
     monkeypatch.setattr(s,'full_forecast',lambda a,b:old)
-    p=s.first512_forecast(b'g',b'l')
+    p=s.first512_forecast(b'{}',b'l')
     for key,row in p['dimensions'].items():
         assert row['proposed_cap'] >= row['cap']
         assert row['headroom_after_proposed_cap'] >= 0
