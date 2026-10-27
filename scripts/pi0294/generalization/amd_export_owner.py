@@ -128,7 +128,10 @@ class Owner:
         state=self.fresh(secret);need(not state['own'],'NO_OTHER_CAMPAIGN_JOB')
         need(time.time()<self.m['execution']['operation_deadline_epoch']-36600,'TIME_FOR_THE_COMPLETE_BOUND_CPU_STAGE')
         r=read(self.global_path);items=self.e.rows(r);need(len(items)==1 and items[0]['job_id']is None,'EXACT_UNBOUND_ORIGINAL_REQUEST')
-        directory=self.root/'pbs/alloc-01';directory.mkdir(mode=0o700)
+        # Root/manifest/lease and this unbound request have already been
+        # validated. Create only its missing metadata parent; an existing
+        # allocation still raises, so an unknown qsub can never be replayed.
+        directory=self.root/'pbs/alloc-01';directory.mkdir(mode=0o700,parents=True)
         body=script(self.root,self.code,self.request,self.m['execution']['python'],
             entry_module=self.m['execution'].get('entry_module','scripts.pi0294.generalization.amd_export_runtime'));path=directory/'job.pbs'
         fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)

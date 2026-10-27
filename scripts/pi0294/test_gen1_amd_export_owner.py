@@ -49,6 +49,15 @@ def test_single_submit_and_original_once_global_bind(owner,monkeypatch):
  with pytest.raises(PermissionError):owner.submit(None)
  assert len(calls)==1
 
+def test_missing_pbs_parent_is_created_inside_registered_root_before_single_qsub(owner,monkeypatch):
+    (owner.root/'pbs').rmdir();calls=[]
+    def query(argv,**kwargs):calls.append(argv);return SimpleNamespace(returncode=0,stdout='123.stdct-mgmt-02\n',stderr='')
+    monkeypatch.setattr(w.subprocess,'run',query)
+    assert owner.submit(None)=='123.stdct-mgmt-02'
+    assert(owner.root/'pbs/alloc-01/job.pbs').is_file()and len(calls)==1
+    with pytest.raises(PermissionError):owner.submit(None)
+    assert len(calls)==1
+
 def test_qsub_unknown_latches_before_bind_without_resubmitting(owner,monkeypatch):
  calls=[]
  def query(argv,**kwargs):calls.append(argv);raise subprocess.TimeoutExpired(argv,30)
