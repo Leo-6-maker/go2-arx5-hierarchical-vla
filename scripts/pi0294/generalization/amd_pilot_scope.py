@@ -89,12 +89,12 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
         adopted=adopted_GEN1(g)['caps']
         from .amd_training_retry import effective_caps
         adopted=effective_caps(g,adopted)
-    need(g[a.PACKAGE]['completed_stages']==['TRAIN:C50:1024','TRAIN:D25:1024']
-         and g['pending_updates']==g['unknown_effects']==[],'BOTH_CLOSED_TRAININGS_NO_CURRENT_EFFECTS')
+    remaining_panels=original_remaining_panels(g)
+    need(g['pending_updates']==g['unknown_effects']==[],'BOTH_CLOSED_TRAININGS_NO_CURRENT_EFFECTS')
     # The conservative historical LOCAL projection already retains the two
     # original Eval GPU/Core-CPU escrows. Never count that as a fresh read.
-    need(base['dimensions']['H200_s']['reserved']>=2*28860
-         and base['dimensions']['Core_CPU_s']['reserved']>=2*173900,
+    need(base['dimensions']['H200_s']['reserved']>=len(remaining_panels)*28860
+         and base['dimensions']['Core_CPU_s']['reserved']>=len(remaining_panels)*173900,
          'EXACT_ORIGINAL_C_D_COMPUTE_HOLDS_RETAINED')
     add={k:0 for k in base['dimensions']}
     def plus(values):
@@ -135,8 +135,9 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
     # Re-invoice future C output fully, not transfer its consumed old request's
     # paidIO marker. Its original compute/paid control remain already held.
     ev=a.stage_vector('EVAL',Core_GPU_projection=True)
-    plus({k:ev[k]for k in ('episode_starts','physics_ticks','engine_starts','neural_queries',
-                          'Hopper_storage_bytes','Core_storage_bytes','transfer_bytes')})
+    if 'C50'in remaining_panels:
+        plus({k:ev[k]for k in ('episode_starts','physics_ticks','engine_starts','neural_queries',
+                              'Hopper_storage_bytes','Core_storage_bytes','transfer_bytes')})
     # Keep one new endpoint's eventual original24 Core Eval in the complete
     # forecast. No current Eval dispatch and no new Vanda Eval PBS are implied.
     plus(ev)
@@ -168,3 +169,41 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
         original_C_D_Eval_and_new_GEN_Eval_forecast_retained=True,
         matrix3_and_final20GPUh40GiB_retained=True,T_CD=g[s.FIELD]['T_CD'],
         deadline=g[s.FIELD]['deadline_epoch'],stop_new_training=g[s.FIELD]['stop_new_training_epoch'])
+
+
+def original_remaining_panels(g):
+    """Consume only original independently audited24/once-closed stage markers.
+
+    No success threshold. An engineering terminal, partial result, or an added
+    completed-stage string cannot remove the original remaining-panel hold.
+    """
+    from scripts.pi0294.pv1 import mix_core_accounting as c
+    package=a.package_view(g);done=package['completed_stages']
+    need(done[:2]==['TRAIN:C50:1024','TRAIN:D25:1024'],'BOTH_ORIGINAL_TRAIN_ENDPOINTS')
+    closed=package.get('closed_Eval_stages',{});remaining=[]
+    for arm in('C50','D25'):
+        key=c.key(arm)
+        if key not in done:
+            need(key not in closed,'NO_UNADOPTED_CLOSED_STAGE_CREDIT');remaining.append(arm);continue
+        proof=closed.get(key,{});row=g.get(c.FIELD,{}).get(proof.get('request_id'))
+        need(type(row)is dict and row['status']=='NATIVE_TERMINAL'and row['native_exit_status']==0
+            and row['evaluation_candidate']==arm and row['unknown_query_intents']==[]
+            and proof.get('schema')=='V5_CD_COMPLETE_ORIGINAL_DEV24_AUDITED_DUAL_CLOSED_V1'
+            and proof.get('candidate')==arm and proof.get('terminal_native_sha256')==row['terminal_native_sha256']
+            and proof.get('checkpoint_manifest_sha256')==row['checkpoint_manifest_sha256']
+            and proof.get('all_valid_failures_preserved')is True
+            and proof.get('history',{}).get('valid_conditions')==24,'ORIGINAL_FULL24_INDEPENDENT_TERMINAL_MARKER')
+        history=proof['history']
+        from scripts.pi0294.pv1.dataset import POPULATION
+        need(history.get('schema')=='V5_CD_ORIGINAL_DEV24_VALIDATED_HISTORY_V1'
+            and history.get('authority_release')==s.TASK_SOURCE and history.get('candidate')==arm
+            and history.get('population_plan_sha256')==POPULATION
+            and history.get('checkpoint_manifest_sha256')==row['checkpoint_manifest_sha256']
+            and history.get('checkpoint_step')==1024 and history.get('complete_DEV24')is True
+            and history.get('remaining_eligible_conditions')==0
+            and len(history.get('condition_result_sha256',{}))==len(history.get('independent_audit_sha256',{}))==24,
+            'ORIGINAL_VALIDATED_POPULATION_AND_ALL_RESULT_AUDIT_IDENTITIES')
+        for k in('GPU_lease_sha256','physical_lease_sha256'):
+            value=proof.get(k);need(type(value)is str and len(value)==64 and all(c in'0123456789abcdef'for c in value),'REAL_DUAL_CLOSE_IDENTITIES')
+    need(set(closed)<=set(c.key(arm)for arm in('C50','D25')),'NO_NEW_CANDIDATE_STAGE_CREDIT')
+    return remaining
