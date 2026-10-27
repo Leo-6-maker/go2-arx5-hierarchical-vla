@@ -1,0 +1,199 @@
+{
+  "schema": "ARX5_MINIMAL_FIRST512_GLOBAL_WHOLE_PACKAGE_RESERVED_ACTUAL_V1",
+  "date": "2026-10-27",
+  "status": "GLOBAL_WHOLE_PACKAGE_ONCE_RESERVED_CORE_LOCAL_PENDING_NO_DISPATCH",
+  "source": "52b1ccc9836488e7b2a08f973b9012770c805905",
+  "previous_goal_turn_classification": "PROGRESS_CAP_ADOPTION_AND_WARMUP_QUALIFICATION",
+  "this_goal_turn_classification": "PROGRESS_ACTUAL_WHOLE_PACKAGE_RESERVATION",
+  "native": {
+    "before_GLOBAL_sha256": "d3e48b1148987b3b5279d258d39f10552606db3d27ab77e6d5ff9aa6bcd07ec4",
+    "GLOBAL_sha256": "d9a314578ea2e0a83814ff7bc1aefc17e4dc3e6f05157ac2d83ac5a2c9c806db",
+    "receipt_status": "CONFIRMED_SINGLE_METADATA_WRITE_NOT_CROSS_SITE_ADMISSION",
+    "intent_sha256": "b1be2012e7e5a046f9eb723689366c049feeae38579b03617af765cce2911c4d",
+    "independent_reconcile": "CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT",
+    "receipt_binding_valid": true,
+    "old_paid_costs_rows_scopes_and_packages_unchanged": true,
+    "actual_LOCAL_written": false,
+    "native_admission": false,
+    "new_requests": 0,
+    "new_PBS": 0,
+    "new_GPU": 0,
+    "actual_used": {
+      "H200_s": 158047.0,
+      "PBS_submissions": 34,
+      "optimizer_updates": 14786,
+      "neural_queries": 4511
+    },
+    "actual_reserved": {
+      "H200_s": 149700,
+      "neural_queries": 6438,
+      "optimizer_updates": 1028
+    },
+    "GPU_site_CPU_reserved_s": 529613.0,
+    "GPU_site_output_reserved_bytes": 281827996472,
+    "GLOBAL_bytes_added": 3687,
+    "known_metadata_CPU_s": 21.925940268999998,
+    "prior_unknown_CPU_costs_preserved": true
+  },
+  "package": {
+    "schema": "ARX5_MINIMAL_FIRST512_ORIGINAL_GLOBAL_PACKAGE_V1",
+    "scope": "ARX5_MINIMAL_MATCHED_RAW_PARENT_FIRST512_V1",
+    "grant_sha256": "6a9830b8b328fce861fed927db24f2875d74b973db9eb86774f991de67493572",
+    "cap_authority_sha256": "005ab5a3e3627e09de54bc4dabff04c3e234c9d0fcc42e3d91bc4743b2f65cfd",
+    "T_CD": 1792932749.8133287,
+    "deadline_epoch": 1793537549.8133287,
+    "stop_new_training_epoch": 1793451149.8133287,
+    "reserved_epoch": 1793095238.602627,
+    "before_GLOBAL_sha256": "d3e48b1148987b3b5279d258d39f10552606db3d27ab77e6d5ff9aa6bcd07ec4",
+    "historical_LOCAL_sha256": "7cea556c4c80765582644ce1ed47d71f3c0c3084b445d02dd16a55854b386f1a",
+    "original_resources": {
+      "H200_s": 120840,
+      "PBS_submissions": 2,
+      "optimizer_updates": 1028,
+      "episode_starts": 52,
+      "neural_queries": 4341,
+      "physics_ticks": 1664000,
+      "engine_starts": 4216,
+      "Core_CPU_s": 347800,
+      "Hopper_CPU_s": 347200,
+      "local_CPU_s": 15630,
+      "transfer_bytes": 131868917760,
+      "Hopper_storage_bytes": 239119792128,
+      "Core_storage_bytes": 77644955648,
+      "local_storage_bytes": 0
+    },
+    "remaining_resources": {
+      "H200_s": 120840,
+      "PBS_submissions": 2,
+      "optimizer_updates": 1028,
+      "episode_starts": 52,
+      "neural_queries": 4341,
+      "physics_ticks": 1664000,
+      "engine_starts": 4216,
+      "Core_CPU_s": 347800,
+      "Hopper_CPU_s": 347200,
+      "local_CPU_s": 15630,
+      "transfer_bytes": 131868917760,
+      "Hopper_storage_bytes": 239119792128,
+      "Core_storage_bytes": 77644955648,
+      "local_storage_bytes": 0
+    },
+    "session_plan": [
+      {
+        "id": "E0_RAW_DIAGNOSTIC",
+        "arm": "E0_RAW",
+        "optimizer_limit": 0,
+        "query_limit": 41,
+        "sample_visits": 0,
+        "fresh_raw_parent": true,
+        "formal_candidate": false
+      },
+      {
+        "id": "E1_ADAPTER_ONLY_QUALIFY2",
+        "arm": "E1_ADAPTER_ONLY",
+        "optimizer_limit": 2,
+        "query_limit": 17,
+        "sample_visits": 64,
+        "fresh_raw_parent": true,
+        "formal_candidate": false
+      },
+      {
+        "id": "E2_SHARED_ACTION_HEAD_QUALIFY2",
+        "arm": "E2_SHARED_ACTION_HEAD",
+        "optimizer_limit": 2,
+        "query_limit": 17,
+        "sample_visits": 64,
+        "fresh_raw_parent": true,
+        "formal_candidate": false
+      },
+      {
+        "id": "E1_ADAPTER_ONLY_FORMAL512",
+        "arm": "E1_ADAPTER_ONLY",
+        "optimizer_limit": 512,
+        "query_limit": 36,
+        "sample_visits": 16384,
+        "fresh_raw_parent": true,
+        "formal_candidate": true
+      },
+      {
+        "id": "E2_SHARED_ACTION_HEAD_FORMAL512",
+        "arm": "E2_SHARED_ACTION_HEAD",
+        "optimizer_limit": 512,
+        "query_limit": 36,
+        "sample_visits": 16384,
+        "fresh_raw_parent": true,
+        "formal_candidate": true
+      }
+    ],
+    "completed_sessions": [],
+    "registered_requests": [],
+    "scheduler_horizon": 1024,
+    "raw_parent_files_identity": "0e493187af087d156f6352d46ce14e049ff18e7c1cb1eabc8671357ab4b96e71",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "panel_sha256": "d603324fee6cc69f5b488b47cfaf13dd4bc1feb8d8dc6411a1a739822cfff74d",
+    "full_cursor_sha256": "cb73066ac016eca8aec659b66c87059c7edd203f3af8992379267f4a6c454658",
+    "Core_LOCAL_sync": "PENDING_CANONICAL_4080_NODE_LOCAL_NO_COPY",
+    "actual_LOCAL_written": false,
+    "native_admission": false,
+    "Core_measurement_gate_for_formal_training": true,
+    "status": "GLOBAL_RESERVED_CORE_LOCAL_PENDING_NO_DISPATCH"
+  },
+  "exact_credit": {
+    "nominal_new_GPU_hold_s": 120840,
+    "actual_GPU_projection_credit_s": 91980,
+    "old_historical_LOCAL_GPU_floor_retained": true,
+    "all_projected_dimensions_equal_before_and_after": true,
+    "full_future_shortfalls": {},
+    "projected_optimizer_calls": 15814,
+    "optimizer_cap": 16384
+  },
+  "CPU": {
+    "minimal_pytest_pass": 108,
+    "legacy_pytest_pass": 54,
+    "legacy_subtests_pass": 20,
+    "captures": {
+      "minimal": {
+        "junit_testcase_elements": 108,
+        "junit_sha256": "ac1bdddd237f49020f3949799dd8ca25e4a99b982c6df5813a02e74b79bd3277",
+        "skips": 0,
+        "failures": 0,
+        "errors": 0
+      },
+      "legacy": {
+        "junit_testcase_elements": 54,
+        "junit_sha256": "84fa3fde20dff5f2faecc67283763fd9f043d3e10b2f829bdd15ad90dfc1a837",
+        "skips": 0,
+        "failures": 0,
+        "errors": 0
+      }
+    },
+    "source_sha256": {
+      "scripts/pi0294/generalization/minimal_package.py": "1a393922ce034260c6352ed3df7fd82579d8ffd98b675b617756370c8d71ec3b",
+      "scripts/pi0294/generalization/minimal_scope.py": "01080f23c4da50e7259afe3c9e612cbe13c8e8d8e020c5a78dcc15e888f69900",
+      "scripts/pi0294/generalization/minimal_adoption.py": "fd420413b72949b9ff5f9827ae341348a15f799850afc0331b1f1c52a7e977c1",
+      "scripts/pi0294/pv1/evaluation_scope.py": "ae44f2472de64fe0f5a8bec75ea06ad43357eed2b5f92d130213494e0af70675",
+      "scripts/pi0294/pv1/evaluation_admission.py": "e80d86b989d89c92a0f3b118de6c3980d209c53225dddb57b2a186170377cd7f",
+      "scripts/pi0294/pv1/resources.py": "213ab4a5a51ad2a05b9990f809b2fe892c58b9a38ef728ba2c34933ef4cd43e7",
+      "scripts/pi0294/pv1/mix_accounting.py": "6ef8f541bf9143ef6654fb7d7b142bf9161a7d565c1daa1bd32d92923e0b73b9",
+      "tests/test_minimal_arx5_package.py": "183a4c3ffc7f555873e79d84cbd5bed75bfbd82d1554667cef0d4484daecc03c"
+    },
+    "native_model_or_physics_qualification": false,
+    "full_Transformers_or_GR00T_or_CUDA_used": false
+  },
+  "failures_preserved": [
+    "Initial report-builder omitted src from PYTHONPATH; failed before report writes or native calls; rerun with original source path."
+  ],
+  "remaining": [
+    "Original owner typed request/manifest/registry/profile/lease and mutable per-session effect adapter",
+    "Actual full raw-parent digest and model equivalence/gradient/save-restore qualification",
+    "Administrator restores Core4080S, exact UNKNOWN reconciliation and fresh canonical LOCAL sync, original measurement chain",
+    "Original C50/D25/GEN1 panels; E1/E2 both512 and paired24 analysis/once closure"
+  ],
+  "new_scientific_generations": 0,
+  "new_optimizer_updates": 0,
+  "new_model_loads": 0,
+  "new_constructors_or_integrations": 0,
+  "Core_LOCAL": "HISTORICAL_PENDING_NOT_WRITTEN",
+  "existing_C_D_GEN1_behavior_each": "0/24",
+  "whole_goal_complete": false
+}

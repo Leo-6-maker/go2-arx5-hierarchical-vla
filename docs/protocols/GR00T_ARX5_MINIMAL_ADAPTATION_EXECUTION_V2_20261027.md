@@ -149,3 +149,17 @@ R0保留，不重开P0；这属于固定统计校准下的12示范研究，不�
 计费完整保留每臂2资格调用：首阶段1024正式+4资格=1028，已有14786加本阶段为15814，仍≤16384；两臂条件续至1024时为16838，至少超旧cap454，未自动授权或预留。此前草案的1026/15812是一次调用资格的历史计划，不改原批准文件或重做cap采用。修正后的全未来复算 `ARX5_MINIMAL_FIRST512_POST_CAP_ADOPTION_AND_WARMUP_FUTURE_ACTUAL_20261027.json` 使用实际d3e48b11，七项新cap及其他旧cap均无缺口，GPU/CPU/PBS/IO包络不增加。
 
 本批95项CPU通过，零skip，包括真实小CPU AdamW+原LambdaLR的首调用无参数变化负对照及第二调用改变参数、冻结/梯度和资格状态拒绝；仍没有真实GR00T/CUDA/新科学query/训练/物理。4080S管理侧恢复、原测量链、新scope原owner/入口/完整预留与真实模型资格仍未完成，wholegoal未完成。
+
+## 11. 完整首阶段GLOBAL一次预留，Core镜像和执行仍待准入
+
+源52b1ccc9以原onceIO实际预留完整包，独立reconcile为CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT，GLOBAL d3e48b11→d9a31457。新增包及对应holds，原used14786更新/4511查询/PBS34、旧费用/行/package/授权不变。原cap marker的NOT_YET_RESERVED是采用上限时的不可变历史；当前状态由execution_package表达，不回改历史marker。
+
+新包上界120840 GPU秒/1028更新/4341查询/2PBS及完整CPU/输出/传输向量，当前GLOBAL总reserved149700 GPU秒/1028更新/6438查询、站点CPU529613秒/输出281827996472bytes。Core计划保存在同一包remaining_resources，canonical LOCAL仍未读写，这不是GPU分配或发生过的更新。
+
+旧GLOBAL GPU hold28860秒，历史Core投影hold57720秒；新120840秒名义hold实际使max投影增加91980秒。只抵扣91980，不能减全名义量而少保留28860旧Core工作。真实captured输入证明全部维度预留前后预计开销相等，旧待Eval/matrix3/final保护不减，无新cap缺口。
+
+五会话计划为E0诊断41query、两臂各2调用资格（各17query/64访问）、两臂各512正式（各36query/16384访问），正式均fresh raw。可变effect/session与新typed request、原owner/profile/manifest/lease/registry、fresh GPU/queue/quota及真实模型资格尚未接通，不冒称全链已后台运行。
+
+108项适配CPU与54项旧准入回归、20subtests通过，不是CI、真实GR00T/Transformers/CUDA或闭环资格。首次本地报告生成漏src路径，import即失败，未写报告或触碰native；修正路径后完成，失败保留。无新GPU/PBS/模型/query/优化/物理。
+
+Core恢复后先精确核UNKNOWN和canonical LOCAL、同步原账本并恢复原测量链。新scope后续按用户目标绑定一Vanda训练与一Core评估的并行角色，累计真实GPU秒，旧scope和其他任务不可借用；当前未部署新并行准入。正式新训练仍须测量链有效，旧模型成功率不是GO门。wholegoal未完成。
