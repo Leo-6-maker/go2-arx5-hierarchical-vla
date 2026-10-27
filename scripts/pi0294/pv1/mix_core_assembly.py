@@ -20,7 +20,7 @@ def need(ok,why):
 
 def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,source_sha,
              source_seal_bytes,owner_root,owner_manifest_bytes,canonical_LOCAL_ledger,
-             remote_binding,run_name,request_id,nonce,GPU_uuid,now_epoch):
+             remote_binding,run_name,request_id,nonce,GPU_uuid,now_epoch,desktop_grant_bytes=None):
     g,l=json.loads(global_bytes),json.loads(local_bytes);c.checked(g);c.paired(g,l)
     capture=json.loads(training_capture_bytes);proof=context.captured_endpoint(capture)
     marker=s.validated(g);key=c.key(arm)
@@ -43,6 +43,11 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     parent=Path(base['core']['root']).parent.parent
     roots={role:str(parent/('children'if role=='core'else'neural-children')/run_name)for role in base}
     om=json.loads(owner_manifest_bytes)
+    from . import mix_core_desktop as desktop
+    grant_path='plans/V5_CD_CORE_DESKTOP_DIRECT_HUMAN_GRANT.json'
+    desktop_enabled=grant_path in om['execution'].get('sealed_inputs',{})
+    if desktop_enabled:need(type(desktop_grant_bytes)is bytes and a.sha(desktop_grant_bytes)==desktop.GRANT_SHA==om['execution']['sealed_inputs'][grant_path],'PRESEALED_EXACT_DESKTOP_GRANT_BYTES')
+    else:need(desktop_grant_bytes is None,'NO_UNREGISTERED_DESKTOP_EXCEPTION')
     need(Path(owner_root).parent==parent/'control'and om['scope']==identity.OWNER_ROLE
          and om['output_root']==owner_root and om['code']['vla_commit']==source_sha
          and om['authority']['protocol_ref']==s.TASK_SOURCE
@@ -78,6 +83,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         need(a.sha(population)==POPULATION,'EXACT_ORIGINAL_POPULATION_BYTES')
         groups=json.loads(population)['groups']
         files['V5_CD_SCOPE_BINDING.json']=a.raw(marker)
+        if desktop_enabled:files[grant_path]=desktop_grant_bytes
         if repaired and arm=='C50':files['plans/V5_CD_SAME_PANEL_PREPAID_IO.private.json']=a.raw(repaired)
         if continuation is not None:files['plans/V5_CD_CORE_RECOVERY.private.json']=a.raw(continuation)
         files[context.CAPTURE]=training_capture_bytes;files[context.LOCAL_BINDING]=a.raw(local_binding)
@@ -133,6 +139,12 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         T_CD=marker['T_CD'],deadline_epoch=marker['deadline_epoch'],created_epoch=now_epoch,child_run_uuid=run_name,
         native_handle=None,GPU_uuid=GPU_uuid,status=c.STATES[0],reserved_neural_queries=2097)
     if repaired and arm=='C50':record['prepaid_panel_IO_credit_sha256']=a.sha(a.raw(repaired))
+    from . import mix_core_desktop as desktop
+    grant_path='plans/V5_CD_CORE_DESKTOP_DIRECT_HUMAN_GRANT.json'
+    # Only an explicit presealed, hash-pinned direct grant enables this path.
+    if grant_path in om['execution'].get('sealed_inputs',{}):
+        need(om['execution']['sealed_inputs'][grant_path]==desktop.GRANT_SHA,'EXACT_DESKTOP_DIRECT_HUMAN_GRANT')
+        record[desktop.FIELD]=desktop.GRANT_SHA
     request={k:v for k,v in record.items()if k not in ('status','native_handle','child_run_uuid','reserved_neural_queries')}
     request.update(schema='V5_CD_CORE_NATIVE_GPU_REQUEST_V1',task=s.TASK,run_uuid=run_name,
         allocation_number=1 if arm=='C50'else 2,native_unit=run_name+'-neural.service',optimizer_updates=0,

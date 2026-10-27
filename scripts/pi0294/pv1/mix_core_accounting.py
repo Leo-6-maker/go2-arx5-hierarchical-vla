@@ -57,6 +57,8 @@ def remaining_stage():
 def validate_row(r):
     arm = r.get('evaluation_candidate')
     key(arm)
+    from . import mix_core_desktop as desktop
+    desktop.allowed(r)
     from .evaluation_scope import CAMPAIGN
     expected = dict(schema='V5_CD_CORE_NATIVE_GPU_ALLOCATION_V1', campaign_run_uuid=CAMPAIGN,
         native_platform='CORELAB_RTX4080', platform_evaluation_version=VERSION, owner_user='liuyu-nfs',

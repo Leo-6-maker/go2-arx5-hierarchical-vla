@@ -1,0 +1,30 @@
+{
+  "schema": "V5_CD_CORE_EXACT_NOMACHINE_COEXISTENCE_DIRECT_HUMAN_AUTHORITY_V1",
+  "status": "DIRECT_HUMAN_AUTHORIZED",
+  "question_item_id": "call_2d866734b5bf47e78670ea3d88fab96d:0",
+  "human_answer": "允许同步挂载",
+  "interpretation": "Allow the current C/D Eval on GPU0 to coexist only with the exact observed NoMachine desktop process. No other foreign compute, old B24 exception, task change, cap or clock change.",
+  "scope": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+  "candidates": [
+    "C50",
+    "D25"
+  ],
+  "noise_bank": 294101,
+  "conditions_per_candidate": 24,
+  "GPU_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+  "hostname": "corelab-4080s",
+  "desktop": {
+    "pid": 3822512,
+    "uid": 1002,
+    "proc_start": 137621374,
+    "state": "S",
+    "comm": "nxnode.bin",
+    "boot_id": "3bc113d7-9a7b-42d8-b942-6ccd573b3bf5",
+    "nvidia_process_name": "/usr/NX/bin/nxnode.bin"
+  },
+  "maximum_desktop_memory_MiB": 1024,
+  "minimum_free_memory_before_model_bytes": 32212254720,
+  "one_experimental_GPU_process": true,
+  "no_foreign_process_stopped": true,
+  "other_caps_clocks_science_safety_unchanged": true
+}

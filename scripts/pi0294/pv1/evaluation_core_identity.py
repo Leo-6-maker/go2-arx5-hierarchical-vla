@@ -202,8 +202,14 @@ def require_device(request,allocation,*,visible,count,name,memory_bytes):
     return True
 
 
-def parse_GPU_rows(raw,process_raw,*,GPU_uuid,own_pid=None,shared_request=None):
+def parse_GPU_rows(raw,process_raw,*,GPU_uuid,own_pid=None,shared_request=None,desktop_request=None,desktop_proof=None):
     """Parse raw nvidia-smi output; an empty/failed read is not a free device."""
+    from . import mix_core_desktop as desktop
+    desktop_receipt=None
+    if desktop_request is not None:
+        need(shared_request is None,'DESKTOP_GRANT_CANNOT_BORROW_OLD_B24_SHARING')
+        desktop_proof=desktop.capture()if desktop_proof is None else desktop_proof
+        process_raw,desktop_receipt=desktop.filter_processes(process_raw,desktop_request,proof=desktop_proof,now_epoch=time.time())
     from .evaluation_core_shared_B24 import allowed as shared_allowed
     shared=shared_request is not None and shared_allowed(shared_request)
     need(not shared or GPU_uuid==shared_request['GPU_uuid'],'SHARED_ONLY_EXACT_REQUEST_GPU')
@@ -231,6 +237,9 @@ def parse_GPU_rows(raw,process_raw,*,GPU_uuid,own_pid=None,shared_request=None):
             except ValueError:raise PermissionError('PV1_CORE_NATIVE_COMPLETE_SHARED_PROCESS_MEMORY')
             need(0<=used_memory<=matches[0]['total_bytes']//1024**2 and bool(line[2].strip()),'ACTUAL_SHARED_PROCESS_MEMORY_AND_IDENTITY')
         need(shared or uuid!=GPU_uuid or own_pid is not None and pid==own_pid,'NO_FOREIGN_COMPUTE_ON_SELECTED_DEVICE')
+    if desktop_receipt is not None:
+        if own_pid is None:need(matches[0]['total_bytes']-matches[0]['used_bytes']>=30*1024**3,'DESKTOP_COEXISTENCE_REQUIRES_30GIB_ACTUAL_FREE_BEFORE_MODEL')
+        matches[0]['exact_desktop_coexistence']=desktop_receipt
     if shared:matches[0]['human_authorized_shared_GPU_grant_sha256']=shared_request['shared_GPU_grant_sha256']
     return matches[0]
 
@@ -303,7 +312,8 @@ def observe_current(root,request,*,allow_model_context=False):
         need(q.returncode==0,'NATIVE_NVIDIA_READ_FAILED_UNKNOWN_DEVICE_USE')
         raw[name]=dict(stdout=q.stdout,stderr=q.stderr,returncode=q.returncode)
     device=parse_GPU_rows(raw['devices']['stdout'],raw['processes']['stdout'],GPU_uuid=r['GPU_uuid'],
-        own_pid=pid if allow_model_context else None,shared_request=r if 'shared_GPU_grant_sha256' in r else None)
+        own_pid=pid if allow_model_context else None,shared_request=r if 'shared_GPU_grant_sha256' in r else None,
+        desktop_request=r if 'Core_desktop_coexistence_grant_sha256'in r else None)
     # Kernel process start is tied to the actual boot; no caller timestamp may
     # reset the allocation wall when exec switches into the neural interpreter.
     boot_epoch=float(next(x.split()[1] for x in Path('/proc/stat').read_text().splitlines() if x.startswith('btime ')))

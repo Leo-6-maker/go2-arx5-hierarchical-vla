@@ -58,6 +58,8 @@ def request_identity(m, r, manifest_sha256):
         'original_T0_epoch', 'hard_close_epoch')
     need(not any(n in r for n in forbidden) and not any(n.startswith('queue_') for n in r),
          'NO_LEDGER_AS_REQUEST_OR_OLD_AB_WINDOW_SHARING_EXCEPTION')
+    from . import mix_core_desktop as desktop
+    if desktop.allowed(r):need(m['execution'].get('sealed_inputs',{}).get('plans/V5_CD_CORE_DESKTOP_DIRECT_HUMAN_GRANT.json')==desktop.GRANT_SHA,'PRESEALED_NEW_DESKTOP_AUTHORITY_NOT_A_CALLER_FLAG')
     arm = r.get('evaluation_candidate'); c.key(arm)
     expected = dict(stage='V5_MATCHED_DEV24', noise_bank=294101, remaining_conditions=24,
         checkpoint_step=1024, walltime_s=28800, CPU_upper_s=80000,
@@ -214,7 +216,8 @@ def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha2
     need(set(raw) == {'devices', 'processes'} and all(type(v.get('returncode')) is int
          and v['returncode'] == 0 for v in raw.values()), 'SUCCESSFUL_COMPLETE_NATIVE_GPU_READS')
     need(original.parse_GPU_rows(raw['devices']['stdout'], raw['processes']['stdout'],
-         GPU_uuid=r['GPU_uuid']) == p['device'], 'EXCLUSIVE_DEVICE_RAW_READ_MATCH_NO_OLD_SHARED_GRANT')
+         GPU_uuid=r['GPU_uuid'],desktop_request=r if 'Core_desktop_coexistence_grant_sha256'in r else None,
+         desktop_proof=p['device'].get('exact_desktop_coexistence',{}).get('kernel_read')) == p['device'], 'EXACT_DEVICE_RAW_READ_MATCH_WITHOUT_OLD_SHARED_GRANT')
     return allocation
 
 
