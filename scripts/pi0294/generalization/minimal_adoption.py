@@ -87,8 +87,24 @@ def effective_caps(g, caps):
     out = dict(caps)
     m = validate(g)
     if m is not None:
-        need(all(out[k] == BEFORE[k] for k in CAPS), 'ONLY_OLD_ADOPTED_CAPS_BEFORE_OVERLAY')
+        need(all(out[k] in (BEFORE[k], CAPS[k]) for k in CAPS), 'ONLY_OLD_OR_EXACT_NEW_ADOPTED_CAPS')
         out.update(m['caps'])
+    return out
+
+
+def global_limits(g, caps):
+    """Versioned aggregate ceilings for the existing ledger's legacy readers.
+
+    Scientific per-request limits and old authority bytes are unchanged. A
+    complete validated new authority is necessary even for a partial reader.
+    """
+    out = dict(caps)
+    m = validate(g)
+    if m is not None:
+        for k in set(out) & set(CAPS):
+            need(type(out[k]) in (int,float) and math.isfinite(out[k])
+                 and 0 <= out[k] <= CAPS[k], 'KNOWN_GLOBAL_CEILING_INPUT:' + k)
+            out[k] = m['caps'][k]
     return out
 
 

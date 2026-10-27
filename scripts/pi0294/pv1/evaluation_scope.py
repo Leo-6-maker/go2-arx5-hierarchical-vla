@@ -107,6 +107,9 @@ def caps(global_ledger):
         validate_global(global_ledger);caps=dict(CAPS)
         from .evaluation_core_zero_start_storage import FIELD as storage_field,validate as storage_validate
         if storage_field in global_ledger:storage_validate(global_ledger);caps.update(Hopper_storage_bytes=811*1024**3,Core_storage_bytes=329*1024**3)
+        if 'ARX5_minimal_first512_seven_cap_authority' in global_ledger:
+            from scripts.pi0294.generalization.minimal_adoption import global_limits
+            caps=global_limits(global_ledger,caps)
         return caps
     return dict(OLD)
 

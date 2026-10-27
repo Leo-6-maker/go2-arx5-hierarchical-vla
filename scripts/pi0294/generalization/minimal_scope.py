@@ -64,11 +64,15 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
     caps = effective_caps(global_value,
                           {k:r['cap'] for k,r in baseline['dimensions'].items()})
     parts = components()
-    additional = _vector({key: sum(row[key] for row in parts.values())
-                          for key in baseline['dimensions']})
+    from .minimal_package import validate as package, reservation_credit
+    adopted_package=package(global_value)
+    additional = (dict(adopted_package['remaining_resources'])if adopted_package is not None else
+                  _vector({key: sum(row[key] for row in parts.values())
+                           for key in baseline['dimensions']}))
+    own_credit=reservation_credit(global_value,historical_LOCAL_bytes,baseline)
     dimensions, changes = {}, {}
     for key, old in baseline['dimensions'].items():
-        projected = old['projected'] + additional[key]
+        projected = old['projected'] - own_credit[key] + additional[key]
         cap = caps[key]
         shortfall = max(0, projected - cap)
         proposed = cap
@@ -80,14 +84,16 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
                                 unit='GiB' if key.endswith('bytes') else 'hours' if key.endswith('_s') else 'count')
         dimensions[key] = dict(old, cap=cap, baseline_projected=old['projected'],
             first512_additional=additional[key], projected=projected,
+            exact_first512_reservation_projection_credit=own_credit[key],
             shortfall=shortfall, proposed_cap=proposed,
             headroom_after_proposed_cap=proposed-projected)
     return dict(schema='ARX5_MINIMAL_FIRST512_COMPLETE_FUTURE_FORECAST_V1', scope=SCOPE,
-        status='FIRST512_PACKAGE_NOT_RESERVED_NO_NATIVE_ADMISSION',
+        status=('GLOBAL_PACKAGE_RESERVED_CORE_LOCAL_PENDING_NO_NATIVE_ADMISSION'if adopted_package is not None
+                else 'FIRST512_PACKAGE_NOT_RESERVED_NO_NATIVE_ADMISSION'),
         cap_authority_adopted=FIELD in global_value,
         GLOBAL_sha256=hashlib.sha256(global_bytes).hexdigest(),
         historical_LOCAL_sha256=hashlib.sha256(historical_LOCAL_bytes).hexdigest(),
-        LOCAL_is_historical=True, native_admission=False, scope_adopted=False,
+        LOCAL_is_historical=True, native_admission=False, scope_adopted=adopted_package is not None,
         baseline=baseline, components=parts, additional=additional,
         dimensions=dimensions, cap_changes_required=changes,
         formal_optimizer_updates=2*512, qualification_optimizer_updates=4,

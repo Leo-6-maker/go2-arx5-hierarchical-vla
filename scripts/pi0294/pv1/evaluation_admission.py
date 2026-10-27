@@ -47,6 +47,9 @@ def adopted_caps(global_ledger):
     if scope.FIELD in global_ledger:caps.update(scope.caps(global_ledger))
     from scripts.pi0294.generalization import amd_adoption as gen1
     if gen1.FIELD in global_ledger:caps.update(gen1.validate(global_ledger)['caps'])
+    if 'ARX5_minimal_first512_seven_cap_authority' in global_ledger:
+        from scripts.pi0294.generalization.minimal_adoption import global_limits
+        caps=global_limits(global_ledger,caps)
     return caps
 
 

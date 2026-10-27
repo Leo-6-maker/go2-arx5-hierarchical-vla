@@ -61,7 +61,8 @@ def validate_global(g):
     m=scope.validated(g);rows=[r for r in g['PBS_submissions'] if r.get('platform_training_version')==VERSION]
     # New GEN1 jobs still use this original ledger. Its two corrected caps
     # come only from the exact adopted four-cap grant, never a manifest wish.
-    caps=dict(PBS_submissions=34,Hopper_storage_bytes=scope.NEW_STORAGE['Hopper_storage_bytes'])
+    caps=dict(PBS_submissions=34,Hopper_storage_bytes=scope.NEW_STORAGE['Hopper_storage_bytes'],
+              H200_s=121*3600,Hopper_CPU_s=213*3600)
     from scripts.pi0294.generalization import amd_adoption as gen1
     if gen1.FIELD in g:
         caps.update(gen1.validate(g)['caps'])
@@ -72,6 +73,12 @@ def validate_global(g):
             GEN_export_rows(g)
     from .mix_vanda_cohost import validated as cohost_marker
     cohost_marker(g)
+    if 'ARX5_minimal_first512_seven_cap_authority' in g:
+        from scripts.pi0294.generalization.minimal_adoption import global_limits
+        caps=global_limits(g,caps)
+    if 'ARX5_minimal_first512_execution_package' in g:
+        from scripts.pi0294.generalization.minimal_package import validate
+        validate(g)
     need(len(rows)<=6,'TWO_ARMS_MAX_THREE_ENGINEERING_ATTEMPTS_EACH')
     for r in rows:
         validate_item(r);need(r['T_CD']==m['T_CD'] and r['deadline_epoch']==m['deadline_epoch'] and r['scope_grant_sha256']==scope.GRANT_SHA,'ONE_ACTUAL_SCOPE_CLOCK')
@@ -85,13 +92,13 @@ def validate_global(g):
         from .evaluation_work import MATRIX
         from .future_budget import FINAL
         need(g['new_storage_current_bytes']+g['storage_reserved_bytes']+MATRIX['Hopper_storage_bytes']+FINAL['Hopper_storage_bytes']<=caps['Hopper_storage_bytes'],'OUTPUT_MATRIX_AND_FINAL_PROTECTED')
-        need(g['used']['H200_s']+g['reserved']['H200_s']+MATRIX['H200_s']+FINAL['H200_s']<=121*3600,'GPU_MATRIX_AND_FINAL_PROTECTED')
+        need(g['used']['H200_s']+g['reserved']['H200_s']+MATRIX['H200_s']+FINAL['H200_s']<=caps['H200_s'],'GPU_MATRIX_AND_FINAL_PROTECTED')
         remaining_PBS=remaining['PBS_submissions']
         if gen1.FIELD in g and 'independent_CORR1024_training'in g[gen1.FIELD]:
             from scripts.pi0294.generalization.amd_training_accounting import effective_original_eval_PBS
             remaining_PBS=effective_original_eval_PBS(g,remaining_PBS)
         need(g['used']['PBS_submissions']+remaining_PBS+MATRIX['PBS_submissions']<=caps['PBS_submissions'],'MATRIX_THREE_PBS_PROTECTED')
-        need(g['CPU_s']+g['CPU_reserved_s']+MATRIX['Hopper_CPU_s']<=213*3600,'SITE_CPU_MATRIX_PROTECTED')
+        need(g['CPU_s']+g['CPU_reserved_s']+MATRIX['Hopper_CPU_s']<=caps['Hopper_CPU_s'],'SITE_CPU_MATRIX_PROTECTED')
         need(g['reserved']['H200_s']>=remaining['H200_s'] and g['reserved']['optimizer_updates']>=remaining['optimizer_updates'] and g['reserved']['neural_queries']>=remaining['neural_queries'],'ALL_PACKAGE_NEURAL_ESCROW_RETAINED')
         need(g['CPU_reserved_s']>=remaining['Hopper_CPU_s'] and g['storage_reserved_bytes']>=remaining['Hopper_storage_bytes'],'ALL_PACKAGE_CPU_AND_OUTPUT_ESCROW_RETAINED')
     if CORE_ROWS in g:

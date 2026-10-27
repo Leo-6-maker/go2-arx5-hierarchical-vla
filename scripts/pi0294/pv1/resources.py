@@ -14,7 +14,11 @@ def pbs_limit(ledger):
     from scripts.pi0294.generalization import amd_adoption as gen1
     if gen1.FIELD in ledger:
         from scripts.pi0294.generalization.amd_training_retry import effective_caps
-        return effective_caps(ledger,gen1.validate(ledger)['caps'])['PBS_submissions']
+        value=effective_caps(ledger,gen1.validate(ledger)['caps'])
+        if 'ARX5_minimal_first512_seven_cap_authority' in ledger:
+            from scripts.pi0294.generalization.minimal_adoption import global_limits
+            value=global_limits(ledger,value)
+        return value['PBS_submissions']
     from . import evaluation_scope as dev
     if dev.FIELD in ledger:
         dev.validate_global(ledger);return dev.CAPS['PBS_submissions']
