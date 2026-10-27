@@ -135,3 +135,17 @@ R0保留，不重开P0；这属于固定统计校准下的12示范研究，不�
 每臂保留70GB完整状态上界（资格与512状态均保留），每份推理包保守16GiB。沿原Eval向量只调整其中已有模型复制槽位，不另加第三份模型、不借旧paidIO或历史删除退款；实际保存/显存/速度仍须量测，超界即不得继续。两Eval保留原26start/600秒80cycles资格与所有原失败/S1/评分。Vanda预算中原Eval侧保守CPU上界不擅自扣减，Core神经CPU显式保留。
 
 首阶段资源采用、真实原始模型资格、Core管理侧恢复与原测量资格仍是未完成项。4080S未恢复前默认不启动两臂完整训练；即使以后批准资源，也不能用批准替代真实测量链资格。没有新request、预付、qsub、GPU、模型、物理或账本写入，wholegoal未完成。
+
+## 10. 七项上限实际采用与零学习率资格修正
+
+人类直接答复“批准仅这七项上限调整”。固定批准文件为 `ARX5_MINIMAL_FIRST512_SEVEN_CAP_DIRECT_HUMAN_GRANT_20261027.json`（16f608c7，SHA256 6a9830b8），原草案和批准字节保持。源a1d4df58已在原GLOBAL通过原onceIO一次CAS采用，独立reconcile为CONFIRMED_CURRENT_PROPOSED_BYTES_WITH_RECEIPT；GLOBAL从993ea3f7变为d3e48b11。仅新增七cap authority marker及revision，旧费用、used/reserved、行、package及历史逐项相同；实际仍14786更新/4511查询/PBS34。Core canonical LOCAL未写、仍历史PENDING，未创建任何新科学request/GPU/PBS。完整新工作包尚未预留，native admission仍false；不能把cap采用称整条执行链已部署。
+
+首次包含完整队列的只读snapshot超过原40秒界，没有发出写操作，不推断远端终止。之后小型实际GLOBAL/原CLOSED lease与exact actor读核通过；它明确没有fresh fullqueue资格，不用于GPU放行。原生采用前readonly preflight CPU10.196s、CAS与独立回读通过；已知metadata CPU合计28.956s，首次超时CPU保持未知而非零，归入后续同包一次控制费用分类，不退款或假称已结算。原所有mutation UNKNOWN继续保留。
+
+资格检查进一步发现：原 `LambdaLR` 的step0因64步warmup使用LR0。一次optimizer调用只改变优化器/调度状态，不能证明权重真的更新。现有冷态 `minimal_training` 增加明确的qualification-only会话，仍调用原Trainer/loss/optimizer/scheduler；每臂最多两次调用/64次样本访问，第二次使用原1e-5/64学习率，不改warmup或正式科学日程。第2次原backward后记录真实target梯度，原commit后完整保存时检查各target组件实际改变及全部冻结tensor不变；缺梯度、非有限或无更新不能PASS。
+
+资格保存标记不属于开发端点，拒绝用它续正式512；同一已消费模型/contract也不能再次当fresh formal初始化。正式E1/E2仍各从raw父fresh optimizer开始512步、1024日程、原逐cursor。真实框架的optimizer/scheduler/RNG/sampler恢复和输出重建仍必须在合法allocation验证，CPU hooks并不代替这些资格。
+
+计费完整保留每臂2资格调用：首阶段1024正式+4资格=1028，已有14786加本阶段为15814，仍≤16384；两臂条件续至1024时为16838，至少超旧cap454，未自动授权或预留。此前草案的1026/15812是一次调用资格的历史计划，不改原批准文件或重做cap采用。修正后的全未来复算 `ARX5_MINIMAL_FIRST512_POST_CAP_ADOPTION_AND_WARMUP_FUTURE_ACTUAL_20261027.json` 使用实际d3e48b11，七项新cap及其他旧cap均无缺口，GPU/CPU/PBS/IO包络不增加。
+
+本批95项CPU通过，零skip，包括真实小CPU AdamW+原LambdaLR的首调用无参数变化负对照及第二调用改变参数、冻结/梯度和资格状态拒绝；仍没有真实GR00T/CUDA/新科学query/训练/物理。4080S管理侧恢复、原测量链、新scope原owner/入口/完整预留与真实模型资格仍未完成，wholegoal未完成。

@@ -13,11 +13,11 @@ from scripts.pi0294.generalization import minimal_scope as s
 
 def test_fixed_pair_update_query_and_independent_PBS_counts():
     p = s.components()
-    assert sum(x['optimizer_updates'] for x in p.values()) == 1026
+    assert sum(x['optimizer_updates'] for x in p.values()) == 1028
     assert sum(x['PBS_submissions'] for x in p.values()) == 2
     assert sum(x['neural_queries'] for x in p.values()) == 147 + 2*2097
     assert sum(x['H200_s'] for x in p.values()) == 120840
-    assert all(p[a+'_QUALIFICATION_AND_FORMAL512']['optimizer_updates'] == 513 for a in ('E1','E2'))
+    assert all(p[a+'_QUALIFICATION_AND_FORMAL512']['optimizer_updates'] == 514 for a in ('E1','E2'))
 
 
 def test_large_raw_inference_output_adjusted_once_per_copy():
@@ -82,7 +82,7 @@ def test_actual_captured_whole_future_preserves_inputs_and_requires_new_caps():
     assert p['GLOBAL_sha256']=='993ea3f729935a47847fb7419d0c3cdfe5400e25ec491549c7b43bd97e2ef458'
     assert p['historical_LOCAL_sha256']=='7cea556c4c80765582644ce1ed47d71f3c0c3084b445d02dd16a55854b386f1a'
     assert p['baseline']['cap_changes_required']=={}
-    assert p['dimensions']['optimizer_updates']['projected']==15812
+    assert p['dimensions']['optimizer_updates']['projected']==15814
     assert p['dimensions']['PBS_submissions']['proposed_cap']==39
     assert p['dimensions']['H200_s']['proposed_cap']==147*3600
     assert set(p['cap_changes_required'])=={'H200_s','PBS_submissions','Hopper_CPU_s','Core_CPU_s',

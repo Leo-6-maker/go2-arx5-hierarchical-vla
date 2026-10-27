@@ -51,13 +51,15 @@ def trainer_arguments(value, original):
     return args
 
 
-def step_boundary(step, cursor, *, pending, unknown, session_stop):
-    study.need(type(session_stop) is int and session_stop in (512, 1024)
+def step_boundary(step, cursor, *, pending, unknown, session_stop, qualification_only=False):
+    study.need(type(qualification_only) is bool and type(session_stop) is int
+               and session_stop in ((2,) if qualification_only else (512, 1024))
                and type(step) is int and 0 <= step <= session_stop
                and type(cursor) is int and cursor == step * 32 and not pending and not unknown,
                'KNOWN_COMMITTED_STEP_IN_FIXED_PILOT_OR_CONTINUATION')
     return dict(should_training_stop=step == session_stop,
-                should_save=step in (512, 1024), full_resume_required=True)
+                should_save=step == session_stop if qualification_only else step in (512, 1024),
+                full_resume_required=True)
 
 
 def lr_schedule(value):
@@ -74,6 +76,7 @@ def resume_state(saved, complete, trainer_state, value, sampler, member_hashes, 
                 'SAMPLER_STATE.json', 'statistics.json', 'ADAPTER_PARAMETER_CONTRACT.json',
                 'FROZEN_PARAMETER_IDENTITY.json', 'MODEL_PARAMETER_STATE_IDENTITY.json'}
     study.need(session_stop in (512, 1024) and type(step) is int and 0 < step < session_stop
+               and complete.get('qualification_only', False) is False
                and (session_stop == 512 or step >= 512)
                and complete.get('training_identity') == value['arm']
                and complete.get('full_resume') is True and required <= set(files)
@@ -132,7 +135,7 @@ def make_trainer_class():
                        'OWNER_COMMIT_MUST_PRECEDE_TERMINAL_OBSERVER')
             boundary = step_boundary(state.global_step, trainer.consumed,
                 pending=effects['pending_updates'], unknown=effects['unknown_effects'],
-                session_stop=trainer.session_stop)
+                session_stop=trainer.session_stop, qualification_only=trainer.qualification_only)
             if boundary['should_save']:
                 control.should_save = True
             if boundary['should_training_stop']:
@@ -140,17 +143,25 @@ def make_trainer_class():
             return control
 
     class Trainer(mature()):
-        def __init__(self, *args, parameter_contract, session_stop, original_recipe, known_effects, **kwargs):
+        def __init__(self, *args, parameter_contract, session_stop, original_recipe, known_effects,
+                     qualification_only=False, **kwargs):
             r = kwargs['recipe']
             validate(r, original_recipe)
             study.need(r.get('schema') == SCHEMA and r.get('arm') == parameter_contract.arm
-                       and kwargs['args'].max_steps == 1024 and session_stop in (512, 1024)
+                       and kwargs['args'].max_steps == 1024 and type(qualification_only) is bool
+                       and session_stop in ((2,) if qualification_only else (512, 1024))
                        and parameter_contract.model is kwargs['model'] and callable(known_effects),
                        'EXPLICIT_MINIMAL_TRAINER_IDENTITY')
             parameter_contract.validate()
+            study.need(not getattr(parameter_contract, '_training_session_used', False),
+                       'NO_QUALIFIED_MODEL_OR_OPTIMIZER_REUSE_AS_FRESH_FORMAL_MODEL')
+            parameter_contract._training_session_used = True
             self.parameter_contract, self.session_stop = parameter_contract, session_stop
+            self.qualification_only = qualification_only
             self.known_effects = known_effects
             self.frozen_baseline = frozen_fingerprint(parameter_contract.model)
+            self.qualification_initial = parameter_state_fingerprint(parameter_contract.model) if qualification_only else None
+            self.qualification_gradients = None
             kwargs['callbacks'] = list(kwargs.get('callbacks', [])) + [Boundary(self)]
             super().__init__(*args, **kwargs)
 
@@ -176,10 +187,15 @@ def make_trainer_class():
             devices = [action.device.index] if action.device.type == 'cuda' else []
             with matched_flow_rng(self.recipe['seed'], step=step, microbatch=microbatch,
                                   cuda_devices=devices):
-                return super().training_step(model, inputs, num_items_in_batch)
+                result = super().training_step(model, inputs, num_items_in_batch)
+            if self.qualification_only and self.consumed == 64:
+                from .minimal_qualification import gradients
+                self.qualification_gradients = gradients(self.parameter_contract)
+            return result
 
         def train(self, resume_from_checkpoint=None, **kwargs):
             if resume_from_checkpoint:
+                study.need(not self.qualification_only, 'QUALIFICATION_NEVER_RESUMES_OR_BECOMES_FORMAL_DATA')
                 cp = Path(resume_from_checkpoint)
                 complete = read(cp/'CHECKPOINT_COMPLETE.json')
                 members = checkpoint_members(cp, complete['files'])
@@ -191,7 +207,8 @@ def make_trainer_class():
                 study.need(read(cp/'FROZEN_PARAMETER_IDENTITY.json') == self.frozen_baseline,
                            'FROZEN_PARENT_BASELINE_UNCHANGED_ON_RESTORE')
             else:
-                study.need(self.session_stop == 512, 'CONTINUATION_MUST_RESTORE_OWN512_OR_LATER_FULL_STATE')
+                study.need(self.session_stop == 512 or self.qualification_only,
+                           'CONTINUATION_MUST_RESTORE_OWN512_OR_LATER_FULL_STATE')
             return super().train(resume_from_checkpoint=resume_from_checkpoint, **kwargs)
 
         def _load_from_checkpoint(self, resume_from_checkpoint, model=None):
@@ -209,6 +226,12 @@ def make_trainer_class():
                        'SAVE_ONLY_EXACT_COMMITTED_CURSOR')
             self.parameter_contract.validate()
             study.need(frozen_fingerprint(self.model) == self.frozen_baseline, 'FROZEN_PARAMETERS_OR_BUFFERS_CHANGED')
+            qualification = None
+            if self.qualification_only:
+                from .minimal_qualification import after_optimizer
+                qualification = after_optimizer(self.parameter_contract, initial=self.qualification_initial,
+                    frozen=self.frozen_baseline, gradient_rows=self.qualification_gradients,
+                    step=step, cursor=self.consumed)
             # Bypass only the historical256 inference-only save override. The
             # original official Trainer writes model/optimizer/scheduler/RNG.
             self.args.save_only_model = False
@@ -225,6 +248,8 @@ def make_trainer_class():
             write(cp/'ADAPTER_PARAMETER_CONTRACT.json', self.parameter_contract.describe())
             write(cp/'FROZEN_PARAMETER_IDENTITY.json', self.frozen_baseline)
             write(cp/'MODEL_PARAMETER_STATE_IDENTITY.json', parameter_state_fingerprint(self.model))
+            if qualification is not None:
+                write(cp/'QUALIFICATION_PARAMETER_UPDATE.json', qualification)
             files = {str(p.relative_to(cp)): sha(p) for p in sorted(cp.rglob('*')) if p.is_file()}
             required = {'optimizer.pt', 'scheduler.pt', 'rng_state.pth', 'config.json', 'trainer_state.json',
                         'SAMPLER_STATE.json', 'statistics.json', 'ADAPTER_PARAMETER_CONTRACT.json',
@@ -233,6 +258,7 @@ def make_trainer_class():
                        and any(n.startswith('processor/') for n in files), 'FULL_MINIMAL_CHECKPOINT_MEMBERS_REQUIRED')
             write(cp/'CHECKPOINT_COMPLETE.json', dict(global_step=step, files=files, full_resume=True,
                   training_identity=self.recipe['arm'], session_terminal=step == self.session_stop,
+                  qualification_only=self.qualification_only,
                   scheduler_horizon=1024, parameter_state_format='WRAPPED_CATEGORY_TABLES_FULL_RESUME_ONLY',
                   inference_delivery_requires_official_merge=True))
     return Trainer

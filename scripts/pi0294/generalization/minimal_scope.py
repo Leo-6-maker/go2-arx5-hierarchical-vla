@@ -21,7 +21,7 @@ def components():
     """Conservative old envelopes; do not infer speedup from fewer parameters.
 
     Two full checkpoint envelopes retain qualification and own512 state.
-    Each one-step qualification is a real additional update, followed by a
+    Each two-step qualification is real additional accounting, followed by a
     fresh raw start for formal training; its effects/costs are never erased.
     The original17 zero-step qualification draws per arm are also used for
     matched E0/E1/E2 equivalence. Each original12 end-TRAIN probes remains.
@@ -30,7 +30,7 @@ def components():
     rows = {}
     for arm in ('E1', 'E2'):
         train = stage_vector('TRAIN')
-        train['optimizer_updates'] = 512 + 1
+        train['optimizer_updates'] = 512 + 2
         # Both arms share one serial PBS, not each other's optimizer or model.
         train['PBS_submissions'] = 0
         rows[arm + '_QUALIFICATION_AND_FORMAL512'] = train
@@ -59,8 +59,9 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
     # A new direct grant overlays only its seven dimensions. This is still a
     # pure forecast, not a package reservation or native model admission.
     import json
-    from .minimal_adoption import effective_caps
-    caps = effective_caps(json.loads(global_bytes),
+    from .minimal_adoption import effective_caps, FIELD
+    global_value = json.loads(global_bytes)
+    caps = effective_caps(global_value,
                           {k:r['cap'] for k,r in baseline['dimensions'].items()})
     parts = components()
     additional = _vector({key: sum(row[key] for row in parts.values())
@@ -82,13 +83,15 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
             shortfall=shortfall, proposed_cap=proposed,
             headroom_after_proposed_cap=proposed-projected)
     return dict(schema='ARX5_MINIMAL_FIRST512_COMPLETE_FUTURE_FORECAST_V1', scope=SCOPE,
-        status='PROPOSED_NOT_ADOPTED_NO_NATIVE_ADMISSION',
+        status='FIRST512_PACKAGE_NOT_RESERVED_NO_NATIVE_ADMISSION',
+        cap_authority_adopted=FIELD in global_value,
         GLOBAL_sha256=hashlib.sha256(global_bytes).hexdigest(),
         historical_LOCAL_sha256=hashlib.sha256(historical_LOCAL_bytes).hexdigest(),
         LOCAL_is_historical=True, native_admission=False, scope_adopted=False,
         baseline=baseline, components=parts, additional=additional,
         dimensions=dimensions, cap_changes_required=changes,
-        formal_optimizer_updates=2*512, qualification_optimizer_updates=2,
+        formal_optimizer_updates=2*512, qualification_optimizer_updates=4,
+        qualification_warmup_correction='First original LambdaLR optimizer call has LR0; two calls per arm required for actual update',
         finite_offline_generation_limit=147,
         first512_main_PBS=dict(count=1, serial_independent_raw_arms=True,
             requested_walltime_upper_s=59400, accounting_GPU_upper_s=59520,
