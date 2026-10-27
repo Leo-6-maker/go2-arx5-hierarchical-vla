@@ -1,0 +1,63 @@
+{
+  "status": "ACTUAL_NATIVE_CPU_F_EXIT1_KNOWN_PREPROCESSOR_GIT_EXEC_FAILURE",
+  "job_id": "1497552.stdct-mgmt-02",
+  "science_source": "8cc8541f219a7988ddbfb88240355487f920bebe",
+  "control_source": "1e002f3a3b6b1734dda671bdabad9e1f5df58a65",
+  "native": {
+    "state": "F",
+    "Exit_status": 1,
+    "run_count": 1,
+    "CPU_cput_s": 8,
+    "ngpus": 0,
+    "ncpus": 1,
+    "host": "CN-017"
+  },
+  "failure": {
+    "reason": "Compute CPU node lacks git on default PATH; original official_import rejects before processor constructor and first parent export",
+    "error": "FileNotFoundError: [Errno 2] No such file or directory: 'git'",
+    "processor_constructed": false,
+    "exported_parents": 0,
+    "dataset_members": 0,
+    "models": 0,
+    "queries": 0,
+    "updates": 0,
+    "physics_ticks": 0,
+    "constructors": 0,
+    "source_raw_unchanged": true,
+    "original_counter_UNKNOWN_untouched": true
+  },
+  "independent_audit": {
+    "status": "PASS_INDEPENDENT_GEN1_CPU_EXPORT_EFFECTS",
+    "actual_payload_counter_CPU_s": 1.291231009,
+    "conservative_CPU_s": 12,
+    "original_source_seal_and_module_SHA": true,
+    "original_AST_git_check_precedes_processor": true,
+    "real_native_F_and_owner_OS1": true,
+    "tests": 23,
+    "settlement_native_executed": false
+  },
+  "controls": {
+    "current_owner_CPU_s": 29.222277002,
+    "prior_control_CPU_s": 43.442236574999995,
+    "total_known_control_CPU_s": 72.664513577,
+    "original_prepaid_site_control_upper_s": 600
+  },
+  "cold_tool_candidate": {
+    "cluster_module": "git/2.40.0",
+    "actual_version": "git version 2.40.0",
+    "shared_cluster_install": true,
+    "module_only_prepends_PATH": true,
+    "torch_or_parent_LD_not_changed": true,
+    "actual_login_child_version_and_ABI_pass": true,
+    "compute_ABI_not_claimed": true,
+    "new_processor_not_run": true
+  },
+  "recovery_scope": {
+    "already_authorized_one_engineering_PBS": true,
+    "no_new_request_registered": true,
+    "no_cap_change_adopted": true,
+    "naive_reinvoice_extra10GiB_does_not_fit": true,
+    "next": "Retain the full original10GiB charge; verify explicit one-time shared-output/source-reference accounting within its aggregate bound and original64MiB engineering metadata before retry. Do not silently raise cap or refund old failure costs"
+  },
+  "goal_complete": false
+}
