@@ -1,7 +1,7 @@
 """Real closed inputs, explicitly fictitious future count grant/request/OS.
 
-The production GRANT_SHA remains None. Fixtures are memory-only and do not
-produce an authorization file, registry entry, PBS job or native evidence.
+Production pins the separately published direct human grant. Future test
+grants are memory-only and do not produce a registry entry, PBS or evidence.
 """
 import base64,json
 from copy import deepcopy
@@ -53,12 +53,21 @@ def register(g,p,r=None):
         closed=g[retry.FIELD]['predecessor_context']['closed_export'],
         original_recipe=p['original_recipe'],historical_LOCAL_bytes=p['historical_LOCAL_bytes'],now_epoch=p['now_epoch']+1)
 
-def test_no_real_human_count_grant_pinned_production_cannot_adopt_or_register(actual):
-    assert retry.GRANT_SHA is None
+def test_production_accepts_only_exact_published_direct_grant_not_future_CPU_fixture(actual):
+    # Resolve from this repository, independently of private captured paths.
+    path=Path(__file__).resolve().parents[2]/'reports/PI0294/design/parallel-science-20261022/GEN1_GPU_AUTONOMOUS_SUBMISSIONS_AND_FIRST_PBS37_AUTHORIZATION_20261027.json'
+    assert a.sha(path.read_bytes())==retry.GRANT_SHA
+    assert json.loads(path.read_bytes())['human_answer']=='允许授权多次GPU任务，自主推进'
     with pytest.raises(PermissionError,match='NOT_YET_PINNED'):adopt(actual)
     g=json.loads(actual['global_bytes']);r=a.rows(g)[0]
     fake=dict(r,retry_generation=1,retry_scope_grant_sha256='0'*64,retry_predecessor_context_sha256='1'*64)
     with pytest.raises(PermissionError):a.validate_request(fake,central=True)
+
+def test_actual_new_direct_grant_full_captured_proposal_only_no_native_IO(actual):
+    path=Path(__file__).resolve().parents[2]/'reports/PI0294/design/parallel-science-20261022/GEN1_GPU_AUTONOMOUS_SUBMISSIONS_AND_FIRST_PBS37_AUTHORIZATION_20261027.json'
+    v=adopt(dict(actual,grant_bytes=path.read_bytes()))
+    assert not v['full_remaining_proof']['cap_changes_required']and not v['native_admission']
+    assert not v['actual_LOCAL_written']and v['new_PBS_submissions']==v['new_requests']==0
 
 def test_fixture_one_count_adoption_changes_no_old_caps_costs_reservations_or_history(actual,adopted):
     before=json.loads(actual['global_bytes']);g=adopted

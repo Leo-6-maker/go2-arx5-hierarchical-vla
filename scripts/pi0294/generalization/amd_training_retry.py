@@ -1,8 +1,8 @@
 """Conditional single cold retry in the original campaign and once ledger.
 
-The exact additional human grant is deliberately NOT pinned yet. Therefore
-production adoption/second registration fail closed. Tests may pin explicit
-in-memory fixtures; they never constitute a grant or native adoption.
+The exact additional direct human grant is pinned below. Its publication is
+not native adoption: original once IO, registered own roots and full fresh
+admission remain mandatory. Test fixture grants never become real evidence.
 """
 import base64,json,math,re
 from copy import deepcopy
@@ -11,7 +11,7 @@ from . import amd_training_accounting as a,amd_training_retry_context as context
 FIELD='GEN1_exact1497713_retry_PBS37_authority'
 SCHEMA='GEN1_EXACT1497713_ONE_PBS_ADOPTED_AUTHORITY_V1'
 GRANT_SCHEMA='GEN1_EXACT1497713_ONE_PBS_DIRECT_HUMAN_AUTHORIZATION_V1'
-GRANT_SHA=None  # Only a later directly approved, published/full-read grant may fill this.
+GRANT_SHA='80489856b5e25066d13fb8d6e35f00b9d2ab427b9c727346ab62fbd033e8f3e4'
 PROFILE=a.PROFILE+'-retry01'
 REQUEST_KEYS={'retry_generation','retry_scope_grant_sha256','retry_predecessor_context_sha256'}
 
