@@ -85,6 +85,10 @@ def allocation(g,arm):
 
 
 def output_credit(g,row):
+    from . import mix_core_partial_resume as partial
+    if partial.KEY in row:
+        partial.record_binding(g,row)
+        return partial.envelope(row)['additional_output_upper_bytes']
     m=validated(g)
     from . import mix_core_recovery as recovered
     continuation=recovered.validate(g)

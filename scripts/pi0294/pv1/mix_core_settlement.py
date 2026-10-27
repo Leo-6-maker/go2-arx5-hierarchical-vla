@@ -18,7 +18,7 @@ def need(ok,why):
     if not ok:raise PermissionError('V5_CD_CORE_CLOSE_'+why)
 
 
-def release_CPU(reserved,*,neural_paid,physical_paid=None):
+def release_CPU(reserved,*,neural_paid,physical_paid=None,neural_upper=c.CPU_UPPER,physical_upper=93900):
     """Release the exact unused decimal CPU envelope; no epsilon or clamp.
 
     Kernel CPU debits have decimal seconds. Grouping binary subtractions can
@@ -26,13 +26,13 @@ def release_CPU(reserved,*,neural_paid,physical_paid=None):
     Preserve those recorded decimal values when removing the remaining hold.
     """
     paid=a.number(neural_paid)
-    need(paid<=c.CPU_UPPER,'NEURAL_PAID_WITHIN_ORIGINAL_CPU_ENVELOPE')
+    need(paid<=neural_upper,'NEURAL_PAID_WITHIN_ORIGINAL_CPU_ENVELOPE')
     value=Decimal(str(a.number(reserved)))
-    value-=Decimal(c.CPU_UPPER)-Decimal(str(paid))
+    value-=Decimal(neural_upper)-Decimal(str(paid))
     if physical_paid is not None:
         physical=a.number(physical_paid)
-        need(physical<=93900,'PHYSICAL_PAID_WITHIN_ORIGINAL_CPU_ENVELOPE')
-        value-=Decimal(93900)-Decimal(str(physical))
+        need(physical<=physical_upper,'PHYSICAL_PAID_WITHIN_ORIGINAL_CPU_ENVELOPE')
+        value-=Decimal(physical_upper)-Decimal(str(physical))
     need(value>=0,'NONNEGATIVE_EXACT_UNUSED_CPU_RELEASE')
     return float(value)
 
@@ -46,8 +46,10 @@ def physical(physical_bytes,row):
     amounts={name:a.number(p.get(key),integer=name!='physical_CPU_s')for name,key in
         [('physical_CPU_s','Core_CPU_s'),('episodes','main_starts'),('constructors','engine_starts'),
          ('live','live_and_recovery_integrations'),('shadow','shadow_integrations')]}
-    need(amounts['physical_CPU_s']<=93900 and amounts['episodes']<=26
-         and amounts['constructors']<=2108 and amounts['live']+amounts['shadow']<=832000
+    from .mix_core_partial_resume import envelope
+    limit=envelope(row)
+    need(amounts['physical_CPU_s']<=limit['physical_CPU_s'] and amounts['episodes']<=limit['episodes']
+         and amounts['constructors']<=limit['constructors'] and amounts['live']+amounts['shadow']<=limit['physics_ticks']
          and type(p.get('reservations'))is dict,'ORIGINAL_COMPLETE_PHYSICAL_ENVELOPE')
     return p,amounts
 
@@ -90,12 +92,16 @@ def sync_LOCAL(g,l,*,request_id,physical_bytes):
 def propose(global_bytes,local_bytes,*,request_id,native_proof,effects,physical_bytes,
             delivery_receipt_bytes,now_epoch):
     g,l=json.loads(global_bytes),json.loads(local_bytes);c.checked(g)
-    before=g[c.FIELD][request_id];need(before['status']in c.STATES[1:3],'ONCE_KNOWN_BOUND_TERMINAL')
+    before=g[c.FIELD][request_id]
+    from . import mix_core_partial_resume as partial
+    limits=partial.envelope(before);partial_marker=partial.record_binding(g,before)
+    need(before['status']in c.STATES[1:3],'ONCE_KNOWN_BOUND_TERMINAL')
     # Synchronize actual costs, not a caller's claimed zero pending snapshot.
     local=sync_LOCAL(g,l,request_id=request_id,physical_bytes=physical_bytes)
     p,phys=physical(physical_bytes,before)
     need(p['reservations']=={},'ALL_REAL_PHYSICAL_RESERVATIONS_TERMINAL')
     amounts=terminal_values(before,request_id=request_id,native_proof=native_proof,effects=effects,now_epoch=now_epoch)
+    need(amounts['gpu']<=limits['reserved_GPU_s']and amounts['cpu']<=limits['CPU_upper_s'],'ACTUAL_REQUEST_NATIVE_ENVELOPE')
     need(not amounts['unknown'],'UNKNOWN_QUERY_EFFECTS_REQUIRE_INDEPENDENT_RECONCILIATION_NO_SUCCESS')
     delivery=json.loads(delivery_receipt_bytes);arm=before['evaluation_candidate']
     need(delivery.get('status')=='ACTUAL_CLOSED_'+arm+'_1024_INFERENCE_VIEW_DELIVERED_NO_MODEL_LOADED'
@@ -109,8 +115,8 @@ def propose(global_bytes,local_bytes,*,request_id,native_proof,effects,physical_
     oldq,oldloads,oldcpu=c.progress(before)
     need(q==oldq and loads==oldloads,'EVERY_MODEL_QUERY_PAID_BEFORE_EFFECT')
     v['used']['H200_s']+=gpu;v['CPU_s']+=cpu-oldcpu
-    v['CPU_reserved_s']=release_CPU(v['CPU_reserved_s'],neural_paid=oldcpu)
-    v['reserved']['H200_s']-=c.GPU_UPPER;v['reserved']['neural_queries']-=before['reserved_neural_queries']
+    v['CPU_reserved_s']=release_CPU(v['CPU_reserved_s'],neural_paid=oldcpu,neural_upper=limits['CPU_upper_s'])
+    v['reserved']['H200_s']-=limits['reserved_GPU_s'];v['reserved']['neural_queries']-=before['reserved_neural_queries']
     from . import mix_core_premodel_repair as repair
     covered=repair.output_credit(g,before)
     v['storage_reserved_bytes']-=before['additional_output_upper_bytes']-covered
@@ -120,13 +126,13 @@ def propose(global_bytes,local_bytes,*,request_id,native_proof,effects,physical_
         unknown_query_intents=[],reserved_neural_queries=0,terminal_native_sha256=c.digest(native_proof),
         terminal_effect_summary_sha256=c.digest(effects),settled_epoch=now_epoch)
     need(request_id not in local.get('V5_CD_Core_terminal_settlements',{}),'ONE_NATIVE_FINANCIAL_TERMINAL')
-    local['GPU_reserved_s']-=c.GPU_UPPER;local['GPU_allocated_s']+=gpu
-    local['CPU_reserved_s']['Hopper']=release_CPU(local['CPU_reserved_s']['Hopper'],neural_paid=oldcpu)
+    local['GPU_reserved_s']-=limits['reserved_GPU_s'];local['GPU_allocated_s']+=gpu
+    local['CPU_reserved_s']['Hopper']=release_CPU(local['CPU_reserved_s']['Hopper'],neural_paid=oldcpu,neural_upper=limits['CPU_upper_s'])
     local['CPU_s']['Hopper']+=cpu-oldcpu
     local['CPU_reserved_s']['CoreLab']=release_CPU(local['CPU_reserved_s']['CoreLab'],
-        neural_paid=oldcpu,physical_paid=phys['physical_CPU_s'])
+        neural_paid=oldcpu,physical_paid=phys['physical_CPU_s'],neural_upper=limits['CPU_upper_s'],physical_upper=limits['physical_CPU_s'])
     local['CPU_s']['CoreLab']+=cpu-oldcpu
-    allocation=repair.allocation(g,arm);held=local['Core_native_GPU_reserved']
+    allocation=partial.allocation(g,before)if partial_marker else repair.allocation(g,arm);held=local['Core_native_GPU_reserved']
     for name,unused in [('episode_starts',allocation['episode_starts']-phys['episodes']),('constructors',allocation['engine_starts']-phys['constructors']),('physics_ticks',allocation['physics_ticks']-phys['live']-phys['shadow']),('CoreLab_output_bytes',allocation['Core_storage_bytes']),('transfer_bytes',allocation['transfer_bytes'])]:
         need(held[name]>=unused,'ENTIRE_ORIGINAL_REMAINING_ESCROW:'+name);held[name]-=unused
     # Retain the original conservative stage IO/storage charge; actual delivered

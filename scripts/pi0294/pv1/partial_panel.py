@@ -128,8 +128,8 @@ def retained_IO(readback):
          'COMPLETE_ACTUAL_STORAGE_TOTALS')
     # Count the delivered model once in the old retained census. New views
     # must reuse those exact inodes; no file-size or fake-hardlink discount.
-    future=dict(neural_output_bytes=7*1024**3,physical_raw_bytes=13*768*1024**2,
-        physical_metadata_bytes=512*1024**2,new_control_bytes=128*1024**2,new_source_bytes=64*1024**2)
+    future=dict(neural_output_bytes=4*1024**3,physical_raw_bytes=13*768*1024**2,
+        physical_metadata_bytes=512*1024**2,new_control_bytes=3*1024**3,new_source_bytes=64*1024**2)
     total=max(logical,allocated)+sum(future.values());paid=c.remaining_stage()['Core_storage_bytes']
     need(total<=paid,'ALL_OLD_AND_NEW_OUTPUTS_WITHIN_ORIGINAL_PAID_CORE_GROSS')
     return dict(status='ACTUAL_OLD_CENSUS_AND_CONDITIONAL_REMAINING13_FINITE_OUTPUT_BOUNDS',

@@ -61,7 +61,10 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
     need(load(plan_bytes)==expected and r['planned_panel_sha256']==a.sha(plan_bytes),
          'ALL_TWENTY_FOUR_ORIGINAL_CONDITIONS_NOT_A_SELECTED_SUBSET')
     from .evaluation_plan import remaining_panel
-    need(len(remaining_panel(load(prior_bytes),expected['panels'][arm+'-DEV-N294101']))==24,
+    from .mix_core_partial_resume import envelope,KEY,PRIOR_SHA,record_binding
+    limits=envelope(r);record_binding(g,row)
+    if KEY in r:need(a.sha(prior_bytes)==PRIOR_SHA,'EXACT_ORIGINAL_AUDITED_PRIOR_ELEVEN')
+    need(len(remaining_panel(load(prior_bytes),expected['panels'][arm+'-DEV-N294101']))==limits['remaining_conditions'],
          'VALID_POLICY_FAILURES_CANNOT_BE_REPEATED')
     process=load(native_facts_bytes);start=a.number(process['started_epoch'])
     allocation={k:r[k]for k in ('source_sha','request_id','submission_nonce','stage','evaluation_candidate',
@@ -70,7 +73,7 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
         manifest_sha256=a.sha(manifest_bytes),request_sha256=a.sha(request_bytes),job_id=process['native_handle'],
         native_handle=process['native_handle'],native_process=process,native_process_sha256=c.digest(process),
         hostname=process['hostname'],allocation_start_epoch=start,
-        allocation_end_epoch=min(start+28800,r['deadline_epoch']),model_loaded=False,new_optimizer_updates=0)
+        allocation_end_epoch=min(start+r['walltime_s'],r['deadline_epoch']),model_loaded=False,new_optimizer_updates=0)
     n.sealed_identity(m,r,allocation,run_uuid=r['run_uuid'],manifest_sha256=a.sha(manifest_bytes),
         request_sha256=a.sha(request_bytes),same_bound_process=row)
     need(0<=now-process['observed_epoch']<=120 and process['observed_epoch']>=start
@@ -106,7 +109,7 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
             dimensions[k]=dict(full,projected=total,shortfall=max(0,total-full['cap']))
     shortfalls={k:v['shortfall']for k,v in dimensions.items()if v['shortfall']}
     need(not shortfalls,'ALL_ORIGINAL_REMAINING_DIMENSIONS_AND_FINAL_PROTECTED:'+str(shortfalls))
-    current_end=start+28860
+    current_end=start+limits['reserved_GPU_s']
     if arm=='C50':
         need(current_end<marker['stop_new_training_epoch'] and current_end+22560+28860<marker['deadline_epoch'],
              'REMAINING_D_TRAIN_AND_BOTH_PANELS_INSIDE_ORIGINAL_SCOPE')

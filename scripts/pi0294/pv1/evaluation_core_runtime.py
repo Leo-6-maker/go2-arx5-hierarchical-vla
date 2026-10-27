@@ -56,7 +56,7 @@ def phase_deadline(request):
 
 def release(root,directory,request,process,name,*,phase_started,guard):
     """One actual owner's immutable reply; read failure never resends a write."""
-    path=directory/name;end=min(time.time()+180,process['started_epoch']+28800-2700,phase_deadline(request))
+    path=directory/name;end=min(time.time()+180,process['started_epoch']+request['walltime_s']-2700,phase_deadline(request))
     while time.time()<end:
         guard()
         if path.exists():
@@ -106,7 +106,7 @@ def run(root,request_path):
         now=time.time()
         need(now<end and not any(p.exists() for p in (root/'STOP.json',root.parent.parent/'STOP.json',
             root/'SOURCE_PHYSICS_STOP.json',root/'SOURCE_SAFETY_STOP_FROM_CORE.json')),'ORIGINAL_STOP_FENCES')
-        if process is not None:need(now<min(process['started_epoch']+28800,end)-2700,
+        if process is not None:need(now<min(process['started_epoch']+request['walltime_s'],end)-2700,
             'ORIGINAL_45_MINUTE_NATIVE_CLOSEOUT_RESERVE')
         if ledger is None:
             # A just-started unit announces its real PID before the owner can
@@ -125,7 +125,7 @@ def run(root,request_path):
         # The actual process is observed before any Torch/CUDA import or model.
         process=process_identity.observe_current(root,dict(request,request_sha256=sha(request_path)))
         if not cohost:os.environ[identity.HANDLE_ENV]=process['native_handle']
-        resource.setrlimit(resource.RLIMIT_CPU,(79760,79760));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+        resource.setrlimit(resource.RLIMIT_CPU,(request['declared_process_CPU_limit_s'],request['declared_process_CPU_limit_s']));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
         put(directory/'NATIVE_CORE_PROCESS_STARTED.json',process)
         phase='WAIT_ACTUAL_GLOBAL_BIND_AND_PREMODEL_RELEASE'
         release(root,directory,request,process,'START_NEURAL.json',phase_started=process['observed_epoch'],guard=guard)
@@ -168,7 +168,7 @@ def run(root,request_path):
         labels=evaluation_labels(request,plan,prior);need(len(labels)==1,'ONE_ORIGINAL_WHOLE_FIRST_NOISE_PANEL')
         for label in labels:
             phase=label;spec=session_spec(root,label)
-            need(len(remaining_panel(prior,spec))==24 and spec['candidate']==candidate,'EXACT_ORIGINAL_24_CONDITIONS')
+            need(len(remaining_panel(prior,spec))==request['remaining_conditions'] and spec['candidate']==candidate,'EXACT_ORIGINAL_24_CONDITIONS')
             peer=read(root/'plans'/('PV1-PREMODEL-ALLOCATION-'+str(request['allocation_number']).zfill(2))/'REGISTRY.json')
             registry_path=root/'plans'/label/'REGISTRY.json';sealed_registry=[None]
             def panel_guard():

@@ -75,6 +75,9 @@ def request_identity(m, r, manifest_sha256):
         normalizer_refit=False, evaluation_data_for_training=False, LOCKBOX_opened=False,
         numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1', statistics_sha256=a.STATS,
         parent_checkpoint_manifest_sha256=a.PARENT)
+    from .mix_core_partial_resume import envelope
+    limits=envelope(r)
+    for name in ('remaining_conditions','walltime_s','CPU_upper_s','declared_process_CPU_limit_s'):expected[name]=limits[name]
     need(all(r.get(n) == v and type(r[n]) is type(v) for n, v in expected.items()),
          'FROZEN_ORIGINAL_24_CONDITIONS_AND_ZERO_TRAINING')
     need(type(r.get('allocation_number')) is int and r['allocation_number'] == (1 if arm == 'C50' else 2)
@@ -95,12 +98,14 @@ def request_identity(m, r, manifest_sha256):
 
 def check_clock(r, *, started_epoch, now_epoch):
     start = a.number(started_epoch); now = a.number(now_epoch)
+    from .mix_core_partial_resume import envelope
+    limits=envelope(r)
     created = a.number(r.get('created_epoch'))
     need(type(r.get('T_CD')) in (int, float) and
          r['deadline_epoch'] == s.scope(r['T_CD'])['deadline_epoch']
          and r['T_CD'] <= created and r['T_CD'] <= start and created-1 <= start
          and start <= now < r['deadline_epoch']
-         and start < r['deadline_epoch']-28860,
+         and start < r['deadline_epoch']-limits['reserved_GPU_s'],
          'REAL_PROCESS_START_INSIDE_COMPLETE_SUCCESSOR_WINDOW')
 
 
@@ -209,7 +214,7 @@ def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha2
     need(all(p.get(n) == v and type(p[n]) is type(v) for n, v in exact.items())
          and allocation.get('native_process_sha256') == c.digest(p)
          and allocation.get('allocation_start_epoch') == p['started_epoch']
-         and allocation.get('allocation_end_epoch') == min(p['started_epoch']+28800, r['deadline_epoch'])
+         and allocation.get('allocation_end_epoch') == min(p['started_epoch']+r['walltime_s'], r['deadline_epoch'])
          and allocation.get('hostname') == p['hostname']
          and 0 <= p['observed_epoch']-p['started_epoch'],
          'SAME_RAW_BOOT_PID_START_NOT_A_PREPARED_HANDLE')
@@ -234,7 +239,7 @@ def sealed_identity(m, r, allocation, *, run_uuid, manifest_sha256, request_sha2
         str(limits['memory_max_bytes']), str(limits['pids_max']))
     props = p['native_unit_properties']
     need(props.get('MainPID') == str(p['pid']) and props.get('ActiveState') == 'active'
-         and props.get('RuntimeMaxUSec') == '8h' and bool(props.get('ControlGroup')), 'REAL_RAW_UNIT_LIMITS')
+         and props.get('RuntimeMaxUSec') == ('5h'if r.get('original_partial_predecessor_request_id')else'8h') and bool(props.get('ControlGroup')), 'REAL_RAW_UNIT_LIMITS')
     raw = p['native_GPU_raw']
     need(set(raw) == {'devices', 'processes'} and all(type(v.get('returncode')) is int
          and v['returncode'] == 0 for v in raw.values()), 'SUCCESSFUL_COMPLETE_NATIVE_GPU_READS')

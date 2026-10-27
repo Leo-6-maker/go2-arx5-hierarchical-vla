@@ -21,7 +21,8 @@ def need(ok,why):
 def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,source_sha,
              source_seal_bytes,owner_root,owner_manifest_bytes,canonical_LOCAL_ledger,
              remote_binding,run_name,request_id,nonce,GPU_uuid,now_epoch,desktop_grant_bytes=None,
-             first512_concurrency=False):
+             first512_concurrency=False,partial_evidence_bytes=None,partial_input_bytes=None,
+             remote_source_certificate_bytes=None):
     g,l=json.loads(global_bytes),json.loads(local_bytes);c.checked(g);c.paired(g,l)
     capture=json.loads(training_capture_bytes);proof=context.captured_endpoint(capture)
     marker=s.validated(g);key=c.key(arm)
@@ -80,7 +81,22 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     bound_retry=caps_cont.validate_bound_age(g)
     limit_retry=caps_cont.validate_rpc_limit(g)
     control_retry=caps_cont.validate_production_control(g)
-    identity_marker=control_retry or limit_retry or bound_retry or desktop_retry or peer_retry or rpc_retry or cap_retry or next_continuation or continuation or repaired
+    from . import mix_core_partial_resume as partial
+    from .core_source_witness import CERTIFICATE,FIELD as certificate_field
+    pm=partial.validate(g)if arm=='C50'else None
+    if pm is not None:
+        need(source_sha==pm['source_sha']and all(type(v)is bytes for v in(partial_evidence_bytes,partial_input_bytes,remote_source_certificate_bytes)),
+             'EXPLICIT_COMPLETE_SAVED_PARTIAL_INPUTS')
+        need(a.sha(partial_evidence_bytes)==pm['evidence_sha256'],'EXACT_ALL_TWELVE_ORIGINAL_ATTEMPT_BYTES')
+        inputs=json.loads(partial_input_bytes);certificate=json.loads(remote_source_certificate_bytes)
+        need(inputs['original_inventory_sha256']==pm['retained_IO']['inventory_sha256']
+             and inputs['checkpoint_manifest_sha256']==proof['checkpoint_manifest_sha256']
+             and certificate['source_sha']==source_sha
+             and certificate['source_seal_sha256']==a.sha(source_seal_bytes)
+             and certificate['source_root']==remote_binding['remote_code']
+             and certificate['source_seal']==remote_binding['remote_seal'],'EXACT_NATIVE_INPUT_AND_FULL_SOURCE_CUSTODY')
+    else:need(all(v is None for v in(partial_evidence_bytes,partial_input_bytes,remote_source_certificate_bytes)),'NO_ORPHAN_PARTIAL_INPUTS')
+    identity_marker=pm or control_retry or limit_retry or bound_retry or desktop_retry or peer_retry or rpc_retry or cap_retry or next_continuation or continuation or repaired
     if repaired and arm=='C50':
         need(request_id==identity_marker['replacement_request_id']and nonce==identity_marker['replacement_submission_nonce']
              and run_name==identity_marker['replacement_run_uuid'],'EXACT_ONCE_PREMODEL_REPLACEMENT_IDENTITY')
@@ -101,6 +117,9 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         need(a.sha(population)==POPULATION,'EXACT_ORIGINAL_POPULATION_BYTES')
         groups=json.loads(population)['groups']
         files['V5_CD_SCOPE_BINDING.json']=a.raw(marker)
+        if pm is not None:
+            files.update({partial.BINDING:a.raw(pm),partial.HISTORY:a.raw(pm['history']),partial.EVIDENCE:partial_evidence_bytes,
+                partial.INPUTS:partial_input_bytes,CERTIFICATE:remote_source_certificate_bytes})
         if desktop_enabled:files[grant_path]=desktop_grant_bytes
         if repaired and arm=='C50':files['plans/V5_CD_SAME_PANEL_PREPAID_IO.private.json']=a.raw(repaired)
         if continuation is not None:files['plans/V5_CD_CORE_RECOVERY.private.json']=a.raw(continuation)
@@ -117,7 +136,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         files[context.CAPTURE]=training_capture_bytes;files[context.LOCAL_BINDING]=a.raw(local_binding)
         files['plans/SOURCE_EVALUATION_PLAN.json']=a.raw(evaluation.candidate_plan(groups,arm))
         files['plans/V5_CD_PAIRED_EVALUATION_PLAN.json']=a.raw(evaluation.plan(groups))
-        files['PV1_STAGE_BINDING.json']=a.raw(evaluation.stage(arm,original_core_control=True));files['plans/PRIOR_EVALUATION_OUTCOMES.json']=a.raw([])
+        files['PV1_STAGE_BINDING.json']=a.raw(evaluation.stage(arm,original_core_control=True));files['plans/PRIOR_EVALUATION_OUTCOMES.json']=a.raw(pm['history']['prior_rows']if pm else[])
         fixture=json.loads(files['plans/PV1_TRANSPORT_FIXTURE.json']);fixture['run_uuid']=run_name
         files['plans/PV1_TRANSPORT_FIXTURE.json']=a.raw(fixture)
         files['plans/EVALUATION_CHECKPOINT.private.json']=a.raw(dict(candidate=arm,global_step=1024,
@@ -137,6 +156,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         if role=='hopper':m['platform_evaluation_version']=c.VERSION
         else:m['evaluation_peer_platform']=c.VERSION
         m['authority']=dict(protocol_ref=s.TASK_SOURCE,scope_grant_sha256=s.GRANT_SHA)
+        if pm is not None:m.update(partial.descriptor(pm))
         if concurrent is not None:m['authority'][minimal_concurrency.KEY]=concurrent
         m['code'].update(vla_commit=source_sha,capsule_relative='capsules/'+source_sha+'/code',
             source_seal_relative='capsules/'+source_sha+'/SOURCE_SEAL.json',source_seal_sha256=a.sha(source_seal_bytes))
@@ -149,6 +169,8 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
             m['execution'].pop('output_binding_sha256',None)
             m['limits'].update(CPU_s=93900,engine_starts=2108,physics_ticks=832000,policy_episodes=26,
                 output_bytes=c.remaining_stage()['Core_storage_bytes'])
+            if pm is not None:
+                m['limits'].update(partial.physical_limits(m));m['limits']['output_bytes']=13*768*1024**2+512*1024**2
         else:m['execution']['output_binding_sha256']=a.sha(a.raw(b))
         validate_peer_contract(m,role)
         mb=a.raw(m)
@@ -171,6 +193,10 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         cold_input_audit_sha256=a.sha(a.raw(dict(source_sha=source_sha,source_seal_sha256=a.sha(source_seal_bytes),manifest_sha256={k:v['manifest_sha256']for k,v in rows.items()}))),
         T_CD=marker['T_CD'],deadline_epoch=marker['deadline_epoch'],created_epoch=now_epoch,child_run_uuid=run_name,
         native_handle=None,GPU_uuid=GPU_uuid,status=c.STATES[0],reserved_neural_queries=2097)
+    if pm is not None:
+        record.update(partial.descriptor(pm));limits=partial.envelope(record)
+        for name in('walltime_s','reserved_GPU_s','CPU_upper_s','declared_process_CPU_limit_s','remaining_conditions','query_limit','additional_output_upper_bytes'):record[name]=limits[name]
+        record['reserved_neural_queries']=limits['query_limit'];record[certificate_field]=a.sha(remote_source_certificate_bytes)
     if concurrent is not None:record[minimal_concurrency.KEY]=concurrent
     if repaired and arm=='C50':record['prepaid_panel_IO_credit_sha256']=a.sha(a.raw(repaired))
     from . import mix_core_desktop as desktop

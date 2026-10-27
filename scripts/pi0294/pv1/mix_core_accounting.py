@@ -57,6 +57,8 @@ def remaining_stage():
 def validate_row(r):
     arm = r.get('evaluation_candidate')
     key(arm)
+    from .mix_core_partial_resume import envelope
+    limits=envelope(r)
     from .core_source_witness import row_contract
     row_contract(r)
     from . import mix_core_desktop as desktop
@@ -77,6 +79,7 @@ def validate_row(r):
         PBS_submissions_consumed=0, query_limit=2097, charges_DEC1_subcaps=False,
         new_robot_physics=0, legacy_GPU_seconds_field_is_projection=True,
         additional_output_upper_bytes=remaining_stage()['Hopper_storage_bytes'])
+    for n in ('remaining_conditions','walltime_s','reserved_GPU_s','CPU_upper_s','declared_process_CPU_limit_s','query_limit','additional_output_upper_bytes'):expected[n]=limits[n]
     need(all(r.get(n) == v and type(r[n]) is type(v) for n, v in expected.items()),
          'EXACT_NEW_SCOPE_ZERO_TRAINING_ENVELOPE')
     need(not any(n in r for n in ('project', 'submit_count', 'PBS_JOBID', 'job_name',
@@ -93,7 +96,7 @@ def validate_row(r):
     need(r.get('status') in STATES and type(r.get('created_epoch')) in (int, float)
          and math.isfinite(r['created_epoch']) and type(r.get('T_CD')) in (int, float)
          and type(r.get('deadline_epoch')) in (int, float)
-         and r['T_CD'] <= r['created_epoch'] < r['deadline_epoch'] - 28800 - 60,
+         and r['T_CD'] <= r['created_epoch'] < r['deadline_epoch'] - limits['reserved_GPU_s'],
          'ACTUAL_CLOCK_AND_COMPLETE_PANEL_WINDOW')
     need(type(r.get('child_run_uuid')) is str and re.fullmatch(
          r'[A-Za-z0-9][A-Za-z0-9._-]{0,127}', r['child_run_uuid'])
@@ -108,7 +111,7 @@ def validate_row(r):
         exact_prebind_row(r)
     else:
         need(r.get('native_handle') == process_handle(r.get('boot_id'), r.get('pid'), r.get('proc_start'))
-             and r['created_epoch'] <= r['process_started_epoch'] < r['deadline_epoch'] - 28860,
+             and r['created_epoch'] <= r['process_started_epoch'] < r['deadline_epoch'] - limits['reserved_GPU_s'],
              'REAL_BOUND_BOOT_PID_AND_START')
     q, loads, cpu = progress(r)
     need(type(r.get('reserved_neural_queries')) is int and
@@ -136,14 +139,17 @@ def validate_rows(g):
     bound_retry=caps_cont.validate_bound_age(g)
     limit_retry=caps_cont.validate_rpc_limit(g)
     control_retry=caps_cont.validate_production_control(g)
-    need(type(rows) is dict and 1 <= len(rows) <= (11 if control_retry else 10 if limit_retry else 9 if bound_retry else 8 if desktop_retry else 7 if peer_retry else 6 if rpc_retry else 5 if cap_retry else 4 if continued else 3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
+    from . import mix_core_partial_resume as partial
+    partial_marker=partial.validate(g)
+    need(type(rows) is dict and 1 <= len(rows) <= (12 if partial_marker else 11 if control_retry else 10 if limit_retry else 9 if bound_retry else 8 if desktop_retry else 7 if peer_retry else 6 if rpc_retry else 5 if cap_retry else 4 if continued else 3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
     arms = []
     for request_id, r in rows.items():
         validate_row(r)
         need(request_id == r['request_id'] and r['T_CD'] == marker['T_CD']
              and r['deadline_epoch'] == marker['deadline_epoch'], 'ONE_ADOPTED_CLOCK')
         repair.output_credit(g,r)
-        if (not repaired or request_id!=repair.FAILED)and(not continued or request_id!=prebind.FAILED)and(not cap_retry or request_id!=caps_cont.FAILED)and(not rpc_retry or request_id!=caps_cont.RPC_FAILED)and(not peer_retry or request_id!=caps_cont.PEER_FAILED)and(not desktop_retry or request_id!=caps_cont.DESKTOP_FAILED)and(not bound_retry or request_id!=caps_cont.BOUND_FAILED)and(not limit_retry or request_id!=caps_cont.LIMIT_FAILED)and(not control_retry or request_id!=caps_cont.CONTROL_FAILED):arms.append(r['evaluation_candidate'])
+        partial.record_binding(g,r)
+        if (not repaired or request_id!=repair.FAILED)and(not continued or request_id!=prebind.FAILED)and(not cap_retry or request_id!=caps_cont.FAILED)and(not rpc_retry or request_id!=caps_cont.RPC_FAILED)and(not peer_retry or request_id!=caps_cont.PEER_FAILED)and(not desktop_retry or request_id!=caps_cont.DESKTOP_FAILED)and(not bound_retry or request_id!=caps_cont.BOUND_FAILED)and(not limit_retry or request_id!=caps_cont.LIMIT_FAILED)and(not control_retry or request_id!=caps_cont.CONTROL_FAILED)and(not partial_marker or request_id!=partial.prior.FAILED):arms.append(r['evaluation_candidate'])
         endpoint = g[a.PACKAGE]['endpoints'][r['evaluation_candidate']]
         need(endpoint['checkpoint_manifest_sha256'] == r['checkpoint_manifest_sha256'],
              'ACTUALLY_CLOSED_1024_ENDPOINT_NOT_OLD_AB')
@@ -156,7 +162,7 @@ def validate_rows(g):
     p = a.package_view(g)['remaining_resources']
     need(g['reserved']['H200_s'] >= p['H200_s'] + sum(r['reserved_GPU_s'] for r in active)
          and g['reserved']['neural_queries'] >= p['neural_queries'] + sum(r['reserved_neural_queries'] for r in active)
-         and g['CPU_reserved_s'] >= p['Hopper_CPU_s'] + sum(CPU_UPPER-progress(r)[2] for r in active)
+         and g['CPU_reserved_s'] >= p['Hopper_CPU_s'] + sum(partial.envelope(r)['CPU_upper_s']-progress(r)[2] for r in active)
          and g['storage_reserved_bytes'] >= p['Hopper_storage_bytes'] + sum(r['additional_output_upper_bytes']-repair.output_credit(g,r) for r in active),
          'ACTIVE_AND_ALL_FUTURE_ESCROWS_RETAINED')
     return g
@@ -178,7 +184,7 @@ def paired(g, l):
     minimal_gpu_repair.validate(g)
     need(l.get(FIELD, {}) == g.get(FIELD, {}), 'SAME_ACTUAL_CORE_STAGE_INDEX')
     from . import mix_core_prebind_terminal as prebind,mix_core_caps_continuation as continued
-    for name in (prebind.FIELD,prebind.CONTINUATION,continued.FIELD,continued.RPC_FIELD,continued.PEER_FIELD,continued.DESKTOP_FIELD,continued.BOUND_FIELD,continued.LIMIT_FIELD,continued.CONTROL_FIELD):
+    for name in (prebind.FIELD,prebind.CONTINUATION,continued.FIELD,continued.RPC_FIELD,continued.PEER_FIELD,continued.DESKTOP_FIELD,continued.BOUND_FIELD,continued.LIMIT_FIELD,continued.CONTROL_FIELD,'V5_CD_C50_original_eleven_valid_remaining13_continuation'):
         need(l.get(name)==g.get(name),'SAME_ACTUAL_APPEND_ONLY_ENGINEERING_CUSTODY:'+name)
 
 
@@ -228,6 +234,8 @@ def prepay_control(g, l, *, terminal_capture, arm, now_epoch):
 def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epoch):
     """Move an escrow slice, never reserve or charge the complete package twice."""
     arm = record.get('evaluation_candidate'); proof = closed_training(g, l, terminal_capture, arm)
+    from . import mix_core_partial_resume as partial
+    limits=partial.envelope(record);partial_marker=partial.record_binding(g,record)
     r = deepcopy(validate_row(record)); p = a.package_view(g); stage = key(arm)
     need(stage in p.get('prepaid_control', {}) and r['status'] == STATES[0], 'REAL_PAID_CONTROL_BEFORE_UNIQUE_INTENT')
     from scripts.pi0294.generalization.minimal_concurrency import permit_Core,validate_LOCAL
@@ -240,7 +248,7 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
          'ONE_TASK_GPU_AND_NO_UNKNOWN_RETRY')
     need(r['T_CD'] == s.validated(g)['T_CD'] and r['deadline_epoch'] == s.validated(g)['deadline_epoch']
          and 0 <= a.number(now_epoch)-r['created_epoch'] <= 120
-         and now_epoch < r['deadline_epoch']-28860
+         and now_epoch < r['deadline_epoch']-limits['reserved_GPU_s']
          and r['checkpoint_manifest_sha256'] == proof['checkpoint_manifest_sha256']
          and r['training_handoff_sha256'] == a.sha(a.raw(proof)), 'CURRENT_CLOSED_TRAINING_EXACT_REQUEST')
     from .successor_core_context import SCHEMA
@@ -253,12 +261,12 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
          and m['authority']['scope_grant_sha256'] == s.GRANT_SHA
          and m['execution']['profile'] == '4080-simulation'
          and m['limits']['operation_deadline_epoch'] <= r['deadline_epoch'], 'EXPLICIT_PHYSICAL_PEER_NOT_OLD_ROLE')
-    expected = dict(CPU_s=93900, physics_ticks=832000, policy_episodes=26, engine_starts=2108)
+    expected=partial.physical_limits(record)
     need(all(type(m['limits'].get(n)) is int and m['limits'][n] == cost for n, cost in expected.items()),
          'ORIGINAL_FULL_PHYSICAL_UPPER_NO_NEW_SCIENCE')
     from . import mix_core_premodel_repair as repair
     repair.output_credit(g,r)
-    v, w = deepcopy(g), deepcopy(l); allocation = repair.allocation(g,arm)
+    v, w = deepcopy(g), deepcopy(l); allocation=partial.allocation(g,r)if partial_marker else repair.allocation(g,arm)
     for value in (v, w):
         for n, cost in allocation.items():
             need(value[a.PACKAGE]['remaining_resources'][n] >= cost, 'STAGE_INSIDE_ORIGINAL_POOL:' + n)
@@ -269,7 +277,7 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
         from . import mix_core_recovery as recovered
         from . import mix_core_prebind_terminal as prebind
         from . import mix_core_caps_continuation as caps_cont
-        repair_marker=caps_cont.validate_production_control(g)or caps_cont.validate_rpc_limit(g)or caps_cont.validate_bound_age(g)or caps_cont.validate_recorded_desktop(g)or caps_cont.validate_peer(g)or caps_cont.validate_RPC(g)or caps_cont.validate(g)or prebind.continuation(g)or recovered.validate(g)or repair_marker
+        repair_marker=partial_marker or caps_cont.validate_production_control(g)or caps_cont.validate_rpc_limit(g)or caps_cont.validate_bound_age(g)or caps_cont.validate_recorded_desktop(g)or caps_cont.validate_peer(g)or caps_cont.validate_RPC(g)or caps_cont.validate(g)or prebind.continuation(g)or recovered.validate(g)or repair_marker
         need(repair_marker is not None and r['request_id']==repair_marker['replacement_request_id']
              and w['V5_CD_Core_CPU_substages'][stage]['status']=='SETTLED_KNOWN_NATIVE_TERMINAL', 'EXACT_CLOSED_PREMODEL_PHYSICAL_PREDECESSOR')
         prior_stage=w['V5_CD_Core_CPU_substages'][stage];prior_id=prior_stage['request_id']
@@ -280,7 +288,7 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
         source_sha=r['source_sha'], scope_grant_sha256=s.GRANT_SHA,
         run_manifest_sha256=a.sha(physical_manifest_bytes), request_id=r['request_id'])
     held = w.setdefault('Core_native_GPU_reserved', {})
-    for n, cost in dict(episode_starts=26, physics_ticks=832000, constructors=2108,
+    for n, cost in dict(episode_starts=expected['policy_episodes'], physics_ticks=expected['physics_ticks'], constructors=expected['engine_starts'],
             CoreLab_output_bytes=allocation['Core_storage_bytes'], transfer_bytes=allocation['transfer_bytes']).items():
         held[n] = held.get(n, 0) + cost
     paired(v, w)
@@ -290,6 +298,8 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
 
 def bind(g, l, *, request_id, process, now_epoch):
     paired(g, l); r = g[FIELD][request_id]
+    from .mix_core_partial_resume import envelope
+    limits=envelope(r)
     need(r['status'] == STATES[0] and r['native_handle'] is None, 'ONE_PROCESS_BIND_NEVER_RESTART_UNKNOWN')
     expected = dict(schema='PV1_CORE_GPU_NATIVE_PROCESS_STARTED_V1', hostname='corelab-4080s', uid=2009,
         GPU_uuid=r['GPU_uuid'], request_id=request_id, request_sha256=r['request_sha256'],
@@ -298,7 +308,7 @@ def bind(g, l, *, request_id, process, now_epoch):
     need(all(process.get(n) == val and type(process[n]) is type(val) for n, val in expected.items())
          and r['created_epoch'] <= process['started_epoch'] <= process['observed_epoch'] <= now_epoch
          and now_epoch-process['observed_epoch'] <= 120
-         and now_epoch < r['deadline_epoch']-28860, 'FRESH_ACTUAL_PROCESS_BEFORE_MODEL')
+         and now_epoch < r['deadline_epoch']-limits['reserved_GPU_s'], 'FRESH_ACTUAL_PROCESS_BEFORE_MODEL')
     handle = process_handle(process.get('boot_id'), process.get('pid'), process.get('proc_start'))
     need(process.get('native_handle') == handle, 'NO_PREPARED_OR_PBS_HANDLE')
     v, w = deepcopy(g), deepcopy(l)
@@ -328,7 +338,7 @@ def charge(g, *, request_id, native_handle, kind, count, effect_id):
     elif kind == 'model_loads':
         need(loads + amount <= 2, 'BOUNDED_MODEL_ATTEMPTS'); r['charged_model_loads'] = loads + amount; v['model_loads'] += amount
     else:
-        need(cpu + amount <= CPU_UPPER, 'ACTUAL_NEURAL_CPU_INSIDE_ESCROW')
+        need(cpu + amount <= r['CPU_upper_s'], 'ACTUAL_NEURAL_CPU_INSIDE_ESCROW')
         r['charged_CPU_s'] = cpu + amount; v['CPU_s'] += amount; v['CPU_reserved_s'] -= amount
     r.setdefault('charged_effects', {})[effect_id] = dict(kind=kind, count=amount)
     r['status'] = STATES[2]; a.validate_global(v)

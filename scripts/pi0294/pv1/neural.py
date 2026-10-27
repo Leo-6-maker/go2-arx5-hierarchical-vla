@@ -65,15 +65,20 @@ def evaluation_labels(request,plan,prior):
     from . import mix_vanda_eval_identity as colocated
     if request['platform_evaluation_version'] in (cd.CORE_VERSION,colocated.VERSION):
         arm=request.get('evaluation_candidate');label=str(arm)+'-DEV-N294101'
+        from .mix_core_partial_resume import envelope,KEY,PRIOR_SHA
+        count=envelope(request)['remaining_conditions']
+        if KEY in request:
+            from .mix_accounting import raw,sha
+            if sha(raw(prior))!=PRIOR_SHA:raise PermissionError('V5_CD_EXACT_AUDITED_ELEVEN_PRIOR_ROWS_REQUIRED')
         if (arm not in ('C50','D25') or request.get('stage')!='V5_MATCHED_DEV24'
                 or request.get('checkpoint_step')!=1024 or request.get('noise_bank')!=294101
-                or request.get('remaining_conditions')!=24 or request.get('optimizer_updates')!=0
+                or request.get('remaining_conditions')!=count or request.get('optimizer_updates')!=0
                 or plan.get('schema')!='V5_CD_SINGLE_FROZEN_DEV24_SERVICE_PLAN_V1'
                 or plan.get('candidate')!=arm or set(plan.get('panels',{}))!={label}):
             raise PermissionError('V5_CD_ONE_FIXED_1024_ORIGINAL_NOISE_PANEL')
         spec=plan['panels'][label]
         if (spec.get('candidate')!=arm or spec.get('checkpoint_step')!=1024
-                or spec.get('noise_bank')!=294101 or len(remaining_panel(prior,spec))!=24):
+                or spec.get('noise_bank')!=294101 or len(remaining_panel(prior,spec))!=count):
             raise PermissionError('V5_CD_NO_REPEATING_VALID_CONDITION_OR_SECOND_PANEL')
         return (label,)
     from . import evaluation_core_accounting as core

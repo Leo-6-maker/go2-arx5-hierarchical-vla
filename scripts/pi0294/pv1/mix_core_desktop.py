@@ -17,10 +17,12 @@ def need(ok,why):
 
 def allowed(request):
     if FIELD not in request:return False
+    from .mix_core_partial_resume import envelope
+    remaining=envelope(request)['remaining_conditions']
     need(request[FIELD]==GRANT_SHA and request['authority_release']==s.TASK_SOURCE
          and request['scope_grant_sha256']==s.GRANT_SHA
          and request['GPU_uuid']==GPU and request['evaluation_candidate']in('C50','D25')
-         and request['noise_bank']==294101 and request['remaining_conditions']==24
+         and request['noise_bank']==294101 and request['remaining_conditions']==remaining
          and request['native_platform']=='CORELAB_RTX4080'
          and request['optimizer_update_limit']==0 and request.get('optimizer_updates',0)==0
          and 'shared_GPU_grant_sha256'not in request,

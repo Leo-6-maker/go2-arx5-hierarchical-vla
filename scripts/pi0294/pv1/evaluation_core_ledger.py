@@ -142,6 +142,12 @@ class Ledger:
             raise PermissionError('PV1_CORE_ACTUAL_BOUND_PROCESS_RECORD')
         self.actor_pid=os.getpid();self.actor_start=int(Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19])
         self.sequence=0
+        self.partial_output_guard=None
+        if self.request.get('original_partial_predecessor_request_id'):
+            from .mix_core_partial_resume import OutputGuard
+            from .mix_core_context import LOCAL_BINDING
+            local_path=read(self.root/LOCAL_BINDING)['canonical_LOCAL_ledger']
+            self.partial_output_guard=OutputGuard(self.root,self.manifest,read(local_path))
         directory=self.root/'reservations/Core-global-rpc'/str(self.actor_pid)/str(self.actor_start)
         directory.mkdir(parents=True,mode=0o700,exist_ok=True)
         self.journal=Journal(directory,dict(run_uuid=self.root.name,job_id=self.native_handle,
@@ -168,6 +174,7 @@ class Ledger:
 
     def _rpc(self,operation,**values):
         if os.getpid()!=self.actor_pid:raise PermissionError('PV1_CORE_NO_FORKED_OR_REBOUND_GLOBAL_WRITER')
+        if getattr(self,'partial_output_guard',None)is not None:self.partial_output_guard.check()
         token=str(self.actor_pid)+':'+str(self.actor_start)+':'+str(self.sequence)+':'+operation
         payload=dict(binding=self.binding,operation=operation,request_id=self.request['request_id'],
             request_sha256=self.request_sha,source_sha=self.request['source_sha'],run_uuid=self.root.name,
@@ -177,6 +184,8 @@ class Ledger:
         body='P='+repr(payload)+'\n'+REMOTE
         def invoke(intent,timeout):
             reply=subprocess.run(self._argv(),input=body,capture_output=True,text=True,timeout=timeout)
+            if self.request.get('original_partial_predecessor_request_id') and len(reply.stdout.encode())>6*1024**2:
+                raise ConnectionError('PARTIAL_REMOTE_REPLY_OUTPUT_BOUND_UNKNOWN_WRITE_NO_REPLAY')
             record=self.journal.root/('TRANSPORT-'+intent['operation_id']+'.private.json')
             write(record,dict(returncode=reply.returncode,stdout=reply.stdout,stderr=reply.stderr,
                 program_sha256=hashlib.sha256(body.encode()).hexdigest(),timeout_s=timeout))
@@ -185,6 +194,8 @@ class Ledger:
             result=json.loads(reply.stdout);raw=base64.b64decode(result['global_base64'],validate=True)
             if hashlib.sha256(raw).hexdigest()!=result['global_sha256']:
                 raise PermissionError('PV1_CORE_ACTUAL_REMOTE_FULL_BYTE_READBACK')
+            if self.request.get('original_partial_predecessor_request_id') and len(raw)>4*1024**2:
+                raise ConnectionError('PARTIAL_CANONICAL_SNAPSHOT_OUTPUT_BOUND_UNKNOWN_WRITE_NO_REPLAY')
             self.accounting.checked(json.loads(raw));return result
         result=self.journal.call(('READ_' if operation=='STATE' else 'WRITE_')+operation,
             'READ_ONLY' if operation=='STATE' else 'MUTATION',invoke)

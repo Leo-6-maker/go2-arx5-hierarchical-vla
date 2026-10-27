@@ -127,6 +127,8 @@ def validate(root, *, closeout=False):
         if limit_retry is not None:need(sealed('plans/V5_CD_ZERO_INTEGRATION_RPC_CPU_LIMIT_CONTINUATION.private.json')==limit_retry,'ACTUAL_RPC_CPU_LIMIT_CONTINUATION')
         control_retry=caps_cont.validate_production_control(local)
         if control_retry is not None:need(sealed('plans/V5_CD_ZERO_INTEGRATION_PRODUCTION_RPC_CONTROL_CONTINUATION.private.json')==control_retry,'ACTUAL_PRODUCTION_RPC_CONTROL_CONTINUATION')
+    from .mix_core_partial_resume import validate_inputs
+    validate_inputs(root,m,local)
     proof = captured_endpoint(sealed(CAPTURE)); arm = request['evaluation_candidate']
     need(proof['arm'] == arm and proof['checkpoint_manifest_sha256'] == request['checkpoint_manifest_sha256']
          and a.sha(a.raw(proof)) == request['training_handoff_sha256'], 'TRUE_CLOSED_COMPLETE_1024_ENDPOINT')

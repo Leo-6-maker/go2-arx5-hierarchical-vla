@@ -15,6 +15,7 @@ ROLES=(GEN_ROLE,EVAL_ROLE)
 SCHEMA='V5_CD_REGISTERED_CORE_CPU_CHILD_V1'
 LEDGER_SCHEMA='V5_CD_CORE_POLICY_EFFECT_LEDGER_V1'
 GEN_ALLOCATION='GEN1_STATIC24'
+_BINDING_CACHE={}
 ASSET_IDENTITY_SHA='27f19c63019704cb2e437c1f7b7b9df298e2059f5a6ad990036ebfe935ef1ce6'
 
 
@@ -33,6 +34,8 @@ def cpu_allocation(manifest,local,marker,*,now_epoch,closeout=False):
          and row.get('source_sha')==manifest['code']['vla_commit']
          and row.get('scope_grant_sha256')==s.GRANT_SHA,'ACTUAL_ONCE_CPU_SUBSTAGE_NOT_CALLER_BUDGET')
     limits=manifest['limits'];expected=dict(CPU_s=1200,physics_ticks=0,policy_episodes=0,engine_starts=30) if role==GEN_ROLE else dict(CPU_s=93900,physics_ticks=832000,policy_episodes=26,engine_starts=2108)
+    from .mix_core_partial_resume import KEY,physical_limits
+    if role==EVAL_ROLE and KEY in manifest:expected=physical_limits(manifest)
     need(all(type(limits.get(k))in(int,float) and type(limits[k])is not bool
              and limits[k]==v and row.get(k)==v for k,v in expected.items()),'EXACT_EXISTING_PACKAGE_SUBSTAGE_LIMITS')
     need(type(limits.get('cpus'))is list and 0<len(limits['cpus'])<=3
@@ -53,11 +56,22 @@ def ledger_binding(root,*,closeout=False):
     need(m['execution']['sealed_inputs'].get(name)==sha(root/name),'ACTUAL_CANONICAL_LOCAL_BINDING')
     b=read(root/name);path=Path(b['canonical_LOCAL_ledger']).resolve()
     need(path.is_relative_to((root.parent.parent/'control').resolve()) and path.name=='LOCAL_RESOURCE_LEDGER.private.json','EXISTING_CORE_LOCAL_LEDGER_NOT_ANOTHER_BUDGET')
-    value=read(path);marker=s.validated(value)
+    local_bytes=path.read_bytes();cache_key=str(root);bound_bytes=(root/name).read_bytes();manifest_bytes=(root/'RUN_MANIFEST.json').read_bytes()
+    cached=_BINDING_CACHE.get(cache_key)
+    if cached is not None and cached[:3]==(local_bytes,bound_bytes,manifest_bytes)and cached[3]==closeout:
+        marker=cached[4];now=time.time()
+        need(marker['T_CD']<=now and (closeout or now<min(marker['deadline_epoch'],m['limits']['operation_deadline_epoch'])),
+             'CPU_STAGE_INSIDE_ONE_ACTUAL_WINDOW')
+        return dict(marker),path
+    value=json.loads(local_bytes);marker=s.validated(value)
     need(marker==read(root/'V5_CD_SCOPE_BINDING.json') and value['unknown_effects']==value['pending_updates']==value['pending_queries']==[],'SAME_ACTUAL_ADOPTED_SCOPE_AND_UNKNOWN_FENCE')
     need('V5_CD_execution_package'in value and value['V5_CD_execution_package']['scope_grant_sha256']==s.GRANT_SHA,'EXISTING_WHOLE_PAIR_ESCROW')
     row=cpu_allocation(m,value,marker,now_epoch=time.time(),closeout=closeout)
     need(row.get('run_manifest_sha256')==sha(root/'RUN_MANIFEST.json'),'ACTUAL_CPU_ROW_BINDS_EXACT_MANIFEST')
+    from .mix_core_partial_resume import validate_inputs
+    validate_inputs(root,m,value)
+    if len(_BINDING_CACHE)>=4 and cache_key not in _BINDING_CACHE:_BINDING_CACHE.clear()
+    _BINDING_CACHE[cache_key]=(local_bytes,bound_bytes,manifest_bytes,closeout,dict(marker))
     return marker,path
 
 

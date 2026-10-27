@@ -93,8 +93,12 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
     need(g['pending_updates']==g['unknown_effects']==[],'BOTH_CLOSED_TRAININGS_NO_CURRENT_EFFECTS')
     # The conservative historical LOCAL projection already retains the two
     # original Eval GPU/Core-CPU escrows. Never count that as a fresh read.
-    need(base['dimensions']['H200_s']['reserved']>=len(remaining_panels)*28860
-         and base['dimensions']['Core_CPU_s']['reserved']>=len(remaining_panels)*173900,
+    from scripts.pi0294.pv1.mix_core_partial_resume import validate as partial_validate
+    partial=partial_validate(g)
+    expected_GPU=sum(18060 if arm=='C50'and partial else 28860 for arm in remaining_panels)
+    expected_Core=sum(87100 if arm=='C50'and partial else 173900 for arm in remaining_panels)
+    need(base['dimensions']['H200_s']['reserved']>=expected_GPU
+         and base['dimensions']['Core_CPU_s']['reserved']>=expected_Core,
          'EXACT_ORIGINAL_C_D_COMPUTE_HOLDS_RETAINED')
     add={k:0 for k in base['dimensions']}
     def plus(values):

@@ -296,7 +296,7 @@ def observe_current(root,request,*,allow_model_context=False):
     need(result.returncode==0,'REAL_NATIVE_UNIT_QUERY_NOT_TIMEOUT')
     properties=dict(x.split('=',1) for x in result.stdout.splitlines() if '=' in x)
     need(properties.get('MainPID')==str(pid) and properties.get('ActiveState')=='active'
-         and properties.get('ControlGroup')==cg[1] and properties.get('RuntimeMaxUSec')=='8h',
+         and properties.get('ControlGroup')==cg[1] and properties.get('RuntimeMaxUSec')==('5h'if successor and r.get('original_partial_predecessor_request_id')else'8h'),
          'OWN_ACTIVE_MAIN_PID_AND_ORIGINAL_EIGHT_HOUR_UNIT_BOUND')
     lock=root.parent.parent/'control/global-native-GPU-locks'/(r['GPU_uuid']+'.lock')
     try:fd=int(os.environ['PV1_CORE_GPU_LOCK_FD'])
