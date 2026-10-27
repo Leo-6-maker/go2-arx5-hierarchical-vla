@@ -7,8 +7,8 @@
 1. **环境部署**：复用原MuJoCo3.2.7/NumPy1.26.4固定SIF和26个ARX5来源资产，经完整SHA交付AMD标准项目入口下的不可变角色。管理Python不安装依赖、不启动WBC。先仅登记environment-preparation，0模型/0构造/0积分；验证容器、包版本和原视频工具。GLOBAL保存真实AMD分类，4080 LOCAL仍明确历史PENDING，不复制为AMD权威。
 2. **M2静态验收**：原六TRAIN几何×两桌面外观×双相机24图；每变体重复T1并独立T2核对初态、RGB、相机标定。三个共同home只做有限初态准备，与LEGACY_MATCHED分版本。最多44构造，含两counter；零积分，不宣称视觉泛化。
 3. **Teacher pilot**：六个V0几何各T1抓放/T2推物一次，合计12个首次尝试，最多两个隔离CPU worker。每次32秒仿真、3600CPU秒、32000真实live+shadow ticks、81次任务/影子构造、4次原零积分安全拒绝检查及最多3次独立只读raw-audit构造、768MiB上界；原S1和完整评分不改。保留安全拒绝和任务失败，禁止补抽成功。V1仅展示，不混入训练。
-4. **审计与导出**：每条保存双RGB、指令、提交动作、实际物体/夹爪状态、时间、S1、完整任务评分及原始文件SHA。原独立raw audit和R0/codec正式export均通过，且T1/T2各四个预声明布局层有真实成功支持后，才封存新bank；否则交缺口，不启动训练。
-5. **Vanda接续**：一份CPU PBS正式export，再一份A40从共同CORR2048独立训练1024步，fresh optimizer、新GEN身份、原C50专家lane比例与R0/EEF10/H40/Prefix8/4步不变。旧A/B/C/D不重训、不继承，训练请求只能绑定真实closed bank SHA。GPU训练不能早于数据准备；不为了占卡先提交空作业或重复旧训练。
+4. **审计与导出**：每条保存双RGB、指令、提交动作、实际物体/夹爪状态、时间、S1、完整任务评分及原始文件SHA。原独立raw audit和R0/codec正式export均通过，且T1/T2各四个预声明布局层有真实成功支持后，才封存新bank；否则交缺口，不放行模型/训练。
+5. **Vanda接续**：一份CPU PBS正式export，再一份A40从共同CORR2048独立训练1024步，fresh optimizer、新GEN身份、原C50专家lane比例与R0/EEF10/H40/Prefix8/4步不变。旧A/B/C/D不重训、不继承，全部单父正式导出已保存后，注册请求绑定exact closed saved-export及预期bank；仅原定训练PBS内的限600秒隔离CPU child执行剩余跨父封装，真实完整bank后才放行任何模型/优化器。CPU guard不污染训练父进程，不再新增export PBS，不复制RGB/tensor，不重复旧训练。1497713模型前失败现已结算关闭；新冷修待一次额外PBS计数批准，原36上限不静默扩大。
 6. **后续统一Eval**：保留C50、D25及新GEN端点，各原面板资格仍须真实验证。训练loss下降不等于闭环改善。Core GPU不可用时记录NOT_RUN，不改截止或宣称实验完成。
 
 该执行包已批准上限：PBS36、GPU站点输出1176GiB、Core输出477GiB、传输332GiB；GPU121h、CPU、物理、更新及其他上限不增。所有旧成本、matrix3和最后20GPUh/40GiB保留。沿原T_CD/停新训练/硬截止，不重置。

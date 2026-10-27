@@ -1,0 +1,65 @@
+{
+  "schema": "GEN1_PRERELEASE_FAILURE_CLOSED_ACTUAL_V1",
+  "status": "ACTUAL_FAILURE_ONCE_SETTLED_OWN_LEASE_CLOSED_INDEPENDENTLY_READ_BACK",
+  "job_id": "1497713.stdct-mgmt-02",
+  "request_id": "24ce96df-f84a-4b35-b2c8-e932fe6e5c02",
+  "runtime_source": "b8eb0c0d2535eb0af1712b1dfeb0cca97773b723",
+  "observed_epoch": 1793069413.337775,
+  "native_exit_status": 1,
+  "owner_and_wrapper_exit_status": 1,
+  "causal_boundary": "Native allocation R was real; last same-owner fresh heartbeat was Q,27 seconds earlier. Runtime rejected before CPU bank child, Effects initialization or any model load; owner finalizer then lacked effects.",
+  "scientific_effects": {
+    "models": 0,
+    "queries": 0,
+    "optimizer_updates": 0,
+    "constructors": 0,
+    "physics_ticks": 0,
+    "complete_bank": false
+  },
+  "known_effects_method": "Exact sealed source/AST plus native F,process traceback,wrapper/owner OS final,confirmed journals,full stable empty scientific inventory. Original missing Effects journal and original failure final remain unchanged.",
+  "actual_costs": {
+    "conservative_GPU_s": 86,
+    "conservative_site_CPU_s": 122,
+    "retained_logical_control_bytes": 16596195,
+    "control_already_prepaid_upper_bytes": 67108864,
+    "unused_neural_output_reservation_released_bytes": 70000000000,
+    "neural_output_charge_bytes": 0,
+    "paid_costs_refunded": false
+  },
+  "GLOBAL_sha256": "56bd5f8498e5595564b6d317ad7741f228f7f428ec55ce841086ec045840c764",
+  "own_lease_sha256": "efa09e3f32bfa1934fb80d4977ac1cce944a63f21b400441d3dbc2b84f62e5af",
+  "GLOBAL_used": {
+    "H200_s": 150429.0,
+    "PBS_submissions": 33,
+    "optimizer_updates": 13762,
+    "neural_queries": 4482
+  },
+  "independent_readback_sha256": "eaf9238653e0751a8bbca48ee2f9eb661c0bb77a04342d864d1d3a115e67a40d",
+  "cold_fix": {
+    "source": "93754062dd21d6840b475131a52147e5dd6c79bd",
+    "full_GitHub_and_gitblob_readback_files": 4,
+    "GEN1_available_CPU_regression_passed": 340,
+    "private_temp_original_onceIO_tests_passed": 6,
+    "torch_dependent_registered_RGB_not_run": true,
+    "CI_claim": false,
+    "native_adopted": false,
+    "semantics": "Only exact fresh same-owner Q can wait under original180s startup bound. Wrong/stale/unknown/STOP still fail. Model/update guards still require native R. Zero effect ledger begins after actual allocation, granting no model release."
+  },
+  "completed_data": {
+    "static_images": 24,
+    "logical_Teacher_attempts": 12,
+    "raw_successes": 11,
+    "R0_admitted_parents": 10,
+    "valid_T2_S1_rejections": 1,
+    "valid_T1_codec_rejections": 1,
+    "recollect": false,
+    "repeat_official_single_parent_export": false
+  },
+  "next_minimal_blocker": "One additional global PBS slot36->37,with original matrix3/final protected; not authorized by prior four-cap approval. No new request/register/prepay/qsub.",
+  "behavioral_evaluation": {
+    "C50": 0,
+    "D25": 0,
+    "new_GEN": 0
+  },
+  "goal_complete": false
+}
