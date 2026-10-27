@@ -226,16 +226,18 @@ def bind(g,request_id,job_id,*,now_epoch):
 
 def forecast_credit(g):
     items=rows(g)
-    if not items or items[0]['status']==STATES[-1]and not items[0]['scientific_endpoint_complete']:return {}
-    credit=dict(H200_s=22560,PBS_submissions=1,optimizer_updates=1024,neural_queries=29,
-        Hopper_CPU_s=55800,Hopper_storage_bytes=70000000000+64*1024**2)
+    if not items:return {}
+    credit={}
+    if items[0]['status']!=STATES[-1]or items[0]['scientific_endpoint_complete']:
+        credit=dict(H200_s=22560,PBS_submissions=1,optimizer_updates=1024,neural_queries=29,
+            Hopper_CPU_s=55800,Hopper_storage_bytes=70000000000+64*1024**2)
     closed=authority.validate(g)[FIELD]['closed_export']
     if closed['status']=='PASS_CLOSED_GEN1_SAVED_EXPORTS_FOR_PREMODEL_PACK_ONLY':
         # All eleven official exports are already paid/saved. The small CPU
         # bank finalization shares this same training allocation and its CPU
         # envelope, so there is no second future export/PBS/output reservation.
-        credit['PBS_submissions']+=1;credit['Hopper_CPU_s']+=36600
-        credit['Hopper_storage_bytes']+=export.original.LIMITS['output_bytes']+export.METADATA
+        credit['PBS_submissions']=credit.get('PBS_submissions',0)+1;credit['Hopper_CPU_s']=credit.get('Hopper_CPU_s',0)+36600
+        credit['Hopper_storage_bytes']=credit.get('Hopper_storage_bytes',0)+export.original.LIMITS['output_bytes']+export.METADATA
     return credit
 
 def settle_training(g,request_id,*,native,effects,audit,now_epoch):

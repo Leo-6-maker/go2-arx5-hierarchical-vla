@@ -13,6 +13,9 @@ from . import amd_training_accounting as a,amd_training as training,amd_adoption
 STATUS='PASS_GEN1_OWN_NATIVE_A40_ALLOCATION'
 need=a.need
 
+class StartupOwnerStillQueued(Exception):
+    """Same fresh bound owner, but it has not yet observed native R."""
+
 def bank_gate(root):
     root=Path(root);i=read(root/'plans/GEN1_TRAIN_INPUTS.private.json');bank=Path(i['dataset'])
     need(bank.resolve()==(root/'datasets/FROZEN_GEN1_BANK').resolve()and not bank.is_symlink(),
@@ -78,7 +81,7 @@ def root_context(root,request_path,*,full=False):
         'TRAIN_FRESH_ORIGINAL_CLOSED_SOURCE_ROLE_AND_PRESERVED_FAILED_COUNTER')
     verify_consumers(root);return m,r
 
-def guard(root,allocation):
+def guard(root,allocation,*,startup=False):
     from scripts.pi0294.mp1.owner_heartbeat import read_live_owner
     root=Path(root);g=read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json');mark=authority.validate(g);a.rows(g)
     b=read(root/'OUTPUT_BINDING.private.json');lease=read(b['lease'])
@@ -88,8 +91,25 @@ def guard(root,allocation):
     beat=read_live_owner(root/'control',root.name)['heartbeat']
     need(beat.get('scope')==a.VERSION and beat.get('grant_sha256')==authority.GRANT_SHA
         and beat.get('job_id')==allocation['job_id']and beat.get('request_sha256')==allocation['request_sha256']
-        and beat.get('source_sha')==allocation['source_sha']and beat.get('native_job_state')=='R'
+        and beat.get('source_sha')==allocation['source_sha']
         and beat.get('global_unknown_effects')==[],'TRAIN_CURRENT_NATIVE_SERVER_OWNER_HEARTBEAT')
+    if startup and beat.get('native_job_state')=='Q':raise StartupOwnerStillQueued()
+    need(beat.get('native_job_state')=='R','TRAIN_CURRENT_RUNNING_NATIVE_SERVER_OWNER_HEARTBEAT')
+
+def wait_initial_running_owner(root,allocation,*,clock=time.monotonic,sleep=time.sleep):
+    # Only a missing first publication or an otherwise exact/fresh Q receipt
+    # may wait. Wrong identity, STOP, stale300s heartbeat and unknown effects
+    # still fail immediately. No CPU pack/model/query/update is released by Q.
+    root=Path(root);until=clock()+180
+    while True:
+        try:guard(root,allocation,startup=True);return
+        except (FileNotFoundError,StartupOwnerStillQueued):
+            b=read(root/'OUTPUT_BINDING.private.json')
+            need(read(b['lease'])['status']=='ACTIVE'and not any(p.exists()for p in
+                (root/'STOP.json',root.parent.parent/'STOP.json'))and time.time()<allocation['allocation_end_epoch'],
+                'TRAIN_STOP_WHILE_AWAITING_FIRST_NATIVE_OWNER')
+            if clock()>=until:raise TimeoutError('GEN1_NO_FIRST_RUNNING_OWNER_WITHIN_ORIGINAL_180S')
+            sleep(.2)
 
 def wait_release(root,directory,allocation,*,first_update):
     name='A40_PRETRAIN_RELEASE.json'if first_update else'START_NEURAL.json'
@@ -191,19 +211,14 @@ def run(root,request_path):
             allocation_start_epoch=start,allocation_end_epoch=min(start+22500,r['deadline_epoch']))
         os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]));resource.setrlimit(resource.RLIMIT_CPU,(53160,53160));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
         once(directory/'ALLOCATION_ADMISSION.json',allocation);prewrite(root)
+        # Begin the effect journal at the real reserved allocation boundary.
+        # Zero counters grant no model permission. Even a pre-model failure
+        # now leaves an authoritative known-effect summary for the owner.
+        ledger=Effects(root,allocation);ledger.initialize()
         # Qsub can begin computation before the login owner has finished bind
         # and its first complete-queue heartbeat. Wait under the original
         # pre-model180s bound; never invent or extend a heartbeat.
-        until=time.monotonic()+180
-        while True:
-            try:guard(root,allocation);break
-            except FileNotFoundError:
-                b=read(root/'OUTPUT_BINDING.private.json')
-                need(read(b['lease'])['status']=='ACTIVE'and not any(p.exists()for p in
-                    (root/'STOP.json',root.parent.parent/'STOP.json'))and time.time()<allocation['allocation_end_epoch'],
-                    'TRAIN_STOP_WHILE_AWAITING_FIRST_NATIVE_OWNER')
-                if time.monotonic()>=until:raise TimeoutError('GEN1_NO_FIRST_BOUND_OWNER_BEFORE_CPU_PACK')
-                time.sleep(.2)
+        wait_initial_running_owner(root,allocation)
         # The original CPU guard masks CUDA and forbids torch Module.forward
         # process-wide. Keep it in a bounded child; it must never contaminate
         # the later unchanged neural Trainer in this parent process.
@@ -220,7 +235,7 @@ def run(root,request_path):
         tools(run_git=True)
         once(directory/'PBS_READY.json',dict(job_id=job,hostname=host,run_uuid=root.name,request_sha256=sha(request_path),
             observed_epoch=time.time(),models_loaded=0,actual_bank_ready_sha256=sha(root/'datasets/FROZEN_GEN1_BANK/READY.json')))
-        wait_release(root,directory,allocation,first_update=False);ledger=Effects(root,allocation);ledger.initialize();ledger.guard()
+        wait_release(root,directory,allocation,first_update=False);ledger.guard()
         from scripts.pi0294.numerics import prepare_environment,configure_torch
         prepare_environment(r['numerical_mode']);import torch
         need(torch.cuda.device_count()==1 and 'A40'in torch.cuda.get_device_name(0),'TRAIN_ONE_ACTUAL_A40')
