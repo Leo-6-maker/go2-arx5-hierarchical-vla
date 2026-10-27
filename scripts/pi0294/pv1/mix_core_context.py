@@ -115,6 +115,8 @@ def validate(root, *, closeout=False):
         if cap_retry is not None:need(sealed('plans/V5_CD_ZERO_MODEL_CAP_PRECEDENCE_CONTINUATION.private.json')==cap_retry,'ACTUAL_CAP_PRECEDENCE_COLD_CONTINUATION')
         rpc_retry=caps_cont.validate_RPC(local)
         if rpc_retry is not None:need(sealed('plans/V5_CD_ZERO_MODEL_REGISTERED_RPC_AFFINITY_CONTINUATION.private.json')==rpc_retry,'ACTUAL_REGISTERED_RPC_AFFINITY_COLD_CONTINUATION')
+        peer_retry=caps_cont.validate_peer(local)
+        if peer_retry is not None:need(sealed('plans/V5_CD_ZERO_MODEL_PHYSICAL_PEER_IDENTITY_CONTINUATION.private.json')==peer_retry,'ACTUAL_PHYSICAL_PEER_IDENTITY_COLD_CONTINUATION')
     proof = captured_endpoint(sealed(CAPTURE)); arm = request['evaluation_candidate']
     need(proof['arm'] == arm and proof['checkpoint_manifest_sha256'] == request['checkpoint_manifest_sha256']
          and a.sha(a.raw(proof)) == request['training_handoff_sha256'], 'TRUE_CLOSED_COMPLETE_1024_ENDPOINT')

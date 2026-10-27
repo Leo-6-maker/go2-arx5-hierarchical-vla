@@ -67,7 +67,8 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     from . import mix_core_caps_continuation as caps_cont
     cap_retry=caps_cont.validate(g)
     rpc_retry=caps_cont.validate_RPC(g)
-    identity_marker=rpc_retry or cap_retry or next_continuation or continuation or repaired
+    peer_retry=caps_cont.validate_peer(g)
+    identity_marker=peer_retry or rpc_retry or cap_retry or next_continuation or continuation or repaired
     if repaired and arm=='C50':
         need(request_id==identity_marker['replacement_request_id']and nonce==identity_marker['replacement_submission_nonce']
              and run_name==identity_marker['replacement_run_uuid'],'EXACT_ONCE_PREMODEL_REPLACEMENT_IDENTITY')
@@ -94,6 +95,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         if next_continuation is not None:files['plans/V5_CD_KNOWN_ZERO_PREBIND_CONTINUATION.private.json']=a.raw(next_continuation)
         if cap_retry is not None:files['plans/V5_CD_ZERO_MODEL_CAP_PRECEDENCE_CONTINUATION.private.json']=a.raw(cap_retry)
         if rpc_retry is not None:files['plans/V5_CD_ZERO_MODEL_REGISTERED_RPC_AFFINITY_CONTINUATION.private.json']=a.raw(rpc_retry)
+        if peer_retry is not None:files['plans/V5_CD_ZERO_MODEL_PHYSICAL_PEER_IDENTITY_CONTINUATION.private.json']=a.raw(peer_retry)
         files[context.CAPTURE]=training_capture_bytes;files[context.LOCAL_BINDING]=a.raw(local_binding)
         files['plans/SOURCE_EVALUATION_PLAN.json']=a.raw(evaluation.candidate_plan(groups,arm))
         files['plans/V5_CD_PAIRED_EVALUATION_PLAN.json']=a.raw(evaluation.plan(groups))
@@ -115,6 +117,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
             scope=EVAL_ROLE if role=='core'else c.ROLE,candidate=arm,run_uuid=run_name,output_root=str(root),
             owner='EXISTING_LOCAL_PC',owner_user='liuyu-nfs',owner_uid=2009)
         if role=='hopper':m['platform_evaluation_version']=c.VERSION
+        else:m['evaluation_peer_platform']=c.VERSION
         m['authority']=dict(protocol_ref=s.TASK_SOURCE,scope_grant_sha256=s.GRANT_SHA)
         m['code'].update(vla_commit=source_sha,capsule_relative='capsules/'+source_sha+'/code',
             source_seal_relative='capsules/'+source_sha+'/SOURCE_SEAL.json',source_seal_sha256=a.sha(source_seal_bytes))
@@ -126,6 +129,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
             m['limits'].update(CPU_s=93900,engine_starts=2108,physics_ticks=832000,policy_episodes=26,
                 output_bytes=c.remaining_stage()['Core_storage_bytes'])
         else:m['execution']['output_binding_sha256']=a.sha(a.raw(b))
+        validate_peer_contract(m,role)
         mb=a.raw(m)
         if role=='core':b['run_manifest_sha256']=a.sha(mb)
         rows[role]=dict(root=str(root),source_sha=source_sha,manifest=m,manifest_bytes_base64=base64.b64encode(mb).decode(),
@@ -164,3 +168,14 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     return dict(schema='V5_CD_COLD_CORE_PAIRED_PEERS_ASSEMBLED_NOT_REGISTERED_V1',rows=rows,record=record,
         request=request,request_sha256=request_sha,population_base64=base64.b64encode(population).decode(),
         owner_manifest_sha256=a.sha(owner_manifest_bytes),native_registration=False,model_or_physics_admission=False)
+
+
+def validate_peer_contract(manifest,role):
+    """Use the actual production transport parser before native startup."""
+    from .evaluation_platform import fixture_job_pattern,file_RPC_profile
+    need(role in ('core','hopper'),'ONE_EXPLICIT_PEER_ROLE')
+    pattern=fixture_job_pattern(manifest,role)
+    expected='4080-simulation'if role=='core'else c.PROFILE
+    need(file_RPC_profile(manifest,role)==expected,'ACTUAL_CURRENT_LOGICAL_PROFILE')
+    return dict(role=role,wire_job_pattern=pattern,source_sha=manifest['code']['vla_commit'],
+                native_job_claim=False,model_or_physics_permission=False)

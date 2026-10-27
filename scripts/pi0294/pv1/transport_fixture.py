@@ -306,3 +306,21 @@ def serve(root,role,label):
         cpu=time.process_time()-started;settled=metrics.settle(endpoint.ledger,cpu)
         write(folder/('STDIO_TERMINAL_'+role+'.json'),dict(status=status,error=error,CPU_s=cpu,metrics_settlement=settled,
             operations=metrics.operations,heartbeat_written=False,new_model_queries=0,new_physics=0,unknown_effects_resent=0))
+
+
+def validate_prepared_transport(root,role):
+    """Read the real sealed CPU context, wire tags and original raw reference.
+
+    No Endpoint, packet directory, registry, worker, CUDA or physics is created.
+    The original real same-allocation 600s/80cycle qualification is still due.
+    """
+    root=Path(root)
+    if role not in ('core','hopper'):raise PermissionError('PV1_COLD_TRANSPORT_EXACT_ROLE')
+    before=(root/'RUN_MANIFEST.json').read_bytes();m=json.loads(before)
+    profile=evaluation.file_RPC_profile(m,role);validate_runtime(root,profile)
+    pattern=evaluation.fixture_job_pattern(m,role);plan=prepared_plan(root,m)
+    proof=reference_proof(root,plan,m)
+    if (root/'RUN_MANIFEST.json').read_bytes()!=before:raise PermissionError('PV1_COLD_MANIFEST_CHANGED')
+    return dict(status='ACTUAL_SEALED_PEER_AND_RECORDED_REFERENCE_COLD_READONLY',role=role,
+        manifest_sha256=sha(root/'RUN_MANIFEST.json'),wire_job_pattern=pattern,reference=proof,
+        actual_native_job_claim=False,model_permission=False,physics_permission=False,new_writes=0)
