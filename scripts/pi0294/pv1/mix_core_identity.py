@@ -65,6 +65,8 @@ def request_identity(m, r, manifest_sha256):
         need(r.get('evaluation_candidate')=='D25'and type(r.get(concurrency_key))is dict
             and r[concurrency_key]==m['authority'].get(concurrency_key),
             'EXPLICIT_NEW_D25_REQUEST_AND_PRESEALED_CONCURRENCY_MANIFEST')
+    from .core_source_witness import request_contract
+    request_contract(m,r)
     arm = r.get('evaluation_candidate'); c.key(arm)
     expected = dict(stage='V5_MATCHED_DEV24', noise_bank=294101, remaining_conditions=24,
         checkpoint_step=1024, walltime_s=28800, CPU_upper_s=80000,

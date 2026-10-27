@@ -35,9 +35,22 @@ os.environ.update(CUDA_VISIBLE_DEVICES='',PYTHONDONTWRITEBYTECODE='1',OMP_NUM_TH
 assert not code.is_symlink() and code.is_dir() and not seal.is_symlink() and seal.is_file()
 assert sha(seal.read_bytes())==b['remote_seal_sha256']
 s=json.loads(seal.read_bytes());assert s['source_sha']==P['source_sha']
-for name,digest in s['files'].items():
- relative=Path(name);assert not relative.is_absolute() and '..' not in relative.parts
- p=code/relative;assert p.is_file() and not p.is_symlink() and sha(p.read_bytes())==digest
+certificate=P.get('source_certificate_base64')
+if certificate is not None:
+ # Hash the small verifier BEFORE executing it. Its complete native full-hash
+ # certificate is pinned in both the immutable request and registered row.
+ preliminary=json.loads((Path(b['canonical_parent'])/'HOPPER_RESOURCE_LEDGER.json').read_bytes())
+ row=preliminary['V5_CD_Core_allocations'][P['request_id']]
+ cb=base64.b64decode(certificate,validate=True)
+ assert row['request_sha256']==P['request_sha256']and row['source_sha']==P['source_sha']
+ assert row.get('remote_source_custody_sha256')==sha(cb)
+ helper='scripts/pi0294/pv1/core_source_witness.py';hb=(code/helper).read_bytes()
+ assert sha(hb)==s['files'][helper];namespace={};exec(compile(hb,'<sealed-source-custody>','exec'),namespace)
+ namespace['verify'](code,seal,cb,expected_certificate_sha256=row['remote_source_custody_sha256'],expected_seal_sha256=b['remote_seal_sha256'])
+else:
+ for name,digest in s['files'].items():
+  relative=Path(name);assert not relative.is_absolute() and '..' not in relative.parts
+  p=code/relative;assert p.is_file() and not p.is_symlink() and sha(p.read_bytes())==digest
 sys.path[:0]=[str(code),str(code/'src')]
 from scripts.pi0294.pv1 import evaluation_core_accounting as c
 from scripts.pi0294.pv1 import mix_core_accounting as cd
@@ -52,6 +65,7 @@ row=g[c.FIELD][P['request_id']]
 assert row['request_sha256']==P['request_sha256'] and row['source_sha']==P['source_sha']
 assert row['child_run_uuid']==P['run_uuid'] and row['native_handle']==P['native_handle']
 assert row['status'] in c.STATES[1:3]
+assert (row.get('remote_source_custody_sha256')is None and certificate is None)or(certificate is not None and row.get('remote_source_custody_sha256')==sha(cb))
 if P['operation']=='STATE':
  print(json.dumps(dict(global_base64=base64.b64encode(before).decode(),global_sha256=sha(before),observed_epoch=time.time())));raise SystemExit(0)
 assert P['operation'] in ('DEBIT','METRICS','CANDIDATE')
@@ -118,6 +132,11 @@ class Ledger:
                 or self.request['run_manifest_sha256']!=sha(self.root/'RUN_MANIFEST.json')):
             raise PermissionError('PV1_CORE_EXACT_REGISTERED_IMMUTABLE_REQUEST')
         self.request_sha=sha(self.request_path)
+        from .core_source_witness import request_contract,CERTIFICATE
+        certificate_pin=request_contract(self.manifest,self.request)
+        self.source_certificate=(member(self.root,CERTIFICATE).read_bytes()if certificate_pin is not None else None)
+        if certificate_pin is not None and hashlib.sha256(self.source_certificate).hexdigest()!=certificate_pin:
+            raise PermissionError('PV1_CORE_EXACT_REGISTERED_SOURCE_CUSTODY_BYTES')
         bound=read(self.root/'NATIVE_CORE_PROCESS_BOUND.json');self.native_handle=bound['native_handle']
         if bound['request_sha256']!=self.request_sha or bound['request_id']!=self.request['request_id']:
             raise PermissionError('PV1_CORE_ACTUAL_BOUND_PROCESS_RECORD')
@@ -154,6 +173,7 @@ class Ledger:
             request_sha256=self.request_sha,source_sha=self.request['source_sha'],run_uuid=self.root.name,
             native_handle=self.native_handle,actor_pid=self.actor_pid,actor_start=self.actor_start,
             effect_id=token,platform_evaluation_version=self.accounting.VERSION,**values)
+        if getattr(self,'source_certificate',None)is not None:payload['source_certificate_base64']=base64.b64encode(self.source_certificate).decode()
         body='P='+repr(payload)+'\n'+REMOTE
         def invoke(intent,timeout):
             reply=subprocess.run(self._argv(),input=body,capture_output=True,text=True,timeout=timeout)

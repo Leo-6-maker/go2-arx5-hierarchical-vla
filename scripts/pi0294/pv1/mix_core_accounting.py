@@ -57,6 +57,8 @@ def remaining_stage():
 def validate_row(r):
     arm = r.get('evaluation_candidate')
     key(arm)
+    from .core_source_witness import row_contract
+    row_contract(r)
     from . import mix_core_desktop as desktop
     desktop.allowed(r)
     from .evaluation_scope import CAMPAIGN
