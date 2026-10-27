@@ -132,14 +132,15 @@ def validate_rows(g):
     peer_retry=caps_cont.validate_peer(g)
     desktop_retry=caps_cont.validate_recorded_desktop(g)
     bound_retry=caps_cont.validate_bound_age(g)
-    need(type(rows) is dict and 1 <= len(rows) <= (9 if bound_retry else 8 if desktop_retry else 7 if peer_retry else 6 if rpc_retry else 5 if cap_retry else 4 if continued else 3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
+    limit_retry=caps_cont.validate_rpc_limit(g)
+    need(type(rows) is dict and 1 <= len(rows) <= (10 if limit_retry else 9 if bound_retry else 8 if desktop_retry else 7 if peer_retry else 6 if rpc_retry else 5 if cap_retry else 4 if continued else 3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
     arms = []
     for request_id, r in rows.items():
         validate_row(r)
         need(request_id == r['request_id'] and r['T_CD'] == marker['T_CD']
              and r['deadline_epoch'] == marker['deadline_epoch'], 'ONE_ADOPTED_CLOCK')
         repair.output_credit(g,r)
-        if (not repaired or request_id!=repair.FAILED)and(not continued or request_id!=prebind.FAILED)and(not cap_retry or request_id!=caps_cont.FAILED)and(not rpc_retry or request_id!=caps_cont.RPC_FAILED)and(not peer_retry or request_id!=caps_cont.PEER_FAILED)and(not desktop_retry or request_id!=caps_cont.DESKTOP_FAILED)and(not bound_retry or request_id!=caps_cont.BOUND_FAILED):arms.append(r['evaluation_candidate'])
+        if (not repaired or request_id!=repair.FAILED)and(not continued or request_id!=prebind.FAILED)and(not cap_retry or request_id!=caps_cont.FAILED)and(not rpc_retry or request_id!=caps_cont.RPC_FAILED)and(not peer_retry or request_id!=caps_cont.PEER_FAILED)and(not desktop_retry or request_id!=caps_cont.DESKTOP_FAILED)and(not bound_retry or request_id!=caps_cont.BOUND_FAILED)and(not limit_retry or request_id!=caps_cont.LIMIT_FAILED):arms.append(r['evaluation_candidate'])
         endpoint = g[a.PACKAGE]['endpoints'][r['evaluation_candidate']]
         need(endpoint['checkpoint_manifest_sha256'] == r['checkpoint_manifest_sha256'],
              'ACTUALLY_CLOSED_1024_ENDPOINT_NOT_OLD_AB')
@@ -174,7 +175,7 @@ def paired(g, l):
     minimal_gpu_repair.validate(g)
     need(l.get(FIELD, {}) == g.get(FIELD, {}), 'SAME_ACTUAL_CORE_STAGE_INDEX')
     from . import mix_core_prebind_terminal as prebind,mix_core_caps_continuation as continued
-    for name in (prebind.FIELD,prebind.CONTINUATION,continued.FIELD,continued.RPC_FIELD,continued.PEER_FIELD,continued.DESKTOP_FIELD,continued.BOUND_FIELD):
+    for name in (prebind.FIELD,prebind.CONTINUATION,continued.FIELD,continued.RPC_FIELD,continued.PEER_FIELD,continued.DESKTOP_FIELD,continued.BOUND_FIELD,continued.LIMIT_FIELD):
         need(l.get(name)==g.get(name),'SAME_ACTUAL_APPEND_ONLY_ENGINEERING_CUSTODY:'+name)
 
 
@@ -261,7 +262,7 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
         from . import mix_core_recovery as recovered
         from . import mix_core_prebind_terminal as prebind
         from . import mix_core_caps_continuation as caps_cont
-        repair_marker=caps_cont.validate_bound_age(g)or caps_cont.validate_recorded_desktop(g)or caps_cont.validate_peer(g)or caps_cont.validate_RPC(g)or caps_cont.validate(g)or prebind.continuation(g)or recovered.validate(g)or repair_marker
+        repair_marker=caps_cont.validate_rpc_limit(g)or caps_cont.validate_bound_age(g)or caps_cont.validate_recorded_desktop(g)or caps_cont.validate_peer(g)or caps_cont.validate_RPC(g)or caps_cont.validate(g)or prebind.continuation(g)or recovered.validate(g)or repair_marker
         need(repair_marker is not None and r['request_id']==repair_marker['replacement_request_id']
              and w['V5_CD_Core_CPU_substages'][stage]['status']=='SETTLED_KNOWN_NATIVE_TERMINAL', 'EXACT_CLOSED_PREMODEL_PHYSICAL_PREDECESSOR')
         prior_stage=w['V5_CD_Core_CPU_substages'][stage];prior_id=prior_stage['request_id']

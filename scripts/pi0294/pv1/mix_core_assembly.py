@@ -70,7 +70,8 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     peer_retry=caps_cont.validate_peer(g)
     desktop_retry=caps_cont.validate_recorded_desktop(g)
     bound_retry=caps_cont.validate_bound_age(g)
-    identity_marker=bound_retry or desktop_retry or peer_retry or rpc_retry or cap_retry or next_continuation or continuation or repaired
+    limit_retry=caps_cont.validate_rpc_limit(g)
+    identity_marker=limit_retry or bound_retry or desktop_retry or peer_retry or rpc_retry or cap_retry or next_continuation or continuation or repaired
     if repaired and arm=='C50':
         need(request_id==identity_marker['replacement_request_id']and nonce==identity_marker['replacement_submission_nonce']
              and run_name==identity_marker['replacement_run_uuid'],'EXACT_ONCE_PREMODEL_REPLACEMENT_IDENTITY')
@@ -100,6 +101,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         if peer_retry is not None:files['plans/V5_CD_ZERO_MODEL_PHYSICAL_PEER_IDENTITY_CONTINUATION.private.json']=a.raw(peer_retry)
         if desktop_retry is not None:files['plans/V5_CD_ZERO_MODEL_RECORDED_DESKTOP_EPOCH_CONTINUATION.private.json']=a.raw(desktop_retry)
         if bound_retry is not None:files['plans/V5_CD_ZERO_MODEL_POST600_BOUND_AGE_CONTINUATION.private.json']=a.raw(bound_retry)
+        if limit_retry is not None:files['plans/V5_CD_ZERO_INTEGRATION_RPC_CPU_LIMIT_CONTINUATION.private.json']=a.raw(limit_retry)
         from scripts.pi0294.generalization import minimal_gpu_repair
         if minimal_gpu_repair.validate(g)is not None:files['plans/V5_CD_GPU148_AUTHORITY.private.json']=a.raw(g[minimal_gpu_repair.FIELD])
         files[context.CAPTURE]=training_capture_bytes;files[context.LOCAL_BINDING]=a.raw(local_binding)

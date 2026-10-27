@@ -43,7 +43,7 @@ def test_failed_source_wrapper_preserves_actual_nonzero_OS_exit(tmp_path,monkeyp
 
 def test_actual_original_Journal_directory_and_unknown_write_are_not_replayed(tmp_path):
     from scripts.pi0294.dec1.owner_transport import UnknownMutation
-    cfg=dict(control_run_uuid='v5-c50-control-fixture',source_sha='c'*40)
+    cfg=dict(control_run_uuid='v5-c50-control-fixture',source_sha='c'*40,compiled_plan=dict(public_plan=dict(candidate='C50',checkpoint_step=1024)))
     journal=w.delivery_journal(tmp_path,cfg,b'CPU configuration fixture')
     counter=tmp_path/'applied-once'
     def apply_then_lose_reply(intent,limit):
@@ -54,3 +54,16 @@ def test_actual_original_Journal_directory_and_unknown_write_are_not_replayed(tm
     assert counter.read_text()=='one actual temporary-file effect'
     assert json.loads((tmp_path/'rpc/RPC_EFFECT_STATE.json').read_bytes())['status']=='UNKNOWN'
     with pytest.raises(FileExistsError):w.delivery_journal(tmp_path,cfg,b'CPU configuration fixture')
+
+
+@pytest.mark.parametrize('arm',['C50','D25'])
+def test_model_delivery_uses_explicit_original_candidate(arm,tmp_path):
+    cfg=dict(control_run_uuid='original-control',source_sha='c'*40,candidate=arm,compiled_plan=dict(public_plan=dict(candidate=arm,checkpoint_step=1024)))
+    assert w.candidate(cfg)==arm
+    journal=w.delivery_journal(tmp_path,cfg,b'CPU fixture')
+    assert journal.identity['job_id']=='MODEL_ONLY_'+arm+'_NO_GPU'
+
+
+@pytest.mark.parametrize('cfg',[dict(candidate='D25',compiled_plan=dict(public_plan=dict(candidate='C50',checkpoint_step=1024))),dict(compiled_plan=dict(public_plan=dict(candidate='D25',checkpoint_step=1024))),dict(candidate='GEN1',compiled_plan=dict(public_plan=dict(candidate='GEN1',checkpoint_step=1024))),dict(candidate='D25',compiled_plan=dict(public_plan=dict(candidate='D25',checkpoint_step=512)))])
+def test_delivery_does_not_relabel_C50_or_invent_new_candidate(cfg):
+    with pytest.raises(PermissionError):w.candidate(cfg)

@@ -57,6 +57,20 @@ def operation_budget(root,manifest,registry,*,pv1):
     return control['max_calls'],control
 
 
+def bounded_CPU_limit():
+    """Keep the original7200s ceiling and every stricter inherited limit.
+
+    A registered resident child may inherit6880s. A child cannot raise that
+    hard limit and must never attempt to enlarge its parent's resource scope.
+    """
+    soft,hard=resource.getrlimit(resource.RLIMIT_CPU)
+    bounds=[7200]+[v for v in(soft,hard)if v!=resource.RLIM_INFINITY]
+    if any(type(v)is not int or v<=0 for v in bounds):
+        raise PermissionError('FILE_RPC_POSITIVE_EXISTING_CPU_LIMIT')
+    limit=min(bounds);resource.setrlimit(resource.RLIMIT_CPU,(limit,limit))
+    return limit
+
+
 def serve(root,role,label):
     if label.startswith('PV1-PREMODEL'):
         from scripts.pi0294.pv1.transport_fixture import serve as serve_fixture
@@ -70,7 +84,7 @@ def serve(root,role,label):
         if type(cpu) is not int or cpu not in os.sched_getaffinity(0):raise PermissionError('PV1_REGISTERED_RPC_CPU_ONLY')
         os.sched_setaffinity(0,{cpu})
     else:os.sched_setaffinity(0,{sorted(os.sched_getaffinity(0))[3 if role=='core' else 0]})
-    resource.setrlimit(resource.RLIMIT_CPU,(7200,7200));resource.setrlimit(resource.RLIMIT_CORE,(0,0));started=PROCESS_STARTED_CPU
+    bounded_CPU_limit();resource.setrlimit(resource.RLIMIT_CORE,(0,0));started=PROCESS_STARTED_CPU
     os.environ.pop('E1_RUN_MANIFEST',None);os.environ.pop('MP1_RUN_MANIFEST',None)
     original_manifest=(root/'RUN_MANIFEST.json').read_bytes();m=json.loads(original_manifest)
     if pv1:

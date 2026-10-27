@@ -127,7 +127,7 @@ def propose(global_bytes,local_bytes,*,request_id,native_proof,effects,physical_
         neural_paid=oldcpu,physical_paid=phys['physical_CPU_s'])
     local['CPU_s']['CoreLab']+=cpu-oldcpu
     allocation=repair.allocation(g,arm);held=local['Core_native_GPU_reserved']
-    for name,unused in [('episode_starts',26-phys['episodes']),('constructors',2108-phys['constructors']),('physics_ticks',832000-phys['live']-phys['shadow']),('CoreLab_output_bytes',allocation['Core_storage_bytes']),('transfer_bytes',allocation['transfer_bytes'])]:
+    for name,unused in [('episode_starts',allocation['episode_starts']-phys['episodes']),('constructors',allocation['engine_starts']-phys['constructors']),('physics_ticks',allocation['physics_ticks']-phys['live']-phys['shadow']),('CoreLab_output_bytes',allocation['Core_storage_bytes']),('transfer_bytes',allocation['transfer_bytes'])]:
         need(held[name]>=unused,'ENTIRE_ORIGINAL_REMAINING_ESCROW:'+name);held[name]-=unused
     # Retain the original conservative stage IO/storage charge; actual delivered
     # byte/CPU witnesses stay explicit and never masquerade as that upper.

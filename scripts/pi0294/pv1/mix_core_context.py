@@ -123,6 +123,8 @@ def validate(root, *, closeout=False):
         if bound_retry is not None:need(sealed('plans/V5_CD_ZERO_MODEL_POST600_BOUND_AGE_CONTINUATION.private.json')==bound_retry,'ACTUAL_POST600_BOUND_AGE_CONTINUATION')
         from scripts.pi0294.generalization import minimal_gpu_repair
         if minimal_gpu_repair.validate(local)is not None:need(sealed('plans/V5_CD_GPU148_AUTHORITY.private.json')==local[minimal_gpu_repair.FIELD],'EXACT_ADOPTED_GPU148_AUTHORITY')
+        limit_retry=caps_cont.validate_rpc_limit(local)
+        if limit_retry is not None:need(sealed('plans/V5_CD_ZERO_INTEGRATION_RPC_CPU_LIMIT_CONTINUATION.private.json')==limit_retry,'ACTUAL_RPC_CPU_LIMIT_CONTINUATION')
     proof = captured_endpoint(sealed(CAPTURE)); arm = request['evaluation_candidate']
     need(proof['arm'] == arm and proof['checkpoint_manifest_sha256'] == request['checkpoint_manifest_sha256']
          and a.sha(a.raw(proof)) == request['training_handoff_sha256'], 'TRUE_CLOSED_COMPLETE_1024_ENDPOINT')

@@ -50,17 +50,26 @@ print(json.dumps(dict(active=bool(f and f[0]not in('Z','X')and int(f[19])==start
 '''
 
 
+def candidate(cfg):
+    """Legacy C50 config stays C50; D25 must carry its own explicit identity."""
+    arm=cfg.get('candidate','C50')
+    guard.need(arm in ('C50','D25')and cfg['compiled_plan']['public_plan']['candidate']==arm
+        and cfg['compiled_plan']['public_plan']['checkpoint_step']==1024,
+        'CONFIG_EXPLICIT_OWN_CLOSED_CANDIDATE_NOT_C50_ALIAS')
+    return arm
+
+
 def delivery_journal(root,cfg,configuration_bytes):
     # Journal accepts an existing registered directory, never creates it.
     directory=Path(root)/'rpc';directory.mkdir(mode=0o700)
-    return Journal(directory,dict(run_uuid=cfg['control_run_uuid'],job_id='MODEL_ONLY_C50_NO_GPU',
+    return Journal(directory,dict(run_uuid=cfg['control_run_uuid'],job_id='MODEL_ONLY_'+candidate(cfg)+'_NO_GPU',
         source_sha=cfg['source_sha'],request_sha256=a.sha(configuration_bytes)))
 
 
 def main(config_path):
     began=time.process_time();started=time.time();cfg=json.loads(Path(config_path).read_bytes());root=Path(config_path).parent
     assert os.getuid()==2009 and os.uname().nodename=='corelab-4080s' and os.environ.get('CUDA_VISIBLE_DEVICES')=='' and not os.environ.get('PBS_JOBID')
-    prior=cfg.get('Core_metadata_prior_CPU_upper_s',0);assert type(prior)is int and 0<=prior<300
+    arm=candidate(cfg);prior=cfg.get('Core_metadata_prior_CPU_upper_s',0);assert type(prior)is int and 0<=prior<300
     cpu_limit=300-prior
     resource.setrlimit(resource.RLIMIT_CPU,(cpu_limit,cpu_limit));resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.sched_setaffinity(0,{7})
     manifest=json.loads((root/'CONTROL_RUN_MANIFEST.json').read_bytes());assert manifest['configuration_sha256']==a.sha(Path(config_path).read_bytes())
@@ -88,10 +97,10 @@ def main(config_path):
         proof=scope.recompute(g,l,Core_storage_upper_bytes=cfg['Core_storage_upper_bytes'],local_storage_upper_bytes=cfg['LOCAL_storage_upper_bytes']);assert not proof['shortfalls'];put(root/'FULL_REMAINING_NATIVE_CONTROL_CHECK.json',proof)
         notices=cfg['notices'];assert all(a.sha(base64.b64decode(v['base64'],validate=True))==v['sha256']for v in notices.values())
         token=Path(cfg['HF_core_token_path']).read_text().strip()
-        payload=dict(source_sha=cfg['source_sha'],canonical_parent=b['canonical_parent'],control_root=cfg['source_control_root'],upload_root=cfg['source_control_root']+'/upload',candidate='C50',checkpoint=cfg['checkpoint_root'],checkpoint_sha256=plan['public_plan']['checkpoint_manifest_sha256'],public_plan=plan['public_plan'],compiled_plan=plan,rewritten=plan['public_rewritten_metadata_base64'],notices=notices,repo_id='leoyuer/pi0294-public-artifacts',prefix=cfg['HF_prefix'],stop_new_epoch=cfg['deadline_epoch']-28860,token=token)
-        phase='SOURCE_UPLOAD_ONCE';put(root/'SOURCE_UPLOAD_STARTED.json',remote('START_C50_MODEL_ONLY_UPLOAD','MUTATION',START,payload));token=None;payload=None
+        payload=dict(source_sha=cfg['source_sha'],canonical_parent=b['canonical_parent'],control_root=cfg['source_control_root'],upload_root=cfg['source_control_root']+'/upload',candidate=arm,checkpoint=cfg['checkpoint_root'],checkpoint_sha256=plan['public_plan']['checkpoint_manifest_sha256'],public_plan=plan['public_plan'],compiled_plan=plan,rewritten=plan['public_rewritten_metadata_base64'],notices=notices,repo_id='leoyuer/pi0294-public-artifacts',prefix=cfg['HF_prefix'],stop_new_epoch=cfg['deadline_epoch']-28860,token=token)
+        phase='SOURCE_UPLOAD_ONCE';put(root/'SOURCE_UPLOAD_STARTED.json',remote('START_'+arm+'_MODEL_ONLY_UPLOAD','MUTATION',START,payload));token=None;payload=None
         while time.time()<min(started+7000,cfg['deadline_epoch']-28860):
-            state=remote('READ_C50_MODEL_ONLY_UPLOAD','READ_ONLY',POLL,dict(root=cfg['source_control_root']))
+            state=remote('READ_'+arm+'_MODEL_ONLY_UPLOAD','READ_ONLY',POLL,dict(root=cfg['source_control_root']))
             if not state['active']:
                 put(root/'SOURCE_UPLOAD_TERMINAL.json',state);r=state['receipts'];assert r['UPLOAD_OS_EXIT.json']['returncode']==0 and 'upload/FAILED_OR_UNKNOWN.json'not in r
                 source_terminal=r['upload/COMPLETED.json'];break
@@ -110,7 +119,7 @@ def main(config_path):
                 f.flush();os.fsync(f.fileno())
             assert(total,h.hexdigest())==(expected['bytes'],expected['sha256']);os.rename(tmp,path);path.chmod(0o400);downloaded[name]=dict(bytes=total,sha256=h.hexdigest());put(root/'download-receipts'/(name.replace('/','_')+'.json'),downloaded[name])
             if name in plan['public_plan']['files']:files[name]=path
-        phase='EXACT_PRIVATE_METADATA_RESTORATION';restored=transfer.restore_original(files,plan['private_restoration'],arm='C50')
+        phase='EXACT_PRIVATE_METADATA_RESTORATION';restored=transfer.restore_original(files,plan['private_restoration'],arm=arm)
         for name,value in restored.items():
             if isinstance(value,bytes):
                 path=dest/name;os.rename(path,path.with_name(path.name+'.public-transfer-original'))
@@ -118,11 +127,11 @@ def main(config_path):
                 path.chmod(0o400)
         with(dest/'CHECKPOINT_COMPLETE.json').open('xb')as f:f.write(cp);f.flush();os.fsync(f.fileno())
         (dest/'CHECKPOINT_COMPLETE.json').chmod(0o400)
-        status='ACTUAL_CLOSED_C50_1024_INFERENCE_VIEW_DELIVERED_NO_MODEL_LOADED'
-        put(root/'ACTUAL_CORE_MODEL_DELIVERED.json',dict(status=status,model_root=str(dest),checkpoint_manifest_sha256=a.sha(cp),HF_revision=source_terminal['revision'],repo_id=source_terminal['repo_id'],prefix=source_terminal['prefix'],files=downloaded,full_resume_files_present=False,source_CPU_s=source_terminal['CPU_s'],Core_CPU_s=time.process_time()-began,IO_accounting='original_C50_Eval_stage_terminal_once_not_additional_reserve',new_GPU_model_queries_physics=0,completed_epoch=time.time()))
+        status='ACTUAL_CLOSED_'+arm+'_1024_INFERENCE_VIEW_DELIVERED_NO_MODEL_LOADED'
+        put(root/'ACTUAL_CORE_MODEL_DELIVERED.json',dict(status=status,model_root=str(dest),checkpoint_manifest_sha256=a.sha(cp),HF_revision=source_terminal['revision'],repo_id=source_terminal['repo_id'],prefix=source_terminal['prefix'],files=downloaded,full_resume_files_present=False,source_CPU_s=source_terminal['CPU_s'],Core_CPU_s=time.process_time()-began,IO_accounting='original_'+arm+'_Eval_stage_terminal_once_not_additional_reserve',new_GPU_model_queries_physics=0,completed_epoch=time.time()))
     except BaseException as exc:
         put(root/'MODEL_DELIVERY_PRESERVED_EXCEPTION.json',dict(status='FAILED_OR_UNKNOWN_NO_AUTOMATIC_REPLAY',phase=phase,error_type=type(exc).__name__,source_terminal_known=source_terminal is not None,observed_epoch=time.time()))
-        raise RuntimeError('FINITE_C50_MODEL_DELIVERY_STOPPED_'+type(exc).__name__)from None
+        raise RuntimeError('FINITE_'+arm+'_MODEL_DELIVERY_STOPPED_'+type(exc).__name__)from None
     finally:
         put(root/'MODEL_DELIVERY_NATIVE_FINAL.json',dict(status=status,phase=phase,CPU_s=time.process_time()-began,started_epoch=started,completed_epoch=time.time(),new_GPU_models_queries_physics=0));lock.close()
 
