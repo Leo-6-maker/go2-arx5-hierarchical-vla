@@ -21,8 +21,10 @@ def request(g,cap):
         panel_sha256=e.PANEL_SHA,full_cursor_sha256=e.CURSOR_SHA,scheduler_horizon=1024,
         formal_terminal_steps=512,optimizer_update_limit=1028,query_limit=147,model_load_limit=11,
         expected_native_start_step=0,physical_GPU_count=1,physical_GPU_kind='NVIDIA_A40',active_cpu_limit=8,
+        allowed_native_capacity_profiles=[dict(ncpus=c,memory_bytes=m)for c,m in e.CAPACITY_PROFILES],
         walltime_s=59400,accounting_pad_s=120,reserved_H200_s=59520,CPU_upper_s=v['Hopper_CPU_s'],
         additional_output_upper_bytes=v['Hopper_storage_bytes'],scope_grant_sha256=a.GRANT_SHA,
+        prior_readonly_preparation_CPU_upper_s=e.PREPARATION_CPU_UPPER,
         conditional1024_authorized=False,new_physics=0,new_constructors=0,session_plan=e.native_sessions(),
         reserved_session_plan_sha256=a.sha(a.raw(p.sessions())),
         native_session_plan_version='MATCHED15_AND_ACTUAL_OFFICIAL_EXPORT_WITHIN147_V1',
@@ -117,7 +119,7 @@ def test_original_job_reader_has_one_explicit_new_capacity_profile(actual,change
     g,cap=actual;r=request(g,cap)
     limits=dict(select='1:ncpus=8:mem=64gb:ngpus=1:gpu_model=A40',ncpus=8,mem='64gb',ngpus=1,walltime='16:30:00')
     if change=='chunk':limits['select']+='+'+limits['select']
-    elif change=='slots':limits['select']=limits['select'].replace('ncpus=8','ncpus=36');limits['ncpus']=36
+    elif change=='slots':limits['select']=limits['select'].replace('ncpus=8','ncpus=48');limits['ncpus']=48
     elif change=='wall':limits['walltime']='16:31:00'
     elif change=='GPU':limits['select']=limits['select'].replace('A40','H200')
     elif change=='memory':limits['mem']='128gb'
@@ -125,6 +127,25 @@ def test_original_job_reader_has_one_explicit_new_capacity_profile(actual,change
     if change:
         with pytest.raises(PermissionError):e.select_profile(limits,r)
     else:assert e.select_profile(limits,r)==(8,64*1024**3)
+
+
+def test_actual_prior_whole_node_capacity_is_declared_not_confused_with_active_CPU_spend(actual):
+    g,cap=actual;r=request(g,cap)
+    root=Path(os.environ['ARX5_FIRST512_MEASUREMENT_CAPTURE']).parent.parent/'v5-execution-20261025'
+    record=json.loads((root/'GEN1_COLD_RETRY01_STATUS_READONLY_1793075380861927856.private.json').read_bytes())
+    limits=deepcopy(record['native']['1497959.stdct-mgmt-02']['Resource_List'])
+    assert limits['ncpus']==36 and limits['mem']=='240gb'and limits['walltime']=='06:15:00'
+    # Future wall is an explicit fixture. Actual source grant bytes stay intact.
+    limits['walltime']='16:30:00'
+    assert e.select_profile(limits,r)==(36,240*1024**3)
+    proof=e.project_envelope(r)
+    assert proof['CPU_hours']==595.2 and proof['active_CPU_limit']==8
+    assert proof['actual_process_CPU_upper_s']==164700
+    assert proof['reserved_CPU_including_prior_preparation_s']==e.native_resources()['Hopper_CPU_s']==165600
+    limits=e.process_CPU_limits(r)
+    assert limits['parent_RLIMIT_CPU_s']==163860
+    assert sum(limits[k]for k in ('parent_RLIMIT_CPU_s','isolated_child_CPU_upper_s',
+        'terminal_observer_CPU_upper_s','prior_readonly_preparation_CPU_upper_s'))==165600
 
 
 def test_native_query_plan_keeps_all_matched_scientific_probes_and_original_escrow():

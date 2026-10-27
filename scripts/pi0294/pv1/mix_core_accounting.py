@@ -228,8 +228,11 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
     arm = record.get('evaluation_candidate'); proof = closed_training(g, l, terminal_capture, arm)
     r = deepcopy(validate_row(record)); p = a.package_view(g); stage = key(arm)
     need(stage in p.get('prepaid_control', {}) and r['status'] == STATES[0], 'REAL_PAID_CONTROL_BEFORE_UNIQUE_INTENT')
+    from scripts.pi0294.generalization.minimal_concurrency import permit_Core,validate_LOCAL
+    concurrent=permit_Core(g,r)
+    validate_LOCAL(g,l)
     need(r['request_id'] not in g.get(FIELD, {}) and
-         not any(x['status'] not in a.TERMINAL for x in g['PBS_submissions']) and
+         (concurrent is not None or not any(x['status'] not in a.TERMINAL for x in g['PBS_submissions'])) and
          not any(x['status'] != STATES[3] for x in g.get(FIELD, {}).values()) and
          not any(x['status'] != 'NATIVE_TERMINAL' for x in g.get('Core_native_GPU_allocations', {}).values()),
          'ONE_TASK_GPU_AND_NO_UNKNOWN_RETRY')
@@ -240,6 +243,7 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
          and r['training_handoff_sha256'] == a.sha(a.raw(proof)), 'CURRENT_CLOSED_TRAINING_EXACT_REQUEST')
     from .successor_core_context import SCHEMA
     m = handoff.load(physical_manifest_bytes)
+    permit_Core(g,r,m)
     need(m.get('schema') == SCHEMA and m.get('scope') == EVAL_ROLE
          and m.get('candidate') == arm and m['run_uuid'] == r['child_run_uuid']
          and m['code']['vla_commit'] == r['source_sha']

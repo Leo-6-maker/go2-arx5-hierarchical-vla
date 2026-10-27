@@ -157,6 +157,15 @@ def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=tim
                     o.release(state,secret=secret);lastauth=monotonic()
                 elif status=='R' and 'A40_PRETRAIN_READY.json' in receipts and 'A40_PRETRAIN_RELEASE.json' not in receipts:
                     o.release(state,secret=secret,first_update=True);lastauth=monotonic()
+                elif status=='R' and callable(getattr(o,'release_science_session',None)):
+                    # The existing watch owns finite first512 phase releases;
+                    # no auxiliary watcher or agent heartbeat is introduced.
+                    from scripts.pi0294.generalization.minimal_execution import VERSION
+                    if o.request_template.get('platform_training_version')!=VERSION:
+                        raise PermissionError('SESSION_RELEASE_ONLY_EXPLICIT_NEW_FIRST512_OWNER')
+                    if o.release_science_session(state,secret=secret):lastauth=monotonic()
+                    elif monotonic()-lastauth>300:
+                        o.auth(secret);lastauth=monotonic()
                 elif monotonic()-lastauth>300:
                     o.auth(secret);lastauth=monotonic()
                 errors=0;sleep(30 if status=='R' else 60)

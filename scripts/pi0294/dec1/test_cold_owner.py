@@ -119,6 +119,38 @@ class ColdOwnerIntegration(unittest.TestCase):
         self.assertEqual(self.sleeps,[30,30])
         self.assertTrue((self.local/'SOURCE_NATIVE_TERMINAL_UNSETTLED.json').exists())
 
+    def test_new_minimal_session_uses_original_watch_once_without_legacy_release(self):
+        from scripts.pi0294.generalization.minimal_execution import VERSION
+        self.receipts={'START_NEURAL.json':{}};self.owner.request_template={'platform_training_version':VERSION}
+        calls=[]
+        def release(state,secret):
+            calls.append('ONE_FINITE_SESSION');self.status='F';return True
+        self.owner.release_science_session=release
+        result=self.run_watch()
+        self.assertEqual(result['native']['job_state'],'F')
+        self.assertEqual(calls,['ONE_FINITE_SESSION'])
+        self.assertEqual([c[0]for c in self.calls].count('RELEASE'),0)
+
+    def test_session_hook_cannot_be_added_to_an_old_scope(self):
+        self.receipts={'START_NEURAL.json':{}};self.owner.request_template={'platform_training_version':'OLD_SCOPE'}
+        self.owner.release_science_session=lambda *args,**kwargs:self.fail('OLD_SCOPE_RELEASE_CALLED')
+        with self.assertRaisesRegex(PermissionError,'ONLY_EXPLICIT_NEW_FIRST512'):
+            self.run_watch()
+        self.assertFalse(self.sleeps)
+
+    def test_session_mutation_timeout_remains_UNKNOWN_without_watch_retry(self):
+        from scripts.pi0294.generalization.minimal_execution import VERSION
+        self.receipts={'START_NEURAL.json':{}};self.owner.request_template={'platform_training_version':VERSION}
+        calls=[]
+        def release(state,secret):
+            def unknown(intent,limit):
+                calls.append(intent['operation_id']);raise subprocess.TimeoutExpired('CPU_FIXTURE_SESSION_MUTATION',40)
+            return self.j.call('FINITE_MINIMAL_SESSION','MUTATION',unknown)
+        self.owner.release_science_session=release
+        with self.assertRaises(UnknownMutation):self.run_watch()
+        self.assertEqual(len(calls),1);self.assertFalse(self.sleeps)
+        self.assertEqual(read(self.j.state_path)['status'],'UNKNOWN')
+
     def test_read_timeout_retries_only_read_then_original_chain(self):
         self.fail_read=1;self.run_watch()
         self.assertEqual(self.calls[:2],[('READ','hopper',40),('READ','hopper',40)])

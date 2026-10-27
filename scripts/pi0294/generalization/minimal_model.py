@@ -176,3 +176,20 @@ def load(root, request_path, allocation, bindings, *, checkpoint, audit, mode, g
                             processor='EXISTING_ARX5_NEW_EMBODIMENT10_R0', full_model_loading_exact=True)
     instance.parameter_contract = contract
     return instance
+
+
+def unload(instance):
+    """Drop wrapper/contract ownership before the original CUDA unload.
+
+    Deleting only instance.model leaves ParameterContract.model alive and can
+    overlap two full GR00T models during qualification restore or arm switch.
+    The caller must also drop its original Trainer/optimizer before switching.
+    """
+    contract=getattr(instance,'parameter_contract',None)
+    if contract is not None:
+        for hook in contract.hooks:hook.remove()
+        contract.hooks=[]
+        instance.parameter_contract=None
+    contract=None
+    from scripts.pi0294.e1.model import unload as original
+    return original(instance)

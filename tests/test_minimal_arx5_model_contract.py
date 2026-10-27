@@ -100,3 +100,15 @@ def test_owner_rejection_happens_before_any_framework_or_checkpoint_loading():
         m.load('NO_ROOT_OPENED', 'NO_REQUEST_OPENED', {}, {}, checkpoint='NO_CHECKPOINT_OPENED',
                audit={}, mode='E0_RAW', guard=guard)
     assert calls == ['owner']
+
+
+def test_unload_releases_contract_reference_before_original_model_cleanup():
+    import gc,weakref
+    from types import SimpleNamespace
+    from test_minimal_arx5_adapter_contract import fixture_pair
+    _,model,_,contract,_=fixture_pair()
+    weak=weakref.ref(model);instance=SimpleNamespace(model=model,parameter_contract=contract)
+    del model,contract
+    m.unload(instance);gc.collect()
+    assert instance.parameter_contract is None and not hasattr(instance,'model')
+    assert weak()is None

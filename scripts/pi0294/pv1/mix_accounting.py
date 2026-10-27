@@ -86,7 +86,12 @@ def validate_global(g):
     active=[r for r in g['PBS_submissions'] if r['status']not in TERMINAL]
     old_core=[r for r in g.get('Core_native_GPU_allocations',{}).values() if r['status'] not in ('NATIVE_TERMINAL','NATIVE_QUEUED_NOT_RUNNING','STAGE_QUEUE_INTENT_UNKNOWN_NO_RETRY')]
     new_core=[r for r in g.get(CORE_ROWS,{}).values() if r['status']!='NATIVE_TERMINAL']
-    need(len(active)+len(old_core)+len(new_core)<=1,'ONE_TASK_GPU_ACROSS_BOTH_SITES')
+    if len(active)+len(old_core)+len(new_core)>1:
+        from scripts.pi0294.generalization import minimal_execution,minimal_concurrency
+        need(minimal_execution.FIELD in g and not old_core,'ONE_TASK_GPU_ACROSS_BOTH_SITES')
+        # Explicit later scope: one bound first512 main allocation on Vanda
+        # and the original D25 panel on Core. Every old scope stays single-GPU.
+        minimal_concurrency.validate_pair(g,active,new_core)
     if PACKAGE in g:
         p=package_view(g);remaining=p['remaining_resources']
         from .evaluation_work import MATRIX

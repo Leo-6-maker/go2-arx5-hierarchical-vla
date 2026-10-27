@@ -35,8 +35,9 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
          and type(snap.get('observed_epoch'))in(int,float)
          and 0<=now-snap['observed_epoch']<=120
          and snap.get('heartbeat_only_raw_ledger')is False,'FRESH_FULL_RAW_DUAL_SNAPSHOT_NOT_OLD_HEARTBEAT')
-    need(all(row['status']in a.TERMINAL for row in g['PBS_submissions']),
-         'NO_ACTIVE_TRAINING_ALONGSIDE_CORE_EVAL')
+    from scripts.pi0294.generalization.minimal_concurrency import permit_Core,validate_LOCAL
+    permit_Core(g,r,m)
+    validate_LOCAL(g,l)
     row=g.get(c.FIELD,{}).get(r['request_id'])
     need(type(row)is dict and row['status']in c.STATES[1:3]
          and row['request_sha256']==a.sha(request_bytes)

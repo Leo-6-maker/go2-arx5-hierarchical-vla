@@ -17,6 +17,8 @@ from scripts.pi0294.pv1.future_budget import _vector
 FIELD='ARX5_minimal_first512_native_execution'
 VERSION='ARX5_MINIMAL_RAW_PARENT_FIRST512_VANDA_NATIVE_V1'
 PROFILE='vanda-arx5-minimal-raw-parent-first512'
+CAPACITY_PROFILES=((8,64*1024**3),(36,240*1024**3))
+PREPARATION_CPU_UPPER=900
 STATES=('QSUB_INTENT_OUTCOME_UNKNOWN_NO_RETRY','SUBMITTED_PENDING_NATIVE','NATIVE_TERMINAL')
 CONTROL=_vector(dict(Hopper_CPU_s=3600,Hopper_storage_bytes=128*1024**2,
                      transfer_bytes=768*1024**2,local_CPU_s=630))
@@ -41,8 +43,9 @@ def native_sessions():
 def select_profile(limits,r):
     """Typed extension of the original own-job reader, not an allocation.
 
-    Only this new immutable request may use the approved16h30m eight-slot
-    profile. Existing4/36-CPU and eight-hour requests keep their old parser.
+    Only this new immutable request may use the approved16h30m/eight-active
+    profile, with either requested8/64GB or actual site36/240GB capacity.
+    Existing4/36-CPU and eight-hour requests keep their old parser.
     """
     request(r)
     from scripts.pi0294.dec1.a40_allocation import memory_bytes
@@ -52,14 +55,44 @@ def select_profile(limits,r):
         pair=part.split('=',1)
         need(len(pair)==2 and pair[0]not in fields,'EXECUTION_EXACT_SELECT_FIELDS')
         fields[pair[0]]=pair[1]
-    need(fields.get('ncpus')=='8'and fields.get('ngpus')=='1'
+    cpus=int(fields.get('ncpus','0'));mem=memory_bytes(fields.get('mem',''))
+    need((cpus,mem)in CAPACITY_PROFILES and fields.get('ngpus')=='1'
         and fields.get('gpu_model','A40')=='A40'
-        and memory_bytes(fields.get('mem',''))==64*1024**3
-        and limits.get('ncpus')==8 and int(limits.get('ngpus',0))==1
-        and memory_bytes(limits.get('mem',''))==64*1024**3
+        and limits.get('ncpus')==cpus and int(limits.get('ngpus',0))==1
+        and memory_bytes(limits.get('mem',''))==mem
         and limits.get('walltime')=='16:30:00',
-        'EXECUTION_ORIGINAL_APPROVED_WALL_EIGHT_CPUS_ONE_A40_64G')
-    return 8,64*1024**3
+        'EXECUTION_PREDECLARED_EIGHT_ACTIVE_CPUS_AND_ACTUAL_SITE_CAPACITY')
+    return cpus,mem
+
+
+def project_envelope(r):
+    """Site project balance covers its physical allocation charging class.
+
+    Native process CPU is bounded separately by CPU_upper_s. The site has
+    actually granted36cores/240GB to prior successful jobs; acknowledge that
+    capacity and project hold without calling36 cores actively used or raising
+    the experiment's8-active-core/165600s process envelope.
+    """
+    request(r)
+    return dict(GPU_hours=r['reserved_H200_s']/3600,
+        CPU_hours=max(c for c,_ in CAPACITY_PROFILES)*r['reserved_H200_s']/3600,
+        reserved_CPU_including_prior_preparation_s=r['CPU_upper_s'],
+        actual_process_CPU_upper_s=r['CPU_upper_s']-PREPARATION_CPU_UPPER,active_CPU_limit=8,
+        project_hold_is_not_experiment_CPU_spend=True)
+
+
+def process_CPU_limits(r):
+    """Keep the prior uncertain readonly900s in its original diagnostic pool.
+
+    It is neither refunded nor silently treated as0. The native parent/child
+    limits leave room for that cost and the original240s terminal observer.
+    Terminal settlement includes it once, inside CPU_upper_s, never on top.
+    """
+    request(r);upper=r['CPU_upper_s'];child=600;observer=240
+    return dict(parent_RLIMIT_CPU_s=upper-PREPARATION_CPU_UPPER-child-observer,
+        isolated_child_CPU_upper_s=child,terminal_observer_CPU_upper_s=observer,
+        prior_readonly_preparation_CPU_upper_s=PREPARATION_CPU_UPPER,
+        whole_reserved_CPU_upper_s=upper,new_CPU_budget=0)
 
 
 def main_resources():
@@ -95,8 +128,10 @@ def request(r,*,central=False):
         scheduler_horizon=1024,formal_terminal_steps=512,optimizer_update_limit=1028,
         query_limit=147,model_load_limit=11,expected_native_start_step=0,
         physical_GPU_count=1,physical_GPU_kind='NVIDIA_A40',active_cpu_limit=8,
+        allowed_native_capacity_profiles=[dict(ncpus=c,memory_bytes=m)for c,m in CAPACITY_PROFILES],
         walltime_s=59400,accounting_pad_s=120,reserved_H200_s=59520,
         CPU_upper_s=resources['Hopper_CPU_s'],additional_output_upper_bytes=resources['Hopper_storage_bytes'],
+        prior_readonly_preparation_CPU_upper_s=PREPARATION_CPU_UPPER,
         scope_grant_sha256=authority.GRANT_SHA,conditional1024_authorized=False,
         new_physics=0,new_constructors=0,session_plan=native_sessions(),
         reserved_session_plan_sha256=sha(raw(package.sessions())),

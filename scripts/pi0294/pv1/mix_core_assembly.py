@@ -20,7 +20,8 @@ def need(ok,why):
 
 def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,source_sha,
              source_seal_bytes,owner_root,owner_manifest_bytes,canonical_LOCAL_ledger,
-             remote_binding,run_name,request_id,nonce,GPU_uuid,now_epoch,desktop_grant_bytes=None):
+             remote_binding,run_name,request_id,nonce,GPU_uuid,now_epoch,desktop_grant_bytes=None,
+             first512_concurrency=False):
     g,l=json.loads(global_bytes),json.loads(local_bytes);c.checked(g);c.paired(g,l)
     capture=json.loads(training_capture_bytes);proof=context.captured_endpoint(capture)
     marker=s.validated(g);key=c.key(arm)
@@ -43,6 +44,13 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     parent=Path(base['core']['root']).parent.parent
     roots={role:str(parent/('children'if role=='core'else'neural-children')/run_name)for role in base}
     om=json.loads(owner_manifest_bytes)
+    need(type(first512_concurrency)is bool,'EXPLICIT_COLD_CONCURRENCY_SELECTION')
+    concurrent=None
+    if first512_concurrency:
+        from scripts.pi0294.generalization import minimal_concurrency
+        concurrent=minimal_concurrency.binding(g);minimal_concurrency.validate_LOCAL(g,l)
+        need(arm=='D25'and om['authority'].get(minimal_concurrency.KEY)==concurrent,
+             'PRESEALED_NEW_D25_OWNER_WITH_EXACT_FIRST512_MAIN_BINDING')
     from . import mix_core_desktop as desktop
     grant_path='plans/V5_CD_CORE_DESKTOP_DIRECT_HUMAN_GRANT.json'
     desktop_enabled=grant_path in om['execution'].get('sealed_inputs',{})
@@ -129,6 +137,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         if role=='hopper':m['platform_evaluation_version']=c.VERSION
         else:m['evaluation_peer_platform']=c.VERSION
         m['authority']=dict(protocol_ref=s.TASK_SOURCE,scope_grant_sha256=s.GRANT_SHA)
+        if concurrent is not None:m['authority'][minimal_concurrency.KEY]=concurrent
         m['code'].update(vla_commit=source_sha,capsule_relative='capsules/'+source_sha+'/code',
             source_seal_relative='capsules/'+source_sha+'/SOURCE_SEAL.json',source_seal_sha256=a.sha(source_seal_bytes))
         from .control_heartbeat import POLICY
@@ -162,6 +171,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         cold_input_audit_sha256=a.sha(a.raw(dict(source_sha=source_sha,source_seal_sha256=a.sha(source_seal_bytes),manifest_sha256={k:v['manifest_sha256']for k,v in rows.items()}))),
         T_CD=marker['T_CD'],deadline_epoch=marker['deadline_epoch'],created_epoch=now_epoch,child_run_uuid=run_name,
         native_handle=None,GPU_uuid=GPU_uuid,status=c.STATES[0],reserved_neural_queries=2097)
+    if concurrent is not None:record[minimal_concurrency.KEY]=concurrent
     if repaired and arm=='C50':record['prepaid_panel_IO_credit_sha256']=a.sha(a.raw(repaired))
     from . import mix_core_desktop as desktop
     grant_path='plans/V5_CD_CORE_DESKTOP_DIRECT_HUMAN_GRANT.json'

@@ -80,19 +80,28 @@ class Ledger:
     def charge(self,key,count):
         if key not in ('generation_queries','model_loads') or count!=1:fail('ONE_REAL_QUERY_OR_MODEL_LOAD_ONLY')
         with self.transaction() as v:
-            if key=='generation_queries':
-                folder=self.root/'reservations/probe-generations';pending=[]
-                for path in folder.glob('*.json'):
-                    row=read(path)
-                    if row['status']!='COMPLETE':pending.append((path,row))
-                if len(pending)!=1 or pending[0][1]['run_uuid']!=self.root.name:
-                    fail('ONE_DURABLE_GENERATION_INTENT_NO_UNRESOLVED_PRIOR_QUERY')
-                path,row=pending[0]
-                if any(link['message_id']==row['message_id'] for link in v['query_intent_links']):
-                    fail('UNKNOWN_QUERY_CANNOT_BE_CHARGED_AND_SENT_AGAIN')
-                v['query_intent_links'].append(dict(index=v['generation_queries'],message_id=row['message_id'],
-                    intent_relative=str(path.relative_to(self.root)),payload_sha256=row['payload_sha256']))
-            v[key]+=1
+            self._charge_value(v,key,count)
+
+    def _charge_value(self,v,key,count):
+        """Same pre-effect debit for an explicitly typed session subclass.
+
+        Caller holds the original transaction lock. This does not dispatch a
+        query and never converts an unresolved intent into permission to retry.
+        """
+        if key not in ('generation_queries','model_loads') or count!=1:fail('ONE_REAL_QUERY_OR_MODEL_LOAD_ONLY')
+        if key=='generation_queries':
+            folder=self.root/'reservations/probe-generations';pending=[]
+            for path in folder.glob('*.json'):
+                row=read(path)
+                if row['status']!='COMPLETE':pending.append((path,row))
+            if len(pending)!=1 or pending[0][1]['run_uuid']!=self.root.name:
+                fail('ONE_DURABLE_GENERATION_INTENT_NO_UNRESOLVED_PRIOR_QUERY')
+            path,row=pending[0]
+            if any(link['message_id']==row['message_id'] for link in v['query_intent_links']):
+                fail('UNKNOWN_QUERY_CANNOT_BE_CHARGED_AND_SENT_AGAIN')
+            v['query_intent_links'].append(dict(index=v['generation_queries'],message_id=row['message_id'],
+                intent_relative=str(path.relative_to(self.root)),payload_sha256=row['payload_sha256']))
+        v[key]+=1
 
     def cpu(self,cost):
         from .alternate_accounting import finite
@@ -104,7 +113,20 @@ class Ledger:
         owner_guard(self.root,self.allocation);return self.check(read(self.path))
 
     def summary(self):
-        v=self.check(read(self.path));r=self.request;unknown=[]
+        v=self.check(read(self.path));r=self.request
+        unknown=self.linked_query_intents(v)
+        arm=r['training_block']['arm'];recipe=read(self.root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][arm]
+        from scripts.pi0294.scene_cards import digest
+        return dict(schema='VAP1_A40_NATIVE_SOURCE_EFFECT_SUMMARY_V1',job_id=self.allocation['job_id'],
+            request_id=r['request_id'],request_sha256=self.allocation['request_sha256'],source_sha=r['source_sha'],arm=arm,
+            start_native_step=r['expected_native_start_step'],optimizer_updates_committed=v['optimizer_updates']-r['expected_native_start_step'],
+            last_native_step=v['optimizer_updates'],query_attempts=v['generation_queries'],model_load_attempts=v['model_loads'],
+            pending_updates=v['pending_updates'],unknown_query_intents=unknown,recipe_sha256=digest(recipe),
+            effect_journal_complete=True,new_physics=0,new_episodes=0,finished_epoch=time.time())
+
+    def linked_query_intents(self,v):
+        """Inspect original durable query links, including unresolved calls."""
+        unknown=[]
         folder=self.root/'reservations/probe-generations'
         expected={link['intent_relative'] for link in v['query_intent_links']}
         actual={str(p.relative_to(self.root)) for p in folder.glob('*.json')}
@@ -120,11 +142,4 @@ class Ledger:
             else:
                 from scripts.pi0294.e1.journal import digest
                 if digest(row['result'])!=row.get('result_sha256'):fail('COMPLETED_QUERY_RESULT_CHANGED')
-        arm=r['training_block']['arm'];recipe=read(self.root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][arm]
-        from scripts.pi0294.scene_cards import digest
-        return dict(schema='VAP1_A40_NATIVE_SOURCE_EFFECT_SUMMARY_V1',job_id=self.allocation['job_id'],
-            request_id=r['request_id'],request_sha256=self.allocation['request_sha256'],source_sha=r['source_sha'],arm=arm,
-            start_native_step=r['expected_native_start_step'],optimizer_updates_committed=v['optimizer_updates']-r['expected_native_start_step'],
-            last_native_step=v['optimizer_updates'],query_attempts=v['generation_queries'],model_load_attempts=v['model_loads'],
-            pending_updates=v['pending_updates'],unknown_query_intents=unknown,recipe_sha256=digest(recipe),
-            effect_journal_complete=True,new_physics=0,new_episodes=0,finished_epoch=time.time())
+        return unknown

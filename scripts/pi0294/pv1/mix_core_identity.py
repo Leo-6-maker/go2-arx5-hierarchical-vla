@@ -60,6 +60,11 @@ def request_identity(m, r, manifest_sha256):
          'NO_LEDGER_AS_REQUEST_OR_OLD_AB_WINDOW_SHARING_EXCEPTION')
     from . import mix_core_desktop as desktop
     if desktop.allowed(r):need(m['execution'].get('sealed_inputs',{}).get('plans/V5_CD_CORE_DESKTOP_DIRECT_HUMAN_GRANT.json')==desktop.GRANT_SHA,'PRESEALED_NEW_DESKTOP_AUTHORITY_NOT_A_CALLER_FLAG')
+    from scripts.pi0294.generalization.minimal_concurrency import KEY as concurrency_key
+    if concurrency_key in r or concurrency_key in m['authority']:
+        need(r.get('evaluation_candidate')=='D25'and type(r.get(concurrency_key))is dict
+            and r[concurrency_key]==m['authority'].get(concurrency_key),
+            'EXPLICIT_NEW_D25_REQUEST_AND_PRESEALED_CONCURRENCY_MANIFEST')
     arm = r.get('evaluation_candidate'); c.key(arm)
     expected = dict(stage='V5_MATCHED_DEV24', noise_bank=294101, remaining_conditions=24,
         checkpoint_step=1024, walltime_s=28800, CPU_upper_s=80000,
