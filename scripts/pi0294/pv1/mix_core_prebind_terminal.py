@@ -100,3 +100,73 @@ def propose(global_bytes,local_bytes,*,proof,now_epoch):
     w.setdefault('V5_CD_Core_terminal_settlements',{})[FAILED]=deepcopy(receipt)
     v['revision']+=1;c.checked(v);c.paired(v,w)
     return dict(proposed_global=v,proposed_LOCAL=w,receipt=receipt,effects=effects,original_onceIO_required=True,new_native_admission=False)
+
+CONTINUATION='V5_CD_exact033195ac_known_zero_cold_continuation'
+
+
+def continuation(g):
+    m=g.get(CONTINUATION)
+    if m is None:return None
+    from . import mix_core_accounting as c,mix_core_recovery as recovered,mix_core_desktop as desktop
+    prior=validate(g);base=recovered.validate(g)
+    need(prior is not None and base is not None and m['schema']=='V5_CD_EXACT033195AC_KNOWN_ZERO_COLD_CONTINUATION_V1'
+        and m['failed_request_id']==FAILED and m['terminal_native_sha256']==prior['terminal_native_sha256']
+        and m['scope_grant_sha256']==s.GRANT_SHA and m['desktop_grant_sha256']==desktop.GRANT_SHA
+        and m['maximum_continuations']==1 and m['new_PBS']==0
+        and m['all_paid_costs_peaks_rows_unknowns_retained']is True
+        and m['replacement_run_uuid']=='v5-cd-c50-n294101-05'
+        and m['T_CD']==s.validated(g)['T_CD']and m['deadline_epoch']==s.validated(g)['deadline_epoch']
+        and c.canonical_uuid(m['replacement_request_id'])and c.canonical_uuid(m['replacement_submission_nonce'])
+        and m['replacement_request_id']not in(FAILED,base['old_Vanda_request_id'])
+        and m['replacement_submission_nonce']!=base['replacement_submission_nonce'],
+        'ONE_NEW_CUSTODY_AFTER_EXACT_ZERO_FAILURE_NOT_A_SCIENTIFIC_RETRY')
+    for role,lease in m['closed_leases'].items():
+        need(role in('GPU','physical','control')and lease['status']=='CLOSED'
+            and lease['terminal_native_sha256']==prior['terminal_native_sha256']
+            and lease['all_actual_workers_terminal']is True
+            and lease['authority_release']==s.TASK_SOURCE
+            and lease['run_uuid']==('v5-cd-c50-eval-owner-03'if role=='control'else g[c.FIELD][FAILED]['child_run_uuid']),'ACTUAL_CLOSED_PREDECESSOR_LEASES')
+    need(set(m['closed_leases'])=={'GPU','physical','control'},'ALL_THREE_REAL_TERMINAL_LEASES')
+    return m
+
+
+def continue_proposal(global_bytes,local_bytes,*,closed_readback,new_request_id,new_nonce,fixed_owner_helper_sha256,now_epoch):
+    from . import mix_core_accounting as c,mix_core_premodel_repair as repair,mix_core_desktop as desktop
+    g,l=json.loads(global_bytes),json.loads(local_bytes);c.checked(g);c.paired(g,l);p=validate(g)
+    need(p is not None and CONTINUATION not in g and all(x['status']=='NATIVE_TERMINAL'for x in g[c.FIELD].values())
+        and g['pending_updates']==g['unknown_effects']==[], 'COLD_TERMINAL_FINANCIAL_AND_NO_CURRENT_EFFECTS')
+    need(closed_readback['status']=='INDEPENDENT_033195AC_TERMINAL_THREE_CLOSED_LEASES_READONLY'
+        and closed_readback['request_id']==FAILED and closed_readback['host']=='corelab-4080s'and closed_readback['uid']==2009
+        and closed_readback['GLOBAL_sha256']==a.sha(global_bytes)
+        and closed_readback['LOCAL_sha256']==a.sha(local_bytes)
+        and 0<=now_epoch-closed_readback['observed_epoch']<=120,
+        'FRESH_ACTUAL_BOTH_LEDGERS_AND_THREE_NATIVE_LEASES')
+    need(not any(x.get('request_id')==new_request_id or x.get('submission_nonce')==new_nonce
+        for x in [*g['PBS_submissions'],*g[c.FIELD].values(),*g.get('Core_native_GPU_allocations',{}).values()]),'DISTINCT_NEW_REQUEST_AND_NONCE')
+    # This is the published cold helper, not an arbitrary changed control file.
+    old=base64.b64decode(closed_readback['original_helper_base64'],validate=True)
+    need(a.sha(old)==HELPER and a.sha(desktop.owner_kernel_helpers(old))==fixed_owner_helper_sha256,
+        'EXACT_ORIGINAL_READER_WITH_ONLY_NEW_SCOPE_OWN_PID_WIRING')
+    v,w=deepcopy(g),deepcopy(l);clock=s.validated(g);need(clock['T_CD']<=now_epoch<clock['deadline_epoch']-28860,'ORIGINAL_FULL_PANEL_WINDOW')
+    marker=dict(schema='V5_CD_EXACT033195AC_KNOWN_ZERO_COLD_CONTINUATION_V1',failed_request_id=FAILED,
+        terminal_native_sha256=p['terminal_native_sha256'],scope_grant_sha256=s.GRANT_SHA,
+        desktop_grant_sha256=desktop.GRANT_SHA,maximum_continuations=1,new_PBS=0,
+        replacement_request_id=new_request_id,replacement_submission_nonce=new_nonce,
+        replacement_run_uuid='v5-cd-c50-n294101-05',fixed_owner_helper_sha256=fixed_owner_helper_sha256,
+        T_CD=clock['T_CD'],deadline_epoch=clock['deadline_epoch'],created_epoch=now_epoch,
+        closed_leases=deepcopy(closed_readback['leases']),closed_readback_sha256=a.sha(a.raw(closed_readback)),
+        all_paid_costs_peaks_rows_unknowns_retained=True)
+    restore=repair.allocation(g,'C50')
+    for value in(v,w):
+        value[CONTINUATION]=deepcopy(marker)
+        for key,x in restore.items():value[a.PACKAGE]['remaining_resources'][key]+=x
+    for key in ('H200_s','neural_queries','optimizer_updates'):v['reserved'][key]+=restore[key]
+    v['CPU_reserved_s']+=restore['Hopper_CPU_s'];v['storage_reserved_bytes']+=restore['Hopper_storage_bytes']
+    w['GPU_reserved_s']+=restore['H200_s']
+    for key,site in [('Hopper_CPU_s','Hopper'),('Core_CPU_s','CoreLab'),('local_CPU_s','local_PC')]:w['CPU_reserved_s'][site]+=restore[key]
+    v['revision']+=1;continuation(v);c.checked(v);c.paired(v,w)
+    from scripts.pi0294.generalization.minimal_scope import first512_forecast
+    full=first512_forecast(a.raw(v),a.raw(w));need(not full['cap_changes_required'],'ENTIRE_REMAINING_PACKAGE_MATRIX_FINAL_FITS:'+str(full['cap_changes_required']))
+    need(all(v[key]==x for key,x in g.items()if key not in(CONTINUATION,'revision',a.PACKAGE,'reserved','CPU_reserved_s','storage_reserved_bytes')),
+        'ALL_PRIOR_COSTS_AND_EFFECTS_UNCHANGED')
+    return dict(proposed_global=v,proposed_LOCAL=w,full_future_proof=full,new_scientific_admission=False,original_onceIO_required=True)

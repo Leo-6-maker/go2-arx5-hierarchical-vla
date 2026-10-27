@@ -125,14 +125,15 @@ def validate_rows(g):
     repaired=repair.validated(g)
     from . import mix_core_prebind_terminal as prebind
     prebind.validate(g)
-    need(type(rows) is dict and 1 <= len(rows) <= (3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
+    continued=prebind.continuation(g)
+    need(type(rows) is dict and 1 <= len(rows) <= (4 if continued else 3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
     arms = []
     for request_id, r in rows.items():
         validate_row(r)
         need(request_id == r['request_id'] and r['T_CD'] == marker['T_CD']
              and r['deadline_epoch'] == marker['deadline_epoch'], 'ONE_ADOPTED_CLOCK')
         repair.output_credit(g,r)
-        if not repaired or request_id!=repair.FAILED:arms.append(r['evaluation_candidate'])
+        if (not repaired or request_id!=repair.FAILED)and(not continued or request_id!=prebind.FAILED):arms.append(r['evaluation_candidate'])
         endpoint = g[a.PACKAGE]['endpoints'][r['evaluation_candidate']]
         need(endpoint['checkpoint_manifest_sha256'] == r['checkpoint_manifest_sha256'],
              'ACTUALLY_CLOSED_1024_ENDPOINT_NOT_OLD_AB')
@@ -246,10 +247,13 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
     if stage in w.get('V5_CD_Core_CPU_substages', {}):
         repair_marker=repair.validated(g)
         from . import mix_core_recovery as recovered
-        repair_marker=recovered.validate(g)or repair_marker
+        from . import mix_core_prebind_terminal as prebind
+        repair_marker=prebind.continuation(g)or recovered.validate(g)or repair_marker
         need(repair_marker is not None and r['request_id']==repair_marker['replacement_request_id']
              and w['V5_CD_Core_CPU_substages'][stage]['status']=='SETTLED_KNOWN_NATIVE_TERMINAL', 'EXACT_CLOSED_PREMODEL_PHYSICAL_PREDECESSOR')
-        w.setdefault('V5_CD_historical_closed_Core_CPU_substages',{})[repair.FAILED]=deepcopy(w['V5_CD_Core_CPU_substages'][stage])
+        prior_stage=w['V5_CD_Core_CPU_substages'][stage];prior_id=prior_stage['request_id']
+        need(prior_id not in w.get('V5_CD_historical_closed_Core_CPU_substages',{}),'PRESERVE_EACH_PRIOR_PHYSICAL_STAGE_ONCE')
+        w.setdefault('V5_CD_historical_closed_Core_CPU_substages',{})[prior_id]=deepcopy(prior_stage)
     w.setdefault('V5_CD_Core_CPU_substages', {})[stage] = dict(expected,
         status='RESERVED_NOT_SPENT', run_uuid=m['run_uuid'], role=EVAL_ROLE,
         source_sha=r['source_sha'], scope_grant_sha256=s.GRANT_SHA,

@@ -81,6 +81,9 @@ def budget_LOCAL(g,l):
     # exclusively in GLOBAL, not duplicated into this old Core budget view.
     w['GPU_allocated_s']=max(w['GPU_allocated_s'],g['used']['H200_s'])
     w['CPU_s']['Hopper']=max(w['CPU_s']['Hopper'],g['CPU_s'])
+    from . import mix_core_prebind_terminal as prebind
+    known=prebind.validate(g)
+    if known is not None:w['CPU_s']['CoreLab']+=known['physical_CPU_s']+known['neural_CPU_s']
     w['optimizer_updates']=max(w['optimizer_updates'],g['used']['optimizer_updates'])
     w['neural_queries']=max(w['neural_queries'],g['used']['neural_queries'])
     w['PBS_submissions']=deepcopy(g['PBS_submissions'])

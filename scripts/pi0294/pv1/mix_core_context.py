@@ -107,6 +107,9 @@ def validate(root, *, closeout=False):
         from . import mix_core_recovery as recovered
         continuation=recovered.validate(local)
         if continuation is not None:need(sealed('plans/V5_CD_CORE_RECOVERY.private.json')==continuation,'ACTUAL_RECOVERY_CUSTODY_BINDING')
+        from . import mix_core_prebind_terminal as prebind
+        next_continuation=prebind.continuation(local)
+        if next_continuation is not None:need(sealed('plans/V5_CD_KNOWN_ZERO_PREBIND_CONTINUATION.private.json')==next_continuation,'ACTUAL_KNOWN_ZERO_PREBIND_CONTINUATION')
     proof = captured_endpoint(sealed(CAPTURE)); arm = request['evaluation_candidate']
     need(proof['arm'] == arm and proof['checkpoint_manifest_sha256'] == request['checkpoint_manifest_sha256']
          and a.sha(a.raw(proof)) == request['training_handoff_sha256'], 'TRUE_CLOSED_COMPLETE_1024_ENDPOINT')

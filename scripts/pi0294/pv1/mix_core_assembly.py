@@ -62,7 +62,9 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     repaired=repair.validated(g)
     from . import mix_core_recovery as recovered
     continuation=recovered.validate(g)
-    identity_marker=continuation or repaired
+    from . import mix_core_prebind_terminal as prebind
+    next_continuation=prebind.continuation(g)
+    identity_marker=next_continuation or continuation or repaired
     if repaired and arm=='C50':
         need(request_id==identity_marker['replacement_request_id']and nonce==identity_marker['replacement_submission_nonce']
              and run_name==identity_marker['replacement_run_uuid'],'EXACT_ONCE_PREMODEL_REPLACEMENT_IDENTITY')
@@ -86,6 +88,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         if desktop_enabled:files[grant_path]=desktop_grant_bytes
         if repaired and arm=='C50':files['plans/V5_CD_SAME_PANEL_PREPAID_IO.private.json']=a.raw(repaired)
         if continuation is not None:files['plans/V5_CD_CORE_RECOVERY.private.json']=a.raw(continuation)
+        if next_continuation is not None:files['plans/V5_CD_KNOWN_ZERO_PREBIND_CONTINUATION.private.json']=a.raw(next_continuation)
         files[context.CAPTURE]=training_capture_bytes;files[context.LOCAL_BINDING]=a.raw(local_binding)
         files['plans/SOURCE_EVALUATION_PLAN.json']=a.raw(evaluation.candidate_plan(groups,arm))
         files['plans/V5_CD_PAIRED_EVALUATION_PLAN.json']=a.raw(evaluation.plan(groups))

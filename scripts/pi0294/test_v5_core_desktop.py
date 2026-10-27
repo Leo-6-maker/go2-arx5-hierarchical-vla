@@ -50,3 +50,11 @@ def test_no_old_b24_or_other_science_uses_desktop_exception():
  for key,value in [('evaluation_candidate','B_COVERAGE'),(n.FIELD,'0'*64),('optimizer_update_limit',1)]:
   bad=dict(r,**{key:value})
   with pytest.raises(PermissionError):n.filter_processes(line,bad,proof=p,now_epoch=p['observed_epoch'])
+
+
+def test_only_current_own_model_context_is_allowed_after_loading():
+ r,p,line=args();line+=f'{n.GPU}, 1234, /usr/bin/python, 16000\n'
+ with patch.object(n,'capture',return_value=p):
+  dev=original.parse_GPU_rows(DEVICE,line,GPU_uuid=n.GPU,desktop_request=r,own_pid=1234)
+  assert dev['exact_desktop_coexistence']['grant_sha256']==n.GRANT_SHA
+  with pytest.raises(PermissionError):original.parse_GPU_rows(DEVICE,line,GPU_uuid=n.GPU,desktop_request=r,own_pid=5678)

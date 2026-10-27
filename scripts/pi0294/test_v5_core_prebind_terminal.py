@@ -34,3 +34,40 @@ class Terminal(unittest.TestCase):
   body=base64.b64decode(self.proof['files']['HELPERS']['base64']);new=desktop.owner_kernel_helpers(body);self.assertIn(b'desktop_request=r',new);self.assertIn(b'own_pid=pid if list',new)
   with self.assertRaises(PermissionError):desktop.owner_kernel_helpers(body+b'\n')
 if __name__=='__main__':unittest.main()
+
+class Continuation(unittest.TestCase):
+ @classmethod
+ def setUpClass(cls):
+  p=os.environ.get('ARX5_CORE05_CONTINUATION_CAPTURE')
+  if not p:raise unittest.SkipTest('explicit actual closed predecessor capture required')
+  cls.data=json.loads(Path(p).read_bytes())
+ def setUp(self):
+  import gzip
+  p=self.data;self.capture=deepcopy(p['capture']);self.gb=gzip.decompress(base64.b64decode(self.capture['GLOBAL_gzip_base64']));self.lb=gzip.decompress(base64.b64decode(self.capture['LOCAL_gzip_base64']));self.ident=p['identity'];self.fixed=p['fixed_owner_helper_sha256'];self.now=self.capture['observed_epoch']+1
+ def propose(self):return n.continue_proposal(self.gb,self.lb,closed_readback=self.capture,new_request_id=self.ident['request_id'],new_nonce=self.ident['nonce'],fixed_owner_helper_sha256=self.fixed,now_epoch=self.now)
+ def test_all_costs_retained_both_panels_full_future_still_fit(self):
+  v=self.propose();g=v['proposed_global'];l=v['proposed_LOCAL'];old=json.loads(self.gb);self.assertFalse(v['full_future_proof']['cap_changes_required']);self.assertEqual(g['used'],old['used']);self.assertEqual(g['PBS_submissions'],old['PBS_submissions']);self.assertEqual(g['new_storage_peak_bytes'],old['new_storage_peak_bytes']);self.assertEqual(g[a.PACKAGE]['completed_stages'],old[a.PACKAGE]['completed_stages']);self.assertEqual(g[a.PACKAGE]['remaining_resources']['H200_s'],57720);self.assertEqual(g[a.PACKAGE]['remaining_resources']['engine_starts'],4244);c.paired(g,l)
+ def test_any_unclosed_predecessor_refused(self):
+  self.capture['leases']['GPU']['status']='ACTIVE'
+  with self.assertRaises(PermissionError):self.propose()
+ def test_wrong_fixed_owner_code_refused(self):
+  self.fixed='0'*64
+  with self.assertRaises(PermissionError):self.propose()
+ def test_old_request_not_reissued(self):
+  self.ident=dict(self.ident,request_id=n.FAILED)
+  with self.assertRaises(PermissionError):self.propose()
+ def test_wrong_host_or_local_bytes_refused(self):
+  self.capture['LOCAL_sha256']='0'*64
+  with self.assertRaises(PermissionError):self.propose()
+ def test_stale_or_duplicate_adoption_refused(self):
+  self.now+=121
+  with self.assertRaises(PermissionError):self.propose()
+ def test_another_stage_lease_cannot_prove_closure(self):
+  self.capture['leases']['physical']['run_uuid']='different-run'
+  with self.assertRaises(PermissionError):self.propose()
+
+ def test_historical_budget_projection_keeps_actual_core_failure_cpu(self):
+  from scripts.pi0294.pv1.mix_vanda_first import budget_LOCAL
+  path=Path(os.environ['ARX5_CORE05_CONTINUATION_CAPTURE']).parent/'FIRST512_HISTORICAL_LOCAL_BYTES.private.json'
+  historical=json.loads(path.read_bytes());p=self.propose();g=p['proposed_global'];actual=p['proposed_LOCAL'];view=budget_LOCAL(g,historical)
+  self.assertEqual(view['CPU_s']['CoreLab'],actual['CPU_s']['CoreLab'])
