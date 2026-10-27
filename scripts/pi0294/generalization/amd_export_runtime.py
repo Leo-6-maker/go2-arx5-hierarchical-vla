@@ -184,6 +184,14 @@ def assemble(root,value,processor,source,cosmos,guard,raw_roots):
         # output may have a bank link; no second or third RGB tree is made.
         numeric=member(out,row['file']);a.need(sha(numeric)==row['sha256']and numeric.stat().st_size<=8*1024**2,
             'EXPORT_BOUNDED_ACTUAL_NUMERIC_PARENT')
+        # The official exporter creates its numeric/manifest files with the
+        # private process umask (0600). The mature cross-parent reader requires
+        # a sealed 0400 input. Seal only these newly generated, byte-verified
+        # outputs before that reader; never relax its immutable-input gate.
+        for p in (numeric,out/'DATASET_MANIFEST.json'):
+            a.need(not p.is_symlink()and p.is_file()and p.stat().st_uid==os.getuid(),
+                'EXPORT_SEAL_OWN_FRESH_OUTPUT_NOT_FOREIGN_INPUT')
+            p.chmod(0o400)
         members[row['file']]=numeric
     mixed=qualify_all(bindings,processor,source,cosmos,guard,registered_GEN1_raw_roots=raw_roots);out=root/'datasets/FROZEN_GEN1_BANK'
     a.need(not out.exists(),'EXPORT_PRESERVE_FIRST_BANK_INCLUDING_PARTIAL');out.mkdir()
