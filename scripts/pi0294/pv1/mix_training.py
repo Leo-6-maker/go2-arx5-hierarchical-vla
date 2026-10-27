@@ -57,15 +57,25 @@ def checked_resume(root,arm,checkpoint,recipe,data):
     return mix.resume_state(read(cp/'SAMPLER_STATE.json'),complete,read(cp/'trainer_state.json'),recipe,sampler,hashes)
 
 
-def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint=None):
-    from .mix_native import require_training,authorize_training
+def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint=None,_backend=None):
+    # An explicit GEN backend supplies identity/reader/save hooks to this same
+    # Trainer/callback loop. Original C/D callers retain the original path.
+    if _backend is None:
+        from .mix_native import require_training,authorize_training,prewrite
+        from . import mix1024 as mix
+        make_data=dataset;resume=checked_resume;begin=begin_update;commit=commit_update
+    else:
+        from scripts.pi0294.generalization import amd_training as gen
+        if _backend is not gen or arm!=gen.bank.IDENTITY:raise PermissionError('EXACT_GEN_BACKEND_NOT_C_D_ALIAS')
+        from scripts.pi0294.generalization.amd_training_runtime import require_training,authorize_training,prewrite
+        mix=gen;make_data=gen.dataset;resume=gen.checked_resume;begin=gen.begin_update;commit=gen.commit_update
     root=Path(root);guard();directory=require_training(root,allocation)
     request=read(directory/'REQUEST.json');original=read(root/'plans/FROZEN_SOURCE_PAIR_RECIPE.json');recipe=read(root/'plans/PRIMARY_LEARNING_RECIPES.json')['recipes'][arm];mix.validate(recipe,original)
     if request['arm']!=arm or request['request_id']!=request_id:raise PermissionError('V5_EXACT_SUBMITTED_ARM_AND_REQUEST')
     evidence=root/'training'/arm/('session-'+request_id)
     if evidence.exists():raise FileExistsError('V5_NO_REPLAY_OF_NATIVE_TRAINING_SESSION')
-    evidence.mkdir(parents=True);data=dataset(root,arm,evidence)
-    start=checked_resume(root,arm,resume_checkpoint,recipe,data) if resume_checkpoint else 0
+    evidence.mkdir(parents=True);data=make_data(root,arm,evidence)
+    start=resume(root,arm,resume_checkpoint,recipe,data) if resume_checkpoint else 0
     if read(ledger.path)['optimizer_updates']!=start:raise PermissionError('V5_ACTUAL_EFFECT_STEP_AND_RESTORE_DIFFER')
     parent=read(root/'plans/INITIAL_CORR_PARAMETER_INVENTORY.json');initial=parameter_inventory(instance.model)
     if (set(parent)!=set(initial) or any(p['requires_grad']!=parent[n]['requires_grad'] for n,p in initial.items())
@@ -83,7 +93,7 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
             nonlocal began
             guard();torch.cuda.synchronize();began=time.monotonic()
             with ledger.transaction() as v:
-                n=begin_update(v,arm=arm,local_step=state.global_step,request_id=request_id,recipe=recipe);v.clear();v.update(n)
+                n=begin(v,arm=arm,local_step=state.global_step,request_id=request_id,recipe=recipe);v.clear();v.update(n)
         def on_pre_optimizer_step(self,arguments,state,control,model=None,**kwargs):
             values=dict(projector=0.,diffusion=0.)
             for n,p in model.named_parameters():
@@ -95,7 +105,7 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
         def on_step_end(self,arguments,state,control,**kwargs):
             torch.cuda.synchronize()
             with ledger.transaction() as v:
-                n=commit_update(v,arm=arm,local_step_after=state.global_step,request_id=request_id);v.clear();v.update(n)
+                n=commit(v,arm=arm,local_step_after=state.global_step,request_id=request_id);v.clear();v.update(n)
             v=read(ledger.path);mix.step_boundary(state.global_step,trainer.consumed,pending=v['pending_updates'],unknown=v['unknown_effects']);times.append(time.monotonic()-began)
             row=dict(step=state.global_step,cursor=trainer.consumed,native_loss=trainer.last_native_loss,learning_rate=trainer.lr_scheduler.get_last_lr(),synchronized_s=times[-1],epoch=time.time())
             with (evidence/'OPTIMIZER_STEPS.jsonl').open('a') as f:f.write(json.dumps(row)+'\n');f.flush()
@@ -109,7 +119,6 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
     base=mix.make_trainer_class()
     class BoundedSave(base):
         def _save_checkpoint(self,model,trial):
-            from .mix_native import prewrite
             guard();prewrite(root);return super()._save_checkpoint(model,trial)
     trainer=BoundedSave(model=instance.model,args=args,train_dataset=data,data_collator=ProcessedCollator(data.processor),callbacks=[Audit()],evidence_dir=evidence,recipe=recipe,smoke=False)
     try:result=trainer.train(resume_from_checkpoint=str(resume_checkpoint) if start else None)
@@ -123,5 +132,5 @@ def run(root,instance,allocation,guard,ledger,*,arm,request_id,resume_checkpoint
         write(evidence/'INTERRUPTED_NATIVE_STATE.json',closing);raise
     final=parameter_inventory(instance.model);unchanged=all(p['sha256']==initial[n]['sha256'] for n,p in final.items() if not p['requires_grad']);changed=[n for n,p in final.items() if p['requires_grad'] and p['sha256']!=initial[n]['sha256']]
     if not unchanged or not changed:raise ValueError('V5_FROZEN_VLM_CHANGED_OR_NO_LEARNING')
-    value=dict(status='V5_CD_1024_COMPLETE' if trainer.state.global_step==1024 else 'V5_CD_EXACT_PARTIAL_SAVED',arm=arm,global_step=trainer.state.global_step,resumed_from_step=start,actual_updates_this_attempt=trainer.state.global_step-start,actual_samples_this_attempt=trainer.consumed-start*32,actual_consumed_cursor=trainer.consumed,sampler=trainer.sampler.state_dict(trainer.consumed),parent_checkpoint_manifest_sha256=PARENT,statistics_sha256=mix.STATS,source_manifest_sha256=data.manifest_sha,new_bank_manifest_sha256=data.new_reader.manifest_sha,recipe=recipe,native_metrics=result.metrics,synchronized_step_s=times,wall_s=time.monotonic()-started,frozen_parameters_unchanged=unchanged,changed_trainable_parameters=changed,final_parameters=final,peak_GPU_bytes=torch.cuda.max_memory_allocated(),development_evaluation_executed=False)
+    value=dict(status=('GEN1_1024_COMPLETE'if _backend is not None else 'V5_CD_1024_COMPLETE') if trainer.state.global_step==1024 else ('GEN1_EXACT_PARTIAL_SAVED'if _backend is not None else 'V5_CD_EXACT_PARTIAL_SAVED'),arm=arm,global_step=trainer.state.global_step,resumed_from_step=start,actual_updates_this_attempt=trainer.state.global_step-start,actual_samples_this_attempt=trainer.consumed-start*32,actual_consumed_cursor=trainer.consumed,sampler=trainer.sampler.state_dict(trainer.consumed),parent_checkpoint_manifest_sha256=PARENT,statistics_sha256=mix.STATS,source_manifest_sha256=data.manifest_sha,new_bank_manifest_sha256=data.new_reader.manifest_sha,recipe=recipe,native_metrics=result.metrics,synchronized_step_s=times,wall_s=time.monotonic()-started,frozen_parameters_unchanged=unchanged,changed_trainable_parameters=changed,final_parameters=final,peak_GPU_bytes=torch.cuda.max_memory_allocated(),development_evaluation_executed=False)
     write(evidence/'TRAINING_RUN.json',value);del trainer;return value

@@ -150,6 +150,9 @@ def full_forecast(global_bytes,historical_LOCAL_bytes):
         if 'official_export_git_repair'in g['GEN1_AMD_layout_CORR1024_authority']:
             from .amd_export_repair_accounting import forecast_credit as repaired_export_credit
             for key,amount in repaired_export_credit(g).items():add[key]-=amount
+    if 'GEN1_AMD_layout_CORR1024_authority'in g and 'independent_CORR1024_training'in g['GEN1_AMD_layout_CORR1024_authority']:
+        from .amd_training_accounting import forecast_credit as training_credit
+        for key,amount in training_credit(g).items():add[key]-=amount
     rows={};required={}
     for key,v in base['dimensions'].items():
         cap=adopted.get(key,v['cap']);projected=v['projected']+add[key];shortfall=max(0,projected-cap)

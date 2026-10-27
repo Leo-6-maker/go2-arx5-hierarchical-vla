@@ -84,7 +84,11 @@ def validate_global(g):
         from .future_budget import FINAL
         need(g['new_storage_current_bytes']+g['storage_reserved_bytes']+MATRIX['Hopper_storage_bytes']+FINAL['Hopper_storage_bytes']<=caps['Hopper_storage_bytes'],'OUTPUT_MATRIX_AND_FINAL_PROTECTED')
         need(g['used']['H200_s']+g['reserved']['H200_s']+MATRIX['H200_s']+FINAL['H200_s']<=121*3600,'GPU_MATRIX_AND_FINAL_PROTECTED')
-        need(g['used']['PBS_submissions']+remaining['PBS_submissions']+MATRIX['PBS_submissions']<=caps['PBS_submissions'],'MATRIX_THREE_PBS_PROTECTED')
+        remaining_PBS=remaining['PBS_submissions']
+        if gen1.FIELD in g and 'independent_CORR1024_training'in g[gen1.FIELD]:
+            from scripts.pi0294.generalization.amd_training_accounting import effective_original_eval_PBS
+            remaining_PBS=effective_original_eval_PBS(g,remaining_PBS)
+        need(g['used']['PBS_submissions']+remaining_PBS+MATRIX['PBS_submissions']<=caps['PBS_submissions'],'MATRIX_THREE_PBS_PROTECTED')
         need(g['CPU_s']+g['CPU_reserved_s']+MATRIX['Hopper_CPU_s']<=213*3600,'SITE_CPU_MATRIX_PROTECTED')
         need(g['reserved']['H200_s']>=remaining['H200_s'] and g['reserved']['optimizer_updates']>=remaining['optimizer_updates'] and g['reserved']['neural_queries']>=remaining['neural_queries'],'ALL_PACKAGE_NEURAL_ESCROW_RETAINED')
         need(g['CPU_reserved_s']>=remaining['Hopper_CPU_s'] and g['storage_reserved_bytes']>=remaining['Hopper_storage_bytes'],'ALL_PACKAGE_CPU_AND_OUTPUT_ESCROW_RETAINED')

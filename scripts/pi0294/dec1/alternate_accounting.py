@@ -119,7 +119,10 @@ def validate_items(value):
     from scripts.pi0294.pv1 import mix_accounting as cd
     successor=[s for s in typed if s.get('platform_training_version')==cd.VERSION]
     if successor:cd.validate_global(value)
-    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor]
+    from scripts.pi0294.generalization import amd_training_accounting as gen_train
+    GEN_training=[s for s in typed if s.get('platform_training_version')==gen_train.VERSION]
+    if GEN_training and gen_train.rows(value)!=GEN_training:fail('EXACT_GEN1_INDEPENDENT_TRAINING_ROWS')
+    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor and s not in GEN_training]
     if len(compatibility)>1:fail('ONE_COMPATIBILITY_ALLOCATION_NOT_AUTOMATIC_RETRIES')
     for s in compatibility:validate_item(s)
     if source:
