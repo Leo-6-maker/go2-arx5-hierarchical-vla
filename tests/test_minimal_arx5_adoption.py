@@ -35,6 +35,7 @@ def test_exact_seven_caps_preserve_every_old_ledger_field_and_reservation(inputs
     assert p['marker']['actual_LOCAL_written'] is False
     assert p['marker']['package_reservation_state'] == 'NOT_YET_RESERVED_NO_NATIVE_DISPATCH'
     assert p['full_future_proof']['cap_changes_required'] == {}
+    assert all(p['full_future_proof']['dimensions'][k]['cap'] == v for k,v in a.CAPS.items())
     assert not p['native_admission'] and p['new_requests'] == p['new_PBS'] == p['new_GPU'] == 0
 
 

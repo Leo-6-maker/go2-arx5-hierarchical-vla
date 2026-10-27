@@ -77,7 +77,7 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
             changes[key] = dict(before=cap, after=proposed,
                                 before_display=cap/quantum, after_display=proposed/quantum,
                                 unit='GiB' if key.endswith('bytes') else 'hours' if key.endswith('_s') else 'count')
-        dimensions[key] = dict(old, baseline_projected=old['projected'],
+        dimensions[key] = dict(old, cap=cap, baseline_projected=old['projected'],
             first512_additional=additional[key], projected=projected,
             shortfall=shortfall, proposed_cap=proposed,
             headroom_after_proposed_cap=proposed-projected)
