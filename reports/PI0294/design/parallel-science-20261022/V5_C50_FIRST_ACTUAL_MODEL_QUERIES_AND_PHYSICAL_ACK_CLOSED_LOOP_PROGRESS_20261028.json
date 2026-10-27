@@ -1,0 +1,79 @@
+{
+  "schema": "V5_C50_FIRST_ACTUAL_NEURAL_PHYSICAL_ACK_CLOSED_LOOP_PROGRESS_V1",
+  "date_SGT": "2026-10-28",
+  "observed_epoch": 1793129421.64905,
+  "request_id": "bb72707c-5e58-448d-9285-a34affd8993a",
+  "runtime_source_sha": "8fba44f38aa5c6858614d8bd4e34ad7f969dd40c",
+  "run_uuid": "v5-cd-c50-n294101-12",
+  "checkpoint_manifest_sha256": "179af34b0d1b0922aa3679516b44fe4755d122738eb53fab87b4e710bc975475",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "new_native_qualification": {
+    "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+    "receipt_sha256": "b004cac734d037d090f6d7d14e8871759a260dd302fae299fee7476b8f2d0910",
+    "heartbeat_elapsed_s": 600.0061050713994,
+    "transport_cycles": 80,
+    "new_model_queries": 0,
+    "new_physics": 0
+  },
+  "both_actual_registered_production_contracts": {
+    "core": {
+      "status": "ACTUAL_REGISTERED_PRODUCTION_RPC_READONLY_CONTRACT",
+      "registry_sha256": "a036caab574a3d4432704928d6ce0c1fe22c534261ce1ce039ce96fe6a51d4e5",
+      "role": "core",
+      "maximum_operations": 150000,
+      "owner_heartbeat_written": false,
+      "new_model_query_constructor_physics": 0,
+      "CPU_limit_s": 6880
+    },
+    "hopper": {
+      "status": "ACTUAL_REGISTERED_PRODUCTION_RPC_READONLY_CONTRACT",
+      "registry_sha256": "a036caab574a3d4432704928d6ce0c1fe22c534261ce1ce039ce96fe6a51d4e5",
+      "role": "hopper",
+      "maximum_operations": 150000,
+      "owner_heartbeat_written": false,
+      "new_model_query_constructor_physics": 0,
+      "CPU_limit_s": 6880
+    }
+  },
+  "original_condition": "C50-PI0294-PV1-DEV-F0-000-T1-N294101",
+  "neural": {
+    "query_attempts": 15,
+    "returned": 15,
+    "in_flight": 0,
+    "MODEL_STATE_queries_field_is_initial_ready_not_dynamic": true
+  },
+  "saved_relay_files": {
+    "observations": 15,
+    "commands": 15,
+    "acks": 14,
+    "intents": 15
+  },
+  "latest_ACK": {
+    "file_sha256": "289d0bb459f43e275412ef4f5d291905acc46c79eeb1977e15adf461abdfa6b3",
+    "sealed_body_sha256": "04f6e2236bcf5bfffcafc4e2d29d94973904f939d716adcd1abbccdc6fe4c085",
+    "envelope_hash_verified_locally": true,
+    "sequence": 13,
+    "tick": 2600,
+    "tick_after": 2800,
+    "integrations": 200,
+    "command_sha256": "d84b118a77828f0164df6e23a2e6e93ea58fbac3fb67eb9f3964238155f19ca3",
+    "physics_receipt_sha256": "eb0ae3d44b7daf9bb45a7b4051e0ef39c0865e3ed6910096ef6d0cb586f34093"
+  },
+  "physical_effects": {
+    "main_starts": 1,
+    "engine_starts": 20,
+    "committed_shadow_integrations": 3000,
+    "episode_live_integrations": "IN_PROGRESS_RESERVATION_NOT_YET_TERMINALLY_SETTLED",
+    "unknown_effects": []
+  },
+  "scientific_result": {
+    "valid_completed_conditions": 0,
+    "case": "RUNNING_NO_FINAL_TASK_SCORE_OR_INDEPENDENT_CASE_AUDIT_YET",
+    "full_original_C24_required": true,
+    "no_success_rate_gate": true
+  },
+  "new_E0_E1_E2_native": "NOT_RUN",
+  "other_caps_clocks_R0_S1_score_population_frozen": true,
+  "whole_goal": "ACTIVE_NOT_COMPLETE",
+  "next_minimum_blocker": "Finish first original task, original score and independent two-site raw causal audit; continue all24 then D25"
+}
