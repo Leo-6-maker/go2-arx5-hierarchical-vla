@@ -67,6 +67,25 @@ def deadline(root,manifest,*,closeout=False):
     return marker['deadline_epoch']
 
 
+def validate_cpu_affinity(limits,actual):
+    """The existing RPC child uses its separately registered control CPU.
+
+    Parent/physical validation retains the previous full-grant check. Only
+    the exact registered RPC singleton is accepted as a control alternative;
+    unrelated partial grants remain rejected.
+    """
+    declared=limits.get('cpus');rpc=limits.get('rpc_cpu')
+    need(type(declared)is list and 1<=len(declared)<=3
+         and all(type(v)is int and v>=0 for v in declared)
+         and len(set(declared))==len(declared),
+         'FINITE_DECLARED_PHYSICAL_AND_RPC_CPUS')
+    live=set(actual);allowed=set(declared)
+    narrow=type(rpc)is int and rpc>=0 and live=={rpc}
+    need(bool(live)and(allowed<=live or narrow),'FINITE_OWN_CPU_AFFINITY')
+    return dict(declared_cpus=sorted(allowed),actual_cpus=sorted(live),
+                registered_RPC_singleton=narrow,new_model_or_physics_permission=False)
+
+
 def validate(root,profile,*,closeout=False):
     need(type(closeout)is bool,'EXPLICIT_CLOSEOUT')
     r=Path(root);need(r.is_absolute() and r.is_dir() and not r.is_symlink() and r.stat().st_uid==os.getuid()==2009 and os.uname().nodename=='corelab-4080s','REGISTERED_CORE_HOST_AND_UID')
@@ -101,6 +120,6 @@ def validate(root,profile,*,closeout=False):
     infra=Path(b['registry']).parent
     need(sha(infra/'enter.sh')==m['execution']['entry_sha256'] and sha(infra/'doctor.py')==m['execution']['doctor_sha256'],'REUSE_DEPLOYED_ENTRY_AND_DOCTOR')
     need(os.environ.get('CUDA_VISIBLE_DEVICES')=='' and 'PBS_JOBID'not in os.environ,'NO_CPU_CHILD_NEURAL_OR_PBS_ALIAS')
-    limits=m['limits'];need(len(limits['cpus'])<=3 and set(limits['cpus'])<=os.sched_getaffinity(0),'FINITE_OWN_CPU_AFFINITY')
+    validate_cpu_affinity(m['limits'],os.sched_getaffinity(0))
     if not closeout:need(not any(p.exists()for p in (r/'STOP.json',r/'SOURCE_PHYSICS_STOP.json',r.parent.parent/'STOP.json')),'ORIGINAL_SAFETY_AND_PARENT_STOP')
     return m

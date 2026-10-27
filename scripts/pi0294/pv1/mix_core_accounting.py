@@ -128,14 +128,15 @@ def validate_rows(g):
     continued=prebind.continuation(g)
     from . import mix_core_caps_continuation as caps_cont
     cap_retry=caps_cont.validate(g)
-    need(type(rows) is dict and 1 <= len(rows) <= (5 if cap_retry else 4 if continued else 3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
+    rpc_retry=caps_cont.validate_RPC(g)
+    need(type(rows) is dict and 1 <= len(rows) <= (6 if rpc_retry else 5 if cap_retry else 4 if continued else 3 if repaired else 2), 'ONLY_ORIGINAL_PAIRED_PANELS')
     arms = []
     for request_id, r in rows.items():
         validate_row(r)
         need(request_id == r['request_id'] and r['T_CD'] == marker['T_CD']
              and r['deadline_epoch'] == marker['deadline_epoch'], 'ONE_ADOPTED_CLOCK')
         repair.output_credit(g,r)
-        if (not repaired or request_id!=repair.FAILED)and(not continued or request_id!=prebind.FAILED)and(not cap_retry or request_id!=caps_cont.FAILED):arms.append(r['evaluation_candidate'])
+        if (not repaired or request_id!=repair.FAILED)and(not continued or request_id!=prebind.FAILED)and(not cap_retry or request_id!=caps_cont.FAILED)and(not rpc_retry or request_id!=caps_cont.RPC_FAILED):arms.append(r['evaluation_candidate'])
         endpoint = g[a.PACKAGE]['endpoints'][r['evaluation_candidate']]
         need(endpoint['checkpoint_manifest_sha256'] == r['checkpoint_manifest_sha256'],
              'ACTUALLY_CLOSED_1024_ENDPOINT_NOT_OLD_AB')
@@ -251,7 +252,7 @@ def register(g, l, record, physical_manifest_bytes, *, terminal_capture, now_epo
         from . import mix_core_recovery as recovered
         from . import mix_core_prebind_terminal as prebind
         from . import mix_core_caps_continuation as caps_cont
-        repair_marker=caps_cont.validate(g)or prebind.continuation(g)or recovered.validate(g)or repair_marker
+        repair_marker=caps_cont.validate_RPC(g)or caps_cont.validate(g)or prebind.continuation(g)or recovered.validate(g)or repair_marker
         need(repair_marker is not None and r['request_id']==repair_marker['replacement_request_id']
              and w['V5_CD_Core_CPU_substages'][stage]['status']=='SETTLED_KNOWN_NATIVE_TERMINAL', 'EXACT_CLOSED_PREMODEL_PHYSICAL_PREDECESSOR')
         prior_stage=w['V5_CD_Core_CPU_substages'][stage];prior_id=prior_stage['request_id']

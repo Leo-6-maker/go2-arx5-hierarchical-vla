@@ -66,7 +66,8 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     next_continuation=prebind.continuation(g)
     from . import mix_core_caps_continuation as caps_cont
     cap_retry=caps_cont.validate(g)
-    identity_marker=cap_retry or next_continuation or continuation or repaired
+    rpc_retry=caps_cont.validate_RPC(g)
+    identity_marker=rpc_retry or cap_retry or next_continuation or continuation or repaired
     if repaired and arm=='C50':
         need(request_id==identity_marker['replacement_request_id']and nonce==identity_marker['replacement_submission_nonce']
              and run_name==identity_marker['replacement_run_uuid'],'EXACT_ONCE_PREMODEL_REPLACEMENT_IDENTITY')
@@ -92,6 +93,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         if continuation is not None:files['plans/V5_CD_CORE_RECOVERY.private.json']=a.raw(continuation)
         if next_continuation is not None:files['plans/V5_CD_KNOWN_ZERO_PREBIND_CONTINUATION.private.json']=a.raw(next_continuation)
         if cap_retry is not None:files['plans/V5_CD_ZERO_MODEL_CAP_PRECEDENCE_CONTINUATION.private.json']=a.raw(cap_retry)
+        if rpc_retry is not None:files['plans/V5_CD_ZERO_MODEL_REGISTERED_RPC_AFFINITY_CONTINUATION.private.json']=a.raw(rpc_retry)
         files[context.CAPTURE]=training_capture_bytes;files[context.LOCAL_BINDING]=a.raw(local_binding)
         files['plans/SOURCE_EVALUATION_PLAN.json']=a.raw(evaluation.candidate_plan(groups,arm))
         files['plans/V5_CD_PAIRED_EVALUATION_PLAN.json']=a.raw(evaluation.plan(groups))

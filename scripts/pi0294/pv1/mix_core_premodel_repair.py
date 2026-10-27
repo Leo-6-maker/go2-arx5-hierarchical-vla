@@ -88,7 +88,8 @@ def output_credit(g,row):
     next_continuation=prebind.continuation(g)
     from . import mix_core_caps_continuation as caps_cont
     cap_retry=caps_cont.validate(g)
-    identity_marker=(cap_retry if cap_retry and row['request_id']==cap_retry['replacement_request_id']else next_continuation if next_continuation and row['request_id']==next_continuation['replacement_request_id']else continuation if continuation and row['request_id']==continuation['replacement_request_id']else m)
+    rpc_retry=caps_cont.validate_RPC(g)
+    identity_marker=(rpc_retry if rpc_retry and row['request_id']==rpc_retry['replacement_request_id']else cap_retry if cap_retry and row['request_id']==cap_retry['replacement_request_id']else next_continuation if next_continuation and row['request_id']==next_continuation['replacement_request_id']else continuation if continuation and row['request_id']==continuation['replacement_request_id']else m)
     if m and row['request_id']==identity_marker['replacement_request_id']:
         need(row['evaluation_candidate']=='C50'and row['submission_nonce']==identity_marker['replacement_submission_nonce']
              and row['child_run_uuid']==identity_marker['replacement_run_uuid']

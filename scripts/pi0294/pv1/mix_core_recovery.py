@@ -87,6 +87,8 @@ def budget_LOCAL(g,l):
     from . import mix_core_caps_continuation as caps_cont
     cap_retry=caps_cont.validate(g)
     if cap_retry is not None:w['CPU_s']['CoreLab']+=cap_retry['physical']['Core_CPU_s']+cap_retry['native_proof']['conservative_CPU_s']
+    rpc_retry=caps_cont.validate_RPC(g)
+    if rpc_retry is not None:w['CPU_s']['CoreLab']+=rpc_retry['physical']['Core_CPU_s']+rpc_retry['native_proof']['conservative_CPU_s']
     w['optimizer_updates']=max(w['optimizer_updates'],g['used']['optimizer_updates'])
     w['neural_queries']=max(w['neural_queries'],g['used']['neural_queries'])
     w['PBS_submissions']=deepcopy(g['PBS_submissions'])
