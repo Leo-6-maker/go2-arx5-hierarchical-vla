@@ -125,6 +125,8 @@ def wait_release(root,allocation_directory,allocation,ledger,session_id,phase,*,
     guard();body=(slot/'READY.json').read_bytes();ready=json.loads(body);v=ledger.guard()
     check_ready(ready,ledger.request,request_sha256=allocation['request_sha256'],job_id=allocation['job_id'],effect_value=v)
     need_release=check_release(read(slot/'RELEASE.json'),body,ledger.request,job_id=allocation['job_id'],now_epoch=time.time())
+    from .minimal_native_context import verify_release
+    verify_release(root,ledger.request_path,allocation,need_release,ready_bytes=body,effect_bytes=ledger.path.read_bytes())
     # Do not equate a later legitimate Core query counter change with an old
     # permission. The actual guard must recompute the CURRENT whole GLOBAL;
     # the original release retains its exact observation and receipt bytes.

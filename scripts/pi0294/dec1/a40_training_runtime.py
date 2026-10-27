@@ -119,6 +119,10 @@ def fixed_probes(root,arm,instance,ledger,guard):
 
 def run(root,request_path):
     root,request_path=Path(root),Path(request_path)
+    from scripts.pi0294.generalization import minimal_execution
+    if read(root/'RUN_MANIFEST.json').get('platform_training_version')==minimal_execution.VERSION:
+        from scripts.pi0294.generalization.minimal_native_runtime import run as minimal_run
+        return minimal_run(root,request_path)
     m,r=context.validate_root(root,request_path,verify_all=True)
     from scripts.pi0294.pv1 import mix_accounting as cd
     if m.get('platform_training_version')==cd.VERSION:
