@@ -184,6 +184,17 @@ def frozen_fingerprint(model):
     return result
 
 
+def parameter_state_fingerprint(model):
+    """Full wrapped model identity, including trainable slices and all buffers."""
+    result = frozen_fingerprint(model)
+    for name, value in model.named_parameters():
+        if value.requires_grad:
+            raw = value.detach().cpu().contiguous().reshape(-1).view(torch.uint8).numpy().tobytes()
+            result['trainable:' + name] = dict(shape=list(value.shape), dtype=str(value.dtype),
+                                              sha256=hashlib.sha256(raw).hexdigest())
+    return result
+
+
 @contextmanager
 def matched_flow_rng(pair_seed, *, step, microbatch, cuda_devices=()):
     """Arm-independent CPU Beta and device flow-noise stream per accumulation.

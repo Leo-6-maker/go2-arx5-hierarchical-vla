@@ -95,3 +95,15 @@ R0保留，不重开P0；这属于固定统计校准下的12示范研究，不�
 当前最小未完成项依次是：原始父在Vanda的实际身份及类别/config合同；原Trainer对新512端点/切片状态的冷接线；有限真实模型资格与完整资源scope；4080S管理侧恢复及原测量链；72条旧端点评估及48条新端点评估。前者可继续合法冷准备，后者不能靠CPU通过冒称完成。
 
 柜门只在基础配对结果后作为单一新任务迁移环境；先机械可行与评分资格，再测固定模型。书架保留设计。不采柜门训练、不自动LoRA、不改WBC；EEF10不补零冒充BASE或core64。wholegoal保持未完成。
+
+## 8. 实施增量：原始父实际字节与固定512 Trainer冷接线
+
+本节是后续实际增量，前文30CPU/父身份待核描述保留为上一批历史，不把CPU前进写成native部署。最新实际报告为 `ARX5_MINIMAL_RAW_PARENT_AND_FIXED512_TRAINER_CPU_JOIN_ACTUAL_20261027.json`，原始父证据为 `ARX5_RAW_PRETRAINED_VANDA_CONFIG_AND_CATEGORY10_ACTUAL_20261027.json`。
+
+- 原始父已在Vanda真实缓存定位。五份非权重文件摘要全匹配历史原始2fc revision；H40/132维/32类别/4步真实确认，category10的14个W/b已有实际字节SHA。两完整shard尚未全流核验，仍不能放行模型。原statistics实际4293096bytes，早先错误2MiB上界导致只读拒绝，改为有界分块hash后仍匹配原始c97b；没有实际统计污染或缓存修复。
+- 原始配置的state/DiT/VL dropout都是0.2；新研究显式继承原ARX5 processor的state0/无增强/完整256RGB，两个动作head都采用相同eval-with-autograd规则。原始position embedding为1024×1536、两臂均冻结，不裁132padding。原映射没有命名category10，但物理槽存在；只证明槽来源，不证明其预训练历史。
+- 头部推导目标切片10180740参数，E2合计1303340164；均非真实加载后的可训练参数审计，更不是显存或加速测量。
+- `minimal_dataset.py`直接继承原NativeDataset，只选已冻12父；原hash、原numeric/RGB验证、原processor和标签保持。实际158条manifest/R0在隔离CPU临时输入中构造该reader通过，length7212、逐cursor一致；未初始化processor或读取RGB/numeric。
+- `minimal_training.py`从原成熟recipe继承优化器/数值和原Trainer/loss/loader/scheduler，显式绑定raw父清单0e493187、E1/E2身份和固定panel。Trainer的max_steps保持1024，追加只读boundary observer在原owner commit callback之后核更新数/pending/unknown并于512保存停止，另有training_step拒绝第513步。无owner的真实效果回读不能启动这条新链。
+- 全保存额外绑定参数白名单、冻结基线、所有参数与buffer的实际fingerprint；框架重载后必须逐项一致，防止宽松加载静默漏掉切片。optimizer/scheduler/RNG/sampler及processor/R0仍由原完整保存流程负责。
+- 48CPU通过（此前30项+18项新增）；新的框架分发测试明确使用CPU fixture，本机没有Transformers/Accelerate，不冒称原框架或真实模型已通过。实际注册owner、有限模型资格、资源采用、两臂训练与所有Eval仍未执行。
