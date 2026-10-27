@@ -9,7 +9,11 @@ from . import amd_export_accounting as accounting
 from scripts.pi0294.dec1 import vanda_campaign as original
 
 def view(g,rows,*,request_id):
-    items=accounting.rows(g)
+    chosen=accounting
+    from . import amd_export_repair_accounting as repair
+    matches=[x for x in g['PBS_submissions']if x.get('request_id')==request_id]
+    if len(matches)==1 and matches[0].get('platform_data_version')==repair.VERSION:chosen=repair
+    items=chosen.rows(g)
     accounting.a.need(len(items)==1 and items[0]['request_id']==request_id
         and items[0]['status']!=accounting.STATES[-1],
         'QUEUE_ONE_ACTUAL_LIVE_OR_UNBOUND_CPU_REQUEST')

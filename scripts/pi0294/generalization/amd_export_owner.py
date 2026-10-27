@@ -33,9 +33,11 @@ def payload_terminal(job,request,manifest_sha256):
         submission_nonce=request['submission_nonce'],Exit_status=job['Exit_status'],
         run_manifest_sha256=manifest_sha256,native_PBS=job)
 
-def script(root,code,request,python):
+def script(root,code,request,python,*,entry_module='scripts.pi0294.generalization.amd_export_runtime'):
     """Use the original Python/PBS entry; no container drops PBS variables."""
     root,code=Path(root),Path(code)
+    need(entry_module in('scripts.pi0294.generalization.amd_export_runtime',
+        'scripts.pi0294.generalization.amd_export_repair_runtime'),'EXACT_OFFICIAL_CPU_ENTRY_MODULE')
     bootstrap="""import json,os,time
 from pathlib import Path
 r=Path(ROOT);req=json.loads((r/'REQUEST.json').read_bytes());until=time.monotonic()+180
@@ -59,7 +61,7 @@ fd=os.open(r/'control/CPU_COMPUTE_PROCESS.json',os.O_WRONLY|os.O_CREAT|os.O_EXCL
         'export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1',
         'export TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1',
         shlex.join([python,'-c',bootstrap]),
-        'exec '+shlex.join([python,'-u','-m','scripts.pi0294.generalization.amd_export_runtime','--root',str(root)])]
+        'exec '+shlex.join([python,'-u','-m',entry_module,'--root',str(root)])]
     return ('\n'.join(lines)+'\n').encode()
 
 class Owner:
@@ -67,6 +69,13 @@ class Owner:
         self.root=Path(root);self.m=read(self.root/'RUN_MANIFEST.json');self.binding=read(self.root/'OUTPUT_BINDING.private.json');self.code=self.root/self.m['code']['capsule_relative']
         sys.path[:0]=[str(self.code),str(self.code/'src')]
         from scripts.pi0294.generalization import amd_export_accounting as accounting,amd_export_runtime as runtime
+        from scripts.pi0294.generalization import amd_export_repair_accounting,amd_export_repair_runtime
+        if self.m['scope']==amd_export_repair_accounting.VERSION:
+            accounting,runtime=amd_export_repair_accounting,amd_export_repair_runtime
+            self.operation_prefix='GEN1-CPU-EXPORT-GIT-REPAIR02'
+        else:
+            need(self.m['scope']==accounting.VERSION,'EXACT_ORIGINAL_OR_DECLARED_GIT_REPAIR_CPU_ROLE')
+            self.operation_prefix='GEN1-CPU-EXPORT'
         from scripts.pi0294.pv1 import mix_owner as mature
         from scripts.pi0294.dec1.owner_transport import Journal,ReadOnlyFailure
         self.e,self.runtime,self.mature=accounting,runtime,mature;self.ReadOnlyFailure=ReadOnlyFailure
@@ -120,14 +129,15 @@ class Owner:
         need(time.time()<self.m['execution']['operation_deadline_epoch']-36600,'TIME_FOR_THE_COMPLETE_BOUND_CPU_STAGE')
         r=read(self.global_path);items=self.e.rows(r);need(len(items)==1 and items[0]['job_id']is None,'EXACT_UNBOUND_ORIGINAL_REQUEST')
         directory=self.root/'pbs/alloc-01';directory.mkdir(mode=0o700)
-        body=script(self.root,self.code,self.request,self.m['execution']['python']);path=directory/'job.pbs'
+        body=script(self.root,self.code,self.request,self.m['execution']['python'],
+            entry_module=self.m['execution'].get('entry_module','scripts.pi0294.generalization.amd_export_runtime'));path=directory/'job.pbs'
         fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)
         with os.fdopen(fd,'wb')as f:f.write(body);f.flush();os.fsync(f.fileno())
         self.record('FRESH_PREQUEUE',state);self.record('PBS_SCRIPT',dict(sha256=sha(body),bytes=len(body),mail='n',ngpus=0,active_cpus=1))
         def invoke(intent,limit):
             v=subprocess.run(['/opt/pbs/bin/qsub',str(path)],capture_output=True,text=True,timeout=min(30,limit));self.record('QSUB_NATIVE_REPLY',dict(returncode=v.returncode,stdout=v.stdout,stderr=v.stderr));need(v.returncode==0 and not v.stderr and re.fullmatch(r'[0-9]+\.stdct-mgmt-02',v.stdout.strip())is not None,'QSUB_OUTCOME_UNKNOWN_NO_REPLAY');return dict(job_id=v.stdout.strip())
         result=self.setup.call('ONE_ORIGINAL_GEN1_CPU_QSUB','MUTATION',invoke);job=result['job_id'];self.record('SOURCE_QSUB_RETURNED',result)
-        before=self.global_path.read_bytes();after=self.e.bind(json.loads(before),request_id=self.request['request_id'],job_id=job);self.record('GLOBAL_JOB_BOUND',self.apply('GEN1-CPU-EXPORT-BIND-01',after,before));self.record('BOUND_JOB',dict(job_id=job));return job
+        before=self.global_path.read_bytes();after=self.e.bind(json.loads(before),request_id=self.request['request_id'],job_id=job);self.record('GLOBAL_JOB_BOUND',self.apply(getattr(self,'operation_prefix','GEN1-CPU-EXPORT')+'-BIND-01',after,before));self.record('BOUND_JOB',dict(job_id=job));return job
     def native(self,job):
         v=subprocess.run(['/opt/pbs/bin/qstat','-x','-f','-F','json',job],text=True,capture_output=True,timeout=25)
         if v.returncode or v.stderr:raise self.ReadOnlyFailure('CPU_NATIVE_READ_FAILED_NOT_TERMINAL')
@@ -163,10 +173,13 @@ class Owner:
             for row in read(root/'PAYLOAD_MANIFEST.json'):
                 path=root/row['path'];need(path.is_file()and not path.is_symlink()and path.resolve().is_relative_to(root.resolve())and path.stat().st_size==row['bytes']and sha(path.read_bytes())==row['sha256'],'ACTUAL_FINAL_BANK_MEMBER')
         audit=dict(status='PASS_INDEPENDENT_GEN1_CPU_EXPORT_EFFECTS',request_sha256=sha((self.root/'REQUEST.json').read_bytes()),all_processes_terminal=True,terminal_scope='CPU_SCIENTIFIC_PAYLOAD_BY_REAL_NATIVE_PBS_F_NOT_LOGIN_PROC_GUESS',unknown_effects=[],export_finished=True,training_bank_qualified=qualified,model_loads=0,queries=0,updates=0,constructors=0,physics_ticks=0,episode_starts=0,resource_ledger_sha256=sha((self.root/'RESOURCE_LEDGER.json').read_bytes()),result_sha256=sha((self.root/'evidence/GEN1_EXPORT_RESULT.private.json').read_bytes()),actual_compute_record=actor)
-        self.record('INDEPENDENT_CPU_TERMINAL_AUDIT',audit);self.record('NATIVE_CPU_TERMINAL',native);before=self.global_path.read_bytes();after=self.e.settle(json.loads(before),request_id=self.request['request_id'],native=native,audit=audit);self.record('GLOBAL_CPU_SETTLED',self.apply('GEN1-CPU-EXPORT-SETTLE-01',after,before))
+        if self.e.VERSION=='GEN1_VANDA_OFFICIAL_CPU_EXPORT_KNOWN_GIT_REPAIR_V1':
+            mark=self.e.a.validate(read(self.global_path))[self.e.FIELD]
+            audit['shared_source_and_repair_output_bytes']=self.runtime.aggregate_output(self.root,mark['old_source_root'])['total_bytes']
+        self.record('INDEPENDENT_CPU_TERMINAL_AUDIT',audit);self.record('NATIVE_CPU_TERMINAL',native);before=self.global_path.read_bytes();after=self.e.settle(json.loads(before),request_id=self.request['request_id'],native=native,audit=audit);self.record('GLOBAL_CPU_SETTLED',self.apply(getattr(self,'operation_prefix','GEN1-CPU-EXPORT')+'-SETTLE-01',after,before))
         path=Path(self.binding['lease']);before=path.read_bytes();lease=json.loads(before);need(lease['status']=='ACTIVE'and lease['run_uuid']==self.root.name and lease['manifest_sha256']==self.binding['run_manifest_sha256'],'OWN_CPU_CLOSE_ONCE');lease.update(status='CLOSED',closed_epoch=time.time(),terminal_native_sha256=sha(raw(native)),terminal_audit_sha256=sha(raw(audit)),payload_workers_terminal=True,finite_financial_owner_finishing=True)
         from scripts.pi0294.dec1.source_cpu_once_io import commit
-        key='GEN1-CPU-EXPORT-LEASE-CLOSE-01'
+        key=getattr(self,'operation_prefix','GEN1-CPU-EXPORT')+'-LEASE-CLOSE-01'
         def close(intent,limit):return commit(path,expected_before_sha256=sha(before),proposed_bytes=raw(lease),request_id=key,intent_path=path.with_name(key+'.INTENT.json'),receipt_path=path.with_name(key+'.RECEIPT.json'),lock_path=path.with_suffix('.owner.lock'))
         self.record('OWN_CPU_LEASE_CLOSED',self.setup.call('CLOSE_OWN_CPU_EXPORT_LEASE','MUTATION',close));self.record('FINITE_CPU_STAGE_COMPLETE',dict(training_bank_qualified=qualified,native_training_permission=False));return qualified
     def run(self,secret):

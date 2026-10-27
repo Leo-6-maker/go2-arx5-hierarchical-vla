@@ -100,11 +100,12 @@ def validate_items(value):
     if render_rows:render.validate_global(value)
     typed=[s for s in typed if s not in render_rows]
     from scripts.pi0294.generalization import amd_export_accounting as GEN_export
+    from scripts.pi0294.generalization import amd_export_repair_accounting as GEN_export_repair
     data_rows=[s for s in typed if 'platform_data_version'in s]
     if data_rows:
-        if any(s.get('platform_data_version')!=GEN_export.VERSION for s in data_rows):
+        if any(s.get('platform_data_version')not in (GEN_export.VERSION,GEN_export_repair.VERSION)for s in data_rows):
             fail('ONLY_EXACT_ADOPTED_GEN1_OFFICIAL_CPU_EXPORT_DATA_VERSION')
-        if GEN_export.rows(value)!=data_rows:fail('ALL_GEN1_CPU_EXPORT_ROWS_MUST_BE_VALIDATED')
+        if GEN_export.rows(value)+GEN_export_repair.rows(value)!=data_rows:fail('ALL_GEN1_CPU_EXPORT_ROWS_MUST_BE_VALIDATED')
     typed=[s for s in typed if s not in data_rows]
     evaluation=[s for s in value['PBS_submissions'] if 'platform_evaluation_version' in s]
     from scripts.pi0294.pv1 import mix_vanda_eval_accounting as colocated

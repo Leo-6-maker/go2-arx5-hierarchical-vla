@@ -95,6 +95,25 @@ def validate(root,*,compute=True):
         and matches[0]['python']==ORIGINAL_PYTHON
         and matches[0]['PBS_required']is True and matches[0]['ngpus']==0,
         'EXPORT_STANDARD_ENTRY_EXPLICIT_NEW_CPU_PROFILE')
+    plan,packet,inputs=validate_source_inputs(root,m,row)
+    if compute:
+        result=subprocess.run(['/opt/pbs/bin/qstat','-f','-F','json',row['job_id']],capture_output=True,text=True,timeout=25,check=True)
+        a.need(not result.stderr,'EXPORT_NATIVE_READ_DIAGNOSTIC_NOT_PASS');jobs=json.loads(result.stdout)['Jobs']
+        a.need(set(jobs)=={row['job_id']},'EXPORT_EXACT_UNFILTERED_NATIVE_JOB')
+        native_allocation(jobs[row['job_id']],job_id=row['job_id'],hostname=socket.gethostname(),request=request)
+    return m,plan,packet,inputs
+
+
+def validate_source_inputs(root,m,row,*,input_source_root=None):
+    """Same full source/R0/raw checks, with one explicit closed CPU source."""
+    root=Path(root);data_root=root if input_source_root is None else Path(input_source_root)
+    if data_root!=root:
+        from . import amd_export_repair_accounting as repair
+        g=read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json');items=repair.rows(g)
+        a.need(m['scope']==repair.VERSION and len(items)==1 and row==items[0]
+            and str(data_root)==a.validate(g)[repair.FIELD]['old_source_root']
+            and data_root.is_absolute()and not data_root.is_symlink(),
+            'EXPORT_ONLY_EXACT_REGISTERED_CLOSED_REPAIR_INPUT_SOURCE')
     code=root/m['code']['capsule_relative'];seal=read(member(root,'SOURCE_SEAL.json'))
     a.need(code.resolve().is_relative_to(root.resolve())and not code.is_symlink()
         and Path(__file__).resolve()==(code/'scripts/pi0294/generalization/amd_export_runtime.py').resolve()
@@ -130,16 +149,16 @@ def validate(root,*,compute=True):
     for case in cases:
         for key in('source_episode','audit_file'):
             p=Path(case[key]);a.need(p.is_absolute()and not p.is_symlink()
-                and p.resolve().is_relative_to((root/'inputs').resolve()),'EXPORT_DELIVERED_INPUT_CUSTODY_NO_ESCAPE')
+                and p.resolve().is_relative_to((data_root/'inputs').resolve()),'EXPORT_DELIVERED_INPUT_CUSTODY_NO_ESCAPE')
     delivered=read(member(root,'plans/DELIVERED_RAW_MEMBERS.private.json'))
     a.need(delivered['status']=='PASS_ORIGINAL_CLOSED_SOURCE_BYTES_DELIVERED_FULL_SHA'
         and delivered['closed_capture_proof_sha256']==row['closed_capture_proof_sha256'],
         'EXPORT_ACTUAL_FULL_BYTE_DELIVERY_NOT_HF_READY_HINT')
     for item in delivered['files']:
-        p=member(root,item['path']);a.need(p.stat().st_uid==22182 and p.stat().st_size==item['bytes']
+        p=member(data_root,item['path']);a.need(p.stat().st_uid==os.getuid()and p.stat().st_size==item['bytes']
             and sha(p)==item['sha256'],'EXPORT_DELIVERED_RAW_SHA:'+item['path'])
     a.need(len({x['path']for x in delivered['files']})==len(delivered['files'])
-        and {x['path']for x in delivered['files']}=={str(p.relative_to(root))for p in (root/'inputs').rglob('*')if p.is_file()},
+        and {x['path']for x in delivered['files']}=={str(p.relative_to(data_root))for p in (data_root/'inputs').rglob('*')if p.is_file()},
         'EXPORT_EXACT_FULL_REGISTERED_RAW_INPUT_FILE_SET')
     inputs=read(root/'INPUT_BINDINGS.private.json');official=read(root/'plans/OFFICIAL_CPU_INPUT_IDENTITIES.private.json')
     a.need(inputs['official_source']==official['official_source']and inputs['cosmos']==official['cosmos']
@@ -149,12 +168,7 @@ def validate(root,*,compute=True):
         p=Path(item['path']);a.need(str(p.resolve())==item['resolved_path']and p.is_file()
             and p.stat().st_size==item['bytes']and sha(p)==item['sha256'],
             'EXPORT_FROZEN_OFFICIAL_PROCESSOR_INPUT:'+item['path'])
-    if compute:
-        result=subprocess.run(['/opt/pbs/bin/qstat','-f','-F','json',row['job_id']],capture_output=True,text=True,timeout=25,check=True)
-        a.need(not result.stderr,'EXPORT_NATIVE_READ_DIAGNOSTIC_NOT_PASS');jobs=json.loads(result.stdout)['Jobs']
-        a.need(set(jobs)=={row['job_id']},'EXPORT_EXACT_UNFILTERED_NATIVE_JOB')
-        native_allocation(jobs[row['job_id']],job_id=row['job_id'],hostname=socket.gethostname(),request=request)
-    return m,plan,packet,inputs
+    return plan,packet,inputs
 
 
 def assemble(root,value,processor,source,cosmos,guard,raw_roots):
@@ -195,7 +209,13 @@ def assemble(root,value,processor,source,cosmos,guard,raw_roots):
 
 
 def run(root):
-    m,plan,packet,inputs=validate(root);root=Path(root)
+    m,plan,packet,inputs=validate(root)
+    return _run_registered_export(root,m,plan,packet,inputs)
+
+
+def _run_registered_export(root,m,plan,packet,inputs,*,aggregate_guard=None):
+    # Both callers perform their own complete typed native validation first.
+    root=Path(root)
     from scripts.pi0292.durable import OwnerLock,write
     from scripts.pi0294.fd1 import put
     from . import amd_export as exporter,amd_bank as bank
@@ -213,6 +233,7 @@ def run(root):
         if now-last_storage_check>=30:
             a.need(sum(p.stat().st_size for p in root.rglob('*')if p.is_file())<=accounting.LIMITS['output_bytes'],
                 'EXPORT_ALL_INPUT_CONTROL_NUMERIC_AND_BANK_LOGICAL_BYTES_IN_PAID_UPPER')
+            if aggregate_guard is not None:aggregate_guard()
             last_storage_check=now
     def expired(*args):raise TimeoutError('GEN1_ORIGINAL_EXPORT_WALL')
     signal.signal(signal.SIGALRM,expired);signal.alarm(max(1,int(m['execution']['operation_deadline_epoch']-time.time())))
