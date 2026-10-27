@@ -45,6 +45,8 @@ def adopted_caps(global_ledger):
         Hopper_storage_bytes=global_cap_from_ledger(global_ledger))
     from . import evaluation_scope as scope
     if scope.FIELD in global_ledger:caps.update(scope.caps(global_ledger))
+    from . import successor_cd as successor
+    if successor.FIELD in global_ledger:caps.update(successor.validated(global_ledger)['authorized_storage_caps'])
     from scripts.pi0294.generalization import amd_adoption as gen1
     if gen1.FIELD in global_ledger:caps.update(gen1.validate(global_ledger)['caps'])
     if 'ARX5_minimal_first512_seven_cap_authority' in global_ledger:

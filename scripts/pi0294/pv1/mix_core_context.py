@@ -110,6 +110,9 @@ def validate(root, *, closeout=False):
         from . import mix_core_prebind_terminal as prebind
         next_continuation=prebind.continuation(local)
         if next_continuation is not None:need(sealed('plans/V5_CD_KNOWN_ZERO_PREBIND_CONTINUATION.private.json')==next_continuation,'ACTUAL_KNOWN_ZERO_PREBIND_CONTINUATION')
+        from . import mix_core_caps_continuation as caps_cont
+        cap_retry=caps_cont.validate(local)
+        if cap_retry is not None:need(sealed('plans/V5_CD_ZERO_MODEL_CAP_PRECEDENCE_CONTINUATION.private.json')==cap_retry,'ACTUAL_CAP_PRECEDENCE_COLD_CONTINUATION')
     proof = captured_endpoint(sealed(CAPTURE)); arm = request['evaluation_candidate']
     need(proof['arm'] == arm and proof['checkpoint_manifest_sha256'] == request['checkpoint_manifest_sha256']
          and a.sha(a.raw(proof)) == request['training_handoff_sha256'], 'TRUE_CLOSED_COMPLETE_1024_ENDPOINT')

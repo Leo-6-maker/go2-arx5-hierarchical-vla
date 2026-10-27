@@ -84,6 +84,9 @@ def budget_LOCAL(g,l):
     from . import mix_core_prebind_terminal as prebind
     known=prebind.validate(g)
     if known is not None:w['CPU_s']['CoreLab']+=known['physical_CPU_s']+known['neural_CPU_s']
+    from . import mix_core_caps_continuation as caps_cont
+    cap_retry=caps_cont.validate(g)
+    if cap_retry is not None:w['CPU_s']['CoreLab']+=cap_retry['physical']['Core_CPU_s']+cap_retry['native_proof']['conservative_CPU_s']
     w['optimizer_updates']=max(w['optimizer_updates'],g['used']['optimizer_updates'])
     w['neural_queries']=max(w['neural_queries'],g['used']['neural_queries'])
     w['PBS_submissions']=deepcopy(g['PBS_submissions'])

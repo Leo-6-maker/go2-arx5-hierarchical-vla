@@ -82,9 +82,7 @@ def recompute(*,manifest_bytes,request_bytes,global_bytes,local_bytes,snapshot_b
          and used['Core_storage_bytes']>=snap['Core_storage_upper_bytes']
          and used['local_storage_bytes']>=snap['LOCAL_storage_upper_bytes'],
          'COMPLETE_ORIGINAL_NATIVE_STORAGE_CENSUS_UPPER')
-    future=_vector(a.package_view(g)['remaining_resources']);caps=adopted_caps(g);caps.update(marker['authorized_storage_caps'])
-    from scripts.pi0294.generalization.minimal_adoption import effective_caps
-    caps=effective_caps(g,caps)
+    future=_vector(a.package_view(g)['remaining_resources']);caps=adopted_caps(g)
     credit={k:0 for k in future}
     for k in ('H200_s','optimizer_updates','neural_queries','Hopper_CPU_s','Hopper_storage_bytes','Core_CPU_s','local_CPU_s'):
         credit[k]=min(reserved[k],future[k])
