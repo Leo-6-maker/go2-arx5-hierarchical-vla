@@ -1,0 +1,161 @@
+{
+  "schema": "V5_C50_THIRTEEN_VALID_AND_FIRST512_ORIGINAL_NATIVE_ENTRY_COLD_ACTUAL_V1",
+  "observed_epoch": 1793143875.2309496,
+  "observed_SGT": "2026-10-28T07:31:15.230950+08:00",
+  "overall_goal_complete": false,
+  "time_display_correction": {
+    "previous_manual_header_times_one_hour_ahead": true,
+    "authoritative_time": "Unmodified original native epoch, rendered with UTC+08:00",
+    "no_experiment_clock_or_deadline_changed": true
+  },
+  "live_runtime": {
+    "source_sha": "ae30beaf53dc6b61c157f9e35b291ddba773e73e",
+    "request_id": "d4b63eff-71e6-4c77-a7c7-dbdfe1b79a52",
+    "primary_registered_processes": {
+      "v5-cd-c50-eval-owner-12.service": {
+        "pid": 1893369,
+        "uid": 2009,
+        "proc_start": 291011904,
+        "state": "S"
+      },
+      "v5-cd-c50-n294101-13-neural.service": {
+        "pid": 1893464,
+        "uid": 2009,
+        "proc_start": 291012242,
+        "state": "S"
+      }
+    },
+    "original_model_status": "PV1_NATIVE_MODEL_READY",
+    "new_native_qualification": {
+      "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+      "receipt_sha256": "cd5a617dd8d0b2d52909984a6637d4cffac8240adae24408795effeb88ad3d9b",
+      "heartbeat_elapsed_s": 600.0051345820539,
+      "transport_cycles": 80,
+      "new_model_queries": 0,
+      "new_physics": 0
+    },
+    "owner_exception": null,
+    "request_terminal": false,
+    "agent_heartbeat": false
+  },
+  "C50_original24": {
+    "valid_conditions": 13,
+    "successes": 2,
+    "successes_by_task": {
+      "T1": 2,
+      "T2": 0
+    },
+    "valid_failures": 11,
+    "remaining_eligible_conditions": 11,
+    "complete_DEV24": false,
+    "all_prior_valid_results_and_failures_retained": true,
+    "training_or_selection_admission": false,
+    "exact_baseline_history_sha256": "6d7e180870c31a3e31d4d2d706df79030ad4254acca5af4b441dd202d1d19aea"
+  },
+  "new_success": {
+    "episode": "C50-PI0294-PV1-DEV-F1-004-T1-N294101",
+    "adjudication": {
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "pipeline_trustworthy": true,
+      "attempt_id": "C50-PI0294-PV1-DEV-F1-004-T1-N294101",
+      "condition_id": "PI0294/PV1/DEV/F1/004/T1/N294101",
+      "model": "C50",
+      "task": "T1",
+      "split": "DEV",
+      "scene_group": "PI0294/PV1/DEV/F1/004",
+      "noise_bank": 294101,
+      "family": "F1",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 4.3298697960381105e-14,
+      "result_sha256": "8be43e0e9a4f99ebbe991ab539b73b68e6a8c7c1815af6b8767e398159daa474",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "real_robot_deployment": "NONE"
+    },
+    "score": {
+      "clock_valid": true,
+      "complete_32s": true,
+      "deployment": "NONE",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+      "history": {
+        "horizontal_carry": true,
+        "sustained_grasp": true,
+        "sustained_lift": true
+      },
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "hold_subpredicates": {
+        "angular_speed": 41,
+        "linear_speed": 41,
+        "object_and_contacts_valid": 41,
+        "released": 41,
+        "table_height": 41,
+        "tcp_clear": 41,
+        "zone_corners": 41
+      },
+      "maximum_actual_carry_xy_m": 0.20915260974406794,
+      "maximum_actual_lift_m": 0.08462816016478208,
+      "persistent_success": true,
+      "physics_sha256": "135c2e2cdd25b181d415a59ea822b23efeb90352e641dbc29a7a664a1cf330e0",
+      "raw_sample_count": 641,
+      "safety_valid": true,
+      "selected": "NONE",
+      "task": "T1",
+      "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1"
+    },
+    "wall_s": 786.6657172492705,
+    "original_wall_limit_s": 900,
+    "ACKs": 80,
+    "live_integrations": 16000,
+    "RGB_pairs": 641,
+    "raw_independent_audit_sha256": "aa7a29a39fab1d1e853433e1aa147813df28c3f78e4839c7ec16693acbc24def",
+    "two_site_causal_sha256": "6d07a2aadf17ab710f4388e37642bf6b1150c62bb4d23f74fe7cfaaf9050918a"
+  },
+  "cold_first512": {
+    "source_sha": "80896afb686058a17fc03147d6781db8d2569634",
+    "full_GitHub_SHA256_and_gitblob_readback_files": 8,
+    "original_entry_module": "scripts.pi0294.dec1.a40_training_runtime",
+    "new_explicit_profile": "vanda-arx5-minimal-raw-parent-first512",
+    "real_input_admission": "Complete unfiltered queue, same R/request/nonce/source, fresh project/quota, all14 remaining dimensions",
+    "context": "Actual own registry/lease/environment/sealed source and original15 numerical files; actual same PID/procstart/boot at each phase",
+    "initial_Q_to_R_bound_s": 180,
+    "phase_release_bound_s": 180,
+    "owner_heartbeat_bound_s": 300,
+    "original_native_limits_or_UNKNOWN_fences_relaxed": false,
+    "original_science_tickets_independently_recompute_raw_native_material": true,
+    "zero_effect_journal_precedes_original_bind_and_Q_to_R_wait": true,
+    "original_Trainers_worker_and_full_state_preserved": true,
+    "registered_native_deployed": false,
+    "new_native_request": false,
+    "new_PBS": false,
+    "new_models": false,
+    "new_updates": false,
+    "CPU_validation": {
+      "new_admission_and_context_cases": 30,
+      "related_execution_effects_concurrency_terminal_and_context_passed": 91,
+      "earlier_worker_export_ticket_admission_context_passed": 63,
+      "counts_overlap_do_not_sum": true,
+      "limitations": "Captured historical full GLOBAL/LOCAL and explicit future PBS/project/process fixtures. Real temporary files and local CPU kernel identity. No full native root or GR00T/CUDA qualification."
+    }
+  },
+  "pending": {
+    "D25_valid_conditions": 0,
+    "GEN1_valid_conditions": 0,
+    "E0_real_neural_queries": 0,
+    "E1_steps": 0,
+    "E2_steps": 0,
+    "WDR_core64": 0
+  },
+  "next_minimum_block": "Current C13 completes remaining original11 and independent full24 audit/once accounting/lease closure. Finish first512 original owner phase publisher, full independent state/output auditor and registered cold installer. Initial main registration remains serial after C13 closure; only new explicitly bound D25 may overlap it. Then original D25 model delivery and24, GEN1 original24, first512 model qualification/formal512 and paired24 analysis.",
+  "caps_unchanged": true,
+  "matrix3_and_final20GPUh40GiB_preserved": true,
+  "T_CD": 1792932749.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "deadline_epoch": 1793537549.8133287
+}
