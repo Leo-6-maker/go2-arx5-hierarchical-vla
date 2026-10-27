@@ -1,0 +1,104 @@
+{
+  "status": "ACTUAL_UNIQUE_CPU_PBS_R_BOUND_FRESH_RELEASE_NOT_EXPORT_OR_TRAINING_PASS",
+  "observed_epoch": 1793060391.0004547,
+  "science_source": "8cc8541f219a7988ddbfb88240355487f920bebe",
+  "control_source": "1e002f3a3b6b1734dda671bdabad9e1f5df58a65",
+  "request_id": "2f925f70-0ea1-46c6-be06-8807a88789ce",
+  "submission_nonce": "5f6be474-e7b6-48fa-abbe-843d8b5bf116",
+  "job_id": "1497552.stdct-mgmt-02",
+  "native_state": "R",
+  "compute_host": "CN-017",
+  "native_compute_identity": {
+    "pid": 26296,
+    "procstart": "370497135",
+    "boot": "cf4b7ac8-a4fe-4112-b04f-4bee12065fe4"
+  },
+  "resources": {
+    "CPU": 1,
+    "GPU": 0,
+    "walltime_s": 36600,
+    "mail": "n"
+  },
+  "server_owner": {
+    "pid": 1954857,
+    "procstart": "56600567",
+    "wrapper_pid": 1954828,
+    "wrapper_procstart": "56600537",
+    "agent_heartbeat_required": false
+  },
+  "GLOBAL_sha256": "88d07c52aed27dd3f6aa6e9c86479e67365c8c6eed535ee8515fbe8df4602d94",
+  "GLOBAL_used": {
+    "H200_s": 150343.0,
+    "PBS_submissions": 31,
+    "optimizer_updates": 13762,
+    "neural_queries": 4482
+  },
+  "fresh_release": {
+    "epoch": 1793060299.2412367,
+    "complete_actual_queue": [
+      {
+        "platform": "VANDA_A40",
+        "job_id": "1497552.stdct-mgmt-02",
+        "state": "R",
+        "project": "CFP04-CF-007",
+        "name": "pi0294_gen1_export",
+        "ngpus": 0
+      }
+    ],
+    "whole_future_shortfalls": {},
+    "project_and_quota_checked": true,
+    "model_permission": false,
+    "physics_permission": false
+  },
+  "raw_delivery": {
+    "successful_parents": 11,
+    "files": 14316,
+    "bytes": 690473939,
+    "all_members_full_SHA_passed": true,
+    "retained_chunks_in_original_output_bound": true
+  },
+  "failure_history": {
+    "first_offline_guard_CPU_s": 10.287214531,
+    "second_unbound_queue_guard_CPU_s": 33.155022044,
+    "total43_CPU_s": 43.442236574999995,
+    "old_owners_natural_OS1": true,
+    "no_old_qsub": true,
+    "old_costs_preserved": true,
+    "local_E2BIG_launch_UNKNOWN_preserved": true,
+    "exact_native_no_launch_intent_actor_or_GLOBAL_effect_after_E2BIG": true,
+    "new_small_cold04_once_launch": true
+  },
+  "validation": {
+    "public_related_CPU": 87,
+    "private_temp_IO_and_real_child_pipe_CPU": 9,
+    "full_GitHub_gitblob_readback_control_files": 7,
+    "CI_claimed": false
+  },
+  "scientific_status": {
+    "actual_12_Teacher_outcomes": "6T1+5T2 full raw successes; 1 valid T2 S1 rejection; 0 native safety failures",
+    "payload_ledger_at_observation": {
+      "status": "RESERVED",
+      "CPU_s": 0,
+      "model_loads": 0,
+      "queries": 0,
+      "updates": 0,
+      "constructors": 0,
+      "physics_ticks": 0,
+      "episode_starts": 0,
+      "unknown_effects": []
+    },
+    "formal_R0_export_complete": false,
+    "bank_qualified": false,
+    "new_GPU_training_started": false,
+    "old_C_D_behaviors": "0/24 each; deferred",
+    "goal_complete": false
+  },
+  "next_minimum_blocker": "Original CPU processor/exporter produces all parent receipts and R0 task/layout support, real native F plus independent CPU audit/once settlement/own lease close, then explicit GEN1 GPU runtime/accounting/owner and fresh independent CORR2048 1024 admission",
+  "scope": {
+    "caps_changed_again": false,
+    "new_PBS_reservation": false,
+    "original_registered_intent_now_has_actual_job": true,
+    "clock_reset": false,
+    "matrix3_and_final20GPUh40GiB_protected": true
+  }
+}
