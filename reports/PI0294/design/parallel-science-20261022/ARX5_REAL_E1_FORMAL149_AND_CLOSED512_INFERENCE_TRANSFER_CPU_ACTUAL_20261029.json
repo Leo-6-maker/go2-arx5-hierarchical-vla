@@ -1,0 +1,99 @@
+{
+  "schema": "ARX5_REAL_E1_FORMAL149_AND_CLOSED512_MODEL_ONLY_TRANSFER_COLD_CPU_ACTUAL_V1",
+  "snapshot_epoch": 1793230529.5887427,
+  "job_id": "1505362.stdct-mgmt-02",
+  "science_source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+  "request_id": "80aeab00-91c9-455d-96bc-587f716f227f",
+  "independent_read_sha256": "bcf53a0c17a5eea91a243c5d2cc8e731633af40915c4937b5f6b6a10d574f684",
+  "GLOBAL_sha256": "2de3a11787d91a6dcfcd0c4334fee4dcaf49ab1ed603ba0f310e5829cb5c643f",
+  "PBS_used": 39,
+  "native": {
+    "owned": [
+      {
+        "platform": "VANDA_A40",
+        "job_id": "1505362.stdct-mgmt-02",
+        "state": "R",
+        "project": "CFP04-CF-007",
+        "name": "pi0294_dec1_a40_train"
+      }
+    ],
+    "same_owner_live": true,
+    "same_wrapper_live": true,
+    "queue_unknown": [],
+    "global_pending": [],
+    "global_unknown": []
+  },
+  "effects": {
+    "optimizer_updates": 151,
+    "generation_queries": 2,
+    "model_loads": 4,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "active_session": "E1_ADAPTER_ONLY_FORMAL512",
+    "sessions": {
+      "E2_SHARED_ACTION_HEAD_QUALIFY2": {
+        "status": "COMPLETE",
+        "optimizer_updates": 2,
+        "generation_queries": 2,
+        "model_loads": 3,
+        "terminal_receipt_sha256": "5bfab89a78799af9c82d8903bb56a0182a9ebb734b263b6b53968c61b15f5505",
+        "terminal_receipt_relative": "evidence/MINIMAL_THREE_REMAINING_SESSIONS/E2_SHARED_ACTION_HEAD_QUALIFY2/SESSION_TERMINAL.json"
+      },
+      "E1_ADAPTER_ONLY_FORMAL512": {
+        "status": "ACTIVE",
+        "optimizer_updates": 149,
+        "generation_queries": 0,
+        "model_loads": 1
+      },
+      "E2_SHARED_ACTION_HEAD_FORMAL512": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      }
+    }
+  },
+  "cold_delivery": {
+    "module": "scripts/pi0294/generalization/minimal_inference_transfer.py",
+    "ordinary_full_512_export_distinct_from_wrapped_full_resume": true,
+    "requires_original_remaining_validate_and_closed_SUCCESS": true,
+    "requires_exact_SETTLED_bytes_CLOSED_own_lease_and_original_owner_natural_OS0": true,
+    "requires_complete_full_streamed_export_members_and_original_R0": true,
+    "requires_full512_cursor16384_1024LR_and_12TRAIN_24language_probes": true,
+    "rejects_step2_qualification_other_arm_optimizer_RNG_and_index_escapes": true,
+    "uses_original_two_Cosmos_path_sanitizations_and_exact_private_restoration": true,
+    "existing_restoration_dispatch_explicitly_accepts_E1_E2": true,
+    "original_AB_CD_delivery_and_all_runtime_capsules_unchanged": true,
+    "closed_proof_private_only_not_in_public_model": true,
+    "native_endpoint_CAPTURE_OR_HF_UPLOAD_OR_CORE_DELIVERY": "NOT_RUN",
+    "native_role_manifest_registry_lease_and_actual_IO_admission_still_required": true
+  },
+  "validation": {
+    "targeted_CPU_tests_passed": 105,
+    "subtests_passed": 19,
+    "wall_seconds": 2.56,
+    "tests": [
+      "test_minimal_inference_transfer.py",
+      "test_minimal_inference_export.py",
+      "test_pv1_evaluation_transfer.py",
+      "test_v5_evaluation_transfer.py",
+      "test_v5_model_delivery_worker.py"
+    ],
+    "new_artifact_fixtures_both_arms": true,
+    "closed_seam_tests_isolate_original_GLOBAL_validator": true,
+    "full_future_native_closed_GLOBAL_success_not_yet_available": true,
+    "first_test_command_nonexistent_filename_return4_preserved": true,
+    "full_suite_CI_or_native_delivery_PASS": false,
+    "Processor_statistics_separately_audited_serialization_fixture": true
+  },
+  "preserved": {
+    "new_request_qsub_model_query_optimizer_or_physics_by_this_code": 0,
+    "no_live_capsule_patch": true,
+    "no_new_cap_or_clock": true,
+    "no_checkpoint_or_raw_copy": true,
+    "matrix3_and_final20GPUh40GiB": true,
+    "Core_LOCAL_historical_not_fresh": true
+  },
+  "next": "Healthy owner completes E1 then E2 own512 and original terminal audit/once close. Only then compile exact actual model-only plan under the existing registered finite HF route; no Core-to-Vanda live dependency. Core D25/GEN1 and later matched first512 panels remain pending.",
+  "whole_goal_complete": false
+}

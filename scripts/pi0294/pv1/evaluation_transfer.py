@@ -68,6 +68,9 @@ def _download_identity(value):
 
 def restore_original(public_files,private_bundle,*,candidate):
     """Pure byte verification; caller still needs registered IO and admission."""
+    if candidate in ('E1_ADAPTER_ONLY','E2_SHARED_ACTION_HEAD'):
+        from scripts.pi0294.generalization.minimal_inference_transfer import restore_original as restore_minimal
+        return restore_minimal(public_files,private_bundle,arm=candidate)
     if candidate in ('C50','D25'):
         from .mix_evaluation_transfer import restore_original as restore_cd
         return restore_cd(public_files,private_bundle,arm=candidate)
