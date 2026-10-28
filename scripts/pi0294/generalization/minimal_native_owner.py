@@ -22,6 +22,10 @@ HEARTBEAT='ARX5_MINIMAL_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1'
 
 def control_CPU_limits(request):
     """The second cold continuation shares its prepaid3600s with preparation."""
+    if request.get('platform_training_version')==adapters.remaining.VERSION:
+        need(adapters.select(request['platform_training_version'],request['profile'])is adapters.remaining,
+            'OWNER_REMAINDER_ORIGINAL_PREPAID3000_CPU_BANK')
+        return (2990,3000)
     if request.get('continuation_generation')in(2,3):
         from . import minimal_followup_scope as followup
         if request.get('continuation_generation')==3:
@@ -55,9 +59,10 @@ def worker_inventory(root):
 def validate_heartbeat_receipt(value,intent,*,now):
     beat=value.get('heartbeat',{});view=value.get('view',{})
     version=e.VERSION
-    if beat.get('scope')==adapters.retry.VERSION:
-        r=value.get('retry_request',{});adapter=adapters.request(r);version=adapter.VERSION
-        need(adapter is adapters.retry and e.sha(e.raw(r))==beat.get('request_sha256')
+    if beat.get('scope')in(adapters.retry.VERSION,adapters.remaining.VERSION):
+        remaining=beat.get('scope')==adapters.remaining.VERSION
+        r=value.get('remaining_request'if remaining else'retry_request',{});adapter=adapters.request(r);version=adapter.VERSION
+        need(adapter is(adapters.remaining if remaining else adapters.retry)and e.sha(e.raw(r))==beat.get('request_sha256')
             and all(r.get(k)==beat.get(k)for k in ('request_id','submission_nonce','source_sha','run_uuid')),
             'OWNER_RETRY_HEARTBEAT_EXACT_NEW_REQUEST_NOT_OLD_SCOPE')
     need(value.get('schema')==HEARTBEAT and value.get('lease_status')=='ACTIVE'
@@ -113,6 +118,10 @@ class Owner(mature.Owner):
         need(adapters.select(self.request_template['platform_training_version'],self.request_template['profile']) is self.adapter,
              'OWNER_TEMPLATE_AND_MANIFEST_EXACT_SAME_EXECUTION_VERSION')
         self.retry_physical=None
+        self.remaining_physical=None
+        if self.adapter is adapters.remaining:
+            from .minimal_remaining_physical import Guard as Physical
+            self.remaining_physical=Physical(self.root,self.request_template,self.manifest,lambda **_:None)
         if self.adapter is adapters.retry:
             need({adapters.PHYSICAL,adapters.PREDECESSOR}<=set(inputs),
                  'OWNER_RETRY_COMPLETE_CLOSED_CAPTURE_AND_PHYSICAL_SEAL')
@@ -167,6 +176,7 @@ class Owner(mature.Owner):
                 lease_status=read(self.binding['lease'])['status'],run_STOP=(self.root/'STOP.json').exists(),
                 parent_STOP=(self.root.parent.parent/'STOP.json').exists(),unknown_effects=g['unknown_effects'],pending_updates=g['pending_updates'])
             if adapter is adapters.retry:result['retry_request']=r
+            if adapter is adapters.remaining:result['remaining_request']=r
             return result
         def publish(intent,limit):
             need(0<=time.time()-self.current['view']['observed_epoch']<120,'OWNER_CURRENT_QUEUE_BEFORE_HEARTBEAT')
@@ -219,15 +229,27 @@ class Owner(mature.Owner):
         # row and its costs for normal reconciliation if this guard trips.
         need(sha(d/'EFFECTIVE_QUEUE_LIMITS.json')==r['effective_queue_proof_sha256'],
             'OWNER_ORIGINAL_QUEUE_BYTES_UNCHANGED_BEFORE_QSUB')
-        effective_queue((d/'EFFECTIVE_QUEUE_LIMITS.json').read_bytes(),
-            created_epoch=time.time(),walltime_s=r['walltime_s'])
+        dispatch_intent=dict(request_id=r['request_id'],once=True)
+        if self.adapter is adapters.remaining:
+            from . import minimal_remaining_dispatch as dispatch
+            # Keep the exact registration input and request bytes. The actual
+            # later dispatch has its own fresh raw scheduler observation.
+            state=self.fresh();need(not state['view']['campaign_jobs'],'OWNER_REMAINDER_NO_NATIVE_MAIN_BEFORE_UNIQUE_QSUB')
+            fresh_queue=self.setup.call('FRESH_DISPATCH_EFFECTIVE_QUEUE','READ_ONLY',
+                lambda intent,limit:collect_effective_queue(walltime_s=r['walltime_s']))
+            once(d/dispatch.FILE,fresh_queue)
+            dispatch_intent.update(observed_epoch=time.time(),queue_proof_sha256=sha(d/dispatch.FILE))
+            dispatch.check((d/dispatch.FILE).read_bytes(),dispatch_intent,r,now_epoch=time.time())
+        else:
+            effective_queue((d/'EFFECTIVE_QUEUE_LIMITS.json').read_bytes(),
+                created_epoch=time.time(),walltime_s=r['walltime_s'])
         body='\n'.join(k+'='+repr(v)for k,v in dict(TARGET=str(self.root),DIRECTORY=str(d),REQUEST=r,
             RESERVATION=dict(request_sha256=e.sha(request_bytes),observed_epoch=time.time(),whole_package_already_reserved=True)).items())+'\n'+self.CONFIG['programs']['SUBMIT']
         def qsub(intent,limit):
             env={k:v for k,v in os.environ.items()if k not in('CUDA_VISIBLE_DEVICES','PBS_JOBID')}
             p=subprocess.run([sys.executable,'-'],input=body,capture_output=True,text=True,timeout=min(limit,40),env=env)
             need(p.returncode==0,'OWNER_QSUB_REPLY_UNKNOWN_NO_REPLAY');return json.loads(p.stdout)
-        self.record('SOURCE_QSUB_INTENT',dict(request_id=r['request_id'],once=True));reply=self.setup.call('QSUB','MUTATION',qsub)
+        self.record('SOURCE_QSUB_INTENT',dispatch_intent);reply=self.setup.call('QSUB','MUTATION',qsub)
         self.record('SOURCE_QSUB_REPLY',reply)
         import re
         need(reply['returncode']==0 and re.fullmatch(r'[0-9]+\.stdct-mgmt-02',reply['stdout']),'OWNER_UNKNOWN_QSUB_NEVER_RESEND')
@@ -243,6 +265,24 @@ class Owner(mature.Owner):
         if self.adapter is e:
             return e.register(global_bytes,request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())
         from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
+        if self.adapter is adapters.remaining:
+            from . import minimal_remaining_contract as remainder
+            physical=self.remaining_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
+            state=self.current;now=time.time();view=state['view']
+            need(0<=now-view['observed_epoch']<=120 and state['global_ledger_sha256']==e.sha(global_bytes)
+                and self.global_path.read_bytes()==global_bytes,'OWNER_REMAINDER_CURRENT_CANONICAL_AND_COMPLETE_NATIVE_QUEUE')
+            prefix=self.remaining_physical.prefix
+            prefix.verify_current()
+            fresh=dict(observed_epoch=view['observed_epoch'],GLOBAL_sha256=e.sha(global_bytes),
+                complete_queue_verified=True,unknown_campaign_jobs=view['unknown_campaign_jobs'],
+                complete_queue=view['complete_account_queue'],independent_confirmation_base64=self.CONFIG['outside_confirmation_base64'],
+                active_experiment_Vanda_jobs=view['campaign_jobs'],
+                old_workers_terminal=self.adapter.authority.predecessor(json.loads(global_bytes))[0]['terminal']['native']['all_native_workers_terminal'],
+                old_closed_science_lease_sha256=remainder.authority.LEASES['science'])
+            return self.adapter.register(global_bytes,self.local,request_bytes=request_bytes,
+                prefix_result_bytes=(self.root/remainder.PREFIX).read_bytes(),prefix_closure_bytes=(self.root/remainder.CLOSURE).read_bytes(),
+                physical_custody=self.remaining_physical.custody,physical_proof=physical,
+                physical_observed_epoch=physical['observed_epoch'],fresh_readback=fresh,now_epoch=now)
         physical=self.retry_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=time.time()
         if self.request_template.get('continuation_generation')==3:
             return self.adapter.register_entry_followup(global_bytes,self.local,request_bytes=request_bytes,
@@ -339,7 +379,7 @@ class Owner(mature.Owner):
         end=pbs_epoch(native.get('obittime',native.get('mtime')));start=pbs_epoch(native['stime'])
         new_CPU=max(hms(native['resources_used']['cput']),final['CPU_actual_s'])+240
         current=read(self.global_path);_,row,_=adapters.registered(current,r['request_id'],version=self.adapter.VERSION)
-        prior=(self.adapter.terminal_CPU_prior(current,row)if self.adapter is adapters.retry else e.PREPARATION_CPU_UPPER)
+        prior=(self.adapter.terminal_CPU_prior(current,row)if self.adapter in(adapters.retry,adapters.remaining)else e.PREPARATION_CPU_UPPER)
         proof=dict(schema=terminal.NATIVE,job_id=job,job_state='F',request_id=r['request_id'],
             submission_nonce=r['submission_nonce'],source_sha=r['source_sha'],request_sha256=saved['request_sha256'],
             Exit_status=native['Exit_status'],finished_epoch=end,observed_epoch=time.time(),
@@ -349,13 +389,15 @@ class Owner(mature.Owner):
             raw_native_sha256=e.sha(e.raw(native)),process_final_sha256=sha(d/'PBS_PROCESS_FINAL.json'),
             wrapper_final_sha256=sha(d/'PBS_WRAPPER_FINAL.json'),inventory_sha256=inventory_sha)
         effects=final['effects'];terminal.terminal_values(row,proof,effects,audit,
-            retry_global=current if self.adapter is adapters.retry else None)
+            retry_global=current if self.adapter is adapters.retry else None,
+            remaining_global=current if self.adapter is adapters.remaining else None)
         self.record('TERMINAL_SETTLEMENT_INTENT',dict(native=proof,effects=effects,independent_audit_sha256=e.sha(e.raw(audit))))
         def settle(current):
             if self.adapter is e:
                 return terminal.settle(current,r['request_id'],native=proof,effects=effects,audit=audit,now_epoch=time.time())
             from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
-            physical=self.retry_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=time.time()
+            guard=self.remaining_physical if self.adapter is adapters.remaining else self.retry_physical
+            physical=guard.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=physical['observed_epoch']if self.adapter is adapters.remaining else time.time()
             return self.adapter.settle(current,r['request_id'],native=proof,effects=effects,audit=audit,
                 physical_proof=physical,physical_observed_epoch=observed,now_epoch=time.time())
         receipt=self.running.call('SETTLE','MUTATION',lambda intent,limit:self.write_global('SETTLE',settle))

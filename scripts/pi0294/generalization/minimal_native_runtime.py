@@ -86,10 +86,17 @@ def run(root,request_path):
         resource.setrlimit(resource.RLIMIT_CORE,(0,0))
         once(d/'ALLOCATION_ADMISSION.json',allocation)
         guard=context.Guard(root,allocation)
-        if adapters.request(r) is adapters.retry or adapters.PHYSICAL in manifest['execution']['sealed_inputs']:
+        adapter=adapters.request(r)
+        if adapter is adapters.remaining:
+            from .minimal_remaining_physical import Guard as RemainingGuard
+            guard=RemainingGuard(root,r,manifest,guard)
+        elif adapter is adapters.retry or adapters.PHYSICAL in manifest['execution']['sealed_inputs']:
             from .minimal_retry_runtime_guard import Guard as RetryGuard
             guard=RetryGuard(root,r,manifest,guard)
-        from .minimal_effects import Effects
+        if adapter is adapters.remaining:
+            from .minimal_remaining_effects import RemainingEffects as Effects
+        else:
+            from .minimal_effects import Effects
         ledger=Effects(root,allocation,request_path=request_path,guard=guard);ledger.initialize()
         # An authoritative zero-effect journal precedes the original180s bind
         # and same-owner Q->R wait. Neither wait permits model/update effects.
@@ -116,8 +123,13 @@ def run(root,request_path):
         once(d/'A40_PREMODEL_QUALIFICATION.json',dict(status='PASS_MINIMAL_ACTUAL_A40_CONTEXT_NO_MODEL',
             request_sha256=sha(request_path),job_id=job,numerics=numeric,original_cluster_tools=native_tools,
             models_loaded=0,queries=0,updates=0,new_physics=0))
-        from .minimal_worker import Worker
-        phase='FIVE_INDEPENDENT_RAW_SESSIONS';worker=Worker(root,request_path,allocation,ledger,guard=guard)
+        if adapter is adapters.remaining:
+            from .minimal_remaining_worker import RemainingWorker as Worker
+            phase='THREE_REMAINING_INDEPENDENT_RAW_SESSIONS'
+        else:
+            from .minimal_worker import Worker
+            phase='FIVE_INDEPENDENT_RAW_SESSIONS'
+        worker=Worker(root,request_path,allocation,ledger,guard=guard)
         result=worker.run();phase='TERMINAL';return result
     except BaseException as exc:
         error=dict(type=type(exc).__name__,message=str(exc)[-2000:]);raise
@@ -127,7 +139,7 @@ def run(root,request_path):
             except BaseException as exc:
                 if error is None:error=dict(type=type(exc).__name__,message=str(exc)[-2000:])
         final=dict(schema='ARX5_MINIMAL_ORIGINAL_A40_PROCESS_FINAL_V1',phase=phase,error=error,
-            status='FIVE_SESSIONS_SAVED_NOT_INDEPENDENTLY_AUDITED'if error is None and result else'FAILED_OR_PARTIAL_PRESERVED',
+            status=('REMAINING_SESSIONS_SAVED_NOT_INDEPENDENTLY_AUDITED'if r.get('platform_training_version')==adapters.remaining.VERSION else'FIVE_SESSIONS_SAVED_NOT_INDEPENDENTLY_AUDITED')if error is None and result else'FAILED_OR_PARTIAL_PRESERVED',
             job_id=os.environ.get('PBS_JOBID'),request_id=r['request_id'],source_sha=r['source_sha'],
             request_sha256=sha(request_path),CPU_actual_s=time.process_time()-began,
             new_physics=0,new_episodes=0,result=result)

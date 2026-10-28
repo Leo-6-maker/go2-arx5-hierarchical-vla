@@ -132,7 +132,11 @@ def validate_items(value):
         # new adapter must prove both rows, original paid costs and full holds.
         if minimal_retry.rows(value)!=[s for s in typed if s in minimal_rows or s in retry_rows]:
             fail('EXACT_MINIMAL_RETRY_TWO_ROWS_AND_COMPLETE_HISTORY')
-    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor and s not in GEN_training and s not in minimal_rows and s not in retry_rows]
+    from scripts.pi0294.generalization import minimal_remaining_execution as remaining
+    remaining_rows=[s for s in typed if s.get('platform_training_version')==remaining.VERSION]
+    if remaining_rows or remaining.FIELD in value:
+        if remaining.rows(value)!=remaining_rows:fail('EXACT_MINIMAL_REMAINING_AUDITED_PREFIX_MAIN')
+    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor and s not in GEN_training and s not in minimal_rows and s not in retry_rows and s not in remaining_rows]
     if len(compatibility)>1:fail('ONE_COMPATIBILITY_ALLOCATION_NOT_AUTOMATIC_RETRIES')
     for s in compatibility:validate_item(s)
     if source:

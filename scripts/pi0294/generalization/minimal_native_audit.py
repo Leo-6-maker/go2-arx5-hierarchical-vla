@@ -174,7 +174,10 @@ def audit(root,request_path,*,native,inventory_sha256):
     from .minimal_model import unchanged_raw_parent
     from scripts.pi0294.e1.model import digest
     from . import minimal_execution_adapter as adapters
-    root=Path(root);request_path=Path(request_path);r=read(request_path);adapters.request(r)
+    root=Path(root);request_path=Path(request_path);r=read(request_path);adapter=adapters.request(r)
+    remaining=adapter is adapters.remaining
+    if remaining:
+        from .minimal_remaining_effects import RemainingEffects as Effects
     job=native['job_id'];need(os.getuid()==22182 and os.environ.get('CUDA_VISIBLE_DEVICES')==''
         and native['job_state']=='F'and type(native['Exit_status'])is int,'AUDIT_ORIGINAL_CPU_OWNER_POST_F_ONLY')
     p=subprocess.run(['/opt/pbs/bin/qstat','-x','-f','-F','json',job],capture_output=True,text=True,timeout=25)
@@ -200,11 +203,23 @@ def audit(root,request_path,*,native,inventory_sha256):
         effect_summary_sha256=e.sha(e.raw(effects)),inventory_sha256=inventory_sha256,
         raw_parent_files_identity=training.RAW_PARENT_FILES_ID,statistics_sha256=e.R0,
         new_model_loads=0,new_queries=0,new_updates=0,new_physics=0)
-    if native['Exit_status']!=0 or not effects['all_five_sessions_runtime_complete']:
+    complete_field='all_remaining_sessions_runtime_complete'if remaining else'all_five_sessions_runtime_complete'
+    if remaining:
+        from . import minimal_remaining_contract as contract
+        base.update(saved_prefix_result_sha256=contract.RESULT,saved_prefix_closure_sha256=contract.CLOSED)
+    if native['Exit_status']!=0 or not effects[complete_field]:
         return dict(base,status=terminal.PARTIAL,preserved_session_states=effects['sessions'])
-    stream=StreamHashes();folder=root/'evidence/MINIMAL_FIVE_SESSIONS'
+    stream=StreamHashes();folder=root/'evidence'/('MINIMAL_THREE_REMAINING_SESSIONS'if remaining else'MINIMAL_FIVE_SESSIONS')
     raw=read(folder/'RAW_PARENT_COMPLETE_STREAM_AUDIT.json');raw_plan=read(root/'plans/MINIMAL_RAW_PARENT_AUDIT_PLAN.private.json')
-    unchanged_raw_parent(raw_plan['checkpoint'],raw)
+    if remaining:
+        from .minimal_remaining_inputs import Inputs
+        prefix=Inputs(root,read(root/'RUN_MANIFEST.json'),guard=lambda:None);current_raw=prefix.verify_current()
+        need(raw['raw_parent_files_identity']==current_raw['raw_parent_files_identity']
+            and all(raw['files'][name]['sha256']==row['sha256']and all(
+                raw['files'][name]['stat'][k]==v for k,v in row['stat'].items()if k!='dev')
+                for name,row in current_raw['files'].items()),'AUDIT_REMAINDER_SAME_PORTABLE_RAW_PARENT_AND_PRIOR_FULL_STREAM')
+        unchanged_raw_parent(raw_plan['checkpoint'],current_raw)
+    else:unchanged_raw_parent(raw_plan['checkpoint'],raw)
     data=dataset(root,root/'evidence/independent-terminal-reader')
     capture=read(root/'plans/MINIMAL_SIX_PRECONTACT16_TRAIN_CAPTURE.private.json')
     plan=read(root/'plans/MINIMAL_LANGUAGE24_PANEL.private.json');panel=read(root/'plans/MINIMAL_TWELVE_PANEL.json')
@@ -212,17 +227,24 @@ def audit(root,request_path,*,native,inventory_sha256):
     payloads={c['id']:language.payload_for_case(c,capture,data)for c in plan['cases']}
     wire=lambda p:digest({k:v for k,v in p.items()if k!='snapshot_uuid'})
     first=wire(payloads[plan['cases'][0]['id']]);endpoints={};audited=[];qualified_frozen={}
-    for spec in e.native_sessions():
+    if remaining:qualified_frozen[e.training.ARMS[0]]=prefix.result['saved_E1_checkpoint']['frozen_parameter_identity']
+    specs=ledger.plan()
+    for spec in specs:
         sid=spec['id'];sf=folder/sid;receipt=read(sf/'SESSION_TERMINAL.json');row=effects['sessions'][sid]
         need(stream(sf/'SESSION_TERMINAL.json')==row['terminal_receipt_sha256']and receipt['request_sha256']==base['request_sha256']
             and receipt['source_sha']==r['source_sha']and receipt['session_id']==sid
             and receipt['optimizer_updates']==spec['optimizer_limit']and receipt['query_attempts']==spec['query_limit'],
             'AUDIT_ACTUAL_SAME_SESSION_COMPLETE_RECEIPT')
         if not spec['formal_candidate']:
-            for i in range(15):
-                path=sf/'draws'/('zero-'+str(i).zfill(2)+'.npz');draw(path,stream,seed=29400+i,input_fingerprint=first)
-                if sid!=e.native_sessions()[0]['id']:
-                    export.compare_saved_draws(folder/e.native_sessions()[0]['id']/'draws'/path.name,path)
+            if remaining:
+                saved=prefix.E2_zeros(input_fingerprint=first)
+                need(read(sf/'SAVED_ZERO_INPUTS_READONLY.json')==saved,
+                    'AUDIT_REMAINDER_ACTUAL_SAVED_ZERO_INPUTS_NOT_NEW_OUTPUTS_OR_QUERY_CREDIT')
+            else:
+                for i in range(15):
+                    path=sf/'draws'/('zero-'+str(i).zfill(2)+'.npz');draw(path,stream,seed=29400+i,input_fingerprint=first)
+                    if sid!=e.native_sessions()[0]['id']:
+                        export.compare_saved_draws(folder/e.native_sessions()[0]['id']/'draws'/path.name,path)
         if spec['optimizer_limit']:
             cp=checkpoint(root,spec,dict(r,job_id=job),data,stream)
             if not spec['formal_candidate']:
@@ -265,7 +287,7 @@ def audit(root,request_path,*,native,inventory_sha256):
                     'AUDIT_ACTUAL_MATCHED_LANGUAGE_INPUT_NOISE_AND_BYTES')
         audited.append(sid)
     witnesses=stream.witnesses()
-    return dict(base,status=terminal.AUDIT,audited_session_ids=audited,endpoints=endpoints,
+    return dict(base,status=terminal.REMAINING_AUDIT if remaining else terminal.AUDIT,audited_session_ids=audited,endpoints=endpoints,
         same15_zero_step_raw_wrapped_arms_exact=True,two_full_optimizer_scheduler_RNG_sampler_restore_pairs_exact=True,
         official_full_model_reconstruction_output_pairs_exact=True,frozen_parameters_and_buffers_unchanged=True,
         streamed_witnesses=witnesses,raw_parent_audit_sha256=sha(folder/'RAW_PARENT_COMPLETE_STREAM_AUDIT.json'))
