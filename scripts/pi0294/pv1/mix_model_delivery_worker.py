@@ -66,6 +66,33 @@ def delivery_journal(root,cfg,configuration_bytes):
         source_sha=cfg['source_sha'],request_sha256=a.sha(configuration_bytes)))
 
 
+def full_remaining(g,l,*,Core_storage_upper_bytes,LOCAL_storage_upper_bytes):
+    """Use the adopted whole campaign forecast, retaining legacy semantics.
+
+    The old successor-only forecast predates the actually adopted first512
+    seven caps and whole package. Its old PBS36/output limits must not replace
+    the real authority, or omit the new package, in this finite IO worker.
+    """
+    from scripts.pi0294.generalization import minimal_package,minimal_scope
+    if minimal_package.FIELD not in g:
+        return scope.recompute(g,l,Core_storage_upper_bytes=Core_storage_upper_bytes,
+            local_storage_upper_bytes=LOCAL_storage_upper_bytes)
+    minimal_package.validate(g)
+    proof=minimal_scope.first512_forecast(a.raw(g),a.raw(l))
+    from copy import deepcopy
+    rows=deepcopy(proof['dimensions'])
+    for key,upper in [('Core_storage_bytes',Core_storage_upper_bytes),
+            ('local_storage_bytes',LOCAL_storage_upper_bytes)]:
+        guard.need(type(upper)is int and upper>=rows[key]['used'],
+            'RETAIN_ALL_HISTORICAL_STORAGE_IN_FULL_CAMPAIGN')
+        rows[key]['projected']+=upper-rows[key]['used'];rows[key]['used']=upper
+        rows[key]['shortfall']=max(0,rows[key]['projected']-rows[key]['cap'])
+    return dict(schema='V5_CD_MODEL_DELIVERY_ACTUAL_ADOPTED_FULL_CAMPAIGN_FORECAST_V1',
+        full_campaign=proof,dimensions=rows,
+        shortfalls={k:v['shortfall']for k,v in rows.items()if v['shortfall']},
+        native_model_or_physics_admission=False,new_reservation={})
+
+
 def main(config_path):
     began=time.process_time();started=time.time();cfg=json.loads(Path(config_path).read_bytes());root=Path(config_path).parent
     assert os.getuid()==2009 and os.uname().nodename=='corelab-4080s' and os.environ.get('CUDA_VISIBLE_DEVICES')=='' and not os.environ.get('PBS_JOBID')
@@ -94,7 +121,7 @@ def main(config_path):
         g=json.loads(base64.b64decode(cfg['GLOBAL_base64'],validate=True));l=json.loads(local)
         guard.c.paired(g,l);plan=cfg['compiled_plan'];cp=base64.b64decode(plan['private_restoration']['original_complete_base64'],validate=True)
         guard.upload_admission(g,plan,now_epoch=started,checkpoint_complete_bytes=cp)
-        proof=scope.recompute(g,l,Core_storage_upper_bytes=cfg['Core_storage_upper_bytes'],local_storage_upper_bytes=cfg['LOCAL_storage_upper_bytes']);assert not proof['shortfalls'];put(root/'FULL_REMAINING_NATIVE_CONTROL_CHECK.json',proof)
+        proof=full_remaining(g,l,Core_storage_upper_bytes=cfg['Core_storage_upper_bytes'],LOCAL_storage_upper_bytes=cfg['LOCAL_storage_upper_bytes']);assert not proof['shortfalls'];put(root/'FULL_REMAINING_NATIVE_CONTROL_CHECK.json',proof)
         notices=cfg['notices'];assert all(a.sha(base64.b64decode(v['base64'],validate=True))==v['sha256']for v in notices.values())
         token=Path(cfg['HF_core_token_path']).read_text().strip()
         payload=dict(source_sha=cfg['source_sha'],canonical_parent=b['canonical_parent'],control_root=cfg['source_control_root'],upload_root=cfg['source_control_root']+'/upload',candidate=arm,checkpoint=cfg['checkpoint_root'],checkpoint_sha256=plan['public_plan']['checkpoint_manifest_sha256'],public_plan=plan['public_plan'],compiled_plan=plan,rewritten=plan['public_rewritten_metadata_base64'],notices=notices,repo_id='leoyuer/pi0294-public-artifacts',prefix=cfg['HF_prefix'],stop_new_epoch=cfg['deadline_epoch']-28860,token=token)
