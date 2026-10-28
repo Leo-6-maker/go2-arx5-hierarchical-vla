@@ -11,7 +11,8 @@ PREDECESSOR = 'plans/MINIMAL_RETRY_PREDECESSOR_CLOSED.private.json'
 
 def select(version, profile):
     adapters = {a.VERSION: a for a in (original, retry)}
-    original.need(version in adapters and profile == adapters[version].PROFILE,
+    profiles=(retry.PROFILE,'vanda-arx5-minimal-raw-parent-first512-zero-effect-followup')if version==retry.VERSION else(original.PROFILE,)
+    original.need(version in adapters and profile in profiles,
                   'ADAPTER_EXACT_VERSION_AND_PROFILE_NOT_OLD_ALIAS')
     return adapters[version]
 
@@ -38,7 +39,7 @@ def registered(g, request_id, *, version=None):
 def current(g):
     """Explicit adopted main index, including its real terminal state."""
     if retry.FIELD in g:
-        return registered(g, g[retry.FIELD]['request_id'], version=retry.VERSION)
+        return registered(g, retry.current_id(g), version=retry.VERSION)
     marker = original.validate(g)
     original.need(marker is not None and len(marker['registered_requests']) == 1,
                   'ADAPTER_ONE_ORIGINAL_MAIN_INDEX')

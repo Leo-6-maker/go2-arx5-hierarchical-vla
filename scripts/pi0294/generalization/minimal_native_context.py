@@ -72,7 +72,7 @@ def root_context(root,request_path,*,full=False,require_bound=True):
     need(lease['status']=='ACTIVE' and lease['run_uuid']==root.name and lease['manifest_sha256']==r['run_manifest_sha256']
         and lease['deadline_epoch']==r['deadline_epoch'] and len(reg)==1 and reg[0]['path']==str(root),
         'CONTEXT_OWN_ACTIVE_LEASE_AND_CANONICAL_REGISTRY')
-    profiles=[p for p in read(b['environment'])['profiles']if p['name']==adapter.PROFILE]
+    profiles=[p for p in read(b['environment'])['profiles']if p['name']==r['profile']]
     need(len(profiles)==1 and profiles[0]['manifest']==str(root/'RUN_MANIFEST.json')
         and profiles[0]['entry_module']==ENTRY and profiles[0]['PBS_required']is True,
         'CONTEXT_ORIGINAL_ENTRY_EXPLICIT_NEW_PROFILE_NOT_CD_OR_GEN')
@@ -94,6 +94,9 @@ def root_context(root,request_path,*,full=False,require_bound=True):
         critical.update('scripts/pi0294/generalization/'+name for name in
             ('minimal_execution_adapter.py','minimal_retry_execution.py','minimal_retry_history.py',
              'minimal_retry_runtime_guard.py','minimal_retry_physical_guard.py'))
+        if r.get('continuation_generation')==2:
+            critical.update('scripts/pi0294/generalization/'+name for name in
+                ('minimal_portable_inventory.py','minimal_followup_scope.py'))
     need(critical<=set(seal['files']),'CONTEXT_FULL_NATIVE_DEPENDENCY_SEAL')
     for name in seal['files']if full else critical:
         need(sha(sealed(root,str(prefix/name),parse=False))==seal['files'][name],'CONTEXT_EXECUTING_SOURCE:'+name)

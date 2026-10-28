@@ -89,9 +89,13 @@ def effective_caps(g, caps):
     if m is not None:
         from . import minimal_gpu_repair as repair
         extra=repair.validate(g)
-        need(all(out[k] in (BEFORE[k], CAPS[k], repair.AFTER if extra and k=='H200_s' else CAPS[k]) for k in CAPS), 'ONLY_OLD_OR_EXACT_NEW_ADOPTED_CAPS')
+        from . import minimal_followup_scope as followup
+        followup_marker=followup.validate(g)
+        need(all(out[k] in (BEFORE[k], CAPS[k], repair.AFTER if extra and k=='H200_s' else CAPS[k],
+            followup.AFTER if followup_marker and k=='PBS_submissions'else CAPS[k]) for k in CAPS), 'ONLY_OLD_OR_EXACT_NEW_ADOPTED_CAPS')
         out.update(m['caps'])
         if extra is not None:out['H200_s']=repair.AFTER
+        if followup_marker is not None:out['PBS_submissions']=followup.AFTER
     return out
 
 
@@ -106,8 +110,11 @@ def global_limits(g, caps):
     if m is not None:
         from . import minimal_gpu_repair as repair
         extra=repair.validate(g)
+        from . import minimal_followup_scope as followup
+        followup_marker=followup.validate(g)
         for k in set(out) & set(CAPS):
             ceiling=repair.AFTER if extra and k=='H200_s' else CAPS[k]
+            if k=='PBS_submissions'and followup_marker is not None:ceiling=followup.AFTER
             need(type(out[k]) in (int,float) and math.isfinite(out[k])
                  and 0 <= out[k] <= ceiling, 'KNOWN_GLOBAL_CEILING_INPUT:' + k)
             out[k] = ceiling

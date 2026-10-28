@@ -85,8 +85,9 @@ def validate(g):
     from scripts.pi0294.generalization.amd_training_accounting import effective_original_eval_PBS
     from scripts.pi0294.pv1.evaluation_work import MATRIX
     old_pbs=effective_original_eval_PBS(g,old['PBS_submissions'])
+    effective=authority.effective_caps(g,m['caps'])
     authority.need(g['used']['PBS_submissions']+old_pbs+remaining['PBS_submissions']
-        +MATRIX['PBS_submissions']<=m['caps']['PBS_submissions'],
+        +MATRIX['PBS_submissions']<=effective['PBS_submissions'],
         'PACKAGE_TWO_PBS_AND_ORIGINAL_MATRIX_THREE_PROTECTED')
     return p
 
