@@ -72,3 +72,13 @@ def test_actual_captured_native_driver_and_kernel_limits():
     result=json.loads(limits.read_bytes())['value'];assert result['returncode']==0
     r=result['value']['limits'];n.kernel_limits(r['cpu.max'],r['memory.max'],r['pids.max'])
     assert result['GPU_allocation'] is False
+
+
+def test_rejection_preserves_exact_observed_pid_without_process_path():
+    # Explicit CPU fixtures: this does not identify the historical D25 PID.
+    with pytest.raises(PermissionError) as caught:
+        n.parse_GPU_rows(DEVICE,GPU+', 124, /private/process/path, 12000\n',GPU_uuid=GPU,own_pid=123)
+    detail=str(caught.value)
+    assert 'NO_FOREIGN_COMPUTE_ON_SELECTED_DEVICE' in detail
+    assert '"observed_compute_pid": 124' in detail and '"permitted_own_pid": 123' in detail
+    assert '/private/process/path' not in detail

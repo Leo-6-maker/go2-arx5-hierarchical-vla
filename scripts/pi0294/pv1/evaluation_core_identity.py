@@ -236,7 +236,10 @@ def parse_GPU_rows(raw,process_raw,*,GPU_uuid,own_pid=None,shared_request=None,d
             try:used_memory=int(line[3].strip())
             except ValueError:raise PermissionError('PV1_CORE_NATIVE_COMPLETE_SHARED_PROCESS_MEMORY')
             need(0<=used_memory<=matches[0]['total_bytes']//1024**2 and bool(line[2].strip()),'ACTUAL_SHARED_PROCESS_MEMORY_AND_IDENTITY')
-        need(shared or uuid!=GPU_uuid or own_pid is not None and pid==own_pid,'NO_FOREIGN_COMPUTE_ON_SELECTED_DEVICE')
+        need(shared or uuid!=GPU_uuid or own_pid is not None and pid==own_pid,
+             'NO_FOREIGN_COMPUTE_ON_SELECTED_DEVICE:'+json.dumps(dict(
+                 selected_GPU_uuid=GPU_uuid,observed_compute_pid=pid,
+                 permitted_own_pid=own_pid),sort_keys=True))
     if desktop_receipt is not None:
         if own_pid is None:need(matches[0]['total_bytes']-matches[0]['used_bytes']>=30*1024**3,'DESKTOP_COEXISTENCE_REQUIRES_30GIB_ACTUAL_FREE_BEFORE_MODEL')
         matches[0]['exact_desktop_coexistence']=desktop_receipt
