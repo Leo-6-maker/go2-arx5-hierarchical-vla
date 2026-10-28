@@ -1,0 +1,49 @@
+{
+  "schema": "CORE_CURRENT_NFS_HOME_RECOVERY_ACTUAL_READONLY_V1",
+  "observed_epoch": 1793192621.8493106,
+  "date": "2026-10-28",
+  "SSH_via_existing_AMD_key_success": true,
+  "Core_home": {
+    "current_nfs4_mounted": true,
+    "automount_config_present": true,
+    "automount_idle_timeout_s": 300,
+    "autofs_active_since": "2026-10-02 18:35:39 SGT",
+    "home_uid": 2009,
+    "home_mode": "0750",
+    "ssh_directory_mode": "0700",
+    "authorized_keys_mode": "0600",
+    "authorized_keys_bytes": 309,
+    "authorized_keys_sha256": "51719c4a0fa921f63797bbbf908b53e06a6b2494681abf160b77c97f89d8e1f8",
+    "AMD_and_Core_authorized_keys_bytes_match": true,
+    "cache_points_to_node_local_storage": true
+  },
+  "space": {
+    "Core_local_available_bytes": 146997317632,
+    "shared_home_available_bytes": 1501241016320,
+    "AMD_root_available_bytes": 287287742464,
+    "inodes_exhausted": false,
+    "current_filesystems_full": false,
+    "Core_local_inode_used_percent": 6,
+    "shared_btrfs_inode_count": "NOT_REPORTED_NOT_ZERO_CAPACITY"
+  },
+  "causal_assessment": {
+    "NFS_authorized_keys_read_is_a_real_dependency": true,
+    "prior_public_key_offer_wait_is_consistent_with_blocked_Home_IO": true,
+    "missing_or_blocked_historical_mount_proven": false,
+    "root_cause": "UNRESOLVED_HISTORICAL_SYSTEM_LOG_ACCESS_REQUIRED",
+    "reason": "Current Home and key reads succeed. User-level journal returned no visible system entries with permission warning; autofs service uptime alone does not prove each historical NFS mount was responsive. An idle automount without an active NFS child is not itself proof of failure."
+  },
+  "actions": {
+    "remote_readonly_checks": true,
+    "new_mount_or_remount": false,
+    "SSHD_NFS_key_or_permission_changes": false,
+    "sudo_attempts": 0,
+    "job_or_other_user_processes_stopped": 0,
+    "checkpoint_deleted": 0
+  },
+  "private_evidence_SHA256": {
+    "USER_CORE_NFS_RECOVERY_READONLY_1793192621867948927.private.json": "4e8890e8e9cb0ca0192f3d93e3df38859a5500852abbb3cf93468069e8b2519b",
+    "USER_CORE_NFS_CONFIG_LOGS_READONLY_1793192668046175539.private.json": "c0b972de01759850e0f1275e1b4106b4030070c5b1801c79fa36cbb72137af20"
+  },
+  "overall_scientific_goal_complete": false
+}
