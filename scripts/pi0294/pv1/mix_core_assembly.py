@@ -50,15 +50,22 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     if global_accounting_mode is not None:
         from .mix_core_delegation import MODE
         from .mix_core_d25_local_successor import validated,finite_control_scope,digest
+        from . import mix_core_d25_cold_source as cold_source
         finite_marker=validated(g)
+        effective=cold_source.effective_identity(g,finite_marker)if finite_marker else None
         need(global_accounting_mode==MODE and arm=='D25' and finite_marker is not None
              and finite_control_scope(g,request_id) is not None
-             and (source_sha,request_id,nonce,run_name)==(finite_marker['source_sha'],
-                 finite_marker['replacement_request_id'],finite_marker['replacement_submission_nonce'],finite_marker['replacement_run_uuid']),
+             and (source_sha,request_id,nonce,run_name)==(effective['source_sha'],
+                 finite_marker['replacement_request_id'],finite_marker['replacement_submission_nonce'],effective['run_uuid']),
              'EXACT_NEW_D25_FINITE_CUSTODY_SELECTOR')
         need(om['execution'].get('global_accounting_mode')==MODE
              and om['execution'].get('sealed_inputs',{}).get(finite_binding)==digest(finite_marker),
              'EXACT_PRESEALED_RESIDENT_FINITE_MODE_AND_PAID_CONTROL_MARKER')
+        cold_marker=cold_source.validated(g,finite_marker)
+        if cold_marker is not None:
+            need(om['execution']['sealed_inputs'].get(cold_source.BINDING)==cold_source.digest(cold_marker)
+                 and a.sha(source_seal_bytes)==cold_marker['source_seal_sha256'],
+                 'PRESEALED_HONEST_NEW_SOURCE_AND_CLOSED_UNUSED_ROLES')
     else:
         need(om['execution'].get('global_accounting_mode') is None,'NO_ORPHAN_RESIDENT_FINITE_MODE')
     need(type(first512_concurrency)is bool,'EXPLICIT_COLD_CONCURRENCY_SELECTION')
@@ -133,7 +140,9 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         need(a.sha(population)==POPULATION,'EXACT_ORIGINAL_POPULATION_BYTES')
         groups=json.loads(population)['groups']
         files['V5_CD_SCOPE_BINDING.json']=a.raw(marker)
-        if finite_marker is not None:files[finite_binding]=a.raw(finite_marker)
+        if finite_marker is not None:
+            files[finite_binding]=a.raw(finite_marker)
+            if cold_marker is not None:files[cold_source.BINDING]=a.raw(cold_marker)
         if pm is not None:
             files.update({partial.BINDING:a.raw(pm),partial.HISTORY:a.raw(pm['history']),partial.EVIDENCE:partial_evidence_bytes,
                 partial.INPUTS:partial_input_bytes,CERTIFICATE:remote_source_certificate_bytes})
@@ -183,6 +192,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
         if finite_marker is not None:
             m['execution']['global_accounting_mode']=global_accounting_mode
             m['D25_local_successor_sha256']=digest(finite_marker)
+            m.update(cold_source.descriptor(g,finite_marker))
         m['limits'].pop('PV1_T0_epoch',None);m['limits'].pop('PV1_hard_close_epoch',None)
         m['limits'].update(T_CD=marker['T_CD'],operation_deadline_epoch=marker['deadline_epoch'])
         if role=='core':
@@ -220,6 +230,7 @@ def assemble(template,*,global_bytes,local_bytes,training_capture_bytes,arm,sour
     if concurrent is not None:record[minimal_concurrency.KEY]=concurrent
     if finite_marker is not None:
         record.update(global_accounting_mode=global_accounting_mode,D25_local_successor_sha256=digest(finite_marker))
+        record.update(cold_source.descriptor(g,finite_marker))
     if repaired and arm=='C50':record['prepaid_panel_IO_credit_sha256']=a.sha(a.raw(repaired))
     from . import mix_core_desktop as desktop
     grant_path='plans/V5_CD_CORE_DESKTOP_DIRECT_HUMAN_GRANT.json'
