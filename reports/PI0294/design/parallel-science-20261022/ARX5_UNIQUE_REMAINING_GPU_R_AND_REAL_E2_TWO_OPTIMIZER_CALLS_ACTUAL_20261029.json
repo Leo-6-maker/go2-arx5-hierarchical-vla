@@ -1,0 +1,245 @@
+{
+  "schema": "ARX5_REMAINING_UNIQUE_NATIVE_GPU_RUNNING_AND_REAL_E2_TWO_OPTIMIZER_CALLS_ACTUAL_V1",
+  "snapshot_epoch": 1793229001.8151252,
+  "science_source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+  "control_source_sha": "34d89ed97e73f8b4441dcdad07095df511fe71d1",
+  "controller_SHA256": "3a272aa07e6f85276fc26222aa048fe77fedd08f9ea09e7912c42f88ce9bd5e7",
+  "request_id": "80aeab00-91c9-455d-96bc-587f716f227f",
+  "submission_nonce": "9fd57848-8b48-4518-af1c-dc01427e9eb2",
+  "request_sha256": "35a1f1ffb21768218fa16556ca3cd9de6a0f267b1c8e4fe7e6f36d478c5094b9",
+  "science_manifest_sha256": "053556c595b010e5064138c07266ec67bf4671298758dd762899dff1f7ca5198",
+  "native": {
+    "job_id": "1505362.stdct-mgmt-02",
+    "state": "R",
+    "exec_host": "GN-A40-009/1*36",
+    "run_count": 1
+  },
+  "owner": {
+    "wrapper_pid": 2412452,
+    "wrapper_procstart": 73431862,
+    "owner": {
+      "pid": 2412453,
+      "procstart": "73431863",
+      "controller_source_sha": "34d89ed97e73f8b4441dcdad07095df511fe71d1",
+      "science_source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+      "CPU_upper_s": 1650,
+      "original_role_transferred_not_old_process_restarted": true
+    },
+    "same_wrapper_live": true,
+    "same_owner_live": true,
+    "agent_heartbeat_required": false
+  },
+  "central": {
+    "GLOBAL_sha256": "2de3a11787d91a6dcfcd0c4334fee4dcaf49ab1ed603ba0f310e5829cb5c643f",
+    "PBS_used": 39,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "complete_actual_queue_sha256": "9b734eac86816daf98178aeacd4112312b58d06c716200ca803d501b37d62cf7",
+    "complete_queue_rows": 1,
+    "owned": [
+      {
+        "platform": "VANDA_A40",
+        "job_id": "1505362.stdct-mgmt-02",
+        "state": "R",
+        "project": "CFP04-CF-007",
+        "name": "pi0294_dec1_a40_train"
+      }
+    ],
+    "unknown": [],
+    "unique_job_bound": {
+      "job_id": "1505362.stdct-mgmt-02",
+      "request_id": "80aeab00-91c9-455d-96bc-587f716f227f",
+      "science_source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+      "GLOBAL_sha256": "2de3a11787d91a6dcfcd0c4334fee4dcaf49ab1ed603ba0f310e5829cb5c643f",
+      "new_PBS_counter_or_request": 0
+    }
+  },
+  "cold_qualification": {
+    "status": "PASS_ACTUAL_REMAINING_COLD02_SOURCE_INPUTS_CUSTODY_FULL14_NO_GPU",
+    "source_files": 1368,
+    "sealed_inputs": 23,
+    "actual_training_windows": 7212,
+    "full14_shortfalls": {},
+    "OS_exit": {
+      "returncode": 0,
+      "timed_out": false,
+      "wall_s": 184.03522968292236,
+      "child_CPU_s": 96.04818,
+      "finished_epoch": 1793226629.5319538,
+      "foreground_child_wait_completed": true
+    },
+    "source_seal_sha256": "b4afb55fff812832823a1a62cf36a36ef542233ef89b979e28c59da6e567d54b",
+    "audit_sha256": "2264633b15033a9ddcfbc4f20f7dc5d35bdb98fcba551a7890e4251554597f27"
+  },
+  "control_adoption": {
+    "GLOBAL_sha256": "54d21432bb65e61b965f2837858886a0f94411e87ad7371fcbe8675464397c18",
+    "zero_qsub_proof": {
+      "status": "EXACT_TERMINAL_OWNER_NEVER_ATTEMPTED_QSUB",
+      "request_sha256": "35a1f1ffb21768218fa16556ca3cd9de6a0f267b1c8e4fe7e6f36d478c5094b9",
+      "old_owner_OS_exit_sha256": "4130fcd295d8c1c4563ce26a868fee08fc30035a471234afe40d51bdf10253fc",
+      "old_owner_process_sha256": "c86b25a83bbfd76b4028be1d08009a284ebc1c17422dc8a742e147eb7ee7e111",
+      "prior_owner_CPU_upper_s": 1233,
+      "new_owner_CPU_upper_s": 1650,
+      "old_owner_and_wrapper_absent": true,
+      "original_request_not_recreated": true,
+      "original_setup_phases": [
+        "AUTH_RENEW",
+        "AUTH",
+        "REGISTER_REQUEST",
+        "QUOTA",
+        "FRESH_EFFECTIVE_QUEUE",
+        "AUTH"
+      ]
+    },
+    "all14_shortfalls": {}
+  },
+  "model_releases": {
+    "INITIAL_NATIVE_RELEASED": {
+      "schema": "ARX5_MINIMAL_INITIAL_NATIVE_ALLOCATION_RELEASE_V1",
+      "status": null,
+      "session_id": null,
+      "phase": null,
+      "observed_epoch": 1793228712.0579982,
+      "ready_sha256": "2baf8c30b0a60387f281ed18085c332954e1a08b27eac5058e68621ffc78b796"
+    },
+    "SCIENCE_TICKET_00_RELEASED": {
+      "schema": "A40_MINIMAL_ACTUAL_OWNER_SESSION_RELEASE_V1",
+      "status": "PASS_MINIMAL_SESSION_MODEL_RAW_NATIVE",
+      "session_id": "E2_SHARED_ACTION_HEAD_QUALIFY2",
+      "phase": "MODEL_RAW",
+      "observed_epoch": 1793228808.6891441,
+      "ready_sha256": "0df2617797a668cfefcd6f91ed139853a9fdd224db329e7e87ae01b18c11c0a6"
+    },
+    "SCIENCE_TICKET_01_RELEASED": {
+      "schema": "A40_MINIMAL_ACTUAL_OWNER_SESSION_RELEASE_V1",
+      "status": "PASS_MINIMAL_SESSION_FIRST_UPDATE_NATIVE",
+      "session_id": "E2_SHARED_ACTION_HEAD_QUALIFY2",
+      "phase": "FIRST_UPDATE",
+      "observed_epoch": 1793228937.0041747,
+      "ready_sha256": "66e201e134030539eb0cf0e4b5d0c86d1db9692822dbc9aaaf127c434204b2f6"
+    }
+  },
+  "actual_new_allocation_effects": {
+    "schema": "ARX5_MINIMAL_REMAINING_THREE_SESSION_ALLOCATION_EFFECTS_V1",
+    "optimizer_updates": 2,
+    "generation_queries": 0,
+    "model_loads": 1,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "active_session": "E2_SHARED_ACTION_HEAD_QUALIFY2",
+    "sessions": {
+      "E2_SHARED_ACTION_HEAD_QUALIFY2": {
+        "status": "ACTIVE",
+        "optimizer_updates": 2,
+        "generation_queries": 0,
+        "model_loads": 1
+      },
+      "E1_ADAPTER_ONLY_FORMAL512": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      },
+      "E2_SHARED_ACTION_HEAD_FORMAL512": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      }
+    }
+  },
+  "interpretation": {
+    "full_GR00T_loaded_and_two_actual_E2_optimizer_calls": true,
+    "E2_full_save_reload_and_parameter_audit_complete": false,
+    "E1_formal_updates": 0,
+    "E2_formal_updates": 0,
+    "old_completed_E0_E1_not_reexecuted": true,
+    "saved15_E2_zeros_are_readonly_inputs_not_new_queries": true,
+    "current_effects_not_yet_GLOBAL_terminal_settlement": true,
+    "qualification_weights_will_not_seed_formal_runs": true,
+    "closed_loop_task_success_not_measured": true,
+    "E2_native_session_terminal_COMPLETE": true,
+    "E2_native_terminal_receipt_sha256": "5bfab89a78799af9c82d8903bb56a0182a9ebb734b263b6b53968c61b15f5505",
+    "E2_independent_full_parameter_and_saved_state_audit_NOT_YET_READ": true,
+    "E1_formal_session_active_but_updates_at_snapshot": 0
+  },
+  "fixed_remaining": {
+    "session_order": [
+      "E2_SHARED_ACTION_HEAD_QUALIFY2",
+      "E1_ADAPTER_ONLY_FORMAL512",
+      "E2_SHARED_ACTION_HEAD_FORMAL512"
+    ],
+    "maximum_new_optimizer_updates": 1026,
+    "maximum_new_queries": 76,
+    "maximum_new_model_loads": 7,
+    "both_formals_original_raw_parent": true,
+    "same_twelve_TRAIN_parents": true,
+    "same_R0_sampler_1024_LR_horizon_EEF10_H40_Prefix8_four_steps_dualRGB": true
+  },
+  "preserved": {
+    "original_request_and_source_capsule_bytes": true,
+    "old_failed_owner_and_all_UNKNOWN_costs": true,
+    "Core_canonical_LOCAL_not_written": true,
+    "LOCAL_projection_explicit_noncanonical": true,
+    "new_PBS_or_request_consumed_by_handoff": 0,
+    "matrix3_PBS_and_final20GPUh40GiB": true,
+    "all_campaign_caps_and_T_CD_unchanged": true,
+    "stop_new_training_epoch": 1793451149.8133287,
+    "deadline_epoch": 1793537549.8133287
+  },
+  "next": "Protect the healthy owner and job. E2 qualification now has native COMPLETE; independent final-state audit still pending. Original watch proceeds with fresh-raw E1 first512 then fresh-raw E2 first512, full-state/probe audit and once-only actual-effect settlement/close. No re-registration, qsub, E0/E1 prefix replay or agent heartbeat.",
+  "whole_goal_complete": false,
+  "latest_compact_observation": {
+    "epoch": 1793229568.8713148,
+    "GLOBAL": "2de3a11787d91a6dcfcd0c4334fee4dcaf49ab1ed603ba0f310e5829cb5c643f",
+    "PBS": 39,
+    "wrapper": true,
+    "owner": true,
+    "own": [
+      {
+        "platform": "VANDA_A40",
+        "job_id": "1505362.stdct-mgmt-02",
+        "state": "R",
+        "project": "CFP04-CF-007",
+        "name": "pi0294_dec1_a40_train"
+      }
+    ],
+    "queue_unknown": [],
+    "global_pending": [],
+    "global_unknown": [],
+    "effects": {
+      "schema": "ARX5_MINIMAL_REMAINING_THREE_SESSION_ALLOCATION_EFFECTS_V1",
+      "optimizer_updates": 2,
+      "generation_queries": 2,
+      "model_loads": 3,
+      "pending_updates": [],
+      "unknown_effects": [],
+      "active_session": "E1_ADAPTER_ONLY_FORMAL512",
+      "sessions": {
+        "E2_SHARED_ACTION_HEAD_QUALIFY2": {
+          "status": "COMPLETE",
+          "optimizer_updates": 2,
+          "generation_queries": 2,
+          "model_loads": 3,
+          "terminal_receipt_sha256": "5bfab89a78799af9c82d8903bb56a0182a9ebb734b263b6b53968c61b15f5505",
+          "terminal_receipt_relative": "evidence/MINIMAL_THREE_REMAINING_SESSIONS/E2_SHARED_ACTION_HEAD_QUALIFY2/SESSION_TERMINAL.json"
+        },
+        "E1_ADAPTER_ONLY_FORMAL512": {
+          "status": "ACTIVE",
+          "optimizer_updates": 0,
+          "generation_queries": 0,
+          "model_loads": 0
+        },
+        "E2_SHARED_ACTION_HEAD_FORMAL512": {
+          "status": "NOT_STARTED",
+          "optimizer_updates": 0,
+          "generation_queries": 0,
+          "model_loads": 0
+        }
+      }
+    },
+    "private_receipt_sha256": "2fd56b35039b893322fb0785a66f22c262067ea99805d630dd57a5e45a781999",
+    "same_total_wire_reallocated_from_unspent_phases": true,
+    "additional_financial_control_costs": 0
+  }
+}

@@ -17,7 +17,7 @@
 - A4096=11/24、B4096=6/24、C50=6/24；源域已暴露DEV，不是独立泛化。D25/GEN1各1024完成，仍无有效Eval。
 - Vanda1504095已F/Exit1、once结算、own lease关闭：E0 39查询，E1两步资格/17查询/14目标参数变化，E2 15零步输出/优化0。正式E1/E2仍0/512。
 - **PR99新增实际证据：E0/E1完整保存前缀独立审计PASS，E1重载同输入/noise输出精确一致；PBS41→42及一次控制范围已采用；Core LOCAL38条终态已补齐。** [原报告](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)。不重做同一审计/cap/mirror/settle。
-- 新request/qsub、D25新原生部署与正式训练尚未由该报告建立。下一步是剩余任务冷态绑定和真实执行，不是重复已完成检查。
+- **10月29日08:10 SGT实际：Vanda唯一作业1505362已R，E2资格已完成原GR00T加载及2次优化调用。** [真实回执](reports/PI0294/design/parallel-science-20261022/ARX5_UNIQUE_REMAINING_GPU_R_AND_REAL_E2_TWO_OPTIMIZER_CALLS_ACTUAL_20261029.json)。保护健康owner；08:19 SGT后继E2资格已有原生COMPLETE，独立审计待回读；E1正式阶段已ACTIVE，当时仍0/512，随后E2同512。D25新Core原生部署仍待接续。
 - Rerun验证三条稀疏记录（Teacher各41/641、失败2/224），不是完整整机回放；full qpos/mesh不是训练Eval前置。
 - Go2+ARX5标定/12次任务pilot独立于当前12条源域示范；原DEC1仍固定CORR/R0，不混目标训练。
 
