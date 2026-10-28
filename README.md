@@ -1,29 +1,41 @@
-# Go2＋ARX5 Hierarchical Task-Space VLA
+# GR00T + Go2–ARX5 · Frozen-WBC Adaptation
 
-> **2026-10-13：统一工作入口与同步规范。** CoreLab 日常入口为 `~/Projects/GR00T-WBC`。main 仍保留较早 accepted 代码；本次只更新导航，没有把实验运行实现合入 main，也没有部署/启动远端任务。
+**主问题：预训练GR00T经多少ARX5本体适配，能获得可靠闭环操作，并复用冻结的Go2＋ARX5全身控制器？**
 
-## 唯一现行入口
+2026-10-28仓库整理后，`main`是源码、当前研究路线与交接的唯一集成入口。合并历史不代表模型达标、服务器已部署或新实验获准。实际运行始终固定完整commit、模型、数据、Processor、统计量和执行权限。
 
-以下链接固定到现役发布 `16d38237c660c7ae8b38c27fcfada274ca5670fd`：
+## 从这里开始
 
 | 需要 | 入口 |
 |---|---|
-| 新 Codex 开始工作 | [START_HERE](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/16d38237c660c7ae8b38c27fcfada274ca5670fd/START_HERE.md) / [AGENTS](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/16d38237c660c7ae8b38c27fcfada274ca5670fd/AGENTS.md) |
-| 统一目录、环境、数据与 GitHub 同步 | [Canonical workspace standard](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/16d38237c660c7ae8b38c27fcfada274ca5670fd/docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md) |
-| 后续任务强制接入与固定版本部署 | [Enforcement supplement](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/16d38237c660c7ae8b38c27fcfada274ca5670fd/docs/operations/WORKSPACE_ENTRY_ENFORCEMENT_V1.md) / [ENTRY_POLICY](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/16d38237c660c7ae8b38c27fcfada274ca5670fd/infrastructure/workspace/ENTRY_POLICY.json) |
-| 现有 local-pc Codex 接续 | [Execute prompt](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/16d38237c660c7ae8b38c27fcfada274ca5670fd/docs/handover/2026-10-13_WORKSPACE_ENTRY_EXECUTE_PROMPT.md) |
-| 最新科学授权和实际结果 | [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11) |
-| 实际入口部署、迁移和清理 | [Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47) |
-| 现役实现分支 | [pi0267/executor-decoupled-recovery](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/tree/pi0267/executor-decoupled-recovery) |
+| 开始工作与下一动作 | [START_HERE.md](START_HERE.md) / [AGENTS.md](AGENTS.md) |
+| 最新已核验结果 | [CURRENT_SCIENCE_STATUS.md](CURRENT_SCIENCE_STATUS.md) |
+| 最新实验路线与推进关口 | [EXPERIMENT_ROADMAP](docs/EXPERIMENT_ROADMAP.md) |
+| 代码位置与复用边界 | [CODE_MAP](docs/CODE_MAP.md) |
+| 分支、合并与服务器同步 | [REPOSITORY_WORKFLOW](docs/REPOSITORY_WORKFLOW.md) |
+| 科学／维护记录 | [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11) / [Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47) |
+| 本次整理及分支退役状态 | [CONSOLIDATION_REPORT](docs/maintenance/2026-10-28/CONSOLIDATION_REPORT.md) |
 
-## 版本和运行规则
+## 当前路线
 
-过渡期唯一集成分支是 `pi0267/executor-decoupled-recovery`；不是默认 main。新运行绑定明确的 protocol/code/source/entry/data/model/processor/statistics/environment 版本和 owner/run UUID，不用 mutable HEAD 取代运行快照。通用实现以后经单独 PR、测试及路由切换记录提升到 main，不强行覆盖历史。
+**收齐C50/D25与GEN1行为结果 → E0预训练诊断、E1/E2匹配最小适配 → 独立布局／任务迁移验证 → 必要时少量Go2＋ARX5目标示范 → 冻结WBC执行域比较。**
 
-local-pc 负责协调和发布；CoreLab 负责仿真、数据和 CPU；Hopper 神经执行须合法 PBS。源码/模板/小收据进 GitHub；大数据、完整 Trainer、视频通过已授权私有 HF 固定 revision 和成员 hash 交付。私有 WBC、mesh、凭据和环境不打包进源码 Git，整个工作区不是一个 Git 仓库。
+先测量再补数据。E1只更新目标本体编码／解码参数；E2额外更新共享动作策略。两臂从同一原始权重和12条源域示范出发，先各512步。不默认扩采、延长训练或增加柜门／书架任务。
 
-已有三个 CoreLab enter.sh profiles 曾通过实际验收；新通用 workspace CLI、强制接入和物理目录继续收敛必须由新的部署收据证明。不要因为看到这份规范就认定全部命令已实现、所有旧目录已删除，或现役实验可以重启。旧 PI0291 PARTIAL、当前 PI0292 运行身份和全部历史结果保留。
+截至整理基线：A4096首面板11/24、B4096为6/24、C50为6/24；D25与GEN1已训练但尚无有效Eval，E0/E1/E2尚无成功的原生模型结果。详见带证据的状态页，未运行不等于成功率0%。
 
-## 历史
+## 唯一平台分工
 
-之前 README、docs/PROJECT_STATUS、RESEARCH_INDEX、REPOSITORY_WORKFLOW、CONSOLIDATION/TIMELINE 文档保留各自历史日期；不再以其旧“最新状态”或截止构成新的执行权限。最新科学事实刷新 #11 与实际 run；工作区实施刷新 #47。当前工作应从上面的固定现行入口进入。
+- **Vanda**：合法PBS内微调、有限离线神经诊断和完整状态保存。
+- **CoreLab 4080S**：模型推理、MuJoCo双相机与完整闭环Eval。
+- **AMD／管理端**：CPU、数据准备和有限部署／证据汇总。
+
+运行时两站不互相SSH、不查对方队列、不等待对方心跳。仅通过已授权的HF固定revision交付模型；私有数据、凭据和WBC资产不得因此公开。有限本地执行记录与独立终态结算沿既有机制，不另外建立调度平台。
+
+## 工作区与历史
+
+人类入口仍为 `~/Projects/GR00T-WBC`。复用[统一入口规范](docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md)与[WORKSPACE_ENTRY_ENFORCEMENT_V1.md](docs/operations/WORKSPACE_ENTRY_ENFORCEMENT_V1.md)；其中旧分支路由由[本次main提升记录](infrastructure/workspace/INTEGRATION_REF_CHANGE_20261028.json)取代，旧运行与固定source不变。
+
+原 `pi0267/executor-decoupled-recovery` 已按已审阅SHA合入main，暂留为旧owner迁移兼容引用，不再是新工作的默认发布分支。不要在运行中的source capsule执行pull、checkout或清理。旧协议、负结果及报告完整保留；原长日志已[按原字节归档](docs/archive/2026-10-28/pre-consolidation/)。
+
+本次未启动训练、物理或远端部署；GitHub合并与源码回读不是CPU全套测试、CI或模型资格PASS。

@@ -1,0 +1,20 @@
+{
+  "schema": "EXACT_MERGED_BRANCH_RETIREMENT_20261028_V1",
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "integrated_main_minimum": "2080c725cc810f6fe1423cda90076206bf089641",
+  "status": "MERGED_CONTENT_PRESERVED_REF_DELETION_NOT_EXECUTED",
+  "deleted_count": 0,
+  "archive_tags_created_by_this_session": false,
+  "keep": ["main", "pi0267/executor-decoupled-recovery"],
+  "candidates": [
+    {"name": "maintenance/hopper-september-retirement-20261013", "sha": "4f5fe8ea9b4309b2aa8792d60475a1f1daa7d0a8", "merge_pr": 82},
+    {"name": "ops/main-cpu-ci-20261013", "sha": "1279ecca379514a2a8040e2a378a67a4161ab4f3", "merge_pr": 81},
+    {"name": "pi0257/corelab-video-evidence-workflow-v1", "sha": "1e760ba055106cb85b508711f1466d1cb78a9656", "merge_pr": 83},
+    {"name": "pi0263/storage-subagent-model-audit-go", "sha": "b809ee4315b585bd9e77400115ead784e33465ae", "merge_pr": 84},
+    {"name": "pi0264/language-diversity-transfer", "sha": "f2eafce181499e6854f879533f3394b5b379524e", "merge_pr": 85},
+    {"name": "maintenance/main-consolidation-20261028", "sha": "c1d340d23ed4b65f9a1533ba86d31318abbc3a32", "merge_pr": 81}
+  ],
+  "requires": ["exact live candidate SHA", "candidate ancestor of live main", "main descends from integrated_main_minimum", "unprotected branch", "no open PR head/base dependency", "same-name tag points to exact commit", "atomic expected-SHA ref deletion", "readback before claiming deletion"],
+  "active_branch_retirement": "Not part of this helper. Requires publisher handover and a fresh comparison for any later commits.",
+  "preserve_history_and_running_capsules": true
+}
