@@ -4,7 +4,7 @@ No submission or model/update occurs here. Every phase gets its own original
 Journal mutation intent and fresh whole-budget/queue/project release. A13-step
 ticket plan is not another scheduler or a license to replay a missed reply.
 """
-import json,os,time
+import json,os,subprocess,time
 from pathlib import Path
 from . import minimal_execution as e,minimal_effects as effects
 from . import minimal_execution_adapter as adapters
@@ -118,9 +118,41 @@ def check_release(value,ready_bytes,request,*,job_id,now_epoch):
     return value
 
 
+def _within_phase_reads(function,*,guard,until,clock,sleep,job_id,observations,failures):
+    """At most three failed qstat reads inside the same original180s phase.
+
+    A failed read grants no model/update permission. Identity, STOP, ledger,
+    parse and other errors propagate immediately; the original qstat25s and
+    owner heartbeat limits remain unchanged. The caller shares one deadline
+    and failure list across READY and final release verification.
+    """
+    def timely():
+        if clock()>=until:raise TimeoutError('MINIMAL_ORIGINAL180S_NATIVE_READ_PHASE_EXPIRED')
+    while True:
+        timely();guard();timely()
+        try:
+            value=function()
+        except (subprocess.CalledProcessError,subprocess.TimeoutExpired)as error:
+            if error.cmd!=['/opt/pbs/bin/qstat','-f','-F','json',job_id]:raise
+            def text(value):
+                return (value.decode(errors='replace')if isinstance(value,bytes)else value or '')[-2048:]
+            record=dict(job_id=job_id,error_type=type(error).__name__,returncode=getattr(error,'returncode',None),
+                stdout=text(error.stdout),stderr=text(error.stderr),observed_epoch=time.time(),
+                remaining_original_phase_s=max(0,until-clock()),model_or_update_permission=False)
+            failures.append(record);observations.mkdir(parents=True,exist_ok=True,mode=0o700)
+            once(observations/('READ_FAILURE_'+str(len(failures)).zfill(2)+'.json'),record)
+            if len(failures)>=3:raise
+            timely();sleep(min(2.,until-clock()));continue
+        timely();return value
+
+
 def wait_release(root,allocation_directory,allocation,ledger,session_id,phase,*,guard,clock=time.monotonic,sleep=time.sleep):
-    slot=publish_ready(root,allocation_directory,allocation,ledger,session_id,phase)
-    until=clock()+180
+    until=clock()+180;failures=[]
+    observations=Path(allocation_directory)/'session-read-observations'/str(descriptor(session_id,phase)['index']).zfill(2)
+    def finite_read(function):
+        return _within_phase_reads(function,guard=guard,until=until,clock=clock,sleep=sleep,
+            job_id=allocation['job_id'],observations=observations,failures=failures)
+    slot=finite_read(lambda:publish_ready(root,allocation_directory,allocation,ledger,session_id,phase))
     while not(slot/'RELEASE.json').is_file():
         guard()
         if clock()>=until:raise TimeoutError('MINIMAL_ORIGINAL_OWNER180S_PHASE_RELEASE_MISSING_NO_REPLAY')
@@ -129,7 +161,9 @@ def wait_release(root,allocation_directory,allocation,ledger,session_id,phase,*,
     check_ready(ready,ledger.request,request_sha256=allocation['request_sha256'],job_id=allocation['job_id'],effect_value=v)
     need_release=check_release(read(slot/'RELEASE.json'),body,ledger.request,job_id=allocation['job_id'],now_epoch=time.time())
     from .minimal_native_context import verify_release
-    verify_release(root,ledger.request_path,allocation,need_release,ready_bytes=body,effect_bytes=ledger.path.read_bytes())
+    finite_read(lambda:verify_release(root,ledger.request_path,allocation,need_release,ready_bytes=body,effect_bytes=ledger.path.read_bytes()))
+    # Time spent observing PBS must not consume a now-stale owner permission.
+    check_release(need_release,body,ledger.request,job_id=allocation['job_id'],now_epoch=time.time())
     # Do not equate a later legitimate Core query counter change with an old
     # permission. The actual guard must recompute the CURRENT whole GLOBAL;
     # the original release retains its exact observation and receipt bytes.

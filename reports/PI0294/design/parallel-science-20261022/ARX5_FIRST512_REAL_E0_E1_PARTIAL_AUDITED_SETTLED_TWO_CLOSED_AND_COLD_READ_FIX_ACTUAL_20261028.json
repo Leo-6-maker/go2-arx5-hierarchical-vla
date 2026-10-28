@@ -1,0 +1,188 @@
+{
+  "schema": "ARX5_FIRST512_ACTUAL_PARTIAL_MODEL_EVIDENCE_CLOSED_AND_COLD_READ_FIX_V1",
+  "status": "ACTUAL_PARTIAL_NATIVE_RESULT_PRESERVED_ONCE_SETTLED_BOTH_OWN_LEASES_CLOSED",
+  "observed_epoch": 1793200123.849174,
+  "scientific_endpoint_complete": false,
+  "wholegoal_complete": false,
+  "identity": {
+    "job_id": "1504095.stdct-mgmt-02",
+    "request_id": "a6b3936e-f273-4491-b43b-b8168a6d0f3b",
+    "submission_nonce": "30d2c15c-fd59-47ee-ba3c-4cc09421b273",
+    "source_sha": "7c7e77d4b83a7b3a30f336a6f53f4788942c2373",
+    "request_sha256": "d90e62a0b7a55fc620ecd666ae9a626a33e68ea67eacfde873a5db34b9196832"
+  },
+  "metadata_source_sha": "5d77568ccb3d51e3db52a708ac1d534fc6a600b3",
+  "native_terminal": {
+    "job_state": "F",
+    "Exit_status": 1,
+    "finished_epoch": 1793198448,
+    "raw_native_sha256": "7d9a17180a537c8ed16b13d00e43e52cd766df662f13593fb945cfda070bba56",
+    "process_final_sha256": "7025d34565df67c4eff1312ab5cf0ee0c745107e85442a72a8fad0ec8830682c",
+    "wrapper_final_sha256": "9cd33de39b544a232f28f29b81b468509b3484ba77335034fb81e8affae0525e",
+    "inventory_sha256": "92e2e4e9313ae757123b95ed7922dec4cc45c5528bb3eb6b98cc32367632898d"
+  },
+  "failure": {
+    "class": "ENGINEERING_NATIVE_READ_FAILURE_NOT_POLICY_TASK_FAILURE",
+    "error_type": "CalledProcessError",
+    "read": "own PBS qstat -f -F json returned255 before E2 FIRST_UPDATE READY",
+    "wrapper_returncode": 1,
+    "owner_returncode": 1,
+    "old_job_restarted": false,
+    "timeout_inferred_as_terminal": false
+  },
+  "actual_sessions": {
+    "E0_RAW_DIAGNOSTIC": {
+      "runtime_status": "COMPLETE",
+      "optimizer_calls": 0,
+      "queries": 39,
+      "loads": 1,
+      "independent_saved_output_count": 39,
+      "terminal_sha256": "a84a2c0d59b219422aeacf81917cb6de29a3625a2e21210c96de006292f7302e",
+      "behavior_measured": false
+    },
+    "E1_ADAPTER_ONLY_QUALIFY2": {
+      "runtime_status": "COMPLETE",
+      "optimizer_calls": 2,
+      "queries": 17,
+      "loads": 3,
+      "cursor": 64,
+      "target_gradient_rows": 14,
+      "changed_target_parameters": 14,
+      "native_frozen_unchanged_receipt": true,
+      "checkpoint_manifest_sha256": "dcda3434a368e5d08f8709bd6cbf0b3c261a0b3ddc3960ec7f40b22787c1917c",
+      "parameter_update_receipt_sha256": "d5ab5a4bef42d635deeae85c47edc90693e16f9c19c63dd0c54ec2950e4b93d8",
+      "terminal_sha256": "58f5aa55699b98f177da891021fa5de5e38be3250fdf9ec0921e13160eb8fd92",
+      "restore": {
+        "status": "PASS_ORIGINAL_TRAINER_OWN_QUALIFICATION_FULL_STATE_RESTORE_ONLY",
+        "arm": "E1_ADAPTER_ONLY",
+        "step": 2,
+        "cursor": 64,
+        "scheduler_horizon": 1024,
+        "optimizer_scheduler_model_RNG_sampler_checked": true,
+        "new_optimizer_updates": 0,
+        "new_queries": 0,
+        "qualification_never_becomes_formal": true,
+        "original_fixed_draw_equivalence_still_required": true,
+        "native_model_qualification_complete": false
+      },
+      "independent_full_member_stream_audit_complete": false,
+      "formal_initialization_from_qualification": false
+    },
+    "E2_SHARED_ACTION_HEAD_QUALIFY2": {
+      "runtime_status": "ACTIVE_THEN_KNOWN_TERMINAL",
+      "optimizer_calls": 0,
+      "queries": 15,
+      "loads": 1,
+      "FIRST_UPDATE_release": false
+    },
+    "E1_ADAPTER_ONLY_FORMAL512": {
+      "status": "NOT_STARTED",
+      "updates": 0
+    },
+    "E2_SHARED_ACTION_HEAD_FORMAL512": {
+      "status": "NOT_STARTED",
+      "updates": 0
+    }
+  },
+  "effect_totals": {
+    "optimizer_updates_committed": 2,
+    "queries": 71,
+    "model_loads": 5,
+    "pending_updates": [],
+    "unknown_query_intents": [],
+    "new_physics": 0,
+    "new_teacher_episodes": 0
+  },
+  "once_accounting": {
+    "GLOBAL_sha256": "eaa268edd0d212b0a73bc56d6eac877ee0a89fe64c07c033ef284127b36daa00",
+    "conservative_GPU_seconds": 1917,
+    "conservative_site_CPU_seconds": 1222,
+    "prior_readonly_preparation_CPU_recharged": 0,
+    "actual_native_settlement_intent_sha256": "85059bde547475d34c10d06545e1ccbc4c8b47487b92dc6fc15998abfd50f6fc",
+    "actual_native_settlement_receipt_sha256": "3d0bc9f42c7c9a8044087fb10dcf73ca3fa33bff8bcc0ae432176ac4cc3430c8",
+    "original_SETTLE_UNKNOWN_operation_id": "4671dfa1fffb401d9804597e53aa7b4d",
+    "original_SETTLE_UNKNOWN_permanent": true,
+    "settlement_replayed": false,
+    "used": {
+      "H200_s": 180440.0,
+      "PBS_submissions": 38,
+      "optimizer_updates": 14788,
+      "neural_queries": 5908
+    },
+    "reserved": {
+      "H200_s": 86580,
+      "neural_queries": 6291,
+      "optimizer_updates": 0
+    },
+    "old_costs_and_gross_outputs_preserved": true
+  },
+  "own_lease_closure": {
+    "science": {
+      "status": "CLOSED",
+      "lease_sha256": "1758991a278c5e131a4e9aaeceeac1bab518a9be9f5b11a9375065d196d40621",
+      "native_close_intent_sha256": "36ab335b9c2b410ff0ae2653638d4537e883ef388e06cb8bb914754fd71483c7",
+      "native_close_receipt_sha256": "36ea94dab0a1cf330cb0144a62a4e8c9319b65079956ab108791c1bcef92a928"
+    },
+    "metadata": {
+      "status": "CLOSED",
+      "lease_sha256": "07af7cfbb0515b0aac3c0eade942ac51bc5ac1aa40511a62b738ff47012fbcfc",
+      "native_close_intent_sha256": "7fcfc02498d42940bd534a7fa9749c068b48f949a9331e991884cceec0c0fa60",
+      "native_close_receipt_sha256": "1f9af22d98d7f4cc902ecc1d3a06a21ce7ee328f49fed7a9a107b0a327bbbd0c"
+    }
+  },
+  "independent_saved_prefix_audit": {
+    "status": "INCOMPLETE_BOUNDED_CPU_READER_WALLTIME_EXPIRED",
+    "CPU_actual_seconds": 53.042269000000005,
+    "original_CPU_upper_seconds_retained": 120,
+    "walltime_bound_seconds": 180,
+    "OS_returncode": -9,
+    "foreground_wait_completed": true,
+    "all_own_actors_absent_after_close": true,
+    "result_file_exists": false,
+    "saved_E1_checkpoint_validity_not_denied_by_reader_timeout": true,
+    "large_state_readback_not_claimed": true,
+    "no_new_model_query_update": true,
+    "note": "Full-state independent saved-prefix audit is still required before granting continuation credit. Do not rerun completed E0 or E1 qualification to manufacture that evidence."
+  },
+  "cold_engineering_fix": {
+    "deployed": false,
+    "file": "scripts/pi0294/generalization/minimal_session_gate.py",
+    "change": "At most three failed exact-own-job read attempts inside one original180s phase covering READY and final verification. Preserve every observed error; no stale release, identity or STOP bypass. Native qstat25s and original heartbeat limits unchanged.",
+    "new_targeted_CPU_cases_passed": 10,
+    "all_targeted_CPU_tests_passed": 49,
+    "skipped_in_final_targeted_run": 0,
+    "full_CI": "NOT_RUN",
+    "initial_fixture_error_retained": "deadline fixture reset its fake clock instead of advancing; fixed fixture and reran",
+    "native_program_error_retained": "private CPU auditor cold assembly initially had a quoting syntax error before any remote launch; corrected before its sole actual launch"
+  },
+  "next_boundary": {
+    "completed_prefix_reexecution": false,
+    "new_request_or_qsub": false,
+    "remaining_science": "Finish E2 qualification, E1/E2 formal512 with same raw parent,12TRAIN,R0,matched cursor and1024 LR schedule. Audit saved completed prefix first; formal arms never inherit qualification states.",
+    "PBS_current_cap": 41,
+    "PBS_used": 38,
+    "protected_matrix_PBS": 3,
+    "one_additional_completion_allocation_full_projection": 42,
+    "completion_scope_and_full_resources_native_adopted": false,
+    "old_actor_or_request_replay": false,
+    "Core_D25_and_GEN1_valid_eval_conditions": 0,
+    "Core_old_cold_binding_must_be_refreshed": true,
+    "paused_automation_resumed": false
+  },
+  "unchanged": [
+    "Scientific recipe and15frozen numerical source files",
+    "Raw parent revision2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "H40/Prefix8/EEF10/four steps/dualRGB/R0/S1/scoring",
+    "C50 six valid successes of24 and all valid failures",
+    "D25/GEN1 trained endpoints and already delivered models",
+    "All prior UNKNOWN/costs/current/peak and original clocks/matrix/final protection",
+    "Vanda training/Core Eval independent runtime split",
+    "No new datasets/LoRA/skills/WBC tuning"
+  ],
+  "private_evidence_files": [
+    "FIRST512_REGISTERED_DISPATCH01_LATE_SETTLE_CAPTURE.private.json",
+    "FIRST512_REGISTERED_DISPATCH01_ONLY_SCIENCE_CLOSED_ONCE.private.json",
+    "FIRST512_REGISTERED_DISPATCH01_ONLY_METADATA_CLOSED_ONCE.private.json",
+    "FIRST512_REGISTERED_DISPATCH01_PARTIAL_BOTH_CLOSED_INDEPENDENT_READBACK.private.json"
+  ]
+}
