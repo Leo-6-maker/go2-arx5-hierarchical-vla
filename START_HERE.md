@@ -1,34 +1,32 @@
-# 当前入口 · 2026-10-29
+# 当前入口 · 2026-10-29 · 长程Goal V6
 
-`main`是唯一集成入口。先读[当前科学状态](CURRENT_SCIENCE_STATUS.md)、[最新实验路线](docs/EXPERIMENT_ROADMAP.md)与[AGENTS](AGENTS.md)，不要从旧日期协议中推断当前权限或运行状态。
+`main`是唯一集成入口。先读[科学状态](CURRENT_SCIENCE_STATUS.md)、[V6详细计划](docs/protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[路线索引](docs/EXPERIMENT_ROADMAP.md)和[AGENTS](AGENTS.md)。历史协议不自动提供当前权限。
 
-## 下一步只推进两条科学工作流
+## 下一步：两条科学线，一条只读支持线
 
-| 平台 | 当前任务 | 真正交付 |
+| 位置 | 当前任务 | 完成标志 |
 |---|---|---|
-| CoreLab 4080S | 完成D25原N294101的24条件，再评价GEN1 | 完整行为表、独立审计、配对分析与关闭 |
-| Vanda | 修通现有有限后继入口，执行E0与E1/E2真实资格，再各512步 | 原始模型结果、真实梯度／冻结检查、两个完整端点 |
+| CoreLab 4080S | 复用已补齐的LOCAL终态，冷态绑定D25原N294101/24，再GEN1 | 完整行为表、D−C配对及关闭 |
+| Vanda | 复用已审计E0/E1和已采用剩余范围，补E2资格、fresh训练两臂512 | 固定端点、真实更新/消费/保存恢复 |
+| PC Rerun | 已有Teacher/Student失败解释与保存输出分析 | 可核验只读证据，不阻塞科学运行 |
 
-两站运行彼此独立。管理端在启动前封存有限范围和必要权限，运行中各站本地记录效果，结束后独立核账；不依赖Core→Vanda持续SSH。模型只走已批准HF固定版本，禁止重复传输已经核验的文件。工程错误不是策略任务失败。
+两站运行不互相SSH/查队列/等心跳；管理端独立连接/终态核账，模型走已授权HF固定revision，不重传已交付D25。
 
-## 当前必须知道的事实
+## 当前关键事实
 
-- A4096=11/24、B4096=6/24；C50完整24条件中6成功，三者是源域开发面板，不是完整发布或泛化资格。
-- D25和GEN1各1024训练已完成；截至整理基线，各自仍0个有效Eval条件。
-- Vanda1504095已F/Exit1、结算并关闭。E0与E1资格的完整保存状态已独立流审计：E1原生2次优化、14目标参数变化、冻结不变、完整恢复及同输入输出一致；E2已有15零步输出，优化0，两臂正式0/512。原作业不重跑，剩余一次接续的PBS42和有限控制已实际采用。
-- Core canonical LOCAL已一次同步38条真实终态PBS历史并与Vanda独立回读一致；D25旧冷源码绑定仍须更新，尚未启动新评估。详见[最新实际回执](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json).
-- 新的Go2＋ARX5标定／目标示范计划独立于当前12条固定基座示范，不混入E1/E2。原DEC1固定CORR/R0目标比较仍0/64。
+- A4096=11/24、B4096=6/24、C50=6/24；源域已暴露DEV，不是独立泛化。D25/GEN1各1024完成，仍无有效Eval。
+- Vanda1504095已F/Exit1、once结算、own lease关闭：E0 39查询，E1两步资格/17查询/14目标参数变化，E2 15零步输出/优化0。正式E1/E2仍0/512。
+- **PR99新增实际证据：E0/E1完整保存前缀独立审计PASS，E1重载同输入/noise输出精确一致；PBS41→42及一次控制范围已采用；Core LOCAL38条终态已补齐。** [原报告](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)。不重做同一审计/cap/mirror/settle。
+- 新request/qsub、D25新原生部署与正式训练尚未由该报告建立。下一步是剩余任务冷态绑定和真实执行，不是重复已完成检查。
+- Rerun验证三条稀疏记录（Teacher各41/641、失败2/224），不是完整整机回放；full qpos/mesh不是训练Eval前置。
+- Go2+ARX5标定/12次任务pilot独立于当前12条源域示范；原DEC1仍固定CORR/R0，不混目标训练。
 
-## 读取顺序与证据
+## 接续与证据
 
-1. [EXPERIMENT_ROADMAP](docs/EXPERIMENT_ROADMAP.md)：研究问题、固定对照、阶段出口。
-2. [CURRENT_SCIENCE_STATUS](CURRENT_SCIENCE_STATUS.md)：有时间与来源的结果快照。
-3. [CODE_MAP](docs/CODE_MAP.md)：已有模块与历史实现的区别。
-4. [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11)、[Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47)及[原生进度日志](docs/handover/2026-10-25/AUTONOMOUS_PROGRESS.md)：刷新最新实际回执。
-5. 实际执行前，由原执行owner核本机进程、lease、资源、完整输入和有效截止；GitHub页面不是实时GPU监控。
+[Codex交接](docs/handover/2026-10-29/POST_RERUN_SCIENCE_FIRST_EXECUTION.md) · [计划卡](reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json) · [CODE_MAP](docs/CODE_MAP.md) · [仓库工作流](docs/REPOSITORY_WORKFLOW.md)。计划卡不是可派发RUN_MANIFEST。
 
-## 整理边界
+刷新[Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11)、[Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47)和原owner的本机原件。GitHub不是实时GPU监控，后继回执优先；已完成只接剩余项。普通同范围工程最小冷修，真实外部缺口一次准确报告。
 
-本次只改变仓库集成与导航。旧source、数据、模型、WBC、R0、安全门、评分、统计口径和实验时钟不变。旧分支内容已合并；远端ref删除仍见[精确清单与状态](docs/maintenance/2026-10-28/CONSOLIDATION_REPORT.md)，不得把清单当删除回执。
+stop-new仍2026-10-31 20:52:29.813 SGT，hard deadline仍2026-11-01 20:52:29.813 SGT。本次只发布计划，不延期、不采用新额度、不启动作业/子代理/暂停自动化；原WBC/R0/评分/失败保持，运行source不热切换。
 
-后续更新这份短入口，不再不断向文件顶部追加数百条完整日志。详细结果留原报告，当前状态写状态页。整理前完整START_HERE按相同Git blob保存在[历史副本](docs/archive/2026-10-28/pre-consolidation/START_HERE.md)；其相对链接按原位置解释，不是新的执行指令。
+根入口保持简短，完整证据在reports。历史可由Git/原字节归档恢复；分支退役按独立维护回执，不随计划发布删除refs。
