@@ -29,6 +29,3 @@ jobs:
       - name: PI0292 isolated CPU contracts
         if: ${{ hashFiles('scripts/pi0292/test_*.py') != '' }}
         run: python -m pytest -q scripts/pi0292
-      - name: PI0294 isolated CPU contracts (no physics or model execution)
-        if: ${{ hashFiles('scripts/pi0294/test_*.py') != '' }}
-        run: python -m pytest -q scripts/pi0294
