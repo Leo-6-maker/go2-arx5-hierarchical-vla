@@ -1,0 +1,205 @@
+{
+  "schema": "V5_D25_ZERO_MODEL_DEVICE_CONFLICT_FULLY_CLOSED_AND_COMPLETE_RETRY_COLD_FORECAST_V1",
+  "observed_epoch": 1793161907.2277174,
+  "observed_SGT": "2026-10-28T12:31:47.227717+08:00",
+  "whole_goal_complete": false,
+  "D25": {
+    "request_id": "9dd25c79-9a67-482a-bce7-d88a0fc922bc",
+    "source_sha": "c446323ae71ec69761f743f5d68c76a2078ecdad",
+    "valid_conditions": 0,
+    "remaining_original_conditions": 24,
+    "original_native_exit_status": 1,
+    "owner_natural_OS_exit_status": 0,
+    "all_original_processes_terminal": true,
+    "failure": "PV1_CORE_NATIVE_NO_FOREIGN_COMPUTE_ON_SELECTED_DEVICE",
+    "failure_phase": "final identity check after 600-second heartbeat collection; full qualification never returned PASS",
+    "actual_transport_cycles": 80,
+    "actual_heartbeat_observations": 81,
+    "actual_model_loads": 0,
+    "actual_model_queries": 0,
+    "actual_constructors": 0,
+    "actual_physics_integrations": 0,
+    "failed_observation_PID_or_UID": "NOT_PRESERVED_IN_ORIGINAL_REJECTION; do not infer from earlier or later GPU snapshots",
+    "subsequent_GPU_compute_list_empty": true,
+    "subsequent_GPU_observed_epoch": 1793161933.4995859,
+    "original_watch_once_dual_financial_settlement": true,
+    "stage_advanced": false,
+    "costs": {
+      "GPU_s": 686,
+      "neural_CPU_s": 4,
+      "physical_CPU_s": 300.588019156,
+      "Core_output_charged_upper_bytes": 34051160888,
+      "transfer_charged_upper_bytes": 55217419888,
+      "original_gross_GPU_output_upper_bytes": 42641095480
+    },
+    "leases": {
+      "control": {
+        "status": "CLOSED",
+        "sha256": "6ab01e4e4fbcc38a501422210c4de786fa9b4723b9445ee0dc173d4f1c638d91"
+      },
+      "GPU": {
+        "status": "CLOSED",
+        "sha256": "07ae75e9f18ed73fc6ef70766f72af5f1e1018db8326b9bcdae68c48ddd1f45a"
+      },
+      "physical": {
+        "status": "CLOSED",
+        "sha256": "7accf7c9edee92e80ad140ceb7a06331571a20701338b2f762df88287b77840a"
+      }
+    },
+    "independent_GLOBAL_sha256": "de41be485efefc9043bf6bf045b32658c4fe412b55564162efffa30fa7731c15",
+    "independent_LOCAL_sha256": "5f57b4d91b732f1199849330133bbd991f0fc290882af40a6ec9c3342867cd45",
+    "remaining_control_close_once_confirmed": true,
+    "original_GPU_physical_finance_not_replayed": true
+  },
+  "cumulative_GLOBAL": {
+    "used": {
+      "H200_s": 177599.0,
+      "PBS_submissions": 35,
+      "optimizer_updates": 14786,
+      "neural_queries": 5837
+    },
+    "reserved": {
+      "H200_s": 61320,
+      "neural_queries": 4194,
+      "optimizer_updates": 0
+    },
+    "completed_CD_stages": [
+      "TRAIN:C50:1024",
+      "TRAIN:D25:1024",
+      "EVAL:C50:N294101"
+    ]
+  },
+  "fresh_remaining_work": {
+    "original_unrestored_forecast_rejects_missing_D25_compute_hold": true,
+    "conditional_pure_plan": "Restore a full original D25 Core panel, including full new gross IO and control; also restore the full first512 main using its separately guarded already-paid output allowance",
+    "D25_full_original_vector": {
+      "H200_s": 28860,
+      "PBS_submissions": 0,
+      "optimizer_updates": 0,
+      "episode_starts": 26,
+      "neural_queries": 2097,
+      "physics_ticks": 832000,
+      "engine_starts": 2108,
+      "Core_CPU_s": 173900,
+      "Hopper_CPU_s": 87200,
+      "local_CPU_s": 7200,
+      "transfer_bytes": 56291161712,
+      "Hopper_storage_bytes": 42708204344,
+      "Core_storage_bytes": 34185378616,
+      "local_storage_bytes": 0
+    },
+    "dimensions": {
+      "H200_s": {
+        "projected": 514739.0,
+        "cap": 532800,
+        "shortfall": 0
+      },
+      "PBS_submissions": {
+        "projected": 39,
+        "cap": 39,
+        "shortfall": 0
+      },
+      "optimizer_updates": {
+        "projected": 15814,
+        "cap": 16384,
+        "shortfall": 0
+      },
+      "episode_starts": {
+        "projected": 727,
+        "cap": 1000,
+        "shortfall": 0
+      },
+      "neural_queries": {
+        "projected": 30412,
+        "cap": 48000,
+        "shortfall": 0
+      },
+      "physics_ticks": {
+        "projected": 22265970,
+        "cap": 40000000,
+        "shortfall": 0
+      },
+      "engine_starts": {
+        "projected": 51448,
+        "cap": 100000,
+        "shortfall": 0
+      },
+      "Core_CPU_s": {
+        "projected": 1203424.879928574,
+        "cap": 1368000,
+        "shortfall": 0
+      },
+      "Hopper_CPU_s": {
+        "projected": 886424.658597758,
+        "cap": 954000,
+        "shortfall": 0
+      },
+      "local_CPU_s": {
+        "projected": 165133.974682509,
+        "cap": 172800,
+        "shortfall": 0
+      },
+      "transfer_bytes": {
+        "projected": 488342378785,
+        "cap": 488552529920,
+        "shortfall": 0
+      },
+      "Hopper_storage_bytes": {
+        "projected": 1501867985144,
+        "cap": 1502164811776,
+        "shortfall": 0
+      },
+      "Core_storage_bytes": {
+        "projected": 555535923648,
+        "cap": 590558003200,
+        "shortfall": 0
+      },
+      "local_storage_bytes": {
+        "projected": 9395240960,
+        "cap": 21474836480,
+        "shortfall": 0
+      }
+    },
+    "shortfalls": {},
+    "D25_paid_IO_credit": false,
+    "training_paid_IO_credit_native_adopted": false,
+    "canonical_ledgers_written": false,
+    "new_request_registered": false,
+    "new_PBS_or_GPU_started": false,
+    "limitation": "Planning-only copied vectors are not an adopted continuation; both original validators must explicitly bind the two new requests before native writes"
+  },
+  "cold_code": {
+    "runtime_storage_guard_source": "6216d2ae",
+    "runtime_guard_full_readback_proof_exists": true,
+    "history_and_rejection_source": "0e51ab21e68eaab79d9e628816d3f404b285cb76",
+    "four_files_full_GitHub_SHA_and_gitblob_readback": true,
+    "retained_history_and_custody_CPU_tests_passed": 14,
+    "device_rejection_and_original_desktop_sharing_CPU_tests_passed": 48,
+    "runtime_storage_related_previous_CPU_tests_passed": 35,
+    "counts_are_different_scopes_not_native_qualification": true,
+    "behavior": "Exact predecessor native/effect/audit/row identity remains revalidated under a future replacement; original single-row ledger not yet changed. Future device rejection records offending PID and permitted owner PID without process path; strict rejection unchanged",
+    "old_runtime_capsules_modified": false,
+    "new_native_model_qualification": false
+  },
+  "remaining": {
+    "C50": {
+      "valid_conditions": 24,
+      "successes": 6,
+      "T1_successes": 4,
+      "T2_successes": 2
+    },
+    "D25_valid_conditions": 0,
+    "GEN1_valid_conditions": 0,
+    "E0_queries": 0,
+    "E1_steps": 0,
+    "E2_steps": 0,
+    "WDR_core64": 0
+  },
+  "next_minimum_block": "Implement an explicit one-time D25 zero-effect full-panel continuation with the true three-closed predecessor and restored complete escrow, plus exact first512 two-row history/accounting/owner context. Recompute the combined plan on fresh canonical ledgers, adopt only via original onceIO, fullreadback immutable sources, then fresh native GPU/queue qualification. Never restart the failed D25 owner or replay its register/start/settle/close.",
+  "caps_or_clock_changed": false,
+  "old_costs_current_peak_and_unknown_preserved": true,
+  "original_matrix3_and_final20GPUh40GiB_protected": true,
+  "T_CD": 1792932749.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "deadline_epoch": 1793537549.8133287
+}
