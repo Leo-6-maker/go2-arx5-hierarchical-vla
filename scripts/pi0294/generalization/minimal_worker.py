@@ -47,6 +47,12 @@ def seal_checkpoint(root,session_id,step,expected_manifest_sha256,*,guard):
 
 
 class Worker:
+    evidence_name='MINIMAL_FIVE_SESSIONS'
+
+    def prepare_inputs(self):pass
+
+    def raw_audit(self):return model.audit_raw_parent(self.raw_checkpoint,guard=self.guard)
+
     def __init__(self,root,request_path,allocation,ledger,*,guard):
         need(isinstance(ledger,Effects)and callable(guard),'WORKER_ORIGINAL_TYPED_EFFECTS_AND_NATIVE_GUARD')
         self.root=Path(root);self.request_path=Path(request_path);self.allocation=allocation
@@ -71,7 +77,8 @@ class Worker:
         self.panel=self.sealed('plans/MINIMAL_TWELVE_PANEL.json')
         need(self.language_plan==language.prepare(self.capture,self.panel),'WORKER_ORIGINAL_FROZEN_LANGUAGE24_INPUTS')
         self.directory=self.request_path.parent;self.audit=None;self.instance=None
-        evidence=self.root/'evidence/MINIMAL_FIVE_SESSIONS';need(not evidence.exists(),'WORKER_NO_RESTART_OR_MODEL_REPLAY')
+        self.prepare_inputs()
+        evidence=self.root/'evidence'/self.evidence_name;need(not evidence.exists(),'WORKER_NO_RESTART_OR_MODEL_REPLAY')
         evidence.mkdir(parents=True,mode=0o700);self.evidence=evidence
         self.reader=training.dataset(self.root,evidence/'language-reader')
         first=self.language_plan['cases'][0]
@@ -194,11 +201,11 @@ class Worker:
             official_inference_manifest_sha256=sha(target/'CHECKPOINT_COMPLETE.json'),official_output_equality=equality)
 
     def run(self):
-        need(self.ledger.guard()['active_session']is None,'WORKER_FRESH_FIVE_SESSION_START')
-        audit=model.audit_raw_parent(self.raw_checkpoint,guard=self.guard)
+        need(self.ledger.guard()['active_session']is None,'WORKER_FRESH_OWN_SESSION_START')
+        audit=self.raw_audit()
         once(self.evidence/'RAW_PARENT_COMPLETE_STREAM_AUDIT.json',audit);self.audit=audit
         try:
-            for spec in e.native_sessions():
+            for spec in self.ledger.plan():
                 sid=spec['id'];self.ledger.start_session(sid);proof=self.phase(sid,'MODEL_RAW');self.load_raw(sid,proof)
                 if spec['optimizer_limit']==0:
                     zeros=self.zero_draws(sid);language_rows=self.language_draws(sid)
@@ -206,7 +213,7 @@ class Worker:
                 elif not spec['formal_candidate']:result=self.qualification(sid)
                 else:result=self.formal(sid)
                 self.unload();row=self.ledger.guard()['sessions'][sid]
-                need(row['model_loads']==dict(zip([s['id']for s in e.native_sessions()],(1,3,3,2,2)))[sid],
+                need(row['model_loads']==dict(zip([s['id']for s in self.ledger.plan()],self.ledger.load_limits()))[sid],
                      'WORKER_ALL_REAL_RAW_FULL_RESTORE_AND_OFFICIAL_RELOAD_ATTEMPTS')
                 receipt=dict(schema='ARX5_MINIMAL_RUNTIME_SESSION_TERMINAL_V1',
                     status='COMPLETE_SAVED_REQUIRES_INDEPENDENT_OWNER_AUDIT',session_id=sid,arm=spec['arm'],
