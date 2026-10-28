@@ -190,6 +190,21 @@ def _closed(g, l, closed, proof):
          and v['ActiveState'] == 'failed' for v in closed['units'].values()), 'REAL_BOTH_OS_TERMINAL')
 
 
+def _LOCAL_paid(l,m):
+    """Actual Core table, never a fabricated scalar GLOBAL projection."""
+    from .evaluation_scope import CAMPAIGN
+    b=m['financial_before']
+    need(l.get('run_uuid')==CAMPAIGN and type(l.get('CPU_s'))is dict
+         and set(l['CPU_s'])=={'Hopper','CoreLab','local_PC'},'ACTUAL_LOCAL_CAMPAIGN_AND_THREE_SITE_CPU_TABLE')
+    for name,site in [('Hopper_CPU_s','Hopper'),('Core_CPU_s','CoreLab'),('local_CPU_s','local_PC')]:
+        need(type(l['CPU_s'][site])in(int,float)
+             and l['CPU_s'][site]>=b['local_CPU_s'][site]+CONTROL[name],'NEW_CONTROL_PAID_'+site)
+    need(l['network_transfer_accounted_bytes']>=b['network_transfer_accounted_bytes']+CONTROL['transfer_bytes']
+         and l['Core_native_GPU_current_storage_bytes']>=b['Core_native_GPU_current_storage_bytes']+CONTROL['Core_storage_bytes']
+         and l.get('V5_CD_finite_control_local_storage_bytes',{}).get(m['replacement_request_id'])==CONTROL['local_storage_bytes'],
+         'COMPLETE_NEW_CONTROL_RETAINED_IO_NOT_OLD_PREPAY')
+
+
 def validated(g):
     """Nonrecursive marker validator; safe inside original row validation."""
     m = g.get(FIELD)
@@ -213,9 +228,14 @@ def validated(g):
     need(c.canonical_uuid(m['replacement_request_id']) and c.canonical_uuid(m['replacement_submission_nonce'])
          and m['replacement_request_id'] not in (FIRST,FAILED) and m['replacement_run_uuid'] == RUN
          and re.fullmatch('[0-9a-f]{40}', m['source_sha']), 'DISTINCT_COLD_IDENTITY')
-    need(g['CPU_s'] >= m['financial_before']['site_CPU_s']+CONTROL['Hopper_CPU_s']
-         and g['new_storage_current_bytes'] >= m['financial_before']['site_current_bytes']+CONTROL['Hopper_storage_bytes']
-         and g['new_storage_peak_bytes'] >= m['financial_before']['site_peak_bytes'], 'NO_REFUND_CONTROL_ACTUALLY_PROJECTED')
+    if type(g.get('CPU_s'))is dict:
+        _LOCAL_paid(g,m)
+    else:
+        need(g.get('schema')=='PI0294_PV1_HOPPER_CAMPAIGN_LEDGER_V1'
+             and type(g.get('CPU_s'))in(int,float)
+             and g['CPU_s'] >= m['financial_before']['site_CPU_s']+CONTROL['Hopper_CPU_s']
+             and g['new_storage_current_bytes'] >= m['financial_before']['site_current_bytes']+CONTROL['Hopper_storage_bytes']
+             and g['new_storage_peak_bytes'] >= m['financial_before']['site_peak_bytes'], 'NO_REFUND_CONTROL_ACTUALLY_PROJECTED')
     allowed = (FIRST,FAILED,m['replacement_request_id'])
     need(all(rid in allowed for rid,r in g[c.FIELD].items() if r['evaluation_candidate']=='D25'),
          'NO_FOURTH_D25_OR_OTHER_CREDIT_CONSUMER')
@@ -268,13 +288,7 @@ def paired_control(g, l):
     need(l.get(cold_field)==g.get(cold_field),'SAME_CANONICAL_COLD_SOURCE_SUCCESSOR')
     if m is None:
         return
-    b = m['financial_before']
-    for name,site in [('Hopper_CPU_s','Hopper'),('Core_CPU_s','CoreLab'),('local_CPU_s','local_PC')]:
-        need(l['CPU_s'][site] >= b['local_CPU_s'][site]+CONTROL[name], 'NEW_CONTROL_PAID_' + site)
-    need(l['network_transfer_accounted_bytes'] >= b['network_transfer_accounted_bytes']+CONTROL['transfer_bytes']
-         and l['Core_native_GPU_current_storage_bytes'] >= b['Core_native_GPU_current_storage_bytes']+CONTROL['Core_storage_bytes']
-         and l.get('V5_CD_finite_control_local_storage_bytes',{}).get(m['replacement_request_id']) == CONTROL['local_storage_bytes'],
-         'COMPLETE_NEW_CONTROL_RETAINED_IO_NOT_OLD_PREPAY')
+    _LOCAL_paid(l,m)
 
 
 def output_credit(g, row):
