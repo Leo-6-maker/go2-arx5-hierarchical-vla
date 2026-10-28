@@ -27,7 +27,13 @@
 
 ## 最新工程状态
 
-2026-10-28 Vanda最新实际：[job1503589完整原件与关闭](reports/PI0294/design/parallel-science-20261022/VANDA_FIRST512_SECOND_CONTINUATION_REAL_ENTRY_FAILURE_AUDITED_SETTLED_CLOSED_ACTUAL_20261028.json)。同一新请求实际通过Vanda原生冷输入核验（7212 TRAIN窗口／1332源码／20输入）并唯一提交；随后原a40入口只接受旧profile常量，在转入最小适配runtime前拒绝，真实F/Exit1/run_count1、owner与wrapper均OS1。独立固定源码＋真实traceback＋空科学namespace因果审计确认0模型／查询／更新；133GPU秒、240siteCPU秒已一次结算，own lease CLOSED，完整queue无未知或本实验活动作业。旧缺失process final/effect ledger保持缺失，不补造；所有历史费用和原UNKNOWN保留。原入口窄修复af7031b7已合入main并全文回读，尚未新GPU采用。此前冷预检的NFS差异已精确定位为同一文件allocated blocks单独增加8KiB，内容／inode／时间／权限均未变；新代码将物理占用实测上限与内容身份分开核验。Core未连接。E0仍无神经结果，E1/E2各0/512；继续同原父、同12示范、同配方的Vanda独立冷接续，不等待Core，也不把工程关闭当科学完成。
+2026-10-28 最新管理观测：[Core Home／NFS恢复核验](reports/PI0294/design/parallel-science-20261022/CORE_NFS_HOME_MOUNT_CURRENT_RECOVERY_AND_HISTORICAL_CAUSE_BOUNDARY_ACTUAL_20261028.json)已通过AMD现有key成功登录4080S；Home当前nfs4／autofs正常，两端authorized_keys全文SHA及权限一致。本地盘可用146,997,317,632 bytes、共享Home可用1,501,241,016,320 bytes；未占满。公钥读取确实依赖NFS，因此历史挂载／IO阻塞是合理可能，但普通账号无系统日志访问，历史根因仍UNKNOWN，未重挂载或修改服务。
+
+Vanda新source7c7e77d4、retry03已完成原生冷输入核验和原GLOBAL请求登记；[REGISTER真实CAS回读](reports/PI0294/design/parallel-science-20261022/VANDA_FIRST512_ENTRY_REGISTER_CAS_CONFIRMED_NO_QSUB_OWNER_STOP_ACTUAL_20261028.json)证明登记已生效，但原Journal超过40秒后仍永久保留UNKNOWN，owner／wrapper实际OS1。尚未执行QSUB、没有job绑定，不能称新训练在跑；未重发登记或重启owner。原PBS计数38／上限41，matrix3及最终保护不动；下一接续必须新冷态绑定实际确认和fresh queue／quota，不复用过期队列。E0仍无神经结果，E1/E2各0/512。
+
+[PC只读Viewer V1](scripts/pi0294/replay_viewer/README.md)现已实际展示两条已保存Teacher的41/641关键帧子集，双RGB／实际TCP／物体／目标参考／原审计同步；164个真实RGB引用SHA核对通过，9项合成CPU测试通过。C50成功与S1两条原件已定位但尚未导入PC；全关节／mesh重建未实际验证，没有新物理、模型或评分。它是观察工具，不是新模型能力证据。
+
+此前[job1503589关闭原件](reports/PI0294/design/parallel-science-20261022/VANDA_FIRST512_SECOND_CONTINUATION_REAL_ENTRY_FAILURE_AUDITED_SETTLED_CLOSED_ACTUAL_20261028.json)保留：模型前旧profile常量拒绝，133GPU秒／240siteCPU秒一次结算、own lease CLOSED。所有历史失败、费用、缺失原件和UNKNOWN不改。
 
 [first512首次失败](reports/PI0294/design/parallel-science-20261022/V5_D25_DELIVERED_FIRST512_F_EXIT1_AUDITED_SETTLED_AND_COLD_FIX_ACTUAL_20261028.json)为模型前身份／队列准入失败，0模型、0查询、0更新，旧作业和lease已关闭，不能重启或抹除费用。
 

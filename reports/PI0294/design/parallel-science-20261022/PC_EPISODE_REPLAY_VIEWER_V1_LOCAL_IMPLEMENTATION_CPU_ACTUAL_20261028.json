@@ -1,0 +1,87 @@
+{
+  "schema": "PC_EPISODE_REPLAY_VIEWER_V1_LOCAL_IMPLEMENTATION_CPU_ACTUAL",
+  "date": "2026-10-28",
+  "status": "LOCAL_VIEWER_AND_TWO_ACTUAL_TEACHER_KEYFRAME_VIEWS_VERIFIED_C50_IMPORT_PENDING",
+  "fixed_route": {
+    "CoreLab": "recorded Teacher and closed-loop Eval facts",
+    "Vanda": "training and finite offline model predictions",
+    "PC": "read-only offline replay and analysis"
+  },
+  "existing_recorders_reused": [
+    "scripts/pi0294/episode.py",
+    "scripts/pi0294/task_state.py",
+    "scripts/pi0294/night_r1_worker.py"
+  ],
+  "implemented": [
+    "fixed_base samples.json and optional original highrate.npz",
+    "native_body samples.jsonl with explicit camera hash/time index",
+    "same-frame dual RGB with server and browser SHA256 verification",
+    "pause, previous/next frame, draggable time axis, playback speed",
+    "orbitable 3D actual TCP, object and desired/committed EEF paths",
+    "optional locally supplied asset-bound mj_forward-only body skeleton",
+    "original audit document, hash, provenance and Teacher/S1 events",
+    "explicitly unexecuted offline prediction overlays",
+    "loopback-only same-origin HTTP with no file-write or remote endpoints"
+  ],
+  "validation": {
+    "synthetic_CPU_tests_passed": 9,
+    "synthetic_check_only_episodes": 4,
+    "synthetic_RGB_references_checked": 320,
+    "browser_native_UI": "ACTUALLY_VERIFIED_SYNTHETIC_AND_TWO_REAL_TEACHER_KEYFRAME_VIEWS",
+    "browser_checks": [
+      "Teacher to Student/S1 source switch",
+      "next frame RGB timestamps and numeric state at0.050s",
+      "time axis End to frame40 at1.950s",
+      "no error or warning console entries at inspected state",
+      "actual T1 saved source frame128 at6.400s, Teacher carry, both original RGB SHA verified",
+      "actual T2 saved source frame288 at14.400s, Teacher push, both original RGB SHA verified",
+      "explicit41/641 keyframe subset badge and no-interpolation notice",
+      "xyz compact five-decimal display; full precision kept in original frame JSON"
+    ],
+    "initial_UI_race": "Changing episode and immediately stepping could affect previous data; corrected by clearing loaded data during new read and clearing stale camera status",
+    "mj_forward": "mock contract only; local test runtime has no MuJoCo installed",
+    "native_model_or_physics_qualification": false,
+    "full_CI": "NOT_RUN",
+    "actual_Teacher_check_only": {
+      "episodes": 2,
+      "RGB_references_checked": 164,
+      "fixture_episodes": 0,
+      "frames_per_episode": 41,
+      "original_frames_per_episode": 641,
+      "RGB_copies_or_new_transfers": 0
+    }
+  },
+  "scientific_acceptance": {
+    "actual_T1_Teacher": "ACTUAL_41_OF641_SAVED_KEYFRAMES_AND_ORIGINAL_AUDIT_VIEWED",
+    "actual_T2_Teacher": "ACTUAL_41_OF641_SAVED_KEYFRAMES_AND_ORIGINAL_AUDIT_VIEWED",
+    "actual_C50_T1_success": "PENDING_PRIVATE_LOCAL_IMPORT",
+    "actual_C50_S1_or_task_failure": "PENDING_PRIVATE_LOCAL_IMPORT",
+    "real_RGB_browser_review": "ACTUAL_TWO_TEACHER_KEYFRAME_VIEWS_ONLY",
+    "full_robot_mesh_view": "NOT_IMPLEMENTED_ASSET_QUALIFICATION_REQUIRED",
+    "complete_user_deliverable": false
+  },
+  "new_effects": {
+    "server_SSH": 0,
+    "GPU_jobs": 0,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "teacher_collection": 0,
+    "physics_integrations": 0,
+    "WBC_calls": 0,
+    "task_rescoring": 0,
+    "ledger_writes": 0,
+    "private_asset_publication": 0
+  },
+  "limitations": [
+    "Absent skeleton is visibly absent, not an invented robot",
+    "High-rate state is nearest preceding saved time without interpolation or future state substitution",
+    "Audit text is displayed without reclassifying task success",
+    "Scenes with asset directory directives need an explicit identity-bound VFS export before optional skeleton loading",
+    "Synthetic four-record demo is not the four actual scientific episodes",
+    "Existing full-body recording support does not prove completed qualified whole-body Teacher tasks",
+    "Two actual Teacher views reuse existing PC image caches through explicit identity-bound path mapping; no full641-frame transfer or complete joint/mesh reconstruction was performed",
+    "C50 success/failure source metadata was identified by management owner but those actual local replay inputs are not yet available to this viewer",
+    "The original complete-episode audit is displayed as historical evidence; this sparse PC view is not a repeat full-episode audit"
+  ],
+  "effect_scope": "Local delegated viewer implementation and display; management SSH read-only provenance acquisition is reported separately."
+}

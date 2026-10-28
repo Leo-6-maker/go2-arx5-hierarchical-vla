@@ -413,3 +413,12 @@ The existing GPU envelope can cover the original two panels; two PBS allocations
 Next prepare the cold same-host C/D source/neural identity and actual cohosted output/authority plan; only after complete resource validation and registered native qualification can the original C24 then D24 run. All models, recipes, R0, population, clocks, valid failures, matrix3 and final protection remain unchanged. Both C/D behavior0/24, GEN0/24 and core64=0; full goal remains ACTIVE and unfinished.
 
 [Actual inputs, package versions, scheduler evidence and scenario assumptions](../../../reports/PI0294/design/parallel-science-20261022/V5_VANDA_COLOCATED_EVAL_READONLY_FEASIBILITY_ACTUAL_20261026.json).
+
+
+## 2026-10-28 Core Home恢复核验与PC只读回放首版
+
+用户明确只开一个PC可视化subagent；root继续唯一服务器mutation owner／publisher，暂停自动化未恢复。Core经AMD现有key真实登录，Home当前nfs4+autofs，公钥SHA／权限一致，SSD及共享Home未满。历史NFS不可读与公钥offer等待相符但未取得历史系统日志，不能定为根因；未改mount／SSHD／NFS／keys。详见`CORE_NFS_HOME_MOUNT_CURRENT_RECOVERY_AND_HISTORICAL_CAUSE_BOUNDARY_ACTUAL_20261028.json`。
+
+PC Viewer已复用既有Teacher双RGB缓存和有界只读取得的原关键帧元数据，T1/T2各41/641、164图引用SHA实际通过；可拖动／暂停／旋转已记录TCP和物体，原审计与Teacher事件保持。没有新渲染、积分、模型或评分。C50成功／S1源数据已定位但未本地导入；不称四条或完整关节回放完成。9项合成CPU测试与真实Teacher浏览器检查分开报告，MuJoCo骨架仅mock contract。代码见`replay_viewer/README.md`，私有实图／配置／资产不入Git。
+
+Vanda retry03新注册曾真实CAS成功但40秒Journal回包超时；原UNKNOWN永久保留，owner／wrapper OS1。精确native intent／receipt／after全SHA与临时文件不存在确认一次登记；QSUB intent／reply／job绑定全无，固定源码控制流证明在QSUB前停下。原计数38含该登记，尚无新原生job／模型／查询／更新，不重发register／prepay／旧owner。详见`VANDA_FIRST512_ENTRY_REGISTER_CAS_CONFIRMED_NO_QSUB_OWNER_STOP_ACTUAL_20261028.json`。科学goal未完成，全部原cap／clock／matrix3／final保护不变。

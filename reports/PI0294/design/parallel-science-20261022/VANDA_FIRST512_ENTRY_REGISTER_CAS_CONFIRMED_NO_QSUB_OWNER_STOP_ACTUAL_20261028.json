@@ -1,0 +1,50 @@
+{
+  "schema": "VANDA_ENTRY_REGISTER_LATE_CAS_CONFIRMED_NO_DISPATCH_ACTUAL_V1",
+  "observed_epoch": 1793192715.013015,
+  "run_uuid": "arx5-minimal-raw-parent-first512-retry-03",
+  "source_sha": "7c7e77d4b83a7b3a30f336a6f53f4788942c2373",
+  "request_id": "a6b3936e-f273-4491-b43b-b8168a6d0f3b",
+  "request_sha256": "d90e62a0b7a55fc620ecd666ae9a626a33e68ea67eacfde873a5db34b9196832",
+  "manifest_sha256": "08237bb3ce533cb833a348c6cddcc1e53c7e2950e7d0a5a7a21d8f62e9d559a0",
+  "scope_adopted": true,
+  "PBS_cap": 41,
+  "count_authority": "Bounded executor application of direct human multi-job autonomy; not a literal human-specified41",
+  "reserved_request_count": 38,
+  "REGISTER": {
+    "original_Journal_status": "UNKNOWN_PERMANENTLY_PRESERVED",
+    "actual_native_CAS_confirmed": true,
+    "independent_after_sha256": "93bc75af4e184e346ae304740861f5b4deab179ef48c67fc2776cebd3f0f270e",
+    "native_intent_sha256": "4a34f87528bea373d946d65d09ec5761d2c136b4ab4690a8fa4f1dfced9ee4ea",
+    "native_receipt_sha256": "d57be5a84f88005a7cc547475b08c7ff455d2ab0cfb429ef8b9148c12e8c2795",
+    "temporary_absent": true
+  },
+  "dispatch": {
+    "QSUB_intent_present": false,
+    "QSUB_reply_present": false,
+    "bound_job_present": false,
+    "allocation_file_names": [
+      "EFFECTIVE_QUEUE_LIMITS.json",
+      "REQUEST.json"
+    ],
+    "owner_and_wrapper_OS_exit": 1,
+    "original_procstarts_absent": true,
+    "causal_source": "Pinned minimal_native_owner.submit places SOURCE_QSUB_INTENT and QSUB strictly after REGISTER call returns; original owner stopped at UNKNOWN_REGISTER_REQUEST",
+    "native_submission_confirmed": false,
+    "automatic_retry_performed": false
+  },
+  "actual_native_model_loads": 0,
+  "actual_neural_queries": 0,
+  "actual_optimizer_updates": 0,
+  "GLOBAL_used": {
+    "H200_s": 178523.0,
+    "PBS_submissions": 38,
+    "optimizer_updates": 14786,
+    "neural_queries": 5837
+  },
+  "matrix3_and_final20GPUh40GiB_preserved": true,
+  "next_required": "Preserve original UNKNOWN, sealed request and registered reservation. A distinct cold finite continuation must bind confirmed CAS, fresh current queue/quota/process/lease and existing full remaining allowance before the first native dispatch. Do not replay registration, old owner or scope adoption.",
+  "deadline_epoch": 1793537549.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "private_exact_readback_sha256": "2a4b04662d8eececbc20cc283f2f1d21dde7cf77558651cbe252eb224036e78a",
+  "overall_goal_complete": false
+}
