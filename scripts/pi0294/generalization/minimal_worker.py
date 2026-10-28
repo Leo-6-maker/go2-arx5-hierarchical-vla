@@ -51,12 +51,13 @@ class Worker:
         need(isinstance(ledger,Effects)and callable(guard),'WORKER_ORIGINAL_TYPED_EFFECTS_AND_NATIVE_GUARD')
         self.root=Path(root);self.request_path=Path(request_path);self.allocation=allocation
         self.ledger=ledger;self.guard=guard;self.guard();self.request=ledger.request
+        from . import minimal_execution_adapter as adapters
+        self.adapter=adapters.request(self.request)
         from scripts.pi0294.dec1.a40_training_runtime import native_job
         job,_,_=native_job(self.request)
         need(job==allocation['job_id']==os.environ.get('PBS_JOBID'),'WORKER_OWN_ACTUAL_RUNNING_ALLOCATION')
         self.manifest=self.sealed('RUN_MANIFEST.json',manifest_member=True)
-        need(self.manifest['scope']==e.scope.SCOPE and self.manifest['platform_training_version']==e.VERSION
-            and self.manifest['execution']['profile']==e.PROFILE
+        need(self.manifest['scope']==e.scope.SCOPE and adapters.manifest(self.manifest) is self.adapter
             and sha(self.root/'RUN_MANIFEST.json')==self.request['run_manifest_sha256'],
             'WORKER_EXPLICIT_NEW_SCOPE_NOT_CD_OR_GEN')
         self.bindings=self.sealed('NEURAL_BINDINGS.private.json')

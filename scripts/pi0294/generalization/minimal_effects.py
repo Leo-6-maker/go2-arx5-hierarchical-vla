@@ -22,10 +22,11 @@ need=execution.need
 
 class Effects(OriginalEffects):
     def __init__(self,root,allocation,*,request_path,guard):
+        from . import minimal_execution_adapter as adapters
         self.root=Path(root);self.allocation=allocation
         self.path=self.root/'A40_NATIVE_EFFECT_LEDGER.json'
         self.request_path=Path(request_path);body=self.request_path.read_bytes()
-        self.request=json.loads(body);execution.request(self.request)
+        self.request=json.loads(body);self.adapter=adapters.request(self.request)
         need(self.request_path.resolve().is_relative_to(self.root.resolve())
             and not self.request_path.is_symlink()and callable(guard)
             and allocation['request_sha256']==execution.sha(body)
@@ -37,7 +38,7 @@ class Effects(OriginalEffects):
     def initialize(self):
         need(not self.path.exists()and not self.path.is_symlink(),'EFFECTS_NO_INITIALIZE_OR_RESTART_REPLAY')
         r=self.request
-        value=dict(schema=SCHEMA,platform_training_version=execution.VERSION,
+        value=dict(schema=SCHEMA,platform_training_version=self.adapter.VERSION,
             run_uuid=self.root.name,job_id=self.allocation['job_id'],request_id=r['request_id'],
             request_sha256=self.allocation['request_sha256'],source_sha=r['source_sha'],
             optimizer_updates=0,generation_queries=0,model_loads=0,CPU_s=0.,
@@ -50,7 +51,7 @@ class Effects(OriginalEffects):
 
     def check(self,v):
         r=self.request;plan=execution.native_sessions();ids=[x['id']for x in plan]
-        need(v.get('schema')==SCHEMA and v.get('platform_training_version')==execution.VERSION
+        need(v.get('schema')==SCHEMA and v.get('platform_training_version')==self.adapter.VERSION
             and v.get('run_uuid')==self.root.name and v.get('job_id')==self.allocation['job_id']
             and v.get('request_id')==r['request_id']and v.get('request_sha256')==self.allocation['request_sha256']
             and v.get('source_sha')==r['source_sha']and v.get('unknown_effects')==[]

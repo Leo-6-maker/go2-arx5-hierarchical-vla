@@ -7,6 +7,7 @@ Actual native collectors and registered-source context remain mandatory.
 from datetime import date,datetime,timedelta,timezone
 import json,re
 from . import minimal_execution as e,minimal_scope as scope,minimal_session_gate as tickets
+from . import minimal_execution_adapter as adapters
 from scripts.pi0294.dec1 import vanda_campaign as queue
 from scripts.pi0294.pv1.evaluation_account_jobs import checked_outside
 from scripts.pi0294.pv1.neural_ledger import check
@@ -25,13 +26,14 @@ def validate(*,global_bytes,local_bytes,request_bytes,manifest_bytes,job_id,host
              native_job_bytes,queue_proof,site_bytes,effective_queue_bytes,
              independent_job_bytes,now_epoch,ready_bytes=None,effect_bytes=None):
     g,l,r,m=[json.loads(b)for b in(global_bytes,local_bytes,request_bytes,manifest_bytes)]
-    check(g);marker=e.validate(g);e.request(r);rows=e.rows(g);need(len(rows)==1,'ADMISSION_ONE_ADOPTED_MAIN')
-    row=rows[0];source=r['source_sha'];rs=e.sha(request_bytes)
+    check(g);adapter=adapters.request(r)
+    _,row,marker=adapters.registered(g,r['request_id'],version=adapter.VERSION)
+    source=r['source_sha'];rs=e.sha(request_bytes)
     need(marker is not None and row['status']==e.STATES[1]and row['job_id']==job_id
         and row['request_sha256']==rs and row['source_sha']==source
         and row['run_manifest_sha256']==e.sha(manifest_bytes)==r['run_manifest_sha256']
-        and m['scope']==scope.SCOPE and m['platform_training_version']==e.VERSION
-        and m['execution']['profile']==e.PROFILE and m['code']['vla_commit']==source
+        and m['scope']==scope.SCOPE and adapters.manifest(m) is adapter
+        and m['code']['vla_commit']==source
         and m['run_uuid']==r['run_uuid']and user=='e1192548'
         and g['unknown_effects']==g['pending_updates']==[],
         'ADMISSION_ACTUAL_ADOPTED_REQUEST_MANIFEST_OWNER_AND_GLOBAL_FENCES')
@@ -61,7 +63,7 @@ def validate(*,global_bytes,local_bytes,request_bytes,manifest_bytes,job_id,host
         and raw_job['Variable_List']['PV1_REQUEST_ID']==r['request_id']
         and raw_job['Variable_List']['PV1_SUBMISSION_NONCE']==r['submission_nonce'],
         'ADMISSION_NATIVE_SAME_JOB_SOURCE_REQUEST_NONCE_AND_NO_RESTART')
-    cpus,memory=e.select_profile(raw_job['Resource_List'],r)
+    cpus,memory=adapter.select_profile(raw_job['Resource_List'],r)
     nodes={p.split('/')[0].split('.')[0]for p in raw_job['exec_host'].split('+')}
     started=pbs_epoch(raw_job['stime']);end=min(started+r['walltime_s'],r['deadline_epoch'])
     need(nodes=={hostname.split('.')[0]}and r['T_CD']<=started<=now_epoch<end-2700
@@ -78,7 +80,7 @@ def validate(*,global_bytes,local_bytes,request_bytes,manifest_bytes,job_id,host
         'ADMISSION_CURRENT_NATIVE_PROJECT_BYTES_NOT_CPU_FLAGS')
     fresh(site['observed_epoch'],now_epoch,120,'RUNNING_PROJECT')
     project=site['project'];today=datetime.fromtimestamp(now_epoch,timezone(timedelta(hours=8))).date()
-    capacity=e.project_envelope(r)
+    capacity=adapter.project_envelope(r)
     need(project.get('name')==r['project']and project.get('active')is True and user in project.get('users',[])
         and 'stdct-mgmt-02'in project.get('cluster',[])
         and date.fromisoformat(project['start_date'])<=today<=date.fromisoformat(project['end_date'])

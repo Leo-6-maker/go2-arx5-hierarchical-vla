@@ -7,6 +7,7 @@ ticket plan is not another scheduler or a license to replay a missed reply.
 import json,os,time
 from pathlib import Path
 from . import minimal_execution as e,minimal_effects as effects
+from . import minimal_execution_adapter as adapters
 from scripts.pi0292.durable import read
 from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.pv1.pbs_owner import publish_release_record as once
@@ -39,7 +40,7 @@ def directory(allocation_directory,session_id,phase):
 
 def check_ready(value,request,*,request_sha256,job_id,effect_value):
     """Check the current persisted allocation slice, never user PASS flags."""
-    e.request(request);d=descriptor(value['session_id'],value['phase'])
+    adapter=adapters.request(request);d=descriptor(value['session_id'],value['phase'])
     e.need(value.get('schema')==READY and value.get('ticket_version')==VERSION
         and all(value.get(k)==v for k,v in d.items())
         and value.get('job_id')==job_id and value.get('request_id')==request['request_id']
@@ -49,6 +50,7 @@ def check_ready(value,request,*,request_sha256,job_id,effect_value):
         and value.get('statistics_sha256')==e.R0,
         'GATE_OWN_REQUEST_SOURCE_RAW_PARENT_AND_ORIGINAL_SCOPE')
     e.need(effect_value.get('schema')==effects.SCHEMA
+        and (adapter is e or effect_value.get('platform_training_version')==adapter.VERSION)
         and effect_value['request_sha256']==request_sha256
         and effect_value['job_id']==job_id and effect_value['source_sha']==request['source_sha']
         and effect_value['active_session']==value['session_id']
@@ -94,6 +96,7 @@ def publish_ready(root,allocation_directory,allocation,ledger,session_id,phase):
 
 
 def check_release(value,ready_bytes,request,*,job_id,now_epoch):
+    adapters.request(request)
     ready=json.loads(ready_bytes);p=value.get('native_proof',{})
     e.need(value.get('schema')==RELEASE and value.get('ticket_version')==VERSION
         and value.get('status')=='PASS_MINIMAL_SESSION_'+ready['phase']+'_NATIVE'

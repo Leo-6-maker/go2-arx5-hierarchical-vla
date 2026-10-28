@@ -160,8 +160,11 @@ def watch(owner, secret, *, clock=time.time, monotonic=time.monotonic, sleep=tim
                 elif status=='R' and callable(getattr(o,'release_science_session',None)):
                     # The existing watch owns finite first512 phase releases;
                     # no auxiliary watcher or agent heartbeat is introduced.
-                    from scripts.pi0294.generalization.minimal_execution import VERSION
-                    if o.request_template.get('platform_training_version')!=VERSION:
+                    from scripts.pi0294.generalization import minimal_execution as minimal, minimal_execution_adapter as adapters
+                    version=o.request_template.get('platform_training_version')
+                    if version==adapters.retry.VERSION:
+                        adapters.select(version,o.request_template.get('profile'))
+                    elif version!=minimal.VERSION:
                         raise PermissionError('SESSION_RELEASE_ONLY_EXPLICIT_NEW_FIRST512_OWNER')
                     if o.release_science_session(state,secret=secret):lastauth=monotonic()
                     elif monotonic()-lastauth>300:

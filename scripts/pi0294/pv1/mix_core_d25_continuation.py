@@ -71,7 +71,10 @@ def validate(g):
          and m['replacement_request_id'] != FAILED and m['replacement_run_uuid'] == RUN
          and re.fullmatch('[0-9a-f]{40}', m['source_sha']), 'ONE_NEW_COLD_IDENTITY')
     replacement = g[c.FIELD].get(m['replacement_request_id'])
-    need(all(row['request_id'] in (FAILED, m['replacement_request_id'])
+    from . import mix_core_d25_local_successor as successor
+    next_marker = successor.validated(g)
+    permitted = (FAILED, m['replacement_request_id']) + ((next_marker['replacement_request_id'],) if next_marker else ())
+    need(all(row['request_id'] in permitted
              for row in g[c.FIELD].values() if row['evaluation_candidate'] == 'D25'), 'ONLY_EXACT_REPLACEMENT')
     if replacement is not None:
         need(replacement['evaluation_candidate'] == 'D25'

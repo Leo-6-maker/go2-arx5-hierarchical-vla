@@ -189,12 +189,13 @@ def test_bind_does_not_ignore_new_global_latches(prepared, key):
     assert g == before
 
 
-def test_unchanged_original_native_reader_still_rejects_unhooked_version(prepared):
+def test_explicit_original_reader_join_is_not_native_deployment(prepared):
     from scripts.pi0294.pv1.neural_ledger import check
-    g = propose(prepared)
-    # Explicitly document that this adapter is NOT a native deployment or a
-    # global permission bypass. The original reader requires cold dispatch.
-    with pytest.raises(PermissionError): check(g, allow_unknown=True)
+    result = retry.register(**prepared); g = result['proposed_global']
+    # The original reader now explicitly validates both versions and their
+    # full history; a pure proposal still cannot supply native permission.
+    assert check(g) == g and result['native_admission'] is False
+    assert result['original_onceIO_required'] is True
 
 
 @pytest.mark.parametrize('change', ['unknown', 'pending', 'old_request', 'old_nonce', 'science', 'clock',

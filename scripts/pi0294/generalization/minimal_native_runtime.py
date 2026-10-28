@@ -11,13 +11,14 @@ from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.pv1.pbs_owner import publish_release_record as once
 from scripts.pi0294.dec1.a40_training_runtime import native_job
 from . import minimal_execution as e,minimal_native_context as context,minimal_native_admission as admission
+from . import minimal_execution_adapter as adapters
 
 need=e.need
 
 
 def allocation_from_native(root,request_path,r,job,host,native):
     from scripts.pi0294.e0_scope import pbs_epoch
-    start=pbs_epoch(native['stime']);cpus,memory=e.select_profile(native['Resource_List'],r)
+    start=pbs_epoch(native['stime']);cpus,memory=adapters.request(r).select_profile(native['Resource_List'],r)
     return dict(status=admission.STATUS,run_uuid=Path(root).name,job_id=job,hostname=host,
         request_id=r['request_id'],submission_nonce=r['submission_nonce'],request_sha256=sha(request_path),
         source_sha=r['source_sha'],run_manifest_sha256=r['run_manifest_sha256'],submit_count=r['submit_count'],
@@ -29,12 +30,12 @@ def allocation_from_native(root,request_path,r,job,host,native):
 def await_bound(root,r,allocation,*,clock=time.monotonic,sleep=time.sleep):
     until=clock()+180;root=Path(root)
     while True:
-        g=read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json');rows=e.rows(g)
-        need(len(rows)==1 and rows[0]['request_id']==r['request_id']
-            and rows[0]['request_sha256']==allocation['request_sha256']
-            and rows[0]['job_id']in(None,allocation['job_id'])
+        g=read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json')
+        _,row,_=adapters.registered(g,r['request_id'],version=adapters.request(r).VERSION)
+        need(row['request_sha256']==allocation['request_sha256']
+            and row['job_id']in(None,allocation['job_id'])
             and g['unknown_effects']==g['pending_updates']==[],'RUNTIME_EXACT_KNOWN_RESERVATION_DURING_BIND')
-        if rows[0]['status']==e.STATES[1] and rows[0]['job_id']==allocation['job_id']:return
+        if row['status']==e.STATES[1] and row['job_id']==allocation['job_id']:return
         b=read(root/'OUTPUT_BINDING.private.json')
         need(read(b['lease'])['status']=='ACTIVE' and time.time()<allocation['allocation_end_epoch']
             and not any(p.exists()for p in(root/'STOP.json',root.parent.parent/'STOP.json')),'RUNTIME_STOP_BEFORE_NATIVE_BIND')
@@ -80,12 +81,12 @@ def run(root,request_path):
         job,host,native=native_job(r);allocation=allocation_from_native(root,request_path,r,job,host,native)
         need(time.time()<allocation['allocation_end_epoch']-2700,'RUNTIME_FULL_SAVE_RESERVE_BEFORE_START')
         grant=sorted(os.sched_getaffinity(0));need(len(grant)>=8,'RUNTIME_EIGHT_ACTUAL_GRANTED_CPU_SLOTS')
-        os.sched_setaffinity(0,set(grant[:8]));limits=e.process_CPU_limits(r)
+        os.sched_setaffinity(0,set(grant[:8]));limits=adapters.request(r).process_CPU_limits(r)
         resource.setrlimit(resource.RLIMIT_CPU,(limits['parent_RLIMIT_CPU_s'],limits['parent_RLIMIT_CPU_s']))
         resource.setrlimit(resource.RLIMIT_CORE,(0,0))
         once(d/'ALLOCATION_ADMISSION.json',allocation)
         guard=context.Guard(root,allocation)
-        if 'plans/MINIMAL_RETRY_PHYSICAL_CUSTODY.private.json' in manifest['execution']['sealed_inputs']:
+        if adapters.request(r) is adapters.retry or adapters.PHYSICAL in manifest['execution']['sealed_inputs']:
             from .minimal_retry_runtime_guard import Guard as RetryGuard
             guard=RetryGuard(root,r,manifest,guard)
         from .minimal_effects import Effects

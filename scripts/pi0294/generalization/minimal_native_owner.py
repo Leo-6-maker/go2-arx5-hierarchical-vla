@@ -13,6 +13,7 @@ from scripts.pi0294.dec1.owner_transport import ReadOnlyFailure
 from scripts.pi0294.dec1 import vanda_campaign as queue
 from scripts.pi0294.pv1 import mix_owner as mature,successor_cd
 from . import minimal_execution as e,minimal_native_admission as admission,minimal_session_gate as gates
+from . import minimal_execution_adapter as adapters
 from .minimal_native_context import captured_LOCAL
 
 need=e.need;once=mature.once
@@ -41,11 +42,17 @@ def worker_inventory(root):
 
 def validate_heartbeat_receipt(value,intent,*,now):
     beat=value.get('heartbeat',{});view=value.get('view',{})
+    version=e.VERSION
+    if beat.get('scope')==adapters.retry.VERSION:
+        r=value.get('retry_request',{});adapter=adapters.request(r);version=adapter.VERSION
+        need(adapter is adapters.retry and e.sha(e.raw(r))==beat.get('request_sha256')
+            and all(r.get(k)==beat.get(k)for k in ('request_id','submission_nonce','source_sha','run_uuid')),
+            'OWNER_RETRY_HEARTBEAT_EXACT_NEW_REQUEST_NOT_OLD_SCOPE')
     need(value.get('schema')==HEARTBEAT and value.get('lease_status')=='ACTIVE'
         and value.get('run_STOP')is value.get('parent_STOP')is False
         and value.get('unknown_effects')==value.get('pending_updates')==[]
         and all(beat.get(k)==v for k,v in intent['identity'].items())
-        and beat.get('rpc_intent_id')==intent['operation_id'] and beat.get('scope')==e.VERSION
+        and beat.get('rpc_intent_id')==intent['operation_id'] and beat.get('scope')==version
         and beat.get('grant_sha256')==e.authority.GRANT_SHA and beat.get('global_unknown_effects')==[]
         and intent['started_epoch']<=beat.get('observed_epoch',-1)<=now
         and 0<=now-beat['observed_epoch']<=300 and 0<=now-view.get('observed_epoch',-1)<120,
@@ -69,12 +76,12 @@ class Owner(mature.Owner):
     def __init__(self,root):
         self.root=Path(root);self.CONFIG=read(self.root/'MIX_OWNER_CONFIG.private.json')
         self.manifest=read(self.root/'RUN_MANIFEST.json');self.binding=read(self.root/'OUTPUT_BINDING.private.json')
+        self.adapter=adapters.manifest(self.manifest)
         self.global_path=self.root.parent.parent/'HOPPER_RESOURCE_LEDGER.json';g=read(self.global_path)
         self.successor_scope=successor_cd.validated(g);e.package.validate(g);e.authority.validate(g)
         need(os.getuid()==22182 and os.uname().nodename.startswith('stdct-login-')and os.environ.get('CUDA_VISIBLE_DEVICES')=='',
             'OWNER_ONLY_ORIGINAL_METADATA_LOGIN_ROLE')
-        need(self.manifest['scope']==e.scope.SCOPE and self.manifest['platform_training_version']==e.VERSION
-            and self.manifest['execution']['profile']==e.PROFILE and self.manifest['execution']['agent_liveness_required']is False
+        need(self.manifest['scope']==e.scope.SCOPE and self.manifest['execution']['agent_liveness_required']is False
             and self.binding['run_manifest_sha256']==sha(self.root/'RUN_MANIFEST.json')
             and read(self.binding['lease'])['status']=='ACTIVE','OWNER_NEW_EXPLICIT_REGISTERED_ACTIVE_SCOPE')
         reg=[v for v in read(self.binding['registry'])['entries']if v.get('role')==self.binding['role']]
@@ -91,6 +98,19 @@ class Owner(mature.Owner):
         for n,h in inputs.items():need(sha(self.root/n)==h,'OWNER_SEALED_INPUT:'+n)
         self.BASE=self.root/'control/resident-owner';self.BASE.mkdir(mode=0o700)
         self.request_template=self.CONFIG['request_template'];self.local=captured_LOCAL(self.root)
+        need(adapters.select(self.request_template['platform_training_version'],self.request_template['profile']) is self.adapter,
+             'OWNER_TEMPLATE_AND_MANIFEST_EXACT_SAME_EXECUTION_VERSION')
+        self.retry_physical=None
+        if self.adapter is adapters.retry:
+            need({adapters.PHYSICAL,adapters.PREDECESSOR}<=set(inputs),
+                 'OWNER_RETRY_COMPLETE_CLOSED_CAPTURE_AND_PHYSICAL_SEAL')
+            self.retry_predecessor=read(self.root/adapters.PREDECESSOR)
+            need(set(self.retry_predecessor)=={'native_readback','closed_readback','old_cold_close_readback','root_inventory'},
+                 'OWNER_RETRY_EXACT_PREDECESSOR_INPUT_ROLES')
+            from .minimal_retry_runtime_guard import Guard as Physical
+            # Metadata owner calls inspect only. Native compute wraps its own
+            # real R/lease/resource guard separately before any model effect.
+            self.retry_physical=Physical(self.root,self.request_template,self.manifest,lambda **_:None)
         need(self.CONFIG['source_sha']==self.request_template['source_sha']==self.manifest['code']['vla_commit'],
             'OWNER_SAME_COLD_CONFIG_TEMPLATE_AND_SOURCE')
         self.last=None;self.current=None;self.cold_rpc_bound=True;self.preserve_readonly_until_deadline=True
@@ -114,7 +134,7 @@ class Owner(mature.Owner):
         candidate=(read(self.BASE/'SOURCE_REQUEST.private.json')['request']if(self.BASE/'SOURCE_REQUEST.private.json').exists()
             else dict(self.request_template,run_manifest_sha256=sha(self.root/'RUN_MANIFEST.json'),
                 cold_input_audit_sha256=sha(self.root/'control/COLD_INPUT_AUDIT.private.json')))
-        hold=e.project_envelope(candidate)
+        hold=self.adapter.project_envelope(candidate)
         need(value['balance_GPU_hours']>=hold['GPU_hours']and value['balance_CPU_hours']>=hold['CPU_hours'],
             'OWNER_REAL_FULL_MAIN_NATIVE_CAPACITY_BALANCE')
         return value
@@ -125,16 +145,19 @@ class Owner(mature.Owner):
 
     def heartbeat_rpc(self,site,code,values,label):
         job=read(self.BASE/'SOURCE_JOB_BOUND.private.json')['job_id'];saved=read(self.BASE/'SOURCE_REQUEST.private.json');r=saved['request']
+        adapter=adapters.request(r)
         need(site=='vanda'and values['JOB']==job and values['VIEW']==self.current['view'],'OWNER_SAME_BOUND_LATEST_REAL_VIEW')
         def receipt(beat):
             g=read(self.global_path)
-            return dict(schema=HEARTBEAT,heartbeat=beat,view=self.current['view'],
+            result=dict(schema=HEARTBEAT,heartbeat=beat,view=self.current['view'],
                 lease_status=read(self.binding['lease'])['status'],run_STOP=(self.root/'STOP.json').exists(),
                 parent_STOP=(self.root.parent.parent/'STOP.json').exists(),unknown_effects=g['unknown_effects'],pending_updates=g['pending_updates'])
+            if adapter is adapters.retry:result['retry_request']=r
+            return result
         def publish(intent,limit):
             need(0<=time.time()-self.current['view']['observed_epoch']<120,'OWNER_CURRENT_QUEUE_BEFORE_HEARTBEAT')
             beat=dict(run_uuid=self.root.name,job_id=job,request_id=r['request_id'],submission_nonce=r['submission_nonce'],
-                request_sha256=saved['request_sha256'],source_sha=r['source_sha'],scope=e.VERSION,
+                request_sha256=saved['request_sha256'],source_sha=r['source_sha'],scope=adapter.VERSION,
                 grant_sha256=e.authority.GRANT_SHA,owner='EXISTING_SOLE_VANDA_RESIDENT_OWNER',observed_epoch=time.time(),
                 rpc_intent_id=intent['operation_id'],native_job_state=self.current['rows']['vanda']['jobs'][job]['job_state'],
                 global_unknown_effects=[],agent_liveness_required=False)
@@ -162,20 +185,20 @@ class Owner(mature.Owner):
         r=dict(self.request_template,run_manifest_sha256=sha(self.root/'RUN_MANIFEST.json'),
             cold_input_audit_sha256=sha(cold),effective_queue_proof_sha256=e.sha(queue_bytes),
             created_epoch=created,submit_count=len(g['PBS_submissions'])+1)
-        e.request(r);need(r['submit_count']<=e.authority.CAPS['PBS_submissions'],'OWNER_ORIGINAL_EXACT_ADOPTED_PBS_CAP')
+        self.adapter.request(r);need(r['submit_count']<=e.authority.CAPS['PBS_submissions'],'OWNER_ORIGINAL_EXACT_ADOPTED_PBS_CAP')
         d=self.root/'pbs'/('alloc-'+str(r['submit_count']).zfill(2));d.mkdir(mode=0o700,parents=True)
         once(d/'EFFECTIVE_QUEUE_LIMITS.json',queue_proof)
         once(d/'REQUEST.json',r);request_bytes=(d/'REQUEST.json').read_bytes()
         self.record('SOURCE_REQUEST',dict(request=r,request_sha256=e.sha(request_bytes),directory=str(d)))
         capture=(self.root/'plans/MINIMAL_ACTUAL_CORE_MEASUREMENT.private.json').read_bytes()
-        proposed=e.register(self.global_path.read_bytes(),request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())
+        proposed=self.registration(self.global_path.read_bytes(),request_bytes,capture)
         proof=e.scope.first512_forecast(e.raw(proposed['proposed_global']),self.local)
         need(proof['cap_changes_required']=={}and quota['report_age_s']<=3600
             and quota['available_bytes_lower']>=proof['dimensions']['Hopper_storage_bytes']['projected']-g['new_storage_current_bytes'],
             'OWNER_COMPLETE_FUTURE_QUOTA_AND_ALL_EXISTING_WORK')
         self.record('SOURCE_REQUEST_INTENT',dict(request_id=r['request_id'],once=True))
         receipt=self.setup.call('REGISTER_REQUEST','MUTATION',lambda intent,limit:self.write_global('REGISTER_REQUEST',
-            lambda current:e.register(e.raw(current),request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())['proposed_global']))
+            lambda current:self.registration(e.raw(current),request_bytes,capture)['proposed_global']))
         self.record('SOURCE_GLOBAL_RESERVED',receipt)
         # Registration may be slow. Do not dispatch with a queue observation
         # that expired after the exact request was bound; retain the registered
@@ -195,11 +218,21 @@ class Owner(mature.Owner):
         import re
         need(reply['returncode']==0 and re.fullmatch(r'[0-9]+\.stdct-mgmt-02',reply['stdout']),'OWNER_UNKNOWN_QSUB_NEVER_RESEND')
         job=reply['stdout'];self.setup.call('BIND','MUTATION',lambda intent,limit:self.write_global('BIND',
-            lambda current:e.bind(current,r['request_id'],job,now_epoch=time.time())))
+            lambda current:self.adapter.bind(current,r['request_id'],job,now_epoch=time.time())))
         self.record('SOURCE_JOB_BOUND',dict(job_id=job,request_id=r['request_id']))
         self.record('TRAIN_REGISTERED',dict(root=str(self.root),manifest_sha256=sha(self.root/'RUN_MANIFEST.json')))
         self.running=mature.new_journal(self.BASE,'running-rpc',dict(run_uuid=self.root.name,job_id=job,
             source_sha=r['source_sha'],request_sha256=e.sha(request_bytes)));return job
+
+    def registration(self,global_bytes,request_bytes,capture):
+        """Fresh actual physical inspection plus original onceIO proposal."""
+        if self.adapter is e:
+            return e.register(global_bytes,request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())
+        from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
+        physical=self.retry_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=time.time()
+        return self.adapter.register(global_bytes,self.local,request_bytes=request_bytes,
+            physical_custody=self.retry_physical.custody,physical_proof=physical,
+            physical_observed_epoch=observed,now_epoch=time.time(),**self.retry_predecessor)
 
     def native_material(self,*,secret=None,ready_path=None):
         saved=read(self.BASE/'SOURCE_REQUEST.private.json');r=saved['request'];d=Path(saved['directory'])
@@ -282,22 +315,31 @@ class Owner(mature.Owner):
         hms=lambda value:sum(int(v)*k for v,k in zip(value.split(':'),(3600,60,1)))
         end=pbs_epoch(native.get('obittime',native.get('mtime')));start=pbs_epoch(native['stime'])
         new_CPU=max(hms(native['resources_used']['cput']),final['CPU_actual_s'])+240
+        current=read(self.global_path);_,row,_=adapters.registered(current,r['request_id'],version=self.adapter.VERSION)
+        prior=(self.adapter.terminal_CPU_prior(current,row)if self.adapter is adapters.retry else e.PREPARATION_CPU_UPPER)
         proof=dict(schema=terminal.NATIVE,job_id=job,job_state='F',request_id=r['request_id'],
             submission_nonce=r['submission_nonce'],source_sha=r['source_sha'],request_sha256=saved['request_sha256'],
             Exit_status=native['Exit_status'],finished_epoch=end,observed_epoch=time.time(),
             conservative_GPU_s=max(hms(native['resources_used']['walltime']),end-start)+r['accounting_pad_s'],
-            new_native_conservative_CPU_s=new_CPU,prior_readonly_preparation_CPU_upper_s=e.PREPARATION_CPU_UPPER,
-            conservative_CPU_s=new_CPU+e.PREPARATION_CPU_UPPER,all_native_workers_terminal=True,terminal_inventory_stable=True,
+            new_native_conservative_CPU_s=new_CPU,prior_readonly_preparation_CPU_upper_s=prior,
+            conservative_CPU_s=new_CPU+prior,all_native_workers_terminal=True,terminal_inventory_stable=True,
             raw_native_sha256=e.sha(e.raw(native)),process_final_sha256=sha(d/'PBS_PROCESS_FINAL.json'),
             wrapper_final_sha256=sha(d/'PBS_WRAPPER_FINAL.json'),inventory_sha256=inventory_sha)
-        effects=final['effects'];terminal.terminal_values(dict(r,request_sha256=saved['request_sha256'],
-            job_id=job,submitted_epoch=r['created_epoch']),proof,effects,audit)
+        effects=final['effects'];terminal.terminal_values(row,proof,effects,audit,
+            retry_global=current if self.adapter is adapters.retry else None)
         self.record('TERMINAL_SETTLEMENT_INTENT',dict(native=proof,effects=effects,independent_audit_sha256=e.sha(e.raw(audit))))
-        receipt=self.running.call('SETTLE','MUTATION',lambda intent,limit:self.write_global('SETTLE',
-            lambda current:terminal.settle(current,r['request_id'],native=proof,effects=effects,audit=audit,now_epoch=time.time())))
+        def settle(current):
+            if self.adapter is e:
+                return terminal.settle(current,r['request_id'],native=proof,effects=effects,audit=audit,now_epoch=time.time())
+            from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
+            physical=self.retry_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=time.time()
+            return self.adapter.settle(current,r['request_id'],native=proof,effects=effects,audit=audit,
+                physical_proof=physical,physical_observed_epoch=observed,now_epoch=time.time())
+        receipt=self.running.call('SETTLE','MUTATION',lambda intent,limit:self.write_global('SETTLE',settle))
         self.record('TERMINAL_SETTLED',dict(receipt=receipt,native=proof,effects=effects,audit=audit))
         # Independent actual bytes before closing only this original own lease.
-        current=read(self.global_path);terminal.validate_terminal(current,e.rows(current)[0],e.validate(current))
+        current=read(self.global_path);_,closed_row,_=adapters.registered(current,r['request_id'],version=self.adapter.VERSION)
+        need(closed_row['status']==e.STATES[2],'OWNER_INDEPENDENT_EXACT_SETTLED_ROW_BEFORE_CLOSE')
         path=Path(self.binding['lease']);before=path.read_bytes();lease=json.loads(before)
         need(lease['status']=='ACTIVE'and lease['run_uuid']==self.root.name
             and lease['manifest_sha256']==r['run_manifest_sha256'],'OWNER_ONLY_OWN_ACTIVE_STAGE_CLOSE_ONCE')
@@ -322,7 +364,7 @@ def main(root):
     try:
         owner.record('SERVER_OWNER_PROCESS',dict(pid=os.getpid(),
             proc_start_ticks=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],
-            source_sha=owner.manifest['code']['vla_commit'],agent_liveness_required=False,scope=e.VERSION))
+            source_sha=owner.manifest['code']['vla_commit'],agent_liveness_required=False,scope=owner.adapter.VERSION))
         owner.submit(secret);terminal=cold_owner.watch(owner,secret,scope_binding=owner.successor_scope)
         owner.record('RESIDENT_TERMINAL_RETURNED',terminal);result=owner.finish(terminal)
         owner.record('RESIDENT_EXIT',dict(returncode=0,observed_epoch=time.time(),endpoint_status=result['status']));return result

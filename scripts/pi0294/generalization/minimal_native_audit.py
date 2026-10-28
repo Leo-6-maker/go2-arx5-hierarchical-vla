@@ -173,7 +173,8 @@ def audit(root,request_path,*,native,inventory_sha256):
     from .minimal_train_session import dataset
     from .minimal_model import unchanged_raw_parent
     from scripts.pi0294.e1.model import digest
-    root=Path(root);request_path=Path(request_path);r=read(request_path);e.request(r)
+    from . import minimal_execution_adapter as adapters
+    root=Path(root);request_path=Path(request_path);r=read(request_path);adapters.request(r)
     job=native['job_id'];need(os.getuid()==22182 and os.environ.get('CUDA_VISIBLE_DEVICES')==''
         and native['job_state']=='F'and type(native['Exit_status'])is int,'AUDIT_ORIGINAL_CPU_OWNER_POST_F_ONLY')
     p=subprocess.run(['/opt/pbs/bin/qstat','-x','-f','-F','json',job],capture_output=True,text=True,timeout=25)

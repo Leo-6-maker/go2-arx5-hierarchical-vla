@@ -116,6 +116,20 @@ class Ledger:
     successor=False
     candidate_field='development_candidates'
 
+    def __new__(cls,root=None,request_path=None):
+        # Only a new, explicitly sealed C/D mode selects local finite custody.
+        # All original import sites (including RPC/transport children) share
+        # this factory; no caller can silently fall back to the remote writer.
+        if cls is Ledger and root is not None:
+            manifest=read(Path(root)/'RUN_MANIFEST.json')
+            paths=list((Path(root)/'pbs').glob('alloc-*/REQUEST.json')) if request_path is None else [Path(request_path)]
+            mode=manifest.get('execution',{}).get('global_accounting_mode')
+            request=read(paths[0]) if len(paths)==1 else {}
+            if mode is not None or request.get('global_accounting_mode') is not None:
+                from .mix_core_delegated_ledger import selected,Ledger as DelegatedLedger
+                if selected(manifest,request):return DelegatedLedger(root,request_path)
+        return super().__new__(cls)
+
     def __init__(self,root,request_path=None):
         self.root=Path(root);self.manifest=validate(self.root)[0]
         from . import mix_core_identity as cd

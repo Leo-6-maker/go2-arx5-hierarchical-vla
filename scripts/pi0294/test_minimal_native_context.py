@@ -54,10 +54,10 @@ def test_actual_temp_guard_reads_changed_unknown_and_STOP_even_with_cached_full_
     save_immutable(root/c.LOCAL,dict(source='ACTUAL_CANONICAL_CORE_LOCAL_READONLY',capture_is_fresh_native_authority=False,
         LOCAL_base64=base64.b64encode(packet['local_bytes']).decode(),LOCAL_sha256=e.sha(packet['local_bytes'])))
     global_path=root.parent.parent/'HOPPER_RESOURCE_LEDGER.json';global_path.write_bytes(packet['global_bytes'])
-    allocation=dict(job_id=packet['job_id'],request_sha256=e.sha(packet['request_bytes']),source_sha=r['source_sha'],
+    allocation=dict(job_id=packet['job_id'],request_id=r['request_id'],request_sha256=e.sha(packet['request_bytes']),source_sha=r['source_sha'],
         run_manifest_sha256=r['run_manifest_sha256'],allocation_start_epoch=r['T_CD'],
         allocation_end_epoch=r['deadline_epoch'],deadline_epoch=r['deadline_epoch'])
-    beat=dict(run_uuid=root.name,scope=e.VERSION,grant_sha256=e.authority.GRANT_SHA,job_id=allocation['job_id'],
+    beat=dict(run_uuid=root.name,scope=r['platform_training_version'],grant_sha256=e.authority.GRANT_SHA,job_id=allocation['job_id'],
         request_sha256=allocation['request_sha256'],source_sha=r['source_sha'],global_unknown_effects=[],
         native_job_state='R',observed_epoch=time.time())
     save_immutable(root/'control/OWNER_HEARTBEAT.json',beat)

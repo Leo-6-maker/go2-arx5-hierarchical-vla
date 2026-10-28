@@ -107,6 +107,9 @@ def predecessor_history(root,request,global_ledger,evidence):
 def resource_inputs(root,request_path,ledger,process):
     root,request_path=Path(root),Path(request_path)
     m=read(root/'RUN_MANIFEST.json');r=read(request_path)
+    from .mix_core_delegated_ledger import selected
+    if selected(m,r):
+        raise PermissionError('PV1_CORE_DELEGATED_NO_FAKE_FRESH_GLOBAL_RESOURCE_INPUTS')
     from . import mix_core_identity as cd
     if cd.typed(r):
         from .mix_core_context import LOCAL_BINDING,CAPTURE
@@ -149,6 +152,14 @@ def resource_inputs(root,request_path,ledger,process):
 
 
 def budget_now(root,request_path,ledger):
+    from .mix_core_delegated_ledger import selected,Ledger as DelegatedLedger
+    request_mode=read(request_path).get('global_accounting_mode')
+    manifest_path=Path(root)/'RUN_MANIFEST.json'
+    manifest_mode=read(manifest_path).get('execution',{}).get('global_accounting_mode') if manifest_path.exists() else None
+    if (request_mode is not None or manifest_mode is not None) and selected(read(manifest_path),read(request_path)):
+        need(isinstance(ledger,DelegatedLedger),'EXACT_DELEGATED_LEDGER_NOT_REMOTE_CACHE')
+        proof=ledger.live_proof(force_native=True)
+        return proof,proof['allocation']['native_process']
     r=read(request_path);process=identity.observe_current(root,dict(r,request_sha256=hashlib.sha256(request_path.read_bytes()).hexdigest()))
     from . import mix_core_identity as cd
     if cd.typed(r):

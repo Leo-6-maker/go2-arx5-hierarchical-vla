@@ -33,6 +33,7 @@ class RuntimeTests(unittest.TestCase):
                 r=dict(expected_native_start_step=0,CPU_upper_s=80000,source_sha='a'*40,
                     CPU_envelope_profile=runtime.native.BOUNDED_CPU_PROFILE,walltime_s=28800)
                 put(request,r)
+                put(root/'RUN_MANIFEST.json',dict(execution={}))
                 ledger=SimpleNamespace(initialize=lambda:None,guard=lambda:None,
                     summary=lambda:dict(last_native_step=committed,optimizer_updates_committed=committed))
                 with (patch.object(c,'validate_root',return_value=({},r)),

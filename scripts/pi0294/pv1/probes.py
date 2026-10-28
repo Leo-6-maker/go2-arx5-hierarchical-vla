@@ -59,10 +59,10 @@ def _run(root,label,instance,dataset,ledger,guard,*,minimal512):
     root=Path(root);manifest=read(root/'RUN_MANIFEST.json');path=root/PLAN;declared=read(path)
     step=512 if minimal512 else 1024;endpoint={}
     if minimal512:
-        from scripts.pi0294.generalization import minimal_execution as e
+        from scripts.pi0294.generalization import minimal_execution as e, minimal_execution_adapter as adapters
         identity=instance.identity
-        e.need(manifest.get('scope')==e.scope.SCOPE and manifest.get('platform_training_version')==e.VERSION
-            and manifest['execution'].get('profile')==e.PROFILE
+        adapter=adapters.manifest(manifest)
+        e.need(manifest.get('scope')==e.scope.SCOPE and (adapter is e or adapters.request(ledger.request) is adapter)
             and identity.get('schema')=='ARX5_MINIMAL_ACTUAL_WRAPPED_CHECKPOINT_IDENTITY_V1'
             and identity.get('mode')in e.training.ARMS and identity.get('qualification_only')is False
             and identity.get('parameter_state_format')=='WRAPPED_CATEGORY_TABLES_FULL_RESUME_ONLY'

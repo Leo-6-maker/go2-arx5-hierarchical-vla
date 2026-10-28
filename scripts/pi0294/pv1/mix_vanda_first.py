@@ -53,7 +53,11 @@ def budget_LOCAL(g, local):
     from . import mix_core_recovery as recovered
     if recovered.FIELD in g:
         value=recovered.budget_LOCAL(g,local)
-        from scripts.pi0294.generalization import minimal_execution
+        from scripts.pi0294.generalization import minimal_execution, minimal_retry_execution
+        if (minimal_retry_execution.FIELD in g or any(
+                r.get('platform_training_version')==minimal_retry_execution.VERSION
+                for r in g['PBS_submissions'])):
+            return minimal_retry_execution.budget_LOCAL(g,value)
         if minimal_execution.FIELD in g:return minimal_execution.budget_LOCAL(g,value)
         return value
     if m is None or m['LOCAL_sync'] == 'SYNCED':

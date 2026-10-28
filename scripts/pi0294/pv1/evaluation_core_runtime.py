@@ -79,6 +79,11 @@ def run(root,request_path):
     root,request_path=Path(root),Path(request_path);request=read(request_path)
     from . import mix_vanda_eval_identity as colocated
     cohost=colocated.typed(request)
+    # Ledger's explicit factory also covers original transport/RPC actors.
+    # Preserve the original qualification, two releases, S1 and model service.
+    from .mix_core_delegated_ledger import selected as finite_selected
+    finite=finite_selected(read(root/'RUN_MANIFEST.json'),request)
+    need(not (cohost and finite),'NO_CROSS_PLATFORM_DELEGATION_ALIAS')
     validator,process_identity,backend,ledger_type=validate,identity,native,Ledger
     if cohost:
         from . import mix_vanda_eval_context as process_identity,mix_vanda_eval_native as backend

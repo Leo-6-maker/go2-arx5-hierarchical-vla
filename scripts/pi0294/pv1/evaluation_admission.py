@@ -85,6 +85,9 @@ def resource_floor(global_ledger,local):
     reserved['Hopper_storage_bytes']=_number(global_ledger.get('storage_reserved_bytes',0),integer=True)
     used['Core_storage_bytes']=max(used['Core_storage_bytes'],
         _number(local.get('Core_native_GPU_current_storage_bytes',0),integer=True))
+    finite_local=local.get('V5_CD_finite_control_local_storage_bytes',{})
+    need(type(finite_local)is dict,'EXPLICIT_FINITE_CONTROL_RETAINED_LOCAL_OUTPUTS')
+    used['local_storage_bytes']+=sum(_number(v,integer=True)for v in finite_local.values())
     # These separate namespaces are already represented in the original LOCAL
     # campaign. Sum non-CPU holds; CPU_s/CPU_reserved_s may already aggregate them.
     pending={}

@@ -38,7 +38,11 @@ def resources():
 
 
 def validate(g):
+    from . import minimal_execution as execution, minimal_retry_execution as retry
+    has_retry=(retry.FIELD in g or any(r.get('platform_training_version')==retry.VERSION
+                                    for r in g['PBS_submissions']))
     if FIELD not in g:
+        authority.need(not has_retry,'RETRY_REQUIRES_ORIGINAL_RESERVED_PACKAGE')
         return None
     m=authority.validate(g);p=g[FIELD]
     authority.need(m is not None and p['schema']==SCHEMA and p['scope']==scope.SCOPE
@@ -60,8 +64,10 @@ def validate(g):
     remaining=_vector(p['remaining_resources'])
     authority.need(all(remaining[k]<=p['original_resources'][k]for k in remaining),
                    'PACKAGE_NONNEGATIVE_ORIGINAL_REMAINING_RESOURCES')
-    from . import minimal_execution as execution
-    if execution.FIELD in g:
+    if has_retry:
+        retry.validate(g)
+        remaining=retry.forecast_remaining(g)
+    elif execution.FIELD in g:
         execution.validate(g)
         remaining=execution.forecast_remaining(g)
     else:
@@ -98,8 +104,9 @@ def reservation_credit(g, historical_LOCAL_bytes, baseline):
     from scripts.pi0294.pv1.evaluation_admission import resource_floor
     projected_LOCAL=budget_LOCAL(g,json.loads(historical_LOCAL_bytes))
     _,held=resource_floor(g,projected_LOCAL)
-    from .minimal_execution import forecast_remaining
-    view=deepcopy(g);v=forecast_remaining(g)
+    from . import minimal_execution as execution, minimal_retry_execution as retry
+    adapter=retry if retry.FIELD in g else execution
+    view=deepcopy(g);v=adapter.forecast_remaining(g)
     for key in TRACKED:view['reserved'][key]-=v[key]
     view['CPU_reserved_s']-=v['Hopper_CPU_s']
     view['storage_reserved_bytes']-=v['Hopper_storage_bytes']

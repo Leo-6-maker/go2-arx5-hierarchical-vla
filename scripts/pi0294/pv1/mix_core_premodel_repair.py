@@ -73,6 +73,9 @@ def validated(g):
 
 
 def allocation(g,arm):
+    from . import mix_core_d25_local_successor as d25
+    exact_d25=d25.allocation(g,arm)
+    if exact_d25 is not None:return exact_d25
     from . import mix_core_accounting as c
     result=c.remaining_stage();m=validated(g)
     if m and arm=='C50':
@@ -85,6 +88,9 @@ def allocation(g,arm):
 
 
 def output_credit(g,row):
+    from . import mix_core_d25_local_successor as d25
+    exact_d25=d25.output_credit(g,row)
+    if exact_d25 is not None:return exact_d25
     from . import mix_core_partial_resume as partial
     if partial.KEY in row:
         partial.record_binding(g,row)

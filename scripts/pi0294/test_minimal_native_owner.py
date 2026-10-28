@@ -17,10 +17,10 @@ from scripts.pi0292.durable import read
 def owner(packet,tmp_path):
     p=deepcopy(packet);now=time.time();p['now_epoch']=now;p['queue_proof']['observed_epoch']=now
     site=json.loads(p['site_bytes']);site['observed_epoch']=site['quota']['observed_epoch']=now;p['site_bytes']=e.raw(site)
-    root=tmp_path/'CPU-fixture-first512';base=root/'control/resident-owner';base.mkdir(parents=True)
+    root=tmp_path/json.loads(p['manifest_bytes'])['run_uuid'];base=root/'control/resident-owner';base.mkdir(parents=True)
     req=json.loads(p['request_bytes']);d=root/'pbs'/('alloc-'+str(req['submit_count']).zfill(2));d.mkdir(parents=True)
     (d/'REQUEST.json').write_bytes(p['request_bytes']);(d/'REQUEST.json').chmod(0o400)
-    v=o.Owner.__new__(o.Owner);v.root=root;v.BASE=base;v.global_path=root.parent/'HOPPER_RESOURCE_LEDGER.json'
+    v=o.Owner.__new__(o.Owner);v.adapter=e;v.root=root;v.BASE=base;v.global_path=root.parent/'HOPPER_RESOURCE_LEDGER.json'
     v.global_path.write_bytes(p['global_bytes']);lease=root/'LEASE.json';lease.write_bytes(e.raw(dict(status='ACTIVE')))
     v.binding=dict(lease=str(lease));v.current=dict(rows=dict(vanda=dict(jobs={p['job_id']:json.loads(p['native_job_bytes'])})),
         view=dict(status='PASS_V5_CURRENT_UNFILTERED_QUEUE',observed_epoch=now,unknown_campaign_jobs=[],
@@ -33,7 +33,7 @@ def owner(packet,tmp_path):
     ready=dict(schema=gates.READY,ticket_version=gates.VERSION,**phase,job_id=p['job_id'],request_id=req['request_id'],
         submission_nonce=req['submission_nonce'],request_sha256=e.sha(p['request_bytes']),source_sha=req['source_sha'],
         raw_parent_files_identity=e.training.RAW_PARENT_FILES_ID,statistics_sha256=e.R0,session_counters=counts,observed_epoch=now-1)
-    value=dict(schema=effects.SCHEMA,request_sha256=ready['request_sha256'],job_id=p['job_id'],source_sha=req['source_sha'],
+    value=dict(schema=effects.SCHEMA,platform_training_version=req['platform_training_version'],request_sha256=ready['request_sha256'],job_id=p['job_id'],source_sha=req['source_sha'],
         active_session=phase['session_id'],pending_updates=[],unknown_effects=[],sessions={phase['session_id']:counts})
     slot=gates.directory(d,phase['session_id'],phase['phase']);slot.mkdir(parents=True);o.once(slot/'READY.json',ready)
     (root/'A40_NATIVE_EFFECT_LEDGER.json').write_bytes(e.raw(value))
@@ -106,7 +106,7 @@ def test_original_owner_full_terminal_uses_real_once_GLOBAL_and_own_lease_close(
     final=dict(job_id=job,request_id=req['request_id'],source_sha=req['source_sha'],request_sha256=e.sha(p['request_bytes']),
         CPU_actual_s=1000,effects=effects)
     o.once(d/'PBS_PROCESS_FINAL.json',final);o.once(d/'PBS_WRAPPER_FINAL.json',dict(job_id=job,returncode=0 if success else 1))
-    v=o.Owner.__new__(o.Owner);v.root=root;v.BASE=base;v.global_path=tmp_path/'HOPPER_RESOURCE_LEDGER.json'
+    v=o.Owner.__new__(o.Owner);v.adapter=e;v.root=root;v.BASE=base;v.global_path=tmp_path/'HOPPER_RESOURCE_LEDGER.json'
     v.global_path.write_bytes(p['global_bytes']);lease=tmp_path/'leases/own.json';lease.parent.mkdir()
     lease.write_bytes(e.raw(dict(status='ACTIVE',run_uuid=root.name,manifest_sha256=req['run_manifest_sha256'])))
     v.binding=dict(lease=str(lease));o.once(base/'SOURCE_REQUEST.private.json',dict(request=req,

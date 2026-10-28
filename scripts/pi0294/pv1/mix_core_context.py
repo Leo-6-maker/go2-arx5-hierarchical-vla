@@ -102,7 +102,15 @@ def validate(root, *, closeout=False):
          and row['status'] in c.STATES and row['run_manifest_sha256'] == sha(root/'RUN_MANIFEST.json'),
          'ACTUAL_ESCROW_ROW_BINDS_REQUEST_AND_MANIFEST')
     from . import mix_core_premodel_repair as repair
-    if repair.output_credit({**local},row):
+    from . import mix_core_d25_local_successor as d25_local
+    d25_marker=d25_local.validated(local)
+    exact_d25=d25_marker is not None and request['request_id']==d25_marker['replacement_request_id']
+    if exact_d25:
+        need(sealed('plans/V5_CD_D25_FINITE_LOCAL_SUCCESSOR.private.json')==d25_marker
+             and m.get('D25_local_successor_sha256')==d25_local.digest(d25_marker)
+             and request.get('D25_local_successor_sha256')==d25_local.digest(d25_marker),
+             'EXACT_D25_LOCAL_SUCCESSOR_NOT_C50_CREDIT')
+    elif repair.output_credit({**local},row):
         need(sealed('plans/V5_CD_SAME_PANEL_PREPAID_IO.private.json')==repair.validated(local), 'EXACT_SAME_PANEL_PAID_IO_BINDING')
         from . import mix_core_recovery as recovered
         continuation=recovered.validate(local)

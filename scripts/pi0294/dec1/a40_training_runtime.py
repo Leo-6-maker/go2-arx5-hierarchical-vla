@@ -38,9 +38,9 @@ def native_job(r):
             or job.get('Variable_List',{}).get('PV1_SUBMISSION_NONCE')!=r['submission_nonce']
             or host.split('.')[0] not in {v.split('/')[0].split('.')[0] for v in job['exec_host'].split('+')}):
         fail('OWN_ACTUAL_RUNNING_JOB_REQUEST_AND_NODE_BEFORE_RELEASE')
-    from scripts.pi0294.generalization import minimal_execution
-    if r.get('platform_training_version')==minimal_execution.VERSION:
-        minimal_execution.select_profile(job['Resource_List'],r)
+    minimal=context.minimal_training_adapter(r.get('platform_training_version'),r.get('profile'))
+    if minimal is not None:
+        minimal.select_profile(job['Resource_List'],r)
     else:
         native.select_profile(job['Resource_List'],r)
     return job_id,host,job
@@ -119,8 +119,9 @@ def fixed_probes(root,arm,instance,ledger,guard):
 
 def run(root,request_path):
     root,request_path=Path(root),Path(request_path)
-    from scripts.pi0294.generalization import minimal_execution
-    if read(root/'RUN_MANIFEST.json').get('platform_training_version')==minimal_execution.VERSION:
+    header=read(root/'RUN_MANIFEST.json')
+    if context.minimal_training_adapter(header.get('platform_training_version'),
+            header.get('execution',{}).get('profile')) is not None:
         from scripts.pi0294.generalization.minimal_native_runtime import run as minimal_run
         return minimal_run(root,request_path)
     m,r=context.validate_root(root,request_path,verify_all=True)

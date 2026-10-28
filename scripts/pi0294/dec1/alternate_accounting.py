@@ -122,11 +122,17 @@ def validate_items(value):
     from scripts.pi0294.generalization import amd_training_accounting as gen_train
     GEN_training=[s for s in typed if s.get('platform_training_version')==gen_train.VERSION]
     if GEN_training and gen_train.rows(value)!=GEN_training:fail('EXACT_GEN1_INDEPENDENT_TRAINING_ROWS')
-    from scripts.pi0294.generalization import minimal_execution as minimal
+    from scripts.pi0294.generalization import minimal_execution as minimal, minimal_retry_execution as minimal_retry
     minimal_rows=[s for s in typed if s.get('platform_training_version')==minimal.VERSION]
     if minimal_rows and minimal.rows(value)!=minimal_rows:
         fail('EXACT_ADOPTED_MINIMAL_FIRST512_MAIN_NOT_OLD_SOURCE_ARM')
-    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor and s not in GEN_training and s not in minimal_rows]
+    retry_rows=[s for s in value['PBS_submissions'] if s.get('platform_training_version')==minimal_retry.VERSION]
+    if retry_rows or minimal_retry.FIELD in value:
+        # The old validator remains an immutable-history reader. The explicit
+        # new adapter must prove both rows, original paid costs and full holds.
+        if minimal_retry.rows(value)!=[s for s in typed if s in minimal_rows or s in retry_rows]:
+            fail('EXACT_MINIMAL_RETRY_TWO_ROWS_AND_COMPLETE_HISTORY')
+    source=[s for s in typed if s.get('platform_training_version') is not None and 'platform_evaluation_version' not in s and s not in successor and s not in GEN_training and s not in minimal_rows and s not in retry_rows]
     if len(compatibility)>1:fail('ONE_COMPATIBILITY_ALLOCATION_NOT_AUTOMATIC_RETRIES')
     for s in compatibility:validate_item(s)
     if source:

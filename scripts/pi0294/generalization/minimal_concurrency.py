@@ -8,15 +8,21 @@ adopted main row before the usual full native process/resource qualification.
 from copy import deepcopy
 import json
 from . import minimal_execution as e
+from . import minimal_execution_adapter as adapters
 
 VERSION='ARX5_FIRST512_VANDA_PLUS_ORIGINAL_D25_CORE_COLD_V1'
 KEY='minimal_first512_cross_scope'
 LOCAL_MIRROR='ARX5_minimal_first512_LOCAL_main_inventory_mirror'
+RETRY_VERSION='ARX5_FIRST512_KNOWN_ZERO_RETRY_PLUS_ORIGINAL_D25_CORE_COLD_V1'
+RETRY_LOCAL_MIRROR='ARX5_minimal_first512_LOCAL_retry_inventory_mirror'
+
+
+def _version(adapter):return RETRY_VERSION if adapter is adapters.retry else VERSION
+def _mirror(adapter):return RETRY_LOCAL_MIRROR if adapter is adapters.retry else LOCAL_MIRROR
 
 
 def binding(g):
-    mark=e.validate(g);e.need(mark is not None,'CONCURRENT_MAIN_NOT_REGISTERED')
-    row=e.rows(g)[0]
+    _,row,_=adapters.current(g)
     e.need(row['status']==e.STATES[1]and row['job_id']is not None,
            'CONCURRENT_REAL_BOUND_MAIN_PBS_NOT_QSUB_UNKNOWN')
     return binding_identity(row)
@@ -24,9 +30,10 @@ def binding(g):
 
 def binding_identity(row):
     """Stable sealed pair identity; this alone never permits new concurrency."""
-    e.need(row['platform_training_version']==e.VERSION and row['status']in e.STATES[1:]
+    adapter=adapters.request(row,central=True)
+    e.need(row['status']in e.STATES[1:]
         and row['job_id']is not None,'CONCURRENT_EXACT_BOUND_OR_ALREADY_AUDITED_TERMINAL_MAIN')
-    return dict(schema=VERSION,main_request_id=row['request_id'],main_request_sha256=row['request_sha256'],
+    return dict(schema=_version(adapter),main_request_id=row['request_id'],main_request_sha256=row['request_sha256'],
         main_job_id=row['job_id'],main_source_sha=row['source_sha'],
         scope_grant_sha256=e.authority.GRANT_SHA,main_scope=e.scope.SCOPE,
         Core_candidate='D25',Core_conditions=24,Core_noise=294101,
@@ -46,14 +53,13 @@ def current_native_view(g,Core_record,*,queue_proof,terminal_proofs,independent_
     from scripts.pi0294.pv1.neural_ledger import check
     from scripts.pi0294.dec1 import vanda_campaign as q
     from scripts.pi0294.pv1.evaluation_account_jobs import checked_outside
-    check(g);rows=e.rows(g);e.need(len(rows)==1,'CONCURRENT_VIEW_ONE_ADOPTED_MAIN')
-    main=rows[0];proof=binding_identity(main)
+    check(g);_,main,index=adapters.current(g);proof=binding_identity(main)
     from scripts.pi0294.pv1.mix_core_accounting import VERSION as Core_VERSION
     e.need(Core_record.get(KEY)==proof and Core_record.get('evaluation_candidate')=='D25'
         and Core_record.get('platform_evaluation_version')==Core_VERSION
         and Core_record.get('native_platform')=='CORELAB_RTX4080'
         and Core_record.get('source_sha')!='8fba44f38aa5c6858614d8bd4e34ad7f969dd40c'
-        and Core_record['created_epoch']>=g[e.FIELD]['registered_epoch']
+        and Core_record['created_epoch']>=index['registered_epoch']
         and g['pending_updates']==g['unknown_effects']==[],
         'CONCURRENT_VIEW_ONLY_EXPLICIT_COLD_D25_AND_ALL_GLOBAL_FENCES')
     current=q.queue_rows(queue_proof,now_epoch=now_epoch)
@@ -77,16 +83,16 @@ def validate_pair(g,pbs_rows,Core_rows):
     """Allow precisely the two different scopes/sites, never two trainers."""
     e.need(len(pbs_rows)==len(Core_rows)==1 and e.FIELD in g,
            'CONCURRENT_EXACT_ONE_MAIN_AND_ONE_CORE_ROLE')
-    proof=binding(g);main=pbs_rows[0];core=Core_rows[0]
+    proof=binding(g);adapter,selected,index=adapters.current(g);main=pbs_rows[0];core=Core_rows[0]
     from scripts.pi0294.pv1.mix_core_accounting import VERSION as Core_VERSION
     e.need(main['request_id']==proof['main_request_id']
-        and main['platform_training_version']==e.VERSION
+        and main==selected and main['platform_training_version']==adapter.VERSION
         and core.get('evaluation_candidate')=='D25'
         and core.get('platform_evaluation_version')==Core_VERSION
         and core.get('native_platform')=='CORELAB_RTX4080'
         and core.get(KEY)==proof
         and core['source_sha']!= '8fba44f38aa5c6858614d8bd4e34ad7f969dd40c'
-        and core['created_epoch']>=g[e.FIELD]['registered_epoch']
+        and core['created_epoch']>=index['registered_epoch']
         and g['pending_updates']==g['unknown_effects']==[],
         'CONCURRENT_EXPLICIT_NEW_D25_SCOPE_SOURCE_AND_ALL_GLOBAL_FENCES')
     return proof
@@ -106,9 +112,9 @@ def permit_Core(g,record,manifest=None):
 def validate_LOCAL(g,l):
     active=[r for r in g['PBS_submissions']if r['status']not in e.original.TERMINAL]
     if not active:return None
-    proof=binding(g);mirror=l.get(LOCAL_MIRROR,{})
-    e.need(mirror.get('schema')==VERSION and mirror.get('main_binding')==proof
-        and mirror.get('only_original_once_control_costs')==e.CONTROL
+    adapter,_,_=adapters.current(g);proof=binding(g);mirror=l.get(_mirror(adapter),{})
+    e.need(mirror.get('schema')==_version(adapter) and mirror.get('main_binding')==proof
+        and mirror.get('only_original_once_control_costs')==adapter.CONTROL
         and any(x==active[0]for x in l['PBS_submissions']),
         'CONCURRENT_ACTUAL_LOCAL_MAIN_INVENTORY_MUST_BE_CAUGHT_UP_BEFORE_CORE')
     return proof
@@ -126,23 +132,23 @@ def propose_LOCAL(global_bytes,local_bytes,*,now_epoch):
     from scripts.pi0294.pv1.neural_ledger import check
     from .minimal_scope import first512_forecast
     g,l=json.loads(global_bytes),json.loads(local_bytes);check(g,allow_unknown=True)
-    row=e.rows(g)[0]
+    adapter,row,index=adapters.current(g);mirror_key=_mirror(adapter)
     # A main that finished before Core became available still has to be
     # mirrored, including its actual terminal and paid control.  Its immutable
     # identity is the same as during R, but this does not authorize overlap.
     proof=binding_identity(row)
-    e.need(LOCAL_MIRROR not in l and g['PBS_submissions'][-1]==row
+    e.need(mirror_key not in l and g['PBS_submissions'][-1]==row
         and l['PBS_submissions']==g['PBS_submissions'][:-1]
         and g['unknown_effects']==g['pending_updates']==[]
         and l['unknown_effects']==l['pending_updates']==l['pending_queries']==[]
         and all(x['status']=='NATIVE_TERMINAL'for x in g.get(core.FIELD,{}).values())
-        and g[e.FIELD]['registered_epoch']<=now_epoch<row['deadline_epoch'],
+        and index['registered_epoch']<=now_epoch<row['deadline_epoch'],
         'CONCURRENT_ONCE_COLD_CORE_BOUNDARY_AND_EXACT_OLD_NATIVE_LOCAL_BYTES')
     before=first512_forecast(global_bytes,local_bytes)
-    v=e.budget_LOCAL(g,l);v['PBS_submissions']=deepcopy(g['PBS_submissions'])
-    v[LOCAL_MIRROR]=dict(schema=VERSION,main_binding=proof,
+    v=adapter.budget_LOCAL(g,l);v['PBS_submissions']=deepcopy(g['PBS_submissions'])
+    v[mirror_key]=dict(schema=_version(adapter),main_binding=proof,
         before_LOCAL_sha256=e.sha(local_bytes),GLOBAL_sha256=e.sha(global_bytes),
-        only_original_once_control_costs=e.CONTROL,observed_epoch=now_epoch,
+        only_original_once_control_costs=adapter.CONTROL,observed_epoch=now_epoch,
         new_budget=False,new_model_queries_updates_or_physics=0)
     core.paired(g,v);validate_LOCAL(g,v)
     after=first512_forecast(global_bytes,e.raw(v))

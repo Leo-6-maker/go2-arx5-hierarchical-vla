@@ -11,6 +11,7 @@ from scripts.pi0294.native_dataset import sha
 from scripts.pi0294.dec1.a40_training_context import sealed
 from scripts.pi0294.mp1.owner_heartbeat import read_live_owner
 from . import minimal_execution as e,minimal_scope as scope,minimal_native_admission as admission
+from . import minimal_execution_adapter as adapters
 
 need=e.need
 LOCAL='plans/MINIMAL_CORE_LOCAL_CAPTURE.private.json'
@@ -32,11 +33,11 @@ def captured_LOCAL(root):
 
 def registered_identity(root,request_path,m,b,r,g,*,uid,pbs_job,now,require_bound):
     """Pure identity join; outer context reads actual files/environment."""
-    root=Path(root);request_path=Path(request_path);index=e.validate(g);mark=e.authority.validate(g);rows=e.rows(g)
-    need(type(require_bound)is bool and len(rows)==1 and index is not None,'CONTEXT_ONE_ADOPTED_NATIVE_MAIN')
-    row=rows[0]
+    root=Path(root);request_path=Path(request_path);adapter=adapters.request(r);mark=e.authority.validate(g)
+    _,row,index=adapters.registered(g,r['request_id'],version=adapter.VERSION)
+    need(type(require_bound)is bool and index is not None,'CONTEXT_ONE_ADOPTED_NATIVE_MAIN')
     need(uid==22182 and not root.is_symlink() and m['scope']==scope.SCOPE
-        and m['platform_training_version']==e.VERSION and m['execution']['profile']==e.PROFILE
+        and adapters.manifest(m) is adapter
         and m['execution']['agent_liveness_required']is False
         and m['run_uuid']==r['run_uuid']==root.name and m['output_root']==b['run_root']==str(root)
         and Path(m['registered_runs_root']).is_absolute() and root.is_relative_to(Path(m['registered_runs_root']))
@@ -56,11 +57,12 @@ def registered_identity(root,request_path,m,b,r,g,*,uid,pbs_job,now,require_boun
 def root_context(root,request_path,*,full=False,require_bound=True):
     root=Path(root);request_path=Path(request_path)
     m=sealed(root,'RUN_MANIFEST.json');b=sealed(root,'OUTPUT_BINDING.private.json')
-    r=sealed(root,request_path.relative_to(root).as_posix());e.request(r)
+    r=sealed(root,request_path.relative_to(root).as_posix());adapter=adapters.request(r)
     g=read(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json')
     registered_identity(root,request_path,m,b,r,g,uid=os.getuid(),pbs_job=os.environ.get('PBS_JOBID'),
         now=time.time(),require_bound=require_bound)
-    need(sha(root/'RUN_MANIFEST.json')==r['run_manifest_sha256'] and sha(request_path)==e.rows(g)[0]['request_sha256'],
+    _,row,index=adapters.registered(g,r['request_id'],version=adapter.VERSION)
+    need(sha(root/'RUN_MANIFEST.json')==r['run_manifest_sha256'] and sha(request_path)==row['request_sha256'],
         'CONTEXT_IMMUTABLE_REQUEST_AND_MANIFEST_BYTES')
     worker=Path(os.environ.get('PV1_RUN_MANIFEST','/INVALID_UNREGISTERED_ENTRY'))
     need(worker.is_file() and not worker.is_symlink() and worker.stat().st_uid==os.getuid()
@@ -70,11 +72,16 @@ def root_context(root,request_path,*,full=False,require_bound=True):
     need(lease['status']=='ACTIVE' and lease['run_uuid']==root.name and lease['manifest_sha256']==r['run_manifest_sha256']
         and lease['deadline_epoch']==r['deadline_epoch'] and len(reg)==1 and reg[0]['path']==str(root),
         'CONTEXT_OWN_ACTIVE_LEASE_AND_CANONICAL_REGISTRY')
-    profiles=[p for p in read(b['environment'])['profiles']if p['name']==e.PROFILE]
+    profiles=[p for p in read(b['environment'])['profiles']if p['name']==adapter.PROFILE]
     need(len(profiles)==1 and profiles[0]['manifest']==str(root/'RUN_MANIFEST.json')
         and profiles[0]['entry_module']==ENTRY and profiles[0]['PBS_required']is True,
         'CONTEXT_ORIGINAL_ENTRY_EXPLICIT_NEW_PROFILE_NOT_CD_OR_GEN')
     inputs=m['execution']['sealed_inputs'];need(REQUIRED<=set(inputs),'CONTEXT_COMPLETE_FROZEN_INPUT_ROLES')
+    if adapter is adapters.retry:
+        need({adapters.PHYSICAL,adapters.PREDECESSOR}<=set(inputs),
+             'CONTEXT_RETRY_PHYSICAL_AND_CLOSED_PREDECESSOR_REQUIRED')
+        need(sealed(root,adapters.PHYSICAL)==index['physical_custody'],
+             'CONTEXT_RETRY_EXACT_GLOBAL_AND_SEALED_PHYSICAL_CUSTODY')
     for name,h in inputs.items():need(sha(sealed(root,name,parse=False))==h,'CONTEXT_SEALED_INPUT:'+name)
     seal=sealed(root,'SOURCE_SEAL.json');prefix=Path(m['code']['capsule_relative']);code=root/prefix
     need(not prefix.is_absolute() and '..'not in prefix.parts and sha(root/'SOURCE_SEAL.json')==m['code']['source_seal_sha256']
@@ -83,6 +90,10 @@ def root_context(root,request_path,*,full=False,require_bound=True):
     critical={'scripts/pi0294/generalization/'+n for n in ('minimal_native_context.py','minimal_native_runtime.py',
         'minimal_native_admission.py','minimal_worker.py','minimal_session_gate.py','minimal_effects.py')}
     critical.add('scripts/pi0294/dec1/a40_training_runtime.py')
+    if adapter is adapters.retry:
+        critical.update('scripts/pi0294/generalization/'+name for name in
+            ('minimal_execution_adapter.py','minimal_retry_execution.py','minimal_retry_history.py',
+             'minimal_retry_runtime_guard.py','minimal_retry_physical_guard.py'))
     need(critical<=set(seal['files']),'CONTEXT_FULL_NATIVE_DEPENDENCY_SEAL')
     for name in seal['files']if full else critical:
         need(sha(sealed(root,str(prefix/name),parse=False))==seal['files'][name],'CONTEXT_EXECUTING_SOURCE:'+name)
@@ -122,15 +133,15 @@ class Guard:
             'CONTEXT_CURRENT_STOP_LEASE_TIME_AND_UNCLEARED_GLOBAL_FENCES')
         if gb!=self.cached_global:
             from scripts.pi0294.pv1.neural_ledger import check
-            check(g);rows=e.rows(g)
-            need(len(rows)==1 and rows[0]['status']==e.STATES[1] and rows[0]['job_id']==a['job_id']
-                and rows[0]['request_sha256']==a['request_sha256'] and rows[0]['source_sha']==a['source_sha'],
+            check(g);adapter,row,_=adapters.registered(g,a['request_id'])
+            need(row['status']==e.STATES[1] and row['job_id']==a['job_id']
+                and row['request_sha256']==a['request_sha256'] and row['source_sha']==a['source_sha'],
                 'CONTEXT_CURRENT_EXACT_GLOBAL_ROW')
             proof=scope.first512_forecast(gb,self.local)
             need(proof['cap_changes_required']=={},'CONTEXT_CURRENT_FULL_FUTURE_RESOURCES')
-            self.cached_global=gb;self.forecast=proof
+            self.cached_global=gb;self.forecast=proof;self.adapter=adapter
         beat=read_live_owner(r/'control',r.name)['heartbeat']
-        need(beat.get('scope')==e.VERSION and beat.get('grant_sha256')==e.authority.GRANT_SHA
+        need(beat.get('scope')==self.adapter.VERSION and beat.get('grant_sha256')==e.authority.GRANT_SHA
             and beat.get('job_id')==a['job_id'] and beat.get('request_sha256')==a['request_sha256']
             and beat.get('source_sha')==a['source_sha'] and beat.get('global_unknown_effects')==[],
             'CONTEXT_REAL_SAME_OWNER_FRESH_HEARTBEAT')

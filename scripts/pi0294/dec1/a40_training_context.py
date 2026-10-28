@@ -68,10 +68,28 @@ def sealed(root,name,*,parse=True):
     return read(p) if parse else p
 
 
+def minimal_training_adapter(version,profile):
+    """Select an explicit typed adapter without aliasing a retry to old V1.
+
+    This selects validation only, not native permission. The selected native
+    context must still join its own registered request, capsule and leases.
+    """
+    from scripts.pi0294.generalization import minimal_execution, minimal_retry_execution
+    from scripts.pi0294.generalization.minimal_execution_adapter import select
+    adapters={a.VERSION:a for a in (minimal_execution,minimal_retry_execution)}
+    if version in adapters:
+        if profile!=adapters[version].PROFILE:fail('EXACT_MINIMAL_VERSION_AND_TYPED_PROFILE')
+        return select(version,profile)
+    if profile in {a.PROFILE for a in adapters.values()}:
+        fail('MINIMAL_PROFILE_REQUIRES_ITS_EXPLICIT_VERSION')
+    return None
+
+
 def validate_root(root,request_path,*,verify_all=False):
     root=Path(root);request_path=Path(request_path)
-    from scripts.pi0294.generalization import minimal_execution
-    if read(root/'RUN_MANIFEST.json').get('platform_training_version')==minimal_execution.VERSION:
+    header=read(root/'RUN_MANIFEST.json')
+    if minimal_training_adapter(header.get('platform_training_version'),
+                                header.get('execution',{}).get('profile')) is not None:
         from scripts.pi0294.generalization.minimal_native_context import root_context
         return root_context(root,request_path,full=verify_all)
     from scripts.pi0294.pv1 import mix_accounting as cd
