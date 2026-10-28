@@ -431,3 +431,24 @@ Vanda retry03新注册曾真实CAS成功但40秒Journal回包超时；原UNKNOWN
 T1／T2 Teacher各41/641与C50真实S1失败2/224保存状态已导出私有RRD／RBL。官方RrdReader实际核168张原PNG全文SHA、原时轴、完整精度JSON、曲线及原审计；缺qpos不补造。C50原224状态／225图像对与sequence224无秒时间保持原样，不称完整轨迹。11项定向测试PASS，未跑完整CI／原生mesh重建。root在官方本地Web Viewer切换Teacher与Student、核双RGB／审计／点位，并定位16秒看到同步画面和数值；04只用官方EyeControls按真实点bbox修正初始取景，前三份导出及工程失败保留。
 
 代码与脱敏实际报告见`PC_RERUN_THIN_ADAPTER_THREE_ACTUAL_SPARSE_REPLAYS_ACTUAL_20261028.json`。RRD／RGB／私有配置／截图留PC不入Git／公开HF。无新采集、模型、积分、WBC、评分、账本或科学范围改变；完整机器人和C50成功记录尚未接入，科学goal未完成。
+
+
+## 2026-10-28 原first512请求首次qsub并真实R；metadata接续不重复登记
+
+原REGISTER CAS晚回包已用原生intent／receipt及完整14,893,863字节GLOBAL精确SHA独立核清，旧UNKNOWN和旧owner OS1保留。新5d77568c metadata owner独立canonical role／ownlease实际安装、3文件全文回读和原7c科学完整source context／20sealed inputs原生通过；既有3000ownerCPU分旧保守800＋新2200，无新费用或计数。49定向CPU、2临时原onceIO／真实pipe与子进程测试通过，fixture初始失败保留，不称CI或模型资格。
+
+同一request a6b3936e-f273-4491-b43b-b8168a6d0f3b／原nonce／原科学source7c7e77d4首次真实QSUB为1504095.stdct-mgmt-02，BIND CONFIRMED；原请求SHA d90e62a0b7a55fc620ecd666ae9a626a33e68ea67eacfde873a5db34b9196832不变。后续独立完整队列实际R、GN-A40-040／36CPU合法原capacity profile（实际活动CPU仍8），owner1119604/procstart70228438及wrapper1119563/procstart70228415健康，unknown[]。原INITIAL_NATIVE_RELEASE已真实放行，effects仍0model／0query／0update，五session尚未开始，不称E0或512完成。GLOBAL c506c498f979ce421ca97c0c198de0c4052236d7240b8314b6b70509d586f2e3，PBS仍38，原matrix3／final保护。
+
+只读入口`registered_dispatch_status_readonly.py`读取新owner，旧status入口不作为新actor监控。`registered_dispatch_native.py` prepare／install／verify／launch已完成，禁止重放。健康owner／原7c capsule不可热改／重启／qsub重发；后台自己续期／阶段放行／真实审计结算关闭。暂停automation未恢复。
+
+Core已实际登录并核LOCAL91ce7cc7仍原字节；GPU0仅原获许可桌面进程。旧D25冷manifest仍绑定失败main1502754，原LOCAL mirror已存在且历史落后；原函数实际拒绝，不能重放。当前bound GLOBAL通过固定BIND epoch重建后与原生全文SHA／字节完全相等，历史LOCAL完整未来复算shortfalls{}仅为冷准备；下一需真实fresh LOCAL、旧终态历史与当前main身份冷接线，不伪造同步／准入，不重传D25。详见`ARX5_FIRST512_E0_REAL39_AND_REGISTERED_OWNER_NATIVE_ACTUAL_20261028.json`。科学goal未完成。
+
+
+## 2026-10-28 E0首份真实GR00T神经证据与39输出独立回读
+
+同一1504095已在原A40完成E0 raw session，39查询（15零步噪声基线＋24合法TRAIN语言），1次模型加载、0更新。原始nvidia父revision2fc962b973bccdd5d8ce4f67cc63b264d6886495，compute原7文件全流SHA见原生RAW_PARENT_COMPLETE_STREAM_AUDIT。E0 SESSION_TERMINAL SHA a84a2c0d59b219422aeacf81917cb6de29a3625a2e21210c96de006292f7302e；独立管理只读核39原NPZ SHA／有限值／physical40×10／normalized1×40×132／原BF16 autocast与TF32关闭，未重采样或新模型调用。E1资格ACTIVE，正式E1/E2尚未完成，整个allocation未F／审计／结算。
+
+只读observer首次在login套用compute的st_dev严格相等而拒绝：实际dev44对47；7文件其余inode／大小／mtime／ctime均一致。失败原件保留，当前输出回读仅把compute完整流audit作为compute证据，记录双端stat，不声称跨主机filesystem identity已闭合；native同主机raw guard完全未改。原post-F audit还有同一dev比较接缝，后续必须冷态依据实际原件或独立全文读解决，绝不热改健康源码／owner、不重跑输出。另一次qselect10s超时保留，不推断终止或重启。最新脱敏报告`ARX5_FIRST512_E0_REAL39_AND_REGISTERED_OWNER_NATIVE_ACTUAL_20261028.json`；goal仍ACTIVE。
+
+
+后续1793197947.875654独立kernel／metadata观测：同owner1119604/70228438与wrapper1119563/70228415健康，E1资格2次committed优化调用／15零步draw，累计2loads／54queries／2updates，pending／unknown[]；E1保存／恢复session仍ACTIVE，正式E1/E2未完成。本次未查fullqueue，原owner心跳1793197907.4620042为R；此前qselect10s超时保留，不能假称新完整queue或终止。读入口`registered_dispatch_status_readonly.py`低频完整queue；仅metadata差分必须显式标无fullqueue，所有新写UNKNOWN仍先精确只读。
