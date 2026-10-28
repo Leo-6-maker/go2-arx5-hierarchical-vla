@@ -1,0 +1,184 @@
+{
+  "schema": "ARX5_REAL_E1_FORMAL_NATIVE_UPDATES_AND_E2_FULL_GR00T_PARAMETER_RESTORE_EVIDENCE_ACTUAL_V1",
+  "observed_epoch": 1793229933.955782,
+  "source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+  "job_id": "1505362.stdct-mgmt-02",
+  "request_id": "80aeab00-91c9-455d-96bc-587f716f227f",
+  "request_sha256": "35a1f1ffb21768218fa16556ca3cd9de6a0f267b1c8e4fe7e6f36d478c5094b9",
+  "private_observation_sha256": "850ce5934957b4b0115cccaf07c41af450d081f2cf6b3dfcafb13fa30835e821",
+  "native": {
+    "owned": [
+      {
+        "platform": "VANDA_A40",
+        "job_id": "1505362.stdct-mgmt-02",
+        "state": "R",
+        "project": "CFP04-CF-007",
+        "name": "pi0294_dec1_a40_train"
+      }
+    ],
+    "complete_queue_sha256": "bf08c75a5957495dca9e312ef50943424f30d7371d47299e0318927734f7db69",
+    "queue_unknown": [],
+    "same_wrapper_live": true,
+    "same_owner_live": true
+  },
+  "GLOBAL": {
+    "sha256": "2de3a11787d91a6dcfcd0c4334fee4dcaf49ab1ed603ba0f310e5829cb5c643f",
+    "PBS_used": 39,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "actual_effects_not_yet_terminal_settled": true
+  },
+  "effects": {
+    "schema": "ARX5_MINIMAL_REMAINING_THREE_SESSION_ALLOCATION_EFFECTS_V1",
+    "optimizer_updates": 34,
+    "generation_queries": 2,
+    "model_loads": 4,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "active_session": "E1_ADAPTER_ONLY_FORMAL512",
+    "sessions": {
+      "E2_SHARED_ACTION_HEAD_QUALIFY2": {
+        "status": "COMPLETE",
+        "optimizer_updates": 2,
+        "generation_queries": 2,
+        "model_loads": 3,
+        "terminal_receipt_sha256": "5bfab89a78799af9c82d8903bb56a0182a9ebb734b263b6b53968c61b15f5505",
+        "terminal_receipt_relative": "evidence/MINIMAL_THREE_REMAINING_SESSIONS/E2_SHARED_ACTION_HEAD_QUALIFY2/SESSION_TERMINAL.json"
+      },
+      "E1_ADAPTER_ONLY_FORMAL512": {
+        "status": "ACTIVE",
+        "optimizer_updates": 32,
+        "generation_queries": 0,
+        "model_loads": 1
+      },
+      "E2_SHARED_ACTION_HEAD_FORMAL512": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      }
+    },
+    "training_runs": {
+      "E2_SHARED_ACTION_HEAD_QUALIFY2": {
+        "recipe_sha256": "1657008b59bfb7475a4eb27afd7b9cd1bb1c7ec41490eebcf2a27da5ddf0e0ac",
+        "last_native_step": 2
+      },
+      "E1_ADAPTER_ONLY_FORMAL512": {
+        "recipe_sha256": "1fbb82995c1c62a2e7f30a59e77123a86573c7ee35ab4f9c6765a7aa38133b65",
+        "last_native_step": 32
+      }
+    }
+  },
+  "E2_saved_qualification_terminal": {
+    "schema": "ARX5_MINIMAL_RUNTIME_SESSION_TERMINAL_V1",
+    "status": "COMPLETE_SAVED_REQUIRES_INDEPENDENT_OWNER_AUDIT",
+    "arm": "E2_SHARED_ACTION_HEAD",
+    "session_id": "E2_SHARED_ACTION_HEAD_QUALIFY2",
+    "optimizer_updates": 2,
+    "query_attempts": 2,
+    "cursor": 64,
+    "source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+    "request_sha256": "35a1f1ffb21768218fa16556ca3cd9de6a0f267b1c8e4fe7e6f36d478c5094b9",
+    "bytes": 572901,
+    "top_keys": [
+      "schema",
+      "status",
+      "session_id",
+      "arm",
+      "request_sha256",
+      "source_sha",
+      "raw_parent_files_identity",
+      "statistics_sha256",
+      "optimizer_updates",
+      "query_attempts",
+      "cursor",
+      "model_load_attempts",
+      "actual_session_evidence",
+      "behavior_success_not_measured"
+    ],
+    "evidence_keys": [
+      "training",
+      "save_metadata_seal",
+      "restore",
+      "full_current_identity",
+      "output_equality"
+    ],
+    "restore": {
+      "status": "PASS_ORIGINAL_TRAINER_OWN_QUALIFICATION_FULL_STATE_RESTORE_ONLY",
+      "arm": "E2_SHARED_ACTION_HEAD",
+      "step": 2,
+      "cursor": 64,
+      "scheduler_horizon": 1024,
+      "optimizer_scheduler_model_RNG_sampler_checked": true,
+      "new_optimizer_updates": 0,
+      "new_queries": 0,
+      "qualification_never_becomes_formal": true,
+      "original_fixed_draw_equivalence_still_required": true,
+      "native_model_qualification_complete": false
+    },
+    "output_equality": {
+      "status": "ACTUAL_SAVED_SAME_INPUT_NOISE_OUTPUTS_EXACT",
+      "reference_sha256": "3808a70d57e396ada09c95fab7d39b58ffc466839a657de20aa09aeffa64ae94",
+      "reloaded_sha256": "3808a70d57e396ada09c95fab7d39b58ffc466839a657de20aa09aeffa64ae94",
+      "new_queries": 0,
+      "behavior_success_not_measured": true
+    }
+  },
+  "E2_saved_qualification_terminal_sha256": "5bfab89a78799af9c82d8903bb56a0182a9ebb734b263b6b53968c61b15f5505",
+  "E2_actual_parameter_update": {
+    "status": "ACTUAL_ORIGINAL_TRAINER_TWO_WARMUP_CALL_PARAMETER_UPDATE_CHECK",
+    "optimizer_calls": 2,
+    "cursor": 64,
+    "arm": "E2_SHARED_ACTION_HEAD",
+    "frozen_tensors_unchanged": true,
+    "formal_training_start_requires_fresh_raw_parent": true,
+    "qualification_is_development_checkpoint": false,
+    "receipt_sha256": "c0326c261cb044ab63bd5c5e090dfe108f28be583a52956689409f8d005d1cf7",
+    "changed_parameter_count": 536,
+    "changed_shared_count": 522,
+    "changed_target_category_count": 14,
+    "gradient_parameter_rows": 536,
+    "present_gradient_count": 536,
+    "all_present_gradients_finite": true,
+    "checkpoint_manifest_sha256": "db93cf7720b5dcf67d2d066e160ec7ce10b27a3886a2908e8a94bfe1348861f8"
+  },
+  "interpretation": {
+    "E1_formal_updates": 32,
+    "E2_formal_updates": 0,
+    "E2_runtime_qualification_saved_and_restored": true,
+    "E2_536_finite_gradient_rows_and536_changed_parameters_observed": true,
+    "E2_target14_and_shared522_changed": true,
+    "E2_saved_same_input_same_noise_reference_reloaded_SHA_equal": true,
+    "complete_independent_full_state_stream_audit_still_pending": true,
+    "formal_runs_fresh_raw_parent_not_qualification_weights": true,
+    "no_behavior_success_measured": true
+  },
+  "control": {
+    "reused_original_same_first512_paid_unused_control_bank": true,
+    "original_paid_marker_retained": true,
+    "old_terminal_row_and_all_costs_retained": true,
+    "new_financial_adoption_or_cap_change": 0,
+    "new_request_or_qsub": 0,
+    "malformed_phase_rejected_locally_before_RPC": true,
+    "first_terminal_JSON128KiB_read_bound_rejected_with_original_reserved_CPU_and_wire_retained": true,
+    "terminal_JSON572901bytes_readonly_hashed_no_tensor_reread": true
+  },
+  "Core": {
+    "D25_valid_behavior_conditions": 0,
+    "GEN1_valid_behavior_conditions": 0,
+    "last_exact_management_readonly_epoch": 1793229761.6218965,
+    "result": "ORIGINAL_35S_READONLY_OBSERVATION_TIMEOUT_NO_TERMINATION_INFERENCE",
+    "original_management_install_UNKNOWN_preserved": true,
+    "no_write_replay": true
+  },
+  "preserved": {
+    "T_CD": 1792932749.8133287,
+    "stop_new_training_epoch": 1793451149.8133287,
+    "deadline_epoch": 1793537549.8133287,
+    "all_caps_unchanged": true,
+    "matrix3_and_final20GPUh40GiB": true,
+    "original_twelve_TRAIN_R0_sampler1024LR_EEF10H40Prefix8_foursteps_dualRGB": true
+  },
+  "next": "Preserve the healthy single allocation; finish E1 own512 and original probes/export, then fresh raw E2 own512, independent complete-state audit and original actual-effect once settlement/close. Core resumes its exact unknown read only after actual accessibility recovery; no repeated auth/service probes.",
+  "whole_goal_complete": false
+}
