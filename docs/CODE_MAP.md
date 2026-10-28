@@ -18,6 +18,8 @@ Updated 2026-10-28. `main` is the integration entry. Repository presence does no
 | `tests/`, `scripts/pi0292/test_*.py`, `scripts/pi0294/test_*.py` | CPU contracts and implementation regressions | Model/physics execution needs its own valid runtime scope |
 | `scripts/maintenance/` | Bounded repository administration | No scientific imports, remote job mutations or data cleanup |
 
+`scripts/pi0294/generalization/minimal_inference_transfer.py` is the cold first512 ordinary-model subset/restoration adapter. It requires the original closed GLOBAL/audit, own lease and natural owner OS0; it performs no network or admission. The existing restoration entry selects E1/E2 explicitly. Actual source/destination role binding, fixed HF revision and Core admission remain separate.
+
 ## Document hierarchy
 
 `START_HERE.md` is the short entry, `CURRENT_SCIENCE_STATUS.md` is a dated evidence snapshot, and `docs/EXPERIMENT_ROADMAP.md` is the consolidated research route. Detailed protocols remain under `docs/protocols/`; execution handoffs under `docs/handover/`; actual sanitized receipts under `reports/`.

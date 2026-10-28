@@ -21,11 +21,13 @@
 | D25 | 1024完整端点已审计、已固定交付Core | 0/24有效Eval；不能说成功率0% |
 | GEN1 | 1024完整状态已审计并关闭；Teacher12次尝试、11成功、10条R0合格 | 0/24模型Eval；Teacher结果不是学生泛化 |
 | E0 | 原始GR00T真实加载1次／39查询；39份输出独立SHA／shape／精度回读；所在作业已真实F并结算关闭 | 离线诊断，不是任务成功 |
-| E1/E2 | E1资格原生2次优化、14目标参数实际变化、保存／完整恢复receipt；E2已有15零步输出 | E0/E1保存状态已完整审计；E2真实536参数变化／完整恢复／输出一致回执已读；E1正式32/512，E2正式0/512，终态完整独立审计仍待完成 |
+| E1/E2 | E1资格原生2次优化、14目标参数实际变化、保存／完整恢复receipt；E2已有15零步输出 | E0/E1保存状态已完整审计；E2真实536参数变化／完整恢复／输出一致回执已读；E1正式149/512，E2正式0/512，终态完整独立审计仍待完成 |
 | Go2＋ARX5目标包 | 10段标定＋6几何双任务12首次尝试的独立提案 | 尚未采集新目标示范，不混入当前E1/E2 |
 | DEC1冻结WBC迁移 | 原固定CORR2048/R0及设计保留 | core64=0/64；不是迁移失败率100% |
 
 ## 最新工程状态
+
+2026-10-29 08:35 SGT实际：[E1正式149步与闭合512端点交付冷接线](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E1_FORMAL149_AND_CLOSED512_INFERENCE_TRANSFER_CPU_ACTUAL_20261029.json)。同一1505362仍R，原owner／wrapper同procstart健康，queue／GLOBAL／原生效果unknown和pending均空；E1已149/512，E2正式仍0/512。新纯适配器区分own512普通完整推理导出与step2资格／wrapped训练状态，必须消费原完整GLOBAL终态审计、SETTLED原字节、own CLOSED lease和原owner自然OS0，匹配全流审计成员后才生成HF模型子集；只复用原两项Cosmos路径改写与精确私有恢复。既有restoration入口仅新增显式E1/E2类型，A/B/C/D不变。105定向CPU／19subtests通过，含两臂artifact fixtures、破坏SHA／arm／路径／训练状态与隔离closure接缝；未来闭合GLOBAL正例不是native，旧测试文件名命令错误保留。该冷代码尚未采用／部署／上传／Core交付，不改变运行source或资源，训练继续独立完成。
 
 2026-10-29 08:25 SGT实际：[E1正式32步与E2实际参数／保存恢复证据](reports/PI0294/design/parallel-science-20261022/ARX5_E1_FORMAL_REAL32_AND_E2_TARGET14_SHARED522_FULL_RESTORE_ACTUAL_20261029.json)。同一1505362仍真实R，owner／wrapper同kernel健康，完整队列与全局pending／unknown为空。E1正式已32/512，E2正式仍0/512；本allocation累计34实际优化／2查询／4加载，不提前计入GLOBAL终态费用。E2原生资格保存回执SHA `5bfab89a`已独立只读：2优化／cursor64、536有限梯度行、实际变化14目标参数＋522共享参数，冻结部分保持；原Trainer完整optimizer／scheduler／RNG／sampler恢复通过，saved与reloaded同输入同noise输出SHA完全相同。此为原GR00T真实模型证据，不是CPU小模型；完整成员独立流审计仍由原终态流程完成。观察复用原已付first512控制未用余量，旧费用／失败UNKNOWN保留，无新登记、qsub、额度或科学变量。Core一次原35s精确只读仍超时，不推断其终止、不重发旧安装，Vanda独立继续。
 
