@@ -27,6 +27,8 @@
 
 ## 最新工程状态
 
+2026-10-29同范围工程补充：[完整14维captured复算](reports/PI0294/design/parallel-science-20261022/ARX5_REMAINING_INSTALL_CONTROL_FULL14_CAPTURED_CPU_ACTUAL_20261029.json)在实际GLOBAL `a4c5cf47`／历史LOCAL `cad80ab3`上确认，仅增加240siteCPU秒／90localCPU秒／64KiB控制传输，原总上限全部不变，完整剩余工作shortfalls为0；传输仍余108255bytes、site输出仍余28391176bytes。原旧控制600／256KiB与全部UNKNOWN／费用不重写，原owner3000CPU bank不动，新增输出费用为0、GPU/PBS/训练条件均不增加。该有界工程安排依据既有自主修复授权，仍须原GLOBAL once实际采用及独立回读；当前只是纯复算，没有GPU准入。
+
 2026-10-29后继实际：[剩余Vanda不可变源码全文回读](reports/PI0294/design/parallel-science-20261022/ARX5_REMAINING_IMMUTABLE_VANDA_SOURCE_FULL_READBACK_ACTUAL_20261029.json)确认1366个文件、source `1f2294d4`／seal `ba60bcad`。原10秒控制调用实际报11.409CPU秒，导致成功写回包被拒绝；UNKNOWN保留，随后独立逐文件SHA／权限回读证明安装实际完成，未重发；从原cold600另保守计2秒，历史上界不退款。GLOBAL仍`a4c5cf47`、无新请求／qsub／神经效果。当前有限传输仅余1476bytes，须先完成后续安装／启动／终态的完整有限控制安排，不得静默超过旧额度；原owner3000CPU bank未启动。正式两臂及D25／GEN1有效条件仍为0，源码metadata实际部署不是模型资格。
 
 2026-10-29后继冷接线：[剩余独立请求／物理custody／终态消费者](reports/PI0294/design/parallel-science-20261022/ARX5_REMAINING_CENTRAL_REQUEST_CUSTODY_TERMINAL_CANDIDATE_CPU_ACTUAL_20261029.json)已实现，保留实际非零前缀及旧费用；新三阶段仍仅1026更新／76查询／7加载。Vanda既有ACTIVE父控制目录已保存25文件候选差分，原Journal确认一次metadata写入，20项直接CPU断言通过，非pytest／完整原生登记资格。原本地pytest触及CPU限额的中断如实保留；未改运行capsule／GLOBAL，没有新request、qsub或模型效果。下一是复用缓存固定源码、实际custody／独占角色及全资源原生冷准入，不是追加前缀审计或重新传张量。两臂正式仍0／512，D25／GEN1仍各0／24。
