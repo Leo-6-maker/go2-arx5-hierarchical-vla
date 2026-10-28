@@ -81,7 +81,7 @@ class Guard:
         """
         proof=self.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
         if self.portable:
-            return dict(status='ACTUAL_THREE_CLOSED_PORTABLE_METADATA_READONLY',observed_epoch=time.time(),
+            return dict(status=('ACTUAL_FOUR_CLOSED_PORTABLE_METADATA_READONLY'if len(self.roots)==4 else'ACTUAL_THREE_CLOSED_PORTABLE_METADATA_READONLY'),observed_epoch=time.time(),
                 portable_inventory_sha256=self.custody['old_inventory_sha256'],unique_allocated_bytes=proof['old_allocated_bytes'],new_writes=0)
         roots={};joined=[];allocated=0
         for root,expected in zip(self.roots,self.custody['old_roots']):
@@ -105,15 +105,18 @@ class Guard:
 
     def _portable_init(self,request,manifest):
         from . import minimal_followup_scope as scope,minimal_portable_inventory as portable
+        generation=request.get('continuation_generation',1)
+        if generation==3:
+            from . import minimal_entry_continuation_scope as scope
         p=self.custody
-        e.need(request.get('continuation_generation')==2 and self.root.name==request['run_uuid']==scope.RUN
+        e.need(request.get('continuation_generation')in(2,3) and self.root.name==request['run_uuid']==scope.RUN
             and p['request_id']==request['request_id']and p['submission_nonce']==request['submission_nonce']
             and p['run_uuid']==scope.RUN and p['scope_sha256']==scope.GRANT_SHA
-            and p['old_metadata_ceiling']==e.CONTROL['Hopper_storage_bytes']+64*1024**2
+            and p['old_metadata_ceiling']==e.CONTROL['Hopper_storage_bytes']+(generation-1)*64*1024**2
             and p['paid_output_ceiling']==e.native_resources()['Hopper_storage_bytes']
             and p['engineering_metadata_allowance']==64*1024**2,
             'PORTABLE_EXACT_NEW_SCOPE_REQUEST_AND_PAID_ENVELOPE')
-        names=['arx5-minimal-raw-parent-first512-01','arx5-minimal-raw-parent-first512-02','arx5-minimal-raw-parent-first512-retry-01']
+        names=['arx5-minimal-raw-parent-first512-01','arx5-minimal-raw-parent-first512-02','arx5-minimal-raw-parent-first512-retry-01']+(['arx5-minimal-raw-parent-first512-retry-02']if generation==3 else [])
         e.need([r['run_uuid']for r in p['old_roots']]==names
             and p['portable_inventory']['portable_sha256']==p['old_inventory_sha256'],
             'PORTABLE_ALL_THREE_CLOSED_ROOTS_AND_FULL_CONTENT_SEAL')

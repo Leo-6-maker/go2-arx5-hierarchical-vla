@@ -93,10 +93,11 @@ def root_context(root,request_path,*,full=False,require_bound=True):
     if adapter is adapters.retry:
         critical.update('scripts/pi0294/generalization/'+name for name in
             ('minimal_execution_adapter.py','minimal_retry_execution.py','minimal_retry_history.py',
-             'minimal_retry_runtime_guard.py','minimal_retry_physical_guard.py'))
-        if r.get('continuation_generation')==2:
+             'minimal_retry_runtime_guard.py','minimal_retry_physical_guard.py','minimal_validation_cache.py'))
+        if r.get('continuation_generation')in(2,3):
             critical.update('scripts/pi0294/generalization/'+name for name in
                 ('minimal_portable_inventory.py','minimal_followup_scope.py'))
+    if r.get('continuation_generation')==3:critical.add('scripts/pi0294/generalization/minimal_entry_continuation_scope.py')
     need(critical<=set(seal['files']),'CONTEXT_FULL_NATIVE_DEPENDENCY_SEAL')
     for name in seal['files']if full else critical:
         need(sha(sealed(root,str(prefix/name),parse=False))==seal['files'][name],'CONTEXT_EXECUTING_SOURCE:'+name)

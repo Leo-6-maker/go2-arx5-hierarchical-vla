@@ -16,6 +16,12 @@ from scripts.pi0292.durable import read
 @pytest.fixture
 def owner(packet,tmp_path):
     p=deepcopy(packet);now=time.time();p['now_epoch']=now;p['queue_proof']['observed_epoch']=now
+    # This is a prospective CPU job fixture, not captured native evidence.
+    # Move its start together with its current observation as wall time moves.
+    native=json.loads(p['native_job_bytes']);native['stime']=time.strftime('%a %b %d %H:%M:%S %Y',time.localtime(now-2))
+    p['native_job_bytes']=e.raw(native)
+    queue_reply=json.loads(p['queue_proof']['qstat']['stdout']);queue_reply['Jobs'][p['job_id']]=native
+    p['queue_proof']['qstat']['stdout']=json.dumps(queue_reply)
     site=json.loads(p['site_bytes']);site['observed_epoch']=site['quota']['observed_epoch']=now;p['site_bytes']=e.raw(site)
     root=tmp_path/json.loads(p['manifest_bytes'])['run_uuid'];base=root/'control/resident-owner';base.mkdir(parents=True)
     req=json.loads(p['request_bytes']);d=root/'pbs'/('alloc-'+str(req['submit_count']).zfill(2));d.mkdir(parents=True)
