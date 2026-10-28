@@ -479,3 +479,10 @@ Core canonical LOCAL已从91ce7cc7一次补齐三次first512真实终态与已�
 2026-10-29后继实际：[D25新源码与双账本登记](reports/PI0294/design/parallel-science-20261022/D25_REAL_DUAL_REGISTERED_THREE_COLD_ROLES_SOURCE_BOUND_NOT_STARTED_ACTUAL_20261029.json)已完成。源码`2a23eeb6`在两端1356文件全文SHA回读；原固定请求和nonce保留，新run04的owner、physical、neural三角色已真实登记。GLOBAL `0bf232b7`与Core LOCAL `dcc63c84`的原生CAS及独立回读匹配；GLOBAL回包35秒超时但实际CAS成功，原UNKNOWN和费用上界保留、未重发。独立读取33／38封存输入、源码和三ACTIVE lease，并实际确认owner／neural unit均not-found、MainPID0。**这仍是冷态登记：D25有效Eval为0，GPU、模型与物理未启动。** 剩余有限控制传输需先完成可行计划，再原生bind／完整双端资源／600秒80周期／模型放行；未动收尾保护、没有新增预算或重传D25。Vanda的剩余1026更新／76查询／7加载契约见PR103，尚未接成可提交入口，正式两臂仍0／512。
 
 原源码安装、owner登记与GLOBAL登记的UNKNOWN均按精确原生字节核清并永久保留；旧调用不重放。新finalize仅有冷计划，未执行。三个新角色保持ACTIVE且无actor；旧03角色保持CLOSED。两站只由管理端核账，运行入口继续使用有限本地effect custody，不增跨站运行依赖、自动化或subagent。
+
+
+## 2026-10-29 · D25原64MiB双账本冷计划已采用、完整配对装配已固定
+
+2026-10-29后继实际：[原64MiB控制计划及配对装配](reports/PI0294/design/parallel-science-20261022/D25_SAME64_NATIVE_DUAL_ADOPTED_AND_PAIRED_ASSEMBLY_FIXED_ACTUAL_20261029.json)已真实完成。GLOBAL `a4c5cf47`／LOCAL `cad80ab3`及原生intent、receipt独立回读匹配；仅将原未用只读差分64KiB明确转给冷配置，总额、CPU、历史UNKNOWN和终态／收尾预留不变。GLOBAL成功回包加SSH提示超过320字节，原UNKNOWN和费用上界保留，没有重发。Core已实际固定完整ASSEMBLY及两peer，运行源码仍`2a23eeb6`、原固定D25请求／模型不变。四项定向临时原Journal／onceIO与激活存储测试通过，服务器／GPU进程仍显式fixtures；不称原生模型资格。**GPU尚未启动，D25仍0/24。** 下一是完整有限启动接缝，再原180秒绑定／双采用和600秒80周期，不能把准备或CPU回归当作启动。
+
+管理端启动程序只连接各站原canonical一次写与只读回执，Core resident／worker不新增跨站路线。四CPU测试覆盖真实临时CAS、错误整文件SHA在intent前拒绝、CAS后丢回复保留UNKNOWN且拒绝重发、六份真实临时采用字节初始化原effect/control存储并最后发布READY。首次丢回包fixture把Journal外层40秒错当子调用35秒，在调用前失败；仅修fixture后4pass／2.44秒。完整suite／原生GPU／模型／物理NOT_RUN。原E0/E1完整前缀不重审计、不重训；Vanda剩余入口仍待接线。
