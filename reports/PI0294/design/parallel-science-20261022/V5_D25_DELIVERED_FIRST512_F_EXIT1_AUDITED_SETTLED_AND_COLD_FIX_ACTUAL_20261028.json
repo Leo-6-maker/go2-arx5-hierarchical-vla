@@ -1,0 +1,112 @@
+{
+  "schema": "V5_D25_DELIVERY_AND_FIRST512_FAILED_REAL_CLOSE_V1",
+  "observed_epoch": 1793156294.952627,
+  "D25": {
+    "delivered": true,
+    "checkpoint_manifest_sha256": "8cf977b964411a3ae97f022edd3e3ca390cd2d71fd61a914ab21466efa3a9e9b",
+    "revision": "4887843bbff8f69c8c439d5456469f173194c317",
+    "files": {
+      "config.json": {
+        "bytes": 2146,
+        "sha256": "83dee2a2e6c6da3efd880b8f2bab2a0183a0bc2910781cad45c3384972898b77"
+      },
+      "model-00001-of-00003.safetensors": {
+        "bytes": 4986649584,
+        "sha256": "cbcaea5ee88f1e0f1465043920a2647c67e7de17d24adfd1c477742a6168edec"
+      },
+      "model-00002-of-00003.safetensors": {
+        "bytes": 4970792616,
+        "sha256": "604f7ff3426904af552af0ba91498af014114cfb1ddf974e6c3570162d9d829f"
+      },
+      "model-00003-of-00003.safetensors": {
+        "bytes": 2618758696,
+        "sha256": "7e370312f3aa231486e658b949a3a46d4d297ff2a9514698a6fc9440abb38682"
+      },
+      "model.safetensors.index.json": {
+        "bytes": 104913,
+        "sha256": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730"
+      },
+      "processor/embodiment_id.json": {
+        "bytes": 615,
+        "sha256": "6a81139638dbdcc4c8ee27a29a618d7817ffb2d93f8dd24edb292440b354a038"
+      },
+      "processor/processor_config.json": {
+        "bytes": 3005,
+        "sha256": "f01d9c54a50ae457f98b6c87d3c0950d5f95eb3d8206433ddf8b0d9ad4a4fd14"
+      },
+      "processor/statistics.json": {
+        "bytes": 6416,
+        "sha256": "9160be2f9acc2bdb2a2f120c439b4a3bfa537dda1c7c90e6a9524eb7ef16bdbf"
+      },
+      "statistics.json": {
+        "bytes": 6417,
+        "sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7"
+      },
+      "LICENSE": {
+        "bytes": 4063,
+        "sha256": "fdc54058d8b52bbb3b06c924326ff95a15687b08b15f92bc63adabc291638c89"
+      },
+      "NVIDIA_OPEN_MODEL_LICENSE.pdf": {
+        "bytes": 79005,
+        "sha256": "4d2fb590aa9b30c47f2058bff17291df7fa2aa0c1bd775a20703da9bb267cfab"
+      },
+      "Notice": {
+        "bytes": 229,
+        "sha256": "28503a820c6faa02bfb7ed4dbfd2a3770e2d35dc65e92a1211c26f585e4ecc1f"
+      },
+      "MODEL_CARD.json": {
+        "bytes": 349,
+        "sha256": "adef754f730a617e1ff734a224c9402866e1bcc8a084ae76d80da2d64a4baf11"
+      }
+    },
+    "Core_CPU_s": 43.897872721,
+    "source_CPU_s": 88.086687819,
+    "Core_model_loaded": false,
+    "valid_conditions": 0
+  },
+  "first512": {
+    "job": "1501631.stdct-mgmt-02",
+    "native_state": "F",
+    "exit_status": 1,
+    "run_count": 1,
+    "model_loads": 0,
+    "queries": 0,
+    "updates": 0,
+    "valid_physics": 0,
+    "independent_audit_and_original_once_settlement": true,
+    "amounts": {
+      "GPU_s": 257,
+      "CPU_s": 1153,
+      "updates": 0,
+      "queries": 0,
+      "loads": 0,
+      "complete_sessions": [],
+      "success": false
+    },
+    "lease_closed": true,
+    "GLOBAL_sha256": "204ebd9d03f59f58c4924843fff6c5b3fa948218c677becba2bea6fbeab9fe5f",
+    "lease_sha256": "d7652132f59a8d58721caa62987db4ba8af316e72b0454ac82c41c24ba415e6b",
+    "old_owner_natural_exit_error": "V5_CD_OWNER_NO_UNKNOWN_OR_UNREGISTERED_CAMPAIGN_JOB",
+    "native_error": "ADMISSION_NATIVE_SAME_JOB_SOURCE_REQUEST_NONCE_AND_NO_RESTART",
+    "exact_compute_qstat_raw_not_saved_causality_not_fully_proven": true
+  },
+  "cold_fix": {
+    "source": "c446323a",
+    "stable_identity_instead_of_whole_mutable_qstat_equality": true,
+    "independent_effects_snapshot_timestamp_comparison": true,
+    "actual_captured_terminal_audit_pass": true,
+    "targeted_CPU_checks_41_and_5": true,
+    "native_retry_not_dispatched": true,
+    "unchanged_runtime_capsule": true
+  },
+  "remaining": {
+    "C50": "6/24 completed",
+    "D25": "0/24",
+    "GEN1": "0/24",
+    "E0": "0 native queries",
+    "E1": "0/512",
+    "E2": "0/512"
+  },
+  "next": "Original one-engineering-replacement must be explicitly supported by original row/accounting and fresh full budget/native qualification; D25 original Core owner/paired manifest/600s80cycle and24.",
+  "overall_goal_complete": false
+}
