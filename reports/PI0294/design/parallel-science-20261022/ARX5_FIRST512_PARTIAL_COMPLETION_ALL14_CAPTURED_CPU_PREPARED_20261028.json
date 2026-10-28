@@ -1,0 +1,132 @@
+{
+  "schema": "ARX5_FIRST512_NONZERO_PARTIAL_COMPLETION_ALL14_CAPTURED_CPU_PREPARATION_V1",
+  "status": "CAPTURED_ACTUAL_CLOSED_INPUTS_CPU_ONLY_PROPOSAL_NOT_NATIVE_ADOPTED",
+  "actual_GLOBAL_sha256": "eaa268edd0d212b0a73bc56d6eac877ee0a89fe64c07c033ef284127b36daa00",
+  "historical_LOCAL_sha256": "91ce7cc7621d1ddce5cb2329314b35a8cad67c0d33d240bbb43a63c88e193dae",
+  "actual_canonical_LOCAL_fresh": false,
+  "new_scope_grant_sha256": "c2733caa01de7a85419d9fd46f2e315f8bea89d892e43b6b1945f6af319bc20c",
+  "scope_basis": "Bounded executor application of existing direct multi-GPU/autonomous continuation steering. Human did not literally supply42.",
+  "changed_cap_only": {
+    "PBS_submissions": {
+      "before": 41,
+      "after": 42
+    }
+  },
+  "original_seven_cap_bytes_unchanged": true,
+  "full_remaining_original_work_matrix3_and_final20GPUh40GiB_protected": true,
+  "dimensions": {
+    "H200_s": {
+      "cap": 532800,
+      "projected": 517580.0,
+      "shortfall": 0
+    },
+    "PBS_submissions": {
+      "cap": 42,
+      "projected": 42,
+      "shortfall": 0
+    },
+    "optimizer_updates": {
+      "cap": 16384,
+      "projected": 15814,
+      "shortfall": 0
+    },
+    "episode_starts": {
+      "cap": 1000,
+      "projected": 727,
+      "shortfall": 0
+    },
+    "neural_queries": {
+      "cap": 48000,
+      "projected": 30412,
+      "shortfall": 0
+    },
+    "physics_ticks": {
+      "cap": 40000000,
+      "projected": 22265970,
+      "shortfall": 0
+    },
+    "engine_starts": {
+      "cap": 100000,
+      "projected": 51448,
+      "shortfall": 0
+    },
+    "Core_CPU_s": {
+      "cap": 1368000,
+      "projected": 1212729.474704557,
+      "shortfall": 0
+    },
+    "Hopper_CPU_s": {
+      "cap": 954000,
+      "projected": 904332.658597758,
+      "shortfall": 0
+    },
+    "local_CPU_s": {
+      "cap": 172800,
+      "projected": 169333.974682509,
+      "shortfall": 0
+    },
+    "transfer_bytes": {
+      "cap": 488552529920,
+      "projected": 488552356129,
+      "shortfall": 0
+    },
+    "Hopper_storage_bytes": {
+      "cap": 1502164811776,
+      "projected": 1502136420600,
+      "shortfall": 0
+    },
+    "Core_storage_bytes": {
+      "cap": 590558003200,
+      "projected": 521417653896,
+      "shortfall": 0
+    },
+    "local_storage_bytes": {
+      "cap": 21474836480,
+      "projected": 9395240960,
+      "shortfall": 0
+    }
+  },
+  "cap_changes_after_bounded_scope": {},
+  "control_payment": {
+    "site_CPU_s": 3600,
+    "local_CPU_s": 600,
+    "site_output_bytes": 67108864,
+    "transfer_bytes": 262144
+  },
+  "old_effects_preserved": {
+    "updates": 2,
+    "queries": 71,
+    "loads": 5
+  },
+  "remaining_native_upper": {
+    "GPU_s": 59520,
+    "site_CPU_s": 165600,
+    "updates": 1026,
+    "queries": 76,
+    "loads": 7
+  },
+  "paid_gross_output_upper_preserved": 144294967296,
+  "new_training_tensor_charge_bytes": 0,
+  "prefix_audit": {
+    "source": "minimal_saved_prefix_audit.py",
+    "maximum_launches": 1,
+    "CPU_upper_s": 480,
+    "walltime_upper_s": 600,
+    "scope": "separate registered metadata CPU role only; original180s failed reader/costs retained; no scientific watchdog or RPC limit extended",
+    "old7c_source_helpers_and_original_Trainer_state_readers": true,
+    "full_checkpoint_stream_and_independent_second_read": true,
+    "actual_serialized_optimizer_scheduler_RNG_and_sampler": true,
+    "raw_parent_original_seven_files_full_stream": true,
+    "no_CUDA_model_queries_updates_or_physics": true,
+    "native_status": "NOT_RUN"
+  },
+  "new_targeted_CPU": 25,
+  "all_targeted_CPU": 74,
+  "skipped_in_final_targeted_run": 0,
+  "full_CI": "NOT_RUN",
+  "new_native_GPU_request_or_PBS": 0,
+  "new_neural_or_physics": 0,
+  "conditional1024_or_new_tasks": false,
+  "old_UNKNOWN_unchanged": true,
+  "goal_complete": false
+}
