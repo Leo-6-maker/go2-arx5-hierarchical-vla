@@ -44,7 +44,15 @@ def validate(*,global_bytes,local_bytes,request_bytes,manifest_bytes,job_id,host
     need(len(own)==1 and own[0]['job_id']==job_id and own[0]['state']=='R',
          'ADMISSION_ONLY_OWN_RUNNING_VANDA_MAIN')
     raw_job=json.loads(native_job_bytes);recorded=json.loads(queue_proof['qstat']['stdout'])['Jobs'][job_id]
-    need(raw_job==recorded and re.fullmatch(r'[0-9]+\.stdct-mgmt-02',job_id)
+    # These are two independent, time-separated native qstat observations.
+    # Counters, mtime and scheduler comments may legitimately change between
+    # them; bind the immutable execution identity and allocation instead.
+    identity=('job_state','Job_Owner','project','Job_Name','queue','Rerunable',
+              'run_count','exec_host','exec_vnode','stime','Resource_List')
+    need(all(raw_job.get(k)==recorded.get(k) for k in identity)
+        and all(raw_job.get('Variable_List',{}).get(k)==recorded.get('Variable_List',{}).get(k)
+                for k in ('PV1_REQUEST_ID','PV1_SUBMISSION_NONCE'))
+        and re.fullmatch(r'[0-9]+\.stdct-mgmt-02',job_id)
         and hostname.split('.')[0].lower().startswith('gn-a40-')
         and raw_job['job_state']=='R'and raw_job['Job_Owner'].split('@')[0]==user
         and raw_job['project']==r['project']and raw_job['Job_Name']==r['job_name']

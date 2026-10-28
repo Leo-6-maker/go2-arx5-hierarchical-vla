@@ -16,6 +16,15 @@ from . import minimal_resume as resume,minimal_inference_export as export,minima
 need=e.need
 
 
+def match_saved_effects(current,saved):
+    current=dict(current);now_summary_epoch=current.pop('finished_epoch');saved_epoch=saved.get('finished_epoch')
+    need(type(saved_epoch)in(int,float) and saved_epoch<=now_summary_epoch
+        and current=={k:v for k,v in saved.items() if k!='finished_epoch'}
+        and current['pending_updates']==current['unknown_query_intents']==[],
+        'AUDIT_CURRENT_FULL_EFFECTS_AND_ORIGINAL_QUERY_JOURNALS')
+    return saved
+
+
 def serialized_state(path):
     """CPU-map trusted own hash-verified state, preserving serialized devices.
 
@@ -183,8 +192,9 @@ def audit(root,request_path,*,native,inventory_sha256):
     # check()/summary() are readonly. Never call guard(), transaction(), load,
     # charge or optimizer methods after native F.
     ledger.check(read(ledger.path));effects=ledger.summary()
-    need(effects==final['effects']and effects['pending_updates']==effects['unknown_query_intents']==[],
-        'AUDIT_CURRENT_FULL_EFFECTS_AND_ORIGINAL_QUERY_JOURNALS')
+    # summary() records the read time; a later independent audit cannot have
+    # the same timestamp as the original process-final snapshot.
+    effects=match_saved_effects(effects,final['effects'])
     base=dict(request_sha256=sha(request_path),source_sha=r['source_sha'],job_id=job,
         effect_summary_sha256=e.sha(e.raw(effects)),inventory_sha256=inventory_sha256,
         raw_parent_files_identity=training.RAW_PARENT_FILES_ID,statistics_sha256=e.R0,

@@ -84,7 +84,7 @@ def test_missing_native_or_full_remaining_evidence_is_not_an_allocation(packet,c
         jobs['Jobs'][jid]=native;proof['qstat']['stdout']=json.dumps(jobs)
         proof['qstat']['argv'].append(jid);proof['qselect']['stdout']+=jid+'\n'
     elif change=='old_scope':update('request_bytes',lambda v:v.update(platform_training_version='OLD_CD'))
-    elif change=='different_raw_job':update('native_job_bytes',lambda v:v.update(comment='different observation'))
+    elif change=='different_raw_job':update('native_job_bytes',lambda v:v.update(exec_host='GN-A40-999/0*36'))
     elif change=='wrong_node':p['hostname']='GN-A40-023'
     elif change=='original_clock':p['now_epoch']=1793451149.8133287
     elif change=='queue_limit':update('effective_queue_bytes',lambda v:v.update(maximum_wall_s=1))
@@ -96,3 +96,16 @@ def test_missing_native_or_full_remaining_evidence_is_not_an_allocation(packet,c
         p['queue_proof']['qstat']['stdout']=json.dumps(dict(Jobs={p['job_id']:native}))
     with pytest.raises((PermissionError,KeyError,ValueError)):n.validate(**p)
     assert packet!=p
+
+
+def test_independent_native_observations_allow_changing_usage_counters(packet):
+    p=deepcopy(packet);native=json.loads(p['native_job_bytes'])
+    native.update(resources_used=dict(cput='00:01:11',walltime='00:02:00'),mtime='later',comment='updated')
+    p['native_job_bytes']=e.raw(native)
+    assert n.validate(**p)['job_id']==p['job_id']
+
+
+@pytest.mark.parametrize('key,value', [('exec_host','GN-A40-999/0*36'),('stime','another-start'),('job_state','F'),('run_count',2)])
+def test_independent_native_observations_reject_changed_identity(packet,key,value):
+    p=deepcopy(packet);native=json.loads(p['native_job_bytes']);native[key]=value;p['native_job_bytes']=e.raw(native)
+    with pytest.raises((PermissionError,KeyError,ValueError)):n.validate(**p)
