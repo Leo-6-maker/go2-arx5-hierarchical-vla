@@ -1,0 +1,156 @@
+{
+  "schema": "ARX5_ACTUAL_COLD02_PASS_AND_REGISTERED_UNSUBMITTED_SELF_GAP_V1",
+  "science_source": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+  "native_cold_result": {
+    "status": "PASS_ACTUAL_REMAINING_COLD02_SOURCE_INPUTS_CUSTODY_FULL14_NO_GPU",
+    "request_id": "80aeab00-91c9-455d-96bc-587f716f227f",
+    "submission_nonce": "9fd57848-8b48-4518-af1c-dc01427e9eb2",
+    "source": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+    "manifest_sha256": "053556c595b010e5064138c07266ec67bf4671298758dd762899dff1f7ca5198",
+    "source_seal_sha256": "b4afb55fff812832823a1a62cf36a36ef542233ef89b979e28c59da6e567d54b",
+    "audit_sha256": "2264633b15033a9ddcfbc4f20f7dc5d35bdb98fcba551a7890e4251554597f27",
+    "source_files": 1368,
+    "sealed_inputs": 23,
+    "actual_rows": 7212,
+    "full14_shortfalls": {},
+    "CPU_s": 83.258209141,
+    "observed_epoch": 1793226608.782504
+  },
+  "cold_OS_exit": {
+    "returncode": 0,
+    "timed_out": false,
+    "wall_s": 184.03522968292236,
+    "child_CPU_s": 96.04818,
+    "finished_epoch": 1793226629.5319538,
+    "foreground_child_wait_completed": true
+  },
+  "actual_original_owner": {
+    "pid": 1357791,
+    "procstart": "73247525",
+    "same_live": false,
+    "OS_exit": {
+      "returncode": 1,
+      "source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+      "finished_epoch": 1793226824.0641766,
+      "foreground_wait_completed": true,
+      "agent_connection_required": false
+    },
+    "stop": {
+      "error_type": "PermissionError",
+      "message": "V5_CD_OWNER_NO_UNKNOWN_OR_UNREGISTERED_CAMPAIGN_JOB",
+      "diagnostic": null,
+      "observed_epoch": 1793226823.6457465,
+      "no_automatic_qsub_replay": true
+    }
+  },
+  "actual_canonical": {
+    "GLOBAL_sha256": "81f6f58b06ae35858ba3e7d0434c98371b6f9b539f3a1b260c55bf79f5eb023e",
+    "PBS_used": 39,
+    "remaining_row": {
+      "request_id": "80aeab00-91c9-455d-96bc-587f716f227f",
+      "source_sha": "b0509a0bf296772e8e83856a2caf259b6ae0d908",
+      "request_sha256": "35a1f1ffb21768218fa16556ca3cd9de6a0f267b1c8e4fe7e6f36d478c5094b9",
+      "run_manifest_sha256": "053556c595b010e5064138c07266ec67bf4671298758dd762899dff1f7ca5198",
+      "status": "QSUB_INTENT_OUTCOME_UNKNOWN_NO_RETRY",
+      "job_id": null
+    },
+    "queue_rows": 0,
+    "unknown": [
+      {
+        "job_id": null,
+        "reason": "ACTIVE_LEDGER_WITHOUT_CURRENT_NATIVE_JOB_PROOF"
+      }
+    ],
+    "pending": [],
+    "global_unknown": []
+  },
+  "native_GPU_handle": null,
+  "new_model_effects": false,
+  "science_formal_steps": [
+    0,
+    0
+  ],
+  "followup": {
+    "status": "PROPOSED_EXACT_SAME_REGISTERED_REQUEST_CONTROL_HANDOFF_NOT_NATIVE_ADOPTED",
+    "source_capsule_or_request_rewritten": false,
+    "old_owner_CPU_bound_s": 1233,
+    "new_owner_CPU_max_s": 1650,
+    "total_within_original3000": 2883,
+    "linear_all14_upper_projection_on_prior_real_cold_proposal": {
+      "H200_s": {
+        "projected": 517580.0,
+        "cap": 532800,
+        "shortfall": 0
+      },
+      "PBS_submissions": {
+        "projected": 42,
+        "cap": 42,
+        "shortfall": 0
+      },
+      "optimizer_updates": {
+        "projected": 15814,
+        "cap": 16384,
+        "shortfall": 0
+      },
+      "episode_starts": {
+        "projected": 727,
+        "cap": 1000,
+        "shortfall": 0
+      },
+      "neural_queries": {
+        "projected": 30412,
+        "cap": 48000,
+        "shortfall": 0
+      },
+      "physics_ticks": {
+        "projected": 22265970,
+        "cap": 40000000,
+        "shortfall": 0
+      },
+      "engine_starts": {
+        "projected": 51448,
+        "cap": 100000,
+        "shortfall": 0
+      },
+      "Core_CPU_s": {
+        "projected": 1212729.474704557,
+        "cap": 1368000,
+        "shortfall": 0
+      },
+      "Hopper_CPU_s": {
+        "projected": 904872.658597758,
+        "cap": 954000,
+        "shortfall": 0
+      },
+      "local_CPU_s": {
+        "projected": 169603.974682509,
+        "cap": 172800,
+        "shortfall": 0
+      },
+      "transfer_bytes": {
+        "projected": 488552503585,
+        "cap": 488552529920,
+        "shortfall": 0
+      },
+      "Hopper_storage_bytes": {
+        "projected": 1502154246392,
+        "cap": 1502164811776,
+        "shortfall": 0
+      },
+      "Core_storage_bytes": {
+        "projected": 521417653896,
+        "cap": 590558003200,
+        "shortfall": 0
+      },
+      "local_storage_bytes": {
+        "projected": 9395240960,
+        "cap": 21474836480,
+        "shortfall": 0
+      }
+    },
+    "projection_is_not_fresh_native_admission": true,
+    "ten_new_CPU_tests_passed": true,
+    "initial_test_fixture_path_failure_retained": true
+  },
+  "whole_goal_complete": false
+}
