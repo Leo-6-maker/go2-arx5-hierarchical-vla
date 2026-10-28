@@ -64,3 +64,25 @@ def test_portable_runtime_guard_keeps_all_three_closed_and_prewrite_bounds(tmp_p
     with pytest.raises(PermissionError):guard.reserve(custody['paid_output_ceiling'])
     (Path(roots[0])/'unexpected').write_text('changed')
     with pytest.raises(PermissionError):guard.reserve(1)
+
+
+def test_block_allocation_changes_keep_exact_identity_and_actual_cap(roots):
+    before=p.capture(roots,metadata_ceiling=10**6);current=deepcopy(before)
+    # Captured native symptom was +8192 blocks-bytes only, same full content.
+    current['value']['rows'][0]['allocated']+=8192
+    current['value']['allocated_bytes']+=8192
+    current['portable_sha256']=p.digest(current['value'])
+    proof=p.verify(before,current)
+    assert proof['current_allocated_bytes']==proof['historical_allocated_bytes']+8192
+    assert proof['portable_identity_sha256']==p.identity_digest(before['value'])
+    assert current['portable_sha256']!=before['portable_sha256']
+    for key in ('inode','logical','mtime_ns','ctime_ns','links','uid','mode'):
+        changed=deepcopy(current);changed['value']['rows'][0][key]+=1
+        changed['portable_sha256']=p.digest(changed['value'])
+        with pytest.raises(PermissionError):p.verify(before,changed)
+    broken=deepcopy(current);broken['value']['allocated_bytes']-=1
+    broken['portable_sha256']=p.digest(broken['value'])
+    with pytest.raises(PermissionError):p.verify(before,broken)
+    excess=deepcopy(current);excess['value']['rows'][0]['allocated']+=10**6
+    excess['value']['allocated_bytes']+=10**6;excess['portable_sha256']=p.digest(excess['value'])
+    with pytest.raises(PermissionError):p.verify(before,excess)

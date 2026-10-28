@@ -47,7 +47,7 @@ class Guard:
         if self.portable:
             from . import minimal_portable_inventory as portable
             actual=portable.capture([str(r)for r in self.roots],metadata_ceiling=p['old_metadata_ceiling'],file_hash_cache=self.hash_cache)
-            portable.verify(p['portable_inventory'],actual)
+            identity=portable.verify(p['portable_inventory'],actual)
             new,_=physical._scan(self.root,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'})
             old_keys=set()
             for root in self.roots:
@@ -61,7 +61,10 @@ class Guard:
                 old_allocated_bytes=actual['value']['allocated_bytes'],new_allocated_bytes=new_bytes,
                 next_output_upper_bytes=next_output_upper_bytes,old_metadata_ceiling=p['old_metadata_ceiling'],paid_output_ceiling=p['paid_output_ceiling'],
                 old_roots=[str(r)for r in self.roots],new_root=str(self.root),ledger_changed=False,native_permission=False,
-                portable_inventory_sha256=actual['portable_sha256'],actual_kernel_device_ids=actual['kernel_device_ids'])
+                portable_inventory_sha256=p['portable_inventory']['portable_sha256'],
+                current_portable_observation_sha256=actual['portable_sha256'],
+                portable_identity_sha256=identity['portable_identity_sha256'],
+                actual_kernel_device_ids=actual['kernel_device_ids'])
             self.last=self.clock();self.proof=result;return result
         result=physical.check(self.roots,self.root,old_metadata_ceiling=p['old_metadata_ceiling'],
             paid_output_ceiling=p['paid_output_ceiling'],next_output_upper_bytes=next_output_upper_bytes)
