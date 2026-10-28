@@ -81,7 +81,8 @@ def minimal_training_adapter(version,profile):
         try:return select(version,profile)
         except PermissionError:fail('EXACT_MINIMAL_VERSION_AND_TYPED_PROFILE')
     from scripts.pi0294.generalization.minimal_followup_scope import PROFILE as followup_profile
-    if profile in {a.PROFILE for a in adapters.values()}|{followup_profile}:
+    from scripts.pi0294.generalization.minimal_entry_continuation_scope import PROFILE as entry_profile
+    if profile in {a.PROFILE for a in adapters.values()}|{followup_profile,entry_profile}:
         fail('MINIMAL_PROFILE_REQUIRES_ITS_EXPLICIT_VERSION')
     return None
 

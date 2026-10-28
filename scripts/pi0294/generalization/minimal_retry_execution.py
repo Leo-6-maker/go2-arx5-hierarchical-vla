@@ -19,6 +19,7 @@ from . import minimal_scope as scope, minimal_terminal as terminal
 
 FIELD = 'ARX5_minimal_first512_known_zero_replacement'
 FOLLOWUP_FIELD = 'ARX5_minimal_first512_second_zero_effect_continuation'
+ENTRY_FIELD = 'ARX5_minimal_first512_entry_repaired_continuation'
 VERSION = 'ARX5_MINIMAL_RAW_PARENT_FIRST512_KNOWN_ZERO_RETRY_V1'
 SCHEMA = 'ARX5_MINIMAL_FIRST512_KNOWN_ZERO_REPLACEMENT_INDEX_V1'
 REQUEST = 'ARX5_MINIMAL_FIRST512_KNOWN_ZERO_RETRY_REQUEST_V1'
@@ -57,7 +58,7 @@ def native_resources():
 
 
 def fixed_request_fields(generation=1):
-    need(generation in (1,2),'RETRY_EXACT_FINITE_GENERATION')
+    need(generation in (1,2,3),'RETRY_EXACT_FINITE_GENERATION')
     v = e.fixed_request_fields()
     v.update(schema=REQUEST, platform_training_version=VERSION, profile=PROFILE,
         prior_readonly_preparation_CPU_upper_s=0, additional_output_upper_bytes=0,
@@ -67,6 +68,9 @@ def fixed_request_fields(generation=1):
     if generation==2:
         from . import minimal_followup_scope as followup
         v.update(continuation_generation=2,profile=followup.PROFILE,run_uuid=followup.RUN)
+    if generation==3:
+        from . import minimal_entry_continuation_scope as entry
+        v.update(continuation_generation=3,profile=entry.PROFILE,run_uuid=entry.RUN)
     return v
 
 
@@ -81,11 +85,15 @@ def request(r, *, central=False):
          and r['closed_predecessor_request_id'] != r.get('request_id'),
          'RETRY_DISTINCT_PREDECESSOR_REQUEST')
     _digest(r.get('effective_queue_proof_sha256'))
-    if generation==2:
+    if generation>=2:
         from . import minimal_followup_scope as followup
         need(r.get('followup_scope_sha256')==followup.GRANT_SHA
             and r.get('previous_retry_request_id')==followup.FAILED,'RETRY_FOLLOWUP_BOUND_AUTHORITY_AND_FAILED_REQUEST')
         for k in ('previous_retry_row_sha256','previous_retry_marker_sha256','previous_retry_closed_lease_sha256'):_digest(r.get(k))
+    if generation==3:
+        from . import minimal_entry_continuation_scope as entry
+        need(r.get('entry_scope_sha256')==entry.GRANT_SHA and r.get('previous_entry_request_id')==entry.FAILED,'RETRY_EXACT_ENTRY_COLD_CONTINUATION')
+        for k in ('previous_entry_row_sha256','previous_entry_marker_sha256','previous_entry_closed_lease_sha256'):_digest(r.get(k))
     # Reuse the original identity, scientific-plan and state checks only.
     # This transient validation view is never written, charged or admitted.
     original_view = deepcopy(r)
@@ -129,11 +137,11 @@ def _base_remaining(g):
 
 
 def _selected(g,*,generation=None):
-    generation=(2 if FOLLOWUP_FIELD in g else 1)if generation is None else generation
-    need(generation in (1,2),'RETRY_EXACT_SELECTED_GENERATION')
-    m = g[FOLLOWUP_FIELD if generation==2 else FIELD]
+    generation=(3 if ENTRY_FIELD in g else 2 if FOLLOWUP_FIELD in g else 1)if generation is None else generation
+    need(generation in (1,2,3),'RETRY_EXACT_SELECTED_GENERATION')
+    m = g[{1:FIELD,2:FOLLOWUP_FIELD,3:ENTRY_FIELD}[generation]]
     items = [r for r in g['PBS_submissions'] if r.get('platform_training_version') == VERSION]
-    need(len(items)==(2 if FOLLOWUP_FIELD in g else 1)
+    need(len(items)==(3 if ENTRY_FIELD in g else 2 if FOLLOWUP_FIELD in g else 1)
         and len({r['request_id']for r in items})==len(items),'RETRY_ONE_EXPLICIT_FOLLOWUP_NOT_UNBOUNDED_RETRIES')
     matches=[r for r in items if r['request_id']==m['request_id']]
     need(len(matches)==1 and matches[0].get('continuation_generation',1)==generation,
@@ -183,8 +191,8 @@ def _history_and_request(g,*,generation=None):
          and row['submitted_epoch'] == m['registered_epoch'],
          'RETRY_UNRESET_WINDOW_AND_COMPLETE_ORIGINAL_MAIN')
     physical = m['physical_custody']
-    physical_schema=guard.PORTABLE_SCHEMA if generation==2 else guard.SCHEMA
-    ceiling=e.CONTROL['Hopper_storage_bytes']+(CONTROL['Hopper_storage_bytes']if generation==2 else 0)
+    physical_schema=guard.PORTABLE_SCHEMA if generation>=2 else guard.SCHEMA
+    ceiling=e.CONTROL['Hopper_storage_bytes']+max(0,generation-1)*CONTROL['Hopper_storage_bytes']
     need(e.sha(e.raw(physical)) == row['physical_custody_sha256']
          and physical.get('schema') == physical_schema
          and physical.get('request_id') == row['request_id']
@@ -195,14 +203,14 @@ def _history_and_request(g,*,generation=None):
          and physical.get('engineering_metadata_allowance') == CONTROL['Hopper_storage_bytes'],
          'RETRY_SEALED_PHYSICAL_GUARD_REQUIRED_WITHOUT_NEW_OUTPUT_CREDIT')
     _digest(physical.get('old_inventory_sha256'))
-    expected_roots=['arx5-minimal-raw-parent-first512-01','arx5-minimal-raw-parent-first512-02']+([RUN]if generation==2 else [])
+    expected_roots=['arx5-minimal-raw-parent-first512-01','arx5-minimal-raw-parent-first512-02']+([RUN]if generation>=2 else [])+([fixed_request_fields(2)['run_uuid']]if generation==3 else [])
     need([x.get('run_uuid') for x in physical.get('old_roots', [])] == expected_roots,
         'RETRY_BOTH_RETAINED_CLOSED_ROOTS')
     for old_root in physical['old_roots']:
         _digest(old_root.get('manifest_sha256')); _digest(old_root.get('closed_lease_sha256'))
     need(physical['old_roots'][1]['closed_lease_sha256'] == h['original_closed_lease_sha256'],
          'RETRY_EXACT_FAILED_ROOT_CLOSED_LEASE')
-    if generation==2:
+    if generation>=2:
         from . import minimal_followup_scope as followup
         grant=followup.validate(g);old_m,old_r=_selected(g,generation=1)
         need(grant is not None and row['previous_retry_request_id']==old_r['request_id']
@@ -213,13 +221,22 @@ def _history_and_request(g,*,generation=None):
             and row['source_sha']!=old_r['source_sha']and row['submission_nonce']!=old_r['submission_nonce']
             and row['run_manifest_sha256']!=old_r['run_manifest_sha256'],
             'RETRY_FOLLOWUP_RETAINS_EXACT_FIRST_RETRY_AND_USES_NEW_COLD_IDENTITY')
+    if generation==3:
+        from . import minimal_entry_continuation_scope as entry
+        grant=entry.validate(g);prior_m,prior_r=_selected(g,generation=2)
+        need(grant is not None and row['previous_entry_request_id']==prior_r['request_id']
+            and row['previous_entry_row_sha256']==grant['old_retry_row_sha256']==e.sha(e.raw(prior_r))
+            and row['previous_entry_marker_sha256']==grant['old_retry_marker_sha256']==e.sha(e.raw(prior_m))
+            and row['previous_entry_closed_lease_sha256']==physical['old_roots'][3]['closed_lease_sha256']==entry.LEASE
+            and m['entry_scope_sha256']==entry.GRANT_SHA and row['source_sha']!=prior_r['source_sha']
+            and row['submission_nonce']!=prior_r['submission_nonce'],'RETRY_EXACT_ENTRY_CLOSED_PREDECESSOR')
     return m, row
 
 
 def terminal_CPU_prior(g, row):
     """The original900 is already in the immutable failed row, never paid twice."""
     need(type(g) is dict and FIELD in g, 'RETRY_CPU_ACTUAL_ADOPTED_GLOBAL_CONTEXT_REQUIRED')
-    generation=2 if FOLLOWUP_FIELD in g and g[FOLLOWUP_FIELD]['request_id']==row['request_id']else 1
+    generation=3 if ENTRY_FIELD in g and g[ENTRY_FIELD]['request_id']==row['request_id']else 2 if FOLLOWUP_FIELD in g and g[FOLLOWUP_FIELD]['request_id']==row['request_id']else 1
     m, selected = _history_and_request(g,generation=generation)
     need(row == selected and row['prior_readonly_preparation_CPU_upper_s'] == 0,
          'RETRY_CPU_ONLY_EXACT_NEW_ROW_CAN_OMIT_PRIOR900')
@@ -262,6 +279,10 @@ def _terminal_physical(m, proof, *, observed_epoch, finished_epoch, settled_epoc
          'RETRY_ACTUAL_POST_F_PHYSICAL_LIMIT_AND_CLOSURE_MARGIN')
 
 
+from .minimal_validation_cache import exact_ledger_validation
+
+
+@exact_ledger_validation
 def validate(g,*,generation=None):
     if FIELD not in g:
         need(not any(r.get('platform_training_version') == VERSION for r in g['PBS_submissions']),
@@ -269,9 +290,11 @@ def validate(g,*,generation=None):
         return None
     m, row = _history_and_request(g,generation=generation)
     generation=row.get('continuation_generation',1)
-    if generation==2:validate(g,generation=1)
-    consumed=e._vector({})if generation==2 else CONSUMED
-    need(m['control_paid_once'] == CONTROL and m['native_hold'] == native_resources()
+    if generation>=2:validate(g,generation=generation-1)
+    consumed=e._vector({})if generation>=2 else CONSUMED
+    from . import minimal_entry_continuation_scope as entry
+    control=entry.CONTROL if generation==3 else CONTROL
+    need(m['control_paid_once'] == control and m['native_hold'] == native_resources()
          and m['consumed_original_replacement'] == consumed
          and m['remaining_resources'] == _base_remaining(g)
          and e.sha(e.raw(m['physical_preflight'])) == m['physical_preflight_sha256']
@@ -352,12 +375,14 @@ def budget_LOCAL(g, local):
     if key in v:
         need(v[key] == proof, 'RETRY_LOCAL_PROJECTION_IDENTITY_UNCHANGED')
         from .minimal_followup_scope import budget_LOCAL as followup_LOCAL
-        return followup_LOCAL(g,v)
+        from .minimal_entry_continuation_scope import budget_LOCAL as entry_LOCAL
+        return entry_LOCAL(g,followup_LOCAL(g,v))
     v = deepcopy(v); v['CPU_s']['local_PC'] += CONTROL['local_CPU_s']
     v['network_transfer_accounted_bytes'] += CONTROL['transfer_bytes']
     v[key] = proof
     from .minimal_followup_scope import budget_LOCAL as followup_LOCAL
-    return followup_LOCAL(g,v)
+    from .minimal_entry_continuation_scope import budget_LOCAL as entry_LOCAL
+    return entry_LOCAL(g,followup_LOCAL(g,v))
 
 
 def register(global_bytes, local_bytes, *, request_bytes, native_readback, closed_readback,
@@ -488,6 +513,64 @@ def register_followup(global_bytes,local_bytes,*,request_bytes,followup_closed_r
     future=e.scope.first512_forecast(e.raw(v),local_bytes)
     need(future['cap_changes_required']=={},'FOLLOWUP_ALL14_FUTURE_PROTECTED_AFTER_ACTUAL_NEW_ROW')
     v[FOLLOWUP_FIELD]['complete_future_dimensions']=future['dimensions'];validate(v)
+    return dict(proposed_global=v,complete_future_dimensions=future['dimensions'],original_onceIO_required=True,
+        native_admission=False,new_PBS_intents=1,new_model_queries_updates_physics=0)
+
+
+def register_entry_followup(global_bytes,local_bytes,*,request_bytes,followup_closed_readback,
+                      physical_custody,physical_proof,physical_observed_epoch,now_epoch):
+    """One new request after the exact second failure; no old grant is replayed."""
+    from . import minimal_entry_continuation_scope as scope
+    g=json.loads(global_bytes);r=json.loads(request_bytes);request(r)
+    mark=scope.validate(g);old,old_row=_selected(g,generation=2)
+    need(mark is not None and ENTRY_FIELD not in g and r.get('continuation_generation')==3
+        and g['unknown_effects']==g['pending_updates']==[]
+        and all(v['status']in e.original.TERMINAL for v in g['PBS_submissions'])
+        and all(v['status']=='NATIVE_TERMINAL'for v in g.get(e.original.CORE_ROWS,{}).values()),
+        'FOLLOWUP_ONE_NEW_SERIAL_REQUEST_NO_ACTIVE_OR_UNKNOWN')
+    closed=followup_closed_readback
+    need(closed['closed_lease_sha256']==scope.LEASE and closed['owner_OS_exit']==1
+        and closed['native']==old['terminal']['native']and closed['effects']==old['terminal']['effects']
+        and closed['audit']==old['terminal']['audit']and closed['all_original_workers_terminal']is True,
+        'FOLLOWUP_ACTUAL_COMPLETE_FAILED_PREDECESSOR')
+    need(all(r.get(k)==v for k,v in dict(previous_entry_request_id=old_row['request_id'],
+        previous_entry_row_sha256=e.sha(e.raw(old_row)),previous_entry_marker_sha256=e.sha(e.raw(old)),
+        previous_entry_closed_lease_sha256=scope.LEASE,entry_scope_sha256=scope.GRANT_SHA).items())
+        and r['physical_custody_sha256']==e.sha(e.raw(physical_custody))
+        and physical_custody['schema']==guard.PORTABLE_SCHEMA,
+        'FOLLOWUP_FULL_SEALED_HISTORY_AND_PORTABLE_PHYSICAL_SCOPE')
+    from . import minimal_portable_inventory as portable
+    need(0<=now_epoch-physical_observed_epoch<=120
+        and physical_proof['status']=='ACTUAL_RETRY_PHYSICAL_BOUNDS_ONLY_NO_PERMISSION'
+        and physical_proof['old_inventory_sha256']==physical_custody['old_inventory_sha256']
+        and physical_proof['portable_inventory_sha256']==physical_custody['portable_inventory']['portable_sha256']
+        and physical_proof['portable_identity_sha256']==portable.identity_digest(physical_custody['portable_inventory']['value'])
+        and type(physical_proof['current_portable_observation_sha256'])is str
+        and len(physical_proof['current_portable_observation_sha256'])==64
+        and 0<=physical_proof['old_allocated_bytes']<=physical_custody['old_metadata_ceiling']
+        and physical_proof['next_output_upper_bytes']>=guard.CONTROL_GROWTH_RESERVE
+        and physical_proof['new_allocated_bytes']+physical_proof['next_output_upper_bytes']<=physical_custody['paid_output_ceiling']
+        and physical_proof['ledger_changed']is physical_proof['native_permission']is False,
+        'FOLLOWUP_FRESH_FULL_PHYSICAL_CHECK_AND_CLOSE_MARGIN')
+    # The scope adoption already paid all control axes. Registration moves
+    # only the original main hold; no replacement credit is consumed twice.
+    v=deepcopy(g);row=dict(r,request_sha256=e.sha(request_bytes),status=e.STATES[0],job_id=None,submitted_epoch=now_epoch)
+    v['PBS_submissions'].append(row);v['used']['PBS_submissions']+=1;held=native_resources()
+    for k in e.package.TRACKED:v['reserved'][k]+=held[k]
+    v['CPU_reserved_s']+=held['Hopper_CPU_s'];v['storage_reserved_bytes']+=held['Hopper_storage_bytes']
+    v[ENTRY_FIELD]=dict(schema=SCHEMA,version=VERSION,scope_grant_sha256=e.authority.GRANT_SHA,
+        entry_scope_sha256=scope.GRANT_SHA,followup_scope_sha256=old['followup_scope_sha256'],request_id=r['request_id'],request_sha256=e.sha(request_bytes),
+        request_base64=base64.b64encode(request_bytes).decode(),history=deepcopy(old['history']),
+        original_package=deepcopy(g[e.package.FIELD]),physical_custody=deepcopy(physical_custody),
+        physical_preflight=deepcopy(physical_proof),physical_preflight_sha256=e.sha(e.raw(physical_proof)),
+        before_GLOBAL_sha256=e.sha(global_bytes),LOCAL_input_sha256=e.sha(local_bytes),
+        control_paid_once=deepcopy(scope.CONTROL),native_hold=held,consumed_original_replacement=e._vector({}),
+        remaining_resources=_base_remaining(g),before=deepcopy(mark['before']),registered_epoch=now_epoch,
+        original_gross_output_charge_preserved=True,original_onceIO_required=True,status='REGISTERED',completed_sessions=[])
+    v['revision']+=1;validate(v)
+    future=e.scope.first512_forecast(e.raw(v),local_bytes)
+    need(future['cap_changes_required']=={},'FOLLOWUP_ALL14_FUTURE_PROTECTED_AFTER_ACTUAL_NEW_ROW')
+    v[ENTRY_FIELD]['complete_future_dimensions']=future['dimensions'];validate(v)
     return dict(proposed_global=v,complete_future_dimensions=future['dimensions'],original_onceIO_required=True,
         native_admission=False,new_PBS_intents=1,new_model_queries_updates_physics=0)
 

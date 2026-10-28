@@ -74,6 +74,9 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
     own_credit=reservation_credit(global_value,historical_LOCAL_bytes,baseline)
     from . import minimal_followup_scope as followup
     planned=followup.planned_unregistered(global_value)
+    from . import minimal_entry_continuation_scope as entry
+    entry_plan=entry.planned_unregistered(global_value)
+    planned={k:planned[k]+entry_plan[k]for k in planned}
     dimensions, changes = {}, {}
     for key, old in baseline['dimensions'].items():
         projected = old['projected'] - own_credit[key] + additional[key] + planned[key]

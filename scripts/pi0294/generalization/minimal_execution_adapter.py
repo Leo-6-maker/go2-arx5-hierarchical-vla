@@ -11,7 +11,7 @@ PREDECESSOR = 'plans/MINIMAL_RETRY_PREDECESSOR_CLOSED.private.json'
 
 def select(version, profile):
     adapters = {a.VERSION: a for a in (original, retry)}
-    profiles=(retry.PROFILE,'vanda-arx5-minimal-raw-parent-first512-zero-effect-followup')if version==retry.VERSION else(original.PROFILE,)
+    profiles=(retry.PROFILE,'vanda-arx5-minimal-raw-parent-first512-zero-effect-followup','vanda-arx5-minimal-raw-parent-first512-entry-repaired')if version==retry.VERSION else(original.PROFILE,)
     original.need(version in adapters and profile in profiles,
                   'ADAPTER_EXACT_VERSION_AND_PROFILE_NOT_OLD_ALIAS')
     return adapters[version]

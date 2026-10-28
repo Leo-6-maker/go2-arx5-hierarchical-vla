@@ -22,8 +22,10 @@ HEARTBEAT='ARX5_MINIMAL_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1'
 
 def control_CPU_limits(request):
     """The second cold continuation shares its prepaid3600s with preparation."""
-    if request.get('continuation_generation')==2:
+    if request.get('continuation_generation')in(2,3):
         from . import minimal_followup_scope as followup
+        if request.get('continuation_generation')==3:
+            from . import minimal_entry_continuation_scope as followup
         need(adapters.select(request['platform_training_version'],request['profile'])is adapters.retry
             and request['profile']==followup.PROFILE,'OWNER_SECOND_CONTINUATION_CONTROL_CPU_SCOPE')
         return (2990,3000)
@@ -115,7 +117,7 @@ class Owner(mature.Owner):
             need({adapters.PHYSICAL,adapters.PREDECESSOR}<=set(inputs),
                  'OWNER_RETRY_COMPLETE_CLOSED_CAPTURE_AND_PHYSICAL_SEAL')
             self.retry_predecessor=read(self.root/adapters.PREDECESSOR)
-            predecessor_keys=({'followup_closed_readback'}if self.request_template.get('continuation_generation')==2
+            predecessor_keys=({'followup_closed_readback'}if self.request_template.get('continuation_generation')in(2,3)
                               else{'native_readback','closed_readback','old_cold_close_readback','root_inventory'})
             need(set(self.retry_predecessor)==predecessor_keys,
                  'OWNER_RETRY_EXACT_PREDECESSOR_INPUT_ROLES')
@@ -242,6 +244,10 @@ class Owner(mature.Owner):
             return e.register(global_bytes,request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())
         from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
         physical=self.retry_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=time.time()
+        if self.request_template.get('continuation_generation')==3:
+            return self.adapter.register_entry_followup(global_bytes,self.local,request_bytes=request_bytes,
+                physical_custody=self.retry_physical.custody,physical_proof=physical,
+                physical_observed_epoch=observed,now_epoch=time.time(),**self.retry_predecessor)
         if self.request_template.get('continuation_generation')==2:
             return self.adapter.register_followup(global_bytes,self.local,request_bytes=request_bytes,
                 physical_custody=self.retry_physical.custody,physical_proof=physical,

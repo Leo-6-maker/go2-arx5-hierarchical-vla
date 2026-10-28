@@ -50,7 +50,7 @@ def filesystem(root):
 
 
 def capture(roots, *, metadata_ceiling, file_hash_cache=None):
-    need(type(roots) is list and 1 <= len(roots) <= 3
+    need(type(roots) is list and 1 <= len(roots) <= 4
          and type(metadata_ceiling) is int and metadata_ceiling > 0,
          'FINITE_CLOSED_ROOTS_AND_BOUND')
     paths = [Path(value) for value in roots]
@@ -87,7 +87,7 @@ def capture(roots, *, metadata_ceiling, file_hash_cache=None):
                             h.update(block)
                     cached = h.hexdigest()
                     if file_hash_cache is not None:
-                        need(len(file_hash_cache) < 8000, 'FINITE_PRIVATE_HASH_CACHE')
+                        need(len(file_hash_cache) < 16000, 'FINITE_PRIVATE_HASH_CACHE')
                         file_hash_cache[key] = cached
                 item['sha256'] = cached
             last = path.lstat()

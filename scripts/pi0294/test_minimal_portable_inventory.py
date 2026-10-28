@@ -45,22 +45,25 @@ def test_original_stat_only_contract_is_unchanged(roots):
     assert 'dev'in next(iter(original._scan(roots[0],permitted_links=set())[0].values()))
 
 
-def test_portable_runtime_guard_keeps_all_three_closed_and_prewrite_bounds(tmp_path,monkeypatch):
+@pytest.mark.parametrize('generation',[2,3])
+def test_portable_runtime_guard_keeps_all_three_closed_and_prewrite_bounds(tmp_path,monkeypatch,generation):
     import json
     from scripts.pi0294.generalization import minimal_retry_runtime_guard as runtime,minimal_followup_scope as scope
     from scripts.pi0294.native_dataset import sha
-    names=['arx5-minimal-raw-parent-first512-01','arx5-minimal-raw-parent-first512-02','arx5-minimal-raw-parent-first512-retry-01'];roots=[];old=[]
+    if generation==3:
+        from scripts.pi0294.generalization import minimal_entry_continuation_scope as scope
+    names=['arx5-minimal-raw-parent-first512-01','arx5-minimal-raw-parent-first512-02','arx5-minimal-raw-parent-first512-retry-01']+(['arx5-minimal-raw-parent-first512-retry-02']if generation==3 else[]);roots=[];old=[]
     for name in names:
         root=tmp_path/name;root.mkdir();lease=tmp_path/(name+'.lease.json');lease.write_text('{"status":"CLOSED"}')
         (root/'RUN_MANIFEST.json').write_text('{"test":"CPU_fixture"}');(root/'OUTPUT_BINDING.private.json').write_text(json.dumps(dict(run_root=str(root),lease=str(lease))))
         roots.append(str(root));old.append(dict(run_uuid=name,manifest_sha256=sha(root/'RUN_MANIFEST.json'),closed_lease_sha256=sha(lease)))
-    root=tmp_path/scope.RUN;(root/'plans').mkdir(parents=True);capture=p.capture(roots,metadata_ceiling=192*1024**2)
-    request=dict(request_id='CPU-fixture-new',submission_nonce='CPU-fixture-nonce',run_uuid=scope.RUN,continuation_generation=2)
-    custody=dict(schema=runtime.PORTABLE_SCHEMA,request_id=request['request_id'],submission_nonce=request['submission_nonce'],run_uuid=scope.RUN,scope_sha256=scope.GRANT_SHA,old_metadata_ceiling=192*1024**2,paid_output_ceiling=runtime.e.native_resources()['Hopper_storage_bytes'],engineering_metadata_allowance=64*1024**2,old_roots=old,portable_inventory=capture,old_inventory_sha256=capture['portable_sha256'])
+    root=tmp_path/scope.RUN;(root/'plans').mkdir(parents=True);capture=p.capture(roots,metadata_ceiling=(128+(generation-1)*64)*1024**2)
+    request=dict(request_id='CPU-fixture-new',submission_nonce='CPU-fixture-nonce',run_uuid=scope.RUN,continuation_generation=generation)
+    custody=dict(schema=runtime.PORTABLE_SCHEMA,request_id=request['request_id'],submission_nonce=request['submission_nonce'],run_uuid=scope.RUN,scope_sha256=scope.GRANT_SHA,old_metadata_ceiling=(128+(generation-1)*64)*1024**2,paid_output_ceiling=runtime.e.native_resources()['Hopper_storage_bytes'],engineering_metadata_allowance=64*1024**2,old_roots=old,portable_inventory=capture,old_inventory_sha256=capture['portable_sha256'])
     path=root/runtime.FILE;path.write_text(json.dumps(custody));path.chmod(0o400);manifest=dict(execution=dict(sealed_inputs={runtime.FILE:sha(path)}))
     guard=runtime.Guard(root,request,manifest,lambda **_:dict(original_current_resource_guard=True))
     assert guard.reserve(1024)['old_inventory_sha256']==capture['portable_sha256']
-    assert guard.fresh_inventory()['status']=='ACTUAL_THREE_CLOSED_PORTABLE_METADATA_READONLY'
+    assert guard.fresh_inventory()['status']==('ACTUAL_FOUR_CLOSED_PORTABLE_METADATA_READONLY'if generation==3 else'ACTUAL_THREE_CLOSED_PORTABLE_METADATA_READONLY')
     with pytest.raises(PermissionError):guard.reserve(custody['paid_output_ceiling'])
     (Path(roots[0])/'unexpected').write_text('changed')
     with pytest.raises(PermissionError):guard.reserve(1)
