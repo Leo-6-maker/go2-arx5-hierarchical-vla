@@ -1,0 +1,119 @@
+{
+  "schema": "PC_RERUN_THIN_ADAPTER_THREE_ACTUAL_SPARSE_REPLAYS_ACTUAL_V1",
+  "date": "2026-10-28",
+  "status": "ACTUAL_OFFICIAL_SDK_SEMANTIC_READBACK_AND_LOCAL_WEB_VIEWER_VERIFIED",
+  "route": "Rerun official viewer owns3D, cameras, playback and timeline; thin Python adapter reuses existing read-only Episode loader",
+  "dependency": {
+    "rerun_sdk": "0.40.0",
+    "PC_environment": "Separate Python3.12 viewer environment; immutable Core/Vanda environments unchanged",
+    "installation": "Official PyPI package installed by root owner",
+    "analytics": "Root disabled official viewer analytics before startup; no cloud account or upload"
+  },
+  "implementation": {
+    "adapter": "scripts/pi0294/replay_viewer/episode_to_rerun.py",
+    "requirements": "scripts/pi0294/replay_viewer/requirements-rerun.txt",
+    "format": "One private .rrd per episode, embedded official blueprint, independent .rbl, private receipt",
+    "default_timeline": "recorded_time",
+    "default_playback": "paused",
+    "additional_timeline": "source_frame",
+    "old_HTML": "Retained historical compatibility only; no further custom3D/player/timeline development",
+    "new_output_directories": "0700",
+    "new_output_files": "0600",
+    "input_content_and_permissions_changed": false,
+    "initial_3D_camera": "Official Blueprint EyeControls3D Orbital withZ-up, look_target and eye position computed from actual saved pose bbox; no coordinate or data rewrite"
+  },
+  "actual_recordings": [
+    {
+      "source": "T1 Teacher",
+      "source_kind": "teacher",
+      "saved_keyframes_exported": 41,
+      "original_saved_observations": 641,
+      "original_RGB_blob_SHA_verified": 82,
+      "recording_sha256": "b41ba8af1ccd228ab878eb996f27abb028d36b7b7de58dd96ad0c81bcfaf0270",
+      "max_float32_position_rounding_error_m": 2.7951834513650908e-08,
+      "blueprint_sha256": "1284f80c71ddd770534174ddcd485db604b86a2c8073f7c28040774b25119fc1"
+    },
+    {
+      "source": "T2 Teacher",
+      "source_kind": "teacher",
+      "saved_keyframes_exported": 41,
+      "original_saved_observations": 641,
+      "original_RGB_blob_SHA_verified": 82,
+      "recording_sha256": "c0dd1faf5a29fd856157957b736cce42cb74ca1d8604877f52dfb007a9fc5b72",
+      "max_float32_position_rounding_error_m": 2.8388817074898043e-08,
+      "blueprint_sha256": "721cf1c1242e5f4e46331da9a8629221a233af796f89ddd55550f0067d5e29c9"
+    },
+    {
+      "source": "C50 S1 rejected Eval",
+      "source_kind": "student_eval",
+      "saved_keyframes_exported": 2,
+      "original_saved_observations": 224,
+      "original_recorded_RGB_pairs": 225,
+      "original_RGB_blob_SHA_verified": 4,
+      "extra_state_fabricated": false,
+      "teacher_takeover": false,
+      "last_saved_sample_time_display_s": 11.15,
+      "original_adjudicated_duration_display_s": 11.2,
+      "S1_rejected_sequence": 224,
+      "S1_rejected_recorded_second_timestamp": null,
+      "recording_sha256": "5f0163d1a904070e107b23132d629c55b3eaa396c58cf205f4e8ed3d9754c58f",
+      "max_float32_position_rounding_error_m": 2.5761059840867517e-08,
+      "blueprint_sha256": "167b872dd20899c8bcfd9d64a00ceb90bbeca0a80cf490c6a561745389ff90f3"
+    }
+  ],
+  "semantic_validation": {
+    "actual_decoder": "rerun.chunk.RrdReader and Arrow chunks; not a mock or deprecated dataframe API",
+    "recordings_and_blueprints": "Each actual file has1 recording and1 embedded blueprint; each .rbl independently parsed",
+    "original_RGB_blobs_verified": 168,
+    "source_indices_and_recorded_nanoseconds": "EXACT",
+    "frame_JSON_full_precision": "EXACT",
+    "TCP_object_desired_accepted_committed_positions": "Original saved xyz, float32 visualization rounding below1e-6m",
+    "gripper_and_recorded_error_signals": "EXACT",
+    "original_audit_document_and_SHA": "EXACT",
+    "qpos_missing": "Preserved as missing in all three local views; six-arm-joint subset is not wholebody qpos",
+    "S1_sequence224_without_seconds": "Kept on source_frame timeline only; no nonexistent sample225 or second timestamp manufactured",
+    "offline_prediction_separation": "Actual SDK synthetic overlay roundtrip preserves executed=false and separate NOT_EXECUTED entity; no real E0/E1/E2 predictions exist here",
+    "tests": "11 passed:2 actual pinned-SDK roundtrip tests plus9 prior reader/local-contract tests",
+    "full_CI": "NOT_RUN",
+    "native_MuJoCo_or_URDF": "NOT_RUN",
+    "native_scientific_qualification": false,
+    "official_web_viewer": "ACTUALLY_VERIFIED_BY_ROOT; native desktop window not separately tested"
+  },
+  "retained_local_engineering_failures": [
+    "First SDK export used obsolete flush(blocking=True); actual0.40 signature was inspected and changed to flush(); original partial output retained, new output created",
+    "Initial readback helper compared original11.150000000000393s with rounded11.15s by exact Python float equality; corrected to a display-level1e-9 tolerance while original source time and exact nanosecond axis remained unchanged",
+    "An exploratory read tried converting nanosecond log_time to Python datetime without pandas; changed to direct Arrow int64 timeline inspection, no pandas/catalog dependency added",
+    "Root actual03 official web-viewer3D initial camera clipped the task below view;04 changes only official EyeControls3D initial bbox framing, with all source data/readback checks preserved; final UI result belongs to root"
+  ],
+  "completion_limits": [
+    "T1/T2 are41/641 keyframe subsets, not complete continuous replay",
+    "C50 failure is2/224 saved frames plus original S1 adjudication, not full failure trajectory playback",
+    "C50 success input is not yet imported",
+    "No legal full robot mesh/URDF or full qpos reconstruction was verified",
+    "Rerun may hold the latest recorded state between sparse samples; no missing motion is interpolated or simulated",
+    "All RRD/RBL/raw images/private configs remain local and are excluded from source Git/public HF"
+  ],
+  "new_effects": {
+    "GPU_jobs": 0,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "Teacher_collection": 0,
+    "physics_integrations": 0,
+    "WBC_calls": 0,
+    "task_rescoring": 0,
+    "ledger_writes": 0,
+    "cloud_uploads": 0,
+    "adapter_server_SSH": 0
+  },
+  "validation_output_generation": "04; prior01 partial,02 and03 retained locally",
+  "native_viewer_UI_review": {
+    "03": "Root actually viewed dualRGB, curves and audit; found3D initial camera clipping",
+    "04": "Root actually opened official local web viewer: C50 and T1 dualRGB, gripper/source curves, original audit labels, sparse points centered in3D; recorded_time starts paused. Entering16s visibly synchronized T1 cameras/current numeric JSON/events and timeline; no physics.",
+    "actual_screenshot_sha256": {
+      "RERUN_C50_S1_ACTUAL_VIEWER04.png": "ba5777ce879a373d464ec7e03f4c42f5d456eef805ee2591316aaf5afce9803b",
+      "RERUN_T1_TEACHER_ACTUAL_VIEWER04.png": "5d47fb8cddc626e1001e236ef47bc19f3873adecbef9753a37a6b9e56fe7497a"
+    },
+    "legacy_custom_server": "Exact known PC server stopped; old8766 listener absent. Official viewer bound only to loopback; no cloud upload."
+  },
+  "readonly_input_acquisition": "Root separately reused existing local Teacher RGB and bounded read-only original metadata/C50 PNG acquisition; no source file mutation. The adapter and viewer themselves require no server connection."
+}

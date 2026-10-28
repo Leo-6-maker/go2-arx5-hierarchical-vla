@@ -422,3 +422,12 @@ Next prepare the cold same-host C/D source/neural identity and actual cohosted o
 PC Viewer已复用既有Teacher双RGB缓存和有界只读取得的原关键帧元数据，T1/T2各41/641、164图引用SHA实际通过；可拖动／暂停／旋转已记录TCP和物体，原审计与Teacher事件保持。没有新渲染、积分、模型或评分。C50成功／S1源数据已定位但未本地导入；不称四条或完整关节回放完成。9项合成CPU测试与真实Teacher浏览器检查分开报告，MuJoCo骨架仅mock contract。代码见`replay_viewer/README.md`，私有实图／配置／资产不入Git。
 
 Vanda retry03新注册曾真实CAS成功但40秒Journal回包超时；原UNKNOWN永久保留，owner／wrapper OS1。精确native intent／receipt／after全SHA与临时文件不存在确认一次登记；QSUB intent／reply／job绑定全无，固定源码控制流证明在QSUB前停下。原计数38含该登记，尚无新原生job／模型／查询／更新，不重发register／prepay／旧owner。详见`VANDA_FIRST512_ENTRY_REGISTER_CAS_CONFIRMED_NO_QSUB_OWNER_STOP_ACTUAL_20261028.json`。科学goal未完成，全部原cap／clock／matrix3／final保护不变。
+
+
+## 2026-10-28 PC采用官方Rerun薄适配器，三条真实稀疏记录通过
+
+按用户指定将默认回放切换为Rerun0.40.0；独立PC Python3.12环境安装官方SDK，提前关闭analytics，无云账号或上传。薄适配器复用原只读Episode loader，官方SDK负责时间轴／双相机／3D／曲线；旧HTML保留历史兼容，8766服务已停止，不继续自研播放器。
+
+T1／T2 Teacher各41/641与C50真实S1失败2/224保存状态已导出私有RRD／RBL。官方RrdReader实际核168张原PNG全文SHA、原时轴、完整精度JSON、曲线及原审计；缺qpos不补造。C50原224状态／225图像对与sequence224无秒时间保持原样，不称完整轨迹。11项定向测试PASS，未跑完整CI／原生mesh重建。root在官方本地Web Viewer切换Teacher与Student、核双RGB／审计／点位，并定位16秒看到同步画面和数值；04只用官方EyeControls按真实点bbox修正初始取景，前三份导出及工程失败保留。
+
+代码与脱敏实际报告见`PC_RERUN_THIN_ADAPTER_THREE_ACTUAL_SPARSE_REPLAYS_ACTUAL_20261028.json`。RRD／RGB／私有配置／截图留PC不入Git／公开HF。无新采集、模型、积分、WBC、评分、账本或科学范围改变；完整机器人和C50成功记录尚未接入，科学goal未完成。
