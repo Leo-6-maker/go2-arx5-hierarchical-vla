@@ -1,0 +1,117 @@
+{
+  "schema": "ARX5_ACTUAL_CAPTURED_HISTORY_ENCODING_AND_SAME_REMAINDER_RECOVERY_CPU_V1",
+  "status": "CAPTURED_CPU_ONLY_NOT_NATIVE_ADOPTED_OR_MODEL_QUALIFICATION",
+  "actual_GLOBAL_before": "d31fa63caeb7766c23367edf8fb547c7c678f0c13fc4c4a3d9f2726d28da16c2",
+  "historical_LOCAL": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+  "bounded_profile": {
+    "completed_full_forecast": false,
+    "CPU_s": 8.515308125999999,
+    "json_dumps_calls": 321,
+    "json_encoding_cumulative_s": 6.798,
+    "method": "One bounded original full-forecast profile stopped at the original CPU limit; no model or scheduler action."
+  },
+  "repair": {
+    "internal_memo_compact_stdlib_JSON": true,
+    "protocol_and_artifact_serialization_changed": false,
+    "all_nested_values_types_orders_still_revalidated": true,
+    "no_current_queue_quota_clock_process_or_filesystem_result_cached": true,
+    "three_targeted_CPU_tests_passed": true
+  },
+  "actual_proposal": {
+    "CPU_s": 20.626747046,
+    "wall_s": 20.635712385177612,
+    "old_rows_package_and_markers_unchanged": true,
+    "altered_markers_rejected": 3,
+    "idempotent_projection": true,
+    "dimensions": {
+      "H200_s": {
+        "projected": 517580.0,
+        "cap": 532800,
+        "shortfall": 0
+      },
+      "PBS_submissions": {
+        "projected": 42,
+        "cap": 42,
+        "shortfall": 0
+      },
+      "optimizer_updates": {
+        "projected": 15814,
+        "cap": 16384,
+        "shortfall": 0
+      },
+      "episode_starts": {
+        "projected": 727,
+        "cap": 1000,
+        "shortfall": 0
+      },
+      "neural_queries": {
+        "projected": 30412,
+        "cap": 48000,
+        "shortfall": 0
+      },
+      "physics_ticks": {
+        "projected": 22265970,
+        "cap": 40000000,
+        "shortfall": 0
+      },
+      "engine_starts": {
+        "projected": 51448,
+        "cap": 100000,
+        "shortfall": 0
+      },
+      "Core_CPU_s": {
+        "projected": 1212729.474704557,
+        "cap": 1368000,
+        "shortfall": 0
+      },
+      "Hopper_CPU_s": {
+        "projected": 904752.658597758,
+        "cap": 954000,
+        "shortfall": 0
+      },
+      "local_CPU_s": {
+        "projected": 169543.974682509,
+        "cap": 172800,
+        "shortfall": 0
+      },
+      "transfer_bytes": {
+        "projected": 488552470817,
+        "cap": 488552529920,
+        "shortfall": 0
+      },
+      "Hopper_storage_bytes": {
+        "projected": 1502153197816,
+        "cap": 1502164811776,
+        "shortfall": 0
+      },
+      "Core_storage_bytes": {
+        "projected": 521417653896,
+        "cap": 590558003200,
+        "shortfall": 0
+      },
+      "local_storage_bytes": {
+        "projected": 9395240960,
+        "cap": 21474836480,
+        "shortfall": 0
+      }
+    },
+    "shortfalls": {}
+  },
+  "cold_identity": {
+    "reason": "Retire unstarted partially assembled cold01; prepare a new immutable cold02 role. No old request registered in GLOBAL, no native qsub or model. Preserve all cold01 source and metadata.",
+    "same_three_sessions_1026_updates_76_queries_7_loads": true,
+    "formal_both512_fresh_raw_parent": true,
+    "numerical15_unchanged": true
+  },
+  "control": {
+    "site_CPU_s": 180,
+    "local_CPU_s": 120,
+    "transfer_bytes": 49152,
+    "retained_metadata_bytes": 16777216,
+    "earlier_readonly_diagnostic_liability_included_once": true,
+    "campaign_caps_changed": {}
+  },
+  "next": "Publish and full-read back; original canonical GLOBAL once adoption and independent receipt readback; new cold02 source/role/input qualification, original owner fresh full resource/project/complete queue checks, one unique GPU submission.",
+  "native_admission": false,
+  "new_request_or_GPU_or_model": false
+}

@@ -55,10 +55,12 @@ def budget_LOCAL(g,l):
     if validate(g)is None:return l
     proof=dict(grant_sha256=GRANT_SHA,costs=CONTROL,canonical_LOCAL_write_proven=False)
     if LOCAL_FIELD in l:
-        e.need(l[LOCAL_FIELD]==proof,'INSTALL_CONTROL_ONCE_HISTORICAL_PROJECTION');return l
-    v=deepcopy(l);v['CPU_s']['local_PC']+=CONTROL['local_CPU_s']
-    v['network_transfer_accounted_bytes']+=CONTROL['transfer_bytes'];v[LOCAL_FIELD]=proof
-    return v
+        e.need(l[LOCAL_FIELD]==proof,'INSTALL_CONTROL_ONCE_HISTORICAL_PROJECTION');v=l
+    else:
+        v=deepcopy(l);v['CPU_s']['local_PC']+=CONTROL['local_CPU_s']
+        v['network_transfer_accounted_bytes']+=CONTROL['transfer_bytes'];v[LOCAL_FIELD]=proof
+    from . import minimal_remaining_cold_recovery as recovery
+    return recovery.budget_LOCAL(g,v)
 
 
 def propose(global_bytes,historical_LOCAL_bytes,scope_bytes,*,now_epoch):

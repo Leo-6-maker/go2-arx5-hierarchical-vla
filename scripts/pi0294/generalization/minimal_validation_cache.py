@@ -17,7 +17,11 @@ def exact_ledger_validation(fn):
     cache=OrderedDict();sizes={}
     @wraps(fn)
     def validate(g,*,generation=None):
-        body=(json.dumps(g,indent=2,allow_nan=False)+'\n').encode()
+        # This digest is private to this memo, never a protocol/artifact SHA.
+        # Compact stdlib JSON preserves order, numeric types and every nested
+        # value, while using the C encoder instead of the slow indented Python
+        # iterator on the actual 15MB retained campaign history.
+        body=json.dumps(g,separators=(',',':'),allow_nan=False).encode()
         key=(hashlib.sha256(body).digest(),len(body),generation)
         if key in cache:
             cache.move_to_end(key);return deepcopy(cache[key])

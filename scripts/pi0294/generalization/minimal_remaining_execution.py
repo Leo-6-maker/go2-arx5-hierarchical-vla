@@ -13,7 +13,7 @@ from .minimal_validation_cache import exact_ledger_validation
 FIELD='ARX5_minimal_first512_actual_saved_prefix_completion'
 VERSION=r.VERSION
 PROFILE=r.PROFILE
-RUN='arx5-minimal-raw-parent-first512-remainder-01'
+RUN='arx5-minimal-raw-parent-first512-remainder-02'
 SCHEMA='ARX5_MINIMAL_REAL_SAVED_PREFIX_COMPLETION_INDEX_V1'
 REQUEST_SCHEMA='ARX5_MINIMAL_REAL_SAVED_PREFIX_COMPLETION_REQUEST_V1'
 PHYSICAL='plans/MINIMAL_REMAINING_PHYSICAL_CUSTODY.private.json'
