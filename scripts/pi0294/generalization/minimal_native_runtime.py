@@ -98,13 +98,20 @@ def run(root,request_path):
             source_sha=r['source_sha'],models_loaded=0,original_kernel_CPU_grant=grant,
             active_CPU_slots=grant[:8],amgr_login_in_compute=False))
         phase='INITIAL_NATIVE_RELEASE';initial_release(root,request_path,allocation,guard)
+        # The same actual cluster git/module pin used by successful GEN1.
+        # The official reader checks its upstream tree with git; compute
+        # nodes do not inherit a usable login PATH. No loader/environment
+        # installation or change to the parent LD path is introduced.
+        from .amd_export_repair_runtime import tools
+        native_tools=tools(run_git=True)
         from scripts.pi0294.numerics import MODE,prepare_environment,configure_torch
         need(r.get('numerical_mode')==MODE,'RUNTIME_EXPLICIT_ORIGINAL_DETERMINISTIC_MODE')
         prepare_environment(r['numerical_mode']);import torch
         need(torch.cuda.device_count()==1 and 'A40'in torch.cuda.get_device_name(0),'RUNTIME_ONE_ACTUAL_VISIBLE_A40')
         numeric=configure_torch(torch,r['numerical_mode']);torch.set_num_threads(4)
         once(d/'A40_PREMODEL_QUALIFICATION.json',dict(status='PASS_MINIMAL_ACTUAL_A40_CONTEXT_NO_MODEL',
-            request_sha256=sha(request_path),job_id=job,numerics=numeric,models_loaded=0,queries=0,updates=0,new_physics=0))
+            request_sha256=sha(request_path),job_id=job,numerics=numeric,original_cluster_tools=native_tools,
+            models_loaded=0,queries=0,updates=0,new_physics=0))
         from .minimal_worker import Worker
         phase='FIVE_INDEPENDENT_RAW_SESSIONS';worker=Worker(root,request_path,allocation,ledger,guard=guard)
         result=worker.run();phase='TERMINAL';return result
