@@ -47,3 +47,23 @@ def test_changed_identity_or_unsealed_custody_fails(retry):
     with pytest.raises(PermissionError):runtime.Guard(root,dict(req,request_id='other'),m,original)
     (root/runtime.FILE).chmod(0o600)
     with pytest.raises(PermissionError):runtime.Guard(root,req,m,original)
+
+
+def test_fresh_inventory_reads_actual_metadata_and_closed_lease(retry,monkeypatch):
+    root,old,req,m,calls,original=retry;guard=runtime.Guard(root,req,m,original)
+    monkeypatch.setattr(runtime.time,'time',lambda:8000)
+    value=guard.fresh_inventory()
+    assert value['observed_epoch']==8000 and value['new_writes']==0
+    assert set(value['roots'])=={r.name for r in old}
+    assert value['unique_allocated_bytes']==guard.proof['old_allocated_bytes']
+    binding=json.loads((old[0]/'OUTPUT_BINDING.private.json').read_bytes())
+    Path(binding['lease']).write_text('{"status":"ACTIVE"}')
+    with pytest.raises(PermissionError,match='FRESH_CLOSED_IDENTITY'):
+        guard.fresh_inventory()
+
+
+def test_fresh_inventory_does_not_hide_changed_old_files(retry):
+    root,old,req,m,calls,original=retry;guard=runtime.Guard(root,req,m,original)
+    guard.fresh_inventory();(old[0]/'retained-unexpected-file').write_bytes(b'new')
+    with pytest.raises(PermissionError,match='OLD_RETAINED_INODES'):
+        guard.fresh_inventory()

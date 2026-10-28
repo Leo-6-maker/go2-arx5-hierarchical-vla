@@ -1,5 +1,5 @@
 """Attach bounded physical accounting to an explicitly sealed retry only."""
-import time
+import hashlib,json,time
 from pathlib import Path
 from scripts.pi0292.durable import read
 from scripts.pi0294.native_dataset import sha
@@ -44,6 +44,34 @@ class Guard:
         e.need(result['old_inventory_sha256']==p['old_inventory_sha256'],
             'RETRY_PHYSICAL_OLD_RETAINED_INODES_UNCHANGED')
         self.last=self.clock();self.proof=result;return result
+
+    def fresh_inventory(self):
+        """Read current closed metadata; never restamp the sealed old capture.
+
+        Installation and native reader checks can outlive the original120s
+        snapshot. A new registration therefore consumes fresh filesystem and
+        lease reads joined to the immutable original inode inventory.
+        """
+        proof=self.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
+        roots={};joined=[];allocated=0
+        for root,expected in zip(self.roots,self.custody['old_roots']):
+            binding=read(root/'OUTPUT_BINDING.private.json')
+            e.need(sha(root/'RUN_MANIFEST.json')==expected['manifest_sha256']
+                and sha(binding['lease'])==expected['closed_lease_sha256']
+                and read(binding['lease'])['status']=='CLOSED',
+                'RETRY_FRESH_CLOSED_IDENTITY_UNCHANGED')
+            rows,links=physical._scan(root,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'})
+            values=list(rows.values());allocated+=sum(v['allocated']for v in values)
+            joined.extend(dict(root=root.name,**v)for v in values)
+            roots[root.name]=dict(path=str(root),manifest_sha256=expected['manifest_sha256'],
+                lease_sha256=expected['closed_lease_sha256'],rows=values,input_symlinks=links)
+        wire=json.dumps(sorted(joined,key=lambda v:(v['root'],v['path'])),
+            sort_keys=True,separators=(',',':')).encode()
+        e.need(hashlib.sha256(wire).hexdigest()==self.custody['old_inventory_sha256']
+            and allocated==proof['old_allocated_bytes'],'RETRY_FRESH_FULL_OLD_INVENTORY_JOIN')
+        return dict(status='ACTUAL_TWO_CLOSED_ROOTS_UNIQUE_INODE_READONLY',
+            observed_epoch=time.time(),new_writes=0,roots=roots,
+            unique_allocated_bytes=allocated,includes_directory_allocations=True)
 
     def __call__(self,*,startup=False):
         result=self.original(startup=startup)

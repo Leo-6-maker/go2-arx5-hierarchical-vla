@@ -230,9 +230,10 @@ class Owner(mature.Owner):
             return e.register(global_bytes,request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())
         from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
         physical=self.retry_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=time.time()
+        predecessor=dict(self.retry_predecessor,root_inventory=self.retry_physical.fresh_inventory())
         return self.adapter.register(global_bytes,self.local,request_bytes=request_bytes,
             physical_custody=self.retry_physical.custody,physical_proof=physical,
-            physical_observed_epoch=observed,now_epoch=time.time(),**self.retry_predecessor)
+            physical_observed_epoch=observed,now_epoch=time.time(),**predecessor)
 
     def native_material(self,*,secret=None,ready_path=None):
         saved=read(self.BASE/'SOURCE_REQUEST.private.json');r=saved['request'];d=Path(saved['directory'])
