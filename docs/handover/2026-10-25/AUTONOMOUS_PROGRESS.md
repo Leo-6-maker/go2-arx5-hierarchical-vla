@@ -463,3 +463,12 @@ Core已实际登录并核LOCAL91ce7cc7仍原字节；GPU0仅原获许可桌面�
 本次额外有限CPU原件审计在180秒walltime截止，真实child−9／CPU53.042269，原120CPU上界保留；无RESULT，未完成完整成员流审计，不称E1独立完整资格PASS。OSwait原件与所有原PID终态已核，metadata lease随后关闭。私有reader冷装配首次引号syntax错误发生在远端launch前；修正后只实际launch一次。中间两次SSH只读255、原有两次READ_ONLY失败、一个phase名超过原64字符的本地拒绝均保留，不扩大RPC／不推断远端终止。
 
 冷态minimal_session_gate只增加本作业qstat Failed／Timeout有界重读，READY／最终verify共用原180秒deadline、总失败最多3次；单qstat25秒、STOP／错身份／解析／fresh release／原资源门不变，未知读不授模型或优化权限。10新CPU及49定向全部通过，初始deadline fixture倒退假时钟错误已修并保留，不称完整CI／原生采用。旧7c科学source／5d metadata source不改，无新请求／预付／qsub。下一先核完保存prefix，再以新冷有限范围接续E2资格与两臂formal512，绝不继承qualification权重作正式初始化。PBS38＋剩余1＋matrix3=42／41必须显式全未来采用；当前仅冷修，全部原clock／科学／保护不变。报告ARX5_FIRST512_REAL_E0_E1_PARTIAL_AUDITED_SETTLED_TWO_CLOSED_AND_COLD_READ_FIX_ACTUAL_20261028.json。Core D25／GEN1行为仍0，原模型不重传，LOCAL91ce历史待合法catchup。Rerun三条实际稀疏回放持续可用；goal仍ACTIVE，automation仍PAUSED。
+
+
+## 2026-10-29 · actual full saved-prefix audit and canonical Core history
+
+[2026-10-29最新实际资格与账本回执](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)：Vanda1504095原F1及一次费用结算、两原lease关闭不变。新登记有限CPU审计进程自然OS0并关闭own lease，独立流读取25,402,634,528 bytes保存状态与输出，另对同登录主机的原始父模型7文件完整流读取6,914,922,850 bytes。E0与E1/E2共有30对零步输出逐字节相同；E1完整step2/cursor64状态、AdamW step2、scheduler last_epoch2、四类RNG、14目标参数真实梯度／更新和冻结不变均核实；原Trainer重载前后固定输出SHA相同。实际新审计CPU97.185896秒／wall220.805秒，在原已支付480CPU／600wall内；无CUDA、模型、查询、更新或物理调用。此前180秒超时与两只读回包尺寸错误均保留，不改写为PASS。
+
+剩余有界接续的原GLOBAL控制已一次采用：PBS41→42、3600siteCPU／600localCPU／64MiBsiteout／256KiBtransfer，GLOBAL f2c2b6da。旧实际累计仍180440GPU秒／14788更新／5908查询／PBS38；无新GPU请求或qsub。完整14维预测无shortfall，matrix3与最终20GPUh／40GiB不挪用。此控制采用不是剩余训练原生放行：E2优化仍0，正式E1/E2各0/512，不能重跑已完成E0/E1或从资格权重开始正式训练。
+
+Core canonical LOCAL已从91ce7cc7一次补齐三次first512真实终态与已付控制分类，实际3d66e6d1、38条PBS行；原mirror字节与所有失败费用保留。Core/Vanda独立回读分别确认LOCAL3d66和GLOBALf2c2，14维预测总额没有变化。D25旧冷source66与manifest仍绑定旧请求，必须更新为诚实的新不可变源码／身份后再实际资格、加载和原24条件，不能直接调用旧writer。D25模型已交付，不重传／重训，行为仍0/24；两站运行继续独立。

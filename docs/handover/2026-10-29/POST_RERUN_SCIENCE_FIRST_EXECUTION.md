@@ -1,44 +1,41 @@
 # Codex接续：Rerun已具备后的科学主线 V6
 
-2026-10-29。先读[完整V6](../../protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[计划卡](../../../reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json)和main的AGENTS。保持现有root唯一发布/原生mutation owner；不重新启动暂停自动化或subagent。
+2026-10-29。先读[完整V6](../../protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[计划卡](../../../reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json)和main的AGENTS。保持root唯一整合/原生mutation owner，不重启暂停自动化或subagent。
 
-本交接只更新执行顺序，不是新计算或额度批准。当前scope、原时钟、WBC、R0、原实验数值和失败证据保持。实际执行前刷新#11/#47及本机原件；新回执优先于下述快照。
+## 最新起点：PR99已有实际结果，不重复前缀
 
-## 1. 先纠正旧状态，禁止重复已完成部分
+证据main `7d5794fb4f4e1998c0ce97e9e4f0528364dced1c`。已独立核验E0 39查询、E1两步资格/14目标参数变化/完整Trainer保存恢复和输出一致；E2只有15份零步输出、优化0。正式E1/E2仍0/512。job1504095及自己的lease已关闭。
 
-基线main `45aeba9c50d953fc267f1d84bed5c939f0f81cb3`。C50完整24有6成功；D25/GEN1都已有1024端点但未有有效Eval。Vanda1504095已F/Exit1且两own lease关闭，已发生2更新/71查询/5加载：E0 39查询，E1两步资格17查询及14目标参数变化，E2 15份零步输出、优化0。正式E1/E2仍0/512。
+**完整saved-prefix审计已PASS、PBS41→42/一次控制范围已实际采用、Core LOCAL38条终态历史已实际补齐。** 引用[实际回执](../../../reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)。旧“审计/采用未完成”不得继续当当前阻断。
 
-E1完整大型保存成员独立审计尚未闭合。PR97已提供saved-prefix审计和一次剩余接续范围；PR98已提供Core LOCAL三条真实终态catch-up代码，均不能以CPU通过代替实际采用。
+尚未新增request/qsub、正式训练或D25有效Eval。只核当前身份仍与原件一致，冷态绑定剩余任务；不重做同一完整大文件流读、cap采用、LOCAL补账、结算或模型交付。真实文件变化或新完整性缺陷才针对性复核。
 
-## 2. Vanda线：只接原研究剩余部分
+## Vanda：执行剩余原研究
 
-1. 读取最新原生终态/lease，复用已有有限CPU reader完成保存前缀独立流审计，保留原180秒失败和费用。逐文件保存进度，输出完整结果或准确缺失；不重跑E0/E1去替代审计。
-2. 核实一次剩余接续范围是否已实际采用；若未采用，在原授权和原onceIO内完成真实全资源复算与采用。PBS41→42目前是有界准备方案，不是本交接新增批准，不借matrix3。
-3. 独立审计成立后，补E2缺失资格并运行E1/E2各512；剩余上界1026更新/76查询/7加载。两个正式臂均从原始父模型和fresh optimizer开始，不继承两步资格权重。
-4. 保持同12条示范、逐cursor、R0、H40/Prefix8、四步推理和1024 LR日程；完整保存模型/optimizer/scheduler/RNG/sampler/Processor，并验证推理包重建身份。
-5. 可沿已批准的一份Vanda GPU作业串行两臂；不得把Core闭环重新迁到Vanda。
+1. 将已通过audit/closed/effects接入新的剩余suffix身份，保持原父/数据/source和已发生2更新/71查询/5加载。不是旧零效果重试，不重启1504095。
+2. 补E2缺失资格；剩余原生上界1026更新/76查询/7加载。E0/E1前缀不重算，必要E2重载检查在该范围计数。
+3. 正式E1/E2各从raw父fresh开始512步；不能从资格step2续训。保持12父、逐cursor、batch32、1024 LR日程、R0/EEF10/H40/Prefix8、原数值和评分。
+4. 沿批准的一份Vanda allocation串行两臂，独立完整保存/卸载/加载；不重新开发同机Eval。每臂保留optimizer/scheduler/RNG/sampler/Processor，核推理包重建一致。
 
-## 3. Core线：D25结果优先，之后GEN1
+## Core：D25→GEN1→两臂512 Eval
 
-1. 原GLOBAL/LOCAL与闭合历史必须真实核齐。复用PR98的窄catch-up，不把旧运行身份或历史快照当fresh；不重复结算。
-2. 冷态接续原D25已交付模型，原600秒/80周期与原S1/评分保持。运行中不SSH Vanda、不等其队列或心跳；管理owner分别连接并终态汇总。
-3. 完成D25原N294101/24；C50原24直接复用，形成D−C逐几何配对。有效拒绝/任务失败不重跑，工程缺失单列。
-4. 完成GEN1原24，再在两个E1/E2端点就绪时各24。老模型不需要先达到成功率门槛才能允许新研究，但测量链与权限必须有效。
+1. 复用PR99已经补齐的LOCAL和原已付范围；D25旧冷manifest仍需新不可变后继绑定。运行不SSH Vanda、不查其队列或心跳。
+2. 已交付D25原地核身份，不重传或重训。保留本作业原600秒/80周期、原S1/任务评分，不能移用旧PASS。
+3. 完成D25原N294101/24，复用C50原24计算D−C。之后GEN1原24，再在E1/E2固定端点就绪时各24。有效失败不重跑，工程缺失单列。
+4. 旧模型成功率不是新研究GO门；合法测量链和范围才是。两站独立线可按已采用范围并行。
 
-## 4. PC支持线：只补有助解释的已有记录
+## PC：只读分析支持，不新增前置
 
-复用官方Rerun和`episode_to_rerun.py`。当前只有T1/T2各41/641与C50失败2/224稀疏状态，不能称完整回放。
+Rerun沿官方Viewer和薄适配器。当前Teacher各41/641、失败2/224是稀疏，不称全轨迹。最多补Teacher T1/T2、C50成功与失败四类原件，先失败关键时间线；无带宽则Core原地分析传小索引，不重采。
 
-最多补四类原件：Teacher T1/T2、C50成功、C50拒绝/失败。先补失败关键时间线；没有带宽就Core站内分析并带回小型证据索引，不重新采集。actual、H40 proposed、committed prefix、NOT_EXECUTED预测分层；无时间戳不捏造秒时间。
+actual、H40 proposed、committed prefix、NOT_EXECUTED预测分层；无原时间戳不捏造秒时间，full qpos/mesh不是门槛。只更新已有Failure Atlas的机制映射，不建新播放器/调度器。
 
-仅更新已有Failure Atlas的引用和机制映射，不另造播放器/调度器/全量图谱。full qpos和mesh可缺省，缺省时明确不画完整机器人。Viewer完善不阻塞D25或E1/E2。
+## 验收与边界
 
-## 5. 本轮验收与退出
+当前先交D25完整配对、E1/E2固定512和后继行为结果；负结果也完成研究。不自动加步数/LoRA/新比例/柜门/书架/BASE，不改WBC。
 
-优先交付：保存前缀审计与合法剩余执行、D25完整配对结果、E1/E2固定512端点及后继评价。负结果同样可完成研究；不自动扩采、加步数、LoRA、扫比例、改WBC或训练柜门/书架。
+原stop-new为2026-10-31 20:52:29.813 SGT，hard deadline为2026-11-01 20:52:29.813 SGT；长期阶段另有有效范围。本计划不延期、不采用新额度、不启动作业。
 
-原stop-new：2026-10-31 20:52:29.813 SGT；hard deadline：2026-11-01 20:52:29.813 SGT。长期后继阶段另有有效范围才执行，本交接不延期。
+普通同范围问题自主最小冷修；有差分再原生尝试，UNKNOWN先查效果，不重启健康或闭合job。外部权限、安全、资源或科学变量真变化时一次报告精确阻断，独立线继续。
 
-普通同范围工程问题自主最小冷修；确定性错误无变化不重提，UNKNOWN写先核效果，不重启健康/闭合job。真外部权限、安全、完整性、资源或科学变量变化阻断时，一次报告具体原因和最小需求，独立线继续。
-
-每次交接只写：实际证据时间和source；新增有效条件/更新/完整端点；工程与科学状态；下一最小动作；实际资源/时钟。源码、CPU测试和预留不算科学结果。使用main普通PR和固定SHA回读，私有数据/模型/RRD不入Git。
+每次回报实际时间/source、新增有效条件/更新/端点、工程和科学状态、下一动作、资源/截止。main普通PR及固定SHA回读，私有raw/模型/RRD不入Git。新原生回执优先，若后续已经启动/完成，直接接剩余步骤。
