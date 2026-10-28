@@ -212,7 +212,7 @@ def run(control_root,secret):
     # New metadata preparation is in its distinct120s bank. The subsequent
     # original watch receives at most1650 further CPU seconds from the old
     # prepaid3000s bank after bounding the retired owner's use independently.
-    os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]));resource.setrlimit(resource.RLIMIT_CPU,(119,1770));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+    os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]));resource.setrlimit(resource.RLIMIT_CPU,(89,1740));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
     lock=OwnerLock(root/'control/STAGE_SERVER_OWNER.lock');j=Journal(control_root,dict(run_uuid=root.name,job_id='EXACT_UNSUBMITTED_EXISTING_REQUEST',source_sha=plan['controller_source_sha'],request_sha256=REQUEST_SHA))
     def put(name,v):
         p=control_root/name;fd=os.open(p,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)
@@ -229,7 +229,7 @@ def run(control_root,secret):
         ib=gp.with_name(key+'.INTENT.json').read_bytes();rb=read(gp.with_name(key+'.RECEIPT.json'));iv=json.loads(ib)
         need(gp.read_bytes()==after and rb['intent_sha256']==e.sha(ib)and rb['after_sha256']==iv['proposed_sha256']==e.sha(after)and not Path(iv['temporary']).exists(),
              'RESUME_INDEPENDENT_NATIVE_CONTROL_CAS_READBACK_NO_REPLAY')
-        prepared_CPU=time.process_time();need(prepared_CPU<=120,'RESUME_DISTINCT_METADATA_CPU_BANK')
+        prepared_CPU=time.process_time();need(prepared_CPU<=90,'RESUME_DISTINCT_METADATA_CPU_BANK')
         base_CPU=math.floor(prepared_CPU);resource.setrlimit(resource.RLIMIT_CPU,(base_CPU+1640,base_CPU+1650))
         o=make_owner(root,proposed,projection=budget_LOCAL(proposed,json.loads(local)))
         put('CONTINUATION_PROCESS.json',dict(pid=os.getpid(),procstart=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],controller_source_sha=plan['controller_source_sha'],science_source_sha=SOURCE,CPU_upper_s=1650,original_role_transferred_not_old_process_restarted=True))
