@@ -472,3 +472,10 @@ Core已实际登录并核LOCAL91ce7cc7仍原字节；GPU0仅原获许可桌面�
 剩余有界接续的原GLOBAL控制已一次采用：PBS41→42、3600siteCPU／600localCPU／64MiBsiteout／256KiBtransfer，GLOBAL f2c2b6da。旧实际累计仍180440GPU秒／14788更新／5908查询／PBS38；无新GPU请求或qsub。完整14维预测无shortfall，matrix3与最终20GPUh／40GiB不挪用。此控制采用不是剩余训练原生放行：E2优化仍0，正式E1/E2各0/512，不能重跑已完成E0/E1或从资格权重开始正式训练。
 
 Core canonical LOCAL已从91ce7cc7一次补齐三次first512真实终态与已付控制分类，实际3d66e6d1、38条PBS行；原mirror字节与所有失败费用保留。Core/Vanda独立回读分别确认LOCAL3d66和GLOBALf2c2，14维预测总额没有变化。D25旧冷source66与manifest仍绑定旧请求，必须更新为诚实的新不可变源码／身份后再实际资格、加载和原24条件，不能直接调用旧writer。D25模型已交付，不重传／重训，行为仍0/24；两站运行继续独立。
+
+
+## 2026-10-29 D25 local04实际冷登记；尚未启动模型
+
+2026-10-29后继实际：[D25新源码与双账本登记](reports/PI0294/design/parallel-science-20261022/D25_REAL_DUAL_REGISTERED_THREE_COLD_ROLES_SOURCE_BOUND_NOT_STARTED_ACTUAL_20261029.json)已完成。源码`2a23eeb6`在两端1356文件全文SHA回读；原固定请求和nonce保留，新run04的owner、physical、neural三角色已真实登记。GLOBAL `0bf232b7`与Core LOCAL `dcc63c84`的原生CAS及独立回读匹配；GLOBAL回包35秒超时但实际CAS成功，原UNKNOWN和费用上界保留、未重发。独立读取33／38封存输入、源码和三ACTIVE lease，并实际确认owner／neural unit均not-found、MainPID0。**这仍是冷态登记：D25有效Eval为0，GPU、模型与物理未启动。** 剩余有限控制传输需先完成可行计划，再原生bind／完整双端资源／600秒80周期／模型放行；未动收尾保护、没有新增预算或重传D25。Vanda的剩余1026更新／76查询／7加载契约见PR103，尚未接成可提交入口，正式两臂仍0／512。
+
+原源码安装、owner登记与GLOBAL登记的UNKNOWN均按精确原生字节核清并永久保留；旧调用不重放。新finalize仅有冷计划，未执行。三个新角色保持ACTIVE且无actor；旧03角色保持CLOSED。两站只由管理端核账，运行入口继续使用有限本地effect custody，不增跨站运行依赖、自动化或subagent。

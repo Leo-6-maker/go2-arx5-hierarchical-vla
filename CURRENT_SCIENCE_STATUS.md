@@ -27,6 +27,8 @@
 
 ## 最新工程状态
 
+2026-10-29后继实际：[D25新源码与双账本登记](reports/PI0294/design/parallel-science-20261022/D25_REAL_DUAL_REGISTERED_THREE_COLD_ROLES_SOURCE_BOUND_NOT_STARTED_ACTUAL_20261029.json)已完成。源码`2a23eeb6`在两端1356文件全文SHA回读；原固定请求和nonce保留，新run04的owner、physical、neural三角色已真实登记。GLOBAL `0bf232b7`与Core LOCAL `dcc63c84`的原生CAS及独立回读匹配；GLOBAL回包35秒超时但实际CAS成功，原UNKNOWN和费用上界保留、未重发。独立读取33／38封存输入、源码和三ACTIVE lease，并实际确认owner／neural unit均not-found、MainPID0。**这仍是冷态登记：D25有效Eval为0，GPU、模型与物理未启动。** 剩余有限控制传输需先完成可行计划，再原生bind／完整双端资源／600秒80周期／模型放行；未动收尾保护、没有新增预算或重传D25。Vanda的剩余1026更新／76查询／7加载契约见PR103，尚未接成可提交入口，正式两臂仍0／512。
+
 2026-10-28 最新管理观测：[Core Home／NFS恢复核验](reports/PI0294/design/parallel-science-20261022/CORE_NFS_HOME_MOUNT_CURRENT_RECOVERY_AND_HISTORICAL_CAUSE_BOUNDARY_ACTUAL_20261028.json)已通过AMD现有key成功登录4080S；Home当前nfs4／autofs正常，两端authorized_keys全文SHA及权限一致。本地盘可用146,997,317,632 bytes、共享Home可用1,501,241,016,320 bytes；未占满。公钥读取确实依赖NFS，因此历史挂载／IO阻塞是合理可能，但普通账号无系统日志访问，历史根因仍UNKNOWN，未重挂载或修改服务。
 
 [2026-10-29最新实际资格与账本回执](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)：Vanda1504095原F1及一次费用结算、两原lease关闭不变。新登记有限CPU审计进程自然OS0并关闭own lease，独立流读取25,402,634,528 bytes保存状态与输出，另对同登录主机的原始父模型7文件完整流读取6,914,922,850 bytes。E0与E1/E2共有30对零步输出逐字节相同；E1完整step2/cursor64状态、AdamW step2、scheduler last_epoch2、四类RNG、14目标参数真实梯度／更新和冻结不变均核实；原Trainer重载前后固定输出SHA相同。实际新审计CPU97.185896秒／wall220.805秒，在原已支付480CPU／600wall内；无CUDA、模型、查询、更新或物理调用。此前180秒超时与两只读回包尺寸错误均保留，不改写为PASS。
