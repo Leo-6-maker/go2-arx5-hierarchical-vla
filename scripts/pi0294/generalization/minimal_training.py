@@ -1,4 +1,5 @@
 """Cold recipe/session contract around the original Trainer; no runtime entry."""
+import os
 from scripts.pi0294.pv1 import mix1024 as mature_recipe
 from scripts.pi0294.e1.trainer import learning_rate_multiplier
 from . import minimal_study as study
@@ -268,6 +269,8 @@ def make_trainer_class():
                        and any(n.startswith('processor/') for n in files), 'FULL_MINIMAL_CHECKPOINT_MEMBERS_REQUIRED')
             write(cp/'CHECKPOINT_COMPLETE.json', dict(global_step=step, files=files, full_resume=True,
                   training_identity=self.recipe['arm'], session_terminal=step == self.session_stop,
+                  origin_job_id=os.environ.get('PBS_JOBID'),
+                  origin_source_sha=read(Path(self.args.output_dir).parents[1]/'RUN_MANIFEST.json')['code']['vla_commit'],
                   qualification_only=self.qualification_only,
                   scheduler_horizon=1024, parameter_state_format='WRAPPED_CATEGORY_TABLES_FULL_RESUME_ONLY',
                   inference_delivery_requires_official_merge=True))

@@ -16,6 +16,7 @@ need=e.need
 LOCAL='plans/MINIMAL_CORE_LOCAL_CAPTURE.private.json'
 ENTRY='scripts.pi0294.dec1.a40_training_runtime'
 REQUIRED={LOCAL,'NEURAL_BINDINGS.private.json','plans/A40_ENVIRONMENT_BINDING.private.json',
+    'MIX_OWNER_CONFIG.private.json','plans/MINIMAL_ACTUAL_CORE_MEASUREMENT.private.json','plans/PV1_FIXED_TRAIN_PROBES.json',
     'plans/MINIMAL_EFFECTIVE_QUEUE_LIMITS.private.json','plans/MINIMAL_RAW_PARENT_AUDIT_PLAN.private.json',
     'plans/MINIMAL_SIX_PRECONTACT16_TRAIN_CAPTURE.private.json','plans/MINIMAL_LANGUAGE24_PANEL.private.json',
     'plans/MINIMAL_TWELVE_PANEL.json','plans/MINIMAL_ORIGINAL_PROBE_READER.private.json',

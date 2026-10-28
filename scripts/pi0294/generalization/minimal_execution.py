@@ -116,11 +116,10 @@ def _uuid(v):
     except (ValueError,TypeError,AttributeError):return False
 
 
-def request(r,*,central=False):
-    """Whole serial package, not a C/D/GEN row or five new allocations."""
-    need(type(central)is bool,'EXECUTION_EXPLICIT_CENTRAL_ROW')
+def fixed_request_fields():
+    """One authoritative serial package contract for cold assembly/readers."""
     resources=native_resources()
-    fixed=dict(schema='ARX5_MINIMAL_FIRST512_NATIVE_REQUEST_V1',scope=scope.SCOPE,
+    return dict(schema='ARX5_MINIMAL_FIRST512_NATIVE_REQUEST_V1',scope=scope.SCOPE,
         platform_training_version=VERSION,native_platform='VANDA_A40',
         profile=PROFILE,project='CFP04-CF-007',job_name='pi0294_dec1_a40_train',
         raw_parent_files_identity=training.RAW_PARENT_FILES_ID,
@@ -136,6 +135,12 @@ def request(r,*,central=False):
         new_physics=0,new_constructors=0,session_plan=native_sessions(),
         reserved_session_plan_sha256=sha(raw(package.sessions())),
         native_session_plan_version='MATCHED15_AND_ACTUAL_OFFICIAL_EXPORT_WITHIN147_V1')
+
+
+def request(r,*,central=False):
+    """Whole serial package, not a C/D/GEN row or five new allocations."""
+    need(type(central)is bool,'EXECUTION_EXPLICIT_CENTRAL_ROW')
+    fixed=fixed_request_fields()
     need(all(r.get(k)==v and type(r.get(k))is type(v)for k,v in fixed.items()),
          'EXECUTION_EXACT_OWN_SEQUENTIAL_FIVE_SESSIONS_AND_MAIN_ENVELOPE')
     need(_uuid(r.get('request_id'))and _uuid(r.get('submission_nonce')),

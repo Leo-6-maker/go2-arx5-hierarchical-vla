@@ -59,12 +59,10 @@ def validate(*,global_bytes,local_bytes,request_bytes,manifest_bytes,job_id,host
     need(nodes=={hostname.split('.')[0]}and r['T_CD']<=started<=now_epoch<end-2700
         and started+r['reserved_H200_s']<r['stop_new_training_epoch'],
         'ADMISSION_REAL_NODE_START_AND_ORIGINAL_FULL_SAVE_WINDOW')
-    q=json.loads(effective_queue_bytes);need(q.get('source')=='VANDA_NATIVE_QSTAT_EFFECTIVE_QUEUE_LIMITS'
-        and q.get('requested_queue')=='auto'and q.get('destination')=='batch_gpu'
-        and type(q.get('maximum_wall_s'))is int and q['maximum_wall_s']>=r['walltime_s']
-        and m['execution']['sealed_inputs'].get('plans/MINIMAL_EFFECTIVE_QUEUE_LIMITS.private.json')==e.sha(effective_queue_bytes),
+    from .minimal_native_launch import effective_queue
+    q=effective_queue(effective_queue_bytes,created_epoch=r['created_epoch'],walltime_s=r['walltime_s'])
+    need(m['execution']['sealed_inputs'].get('plans/MINIMAL_EFFECTIVE_QUEUE_LIMITS.private.json')==e.sha(effective_queue_bytes),
         'ADMISSION_ACTUAL_SEALED_EFFECTIVE_QUEUE_LIMIT')
-    fresh(q['observed_epoch'],r['created_epoch'],120,'PRE_SUBMISSION_QUEUE_LIMIT')
     site=json.loads(site_bytes);need(site.get('schema')==SITE
         and site.get('source')=='VANDA_LOGIN_NATIVE_AMGR_LS_AND_CHECKBALANCE'
         and all(site.get(k)==v for k,v in dict(run_uuid=r['run_uuid'],request_id=r['request_id'],

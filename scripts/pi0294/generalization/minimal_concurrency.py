@@ -19,6 +19,13 @@ def binding(g):
     row=e.rows(g)[0]
     e.need(row['status']==e.STATES[1]and row['job_id']is not None,
            'CONCURRENT_REAL_BOUND_MAIN_PBS_NOT_QSUB_UNKNOWN')
+    return binding_identity(row)
+
+
+def binding_identity(row):
+    """Stable sealed pair identity; this alone never permits new concurrency."""
+    e.need(row['platform_training_version']==e.VERSION and row['status']in e.STATES[1:]
+        and row['job_id']is not None,'CONCURRENT_EXACT_BOUND_OR_ALREADY_AUDITED_TERMINAL_MAIN')
     return dict(schema=VERSION,main_request_id=row['request_id'],main_request_sha256=row['request_sha256'],
         main_job_id=row['job_id'],main_source_sha=row['source_sha'],
         scope_grant_sha256=e.authority.GRANT_SHA,main_scope=e.scope.SCOPE,
@@ -26,6 +33,44 @@ def binding(g):
         maximum_Vanda_GPUs=1,maximum_Core_GPUs=1,
         global_pending_and_unknown_fences_preserved=True,
         allocation_local_pending_updates_are_not_removed_or_globalized=True)
+
+
+def current_native_view(g,Core_record,*,queue_proof,terminal_proofs,independent_job_bytes,now_epoch):
+    """Read the real main F during independent audit without calling it UNKNOWN.
+
+    Only a new D25 capsule sealed to this main may use this join. A missing
+    queue handle still requires exact fresh native F/request/nonce history;
+    it is never inferred terminal, omitted, refunded or marked settled here.
+    The existing Core owner must collect those original raw native proofs.
+    """
+    from scripts.pi0294.pv1.neural_ledger import check
+    from scripts.pi0294.dec1 import vanda_campaign as q
+    from scripts.pi0294.pv1.evaluation_account_jobs import checked_outside
+    check(g);rows=e.rows(g);e.need(len(rows)==1,'CONCURRENT_VIEW_ONE_ADOPTED_MAIN')
+    main=rows[0];proof=binding_identity(main)
+    from scripts.pi0294.pv1.mix_core_accounting import VERSION as Core_VERSION
+    e.need(Core_record.get(KEY)==proof and Core_record.get('evaluation_candidate')=='D25'
+        and Core_record.get('platform_evaluation_version')==Core_VERSION
+        and Core_record.get('native_platform')=='CORELAB_RTX4080'
+        and Core_record.get('source_sha')!='8fba44f38aa5c6858614d8bd4e34ad7f969dd40c'
+        and Core_record['created_epoch']>=g[e.FIELD]['registered_epoch']
+        and g['pending_updates']==g['unknown_effects']==[],
+        'CONCURRENT_VIEW_ONLY_EXPLICIT_COLD_D25_AND_ALL_GLOBAL_FENCES')
+    current=q.queue_rows(queue_proof,now_epoch=now_epoch)
+    terminals=q.terminal_rows(terminal_proofs,ledger=g,current_rows=current,now_epoch=now_epoch)
+    campaign,outside,unknown=q.classify(g,current+terminals)
+    independent=checked_outside(current+terminals,outside,independent_job_bytes)
+    e.need(not unknown and all(v['job_id']==main['job_id']and v['state']in('Q','R')for v in campaign),
+        'CONCURRENT_VIEW_COMPLETE_REAL_QUEUE_AND_OWN_DISTINCT_NATIVE_TERMINAL')
+    if main['status']==e.STATES[1]:
+        e.need(len(campaign)+len(terminals)==1,'CONCURRENT_VIEW_OWN_MAIN_IS_ACTUALLY_PRESENT_OR_F')
+    else:e.need(not campaign and not terminals,'CONCURRENT_VIEW_SETTLED_MAIN_HAS_NO_NEW_ALLOCATION')
+    return dict(schema='ARX5_FIRST512_D25_CURRENT_NATIVE_QUEUE_OR_KNOWN_F_V1',main_binding=proof,
+        complete_account_queue=queue_proof,native_terminal_history=terminal_proofs,
+        campaign_jobs=campaign,user_confirmed_independent_jobs=independent,
+        unknown_campaign_jobs=[],GLOBAL_sha256=e.sha(e.raw(g)),observed_epoch=now_epoch,
+        known_native_F_waiting_for_independent_main_audit=bool(terminals),
+        GLOBAL_or_LOCAL_mutated=False,new_model_or_update_or_physics_permission=False)
 
 
 def validate_pair(g,pbs_rows,Core_rows):

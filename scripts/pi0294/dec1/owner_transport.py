@@ -54,6 +54,9 @@ def checked_heartbeat(value, intent, *, now):
     if value.get('schema')=='GEN1_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1':
         from scripts.pi0294.generalization.amd_training_owner import validate_heartbeat_receipt
         return validate_heartbeat_receipt(value,intent,now=now)
+    if value.get('schema')=='ARX5_MINIMAL_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1':
+        from scripts.pi0294.generalization.minimal_native_owner import validate_heartbeat_receipt
+        return validate_heartbeat_receipt(value,intent,now=now)
     beat = value.get('heartbeat', {})
     view_status=value.get('campaign_view_status')
     if view_status=='PASS_VANDA_ONLY_CAMPAIGN_VIEW':
