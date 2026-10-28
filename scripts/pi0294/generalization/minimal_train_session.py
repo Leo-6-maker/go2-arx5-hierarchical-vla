@@ -27,12 +27,13 @@ def dataset(root,evidence):
     value.initialize();return value
 
 
-def save_headroom(root,arm,*,next_upper_bytes=28000000000):
+def save_headroom(root,arm,*,next_upper_bytes=28000000000,guard=None):
     """Original per-arm70GB retention; do not delete qualification states.
 
     The main request retains BOTH arm envelopes. Count the same arm's qual,
     formal and official export, without traversing source/input symlinks.
     """
+    if guard is not None and hasattr(guard,'reserve'):guard.reserve(next_upper_bytes)
     root=Path(root);need(arm in training.ARMS and type(next_upper_bytes)is int
         and 0<next_upper_bytes<=28000000000,'SESSION_DECLARED_FULL_STATE_SAVE_BOUND')
     folders=[root/'training'/(arm+'_QUALIFY2'),root/'training'/(arm+'_FORMAL512'),root/'inference'/arm]
@@ -104,7 +105,7 @@ def build_trainer(root,instance,allocation,ledger,session_id,*,guard,restoring_q
     base=training.make_trainer_class()
     class BoundedSave(base):
         def _save_checkpoint(self,model,trial):
-            guard();save_headroom(root,spec['arm']);return super()._save_checkpoint(model,trial)
+            guard();save_headroom(root,spec['arm'],guard=guard);return super()._save_checkpoint(model,trial)
     trainer=BoundedSave(model=instance.model,args=args,train_dataset=data,data_collator=ProcessedCollator(data.processor),
         callbacks=[Audit()],evidence_dir=evidence,recipe=recipe,smoke=False,
         parameter_contract=instance.parameter_contract,session_stop=spec['optimizer_limit'],

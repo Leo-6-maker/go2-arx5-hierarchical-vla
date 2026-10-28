@@ -49,7 +49,7 @@ def save(root,instance,allocation,ledger,session_id,*,guard,phase_proof):
     full=root/'training'/session_id/'checkpoint-512';before=sha(full/'CHECKPOINT_COMPLETE.json')
     need(before==identity['checkpoint_manifest_sha256']and read(full/'CHECKPOINT_COMPLETE.json')['full_resume']is True,
          'EXPORT_KEEP_COMPLETE_OWN_OPTIMIZER_SCHEDULER_RNG_SAMPLER')
-    session.save_headroom(root,spec['arm'],next_upper_bytes=14000000000)
+    session.save_headroom(root,spec['arm'],next_upper_bytes=14000000000,guard=guard)
     target=root/'inference'/spec['arm'];need(not target.exists()and not target.is_symlink(),'EXPORT_NO_OVERWRITE_OR_REPLAY')
     evidence=root/'evidence'/session_id;need(not evidence.is_symlink(),'EXPORT_OWN_EVIDENCE_DIRECTORY');evidence.mkdir(parents=True,exist_ok=True,mode=0o700)
     once(evidence/'OFFICIAL_EXPORT_INTENT.json',dict(schema=SCHEMA,

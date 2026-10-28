@@ -24,7 +24,8 @@ def _scan(root,*,permitted_links):
         _need(stat.S_ISREG(s.st_mode) or stat.S_ISDIR(s.st_mode),'ONLY_REGULAR_FILES_AND_DIRECTORIES')
         _need(s.st_uid==os.getuid(),'OWN_FILES_ONLY')
         key=(s.st_dev,s.st_ino);row=dict(path=name,kind='file' if stat.S_ISREG(s.st_mode) else 'directory',
-            dev=s.st_dev,inode=s.st_ino,logical=s.st_size,allocated=s.st_blocks*512,links=s.st_nlink)
+            dev=s.st_dev,inode=s.st_ino,logical=s.st_size,allocated=s.st_blocks*512,links=s.st_nlink,
+            mtime_ns=s.st_mtime_ns,ctime_ns=s.st_ctime_ns)
         _need(key not in files,'NO_INTERNAL_HARDLINK_ALIASES')
         files[key]=row
     return files,links

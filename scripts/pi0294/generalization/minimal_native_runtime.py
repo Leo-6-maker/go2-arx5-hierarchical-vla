@@ -72,7 +72,7 @@ def run(root,request_path):
     root=Path(root);request_path=Path(request_path);d=request_path.parent
     # Context may observe the exact registered pre-bind row while qsub starts
     # its own worker. No model or permission follows until actual bind and R.
-    _,r=context.root_context(root,request_path,full=True,require_bound=False)
+    manifest,r=context.root_context(root,request_path,full=True,require_bound=False)
     need(not(d/'PBS_PROCESS_FINAL.json').exists(),'RUNTIME_NO_NATIVE_RESTART_OR_MODEL_REPLAY')
     lock=OwnerLock(root/'A40_NATIVE_ALLOCATION_OWNER.lock');began=time.process_time()
     ledger=None;worker=None;result=None;error=None;phase='NATIVE_IDENTITY';allocation=None
@@ -85,6 +85,9 @@ def run(root,request_path):
         resource.setrlimit(resource.RLIMIT_CORE,(0,0))
         once(d/'ALLOCATION_ADMISSION.json',allocation)
         guard=context.Guard(root,allocation)
+        if 'plans/MINIMAL_RETRY_PHYSICAL_CUSTODY.private.json' in manifest['execution']['sealed_inputs']:
+            from .minimal_retry_runtime_guard import Guard as RetryGuard
+            guard=RetryGuard(root,r,manifest,guard)
         from .minimal_effects import Effects
         ledger=Effects(root,allocation,request_path=request_path,guard=guard);ledger.initialize()
         # An authoritative zero-effect journal precedes the original180s bind
