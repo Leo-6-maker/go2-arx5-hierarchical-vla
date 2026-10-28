@@ -1,0 +1,125 @@
+{
+  "schema": "ARX5_SAME_REMAINDER_INSTALL_CONTROL_ALL14_CAPTURED_CPU_V1",
+  "date": "2026-10-29",
+  "status": "PASS_CAPTURED_FULL14_CONTROL_FORECAST_NOT_NATIVE_ADOPTION",
+  "grant_sha256": "d5b8e6f6e40128e5c5a8ba25eb5a20e0bec04f8312bf9b6398e122715591cdea",
+  "actual_captured_GLOBAL": "a4c5cf47c44beaa92561ba8395033d4f28acfb019d1b76c0fd2b739559fb5fe3",
+  "historical_LOCAL": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+  "CPU_s": 65.978266012,
+  "dimensions": {
+    "H200_s": {
+      "cap": 532800,
+      "projected": 517580,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 15220
+    },
+    "PBS_submissions": {
+      "cap": 42,
+      "projected": 42,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 0
+    },
+    "optimizer_updates": {
+      "cap": 16384,
+      "projected": 15814,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 570
+    },
+    "episode_starts": {
+      "cap": 1000,
+      "projected": 727,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 273
+    },
+    "neural_queries": {
+      "cap": 48000,
+      "projected": 30412,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 17588
+    },
+    "physics_ticks": {
+      "cap": 40000000,
+      "projected": 22265970,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 17734030
+    },
+    "engine_starts": {
+      "cap": 100000,
+      "projected": 51448,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 48552
+    },
+    "Core_CPU_s": {
+      "cap": 1368000,
+      "projected": 1212729.474704557,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 155270.5252954429
+    },
+    "Hopper_CPU_s": {
+      "cap": 954000,
+      "projected": 904572.658597758,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 49427.34140224196
+    },
+    "local_CPU_s": {
+      "cap": 172800,
+      "projected": 169423.974682509,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 3376.025317491003
+    },
+    "transfer_bytes": {
+      "cap": 488552529920,
+      "projected": 488552421665,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 108255
+    },
+    "Hopper_storage_bytes": {
+      "cap": 1502164811776,
+      "projected": 1502136420600,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 28391176
+    },
+    "Core_storage_bytes": {
+      "cap": 590558003200,
+      "projected": 521417653896,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 69140349304
+    },
+    "local_storage_bytes": {
+      "cap": 21474836480,
+      "projected": 9395240960,
+      "shortfall": 0,
+      "headroom_after_proposed_cap": 12079595520
+    }
+  },
+  "exact_projected_deltas": {
+    "H200_s": 0,
+    "PBS_submissions": 0,
+    "optimizer_updates": 0,
+    "episode_starts": 0,
+    "neural_queries": 0,
+    "physics_ticks": 0,
+    "engine_starts": 0,
+    "Core_CPU_s": 0,
+    "Hopper_CPU_s": 240,
+    "local_CPU_s": 90,
+    "transfer_bytes": 65536,
+    "Hopper_storage_bytes": 0,
+    "Core_storage_bytes": 0,
+    "local_storage_bytes": 0
+  },
+  "old_rows_package_and_completion_control_bytes_unchanged": true,
+  "checks": [
+    "All14 full actual-history dimensions have zero shortfalls",
+    "Only240siteCPU/90localCPU/65536transfer added; zero GPU/PBS/query/update/physics/output cap delta",
+    "Repeated historical LOCAL projection is identical",
+    "Altered bill, model permission and installed-source seal refused"
+  ],
+  "full_pytest_or_CI": "NOT_RUN",
+  "future_GPU_or_role_values": "NOT_RUN_NO_NEW_REQUEST",
+  "canonical_GLOBAL_written": false,
+  "scope_authority": "Existing direct ordinary-engineering autonomy inside unchanged campaign caps; distinct bounded same-remainder supplement, not modification of old exact grant",
+  "native_CAS_and_independent_readback": "REQUIRED_BEFORE_SUBSEQUENT_CONTROL_EFFECTS",
+  "old_UNKNOWN_and_paid_upper_preserved": true,
+  "goal": "ACTIVE_INCOMPLETE"
+}

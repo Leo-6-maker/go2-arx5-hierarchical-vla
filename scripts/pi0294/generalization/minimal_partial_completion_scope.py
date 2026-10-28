@@ -93,6 +93,8 @@ def validate(g,*,generation=None):
         and before['PBS_submissions']==38
         and(g['used']['PBS_submissions']==38 if selected is None else 39<=g['used']['PBS_submissions']<=AFTER),
         'COMPLETION_OLD_COSTS_CURRENT_PEAK_AND_NO_NEW_REQUEST_AT_CONTROL_STAGE')
+    from . import minimal_remaining_install_control as install
+    install.validate(g)
     return m
 
 
@@ -108,10 +110,12 @@ def budget_LOCAL(g,l):
     key='ARX5_first512_saved_prefix_completion_control_projection'
     proof=dict(grant_sha256=GRANT_SHA,costs=CONTROL,canonical_LOCAL_write_proven=False)
     if key in l:
-        e.need(l[key]==proof,'COMPLETION_ONCE_CONSERVATIVE_LOCAL_COST_PROJECTION');return l
-    v=deepcopy(l);v['CPU_s']['local_PC']+=CONTROL['local_CPU_s']
-    v['network_transfer_accounted_bytes']+=CONTROL['transfer_bytes'];v[key]=proof
-    return v
+        e.need(l[key]==proof,'COMPLETION_ONCE_CONSERVATIVE_LOCAL_COST_PROJECTION');v=l
+    else:
+        v=deepcopy(l);v['CPU_s']['local_PC']+=CONTROL['local_CPU_s']
+        v['network_transfer_accounted_bytes']+=CONTROL['transfer_bytes'];v[key]=proof
+    from . import minimal_remaining_install_control as install
+    return install.budget_LOCAL(g,v)
 
 
 def propose(global_bytes,local_bytes,scope_bytes,*,closed_capture_bytes,fresh_readback,now_epoch):
