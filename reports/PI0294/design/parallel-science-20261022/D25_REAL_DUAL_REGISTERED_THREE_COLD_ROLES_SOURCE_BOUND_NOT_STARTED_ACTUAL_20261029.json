@@ -1,0 +1,157 @@
+{
+  "schema": "D25_REAL_LOCAL04_DUAL_REGISTERED_AND_COLD_ROLES_NOT_STARTED_ACTUAL_V1",
+  "date": "2026-10-29",
+  "status": "REAL_DUAL_REGISTRATION_AND_INDEPENDENT_COLD_READBACK_NOT_MODEL_OR_PHYSICS_ADMISSION",
+  "native_source": {
+    "commit": "2a23eeb64e7f769fa5842eb72d371ac12ee99664",
+    "seal_sha256": "8566813aa2505b4d73d89ea157a8480d5e243344b3bef7e6939ec9d242553ae0",
+    "files": 1356,
+    "bytes": 11358460,
+    "both_sites_full_hash_readback": true,
+    "old_Vanda_install_timeout": "Independent all-file readback confirmed completion and original actor absence; original UNKNOWN/full cost upper retained; installation not replayed"
+  },
+  "identity": {
+    "request_id": "3e774da8-1f75-4930-b732-3f0409f3d5a4",
+    "submission_nonce": "83299b49-0f73-4d3b-a760-8c4d6b84a99b",
+    "run_uuid": "v5-cd-d25-n294101-04",
+    "request_sha256": "999d1da66157ab01e6a189907ab5b0746529b175de0e25c75900852eb3b71d60",
+    "owner_manifest_sha256": "e06ff509baa57c83e902faea6d297ee2c4ca840a912365ffd3339bc5c037bcee",
+    "physical_manifest_sha256": "7d901ee7ecc45c91726aa3f4591367016165b4cfee2f7bd2a118b427b80bb161",
+    "neural_manifest_sha256": "2503e4eaa98ecdb556fe29f56b52282da9c97812701402e1f84ce373bb8077b2"
+  },
+  "source_binding": {
+    "GLOBAL_sha256": "a1db777c66c3ec8d5b136b1f141c606d231430e435ad891c78f49c8c0d64b342",
+    "LOCAL_sha256": "beebca8751487d3168ccec19d7ce4934fac5d25694cd0394e6103717e4055bf2",
+    "once_each": true,
+    "original_financial_marker_and_fixed_request_nonce_retained": true,
+    "full14_at_binding_shortfalls": {},
+    "new_budget_or_model_transfer": 0
+  },
+  "registered": {
+    "GLOBAL_sha256": "0bf232b7d736e38fbed84b1f59d01a4f24787fd68328e8c7dddb7f2a1fcc1c68",
+    "LOCAL_sha256": "dcc63c845c2102467455d046f0e9bde211efe07fabfd4656f75eef8d71b7f7e3",
+    "GLOBAL_native_intent_sha256": "ca01d8bf487a76cdcca0237d6c681753710c5f98c5d24f637eb5cea00864d39d",
+    "GLOBAL_native_receipt_sha256": "fe90617032d892ee7004d106ce1da217a8c3016edf9712c6292e9da031e26b63",
+    "LOCAL_native_intent_sha256": "3eedb9fce880ef9a84f3058dddde0eb08d8bc1f31ddc62e2dfa282998535e98a",
+    "LOCAL_native_receipt_sha256": "2a7980982a30553f5ff4c6d8665484f8965b168166a5e41ba81e0af98d9a37f1",
+    "GLOBAL_reply_timeout": "Original35s timeout retained UNKNOWN; exact native intent/receipt/after bytes and original actor absence independently proved CAS success; no replay",
+    "original_GLOBAL_CPU_and_wire_uppers_retained": true,
+    "LOCAL_written_once": true,
+    "request_state": "PRESTART_INTENT_UNKNOWN_NO_RETRY",
+    "native_handle": null,
+    "new_GPU_or_PBS_starts": 0,
+    "already_paid_D25_escrow_only": true
+  },
+  "Core_independent_readback": {
+    "observed_epoch": 1793211579.3046334,
+    "roles": {
+      "owner": {
+        "manifest_sha256": "e06ff509baa57c83e902faea6d297ee2c4ca840a912365ffd3339bc5c037bcee",
+        "lease_sha256": "51fc40c543bb499323adae970a88b38efc0b80eee9131ef3d2040dd3cf381cc5",
+        "lease_status": "ACTIVE",
+        "sealed_inputs_read": 3,
+        "unit_properties": {
+          "MainPID": "0",
+          "LoadState": "not-found"
+        }
+      },
+      "physical": {
+        "manifest_sha256": "7d901ee7ecc45c91726aa3f4591367016165b4cfee2f7bd2a118b427b80bb161",
+        "lease_sha256": "9ad7b060337f08940a4184d6d6c7d6d200d8c00a77cfc264560ed64c9e148d70",
+        "lease_status": "ACTIVE",
+        "sealed_inputs_read": 33,
+        "unit_properties": null
+      },
+      "neural": {
+        "manifest_sha256": "2503e4eaa98ecdb556fe29f56b52282da9c97812701402e1f84ce373bb8077b2",
+        "lease_sha256": "9ad7b060337f08940a4184d6d6c7d6d200d8c00a77cfc264560ed64c9e148d70",
+        "lease_status": "ACTIVE",
+        "sealed_inputs_read": 38,
+        "unit_properties": {
+          "MainPID": "0",
+          "LoadState": "not-found"
+        }
+      }
+    },
+    "owner_and_neural_units_not_started": true,
+    "saved_source_and_all33_physical38_neural_sealed_inputs_SHA_checked": true,
+    "new_model_queries_updates_physics": 0
+  },
+  "current_device_observation": {
+    "observed_epoch": 1793210108.6296833,
+    "selected_GPU_memory_MiB": 32760,
+    "compute_processes_at_that_observation": 0,
+    "not_a_future_native_allocation_or_model_release": true
+  },
+  "retained_engineering_failures": [
+    "New owner registration rejected before first put: identical configuration values had a different serialized key order; exact native root/lease/registry/intent/receipt absence proved zero effect. Original UNKNOWN/full upper costs retained; ordered-byte correction was separately preflighted and registered once.",
+    "First local metadata fixture used the native UID against a local temporary file; it failed and was rerun with an explicit local UID fixture. No native guard was relaxed.",
+    "A later READ_ONLY label exceeded the original64-character Journal bound; no intent/transport existed. Upper costs retained; a distinct shorter read label was used.",
+    "Initial individual peer-packet and uncompressed configuration plans exceeded existing finite phase headroom and were refused locally without dispatch. Exact closed metadata inputs plus serial original peer installers reduced wire usage; no tensor transfer or phase cap increase occurred."
+  ],
+  "finite_control": {
+    "original_financial_invoice_unchanged": true,
+    "original_wire_phase_caps": {
+      "two_source_install_envelopes_total": 33554432,
+      "fresh_canonical_capture_and_adoption_total": 8388608,
+      "grant_bind_and_fixed_configuration": 4194304,
+      "terminal_reconcile_merge_payload": 8388608,
+      "bounded_unknown_readonly_differential": 4194304,
+      "protected_closeout": 8388608
+    },
+    "wire_headroom": {
+      "two_source_install_envelopes_total": 0,
+      "fresh_canonical_capture_and_adoption_total": 2199,
+      "grant_bind_and_fixed_configuration": 8506,
+      "terminal_reconcile_merge_payload": 8388608,
+      "bounded_unknown_readonly_differential": 2194654,
+      "protected_closeout": 8388608
+    },
+    "CPU_counter_including_retained_UNKNOWN_uppers": {
+      "core_cold": 399.5998032279999,
+      "core_close": 0,
+      "vanda": 397.4474476000001,
+      "local": 1586.5038309130002
+    },
+    "original_CPU_upper": {
+      "core_cold": 600,
+      "core_close": 600,
+      "vanda": 1800,
+      "local": 1800
+    },
+    "terminal_and_closeout_banks_untouched": true,
+    "registered_GLOBAL_cache": "Exact compressed private control input; explicitly not a canonical ledger or renewed freshness",
+    "new_internal_repartition_adopted": false
+  },
+  "next_required": [
+    "Complete a bounded remaining control-wire plan before starting the owner; keep total prepaid transfer, all prior UNKNOWN costs and protected terminal/closeout banks.",
+    "Finalize the original assembly, then obtain a fresh native process and complete canonical bind, full dual-resource admission and both finite-delegation adoptions within the original startup fence.",
+    "Only then consume the original600s80cycle qualification, model release and original D25 N294101/24 driver; retain all valid failures and independently audit/settle/close.",
+    "Vanda still needs the remaining worker/effects/registered-request/runtime integration; PR103 is a typed counter contract only. No E0/E1 prefix replay or formal initialization from qualification weights."
+  ],
+  "scientific_state": {
+    "C50_successes": 6,
+    "C50_valid_conditions": 24,
+    "D25_valid_conditions": 0,
+    "GEN1_valid_conditions": 0,
+    "E2_qualification_updates": 0,
+    "E1_formal_steps": 0,
+    "E2_formal_steps": 0,
+    "WDR_core64": 0,
+    "whole_goal_complete": false
+  },
+  "prior_native_training_and_delivery_replayed": false,
+  "paused_automation_or_subagents_started": false,
+  "tests": {
+    "new_private_metadata_CPU_cases": 2,
+    "native_peer_prewrite": "Actual original33/38 sealed input guards passed before registration",
+    "CPU_fixture_is_full_GR00T_qualification": false,
+    "full_CI": "NOT_RUN"
+  },
+  "clock": {
+    "T_CD": 1792932749.8133287,
+    "stop_new_training_epoch": 1793451149.8133287,
+    "deadline_epoch": 1793537549.8133287,
+    "reset": false
+  }
+}
