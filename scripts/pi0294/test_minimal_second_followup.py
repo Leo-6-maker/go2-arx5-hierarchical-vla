@@ -86,3 +86,15 @@ def test_followup_terminal_keeps_two_closed_rows_and_old_paid_gross(adopted,succ
     assert after['CPU_s']==g['CPU_s']+1000 and after['optimizer_updates']==g['optimizer_updates']+(1028 if success else 0)
     assert retry._selected(after)[1]['scientific_endpoint_complete']is success
     with pytest.raises(PermissionError):retry.settle(after,rid,**t)
+
+
+def test_second_control_owner_leaves_actual_cold_preparation_within_paid3600(adopted):
+    from scripts.pi0294.generalization import minimal_native_owner as owner
+    request=json.loads(inputs(adopted)['request_bytes'])
+    assert owner.control_CPU_limits(request)==(2990,3000)
+    assert owner.control_CPU_limits(request)[1]+600==retry.CONTROL['Hopper_CPU_s']
+    prior=dict(request,**retry.fixed_request_fields())
+    prior.pop('continuation_generation')
+    assert owner.control_CPU_limits(prior)==(3590,3600)
+    changed=dict(request,profile=retry.PROFILE)
+    with pytest.raises(PermissionError):owner.control_CPU_limits(changed)
