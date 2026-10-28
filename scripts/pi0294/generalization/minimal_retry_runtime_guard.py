@@ -7,6 +7,7 @@ from . import minimal_execution as e,minimal_retry_physical_guard as physical,mi
 
 FILE='plans/MINIMAL_RETRY_PHYSICAL_CUSTODY.private.json'
 SCHEMA='ARX5_MINIMAL_EXACT_RETRY_PHYSICAL_CUSTODY_V1'
+PORTABLE_SCHEMA='ARX5_MINIMAL_SECOND_RETRY_PORTABLE_PHYSICAL_CUSTODY_V1'
 CONTROL_GROWTH_RESERVE=64*1024**2
 
 
@@ -17,6 +18,10 @@ class Guard:
         e.need(not path.is_symlink() and path.stat().st_mode&0o777==0o400 and pin==sha(path),
             'RETRY_PHYSICAL_ACTUAL_SEALED_CUSTODY_BYTES')
         p=read(path);self.custody=p
+        self.portable=p.get('schema')==PORTABLE_SCHEMA
+        if self.portable:
+            self._portable_init(request,manifest)
+            return
         e.need(p.get('schema')==SCHEMA and p.get('request_id')==request['request_id']
             and p.get('submission_nonce')==request['submission_nonce']
             and p.get('run_uuid')==request['run_uuid']==self.root.name
@@ -39,6 +44,25 @@ class Guard:
 
     def inspect(self,*,next_output_upper_bytes=0):
         p=self.custody
+        if self.portable:
+            from . import minimal_portable_inventory as portable
+            actual=portable.capture([str(r)for r in self.roots],metadata_ceiling=p['old_metadata_ceiling'],file_hash_cache=self.hash_cache)
+            portable.verify(p['portable_inventory'],actual)
+            new,_=physical._scan(self.root,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'})
+            old_keys=set()
+            for root in self.roots:
+                rows,_=physical._scan(root,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'})
+                e.need(not(old_keys&set(rows)),'PORTABLE_NO_RETAINED_CROSS_ROOT_ALIAS');old_keys.update(rows)
+            e.need(not(old_keys&set(new)),'PORTABLE_NEW_OUTPUT_NOT_OLD_INODE_ALIAS')
+            new_bytes=sum(r['allocated']for r in new.values())
+            e.need(type(next_output_upper_bytes)is int and next_output_upper_bytes>=0
+                and new_bytes+next_output_upper_bytes<=p['paid_output_ceiling'],'PORTABLE_FULL_OUTPUT_AND_CLOSE_RESERVE')
+            result=dict(status='ACTUAL_RETRY_PHYSICAL_BOUNDS_ONLY_NO_PERMISSION',old_inventory_sha256=p['old_inventory_sha256'],
+                old_allocated_bytes=actual['value']['allocated_bytes'],new_allocated_bytes=new_bytes,
+                next_output_upper_bytes=next_output_upper_bytes,old_metadata_ceiling=p['old_metadata_ceiling'],paid_output_ceiling=p['paid_output_ceiling'],
+                old_roots=[str(r)for r in self.roots],new_root=str(self.root),ledger_changed=False,native_permission=False,
+                portable_inventory_sha256=actual['portable_sha256'],actual_kernel_device_ids=actual['kernel_device_ids'])
+            self.last=self.clock();self.proof=result;return result
         result=physical.check(self.roots,self.root,old_metadata_ceiling=p['old_metadata_ceiling'],
             paid_output_ceiling=p['paid_output_ceiling'],next_output_upper_bytes=next_output_upper_bytes)
         e.need(result['old_inventory_sha256']==p['old_inventory_sha256'],
@@ -53,6 +77,9 @@ class Guard:
         lease reads joined to the immutable original inode inventory.
         """
         proof=self.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
+        if self.portable:
+            return dict(status='ACTUAL_THREE_CLOSED_PORTABLE_METADATA_READONLY',observed_epoch=time.time(),
+                portable_inventory_sha256=self.custody['old_inventory_sha256'],unique_allocated_bytes=proof['old_allocated_bytes'],new_writes=0)
         roots={};joined=[];allocated=0
         for root,expected in zip(self.roots,self.custody['old_roots']):
             binding=read(root/'OUTPUT_BINDING.private.json')
@@ -72,6 +99,28 @@ class Guard:
         return dict(status='ACTUAL_TWO_CLOSED_ROOTS_UNIQUE_INODE_READONLY',
             observed_epoch=time.time(),new_writes=0,roots=roots,
             unique_allocated_bytes=allocated,includes_directory_allocations=True)
+
+    def _portable_init(self,request,manifest):
+        from . import minimal_followup_scope as scope,minimal_portable_inventory as portable
+        p=self.custody
+        e.need(request.get('continuation_generation')==2 and self.root.name==request['run_uuid']==scope.RUN
+            and p['request_id']==request['request_id']and p['submission_nonce']==request['submission_nonce']
+            and p['run_uuid']==scope.RUN and p['scope_sha256']==scope.GRANT_SHA
+            and p['old_metadata_ceiling']==e.CONTROL['Hopper_storage_bytes']+64*1024**2
+            and p['paid_output_ceiling']==e.native_resources()['Hopper_storage_bytes']
+            and p['engineering_metadata_allowance']==64*1024**2,
+            'PORTABLE_EXACT_NEW_SCOPE_REQUEST_AND_PAID_ENVELOPE')
+        names=['arx5-minimal-raw-parent-first512-01','arx5-minimal-raw-parent-first512-02','arx5-minimal-raw-parent-first512-retry-01']
+        e.need([r['run_uuid']for r in p['old_roots']]==names
+            and p['portable_inventory']['portable_sha256']==p['old_inventory_sha256'],
+            'PORTABLE_ALL_THREE_CLOSED_ROOTS_AND_FULL_CONTENT_SEAL')
+        portable.verify(p['portable_inventory'],p['portable_inventory']);self.roots=[];self.hash_cache={}
+        for row in p['old_roots']:
+            root=self.root.parent/row['run_uuid'];binding=read(root/'OUTPUT_BINDING.private.json')
+            e.need(not root.is_symlink()and sha(root/'RUN_MANIFEST.json')==row['manifest_sha256']
+                and sha(binding['lease'])==row['closed_lease_sha256']and read(binding['lease'])['status']=='CLOSED'
+                and binding['run_root']==str(root),'PORTABLE_ACTUAL_OLD_ROOT_AND_CLOSED_LEASE')
+            self.roots.append(root)
 
     def __call__(self,*,startup=False):
         result=self.original(startup=startup)

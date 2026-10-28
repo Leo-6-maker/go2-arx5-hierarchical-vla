@@ -27,6 +27,8 @@
 
 ## 最新工程状态
 
+2026-10-28 Vanda优先接续：本机独立回读确认job1502754真实F/Exit1/run_count1；原owner自然OS0、一次GLOBAL结算和own lease关闭均已完成。失败发生于模型前旧inode库存检查，0模型/查询/更新；135GPU秒、242siteCPU秒及旧gross输出成本保留，不重启旧作业。登录节点对同一旧目录的原库存hash仍精确匹配，计算节点具体不同字段未保存，因此跨节点设备编号是待验证原因，不能当已证明根因。三份关闭目录已实际全文metadata SHA/文件系统检查，共158,490,624 allocated bytes、4,779条，未读模型tensor。新冷代码采用同一文件系统/路径/inode/stat/完整内容绑定，设备编号只作单机别名检查；原旧语义不变。新一次接续明确记录最新直接自主推进授权的窄应用：PBS39→40、仅一个新作业，其他cap/原钟/矩阵/最终保护不变；目前尚未原生采用/注册/提交，E0/E1/E2仍无真实模型结果。Core按人类最新指令暂不连接或等待。
+
 [first512首次失败](reports/PI0294/design/parallel-science-20261022/V5_D25_DELIVERED_FIRST512_F_EXIT1_AUDITED_SETTLED_AND_COLD_FIX_ACTUAL_20261028.json)为模型前身份／队列准入失败，0模型、0查询、0更新，旧作业和lease已关闭，不能重启或抹除费用。
 
 [两站冷源码部署](reports/PI0294/design/parallel-science-20261022/UNIFIED_OWNER_BOTH_SITES_COLD_SOURCE_INSTALLED_ACTUAL_20261028.json)已经实际完成，但不等于新的评估和训练已经启动。

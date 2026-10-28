@@ -105,7 +105,9 @@ class Owner(mature.Owner):
             need({adapters.PHYSICAL,adapters.PREDECESSOR}<=set(inputs),
                  'OWNER_RETRY_COMPLETE_CLOSED_CAPTURE_AND_PHYSICAL_SEAL')
             self.retry_predecessor=read(self.root/adapters.PREDECESSOR)
-            need(set(self.retry_predecessor)=={'native_readback','closed_readback','old_cold_close_readback','root_inventory'},
+            predecessor_keys=({'followup_closed_readback'}if self.request_template.get('continuation_generation')==2
+                              else{'native_readback','closed_readback','old_cold_close_readback','root_inventory'})
+            need(set(self.retry_predecessor)==predecessor_keys,
                  'OWNER_RETRY_EXACT_PREDECESSOR_INPUT_ROLES')
             from .minimal_retry_runtime_guard import Guard as Physical
             # Metadata owner calls inspect only. Native compute wraps its own
@@ -230,6 +232,10 @@ class Owner(mature.Owner):
             return e.register(global_bytes,request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())
         from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
         physical=self.retry_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE);observed=time.time()
+        if self.request_template.get('continuation_generation')==2:
+            return self.adapter.register_followup(global_bytes,self.local,request_bytes=request_bytes,
+                physical_custody=self.retry_physical.custody,physical_proof=physical,
+                physical_observed_epoch=observed,now_epoch=time.time(),**self.retry_predecessor)
         predecessor=dict(self.retry_predecessor,root_inventory=self.retry_physical.fresh_inventory())
         return self.adapter.register(global_bytes,self.local,request_bytes=request_bytes,
             physical_custody=self.retry_physical.custody,physical_proof=physical,

@@ -72,9 +72,11 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
                   _vector({key: sum(row[key] for row in parts.values())
                            for key in baseline['dimensions']}))
     own_credit=reservation_credit(global_value,historical_LOCAL_bytes,baseline)
+    from . import minimal_followup_scope as followup
+    planned=followup.planned_unregistered(global_value)
     dimensions, changes = {}, {}
     for key, old in baseline['dimensions'].items():
-        projected = old['projected'] - own_credit[key] + additional[key]
+        projected = old['projected'] - own_credit[key] + additional[key] + planned[key]
         cap = caps[key]
         shortfall = max(0, projected - cap)
         proposed = cap
@@ -89,6 +91,7 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
             exact_first512_reservation_projection_credit=own_credit[key],
             shortfall=shortfall, proposed_cap=proposed,
             headroom_after_proposed_cap=proposed-projected)
+        if any(planned.values()):dimensions[key]['planned_unregistered_original_first512']=planned[key]
     return dict(schema='ARX5_MINIMAL_FIRST512_COMPLETE_FUTURE_FORECAST_V1', scope=SCOPE,
         status=('GLOBAL_PACKAGE_RESERVED_CORE_LOCAL_PENDING_NO_NATIVE_ADMISSION'if adopted_package is not None
                 else 'FIRST512_PACKAGE_NOT_RESERVED_NO_NATIVE_ADMISSION'),
