@@ -486,3 +486,14 @@ Core canonical LOCAL已从91ce7cc7一次补齐三次first512真实终态与已�
 2026-10-29后继实际：[原64MiB控制计划及配对装配](reports/PI0294/design/parallel-science-20261022/D25_SAME64_NATIVE_DUAL_ADOPTED_AND_PAIRED_ASSEMBLY_FIXED_ACTUAL_20261029.json)已真实完成。GLOBAL `a4c5cf47`／LOCAL `cad80ab3`及原生intent、receipt独立回读匹配；仅将原未用只读差分64KiB明确转给冷配置，总额、CPU、历史UNKNOWN和终态／收尾预留不变。GLOBAL成功回包加SSH提示超过320字节，原UNKNOWN和费用上界保留，没有重发。Core已实际固定完整ASSEMBLY及两peer，运行源码仍`2a23eeb6`、原固定D25请求／模型不变。四项定向临时原Journal／onceIO与激活存储测试通过，服务器／GPU进程仍显式fixtures；不称原生模型资格。**GPU尚未启动，D25仍0/24。** 下一是完整有限启动接缝，再原180秒绑定／双采用和600秒80周期，不能把准备或CPU回归当作启动。
 
 管理端启动程序只连接各站原canonical一次写与只读回执，Core resident／worker不新增跨站路线。四CPU测试覆盖真实临时CAS、错误整文件SHA在intent前拒绝、CAS后丢回复保留UNKNOWN且拒绝重发、六份真实临时采用字节初始化原effect/control存储并最后发布READY。首次丢回包fixture把Journal外层40秒错当子调用35秒，在调用前失败；仅修fixture后4pass／2.44秒。完整suite／原生GPU／模型／物理NOT_RUN。原E0/E1完整前缀不重审计、不重训；Vanda剩余入口仍待接线。
+# 2026-10-29 · 剩余三阶段consumer与实际队列CPU差分
+
+真实报告：`reports/PI0294/design/parallel-science-20261022/ARX5_REMAINING_THREE_SESSION_EFFECTS_NINE_TICKETS_AND_QUEUE_CPU_DIFFERENTIAL_ACTUAL_20261029.json`。本段为新冷接线及只读证据，不是新部署或科学结果。
+
+- 剩余独立效果记录1026更新／76查询／7加载，旧2／71／5历史及15个E2零步输出独立保留。原query Journal、pending优化提交、Trainer保存恢复和正式512导出复用，正式臂仍fresh raw父，不继承资格状态。
+- 九阶段READY／release绑定原审计RESULT及CLOSED，仍查原fresh项目／完整queue／全未来预算／unknown与pending。旧五阶段13票不变。新worker仅在原始文件完整身份未变且输入fingerprint匹配时复用15个已有输出，拒绝变化／alias／未完成reload，不调用新生成。中央登记／物理custody／runtime factory／终态独立审计未接齐，新类型仍原生fail closed；不得运行旧五阶段worker代替。
+- 定向最终99 CPU PASS（18.96s），含实际prefix字节、原临时事务／Journal、真实CPU合成NPZ及原输出读取器。初次91pass1fail为fixture漏接受原ValueError，修fixture后92pass；扩大旧准入回归31pass23skip，在56.13s由root中断自己CPU pytest以保留原有限本地CPU，全部保留，不称CI或完整旧回归。已付completion本地600秒内保留110秒工程上界，当前590.165426601，无新付款。
+- Vanda实际读取93条已独立二次流审计witness元数据及raw父审计，SHA匹配封存RESULT；没有读取模型张量，也未声称新93文件current-stat或原生constructor已通过。分段队列诊断显示此前在导入后、完整GLOBAL校验前退出；控制CPU30上界下实际完整校验和完整队列返回，CPU25.862540711秒／wall约27.66秒，GLOBAL仍`a4c5cf47`，无新写。原CPU15失败和完整费用上界保留；35s RPC／180s startup／300s watchdog不扩。后续冷控制按实测仅在原1800s已付Vanda控制内使用30s，不改模型、科学或财务上限。
+- Core原管理文件安装仍UNKNOWN；本轮两次精确只读仍35s timeout，没有安装重发／D25 owner start／GPU／模型／物理。不推断原安装未生效或主机／独立作业终止。原same64 GLOBAL／LOCAL、固定请求、ASSEMBLY／peer和所有费用／旧UNKNOWN保留。
+
+下一直接完成Core未知安装精确文件／actor核验及原有限启动；并继续接Vanda中央剩余请求、三阶段runtime和终态，不能把本consumer发布当可提交入口。旧C50结果、D25／GEN1端点、原前缀审计、cap／LOCAL同步／关闭不重做。D25／GEN1仍各0/24，正式E1/E2仍各0/512，wholegoal ACTIVE未完成；原时钟及保护不变。

@@ -15,11 +15,33 @@ from scripts.pi0294.pv1.pbs_owner import publish_release_record as once
 VERSION='ARX5_MINIMAL_ORIGINAL_OWNER_FINITE_SESSION_TICKETS_V1'
 READY='A40_MINIMAL_SESSION_READY_V1'
 RELEASE='A40_MINIMAL_ACTUAL_OWNER_SESSION_RELEASE_V1'
+REMAINING_VERSION='ARX5_MINIMAL_SAVED_PREFIX_NINE_ORIGINAL_OWNER_TICKETS_V1'
 
 
-def plan():
+def remaining(request):
+    from . import minimal_remaining_contract as r
+    if request is None or request.get('platform_training_version')!=r.VERSION:return False
+    e.need(request.get('profile')==r.PROFILE,'GATE_EXACT_REMAINDER_PROFILE_NOT_OLD_ALIAS')
+    return True
+
+
+def ticket_version(request=None):return REMAINING_VERSION if remaining(request)else VERSION
+
+
+def prefix_binding(request):
+    if not remaining(request):return {}
+    from . import minimal_remaining_contract as r
+    return dict(saved_prefix_result_sha256=r.RESULT,saved_prefix_closure_sha256=r.CLOSED,
+        completion_scope_grant_sha256=r.authority.GRANT_SHA)
+
+
+def plan(request=None):
     rows=[]
-    for spec in e.native_sessions():
+    if remaining(request):
+        from . import minimal_remaining_contract as r
+        specs=r.sessions()
+    else:specs=e.native_sessions()
+    for spec in specs:
         phases=['MODEL_RAW']
         if spec['optimizer_limit']:
             phases+=['FIRST_UPDATE','OFFICIAL_EXPORT'if spec['formal_candidate']else'RESTORE_FULL']
@@ -28,20 +50,21 @@ def plan():
     return rows
 
 
-def descriptor(session_id,phase):
-    matches=[r for r in plan()if r['session_id']==session_id and r['phase']==phase]
+def descriptor(session_id,phase,*,request=None):
+    matches=[r for r in plan(request)if r['session_id']==session_id and r['phase']==phase]
     e.need(len(matches)==1,'GATE_EXACT_FINITE_SESSION_PHASE');return matches[0]
 
 
-def directory(allocation_directory,session_id,phase):
-    spec=descriptor(session_id,phase)
+def directory(allocation_directory,session_id,phase,*,request=None):
+    spec=descriptor(session_id,phase,request=request)
     return Path(allocation_directory)/'session-gates'/str(spec['index']).zfill(2)
 
 
 def check_ready(value,request,*,request_sha256,job_id,effect_value):
     """Check the current persisted allocation slice, never user PASS flags."""
-    adapter=adapters.request(request);d=descriptor(value['session_id'],value['phase'])
-    e.need(value.get('schema')==READY and value.get('ticket_version')==VERSION
+    adapter=adapters.request(request);d=descriptor(value['session_id'],value['phase'],request=request)
+    e.need(value.get('schema')==READY and value.get('ticket_version')==ticket_version(request)
+        and all(value.get(k)==v for k,v in prefix_binding(request).items())
         and all(value.get(k)==v for k,v in d.items())
         and value.get('job_id')==job_id and value.get('request_id')==request['request_id']
         and value.get('submission_nonce')==request['submission_nonce']
@@ -49,7 +72,15 @@ def check_ready(value,request,*,request_sha256,job_id,effect_value):
         and value.get('raw_parent_files_identity')==e.training.RAW_PARENT_FILES_ID
         and value.get('statistics_sha256')==e.R0,
         'GATE_OWN_REQUEST_SOURCE_RAW_PARENT_AND_ORIGINAL_SCOPE')
-    e.need(effect_value.get('schema')==effects.SCHEMA
+    if remaining(request):
+        from . import minimal_remaining_contract as r
+        from .minimal_remaining_effects import SCHEMA as effect_schema
+        binding=effect_value.get('audited_saved_prefix',{})
+        e.need(binding.get('result_sha256')==r.RESULT and binding.get('closure_sha256')==r.CLOSED
+            and binding.get('completed_sessions')==[s['id']for s in e.native_sessions()[:2]]
+            and binding.get('E2_saved_zero_queries')==15,'GATE_REAL_AUDITED_PREFIX_IN_OWN_EFFECTS')
+    else:effect_schema=effects.SCHEMA
+    e.need(effect_value.get('schema')==effect_schema
         and (adapter is e or effect_value.get('platform_training_version')==adapter.VERSION)
         and effect_value['request_sha256']==request_sha256
         and effect_value['job_id']==job_id and effect_value['source_sha']==request['source_sha']
@@ -60,6 +91,9 @@ def check_ready(value,request,*,request_sha256,job_id,effect_value):
     counters={k:row[k]for k in ('optimizer_updates','generation_queries','model_loads')}
     e.need(value.get('session_counters')==counters,'GATE_READY_EFFECT_COUNTERS_CHANGED')
     phase=value['phase']
+    if remaining(request):
+        r.check_phase(value['session_id'],phase,counters)
+        return d
     if phase=='MODEL_RAW':
         e.need(all(v==0 for v in counters.values()),'GATE_NEW_SESSION_INDEPENDENT_RAW_MODEL_ONLY')
     elif phase=='FIRST_UPDATE':
@@ -78,11 +112,11 @@ def check_ready(value,request,*,request_sha256,job_id,effect_value):
 def publish_ready(root,allocation_directory,allocation,ledger,session_id,phase):
     """Actual compute metadata only; no tensor import or model permission."""
     from scripts.pi0294.dec1.a40_training_runtime import native_job
-    job,host,_=native_job(ledger.request);v=ledger.guard();d=descriptor(session_id,phase)
+    job,host,_=native_job(ledger.request);v=ledger.guard();d=descriptor(session_id,phase,request=ledger.request)
     e.need(job==allocation['job_id']and host.split('.')[0].lower().startswith('gn-a40-'),
            'GATE_ACTUAL_OWN_RUNNING_JOB_BEFORE_READY')
-    slot=directory(allocation_directory,session_id,phase);slot.mkdir(parents=True,exist_ok=False,mode=0o700)
-    value=dict(schema=READY,ticket_version=VERSION,**d,job_id=job,hostname=host,
+    slot=directory(allocation_directory,session_id,phase,request=ledger.request);slot.mkdir(parents=True,exist_ok=False,mode=0o700)
+    value=dict(schema=READY,ticket_version=ticket_version(ledger.request),**prefix_binding(ledger.request),**d,job_id=job,hostname=host,
         request_id=ledger.request['request_id'],submission_nonce=ledger.request['submission_nonce'],
         request_sha256=allocation['request_sha256'],source_sha=ledger.request['source_sha'],
         raw_parent_files_identity=e.training.RAW_PARENT_FILES_ID,statistics_sha256=e.R0,
@@ -98,7 +132,8 @@ def publish_ready(root,allocation_directory,allocation,ledger,session_id,phase):
 def check_release(value,ready_bytes,request,*,job_id,now_epoch):
     adapters.request(request)
     ready=json.loads(ready_bytes);p=value.get('native_proof',{})
-    e.need(value.get('schema')==RELEASE and value.get('ticket_version')==VERSION
+    e.need(value.get('schema')==RELEASE and value.get('ticket_version')==ready.get('ticket_version')==ticket_version(request)
+        and all(value.get(k)==ready.get(k)==v for k,v in prefix_binding(request).items())
         and value.get('status')=='PASS_MINIMAL_SESSION_'+ready['phase']+'_NATIVE'
         and value.get('ready_sha256')==e.sha(ready_bytes)
         and value.get('session_id')==ready['session_id']and value.get('phase')==ready['phase']
@@ -148,7 +183,7 @@ def _within_phase_reads(function,*,guard,until,clock,sleep,job_id,observations,f
 
 def wait_release(root,allocation_directory,allocation,ledger,session_id,phase,*,guard,clock=time.monotonic,sleep=time.sleep):
     until=clock()+180;failures=[]
-    observations=Path(allocation_directory)/'session-read-observations'/str(descriptor(session_id,phase)['index']).zfill(2)
+    observations=Path(allocation_directory)/'session-read-observations'/str(descriptor(session_id,phase,request=ledger.request)['index']).zfill(2)
     def finite_read(function):
         return _within_phase_reads(function,guard=guard,until=until,clock=clock,sleep=sleep,
             job_id=allocation['job_id'],observations=observations,failures=failures)

@@ -300,14 +300,14 @@ class Owner(mature.Owner):
     def release_science_session(self,state,*,secret=None):
         saved=read(self.BASE/'SOURCE_REQUEST.private.json');d=Path(saved['directory']);r=saved['request']
         job=read(self.BASE/'SOURCE_JOB_BOUND.private.json')['job_id']
-        for spec in gates.plan():
-            slot=gates.directory(d,spec['session_id'],spec['phase']);ready=slot/'READY.json'
+        for spec in gates.plan(r):
+            slot=gates.directory(d,spec['session_id'],spec['phase'],request=r);ready=slot/'READY.json'
             if not ready.exists():return False
             if(slot/'RELEASE.json').exists():continue
             proof,material=self.native_material(secret=secret,ready_path=ready)
             def publish(intent,limit):
                 p=slot/'NATIVE_MATERIAL.private.json';once(p,material)
-                v=dict(schema=gates.RELEASE,ticket_version=gates.VERSION,
+                v=dict(schema=gates.RELEASE,ticket_version=gates.ticket_version(r),**gates.prefix_binding(r),
                     status='PASS_MINIMAL_SESSION_'+spec['phase']+'_NATIVE',session_id=spec['session_id'],phase=spec['phase'],
                     job_id=job,request_sha256=saved['request_sha256'],ready_sha256=sha(ready),
                     scope_grant_sha256=e.authority.GRANT_SHA,observed_epoch=time.time(),native_proof=proof,

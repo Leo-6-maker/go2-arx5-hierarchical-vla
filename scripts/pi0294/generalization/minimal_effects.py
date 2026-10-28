@@ -21,6 +21,16 @@ need=execution.need
 
 
 class Effects(OriginalEffects):
+    schema=SCHEMA
+    summary_schema=SUMMARY
+    all_complete_field='all_five_sessions_runtime_complete'
+
+    def plan(self):return execution.native_sessions()
+    def load_limits(self):return LOADS
+    def training_sessions(self):return [s['id']for s in self.plan()[1:]]
+    def qualification_query_floor(self):return 15
+    def initial_metadata(self):return {}
+
     def __init__(self,root,allocation,*,request_path,guard):
         from . import minimal_execution_adapter as adapters
         self.root=Path(root);self.allocation=allocation
@@ -38,20 +48,21 @@ class Effects(OriginalEffects):
     def initialize(self):
         need(not self.path.exists()and not self.path.is_symlink(),'EFFECTS_NO_INITIALIZE_OR_RESTART_REPLAY')
         r=self.request
-        value=dict(schema=SCHEMA,platform_training_version=self.adapter.VERSION,
+        value=dict(schema=self.schema,platform_training_version=self.adapter.VERSION,
             run_uuid=self.root.name,job_id=self.allocation['job_id'],request_id=r['request_id'],
             request_sha256=self.allocation['request_sha256'],source_sha=r['source_sha'],
             optimizer_updates=0,generation_queries=0,model_loads=0,CPU_s=0.,
             pending_updates=[],unknown_effects=[],query_intent_links=[],training_runs={},
             active_session=None,sessions={row['id']:dict(status='NOT_STARTED',
                 optimizer_updates=0,generation_queries=0,model_loads=0)
-                for row in execution.native_sessions()},
+                for row in self.plan()},
             global_budget_is_only_external_reservation=True)
+        value.update(self.initial_metadata())
         self.check(value);once(self.path,value);return value
 
     def check(self,v):
-        r=self.request;plan=execution.native_sessions();ids=[x['id']for x in plan]
-        need(v.get('schema')==SCHEMA and v.get('platform_training_version')==self.adapter.VERSION
+        r=self.request;plan=self.plan();ids=[x['id']for x in plan]
+        need(v.get('schema')==self.schema and v.get('platform_training_version')==self.adapter.VERSION
             and v.get('run_uuid')==self.root.name and v.get('job_id')==self.allocation['job_id']
             and v.get('request_id')==r['request_id']and v.get('request_sha256')==self.allocation['request_sha256']
             and v.get('source_sha')==r['source_sha']and v.get('unknown_effects')==[]
@@ -60,7 +71,7 @@ class Effects(OriginalEffects):
             and 0<=v['CPU_s']<=r['CPU_upper_s']and v.get('global_budget_is_only_external_reservation')is True,
             'EFFECTS_TYPED_OWN_BOUND_ALLOCATION_NO_UNKNOWN_CLEAR')
         statuses=[];totals=dict(optimizer_updates=0,generation_queries=0,model_loads=0)
-        for spec,loads in zip(plan,LOADS):
+        for spec,loads in zip(plan,self.load_limits()):
             row=v['sessions'][spec['id']];statuses.append(row.get('status'))
             need(row.get('status')in('NOT_STARTED','ACTIVE','COMPLETE'),'EFFECTS_SESSION_STATUS')
             for key,upper in [('optimizer_updates',spec['optimizer_limit']),
@@ -89,7 +100,7 @@ class Effects(OriginalEffects):
             and(not active or statuses[n]=='ACTIVE'),'EFFECTS_NO_SKIPPED_OR_REORDERED_SESSION')
         need(all(v.get(k)==x for k,x in totals.items())
             and len(v.get('query_intent_links',[]))==v['generation_queries']
-            and set(v.get('training_runs',{}))<=set(ids[1:]),'EFFECTS_AGGREGATE_COUNTS_INCLUDE_QUALIFICATION')
+            and set(v.get('training_runs',{}))<=set(self.training_sessions()),'EFFECTS_AGGREGATE_COUNTS_INCLUDE_QUALIFICATION')
         pending=v.get('pending_updates');need(type(pending)is list and len(pending)<=1,'EFFECTS_ONE_PENDING_UPDATE')
         if pending:
             need(bool(active),'EFFECTS_PENDING_WITHOUT_ACTIVE_SESSION')
@@ -107,7 +118,7 @@ class Effects(OriginalEffects):
         with self.transaction()as v:
             need(v['active_session']is None and v['pending_updates']==[]and self.linked_query_intents(v)==[],
                 'EFFECTS_NO_ACTIVE_OR_UNRESOLVED_PRIOR_SESSION')
-            ids=[x['id']for x in execution.native_sessions()]
+            ids=[x['id']for x in self.plan()]
             need(identifier in ids and v['sessions'][identifier]['status']=='NOT_STARTED'
                 and all(v['sessions'][s]['status']=='COMPLETE'for s in ids[:ids.index(identifier)]),
                 'EFFECTS_NEXT_ORIGINAL_SESSION_ONCE_ONLY')
@@ -129,7 +140,7 @@ class Effects(OriginalEffects):
     def begin_update(self,identifier,local_step,recipe):
         self.guard()
         original=read(self.root/'plans/FROZEN_SOURCE_PAIR_RECIPE.json');training.validate(recipe,original)
-        spec=next(x for x in execution.native_sessions()if x['id']==identifier)
+        spec=next(x for x in self.plan()if x['id']==identifier)
         need(recipe['arm']==spec['arm']and spec['optimizer_limit']>0,'EFFECTS_EXACT_SESSION_TRAINING_RECIPE')
         with self.transaction()as v:
             row=v['sessions'][identifier]
@@ -138,7 +149,7 @@ class Effects(OriginalEffects):
                 and self.linked_query_intents(v)==[]and row['model_loads']>0,
                 'EFFECTS_EXACT_KNOWN_COMMITTED_SESSION_BOUNDARY')
             if not spec['formal_candidate']:
-                need(row['generation_queries']==15,'EFFECTS_MATCHED_ZERO_STEP_DRAWS_BEFORE_QUALIFICATION')
+                need(row['generation_queries']==self.qualification_query_floor(),'EFFECTS_MATCHED_ZERO_STEP_DRAWS_BEFORE_QUALIFICATION')
             else:
                 need(row['generation_queries']==0,'EFFECTS_FORMAL_PROBES_ONLY_AFTER_COMMITTED512')
             expected=dict(recipe_sha256=execution.sha(execution.raw(recipe)),last_native_step=local_step)
@@ -150,7 +161,7 @@ class Effects(OriginalEffects):
                                        request_id=self.request['request_id'])]
 
     def commit_update(self,identifier,local_step_after):
-        spec=next(x for x in execution.native_sessions()if x['id']==identifier)
+        spec=next(x for x in self.plan()if x['id']==identifier)
         with self.transaction()as v:
             need(v['active_session']==identifier,'EFFECTS_COMMIT_ACTIVE_SESSION_ONLY')
             new=original_commit(v,arm=spec['arm'],local_step_after=local_step_after,request_id=self.request['request_id'])
@@ -166,7 +177,7 @@ class Effects(OriginalEffects):
         with self.transaction()as v:
             need(v['active_session']==identifier and v['pending_updates']==[]and self.linked_query_intents(v)==[],
                 'EFFECTS_NO_UNRESOLVED_SESSION_EFFECTS_AT_TERMINAL')
-            spec=next(x for x in execution.native_sessions()if x['id']==identifier);row=v['sessions'][identifier]
+            spec=next(x for x in self.plan()if x['id']==identifier);row=v['sessions'][identifier]
             need(proof.get('schema')=='ARX5_MINIMAL_RUNTIME_SESSION_TERMINAL_V1'
                 and proof.get('session_id')==identifier and proof.get('arm')==spec['arm']
                 and proof.get('request_sha256')==self.allocation['request_sha256']
@@ -183,11 +194,11 @@ class Effects(OriginalEffects):
 
     def summary(self):
         v=self.check(read(self.path));unknown=self.linked_query_intents(v)
-        return dict(schema=SUMMARY,job_id=self.allocation['job_id'],request_id=self.request['request_id'],
+        return dict(schema=self.summary_schema,job_id=self.allocation['job_id'],request_id=self.request['request_id'],
             request_sha256=self.allocation['request_sha256'],source_sha=self.request['source_sha'],
             optimizer_updates_committed=v['optimizer_updates'],query_attempts=v['generation_queries'],
             model_load_attempts=v['model_loads'],pending_updates=v['pending_updates'],unknown_query_intents=unknown,
             sessions=deepcopy(v['sessions']),active_session=v['active_session'],CPU_s=v['CPU_s'],
-            all_five_sessions_runtime_complete=all(x['status']=='COMPLETE'for x in v['sessions'].values()),
+            **{self.all_complete_field:all(x['status']=='COMPLETE'for x in v['sessions'].values())},
             independently_audited=False,global_budget_is_only_external_reservation=True,
             new_physics=0,new_episodes=0,finished_epoch=time.time())
