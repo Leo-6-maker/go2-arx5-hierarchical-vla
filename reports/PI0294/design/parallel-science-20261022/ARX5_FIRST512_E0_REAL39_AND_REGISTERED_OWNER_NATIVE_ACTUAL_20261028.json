@@ -1,0 +1,574 @@
+{
+  "schema": "ARX5_FIRST512_E0_REAL39_AND_REGISTERED_OWNER_NATIVE_ACTUAL_V1",
+  "observed_epoch": 1793197212.5466218,
+  "observed_SGT": "2026-10-28T22:15:50.040246+08:00",
+  "status": "ACTUAL_RAW_GR00T_E0_ONE_LOAD39_DRAWS_SAVED_AND_INDEPENDENTLY_READ_BACK",
+  "job_id": "1504095.stdct-mgmt-02",
+  "request": {
+    "request_id": "a6b3936e-f273-4491-b43b-b8168a6d0f3b",
+    "request_sha256": "d90e62a0b7a55fc620ecd666ae9a626a33e68ea67eacfde873a5db34b9196832",
+    "source_sha": "7c7e77d4b83a7b3a30f336a6f53f4788942c2373",
+    "status": "SUBMITTED_PENDING_NATIVE",
+    "job_id": "1504095.stdct-mgmt-02",
+    "committed_optimizer_updates": null,
+    "query_attempts": null,
+    "model_load_attempts": null
+  },
+  "science_source_sha": "7c7e77d4b83a7b3a30f336a6f53f4788942c2373",
+  "metadata_source_sha": "5d77568ccb3d51e3db52a708ac1d534fc6a600b3",
+  "metadata_owner_manifest_sha256": "b25f03ef1658b28ee8e1a4661716f5753e07c40edf8ef50d5ab08dcf79a7fba6",
+  "native": {
+    "job_state": "R",
+    "exec_host": "GN-A40-040/1*36",
+    "run_count": 1,
+    "Resource_List": {
+      "am_job_cache": "{\"job.walltime\": 59400, \"job.ncpus\": 36.0, \"job.queue_charge_rate\": 1.0, \"job.ngpus\": 1.0, \"am_cloud_enabled\": false}",
+      "mem": "240gb",
+      "ncpus": 36,
+      "ngpus": 1,
+      "nodect": 1,
+      "place": "free",
+      "queue_charge_rate": 1,
+      "select": "1:ngpus=1:ncpus=36:mem=240GB",
+      "walltime": "16:30:00"
+    },
+    "native_original_queue_raw_retained_privately": true
+  },
+  "processes": {
+    "wrapper": {
+      "pid": 1119563,
+      "procstart": 70228415,
+      "same_live_procstart": true,
+      "state": "S",
+      "CPU_s": 0.07
+    },
+    "owner": {
+      "pid": 1119604,
+      "procstart": 70228438,
+      "same_live_procstart": true,
+      "state": "S",
+      "CPU_s": 264.19
+    }
+  },
+  "heartbeat": {
+    "observed_epoch": 1793197189.123433,
+    "native_job_state": "R",
+    "request_sha256": "d90e62a0b7a55fc620ecd666ae9a626a33e68ea67eacfde873a5db34b9196832",
+    "agent_liveness_required": false,
+    "only_the_actual_local_owner_publishes": true
+  },
+  "running_Journal": {
+    "status": "CONFIRMED",
+    "intent": {
+      "operation_id": "6dfdf0e99f534d1d8e42eea88798f8f3",
+      "identity": {
+        "run_uuid": "arx5-minimal-raw-parent-first512-retry-03",
+        "job_id": "1504095.stdct-mgmt-02",
+        "source_sha": "7c7e77d4b83a7b3a30f336a6f53f4788942c2373",
+        "request_sha256": "d90e62a0b7a55fc620ecd666ae9a626a33e68ea67eacfde873a5db34b9196832"
+      },
+      "phase": "HEARTBEAT",
+      "effect": "HEARTBEAT",
+      "started_epoch": 1793197189.0764709,
+      "timeout_s": 30,
+      "automatic_write_retry": false
+    }
+  },
+  "GLOBAL_sha256": "c506c498f979ce421ca97c0c198de0c4052236d7240b8314b6b70509d586f2e3",
+  "GLOBAL_used": {
+    "H200_s": 178523.0,
+    "PBS_submissions": 38,
+    "optimizer_updates": 14786,
+    "neural_queries": 5837
+  },
+  "GLOBAL_reserved": {
+    "H200_s": 146100,
+    "neural_queries": 6438,
+    "optimizer_updates": 1028
+  },
+  "unknown_campaign_jobs": [],
+  "initial_allocation_release_exists": true,
+  "science_release_files": [
+    "session-gates/00/RELEASE.json"
+  ],
+  "actual_effects": {
+    "schema": "ARX5_MINIMAL_FIVE_SESSION_ALLOCATION_EFFECTS_V1",
+    "platform_training_version": "ARX5_MINIMAL_RAW_PARENT_FIRST512_KNOWN_ZERO_RETRY_V1",
+    "run_uuid": "arx5-minimal-raw-parent-first512-retry-03",
+    "job_id": "1504095.stdct-mgmt-02",
+    "request_id": "a6b3936e-f273-4491-b43b-b8168a6d0f3b",
+    "request_sha256": "d90e62a0b7a55fc620ecd666ae9a626a33e68ea67eacfde873a5db34b9196832",
+    "source_sha": "7c7e77d4b83a7b3a30f336a6f53f4788942c2373",
+    "optimizer_updates": 0,
+    "generation_queries": 39,
+    "model_loads": 1,
+    "CPU_s": 0.0,
+    "pending_updates": [],
+    "unknown_effects": [],
+    "query_intent_links": [
+      {
+        "index": 0,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-00",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-00.json",
+        "payload_sha256": "895ca83dc6a6c3cc5190a7bb0ae1397c4020c1d38eea75a2d4c6a73e852f5f25"
+      },
+      {
+        "index": 1,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-01",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-01.json",
+        "payload_sha256": "9f5a855732541c3429afcd34f5c87d53a080dd460434e198259ffea6b22571b9"
+      },
+      {
+        "index": 2,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-02",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-02.json",
+        "payload_sha256": "d17f74a2a7dc57c9fa91d0ed24461ca39cd4a8ceaa1b42a9e6ce608cba75bb6a"
+      },
+      {
+        "index": 3,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-03",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-03.json",
+        "payload_sha256": "4d83b4fdf62568642f638d81cd982958d3837ebbaf6e64dce48622b7f39fd7f4"
+      },
+      {
+        "index": 4,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-04",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-04.json",
+        "payload_sha256": "46a6cc43286e2be81e7b19e6b8dfe816f6d3ae16b12f3ede43e84527bbb82893"
+      },
+      {
+        "index": 5,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-05",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-05.json",
+        "payload_sha256": "e7b860e766a0efe0c419d340e5acceef0c432f3879d450e532ce3eebbd8c419c"
+      },
+      {
+        "index": 6,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-06",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-06.json",
+        "payload_sha256": "8a5b7c4a73be10d5babd1def827721616216626273cae65be2e1b06e5bc4853b"
+      },
+      {
+        "index": 7,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-07",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-07.json",
+        "payload_sha256": "1b265515a5596e0e0c1034f176e7d78de796b27524a3ebdef8f4263baf3b0ab1"
+      },
+      {
+        "index": 8,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-08",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-08.json",
+        "payload_sha256": "be76d62ef93f8e0fb0808d9df124346bf117d6718fced42d241b595f49df65c3"
+      },
+      {
+        "index": 9,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-09",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-09.json",
+        "payload_sha256": "1f44745a92ecb550d282cd18bf084d143fc0c065701f0ec8263344a0fc851ef2"
+      },
+      {
+        "index": 10,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-10",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-10.json",
+        "payload_sha256": "81db57f36425096b79735e5f8c62ab4476c6fcd316ddd52a2840a2303793f41c"
+      },
+      {
+        "index": 11,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-11",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-11.json",
+        "payload_sha256": "514ef369336b8bed23502643244919f098b36f784d8b3b93d33068705a4b4f4d"
+      },
+      {
+        "index": 12,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-12",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-12.json",
+        "payload_sha256": "f20a2562e2f34901cbc5463a5a7cf7603f75a8ffb791959504d614d0134bacd4"
+      },
+      {
+        "index": 13,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-13",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-13.json",
+        "payload_sha256": "a1702509d19f8a1cb8c5f9b4c2c453591a77575971c13a0d483f933fb86454a1"
+      },
+      {
+        "index": 14,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-zero-14",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-zero-14.json",
+        "payload_sha256": "aed4b2531a154fd46b83e8af02f7141500493e35d517cebacb59184fedd632e5"
+      },
+      {
+        "index": 15,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-00",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-00.json",
+        "payload_sha256": "e97ab425b5e0de74cc0badf00245d8c7e8a7e0300afd8a3351cbda9af5ad6a52"
+      },
+      {
+        "index": 16,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-01",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-01.json",
+        "payload_sha256": "84ed5806b355dfaf32336e5cf254775832c6f09b8d76912434fe141c2bbda755"
+      },
+      {
+        "index": 17,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-02",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-02.json",
+        "payload_sha256": "2557c6949c342e884bb47ebf5b9ea3157cda2ff9ce6652fb54eca324a9647927"
+      },
+      {
+        "index": 18,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-03",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-03.json",
+        "payload_sha256": "4c807792d873efbe5cf355ee1464cb655eb41115e52d6dbb74e3b3298aec2f7f"
+      },
+      {
+        "index": 19,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-04",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-04.json",
+        "payload_sha256": "2b5f706d33218d40cf75311bac4cf2d3c0a0569ac52f6f48728bb9f25fd89f5f"
+      },
+      {
+        "index": 20,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-05",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-05.json",
+        "payload_sha256": "2b4c7387b12516d2fcabe795b5320f0340fb26b06b9bdbc4b0a10586899a1e1b"
+      },
+      {
+        "index": 21,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-06",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-06.json",
+        "payload_sha256": "22857322213812da582577d3ccd9e99a9500294ca9937ff78d5181b77ea450a2"
+      },
+      {
+        "index": 22,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-07",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-07.json",
+        "payload_sha256": "999a304951fc5ccca1ffcf0f9ea99057e77a71f7aadf2c726a0eb6b1275044cf"
+      },
+      {
+        "index": 23,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-08",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-08.json",
+        "payload_sha256": "35dc3c899ef994cd5340d1b85a01a95e6e151db0f4be0bd8c9497998d0eecd20"
+      },
+      {
+        "index": 24,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-09",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-09.json",
+        "payload_sha256": "01740a87365f5ac87c7f58aac7622050ff24a43222c6f3da304a32731415286b"
+      },
+      {
+        "index": 25,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-10",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-10.json",
+        "payload_sha256": "c72b44baa2200a7e6194c5856796bd67c6b797311040091d082583e63a3e4faa"
+      },
+      {
+        "index": 26,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-11",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-11.json",
+        "payload_sha256": "30f29e31d7c206cca61894e5d6a72fe8914a0156dcbae8e11850334da0f69157"
+      },
+      {
+        "index": 27,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-12",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-12.json",
+        "payload_sha256": "ccd354826ce63c497eaec5b6103769f493b08a4678c55de23eae20eadc4d62e6"
+      },
+      {
+        "index": 28,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-13",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-13.json",
+        "payload_sha256": "538cb517ddcb5262a15bddee5560177d023570878e8c095e9f926899d0ec7196"
+      },
+      {
+        "index": 29,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-14",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-14.json",
+        "payload_sha256": "461919e42758911345104385c6a327fd6988b48325c0fb02211317ee3b888177"
+      },
+      {
+        "index": 30,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-15",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-15.json",
+        "payload_sha256": "ac48146cad92207f0ce34d44dfddf2a218c908b8ea74021055c7c095fc66232d"
+      },
+      {
+        "index": 31,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-16",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-16.json",
+        "payload_sha256": "51841c8a6c8f474e548214d9b3d2f104dee6cc1c81264fea9fdd839a25609090"
+      },
+      {
+        "index": 32,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-17",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-17.json",
+        "payload_sha256": "2442563013dd9721d0023eeac9791d80745c943e5c4e1299ed42561711800244"
+      },
+      {
+        "index": 33,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-18",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-18.json",
+        "payload_sha256": "21ef06cb4ce834d72b431a170148b1d0d7329cc051413ac5e07a9ac12ef982e9"
+      },
+      {
+        "index": 34,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-19",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-19.json",
+        "payload_sha256": "e49594b074e0bc5006148fa183341f3e1d3c5426f8e9b99553f272e415ec1d6c"
+      },
+      {
+        "index": 35,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-20",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-20.json",
+        "payload_sha256": "137a7a6c3ce5ad52a0889f55229233cd7d3760f572a3c989e4ff0ad370e1988b"
+      },
+      {
+        "index": 36,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-21",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-21.json",
+        "payload_sha256": "5a20d4ffd39ae9ae1189e3f9e0d1cdef4bc40882509eb86c6f40bc989310eb8a"
+      },
+      {
+        "index": 37,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-22",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-22.json",
+        "payload_sha256": "213e252a897cb53f6b40cf6a044220032ccee4f90e960c91451a2a8306315f8c"
+      },
+      {
+        "index": 38,
+        "message_id": "probe-E0_RAW_DIAGNOSTIC-language24-23",
+        "intent_relative": "reservations/probe-generations/probe-E0_RAW_DIAGNOSTIC-language24-23.json",
+        "payload_sha256": "7525b6e9ec1ee8ff9655157f8c9c2249761b300c3c075cad53ac2dc1921cd9c3"
+      }
+    ],
+    "training_runs": {},
+    "active_session": "E1_ADAPTER_ONLY_QUALIFY2",
+    "sessions": {
+      "E0_RAW_DIAGNOSTIC": {
+        "status": "COMPLETE",
+        "optimizer_updates": 0,
+        "generation_queries": 39,
+        "model_loads": 1,
+        "terminal_receipt_sha256": "a84a2c0d59b219422aeacf81917cb6de29a3625a2e21210c96de006292f7302e",
+        "terminal_receipt_relative": "evidence/MINIMAL_FIVE_SESSIONS/E0_RAW_DIAGNOSTIC/SESSION_TERMINAL.json"
+      },
+      "E1_ADAPTER_ONLY_QUALIFY2": {
+        "status": "ACTIVE",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      },
+      "E2_SHARED_ACTION_HEAD_QUALIFY2": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      },
+      "E1_ADAPTER_ONLY_FORMAL512": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      },
+      "E2_SHARED_ACTION_HEAD_FORMAL512": {
+        "status": "NOT_STARTED",
+        "optimizer_updates": 0,
+        "generation_queries": 0,
+        "model_loads": 0
+      }
+    },
+    "global_budget_is_only_external_reservation": true
+  },
+  "same_registration": {
+    "repeated_REGISTER": false,
+    "new_request_or_nonce": false,
+    "second_PBS_count": false,
+    "original_REGISTER_UNKNOWN_operation": "d88af60163624ddb90422d6ab6a0ec51",
+    "original_UNKNOWN_permanently_preserved": true,
+    "QSUB_reply": "CONFIRMED return0 actual unique PBS handle",
+    "BIND": "CONFIRMED original onceIO; not replayed"
+  },
+  "cpu_control": {
+    "existing_owner_bank_s": 3000,
+    "old_conservative_upper_s": 800,
+    "new_owner_upper_s": 2200,
+    "existing_cold_bank_s": 600,
+    "extra_payment": 0,
+    "raw_failed_read_upper_costs_retained": true
+  },
+  "validation": {
+    "public_targeted_CPU_tests": 49,
+    "new_public_tests": 18,
+    "private_installer_pipe_and_OS_tests": 2,
+    "private_fixture_failures_preserved": "Two initial host substitution syntax failures and a consumed dummy stdin expectation were fixture-only; corrected rerun2PASS. No native actions were made by these tests.",
+    "full_CI": "NOT_RUN",
+    "actual_native_role_install_and_full_source_context_readback": true,
+    "source_publication": "Three changed files complete GitHub text and Gitblob SHA readback; merged PR94"
+  },
+  "Core": {
+    "actual_connection_recovered": true,
+    "LOCAL_sha256": "91ce7cc7621d1ddce5cb2329314b35a8cad67c0d33d240bbb43a63c88e193dae",
+    "latest_read_equals_last_confirmed": true,
+    "LOCAL_new_catchup_written": false,
+    "D25_actual_behavior_conditions": 0,
+    "D25_fixed_replacement_request_id": "3e774da8-1f75-4930-b732-3f0409f3d5a4",
+    "old_cold_manifest_still_binds_failed_main_job": "1502754.stdct-mgmt-02",
+    "old_generic_once_mirror_rejects_later_retry_history": true,
+    "captured_full_remaining_forecast_shortfalls": {},
+    "next": "Cold source/main-identity rebind and actual LOCAL terminal-history catchup preserving old bytes/costs/UNKNOWN. Do not replay old register/mirror writers or relaunch/transfer D25."
+  },
+  "limits": {
+    "new_caps": false,
+    "new_science": false,
+    "new_training_recipe": false,
+    "new_physics": false,
+    "new_HF_transfers": false,
+    "Core_Vanda_runtime_SSH_dependency": false,
+    "original_matrix3_and_final20GPUh40GiB_protected": true,
+    "stop_new_training_epoch": 1793451149.8133287,
+    "deadline_epoch": 1793537549.8133287
+  },
+  "scientific_completion": {
+    "E0_neural_diagnostic_completed": "39 outputs saved and independently verified; full post-F allocation audit/settlement remains pending",
+    "E1_formal_updates": 0,
+    "E2_formal_updates": 0,
+    "D25_conditions": 0,
+    "GEN1_conditions": 0,
+    "WDR_core64": 0,
+    "wholegoal": "ACTIVE_INCOMPLETE",
+    "E1_qualification": "Two actual committed optimizer calls,15 zero-step draws; checkpoint/full-restore session not complete at last observation."
+  },
+  "private_status_sha256": "b0771866e47752692e85e40c3bc2438460368834d2d020eb30a363391d5f75a4",
+  "E0_independent_output_readback": {
+    "status": "INDEPENDENT_ACTUAL_E0_COMPLETED_OUTPUTS_READBACK_ONLY_NOT_FINAL_ALLOCATION_AUDIT",
+    "observed_epoch": 1793197705.0016718,
+    "session_terminal_sha256": "a84a2c0d59b219422aeacf81917cb6de29a3625a2e21210c96de006292f7302e",
+    "raw_parent_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "raw_parent_files_identity": "0e493187af087d156f6352d46ce14e049ff18e7c1cb1eabc8671357ab4b96e71",
+    "raw_parent_native_full_stream_audit_sha256": "78f22bb4aea7740e4bba95d649b60e07cb2fda325627880baa87126140541531",
+    "raw_parent_seven_files_full_stream_native_witness": true,
+    "raw_parent_weights_restreamed": false,
+    "actual_policy_loads": 1,
+    "zero_noise_baseline_outputs": 15,
+    "legal_TRAIN_language_outputs": 24,
+    "all39_original_saved_NPZ_SHA_shapes_and_finiteness_verified": true,
+    "physical_H40_shape": [
+      40,
+      10
+    ],
+    "model_padded_normalized_shape": [
+      1,
+      40,
+      132
+    ],
+    "inference_precision": {
+      "bf16_autocast": true,
+      "cuda_matmul_allow_tf32": false,
+      "mode": "ORIGINAL_E0_BF16_AUTOCAST_FP32_MATMUL_HIGHEST",
+      "training_flag_on_entry": false
+    },
+    "additional_queries_for_readback": 0,
+    "raw_weights_not_CORR_or_trained_endpoint": true,
+    "physical_task_success_not_measured": true,
+    "whole_allocation_post_F_audit_and_settlement": false,
+    "private_proof_sha256": "fe4f902e627935a83b3af246a16f3d3171e3d1c3eeb2a3136100a715458ee374"
+  },
+  "observed_raw_stat_portability_seam": {
+    "compute_kernel_device": 47,
+    "login_kernel_device": 44,
+    "all_seven_same_path_inode_size_mtime_ctime": true,
+    "weights_changed_not_demonstrated": true,
+    "current_reader_does_not_claim_cross_host_filesystem_backing_identity": true,
+    "native_same_host_raw_guards_unchanged": true,
+    "original_post_F_auditor_still_has_same_host_dev_equality_consumer": true,
+    "next": "Prepare a bounded cold terminal auditor from actual witnesses or independent full bytes; never hotpatch the healthy worker/owner or repeat queries."
+  },
+  "retained_control_read_failures": [
+    "Original observer applied same-host raw stat equality on login versus compute and rejected different kernel device numbers; original failure retained. New output-only readback records both stats, keeps inode/size/times exact, and does not weaken native same-host checks.",
+    "One later qselect10s timeout preserved; this is not native termination, and no qsub/owner restart follows."
+  ],
+  "latest_independent_metadata_observation": {
+    "observed_epoch": 1793197947.875654,
+    "observed_SGT": "2026-10-28T22:32:27.875654+08:00",
+    "processes": {
+      "wrapper": {
+        "pid": 1119563,
+        "procstart": 70228415,
+        "same_live_procstart": true,
+        "state": "S",
+        "CPU_s": 0.07
+      },
+      "owner": {
+        "pid": 1119604,
+        "procstart": 70228438,
+        "same_live_procstart": true,
+        "state": "R",
+        "CPU_s": 487.55
+      }
+    },
+    "GLOBAL_sha256": "c506c498f979ce421ca97c0c198de0c4052236d7240b8314b6b70509d586f2e3",
+    "actual_effect_summary": {
+      "optimizer_updates": 2,
+      "generation_queries": 54,
+      "model_loads": 2,
+      "active_session": "E1_ADAPTER_ONLY_QUALIFY2",
+      "sessions": {
+        "E0_RAW_DIAGNOSTIC": {
+          "status": "COMPLETE",
+          "optimizer_updates": 0,
+          "generation_queries": 39,
+          "model_loads": 1,
+          "terminal_receipt_sha256": "a84a2c0d59b219422aeacf81917cb6de29a3625a2e21210c96de006292f7302e",
+          "terminal_receipt_relative": "evidence/MINIMAL_FIVE_SESSIONS/E0_RAW_DIAGNOSTIC/SESSION_TERMINAL.json"
+        },
+        "E1_ADAPTER_ONLY_QUALIFY2": {
+          "status": "ACTIVE",
+          "optimizer_updates": 2,
+          "generation_queries": 15,
+          "model_loads": 1
+        },
+        "E2_SHARED_ACTION_HEAD_QUALIFY2": {
+          "status": "NOT_STARTED",
+          "optimizer_updates": 0,
+          "generation_queries": 0,
+          "model_loads": 0
+        },
+        "E1_ADAPTER_ONLY_FORMAL512": {
+          "status": "NOT_STARTED",
+          "optimizer_updates": 0,
+          "generation_queries": 0,
+          "model_loads": 0
+        },
+        "E2_SHARED_ACTION_HEAD_FORMAL512": {
+          "status": "NOT_STARTED",
+          "optimizer_updates": 0,
+          "generation_queries": 0,
+          "model_loads": 0
+        }
+      },
+      "pending_updates": [],
+      "unknown_effects": []
+    },
+    "actual_heartbeat": {
+      "run_uuid": "arx5-minimal-raw-parent-first512-retry-03",
+      "job_id": "1504095.stdct-mgmt-02",
+      "request_id": "a6b3936e-f273-4491-b43b-b8168a6d0f3b",
+      "submission_nonce": "30d2c15c-fd59-47ee-ba3c-4cc09421b273",
+      "request_sha256": "d90e62a0b7a55fc620ecd666ae9a626a33e68ea67eacfde873a5db34b9196832",
+      "source_sha": "7c7e77d4b83a7b3a30f336a6f53f4788942c2373",
+      "scope": "ARX5_MINIMAL_RAW_PARENT_FIRST512_KNOWN_ZERO_RETRY_V1",
+      "grant_sha256": "6a9830b8b328fce861fed927db24f2875d74b973db9eb86774f991de67493572",
+      "owner": "EXISTING_SOLE_VANDA_RESIDENT_OWNER",
+      "observed_epoch": 1793197907.4620042,
+      "rpc_intent_id": "1a63393b0d9a40cd8a3146ce9719cfa8",
+      "native_job_state": "R",
+      "global_unknown_effects": [],
+      "agent_liveness_required": false
+    },
+    "full_native_queue_in_this_observation": false,
+    "reason": "Prior root qselect10s timeout preserved; this bounded exact metadata/kernel read does not relabel a missing full queue as empty or fresh.",
+    "native_process_final_present": false,
+    "metadata_owner_OS_exit_present": false,
+    "private_proof_sha256": "63ca5087e41e039e545586c814afef4d3afd21cfc634f2c729d8f9837bde2ccf"
+  }
+}
