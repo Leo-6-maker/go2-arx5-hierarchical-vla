@@ -31,7 +31,7 @@
 
 Vanda新source7c7e77d4、retry03已完成原生冷输入核验和原GLOBAL请求登记；[REGISTER真实CAS回读](reports/PI0294/design/parallel-science-20261022/VANDA_FIRST512_ENTRY_REGISTER_CAS_CONFIRMED_NO_QSUB_OWNER_STOP_ACTUAL_20261028.json)证明登记已生效，但原Journal超过40秒后仍永久保留UNKNOWN，owner／wrapper实际OS1。尚未执行QSUB、没有job绑定，不能称新训练在跑；未重发登记或重启owner。原PBS计数38／上限41，matrix3及最终保护不动；下一接续必须新冷态绑定实际确认和fresh queue／quota，不复用过期队列。E0仍无神经结果，E1/E2各0/512。
 
-[PC只读Viewer V1](scripts/pi0294/replay_viewer/README.md)现已实际展示两条已保存Teacher的41/641关键帧子集，双RGB／实际TCP／物体／目标参考／原审计同步；164个真实RGB引用SHA核对通过，9项合成CPU测试通过。C50成功与S1两条原件已定位但尚未导入PC；全关节／mesh重建未实际验证，没有新物理、模型或评分。它是观察工具，不是新模型能力证据。
+[PC Rerun只读回放](scripts/pi0294/replay_viewer/README.md)已切换为官方Rerun＋薄Python适配器：[三条实际稀疏记录](reports/PI0294/design/parallel-science-20261022/PC_RERUN_THIN_ADAPTER_THREE_ACTUAL_SPARSE_REPLAYS_ACTUAL_20261028.json)含T1／T2 Teacher各41/641与C50 S1失败2/224保存状态，168张原PNG字节SHA／原时间轴／数值／审计均由官方读取器核对。11项定向测试通过；官方本地Web Viewer实际显示双RGB、记录点、曲线、审计并在16秒同步切换。原失败有224状态／225图像对，未补造状态或S1秒时间。完整关节／合法mesh仍未验证，C50成功未导入；旧自定义Viewer保留为历史且服务已停止。没有新物理、模型或评分，不是新能力证据。
 
 此前[job1503589关闭原件](reports/PI0294/design/parallel-science-20261022/VANDA_FIRST512_SECOND_CONTINUATION_REAL_ENTRY_FAILURE_AUDITED_SETTLED_CLOSED_ACTUAL_20261028.json)保留：模型前旧profile常量拒绝，133GPU秒／240siteCPU秒一次结算、own lease CLOSED。所有历史失败、费用、缺失原件和UNKNOWN不改。
 

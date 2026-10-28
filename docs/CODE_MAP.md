@@ -14,7 +14,7 @@ Updated 2026-10-28. `main` is the integration entry. Repository presence does no
 | `scripts/pi0294/generalization/` | GEN1 scene/data preparation and minimal-adaptation model/dataset/training/resume | CPU fixtures are not full GR00T qualification |
 | `scripts/pi0294/pv1/` | Source data, trained candidate delivery, C/D and original panel evaluation/runtime | CoreLab 4080S owns closed-loop evaluation |
 | `scripts/pi0294/dec1/` | Original native training entry and frozen-executor comparison support | Preserve exact scopes; do not mix target training into DEC1 |
-| `scripts/pi0294/replay_viewer/` | PC离线读取原Teacher／Eval记录，双RGB与实际状态／参考轨迹同步 | 不推进物理、不运行策略或重评分；真实首版为Teacher关键帧子集 |
+| `scripts/pi0294/replay_viewer/` | 官方Rerun薄适配器：PC离线读取原Teacher／Eval记录与双RGB、状态、参考、审计 | 三条真实稀疏RRD已核；不推进物理／策略／重评分，旧HTML仅历史兼容 |
 | `tests/`, `scripts/pi0292/test_*.py`, `scripts/pi0294/test_*.py` | CPU contracts and implementation regressions | Model/physics execution needs its own valid runtime scope |
 | `scripts/maintenance/` | Bounded repository administration | No scientific imports, remote job mutations or data cleanup |
 
