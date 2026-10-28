@@ -1,33 +1,32 @@
-# 当前入口 · 2026-10-28
+# 当前入口 · 2026-10-29 · 长程Goal V6
 
-`main`是唯一集成入口。先读[当前科学状态](CURRENT_SCIENCE_STATUS.md)、[最新实验路线](docs/EXPERIMENT_ROADMAP.md)与[AGENTS](AGENTS.md)，不要从旧日期协议中推断当前权限或运行状态。
+`main`是唯一集成入口。先读[当前科学状态](CURRENT_SCIENCE_STATUS.md)、[V6长程计划](docs/protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[路线索引](docs/EXPERIMENT_ROADMAP.md)与[AGENTS](AGENTS.md)。历史协议不自动提供当前计算权限。
 
-## 下一步只推进两条科学工作流
+## 下一步：两条科学线，一条只读支持线
 
-| 平台 | 当前任务 | 真正交付 |
+| 位置 | 任务 | 真实交付 |
 |---|---|---|
-| CoreLab 4080S | 完成D25原N294101的24条件，再评价GEN1 | 完整行为表、独立审计、配对分析与关闭 |
-| Vanda | 修通现有有限后继入口，执行E0与E1/E2真实资格，再各512步 | 原始模型结果、真实梯度／冻结检查、两个完整端点 |
+| CoreLab 4080S | 真实核齐LOCAL终态/运行身份，完成D25原N294101/24，再GEN1 | 完整行为表、D−C配对分析及关闭 |
+| Vanda | 审计已保存E0/E1，不重跑前缀；补E2资格并fresh训练两臂各512 | 完整原生证据、固定端点与消费/恢复审计 |
+| PC Rerun | 已有Teacher/Student关键时间线与离线预测只读分析 | 可核验的失败解释，不阻塞科学执行 |
 
-两站运行彼此独立。管理端在启动前封存有限范围和必要权限，运行中各站本地记录效果，结束后独立核账；不依赖Core→Vanda持续SSH。模型只走已批准HF固定版本，禁止重复传输已经核验的文件。工程错误不是策略任务失败。
+两站运行不互相SSH、查队列或等心跳。复用原有限范围和Journal/onceIO；管理端独立连接/终态核账，模型走已授权HF固定revision，不重传已交付D25。
 
-## 当前必须知道的事实
+## 当前关键事实与准备边界
 
-- A4096=11/24、B4096=6/24；C50完整24条件中6成功，三者是源域开发面板，不是完整发布或泛化资格。
-- D25和GEN1各1024训练已完成；截至整理基线，各自仍0个有效Eval条件。
-- Vanda1504095已真实F/Exit1并一次结算、两own lease关闭。E0原始模型39查询已独立回读；E1原生2次优化／14目标参数实际变化及完整恢复receipt已保存，E2已有15零步输出。完整状态独立审计仍未闭合，两臂正式0/512；只读qstat255是工程故障，不是任务失败，原作业不重跑。
-- 新的Go2＋ARX5标定／目标示范计划独立于当前12条固定基座示范，不混入E1/E2。原DEC1固定CORR/R0目标比较仍0/64。
+- A4096=11/24、B4096=6/24、C50=6/24；均为源域已暴露开发面板。D25/GEN1各1024已完成，尚无有效Eval。
+- Vanda1504095已F/Exit1、一次结算和两own lease关闭：E0 39查询，E1资格2优化/17查询/14目标参数变化，E2 15零步查询/优化0。正式E1/E2均0/512，保存大成员独立审计尚未闭合。qstat255是工程读故障，不是任务失败。
+- main截至证据基线45aeba9c已含PR97 saved-prefix审计与一次剩余范围、PR98 Core终态catch-up代码。**代码/CPU准备不等于审计完成、PBS42或LOCAL已实际采用。** 先刷新实际回执，已完成的只接剩余项。
+- Rerun官方Viewer已验证三条真实稀疏记录（Teacher各41/641、C50失败2/224）；不是完整3D整机回放，不再扩建第二套Viewer。
+- Go2+ARX5十段标定/十二次目标尝试独立于当前12条源域示范；原DEC1仍固定CORR/R0，不混目标训练。
 
-## 读取顺序与证据
+## 执行入口与证据
 
-1. [EXPERIMENT_ROADMAP](docs/EXPERIMENT_ROADMAP.md)：研究问题、固定对照、阶段出口。
-2. [CURRENT_SCIENCE_STATUS](CURRENT_SCIENCE_STATUS.md)：有时间与来源的结果快照。
-3. [CODE_MAP](docs/CODE_MAP.md)：已有模块与历史实现的区别。
-4. [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11)、[Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47)及[原生进度日志](docs/handover/2026-10-25/AUTONOMOUS_PROGRESS.md)：刷新最新实际回执。
-5. 实际执行前，由原执行owner核本机进程、lease、资源、完整输入和有效截止；GitHub页面不是实时GPU监控。
+1. [Codex交接](docs/handover/2026-10-29/POST_RERUN_SCIENCE_FIRST_EXECUTION.md)和[V6计划卡](reports/PI0294/design/parallel-science-20261022/POST_RERUN_LONG_HORIZON_TASK_CARD_V6_20261029.json)。计划卡不是可直接派发的RUN_MANIFEST。
+2. [CODE_MAP](docs/CODE_MAP.md)、[仓库工作流](docs/REPOSITORY_WORKFLOW.md)，复用现有模块，不另造调度器。
+3. [Issue #11](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11)科学与[Issue #47](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47)维护的最新实际回执。
+4. 原owner在本机核当前进程、lease、完整输入、资源和截止；GitHub页面不是实时监控。普通同范围工程自主冷修，真实外部缺口一次准确报告。
 
-## 整理边界
+旧stop-new为2026-10-31 20:52:29.813 SGT，hard deadline为2026-11-01 20:52:29.813 SGT。本次文档不延期、不采用预算、不启动作业/子代理/暂停自动化。健康或闭合job不重启，运行source不热切换，原R0/WBC/评分/失败保持。
 
-本次只改变仓库集成与导航。旧source、数据、模型、WBC、R0、安全门、评分、统计口径和实验时钟不变。旧分支内容已合并；远端ref删除仍见[精确清单与状态](docs/maintenance/2026-10-28/CONSOLIDATION_REPORT.md)，不得把清单当删除回执。
-
-后续更新这份短入口，不再不断向文件顶部追加数百条完整日志。详细结果留原报告，当前状态写状态页。整理前完整START_HERE按相同Git blob保存在[历史副本](docs/archive/2026-10-28/pre-consolidation/START_HERE.md)；其相对链接按原位置解释，不是新的执行指令。
+当前入口只写必要摘要，详细证据写原reports并链接。此前入口和状态均可由Git历史/原字节归档恢复；分支退役仍按独立维护清单和实际回执，不随计划发布删除refs。
