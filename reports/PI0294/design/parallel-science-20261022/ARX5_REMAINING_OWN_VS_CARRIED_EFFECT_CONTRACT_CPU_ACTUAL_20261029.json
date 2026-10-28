@@ -1,0 +1,35 @@
+{
+  "schema": "ARX5_REMAINING_OWN_VS_CARRIED_EFFECT_CONTRACT_CPU_V1",
+  "date": "2026-10-29",
+  "status": "PURE_TYPED_CONTRACT_CPU_PASS_NOT_NATIVE_ADOPTED_OR_REQUEST_REGISTERED",
+  "actual_saved_prefix_result_sha256": "9c4ac800d8993809127a0808be98971f3a12b2c839fdfbff7ffcf3ab707300fb",
+  "actual_saved_prefix_closed_proof_sha256": "e7e1c24e941eb76a11946b32c6f0ea12d08b8e7d1a9ecfd260ee967715e226c7",
+  "already_paid_old_effects": {"optimizer_updates": 2, "generation_queries": 71, "model_loads": 5},
+  "remaining_new_effect_upper": {"optimizer_updates": 1026, "generation_queries": 76, "model_loads": 7},
+  "own_vs_carried": {
+    "remaining_sessions": ["E2 qualification", "E1 formal512", "E2 formal512"],
+    "E0_and_E1_qualification_replay": false,
+    "E2_carried_zero_queries": 15,
+    "E2_new_qualification_queries": 2,
+    "E2_new_qualification_model_loads": 3,
+    "old_interrupted_E2_model_load_credit": 0,
+    "original_phase_tickets_for_new_sessions": 9,
+    "study_lifetime_if_all_remaining_effects_finish": {"optimizer_updates": 1028, "generation_queries": 147, "model_loads": 12},
+    "qualification_weights_used_for_formal_initialization": false
+  },
+  "validation": {
+    "actual_independent_prefix_and_close_bytes": "Used directly, exact SHA; no tensor restream or model call",
+    "future_phase_and_completion_counter_rows": "Explicit CPU fixtures, not native job evidence",
+    "tests": "12 passed in0.26s",
+    "rejects": ["E0/E1 replay", "old17 E2 queries charged as new", "interrupted old load credited as a new model", "formal first-update starting at qualification step2", "changed prefix bytes", "partial counters labelled complete"],
+    "existing_Trainer_loss_data_R0_and_numerical_code_changed": false,
+    "CI": "NOT_RUN"
+  },
+  "not_yet_implemented_or_run": [
+    "New registered remaining-request/index adapter and once adoption",
+    "Original allocation-local ledger/Worker/ticket/native terminal integration of own versus carried counters",
+    "New unique qsub, real E2 optimizer qualification and both fixed512 endpoints"
+  ],
+  "new_native_effects": {"request_registration": 0, "qsub": 0, "models": 0, "queries": 0, "updates": 0, "physics": 0},
+  "wholegoal_complete": false
+}
