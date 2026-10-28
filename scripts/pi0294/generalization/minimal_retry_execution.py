@@ -240,12 +240,20 @@ def _terminal_fields(native, effects, audit, amounts):
 
 def _terminal_physical(m, proof, *, observed_epoch, finished_epoch, settled_epoch):
     p = m['physical_custody']; before = m['physical_preflight']
+    if p['schema']==guard.PORTABLE_SCHEMA:
+        from . import minimal_portable_inventory as portable
+        allocation_valid=(proof.get('portable_inventory_sha256')==p['portable_inventory']['portable_sha256']
+            and proof.get('portable_identity_sha256')==portable.identity_digest(p['portable_inventory']['value'])
+            and type(proof.get('current_portable_observation_sha256'))is str
+            and len(proof['current_portable_observation_sha256'])==64
+            and 0<=_number(proof.get('old_allocated_bytes'))<=p['old_metadata_ceiling'])
+    else:allocation_valid=proof.get('old_allocated_bytes')==before['old_allocated_bytes']
     need(_number(finished_epoch) <= _number(observed_epoch) <= _number(settled_epoch)
          and settled_epoch - observed_epoch <= 120
          and proof.get('status') == 'ACTUAL_RETRY_PHYSICAL_BOUNDS_ONLY_NO_PERMISSION'
          and proof.get('ledger_changed') is False and proof.get('native_permission') is False
          and proof.get('old_inventory_sha256') == p['old_inventory_sha256']
-         and proof.get('old_allocated_bytes') == before['old_allocated_bytes']
+         and allocation_valid
          and proof.get('old_roots') == before['old_roots'] and proof.get('new_root') == before['new_root']
          and proof.get('old_metadata_ceiling') == p['old_metadata_ceiling']
          and proof.get('paid_output_ceiling') == p['paid_output_ceiling']
@@ -448,11 +456,15 @@ def register_followup(global_bytes,local_bytes,*,request_bytes,followup_closed_r
         and r['physical_custody_sha256']==e.sha(e.raw(physical_custody))
         and physical_custody['schema']==guard.PORTABLE_SCHEMA,
         'FOLLOWUP_FULL_SEALED_HISTORY_AND_PORTABLE_PHYSICAL_SCOPE')
+    from . import minimal_portable_inventory as portable
     need(0<=now_epoch-physical_observed_epoch<=120
         and physical_proof['status']=='ACTUAL_RETRY_PHYSICAL_BOUNDS_ONLY_NO_PERMISSION'
         and physical_proof['old_inventory_sha256']==physical_custody['old_inventory_sha256']
         and physical_proof['portable_inventory_sha256']==physical_custody['portable_inventory']['portable_sha256']
-        and physical_proof['old_allocated_bytes']==physical_custody['portable_inventory']['value']['allocated_bytes']
+        and physical_proof['portable_identity_sha256']==portable.identity_digest(physical_custody['portable_inventory']['value'])
+        and type(physical_proof['current_portable_observation_sha256'])is str
+        and len(physical_proof['current_portable_observation_sha256'])==64
+        and 0<=physical_proof['old_allocated_bytes']<=physical_custody['old_metadata_ceiling']
         and physical_proof['next_output_upper_bytes']>=guard.CONTROL_GROWTH_RESERVE
         and physical_proof['new_allocated_bytes']+physical_proof['next_output_upper_bytes']<=physical_custody['paid_output_ceiling']
         and physical_proof['ledger_changed']is physical_proof['native_permission']is False,

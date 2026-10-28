@@ -92,11 +92,17 @@ def capture(roots, *, metadata_ceiling, file_hash_cache=None):
                 item['sha256'] = cached
             last = path.lstat()
             changed = {field:dict(before=getattr(first, field), after=getattr(last, field))
-                for field in ('st_dev', 'st_ino', 'st_size', 'st_blocks', 'st_nlink',
+                for field in ('st_dev', 'st_ino', 'st_size', 'st_nlink',
                               'st_mtime_ns', 'st_ctime_ns', 'st_uid', 'st_mode')
                 if getattr(first, field) != getattr(last, field)}
             need(not changed, 'UNCHANGED_DURING_FULL_CONTENT_READ:' + root.name + ':'
                  + row['path'] + ':' + json.dumps(changed, sort_keys=True))
+            # NFS may update block-allocation metadata without changing file
+            # identity/content. Retain the largest actually observed physical
+            # allocation and bound it independently; never infer a refund.
+            current_allocated=max(item['allocated'],first.st_blocks*512,last.st_blocks*512)
+            allocated+=current_allocated-item['allocated'];item['allocated']=current_allocated
+            need(allocated<=metadata_ceiling,'METADATA_LIMIT')
             rows.append(item)
     rows.sort(key=lambda row:(row['root'], row['path']))
     value = dict(schema=SCHEMA, roots=bindings, rows=rows, allocated_bytes=allocated,
@@ -107,14 +113,36 @@ def capture(roots, *, metadata_ceiling, file_hash_cache=None):
                 hostname=os.uname().nodename, native_permission=False)
 
 
+def identity_value(value):
+    """File identity excludes mutable filesystem block-allocation reports.
+
+    Every observation still carries, sums and bounds its actual allocation.
+    Full bytes, inode, logical size, link count, times, mode and uid stay exact.
+    """
+    return dict(value, allocated_bytes=None,
+                rows=[{k:v for k,v in row.items() if k != 'allocated'}
+                      for row in value['rows']])
+
+
+def identity_digest(value):
+    return digest(identity_value(value))
+
+
 def verify(expected, actual):
     for proof in (expected, actual):
         need(proof.get('native_permission') is False
              and proof['value']['schema'] == SCHEMA
              and proof['portable_sha256'] == digest(proof['value'])
+             and all(type(row.get('allocated'))is int and row['allocated']>=0
+                     for row in proof['value']['rows'])
+             and proof['value']['allocated_bytes']==sum(row['allocated']for row in proof['value']['rows'])
              and proof['value']['allocated_bytes'] <= proof['value']['metadata_ceiling'],
              'COMPLETE_HASHED_METADATA_PROOF')
-    need(expected['value'] == actual['value'], 'SAME_FILESYSTEM_PATHS_INODES_STATS_AND_FULL_CONTENTS')
+    need(identity_value(expected['value']) == identity_value(actual['value']),
+         'SAME_FILESYSTEM_PATHS_INODES_STATS_AND_FULL_CONTENTS')
     return dict(portable_sha256=actual['portable_sha256'],
+                portable_identity_sha256=identity_digest(actual['value']),
+                historical_allocated_bytes=expected['value']['allocated_bytes'],
+                current_allocated_bytes=actual['value']['allocated_bytes'],
                 kernel_device_namespace_changed=expected['kernel_device_ids'] != actual['kernel_device_ids'],
                 native_permission=False, ledger_changed=False)
