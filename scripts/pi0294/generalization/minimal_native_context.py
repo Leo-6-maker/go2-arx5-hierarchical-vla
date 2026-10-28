@@ -161,7 +161,7 @@ def verify_release(root,request_path,allocation,release,*,ready_bytes=None,effec
     proof=admission.validate(global_bytes=(root.parent.parent/'HOPPER_RESOURCE_LEDGER.json').read_bytes(),
         local_bytes=decode('LOCAL_base64'),request_bytes=request_path.read_bytes(),manifest_bytes=(root/'RUN_MANIFEST.json').read_bytes(),
         job_id=job,hostname=host,user=os.environ['USER'],native_job_bytes=e.raw(raw_job),queue_proof=v['complete_queue'],
-        site_bytes=decode('site_base64'),effective_queue_bytes=(root/'plans/MINIMAL_EFFECTIVE_QUEUE_LIMITS.private.json').read_bytes(),
+        site_bytes=decode('site_base64'),effective_queue_bytes=sealed(root,str(request_path.parent.relative_to(root)/'EFFECTIVE_QUEUE_LIMITS.json'),parse=False).read_bytes(),
         independent_job_bytes=decode('independent_confirmation_base64')if v.get('independent_confirmation_base64')else None,
         now_epoch=time.time(),ready_bytes=ready_bytes,effect_bytes=effect_bytes)
     need(proof['job_id']==allocation['job_id'] and proof['request_sha256']==allocation['request_sha256']

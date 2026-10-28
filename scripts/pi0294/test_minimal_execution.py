@@ -31,6 +31,7 @@ def request(g,cap):
         request_id='12345678-1234-4234-8234-123456789abc',submission_nonce='12345678-1234-4234-8234-123456789abd',
         source_sha='f'*40,run_manifest_sha256='a'*64,cold_input_audit_sha256='b'*64,
         raw_parent_audit_plan_sha256='c'*64,frozen_input_packet_sha256='d'*64,Core_measurement_capture_sha256=a.sha(cap),
+        effective_queue_proof_sha256='e'*64,
         T_CD=m['T_CD'],deadline_epoch=m['deadline_epoch'],stop_new_training_epoch=m['stop_new_training_epoch'])
 
 def closed_CPU_fixture(g):

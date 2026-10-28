@@ -11,16 +11,26 @@ from scripts.pi0294.generalization import minimal_execution as e,minimal_native_
 from scripts.pi0294.dec1 import vanda_campaign as q
 
 
+def queue_limits(observed_epoch):
+    reads={}
+    for name in ('auto','batch_gpu'):
+        v=dict(enabled='True',started='True',resources_max=dict(walltime='168:00:00'))
+        if name=='auto':v['route_destinations']=['batch_gpu']
+        reads[name]=dict(argv=['/opt/pbs/bin/qstat','-Q','-f','-F','json',name],returncode=0,stderr='',
+            stdout=json.dumps(dict(Queue={name:v})))
+    return dict(source='VANDA_NATIVE_QSTAT_EFFECTIVE_QUEUE_LIMITS',requested_queue='auto',
+        destination='batch_gpu',maximum_wall_s=604800,observed_epoch=observed_epoch,raw_queue_readbacks=reads)
+
+
 @pytest.fixture
 def packet(actual):
     g,cap=actual;g=closed_CPU_fixture(g);r=request(g,cap);now=1793131105.;job='12345.stdct-mgmt-02'
-    limits=e.raw(dict(source='VANDA_NATIVE_QSTAT_EFFECTIVE_QUEUE_LIMITS',requested_queue='auto',
-        destination='batch_gpu',maximum_wall_s=604800,observed_epoch=now-6))
+    limits=e.raw(queue_limits(now-6))
     m=dict(scope=e.scope.SCOPE,platform_training_version=e.VERSION,run_uuid='CPU-fixture-first512',
         output_root='/CPU-fixture/children/CPU-fixture-first512',registered_runs_root='/CPU-fixture/children',
         execution=dict(profile=e.PROFILE,agent_liveness_required=False,sealed_inputs={'plans/MINIMAL_EFFECTIVE_QUEUE_LIMITS.private.json':e.sha(limits)}),
         code=dict(vla_commit=r['source_sha']))
-    r.update(run_uuid=m['run_uuid'],created_epoch=now-5,submit_count=len(g['PBS_submissions'])+1,run_manifest_sha256=e.sha(e.raw(m)))
+    r.update(run_uuid=m['run_uuid'],created_epoch=now-5,submit_count=len(g['PBS_submissions'])+1,run_manifest_sha256=e.sha(e.raw(m)),effective_queue_proof_sha256=e.sha(limits))
     v=e.register(e.raw(g),request_bytes=e.raw(r),Core_measurement_capture_bytes=cap,now_epoch=now-4)['proposed_global']
     v=e.bind(v,r['request_id'],job,now_epoch=now-3)
     root=Path(os.environ['ARX5_FIRST512_MEASUREMENT_CAPTURE']).parent

@@ -61,8 +61,8 @@ def validate(*,global_bytes,local_bytes,request_bytes,manifest_bytes,job_id,host
         'ADMISSION_REAL_NODE_START_AND_ORIGINAL_FULL_SAVE_WINDOW')
     from .minimal_native_launch import effective_queue
     q=effective_queue(effective_queue_bytes,created_epoch=r['created_epoch'],walltime_s=r['walltime_s'])
-    need(m['execution']['sealed_inputs'].get('plans/MINIMAL_EFFECTIVE_QUEUE_LIMITS.private.json')==e.sha(effective_queue_bytes),
-        'ADMISSION_ACTUAL_SEALED_EFFECTIVE_QUEUE_LIMIT')
+    need(r.get('effective_queue_proof_sha256')==e.sha(effective_queue_bytes),
+        'ADMISSION_EXACT_CURRENT_QUEUE_PROOF_BOUND_IN_REQUEST')
     site=json.loads(site_bytes);need(site.get('schema')==SITE
         and site.get('source')=='VANDA_LOGIN_NATIVE_AMGR_LS_AND_CHECKBALANCE'
         and all(site.get(k)==v for k,v in dict(run_uuid=r['run_uuid'],request_id=r['request_id'],

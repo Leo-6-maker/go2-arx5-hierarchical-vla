@@ -154,13 +154,17 @@ class Owner(mature.Owner):
         need(audit['status']=='PASS_ACTUAL_MINIMAL_FIRST512_COLD_INPUTS_NO_MODEL'
             and audit['source_sha']==self.manifest['code']['vla_commit']and audit['run_manifest_sha256']==sha(self.root/'RUN_MANIFEST.json'),
             'OWNER_ACTUAL_COLD_INPUT_SOURCE_AND_MANIFEST')
+        from .minimal_native_launch import effective_queue,collect_effective_queue
+        queue_proof=self.setup.call('FRESH_EFFECTIVE_QUEUE','READ_ONLY',
+            lambda intent,limit:collect_effective_queue(walltime_s=self.request_template['walltime_s']))
+        queue_bytes=e.raw(queue_proof);created=time.time()
+        effective_queue(queue_bytes,created_epoch=created,walltime_s=self.request_template['walltime_s'])
         r=dict(self.request_template,run_manifest_sha256=sha(self.root/'RUN_MANIFEST.json'),
-            cold_input_audit_sha256=sha(cold),created_epoch=time.time(),submit_count=len(g['PBS_submissions'])+1)
+            cold_input_audit_sha256=sha(cold),effective_queue_proof_sha256=e.sha(queue_bytes),
+            created_epoch=created,submit_count=len(g['PBS_submissions'])+1)
         e.request(r);need(r['submit_count']<=e.authority.CAPS['PBS_submissions'],'OWNER_ORIGINAL_EXACT_ADOPTED_PBS_CAP')
-        from .minimal_native_launch import effective_queue
-        effective_queue((self.root/'plans/MINIMAL_EFFECTIVE_QUEUE_LIMITS.private.json').read_bytes(),
-            created_epoch=r['created_epoch'],walltime_s=r['walltime_s'])
         d=self.root/'pbs'/('alloc-'+str(r['submit_count']).zfill(2));d.mkdir(mode=0o700,parents=True)
+        once(d/'EFFECTIVE_QUEUE_LIMITS.json',queue_proof)
         once(d/'REQUEST.json',r);request_bytes=(d/'REQUEST.json').read_bytes()
         self.record('SOURCE_REQUEST',dict(request=r,request_sha256=e.sha(request_bytes),directory=str(d)))
         capture=(self.root/'plans/MINIMAL_ACTUAL_CORE_MEASUREMENT.private.json').read_bytes()
@@ -173,6 +177,13 @@ class Owner(mature.Owner):
         receipt=self.setup.call('REGISTER_REQUEST','MUTATION',lambda intent,limit:self.write_global('REGISTER_REQUEST',
             lambda current:e.register(e.raw(current),request_bytes=request_bytes,Core_measurement_capture_bytes=capture,now_epoch=time.time())['proposed_global']))
         self.record('SOURCE_GLOBAL_RESERVED',receipt)
+        # Registration may be slow. Do not dispatch with a queue observation
+        # that expired after the exact request was bound; retain the registered
+        # row and its costs for normal reconciliation if this guard trips.
+        need(sha(d/'EFFECTIVE_QUEUE_LIMITS.json')==r['effective_queue_proof_sha256'],
+            'OWNER_ORIGINAL_QUEUE_BYTES_UNCHANGED_BEFORE_QSUB')
+        effective_queue((d/'EFFECTIVE_QUEUE_LIMITS.json').read_bytes(),
+            created_epoch=time.time(),walltime_s=r['walltime_s'])
         body='\n'.join(k+'='+repr(v)for k,v in dict(TARGET=str(self.root),DIRECTORY=str(d),REQUEST=r,
             RESERVATION=dict(request_sha256=e.sha(request_bytes),observed_epoch=time.time(),whole_package_already_reserved=True)).items())+'\n'+self.CONFIG['programs']['SUBMIT']
         def qsub(intent,limit):
@@ -212,7 +223,7 @@ class Owner(mature.Owner):
             request_bytes=(d/'REQUEST.json').read_bytes(),manifest_bytes=(self.root/'RUN_MANIFEST.json').read_bytes(),job_id=job,
             hostname=native['exec_host'].split('+')[0].split('/')[0],user='e1192548',native_job_bytes=e.raw(native),
             queue_proof=state['view']['complete_account_queue'],site_bytes=e.raw(site),
-            effective_queue_bytes=(self.root/'plans/MINIMAL_EFFECTIVE_QUEUE_LIMITS.private.json').read_bytes(),
+            effective_queue_bytes=(d/'EFFECTIVE_QUEUE_LIMITS.json').read_bytes(),
             independent_job_bytes=outside,now_epoch=time.time(),ready_bytes=ready,effect_bytes=effects)
         return proof,dict(LOCAL_base64=base64.b64encode(self.local).decode(),complete_queue=state['view']['complete_account_queue'],
             site_base64=base64.b64encode(e.raw(site)).decode(),independent_confirmation_base64=base64.b64encode(outside).decode())

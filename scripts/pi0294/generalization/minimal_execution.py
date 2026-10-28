@@ -152,6 +152,9 @@ def request(r,*,central=False):
     if central:
         need(type(r.get('request_sha256'))is str and re.fullmatch('[0-9a-f]{64}',r['request_sha256'])
              and r.get('status')in STATES,'EXECUTION_KNOWN_CENTRAL_STATE')
+        need(type(r.get('effective_queue_proof_sha256'))is str
+             and re.fullmatch('[0-9a-f]{64}',r['effective_queue_proof_sha256']),
+             'EXECUTION_CENTRAL_SUBMISSION_QUEUE_PROOF_IDENTITY')
         job=r.get('job_id')
         need(job is None and r['status']==STATES[0]or type(job)is str and
              re.fullmatch(r'[0-9]+\.stdct-mgmt-02',job),'EXECUTION_ACTUAL_UNIQUE_PBS_HANDLE')
@@ -260,6 +263,9 @@ def register(global_bytes,*,request_bytes,Core_measurement_capture_bytes,now_epo
     function cannot make the current sealed C50 owner accept unknown rows.
     """
     g=json.loads(global_bytes);r=json.loads(request_bytes);request(r)
+    need(type(r.get('effective_queue_proof_sha256'))is str
+        and re.fullmatch('[0-9a-f]{64}',r['effective_queue_proof_sha256']),
+        'EXECUTION_FRESH_SUBMISSION_QUEUE_PROOF_BOUND_IN_REQUEST')
     from .minimal_measurement import validate as measurement
     measurement_proof=measurement(g,Core_measurement_capture_bytes)
     need(measurement_proof['capture_sha256']==r['Core_measurement_capture_sha256'],

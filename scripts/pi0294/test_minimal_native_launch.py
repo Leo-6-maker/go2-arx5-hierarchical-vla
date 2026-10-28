@@ -4,7 +4,7 @@ from pathlib import Path
 from types import SimpleNamespace
 import pytest
 from scripts.pi0294.generalization import minimal_native_launch as n,minimal_execution as e
-from scripts.pi0294.test_minimal_native_admission import actual,packet
+from scripts.pi0294.test_minimal_native_admission import actual,packet,queue_limits
 
 
 @pytest.fixture
@@ -71,8 +71,7 @@ def test_changed_original_program_is_not_an_implicit_new_launcher(programs):
 
 @pytest.mark.parametrize('change',[None,'expired','future','short_wall','wrong_queue'])
 def test_stale_sealed_queue_is_rejected_before_any_registration_or_qsub(change):
-    q=dict(source='VANDA_NATIVE_QSTAT_EFFECTIVE_QUEUE_LIMITS',requested_queue='auto',destination='batch_gpu',
-        maximum_wall_s=604800,observed_epoch=100.)
+    q=queue_limits(100.)
     if change=='expired':q['observed_epoch']=-21
     elif change=='future':q['observed_epoch']=101.
     elif change=='short_wall':q['maximum_wall_s']=59399
@@ -80,3 +79,21 @@ def test_stale_sealed_queue_is_rejected_before_any_registration_or_qsub(change):
     if change:
         with pytest.raises(PermissionError):n.effective_queue(e.raw(q),created_epoch=100.,walltime_s=59400)
     else:assert n.effective_queue(e.raw(q),created_epoch=100.,walltime_s=59400)==q
+
+
+def test_raw_queue_values_cannot_be_forged_or_change_after_request_binding():
+    q=queue_limits(100.);body=e.raw(q);r={'effective_queue_proof_sha256':e.sha(body)}
+    q['raw_queue_readbacks']['auto']['stdout']=json.dumps(dict(Queue={'auto':dict(enabled='True',started='True',route_destinations=['other'])}))
+    with pytest.raises(PermissionError):n.effective_queue(e.raw(q),created_epoch=100.,walltime_s=59400)
+    assert r['effective_queue_proof_sha256']!=e.sha(e.raw(q))
+
+
+def test_collector_parses_real_shape_and_rejects_bad_native_route(monkeypatch):
+    q=queue_limits(time.time());calls=[]
+    def run(argv,**kwargs):
+        calls.append(argv);row=q['raw_queue_readbacks'][argv[-1]]
+        return SimpleNamespace(returncode=row['returncode'],stdout=row['stdout'],stderr=row['stderr'])
+    monkeypatch.setattr(subprocess,'run',run);value=n.collect_effective_queue(walltime_s=59400)
+    assert len(calls)==2 and value['maximum_wall_s']==604800
+    q['raw_queue_readbacks']['auto']['stdout']=json.dumps(dict(Queue={'auto':dict(enabled='True',started='True',route_destinations=['elsewhere'])}))
+    with pytest.raises(PermissionError):n.collect_effective_queue(walltime_s=59400)
