@@ -1,0 +1,450 @@
+{
+  "schema": "V5_C50_ORIGINAL24_ACTUAL_BEHAVIOR_ONCE_SETTLED_THREE_LEASES_CLOSED_AND_FIRST512_COLD_NATIVE_INSTALL_V1",
+  "observed_epoch": 1793150910.131925,
+  "observed_SGT": "2026-10-28T09:28:30.131925+08:00",
+  "overall_goal_complete": false,
+  "C50": {
+    "population": "ORIGINAL_DEV24_N294101",
+    "checkpoint_step": 1024,
+    "checkpoint_manifest_sha256": "179af34b0d1b0922aa3679516b44fe4755d122738eb53fab87b4e710bc975475",
+    "valid_conditions": 24,
+    "successes": 6,
+    "valid_failures": 18,
+    "success_rate": 0.25,
+    "by_task": {
+      "T1": {
+        "successes": 4,
+        "conditions": 12
+      },
+      "T2": {
+        "successes": 2,
+        "conditions": 12
+      }
+    },
+    "failure_stage_counts": {
+      "ORIGINAL_REFERENCE_GATE_REJECT": 1,
+      "OBJECT_TASK_RESULT": 2,
+      "S1_PRE_EXECUTION_REJECT": 15,
+      "COMPLETE_SUCCESS": 6
+    },
+    "all_original_valid_failures_preserved": true,
+    "one_original_engineering_partial_retained_and_not_scored": true,
+    "original_partial_replacement_only_once": true,
+    "evaluation_conditions_noise_scoring_R0_S1_or_inference_changed": false,
+    "all24_independent_raw_and_two_site_causal_audits": true,
+    "condition_results": [
+      {
+        "condition_id": "PI0294/PV1/DEV/F0/000/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F0-000-T1-N294101",
+        "task": "T1",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+        "duration_s": 28.8,
+        "live_integrations": 14400,
+        "RGB_pairs": 577,
+        "S1_rejections": 0,
+        "result_sha256": "da52c4278314315a154fd9ba0d9e6a97d4aace35727192b11e5dded375785d23",
+        "independent_raw_audit_sha256": "d33661dac7681de720f0de99e99145eabddd5ab628909640697a590592ab672c"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F0/000/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F0-000-T2-N294101",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "OBJECT_TASK_RESULT",
+        "duration_s": 32.0,
+        "live_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "result_sha256": "76d6b6cd7fe3ef40966aa873a0c82ddf1b7f342b2840a7f15f56c8cafe568a5f",
+        "independent_raw_audit_sha256": "69d7924c123c2550c4b9a2ab0cdcb778111a8b069ba84566422f1d552d7e93f3"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F0/001/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F0-001-T1-N294101",
+        "task": "T1",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 11.200000000000001,
+        "live_integrations": 5600,
+        "RGB_pairs": 225,
+        "S1_rejections": 1,
+        "result_sha256": "03390e4bf8d22d194ac0ef1912a4c7c39a006e430a67c80c97442aac18a108c2",
+        "independent_raw_audit_sha256": "31938057f7a7599f47953b36b4e30829948f39744121e0af31186fad662807f8"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F0/001/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F0-001-T2-N294101",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 20.0,
+        "live_integrations": 10000,
+        "RGB_pairs": 401,
+        "S1_rejections": 1,
+        "result_sha256": "b2d3e8575a5c63c20c6a5fd50881b767a747cf5545bc3c5f973d5855ec7669c8",
+        "independent_raw_audit_sha256": "ce911bf5b2f2f7a0776b831d43cce069d515cab963f395e56c15c56323034d0c"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/000/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-000-T1-N294101",
+        "task": "T1",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 1.2,
+        "live_integrations": 600,
+        "RGB_pairs": 25,
+        "S1_rejections": 1,
+        "result_sha256": "46fba0d270fd25f7a2ac9e34fe162f042acd5ae7f0efa6c1bc99e2ff24df1ccc",
+        "independent_raw_audit_sha256": "75719ac43293ed219282190b82a21dc5f0d4435fa0abaf2c9a3bfe14f88ccc75"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/000/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-000-T2-N294101",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 22.400000000000002,
+        "live_integrations": 11200,
+        "RGB_pairs": 449,
+        "S1_rejections": 1,
+        "result_sha256": "f11874d90172dc6842f58a9a1d72d572d13f0ad1c2caf3adc99745f7822d8f0e",
+        "independent_raw_audit_sha256": "8e4d661606a5934d6259fc8f94ccb72d389026d59fe62eccd864c018ec2c6b7c"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/001/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-001-T1-N294101",
+        "task": "T1",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 10.8,
+        "live_integrations": 5400,
+        "RGB_pairs": 217,
+        "S1_rejections": 1,
+        "result_sha256": "a097117349a7f5a4df26f2ae824eca7850642cba7f012b5aafc5efce979058e9",
+        "independent_raw_audit_sha256": "90ff5fbf823796aa42d6f94562d39ec20fa43686d4937a39b4f7e766b8dd9669"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/001/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-001-T2-N294101",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 15.6,
+        "live_integrations": 7800,
+        "RGB_pairs": 313,
+        "S1_rejections": 1,
+        "result_sha256": "9a80911ef289438cb54bffa0f118e4a25c60f5f021417b30a40ef58310a8ae0d",
+        "independent_raw_audit_sha256": "bc69cbca97ac9ca9c5fd52b15110a576b05ab4aff1a22c174c94fa17e7c24d04"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/002/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-002-T1-N294101",
+        "task": "T1",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 10.4,
+        "live_integrations": 5200,
+        "RGB_pairs": 209,
+        "S1_rejections": 1,
+        "result_sha256": "9a50d76f4c5fc7a63291e405381afc30bedcb8417a606689fc70140d6085e1e1",
+        "independent_raw_audit_sha256": "fab43af56ecc1102aef0ae4d80aa41931ed8a6cb2744d6fbb2bc84626d3258a1"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/002/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-002-T2-N294101",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 10.8,
+        "live_integrations": 5400,
+        "RGB_pairs": 217,
+        "S1_rejections": 1,
+        "result_sha256": "a4953e6c3aefa7feb4063627c7515a5f403ed215842defa459d13f25d394c6bb",
+        "independent_raw_audit_sha256": "d2e9ee30a176f3e0beeb6d671ae9d55af7e2b24aa1c0ac8b595b5d4338896eca"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/003/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-003-T1-N294101",
+        "task": "T1",
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "duration_s": 32.0,
+        "live_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "result_sha256": "11afc801394e85380c24c0a37fa41ebb65c6a355032857760d15e3996d6b1f77",
+        "independent_raw_audit_sha256": "025402c5eab3fcf9805e56eb2bbb5ab932b64473f3508e87dca93322341f8788"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/003/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-003-T2-N294101-REPLACEMENT-01",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "OBJECT_TASK_RESULT",
+        "duration_s": 32.0,
+        "live_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "result_sha256": "7f3f8b57ac5785ece564e3232f4c2d0d9fc3cfe402a91610db456775a7bf07ef",
+        "independent_raw_audit_sha256": "5a780c2bf89c4177174f8ec206d95a0cecf01105c751fb9c16f6bb9374b6e5cf"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/004/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-004-T1-N294101",
+        "task": "T1",
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "duration_s": 32.0,
+        "live_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "result_sha256": "8be43e0e9a4f99ebbe991ab539b73b68e6a8c7c1815af6b8767e398159daa474",
+        "independent_raw_audit_sha256": "aa7a29a39fab1d1e853433e1aa147813df28c3f78e4839c7ec16693acbc24def"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F1/004/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F1-004-T2-N294101",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 23.6,
+        "live_integrations": 11800,
+        "RGB_pairs": 473,
+        "S1_rejections": 1,
+        "result_sha256": "0d1ea0e3e583010c2343dd4cd6c0b3e037995a8192ab8d73b8b21f13ef21f76d",
+        "independent_raw_audit_sha256": "7a2b852834a3d2574c5c7c2b3cdb89c980dbfb6ae33544de6a47c1579257ae67"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/000/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-000-T1-N294101",
+        "task": "T1",
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "duration_s": 32.0,
+        "live_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "result_sha256": "e525723f4371ca01f141848136980b4d3b1b0deb49d88ebcc4c854457a135a28",
+        "independent_raw_audit_sha256": "6ccc0aff063fab6a8657236a6aab6913489ee40252a2bc1adaffe6ea7e5bf1b6"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/000/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-000-T2-N294101",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 17.6,
+        "live_integrations": 8800,
+        "RGB_pairs": 353,
+        "S1_rejections": 1,
+        "result_sha256": "fa0945007725f1ccf70fdbd75cbbe4c6d55439aa236027222f6364dc4d430ebd",
+        "independent_raw_audit_sha256": "93a03f3e0f0cfb4b9587bcb64fd3121ba0684fc2beb1c7a293c1765eeaaf17db"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/001/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-001-T1-N294101",
+        "task": "T1",
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "duration_s": 32.0,
+        "live_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "result_sha256": "260eeee3056b0a7ecd4bd0d282d8eafa64782fdf86dc514b67977514dd45f984",
+        "independent_raw_audit_sha256": "898961c8304cee77290d0b7367f4ea19c5428e03762910e918dc71381179f03f"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/001/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-001-T2-N294101",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 22.400000000000002,
+        "live_integrations": 11200,
+        "RGB_pairs": 449,
+        "S1_rejections": 1,
+        "result_sha256": "1c68fd248a17dd16c6476a3400f7c423fb33831c466d23818938ecc58a1aa87a",
+        "independent_raw_audit_sha256": "0a86e14829e00b3db5c1778a6bfb18468ef34703ae42017706960a15ef0c09ce"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/002/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-002-T1-N294101",
+        "task": "T1",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 1.2,
+        "live_integrations": 600,
+        "RGB_pairs": 25,
+        "S1_rejections": 1,
+        "result_sha256": "56bdd8315fd634a323b11629dd8917abb02e5e6946f4f2df620157799b8dfa9a",
+        "independent_raw_audit_sha256": "7da07f45d24d31e6d1b8627bdd7e5ec79cf2ffc240fb01d7ff00149ead833bb0"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/002/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-002-T2-N294101",
+        "task": "T2",
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "duration_s": 32.0,
+        "live_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "result_sha256": "881beed4fd9611ceab591135c742228d92578ff2b16a1f06b50502c83a61f9fb",
+        "independent_raw_audit_sha256": "d970efded28de0a3197c578842e0cdcac3964d3a59966b0caa281665fc3d80bd"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/003/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-003-T1-N294101",
+        "task": "T1",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 10.0,
+        "live_integrations": 5000,
+        "RGB_pairs": 201,
+        "S1_rejections": 1,
+        "result_sha256": "147f7fcdf199d30bf77701dfaa8163a8011d73f766e315b7f42f8abd9439b292",
+        "independent_raw_audit_sha256": "4a15072da7945a0d01e7f37875e5210a6c648493f0bae23c0852a0d57b656f09"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/003/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-003-T2-N294101",
+        "task": "T2",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 19.2,
+        "live_integrations": 9600,
+        "RGB_pairs": 385,
+        "S1_rejections": 1,
+        "result_sha256": "ef45f764bf9f20e4eaffad8070b2b25e9e933fe1a36547e99d2130ee12190013",
+        "independent_raw_audit_sha256": "0d9514b96a41398112214be0fdfae8ba8c2039b62492b6d0dfae80703dd034c8"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/004/T1/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-004-T1-N294101",
+        "task": "T1",
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "duration_s": 12.0,
+        "live_integrations": 6000,
+        "RGB_pairs": 241,
+        "S1_rejections": 1,
+        "result_sha256": "20ac793746936077ed1f293b43203504882a20aa21d6e10e87f58ab725c4eea9",
+        "independent_raw_audit_sha256": "a2c3736868b9f5813311ff1fa2c473fe80dd1bc6ca3f15f49988d8db74814537"
+      },
+      {
+        "condition_id": "PI0294/PV1/DEV/F2/004/T2/N294101",
+        "attempt_id": "C50-PI0294-PV1-DEV-F2-004-T2-N294101",
+        "task": "T2",
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "duration_s": 32.0,
+        "live_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "result_sha256": "1ef4459368c0876807dc6dcc7640b8ef75065a6f1dc5cb167d8b0f3222956535",
+        "independent_raw_audit_sha256": "9ffaa8b5bce2b728a72a2c1e751bee5c3e9ce1254cd2ce11efcf0dadbb146ada"
+      }
+    ]
+  },
+  "native_terminal": {
+    "request_id": "d4b63eff-71e6-4c77-a7c7-dbdfe1b79a52",
+    "source_sha": "ae30beaf53dc6b61c157f9e35b291ddba773e73e",
+    "native_exit_status": 0,
+    "finished_epoch": 1793149048.004593,
+    "owner_and_GPU_actual_OS0": true,
+    "original_complete_stage": true,
+    "unknown_effects": [],
+    "independent_original24_history_sha256": "5dc0b0eba9fa16cd8e22d6b47a06adc239599468723718a0be7c75a4a0852f0b",
+    "stage_completion_sha256": "fb41c45795746e124fbe089de09b9c978fc945bd417e02b3b9c08045d6c35371",
+    "leases": {
+      "control": {
+        "status": "CLOSED",
+        "sha256": "ba08a9025f0fe47a993727baeb06259f61c0ac9bb1198f7d3e49ed6f62e2e22f"
+      },
+      "GPU": {
+        "status": "CLOSED",
+        "sha256": "d48c9a4fa6ddc9e8e335079a1f55fb2db108d5cbc79d177d9a1bdb1174d487f1"
+      },
+      "physical": {
+        "status": "CLOSED",
+        "sha256": "a10ef6371d8ab3cc687d8eced2ba88c8ae5c0929f8d630c69af8102d09253fc6"
+      }
+    },
+    "GLOBAL_sha256": "a5c132a52155a0df8fa3b1a00fb3bc65cf1b3893e03fae4ed6f049cde926230a",
+    "LOCAL_sha256": "55203ce43cef4a49eec08a68844271f64e700d5191ae6599b7afb77fe0f5bfd5",
+    "actual_paired_GLOBAL_LOCAL_checked": true
+  },
+  "C13_continuation_only_costs": {
+    "GPU_s": 8094,
+    "neural_CPU_s": 452,
+    "physical_CPU_s": 4231.991642381,
+    "query_attempts": 752,
+    "model_load_attempts": 1,
+    "new_physical_episodes": 13,
+    "live_integrations": 149000,
+    "shadow_integrations": 149709,
+    "all_prior_failed_attempt_costs_and_outputs_retained": true,
+    "original_paid_IO_not_refunded": true
+  },
+  "cumulative_original_GLOBAL": {
+    "used": {
+      "H200_s": 176656.0,
+      "PBS_submissions": 34,
+      "optimizer_updates": 14786,
+      "neural_queries": 5837
+    },
+    "reserved": {
+      "H200_s": 149700,
+      "neural_queries": 6438,
+      "optimizer_updates": 1028
+    },
+    "completed_CD_stages": [
+      "TRAIN:C50:1024",
+      "TRAIN:D25:1024",
+      "EVAL:C50:N294101"
+    ]
+  },
+  "first512": {
+    "source_sha": "882cc6bd5f20371fbf52ad3233aad0b5ebfb8584",
+    "actual_original_A40_profile_registry_and_active_own_lease_installed": true,
+    "source_files": 1295,
+    "manifest_sha256": "7a9873801b2b609b1c797b4ef0a5ace972b96e19eecc84e047150f84d19e6d5e",
+    "detached_training_owner_or_PBS_submitted": false,
+    "new_model_queries_or_optimizer_updates": 0,
+    "preflight_reply": "28s canonical-master observation expired; original Journal UNKNOWN preserved, no replay",
+    "preflight_actual_kernel_process": {
+      "pid": 333251,
+      "procstart": 65722148,
+      "state": "D",
+      "CPU_s": 22.8,
+      "observed_epoch": 1793151554.1357093
+    },
+    "cold_input_audit_exists": false,
+    "CPU_code_tests_are_not_native_GR00T_qualification": true,
+    "published_owner_scope": "Original detached watch plus13 finite releases, independent full-state/output audit, once settlement/own close",
+    "cold_fixes": "Reuse mature C50 COV probe factory, original canonical semantic panel digest and pinned cluster git; no recipe or population change",
+    "CPU_validation": {
+      "owner_launch_audit_related_passed": 249,
+      "related_subtests": 18,
+      "subsequent_actual_captured_native_seams_passed": 36,
+      "final_original_readers_digest_passed": 6,
+      "counts_overlap_do_not_sum": true,
+      "limitations": "Real temporary CPU state/onceIO/kernel, captured historical full budgets and explicit future native inputs. No full GR00T/CUDA/E1/E2 qualification."
+    }
+  },
+  "remaining": {
+    "D25_valid_conditions": 0,
+    "GEN1_valid_conditions": 0,
+    "E0_native_queries": 0,
+    "E1_formal_steps": 0,
+    "E2_formal_steps": 0,
+    "WDR_core64": 0
+  },
+  "next_minimum_block": "Preserve live cold preflight333251/65722148 and reconcile its actual terminal/audit; no replay. Complete fresh effective-queue proof at the new first512 submission boundary, original detached owner and actual model qualification. Deliver fixed D25 inference package and run original24 on Core; only a new explicit D25 binding may overlap one first512 main. Then GEN1 and both fixed512 original24/pairing/closure.",
+  "scope_caps_or_clocks_changed": false,
+  "matrix3_and_final20GPUh40GiB_preserved": true,
+  "T_CD": 1792932749.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "deadline_epoch": 1793537549.8133287
+}
