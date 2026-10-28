@@ -17,8 +17,16 @@ RETRY_VERSION='ARX5_FIRST512_KNOWN_ZERO_RETRY_PLUS_ORIGINAL_D25_CORE_COLD_V1'
 RETRY_LOCAL_MIRROR='ARX5_minimal_first512_LOCAL_retry_inventory_mirror'
 
 
-def _version(adapter):return RETRY_VERSION if adapter is adapters.retry else VERSION
-def _mirror(adapter):return RETRY_LOCAL_MIRROR if adapter is adapters.retry else LOCAL_MIRROR
+def _version(adapter):
+    if adapter is adapters.remaining:
+        from .minimal_remaining_concurrency import VERSION as remaining_version
+        return remaining_version
+    return RETRY_VERSION if adapter is adapters.retry else VERSION
+def _mirror(adapter):
+    if adapter is adapters.remaining:
+        from .minimal_remaining_concurrency import LOCAL_MIRROR as remaining_mirror
+        return remaining_mirror
+    return RETRY_LOCAL_MIRROR if adapter is adapters.retry else LOCAL_MIRROR
 
 
 def binding(g):
@@ -81,6 +89,9 @@ def current_native_view(g,Core_record,*,queue_proof,terminal_proofs,independent_
 
 def validate_pair(g,pbs_rows,Core_rows):
     """Allow precisely the two different scopes/sites, never two trainers."""
+    if len(pbs_rows)==1 and pbs_rows[0].get('platform_training_version')==adapters.remaining.VERSION:
+        from .minimal_remaining_concurrency import validate_pair as remaining_pair
+        return remaining_pair(g,pbs_rows,Core_rows)
     e.need(len(pbs_rows)==len(Core_rows)==1 and e.FIELD in g,
            'CONCURRENT_EXACT_ONE_MAIN_AND_ONE_CORE_ROLE')
     proof=binding(g);adapter,selected,index=adapters.current(g);main=pbs_rows[0];core=Core_rows[0]

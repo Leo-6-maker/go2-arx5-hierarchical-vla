@@ -66,8 +66,8 @@ def first512_forecast(global_bytes, historical_LOCAL_bytes):
     parts = components()
     from .minimal_package import validate as package, reservation_credit
     adopted_package=package(global_value)
-    from . import minimal_execution as execution, minimal_retry_execution as retry
-    adapter=retry if retry.FIELD in global_value else execution
+    from . import minimal_execution as execution, minimal_retry_execution as retry,minimal_remaining_execution as remaining
+    adapter=remaining if remaining.FIELD in global_value else retry if retry.FIELD in global_value else execution
     additional = (adapter.forecast_remaining(global_value)if adopted_package is not None else
                   _vector({key: sum(row[key] for row in parts.values())
                            for key in baseline['dimensions']}))

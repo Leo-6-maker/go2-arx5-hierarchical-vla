@@ -82,6 +82,15 @@ def root_context(root,request_path,*,full=False,require_bound=True):
              'CONTEXT_RETRY_PHYSICAL_AND_CLOSED_PREDECESSOR_REQUIRED')
         need(sealed(root,adapters.PHYSICAL)==index['physical_custody'],
              'CONTEXT_RETRY_EXACT_GLOBAL_AND_SEALED_PHYSICAL_CUSTODY')
+    if adapter is adapters.remaining:
+        from . import minimal_remaining_contract as remainder,minimal_remaining_inputs as saved
+        need({adapter.PHYSICAL,adapter.PREFIX_STORAGE,remainder.PREFIX,remainder.CLOSURE,saved.PLAN}<=set(inputs)
+            and sealed(root,adapter.PHYSICAL)==index['physical_custody'],
+            'CONTEXT_REMAINDER_REAL_AUDIT_CLOSED_PREFIX_AND_NONZERO_PHYSICAL_CUSTODY')
+        remainder.saved_prefix(sealed(root,remainder.PREFIX,parse=False).read_bytes(),sealed(root,remainder.CLOSURE,parse=False).read_bytes())
+        from . import minimal_remaining_dispatch as dispatch
+        dispatch.check(sealed(request_path.parent,dispatch.FILE,parse=False).read_bytes(),
+            sealed(root,'control/resident-owner/SOURCE_QSUB_INTENT.private.json'),r,now_epoch=time.time())
     for name,h in inputs.items():need(sha(sealed(root,name,parse=False))==h,'CONTEXT_SEALED_INPUT:'+name)
     seal=sealed(root,'SOURCE_SEAL.json');prefix=Path(m['code']['capsule_relative']);code=root/prefix
     need(not prefix.is_absolute() and '..'not in prefix.parts and sha(root/'SOURCE_SEAL.json')==m['code']['source_seal_sha256']
@@ -98,6 +107,12 @@ def root_context(root,request_path,*,full=False,require_bound=True):
             critical.update('scripts/pi0294/generalization/'+name for name in
                 ('minimal_portable_inventory.py','minimal_followup_scope.py'))
     if r.get('continuation_generation')==3:critical.add('scripts/pi0294/generalization/minimal_entry_continuation_scope.py')
+    if adapter is adapters.remaining:
+        critical.update('scripts/pi0294/generalization/'+name for name in(
+            'minimal_remaining_execution.py','minimal_remaining_contract.py','minimal_remaining_effects.py',
+            'minimal_remaining_inputs.py','minimal_remaining_worker.py','minimal_remaining_physical.py',
+            'minimal_remaining_concurrency.py','minimal_remaining_terminal.py','minimal_remaining_dispatch.py','minimal_execution_adapter.py',
+            'minimal_partial_completion_scope.py','minimal_portable_inventory.py','minimal_validation_cache.py'))
     need(critical<=set(seal['files']),'CONTEXT_FULL_NATIVE_DEPENDENCY_SEAL')
     for name in seal['files']if full else critical:
         need(sha(sealed(root,str(prefix/name),parse=False))==seal['files'][name],'CONTEXT_EXECUTING_SOURCE:'+name)

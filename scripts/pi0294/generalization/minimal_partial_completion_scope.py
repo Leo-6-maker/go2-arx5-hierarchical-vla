@@ -85,16 +85,21 @@ def validate(g,*,generation=None):
         and m['adopted_epoch']+NATIVE['H200_s']<clock['stop_new_training_epoch'],
         'COMPLETION_EXACT_PAID_CONTROL_AND_UNRESET_WINDOW_NOT_NATIVE_GO')
     before=m['before']
+    from . import minimal_remaining_execution as remaining
+    selected=remaining.basic(g)
     e.need(g['CPU_s']>=before['CPU_s']+CONTROL['Hopper_CPU_s']
         and g['new_storage_current_bytes']>=before['new_storage_current_bytes']+CONTROL['Hopper_storage_bytes']
         and g['new_storage_peak_bytes']>=max(before['new_storage_peak_bytes'],g['new_storage_current_bytes'])
-        and g['used']['PBS_submissions']==before['PBS_submissions']==38,
+        and before['PBS_submissions']==38
+        and(g['used']['PBS_submissions']==38 if selected is None else 39<=g['used']['PBS_submissions']<=AFTER),
         'COMPLETION_OLD_COSTS_CURRENT_PEAK_AND_NO_NEW_REQUEST_AT_CONTROL_STAGE')
     return m
 
 
 def planned_unregistered(g):
-    return deepcopy(NATIVE)if validate(g)is not None else e._vector({})
+    from . import minimal_remaining_execution as remaining
+    if validate(g)is None or remaining.basic(g)is not None:return e._vector({})
+    return deepcopy(NATIVE)
 
 
 def budget_LOCAL(g,l):

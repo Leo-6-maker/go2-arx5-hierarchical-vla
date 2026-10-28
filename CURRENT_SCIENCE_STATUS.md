@@ -27,6 +27,8 @@
 
 ## 最新工程状态
 
+2026-10-29后继冷接线：[剩余独立请求／物理custody／终态消费者](reports/PI0294/design/parallel-science-20261022/ARX5_REMAINING_CENTRAL_REQUEST_CUSTODY_TERMINAL_CANDIDATE_CPU_ACTUAL_20261029.json)已实现，保留实际非零前缀及旧费用；新三阶段仍仅1026更新／76查询／7加载。Vanda既有ACTIVE父控制目录已保存25文件候选差分，原Journal确认一次metadata写入，20项直接CPU断言通过，非pytest／完整原生登记资格。原本地pytest触及CPU限额的中断如实保留；未改运行capsule／GLOBAL，没有新request、qsub或模型效果。下一是复用缓存固定源码、实际custody／独占角色及全资源原生冷准入，不是追加前缀审计或重新传张量。两臂正式仍0／512，D25／GEN1仍各0／24。
+
 2026-10-29后继冷接线：[剩余三阶段与队列CPU差分](reports/PI0294/design/parallel-science-20261022/ARX5_REMAINING_THREE_SESSION_EFFECTS_NINE_TICKETS_AND_QUEUE_CPU_DIFFERENTIAL_ACTUAL_20261029.json)新增独立的1026更新／76查询／7加载效果类型、九个原owner阶段门和复用原Trainer的worker。已保存15次E2零步输出仅作SHA及实际输入绑定的只读输入，不增加新查询链接；旧2更新／71查询／5加载全部保留。旧五阶段语义不变，99项定向CPU检查通过；此前异常类型fixture失败及31通过／23跳过的有界中断保留，非完整CI／原生模型资格。**中央登记、物理custody、运行选择及终态审计尚未接齐，新版本仍拒绝原生准入，没有新request或qsub。** Vanda实际读回93项原独立流审计witness的元数据及原raw审计，未重读张量；完整GLOBAL＋队列读取在原35秒内成功，实耗25.86CPU秒，确认旧15秒控制CPU不足，现仅在原已付1800秒控制范围使用30秒上界。Core管理文件安装UNKNOWN仍未核清，两次新增精确只读均35秒超时；没有重发安装或启动D25，不把超时当终止。D25／GEN1有效条件仍各0，正式两臂仍各0／512。
 
 2026-10-29后继实际：[原64MiB控制计划及配对装配](reports/PI0294/design/parallel-science-20261022/D25_SAME64_NATIVE_DUAL_ADOPTED_AND_PAIRED_ASSEMBLY_FIXED_ACTUAL_20261029.json)已真实完成。GLOBAL `a4c5cf47`／LOCAL `cad80ab3`及原生intent、receipt独立回读匹配；仅将原未用只读差分64KiB明确转给冷配置，总额、CPU、历史UNKNOWN和终态／收尾预留不变。GLOBAL成功回包加SSH提示超过320字节，原UNKNOWN和费用上界保留，没有重发。Core已实际固定完整ASSEMBLY及两peer，运行源码仍`2a23eeb6`、原固定D25请求／模型不变。四项定向临时原Journal／onceIO与激活存储测试通过，服务器／GPU进程仍显式fixtures；不称原生模型资格。**GPU尚未启动，D25仍0/24。** 下一是完整有限启动接缝，再原180秒绑定／双采用和600秒80周期，不能把准备或CPU回归当作启动。

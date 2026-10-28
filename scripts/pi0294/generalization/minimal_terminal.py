@@ -15,6 +15,7 @@ NATIVE='ARX5_MINIMAL_ACTUAL_PBS_AND_PROCESS_TERMINAL_V1'
 AUDIT='PASS_INDEPENDENT_ARX5_MINIMAL_FIVE_SESSION_COMPLETE_STATE_AND_OUTPUTS'
 PARTIAL='KNOWN_FAILED_OR_PARTIAL_MINIMAL_SESSION_INVENTORY_PRESERVED'
 SCHEMA='ARX5_MINIMAL_ORIGINAL_GLOBAL_ONCE_NATIVE_TERMINAL_V1'
+REMAINING_AUDIT='PASS_INDEPENDENT_ARX5_MINIMAL_REMAINING_THREE_SESSION_COMPLETE_STATE_AND_OUTPUTS'
 need=e.need
 
 
@@ -29,7 +30,24 @@ def digest(value):
     return value
 
 
-def terminal_values(row,native,effects,audit,*,retry_global=None):
+def terminal_values(row,native,effects,audit,*,retry_global=None,remaining_global=None):
+    from . import minimal_remaining_contract as remainder
+    is_remaining=row.get('platform_training_version')==remainder.VERSION
+    specs=e.native_sessions();loads_by_session=(1,3,3,2,2);summary_schema=SUMMARY
+    complete_field='all_five_sessions_runtime_complete';audit_status=AUDIT
+    if is_remaining:
+        from . import minimal_remaining_execution as execution
+        from .minimal_remaining_effects import SUMMARY as summary_schema
+        need(remaining_global is not None and retry_global is None
+            and execution.basic(remaining_global)[1]==row,'TERMINAL_EXACT_ADOPTED_REMAINDER_GLOBAL_REQUIRED')
+        specs=execution.fixed_request_fields()['session_plan'];loads_by_session=(3,2,2)
+        complete_field='all_remaining_sessions_runtime_complete';audit_status=REMAINING_AUDIT
+        need(effects.get('retained_old_native')==remainder.OLD_PAID
+            and effects.get('audited_prefix_result_sha256')==audit.get('saved_prefix_result_sha256')==remainder.RESULT
+            and effects.get('audited_prefix_closure_sha256')==audit.get('saved_prefix_closure_sha256')==remainder.CLOSED
+            and effects.get('carried_saved_E2_zero_queries')==15 and effects.get('carried_queries_added_to_new_links')==0,
+            'TERMINAL_REMAINDER_REAL_SAVED_PREFIX_NOT_REPLAYED_OR_REFUNDED')
+    else:need(remaining_global is None,'TERMINAL_OLD_REQUEST_HAS_NO_REMAINDER_VIEW')
     need(native.get('schema')==NATIVE and native.get('job_state')=='F'
         and native.get('job_id')==effects.get('job_id')==row['job_id']
         and native.get('request_id')==effects.get('request_id')==row['request_id']
@@ -51,7 +69,7 @@ def terminal_values(row,native,effects,audit,*,retry_global=None):
     cpu=bounded(native['conservative_CPU_s'],row['CPU_upper_s'])
     # The original 900s remains in its original settled row. Only the explicit
     # retry contract can prove that history and exclude a second charge here.
-    prior=e.PREPARATION_CPU_UPPER
+    prior=0 if is_remaining else e.PREPARATION_CPU_UPPER
     if retry_global is not None:
         from .minimal_retry_execution import terminal_CPU_prior
         prior=terminal_CPU_prior(retry_global,row)
@@ -59,7 +77,7 @@ def terminal_values(row,native,effects,audit,*,retry_global=None):
     need(native.get('prior_readonly_preparation_CPU_upper_s')==prior
         and cpu==native.get('new_native_conservative_CPU_s',-1)+prior,
         'TERMINAL_PRIOR900_INCLUDED_ONCE_NOT_REFUNDED_OR_DOUBLE_ADDED')
-    need(effects.get('schema')==SUMMARY and effects.get('pending_updates')==[]
+    need(effects.get('schema')==summary_schema and effects.get('pending_updates')==[]
         and effects.get('unknown_query_intents')==[]
         and effects.get('global_budget_is_only_external_reservation')is True
         and effects.get('new_physics')==effects.get('new_episodes')==0,
@@ -67,10 +85,10 @@ def terminal_values(row,native,effects,audit,*,retry_global=None):
     counts={key:bounded(effects[key],row[limit],integer=True)for key,limit in
         [('optimizer_updates_committed','optimizer_update_limit'),('query_attempts','query_limit'),
          ('model_load_attempts','model_load_limit')]}
-    sessions=effects.get('sessions');ids=[s['id']for s in e.native_sessions()]
+    sessions=effects.get('sessions');ids=[s['id']for s in specs]
     need(type(sessions)is dict and set(sessions)==set(ids),'TERMINAL_ALL_FIVE_SESSION_SLICES')
     complete=[];totals=[0,0,0];active=[];not_started=False
-    for spec,loads in zip(e.native_sessions(),(1,3,3,2,2)):
+    for spec,loads in zip(specs,loads_by_session):
         s=sessions[spec['id']];state=s.get('status')
         need(state in('NOT_STARTED','ACTIVE','COMPLETE'),'TERMINAL_FINITE_SESSION_STATE')
         values=[bounded(s[k],upper,integer=True)for k,upper in
@@ -84,9 +102,9 @@ def terminal_values(row,native,effects,audit,*,retry_global=None):
                 'TERMINAL_COMPLETE_SESSION_ORIGINAL_EXACT_ORDER_AND_COUNTS')
             digest(s.get('terminal_receipt_sha256'));complete.append(spec['id'])
     need(totals==list(counts.values())and effects.get('active_session')==(active[0]if active else None)
-        and effects.get('all_five_sessions_runtime_complete')==(len(complete)==5),
+        and effects.get(complete_field)==(len(complete)==len(specs)),
         'TERMINAL_AGGREGATE_COUNTS_NOT_FORMAL_ONLY_OR_SELF_REPORTED_COMPLETE')
-    need(audit.get('status')in(AUDIT,PARTIAL)and audit.get('request_sha256')==row['request_sha256']
+    need(audit.get('status')in(audit_status,PARTIAL)and audit.get('request_sha256')==row['request_sha256']
         and audit.get('source_sha')==row['source_sha']and audit.get('job_id')==row['job_id']
         and audit.get('effect_summary_sha256')==e.sha(e.raw(effects))
         and audit.get('inventory_sha256')==native['inventory_sha256']
@@ -94,8 +112,8 @@ def terminal_values(row,native,effects,audit,*,retry_global=None):
         and audit.get('statistics_sha256')==e.R0
         and audit.get('new_model_loads')==audit.get('new_queries')==audit.get('new_updates')==audit.get('new_physics')==0,
         'TERMINAL_INDEPENDENT_SAME_JOB_FULL_STATE_OR_PRESERVED_PARTIAL_AUDIT')
-    success=native['Exit_status']==0 and len(complete)==5 and audit['status']==AUDIT
-    if audit['status']==AUDIT:
+    success=native['Exit_status']==0 and len(complete)==len(specs)and audit['status']==audit_status
+    if audit['status']==audit_status:
         need(success and audit.get('audited_session_ids')==ids
             and audit.get('same15_zero_step_raw_wrapped_arms_exact')is True
             and audit.get('two_full_optimizer_scheduler_RNG_sampler_restore_pairs_exact')is True
