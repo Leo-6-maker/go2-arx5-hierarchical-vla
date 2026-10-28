@@ -24,6 +24,7 @@ def candidate(global_bytes,local_bytes,*,native_readback,closed_readback,old_col
         and old_cold_close_readback.get('new_writes')==0 and len(old_cold_close_readback.get('lease_sha256',''))==64,
         'RETRY_FIRST_COLD_ROLE_ACTUALLY_CLOSED')
     e.need(inv['status']=='ACTUAL_TWO_CLOSED_ROOTS_UNIQUE_INODE_READONLY' and inv['new_writes']==0
+        and inv.get('includes_directory_allocations') is True
         and set(inv['roots'])=={'arx5-minimal-raw-parent-first512-01','arx5-minimal-raw-parent-first512-02'}
         and type(inv['unique_allocated_bytes'])is int and 0<inv['unique_allocated_bytes']<=e.CONTROL['Hopper_storage_bytes']
         and now_epoch>=inv['observed_epoch'] and now_epoch-inv['observed_epoch']<=120,

@@ -25,7 +25,7 @@ def test_actual_candidate_preserves_gross_but_grants_nothing(packet):
     assert not result['periodic_actual_physical_enforcement_implemented']
 
 
-@pytest.mark.parametrize('change',['stale','too_large','model','old_request','same_nonce','wrong_root','old_lease'])
+@pytest.mark.parametrize('change',['stale','too_large','model','old_request','same_nonce','wrong_root','old_lease','directory_bytes'])
 def test_unproven_or_cross_scope_credit_rejected(packet,change):
     p=deepcopy(packet)
     if change=='stale':p['now_epoch']+=121
@@ -35,4 +35,5 @@ def test_unproven_or_cross_scope_credit_rejected(packet,change):
     if change=='same_nonce':p['new_nonce']=p['native_readback']['native']['submission_nonce']
     if change=='wrong_root':p['new_root']='/different/root'
     if change=='old_lease':p['old_cold_close_readback']['status']='ACTIVE'
+    if change=='directory_bytes':p['root_inventory']['includes_directory_allocations']=False
     with pytest.raises(PermissionError):retry.candidate(**p)
