@@ -25,7 +25,10 @@ def packet(monkeypatch,request):
     files={'config.json':raw({'model_name':'/scratch/fixture/Cosmos','action_horizon':40}),
         'model.safetensors.index.json':raw(index),'statistics.json':stats,
         'processor/processor_config.json':raw({'processor_kwargs':{'model_name':'/scratch/fixture/Cosmos'}}),
-        'processor/statistics.json':stats,'processor/embodiment_id.json':raw({'NEW_EMBODIMENT':10}),
+        # The original Processor serializes its own statistics. Its bytes are
+        # separately audited and need not use root R0's whitespace/layout.
+        'processor/statistics.json':json.dumps({'fixture_statistics':True},separators=(',',':')).encode(),
+        'processor/embodiment_id.json':raw({'NEW_EMBODIMENT':10}),
         'FULL_SOURCE_CHECKPOINT_REFERENCE.json':raw(reference),
         'model-00001-of-00001.safetensors':b'opaque CPU fixture, never parsed as a real model'}
     complete=dict(schema=export.SCHEMA,arm=arm,global_step=512,cursor=16384,scheduler_horizon=1024,

@@ -57,8 +57,8 @@ def ordinary_members(complete,index,reference,*,arm,endpoint):
         and all(type(k)is str and k and type(v)is str for k,v in weights.items())
         and set(weights.values())==shards
         and all(re.fullmatch(r'model-[0-9]{5}-of-[0-9]{5}\.safetensors',n)for n in shards)
-        and set(files)==set(SMALL)|shards and files['statistics.json']==e.R0
-        and files['processor/statistics.json']==e.R0,'TRANSFER_ONLY_FULL_INFERENCE_NO_OPTIMIZER_RNG_OR_DATA')
+        and set(files)==set(SMALL)|shards and files['statistics.json']==e.R0,
+        'TRANSFER_ONLY_FULL_INFERENCE_NO_OPTIMIZER_RNG_OR_DATA')
     return {n:files[n]for n in sorted(files)}
 
 
