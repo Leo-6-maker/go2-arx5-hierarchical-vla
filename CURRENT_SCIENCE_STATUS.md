@@ -27,6 +27,9 @@
 
 ## 最新工程状态
 
+
+2026-10-29最新实际：[控制采用及冷态未闭合](reports/PI0294/design/parallel-science-20261022/ARX5_REMAINING_CONTROL_ADOPTED_PARTIAL_COLD_ROLE_NO_GPU_ACTUAL_20261029.json)确认原GLOBAL once采用及独立intent／receipt回读完成，GLOBAL `d31fa63c`；240siteCPU秒／90localCPU秒／64KiB控制传输已支付，原总上限不变。source `5c6cf840`的剩余冷角色、原模型路径别名与真实数据读取目录已落地，但没有原生冷输入审计PASS文件、owner或qsub回执。首次包装脚本语法错误以及后续别名部署顺序错误均保留；最后有限进程已不在，未保存退出码，不能推断具体退出原因。新的只读诊断实际1991控制字节另保留未分类费用责任，上界1siteCPU／1localCPU／8KiB；在进一步准入前须精确归账，不能说已付或删除。**GPU尚未启动，E2资格优化仍0、E1/E2正式各0/512。** 下一直接完成剩余冷资格与原owner新鲜全资源／项目／完整队列门，再唯一提交；不重放旧启动、不改运行capsule、不追加Viewer工作。
+
 2026-10-29同范围工程补充：[完整14维captured复算](reports/PI0294/design/parallel-science-20261022/ARX5_REMAINING_INSTALL_CONTROL_FULL14_CAPTURED_CPU_ACTUAL_20261029.json)在实际GLOBAL `a4c5cf47`／历史LOCAL `cad80ab3`上确认，仅增加240siteCPU秒／90localCPU秒／64KiB控制传输，原总上限全部不变，完整剩余工作shortfalls为0；传输仍余108255bytes、site输出仍余28391176bytes。原旧控制600／256KiB与全部UNKNOWN／费用不重写，原owner3000CPU bank不动，新增输出费用为0、GPU/PBS/训练条件均不增加。该有界工程安排依据既有自主修复授权，仍须原GLOBAL once实际采用及独立回读；当前只是纯复算，没有GPU准入。
 
 2026-10-29后继实际：[剩余Vanda不可变源码全文回读](reports/PI0294/design/parallel-science-20261022/ARX5_REMAINING_IMMUTABLE_VANDA_SOURCE_FULL_READBACK_ACTUAL_20261029.json)确认1366个文件、source `1f2294d4`／seal `ba60bcad`。原10秒控制调用实际报11.409CPU秒，导致成功写回包被拒绝；UNKNOWN保留，随后独立逐文件SHA／权限回读证明安装实际完成，未重发；从原cold600另保守计2秒，历史上界不退款。GLOBAL仍`a4c5cf47`、无新请求／qsub／神经效果。当前有限传输仅余1476bytes，须先完成后续安装／启动／终态的完整有限控制安排，不得静默超过旧额度；原owner3000CPU bank未启动。正式两臂及D25／GEN1有效条件仍为0，源码metadata实际部署不是模型资格。
