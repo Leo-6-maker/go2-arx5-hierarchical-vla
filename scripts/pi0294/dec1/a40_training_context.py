@@ -78,9 +78,10 @@ def minimal_training_adapter(version,profile):
     from scripts.pi0294.generalization.minimal_execution_adapter import select
     adapters={a.VERSION:a for a in (minimal_execution,minimal_retry_execution)}
     if version in adapters:
-        if profile!=adapters[version].PROFILE:fail('EXACT_MINIMAL_VERSION_AND_TYPED_PROFILE')
-        return select(version,profile)
-    if profile in {a.PROFILE for a in adapters.values()}:
+        try:return select(version,profile)
+        except PermissionError:fail('EXACT_MINIMAL_VERSION_AND_TYPED_PROFILE')
+    from scripts.pi0294.generalization.minimal_followup_scope import PROFILE as followup_profile
+    if profile in {a.PROFILE for a in adapters.values()}|{followup_profile}:
         fail('MINIMAL_PROFILE_REQUIRES_ITS_EXPLICIT_VERSION')
     return None
 
