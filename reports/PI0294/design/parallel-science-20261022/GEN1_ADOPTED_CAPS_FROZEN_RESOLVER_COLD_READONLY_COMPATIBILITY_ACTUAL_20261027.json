@@ -1,0 +1,40 @@
+{
+  "status": "ACTUAL_READONLY_FULL_FUTURE_PREFLIGHT_PASS_NOT_SETTLEMENT",
+  "date": "2026-10-27",
+  "original_cold_source": "e4c1cb27c44b35b72ad2b1f9644b9286ee8744d7",
+  "cause": "Original installed accounting capsule predates GEN1 and reports legacy caps despite actual adopted marker",
+  "actual_GLOBAL_sha256": "b4677596437bd402fc16cefb8f6a3f0de3750414e60e8527ee9d280ae4fa9c16",
+  "actual_adopted_caps": {
+    "PBS_submissions": 36,
+    "Hopper_storage_bytes": 1262720385024,
+    "Core_storage_bytes": 512174850048,
+    "transfer_bytes": 356482285568
+  },
+  "original_preflight_blocked_before_any_mutation": true,
+  "new_cold_compatibility": "Validate exact already-adopted GEN grant before selecting only its four dimensions; all other caps remain the original resolver values",
+  "native_readonly_preflight": {
+    "status": "ACTUAL_READONLY_FAILURE_SETTLEMENT_FULL_FUTURE_PREFLIGHT",
+    "before_sha256": "b4677596437bd402fc16cefb8f6a3f0de3750414e60e8527ee9d280ae4fa9c16",
+    "proposed_sha256": "b2659534c88d28092c70faf4172968c8ad816816e5d8d3dd24eb16bc31309ca0",
+    "shortfalls": {},
+    "actual": {
+      "episode_starts": 2,
+      "live_ticks": 30300,
+      "shadow_ticks": 30400,
+      "engine_starts": 162,
+      "Core_CPU_s": 1187.7440292649999,
+      "raw_payload_bytes": 117421213,
+      "unknown_effects": [],
+      "models": 0,
+      "queries": 0,
+      "updates": 0,
+      "admitted_demonstrations": 0,
+      "independent_audit_sha256": "fd9165cda960773ae0c5235a2f25ba8bc3a112e2d6a3099b1637e0322ab361f0"
+    },
+    "new_writes": 0
+  },
+  "related_CPU_tests_passed": 54,
+  "new_native_writes": 0,
+  "old_installed_capsule_modified": false,
+  "science_parameters_changed": false
+}

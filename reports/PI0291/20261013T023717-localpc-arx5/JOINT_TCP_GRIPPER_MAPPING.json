@@ -1,0 +1,322 @@
+{
+  "run_uuid": "20261013T023717-localpc-arx5",
+  "authority_sha": "15cc7957488fb879f5f050e3602327592da7036b",
+  "execution_source_sha": "302ad022f3d3a74dcaba72aa46e59282effad215",
+  "domain": "FIXED_BASE_ARX5_TASK_SIM",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "status": "ACTUAL_COMPILED_NAMED_MAPPING",
+  "dimensions": {
+    "nq": 15,
+    "nv": 14,
+    "nu": 8,
+    "neq": 0,
+    "nmocap": 0
+  },
+  "fixed_base": {
+    "base_link_world_position_m": [
+      0,
+      0,
+      0.4
+    ],
+    "arm_mount_in_base_link_m": [
+      0.05,
+      0,
+      0.1
+    ],
+    "arm_root_world_position_m": [
+      0.05,
+      0,
+      0.5
+    ],
+    "support": "base_link freejoint removed: directly world anchored; no simulated balance or free standing qualification",
+    "legs": "native leg geometry and inertias retained; leg joints removed after baking fixed hip/thigh/calf rotations",
+    "left_hip_rad": 0.1,
+    "right_hip_rad": -0.1,
+    "thigh_rad": 0.8,
+    "calf_rad": -1.5
+  },
+  "arm_joints": [
+    {
+      "name": "x5_joint1",
+      "body": "x5_link1",
+      "qpos_index": 0,
+      "dof_index": 0,
+      "actuator_index": 0,
+      "axis_local": [
+        0,
+        0,
+        1
+      ],
+      "range_rad": [
+        -2.094,
+        3.14159
+      ],
+      "effort_limit_Nm": 27,
+      "inertia": "delivered native body inertial unchanged",
+      "armature_kg_m2": 0.01,
+      "independent_SIM_ONLY_viscous_damping_Nm_s_rad": 3
+    },
+    {
+      "name": "x5_joint2",
+      "body": "x5_link2",
+      "qpos_index": 1,
+      "dof_index": 1,
+      "actuator_index": 1,
+      "axis_local": [
+        0,
+        1,
+        0
+      ],
+      "range_rad": [
+        0,
+        3.665
+      ],
+      "effort_limit_Nm": 27,
+      "inertia": "delivered native body inertial unchanged",
+      "armature_kg_m2": 0.01,
+      "independent_SIM_ONLY_viscous_damping_Nm_s_rad": 3
+    },
+    {
+      "name": "x5_joint3",
+      "body": "x5_link3",
+      "qpos_index": 2,
+      "dof_index": 2,
+      "actuator_index": 2,
+      "axis_local": [
+        0,
+        -1,
+        0
+      ],
+      "range_rad": [
+        0,
+        3.24
+      ],
+      "effort_limit_Nm": 27,
+      "inertia": "delivered native body inertial unchanged",
+      "armature_kg_m2": 0.01,
+      "independent_SIM_ONLY_viscous_damping_Nm_s_rad": 3
+    },
+    {
+      "name": "x5_joint4",
+      "body": "x5_link4",
+      "qpos_index": 3,
+      "dof_index": 3,
+      "actuator_index": 3,
+      "axis_local": [
+        0,
+        -1,
+        0
+      ],
+      "range_rad": [
+        -1.671,
+        1.671
+      ],
+      "effort_limit_Nm": 7,
+      "inertia": "delivered native body inertial unchanged",
+      "armature_kg_m2": 0.01,
+      "independent_SIM_ONLY_viscous_damping_Nm_s_rad": 3
+    },
+    {
+      "name": "x5_joint5",
+      "body": "x5_link5",
+      "qpos_index": 4,
+      "dof_index": 4,
+      "actuator_index": 4,
+      "axis_local": [
+        0,
+        0,
+        -1
+      ],
+      "range_rad": [
+        -1.671,
+        1.671
+      ],
+      "effort_limit_Nm": 7,
+      "inertia": "delivered native body inertial unchanged",
+      "armature_kg_m2": 0.01,
+      "independent_SIM_ONLY_viscous_damping_Nm_s_rad": 3
+    },
+    {
+      "name": "x5_joint6",
+      "body": "x5_link6",
+      "qpos_index": 5,
+      "dof_index": 5,
+      "actuator_index": 5,
+      "axis_local": [
+        1,
+        0,
+        0
+      ],
+      "range_rad": [
+        -2.094,
+        2.094
+      ],
+      "effort_limit_Nm": 7,
+      "inertia": "delivered native body inertial unchanged",
+      "armature_kg_m2": 0.01,
+      "independent_SIM_ONLY_viscous_damping_Nm_s_rad": 3
+    }
+  ],
+  "tcp": {
+    "site": "x5_ee",
+    "parent": "x5_link6",
+    "offset_m": [
+      0.1424,
+      0,
+      0.0001057
+    ],
+    "actual": "MuJoCo site pose and site velocity at same sim tick",
+    "independent_fk": "static_probe.independent_fk: separately composed six native axes and offsets",
+    "initial_static_fk_max_abs_error": 4.440892098500626e-16,
+    "downward_rotation_world": [
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        -1,
+        0,
+        0
+      ]
+    ],
+    "VLA_action": "EEF XYZ + native row-rot6d + absolute normalized gripper, not joint or base command"
+  },
+  "fingers": [
+    {
+      "joint": "left_slide",
+      "body": "x5_link7",
+      "qpos_index": 6,
+      "dof_index": 6,
+      "actuator_index": 6,
+      "axis_local": [
+        0,
+        1,
+        0
+      ],
+      "origin_in_link6_m": [
+        0.08397,
+        0.02721,
+        -0.0062702
+      ],
+      "pad_frame_in_finger_m": [
+        0.05843,
+        -0.0249,
+        0.006376
+      ],
+      "mass_kg": 0.08924
+    },
+    {
+      "joint": "right_slide",
+      "body": "x5_link8",
+      "qpos_index": 7,
+      "dof_index": 7,
+      "actuator_index": 7,
+      "axis_local": [
+        0,
+        -1,
+        0
+      ],
+      "origin_in_link6_m": [
+        0.08397,
+        -0.023638,
+        -0.0062703
+      ],
+      "pad_frame_in_finger_m": [
+        0.05843,
+        0.0249,
+        0.006376
+      ],
+      "mass_kg": 0.089402
+    }
+  ],
+  "gripper": {
+    "range_per_finger_m": [
+      0,
+      0.044
+    ],
+    "independent_motor_mapping": "opposed independent motors driven equal targets; URDF mimic sign retained semantically, no equality constraint",
+    "desired_target_formula": "q_desired_each = g * 0.044",
+    "actual_fraction_formula": "mean(actual left/right q)/0.044",
+    "polarity": "g=0 closed, g=1 open; simulation definition only, not hardware SDK polarity",
+    "actual_inner_gap_formula_m": "0.001048 + actual_left_q + actual_right_q",
+    "stroke_0_022_044_gap_m": [
+      0.001048,
+      0.045048,
+      0.089048
+    ],
+    "compiled_geometric_gap_m": [
+      0.0010479999999999925,
+      0.04504799999999997,
+      0.08904799999999995
+    ],
+    "pad_inner_center_bias_y_m": 0.001786,
+    "pad_collision_box_half_size_m": [
+      0.02,
+      0.003,
+      0.017
+    ],
+    "pad_collision_center_shift_from_inner_face_y_m": [
+      0.003,
+      -0.003
+    ],
+    "pad_friction": [
+      1.2,
+      0.02,
+      0.002
+    ],
+    "motor_force_limit_N": 8,
+    "target_slew_speed_m_s": 0.04,
+    "viscous_damping_N_s_m": 3,
+    "armature_kg": 0.002,
+    "simulation_assumptions": [
+      "finite pad box geometry",
+      "pad friction and contact solver parameters",
+      "finger motor force/slew/damping/armature",
+      "independent joint controller gains and gravity compensation"
+    ]
+  },
+  "cube": {
+    "qpos_start": 8,
+    "qpos_count": 7,
+    "dof_start": 8,
+    "dof_count": 6,
+    "freejoint": "cube_free",
+    "edge_m": 0.04,
+    "mass_kg": 0.05,
+    "teacher_hidden_wrench": false
+  },
+  "driver": {
+    "this_mapping_physical_evidence": "V1 C29100 source 302ad022f3d3a74dcaba72aa46e59282effad215",
+    "pre_pilot_V2": {
+      "version": "PI0291_REAL_CHAIN_V2_EXACT_TARGET_IK_CACHE",
+      "change": "exact-target IK cache only; proposed duplicate-forward removal rejected after first strict diagnostic failure",
+      "unchanged": "six IK iterations, solver thresholds, motor force/slew, geometry, each2ms state/contact/safety, cameras, codec, scoring",
+      "cache_invalidation": "any exact target matrix change or explicit reset; initialized empty",
+      "bitwise_IK_trajectory_equivalence_claim": false,
+      "forward_solver_behavior": "Original explicit step mj_forward and subsequent snapshot mj_forward restored; no equivalence threshold relaxed",
+      "qualification": "Requires owner's independent benchmark receipt and distinct C29103 physical source/hash; not established by these V1 N1 facts"
+    },
+    "finite_motor_torque": "clip(kp*(slewed_q_target-actual_q)+actual qfrc_bias, delivered effort limits)",
+    "kp": [
+      90,
+      120,
+      100,
+      40,
+      30,
+      25
+    ],
+    "joint_target_slew_rad_s": 0.7,
+    "physical_qpos_writes_after_reset": 0,
+    "free_tool_Cartesian_wrench": false,
+    "xfrc_applied": "zero",
+    "qfrc_applied": "zero",
+    "sensor_index_compatibility": "Independent scene only. Original 18-DOF WBC sensor layout not modified or asserted compatible."
+  }
+}

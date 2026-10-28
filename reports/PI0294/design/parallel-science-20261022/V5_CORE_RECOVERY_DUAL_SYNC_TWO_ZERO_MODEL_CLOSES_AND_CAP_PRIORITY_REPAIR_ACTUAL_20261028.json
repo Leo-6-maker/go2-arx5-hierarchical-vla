@@ -1,0 +1,116 @@
+{
+  "schema": "V5_CORE_RECOVERY_ACTUAL_CANONICAL_DUAL_SYNC_ZERO_MODEL_CLOSE_AND_CAP_PRECEDENCE_REPAIR_V1",
+  "date": "2026-10-28",
+  "status": "ACTUAL_RECOVERY_AND_TWO_KNOWN_ZERO_CLOSES_COMPLETE_NEXT_C50_COLD_PREPARED_NOT_YET_REGISTERED",
+  "original_scope": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+  "current_objective": "ARX5_minimal_first512",
+  "actual_canonical_recovery": {
+    "GLOBAL_sha256": "cec3650f2ec64b89e6bb1c77b14757d797257f4a121299892e768c6a6f944217",
+    "LOCAL_sha256": "cff2b42bc1535962106fdb9b1136ad69c53387dacfe5ce701faa842424486af4",
+    "actual_LOCAL_written": true,
+    "old_pending_markers_preserved": true,
+    "old_control_unknown_not_replayed": true,
+    "old_control_remaining_close_completed": true
+  },
+  "desktop_coexistence": {
+    "human_answer": "允许同步挂载",
+    "grant_sha256": "4751e8e452c177b62ecef1a533e65dd433103e6d9f6897f075a81f19a85d78dc",
+    "only_exact_saved_NoMachine_process_on_GPU0_for_original_CD": true,
+    "other_foreign_compute_rejected": true
+  },
+  "failed_instances": [
+    {
+      "request_id": "033195ac-d1d9-46ec-b7c4-59c17691559a",
+      "source": "8120b9e47da0d33b3728ad1673d3de4c49e3b574",
+      "actual_binding": false,
+      "cause": "Original owner helper omitted explicit desktop request when parsing device",
+      "GPU_s": 62,
+      "neural_CPU_s": 1,
+      "physical_metadata_CPU_financial_upper_s": 300,
+      "models": 0,
+      "queries": 0,
+      "physics": 0,
+      "valid_conditions": 0,
+      "financial_settlement_once": true,
+      "all_three_leases_closed": true
+    },
+    {
+      "request_id": "54b19dfb-1cda-4031-831d-3605c29c69f0",
+      "source": "4980a78fa62869c5198e614453f4b7c782e8d884",
+      "actual_binding": true,
+      "cause": "Later adopted seven caps overwritten by earlier V5 storage marker before premodel recomputation",
+      "GPU_s": 72,
+      "neural_CPU_s": 1,
+      "physical_metadata_CPU_financial_upper_s": 300,
+      "models": 0,
+      "queries": 0,
+      "physics": 0,
+      "valid_conditions": 0,
+      "financial_settlement_once": true,
+      "all_three_leases_closed": true,
+      "terminal_native_sha256": "2eaeb5aa95caebd5657a5361d66eed0972d91efe315e0b384a57c2f89aec51df"
+    }
+  ],
+  "actual_current_settled_GLOBAL_sha256": "ff62bffbce87ead6154b9da010cb66b4f2e184a8e1e2c8d2d7a53fa2ee52f661",
+  "actual_current_settled_LOCAL_sha256": "7d2bfe455cce7abe4cb1eb48aa340778875ad04d64de735161ca30b5bd1ca891",
+  "repair": {
+    "latest_verified_adopted_cap_priority": "legacy -> V5 storage -> GEN1 -> minimal seven-cap grant",
+    "historical_grant_bytes_unchanged": true,
+    "full_saved_actual_bound_native_input_CPU_replay": true,
+    "does_not_grant_model_or_physics": true,
+    "original_15_numerical_files_unchanged": true
+  },
+  "next_cold_identity": {
+    "request_id": "afc1532b-732c-47a8-9f0e-ccc74c2306b9",
+    "nonce": "2bca94ad-c82e-460a-98d0-e7702f91514c"
+  },
+  "complete_future_shortfalls": {},
+  "complete_future_headroom": {
+    "H200_s": 1419.0,
+    "PBS_submissions": 0,
+    "optimizer_updates": 570,
+    "episode_starts": 251,
+    "neural_queries": 14720,
+    "physics_ticks": 16595321,
+    "engine_starts": 45791,
+    "Core_CPU_s": 2118.2218293799087,
+    "Hopper_CPU_s": 441.34140224196017,
+    "local_CPU_s": 21466.025317491003,
+    "transfer_bytes": 277259999,
+    "Hopper_storage_bytes": 363935496,
+    "Core_storage_bytes": 769592072,
+    "local_storage_bytes": 12079595520
+  },
+  "source_install_unknown": {
+    "source": "4980a78fa62869c5198e614453f4b7c782e8d884",
+    "site": "training-site",
+    "reply_timeout_preserved": true,
+    "independent_full_hash_readback_1246_members": true,
+    "installation_not_replayed": true,
+    "OS_exit_not_claimed": true
+  },
+  "remaining": {
+    "C50_valid_conditions": 0,
+    "D25_valid_conditions": 0,
+    "GEN1_valid_conditions": 0,
+    "E1_E2_real_GR00T_qualification": false,
+    "E1_E2_formal512": false,
+    "whole_goal_complete": false
+  },
+  "next_minimum_blocker": "Publish/read back fixed code, once adopt same-panel zero-effect continuation with fresh actual full ledgers, cold register and run original C50; then D25/GEN1 and real E1/E2 qualification/training/Eval",
+  "old_checkpoints_costs_unknowns_caps_clocks_matrix_final_unchanged": true,
+  "CPU_validation": {
+    "new_actual_captured": 15,
+    "related": 115,
+    "related_skipped": 11,
+    "skipped_reason": "explicit original recovery capture not supplied to this invocation",
+    "full_actual_bound_input_replay": true,
+    "actual_new_peer_assembly_and_register_proposal": true,
+    "full_real_GR00T_model": false,
+    "explicit_original_recovery_followup": {
+      "passed": 11,
+      "subtests": 5,
+      "skipped": 0
+    }
+  }
+}

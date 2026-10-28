@@ -1,0 +1,49 @@
+{
+  "schema": "PI0247_D2_PREQUERY_ENGINEERING_FAILURE_V1",
+  "created_utc": "2026-09-25T20:15:13Z",
+  "release_commit": "50e66efe6ccfbe814d04caf12499493821be7957",
+  "execution_parent": "129514886a37148074eba2c461e8acb08f36994f",
+  "run_card": "reports/evidence/PI0247_D2_RUN_CARD_20260926.json",
+  "run_card_sha256": "dd756c64e55d42743dd4c7e3d68e369e1c314413668e551129a1b775c353704e",
+  "runner_sha256": "51c2f7349f8ba9ed0f435822e3480516bfbf32e956d796c9b0b33117877247e4",
+  "classification": "PREQUERY_SOURCE_INPUT_PATH_MISMATCH",
+  "outcome": {
+    "model_weights_loaded": true,
+    "model_forward_calls": 0,
+    "action_head_denoising_forwards": 0,
+    "d2_cell_directories_created": 0,
+    "d2_attempt_records_created": 0,
+    "new_science_queries": 0,
+    "preflight_status": "D2_PREFLIGHT_PASS",
+    "preflight_reused_d1_b1_cells_verified": 4
+  },
+  "failure": {
+    "exception": "FileNotFoundError",
+    "missing_path": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/audit/original_s0_packets/S0/cells/pi0227_persistent_train_a_j03_yp015_s04_ym050_r01_r01_227077/tensors.npz",
+    "failure_location": "pi0247_d1_screen.py:run_one, before cell directory creation and before model forward",
+    "cause": "The preserved original S0 packet contains condition.pt, noise_packet.npz, record.json, and attempt.json, but has no tensors.npz; the shared query helper reads state/expert/action_mask from that path.",
+    "traceback_tail": [
+      "d2 runner -> d1.run_one",
+      "np.load(parent_cell / tensors.npz)",
+      "FileNotFoundError before attempt record or model call"
+    ]
+  },
+  "recovery": {
+    "action": "Create a server-side source-input view using the exact source tensor already hash-verified by D1 static preparation and condition/record files from the original S0 packet.",
+    "b0_noise": "Continue reading the original per-source S0 noise_packet.npz; no substitution.",
+    "expected_d2_counts": {
+      "logical_cells": 32,
+      "exact_d1_reuse": 4,
+      "new_queries": 28
+    },
+    "next_gate": "Freeze a superseding D2 runner/run card, repeat self-check and static preflight, then resume only after input identity closure."
+  },
+  "post_failure_resource": {
+    "checked_utc": "2026-09-25T20:15:13Z",
+    "gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "gpu_free_mib": 32148,
+    "gpu_utilization_pct": 0,
+    "compute_processes": []
+  },
+  "remote_root": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926"
+}

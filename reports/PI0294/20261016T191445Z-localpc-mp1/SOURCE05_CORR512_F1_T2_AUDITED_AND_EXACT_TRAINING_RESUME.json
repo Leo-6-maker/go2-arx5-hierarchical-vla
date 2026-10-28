@@ -1,0 +1,143 @@
+{
+  "schema": "MP1_SOURCE05_ACTUAL_CORR512_REPLACEMENT_AND_FORMAL_RESUME_V1",
+  "status": "REAL_CORR512_F1_T2_VALID_NEGATIVE_AUDITED_AND_ORIGINAL_FORMAL_TRAINING_RESUMED",
+  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "original_MP1_T0_epoch": 1792178085,
+  "source_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
+  "same_single_owner": true,
+  "replacement": {
+    "attempt_id": "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2-REPLACEMENT-01",
+    "status": "VALID_TASK_FAIL",
+    "failure_stage": "S1_PRE_EXECUTION_REJECT",
+    "duration_s": 12,
+    "actual_integrations": 6000,
+    "actual_camera_pairs": 241,
+    "S1_rejections": 1,
+    "native_safety_faults": 0,
+    "actual_native_draws": 31,
+    "executed_ACKs": 30,
+    "rejected_prefix_live_integrations": 0,
+    "actual_raw_audit_checks": 19,
+    "raw_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+    "complete_fresh_observation_action_ACK_chain": "PASS_COMPLETE_SEALED_CONDITION_FRESH_DUAL_SSH_CHAINS",
+    "raw_result_sha256": "b34da0d30ab0355cac1a6bd196872d8961a660a0fb8b70cf0a6b918d7e621d61",
+    "video": {
+      "sha256": "a99191276a151ef960a204b0333830fc34720c2049cf1d4a977af22b88a23766",
+      "bytes": 389510,
+      "actual_paired_frames": 241,
+      "decoded_frames": 241,
+      "fps": 20,
+      "playback_duration_s": 12.05,
+      "padding_or_interpolation": false,
+      "raw_video_private": true,
+      "logical_id": "MP1_MAIN/PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2-REPLACEMENT-01",
+      "relative_path": "evidence/audits/PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2-REPLACEMENT-01/actual-body-wrist.mp4",
+      "native_duration_s": 12.0,
+      "initial_frame_included": true
+    },
+    "engineering_original8_4s_partial_retained": true,
+    "further_attempt_authorized": false
+  },
+  "actual_resume": {
+    "native_state": "R",
+    "job_id": "673008.hopper-m-02",
+    "native_walltime": "00:10:43",
+    "actual_progress": {
+      "step": 533,
+      "cursor": 17056,
+      "native_loss": 0.022283386439085007,
+      "learning_rate": [
+        8.696821413416204e-06,
+        8.696821413416204e-06
+      ],
+      "synchronized_s": 3.9556990819983184,
+      "epoch": 1792262198.3273242
+    },
+    "actual_source_update_counter": 2581,
+    "transient_current_step_pending": 1,
+    "source_current_manifest_sha256": "9d8fdb01a72c21d85e003ace7dfcd83c1db3fc10380b91a3920467db3e000d8b",
+    "runtime_source": "e418bb790d291c6c936ce3878366314f4f5af83e",
+    "GPU_settled_prior_s": 24119,
+    "same_running_job_GPU_reserved_s": 14400,
+    "new_engineering_or_native_safety_STOP": false
+  },
+  "resume_from": {
+    "CORR_step": 512,
+    "cursor": 16384,
+    "manifest_sha256": "31f0514beb4003e42afc3437aa4781b5df47fc35a6270ba5c4fa081b31102d02",
+    "original_optimizer_scheduler_RNG_sampler_stats_preserved": true,
+    "from_BC2048": false,
+    "stop_after_CORR_step": 2048,
+    "combined_formal_update_cap": 4096,
+    "additional_data_or_recipe_change": false
+  },
+  "matrix": {
+    "actual_attempts": 22,
+    "qualified_policy_cells": 19,
+    "engineering_cells": 1,
+    "unattempted_cells": 12,
+    "total_fixed_cells": 32,
+    "CORR512_qualified_negatives": 3,
+    "CORR512_engineering_missing": 1,
+    "CORR512_full_successes": 0,
+    "CORR512_F1_T1_third_attempt": false,
+    "existing_public_URLs_preserved": 16,
+    "final_CORR2048_TRAIN4_and_DEV8": "NOT_RUN"
+  },
+  "student_probe_C1_parent_overlap": {
+    "status": "ACTUAL_PARENT_LEVEL_C1_OVERLAP_VERIFIED_NOT_HELD_OUT",
+    "by_task": {
+      "T1": {
+        "probe_student_parents": [
+          "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+          "a005c39b-a0a8-45fc-b523-47a22ca0e670"
+        ],
+        "probe_parent_count": 2,
+        "C1_training_overlap": [
+          "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+          "a005c39b-a0a8-45fc-b523-47a22ca0e670"
+        ],
+        "C1_actual512_visits_on_probe_parents": 3115
+      },
+      "T2": {
+        "probe_student_parents": [
+          "88527063-ae8f-4631-a041-54bfee906ae8",
+          "889024c8-7abd-4617-82e0-6556d9c27245"
+        ],
+        "probe_parent_count": 2,
+        "C1_training_overlap": [],
+        "C1_actual512_visits_on_probe_parents": 0
+      }
+    },
+    "C1_actual512_parent_visits": {
+      "27b5c23d-4a01-44ba-b255-135522a47477": 467,
+      "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f": 1525,
+      "4c984214-e36c-4700-842b-e0ba5d2d94a2": 514,
+      "a005c39b-a0a8-45fc-b523-47a22ca0e670": 1590
+    },
+    "C1_manifest_sha256": "a6c029e3e07f264a08ab47a757eb899b752e350e7a93f1db2dd87c03b88f0052",
+    "matched_actual_consumption_report_sha256": "47d1778bf1568a0421a94bc0c218c151d3980929523e8ad00eb49a7187bb6038",
+    "exact_probe_anchor_or_H40_training_window_overlap": "NOT_ASSERTED_FROM_PARENT_ONLY_JOIN",
+    "independent_generalization_proven": false
+  },
+  "scientific_interpretation": "The old unknown engineering gap at F1/T2 is now a trustworthy policy negative. It does not create a success-rate gate before the already authorized formal training. Historical T1 probe error improvement is on training-parent lineages,not independent generalization.",
+  "resource_binding": {
+    "source_PBS_used": 5,
+    "source_PBS_cap": 5,
+    "automatic_sixth": false,
+    "source_GPU_cap_s": 43200,
+    "prior_source_GPU_settled_s": 24119,
+    "parent_prior_Hopper_GPU_settled_s": 28619,
+    "same_running_fifth_job_reserved_s": 14400,
+    "current_allocation_max_s": 14400,
+    "allocation_closeout_s": 2700,
+    "native_training_cpu_and_GPU_not_fully_settled_until_job_terminal": true,
+    "new_budget_or_clock": false,
+    "concurrent_N1_document_package_preserved_but_expanded_limits_not_native_adopted": true
+  },
+  "full_pair_and_final_mechanism": "INCOMPLETE",
+  "TF_R3": "STOP",
+  "Vanda": "CLOSED_NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

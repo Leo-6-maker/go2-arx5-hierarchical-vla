@@ -1,0 +1,79 @@
+{
+  "status": "SAME_FUTURE_TIMESTAMP_CANDIDATE_FORECAST_DIAGNOSTIC",
+  "columns": [
+    "plan_vs_realized_base_XYZ_m",
+    "plan_vs_realized_base_SO3_rad",
+    "reference_vs_actual_base_planned_arm_XYZ_m",
+    "reference_vs_actual_base_planned_arm_SO3_rad",
+    "planned_minus_actual_mount_x",
+    "planned_minus_actual_mount_y",
+    "planned_minus_actual_mount_z"
+  ],
+  "whole": {
+    "samples": 1646,
+    "mean": [
+      0.017020709119721256,
+      0.010026070619728237,
+      0.01673891497299726,
+      0.011500570613802502,
+      0.0012935241600143153,
+      -0.002367492322839118,
+      -0.01626963006792166
+    ],
+    "RMS": [
+      0.017456738441235953,
+      0.011236689213501025,
+      0.017374061321142418,
+      0.014013382504127082,
+      0.002838055084670924,
+      0.003165209350129037,
+      0.01647723193736765
+    ],
+    "abs_max": [
+      0.0453315204524818,
+      0.04817972876213736,
+      0.06525584660642222,
+      0.12281054152947965,
+      0.014198716387627434,
+      0.015244043813886849,
+      0.02824952539529285
+    ]
+  },
+  "last2s_source": {
+    "samples": 313,
+    "mean": [
+      0.016709154499557982,
+      0.008850792465596101,
+      0.016051551127616828,
+      0.010083471310927244,
+      0.0008402931913378303,
+      -0.001871785739259794,
+      -0.016615146725656015
+    ],
+    "RMS": [
+      0.016711558292140632,
+      0.008852566734091565,
+      0.01605256164869312,
+      0.010083605423469748,
+      0.0008403458865866804,
+      0.0018727080842588467,
+      0.016617520461378463
+    ],
+    "abs_max": [
+      0.018348052509163514,
+      0.009880779726078722,
+      0.017097526700742608,
+      0.010464088144385682,
+      0.0008671564469785592,
+      0.0020909951314785832,
+      0.018240143144579446
+    ]
+  },
+  "future_not_observed_count": 24,
+  "total_source_samples": 1670,
+  "time_alignment": "Actual base interpolated at candidate arm preview absolute time; no shifting to minimize error",
+  "interpretive_limit": "Candidate policy consumer ID unknown. Actual future execution includes subsequent replanning. A forecast discrepancy is not by itself a transmission bug or pure low-level base-tracking causal estimate.",
+  "new_physics": 0,
+  "new_model_queries": 0,
+  "new_render": 0
+}

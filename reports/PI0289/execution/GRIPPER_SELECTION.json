@@ -1,0 +1,133 @@
+{
+  "status": "PROVISIONAL_GRIPPER",
+  "missing": [
+    "deployment hardware model/revision identity",
+    "verified operating speed and force limits",
+    "verified grasp-pad contact geometry, material and friction"
+  ],
+  "source_path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/executor-candidates/wbc-mujoco-6dd13098/wbc_mujoco_minimal/src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf",
+  "hardware_source": null,
+  "collision_geometry_status": "DELIVERED_PLANNING_SIMPLE_BOXES_UNVERIFIED_PAD_CONTACT",
+  "source_sha256": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc",
+  "source_kind": "DELIVERED_PLANNING_URDF_MODEL_DECLARATIONS",
+  "fingers": [
+    {
+      "body": "x5_link7",
+      "side": "left",
+      "origin": [
+        0.08397,
+        0.02721,
+        -0.0062702
+      ],
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "range": [
+        0.0,
+        0.044
+      ],
+      "force_model_N": 100.0,
+      "speed_model_m_s": 5.0,
+      "mass": 0.08924,
+      "com": [
+        -0.0060354,
+        -0.015602,
+        0.013499
+      ],
+      "fullinertia": [
+        9.869e-05,
+        9.021e-05,
+        6.849e-05,
+        -3.94e-06,
+        1.011e-05,
+        1.113e-05
+      ],
+      "pad_xyz": [
+        0.05843,
+        -0.0249,
+        0.006376
+      ],
+      "collisions": [
+        {
+          "xyz": [
+            0.0262,
+            0.0,
+            0.0002
+          ],
+          "halfsize": [
+            0.04,
+            0.02,
+            0.032
+          ]
+        }
+      ]
+    },
+    {
+      "body": "x5_link8",
+      "side": "right",
+      "origin": [
+        0.08397,
+        -0.023638,
+        -0.0062703
+      ],
+      "axis": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "range": [
+        0.0,
+        0.044
+      ],
+      "force_model_N": 100.0,
+      "speed_model_m_s": 5.0,
+      "mass": 0.089402,
+      "com": [
+        -0.00581,
+        0.015593,
+        -0.012255
+      ],
+      "fullinertia": [
+        7.306e-05,
+        6.428e-05,
+        6.822e-05,
+        4.04e-06,
+        -1.526e-05,
+        3.27e-06
+      ],
+      "pad_xyz": [
+        0.05843,
+        0.0249,
+        0.006376
+      ],
+      "collisions": [
+        {
+          "xyz": [
+            0.0262,
+            0.0,
+            0.0002
+          ],
+          "halfsize": [
+            0.04,
+            0.02,
+            0.032
+          ]
+        }
+      ]
+    }
+  ],
+  "tcp_xyz": [
+    0.1424,
+    0.0,
+    0.0001057
+  ],
+  "selection": "DELIVERED_ARX5_PARALLEL_MIMIC_GRIPPER_SIM_ONLY_V1",
+  "selection_authority": "User delegated choice on 2026-10-10",
+  "leg_policy_controls_gripper": false,
+  "leg_policy_action_dofs": 12,
+  "physics_integrations": 0,
+  "gripper_actual_operating_limits_verified": false,
+  "formal_G2_freeze_allowed": false
+}

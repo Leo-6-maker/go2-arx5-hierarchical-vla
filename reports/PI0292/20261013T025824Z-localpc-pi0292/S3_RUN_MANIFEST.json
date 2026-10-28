@@ -1,0 +1,53 @@
+{
+  "schema": "RUN_MANIFEST_V1",
+  "run_uuid": "20261013T025824Z-localpc-pi0292",
+  "pi": "PI0292",
+  "stage": "S3",
+  "owner": "EXISTING_LOCAL_PC",
+  "authority": {
+    "protocol_ref": "261bc5b37f20aaff1ad7d5742252d3dc1a91fa65",
+    "go_comment": 6137102979
+  },
+  "code": {
+    "vla_commit": "c187d9573bdff302783fb5f41d06fcaa1753d2a8",
+    "official_gr00t_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "source_seal_sha256": "d62255f4a98c2e90a721d5ff656cb7c2c9fa680242038d62f2dd56df6751be25",
+    "controller_sha256": "542d18841de91f8362298c2dad4946d3605005098ee2ced036f16e3fddace921"
+  },
+  "interfaces": {
+    "action_schema": "EEF10_H40",
+    "statistics_sha256": "c3b871e3b5a854e876e4dbff806640f3472bef32b64f9d3db764a4d2c39b5fe4",
+    "processor_identity": "PINNED_OFFICIAL_SOURCE_WITH_QUALIFIED_BANK_V2_CONFIGURATION"
+  },
+  "data": {
+    "dataset_version": "ARX5_BANK_V2",
+    "hf_revision": "6075aac0cdc44b8d252d7540efbac208701c30b3",
+    "manifest_sha256": "c228f59473c110264f58cf34dbd75198a3ee12207e0788967614d33f27f6999a"
+  },
+  "model": {
+    "repo": "nvidia/GR00T-N1.7-3B",
+    "revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "identity_receipt_sha256": "730a86db40b4f492f18f9437c4b65cbf65a8045155293cf734143606bc095073"
+  },
+  "execution": {
+    "profile": "hopper-neural",
+    "entry_release": "c187d9573bdff302783fb5f41d06fcaa1753d2a8",
+    "private_path_role": "EXISTING_PI0292_HOPPER_RUN",
+    "script": "scripts.pi0292.pbs_smoke",
+    "python_sha256": "d0f08ceda25df4e7a9f05955e13a5d655caaf3f920ab6d2cb07c112a7eafcdff",
+    "compute_gate": "OWN_RUNNING_PBS_SINGLE_H200_VERIFIED_INSIDE_WRAPPER"
+  },
+  "limits": {
+    "resource_ledger_ref": "HOPPER_RESOURCE_LEDGER.json",
+    "T0_epoch": 1791860304,
+    "deadline_epoch": 1791946704,
+    "new_work_cutoff_epoch": 1791943104,
+    "smoke_wall_s": 1800,
+    "total_GPU_s": 28800,
+    "total_PBS": 3,
+    "total_smoke_updates": 16
+  },
+  "lease_sha256": "ed724eed0813553a10f2da26d9df915f7c181f98f745188214339ecd721e0563",
+  "output_role": "EXISTING_REGISTERED_RUN_PBS_AND_TRAINING",
+  "status": "PREPARED_VALIDATED_NOT_SUBMITTED"
+}

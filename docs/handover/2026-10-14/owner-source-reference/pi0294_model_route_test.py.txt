@@ -1,0 +1,110 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Local owner messaging concurrency fixtures; no SSH, physics or neural work."""
+import json
+from contextlib import redirect_stdout
+import io
+import os
+from pathlib import Path
+import tempfile
+import threading
+import time
+import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
+
+import pi0294_model_route as route
+
+
+class QuerySubmissionTest(unittest.TestCase):
+    def exercise(self, operation):
+        active = 0
+        maximum = 0
+        calls = []
+        lock = threading.Lock()
+        barrier = threading.Barrier(4)
+        with tempfile.TemporaryDirectory() as folder:
+            base = Path(folder)
+            local = base / 'model-M512'
+            local.mkdir()
+            cases = {str(i): {'episode_uuid': str(i)} for i in range(4)}
+            (local / 'REGISTRY.private.json').write_text(json.dumps({'cases': cases}))
+            for role in ('core', 'hopper'):
+                (local / (role + '-INSTALL.private.json')).write_text(
+                    json.dumps({'registry_sha256': 'fixture'}))
+
+            def endpoint(host, code, **values):
+                nonlocal active, maximum
+                if 'ARGS' not in values:
+                    return {'status': 'FIXTURE_ONLY'}
+                with lock:
+                    active += 1
+                    maximum = max(maximum, active)
+                    calls.append(values['ARGS']['episode'])
+                time.sleep(.04)
+                with lock:
+                    active -= 1
+                return {'value': {'status': 'FIXTURE_ONLY'}}
+
+            def episode(path, case, core, hopper):
+                barrier.wait(timeout=5)
+                if operation == 'query':
+                    hopper.query(case, {}, None)
+                else:
+                    core.observation(case, 0)
+                return {'episode_uuid': case['episode_uuid'], 'status': 'FIXTURE_ONLY'}
+
+            import sys
+            sys.path[:0] = [str(route.REPO / 'src'), str(route.REPO)]
+            with patch.object(route, 'BASE', base), patch.object(route, 'call', endpoint), \
+                    patch('scripts.pi0294.relay_transport.run_episode', episode):
+                route.run(512)
+            self.assertCountEqual(calls, cases)
+            self.assertEqual(len(calls), 4)
+            terminal = json.loads((local / 'TERMINAL.private.json').read_text())
+            self.assertEqual(len(terminal['records']), 4)
+        return maximum
+
+    def test_single_resident_query_writer_without_resending(self):
+        self.assertEqual(self.exercise('query'), 1)
+
+    def test_core_observation_reads_remain_parallel(self):
+        self.assertGreater(self.exercise('observation'), 1)
+
+    def test_large_message_uses_stdin_not_process_arguments(self):
+        affinity = os.sched_getaffinity(0)
+        args = {'operation': 'query', 'episode': 'fixture',
+                'query': {'payload': 'x' * (512 * 1024)}, 'teacher': None}
+        try:
+            with tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                stage = root / 'evidence/model-M512'
+                (stage / 'rpc').mkdir(parents=True)
+                (root / 'code').mkdir()
+                (root / 'RUN_MANIFEST.json').write_text(json.dumps(
+                    {'code': {'capsule_relative': 'code'}}))
+                (root / 'NEURAL_BINDINGS.private.json').write_text(json.dumps(
+                    {'python': '/fixture/python-not-executed'}))
+                (stage / 'RPC_RESERVATION.json').write_text(json.dumps(
+                    {'deadline_epoch': time.time() + 60, 'cpus': [min(affinity)]}))
+                result = SimpleNamespace(returncode=0, stdout='{"fixture": true}')
+                with patch('subprocess.run', return_value=result) as child, \
+                        redirect_stdout(io.StringIO()):
+                    exec(compile(route.RPC, '<fixture-RPC>', 'exec'),
+                         {'ROOT': str(root), 'STAGE': 'model-M512', 'ROLE': 'hopper',
+                          'REGISTRY_SHA': 'fixture', 'ARGS': args})
+                self.assertEqual(child.call_count, 1)
+                command = child.call_args.args[0]
+                self.assertLess(len(command[2].encode()), 8192)
+                self.assertEqual(json.loads(child.call_args.kwargs['input']), args)
+                self.assertNotIn(args['query']['payload'], command[2])
+                receipts = list((stage / 'rpc').glob('*.json'))
+                self.assertEqual(len(receipts), 1)
+                self.assertEqual(json.loads(receipts[0].read_text())['models_loaded_on_endpoint'], 0)
+        finally:
+            os.sched_setaffinity(0, affinity)
+
+
+if __name__ == '__main__':
+    unittest.main()

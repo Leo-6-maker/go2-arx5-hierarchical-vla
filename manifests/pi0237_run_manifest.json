@@ -1,0 +1,55 @@
+{
+  "schema": "PI0237_RUN_MANIFEST_V1",
+  "status": "STOP_FOR_PI_ATTRIBUTION_REVIEW",
+  "attribution_status": "MIXED_EVIDENCE",
+  "selected_checkpoint": "NONE",
+  "protocol_commit": "6e83c5494772190f5c8082f730f06723d9c9bfda",
+  "branch": "pi0237/failure-attribution-execution",
+  "remote_output_root": "/scratch/e1192548/pi0237_failure_attribution_20260920T014727Z",
+  "phases": {
+    "P0": "PASS",
+    "P1": "PASS_READ_ONLY",
+    "P2": "EXPERT_NONREJECT_PASS_FALSE",
+    "P3": "PASS_READ_ONLY_WITH_LOSSY_TRANSFORM_REQUIRES_PI_REVIEW",
+    "P4": "NOT_RUN_BLOCKED",
+    "P5": "COMPLETE"
+  },
+  "job_ids": {
+    "pi0237_new_pbs": [],
+    "referenced_pi0236_evaluator": "624097",
+    "fresh_training_family": "623593"
+  },
+  "counts": {
+    "historical_pi0236_records_read": 5440,
+    "pi0237_reused_tensors": 0,
+    "expert_gate_evaluations": 1152,
+    "cpu_codec_transform_windows": 1152,
+    "p4_attempted_get_action": 0,
+    "p4_completed_get_action": 0,
+    "model_weight_loads": 0,
+    "model_forward_calls": 0,
+    "training_steps": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0,
+    "scheduler_steps": 0,
+    "wbc_steps": 0,
+    "simulator_steps": 0,
+    "hardware_steps": 0,
+    "dev_e_reads": 0,
+    "final_f_reads": 0,
+    "new_job_submissions": 0,
+    "job_retries": 0
+  },
+  "phase_evidence": {
+    "p0": {"file": "pi0237_p0_admission.json", "sha256": "7d7dcf160f52f115c2f5b7f2418a2c247a527eb3c0ed57a50e38b7dd4e5a7bec"},
+    "p1": {"file": "pi0237_p1_gate_diagnostics.json", "sha256": "e996ed450470989cc0d6866115e09a16e1c7667544ca629ce2b7aca50d5e6850"},
+    "p2": {"file": "pi0237_p2_expert_gate.json", "sha256": "702b068a3f8b2cca243aa3cda130942987c3df44da018873c2ffda39d5867330"},
+    "p3": {"file": "pi0237_p3_codec_roundtrip.json", "sha256": "db987e4aefe3d788651f6a3ccdcf85e6a5dc111e503644d97c4ec8bf8632e854"},
+    "p3_lossy": {"file": "pi0237_p3_lossy_transform.json", "sha256": "a51ee0c89c43da1bb1c3f752d47e046dbcf3d45557d5e5acc8502cb27e45c7eb"},
+    "inventory": {"file": "pi0237_evidence_inventory.sha256", "sha256": "85dc9d77048dd6be6912c9e7af043ed9b76c5b001eba1419e34d6afa7d17ddd4"}
+  },
+  "p2_counts": {"accept": 39, "warn": 1101, "reject": 12, "reject_code": "INITIAL_ROTATION_DISCONTINUITY_REJECT"},
+  "p3_metrics": {"sample_count": 1152, "max_xyz_l2_m": 1.51470672531452e-7, "max_so3_rad": 1.42503412487299e-5, "max_gripper_abs": 0.0, "max_normalized_roundtrip_abs": 1.65253877639771e-5, "normalized_tolerance_excess_rows": 2},
+  "observability_gaps": ["per-tick model spike index", "expert-vs-model tensor errors", "achieved TCP", "WBC tracking", "native termination"],
+  "github": {"issue_number": 11, "pr_number": 77, "issue_first": true, "pr_pointer_only": true, "merged": false}
+}

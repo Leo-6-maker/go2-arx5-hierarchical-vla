@@ -1,0 +1,490 @@
+{
+  "host": "hop",
+  "observed_at_utc": "2026-10-07T12:15:48.670136+00:00",
+  "release": "9c0172ced33c6052f7cb037b4a6d91910f9fe69e",
+  "canonical": 6037445331,
+  "authority_status": "AUTHORITY_PAUSED",
+  "remote_status": "REMOTE_PAUSE_CONFIRMED",
+  "pause_marker": {
+    "authority_status": "PAUSED_BY_USER_PRETRAINED_BASELINE_PRIORITY",
+    "automatic_resume": false,
+    "canonical": 6037445331,
+    "launch_allowed": false,
+    "pause_comment": 6037170888,
+    "recognized_at_utc": "2026-10-07T12:13:43.212606+00:00",
+    "release": "9c0172ced33c6052f7cb037b4a6d91910f9fe69e"
+  },
+  "pause_marker_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0279/runtime/SCIENTIFIC_PAUSE.json",
+  "active_old_processes": [],
+  "queue": {
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "old_counts": {},
+  "old_source_results": [],
+  "old_start_timeline": [],
+  "protected_recoveries": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0278/run/COVER93/main/training/checkpoint-4096",
+      "kind": "COMPLETE_TRAINER",
+      "global_step": 4096,
+      "files": [
+        {
+          "path": "PI0270_POLICY_CONTRACT.json",
+          "bytes": 229,
+          "sha256": "d6413c01c7d0c75f0ce5829859ea2c62edcfdd150742806de1fa467fdf7f41ea"
+        },
+        {
+          "path": "PI0277_READOUT_CONTRACT.json",
+          "bytes": 3355,
+          "sha256": "266cd612023afc6451ca8a32c2ca7e9c5ada44cede80d6014adbe29c2ee98e8c"
+        },
+        {
+          "path": "PI0277_RUN.json",
+          "bytes": 157,
+          "sha256": "eeccce9887e949b4c487ae3e825d079c6c309ca417bc17d08c3e684b7ab6d1eb"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2148,
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "path": "effective_statistics.json",
+          "bytes": 74811,
+          "sha256": "b3da3d500d514ce3d1ce83001de30846d9ab76d699dc48831db8e4367ce98572"
+        },
+        {
+          "path": "embodiment_id.json",
+          "bytes": 615,
+          "sha256": "f1549dfade9e972e4c7cda9908fe3a127283ddfa52be52aed359221d42813de1"
+        },
+        {
+          "path": "experiment_cfg/conf.yaml",
+          "bytes": 5539,
+          "sha256": "ce2eba0e000f0e3ec3686ea00bd4c4ed7d3fa743c20c1714aad1501cd09d652a"
+        },
+        {
+          "path": "experiment_cfg/config.yaml",
+          "bytes": 5506,
+          "sha256": "a1f37e7a469c959bf7e42ee453a192dd959e9de8021fcae25ad78df41133f7d3"
+        },
+        {
+          "path": "experiment_cfg/final_model_config.json",
+          "bytes": 1513,
+          "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+        },
+        {
+          "path": "model-00001-of-00002.safetensors",
+          "bytes": 4993709288,
+          "sha256": "e18ca8f0e7246b966384019804134f8e8ff373eb38604f4f97cff89f0308fea8"
+        },
+        {
+          "path": "model-00002-of-00002.safetensors",
+          "bytes": 4535492016,
+          "sha256": "819f0ff2ac96c48926bfa117b4d37f528f2549c32f857b44fd92838f425c157c"
+        },
+        {
+          "path": "model.safetensors.index.json",
+          "bytes": 104912,
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        },
+        {
+          "path": "optimizer.pt",
+          "bytes": 11353039304,
+          "sha256": "25add16e849a66bbc4c408c5491fb874e474ca249aeb60ca26a81873629a61de"
+        },
+        {
+          "path": "pi0277_provenance/ADOPTION.json",
+          "bytes": 291,
+          "sha256": "4112539fde5d2e51e6e599562f55614ca5565bbc54009e74beb10a6604d6c54e"
+        },
+        {
+          "path": "pi0277_provenance/CURSOR.json",
+          "bytes": 90,
+          "sha256": "92b99460dbae15c04e75a1b62302b1e4d4f73204a22bc19f51a158be34bc9edd"
+        },
+        {
+          "path": "pi0277_provenance/DONOR_LOCAL_READBACK.json",
+          "bytes": 933,
+          "sha256": "40bd86b0c2851e245a1e32017ce0f34684e8e6f7d90e8a429a119c59fd99a9b5"
+        },
+        {
+          "path": "pi0277_provenance/DONOR_PARAMETER_SCOPE.json",
+          "bytes": 118525,
+          "sha256": "908c9eda30b82e63329a11656c6a64796585e3046b4dcc0e5a72a6a82941d7a8"
+        },
+        {
+          "path": "pi0277_provenance/EXECUTION_FILESET.json",
+          "bytes": 28969,
+          "sha256": "924256ae5801fe7b67454ff93ec979cf4798e31f8f0d7db6c56ae88d893cbe0d"
+        },
+        {
+          "path": "pi0277_provenance/INPUT_BINDING.json",
+          "bytes": 2542,
+          "sha256": "69ccb520eb3334711f1d013b2ed3936dfd39985335d53c06f272d833b90bf40a"
+        },
+        {
+          "path": "pi0277_provenance/PARAMETER_SCOPE.json",
+          "bytes": 121615,
+          "sha256": "4ef52cf9f50bfbfa00af5f50f3d2f209b97d74c6aa6c961f81b3f02bddd29f51"
+        },
+        {
+          "path": "pi0277_provenance/TRAIN_PLAN.json",
+          "bytes": 824307,
+          "sha256": "b5e15b80bc3ec2c87f2e4fec20a903b821d722d07dbcff1064f6e119da81eb41"
+        },
+        {
+          "path": "processor_config.json",
+          "bytes": 3125,
+          "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+        },
+        {
+          "path": "rng_state.pth",
+          "bytes": 14709,
+          "sha256": "d2c64ec1644ece3cdf7b3670f5de8e56e2707b877b7ed74bc56605b9fa513fde"
+        },
+        {
+          "path": "scheduler.pt",
+          "bytes": 1465,
+          "sha256": "b3470015301770d76c16a20489f7ba3d0708eff382f309f468552b905c4c2769"
+        },
+        {
+          "path": "statistics.json",
+          "bytes": 74810,
+          "sha256": "840491276e6f78abf77484a7f0f201c0850399a3afead27d644e6fcfefb2d54f"
+        },
+        {
+          "path": "trainer_state.json",
+          "bytes": 566075,
+          "sha256": "11cf980cb0f0560e1400f7d46278711b64b0b08a45eb9e9311ce73a3cee5a1c2"
+        },
+        {
+          "path": "training_args.bin",
+          "bytes": 5905,
+          "sha256": "7eb6b03e743875a6313549a625864608ec2a536daacb97f5f42c5c49b3bb54d9"
+        },
+        {
+          "path": "wandb_config.json",
+          "bytes": 56,
+          "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+        }
+      ],
+      "tree_sha256": "f05649ee1694cf93ddcebf59c87ba91eb2da587c9538128eba20c807c15a2c89"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0278/run/COVER93/main/training/checkpoint-3072",
+      "kind": "COMPLETE_TRAINER",
+      "global_step": 3072,
+      "files": [
+        {
+          "path": "PI0270_POLICY_CONTRACT.json",
+          "bytes": 229,
+          "sha256": "d6413c01c7d0c75f0ce5829859ea2c62edcfdd150742806de1fa467fdf7f41ea"
+        },
+        {
+          "path": "PI0277_READOUT_CONTRACT.json",
+          "bytes": 3355,
+          "sha256": "266cd612023afc6451ca8a32c2ca7e9c5ada44cede80d6014adbe29c2ee98e8c"
+        },
+        {
+          "path": "PI0277_RUN.json",
+          "bytes": 157,
+          "sha256": "eeccce9887e949b4c487ae3e825d079c6c309ca417bc17d08c3e684b7ab6d1eb"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2148,
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "path": "effective_statistics.json",
+          "bytes": 74811,
+          "sha256": "b3da3d500d514ce3d1ce83001de30846d9ab76d699dc48831db8e4367ce98572"
+        },
+        {
+          "path": "embodiment_id.json",
+          "bytes": 615,
+          "sha256": "f1549dfade9e972e4c7cda9908fe3a127283ddfa52be52aed359221d42813de1"
+        },
+        {
+          "path": "experiment_cfg/conf.yaml",
+          "bytes": 5539,
+          "sha256": "ce2eba0e000f0e3ec3686ea00bd4c4ed7d3fa743c20c1714aad1501cd09d652a"
+        },
+        {
+          "path": "experiment_cfg/config.yaml",
+          "bytes": 5506,
+          "sha256": "a1f37e7a469c959bf7e42ee453a192dd959e9de8021fcae25ad78df41133f7d3"
+        },
+        {
+          "path": "experiment_cfg/final_model_config.json",
+          "bytes": 1513,
+          "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+        },
+        {
+          "path": "model-00001-of-00002.safetensors",
+          "bytes": 4993709288,
+          "sha256": "6f812f36409bc365b1549b373cf7b252c29ce602d969172c160632cf8146ada6"
+        },
+        {
+          "path": "model-00002-of-00002.safetensors",
+          "bytes": 4535492016,
+          "sha256": "68c3a909ca6b80e1a191c6901fedc26a25a9a3a6845c44e6210063ba8f863981"
+        },
+        {
+          "path": "model.safetensors.index.json",
+          "bytes": 104912,
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        },
+        {
+          "path": "optimizer.pt",
+          "bytes": 11353039304,
+          "sha256": "a7b8a374d583ea65b7e444d3260af706a64af60456496df2281c49d4abc69f11"
+        },
+        {
+          "path": "pi0277_provenance/ADOPTION.json",
+          "bytes": 291,
+          "sha256": "4112539fde5d2e51e6e599562f55614ca5565bbc54009e74beb10a6604d6c54e"
+        },
+        {
+          "path": "pi0277_provenance/CURSOR.json",
+          "bytes": 90,
+          "sha256": "173dd31401a8af31baef93e4f24b5601b046731b3a11e069e3972ef68acc7fae"
+        },
+        {
+          "path": "pi0277_provenance/DONOR_LOCAL_READBACK.json",
+          "bytes": 933,
+          "sha256": "40bd86b0c2851e245a1e32017ce0f34684e8e6f7d90e8a429a119c59fd99a9b5"
+        },
+        {
+          "path": "pi0277_provenance/DONOR_PARAMETER_SCOPE.json",
+          "bytes": 118525,
+          "sha256": "908c9eda30b82e63329a11656c6a64796585e3046b4dcc0e5a72a6a82941d7a8"
+        },
+        {
+          "path": "pi0277_provenance/EXECUTION_FILESET.json",
+          "bytes": 28969,
+          "sha256": "924256ae5801fe7b67454ff93ec979cf4798e31f8f0d7db6c56ae88d893cbe0d"
+        },
+        {
+          "path": "pi0277_provenance/INPUT_BINDING.json",
+          "bytes": 2542,
+          "sha256": "69ccb520eb3334711f1d013b2ed3936dfd39985335d53c06f272d833b90bf40a"
+        },
+        {
+          "path": "pi0277_provenance/PARAMETER_SCOPE.json",
+          "bytes": 121615,
+          "sha256": "4ef52cf9f50bfbfa00af5f50f3d2f209b97d74c6aa6c961f81b3f02bddd29f51"
+        },
+        {
+          "path": "pi0277_provenance/TRAIN_PLAN.json",
+          "bytes": 824307,
+          "sha256": "b5e15b80bc3ec2c87f2e4fec20a903b821d722d07dbcff1064f6e119da81eb41"
+        },
+        {
+          "path": "processor_config.json",
+          "bytes": 3125,
+          "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+        },
+        {
+          "path": "rng_state.pth",
+          "bytes": 14709,
+          "sha256": "d2c64ec1644ece3cdf7b3670f5de8e56e2707b877b7ed74bc56605b9fa513fde"
+        },
+        {
+          "path": "scheduler.pt",
+          "bytes": 1465,
+          "sha256": "87eabe7666714f85ec0c0c52a2778f4be7f0b4682399b70e0a66b5f71a09fa07"
+        },
+        {
+          "path": "statistics.json",
+          "bytes": 74810,
+          "sha256": "840491276e6f78abf77484a7f0f201c0850399a3afead27d644e6fcfefb2d54f"
+        },
+        {
+          "path": "trainer_state.json",
+          "bytes": 424209,
+          "sha256": "f2b1ca2af34a883658cbca6154bde6c0077bb47461bf664c5684a3740d4e7a1d"
+        },
+        {
+          "path": "training_args.bin",
+          "bytes": 5905,
+          "sha256": "7eb6b03e743875a6313549a625864608ec2a536daacb97f5f42c5c49b3bb54d9"
+        },
+        {
+          "path": "wandb_config.json",
+          "bytes": 56,
+          "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+        }
+      ],
+      "tree_sha256": "63d6237c405a829e61f5e7f67fbabed7ce98cd6cb4b4d378e797fc17542d74ce"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2_FOCUS/FOCUS/main/training/checkpoint-4096",
+      "kind": "COMPLETE_TRAINER",
+      "global_step": 4096,
+      "files": [
+        {
+          "path": "FOCUS_GRIP_BOUND_R3.json",
+          "bytes": 392,
+          "sha256": "b5d85f536fc336d8a5403a3242a57622c970eac2d82959f31333a5d5736689cb"
+        },
+        {
+          "path": "PI0270_POLICY_CONTRACT.json",
+          "bytes": 226,
+          "sha256": "574bc4dc8b61bd0189e48ae0a5c335cf7c9cf15551b87a24e1fb3f9557f64d71"
+        },
+        {
+          "path": "PI0277_READOUT_CONTRACT.json",
+          "bytes": 3252,
+          "sha256": "ace91f57d23f8e2b497d3d23faf5f36ab49bb6f5a12e05ff77fc0448b7b9f7ae"
+        },
+        {
+          "path": "PI0277_RUN.json",
+          "bytes": 155,
+          "sha256": "6876e75a81ac114198fbb6668f5e4b4ce6c88992f152eca4901effb6f96c027f"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2148,
+          "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+        },
+        {
+          "path": "effective_statistics.json",
+          "bytes": 74811,
+          "sha256": "b3da3d500d514ce3d1ce83001de30846d9ab76d699dc48831db8e4367ce98572"
+        },
+        {
+          "path": "embodiment_id.json",
+          "bytes": 615,
+          "sha256": "c7df80fe0cda856d7334486ad51ab47417b407e4e2a3766680de263d1e407d9f"
+        },
+        {
+          "path": "experiment_cfg/conf.yaml",
+          "bytes": 5534,
+          "sha256": "6973ab243ed3a3e239be750bbe865f558822efaf9933875284a3344d81d6d0d1"
+        },
+        {
+          "path": "experiment_cfg/config.yaml",
+          "bytes": 5501,
+          "sha256": "df8e76825db1e0c6c0372b2255cb46ed24b9bf7c8a61734b12727b9cc1f2fa06"
+        },
+        {
+          "path": "experiment_cfg/final_model_config.json",
+          "bytes": 1513,
+          "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+        },
+        {
+          "path": "model-00001-of-00002.safetensors",
+          "bytes": 4993709288,
+          "sha256": "ab5fefbda7e9b3914669a4407138550124599b73c7c3fce42f7782c6cee6e3bd"
+        },
+        {
+          "path": "model-00002-of-00002.safetensors",
+          "bytes": 4535492016,
+          "sha256": "7af7d730c9d62b91aaa91fe5f092d1cbdcfa602bb6a7c0f6f30c205178940307"
+        },
+        {
+          "path": "model.safetensors.index.json",
+          "bytes": 104912,
+          "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+        },
+        {
+          "path": "optimizer.pt",
+          "bytes": 11353039304,
+          "sha256": "5ef7284252d3cfb68dffa9feabe94d15175bbd4cbd0421a8df487130cccd1a1a"
+        },
+        {
+          "path": "pi0277_provenance/ADOPTION.json",
+          "bytes": 6952,
+          "sha256": "48a13433cce4f265f4e51397baed8b4e581a16ed66bf4197e5e02ac9bf7223c8"
+        },
+        {
+          "path": "pi0277_provenance/CURSOR.json",
+          "bytes": 90,
+          "sha256": "92b99460dbae15c04e75a1b62302b1e4d4f73204a22bc19f51a158be34bc9edd"
+        },
+        {
+          "path": "pi0277_provenance/DONOR_LOCAL_READBACK.json",
+          "bytes": 1001,
+          "sha256": "7305155b1faa780852dbcabc71c0d70651c03e200c39d29f99d96af9cf368b30"
+        },
+        {
+          "path": "pi0277_provenance/DONOR_PARAMETER_SCOPE.json",
+          "bytes": 118525,
+          "sha256": "908c9eda30b82e63329a11656c6a64796585e3046b4dcc0e5a72a6a82941d7a8"
+        },
+        {
+          "path": "pi0277_provenance/EXECUTION_FILESET.json",
+          "bytes": 23264,
+          "sha256": "890a84ea16343b5d81b6b66a25a38e720f34cecfe1b39c29a22f9a262a7e122f"
+        },
+        {
+          "path": "pi0277_provenance/INPUT_BINDING.json",
+          "bytes": 2542,
+          "sha256": "69ccb520eb3334711f1d013b2ed3936dfd39985335d53c06f272d833b90bf40a"
+        },
+        {
+          "path": "pi0277_provenance/PARAMETER_SCOPE.json",
+          "bytes": 121615,
+          "sha256": "4ef52cf9f50bfbfa00af5f50f3d2f209b97d74c6aa6c961f81b3f02bddd29f51"
+        },
+        {
+          "path": "pi0277_provenance/TRAIN_PLAN.json",
+          "bytes": 717997,
+          "sha256": "197d075b3a6e0428d09de122e2314bd47bfdc52d19e3cb08c7c1bcd94b90f6ff"
+        },
+        {
+          "path": "processor_config.json",
+          "bytes": 3125,
+          "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+        },
+        {
+          "path": "rng_state.pth",
+          "bytes": 14709,
+          "sha256": "32e5eb8c868a6a6fc002aa9ecdb473ba2bbca9aa8744b61403ad43440ccb295a"
+        },
+        {
+          "path": "scheduler.pt",
+          "bytes": 1465,
+          "sha256": "b3470015301770d76c16a20489f7ba3d0708eff382f309f468552b905c4c2769"
+        },
+        {
+          "path": "statistics.json",
+          "bytes": 74810,
+          "sha256": "840491276e6f78abf77484a7f0f201c0850399a3afead27d644e6fcfefb2d54f"
+        },
+        {
+          "path": "trainer_state.json",
+          "bytes": 566105,
+          "sha256": "905ef013512dc106283cee6e00272fdf078c0a27efb08e41c4d7e2bef834e990"
+        },
+        {
+          "path": "training_args.bin",
+          "bytes": 5905,
+          "sha256": "4055197f8c3c870266af3f797ccb963343bc007c12ec48b34977cb231d737930"
+        },
+        {
+          "path": "wandb_config.json",
+          "bytes": 56,
+          "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+        }
+      ],
+      "tree_sha256": "93e500e8ecb6a719d4a53be09d23b35bdeeb83fcc61e75416247a2c0380f4604"
+    }
+  ],
+  "pilot": null,
+  "old_training_updates": 0,
+  "new_training_updates": 0,
+  "automatic_continuation_disabled": true,
+  "old_confirmation_locked": true,
+  "pause_publication_utc": "2026-10-07T11:42:26Z",
+  "post_publication_predecessor_work_retained": true,
+  "old_data_admission": "NOT_EXECUTED",
+  "new_model_queries": 0,
+  "new_physics": 0,
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE"
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "WDR1_TARGET_COLD_FIRST_STATE_DURABILITY_CPU_V1",
+  "observed_epoch": 1792755410.804083,
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "previous_fix": {
+    "source": "a8e865d9f5f59644e10e64255940f81461586dd2",
+    "files_full_raw_and_gitblob_readback": 7,
+    "exact_CI_run": 39946989977,
+    "exact_CI_job": 120391945567,
+    "last_observed_CI": "IN_PROGRESS_PI0294_NOT_SUCCESS",
+    "original_relay_restored_SHA256": "39b19c67678ca177a8c88309adcadb2a0995a1ea1117399f047bfba3a3523aa1",
+    "original_pin_tables_unchanged": true
+  },
+  "change": {
+    "path": "scripts/pi0294/dec1/target_relay_exchange.py",
+    "constructor_only": true,
+    "reason": "Pin target ABI in the first durable state rather than create an unpinned RAW state then attach target metadata.",
+    "same_original_OwnerLock": true,
+    "owner_identity_model_episode_clock_checked_before_creation": true,
+    "locked_existing_state_recheck": true,
+    "first_state_contains_owner_condition_sha256": true,
+    "no_source_S1_wrapper": true,
+    "original_relay_operations_inherited_unchanged": true,
+    "new_runner_or_controller": false
+  },
+  "tests": {
+    "target_route_cases": 17,
+    "related_passed": 268,
+    "related_subtests_passed": 155,
+    "real_state_write_plus_lost_return_fixture": true,
+    "no_rewrite_retry_after_UNKNOWN": true,
+    "RAW_original_reopen_rejects_saved_target_pin": true,
+    "target_reopen_rejects_existing_state": true,
+    "exactly_one_state_write_attempt": true,
+    "original_13_plus_2_source_pin_checks_PASS": true,
+    "model_neural_solver_native_physics_or_network_executed": false
+  },
+  "boundaries": {
+    "native_deployment": false,
+    "native_target_qualified": false,
+    "core64": 0,
+    "current_training_owner_capsule_or_request_modified": false,
+    "new_native_request_registry_PBS_prepay_or_Core_child": false,
+    "old_frozen_failure_costs_checkpoints_and_unknowns_preserved": true,
+    "old7919_failed_CI_preserved": true,
+    "actual_full_prefix_feedback_ACK_STOP_T1_T2_admission_still_required": true,
+    "first_state_durability_is_not_native_task_qualification": true,
+    "original_scientific_caps_T0_cutoffs_and_final_reserve_unchanged": true
+  },
+  "publication": {
+    "exact_new_code_CI": "PENDING",
+    "actual_native_adoption": false
+  }
+}

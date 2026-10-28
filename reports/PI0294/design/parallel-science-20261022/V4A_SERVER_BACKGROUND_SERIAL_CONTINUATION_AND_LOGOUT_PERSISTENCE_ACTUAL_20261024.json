@@ -1,0 +1,69 @@
+{
+  "schema": "V4A_EXISTING_SERVER_BACKGROUND_AUTONOMOUS_SERIAL_QUEUE_PERSISTENCE_ACTUAL_V1",
+  "goal_status": "ACTIVE",
+  "observed_epoch": 1792849942.9377482,
+  "human_direction": "Existing GPU Eval must run and continue on server without foreground-agent control",
+  "actual_change": {
+    "user_manager_logout_persistence_before": "Linger=no",
+    "user_manager_logout_persistence_after": "Linger=yes",
+    "native_command_returncode": 0,
+    "owner_restarted": false,
+    "new_GPU_requests": 0,
+    "new_model_loads_from_persistence_change": 0,
+    "new_physics_from_persistence_change": 0,
+    "scientific_capsules_changed": false
+  },
+  "independent_process_readback": {
+    "pv1-core-b498be85-06ea-4b28-8534-077f72af3dff.service": {
+      "properties": {
+        "Restart": "no",
+        "RuntimeMaxUSec": "1d 5h 15min 58s",
+        "MainPID": "3912915",
+        "StandardInput": "null",
+        "TTYPath": "",
+        "ActiveState": "active"
+      },
+      "pid": 3912915,
+      "proc_start": 261668446,
+      "state": "S",
+      "parent_pid": 3718818
+    },
+    "pv1-v4a-a4096-n294101-01-neural.service": {
+      "properties": {
+        "Restart": "no",
+        "RuntimeMaxUSec": "8h",
+        "MainPID": "3913148",
+        "StandardInput": "null",
+        "TTYPath": "",
+        "ActiveState": "active"
+      },
+      "pid": 3913148,
+      "proc_start": 261669660,
+      "state": "S",
+      "parent_pid": 3718818
+    }
+  },
+  "native_queue_plan_sha256": "c4a5d0b7ad22481bb994b5e4c68a15202fc5d604f158dc21bc6d9aed72da4ace",
+  "automatic_existing_flow": [
+    "Continue original A_CONTROL4096 bank294101 panel",
+    "Independent original terminal audit and actual effects settlement",
+    "Close A GPU and physical leases with readback",
+    "Dispatch already accepted B_COVERAGE4096 request only after original complete A predecessor gates",
+    "Perform original B qualification and bank294101 panel with original closeout"
+  ],
+  "foreground_agent_required_for_heartbeat_or_healthy_next_dispatch": false,
+  "unknown_writes_are_not_blindly_restarted": true,
+  "initial_full_read_timeout_did_not_mean_process_terminal": true,
+  "same_exact_processes_subsequently_verified": true,
+  "existing_original_caps_and_clocks_unchanged": true,
+  "existing_models_R0_tasks_safety_scoring_unchanged": true,
+  "extra_panels_training_data_or_model_selection_automatically_authorized": false,
+  "evidence_sha256": {
+    "before": "ea8979f97e7e31af50f22afdf135f1a7382727ea95c54ee2c1552e23e746475f",
+    "once_reply": "a83e3d5ed80e1280ebf8f7a9032d4dcea088494e72c86c2dac2d3e23acb16e97",
+    "independent_after": "9859e855d20c9d714b7c8778a41ccdf6ede63bf0ee60dfa7822b12669638db90"
+  },
+  "S1_core64": 0,
+  "complete_goal": false,
+  "CI_success_claimed": false
+}

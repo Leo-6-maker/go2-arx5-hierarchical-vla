@@ -1,0 +1,151 @@
+{
+  "schema": "V5_USER_AUTHORIZED_FAILED_CHECKPOINT_SPACE_AUDIT_V1",
+  "observed_epoch": 1792976862.9746482,
+  "authority": {
+    "direct_human_instruction": "排查是不是空间占满导致，删除失败checkpoint",
+    "scope": "INSPECT_STORAGE_AND_DELETE_VERIFIED_UNUSED_FAILED_CHECKPOINT_PAYLOADS",
+    "overrides_prior_blanket_no_checkpoint_deletion_only_for_this_exact_scope": true,
+    "new_experiment_or_budget_or_clock": false
+  },
+  "actual_readonly": {
+    "management_root_total_bytes": 1944978128896,
+    "management_root_available_bytes": 287763521536,
+    "management_root_inodes": 120684544,
+    "management_root_free_inodes": 118294747,
+    "shared_Home_total_bytes": 4000785104896,
+    "shared_Home_available_bytes": 1504376332288,
+    "shared_Home_inode_count": "NOT_REPORTED_BY_BTRFS_NOT_EVIDENCE_OF_EXHAUSTION",
+    "GPU_host_node_local_SSD": "NOT_ACCESSIBLE_ON_MANAGEMENT_HOST_AND_SSH_AUTH_READ_TIMEOUT",
+    "management_snapshot_sha256": "2ee226767449c02b4672a490a999862e5d76c4becc855020201ba7e264fa3b88",
+    "GPU_host_disk_read_receipt_sha256": "7115ab204fab338fd47f4d75531aa00dc686dc23f6220261501dc572466c57ab"
+  },
+  "causal_conclusion": "MANAGEMENT_AND_SHARED_HOME_NOT_FULL_GPU_HOST_LOCAL_DISK_EXHAUSTION_NOT_VERIFIED_OR_EXCLUDED",
+  "checkpoint_boundary": {
+    "prior_C50_eval_failure_created_no_new_training_checkpoint": true,
+    "existing_C50_complete1024_is_required_for_next_Eval_and_not_a_failed_payload": true,
+    "protected": [
+      "CURRENT_RECOVERY_INPUTS",
+      "COMMON_CORR2048",
+      "R0",
+      "A4096",
+      "B4096",
+      "C50_COMPLETE1024",
+      "ORIGINAL_PROBES",
+      "RAW_DATA_AND_IMMUTABLE_FAILURE_METADATA"
+    ],
+    "candidate_requires": "ACTUAL_OWNED_REGULAR_FAILED_OR_INCOMPLETE_CHECKPOINT_UNUSED_BY_ACTIVE_OR_PLANNED_RUNS_WITH_REAL_TERMINAL_AND_INODE_REFERENCE_CHECK",
+    "no_recursive_delete_of_a_run_or_shared_model_cache": true,
+    "all_original_financial_fees_and_failure_records_retained": true
+  },
+  "actual_deletion": {
+    "files": 0,
+    "bytes_freed": 0,
+    "reason": "NO_FRESHLY_VERIFIED_REACHABLE_FAILED_CHECKPOINT_CANDIDATE_ON_GPU_HOST"
+  },
+  "next": "RESTORE_ORDINARY_GPU_USER_ACCESS_THEN_EXACT_PENDING_WRITE_AND_NATIVE_CONSUMER_READBACK_BEFORE_ANY_CANDIDATE_DELETION_OR_C50_COLD_CONTINUATION_NO_REPEATED_GO",
+  "C50_behavior": 0,
+  "D25": "NOT_STARTED",
+  "full_goal": "ACTIVE_UNFINISHED",
+  "AMD_cleanup_followup": {
+    "direct_human_instruction": "在corelab-amd-server端为4080清理",
+    "observed_epoch": 1792979080.0432425,
+    "actual_receipt_sha256": {
+      "mounts": "133dca0b4bdc42caa09ff16899ad2de3f4e01e2dc8352f568c48547e49320ab7",
+      "quota_auth_none_and_candidates": "c26e6ea7ad4524c450782323e8c933d678cbdbe4ddcfe13ac09c2a76878b26bb",
+      "publickey_no_agent": "49b8598c2d3e6049eb1236d07b4ae7bfff24585b45a03af52d37cffb6b879b98"
+    },
+    "GPU_node_local_SSD_mount_on_AMD": false,
+    "existing_shared_project_output_checkpoint_directories_found": 0,
+    "scope_of_search": "FOUR_EXISTING_REGISTERED_SHARED_PROJECT_ROOTS_DIRECT_OUTPUT_CHECKPOINT_MODEL_ROLES_ONLY_NO_WHOLE_HOME_SCAN",
+    "user_quota": "UNKNOWN_QUOTA_TOOL_ABSENT_BTRFS_QGROUP_READ_REQUIRES_ROOT_SUDO_N_REJECTED",
+    "shared_ssh_metadata": "OWNED_REGULAR_SMALL_FILES_NORMAL700_DIRECTORY_AND600_AUTHORIZED_KEYS_309_BYTES_NO_KEY_CONTENT_CHANGED",
+    "GPU_auth_none": "IMMEDIATE_EXPECTED_AUTH_METHODS_REPLY_AND_DENIAL",
+    "GPU_publickey_no_agent": "TIMEOUT_AFTER_OFFER_WAITING_SERVER_REPLY",
+    "diagnostic_inference": "OBSTRUCTION_IS_IN_PUBLICKEY_AUTH_BRANCH_AGENT_NOT_REQUIRED_DISK_EXHAUSTION_OR_NFS_CLIENT_PROBLEM_NOT_PROVEN",
+    "no_service_restart_or_NFS_change_or_key_change": true,
+    "deleted_files": 0,
+    "bytes_freed": 0,
+    "reason": "GPU_LOCAL_FILES_NOT_REACHABLE_FROM_AMD_AND_NO_VERIFIED_SHARED_FAILED_CHECKPOINT_CANDIDATE"
+  },
+  "sudo_continuation": {
+    "direct_user_statement": "你在根节点继续尝试，我有sudo权限",
+    "observed_epoch": 1792986716.8590343,
+    "scope": "CONTINUE_EXISTING_BOUNDED_ADMIN_DIAGNOSIS_AND_AUTHORIZED_FAILED_PAYLOAD_CLEANUP_NOT_NEW_SCIENCE",
+    "actual_receipt_sha256": {
+      "sudo": "52b5647dfaa0690343671b37fad356fa455f9bc6e583da40dab1fadd3bbb2595",
+      "root_existing_key": "597cbe8a7063cc737b2882ce0de78ff267cc844df4fb29fca56c38f562fbfbba",
+      "matching_public_key": "c2bc92bf2b72ad6f9265b85bc35eb134a5dcc89fe691ede81dad19edfd92be1d"
+    },
+    "management_sudo_n_l": "PASSWORD_AUTHENTICATION_REQUIRED_NOT_A_VERIFIED_PASSWORDLESS_ADMIN_SESSION",
+    "GPU_root_with_current_user_key": "ACTUAL_PUBLICKEY_DENIAL_NOT_PROOF_ALL_EXISTING_ADMIN_IDENTITIES_FAIL",
+    "shared_authorized_keys_read": "FAST_REGULAR309_BYTES_AND_CONFIGURED_PUBLIC_KEY_PRESENT",
+    "authentication_configuration_modified": false,
+    "password_reused_or_logged": false,
+    "services_restarted": false,
+    "new_GPU_models_physics_or_checkpoint_deletions": 0,
+    "next_authentication_bridge": "USER_EXISTING_AMD_TERMINAL_SUDO_AUTHENTICATION_THEN_BOUNDED_ROOT_EXISTING_SSH_IDENTITY_READONLY_DF_NO_SERVICE_OR_FILE_CHANGE"
+  },
+  "shared_storage_direct_audit": {
+    "direct_user_instruction": "根节点corelab-amd-server和4080s一些文件是不是共享存储，检查根节点哪些可以直接清理降低存储占用",
+    "observed_epoch": 1792987104.5991328,
+    "private_receipt_sha256": {
+      "USER_ALTERNATE_GPU_CONNECTION_PATHS_0": "fa75d2c9e4d4c1d042be58900953f09805ed5f422c2d4eeb14a85e42a3a48b67",
+      "USER_AMD_SHARED_STORAGE_USAGE_1": "8ebebd07413fa4965404419f93ae1dbead1504ec8af8acdfdde558e29b68dd04",
+      "USER_AMD_SHARED_HOME_LARGE_CANDIDATES_2": "55aa6186d90faa4ef94c7981598ef725fd68bfcc364a6162b86d63cb048b7071",
+      "USER_AMD_SHARED_PARTIAL_AND_RETAINED_ROLES_3": "28ae6ced7486770cb339ce07b2349e80f985c5c562468ac64ffcf9220edde2d3",
+      "USER_AMD_SHARED_PARTIAL_AND_RETAINED_ROLES_4": "11996f9ff214fdfc1c105295e5a052b99d4c1f6498d12de92e711e2c215d0556"
+    },
+    "shared_Home": "MANAGEMENT_LOCAL_BTRFS_HOME_EXPORTED_BY_NFS_GPU_PRIOR_NATIVE_DF_CONFIRMS_SAME_HOME_EXPORT",
+    "Home_cache_symlink": "SHARED_SYMLINK_ABSOLUTE_TARGET_RESOLVES_TO_DIFFERENT_NODE_LOCAL_CACHE_ON_EACH_HOST_NOT_SHARED_PAYLOAD",
+    "management_root_available_bytes": 287716159488,
+    "shared_Home_available_bytes": 1504375099392,
+    "shared_user_Home_allocated_bytes": 133333073920,
+    "shared_user_Projects_allocated_bytes": 129671680000,
+    "observed_role_allocated_bytes": {
+      "historical_science_root_raw_episodes_and_metadata": 60266881024,
+      "separate_ME6401_project_not_authorized_for_cleanup": 53695930368,
+      "canonical_workspace_with_verified_retirement_and_evidence": 12163297280,
+      "canonical_retirement_archive": 5631393792,
+      "canonical_evidence": 5667561472,
+      "management_local_user_cache": 26614886400,
+      "management_local_frozen_inputs": 26312761344,
+      "management_local_frozen_structured_checkpoint": 20889665536
+    },
+    "candidate_partial": {
+      "logical_bytes": 1503291392,
+      "allocated_bytes": 1503293440,
+      "regular_owned_single_link": true,
+      "old_action512_transport_role": true,
+      "same_role_fixed_complete_delivery_expected_bytes": 5670085448,
+      "historical_panel_and_model_retirement_records_located": true,
+      "small_PI0282_metadata_reference_search_files": 195,
+      "literal_partial_reference_hits": 0,
+      "all_host_active_or_planned_consumer_check": "NOT_ESTABLISHED_GPU_AUTH_BLOCKED",
+      "deletion_eligibility": "HELD_NOT_PROVEN_UNUSED_ON_ALL_CONSUMING_HOSTS_NOT_DELETED"
+    },
+    "directly_eligible_failed_payloads": 0,
+    "read_failures_retained": [
+      "INITIAL_DU_SHARED_HOME_SYMLINK_ZERO_NOT_A_SIZE_ESTIMATE_CORRECTED_TO_RESOLVED_ROOT",
+      "REMOTE_RG_MISSING_READ_ONLY_FAILURE_REPLACED_WITH_BOUNDED_PYTHON_SMALL_METADATA_SEARCH"
+    ],
+    "scope_limits": [
+      "NO_OTHER_USERS_OR_INDEPENDENT_ME6401_DELETION",
+      "NO_FROZEN_VALID_MODEL_OR_RAW_EVIDENCE_DELETION",
+      "DU_ALLOCATED_BYTES_NOT_PROMISED_PHYSICAL_RECLAIM_ON_BTRFS",
+      "NO_GPU_LOCAL_DISK_STATE_INFERRED_FROM_SHARED_EXPORT_SPACE"
+    ],
+    "files_deleted": 0,
+    "bytes_freed": 0,
+    "new_GPU_models_physics_or_ledger_mutations": 0
+  },
+  "ordinary_user_auth_alternatives": {
+    "user_correction": "好像没有sudo权限，怎么办，还有什么连接方法",
+    "sudo_not_required_for_normal_user_ssh": true,
+    "sudo_privilege_still_not_proven": "PASSWORD_REQUIRED_IS_NOT_A_RIGHTS_CHECK",
+    "GPU_port22": "ACTUAL_CONNECTION_REFUSED",
+    "existing_management_Tailscale_peer_match": "NO_GPU4080_PEER_RETURNED",
+    "existing_GPU_password_auth": "SERVER_ADVERTISES_PASSWORD_METHOD_CLIENT_ALIAS_VERIFIED_NOT_YET_AUTHENTICATED",
+    "password_reused_or_received": false,
+    "services_keys_or_configuration_changed": false
+  }
+}

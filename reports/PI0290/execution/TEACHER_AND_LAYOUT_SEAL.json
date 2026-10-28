@@ -1,0 +1,292 @@
+{
+  "authority": "e9918c68d03cc9a1049aa33e2bd2b0ef4eaea398",
+  "code_files": {
+    "scripts/pi0290_task_data/audit_data.py": "ec216a55408fafcedfb92bed0185447937b200adf51e67816e7801bdb382330d",
+    "scripts/pi0290_task_data/camera_qualification.py": "095f686c5f2e56a23a9cf71df18e92bc523b71cbf42b32694e05b2d1bfb5a374",
+    "scripts/pi0290_task_data/install_cpu_tools.py": "2f6e43fdd347c5120800386f0bf32cd706f2115ee53f3901b59080e575ee0411",
+    "scripts/pi0290_task_data/layout_preflight.py": "d082cf344c1aaabf22e7ce86b8949d9d9b8f7d481e935944bbb87cab4010f33a",
+    "scripts/pi0290_task_data/prepare.py": "ac9cf481b5b29c6036cecd9e50fe8b827e1ae9e5d830d8a57ca683299bf8ee16",
+    "scripts/pi0290_task_data/recover_postprocess.py": "5a8d4848082bda023631e3311a5b5cfd14b6066a44da524b985426f35fb1a69f",
+    "scripts/pi0290_task_data/run_episode.py": "fb1479a800f04859cd0aabbdbd34f60f5f4c7d6b45d4bb127fd23e4bda3f010f",
+    "scripts/pi0290_task_data/runtime_probe.py": "374be8b447052f4416e66da8f00a8abf8f74434c798266df64b8e2e4976ecbe3",
+    "scripts/pi0290_task_data/software_render_probe.py": "ab1d1b880e89c42afc607ef958beefbb402ac145c1df56017fcead8454e11b20",
+    "scripts/pi0290_task_data/video.py": "77d794405a83944caad7060a636af7b23c29f7aaabe8096014013b5047d7b80c",
+    "src/go2arx5_vla/__init__.py": "5919bffb7260ec0605c40a9bbfe2dfe462d4b9b87f791f28e93879f593968782",
+    "src/go2arx5_vla/contracts/__init__.py": "2afb6fdc2089e02035c02320b94115e7be9938a4840f8c9210f87daf90c62fcf",
+    "src/go2arx5_vla/contracts/motion_intent.py": "f4bb1c763d975941c1db5b44181432236281f3a8d7fc8c3352f899ef1ec78746",
+    "src/go2arx5_vla/contracts/placement.py": "f80630b2f8750cd52380005027ab6a36185024b0d422b912967ddcfda4fb43c4",
+    "src/go2arx5_vla/contracts/reference_binding.py": "df5832b462a455981faa530356d2885994ba6f2cec6e120c4b062a9fdc6de524",
+    "src/go2arx5_vla/contracts/trajectory.py": "1e173811c750feac32d6bb3c2d59241f5f5455704ccbbb997f94c3e037d6b2c5",
+    "src/go2arx5_vla/contracts/trajectory_shape.py": "68d20f3ba8b007a2fe5f22c827c5578d8be578f207233d4e5ed6c4356f4e529d",
+    "src/go2arx5_vla/target_sim/scorer.py": "8da98606b9301c789ec1619d15ddae50702f94205e7d78025dd2d4a47fa32720",
+    "src/go2arx5_vla/task_data/__init__.py": "6614f184d3d197ea3ee3f4150c9bf002ba62fe9ec6f9658ed28ebc64af37c459",
+    "src/go2arx5_vla/task_data/audit.py": "f98c13f9832bcd125636e560dd6bd498182214186652ecc92a7375ed3a294a03",
+    "src/go2arx5_vla/task_data/codec.py": "9326ecb262479dc56f13dd0d0afe960ca489f4f84a1389ed5dddb5e37cb7c0f8",
+    "src/go2arx5_vla/task_data/config.py": "310190d9e0b597df0fab47fbc760d87d1f94801e7d045cfa98a694618dc197da",
+    "src/go2arx5_vla/task_data/engine.py": "c06278d96a25eef866bbe607fc7b045747ce850c0e90c75d992b6bc768dfcd31",
+    "src/go2arx5_vla/task_data/io.py": "a55fc7b6d2807574c3529fb3eae060667e49f5574bac99fd05aa94adca652a27",
+    "src/go2arx5_vla/task_data/resource.py": "be616ebab6119d7e2ca865597852a2dd1f293e90808919a72c61d02ebe5ae819",
+    "src/go2arx5_vla/task_data/scene.py": "1e5ba10ba850882b427dfd4c2d3d012b008792621b67c1008a87132b58a32a1f",
+    "src/go2arx5_vla/task_data/score.py": "6db1c89b03a31c09276e48ecbda19dfdffcaa510736c17cee717a9a898eca376",
+    "src/go2arx5_vla/task_data/teacher.py": "be47a9d85d894165b4bb999840280a5d1a1dbf098ec57f1d3b969a72e8c78580",
+    "src/go2arx5_vla/trajectory/__init__.py": "d06a061cbb8acfff392599c4176db32e167475e76cddecf407ef51805508dd19",
+    "src/go2arx5_vla/trajectory/native_transport.py": "5dc799db6f074163d77543b18b6e182c731ac38a449ef50cccd4e15847d63e54",
+    "src/go2arx5_vla/trajectory/preview.py": "4c10f745d79a2c9a8ec261c7d6d4ae66fc0c3fab7b6a2799404db845dc5c4e54",
+    "src/go2arx5_vla/trajectory/relative_se3.py": "e9cb27bb44d602724784fa4eb0d8a8056c260f5cfd16d3d63bdede76781df6ae",
+    "src/go2arx5_vla/trajectory/so3.py": "668135c8db99496f31409b0382e39ceb3bbd962cac422d3273aaf54b357f1e7a",
+    "tests/task_data/test_contracts.py": "a5b271b0579546347787b9f315b122d2e9a893e9821c1ddfc8f63154351501b3"
+  },
+  "layouts": {
+    "C2900": {
+      "cube_yaw": 0.03929942821257895,
+      "family": "SEEN_DIAGONAL",
+      "goal_xy": [
+        0.11275272209263887,
+        0.05498419407091703
+      ],
+      "id": "C2900",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 4810135407927120000,
+      "source_xy": [
+        -0.08897411272320163,
+        -0.07314318826890258
+      ],
+      "split": "COMMISSIONING"
+    },
+    "C2901": {
+      "cube_yaw": -0.02636805165375325,
+      "family": "SEEN_DIAGONAL",
+      "goal_xy": [
+        0.09570683254567731,
+        0.05276924173373992
+      ],
+      "id": "C2901",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 17280819703715360000,
+      "source_xy": [
+        -0.08500003358935494,
+        -0.0798983648204412
+      ],
+      "split": "COMMISSIONING"
+    },
+    "C2902": {
+      "cube_yaw": -0.10632644558864979,
+      "family": "SEEN_DIAGONAL",
+      "goal_xy": [
+        0.1263901968573482,
+        0.045934565363613816
+      ],
+      "id": "C2902",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 8522156415005479000,
+      "source_xy": [
+        -0.10107510905178219,
+        -0.06243797358618798
+      ],
+      "split": "COMMISSIONING"
+    },
+    "C2903": {
+      "cube_yaw": -0.004919951009527079,
+      "family": "SEEN_DIAGONAL",
+      "goal_xy": [
+        0.10072890858031616,
+        0.07421598422514082
+      ],
+      "id": "C2903",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 13355973954244088000,
+      "source_xy": [
+        -0.130727523645367,
+        -0.07249966812680393
+      ],
+      "split": "COMMISSIONING"
+    },
+    "P2900": {
+      "cube_yaw": 0.026097364538066964,
+      "family": "SEEN_DIAGONAL",
+      "goal_xy": [
+        0.09718816183784315,
+        0.06710918394514964
+      ],
+      "id": "P2900",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 12608564739482528000,
+      "source_xy": [
+        -0.1159248624785742,
+        -0.08604751384465409
+      ],
+      "split": "SEEN"
+    },
+    "P2901": {
+      "cube_yaw": 0.07914634883872232,
+      "family": "SEEN_DIAGONAL",
+      "goal_xy": [
+        0.09345541337432722,
+        0.06266577735772155
+      ],
+      "id": "P2901",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 11802035843896259000,
+      "source_xy": [
+        -0.1243509986484415,
+        -0.06111871765242979
+      ],
+      "split": "SEEN"
+    },
+    "P2902": {
+      "cube_yaw": -0.006446475156149989,
+      "family": "SEEN_DIAGONAL",
+      "goal_xy": [
+        0.13179451598592665,
+        0.07414242277908945
+      ],
+      "id": "P2902",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 10415089323405836000,
+      "source_xy": [
+        -0.10036398341880279,
+        -0.07944854275576971
+      ],
+      "split": "SEEN"
+    },
+    "P2903": {
+      "cube_yaw": -0.009638648773828626,
+      "family": "SEEN_DIAGONAL",
+      "goal_xy": [
+        0.12453510942600204,
+        0.07435296513453361
+      ],
+      "id": "P2903",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 11309993623350590000,
+      "source_xy": [
+        -0.08507432741331467,
+        -0.05193752318528716
+      ],
+      "split": "SEEN"
+    },
+    "P2904": {
+      "cube_yaw": 0.28024863124661253,
+      "family": "HELDOUT_REVERSED_Y_AND_YAW",
+      "goal_xy": [
+        0.09460526507674787,
+        -0.07079860742416313
+      ],
+      "id": "P2904",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 12721380785672157000,
+      "source_xy": [
+        -0.12484195985679886,
+        0.06312615357462296
+      ],
+      "split": "HELDOUT"
+    },
+    "P2905": {
+      "cube_yaw": -0.29139897270600057,
+      "family": "HELDOUT_REVERSED_Y_AND_YAW",
+      "goal_xy": [
+        0.11465351991593972,
+        -0.06097466061902905
+      ],
+      "id": "P2905",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 3958128993251827000,
+      "source_xy": [
+        -0.0864174006252886,
+        0.07800217229667658
+      ],
+      "split": "HELDOUT"
+    },
+    "P2906": {
+      "cube_yaw": 0.2611594705959313,
+      "family": "HELDOUT_REVERSED_Y_AND_YAW",
+      "goal_xy": [
+        0.08995394599619132,
+        -0.07450216199164988
+      ],
+      "id": "P2906",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 10651122434389318000,
+      "source_xy": [
+        -0.13358569385583913,
+        0.09457854761064483
+      ],
+      "split": "HELDOUT"
+    },
+    "P2907": {
+      "cube_yaw": -0.23357890770323586,
+      "family": "HELDOUT_REVERSED_Y_AND_YAW",
+      "goal_xy": [
+        0.10041362513022363,
+        -0.0556669737981145
+      ],
+      "id": "P2907",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 16334365583638794000,
+      "source_xy": [
+        -0.1305965606259277,
+        0.06757792031070464
+      ],
+      "split": "HELDOUT"
+    }
+  },
+  "maximum_teacher_versions": 2,
+  "parameter_sha256": "104ab4ed29356b59fa2dfe6d31efb95d96d7e0b70cdcda00bcec42ed4d204dc5",
+  "parameters": {
+    "H": 40,
+    "closed_inner_gap": 0.007,
+    "cube_edge": 0.04,
+    "cube_friction": 0.8,
+    "cube_mass": 0.05,
+    "dt": 0.002,
+    "duration": 32,
+    "finger_force_max_N": 8,
+    "finger_kd": 3,
+    "finger_kp": 400,
+    "finger_mass": 0.06,
+    "finger_speed_stop_m_s": 0.25,
+    "finger_target_speed_m_s": 0.04,
+    "finger_travel": 0.044,
+    "lift_clearance": 0.08,
+    "minimum_contact_force_N": 0.05,
+    "opposing_contact_dot_max": -0.5,
+    "pad_friction": 1.2,
+    "penetration_stop_m": 0.004,
+    "pixels": 256,
+    "position_stage_tolerance_m": 0.004,
+    "prefix": 8,
+    "reference_angular_speed_rad_s": 0.3,
+    "reference_speed_m_s": 0.06,
+    "relative_grasp_speed_max_m_s": 0.02,
+    "sensor_hz": 20,
+    "table_friction": 0.8,
+    "table_top": 0.4,
+    "tool_force_max_N": 40,
+    "tool_mass": 0.36,
+    "tool_position_kd": 36,
+    "tool_position_kp": 650,
+    "tool_rotation_kd": 1.2,
+    "tool_rotation_kp": 15,
+    "tool_speed_stop_m_s": 0.4,
+    "tool_torque_max_Nm": 2,
+    "version": "PI0290_DYNAMIC_TOOL_V2_IMPLICIT_DAMPING",
+    "withdraw_clearance": 0.13
+  },
+  "pilot_heldout": [
+    "P2904",
+    "P2905",
+    "P2906",
+    "P2907"
+  ],
+  "pilot_seen": [
+    "P2900",
+    "P2901",
+    "P2902",
+    "P2903"
+  ],
+  "sampling": "ID SHA256 first8 bytes -> PCG64; fixed legal ranges in config.py",
+  "schema": "PI0290_TEACHER_AND_LAYOUT_SEAL_V1",
+  "sealed_before_first_pilot": true,
+  "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+  "teacher_version": "PI0290_DYNAMIC_TOOL_V2_IMPLICIT_DAMPING"
+}

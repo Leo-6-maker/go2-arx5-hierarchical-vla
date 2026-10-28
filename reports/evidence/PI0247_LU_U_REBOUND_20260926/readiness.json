@@ -1,0 +1,46 @@
+{
+  "canonical_issue_comment": 5844159421,
+  "execution_authorization": "PI0247_R1_MAINLINE_LU_CONTINUATION_GO",
+  "execution_code_commit": "ebca5491c2c9a28e755d492c13794d95f315e988",
+  "finalizer_patch_commit": "ebca5491c2c9a28e755d492c13794d95f315e988",
+  "hf_preflight": {
+    "public": true,
+    "receipt_sha256": "b691724d5723bee1e151288f4e9da2e3c34f2b443e2f1ae31fd4d8a0737149bd",
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "status": "PASS",
+    "target_prefix": "arms/PI0247/r1-replay-5844159421/U",
+    "target_prefix_empty": true,
+    "write_probe_commit": "d415633e7611bdf3e8a2f3bd687ded890e7eeb3c",
+    "write_probe_readback": "PASS"
+  },
+  "optimizer_updates": 0,
+  "parent_run_card_sha256": "3555aadc9723f7b54f23e2c60882b407337d4b8f2f10c18c8128583708e927a1",
+  "run_card_sha256": "ad350ff4cdb9e8b77aa32d5a7cf13c0f797e68b271fcd6fe66704222ef8adcd4",
+  "runner_sha256": "e2c4209d2de7b23e191b8c8bef09f31596d9aec6565d2a7e9a0e14560716b9e9",
+  "runtime": {
+    "euler_steps": 4,
+    "learning_rate": 1e-05,
+    "loss_coefficients": {
+      "ell_delta": 0.1,
+      "ell_pos": 0.1
+    },
+    "optimizer_steps": 2000,
+    "physical_dt_s": 0.05,
+    "physical_horizon": 40,
+    "rstar": "S4"
+  },
+  "schema": "PI0247_LU_U_PRE_SUBMISSION_READINESS_V1",
+  "science_contract_unchanged": true,
+  "selected_checkpoint": "NONE",
+  "source_validation": "PASS_REBOUND_U_SOURCE_RUNTIME_INITIALIZER_AND_CAPACITY",
+  "status": "PASS_READY_TO_SUBMIT",
+  "storage_preflight": {
+    "checkpoint_bytes": 20889738947,
+    "free_bytes": 25715277824,
+    "receipt_sha256": "2ab60ace0f3984690b949d8169a35c1c46742dd093cbd6c6c0fcb8da9fec758c",
+    "required_bytes": 25184706243,
+    "reserve_bytes": 4294967296,
+    "status": "PASS_REQUIRED_RESERVE_AVAILABLE_FOR_U"
+  },
+  "training_started": false
+}

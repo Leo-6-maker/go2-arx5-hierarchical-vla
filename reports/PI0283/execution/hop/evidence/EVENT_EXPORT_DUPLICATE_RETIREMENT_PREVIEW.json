@@ -1,0 +1,50 @@
+{
+  "status": "PREVIEW_EXACT_TRANSFER_DUPLICATE_AFTER_CORE_BYTE_READBACK_AND_HOP_FULL_TRAINER_CPU",
+  "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0283/delivery/EVENT1024/exact_changed_tensors.safetensors",
+  "bytes": 5670085448,
+  "allocated_bytes": 5670088704,
+  "sha256": "18ad96c8c57f617c72d2c394822b9d966a28b15df64b1b5a3989a9984d6cdfe4",
+  "Core_direct_readback": {
+    "status": "PASS_DIRECT_TRANSFER_ALL_FILES_FIXED_HASH_READBACK",
+    "point": "EVENT1024",
+    "files": [
+      {
+        "path": "processor_config.json",
+        "bytes": 23145,
+        "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d"
+      },
+      {
+        "path": "exact_changed_tensors.safetensors",
+        "bytes": 5670085448,
+        "sha256": "18ad96c8c57f617c72d2c394822b9d966a28b15df64b1b5a3989a9984d6cdfe4"
+      },
+      {
+        "path": "embodiment_id.json",
+        "bytes": 2146,
+        "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb"
+      },
+      {
+        "path": "EXPORT.json",
+        "bytes": 492529,
+        "sha256": "fbcd52b6c293ab52a0d7683a62f305b07b7a25222894947b11799e8cf9e895cd"
+      },
+      {
+        "path": "statistics.json",
+        "bytes": 4299507,
+        "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9"
+      },
+      {
+        "path": "config.json",
+        "bytes": 2105,
+        "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+      }
+    ],
+    "elapsed_s": 301.0904824018944,
+    "optimizer_transfer": false,
+    "HF_critical_path": false
+  },
+  "protected_full_Trainer": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0283/learning/EVENT/main/checkpoint-1024",
+  "full_Trainer_deletions": 0,
+  "active_open_fds": [],
+  "shared_free_before": 3499493300371456
+}

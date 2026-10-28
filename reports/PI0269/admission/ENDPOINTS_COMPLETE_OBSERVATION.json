@@ -1,0 +1,58 @@
+{
+  "checkpoints": [
+    {
+      "arm": "UNIFORM",
+      "bytes": 20882804551,
+      "complete_metadata_present": true,
+      "files": 18,
+      "step": 2048
+    },
+    {
+      "arm": "UNIFORM",
+      "bytes": 20883088232,
+      "complete_metadata_present": true,
+      "files": 18,
+      "step": 4096
+    },
+    {
+      "arm": "PREFIX",
+      "bytes": 20882804422,
+      "complete_metadata_present": true,
+      "files": 18,
+      "step": 2048
+    },
+    {
+      "arm": "PREFIX",
+      "bytes": 20883088521,
+      "complete_metadata_present": true,
+      "files": 18,
+      "step": 4096
+    }
+  ],
+  "deployment_selected_checkpoint": "NONE",
+  "final_HF_archive": "RUNNING",
+  "full_training_audit": "RUNNING",
+  "job": "644116.hopper-m-02",
+  "job_exit_status": 0,
+  "job_history": "Job Id: 644116.hopper-m-02\n    Job_Name = pi0269_prefix\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 116\n    resources_used.cput = 05:08:09\n    resources_used.mem = 65498104kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 71941332kb\n    resources_used.walltime = 04:48:37\n    job_state = F\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Sat Oct  3 12:07:49 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0269/logs/\n    exec_host = hopper-17/4*12\n    exec_vnode = (hopper-17:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Sat Oct  3 17:12:27 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0269/logs/\n    Priority = 0\n    qtime = Sat Oct  3 12:07:56 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 43200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 12:00:00\n    stime = Sat Oct  3 12:23:31 2026\n    obittime = Sat Oct  3 17:12:26 2026\n    session_id = 2478162\n    jobdir = /home/svu/e1192548\n    substate = 92\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Sat Oct 03 at 12:23 on (hopper-17:ngpus=1:ncpus=12:mem\n\t=235929600kb) and finished\n    etime = Sat Oct  3 12:07:56 2026\n    run_count = 1\n    Stageout_status = 1\n    Exit_status = 0\n    Submit_arguments = -m n /scratch/e1192548/Projects/go2-arx5/experiments/PI0\n\t269/code/training.pbs\n    history_timestamp = 1791018747\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "main_segments": [
+    {
+      "arm": "UNIFORM",
+      "phase": "main",
+      "status": "PI0269_TRAINING_SEGMENT_COMPLETE",
+      "updates": 4096
+    },
+    {
+      "arm": "PREFIX",
+      "phase": "main",
+      "status": "PI0269_TRAINING_SEGMENT_COMPLETE",
+      "updates": 4096
+    }
+  ],
+  "new_quality_queries": 0,
+  "observed_utc": "2026-10-03T09:14:28.088154+00:00",
+  "raw_completed_updates": 8224,
+  "run_count": 1,
+  "selected_checkpoint": "NONE",
+  "status": "PASS_BOTH_REAL_4096_SEGMENTS_AND_FOUR_COMPLETE_CHECKPOINT_METADATA"
+}

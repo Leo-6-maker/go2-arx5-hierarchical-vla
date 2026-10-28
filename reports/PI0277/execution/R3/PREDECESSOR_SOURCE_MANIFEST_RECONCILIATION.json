@@ -1,0 +1,47 @@
+{
+  "code_history_and_AST": {
+    "current_source_git": "78d42f1a",
+    "current_source_sha256": "12317af70db5cf913d0f07151d63195eb7785a1e76134add687cd133210d0bd3",
+    "old_run_git": "379ccca1",
+    "predecessor_git": "ff741e4a",
+    "predecessor_source_sha256": "0a8c4e83cecec0c3820a72c426d7c785da28d40540fa2561c260117930d6f6bc",
+    "protected_functions_AST_identical": [
+      "opening",
+      "array",
+      "matrix",
+      "native_action",
+      "pose_gate",
+      "Episode.__init__",
+      "Episode.step",
+      "Episode.finish"
+    ],
+    "run_py_in_R2": "Not imported: panel.runtime installs a minimal run module with ROOT/sha/write",
+    "source_worker_changes": "Same-control observation cache/return; source-teacher fixed-horizon exception, unused by R2 learner episodes"
+  },
+  "current_R2_source_worker_seal": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/source_worker.py",
+    "sha256": "12317af70db5cf913d0f07151d63195eb7785a1e76134add687cd133210d0bd3"
+  },
+  "deployment": "NONE",
+  "historical_helper_mismatches": [
+    {
+      "actual_sha256": "21f3490810506c4d6b28cf5b9fe10e681efe8ced619631dd2df5558959ca1684",
+      "expected_sha256": "5032516eb3a8a1793101ef28848aa9374d7c5f93e065db7e3a304aeba70617ef",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/run.py"
+    },
+    {
+      "actual_sha256": "12317af70db5cf913d0f07151d63195eb7785a1e76134add687cd133210d0bd3",
+      "expected_sha256": "0a8c4e83cecec0c3820a72c426d7c785da28d40540fa2561c260117930d6f6bc",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/source_worker.py"
+    }
+  ],
+  "historical_manifest_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/design/SOURCE_FILESET.json",
+  "historical_manifest_preserved": true,
+  "historical_manifest_sha256": "36b697b83293f39e1965e30bff2f0e39a1f69263a3e06e7a07ca97f0198bf190",
+  "new_model_queries": 0,
+  "new_physics_steps": 0,
+  "original_manifest_all_files_PASS": false,
+  "protected_native_and_project_files_matching": 466,
+  "selected_checkpoint": "NONE",
+  "status": "RECONCILED_PREDECESSOR_HELPER_HASH_DRIFT_WITH_CURRENT_R2_SEAL"
+}

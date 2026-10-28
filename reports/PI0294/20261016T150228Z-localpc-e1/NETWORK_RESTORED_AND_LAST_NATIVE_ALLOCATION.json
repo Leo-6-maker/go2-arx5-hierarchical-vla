@@ -1,0 +1,270 @@
+{
+  "run_uuid": "20261016T150228Z-localpc-e1",
+  "status": "NETWORK_RESTORED_NATIVE_RECONCILED_FINAL_ORIGINAL_E1_PBS_SUBMITTED",
+  "hopper": {
+    "observed_epoch": 1792208566.2650263,
+    "native_job": "671655.hopper-m-02",
+    "native_state": "Q",
+    "native_project": "CFP04-CF-007",
+    "native_H200_requested": 1,
+    "source_sha": "3ed7a5a3e327442dd9753c9256f669d212c206ed",
+    "request_sha256": "af3f52a82f718718adafed1e1c473b61eb7cc5763c9c378a7dd02a728f919f20",
+    "original_T0_epoch": 1792162948,
+    "original_admission_cutoff_epoch": 1792249348,
+    "original_hard_closeout_epoch": 1792292548,
+    "settled_allocations": {
+      "status": "NATIVE_TERMINAL_ALLOCATIONS_ACCOUNTED",
+      "allocations": [
+        {
+          "job_id": "670561.hopper-m-02",
+          "native_state": "F",
+          "exit": 1,
+          "GPU_native_s": 5190,
+          "GPU_conservative_s": 5200
+        },
+        {
+          "job_id": "670729.hopper-m-02",
+          "native_state": "F",
+          "exit": 1,
+          "GPU_native_s": 11159,
+          "GPU_conservative_s": 11163
+        }
+      ],
+      "GPU_conservative_s": 16363
+    },
+    "prior_second_job_final": {
+      "status": "FAILED_PRESERVED",
+      "stage": "M2-BC",
+      "CPU_s": 3108.602167597,
+      "job_id": "670729.hopper-m-02",
+      "completed_epoch": 1792182137.5844314,
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    "second_job_terminal_cause": "E1_OWNER_HEARTBEAT_LOST",
+    "GPU_allocated_s": 16363,
+    "GPU_reserved_s": 12420,
+    "total_used_plus_reserved_s": 28783,
+    "optimizer_updates_at_binding": 1536,
+    "pending_optimizer_updates_at_binding": 0,
+    "remainder_plan_sha256": "b0c2ac51689fe5f82bdb79a8c9037d4394b2313f11834464fc9b874db62bc014",
+    "remainder_plan": {
+      "schema": "E1_FIXED_REMAINDER_SCOPE_V1",
+      "status": "BOUND_ACTUAL_TERMINAL_REMAINDER_NOT_SUBMITTED",
+      "run_uuid": "20261016T150228Z-localpc-e1",
+      "authority": "c851cc791e1fbb3efb293f7075f0e771518cf5c0",
+      "source_sha": "3ed7a5a3e327442dd9753c9256f669d212c206ed",
+      "new_resource_window": false,
+      "optimizer_updates_at_binding": 1536,
+      "pending_updates_at_binding": 0,
+      "fixed_M1_parent_manifest_sha256": "7dba1c4c8abacdb57e2faa0e6d7563ed5dcef2e5473cb13c281eb0e57d5a5150",
+      "source_physics_stopped": false,
+      "core_state_sha256": "003037dc27587e376053b983597fd5193872f511ac9c65f31a86aa2b4fd15338",
+      "correction_manifest_sha256": "7580aa55973f1eb7ba24db934a67454acfae3490ac476de648b80377721df85d",
+      "new_engineering_recoveries": 3,
+      "models": [
+        {
+          "base_label": "M1-1024-CANONICAL",
+          "label": "M1-1024-CANONICAL-REMAINDER-03",
+          "branch": "M1",
+          "remaining_conditions": [],
+          "prior_valid_conditions_preserved": [
+            {
+              "scene_group": "PI0294/TRAIN/F0/000",
+              "task": "T1",
+              "actual_attempt_id": "PI0294-E1-M1-1024-CANONICAL-F0-000-T1",
+              "status": "SUCCESS"
+            },
+            {
+              "scene_group": "PI0294/TRAIN/F0/000",
+              "task": "T2",
+              "actual_attempt_id": "PI0294-E1-M1-1024-CANONICAL-F0-000-T2",
+              "status": "VALID_TASK_FAIL"
+            },
+            {
+              "scene_group": "PI0294/TRAIN/F1/000",
+              "task": "T1",
+              "actual_attempt_id": "PI0294-E1-M1-1024-CANONICAL-F1-000-T1",
+              "status": "SUCCESS"
+            },
+            {
+              "scene_group": "PI0294/TRAIN/F1/000",
+              "task": "T2",
+              "actual_attempt_id": "PI0294-E1-M1-1024-CANONICAL-F1-000-T2",
+              "status": "VALID_TASK_FAIL"
+            }
+          ],
+          "new_engineering_recoveries": 0,
+          "training_action": "COMPLETE",
+          "fixed_checkpoint_manifest_sha256": "7dba1c4c8abacdb57e2faa0e6d7563ed5dcef2e5473cb13c281eb0e57d5a5150"
+        },
+        {
+          "base_label": "M2-BC",
+          "label": "M2-BC-REMAINDER-03",
+          "branch": "M2-BC",
+          "remaining_conditions": [
+            {
+              "scene_group": "PI0294/TRAIN/F0/000",
+              "task": "T1",
+              "reason": "SETTLED_ENGINEERING_INCOMPLETE_NEW_ATTEMPT",
+              "previous_attempt_ids": [
+                "PI0294-E1-M2-BC-F0-000-T1"
+              ]
+            },
+            {
+              "scene_group": "PI0294/TRAIN/F0/000",
+              "task": "T2",
+              "reason": "SETTLED_ENGINEERING_INCOMPLETE_NEW_ATTEMPT",
+              "previous_attempt_ids": [
+                "PI0294-E1-M2-BC-F0-000-T2"
+              ]
+            },
+            {
+              "scene_group": "PI0294/TRAIN/F1/000",
+              "task": "T1",
+              "reason": "SETTLED_ENGINEERING_INCOMPLETE_NEW_ATTEMPT",
+              "previous_attempt_ids": [
+                "PI0294-E1-M2-BC-F1-000-T1"
+              ]
+            },
+            {
+              "scene_group": "PI0294/TRAIN/F1/000",
+              "task": "T2",
+              "reason": "NEVER_STARTED_FIRST_ATTEMPT",
+              "previous_attempt_ids": []
+            }
+          ],
+          "prior_valid_conditions_preserved": [],
+          "new_engineering_recoveries": 3,
+          "training_action": "COMPLETE",
+          "fixed_checkpoint_manifest_sha256": "edc0f390776056f9b22cd07d152c8fd5e273556f1d242f8e4f220b3034f9ffe6"
+        },
+        {
+          "base_label": "M2-CORR",
+          "label": "M2-CORR-REMAINDER-03",
+          "branch": "M2-CORR",
+          "remaining_conditions": [
+            {
+              "scene_group": "PI0294/TRAIN/F0/000",
+              "task": "T1",
+              "reason": "NEVER_STARTED_FIRST_ATTEMPT",
+              "previous_attempt_ids": []
+            },
+            {
+              "scene_group": "PI0294/TRAIN/F0/000",
+              "task": "T2",
+              "reason": "NEVER_STARTED_FIRST_ATTEMPT",
+              "previous_attempt_ids": []
+            },
+            {
+              "scene_group": "PI0294/TRAIN/F1/000",
+              "task": "T1",
+              "reason": "NEVER_STARTED_FIRST_ATTEMPT",
+              "previous_attempt_ids": []
+            },
+            {
+              "scene_group": "PI0294/TRAIN/F1/000",
+              "task": "T2",
+              "reason": "NEVER_STARTED_FIRST_ATTEMPT",
+              "previous_attempt_ids": []
+            }
+          ],
+          "prior_valid_conditions_preserved": [],
+          "new_engineering_recoveries": 0,
+          "training_action": "NEW",
+          "training_checkpoint_relative": "training/M1/checkpoint-1024",
+          "training_checkpoint_manifest_sha256": "7dba1c4c8abacdb57e2faa0e6d7563ed5dcef2e5473cb13c281eb0e57d5a5150"
+        }
+      ],
+      "valid_policy_outcomes_repeated": false,
+      "seed_or_recipe_changed": false,
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    "capacity_precheck": {
+      "observed_allocated_bytes": 64240390144,
+      "additional_full_state_upper_bytes": 25542145698,
+      "projected_new_output_upper_bytes": 91930019490,
+      "limit_bytes": 128849018880
+    },
+    "third_release_already_present": false
+  },
+  "core": {
+    "observed_epoch": 1792208567.5779045,
+    "source_stop": false,
+    "physical_reservations": {},
+    "pre_recovery_BC_rows": [
+      {
+        "status": "ENGINEERING_INCOMPLETE",
+        "failure_stage": "ENGINEERING_OR_UNKNOWN",
+        "pipeline_trustworthy": false,
+        "attempt_id": "PI0294-E1-M2-BC-F0-000-T2",
+        "model": "M2-BC",
+        "task": "T2",
+        "split": "TRAIN",
+        "scene_group": "PI0294/TRAIN/F0/000",
+        "duration_s": 20.400000000000002,
+        "main_integrations": 10200,
+        "RGB_pairs": 409,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 8.526512829121202e-14,
+        "result_sha256": "c8dd6e130ceb2ea6f80bc17a7f23e1721dd421f028234a4ff68883d365014a69",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "deployment": "NONE"
+      },
+      {
+        "status": "ENGINEERING_INCOMPLETE",
+        "failure_stage": "ENGINEERING_OR_UNKNOWN",
+        "pipeline_trustworthy": false,
+        "attempt_id": "PI0294-E1-M2-BC-F0-000-T1",
+        "model": "M2-BC",
+        "task": "T1",
+        "split": "TRAIN",
+        "scene_group": "PI0294/TRAIN/F0/000",
+        "duration_s": 25.6,
+        "main_integrations": 12800,
+        "RGB_pairs": 513,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 6.092348847630547e-14,
+        "result_sha256": "be5242b827e1812b4fc74d9e2da95e18221a1166e57b8e8095781ae74d872e58",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "deployment": "NONE"
+      },
+      {
+        "status": "ENGINEERING_INCOMPLETE",
+        "failure_stage": "ENGINEERING_OR_UNKNOWN",
+        "pipeline_trustworthy": false,
+        "attempt_id": "PI0294-E1-M2-BC-F1-000-T1",
+        "model": "M2-BC",
+        "task": "T1",
+        "split": "TRAIN",
+        "scene_group": "PI0294/TRAIN/F1/000",
+        "duration_s": 21.6,
+        "main_integrations": 10800,
+        "RGB_pairs": 433,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 4.951594689828198e-14,
+        "result_sha256": "edb9a81265fb05d6629036e31d56541ae0ef3a027febd331987f1f03e9aa8956",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "deployment": "NONE"
+      }
+    ],
+    "remainder_plan_sha256": "b0c2ac51689fe5f82bdb79a8c9037d4394b2313f11834464fc9b874db62bc014",
+    "source_sha": "3ed7a5a3e327442dd9753c9256f669d212c206ed"
+  },
+  "new_scientific_window": false,
+  "original_clocks_and_caps_preserved": true,
+  "MP1_cost_transfer": false,
+  "second_job_failed_source_capsule_hot_modified": false,
+  "frozen_numerical_source_members_unchanged": 15,
+  "new_E1_submissions_remaining": 0,
+  "new_MP1_GPU_submissions": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

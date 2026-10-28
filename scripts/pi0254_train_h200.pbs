@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+#PBS -N pi0254_support
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -m n
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=12:00:00
+#PBS -o /scratch/e1192548/Projects/go2-arx5/experiments/PI0254/logs/
+#PBS -e /scratch/e1192548/Projects/go2-arx5/experiments/PI0254/logs/
+set -euo pipefail
+card=${PI0254_RUN_CARD:?sealed card required}
+expected=${PI0254_RUN_CARD_SHA256:?card hash required}
+arm=${PI0254_ARM:?arm required}
+resume=${PI0254_RESUME_AFTER_STEP:-0}
+case "$arm" in U576|R576) ;; *) exit 2 ;; esac
+case "$resume" in 0|1152|2304|3456) ;; *) exit 2 ;; esac
+test "$(sha256sum "$card" | cut -d ' ' -f 1)" = "$expected"
+test "$(jq -er .sha256 "$(dirname "$card")/run_card.seal.json")" = "$expected"
+test "$(jq -er .schema "$card")" = PI0254_RUN_CARD_V1
+test "$(jq -er .deployment_selected_checkpoint "$card")" = NONE
+test "$(jq -er .stage.steps "$card")" = 4608
+test "$(jq -er .d1_runtime_id "$card")" = S4
+output=$(jq -er .paths.output_root "$card")
+stage10=$(jq -er .paths.stage10_root "$card")
+driver=$(jq -er .paths.execution_driver_root "$card")
+legacy=$(jq -er .paths.legacy_execution_driver_root "$card")
+repo_code=$(jq -er .paths.repo_code_root "$card")
+code=$(jq -er .paths.code_root "$card")
+runtime=$(jq -er .paths.training_runtime_root "$card")
+groot=$(jq -er .paths.groot_source "$card")
+token=$(jq -er .archive.token_file "$card")
+venv="$stage10/runtime/venv"
+ff=/scratch/e1192548/Projects/go2-arx5/archive/stage_runs/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+test -x "$venv/bin/python" && test -d "$ff/lib"
+test "$(jq -er .run_card_sha256 "$output/hf_preflight_receipt.json")" = "$expected"
+test "$(jq -er .run_card_sha256 "$output/prequery_cpu_receipt.json")" = "$expected"
+test "$(jq -er .status "$output/prequery_cpu_receipt.json")" = PASS_PI0254_ACTUAL_CPU_BINDINGS_CONFIG_RNG_AND_LIFECYCLE
+test "$(jq -er .status "$(dirname "$output")/P1_comparison.json")" = P1_VALID_BASELINES_COMPLETE
+unset PI0243_DURABLE_ROOT PI0243_DURABLE_HOST PI0243_CHECKPOINT_FAMILY
+export PI0243_HF_TOKEN_FILE="$token"
+export LD_LIBRARY_PATH="$ff/lib:$ff/compat:$venv/lib/python3.12/site-packages/torchcodec:$venv/lib/python3.12/site-packages/torch/lib:${LD_LIBRARY_PATH:-}"
+export PYTHONPATH="$driver:$legacy:$repo_code/scripts:$repo_code/src:$runtime:$code/scripts:$code/src:$groot:${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1
+test "$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^$/d' | wc -l)" -eq 1
+nvidia-smi --query-gpu=name --format=csv,noheader | grep -qi H200
+"$venv/bin/python" -u "$driver/pi0254_train.py" --train --arm "$arm" --run-card "$card" --resume-after-step "$resume"
+test "$(jq -er .status "$output/execution_state.json")" = TRAINING_COMPLETE

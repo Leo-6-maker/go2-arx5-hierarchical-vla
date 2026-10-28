@@ -1,0 +1,42 @@
+{
+  "status": "FINAL_EVIDENCE_BOUND_NO_NEW_TRAINING",
+  "rows": [
+    {
+      "gap": "Source action readout",
+      "evidence": "272 saved matched inputs show predicted EEF differs from FK(predicted q). JOINT0/4 and commandedFK replay0/4; condition10002 grasps/lifts in both.",
+      "conclusion": "Readout mismatch exists, but joint output does not establish a successful task policy. No causal claim that EEF readout alone explains all failures."
+    },
+    {
+      "gap": "Source task/domain quality",
+      "evidence": "Existing expert bridge4/4 persistent; both model readouts0/4; old directEEF0/4 retained.",
+      "conclusion": "Supports pretrained task/visual/state distribution gap on these developed OOD cases. Capacity limitation, required data volume and generalization remain unknown."
+    },
+    {
+      "gap": "WBC progress",
+      "evidence": "Actual native return aborts0.5s at s=.1 versus s_ref=.001224. Actual bound first-local-minimum repair completes10s; final s=.043294 vs s_ref=.1.",
+      "conclusion": "Endpoint jump abort prevented; full spatial progress fidelity is not established. One fixed repair only."
+    },
+    {
+      "gap": "WBC orientation",
+      "evidence": "Actual raw/install/preview/actor/local-target/sameTCP FK chain consistent. Final SO3 RMS hold1.105218, monotonic.629325, return.543153rad, all exceed.15.",
+      "conclusion": "Frozen delivered actor has an orientation-tracking capability gap in this scope. No orientation bias, gain tuning or second semantic repair."
+    },
+    {
+      "gap": "Target high-level input",
+      "evidence": "Predecessor0/8 honest raw-model routes for actual target EEF/gripper-only state; no fresh target policy query.",
+      "conclusion": "Requires an explicitly declared EEF/gripper interface adaptation; source joints are diagnostic only, not target ABI or labels."
+    }
+  ],
+  "single_next_proposal": {
+    "launch_allowed": false,
+    "authorization": "NOT_AUTHORIZED",
+    "initialization": "pristine GR00T",
+    "objective": "native flow-matching first",
+    "VLM": "frozen initially",
+    "comparison": "limited declared EEF/gripper interface tuning versus standard projector+DiT only under a separately fixed task-data/evaluation budget",
+    "data_admission": "object-task demonstrations independent of target WBC success; no robot joint-action learning",
+    "limits": "No claim projector-only is sufficient; no automatic collection/training; physical executor qualification stays separate"
+  },
+  "selected": "NONE",
+  "deployment": "NONE"
+}

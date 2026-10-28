@@ -1,0 +1,32 @@
+{
+  "cached_output_and_quality_ledgers_unchanged": {
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0277/evidence/model_attempts.jsonl": "38fc6713fe207183a50a67efc7650aed70ec8ad0f3d18149e42b02905d2a99ac",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0277/evidence/model_heads.jsonl": "554affd490632f44a39ab7aa8104d7f23b950527b8dcb1fb5a0348e44dee6658",
+    "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/R2/quality/FOCUS4096/FIT/TRAIN-10000-a000/n0/output.npz": "f358fe7af9f6dc6f41fdf66370ad71a3745520aa92bb71f8a1f84353f1beaf2b",
+    "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/R2/quality/FOCUS4096/FIT/TRAIN-10000-a000/n0/output.receipt.json": "65eb7d2723c3aa273229096c5310a03b8b3ba02bec1a832aa4b300942231e79a"
+  },
+  "delegated_infer_source_sha256": "d8d5d55203da6f228c297f4b672aa7801505a18352b760bdba338694c0995d24",
+  "deployment": "NONE",
+  "engineering_reload_attempts": 2,
+  "frozen_request": {
+    "input": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/R2/quality/FOCUS4096/FIT/TRAIN-10000-a000/n0/input.npz",
+    "noise_file": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/noise/FIT-TRAIN-10000-a000.npz",
+    "noise_name": "n0",
+    "noise_sha256": "ddece6995ce2259c589440622e9e1c389fd5c582885650327d4ff691aa42afcc",
+    "output": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0277/R2/quality/FOCUS4096/FIT/TRAIN-10000-a000/n0/output.npz"
+  },
+  "image_preprocess_Module_calls": 10,
+  "measurement": "One current readonly AutoModel.from_pretrained.eval.to(cuda BF16) load plus CUDA synchronization; not retrospective historical panel model-load time",
+  "model_load_s": 2.6795917621348053,
+  "new_model_heads": 0,
+  "new_model_queries": 0,
+  "new_optimizer_steps": 0,
+  "new_physics_steps": 0,
+  "observer_source_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0277/R3/closeout_code/cached_load_observer.py",
+  "observer_source_sha256": "a10f2e1840b6f33eb733bb3a3f0d9fc890c9858477aa4412ce6e160ff967d56c",
+  "parameterized_neural_Module_calls": 0,
+  "point": "FOCUS4096",
+  "process_main_observed_s": 32.13749165693298,
+  "selected_checkpoint": "NONE",
+  "status": "PASS_ACTUAL_READONLY_MODEL_LOAD_AND_CACHED_HANDOFF_EXAMPLE"
+}

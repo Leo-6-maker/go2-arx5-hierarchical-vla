@@ -1,0 +1,49 @@
+{
+  "status": "PASS_FOUR_RECOVERABLE_FULL_TRAINERS",
+  "models": [
+    {
+      "arm": "B",
+      "step": 1024,
+      "revision": "e3ba080ac786bdc9f30f325107e12ff7e444ad90",
+      "tree_sha256": "c97b6dc153a7e046988ea4ef5d9620c94ce063551927bc91a6c7f88174464408",
+      "files": 16,
+      "complete_trainer": true
+    },
+    {
+      "arm": "B",
+      "step": 2048,
+      "revision": "18aa7e584452d9ed173648a0739a94559aed9751",
+      "tree_sha256": "3f8478febc08f55df2745f69ed85ab8c1bd56be980d8978f86eb8bec76fd857b",
+      "files": 16,
+      "complete_trainer": true
+    },
+    {
+      "arm": "L",
+      "step": 1024,
+      "revision": "fdbcd30fe0fc529db3e7f0f604e168ae4c50e08a",
+      "tree_sha256": "cec58225307d33b830b2d6193f81d801651cc243fd8d6bb20de6fdf54ab9ab79",
+      "files": 16,
+      "complete_trainer": true
+    },
+    {
+      "arm": "L",
+      "step": 2048,
+      "revision": "e4290e6ca387abd2de4337b5f12b9c72a5f85c99",
+      "tree_sha256": "2f61d8ed8c8fe8444b7ef23164cb4df2bcacd8a73c93f19be77fcdf459ef6fae",
+      "files": 16,
+      "complete_trainer": true
+    }
+  ],
+  "donor_evaluation": {
+    "point": "X2000",
+    "logical_rows": 2112,
+    "reused": 1152,
+    "new_attempts": 960,
+    "heads": 3840
+  },
+  "next_stage": "B2048 then L2048 fixed evaluation; full CPU replay and quality tables",
+  "goal_status": "ACTIVE",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "physics_steps": 0
+}

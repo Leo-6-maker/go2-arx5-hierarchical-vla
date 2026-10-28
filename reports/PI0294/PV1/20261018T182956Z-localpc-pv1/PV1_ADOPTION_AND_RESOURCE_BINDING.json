@@ -1,0 +1,176 @@
+{
+  "schema": "PI0294_PV1_ADOPTION_AND_RESOURCE_BINDING_V1",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "authority_blobs": {
+    "docs/handover/2026-10-19/PV1_MULTITASK_POLICY_EXECUTE.md": "e27c74784ece4c2a1bdb955d535267a8909bb93e",
+    "docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md": "55aef87383e3e483453d43b957b489884c55527c",
+    "reports/PI0294/design/PV1_MULTITASK_POLICY_SCOPE_20261019.json": "ad91e8c20fa9998fc71b205093128113c815819b"
+  },
+  "owner": "EXISTING_SINGLE_LOCAL_PC_COORDINATOR",
+  "run_uuid": "20261018T182956Z-localpc-pv1",
+  "T0_epoch": 1792348196,
+  "stop_new_jobs_epoch": 1792866596,
+  "stop_new_training_epoch": 1792909796,
+  "stop_new_physics_epoch": 1792924196,
+  "hard_closeout_epoch": 1792952996,
+  "bounds": {
+    "H200_allocated_hours": 96,
+    "H200_concurrent_GPUs_max": 1,
+    "Hopper_GPU_PBS_submissions_max": 24,
+    "one_GPU_job_wall_hours_max": 8,
+    "A40_GPU_hours": 0,
+    "CoreLab_CPU_core_hours": 320,
+    "CoreLab_active_cores_max": 8,
+    "Hopper_CPU_core_hours": 160,
+    "Hopper_cores_not_exceed_native_request": true,
+    "local_PC_CPU_core_hours": 48,
+    "local_PC_active_cores_max": 4,
+    "optimizer_updates_max": 16384,
+    "neural_generation_queries_max": 48000,
+    "source_main_or_recovery_episode_starts_max": 1000,
+    "all_live_shadow_reconstruction_ticks_max": 40000000,
+    "all_engine_constructors_and_clones_max": 100000,
+    "new_storage_peak_GiB": {
+      "Hopper": 250,
+      "CoreLab": 300,
+      "local_PC": 20
+    },
+    "new_transfer_GiB": 300,
+    "final_reserve_inside_total": {
+      "H200_hours": 20,
+      "live_ticks": 1600000,
+      "shadow_ticks": 1600000,
+      "episode_starts": 100,
+      "neural_queries": 9000,
+      "storage_GiB": 40
+    },
+    "H200_soft_allocation_hours": {
+      "training": 36,
+      "development_and_student_diagnostics": 24,
+      "engineering": 16,
+      "final_qualification_and_closeout": 20
+    },
+    "site_smaller_limit_wins": true,
+    "queued_not_charged_as_allocated_GPU": true,
+    "failures_and_idle_allocation_charged": true,
+    "old_N1_FD1_FD2_costs_double_counted": false,
+    "new_CPU_and_GPU_native_authority_required": true
+  },
+  "old_N1_FD1_FD2_costs_double_counted": false,
+  "healthy_FD2_not_cancelled_or_restarted": true,
+  "scope": "PV1_CONTROL_PLANE_NOT_SCIENTIFIC_DISPATCH",
+  "status": "ADOPTED_CONTROL_RESOURCE_WINDOW_CHILDREN_REQUIRE_NATIVE_GATES",
+  "selected": "NONE",
+  "real_robot_deployment": "NONE",
+  "authority_file_sha256": {
+    "docs/handover/2026-10-19/PV1_MULTITASK_POLICY_EXECUTE.md": "a5165ef80ea97e94c04eeb00a6793dac705e4e2c557fc91ada021d9011109561",
+    "docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md": "302b1a1d6b9804380f7a3fe4f99151e4e1f3dfede2e48e6b32153419c82eeb14",
+    "reports/PI0294/design/PV1_MULTITASK_POLICY_SCOPE_20261019.json": "4ae61d732d43c69dc60ae92cf52f12931d8a360131ae531b2b45ab4eed774be1"
+  },
+  "T0_SGT": "2026-10-19T02:29:56+08:00",
+  "hard_closeout_SGT": "2026-10-26T02:29:56+08:00",
+  "native_sites": {
+    "core": {
+      "status": "PV1_NATIVE_CONTROL_WINDOW_REGISTERED",
+      "host": "corelab-4080s",
+      "uid": 2009,
+      "role": "PI0294_PV1_CORE_CONTROL",
+      "run_uuid": "20261018T182956Z-localpc-pv1",
+      "manifest_sha256": "0891efca0f0cd12371c77015e542a6bdaa2c36b7479c9dc8f749c3bdf23e606f",
+      "binding_sha256": "7903f13a83ec13ffd6e6737709eb7cc38f3e68af96003ae3339473dad54b6818",
+      "lease_sha256": "e7965f40a0ba3671c5424fcaad1af28522c5b4624fc370aac5e0fcaf7bbb2066",
+      "old_leases_bytes_unchanged": true,
+      "new_PBS_physics_models_training": 0
+    },
+    "hopper": {
+      "status": "PV1_NATIVE_CONTROL_WINDOW_REGISTERED",
+      "host": "hopper-l-01",
+      "uid": 22182,
+      "role": "PI0294_PV1_HOPPER_CONTROL",
+      "run_uuid": "20261018T182956Z-localpc-pv1",
+      "manifest_sha256": "95c3f53e311b3175dd59ad9ed55f420f2828f08aa8e4d7854dd0a1b91fc89728",
+      "binding_sha256": "b49c0f6ad7929782f434125ea988e10ecb8c8bac74502ed75df081cc088c8636",
+      "lease_sha256": "e7965f40a0ba3671c5424fcaad1af28522c5b4624fc370aac5e0fcaf7bbb2066",
+      "old_leases_bytes_unchanged": true,
+      "new_PBS_physics_models_training": 0
+    }
+  },
+  "site_checks": {
+    "core": {
+      "profile_doctor": {
+        "status": "PASS",
+        "scope": "CORE_EXISTING_ENTRY_DOCTOR"
+      },
+      "recorded_processes": 594,
+      "active_prior_consumers": [
+        {
+          "scope": "FD2",
+          "operation": "pilot"
+        }
+      ],
+      "free_global_bytes": 468439666688,
+      "whole_filesystem_free_is_not_personal_quota": true
+    },
+    "hopper": {
+      "profile_doctor": {
+        "status": "PASS_CONTROL_IDENTITY_ONLY",
+        "scope": "HOPPER_PINNED_PBS_PROFILE_CONTROL_IDENTITY_ONLY"
+      },
+      "recorded_processes": 63,
+      "active_prior_consumers": [],
+      "free_global_bytes": 3444778894098432,
+      "whole_filesystem_free_is_not_personal_quota": true
+    }
+  },
+  "Hopper_personal_quota": {
+    "user": "e1192548",
+    "used_bytes": 659671207936,
+    "hard_bytes": 1099511627776,
+    "report_epoch": 1792347787.134636
+  },
+  "Hopper_project_admission_at_adoption": {
+    "returncode": 1,
+    "expired": true,
+    "active": false,
+    "member": false,
+    "positive_balance": false
+  },
+  "Hopper_unrelated_queued_GPU_jobs": [
+    {
+      "job_id": "674075.hopper-m-02",
+      "state": "Q",
+      "project": "CFP04-CF-031",
+      "requested_GPUs": 2,
+      "cancelled": false
+    },
+    {
+      "job_id": "674805.hopper-m-02",
+      "state": "Q",
+      "project": "CFP04-CF-031",
+      "requested_GPUs": 2,
+      "cancelled": false
+    },
+    {
+      "job_id": "674806.hopper-m-02",
+      "state": "Q",
+      "project": "CFP04-CF-031",
+      "requested_GPUs": 2,
+      "cancelled": false
+    }
+  ],
+  "parent_metadata": {
+    "manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "global_step": 2048,
+    "full_resume": true,
+    "complete_files": 15,
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "actual_tensor_payload_rehash": "PENDING_BOUNDED_NATIVE_CHILD_NO_MODEL_LOADED"
+  },
+  "first_next_actions": [
+    "Close existing FD2 exactly in its original scope; reuse complete actual evidence without replay",
+    "Freeze one FD2-based PV1 route then TRAIN96/DEV12/LOCKBOX20 with old-parent geometry exclusions",
+    "Versioned PV1 admission, sampler and finite CPU source-data qualification before any GPU dispatch"
+  ],
+  "new_PV1_PBS_physics_models_training_at_adoption": 0,
+  "publication_sanitization_correction": "Raw doctor detail was unintentionally included in prior private-repository adoption commit; this revision removes all host-bound paths. No credentials, weights, vendor assets or raw data were included. Original native doctor proof stays local; historical commit not rewritten."
+}

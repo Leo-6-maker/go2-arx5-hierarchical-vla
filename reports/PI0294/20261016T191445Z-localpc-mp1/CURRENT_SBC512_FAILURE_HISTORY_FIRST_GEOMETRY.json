@@ -1,0 +1,669 @@
+{
+  "schema": "MP1_CURRENT_SBC512_FAILURE_HISTORY_FIRST_GEOMETRY_ACTUAL_V1",
+  "status": "ACTUAL_FOUR_CURRENT_FAILURE_HISTORY_RECONSTRUCTION_PASS_CLOSED",
+  "authority": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "review": "fb16d10142e884df9f6b7d9cbcf951fe70c92044",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "original_T0_epoch": 1792178085,
+  "new_budget_or_T0": false,
+  "unique_owner": "EXISTING_SINGLE_LOCAL_PC",
+  "child": "sbc512-failure-history-01",
+  "code_sha": "7714ef6ccb9d12cbc7b856a81a5ed225d62d146c",
+  "original_scientific_runtime_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+  "observed_epoch": 1792242163.1872275,
+  "binding": {
+    "machine_card": "reports/PI0294/design/SBC512_FAILURE_HISTORY_B1_BINDING_V1.json",
+    "GitHub_science_registration_comment": 6234128253,
+    "readback": true,
+    "actual_native_entry": "PASS_CURRENT_FAILURE_NATIVE_ENTRY_NOT_DISPATCHED",
+    "manifest_sha256": "42b96f244d1d51c37950b3f12d014dfaf53f663cb8a00a4492021e24b4c3ff76",
+    "source_inputs_sha256": "99549abd8cb8e6479862e6a07e3fb5574d53b1be3f7296758ad366541971082b",
+    "plan_sha256": "133f4e55caa286a2faa44c805ac2dee86d95cd39ce300eed017da8aee73a8012",
+    "sealed_original_files": 624,
+    "frozen_numerical_files": 15
+  },
+  "cases": [
+    {
+      "attempt_id": "PI0294-MP1-S-BC-512-TRAIN4-F0-000-T1",
+      "task": "T1",
+      "original_live_stop_s": 1.6,
+      "original_live_steps": 800,
+      "reconstruction_shadow_steps": 800,
+      "max_original_highrate_difference": 0,
+      "max_original_wire_installed_reference_difference": 0,
+      "states": [
+        {
+          "id": "PI0294-MP1-S-BC-512-TRAIN4-F0-000-T1-S003",
+          "sequence": 3,
+          "tick": 600,
+          "time_s": 1.2000000000000008,
+          "observation_sha256": "19889af190e9ef8ea1b8516993cc822d427654911d395e822276fef8b5cf52b6",
+          "full_integration_state_sha256": "6b9747e9f2c01c6daf9d7b5be6abef57c41a88bdbebe3aa768f651363e96f23c",
+          "history_sha256": "67f37286fac0a73ee669935d8bdbfd9dbcb2b571e82d26edefb51f13955531be",
+          "model_xml_sha256": "07875229996c156fb62bbb9358b5a852c20b43953dd2c9ba9b2a3b69e1236cc0",
+          "original_action_sha256": "976d26acbbde4f44a8d6cf44f6038f570117d0064499a56d2ea2cb1fbf91e4a1",
+          "original_action_bundle_sha256": "f23becdcd28effbb10aeaac8b747df3844750ecdcafc5f9a5f5a4b4a79d03ff0",
+          "physically_safety_valid": true,
+          "original_noise_identity": "REQUIRES_MATCHING_EXISTING_HOPPER_RECEIPT_NO_NEW_QUERY"
+        },
+        {
+          "id": "PI0294-MP1-S-BC-512-TRAIN4-F0-000-T1-S004",
+          "sequence": 4,
+          "tick": 800,
+          "time_s": 1.6000000000000012,
+          "observation_sha256": "ed44567c16a0eb7d4de8b808b9b2d87d02c539de5594c691aa6970460a2dc8b0",
+          "full_integration_state_sha256": "bba4745aaf6231727e295d3015a68d16c76f347dec42b9c1d9c73005fe8dfbd4",
+          "history_sha256": "da04665e96d298ee64ba0bbc5b929f8da3229bab62076bbd0ca29c9930fc5057",
+          "model_xml_sha256": "07875229996c156fb62bbb9358b5a852c20b43953dd2c9ba9b2a3b69e1236cc0",
+          "original_action_sha256": "f4a94bd6ca0a2549e8616fb1130d394c915e6530c95a985a4c1116c562bb8ed5",
+          "original_action_bundle_sha256": "380c9e6a96d5c42520f7b9170f9ddb8f006d64849d8ee76622fac9c2c57a04a1",
+          "physically_safety_valid": true,
+          "original_noise_identity": "REQUIRES_MATCHING_EXISTING_HOPPER_RECEIPT_NO_NEW_QUERY"
+        }
+      ],
+      "rejection": {
+        "offset_ticks": 64,
+        "offset_s": 0.128,
+        "predicted_absolute_time_s": 1.7280000000000002,
+        "original_offset_exactly_reproduced": true,
+        "original_action_prefix_sha256": "31e5c53529bfc7b3e0e8f7a6128a67c09c9d456a548d6efa9c9d0dcec042d28d",
+        "original_S1_reason": [
+          "ILLEGAL_CONTACT_OR_PENETRATION"
+        ],
+        "original_S1_version": "PI0294_R3_D0_S1_COPYDATA_V1",
+        "actual_diagnostic_shadow_integrations": 64,
+        "illegal_contact_pairs": [
+          {
+            "geom_ids": [
+              1,
+              77
+            ],
+            "geom_names": [
+              "table",
+              "right_pad"
+            ],
+            "body_ids": [
+              0,
+              26
+            ],
+            "body_names": [
+              "world",
+              "x5_link8"
+            ],
+            "position_world": [
+              0.47082809978721635,
+              -0.10994529306435141,
+              0.4399602916448092
+            ],
+            "normal_world": [
+              0,
+              0,
+              1
+            ],
+            "signed_distance_m": -0.00003970835519075367,
+            "penetration_m": 0.00003970835519075367,
+            "original_rule": "ARM_TABLE_OR_FLOOR",
+            "penetration_stop_m": 0.004
+          },
+          {
+            "geom_ids": [
+              1,
+              77
+            ],
+            "geom_names": [
+              "table",
+              "right_pad"
+            ],
+            "body_ids": [
+              0,
+              26
+            ],
+            "body_names": [
+              "world",
+              "x5_link8"
+            ],
+            "position_world": [
+              0.4707876521974678,
+              -0.10394543401461236,
+              0.4399640123889534
+            ],
+            "normal_world": [
+              0,
+              0,
+              1
+            ],
+            "signed_distance_m": -0.00003598761104660071,
+            "penetration_m": 0.00003598761104660071,
+            "original_rule": "ARM_TABLE_OR_FLOOR",
+            "penetration_stop_m": 0.004
+          }
+        ],
+        "live_state_unchanged": true
+      },
+      "source_state": {
+        "TCP_XYZ_m": [
+          0.4533080329759527,
+          -0.06880821307050408,
+          0.4695496318406467
+        ],
+        "gripper_opening_fraction": 0.7778312233815612,
+        "object_XYZ_m": [
+          0.4571955564143642,
+          -0.07391292045913811,
+          0.4598932559887006
+        ],
+        "native_grasp": false,
+        "audit_teacher_stage": "align",
+        "audit_teacher_stage_is_policy_phase": false
+      },
+      "rejected_prefix_end": {
+        "requested_TCP_XYZ_m": [
+          0.4544975936711749,
+          -0.07003097611927765,
+          0.4609904975174858
+        ],
+        "achieved_shadow_TCP_XYZ_m": [
+          0.4536396117577031,
+          -0.06848793366468378,
+          0.4600494716696425
+        ],
+        "requested_gripper_opening_fraction": 0.9274339079856873,
+        "requested_vs_achieved_shadow_XYZ_m": 0.002000660547627454,
+        "requested_vs_achieved_shadow_SO3_rad": 0.005521660425063636,
+        "actual_original_live_collision": false
+      },
+      "original_process_RNG_not_recorded": true,
+      "original_hidden_state_bitwise_or_RNG_identity_claimed": false,
+      "full_reconstructed_live_IK_control_python_teacher_history_saved": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-BC-512-TRAIN4-F0-000-T2",
+      "task": "T2",
+      "original_live_stop_s": 20.8,
+      "original_live_steps": 10400,
+      "reconstruction_shadow_steps": 10400,
+      "max_original_highrate_difference": 0,
+      "max_original_wire_installed_reference_difference": 0,
+      "states": [
+        {
+          "id": "PI0294-MP1-S-BC-512-TRAIN4-F0-000-T2-S051",
+          "sequence": 51,
+          "tick": 10200,
+          "time_s": 20.399999999999572,
+          "observation_sha256": "18020db76d9370e19bfd373efdbd9233ff66bb789fa52e3594b75fad6a5af737",
+          "full_integration_state_sha256": "0f1d209bfd3bcdfe48adaf4744ad9acd673fcad72eb062003bb1aa8e5eabba47",
+          "history_sha256": "7261be967861a8504bb9cb58abb9c824e4ae9c92d5c92affe5dc4d2b2b5f1800",
+          "model_xml_sha256": "07875229996c156fb62bbb9358b5a852c20b43953dd2c9ba9b2a3b69e1236cc0",
+          "original_action_sha256": "911e4a0d23f82a3b81e610d949e7d9354972157673db000a44c4ca0a2a0bb422",
+          "original_action_bundle_sha256": "f8a92b1beea7addafc9418d7ffc65134437a28721e8ed228296ed909c79c926f",
+          "physically_safety_valid": true,
+          "original_noise_identity": "REQUIRES_MATCHING_EXISTING_HOPPER_RECEIPT_NO_NEW_QUERY"
+        },
+        {
+          "id": "PI0294-MP1-S-BC-512-TRAIN4-F0-000-T2-S052",
+          "sequence": 52,
+          "tick": 10400,
+          "time_s": 20.79999999999935,
+          "observation_sha256": "30b0deab5a5e1702b2dfef1a7a7f8c134337247af01cb56b5594a5a2eea2fc98",
+          "full_integration_state_sha256": "62c6aa52fc27c893b19dad20ba20d62464e7cb22919c767839151897d6235757",
+          "history_sha256": "e66b7579f8beba5438416f37025f3f11d0d14814779d71c5dc10e86670aff101",
+          "model_xml_sha256": "07875229996c156fb62bbb9358b5a852c20b43953dd2c9ba9b2a3b69e1236cc0",
+          "original_action_sha256": "cf7d073f34d52c08225bb778a27992eaf5281621f8b96a0dec591de6b1c1032e",
+          "original_action_bundle_sha256": "c93af994887036221546828b3d5d7393d46860e89828bbc424a6c0216df34b52",
+          "physically_safety_valid": true,
+          "original_noise_identity": "REQUIRES_MATCHING_EXISTING_HOPPER_RECEIPT_NO_NEW_QUERY"
+        }
+      ],
+      "rejection": {
+        "offset_ticks": 124,
+        "offset_s": 0.248,
+        "predicted_absolute_time_s": 21.048000000000002,
+        "original_offset_exactly_reproduced": true,
+        "original_action_prefix_sha256": "08767b39d4c0476a62ba3cb169ea56f7aeb7d8f33b86d58d71d887b98a32b512",
+        "original_S1_reason": [
+          "ILLEGAL_CONTACT_OR_PENETRATION"
+        ],
+        "original_S1_version": "PI0294_R3_D0_S1_COPYDATA_V1",
+        "actual_diagnostic_shadow_integrations": 124,
+        "illegal_contact_pairs": [
+          {
+            "geom_ids": [
+              1,
+              77
+            ],
+            "geom_names": [
+              "table",
+              "right_pad"
+            ],
+            "body_ids": [
+              0,
+              26
+            ],
+            "body_names": [
+              "world",
+              "x5_link8"
+            ],
+            "position_world": [
+              0.4669867988709306,
+              0.06542273289086263,
+              0.4399982921048142
+            ],
+            "normal_world": [
+              0,
+              0,
+              1
+            ],
+            "signed_distance_m": -0.0000017078951857543176,
+            "penetration_m": 0.0000017078951857543176,
+            "original_rule": "ARM_TABLE_OR_FLOOR",
+            "penetration_stop_m": 0.004
+          }
+        ],
+        "live_state_unchanged": true
+      },
+      "source_state": {
+        "TCP_XYZ_m": [
+          0.4654873147510066,
+          0.04648109908650869,
+          0.464031969921095
+        ],
+        "gripper_opening_fraction": -0.0007663597322431168,
+        "object_XYZ_m": [
+          0.4516790517745602,
+          0.08454524787003934,
+          0.45989178825350024
+        ],
+        "native_grasp": false,
+        "audit_teacher_stage": "approach",
+        "audit_teacher_stage_is_policy_phase": false
+      },
+      "rejected_prefix_end": {
+        "requested_TCP_XYZ_m": [
+          0.46437197694629384,
+          0.04854338191935517,
+          0.459740106416015
+        ],
+        "achieved_shadow_TCP_XYZ_m": [
+          0.46381279657692276,
+          0.04811302084795057,
+          0.4600374641763303
+        ],
+        "requested_gripper_opening_fraction": 0,
+        "requested_vs_achieved_shadow_XYZ_m": 0.000765712070487486,
+        "requested_vs_achieved_shadow_SO3_rad": 0.003300169715991016,
+        "actual_original_live_collision": false
+      },
+      "original_process_RNG_not_recorded": true,
+      "original_hidden_state_bitwise_or_RNG_identity_claimed": false,
+      "full_reconstructed_live_IK_control_python_teacher_history_saved": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-BC-512-TRAIN4-F1-000-T1",
+      "task": "T1",
+      "original_live_stop_s": 10.4,
+      "original_live_steps": 5200,
+      "reconstruction_shadow_steps": 5200,
+      "max_original_highrate_difference": 0,
+      "max_original_wire_installed_reference_difference": 0,
+      "states": [
+        {
+          "id": "PI0294-MP1-S-BC-512-TRAIN4-F1-000-T1-S025",
+          "sequence": 25,
+          "tick": 5000,
+          "time_s": 10.000000000000009,
+          "observation_sha256": "671a76857c0d5146bbe3ace7dc6e3b1f424f20859fd3994945379ee4502a49d1",
+          "full_integration_state_sha256": "341536cb6cb0367b1cc357b8d839a8ecbfa7a41abc6f3777392ca60e1cbc618b",
+          "history_sha256": "b49f34821f0572b98f27b37a0c9f6b85ac4281901df96d9162b079aad8108cfc",
+          "model_xml_sha256": "f28740bc16b2b1d104e09cf3fe97af4176a2d60a65cb10cfce7fd42410623bde",
+          "original_action_sha256": "e52f40ca3c7fae5566a572ae0f96c5cc16c01a2f81bef6e5d5d46e9d8f699149",
+          "original_action_bundle_sha256": "ca2d64c03ff1e44db52c9575545ae2a4751cd5958c1eb367a573fb609da320c2",
+          "physically_safety_valid": true,
+          "original_noise_identity": "REQUIRES_MATCHING_EXISTING_HOPPER_RECEIPT_NO_NEW_QUERY"
+        },
+        {
+          "id": "PI0294-MP1-S-BC-512-TRAIN4-F1-000-T1-S026",
+          "sequence": 26,
+          "tick": 5200,
+          "time_s": 10.400000000000142,
+          "observation_sha256": "f713cd9ab8c5fb126dfab7a71fb89f2b053dd6b66aca5b99e0fffc23ec16aaff",
+          "full_integration_state_sha256": "887f4241092a19a571241aa528a330ace002c8cf425beaab09aadc874273f83c",
+          "history_sha256": "98ec0741705b9a8491eae19c6e2cfcb4e561c40f22449a1627ae86983038bc8a",
+          "model_xml_sha256": "f28740bc16b2b1d104e09cf3fe97af4176a2d60a65cb10cfce7fd42410623bde",
+          "original_action_sha256": "8d3ab4076955355323e9d730b552d7f1b21a3690b692658ff3dfe8fc58117465",
+          "original_action_bundle_sha256": "f9ae31c34c83672f589dabc45bc0064b01039b22646a7850bde7e626ec440d26",
+          "physically_safety_valid": true,
+          "original_noise_identity": "REQUIRES_MATCHING_EXISTING_HOPPER_RECEIPT_NO_NEW_QUERY"
+        }
+      ],
+      "rejection": {
+        "offset_ticks": 63,
+        "offset_s": 0.126,
+        "predicted_absolute_time_s": 10.526,
+        "original_offset_exactly_reproduced": true,
+        "original_action_prefix_sha256": "7d12cc2809b57469501deb2cd90c5784f2699ec0b26dd3550ff8d1d61325cf2a",
+        "original_S1_reason": [
+          "ILLEGAL_CONTACT_OR_PENETRATION"
+        ],
+        "original_S1_version": "PI0294_R3_D0_S1_COPYDATA_V1",
+        "actual_diagnostic_shadow_integrations": 63,
+        "illegal_contact_pairs": [
+          {
+            "geom_ids": [
+              1,
+              77
+            ],
+            "geom_names": [
+              "table",
+              "right_pad"
+            ],
+            "body_ids": [
+              0,
+              26
+            ],
+            "body_names": [
+              "world",
+              "x5_link8"
+            ],
+            "position_world": [
+              0.4302059407294423,
+              0.06645573326530074,
+              0.43997331542646423
+            ],
+            "normal_world": [
+              0,
+              0,
+              1
+            ],
+            "signed_distance_m": -0.000026684573535739044,
+            "penetration_m": 0.000026684573535739044,
+            "original_rule": "ARM_TABLE_OR_FLOOR",
+            "penetration_stop_m": 0.004
+          },
+          {
+            "geom_ids": [
+              1,
+              77
+            ],
+            "geom_names": [
+              "table",
+              "right_pad"
+            ],
+            "body_ids": [
+              0,
+              26
+            ],
+            "body_names": [
+              "world",
+              "x5_link8"
+            ],
+            "position_world": [
+              0.42961717144950806,
+              0.07242671701092394,
+              0.4399865804604754
+            ],
+            "normal_world": [
+              0,
+              0,
+              1
+            ],
+            "signed_distance_m": -0.000013419539524592818,
+            "penetration_m": 0.000013419539524592818,
+            "original_rule": "ARM_TABLE_OR_FLOOR",
+            "penetration_stop_m": 0.004
+          }
+        ],
+        "live_state_unchanged": true
+      },
+      "source_state": {
+        "TCP_XYZ_m": [
+          0.41171529500573134,
+          0.09393441786628717,
+          0.46183758816556586
+        ],
+        "gripper_opening_fraction": 0.44075065964026733,
+        "object_XYZ_m": [
+          0.41656378511627595,
+          0.0964661844534451,
+          0.45968961611887776
+        ],
+        "native_grasp": true,
+        "audit_teacher_stage": "align",
+        "audit_teacher_stage_is_policy_phase": false
+      },
+      "rejected_prefix_end": {
+        "requested_TCP_XYZ_m": [
+          0.4099378742708534,
+          0.0907492617634583,
+          0.45769226519979567
+        ],
+        "achieved_shadow_TCP_XYZ_m": [
+          0.4106614050853224,
+          0.0918636673521887,
+          0.46010362618132505
+        ],
+        "requested_gripper_opening_fraction": 0.9674215316772461,
+        "requested_vs_achieved_shadow_XYZ_m": 0.0027531905925529646,
+        "requested_vs_achieved_shadow_SO3_rad": 0.0041108025781831405,
+        "actual_original_live_collision": false
+      },
+      "original_process_RNG_not_recorded": true,
+      "original_hidden_state_bitwise_or_RNG_identity_claimed": false,
+      "full_reconstructed_live_IK_control_python_teacher_history_saved": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-S-BC-512-TRAIN4-F1-000-T2",
+      "task": "T2",
+      "original_live_stop_s": 22.400000000000002,
+      "original_live_steps": 11200,
+      "reconstruction_shadow_steps": 11200,
+      "max_original_highrate_difference": 0,
+      "max_original_wire_installed_reference_difference": 0,
+      "states": [
+        {
+          "id": "PI0294-MP1-S-BC-512-TRAIN4-F1-000-T2-S055",
+          "sequence": 55,
+          "tick": 11000,
+          "time_s": 21.999999999998685,
+          "observation_sha256": "0d2797082f31bc0651496a06668303b0b6b83fe97705f060defeb918a071e78e",
+          "full_integration_state_sha256": "b27d581ae11c68334610bb17da9a799cf50ccefd4b820329770e54a97466f504",
+          "history_sha256": "f9931c3cc8df716aa454488d6020744192c2076f989fb08de63915c3806f26ba",
+          "model_xml_sha256": "f28740bc16b2b1d104e09cf3fe97af4176a2d60a65cb10cfce7fd42410623bde",
+          "original_action_sha256": "c1a0e0976e5518fab0344c1bc0297063820f52688fabf5e6fe0418ccdbbe2286",
+          "original_action_bundle_sha256": "545ec5dbca58cdb863e599f3991e50f45bd3f0e668206677ef3ea7c7acd50143",
+          "physically_safety_valid": true,
+          "original_noise_identity": "REQUIRES_MATCHING_EXISTING_HOPPER_RECEIPT_NO_NEW_QUERY"
+        },
+        {
+          "id": "PI0294-MP1-S-BC-512-TRAIN4-F1-000-T2-S056",
+          "sequence": 56,
+          "tick": 11200,
+          "time_s": 22.399999999998464,
+          "observation_sha256": "e09434d096b4726ce96b33146eb7043c38ae29b939e2171a860c2084d17fdf7f",
+          "full_integration_state_sha256": "32591a866ba28a7064a1fa391751a3b3ae3312ef70c13860171f1c9774b206f7",
+          "history_sha256": "2a7f2ac47f7e8f567ff34e70e835f85fb08afe3da570ece452dc5f030cf5a06f",
+          "model_xml_sha256": "f28740bc16b2b1d104e09cf3fe97af4176a2d60a65cb10cfce7fd42410623bde",
+          "original_action_sha256": "5b2b12c467e25d0be5487d8bea716086b84c0224e134acdd9564de08dba3ef46",
+          "original_action_bundle_sha256": "5adb4eb47e9d93145c691d1ae802df1415de29e45e7d7fb08c02959f74476b36",
+          "physically_safety_valid": true,
+          "original_noise_identity": "REQUIRES_MATCHING_EXISTING_HOPPER_RECEIPT_NO_NEW_QUERY"
+        }
+      ],
+      "rejection": {
+        "offset_ticks": 150,
+        "offset_s": 0.3,
+        "predicted_absolute_time_s": 22.700000000000003,
+        "original_offset_exactly_reproduced": true,
+        "original_action_prefix_sha256": "e4070940336d5f487a98186a6b5747eaf039792bbfac098d99cc5c0deb622b66",
+        "original_S1_reason": [
+          "ILLEGAL_CONTACT_OR_PENETRATION"
+        ],
+        "original_S1_version": "PI0294_R3_D0_S1_COPYDATA_V1",
+        "actual_diagnostic_shadow_integrations": 150,
+        "illegal_contact_pairs": [
+          {
+            "geom_ids": [
+              1,
+              75
+            ],
+            "geom_names": [
+              "table",
+              "left_pad"
+            ],
+            "body_ids": [
+              0,
+              25
+            ],
+            "body_names": [
+              "world",
+              "x5_link7"
+            ],
+            "position_world": [
+              0.43679331877058236,
+              0.09010337096293752,
+              0.4399825973950877
+            ],
+            "normal_world": [
+              0,
+              0,
+              1
+            ],
+            "signed_distance_m": -0.000017402604912270028,
+            "penetration_m": 0.000017402604912270028,
+            "original_rule": "ARM_TABLE_OR_FLOOR",
+            "penetration_stop_m": 0.004
+          }
+        ],
+        "live_state_unchanged": true
+      },
+      "source_state": {
+        "TCP_XYZ_m": [
+          0.4488692933142792,
+          0.07113515846375743,
+          0.46320326487444263
+        ],
+        "gripper_opening_fraction": 0.03553860459113731,
+        "object_XYZ_m": [
+          0.42313546666865115,
+          0.10335146202506981,
+          0.4599085289537944
+        ],
+        "native_grasp": false,
+        "audit_teacher_stage": "approach",
+        "audit_teacher_stage_is_policy_phase": false
+      },
+      "rejected_prefix_end": {
+        "requested_TCP_XYZ_m": [
+          0.44689439187248564,
+          0.0777377089075613,
+          0.4587320438648218
+        ],
+        "achieved_shadow_TCP_XYZ_m": [
+          0.448408010957576,
+          0.07518842321813404,
+          0.46010805334169935
+        ],
+        "requested_gripper_opening_fraction": 0.00873073935508728,
+        "requested_vs_achieved_shadow_XYZ_m": 0.0032685321386709963,
+        "requested_vs_achieved_shadow_SO3_rad": 0.005271094695871435,
+        "actual_original_live_collision": false
+      },
+      "original_process_RNG_not_recorded": true,
+      "original_hidden_state_bitwise_or_RNG_identity_claimed": false,
+      "full_reconstructed_live_IK_control_python_teacher_history_saved": true
+    }
+  ],
+  "reconstruction": {
+    "original_accepted_ticks_compared": 27600,
+    "compared_every_time_qpos_qvel_ctrl_zero_wrench_native_safety_row": true,
+    "maximum_highrate_difference": 0,
+    "maximum_wire_to_installed_reference_difference": 0,
+    "source_current_SBC512_fresh_proprioception_and_language_matched": true,
+    "source_original_dual_camera_file_and_inline_bytes_matched": true,
+    "initial_model_state_and_static_IK_qualification_reproduced": true,
+    "original_same_predicted_violation_offsets_and_reasons": true,
+    "selected_current_policy_induced_anchors": 8,
+    "source_population": "ORIGINAL_CURRENT_S_BC512_ACTUAL_FAILURE_TRAJECTORIES_NOT_HISTORICAL_E0_PROBES",
+    "restoration": "DETERMINISTIC_INITIAL_MODEL_STATIC_IK_PLUS_ALL_ORIGINAL_ACKED_COMMANDS_NOT_QPOS_QVEL_INJECTION",
+    "saved_full_live_IK_integration_state": true,
+    "saved_controller_targets_and_IK_cache": true,
+    "saved_reconstructed_engine_Python_and_teacher_state": true,
+    "saved_diagnostic_process_RNG": true,
+    "snapshot_hashes_read_back": true,
+    "original_hidden_state_or_RNG_fingerprint_bitwise_identity": "NOT_RECORDED_NOT_CLAIMED",
+    "future_independent_saved_snapshot_restore_qualification": "PENDING_BEFORE_FUTURE_NEW_MODEL_ANCHOR_RUNS"
+  },
+  "findings": [
+    "All four current512 rejected prefixes actually reproduce original S1 decision,reason and first violation offset. Their first illegal geometry is table/right_pad forF0T1,F0T2,F1T1;table/left_pad forF1T2. This is newly reconstructed evidence,not copied from oldM1.",
+    "All sampled first contacts trigger the frozen ARM_TABLE_OR_FLOOR rule;the generic4mm penetration limit is a different rule. Tiny contact distances do not authorize ignoring arm/table contact.",
+    "Original model-to-installed references agree exactly;all27600 actual native highrate rows reproduce with zero error. These four failures are not replaced by transport or physics-history missingness.",
+    "Source live stopped at1.6/20.8/10.4/22.4s. Contacts at additional0.128/0.248/0.126/0.300s occur only in diagnostic shadows,not in original live execution.",
+    "Predicted end tracking errors0.77..3.27mm do not certify geometric clearance. Position/orientation/gripper causality still needs controlled same-state comparison after fixed endpoints.",
+    "Audit-only teacher stages align/approach are not actual policy phase labels. Current object position/grasp and original task progress remain separately reported.",
+    "No new teacher/hybrid recovery,neural generation or policy evaluation occurred. Safe prefix is not task success or a new positive training label.",
+    "Future same-anchor comparisons can reuse existing512 outputs but require independently qualified snapshot restoration,actual receipt/noise identity and a separately bounded original-MP1 NI scope for missing endpoint outputs."
+  ],
+  "resources": {
+    "parent_debited_once": true,
+    "stage_CPU_upper_s": 3600,
+    "stage_shadow_upper": 28400,
+    "stage_diagnostic_start_upper": 4,
+    "actual_measured_worker_CPU_s": 14.19491052699999,
+    "registration_and_control_CPU_upper_s": 180,
+    "actual_child_CPU_charged_s": 194.194910527,
+    "actual_reconstruction_shadow_integrations": 27600,
+    "actual_rejected_prefix_shadow_integrations": 401,
+    "total_new_shadow_integrations": 28001,
+    "diagnostic_starts_conservatively_charged": 4,
+    "new_live_integrations": 0,
+    "new_autonomous_policy_conditions": 0,
+    "new_neural_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_PBS": 0,
+    "new_GPU_seconds": 0,
+    "original_task_attempt_counts_not_reset": true,
+    "CPU_reserved_s": 0,
+    "physics_reserved_integrations": 0,
+    "source_start_reserved": 0,
+    "worker_terminal": true,
+    "child_lease": "CLOSED",
+    "child_lease_readback": true,
+    "owned_output_allocated_bytes": 7987200,
+    "output_upper_bytes": 67108864,
+    "original_source_child_lease_unchanged": true,
+    "local_PC_and_Hopper_control_CPU_upper_s_each": 180,
+    "current_mainline_H200_job": "672471.hopper-m-02",
+    "mainline_H200_not_cancelled_or_settled": true,
+    "MP1_Hopper_last_settled_GPU_s": 16295,
+    "MP1_Hopper_current_reserved_s": 14400
+  },
+  "evidence": {
+    "result_sha256": "c8dc20f5eda85c33f36986b5dbc79bcfdf375f46991a5ed7965429d4d4fdb7d9",
+    "terminal_child_ledger_sha256": "c6210a41e5ca23b53006ce1e2063e96abe81a5512437a7c720da9666e98b0f98",
+    "original_raw_results_or_running_capsules_changed": false,
+    "private_full_state_and_RNG_pickles_or_RGB_uploaded_to_Git": false,
+    "HF_transfer_for_this_diagnostic": false
+  },
+  "validation": {
+    "PI0294_CPU_tests": 326,
+    "focused_history_tests": 6,
+    "native_GitHub_CI": 39034253439,
+    "native_GitHub_CI_conclusion": "success",
+    "native_entry": "PASS",
+    "real_highrate_and_original_S1_reconstruction": "PASS",
+    "diff_check": "PASS"
+  },
+  "remaining": [
+    "Complete existing fixed BC2048/CORR2048 and all original TRAIN4/exposed DEV8 or honest partial.",
+    "Independently qualify saved-anchor restoration and bind actual original model input/noise receipts before any missing endpoint draw.",
+    "Combine current anchor behavior with existing expert/student/event evidence;do not change recipe before fixed endpoints.",
+    "Four final review deliverables are still incomplete;new optional intervention not chosen."
+  ],
+  "target": {
+    "WBC_changed": false,
+    "S1_or_native_limits_relaxed": false,
+    "Vanda": "CLOSED_NOT_RUN",
+    "TF_R3_STOP_preserved": true,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}

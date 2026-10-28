@@ -1,0 +1,153 @@
+{
+  "schema": "PI0294_V4A_CORELAB_EXISTING_NEURAL_ENV_AND_EXACT_MODEL_TRANSFER_PREPARATION_V1",
+  "status": "ACTUAL_CPU_IMPORT_AND_HF_AUTH_PASS_TRANSFER_PLAN_PREPARED_NO_NATIVE_EVAL",
+  "observed_epoch": 1792834656.8883986,
+  "current_execution_stage": "V4A_MATCHED_AB_N294101_STAGE1",
+  "planned_conditions": {
+    "A_CONTROL": 24,
+    "B_COVERAGE": 24
+  },
+  "actual_valid_results": {
+    "B0_CORR": 14,
+    "A_CONTROL": 0,
+    "B_COVERAGE": 0,
+    "S1_core64": 0
+  },
+  "AMD_role": "CPU_MANAGEMENT_NO_NVIDIA_OR_ROCM",
+  "Core_GPU_host": "corelab-4080s",
+  "GPU_observed_memory_MiB": [
+    32760,
+    16376
+  ],
+  "GPU_observed_compute_processes": 0,
+  "exclusive_GPU_reserved": false,
+  "packages": {
+    "torch": "2.9.0+cu128",
+    "transformers": "4.57.3",
+    "huggingface-hub": "0.36.2",
+    "gr00t": "0.1.0",
+    "safetensors": "0.8.0",
+    "numpy": "1.26.4"
+  },
+  "official_source_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "actual_import_status": "PASS_PINNED_NEURAL_IMPORT_NO_CUDA_CONTEXT_OR_MODEL",
+  "actual_import_CPU_s": 2.4734241740000003,
+  "HF_authentication": {
+    "existing_configured_token_file_present": true,
+    "whoami_account": "leoyuer",
+    "public_repository": "leoyuer/pi0294-public-artifacts",
+    "observed_revision": "17899d11a8a8d22ed6fc33c3a86d732856870a2d",
+    "private": false,
+    "token_contents_logged": false
+  },
+  "existing_Cosmos_snapshot": {
+    "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "metadata_located": true,
+    "full_streaming_SHA_qualified": false
+  },
+  "model_only_transfer": {
+    "A_CONTROL": {
+      "checkpoint_manifest_sha256": "e0b9d8cb67efc82ae8daa67d71f95df8fb5c607e0f75e26d58cf01412a3e807a",
+      "inference_members": 9,
+      "payload_bytes": 12576324408,
+      "numerical_tensor_changes": 0,
+      "public_metadata_rewrites": [
+        "config.json:model_name",
+        "processor/processor_config.json:processor_kwargs.model_name"
+      ],
+      "private_exact_original_bytes_restoration_required": true,
+      "optimizer_scheduler_RNG_training_args_transferred": false,
+      "source_full_state_retained": true,
+      "uploaded": false,
+      "downloaded": false
+    },
+    "B_COVERAGE": {
+      "checkpoint_manifest_sha256": "be7ab71dee0fb68e17efae06a04ff8dde9cd776ff429c1d6c408ae01323a9c19",
+      "inference_members": 9,
+      "payload_bytes": 12576324408,
+      "numerical_tensor_changes": 0,
+      "public_metadata_rewrites": [
+        "config.json:model_name",
+        "processor/processor_config.json:processor_kwargs.model_name"
+      ],
+      "private_exact_original_bytes_restoration_required": true,
+      "optimizer_scheduler_RNG_training_args_transferred": false,
+      "source_full_state_retained": true,
+      "uploaded": false,
+      "downloaded": false
+    }
+  },
+  "captured_conservative_resource_arithmetic": {
+    "fresh_native_admission": false,
+    "shortfalls": {},
+    "Core_CPU_projected_s": 737367.034833621,
+    "Core_CPU_cap_s": 1152000,
+    "transfer_projected_bytes": 169694035809,
+    "transfer_cap_bytes": 322122547200,
+    "Core_storage_projected_bytes": 249447249520,
+    "Core_storage_cap_bytes": 322122547200,
+    "original_GPU_site_and_PBS_upper_retained": true
+  },
+  "actual_native_changes": {
+    "new_GPU_allocations": 0,
+    "new_PBS": 0,
+    "new_model_loads": 0,
+    "new_model_queries": 0,
+    "new_physics": 0,
+    "new_training_updates": 0,
+    "native_ledger_writes": 0,
+    "registry_or_lease_writes": 0,
+    "HF_uploads": 0
+  },
+  "validation": {
+    "local_cases": 46,
+    "local_subtests": 19,
+    "actual_private_AB_captured_cases_included": true,
+    "GitHub_Actions_success_claimed": false,
+    "server_model_processor_import_actual": true,
+    "server_GPU_model_load_qualified": false
+  },
+  "receipt_sha256": {
+    "CORE.private.json": "18a85783035aab7099810f302305a375bc61e91439a5131004b8aba75bea37c3",
+    "VANDA_SMALL_CHECKPOINTS.private.json": "59b646affba124695de76d06007fb9dc68d7603cd258139bbcbf53068681612c",
+    "CORE_PINNED_NEURAL_IMPORT.private.json": "ef555a7ef470b134aaf09c5c92d62fa9abd0e91d2dd896e7082a7ae99e20fd8c",
+    "CORE_GPU_PHYSICAL_IDENTITIES.private.json": "267fcf0a027bc15725084bd4df0d8fe39f13d03612be51db98ccd32d3a3423e7",
+    "A_CONTROL_MODEL_ONLY_TRANSFER_PLAN.private.json": "a9adfeba8c040b2fbf10209a7e515c1b8108c0481f67ea296d1ab49d00e82ee9",
+    "B_COVERAGE_MODEL_ONLY_TRANSFER_PLAN.private.json": "fc42fd8c77be29bb37c94d0fc79efed3e1f6ce9840c25f4a0b440cf2cb560a26",
+    "CORE_MIGRATION_CAPTURED_CONSERVATIVE_RESOURCE_ARITHMETIC.private.json": "8d36e7b5ec922d1defe18964208367ce498611253e1a20586bd2d286fe6b7216",
+    "ACTUAL_CORE_TRANSFER_COMPILER_CPU.private.json": "d432faff87c62f20d0447aefdb747ab9df9aa809857e9f70bf5c9788304272ad"
+  },
+  "remaining_required": [
+    "typed_Core_native_process_allocation_and_original_global_LOCAL_once_accounting_no_fake_PBS",
+    "fresh_full_resource_storage_and_GPU_exclusivity_admission",
+    "registered_immutable_source_and_current_runtime_binding",
+    "CPU_only_streaming_checkpoint_Cosmos_integrity_and_licensed_fixed_HF_delivery",
+    "original_same_allocation_600s_80cycle_transport_qualification",
+    "single_real_GPU_model_load_and_frozen_parameter_checks",
+    "fresh_owner_query_release_then_original_feedback_ACK_STOP_paired_DEV_loop_and_independent_audits"
+  ],
+  "new_training_or_data_collection_authorized_by_this_report": false,
+  "original_deadlines_final_matrix_and_safety_unchanged": true,
+  "goal_status": "ACTIVE",
+  "server_transfer_compiler_CPU": {
+    "status": "PASS_ACTUAL_CORE_CAPTURED_AB_TRANSFER_COMPILER_CPU",
+    "results": {
+      "A_CONTROL": {
+        "payload_bytes": 12576324408,
+        "public_plan_sha256": "134e194ff366ffa1ab80be40d171958c6696dddf1f07fab1971bf3a7e8ddc8f2",
+        "inference_members": 9
+      },
+      "B_COVERAGE": {
+        "payload_bytes": 12576324408,
+        "public_plan_sha256": "9b1ad09de1f08662f22cab61f790981c551abd78bb1a9757852e12e8f7d2cfb4",
+        "inference_members": 9
+      }
+    },
+    "CPU_s": 0.111612898,
+    "source_sha256": "cc730f10883eed1ddaca792f01f938b8f884688ec2bddd07d0b1d4eff720304d",
+    "torch_mujoco_rclpy_imported": false,
+    "new_GPU_models_queries_physics": 0,
+    "native_ledger_registry_lease_writes": 0,
+    "HF_IO": 0
+  }
+}

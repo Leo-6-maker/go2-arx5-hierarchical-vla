@@ -1,0 +1,67 @@
+Job Id: 640876.hopper-m-02
+    Job_Name = pi0264_pair_main
+    Job_Owner = e1192548@hopper-l-01.cm.cluster
+    resources_used.cpupercent = 124
+    resources_used.cput = 01:11:26
+    resources_used.mem = 16731088kb
+    resources_used.ncpus = 12
+    resources_used.vmem = 69002780kb
+    resources_used.walltime = 01:01:59
+    job_state = F
+    queue = small
+    server = hopper-m-02.cm.cluster
+    Checkpoint = u
+    ctime = Thu Oct  1 10:23:23 2026
+    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp
+	eriments/PI0264/logs/
+    exec_host = hopper-25/3*12
+    exec_vnode = (hopper-25:ngpus=1:ncpus=12:mem=235929600kb)
+    Hold_Types = n
+    Join_Path = n
+    Keep_Files = oed
+    Mail_Points = n
+    mtime = Thu Oct  1 12:08:29 2026
+    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex
+	periments/PI0264/logs/
+    Priority = 0
+    qtime = Thu Oct  1 10:23:23 2026
+    Rerunable = True
+    Resource_List.am_job_cache = {"job.ngpus": 1.0, "job.walltime": 21600,
+	 "job.ncpus": 12.0, "job.queue_charge_rate": 1.0,
+	 "am_cloud_enabled": false}
+    Resource_List.mem = 225gb
+    Resource_List.ncpus = 12
+    Resource_List.ngpus = 1
+    Resource_List.nodect = 1
+    Resource_List.nodes = 1
+    Resource_List.place = free
+    Resource_List.queue_charge_rate = 1
+    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200
+    Resource_List.walltime = 06:00:00
+    stime = Thu Oct  1 11:06:27 2026
+    obittime = Thu Oct  1 12:08:29 2026
+    session_id = 2764812
+    jobdir = /home/svu/e1192548
+    substate = 92
+    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,
+	PBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,
+	PBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,
+	PBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,PI0264_ARM=L,
+	PI0264_LIMIT=2048,PI0264_RESUME=0,
+	PI0264_CODE_SHA256=9f00bac47dd2403ca8fee38dbd8caff4b74f2d0d5d6d293cf84
+	7a5b1c91c00d7,PBS_O_QUEUE=auto
+    comment = Job run at Thu Oct 01 at 11:06 on (hopper-25:ngpus=1:ncpus=12:mem
+	=235929600kb) and finished
+    etime = Thu Oct  1 10:23:23 2026
+    run_count = 1
+    Stageout_status = 1
+    Exit_status = 0
+    Submit_arguments = -P CFP05-CF-052 -q auto -W depend=afterok:640875.hopper-
+	m-02 -v PI0264_ARM=L,PI0264_LIMIT=2048,PI0264_RESUME=0,
+	PI0264_CODE_SHA256=9f00bac47dd2403ca8fee38dbd8caff4b74f2d0d5d6d293cf84
+	7a5b1c91c00d7 /scratch/e1192548/Projects/go2-arx5/experiments/PI0264/co
+	de/pi0264_main.pbs
+    history_timestamp = 1790827709
+    project = CFP05-CF-052
+    Submit_Host = hopper-l-01.cm.cluster
+

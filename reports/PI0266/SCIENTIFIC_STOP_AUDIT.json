@@ -1,0 +1,94 @@
+{
+  "status": "PASS_PROTOCOL_EARLY_SCIENTIFIC_STOP_EVIDENCE_AUDIT",
+  "overall": "PARTIAL",
+  "scientific_stop": "PI0266_FEEDBACK_WINDOW_SHORTFALL",
+  "registered_collection_cases": 96,
+  "first_valid_order_exact": true,
+  "accepted_windows": 7900,
+  "shortages": [
+    {
+      "actual": 2,
+      "command": 1,
+      "quartile": 1,
+      "required": 8,
+      "rule": "active_quartile",
+      "task": "M1"
+    },
+    {
+      "actual": 6,
+      "command": 1,
+      "quartile": 2,
+      "required": 8,
+      "rule": "active_quartile",
+      "task": "M1"
+    },
+    {
+      "actual": 3,
+      "command": 0,
+      "quartile": 1,
+      "required": 8,
+      "rule": "active_quartile",
+      "task": "M3"
+    },
+    {
+      "actual": 0,
+      "command": 0,
+      "quartile": 2,
+      "required": 8,
+      "rule": "active_quartile",
+      "task": "M3"
+    },
+    {
+      "actual": 0,
+      "command": 0,
+      "quartile": 3,
+      "required": 8,
+      "rule": "active_quartile",
+      "task": "M3"
+    },
+    {
+      "actual": 0,
+      "command": 0,
+      "required": "nonempty bucket to fill8units",
+      "rule": "terminal_hold_bank_bucket",
+      "task": "M3"
+    },
+    {
+      "actual": 0,
+      "command": 1,
+      "quartile": 2,
+      "required": 8,
+      "rule": "active_quartile",
+      "task": "M3"
+    },
+    {
+      "actual": 0,
+      "command": 1,
+      "quartile": 3,
+      "required": 8,
+      "rule": "active_quartile",
+      "task": "M3"
+    }
+  ],
+  "transfer_bank_units": 0,
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "archive_revision": "3869414c697664636b2d0a9c783bff589e3c3921",
+  "archive_tree_sha256": "c3f80139fd9483335c8ab9330d0f6925993710b2163e18aff61cd87ad861d07c",
+  "archive_members": 438115,
+  "archive_source_bytes": 11483280031,
+  "public_receipt_sha256": "3cd08e6174154eb616735594f932d30eb37b5e5a71ea7a037933e2b05bd328be",
+  "required_teacher_raw_and_receipts_present": true,
+  "collection_and_archive_processes_terminal": true,
+  "ledger": {
+    "actor_calls": 380000,
+    "control_ticks": 190116,
+    "simulate_calls": 760464,
+    "simulated_seconds": 3802.319915011525,
+    "starts": 116
+  },
+  "downstream_training_and_evaluation": "NOT_RUN_FAILED_SECTION5_DEPENDENCY",
+  "final_publication": "PENDING"
+}

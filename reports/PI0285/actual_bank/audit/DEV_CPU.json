@@ -1,0 +1,5517 @@
+{
+  "status": "PASS_INDEPENDENT_CPU_CONTACT_SCORE_CLOCK_INSTALLATION_AND_PAIRED_INITIAL_INPUTS",
+  "split": "DEV",
+  "source_sha256": "680db66ed57bb3069b158fa547e1be00bc72d04597e8172b7c35e653b2b6fa38",
+  "rows": [
+    {
+      "task": "T1",
+      "layout": 285200,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.5100000000000002,
+            "changes": [
+              {
+                "time_s": 1.5100000000000002,
+                "value": true
+              },
+              {
+                "time_s": 5.12,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 4.8100000000000005,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.55,
+            "changes": [
+              {
+                "time_s": 3.55,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 3.7300000000000004,
+            "changes": [
+              {
+                "time_s": 3.7300000000000004,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.9900000000000002,
+                "value": false
+              },
+              {
+                "time_s": 4.92,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.5,
+                "value": false
+              },
+              {
+                "time_s": 5.12,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.5100000000000002,
+                "value": false
+              },
+              {
+                "time_s": 5.12,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.5,
+                "value": false
+              },
+              {
+                "time_s": 6.11,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.11,
+            "changes": [
+              {
+                "time_s": 6.11,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "5083c22162d43d1625322edaa72000a48322653be63c8bba59e2877e51d379c2",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.243615830268166e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0038761638570576906,
+      "phase_counts": {
+        "-1": 20,
+        "0": 28,
+        "1": 27,
+        "2": 46,
+        "3": 26,
+        "4": 513
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285200,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.5100000000000002,
+            "changes": [
+              {
+                "time_s": 1.5100000000000002,
+                "value": true
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.5600000000000005,
+            "changes": [
+              {
+                "time_s": 3.5600000000000005,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.9900000000000002,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.5,
+                "value": false
+              },
+              {
+                "time_s": 5.79,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.5100000000000002,
+                "value": false
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.5,
+                "value": false
+              },
+              {
+                "time_s": 6.76,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.79,
+            "changes": [
+              {
+                "time_s": 5.79,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.76,
+            "changes": [
+              {
+                "time_s": 6.76,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "8347c3442a1fc73b45ce79dfd2334f850494022996cdf1ef860e85bc58b642fc",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.3068012310159567e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.00421870918944478,
+      "phase_counts": {
+        "-1": 20,
+        "0": 28,
+        "1": 27,
+        "2": 59,
+        "3": 26,
+        "4": 500
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285201,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.9100000000000001,
+            "changes": [
+              {
+                "time_s": 1.9100000000000001,
+                "value": true
+              },
+              {
+                "time_s": 5.47,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.52,
+            "changes": [
+              {
+                "time_s": 2.52,
+                "value": true
+              },
+              {
+                "time_s": 5.16,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.95,
+            "changes": [
+              {
+                "time_s": 3.95,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 3.99,
+            "changes": [
+              {
+                "time_s": 3.99,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.4,
+                "value": false
+              },
+              {
+                "time_s": 5.2700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.9,
+                "value": false
+              },
+              {
+                "time_s": 5.46,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.9100000000000001,
+                "value": false
+              },
+              {
+                "time_s": 5.47,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.8600000000000001,
+                "value": false
+              },
+              {
+                "time_s": 6.46,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.46,
+            "changes": [
+              {
+                "time_s": 6.46,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "07dc1ae4f81978a9d2b94e720da0f8b83ae0f42c4e2b20c9e6c54a813922340d",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.441655777427469e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004067889414727688,
+      "phase_counts": {
+        "-1": 20,
+        "0": 36,
+        "1": 27,
+        "2": 45,
+        "3": 26,
+        "4": 506
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285201,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.9100000000000001,
+            "changes": [
+              {
+                "time_s": 1.9100000000000001,
+                "value": true
+              },
+              {
+                "time_s": 5.97,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.52,
+            "changes": [
+              {
+                "time_s": 2.52,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.96,
+            "changes": [
+              {
+                "time_s": 3.96,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.4,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.9,
+                "value": false
+              },
+              {
+                "time_s": 5.97,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.9100000000000001,
+                "value": false
+              },
+              {
+                "time_s": 5.97,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.8600000000000001,
+                "value": false
+              },
+              {
+                "time_s": 6.96,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.97,
+            "changes": [
+              {
+                "time_s": 5.97,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.96,
+            "changes": [
+              {
+                "time_s": 6.96,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "d9ad5ee9b7c6826809b194dfd32b70874d2bc1dac6da3aba180c6c2e76a1af59",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.694122080282898e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004287710413336754,
+      "phase_counts": {
+        "-1": 20,
+        "0": 36,
+        "1": 27,
+        "2": 55,
+        "3": 26,
+        "4": 496
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285202,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.36,
+            "changes": [
+              {
+                "time_s": 2.36,
+                "value": true
+              },
+              {
+                "time_s": 6.2700000000000005,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.96,
+            "changes": [
+              {
+                "time_s": 2.96,
+                "value": true
+              },
+              {
+                "time_s": 5.96,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.4,
+            "changes": [
+              {
+                "time_s": 4.4,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.83,
+            "changes": [
+              {
+                "time_s": 4.83,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.84,
+                "value": false
+              },
+              {
+                "time_s": 6.07,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": false
+              },
+              {
+                "time_s": 6.26,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.36,
+                "value": false
+              },
+              {
+                "time_s": 6.2700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.3199999999999998,
+                "value": false
+              },
+              {
+                "time_s": 7.26,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.26,
+            "changes": [
+              {
+                "time_s": 7.26,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "8952b11306e2425bfadde742b35f5e9be0a541e92545e262a2643f096957060e",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.6187169462146786e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004435173235833645,
+      "phase_counts": {
+        "-1": 20,
+        "0": 45,
+        "1": 27,
+        "2": 52,
+        "3": 26,
+        "4": 490
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285202,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.36,
+            "changes": [
+              {
+                "time_s": 2.36,
+                "value": true
+              },
+              {
+                "time_s": 7.27,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.96,
+            "changes": [
+              {
+                "time_s": 2.96,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.4,
+            "changes": [
+              {
+                "time_s": 4.4,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.84,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": false
+              },
+              {
+                "time_s": 7.26,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.36,
+                "value": false
+              },
+              {
+                "time_s": 7.27,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.3199999999999998,
+                "value": false
+              },
+              {
+                "time_s": 8.26,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 7.27,
+            "changes": [
+              {
+                "time_s": 7.27,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 8.26,
+            "changes": [
+              {
+                "time_s": 8.26,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "b6f61b39ebfb0e16400c20ba8fdf605a59f6900a467b8546242bbac73d07cb82",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.9414945924637506e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0048889578320086,
+      "phase_counts": {
+        "-1": 20,
+        "0": 45,
+        "1": 27,
+        "2": 72,
+        "3": 26,
+        "4": 470
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285203,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.7600000000000002,
+            "changes": [
+              {
+                "time_s": 1.7600000000000002,
+                "value": true
+              },
+              {
+                "time_s": 5.22,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.37,
+            "changes": [
+              {
+                "time_s": 2.37,
+                "value": true
+              },
+              {
+                "time_s": 4.91,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.8,
+            "changes": [
+              {
+                "time_s": 3.8,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 3.8200000000000003,
+            "changes": [
+              {
+                "time_s": 3.8200000000000003,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": false
+              },
+              {
+                "time_s": 5.03,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.75,
+                "value": false
+              },
+              {
+                "time_s": 5.22,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.7600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 5.22,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.75,
+                "value": false
+              },
+              {
+                "time_s": 6.22,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.22,
+            "changes": [
+              {
+                "time_s": 6.22,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "6db211f1c31b18b3e85cfd78ddf032c7e6bd22a1d754d7e6b9a42ba58b89300a",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.441807945863253e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.003987444099038839,
+      "phase_counts": {
+        "-1": 20,
+        "0": 33,
+        "1": 27,
+        "2": 43,
+        "3": 26,
+        "4": 511
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285203,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.7600000000000002,
+            "changes": [
+              {
+                "time_s": 1.7600000000000002,
+                "value": true
+              },
+              {
+                "time_s": 5.37,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.37,
+            "changes": [
+              {
+                "time_s": 2.37,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.8200000000000003,
+            "changes": [
+              {
+                "time_s": 3.8200000000000003,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.75,
+                "value": false
+              },
+              {
+                "time_s": 5.38,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.7600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 5.37,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.75,
+                "value": false
+              },
+              {
+                "time_s": 6.37,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.38,
+            "changes": [
+              {
+                "time_s": 5.38,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.37,
+            "changes": [
+              {
+                "time_s": 6.37,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "5a713f5b8fb3fa1908d0b9d0b16f0c42a232353cdc5cc57f54553eccb59b5306",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.5827045947671774e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004009521100670099,
+      "phase_counts": {
+        "-1": 20,
+        "0": 33,
+        "1": 27,
+        "2": 46,
+        "3": 26,
+        "4": 508
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285204,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.06,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": true
+              },
+              {
+                "time_s": 6.32,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.67,
+            "changes": [
+              {
+                "time_s": 2.67,
+                "value": true
+              },
+              {
+                "time_s": 6.01,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.09,
+            "changes": [
+              {
+                "time_s": 4.09,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.87,
+            "changes": [
+              {
+                "time_s": 4.87,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.5500000000000003,
+                "value": false
+              },
+              {
+                "time_s": 6.13,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.0500000000000003,
+                "value": false
+              },
+              {
+                "time_s": 6.33,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": false
+              },
+              {
+                "time_s": 6.32,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0300000000000002,
+                "value": false
+              },
+              {
+                "time_s": 7.32,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.32,
+            "changes": [
+              {
+                "time_s": 7.32,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "3668ccc5167fa65913f6b23fe5a4471beabce7a4501a13a1ccc48005a128ed47",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.881236862509362e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004477263893932104,
+      "phase_counts": {
+        "-1": 20,
+        "0": 39,
+        "1": 27,
+        "2": 59,
+        "3": 26,
+        "4": 489
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285204,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.06,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": true
+              },
+              {
+                "time_s": 5.47,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.67,
+            "changes": [
+              {
+                "time_s": 2.67,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.12,
+            "changes": [
+              {
+                "time_s": 4.12,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.5500000000000003,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.0500000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.47,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": false
+              },
+              {
+                "time_s": 5.47,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0300000000000002,
+                "value": false
+              },
+              {
+                "time_s": 6.47,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.47,
+            "changes": [
+              {
+                "time_s": 5.47,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.47,
+            "changes": [
+              {
+                "time_s": 6.47,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "0a595814054852545fe69110d459a7bee730f4113a051af8dc7540b24fa2e6c3",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.441399588439834e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004102576058357954,
+      "phase_counts": {
+        "-1": 20,
+        "0": 39,
+        "1": 27,
+        "2": 42,
+        "3": 26,
+        "4": 506
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285205,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.16,
+            "changes": [
+              {
+                "time_s": 2.16,
+                "value": true
+              },
+              {
+                "time_s": 6.32,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.77,
+            "changes": [
+              {
+                "time_s": 2.77,
+                "value": true
+              },
+              {
+                "time_s": 6.01,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.2,
+            "changes": [
+              {
+                "time_s": 4.2,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.82,
+            "changes": [
+              {
+                "time_s": 4.82,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.65,
+                "value": false
+              },
+              {
+                "time_s": 6.12,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.15,
+                "value": false
+              },
+              {
+                "time_s": 6.3100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.16,
+                "value": false
+              },
+              {
+                "time_s": 6.32,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.12,
+                "value": false
+              },
+              {
+                "time_s": 7.3100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.3100000000000005,
+            "changes": [
+              {
+                "time_s": 7.3100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "4886cd645405fd9cb7d2a6fe84e0007e1b8633b1187d40a3495c9b7a3ed717ae",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.686707887360879e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004504946991801262,
+      "phase_counts": {
+        "-1": 20,
+        "0": 41,
+        "1": 27,
+        "2": 57,
+        "3": 26,
+        "4": 489
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285205,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.16,
+            "changes": [
+              {
+                "time_s": 2.16,
+                "value": true
+              },
+              {
+                "time_s": 5.82,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.77,
+            "changes": [
+              {
+                "time_s": 2.77,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.21,
+            "changes": [
+              {
+                "time_s": 4.21,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.65,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.15,
+                "value": false
+              },
+              {
+                "time_s": 5.8100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.16,
+                "value": false
+              },
+              {
+                "time_s": 5.82,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.12,
+                "value": false
+              },
+              {
+                "time_s": 6.8100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.82,
+            "changes": [
+              {
+                "time_s": 5.82,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.8100000000000005,
+            "changes": [
+              {
+                "time_s": 6.8100000000000005,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "511df22805d93c1ab8fcb4d82abef841bc6db2301f94413d86e42dffc3d36bae",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.473826130827665e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.00424289982765913,
+      "phase_counts": {
+        "-1": 20,
+        "0": 41,
+        "1": 27,
+        "2": 47,
+        "3": 26,
+        "4": 499
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285206,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.41,
+            "changes": [
+              {
+                "time_s": 2.41,
+                "value": true
+              },
+              {
+                "time_s": 6.17,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 3.01,
+            "changes": [
+              {
+                "time_s": 3.01,
+                "value": true
+              },
+              {
+                "time_s": 5.86,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.45,
+            "changes": [
+              {
+                "time_s": 4.45,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.74,
+            "changes": [
+              {
+                "time_s": 4.74,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.89,
+                "value": false
+              },
+              {
+                "time_s": 5.98,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.4,
+                "value": false
+              },
+              {
+                "time_s": 6.18,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.41,
+                "value": false
+              },
+              {
+                "time_s": 6.17,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.33,
+                "value": false
+              },
+              {
+                "time_s": 7.16,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.16,
+            "changes": [
+              {
+                "time_s": 7.16,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "c58427ddce00d810cfe9746a2801faca5fbbd84b50660d659e74d44df2c4dfa1",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.990697757090291e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004372810944914818,
+      "phase_counts": {
+        "-1": 20,
+        "0": 46,
+        "1": 27,
+        "2": 49,
+        "3": 26,
+        "4": 492
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285206,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.41,
+            "changes": [
+              {
+                "time_s": 2.41,
+                "value": true
+              },
+              {
+                "time_s": 6.0200000000000005,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 3.01,
+            "changes": [
+              {
+                "time_s": 3.01,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.47,
+            "changes": [
+              {
+                "time_s": 4.47,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.89,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.4,
+                "value": false
+              },
+              {
+                "time_s": 6.0200000000000005,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.41,
+                "value": false
+              },
+              {
+                "time_s": 6.0200000000000005,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.33,
+                "value": false
+              },
+              {
+                "time_s": 7.01,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 6.0200000000000005,
+            "changes": [
+              {
+                "time_s": 6.0200000000000005,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.01,
+            "changes": [
+              {
+                "time_s": 7.01,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "9c15cc51a715c5151ce9baafb6c05749865fe97a8161798f5fc7de4db0d76049",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.730053155256286e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004270784091204405,
+      "phase_counts": {
+        "-1": 20,
+        "0": 46,
+        "1": 27,
+        "2": 46,
+        "3": 26,
+        "4": 495
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285207,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.8599999999999999,
+            "changes": [
+              {
+                "time_s": 1.8599999999999999,
+                "value": true
+              },
+              {
+                "time_s": 5.62,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.47,
+            "changes": [
+              {
+                "time_s": 2.47,
+                "value": true
+              },
+              {
+                "time_s": 5.3100000000000005,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.9000000000000004,
+            "changes": [
+              {
+                "time_s": 3.9000000000000004,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.25,
+            "changes": [
+              {
+                "time_s": 4.25,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": false
+              },
+              {
+                "time_s": 5.43,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.85,
+                "value": false
+              },
+              {
+                "time_s": 5.61,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.8599999999999999,
+                "value": false
+              },
+              {
+                "time_s": 5.62,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.8600000000000001,
+                "value": false
+              },
+              {
+                "time_s": 6.62,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.62,
+            "changes": [
+              {
+                "time_s": 6.62,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "62a4855d2fd2a4e3e72d3df55edb39f90192842af5b80a3630d3c96968e42c8f",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.821754633730419e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.00415897648781538,
+      "phase_counts": {
+        "-1": 20,
+        "0": 35,
+        "1": 27,
+        "2": 49,
+        "3": 26,
+        "4": 503
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285207,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.8599999999999999,
+            "changes": [
+              {
+                "time_s": 1.8599999999999999,
+                "value": true
+              },
+              {
+                "time_s": 5.72,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.47,
+            "changes": [
+              {
+                "time_s": 2.47,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.91,
+            "changes": [
+              {
+                "time_s": 3.91,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.85,
+                "value": false
+              },
+              {
+                "time_s": 5.72,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.8599999999999999,
+                "value": false
+              },
+              {
+                "time_s": 5.72,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.8600000000000001,
+                "value": false
+              },
+              {
+                "time_s": 6.72,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.72,
+            "changes": [
+              {
+                "time_s": 5.72,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.72,
+            "changes": [
+              {
+                "time_s": 6.72,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "199a393c9a838a66ca1a12120cb8cc51ca8e11af5c58c0daab697d8dff4a2fb6",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.594737147764079e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004203553311526775,
+      "phase_counts": {
+        "-1": 20,
+        "0": 35,
+        "1": 27,
+        "2": 51,
+        "3": 26,
+        "4": 501
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285208,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.96,
+            "changes": [
+              {
+                "time_s": 1.96,
+                "value": true
+              },
+              {
+                "time_s": 5.5200000000000005,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.5700000000000003,
+            "changes": [
+              {
+                "time_s": 2.5700000000000003,
+                "value": true
+              },
+              {
+                "time_s": 5.21,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.0,
+            "changes": [
+              {
+                "time_s": 4.0,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.15,
+            "changes": [
+              {
+                "time_s": 4.15,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.45,
+                "value": false
+              },
+              {
+                "time_s": 5.33,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.9500000000000002,
+                "value": false
+              },
+              {
+                "time_s": 5.5200000000000005,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.96,
+                "value": false
+              },
+              {
+                "time_s": 5.5200000000000005,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.9100000000000001,
+                "value": false
+              },
+              {
+                "time_s": 6.5200000000000005,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.5200000000000005,
+            "changes": [
+              {
+                "time_s": 6.5200000000000005,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "3f8b5a921118b6b9f9dec99de1911a166d154b22a6c97e16b902191953b47db2",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.4192487835738365e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004147509578615427,
+      "phase_counts": {
+        "-1": 20,
+        "0": 37,
+        "1": 27,
+        "2": 45,
+        "3": 26,
+        "4": 505
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285208,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.96,
+            "changes": [
+              {
+                "time_s": 1.96,
+                "value": true
+              },
+              {
+                "time_s": 6.72,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.5700000000000003,
+            "changes": [
+              {
+                "time_s": 2.5700000000000003,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.0,
+            "changes": [
+              {
+                "time_s": 4.0,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": 4.23,
+            "changes": [
+              {
+                "time_s": 4.23,
+                "value": true
+              },
+              {
+                "time_s": 4.3100000000000005,
+                "value": false
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.45,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.9500000000000002,
+                "value": false
+              },
+              {
+                "time_s": 6.72,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.96,
+                "value": false
+              },
+              {
+                "time_s": 6.72,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.9100000000000001,
+                "value": false
+              },
+              {
+                "time_s": 7.720000000000001,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 6.72,
+            "changes": [
+              {
+                "time_s": 6.72,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.720000000000001,
+            "changes": [
+              {
+                "time_s": 7.720000000000001,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "c009010455983599fc807076713b20d42538188371f92dbb7f3a88f4d072b35c",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.832134236943819e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0046424344182014465,
+      "phase_counts": {
+        "-1": 20,
+        "0": 37,
+        "1": 27,
+        "2": 69,
+        "3": 26,
+        "4": 481
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285209,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.2600000000000002,
+            "changes": [
+              {
+                "time_s": 2.2600000000000002,
+                "value": true
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.87,
+            "changes": [
+              {
+                "time_s": 2.87,
+                "value": true
+              },
+              {
+                "time_s": 5.46,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.3,
+            "changes": [
+              {
+                "time_s": 4.3,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.39,
+            "changes": [
+              {
+                "time_s": 4.39,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.75,
+                "value": false
+              },
+              {
+                "time_s": 5.57,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": false
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.2600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.1800000000000002,
+                "value": false
+              },
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.7700000000000005,
+            "changes": [
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "d416cda582493b7e0c3e13139187498ceeecdc5339f039cf5acd52450f9b976f",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.329645499773602e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004299174062907696,
+      "phase_counts": {
+        "-1": 20,
+        "0": 43,
+        "1": 27,
+        "2": 44,
+        "3": 26,
+        "4": 500
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285209,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.2600000000000002,
+            "changes": [
+              {
+                "time_s": 2.2600000000000002,
+                "value": true
+              },
+              {
+                "time_s": 6.7700000000000005,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.87,
+            "changes": [
+              {
+                "time_s": 2.87,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.3100000000000005,
+            "changes": [
+              {
+                "time_s": 4.3100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": 4.36,
+            "changes": [
+              {
+                "time_s": 4.36,
+                "value": true
+              },
+              {
+                "time_s": 4.96,
+                "value": false
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.75,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": false
+              },
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.2600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.1800000000000002,
+                "value": false
+              },
+              {
+                "time_s": 7.77,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 6.7700000000000005,
+            "changes": [
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.77,
+            "changes": [
+              {
+                "time_s": 7.77,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "8839d79a83db28edd6087297b2fcf081bc72f3572ab0b9ab4062698a3075bab1",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.771534585203301e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004752407781779766,
+      "phase_counts": {
+        "-1": 20,
+        "0": 43,
+        "1": 27,
+        "2": 64,
+        "3": 26,
+        "4": 480
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285210,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.21,
+            "changes": [
+              {
+                "time_s": 2.21,
+                "value": true
+              },
+              {
+                "time_s": 5.97,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.81,
+            "changes": [
+              {
+                "time_s": 2.81,
+                "value": true
+              },
+              {
+                "time_s": 5.66,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.24,
+            "changes": [
+              {
+                "time_s": 4.24,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.6000000000000005,
+            "changes": [
+              {
+                "time_s": 4.6000000000000005,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.69,
+                "value": false
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.2,
+                "value": false
+              },
+              {
+                "time_s": 5.96,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.21,
+                "value": false
+              },
+              {
+                "time_s": 5.97,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.12,
+                "value": false
+              },
+              {
+                "time_s": 6.96,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.96,
+            "changes": [
+              {
+                "time_s": 6.96,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "7b1fb454bc1a9cda04881dc86b16bc07f3db726340139b31637502fef103b15c",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.5372914329099336e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0042494358494877815,
+      "phase_counts": {
+        "-1": 20,
+        "0": 42,
+        "1": 27,
+        "2": 49,
+        "3": 26,
+        "4": 496
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285210,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.21,
+            "changes": [
+              {
+                "time_s": 2.21,
+                "value": true
+              },
+              {
+                "time_s": 6.92,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.81,
+            "changes": [
+              {
+                "time_s": 2.81,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.25,
+            "changes": [
+              {
+                "time_s": 4.25,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.69,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.2,
+                "value": false
+              },
+              {
+                "time_s": 6.91,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.21,
+                "value": false
+              },
+              {
+                "time_s": 6.92,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.12,
+                "value": false
+              },
+              {
+                "time_s": 7.91,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 6.92,
+            "changes": [
+              {
+                "time_s": 6.92,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.91,
+            "changes": [
+              {
+                "time_s": 7.91,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "4ebf73e09ef6c75cb380c5e3da3f0986219de34dc49d61079ac79db5b2f6b60d",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.595695573548308e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004693683702498674,
+      "phase_counts": {
+        "-1": 20,
+        "0": 42,
+        "1": 27,
+        "2": 68,
+        "3": 26,
+        "4": 477
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285211,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.36,
+            "changes": [
+              {
+                "time_s": 2.36,
+                "value": true
+              },
+              {
+                "time_s": 6.32,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.97,
+            "changes": [
+              {
+                "time_s": 2.97,
+                "value": true
+              },
+              {
+                "time_s": 6.01,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.4,
+            "changes": [
+              {
+                "time_s": 4.4,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.88,
+            "changes": [
+              {
+                "time_s": 4.88,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.85,
+                "value": false
+              },
+              {
+                "time_s": 6.13,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": false
+              },
+              {
+                "time_s": 6.32,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.36,
+                "value": false
+              },
+              {
+                "time_s": 6.32,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.27,
+                "value": false
+              },
+              {
+                "time_s": 7.32,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.32,
+            "changes": [
+              {
+                "time_s": 7.32,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "cb15f33d6cb539066fb1d9542e5418b91ea2ec5b5ba92d8569a596708cef4404",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.778104564699769e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004510642495006323,
+      "phase_counts": {
+        "-1": 20,
+        "0": 45,
+        "1": 27,
+        "2": 53,
+        "3": 26,
+        "4": 489
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285211,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.36,
+            "changes": [
+              {
+                "time_s": 2.36,
+                "value": true
+              },
+              {
+                "time_s": 6.82,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.97,
+            "changes": [
+              {
+                "time_s": 2.97,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.4,
+            "changes": [
+              {
+                "time_s": 4.4,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.85,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": false
+              },
+              {
+                "time_s": 6.83,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.36,
+                "value": false
+              },
+              {
+                "time_s": 6.82,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.27,
+                "value": false
+              },
+              {
+                "time_s": 7.82,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 6.83,
+            "changes": [
+              {
+                "time_s": 6.83,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.82,
+            "changes": [
+              {
+                "time_s": 7.82,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "bbbfdbe694d7d53e22fbf584545b5bae5cd85dc50fb311ed02b4114bfc9bf243",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.972870886725588e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004698136355727911,
+      "phase_counts": {
+        "-1": 20,
+        "0": 45,
+        "1": 27,
+        "2": 63,
+        "3": 26,
+        "4": 479
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285212,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 5.87,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.72,
+            "changes": [
+              {
+                "time_s": 2.72,
+                "value": true
+              },
+              {
+                "time_s": 5.5600000000000005,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.15,
+            "changes": [
+              {
+                "time_s": 4.15,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.46,
+            "changes": [
+              {
+                "time_s": 4.46,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": false
+              },
+              {
+                "time_s": 5.68,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.1,
+                "value": false
+              },
+              {
+                "time_s": 5.87,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": false
+              },
+              {
+                "time_s": 5.87,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0699999999999998,
+                "value": false
+              },
+              {
+                "time_s": 6.87,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.87,
+            "changes": [
+              {
+                "time_s": 6.87,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "cb3f83357cec2c13034f0c932ad3f5adcbeb91a80a41c9deffc98e88ccc9589a",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.824203195489714e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004285553004592657,
+      "phase_counts": {
+        "-1": 20,
+        "0": 40,
+        "1": 27,
+        "2": 49,
+        "3": 26,
+        "4": 498
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285212,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 5.87,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.72,
+            "changes": [
+              {
+                "time_s": 2.72,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.16,
+            "changes": [
+              {
+                "time_s": 4.16,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.1,
+                "value": false
+              },
+              {
+                "time_s": 5.87,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": false
+              },
+              {
+                "time_s": 5.87,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0699999999999998,
+                "value": false
+              },
+              {
+                "time_s": 6.87,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.87,
+            "changes": [
+              {
+                "time_s": 5.87,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.87,
+            "changes": [
+              {
+                "time_s": 6.87,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "007176482f80ec4dc4ed6ae64b319adb537b136cd14604e0950e8822d6efa7c5",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.567682854688117e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.00429832749068737,
+      "phase_counts": {
+        "-1": 20,
+        "0": 40,
+        "1": 27,
+        "2": 49,
+        "3": 26,
+        "4": 498
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285213,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.06,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": true
+              },
+              {
+                "time_s": 5.72,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.67,
+            "changes": [
+              {
+                "time_s": 2.67,
+                "value": true
+              },
+              {
+                "time_s": 5.41,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.1000000000000005,
+            "changes": [
+              {
+                "time_s": 4.1000000000000005,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.34,
+            "changes": [
+              {
+                "time_s": 4.34,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.5500000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.5200000000000005,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.0500000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.72,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": false
+              },
+              {
+                "time_s": 5.72,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0300000000000002,
+                "value": false
+              },
+              {
+                "time_s": 6.72,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.72,
+            "changes": [
+              {
+                "time_s": 6.72,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "7dfb553849db809bb6c861f3b2386c5335125c7deff018046b0ef2d1d69603aa",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.413885197051794e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.0042888326570391655,
+      "phase_counts": {
+        "-1": 20,
+        "0": 39,
+        "1": 27,
+        "2": 47,
+        "3": 26,
+        "4": 501
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285213,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.06,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": true
+              },
+              {
+                "time_s": 5.57,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.67,
+            "changes": [
+              {
+                "time_s": 2.67,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.12,
+            "changes": [
+              {
+                "time_s": 4.12,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.5500000000000003,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.0500000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.57,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": false
+              },
+              {
+                "time_s": 5.57,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0300000000000002,
+                "value": false
+              },
+              {
+                "time_s": 6.57,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.57,
+            "changes": [
+              {
+                "time_s": 5.57,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.57,
+            "changes": [
+              {
+                "time_s": 6.57,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "1a0d66c563d07f129837f872d70b542a24337dab543792e2e15236165af210db",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.512851149183233e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004153097048401833,
+      "phase_counts": {
+        "-1": 20,
+        "0": 39,
+        "1": 27,
+        "2": 44,
+        "3": 26,
+        "4": 504
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285214,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 5.67,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.72,
+            "changes": [
+              {
+                "time_s": 2.72,
+                "value": true
+              },
+              {
+                "time_s": 5.36,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.15,
+            "changes": [
+              {
+                "time_s": 4.15,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.2700000000000005,
+            "changes": [
+              {
+                "time_s": 4.2700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": false
+              },
+              {
+                "time_s": 5.48,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.1,
+                "value": false
+              },
+              {
+                "time_s": 5.67,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": false
+              },
+              {
+                "time_s": 5.67,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0699999999999998,
+                "value": false
+              },
+              {
+                "time_s": 6.67,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.67,
+            "changes": [
+              {
+                "time_s": 6.67,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "80e7e0a87b395660f150e4aba1bfe6b8322301210edeab9075286f773d0fd812",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.734112398626319e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.00418957881629467,
+      "phase_counts": {
+        "-1": 20,
+        "0": 40,
+        "1": 27,
+        "2": 45,
+        "3": 26,
+        "4": 502
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285214,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 6.07,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.72,
+            "changes": [
+              {
+                "time_s": 2.72,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.16,
+            "changes": [
+              {
+                "time_s": 4.16,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.1,
+                "value": false
+              },
+              {
+                "time_s": 6.07,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": false
+              },
+              {
+                "time_s": 6.07,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0699999999999998,
+                "value": false
+              },
+              {
+                "time_s": 7.07,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 6.07,
+            "changes": [
+              {
+                "time_s": 6.07,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.07,
+            "changes": [
+              {
+                "time_s": 7.07,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "ec5a15547ae1581bb5c64d7413c32351a27ee6f6a79b4f3beddc14374dbb69b2",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.6557188402538784e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004377924371510744,
+      "phase_counts": {
+        "-1": 20,
+        "0": 40,
+        "1": 27,
+        "2": 53,
+        "3": 26,
+        "4": 494
+      }
+    },
+    {
+      "task": "T1",
+      "layout": 285215,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.72,
+            "changes": [
+              {
+                "time_s": 2.72,
+                "value": true
+              },
+              {
+                "time_s": 5.46,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.15,
+            "changes": [
+              {
+                "time_s": 4.15,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.34,
+            "changes": [
+              {
+                "time_s": 4.34,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": false
+              },
+              {
+                "time_s": 5.58,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.1,
+                "value": false
+              },
+              {
+                "time_s": 5.76,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": false
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0699999999999998,
+                "value": false
+              },
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.7700000000000005,
+            "changes": [
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "43d124785691b5cb78b250912732c5fc371a93b982dd1ae342e4402ae211fb61",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.791052805900027e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004235801286995411,
+      "phase_counts": {
+        "-1": 20,
+        "0": 40,
+        "1": 27,
+        "2": 47,
+        "3": 26,
+        "4": 500
+      }
+    },
+    {
+      "task": "T2",
+      "layout": 285215,
+      "status": "VALID_SOURCE_COMPLETE",
+      "persistent_success": true,
+      "score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 6.97,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.72,
+            "changes": [
+              {
+                "time_s": 2.72,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.15,
+            "changes": [
+              {
+                "time_s": 4.15,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.1,
+                "value": false
+              },
+              {
+                "time_s": 6.97,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": false
+              },
+              {
+                "time_s": 6.97,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0699999999999998,
+                "value": false
+              },
+              {
+                "time_s": 7.970000000000001,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 6.97,
+            "changes": [
+              {
+                "time_s": 6.97,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.970000000000001,
+            "changes": [
+              {
+                "time_s": 7.970000000000001,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "source_result_sha256": "c93172909582e3a5ead39edcc42001c9532650deaba3d699d53b3a67f56fca44",
+      "force_based_native_grasp_exact": true,
+      "physical_static_exact": true,
+      "original_native_on_top_exact": true,
+      "pre_command_actual_clock_exact": true,
+      "reference_to_installed_XYZ_RMS_m": 4.9861184237048966e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.004748865030705929,
+      "phase_counts": {
+        "-1": 20,
+        "0": 40,
+        "1": 27,
+        "2": 71,
+        "3": 26,
+        "4": 476
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "layout": 285200,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285201,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285202,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285203,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285204,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285205,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285206,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285207,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285208,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285209,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285210,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285211,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285212,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285213,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285214,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    },
+    {
+      "layout": 285215,
+      "same_initial_actual_RGB_state_and_cameras": {
+        "base_camera_raw@control0": true,
+        "base_camera_raw@control20": true,
+        "hand_camera_raw@control0": true,
+        "hand_camera_raw@control20": true,
+        "state_v1@control0": true,
+        "state_v1@control20": true,
+        "base_camera_extrinsic_cv@control0": true,
+        "base_camera_extrinsic_cv@control20": true,
+        "hand_camera_extrinsic_cv@control0": true,
+        "hand_camera_extrinsic_cv@control20": true
+      }
+    }
+  ],
+  "new_model_queries": 0,
+  "new_physics": 0
+}

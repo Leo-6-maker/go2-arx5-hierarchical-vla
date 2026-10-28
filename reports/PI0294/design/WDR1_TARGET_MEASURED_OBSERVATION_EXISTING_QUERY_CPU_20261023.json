@@ -1,0 +1,100 @@
+{
+  "schema": "WDR1_TARGET_MEASURED_OBSERVATION_EXISTING_QUERY_CPU_V1",
+  "observed_epoch": 1792756092.8078957,
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "implementation": {
+    "module": "scripts/pi0294/dec1/target_observation.py",
+    "runtime_imports": [
+      "scripts.pi0294.task_state.parse_state",
+      "scripts.pi0294.task_state.ActualState",
+      "scripts.pi0292.relay_protocol.validate_observation",
+      "go2arx5_vla.adapters.execution_progress.ActualFeedback"
+    ],
+    "no_new_runner_controller_or_state_estimator": true,
+    "inside_future_admitted_cold_owner_only": true,
+    "no_IO_rendering_or_integrator_in_module": true,
+    "original_actual_state_update_uses_forward_on_measured_copy_not_physics": true
+  },
+  "binding": {
+    "original_native_binary_state_ABI": [
+      34,
+      32,
+      20
+    ],
+    "exact_retained_packet_hash": true,
+    "real_absolute_native_clock_retained": true,
+    "query_tick_is_explicitly_native_step_minus2500": true,
+    "query_sequences_0_through79_after200tick_ACK": true,
+    "original_MPC_25ms_age_not_widened": true,
+    "owner_pinned_explicit_rigid_frame_SHA256": true,
+    "source_model_state_equals_inverse_rigid_transform_of_actual_target_TCP": true,
+    "target_feedback_keeps_actual_world_TCP_and_gripper_and_raw_time": true,
+    "same_FrameRecorder_index_native_step_absolute_time_required": true,
+    "body_and_wrist_original256RGB_PNG_and_calibration_times_required": true,
+    "model_payload_original_EEF10_no_BASE_padding": true,
+    "original_language_passed_opaquely_no_controller_task_script": true,
+    "object_truth_contact_or_Teacher_phase_not_in_model_or_progress_feedback": true,
+    "no_clipping_gripper_or_pose_correction": true
+  },
+  "CPU_tests": {
+    "new_cases": 31,
+    "full_PI0292_PI0294_passed": 2214,
+    "subtests_passed": 1644,
+    "private_runtime_skips": 13,
+    "seconds": 99.22,
+    "measured_reader_update_is_explicit_CPU_test_double": true,
+    "original_binary_parser_and_PNG_relay_validators_run": true,
+    "noncommuting_rotation_translation_and_inverse_frame_checked": true,
+    "query_boundaries_native_steps": [
+      2500,
+      2700,
+      18300
+    ],
+    "stale_future_MPC_and_retimed_header_capture_calibration_rejected": true,
+    "invalid_rigid_intrinsics_PNG_reader_gripper_safety_abort_rejected": true,
+    "existing_e1_serve_generates_once_from_bound_observation": true,
+    "existing_TargetRelayExchange_original_full_H40_gate_reaches_WAIT_ACK": true,
+    "model_input_step2500_time5_query_tick0_do_not_rezero_native_clock": true,
+    "synthetic_model_function_not_real_model": true,
+    "real_MuJoCo_ROS_model_or_physics_executed": false
+  },
+  "unchanged_files": {
+    "scripts/pi0292/relay_protocol.py": "39b19c67678ca177a8c88309adcadb2a0995a1ea1117399f047bfba3a3523aa1",
+    "scripts/pi0294/task_native_worker.py": "9a3c240f1a7d7ccbc5921a242f8f235e75be0f37b8bf698a65424f3dd23eec91",
+    "scripts/pi0294/task_state.py": "41ddb6a68abb060d01bf4cd79407f3d719ecec3a2312f99b67a6def7ad9955ef"
+  },
+  "current_actual_training": {
+    "job_id": "1480817.stdct-mgmt-02",
+    "observed_epoch": 1792755974.2745066,
+    "native_state": "R",
+    "step": 2931,
+    "new_updates_since2048": 883,
+    "actual_queries": 17,
+    "actual_loads": 2,
+    "unknown_effects": [],
+    "full_dual_campaign_view": "PASS_TWO_PLATFORM_CAMPAIGN_VIEW",
+    "running_owner_entry_or_capsule_modified": false
+  },
+  "boundaries": {
+    "native_adopted": false,
+    "new_Core_child_or_physics": false,
+    "new_PBS_registration_request_or_prepay": false,
+    "native_target_prefix_feedback_ACK_STOP_T1T2_qualified": false,
+    "core64": 0,
+    "current_state_validity_not_future_prefix_safety": true,
+    "camera_metadata_or_hash_is_not_native_capture_proof": true,
+    "original_safety_and_prediction_chain_still_required": true,
+    "no_Source_C0_or_old_pilot_replayed": true,
+    "no_new_A_B_weight_substitution": true,
+    "all_original_caps_T0_deadlines_final_protection_and_history_unchanged": true
+  },
+  "next": [
+    "Keep healthy current B4096 training; wait for actual F/Exit0/natural owner success before qualified648 terminal.",
+    "Bind the same admitted rigid transform and frozen reader/camera runtime in a genuine DEC1 target child; retain actual policy/feedback/camera bytes and full resource costs.",
+    "Reuse original target pause/installation/physics-owner/STOP lifecycle only after original native whole-prefix safety and current authority/admission are genuinely met. This CPU input binding does not produce those qualifications."
+  ],
+  "publication": {
+    "exact_new_CI_and_full_readback": "PENDING",
+    "deployment": false
+  }
+}

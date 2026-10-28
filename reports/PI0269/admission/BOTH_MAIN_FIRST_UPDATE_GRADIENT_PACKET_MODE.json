@@ -1,0 +1,88 @@
+{
+  "additional_backward_calls": 0,
+  "additional_gradient_queries": 0,
+  "arms": {
+    "PREFIX": {
+      "first_update_euler_gradient_norms": {
+        "1": 0.004337501712143421,
+        "2": 0.006292957346886396,
+        "3": 0.0120884720236063,
+        "4": 0.03443729877471924
+      },
+      "gradient_receipt_sha256": "4f22c8466f0ffcbecc418d116709daa5ee39da041a32eeb5e93f0d8aed05009c",
+      "noise": {
+        "mode_restored": true,
+        "native_epsilon": {
+          "byte_count": 10560,
+          "device": "cuda:0",
+          "dtype": "torch.bfloat16",
+          "sha256": "0b10930307b86399220b6b75413e11f4fc518c4e7f24f1772062d120188c12ec",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        "native_tau": [
+          0.0
+        ],
+        "seed": 899020488,
+        "stock_initial_noise": {
+          "byte_count": 21120,
+          "device": "cuda:0",
+          "dtype": "torch.float32",
+          "sha256": "220823b4b74aed4ab46f454fb9c9ac78957397b0b3000c447c33141714f7f5f5",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        }
+      },
+      "saved_immediately_after_original_required_backward": true
+    },
+    "UNIFORM": {
+      "first_update_euler_gradient_norms": {
+        "1": 0.005053299013525248,
+        "2": 0.007370881270617247,
+        "3": 0.012877415865659714,
+        "4": 0.022594686597585678
+      },
+      "gradient_receipt_sha256": "ea1fecb59942a8bf8b71acd477599c2777c6b8cf61f3c3438534be75579d6b75",
+      "noise": {
+        "mode_restored": true,
+        "native_epsilon": {
+          "byte_count": 10560,
+          "device": "cuda:0",
+          "dtype": "torch.bfloat16",
+          "sha256": "0b10930307b86399220b6b75413e11f4fc518c4e7f24f1772062d120188c12ec",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        "native_tau": [
+          0.0
+        ],
+        "seed": 899020488,
+        "stock_initial_noise": {
+          "byte_count": 21120,
+          "device": "cuda:0",
+          "dtype": "torch.float32",
+          "sha256": "220823b4b74aed4ab46f454fb9c9ac78957397b0b3000c447c33141714f7f5f5",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        }
+      },
+      "saved_immediately_after_original_required_backward": true
+    }
+  },
+  "does_not_replace_full_paired_training_audit": true,
+  "model_queries": 0,
+  "selected_checkpoint": "NONE",
+  "status": "PASS_BOTH_ACTUAL_MAIN_FIRST_UPDATE_FOUR_EULER_GRADIENT_AND_PACKET_MODE_RECORDS"
+}

@@ -1,0 +1,52 @@
+{
+  "status": "BLOCKED_REMOTE_OBSERVATION_PENDING_NETWORK_RESTORATION",
+  "run_uuid": "20261013T023717-localpc-arx5",
+  "first_owner_observed_connection_failure_utc": "2026-10-12T23:23:21Z",
+  "actual_network_failure_start_utc": "UNKNOWN",
+  "corelab": "Existing configured outer SSH route times out; bounded read-only reconnect failed",
+  "Hopper": "Existing configured alias hostname resolution failed",
+  "local_GitHub_and_HF_name_resolution": "PASS_AT_2026-10-12T23:24:33Z_NOT_SERVER_ACCESS_PROOF",
+  "local_network_observation": "Wired interface no carrier, wireless active; no VPN interface observed. Root cause is not proven.",
+  "last_owner_ledger_snapshot_utc": "2026-10-12T23:12:11Z",
+  "last_agent_successful_readiness_utc": "2026-10-12T23:13:54.847Z",
+  "last_known_formal_complete": 54,
+  "last_known_formal_independent_raw_PASS": 54,
+  "last_known_formal_ids": "T291000-T291053",
+  "last_known_owner_and_queue_process_presence": "Observed at last successful readiness, not confirmed after interruption",
+  "remote_owner_current_liveness": "UNKNOWN",
+  "remote_T291054_and_later_attempt_results": "UNKNOWN_NOT_UNATTEMPTED_OR_QUALITY_FAIL",
+  "last_T291053_binding": {
+    "physics_sha256": "18e1c9a075e14f93e66ce5dd456c778a57ce067cdda038f5e6c71fa13f1d0201",
+    "samples_sha256": "17690fb22d61f14c1d5ea3f6f05ab8232dcf16c33ba4c4406c1b6868b6b8cc59",
+    "manifest_sha256": "9ba060d4738557270a9e9e1c44feef1be1cb624ff1a6413a8603a80094909843",
+    "audit_completion_utc": "NOT_SAVED",
+    "audit_receipt_file_sha256": "NOT_SAVED_LOCALLY_CANNOT_INVENT"
+  },
+  "last_owner_resource_snapshot": {
+    "starts": 67,
+    "completed_starts": 66,
+    "live_id_at_snapshot": "T291054",
+    "physics_steps_including_live": 1062950,
+    "pairs_including_live": 42585,
+    "ledger_CPU_s_including_previously_documented_bounds": 31841.56189072601,
+    "bootstrap_CPU_s_upper_additional": 600,
+    "owned_output_bytes": 7370819434,
+    "final_usage": "UNKNOWN_NOT_THIS_SNAPSHOT"
+  },
+  "additional_agent_audit_usage": {
+    "formal_raw_audit_measured_CPU_s_cumulative": 182.963471,
+    "TRAIN048_053_measured_CPU_s": 20.301149,
+    "readiness_measured_CPU_s_cumulative": 1.600731,
+    "readiness_increment_after_third_chunk_CPU_s": 0.103366,
+    "accounting": "Raw audits charged by unique receipt at the next owner gap; small readiness increment needs unique AUX. Neither final remote charge can be claimed after lost connection."
+  },
+  "physical_source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "T0_utc": "2026-10-12T18:37:17Z",
+  "physics_cutoff_utc": "2026-10-12T23:52:17Z",
+  "absolute_deadline_utc": "2026-10-13T00:37:17Z",
+  "time_or_budget_extension": false,
+  "queue_restart_or_new_owner": false,
+  "network_config_changed_or_tunnel_created": false,
+  "physics_fail_inferred_from_SSH_failure": false,
+  "next": "Wait for restored existing connectivity; read original owner PID/state, locks, ledger and receipts before any step. Never restart the original initial-only dispatcher or classify unread attempts as unattempted."
+}

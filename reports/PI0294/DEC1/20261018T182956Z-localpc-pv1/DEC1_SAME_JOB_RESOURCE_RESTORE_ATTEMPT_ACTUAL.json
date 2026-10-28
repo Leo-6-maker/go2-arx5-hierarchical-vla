@@ -1,0 +1,127 @@
+{
+  "schema": "DEC1_SINGLE_USER_APPROVED_RESOURCE_RESTORE_ACTUAL_V1",
+  "status": "FAILED_PARAMETER_SYNTAX_NO_RESOURCE_CHANGE_ONE_CALL_USED",
+  "job_id": "1471903.stdct-mgmt-02",
+  "authority": {
+    "schema": "DEC1_EXACT_USER_RESOURCE_RESTORE_EXCEPTION_V1",
+    "job_id": "1471903.stdct-mgmt-02",
+    "direct_human_reply": "允许这一次同作业资源恢复",
+    "question_id": "call_08ad2ab8d21f46c4b7618970cfab4d19",
+    "max_qalter_calls": 1,
+    "only_if_Q_and_never_allocated": true,
+    "restore_select": "1:ngpus=1:ncpus=4:mem=32gb",
+    "cancellation": false,
+    "resubmission": false,
+    "additional_budget": false,
+    "stop_if_allocated_or_rewritten": true,
+    "original_source_sha": "a2caf6a54f37cb76f64f8d7f42abd5f0e3252339"
+  },
+  "observed_epoch": 1792548796.0374737,
+  "qalter_calls": 1,
+  "qalter_returncode": 187,
+  "qalter_error": "qalter: Unknown resource Resource_List.1:ngpus 1471903.stdct-mgmt-02",
+  "actual_resource_argument": "1:ngpus=1:ncpus=4:mem=32gb",
+  "argument_error": "MISSING_SELECT_EQUALS_PREFIX_IN_OWN_CONTROL_COMMAND_NOT_A_SITE_POLICY_REJECTION",
+  "corrected_command_NOT_EXECUTED": "qalter -l select=1:ngpus=1:ncpus=4:mem=32gb 1471903.stdct-mgmt-02",
+  "second_qalter_calls": 0,
+  "automatic_retry": false,
+  "new_qsub": 0,
+  "cancel": 0,
+  "before": {
+    "job_state": "Q",
+    "resources": {
+      "am_job_cache": "\"{}\"",
+      "mem": "240gb",
+      "ncpus": 36,
+      "ngpus": 1,
+      "nodect": 1,
+      "place": "free",
+      "queue_charge_rate": 1,
+      "select": "1:ngpus=1:ncpus=36:mem=240GB",
+      "walltime": "00:30:00"
+    }
+  },
+  "after": {
+    "job_state": "Q",
+    "resources": {
+      "am_job_cache": "\"{}\"",
+      "mem": "240gb",
+      "ncpus": 36,
+      "ngpus": 1,
+      "nodect": 1,
+      "place": "free",
+      "queue_charge_rate": 1,
+      "select": "1:ngpus=1:ncpus=36:mem=240GB",
+      "walltime": "00:30:00"
+    }
+  },
+  "all_nonresource_identity_unchanged": true,
+  "original_neural_source_sha": "a2caf6a54f37cb76f64f8d7f42abd5f0e3252339",
+  "native_manifest_sha256": "e05048a1b723bcb260d6d91f827d6277a07e69ec507a86d7eac7d6fd3da48334",
+  "script_sha256": "41531c77b016ce2894879c4d1b7bd2f6f104e7cfeecf0e11ff6c30e9cf850318",
+  "request_file_sha256": "6a41022482e92b216aa6cb4a64ef6c482c5cd53ee08568bd763ef34a0da3bbf1",
+  "initial_preflight_failure": {
+    "qalter_calls": 0,
+    "reason": "USER_FILTERED_QSTAT_VIEW_NOT_JSON",
+    "independent_zero_effect_witness": 1792548264.0692508,
+    "failure_and_old_source_preserved": true
+  },
+  "queue_reader": {
+    "source_sha": "597a97594278932d9b7ac825fd8131ab138144ec",
+    "CI_run": 39531282509,
+    "CI_job": 118997503156,
+    "CI_conclusion": "success",
+    "full_GitHub_readback": [
+      {
+        "path": "scripts/operations/pbs_queue_view.py",
+        "result": "{\"blob\": \"88d184bef762e9bfd3b169dc8e576450b45b40db\", \"bytes\": 740}"
+      },
+      {
+        "path": "tests/test_pbs_queue_view.py",
+        "result": "{\"blob\": \"4f5d8dabbcb914d4ed8c6812474be99c3cb99ac0\", \"bytes\": 2311}"
+      }
+    ],
+    "focused_tests_passed": 4,
+    "focused_subtests_passed": 2,
+    "method": "REUSE_EXISTING_QSELECT_THEN_INDIVIDUAL_JSON_QSTAT",
+    "real_both_site_views_qualified": true
+  },
+  "same_logical_owner_handover": {
+    "old_process_PID": 3776138,
+    "old_process_proven_terminal": true,
+    "old_service": "dec1-vanda-compat-owner-01",
+    "new_service": "dec1-vanda-compat-owner-02",
+    "new_PID": 3934448,
+    "observed_new_service_active": true,
+    "same_owner_session": "DEC1_EXISTING_LOCAL_PC_A40_COMPAT_OWNER_01",
+    "new_cloud_owner": false,
+    "neural_capsule_inputs_WBC_unchanged": true
+  },
+  "independent_readback": {
+    "observed_epoch": 1792548906.758109,
+    "job_state": "Q",
+    "resources": {
+      "am_job_cache": "\"{}\"",
+      "mem": "240gb",
+      "ncpus": 36,
+      "ngpus": 1,
+      "nodect": 1,
+      "place": "free",
+      "queue_charge_rate": 1,
+      "select": "1:ngpus=1:ncpus=36:mem=240GB",
+      "walltime": "00:30:00"
+    },
+    "native_process_present": false,
+    "model_effect_journal_present": false
+  },
+  "new_training_updates": 0,
+  "new_physics": 0,
+  "new_models_observed": 0,
+  "new_queries_observed": 0,
+  "original_clock_and_budget_unchanged": true,
+  "reservations_preserved": true,
+  "future_corrected_call": "PENDING_EXPLICIT_REPLY_NOT_EXECUTED",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "scientific_goal_complete": false
+}

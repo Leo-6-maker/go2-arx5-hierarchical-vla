@@ -1,0 +1,87 @@
+{
+  "arm": "UNIFORM",
+  "changes_training_or_selection": false,
+  "completed_updates": 2738,
+  "dense_Euler_trajectories": "UNOBSERVED",
+  "gradient_queries": 0,
+  "groups": [
+    {
+      "clipped_updates": 2738,
+      "maximum_preclip_norm": 442.95635986328125,
+      "medians": {
+        "native_loss": 0.045479804277420044,
+        "physical_increment_loss": 0.0008394407050218433,
+        "physical_position_loss": 0.012153309769928455,
+        "physical_rotation_loss": 0.20760083198547363,
+        "physical_speed_margin_loss": 0.0,
+        "preclip_norm": 6.4350385665893555,
+        "total_loss": 0.07947811484336853,
+        "uniform_increment": 0.0008394407050218433,
+        "uniform_position": 0.012153309769928455,
+        "uniform_rotation": 0.20760083198547363,
+        "weighted_increment": 0.00035221145662944764,
+        "weighted_position": 0.004685385152697563,
+        "weighted_rotation": 0.13691502809524536
+      },
+      "microbatches": 5476,
+      "task": "ALL",
+      "updates": 2738
+    },
+    {
+      "clipped_updates": 1369,
+      "maximum_preclip_norm": 295.2093200683594,
+      "medians": {
+        "native_loss": 0.0444357767701149,
+        "physical_increment_loss": 0.0008432999020442367,
+        "physical_position_loss": 0.011033399030566216,
+        "physical_rotation_loss": 0.21006064116954803,
+        "physical_speed_margin_loss": 0.0,
+        "preclip_norm": 6.460616588592529,
+        "total_loss": 0.07754045352339745,
+        "uniform_increment": 0.0008432999020442367,
+        "uniform_position": 0.011033399030566216,
+        "uniform_rotation": 0.21006064116954803,
+        "weighted_increment": 0.00035176776873413473,
+        "weighted_position": 0.00428949692286551,
+        "weighted_rotation": 0.13855815678834915
+      },
+      "microbatches": 2738,
+      "task": "M1",
+      "updates": 1369
+    },
+    {
+      "clipped_updates": 1369,
+      "maximum_preclip_norm": 442.95635986328125,
+      "medians": {
+        "native_loss": 0.046671923249959946,
+        "physical_increment_loss": 0.0008347239636350423,
+        "physical_position_loss": 0.013622762635350227,
+        "physical_rotation_loss": 0.20451875776052475,
+        "physical_speed_margin_loss": 0.0,
+        "preclip_norm": 6.415663719177246,
+        "total_loss": 0.08169690519571304,
+        "uniform_increment": 0.0008347239636350423,
+        "uniform_position": 0.013622762635350227,
+        "uniform_rotation": 0.20451875776052475,
+        "weighted_increment": 0.0003532310511218384,
+        "weighted_position": 0.005241170525550842,
+        "weighted_rotation": 0.13568007200956345
+      },
+      "microbatches": 2738,
+      "task": "M3",
+      "updates": 1369
+    }
+  ],
+  "helper_sha256": "fd644c25ab89928805fbfb0fc30e6ede4cc81684fecb73002af8f95f6102abc0",
+  "model_queries": 0,
+  "optimizer_updates_added": 0,
+  "selected_checkpoint": "NONE",
+  "source_prefix_sha256": {
+    "S4_audit.jsonl": "a961c6767f6ed798453cc205d20694b23119fd8749523462a56980589cfa82e4",
+    "full_loss.jsonl": "418b8420d5a1644608fa59a76f2e3d94be8af4ced363c3e3ecaea604035112ae",
+    "sample_audit.jsonl": "18e6e664275b407ed042e43d970e1fd7bac999b9b4140a071cdd54e20bdfe5a0",
+    "temporal_components.jsonl": "fb77fac0204f851966976a7539bbc310ee6aa9a3203ceace3573b01970745431",
+    "update_gradient_norms.jsonl": "5b016bb9243d162ccfaf1de6b50f6efca7906da9f09e911c803ffa84be1d5003"
+  },
+  "status": "PRELIMINARY_SAVED_JOURNAL_JOIN_NOT_QUALITY_VERDICT"
+}

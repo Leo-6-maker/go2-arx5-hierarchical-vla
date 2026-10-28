@@ -1,0 +1,55 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Persist the first PI0292 authority and bounded read-only dependency evidence."""
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import shlex
+import subprocess
+
+BASE = Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/pi0292')
+REPO = Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0290-source')
+RELEASE = '261bc5b37f20aaff1ad7d5742252d3dc1a91fa65'
+T0 = 1791860304
+RUN_ID = '20261013T025824Z-localpc-pi0292'
+OLD = '@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5'
+NEW = '@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0292/' + RUN_ID
+
+
+def save(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    with path.open('x') as f:
+        json.dump(value, f, indent=2)
+        f.write('\n')
+    path.chmod(0o600)
+
+
+def remote(host, code):
+    opts = ['-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', '-o', 'ServerAliveInterval=10', '-o', 'ServerAliveCountMax=3']
+    command = shlex.join(['python3', '-'])
+    if host == 'corelab-4080s':
+        command = shlex.join(['ssh', *opts, host, command])
+        host = 'corelab-amd-server'
+    return subprocess.run(['ssh', *opts, host, command], input=code, capture_output=True, text=True, timeout=120)
+
+
+if __name__ == '__main__':
+    BASE.mkdir(exist_ok=True, mode=0o700)
+    adoption = BASE / 'ADOPTION.json'
+    if not adoption.exists():
+        files = {}
+        for p in ['docs/protocols/PI0292_ARX5_NATIVE_B0_TRAINING_AND_CLOSED_LOOP_V1.md', 'reports/PI0292/design/LOCAL_PC_EXECUTE_PROMPT.md', 'reports/PI0292/design/GO_TASK_CARD.json', 'reports/PI0292/design/CONFIRM_LAYOUTS.json']:
+            data = subprocess.check_output(['git', 'show', RELEASE + ':' + p], cwd=REPO)
+            dest = BASE / Path(p).name
+            with dest.open('xb') as f:
+                f.write(data)
+            files[p] = hashlib.sha256(data).hexdigest()
+        save(adoption, dict(schema='PI0292_ADOPTION_V1', release=RELEASE, run_uuid=RUN_ID,
+             T0_epoch=T0, T0_utc=datetime.datetime.fromtimestamp(T0, datetime.timezone.utc).isoformat(),
+             T0_basis='Active goal creation timestamp, conservatively including all initial adoption reads',
+             deadline_epoch=T0+86400, new_work_cutoff_epoch=T0+82800, reset_on_resume=False,
+             owner='EXISTING_LOCAL_PC', status='S0_IN_PROGRESS', authority_comment=6137102979,
+             protocol_files_sha256=files, selected='NONE', deployment='NONE'))
+    print(json.dumps(json.loads(adoption.read_text())))

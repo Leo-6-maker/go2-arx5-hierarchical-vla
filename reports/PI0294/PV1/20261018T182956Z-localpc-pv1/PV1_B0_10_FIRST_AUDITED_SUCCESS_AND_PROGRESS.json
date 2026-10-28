@@ -1,0 +1,223 @@
+{
+  "schema": "PI0294_PV1_B0_CHILD10_FIRST_AUDITED_SUCCESS_AND_PROGRESS_V1",
+  "status": "PARTIAL_BASELINE_IN_PROGRESS_NOT_NEW_TRAINING",
+  "observed_UTC": "2026-10-20T08:07:38Z",
+  "owner": "EXISTING_LOCAL_PC",
+  "job_id": "678041.hopper-m-02",
+  "native_state": "R",
+  "runtime_source_sha": "79161e32b04535dc22019b5b8658d95ca31d0a8d",
+  "runtime_CI": {
+    "run": 39385715634,
+    "job": 118504951516,
+    "conclusion": "success"
+  },
+  "model": "B0_CORR",
+  "model_global_step": 2048,
+  "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "native_model_ready": true,
+  "model_alias_repair_verified_on_real_allocated_GPU": true,
+  "prior_valid_conditions": 12,
+  "prior_successes": 8,
+  "prior_valid_task_failures": 4,
+  "prior_closure_sha256": "f739772135be5a8401fd3952f278d245cef03bf6d706944bfff512d20d4177ff",
+  "new_condition": {
+    "status": "SUCCESS",
+    "failure_stage": "COMPLETE_SUCCESS",
+    "pipeline_trustworthy": true,
+    "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101-REPLACEMENT-01",
+    "condition_id": "PI0294/PV1/DEV/F1/004/T1/N294101",
+    "model": "B0_CORR",
+    "task": "T1",
+    "split": "DEV",
+    "scene_group": "PI0294/PV1/DEV/F1/004",
+    "noise_bank": 294101,
+    "family": "F1",
+    "duration_s": 32,
+    "main_integrations": 16000,
+    "RGB_pairs": 641,
+    "S1_rejections": 0,
+    "live_native_failures": 0,
+    "maximum_live_shadow_difference": 4.869715741762093e-14,
+    "result_sha256": "dd2a379bd9d4a54e271cf05752abadf86807ee9b32a2060c0f554158a105ee99",
+    "teacher_takeover": false,
+    "selected": "NONE",
+    "real_robot_deployment": "NONE"
+  },
+  "independent_raw_and_physics_audit": {
+    "status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+    "sha256": "eed14e0241d20eb985d91fc279da9f5846fb88014429da12e10c79a2858ecf2e",
+    "checks": {
+      "raw_manifest_all_sizes_and_hashes": true,
+      "actual_execution_source_not_later_root_manifest": true,
+      "adjudication_result_hash": true,
+      "original_submitted_installed_committed_prefix_labels": true,
+      "original_20Hz_clock_tolerance": true,
+      "independent_saved_state_score_exact": true,
+      "actual_contact_tick_coverage": true,
+      "actual_highrate_clock_and_count": true,
+      "original_S1_no_action_modification": true,
+      "original_S1_live_shadow_parity": true,
+      "shadow_did_not_mutate_live": true,
+      "S1_rejection_accounting": true,
+      "paired_actual_camera_names": true,
+      "actual_RGB_count": true,
+      "RGB_0_0": true,
+      "RGB_0_640": true,
+      "RGB_1_0": true,
+      "RGB_1_640": true
+    },
+    "errors": []
+  },
+  "native_score": {
+    "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+    "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+    "complete_32s": true,
+    "clock_valid": true,
+    "safety_valid": true,
+    "history": {
+      "sustained_grasp": true,
+      "sustained_lift": true,
+      "horizontal_carry": true
+    },
+    "hold_observed": 41,
+    "hold_pass": 41,
+    "hold_subpredicates": {
+      "zone_corners": 41,
+      "table_height": 41,
+      "linear_speed": 41,
+      "angular_speed": 41,
+      "released": 41,
+      "tcp_clear": 41,
+      "object_and_contacts_valid": 41
+    },
+    "persistent_success": true,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "task": "T1",
+    "domain": "FIXED_BASE_ARX5_TASK_SIM",
+    "maximum_actual_lift_m": 0.08621042614218527,
+    "maximum_actual_carry_xy_m": 0.21364946894769463,
+    "physics_sha256": "3eb98d8e28c12658a05031a1aa746c0fd88fef150aa2f678dda80d0df5cc336d",
+    "raw_sample_count": 641
+  },
+  "video_index": {
+    "sha256": "65bfd7ee58128664fcc9ab4b42be217e3d430e7b0fdb1cd01347df1b3920a674",
+    "bytes": 1367085,
+    "actual_paired_frames": 641,
+    "decoded_frames": 641,
+    "fps": 20,
+    "playback_duration_s": 32.05,
+    "padding_or_interpolation": false,
+    "raw_video_private": true,
+    "logical_id": "PV1_MAIN/B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101-REPLACEMENT-01",
+    "relative_path": "evidence/audits/B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101-REPLACEMENT-01/actual-body-wrist.mp4",
+    "native_duration_s": 32,
+    "initial_frame_included": true
+  },
+  "causal_chain": {
+    "status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+    "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101-REPLACEMENT-01",
+    "adjudication_sha256": "d34cf2404ab6d8229116dd7e931fa03793f79b6c2e4127ac1a04055ba6bc7af3",
+    "identity": {
+      "files": {
+        "config.json": "94f461c5930cc0724fd729a1867599a8e8b75b073334618f6bbae60295e5436a",
+        "model-00001-of-00003.safetensors": "cbcaea5ee88f1e0f1465043920a2647c67e7de17d24adfd1c477742a6168edec",
+        "model-00002-of-00003.safetensors": "6420dd8b76193732a9bb5e40487d1900c0af9ee44869814a4eddb0856d4751fc",
+        "model-00003-of-00003.safetensors": "fc1b1b6e003809e0a4f3c439e00db51bdfb640d369e2aea60020b1505d9f3005",
+        "model.safetensors.index.json": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+        "processor/embodiment_id.json": "3ccbf5ade2c95c92b76571e4f7ffd4fa2734e615ffe4dde8c0c63fc087b7c044",
+        "processor/processor_config.json": "cc5836fbc0be4baa69f772b5cff9c436f262305307ba905edac277e90392ebcc",
+        "processor/statistics.json": "9160be2f9acc2bdb2a2f120c439b4a3bfa537dda1c7c90e6a9524eb7ef16bdbf",
+        "statistics.json": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7"
+      },
+      "label": "B0_CORR",
+      "global_step": 2048,
+      "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+      "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "relay_identity": {
+        "profile": "B1",
+        "model_revision": "477f0483002a4f9561a86ceebd2e8316dbc6fe4b",
+        "source_sha": "79161e32b04535dc22019b5b8658d95ca31d0a8d",
+        "config_sha256": "94f461c5930cc0724fd729a1867599a8e8b75b073334618f6bbae60295e5436a",
+        "processor_sha256": "0b3610ba07e4505db931a89a2743a94e2d504b463b7bfe94964d1212214477de",
+        "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7"
+      }
+    },
+    "draws": 80,
+    "executed_ACKs": 80,
+    "core_proof_sha256": "9c05fde7074cc4a85bcc29605a46f6dafd63d394c84f6001409fe4e9f4038485",
+    "hopper_proof_sha256": "89dfeee53a2ac119d84ea8fec30196d0b1681a27da355c19373afded0a7e96c9",
+    "new_integrations": 0,
+    "new_model_queries": 0,
+    "full_private_receipt_sha256": "94239c43542920079a958662e76e07225fd8198e55be549d92b3dabdc9ebfe8d"
+  },
+  "progress": {
+    "valid_conditions": 13,
+    "planned_conditions": 48,
+    "successes": 9,
+    "valid_task_failures": 4,
+    "remaining_conditions": 35,
+    "independently_audited_new_conditions": 1,
+    "condition_id_deduplicated": true,
+    "by_task": {
+      "T1": {
+        "valid": 7,
+        "success": 5,
+        "valid_task_failures": 2
+      },
+      "T2": {
+        "valid": 6,
+        "success": 4,
+        "valid_task_failures": 2
+      }
+    },
+    "partial_not_full_DEV_reliability": true
+  },
+  "resources": {
+    "global_PBS_submissions": 9,
+    "native_memory": "225gb",
+    "allocated_H200_concurrency": 1,
+    "settled_H200_s": 17201,
+    "reserved_H200_s": 28860,
+    "active_elapsed_not_double_added_to_settled": true,
+    "global_queries": 971,
+    "optimizer_updates": 0,
+    "unknown_effects": [],
+    "causal_readback_CPU_precharged_upper_s": {
+      "CoreLab": 60,
+      "Hopper": 60,
+      "local_PC": 30
+    },
+    "causal_readback_new_physics": 0,
+    "causal_readback_new_model_queries": 0
+  },
+  "DATA_COV1": {
+    "original_T0_epoch": 1792479882,
+    "first_attempt_preserved_engineering_failure": true,
+    "approved_NEAR_m": [
+      0.15,
+      0.18
+    ],
+    "native_amendment_source": "34079e414a46a3a7b74e1061e09d104d8679944d",
+    "physical_priority_wait": "PV1_GPU_R",
+    "bounded_first_four_continuation_active": true,
+    "new_physics_from_this_report": 0,
+    "first_four_gate_passed": false,
+    "PV1_bank_changed": false
+  },
+  "gate": "B0_FULL_48_AND_INDEPENDENT_AUDIT_BEFORE_A_CONTROL_OR_B_COVERAGE_TRAINING",
+  "protected_final_H200_s": 72000,
+  "frozen": [
+    "WBC",
+    "plant",
+    "gripper_PD",
+    "S1",
+    "scoring",
+    "statistics",
+    "PV1_bank139",
+    "original_deadline_and_budgets"
+  ],
+  "selected": "NONE",
+  "deployment": "NONE"
+}

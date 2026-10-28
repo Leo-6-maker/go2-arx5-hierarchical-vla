@@ -1,0 +1,921 @@
+{
+  "schema": "MP1_EXISTING_STUDENT_LABEL_AUDIT_AND_SOURCE_ALLOCATION02_V1",
+  "status": "B0_QUALIFIED_SAVED_LABEL_JOIN_PASS_SOURCE_CONTINUATION_QUEUED",
+  "observed_epoch": 1792239875.022786,
+  "authority": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "review": "fb16d10142e884df9f6b7d9cbcf951fe70c92044",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "T0_epoch": 1792178085,
+  "original_clock_budget_unchanged": true,
+  "unique_owner": "EXISTING_SINGLE_LOCAL_PC",
+  "code_sha": "39ebf23e462f83871cbe3c119a2b08503b7548cf",
+  "scientific_runtime_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+  "scientific_capsules_hot_changed": false,
+  "project_auth": {
+    "native_interactive_login_performed": true,
+    "password_written_to_file_or_command": false,
+    "fresh_project_query_returncode": 0,
+    "active": true,
+    "account_member": true,
+    "credentials_in_GitHub": false
+  },
+  "source_continuation": {
+    "job_id": "672471.hopper-m-02",
+    "allocation": "alloc-02",
+    "source_stage": "source-pair-01",
+    "source_submission_count": 2,
+    "source_submission_cap": 4,
+    "native_state": "Q",
+    "project": "CFP04-CF-007",
+    "requested_queue": "auto",
+    "native_queue": "small",
+    "H200_upper_s": 14400,
+    "ngpus": 1,
+    "ncpus": 12,
+    "native_memory_GB": 128,
+    "site_initial_rewrite_GB": 225,
+    "one_exact_own_queued_qalter_to_128": true,
+    "new_submission_from_memory_change": false,
+    "native_queue_comment": "Insufficient amount of resource: ngpus",
+    "model_loaded_on_this_job": false,
+    "prior_job": "672080.hopper-m-02",
+    "prior_native_state": "F",
+    "prior_native_exit": 0,
+    "prior_conservative_H200_s": 11795,
+    "resume_checkpoint_step": 1631,
+    "resume_cursor": 52192,
+    "resume_manifest_sha256": "a54ab1ab635f7ea221ffd982e71b503752c40d7c6574d9db16e309d4facbec0c",
+    "resume_has_not_yet_executed": true,
+    "full_optimizer_scheduler_RNG_sampler_preserved": true,
+    "fixed_BC_target_step": 2048,
+    "CORR_parent": "SAME_INDEPENDENT_M1_1024_NOT_BC_ENDPOINT",
+    "no_new_success_rate_gate": true,
+    "valid_512_negatives_not_repeated": true,
+    "original_45min_closeout_preserved": true,
+    "finite_local_controller_live": true,
+    "maximum_new_submissions_by_controller": 1,
+    "cumulative_settlement_uses_new_delta_only": true,
+    "controller_source_sha256": "2654b9116108f0975cc836f1a587415bda3d205d6dce3732e052a8fe6417e484"
+  },
+  "B0": {
+    "status": "PASS_SAVED_STUDENT_ACTIONS_TO_QUALIFIED_ACTUAL_EXPERT_H40_JOIN",
+    "fixed_states": 12,
+    "qualified_error_states": 8,
+    "excluded_initial_states": 4,
+    "independent_historical_student_parents": 4,
+    "parents_per_task": 2,
+    "qualified_states_per_task": 4,
+    "rows": [
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S000",
+        "task": "T1",
+        "sequence": 0,
+        "source_tick": 0,
+        "label_qualification": {
+          "status": "EXCLUDED_INVALID_INITIAL_STATIC_IK_HISTORY",
+          "labels_used": 0,
+          "new_teacher_labels": 0
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S001",
+        "task": "T1",
+        "sequence": 1,
+        "source_tick": 200,
+        "label_qualification": {
+          "status": "QUALIFIED_SAVED_SAME_STATE_ACKED_H40_DIAGNOSTIC_ONLY",
+          "label_sha256": "674c07dde06436dc313d0754a407de6d0c608e0f639d3527363e9a01f1563706",
+          "source_sequence": 1,
+          "actual_ACKs": 5,
+          "actual_commands": 40,
+          "full_recovery_proven_here": false,
+          "new_teacher_labels": 0,
+          "T2_full_recovery_or_training_qualification_claimed": false
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false,
+        "error": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "median": 0.004164610358626154,
+              "p95": 0.007634077908811861,
+              "mean": 0.004357220486121289
+            },
+            "SO3_rad": {
+              "median": 0.023750552644679734,
+              "p95": 0.031666470381424054,
+              "mean": 0.02312107113632215
+            },
+            "gripper_MAE": 0.05631446316838264
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "median": 0.003041775395013711,
+              "p95": 0.004870288612171957,
+              "mean": 0.003214288396173858
+            },
+            "SO3_rad": {
+              "median": 0.018736387591618688,
+              "p95": 0.02621733604881628,
+              "mean": 0.019753982804745454
+            },
+            "gripper_MAE": 0.004104346036911011
+          },
+          "close_events": {
+            "expert_indices": [
+              24
+            ],
+            "predicted_indices": [
+              22
+            ],
+            "first_timing_error_s": -0.1,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "open_events": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          }
+        },
+        "signed_XYZ_first8_mean_m": [
+          -0.0003453120655159264,
+          0.0014204990177496633,
+          -0.0021740263434987805
+        ]
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S003",
+        "task": "T1",
+        "sequence": 3,
+        "source_tick": 600,
+        "label_qualification": {
+          "status": "QUALIFIED_SAVED_SAME_STATE_ACKED_H40_DIAGNOSTIC_ONLY",
+          "label_sha256": "f4278221e3ddb8b52eb9790f9e6af63c502ca96eeb2e85808868171dc61263f9",
+          "source_sequence": 3,
+          "actual_ACKs": 5,
+          "actual_commands": 40,
+          "full_recovery_proven_here": false,
+          "new_teacher_labels": 0,
+          "T2_full_recovery_or_training_qualification_claimed": false
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false,
+        "error": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "median": 0.018761038215977487,
+              "p95": 0.020690289635533432,
+              "mean": 0.017528093475851683
+            },
+            "SO3_rad": {
+              "median": 0.051789893220801575,
+              "p95": 0.05964359950598738,
+              "mean": 0.04966824095464303
+            },
+            "gripper_MAE": 0.025426756590604782
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "median": 0.011165946682693603,
+              "p95": 0.018203310489481546,
+              "mean": 0.010496502316476839
+            },
+            "SO3_rad": {
+              "median": 0.04375533686757738,
+              "p95": 0.05131696942554112,
+              "mean": 0.03709375726907239
+            },
+            "gripper_MAE": 0.12228120118379593
+          },
+          "close_events": {
+            "expert_indices": [
+              8
+            ],
+            "predicted_indices": [
+              6,
+              8
+            ],
+            "first_timing_error_s": -0.1,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "open_events": {
+            "expert_indices": [],
+            "predicted_indices": [
+              7
+            ],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": true,
+            "threshold": 0.5
+          }
+        },
+        "signed_XYZ_first8_mean_m": [
+          -0.002489842793895025,
+          0.00887745473258117,
+          -0.0033882187594593202
+        ]
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F0-000-T2-S000",
+        "task": "T2",
+        "sequence": 0,
+        "source_tick": 0,
+        "label_qualification": {
+          "status": "EXCLUDED_INVALID_INITIAL_STATIC_IK_HISTORY",
+          "labels_used": 0,
+          "new_teacher_labels": 0
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F0-000-T2-S018",
+        "task": "T2",
+        "sequence": 18,
+        "source_tick": 3600,
+        "label_qualification": {
+          "status": "QUALIFIED_SAVED_SAME_STATE_ACKED_H40_DIAGNOSTIC_ONLY",
+          "label_sha256": "1a1d46be86c00b42996f79b644e7d27c6d39bcd78dd44a0bf8c8de5370da5cb8",
+          "source_sequence": 18,
+          "actual_ACKs": 5,
+          "actual_commands": 40,
+          "full_recovery_proven_here": false,
+          "new_teacher_labels": 0,
+          "T2_full_recovery_or_training_qualification_claimed": false
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false,
+        "error": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "median": 0.050758703857309996,
+              "p95": 0.06018306901636879,
+              "mean": 0.04255866473158878
+            },
+            "SO3_rad": {
+              "median": 0.04317301055119551,
+              "p95": 0.0521210667647872,
+              "mean": 0.041597142257417945
+            },
+            "gripper_MAE": 0.042597966641187666
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "median": 0.012789644660423477,
+              "p95": 0.023066759513161332,
+              "mean": 0.013073333984205349
+            },
+            "SO3_rad": {
+              "median": 0.030920252816684802,
+              "p95": 0.03272767961635125,
+              "mean": 0.02888848687656521
+            },
+            "gripper_MAE": 0.03687954694032669
+          },
+          "close_events": {
+            "expert_indices": [
+              16
+            ],
+            "predicted_indices": [
+              15
+            ],
+            "first_timing_error_s": -0.05,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "open_events": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          }
+        },
+        "signed_XYZ_first8_mean_m": [
+          -0.006714584370076833,
+          0.007729835163812157,
+          -0.007411505408250849
+        ]
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F0-000-T2-S037",
+        "task": "T2",
+        "sequence": 37,
+        "source_tick": 7400,
+        "label_qualification": {
+          "status": "QUALIFIED_SAVED_SAME_STATE_ACKED_H40_DIAGNOSTIC_ONLY",
+          "label_sha256": "ec7710dc14b386d298332bfeb21609ba75f52e17883a541105b38b0618df202d",
+          "source_sequence": 37,
+          "actual_ACKs": 5,
+          "actual_commands": 40,
+          "full_recovery_proven_here": false,
+          "new_teacher_labels": 0,
+          "T2_full_recovery_or_training_qualification_claimed": false
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false,
+        "error": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "median": 0.05470566743081001,
+              "p95": 0.10343722963045071,
+              "mean": 0.056843126456166806
+            },
+            "SO3_rad": {
+              "median": 0.22914818305919427,
+              "p95": 0.3142405116305568,
+              "mean": 0.20866587424317248
+            },
+            "gripper_MAE": 0.017342159152030946
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "median": 0.012189883888516601,
+              "p95": 0.022313812801364952,
+              "mean": 0.011891897630803325
+            },
+            "SO3_rad": {
+              "median": 0.06669149102310298,
+              "p95": 0.11783236227932625,
+              "mean": 0.06923198856557518
+            },
+            "gripper_MAE": 0.01378648728132248
+          },
+          "close_events": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "open_events": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          }
+        },
+        "signed_XYZ_first8_mean_m": [
+          -0.011083730547052514,
+          0.00039962563287541074,
+          -0.0006908886759866145
+        ]
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S000",
+        "task": "T1",
+        "sequence": 0,
+        "source_tick": 0,
+        "label_qualification": {
+          "status": "EXCLUDED_INVALID_INITIAL_STATIC_IK_HISTORY",
+          "labels_used": 0,
+          "new_teacher_labels": 0
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S001",
+        "task": "T1",
+        "sequence": 1,
+        "source_tick": 200,
+        "label_qualification": {
+          "status": "QUALIFIED_SAVED_SAME_STATE_ACKED_H40_DIAGNOSTIC_ONLY",
+          "label_sha256": "e65c99ef2878424dc89b6237e3e91a9fe6806fa4022554a7331088859f5a5eb3",
+          "source_sequence": 1,
+          "actual_ACKs": 5,
+          "actual_commands": 40,
+          "full_recovery_proven_here": false,
+          "new_teacher_labels": 0,
+          "T2_full_recovery_or_training_qualification_claimed": false
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false,
+        "error": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "median": 0.0029191152862063675,
+              "p95": 0.00532861106322654,
+              "mean": 0.0029290652622121424
+            },
+            "SO3_rad": {
+              "median": 0.011916557690031537,
+              "p95": 0.020637664112349432,
+              "mean": 0.012388650841185123
+            },
+            "gripper_MAE": 0.01607802212238312
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "median": 0.0027139731048703613,
+              "p95": 0.003567880320754302,
+              "mean": 0.0025427904871941137
+            },
+            "SO3_rad": {
+              "median": 0.014285821896661909,
+              "p95": 0.02166666757909227,
+              "mean": 0.014242279363028918
+            },
+            "gripper_MAE": 0.0018338561058044434
+          },
+          "close_events": {
+            "expert_indices": [
+              24
+            ],
+            "predicted_indices": [
+              24
+            ],
+            "first_timing_error_s": 0,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "open_events": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          }
+        },
+        "signed_XYZ_first8_mean_m": [
+          -0.001197801648244054,
+          0.0005230618239373749,
+          -0.0017136592198240333
+        ]
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S003",
+        "task": "T1",
+        "sequence": 3,
+        "source_tick": 600,
+        "label_qualification": {
+          "status": "QUALIFIED_SAVED_SAME_STATE_ACKED_H40_DIAGNOSTIC_ONLY",
+          "label_sha256": "eafc6d02953e58455c997d4f6fafc4546ae232eb3532b17044778a96e4cf29ce",
+          "source_sequence": 3,
+          "actual_ACKs": 5,
+          "actual_commands": 40,
+          "full_recovery_proven_here": false,
+          "new_teacher_labels": 0,
+          "T2_full_recovery_or_training_qualification_claimed": false
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false,
+        "error": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "median": 0.014546409695685266,
+              "p95": 0.018365514650852285,
+              "mean": 0.014378642674851361
+            },
+            "SO3_rad": {
+              "median": 0.03239872958445794,
+              "p95": 0.0381948227825519,
+              "mean": 0.03133003650323156
+            },
+            "gripper_MAE": 0.02896074950695038
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "median": 0.010742247439380726,
+              "p95": 0.01739445524361971,
+              "mean": 0.01156092447354425
+            },
+            "SO3_rad": {
+              "median": 0.026850363773538007,
+              "p95": 0.03164265655419639,
+              "mean": 0.025149641889156697
+            },
+            "gripper_MAE": 0.0007842183113098145
+          },
+          "close_events": {
+            "expert_indices": [
+              8
+            ],
+            "predicted_indices": [
+              9
+            ],
+            "first_timing_error_s": 0.05,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "open_events": {
+            "expert_indices": [],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          }
+        },
+        "signed_XYZ_first8_mean_m": [
+          -0.0031662330102240274,
+          0.006978946315790654,
+          -0.00784598396703469
+        ]
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F1-000-T2-S000",
+        "task": "T2",
+        "sequence": 0,
+        "source_tick": 0,
+        "label_qualification": {
+          "status": "EXCLUDED_INVALID_INITIAL_STATIC_IK_HISTORY",
+          "labels_used": 0,
+          "new_teacher_labels": 0
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F1-000-T2-S015",
+        "task": "T2",
+        "sequence": 15,
+        "source_tick": 3000,
+        "label_qualification": {
+          "status": "QUALIFIED_SAVED_SAME_STATE_ACKED_H40_DIAGNOSTIC_ONLY",
+          "label_sha256": "924ad4f3a69eac412dd964b0751ca9e4b736920de0aadda29898b5eda0dd14d7",
+          "source_sequence": 15,
+          "actual_ACKs": 5,
+          "actual_commands": 40,
+          "full_recovery_proven_here": false,
+          "new_teacher_labels": 0,
+          "T2_full_recovery_or_training_qualification_claimed": false
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false,
+        "error": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "median": 0.024907012424403383,
+              "p95": 0.026642242248178884,
+              "mean": 0.021753912287762977
+            },
+            "SO3_rad": {
+              "median": 0.016355671870518756,
+              "p95": 0.026637503556953306,
+              "mean": 0.01708035982618682
+            },
+            "gripper_MAE": 0.0913176640868187
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "median": 0.008358109885262421,
+              "p95": 0.017316549749988447,
+              "mean": 0.009184836753733168
+            },
+            "SO3_rad": {
+              "median": 0.01420476420523821,
+              "p95": 0.03193884509350411,
+              "mean": 0.01651896492220906
+            },
+            "gripper_MAE": 0.02122972160577774
+          },
+          "close_events": {
+            "expert_indices": [
+              24
+            ],
+            "predicted_indices": [
+              20,
+              22
+            ],
+            "first_timing_error_s": -0.2,
+            "missing": false,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "open_events": {
+            "expert_indices": [],
+            "predicted_indices": [
+              21
+            ],
+            "first_timing_error_s": null,
+            "missing": false,
+            "spurious": true,
+            "threshold": 0.5
+          }
+        },
+        "signed_XYZ_first8_mean_m": [
+          -0.0009053361224810666,
+          0.008187111916093535,
+          0.0033239980801593044
+        ]
+      },
+      {
+        "id": "PI0294-E0-M2048-TRAIN-F1-000-T2-S031",
+        "task": "T2",
+        "sequence": 31,
+        "source_tick": 6200,
+        "label_qualification": {
+          "status": "QUALIFIED_SAVED_SAME_STATE_ACKED_H40_DIAGNOSTIC_ONLY",
+          "label_sha256": "a02e24bc8245ca50cb1d5718919cde2e692450fc1b938f2335738518456f417a",
+          "source_sequence": 31,
+          "actual_ACKs": 5,
+          "actual_commands": 40,
+          "full_recovery_proven_here": false,
+          "new_teacher_labels": 0,
+          "T2_full_recovery_or_training_qualification_claimed": false
+        },
+        "original_S1_for_this_S_BC_probe": "NOT_RUN",
+        "geometric_collision_clearance": "NOT_MEASURED",
+        "actual_live_execution_of_this_probe": false,
+        "error": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "median": 0.062093200799634124,
+              "p95": 0.10286620742140472,
+              "mean": 0.06096177360612485
+            },
+            "SO3_rad": {
+              "median": 0.14713717092228035,
+              "p95": 0.1652625320230158,
+              "mean": 0.12067785790898064
+            },
+            "gripper_MAE": 0.7994768016040326
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "median": 0.015435115503261473,
+              "p95": 0.02317312080967187,
+              "mean": 0.016048379989148258
+            },
+            "SO3_rad": {
+              "median": 0.03459686608954572,
+              "p95": 0.08409914833219614,
+              "mean": 0.0421110243033951
+            },
+            "gripper_MAE": 0.9980058968067169
+          },
+          "close_events": {
+            "expert_indices": [
+              32
+            ],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": true,
+            "spurious": false,
+            "threshold": 0.5
+          },
+          "open_events": {
+            "expert_indices": [
+              0
+            ],
+            "predicted_indices": [],
+            "first_timing_error_s": null,
+            "missing": true,
+            "spurious": false,
+            "threshold": 0.5
+          }
+        },
+        "signed_XYZ_first8_mean_m": [
+          -0.0032472279190523395,
+          -0.0011398238515101487,
+          -0.015225105047439048
+        ]
+      }
+    ],
+    "task_summaries": {
+      "T1": {
+        "qualified_queries": 4,
+        "independent_parents": 2,
+        "episode_macro": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.009798255474759118,
+              "median": 0.006857776854412033,
+              "p95": 0.019047016323426036
+            },
+            "SO3_rad": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.029126999858845464,
+              "median": 0.02672537382991636,
+              "p95": 0.0463281546627062
+            },
+            "gripper_absolute": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.03169499784708023,
+              "median": 0,
+              "p95": 0.02203630432486523
+            }
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.006953626418347265,
+              "median": 0.004979164776052396,
+              "p95": 0.01694163875693282
+            },
+            "SO3_rad": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.024059915331500863,
+              "median": 0.021982849859516353,
+              "p95": 0.039925818069251134
+            },
+            "gripper_absolute": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.0322509054094553,
+              "median": 0.0000867992639541626,
+              "p95": 0.12897641956806183
+            }
+          }
+        },
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "macro_rule": "Mean of within-episode pooled-window/noise statistics; incomplete dimensions remain null"
+      },
+      "T2": {
+        "qualified_queries": 4,
+        "independent_parents": 2,
+        "episode_macro": {
+          "H40": {
+            "XYZ_euclidean_m": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.04552936927041085,
+              "median": 0.03840836133693838,
+              "p95": 0.10034866767307372
+            },
+            "SO3_rad": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.09700530855893946,
+              "median": 0.038556488708413474,
+              "p95": 0.23199512953631451
+            },
+            "gripper_absolute": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.23768364787101745,
+              "median": 0.0250692218542099,
+              "p95": 0.5243214696645737
+            }
+          },
+          "prefix8": {
+            "XYZ_euclidean_m": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.012549612089472525,
+              "median": 0.012619980389031669,
+              "p95": 0.022840461240349743
+            },
+            "SO3_rad": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.03918761616693614,
+              "median": 0.02596780069540757,
+              "p95": 0.09652470333937806
+            },
+            "gripper_absolute": {
+              "episodes": 2,
+              "complete": true,
+              "mean": 0.26747541315853596,
+              "median": 0.26910434663295746,
+              "p95": 0.5212763547897339
+            }
+          }
+        },
+        "trajectory_gate_only": {
+          "ACCEPT": 4
+        },
+        "macro_rule": "Mean of within-episode pooled-window/noise statistics; incomplete dimensions remain null"
+      }
+    },
+    "proofs": {
+      "actual_original_student_payload_and_dual_RGB": true,
+      "actual_noninitial_history_and_independent_fork_audit": true,
+      "actual_40_commands_equal_5_saved_200tick_ACKs": true,
+      "actual_expert_first_dual_RGB_hashes_and_pixels_equal_original_input": true,
+      "all16_private_payload_files_hash_verified_on_CoreLab": true,
+      "original_initial_restoration_exclusions_preserved": true
+    },
+    "new_queries": 0,
+    "new_teacher_labels": 0,
+    "new_physics": 0,
+    "model_or_processor_initialized": false,
+    "source_checkpoint_manifest_sha256": "1cf83ad430c03c1d953266562cf90f3d0475f49c806701448fe5750d494c4d8c",
+    "student_state_population": "HISTORICAL_E0_NOT_CURRENT_S_BC_INDUCED",
+    "error_definition": "ACTION_ERROR_NOT_RMSE_TO_ACHIEVED_EEF_OR_UNEXECUTED_OFFLINE_TEACHER",
+    "S_BC_specific_S1": "NOT_RUN",
+    "geometric_clearance": "NOT_MEASURED",
+    "full_recovery_or_T2_training_qualification_claimed": false,
+    "comparison_to_expert_state": {
+      "expert_prefix8_episode_macro_XYZ_m": {
+        "T1": 0.002702812265037786,
+        "T2": 0.0029863229697718366
+      },
+      "historical_student_prefix8_episode_macro_XYZ_m": {
+        "T1": 0.006953626418347265,
+        "T2": 0.012549612089472525
+      },
+      "same_states_or_same_episodes": false,
+      "sample_sizes_different": true,
+      "paired_causal_distribution_shift_proven": false,
+      "current_four_live_failures_explained": false
+    },
+    "limitations": [
+      "Twelve E0 historical states are not current S-BC induced states.",
+      "Eight comparable H40 labels are only two-second diagnostic continuations, not new complete task demonstrations.",
+      "S1 safety from older models was not borrowed; current probes have no original-S1 or geometric-margin claim.",
+      "T2 labels remain unqualified for full recovery/training.",
+      "Mean pointwise Euclidean XYZ error is not RMSE or achieved-EEF tracking error.",
+      "Macro p95 is the mean of two within-parent p95 statistics, not a pooled p95.",
+      "Only two historical parents per task; not a generalization test or unique mechanism proof."
+    ]
+  },
+  "private_HF_transfer": {
+    "repo_visibility_unchanged": "PRIVATE",
+    "payload_revision": "4da4b5b3d99a0f1c7a9a66238eea616f618f4d74",
+    "READY_revision": "591f1a6fdd34cae0babfc80785a437429f2b52bf",
+    "READY_sha256": "5318c52a855adab2448c10c3dc39e61d9d7938bbaa6833f91bf9b8f6ec3f7c04",
+    "payload_files": 16,
+    "payload_bytes": 1755027,
+    "new_model_weights_uploaded": false,
+    "historical_models_redownloaded": false
+  },
+  "CPU_and_engineering": {
+    "publisher_CPU_s": 5.160611009,
+    "consumer_CPU_s": 0.37894022299999985,
+    "both_terminal": true,
+    "worker_CPU_reservations_s": 0,
+    "Core_entry_import_failure_preserved": true,
+    "repair": "Explicit immutable capsule bootstrap after entry path reset; same binding, remaining CPU, original 600s deadline",
+    "deadline_reset": false,
+    "conservative_local_and_metadata_CPU_upper_s": {
+      "CoreLab": 180,
+      "Hopper": 180,
+      "local_PC": 180
+    },
+    "original_child_CPU_preserved_not_double_charged": {
+      "CoreLab": 896.625051541,
+      "Hopper": 8553.901613443
+    }
+  },
+  "resources": {
+    "MP1_Hopper_allocated_s": 16295,
+    "MP1_Hopper_reserved_s": 14400,
+    "MP1_Hopper_new_GPU_PBS_count": 5,
+    "source_actual_updates": 1631,
+    "source_actual_live_starts": 4,
+    "source_live_plus_shadow_integrations": 55601,
+    "source_CPU_and_physics_reservations_s": 0,
+    "queued_gpu_reservation_is_not_allocated_usage": true,
+    "final_H200_evaluation_reserve_s": 14400
+  },
+  "validation": {
+    "PI0294_CPU_tests": 311,
+    "focused_tests": 10,
+    "local_tests": "PASS",
+    "GitHub_CI_run": 39032149935,
+    "GitHub_CI_conclusion": "success",
+    "diff_check": "PASS",
+    "fixed_code_tree_readback": true
+  },
+  "remaining": [
+    "Finish fixed BC2048 and independent CORR2048 or honest partial, with all original TRAIN4/DEV8 rows.",
+    "B1 exact-history anchors and first illegal geometry for the four actual S-BC failures remain pending.",
+    "B2 actual prefix8 versus late-H40 event exposure join remains pending.",
+    "Review final four deliverables are NOT yet complete."
+  ],
+  "target": {
+    "Vanda_camera": "CLOSED_NOT_RUN",
+    "TF_R3_native_STOP_preserved": true,
+    "WBC_changed": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}

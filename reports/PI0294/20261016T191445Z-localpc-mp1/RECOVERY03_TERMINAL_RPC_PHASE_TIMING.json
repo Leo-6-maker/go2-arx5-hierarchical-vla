@@ -1,0 +1,43 @@
+{
+  "schema": "MP1_RECOVERY03_TERMINAL_RPC_TIMING_V1",
+  "status": "ACTUAL_TERMINAL_FOUR_FILE_RPC_SESSIONS_WITH_DISCLOSED_METADATA_READERS",
+  "child": "e1-panel-recovery-03",
+  "runtime": "4d4305562a5605aa7822fde21267601686f443db",
+  "method": "Monotonic server phase spans and local client successful-return spans; median and sorted floor(0.95*N) p95, capped N-1. Printed values rounded to 6 decimals. Original logs preserved.",
+  "server_phases": [
+    {"model": "BC", "site": "CoreLab", "reply_count": 10769, "guard_p95_s": 0.000964, "guard_max_s": 0.111446, "invoke_p95_s": 0.000546, "invoke_max_s": 0.251097, "emit_max_s": 0.000411, "accounting_count": 1, "terminal_accounting_s": 0.008612},
+    {"model": "BC", "site": "Hopper_login_control_not_GPU_forward", "reply_count": 16887, "guard_p95_s": 0.021557, "guard_max_s": 0.442683, "invoke_p95_s": 0.000905, "invoke_max_s": 0.084208, "emit_max_s": 0.000613, "accounting_count": 1, "terminal_accounting_s": 0.072020},
+    {"model": "CORR", "site": "CoreLab", "reply_count": 11494, "guard_p95_s": 0.000950, "guard_max_s": 0.017098, "invoke_p95_s": 0.000552, "invoke_max_s": 0.052738, "emit_max_s": 0.000421, "accounting_count": 1, "terminal_accounting_s": 0.007970},
+    {"model": "CORR", "site": "Hopper_login_control_not_GPU_forward", "reply_count": 13918, "guard_p95_s": 0.026871, "guard_max_s": 0.459280, "invoke_p95_s": 0.001885, "invoke_max_s": 0.149015, "emit_max_s": 0.000678, "accounting_count": 1, "terminal_accounting_s": 0.172834}
+  ],
+  "client_operations": [
+    {"model": "BC", "operation": "ack_poll", "count": 9185, "median_s": 0.013642, "p95_s": 0.018085, "max_s": 0.646680},
+    {"model": "BC", "operation": "install", "count": 208, "median_s": 0.145161, "p95_s": 0.199250, "max_s": 0.469470},
+    {"model": "BC", "operation": "observation_poll", "count": 1376, "median_s": 0.013890, "p95_s": 0.047416, "max_s": 0.494221},
+    {"model": "BC", "operation": "query_submit", "count": 208, "median_s": 0.110951, "p95_s": 0.385429, "max_s": 1.375071},
+    {"model": "BC", "operation": "response_poll", "count": 16679, "median_s": 0.024293, "p95_s": 0.034164, "max_s": 0.630552},
+    {"model": "CORR", "operation": "ack_poll", "count": 9812, "median_s": 0.013534, "p95_s": 0.018294, "max_s": 0.605733},
+    {"model": "CORR", "operation": "install", "count": 216, "median_s": 0.136212, "p95_s": 0.205980, "max_s": 0.506282},
+    {"model": "CORR", "operation": "observation_poll", "count": 1466, "median_s": 0.013683, "p95_s": 0.046635, "max_s": 0.444997},
+    {"model": "CORR", "operation": "query_submit", "count": 216, "median_s": 0.107348, "p95_s": 0.396027, "max_s": 1.806520},
+    {"model": "CORR", "operation": "response_poll", "count": 13702, "median_s": 0.023796, "p95_s": 0.039516, "max_s": 0.538137}
+  ],
+  "actual_client_calls": 53068,
+  "all_four_local_SSH_processes": "EXIT0_TERMINAL_READBACK",
+  "per_reply_shared_ledger_write": false,
+  "scientific_neural_and_physics_charges_durable": true,
+  "old_accounting_30s_stall_reproduced_in_this_child": false,
+  "whole_episode_wall_seconds": [900.1736383510288, 691.46105367993, 448.2780852748547, 653.9490836751647, 514.6750260679983, 713.127160370117],
+  "original_RPC_action_episode_bounds_s": [20, 60, 900],
+  "measurement_limits": {
+    "query_submit_is_GPU_forward_latency": false,
+    "response_poll_count_is_neural_generation_count": false,
+    "forward_compute_vs_NFS_visibility": "NOT_INDEPENDENTLY_SEPARATED_BY_THIS_TRACE",
+    "S1_vs_integrations_vs_RGB_vs_ACK_wait": "NOT_INDEPENDENTLY_SEPARATED_BY_THIS_TRACE",
+    "inbox_receipt_outbox_mtimes_are_pure_forward_latency": false,
+    "metadata_read_observers_can_change_NFS_lookup_cache": true,
+    "new_unassisted_control_or_unique_NFS_root_cause_proof": false,
+    "real_time_control": false
+  },
+  "outcome_receipt": "RECOVERY_FINAL_ACTUAL_PANEL_AND_RESOURCES.json"
+}

@@ -1,0 +1,411 @@
+{
+  "schema": "GEN1_M0_REUSE_MAP_AND_ORIGINAL_RANGE_AUDIT_V1",
+  "status": "M0_SOURCE_AND_EXISTING_METADATA_AUDITED_M1_NOT_IMPLEMENTED",
+  "source_commit": "c6a0bf2ec403d99ad442120f62a4f95d9c3c1fd2",
+  "plan_commit": "c6a0bf2ec403d99ad442120f62a4f95d9c3c1fd2",
+  "observed_epoch": 1792902779.149233,
+  "source_functions": {
+    "scripts/pi0294/scene_cards.py": {
+      "sha256": "08530a62ff3f34509f3efb6459f20d5e0c600cdeb8dc31b01e7a766269a0dd91",
+      "functions": {
+        "scene_group": {
+          "line": 24,
+          "end_line": 54
+        },
+        "task_card": {
+          "line": 57,
+          "end_line": 65
+        },
+        "near_duplicate_report": {
+          "line": 149,
+          "end_line": 172
+        },
+        "normalise_layouts": {
+          "line": 82,
+          "end_line": 99
+        },
+        "validate_groups": {
+          "line": 175,
+          "end_line": 192
+        }
+      }
+    },
+    "scripts/pi0294/scene.py": {
+      "sha256": "29570d70e6d75519eae4fed02aad0a582efe6119deeea048b30bc99e2cf05b11",
+      "functions": {
+        "xml_scene": {
+          "line": 20,
+          "end_line": 37
+        },
+        "make_engine": {
+          "line": 40,
+          "end_line": 81
+        },
+        "qualify_engine": {
+          "line": 155,
+          "end_line": 256
+        },
+        "rendered_field_of_view": {
+          "line": 119,
+          "end_line": 152
+        }
+      }
+    },
+    "scripts/pi0294/teacher.py": {
+      "sha256": "994b741654075f9835b5d9bd4f8db70b7476664343b3c204594330dff41711e7",
+      "functions": {
+        "make_teacher": {
+          "line": 101,
+          "end_line": 106
+        }
+      }
+    },
+    "scripts/pi0294/pv1/plan.py": {
+      "sha256": "3daa5539d2a55b7a63ffb3738d6f1915080c90c8fbb756c5947eedda12bcb00c",
+      "functions": {
+        "slots": {
+          "line": 14,
+          "end_line": 16
+        },
+        "original_group": {
+          "line": 19,
+          "end_line": 31
+        },
+        "candidate_pool": {
+          "line": 34,
+          "end_line": 45
+        },
+        "evaluation_cards": {
+          "line": 48,
+          "end_line": 66
+        }
+      }
+    },
+    "scripts/pi0294/data_cov1/plan.py": {
+      "sha256": "60ac69242e23a257983f23f03e9961af6149effc8d789cfbcdc704da5a507086",
+      "functions": {
+        "candidate": {
+          "line": 47,
+          "end_line": 76
+        },
+        "validate_group": {
+          "line": 79,
+          "end_line": 100
+        },
+        "amend_near_pool": {
+          "line": 116,
+          "end_line": 130
+        },
+        "preflight_score_geometry": {
+          "line": 133,
+          "end_line": 138
+        }
+      }
+    },
+    "scripts/pi0294/pv1/export.py": {
+      "sha256": "ac010a119fe7709fb3296cb2461a99a6fd3e29ed57683e6bf4fc4a4d9757b67e",
+      "functions": {
+        "committed_packet": {
+          "line": 37,
+          "end_line": 48
+        },
+        "codec_packet": {
+          "line": 61,
+          "end_line": 101
+        },
+        "export_committed_case": {
+          "line": 129,
+          "end_line": 186
+        }
+      }
+    },
+    "scripts/pi0291_arx5_data/scene.py": {
+      "sha256": "86d15d28cf294c1289b941f792c9c949180e1914142f1bb3794549717db6fb49",
+      "functions": {
+        "xml_scene": {
+          "line": 23,
+          "end_line": 126
+        }
+      }
+    }
+  },
+  "input_sha256": {
+    "reports/PI0294/DATA_COV1/DATA_COV1_FROZEN_POPULATION.json": "cc9df4f973d45ce68094523ede75898d0f1737668850c124b451d36939a34739",
+    "reports/PI0294/design/parallel-science-20261022/V4A_FAILURE_ATLAS_AND_TRAIN_AUDIT_20261025_TEACHER_CANDIDATES.json": "e0d2ef4c10679c82e6c0903511491fece31f7ec950ecace5f551b1e80478801b",
+    "reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_DATA_PLAN_AND_SPLIT_SEAL.json": "46b271daddbfd8c2d82fad99279d0da3ac9df3e823e23951f3fd911bcb2661e2",
+    "reports/PI0291/20261013T023717-localpc-arx5/TEACHER_AND_LAYOUT_SEAL.json": "f4919dd5b4ad4f978f182cb0663e6cbdb3b50be34a84d19f56f2d7aa98398f9d",
+    "reports/PI0292/design/CONFIRM_LAYOUTS.json": "00c247cdb2e26ffdb47649b111d2a8e9758293c3f32b0355468d77bfb72023af"
+  },
+  "candidate_grain": {
+    "TRAIN_geometries": 12,
+    "paired_task_conditions": 24,
+    "new_demonstrations": 0
+  },
+  "candidate_distance_check": [
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP0/+Y/NEAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "NEAR",
+      "euclidean_distance_m": 0.14663406847291635,
+      "cube_yaw_rad": 0.14921975912736676,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "REJECT_ORIGINAL_FROZEN_SCORER_DISTANCE",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP0/+Y/FAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "FAR",
+      "euclidean_distance_m": 0.1995265252648964,
+      "cube_yaw_rad": 0.01748964784659421,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "PASS_DISTANCE_ONLY_NOT_NATIVE_QUALIFICATION",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP0/-Y/NEAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "NEAR",
+      "euclidean_distance_m": 0.13275385078907445,
+      "cube_yaw_rad": -0.019509857601504088,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "REJECT_ORIGINAL_FROZEN_SCORER_DISTANCE",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP0/-Y/FAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "FAR",
+      "euclidean_distance_m": 0.21717650387373985,
+      "cube_yaw_rad": 0.02551820981973546,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "PASS_DISTANCE_ONLY_NOT_NATIVE_QUALIFICATION",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP1/+Y/NEAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "NEAR",
+      "euclidean_distance_m": 0.12632053365796,
+      "cube_yaw_rad": 0.10265512535663682,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "REJECT_ORIGINAL_FROZEN_SCORER_DISTANCE",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP1/+Y/FAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "FAR",
+      "euclidean_distance_m": 0.21017500964017266,
+      "cube_yaw_rad": -0.06294098026326879,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "PASS_DISTANCE_ONLY_NOT_NATIVE_QUALIFICATION",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP1/-Y/NEAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "NEAR",
+      "euclidean_distance_m": 0.1291530567392965,
+      "cube_yaw_rad": -0.09244551521562229,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "REJECT_ORIGINAL_FROZEN_SCORER_DISTANCE",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP1/-Y/FAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "FAR",
+      "euclidean_distance_m": 0.1956329649405287,
+      "cube_yaw_rad": 0.05586943879544001,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "PASS_DISTANCE_ONLY_NOT_NATIVE_QUALIFICATION",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP2/+Y/NEAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "NEAR",
+      "euclidean_distance_m": 0.13224636999285364,
+      "cube_yaw_rad": -0.11493321285599464,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "REJECT_ORIGINAL_FROZEN_SCORER_DISTANCE",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP2/+Y/FAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "FAR",
+      "euclidean_distance_m": 0.19550719282420914,
+      "cube_yaw_rad": -0.01654160157555476,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "PASS_DISTANCE_ONLY_NOT_NATIVE_QUALIFICATION",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP2/-Y/NEAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "NEAR",
+      "euclidean_distance_m": 0.14398318999205678,
+      "cube_yaw_rad": 0.03431864824845199,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "REJECT_ORIGINAL_FROZEN_SCORER_DISTANCE",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    },
+    {
+      "scene_group": "PI0294/DATA_COV1/TRAIN/AP2/-Y/FAR/001",
+      "split": "TRAIN",
+      "geometry_revision": "V1",
+      "distance_bin": "FAR",
+      "euclidean_distance_m": 0.21307539686284763,
+      "cube_yaw_rad": 0.09828726139268415,
+      "original_COV1_geometry_validator": "PASS",
+      "original_current_score_preflight": "PASS_DISTANCE_ONLY_NOT_NATIVE_QUALIFICATION",
+      "historical_static_receipts_unchanged": true,
+      "new_dynamic_attempts": 0
+    }
+  ],
+  "checks": {
+    "original_COV1_validator_passes": 12,
+    "current_original_score_preflight_rejects": 6,
+    "model_and_physics_imports_forbidden": true,
+    "new_models": 0,
+    "new_queries": 0,
+    "new_integrations": 0,
+    "new_native_registrations": 0,
+    "existing_candidate_artifacts_not_edited": true,
+    "active_capsules_not_edited": true
+  },
+  "range_profiles": {
+    "legacy_F0_F2": {
+      "source_x_m": [
+        0.442,
+        0.458
+      ],
+      "Y_gap_m": [
+        0.155,
+        0.17
+      ],
+      "yaw_rad": [
+        -0.08,
+        0.08
+      ]
+    },
+    "legacy_F1_F3": {
+      "source_x_m": [
+        0.435,
+        0.465
+      ],
+      "Y_gap_m": [
+        0.16,
+        0.2
+      ],
+      "yaw_rad": [
+        -0.08,
+        0.08
+      ]
+    },
+    "legacy_coarse_validator": {
+      "source_and_goal_x_m": [
+        0.42,
+        0.48
+      ],
+      "max_abs_y_m": 0.14,
+      "euclidean_distance_m": [
+        0.15,
+        0.22
+      ]
+    },
+    "COV1_V1": {
+      "source_x_m": [
+        0.425,
+        0.475
+      ],
+      "goal_dx_m": [
+        -0.012,
+        0.012
+      ],
+      "center_y_m": [
+        -0.025,
+        0.025
+      ],
+      "euclidean_NEAR_m": [
+        0.12,
+        0.15
+      ],
+      "euclidean_FAR_m": [
+        0.19,
+        0.22
+      ],
+      "yaw_rad": [
+        -0.16,
+        0.16
+      ]
+    },
+    "COV1_amended_NEAR": {
+      "revision": "NEAR_015_018_USER_AMENDMENT_V2",
+      "euclidean_NEAR_m": [
+        0.15,
+        0.18
+      ],
+      "historical_V1_not_replaced": true
+    }
+  },
+  "exclusion_index": {
+    "status": "EXCLUSION_INDEX_INCOMPLETE",
+    "meaning": "Full historical lineage/geometry union has not yet been assembled and verified for GEN1; this is not a claim that source indexes are absent.",
+    "known_public_sources": [
+      "reports/PI0294/DATA_COV1/DATA_COV1_FROZEN_POPULATION.json",
+      "reports/PI0294/design/parallel-science-20261022/V4A_FAILURE_ATLAS_AND_TRAIN_AUDIT_20261025_TEACHER_CANDIDATES.json",
+      "reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_DATA_PLAN_AND_SPLIT_SEAL.json",
+      "reports/PI0291/20261013T023717-localpc-arx5/TEACHER_AND_LAYOUT_SEAL.json",
+      "reports/PI0292/design/CONFIRM_LAYOUTS.json"
+    ],
+    "additional_required": [
+      "all actually consumed TRAIN and replay geometry",
+      "C1 four student parent cards plus recovery lineage",
+      "all historical confirmation and LOCKBOX populations",
+      "all COV1 original/amended and appearance/camera sibling geometry"
+    ],
+    "new_DEV_TEST_generated": false,
+    "zero_leakage_claim": false
+  },
+  "reset": {
+    "legacy": "source-relative initial TCP at source XY and table_top+0.10",
+    "initial_tcp_override": "existing 4x4 transform path",
+    "COMMON_HOME": "UNQUALIFIED_NOT_SELECTED",
+    "actual_reset_digest": "NOT_MEASURED",
+    "old_card_initial_state_sha256": "DESIGN_DICTIONARY_DIGEST_NOT_ACTUAL_STATE"
+  },
+  "next": "M1 metadata-only split/index adapter; retain all24 old candidate conditions as historical design. Never dispatch the six V1 NEAR geometries through current score preflight or silently substitute amended ones.",
+  "native_stage_status": {
+    "M2": "NOT_RUN",
+    "M3": "NOT_RUN",
+    "M4": "NOT_AUTHORIZED_BY_THIS_REPORT",
+    "M5": "NOT_RUN"
+  },
+  "current_B24_unchanged": true,
+  "full_goal_complete": false
+}

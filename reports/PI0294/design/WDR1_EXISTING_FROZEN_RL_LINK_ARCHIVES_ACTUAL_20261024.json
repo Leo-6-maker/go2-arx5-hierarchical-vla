@@ -1,0 +1,91 @@
+{
+  "schema": "WDR1_EXISTING_FROZEN_RL_LINK_ARCHIVES_ACTUAL_V1",
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "target_task_native_qualified": false,
+  "core64_cells": 0,
+  "status": "EXACT_ORIGINAL_LINK_RECIPE_AND_COMPILED_LIBRARY_CANDIDATES_IDENTIFIED_READ_ONLY",
+  "full_resource_code_qualification": {
+    "source": "53c6061ab9122b0fc56a62385cef496591bedd2c",
+    "CI_run": 40045534775,
+    "CI_job": 120726262927,
+    "all12_success": true,
+    "full_text_and_Git_blob_files": 13,
+    "new_cases": 66,
+    "related_CPU_passed": 179,
+    "not_native_adopted": true
+  },
+  "new_exact_build_evidence": {
+    "old_pause_link_recipe_receipt_sha256": "ff20dd568282c5975de5f643168d3088fa4e1ca02b668b633a99f62836bccbb5",
+    "old_pause_object_present": true,
+    "old_pause_object_bytes": 3597208,
+    "original_numeric_archives_in_actual_link_recipe": [
+      "librl_sdk.a", "libobservation_buffer.a", "libinference_runtime.a", "libmotion_loader.a"
+    ],
+    "no_new_controller_build_or_vendor_source_recompile": true
+  },
+  "actual_compiled_library_candidates": {
+    "receipt_sha256": "314b786645638c5fbe90c58539fb903ca7829aaad69b9828dc4a62d3f67f80ea",
+    "libraries": {
+      "librl_sdk.a": {
+        "bytes": 453358,
+        "sha256": "2aaeaed7353ec4f32161ab700ca8e27694ca1192ba90fb5714f161e9e4adc1a5"
+      },
+      "libobservation_buffer.a": {
+        "bytes": 18706,
+        "sha256": "b4f2e61ab276de5ae7d4b11cb10e3e63e7adffd93944d7345c7d447f590c7fb4"
+      },
+      "libinference_runtime.a": {
+        "bytes": 115144,
+        "sha256": "8e82c0b20dd11bc94a18aeeb2a9027566745fd0fe303fd9b61ced911a898af79"
+      },
+      "libmotion_loader.a": {
+        "bytes": 44712,
+        "sha256": "36999c22b3744b5098eaa25423289856753d48af2876f572b45d4ccb303db6fd"
+      }
+    },
+    "selected_exported_numeric_function_bodies": {
+      "matched_after_masking_original_relocation_fields": 52,
+      "mismatch": 0,
+      "missing_frozen_export": 0,
+      "unsupported_relocation_kind": 0
+    },
+    "limits_of_comparison": [
+      "FUNCTION_INSTRUCTION_BYTES_MATCH_WITH_RELOCATION_BYTES_MASKED",
+      "RELOCATION_TARGET_AND_CONSTANT_BINDING_NOT_YET_VERIFIED",
+      "FULL_HEADER_OBJECT_STATE_ABI_NOT_YET_QUALIFIED",
+      "NOT_A_COMPLETE_CONTROLLER_IDENTITY_OR_FULL_STATE_REPLAY_PROOF",
+      "NO_NATIVE_PREFIX_OR_TASK_QUALIFICATION"
+    ]
+  },
+  "concrete_next_delta": {
+    "reuse_candidate": "Qualify an owned IO client against existing compiled RL, observation-history and inference routines instead of implementing another low-level controller",
+    "remaining": [
+      "VERIFY_RELOCATION_BINDINGS_AND_EXACT_HEADER_ABI_BEFORE_LINKING",
+      "CURRENT_STANDARD_ENTRY_AND_PAIRED_FULL_RESOURCE_ADMISSION",
+      "ACTUAL_FULL_SIMULATOR_AND_LEG_HISTORY_FSM_GAIT_STATE_BINDING",
+      "ORIGINAL_COMPLETE_NATIVE_PREFIX_SAFETY_AND_RAW_MAPPED_H40",
+      "ACTUAL_FEEDBACK_INSTALL_ACK_STOP_T1_T2_AND_CORR2048_R0_CORE64"
+    ],
+    "existing_state_journal_not_misrepresented_as_complete_controller_snapshot": true,
+    "SDK12_not_misrepresented_as_fullbody_safety": true,
+    "no_new_hold_RMS_or_source_success_gate": true,
+    "no_claim_whole_WBC_interface_or_asset_package_is_missing": true
+  },
+  "actual_read_controls": {
+    "Core_and_LOCAL_ledgers_and_control_metadata_unchanged": true,
+    "first_link_object_read_CPU_s": 0.007739918,
+    "archive_symbol_comparison_CPU_s": 0.025320873,
+    "new_builds_models_physics_GPU_PBS_or_native_writes": 0,
+    "old_SDK_projection_UNKNOWN_not_reissued_or_cleared": true
+  },
+  "unchanged": {
+    "T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "all_caps_costs_checkpoints_failure_history_and_final_protection": true,
+    "source_Teacher_and_training_independent_of_target_WBC_success": true,
+    "automation": "PAUSED"
+  }
+}

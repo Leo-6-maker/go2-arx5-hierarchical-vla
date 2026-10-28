@@ -1,0 +1,187 @@
+{
+  "status": "CPU_CONTRACT_COMPLETE_TASK_LOCAL_RESULTS",
+  "source_sha": "68a6da3c40e01e60cd7dd8bbf0e3a326b8c9b71a",
+  "checks_passed": 12,
+  "checks": [
+    {
+      "name": "EXPLICIT_ADOPTION_NEW_SCOPE_ONLY_OLD_V2_NATIVE_FAIL_AND_CLOSURE_UNCHANGED",
+      "status": "PASS",
+      "evidence": {
+        "new_authority_positive": true,
+        "unsigned_rejected": true,
+        "old_V2_terminal_unchanged": true
+      }
+    },
+    {
+      "name": "COMPILED_DIFF_WHITELIST_NATIVE_ROBOT_SAFETY_FRICTION_MARGIN_MASS_AND_ALL_DOF_UNCHANGED",
+      "status": "PASS",
+      "evidence": {
+        "compiled_robot_and_all_collision_properties_exact": true,
+        "only_task_geometry_and_reset_whitelist": true
+      }
+    },
+    {
+      "name": "T1_FIXED_H47_FULL_SLAB_DIMENSIONS_SAVED_ENVELOPE_AND_UNMODIFIED_ROOT_INITIALIZATION",
+      "status": "PASS",
+      "evidence": {
+        "T1_height": 0.47,
+        "slab_thickness": 0.05,
+        "saved_only_clearance_m": 0.020554869453065727,
+        "not_dynamic_PASS": true
+      }
+    },
+    {
+      "name": "T1_COMMON_Z_TRANSLATION_EXACT_ROTATION_GRIPPER_TIMES_SOURCE_INDEX_PARITY",
+      "status": "PASS",
+      "evidence": {
+        "T1_only_common_Z_translation": true,
+        "all_source_rotations_gripper_and_times_preserved": true
+      }
+    },
+    {
+      "name": "T1_ORIGINAL_SCORE_FUNCTION_EXPLICIT_TABLE_PARAMETER_AND_COMMON_TRANSLATION_EQUIVALENCE",
+      "status": "PASS",
+      "evidence": {
+        "original_score_translation_equivalence": true,
+        "old_height_wrapper_still_rejects_H47": true,
+        "threshold_changes": 0,
+        "CPU_fixture_only": true
+      }
+    },
+    {
+      "name": "T2_EXACT_CONTACT_CUT_PREFIX_ORIGINAL_GEOM_IDS_AND_FULL_PUSH_WITHDRAW_HOLD_SUFFIX",
+      "status": "PASS",
+      "evidence": {
+        "T2_fixed_slice_and_original_geom_ID_prefix": true,
+        "retained_suffix_points": [
+          266,
+          274,
+          274
+        ]
+      }
+    },
+    {
+      "name": "T2_WORKING_CLOSED_INITIAL_QPOS_AND_RESET_AND_FIRST_ACTUAL_PACKET_TARGET_CONSISTENT",
+      "status": "PASS",
+      "evidence": {
+        "T2_keyframe_reset_and_actual_initial_audit_same_function": true,
+        "initial_command_fraction": 0.045454545454545456,
+        "original_actuation_initializes_target_from_real_qpos": true,
+        "real_simulator_identity_required_before_first_step": true
+      }
+    },
+    {
+      "name": "OLD_GOAL_CACHE_CONSUMER_FULL_IDENTITY_NO_STALE_ACTUAL_OR_RESPONSE_HASH_REWRITE",
+      "status": "PASS",
+      "evidence": {
+        "T2_all_three_original_consumers_exact": true,
+        "old_hash_not_rewritten": true,
+        "new_actual_needs_new_goal": true
+      }
+    },
+    {
+      "name": "CPU_PREVIEW_LABELLED_NOT_ACTUAL_RGB_NO_SYNTHETIC_OBSERVATION_OR_MODEL_QUERY",
+      "status": "PASS",
+      "evidence": {
+        "CPU_preview_labelled": true,
+        "no_mismatched_RGB_or_neural_query": true
+      }
+    },
+    {
+      "name": "ACTUAL_WARMUP_SAME_LOCKED_SOURCE_FRESH_STATE_FULLBODY_AND_UPDATED_WORLD_GEOMETRY",
+      "status": "PASS",
+      "evidence": {
+        "full_native_body_collision_coverage": true,
+        "fresh_warmup_required": true,
+        "old_cache_not_current_actual": true
+      }
+    },
+    {
+      "name": "H40_SOURCE_CLOCK_INTERNAL_JOIN_GRIPPER20HZ_INSTALL_ACK_PAUSE_HISTORY_UNCHANGED",
+      "status": "PASS",
+      "evidence": {
+        "H40_internal_join_preserves_closed_entry_gripper": true,
+        "sequence_prefix8": true,
+        "original_14D_ABI_and_pause_source_pins": true
+      }
+    },
+    {
+      "name": "PERSISTENT_GLOBAL_INTERNAL_RESERVATION_DEADLINE_NO_REDRAW_AND_NATIVE_FAIL_STOPS_ALL_PHYSICS",
+      "status": "PASS",
+      "evidence": {
+        "persistent_pre_reservation_caps": true,
+        "original_deadline": true,
+        "old_core_21_hashes": true,
+        "no_safety_retry": true
+      }
+    }
+  ],
+  "task_results": [
+    {
+      "task": "T1",
+      "status": "PASS_SOURCE_ROUTE_AND_TIME",
+      "source_id": "PI0294-TRAIN-F0-000-T1",
+      "candidate_index": 0,
+      "source_program_sha256": "13d9329888ac9d4e0ed66154aa6279f2ade10e905a5834dbff422315dcda25ad",
+      "active_duration_s": 15.633403721763726,
+      "certificate": {
+        "duration_s": 7.659492049145128,
+        "uniform_time_scale": 2.475563313153509,
+        "max_linear_speed": 0.03194507071319699,
+        "max_angular_speed": 0.16003546745508976,
+        "dense": {
+          "status": "PASS",
+          "reason": null,
+          "points": 1001,
+          "local_IK_iterations": 1001,
+          "window_sha256": "be68572974f74dc478a43d710c7fd2fff805fe5f281545feaa21fb03d61716f2",
+          "max_native_IK_position_residual_m": 1.560778626452048e-06,
+          "max_native_IK_rotation_residual_rad": 1.9415899617853034e-06,
+          "physics_steps": 0,
+          "actual_state_modified": false
+        },
+        "input_sha256": "d25a9d9b7f8dc10917beae87b76b5d86c1951f4461068cab09cf4c5678a27b65",
+        "response_sha256": "767917ee8407e527915b68b2afbe32630787b8a3e2b6ac16ecd884d722cce5da",
+        "FK_error": [
+          4.577698275459881e-16,
+          0.0
+        ],
+        "IK_calls": 3,
+        "RRT_calls": 1
+      }
+    },
+    {
+      "task": "T2",
+      "status": "NOT_ADMITTED_FIXED_SOURCE_ROUTES",
+      "reason": "SDR3_DENSE_BUDGET_CAP",
+      "evidence": {
+        "routes": [
+          {
+            "route": 0,
+            "status": "SOURCE_ENTRY_AND_ACTIVITY_TIME_INFEASIBLE",
+            "entry_duration_s": 10.346340386981597,
+            "active_duration_s": 15.5000000000001
+          },
+          {
+            "route": 1,
+            "status": "SOURCE_ENTRY_AND_ACTIVITY_TIME_INFEASIBLE",
+            "entry_duration_s": 10.466796546491864,
+            "active_duration_s": 15.5000000000001
+          },
+          {
+            "route": 2,
+            "status": "SDR3_DENSE_BUDGET_CAP"
+          }
+        ]
+      },
+      "physical_starts": 0
+    }
+  ],
+  "scientific_source_candidates": 6,
+  "CPU_RPC_bundles": 2,
+  "new_physics": 0,
+  "new_render": 0,
+  "new_neural_queries": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

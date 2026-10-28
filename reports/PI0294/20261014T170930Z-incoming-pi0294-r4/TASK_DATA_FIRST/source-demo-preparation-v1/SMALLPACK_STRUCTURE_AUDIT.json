@@ -1,0 +1,3963 @@
+{
+  "schema": "FIXED_DEMO_SMALLPACK_READ_ONLY_SCHEMA_AUDIT_V1",
+  "status": "PASS_BOUNDED_READ_ONLY_STRUCTURE_AUDIT",
+  "rows": [
+    {
+      "repo": "haosulab/ManiSkill_Demonstrations",
+      "revision": "d674485bbffdd533914e52d272fdda34c0515608",
+      "path": "demos/PickCube-v1/motionplanning/trajectory.h5",
+      "sha256": "03ca60546541a7f18321d9d32721f0254bc75217828c0cadacd217d0c014576a",
+      "kind": "maniskill",
+      "recorded_episode_groups": 1000,
+      "first_three": [
+        {
+          "id": "traj_0",
+          "attrs": {},
+          "schema": [
+            {
+              "path": "/obs",
+              "type": "group"
+            },
+            {
+              "path": "/actions",
+              "type": "dataset",
+              "shape": [
+                74,
+                8
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/terminated",
+              "type": "dataset",
+              "shape": [
+                74
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/truncated",
+              "type": "dataset",
+              "shape": [
+                74
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/success",
+              "type": "dataset",
+              "shape": [
+                74
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/env_states",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors/table-workspace",
+              "type": "dataset",
+              "shape": [
+                75,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/cube",
+              "type": "dataset",
+              "shape": [
+                75,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/goal_site",
+              "type": "dataset",
+              "shape": [
+                75,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/articulations",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/articulations/panda",
+              "type": "dataset",
+              "shape": [
+                75,
+                31
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/rewards",
+              "type": "dataset",
+              "shape": [
+                74
+              ],
+              "dtype": "float32"
+            }
+          ]
+        },
+        {
+          "id": "traj_1",
+          "attrs": {},
+          "schema": [
+            {
+              "path": "/obs",
+              "type": "group"
+            },
+            {
+              "path": "/actions",
+              "type": "dataset",
+              "shape": [
+                74,
+                8
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/terminated",
+              "type": "dataset",
+              "shape": [
+                74
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/truncated",
+              "type": "dataset",
+              "shape": [
+                74
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/success",
+              "type": "dataset",
+              "shape": [
+                74
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/env_states",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors/table-workspace",
+              "type": "dataset",
+              "shape": [
+                75,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/cube",
+              "type": "dataset",
+              "shape": [
+                75,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/goal_site",
+              "type": "dataset",
+              "shape": [
+                75,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/articulations",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/articulations/panda",
+              "type": "dataset",
+              "shape": [
+                75,
+                31
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/rewards",
+              "type": "dataset",
+              "shape": [
+                74
+              ],
+              "dtype": "float32"
+            }
+          ]
+        },
+        {
+          "id": "traj_2",
+          "attrs": {},
+          "schema": [
+            {
+              "path": "/obs",
+              "type": "group"
+            },
+            {
+              "path": "/actions",
+              "type": "dataset",
+              "shape": [
+                50,
+                8
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/terminated",
+              "type": "dataset",
+              "shape": [
+                50
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/truncated",
+              "type": "dataset",
+              "shape": [
+                50
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/success",
+              "type": "dataset",
+              "shape": [
+                50
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/env_states",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors/table-workspace",
+              "type": "dataset",
+              "shape": [
+                51,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/cube",
+              "type": "dataset",
+              "shape": [
+                51,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/goal_site",
+              "type": "dataset",
+              "shape": [
+                51,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/articulations",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/articulations/panda",
+              "type": "dataset",
+              "shape": [
+                51,
+                31
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/rewards",
+              "type": "dataset",
+              "shape": [
+                50
+              ],
+              "dtype": "float32"
+            }
+          ]
+        }
+      ],
+      "root_keys": [
+        "traj_0",
+        "traj_1",
+        "traj_10",
+        "traj_100",
+        "traj_101",
+        "traj_102",
+        "traj_103",
+        "traj_104",
+        "traj_105",
+        "traj_106",
+        "traj_107",
+        "traj_108",
+        "traj_109",
+        "traj_11",
+        "traj_110",
+        "traj_111",
+        "traj_112",
+        "traj_113",
+        "traj_114",
+        "traj_115",
+        "traj_116",
+        "traj_117",
+        "traj_118",
+        "traj_119",
+        "traj_12",
+        "traj_120",
+        "traj_121",
+        "traj_122",
+        "traj_123",
+        "traj_124",
+        "traj_125",
+        "traj_126",
+        "traj_127",
+        "traj_128",
+        "traj_129",
+        "traj_13",
+        "traj_130",
+        "traj_131",
+        "traj_132",
+        "traj_133",
+        "traj_134",
+        "traj_135",
+        "traj_136",
+        "traj_137",
+        "traj_138",
+        "traj_139",
+        "traj_14",
+        "traj_140",
+        "traj_141",
+        "traj_142",
+        "traj_143",
+        "traj_144",
+        "traj_145",
+        "traj_146",
+        "traj_147",
+        "traj_148",
+        "traj_149",
+        "traj_15",
+        "traj_150",
+        "traj_151",
+        "traj_152",
+        "traj_153",
+        "traj_154",
+        "traj_155",
+        "traj_156",
+        "traj_157",
+        "traj_158",
+        "traj_159",
+        "traj_16",
+        "traj_160",
+        "traj_161",
+        "traj_162",
+        "traj_163",
+        "traj_164",
+        "traj_165",
+        "traj_166",
+        "traj_167",
+        "traj_168",
+        "traj_169",
+        "traj_17",
+        "traj_170",
+        "traj_171",
+        "traj_172",
+        "traj_173",
+        "traj_174",
+        "traj_175",
+        "traj_176",
+        "traj_177",
+        "traj_178",
+        "traj_179",
+        "traj_18",
+        "traj_180",
+        "traj_181",
+        "traj_182",
+        "traj_183",
+        "traj_184",
+        "traj_185",
+        "traj_186",
+        "traj_187",
+        "traj_188",
+        "traj_189",
+        "traj_19",
+        "traj_190",
+        "traj_191",
+        "traj_192",
+        "traj_193",
+        "traj_194",
+        "traj_195",
+        "traj_196",
+        "traj_197",
+        "traj_198",
+        "traj_199",
+        "traj_2",
+        "traj_20",
+        "traj_200",
+        "traj_201",
+        "traj_202",
+        "traj_203",
+        "traj_204",
+        "traj_205",
+        "traj_206",
+        "traj_207",
+        "traj_208",
+        "traj_209",
+        "traj_21",
+        "traj_210",
+        "traj_211",
+        "traj_212",
+        "traj_213",
+        "traj_214",
+        "traj_215",
+        "traj_216",
+        "traj_217",
+        "traj_218",
+        "traj_219",
+        "traj_22",
+        "traj_220",
+        "traj_221",
+        "traj_222",
+        "traj_223",
+        "traj_224",
+        "traj_225",
+        "traj_226",
+        "traj_227",
+        "traj_228",
+        "traj_229",
+        "traj_23",
+        "traj_230",
+        "traj_231",
+        "traj_232",
+        "traj_233",
+        "traj_234",
+        "traj_235",
+        "traj_236",
+        "traj_237",
+        "traj_238",
+        "traj_239",
+        "traj_24",
+        "traj_240",
+        "traj_241",
+        "traj_242",
+        "traj_243",
+        "traj_244",
+        "traj_245",
+        "traj_246",
+        "traj_247",
+        "traj_248",
+        "traj_249",
+        "traj_25",
+        "traj_250",
+        "traj_251",
+        "traj_252",
+        "traj_253",
+        "traj_254",
+        "traj_255",
+        "traj_256",
+        "traj_257",
+        "traj_258",
+        "traj_259",
+        "traj_26",
+        "traj_260",
+        "traj_261",
+        "traj_262",
+        "traj_263",
+        "traj_264",
+        "traj_265",
+        "traj_266",
+        "traj_267",
+        "traj_268",
+        "traj_269",
+        "traj_27",
+        "traj_270",
+        "traj_271",
+        "traj_272",
+        "traj_273",
+        "traj_274",
+        "traj_275",
+        "traj_276",
+        "traj_277",
+        "traj_278",
+        "traj_279",
+        "traj_28",
+        "traj_280",
+        "traj_281",
+        "traj_282",
+        "traj_283",
+        "traj_284",
+        "traj_285",
+        "traj_286",
+        "traj_287",
+        "traj_288",
+        "traj_289",
+        "traj_29",
+        "traj_290",
+        "traj_291",
+        "traj_292",
+        "traj_293",
+        "traj_294",
+        "traj_295",
+        "traj_296",
+        "traj_297",
+        "traj_298",
+        "traj_299",
+        "traj_3",
+        "traj_30",
+        "traj_300",
+        "traj_301",
+        "traj_302",
+        "traj_303",
+        "traj_304",
+        "traj_305",
+        "traj_306",
+        "traj_307",
+        "traj_308",
+        "traj_309",
+        "traj_31",
+        "traj_310",
+        "traj_311",
+        "traj_312",
+        "traj_313",
+        "traj_314",
+        "traj_315",
+        "traj_316",
+        "traj_317",
+        "traj_318",
+        "traj_319",
+        "traj_32",
+        "traj_320",
+        "traj_321",
+        "traj_322",
+        "traj_323",
+        "traj_324",
+        "traj_325",
+        "traj_326",
+        "traj_327",
+        "traj_328",
+        "traj_329",
+        "traj_33",
+        "traj_330",
+        "traj_331",
+        "traj_332",
+        "traj_333",
+        "traj_334",
+        "traj_335",
+        "traj_336",
+        "traj_337",
+        "traj_338",
+        "traj_339",
+        "traj_34",
+        "traj_340",
+        "traj_341",
+        "traj_342",
+        "traj_343",
+        "traj_344",
+        "traj_345",
+        "traj_346",
+        "traj_347",
+        "traj_348",
+        "traj_349",
+        "traj_35",
+        "traj_350",
+        "traj_351",
+        "traj_352",
+        "traj_353",
+        "traj_354",
+        "traj_355",
+        "traj_356",
+        "traj_357",
+        "traj_358",
+        "traj_359",
+        "traj_36",
+        "traj_360",
+        "traj_361",
+        "traj_362",
+        "traj_363",
+        "traj_364",
+        "traj_365",
+        "traj_366",
+        "traj_367",
+        "traj_368",
+        "traj_369",
+        "traj_37",
+        "traj_370",
+        "traj_371",
+        "traj_372",
+        "traj_373",
+        "traj_374",
+        "traj_375",
+        "traj_376",
+        "traj_377",
+        "traj_378",
+        "traj_379",
+        "traj_38",
+        "traj_380",
+        "traj_381",
+        "traj_382",
+        "traj_383",
+        "traj_384",
+        "traj_385",
+        "traj_386",
+        "traj_387",
+        "traj_388",
+        "traj_389",
+        "traj_39",
+        "traj_390",
+        "traj_391",
+        "traj_392",
+        "traj_393",
+        "traj_394",
+        "traj_395",
+        "traj_396",
+        "traj_397",
+        "traj_398",
+        "traj_399",
+        "traj_4",
+        "traj_40",
+        "traj_400",
+        "traj_401",
+        "traj_402",
+        "traj_403",
+        "traj_404",
+        "traj_405",
+        "traj_406",
+        "traj_407",
+        "traj_408",
+        "traj_409",
+        "traj_41",
+        "traj_410",
+        "traj_411",
+        "traj_412",
+        "traj_413",
+        "traj_414",
+        "traj_415",
+        "traj_416",
+        "traj_417",
+        "traj_418",
+        "traj_419",
+        "traj_42",
+        "traj_420",
+        "traj_421",
+        "traj_422",
+        "traj_423",
+        "traj_424",
+        "traj_425",
+        "traj_426",
+        "traj_427",
+        "traj_428",
+        "traj_429",
+        "traj_43",
+        "traj_430",
+        "traj_431",
+        "traj_432",
+        "traj_433",
+        "traj_434",
+        "traj_435",
+        "traj_436",
+        "traj_437",
+        "traj_438",
+        "traj_439",
+        "traj_44",
+        "traj_440",
+        "traj_441",
+        "traj_442",
+        "traj_443",
+        "traj_444",
+        "traj_445",
+        "traj_446",
+        "traj_447",
+        "traj_448",
+        "traj_449",
+        "traj_45",
+        "traj_450",
+        "traj_451",
+        "traj_452",
+        "traj_453",
+        "traj_454",
+        "traj_455",
+        "traj_456",
+        "traj_457",
+        "traj_458",
+        "traj_459",
+        "traj_46",
+        "traj_460",
+        "traj_461",
+        "traj_462",
+        "traj_463",
+        "traj_464",
+        "traj_465",
+        "traj_466",
+        "traj_467",
+        "traj_468",
+        "traj_469",
+        "traj_47",
+        "traj_470",
+        "traj_471",
+        "traj_472",
+        "traj_473",
+        "traj_474",
+        "traj_475",
+        "traj_476",
+        "traj_477",
+        "traj_478",
+        "traj_479",
+        "traj_48",
+        "traj_480",
+        "traj_481",
+        "traj_482",
+        "traj_483",
+        "traj_484",
+        "traj_485",
+        "traj_486",
+        "traj_487",
+        "traj_488",
+        "traj_489",
+        "traj_49",
+        "traj_490",
+        "traj_491",
+        "traj_492",
+        "traj_493",
+        "traj_494",
+        "traj_495",
+        "traj_496",
+        "traj_497",
+        "traj_498",
+        "traj_499",
+        "traj_5",
+        "traj_50",
+        "traj_500",
+        "traj_501",
+        "traj_502",
+        "traj_503",
+        "traj_504",
+        "traj_505",
+        "traj_506",
+        "traj_507",
+        "traj_508",
+        "traj_509",
+        "traj_51",
+        "traj_510",
+        "traj_511",
+        "traj_512",
+        "traj_513",
+        "traj_514",
+        "traj_515",
+        "traj_516",
+        "traj_517",
+        "traj_518",
+        "traj_519",
+        "traj_52",
+        "traj_520",
+        "traj_521",
+        "traj_522",
+        "traj_523",
+        "traj_524",
+        "traj_525",
+        "traj_526",
+        "traj_527",
+        "traj_528",
+        "traj_529",
+        "traj_53",
+        "traj_530",
+        "traj_531",
+        "traj_532",
+        "traj_533",
+        "traj_534",
+        "traj_535",
+        "traj_536",
+        "traj_537",
+        "traj_538",
+        "traj_539",
+        "traj_54",
+        "traj_540",
+        "traj_541",
+        "traj_542",
+        "traj_543",
+        "traj_544",
+        "traj_545",
+        "traj_546",
+        "traj_547",
+        "traj_548",
+        "traj_549",
+        "traj_55",
+        "traj_550",
+        "traj_551",
+        "traj_552",
+        "traj_553",
+        "traj_554",
+        "traj_555",
+        "traj_556",
+        "traj_557",
+        "traj_558",
+        "traj_559",
+        "traj_56",
+        "traj_560",
+        "traj_561",
+        "traj_562",
+        "traj_563",
+        "traj_564",
+        "traj_565",
+        "traj_566",
+        "traj_567",
+        "traj_568",
+        "traj_569",
+        "traj_57",
+        "traj_570",
+        "traj_571",
+        "traj_572",
+        "traj_573",
+        "traj_574",
+        "traj_575",
+        "traj_576",
+        "traj_577",
+        "traj_578",
+        "traj_579",
+        "traj_58",
+        "traj_580",
+        "traj_581",
+        "traj_582",
+        "traj_583",
+        "traj_584",
+        "traj_585",
+        "traj_586",
+        "traj_587",
+        "traj_588",
+        "traj_589",
+        "traj_59",
+        "traj_590",
+        "traj_591",
+        "traj_592",
+        "traj_593",
+        "traj_594",
+        "traj_595",
+        "traj_596",
+        "traj_597",
+        "traj_598",
+        "traj_599",
+        "traj_6",
+        "traj_60",
+        "traj_600",
+        "traj_601",
+        "traj_602",
+        "traj_603",
+        "traj_604",
+        "traj_605",
+        "traj_606",
+        "traj_607",
+        "traj_608",
+        "traj_609",
+        "traj_61",
+        "traj_610",
+        "traj_611",
+        "traj_612",
+        "traj_613",
+        "traj_614",
+        "traj_615",
+        "traj_616",
+        "traj_617",
+        "traj_618",
+        "traj_619",
+        "traj_62",
+        "traj_620",
+        "traj_621",
+        "traj_622",
+        "traj_623",
+        "traj_624",
+        "traj_625",
+        "traj_626",
+        "traj_627",
+        "traj_628",
+        "traj_629",
+        "traj_63",
+        "traj_630",
+        "traj_631",
+        "traj_632",
+        "traj_633",
+        "traj_634",
+        "traj_635",
+        "traj_636",
+        "traj_637",
+        "traj_638",
+        "traj_639",
+        "traj_64",
+        "traj_640",
+        "traj_641",
+        "traj_642",
+        "traj_643",
+        "traj_644",
+        "traj_645",
+        "traj_646",
+        "traj_647",
+        "traj_648",
+        "traj_649",
+        "traj_65",
+        "traj_650",
+        "traj_651",
+        "traj_652",
+        "traj_653",
+        "traj_654",
+        "traj_655",
+        "traj_656",
+        "traj_657",
+        "traj_658",
+        "traj_659",
+        "traj_66",
+        "traj_660",
+        "traj_661",
+        "traj_662",
+        "traj_663",
+        "traj_664",
+        "traj_665",
+        "traj_666",
+        "traj_667",
+        "traj_668",
+        "traj_669",
+        "traj_67",
+        "traj_670",
+        "traj_671",
+        "traj_672",
+        "traj_673",
+        "traj_674",
+        "traj_675",
+        "traj_676",
+        "traj_677",
+        "traj_678",
+        "traj_679",
+        "traj_68",
+        "traj_680",
+        "traj_681",
+        "traj_682",
+        "traj_683",
+        "traj_684",
+        "traj_685",
+        "traj_686",
+        "traj_687",
+        "traj_688",
+        "traj_689",
+        "traj_69",
+        "traj_690",
+        "traj_691",
+        "traj_692",
+        "traj_693",
+        "traj_694",
+        "traj_695",
+        "traj_696",
+        "traj_697",
+        "traj_698",
+        "traj_699",
+        "traj_7",
+        "traj_70",
+        "traj_700",
+        "traj_701",
+        "traj_702",
+        "traj_703",
+        "traj_704",
+        "traj_705",
+        "traj_706",
+        "traj_707",
+        "traj_708",
+        "traj_709",
+        "traj_71",
+        "traj_710",
+        "traj_711",
+        "traj_712",
+        "traj_713",
+        "traj_714",
+        "traj_715",
+        "traj_716",
+        "traj_717",
+        "traj_718",
+        "traj_719",
+        "traj_72",
+        "traj_720",
+        "traj_721",
+        "traj_722",
+        "traj_723",
+        "traj_724",
+        "traj_725",
+        "traj_726",
+        "traj_727",
+        "traj_728",
+        "traj_729",
+        "traj_73",
+        "traj_730",
+        "traj_731",
+        "traj_732",
+        "traj_733",
+        "traj_734",
+        "traj_735",
+        "traj_736",
+        "traj_737",
+        "traj_738",
+        "traj_739",
+        "traj_74",
+        "traj_740",
+        "traj_741",
+        "traj_742",
+        "traj_743",
+        "traj_744",
+        "traj_745",
+        "traj_746",
+        "traj_747",
+        "traj_748",
+        "traj_749",
+        "traj_75",
+        "traj_750",
+        "traj_751",
+        "traj_752",
+        "traj_753",
+        "traj_754",
+        "traj_755",
+        "traj_756",
+        "traj_757",
+        "traj_758",
+        "traj_759",
+        "traj_76",
+        "traj_760",
+        "traj_761",
+        "traj_762",
+        "traj_763",
+        "traj_764",
+        "traj_765",
+        "traj_766",
+        "traj_767",
+        "traj_768",
+        "traj_769",
+        "traj_77",
+        "traj_770",
+        "traj_771",
+        "traj_772",
+        "traj_773",
+        "traj_774",
+        "traj_775",
+        "traj_776",
+        "traj_777",
+        "traj_778",
+        "traj_779",
+        "traj_78",
+        "traj_780",
+        "traj_781",
+        "traj_782",
+        "traj_783",
+        "traj_784",
+        "traj_785",
+        "traj_786",
+        "traj_787",
+        "traj_788",
+        "traj_789",
+        "traj_79",
+        "traj_790",
+        "traj_791",
+        "traj_792",
+        "traj_793",
+        "traj_794",
+        "traj_795",
+        "traj_796",
+        "traj_797",
+        "traj_798",
+        "traj_799",
+        "traj_8",
+        "traj_80",
+        "traj_800",
+        "traj_801",
+        "traj_802",
+        "traj_803",
+        "traj_804",
+        "traj_805",
+        "traj_806",
+        "traj_807",
+        "traj_808",
+        "traj_809",
+        "traj_81",
+        "traj_810",
+        "traj_811",
+        "traj_812",
+        "traj_813",
+        "traj_814",
+        "traj_815",
+        "traj_816",
+        "traj_817",
+        "traj_818",
+        "traj_819",
+        "traj_82",
+        "traj_820",
+        "traj_821",
+        "traj_822",
+        "traj_823",
+        "traj_824",
+        "traj_825",
+        "traj_826",
+        "traj_827",
+        "traj_828",
+        "traj_829",
+        "traj_83",
+        "traj_830",
+        "traj_831",
+        "traj_832",
+        "traj_833",
+        "traj_834",
+        "traj_835",
+        "traj_836",
+        "traj_837",
+        "traj_838",
+        "traj_839",
+        "traj_84",
+        "traj_840",
+        "traj_841",
+        "traj_842",
+        "traj_843",
+        "traj_844",
+        "traj_845",
+        "traj_846",
+        "traj_847",
+        "traj_848",
+        "traj_849",
+        "traj_85",
+        "traj_850",
+        "traj_851",
+        "traj_852",
+        "traj_853",
+        "traj_854",
+        "traj_855",
+        "traj_856",
+        "traj_857",
+        "traj_858",
+        "traj_859",
+        "traj_86",
+        "traj_860",
+        "traj_861",
+        "traj_862",
+        "traj_863",
+        "traj_864",
+        "traj_865",
+        "traj_866",
+        "traj_867",
+        "traj_868",
+        "traj_869",
+        "traj_87",
+        "traj_870",
+        "traj_871",
+        "traj_872",
+        "traj_873",
+        "traj_874",
+        "traj_875",
+        "traj_876",
+        "traj_877",
+        "traj_878",
+        "traj_879",
+        "traj_88",
+        "traj_880",
+        "traj_881",
+        "traj_882",
+        "traj_883",
+        "traj_884",
+        "traj_885",
+        "traj_886",
+        "traj_887",
+        "traj_888",
+        "traj_889",
+        "traj_89",
+        "traj_890",
+        "traj_891",
+        "traj_892",
+        "traj_893",
+        "traj_894",
+        "traj_895",
+        "traj_896",
+        "traj_897",
+        "traj_898",
+        "traj_899",
+        "traj_9",
+        "traj_90",
+        "traj_900",
+        "traj_901",
+        "traj_902",
+        "traj_903",
+        "traj_904",
+        "traj_905",
+        "traj_906",
+        "traj_907",
+        "traj_908",
+        "traj_909",
+        "traj_91",
+        "traj_910",
+        "traj_911",
+        "traj_912",
+        "traj_913",
+        "traj_914",
+        "traj_915",
+        "traj_916",
+        "traj_917",
+        "traj_918",
+        "traj_919",
+        "traj_92",
+        "traj_920",
+        "traj_921",
+        "traj_922",
+        "traj_923",
+        "traj_924",
+        "traj_925",
+        "traj_926",
+        "traj_927",
+        "traj_928",
+        "traj_929",
+        "traj_93",
+        "traj_930",
+        "traj_931",
+        "traj_932",
+        "traj_933",
+        "traj_934",
+        "traj_935",
+        "traj_936",
+        "traj_937",
+        "traj_938",
+        "traj_939",
+        "traj_94",
+        "traj_940",
+        "traj_941",
+        "traj_942",
+        "traj_943",
+        "traj_944",
+        "traj_945",
+        "traj_946",
+        "traj_947",
+        "traj_948",
+        "traj_949",
+        "traj_95",
+        "traj_950",
+        "traj_951",
+        "traj_952",
+        "traj_953",
+        "traj_954",
+        "traj_955",
+        "traj_956",
+        "traj_957",
+        "traj_958",
+        "traj_959",
+        "traj_96",
+        "traj_960",
+        "traj_961",
+        "traj_962",
+        "traj_963",
+        "traj_964",
+        "traj_965",
+        "traj_966",
+        "traj_967",
+        "traj_968",
+        "traj_969",
+        "traj_97",
+        "traj_970",
+        "traj_971",
+        "traj_972",
+        "traj_973",
+        "traj_974",
+        "traj_975",
+        "traj_976",
+        "traj_977",
+        "traj_978",
+        "traj_979",
+        "traj_98",
+        "traj_980",
+        "traj_981",
+        "traj_982",
+        "traj_983",
+        "traj_984",
+        "traj_985",
+        "traj_986",
+        "traj_987",
+        "traj_988",
+        "traj_989",
+        "traj_99",
+        "traj_990",
+        "traj_991",
+        "traj_992",
+        "traj_993",
+        "traj_994",
+        "traj_995",
+        "traj_996",
+        "traj_997",
+        "traj_998",
+        "traj_999"
+      ],
+      "root_attrs": {},
+      "data_attrs": {},
+      "success_reexecuted": false,
+      "pixels_decoded": 0,
+      "simulator_imported": false
+    },
+    {
+      "repo": "haosulab/ManiSkill_Demonstrations",
+      "revision": "d674485bbffdd533914e52d272fdda34c0515608",
+      "path": "demos/PushCube-v1/motionplanning/trajectory.h5",
+      "sha256": "d74a4c0efdbf68cb5512dabfc9dfa2759fb53c7f221b15ded92b0d03533f3f2b",
+      "kind": "maniskill",
+      "recorded_episode_groups": 1000,
+      "first_three": [
+        {
+          "id": "traj_0",
+          "attrs": {},
+          "schema": [
+            {
+              "path": "/obs",
+              "type": "group"
+            },
+            {
+              "path": "/actions",
+              "type": "dataset",
+              "shape": [
+                71,
+                8
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/terminated",
+              "type": "dataset",
+              "shape": [
+                71
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/truncated",
+              "type": "dataset",
+              "shape": [
+                71
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/success",
+              "type": "dataset",
+              "shape": [
+                71
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/env_states",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors/table-workspace",
+              "type": "dataset",
+              "shape": [
+                72,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/cube",
+              "type": "dataset",
+              "shape": [
+                72,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/goal_region",
+              "type": "dataset",
+              "shape": [
+                72,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/articulations",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/articulations/panda",
+              "type": "dataset",
+              "shape": [
+                72,
+                31
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/rewards",
+              "type": "dataset",
+              "shape": [
+                71
+              ],
+              "dtype": "float32"
+            }
+          ]
+        },
+        {
+          "id": "traj_1",
+          "attrs": {},
+          "schema": [
+            {
+              "path": "/obs",
+              "type": "group"
+            },
+            {
+              "path": "/actions",
+              "type": "dataset",
+              "shape": [
+                72,
+                8
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/terminated",
+              "type": "dataset",
+              "shape": [
+                72
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/truncated",
+              "type": "dataset",
+              "shape": [
+                72
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/success",
+              "type": "dataset",
+              "shape": [
+                72
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/env_states",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors/table-workspace",
+              "type": "dataset",
+              "shape": [
+                73,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/cube",
+              "type": "dataset",
+              "shape": [
+                73,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/goal_region",
+              "type": "dataset",
+              "shape": [
+                73,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/articulations",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/articulations/panda",
+              "type": "dataset",
+              "shape": [
+                73,
+                31
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/rewards",
+              "type": "dataset",
+              "shape": [
+                72
+              ],
+              "dtype": "float32"
+            }
+          ]
+        },
+        {
+          "id": "traj_2",
+          "attrs": {},
+          "schema": [
+            {
+              "path": "/obs",
+              "type": "group"
+            },
+            {
+              "path": "/actions",
+              "type": "dataset",
+              "shape": [
+                64,
+                8
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/terminated",
+              "type": "dataset",
+              "shape": [
+                64
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/truncated",
+              "type": "dataset",
+              "shape": [
+                64
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/success",
+              "type": "dataset",
+              "shape": [
+                64
+              ],
+              "dtype": "bool"
+            },
+            {
+              "path": "/env_states",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/actors/table-workspace",
+              "type": "dataset",
+              "shape": [
+                65,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/cube",
+              "type": "dataset",
+              "shape": [
+                65,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/actors/goal_region",
+              "type": "dataset",
+              "shape": [
+                65,
+                13
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/env_states/articulations",
+              "type": "group"
+            },
+            {
+              "path": "/env_states/articulations/panda",
+              "type": "dataset",
+              "shape": [
+                65,
+                31
+              ],
+              "dtype": "float32"
+            },
+            {
+              "path": "/rewards",
+              "type": "dataset",
+              "shape": [
+                64
+              ],
+              "dtype": "float32"
+            }
+          ]
+        }
+      ],
+      "root_keys": [
+        "traj_0",
+        "traj_1",
+        "traj_10",
+        "traj_100",
+        "traj_101",
+        "traj_102",
+        "traj_103",
+        "traj_104",
+        "traj_105",
+        "traj_106",
+        "traj_107",
+        "traj_108",
+        "traj_109",
+        "traj_11",
+        "traj_110",
+        "traj_111",
+        "traj_112",
+        "traj_113",
+        "traj_114",
+        "traj_115",
+        "traj_116",
+        "traj_117",
+        "traj_118",
+        "traj_119",
+        "traj_12",
+        "traj_120",
+        "traj_121",
+        "traj_122",
+        "traj_123",
+        "traj_124",
+        "traj_125",
+        "traj_126",
+        "traj_127",
+        "traj_128",
+        "traj_129",
+        "traj_13",
+        "traj_130",
+        "traj_131",
+        "traj_132",
+        "traj_133",
+        "traj_134",
+        "traj_135",
+        "traj_136",
+        "traj_137",
+        "traj_138",
+        "traj_139",
+        "traj_14",
+        "traj_140",
+        "traj_141",
+        "traj_142",
+        "traj_143",
+        "traj_144",
+        "traj_145",
+        "traj_146",
+        "traj_147",
+        "traj_148",
+        "traj_149",
+        "traj_15",
+        "traj_150",
+        "traj_151",
+        "traj_152",
+        "traj_153",
+        "traj_154",
+        "traj_155",
+        "traj_156",
+        "traj_157",
+        "traj_158",
+        "traj_159",
+        "traj_16",
+        "traj_160",
+        "traj_161",
+        "traj_162",
+        "traj_163",
+        "traj_164",
+        "traj_165",
+        "traj_166",
+        "traj_167",
+        "traj_168",
+        "traj_169",
+        "traj_17",
+        "traj_170",
+        "traj_171",
+        "traj_172",
+        "traj_173",
+        "traj_174",
+        "traj_175",
+        "traj_176",
+        "traj_177",
+        "traj_178",
+        "traj_179",
+        "traj_18",
+        "traj_180",
+        "traj_181",
+        "traj_182",
+        "traj_183",
+        "traj_184",
+        "traj_185",
+        "traj_186",
+        "traj_187",
+        "traj_188",
+        "traj_189",
+        "traj_19",
+        "traj_190",
+        "traj_191",
+        "traj_192",
+        "traj_193",
+        "traj_194",
+        "traj_195",
+        "traj_196",
+        "traj_197",
+        "traj_198",
+        "traj_199",
+        "traj_2",
+        "traj_20",
+        "traj_200",
+        "traj_201",
+        "traj_202",
+        "traj_203",
+        "traj_204",
+        "traj_205",
+        "traj_206",
+        "traj_207",
+        "traj_208",
+        "traj_209",
+        "traj_21",
+        "traj_210",
+        "traj_211",
+        "traj_212",
+        "traj_213",
+        "traj_214",
+        "traj_215",
+        "traj_216",
+        "traj_217",
+        "traj_218",
+        "traj_219",
+        "traj_22",
+        "traj_220",
+        "traj_221",
+        "traj_222",
+        "traj_223",
+        "traj_224",
+        "traj_225",
+        "traj_226",
+        "traj_227",
+        "traj_228",
+        "traj_229",
+        "traj_23",
+        "traj_230",
+        "traj_231",
+        "traj_232",
+        "traj_233",
+        "traj_234",
+        "traj_235",
+        "traj_236",
+        "traj_237",
+        "traj_238",
+        "traj_239",
+        "traj_24",
+        "traj_240",
+        "traj_241",
+        "traj_242",
+        "traj_243",
+        "traj_244",
+        "traj_245",
+        "traj_246",
+        "traj_247",
+        "traj_248",
+        "traj_249",
+        "traj_25",
+        "traj_250",
+        "traj_251",
+        "traj_252",
+        "traj_253",
+        "traj_254",
+        "traj_255",
+        "traj_256",
+        "traj_257",
+        "traj_258",
+        "traj_259",
+        "traj_26",
+        "traj_260",
+        "traj_261",
+        "traj_262",
+        "traj_263",
+        "traj_264",
+        "traj_265",
+        "traj_266",
+        "traj_267",
+        "traj_268",
+        "traj_269",
+        "traj_27",
+        "traj_270",
+        "traj_271",
+        "traj_272",
+        "traj_273",
+        "traj_274",
+        "traj_275",
+        "traj_276",
+        "traj_277",
+        "traj_278",
+        "traj_279",
+        "traj_28",
+        "traj_280",
+        "traj_281",
+        "traj_282",
+        "traj_283",
+        "traj_284",
+        "traj_285",
+        "traj_286",
+        "traj_287",
+        "traj_288",
+        "traj_289",
+        "traj_29",
+        "traj_290",
+        "traj_291",
+        "traj_292",
+        "traj_293",
+        "traj_294",
+        "traj_295",
+        "traj_296",
+        "traj_297",
+        "traj_298",
+        "traj_299",
+        "traj_3",
+        "traj_30",
+        "traj_300",
+        "traj_301",
+        "traj_302",
+        "traj_303",
+        "traj_304",
+        "traj_305",
+        "traj_306",
+        "traj_307",
+        "traj_308",
+        "traj_309",
+        "traj_31",
+        "traj_310",
+        "traj_311",
+        "traj_312",
+        "traj_313",
+        "traj_314",
+        "traj_315",
+        "traj_316",
+        "traj_317",
+        "traj_318",
+        "traj_319",
+        "traj_32",
+        "traj_320",
+        "traj_321",
+        "traj_322",
+        "traj_323",
+        "traj_324",
+        "traj_325",
+        "traj_326",
+        "traj_327",
+        "traj_328",
+        "traj_329",
+        "traj_33",
+        "traj_330",
+        "traj_331",
+        "traj_332",
+        "traj_333",
+        "traj_334",
+        "traj_335",
+        "traj_336",
+        "traj_337",
+        "traj_338",
+        "traj_339",
+        "traj_34",
+        "traj_340",
+        "traj_341",
+        "traj_342",
+        "traj_343",
+        "traj_344",
+        "traj_345",
+        "traj_346",
+        "traj_347",
+        "traj_348",
+        "traj_349",
+        "traj_35",
+        "traj_350",
+        "traj_351",
+        "traj_352",
+        "traj_353",
+        "traj_354",
+        "traj_355",
+        "traj_356",
+        "traj_357",
+        "traj_358",
+        "traj_359",
+        "traj_36",
+        "traj_360",
+        "traj_361",
+        "traj_362",
+        "traj_363",
+        "traj_364",
+        "traj_365",
+        "traj_366",
+        "traj_367",
+        "traj_368",
+        "traj_369",
+        "traj_37",
+        "traj_370",
+        "traj_371",
+        "traj_372",
+        "traj_373",
+        "traj_374",
+        "traj_375",
+        "traj_376",
+        "traj_377",
+        "traj_378",
+        "traj_379",
+        "traj_38",
+        "traj_380",
+        "traj_381",
+        "traj_382",
+        "traj_383",
+        "traj_384",
+        "traj_385",
+        "traj_386",
+        "traj_387",
+        "traj_388",
+        "traj_389",
+        "traj_39",
+        "traj_390",
+        "traj_391",
+        "traj_392",
+        "traj_393",
+        "traj_394",
+        "traj_395",
+        "traj_396",
+        "traj_397",
+        "traj_398",
+        "traj_399",
+        "traj_4",
+        "traj_40",
+        "traj_400",
+        "traj_401",
+        "traj_402",
+        "traj_403",
+        "traj_404",
+        "traj_405",
+        "traj_406",
+        "traj_407",
+        "traj_408",
+        "traj_409",
+        "traj_41",
+        "traj_410",
+        "traj_411",
+        "traj_412",
+        "traj_413",
+        "traj_414",
+        "traj_415",
+        "traj_416",
+        "traj_417",
+        "traj_418",
+        "traj_419",
+        "traj_42",
+        "traj_420",
+        "traj_421",
+        "traj_422",
+        "traj_423",
+        "traj_424",
+        "traj_425",
+        "traj_426",
+        "traj_427",
+        "traj_428",
+        "traj_429",
+        "traj_43",
+        "traj_430",
+        "traj_431",
+        "traj_432",
+        "traj_433",
+        "traj_434",
+        "traj_435",
+        "traj_436",
+        "traj_437",
+        "traj_438",
+        "traj_439",
+        "traj_44",
+        "traj_440",
+        "traj_441",
+        "traj_442",
+        "traj_443",
+        "traj_444",
+        "traj_445",
+        "traj_446",
+        "traj_447",
+        "traj_448",
+        "traj_449",
+        "traj_45",
+        "traj_450",
+        "traj_451",
+        "traj_452",
+        "traj_453",
+        "traj_454",
+        "traj_455",
+        "traj_456",
+        "traj_457",
+        "traj_458",
+        "traj_459",
+        "traj_46",
+        "traj_460",
+        "traj_461",
+        "traj_462",
+        "traj_463",
+        "traj_464",
+        "traj_465",
+        "traj_466",
+        "traj_467",
+        "traj_468",
+        "traj_469",
+        "traj_47",
+        "traj_470",
+        "traj_471",
+        "traj_472",
+        "traj_473",
+        "traj_474",
+        "traj_475",
+        "traj_476",
+        "traj_477",
+        "traj_478",
+        "traj_479",
+        "traj_48",
+        "traj_480",
+        "traj_481",
+        "traj_482",
+        "traj_483",
+        "traj_484",
+        "traj_485",
+        "traj_486",
+        "traj_487",
+        "traj_488",
+        "traj_489",
+        "traj_49",
+        "traj_490",
+        "traj_491",
+        "traj_492",
+        "traj_493",
+        "traj_494",
+        "traj_495",
+        "traj_496",
+        "traj_497",
+        "traj_498",
+        "traj_499",
+        "traj_5",
+        "traj_50",
+        "traj_500",
+        "traj_501",
+        "traj_502",
+        "traj_503",
+        "traj_504",
+        "traj_505",
+        "traj_506",
+        "traj_507",
+        "traj_508",
+        "traj_509",
+        "traj_51",
+        "traj_510",
+        "traj_511",
+        "traj_512",
+        "traj_513",
+        "traj_514",
+        "traj_515",
+        "traj_516",
+        "traj_517",
+        "traj_518",
+        "traj_519",
+        "traj_52",
+        "traj_520",
+        "traj_521",
+        "traj_522",
+        "traj_523",
+        "traj_524",
+        "traj_525",
+        "traj_526",
+        "traj_527",
+        "traj_528",
+        "traj_529",
+        "traj_53",
+        "traj_530",
+        "traj_531",
+        "traj_532",
+        "traj_533",
+        "traj_534",
+        "traj_535",
+        "traj_536",
+        "traj_537",
+        "traj_538",
+        "traj_539",
+        "traj_54",
+        "traj_540",
+        "traj_541",
+        "traj_542",
+        "traj_543",
+        "traj_544",
+        "traj_545",
+        "traj_546",
+        "traj_547",
+        "traj_548",
+        "traj_549",
+        "traj_55",
+        "traj_550",
+        "traj_551",
+        "traj_552",
+        "traj_553",
+        "traj_554",
+        "traj_555",
+        "traj_556",
+        "traj_557",
+        "traj_558",
+        "traj_559",
+        "traj_56",
+        "traj_560",
+        "traj_561",
+        "traj_562",
+        "traj_563",
+        "traj_564",
+        "traj_565",
+        "traj_566",
+        "traj_567",
+        "traj_568",
+        "traj_569",
+        "traj_57",
+        "traj_570",
+        "traj_571",
+        "traj_572",
+        "traj_573",
+        "traj_574",
+        "traj_575",
+        "traj_576",
+        "traj_577",
+        "traj_578",
+        "traj_579",
+        "traj_58",
+        "traj_580",
+        "traj_581",
+        "traj_582",
+        "traj_583",
+        "traj_584",
+        "traj_585",
+        "traj_586",
+        "traj_587",
+        "traj_588",
+        "traj_589",
+        "traj_59",
+        "traj_590",
+        "traj_591",
+        "traj_592",
+        "traj_593",
+        "traj_594",
+        "traj_595",
+        "traj_596",
+        "traj_597",
+        "traj_598",
+        "traj_599",
+        "traj_6",
+        "traj_60",
+        "traj_600",
+        "traj_601",
+        "traj_602",
+        "traj_603",
+        "traj_604",
+        "traj_605",
+        "traj_606",
+        "traj_607",
+        "traj_608",
+        "traj_609",
+        "traj_61",
+        "traj_610",
+        "traj_611",
+        "traj_612",
+        "traj_613",
+        "traj_614",
+        "traj_615",
+        "traj_616",
+        "traj_617",
+        "traj_618",
+        "traj_619",
+        "traj_62",
+        "traj_620",
+        "traj_621",
+        "traj_622",
+        "traj_623",
+        "traj_624",
+        "traj_625",
+        "traj_626",
+        "traj_627",
+        "traj_628",
+        "traj_629",
+        "traj_63",
+        "traj_630",
+        "traj_631",
+        "traj_632",
+        "traj_633",
+        "traj_634",
+        "traj_635",
+        "traj_636",
+        "traj_637",
+        "traj_638",
+        "traj_639",
+        "traj_64",
+        "traj_640",
+        "traj_641",
+        "traj_642",
+        "traj_643",
+        "traj_644",
+        "traj_645",
+        "traj_646",
+        "traj_647",
+        "traj_648",
+        "traj_649",
+        "traj_65",
+        "traj_650",
+        "traj_651",
+        "traj_652",
+        "traj_653",
+        "traj_654",
+        "traj_655",
+        "traj_656",
+        "traj_657",
+        "traj_658",
+        "traj_659",
+        "traj_66",
+        "traj_660",
+        "traj_661",
+        "traj_662",
+        "traj_663",
+        "traj_664",
+        "traj_665",
+        "traj_666",
+        "traj_667",
+        "traj_668",
+        "traj_669",
+        "traj_67",
+        "traj_670",
+        "traj_671",
+        "traj_672",
+        "traj_673",
+        "traj_674",
+        "traj_675",
+        "traj_676",
+        "traj_677",
+        "traj_678",
+        "traj_679",
+        "traj_68",
+        "traj_680",
+        "traj_681",
+        "traj_682",
+        "traj_683",
+        "traj_684",
+        "traj_685",
+        "traj_686",
+        "traj_687",
+        "traj_688",
+        "traj_689",
+        "traj_69",
+        "traj_690",
+        "traj_691",
+        "traj_692",
+        "traj_693",
+        "traj_694",
+        "traj_695",
+        "traj_696",
+        "traj_697",
+        "traj_698",
+        "traj_699",
+        "traj_7",
+        "traj_70",
+        "traj_700",
+        "traj_701",
+        "traj_702",
+        "traj_703",
+        "traj_704",
+        "traj_705",
+        "traj_706",
+        "traj_707",
+        "traj_708",
+        "traj_709",
+        "traj_71",
+        "traj_710",
+        "traj_711",
+        "traj_712",
+        "traj_713",
+        "traj_714",
+        "traj_715",
+        "traj_716",
+        "traj_717",
+        "traj_718",
+        "traj_719",
+        "traj_72",
+        "traj_720",
+        "traj_721",
+        "traj_722",
+        "traj_723",
+        "traj_724",
+        "traj_725",
+        "traj_726",
+        "traj_727",
+        "traj_728",
+        "traj_729",
+        "traj_73",
+        "traj_730",
+        "traj_731",
+        "traj_732",
+        "traj_733",
+        "traj_734",
+        "traj_735",
+        "traj_736",
+        "traj_737",
+        "traj_738",
+        "traj_739",
+        "traj_74",
+        "traj_740",
+        "traj_741",
+        "traj_742",
+        "traj_743",
+        "traj_744",
+        "traj_745",
+        "traj_746",
+        "traj_747",
+        "traj_748",
+        "traj_749",
+        "traj_75",
+        "traj_750",
+        "traj_751",
+        "traj_752",
+        "traj_753",
+        "traj_754",
+        "traj_755",
+        "traj_756",
+        "traj_757",
+        "traj_758",
+        "traj_759",
+        "traj_76",
+        "traj_760",
+        "traj_761",
+        "traj_762",
+        "traj_763",
+        "traj_764",
+        "traj_765",
+        "traj_766",
+        "traj_767",
+        "traj_768",
+        "traj_769",
+        "traj_77",
+        "traj_770",
+        "traj_771",
+        "traj_772",
+        "traj_773",
+        "traj_774",
+        "traj_775",
+        "traj_776",
+        "traj_777",
+        "traj_778",
+        "traj_779",
+        "traj_78",
+        "traj_780",
+        "traj_781",
+        "traj_782",
+        "traj_783",
+        "traj_784",
+        "traj_785",
+        "traj_786",
+        "traj_787",
+        "traj_788",
+        "traj_789",
+        "traj_79",
+        "traj_790",
+        "traj_791",
+        "traj_792",
+        "traj_793",
+        "traj_794",
+        "traj_795",
+        "traj_796",
+        "traj_797",
+        "traj_798",
+        "traj_799",
+        "traj_8",
+        "traj_80",
+        "traj_800",
+        "traj_801",
+        "traj_802",
+        "traj_803",
+        "traj_804",
+        "traj_805",
+        "traj_806",
+        "traj_807",
+        "traj_808",
+        "traj_809",
+        "traj_81",
+        "traj_810",
+        "traj_811",
+        "traj_812",
+        "traj_813",
+        "traj_814",
+        "traj_815",
+        "traj_816",
+        "traj_817",
+        "traj_818",
+        "traj_819",
+        "traj_82",
+        "traj_820",
+        "traj_821",
+        "traj_822",
+        "traj_823",
+        "traj_824",
+        "traj_825",
+        "traj_826",
+        "traj_827",
+        "traj_828",
+        "traj_829",
+        "traj_83",
+        "traj_830",
+        "traj_831",
+        "traj_832",
+        "traj_833",
+        "traj_834",
+        "traj_835",
+        "traj_836",
+        "traj_837",
+        "traj_838",
+        "traj_839",
+        "traj_84",
+        "traj_840",
+        "traj_841",
+        "traj_842",
+        "traj_843",
+        "traj_844",
+        "traj_845",
+        "traj_846",
+        "traj_847",
+        "traj_848",
+        "traj_849",
+        "traj_85",
+        "traj_850",
+        "traj_851",
+        "traj_852",
+        "traj_853",
+        "traj_854",
+        "traj_855",
+        "traj_856",
+        "traj_857",
+        "traj_858",
+        "traj_859",
+        "traj_86",
+        "traj_860",
+        "traj_861",
+        "traj_862",
+        "traj_863",
+        "traj_864",
+        "traj_865",
+        "traj_866",
+        "traj_867",
+        "traj_868",
+        "traj_869",
+        "traj_87",
+        "traj_870",
+        "traj_871",
+        "traj_872",
+        "traj_873",
+        "traj_874",
+        "traj_875",
+        "traj_876",
+        "traj_877",
+        "traj_878",
+        "traj_879",
+        "traj_88",
+        "traj_880",
+        "traj_881",
+        "traj_882",
+        "traj_883",
+        "traj_884",
+        "traj_885",
+        "traj_886",
+        "traj_887",
+        "traj_888",
+        "traj_889",
+        "traj_89",
+        "traj_890",
+        "traj_891",
+        "traj_892",
+        "traj_893",
+        "traj_894",
+        "traj_895",
+        "traj_896",
+        "traj_897",
+        "traj_898",
+        "traj_899",
+        "traj_9",
+        "traj_90",
+        "traj_900",
+        "traj_901",
+        "traj_902",
+        "traj_903",
+        "traj_904",
+        "traj_905",
+        "traj_906",
+        "traj_907",
+        "traj_908",
+        "traj_909",
+        "traj_91",
+        "traj_910",
+        "traj_911",
+        "traj_912",
+        "traj_913",
+        "traj_914",
+        "traj_915",
+        "traj_916",
+        "traj_917",
+        "traj_918",
+        "traj_919",
+        "traj_92",
+        "traj_920",
+        "traj_921",
+        "traj_922",
+        "traj_923",
+        "traj_924",
+        "traj_925",
+        "traj_926",
+        "traj_927",
+        "traj_928",
+        "traj_929",
+        "traj_93",
+        "traj_930",
+        "traj_931",
+        "traj_932",
+        "traj_933",
+        "traj_934",
+        "traj_935",
+        "traj_936",
+        "traj_937",
+        "traj_938",
+        "traj_939",
+        "traj_94",
+        "traj_940",
+        "traj_941",
+        "traj_942",
+        "traj_943",
+        "traj_944",
+        "traj_945",
+        "traj_946",
+        "traj_947",
+        "traj_948",
+        "traj_949",
+        "traj_95",
+        "traj_950",
+        "traj_951",
+        "traj_952",
+        "traj_953",
+        "traj_954",
+        "traj_955",
+        "traj_956",
+        "traj_957",
+        "traj_958",
+        "traj_959",
+        "traj_96",
+        "traj_960",
+        "traj_961",
+        "traj_962",
+        "traj_963",
+        "traj_964",
+        "traj_965",
+        "traj_966",
+        "traj_967",
+        "traj_968",
+        "traj_969",
+        "traj_97",
+        "traj_970",
+        "traj_971",
+        "traj_972",
+        "traj_973",
+        "traj_974",
+        "traj_975",
+        "traj_976",
+        "traj_977",
+        "traj_978",
+        "traj_979",
+        "traj_98",
+        "traj_980",
+        "traj_981",
+        "traj_982",
+        "traj_983",
+        "traj_984",
+        "traj_985",
+        "traj_986",
+        "traj_987",
+        "traj_988",
+        "traj_989",
+        "traj_99",
+        "traj_990",
+        "traj_991",
+        "traj_992",
+        "traj_993",
+        "traj_994",
+        "traj_995",
+        "traj_996",
+        "traj_997",
+        "traj_998",
+        "traj_999"
+      ],
+      "root_attrs": {},
+      "data_attrs": {},
+      "success_reexecuted": false,
+      "pixels_decoded": 0,
+      "simulator_imported": false
+    },
+    {
+      "repo": "TianxingChen/RoboTwin2.0",
+      "revision": "3dc3b798668feb99ac61cc9086d84cbcc3d79186",
+      "path": "dataset/place_a2b_left/arx-x5_clean_50.zip",
+      "sha256": "29f7506a02ff1d7c45a7d3ed2c5dcf65ab321615cd9a7ee6ceaebaace76d49ad",
+      "kind": "robotwin_zip",
+      "members": 202,
+      "declared_uncompressed_bytes": 258138327,
+      "member_suffix_counts": {
+        ".txt": 1,
+        ".json": 51,
+        ".pkl": 50,
+        ".hdf5": 50,
+        ".mp4": 50
+      },
+      "HDF5_members": 50,
+      "first_three_members": [
+        {
+          "name": "arx-x5_clean_50/data/episode0.hdf5",
+          "bytes": 5098376,
+          "sha256": "a53d19ee1d6bdd54b93ed5e1821d48a544ae24b6c73ce250d359df7aea20dfe6",
+          "audit": {
+            "kind": "robotwin",
+            "root_keys": [
+              "endpose",
+              "joint_action",
+              "observation",
+              "pointcloud",
+              "third_view_rgb"
+            ],
+            "root_attrs": {},
+            "direct_episode_schema": [
+              {
+                "path": "/endpose",
+                "type": "group"
+              },
+              {
+                "path": "/endpose/left_endpose",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  7
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/endpose/left_gripper",
+                "type": "dataset",
+                "shape": [
+                  96
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/endpose/right_endpose",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  7
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/endpose/right_gripper",
+                "type": "dataset",
+                "shape": [
+                  96
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action",
+                "type": "group"
+              },
+              {
+                "path": "/joint_action/left_arm",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  6
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/left_gripper",
+                "type": "dataset",
+                "shape": [
+                  96
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/right_arm",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  6
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/right_gripper",
+                "type": "dataset",
+                "shape": [
+                  96
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/vector",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  14
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/observation",
+                "type": "group"
+              },
+              {
+                "path": "/observation/head_camera",
+                "type": "group"
+              },
+              {
+                "path": "/observation/head_camera/cam2world_gl",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  4,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/head_camera/extrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  3,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/head_camera/intrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  3,
+                  3
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/head_camera/rgb",
+                "type": "dataset",
+                "shape": [
+                  96
+                ],
+                "dtype": "|S15579"
+              },
+              {
+                "path": "/observation/left_camera",
+                "type": "group"
+              },
+              {
+                "path": "/observation/left_camera/cam2world_gl",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  4,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/left_camera/extrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  3,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/left_camera/intrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  3,
+                  3
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/left_camera/rgb",
+                "type": "dataset",
+                "shape": [
+                  96
+                ],
+                "dtype": "|S19566"
+              },
+              {
+                "path": "/observation/right_camera",
+                "type": "group"
+              },
+              {
+                "path": "/observation/right_camera/cam2world_gl",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  4,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/right_camera/extrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  3,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/right_camera/intrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  3,
+                  3
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/right_camera/rgb",
+                "type": "dataset",
+                "shape": [
+                  96
+                ],
+                "dtype": "|S5247"
+              },
+              {
+                "path": "/pointcloud",
+                "type": "dataset",
+                "shape": [
+                  96,
+                  0
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/third_view_rgb",
+                "type": "dataset",
+                "shape": [
+                  96
+                ],
+                "dtype": "|S11756"
+              }
+            ],
+            "pixels_decoded": 0,
+            "success_reexecuted": false,
+            "simulator_imported": false
+          }
+        },
+        {
+          "name": "arx-x5_clean_50/data/episode1.hdf5",
+          "bytes": 4883212,
+          "sha256": "12a3daf85db9bb92f39eb3a9f600c04f7123acba5616f87ab5cdaa0bd1ab168d",
+          "audit": {
+            "kind": "robotwin",
+            "root_keys": [
+              "endpose",
+              "joint_action",
+              "observation",
+              "pointcloud",
+              "third_view_rgb"
+            ],
+            "root_attrs": {},
+            "direct_episode_schema": [
+              {
+                "path": "/endpose",
+                "type": "group"
+              },
+              {
+                "path": "/endpose/left_endpose",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  7
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/endpose/left_gripper",
+                "type": "dataset",
+                "shape": [
+                  97
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/endpose/right_endpose",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  7
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/endpose/right_gripper",
+                "type": "dataset",
+                "shape": [
+                  97
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action",
+                "type": "group"
+              },
+              {
+                "path": "/joint_action/left_arm",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  6
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/left_gripper",
+                "type": "dataset",
+                "shape": [
+                  97
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/right_arm",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  6
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/right_gripper",
+                "type": "dataset",
+                "shape": [
+                  97
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/vector",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  14
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/observation",
+                "type": "group"
+              },
+              {
+                "path": "/observation/head_camera",
+                "type": "group"
+              },
+              {
+                "path": "/observation/head_camera/cam2world_gl",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  4,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/head_camera/extrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  3,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/head_camera/intrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  3,
+                  3
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/head_camera/rgb",
+                "type": "dataset",
+                "shape": [
+                  97
+                ],
+                "dtype": "|S14265"
+              },
+              {
+                "path": "/observation/left_camera",
+                "type": "group"
+              },
+              {
+                "path": "/observation/left_camera/cam2world_gl",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  4,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/left_camera/extrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  3,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/left_camera/intrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  3,
+                  3
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/left_camera/rgb",
+                "type": "dataset",
+                "shape": [
+                  97
+                ],
+                "dtype": "|S5165"
+              },
+              {
+                "path": "/observation/right_camera",
+                "type": "group"
+              },
+              {
+                "path": "/observation/right_camera/cam2world_gl",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  4,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/right_camera/extrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  3,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/right_camera/intrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  3,
+                  3
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/right_camera/rgb",
+                "type": "dataset",
+                "shape": [
+                  97
+                ],
+                "dtype": "|S18909"
+              },
+              {
+                "path": "/pointcloud",
+                "type": "dataset",
+                "shape": [
+                  97,
+                  0
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/third_view_rgb",
+                "type": "dataset",
+                "shape": [
+                  97
+                ],
+                "dtype": "|S11045"
+              }
+            ],
+            "pixels_decoded": 0,
+            "success_reexecuted": false,
+            "simulator_imported": false
+          }
+        },
+        {
+          "name": "arx-x5_clean_50/data/episode2.hdf5",
+          "bytes": 4275910,
+          "sha256": "4c6ec38d908acef7865f89fcc66e14cb7de8c0c17964436641eca9ca8c295a68",
+          "audit": {
+            "kind": "robotwin",
+            "root_keys": [
+              "endpose",
+              "joint_action",
+              "observation",
+              "pointcloud",
+              "third_view_rgb"
+            ],
+            "root_attrs": {},
+            "direct_episode_schema": [
+              {
+                "path": "/endpose",
+                "type": "group"
+              },
+              {
+                "path": "/endpose/left_endpose",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  7
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/endpose/left_gripper",
+                "type": "dataset",
+                "shape": [
+                  98
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/endpose/right_endpose",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  7
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/endpose/right_gripper",
+                "type": "dataset",
+                "shape": [
+                  98
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action",
+                "type": "group"
+              },
+              {
+                "path": "/joint_action/left_arm",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  6
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/left_gripper",
+                "type": "dataset",
+                "shape": [
+                  98
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/right_arm",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  6
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/right_gripper",
+                "type": "dataset",
+                "shape": [
+                  98
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/joint_action/vector",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  14
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/observation",
+                "type": "group"
+              },
+              {
+                "path": "/observation/head_camera",
+                "type": "group"
+              },
+              {
+                "path": "/observation/head_camera/cam2world_gl",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  4,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/head_camera/extrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  3,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/head_camera/intrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  3,
+                  3
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/head_camera/rgb",
+                "type": "dataset",
+                "shape": [
+                  98
+                ],
+                "dtype": "|S15320"
+              },
+              {
+                "path": "/observation/left_camera",
+                "type": "group"
+              },
+              {
+                "path": "/observation/left_camera/cam2world_gl",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  4,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/left_camera/extrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  3,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/left_camera/intrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  3,
+                  3
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/left_camera/rgb",
+                "type": "dataset",
+                "shape": [
+                  98
+                ],
+                "dtype": "|S10908"
+              },
+              {
+                "path": "/observation/right_camera",
+                "type": "group"
+              },
+              {
+                "path": "/observation/right_camera/cam2world_gl",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  4,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/right_camera/extrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  3,
+                  4
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/right_camera/intrinsic_cv",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  3,
+                  3
+                ],
+                "dtype": "float32"
+              },
+              {
+                "path": "/observation/right_camera/rgb",
+                "type": "dataset",
+                "shape": [
+                  98
+                ],
+                "dtype": "|S5140"
+              },
+              {
+                "path": "/pointcloud",
+                "type": "dataset",
+                "shape": [
+                  98,
+                  0
+                ],
+                "dtype": "float64"
+              },
+              {
+                "path": "/third_view_rgb",
+                "type": "dataset",
+                "shape": [
+                  98
+                ],
+                "dtype": "|S11307"
+              }
+            ],
+            "pixels_decoded": 0,
+            "success_reexecuted": false,
+            "simulator_imported": false
+          }
+        }
+      ],
+      "member_name_inventory_sha256": "2b035ad9917bc86ca77b110a44d1b637a4f1c67d50f5fe6640de89d32b52ce8e",
+      "unpickle_calls": 0,
+      "extracted_members": 0
+    },
+    {
+      "repo": "amandlek/mimicgen_datasets",
+      "revision": "33016f8a62c02334f929f2913af8fdd2a8a129e1",
+      "path": "source/pick_place.hdf5",
+      "sha256": "18cb7d4e6947120e200b9ab27c041297f0056aaac20e43f1b79a49a3b3e4f723",
+      "kind": "mimicgen",
+      "recorded_episode_groups": 10,
+      "first_three": [
+        {
+          "id": "demo_0",
+          "attrs": {
+            "model_file": {
+              "bytes": 49480,
+              "sha256": "1a619b5845a1a08b864ee90ebe1224ad1ea162d2a1193f16d2252990e85528ff"
+            },
+            "num_samples": "605"
+          },
+          "schema": [
+            {
+              "path": "/actions",
+              "type": "dataset",
+              "shape": [
+                605,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/dones",
+              "type": "dataset",
+              "shape": [
+                605
+              ],
+              "dtype": "int64"
+            },
+            {
+              "path": "/obs",
+              "type": "group"
+            },
+            {
+              "path": "/obs/agentview_image",
+              "type": "dataset",
+              "shape": [
+                605,
+                84,
+                84,
+                3
+              ],
+              "dtype": "uint8"
+            },
+            {
+              "path": "/obs/object",
+              "type": "dataset",
+              "shape": [
+                605,
+                56
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_pos",
+              "type": "dataset",
+              "shape": [
+                605,
+                3
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_quat",
+              "type": "dataset",
+              "shape": [
+                605,
+                4
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_vel_ang",
+              "type": "dataset",
+              "shape": [
+                605,
+                3
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_vel_lin",
+              "type": "dataset",
+              "shape": [
+                605,
+                3
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eye_in_hand_image",
+              "type": "dataset",
+              "shape": [
+                605,
+                84,
+                84,
+                3
+              ],
+              "dtype": "uint8"
+            },
+            {
+              "path": "/obs/robot0_gripper_qpos",
+              "type": "dataset",
+              "shape": [
+                605,
+                2
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_gripper_qvel",
+              "type": "dataset",
+              "shape": [
+                605,
+                2
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_pos",
+              "type": "dataset",
+              "shape": [
+                605,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_pos_cos",
+              "type": "dataset",
+              "shape": [
+                605,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_pos_sin",
+              "type": "dataset",
+              "shape": [
+                605,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_vel",
+              "type": "dataset",
+              "shape": [
+                605,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/rewards",
+              "type": "dataset",
+              "shape": [
+                605
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/states",
+              "type": "dataset",
+              "shape": [
+                605,
+                71
+              ],
+              "dtype": "float64"
+            }
+          ]
+        },
+        {
+          "id": "demo_1",
+          "attrs": {
+            "model_file": {
+              "bytes": 49480,
+              "sha256": "1a619b5845a1a08b864ee90ebe1224ad1ea162d2a1193f16d2252990e85528ff"
+            },
+            "num_samples": "595"
+          },
+          "schema": [
+            {
+              "path": "/actions",
+              "type": "dataset",
+              "shape": [
+                595,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/dones",
+              "type": "dataset",
+              "shape": [
+                595
+              ],
+              "dtype": "int64"
+            },
+            {
+              "path": "/obs",
+              "type": "group"
+            },
+            {
+              "path": "/obs/agentview_image",
+              "type": "dataset",
+              "shape": [
+                595,
+                84,
+                84,
+                3
+              ],
+              "dtype": "uint8"
+            },
+            {
+              "path": "/obs/object",
+              "type": "dataset",
+              "shape": [
+                595,
+                56
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_pos",
+              "type": "dataset",
+              "shape": [
+                595,
+                3
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_quat",
+              "type": "dataset",
+              "shape": [
+                595,
+                4
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_vel_ang",
+              "type": "dataset",
+              "shape": [
+                595,
+                3
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_vel_lin",
+              "type": "dataset",
+              "shape": [
+                595,
+                3
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eye_in_hand_image",
+              "type": "dataset",
+              "shape": [
+                595,
+                84,
+                84,
+                3
+              ],
+              "dtype": "uint8"
+            },
+            {
+              "path": "/obs/robot0_gripper_qpos",
+              "type": "dataset",
+              "shape": [
+                595,
+                2
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_gripper_qvel",
+              "type": "dataset",
+              "shape": [
+                595,
+                2
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_pos",
+              "type": "dataset",
+              "shape": [
+                595,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_pos_cos",
+              "type": "dataset",
+              "shape": [
+                595,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_pos_sin",
+              "type": "dataset",
+              "shape": [
+                595,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_vel",
+              "type": "dataset",
+              "shape": [
+                595,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/rewards",
+              "type": "dataset",
+              "shape": [
+                595
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/states",
+              "type": "dataset",
+              "shape": [
+                595,
+                71
+              ],
+              "dtype": "float64"
+            }
+          ]
+        },
+        {
+          "id": "demo_2",
+          "attrs": {
+            "model_file": {
+              "bytes": 49480,
+              "sha256": "1a619b5845a1a08b864ee90ebe1224ad1ea162d2a1193f16d2252990e85528ff"
+            },
+            "num_samples": "631"
+          },
+          "schema": [
+            {
+              "path": "/actions",
+              "type": "dataset",
+              "shape": [
+                631,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/dones",
+              "type": "dataset",
+              "shape": [
+                631
+              ],
+              "dtype": "int64"
+            },
+            {
+              "path": "/obs",
+              "type": "group"
+            },
+            {
+              "path": "/obs/agentview_image",
+              "type": "dataset",
+              "shape": [
+                631,
+                84,
+                84,
+                3
+              ],
+              "dtype": "uint8"
+            },
+            {
+              "path": "/obs/object",
+              "type": "dataset",
+              "shape": [
+                631,
+                56
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_pos",
+              "type": "dataset",
+              "shape": [
+                631,
+                3
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_quat",
+              "type": "dataset",
+              "shape": [
+                631,
+                4
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_vel_ang",
+              "type": "dataset",
+              "shape": [
+                631,
+                3
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eef_vel_lin",
+              "type": "dataset",
+              "shape": [
+                631,
+                3
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_eye_in_hand_image",
+              "type": "dataset",
+              "shape": [
+                631,
+                84,
+                84,
+                3
+              ],
+              "dtype": "uint8"
+            },
+            {
+              "path": "/obs/robot0_gripper_qpos",
+              "type": "dataset",
+              "shape": [
+                631,
+                2
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_gripper_qvel",
+              "type": "dataset",
+              "shape": [
+                631,
+                2
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_pos",
+              "type": "dataset",
+              "shape": [
+                631,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_pos_cos",
+              "type": "dataset",
+              "shape": [
+                631,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_pos_sin",
+              "type": "dataset",
+              "shape": [
+                631,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/obs/robot0_joint_vel",
+              "type": "dataset",
+              "shape": [
+                631,
+                7
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/rewards",
+              "type": "dataset",
+              "shape": [
+                631
+              ],
+              "dtype": "float64"
+            },
+            {
+              "path": "/states",
+              "type": "dataset",
+              "shape": [
+                631,
+                71
+              ],
+              "dtype": "float64"
+            }
+          ]
+        }
+      ],
+      "root_keys": [
+        "data",
+        "mask"
+      ],
+      "root_attrs": {},
+      "data_attrs": {
+        "env_args": "{\n    \"env_name\": \"PickPlace_D0\",\n    \"env_version\": \"1.4.1\",\n    \"type\": 1,\n    \"env_kwargs\": {\n        \"has_renderer\": false,\n        \"has_offscreen_renderer\": true,\n        \"ignore_done\": true,\n        \"use_object_obs\": true,\n        \"use_camera_obs\": true,\n        \"control_freq\": 20,\n        \"controller_configs\": {\n            \"type\": \"OSC_POSE\",\n            \"input_max\": 1,\n            \"input_min\": -1,\n            \"output_max\": [\n                0.05,\n                0.05,\n                0.05,\n                0.5,\n                0.5,\n                0.5\n            ],\n            \"output_min\": [\n                -0.05,\n                -0.05,\n                -0.05,\n                -0.5,\n                -0.5,\n                -0.5\n            ],\n            \"kp\": 150,\n            \"damping\": 1,\n            \"impedance_mode\": \"fixed\",\n            \"kp_limits\": [\n                0,\n                300\n            ],\n            \"damping_limits\": [\n                0,\n                10\n            ],\n            \"position_limits\": null,\n            \"orientation_limits\": null,\n            \"uncouple_pos_ori\": true,\n            \"control_delta\": true,\n            \"interpolation\": null,\n            \"ramp_ratio\": 0.2\n        },\n        \"robots\": [\n            \"Sawyer\"\n        ],\n        \"camera_depths\": false,\n        \"camera_heights\": 84,\n        \"camera_widths\": 84,\n        \"reward_shaping\": false,\n        \"camera_names\": [\n            \"agentview\",\n            \"robot0_eye_in_hand\"\n        ],\n        \"render_gpu_device_id\": 0\n    }\n}",
+        "total": "6288"
+      },
+      "success_reexecuted": false,
+      "pixels_decoded": 0,
+      "simulator_imported": false
+    }
+  ],
+  "inspector_sha256": "3ce317c75caab05e2cb3036d58576309b6401e6b104f72239752c40ee0b366d5",
+  "download_receipt_sha256": "9181261d1d6923301ce1fa92dd0e1f3ed275165b255cbb7488db056d11a0d28d",
+  "started_epoch": 1792070504.902425,
+  "CPU_s": 0.953125,
+  "wall_s": 1.1324071884155273,
+  "new_physics": 0,
+  "new_render": 0,
+  "new_neural_queries": 0,
+  "new_training_updates": 0,
+  "unpickle_calls": 0,
+  "source_mutations": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

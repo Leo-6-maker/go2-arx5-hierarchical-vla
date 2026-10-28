@@ -1,0 +1,35 @@
+{
+  "does_not_prove_unique_failure_cause_or_AGG_effect": true,
+  "excluded": [
+    {
+      "reasons": [
+        "VISIBILITY"
+      ],
+      "source_sha256": "8dcc3d27236c9b2d504d7cf8ea2b2c944ff5c33c54452e9faaf75c6b224f1132",
+      "uid": "original/pi0265-family-015-M1-c1-E0/086"
+    }
+  ],
+  "metric": "For each same-current-state proposal subtract current goal error from teacher/model reference error at H40 index8 (.4s), then median; not a difference of marginal medians.",
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "rows": [
+    {
+      "backend": "E0",
+      "model_reference_is_not_installed_or_achieved_execution": true,
+      "paired_median_model_reference_goal_error_change_m": 0.00268113771766941,
+      "paired_median_teacher_reference_goal_error_change_m": -0.06062926285262637,
+      "proposals": 723
+    },
+    {
+      "backend": "E1",
+      "model_reference_is_not_installed_or_achieved_execution": true,
+      "paired_median_model_reference_goal_error_change_m": 0.002935490145821229,
+      "paired_median_teacher_reference_goal_error_change_m": -0.04990671077450157,
+      "proposals": 699
+    }
+  ],
+  "source_report": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/evidence/SUPPORT_MECHANISM_FAMILIES_14.json",
+  "source_report_sha256": "084a48b9631b25bef3b52ca21ff22503e4789f87b5568de4d2739824142c5ee2",
+  "status": "SAVED_SAME_INPUT_PAIRED_REFERENCE_DIAGNOSIS_PARTIAL_SUPPORT",
+  "teacher_calls": 0
+}

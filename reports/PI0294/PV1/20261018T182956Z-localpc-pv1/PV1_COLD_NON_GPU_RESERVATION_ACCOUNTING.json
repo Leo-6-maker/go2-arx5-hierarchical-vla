@@ -1,0 +1,40 @@
+{
+  "schema": "PI0294_PV1_COLD_RESERVATION_REPAIR_V1",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "campaign": "20261018T182956Z-localpc-pv1",
+  "status": "CPU_TESTED_PREPARATION_NOT_NATIVE_TRAINING_ADMISSION",
+  "actual_running_source_remains": "1c4cdc9aac8dbe1748f83f7003a8959842449ed6",
+  "diagnosed_issue": "COLD_CORE_CPU_RESERVATION_WAS_REQUIRED_TO_FULLY_FUND_A_NATIVE_GPU_JOB",
+  "repair": {
+    "explicit_scope": "COLD_NON_GPU_ONLY",
+    "requires_unique_reservation_id": true,
+    "job_id_must_be_null": true,
+    "submission_already_charged_must_be_false": true,
+    "H200_optimizer_query_reservations_must_be_zero": true,
+    "native_GPU_and_submission_still_forecast_in_full": true,
+    "cold_reservation_gives_no_sequential_wall_credit": true,
+    "only_actually_matching_reserved_dimensions_credited": true,
+    "all_unmatched_reservations_still_counted": true,
+    "native_partial_GPU_reservations_still_rejected": true
+  },
+  "CPU_verification": {
+    "tests_PASS": 848,
+    "subtests_PASS": 782,
+    "remote_science_for_tests": false
+  },
+  "current_B0_continuation": {
+    "native_job": "675967.hopper-m-02",
+    "last_observed_state_at_report": "Q",
+    "global_PBS_submission_number": 4,
+    "remaining_conditions_bound": 39,
+    "prior_valid_conditions_not_repeated": 9,
+    "diagnosed_engineering_replacement_cards": 1,
+    "own_native_transport_qualification_required": true,
+    "old_fixed_bank_reused_without_full_redownload": true
+  },
+  "new_training_updates": 0,
+  "new_budget_or_clock": false,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "remaining_gate": "FULL_REAL_BASELINE48_AND_FRESH_ALL_SITE_FORECAST_BEFORE_P2"
+}

@@ -1,0 +1,127 @@
+{
+  "schema": "V5_CD_C50_AFFINITY_FAILURE_CLOSED_AND_CORELAB_KEY_AUDIT_ACTUAL_V1",
+  "task": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+  "authority": "5b5de6f5d26ac90a6002c83ebcb60005acf06462",
+  "observed_epoch": 1793038861.1130378,
+  "progress": {
+    "C50_training1024": "COMPLETE_AUDITED_CLOSED",
+    "D25_training1024": "COMPLETE_AUDITED_CLOSED",
+    "C50_behavior": 0,
+    "D25_behavior": 0,
+    "conditions_each": 24,
+    "GEN1_images": 0,
+    "WDR_core64": 0,
+    "whole_goal": "ACTIVE_UNFINISHED"
+  },
+  "native_failure": {
+    "job_id": "1497143.stdct-mgmt-02",
+    "request_id": "72acd2ad-f3aa-42be-b93d-01993f9ee023",
+    "source": "420aa9c83b79e2c6ce185c7b1dbeb1d8d0cf92ad",
+    "job_state": "F",
+    "Exit_status": 1,
+    "run_count": 1,
+    "hostname": "GN-A40-006",
+    "cause": "Compute entry incorrectly assumed granted CPU IDs contain0..7; sealed-code/real-traceback independent audit proves rejection before OwnerLock, native owner record, Resident or any worker.",
+    "actual_granted_CPU_IDs": "NOT_CAPTURED",
+    "models": 0,
+    "queries": 0,
+    "constructors": 0,
+    "physics": 0,
+    "valid_conditions": 0,
+    "secondary_watch_failure": "Resident terminal inventory absent because entry never reached Resident; natural watch OS1 retained. No old settlement replay."
+  },
+  "once_closeout": {
+    "status": "INDEPENDENT_FAILED_C50_AFFINITY_GLOBAL_AND_THREE_LEASES_CLOSED_READBACK",
+    "GLOBAL_sha256": "1847b78c197e9a5089602827923b8e563cae219118a7d1a356a8cb5d94e70460",
+    "used": {
+      "H200_s": 150343.0,
+      "PBS_submissions": 30,
+      "optimizer_updates": 13762,
+      "neural_queries": 4482
+    },
+    "charged_GPU_s": 64,
+    "raw_PBS_CPU_s": 1,
+    "payload_CPU_s": 0,
+    "control_CPU": "Within existing prepaid7200 upper; no second control charge",
+    "output_delta_bytes": 0,
+    "old_IO_and_all_fees_retained": true,
+    "closed_lease_SHA256": {
+      "GPU": "e76c03306de0c851b82f0fc6fd040aeafbf22bddb126b17add13fcf942ea4d71",
+      "physical": "ec439fc8e1bf6e83001b2882b82bf845c45fcd3dc308d047a82b6191c439350d",
+      "control": "a51eba611fb8f535c1d6a44ed9c2c8796d7380bcef52142e24f17e18cee7be85"
+    },
+    "stage_advanced": false,
+    "original_owner_restarted": false
+  },
+  "cold_repair": {
+    "policy": "V5_CD_PBS_GRANTED_EIGHT_LOGICAL_SLOTS_V1",
+    "roles": {
+      "neural": 4,
+      "physical": 2,
+      "core_RPC": 1,
+      "neural_RPC": 1,
+      "owner": "shares RPC pair"
+    },
+    "granted_ids_captured_before_narrowing": true,
+    "explicit_manifest_opt_in": true,
+    "old_literal_manifests_unchanged": true,
+    "original_manifest_bytes_not_relabelled": true,
+    "episode_receives_actual_IDs_after_live_owner_binding": true,
+    "frozen15_unchanged": true,
+    "new_private_owner_SHA256": "446d9d11407032268df443108b9aad8e50961308c2583df9503d360659599c4e",
+    "native_deployed": false,
+    "native_Eval_qualified": false
+  },
+  "CPU_validation": {
+    "new_mapping_and_assembly_cases": 22,
+    "related_total": 84,
+    "private_actual_captured_settlement_and_original_onceIO_cases": 8,
+    "real_local_kernel_child": "All four disjoint roles mapped within child kernel grant, owner shares RPC pair. CPU fixture, not PBS/native Eval.",
+    "previous_local_fixture_failures_retained": [
+      "wrong relative output path created no file",
+      "range supplied to strict sequence API:9 fixture failures",
+      "wrong nested peer fixture:1 failure"
+    ],
+    "CI": "NOT_CLAIMED"
+  },
+  "corelab": {
+    "existing_AMD_private_public_key_match": true,
+    "matching_public_key_authorized": true,
+    "permissions_valid": true,
+    "aliases_user_port_and_identity_verified": true,
+    "key_or_service_changes": false,
+    "private_key_copied": false,
+    "human_images": "August26 historical successful username/port/host-key chain AMD→4080→5080, not current availability",
+    "new_actual_reads": [
+      "Existing AMD key route still stalls at target auth response",
+      "Human screenshot4080 fingerprint matches previously mislabelled external address; AMD to that address current TCP timeout",
+      "Exact screenshot command AMD→4080.lan port65522 bounded22s current timeout"
+    ],
+    "root_cause": "UNKNOWN_NOT_PROVEN_DISK_FULL",
+    "deleted_files": 0,
+    "freed_bytes": 0
+  },
+  "next_minimum_blockers": [
+    "Finish cold adapter acceptance and full retry accounting including exact prior paidIO request binding before any new native request",
+    "PBS arithmetic for one extra C attempt:used30+C1+D1+protected matrix3=35 versus adopted34. Do not spend D or matrix or silently raise cap; new retry not submitted",
+    "Restore Core access if possible; then exact old UNKNOWN and canonical LOCAL readback before Core dispatch"
+  ],
+  "scope": {
+    "T_CD": 1792932749.8133287,
+    "stop_new_training": 1793451149.8133287,
+    "deadline": 1793537549.8133287,
+    "new_training": 0,
+    "new_PBS": 0,
+    "new_models": 0,
+    "new_physics": 0,
+    "caps_unchanged": true,
+    "matrix3_and_final20GPUh40GiB_protected": true,
+    "R0_and_science_unchanged": true
+  },
+  "private_proof_SHA256": {
+    "D25_VANDA_FIRST_C50_VANDA_EVAL_COLD_02_C50_AFFINITY_PREENTRY_FAILURE_1497143_INDEPENDENT_CLOSURE_READBACK_1793038465087265388_1793038467972415447.private.json": "a39f5cb1a56e8554043df790618eed546b9e805aba1fd5255793115752a291a9",
+    "CORELAB_AMD_KEY_PAIR_AND_AUTHORIZED_READONLY_1793037942266546475.private.json": "38f1683d722f68f33d3c9f40a46962cd21f3d81c20db7518181dd1fc4eaedb24",
+    "CORELAB_USER_EXACT_SCREENSHOT_LAN_READONLY_1793038795011278613.private.json": "e0d6d42e57d5fa56d6b74b5793161c886ab2eea4fbe8d79f053c4c4d59483e7b",
+    "CORELAB_USER_SCREENSHOT_4080_PINNED_ALTERNATE_READONLY_1793038751839285268.private.json": "83deaeed2dc3b779ba00dc0351690ade69db63ab01dd0ede8f439e05a58f7880"
+  }
+}

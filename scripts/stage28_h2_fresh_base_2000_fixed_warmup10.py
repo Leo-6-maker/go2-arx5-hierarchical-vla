@@ -850,6 +850,18 @@ def _load_modality(path: Path, stage10_root: Path) -> Any:
     source_root = Path(stage10_root) / "src/isaac-gr00t"
     if str(source_root) not in sys.path:
         sys.path.insert(0, str(source_root))
+    resolved_path = path.resolve()
+    # The screen constructs the native processor before asking the official
+    # config builder for dataset metadata.  Re-executing the same modality
+    # file would register NEW_EMBODIMENT twice in one process.
+    for loaded in list(sys.modules.values()):
+        loaded_path = getattr(loaded, "__file__", None)
+        if loaded_path:
+            try:
+                if Path(loaded_path).resolve() == resolved_path:
+                    return loaded
+            except OSError:
+                pass
     module_name = f"stage28_modality_{_sha256_file(path)[:12]}"
     spec = importlib.util.spec_from_file_location(module_name, path)
     if spec is None or spec.loader is None:

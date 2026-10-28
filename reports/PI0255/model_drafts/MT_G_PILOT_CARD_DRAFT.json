@@ -1,0 +1,83 @@
+{
+  "arm": "MT-G",
+  "authority_commit": "eac535e7c4016df39821798b111fae7ad79e8253",
+  "data_ready": false,
+  "embodiment": {
+    "Base": "preserve original slot10",
+    "G": "preserve adapted slot10",
+    "existing_slot": 10,
+    "name": "new_embodiment",
+    "new_parameter_rows": 0
+  },
+  "execution_authorization": null,
+  "historical_cost": "6000 NEW updates each; G prior adaptation cost additional and unequal",
+  "initializer": {
+    "Trainer_tree_sha256": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+    "prefix": "arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000",
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "revision": "efecea485ae77000599d19171b02491f8d514f42"
+  },
+  "loss": "original native flow matching plus unchanged G full pure-noise four-step physical objective",
+  "loss_coefficients": {
+    "ell_delta": 0.1,
+    "ell_pos": 0.4,
+    "ell_rot": 0.1,
+    "ell_speed_margin": 0.1
+  },
+  "optimizer": {
+    "accumulation": 1,
+    "batch": 1,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "fresh": true,
+    "lr": 1e-05,
+    "max_grad_norm": 1.0,
+    "name": "AdamW",
+    "scheduler": "cosine6000",
+    "warmup_steps": 10,
+    "weight_decay": 1e-05
+  },
+  "processor_proposal": "PI0255_C_MT_TRAIN_ONLY_V1",
+  "randomness": "source/visit keyed native tau, epsilon, S4 noise AND processor augmentation identity; actual bytes must be recorded",
+  "runtime": {
+    "S4": 4,
+    "action_dt_s": 0.05,
+    "action_head": "F32",
+    "action_horizon": 40,
+    "backbone": "BF16_FROZEN",
+    "trainable": [
+      "projector",
+      "diffusion"
+    ],
+    "tune_llm": false,
+    "tune_visual": false,
+    "tune_vlln": false
+  },
+  "sampling": "same task/scenario/paired-command/episode/window schedule for both arms; TRAIN successful eligible rows only",
+  "schema": "PI0255_MT_PILOT_CARD_DRAFT_V1",
+  "selected_checkpoint": "NONE",
+  "stage": {
+    "checkpoint_steps": [
+      3000,
+      6000
+    ],
+    "steps": 6000,
+    "task_updates": {
+      "M1": 2000,
+      "M2": 2000,
+      "M3": 2000
+    }
+  },
+  "status": "DRAFT_NOT_EXECUTION_AUTHORIZED",
+  "unresolved": [
+    "all three expert admissions",
+    "successful TRAIN/MT-VAL episodes",
+    "every-window codec/gate and observability",
+    "TRAIN-only C_MT numerical values",
+    "pinned tokenizer and common actual processor proof",
+    "real6000 runner/source-visit input and full Trainer resume binding"
+  ]
+}

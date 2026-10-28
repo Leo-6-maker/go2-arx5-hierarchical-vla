@@ -1,0 +1,81 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Collect terminal deletion receipts and recheck current entry, without deleting."""
+import json
+from pathlib import Path
+import sys
+import time
+sys.path.insert(0,str(Path(__file__).parents[1]))
+from pi0292_adopt import remote,save
+RUN='20261013T074558Z-localpc-september-retirement'
+HERE=Path(__file__).parent/RUN
+CODE=r'''
+import hashlib,json,os,resource,subprocess,time
+from pathlib import Path
+os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+base=Path(BASE);batches=[]
+for directory in sorted(base.iterdir()):
+ statepath=directory/'STATE.json'
+ if not statepath.exists():continue
+ state=json.loads(statepath.read_text())
+ assert state['status'].startswith('TERMINAL'),'Active actor: '+directory.name
+ proc=Path('/proc')/str(state['pid'])/'stat'
+ alive=proc.exists() and proc.read_text().split()[21]==str(state['proc_start']) and proc.read_text().split()[2]!='Z'
+ assert not alive,'Terminal actor still alive'
+ rows=state['completed']
+ batches.append(dict(batch=directory.name,status=state['status'],actor_pid_absent=True,
+  CPU_s=state['actor_CPU_s'],started_epoch=state['started_epoch'],finished_epoch=state.get('finished_epoch'),
+  deleted_files=sum(x['deleted_files'] for x in rows),
+  allocated_lower_bound_bytes=sum(x['allocated_lower_bound_bytes'] for x in rows),
+  rows=[dict(id=x['id'],status=x['status'],held_count=len(x.get('held',[])),
+   path_absent=not Path(x['path']).exists(),allocated_lower_bound_bytes=x['allocated_lower_bound_bytes']) for x in rows],
+  before=json.loads((directory/'CAPACITY_BEFORE.json').read_text()),
+  after=json.loads((directory/'CAPACITY_AFTER.json').read_text())))
+doctors=[]
+for profile in PROFILES:
+ result=subprocess.run(['@LOCAL_OR_CORE_HOME@-nfs/Projects/GR00T-WBC/infrastructure/enter.sh',profile,'python',
+  '@LOCAL_OR_CORE_HOME@-nfs/Projects/GR00T-WBC/infrastructure/doctor.py',profile],capture_output=True,text=True,timeout=90)
+ assert result.returncode==0,result.stderr[-2000:]+result.stdout[-2000:]
+ value=json.loads(result.stdout);assert value['status']=='PASS'
+ doctors.append(dict(profile=profile,status=value['status'],checks=len(value['checks']),CPU_s=value['cpu_seconds']))
+verification=None
+out=base/'CURRENT_VERIFY.stdout'
+if out.exists():
+ verification=json.loads(out.read_text());assert verification['status']=='PASS_CURRENT_BANK_BYTES_AND_AVAILABLE_SOURCE_SEALS'
+ops=Path(OPS);seal=json.loads((ops/'OPERATIONS_SEAL.json').read_text())
+assert seal['source_sha']=='c187d9573bdff302783fb5f41d06fcaa1753d2a8'
+for name,digest in seal['files'].items():assert hashlib.sha256((ops/name).read_bytes()).hexdigest()==digest
+capacities={}
+for name in CAPACITY_ROOTS:
+ st=os.statvfs(name);capacities[name]=dict(device=os.stat(name).st_dev,total_bytes=st.f_blocks*st.f_frsize,
+  available_bytes=st.f_bavail*st.f_frsize,used_bytes=(st.f_blocks-st.f_bfree)*st.f_frsize)
+u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+print(json.dumps(dict(epoch=time.time(),batches=batches,doctors=doctors,current_verification=verification,
+ operations_seal_files=len(seal['files']),operations_seal_sha256=hashlib.sha256((ops/'OPERATIONS_SEAL.json').read_bytes()).hexdigest(),
+ capacity=capacities,observer_CPU_s=u.ru_utime+u.ru_stime+c.ru_utime+c.ru_stime)))
+'''
+if __name__=='__main__':
+    host=sys.argv[1]
+    ssd=host=='corelab-4080s'
+    root='@CORELAB_NODE_STORAGE@' if ssd else '@LOCAL_OR_CORE_HOME@-nfs'
+    values=dict(BASE=root+'/Projects/GR00T-WBC/infrastructure/maintenance/'+RUN,
+        PROFILES=['4080-simulation','4080-cpu-data'] if ssd else ['amd-management'],
+        OPS='@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0292/20261013T025824Z-localpc-pi0292/operations/c187d9573bdff302783fb5f41d06fcaa1753d2a8'
+         if ssd else '@LOCAL_OR_CORE_HOME@-nfs/Projects/go2-arx5/PI0292/20261013T025824Z-localpc-pi0292/operations/c187d9573bdff302783fb5f41d06fcaa1753d2a8',
+        CAPACITY_ROOTS=[root])
+    # Shared NFS is a separate storage identity; AMD observes the physical source
+    # seal through the existing shared deployment, not the SSD-only address.
+    if not ssd:
+        values['OPS']='@LOCAL_OR_CORE_HOME@-nfs/Projects/GR00T-WBC/code/vla'
+        code=CODE[:CODE.index('ops=Path(OPS)')]+CODE[CODE.index('capacities={}'):]
+        code=code.replace("operations_seal_files=len(seal['files']),operations_seal_sha256=hashlib.sha256((ops/'OPERATIONS_SEAL.json').read_bytes()).hexdigest(),", "operations_seal_files=None,operations_seal_sha256=None,")
+    else:code=CODE
+    result=remote(host,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+code)
+    path=HERE/(host+'_CLOSEOUT_'+str(time.time_ns())+'.private.json')
+    save(path,dict(returncode=result.returncode,stdout=result.stdout,stderr=result.stderr))
+    if result.returncode:raise SystemExit(result.stderr[-2000:])
+    value=json.loads(result.stdout)
+    print(json.dumps(dict(receipt=str(path),epoch=value['epoch'],batches=len(value['batches']),
+        allocated_lower_bound_bytes=sum(b['allocated_lower_bound_bytes'] for b in value['batches']),
+        doctors=value['doctors'],observer_CPU_s=value['observer_CPU_s'],operations_files=value['operations_seal_files'])))

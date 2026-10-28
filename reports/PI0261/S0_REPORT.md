@@ -1,0 +1,13 @@
+# PI0261 S0 — source-bound diagnosis and frozen contrast
+
+PI0260-R3's Base6000 and G6000 full acceptance failures remain unchanged. PI0261 starts both new arms from the exact Base6000 full Trainer at HF revision `52abc8d151b67bb667e43fcf874dfe2cfa253364`, tree `24ed9d1b5a0e42e0aff6d62c54d8438d2f202d765b006d90c62d8623604e4ce5`. All 16 donor files passed fixed-revision full-file readback before the unused old optimizer was retired locally; the complete Trainer remains on HF.
+
+The original saved-array semantic rule remains `d(opposite H40 XYZ) − d(own H40 XYZ) > 0`; ties fail. The 12 cases per task/wording/noise split evenly into six per command. Base6000's M1 instruction correct counts are 7/12 and 8/12 for B0/B1, with command-1 counts 1/6 and 2/6. M1 paraphrase is 6/12 and 7/12, with command-1 counts 0/6 and 2/6. M3 instruction and paraphrase remain 12/12 and 11/12 for both wording groups. This supports an M1 command-direction deficit on the development validation entry panel; it does not identify a unique neural cause or measure full M3 contour completion.
+
+The original R3 6000-visit plan had 1500 visits for each task/command, 69 sampled index-0 windows, and 51 repeated nonlanguage observation keys seen with both commands. The source-bound exposure receipt enumerates all 480 task/command/family/quartile groups and 16 actually used instruction templates. Aggregate command balance therefore did not mean frequent same-observation opposing-command supervision. Existing within-command temporal aliases remain accepted; the original processed-input audit reported zero mixed-command merges.
+
+The new bank binds all 60 original TRAIN family/task common starts at index 0. Original opposing-reference H40 XYZ separation spans 10.49–13.49 mm. All 60 processed pairs have identical state, embodiment, pixels and image grid, with distinct language tokens and condition identities; action and mask are excluded from conditioning. No VAL, TEST, new render, retiming or relabeling was used. The 2000-unit C/P plan is fixed at SHA-256 `208f0bfbc97095369ce84329899bbbde67eb5f694ca8c9022f0566dc61f28477`.
+
+The 2040-row donor/C2000/P2000 evaluation card was frozen before any new quality query at SHA-256 `b3bc8fd2a9dbdb107366d72a25d0251c5ddda384e0cbdf3114f3db319a992929`. It reuses the donor's original 440 rows and adds 240 TRAIN entries per point; the new-attempt cap remains 1728. The original KIN-VAL and semantic panels are development validation, and selected/deployment remain `NONE`.
+
+Evidence: `PAIRING_PLAN.json`, `PROCESSED_PAIR_BANK_AUDIT.json`, `S0_EXPOSURE.json`, `S0_DIAGNOSIS.json`, `FIXED_EVAL_CARD.json` under this directory. No PI0261 optimizer update was completed at S0.

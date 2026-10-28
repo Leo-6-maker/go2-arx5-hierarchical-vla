@@ -1,0 +1,155 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Derived CPU-only E0 evidence audit; never changes an episode's raw files."""
+import argparse
+import json
+import os
+from pathlib import Path
+import resource
+import shutil
+import subprocess
+import sys
+import time
+
+
+def audit(root, attempt):
+    root = Path(root)
+    m = json.loads((root/'RUN_MANIFEST.json').read_text())
+    code = root/m['code']['capsule_relative']
+    sys.path[:0] = [str(code/'src'), str(code)]
+    from scripts.pi0294.e0_scope import validate_entry
+    from scripts.pi0292.durable import OwnerLock, read, write
+    from go2arx5_vla.task_data.io import file_hash
+    from scripts.pi0294.score import score
+    import numpy as np
+    from PIL import Image, ImageStat
+
+    validate_entry(root, profile='4080-simulation', closeout=True)
+    lock = OwnerLock(root/'E0_CORE_OWNER.lock')
+    ledger = read(root/'RESOURCE_LEDGER.json')
+    assert not ledger['reservations'], 'NO_AUDIT_WITH_LIVE_PHYSICS'
+    os.sched_setaffinity(0, {min(os.sched_getaffinity(0))})
+    cpu0 = time.process_time()
+    child0 = resource.getrusage(resource.RUSAGE_CHILDREN)
+    budget = min(600, int(86400-ledger['Core_CPU_s']))
+    assert budget >= 60, 'E0_AUDIT_CPU_MARGIN'
+    resource.setrlimit(resource.RLIMIT_CPU, (budget, budget))
+    folder = root/'episodes'/attempt
+    output = root/'evidence/audits'/attempt
+    assert folder.is_dir() and not output.exists(), 'NO_OVERWRITE_DERIVED_AUDIT'
+    output.mkdir(parents=True, mode=0o700)
+    checks, errors = {}, []
+
+    def check(name, value):
+        checks[name] = bool(value)
+        if not value:
+            errors.append(name)
+
+    v = dict(attempt_id=attempt, source_sha=m['code']['vla_commit'],
+             raw_episode_relative=str(folder.relative_to(root)), selected='NONE', deployment='NONE')
+    try:
+        card, result, adjudication = (read(folder/n) for n in
+            ('CARD.json', 'RESULT.json', 'E0_ADJUDICATION.json'))
+        s1 = read(folder/'S1_RESULT.json') if (folder/'S1_RESULT.json').exists() else {}
+        v.update(result=result, adjudication=adjudication, S1=s1)
+        manifest = read(folder/'FILE_MANIFEST.json')
+        check('raw_manifest_listed_members_unchanged', all(
+            (folder/r['path']).is_file() and (folder/r['path']).stat().st_size == r['bytes']
+            and file_hash(folder/r['path']) == r['sha256'] for r in manifest))
+        check('card_and_source_identity', card['id'] == attempt and result['source_sha'] == m['code']['vla_commit'])
+        check('adjudication_result_hash', file_hash(folder/'RESULT.json') == adjudication['result_sha256'])
+        steps = result['physics_steps']
+        if (folder/'physics.npz').is_file():
+            with np.load(folder/'physics.npz', allow_pickle=False) as data:
+                arrays = {k: data[k].copy() for k in data.files}
+            recomputed = score(arrays, card, complete=len(arrays['time_s']) == 641)
+            recomputed.update(physics_sha256=file_hash(folder/'physics.npz'), raw_sample_count=len(arrays['time_s']))
+            check('independent_saved_state_score_exact', recomputed == read(folder/'SCORE.json'))
+            v['independent_score'] = recomputed
+        else:
+            check('no_physics_file_only_when_zero_saved_samples', result['paired_samples'] == 0 and steps == 0)
+            v['independent_score'] = None
+        if (folder/'highrate.npz').is_file():
+            with np.load(folder/'highrate.npz', allow_pickle=False) as data:
+                rows = data['rows'].copy()
+            check('actual_native_tick_count', len(rows) == steps)
+            check('actual_native_clock_finite', np.isfinite(rows).all() and
+                np.allclose(rows[:, 0], np.arange(1, steps+1)*.002, atol=1e-8, rtol=0))
+            live_flags = int(np.count_nonzero(rows[:, -1]))
+        else:
+            check('highrate_absent_only_zero_steps', steps == 0)
+            live_flags = 0
+        v['actual_native_safety_flag_rows'] = live_flags
+        check('S1_no_action_modification', s1.get('actions_modified') is False)
+        check('S1_shadow_live_parity', s1.get('maximum_live_shadow_difference', float('inf')) <= 1e-10)
+        forecasts = read(folder/'S1_PREFLIGHTS.json') if (folder/'S1_PREFLIGHTS.json').exists() else []
+        v['S1_forecast_count'] = len(forecasts)
+        v['S1_reject_records'] = [r for r in forecasts if r['decision'] == 'REJECT']
+        check('S1_forecasts_did_not_mutate_live_state', all(r.get('live_state_unchanged') is True for r in forecasts))
+        check('S1_reported_reject_count', len(v['S1_reject_records']) == s1.get('pre_execution_rejections', 0))
+        if s1.get('pre_execution_rejections'):
+            intents = sorted((folder/'relay/intents').glob('*.json'))
+            last = read(intents[-1]) if intents else None
+            v['last_rejected_intent'] = last
+            check('S1_rejected_prefix_zero_live_execution', bool(last) and steps == last['tick_before'] and live_flags == 0)
+        elif adjudication['pipeline_trustworthy']:
+            check('trustworthy_condition_has_no_actual_safety_flag', live_flags == 0)
+        pairs = [sorted((folder/camera).glob('*.png')) for camera in ('body_rgb', 'wrist_rgb')]
+        check('paired_real_camera_frame_names', [p.name for p in pairs[0]] == [p.name for p in pairs[1]])
+        n = len(pairs[0])
+        check('actual_camera_frame_accounting', n == result['rgb_pairs'] and n in (result['paired_samples'], result['paired_samples']+1))
+        v['video'] = None
+        if n:
+            inspect = {}
+            for camera in range(2):
+                for pos in sorted({0, n-1}):
+                    p = pairs[camera][pos]
+                    with Image.open(p) as im:
+                        check('RGB_shape_'+str(camera)+'_'+str(pos), im.size == (256, 256) and im.mode == 'RGB')
+                        extrema = im.getextrema()
+                        check('RGB_nonuniform_'+str(camera)+'_'+str(pos), any(hi > lo for lo, hi in extrema))
+                        inspect[str(p.relative_to(folder))] = dict(sha256=file_hash(p), channel_std=ImageStat.Stat(im).stddev)
+            ffmpeg, ffprobe = shutil.which('ffmpeg'), shutil.which('ffprobe')
+            assert ffmpeg and ffprobe, 'CPU_FFMPEG_REQUIRED'
+            video = output/'actual-body-wrist.mp4'
+            subprocess.run([ffmpeg, '-nostdin', '-v', 'error', '-n', '-threads', '1', '-filter_complex_threads', '1',
+                '-framerate', '20', '-i', str(folder/'body_rgb/%04d.png'), '-framerate', '20', '-i', str(folder/'wrist_rgb/%04d.png'),
+                '-filter_complex', '[0:v][1:v]hstack=inputs=2[v]', '-map', '[v]', '-frames:v', str(n),
+                '-c:v', 'libx264', '-threads', '1', '-preset', 'fast', '-crf', '20', '-pix_fmt', 'yuv420p', str(video)], check=True, timeout=180)
+            video.chmod(0o600)
+            probe = json.loads(subprocess.check_output([ffprobe, '-v', 'error', '-select_streams', 'v:0',
+                '-show_entries', 'stream=width,height,nb_frames,duration', '-of', 'json', str(video)], text=True))['streams'][0]
+            decoded = subprocess.check_output([ffmpeg, '-nostdin', '-v', 'error', '-threads', '1', '-i', str(video),
+                '-map', '0:v:0', '-f', 'framemd5', '-'], text=True, timeout=180)
+            decoded_frames = sum(bool(s.strip()) and not s.startswith('#') for s in decoded.splitlines())
+            check('video_full_decode_exact_actual_frames', decoded_frames == n == int(probe['nb_frames'])
+                and probe['width'] == 512 and probe['height'] == 256)
+            v['video'] = dict(role='core', relative_path=str(video.relative_to(root)), sha256=file_hash(video),
+                bytes=video.stat().st_size, actual_paired_frames=n, fps=20, decoded_frames=decoded_frames,
+                native_integrations=steps, actual_native_duration_s=steps*.002, last_RGB_time_s=(n-1)/20,
+                playback_duration_s=float(probe['duration']), includes_initial_frame=True,
+                complete_32s=steps == 16000, raw_RGB_private=True, raw_image_inspection=inspect)
+        v['status'] = 'PASS_INDEPENDENT_SAVED_EVIDENCE_AUDIT' if not errors else 'FAIL_PRESERVED_AUDIT'
+    except Exception as exc:
+        errors.append(type(exc).__name__+': '+str(exc))
+        v['status'] = 'ENGINEERING_AUDIT_INCOMPLETE'
+    finally:
+        child = resource.getrusage(resource.RUSAGE_CHILDREN)
+        cpu = time.process_time()-cpu0+child.ru_utime+child.ru_stime-child0.ru_utime-child0.ru_stime
+        ledger['Core_CPU_s'] += cpu
+        ledger['stages'].append(dict(phase='E0_INDEPENDENT_AUDIT_'+attempt, CPU_s=cpu, status=v.get('status')))
+        write(root/'RESOURCE_LEDGER.json', ledger)
+        v.update(checks=checks, errors=errors, CPU_s=cpu, completed_epoch=time.time())
+        write(output/'AUDIT.private.json', v)
+        (output/'AUDIT.private.json').chmod(0o600)
+        lock.close()
+    print(json.dumps(dict(status=v['status'], attempt_id=attempt, CPU_s=v['CPU_s'], errors=errors)), flush=True)
+
+
+if __name__ == '__main__':
+    p = argparse.ArgumentParser()
+    p.add_argument('--root', required=True)
+    p.add_argument('--attempt', required=True)
+    a = p.parse_args()
+    audit(a.root, a.attempt)

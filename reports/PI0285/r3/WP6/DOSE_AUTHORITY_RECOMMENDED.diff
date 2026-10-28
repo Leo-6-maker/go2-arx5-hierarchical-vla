@@ -1,0 +1,21 @@
+--- a/scripts/pi0285_execution/authority.py
++++ b/scripts/pi0285_execution/authority.py
+@@ -71,10 +71,14 @@
+         assert sha(v['parent_export'])==v['parent_export_sha256']
+         assert json.loads((parent/'PI0282_RECOVERY.json').read_text())['cursor']==v['parent_phase_step']*8
+     if repair:
+-        proof=json.loads((root/'recovery'/('A' if arm=='REPAIR_A2048' else 'B')/'ADMISSION.json').read_text())
+-        assert proof['status']=='PASS_ACTUAL_BRANCH_RESTORE_FRESH_CORRECTIONS_FIXED_CODEC' and proof['valid_branches']>=24
+-        if arm=='REPAIR_B2048':assert all(proof['valid_per_task'][t]>=12 for t in ('T1','T2'))
+-        assert sum(r['source']=='corrected_suffix' for r in plan)==len(plan)//2
++        if arm=='REPAIR_A2048' and 'branch' in v:
++            from r3_branch_card import validate_branch
++            validate_branch(root,v,plan)
++        else:
++            proof=json.loads((root/'recovery'/('A' if arm=='REPAIR_A2048' else 'B')/'ADMISSION.json').read_text())
++            assert proof['status']=='PASS_ACTUAL_BRANCH_RESTORE_FRESH_CORRECTIONS_FIXED_CODEC' and proof['valid_branches']>=24
++            if arm=='REPAIR_B2048':assert all(proof['valid_per_task'][t]>=12 for t in ('T1','T2'))
++            assert sum(r['source']=='corrected_suffix' for r in plan)==len(plan)//2
+     return v
+ 
+ 

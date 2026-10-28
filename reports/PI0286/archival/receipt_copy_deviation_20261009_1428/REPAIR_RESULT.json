@@ -1,0 +1,60 @@
+{
+  "status": "PASS_LOCAL_RECEIPT_CLASSIFICATION_REPAIRED_FROM_ORIGINAL_HOPPER_ONLY",
+  "epoch": 1791527572.7059383,
+  "prior_wrong_copy_claim_retracted": true,
+  "error_inventory": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\receipt_copy_deviation_20261009_1428\\ERROR_COPY_INVENTORY.json",
+  "error_inventory_sha256": "274f61029f1ab250e692ac43dbed530087868ad27dcc1b447c0f710618d90b12",
+  "preserved_wrong_copy_inventory": true,
+  "misfiled_C1_extras_removed_from_C0_after_exact_backup": [
+    {
+      "path": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\C0\\ACTUAL_C1_BINDING.json",
+      "sha256": "3c29e64bb7de904db46ab6ea33acc9ce6788f17247fc58a4db5c0b409b68e26b",
+      "preserved": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\receipt_copy_deviation_20261009_1428\\C0\\ACTUAL_C1_BINDING.json"
+    },
+    {
+      "path": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\C0\\C1_CORRECT1024-1024_TRAINING_CPU.json",
+      "sha256": "210385b5caf3a79bf768cac459fc8afc5d72bdc124a6856b906f81caaf8b4d81",
+      "preserved": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\receipt_copy_deviation_20261009_1428\\C0\\C1_CORRECT1024-1024_TRAINING_CPU.json"
+    },
+    {
+      "path": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\C0\\DIRECT_PARALLEL_READINESS.json",
+      "sha256": "3afd120195d8bf089ee6a9af05f0877803347f42261c6695d25cd0b9d7fbde28",
+      "preserved": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\receipt_copy_deviation_20261009_1428\\C0\\DIRECT_PARALLEL_READINESS.json"
+    },
+    {
+      "path": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\C0\\DIRECT_PARALLEL_PREP.json",
+      "sha256": "116a2d2abda57d3aea0b3b869738ae8b7888b8962b62e537c681a5b8df81cb83",
+      "preserved": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\receipt_copy_deviation_20261009_1428\\C0\\DIRECT_PARALLEL_PREP.json"
+    }
+  ],
+  "arms": [
+    {
+      "arm": "C0_REPLAY1024",
+      "local_folder": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\C0",
+      "status": "PASS_CORRECT_LOCAL_CLASSIFICATION_ALL12_ORIGINAL_RECEIPT_BYTES_AND_NATIVE14_TREE",
+      "revision": "b0b8c65de8d5bbdf0946ccdda9ecb23348cf16c9",
+      "tree_sha256": "e61e2d5288dab9a0408a67bd88583d022e3c85d42aef5ebfbe699957bcb3d7ab",
+      "members": 14,
+      "total_bytes": 20468176040,
+      "receipt_index": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\C0\\ACTUAL_RECEIPTS_INDEX.json",
+      "receipt_index_sha256": "c4eb263635e81cb02f26ea84b0885cdf4dbf947223509ca9c5c1d7f0babb86af",
+      "current_local_full": "HF_ONLY_AFTER_OWNER_RETIREMENT"
+    },
+    {
+      "arm": "C1_CORRECT1024",
+      "local_folder": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\C1",
+      "status": "PASS_CORRECT_LOCAL_CLASSIFICATION_ALL12_ORIGINAL_RECEIPT_BYTES_AND_NATIVE14_TREE",
+      "revision": "d35dcda18def3d0691b55957ce461fe6b8449437",
+      "tree_sha256": "df2bfeedc443e68fe8f06d60f2786e02cd128e5e2dc881011d3ebfed37f8ad5f",
+      "members": 14,
+      "total_bytes": 20468176035,
+      "receipt_index": "D:\\Users\\GR00T project\\Projects\\go2-arx5\\PI0269\\worktree\\reports\\PI0286\\archival\\C1\\ACTUAL_RECEIPTS_INDEX.json",
+      "receipt_index_sha256": "8f4bf6c142b7e7530f35d9c748b576ec3f343c931f449bd2609988ee6a0982bf",
+      "current_local_full": "RETAINED_UNIQUE_FULL14"
+    }
+  ],
+  "remote_science_or_upload_or_readback_rerun": false,
+  "models_rerun": 0,
+  "uploads_rerun": 0,
+  "full_byte_readbacks_rerun": 0
+}

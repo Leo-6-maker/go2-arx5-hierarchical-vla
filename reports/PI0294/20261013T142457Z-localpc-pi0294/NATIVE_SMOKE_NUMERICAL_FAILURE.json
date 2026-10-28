@@ -1,0 +1,53 @@
+{
+  "status": "ACTUAL_SMOKE_FULL_RESUME_NUMERICAL_GATE_FAILED_MAIN_NOT_ADMITTED",
+  "run_uuid": "20261013T142457Z-localpc-pi0294",
+  "failed_source_sha": "d92d94e1d026c630291d9273e7203605bf22b361",
+  "failed_source_CI": {"run_id": 38427328107, "head_sha": "d92d94e1d026c630291d9273e7203605bf22b361", "conclusion": "success", "changed_files_exact_GitHub_readback": 6},
+  "actual_optimizer_updates": 8,
+  "formal_main_updates": 0,
+  "actual_legal_own_H200_model_load_attempts": 4,
+  "PBS_calls_used": 3,
+  "PBS_calls_cap": 4,
+  "GPU_allocated_s": 489,
+  "GPU_reserved_s": 0,
+  "actual_scheduler_CPU_s_across_three_jobs": 477,
+  "allocation_accounting_includes_idle_and_start_to_obit": true,
+  "jobs": [
+    {"job_id": "664410.hopper-m-02", "status": "F", "exit_status": 1, "GPU_allocated_s": 63, "optimizer_updates": 0, "reason": "OFFLINE_TOKENIZER_REMOTE_TAG_QUERY"},
+    {"job_id": "664414.hopper-m-02", "status": "F", "exit_status": 1, "GPU_allocated_s": 243, "optimizer_updates": 6, "reason": "INITIAL_REMAINING_PEAK_DOUBLE_COUNTED_WITH_WRITTEN_CHECKPOINTS"},
+    {"job_id": "664432.hopper-m-02", "status": "F", "exit_status": 1, "GPU_allocated_s": 183, "optimizer_updates": 2, "reason": "FULL_RESUME_WEIGHT_AND_OPTIMIZER_TOLERANCE_FAILURE"}
+  ],
+  "resume_comparison": {
+    "status": "FAIL_PRESERVED",
+    "all_sample_cursor_batch_rng_noise_scheduler_exact_fields": true,
+    "checkpoint_sampler_and_RNG_exact": true,
+    "native_loss_tolerance_pass": true,
+    "native_loss_max_abs_difference": 0.00012290477752685547,
+    "full_model_weight_arrays_compared": 1030,
+    "weight_arrays_outside_fixed_tolerance": 524,
+    "optimizer_state_comparisons": 2174,
+    "optimizer_comparisons_outside_fixed_tolerance": 151,
+    "scheduler_comparisons": 8,
+    "scheduler_comparisons_failed": 0,
+    "fixed_weight_optimizer_atol": 1e-7,
+    "fixed_weight_optimizer_rtol": 0.001,
+    "tolerances_not_relaxed_after_failure": true
+  },
+  "CPU_forensic_observations": {
+    "pristine_parameter_inventory_equal": true,
+    "pristine_embodiment_rows_equal": true,
+    "pristine_model_config_equal": true,
+    "first_32_microbatch_losses_bit_exact": true,
+    "first_optimizer_gradient_squared_norms_differ": true,
+    "inference": "BACKWARD_NUMERICAL_NONDETERMINISM_SUSPECTED_NOT_YET_CAUSALLY_PROVEN"
+  },
+  "new_total_peak_fix": {"owned_bytes_before_recovery": 76631709490, "fixed_total_owned_peak_bytes": 171798691840, "budget_cap_bytes": 193273528320, "already_written_bytes_not_added_again": true},
+  "checkpoint_retirement": {"executed": false, "reason": "FULL_COMPARISON_FAILED_BEFORE_RETIREMENT_GATE", "failed_models_and_full_states_preserved": true},
+  "microbatch_4_and_8_benchmarks": "NOT_RUN",
+  "formal_training": "NOT_RUN",
+  "real_model_closed_loop": "NOT_RUN",
+  "remaining_model_engineering_updates": 8,
+  "last_PBS_submission_held_pending_numerical_repair_and_requalification": true,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

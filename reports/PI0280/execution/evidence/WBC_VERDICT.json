@@ -1,0 +1,114 @@
+{
+  "authority": "PI0280_PRETRAINED_FIRST_FROZEN_WBC_BASELINE_NO_TRAIN_GO_V1",
+  "release": "9c0172ced33c6052f7cb037b4a6d91910f9fe69e",
+  "controller": "DELIVERED_OLD_WBC",
+  "status": "BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+  "hold": {
+    "execution": "WBC_FIXTURE_EXECUTED",
+    "controlled_ticks": 500,
+    "elapsed_s": 9.999999776482582,
+    "object_success": "NOT_AN_OBJECT_TASK",
+    "orientation_qualification": "NO_NEW_PASS_THRESHOLD"
+  },
+  "vertical": {
+    "execution": "VALID_NATIVE_TERMINATION",
+    "native_stop": "TRACKING_ABORT",
+    "controlled_ticks": 25,
+    "elapsed_s": 0.4999999888241291,
+    "path_progress_m": 0.09999999403953552,
+    "time_law_progress_m": 0.001223579398356378,
+    "path_length_m": 0.09999999403953552,
+    "timing_error_m": 0.09877641499042511,
+    "original_timing_limit_m": 0.06999999582767485,
+    "lateral_error_m": 0.003157773520797491,
+    "raw_native_stop_preserved": true,
+    "fall_flag": false,
+    "joint_limit_termination": false
+  },
+  "root_cause_scope": "Observed native spatial progress reaches return endpoint at ~0.5s while time-law progress remains near path start, triggering unchanged tracking stop; no controller/gain/trajectory/threshold repair authorized.",
+  "engineering": {
+    "replacements": 1,
+    "original": "wbc/vertical-engineering-000/RESULT.json",
+    "original_outcome": "ENGINEERING_INCOMPLETE_NATIVE_AUTORESET_INDEX_ERROR",
+    "fix": "PI0280 wrapper preserves original termination before automatic reset; does not clear or alter native stop"
+  },
+  "expert_replays": [
+    {
+      "condition": 10000,
+      "status": "NOT_EXECUTED_BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+      "quality_score": null
+    },
+    {
+      "condition": 10001,
+      "status": "NOT_EXECUTED_BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+      "quality_score": null
+    },
+    {
+      "condition": 10002,
+      "status": "NOT_EXECUTED_BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+      "quality_score": null
+    },
+    {
+      "condition": 10003,
+      "status": "NOT_EXECUTED_BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+      "quality_score": null
+    }
+  ],
+  "pretrained_replays": [
+    {
+      "condition": 10000,
+      "status": "NOT_EXECUTED_BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+      "quality_score": null
+    },
+    {
+      "condition": 10001,
+      "status": "NOT_EXECUTED_BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+      "quality_score": null
+    },
+    {
+      "condition": 10002,
+      "status": "NOT_EXECUTED_BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+      "quality_score": null
+    },
+    {
+      "condition": 10003,
+      "status": "NOT_EXECUTED_BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+      "quality_score": null
+    }
+  ],
+  "target_closed_loop": "BLOCKED_TARGET_PRETRAINED_INPUT_CONTRACT",
+  "source_physics": "INDEPENDENT_LANE_CONTINUES",
+  "counters": {
+    "total": {
+      "physical_start": 3,
+      "control_tick": 553,
+      "gripper_dispatch": 2212,
+      "integration": 2212,
+      "RGB_pair": 110,
+      "actor_forward": 1100
+    },
+    "by_fixture": {
+      "hold": {
+        "physical_start": 1,
+        "control_tick": 501,
+        "gripper_dispatch": 2004,
+        "integration": 2004,
+        "RGB_pair": 100,
+        "actor_forward": 1000
+      },
+      "vertical": {
+        "physical_start": 2,
+        "control_tick": 52,
+        "gripper_dispatch": 208,
+        "integration": 208,
+        "RGB_pair": 10,
+        "actor_forward": 100
+      }
+    },
+    "readback_epoch": 1791381846.1763651,
+    "ledger_bytes": 453693
+  },
+  "new_training_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

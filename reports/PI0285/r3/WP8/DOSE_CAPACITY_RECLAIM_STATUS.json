@@ -1,0 +1,39 @@
+{
+  "status": "NOT_MUTATED_UNKNOWN_FD_COVERAGE",
+  "scope": "PI0285_EXACT2048_3072_AND_CONSUMED_DELTA_ONLY",
+  "core_proof": "reports\\PI0285\\r3\\WP8\\DOSE_CAPACITY_RECLAIM_CORE_PROOF.json",
+  "known_complete_Core_points": [
+    "PLACE4096-1024",
+    "PLACE4096-2048",
+    "PLACE4096-4096"
+  ],
+  "unknown_process_receipt": "reports\\PI0285\\r3\\WP8\\DOSE_CAPACITY_RECLAIM_UNKNOWN_PROCESSES.json",
+  "visible_candidate_consumers": [],
+  "fd_denied_system_monitors": [
+    2261671,
+    2261685
+  ],
+  "ended_pid": 2347150,
+  "deleted": [],
+  "logical_bytes_reclaimed": 0,
+  "allocated_bytes_reclaimed": 0,
+  "filesystem_free_delta": "NOT_MEASURED_NO_MUTATION",
+  "quota": {
+    "source": "OWNER_CACHED_REPORT",
+    "report_time_SGT": "2026-10-09 03:33",
+    "used": "1011.8GB",
+    "hard": "1.0TB",
+    "current_personal_headroom": "UNKNOWN_CACHED_REPORT_NOT_REFRESHED"
+  },
+  "preserved": [
+    "checkpoint-4096_complete_Trainer",
+    "active_archive4096_source",
+    "all_Core_modelviews",
+    "all_exports_READY_audits_source_logs",
+    "all_checkpoint2048_3072_files"
+  ],
+  "new_model_queries": 0,
+  "new_physics": 0,
+  "new_optimizer_updates": 0,
+  "new_PBS_submissions": 0
+}

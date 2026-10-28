@@ -1,0 +1,76 @@
+{
+  "amendment_canonical": 5980876835,
+  "amendment_release": "8a2ffbefe0c57536c0a7e340da0616c7987c74f1",
+  "cross_phase_output_equality_required": false,
+  "decoder": "UNCHANGED_ROT_UNCLAMPED_RELATIVE_SE3_ROW_ROT6D_FP32",
+  "deployment_selected_checkpoint": "NONE",
+  "expected_frozen_tensors": 559,
+  "expected_trainable_tensors": 471,
+  "feature_dtype_by_phase": {
+    "quality": "torch.bfloat16",
+    "training": "torch.float32"
+  },
+  "generated_nodes": 1,
+  "generated_output_dtype": "ACTUAL_NATIVE_READOUT_RECORDED_NOT_FORCED",
+  "generated_path_dropout": false,
+  "generation_consumes_RNG": false,
+  "initial_weights_prefix": "arms/PI0270/AGG/checkpoint-4096",
+  "initial_weights_revision": "f862abb26041c8e7d355470d6e9d48899f78b9ce",
+  "interpretation": "RAW_READOUT_IS_NORMALIZED_RELATIVE_H40",
+  "loss_coefficients": {
+    "increment": 0.1,
+    "native": 1.0,
+    "peak_speed": 0.1,
+    "position": 0.4,
+    "rotation": 0.1
+  },
+  "mode": "DIRECT",
+  "native_loss_retained": true,
+  "native_num_inference_timesteps": 4,
+  "native_training_epsilon_dtype": "torch.bfloat16",
+  "new_parameters": 0,
+  "normalized_query_shape": [
+    "B",
+    40,
+    132
+  ],
+  "original_requested_mode_sha256": "9f6abb11bd0183861b5a6facdc9f38d7d28f1f4c27ab22172d40dcb2458abed1",
+  "parameter_name_shape_identity_check_required": true,
+  "phase_from_module_training_flag": false,
+  "policy_inputs": [
+    "body_rgb",
+    "wrist_rgb",
+    "state_v1",
+    "language"
+  ],
+  "quality_parameter_precision": "EXISTING_MODEL_ONLY_BFLOAT16_LOADING",
+  "query": "ALL_ZERO_LATENT",
+  "query_dtype": "EXPLICIT_PHASE_BOUND",
+  "query_dtype_by_phase": {
+    "quality": "torch.bfloat16",
+    "training": "torch.float32"
+  },
+  "release": "e62e6a469dce1f4d3df5d49b38bad4a3c627e969",
+  "resolution_sha256": "77efac3103ed85f0a9817e3c6ef6fa6e1585b8bc058231621c7f55286ad39f06",
+  "schema": "PI0272_READOUT_CONTRACT_R1",
+  "selected_checkpoint": "NONE",
+  "state_is_actual": true,
+  "statistics_sha256": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9",
+  "teacher_conditioning": false,
+  "temporal_increment": {
+    "prefix_mass": 0.8,
+    "prefix_transitions": 8,
+    "suffix_mass": 0.2,
+    "suffix_transitions": 31
+  },
+  "temporal_pose": {
+    "prefix_mass": 0.8,
+    "prefix_points": 9,
+    "suffix_mass": 0.2,
+    "suffix_points": 31
+  },
+  "timestep_buckets": [
+    0
+  ],
+  "training_parameter_precision": "EXACT_DONOR_MIXED_NAME_SHAPE_DTYPE_MAP"
+}

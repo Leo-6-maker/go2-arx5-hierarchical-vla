@@ -1,0 +1,3428 @@
+{
+  "status": "PASS_EXACT_REPRODUCTION",
+  "original_failure": {
+    "status": "BLOCKED_FROZEN_CODEC_PHYSICAL_ERROR",
+    "H40_windows_actually_checked": 601,
+    "committed_label_elements_checked": 240400,
+    "maximum_error": {
+      "XYZ_m": 9.68944918744441e-09,
+      "SO3_rad": 0.00013817330386000284,
+      "gripper": 0.0,
+      "relative_SE3_max_abs": 6.661338147750939e-16
+    },
+    "frozen_numeric_gates": {
+      "XYZ_m": 1e-05,
+      "SO3_rad": 0.0001,
+      "gripper": 1e-05,
+      "relative_SE3_max_abs": 1e-08
+    },
+    "action_preclip_components": 2,
+    "native_inverse_clip_components_float32": 2,
+    "inverse_clip_by_EEF10_channel": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "state_preclip_components": 6,
+    "encode_clip_components": 0,
+    "statistics_refit": false,
+    "native_decode_unchanged": true,
+    "nonzero_out_of_range_counts_explicit_not_silently_discarded": true,
+    "observation": {
+      "first_error": {
+        "window_anchor": 209,
+        "anchor_time_s": 10.45,
+        "action_index": 31,
+        "reference_time_s": 12.0,
+        "normalized_channel_indices_with_inverse_clip": [
+          4,
+          6
+        ],
+        "normalized_inverse_clip_mask": [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false,
+          true,
+          false,
+          false,
+          false
+        ],
+        "normalized_float64_values": [
+          0.4768884370169595,
+          0.07082841600886103,
+          0.35773863374943127,
+          -0.9147194760980821,
+          -1.0058521418832107,
+          0.6882408813670768,
+          1.0059950472419015,
+          0.9930797092512054,
+          -0.0028633222054358365,
+          -1.0
+        ],
+        "normalized_float32_values": [
+          0.4768884479999542,
+          0.07082841545343399,
+          0.3577386438846588,
+          -0.9147194623947144,
+          -1.0058521032333374,
+          0.6882408857345581,
+          1.0059950351715088,
+          0.9930797219276428,
+          -0.002863322151824832,
+          -1.0
+        ],
+        "target_absolute_EEF10": [
+          0.4472178944268399,
+          0.1277537991676138,
+          0.4668040127521582,
+          0.005514695527443214,
+          0.9999129703178975,
+          0.0119849874125732,
+          0.00599172300363926,
+          0.011951913855721474,
+          -0.9999106215110597,
+          0.0
+        ],
+        "decoded_absolute_EEF10": [
+          0.44721789681064805,
+          0.12775380022407518,
+          0.4668040145455624,
+          0.005376533680001183,
+          0.9999137223936845,
+          0.01198501791375961,
+          0.005990115379226613,
+          0.011952771902948023,
+          -0.9999106208864768,
+          0.0
+        ],
+        "actual_anchor_state_EEF10": [
+          0.4397676701030114,
+          0.1559916565182987,
+          0.49886986875896777,
+          -0.018142941609366803,
+          0.9997449542856468,
+          0.013448421846039949,
+          -0.007407525597204256,
+          0.013315862352979324,
+          -0.9998839014477248,
+          0.0010487071698967888
+        ],
+        "error_at_action": {
+          "XYZ_m": 2.383808150874245e-09,
+          "SO3_rad": 0.00013817330386000284,
+          "gripper": 0.0,
+          "relative_SE3_max_abs": 1.6653345369377348e-16
+        },
+        "world_XYZ_absolute_error": [
+          2.383808150874245e-09,
+          1.056461362836103e-09,
+          1.7934042029210673e-09
+        ],
+        "relative_coordinate_2_is_world_Z": false,
+        "actual_event_join": "UNKNOWN_UNTIL_JOINED_TO_SAVED_NATIVE_PHYSICS_NOT_TEACHER_PHASE",
+        "failed_physical_gates": [
+          "SO3_rad"
+        ],
+        "ordering": "ASCENDING_WINDOW_ANCHOR_THEN_ACTION_INDEX_NOT_TRAJECTORY_MAXIMUM",
+        "normalized_offending_channel_unknown_if_clip_mask_empty": true
+      },
+      "first_inverse_clip": {
+        "window_anchor": 209,
+        "anchor_time_s": 10.45,
+        "action_index": 31,
+        "reference_time_s": 12.0,
+        "normalized_channel_indices_with_inverse_clip": [
+          4,
+          6
+        ],
+        "normalized_inverse_clip_mask": [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false,
+          true,
+          false,
+          false,
+          false
+        ],
+        "normalized_float64_values": [
+          0.4768884370169595,
+          0.07082841600886103,
+          0.35773863374943127,
+          -0.9147194760980821,
+          -1.0058521418832107,
+          0.6882408813670768,
+          1.0059950472419015,
+          0.9930797092512054,
+          -0.0028633222054358365,
+          -1.0
+        ],
+        "normalized_float32_values": [
+          0.4768884479999542,
+          0.07082841545343399,
+          0.3577386438846588,
+          -0.9147194623947144,
+          -1.0058521032333374,
+          0.6882408857345581,
+          1.0059950351715088,
+          0.9930797219276428,
+          -0.002863322151824832,
+          -1.0
+        ],
+        "target_absolute_EEF10": [
+          0.4472178944268399,
+          0.1277537991676138,
+          0.4668040127521582,
+          0.005514695527443214,
+          0.9999129703178975,
+          0.0119849874125732,
+          0.00599172300363926,
+          0.011951913855721474,
+          -0.9999106215110597,
+          0.0
+        ],
+        "decoded_absolute_EEF10": [
+          0.44721789681064805,
+          0.12775380022407518,
+          0.4668040145455624,
+          0.005376533680001183,
+          0.9999137223936845,
+          0.01198501791375961,
+          0.005990115379226613,
+          0.011952771902948023,
+          -0.9999106208864768,
+          0.0
+        ],
+        "actual_anchor_state_EEF10": [
+          0.4397676701030114,
+          0.1559916565182987,
+          0.49886986875896777,
+          -0.018142941609366803,
+          0.9997449542856468,
+          0.013448421846039949,
+          -0.007407525597204256,
+          0.013315862352979324,
+          -0.9998839014477248,
+          0.0010487071698967888
+        ],
+        "error_at_action": {
+          "XYZ_m": 2.383808150874245e-09,
+          "SO3_rad": 0.00013817330386000284,
+          "gripper": 0.0,
+          "relative_SE3_max_abs": 1.6653345369377348e-16
+        },
+        "world_XYZ_absolute_error": [
+          2.383808150874245e-09,
+          1.056461362836103e-09,
+          1.7934042029210673e-09
+        ],
+        "relative_coordinate_2_is_world_Z": false,
+        "actual_event_join": "UNKNOWN_UNTIL_JOINED_TO_SAVED_NATIVE_PHYSICS_NOT_TEACHER_PHASE"
+      },
+      "error_quantiles": {
+        "XYZ_m": {
+          "p0": 6.170630673096866e-11,
+          "p50": 3.922843605508319e-09,
+          "p95": 6.258686424676086e-09,
+          "p99": 7.073601813178953e-09,
+          "p100": 9.68944918744441e-09
+        },
+        "SO3_rad": {
+          "p0": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 2.1073424255447017e-08,
+          "p100": 0.00013817330386000284
+        },
+        "gripper": {
+          "p0": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "p100": 0.0
+        },
+        "relative_SE3_max_abs": {
+          "p0": 2.862293735361732e-17,
+          "p50": 2.220446049250313e-16,
+          "p95": 4.2847669856627135e-16,
+          "p99": 4.440892098500626e-16,
+          "p100": 6.661338147750939e-16
+        }
+      },
+      "normalized_min": [
+        -0.987395072519654,
+        -0.09030306987199055,
+        -0.9970148003760583,
+        -0.9147194760980821,
+        -1.0058521418832107,
+        -0.4084837968386035,
+        -0.8273829989836005,
+        -0.9955534182535789,
+        -0.9989345423145428,
+        -1.0
+      ],
+      "normalized_max": [
+        0.998474579998682,
+        0.5843193728548173,
+        0.9766953292417209,
+        0.9999999999942488,
+        0.8281416542015201,
+        0.6882408813670768,
+        1.0059950472419015,
+        0.9999999999999731,
+        0.02604776147725718,
+        1.0
+      ],
+      "maximum_normalized_outside_amplitude_by_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.005852141883210704,
+        0.0,
+        0.005995047241901474,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "maximum_physical_relative_boundary_excess_by_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.000138199751200066,
+        0.0,
+        0.00014168105826053295,
+        0.0,
+        0.0
+      ],
+      "failed_reference_indices": [
+        240
+      ],
+      "diagnostics": [
+        {
+          "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-0.npz",
+          "array_sha256": "be0c127ce75ad764d77590160730feed7e1b6fb4406ad60eaf35f84e03fc1f1b",
+          "anchor": 0,
+          "normalized_dtype": "float64",
+          "state_dtype": "float64",
+          "target_dtype": "float64",
+          "packed_dtype": "float32",
+          "metric_matrix_dtype": "float64",
+          "near_constant_active_channels": [],
+          "target_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "cases": [
+            {
+              "transport": "float32",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 7.012382535753758e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 1.7328391625600304e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999816901,
+                "row2_min_norm": 0.9999999963521459,
+                "min_cross_row_norm": 0.9999999963413363,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float32",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 7.012382535753758e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 1.7328391625600304e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999816901,
+                "row2_min_norm": 0.9999999963521459,
+                "min_cross_row_norm": 0.9999999963413363,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 5.023766210713723e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 1.718537913364404e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999997,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999993,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 5.023766210713723e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 1.718537913364404e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999997,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999993,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            }
+          ]
+        },
+        {
+          "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-1.npz",
+          "array_sha256": "6cb157c52691549274d642fada34fde1c7363a4c382799475fa750e4d5dff952",
+          "anchor": 1,
+          "normalized_dtype": "float64",
+          "state_dtype": "float64",
+          "target_dtype": "float64",
+          "packed_dtype": "float32",
+          "metric_matrix_dtype": "float64",
+          "near_constant_active_channels": [],
+          "target_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "cases": [
+            {
+              "transport": "float32",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 7.012424224628333e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 1.7328491384107074e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999816901,
+                "row2_min_norm": 0.9999999963521459,
+                "min_cross_row_norm": 0.9999999963413363,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999997,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float32",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 7.012424224628333e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 1.7328491384107074e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999816901,
+                "row2_min_norm": 0.9999999963521459,
+                "min_cross_row_norm": 0.9999999963413363,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999997,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 2.7764383360737638e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 1.7185478928816167e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999996,
+                "min_cross_row_norm": 0.9999999999999993,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 2.7764383360737638e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 1.7185478928816167e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999996,
+                "min_cross_row_norm": 0.9999999999999993,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            }
+          ]
+        },
+        {
+          "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-208.npz",
+          "array_sha256": "95963d5c587f2c1f9bf37dcc6d8282fc30b08d339ce259a718396658dbf33c30",
+          "anchor": 208,
+          "normalized_dtype": "float64",
+          "state_dtype": "float64",
+          "target_dtype": "float64",
+          "packed_dtype": "float32",
+          "metric_matrix_dtype": "float64",
+          "near_constant_active_channels": [],
+          "target_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "cases": [
+            {
+              "transport": "float32",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 6.478501957118965e-09,
+                "SO3_rad": 2.1073424255447017e-08,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 2.221238065687055e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999821911,
+                "row2_min_norm": 0.9999999970533824,
+                "min_cross_row_norm": 0.9999999970483392,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999994,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999992,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float32",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 6.478501957118965e-09,
+                "SO3_rad": 2.1073424255447017e-08,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 2.221238065687055e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999821911,
+                "row2_min_norm": 0.9999999970533824,
+                "min_cross_row_norm": 0.9999999970483392,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999994,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999992,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 5.551115123125783e-17,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 6.547634667560672e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 2.2193727355901416e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999999,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999997,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 5.551115123125783e-17,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 6.547634667560672e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 2.2193727355901416e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999999,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999997,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            }
+          ]
+        },
+        {
+          "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-209.npz",
+          "array_sha256": "703dd20a15eb6127293592f0f74299d6c5aa8aa89e60eed18bd12a41995cfd8f",
+          "anchor": 209,
+          "normalized_dtype": "float64",
+          "state_dtype": "float64",
+          "target_dtype": "float64",
+          "packed_dtype": "float32",
+          "metric_matrix_dtype": "float64",
+          "near_constant_active_channels": [],
+          "target_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "cases": [
+            {
+              "transport": "float32",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 7.806154223022332e-09,
+                "SO3_rad": 0.00013817330386000284,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": false,
+              "alternative_SO3_atan2_max_rad": 0.00013817330489066573,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999967183436207,
+                "row2_min_norm": 0.9999966314388057,
+                "min_cross_row_norm": 0.999993349787466,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999993,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float32",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 7.806154223022332e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 2.2445210936679256e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.00013816106856012755,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999822836,
+                "row2_min_norm": 0.9999999980748076,
+                "min_cross_row_norm": 0.9999999980570913,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999993,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.00013817343724100234,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": false,
+              "alternative_SO3_atan2_max_rad": 0.00013817343937782878,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 2.2365989810202436e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999967183396006,
+                "row2_min_norm": 0.9999966333572059,
+                "min_cross_row_norm": 0.99999335170184,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999994,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 5.057306561942085e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0001381618474416424,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999997,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999996,
+                "row2_min_norm": 0.9999999999999996,
+                "min_cross_row_norm": 0.9999999999999991,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            }
+          ]
+        },
+        {
+          "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-210.npz",
+          "array_sha256": "5abb9e46f221624121178b7f2db701b9c91cf2f48576e3f47af655102fcab250",
+          "anchor": 210,
+          "normalized_dtype": "float64",
+          "state_dtype": "float64",
+          "target_dtype": "float64",
+          "packed_dtype": "float32",
+          "metric_matrix_dtype": "float64",
+          "near_constant_active_channels": [],
+          "target_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "cases": [
+            {
+              "transport": "float32",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 7.360561660174625e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 1.7724876090466912e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999774716,
+                "row2_min_norm": 0.9999999972645601,
+                "min_cross_row_norm": 0.9999999972578629,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 1.0,
+                "min_cross_row_norm": 1.0,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float32",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 7.360561660174625e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 1.7724876090466912e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999774716,
+                "row2_min_norm": 0.9999999972645601,
+                "min_cross_row_norm": 0.9999999972578629,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 1.0,
+                "min_cross_row_norm": 1.0,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 6.774454909116641e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 1.7711451721913463e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999994,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 6.774454909116641e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 1.7711451721913463e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 6.661338147750939e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999994,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999998,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            }
+          ]
+        },
+        {
+          "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-300.npz",
+          "array_sha256": "d69fa48713505ad6ef1bfb3d02635c5178f2e971f2edf76ce921417809960f0e",
+          "anchor": 300,
+          "normalized_dtype": "float64",
+          "state_dtype": "float64",
+          "target_dtype": "float64",
+          "packed_dtype": "float32",
+          "metric_matrix_dtype": "float64",
+          "near_constant_active_channels": [],
+          "target_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 1.0000000000000002,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "cases": [
+            {
+              "transport": "float32",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 6.058361701199999e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 1.1021900550694084e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999829127,
+                "row2_min_norm": 0.9999999965140257,
+                "min_cross_row_norm": 0.99999999651088,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999998,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float32",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 6.058361701199999e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 1.1021900550694084e-08,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999829127,
+                "row2_min_norm": 0.9999999965140257,
+                "min_cross_row_norm": 0.99999999651088,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999998,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 3.8659567749040183e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 1.0989179510811908e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999997,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999996,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999992,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0000000000000002,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 1.1102230246251565e-16,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 3.8659567749040183e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 1.0989179510811908e-08,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999999998,
+                "row2_min_norm": 0.9999999999999998,
+                "min_cross_row_norm": 0.9999999999999997,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999996,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999992,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0000000000000002,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            }
+          ]
+        },
+        {
+          "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-599.npz",
+          "array_sha256": "63b5b856865c836f487a1589dc0ab8ca4179594353432d46957d5603b9b19b6e",
+          "anchor": 599,
+          "normalized_dtype": "float64",
+          "state_dtype": "float64",
+          "target_dtype": "float64",
+          "packed_dtype": "float32",
+          "metric_matrix_dtype": "float64",
+          "near_constant_active_channels": [],
+          "target_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "cases": [
+            {
+              "transport": "float32",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 4.152375554511423e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 9.270665437021956e-09,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999848306,
+                "row2_min_norm": 1.000000000000001,
+                "min_cross_row_norm": 1.0000000000000024,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 1.0,
+                "row2_min_norm": 1.0,
+                "min_cross_row_norm": 1.0000000000000002,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0000000000000002,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float32",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 4.152375554511423e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 9.270665437021956e-09,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999848306,
+                "row2_min_norm": 1.000000000000001,
+                "min_cross_row_norm": 1.0000000000000024,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 1.0,
+                "row2_min_norm": 1.0,
+                "min_cross_row_norm": 1.0000000000000002,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0000000000000002,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 5.551115123125783e-17,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 5.60955982625532e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 9.19321782588689e-09,
+              "relative_conditioning": {
+                "row1_min_norm": 1.0,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999999,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 5.551115123125783e-17,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 5.60955982625532e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 9.19321782588689e-09,
+              "relative_conditioning": {
+                "row1_min_norm": 1.0,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999999,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999997,
+                "row2_min_norm": 0.9999999999999997,
+                "min_cross_row_norm": 0.9999999999999996,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            }
+          ]
+        },
+        {
+          "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-600.npz",
+          "array_sha256": "11c55f5625f8704c6204f79e7f487c1325594d4c341ff351959258dc0b9c0404",
+          "anchor": 600,
+          "normalized_dtype": "float64",
+          "state_dtype": "float64",
+          "target_dtype": "float64",
+          "packed_dtype": "float32",
+          "metric_matrix_dtype": "float64",
+          "near_constant_active_channels": [],
+          "target_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "cases": [
+            {
+              "transport": "float32",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 4.152708510396508e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 9.270514198850627e-09,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999848306,
+                "row2_min_norm": 1.000000000000001,
+                "min_cross_row_norm": 1.0000000000000024,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999999,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 1.0000000000000004,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float32",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 4.152708510396508e-09,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 9.270514198850627e-09,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 0.0,
+              "relative_conditioning": {
+                "row1_min_norm": 0.9999999999848306,
+                "row2_min_norm": 1.000000000000001,
+                "min_cross_row_norm": 1.0000000000000024,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999999,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 1.0000000000000004,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": true,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 5.551115123125783e-17,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 2.516809547182287e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 9.193138778007537e-09,
+              "relative_conditioning": {
+                "row1_min_norm": 1.0,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999999,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999997,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            },
+            {
+              "transport": "float64",
+              "original_inverse_clamp": false,
+              "diagnostic_only": true,
+              "errors": {
+                "XYZ_m": 5.551115123125783e-17,
+                "SO3_rad": 0.0,
+                "gripper": 0.0
+              },
+              "passes_original_XYZ_SO3_gripper_gates": true,
+              "alternative_SO3_atan2_max_rad": 2.516809547182287e-16,
+              "alternative_changes_acceptance": false,
+              "official_decode_absolute_difference_max": 9.193138778007537e-09,
+              "relative_conditioning": {
+                "row1_min_norm": 1.0,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999999,
+                "max_orthogonality_residual": 2.220446049250313e-16,
+                "minimum_determinant": 1.0,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              },
+              "absolute_conditioning": {
+                "row1_min_norm": 0.9999999999999999,
+                "row2_min_norm": 0.9999999999999999,
+                "min_cross_row_norm": 0.9999999999999997,
+                "max_orthogonality_residual": 4.440892098500626e-16,
+                "minimum_determinant": 0.9999999999999999,
+                "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "original_PASS_control": true,
+  "diagnostic_windows": 14,
+  "isolated_2x2": [
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-0.npz",
+      "array_sha256": "be0c127ce75ad764d77590160730feed7e1b6fb4406ad60eaf35f84e03fc1f1b",
+      "anchor": 0,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999999,
+        "row2_min_norm": 0.9999999999999999,
+        "min_cross_row_norm": 0.9999999999999998,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 0.9999999999999999,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 7.012382535753758e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.7328391625600304e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999816901,
+            "row2_min_norm": 0.9999999963521459,
+            "min_cross_row_norm": 0.9999999963413363,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 7.012382535753758e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.7328391625600304e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999816901,
+            "row2_min_norm": 0.9999999963521459,
+            "min_cross_row_norm": 0.9999999963413363,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 5.023766210713723e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.718537913364404e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999993,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 5.023766210713723e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.718537913364404e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999993,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-1.npz",
+      "array_sha256": "6cb157c52691549274d642fada34fde1c7363a4c382799475fa750e4d5dff952",
+      "anchor": 1,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999999,
+        "row2_min_norm": 0.9999999999999999,
+        "min_cross_row_norm": 0.9999999999999998,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 0.9999999999999999,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 7.012424224628333e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.7328491384107074e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999816901,
+            "row2_min_norm": 0.9999999963521459,
+            "min_cross_row_norm": 0.9999999963413363,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999997,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 7.012424224628333e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.7328491384107074e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999816901,
+            "row2_min_norm": 0.9999999963521459,
+            "min_cross_row_norm": 0.9999999963413363,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999997,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 2.7764383360737638e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.7185478928816167e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999996,
+            "min_cross_row_norm": 0.9999999999999993,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 2.7764383360737638e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.7185478928816167e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999996,
+            "min_cross_row_norm": 0.9999999999999993,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-208.npz",
+      "array_sha256": "95963d5c587f2c1f9bf37dcc6d8282fc30b08d339ce259a718396658dbf33c30",
+      "anchor": 208,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999999,
+        "row2_min_norm": 1.0,
+        "min_cross_row_norm": 0.9999999999999999,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 0.9999999999999999,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 6.478501957118965e-09,
+            "SO3_rad": 2.1073424255447017e-08,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 2.221238065687055e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999821911,
+            "row2_min_norm": 0.9999999970533824,
+            "min_cross_row_norm": 0.9999999970483392,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999994,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999992,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 6.478501957118965e-09,
+            "SO3_rad": 2.1073424255447017e-08,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 2.221238065687055e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999821911,
+            "row2_min_norm": 0.9999999970533824,
+            "min_cross_row_norm": 0.9999999970483392,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999994,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999992,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 5.551115123125783e-17,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 6.547634667560672e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 2.2193727355901416e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999997,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 5.551115123125783e-17,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 6.547634667560672e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 2.2193727355901416e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999997,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-209.npz",
+      "array_sha256": "703dd20a15eb6127293592f0f74299d6c5aa8aa89e60eed18bd12a41995cfd8f",
+      "anchor": 209,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999999,
+        "row2_min_norm": 0.9999999999999999,
+        "min_cross_row_norm": 0.9999999999999998,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 0.9999999999999999,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 7.806154223022332e-09,
+            "SO3_rad": 0.00013817330386000284,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": false,
+          "alternative_SO3_atan2_max_rad": 0.00013817330489066573,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999967183436207,
+            "row2_min_norm": 0.9999966314388057,
+            "min_cross_row_norm": 0.999993349787466,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999993,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 7.806154223022332e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 2.2445210936679256e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.00013816106856012755,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999822836,
+            "row2_min_norm": 0.9999999980748076,
+            "min_cross_row_norm": 0.9999999980570913,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999993,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.00013817343724100234,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": false,
+          "alternative_SO3_atan2_max_rad": 0.00013817343937782878,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 2.2365989810202436e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999967183396006,
+            "row2_min_norm": 0.9999966333572059,
+            "min_cross_row_norm": 0.99999335170184,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999994,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 5.057306561942085e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0001381618474416424,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999996,
+            "row2_min_norm": 0.9999999999999996,
+            "min_cross_row_norm": 0.9999999999999991,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-210.npz",
+      "array_sha256": "5abb9e46f221624121178b7f2db701b9c91cf2f48576e3f47af655102fcab250",
+      "anchor": 210,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999999,
+        "row2_min_norm": 0.9999999999999999,
+        "min_cross_row_norm": 0.9999999999999998,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 0.9999999999999999,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 7.360561660174625e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.7724876090466912e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999774716,
+            "row2_min_norm": 0.9999999972645601,
+            "min_cross_row_norm": 0.9999999972578629,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 1.0,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 7.360561660174625e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.7724876090466912e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999774716,
+            "row2_min_norm": 0.9999999972645601,
+            "min_cross_row_norm": 0.9999999972578629,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 1.0,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 6.774454909116641e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.7711451721913463e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999994,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 6.774454909116641e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.7711451721913463e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999994,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-300.npz",
+      "array_sha256": "d69fa48713505ad6ef1bfb3d02635c5178f2e971f2edf76ce921417809960f0e",
+      "anchor": 300,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 1.0,
+        "row2_min_norm": 1.0,
+        "min_cross_row_norm": 1.0000000000000002,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 1.0,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 6.058361701199999e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.1021900550694084e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999829127,
+            "row2_min_norm": 0.9999999965140257,
+            "min_cross_row_norm": 0.99999999651088,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 6.058361701199999e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.1021900550694084e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999829127,
+            "row2_min_norm": 0.9999999965140257,
+            "min_cross_row_norm": 0.99999999651088,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.8659567749040183e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.0989179510811908e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999996,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999992,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0000000000000002,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.8659567749040183e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.0989179510811908e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999996,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999992,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0000000000000002,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-599.npz",
+      "array_sha256": "63b5b856865c836f487a1589dc0ab8ca4179594353432d46957d5603b9b19b6e",
+      "anchor": 599,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 1.0,
+        "row2_min_norm": 1.0,
+        "min_cross_row_norm": 0.9999999999999999,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 1.0,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 4.152375554511423e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 9.270665437021956e-09,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999848306,
+            "row2_min_norm": 1.000000000000001,
+            "min_cross_row_norm": 1.0000000000000024,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 1.0000000000000002,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0000000000000002,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 4.152375554511423e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 9.270665437021956e-09,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999848306,
+            "row2_min_norm": 1.000000000000001,
+            "min_cross_row_norm": 1.0000000000000024,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 1.0000000000000002,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0000000000000002,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 5.551115123125783e-17,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 5.60955982625532e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 9.19321782588689e-09,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 5.551115123125783e-17,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 5.60955982625532e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 9.19321782588689e-09,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04-600.npz",
+      "array_sha256": "11c55f5625f8704c6204f79e7f487c1325594d4c341ff351959258dc0b9c0404",
+      "anchor": 600,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 1.0,
+        "row2_min_norm": 1.0,
+        "min_cross_row_norm": 0.9999999999999999,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 1.0,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 4.152708510396508e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 9.270514198850627e-09,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999848306,
+            "row2_min_norm": 1.000000000000001,
+            "min_cross_row_norm": 1.0000000000000024,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0000000000000004,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 4.152708510396508e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 9.270514198850627e-09,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999848306,
+            "row2_min_norm": 1.000000000000001,
+            "min_cross_row_norm": 1.0000000000000024,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0000000000000004,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 5.551115123125783e-17,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 2.516809547182287e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 9.193138778007537e-09,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 5.551115123125783e-17,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 2.516809547182287e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 9.193138778007537e-09,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T1-C04-0.npz",
+      "array_sha256": "2e53e90e067e3532e99cbc98d38894db8e2ecf27c0e25e52eb520a43cb636c1d",
+      "anchor": 0,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999999,
+        "row2_min_norm": 0.9999999999999999,
+        "min_cross_row_norm": 0.9999999999999999,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 1.0,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 8.145430052675096e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.3649865237244217e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999723969,
+            "row2_min_norm": 0.9999999967908895,
+            "min_cross_row_norm": 0.999999996790891,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 8.145430052675096e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.3649865237244217e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999723969,
+            "row2_min_norm": 0.9999999967908895,
+            "min_cross_row_norm": 0.999999996790891,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.339556708722154e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.3594220922563682e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.339556708722154e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.3594220922563682e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T1-C04-80.npz",
+      "array_sha256": "a716e58364bd39e4b8ee8762580483b45fc3798fd1e9be36668fe0ee2f6c1b23",
+      "anchor": 80,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 1.0,
+        "row2_min_norm": 0.9999999999999999,
+        "min_cross_row_norm": 0.9999999999999999,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 1.0,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 4.8037096522790534e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 7.834276220185574e-09,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999841405,
+            "row2_min_norm": 0.999999998816133,
+            "min_cross_row_norm": 0.9999999988244349,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 4.8037096522790534e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 7.834276220185574e-09,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999841405,
+            "row2_min_norm": 0.999999998816133,
+            "min_cross_row_norm": 0.9999999988244349,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999997,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.3399171281936966e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 7.69550340812275e-09,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.3399171281936966e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 7.69550340812275e-09,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T1-C04-160.npz",
+      "array_sha256": "edfbd75a65db0b6bc9df2829f80f613892e5be9803512850a1d8383da2daa35b",
+      "anchor": 160,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999999,
+        "row2_min_norm": 0.9999999999999999,
+        "min_cross_row_norm": 1.0,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 0.9999999999999999,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 8.563893871826878e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 2.440228913805169e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999927796,
+            "row2_min_norm": 0.9999999976152979,
+            "min_cross_row_norm": 0.9999999976080775,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999996,
+            "min_cross_row_norm": 0.9999999999999992,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 8.563893871826878e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 2.440228913805169e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999927796,
+            "row2_min_norm": 0.9999999976152979,
+            "min_cross_row_norm": 0.9999999976080775,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999996,
+            "min_cross_row_norm": 0.9999999999999992,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.3444162934870216e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 2.436315501772035e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.3444162934870216e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 2.436315501772035e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999997,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T1-C04-209.npz",
+      "array_sha256": "d24723e8af8549a48559b45c5e02058bf94e50ec02b7a305f104436fd1af0b6b",
+      "anchor": 209,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999999,
+        "row2_min_norm": 1.0,
+        "min_cross_row_norm": 0.9999999999999999,
+        "max_orthogonality_residual": 2.220446049250313e-16,
+        "minimum_determinant": 1.0,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 6.304342825558251e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.1496899525597564e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999826548,
+            "row2_min_norm": 0.9999999991499023,
+            "min_cross_row_norm": 0.9999999991666011,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 6.304342825558251e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.1496899525597564e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999826548,
+            "row2_min_norm": 0.9999999991499023,
+            "min_cross_row_norm": 0.9999999991666011,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999996,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.882871990847193e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.1486898938983803e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.882871990847193e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.1486898938983803e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T1-C04-300.npz",
+      "array_sha256": "e9fa83b8f5d7033548ef673185248d52d74a67832cd6af43a59444c70800510c",
+      "anchor": 300,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999998,
+        "row2_min_norm": 0.9999999999999999,
+        "min_cross_row_norm": 0.9999999999999997,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 0.9999999999999999,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 6.224166737567316e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.616588973737738e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999893184,
+            "row2_min_norm": 1.000000000013183,
+            "min_cross_row_norm": 1.0000000000079088,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 1.0000000000000002,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 6.224166737567316e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.616588973737738e-08,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 0.9999999999893184,
+            "row2_min_norm": 1.000000000013183,
+            "min_cross_row_norm": 1.0000000000079088,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 1.0000000000000002,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999997,
+            "max_orthogonality_residual": 6.661338147750939e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.333698838547739e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.615698879894878e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 1.1102230246251565e-16,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 3.333698838547739e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 1.615698879894878e-08,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 0.9999999999999999,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 0.9999999999999998,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    },
+    {
+      "array_file": "PI0294-DATA_COV1-TRAIN-AP2--Y-FAR-000-T1-C04-600.npz",
+      "array_sha256": "bfe0f5352ef62620114f266b1ada8e3faeae1540a388d62dcaab45e6cefaef1f",
+      "anchor": 600,
+      "normalized_dtype": "float64",
+      "state_dtype": "float64",
+      "target_dtype": "float64",
+      "packed_dtype": "float32",
+      "metric_matrix_dtype": "float64",
+      "near_constant_active_channels": [],
+      "target_conditioning": {
+        "row1_min_norm": 0.9999999999999999,
+        "row2_min_norm": 0.9999999999999999,
+        "min_cross_row_norm": 1.0,
+        "max_orthogonality_residual": 4.440892098500626e-16,
+        "minimum_determinant": 1.0,
+        "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+      },
+      "cases": [
+        {
+          "transport": "float32",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 4.11073952655272e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 6.822452389386978e-09,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0000000000000013,
+            "row2_min_norm": 1.000000000000001,
+            "min_cross_row_norm": 1.0000000000000024,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0000000000000002,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float32",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 4.11073952655272e-09,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 6.822452389386978e-09,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 0.0,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0000000000000013,
+            "row2_min_norm": 1.000000000000001,
+            "min_cross_row_norm": 1.0000000000000024,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999999,
+            "row2_min_norm": 0.9999999999999999,
+            "min_cross_row_norm": 0.9999999999999999,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0000000000000002,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": true,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 5.551115123125783e-17,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.2110557755229982e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 6.733520806906368e-09,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 1.0,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        },
+        {
+          "transport": "float64",
+          "original_inverse_clamp": false,
+          "diagnostic_only": true,
+          "errors": {
+            "XYZ_m": 5.551115123125783e-17,
+            "SO3_rad": 0.0,
+            "gripper": 0.0
+          },
+          "passes_original_XYZ_SO3_gripper_gates": true,
+          "alternative_SO3_atan2_max_rad": 1.2110557755229982e-16,
+          "alternative_changes_acceptance": false,
+          "official_decode_absolute_difference_max": 6.733520806906368e-09,
+          "relative_conditioning": {
+            "row1_min_norm": 1.0,
+            "row2_min_norm": 1.0,
+            "min_cross_row_norm": 1.0,
+            "max_orthogonality_residual": 2.220446049250313e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          },
+          "absolute_conditioning": {
+            "row1_min_norm": 0.9999999999999998,
+            "row2_min_norm": 0.9999999999999998,
+            "min_cross_row_norm": 0.9999999999999998,
+            "max_orthogonality_residual": 4.440892098500626e-16,
+            "minimum_determinant": 1.0,
+            "rot6d": "FIRST_TWO_MATRIX_ROWS;PROJECT_MATRIX_FLOAT64_GRAM_SCHMIDT"
+          }
+        }
+      ]
+    }
+  ],
+  "original_thresholds_changed": false,
+  "private_arrays_not_published": true,
+  "no_clamp_is_not_production_decoder": true,
+  "effective_params_file_sha256": "636a5fe40445d9ccb18a5a958eabfe258f12003bfa4f9951dad1f39b8afbb3b8"
+}

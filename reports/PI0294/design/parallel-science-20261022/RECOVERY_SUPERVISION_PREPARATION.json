@@ -1,0 +1,77 @@
+{
+  "schema": "RECOVERY_SUPERVISION_PREPARATION_V1",
+  "status": "REQUIREMENTS_ONLY_NOT_CAPTURE_OR_RECOVERY_QUALIFICATION",
+  "existing_teacher_result_sha256": "7d7f6ea93f55c372edf176d3c3fe47bbcd7882470f53dba628c5f4acfd138eac",
+  "full_student_states_bound": 0,
+  "implementation_binding": "REUSE_EXISTING_RECORDER_AND_COMMITTED_PACKET_WHEN_QUALIFIED",
+  "record_requirements": {
+    "identity": [
+      "split",
+      "scene_geometry",
+      "student_lineage",
+      "checkpoint_digest",
+      "R0_digest",
+      "executor_manifest_digest",
+      "seed",
+      "decision_id"
+    ],
+    "restore": [
+      "simulator_full_state",
+      "sim_time",
+      "qpos_qvel_act",
+      "ctrl",
+      "contact_and_solver_warmstart",
+      "WBC_state_history_clock",
+      "gripper_state",
+      "teacher_state",
+      "random_sources",
+      "cumulative_score_history"
+    ],
+    "observation": [
+      "actual_dual_RGB_identity_and_time",
+      "actual_EEF_gripper_state",
+      "actual_BASE_when_present"
+    ],
+    "decision": [
+      "student_proposal",
+      "teacher_proposal",
+      "SafetyGate_result",
+      "arbitration",
+      "actually_committed_packet",
+      "reference_identity",
+      "ack_consumption_time",
+      "prefix_executed"
+    ],
+    "outcome": [
+      "actual_next_observation",
+      "object_task_result",
+      "native_safety",
+      "reject_reason",
+      "failure_stage",
+      "attempt_denominator"
+    ]
+  },
+  "missing_value_policy": "UNKNOWN_OR_ABSENT_NEVER_SYNTHESIZED_FROM_POSE",
+  "acceptance": [
+    "exact_full_state_restore_and_history_consistency",
+    "actual_student_off_manifold_binding",
+    "independent_recovery_verification",
+    "correct_committed_labels",
+    "native_safety_and_split_integrity",
+    "fresh_valid_TRAIN_Teacher_resource_scope"
+  ],
+  "current_readiness": {
+    "saved_teacher_replay": true,
+    "student_restore_qualified": false,
+    "recovery_qualified": false,
+    "DAgger_qualified": false
+  },
+  "new_capture_or_teacher_development_authorized_by_this_file": false,
+  "existing_schema_reference": "reports/PI0294/design/gpu-queue-dagger-prep-v1/DAGGER_RECORD_SCHEMA.json",
+  "label_provenance": {
+    "executed": "ABSOLUTE_COMMITTED_EEF10",
+    "unexecuted_expert": "COUNTERFACTUAL_EXPERT_CORRECTION_EEF10",
+    "unexecuted_expert_mixed_into_old_success_BC": false,
+    "success_BC_correction_takeover_and_failure_banks": "SEPARATE_PROVENANCE"
+  }
+}

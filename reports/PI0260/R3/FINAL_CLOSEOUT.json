@@ -1,0 +1,61 @@
+{
+  "schema": "PI0260_R3_MATCHED_PILOT_CLOSEOUT_V1",
+  "status": "PI0260_R3_ALIAS_AWARE_MATCHED_PILOT_COMPLETE",
+  "stop": "STOP_FOR_PHYSICAL_TRANSFER_ADMISSION",
+  "authority_commit": "fd8e69b59a16aa90b1761d23b3a8f5a78cee8763",
+  "H1_status": "H1_R3_ADMITTED_WITH_MEASURED_TEMPORAL_AMBIGUITY",
+  "old_R2_H1_status": "BLOCKED_RETAINED_UNCHANGED",
+  "data": "sealed COMPACT_30_10 at HF revision 3d248c1e54f8eb2caf771b067ef48cd995367a12",
+  "training": {
+    "Base_main_updates": 6000,
+    "G_main_updates": 6000,
+    "discarded_canary_and_technical_completed_updates": 64,
+    "total_completed_optimizer_updates": 12064,
+    "main_schedule_sha256": "3cf0b85e2fc60bad6cb83c6ce633ab446163aad1757a465244751f457cd10bd4",
+    "Base_final_integrity": "PASS_FINAL6000_TRAINING_INTEGRITY",
+    "G_final_integrity": "PASS_FINAL6000_TRAINING_INTEGRITY",
+    "Base_final_HF_revision": "52abc8d151b67bb667e43fcf874dfe2cfa253364",
+    "G_final_HF_revision": "fae3f84169beff33bf42bd47c85d8d2c082ba202",
+    "both_complete_trainer_fixed_revision_full_file_readback": true
+  },
+  "evaluation": {
+    "fixed_logical_cells": 1760,
+    "actual_query_attempts": 1724,
+    "S4_head_forwards": 6896,
+    "query_attempt_cap": 1824,
+    "head_forward_cap": 7296,
+    "CPU_saved_array_replay_rows_per_point": 440,
+    "CPU_saved_array_replay_points_pass": 4,
+    "semantic_margin_rows_per_point": 96,
+    "secondary_saved_array_report": "PASS_SAVED_ARRAY_SECONDARY",
+    "same_condition_same_noise_max_abs": 0.0
+  },
+  "quality": {
+    "Base6000_numeric_KIN_VAL_groups_pass": 4,
+    "Base6000_full_acceptance": "FAIL_M1_SEMANTIC_AND_PARAPHRASE",
+    "G6000_numeric_KIN_VAL_groups_pass": 4,
+    "G6000_full_acceptance": "FAIL_M1_AND_M3_SEMANTIC_AND_PARAPHRASE",
+    "valid_synthetic_research_artifacts_not_quality_admitted": ["Base6000", "G6000"],
+    "selected_checkpoint": "NONE",
+    "deployment_selected_checkpoint": "NONE"
+  },
+  "public_evidence": {
+    "repo": "leoyuer/pi0246-gate-pass-campaign",
+    "full_result_prefix": "evidence/PI0260/R3-fixed-eval-20260930",
+    "full_result_revision": "45965a66d854bfcdc3e31dcb6ac8df87e21f4cb1",
+    "full_result_tree_sha256": "b57c1b06909c091ffe93e71e0483d64c6d2f3b07e8316298532a049368f1c530",
+    "full_result_members": 3558,
+    "full_result_status": "PASS_PUBLIC_ANONYMOUS_FULL_FILE_AND_MEMBER_READBACK",
+    "direct_media_prefix": "evidence/PI0260/R3-direct-media-20260930",
+    "direct_media_revision": "dd2dfb0c0ae4f80e152cd9054fa487346b2fe8f7",
+    "direct_media_status": "PASS_PUBLIC_DIRECT_MEDIA_READBACK",
+    "video_sha256": "796600d18a81bfd6c844589fed6febbbdfc768a4b674f4d13d547bc0141d90fd"
+  },
+  "physical_steps": 0,
+  "WBC_episodes": 0,
+  "TEST_queries": 0,
+  "DEV_F_queries": 0,
+  "real_hardware_trials": 0,
+  "monitor_created": false,
+  "PR77_merged": false
+}

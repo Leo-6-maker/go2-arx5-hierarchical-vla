@@ -1,0 +1,47 @@
+{
+  "status": "BLOCKED_OFFICIAL_TRAINER_ADAPTER_NOT_QUALIFIED",
+  "scope": "Read-only selected-source interface review; not a native CPU data-chain failure",
+  "official_source_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "official_entry": "gr00t/experiment/launch_finetune.py",
+  "future_module": "gr00t.experiment.launch_finetune",
+  "entry_executed": false,
+  "selected_files_diff_HEAD_empty": true,
+  "whole_tree_clean": "NOT_CLAIMED",
+  "selected_file_sha256": {
+    "gr00t/data/dataset/factory.py": "ed5fb989d2ef66b9e21b0471d47959277e9aef6b6b16bffcbe5f7c7238dcc389",
+    "gr00t/experiment/launch_finetune.py": "5f259a9453957fb08d21e7a0ec5febd29c986cdb7e031ee2a4573628bfc30852",
+    "gr00t/experiment/experiment.py": "d57c43642cd3ea366b53c5e2904562466ce640d553b77df14c75bbd2a273a99c",
+    "gr00t/model/gr00t_n1d7/setup.py": "5212755cf18c1147206408e7250576b27504a6bd3af6402d9cd7f011b2cfd31a",
+    "gr00t/model/base/model_pipeline.py": "abf668111e5da7f96b4d6ed8a76b97494dd996333c5f7e7411fb30481f10560f",
+    "gr00t/data/dataset/sharded_mixture_dataset.py": "f452072c1191249adef45d98bf75239c792e019f4a088bc8dc09f10f7a7441a3",
+    "gr00t/data/dataset/sharded_single_step_dataset.py": "8d4cfeb4beee92a0d4b4a042b953ebbd1fb5e1e862a38c77f366ce5e37effb80",
+    "gr00t/experiment/trainer.py": "10701c09cb0aacae75f8d9a764d0e83bdddef5b06c8126152cad8b6d7b4a1616",
+    "gr00t/data/stats.py": "54fffdaa0a2bcf5356926e4d73b10dbbb9c848e0a56582427e4252f054938c74",
+    "gr00t/data/dataset/lerobot_episode_loader.py": "10eb986f35d298fc3e099f8891532a907978b34e0a2f88a9c62620c554d9726d"
+  },
+  "gaps": [
+    "Stock factory expects LeRobot parquet/meta; PI0291 native NPZ/PNG is not stock dataset-path input",
+    "Factory invokes statistics generation; valid cache may avoid recomputation, but identical frozen TRAIN stats/no-refit integration is not qualified",
+    "Pipeline setup constructs the neural model before dataset return; not a CPU-only inspection entry",
+    "Project DatasetLoader returns processed plus identity; official collator must receive processed only",
+    "Training pipeline requires get_dataset_statistics; current diagnostic loader has no such method",
+    "Current cpu_guard clears CUDA and forbids neural forward; preserve it and create separately authorized training adapter",
+    "Resume at global_step>0 requires seed/reset_seed; resume not qualified",
+    "get_initial_actions is optional, not a mandatory launch failure",
+    "Stock factory rejects eval_strategy other than no; DEV evaluation integration not qualified"
+  ],
+  "future_requirements": [
+    "Fresh scientific GO and legal Hopper PBS allocation before any model load/forward/backward",
+    "Pin pretrained/processor identity and new_embodiment=10 route",
+    "Use exact admitted TRAIN-only frozen statistics and relative conversion once",
+    "Prove worker/rank sampling, split isolation, processed-only collation, 601 H40, 132 dimensions with exactly10 valid",
+    "Qualify minimal model training separately; do not move neural eval to Corelab"
+  ],
+  "model_loads": 0,
+  "neural_forward": 0,
+  "training_steps": 0,
+  "Hopper_new_PBS": 0,
+  "frozen_files_modified": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

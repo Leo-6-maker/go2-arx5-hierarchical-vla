@@ -1,0 +1,161 @@
+{
+  "schema": "GEN1_DIRECT_AUTONOMOUS_GPU_FIRST_RETRY_NATIVE_ACTUAL_V1",
+  "status": "ACTUAL_UNIQUE_QSUB_BOUND_Q_NOT_MODEL_OR_BANK_PASS",
+  "human_answer": "\u5141\u8bb8\u6388\u6743\u591a\u6b21GPU\u4efb\u52a1\uff0c\u81ea\u4e3b\u63a8\u8fdb",
+  "direct_grant": {
+    "source": "7b5d6e8266fa13bac44b774c4a3fc5d1ef9fd4c6",
+    "path": "reports/PI0294/design/parallel-science-20261022/GEN1_GPU_AUTONOMOUS_SUBMISSIONS_AND_FIRST_PBS37_AUTHORIZATION_20261027.json",
+    "sha256": "80489856b5e25066d13fb8d6e35f00b9d2ab427b9c727346ab62fbd033e8f3e4"
+  },
+  "runtime_source": "92baa7ff414b846363f226dde9fec29869c54356",
+  "native": {
+    "job_id": "1497959.stdct-mgmt-02",
+    "request_id": "99eb0b5b-5f6a-4483-a00a-513ecc343311",
+    "submission_nonce": "c798d352-ce44-454a-b956-e4c2292c6e31",
+    "request_sha256": "bb0c4d3ab36d00851d4701690967589b0cee01062dc7188665aa964834090ab0",
+    "run_uuid": "gen1-layout-v0-corr1024-retry-01",
+    "run_manifest_sha256": "4f2a382c6eb8362b2d329d8669e310fa32626497a809f088d2e0f77a47d25df6",
+    "source_sha": "92baa7ff414b846363f226dde9fec29869c54356",
+    "last_full_queue_epoch": 1793072714.0887396,
+    "observed_native_state": "Q",
+    "unknown_queue": [],
+    "owner_actors": [
+      {
+        "record": "control/RESIDENT_WRAPPER_PROCESS.private.json",
+        "pid": 3814946,
+        "expected_procstart": "57848782",
+        "actual_procstart": "57848782",
+        "state": "S"
+      },
+      {
+        "record": "control/resident-owner/SERVER_OWNER_PROCESS.private.json",
+        "pid": 3814952,
+        "expected_procstart": "57848783",
+        "actual_procstart": "57848783",
+        "state": "S"
+      }
+    ],
+    "journals_confirmed": {
+      "setup-rpc": {
+        "status": "CONFIRMED",
+        "phase": "GEN1_QSUB",
+        "effect": "MUTATION",
+        "operation_id": "22ef6bdba85a4e5487cb4d5cbd4a2dd8"
+      },
+      "running-rpc": {
+        "status": "CONFIRMED",
+        "phase": "HEARTBEAT",
+        "effect": "HEARTBEAT",
+        "operation_id": "580e8862a35d4eeda58ce6f8405c5a7d"
+      }
+    }
+  },
+  "authority": {
+    "exact_first_count_adoption": "PBS36_TO37_NATIVE_ONCE",
+    "adopted_GLOBAL_sha256": "c4e84e3f6683241bd1131d4e5d6296579c70ce3fd6faf4115f8f39c85a91037f",
+    "current_bound_GLOBAL_sha256": "3bcbf8f821a150f13fc975910b7083c05a185416646cbe112a9d009ad82bf5e1",
+    "old_four_cap_marker_not_rewritten": true,
+    "other_caps_and_clock_unchanged": true,
+    "multiple_same_scope_sequential_submissions_authorized": true,
+    "not_unlimited_resources_or_new_recipes": true,
+    "sole_experiment_GPU_concurrency": 1,
+    "matrix3_and_final20GPUh40GiB_protected": true,
+    "actual_LOCAL_written": false,
+    "historical_Core_LOCAL_pending": true
+  },
+  "actual_used": {
+    "H200_s": 150429.0,
+    "PBS_submissions": 34,
+    "optimizer_updates": 13762,
+    "neural_queries": 4482
+  },
+  "actual_reserved": {
+    "H200_s": 51420,
+    "neural_queries": 2126,
+    "optimizer_updates": 1024
+  },
+  "cold_evidence": {
+    "source_files": 1230,
+    "sealed_small": 28,
+    "sealed_input_members": 26,
+    "manifest_sha256": "4f2a382c6eb8362b2d329d8669e310fa32626497a809f088d2e0f77a47d25df6",
+    "actual_cold_audit_sha256": "62826a148d211b254a6c84eeda13c57306cb01b1be9171202a5500af9ca4a846",
+    "actual_cold_CPU_s": 20.402684044999997,
+    "common_CORR_unchanged_nine_full_stream_witness_join": true,
+    "original_fifteen_numerical_files_unchanged": true,
+    "true_frozen_overlay_source": "887e65629291f16f73863e2b111123007542d268",
+    "no_tensor_or_raw_RGB_copy": true
+  },
+  "unknowns": {
+    "count_adoption_reply_40s_UNKNOWN_preserved": true,
+    "count_exact_native_once_intent_receipt_and_proposed_bytes_independently_confirmed": true,
+    "cold_preflight_reply_40s_UNKNOWN_preserved": true,
+    "cold_saved_PASS_and_terminal_actor_and_full_future_independently_confirmed": true,
+    "no_write_replayed": true,
+    "no_RPC_or_watchdog_extension": true
+  },
+  "predecessor": {
+    "job_id": "1497713.stdct-mgmt-02",
+    "status": "F_EXIT1_KNOWN_ZERO_MODEL_PRERELEASE_FAILURE_ONCE_SETTLED_CLOSED",
+    "GPU_s": 86,
+    "site_CPU_s": 122,
+    "original_row_and_paid_costs_and_metadata_preserved": true,
+    "old_owner_not_restarted": true
+  },
+  "science": {
+    "identity": "GEN1_LAYOUT_V0_CORR1024",
+    "independent_initialization": "COMMON_CORR2048_FRESH_OPTIMIZER",
+    "stop_after_step": 1024,
+    "cursor_at_success": 32768,
+    "C_D_weights_not_inherited": true,
+    "R0_original_recipe_loss_sampler_S1_scoring_unchanged": true,
+    "saved_R0_admitted_parents": 10,
+    "original_Teacher_attempts": 12,
+    "valid_S1_and_codec_rejections_retained": true,
+    "no_Teacher_resampling_or_official_reexport": true,
+    "original_twelve_TRAIN_probes_unchanged": true
+  },
+  "background": {
+    "actual_detached_original_resident_owner": true,
+    "agent_connection_required": false,
+    "agent_GPU_heartbeat": false,
+    "owner_performs_fresh_auth_quota_complete_queue_register_bind_heartbeat_release": true,
+    "CPU_bank_bounded_same_job_child_before_model": true,
+    "bank_ready_still_required": true,
+    "original_17_compatibility_before_first_update": true,
+    "full_15_state_and12probe_independent_audit_before_success": true,
+    "once_actual_effect_settlement_and_own_lease_close": true
+  },
+  "verification": {
+    "related_CPU_tests": 505,
+    "private_temp_installer_once_guard_tests": 5,
+    "private_initial_fixture_failures_retained": [
+      "missing_temporary_children_parent",
+      "expected_raw_timeout_instead_of_original_UnknownMutation"
+    ],
+    "private_fixture_repairs_only": true,
+    "first_private_pure_prepare_self_hash_fixture_rejected_and_corrected": true,
+    "Torch_dependent_registered_RGB_tests_not_run_locally": true,
+    "not_CI_or_native_model_PASS": true
+  },
+  "remaining": {
+    "GEN1_bank_ready": false,
+    "GEN1_model_start_release": false,
+    "GEN1_first_update_release": false,
+    "GEN1_complete1024": false,
+    "C50_Eval_valid": 0,
+    "D25_Eval_valid": 0,
+    "original_Evals_deferred_to_Core_by_human": true,
+    "door_bookshelf_design_only": true,
+    "WDR_core64": 0,
+    "whole_goal_complete": false
+  },
+  "clocks": {
+    "T_CD": 1792932749.8133287,
+    "CPU_bank_deadline": 1793422349.8133287,
+    "stop_new_training": 1793451149.8133287,
+    "deadline": 1793537549.8133287
+  },
+  "next_minimal_boundary": "SAME_JOB_REAL_COMPLETE_BANK_READY_BEFORE_MODEL_RELEASE_THEN_ORIGINAL_TRAIN1024",
+  "reported_epoch": 1793072816.844591
+}

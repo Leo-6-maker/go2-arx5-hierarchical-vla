@@ -1,0 +1,76 @@
+{
+  "schema": "PI0292_AUTH_REBLOCKED_AUDIT_V1",
+  "status": "BLOCKED_CURRENT_PROJECT_AUTH_LOGIN_REQUIRED",
+  "original_objective": "FULL_ORIGINAL_S0_S6_NOT_REDEFINED",
+  "run_uuid": "20261013T025824Z-localpc-pi0292",
+  "original_release": "261bc5b37f20aaff1ad7d5742252d3dc1a91fa65",
+  "original_T0_epoch": 1791860304,
+  "original_new_work_cutoff_epoch": 1791943104,
+  "original_deadline_epoch": 1791946704,
+  "budget_reset": false,
+  "clock_paused": false,
+  "final_native_observation_epoch": 1791890208.2972124,
+  "native_query_exit": 1,
+  "login_required": true,
+  "consecutive_goal_turns": [
+    {
+      "turn": 1,
+      "epoch": 1791884524.1160557,
+      "classification": "PROGRESS_GUARD_AND_CAPACITY_PREPARATION",
+      "same_auth_block": true
+    },
+    {
+      "turn": 2,
+      "epoch": 1791885158.7941487,
+      "classification": "PROGRESS_ACTUAL_REAL_RGB_CPU_INPUT_QUALIFICATION",
+      "same_auth_block": true
+    },
+    {
+      "turn": 3,
+      "epoch": 1791886716.8344464,
+      "classification": "PROGRESS_ACTUAL_ENDPOINT_IMPLEMENTATION_PREPARATION",
+      "same_auth_block": true
+    }
+  ],
+  "scientific_next_step": "Fresh native current CFP04-CF-007 admission before the original S3-smoke-02",
+  "required_external_change": "User restores account-manager login on Hopper; no credentials requested or exposed",
+  "scientific_operations_source": "c187d9573bdff302783fb5f41d06fcaa1753d2a8",
+  "S3_retry_guard_release": "c95ab11c152bb292cfc1944cf49ee720550c6a28",
+  "S3_guard_CI": "38377876859_SUCCESS",
+  "endpoint_preparation_release": "9c00bffe9619a3213589b2e8add484bffd40cc8f",
+  "endpoint_status": "IMPLEMENTED_CPU_COMPONENT_TESTED_NOT_DEPLOYED_NOT_RUNTIME_QUALIFIED",
+  "remaining_endpoint_requirements": [
+    "Actual legal allocation and main artifacts",
+    "Actual case/processor/full-checkpoint registry",
+    "Local-PC two-SSH coordinator and proof transfer",
+    "Independent confirmation static geometry/duplicate checks",
+    "Actual compute route and endpoint acceptance",
+    "Teacher relay/model canary/teacher and paired confirmation"
+  ],
+  "scientific_goal_complete": false,
+  "waiting_on_PI0292_live_job": false,
+  "current_scientific_job_ids": [],
+  "S3_REQUEST_absent": true,
+  "first_failure_preserved": true,
+  "PBS_calls_used": 1,
+  "PBS_calls_remaining": 2,
+  "budget_snapshot": {
+    "CPU_s": 448.35497999999995,
+    "CPU_upper_s": 2250,
+    "model_loads": 0,
+    "model_smoke_updates": 0,
+    "main_updates": 0,
+    "GPU_allocated_s": 0,
+    "generation_queries": 0
+  },
+  "capacity": "Prior fresh exact native quota had greater than 100GiB headroom; must refresh before admission",
+  "tests": {
+    "PI0292_methods": 104,
+    "PI0292_subtests": 127,
+    "scope": "CPU only, not actual model or physics"
+  },
+  "original_PI0291": "PARTIAL_UNCHANGED",
+  "original56_recollected": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

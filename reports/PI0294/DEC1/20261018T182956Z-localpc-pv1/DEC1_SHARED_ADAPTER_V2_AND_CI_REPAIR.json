@@ -1,0 +1,62 @@
+{
+  "schema": "DEC1_SHARED_ADAPTER_V2_AND_CI_REPAIR_V1",
+  "status": "V2_CPU_VERIFIED_NOT_DEPLOYED_NOT_TARGET_TASK_QUALIFIED",
+  "authority_release": "a7a7ecd9a6be62a7221af25a5e32a0009b076a84",
+  "failed_source": "7328828eee2663da11b6c11c3724ad20b43706ad",
+  "failed_CI": {
+    "run": 39466956612,
+    "job": 118780725537,
+    "conclusion": "failure",
+    "root_step": "Run python -m pytest -q",
+    "root_result": "1 failed, 828 passed, 14 skipped",
+    "failed_test": "tests/test_stage35_motion_api_authority_closure.py::test_v1_contract_files_are_unchanged_from_stage34",
+    "cause": "DIRECT_FRAME_FIX_CHANGED_A_HISTORICALLY_BYTE_FROZEN_V1_FILE",
+    "scientific_failure": false,
+    "test_deleted_or_old_expected_hash_rewritten": false,
+    "failed_source_may_be_deployed": false
+  },
+  "correction": {
+    "historical_V1_restored_exactly": true,
+    "V1_sha256": "f5e657964b00b2b1ee4ed0d6bdb84c516b8fc31e045d765a289dd002c479358c",
+    "unchanged_legacy_guard_sha256": "aaa91c85ba2e55458f68101a1681a71e60f8580baf977119198e854247907587",
+    "new_adapter": "go2arx5_vla.adapters.GR00TToWBCAdapterV2",
+    "new_source": "src/go2arx5_vla/adapters/groot_to_wbc_v2.py",
+    "V2_sha256": "d8f8fc0ce1f4679b8dc4571c205721019ab281e223512e5f64c4771c9de666ba",
+    "reference_adapter_version": "FRAME_CORRECTED_REFERENCE_V2",
+    "new_DEC1_I_TIME_and_I_PROGRESS_must_both_use_V2": true,
+    "wrong_V1_baseline_permitted_in_DEC1": false,
+    "expected_source_frame_to_distinct_WBC_frame_transform_applied_once": true,
+    "same_frame_preview_time_and_gripper_equivalence_test": true,
+    "old_running_capsules_modified": false,
+    "WBC_controller_or_plant_modified": false
+  },
+  "local_validation": {
+    "root_pytest": {
+      "passed": 830,
+      "skipped": 14,
+      "subtests_passed": 58,
+      "private_target_physics_and_historical_asset_skips_preserved": true
+    },
+    "PI0294_pytest": {
+      "passed": 984,
+      "subtests_passed": 856
+    },
+    "all_five_original_Stage34_files_unchanged_guard": "PASS",
+    "new_exact_push_CI": "PENDING_NOT_A_SUCCESS_CLAIM",
+    "physical_or_neural_qualification": false
+  },
+  "remaining_work": [
+    "EXACT_NEW_PUSH_CI_AND_COLD_VERSIONED_DEPLOYMENT",
+    "DEC1_FRESH_FUTURE_BUDGET_AND_SOURCE_TRAINING_COLD_BINDING",
+    "SOURCE_ONLY_I_PROGRESS_IMPLEMENTATION_AND_CONFIGURATION_FREEZE",
+    "TARGET_EXECUTOR_TASK_ABI_DELIVERY_AND_NATIVE_SAFETY_QUALIFICATION",
+    "PRESEALED_CORR_R0_64_CELL_MATRIX"
+  ],
+  "new_PBS": 0,
+  "new_model_loads": 0,
+  "new_queries": 0,
+  "new_training_updates": 0,
+  "new_DEC1_physical_ticks": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

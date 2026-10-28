@@ -1,0 +1,53 @@
+{
+  "schema": "E1_OFFLINE_REPORTING_VALIDATION_V1",
+  "status": "SAVED_AUDIT_METADATA_RECONCILED_NOT_NEW_EXPERIMENT",
+  "confidence": "SHARE_WITH_CAVEATS_NOT_CURRENT_NATIVE_READBACK",
+  "observed_UTC": "2026-10-16T20:45:03.401177+00:00",
+  "input_report_sha256": "7effa4b00a61cdc91fafcd31da784f4fe3703b71e726207aafb44536ab29375b",
+  "implementation_sha256": "eb5a4d3e1335abeedc24281cae6645fd2af3600c0d0e30c3ed779d70f93e2d93",
+  "source_model": "M1-1024-CANONICAL",
+  "actual_saved_T1_attempt_ids": [
+    "PI0294-E1-M1-1024-CANONICAL-F0-000-T1",
+    "PI0294-E1-M1-1024-CANONICAL-F1-000-T1"
+  ],
+  "T1_summary": {
+    "conditions_attempted": 2,
+    "actual_attempts": 2,
+    "planned_distinct_conditions": 2,
+    "all_conditions_attempted": true,
+    "valid_policy_outcomes": 2,
+    "task_successes": 2,
+    "unverified_or_untrustworthy_attempts": 0,
+    "original_attempt_models": [
+      "M1-1024-CANONICAL",
+      "M1-1024-CANONICAL"
+    ],
+    "failure_stages": {
+      "COMPLETE_SUCCESS": 2
+    },
+    "complete_predeclared_panel": true,
+    "source_task_competence_observed": true,
+    "DEV_generalization_proven": false,
+    "deployment_qualified": false
+  },
+  "checks": {
+    "fixed_input_bytes": true,
+    "independent_saved_audit_statuses_and_checks": true,
+    "reported_T1_counts_recomputed": true,
+    "two_seen_TRAIN_layouts_only": true,
+    "other_T2_and_DEV_results_not_reclassified": true
+  },
+  "new_model_queries": 0,
+  "new_physics_integrations": 0,
+  "new_server_jobs": 0,
+  "raw_images_or_physics_reaudited": false,
+  "current_native_or_Core_terminal_states_verified": false,
+  "E1_goal_complete": false,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "caveats": [
+    "This rechecks prior published audit metadata, not current raw files or server processes.",
+    "T1 two seen TRAIN layouts are not DEV, complete SMALL8, Go2/WBC or real-robot generalization.",
+    "The complete E1 matrix still requires actual remaining outcomes, independent audits and terminal resource readback."
+  ]
+}

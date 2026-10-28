@@ -1,0 +1,155 @@
+{
+  "schema": "MP1_RPC_REPLY_TELEMETRY_LOCK_ISOLATION_V1",
+  "status": "CODE_FIXED_NATIVE_CPU_MECHANISM_PASS_FULL_RELAY_UNPROVEN",
+  "authority": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "runtime_source": "4fda127ade1c045ef044264af5efdcc3e85d2c24",
+  "evidence_basis": {
+    "prior_actual_native_job": "671826.hopper-m-02",
+    "phase": "accounting",
+    "observed_block_s": 30.3019763212651,
+    "original_RPC_limit_s": 20,
+    "confirmed": "Block was after invoke and before emit, inside shared ledger transaction used to increment RPC_calls.",
+    "underlying_lock_vs_NFS_read_write_fsync_not_uniquely_measured": true
+  },
+  "implementation": {
+    "per_successful_reply": "Count RPC telemetry in the finite session's memory and emit the matching response without a metrics ledger transaction.",
+    "terminal": "One shared-ledger transaction adds RPC_calls and actual process CPU cost at session exit.",
+    "science_unchanged": [
+      "Generation reservations/charges and action receipt identities",
+      "Optimizer update charges and resume state",
+      "Physics reservations/integration counts and original S1",
+      "Mutation journal and unknown-effect no-retry behavior",
+      "Lease/source/stats/registry/terminal-model guards",
+      "Original20s RPC/60s action/900s episode and 40000-call cap"
+    ],
+    "crash_caveat": "A kill before terminal settlement leaves telemetry incomplete and CPU cost to be reconciled from the registered process upper bound. Counters are not assumed zero. An uncertain settlement is never automatically retried.",
+    "remaining_hot_path_IO": [
+      "Guard still reads active lease, immutable metadata and resource boundary.",
+      "Heartbeat still uses its original durable write.",
+      "Query/install scientific transactions and mutations still persist immediately."
+    ],
+    "broader_full_loop_speedup_not_proved": true
+  },
+  "cross_model_engineering_stop": {
+    "driver": "Poisoned transport writes and reads back RELAY_ENGINEERING_STOP on both child roots before any next physical condition.",
+    "native": "Both recovery and Source Pair neural guards directly read the engineering stop marker before further work, including loading the next model.",
+    "binding": "An existing engineering stop prevents a new panel binding.",
+    "native_safety_STOP_reclassified": false,
+    "implemented_and_CPU_fixture_tested": true,
+    "actual_model_abort_qualification": false
+  },
+  "actual_native_CPU_probes": {
+    "core": {
+      "status": "PASS_ACTUAL_SAME_HOST_OS_LOCK_REPLY_TELEMETRY_ISOLATION",
+      "independent_lock_holder_confirmed": true,
+      "replies_while_lock_held": 80,
+      "reply_loop_wall_s": 0.000015358906239271164,
+      "per_reply_shared_ledger_transactions": 0,
+      "terminal_shared_ledger_transactions": 1,
+      "terminal_settlement_wall_s": 0.007449921919032931,
+      "repeated_settlement_rejected": true,
+      "synthetic_scientific_counters_unchanged": true,
+      "actual_scientific_counter_or_data_modified": false,
+      "new_model_queries": 0,
+      "new_physical_integrations": 0,
+      "compute_to_login_NFS_qualified": false,
+      "actual_SSH_RPC_qualified": false,
+      "full_32s_model_loop_qualified": false,
+      "CPU_charge_point125_is_synthetic_not_actual_host_charge": true,
+      "role": "core",
+      "source_sha": "4fda127ade1c045ef044264af5efdcc3e85d2c24",
+      "registered_worker_terminal": true,
+      "synthetic_lock_holder_terminal": true,
+      "instrumented_probe_CPU_delta_s": 0.008576600000000045,
+      "charged_process_CPU_upper_s": 600,
+      "full_process_CPU_exact": false
+    },
+    "hopper": {
+      "status": "PASS_ACTUAL_SAME_HOST_OS_LOCK_REPLY_TELEMETRY_ISOLATION",
+      "independent_lock_holder_confirmed": true,
+      "replies_while_lock_held": 80,
+      "reply_loop_wall_s": 0.00003201467916369438,
+      "per_reply_shared_ledger_transactions": 0,
+      "terminal_shared_ledger_transactions": 1,
+      "terminal_settlement_wall_s": 0.008257743902504444,
+      "repeated_settlement_rejected": true,
+      "synthetic_scientific_counters_unchanged": true,
+      "actual_scientific_counter_or_data_modified": false,
+      "new_model_queries": 0,
+      "new_physical_integrations": 0,
+      "compute_to_login_NFS_qualified": false,
+      "actual_SSH_RPC_qualified": false,
+      "full_32s_model_loop_qualified": false,
+      "CPU_charge_point125_is_synthetic_not_actual_host_charge": true,
+      "role": "hopper",
+      "source_sha": "4fda127ade1c045ef044264af5efdcc3e85d2c24",
+      "registered_worker_terminal": true,
+      "synthetic_lock_holder_terminal": true,
+      "instrumented_probe_CPU_delta_s": 0.03447326199999878,
+      "charged_process_CPU_upper_s": 600,
+      "full_process_CPU_exact": false
+    }
+  },
+  "failed_first_CPU_attempts": {
+    "source": "0532be433e7ebad8be337ed97496820c7ba05b67",
+    "cause": "Path concatenation in run entry before starting the synthetic lock holder; local tests had tested probe() but not the role-specific bound run entry.",
+    "repair": "Parenthesized the role-specific Path expression and added bound-entry tests, with at most one CPU repair attempt per role.",
+    "Core_upper_CPU_s": 600,
+    "Hopper_upper_CPU_s": 600,
+    "results_available": false,
+    "science_started": false
+  },
+  "costs": {
+    "new_CPU_upper_s": {
+      "CoreLab": 1200,
+      "Hopper": 1200
+    },
+    "CPU_reservations_remaining": 0,
+    "new_GPU_PBS": 0,
+    "new_model_queries": 0,
+    "new_physical_integrations": 0,
+    "new_optimizer_updates": 0,
+    "first_and_second_probe_workers_terminal": true,
+    "closed_recovery_GPU_costs_unchanged": {
+      "e1-panel-recovery-01": {
+        "lease": "CLOSED",
+        "GPU_conservative_s": 213,
+        "PBS_submissions": 1,
+        "pending_updates": 0
+      },
+      "e1-panel-recovery-02": {
+        "lease": "CLOSED",
+        "GPU_conservative_s": 240,
+        "PBS_submissions": 1,
+        "pending_updates": 0
+      },
+      "own_pi0294_queued_or_running": []
+    },
+    "canonical_native_queue": {
+      "status": "CANONICAL_OWN_JOB_SELECTION_READBACK",
+      "PI0294_active_or_queued": []
+    }
+  },
+  "qualification_limits": {
+    "same_host_real_external_OS_file_lock_test": true,
+    "actual_SSH_RPC_test": false,
+    "compute_to_login_NFS_test": false,
+    "full_32s_model_loop_test": false,
+    "M2_comparison_complete": false,
+    "live_scientific_capsules_hot_changed": false,
+    "old_E1_reopened": false,
+    "third_recovery_family_PBS": false
+  },
+  "local_PI0294_tests_passed": 262,
+  "local_default_pytest": {"passed": 827, "explicit_skips": 14, "warnings": 1},
+  "github_CI_at_report": {
+    "id": 39010924057,
+    "sha": "4fda127ade1c045ef044264af5efdcc3e85d2c24",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "selected": "NONE",
+  "deployment": "NONE",
+  "next_required_evidence": "A separate legally admitted end-to-end evaluation route must prove complete32s under unchanged identity/time/safety contracts before P0 or M2 behavior is declared complete. This receipt grants no third recovery-family PBS."
+}

@@ -1,0 +1,192 @@
+{
+  "run_uuid": "20261013T023717-localpc-arx5",
+  "authority_sha": "15cc7957488fb879f5f050e3602327592da7036b",
+  "execution_source_sha": "302ad022f3d3a74dcaba72aa46e59282effad215",
+  "domain": "FIXED_BASE_ARX5_TASK_SIM",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "status": "STATIC_EXEMPLAR_PLUS_ACTUAL_PER_SNAPSHOT_CALIBRATION",
+  "pre_pilot_driver_followup": {
+    "V2_change": "exact-target IK cache only; not a camera change",
+    "duplicate_forward_removal": "REJECTED; original step and snapshot mj_forward retained",
+    "original_C29100_RGB_and_calibration_overwritten": false,
+    "V2_camera_admission": "Requires original new-version commissioning/pilot snapshots; these V1 exemplars are not replacements"
+  },
+  "pixels": [
+    256,
+    256
+  ],
+  "sensor_hz": 20,
+  "time_grid_s": 0.05,
+  "integration_dt_s": 0.002,
+  "snapshot_binding": "RGB, K, T_world_optical, TCP, cube keypoint projections saved at identical integer tick; geometry.timestamp_s and snapshot_id",
+  "optical_convention": "OpenCV +X right +Y down +Z forward; MJ camera +X right +Y up -Z forward; R_optical=R_MJ*diag(1,-1,-1)",
+  "static_snapshot": {
+    "id": "C29100:0",
+    "time_s": 0,
+    "evidence_sha256": "42796bde91b61cc857629c9a6ba44aec88f56ef5ccdc646836e9fc4ceba5bfa1",
+    "record_origin": "Zero-integration static probe, not substituted for episode RGB"
+  },
+  "body_rgb": {
+    "parent": "world_fixed_rig",
+    "description": "Named body_rgb but physically world-fixed external rig, not Go2 body-mounted camera",
+    "local_position_m": [
+      1,
+      -0.9,
+      1.1
+    ],
+    "fovy_deg": 55,
+    "K": [
+      [
+        245.88571225230925,
+        0,
+        128
+      ],
+      [
+        0,
+        245.88571225230925,
+        128
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "T_world_optical_static": [
+      [
+        0.8448190755542286,
+        0.2558429380266127,
+        -0.46992033435637737,
+        1
+      ],
+      [
+        0.5350520811843449,
+        -0.4039625337262304,
+        0.7419794752995432,
+        -0.9
+      ],
+      [
+        2.7755575615628914e-17,
+        -0.8782702672909946,
+        -0.4781645507485944,
+        1.1
+      ],
+      [
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "static_visible_cube_keypoints": 4
+  },
+  "wrist_rgb": {
+    "parent": "x5_link6",
+    "local_position_m": [
+      0.1124,
+      0.1,
+      0.055
+    ],
+    "local_look_at_m": [
+      0.1774,
+      0,
+      0.0001057
+    ],
+    "fovy_deg": 75,
+    "K": [
+      [
+        166.81284772367434,
+        0,
+        128
+      ],
+      [
+        0,
+        166.81284772367434,
+        128
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "T_world_optical_static": [
+      [
+        0.876606880486712,
+        -0.23823043441422864,
+        -0.4180988366429196,
+        0.5077678258564318
+      ],
+      [
+        -0.48120720805423767,
+        -0.433980238370779,
+        -0.7616434701487875,
+        0.02576151617391549
+      ],
+      [
+        2.1973466685087928e-8,
+        0.8688540802818672,
+        -0.49506826516910757,
+        0.5699998837335644
+      ],
+      [
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "static_visible_cube_keypoints": 2,
+    "dynamic_extrinsics": true
+  },
+  "actual_raw_record": "episodes/C29100/samples.json[*].geometry; body_rgb/wrist_rgb PNGs are original collected snapshots",
+  "first_physical_visual_review": {
+    "episode": "C29100",
+    "source_sha": "302ad022f3d3a74dcaba72aa46e59282effad215",
+    "physics_sha256": "19a788c6a6b4d999f0462ecf0ed3a040048f694e9d23a1a01d97b406ff9dc338",
+    "images_not_rerendered": true,
+    "review_scope": "Manual image inspection of original body frame80 and wrist80/120/180/190/260/560; not full-bank camera admission",
+    "wrist_frames": [
+      {
+        "frame": 80,
+        "time_s": 4,
+        "phase_by_record": "lift",
+        "sha256": "417e7b621082aa57a3c922c9560cec4df35ede7b214f6e83afa87f7a5367b0da"
+      },
+      {
+        "frame": 120,
+        "time_s": 6,
+        "phase_by_record": "carry",
+        "sha256": "d8c14261d6568c8538c2a60f26951333aa730086b30a117abde6f76723e6dc95"
+      },
+      {
+        "frame": 180,
+        "time_s": 9,
+        "phase_by_record": "lower, before release at9.05",
+        "sha256": "00c980a223eeb7b7ed781c062be72be7aef6c403bed52be6c6f4bf1c1d7f1e41"
+      },
+      {
+        "frame": 190,
+        "time_s": 9.5,
+        "phase_by_record": "release",
+        "sha256": "0fea22a12ad1d13f73a5f35aee7c4dbd94314b21c5bbd0fb1c27470ef41c8fb7"
+      },
+      {
+        "frame": 260,
+        "time_s": 13,
+        "phase_by_record": "hold after withdraw",
+        "sha256": "09e6add8fb71675620c9d977917d52c8764a6d5416d3f93f2c4089aa29488eb9"
+      },
+      {
+        "frame": 560,
+        "time_s": 28,
+        "phase_by_record": "hold",
+        "sha256": "3971825d5e0a02d46a7d5a7d0b40bb09b48f299bd65b180889e5c9d5847c13a8"
+      }
+    ],
+    "body_frame80_sha256": "66c6c113457214a036e50990e53b86ee121c5f8f8805f78a440b79023078a8b1",
+    "finding": "Cube visually clear at lift/carry/lower and after release/withdraw/hold; moving wrist camera not palm blocked",
+    "remaining_gate": "Independent per-frame K/extrinsic/projection and visibility audit required for each admitted episode"
+  }
+}

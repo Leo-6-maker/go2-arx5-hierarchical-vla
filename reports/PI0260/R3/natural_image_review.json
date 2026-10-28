@@ -1,0 +1,15 @@
+{
+  "status": "PASS_SCOPED_MANUAL_NATURAL_RGB_REVIEW",
+  "review_mode": "SAME_OWNER_MANUAL_CONTACT_SHEET_OF_SAVED_RGB",
+  "scope": "56 body/wrist RGB pairs: 28 M1 and 28 M3; TRAIN and KIN-VAL; both commands; first and last selected families at first, middle and last active phase; two lowest required-cue margins per task and split",
+  "source_resolution": [96, 96],
+  "inspected": "Both saved-image contact sheets were displayed at original contact-sheet resolution. Target colours and orientation axes in M1, and open contour/endpoints in M3, are visually distinguishable in the sampled images, including the lowest required-cue examples. No image was rerendered or altered in the policy dataset.",
+  "limitations": "This is scoped human-readable inspection, not exhaustive manual review of all 13,243 new rendered image pairs. Pixel/count gates and saved-array raster replay cover the complete admitted population separately.",
+  "contact_sheets_sha256": {
+    "M1": "906e81715b80a2e5d48c8c2d1a5cc41a949d610dfa9c84d23c005342dce8de03",
+    "M3": "e04cc3dac575da48aa7fe400abf24b2be1200a5416b78f5fc231467cbad0a1a9"
+  },
+  "sample_manifest_sha256": "326eae66f8cf19e5b7047e75528be03028bad40ab24edd23876be7724978dabb",
+  "model_queries": 0,
+  "physics_steps": 0
+}

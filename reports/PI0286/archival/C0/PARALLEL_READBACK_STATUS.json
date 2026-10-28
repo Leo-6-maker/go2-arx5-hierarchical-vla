@@ -1,0 +1,54 @@
+{
+  "epoch": 1791523268.5352807,
+  "worker_start": {
+    "status": "STARTED_SOLE_CPU_ARCHIVE_FOREGROUND_SSH_KEEPALIVE",
+    "pid": 922211,
+    "wrapper_pid": 922183,
+    "argv": [
+      "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python",
+      "-u",
+      "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/archive/readback_trainer_parallel.py",
+      "--arm",
+      "C0_REPLAY1024"
+    ],
+    "started_epoch": 1791523245.4715757,
+    "wrapper_sha256": "c62f02b1162143d42d5d692506d8171188c386e58290d67b6b2b1452eed0b74a",
+    "max_CPU_threads": 4,
+    "memory_limit_bytes": 17179869184,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "physics_calls": 0,
+    "training_code_seal_changed": false
+  },
+  "process_alive": true,
+  "CPU_status": [
+    "VmSize:\t  596380 kB",
+    "VmRSS:\t  154776 kB",
+    "Threads:\t5",
+    "Cpus_allowed_list:\t0-3"
+  ],
+  "last_range_progress": {
+    "status": "FIXED_REVISION_ORDERED_RANGE_PROGRESS",
+    "arm": "C0_REPLAY1024",
+    "path": "optimizer.pt",
+    "verified_ordered_bytes": 2617245696,
+    "expected_bytes": 11340462437,
+    "elapsed_s": 21.581459045410156
+  },
+  "reuse": {
+    "entries_equal_native_audit": true,
+    "helper_sha256": "126880ca6a0aab20ad556417335500f5b18f26c1f9fbbfdb81027b62049a064c",
+    "members": {
+      "PI0282_RECOVERY.json": 67108,
+      "PI0282_SCOPE_PROOF.json": 1681,
+      "config.json": 2105,
+      "embodiment_id.json": 2146,
+      "model-00001-of-00002.safetensors": 4993709288,
+      "model-00002-of-00002.safetensors": 4129471992,
+      "model.safetensors.index.json": 104912
+    },
+    "original_log_sha256": "c0eaa5355a1303b888073c0f8ad0947ee74d1b7cc97136eec394eebb5383b28a",
+    "revision": "b0b8c65de8d5bbdf0946ccdda9ecb23348cf16c9",
+    "status": "REUSE_ONLY_ACTUAL_MATURE_FULL_FILE_SHA_ASSERTED_PASS_MEMBERS"
+  }
+}

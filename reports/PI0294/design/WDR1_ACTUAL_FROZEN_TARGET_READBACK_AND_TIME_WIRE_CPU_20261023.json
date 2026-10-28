@@ -1,0 +1,110 @@
+{
+  "schema": "WDR1_ACTUAL_FROZEN_TARGET_READBACK_AND_TIME_WIRE_CPU_V1",
+  "observed_epoch": 1792716691.7844768,
+  "status": "ACTUAL_FROZEN_TARGET_ASSETS_AND_CORE_STANDARD_ENTRY_TIME_WIRE_CPU_PASS_NOT_TASK_QUALIFICATION",
+  "registered_readback": {
+    "metadata_receipt_sha256": "02280d644371df6967228dc0bd024645ab3c7d0aa4281c0f2b11dcefd6b92b0d",
+    "source_and_overlay_receipt_sha256": "d032c109fbc1a788cdd2b0b51cfd17a28bf410c04d41e7731d51ea220376f226",
+    "bound_native_and_model_receipt_sha256": "5e7c5fbd922e29cc268902009149f08049cd1096dcd4c9ef60d6da85097a6cae",
+    "private_parser_and_entry_receipt_sha256": "829fb353dd488dd8128a3d9d80ec8ea7a965d77f7e84006f082245b0c6a0c6ed",
+    "registered_target_manifest_sha256": "f3cc29071acfe6d0593cf5d8e0ca30cd62e85fdbe18b340838092e7e6290396d",
+    "source_seal_sha256": "b98f936b674103f0fdfeaf11bec21bb097e2921fd6ba166fb90600bc5a62e461",
+    "actual_source_members_matched": 356,
+    "actual_original_native_members_matched": 9,
+    "actual_clock_overlay_members_matched": 2,
+    "actual_pause_overlay_members_matched": 1,
+    "actual_task_adapter_members_matched": 2,
+    "all14startup_member_pins_matched_after_bounded_followup": true,
+    "compiled_plant_sha256": "168b1232df2a50a163709c1c1e57d13d39aa3efb92a4c98005e797924142376d",
+    "compiled_plant_bytes": 74461448,
+    "all_reads_no_deserialization_or_model_load": true,
+    "actual_matching_native_processes": [],
+    "active_recorded_target_actors": 0
+  },
+  "path_roles": {
+    "geometry_root_and_native_execution_root_are_distinct": true,
+    "native_execution_root_derived_from_actual_startup_config_private_root": true,
+    "geometry_root_missing_three_executables_not_evidence_of_missing_runtime": true,
+    "original_bounded_reader_failed_once_before_large_plant_hash": true,
+    "failed_read_remote_writes": 0,
+    "large_plant_then_read_at_exact_known_size_and_hash": true
+  },
+  "frozen_clock": {
+    "actual_task_clock_sha256": "82004c3171cc8cd2a0486f391595ac39424bad96882d12c5936c4eca55fe3b08",
+    "management_HEAD_task_clock_sha256": "9f4286bdc6ddf5f3931d776e08102a42dc22951bd2a683785bd27df753c1c8f7",
+    "automatic_management_HEAD_substitution_allowed": false,
+    "future_target_capsule_must_pin_actual_frozen_members": true
+  },
+  "old_task_pilots": {
+    "closure_sha256": "f6264df2becc0f6178feffd32a720b9e4834604b2b033db3d65f4f6e582831a5",
+    "original_fixed_cards": 4,
+    "successes": 0,
+    "valid_native_safety_failures": 1,
+    "complete_task_quality_failures": 3,
+    "admitted_training_episodes": 0,
+    "quality_retries_allowed": false,
+    "these_are_not_current_DEC1_commissioning_or_core64_cells": true,
+    "historical_task_deadline_epoch": 1792087800,
+    "historical_ACTIVE_lease_label_does_not_reopen_window": true
+  },
+  "wire_CPU": {
+    "private_parser_sha256": "3fd59ca29b257a4fec2a66409d33099d0cc0befe4ef6a5039d80b44d03dadf90",
+    "private_receiver_node_sha256": "29a905d66a221c0efa504f0b6ccaef94ebe6290a9fbbb5b767667beb0f5199e5",
+    "deployed_entry_sha256": "0c7973e0a3bc0e585e7ab96cfcc9033532a98f56e9c9410882282a291bb7082f",
+    "actual_private_parser_byte_copy_local_tests": 2,
+    "related_public_cases_passed": 22,
+    "related_subtests_passed": 6,
+    "public_cases_skipped_private_Core": 1,
+    "private_positive_branch_actually_run_locally": true,
+    "world_pose_samples_checked": 41,
+    "invalid_clock_identity_grid_or_full_H40_tail_cases_rejected": 11,
+    "actual_action0_not_replaced_with_measured_pose": true,
+    "final_sample_held": true,
+    "no_BASE_padding_or_frame_correction": true,
+    "explicit_cancel_parser_semantics_only_not_live_STOP": true,
+    "Core_standard_entry_CPU_validation": "ACTUAL_PASS",
+    "full_native_ACK_stop_prefix_safety_or_task_qualification": false,
+    "actual_Core_receipt_sha256": "10c5bae1411cebb2025251b102f873c9d6cf8b46ea15915d1b20d1117ebf35a3",
+    "actual_Core_child_CPU_s": 0.157063,
+    "actual_Core_service_s": 0.22251787316054106,
+    "current_control_manifest_lease_registry_and_DEC1_ledger_unchanged": true,
+    "external_or_file_write_attempts": 0,
+    "torch_mujoco_rclpy_packages_imported": false
+  },
+  "remaining_actual_work": [
+    "Current valid DEC1 target-native binding/resource admission rather than old window or old pilot rerun",
+    "Target-native full-reference/prefix safety and actual feedback/install ACK/stop lifecycle qualification under fixed controller",
+    "Original fixed CORR/R0 source/target64 only after corresponding native qualification; independent source A/B remains unaffected"
+  ],
+  "current_target_native_admission": false,
+  "target_task_native_qualified": false,
+  "new_physics": 0,
+  "new_models": 0,
+  "new_builds": 0,
+  "new_remote_ledger_registry_or_lease_writes": 0,
+  "core64_cells": 0,
+  "source_training_waits_for_target": false,
+  "goal_complete": false,
+  "files_sha256": {
+    "scripts/pi0294/dec1/target_time_wire_cpu.py": "1cf197fc8281357d8fb4f796be05e0ccf7960175b1a52580fc49fa244f0a14b6",
+    "scripts/pi0294/dec1/test_target_time_wire_cpu.py": "6408f2dda5a66176c7210a95d67314b2afefd589dfc5096ef2cdd0f2e6c0080d"
+  },
+  "exact_published_code_qualification": {
+    "source": "5447d639791d90dda6f6c8915bbf03ada87c44b7",
+    "CI_run": 39880036692,
+    "CI_job": 120174926979,
+    "all_12_steps_success": true,
+    "full_readback_files": 5
+  },
+  "B1_actual_cached_observation": {
+    "job_id": "1478518.stdct-mgmt-02",
+    "observed_epoch": 1792716687.277398,
+    "state": "R",
+    "returned_updates": 863,
+    "queries": 17,
+    "loads": 2,
+    "unknown_effects": [],
+    "fixed_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "no_restarts_hot_changes_or_duplicate_submissions": true
+  }
+}

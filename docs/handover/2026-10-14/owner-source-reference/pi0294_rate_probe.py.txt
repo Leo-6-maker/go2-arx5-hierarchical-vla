@@ -1,0 +1,25 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read actual engineering step times, not an additional model benchmark."""
+from pi0294_adopt import RUN, remote
+
+CODE = r'''
+import json
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+records=[]
+for p in (root/'smoke_attempts').glob('*/training/*/session-*/TRAINING_RUN.json'):
+    v=json.loads(p.read_text())
+    records.append(dict(path=str(p.relative_to(root)),global_step=v.get('global_step'),
+        actual_optimizer_steps_per_s=v.get('actual_optimizer_steps_per_s'),
+        actual_synchronized_optimizer_step_s=v.get('actual_synchronized_optimizer_step_s'),
+        peak_gpu_allocated_bytes=v.get('peak_gpu_allocated_bytes'),
+        recipe={k:v.get('recipe',{}).get(k) for k in ('per_device_train_batch_size','workers','numerical_configuration')}))
+print(json.dumps(dict(records=records,models_loaded=0,PBS_submissions=0)))
+'''
+
+if __name__ == '__main__':
+    r=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+    if r.returncode:raise RuntimeError(r.stderr[-1000:])
+    print(r.stdout)

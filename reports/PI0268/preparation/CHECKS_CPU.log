@@ -1,0 +1,29 @@
+/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/lib/python3.12/site-packages/albumentations/check_version.py:49: UserWarning: Error fetching version info PI0268_NO_NETWORK_OR_SUBPROCESS_IN_ANALYSIS
+  data = fetch_version_info()
+Traceback (most recent call last):
+  File "/home/liuyu-nfs/Projects/go2-arx5/PI0268/preparation/scripts/check_preparation.py", line 77, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/liuyu-nfs/Projects/go2-arx5/PI0268/preparation/scripts/check_preparation.py", line 52, in main
+    packet.update(state_v1=s,language=row['language']);value=batch(processor,packet,a)['inputs'];condition={k:v for k,v in value.items() if k not in ('action','action_mask')}
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/R3/pi0260_r3_inputs.py", line 10, in batch
+    return r2_batch(processor,packet,label)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/runtime/pi0260_r2_inputs.py", line 37, in batch
+    encoded=processor([dict(content=content)])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/liuyu-nfs/Projects/isaac-gr00t/gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py", line 683, in __call__
+    vlm_inputs = self._get_vlm_inputs(
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/liuyu-nfs/Projects/isaac-gr00t/gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py", line 737, in _get_vlm_inputs
+    [image_transform(img) for img in images[view]]
+     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/liuyu-nfs/Projects/go2-arx5/PI0268/preparation/scripts/check_preparation.py", line 12, in forbidden
+    def forbidden(*a,**kw):raise RuntimeError('NO_MODEL_OPTIMIZER')
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: NO_MODEL_OPTIMIZER
+/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/lib/python3.12/site-packages/albumentations/check_version.py:49: UserWarning: Error fetching version info PI0268_NO_NETWORK_OR_SUBPROCESS_IN_ANALYSIS
+  data = fetch_version_info()
+PASS_CPU_CHECKS 28
+PASS_CPU_CHECKS 31

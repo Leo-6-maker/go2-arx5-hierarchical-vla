@@ -1,0 +1,240 @@
+{
+  "schema": "V5_C50_TWELVE_ACTUAL_VALID_CONDITIONS_AND_SAME_ORIGINAL_PANEL_CONTINUES_V1",
+  "runtime_source": "ae30beaf53dc6b61c157f9e35b291ddba773e73e",
+  "request_id": "d4b63eff-71e6-4c77-a7c7-dbdfe1b79a52",
+  "case_evidence_observed_epoch": 1793142575.5400643,
+  "processes_observed_epoch": 1793142624.6520607,
+  "overall_goal_complete": false,
+  "panel": {
+    "candidate": "C50",
+    "original_conditions": 24,
+    "valid_conditions": 12,
+    "successes": 1,
+    "successes_by_task": {
+      "T1": 1,
+      "T2": 0
+    },
+    "valid_failures": 11,
+    "remaining_eligible_conditions": 12,
+    "complete_DEV24": false,
+    "training_or_selection_admission": false,
+    "all_prior_valid_failures_retained": true,
+    "partial_success_rate_not_a_selection_gate": true,
+    "exact_original_baseline_history_sha256": "2b49a19f4ddc49f461d8337cbeed8ad7c3d09a504c43009c7483b16390063271"
+  },
+  "new_actual_condition": {
+    "episode": "C50-PI0294-PV1-DEV-F1-003-T2-N294101-REPLACEMENT-01",
+    "adjudication": {
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "OBJECT_TASK_RESULT",
+      "pipeline_trustworthy": true,
+      "attempt_id": "C50-PI0294-PV1-DEV-F1-003-T2-N294101-REPLACEMENT-01",
+      "condition_id": "PI0294/PV1/DEV/F1/003/T2/N294101",
+      "model": "C50",
+      "task": "T2",
+      "split": "DEV",
+      "scene_group": "PI0294/PV1/DEV/F1/003",
+      "noise_bank": 294101,
+      "family": "F1",
+      "duration_s": 32.0,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 8.526512829121202e-14,
+      "result_sha256": "7f3f8b57ac5785ece564e3232f4c2d0d9fc3cfe402a91610db456775a7bf07ef",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "real_robot_deployment": "NONE"
+    },
+    "actual_wall_s": 831.1699051219039,
+    "original_wall_limit_s": 900,
+    "score": {
+      "clock_valid": true,
+      "complete_32s": true,
+      "contact_height_numerical_tolerance_m": 1e-08,
+      "deployment": "NONE",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+      "history": {
+        "actual_robot_contact": true,
+        "highrate_contact_complete": true,
+        "horizontal_push": false,
+        "no_lift": true,
+        "no_sustained_bilateral_grasp": true
+      },
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "hold_subpredicates": {
+        "angular_speed": 41,
+        "linear_speed": 41,
+        "object_and_contacts_valid": 41,
+        "released": 41,
+        "robot_separated": 41,
+        "table_height": 41,
+        "tcp_clear": 41,
+        "zone_corners": 0
+      },
+      "maximum_actual_carry_xy_m": 0.052467773882857616,
+      "maximum_actual_lift_m": 0.0032827649170124595,
+      "maximum_bilateral_grasp_s": 0.0,
+      "maximum_center_height_rise_m": 0.0033518382557546356,
+      "persistent_success": false,
+      "physics_sha256": "e8a5f445cecb8c042cfc3aece724bda5e3e7216a47aeace7bb0a31243c48d8e1",
+      "raw_sample_count": 641,
+      "safety_valid": true,
+      "selected": "NONE",
+      "task": "T2",
+      "task_id": "ARX5_FIXED_BASE_PUSH_V1"
+    },
+    "original_raw_audit_sha256": "5a780c2bf89c4177174f8ec206d95a0cecf01105c751fb9c16f6bb9374b6e5cf",
+    "two_site_causal_sha256": "89401bdc72fae593545dbd5b68f4a8c0367c1e2ce1a0cb93795bb732f08bad5e",
+    "full80_ACKs": true,
+    "live_integrations": 16000,
+    "RGB_pairs": 641,
+    "no_new_Teacher_or_score_change": true
+  },
+  "actual_continuation": {
+    "primary_registered_processes": {
+      "v5-cd-c50-eval-owner-12.service": {
+        "pid": 1893369,
+        "uid": 2009,
+        "proc_start": 291011904,
+        "state": "S"
+      },
+      "v5-cd-c50-n294101-13-neural.service": {
+        "pid": 1893464,
+        "uid": 2009,
+        "proc_start": 291012242,
+        "state": "S"
+      }
+    },
+    "owner_exception": null,
+    "qualification": {
+      "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+      "receipt_sha256": "cd5a617dd8d0b2d52909984a6637d4cffac8240adae24408795effeb88ad3d9b",
+      "heartbeat_elapsed_s": 600.0051345820539,
+      "transport_cycles": 80,
+      "new_model_queries": 0,
+      "new_physics": 0
+    },
+    "model_status": "PV1_NATIVE_MODEL_READY",
+    "current_episodes": [
+      "C50-PI0294-PV1-DEV-F1-003-T2-N294101-REPLACEMENT-01",
+      "C50-PI0294-PV1-DEV-F1-004-T1-N294101"
+    ],
+    "new_queries_snapshot": [
+      {
+        "label": "C50-DEV-N294101",
+        "attempts": 84,
+        "returned": 84
+      }
+    ],
+    "snapshot_epoch": 1793142575.5400643,
+    "full_request_not_terminal": true,
+    "GLOBAL_terminal_settlement_not_yet_due": true,
+    "agent_heartbeat": false
+  },
+  "resources_and_once_scope": {
+    "GLOBAL_sha256": "96ff740a63990874cebd3e03d320df3fb63e269aa8d17cf2da75bd6e77960332",
+    "LOCAL_sha256": "2974261b4111696ceeb1401555151fad88a286d8e06c413e0822efaf4fd17f8a",
+    "both_original_onceIO_reconciled": true,
+    "prepaid_control": {
+      "H200_s": 0,
+      "PBS_submissions": 0,
+      "optimizer_updates": 0,
+      "episode_starts": 0,
+      "neural_queries": 0,
+      "physics_ticks": 0,
+      "engine_starts": 0,
+      "Core_CPU_s": 0,
+      "Hopper_CPU_s": 7200,
+      "local_CPU_s": 7200,
+      "transfer_bytes": 134217728,
+      "Hopper_storage_bytes": 67108864,
+      "Core_storage_bytes": 134217728,
+      "local_storage_bytes": 0
+    },
+    "no_new_PBS": true,
+    "no_new_caps": true,
+    "all_old_costs_and_unknowns_preserved": true
+  },
+  "finite_remainder": {
+    "walltime_s": 18000,
+    "reserved_GPU_s": 18060,
+    "neural_CPU_upper_s": 40000,
+    "physical_CPU_upper_s": 47100,
+    "conditions": 13,
+    "query_upper": 1057,
+    "constructors_upper": 1055,
+    "physics_ticks_upper": 416000,
+    "per_condition_wall_s": 900,
+    "new_neural_output_upper_bytes": 4294967296,
+    "new_control_output_upper_bytes": 3221225472,
+    "retained_IO": {
+      "status": "ACTUAL_OLD_CENSUS_AND_CONDITIONAL_REMAINING13_FINITE_OUTPUT_BOUNDS",
+      "inventory_sha256": "5e2497b7a62aa09604cf9ac3253c9905eb46cee2dc4308a8d6dad4ab49275195",
+      "old_unique_logical_bytes": 14946668032,
+      "old_unique_allocated_bytes": 15000354816,
+      "future_output_uppers": {
+        "neural_output_bytes": 4294967296,
+        "physical_raw_bytes": 10468982784,
+        "physical_metadata_bytes": 536870912,
+        "new_control_bytes": 3221225472,
+        "new_source_bytes": 67108864
+      },
+      "combined_retained_upper_bytes": 33589510144,
+      "original_Core_gross_already_paid": 34051160888,
+      "Core_paid_gross_headroom_bytes": 461650744,
+      "original_GPU_gross_already_paid": 42641095480,
+      "old_control_actual_over_128MiB_recorded": true,
+      "old_control_and_every_old_raw_file_retained_in_combined_total": true,
+      "future_native_output_guards_and_exact_input_inode_bind": "NOT_RUN",
+      "new_native_IO_credit_adopted": false,
+      "old_cost_refund": false
+    },
+    "original_model_view": "DIRECTORY_ALIAS_TO_UNCHANGED_PAID_16_INODES_NO_NEW_TENSOR_HARDLINK_OR_COPY",
+    "full_original_future_shortfalls": {},
+    "matrix3_and_final20GPUh40GiB_preserved": true
+  },
+  "source_custody": {
+    "full_native_hash_performed": true,
+    "source_files": 1279,
+    "source_bytes": 10673138,
+    "closed_kernel_identity_checks_before_every_remote_transaction": true,
+    "original_onceIO_and_unknown_fences_unchanged": true,
+    "new_actor_reply_and_output_bounds": true,
+    "old_requests_keep_full_hash_semantics": true,
+    "original_15_numerical_files_unchanged": true,
+    "episode_relay_overlay_source": "887e65629291f16f73863e2b111123007542d268"
+  },
+  "cold_first512": {
+    "export_source": "e7afed9135cea119d7a0b54b39879c62e91fbde1",
+    "five_session_worker_source": "924b84517c3ec784d54456704654980deed274b8",
+    "source_full_GitHub_SHA_and_gitblob_readback": true,
+    "original_Trainer_effects_fixed_draw_and_phase_tickets_reused": true,
+    "full_state_qualification_restored_then_discarded_before_fresh_formal": true,
+    "qualification_models_charged_three_attempts_per_arm_including_raw_reconstruction_and_full_saved_state_load": true,
+    "formal_models_charged_two_attempts_per_arm_including_official_reload": true,
+    "own_saved_checkpoint_sealed0400_without_input_alias_or_tensor_restream": true,
+    "original_wrapped_full_resume_preserved": true,
+    "related_CPU": {
+      "passed": 42,
+      "skipped": 0,
+      "limitations": "Temporary real file/inode and tiny CPU model fixtures; full five-session GR00T path not run"
+    },
+    "actual_captured_phase_ticket_and_export_CPU": {
+      "passed": 30,
+      "skipped": 0
+    },
+    "registered_original_owner_dispatcher_and_independent_native_terminal_still_required": true,
+    "new_request_or_GPU_or_native_model_or_updates": false
+  },
+  "next_minimum_block": "Finish current remaining12 with original full24 audit, actual once financial settlement and GPU/physical/control closure. Then original D25 fixed model delivery and original24. Complete first512 original registered owner/entry and independent real model qualification at the legal serial boundary; only a new explicitly bound D25 capsule may overlap the first512 main.",
+  "D25_valid_conditions": 0,
+  "GEN1_valid_conditions": 0,
+  "WDR_core64": 0,
+  "T_CD": 1792932749.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "deadline_epoch": 1793537549.8133287
+}

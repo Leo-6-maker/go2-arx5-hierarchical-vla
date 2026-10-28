@@ -1,0 +1,98 @@
+{
+  "schema": "PI0294_MANISKILL_PLANNER_PREPARATION_RECEIPT_V1",
+  "status": "PLAN_AND_SOURCE_METADATA_PREPARED_NOT_RUNTIME_OR_PHYSICS_PASS",
+  "baseline_release": "3d2fcc9fd540d9f8e75661a50473b24147160741",
+  "baseline_canonical_comment": 6190273335,
+  "current_remote_snapshot": {
+    "epoch": 1792061395.1912963,
+    "status": "FINAL_READ_ONLY_STATE_VERIFIED",
+    "source_sha": "405e59c51acef2886124e3e0d080132c8c6629a1",
+    "current_admission": "COMPONENT_TEACHER_V2_SERIES_TERMINAL_PRESERVED",
+    "episode_owners": [
+      {
+        "id": "V2_DEV_W0_T1",
+        "original_owner_live": false
+      },
+      {
+        "id": "V2_DEV_W0_T2",
+        "original_owner_live": false
+      },
+      {
+        "id": "V2_DEV_W1_T1",
+        "original_owner_live": false
+      },
+      {
+        "id": "V2_DEV_W1_T2",
+        "original_owner_live": false
+      }
+    ],
+    "active_CPU_reservations": {},
+    "cumulative": {
+      "Core_CPU_s": 15244.79211945514,
+      "Hopper_CPU_s": 0,
+      "GPU_allocated_s": 0,
+      "GPU_reserved_s": 0,
+      "main_starts": 37,
+      "main_integrations": 345005,
+      "RGB_pairs": 12007,
+      "new_formal_updates": 0,
+      "new_engineering_updates": 0,
+      "generation_intents": 0
+    },
+    "series_CPU_including_all_parent_charged_stages_s": 790.0756826057059,
+    "archive": {
+      "status": "PASS_PRIVATE_FULL_FILE_READBACK",
+      "files": 2323,
+      "bytes": 530436177,
+      "tree_sha256": "fe691552c06c973e08a3c4ca878217e9b69a08fa9c80a956c56976a69effb3f8"
+    },
+    "old_fixed_pilot_terminal_unchanged": true,
+    "old_native_safety_failure_unchanged": true,
+    "old_V1_terminal_unchanged": true
+  },
+  "refreshed_issue11_comments": [
+    6189965884,
+    6189975398,
+    6190273335
+  ],
+  "refreshed_issue47_comment": 6187285649,
+  "primary_sources_read": 12,
+  "verified_release_metadata": [
+    "mplib0.2.1",
+    "numpy1.26.4",
+    "scipy1.13.1",
+    "transforms3d0.4.2",
+    "toppra0.6.3"
+  ],
+  "dependency_conflict_identified": "MPLIB_REQUIRES_NUMPY_LT_2_NATIVE_PROFILE_USES_NUMPY_2",
+  "toppra_CP312_wheel": "NOT_LISTED_PINNED_SDIST_BUILD_NOT_YET_PERFORMED",
+  "runtime_compatibility": "UNOBSERVED_NOT_INSTALLED",
+  "actual_work_this_preparation": {
+    "new_physical_starts": 0,
+    "new_integrations": 0,
+    "new_render": 0,
+    "new_neural_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_GPU_PBS": 0,
+    "new_package_installs": 0,
+    "adapter_implementation": 0,
+    "CPU_implementation_tests": 0
+  },
+  "scientific_execution_adopted": false,
+  "planned_worst_case_parent_preview": {
+    "main_starts": 43,
+    "main_integrations": 404023,
+    "RGB_pairs": 13771,
+    "Core_CPU_s_max": 36844.79211945514
+  },
+  "selected": "NONE",
+  "deployment": "NONE",
+  "publication_metadata_validation": {
+    "status": "PASS_DOCUMENT_LINKS_ARITHMETIC_SOURCE_HASHES_AND_FALSE_LAUNCH_FLAGS_ONLY",
+    "implementation_tests": 0,
+    "runtime_or_physics_qualification": false,
+    "frozen_sources_checked": 12,
+    "fixed_planning_seeds_checked": 232,
+    "logical_condition_count": 4
+  }
+}

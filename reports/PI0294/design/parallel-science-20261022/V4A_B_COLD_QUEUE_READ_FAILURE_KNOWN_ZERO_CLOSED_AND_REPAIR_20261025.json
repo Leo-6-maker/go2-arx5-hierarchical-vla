@@ -1,0 +1,216 @@
+{
+  "schema": "V4A_B_COLD_READ_FAILURE_KNOWN_ZERO_CLOSED_AND_REPAIR_V1",
+  "status": "ACTUAL_FAILED_B_COLD_OWNER_AND_GPU_TERMINAL_DUAL_CLOSED",
+  "failed_request_id": "b43a9ef7-1636-4e91-a3e0-e1edb33eeb38",
+  "native_exit": 1,
+  "primary_cause": "VANDA_QSELECT_READ_TIMEOUT_10S_NOT_A_CORE_GPU_FAILURE",
+  "original_error_diagnostic_sha256": "48062b4b1175e0a582be055747b55e1596728fe116cb1df1302500b39c094eae",
+  "secondary_native_stop": "ORIGINAL_OWNER_STOP_PRESERVED",
+  "model_loads": 0,
+  "queries": 0,
+  "physical_episode_starts": 0,
+  "physics_ticks": 0,
+  "optimizer_updates": 0,
+  "actual_CPU_fixture_work_preserved": true,
+  "once_GPU_seconds": 678,
+  "once_GPU_process_CPU_seconds": 3,
+  "control_upper_once": 7200,
+  "leases": "BOTH_CLOSED",
+  "unknown_effects": [],
+  "independent_closure_readback_sha256": "f6138eb8fc5614f8b4009d0379360422122f98800a2d1ad2de5f702b1701f825",
+  "known_zero_storage": {
+    "neural": {
+      "unique_new_file_allocated_bytes": 16801792,
+      "metadata_directory_control_allowance_bytes": 67108864,
+      "conservative_new_allocated_upper_bytes": 83910656,
+      "already_paid_shared_input_allocated_bytes": 12587507712
+    },
+    "physical": {
+      "unique_new_file_allocated_bytes": 11128832,
+      "metadata_directory_control_allowance_bytes": 67108864,
+      "conservative_new_allocated_upper_bytes": 78237696,
+      "already_paid_shared_input_allocated_bytes": 11153408
+    }
+  },
+  "storage_accounting": "Charge all unique new allocated files plus 64 MiB metadata/directory/control allowance per role. Exclude only the exact immutable inodes already paid in original model delivery/source inputs. No historical counter is decreased; no future upper is deleted.",
+  "old_A24_and_first_failed_B_full_output_charges_preserved": true,
+  "full_captured_repair_forecast": {
+    "shortfalls": {},
+    "dimensions": {
+      "H200_s": {
+        "cap": 435600,
+        "used": 117988.0,
+        "reserved": 0,
+        "remaining_stage_upper": 28860,
+        "matrix": 86580,
+        "final": 72000,
+        "projected": 305428.0,
+        "shortfall": 0
+      },
+      "PBS_submissions": {
+        "cap": 34,
+        "used": 25,
+        "reserved": 0,
+        "remaining_stage_upper": 1,
+        "matrix": 3,
+        "final": 0,
+        "projected": 29,
+        "shortfall": 0
+      },
+      "optimizer_updates": {
+        "cap": 16384,
+        "used": 11714,
+        "reserved": 0,
+        "remaining_stage_upper": 0,
+        "matrix": 0,
+        "final": 0,
+        "projected": 11714,
+        "shortfall": 0
+      },
+      "episode_starts": {
+        "cap": 1000,
+        "used": 367,
+        "reserved": 0,
+        "remaining_stage_upper": 24,
+        "matrix": 88,
+        "final": 100,
+        "projected": 579,
+        "shortfall": 0
+      },
+      "neural_queries": {
+        "cap": 48000,
+        "used": 2850,
+        "reserved": 0,
+        "remaining_stage_upper": 1937,
+        "matrix": 7040,
+        "final": 9000,
+        "projected": 20827,
+        "shortfall": 0
+      },
+      "physics_ticks": {
+        "cap": 40000000,
+        "used": 11325778,
+        "reserved": 0,
+        "remaining_stage_upper": 768000,
+        "matrix": 2816000,
+        "final": 3200000,
+        "projected": 18109778,
+        "shortfall": 0
+      },
+      "engine_starts": {
+        "cap": 100000,
+        "used": 31443,
+        "reserved": 0,
+        "remaining_stage_upper": 1946,
+        "matrix": 7128,
+        "final": 0,
+        "projected": 40517,
+        "shortfall": 0
+      },
+      "Core_CPU_s": {
+        "cap": 1152000,
+        "used": 212498.55061444998,
+        "reserved": 93600.0,
+        "remaining_stage_upper": 182000,
+        "matrix": 193968.05627,
+        "final": 0,
+        "projected": 682066.60688445,
+        "shortfall": 0
+      },
+      "Hopper_CPU_s": {
+        "cap": 766800,
+        "used": 180020.658597758,
+        "reserved": 7200,
+        "remaining_stage_upper": 87800,
+        "matrix": 85520,
+        "final": 0,
+        "projected": 360540.65859775804,
+        "shortfall": 0
+      },
+      "local_CPU_s": {
+        "cap": 172800,
+        "used": 73258.974682509,
+        "reserved": 7200.0,
+        "remaining_stage_upper": 7800,
+        "matrix": 6600,
+        "final": 0,
+        "projected": 94858.974682509,
+        "shortfall": 0
+      },
+      "transfer_bytes": {
+        "cap": 322122547200,
+        "used": 110907719521,
+        "reserved": 0,
+        "remaining_stage_upper": 51996194416,
+        "matrix": 6174015488,
+        "final": 0,
+        "projected": 169077929425,
+        "shortfall": 0
+      },
+      "Hopper_storage_bytes": {
+        "cap": 870804619264,
+        "used": 779707728932,
+        "reserved": 0,
+        "remaining_stage_upper": 38346128184,
+        "matrix": 9442971836,
+        "final": 42949672960,
+        "projected": 870446501912,
+        "shortfall": 0
+      },
+      "Core_storage_bytes": {
+        "cap": 353261060096,
+        "used": 276724980960,
+        "reserved": 0,
+        "remaining_stage_upper": 58210351928,
+        "matrix": 17968398336,
+        "final": 0,
+        "projected": 352903731224,
+        "shortfall": 0
+      },
+      "local_storage_bytes": {
+        "cap": 21474836480,
+        "used": 8791261184,
+        "reserved": 0,
+        "remaining_stage_upper": 67108864,
+        "matrix": 0,
+        "final": 0,
+        "projected": 8858370048,
+        "shortfall": 0
+      }
+    },
+    "stage_clock": {
+      "first_stage_remaining_wall_upper_s": 28860,
+      "both_stage_panels_fit_original_physics_window": true,
+      "last_stage_submission_fits_original_stop_new": true,
+      "original_matrix_and_final_resources_protected": true,
+      "all_protected_future_jobs_wall_completion_promised": false
+    }
+  },
+  "cold_repair": {
+    "status": "PREPARED_NOT_NATIVE_ADOPTED",
+    "same_original_B24_only": true,
+    "new_training": false,
+    "no_extra_caps": true,
+    "source_original15_unchanged": true,
+    "no_old_owner_restart": true,
+    "no_old_request_replay": true,
+    "one_new_known_zero_read_failure_boundary": true,
+    "no_generic_retry_pool": true,
+    "queue_read_attempt_limit": 3,
+    "each_original_RPC_timeout_unchanged": true,
+    "original_watchdog_unchanged": true,
+    "raw_fresh_ledger_fallback": "HEARTBEAT_ONLY_EXPLICIT_QUEUE_UNKNOWN_NOT_EMPTY",
+    "native_model_release": "REQUIRES_ACTUAL_FRESH_COMPLETE_QUEUE_AND_FULL_RESOURCES",
+    "original_three_matrix_jobs_and_final_20GPUh_40GiB_preserved": true
+  },
+  "A": {
+    "success": 11,
+    "valid": 24,
+    "T1": "7/12",
+    "T2": "4/12"
+  },
+  "B_valid": 0,
+  "B_minus_A": null,
+  "full_goal": "ACTIVE_INCOMPLETE",
+  "core64": 0
+}

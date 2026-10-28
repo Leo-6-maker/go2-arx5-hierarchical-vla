@@ -1,0 +1,76 @@
+{
+  "schema": "GEN1_ORIGINAL_TEACHER_T2_FULL_SUCCESS_AND_VALID_NEGATIVE_ACTUAL_V1",
+  "date": "2026-10-27",
+  "runtime_source": "21aa09341f27848c840892bf1beb42c868123ebf",
+  "completed_T2": {
+    "attempt_id": "GEN1-PILOT-8285eff95cc830a8-T2",
+    "layout_stratum": "-Y/FAR",
+    "live_ticks": 16000,
+    "shadow_ticks": 16000,
+    "paired_samples": 641,
+    "independent_raw_audit": "PASS_INDEPENDENT_RAW_AUDIT",
+    "admitted_for_raw": true,
+    "formal_R0_codec_admitted": false,
+    "hold_observed": 41,
+    "hold_pass": 41,
+    "all_subpredicates": {
+      "zone_corners": 41,
+      "table_height": 41,
+      "linear_speed": 41,
+      "angular_speed": 41,
+      "released": 41,
+      "robot_separated": 41,
+      "tcp_clear": 41,
+      "object_and_contacts_valid": 41
+    },
+    "persistent_success": true,
+    "native_safety_failures": 0,
+    "S1_rejections": 0,
+    "micro_reconstruction": {
+      "reconstructed_rows": 16000,
+      "max_abs_error": 0.0,
+      "integrations": 0,
+      "render_calls": 0
+    },
+    "actually_committed_H40_windows": 601,
+    "video": {
+      "relative": "evidence/audits/GEN1-PILOT-8285eff95cc830a8-T2/actual-body-wrist.mp4",
+      "sha256": "17ca145a737b01a6182fce0ec28fb8569f77836da678f20fe5d34f63c2610935",
+      "bytes": 1286173,
+      "frames": 641
+    },
+    "original_seed_read_view_native_worked": true
+  },
+  "retained_negative": {
+    "attempt_id": "GEN1-PILOT-d7a1a12f0484a566-T2",
+    "live_ticks": 5600,
+    "shadow_ticks": 5629,
+    "pre_execution_S1_rejections": 1,
+    "native_safety_failures": 0,
+    "decoded_video_frames": 225,
+    "status": "PASS_INDEPENDENT_PARTIAL_NEGATIVE_WITNESS",
+    "will_not_be_recaptured": true
+  },
+  "total_known_raw_support": {
+    "full_T1": 2,
+    "full_T2": 1,
+    "valid_T2_S1_rejection": 1,
+    "all_twelve_outcomes_available": false
+  },
+  "last_metadata": {
+    "epoch": 1793053470.1517363,
+    "owner_and_two_workers_procstart_healthy": true,
+    "worker0_completed": 1,
+    "worker1_completed": 1,
+    "unknown_effects": [],
+    "STOP": null
+  },
+  "cold_source": "a926b9a16d43be09eb7f0c5728b27e117437a9fb",
+  "cold_source_12_files_GitHub_and_gitblob_full_readback": true,
+  "combined_CPU_tests_passed": 256,
+  "cold_code_native_adopted": false,
+  "new_GEN_export_PBS_submitted": false,
+  "new_GEN_training_PBS_submitted": false,
+  "fullgoal_complete": false,
+  "next": "Existing owner completes remaining8 cases, preserving valid failures; then independent terminal audit/settlement/three closures and original R0 export"
+}

@@ -1,0 +1,383 @@
+{
+  "control": {
+    "actor_loads": [
+      {
+        "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+        "inference_keys": 14,
+        "payload_keys": 29,
+        "role": "arm",
+        "safe_load": "PASS"
+      },
+      {
+        "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+        "inference_keys": 8,
+        "payload_keys": 17,
+        "role": "dog",
+        "safe_load": "PASS"
+      }
+    ],
+    "anchor_world_m": [
+      0.45077773928642273,
+      0.032240841537714005,
+      0.650952160358429
+    ],
+    "complete_duration": true,
+    "final_world_tcp_distance_m": 0.019257587029929687,
+    "first_hit_tick": 41,
+    "gate": {
+      "decision": "ACCEPT",
+      "issues": [],
+      "metrics": {
+        "angular_speed_radps": {
+          "max": 0.0,
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0
+        },
+        "chunk_age_s": 0.0,
+        "chunk_id": "expert-C0",
+        "initial_position_discontinuity_m": 0.1756933494167717,
+        "initial_rotation_discontinuity_rad": 0.3932010535478865,
+        "linear_speed_mps": {
+          "max": 0.39063645551000475,
+          "mean": 0.20201063281509576,
+          "median": 0.18653033221525375,
+          "p95": 0.3822322909577485
+        },
+        "se3_arc_length_m": 0.39392073398943683,
+        "translation_path_length_m": 0.39392073398943683
+      },
+      "provenance": {
+        "corrective_action": "NONE",
+        "gate": "TrajectorySafetyGateV1",
+        "threshold_provenance": {
+          "aging_age_s": "CONTROLLER_CONTRACT",
+          "angular_speed_reject_radps": "TEST_ONLY",
+          "angular_speed_warn_radps": "TEST_ONLY",
+          "initial_position_reject_m": "BENCHMARK_DERIVED",
+          "initial_position_warn_m": "BENCHMARK_DERIVED",
+          "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+          "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+          "linear_speed_reject_mps": "TEST_ONLY",
+          "linear_speed_warn_mps": "TEST_ONLY",
+          "max_path_length_m": "TEST_ONLY",
+          "min_arc_length_m": "CONTROLLER_CONTRACT",
+          "min_points": "CONTROLLER_CONTRACT",
+          "stale_age_s": "CONTROLLER_CONTRACT",
+          "workspace_reject_max_m": "TEST_ONLY",
+          "workspace_reject_min_m": "TEST_ONLY",
+          "workspace_warn_max_m": "GENERATOR_SUPPORT",
+          "workspace_warn_min_m": "GENERATOR_SUPPORT"
+        }
+      }
+    },
+    "initial_bind": {
+      "anchor_world_m": [
+        0.45077773928642273,
+        0.032240841537714005,
+        0.650952160358429
+      ],
+      "chunk_id": "expert-C0",
+      "dt_s": 0.05,
+      "episode_length_after": 1,
+      "episode_length_unchanged": true,
+      "initial": false,
+      "lifecycle_phase": "INITIAL_BIND",
+      "physics_dof_state_unchanged": true,
+      "physics_reset": false,
+      "physics_root_state_unchanged": true,
+      "physics_teleport": false,
+      "point_count": 40,
+      "policy_history_reset": false,
+      "reset_buf_after": false,
+      "reset_buf_before": false,
+      "trajectory_hash": "d9cac2520ccbcaf0b225bc0947d30af1b4ed572b408306acca2008f89f93bba0"
+    },
+    "min_world_tcp_distance_m": 0.008711638133222097,
+    "model_queries": 0,
+    "native_control_dt_s": 0.019999999552965164,
+    "native_load_events": [
+      {
+        "anchor_world_m": [
+          0.45077773928642273,
+          0.032240841537714005,
+          0.650952160358429
+        ],
+        "chunk_id": "gt-0000",
+        "dt_s": 0.05,
+        "episode_length_after": 0,
+        "initial": true,
+        "point_count": 40,
+        "trajectory_hash": "8dc4aeae0f79cfe13e7209dce846633c7c47db615afbe71b153990d66c81dab6"
+      },
+      {
+        "anchor_world_m": [
+          0.45077773928642273,
+          0.032240841537714005,
+          0.650952160358429
+        ],
+        "chunk_id": "expert-C0",
+        "dt_s": 0.05,
+        "episode_length_after": 1,
+        "episode_length_unchanged": true,
+        "initial": false,
+        "lifecycle_phase": "INITIAL_BIND",
+        "physics_dof_state_unchanged": true,
+        "physics_reset": false,
+        "physics_root_state_unchanged": true,
+        "physics_teleport": false,
+        "point_count": 40,
+        "policy_history_reset": false,
+        "reset_buf_after": false,
+        "reset_buf_before": false,
+        "trajectory_hash": "d9cac2520ccbcaf0b225bc0947d30af1b4ed572b408306acca2008f89f93bba0"
+      }
+    ],
+    "optimizer_updates": 0,
+    "physical_clean": true,
+    "reference_target_binding": "ORIGINAL_PI0227_INTERIOR_WAYPOINT_TO_TARGET",
+    "reference_updates": 0,
+    "reset_seed": 22301,
+    "rows": 97,
+    "schema": "PI0252_NATIVE_C0_ENVIRONMENT_CONTROL_V1",
+    "selected_checkpoint": "NONE",
+    "status": "PASS",
+    "target_world_m": [
+      0.3,
+      0.1,
+      0.58
+    ],
+    "task": "A",
+    "termination": "REFERENCE_COMPLETE",
+    "tracking_error_max_m": 0.1644802987575531
+  },
+  "files": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/controls/A_attempt2/control.json",
+      "sha256": "81d7b7ecaffbc326a09a3ca4e2f1e5eb1af10dbe3df48c4bfebb330c31526e0b"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/controls/A_attempt2/rows.jsonl",
+      "sha256": "5c89294fab943d5d33642eb097dbe939f95a33fa4c582e1ada3bebf89f59d7fc"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/controls/A_attempt2/actual_expert_reference.npz",
+      "sha256": "5df0c2c2e75d7204baebacfaa7f0415a41e972867ccb9d772fe36103d6dfb140"
+    }
+  ],
+  "first_record": {
+    "achieved_world_m": [
+      0.20151390135288239,
+      -0.0577128641307354,
+      0.6426618099212646
+    ],
+    "arm_dq": [
+      1.9055566787719727,
+      2.503854274749756,
+      3.255679130554199,
+      3.637205123901367,
+      1.5398260354995728,
+      5.687539100646973
+    ],
+    "arm_q": [
+      -0.5557036399841309,
+      0.21756964921951294,
+      0.17158573865890503,
+      -0.20737825334072113,
+      -0.0736614316701889,
+      -0.16788233816623688
+    ],
+    "base_quat": [
+      -0.15596850216388702,
+      -0.09173236042261124,
+      -0.0521109439432621,
+      0.9821118712425232
+    ],
+    "desired_world_m": [
+      0.1290222853422165,
+      -0.02842405065894127,
+      0.7873715162277222
+    ],
+    "dof_pos": [
+      0.13329613208770752,
+      0.8616344928741455,
+      -1.5177878141403198,
+      -0.12240526080131531,
+      0.7358154654502869,
+      -1.8105003833770752,
+      0.10744085162878036,
+      0.7182357311248779,
+      -1.7039655447006226,
+      -0.1182604506611824,
+      0.9620463848114014,
+      -1.7791160345077515,
+      -0.5557036399841309,
+      0.21756964921951294,
+      0.17158573865890503,
+      -0.20737825334072113,
+      -0.0736614316701889,
+      -0.16788233816623688,
+      0.002066520042717457,
+      0.0013710955390706658
+    ],
+    "dof_vel": [
+      1.4945447444915771,
+      -4.665231704711914,
+      -0.7935158610343933,
+      -4.740725517272949,
+      2.8718106746673584,
+      -2.4078593254089355,
+      -0.6931275129318237,
+      1.82830810546875,
+      -6.427857398986816,
+      -0.44500455260276794,
+      3.8434925079345703,
+      -3.7233011722564697,
+      1.9055566787719727,
+      2.503854274749756,
+      3.255679130554199,
+      3.637205123901367,
+      1.5398260354995728,
+      5.687539100646973,
+      -0.004279467277228832,
+      -0.023096071556210518
+    ],
+    "dog_dq": [
+      1.4945447444915771,
+      -4.665231704711914,
+      -0.7935158610343933,
+      -4.740725517272949,
+      2.8718106746673584,
+      -2.4078593254089355,
+      -0.6931275129318237,
+      1.82830810546875,
+      -6.427857398986816,
+      -0.44500455260276794,
+      3.8434925079345703,
+      -3.7233011722564697
+    ],
+    "dog_q": [
+      0.13329613208770752,
+      0.8616344928741455,
+      -1.5177878141403198,
+      -0.12240526080131531,
+      0.7358154654502869,
+      -1.8105003833770752,
+      0.10744085162878036,
+      0.7182357311248779,
+      -1.7039655447006226,
+      -0.1182604506611824,
+      0.9620463848114014,
+      -1.7791160345077515
+    ],
+    "done": false,
+    "invalid_state": false,
+    "joint_limit_margin": [
+      0.8091838359832764,
+      2.1793594360351562,
+      0.5857807993888855,
+      0.8200747072696686,
+      2.0535404086112976,
+      0.8179526329040527,
+      0.8350391164422035,
+      0.9887607097625732,
+      0.7719585299491882,
+      0.8242195174098015,
+      1.2325713634490967,
+      0.8471090197563171,
+      1.2765166759490967,
+      0.03431957960128784,
+      0.009585678577423096,
+      1.2965216785669327,
+      1.430238500237465,
+      1.716717705130577,
+      -0.00013347994536161423,
+      -0.0008289044490084052
+    ],
+    "joint_limit_violation": true,
+    "joint_pos_target": [
+      0.18219316005706787,
+      0.7843424677848816,
+      -1.5181021690368652,
+      -0.22090299427509308,
+      0.7546901702880859,
+      -1.9065115451812744,
+      0.06868208944797516,
+      0.7944842576980591,
+      -1.61469304561615,
+      -0.1280193328857422,
+      1.0154350996017456,
+      -1.9386790990829468,
+      -0.42877498269081116,
+      0.6482847332954407,
+      1.5231437683105469,
+      0.7812601923942566,
+      0.14471782743930817,
+      0.10259506106376648,
+      0.0,
+      0.0
+    ],
+    "policy": {
+      "arm_action_6d": [
+        -1.7150999307632446,
+        2.5931389331817627,
+        6.0925750732421875,
+        3.1250407695770264,
+        0.5788713097572327,
+        0.4103802442550659
+      ],
+      "arm_raw_output": [
+        -1.7150999307632446,
+        2.5931389331817627,
+        6.0925750732421875,
+        3.1250407695770264,
+        0.5788713097572327,
+        0.4103802442550659,
+        0.6268349289894104,
+        0.06509733200073242,
+        -0.6268710494041443,
+        -0.5107432007789612,
+        -0.8101600408554077,
+        -0.9265230298042297,
+        0.7845808267593384,
+        -0.32898110151290894,
+        0.8481747508049011
+      ],
+      "dog_action_12d": [
+        0.657545268535614,
+        -0.06263010948896408,
+        -0.07240869849920273,
+        -0.9672239422798157,
+        -0.18123933672904968,
+        -1.6260459423065186,
+        -0.2505432963371277,
+        -0.8220629692077637,
+        -0.4587722718715668,
+        -0.22415471076965332,
+        0.06174054369330406,
+        -1.7547162771224976
+      ],
+      "info_keys": [
+        "time_outs",
+        "train/episode"
+      ],
+      "internal_body_plan_9d": [
+        0.6268349289894104,
+        0.06509733200073242,
+        -0.6268710494041443,
+        -0.5107432007789612,
+        -0.8101600408554077,
+        -0.9265230298042297,
+        0.7845808267593384,
+        -0.32898110151290894,
+        0.8481747508049011
+      ]
+    },
+    "reference_time_s": 0.019999999552965164,
+    "reset_buf": false,
+    "step": 0,
+    "target_distance_m": 0.19621254180520237,
+    "termination_event": null,
+    "tracking_error_m": 0.1644802987575531
+  }
+}

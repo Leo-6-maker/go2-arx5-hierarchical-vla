@@ -1,0 +1,38 @@
+{
+  "schema": "VAP1_COLD_BOTH_SITE_CANONICAL_MUX_PREPARATION_V1",
+  "status": "CPU_VERIFIED_AND_BOTH_NATIVE_READONLY_CHANNELS_TESTED_NOT_TRAINING_DEPLOYED",
+  "created_epoch": 1792694760.8497636,
+  "module": "scripts/pi0294/dec1/owner_mux.py",
+  "module_sha256": "e4409737775e6edb8d667b34677c5522947a6e74f9764732545cb8ad24c2967e",
+  "CPU_tests_passed": 4,
+  "sites": {
+    "hopper": {
+      "status": "PASS_CANONICAL_AUTHENTICATED_MUX_REQUIRED_READONLY",
+      "duration_s": 0.668133020401001,
+      "host": "hopper-l-01",
+      "observed_epoch": 1792694583.9285977
+    },
+    "vanda": {
+      "status": "PASS_CANONICAL_AUTHENTICATED_MUX_REQUIRED_READONLY",
+      "duration_s": 0.4717905521392822,
+      "host": "stdct-login-01",
+      "observed_epoch": 1792694585.291577
+    }
+  },
+  "semantics": [
+    "Existing authenticated canonical SSH masters; strict host keys and original deadlines unchanged.",
+    "Both sites use explicit private owner sockets.",
+    "ProxyCommand=false and CanonicalizeHostname=no prevent a missing mux from silently opening a fresh network session.",
+    "A missing/foreign/public/non-socket master is rejected; no reconnect, native mutation retry or new scheduler call is implemented."
+  ],
+  "original_watchdog_s": 300,
+  "RPC_readonly_s": 40,
+  "RPC_write_s": 40,
+  "RPC_heartbeat_s": 30,
+  "old_source_and_owners_not_modified": true,
+  "new_PBS": 0,
+  "new_models": 0,
+  "new_updates": 0,
+  "future_owner_binding_and_CI_required": true,
+  "not_proof_of_future_network_availability": true
+}

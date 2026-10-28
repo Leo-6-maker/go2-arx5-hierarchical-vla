@@ -1,0 +1,3 @@
+PI0260-R2 execution result canonical: https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5895359184
+
+COMPACT_30_10 data and actual codec completed; H1 stopped on exact permitted-input / differing-future-reference aliases. Model quality NOT_EVALUATED; Base/G updates and model queries 0. Full fixed-revision anonymous HF archive readback PASS. This PR comment is pointer-only; decisions and complete evidence are in Issue #11. No merge.

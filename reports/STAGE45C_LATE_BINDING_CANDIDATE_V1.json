@@ -1,0 +1,142 @@
+{
+  "schema": "CORELAB_STAGE45C_LATE_BINDING_CANDIDATE_REPORT_V1",
+  "status": "CORELAB_STAGE45C_LATE_BINDING_CANDIDATE_READY",
+  "pi_gate": "PI_GATE_STATE_0089",
+  "authority_comment": 5597325095,
+  "support_branch": "stage45c/corelab-train24-evaluator-prep",
+  "integration_base_sha": "4ff83c03d1071560c99070882ebd86b69c6c92f3",
+  "golden_head": "8197e4cd591b9c44cf9f43576d3020e9e6ff5f24",
+  "changed_files": [
+    "manifests/STAGE45C_TRAIN24_LATE_BINDING_CANDIDATE_V1.json",
+    "scripts/stage45c_verify_late_binding_candidate.py",
+    "tests/test_stage45c_late_binding_candidate.py",
+    "reports/STAGE45C_LATE_BINDING_CANDIDATE_V1.json"
+  ],
+  "integration_diff_from_prep": {
+    "base": "4ff83c03d1071560c99070882ebd86b69c6c92f3",
+    "added_files": [
+      "manifests/STAGE45C_TRAIN24_LATE_BINDING_CANDIDATE_V1.json",
+      "scripts/stage45c_verify_late_binding_candidate.py",
+      "tests/test_stage45c_late_binding_candidate.py",
+      "reports/STAGE45C_LATE_BINDING_CANDIDATE_V1.json"
+    ],
+    "modified_files": [],
+    "deleted_files": [],
+    "existing_evaluator_semantics_modified": false,
+    "canonical_branch": "stage45c/b2-checkpoint-train24-evaluation",
+    "canonical_branch_touched": false,
+    "merge_performed": false,
+    "history_rewritten": false
+  },
+  "binding_map": {
+    "golden_training_release_v2": {
+      "promotion_manifest_sha256": "a6f803e257ceeb0434027d8a35e32a7b8c66baf8226234bd6299cebf417446f9",
+      "checkpoint_integrity_delta_audit_sha256": "a672e39b45e025f9a7681c1a1a45d807dd9be2a4641e54db60b036252bb59539",
+      "runtime_manifest": "promotion-manifest SHA-bound; runtime-admission bytes remain late-bound; no path embedded"
+    },
+    "base": {
+      "tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+      "index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+      "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+      "statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9"
+    },
+    "full24_train24": {
+      "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+      "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+      "window_count": 24,
+      "frame_count": 960,
+      "order": "target_major_then_snapshot_major"
+    },
+    "runtime_v2_stats": {
+      "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+      "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+      "protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2"
+    },
+    "groot_runtime": {
+      "groot_source_commit_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+      "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+      "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+      "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+      "training_config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c"
+    },
+    "checkpoints": {
+      "integrity_delta_audit_sha256": "a672e39b45e025f9a7681c1a1a45d807dd9be2a4641e54db60b036252bb59539",
+      "FULL24@1000_tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
+      "FULL24@2000_tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5"
+    },
+    "historical_structured_1000": {
+      "expected_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+      "expected_file_count": 19,
+      "expected_total_bytes": 20889596357,
+      "expected_structured_action_stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+      "runtime_materialization": "PENDING_VANDA_RECOVERY",
+      "path": null
+    },
+    "sampler_noise": {
+      "development_seed": 4242,
+      "steps": 4,
+      "timestep_ids": [0, 250, 500, 750],
+      "noise_shape": [1, 40, 132],
+      "same_noise_across_checkpoints": true,
+      "planned_forwards": 96
+    },
+    "structured_action": {
+      "schema": "StructuredActionV1",
+      "raw_shape": [1, 40, 132],
+      "decoded_shape": [40, 10],
+      "frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+      "tcp": "x5_link6_gripper_center",
+      "target_xyz_in_model_input": false,
+      "decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae"
+    },
+    "stage44r_metrics": {
+      "source_sha256": "913be32a7bc418b3213f7d2277d59831d40fec9ab81a171efc5918bb8e8f5ed4",
+      "progress_definition": "d_start_minus_d_end_in_world_frame_metres",
+      "progress_tolerance_m": 1e-09,
+      "task_success_threshold": null,
+      "safety_gate_allowed": ["ACCEPT", "WARN"]
+    }
+  },
+  "evidence_hashes": {
+    "candidate_manifest_sha256": "49f693f2c26d3c96377ed723ec1ff7552545fc070d3471bacb750987afe6ae81",
+    "candidate_verifier_sha256": "8d7e2b7762ea32fb180634b6c3214bd3f07f90c6196cfbdbc55e5bc521fdb697",
+    "candidate_test_sha256": "983c5e7859b0e11c25de56e36797b36c26dbf522225058c065f7e8b46b54918b",
+    "full24_source_manifest_sha256": "c1105002485ebee88c13f56a2198b7b5edbdb9d5a0f4d641f4e644f7b211e566",
+    "stage44r_repair_source_sha256": "acbe166e27bc3b48686897a8b6f4e2c2b7540e944f4e7b7e7ea0517de48f31cd",
+    "stage40_decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+    "canonical_metric_library_sha256": "913be32a7bc418b3213f7d2277d59831d40fec9ab81a171efc5918bb8e8f5ed4"
+  },
+  "tests": {
+    "candidate_verifier": "PASS",
+    "candidate_unittest": "PASS",
+    "existing_stage45c_unittest": "PASS",
+    "protocol_check_only": "PASS",
+    "runner_plan_only": "PASS",
+    "python_compile": "PASS",
+    "pbs_shell_syntax": "PASS",
+    "git_diff_check": "PASS",
+    "scope_audit": "PASS"
+  },
+  "zero_declarations": {
+    "model_construction": false,
+    "model_forward": false,
+    "gr00t_forwards": 0,
+    "gpu": false,
+    "h200": false,
+    "training": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_steps": 0,
+    "simulator_steps": 0,
+    "hardware_execution": false,
+    "pbs_submissions": 0,
+    "checkpoint_recovery_or_transfer": false
+  },
+  "stop_state": {
+    "historical_materialization": "PENDING_VANDA_RECOVERY",
+    "canonical_integration_owner": "vanda",
+    "protocol_freeze_token_issued": false,
+    "h200_evaluation_started": false,
+    "next_action": "Vanda may audit and history-preserving integrate this exact support commit after recovery; Corelab stops here."
+  }
+}

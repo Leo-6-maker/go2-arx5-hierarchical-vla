@@ -1,0 +1,92 @@
+{
+  "schema": "PI0292_PATH_ADOPTION_AND_CONTINUATION_ADMISSION_V1",
+  "status": "DEPENDENCY_CPU_REQUALIFIED_WAITING_OWN_ALLOCATION_GATE",
+  "run_uuid": "20261013T025824Z-localpc-pi0292",
+  "release": "261bc5b37f20aaff1ad7d5742252d3dc1a91fa65",
+  "authority_comment": 6137102979,
+  "original_T0": 1791860304,
+  "original_cutoff": 1791943104,
+  "original_deadline": 1791946704,
+  "budget_reset": false,
+  "fixed_scientific_operations": "c187d9573bdff302783fb5f41d06fcaa1753d2a8",
+  "migration_scope": "Paths previously migrated by existing maintenance actor; new immutable job-boundary bindings and real CPU acceptance, no scientific code/data/stats/recipe hot switch",
+  "qualification": {
+    "status": "PASS_MIGRATED_DEPENDENCY_FILES_AND_CPU_PROCESSOR",
+    "completed": [
+      "MODEL_FILE_HASHES",
+      "TRAIN_ACTUAL_RGB_PROCESSOR_0_2_WORKERS",
+      "DEV_ACTUAL_RGB_PROCESSOR_0_2_WORKERS"
+    ],
+    "model_files": 17,
+    "python_binary_sha256": "d0f08ceda25df4e7a9f05955e13a5d655caaf3f920ab6d2cb07c112a7eafcdff",
+    "operations_seal_sha256": "d62255f4a98c2e90a721d5ff656cb7c2c9fa680242038d62f2dd56df6751be25",
+    "manifest_sha256": "c228f59473c110264f58cf34dbd75198a3ee12207e0788967614d33f27f6999a",
+    "statistics_sha256": "c3b871e3b5a854e876e4dbff806640f3472bef32b64f9d3db764a4d2c39b5fe4",
+    "environment_versions": {
+      "torch": "2.9.0+cu128",
+      "transformers": "4.57.3",
+      "accelerate": "1.14.0",
+      "numpy": "1.26.4",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.22.2",
+      "torchvision": "0.24.0+cu128",
+      "huggingface-hub": "0.36.2"
+    },
+    "model_qualification": false,
+    "CPU_s": 58.303068,
+    "started_epoch": 1791882963.221843,
+    "finished_epoch": 1791883048.4192483
+  },
+  "qualification_receipt_sha256": "d3595708e47781a0114d4fe3bc44b454f6116c75076f3003821facd051f72999",
+  "run_manifest_sha256": "a00152b45a451b4df61bd1c82761593307e2cfe166da35b00a56480741a99e6e",
+  "qualification_terminal_PID_absent": true,
+  "failed_preflight": {
+    "status": "PREFLIGHT_FAILED_PRESERVED_NO_MODEL_NO_QUALIFICATION",
+    "exception": "KeyError:id",
+    "CPU_upper_s": 30,
+    "first_failed_launch_RUN_MANIFEST_missing": true,
+    "corrected_run_manifest_validated_before_second_dispatch": true,
+    "original_attempt_retained": true
+  },
+  "admission_observation_epoch": 1791882681.9872558,
+  "project": "CFP04-CF-007",
+  "current_project_membership_cluster_dates_and_positive_balance_verified": true,
+  "personal_quota": {
+    "used_bytes": 759579205632,
+    "hard_bytes": 1099511627776,
+    "free_bytes": 339932422144,
+    "provider_epoch": 1791882188.013743,
+    "required_smoke_headroom_bytes": 107374182400
+  },
+  "own_job_gate": {
+    "status": "HOLD_OTHER_OWN_RUNNING_GPU_JOB",
+    "project": "CFP04-CF-009",
+    "unrelated_to_PI0292": true,
+    "healthy_job_preserved": true,
+    "cancelled": false,
+    "job_identity_private": true,
+    "original_concurrency_predicate_not_waived": true
+  },
+  "budget_snapshot": {
+    "CPU_s": 439.32793,
+    "CPU_upper_s": 1530,
+    "GPU_allocated_s": 0,
+    "model_loads": 0,
+    "model_smoke_updates": 0,
+    "main_updates": 0
+  },
+  "PBS_submission_calls_used": 1,
+  "PBS_calls_remaining": 2,
+  "next_attempt": "S3-smoke-02; fresh admission before submission and again inside actual allocation",
+  "outer_guard_CPU_tests": {
+    "methods": 6,
+    "subtests": 16,
+    "full_PI0292_methods": 78,
+    "full_PI0292_subtests": 65
+  },
+  "S3_S4_S5_S6": "NOT_RUN",
+  "new_collection": 0,
+  "WBC_hardware": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

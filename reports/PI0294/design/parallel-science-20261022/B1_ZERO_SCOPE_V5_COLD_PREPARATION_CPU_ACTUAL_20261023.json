@@ -1,0 +1,56 @@
+{
+  "schema": "VAP1_ZERO_SCOPE_B1_COLD_PREPARATION_CPU_ACTUAL_V1",
+  "status": "LOCAL_METADATA_AND_COLD_CHAIN_CPU_TESTED_NOT_NATIVE_B_ADMISSION",
+  "observed_epoch": 1792697974.022457,
+  "runtime_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+  "authority_release": "871094ee31b18c47183c7403459ebd5fdad88b1f",
+  "grant_sha256": "f32922b15138816517de3e9bd63d4c413698f74b49c20908bb1d4dfea9a279a8",
+  "files_sha256": {
+    "vap1_zero_update_b1_metadata.py": "62a71edb9a05471f6a5acc7a2625ed6bc2606ad7e10e19135a3e523f529af885",
+    "vap1_zero_update_b1_dispatch.py": "b1da244de9ae2079dfcb172787ce5e6a7825c0ef87e4054c6fe606082fb11ecc",
+    "vap1_zero_update_b1_owner.py": "2c073f17ed3a3e683eb6efc1b0263cdb570540a86e291528d2a74ffa2cd50409",
+    "verify_vap1_zero_update_b1_metadata.py": "07547dab55446e0f48da130eec7c5ba6c9af4353aa3e3d474020d42149422d5e",
+    "verify_vap1_zero_update_b1_dispatch.py": "5c0846274b794fc071ade05d33ab2a96996b3d0d430858ce7cd2a119daba9c60",
+    "verify_vap1_zero_update_b1_owner.py": "5b8e536a688756992387ace560e96bf75fa9c0b97b727c7144e64a7141c9fc5b"
+  },
+  "metadata": {
+    "version": "ZERO_SCOPE_V5",
+    "sha256": "37879c835b80f37c80353583c8c2220a256ffc8c6ab553226d9f7736ba4b004c",
+    "small_inputs": 27,
+    "source_members": 856,
+    "original_CORR0": true,
+    "A_weights_optimizer_rng_sampler_not_inherited": true,
+    "original_R0_recipe_data_and_probe_plan": true,
+    "unfinished_A_block_retained": true
+  },
+  "CPU_tests": {
+    "metadata": 5,
+    "dispatcher": 4,
+    "owner": 8,
+    "total": 17,
+    "native_IO_audit_hook": true,
+    "all_passed": true
+  },
+  "validated": [
+    "Exact fixed source/grant and complete remaining budget serialization",
+    "Actual A4096 audit/once settlement/dual closure/natural successful owner exit required before every native entry",
+    "B original CORR0 and B_COVERAGE lineage",
+    "Both setup and running transport use canonical mux-only prior.invoke and retain stderr",
+    "Zero grant in CPU/GPU sealed inputs/request/plan/progress/snapshot/full first-update recompute",
+    "Preserved historical1024/2819/zero-failure costs and successful future cumulative7939 once typed settlement fixture"
+  ],
+  "fixture_limit": "Successful future A/B terminal records exist only in memory; no current A bound is read as a fabricated success",
+  "helper": {
+    "identity": "science_training_prep",
+    "reused_existing": true,
+    "new_helper_spawned": false,
+    "helper_only_text_no_project_import_test_network_native": true,
+    "root_review_and_CPU_execution": true
+  },
+  "remaining": [
+    "Actual A4096 terminal audit/once settle/dual close and fresh complete native admission",
+    "B1 terminal and B2 metadata/owner/terminal zero-scope migration is still preparation; old wrappers must not be used",
+    "No actual B prepay/register/submit or model run yet"
+  ],
+  "new_native_GPU_PBS_models_queries_updates_physics": 0
+}

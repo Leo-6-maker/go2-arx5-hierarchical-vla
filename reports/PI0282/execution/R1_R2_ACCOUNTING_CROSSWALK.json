@@ -1,0 +1,75 @@
+{
+  "parent": "8fdaab73b8b6686409317d9562833235c2839acc",
+  "authority": "fdcde0e29f7eb689d0eea0f4dd20586309e77326",
+  "counts_adopted": {
+    "schema": "PI0282_R2_ADOPTION_ACK_V1",
+    "release": "fdcde0e29f7eb689d0eea0f4dd20586309e77326",
+    "canonical": 6044490956,
+    "utc_epoch": 1791399375.6016054,
+    "hosts": {
+      "hop": {
+        "epoch": 1791399374.3132772,
+        "root": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0282",
+        "model_budget": "",
+        "completed_updates": "",
+        "qstat": "",
+        "qstat_rc": 0,
+        "PC_request_started_epoch": 1791399373.9135633,
+        "PC_reply_epoch": 1791399374.5235445,
+        "clock_offset_midpoint_estimate_s": 0.09472322463989258
+      },
+      "core": {
+        "epoch": 1791399375.5515912,
+        "root": "/home/liuyu-nfs/Projects/go2-arx5/PI0282",
+        "model_budget": "",
+        "completed_updates": "",
+        "expert_done": {
+          "returncode": 0,
+          "pid": 950777,
+          "wrapper_pid": 950727,
+          "elapsed_s": 803.8259005399887,
+          "utc_start_ns": 1791397652432700513,
+          "utc_end_ns": 1791398456258601930,
+          "user_CPU_s": 240.853466,
+          "system_CPU_s": 508.768366,
+          "waited_driver_and_resident_worker": true,
+          "GPU_allocation_time_conservative": true,
+          "new_WBC_calls": 0
+        },
+        "expert_persistent": 4,
+        "GPUs": "0, NVIDIA GeForce RTX 4080 SUPER, 32760 MiB, 136 MiB, 0 %\n1, NVIDIA GeForce RTX 4080 SUPER, 16376 MiB, 68 MiB, 0 %\n",
+        "PC_request_started_epoch": 1791399374.5235445,
+        "PC_reply_epoch": 1791399375.6016054,
+        "clock_offset_midpoint_estimate_s": 0.4890162944793701
+      }
+    },
+    "expert_codec_PASS": "4/4_ADOPTED_NOT_RERUN",
+    "CPU_admission": "ADOPTED_PASS",
+    "formal_updates": 0,
+    "completed_canary_updates": 0,
+    "neural_queries": 0,
+    "source_physical_starts": 4,
+    "source_integrations": 13200,
+    "controls": 2640,
+    "RGB_pairs": 2640,
+    "teacher_calls": 0,
+    "WBC_calls": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "quality_reservations": {
+    "Hopper": [
+      32,
+      128
+    ],
+    "Corelab": [
+      7136,
+      28544
+    ]
+  },
+  "combined": [
+    7168,
+    28672
+  ],
+  "budget_reset": false
+}

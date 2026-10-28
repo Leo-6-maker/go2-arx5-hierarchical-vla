@@ -1,0 +1,136 @@
+{
+  "schema": "V5_C50_COMPLETE24_D25_ORIGINAL_FINITE_MODEL_DELIVERY_BACKGROUND_AND_FIRST512_INPUT_AUDIT_READBACK_ACTUAL_V1",
+  "observed_epoch": 1793152768.4910097,
+  "observed_SGT": "2026-10-28T09:59:28.491010+08:00",
+  "overall_goal_complete": false,
+  "C50": {
+    "complete_original24": true,
+    "successes": 6,
+    "valid_failures": 18,
+    "T1_successes": 4,
+    "T2_successes": 2,
+    "actual_GPU_physical_control_three_leases_closed": true,
+    "once_financial_settlement_and_stage_completed": true,
+    "all_valid_failures_and_old_costs_preserved": true
+  },
+  "D25_model_delivery": {
+    "source_sha": "abe0a6bc3260dd85dcffe8b777a0da05e983f665",
+    "candidate": "D25",
+    "checkpoint_step": 1024,
+    "checkpoint_manifest_sha256": "8cf977b964411a3ae97f022edd3e3ca390cd2d71fd61a914ab21466efa3a9e9b",
+    "inference_files": 9,
+    "payload_bytes": 12576324408,
+    "optimizer_scheduler_RNG_retained_at_source": true,
+    "old_C50_IO_credit_used": false,
+    "actual_original_control_prepaid_once": true,
+    "original_control_costs": {
+      "Hopper_CPU_s": 7200,
+      "local_CPU_s": 7200,
+      "Hopper_storage_bytes": 67108864,
+      "Core_storage_bytes": 134217728,
+      "transfer_bytes": 1073741824
+    },
+    "new_reservation": {},
+    "independent_dual_once_reconcile": true,
+    "GLOBAL_sha256": "7849d225295d1dfa13a02b47347c4a677e08d7d706bcc6733e9193198c7e2bce",
+    "LOCAL_sha256": "8d29a7de24b7e9becc91ff27b732fc0785348919710ac6868eb409344610e482",
+    "complete_remaining_budget_shortfalls": {},
+    "original_registered_control_source_files": 160,
+    "source_config_manifest_full_native_readback": true,
+    "finite_Core_service": "v5-d25-model-only-delivery-01.service",
+    "Core_process": {
+      "pid": 2032464,
+      "uid": 2009,
+      "proc_start": 292184358,
+      "state": "S"
+    },
+    "source_upload_process": {
+      "pid": 986939,
+      "proc_start": 65853507,
+      "state": "R",
+      "same_procstart": true,
+      "active": true
+    },
+    "source_receipts_present": [
+      "UPLOAD_NATIVE_STARTED.json"
+    ],
+    "Core_receipts_present": [
+      "MODEL_DELIVERY_NATIVE_STARTED.json",
+      "SOURCE_UPLOAD_STARTED.json"
+    ],
+    "agent_heartbeat_required": false,
+    "HF_fixed_revision_returned": false,
+    "Core_model_delivered": false,
+    "neural_model_loaded": false,
+    "valid_behavior_conditions": 0,
+    "original_hashed_inference_exporter_HF_license_restoration_and_once_commit_preserved": true
+  },
+  "physical_storage": {
+    "actual_readbacks": {
+      "vanda": {
+        "available_bytes": 36736871694336,
+        "required_bytes": 376928845612,
+        "whole_future_conservative_financial_IO_upper_bytes": 376928845612,
+        "whole_future_conservative_upper_fits_this_volume_now": true,
+        "future_delivery_still_requires_fresh_physical_admission": true
+      },
+      "core": {
+        "available_bytes": 173099433984,
+        "required_bytes": 52019559224,
+        "whole_future_conservative_financial_IO_upper_bytes": 185861600880,
+        "whole_future_conservative_upper_fits_this_volume_now": false,
+        "future_delivery_still_requires_fresh_physical_admission": true
+      }
+    },
+    "actual_Vanda_own_project_quota_passed": true,
+    "earlier_full_future_all_bytes_on_this_SSD_assumption_corrected_to_original_current_stage_and_protection": true,
+    "financial_complete_future_all14_dimensions_still_passed": true,
+    "current_D25_full_stage_plus_matrix_final_fits": true,
+    "Core_whole_future_conservative_gross_IO_exceeds_current_SSD_free": true,
+    "future_new_delivery_requires_fresh_physical_placement_and_space_admission": true,
+    "valid_checkpoints_or_others_files_deleted": false,
+    "actual_NAS_was_read_only_observed_but_not_adopted_as_new_output_role": true
+  },
+  "first512_cold_input": {
+    "source_sha": "882cc6bd5f20371fbf52ad3233aad0b5ebfb8584",
+    "original_standard_profile_and_1295_source_files_installed": true,
+    "actual_saved_audit_sha256": "7660f9ef81b7103c4fd884e41a90ce55df7db1c5028bd921650a62938889e172",
+    "actual_twelve_parent_reader_rows": 7212,
+    "actual_original_COV_reader_and_fixed12_probes": true,
+    "actual_six_saved_precontact_observations": true,
+    "pinned_cluster_git_and_Cosmos_alias_verified": true,
+    "CPU_actual_s": 33.36600893,
+    "original_28s_observation_timeout_and_RPC_UNKNOWN_preserved": true,
+    "original_preflight_return_code_not_known": true,
+    "actual_old_preflight_process_handle_no_longer_live": true,
+    "new_GPU_request_or_PBS": false,
+    "full_GR00T_or_CUDA_qualification": false,
+    "minimum_remaining_engineering_seam": "Capture fresh effective-queue evidence at actual request/qsub boundary; preserve its true observation time and bind independent compute admission. Do not retime or overwrite the historical sealed cold proof. New cold source/profile required before original main owner launch; no guaranteed stale-proof GPU failure."
+  },
+  "current_cold_code": {
+    "owner_launch_audit_source": "d2685f36f2dcdb9259fc092bce68e7b04c6a9560",
+    "original_probe_factory_and_semantic_digest_source": "a4503b6951d9fc38c00aaa2364374af0350afb06",
+    "original_cluster_git_source": "882cc6bd5f20371fbf52ad3233aad0b5ebfb8584",
+    "delivery_full_current_package_source": "abe0a6bc3260dd85dcffe8b777a0da05e983f665",
+    "changed_source_files_full_GitHub_SHA_and_gitblob_verified": true,
+    "latest_delivery_CPU_cases": 14,
+    "latest_native_entry_reader_CPU_cases": 36,
+    "latest_reader_digest_CPU_cases": 6,
+    "counts_overlap_do_not_sum": true,
+    "CPU_is_not_native_neural_qualification": true
+  },
+  "remaining": {
+    "D25_valid_conditions": 0,
+    "GEN1_valid_conditions": 0,
+    "E0_native_queries": 0,
+    "E1_formal_steps": 0,
+    "E2_formal_steps": 0,
+    "WDR_core64": 0
+  },
+  "next_minimum_block": "Reuse two healthy finite delivery processes; observe fixed HF revision/full source/destination SHA and private metadata restoration. No replay of commit/install/start or prepaid controls. Cold fix first512 fresh queue evidence and native owner boundary; then actual E0/qualification/fixed512. New explicitly bound D25 Core owner uses real full current queue and native F join, canonical LOCAL main mirror and original600s80cycles/driver/S1/scoring, original24; no hot old C13 owner.",
+  "caps_or_clocks_changed": false,
+  "matrix3_and_final20GPUh40GiB_preserved": true,
+  "T_CD": 1792932749.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "deadline_epoch": 1793537549.8133287
+}

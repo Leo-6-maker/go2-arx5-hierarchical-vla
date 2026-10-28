@@ -1,0 +1,222 @@
+{
+  "schema": "PI0291_NATIVE_PROCESSOR_PRECHECK_V1",
+  "status": "PASS_ACTUAL_ARX5_NATIVE_PROCESSOR_DIAGNOSTIC_NOT_ADMITTED",
+  "purpose": "NOT_ADMITTED_COMMISSIONING_DIAGNOSTIC",
+  "actual_ARX5_source": {
+    "episode_id": "C29100",
+    "physical_source_sha": "302ad022f3d3a74dcaba72aa46e59282effad215",
+    "physics_sha256": "19a788c6a6b4d999f0462ecf0ed3a040048f694e9d23a1a01d97b406ff9dc338",
+    "script_sha256_as_executed": "fca71daeb00eecbebf1d264d944c3ab0936a0f82e9d5b717661b37183a670e66"
+  },
+  "official_source_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "official_processor": "Gr00tN1d7Processor",
+  "official_collator": "Gr00tN1d7DataCollator",
+  "project_loader": "native_dataset.DatasetLoader split=DIAGNOSTIC",
+  "raw_action_input": "ABSOLUTE_COMMITTED_EEF10; relative conversion exactly once using actual observation TCP",
+  "single_actual_sample": {
+    "inputs": {
+      "action": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "ea3b71d355cec8bf04eaa4f997d510058020ef32d3ea924391dfedbfaf0a263e"
+      },
+      "action_mask": {
+        "shape": [
+          1,
+          40,
+          132
+        ],
+        "dtype": "float64",
+        "sha256": "f1e5d2c10d7a698b010e6aa1c2c00b5f8b9105ea043b381bc7e8fda3c4450f08"
+      },
+      "attention_mask": {
+        "shape": [
+          1,
+          156
+        ],
+        "dtype": "int64",
+        "sha256": "785d4f933cab5c8f4a0d32983c5cd6dda481faf6b28c03f42f2969e0ad021fc9"
+      },
+      "embodiment_id": {
+        "shape": [
+          1
+        ],
+        "dtype": "int64",
+        "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed"
+      },
+      "image_grid_thw": {
+        "shape": [
+          2,
+          3
+        ],
+        "dtype": "int64",
+        "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04"
+      },
+      "input_ids": {
+        "shape": [
+          1,
+          156
+        ],
+        "dtype": "int64",
+        "sha256": "54e23cbe5a788a75f254e94e34c619b7f0a3beffa80a1a517807d8e0ef12e530"
+      },
+      "pixel_values": {
+        "shape": [
+          512,
+          1536
+        ],
+        "dtype": "float32",
+        "sha256": "9b65ad8e571e9a7def85620a3eb3cb85c8cafde799327a9637546768bccd6db0"
+      },
+      "state": {
+        "shape": [
+          1,
+          1,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "eb428484b5dc8dcf43ae483e565df1c3f36da61f927b89034520af6440f89e1d"
+      }
+    }
+  },
+  "mixed_actual_phase_batch": {
+    "inputs": {
+      "action": {
+        "shape": [
+          2,
+          40,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "60a301caa53e44553c87d869c3a535d551878c7c4678637e89b35cffc6016844"
+      },
+      "action_mask": {
+        "shape": [
+          2,
+          40,
+          132
+        ],
+        "dtype": "float64",
+        "sha256": "70ee0d71b5b8ff80fb3cc86d6effa9d71add126ace72861ef24c6371085ff80d"
+      },
+      "attention_mask": {
+        "shape": [
+          2,
+          156
+        ],
+        "dtype": "int64",
+        "sha256": "1e1d4a85816d068974aca6b5b2342d63547da14189f46dc17bc8136cc335caa3"
+      },
+      "embodiment_id": {
+        "shape": [
+          2
+        ],
+        "dtype": "int64",
+        "sha256": "bb64a83d997a85d7fd0e680d63c2c35366d5962068701c2d0780c1cd8b4171f1"
+      },
+      "image_grid_thw": {
+        "shape": [
+          4,
+          3
+        ],
+        "dtype": "int64",
+        "sha256": "100ef5c048b279349f11b6e4020c48cbeca815691f6556b9826236cdb5d23845"
+      },
+      "input_ids": {
+        "shape": [
+          2,
+          156
+        ],
+        "dtype": "int64",
+        "sha256": "561572db67b206414ec20fa7090483edda4ae359fe45f686c6afa5e4214bfeca"
+      },
+      "pixel_values": {
+        "shape": [
+          1024,
+          1536
+        ],
+        "dtype": "float32",
+        "sha256": "81c67f5cabc90f99b8daf86172415f1d617402f2e26bb1ae52ac712d7612a666"
+      },
+      "state": {
+        "shape": [
+          2,
+          1,
+          132
+        ],
+        "dtype": "float32",
+        "sha256": "cb830be190d072e639de961a0be0c7f5cfe96574fbed6c0ff63defff6b094a4a"
+      }
+    }
+  },
+  "checked_anchors": [
+    0,
+    40,
+    80,
+    120,
+    160,
+    200,
+    240,
+    320,
+    480,
+    600
+  ],
+  "variable_instruction_padding": "Actual official collator diagnostic only; raw language unchanged",
+  "two_workers_equal": true,
+  "actual_two_worker_batches": 5,
+  "codec": {
+    "DIAGNOSTIC": {
+      "full_H40_windows_actually_checked": 601,
+      "raw_official_pose_roundtrip": {
+        "XYZ_m": 2.220446049250313e-16,
+        "SO3_rad": 0,
+        "gripper": 0
+      },
+      "official_normalized_float32_132D_decode": {
+        "XYZ_m": 8.530415041008155e-9,
+        "SO3_rad": 2.1073424255447017e-8,
+        "gripper": 0
+      },
+      "independent_SE3_vs_official_relative_max_abs": 7.077671781985373e-16,
+      "action_preclip_components": 7,
+      "stock_inverse_clip_components_float32": 0,
+      "state_preclip_components": 0,
+      "encode_clip_components": 0,
+      "DEV_refit": false,
+      "input_actions": "absolute committed; never pre-relative"
+    }
+  },
+  "diagnostic_statistics_sha256": "e7bfcdc6fb12ca09696ced1107f0eef83d9ed145df87dd3ebd5a50001d619702",
+  "statistics_population": "C29100 commissioning only; not formal TRAIN or DEV",
+  "formal_split_guard_test": {
+    "TRAIN": "ACTUALLY_REJECTED_DIAGNOSTIC_MANIFEST",
+    "DEV": "ACTUALLY_REJECTED_DIAGNOSTIC_MANIFEST",
+    "actual_output": "Commissioning diagnostic must never enter formal TRAIN/DEV loader"
+  },
+  "formal_NATIVE_DATALOADER_PASS": "NOT_RUN",
+  "formal_TRAIN_statistics": "NOT_RUN",
+  "formal_TRAIN_episodes": 0,
+  "formal_DEV_episodes": 0,
+  "multiple_episode_formal_requirement": "UNMET: commissioning C0 only; mixed batch crosses real phases, not episodes",
+  "CPU_s": 18.785217,
+  "elapsed_s": 14.970824118005112,
+  "CPU_accounting": "Measured self plus child workers; owner serially charge; tiny read-only guardtest covered by existing bootstrap upper reserve",
+  "model_loads": 0,
+  "neural_forward": 0,
+  "new_PBS": 0,
+  "HF_downloads": 0,
+  "physics_integrations": 0,
+  "WBC_runs": 0,
+  "actual_receipt": "evidence/ACTUAL_ARX5_NATIVE_DIAGNOSTIC.json",
+  "unit_tests": {
+    "passed": 6,
+    "elapsed_s": 0.244,
+    "source": "scripts/pi0291_arx5_data/test_native_dataset.py"
+  },
+  "selected": "NONE",
+  "deployment": "NONE"
+}

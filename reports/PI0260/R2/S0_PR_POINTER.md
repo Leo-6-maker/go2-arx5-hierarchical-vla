@@ -1,0 +1,1 @@
+PI0260-R2 S0 execution canonical (metadata reconciliation, fixed overlay, CPU routing checks and live collection): https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5894812820 . Old DEV FAIL preserved; slot110 excluded without backfill; no model/data-admission claim yet. Follow Issue #11 for the canonical ledger.

@@ -1,0 +1,61 @@
+{
+  "schema": "PI0292_RELAY_CPU_PACKET_QUALIFICATION_V1",
+  "status": "PASS_SYNTHETIC_CPU_PROTOCOL_ONLY",
+  "observed_epoch": 1791871114.1437137,
+  "scripts": {
+    "scripts/pi0292/relay_protocol.py": "1b577a1876d79aeee0980044d1bdd46187b2e7a875412282e68e9fc5a0a3c27e",
+    "scripts/pi0292/test_relay_protocol.py": "de65ea6101a5a164ffb22d8dada690efddfa1cf1f15a551c66537d3ad36afa2e"
+  },
+  "relay_test_methods": 19,
+  "PI0292_tests_passed": 41,
+  "PI0292_subtests_passed": 18,
+  "full_CPU_tests_passed": 748,
+  "full_CPU_skipped": 14,
+  "full_CPU_subtests_passed": 45,
+  "test_junit_sha256": "2d9acc62c5d56a489b987253e852ef44f54e86fb2984337a22b4d0095a6eafc3",
+  "full_junit_sha256": "10dae2ba1b1ea7359af2276595431a075f972ec862b2c82c76a21eacf16f1a7b",
+  "final_two_test_processes_measured_CPU_s": 55.25,
+  "earlier_local_CPU_cumulative": "NOT_RECONSTRUCTED_BY_THIS_DELTA_RECEIPT_NOT_ZERO",
+  "cases": [
+    "test_crc_corruption_never_advances",
+    "test_duplicate_observation_cannot_query_twice",
+    "test_duplicate_owner_and_existing_episode_restart_refused",
+    "test_frozen_gate_reject_is_retained_not_repaired",
+    "test_full_synthetic_episode_is_exactly_80_prefixes_and_no_81st_query",
+    "test_image_resolution_matches_frozen_renderer_without_resizing",
+    "test_lost_ack_records_unknown_physics_and_forbids_replay",
+    "test_no_automatic_recovery_after_stop_or_clock_reversal",
+    "test_one_prefix_only_and_fresh_observation_after_ack",
+    "test_privileged_student_fields_are_rejected_even_with_valid_hash",
+    "test_protocol_import_has_no_tensor_or_physics_engine",
+    "test_reconnect_may_read_original_ack_without_replaying_action",
+    "test_restart_retains_reserved_action_and_cannot_execute_again",
+    "test_rgb_hash_and_camera_order_are_checked",
+    "test_same_snapshot_after_ack_is_not_a_fresh_observation",
+    "test_stale_and_reordered_observations_rejected",
+    "test_timeout_and_episode_deadline_stop_without_progress",
+    "test_wrong_ack_never_advances_owner_tick",
+    "test_wrong_action_anchor_or_identity_never_installs"
+  ],
+  "boundaries": {
+    "new_model_calls": 0,
+    "physics_integrations": 0,
+    "new_rendered_observations": 0,
+    "WBC_calls": 0,
+    "real_SSH_endpoint_test": false,
+    "actual_fresh_physics_provenance": false,
+    "real_teacher_relay_attempts": 0,
+    "source_deployed": false,
+    "native_gate_thresholds_changed": false,
+    "packet_fake_ACK_is_physics_evidence": false,
+    "model_capability_claim": false
+  },
+  "remaining": [
+    "Real legal compute-node SSH route verification",
+    "Implement and qualify real observation/action endpoints without replay",
+    "Actual two teacher relay attempts at original S6 gate",
+    "B1 TRAIN canaries and gated paired confirm runs"
+  ],
+  "selected": "NONE",
+  "deployment": "NONE"
+}

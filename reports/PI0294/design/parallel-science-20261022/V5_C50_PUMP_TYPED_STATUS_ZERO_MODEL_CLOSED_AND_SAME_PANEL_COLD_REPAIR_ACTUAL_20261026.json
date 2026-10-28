@@ -1,0 +1,109 @@
+{
+  "schema": "V5_CD_C50_PUMP_TYPED_STATUS_ZERO_MODEL_FAILURE_CLOSED_AND_SAME_PANEL_COLD_REPAIR_CPU_V1",
+  "status": "ACTIVE_FULL_TASK_UNFINISHED_COLD_REPAIR_NOT_NATIVE_ADOPTED_YET",
+  "observed_epoch": 1792967269.3973846,
+  "failed_request_id": "37e1b20b-35c6-405a-b5de-73ca7bdaa5ae",
+  "failed_run_uuid": "v5-cd-c50-n294101-02",
+  "failed_source": "92dac22ef2181c1912b80982ac2bb7d50a4686c6",
+  "actual": {
+    "GPU_native_exit_status": 1,
+    "owner_natural_OS_exit": 0,
+    "GPU_s": 79,
+    "neural_CPU_s": 2,
+    "physical_Core_CPU_s": 300,
+    "physical_CPU_is_original_metadata_financial_upper": true,
+    "model_loads": 0,
+    "queries": 0,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "constructors": 0,
+    "valid_behavior_conditions": 0,
+    "GLOBAL_settled_once": true,
+    "canonical_LOCAL_settled_once": true,
+    "GPU_lease_closed": true,
+    "physical_lease_closed": true,
+    "old_owners_not_restarted_after_this_failure": true
+  },
+  "exact_cause": {
+    "saved_admission_status": "PASS_V5_CD_OWN_NATIVE_CORE_ALLOCATION",
+    "actual_CD_expected": "PASS_V5_CD_OWN_NATIVE_CORE_ALLOCATION",
+    "old_Pump_expected": "PASS_PV1_OWN_NATIVE_CORELAB_GPU_ALLOCATION",
+    "all_other_registry_bindings_match": true
+  },
+  "diagnosis": "Complete saved C/D native admission was valid; original Pump compared it against old A/B native-status constant and rejected before COMPUTE_STARTED, Torch/model import and any condition.",
+  "preserved": {
+    "checkpoint": "179af34b0d1b0922aa3679516b44fe4755d122738eb53fab87b4e710bc975475",
+    "C50_train1024_complete_unchanged": true,
+    "all_failed_requests_rows_fees_files_retained": true,
+    "all_original24_conditions_still_unrun": true,
+    "fixed_HF_revision": "b9f32fe517e6396af36982ac624c2270fb26eaea",
+    "no_reupload_or_new_model_transfer_needed": true
+  },
+  "IO_accounting": {
+    "original_failed_GPU_output_upper_already_charged": 42641095480,
+    "original_failed_Core_output_upper_already_charged": 34051160888,
+    "original_failed_transfer_upper_already_charged": 55217419888,
+    "original_fees_and_current_peak_storage_counters_not_reduced": true,
+    "repair": "ONE same-C50-panel paid-IO envelope; no second invoice for the same original gross panel bound. All execution IO limits remain gross original values. Not usable for D25 or another request.",
+    "eligibility": "Exact old source/request/native final and dual closure; zero model/query/case/constructor/physics and no unknown; all old metadata retained inside existing paid control; original same inference files shared by inode.",
+    "actual_old_unique_metadata_logical_bytes": 74826476,
+    "actual_old_unique_metadata_allocated_bytes": 78213120,
+    "original_paid_Core_control_output_bytes": 134217728,
+    "new_cold_preparation_metadata_upper_bytes": 50331648,
+    "native_IO_credit_adoption": false
+  },
+  "repair_compute_full_reescrow": {
+    "H200_s": 28860,
+    "PBS_submissions": 0,
+    "optimizer_updates": 0,
+    "episode_starts": 26,
+    "neural_queries": 2097,
+    "physics_ticks": 832000,
+    "engine_starts": 2108,
+    "Core_CPU_s": 173900,
+    "Hopper_CPU_s": 80000,
+    "local_CPU_s": 0,
+    "transfer_bytes": 0,
+    "Hopper_storage_bytes": 0,
+    "Core_storage_bytes": 0,
+    "local_storage_bytes": 0
+  },
+  "all_remaining_resources_matrix_final_shortfalls": {},
+  "caps_T_CD_deadline_and_science_unchanged": true,
+  "validation": {
+    "targeted_CPU_passes": 195,
+    "whole_Pump_actual_saved_admission_CPU_fixture_cases": 2,
+    "exact_native_readback_diagnosis": true,
+    "actual_full_budget_re_registration_and_synthetic_terminal_cases": 8,
+    "no_monkeypatch_for_full_actual_budget_validator": true,
+    "synthetic_process_and_terminal_not_native_qualification": true,
+    "broader_suite_or_CI_PASS_not_claimed": true,
+    "code_SHA256": {
+      "scripts/pi0294/pv1/mix_core_premodel_repair.py": "0f1cc59bc0f08d73cb9e4860337d9607d840a1157f8863eb0e6a17f8d390368e",
+      "scripts/pi0294/pv1/mix_core_accounting.py": "a474571e63607f7913ad4ea5a9297157178a12468e7e5a0e9b64d21dec047d75",
+      "scripts/pi0294/pv1/mix_core_assembly.py": "1fa4b5f38f442ce070215ed1d3ca20a4fe795596d8230e33d2de9593cb05a72c",
+      "scripts/pi0294/pv1/mix_core_context.py": "7431a6d6afaf390fbb8e074d6b2bd32e5f6384b6c91c173315736f6fb3f193d5",
+      "scripts/pi0294/pv1/mix_core_settlement.py": "a4e5d0e1de9600400f9033eaaea530a79869aec66e893cf5fa8cda450d15a13f",
+      "scripts/pi0294/pv1/transport_fixture.py": "e11ddaea7e1a2d69e1b47f6213e31b18033549fab2903db490a7c686dc73eee9",
+      "scripts/pi0294/test_v5_core_premodel_repair.py": "80fd5420f9887936f31eb7d9b7762403e41dfad17b34c5167dfd89b518aa90df",
+      "scripts/pi0294/test_v5_transport_window.py": "080257becf168924a4e4aea651ba5e6f7749975fb2d8f587328bb8a8b014dc62"
+    }
+  },
+  "retained_validation_failures": [
+    "Initial whole-status test used old.ROLE instead of old.c.ROLE; corrected and passed",
+    "Independent closure reader hit4MiB bound on dual proposed ledgers; bounded16MiB with intent hash only",
+    "Independent closure reader missed sys import and source/src; replaced unnecessary module import with exact frozen STATUS AST parsing",
+    "Initial credit guard assumed zero charged CPU; actual zero-model failure had paid neural CPU below2s; now preserves real paid CPU and exact conservative2s",
+    "Cold re-registration CPU initially joined stale training handoff GLOBAL hash; re-bound the same immutable five terminal members to current full GLOBAL, without repeating audit/tensors"
+  ],
+  "next_minimum": "Publish/readback this exact cold fix; native once classification/restored compute using real current ledgers; new immutable source/owner/paired child; full actual import/context/device/resources; original600s80cycle then C50Eval24. D25 only after that real complete closure.",
+  "D25": {
+    "offline_inputs_prepared": true,
+    "common_CORR_not_C50": true,
+    "numerical_C50_source_byte_parity_members": 12,
+    "native_registration_or_training": false
+  },
+  "GEN_static": 0,
+  "WDR_core64": 0,
+  "complete": false
+}

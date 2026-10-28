@@ -1,0 +1,72 @@
+{
+  "schema": "PI0294_DATA_COV1_ACTUAL_BOUNDED_PROGRESS_V1",
+  "observed_at": "2026-10-20T08:40:17Z",
+  "run_uuid": "20261020T070432Z-localpc-data-cov1",
+  "original_T0_epoch": 1792479882,
+  "approval_level": "FULL_CONDITIONAL_CAMPAIGN",
+  "unexecuted_TRAIN_NEAR_geometry": "0.15_TO_0.18_METRES_EXPLICIT_USER_AMENDMENT",
+  "runtime_source_sha": "34079e414a46a3a7b74e1061e09d104d8679944d",
+  "candidate_pool_sha256": "4f3084b662488b81fc8f1d3d2738e0b3c4382a4b7b0765f680a60c83527c84c3",
+  "original_first_attempt": {
+    "id": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T1-C04",
+    "status": "ENGINEERING_INCOMPLETE_UNSCORABLE_ORIGINAL_GEOMETRY",
+    "retained_in_48_attempt_denominator": true,
+    "replayed": false,
+    "admitted": false,
+    "task_success_known": false,
+    "raw_camera_pairs_read_by_independent_saved_byte_witness": 641,
+    "highrate_rows_read": 16000,
+    "live_ticks": 16000,
+    "shadow_ticks": 16000
+  },
+  "static_v2_first_child": {
+    "name": "static-p24-near-v2-01",
+    "status": "CLOSED_FAILED_PRESERVED_PRIORITY_PRECONSTRUCTOR_REJECTION",
+    "constructors": 0,
+    "episodes": 0,
+    "integrations": 0,
+    "CPU_seconds": 0.000031939,
+    "physical_replacement": false
+  },
+  "static_v2_second_child": {
+    "name": "static-p24-near-v2-02",
+    "status": "SEALED_STATIC_QUALIFIED_BEFORE_TASK_RESULTS",
+    "lease": "CLOSED",
+    "groups": 24,
+    "previously_qualified_FAR_groups_reused": 12,
+    "revised_NEAR_groups_newly_qualified": 12,
+    "new_constructors": 24,
+    "CPU_seconds": 33.724151557,
+    "episodes": 0,
+    "integrations": 0,
+    "result_sha256": "fcb252b0352e2f0f2b09b476f6825d47ccd9e9394e465765c27113341a0c532c",
+    "lease_sha256": "30f80aca60b5ea0c6aff2424a79151762d7bd262f829f6af6406a30c239e3e38"
+  },
+  "current_capture_at_snapshot": {
+    "name": "first-four-01",
+    "id": "PI0294-DATA_COV1-TRAIN-AP0--Y-NEAR-000-T2-C04",
+    "status": "RUNNING_NOT_A_TERMINAL_TASK_OR_DATA_RESULT",
+    "observed_epoch": 1792485575.3306122,
+    "live_ticks": 9600,
+    "shadow_ticks": 9800,
+    "worker_CPU_seconds": 382.888921833,
+    "constructors": 56,
+    "neural_queries": 0,
+    "optimizer_updates": 0,
+    "unknown_effects": []
+  },
+  "finite_continuation": {
+    "service": "data-cov1-first-four-continuation-02",
+    "worker_concurrency": 1,
+    "maximum_remaining_first_four_physical_attempts": 3,
+    "bulk_44_dispatch": false,
+    "new_clock": false,
+    "physical_replacements": 0,
+    "PV1_priority": "ALLOW_NEW_DATA_WHILE_Q_STOP_NEW_DATA_ON_R_CURRENT_EPISODE_SAFE_FINISH"
+  },
+  "first_four_full_raw_codec_official_chain_gate": "PENDING",
+  "stage_bank_or_HF_READY": false,
+  "PV1_139_bank_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

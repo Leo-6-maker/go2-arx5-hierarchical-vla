@@ -1,0 +1,78 @@
+{
+  "analytic_stalled_position_m": -0.0007325579948227796,
+  "blend_removed_fraction": 0.31744000000000006,
+  "caveats": [
+    "Endpoint bias is a chosen toy executor, not an identified WBC.",
+    "SO3, preview, collision, measurement and native time binding are omitted.",
+    "The alternative is a candidate task-space rule, not qualified robot control.",
+    "No historical experimental verdict changes."
+  ],
+  "expected_sha256": "765df28ebb4f27193a38f6d1d091189192d98a87fb905b20665a8f29867821ff",
+  "first_04s_nominal_m": 0.0002674567901234568,
+  "model_queries": 0,
+  "robot_physics_steps": 0,
+  "rows": [
+    {
+      "elapsed_s": 40.0,
+      "endpoint_m": 0.10000000000000002,
+      "endpoint_tracking_error_m": 0.0,
+      "first_executed_progress_m": 0.0002674567901234568,
+      "target_error_m": 1.3877787807814457e-17,
+      "time_within_5mm_s": 5.2,
+      "variant": "PI0266_POSITION_SPECIALIZATION"
+    },
+    {
+      "elapsed_s": 40.0,
+      "endpoint_m": 0.09989999999999989,
+      "endpoint_tracking_error_m": 0.0001,
+      "first_executed_progress_m": 0.0001674567901234568,
+      "target_error_m": 0.00010000000000011389,
+      "time_within_5mm_s": 5.2,
+      "variant": "PI0266_POSITION_SPECIALIZATION"
+    },
+    {
+      "elapsed_s": 40.0,
+      "endpoint_m": -0.0007325579948227795,
+      "endpoint_tracking_error_m": 0.0005,
+      "first_executed_progress_m": -0.00023254320987654321,
+      "target_error_m": 0.10073255799482278,
+      "time_within_5mm_s": null,
+      "variant": "PI0266_POSITION_SPECIALIZATION"
+    },
+    {
+      "elapsed_s": 40.0,
+      "endpoint_m": 0.1,
+      "endpoint_tracking_error_m": 0.0,
+      "first_executed_progress_m": 0.008,
+      "target_error_m": 0.0,
+      "time_within_5mm_s": 4.800000000000001,
+      "variant": "CONSTANT_ARCLENGTH_EXPONENTIAL_CORRECTION"
+    },
+    {
+      "elapsed_s": 40.0,
+      "endpoint_m": 0.0999,
+      "endpoint_tracking_error_m": 0.0001,
+      "first_executed_progress_m": 0.0079,
+      "target_error_m": 0.00010000000000000286,
+      "time_within_5mm_s": 5.2,
+      "variant": "CONSTANT_ARCLENGTH_EXPONENTIAL_CORRECTION"
+    },
+    {
+      "elapsed_s": 40.0,
+      "endpoint_m": 0.0995,
+      "endpoint_tracking_error_m": 0.0005,
+      "first_executed_progress_m": 0.0075,
+      "target_error_m": 0.0005000000000000004,
+      "time_within_5mm_s": 5.2,
+      "variant": "CONSTANT_ARCLENGTH_EXPONENTIAL_CORRECTION"
+    }
+  ],
+  "scope": "CONSTRUCTED_1D_COUNTEREXAMPLE_NOT_WBC_REPLAY",
+  "source_commit": "bd250056efe058452981c7460dd3792aa2b23eca",
+  "source_files": [
+    "scripts/pi0266_expert.py",
+    "scripts/pi0259_kinematic.py"
+  ],
+  "status": "PASS_REEXECUTED_SUPPLIED_NUMERICAL_PROBE",
+  "training_updates": 0
+}

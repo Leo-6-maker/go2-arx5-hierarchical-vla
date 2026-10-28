@@ -1,0 +1,72 @@
+{
+  "status": "ACTUAL_CONTACT_AND_LIMIT_FORCE_DECOMPOSITION",
+  "cases": [
+    {
+      "case": "A",
+      "pre_time_s": 2.1599999999999837,
+      "post_time_s": 2.1619999999999835,
+      "phase": "NATIVE_STEP_RETURN_BEFORE_ORIGINAL_FORWARD",
+      "kinematics_phase": "PRE_INTEGRATION",
+      "finger_constraint_N": [
+        -0.00036902701004525024,
+        0.8111165690281357
+      ],
+      "constraint_type_N": {
+        "mjtConstraint.mjCNSTR_LIMIT_JOINT": [
+          -0.00036902701004525024,
+          -4.105071013958362
+        ],
+        "mjtConstraint.mjCNSTR_CONTACT_ELLIPTIC": [
+          0.0,
+          4.916187582986498
+        ]
+      },
+      "finger_bias_N": [
+        -0.01900326510330311,
+        0.018312382524344237
+      ],
+      "finger_actuator_N": [
+        -0.35154479957793805,
+        -0.5891118870065576
+      ],
+      "maximum_J_transpose_force_residual": 4.440892098500626e-16,
+      "same_tick_reference_actual_position_error_m": 0.022760809951933858,
+      "same_tick_reference_actual_SO3_error_rad": 0.036517087702580935
+    },
+    {
+      "case": "B",
+      "pre_time_s": 2.2339999999999756,
+      "post_time_s": 2.2359999999999753,
+      "phase": "NATIVE_STEP_RETURN_BEFORE_ORIGINAL_FORWARD",
+      "kinematics_phase": "PRE_INTEGRATION",
+      "finger_constraint_N": [
+        -0.023662666333479417,
+        0.3929041039609903
+      ],
+      "constraint_type_N": {
+        "mjtConstraint.mjCNSTR_LIMIT_JOINT": [
+          -0.023662666333479417,
+          -3.911817383968835
+        ],
+        "mjtConstraint.mjCNSTR_CONTACT_ELLIPTIC": [
+          0.0,
+          4.304721487929825
+        ]
+      },
+      "finger_bias_N": [
+        -0.02806591369856661,
+        0.02791232271430743
+      ],
+      "finger_actuator_N": [
+        -0.014372257477066053,
+        -0.3883484571513385
+      ],
+      "maximum_J_transpose_force_residual": 8.881784197001252e-16,
+      "same_tick_reference_actual_position_error_m": 0.014960460235098826,
+      "same_tick_reference_actual_SO3_error_rad": 0.03597287267035285
+    }
+  ],
+  "sign_convention": "Positive generalized force increases that finger joint coordinate",
+  "unique_root_cause_proven": false,
+  "physics_or_driver_changed": false
+}

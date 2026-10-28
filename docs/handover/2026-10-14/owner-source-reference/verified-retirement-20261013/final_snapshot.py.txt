@@ -1,0 +1,18 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+from pathlib import Path
+import json,os,socket,subprocess,time
+HOME=Path.home();WS=HOME/'Projects/GR00T-WBC';ROOT=WS/'archive/verified-retirement/20261013T031510Z-localpc-retirement'
+absent=[]
+for area in ['code','home']:
+ for p in (ROOT/area).glob('*/DELETION_RECEIPT.json'):
+  r=json.loads(p.read_text())
+  if r.get('source_absent'):
+   src=Path(r['path']);assert not (src.exists() or src.is_symlink());absent.append(str(src))
+sha={}
+for name,expected in [('vla','e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b'),('isaac-gr00t','51d4c89f72fda44cbf77285c6a8114b52676b8a1')]:
+ p=WS/'code'/name;s=subprocess.check_output(['git','-C',str(p),'rev-parse','HEAD'],text=True).strip();assert s==expected;sha[name]=s
+v=dict(node=socket.gethostname(),epoch=time.time(),retired_sources_absent=sorted(absent),source_sha=sha,visible={str(p):[dict(name=x.name,type='symlink' if x.is_symlink() else 'directory' if x.is_dir() else 'file') for x in sorted(p.iterdir()) if not x.name.startswith('.')] for p in [HOME,HOME/'Projects']},capacity={str(p):os.statvfs(p).f_bavail*os.statvfs(p).f_frsize for p in [HOME,Path('@CORELAB_NODE_STORAGE@')]})
+p=ROOT/('FINAL_NODE_SNAPSHOT_'+socket.gethostname()+'.json');p.write_text(json.dumps(v,indent=2));p.chmod(0o600)
+print(json.dumps(dict(node=v['node'],retired_sources_absent=len(absent),visible_counts={k:len(x) for k,x in v['visible'].items()},capacity=v['capacity'])))

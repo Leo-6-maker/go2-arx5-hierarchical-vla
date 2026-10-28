@@ -1,0 +1,80 @@
+{
+  "schema": "V4A_B_PRE_RESERVE_IDENTITY_AND_COLD_DEPLOYMENT_UNKNOWN_ACTUAL_V1",
+  "status": "NO_NEW_B_GPU_REGISTERED_DEPLOYMENT_UNKNOWN_NOT_RETRIED",
+  "storage_caps": {
+    "GPU_site_GiB": 811,
+    "Core_GiB": 329,
+    "adopted_once_in_both_ledgers": true,
+    "no_replay": true
+  },
+  "A": {
+    "valid": 24,
+    "success": 11,
+    "T1": "7/12",
+    "T2": "4/12",
+    "independently_audited": true,
+    "once_settled_dual_closed": true
+  },
+  "B_valid": 0,
+  "B_minus_A": null,
+  "first_new_control": {
+    "source": "a7b2377ac930516398d37b4eabdd5caf2cc43e4b",
+    "unit": "pv1-core-15326d99-1826-494b-8f90-8f7b3012c598.service",
+    "terminal_exit": 1,
+    "reason": "Exact five newly appearing independent account jobs had not yet been human-confirmed",
+    "native_GPU_process": false,
+    "reserve_or_registry": false,
+    "full_GLOBAL_and_LOCAL_bytes_unchanged": true,
+    "diagnostic_sha256": "84ce44bcba76346cc7a18970272302a76e193cccc286d1071265524c27f59b5d"
+  },
+  "human_five_jobs": {
+    "confirmed": true,
+    "direct_answer": "是，五个都是其他独立工作",
+    "job_ids": [
+      1487532,
+      1487533,
+      1487534,
+      1487536,
+      1487537
+    ],
+    "project": "CFP04-CF-009",
+    "jobs_modified_or_stopped": false,
+    "proof_source": "fccad14fa3edb307491be589068d2aaca9314eef",
+    "proof_sha256": "26fc6a10db2d84c7b04faebaf0e731a06bea8f525756c7413994fb2f68bbc680"
+  },
+  "cold_identity_fix": {
+    "source": "fccad14fa3edb307491be589068d2aaca9314eef",
+    "Core_and_Vanda_full_source_files_readback": 1074,
+    "original15_numerical_match": true,
+    "focused_exact_identity_CPU_cases": 9,
+    "CI": "NOT_CLAIMED",
+    "all_resource_shortfalls": {},
+    "scientific_request_id": "4b0f26e7-dfa9-4e5e-ac05-8de1187f6653",
+    "scientific_request_still_unregistered": true,
+    "new_control_id": "3f145894-1285-4d5f-bda1-ba2358eef2a7"
+  },
+  "deployment": {
+    "status": "UNKNOWN_40_SECOND_SSH_TIMEOUT_PRESERVED_NO_REPLAY",
+    "intent_sha256": "b7c200785ec63ff4c612d902933f2e80633c245c4023db0f8c5b0517fbdd3110",
+    "reply_sha256": "047393ed21d600ffecd12b17b53a88f4744d48cc6715b9f552c7381edf7ce670",
+    "subsequent_exact_read_sha256": "a9dff4f167d56d19b4aebc996ff24260da167ba17d6f0d6382d77a7c34e49cd0",
+    "target_control_root_exists": false,
+    "deployment_success": false,
+    "new_GPU_started": false,
+    "model_loads": 0,
+    "queries": 0,
+    "task_physics": 0,
+    "automatic_retry": false
+  },
+  "clock": {
+    "T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "reset_or_extension": false,
+    "no_new_start_after_stop_new": true
+  },
+  "global_protection": "Original matrix and final 20 GPUh / 40 GiB retained; no extra training, capture or noise bank",
+  "full_goal": "ACTIVE_INCOMPLETE",
+  "core64": 0
+}

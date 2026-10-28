@@ -1,0 +1,185 @@
+{
+  "status": "RAW_COMPLETE",
+  "episode": "a7ff3a9a26c34aab9843fa5c4abecef3",
+  "mode": "interface-tests",
+  "condition": "hold",
+  "counts": {
+    "mode": 3,
+    "odom": 2694,
+    "arm": 2694,
+    "arm_target": 2694,
+    "ee": 2927,
+    "target": 146,
+    "observation": 2023,
+    "policy": 2022,
+    "arm_request": 2021,
+    "base": 2020
+  },
+  "native_mode": "WBC",
+  "task_elapsed_s": 10.000178503999999,
+  "topic_graph": [
+    [
+      "/go2_x5/arm/command/request",
+      [
+        "trajectory_msgs/msg/JointTrajectory"
+      ]
+    ],
+    [
+      "/go2_x5/arm/command/target",
+      [
+        "trajectory_msgs/msg/JointTrajectory"
+      ]
+    ],
+    [
+      "/go2_x5/arm/mode/request",
+      [
+        "std_msgs/msg/String"
+      ]
+    ],
+    [
+      "/go2_x5/arm/mode/state",
+      [
+        "std_msgs/msg/String"
+      ]
+    ],
+    [
+      "/go2_x5/arm/state",
+      [
+        "sensor_msgs/msg/JointState"
+      ]
+    ],
+    [
+      "/go2_x5/base/clear_goal",
+      [
+        "std_msgs/msg/Empty"
+      ]
+    ],
+    [
+      "/go2_x5/base/command",
+      [
+        "std_msgs/msg/Float32MultiArray"
+      ]
+    ],
+    [
+      "/go2_x5/base/gait_phase",
+      [
+        "std_msgs/msg/Float64MultiArray"
+      ]
+    ],
+    [
+      "/go2_x5/base/goal",
+      [
+        "geometry_msgs/msg/PoseStamped"
+      ]
+    ],
+    [
+      "/go2_x5/base/planned_path",
+      [
+        "nav_msgs/msg/Path"
+      ]
+    ],
+    [
+      "/go2_x5/ee/goal",
+      [
+        "geometry_msgs/msg/PoseStamped"
+      ]
+    ],
+    [
+      "/go2_x5/ee/marker_target",
+      [
+        "ocs2_msgs/msg/MpcTargetTrajectories"
+      ]
+    ],
+    [
+      "/go2_x5/ee/planned_path",
+      [
+        "nav_msgs/msg/Path"
+      ]
+    ],
+    [
+      "/go2_x5/ee/start_traj_tracking",
+      [
+        "std_msgs/msg/Empty"
+      ]
+    ],
+    [
+      "/go2_x5/ee/state",
+      [
+        "ocs2_msgs/msg/MpcObservation"
+      ]
+    ],
+    [
+      "/go2_x5/ee/trajectory_json",
+      [
+        "std_msgs/msg/String"
+      ]
+    ],
+    [
+      "/go2_x5/fsm/key",
+      [
+        "std_msgs/msg/String"
+      ]
+    ],
+    [
+      "/go2_x5/slam/odom",
+      [
+        "nav_msgs/msg/Odometry"
+      ]
+    ],
+    [
+      "/go2_x5/slam/odom_mocap",
+      [
+        "nav_msgs/msg/Odometry"
+      ]
+    ],
+    [
+      "/mobile_manipulator_mode_schedule",
+      [
+        "ocs2_msgs/msg/ModeSchedule"
+      ]
+    ],
+    [
+      "/mobile_manipulator_mpc_observation",
+      [
+        "ocs2_msgs/msg/MpcObservation"
+      ]
+    ],
+    [
+      "/mobile_manipulator_mpc_policy",
+      [
+        "ocs2_msgs/msg/MpcFlattenedController"
+      ]
+    ],
+    [
+      "/mobile_manipulator_mpc_target",
+      [
+        "ocs2_msgs/msg/MpcTargetTrajectories"
+      ]
+    ],
+    [
+      "/parameter_events",
+      [
+        "rcl_interfaces/msg/ParameterEvent"
+      ]
+    ],
+    [
+      "/rosout",
+      [
+        "rcl_interfaces/msg/Log"
+      ]
+    ]
+  ],
+  "pid_groups": [
+    3703126,
+    3703127
+  ],
+  "actual_source": "REAL_TARGET_PHYSICS",
+  "scope": "Must independently score clock/TCP/safety and reference before PASS",
+  "service_s": 17.252120463876054,
+  "stop_wall_s": 1791598254.1276488,
+  "returncodes": [
+    -2,
+    0
+  ],
+  "reset_method": "FRESH_WHOLE_STACK_NO_STATE_REUSE"
+}

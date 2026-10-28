@@ -1,0 +1,74 @@
+{
+  "authority": "PI0280_PRETRAINED_FIRST_FROZEN_WBC_BASELINE_NO_TRAIN_GO_V1",
+  "release": "9c0172ced33c6052f7cb037b4a6d91910f9fe69e",
+  "execution": "AUTHORIZED_NONBLOCKED_LANES_COMPLETE",
+  "overall_target_milestone": "PARTIAL_BLOCKED",
+  "taxonomy": {
+    "PRISTINE_MODEL_VERIFIED": true,
+    "NATIVE_SOURCE_INFERENCE_REPRODUCED": true,
+    "SOURCE_PHYSICS_BASELINE": {
+      "executed": 4,
+      "persistent_success": 0,
+      "domain": "OOD_PANDA_SIMULATION",
+      "non_realtime": true
+    },
+    "WBC_REFERENCE_REPLAY_EXECUTED": {
+      "fixtures_executed": 2,
+      "object_task_replays_executed": 0,
+      "dependent_conditions": 8,
+      "status": "BLOCKED_NATIVE_EXECUTOR_QUALIFICATION",
+      "full_duration_fixtures": 1,
+      "native_terminated_fixtures": 1
+    },
+    "GROOT_WBC_CLOSED_LOOP_EXECUTED": false,
+    "GROOT_WBC_OBJECT_TASK_RESULT": null
+  },
+  "target_input_status": "BLOCKED_TARGET_PRETRAINED_INPUT_CONTRACT",
+  "source_gate_decisions": {
+    "ACCEPT": 239,
+    "WARN": 1,
+    "REJECT": 0
+  },
+  "policy_attempts": 304,
+  "action_heads": 1216,
+  "physical_starts": 7,
+  "engineering_replacements": 1,
+  "source_counts": {
+    "starts": 4,
+    "control": 2640,
+    "rgb": 2640,
+    "physics": 13200
+  },
+  "wbc_reserved_counts": {
+    "physical_start": 3,
+    "control_tick": 553,
+    "gripper_dispatch": 2212,
+    "integration": 2212,
+    "RGB_pair": 110,
+    "actor_forward": 1100
+  },
+  "total_native_integration_steps": 15412,
+  "total_RGB_pairs": 2750,
+  "new_backward_calls": 0,
+  "new_optimizers": 0,
+  "new_training_updates": 0,
+  "new_statistics_fits": 0,
+  "new_training_data_production": 0,
+  "hardware_commands": 0,
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE",
+  "automatic_PI0279_resume": false,
+  "next_training_draft": {
+    "launch_allowed": false,
+    "status": "NOT_AUTHORIZED"
+  },
+  "final_CPU_core_hours": "UNOBSERVED_FINAL_RUSAGE_NOT_RETAINED",
+  "source_wall_seconds": 891.356289868,
+  "source_policy_median_seconds": 0.4436296223429963,
+  "evidence": {
+    "execution\\source\\evidence\\SOURCE_RUNTIME_AUDIT.json": "3f8aeebf918b3ad7bcd3e9801b2020ce2f72772d1213e802d5648ae1932d3cd1",
+    "execution\\evidence\\WBC_VERDICT.json": "a9a0b9b42342316b2743f4badb75ff4f8883686950ad56945c0f0d80cdf000a8",
+    "execution\\evidence\\FINAL_PROCESS_CHECK.json": "9fd07d5d04aa564c998fb1a5310d87467a78ba1c83ec23f8a10b88f98ce56586",
+    "execution\\PAUSE_ACK.json": "d3f26147b6afdabb6d9058f2d0171ff07ae763df79a6ac20b3b6868a782cdc5d"
+  }
+}

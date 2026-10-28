@@ -1,0 +1,60 @@
+{
+  "schema": "PI0291_READINESS_METER_LOSS_V1",
+  "run_id": "20261013T023717-localpc-arx5",
+  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "created_utc": "2026-10-12T21:11:39Z",
+  "status": "MISSING_TEMPORARY_METER_NOT_RAW_DATA_LOSS",
+  "tool_cell_id": "102",
+  "event": "Healthy read-only monitoring cell was terminated solely to change cadence. Tool transaction discarded uncommitted JS meter state; durable actual raw audits remain preserved. Future healthy monitoring cells will finish normally.",
+  "exact_cell_start_utc": "UNKNOWN",
+  "exact_cell_end_utc": "UNKNOWN",
+  "exact_cell_elapsed_s": "UNKNOWN",
+  "observed_activity_envelope": {
+    "start_lower_bound_utc": "2026-10-12T21:01:22.611Z",
+    "start_evidence": "Last readiness event committed by preceding normally completed cell101; terminated cell102 necessarily started later",
+    "end_upper_bound_utc": "2026-10-12T21:11:39Z",
+    "end_evidence": "Clock tool read after cell102 termination and subsequent recovery messages; terminated cell ended earlier",
+    "elapsed_upper_s": 616.389,
+    "includes_idle_and_before_after_margin": true
+  },
+  "CPU_scope": {
+    "remote_inspector_and_auditor_process_affinity_cpu_limit": 1,
+    "proof": "Each readiness launch calls os.sched_setaffinity to one available CPU; audit launcher sets same affinity then os.execv of frozen auditor. Calls are serial; sleeps consume no remote worker CPU. Not a bound on owner physics or other users.",
+    "measured_missing_readiness_CPU_s": "UNKNOWN",
+    "known_measured_raw_audit_CPU_s": 6.775321,
+    "conservative_disjoint_residual_readiness_CPU_s_upper": 609.613679,
+    "calculation": "Observed one-CPU activity-envelope upper minus the known measured audit CPU within it. Loose conservative residual, not measured usage.",
+    "previous_360_s_claim": "WITHDRAWN_AS_UNPROVEN; use evidence-bounded envelope above instead",
+    "owner_charge_once": true,
+    "known_audits_already_or_separately_charged": true
+  },
+  "durable_audits": [
+    {
+      "id": "T291020",
+      "receipt_sha256": "e28a83733779c8c3458ad51a1023eaa5899e00ee78d5e9af91f28230e353cb44",
+      "CPU_s": 3.3828549999999997,
+      "status": "PASS_FULL_RAW_AUDIT",
+      "receipt": "evidence/T291020_RAW_AUDIT.json",
+      "original_receipt_preserved": true,
+      "reexecuted": false
+    },
+    {
+      "id": "T291021",
+      "receipt_sha256": "7f89143d532e3a283693016c5e58e6e0ff4700aab77e9f3b7737c763994e47c4",
+      "CPU_s": 3.3924659999999998,
+      "status": "PASS_FULL_RAW_AUDIT",
+      "receipt": "evidence/T291021_RAW_AUDIT.json",
+      "original_receipt_preserved": true,
+      "reexecuted": false
+    }
+  ],
+  "verification": {
+    "owned_live_auditors_at_recovery": [],
+    "recovery_verification_measured_CPU_s": 0.020544,
+    "root_physics_or_lease_touched": false,
+    "ledger_mutated": false,
+    "frozen_source_modified": false,
+    "model_loads": 0,
+    "physics_integrations": 0
+  }
+}

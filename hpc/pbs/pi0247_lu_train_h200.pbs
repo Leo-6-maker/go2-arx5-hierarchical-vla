@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+#PBS -N pi0247_lu_r1_replay
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=16:00:00
+#PBS -o /scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPLAY_5844159421/logs/
+#PBS -e /scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPLAY_5844159421/logs/
+
+set -euo pipefail
+trap 'rc=$?; echo "PI0247_LU_FAILURE arm=${PI0247_ARM:-unset} line=${LINENO} status=${rc}" >&2' ERR
+
+arm=${PI0247_ARM:?L or U is required}
+card=${PI0247_RUN_CARD:?sealed run card is required}
+expected=${PI0247_RUN_CARD_SHA256:?run-card SHA256 is required}
+case "$arm" in L|U) ;; *) echo "invalid PI0247 arm: $arm" >&2; exit 2 ;; esac
+
+test -r "$card"
+test "$(sha256sum "$card" | cut -d ' ' -f 1)" = "$expected"
+test "$(jq -er .sha256 "$(dirname "$card")/run_card.seal.json")" = "$expected"
+test "$(jq -er .arm "$card")" = "$arm"
+test "$(jq -er .status "$card")" = SEALED_READY_NOT_STARTED
+test "$(jq -er .authorization "$card")" = PI0247_GENERATION_TO_SELECTED_SIM_GO
+test "$(jq -er .canonical_issue_comment "$card")" = 5844159421
+test "$(jq -er .d1_runtime_id "$card")" = S4
+test "$(jq -er .optimizer.steps "$card")" = 2000
+case "$arm" in
+  L) expected_execution_authorization=PI0247_R1_L_REPLAY_AFTER_ENGINEERING_FAILURE_GO ;;
+  U) expected_execution_authorization=PI0247_R1_MAINLINE_LU_CONTINUATION_GO ;;
+esac
+test "$(jq -er .execution_authorization "$card")" = "$expected_execution_authorization"
+test "$(jq -er .archive.path_prefix "$card")" = "arms/PI0247/r1-replay-5844159421/$arm"
+jq -e '.optimizer.learning_rate == 0.00001 and .loss_coefficients.ell_pos == 0.1 and .loss_coefficients.ell_delta == 0.1' "$card" >/dev/null
+
+repo_code=$(jq -er .paths.repo_code_root "$card")
+code=$(jq -er .paths.code_root "$card")
+training_runtime=$(jq -er .paths.training_runtime_root "$card")
+p_runtime=$(jq -er .paths.p_runtime_root "$card")
+stage10=$(jq -er .paths.stage10_root "$card")
+groot=$(jq -er .paths.groot_source "$card")
+output=$(jq -er .paths.output_root "$card")
+token_file=$(jq -er .archive.token_file "$card")
+resume_after=${PI0247_RESUME_AFTER_STEP:-0}
+case "$resume_after" in 0|1000) ;; *) echo "invalid exact-resume cursor: $resume_after" >&2; exit 2 ;; esac
+resume_args=()
+if [[ "$resume_after" == 1000 ]]; then resume_args=(--resume-after-step 1000); fi
+runner="$repo_code/scripts/pi0247_lu_train.py"
+ff=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+venv="$stage10/runtime/venv"
+
+case "$output" in "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPLAY_5844159421/$arm") ;; *) echo "unexpected output root: $output" >&2; exit 2 ;; esac
+test -r "$runner" && test -r "$repo_code/hpc/pbs/pi0247_lu_train_h200.pbs"
+test -x "$venv/bin/python" && test -d "$ff/lib"
+test -d "$code/scripts" && test -d "$groot" && test -r "$token_file" && test -s "$token_file"
+test -r "$training_runtime/pi0246_gate_pass_train.py" && test -r "$training_runtime/pi0246_pt_combined_overlay.py"
+test -r "$p_runtime/P_runtime_binding.json"
+if [[ "$resume_after" == 0 ]]; then
+  test ! -e "$output/training"
+else
+  test -s "$output/durable_receipts/checkpoint-1000.durable_receipt.json"
+  test -s "$output/hf_readbacks/checkpoint-1000.json"
+fi
+test "$(jq -er .status "$output/hf_preflight_receipt.json")" = PASS
+
+unset PI0243_DURABLE_ROOT PI0243_DURABLE_HOST PI0243_CHECKPOINT_FAMILY
+export PI0243_HF_TOKEN_FILE="$token_file"
+export LD_LIBRARY_PATH="$ff/lib:$ff/compat:$venv/lib/python3.12/site-packages/torchcodec:$venv/lib/python3.12/site-packages/torch/lib:${LD_LIBRARY_PATH:-}"
+export PYTHONPATH="$repo_code/scripts:$repo_code/src:$training_runtime:$code/scripts:$code/src:$groot:${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1
+
+gpu_count=$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^$/d' | wc -l)
+test "$gpu_count" -eq 1
+gpu_name=$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^$/d')
+echo "$gpu_name" | grep -qi H200
+nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
+
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 "$venv/bin/python" -u "$runner" --train --arm "$arm" --run-card "$card" "${resume_args[@]}"
+test -s "$output/training_manifest.json"
+test "$(jq -er .global_step "$output/training_manifest.json")" = 2000
+test "$(jq -er .selected_checkpoint "$output/training_manifest.json")" = NONE

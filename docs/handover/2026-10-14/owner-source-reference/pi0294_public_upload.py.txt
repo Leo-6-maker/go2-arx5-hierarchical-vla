@@ -1,0 +1,204 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Bounded CPU-only public M512 delivery using existing HF authentication."""
+import base64
+import subprocess
+import time
+from pi0294_adopt import RUN,BASE,REPO,save
+from pi0294_remote import remote_multiplexed
+
+BOOT=r'''
+import copy,hashlib,importlib.util,json,os,resource,shutil,signal,time,zipfile
+from pathlib import Path
+root=Path(ROOT);directory=Path(DIRECTORY);request=json.loads((directory/'REQUEST.private.json').read_text())
+sysmod=importlib.util.spec_from_file_location('public_checkpoint',MODULE)
+pub=importlib.util.module_from_spec(sysmod);sysmod.loader.exec_module(pub)
+def sha(p):return pub.digest(p)
+def read(p):return json.loads(Path(p).read_text())
+def write(p,v):
+ data=(json.dumps(v,indent=2,sort_keys=True)+'\n').encode()
+ temp=p.with_name(p.name+'.pending');temp.write_bytes(data);temp.chmod(0o600);os.replace(temp,p)
+os.sched_setaffinity(0,set(request['cpus']))
+os.environ.update(CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',
+ HF_HUB_OFFLINE='0',TRANSFORMERS_OFFLINE='1',HF_XET_CACHE=str(directory/'xet-cache'),HF_XET_CHUNK_CACHE_SIZE_BYTES='0')
+lp=root/'HOPPER_RESOURCE_LEDGER.json';start=time.monotonic();before=resource.getrusage(resource.RUSAGE_SELF)
+journal=dict(status='AUDITING_ORIGINAL_BYTES_BEFORE_PUBLICATION',model_loaded=False,pickle_executed=False,
+ GPU_used=False,PBS_submissions=0,repo_id='leoyuer/pi0294-public-artifacts',private=False)
+out=directory/'public';out.mkdir(exist_ok=False)
+def guard(signum=None,frame=None):
+ if time.time()>=request['deadline_epoch']:raise TimeoutError('ORIGINAL_PUBLIC_CLOSEOUT_DEADLINE')
+ if sha(root/'RUN_MANIFEST.json')!=request['original_manifest_sha256']:raise ValueError('ORIGINAL_MANIFEST_CHANGED')
+ if shutil.disk_usage(root).free<10*1024**3:raise PermissionError('ORIGINAL_MINIMUM_FREE_SPACE_GATE')
+ signal.alarm(5)
+signal.signal(signal.SIGALRM,guard);guard()
+try:
+ cp=root/'training/main/checkpoint-512';p=root/'delivery/checkpoint-main-M512-01/CHECKPOINT_MANIFEST.json'
+ assert sha(p)=='6fdc10c2cfb13841bbabd444aa0ab8a4a6aef09adfbffae7d5fb4dee24747a8a'
+ inv=read(p);assert inv['global_step']==512 and inv['consumed_samples']==16384 and len(inv['files'])==16
+ files={};paths={};changes={}
+ for name,expected in inv['files'].items():
+  source=cp/name;assert not source.is_symlink() and source.stat().st_size==expected['bytes']
+  assert sha(source)==expected['sha256'],'ORIGINAL_CHECKPOINT_MEMBER_CHANGED'
+  if name in ('config.json','processor/processor_config.json'):
+   target=out/name;target.parent.mkdir(parents=True,exist_ok=True)
+   write(target,pub.public_config(read(source),processor=name.startswith('processor/')))
+   changes[name]=dict(original_sha256=expected['sha256'],change='COSMOS_PATH_REBOUND_TO_PUBLIC_REPO_ID')
+  elif name=='training_args.bin':
+   target=out/name;pub.relocate_args(source,target,root)
+   changes[name]=dict(original_sha256=expected['sha256'],change='TWO_PATH_OPERANDS_REBOUND_TO_PUBLIC_RUN_ROOT_NO_PICKLE_EXECUTION')
+  else:
+   target=source
+   if name.endswith('.json'):pub.reject_private(read(source))
+   elif name.endswith(('.pt','.pth')):pub.audit_tensor_pickle(source)
+   elif name.endswith('.safetensors'):
+    import struct
+    with source.open('rb') as f:
+     length=struct.unpack('<Q',f.read(8))[0];assert length<10*1024**2
+     pub.reject_private(json.loads(f.read(length)))
+  paths[name]=target;files[name]=dict(bytes=target.stat().st_size,sha256=sha(target))
+ from huggingface_hub import HfApi,CommitOperationAdd,hf_hub_download,ModelCard
+ token=Path('@HOPPER_SHARED_HOME@/@HOPPER_ACCOUNT@/.config/huggingface/token').read_text().strip()
+ api=HfApi(token=token);assert api.whoami()['name']=='leoyuer'
+ licenses={
+  'LICENSE':hf_hub_download('nvidia/GR00T-N1.7-3B','LICENSE',revision='2fc962b973bccdd5d8ce4f67cc63b264d6886495',token=token),
+  'UPSTREAM_GR00T_README.md':hf_hub_download('nvidia/GR00T-N1.7-3B','README.md',revision='2fc962b973bccdd5d8ce4f67cc63b264d6886495',token=token),
+  'UPSTREAM_COSMOS_README.md':hf_hub_download('nvidia/Cosmos-Reason2-2B','README.md',revision='9ce19a195e423419c349abfc86fd07178b230561',token=token)}
+ cosmos=ModelCard.load(licenses['UPSTREAM_COSMOS_README.md'])
+ agreement=cosmos.data.to_dict()['extra_gated_prompt']
+ (out/'LICENSE_COSMOS.txt').write_text(agreement+'\n')
+ (out/'NOTICE.txt').write_text('Licensed by NVIDIA Corporation under the NVIDIA Open Model License\nBuilt on NVIDIA Cosmos\nGR00T derivative: non-commercial research/evaluation only under LICENSE.\n')
+ for name,path in licenses.items():paths[name]=Path(path)
+ paths['LICENSE_COSMOS.txt']=out/'LICENSE_COSMOS.txt';paths['NOTICE.txt']=out/'NOTICE.txt'
+ (out/'README.md').write_text("""# PI0294 M512 research checkpoint
+
+Non-commercial research/evaluation only. Built on NVIDIA Cosmos.
+Licensed by NVIDIA Corporation under the NVIDIA Open Model License.
+This is a 512-update dual-task simulation checkpoint, not a qualified working policy.
+Selected/deployment: NONE. Model closed-loop evaluation: NOT_RUN.
+Original private checkpoint and existing private HF repository remain unchanged.
+Model/optimizer/scheduler/RNG tensors are unchanged. Three metadata files are
+sanitized; Cosmos model-name paths use the public repo ID and the two Trainer
+paths use PUBLIC_RUN_ROOT. Rebind those paths in a local copy before a future
+authorized restore. Independent public-artifact resume is NOT_RUN.
+No WBC, mesh, private runmap, credentials, environment, raw data or source archive
+is included. Consult LICENSE, LICENSE_COSMOS.txt and upstream notices.
+""")
+ paths['README.md']=out/'README.md'
+ for name,path in paths.items():files[name]=dict(bytes=path.stat().st_size,sha256=sha(path))
+ manifest=dict(schema='PI0294_SANITIZED_PUBLIC_FULL_TRAINER_STATE_V1',global_step=512,consumed_samples=16384,
+  original_inventory_sha256=sha(p),original_source_sha='a171997a704072e127d16410ba584c8aa0ddd573',
+  delivery_source_sha=request['source_sha'],metadata_changes=changes,files=files,
+  original_full_checkpoint_untouched=True,numerical_tensors_unchanged=True,pickle_executed=False,
+  model_loaded=False,independent_public_resume_qualified=False,selected='NONE',deployment='NONE')
+ pub.reject_private(manifest);write(out/'CHECKPOINT_MANIFEST.json',manifest)
+ files['CHECKPOINT_MANIFEST.json']=dict(bytes=(out/'CHECKPOINT_MANIFEST.json').stat().st_size,sha256=sha(out/'CHECKPOINT_MANIFEST.json'))
+ paths['CHECKPOINT_MANIFEST.json']=out/'CHECKPOINT_MANIFEST.json'
+ prefix='PI0294/'+root.name+'/public-M512-'+sha(out/'CHECKPOINT_MANIFEST.json')[:12]
+ api.create_repo(journal['repo_id'],repo_type='dataset',private=False,exist_ok=False)
+ info=api.repo_info(journal['repo_id'],repo_type='dataset');assert info.private is False
+ journal.update(status='PUBLIC_REPOSITORY_CREATED_FULL_PAYLOAD_UPLOAD_RUNNING',prefix=prefix,
+  total_payload_bytes=sum(x['bytes'] for x in files.values()),manifest_sha256=sha(out/'CHECKPOINT_MANIFEST.json'))
+ write(directory/'DELIVERY.json',journal)
+ rev=api.create_commit(journal['repo_id'],repo_type='dataset',parent_commit=info.sha,
+  commit_message='PI0294 sanitized M512 full Trainer state; no policy qualification',
+  operations=[CommitOperationAdd(path_in_repo=prefix+'/'+name,path_or_fileobj=str(paths[name])) for name in files],num_threads=2).oid
+ journal.update(status='PUBLIC_PAYLOAD_COMMITTED_READBACK_PENDING',payload_revision=rev);write(directory/'DELIVERY.json',journal)
+ def verify(revision,expected):
+  rows={r.path:r for r in api.list_repo_tree(journal['repo_id'],repo_type='dataset',revision=revision,path_in_repo=prefix,recursive=True) if hasattr(r,'size')}
+  assert set(rows)=={prefix+'/'+n for n in expected}
+  for name,item in expected.items():
+   row=rows[prefix+'/'+name];assert row.size==item['bytes']
+   if row.lfs:actual=row.lfs.sha256
+   else:
+    assert row.size<5*1024**2
+    actual=sha(hf_hub_download(journal['repo_id'],prefix+'/'+name,repo_type='dataset',revision=revision,token=token))
+   assert actual==item['sha256'],'PUBLIC_FIXED_REVISION_SHA_MISMATCH'
+ verify(rev,files)
+ for name,expected in inv['files'].items():assert sha(cp/name)==expected['sha256']
+ ready=dict(schema='PI0294_PUBLIC_CHECKPOINT_READY_V1',status='PUBLIC_FULL_STATE_FIXED_REVISION_SHA_VERIFIED',
+  private=False,repo_id=journal['repo_id'],prefix=prefix,payload_revision=rev,files=files,
+  metadata_redactions=3,global_step=512,numerical_tensors_unchanged=True,model_loaded=False,
+  independent_public_resume_qualified=False,policy_qualification=False,selected='NONE',deployment='NONE')
+ write(out/'READY.json',ready)
+ final=api.create_commit(journal['repo_id'],repo_type='dataset',parent_commit=rev,
+  commit_message='READY after exact public full-state revision readback',
+  operations=[CommitOperationAdd(path_in_repo=prefix+'/READY.json',path_or_fileobj=str(out/'READY.json'))]).oid
+ files['READY.json']=dict(bytes=(out/'READY.json').stat().st_size,sha256=sha(out/'READY.json'));verify(final,files)
+ journal.update(status='PASS_SANITIZED_PUBLIC_FULL_STATE_FIXED_REVISION_READBACK',revision=final,READY_uploaded_last=True)
+except BaseException as error:
+ journal.update(status='FAILED_OR_UNKNOWN_PRESERVED_NO_AUTOMATIC_RETRY',error_type=type(error).__name__)
+ raise
+finally:
+ signal.alarm(0);after=resource.getrusage(resource.RUSAGE_SELF);cpu=after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime
+ journal.update(CPU_s=cpu,wall_s=time.monotonic()-start);write(directory/'DELIVERY.json',journal)
+ ledger=read(lp);assert ledger['CPU_public_request_sha256']==sha(directory/'REQUEST.private.json')
+ ledger['CPU_s']+=cpu;ledger['CPU_reserved_s']=0
+ ledger.setdefault('CPU_public_stages',[]).append(dict(status=journal['status'],CPU_s=cpu,
+  wall_s=journal['wall_s'],request_sha256=ledger['CPU_public_request_sha256'],new_PBS=0,new_model_loads=0))
+ write(lp,ledger);write(directory/'CPU_STAGE.json',ledger['CPU_public_stages'][-1])
+'''
+
+CODE=r'''
+import base64,copy,hashlib,json,os,subprocess,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+original=(root/'RUN_MANIFEST.json').read_bytes();manifest=json.loads(original)
+source=root/manifest['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,DEADLINE
+from scripts.pi0292.durable import OwnerLock,read,write
+from scripts.pi0292.allocation_admission import owned_jobs
+validate(root,profile='hopper-neural',closeout=True)
+lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock')
+lp=root/'HOPPER_RESOURCE_LEDGER.json';ledger=read(lp)
+assert len(ledger['PBS_submissions'])==4 and all(r['status']=='RECONCILED_TERMINAL' for r in ledger['PBS_submissions'])
+assert ledger['main_updates']==512 and ledger['model_smoke_updates']==16 and ledger['pending_updates']==0
+assert not ledger['GPU_reserved_s'] and not ledger['CPU_reserved_s']
+jobs=owned_jobs(os.environ['USER']);assert not set(jobs)&{r['job_id'] for r in ledger['PBS_submissions']}
+directory=root/'evidence/public-checkpoint-M512-01';directory.mkdir(exist_ok=False)
+module=directory/'public_checkpoint.py';module.write_bytes(base64.b64decode(MODULE_BYTES));module.chmod(0o440)
+assert hashlib.sha256(module.read_bytes()).hexdigest()==MODULE_HASH
+bootstrap=directory/'OWNER_BOOTSTRAP.private.py';bootstrap.write_text('ROOT='+repr(str(root))+'\nDIRECTORY='+repr(str(directory))+'\nMODULE='+repr(str(module))+'\n'+BOOT);bootstrap.chmod(0o400)
+seal=dict(source_sha=SOURCE,files={'public_checkpoint.py':MODULE_HASH,
+ 'OWNER_BOOTSTRAP.private.py':hashlib.sha256(bootstrap.read_bytes()).hexdigest()},
+ private_operator_glue_separately_bound=True)
+write(directory/'SOURCE_SEAL.json',seal)
+sidecar=copy.deepcopy(manifest)
+sidecar['code'].update(vla_commit=SOURCE,capsule_relative=str(directory.relative_to(root)),
+ source_seal_relative=str((directory/'SOURCE_SEAL.json').relative_to(root)),
+ source_seal_sha256=hashlib.sha256((directory/'SOURCE_SEAL.json').read_bytes()).hexdigest())
+sidecar['execution']['script']='scripts.pi0294.public_checkpoint'
+sidecar['authority']['public_artifact_amendment']='USER_CHAT_2026_10_14_YOU_CAN_USE_HF_PUBLIC_STORAGE'
+sidecar['status']='CPU_ONLY_PUBLIC_CLOSEOUT_NO_NEURAL_SOURCE_ADVANCE'
+write(directory/'RUN_MANIFEST.json',sidecar)
+validate(root,profile='hopper-neural',manifest_path=directory/'RUN_MANIFEST.json',closeout=True)
+timeout=min(1200,DEADLINE-time.time()-10);assert timeout>60
+request=dict(schema='PI0294_CPU_PUBLIC_ARTIFACT_REQUEST_V1',run_uuid=RUN,source_sha=SOURCE,
+ original_manifest_sha256=hashlib.sha256(original).hexdigest(),module_sha256=MODULE_HASH,
+ public_stage_manifest_sha256=hashlib.sha256((directory/'RUN_MANIFEST.json').read_bytes()).hexdigest(),
+ bootstrap_sha256=hashlib.sha256(bootstrap.read_bytes()).hexdigest(),profile='hopper-neural',
+ public_authority='USER_CHAT_2026_10_14_YOU_CAN_USE_HF_PUBLIC_STORAGE',
+ no_new_scientific_execution=True,deadline_epoch=time.time()+timeout,
+ cpus=[min(os.sched_getaffinity(0))],repo_id='leoyuer/pi0294-public-artifacts',private=False)
+write(directory/'REQUEST.private.json',request)
+ledger['CPU_reserved_s']=timeout;ledger['CPU_public_request_sha256']=hashlib.sha256((directory/'REQUEST.private.json').read_bytes()).hexdigest();write(lp,ledger)
+binding=read(root/'NEURAL_BINDINGS.private.json');env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',CUDA_VISIBLE_DEVICES='')
+out=(directory/'stdout.log').open('xb');err=(directory/'stderr.log').open('xb')
+proc=subprocess.Popen([binding['python'],str(bootstrap)],env=env,stdin=subprocess.DEVNULL,stdout=out,stderr=err,
+ start_new_session=True,cwd=source)
+record=dict(status='PUBLIC_CPU_ARTIFACT_DISPATCHED_NOT_YET_DELIVERED',pid=proc.pid,
+ proc_start=Path('/proc/'+str(proc.pid)+'/stat').read_text().split()[21],deadline_epoch=request['deadline_epoch'],
+ source_sha=SOURCE,module_sha256=MODULE_HASH,repo_id=request['repo_id'],new_PBS=0,new_model_loads=0)
+write(directory/'PROCESS.private.json',record);assert (root/'RUN_MANIFEST.json').read_bytes()==original
+lock.close();print(json.dumps(record))
+'''
+
+if __name__=='__main__':
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    data=subprocess.check_output(['git','show',source+':scripts/pi0294/public_checkpoint.py'],cwd=REPO)
+    import hashlib
+    values=dict(RUN=RUN,SOURCE=source,MODULE_BYTES=base64.b64encode(data).decode(),MODULE_HASH=hashlib.sha256(data).hexdigest(),BOOT=BOOT)
+    result=remote_multiplexed('hopper','\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+    save(BASE/('PUBLIC_DISPATCH_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+    print(result.stdout)
+    if result.returncode:raise RuntimeError(result.stderr[-1600:])

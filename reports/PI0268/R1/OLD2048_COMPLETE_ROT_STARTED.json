@@ -1,0 +1,133 @@
+{
+  "OLD_actual_samples_equal_CPU_admission": true,
+  "OLD_archive": {
+    "arm": "OLD",
+    "entries": [
+      {
+        "bytes": 304,
+        "path": "PI0268_POLICY_CONTRACT.json",
+        "sha256": "b40dd92c61f696b4cbef61f8d21b505a8f927acfaae3c8250233cd483d9ee192"
+      },
+      {
+        "bytes": 2148,
+        "path": "config.json",
+        "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+      },
+      {
+        "bytes": 82120,
+        "path": "effective_statistics.json",
+        "sha256": "4439e24348bc43f5c93d380c9ae3c25b4057dbd8111e1e9bf9563b868c53bc73"
+      },
+      {
+        "bytes": 615,
+        "path": "embodiment_id.json",
+        "sha256": "14a0d4c564e14962a25b1f2e3ccb49b0ba02e0ed0a222738854d3f2ca1c367ce"
+      },
+      {
+        "bytes": 5518,
+        "path": "experiment_cfg/conf.yaml",
+        "sha256": "b751e6d4c94d5be789e53612680ff75ab0f06d818bc4cdebdd10538d2ed096b8"
+      },
+      {
+        "bytes": 5485,
+        "path": "experiment_cfg/config.yaml",
+        "sha256": "c2f0d36489af299ccfc67db81c4ed09bb03cedd07af7976ad4d499cccb186b4a"
+      },
+      {
+        "bytes": 1513,
+        "path": "experiment_cfg/final_model_config.json",
+        "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+      },
+      {
+        "bytes": 4993709288,
+        "path": "model-00001-of-00002.safetensors",
+        "sha256": "8f409e1721ae44a0509fb2870f422eb7b702676232c0c2c6bb03417c09d8ce48"
+      },
+      {
+        "bytes": 4535492016,
+        "path": "model-00002-of-00002.safetensors",
+        "sha256": "7aa98ccc46817327dd090b8c8d3145ef6fd4c27c156b536d1ca5b2584e024aea"
+      },
+      {
+        "bytes": 104912,
+        "path": "model.safetensors.index.json",
+        "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+      },
+      {
+        "bytes": 11353039304,
+        "path": "optimizer.pt",
+        "sha256": "1ccc45ba635aaaaa55580c567f143d3ea7f081a81d95c2f0d463bbf79f4a94c3"
+      },
+      {
+        "bytes": 3125,
+        "path": "processor_config.json",
+        "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+      },
+      {
+        "bytes": 14709,
+        "path": "rng_state.pth",
+        "sha256": "d2e3457c6317a695c958e55aabbd8a3a74599d5db4637df1973808bb0647a380"
+      },
+      {
+        "bytes": 1465,
+        "path": "scheduler.pt",
+        "sha256": "2c282bf1776c82e58b86eacda7ebc21cabb2515dc439f24608d8676c78ab7c03"
+      },
+      {
+        "bytes": 82119,
+        "path": "statistics.json",
+        "sha256": "b45e6ac7bb7a81d4827e8b19aae88a9e15e2dc285f184c8207bd276f9ef452f7"
+      },
+      {
+        "bytes": 281046,
+        "path": "trainer_state.json",
+        "sha256": "a4e7fbb18e32b973a51154961ba5a3ed2fe3bc620fe918bddfc040ea4d1cddce"
+      },
+      {
+        "bytes": 5905,
+        "path": "training_args.bin",
+        "sha256": "eb7a5a95a092636d8241f41dca48748b631359646450ca4e6eba03772ea29ddc"
+      },
+      {
+        "bytes": 56,
+        "path": "wandb_config.json",
+        "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+      }
+    ],
+    "prefix": "arms/PI0268/OLD/checkpoint-2048",
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "revision": "b95514340120cd50d81381b7b9fa37e90979bad3",
+    "schema": "PI0268_FULL_TRAINER_ARCHIVE_V1",
+    "status": "UPLOADED",
+    "step": 2048,
+    "total_bytes": 20882831648,
+    "tree_sha256": "b404aed347bbfb95823bbaad609970466b65e99e828be288abedd01abe548b0d"
+  },
+  "OLD_full_readback_complete": false,
+  "OLD_journal_counts": {
+    "S4_audit.jsonl": 4096,
+    "full_loss.jsonl": 4096,
+    "sample_audit.jsonl": 4096,
+    "step_rng.jsonl": 4096,
+    "update_gradient_norms.jsonl": 2048
+  },
+  "both_arms_training_audit_complete": false,
+  "completion_log_record": {
+    "arm": "OLD",
+    "phase": "main",
+    "status": "PI0268_TRAINING_SEGMENT_COMPLETE",
+    "updates": 2048
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "job": "643705.hopper-m-02",
+  "job_state": "R",
+  "main_updates": {
+    "OLD": 2048,
+    "ROT": 54
+  },
+  "new_quality_queries": 0,
+  "observed_at": "2026-10-02T20:26:46.559845+00:00",
+  "raw_completed_updates": 2142,
+  "selected_checkpoint": "NONE",
+  "status": "OLD2048_SAVED_AND_ROT_MAIN_ACTUALLY_STARTED"
+}

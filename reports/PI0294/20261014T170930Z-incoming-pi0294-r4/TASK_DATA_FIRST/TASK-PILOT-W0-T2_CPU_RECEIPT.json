@@ -1,0 +1,201 @@
+{
+  "id": "TASK-PILOT-W0-T2",
+  "actual_attempt": "TASK-PILOT-W0-T2-engineering04",
+  "audit": {
+    "status": "COMPLETE_TASK_QUALITY_FAIL",
+    "quality": {
+      "evidence_source": "REAL_MUJOCO_FULL_GO2_ARX5",
+      "complete_32s": true,
+      "clock_valid": true,
+      "safety_valid": true,
+      "history": {
+        "actual_robot_contact": false,
+        "horizontal_push": false,
+        "no_lift": true,
+        "no_sustained_bilateral_grasp": true,
+        "highrate_contact_complete": true
+      },
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "hold_subpredicates": {
+        "zone_corners": 0,
+        "table_height": 41,
+        "linear_speed": 41,
+        "angular_speed": 41,
+        "released": 41,
+        "robot_separated": 41,
+        "tcp_clear": 41,
+        "object_and_contacts_valid": 41
+      },
+      "maximum_center_height_rise_m": 0.0,
+      "maximum_bilateral_grasp_s": 0.0,
+      "contact_height_numerical_tolerance_m": 1e-08,
+      "persistent_success": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "BASE_translation_ok": true,
+      "domain": "FULL_GO2_ARX5_FROZEN_NATIVE_WBC_TASK_SIM",
+      "maximum_actual_lift_m": 0.0,
+      "maximum_actual_carry_xy_m": 0.0
+    },
+    "source_sha": "5e361f6fa1f6226c6646ba47f3d8baa9e1455dc5",
+    "observations": 641,
+    "submitted_and_installed": 640,
+    "native_integrations": 18500,
+    "task_integrations": 16000,
+    "actual_RGB_pairs": 641,
+    "native_safety_stops": 0,
+    "raw_state_byte_identity": true,
+    "submitted_label_identity": true,
+    "source_age_max_s": 0.022000000000002018,
+    "pause_intervals": 640,
+    "non_realtime": true,
+    "frozen_native_robot_properties": {
+      "status": "COMPILED_NATIVE_PROPERTIES_EXACTLY_PRESERVED",
+      "checked": {
+        "mjtObj.mjOBJ_BODY": {
+          "count": 27,
+          "fields": [
+            "body_pos",
+            "body_quat",
+            "body_mass",
+            "body_inertia",
+            "body_ipos",
+            "body_iquat"
+          ]
+        },
+        "mjtObj.mjOBJ_JOINT": {
+          "count": 19,
+          "fields": [
+            "jnt_type",
+            "jnt_axis",
+            "jnt_pos",
+            "jnt_range",
+            "jnt_limited",
+            "jnt_qposadr",
+            "jnt_dofadr"
+          ]
+        },
+        "mjtObj.mjOBJ_ACTUATOR": {
+          "count": 18,
+          "fields": [
+            "actuator_trntype",
+            "actuator_trnid",
+            "actuator_gear",
+            "actuator_ctrlrange",
+            "actuator_gainprm",
+            "actuator_biasprm"
+          ]
+        },
+        "mjtObj.mjOBJ_SENSOR": {
+          "count": 59,
+          "fields": [
+            "sensor_type",
+            "sensor_objtype",
+            "sensor_objid",
+            "sensor_adr",
+            "sensor_dim"
+          ]
+        }
+      },
+      "original_robot_body_mass_kg": 18.491453999999997,
+      "task_robot_body_mass_kg": 18.491453999999997,
+      "added_object_mass_kg": 0.05,
+      "new_gripper_joints": 2,
+      "new_gripper_actuators": 2,
+      "zero_WBC_parameter_changes": true
+    },
+    "actual_BASE_max_forward_m": 0.008074797845977554,
+    "actual_BASE_final_translation_m": [
+      -0.0004984245690956152,
+      0.007879155369828653,
+      0.0036355985975375926
+    ],
+    "native_leg_ctrl_max": [
+      5.565449069360131,
+      1.651491798790888,
+      7.960982029722096,
+      6.975713808495727,
+      1.760767041425337,
+      6.603241732166899,
+      5.740302387557165,
+      1.3107726947488223,
+      4.52410663482662,
+      4.266841986815083,
+      1.7421159577375889,
+      6.9865944173988135
+    ],
+    "contact_clock_semantics": "INTEGRATION_ENDPOINT_GRID_WITH_SEPARATE_ACTUAL_PRESTEP_CONSTRAINT_SOURCE",
+    "physics_sha256": "eefacb9182ca7ce2e85c96cf91f0704bc758a3ed80078af04b20d335b62e4527",
+    "RGB_index_sha256": "5be48a49cd97fc1ee3cbc3439cfa1e3694820fe77e7cdee5ebf21cd8d47d9834",
+    "raw_evidence": {
+      "samples.jsonl": "ad791343da7ca783315ec7a0e92cf9332301891bf2594bf1f0c3704684405b5a",
+      "state.bin.journal": "007a67a8f1fd88f08bdb273bc92f26325f546e40b2e83afcbaf25d65c00fb31e",
+      "planner.jsonl": "15724d1b02ebab719199a9148f19ef638823c8f4a0b8a70cee50de6f2b4f89ba",
+      "committed_intents.jsonl": "f0f55a2f72470d15b8a7227f9f1dc31e7c886c850ab672f20b6deb90c9643718",
+      "physics.jsonl": "08e5e432601282c60b2916071636c3a7da7e6972a691fa0fe2351312b4990755",
+      "pause_intervals.jsonl": "093187b23f5657666f0fada8f157f7a239efa60073901c0b40b0151cac5b4aa7"
+    },
+    "no_new_physics": 0,
+    "new_model_queries": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "audit_sha256": "5bb3f1e613868ec6147ebe09de49d0af19742abeae1365b7cabcf4bd1101f8a1",
+  "execution": {
+    "status": "RAW_TASK_COMPLETE_REQUIRES_INDEPENDENT_CPU_AUDIT",
+    "observations": 641,
+    "submitted_intents": 640,
+    "teacher_events": [],
+    "final_stage": "approach",
+    "native_stops": [],
+    "physics_lower_bound": 18499,
+    "actual_plugin_steps": 18500,
+    "physics_charged": 18503,
+    "saved_RGB_pairs": 641,
+    "actual_CPU_s": 330.153482366,
+    "conservative_CPU_charged_s": 529.9381129676476,
+    "service_s": 132.4845282419119,
+    "owned_returncodes": [
+      -2,
+      0,
+      0,
+      0
+    ],
+    "source_sha": "5e361f6fa1f6226c6646ba47f3d8baa9e1455dc5",
+    "high_level_model_queries": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "video_receipt": {
+    "status": "ACTUAL_SAVED_RGB_PLAYBACK_COMPLETE",
+    "frames": 641,
+    "playback_hz": 20,
+    "wall_clock_realtime": false,
+    "quality": "COMPLETE_TASK_QUALITY_FAIL",
+    "video_sha256": "f1da4a4db28ee8319a64a3ae32c16f29373b1fa6cd1624c1dd85ccff703c139b",
+    "bytes": 1009873,
+    "actual_RGB_hash_index_sha256": "5be48a49cd97fc1ee3cbc3439cfa1e3694820fe77e7cdee5ebf21cd8d47d9834",
+    "public": false,
+    "new_physics": 0,
+    "new_render": 0,
+    "new_model_queries": 0
+  },
+  "saved_array_diagnostic": {
+    "last_installed_H40_endpoint_xyz_m": [
+      0.2563829203261745,
+      -0.029284065216484412,
+      0.4881187747565925
+    ],
+    "actual_final_TCP_xyz_m": [
+      0.15821313631878064,
+      0.02786187294361138,
+      0.4596983169285764
+    ],
+    "endpoint_to_actual_final_position_m": 0.11709264350679718,
+    "reference_note": "LAST_INSTALLED_H40_ENDPOINT_VS_FINAL_ACTUAL_TCP_DIAGNOSTIC_ONLY",
+    "actual_stages": [
+      "approach"
+    ]
+  }
+}

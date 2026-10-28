@@ -1,0 +1,50 @@
+{
+  "schema": "PI0260_R3_S3_EXECUTION_CARD_V1",
+  "authority_commit": "fd8e69b59a16aa90b1761d23b3a8f5a78cee8763",
+  "H1_status": "H1_R3_ADMITTED_WITH_MEASURED_TEMPORAL_AMBIGUITY",
+  "H1_receipt_sha256": "93432e44326bbb7f05455f6ece257288bf65e35506dc8c0ca61eb06c7b25e7b3",
+  "R2_dataset_revision": "3d248c1e54f8eb2caf771b067ef48cd995367a12",
+  "R2_public_tree_sha256": "793a1ff78c3417933202311187fa87daf538304a5fcbfdacd2ea6016066ff571",
+  "statistics_sha256": "4439e24348bc43f5c93d380c9ae3c25b4057dbd8111e1e9bf9563b868c53bc73",
+  "schedule_sha256": "3cf0b85e2fc60bad6cb83c6ce633ab446163aad1757a465244751f457cd10bd4",
+  "initializers": {
+    "Base": "nvidia/GR00T-N1.7-3B@2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "G": "leoyuer/pi0246-gate-pass-campaign@efecea485ae77000599d19171b02491f8d514f42/arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000"
+  },
+  "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+  "condition_fields": ["body_rgb", "wrist_rgb", "state_v1", "language"],
+  "sampling": "6000 frozen visits; per-step SHA256(PI0260|26003|step) seed independent of label and arm",
+  "training": {
+    "updates_per_arm": 6000,
+    "optimizer": "fresh AdamW",
+    "learning_rate": 0.00001,
+    "betas": [0.9, 0.999],
+    "epsilon": 1e-8,
+    "weight_decay": 1e-5,
+    "max_grad_norm": 1,
+    "batch_size": 1,
+    "gradient_accumulation": 1,
+    "warmup_steps": 10,
+    "scheduler": "cosine over 6000",
+    "loss": "native + 0.4 position + 0.1 increment + 0.1 rotation + 0.1 speed_margin",
+    "rollout": "full differentiable S4, H40, dt 0.05s, no expert prefix",
+    "save_steps": [1000, 3000, 6000]
+  },
+  "canary": {
+    "per_arm": "continuous 8 versus 4 + complete Trainer save + fresh-process restore + 4",
+    "discarded_updates_per_arm": 16,
+    "parameter_max_abs_tolerance": 1e-6,
+    "optimizer_float_max_abs_tolerance": 1e-6,
+    "scheduler_lr_abs_tolerance": 1e-12,
+    "cursor_equal": true,
+    "condition_epsilon_tau_byte_equal": true,
+    "mode_restored_each_step": true
+  },
+  "code_sha256": {
+    "pi0260_r3_train.py": "d3a81c2085fa356a2cc5cefc1e6f6fb64f93d497c47a7bf47daa4d6f7d1810f7",
+    "pi0260_r3_physical.py": "cda770aeaf4420b0609bd302c85c5e5af5ff2fbbb833db2cfc1284648ca50016",
+    "pi0247_u_rollout_overlay.py": "705b2fd29f29cc94e7d27163efac4055d73fc945955897f248b33eee2a4fcb70"
+  },
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

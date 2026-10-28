@@ -1,0 +1,321 @@
+{
+  "status": "AUDITED_THREE_VALID_SHORT_FAIL_ONE_PRETASK_ENGINEERING_INCOMPLETE",
+  "auditor_source_sha": "755182d8a4e84ed620ee1b8bce967def73e64d7e",
+  "episodes": [
+    {
+      "status": "VALID_SHORT_MILESTONE_FAIL_INTEGRITY_PASS",
+      "version": "FULLBODY_COMPONENT_PROGRESS_QUALIFICATION_V2",
+      "id": "V2_DEV_W0_T1",
+      "source_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+      "new_physics": 0,
+      "new_model_queries": 0,
+      "observations": 241,
+      "submitted_and_installed": 30,
+      "native_integrations": 8500,
+      "task_duration_s": 12.0,
+      "native_safety_stops": 0,
+      "raw_state_byte_identity": true,
+      "RGB_state_time_identity": true,
+      "submitted_label_identity": true,
+      "explicit_query_period_s": 0.4,
+      "record_period_s": 0.05,
+      "pause_intervals": 240,
+      "unexpected_lifecycle_events": [],
+      "installation": {
+        "transactions": 30,
+        "installed_messages": 149,
+        "max_xyz_abs_m": 2.8715557376379763e-08,
+        "max_sign_invariant_unit_quaternion_component": 3.423848093930815e-08,
+        "tolerance": 1e-06
+      },
+      "exact_adopted_H40_reference_replay": true,
+      "selected_MPC_policy_consumption": "UNKNOWN",
+      "milestones": {
+        "position_progress": true,
+        "safe_precontact": false,
+        "actual_contact": false,
+        "manipulation": false
+      },
+      "geometry_ready_observations": 0,
+      "aligned_observations": 0,
+      "actual_position_goal_distance_initial_min_final_m": [
+        0.2245824775957857,
+        0.165513928506363,
+        0.17834733856588889
+      ],
+      "actual_orientation_error_initial_min_final_rad": [
+        1.4204193962354896,
+        0.1431989040686258,
+        0.1431989040686258
+      ],
+      "actual_TCP_initial_final_world_xyz": [
+        [
+          0.35284312601595247,
+          0.019259126605458605,
+          0.716374010934406
+        ],
+        [
+          0.32331137521908576,
+          0.022680849755716485,
+          0.6121041181776726
+        ]
+      ],
+      "stage_target_world_xyz": [
+        0.45,
+        -0.08000000000012555,
+        0.5398932559887006
+      ],
+      "longest_actual_grasp_s": 0.0,
+      "actual_contact_ticks": 0,
+      "max_actual_object_displacement_xy_m": 0.0,
+      "max_actual_lift_m": 0.0,
+      "stop_reason": null,
+      "final_stage": "approach",
+      "teacher_events": [],
+      "formal_task_success": "NOT_CLAIMED_SHORT_DEVELOPMENT",
+      "full_confirmation_eligible": false,
+      "engineering_incomplete": false,
+      "unrecorded_20Hz_final_interval": false,
+      "old_pilot_denominator_unchanged": true,
+      "RGB_pairs": 241,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "raw_evidence": {
+        "samples.jsonl": "99622b4f0b9c411eb8d57ea02b4ae70b17e32eaf10002722b132d327b8271961",
+        "state.bin.journal": "487c29b6d2e123971dea72295942cc99d115c788879b31460504a24217fc3ccb",
+        "committed_intents.jsonl": "60601859c0c32e7f9da750a8c21a09f15fb4e5faf299b40c1c632ecf526dc039",
+        "planner.jsonl": "aa66879d7f223b36628aeafa74536bc539db5c48c944ff257e51481de6f51dd6",
+        "physics.jsonl": "bd838ce622f7793fb7ced351f957b0319a59653bf40971b210647d4d73a83fe1",
+        "pause_intervals.jsonl": "c37bae1f51efac133e0e8e9b45ab88831b8cc89f319ce85589830c3cddfc2895",
+        "RGB_HASHES.json": "d783a52d6eb84deb753739e44577f4d8e2782236d8039afd9aed94086b845df1",
+        "SHORT_ACTUAL_PHYSICS.npz": "1fccfa3d89a9985def4d701247bd4701adb0e43bb9f1e11a608daa62e1fe1341"
+      }
+    },
+    {
+      "status": "ENGINEERING_PRETASK_READINESS_INCOMPLETE_NOT_QUALITY",
+      "version": "FULLBODY_COMPONENT_PROGRESS_QUALIFICATION_V2",
+      "id": "V2_DEV_W0_T2",
+      "source_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+      "observations": 0,
+      "submitted_and_installed": 0,
+      "native_integrations": 2500,
+      "task_duration_s": 0.0,
+      "milestones": "NOT_OBSERVED_TASK_NOT_ENTERED",
+      "full_confirmation_eligible": false,
+      "task_success_claim": false,
+      "engineering_incomplete": true,
+      "native_safety_stops": 0,
+      "ROS_message_counts": {
+        "mode": 3,
+        "ee": 762,
+        "observation": 0,
+        "arm": 4266,
+        "odom": 4265
+      },
+      "mode_state_values": [
+        "HOLD",
+        "HOLD",
+        "WBC"
+      ],
+      "reason": "COMPOSITE_READINESS_FAILED_MPC_OBSERVATION_NOT_RECEIVED_NOT_UNIQUE_ROOT_CAUSE",
+      "raw_evidence": {
+        "RESULT.json": "ba19a7167bc67908ebcf00ac2a7d7287f45ff3e69a2c349ccb2a8cb182f25da9",
+        "state.bin.journal": "ffda6bdd798ccbcaac91b69e7fe0a1e2d46a1eabc9196f856f324e2464f86e71",
+        "ros.jsonl": "2eed43bc3e0ec9de4b1700cc39f395936feab6db7e8711781f1a3802a1c6dff6",
+        "planner.jsonl": "f404f4376b5316bdf0436ec535a05acdbc2c0d15f9afdd635f8c75db04a54211",
+        "control.jsonl": "9dec5ccfd12e0c9dca8f54d4820314da36d7dff572dc756643c883443ff01ce3",
+        "physics.jsonl": "9e0c3b9707eb34b88235492fc7272483cb15224f6b3bd9ca1f7b7592e76dc6b3",
+        "samples.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "committed_intents.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "new_physics": 0,
+      "new_GR00T_queries": 0,
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SHORT_MILESTONE_FAIL_INTEGRITY_PASS",
+      "version": "FULLBODY_COMPONENT_PROGRESS_QUALIFICATION_V2",
+      "id": "V2_DEV_W1_T1",
+      "source_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+      "new_physics": 0,
+      "new_model_queries": 0,
+      "observations": 241,
+      "submitted_and_installed": 30,
+      "native_integrations": 8500,
+      "task_duration_s": 12.0,
+      "native_safety_stops": 0,
+      "raw_state_byte_identity": true,
+      "RGB_state_time_identity": true,
+      "submitted_label_identity": true,
+      "explicit_query_period_s": 0.4,
+      "record_period_s": 0.05,
+      "pause_intervals": 240,
+      "unexpected_lifecycle_events": [],
+      "installation": {
+        "transactions": 30,
+        "installed_messages": 150,
+        "max_xyz_abs_m": 1.4394851144405862e-08,
+        "max_sign_invariant_unit_quaternion_component": 2.8913163863109048e-08,
+        "tolerance": 1e-06
+      },
+      "exact_adopted_H40_reference_replay": true,
+      "selected_MPC_policy_consumption": "UNKNOWN",
+      "milestones": {
+        "position_progress": true,
+        "safe_precontact": false,
+        "actual_contact": false,
+        "manipulation": false
+      },
+      "geometry_ready_observations": 0,
+      "aligned_observations": 0,
+      "actual_position_goal_distance_initial_min_final_m": [
+        0.32021170124080317,
+        0.28125813975882374,
+        0.3001990083337617
+      ],
+      "actual_orientation_error_initial_min_final_rad": [
+        1.4218856486932092,
+        0.0969705996887968,
+        0.10595287285222542
+      ],
+      "actual_TCP_initial_final_world_xyz": [
+        [
+          0.3520402328871486,
+          0.016952891226922617,
+          0.7178022900134634
+        ],
+        [
+          0.327062264424439,
+          0.024113873336582256,
+          0.6090650600878272
+        ]
+      ],
+      "stage_target_world_xyz": [
+        0.6,
+        -0.07999999999992886,
+        0.5398932559887006
+      ],
+      "longest_actual_grasp_s": 0.0,
+      "actual_contact_ticks": 0,
+      "max_actual_object_displacement_xy_m": 0.0,
+      "max_actual_lift_m": 6.200595592531499e-14,
+      "stop_reason": null,
+      "final_stage": "approach",
+      "teacher_events": [],
+      "formal_task_success": "NOT_CLAIMED_SHORT_DEVELOPMENT",
+      "full_confirmation_eligible": false,
+      "engineering_incomplete": false,
+      "unrecorded_20Hz_final_interval": false,
+      "old_pilot_denominator_unchanged": true,
+      "RGB_pairs": 241,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "raw_evidence": {
+        "samples.jsonl": "66915b404df66f7ed3adc2101b6f4693a561d222cbb5bd06b152e15c9e448aa3",
+        "state.bin.journal": "6773f277af797c79d7a263083f53fcb745f844343f7e5716cd30f3c8ecc09cc7",
+        "committed_intents.jsonl": "be2d4e580718647c6fd59f09e2950898beae83a70eb497462869bb0cb922e9d2",
+        "planner.jsonl": "510be6cb076678696be954bc5161edb1fc8e97fd585cfe909b10eaa7a83b751a",
+        "physics.jsonl": "04205aded883a419bd34749ecc613335daa58781d5c363f89f8c58a0b3dfe4e7",
+        "pause_intervals.jsonl": "5c6dad0b1830cbef009901996d00f1014682dceebf94ec0a5575dc184a49675c",
+        "RGB_HASHES.json": "1419ca5be4dfa61ef886782d2a8db42dce185bcecde382e90125d79065d84035",
+        "SHORT_ACTUAL_PHYSICS.npz": "9723a2a42022cfed1e6cd3414068eac5c07c6b62bf1e2c8910ca826fa74e5394"
+      }
+    },
+    {
+      "status": "VALID_SHORT_MILESTONE_FAIL_INTEGRITY_PASS",
+      "version": "FULLBODY_COMPONENT_PROGRESS_QUALIFICATION_V2",
+      "id": "V2_DEV_W1_T2",
+      "source_sha": "8e2efd4435588b03c9085bda11caa960d195d1f7",
+      "new_physics": 0,
+      "new_model_queries": 0,
+      "observations": 241,
+      "submitted_and_installed": 30,
+      "native_integrations": 8500,
+      "task_duration_s": 12.0,
+      "native_safety_stops": 0,
+      "raw_state_byte_identity": true,
+      "RGB_state_time_identity": true,
+      "submitted_label_identity": true,
+      "explicit_query_period_s": 0.4,
+      "record_period_s": 0.05,
+      "pause_intervals": 240,
+      "unexpected_lifecycle_events": [],
+      "installation": {
+        "transactions": 30,
+        "installed_messages": 149,
+        "max_xyz_abs_m": 2.8848929467528706e-08,
+        "max_sign_invariant_unit_quaternion_component": 2.3728335629691344e-08,
+        "tolerance": 1e-06
+      },
+      "exact_adopted_H40_reference_replay": true,
+      "selected_MPC_policy_consumption": "UNKNOWN",
+      "milestones": {
+        "position_progress": true,
+        "safe_precontact": false,
+        "actual_contact": false,
+        "manipulation": false
+      },
+      "geometry_ready_observations": 0,
+      "aligned_observations": 0,
+      "actual_position_goal_distance_initial_min_final_m": [
+        0.34786067247530744,
+        0.32051699261030503,
+        0.32051699261030503
+      ],
+      "actual_orientation_error_initial_min_final_rad": [
+        1.9607257853557032,
+        0.17134190402775712,
+        0.17134190402775712
+      ],
+      "actual_TCP_initial_final_world_xyz": [
+        [
+          0.35515696416966497,
+          0.03016638719507817,
+          0.7212502071854638
+        ],
+        [
+          0.3349631821626924,
+          0.02480334906645814,
+          0.6122878987975566
+        ]
+      ],
+      "stage_target_world_xyz": [
+        0.6,
+        -0.142000099999929,
+        0.544
+      ],
+      "longest_actual_grasp_s": 0.0,
+      "actual_contact_ticks": 0,
+      "max_actual_object_displacement_xy_m": 0.0,
+      "max_actual_lift_m": 0.0,
+      "stop_reason": null,
+      "final_stage": "approach",
+      "teacher_events": [],
+      "formal_task_success": "NOT_CLAIMED_SHORT_DEVELOPMENT",
+      "full_confirmation_eligible": false,
+      "engineering_incomplete": false,
+      "unrecorded_20Hz_final_interval": false,
+      "old_pilot_denominator_unchanged": true,
+      "RGB_pairs": 241,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "raw_evidence": {
+        "samples.jsonl": "751c4ccf43b95cd752a05380d37a102b8fe516f98eff65dd383ba533173f07c3",
+        "state.bin.journal": "95638048fe35db4d329315d93f09971bd074e93b765fe62d00e5ba9d58d8b644",
+        "committed_intents.jsonl": "dbaf2820607798820041eb7b164125735a0f0669f5c005fc43451ce50a228004",
+        "planner.jsonl": "9870049c229e73a0b119952a7a2dfa01b59bd3f9135e710cf86883f424eff1d3",
+        "physics.jsonl": "c038dab7f1c31d1f3b9d452fb17acdbe76a2158e8ffd9c7eb2f2047bb22e63ca",
+        "pause_intervals.jsonl": "257c598a7fd9b60032c2eba26b294bd6efe18c6ad1b87f00d0c294ec94ac6252",
+        "RGB_HASHES.json": "3fc5ae05de81649b39dc54d00eff41f7f75bbbef54e78d3d992e40ba896cb8f1",
+        "SHORT_ACTUAL_PHYSICS.npz": "11c29be1df9137d66a73a0ec70e38211cc52a129d00aff4a75e726abd1d239d9"
+      }
+    }
+  ],
+  "new_physics": 0,
+  "new_model_queries": 0,
+  "full_confirmations": "NOT_ADMITTED_SHORT_PHYSICAL_MILESTONES_UNMET",
+  "successful_FULLBODY_TRAIN": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

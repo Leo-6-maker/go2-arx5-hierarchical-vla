@@ -1,0 +1,10 @@
+{
+  "job_id": "646518.hopper-m-02",
+  "source_commit": "e04da685316dfa5ee25cb9178505ab47a4cef94b",
+  "execution_fileset_sha256": "69e37e038a3b03d2de9e389cc1363b16339043663476869752935bae568ca11a",
+  "observed_utc": "2026-10-04T17:03:17.910326+00:00",
+  "qstat": "Job Id: 646518.hopper-m-02\n    Job_Name = pi0273_matched\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    job_state = Q\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Mon Oct  5 01:02:47 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0273/logs/\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Mon Oct  5 01:02:47 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0273/logs/\n    Priority = 0\n    qtime = Mon Oct  5 01:02:47 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 43200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"formula_constants\": \"\", \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 12:00:00\n    substate = 10\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Not Running: Insufficient amount of resource: ngpus \n    etime = Mon Oct  5 01:02:47 2026\n    Submit_arguments = /scratch/e1192548/Projects/go2-arx5/experiments/PI0273/c\n\tode/training.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "submitted_once": true,
+  "real_canary_pass": false,
+  "main_training_started": false
+}

@@ -1,0 +1,146 @@
+{
+  "schema": "PI0246_P_SCREEN_AND_CONDITIONAL_PT_VERDICT_V1",
+  "observed_at_utc": "2026-09-25T12:10:38Z",
+  "protocol_commit": "6b64dc00dc60a6b7835e7cfb08c5b12ea6426616",
+  "execution_branch": "pi0246/gate-pass-campaign-20260924",
+  "execution_code_head_before_evidence": "a216c10b01c93a9d0bc2a78861be6cc31186a29b",
+  "source_issue_comments": [5825455989, 5825569583, 5826650715, 5827198412, 5829602620, 5831082853],
+  "source_pr_pointer_comments": [5827202024, 5831085154],
+  "training": {
+    "updates_by_arm": {"C": 2000, "T": 2000, "P": 2000, "PT": 2000},
+    "total_updates": 8000,
+    "PT_actual_sample_exposures": 2000,
+    "PT_global_step": 2000,
+    "PT_run_card_sha256": "9d8d0c34a98b077be22f696b4e45420c1719d8c733796ec9e7e2ea1473e5ff00",
+    "PT_seal_sha256": "78b6ea51ca47d29606168aabaa3e2274c4985f437b9e1742f40ac430fb9ed5b3",
+    "PT_training_manifest_sha256": "e43d2506737fd93211ca75eaca00f74cee9cee104b7593a9f1d10139b2ccb090",
+    "PT_reconciliation_sha256": "c7bacdfea43589051bd275b917792906375ee5aeb797b4ac98d1d011ec9bfc7d",
+    "PT_update_audit_sha256": "bc8dfdcc2ccd06bfb30b7b86eea6369b9378a32fc9bdf4320f2d259257ee8961",
+    "PT_reconciliation_status": "TRAINING_INTEGRITY_RECONCILED_PT_FULL_PROJECTOR_TENSORS",
+    "training_rerun": false
+  },
+  "gate": {
+    "criteria": {
+      "reject_count": 0,
+      "median_per_window_xyz_rmse_m_max": 0.020,
+      "linear_p95_per_window_xyz_rmse_m_max": 0.035,
+      "median_per_window_so3_rmse_rad_max": 0.050
+    },
+    "P1000": {
+      "cells": 16,
+      "reject_warn": [8, 8],
+      "median_xyz_rmse_m": 0.045299243190,
+      "linear_p95_xyz_rmse_m": 0.057564626282,
+      "median_so3_rmse_rad": 0.031464569718,
+      "role": "intermediate_only"
+    },
+    "P2000": {
+      "cells": 16,
+      "reject_warn": [1, 15],
+      "median_xyz_rmse_m": 0.040536257911,
+      "linear_p95_xyz_rmse_m": 0.052076788223,
+      "median_so3_rmse_rad": 0.033319905221,
+      "status": "VALID_FAIL"
+    },
+    "PT1000": {
+      "cells": 16,
+      "reject_warn": [2, 14],
+      "median_xyz_rmse_m": 0.049654404754,
+      "linear_p95_xyz_rmse_m": 0.062427556753,
+      "median_so3_rmse_rad": 0.036047937298,
+      "role": "intermediate_only"
+    },
+    "PT2000": {
+      "cells": 16,
+      "reject_warn": [1, 15],
+      "median_xyz_rmse_m": 0.040540258821,
+      "linear_p95_xyz_rmse_m": 0.051897411957,
+      "median_so3_rmse_rad": 0.040726288850,
+      "status": "VALID_FAIL",
+      "failed_criteria": ["reject_count", "median_xyz_rmse_m", "linear_p95_per_window_xyz_rmse_m"]
+    }
+  },
+  "P_profiles": {
+    "P1000_records_sha256": "f476cb7a5962394c25161d1800733961527eb27319b185a9e36a456e7a8b6dc5",
+    "P1000_queries_sha256": "006429fc2aca7c5905963408cec729251d193f0186b23698b45ed3364f76f34f",
+    "P1000_cpu_report_sha256": "a479d8dae91977b44dd1b2fa36bc789754889dcb919594d5ec1833d139a89770",
+    "P1000_model_manifest_sha256": "cf5510a9447090dad901b1259710f58402ae5293df19e8d011a8d4a17733e7a2",
+    "P1000_pinned_model_revision": "bd18def2be3b2ae00b4e77667514a21005404166",
+    "P2000_records_sha256": "30830ce10bd3b592a9337fe6a3805e7216624694a812344db9d2fbdd7318f600",
+    "P2000_queries_sha256": "457ad694b5bc32e451c53c43ebeef7870834e29f2df0be4bdff2835210b60c3f",
+    "P2000_cpu_report_sha256": "bfaadbdd880537d80fb7d7353900f81e500485383bcafbd1e28b8ffc0df8b26f",
+    "model_manifest_sha256": "a77d20ab64673d4bd1000b1fd431d216fd6fad8bb73041943a1a08a84f2c74e7",
+    "pinned_model_revision": "74ab6fbcf73832a6411f71bb2369c3e8bfd0ba5e",
+    "full_archive_receipt_sha256": "71fa13bc93783e20756884f0c61379ee4f7b64d061fd8f5f04a4bd9637571a70",
+    "inference_view_receipt_sha256": "ff9f0876ba56de7ee530a56a4f2391abb308dea519bad2cb3a173444e77b3966",
+    "source_comment": 5829602620
+  },
+  "PT_profiles": {
+    "profile_root": "/home/liuyu-nfs/pi0246_gate_pass_screen_20260925/output",
+    "PT1000_records_sha256": "0fe16a53b10107ec60ad5e2fd6fa9b11abfdb1fc1c8918e8a56966b47d636a56",
+    "PT1000_queries_sha256": "a2b02c0ab7414f715221b50ee820eb9e2b46bf9cd9262e0774ff9dee6e1d69bc",
+    "PT1000_cpu_report_sha256": "d5e339d102c837ec6915583e4a5b84f81c10eac7355a95246bf27498c3884617",
+    "PT2000_records_sha256": "30830ce10bd3b592a9337fe6a3805e7216624694a812344db9d2fbdd7318f600",
+    "PT2000_queries_sha256": "457ad694b5bc32e451c53c43ebeef7870834e29f2df0be4bdff2835210b60c3f",
+    "PT2000_cpu_report_sha256": "bfaadbdd880537d80fb7d7353900f81e500485383bcafbd1e28b8ffc0df8b26f",
+    "model_manifest_sha256": {
+      "PT1000": "2748985675dd1fdfe434379601c6a31ad0bae2d63d18663a8282beac6cec6c74",
+      "PT2000": "52a0f12d8a78c143102c73132241b8863f877f220224b88e2233d281e5068620"
+    },
+    "pinned_model_revision": {
+      "PT1000": "a1d699834abf184502756e74fff21c7eee6e15c6",
+      "PT2000": "e4da899edb981cf2a0e9e8269249da4c08f45891"
+    },
+    "cpu_replay": {
+      "status": "PASS_READONLY_PROFILE_REPLAY",
+      "profiles": 2,
+      "cells_per_profile": 16,
+      "model_queries": 0,
+      "model_weights_loaded": 0,
+      "independent_recalculation": true
+    },
+    "runner_sha256": "64c5c606773b892a330363f5fd3a9cd4dcda3c80eab3d8cca39e46921ae627df",
+    "verifier_sha256": "5bfc845301ffb65ce15a8fa64e4306ddc4489e482d7994390b621dd0513793b3"
+  },
+  "PT_archive": {
+    "repo": "leoyuer/pi0246-gate-pass-campaign",
+    "step_1000_revision": "a1d699834abf184502756e74fff21c7eee6e15c6",
+    "step_1000_file_count": 9,
+    "step_1000_bytes": 20882507280,
+    "step_1000_tree_sha256": "821c5aa6117231d3edb9db6ffb8d6d6c4e90471979575d22f8d29dd12ef7560a",
+    "step_1000_receipt_sha256": "fee95d5bf753304fbc5988739547f286072c67cec1dda698836ff569b1369957",
+    "step_1000_readback_sha256": "f3f1bc8056639aa101ea6d9adb07f016b6b7a4e26728c752156ef547a4e139fe",
+    "step_2000_revision": "e4da899edb981cf2a0e9e8269249da4c08f45891",
+    "step_2000_file_count": 9,
+    "step_2000_bytes": 20882645965,
+    "step_2000_tree_sha256": "b3b87b8d01609e18483ff84bb0e4edebf16e9b2b4a1f2b7b708abbc9adb0ef51",
+    "step_2000_receipt_sha256": "75d6605987f417bb40704d0346aa5c4082358cc5d08755a20513d4da8ce2e95a",
+    "step_2000_readback_sha256": "17efbdff3a98c2016f3240cb978e3e82c411b0aec1e5ff8802e98a8363cf27c2",
+    "step_1000_inference_view_receipt_sha256": "95052a643940691476903045830d0a3a79ba96d1914c52835b4a508898e85610",
+    "step_1000_inference_view_manifest_sha256": "2748985675dd1fdfe434379601c6a31ad0bae2d63d18663a8282beac6cec6c74",
+    "step_2000_inference_view_receipt_sha256": "97e4f7c79b71e746aa819c74df2587fbaf9e44f53bb869f0ace92e0ce32c0f7c",
+    "step_2000_inference_view_manifest_sha256": "52a0f12d8a78c143102c73132241b8863f877f220224b88e2233d281e5068620"
+  },
+  "validation": {
+    "corelab_stage10_exact_environment_unit_tests": "25/25 PASS",
+    "py_compile": "PASS",
+    "git_diff_check": "PASS",
+    "cpu_screen_replay": "PT1000 and PT2000 PASS_READONLY_PROFILE_REPLAY",
+    "screen_queries": 32,
+    "screen_valid_cells": 32,
+    "screen_reruns": 0,
+    "training_or_optimizer_activity_during_screen": 0,
+    "WBC_sim_CALIB_DEV_F_DAgger_hardware": "NOT_RUN"
+  },
+  "campaign_cell_accounting": {
+    "P1": 32,
+    "S0_C_T_main": 80,
+    "C_T_cross_noise": 32,
+    "P_main": 32,
+    "PT_main": 32,
+    "total_completed_logical_cells": 208,
+    "PT_cross_noise": "NOT_RUN_due_to_final_joint_gate_FAIL"
+  },
+  "verdict": "PI0246_GATE_PASS_TREE_EXHAUSTED — STOP_FOR_PI_NEW_HYPOTHESIS",
+  "selected_checkpoint": "NONE"
+}

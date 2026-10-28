@@ -1,0 +1,95 @@
+{
+  "archive": {
+    "public": true,
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "token_file": "/home/svu/e1192548/.config/huggingface/token"
+  },
+  "attempt_id": "LU_R1_REPAIRED",
+  "authorization": "PI0247_GENERATION_TO_SELECTED_SIM_GO",
+  "canonical_issue_comment": 5842565868,
+  "cohort": {
+    "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/fixed16_cohort.json",
+    "sha256": "3d679d9cf5814d6aca63ca52e5953e1a50fb6097e3d8d67a7b875ab1178e36cd"
+  },
+  "d1_r_star": "S4",
+  "d1_report_sha256": "a7e5eb96a93e8726577b740286ab6115d01938cb5f1219941fd2cf103cd1b6b3",
+  "d2_report_sha256": "3316e2b50b742fade18da34225af531d9716aa4f0c3b765695a52fe03ed0ad28",
+  "execution_code_commit": "890c82be5956a75a7afccf9172bcfc79c4d57c44",
+  "execution_token": "PI0247_R1_MAINLINE_LU_CONTINUATION_GO",
+  "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "initializer": {
+    "durable_receipt_path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P/durable_receipts/checkpoint-2000.durable_receipt.json",
+    "family": "PI0246_P_PHYSPOS_M16_2K_V1",
+    "full_checkpoint_bytes": 20889738947,
+    "full_checkpoint_tree_sha256": "fd2c5fc80f00b0cc96ee80991a20dc6b0f7c50ddaf4af36e6de31cb7374e8538",
+    "screen_manifest_sha256": "2f04ba786e82cb5aee69ae3be63a381bab21989a93b2ede0b159d000ff663299",
+    "screen_revision": "74ab6fbcf73832a6411f71bb2369c3e8bfd0ba5e"
+  },
+  "input_identity_audit_sha256": "6d29ec55639d53f2b17297572327e868ad6056858b504e4b27f5f695bff046aa",
+  "loss_contracts": {
+    "L": {
+      "active_action_smoothing": false,
+      "horizon": 40,
+      "objective": "L_native + 0.1*ell_pos(a_local) + 0.1*ell_delta(a_local)",
+      "physical_dt_s": 0.05,
+      "physical_estimate": "local single-forward estimate"
+    },
+    "U": {
+      "active_action_smoothing": false,
+      "backpropagate_through_all_euler_steps": true,
+      "euler_steps": 4,
+      "expert_prefix_input": false,
+      "generation": "complete pure-noise label-free S4 rollout before physical losses",
+      "horizon": 40,
+      "objective": "L_native + 0.1*ell_pos(a_free_S4) + 0.1*ell_delta(a_free_S4)",
+      "physical_dt_s": 0.05,
+      "truncated_gradients": false
+    }
+  },
+  "modality_config_sha256": "244f37f28e62b7b392a1598b78e78f00e67693f6c08a606b3c5358830ada8b25",
+  "p0_effective_sha256": "6351150ac04566e8238fbfa996869d5ba039256eb5b12d1a0b9bf8a7345ba702",
+  "parent_resolved_config_path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P/training/resolved_config.json",
+  "paths": {
+    "base_model_path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P/training",
+    "code_root": "/scratch/e1192548/pi0244_fixed16_10k_v1",
+    "groot_source": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+    "modality_config": "/scratch/e1192548/pi0227_h200_prep_20260919/inputs/go2_arx5_modality.py",
+    "output_base": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPAIRED",
+    "p0_effective": "/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p0/effective_processor_xyz_v2.json",
+    "p_runtime_root": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P_runtime_position_20260925_v1",
+    "repo_code_root": "/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_r1_repaired",
+    "stage10_root": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902",
+    "train_dataset": "/scratch/e1192548/pi0227_large_adapt_v1_inputs/train_dataset",
+    "training_runtime_root": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/PT_runtime_combined_20260925_v3"
+  },
+  "pointer_pr_comment": 5842568324,
+  "release_commit": "50e66efe6ccfbe814d04caf12499493821be7957",
+  "resource": {
+    "gpu": "H200",
+    "pbs_project": "CFP03-CF-004",
+    "queue": "auto",
+    "select": "1:ngpus=1:ncpus=12:mem=225GB",
+    "walltime": "16:00:00"
+  },
+  "runtime_bindings": {
+    "P": {
+      "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P_runtime_position_20260925_v1/P_runtime_binding.json",
+      "sha256": "bc714188a2795233139b8b703f8476414e1b1918004a5fe137689683a1bd5b61"
+    },
+    "PT": {
+      "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/PT_runtime_combined_20260925_v3/PT_runtime_binding.json",
+      "sha256": "ddb55e196215ea899f670fbbe42d0844d294a8b8a715d84b7dd96826b07506b2"
+    }
+  },
+  "schedule": {
+    "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/fixed2000_schedule.json",
+    "sha256": "b8d0fe1b262f70c35753c3cecba5d13a75e07a5e2f0a3f112a368da9751523bf"
+  },
+  "schema": "PI0247_LU_BOOTSTRAP_V1",
+  "supersedes_failed_attempts": [
+    "633185.hopper-m-02",
+    "633190.hopper-m-02",
+    "633198.hopper-m-02",
+    "633199.hopper-m-02"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "caps": {
+    "completed_updates": 9048,
+    "cpu_input_attempts": 65536,
+    "formal_updates": 8192,
+    "training_heads": 172032
+  },
+  "completed_updates": 8232,
+  "cpu_input_attempts": 35840,
+  "cpu_items_by_purpose": {
+    "FOCUS:continuous": 20,
+    "FOCUS:main": 13176,
+    "FOCUS:split": 24,
+    "GRIP:continuous": 20,
+    "GRIP:main": 21084,
+    "GRIP:reference": 20,
+    "GRIP:split": 24,
+    "cpu_bench_0": 1472
+  },
+  "deployment": "NONE",
+  "formal_updates": 8192,
+  "new_budget_reset": false,
+  "new_training_submissions": 0,
+  "observed_utc": "2026-10-06T20:44:11.309130+00:00",
+  "qualification_completed_updates": 40,
+  "selected_checkpoint": "NONE",
+  "sources": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/raw_completed_updates.jsonl",
+      "sha256": "aa4700f226623ef7142dbe5a99de1f0dc81280db56266aaadb5e11cff27b995a"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/raw_training_heads.jsonl",
+      "sha256": "55ab2ee7e4b717b167c96c2b2f2d98fdb5b4b0637f02a705b0c3dab3ff899997"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/runtime/cpu_items.jsonl",
+      "sha256": "62d47059c1b6c00ac360d81b0463bf7b0d71f5a263557dacfd75290e25a4c450"
+    }
+  ],
+  "status": "PASS_SHARED_PI0277_TERMINAL_TRAINING_AND_CPU_INPUT_BUDGET",
+  "training_heads": 148263,
+  "updates_by_arm_phase": {
+    "FOCUS:continuous": 8,
+    "FOCUS:main": 4096,
+    "FOCUS:split": 8,
+    "GRIP:continuous": 8,
+    "GRIP:main": 4096,
+    "GRIP:reference": 8,
+    "GRIP:split": 8
+  }
+}

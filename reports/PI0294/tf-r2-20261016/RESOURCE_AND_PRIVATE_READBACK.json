@@ -1,0 +1,72 @@
+{
+  "status": "SCIENTIFIC_STOP_EVIDENCE_COMPLETE_TARGET_NOT_ACHIEVED",
+  "epoch": 1792122517.6641703,
+  "run_uuid": "20261016T032943Z-tf-r2-closure-to-dataset",
+  "parent_costs_unchanged": true,
+  "parent_CPU_upper_s": 103249.98504954367,
+  "parent_native_safety_failures": 8,
+  "new_metered_conservative_CPU_s": 485.28369556274265,
+  "new_registered_native_starts": 2,
+  "new_integrations": 6385,
+  "new_RGB_pairs": 156,
+  "new_native_safety_failures": 1,
+  "valid_scientific_conditions": 1,
+  "verified_zero_step_engineering_attempts": 1,
+  "pre_native_admission_rejected_dispatches": 1,
+  "pre_ticket_helper_failures": 1,
+  "pre_ticket_CPU": "UNOBSERVED_NOT_ASSERTED_ZERO",
+  "CPU_reservations": 0,
+  "search_counters": {
+    "goal_IK_calls": 22,
+    "CLIK_reserved": 352,
+    "RRT_calls": 21,
+    "dense_reserved_points": 23121,
+    "local_IK_reserved": 115605
+  },
+  "search_bundles": 21,
+  "static_reservations_summary": {
+    "GRIPPER_CLOSURE_TF_R2_S7_T2_DEV_00_E1": {
+      "status": "PASS",
+      "actual_points": 4626
+    },
+    "GRIPPER_CLOSURE_AUDIT_TF_R2_S7_T2_DEV_00_E1": {
+      "status": "PASS",
+      "actual_points": 4626
+    },
+    "RAW_RANGE_AUDIT_TF_R2_S7_T2_DEV_00_E1": {
+      "status": "COMPLETE",
+      "actual_points": 6385
+    }
+  },
+  "saved_post_step_forward_calls": 12,
+  "forward_calls_retrospective_actual_accounting": true,
+  "private_readback": {
+    "status": "PASS_PRIVATE_FULL_FILE_READBACK_S7_NATIVE_SAFETY_FAIL",
+    "members": 2018,
+    "bytes": 212353043,
+    "tree_sha256": "3a86810278d472e6bf88e7d79b5fe9e33f0b333422f75273afbb3957479da236",
+    "symlink_dependency_pins": 21,
+    "runtime_source": "86eb210d66a5ff540d4bb694e20e187e39efd9e2",
+    "audit_source": "50c4a5f4f363d8d1e01d74fdb886955a108fffb1",
+    "public": false,
+    "source_deleted": false,
+    "old_archive_reuploaded": false,
+    "successful_task_data": false
+  },
+  "high_level_GR00T_queries": 0,
+  "GPU_or_PBS": 0,
+  "successful_seeds": 0,
+  "TRAIN": 0,
+  "DEV": 0,
+  "statistics_fits": 0,
+  "actual_bank_consumer": "NOT_RUN",
+  "S8": "NOT_RUN_S7_SAFETY_STOP",
+  "S9": "NOT_RUN_S7_SAFETY_STOP",
+  "WBC_changed": false,
+  "physics_stop_enforced": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "quota": "UNKNOWN",
+  "working_free_GiB": 458.4380111694336,
+  "private_free_GiB": 1468.888671875
+}

@@ -1,0 +1,173 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import json, os, stat, sys, time, hashlib
+manifest, receipt = sys.argv[1:3]
+allowed_base = '@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs'
+allowed_aliases = {
+    '@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902',
+    '@HOPPER_SCRATCH@/stage22_h200_cosmos_v2_20260902',
+}
+if os.getuid() != 22182:
+    raise SystemExit(f'uid mismatch: {os.getuid()}')
+rows=[]; root_records={}; aliases=[]; root_end_counts={}
+with open(manifest, encoding='utf-8') as f:
+    for ln, line in enumerate(f, 1):
+        x=json.loads(line)
+        if x.get('event') == 'path':
+            if x.get('kind') == 'alias': aliases.append(x)
+            else: root_records.setdefault(x['root'], []).append(x)
+        elif x.get('event') == 'root_end':
+            root_end_counts[x['root']] = x['manifest_entries']
+expected_roots = {
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h1_outputs',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h200_cosmos_v2_20260902',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h200_ffmpeg4_bundle_20260902',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h200_ffmpeg4_sif_20260902',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h200_py312_shared_20260902',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h200_runtime_deb920_20260902',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h2_immutable_evidence_relay_20260902',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h2_immutable_evidence_relay_20260902_v2',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_profile_holdout_e_20260902',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h1_v2_outputs',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_h2_outputs',
+'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902',
+}
+if set(root_records) != expected_roots or set(root_end_counts) != expected_roots:
+    raise SystemExit(f'candidate root set mismatch: {len(root_records)} roots')
+if {x['path'] for x in aliases} != allowed_aliases or len(aliases) != 2:
+    raise SystemExit('alias set mismatch')
+for root, ents in root_records.items():
+    if os.path.dirname(root) != allowed_base or not root.startswith(allowed_base + '/'):
+        raise SystemExit(f'root parent mismatch: {root}')
+    if root_end_counts[root] != len(ents):
+        raise SystemExit(f'manifest count mismatch for {root}')
+    real_parent=os.path.realpath(os.path.dirname(root))
+    if real_parent != allowed_base:
+        raise SystemExit(f'root parent resolves unexpectedly: {root} -> {real_parent}')
+    paths={x['path'] for x in ents}
+    if root not in paths:
+        raise SystemExit(f'missing root entry: {root}')
+    for x in ents:
+        p=x['path']
+        if os.path.commonpath([root,p]) != root or (p != root and not p.startswith(root + '/')):
+            raise SystemExit(f'path escapes root: {p}')
+        if x.get('uid') != 22182 or x.get('dev') != 49 or not x.get('exists'):
+            raise SystemExit(f'ownership/device/existence mismatch in manifest: {p}')
+# Ensure every regular-file hardlink is represented within this exact deletion batch.
+links={}
+for ents in root_records.values():
+    for x in ents:
+        if x.get('type') == 'regular':
+            k=(x['dev'],x['ino']); links[k]=links.get(k,0)+1
+for ents in root_records.values():
+    for x in ents:
+        if x.get('type') == 'regular' and x.get('nlink') != links[(x['dev'],x['ino'])]:
+            raise SystemExit(f'external/unknown hardlink hold: {x["path"]} nlink={x["nlink"]} in-batch={links[(x["dev"],x["ino"])]}')
+
+def classify(st):
+    if stat.S_ISREG(st.st_mode): return 'regular'
+    if stat.S_ISDIR(st.st_mode): return 'directory'
+    if stat.S_ISLNK(st.st_mode): return 'symlink'
+    return 'special'
+
+def matches(x):
+    p=x['path']
+    try: s=os.lstat(p)
+    except FileNotFoundError: return False, 'missing'
+    try: target=os.readlink(p) if stat.S_ISLNK(s.st_mode) else None
+    except OSError as e: return False, f'readlink:{e}'
+    want=(x.get('type'),x.get('uid'),x.get('gid'),x.get('dev'),x.get('ino'),x.get('nlink'),x.get('size_bytes'),x.get('blocks'),x.get('mode'),x.get('mtime_ns'),x.get('link_target'))
+    got=(classify(s),s.st_uid,s.st_gid,s.st_dev,s.st_ino,s.st_nlink,s.st_size,s.st_blocks,stat.S_IMODE(s.st_mode),s.st_mtime_ns,target)
+    return got == want, {'want':want,'got':got}
+
+def emit(o):
+    with open(receipt,'a',encoding='utf-8') as f:
+        f.write(json.dumps(o,sort_keys=True,separators=(',',':'))+'\n')
+
+# Per-root exact preflight immediately before retirement. Any mismatch holds that candidate.
+for root in sorted(root_records, key=lambda p: p.encode()):
+    ents=root_records[root]
+    bad=[]
+    for x in ents:
+        ok, why=matches(x)
+        if not ok: bad.append({'path':x['path'],'reason':why})
+    if bad:
+        emit({'event':'candidate_hold','root':root,'reason':'identity_changed','mismatches':bad[:20],'mismatch_count':len(bad)})
+        continue
+    # Verify no own process has cwd/root/fd under this candidate immediately before unlink.
+    active=[]
+    proc='/proc'
+    for pid in os.listdir(proc):
+        if not pid.isdigit(): continue
+        pd=os.path.join(proc,pid)
+        try:
+            if os.stat(pd).st_uid != 22182: continue
+        except OSError: continue
+        for name in ('cwd','root','exe'):
+            q=os.path.join(pd,name)
+            try: v=os.readlink(q)
+            except OSError: continue
+            if v == root or v.startswith(root + '/'):
+                active.append((pid,name,v)); break
+        if active: continue
+        fd_dir=os.path.join(pd,'fd')
+        try: fds=os.listdir(fd_dir)
+        except OSError: continue
+        for fd in fds:
+            try: v=os.readlink(os.path.join(fd_dir,fd))
+            except OSError: continue
+            if v == root or v.startswith(root + '/'):
+                active.append((pid,'fd:'+fd,v)); break
+    if active:
+        emit({'event':'candidate_hold','root':root,'reason':'owned_process_reference','references':active[:20]})
+        continue
+    files=[x for x in ents if x.get('type') in ('regular','symlink')]
+    dirs=[x for x in ents if x.get('type') == 'directory']
+    special=[x for x in ents if x.get('type') == 'special']
+    if special:
+        emit({'event':'candidate_hold','root':root,'reason':'special_files_present','count':len(special)})
+        continue
+    ok_count=0; errors=[]
+    for x in sorted(files,key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True):
+        p=x['path']
+        try:
+            if x['type']=='regular': os.unlink(p)
+            else: os.unlink(p)
+            absent=not os.path.lexists(p)
+            emit({'event':'unlink','root':root,'path':p,'type':x['type'],'uid':x['uid'],'dev':x['dev'],'ino':x['ino'],'size_bytes':x['size_bytes'],'allocated_bytes':x['allocated_bytes'],'result':'unlinked' if absent else 'still_present','verified_absent':absent})
+            if not absent: errors.append((p,'still_present'))
+            else: ok_count+=1
+        except Exception as e:
+            errors.append((p,repr(e)))
+            emit({'event':'unlink_error','root':root,'path':p,'error':repr(e)})
+    for x in sorted(dirs,key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True):
+        p=x['path']
+        try:
+            try: os.rmdir(p)
+            except PermissionError:
+                os.chmod(p, stat.S_IMODE(os.lstat(p).st_mode)|0o700, follow_symlinks=False)
+                os.rmdir(p)
+            absent=not os.path.lexists(p)
+            emit({'event':'rmdir','root':root,'path':p,'result':'removed' if absent else 'still_present','verified_absent':absent})
+            if not absent: errors.append((p,'still_present'))
+            else: ok_count+=1
+        except Exception as e:
+            errors.append((p,repr(e)))
+            emit({'event':'rmdir_error','root':root,'path':p,'error':repr(e)})
+    root_absent=not os.path.lexists(root)
+    emit({'event':'candidate_result','root':root,'status':'retired' if root_absent and not errors else 'partial_or_held','members_removed_verified':ok_count,'member_count':len(ents),'error_count':len(errors),'errors':errors[:30],'root_absent':root_absent})
+# Alias symlinks are removed only after all target roots are absent.
+for x in aliases:
+    p=x['path']
+    ok, why=matches(x)
+    target=os.path.join('@HOPPER_SCRATCH@',x['link_target'])
+    if not ok:
+        emit({'event':'alias_hold','path':p,'reason':'identity_changed','detail':why}); continue
+    if os.path.lexists(target):
+        emit({'event':'alias_hold','path':p,'reason':'target_still_exists','target':target}); continue
+    try:
+        os.unlink(p); absent=not os.path.lexists(p)
+        emit({'event':'alias_unlink','path':p,'target':x['link_target'],'verified_absent':absent})
+    except Exception as e: emit({'event':'alias_unlink_error','path':p,'error':repr(e)})
+print(json.dumps({'uid':os.getuid(),'roots':len(root_records),'manifest_paths':sum(map(len,root_records.values())),'aliases':len(aliases),'receipt':receipt},sort_keys=True))

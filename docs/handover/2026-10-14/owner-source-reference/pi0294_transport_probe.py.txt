@@ -1,0 +1,50 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Actual bounded archived-packet transfer; not fresh observation or inference."""
+import hashlib
+import json
+import time
+from pi0294_adopt import BASE,RUN,save
+from pi0294_remote import remote,remote_multiplexed
+
+CODE=r'''
+from pathlib import Path
+import json,os,socket
+root=Path(ROOT)
+assert os.getuid()==2009 if CORE else os.environ['USER']=='@HOPPER_ACCOUNT@'
+if CORE:
+ registry=json.loads((root/'evidence/teacher-relay-01/REGISTRY.json').read_text())
+ case=next(c for c in registry['cases'].values() if c['card']['task']=='T1')
+ print((root/'episodes'/case['attempt_id']/'relay/observations/000.json').read_text(),end='')
+else:
+ print((root/'evidence/LIVE_READINESS.json').read_text(),end='')
+'''
+
+if __name__=='__main__':
+    from pi0294_teacher_route import CORE_ROOT,HOPPER_ROOT
+    rows=[];identities={}
+    for host,root in [('corelab-4080s',CORE_ROOT),('hopper',HOPPER_ROOT)]:
+        code=f'ROOT={root!r}\nCORE={host=="corelab-4080s"!r}\n'+CODE
+        for mode,transport in [('cold_existing',remote),('reuse_existing_SSH_channels',remote_multiplexed)]:
+            for index in range(4):
+                started=time.monotonic();result=transport(host,code);elapsed=time.monotonic()-started
+                assert result.returncode==0,'READ_ONLY_TRANSPORT_PROBE_FAILED'
+                json.loads(result.stdout)
+                identity=(len(result.stdout.encode()),hashlib.sha256(result.stdout.encode()).hexdigest())
+                if host in identities:assert identities[host]==identity
+                else:identities[host]=identity
+                rows.append(dict(role='core' if host=='corelab-4080s' else 'hopper',mode=mode,index=index,
+                    wall_s=elapsed,bytes=identity[0],sha256=identity[1],new_models=0,new_physics=0))
+    summary=[]
+    for role in ('core','hopper'):
+        cold=[r['wall_s'] for r in rows if r['role']==role and r['mode']=='cold_existing']
+        warm=[r['wall_s'] for r in rows if r['role']==role and r['mode']=='reuse_existing_SSH_channels' and r['index']>0]
+        summary.append(dict(role=role,cold_mean_wall_s=sum(cold)/len(cold),warm_mean_wall_s=sum(warm)/len(warm),
+            warmup_excluded=True,bytes_and_SHA_equal=True,faster=sum(warm)/len(warm)<sum(cold)/len(cold)))
+    value=dict(status='ACTUAL_READ_ONLY_SSH_CHANNEL_REUSE_PROBE_COMPLETE',run_uuid=RUN,epoch=time.time(),
+        rows=rows,summary=summary,archived_packet_not_fresh=True,model_or_closed_loop_qualification=False,
+        global_SSH_config_changed=False,port_forwarding=False,new_listening_network_port=False,
+        control_socket_private=True,idle_control_channel_auto_exit_s=30,new_PBS=0,new_neural=0,new_integrations=0)
+    save(BASE/('SSH_TRANSPORT_PROBE_'+str(time.time_ns())+'.private.json'),value)
+    print(json.dumps({k:value[k] for k in ('status','summary','archived_packet_not_fresh','model_or_closed_loop_qualification','new_PBS')}))

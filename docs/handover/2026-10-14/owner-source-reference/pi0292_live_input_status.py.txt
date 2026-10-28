@@ -1,0 +1,52 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Observe the exact CPU child; retain and reconcile its actual terminal result."""
+import json
+import time
+from pi0292_adopt import BASE,RUN_ID,remote,save
+CODE=r'''
+import json,os,signal,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN
+ops=root/'operations/c187d9573bdff302783fb5f41d06fcaa1753d2a8';sys.path.insert(0,str(ops))
+from scripts.pi0292.durable import OwnerLock,read,write
+directory=root/'evidence/live-input-cpu-01';dispatch=read(directory/'DISPATCH.json')
+proc=Path('/proc')/str(dispatch['pid'])/'stat'
+observed=proc.read_text().split() if proc.exists() else None
+alive=observed is not None and observed[21]==dispatch['proc_start'] and observed[2]!='Z'
+if alive and time.time()-dispatch['began_epoch']>=dispatch['wall_cap_s']:
+ assert os.getpgid(dispatch['pid'])==dispatch['pid']
+ assert b'scripts.pi0292.qualify_live_inputs' in (proc.parent/'cmdline').read_bytes()
+ os.killpg(dispatch['pid'],signal.SIGTERM)
+ for _ in range(20):
+  time.sleep(.1)
+  fields=proc.read_text().split() if proc.exists() else None
+  if fields is None or fields[21]!=dispatch['proc_start'] or fields[2]=='Z':break
+ else:os.killpg(dispatch['pid'],signal.SIGKILL)
+ observed=proc.read_text().split() if proc.exists() else None
+ alive=observed is not None and observed[21]==dispatch['proc_start'] and observed[2]!='Z'
+result=read(directory/'RESULT.json') if (directory/'RESULT.json').exists() else None
+if not alive:
+ lock=OwnerLock(root/'PBS_SUBMIT.lock');ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+ stage=next(r for r in ledger['stages'] if r.get('id')=='LIVE_INPUT_CPU_01')
+ if stage['status']=='DISPATCHED_CPU_ONLY':
+  if result:
+   assert result['model_constructed'] is False and result['physics_integrations']==0
+   stage.update(status=result['status'],CPU_reserved_s=0,CPU_s=result['CPU_s'])
+   ledger['CPU_s']+=result['CPU_s']
+  else:
+   stage.update(status='CPU_INPUT_QUALIFICATION_FAILED_PRESERVED',CPU_reserved_s=0,CPU_upper_s=900)
+   ledger['CPU_upper_s']+=900
+  write(root/'HOPPER_RESOURCE_LEDGER.json',ledger)
+ lock.close()
+else:ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+print(json.dumps(dict(epoch=time.time(),alive=alive,pid=dispatch['pid'],state='RUNNING' if alive else 'TERMINAL',
+ result=result,stderr=(directory/'stderr').read_text()[-3000:],
+ source_sha=dispatch['source_sha'],manifest_sha256=dispatch['manifest_sha256'],
+ ledger={k:ledger[k] for k in ('CPU_s','CPU_upper_s','model_loads','GPU_allocated_s','model_smoke_updates','main_updates')})))
+'''
+r=remote('hopper','RUN='+repr(RUN_ID)+'\n'+CODE)
+save(BASE/('LIVE_INPUT_CPU_STATUS_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+print(r.stdout,r.stderr)
+if r.returncode:raise SystemExit('Observation unknown; inspect same handle, no restart')

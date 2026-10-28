@@ -1,0 +1,225 @@
+{
+  "run_uuid": "20261016T191445Z-localpc-mp1",
+  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "source_CPU_qualification": {
+    "status": "PASS_ACTUAL_MP1_TRAIN126_AND_CORRECTION_NATIVE_CPU_LOADERS",
+    "records": [
+      {
+        "branch": "S-BC",
+        "source_episodes": 126,
+        "task_episodes": {
+          "T1": 96,
+          "T2": 30
+        },
+        "combined_manifest_sha256": "b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df",
+        "correction_manifest_sha256": null,
+        "sampler": {
+          "algorithm": "MP1_TASK_BALANCED_WITHIN_TASK_CORRECTION_HALF_V1",
+          "seed": 20261017,
+          "cursor": 0,
+          "stop": 65536,
+          "manifest_sha256": "b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df",
+          "correction_episode_ids": {
+            "T1": [],
+            "T2": []
+          },
+          "overall_correction_fraction": 0.0,
+          "original_episode_counts": {
+            "T1": 96,
+            "T2": 30
+          }
+        },
+        "actual_loader": [
+          {
+            "resume_step": 0,
+            "trace": {
+              "status": "PASS_ACTUAL_SMALL8_CONSUMED_IDENTITIES",
+              "count": 64,
+              "sha256": "638ef92cb2847cb6adea9c8e5f6f6bda236799cc25d0e551cf2acf20f8a47e07"
+            },
+            "task_samples": {
+              "T1": 32,
+              "T2": 32
+            },
+            "origin_samples": {
+              "original": 64
+            }
+          },
+          {
+            "resume_step": 1,
+            "trace": {
+              "status": "PASS_ACTUAL_SMALL8_CONSUMED_IDENTITIES",
+              "count": 32,
+              "sha256": "2db44277b1fd30ac080c8b36d02f98bb4875964d8c92bd43bf224b09c000570c"
+            },
+            "task_samples": {
+              "T1": 16,
+              "T2": 16
+            },
+            "origin_samples": {
+              "original": 32
+            }
+          }
+        ],
+        "actual_resume_batches_identical": true,
+        "historical_check_trace_status_name_is_not_episode_count": true
+      },
+      {
+        "branch": "S-CORR",
+        "source_episodes": 126,
+        "task_episodes": {
+          "T1": 96,
+          "T2": 30
+        },
+        "combined_manifest_sha256": "058bbe3fb6fd79cf536cb7366a1164fc85169a1effcca9cde34c7d445b0a3623",
+        "correction_manifest_sha256": "a6c029e3e07f264a08ab47a757eb899b752e350e7a93f1db2dd87c03b88f0052",
+        "sampler": {
+          "algorithm": "MP1_TASK_BALANCED_WITHIN_TASK_CORRECTION_HALF_V1",
+          "seed": 20261017,
+          "cursor": 0,
+          "stop": 65536,
+          "manifest_sha256": "058bbe3fb6fd79cf536cb7366a1164fc85169a1effcca9cde34c7d445b0a3623",
+          "correction_episode_ids": {
+            "T1": [
+              "PI0294-E0-M2048-TRAIN-F0-000-T1-S001-SHORT",
+              "PI0294-E0-M2048-TRAIN-F0-000-T1-S003-FULL",
+              "PI0294-E0-M2048-TRAIN-F0-000-T1-S003-SHORT",
+              "PI0294-E0-M2048-TRAIN-F1-000-T1-S001-SHORT",
+              "PI0294-E0-M2048-TRAIN-F1-000-T1-S003-FULL",
+              "PI0294-E0-M2048-TRAIN-F1-000-T1-S003-SHORT",
+              "PI0294-E1-D-M1-1024-F0-001-T1",
+              "PI0294-E1-D-M1-1024-F1-001-T1"
+            ],
+            "T2": []
+          },
+          "overall_correction_fraction": 0.25,
+          "original_episode_counts": {
+            "T1": 96,
+            "T2": 30
+          }
+        },
+        "actual_loader": [
+          {
+            "resume_step": 0,
+            "trace": {
+              "status": "PASS_ACTUAL_SMALL8_CONSUMED_IDENTITIES",
+              "count": 64,
+              "sha256": "6c1fe8966121bbfc02c0fcb46e79ddb081bbd7a06745115836c7532ac1797c73"
+            },
+            "task_samples": {
+              "T1": 32,
+              "T2": 32
+            },
+            "origin_samples": {
+              "original": 48,
+              "correction": 16
+            }
+          },
+          {
+            "resume_step": 1,
+            "trace": {
+              "status": "PASS_ACTUAL_SMALL8_CONSUMED_IDENTITIES",
+              "count": 32,
+              "sha256": "998ab37b1bef71f0f010b734a875d9a00956d13ccd8a11b5bf32724e5b101c1b"
+            },
+            "task_samples": {
+              "T1": 16,
+              "T2": 16
+            },
+            "origin_samples": {
+              "original": 24,
+              "correction": 8
+            }
+          }
+        ],
+        "actual_resume_batches_identical": true,
+        "historical_check_trace_status_name_is_not_episode_count": true
+      }
+    ],
+    "models_loaded": 0,
+    "optimizer_updates": 0,
+    "source_TRAIN": 126,
+    "original_DEV": 32,
+    "DEV_numeric_or_RGB_loaded": false,
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "CPU_s": 14.517345341,
+    "saved_CPU_attempt": 2
+  },
+  "original_TRAIN_episode_distribution": {
+    "T1": 96,
+    "T2": 30
+  },
+  "original_TRAIN_origins": {
+    "legacy": 64,
+    "new": 62
+  },
+  "optimizer_task_exposure": "EXACT_1_TO_1_NOT_EPISODE_COUNT_BALANCE",
+  "first_CPU_reader_attempt": {
+    "status": "FAILED_PREPARATION_PRESERVED",
+    "error": "Incorrect extra assumption of 63 episodes/task; actual original bank is 96/30.",
+    "CPU_s": 7.978535157,
+    "models_loaded": 0,
+    "physics_steps": 0,
+    "recipe_or_data_changed": false
+  },
+  "source_correction_mixing": {
+    "T1_original": 0.5,
+    "T1_correction": 0.5,
+    "T2_original": 1.0,
+    "T2_correction": 0.0,
+    "overall_original": 0.75,
+    "overall_correction": 0.25,
+    "reason": "TASK_1_TO_1_TAKES_PRECEDENCE_WHEN_ONLY_T1_HAS_QUALIFIED_CORRECTION"
+  },
+  "Vanda_CPU_build": {
+    "preparation": {
+      "status": "MP1_CPU_BUILD_CHILD_PREPARED_NO_SUBMISSION",
+      "child_id": "VANDA_CPU_BUILD_01",
+      "run_uuid": "20261016T191445Z-localpc-mp1-vanda-build-01",
+      "source_sha": "cfe9940ae7fbcc53b02ff8ff65de4a44a9a948d5",
+      "manifest_sha256": "08b62e1c1443f66c2db590e66b3c5ae267269ffeeeeb9b21db9d95c1479b4694",
+      "definition_sha256": "3f04ec1212d1cd6d880ab07698b9c9c19d1cd5a48cef348be01fa2fcf1c9eb85",
+      "script_sha256": "7ca122b0cd2376034ab79473bbcfd6bc3992c18f60eedda09be319553eae16c9",
+      "PBS_script_sha256": "cd94972aa59344edf340224c011f999a3240438a7a2dd39538c3ffc32b28e46e",
+      "project": "CFP04-CF-007",
+      "queue": "auto",
+      "requested_CPU": 4,
+      "walltime_s": 10800,
+      "ngpus": 0,
+      "model_queries": 0,
+      "physics_steps": 0,
+      "WBC_launches": 0,
+      "old_failed_build_preserved": true,
+      "controller_source_changed": false
+    },
+    "native": {
+      "job_id": "1463204.stdct-mgmt-02",
+      "job_state": "R",
+      "project": "CFP04-CF-007",
+      "Exit_status": null,
+      "resources_used": {
+        "cpupercent": 50,
+        "cput": "00:00:30",
+        "mem": "47240kb",
+        "ncpus": 4,
+        "ngpus": 0,
+        "vmem": "37536kb",
+        "walltime": "00:03:10"
+      },
+      "stime": "Sat Oct 17 03:25:06 2026",
+      "comment": "Job run at Sat Oct 17 at 03:25 on (CN-151[1]:ncpus=4:mem=32gb:ngpus=0)"
+    }
+  },
+  "Vanda_container_fix": "TEMPORARILY_DISABLE_NOUNSET_ONLY_WHILE_SOURCING_ROS_SETUP_THEN_RESTORE",
+  "container_unit_checks": "OPTIONAL_ROS_VARIABLE_ALLOWED_ACTUAL_SETUP_FAILURE_STILL_FAILS_POST_SETUP_NOUNSET_RESTORED",
+  "new_MP1_GPU_jobs": 0,
+  "new_MP1_model_queries": 0,
+  "new_MP1_optimizer_updates": 0,
+  "new_MP1_physics_steps": 0,
+  "E1_native_training_unchanged": true,
+  "old_failed_builds_preserved": true,
+  "old_native_target_STOP_preserved": true,
+  "independent_new_source_policy_success": "NOT_RUN",
+  "selected": "NONE",
+  "real_robot_deployment": "NONE"
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "PI0294_COMPLETE_ACTUAL_V3_1_FROZEN_CPU_QUALIFICATION_V1",
+  "run_uuid": "20261013T142457Z-localpc-pi0294",
+  "status": "PASS_FULL_OFFICIAL_CODEC_AND_NATIVE_LOADER_NOT_POLICY_QUALIFICATION",
+  "source_sha": "e5eb89237cddfc86ca6ae9a3f434a63a024791d1",
+  "qualification_sha256": "f6cf38345d436cc8fc85e84751826f7dc157040e3834fd19e81375b4a6f76c3a",
+  "native_loader_sha256": "1fb66fc0d736b376a79243bd605b5b498448b16a8ae5c82d83a2bd4b9b7c3d12",
+  "CPU_attempt_sha256": "0bd690238b3f3db3acf10d9fa3f958eb7c704fe44af89fe76654d59453a83788",
+  "manifest_sha256": "dc65f0e123eb848ea7fd6ddc6a1739dd568143e4b4c55336ff5b30839b3da56e",
+  "statistics_sha256": "98b1df9047aabdd7878b57187dee21105e599e8062427e1309837a048c8d3def",
+  "stratified_actual_tensor_checks": {"TRAIN": 27, "DEV": 27},
+  "all_window_codec": {
+    "TRAIN": {"full_H40_windows_checked": 149048, "decoded_XYZ_max_error_m": 9.929381129814008e-9, "decoded_SO3_max_error_rad": 4.2146848510894035e-8, "gripper_max_error": 0, "independent_relative_max_abs": 8.881784197001252e-16, "action_preclip_components": 4, "float32_inverse_clip_components": 0, "state_preclip_components": 0},
+    "DEV": {"full_H40_windows_checked": 28247, "decoded_XYZ_max_error_m": 0.00017307980605169027, "decoded_SO3_max_error_rad": 4.2146848510894035e-8, "gripper_max_error": 0, "independent_relative_max_abs": 8.881784197001252e-16, "action_preclip_components": 5, "float32_inverse_clip_components": 5, "state_preclip_components": 175}
+  },
+  "statistics_fit_count": 1,
+  "DEV_refit": false,
+  "bank_export_repeated": false,
+  "relative_conversion_count": 1,
+  "model_loaded": false,
+  "CUDA_initialized": false,
+  "native_loader": {
+    "actual_workers_tested": [0, 2, 4],
+    "exact_consumption_and_resume": "PASS",
+    "legacy_smoke": false,
+    "natural_iteration_exhaustion": true,
+    "short_first_40_samples_per_s": {"0": 82.58663435277352, "2": 6.22087459330419, "4": 3.3211725878438454},
+    "not_a_GPU_training_benchmark": true,
+    "warning_four_processes_share_three_reserved_cores_preserved": true,
+    "CPU_s_already_in_whole_stage_not_added_again": 70.782652
+  },
+  "whole_stage": {"status": "ACTUAL_CPU_STAGE_PASS", "exit": 0, "whole_parent_and_reaped_children_CPU_s": 3229.8753229999998, "wall_s": 3213.7113861299586, "parent_child_and_own_groups_terminal": true, "remaining_reservations": 0},
+  "first_timeout_receipt_preserved": "f7565c460740ea6f6a387ba404da1219a082b313b37b0df48401440e706f1da0",
+  "HF_v3.1_revision": "NONE_NOT_DELIVERED",
+  "actual_model_closed_loop": "NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

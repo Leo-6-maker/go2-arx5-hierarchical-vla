@@ -1,0 +1,54 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Verify existing official files over authenticated metadata, without loading a model."""
+import json
+import sys
+from pi0292_adopt import BASE,remote,save
+
+CODE=r'''
+import hashlib,json,os,resource,socket,subprocess,time,urllib.request
+from pathlib import Path
+model=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B')
+revision=(model/'.cache/huggingface/download/config.json.metadata').read_text().splitlines()[0]
+token=Path(TOKEN_FILE).read_text().strip()
+def fetch(url):
+    with urllib.request.urlopen(urllib.request.Request(url,headers={'Authorization':'Bearer '+token}),timeout=30) as r:return r.read()
+info=json.loads(fetch('https://huggingface.co/api/models/nvidia/GR00T-N1.7-3B/revision/'+revision+'?blobs=true'))
+assert info['sha']==revision
+siblings={r['rfilename']:r for r in info['siblings']}
+index=json.loads((model/'model.safetensors.index.json').read_text())
+names=sorted(set(index['weight_map'].values()))+['config.json','processor_config.json','embodiment_id.json','model.safetensors.index.json','statistics.json']
+rows=[]
+for name in names:
+    p=model/name;h=hashlib.sha256();blob=hashlib.sha1(b'blob '+str(p.stat().st_size).encode()+b'\0')
+    with p.open('rb') as f:
+        for b in iter(lambda:f.read(8*1024*1024),b''):h.update(b);blob.update(b)
+    remote=siblings[name];lfs=remote.get('lfs')
+    assert p.stat().st_size==remote['size'],name
+    assert (h.hexdigest()==lfs['sha256']) if lfs else (blob.hexdigest()==remote['blobId']),name
+    rows.append(dict(name=name,bytes=p.stat().st_size,sha256=h.hexdigest(),official_identity=lfs['sha256'] if lfs else remote['blobId']))
+dataset='leoyuer/pi0291-arx5-fixed-base';rev='c25eeadf9be0aa7d46bb6f7b65e260cbf3a305ea'
+di=json.loads(fetch('https://huggingface.co/api/datasets/'+dataset+'/revision/'+rev));assert di['sha']==rev and di['private']
+readyrow=READY
+ready=fetch('https://huggingface.co/datasets/'+dataset+'/resolve/'+rev+'/'+readyrow['path'])
+assert len(ready)==readyrow['bytes'] and hashlib.sha256(ready).hexdigest()==readyrow['sha256']
+q=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qstat','-u',os.environ['USER']],capture_output=True,text=True,timeout=15)
+fs=os.statvfs(model)
+u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+print(json.dumps(dict(status='PRETRAINED_FILES_VERIFIED_NOT_LOADED',host=socket.gethostname(),model_repo=info['id'],revision=revision,
+    files=rows,index_total_tensor_bytes=index['metadata']['total_size'],actual_shards_bytes=sum(r['bytes'] for r in rows if r['name'].endswith('.safetensors')),
+    original_HF_READY=dict(repo=dataset,revision=rev,private=di['private'],bytes=len(ready),sha256=hashlib.sha256(ready).hexdigest()),
+    own_qstat=dict(exit=q.returncode,output=q.stdout),free_bytes=fs.f_bavail*fs.f_frsize,
+    model_loads=0,PBS_submissions=0,CPU_s=u.ru_utime+u.ru_stime+c.ru_utime+c.ru_stime,observed_epoch=time.time())))
+'''
+
+if __name__=='__main__':
+    from pathlib import Path
+    auth=json.loads((BASE.parent/'PI0291_EXISTING_AUTH_PATHS.json').read_text())
+    manifest=json.loads((BASE.parent/'pi0291-receipts-1791855578/producer/evidence/TRANSFER_MANIFEST.json').read_text())
+    ready=next(r for r in manifest['files'] if r['path'].endswith('/READY.json'))
+    r=remote('hopper','TOKEN_FILE='+repr(auth['HF_hopper'])+'\nREADY='+repr(ready)+'\n'+CODE)
+    if r.returncode:print(r.stderr[-3000:]);sys.exit(r.returncode)
+    result=json.loads(r.stdout);save(BASE/'HOPPER_PRETRAINED_FILES.private.json',result)
+    print(json.dumps(result))

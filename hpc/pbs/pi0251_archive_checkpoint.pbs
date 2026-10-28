@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+#PBS -N pi0251_archive_ckpt
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -m n
+#PBS -l select=1:ncpus=4:mem=32GB
+#PBS -l walltime=08:00:00
+#PBS -o /scratch/e1192548/Projects/go2-arx5/experiments/PI0251/xyz-excess-risk-20260928/logs/
+#PBS -e /scratch/e1192548/Projects/go2-arx5/experiments/PI0251/xyz-excess-risk-20260928/logs/
+
+set -euo pipefail
+card=${PI0251_RUN_CARD:?sealed PI0251 run card is required}
+expected=${PI0251_RUN_CARD_SHA256:?run-card SHA256 is required}
+arm=${PI0251_ARM:?C or E arm is required}
+step=${PI0251_STEP:?checkpoint step is required}
+case "${arm}:${step}" in C:1000|C:2000|E:1000|E:2000) ;; *) exit 2 ;; esac
+test "$(sha256sum "$card" | cut -d ' ' -f 1)" = "$expected"
+test "$(jq -er .sha256 "$(dirname "$card")/run_card.seal.json")" = "$expected"
+test "$(jq -er .schema "$card")" = PI0251_CE_RUN_CARD_V1
+test "$(jq -er .arm "$card")" = "$arm"
+test "$(jq -er .status "$card")" = SEALED_READY_NOT_STARTED
+test "$(jq -er .selected_checkpoint "$card")" = NONE
+
+stage10=$(jq -er .paths.stage10_root "$card")
+driver_root=$(jq -er .paths.execution_driver_root "$card")
+legacy_root=$(jq -er .paths.legacy_execution_driver_root "$card")
+repo_code=$(jq -er .paths.repo_code_root "$card")
+code=$(jq -er .paths.code_root "$card")
+training_runtime=$(jq -er .paths.training_runtime_root "$card")
+output=$(jq -er .paths.output_root "$card")
+token_file=$(jq -er .archive.token_file "$card")
+runner="$driver_root/pi0251_ce_train.py"
+ff=/scratch/e1192548/Projects/go2-arx5/archive/stage_runs/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+venv="$stage10/runtime/venv"
+test -x "$venv/bin/python" && test -d "$ff/lib" && test -s "$token_file"
+test -s "$runner" && test -r "$repo_code/scripts/pi0247_lu_train.py"
+test -r "$training_runtime/pi0246_gate_pass_train.py" && test -r "$code/scripts/pi0243_checkpoint_persistence.py"
+test -d "$output/training/checkpoint-$step"
+test "$(jq -er .global_step "$output/training/checkpoint-$step/trainer_state.json")" = "$step"
+
+export PI0243_HF_TOKEN_FILE="$token_file"
+export LD_LIBRARY_PATH="$ff/lib:$ff/compat:$venv/lib/python3.12/site-packages/torchcodec:$venv/lib/python3.12/site-packages/torch/lib:${LD_LIBRARY_PATH:-}"
+export PYTHONPATH="$driver_root:$legacy_root:$repo_code/scripts:$repo_code/src:$training_runtime:$code/scripts:$code/src:$(jq -er .paths.groot_source "$card"):${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=0 TRANSFORMERS_OFFLINE=0 HF_HUB_DISABLE_TELEMETRY=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1
+export HF_HOME="$output/hf_cache_archive"
+mkdir -p "$HF_HOME"
+"$venv/bin/python" -u "$runner" --archive-sidecar --arm "$arm" --step "$step" --run-card "$card"

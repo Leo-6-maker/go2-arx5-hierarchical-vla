@@ -1,0 +1,85 @@
+{
+  "schema": "PI0294_SCENE_AND_SPLIT_SPEC_V1",
+  "status": "SPECIFICATION_NOT_STATIC_IK_OR_CONTACT_QUALIFICATION",
+  "seed_family": 29400,
+  "paired_tasks": [
+    "T1",
+    "T2"
+  ],
+  "group_split_atomic": true,
+  "first_package": {
+    "TRAIN": {
+      "F0": 8,
+      "F1": 12,
+      "F2": 12,
+      "F3": 0
+    },
+    "DEV": {
+      "F0": 2,
+      "F1": 3,
+      "F2": 3,
+      "F3": 0
+    }
+  },
+  "extension_including_first": {
+    "TRAIN": {
+      "F0": 16,
+      "F1": 32,
+      "F2": 32,
+      "F3": 16
+    },
+    "DEV": {
+      "F0": 4,
+      "F1": 4,
+      "F2": 4,
+      "F3": 4
+    }
+  },
+  "CONFIRM": {
+    "CORE": {
+      "F0": 2,
+      "F1": 3,
+      "F2": 3
+    },
+    "CHALLENGE": {
+      "F3": 8
+    }
+  },
+  "initial_state_identical_fields": [
+    "robot_qpos",
+    "gripper_qpos",
+    "object_pose",
+    "zero_object_velocity",
+    "target_region",
+    "cameras",
+    "lights",
+    "background"
+  ],
+  "allowed_parameter_variation": {
+    "F0": "NEAR_VERIFIED_BASE_LAYOUT",
+    "F1": "REACHABLE_BIDIRECTIONAL_SPATIAL_VARIATION",
+    "F2": "VISUAL_ONLY_NEUTRAL_BACKGROUND_AND_LIGHT_0.8_TO_1.2",
+    "F3": "F1_PLUS_F2_AND_CAMERA_UP_TO_0.01M_3DEG"
+  },
+  "frozen_physics": [
+    "MuJoCo",
+    "robot_and_gripper_geometry",
+    "controller_gains",
+    "dt",
+    "table_height",
+    "cube_size",
+    "cube_mass",
+    "friction"
+  ],
+  "static_checks_required": [
+    "WORKSPACE_BOUNDS",
+    "IK",
+    "FULL_ACTION_SWEEP",
+    "CAMERA_VISIBILITY",
+    "CALIBRATION",
+    "DUPLICATE_GROUPS",
+    "LEGACY_TRAIN_DEV_AND_CONFIRM_CONFLICTS"
+  ],
+  "failed_quality_ids_not_replaced": true,
+  "confirmation_never_used_for_selection": true
+}

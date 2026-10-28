@@ -1,0 +1,97 @@
+{
+  "actual_S4_latency_s": {
+    "max": 2.716544114984572,
+    "mean": 0.5478732112344721,
+    "median": 0.4976232034387067,
+    "min": 0.1751469059381634,
+    "queries": 976
+  },
+  "deployment": "NONE",
+  "model_load_duration_s": "UNOBSERVED_NO_SEPARATE_LOAD_TIMER",
+  "new_model_queries": 0,
+  "new_physics_steps": 0,
+  "panel_native_ledger_spans": [
+    {
+      "first_event_utc": "2026-10-06T20:25:40.514334+00:00",
+      "lane": "TRAIN_PHYSICS",
+      "last_event_utc": "2026-10-06T20:29:58.561023+00:00",
+      "measurement": "Actual shared physics ledger wall_ns span; includes paused inference",
+      "native_recording_wall_span_s": 258.046688988
+    },
+    {
+      "first_event_utc": "2026-10-06T20:31:40.692972+00:00",
+      "lane": "TEST",
+      "last_event_utc": "2026-10-06T20:42:22.204741+00:00",
+      "measurement": "Actual shared physics ledger wall_ns span; includes paused inference",
+      "native_recording_wall_span_s": 641.511769053
+    }
+  ],
+  "phases": [
+    {
+      "completed_wall_s": 4.651087526,
+      "done_sha256": "4f5e26d59df8cf08fef095d1afdedcba8f4f76302a49c5b060655f68710c5dad",
+      "end_metadata_utc": "2026-10-06T20:23:39.915558+00:00",
+      "measurement": "Recorded phase boundary-file mtimes; not kernel-exclusive time",
+      "name": "FOCUS4096-admit",
+      "start_metadata_utc": "2026-10-06T20:23:35.264470+00:00"
+    },
+    {
+      "completed_wall_s": 356.110826729,
+      "done_sha256": "385aec4f58912b7473ee97f7d075c28a7064f448168946050e4040e4295b1f2e",
+      "end_metadata_utc": "2026-10-06T20:30:03.315892+00:00",
+      "measurement": "Recorded phase boundary-file mtimes; not kernel-exclusive time",
+      "name": "FOCUS4096-TRAIN_PHYSICS",
+      "start_metadata_utc": "2026-10-06T20:24:07.205065+00:00"
+    },
+    {
+      "completed_wall_s": 5.54308114,
+      "done_sha256": "b90bf06ac5a245c84ef10c21a5a29d22ceeff02f4955ba3f44c8daafe0b3924e",
+      "end_metadata_utc": "2026-10-06T20:30:23.072182+00:00",
+      "measurement": "Recorded phase boundary-file mtimes; not kernel-exclusive time",
+      "name": "FOCUS4096-fast-TRAIN_PHYSICS",
+      "start_metadata_utc": "2026-10-06T20:30:17.529101+00:00"
+    },
+    {
+      "completed_wall_s": 12.106175076,
+      "done_sha256": "65f393405c27bd9b2b11a69b61979c979ba284f63c2f9f03d8be6066ceb44788",
+      "end_metadata_utc": "2026-10-06T20:30:52.758613+00:00",
+      "measurement": "Recorded phase boundary-file mtimes; not kernel-exclusive time",
+      "name": "FOCUS4096-replay-TRAIN_PHYSICS",
+      "start_metadata_utc": "2026-10-06T20:30:40.652438+00:00"
+    },
+    {
+      "completed_wall_s": 693.386945489,
+      "done_sha256": "196ab00a341389c4d3be84c2af68b07dff0560c196b074014fce02f04c0a566f",
+      "end_metadata_utc": "2026-10-06T20:42:37.318719+00:00",
+      "measurement": "Recorded phase boundary-file mtimes; not kernel-exclusive time",
+      "name": "R3-FOCUS4096-TEST",
+      "start_metadata_utc": "2026-10-06T20:31:03.931773+00:00"
+    },
+    {
+      "completed_wall_s": 10.021119722,
+      "done_sha256": "b8251111e246f97f414f259f611bda0d1597f57c7594cab626b35de99bfdd040",
+      "end_metadata_utc": "2026-10-06T20:42:58.306970+00:00",
+      "measurement": "Recorded phase boundary-file mtimes; not kernel-exclusive time",
+      "name": "FOCUS4096-fast-TEST",
+      "start_metadata_utc": "2026-10-06T20:42:48.285850+00:00"
+    },
+    {
+      "completed_wall_s": 19.184228133,
+      "done_sha256": "d7519ce873ca848c446bd10fec73446c7f6295db8f662f260bc89fa0a7213303",
+      "end_metadata_utc": "2026-10-06T20:43:39.738463+00:00",
+      "measurement": "Recorded phase boundary-file mtimes; not kernel-exclusive time",
+      "name": "FOCUS4096-replay-TEST",
+      "start_metadata_utc": "2026-10-06T20:43:20.554235+00:00"
+    }
+  ],
+  "point": "FOCUS4096",
+  "real_time": false,
+  "selected_checkpoint": "NONE",
+  "status": "ACTUAL_RECORDED_STAGE_AND_QUERY_TIMINGS",
+  "transfer": {
+    "READY_metadata_utc": "2026-10-06T20:23:34.617595+00:00",
+    "first_shard_lock_metadata_utc": "2026-10-06T20:09:35.867073+00:00",
+    "lock_to_READY_wall_s": 838.750522671,
+    "measurement": "Target first-shard lock creation/mtime to atomic READY; includes transfer and full readback, not pure network time"
+  }
+}

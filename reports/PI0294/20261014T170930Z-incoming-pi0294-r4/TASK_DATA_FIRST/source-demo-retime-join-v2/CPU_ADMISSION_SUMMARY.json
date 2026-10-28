@@ -1,0 +1,532 @@
+{
+  "status": "CPU_CONTRACT_COMPLETE_TASK_LOCAL_RESULTS",
+  "source_sha": "fc2227751de282f6d514e029e4a76321ffe95243",
+  "checks_passed": 20,
+  "checks": [
+    {
+      "name": "V1 terminal and original/R1 receipts immutable; V2 missing adoption rejects",
+      "status": "PASS",
+      "evidence": {
+        "V1_terminal_retained": true,
+        "unsigned_execution_rejected": true
+      }
+    },
+    {
+      "name": "Six fixed TRAIN/new sources, member hashes, tool and original warp reused",
+      "status": "PASS",
+      "evidence": {
+        "sealed_TRAIN_sources": 6,
+        "original_640_prefix_reconstruction_reused": true
+      }
+    },
+    {
+      "name": "T2 all original waypoint values/order retained and no smoothing or deletion",
+      "status": "PASS",
+      "evidence": {
+        "all_pose_and_gripper_values_exact": true,
+        "no_geometry_smoothing": true
+      }
+    },
+    {
+      "name": "T2 every local duration >= original 50ms and original XYZ/SO3 bounds",
+      "status": "PASS",
+      "evidence": {
+        "local_rate_intervals_pass": 3,
+        "original_speed_bounds_unchanged": true
+      }
+    },
+    {
+      "name": "T2 discrete clock, knots and gripper/events share one monotone mapping",
+      "status": "PASS",
+      "evidence": {
+        "all_knots_and_gripper_mapped_without_deletion": true
+      }
+    },
+    {
+      "name": "T2 local rate table does not bypass joint velocity/acceleration/gate",
+      "status": "PASS",
+      "evidence": {
+        "original_gate_reject_fixture": true,
+        "local_cartesian_table_is_not_joint_admission": true
+      }
+    },
+    {
+      "name": "T1 first close event maps to source index30, not quality-selected timestamp",
+      "status": "PASS",
+      "evidence": {
+        "T1_fixed_cut": [
+          30,
+          257
+        ]
+      }
+    },
+    {
+      "name": "T1 original first close opening=1, no skipped pad contact/grasp/lift/carry",
+      "status": "PASS",
+      "evidence": {
+        "source_prefix_no_pad_contact_or_manipulation": true,
+        "join_open": true
+      }
+    },
+    {
+      "name": "T1 suffix unchanged and original uniform slowdown factor retained",
+      "status": "PASS",
+      "evidence": {
+        "T1_uniform_suffix_preserved": true
+      }
+    },
+    {
+      "name": "Reused goal full consumer equivalence and reference old response hashes",
+      "status": "PASS",
+      "evidence": {
+        "actual_saved_input_equivalent_old_goal_consumers": 3,
+        "old_hash_not_rewritten": true
+      }
+    },
+    {
+      "name": "No rewriting cached input_sha; fresh actual state requires fresh charged goal",
+      "status": "PASS",
+      "evidence": {
+        "changed_actual_packet_not_cache_equivalent": true,
+        "actual_state_unchanged": true
+      }
+    },
+    {
+      "name": "Source order000/001/002; per-source branch L2/index tie break; no cross-source cost rerank",
+      "status": "PASS",
+      "evidence": {
+        "source_order_fixed": true,
+        "within_source_cost_index_tie_break": true
+      }
+    },
+    {
+      "name": "Shared CPU RRT/dense caps, internal slots and unvisited budget status",
+      "status": "PASS",
+      "evidence": {
+        "shared_RRT_and_dense_caps_reject": true,
+        "cached_T1_has_zero_new_IK_capacity": true
+      }
+    },
+    {
+      "name": "Incomplete reserved slots retained and exact restore never redraws",
+      "status": "PASS",
+      "evidence": {
+        "restore_no_redraw": true,
+        "global_initialization_cap_rejects": true
+      }
+    },
+    {
+      "name": "Chunk-internal entry join and cumulative installed-prefix source clock",
+      "status": "PASS",
+      "evidence": {
+        "chunk_internal_join_and_prefix8_restore_equivalent": true
+      }
+    },
+    {
+      "name": "No task future preinstall, actual/object edits, or source-grasp-as-live-grasp",
+      "status": "PASS",
+      "evidence": {
+        "actual_inputs_not_modified": true,
+        "source_grasp_not_used_for_live_grasp": true,
+        "physics_steps": 0
+      }
+    },
+    {
+      "name": "Original full-body FCL/native geometry, safety/gate/scorer pins and thresholds",
+      "status": "PASS",
+      "evidence": {
+        "frozen_public_members": 21,
+        "original_gate_and_score_unchanged": true
+      }
+    },
+    {
+      "name": "Parent/cumulative counters, CPU reserve, original deadline, no budget reset",
+      "status": "PASS",
+      "evidence": {
+        "original_T0_and_deadline_retained": true,
+        "expired_start_rejected": true
+      }
+    },
+    {
+      "name": "Two independent tasks and valid failure versus engineering replacement separation",
+      "status": "PASS",
+      "evidence": {
+        "tasks_independent": true,
+        "valid_failure_not_engineering_retry": true
+      }
+    },
+    {
+      "name": "Parent recorder display/causal observations/reference identity; no physics claimed by CPU check",
+      "status": "PASS",
+      "evidence": {
+        "parent_DISPLAY_responds": true,
+        "source_time_representation_boundary": true,
+        "new_render": 0
+      }
+    }
+  ],
+  "scientific_source_candidates": 6,
+  "task_results": [
+    {
+      "task": "T2",
+      "status": "NOT_ADMITTED_FIXED_SOURCE_ROUTES",
+      "reason": "NO_LEGAL_REGISTERED_PAIR"
+    },
+    {
+      "task": "T1",
+      "status": "PASS_SOURCE_ROUTE_AND_TIME",
+      "source_id": "PI0294-TRAIN-F0-000-T1",
+      "candidate_index": 0,
+      "source_program_sha256": "15531c14e5a25b69bfb85107201388e1bfbc5f5b129b6a2e73e64bf38c3a67a8",
+      "active_duration_s": 15.633403721763726,
+      "certificate": {
+        "duration_s": 8.060727936225879,
+        "uniform_time_scale": 2.7120522007593277,
+        "max_linear_speed": 0.03327167649310637,
+        "max_angular_speed": 0.1563752345826446,
+        "dense": {
+          "status": "PASS",
+          "reason": null,
+          "points": 1001,
+          "local_IK_iterations": 1001,
+          "window_sha256": "a5a13aeb680d855911cef25c343d0cf3c0e4bc4c6cecec47ddefdd3aba7ea88a",
+          "max_native_IK_position_residual_m": 1.493830873505256e-06,
+          "max_native_IK_rotation_residual_rad": 1.8822411451170994e-06,
+          "physics_steps": 0,
+          "actual_state_modified": false
+        },
+        "input_sha256": "eca11f99c741ccb2ed48c9da3fc855e4d3d7492797d70034e2c8c5fcc3dad231",
+        "response_sha256": "acc0750c105aa679367b6713725e9bc0f907ef0cc2f2e92f524d6a00c7331943",
+        "FK_error": [
+          4.577698275459881e-16,
+          0.0
+        ],
+        "IK_calls": 0,
+        "RRT_calls": 1
+      }
+    }
+  ],
+  "programs": {
+    "status": "SIX_FROZEN_V2_PROGRAMS",
+    "source_sha": "fc2227751de282f6d514e029e4a76321ffe95243",
+    "rows": [
+      {
+        "id": "PI0294-TRAIN-F0-000-T2",
+        "task": "T2",
+        "file": "PI0294-TRAIN-F0-000-T2.npz",
+        "sha256": "6996219e99bb230a6464832e8cc2af8e635b0c81da698f38eb338d2aa54ec65f",
+        "source_input_sha256": "abef0850e9376e148c555ee55602e4e247abe8c137a57d48f8b6f32b620d89ea",
+        "cut_start_index": 165,
+        "cut_end_index": 488,
+        "active_duration_s": 18.600000000000097,
+        "events": [
+          {
+            "stage": "close",
+            "source_index": 165,
+            "program_time_s": 0.0
+          },
+          {
+            "stage": "align",
+            "source_index": 190,
+            "program_time_s": 1.2500000000000004
+          },
+          {
+            "stage": "contact",
+            "source_index": 223,
+            "program_time_s": 3.0999999999999983
+          },
+          {
+            "stage": "push",
+            "source_index": 232,
+            "program_time_s": 3.599999999999997
+          },
+          {
+            "stage": "detach",
+            "source_index": 412,
+            "program_time_s": 14.50000000000004
+          },
+          {
+            "stage": "withdraw",
+            "source_index": 438,
+            "program_time_s": 15.850000000000058
+          },
+          {
+            "stage": "hold",
+            "source_index": 488,
+            "program_time_s": 18.600000000000097
+          }
+        ],
+        "original_uniform_factor": 3.126596564327011,
+        "new_pose_values": false,
+        "actual_state_modified": false
+      },
+      {
+        "id": "PI0294-TRAIN-F0-001-T2",
+        "task": "T2",
+        "file": "PI0294-TRAIN-F0-001-T2.npz",
+        "sha256": "2133837e501d1bada7ae3700aecbf9386473f9219e079748c0f0b9d980fc48c1",
+        "source_input_sha256": "f7bd8637e9919b8eb3b5489e83c0c01151647b13f2621f431ca77a232397fed8",
+        "cut_start_index": 172,
+        "cut_end_index": 504,
+        "active_duration_s": 19.400000000000095,
+        "events": [
+          {
+            "stage": "close",
+            "source_index": 172,
+            "program_time_s": 0.0
+          },
+          {
+            "stage": "align",
+            "source_index": 198,
+            "program_time_s": 1.3000000000000005
+          },
+          {
+            "stage": "contact",
+            "source_index": 231,
+            "program_time_s": 3.149999999999998
+          },
+          {
+            "stage": "push",
+            "source_index": 240,
+            "program_time_s": 3.649999999999997
+          },
+          {
+            "stage": "detach",
+            "source_index": 427,
+            "program_time_s": 15.250000000000039
+          },
+          {
+            "stage": "withdraw",
+            "source_index": 454,
+            "program_time_s": 16.650000000000055
+          },
+          {
+            "stage": "hold",
+            "source_index": 504,
+            "program_time_s": 19.400000000000095
+          }
+        ],
+        "original_uniform_factor": 3.2449611444934465,
+        "new_pose_values": false,
+        "actual_state_modified": false
+      },
+      {
+        "id": "PI0294-TRAIN-F0-002-T2",
+        "task": "T2",
+        "file": "PI0294-TRAIN-F0-002-T2.npz",
+        "sha256": "37ced046d54d103f0f8295411814d78b20ff7f77cb40632036ac45b515e39c2e",
+        "source_input_sha256": "0717778a3368e1579643a4ed8cfaa49a44b1564db30cc93f433d11cb34a4b753",
+        "cut_start_index": 166,
+        "cut_end_index": 496,
+        "active_duration_s": 19.100000000000097,
+        "events": [
+          {
+            "stage": "close",
+            "source_index": 166,
+            "program_time_s": 0.0
+          },
+          {
+            "stage": "align",
+            "source_index": 190,
+            "program_time_s": 1.2000000000000004
+          },
+          {
+            "stage": "contact",
+            "source_index": 223,
+            "program_time_s": 2.9999999999999982
+          },
+          {
+            "stage": "push",
+            "source_index": 232,
+            "program_time_s": 3.499999999999997
+          },
+          {
+            "stage": "detach",
+            "source_index": 421,
+            "program_time_s": 15.050000000000042
+          },
+          {
+            "stage": "withdraw",
+            "source_index": 446,
+            "program_time_s": 16.35000000000006
+          },
+          {
+            "stage": "hold",
+            "source_index": 496,
+            "program_time_s": 19.100000000000097
+          }
+        ],
+        "original_uniform_factor": 3.750475495446708,
+        "new_pose_values": false,
+        "actual_state_modified": false
+      },
+      {
+        "id": "PI0294-TRAIN-F0-000-T1",
+        "task": "T1",
+        "file": "PI0294-TRAIN-F0-000-T1.npz",
+        "sha256": "15531c14e5a25b69bfb85107201388e1bfbc5f5b129b6a2e73e64bf38c3a67a8",
+        "source_input_sha256": "3ed8f8c8dc34e60e663021c84795ccf5f3c3a1ab62fe38cde88b672649ddf113",
+        "cut_start_index": 30,
+        "cut_end_index": 257,
+        "active_duration_s": 15.633403721763726,
+        "events": [
+          {
+            "stage": "close",
+            "source_index": 30,
+            "program_time_s": 0.0
+          },
+          {
+            "stage": "verify_grasp",
+            "source_index": 45,
+            "program_time_s": 1.0330442987949597
+          },
+          {
+            "stage": "lift",
+            "source_index": 52,
+            "program_time_s": 1.5151316382326077
+          },
+          {
+            "stage": "carry",
+            "source_index": 87,
+            "program_time_s": 3.9255683354208473
+          },
+          {
+            "stage": "lower",
+            "source_index": 151,
+            "program_time_s": 8.333224010279343
+          },
+          {
+            "stage": "release",
+            "source_index": 181,
+            "program_time_s": 10.399312607869263
+          },
+          {
+            "stage": "withdraw",
+            "source_index": 204,
+            "program_time_s": 11.983313866021534
+          },
+          {
+            "stage": "hold",
+            "source_index": 257,
+            "program_time_s": 15.633403721763726
+          }
+        ],
+        "original_uniform_factor": 1.3773923983932796,
+        "new_pose_values": false,
+        "actual_state_modified": false
+      },
+      {
+        "id": "PI0294-TRAIN-F0-001-T1",
+        "task": "T1",
+        "file": "PI0294-TRAIN-F0-001-T1.npz",
+        "sha256": "7696dff11727d3b88e19bf5733d00365cdeb4a1b325612099bc7d6e0f346d842",
+        "source_input_sha256": "b9e44c1c70b01d72ae7f66bd0c28230da130b02b306bf68b1d8658c4688ea693",
+        "cut_start_index": 30,
+        "cut_end_index": 257,
+        "active_duration_s": 15.252646531249189,
+        "events": [
+          {
+            "stage": "close",
+            "source_index": 30,
+            "program_time_s": 0.0
+          },
+          {
+            "stage": "verify_grasp",
+            "source_index": 46,
+            "program_time_s": 1.0750764074889296
+          },
+          {
+            "stage": "lift",
+            "source_index": 53,
+            "program_time_s": 1.5454223357653363
+          },
+          {
+            "stage": "carry",
+            "source_index": 87,
+            "program_time_s": 3.8299597016793117
+          },
+          {
+            "stage": "lower",
+            "source_index": 151,
+            "program_time_s": 8.13026533163503
+          },
+          {
+            "stage": "release",
+            "source_index": 181,
+            "program_time_s": 10.146033595676773
+          },
+          {
+            "stage": "withdraw",
+            "source_index": 204,
+            "program_time_s": 11.69145593144211
+          },
+          {
+            "stage": "hold",
+            "source_index": 257,
+            "program_time_s": 15.252646531249189
+          }
+        ],
+        "original_uniform_factor": 1.3438455093611619,
+        "new_pose_values": false,
+        "actual_state_modified": false
+      },
+      {
+        "id": "PI0294-TRAIN-F0-002-T1",
+        "task": "T1",
+        "file": "PI0294-TRAIN-F0-002-T1.npz",
+        "sha256": "8819d05214f9cf4598c221df7ad0757f69af204ec5bf209f253cd78174312431",
+        "source_input_sha256": "783be324833e90c67ca79790ee6de4e58dcc2c36d247698a5e34135771493f1e",
+        "cut_start_index": 30,
+        "cut_end_index": 257,
+        "active_duration_s": 15.395897036349963,
+        "events": [
+          {
+            "stage": "close",
+            "source_index": 30,
+            "program_time_s": 0.0
+          },
+          {
+            "stage": "verify_grasp",
+            "source_index": 46,
+            "program_time_s": 1.0851733593903057
+          },
+          {
+            "stage": "lift",
+            "source_index": 53,
+            "program_time_s": 1.5599367041235646
+          },
+          {
+            "stage": "carry",
+            "source_index": 87,
+            "program_time_s": 3.8659300928279636
+          },
+          {
+            "stage": "lower",
+            "source_index": 151,
+            "program_time_s": 8.206623530389187
+          },
+          {
+            "stage": "release",
+            "source_index": 181,
+            "program_time_s": 10.24132357924601
+          },
+          {
+            "stage": "withdraw",
+            "source_index": 204,
+            "program_time_s": 11.801260283369574
+          },
+          {
+            "stage": "hold",
+            "source_index": 257,
+            "program_time_s": 15.395897036349963
+          }
+        ],
+        "original_uniform_factor": 1.356466699237882,
+        "new_pose_values": false,
+        "actual_state_modified": false
+      }
+    ],
+    "new_physics": 0,
+    "new_IK": 0
+  }
+}

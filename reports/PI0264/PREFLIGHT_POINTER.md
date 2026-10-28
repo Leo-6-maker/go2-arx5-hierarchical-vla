@@ -1,0 +1,3 @@
+PI0264 finite admission / B-canary submission pointer only: [Issue #11 canonical5923164938](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5923164938).
+
+Evidence `eb67ff88c299020287542522a065b20f19187482`:256 source units/eight visits,8192 actual processed samples and9 negative controls PASS,6336 logical-row card plus20 actual new noise packets sealed before models, fixed X2000 donor16-file local readback PASS. B canary640715 accepted through auto→small,CFP05-CF-052,mail disabled; submission is not canary or training completion. Both final endpoints must freeze before any new quality query. Historical PI0263 COMPLETE/FAIL and selected/deployment NONE unchanged. No merge or new monitor.

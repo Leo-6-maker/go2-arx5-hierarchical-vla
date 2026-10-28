@@ -1,0 +1,86 @@
+{
+  "schema": "WDR1_V4_A40_EVALUATION_BOOTSTRAP_AND_DEVICE_COLD_CPU_V1",
+  "status": "CPU_VALIDATED_NOT_DEPLOYED_OR_NATIVE_ADMISSION",
+  "problem": "The cold Vanda evaluation profile and request-bound ledger existed, but mature launcher bootstrap and the pre-load device check still accepted only H200.",
+  "behavior": {
+    "bootstrap": "The explicit Vanda DEV role now uses complete own-account qselect/qstat, exact R/job/nonce/host/capacity and the same checked global ledger bound row. It returns raw job facts, not a synthetic allocation PASS.",
+    "request_identity": "Shared request and raw native job checks are reused by the existing same-job identity join; malformed training/platform labels are rejected before queue transport.",
+    "device": "After the separate full native admission and original premodel qualification, only one actual visible NVIDIA A40 is accepted for the frozen typed B0/A/B DEV request. H200, other GPU names, multiple devices, training and relabelled receipts are rejected.",
+    "CPU": "The declared 80000 CPU-second accounting envelope enforces a 79760-second process limit, further bounded by actual remaining CPU; site capacity is not reclassified as active CPU.",
+    "legacy": "Untyped original H200 bootstrap/device branch, owner release, full admission, 600s/80cycle and numerical/source/data/lease checks remain in place."
+  },
+  "validation": {
+    "new_CPU_cases": 50,
+    "related_tests": 212,
+    "related_subtests": 8,
+    "full_PV1_tests": 493,
+    "full_PV1_subtests": 249,
+    "final_targeted_after_pretransport_check_tests": 53,
+    "captured_global25_temp_fixture": {
+      "receipt_sha256": "4f03153a32cc7350d0bc992ad94134681658dddb32a8ba75c79feb1d8fa55eef",
+      "captured_packet_sha256": "b27b47ec90918732ae75c8946100b5e8e38a7da97f26a30c4668b34e98550d6f",
+      "old25_rows_and_used_costs_preserved": true,
+      "global_validation_not_mocked": true,
+      "temporary_row26_not_a_native_intent": true,
+      "fixture_clock_not_a_historical_native_call": true,
+      "remaining_three_matrix_rejection": "PV1_TOTAL_OR_PROTECTED_FINAL_RESERVE:PBS_submissions"
+    },
+    "before_model_failure_test": "A full native admission error exits before model loading or transport qualification.",
+    "original_LOCAL_ledger_and_two_SDK_UNKNOWNs_unchanged": true
+  },
+  "source_files": {
+    "scripts/pi0294/pv1/evaluation_platform.py": "545c3d80213e53657e84f87b1cbcef3fdb5fb3c91021f25140239da347ce058c",
+    "scripts/pi0294/pv1/launcher.py": "b280f5131c58abc6a1f0ff6048528f771f01491e6a6949a47914c5b4eb3c986e",
+    "scripts/pi0294/pv1/neural.py": "59ef405eeb77d36f753f1110a05ef0d58be92779e2d51990b71570ded1fb92c6",
+    "scripts/pi0294/test_pv1_a40_evaluation_bootstrap.py": "45b2be9820861178bb296fed0d0599af1454d1cc6022454cbfc38908bcbfd06b"
+  },
+  "earlier_capture_source_files": {
+    "scripts/pi0294/pv1/evaluation_platform.py": "545c3d80213e53657e84f87b1cbcef3fdb5fb3c91021f25140239da347ce058c",
+    "scripts/pi0294/pv1/launcher.py": "0c3e3d0695bdb78e7e4946334ec5fa4fee7a6b9a1a2d4b05e17ca6a1b4729c1b",
+    "scripts/pi0294/pv1/neural.py": "59ef405eeb77d36f753f1110a05ef0d58be92779e2d51990b71570ded1fb92c6",
+    "scripts/pi0294/test_pv1_a40_evaluation_bootstrap.py": "347e195113f809ac4b5dde200f0901bf4c94166c10522d7d8260796b0adec72c"
+  },
+  "final_pretransport_change": "Launcher rejects a malformed typed request before performing the queue read; final CPU regression records bind the committed source.",
+  "exact_history": {
+    "actual_primary17_source": "b1bc5ac020bf63c12824f0f36e73b9b7c88ca33b",
+    "B0_valid": 14,
+    "B0_success": 9,
+    "B0_valid_fail": 5,
+    "B0_engineering": 3,
+    "A_DEV_valid": 0,
+    "B_DEV_valid": 0,
+    "core64": 0,
+    "new_scientific_conditions": 0
+  },
+  "no_native_effects": {
+    "code_deployed": false,
+    "new_request": false,
+    "new_registry": false,
+    "new_reservation": false,
+    "new_PBS": 0,
+    "new_models": 0,
+    "new_queries": 0,
+    "new_physics": 0,
+    "new_native_ledger_writes": 0,
+    "SDK_UNKNOWN_retry": 0
+  },
+  "remaining_before_dispatch": [
+    "Complete remaining-work fresh resource recomputation with exact current escrow/prepay credit",
+    "Once-only original-global reservation and bound full resource/project/quota native admission",
+    "Join A/B independent DEV release without substituting the complete B0 formal selection gate",
+    "Applicable B4096 subsequent reuse boundary",
+    "Exact source qualification and real same-job numerical/native premodel qualification"
+  ],
+  "resources": {
+    "S2_four_cap_proposal_approved": false,
+    "S2_four_cap_proposal_adopted": false,
+    "DEC1_caps_changed": false,
+    "original_T0_epoch": 1792348196,
+    "stop_new_epoch": 1792866596,
+    "stop_physics_epoch": 1792924196,
+    "hard_close_epoch": 1792952996,
+    "original_matrix_and_final_protection_unchanged": true,
+    "LOCAL_minute_not_repeated": true
+  },
+  "goal_status": "ACTIVE_NOT_COMPLETE"
+}

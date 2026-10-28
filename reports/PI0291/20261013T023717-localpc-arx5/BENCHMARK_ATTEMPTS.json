@@ -1,0 +1,52 @@
+{
+  "run_uuid": "20261013T023717-localpc-arx5",
+  "authority_sha": "15cc7957488fb879f5f050e3602327592da7036b",
+  "scope": "PRE_PILOT_ZERO_INTEGRATION_DRIVER_ENGINEERING",
+  "same_class_diagnostic_limit": 2,
+  "attempts": [
+    {
+      "attempt": 1,
+      "source_sha": "3f8692c94ffcf65c0ef475e3b48d2ba37dfe9be2",
+      "input_episode": "C29100",
+      "input_physical_source_sha": "302ad022f3d3a74dcaba72aa46e59282effad215",
+      "script": "scripts/pi0291_arx5_data/benchmark_driver_cache.py",
+      "actual_exit_code": 1,
+      "status": "FAILED_STRICT_DUPLICATE_FORWARD_EQUIVALENCE_ASSERTION",
+      "sanitized_error": "AssertionError: assert max_snapshot_error < 1e-12 and max_contact_error < 1e-10",
+      "numeric_receipt_written": false,
+      "failed_component": "At least one state/contact-force threshold failed; per-field attribution not available from failed attempt",
+      "physics_steps": 0,
+      "render_pairs": 0,
+      "new_episode_starts": 0,
+      "CPU_s": "UNKNOWN; owner accounting must preserve measured or conservative bound, not replace with zero",
+      "proposal_disposition": "Duplicate-forward removal REJECTED; original solver/forward sequence restored",
+      "source_originals_preserved": true
+    }
+  ],
+  "second_diagnostic": {
+    "status": "PARTIAL_IK_CACHE_DIAGNOSTIC_FORWARD_REMOVAL_REJECTED",
+    "producer_receipt_sha256": "dfd7f5fa0c15223bf48cd309c8ce7b5ec6b531f36264c90ca117c7c81d24f955",
+    "CPU_s": 0.744174611,
+    "input_command_count": 50,
+    "snapshot_max_abs_error": 0.0,
+    "contact_force_max_error_N": 1.8168802573548248e-10,
+    "duplicate_forward_removal": "REJECTED; original forward sequence preserved",
+    "IK_cache_gate_pass": true,
+    "independent_cached_IK_position_max_m": 9.803467786976333e-07,
+    "independent_cached_IK_rotation_max_rad": 6.7227856625829434e-06,
+    "isolated_IK_speedup": 10.618236531343795,
+    "speedup_scope": "Isolated 50-command CPU IK diagnostic, not overall physics throughput",
+    "physical_qualification": "NOT_RUN_BY_DIAGNOSTIC; separate C29103 pre-pilot physics and later eight frozen pilots provide qualification",
+    "physics_steps": 0,
+    "new_render_pairs": 0,
+    "purpose": "Persist per-field non-equivalence evidence and independent IK-cache metrics; no changed threshold or third unchanged diagnostic",
+    "forward_thresholds_unchanged": {
+      "snapshot_abs": 1e-12,
+      "contact_force_N": 1e-10
+    },
+    "accepted_candidate_change": "Exact-target IK cache only; physical commissioning remains required"
+  },
+  "scientific_quality_claim": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

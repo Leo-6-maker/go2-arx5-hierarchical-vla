@@ -1,0 +1,79 @@
+{
+  "schema": "PI0253_STORAGE_CLOSEOUT_V1",
+  "status": "PASS_BOUNDED_PURGE_WITH_UNKNOWN_SKIPS",
+  "hosts": [
+    {
+      "host": "hopper-l-01",
+      "deleted": 10,
+      "logical_bytes_unlinked": 47646006520,
+      "allocated_bytes_removed": 47646023680,
+      "scoped_du_decrease": 47645343744,
+      "free_changes": [
+        {
+          "path": "/scratch/e1192548",
+          "before": 399549399040,
+          "after": 447194595328,
+          "delta": 47645196288,
+          "quota_headroom": "UNKNOWN"
+        }
+      ],
+      "skip_reasons": {
+        "UNKNOWN_SKIP": 35,
+        "KEEP_ACTIVE_OR_CURRENT_CANDIDATE": 60
+      },
+      "result_sha256": "16de0aadb651b0532f2428fc6a8f2a441d4a4f1b99019306b3aa8c809f6093a0"
+    },
+    {
+      "host": "corelab-4080s",
+      "deleted": 26,
+      "logical_bytes_unlinked": 66704410966,
+      "allocated_bytes_removed": 66704433152,
+      "scoped_du_decrease": 66704429056,
+      "free_changes": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5",
+          "before": 404189347840,
+          "after": 404189347840,
+          "delta": 0,
+          "quota_headroom": "UNKNOWN"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs",
+          "before": 1083798863872,
+          "after": 1083788054528,
+          "delta": -10809344,
+          "quota_headroom": "UNKNOWN"
+        }
+      ],
+      "skip_reasons": {
+        "KEEP_ACTIVE_OR_CURRENT_CANDIDATE": 40,
+        "UNKNOWN_SKIP": 24
+      },
+      "result_sha256": "2fedfed3c794d1a2b6ac1e58e27f70219bbf1617a467775708658a016e753553"
+    },
+    {
+      "host": "corelab-amd-server",
+      "deleted": 0,
+      "logical_bytes_unlinked": 0,
+      "allocated_bytes_removed": 0,
+      "scoped_du_decrease": null,
+      "free_changes": [
+        {
+          "path": "/var/cache/users/liuyu-nfs",
+          "before": 197701771264,
+          "after": 197701771264,
+          "delta": 0,
+          "quota_headroom": "UNKNOWN"
+        }
+      ],
+      "skip_reasons": {
+        "KEEP_ACTIVE_OR_CURRENT_CANDIDATE": 30,
+        "UNKNOWN_SKIP": 26
+      },
+      "result_sha256": "aef349173d928debb601848412c0cc4f36362c34064653c0276794724e51b2d4"
+    }
+  ],
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "selected_checkpoint": "NONE"
+}

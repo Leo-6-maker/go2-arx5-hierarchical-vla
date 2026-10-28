@@ -1,0 +1,49 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Single local owner's launch/status entry; no implicit resume or retries."""
+import argparse
+import json
+import sys
+from pi0292_adopt import BASE,NEW,OLD,remote,save
+
+CODE=r'''
+import hashlib,json,os,subprocess,time
+from pathlib import Path
+root=Path(NEW)
+state=root/'evidence'/('DISPATCH_'+PHASE+'.json')
+if ACTION=='launch':
+    assert not state.exists(),'Inspect original handle; do not repeat launch'
+    stats=Path(OLD)/'native_dataset/statistics.json'
+    assert hashlib.sha256(stats.read_bytes()).hexdigest()=='43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d'
+    binding=json.loads((root/'ACTIVE_DEPENDENCIES.json').read_text())
+    python=next(r['path'] for r in binding['protected_entries'] if r['role']=='SIMULATION_PYTHON')
+    env=dict(os.environ,PYTHONPATH=str(root/'code')+':'+str(root/'code/src'),PYTHONDONTWRITEBYTECODE='1')
+    out=(root/'logs'/('dispatcher_'+PHASE+'.stdout')).open('xb')
+    err=(root/'logs'/('dispatcher_'+PHASE+'.stderr')).open('xb')
+    p=subprocess.Popen([python,'-m','scripts.pi0292.dispatcher','--root',str(root),'--python',python,'--phase',PHASE],
+        cwd=root/'code',env=env,stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)
+    print(json.dumps(dict(action='LAUNCHED',phase=PHASE,pid=p.pid,observed_epoch=time.time())))
+else:
+    value=json.loads(state.read_text()) if state.exists() else {'status':'NO_DISPATCH_STATE'}
+    ledger=json.loads((root/'RESOURCE_LEDGER.json').read_text())
+    processes=[]
+    for key in ('pid','child_pid'):
+        pid=value.get(key)
+        p=Path('/proc')/str(pid)
+        if pid and p.exists():
+            st=(p/'stat').read_text()
+            processes.append(dict(role=key,pid=pid,stat=st,start=st.split()[21],cmd=(p/'cmdline').read_bytes().replace(b'\0',b' ').decode()))
+    print(json.dumps(dict(action='OBSERVED',phase=PHASE,observed_epoch=time.time(),state=value,ledger=ledger,processes=processes,
+        stderr=(root/'logs'/('dispatcher_'+PHASE+'.stderr')).read_text()[-3000:] if (root/'logs'/('dispatcher_'+PHASE+'.stderr')).exists() else '')))
+'''
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['launch','status']);p.add_argument('phase',choices=['canary','canary_resume_audit','supplement']);a=p.parse_args()
+    if a.action=='launch' and a.phase=='canary_resume_audit':raise ValueError('Use explicit verified resume launcher')
+    code='NEW='+repr(NEW)+'\nOLD='+repr(OLD)+'\nACTION='+repr(a.action)+'\nPHASE='+repr(a.phase)+'\n'+CODE
+    r=remote('corelab-4080s',code)
+    if r.returncode:print(r.stderr);sys.exit(r.returncode)
+    value=json.loads(r.stdout)
+    save(BASE/(a.action+'_'+a.phase+'_'+str(int(value['observed_epoch']))+'.private.json'),value)
+    print(json.dumps(value))

@@ -1,0 +1,40 @@
+{
+  "status": "ORIGINAL_PC_OWNER_TERMINAL_ENGINEERING_FAILURE_AFTER_VPN_RESTORED",
+  "verified_at": "2026-10-06T09:25:22.078297+08:00",
+  "release": "57fd8a9c53ce241c05a8d5b351034bed7ba56b14",
+  "execution_commit": "0b4445c460be9c344aca705798101412f3908e1f",
+  "coordinator_sha256": "cde44d24be194eff0fa70e32c992949983451a710407747c873bd278c634ca38",
+  "exec_session_id": 48813,
+  "actual_pc_launcher_pid": 17224,
+  "actual_pc_interpreter_pid": 32052,
+  "command": "py -3.12 -u scripts/pi0276_execution/run.py all --release 57fd8a9c53ce241c05a8d5b351034bed7ba56b14 --resume",
+  "actual_log": "D:/Users/GR00T project/Projects/go2-arx5/PI0276/runtime/PC_CONTINUATION_RECONNECT_20261006T0927.log",
+  "latest_observation": "SSH unavailable; read-only wait core: ssh: connect to host 10.248.54.20 port 65522: Connection timed out",
+  "source_data_admission": "PREVIOUSLY_CLOSED_AND_PRESERVED",
+  "remote_archive_current_state": "UNOBSERVED_DURING_VPN_DISCONNECT",
+  "new_qsub_by_this_owner": 0,
+  "new_model_queries_by_this_owner": 0,
+  "new_optimizer_updates_by_this_owner": 0,
+  "goal_terminal": false,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "blocked_audit": {
+    "consecutive_goal_turns": 3,
+    "condition": "NUS VPN disconnected; Corelab connect timeout; Hopper DNS failure",
+    "last_goal_turn_classification": "VERIFIED_WAIT_ON_SESSION48813_AND_PID32052",
+    "exact_process_verified": {
+      "pid": 32052,
+      "created": "2026-10-06T09:22:09+08:00",
+      "command": "D:/Users/anaconda/python.exe -u scripts/pi0276_execution/run.py all --release 57fd8a9c53ce241c05a8d5b351034bed7ba56b14 --resume"
+    },
+    "session48813_live_now": true,
+    "scientific_failure": false,
+    "external_action_required": "Connect NUS VPN and complete MFA",
+    "pending_user_question_repeated": false,
+    "remote_archive_not_restarted": true,
+    "training_not_resubmitted": true
+  },
+  "vpn_blocker_resolved": true,
+  "exec_session_terminal": true,
+  "exec_session_exit_code": 1
+}

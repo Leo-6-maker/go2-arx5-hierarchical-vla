@@ -1,0 +1,133 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+from pathlib import Path
+import hashlib,json,os,resource,time,socket
+HOME=Path.home();WS=HOME/'Projects/GR00T-WBC';INF=WS/'infrastructure';SESSION='20261013T031510Z-localpc-retirement';ROOT=WS/'archive/verified-retirement'/SESSION
+OUT=ROOT/'sanitized';OUT.mkdir(exist_ok=True,mode=0o700)
+def read(p):return json.loads(Path(p).read_text())
+def norm(p):return str(p).replace('/mnt/LocalHDD1/HomeNFS/@CORELAB_STORAGE_USER@','@LOCAL_OR_CORE_HOME@-nfs')
+def red(s):
+ for old,new in [('/mnt/LocalHDD1/HomeNFS/@CORELAB_STORAGE_USER@','<AMD_EXPORT>'),('@LOCAL_OR_CORE_HOME@-nfs','<SHARED_HOME>'),('@CORELAB_NODE_STORAGE@','<NODE_SSD>'),('@HOPPER_SCRATCH@','<HOPPER_SCRATCH>'),('/opt/miniconda3/envs/base312','<AMD_BASE312>')]:s=s.replace(old,new)
+ return s
+
+def sanitized(j):
+ if isinstance(j,str):return red(j)
+ if isinstance(j,list):return [sanitized(x) for x in j]
+ if isinstance(j,dict):return {red(k):sanitized(v) for k,v in j.items()}
+ return j
+
+def save(name,j):
+ b=json.dumps(sanitized(j),indent=2,ensure_ascii=False)+'\n';(OUT/name).write_text(b);(OUT/name).chmod(0o600)
+ return hashlib.sha256(b.encode()).hexdigest()
+receipts=[]
+for area in ['code','home']:
+ for p in (ROOT/area).glob('*/DELETION_RECEIPT.json'):
+  j=read(p);j['receipt_sha256']=hashlib.sha256(p.read_bytes()).hexdigest();j['private_receipt']=str(p)
+  receipts.append(j)
+retired=[j for j in receipts if j.get('source_absent') and j['status'].startswith(('RETIRED','MIGRATED'))]
+by={j['path']:j for j in receipts}
+code=[]
+for p in (ROOT/'code').glob('*/CODE_BACKUP_AUDIT.json'):
+ a=read(p);code.append(dict(candidate=Path(a['path']).name,path=a['path'],head=a['head'],tree=a['tree'],origin=a['origin'],origin_refresh_rc=a.get('fetch'),remote_reachable_head=not bool(a.get('local_only_commits')) if a.get('fetch')==0 else 'UNKNOWN_REMOTE_REFRESH_FAILED',
+  local_only_commit_count=len(a.get('local_only_commits',[])),local_only_commits=a.get('local_only_commits',[]),ref_count=len(a.get('refs','').splitlines()),stash_count=len(a.get('stash','').splitlines()),reflog_commit_count=len(set(a.get('reflog_commits',[]))),
+  source_staged_patch_bytes=(p.parent/'staged.patch').stat().st_size,source_unstaged_patch_bytes=(p.parent/'unstaged.patch').stat().st_size,original_git_status_is_not_reconstructed_from_report_status=True,git_object_coverage=next((x for x in read(ROOT/'GIT_OBJECT_COVERAGE_VERIFY.json')['checks'] if x['candidate']==a['path']),None),
+  untracked_count=len([x for x in a.get('untracked',[]) if x]),ignored_count=len([x for x in a.get('ignored',[]) if x]),submodule_status=a.get('submodule'),lfs_status=a.get('lfs'),
+  initialized_nested_git=[{k:v for k,v in ni.items() if k in {'relative','head','tree','origin','fetch','local_only_commits','status','independent_restore','independent_common_dir','no_source_objects_or_alternates'}} for ni in a.get('initialized_nested_git',[])],raw_common_backup=a.get('raw_common_backup'),raw_common_backup_verified=a.get('raw_common_backup_verified'),bundle_verify_rc=a.get('bundle_verify_rc'),independent_restore=a.get('independent_restore'),independent_all_files_verified=a.get('independent_all_files_verified'),files=a.get('files'),allocated_bytes=a.get('allocated_bytes'),uncovered=a.get('uncovered'),protected_by_current_lease=a.get('protected_by_current_lease'),outcome=by.get(a['path'],{}).get('status','PROTECTED_SOURCE_RETAINED'),audit_sha256=hashlib.sha256(p.read_bytes()).hexdigest()))
+mods=read(ROOT/'official_modifications/MANIFEST.json')
+# Raw patch/notebook bytes and private outputs remain entirely outside this report.
+mods_public=dict(status=mods['status'],files=[dict(relative=x['relative'],sha256=x['sha256'],mode=x['identity']['mode'],recovery=x['recovery']) for x in mods['files']],pushed_private_notebook=False,originals_unchanged=True)
+project_rows={x['path']:x for x in read(INF/'RETIRE_CANDIDATES.json')['items'] if x['node']=='corelab-amd-server'}
+home_rows={x['path']:x for x in read(INF/'HOME_RETIRE_REVIEW.json')['items']}
+reasons={
+ 'GR00T-WholeBodyControl':'Protected historical WBC original; current science lease protects this repository. No retirement authorization for unique WBC.',
+ '_handoff':'Protected credentials and original handoff assets; deliberately unopened and unchanged.',
+ 'go2-arx5':'Protected mixed asset root containing private WBC, PI0250/PI0276/PI0290/PI0291/PI0292 and host-local aliases.',
+ 'isaac-gr00t':'Initialized third-party submodules (5) and parent common-dir still required by protected PI0280 official worktree and PI0292 old shared official worktree. Dirty CLAUDE/notebook raw bytes and exact patches are privately restored.',
+ 'isaac-gr00t-rtx4080s-remote':'PI0292 HELD_FOR_SCIENCE explicitly pins this direct source path; no switch while dispatcher is collecting.',
+ 'go2-arx5-hierarchical-vla':'Parent common-dir required by PI0250 reference-317a, Home pi0215 runtime and AMD SSD pi0215 runtime; also retains stale /tmp registrations. No global prune or parent deletion.',
+ 'Downloads':'User general-purpose Downloads directory, currently empty; outside cold project migration purpose.',
+ 'bin':'Protected legacy Home environment; interpreter link targets unavailable unitree-rl environment.',
+ 'include':'Protected legacy Home environment ABI/include directory.',
+ 'lib':'Protected legacy Home environment package directory.',
+ 'lib64':'Protected legacy Home environment symlink relationship.',
+ 'pyvenv.cfg':'Protected original legacy Home environment configuration.',
+ 'pi0209_corelab_stage45i_20260918':'Unique historical model/checkpoint/Trainer lineage; about 54 GiB exceeds 16 GiB recovery cap and no complete independent restore exists.',
+ 'pi0215_a049_runtime':'Retained linked runtime worktree and original environment dependency; also prevents old VLA parent retirement.',
+ 'pi0220_v0_20260918':'Contains original native expert rows and anatomy evidence; not covered by the PI0291 fixed HF archive. This pass does not migrate original scientific datasets.',
+ 'pi0223_goal_b_20260918':'Original environment/materialization tree; absolute interpreter and package provenance must remain intact.',
+ 'pi0240_transfer_staging_20260920':'About 18 GiB historical transfer payload exceeds bounded recovery cap; full fixed external coverage/readback is not available.',
+ 'pi0246_gate_pass_archive_20260924':'Checkpoint processor/statistics plus unique scheduler/RNG/Trainer metadata and partial transfer locks; preserve original lineage.',
+ 'pi0246_gate_pass_campaign_20260924':'Mixed original runtime/environment and campaign evidence; preserve absolute environment and original science assets.',
+ 'pi0246_gate_pass_screen_20260925':'Original condition/action/backbone feature evidence and model symlinks; independent full science recovery not qualified.',
+ 'stage13_report_staging':'Protected original private WBC delivery family, including empty report tree.',
+ 'stage13b_staging':'Protected original private WBC delivery family.',
+ 'stage13c_staging':'Protected original private WBC delivery family.'}
+manifest=[]
+for category,rows in [('PROJECTS',project_rows),('HOME',home_rows)]:
+ for path,row in rows.items():
+  receipt=by.get(path)
+  status=receipt['status'] if receipt else 'PROTECTED_EXACT_HOLD'
+  reason=(receipt.get('reason') if receipt else None) or reasons.get(Path(path).name)
+  assert receipt or reason,'unclassified exact candidate '+path
+  manifest.append(dict(category=category,path=path,name=Path(path).name,status=status,source_present=Path(path).exists() or Path(path).is_symlink(),reason=reason,destination=receipt.get('destination') if receipt else None,private_receipt=receipt.get('private_receipt') if receipt else None,original_device=row.get('st_dev'),original_inode=row.get('st_ino'),shared_asset_deduplicated=True))
+assert len(manifest)==56
+for j in retired:assert not (Path(j['path']).exists() or Path(j['path']).is_symlink())
+# Source/receipt fields only. Omit live FD, maps and executable process text.
+public_receipts=[{k:j[k] for k in ['path','status','method','source_head','source_tree','source_identity','backup_audit','destination','source_copy_receipt','independent_archive_full_readback','source_absent','deleted_files','deleted_symlinks','deleted_directories','allocated_bytes_of_deleted_objects','allocation_scope','hardlinked_objects','deleted_epoch','journal','private_receipt','receipt_sha256','net_recovery_claimed'] if k in j} for j in retired]
+for j in public_receipts:
+ if j['status']=='RETIRED_NATIVE_WORKTREE':j['allocation_scope']='Payload manifest lower bound; git indirection file and removed common-dir administrative metadata excluded.'
+allocated=sum(j.get('allocated_bytes_of_deleted_objects',0) for j in retired)
+migrated=[j for j in retired if j['status'].startswith('MIGRATED')]
+# Added allocations counted once per inode on the shared filesystem; no symlink following.
+def size(root):
+ seen=set();logical=allocated=files=0
+ for base,dirs,names in os.walk(root,followlinks=False):
+  dirs[:]=[x for x in dirs if not (Path(base)/x).is_symlink()]
+  for name in names:
+   p=Path(base)/name;s=p.lstat()
+   if p.is_symlink() or not p.is_file():continue
+   key=(s.st_dev,s.st_ino)
+   if key in seen:continue
+   seen.add(key);files+=1;logical+=s.st_size;allocated+=s.st_blocks*512
+ return dict(regular_files=files,logical_bytes=logical,unique_inode_allocated_bytes=allocated,symlink_targets_not_walked=True)
+spaces=dict(deleted_source_object_allocated_bytes_lower_bound=allocated,cold_migrated_source_allocated_bytes=sum(x.get('allocated_bytes_of_deleted_objects',0) for x in migrated),hardlinked_deleted_objects=sum(len(x.get('hardlinked_objects',[])) for x in retired),new_private_recovery=size(ROOT),new_official_checkout=size(WS/'code/isaac-gr00t-51d4c89f'),new_cold_archive=size(WS/'archive/legacy'/SESSION),previous_derived_BF16_retirement_bytes_excluded=44017266688,physical_net_reclaim_proven=False,reason='Btrfs/reflink/snapshot sharing, NFS quota and concurrent PI0292 writes are not exclusively measured; filesystem available-byte delta is observational.')
+env=[read(ROOT/('ENVIRONMENT_ENTRY_CHECK_'+node+'.json')) for node in ['corelab-amd-server','corelab-4080s']]
+assert all(x['status']=='PASS' for x in env)
+before=read(ROOT/'BEFORE.json');after={}
+for p in [HOME,HOME/'Projects']:
+ after[str(p)]=[dict(name=x.name,path=str(x),type='symlink' if x.is_symlink() else 'directory' if x.is_dir() else 'file',target=os.readlink(x) if x.is_symlink() else None) for x in sorted(p.iterdir()) if not x.name.startswith('.')]
+changes=[]
+for path in [str(HOME),str(HOME/'Projects')]:
+ b={x['name']:x for x in before[path]};a={x['name']:x for x in after[path]}
+ changes.append(dict(location=path,before_count=len(b),after_count=len(a),before=list(b.values()),after=list(a.values()),removed=sorted(set(b)-set(a)),added=sorted(set(a)-set(b))))
+final_nodes=[read(ROOT/('FINAL_NODE_SNAPSHOT_'+n+'.json')) for n in ['corelab-amd-server','corelab-4080s']]
+assert all(len(n['retired_sources_absent'])==len(retired) for n in final_nodes)
+assert final_nodes[0]['visible']==final_nodes[1]['visible']
+capacities=[]
+for node in final_nodes:
+ old=before['capacity'] if node['node']=='corelab-amd-server' else None
+ # Earlier live baseline captures node-local SSD mount separately if available in the source audit.
+ capacities.append(dict(node=node['node'],after=node['capacity'],before=old,available_delta_bytes={path:amount-old[path]['available_bytes'] for path,amount in node['capacity'].items()} if old else None))
+worktrees=[]
+for name in ['go2-arx5-hierarchical-vla-pi0240','go2-arx5-hierarchical-vla-pi0241','go2-arx5-hierarchical-vla-rtx4080s','isaac-gr00t-rtx4080s']:
+ j=by[str(HOME/'Projects'/name)];assert j['status']=='RETIRED_NATIVE_WORKTREE'
+ worktrees.append(dict(candidate=name,former_4080_status='AMD_ONLY_GITDIR_NAMESPACE_NOT_RESOLVABLE',execution_host='corelab-amd-server',method=j['method'],native_remove_rc=j['native_remove_rc'],source_absent_both_nodes=True,old_4080_gitdir_not_repaired=True,metadata_backup='private candidate git_worktree_metadata',force=False))
+resources=[read(p) for p in ROOT.glob('RESOURCE_*.json')]
+cpu=sum(x['cpu_seconds'] for x in resources)+sum(x['cpu_seconds'] for x in env)
+extra_gpu=sum(n.get('cpu_seconds',0) for p in (ROOT/'checks').glob('*.json') for n in read(p)['nodes'] if n['node']=='corelab-4080s')
+usage=dict(recorded_cpu_seconds=cpu+extra_gpu,recorded_cpu_core_hours=(cpu+extra_gpu)/3600,earlier_uninstrumented_consumer_probes_and_auxiliary_metadata_conservative_allowance_seconds=22*90,conservative_upper_cpu_core_hours=(cpu+extra_gpu+22*90)/3600,maximum_core_hours=8,maximum_recovery_bytes=17179869184,recorded_recovery_peak_bytes=max([x['recovery_bytes'] for x in resources]+[spaces['new_private_recovery']['unique_inode_allocated_bytes']]),max_concurrency_cpu=4,model_physics_train_PBS_WBC_hardware=0,healthy_jobs_terminated=0,T0_epoch=read(ROOT/'ADOPTION.json')['T0_epoch'],finished_epoch=time.time())
+assert usage['conservative_upper_cpu_core_hours']<8 and usage['recorded_recovery_peak_bytes']<17179869184
+hashes={}
+hashes['CODE_BACKUP_AUDIT.json']=save('CODE_BACKUP_AUDIT.json',dict(status='BATCH_RETIRING_CODE_RECOVERY_CLOSED',scope='Listed retirement candidates only; not all server code or all files on GitHub',git_candidates=code,official_original_modifications=mods_public,plain_source_archive=next(x for x in manifest if x['name']=='stage45e_n2_runtime_5080d53')))
+hashes['RETIREMENT_MANIFEST.json']=save('RETIREMENT_MANIFEST.json',dict(status='PARTIAL_WITH_EXACT_HOLDS',project_observations=24,unique_shared_project_candidates=12,home_candidates=44,candidate_total=56,source_paths_retired=len(retired),cold_migrations=len(migrated),original_candidate_entries=manifest))
+hashes['DELETION_RECEIPT.json']=save('DELETION_RECEIPT.json',dict(session=SESSION,fixed_release=read(ROOT/'ADOPTION.json')['release'],actual_retired_source_paths=len(retired),deleted_regular_files=sum(x.get('deleted_files',0) for x in retired),receipts=public_receipts,space_accounting=spaces,resource_accounting=usage,previous_phase2_receipt_not_rewritten=True))
+hashes['WORKTREE_RECEIPT.json']=save('WORKTREE_RECEIPT.json',dict(cases=worktrees,parent_relations=[dict(name=x['name'],reason=x['reason']) for x in manifest if x['name'] in {'go2-arx5-hierarchical-vla','isaac-gr00t','isaac-gr00t-rtx4080s-remote'}],official_entry_switch=read(ROOT/'OFFICIAL_ENTRY_SWITCH.json'),VLA_sync=read(ROOT/'VLA_SYNC_RECEIPT.json'),global_prune=False,force=False))
+hashes['ENVIRONMENT_ENTRY_CHECK.json']=save('ENVIRONMENT_ENTRY_CHECK.json',dict(status='PASS_AMD_AND_4080S',checks=env,profiles=read(INF/'ENVIRONMENTS.json'),baseline=read(INF/'ENTRY_HASH_BASELINE.json'),implementation_readback=read(ROOT/'ENTRY_IMPLEMENTATION_READBACK.json'),new_dependency_installs=0))
+hashes['BEFORE_AFTER.json']=save('BEFORE_AFTER.json',dict(status='SHARED_HOME_VISIBLE_ENTRIES_ACCOUNTED_ON_BOTH_NODES',changes=changes,observed_capacities=capacities,final_node_snapshots=final_nodes,shared_export_identity_evidence=dict(AMD_filesystem='Btrfs /dev/sda1 mounted /mnt/LocalHDD1',AMD_real_shared_home='<AMD_EXPORT>',GPU_NFS4_export='corelab-amd-server-eth:<AMD_EXPORT>',GPU_mount='<SHARED_HOME>',dedup_method='same NFS export and relative path; host-local SSDs never deduplicated by inode'),space_accounting=spaces,retired_to_archive=[dict(source=x['path'],archive=x.get('destination')) for x in retired if x.get('destination')],protected_in_place=[x for x in manifest if x['source_present']],Projects_physically_one_directory=False,archive_navigation=read(ROOT/'ARCHIVE_NAVIGATION.json')))
+# No scientific bindings are rewritten. This map is for navigation/history only.
+legacy=dict(session=SESSION,mappings=[dict(old=x['path'],recovery=x.get('destination') or x.get('backup_audit'),status=x['status']) for x in retired],scientific_bindings_changed=False)
+(INF/'LEGACY_PATH_MAP.json').write_text(json.dumps(legacy,indent=2)+'\n');(INF/'LEGACY_PATH_MAP.json').chmod(0o600)
+summary=dict(status='PARTIAL_WITH_EXACT_HOLDS',session=SESSION,candidates=len(manifest),retired=len(retired),home_retired=sum(x['path'] in home_rows for x in retired),projects_retired=sum(x['path'] in project_rows for x in retired),deleted_regular_files=sum(x.get('deleted_files',0) for x in retired),spaces=spaces,usage=usage,before_after_counts=[dict(location=x['location'],before=x['before_count'],after=x['after_count']) for x in changes],hashes=hashes,code_coverage=code,holds=[dict(name=x['name'],reason=x['reason']) for x in manifest if x['source_present']])
+save('SUMMARY.json',summary)
+print(json.dumps(sanitized(summary),ensure_ascii=False))

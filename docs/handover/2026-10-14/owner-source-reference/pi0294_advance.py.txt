@@ -1,0 +1,82 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Advance an idle registered run to a new immutable published capsule."""
+import argparse
+import base64
+import subprocess
+import time
+
+from pi0294_adopt import BASE, CUTOFF, REPO, RUN, remote, save
+
+CODE = r'''
+import base64,hashlib,json,os,socket,subprocess,time
+from pathlib import Path
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def write(p,v):
+ with p.open('xb') as f:f.write((json.dumps(v,indent=2)+'\n').encode());f.flush();os.fsync(f.fileno())
+ p.chmod(0o600)
+hopper=socket.gethostname().startswith('hopper')
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN if hopper else Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+assert time.time()<CUTOFF and os.getuid()==(22182 if hopper else 2009)
+consumers=[]
+for proc in Path('/proc').iterdir():
+ if not proc.name.isdigit() or int(proc.name)==os.getpid():continue
+ try:
+  if proc.stat().st_uid!=os.getuid():continue
+  command=(proc/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')
+  if str(root) in command and command and not command.startswith('python3 -'):
+   stat=(proc/'stat').read_text().split()
+   if stat[2] not in ('Z','X'):consumers.append(dict(pid=int(proc.name),start=stat[21],command=command[:1000]))
+ except (OSError,PermissionError):pass
+assert not consumers,repr(consumers)
+queue_path=root/'LIVE_QUEUE.json'
+queue=json.loads(queue_path.read_text()) if queue_path.exists() else None
+if queue:assert queue['status']=='LIVE_TERMINAL_ALL_FIRST_ATTEMPTS' and not queue['reservations'] and not queue['auxiliary']
+old=(root/'RUN_MANIFEST.json').read_bytes();manifest=json.loads(old)
+assert manifest['code']['vla_commit']!=SOURCE_SHA
+capsule=root/'capsules'/SOURCE_SHA
+capsule.mkdir(parents=True,exist_ok=False)
+source=capsule/'code';source.mkdir()
+files={}
+for name,encoded in CONTENTS.items():
+ p=source/name;assert p.resolve().is_relative_to(source.resolve())
+ p.parent.mkdir(parents=True,exist_ok=True)
+ with p.open('xb') as f:f.write(base64.b64decode(encoded))
+ p.chmod(0o440);files[name]=sha(p)
+seal=dict(schema='PI0294_SOURCE_SEAL_V1',source_sha=SOURCE_SHA,files=files,
+ protocol_release=manifest['authority']['protocol_ref'],run_uuid=RUN,
+ official_source_sha='51d4c89f72fda44cbf77285c6a8114b52676b8a1',base_revision='2fc962b973bccdd5d8ce4f67cc63b264d6886495')
+write(capsule/'SOURCE_SEAL.json',seal)
+write(capsule/'PRIOR_RUN_MANIFEST.json',json.loads(old))
+receipt=dict(status='VERIFIED_TERMINAL_SOURCE_ADVANCE',run_uuid=RUN,
+ old_queue_sha256=sha(queue_path) if queue else None,old_source_sha=manifest['code']['vla_commit'],
+ new_source_sha=SOURCE_SHA,no_active_consumers=True,epoch=time.time(),physics_starts=0,
+ models_loaded=0,PBS_submissions=0,prior_capsule_preserved=True)
+write(capsule/'SOURCE_BOUNDARY.json',receipt)
+manifest['code'].update(vla_commit=SOURCE_SHA,source_seal_sha256=sha(capsule/'SOURCE_SEAL.json'),
+ capsule_relative=str(source.relative_to(root)),source_seal_relative=str((capsule/'SOURCE_SEAL.json').relative_to(root)))
+manifest['status']='FIXED_SOURCE_ADVANCED_AT_TERMINAL_BOUNDARY_NOT_EXECUTED'
+write(capsule/'RUN_MANIFEST.json',manifest)
+assert (root/'RUN_MANIFEST.json').read_bytes()==old
+pending=root/('RUN_MANIFEST.pending.'+str(os.getpid()));write(pending,manifest);os.replace(pending,root/'RUN_MANIFEST.json')
+python=json.loads((root/('NEURAL_BINDINGS.private.json' if hopper else 'ENTRY_BINDING.private.json')).read_text())['python']
+env=dict(os.environ,PYTHONPATH=str(source/'src')+':'+str(source),PYTHONDONTWRITEBYTECODE='1')
+command=[python,'-c','from scripts.pi0294.run_admission import validate;print(validate('+repr(str(root))+',profile='+repr(manifest['execution']['profile'])+')["code"]["vla_commit"])']
+result=subprocess.run(command,env=env,cwd=source,text=True,capture_output=True,timeout=30)
+assert result.returncode==0,result.stderr
+proof=dict(receipt,files=len(files),manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+ source_seal_sha256=sha(capsule/'SOURCE_SEAL.json'),source_root=str(source),admission=result.stdout)
+write(capsule/'DEPLOYMENT.private.json',proof)
+print(json.dumps(proof))
+'''
+
+if __name__=='__main__':
+ p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--host',choices=['hopper','corelab-4080s'],required=True);a=p.parse_args()
+ names=subprocess.check_output(['git','ls-tree','-r','--name-only',a.source,'src','scripts/pi0291_arx5_data','scripts/pi0292','scripts/pi0294','scripts/iteration','reports/PI0291/20261013T023717-localpc-arx5/TEACHER_AND_LAYOUT_SEAL.json','reports/PI0292/design/CONFIRM_LAYOUTS.json'],cwd=REPO,text=True).splitlines()
+ contents={n:base64.b64encode(subprocess.check_output(['git','show',a.source+':'+n],cwd=REPO)).decode() for n in names}
+ values=dict(CONTENTS=contents,SOURCE_SHA=a.source,RUN=RUN,CUTOFF=CUTOFF)
+ result=remote(a.host,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+ save(BASE/('ADVANCE_'+a.host+'_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-3000:])
+ print(result.stdout)

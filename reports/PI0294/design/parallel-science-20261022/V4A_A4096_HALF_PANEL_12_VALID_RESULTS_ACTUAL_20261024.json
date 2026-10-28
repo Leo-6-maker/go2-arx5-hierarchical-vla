@@ -1,0 +1,672 @@
+{
+  "schema": "V4A_A4096_HALF_FIRST_PANEL_TWELVE_VALID_RESULTS_ACTUAL_V1",
+  "goal_status": "ACTIVE",
+  "observed_epoch": 1792855769.567924,
+  "native_runtime_source_sha": "7cc751803e18b911fbe6ad896efd9a1c0ed936b0",
+  "noise_bank": 294101,
+  "planned_per_arm": 24,
+  "A_valid": 12,
+  "A_successes": 7,
+  "A_valid_task_failures": 5,
+  "A_first_panel_complete": false,
+  "B_valid": 0,
+  "paired_conditions": 0,
+  "A_B_effect_estimate": null,
+  "intervals": null,
+  "by_candidate_task": {
+    "A_CONTROL": {
+      "T1": {
+        "planned": 12,
+        "valid_observed": 6,
+        "successes": 4,
+        "valid_task_failures": 2,
+        "failure_stages": {
+          "ORIGINAL_REFERENCE_GATE_REJECT": 1,
+          "S1_PRE_EXECUTION_REJECT": 1
+        },
+        "observed_success_rate": 0.6666666666666666,
+        "complete_panel_success_rate": null,
+        "engineering_missing": 0,
+        "no_supplied_terminal_evidence": 6
+      },
+      "T2": {
+        "planned": 12,
+        "valid_observed": 6,
+        "successes": 3,
+        "valid_task_failures": 3,
+        "failure_stages": {
+          "S1_PRE_EXECUTION_REJECT": 1,
+          "OBJECT_TASK_RESULT": 2
+        },
+        "observed_success_rate": 0.5,
+        "complete_panel_success_rate": null,
+        "engineering_missing": 0,
+        "no_supplied_terminal_evidence": 6
+      }
+    },
+    "B_COVERAGE": {
+      "T1": {
+        "planned": 12,
+        "valid_observed": 0,
+        "successes": 0,
+        "valid_task_failures": 0,
+        "failure_stages": {},
+        "observed_success_rate": null,
+        "complete_panel_success_rate": null,
+        "engineering_missing": 0,
+        "no_supplied_terminal_evidence": 12
+      },
+      "T2": {
+        "planned": 12,
+        "valid_observed": 0,
+        "successes": 0,
+        "valid_task_failures": 0,
+        "failure_stages": {},
+        "observed_success_rate": null,
+        "complete_panel_success_rate": null,
+        "engineering_missing": 0,
+        "no_supplied_terminal_evidence": 12
+      }
+    }
+  },
+  "by_candidate_family_task_status": {
+    "A_CONTROL": {
+      "F0": {
+        "T1": {
+          "VALID_TASK_FAIL": 1,
+          "SUCCESS": 1
+        },
+        "T2": {
+          "VALID_TASK_FAIL": 1,
+          "SUCCESS": 1
+        }
+      },
+      "F1": {
+        "T1": {
+          "SUCCESS": 3,
+          "VALID_TASK_FAIL": 1,
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 1
+        },
+        "T2": {
+          "SUCCESS": 2,
+          "VALID_TASK_FAIL": 2,
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 1
+        }
+      },
+      "F2": {
+        "T1": {
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 5
+        },
+        "T2": {
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 5
+        }
+      }
+    },
+    "B_COVERAGE": {
+      "F0": {
+        "T1": {
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 2
+        },
+        "T2": {
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 2
+        }
+      },
+      "F1": {
+        "T1": {
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 5
+        },
+        "T2": {
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 5
+        }
+      },
+      "F2": {
+        "T1": {
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 5
+        },
+        "T2": {
+          "NO_SUPPLIED_TERMINAL_EVIDENCE": 5
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "adjudication": {
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F0-000-T1-N294101",
+        "condition_id": "PI0294/PV1/DEV/F0/000/T1/N294101",
+        "model": "A_CONTROL",
+        "task": "T1",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F0/000",
+        "noise_bank": 294101,
+        "family": "F0",
+        "duration_s": 28.8,
+        "main_integrations": 14400,
+        "RGB_pairs": 577,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 6.933342788784103e-14,
+        "result_sha256": "6a66e2b032cab3cee1e6341e52d035129b706be62cf60944179c7bc758b177dc",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "6a66e2b032cab3cee1e6341e52d035129b706be62cf60944179c7bc758b177dc",
+        "adjudication": "f153de984abf1d13507ca45374dc8e06f07891955f2efb4d47d34f1b3598c981",
+        "s1": "52301b2c9ff57a76fbcdce4df0360996ff15e171bf601797192126dee3b64583",
+        "audit": "f85ae3a6a9911f24819648edb68c0a47b26e6c4a33b7320a45b4ec7f714fdebc",
+        "causal": "9ea9a5dcbdb606f082c77ccdc9169528d81679b8b980933e346a3f917475d203"
+      },
+      "complete_task_score": {
+        "complete_32s": false,
+        "clock_valid": false,
+        "safety_valid": true,
+        "persistent_success": false
+      },
+      "draws": 73,
+      "executed_ACKs": 72
+    },
+    {
+      "adjudication": {
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F0-000-T2-N294101",
+        "condition_id": "PI0294/PV1/DEV/F0/000/T2/N294101",
+        "model": "A_CONTROL",
+        "task": "T2",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F0/000",
+        "noise_bank": 294101,
+        "family": "F0",
+        "duration_s": 21.2,
+        "main_integrations": 10600,
+        "RGB_pairs": 425,
+        "S1_rejections": 1,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 2.753353101070388e-13,
+        "result_sha256": "83252a62cee48a39c35746815421fa7ec062db363fa6ffb1969d9f4a58e5425f",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "83252a62cee48a39c35746815421fa7ec062db363fa6ffb1969d9f4a58e5425f",
+        "adjudication": "810cb564704f6e1247c4ce75144591c27160915a0015996e15dc188c12a051c8",
+        "s1": "2c0f319ac427d14c03095273e1653d9350ec837d7c06cc58d31e08ead1cbf4ff",
+        "audit": "943536b621ff7229398b053787391200e78a8dec3b63a46430ba458c59a412b1",
+        "causal": "9918285c557f6096cd749d405dcee77b288cbb1a7ed3e6d6c0c76c1124d9fb24"
+      },
+      "complete_task_score": {
+        "complete_32s": false,
+        "clock_valid": false,
+        "safety_valid": false,
+        "persistent_success": false
+      },
+      "draws": 54,
+      "executed_ACKs": 53
+    },
+    {
+      "adjudication": {
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F0-001-T1-N294101",
+        "condition_id": "PI0294/PV1/DEV/F0/001/T1/N294101",
+        "model": "A_CONTROL",
+        "task": "T1",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F0/001",
+        "noise_bank": 294101,
+        "family": "F0",
+        "duration_s": 32.0,
+        "main_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 4.5130565951012613e-14,
+        "result_sha256": "9efb91edc14b7514d939759c43fa4b02348bebaccf96d66893b3b04b7dba50cf",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "9efb91edc14b7514d939759c43fa4b02348bebaccf96d66893b3b04b7dba50cf",
+        "adjudication": "7a9c645df381e3aa6ae9723451ba3ccac1b4550a2390e911fa5f3695f0997908",
+        "s1": "30bfc39f7d0a2c47f759f14ead542eb63c5133504ea9cb15a5676291ed287a30",
+        "audit": "4a5893cc63219ed5e71633080a1e5e3be482a59e4cad9db21067c92dafcda1f4",
+        "causal": "46185d41744ce91dc85ef59543287e08ff86860cd88ceed485a4742713ecb13d"
+      },
+      "complete_task_score": {
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "draws": 80,
+      "executed_ACKs": 80
+    },
+    {
+      "adjudication": {
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F0-001-T2-N294101",
+        "condition_id": "PI0294/PV1/DEV/F0/001/T2/N294101",
+        "model": "A_CONTROL",
+        "task": "T2",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F0/001",
+        "noise_bank": 294101,
+        "family": "F0",
+        "duration_s": 32.0,
+        "main_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 1.4210854715202004e-13,
+        "result_sha256": "c309e650f054bfa6d20714245eea0cf87ff76b0728c5d95510210c3bb18ceec4",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "c309e650f054bfa6d20714245eea0cf87ff76b0728c5d95510210c3bb18ceec4",
+        "adjudication": "17fd3d164961f826df8587fd3ddadc11c711f3f2b4aba5920283cfc6b832857e",
+        "s1": "284924a2edb9a6d530ca65598e0acd75524e0a8dea083eee69cdfc0580d26495",
+        "audit": "1ae79a6006b2024e18a162423b4e272fca2750b9100dc3fd170453c93fd5cf3c",
+        "causal": "c65a258dd46a06c4352365036eea4549c5fd583c7616c30417f4349426454e0f"
+      },
+      "complete_task_score": {
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "draws": 80,
+      "executed_ACKs": 80
+    },
+    {
+      "adjudication": {
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F1-000-T1-N294101",
+        "condition_id": "PI0294/PV1/DEV/F1/000/T1/N294101",
+        "model": "A_CONTROL",
+        "task": "T1",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F1/000",
+        "noise_bank": 294101,
+        "family": "F1",
+        "duration_s": 32.0,
+        "main_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 4.5852210917018965e-14,
+        "result_sha256": "b8739f0d15a7eec3f2888aa3628ef38b95ea5c491dec222dba786bdea7beb7af",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "b8739f0d15a7eec3f2888aa3628ef38b95ea5c491dec222dba786bdea7beb7af",
+        "adjudication": "6f2db36be3c1f9e1278965d37e1ec52ab933e7a7f49d109638d319349260fc0f",
+        "audit": "1d5d120648c04c100aab1ad5b86719be6288c837a0b72a5d3db460d668134745",
+        "causal": "79f1e453f3f10ba6f42cfeb95940750ea66e5d0207515af3edfb413a01be1a2f",
+        "s1": "73b6453df0843a33769fbc67e9cce7f80df98850ef85498b3b9b1492b6c38435"
+      },
+      "complete_task_score": {
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "draws": 80,
+      "executed_ACKs": 80
+    },
+    {
+      "adjudication": {
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F1-000-T2-N294101",
+        "condition_id": "PI0294/PV1/DEV/F1/000/T2/N294101",
+        "model": "A_CONTROL",
+        "task": "T2",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F1/000",
+        "noise_bank": 294101,
+        "family": "F1",
+        "duration_s": 32.0,
+        "main_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 1.2789769243681803e-13,
+        "result_sha256": "c95a99689c1f20edbca8291156c5bcd9d2062e8257449501ac581b973546069b",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "c95a99689c1f20edbca8291156c5bcd9d2062e8257449501ac581b973546069b",
+        "adjudication": "64733334a0a7477bd2c1ec934c8a859f1eb176ff38001a4ad5f0c685e6e1b1e4",
+        "audit": "cfe0b68e139541aafee05c30438577fbb4e048d24a68b2b58314f9cbfb35840e",
+        "causal": "c68f1b52cd468d6cc62490cb490b35ab6e2febacb233282c929cf05051acef11",
+        "s1": "d0cb9f1435bf3877d44073dd16c254bdc1b627fe58e945a9e528c32888c7613f"
+      },
+      "complete_task_score": {
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "draws": 80,
+      "executed_ACKs": 80
+    },
+    {
+      "adjudication": {
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F1-001-T1-N294101",
+        "condition_id": "PI0294/PV1/DEV/F1/001/T1/N294101",
+        "model": "A_CONTROL",
+        "task": "T1",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F1/001",
+        "noise_bank": 294101,
+        "family": "F1",
+        "duration_s": 32.0,
+        "main_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 5.6066262743570405e-14,
+        "result_sha256": "6b8df30d6d49d520eb07f141248e808c204ed04946f253f387faffd144d28292",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "6b8df30d6d49d520eb07f141248e808c204ed04946f253f387faffd144d28292",
+        "adjudication": "c491b1a42e819879daa84e1f1c58b2f7934fe2aec79d1de4c8d22650b5d08d73",
+        "audit": "91e7f45b4295bfe457aba210e7e174630b85d3b37863797c2b6b73d9ace21306",
+        "causal": "57ceeef28a3974e40020c24618723a41f98acc4a914a8a66b753e2c8108aa328",
+        "s1": "3b6cba3ba92f65a273f1b0ab41e4412f67d6c81fb9b6a244e60f06535514341b"
+      },
+      "complete_task_score": {
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "draws": 80,
+      "executed_ACKs": 80
+    },
+    {
+      "adjudication": {
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "OBJECT_TASK_RESULT",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F1-001-T2-N294101",
+        "condition_id": "PI0294/PV1/DEV/F1/001/T2/N294101",
+        "model": "A_CONTROL",
+        "task": "T2",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F1/001",
+        "noise_bank": 294101,
+        "family": "F1",
+        "duration_s": 32.0,
+        "main_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 1.0746958878371515e-13,
+        "result_sha256": "6163da1813592a1e819d9548ca26a4b079a33be9f8b7da91cbee296d3741db02",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "6163da1813592a1e819d9548ca26a4b079a33be9f8b7da91cbee296d3741db02",
+        "adjudication": "4032cccf63afe960b3c9e18108e11729803d78ecdfeabd38ba82ef7587037a61",
+        "audit": "1cac70427bbc3a00ff52f52219322972b4445dd830ca08263d940cdc4a607c84",
+        "causal": "3238ac732818c0600602c1dc8bf0aa4d066b10ef3ddb722508849931c670b072",
+        "s1": "3dd9ddafe61e7c9b5f0fb4566329696fdbf0053b496086697e7cf71118d5d416"
+      },
+      "complete_task_score": {
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "persistent_success": false
+      },
+      "draws": 80,
+      "executed_ACKs": 80
+    },
+    {
+      "adjudication": {
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "S1_PRE_EXECUTION_REJECT",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F1-002-T1-N294101",
+        "condition_id": "PI0294/PV1/DEV/F1/002/T1/N294101",
+        "model": "A_CONTROL",
+        "task": "T1",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F1/002",
+        "noise_bank": 294101,
+        "family": "F1",
+        "duration_s": 16.4,
+        "main_integrations": 8200,
+        "RGB_pairs": 329,
+        "S1_rejections": 1,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 5.5663806897143786e-14,
+        "result_sha256": "c49509be7514bf76b5a5d9d7fade41b442e949263bf5f8e7f1e7190c15e0119f",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "c49509be7514bf76b5a5d9d7fade41b442e949263bf5f8e7f1e7190c15e0119f",
+        "adjudication": "9a1da112f09879ed289fdb065673dcdbf0f0f79227278730ebdece938c0ac19f",
+        "audit": "031f8989a04715951a8ec4fe19a710a884186d8ff0b5433a39a2cb583ceab9ba",
+        "causal": "30d6888d24d5f7ecc7613f4a658ba1c0c8616e2890e458ba891847395e37fb32",
+        "s1": "4e2eba644c64116cf6ef006f446e245fc0c2145df461830d4048fc51f0955b0b"
+      },
+      "complete_task_score": {
+        "complete_32s": false,
+        "clock_valid": false,
+        "safety_valid": true,
+        "persistent_success": false
+      },
+      "draws": 42,
+      "executed_ACKs": 41
+    },
+    {
+      "adjudication": {
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F1-002-T2-N294101",
+        "condition_id": "PI0294/PV1/DEV/F1/002/T2/N294101",
+        "model": "A_CONTROL",
+        "task": "T2",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F1/002",
+        "noise_bank": 294101,
+        "family": "F1",
+        "duration_s": 32.0,
+        "main_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 1.1368683772161603e-13,
+        "result_sha256": "9dd251654e941812226c24baf4ddcccb05e6bd169a4556d880ee5a6d6b593d18",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "9dd251654e941812226c24baf4ddcccb05e6bd169a4556d880ee5a6d6b593d18",
+        "adjudication": "abea9993b30d2fcd58871f2074c34196eb9ba650d3613a68aa65a3776dab4229",
+        "audit": "a4b663848f8c6e4a775256d05f744755f147ad3160bd71f25beaab9a241219c0",
+        "causal": "e56f5c788776ed6d1bf34bbe373fdc3d755cadc7b86707ba52e5b533461d707d",
+        "s1": "d10f633463d6b21adf328975f87eaff9bdfca7cd3acb70bb0e69336a828657b2"
+      },
+      "complete_task_score": {
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "draws": 80,
+      "executed_ACKs": 80
+    },
+    {
+      "adjudication": {
+        "status": "SUCCESS",
+        "failure_stage": "COMPLETE_SUCCESS",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F1-003-T1-N294101",
+        "condition_id": "PI0294/PV1/DEV/F1/003/T1/N294101",
+        "model": "A_CONTROL",
+        "task": "T1",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F1/003",
+        "noise_bank": 294101,
+        "family": "F1",
+        "duration_s": 32.0,
+        "main_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 6.441201738649482e-14,
+        "result_sha256": "287bb877677f228f56859df5bca5d0d709708e7704146fe2847a0541270992e7",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "287bb877677f228f56859df5bca5d0d709708e7704146fe2847a0541270992e7",
+        "adjudication": "65eaf3e426ffd1f6428f0b8c4927c13f49fe24aac189d391cc2d23f035a2cc60",
+        "audit": "b6bb681c3776c33bd02d6c2240c7caedcdf5d2193c0e8083ddb44f17b28d5640",
+        "causal": "1b9566e3fa3c64c670b431d7648b24b16c8bfaf7471f32ca24671b7f2b3a88b1",
+        "s1": "2aeb7877891eb0bf3389249e77b121fd19a8ec77fae1d3359b3bf37177f83c5e"
+      },
+      "complete_task_score": {
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "draws": 80,
+      "executed_ACKs": 80
+    },
+    {
+      "adjudication": {
+        "status": "VALID_TASK_FAIL",
+        "failure_stage": "OBJECT_TASK_RESULT",
+        "pipeline_trustworthy": true,
+        "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F1-003-T2-N294101",
+        "condition_id": "PI0294/PV1/DEV/F1/003/T2/N294101",
+        "model": "A_CONTROL",
+        "task": "T2",
+        "split": "DEV",
+        "scene_group": "PI0294/PV1/DEV/F1/003",
+        "noise_bank": 294101,
+        "family": "F1",
+        "duration_s": 32.0,
+        "main_integrations": 16000,
+        "RGB_pairs": 641,
+        "S1_rejections": 0,
+        "live_native_failures": 0,
+        "maximum_live_shadow_difference": 2.1316282072803006e-13,
+        "result_sha256": "fa0e8caca7ace945bdce5dc856b9d24abdf10e11318871be118e71e5a675fa35",
+        "teacher_takeover": false,
+        "selected": "NONE",
+        "real_robot_deployment": "NONE"
+      },
+      "audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "causal_status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+      "raw_proof_sha256": {
+        "result": "fa0e8caca7ace945bdce5dc856b9d24abdf10e11318871be118e71e5a675fa35",
+        "adjudication": "5b2512879cce49c25ebe4f604e2aab838609e71d0c3e2ae81838cc66edfa1959",
+        "audit": "651157990daebe4f35cb8e2241b3e1fd9b41fee1a1e8cb03bccf5283227c0ba0",
+        "causal": "dc393be088b00c7e4ac7e8feb8c88b18b1bedbe1ed74e8745d4b67429149baac",
+        "s1": "09d38dc4742bdfcd1290e6446cc2231ebc54dc6c6770876a3a2481b3df7878c5"
+      },
+      "complete_task_score": {
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "persistent_success": false
+      },
+      "draws": 80,
+      "executed_ACKs": 80
+    }
+  ],
+  "analysis_status": "EXPLORATORY_PARTIAL",
+  "actual_saved_byte_analysis_proof_sha256": "24646408b6745ae6ecb0af32f9c9c991be900f5d2ce108d0adcf6f0ce511256a",
+  "actual_saved_byte_capture_sha256": "7f7ea82a0c97e50c754e464a4c49aa514cc61225ec94129abb05b2c8449b4ba7",
+  "native_snapshot_sha256": "bf1982b0d0b25866ab9363f2c8f7e0bc4aea5320fc2cc5195945d8d897276100",
+  "runtime_query_snapshot": {
+    "total_attempts": 900,
+    "completed": 900,
+    "error_count": 0,
+    "pending": null,
+    "state_sha256": "f06229a0fab9f758065af07b19a9f3d94bf6f858e1d193ce7c37309aa11a1ecb",
+    "active_panel_state": "PV1_NATIVE_MODEL_READY"
+  },
+  "actual_live_native_safety_faults": 0,
+  "native_owner": {
+    "pid": 3912915,
+    "proc_start": 261668446,
+    "active": true
+  },
+  "native_GPU": {
+    "pid": 3913148,
+    "proc_start": 261669660,
+    "active": true
+  },
+  "server_automatic_continuation": true,
+  "foreground_agent_required": false,
+  "prior_failures_preserved": true,
+  "no_new_request_restart_hot_edit_or_repeated_qualification": true,
+  "interpretation": "First 12 ordered conditions cover six of the original twelve geometries, not a balanced completed panel. Observed task rates do not establish final A performance, a B-minus-A benefit, selection, or independent generalization.",
+  "next": "Continue the same original A panel. The server audits and closes A before dispatching the already accepted B panel. No automatic other panels, data or training.",
+  "original_caps_costs_clocks_models_R0_safety_scoring_matrix_final_preserved": true,
+  "S1_core64": 0,
+  "target_task_native_qualified": false,
+  "full_goal_complete": false,
+  "CI_success_claimed": false
+}

@@ -1,0 +1,183 @@
+{
+  "schema": "PI0283_FINITE_LEARNING_AND_SOURCE_QUALITY_TERMINAL_V1",
+  "authority_release": "508e3db7b63d3c47758794f3ffbad87b577e6e9d",
+  "canonical": 6048886543,
+  "execution_closed": true,
+  "execution_status": "COMPLETE_FIXED_SCIENTIFIC_WORK",
+  "quality_status": "VALID_QUALITY_FAIL",
+  "source_candidate": "NONE",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "points": [
+    {
+      "point": "MORE1024",
+      "TRAIN_fit": [
+        1,
+        24
+      ],
+      "VAL_fit": [
+        1,
+        24
+      ],
+      "TRAIN_XYZ_median_m": 0.022881576791405678,
+      "TRAIN_SO3_median_rad": 0.014252258658593971,
+      "TRAIN_gripper_median": 0.005615234375,
+      "TRAIN_phase_fit": {
+        "0": {
+          "passed": 0,
+          "denominator": 4
+        },
+        "1": {
+          "passed": 0,
+          "denominator": 4
+        },
+        "2": {
+          "passed": 0,
+          "denominator": 4
+        },
+        "3": {
+          "passed": 1,
+          "denominator": 12
+        }
+      },
+      "persistent": [
+        0,
+        4
+      ],
+      "first_success": [
+        0,
+        4
+      ],
+      "source_panel_sha256": "b2dd2074b9c41f005ca3dc3b4c3874ad5bd7699b328cfacae5da933fb812370a",
+      "diagnostic_cpu_sha256": "ea2c50ee1173e50d2351425020822a045660af7b9f611020bb074786efb3db5a"
+    },
+    {
+      "point": "MORE2048",
+      "TRAIN_fit": [
+        2,
+        24
+      ],
+      "VAL_fit": [
+        2,
+        24
+      ],
+      "TRAIN_XYZ_median_m": 0.015243787784129381,
+      "TRAIN_SO3_median_rad": 0.012807934530046569,
+      "TRAIN_gripper_median": 0.0010986328125,
+      "TRAIN_phase_fit": {
+        "0": {
+          "passed": 0,
+          "denominator": 4
+        },
+        "1": {
+          "passed": 0,
+          "denominator": 4
+        },
+        "2": {
+          "passed": 0,
+          "denominator": 4
+        },
+        "3": {
+          "passed": 2,
+          "denominator": 12
+        }
+      },
+      "persistent": [
+        0,
+        4
+      ],
+      "first_success": [
+        1,
+        4
+      ],
+      "source_panel_sha256": "bf3a1a8d50a02f650b9317032237cbd231eb57ef939b93f61f6c401eed066982",
+      "diagnostic_cpu_sha256": "80308a8df57ce997491a70bba0e1c89a22e2e00644c2775769d62396326bba7b"
+    },
+    {
+      "point": "EVENT1024",
+      "TRAIN_fit": [
+        6,
+        24
+      ],
+      "VAL_fit": [
+        3,
+        24
+      ],
+      "TRAIN_XYZ_median_m": 0.012193245347589254,
+      "TRAIN_SO3_median_rad": 0.012378145085535487,
+      "TRAIN_gripper_median": 0.002685546875,
+      "TRAIN_phase_fit": {
+        "0": {
+          "passed": 0,
+          "denominator": 4
+        },
+        "1": {
+          "passed": 0,
+          "denominator": 4
+        },
+        "2": {
+          "passed": 0,
+          "denominator": 4
+        },
+        "3": {
+          "passed": 6,
+          "denominator": 12
+        }
+      },
+      "persistent": [
+        0,
+        4
+      ],
+      "first_success": [
+        1,
+        4
+      ],
+      "source_panel_sha256": "cadc66b93bf23ed9237a8f9e301bde44a337b84cb43aff464fe2b9f7ce29c411",
+      "diagnostic_cpu_sha256": "126e92bf99579a0872ef951532dd43e3f6d0f00f6a4973e853da8148b4993671"
+    }
+  ],
+  "DEV": "NOT_EXECUTED_TRAIN_GATE_NOT_MET",
+  "CONFIRM": "NOT_EXECUTED_TRAIN_GATE_NOT_MET",
+  "formal_updates": 3072,
+  "all_new_updates": 3088,
+  "old_updates_sealed": 2080,
+  "total_raw_completed_updates": 5168,
+  "new_policy_attempts": 1108,
+  "new_S4_heads": 4424,
+  "new_physical_starts": 13,
+  "new_controls": 7940,
+  "new_physics": 39700,
+  "new_RGB_pairs": 7941,
+  "new_GPU_seconds_conservative": 8881.532497167587,
+  "caps": {
+    "updates": 3136,
+    "formal": 3072,
+    "queries": 3456,
+    "S4_heads": 13824,
+    "starts": 40,
+    "controls": 30000,
+    "physics": 160000,
+    "RGB": 30000,
+    "GPU_seconds": 14400,
+    "CPU_core_hours": 32,
+    "new_outputs_GiB": 80
+  },
+  "technical_training_recoveries": [
+    2,
+    2
+  ],
+  "technical_physical_replacements": [
+    1,
+    4
+  ],
+  "quality_retries": 0,
+  "new_teacher": 0,
+  "new_WBC": 0,
+  "target_physics": 0,
+  "hardware": 0,
+  "new_queries_after_terminal_allowed": false,
+  "scope": "SOURCE_PANDA_NATIVE_PD_NON_REALTIME_NOT_TARGET_WBC",
+  "EVENT_is_conditional_cumulative_continuation_not_matched_sampler_ablation": true,
+  "publication_receipts": "Separate full Trainer readbacks, per-host COMPACT_ARCHIVE and final PUBLICATION_RECEIPT",
+  "GPU_boundary": "Hopper full start-to-obit allocations plus Core CUDA0 union of model and waited native source driver/worker intervals; not double counted"
+}

@@ -1,0 +1,102 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Install a published immutable source capsule at already registered roots."""
+import argparse
+import base64
+import hashlib
+import json
+import subprocess
+import time
+
+from pi0294_adopt import BASE, CUTOFF, DEADLINE, RELEASE, REPO, RUN, T0, remote, save
+
+CODE = r'''
+import base64,hashlib,json,os,socket,subprocess,time
+from pathlib import Path
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def write(p,v):
+ data=(json.dumps(v,indent=2)+'\n').encode()
+ with p.open('xb') as f:f.write(data);f.flush();os.fsync(f.fileno())
+ p.chmod(0o600)
+host=socket.gethostname();hopper=host.startswith('hopper')
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN if hopper else Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+assert time.time()<CUTOFF and (root/'OUTPUT_BINDING.private.json').is_file()
+assert not (root/'RUN_MANIFEST.json').exists(),'NEVER_OVERWRITE_AN_ADMITTED_SOURCE'
+assert os.getuid()==(22182 if hopper else 2009)
+assert not any((root/'code').iterdir()),'INCOMPLETE_CAPSULE_REQUIRES_INSPECTION'
+files={}
+for name,encoded in CONTENTS.items():
+ p=root/'code'/name
+ assert p.resolve().is_relative_to((root/'code').resolve())
+ p.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+ b=base64.b64decode(encoded)
+ with p.open('xb') as f:f.write(b)
+ p.chmod(0o440);files[name]=sha(p)
+seal=dict(schema='PI0294_SOURCE_SEAL_V1',source_sha=SOURCE_SHA,files=files,
+ protocol_release=RELEASE,run_uuid=RUN,official_source_sha='51d4c89f72fda44cbf77285c6a8114b52676b8a1',
+ base_revision='2fc962b973bccdd5d8ce4f67cc63b264d6886495')
+write(root/'SOURCE_SEAL.json',seal);write(root/'CODE_SEAL.json',seal)
+binding=json.loads((root/'OUTPUT_BINDING.private.json').read_text())
+if hopper:
+ old=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292/20261013T025824Z-localpc-pi0292')
+ neural=json.loads((old/'NEURAL_BINDINGS.private.json').read_text());python=neural['python']
+ write(root/'NEURAL_BINDINGS.private.json',neural)
+ for name in ['PRETRAINED_FILES.private.json','COSMOS_IDENTITY.private.json']:
+  write(root/'evidence'/name,json.loads((old/'evidence'/name).read_text()))
+ inventory=json.loads(subprocess.check_output(['/cm/shared/apps/pbspro/current/bin/pbsnodes','-a','-F','json'],text=True,timeout=30))
+ hostnames=[host,*sorted(inventory['nodes'])]
+ registry_path=Path(binding['registry']);registry=json.loads(registry_path.read_text())
+ prior=registry_path.read_bytes();write(root/'evidence/PRIOR_HOPPER_REGISTRY.private.json',registry)
+ for row in registry['entries']:
+  if row['role']==binding['role']:row['executor_node']='hopper'
+ tmp=registry_path.with_name(registry_path.name+'.new.'+str(os.getpid()));write(tmp,registry)
+ assert registry_path.read_bytes()==prior;os.replace(tmp,registry_path)
+ profile='hopper-neural';entry='LEGACY_FIXED_PBS_WITH_NEW_REGISTERED_RUN_NOT_CANONICAL_DEPLOYMENT'
+else:
+ infra=Path.home()/'Projects/GR00T-WBC/infrastructure'
+ profile='4080-simulation';envs=json.loads((infra/'ENVIRONMENTS.json').read_text())
+ python=next(p['python'] for p in envs['profiles'] if p['name']==profile)
+ hostnames=[host];entry=sha(infra/'enter.sh')
+ old=Path('@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0292/20261013T025824Z-localpc-pi0292')
+ write(root/'PRIVATE_ASSET_BINDING.json',json.loads((old/'PRIVATE_ASSET_BINDING.json').read_text()))
+ write(root/'ENTRY_BINDING.private.json',dict(entry=str(infra/'enter.sh'),profile=profile,
+  entry_sha256=entry,doctor_sha256=sha(infra/'doctor.py'),python=python,
+  bootstrap_source=str(root/'code'),source_mutation=False,canonical_checkout_unchanged=True))
+manifest=dict(schema='RUN_MANIFEST_V1',run_uuid=RUN,pi='PI0294',owner='EXISTING_LOCAL_PC',status='FIXED_SOURCE_DEPLOYED_NOT_EXECUTED',
+ authority=dict(protocol_ref=RELEASE,go_comment=6148228083),
+ code=dict(vla_commit=SOURCE_SHA,official_gr00t_commit='51d4c89f72fda44cbf77285c6a8114b52676b8a1',source_seal_sha256=sha(root/'SOURCE_SEAL.json')),
+ interfaces=dict(action_schema='EEF10_H40_PREFIX8',processor_sha256='77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f',statistics_sha256='NOT_APPLICABLE_COLLECTOR' if not hopper else 'c3b871e3b5a854e876e4dbff806640f3472bef32b64f9d3db764a4d2c39b5fe4'),
+ data=dict(dataset_version='NOT_APPLICABLE_COLLECTOR' if not hopper else 'LEGACY_V2_SMOKE_ONLY',hf_revision='NOT_APPLICABLE_COLLECTOR' if not hopper else '6075aac0cdc44b8d252d7540efbac208701c30b3',manifest_sha256='NOT_APPLICABLE_COLLECTOR' if not hopper else 'c228f59473c110264f58cf34dbd75198a3ee12207e0788967614d33f27f6999a'),
+ execution=dict(profile=profile,uid=os.getuid(),hostnames=hostnames,private_path_role=binding['role'],
+  output_binding_sha256=sha(root/'OUTPUT_BINDING.private.json'),entry_release=entry,python_sha256=sha(Path(python)),
+  argv='SEALED_STAGE_REQUEST_REQUIRED_BEFORE_EXECUTION'),
+ limits=dict(T0_epoch=T0,new_work_cutoff_epoch=CUTOFF,deadline_epoch=DEADLINE,reset_on_resume=False,resource_ledger_ref='RESOURCE_LEDGER.json'))
+write(root/'RUN_MANIFEST.json',manifest)
+if hopper:
+ write(root/'HOPPER_RESOURCE_LEDGER.json',dict(schema='PI0294_HOPPER_RESOURCE_LEDGER_V1',run_uuid=RUN,
+  PBS_submissions=[],GPU_allocated_s=0,GPU_reserved_s=0,model_loads=0,model_smoke_updates=0,
+  main_updates=0,generation_queries=0,pending_updates=0,CPU_s=0,CPU_upper_s=180,
+  prior_PI0292_GPU_allocated_s_before_T0=17,post_T0_PI0292_GPU_allocated_s=0))
+env=dict(os.environ,PYTHONPATH=str(root/'code/src')+':'+str(root/'code'),PYTHONDONTWRITEBYTECODE='1')
+result=subprocess.run([python,'-c','from scripts.pi0294.run_admission import validate;import json;print(json.dumps({"status":"PASS","source":validate('+repr(str(root))+',profile='+repr(profile)+')["code"]["vla_commit"]}))'],env=env,cwd=root/'code',capture_output=True,text=True,timeout=30)
+assert result.returncode==0,result.stderr
+receipt=dict(status='PASS_FIXED_CAPSULE_AND_REGISTERED_ENTRY_ADMISSION_NO_WORKLOAD',host=host,source_sha=SOURCE_SHA,
+ files=len(files),seal_sha256=sha(root/'SOURCE_SEAL.json'),manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+ python=python,run_root=str(root),profile=profile,actual_entry_validate_stdout=result.stdout,
+ physics=0,models=0,PBS=0,Hopper_canonical_entry_deployed=False)
+write(root/'evidence/SOURCE_DEPLOYMENT.private.json',receipt)
+print(json.dumps(receipt))
+'''
+
+if __name__ == '__main__':
+ p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--host',choices=['hopper','corelab-4080s'],required=True);args=p.parse_args()
+ assert len(args.source)==40
+ names=subprocess.check_output(['git','ls-tree','-r','--name-only',args.source,'src','scripts/pi0291_arx5_data','scripts/pi0292','scripts/pi0294','scripts/iteration'],cwd=REPO,text=True).splitlines()
+ content={name:base64.b64encode(subprocess.check_output(['git','show',args.source+':'+name],cwd=REPO)).decode() for name in names}
+ assert 'scripts/pi0294/run_admission.py' in content
+ values=dict(CONTENTS=content,SOURCE_SHA=args.source,RUN=RUN,T0=T0,CUTOFF=CUTOFF,DEADLINE=DEADLINE,RELEASE=RELEASE)
+ result=remote(args.host,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+ save(BASE/('DEPLOY_'+args.host+'_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-3000:])
+ print(result.stdout)

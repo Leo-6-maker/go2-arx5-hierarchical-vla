@@ -1,0 +1,138 @@
+{
+  "schema": "VAP1_B_RECOVERY_ACTUAL_ADOPTION_AND_KNOWN_PARTIAL_PREQSUB_V1",
+  "status": "GRANT_ADOPTED_NATIVE_COLD_INPUTS_SEALED_PREQSUB_PARTIAL_RESERVATION_READONLY_CONFIRMED",
+  "observed_epoch": 1792728654.2791798,
+  "exact_grant": {
+    "release": "09ae7896b90e4a9447ee401a2c1b5763a0fa745d",
+    "sha256": "c122a853baf84b49a00af89caa24ffea72690fc6791e18a8112b2345a2ecc8a2",
+    "native_both_ledgers_adopted": true,
+    "DEC1_updates": 10792,
+    "DEC1_PBS": 14,
+    "global_PBS": 25,
+    "DEC1_storage_GiB": 549,
+    "global_storage_GiB": 615
+  },
+  "qualified_runtime": {
+    "source": "2ed8aea9f782741dfc0298438f5762c592e87149",
+    "CI_run": 39896527594,
+    "CI_job": 120228160003,
+    "CI_conclusion": "success",
+    "all_12_steps_success": true,
+    "full_file_readback_count": 28,
+    "CPU_passed": 1978,
+    "CPU_subtests": 1350
+  },
+  "immutable_failed_B": {
+    "job": "1478518.stdct-mgmt-02",
+    "paid_updates": 1829,
+    "latest_full_step": 1024,
+    "full_members": 15,
+    "cursor": 32768,
+    "paid_lost_updates": 805,
+    "dual_closed": true,
+    "owner_restarted": false
+  },
+  "actual_recovery": {
+    "lineage": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+    "imported_seed_step": 1024,
+    "new_charged_updates": 0,
+    "cumulative_updates": 7720,
+    "cumulative_GPU_s": 75658,
+    "cumulative_queries": 1180,
+    "request_id": "185541e4-2348-4a3c-bee7-1a5703369780",
+    "request_sha256": "6c6d12d14895e4e22fa7a835c7edac8579ff341825911fd0d3b5fbbec76809ca",
+    "cold_manifest_sha256": "38ab2df346439796c65b0bf85f8c90266c5bef50662ce8251c9affd48a4ae225",
+    "all_964_sealed_files_read_back": true,
+    "small_inputs": 31,
+    "code_members": 928,
+    "actual_new_PBS_submitted": 0,
+    "model_loads": 0,
+    "physics": 0,
+    "source_input_bytes_qualified": true
+  },
+  "closed_cost_mirrors": {
+    "source02": {
+      "episodes": 4,
+      "ticks": 14131,
+      "constructors": 44,
+      "transfer_bytes": 1073741824
+    },
+    "two_counters": {
+      "financial_constructors": 4,
+      "transfer_bytes": 536870912,
+      "episodes": 0,
+      "ticks": 0
+    },
+    "both_once_confirmed_and_independently_read_back": true,
+    "new_global_charge": false,
+    "Core_output_included_once_bytes": 7147094016,
+    "LOCAL_peak_inclusive_GiB": 8
+  },
+  "adoption_receipt_snapshot": {
+    "historical_once_receipt_omitted_imported_seed_only": true,
+    "cause": "Shallow in-memory comparison popped the seed after native ledger write; actual ledger and grant bytes were correct",
+    "independent_actual_dual_bytes_confirmed": true,
+    "new_ledger_rewrite_or_adoption_retry": false,
+    "historical_bad_snapshot_preserved": true
+  },
+  "preqsub_incident": {
+    "local_owner_naturally_stopped": true,
+    "phase": "GLOBAL_RESERVATION_BEFORE_QSUB",
+    "cause": "Legacy alternate_accounting allowed at most8source allocations despite exact new recovery requiring9and10",
+    "native_request_created_once": true,
+    "actual_global_matches_original_intent": true,
+    "actual_DEC1_matches_planned_intent": true,
+    "global_sha256": "bb193e1c8183e608e68f0c8e1d8c395e861486688458de9f820b82a5be609516",
+    "DEC1_sha256": "65c5ec3699ef26d8fcb3481e5ddc0d63a82d72ff65e5527fbe31f4f631298dc2",
+    "intent_sha256": "7229c15e8d28ebcd80cce31b722cfcf19210e64742f655afb145119b4f194c29",
+    "DEC1_reservation": {
+      "GPU_s": 22560,
+      "CPU_s": 54000,
+      "updates": 1024,
+      "queries": 29
+    },
+    "global_reservation": {
+      "H200_s": 0,
+      "neural_queries": 0,
+      "optimizer_updates": 0
+    },
+    "qsub_intent": false,
+    "qsub_reply": false,
+    "pbs_script": false,
+    "actual_neural_effects_file": false,
+    "unknown_journal_preserved": true,
+    "no_automatic_retry": true,
+    "read_only_exact_effects_reconciled": true,
+    "native_partial_completion_not_yet_performed": true
+  },
+  "narrow_fix": {
+    "b_adopted_source_rows_upper": 10,
+    "legacy_heartbeat_upper": 8,
+    "legacy_original_upper": 7,
+    "one_active_chain_unchanged": true,
+    "full_proposal_validated_before_return": true,
+    "targeted_CPU_tests": 18,
+    "targeted_CPU_subtests": 56,
+    "native_adopted": false,
+    "CI_status": "PENDING_THIS_COMMIT",
+    "full_CPU_passed": 1983,
+    "full_CPU_subtests": 1354,
+    "private_parser_skipped": 13,
+    "captured_actual_partial_completion_CPU_cases": 7,
+    "private_control_metadata_closed_cost_and_training_CPU_tests": 24,
+    "completion_proposal": "scripts/pi0294/dec1/b_reservation_reconciliation.py",
+    "completion_proposal_is_not_native_write": true
+  },
+  "next": [
+    "QUALIFY_EXACT_COUNT_GUARD_FIX_AND_KNOWN_PARTIAL_ONCE_COMPLETION",
+    "NEW_COLD_CONTROL_BOUNDARY_REUSE_EXISTING_PREPAID_ENVELOPE_NO_HOT_EDIT_OF_2ED_CAPSULE",
+    "COMPLETE_SAME_RESERVED_REQUEST_ONLY_AFTER_EXACT_BOTH_LEDGER_READBACK_THEN_UNIQUE_QSUB_BIND_AND_MATURE_WATCH",
+    "REAL_B2048_FULL_AUDIT_ONCE_SETTLE_DUAL_CLOSE_BEFORE_B2"
+  ],
+  "original_T0": 1792348196,
+  "hard_close": 1792952996,
+  "all_costs_checkpoints_and_caps_preserved": true,
+  "goal_complete": false,
+  "target_task_native_qualified": false,
+  "core64_completed": 0
+}

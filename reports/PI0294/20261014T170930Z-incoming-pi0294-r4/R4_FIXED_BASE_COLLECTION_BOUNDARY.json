@@ -1,0 +1,323 @@
+{
+  "observed_epoch": 1792002105.4830058,
+  "ledger": {
+    "run_uuid": "20261014T170930Z-incoming-pi0294-r4",
+    "Core_CPU_s": 11777.996409096,
+    "Hopper_CPU_s": 0,
+    "CPU_reservations": {},
+    "CPU_stages": [
+      {
+        "stage": "V31_INCREMENTAL_VIEW",
+        "pid": 850357,
+        "proc_start": "176768933",
+        "cores": 4,
+        "cpus": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "cpu_s_cap": 7200,
+        "started_epoch": 1791998582.5533917,
+        "status": "COMPLETE",
+        "finished_epoch": 1791999515.7038667,
+        "actual_CPU_s": 929.650948565,
+        "new_neural_queries": 0,
+        "new_physics": 0
+      }
+    ],
+    "PBS_submissions": [],
+    "GPU_allocated_s": 0,
+    "GPU_reserved_s": 0,
+    "new_formal_updates": 0,
+    "new_engineering_updates": 0,
+    "generation_intents": 0,
+    "main_starts": 16,
+    "main_integrations": 224000,
+    "RGB_pairs": 8974,
+    "shadow_invocations": 0,
+    "shadow_integrations": 0,
+    "collection_CPU_s": 10848.345460531,
+    "engineering_spawn_attempts": 2,
+    "collection_reconciled_prior": {
+      "physics_starts": 2,
+      "physics_steps": 0,
+      "rgb_pairs": 0,
+      "cpu_s": 3600.0,
+      "output_bytes": 26070
+    }
+  },
+  "collection_status": "LIVE_STOP_BOUNDARY_OR_CUTOFF",
+  "formal_rows": [
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-000-T1",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "f024469094a0604ba1ffe7a4b1d875585d1217e254d0f14b5fa2c61a0a84dc2e",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-000-T2",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "28dbf7a5f34b9c482ea573aa999a871b84455cb9e6528f17c2018884ab1ba794",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-001-T1",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "b39f29aa50b00479d6dc71a0fe66527f6d11fbcf43bb8d0c0c460159a2ed9b65",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-001-T2",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "76cce3cb55f37d9437e04d36d45187e33630230c8f52e66bafd412ba9a2f15ea",
+      "audit_status": "AUDIT_FAIL_PRESERVED"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-002-T1",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "175c3851a5e128662e20a355f3daca022b85f8e91b08dfb5cb3bf6f41855da49",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-002-T2",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "4aca3a485c2a41d581a864933a34ea4f267576c96676166a5f74e15ddc72fec8",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-003-T1",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "52cab8da8935a8604e9e34bbcbb0f1fa14725c7c66e6ec886e5859b58e9b1407",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-003-T2",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "662afedab6fa42fd947e0bc25bbff4c3ad6dcb9869b78199dc64afd62e071a60",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-004-T1",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "213f4e7297fb907c06903e4863c11d35f0dfcb26691da4cb0b006f7d9cefe2ae",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-004-T2",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "safety_valid": true,
+      "worker_sha256": "754ec2f8bc896adc8172707624b6bf351d3d9d6c85c79dd0ad24741afa342b28",
+      "audit_status": "PASS_INDEPENDENT_RAW_AUDIT"
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-005-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-005-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-006-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-006-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-007-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-007-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-008-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-008-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-009-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-009-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-010-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-010-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-011-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-APPROACH-011-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-012-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-012-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-013-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-013-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-014-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-014-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-015-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-015-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-016-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-016-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-017-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-017-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-018-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-018-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-019-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-019-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-020-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-020-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-021-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-021-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-022-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-022-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-023-T1",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    },
+    {
+      "id": "PI0294-R4-TRAIN-COMPOSITE-023-T2",
+      "status": "NOT_RUN_SCOPE_REDIRECTED_TO_FULLBODY",
+      "task_success": null
+    }
+  ]
+}

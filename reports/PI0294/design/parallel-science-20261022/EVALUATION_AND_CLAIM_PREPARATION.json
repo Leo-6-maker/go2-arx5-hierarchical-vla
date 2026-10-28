@@ -1,0 +1,132 @@
+{
+  "schema": "VAP1_SCIENTIFIC_EVALUATION_PREPARATION_V1",
+  "status": "CPU_TEMPLATE_ONLY_NOT_EVALUATION_ADMISSION",
+  "references": [
+    {
+      "path": "docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md",
+      "sha256": "302b1a1d6b9804380f7a3fe4f99151e4e1f3dfede2e48e6b32153419c82eeb14",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825"
+    },
+    {
+      "path": "docs/protocols/DEC1_CONTROLLER_DISJOINT_VLA_SCIENCE_GO_20261021.md",
+      "sha256": "e16712722774c376f8203b80692d2a360591db48471dca493ad4a3feafe7c1d3",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825"
+    },
+    {
+      "path": "scripts/pi0294/pv1/evaluation_plan.py",
+      "sha256": "9436a6ef46e3a075f0e0725f0344ea0f16132006d99cdb7b105d53f8041609c3",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825"
+    },
+    {
+      "path": "scripts/pi0294/pv1/event_exposure.py",
+      "sha256": "c3922472521661362c526e96f9ef42541a796525028a82d4d09e9242126e4e6d",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825"
+    },
+    {
+      "path": "reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SOURCE_ONLY_INTERFACE_FREEZE.json",
+      "sha256": "cca5706d122cd697d4e7d524957ee7639b3a97eaa5954a242017abd76d498fe3",
+      "commit": "19e7e41f0d8de73eb090513c9af1311f87776825"
+    }
+  ],
+  "source_AB": {
+    "question": "增加独立源域示范覆盖，能否改善相同训练步数下的两任务闭环行为？",
+    "intervention": "JOINT_T1_T2_NEW_DEMONSTRATION_COVERAGE_NOT_SEPARATE_TASK_CAUSAL_EFFECT",
+    "baseline": {
+      "candidate": "B0_CORR",
+      "historical_valid_conditions": 14,
+      "planned_conditions": 48,
+      "successes": 9,
+      "valid_failures": 5,
+      "remaining_keys": "SAVED_DEV48_REMAINING_CONDITIONS.json; EXACT_CLOSED_OUTCOMES_AND_ORIGINAL_PLAN_RECONCILED; FRESH_ADMISSION_STILL_REQUIRED",
+      "valid_failures_rerun": false
+    },
+    "terminal_candidates": [
+      "A_CONTROL_AT4096",
+      "B_COVERAGE_AT4096"
+    ],
+    "panel": {
+      "geometries": 12,
+      "tasks": 2,
+      "paired_noise_banks": 2,
+      "conditions_per_candidate": 48,
+      "original_sealed_population": true,
+      "Teacher_takeover": false,
+      "duration_s": 32
+    },
+    "selection_order": [
+      "worst_task_complete_success",
+      "macro_complete_success",
+      "fewer_S1_rejects_and_lower_complexity",
+      "earlier_candidate_ID"
+    ],
+    "DEV_gate": {
+      "minimum_success_per_task": 18,
+      "denominator_per_task": 24,
+      "native_faults": 0,
+      "maximum_task_regression_vs_complete_B0": 1,
+      "worst_task_net_improvement_required": true
+    },
+    "LOCKBOX": {
+      "status": "NOT_OPENED_BY_THIS_PREPARATION",
+      "conditions": 80,
+      "geometries": 20,
+      "requires": "ONE_DEV_QUALIFIED_FROZEN_CANDIDATE_AND_ORIGINAL_P5_GATES",
+      "skip_seed_replica_maximum_grade": "BETA"
+    },
+    "cost_status": "DEV_AND_LOCKBOX_NOT_AUTOMATICALLY_INCLUDED_IN_SEGMENT_PLUS_DEC1_FORECAST"
+  },
+  "DEC1": {
+    "question": "固定源模型在两个执行域中，执行进度接口是否改变任务闭环表现？",
+    "model": "ORIGINAL_CORR_AT2048_R0",
+    "new_AB_winner_substitution": false,
+    "planned_cells": 64,
+    "independent_geometry_blocks": 8,
+    "sealed": false,
+    "completed_cells": 0,
+    "noise": "ONE_PREDECLARED_BANK_REUSED_ACROSS_FOUR_EXECUTOR_INTERFACE_CELLS",
+    "estimands": [
+      "Delta_target=SR(target,progress)-SR(target,time)",
+      "Delta_source=SR(source,progress)-SR(source,time)",
+      "interaction=Delta_target-Delta_source"
+    ],
+    "analysis": "PAIRED_GEOMETRY_BLOCK_CLUSTER_RESAMPLING_NOT64_INDEPENDENT_SCENES",
+    "intervals_crossing_zero": "PILOT_SIGNAL_OR_INCONCLUSIVE",
+    "interpretation": "TWO_EXECUTION_DOMAINS_WITH_BODY_CAMERA_DYNAMICS_DIFFERENCES_NOT_PURE_WBC_CAUSAL_EFFECT",
+    "source_weakness": "SMALL_TRANSFER_GAP_DOES_NOT_ESTABLISH_ROBUSTNESS",
+    "I_PROGRESS_status": "CPU_RULES_FIXED_NATIVE_QUALIFICATION_REQUIRED",
+    "I_PROGRESS_implementation_sha256": "3ee1920f0509d5dd7b65cb2edd0af7a28e9b397ab67aa5408aff654327d745ed",
+    "target_status": "TARGET_EXECUTOR_NOT_DELIVERED_HUMAN_CONFIRMED_CONTINUE_SOURCE_TRAINING",
+    "source_missing": [
+      "actual_raw_full_H40_and_prefix_safety_binding",
+      "actual_ACK_stop_chain",
+      "native_commissioning",
+      "mapped_complete_reference_native_legality",
+      "mapped_prefix_native_shadow_and_tick_accounting"
+    ],
+    "target_missing": [
+      "frozen_EXECUTOR_MANIFEST",
+      "frame_TCP_gripper_time_reset_stop_contract",
+      "native_entry_and_commissioning"
+    ],
+    "source_repeats_fill_target_cells": false,
+    "target_data_backflow": false
+  },
+  "all_evaluations": {
+    "denominator": "SUCCESS_VALID_TASK_FAILURE_REFERENCE_REJECTION_ACTUAL_NATIVE_SAFETY_FAILURE_AND_ENGINEERING_MISSING_RETAINED",
+    "valid_negative_retries": false,
+    "engineering_replacement": "ORIGINAL_RULES_ONLY_AFTER_DIAGNOSED_SETTLED_EFFECTS",
+    "real_events": [
+      "contact",
+      "grasp",
+      "lift",
+      "carry",
+      "release",
+      "retreat",
+      "hold"
+    ],
+    "Teacher_phase_is_real_event": false,
+    "loss_or_probe_acceptance_is_task_success": false,
+    "score_native_safety_WBC_R0_frozen": true
+  },
+  "new_native_effects": 0
+}

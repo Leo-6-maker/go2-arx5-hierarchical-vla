@@ -1,0 +1,94 @@
+{
+  "schema": "PI0294_PV1_B0_08_COLD_BIND_AND_NATIVE_RUNNING_RECEIPT_V1",
+  "status": "POLICY_FIRST_LG04_ADOPTED_CHILD08_RELEASED_PREMODEL_QUALIFICATION_RUNNING",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "child_run_uuid": "policy-b0-08",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "LG04_reference": "738a369c25dd24fff408bdedae0120f010623cfd",
+  "runtime_source_sha": "fb00da44f122c3ce96d0970ba23c2f223470cd33",
+  "runtime_CI": {
+    "run_id": 39348602625,
+    "job_id": 118387138067,
+    "conclusion": "success",
+    "source_members": 719
+  },
+  "cold_binding": {
+    "corelab": "PASS_ACTIVE_LEASE_PINNED_SOURCE_AND_0400_SEALED_INPUTS",
+    "hopper": "PASS_ACTIVE_LEASE_PINNED_SOURCE_AND_0400_SEALED_INPUTS",
+    "new_PBS_during_binding": 0,
+    "new_models_during_binding": 0,
+    "new_queries_during_binding": 0,
+    "new_physics_during_binding": 0,
+    "new_optimizer_updates_during_binding": 0
+  },
+  "core_zero_integration_qualification": {
+    "status": "PASS_ORIGINAL_VS_COUNTED_NATIVE_MODEL_STATE_XML_AND_TWO_RGB",
+    "qualified_model_constructor_attempts": 2,
+    "integrations": 0,
+    "teacher_episodes": 0,
+    "unknown_effects": []
+  },
+  "native_submission": {
+    "job_id": "677341.hopper-m-02",
+    "submit_count": 7,
+    "project": "CFP04-CF-007",
+    "stage": "B0_DEV",
+    "walltime_s": 28800,
+    "ncpus": 12,
+    "ngpus": 1,
+    "gpu_model": "H200",
+    "qsub_calls": 1,
+    "cancel_calls": 0,
+    "resubmissions": 0,
+    "dependency": null,
+    "native_host": "hopper-24"
+  },
+  "queue_memory_reconciliation": {
+    "classification": "SITE_REWRITE_128GB_SCRIPT_TO_225GB_NATIVE",
+    "single_same_job_memory_only_qalter": true,
+    "native_memory_before_gb": 225,
+    "native_memory_after_gb": 128,
+    "nonmemory_identity_unchanged": true,
+    "model_loaded_at_change": false
+  },
+  "snapshot": {
+    "native_state": "R",
+    "PBS_READY": true,
+    "same_job_release_calls": 1,
+    "release_project_revalidated": "CFP04-CF-007",
+    "premodel_qualification": false,
+    "model_state": false,
+    "single_local_pc_owner_attached": true,
+    "owner_polling": "LOW_FREQUENCY",
+    "new_scientific_effects_at_snapshot": 0
+  },
+  "resource_ledger_at_snapshot": {
+    "settled_H200_s": 15398,
+    "reserved_H200_s": 28860,
+    "PBS_submissions": 7,
+    "neural_queries": 862,
+    "optimizer_updates": 0,
+    "unknown_effects": []
+  },
+  "science_state": {
+    "B0_valid_conditions": 12,
+    "B0_total_conditions": 48,
+    "B0_successes": 8,
+    "B0_valid_task_failures": 4,
+    "remaining_conditions": 36,
+    "A_CONTROL_updates": 0,
+    "B_COVERAGE_updates": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "frozen_boundaries": {
+    "WBC": true,
+    "plant": true,
+    "gripper_PD": true,
+    "S1": true,
+    "scoring": true,
+    "statistics": true,
+    "training_before_B0_48": false,
+    "LOCKBOX_opened": false
+  }
+}

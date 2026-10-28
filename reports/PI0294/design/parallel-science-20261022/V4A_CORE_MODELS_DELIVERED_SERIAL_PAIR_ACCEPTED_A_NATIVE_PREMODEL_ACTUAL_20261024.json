@@ -1,0 +1,241 @@
+{
+  "schema": "V4A_ACTUAL_CORE_BACKGROUND_PAIR_ACCEPTED_AND_A_NATIVE_QUALIFICATION_V1",
+  "observed_epoch": 1792847639.8198032,
+  "source_sha": "7cc751803e18b911fbe6ad896efd9a1c0ed936b0",
+  "goal_status": "ACTIVE",
+  "scientific_state": {
+    "S1_core64": 0,
+    "S1_target_task_native_qualified": false,
+    "B0_valid_DEV": 14,
+    "B0_success": 9,
+    "B0_valid_failure": 5,
+    "A_valid_DEV": 0,
+    "B_valid_DEV": 0,
+    "B_minus_A_estimate": "NOT_YET_OBSERVED"
+  },
+  "execution_scope": {
+    "plan": "V4A",
+    "original_noise_bank": 294101,
+    "candidates": [
+      "A_CONTROL",
+      "B_COVERAGE"
+    ],
+    "conditions_per_candidate": 24,
+    "maximum_concurrent_GPU_processes": 1,
+    "native_queue_accepted": true,
+    "second_noise_or_B0_dispatch": false,
+    "new_training": false,
+    "new_demonstration_collection": false,
+    "whole_goal_not_redefined_as_S2_or_preparation": true
+  },
+  "reuse": {
+    "model_service": [
+      "scripts/pi0294/pv1/neural.py",
+      "scripts/pi0294/e1/neural.py",
+      "scripts/pi0294/e1/model.py"
+    ],
+    "physical_closed_loop": [
+      "scripts/pi0294/pv1/driver.py",
+      "scripts/pi0294/pv1/core.py",
+      "scripts/pi0294/episode.py"
+    ],
+    "independent_audit": [
+      "scripts/pi0294/pv1/audit.py",
+      "scripts/pi0294/pv1/causal_audit.py"
+    ],
+    "existing_transport_owner_reused": true,
+    "new_scientific_controller_or_trainer": false,
+    "original15_numerical_source_pins_preserved": true,
+    "original_population_scoring_S1_R0_preserved": true
+  },
+  "model_delivery": {
+    "status": "BOTH_DOWNLOADED_PRIVATE_ORIGINAL_METADATA_RESTORED_ONCE_SETTLED_AND_DELIVERY_UNIT_NATURALLY_EXITED_ZERO",
+    "repo_id": "leoyuer/pi0294-public-artifacts",
+    "models": {
+      "A_CONTROL": {
+        "candidate": "A_CONTROL",
+        "revision": "fbff9c0c3fd0cd5bfbadf345c88a20be00fd970c",
+        "repo_id": "leoyuer/pi0294-public-artifacts",
+        "prefix": "PV1/V4A_SAVED4096_INFERENCE_20261024/A_CONTROL",
+        "payload_bytes": 12576324408,
+        "notice_bytes": 83708,
+        "full_stream_source_SHA_before_and_after": true,
+        "remote_all9_content_addressed_or_full_small_SHA": true,
+        "CPU_s": 92.26334009199999
+      },
+      "B_COVERAGE": {
+        "candidate": "B_COVERAGE",
+        "revision": "45e586477de6139279834163bd3da4592a290d32",
+        "repo_id": "leoyuer/pi0294-public-artifacts",
+        "prefix": "PV1/V4A_SAVED4096_INFERENCE_20261024/B_COVERAGE",
+        "payload_bytes": 12576324408,
+        "notice_bytes": 83709,
+        "full_stream_source_SHA_before_and_after": true,
+        "remote_all9_content_addressed_or_full_small_SHA": true,
+        "CPU_s": 81.36343914
+      }
+    },
+    "settlement": {
+      "terminal": {
+        "schema": "PV1_CORE_MODEL_DELIVERY_EXISTING_CONTROL_RESERVATION_V1",
+        "queue_id": "b498be85-06ea-4b28-8534-077f72af3dff",
+        "source_sha": "7cc751803e18b911fbe6ad896efd9a1c0ed936b0",
+        "status": "KNOWN_DELIVERY_SETTLED_ONCE",
+        "GPU_jobs_started": 0,
+        "Core_output_upper_bytes": 25219757680,
+        "transfer_upper_bytes": 50306346208,
+        "control_CPU_within_existing_15000_s": true,
+        "original_clocks_unchanged": true,
+        "Core_CPU_s": 115.92440928500001,
+        "GPU_site_control_CPU_s": 289.551188517,
+        "legacy_LOCAL_control_CPU_s": 115.92440928500001,
+        "actual_Vanda_upload_CPU_s": 173.626779232,
+        "transfer_accounted_upper_bytes": 50306346208,
+        "storage_accounted_upper_bytes": 25219757680,
+        "new_GPU_model_query_physics": 0,
+        "all_native_uploads_terminal": true,
+        "observed_epoch": 1792846844.6040745
+      },
+      "global_sha256": "9b86f14eea25b8dc698109baf37c21d72b7d2f4c3834b1856c6798993987b420",
+      "LOCAL_sha256": "0d650488cbefd211b45e7529d7c9fbe78604bf51a15c508c88555e997cdd78a5"
+    },
+    "independent_closure_receipt_sha256": "5c8f2826ff22e5ac3821ab8ef7933a3dac55dfa67d063d8f315140715f564efb",
+    "full_trainer_checkpoints_retained": true,
+    "original_licenses_retained": true
+  },
+  "actual_native_state": {
+    "host": "corelab-4080s",
+    "server_owner": {
+      "pid": 3912915,
+      "proc_start": 261668446,
+      "active": true,
+      "independent_of_agent_keepalive": true,
+      "control_source_sha256": "a2ac7e55215ca6c6078ae372e7bc5162dd43f1d026597ea022b4b886f592067e"
+    },
+    "queue": {
+      "queue_id": "b498be85-06ea-4b28-8534-077f72af3dff",
+      "queue_plan_sha256": "c4a5d0b7ad22481bb994b5e4c68a15202fc5d604f158dc21bc6d9aed72da4ace",
+      "accepted_epoch": 1792847585.9957383,
+      "requests": [
+        {
+          "request_id": "88ef30eb-bb1f-459d-bbb4-095647098ce4",
+          "request_sha256": "9c48c751c51111aaf488d236ded6f3e434c39adc1b4b6e24832b60be3b5752f8",
+          "submission_nonce": "a9022b0d-a149-4dd2-8dce-de79c7971c6e"
+        },
+        {
+          "request_id": "f5426fad-a5e1-4157-a761-9a562f821770",
+          "request_sha256": "fe99ace64be53bee2f36f82798cd159466ef2a93f9d2724e9cf159004535e257",
+          "submission_nonce": "2eb4ade6-298b-4532-a40e-4c653d151bba"
+        }
+      ],
+      "accepted_before_original_stop_new": true
+    },
+    "A": {
+      "pid": 3913148,
+      "proc_start": 261669660,
+      "active": true,
+      "actual_native_admission_status": "PASS_PV1_OWN_NATIVE_CORELAB_GPU_ALLOCATION",
+      "allocation_start_epoch": 1792847588.6,
+      "allocation_end_epoch": 1792876388.6,
+      "native_process_sha256": "4ec11ad92fc891bf278af7f68d425c75e4afb9b0cb0f3cc5b1f2281ead803941",
+      "device": {
+        "index": 0,
+        "GPU_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+        "name": "NVIDIA GeForce RTX 4080 SUPER",
+        "pci_bus_id": "00000000:02:00.0",
+        "driver_version": "580.173.02",
+        "total_bytes": 34351349760,
+        "used_bytes": 504365056
+      },
+      "phase": "ORIGINAL_600_SECONDS_AND_80_REAL_TRANSPORT_CYCLES_BEFORE_MODEL",
+      "qualification_PASS_claimed": false,
+      "model_loads": 0,
+      "new_neural_queries": 0,
+      "new_physics": 0
+    },
+    "B": {
+      "cold_peers_registered": true,
+      "accepted_queue_request": true,
+      "native_GPU_process_started": false,
+      "model_loads": 0,
+      "new_neural_queries": 0,
+      "new_physics": 0
+    }
+  },
+  "known_engineering_failures_preserved": {
+    "prewrite_missing_import": {
+      "native_effects": 0,
+      "original_UNKNOWN_latch_preserved": true,
+      "exact_known_zero_receipt_sha256": "53686224aea72d428477249bcf59ffc5dafb3fe373a753061223a557ff283ac2"
+    },
+    "original_owner_LOCAL_auxiliary_path_guard": {
+      "GLOBAL_reserve_confirmed_once": true,
+      "LOCAL_failed_before_intent": true,
+      "old_owner_exit_status": 1,
+      "no_child_registered_or_GPU_started": true,
+      "exact_partial_receipt_sha256": "1c33d6a1c2cd8a1d9638d75478aeeef75ded93fea6cea2c3ac06aef6cb27075e"
+    },
+    "large_control_stdin_observation_timeout": {
+      "old_UNKNOWN_preserved": true,
+      "exact_process_was_observed_live_not_inferred_terminal": true,
+      "stderr_recovered_from_exact_owned_pipe_without_kill": true,
+      "actual_error": "SyntaxError: unterminated string literal (detected at line 1)",
+      "original_process_then_missing": true,
+      "LOCAL_intent_receipt_temp_and_effects_absent": true,
+      "exact_stderr_receipt_sha256": "c3babc9f8575d6339226248017872f7a905727fe58febc23fd1ebbae215acf9e"
+    },
+    "same_original_request_pair_completion": {
+      "only_LOCAL_exact_already_planned_proposal_CAS": true,
+      "no_GLOBAL_reserve_replay": true,
+      "request_ids_unchanged": true,
+      "actual_receipt_sha256": "911988d8aa57bcff58256c38ec703741d47ae7e7f080a558a3862272a86649b9",
+      "independent_receipt_sha256": "8bc33b4a36135b6dd6e7425e2117a0a03cfab11b51c553f124117dfd9b121a24"
+    },
+    "cold_control_repairs_not_GPU_scientific_outcomes": true
+  },
+  "resource_state": {
+    "LOCAL_snapshot_sha256": "1afb8a738aee95b74f5569f7d8f0eb77de091061b7cc981a60f7cc028dd7ce06",
+    "GPU_reserved_s": 57720,
+    "CPU_reserved_s": {
+      "CoreLab": 347684.075590715,
+      "Hopper": 174710.448811483,
+      "local_PC": 14884.075590715
+    },
+    "Core_native_GPU_reserved": {
+      "CoreLab_output_bytes": 76692256368,
+      "transfer_bytes": 50305297632
+    },
+    "all_original_25_PBS_rows_preserved": true,
+    "no_new_PBS_alias_for_Core": true,
+    "original_paid_optimizer_updates": 11714,
+    "global_cap_GPU_h": 121,
+    "global_cap_PBS": 34,
+    "global_cap_GPU_site_CPU_h": 213,
+    "global_cap_GPU_site_output_GiB": 810,
+    "DEC1_subcaps_unchanged": true,
+    "matrix_and_final_resources_protected": true
+  },
+  "validation": {
+    "private_related_CPU_cases_passed": 62,
+    "full_existing_public_PV1_runtime_last_passed": 805,
+    "existing_public_subtests_last_passed": 268,
+    "private_exact_captured_partial_once_cases": 4,
+    "native_standard_entry_full_private_owner_CPU_import_passed": true,
+    "server_GPU_or_physics_test_fixtures_not_counted_as_actual_qualification": true,
+    "CI_success_claimed": false
+  },
+  "next": [
+    "Reuse the healthy actual owner; do not restart or hot-edit either immutable capsule.",
+    "Complete the original 600s/80-cycle real qualification, then both fresh native release/resource gates before the existing model.load/serve.",
+    "Collect and independently audit each actual original condition; report valid negatives and engineering NOT_RUN separately.",
+    "B dispatch only after A native terminal, independently audited original panel and dual closure. No automatic other panels or new training."
+  ],
+  "original_clocks": {
+    "T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996
+  },
+  "private_native_readback_sha256": "2c222e012edddeffd299a30728de4dd49cdfbdb2fba57222f0addd412cfe9f4f"
+}

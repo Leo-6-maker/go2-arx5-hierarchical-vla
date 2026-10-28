@@ -1,0 +1,167 @@
+{
+  "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c",
+  "method": "BOUNDED_LOCAL_TEXT_REVIEW_NO_PROJECT_IMPORT_NO_NATIVE_IO",
+  "helper": "EXISTING_science_data_prep",
+  "read_only_helper_review_completed": true,
+  "new_native_GPU_PBS_models_physics": 0,
+  "created_epoch": 1792694999.2668378,
+  "not_native_task_qualification": true,
+  "schema": "WDR1_EXISTING_INTERFACE_EVIDENCE_AND_GAP_V1",
+  "status": "INTERFACES_EXIST_EXECUTOR_SPECIFIC_TASK_GAPS",
+  "interfaces": [
+    {
+      "executor": "HISTORICAL_ISAACGYM_ROBODUET_WBC",
+      "classification": [
+        "INTERFACE_EXISTS",
+        "HISTORICAL_NATIVE_WBC_EXECUTED"
+      ],
+      "input": "TrajectoryChunkV1 to WBCPreviewV1 nine spatial samples plus independent gripper",
+      "evidence": [
+        {
+          "path": "docs/contracts/WBC_EXTERNAL_REFERENCE_V1.md",
+          "line": 14,
+          "sha256": "e3702328e100dfb932534d0dd5fc58e4f4b7163b014154361cb69ac622b0afcf",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "src/go2arx5_vla/adapters/groot_to_wbc.py",
+          "line": 1,
+          "sha256": "f5e657964b00b2b1ee4ed0d6bdb84c516b8fc31e045d765a289dd002c479358c",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "src/go2arx5_vla/wbc/reference_source.py",
+          "line": 1,
+          "sha256": "46770b4555bd675c228f2cf3b5763d31be9b78cc486469a837c39c093865f9de",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "reports/STAGE20S_NATIVE_WBC_CLOSED_LOOP.md",
+          "line": 18,
+          "sha256": "abe6cc167dab73e38599281baf24bc4fc11f80594b15d0222778619737abe9e0",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "reports/STAGE21_NATIVE_RECEDING_HORIZON.md",
+          "line": 19,
+          "sha256": "de28d91e0da22a1537924e79d156ba40bfef47da6a3353681f16fc259d6f304c",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        }
+      ],
+      "historical_results": {
+        "benchmark_reference_steps": [
+          98,
+          100
+        ],
+        "model_tracking_abort_steps": [
+          25,
+          110
+        ],
+        "Stage21_gated_chunks": 6
+      },
+      "current_DEC1_T1_T2_native_qualified": false
+    },
+    {
+      "executor": "FIXED_BASE_ARX5_TASK_SIM_SOURCE",
+      "classification": [
+        "SOURCE_INDEPENDENT_TEACHER_DATA_READY",
+        "SOURCE_PREFIX8_NATIVE_COMPONENTS_EXIST_NEW_DEC1_MAPPING_NOT_QUALIFIED"
+      ],
+      "input": "8 single-pose targets and gripper, 25 native ticks each, 200 ticks total",
+      "evidence": [
+        {
+          "path": "scripts/pi0291_arx5_data/engine.py",
+          "line": 195,
+          "sha256": "623dc5ebf59fd9c470152ee3d60bb15b11ea554ef4b41bf911e62c20dec46c30",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "scripts/pi0294/s1_preflight.py",
+          "line": 47,
+          "sha256": "9ada71cf25a4347d6cd12232e42d32c7901e552ee839de091b0cc725d69205ec",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "scripts/pi0294/r3_teacher.py",
+          "line": 58,
+          "sha256": "5b6161d2ed2d99d49f4886e57430329659ba304f9113e8e5da2fda9a96aca573",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "scripts/pi0294/dec1/source_interface.py",
+          "line": 34,
+          "sha256": "c10453deb20e762a28ec1940dfed3afc0502d1b9ea9f2a1a63e68453fe1c107a",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        }
+      ],
+      "existing_safety": [
+        "private clone/fingerprint state and RNG integrity",
+        "nonce and action/state binding before install",
+        "per-tick native safety and charging",
+        "shadow/live parity and bounded ACK"
+      ],
+      "delta_only": [
+        "Map both DEC1 conditions to their exact eight original source pose/gripper commands; do not dispatch preview9 to Engine.step.",
+        "Retain raw full H40 and mapped full H40 gates.",
+        "Bind actual observation/sim clock, submitted action, native S1 receipt, per-tick feedback/ACK and stop to the same prefix.",
+        "Qualify through the original finite resource-admitted commissioning; no CPU/native PASS substitution."
+      ]
+    },
+    {
+      "executor": "MUJOCO_OCS2_FROZEN_FULLBODY_WBC_TARGET",
+      "classification": [
+        "INTERFACE_EXISTS",
+        "EXISTING_TARGET_ASSETS_PRESENT_TASK_NATIVE_QUALIFICATION_PENDING"
+      ],
+      "input": "world TCP time-stamped JSON trajectory plus native reference-manager and independent gripper",
+      "evidence": [
+        {
+          "path": "src/go2arx5_vla/target_mujoco/reference.py",
+          "line": 95,
+          "sha256": "da67f29edef1925bc76dcdc1a381f00891a23d24e540430bd6ec852703f7734a",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        },
+        {
+          "path": "scripts/pi0294/task_native_worker.py",
+          "line": 263,
+          "sha256": "9a3c240f1a7d7ccbc5921a242f8f235e75be0f37b8bf698a65424f3dd23eec91",
+          "source_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c"
+        }
+      ],
+      "not_interchangeable_with_historical_preview9": true,
+      "delta_only": [
+        "Bind the actual registered controller/runtime/binary/config/weights identity.",
+        "Check current T1/T2 task overlay, object/gripper/cameras, actual state and clock, reset, native safety and safe stop.",
+        "Use installation ACK/integration receipts; JSON alone has no ACK/TTL/cancel protocol.",
+        "Distinguish existing EEF13/base Teacher pilot from original CORR/R0 student DEC1 evaluation."
+      ]
+    }
+  ],
+  "source_training_waits_for_target": false,
+  "existing_source_Teacher_waits_for_target_hold_RMS": false,
+  "conclusion": "No whole WBC-interface-missing claim. Current target task native qualification and source DEC1 prefix integration are separate exact deltas.",
+  "goal_complete": false,
+  "current_native_evidence_20261024": {
+    "historical_helper_review_and_creation_fields_preserved": true,
+    "report": "reports/PI0294/design/WDR1_FROZEN_TARGET_HISTORY_AND_PREFIX_DELTA_ACTUAL_20261024.json",
+    "target_condition_source": "22eb521725407cbf731caadcbaa97c6c1357d7d1",
+    "target_condition_exact_CI": 40037256890,
+    "all12_success": true,
+    "target_status": "EXISTING_TARGET_ASSETS_PRESENT_TASK_NATIVE_QUALIFICATION_PENDING",
+    "actual_leg_policy_observations": 88,
+    "actual_leg_policy_history_frames": 30,
+    "compiled_native_entrypoints_present": true,
+    "state_journal_does_not_supply_complete_leg_controller_history": true,
+    "wholebody_prefix_producer_not_qualified": true,
+    "target_task_native_qualified": false,
+    "core64": 0,
+    "source_Teacher_and_R0_training_do_not_wait_for_target": true,
+    "A4096_training_and_financial_closure_complete": true,
+    "B4096_complete_state_audit_and_financial_dual_closure_complete": true,
+    "B_owner_read_exit1_preserved": true,
+    "B_saved_state_reuse_not_newly_admitted": true,
+    "SDK_projection_unknown_preserved_pending_previous_exception_reply": true,
+    "new_capture_or_training_or_physics_from_this_supplement": 0,
+    "original_budget_T0_deadlines_and_final_protection_unchanged": true
+  }
+}

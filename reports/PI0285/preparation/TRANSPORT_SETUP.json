@@ -1,0 +1,25 @@
+{
+  "status": "PASS_SCOPED_DIRECT_MODEL_LIST_AND_OWN_DATA_PUSH",
+  "scopes": [
+    "READ_ONLY_OWN_DELIVERY",
+    "WRITE_ONLY_NO_DELETE_OWN_DATA"
+  ],
+  "fingerprints": {
+    "hopper_model_pull": "256 SHA256:Yu/F209KzOAaupAu4dGo0efCiSKwTZUBYVKHTE9Txws PI0285_MODEL_READONLY (ED25519)",
+    "hopper_data_push": "256 SHA256:hJXSENcgdcZW/0u5kOMlBZNkD1dRygPOSi/tcumptd8 PI0285_DATA_WRITEONLY (ED25519)"
+  },
+  "private_keys_on_PC": false,
+  "private_key_locations": [
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0285/runtime/hopper_model_pull",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0285/runtime/hopper_data_push"
+  ],
+  "authenticated_host_key_sha256": "231f9566a02c4f8b4199cdc27fc8a5f033a739c22055d3b4ac6708742c4018a6",
+  "probe_sha256": "ca8a20b81c7fbd0507fe5f029225cf47b705965cf7b0b5a9beedb34d628b8b84",
+  "HF_critical_path": false,
+  "new_model_queries": 0,
+  "new_physics": 0,
+  "remote_readback": {
+    "readback_sha256": "ca8a20b81c7fbd0507fe5f029225cf47b705965cf7b0b5a9beedb34d628b8b84",
+    "status": "PASS_WRITE_PROBE_REMOTE_READBACK"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "complete_base_order": true,
+  "context_match": true,
+  "inherited_roundtrip_receipt_sha256": "34d6d04962f993f64d70ff74c96fe4de13473adf43c4a93ad09fb75341c265bd",
+  "learned_gradients": 0,
+  "model_queries": 0,
+  "no_DIRECT_hook": true,
+  "noncommuting_unclamped_decoder": {
+    "normalized_abs_max": 1.4847694635391235,
+    "rotation_max_abs": 9.279122642480431e-08,
+    "status": "PASS_NONCOMMUTING_UNCLAMPED_ROT_XYZ_FP32",
+    "xyz_max_abs": 9.471564366148044e-09
+  },
+  "optimizer_updates": 0,
+  "status": "PASS_PI0273_SCHEDULE_RESTORE_AND_UNCHANGED_PHYSICAL_CPU_FIXTURES",
+  "temporal": {
+    "checks": [
+      {
+        "constant_zero_mask": true,
+        "horizon": 40,
+        "independent_gradient_and_finite_difference": true,
+        "positive_unit_mass": true
+      },
+      {
+        "constant_zero_mask": true,
+        "horizon": 39,
+        "independent_gradient_and_finite_difference": true,
+        "positive_unit_mass": true
+      }
+    ],
+    "learned_backwards": 0,
+    "model_queries": 0,
+    "status": "PASS_TEMPORAL_REDUCTION_CPU_FIXTURES"
+  },
+  "training_source_sha256": "095eba688c3687995617b3553b27535c4cc9e25ba735690b37eb3777d810f7d4"
+}

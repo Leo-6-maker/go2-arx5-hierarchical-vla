@@ -1,0 +1,77 @@
+{
+  "schema": "PI0243_HF_PUBLIC_ARCHIVE_CLOSURE_V1",
+  "protocol": "PI0243_STORAGE_ADMITTED_CONTINUATION_V2",
+  "repo_id": "leoyuer/pi0243-stage-a-admitted-v1",
+  "public": true,
+  "write_probe": {
+    "commit_id": "ca8ebab272722bb9ff6331db9a6b1edf895b45e8",
+    "path": "manifests/pi0243_hf_write_probe.json",
+    "sha256": "cbb92f635ac29f946350325a0352369009b24e20a2aad9920fc7abbeb586b438",
+    "readback": "PASS"
+  },
+  "pi0226_initializer": {
+    "path": "pi0226-adapted-checkpoint-1000",
+    "commit_id": "879fddc7833ced105b9de3e1134d929661cd61e7",
+    "manifest_commit_id": "d58e973760021e9e990a6c20900825232dc7fb2a",
+    "file_count": 15,
+    "total_bytes": 9536543008,
+    "tree_sha256": "6600c4f442d71e6d2df76c0a18fbaaefab3609e28fb3590a6afce8651827b895",
+    "verification": "DURABLE_VERIFIED"
+  },
+  "pi0228_fresh_623593": {
+    "source_root": "/scratch/e1192548/pi0228_h200_large_adapt_v1_623593.hopper-m-02/training",
+    "checkpoints": {
+      "2500": {
+        "path": "pi0228-fresh-623593/checkpoint-2500",
+        "commit_id": "d1bdbaf93309baa0901a3a4d3469249d03c30ecd",
+        "manifest_commit_id": "122a6ff0bd461800c910d8fe43b2b0504b42834b",
+        "file_count": 18,
+        "total_bytes": 20889807783,
+        "tree_sha256": "4b03307e584fa1f2cfb03062aea8abb5633a5038561d89f53d37707ce5ce03c9"
+      },
+      "5000": {
+        "path": "pi0228-fresh-623593/checkpoint-5000",
+        "manifest_commit_id": "c4ec9ef49b2c4ee103feef312649b12bccc454b1",
+        "file_count": 18,
+        "total_bytes": 20890154723,
+        "tree_sha256": "1667c22a9d8e5eca951fd872342fc784a6721d296c3be526f87b304c3fa03441"
+      },
+      "7500": {
+        "path": "pi0228-fresh-623593/checkpoint-7500",
+        "manifest_commit_id": "185a0804af851525c65d135a9e89e22236d5b5ea",
+        "file_count": 18,
+        "total_bytes": 20890503259,
+        "tree_sha256": "4d55913681616359ee0086af3fa7341cf3ee4a6b0b9cc2566b71ce02e1be981c"
+      },
+      "10000": {
+        "path": "pi0228-fresh-623593/checkpoint-10000",
+        "manifest_commit_id": "db00b168cc43cfd62111ad5a144952610af81d95",
+        "file_count": 18,
+        "total_bytes": 20890852212,
+        "tree_sha256": "704305041c78a3a95bfd5912c51b4b67e8826404aee011c22460165fbbee38fb"
+      }
+    },
+    "verification": "all four DURABLE_VERIFIED; public repo and control readback PASS"
+  },
+  "local_cleanup": {
+    "deleted_only": [
+      "/scratch/e1192548/pi0228_h200_large_adapt_v1_623593.hopper-m-02/training/checkpoint-2500",
+      "/scratch/e1192548/pi0228_h200_large_adapt_v1_623593.hopper-m-02/training/checkpoint-5000",
+      "/scratch/e1192548/pi0228_h200_large_adapt_v1_623593.hopper-m-02/training/checkpoint-7500",
+      "/scratch/e1192548/pi0228_h200_large_adapt_v1_623593.hopper-m-02/training/checkpoint-10000"
+    ],
+    "before_du_sh": "87G",
+    "after_du_sh": "8.9G",
+    "other_logs_profiles_and_evidence": "RETAINED",
+    "initializer": "RETAINED"
+  },
+  "scientific_counters": {
+    "new_training": 0,
+    "new_forward": 0,
+    "new_backward": 0,
+    "new_optimizer": 0,
+    "WBC": 0,
+    "sim": 0,
+    "selected_checkpoint": "NONE"
+  }
+}

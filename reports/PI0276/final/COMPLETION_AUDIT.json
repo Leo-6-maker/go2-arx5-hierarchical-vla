@@ -1,0 +1,148 @@
+{
+  "status": "INCOMPLETE_PENDING_ARCHIVAL_CLOSURE",
+  "scope": "Original full PI0276 objective; execution and VALID_FAIL quality do not establish archival completion",
+  "requirements": [
+    {
+      "requirement": "Authority/handoff",
+      "evidence": "ADMISSION_AND_TRAINING_RECEIPTS.json:evidence/AUDIT.json and HANDOFF.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Pinned source/assets/isolated runtime",
+      "evidence": "ADMISSION_AND_TRAINING_RECEIPTS.json:evidence/SETUP.json, source HF fileset",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Two native fixtures",
+      "evidence": "ADMISSION_AND_TRAINING_RECEIPTS.json:evidence/NATIVE.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Fixed source/replay membership and all failures",
+      "evidence": "SOURCE_INDEX.json; admission/precodec records",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Actual inputs/codec/TRAIN statistics/schedule",
+      "evidence": "ADMISSION_AND_TRAINING_RECEIPTS.json:evidence/DATA_ADMISSION.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Actual save/fresh restore canary",
+      "evidence": "ADMISSION_AND_TRAINING_RECEIPTS.json:TASK/canary_compare.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "8192 updates/scope/S4/gripper/modes",
+      "evidence": "ADMISSION_AND_TRAINING_RECEIPTS.json:evidence/MAIN_TRAINING_AUDIT.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Complete4096/8192 Trainer readbacks",
+      "evidence": "reports/PI0276/execution/HF_TASK8192_FULL_READBACK.json and previous4096 fixed revision",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Final policy seal and preTEST zero counts",
+      "evidence": "EVALUATION_FILESET.json and FINAL_POLICY_ADMISSION.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "384 fixed offline rows",
+      "evidence": "OFFLINE384.csv; MODEL_CPU_REPLAY.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "All128 TEST controls and16 TRAIN diagnostics",
+      "evidence": "PHYSICAL144.csv; PHYSICAL_VERDICT.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Independent saved physics/native predicate reconstruction",
+      "evidence": "PHYSICS_CPU_REPLAY.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Separate installation/tracking/object/gripper/contact metrics",
+      "evidence": "PHYSICAL144.csv; OFFLINE_GROUP16.csv; GRIPPER_PHASE_SUMMARY.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "All12 registered saved-frame videos",
+      "evidence": "VIDEOS.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Raw budget and engineering failures preserved",
+      "evidence": "FINAL_BUDGET.json; SOURCE_INDEX.json",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "No model/WBC/hardware/seed/recipe extension",
+      "evidence": "Frozen execution seal, original receipt identities and budget",
+      "state": "CLOSED_EXECUTION_EVIDENCE_INSPECTED"
+    },
+    {
+      "requirement": "Public source/predictions/summary full readbacks",
+      "evidence": "PENDING current finite archive owner",
+      "state": "PENDING"
+    },
+    {
+      "requirement": "FINAL_ARTIFACT_AUDIT and terminal Issue11 readback",
+      "evidence": "PENDING after all archive readbacks",
+      "state": "PENDING"
+    }
+  ],
+  "fixed_output_hashes": {
+    "ACTUAL_RECEIPT_INDEX.json": "814a25a071cde1a57e522e9bde707dc51a43bdb74ccc35ce8d02e64e84862325",
+    "ADMISSION_AND_TRAINING_RECEIPTS.json": "cf9ea43d494817cc56e40be40fb0997ba033e63b8776fe22195ac552770a5331",
+    "CLOSEOUT.json": "438ab0d9ff0c78bccc9d73faaa97d0b5d75d5f0a8ea44972bff27799b82b6aa4",
+    "EXISTING_RESULT_MECHANISM_NOTE.md": "b872679e753afaeaedc90a3fa94ecc34efeaa510cd598b2c8c78f09b5b3c6474",
+    "FINAL_BUDGET.json": "8c5505dedc0d1da61d3acf251d6913c24011c02378659a831d8830bd554091c6",
+    "FINAL_RESEARCH_RETURN.md": "1a5344e59b3dbe54af56fabf77c782a9fbcf1be5d331c0c43ca2ebb68d13bb37",
+    "GRIPPER_PHASE_SUMMARY.json": "f7acce4f2dc0e4374f2a2e5e031f1a5c8d8bd1826dd54ecd431045b3ea24f43d",
+    "MODEL_CPU_REPLAY.json": "4ea15071fc9f71118a825bdd2647d33e106301983c79377f14fc962f5a5cf2fa",
+    "OFFLINE384.csv": "46320da2afc4577afb157dc57eadacad10bc7931b11cb598b7bcbec00fbef69f",
+    "OFFLINE_GROUP16.csv": "215981d3eda522ae490469a04b29d723d8f352483f30cb1e9e64aaf9cb598466",
+    "PAIRED_TEST32.csv": "6300f8ad485a73c487ab8056c5b32bbeab5bfd71ebce255674b3947202ec6d26",
+    "PHYSICAL144.csv": "184b57c79cd38e71511ad437f2908255d11e4f386daf97812761c60621c08607",
+    "PHYSICAL_EVALUATION_COMPLETE.json": "3ea92b60fe6e47c90edfd212d79a540824e871ff1c44f860c2d6824d33931e1b",
+    "PHYSICAL_VERDICT.json": "ca755f974b5f666a6e90bd3931358e0a7fe90dcc5a343805f5dd5e424c3c0703",
+    "PHYSICS_CPU_REPLAY.json": "91515b62f3ca6645f304b41bdedd2a3ecec3367a8f9db2c132e32ca88c2787e4",
+    "SOURCE_INDEX.json": "316ec1389fb88586f4e22661b0a2677ce52ef00682e54ac0dfd5ecb389dde7ac",
+    "VERDICT_ISSUE11_READBACK.json": "9585057ab0dba519f15364ee5581084f3b9b62d7d29147637b09d562b7759dfb",
+    "VIDEOS.json": "1b1b1940bcc863a3002ae8cc7683ad0a4ef4c87a339faac3ea52a7180116cdd5",
+    "HF_SUMMARY_FULL_READBACK.json": "0c6a2d7b62669af6a9a467f9f093899c9bf5cbbda29012ff9908592708aa51ff",
+    "HF_PREDICTIONS_UPLOAD.json": "2fa8eb211745ce0eb200ac717308b21b43c0fd9d5558363aeb97584388e66c77",
+    "ARCHIVE_CONTENT_COVERAGE.json": "6d6116b06e08da12e3ceaba485cb2d3fb736dcbae2631cb3075801ec79e5f5ee"
+  },
+  "science": "VALID_FAIL",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "additional_exact_matrix_checks": {
+    "TEST_four_lanes32": true,
+    "TRAIN_lowest_admitted16": true,
+    "offline_unique_paired192": true,
+    "both_complete_Trainer_receipts_inspected_now": true,
+    "frozen_source_and_prediction_manifest_cover_all392_original_attempts": true,
+    "prediction_manifest_covers_all4241_CPU_replayed_outputs_with_inputs_and_receipts": true,
+    "both_source_licenses_in_sealed_summary": true
+  },
+  "archive_closure": {
+    "training_data": "CLOSED",
+    "summary": {
+      "state": "CLOSED",
+      "revision": "5feb031c0b9b789725f1d6098744a8c7ab5f2522",
+      "tree_sha256": "59e22f97e37b01bca41f97254020ee4fec703ecc0a2912c1f13895d699609b12",
+      "members": 111,
+      "registered_videos": 12
+    },
+    "source": "PENDING_CURRENT_HEALTHY_FULL_READBACK",
+    "predictions": {
+      "state": "PENDING_FULL_READBACK",
+      "revision": "438071c055178a07c6cc5d3efd9a8a3e6129409a",
+      "tree_sha256": "ddb164b8e287e1b6c322807aa2abaa44860dbec178b7e6afb1c040f3e337279f",
+      "live_child_pid": 3455362
+    }
+  }
+}

@@ -1,0 +1,5668 @@
+{
+  "schema": "V4A_TRAIN_ONLY_COVERAGE_AND_ACTUAL_RETAINED_CONSUMPTION_AUDIT_V1",
+  "status": "PASS_ACTUAL_4096_LINEAGE_CONSUMPTION_WITH_SCOPED_EVENT_JOINS",
+  "source_reports": {
+    "reports/PI0294/20261016T191445Z-localpc-mp1/T2_TRAIN30_EVENT_AND_H40_COVERAGE.json": "6213e8537e32b6261b439e4fcbf503679fc4e9075695827bacaa66ef4b3632d9",
+    "reports/PI0294/PV1/20261018T182956Z-localpc-pv1/PV1_ADMITTED_TRAIN_PHYSICAL_EVENT_EXPOSURE.json": "5346c065db6530100b99721644d3b5412dda1768585510fc1916ccc95d1f1ac8"
+  },
+  "actual_retained_trace_audit_sha256": "a78eeeb393e705b6b3d9b56c75a5a9f136ad5de4327f69d3a68411a928c7c37a",
+  "actual_read_CPU_s": 7.656408908,
+  "source_grains": {
+    "original_dataset_episodes": {
+      "T1": 96,
+      "T2": 30
+    },
+    "new_PV1_bank_trajectories": {
+      "T1": 75,
+      "T2": 64
+    },
+    "new_PV1_bank_unique_geometries": 77,
+    "new_PV1_bank_paired_geometries": 62,
+    "C1_exported_variants": 8,
+    "C1_original_student_parents": 4,
+    "training_sample_is_one_anchor_with_H40_targets": true,
+    "overlapping_windows_are_not_independent_demonstrations": true,
+    "C1_export_anchor_uniqueness_is_not_deduplicated_underlying_student_state_uniqueness": true
+  },
+  "actual_by_candidate_lane": {
+    "A_CONTROL": {
+      "original_T1": {
+        "actual_sample_visits": 32768,
+        "distinct_episode_ids": 96,
+        "C1_original_student_parents": null,
+        "distinct_episode_anchor_pairs": 25024,
+        "visits_per_distinct_episode_anchor": 1.3094629156010231
+      },
+      "original_T2": {
+        "actual_sample_visits": 65536,
+        "distinct_episode_ids": 30,
+        "C1_original_student_parents": null,
+        "distinct_episode_anchor_pairs": 17553,
+        "visits_per_distinct_episode_anchor": 3.733606790861961
+      },
+      "C1_T1": {
+        "actual_sample_visits": 32768,
+        "distinct_episode_ids": 8,
+        "C1_original_student_parents": 4,
+        "distinct_episode_anchor_pairs": 1665,
+        "visits_per_distinct_episode_anchor": 19.68048048048048
+      }
+    },
+    "B_COVERAGE": {
+      "original_T1": {
+        "actual_sample_visits": 16384,
+        "distinct_episode_ids": 96,
+        "C1_original_student_parents": null,
+        "distinct_episode_anchor_pairs": 14283,
+        "visits_per_distinct_episode_anchor": 1.147097948610236
+      },
+      "original_T2": {
+        "actual_sample_visits": 32768,
+        "distinct_episode_ids": 30,
+        "C1_original_student_parents": null,
+        "distinct_episode_anchor_pairs": 15111,
+        "visits_per_distinct_episode_anchor": 2.1684865329892133
+      },
+      "C1_T1": {
+        "actual_sample_visits": 32768,
+        "distinct_episode_ids": 8,
+        "C1_original_student_parents": 4,
+        "distinct_episode_anchor_pairs": 1665,
+        "visits_per_distinct_episode_anchor": 19.68048048048048
+      },
+      "new_T1": {
+        "actual_sample_visits": 16384,
+        "distinct_episode_ids": 75,
+        "C1_original_student_parents": null,
+        "distinct_episode_anchor_pairs": 13745,
+        "visits_per_distinct_episode_anchor": 1.191997089850855
+      },
+      "new_T2": {
+        "actual_sample_visits": 32768,
+        "distinct_episode_ids": 64,
+        "C1_original_student_parents": null,
+        "distinct_episode_anchor_pairs": 22111,
+        "visits_per_distinct_episode_anchor": 1.4819772963683235
+      }
+    }
+  },
+  "retained_lineage_segments": [
+    {
+      "arm": "A_CONTROL",
+      "start": 0,
+      "stop": 1024,
+      "checkpoint_sha256": "1c50579c172367894fe83921d84e4053803dd451c1c3e693d7881f1ff673e6f8",
+      "sampler_sha256": "7b7dbc994eae48d0a0917813293f10352d442fcd550deaecd7be326f5335b13e",
+      "worker_trace_sha256": "de449d47625e620a0eadaeb0c38377459d2feeb288952f1f38ed874f9f382d86",
+      "original_job": "1474352.stdct-mgmt-02",
+      "actual_lane_visits": {
+        "original_T1": 256,
+        "original_T2": 512,
+        "C1_T1": 256
+      },
+      "actual_visits": 1024,
+      "actual_microbatches": 512,
+      "all_actual_worker_and_forward_identities_match": true
+    },
+    {
+      "arm": "A_CONTROL",
+      "start": 1024,
+      "stop": 32768,
+      "checkpoint_sha256": "50528e38c1e785533916fbcdd0a48d63df27f2624bb317e6d0ed113e05318f4e",
+      "sampler_sha256": "b13e28f2875804785e6e94c0f705b8fb67688c51b3c98c5bbbbcfce6882cd8dd",
+      "worker_trace_sha256": "ef5815505abeef7c6c89ebf96500cc4c176a88a8bd11ce1a303ee083f6800cb3",
+      "original_job": "1474599.stdct-mgmt-02",
+      "actual_lane_visits": {
+        "original_T1": 7936,
+        "original_T2": 15872,
+        "C1_T1": 7936
+      },
+      "actual_visits": 31744,
+      "actual_microbatches": 15872,
+      "all_actual_worker_and_forward_identities_match": true
+    },
+    {
+      "arm": "A_CONTROL",
+      "start": 32768,
+      "stop": 65536,
+      "checkpoint_sha256": "1336326d908bbc91c36f871f0846b316c2bea08bada2bcee0b1bcc9bcb0e5486",
+      "sampler_sha256": "97be3046822db0afc2b7e86ad2618ec4e1dd7b759c939fb1e642265824b40cb6",
+      "worker_trace_sha256": "85e2f9c111ef84d1103d779f5fd11f84eff3111274c3791c421bdbc2a7174677",
+      "original_job": "1474599.stdct-mgmt-02",
+      "actual_lane_visits": {
+        "original_T1": 8192,
+        "original_T2": 16384,
+        "C1_T1": 8192
+      },
+      "actual_visits": 32768,
+      "actual_microbatches": 16384,
+      "all_actual_worker_and_forward_identities_match": true
+    },
+    {
+      "arm": "A_CONTROL",
+      "start": 65536,
+      "stop": 131072,
+      "checkpoint_sha256": "e0b9d8cb67efc82ae8daa67d71f95df8fb5c607e0f75e26d58cf01412a3e807a",
+      "sampler_sha256": "bcb83e9b24c19aa4e219a6cdceb6d91e08021c19ae63460d3e283eae774edc41",
+      "worker_trace_sha256": "339a252300e628bf2e51abf6094219b637358ca8d907e3f69bca7ff559b58149",
+      "original_job": "1477527.stdct-mgmt-02",
+      "actual_lane_visits": {
+        "original_T1": 16384,
+        "original_T2": 32768,
+        "C1_T1": 16384
+      },
+      "actual_visits": 65536,
+      "actual_microbatches": 32768,
+      "all_actual_worker_and_forward_identities_match": true
+    },
+    {
+      "arm": "B_COVERAGE",
+      "start": 0,
+      "stop": 32768,
+      "checkpoint_sha256": "7da8aad42b835edb1181c38daaa1859ffb94516bce693609ebde4e2c10a38e2b",
+      "sampler_sha256": "465c88315fe103d001d7dd56300dc17d1f041e268659a83e51f683869bd991f6",
+      "worker_trace_sha256": "0409502f71a8faec1f045aea278d53890f380464b7044dc4f73079103577b77f",
+      "original_job": "1478518.stdct-mgmt-02",
+      "actual_lane_visits": {
+        "original_T1": 4096,
+        "original_T2": 8192,
+        "C1_T1": 8192,
+        "new_T1": 4096,
+        "new_T2": 8192
+      },
+      "actual_visits": 32768,
+      "actual_microbatches": 16384,
+      "all_actual_worker_and_forward_identities_match": true
+    },
+    {
+      "arm": "B_COVERAGE",
+      "start": 32768,
+      "stop": 65536,
+      "checkpoint_sha256": "db2b2be84e1d2e6eeca1715107f6eb42a8b151e38fe513ddac6029e8db97bbcf",
+      "sampler_sha256": "9c05094dadcbcd6b8d9025568a92a0ce1ca1c93eea4c6158d0d264914ebda26b",
+      "worker_trace_sha256": "557c56d2a3099687b482ff2ced89563a3a18ef3096d0753a046cb50e397f1f56",
+      "original_job": "1479559.stdct-mgmt-02",
+      "actual_lane_visits": {
+        "original_T1": 4096,
+        "original_T2": 8192,
+        "C1_T1": 8192,
+        "new_T1": 4096,
+        "new_T2": 8192
+      },
+      "actual_visits": 32768,
+      "actual_microbatches": 16384,
+      "all_actual_worker_and_forward_identities_match": true
+    },
+    {
+      "arm": "B_COVERAGE",
+      "start": 65536,
+      "stop": 131072,
+      "checkpoint_sha256": "be7ab71dee0fb68e17efae06a04ff8dde9cd776ff429c1d6c408ae01323a9c19",
+      "sampler_sha256": "da5e30ff93410e2d338dcf12a063bda44f90374b838503a8aa60f2a46f1a726f",
+      "worker_trace_sha256": "03a4af16e3cefe92a63816cf904cd1d2a35c20c94c9904d82c4886de7f436f12",
+      "original_job": "1481574.stdct-mgmt-02",
+      "actual_lane_visits": {
+        "original_T1": 8192,
+        "original_T2": 16384,
+        "C1_T1": 16384,
+        "new_T1": 8192,
+        "new_T2": 16384
+      },
+      "actual_visits": 65536,
+      "actual_microbatches": 32768,
+      "all_actual_worker_and_forward_identities_match": true
+    }
+  ],
+  "original_T2_Teacher_stage_supervision": {
+    "A_CONTROL": {
+      "detach": {
+        "actual_T2_samples": 65536,
+        "anchor_in_stage": 2669,
+        "Prefix8_contains_stage": 3416,
+        "H40_contains_stage": 6980,
+        "Prefix8_contains_onset": 854,
+        "parents_with_Prefix8_stage": 30,
+        "independent_episodes": 30,
+        "Prefix8_stage_fraction": 0.0521240234375
+      },
+      "withdraw": {
+        "actual_T2_samples": 65536,
+        "anchor_in_stage": 5370,
+        "Prefix8_contains_stage": 6112,
+        "H40_contains_stage": 9533,
+        "Prefix8_contains_onset": 851,
+        "parents_with_Prefix8_stage": 30,
+        "independent_episodes": 30,
+        "Prefix8_stage_fraction": 0.09326171875
+      }
+    },
+    "B_COVERAGE": {
+      "detach": {
+        "actual_T2_samples": 32768,
+        "anchor_in_stage": 1349,
+        "Prefix8_contains_stage": 1730,
+        "H40_contains_stage": 3482,
+        "Prefix8_contains_onset": 435,
+        "parents_with_Prefix8_stage": 30,
+        "independent_episodes": 30,
+        "Prefix8_stage_fraction": 0.05279541015625
+      },
+      "withdraw": {
+        "actual_T2_samples": 32768,
+        "anchor_in_stage": 2680,
+        "Prefix8_contains_stage": 3067,
+        "H40_contains_stage": 4780,
+        "Prefix8_contains_onset": 444,
+        "parents_with_Prefix8_stage": 30,
+        "independent_episodes": 30,
+        "Prefix8_stage_fraction": 0.093597412109375
+      }
+    }
+  },
+  "B_new_bank_physical_event_supervision": {
+    "new_T1": {
+      "physical_event": "native_grasp_end_after_10cm_transport",
+      "all_source_events_losslessly_reconstructed_from_one_or_two_original_event_times": true,
+      "source_episodes": 75,
+      "actual_sample_visits": 16384,
+      "Prefix8_actual_visit_hits": 159,
+      "H40_actual_visit_hits": 1005,
+      "parents_with_Prefix8_visit_hits": 67,
+      "parents_with_H40_visit_hits": 75,
+      "parents_without_Prefix8_visit_hits": [
+        "PI0294-PV1-TRAIN-F0-008-T1-C04",
+        "PI0294-PV1-TRAIN-F1-026-T1-C04",
+        "PI0294-PV1-TRAIN-F0-015-T1-C04",
+        "PI0294-PV1-TRAIN-F0-016-T1-C04",
+        "PI0294-PV1-TRAIN-F2-016-T1-C04",
+        "PI0294-PV1-TRAIN-F1-004-T1-C04",
+        "PI0294-PV1-TRAIN-F0-000-T1-C04",
+        "PI0294-PV1-TRAIN-F0-017-T1-C04"
+      ],
+      "by_parent": [
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-002-T1-C04",
+          "actual_samples": 209,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 16
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-014-T1-C04",
+          "actual_samples": 232,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 9
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-013-T1-C04",
+          "actual_samples": 237,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 19
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-008-T1-C04",
+          "actual_samples": 214,
+          "Prefix8_actual_visit_hits": 0,
+          "H40_actual_visit_hits": 7
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-013-T1-C04",
+          "actual_samples": 217,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 9
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-031-T1-C04",
+          "actual_samples": 221,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-023-T1-C04",
+          "actual_samples": 238,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-018-T1-C04",
+          "actual_samples": 197,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-027-T1-C04",
+          "actual_samples": 199,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 16
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-034-T1-C04",
+          "actual_samples": 231,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-022-T1-C04",
+          "actual_samples": 207,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 8
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-003-T1-C04",
+          "actual_samples": 271,
+          "Prefix8_actual_visit_hits": 5,
+          "H40_actual_visit_hits": 21
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-026-T1-C04",
+          "actual_samples": 204,
+          "Prefix8_actual_visit_hits": 0,
+          "H40_actual_visit_hits": 6
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-009-T1-C04",
+          "actual_samples": 201,
+          "Prefix8_actual_visit_hits": 5,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-015-T1-C04",
+          "actual_samples": 225,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 10
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-002-T1-C04",
+          "actual_samples": 217,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-011-T1-C04",
+          "actual_samples": 205,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 17
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-016-T1-C04",
+          "actual_samples": 232,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-012-T1-C04",
+          "actual_samples": 195,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-007-T1-C04",
+          "actual_samples": 214,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 11
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-023-T1-C04",
+          "actual_samples": 215,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-002-T1-C04",
+          "actual_samples": 227,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-015-T1-C04",
+          "actual_samples": 184,
+          "Prefix8_actual_visit_hits": 0,
+          "H40_actual_visit_hits": 11
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-008-T1-C04",
+          "actual_samples": 204,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-012-T1-C04",
+          "actual_samples": 226,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-005-T1-C04",
+          "actual_samples": 213,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-003-T1-C04",
+          "actual_samples": 231,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 18
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-003-T1-C04",
+          "actual_samples": 222,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-012-T1-C04",
+          "actual_samples": 211,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-019-T1-C04",
+          "actual_samples": 231,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-016-T1-C04",
+          "actual_samples": 210,
+          "Prefix8_actual_visit_hits": 0,
+          "H40_actual_visit_hits": 11
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-011-T1-C04",
+          "actual_samples": 233,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-021-T1-C04",
+          "actual_samples": 199,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 17
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-007-T1-C04",
+          "actual_samples": 241,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 17
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-000-T1-C04",
+          "actual_samples": 231,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 16
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-016-T1-C04",
+          "actual_samples": 220,
+          "Prefix8_actual_visit_hits": 0,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-010-T1-C04",
+          "actual_samples": 227,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 11
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-001-T1-C04",
+          "actual_samples": 213,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 10
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-004-T1-C04",
+          "actual_samples": 235,
+          "Prefix8_actual_visit_hits": 0,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-029-T1-C04",
+          "actual_samples": 224,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 12
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-018-T1-C04",
+          "actual_samples": 246,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 16
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-020-T1-C04",
+          "actual_samples": 214,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-028-T1-C04",
+          "actual_samples": 232,
+          "Prefix8_actual_visit_hits": 5,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-006-T1-C04",
+          "actual_samples": 221,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 7
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-010-T1-C04",
+          "actual_samples": 223,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 12
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-013-T1-C04",
+          "actual_samples": 215,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 16
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-005-T1-C04",
+          "actual_samples": 210,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-000-T1-C04",
+          "actual_samples": 205,
+          "Prefix8_actual_visit_hits": 0,
+          "H40_actual_visit_hits": 8
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-008-T1-C04",
+          "actual_samples": 266,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 16
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-011-T1-C04",
+          "actual_samples": 206,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 20
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-000-T1-C04",
+          "actual_samples": 214,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-017-T1-C04",
+          "actual_samples": 192,
+          "Prefix8_actual_visit_hits": 0,
+          "H40_actual_visit_hits": 10
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-019-T1-C04",
+          "actual_samples": 203,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-007-T1-C04",
+          "actual_samples": 221,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 12
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-001-T1-C04",
+          "actual_samples": 239,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-017-T1-C04",
+          "actual_samples": 216,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 17
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-035-T1-C04",
+          "actual_samples": 203,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-017-T1-C04",
+          "actual_samples": 233,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-009-T1-C04",
+          "actual_samples": 218,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 11
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-009-T1-C04",
+          "actual_samples": 228,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 16
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-025-T1-C04",
+          "actual_samples": 222,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 18
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-005-T1-C04",
+          "actual_samples": 191,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 5
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-001-T1-C04",
+          "actual_samples": 202,
+          "Prefix8_actual_visit_hits": 5,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-019-T1-C04",
+          "actual_samples": 227,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 16
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-004-T1-C04",
+          "actual_samples": 218,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 9
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-032-T1-C04",
+          "actual_samples": 214,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 12
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-004-T1-C04",
+          "actual_samples": 208,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 11
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-014-T1-C04",
+          "actual_samples": 215,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 13
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-021-T1-C04",
+          "actual_samples": 222,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 10
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-033-T1-C04",
+          "actual_samples": 222,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 10
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-015-T1-C04",
+          "actual_samples": 202,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 15
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-006-T1-C04",
+          "actual_samples": 212,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 17
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-018-T1-C04",
+          "actual_samples": 209,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-010-T1-C04",
+          "actual_samples": 220,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 14
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-014-T1-C04",
+          "actual_samples": 232,
+          "Prefix8_actual_visit_hits": 2,
+          "H40_actual_visit_hits": 16
+        }
+      ]
+    },
+    "new_T2": {
+      "physical_event": "zone_entry_20Hz",
+      "all_source_events_losslessly_reconstructed_from_one_or_two_original_event_times": true,
+      "source_episodes": 64,
+      "actual_sample_visits": 32768,
+      "Prefix8_actual_visit_hits": 441,
+      "H40_actual_visit_hits": 2125,
+      "parents_with_Prefix8_visit_hits": 63,
+      "parents_with_H40_visit_hits": 64,
+      "parents_without_Prefix8_visit_hits": [
+        "PI0294-PV1-TRAIN-F2-005-T2-C04"
+      ],
+      "by_parent": [
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-012-T2-C04",
+          "actual_samples": 478,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 26
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-014-T2-C04",
+          "actual_samples": 510,
+          "Prefix8_actual_visit_hits": 12,
+          "H40_actual_visit_hits": 38
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-017-T2-C04",
+          "actual_samples": 534,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-008-T2-C04",
+          "actual_samples": 495,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 25
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-007-T2-C04",
+          "actual_samples": 508,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 27
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-000-T2-C04",
+          "actual_samples": 583,
+          "Prefix8_actual_visit_hits": 8,
+          "H40_actual_visit_hits": 45
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-028-T2-C04",
+          "actual_samples": 576,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 34
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-023-T2-C04",
+          "actual_samples": 515,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 22
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-031-T2-C04",
+          "actual_samples": 526,
+          "Prefix8_actual_visit_hits": 8,
+          "H40_actual_visit_hits": 30
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-021-T2-C04",
+          "actual_samples": 507,
+          "Prefix8_actual_visit_hits": 12,
+          "H40_actual_visit_hits": 43
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-008-T2-C04",
+          "actual_samples": 499,
+          "Prefix8_actual_visit_hits": 12,
+          "H40_actual_visit_hits": 36
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-009-T2-C04",
+          "actual_samples": 487,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-001-T2-C04",
+          "actual_samples": 527,
+          "Prefix8_actual_visit_hits": 8,
+          "H40_actual_visit_hits": 30
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-029-T2-C04",
+          "actual_samples": 524,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 32
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-015-T2-C04",
+          "actual_samples": 498,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 34
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-007-T2-C04",
+          "actual_samples": 505,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 32
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-005-T2-C04",
+          "actual_samples": 515,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 43
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-005-T2-C04",
+          "actual_samples": 484,
+          "Prefix8_actual_visit_hits": 0,
+          "H40_actual_visit_hits": 19
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-015-T2-C04",
+          "actual_samples": 508,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 37
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-009-T2-C04",
+          "actual_samples": 536,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 37
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-015-T2-C04",
+          "actual_samples": 476,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 32
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-003-T2-C04",
+          "actual_samples": 488,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 37
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-007-T2-C04",
+          "actual_samples": 510,
+          "Prefix8_actual_visit_hits": 10,
+          "H40_actual_visit_hits": 31
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-006-T2-C04",
+          "actual_samples": 493,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 35
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-000-T2-C04",
+          "actual_samples": 484,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-020-T2-C04",
+          "actual_samples": 515,
+          "Prefix8_actual_visit_hits": 9,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-013-T2-C04",
+          "actual_samples": 528,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 23
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-035-T2-C04",
+          "actual_samples": 507,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-002-T2-C04",
+          "actual_samples": 539,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 35
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-032-T2-C04",
+          "actual_samples": 521,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 35
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-014-T2-C04",
+          "actual_samples": 496,
+          "Prefix8_actual_visit_hits": 5,
+          "H40_actual_visit_hits": 30
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-005-T2-C04",
+          "actual_samples": 501,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 31
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-011-T2-C04",
+          "actual_samples": 528,
+          "Prefix8_actual_visit_hits": 11,
+          "H40_actual_visit_hits": 34
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-010-T2-C04",
+          "actual_samples": 508,
+          "Prefix8_actual_visit_hits": 13,
+          "H40_actual_visit_hits": 34
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-011-T2-C04",
+          "actual_samples": 519,
+          "Prefix8_actual_visit_hits": 10,
+          "H40_actual_visit_hits": 40
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-033-T2-C04",
+          "actual_samples": 503,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 37
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-023-T2-C04",
+          "actual_samples": 517,
+          "Prefix8_actual_visit_hits": 9,
+          "H40_actual_visit_hits": 34
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-017-T2-C04",
+          "actual_samples": 488,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 31
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-012-T2-C04",
+          "actual_samples": 475,
+          "Prefix8_actual_visit_hits": 5,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-019-T2-C04",
+          "actual_samples": 522,
+          "Prefix8_actual_visit_hits": 8,
+          "H40_actual_visit_hits": 36
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-016-T2-C04",
+          "actual_samples": 477,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 32
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-026-T2-C04",
+          "actual_samples": 546,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 37
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-003-T2-C04",
+          "actual_samples": 510,
+          "Prefix8_actual_visit_hits": 10,
+          "H40_actual_visit_hits": 40
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-013-T2-C04",
+          "actual_samples": 491,
+          "Prefix8_actual_visit_hits": 8,
+          "H40_actual_visit_hits": 32
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-006-T2-C04",
+          "actual_samples": 450,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 27
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-010-T2-C04",
+          "actual_samples": 497,
+          "Prefix8_actual_visit_hits": 5,
+          "H40_actual_visit_hits": 41
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-021-T2-C04",
+          "actual_samples": 521,
+          "Prefix8_actual_visit_hits": 5,
+          "H40_actual_visit_hits": 27
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-019-T2-C04",
+          "actual_samples": 501,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 35
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-004-T2-C04",
+          "actual_samples": 488,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 35
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-003-T2-C04",
+          "actual_samples": 584,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-008-T2-C04",
+          "actual_samples": 473,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 29
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-016-T2-C04",
+          "actual_samples": 535,
+          "Prefix8_actual_visit_hits": 6,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-006-T2-C04",
+          "actual_samples": 533,
+          "Prefix8_actual_visit_hits": 10,
+          "H40_actual_visit_hits": 40
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-012-T2-C04",
+          "actual_samples": 522,
+          "Prefix8_actual_visit_hits": 9,
+          "H40_actual_visit_hits": 35
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-019-T2-C04",
+          "actual_samples": 555,
+          "Prefix8_actual_visit_hits": 4,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-001-T2-C04",
+          "actual_samples": 505,
+          "Prefix8_actual_visit_hits": 10,
+          "H40_actual_visit_hits": 38
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-001-T2-C04",
+          "actual_samples": 568,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 33
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-025-T2-C04",
+          "actual_samples": 515,
+          "Prefix8_actual_visit_hits": 12,
+          "H40_actual_visit_hits": 37
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-011-T2-C04",
+          "actual_samples": 536,
+          "Prefix8_actual_visit_hits": 1,
+          "H40_actual_visit_hits": 38
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F1-022-T2-C04",
+          "actual_samples": 523,
+          "Prefix8_actual_visit_hits": 3,
+          "H40_actual_visit_hits": 25
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-010-T2-C04",
+          "actual_samples": 526,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 31
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F0-000-T2-C04",
+          "actual_samples": 481,
+          "Prefix8_actual_visit_hits": 9,
+          "H40_actual_visit_hits": 30
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-018-T2-C04",
+          "actual_samples": 500,
+          "Prefix8_actual_visit_hits": 7,
+          "H40_actual_visit_hits": 31
+        },
+        {
+          "episode_id": "PI0294-PV1-TRAIN-F2-016-T2-C04",
+          "actual_samples": 498,
+          "Prefix8_actual_visit_hits": 9,
+          "H40_actual_visit_hits": 30
+        }
+      ]
+    }
+  },
+  "per_parent_actual_consumption": [
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-006-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 364,
+      "unique_anchor_count": 279
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-001-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 321,
+      "unique_anchor_count": 258
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291032",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 308,
+      "unique_anchor_count": 249
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291036",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 332,
+      "unique_anchor_count": 257
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-000-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 342,
+      "unique_anchor_count": 259
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291048",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 357,
+      "unique_anchor_count": 278
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291033",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 363,
+      "unique_anchor_count": 284
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291050",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 330,
+      "unique_anchor_count": 257
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-006-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 347,
+      "unique_anchor_count": 259
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291035",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 389,
+      "unique_anchor_count": 291
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-000-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 345,
+      "unique_anchor_count": 257
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291053",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 332,
+      "unique_anchor_count": 259
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-005-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 344,
+      "unique_anchor_count": 260
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-010-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 340,
+      "unique_anchor_count": 258
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-000-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 350,
+      "unique_anchor_count": 271
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291059",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 326,
+      "unique_anchor_count": 265
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-004-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 319,
+      "unique_anchor_count": 248
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291013",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 335,
+      "unique_anchor_count": 240
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291058",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 358,
+      "unique_anchor_count": 273
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291039",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 367,
+      "unique_anchor_count": 268
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291051",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 362,
+      "unique_anchor_count": 271
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291025",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 350,
+      "unique_anchor_count": 257
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-006-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 318,
+      "unique_anchor_count": 245
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-005-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 351,
+      "unique_anchor_count": 264
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291027",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 381,
+      "unique_anchor_count": 279
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-009-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 333,
+      "unique_anchor_count": 252
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291000",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 356,
+      "unique_anchor_count": 265
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291009",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 328,
+      "unique_anchor_count": 259
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-008-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 328,
+      "unique_anchor_count": 253
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291017",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 353,
+      "unique_anchor_count": 270
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-002-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 329,
+      "unique_anchor_count": 257
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291045",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 341,
+      "unique_anchor_count": 259
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291028",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 324,
+      "unique_anchor_count": 250
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-007-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 306,
+      "unique_anchor_count": 230
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291019",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 312,
+      "unique_anchor_count": 247
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291056",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 360,
+      "unique_anchor_count": 263
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291016",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 322,
+      "unique_anchor_count": 244
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291026",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 335,
+      "unique_anchor_count": 257
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-002-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 341,
+      "unique_anchor_count": 266
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291007",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 323,
+      "unique_anchor_count": 240
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291060",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 317,
+      "unique_anchor_count": 248
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291042",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 358,
+      "unique_anchor_count": 269
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291061",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 329,
+      "unique_anchor_count": 252
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291024",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 349,
+      "unique_anchor_count": 269
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-003-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 339,
+      "unique_anchor_count": 253
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291062",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 358,
+      "unique_anchor_count": 270
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291002",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 307,
+      "unique_anchor_count": 238
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-008-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 353,
+      "unique_anchor_count": 265
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291021",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 360,
+      "unique_anchor_count": 276
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291004",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 348,
+      "unique_anchor_count": 262
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-001-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 351,
+      "unique_anchor_count": 269
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291040",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 355,
+      "unique_anchor_count": 275
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291015",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 329,
+      "unique_anchor_count": 256
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291063",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 324,
+      "unique_anchor_count": 249
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-002-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 308,
+      "unique_anchor_count": 236
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291054",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 368,
+      "unique_anchor_count": 283
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291055",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 351,
+      "unique_anchor_count": 264
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-004-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 332,
+      "unique_anchor_count": 253
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-003-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 365,
+      "unique_anchor_count": 274
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291006",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 332,
+      "unique_anchor_count": 257
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291031",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 341,
+      "unique_anchor_count": 272
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291037",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 322,
+      "unique_anchor_count": 248
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291034",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 350,
+      "unique_anchor_count": 263
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291038",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 344,
+      "unique_anchor_count": 258
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291047",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 349,
+      "unique_anchor_count": 269
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-010-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 347,
+      "unique_anchor_count": 270
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291049",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 363,
+      "unique_anchor_count": 271
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-001-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 379,
+      "unique_anchor_count": 272
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291005",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 377,
+      "unique_anchor_count": 290
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-009-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 318,
+      "unique_anchor_count": 242
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-007-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 341,
+      "unique_anchor_count": 255
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-005-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 342,
+      "unique_anchor_count": 264
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-003-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 338,
+      "unique_anchor_count": 261
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291023",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 323,
+      "unique_anchor_count": 252
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-011-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 331,
+      "unique_anchor_count": 244
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291022",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 373,
+      "unique_anchor_count": 265
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291008",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 342,
+      "unique_anchor_count": 267
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291041",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 330,
+      "unique_anchor_count": 260
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291012",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 315,
+      "unique_anchor_count": 254
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291057",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 326,
+      "unique_anchor_count": 256
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-004-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 354,
+      "unique_anchor_count": 272
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291001",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 354,
+      "unique_anchor_count": 260
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291046",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 334,
+      "unique_anchor_count": 269
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291029",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 315,
+      "unique_anchor_count": 247
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291014",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 314,
+      "unique_anchor_count": 248
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-007-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 360,
+      "unique_anchor_count": 268
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291043",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 333,
+      "unique_anchor_count": 257
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291003",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 339,
+      "unique_anchor_count": 250
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-011-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 343,
+      "unique_anchor_count": 266
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291011",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 322,
+      "unique_anchor_count": 247
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291010",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 345,
+      "unique_anchor_count": 273
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291018",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 358,
+      "unique_anchor_count": 268
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291020",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 362,
+      "unique_anchor_count": 273
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291044",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 337,
+      "unique_anchor_count": 258
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291052",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 332,
+      "unique_anchor_count": 256
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T1",
+      "episode_id": "T291030",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 360,
+      "unique_anchor_count": 263
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-006-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2211,
+      "unique_anchor_count": 586
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-005-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2236,
+      "unique_anchor_count": 584
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-003-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2148,
+      "unique_anchor_count": 589
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-000-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2163,
+      "unique_anchor_count": 585
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-008-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2244,
+      "unique_anchor_count": 584
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-009-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2141,
+      "unique_anchor_count": 581
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-011-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2171,
+      "unique_anchor_count": 587
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-003-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2239,
+      "unique_anchor_count": 589
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-006-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2204,
+      "unique_anchor_count": 583
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-004-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2176,
+      "unique_anchor_count": 585
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-010-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2219,
+      "unique_anchor_count": 587
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-000-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2179,
+      "unique_anchor_count": 583
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-005-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2182,
+      "unique_anchor_count": 584
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-001-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2221,
+      "unique_anchor_count": 594
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-005-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2077,
+      "unique_anchor_count": 579
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-007-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2176,
+      "unique_anchor_count": 593
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-010-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2113,
+      "unique_anchor_count": 582
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-004-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2189,
+      "unique_anchor_count": 582
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-008-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2069,
+      "unique_anchor_count": 579
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-004-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2278,
+      "unique_anchor_count": 585
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-002-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2151,
+      "unique_anchor_count": 589
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-007-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2137,
+      "unique_anchor_count": 585
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-006-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2163,
+      "unique_anchor_count": 584
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-000-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2218,
+      "unique_anchor_count": 585
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-002-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2185,
+      "unique_anchor_count": 580
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-002-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2219,
+      "unique_anchor_count": 586
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-001-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2130,
+      "unique_anchor_count": 580
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-001-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2313,
+      "unique_anchor_count": 587
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-007-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2208,
+      "unique_anchor_count": 591
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-009-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 2176,
+      "unique_anchor_count": 585
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S003-SHORT",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+      "actual_sample_visits": 4041,
+      "unique_anchor_count": 1
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S003-FULL",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "a005c39b-a0a8-45fc-b523-47a22ca0e670",
+      "actual_sample_visits": 4088,
+      "unique_anchor_count": 409
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S001-SHORT",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+      "actual_sample_visits": 4090,
+      "unique_anchor_count": 1
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S003-SHORT",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "a005c39b-a0a8-45fc-b523-47a22ca0e670",
+      "actual_sample_visits": 4103,
+      "unique_anchor_count": 1
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S001-SHORT",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "a005c39b-a0a8-45fc-b523-47a22ca0e670",
+      "actual_sample_visits": 4131,
+      "unique_anchor_count": 1
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E1-D-M1-1024-F1-001-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": "27b5c23d-4a01-44ba-b255-135522a47477",
+      "actual_sample_visits": 4078,
+      "unique_anchor_count": 431
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S003-FULL",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+      "actual_sample_visits": 4149,
+      "unique_anchor_count": 420
+    },
+    {
+      "candidate": "A_CONTROL",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E1-D-M1-1024-F0-001-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": "4c984214-e36c-4700-842b-e0ba5d2d94a2",
+      "actual_sample_visits": 4088,
+      "unique_anchor_count": 401
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-006-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 189,
+      "unique_anchor_count": 163
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-001-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 173,
+      "unique_anchor_count": 153
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291032",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 143,
+      "unique_anchor_count": 133
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291036",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 156,
+      "unique_anchor_count": 139
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-006-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 176,
+      "unique_anchor_count": 151
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291035",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 195,
+      "unique_anchor_count": 164
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-000-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 176,
+      "unique_anchor_count": 150
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-000-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 193,
+      "unique_anchor_count": 175
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291059",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 159,
+      "unique_anchor_count": 145
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-004-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 165,
+      "unique_anchor_count": 144
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291013",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 158,
+      "unique_anchor_count": 135
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291025",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 174,
+      "unique_anchor_count": 145
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-006-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 156,
+      "unique_anchor_count": 140
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-005-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 190,
+      "unique_anchor_count": 167
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-008-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 172,
+      "unique_anchor_count": 151
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291017",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 181,
+      "unique_anchor_count": 159
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291027",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 192,
+      "unique_anchor_count": 160
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291039",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 183,
+      "unique_anchor_count": 154
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-002-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 151,
+      "unique_anchor_count": 138
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291045",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 175,
+      "unique_anchor_count": 148
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291028",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 158,
+      "unique_anchor_count": 137
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291056",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 175,
+      "unique_anchor_count": 146
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291016",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 158,
+      "unique_anchor_count": 138
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-007-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 164,
+      "unique_anchor_count": 141
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291051",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 169,
+      "unique_anchor_count": 152
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291007",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 176,
+      "unique_anchor_count": 152
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291042",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 187,
+      "unique_anchor_count": 163
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291061",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 185,
+      "unique_anchor_count": 155
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-010-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 176,
+      "unique_anchor_count": 156
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291048",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 171,
+      "unique_anchor_count": 145
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-003-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 163,
+      "unique_anchor_count": 142
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291062",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 190,
+      "unique_anchor_count": 160
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291002",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 153,
+      "unique_anchor_count": 138
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291004",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 183,
+      "unique_anchor_count": 161
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-001-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 180,
+      "unique_anchor_count": 159
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-002-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 159,
+      "unique_anchor_count": 142
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291015",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 155,
+      "unique_anchor_count": 141
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-004-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 159,
+      "unique_anchor_count": 138
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-005-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 172,
+      "unique_anchor_count": 148
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-003-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 175,
+      "unique_anchor_count": 152
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-008-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 177,
+      "unique_anchor_count": 156
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291031",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 164,
+      "unique_anchor_count": 149
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291037",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 165,
+      "unique_anchor_count": 143
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291026",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 178,
+      "unique_anchor_count": 157
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291038",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 179,
+      "unique_anchor_count": 153
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291006",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 149,
+      "unique_anchor_count": 136
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291058",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 166,
+      "unique_anchor_count": 151
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-010-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 177,
+      "unique_anchor_count": 153
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291053",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 166,
+      "unique_anchor_count": 141
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-009-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 166,
+      "unique_anchor_count": 139
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291000",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 179,
+      "unique_anchor_count": 154
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291047",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 181,
+      "unique_anchor_count": 163
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291005",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 188,
+      "unique_anchor_count": 163
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-009-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 152,
+      "unique_anchor_count": 132
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291060",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 155,
+      "unique_anchor_count": 129
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-003-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 154,
+      "unique_anchor_count": 143
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291023",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 165,
+      "unique_anchor_count": 143
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-011-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 169,
+      "unique_anchor_count": 147
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291022",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 182,
+      "unique_anchor_count": 153
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291034",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 177,
+      "unique_anchor_count": 151
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291063",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 162,
+      "unique_anchor_count": 139
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F0-001-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 183,
+      "unique_anchor_count": 157
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291008",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 165,
+      "unique_anchor_count": 147
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291041",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 163,
+      "unique_anchor_count": 142
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291050",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 163,
+      "unique_anchor_count": 146
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291055",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 173,
+      "unique_anchor_count": 149
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291040",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 177,
+      "unique_anchor_count": 153
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291024",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 176,
+      "unique_anchor_count": 157
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291057",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 176,
+      "unique_anchor_count": 152
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291054",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 185,
+      "unique_anchor_count": 159
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291001",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 156,
+      "unique_anchor_count": 141
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291029",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 154,
+      "unique_anchor_count": 138
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291021",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 186,
+      "unique_anchor_count": 162
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291043",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 159,
+      "unique_anchor_count": 138
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291009",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 180,
+      "unique_anchor_count": 155
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291003",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 167,
+      "unique_anchor_count": 146
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-011-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 155,
+      "unique_anchor_count": 142
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-007-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 190,
+      "unique_anchor_count": 159
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-007-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 161,
+      "unique_anchor_count": 139
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291011",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 163,
+      "unique_anchor_count": 139
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291012",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 169,
+      "unique_anchor_count": 146
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291010",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 187,
+      "unique_anchor_count": 166
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291020",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 172,
+      "unique_anchor_count": 146
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291044",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 160,
+      "unique_anchor_count": 143
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-005-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 155,
+      "unique_anchor_count": 139
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291019",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 165,
+      "unique_anchor_count": 145
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F1-004-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 183,
+      "unique_anchor_count": 154
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291033",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 189,
+      "unique_anchor_count": 163
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291018",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 169,
+      "unique_anchor_count": 143
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291014",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 159,
+      "unique_anchor_count": 145
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-002-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 169,
+      "unique_anchor_count": 147
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291046",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 170,
+      "unique_anchor_count": 155
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291030",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 188,
+      "unique_anchor_count": 163
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291052",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 155,
+      "unique_anchor_count": 138
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "T291049",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 181,
+      "unique_anchor_count": 154
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T1",
+      "episode_id": "PI0294-TRAIN-F2-000-T1",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 165,
+      "unique_anchor_count": 140
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-006-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1065,
+      "unique_anchor_count": 495
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-005-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1137,
+      "unique_anchor_count": 515
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-003-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1078,
+      "unique_anchor_count": 510
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-000-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1147,
+      "unique_anchor_count": 510
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-008-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1129,
+      "unique_anchor_count": 501
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-009-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1037,
+      "unique_anchor_count": 496
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-011-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1107,
+      "unique_anchor_count": 498
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-003-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1097,
+      "unique_anchor_count": 498
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-005-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1042,
+      "unique_anchor_count": 504
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-007-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1137,
+      "unique_anchor_count": 520
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-004-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1102,
+      "unique_anchor_count": 519
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-000-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1092,
+      "unique_anchor_count": 503
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-010-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1047,
+      "unique_anchor_count": 500
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-008-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1040,
+      "unique_anchor_count": 489
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-004-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1136,
+      "unique_anchor_count": 498
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-002-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1076,
+      "unique_anchor_count": 507
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-007-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1063,
+      "unique_anchor_count": 505
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-002-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1081,
+      "unique_anchor_count": 506
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-006-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1105,
+      "unique_anchor_count": 506
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-000-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1072,
+      "unique_anchor_count": 496
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-004-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1118,
+      "unique_anchor_count": 503
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-001-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1053,
+      "unique_anchor_count": 496
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-001-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1148,
+      "unique_anchor_count": 513
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-010-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1072,
+      "unique_anchor_count": 498
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-005-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1096,
+      "unique_anchor_count": 508
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-009-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1068,
+      "unique_anchor_count": 502
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-002-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1100,
+      "unique_anchor_count": 482
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F2-007-T2",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1112,
+      "unique_anchor_count": 524
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F0-006-T2",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1092,
+      "unique_anchor_count": 495
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "original_T2",
+      "episode_id": "PI0294-TRAIN-F1-001-T2",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": null,
+      "actual_sample_visits": 1119,
+      "unique_anchor_count": 514
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S003-SHORT",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+      "actual_sample_visits": 4041,
+      "unique_anchor_count": 1
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S003-FULL",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "a005c39b-a0a8-45fc-b523-47a22ca0e670",
+      "actual_sample_visits": 4088,
+      "unique_anchor_count": 409
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S001-SHORT",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+      "actual_sample_visits": 4090,
+      "unique_anchor_count": 1
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S003-SHORT",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "a005c39b-a0a8-45fc-b523-47a22ca0e670",
+      "actual_sample_visits": 4103,
+      "unique_anchor_count": 1
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S001-SHORT",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "a005c39b-a0a8-45fc-b523-47a22ca0e670",
+      "actual_sample_visits": 4131,
+      "unique_anchor_count": 1
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E1-D-M1-1024-F1-001-T1",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": null,
+      "source_student_episode": "27b5c23d-4a01-44ba-b255-135522a47477",
+      "actual_sample_visits": 4078,
+      "unique_anchor_count": 431
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S003-FULL",
+      "task": "T1",
+      "family": "E0_STUDENT_STATE",
+      "scene_group": null,
+      "source_student_episode": "28a2a3f5-c54f-4dd4-8bbe-4bd0ef3b671f",
+      "actual_sample_visits": 4149,
+      "unique_anchor_count": 420
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "C1_T1",
+      "episode_id": "PI0294-E1-D-M1-1024-F0-001-T1",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": null,
+      "source_student_episode": "4c984214-e36c-4700-842b-e0ba5d2d94a2",
+      "actual_sample_visits": 4088,
+      "unique_anchor_count": 401
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-002-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/002",
+      "source_student_episode": null,
+      "actual_sample_visits": 209,
+      "unique_anchor_count": 171
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-014-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/014",
+      "source_student_episode": null,
+      "actual_sample_visits": 232,
+      "unique_anchor_count": 191
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-013-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/013",
+      "source_student_episode": null,
+      "actual_sample_visits": 237,
+      "unique_anchor_count": 188
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-008-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/008",
+      "source_student_episode": null,
+      "actual_sample_visits": 214,
+      "unique_anchor_count": 189
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-013-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/013",
+      "source_student_episode": null,
+      "actual_sample_visits": 217,
+      "unique_anchor_count": 183
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-031-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/031",
+      "source_student_episode": null,
+      "actual_sample_visits": 221,
+      "unique_anchor_count": 183
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-023-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/023",
+      "source_student_episode": null,
+      "actual_sample_visits": 238,
+      "unique_anchor_count": 189
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-018-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/018",
+      "source_student_episode": null,
+      "actual_sample_visits": 197,
+      "unique_anchor_count": 170
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-027-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/027",
+      "source_student_episode": null,
+      "actual_sample_visits": 199,
+      "unique_anchor_count": 171
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-034-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/034",
+      "source_student_episode": null,
+      "actual_sample_visits": 231,
+      "unique_anchor_count": 187
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-022-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/022",
+      "source_student_episode": null,
+      "actual_sample_visits": 207,
+      "unique_anchor_count": 174
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-003-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/003",
+      "source_student_episode": null,
+      "actual_sample_visits": 271,
+      "unique_anchor_count": 224
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-026-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/026",
+      "source_student_episode": null,
+      "actual_sample_visits": 204,
+      "unique_anchor_count": 178
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-009-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/009",
+      "source_student_episode": null,
+      "actual_sample_visits": 201,
+      "unique_anchor_count": 174
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-015-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/015",
+      "source_student_episode": null,
+      "actual_sample_visits": 225,
+      "unique_anchor_count": 191
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-002-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/002",
+      "source_student_episode": null,
+      "actual_sample_visits": 217,
+      "unique_anchor_count": 182
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-011-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/011",
+      "source_student_episode": null,
+      "actual_sample_visits": 205,
+      "unique_anchor_count": 179
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-016-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/016",
+      "source_student_episode": null,
+      "actual_sample_visits": 232,
+      "unique_anchor_count": 196
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-012-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/012",
+      "source_student_episode": null,
+      "actual_sample_visits": 195,
+      "unique_anchor_count": 166
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-007-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/007",
+      "source_student_episode": null,
+      "actual_sample_visits": 214,
+      "unique_anchor_count": 173
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-023-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/023",
+      "source_student_episode": null,
+      "actual_sample_visits": 215,
+      "unique_anchor_count": 179
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-002-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/002",
+      "source_student_episode": null,
+      "actual_sample_visits": 227,
+      "unique_anchor_count": 186
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-015-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/015",
+      "source_student_episode": null,
+      "actual_sample_visits": 184,
+      "unique_anchor_count": 165
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-008-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/008",
+      "source_student_episode": null,
+      "actual_sample_visits": 204,
+      "unique_anchor_count": 175
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-012-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/012",
+      "source_student_episode": null,
+      "actual_sample_visits": 226,
+      "unique_anchor_count": 191
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-005-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/005",
+      "source_student_episode": null,
+      "actual_sample_visits": 213,
+      "unique_anchor_count": 175
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-003-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/003",
+      "source_student_episode": null,
+      "actual_sample_visits": 231,
+      "unique_anchor_count": 197
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-003-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/003",
+      "source_student_episode": null,
+      "actual_sample_visits": 222,
+      "unique_anchor_count": 179
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-012-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/012",
+      "source_student_episode": null,
+      "actual_sample_visits": 211,
+      "unique_anchor_count": 188
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-019-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/019",
+      "source_student_episode": null,
+      "actual_sample_visits": 231,
+      "unique_anchor_count": 196
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-016-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/016",
+      "source_student_episode": null,
+      "actual_sample_visits": 210,
+      "unique_anchor_count": 175
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-011-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/011",
+      "source_student_episode": null,
+      "actual_sample_visits": 233,
+      "unique_anchor_count": 191
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-021-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/021",
+      "source_student_episode": null,
+      "actual_sample_visits": 199,
+      "unique_anchor_count": 173
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-007-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/007",
+      "source_student_episode": null,
+      "actual_sample_visits": 241,
+      "unique_anchor_count": 195
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-000-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/000",
+      "source_student_episode": null,
+      "actual_sample_visits": 231,
+      "unique_anchor_count": 196
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-016-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/016",
+      "source_student_episode": null,
+      "actual_sample_visits": 220,
+      "unique_anchor_count": 185
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-010-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/010",
+      "source_student_episode": null,
+      "actual_sample_visits": 227,
+      "unique_anchor_count": 186
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-001-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/001",
+      "source_student_episode": null,
+      "actual_sample_visits": 213,
+      "unique_anchor_count": 180
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-004-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/004",
+      "source_student_episode": null,
+      "actual_sample_visits": 235,
+      "unique_anchor_count": 210
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-029-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/029",
+      "source_student_episode": null,
+      "actual_sample_visits": 224,
+      "unique_anchor_count": 189
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-018-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/018",
+      "source_student_episode": null,
+      "actual_sample_visits": 246,
+      "unique_anchor_count": 199
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-020-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/020",
+      "source_student_episode": null,
+      "actual_sample_visits": 214,
+      "unique_anchor_count": 188
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-028-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/028",
+      "source_student_episode": null,
+      "actual_sample_visits": 232,
+      "unique_anchor_count": 192
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-006-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/006",
+      "source_student_episode": null,
+      "actual_sample_visits": 221,
+      "unique_anchor_count": 189
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-010-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/010",
+      "source_student_episode": null,
+      "actual_sample_visits": 223,
+      "unique_anchor_count": 193
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-013-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/013",
+      "source_student_episode": null,
+      "actual_sample_visits": 215,
+      "unique_anchor_count": 172
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-005-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/005",
+      "source_student_episode": null,
+      "actual_sample_visits": 210,
+      "unique_anchor_count": 178
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-000-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/000",
+      "source_student_episode": null,
+      "actual_sample_visits": 205,
+      "unique_anchor_count": 175
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-008-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/008",
+      "source_student_episode": null,
+      "actual_sample_visits": 266,
+      "unique_anchor_count": 216
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-011-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/011",
+      "source_student_episode": null,
+      "actual_sample_visits": 206,
+      "unique_anchor_count": 172
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-000-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/000",
+      "source_student_episode": null,
+      "actual_sample_visits": 214,
+      "unique_anchor_count": 180
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-017-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/017",
+      "source_student_episode": null,
+      "actual_sample_visits": 192,
+      "unique_anchor_count": 166
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-019-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/019",
+      "source_student_episode": null,
+      "actual_sample_visits": 203,
+      "unique_anchor_count": 177
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-007-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/007",
+      "source_student_episode": null,
+      "actual_sample_visits": 221,
+      "unique_anchor_count": 185
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-001-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/001",
+      "source_student_episode": null,
+      "actual_sample_visits": 239,
+      "unique_anchor_count": 199
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-017-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/017",
+      "source_student_episode": null,
+      "actual_sample_visits": 216,
+      "unique_anchor_count": 181
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-035-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/035",
+      "source_student_episode": null,
+      "actual_sample_visits": 203,
+      "unique_anchor_count": 167
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-017-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/017",
+      "source_student_episode": null,
+      "actual_sample_visits": 233,
+      "unique_anchor_count": 191
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-009-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/009",
+      "source_student_episode": null,
+      "actual_sample_visits": 218,
+      "unique_anchor_count": 174
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-009-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/009",
+      "source_student_episode": null,
+      "actual_sample_visits": 228,
+      "unique_anchor_count": 191
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-025-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/025",
+      "source_student_episode": null,
+      "actual_sample_visits": 222,
+      "unique_anchor_count": 182
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-005-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/005",
+      "source_student_episode": null,
+      "actual_sample_visits": 191,
+      "unique_anchor_count": 162
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-001-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/001",
+      "source_student_episode": null,
+      "actual_sample_visits": 202,
+      "unique_anchor_count": 171
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-019-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/019",
+      "source_student_episode": null,
+      "actual_sample_visits": 227,
+      "unique_anchor_count": 188
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-004-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/004",
+      "source_student_episode": null,
+      "actual_sample_visits": 218,
+      "unique_anchor_count": 176
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-032-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/032",
+      "source_student_episode": null,
+      "actual_sample_visits": 214,
+      "unique_anchor_count": 187
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-004-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/004",
+      "source_student_episode": null,
+      "actual_sample_visits": 208,
+      "unique_anchor_count": 177
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-014-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/014",
+      "source_student_episode": null,
+      "actual_sample_visits": 215,
+      "unique_anchor_count": 174
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-021-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/021",
+      "source_student_episode": null,
+      "actual_sample_visits": 222,
+      "unique_anchor_count": 183
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-033-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/033",
+      "source_student_episode": null,
+      "actual_sample_visits": 222,
+      "unique_anchor_count": 190
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F1-015-T1-C04",
+      "task": "T1",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/015",
+      "source_student_episode": null,
+      "actual_sample_visits": 202,
+      "unique_anchor_count": 167
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-006-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/006",
+      "source_student_episode": null,
+      "actual_sample_visits": 212,
+      "unique_anchor_count": 180
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F0-018-T1-C04",
+      "task": "T1",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/018",
+      "source_student_episode": null,
+      "actual_sample_visits": 209,
+      "unique_anchor_count": 180
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-010-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/010",
+      "source_student_episode": null,
+      "actual_sample_visits": 220,
+      "unique_anchor_count": 184
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T1",
+      "episode_id": "PI0294-PV1-TRAIN-F2-014-T1-C04",
+      "task": "T1",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/014",
+      "source_student_episode": null,
+      "actual_sample_visits": 232,
+      "unique_anchor_count": 189
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-012-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/012",
+      "source_student_episode": null,
+      "actual_sample_visits": 478,
+      "unique_anchor_count": 328
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-014-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/014",
+      "source_student_episode": null,
+      "actual_sample_visits": 510,
+      "unique_anchor_count": 354
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-017-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/017",
+      "source_student_episode": null,
+      "actual_sample_visits": 534,
+      "unique_anchor_count": 368
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-008-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/008",
+      "source_student_episode": null,
+      "actual_sample_visits": 495,
+      "unique_anchor_count": 350
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-007-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/007",
+      "source_student_episode": null,
+      "actual_sample_visits": 508,
+      "unique_anchor_count": 347
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-000-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/000",
+      "source_student_episode": null,
+      "actual_sample_visits": 583,
+      "unique_anchor_count": 374
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-028-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/028",
+      "source_student_episode": null,
+      "actual_sample_visits": 576,
+      "unique_anchor_count": 372
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-023-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/023",
+      "source_student_episode": null,
+      "actual_sample_visits": 515,
+      "unique_anchor_count": 365
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-031-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/031",
+      "source_student_episode": null,
+      "actual_sample_visits": 526,
+      "unique_anchor_count": 356
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-021-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/021",
+      "source_student_episode": null,
+      "actual_sample_visits": 507,
+      "unique_anchor_count": 330
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-008-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/008",
+      "source_student_episode": null,
+      "actual_sample_visits": 499,
+      "unique_anchor_count": 345
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-009-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/009",
+      "source_student_episode": null,
+      "actual_sample_visits": 487,
+      "unique_anchor_count": 336
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-001-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/001",
+      "source_student_episode": null,
+      "actual_sample_visits": 527,
+      "unique_anchor_count": 348
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-029-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/029",
+      "source_student_episode": null,
+      "actual_sample_visits": 524,
+      "unique_anchor_count": 357
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-015-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/015",
+      "source_student_episode": null,
+      "actual_sample_visits": 498,
+      "unique_anchor_count": 328
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-007-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/007",
+      "source_student_episode": null,
+      "actual_sample_visits": 505,
+      "unique_anchor_count": 355
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-005-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/005",
+      "source_student_episode": null,
+      "actual_sample_visits": 515,
+      "unique_anchor_count": 352
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-005-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/005",
+      "source_student_episode": null,
+      "actual_sample_visits": 484,
+      "unique_anchor_count": 318
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-015-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/015",
+      "source_student_episode": null,
+      "actual_sample_visits": 508,
+      "unique_anchor_count": 340
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-009-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/009",
+      "source_student_episode": null,
+      "actual_sample_visits": 536,
+      "unique_anchor_count": 353
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-015-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/015",
+      "source_student_episode": null,
+      "actual_sample_visits": 476,
+      "unique_anchor_count": 338
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-003-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/003",
+      "source_student_episode": null,
+      "actual_sample_visits": 488,
+      "unique_anchor_count": 335
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-007-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/007",
+      "source_student_episode": null,
+      "actual_sample_visits": 510,
+      "unique_anchor_count": 349
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-006-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/006",
+      "source_student_episode": null,
+      "actual_sample_visits": 493,
+      "unique_anchor_count": 337
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-000-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/000",
+      "source_student_episode": null,
+      "actual_sample_visits": 484,
+      "unique_anchor_count": 337
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-020-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/020",
+      "source_student_episode": null,
+      "actual_sample_visits": 515,
+      "unique_anchor_count": 353
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-013-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/013",
+      "source_student_episode": null,
+      "actual_sample_visits": 528,
+      "unique_anchor_count": 350
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-035-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/035",
+      "source_student_episode": null,
+      "actual_sample_visits": 507,
+      "unique_anchor_count": 339
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-002-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/002",
+      "source_student_episode": null,
+      "actual_sample_visits": 539,
+      "unique_anchor_count": 352
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-032-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/032",
+      "source_student_episode": null,
+      "actual_sample_visits": 521,
+      "unique_anchor_count": 345
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-014-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/014",
+      "source_student_episode": null,
+      "actual_sample_visits": 496,
+      "unique_anchor_count": 334
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-005-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/005",
+      "source_student_episode": null,
+      "actual_sample_visits": 501,
+      "unique_anchor_count": 338
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-011-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/011",
+      "source_student_episode": null,
+      "actual_sample_visits": 528,
+      "unique_anchor_count": 354
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-010-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/010",
+      "source_student_episode": null,
+      "actual_sample_visits": 508,
+      "unique_anchor_count": 335
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-011-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/011",
+      "source_student_episode": null,
+      "actual_sample_visits": 519,
+      "unique_anchor_count": 349
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-033-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/033",
+      "source_student_episode": null,
+      "actual_sample_visits": 503,
+      "unique_anchor_count": 341
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-023-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/023",
+      "source_student_episode": null,
+      "actual_sample_visits": 517,
+      "unique_anchor_count": 340
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-017-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/017",
+      "source_student_episode": null,
+      "actual_sample_visits": 488,
+      "unique_anchor_count": 341
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-012-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/012",
+      "source_student_episode": null,
+      "actual_sample_visits": 475,
+      "unique_anchor_count": 332
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-019-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/019",
+      "source_student_episode": null,
+      "actual_sample_visits": 522,
+      "unique_anchor_count": 359
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-016-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/016",
+      "source_student_episode": null,
+      "actual_sample_visits": 477,
+      "unique_anchor_count": 322
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-026-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/026",
+      "source_student_episode": null,
+      "actual_sample_visits": 546,
+      "unique_anchor_count": 370
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-003-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/003",
+      "source_student_episode": null,
+      "actual_sample_visits": 510,
+      "unique_anchor_count": 355
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-013-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/013",
+      "source_student_episode": null,
+      "actual_sample_visits": 491,
+      "unique_anchor_count": 334
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-006-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/006",
+      "source_student_episode": null,
+      "actual_sample_visits": 450,
+      "unique_anchor_count": 310
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-010-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/010",
+      "source_student_episode": null,
+      "actual_sample_visits": 497,
+      "unique_anchor_count": 341
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-021-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/021",
+      "source_student_episode": null,
+      "actual_sample_visits": 521,
+      "unique_anchor_count": 354
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-019-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/019",
+      "source_student_episode": null,
+      "actual_sample_visits": 501,
+      "unique_anchor_count": 334
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-004-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/004",
+      "source_student_episode": null,
+      "actual_sample_visits": 488,
+      "unique_anchor_count": 335
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-003-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/003",
+      "source_student_episode": null,
+      "actual_sample_visits": 584,
+      "unique_anchor_count": 377
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-008-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/008",
+      "source_student_episode": null,
+      "actual_sample_visits": 473,
+      "unique_anchor_count": 317
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-016-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/016",
+      "source_student_episode": null,
+      "actual_sample_visits": 535,
+      "unique_anchor_count": 348
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-006-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/006",
+      "source_student_episode": null,
+      "actual_sample_visits": 533,
+      "unique_anchor_count": 350
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-012-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/012",
+      "source_student_episode": null,
+      "actual_sample_visits": 522,
+      "unique_anchor_count": 344
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-019-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/019",
+      "source_student_episode": null,
+      "actual_sample_visits": 555,
+      "unique_anchor_count": 366
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-001-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/001",
+      "source_student_episode": null,
+      "actual_sample_visits": 505,
+      "unique_anchor_count": 350
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-001-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/001",
+      "source_student_episode": null,
+      "actual_sample_visits": 568,
+      "unique_anchor_count": 372
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-025-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/025",
+      "source_student_episode": null,
+      "actual_sample_visits": 515,
+      "unique_anchor_count": 341
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-011-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/011",
+      "source_student_episode": null,
+      "actual_sample_visits": 536,
+      "unique_anchor_count": 344
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F1-022-T2-C04",
+      "task": "T2",
+      "family": "F1",
+      "scene_group": "PI0294/PV1/TRAIN/F1/022",
+      "source_student_episode": null,
+      "actual_sample_visits": 523,
+      "unique_anchor_count": 363
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-010-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/010",
+      "source_student_episode": null,
+      "actual_sample_visits": 526,
+      "unique_anchor_count": 354
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F0-000-T2-C04",
+      "task": "T2",
+      "family": "F0",
+      "scene_group": "PI0294/PV1/TRAIN/F0/000",
+      "source_student_episode": null,
+      "actual_sample_visits": 481,
+      "unique_anchor_count": 326
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-018-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/018",
+      "source_student_episode": null,
+      "actual_sample_visits": 500,
+      "unique_anchor_count": 336
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "lane": "new_T2",
+      "episode_id": "PI0294-PV1-TRAIN-F2-016-T2-C04",
+      "task": "T2",
+      "family": "F2",
+      "scene_group": "PI0294/PV1/TRAIN/F2/016",
+      "source_student_episode": null,
+      "actual_sample_visits": 498,
+      "unique_anchor_count": 334
+    }
+  ],
+  "original_T2_detach_anchor_availability": {
+    "windows": 756,
+    "total_T2_H40_windows": 18030,
+    "fraction": 0.041930116472545756,
+    "source_is_Teacher_phase_not_physical_event": true
+  },
+  "checks": {
+    "all_retained_cursors_unique_and_contiguous": true,
+    "worker_trace_digest_equals_saved_sampler": true,
+    "all_forward_microbatch_identities_match_worker_trace": true,
+    "all_consumed_rows_TRAIN": true,
+    "exact_C1_anchor_histogram_matched_between_AB": true,
+    "new_A_sample_visits": 0,
+    "new_B_sample_visits": 49152,
+    "actual_sample_visits_each": 131072
+  },
+  "findings": [
+    {
+      "severity": "HIGH_INTERPRETATION_RISK",
+      "finding": "Loaded new-bank support is not consumption: A uses zero new-bank visits; B uses 49152."
+    },
+    {
+      "severity": "MEDIUM",
+      "finding": "All original30 T2 parents have sampled Prefix8 detach-stage exposure in both arms; zero-coverage is refuted."
+    },
+    {
+      "severity": "MEDIUM",
+      "finding": "New T1 grasp-end-after-transport Prefix8 is sampled in67/75 parents; H40 covers all75. This is not proof of a learning deficit or complete-release absence."
+    },
+    {
+      "severity": "MEDIUM_INTERPRETATION_RISK",
+      "finding": "Eight C1 exports represent four student parents and repeated windows, not eight independent recoveries."
+    }
+  ],
+  "limits": {
+    "Teacher_stage_names_are_not_physical_event_labels": true,
+    "H40_tail_exposure_is_not_actual_Prefix8_policy_execution": true,
+    "grasp_end_is_not_complete_release_or_task_success": true,
+    "other_multi_transition_event_masks_not_reconstructed_here": true,
+    "no_causal_underexposure_or_oversampling_recommendation": true,
+    "failed_and_discarded_training_costs_all_preserved": true,
+    "not_new_training_or_new_data": true
+  },
+  "new_model_queries": 0,
+  "new_physics": 0,
+  "new_optimizer_updates": 0,
+  "training_scope": {
+    "shared_initial_checkpoint": "ORIGINAL_CORR2048",
+    "shared_initial_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "matched_additional_local_updates_per_arm": 4096,
+    "retained_branch_sample_visits_per_arm": 131072,
+    "earlier_shared_parent_training_not_in_these_visit_counts": true,
+    "paid_discarded_update_costs_not_removed": true
+  }
+}

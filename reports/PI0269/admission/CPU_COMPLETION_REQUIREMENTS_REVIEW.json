@@ -1,0 +1,90 @@
+{
+  "status": "PASS_EXISTING_CPU_AND_REAL_CANARY_REQUIREMENTS_REVIEW_ONLY",
+  "observed_utc": "2026-10-03T14:28:00.6396972Z",
+  "temporal_horizons": [
+    40,
+    39
+  ],
+  "positive_unit_mass_zero_constant_mask_and_independent_finite_difference": "PASS_ACTUAL_RECEIPTS_AND_MATCHED_SOURCE",
+  "early_late_and_invalid_mask_checks": "EXPLICIT_IN_MATCHED_EXECUTED_SELF_CHECK",
+  "ROT_physical_round_trips": 112,
+  "noncommuting_unclamped_ROT": {
+    "status": "PASS_NONCOMMUTING_UNCLAMPED_ROT_XYZ_FP32",
+    "rotation_max_abs": 9.279122645255988E-08,
+    "xyz_max_abs": 9.471564366148044E-09,
+    "normalized_abs_max": 1.4847694635391235
+  },
+  "source_fixture_sha256": "7050661c79ed2c9de242c4a9a319a399d554fa99dec291fc24e0b196a48b6fed",
+  "source_hook_sha256": "011ea6bae8ab0d18638684886b9782b366f68e9c4d8a64464ccf3d89a661ad2d",
+  "real_canaries": [
+    {
+      "arm": "UNIFORM",
+      "units": 8,
+      "microbatches": 16,
+      "model_max_abs": 0,
+      "optimizer_max_abs": 0,
+      "scheduler_lr_abs": 0,
+      "mode_restored": true,
+      "packet_equal": true,
+      "RNG": {
+        "cpu": true,
+        "cuda": true,
+        "numpy": true,
+        "python": true
+      },
+      "source_receipt_sha256": "ab9d566b83f8197623d86410972898edb70000659e188daf0bbf1ea166285a1e"
+    },
+    {
+      "arm": "PREFIX",
+      "units": 8,
+      "microbatches": 16,
+      "model_max_abs": 0,
+      "optimizer_max_abs": 0,
+      "scheduler_lr_abs": 0,
+      "mode_restored": true,
+      "packet_equal": true,
+      "RNG": {
+        "cpu": true,
+        "cuda": true,
+        "numpy": true,
+        "python": true
+      },
+      "source_receipt_sha256": "dac4d84b55afa53d27a9d02e655ace1a67055542e376050342b84f22b5330a8f"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "reports/PI0269/admission/HOPPER_PHYSICAL_FIXTURES.json",
+      "status": "PASS_ROT_CONTRACT_PHYSICAL_AND_WEIGHTED_FIXTURES",
+      "sha256": "34d6d04962f993f64d70ff74c96fe4de13473adf43c4a93ad09fb75341c265bd"
+    },
+    {
+      "path": "reports/PI0269/admission/HOPPER_CPU_ADMISSION.json",
+      "status": "PASS_PI0269_HOPPER_ACTUAL_PROCESSOR_BOUNDARY",
+      "sha256": "0eeab40fa5173a18b5354e81cc8c40b97a1b368331a4076de6f34ada8705ca36"
+    },
+    {
+      "path": "reports/PI0269/admission/EXACT_LOSS_DIFF.json",
+      "status": null,
+      "sha256": "0552458711d70b7a782f157ceb9a713387edde79ea605d240cfe56e8adb5801f"
+    },
+    {
+      "path": "reports/PI0269/admission/EVALUATION_CPU_CHECK.json",
+      "status": "PASS_PI0269_ACTUAL_SHARED_ROT_INPUTS_AND_ORIGINAL_EXECUTOR_GATE",
+      "sha256": "8bb49697e889df2d0f4007714c4b5841ab3f1ce971026937704a29f88b61513e"
+    },
+    {
+      "path": "reports/PI0269/evaluation/REPORT_CPU_CHECK.json",
+      "status": "PASS_NONLEARNED_PREFIX_AND_ORIGINAL_QUALIFICATION_CPU",
+      "sha256": "f1b5d484e72a197b82504dd5b80bf8bf913df98637338390d026551e1fdd06aa"
+    }
+  ],
+  "new_model_queries": 0,
+  "new_gradient_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_tests_run_by_review": 0,
+  "final_scope_complete": false,
+  "current_remote_runtime": "UNVERIFIED_AFTER_VPN_DISCONNECT",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

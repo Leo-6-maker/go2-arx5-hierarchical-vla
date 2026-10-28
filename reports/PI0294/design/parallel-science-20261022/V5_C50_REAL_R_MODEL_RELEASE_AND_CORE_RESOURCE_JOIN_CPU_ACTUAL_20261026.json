@@ -1,0 +1,71 @@
+{
+  "schema": "V5_C50_REAL_RUNNING_MODEL_RELEASE_AND_CORE_RESOURCE_JOIN_CPU_ACTUAL_V1",
+  "task": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+  "created_epoch": 1792950460.7131236,
+  "actual_readback_sha256": "51f754a5dfdad155c1bcdefd93e91b3ca78fa81a3e12ae94da5183afe8bebe0c",
+  "actual_observed_epoch": 1792950492.1614926,
+  "job_id": "1492934.stdct-mgmt-02",
+  "runtime_source": "bd7cc42f54453e98f05a8bba96d4cf9fb5b52810",
+  "native_state": "R",
+  "native_exec_host": "GN-A40-022/1*36",
+  "native_stime": "Mon Oct 26 01:38:02 2026",
+  "owner_processes": [
+    {
+      "record": "control/RESIDENT_WRAPPER_PROCESS.private.json",
+      "pid": 4032775,
+      "active": true,
+      "state": "S",
+      "same_start": true,
+      "CPU_ticks": 0
+    },
+    {
+      "record": "control/resident-owner/SERVER_OWNER_PROCESS.private.json",
+      "pid": 4032776,
+      "active": true,
+      "state": "S",
+      "same_start": true,
+      "CPU_ticks": 318
+    }
+  ],
+  "model_start_release": {
+    "observed_epoch": 1792949914.5959828,
+    "request_sha256": "2dea6c00c3e25cab42d32b6b74b78bfeff7170f91822f590afb3030045ff6ecb",
+    "ready_sha256": "38317f3767935b0199cc9a5bf6635019b7d44249f7d23335029c746e6d378aee",
+    "fresh_whole_remaining_shortfalls": {},
+    "complete_queue_verified": true,
+    "actual_project_quota_covers_remaining_output": true
+  },
+  "last_effect_snapshot": {
+    "optimizer_updates": 8,
+    "generation_queries": 17,
+    "model_loads": 2,
+    "pending_updates": [
+      {
+        "arm": "C50",
+        "run_key": "C50",
+        "local_step_before": 8,
+        "request_id": "fe372d34-5378-47dd-9251-d2b4689d3cf4"
+      }
+    ],
+    "unknown_effects": [],
+    "effect_observation_epoch": 1792950490.6539943,
+    "not_yet_GLOBAL_terminal_settled": true,
+    "full_1024_endpoint": false
+  },
+  "first_update_release_observed": true,
+  "running_source_changed": false,
+  "new_PBS_or_registry_writes_this_followup": 0,
+  "new_Core_or_GEN_native_actions": 0,
+  "Core_cold_preparation": {
+    "module": "scripts/pi0294/pv1/mix_core_admission.py",
+    "new_CPU_cases": 13,
+    "CPU_passed": true,
+    "native_or_model_permission": false,
+    "native_deployment": false,
+    "remaining_minimum_boundary": "original native runtime/resource-input collection and resident Eval owner C/D binding, fresh endpoint delivery and terminal dual accounting",
+    "related_CPU_passed": 82
+  },
+  "whole_task_complete": false,
+  "core64": 0,
+  "first_update_release_epoch": 1792950256.1260693
+}

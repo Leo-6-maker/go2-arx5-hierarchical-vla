@@ -1,0 +1,54 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Add a separate operations snapshot; never edit a running/frozen physical capsule."""
+import argparse
+import base64
+import hashlib
+import json
+import subprocess
+import sys
+import zlib
+from pi0292_adopt import BASE,REPO,NEW,remote,save
+
+CODE=r'''
+import base64,hashlib,json,os,subprocess,time,zlib
+from pathlib import Path
+root=Path(NEW);ops=root/'operations'/SOURCE
+PAYLOAD=json.loads(zlib.decompress(base64.b64decode(PAYLOAD_B64)))
+if not ops.exists():
+    ops.mkdir(parents=True,mode=0o700)
+    for name,b64 in PAYLOAD.items():
+        p=ops/name;p.parent.mkdir(parents=True,exist_ok=True)
+        with p.open('xb') as f:f.write(base64.b64decode(b64))
+    (ops/'scripts/__init__.py').touch(exist_ok=False)
+else:
+    for name,b64 in PAYLOAD.items():assert (ops/name).read_bytes()==base64.b64decode(b64)
+receipt=dict(source_sha=SOURCE,physical_source_sha=json.loads((root/'CODE_SEAL.json').read_text())['source_sha'],
+    status='SEPARATE_OPERATIONS_SNAPSHOT',files={name:hashlib.sha256(base64.b64decode(v)).hexdigest() for name,v in PAYLOAD.items()})
+p=ops/'OPERATIONS_SEAL.json'
+if not p.exists():p.write_text(json.dumps(receipt,indent=2)+'\n')
+if ACTION=='launch':
+    suffix=PHASE+('_resume_audit' if RESUME else '')
+    assert not (root/'evidence'/('DISPATCH_'+suffix+'.json')).exists()
+    binding=json.loads((root/'ACTIVE_DEPENDENCIES.json').read_text())
+    python=next(r['path'] for r in binding['protected_entries'] if r['role']=='SIMULATION_PYTHON')
+    env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',PYTHONPATH=str(ops)+':'+str(root/'code/src'))
+    out=(root/'logs'/('dispatcher_'+suffix+'.stdout')).open('xb');err=(root/'logs'/('dispatcher_'+suffix+'.stderr')).open('xb')
+    cmd=[python,'-m','scripts.pi0292.dispatcher','--root',str(root),'--python',python,'--phase',PHASE]
+    if RESUME:cmd.append('--resume-audit')
+    child=subprocess.Popen(cmd,cwd=ops,env=env,stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)
+    receipt.update(action='LAUNCHED',pid=child.pid,phase=PHASE,resume_existing_physics_only=RESUME,observed_epoch=time.time())
+print(json.dumps(receipt))
+'''
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['deploy','launch']);p.add_argument('--phase',choices=['canary','supplement'],default='canary');p.add_argument('--resume-audit',action='store_true');a=p.parse_args()
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    assert not subprocess.check_output(['git','status','--porcelain'],cwd=REPO,text=True).strip(), 'Commit capsule source first'
+    payload={str(p.relative_to(REPO)):base64.b64encode(p.read_bytes()).decode() for p in (REPO/'scripts/pi0292').glob('*.py')}
+    packed=base64.b64encode(zlib.compress(json.dumps(payload).encode())).decode()
+    args=dict(NEW=NEW,SOURCE=source,PAYLOAD_B64=packed,ACTION=a.action,PHASE=a.phase,RESUME=a.resume_audit)
+    r=remote('corelab-4080s','\n'.join(k+'='+repr(v) for k,v in args.items())+'\n'+CODE)
+    if r.returncode:print(r.stderr);sys.exit(r.returncode)
+    v=json.loads(r.stdout);save(BASE/('OPERATIONS_'+source+'_'+a.action+'_'+a.phase+'.private.json'),v)
+    print(json.dumps({k:v[k] for k in v if k!='files'}))

@@ -1,0 +1,170 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Generate explicitly sanitized aggregates from actual private receipts."""
+import collections
+import datetime
+import hashlib
+import json
+from pathlib import Path
+
+private=Path(__file__).parent
+repo=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0290-source')
+session='20261013T023717-localpc-arx5'
+out=repo/'reports/maintenance/2026-10-13-corelab-storage-phase2'/session
+out.mkdir(parents=True,exist_ok=True)
+load=lambda name:json.loads((private/name).read_text())
+digest=lambda name:hashlib.sha256((private/name).read_bytes()).hexdigest()
+facts=load('SOURCE_AUDIT_DECISION_FACTS.json')
+copy=load('MIGRATION_COPY_PRIVATE.json')
+partial=load('PROCESS_RETIREMENT_PRIVATE.json')
+final=load('PROCESS_RETIREMENT_FINAL_PRIVATE.json')
+post=load('ARCHIVE_POST_ONLY_PRIVATE.json')
+refs=load('CANDIDATE_TWO_HOST_REFS_PRIVATE.json')
+assert hashlib.sha256((private/'PROCESS_RETIREMENT_PRIVATE.json').read_bytes()).hexdigest()==final['previous_partial_receipt_sha256']
+assert len(copy['candidates'])==24 and copy['pilot_pass']
+copied=[x for x in copy['candidates'] if x['status']=='COPY_READBACK_VERIFIED_SOURCE_RETAINED']
+skipped=[x for x in copy['candidates'] if x['status']=='SKIP']
+files=[f for x in copied for f in x['files']]
+assert len(copied)==22 and len(skipped)==2 and len(files)==2206
+logical=sum(f['source_identity']['size'] for f in files)
+source_alloc=sum(f['source_identity']['allocated'] for f in files)
+dest_alloc=sum(f['destination_identity']['allocated'] for f in files)
+assert copy['source_deletions']==0 and final['file_deletions']==0
+assert len(final['signals'])==2 and final['other_processes_signaled']==0
+assert len(final['preserved'])==3
+now=datetime.datetime.now(datetime.timezone.utc).isoformat()
+measured_cpu=(facts['cpu_seconds']+copy['CPU_s']+final['CPU_s']+post['CPU_s']+
+              sum(x['CPU_s'] for x in refs['results']))
+pins={name:value for name,value in facts['source_pins'].items()}
+original_root=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/corelab-storage-audit-20261013')
+for name,pin in pins.items():
+    assert hashlib.sha256((original_root/name).read_bytes()).hexdigest()==pin['sha256'], ('original source drift',name)
+source_sha={'schema':'PHASE2_SOURCE_AUDIT_SHA_V1','status':'PASS_RECONCILED_ALL_448_ENTRIES',
+    'original_files':pins,'source_originals_modified':False,
+    'reconciliation':'Complete JSON parse and complete CSV parse; every 448 node/path record compared.',
+    'source_paths':'PRIVATE_LOCAL_ONLY','run_script_identity_type':'SHA256_OF_PRIVATE_EXECUTION_SOURCE_NOT_GIT_COMMIT',
+    'private_source_file_sha256':{n:digest(n) for n in ['copy_only.py','retire_exact_stopped.py','resume_parent_retirement.py']},
+    'run_git_sha':'NOT_APPLICABLE_PRIVATE_MAINTENANCE_SCRIPTS',
+    'published_repo_context_sha':'4b8929174d124520d348855614e4639d48a0870c'}
+migration={'schema':'PHASE2_MIGRATION_COPY_RECEIPT_V1','status':'PARTIAL_WITH_SKIPS',
+    'source_private_receipt_sha256':digest('MIGRATION_COPY_PRIVATE.json'),
+    'pilot_files':7,'pilot_full_content_readback':'PASS','original_candidates':24,
+    'copied_verified_candidates':22,'skipped_candidates':2,'regular_files_copied_verified':len(files),
+    'logical_bytes_copied':logical,'source_regular_file_allocated_bytes':source_alloc,
+    'destination_regular_file_allocated_bytes':dest_alloc,'already_identical_files':sum(f['already_identical'] for f in files),
+    'source_deletions':0,'freed_allocated_bytes':0,
+    'same_shared_NFS':'Source and copied destination reside on the same AMD shared filesystem; copied data increases occupied space.',
+    'verification':'Each copied regular file: source pre/post identity and SHA256, destination SHA256, rights check; final source file-set and full hash reread.',
+    'not_claimed':['complete directory metadata clone','empty-directory migration','source removal','disk reclamation'],
+    'skips':[{'candidate':'MIGRATE_STATIC_REF_01' if i==0 else 'MIGRATE_STATIC_REF_02',
+              'reason':x['reason'],'known_external_static_references':2,'source_retained':True}
+             for i,x in enumerate(skipped)],'CPU_s_measured':copy['CPU_s']}
+retirement={'schema':'PHASE2_PROCESS_RETIREMENT_RECEIPT_V1','status':'EXIT_OBSERVED_WITH_FD_PERMISSION_CAVEAT',
+    'partial_private_receipt_sha256':digest('PROCESS_RETIREMENT_PRIVATE.json'),
+    'final_private_receipt_sha256':digest('PROCESS_RETIREMENT_FINAL_PRIVATE.json'),
+    'original_partial_error':'Leaf exit was signaled successfully; reading its post-exit FD directory raised PermissionError. Partial receipt retained.',
+    'continuation':'No leaf re-signal. Remaining exact stopped parent identity revalidated in two observations, then individually signaled.',
+    'identity_gate':'Own UID, exact start ticks/executable/commandline/cwd/parent relationship and state T/t verified against pinned earlier observations; pidfd recheck immediately before each signal.',
+    'signals':[{'historical_pid_locator':x['pid'],'start_time_ticks':x['start_time_ticks'],
+        'signal':x['signal'],'state_after':x['state_after'],'exit_observed':x['exit_observed'],
+        'FD_visibility':x['FD_visibility']} for x in final['signals']],
+    'individual_signals':2,'other_processes_signaled':0,'process_group_signals':0,'SIGCONT':0,
+    'preserved_logs':{'count':3,'logical_bytes':sum(x['metadata']['size'] for x in final['preserved'].values()),
+        'all_log_content_sha256_unchanged':final['logs_content_hash_unchanged'],
+        'all_log_metadata_unchanged':True,'paths_and_FDs':'PRIVATE_ONLY'},
+    'large_archives':{'count_current_stat':len(post['archives']),
+        'status':'POST_ONLY_METADATA_OBSERVED_NOT_PRE_POST_VERIFIED',
+        'files':[{'alias':x['alias'],'logical_bytes':x['bytes'],'allocated_bytes':x['allocated_bytes'],
+                  'content_hash':'NOT_RUN','metadata_matches_original_audit_size':True} for x in post['archives']],
+        'no_archive_content_rehash':True,
+        'original_retirement_script_tar_glob':'Matched no nested tar files; only three logs were in its preservation list.',
+        'no_claim':'Do not use the private generic archives_metadata_unchanged flag to claim 111-GiB archives were checked before and after.'},
+    'file_deletions':0,'freed_allocated_bytes':0,'PI0250_PI0276_file_protection':'UNCHANGED',
+    'CPU_s_measured_final_continuation_only':final['CPU_s'],'initial_partial_CPU_s':'NOT_METERED_USE_UPPER_BOUND'}
+decisions={'schema':'PHASE2_RETENTION_DECISIONS_SUMMARY_V1','status':'PARTIAL_WITH_SKIPS',
+    'original_inventory_entries':448,'original_regular_file_count_sum':1812834,
+    'original_decision_counts':facts['decision_counts'],
+    'migration':{'original_candidates':24,'copied_verified':22,'skipped':2,'all_sources_retained':True},
+    'caches':{'original_candidates':9,'deleted':0,'skipped':9,'original_allocated_bytes':sum(x['allocated_bytes'] for x in facts['cache']),
+        'reasons':['Affirmative exact rebuild/recovery proof incomplete','Current cross-node reference inspection has permission gaps',
+                   'Potential cache lock/creation metadata must not be silently treated as disposable'],
+        'candidate_details':[{'candidate_id':f'CACHE_{i+1:02d}','node':x['node'],
+            'original_regular_files':x['file_count'],'original_allocated_bytes':x['allocated_bytes'],
+            'status':'SKIP_PERMISSION_OR_RECOVERY_UNPROVEN'} for i,x in enumerate(facts['cache'])]},
+    'new_derived_model_views':{'cap':2,'eligible_proven':0,'deleted':0,
+        'reason':'No source audit checkpoint entry proves a newly eligible derived view with full independent immutable recovery.'},
+    'checkpoints':{'original_index_entries':50,'weights_or_partial_trainer_not_resume_verified':48,
+        'full_trainer_components_not_resume_verified':2,'checkpoint_entries_deleted':0},
+    'immutable_protect':['PI0250','PI0276','PI0290','PI0291 active collection paths','PI0209 UNKNOWN_HOLD',
+        'private WBC originals','unique/full Trainer originals','raw RGB/physics/videos and failure evidence'],
+    'unknown_hold_original_entries':343,'no_whole_population_recrawl':True}
+resources={'schema':'PHASE2_RESOURCE_BEFORE_AFTER_V1','status':'NO_RECLAMATION_CLAIM',
+    'baseline':'Original audit snapshots, not a synchronized immediate-before df sample.',
+    'original_audit_available_GiB_display':{'shared_NFS':1395.80,'4080S_SSD':536.38},
+    'post_only_utc':datetime.datetime.fromtimestamp(post['utc_epoch'],datetime.timezone.utc).isoformat(),
+    'post_only':[{'storage_role':x['alias'],'filesystem_total_bytes':x['total_bytes'],
+        'filesystem_free_bytes':x['free_bytes'],'available_bytes':x['f_bavail_bytes'],
+        'inodes_free_raw':x['inodes_free'],'personal_quota':'UNKNOWN'} for x in post['resources_post_only']],
+    'NFS_inode_note':'NFS raw inode-availability value zero is not proof of exhaustion; unsupported/unknown.',
+    'phase2_new_freed_allocated_bytes':0,'copied_regular_file_allocated_bytes_added':dest_alloc,
+    'df_difference_attribution':'NOT_CLAIMED_OTHER_WRITERS_AND_NON_SYNCHRONOUS_BASELINE',
+    'known_measured_CPU_s':measured_cpu,'additional_unmetered_CPU_s_conservative_upper_bound':30,
+    'charged_upper_CPU_s':measured_cpu+30,
+    'accounting_note':'Owner aggregates this bound once into PI0291 ledger; includes initial partial retirement and tiny read probes, not an observed utilization metric.',
+    'scientific_compute_in_this_maintenance':{'physics_integrations':0,'GPU_s':0,'model_load_forward_train':0,'Hopper_new_PBS':0},
+    'personal_quota':'UNKNOWN'}
+paths={'schema':'PHASE2_HOST_AWARE_PATH_ROLE_INDEX_V1','status':'LOGICAL_PUBLIC_INDEX_PRIVATE_EXACT_BINDINGS',
+    'exact_realpath_device_inode_links_and_file_hashes':'Retained in private original audit and actual receipts, not exposed here.',
+    'roles':[{'role':'SHARED_NFS','executor_access':['corelab-amd-server','corelab-4080s'],
+        'purpose':'Historical source originals, owner navigation, copy-only legacy-home archive and receipts',
+        'single_shared_regular_file_identity':True,'writes_this_phase':'22 copied candidates; no source relocation'},
+       {'role':'4080S_NODE_LOCAL_SSD','executor_access':['corelab-4080s'],
+        'purpose':'PI0290 protected runtime/raw data and isolated PI0291 current work',
+        'AMD_same_absolute_name_is_same_storage':False,'cross_node_alias_policy':'NFS symlinks to SSD are compatibility hints only; query executor by SSH'},
+       {'role':'AMD_NODE_LOCAL_CACHE','executor_access':['corelab-amd-server'],
+        'purpose':'Node-local cache candidates, all skipped in this phase'},
+       {'role':'PRIVATE_WBC','access':'Owner private binding only','lifecycle':'READ_ONLY_PROTECTED'},
+       {'role':'HF_FIXED_IMMUTABLE_ARCHIVE','purpose':'Per-asset repo type/revision/prefix/hash transfer, not authentication-as-backup',
+        'new_backup_validation_in_this_maintenance':'NOT_RUN_NO_MODEL_DELETION'},
+       {'role':'PI0291_WORK','executor_access':['corelab-4080s'],'run_uuid':session,
+        'owner':'existing_local_pc','status':'PROTECTED_FROM_MAINTENANCE',
+        'public_binding':'reports/PI0291/'+session+'/RESOURCE_AND_PATH_BINDING.json'},
+       {'role':'LOCAL_PRIVATE_RECEIPTS','purpose':'Exact paths/FDs/identities/commands and per-file checksums','publicly_uploaded':False}],
+    'legacy_path_checker':{'read_and_SHA_pinned':True,'official_generic_checker_PASS':'NOT_CLAIMED',
+        'integration_into_scientific_runtime':'NOT_CLAIMED','note':'Old new-run checker is a draft, not proof of current path/physics qualification.'},
+    'remote_navigation_deployment':'OWNER_SEPARATE_RECEIPT_REQUIRED_NOT_PROVEN_BY_THIS_PUBLIC_INDEX'}
+actual={'schema':'PHASE2_ACTUAL_SANITIZED_RECEIPT_V1','status':'PARTIAL_WITH_SKIPS',
+    'session':session,'prepared_utc':now,'scope':'Existing bounded maintenance GO and exact stopped-process addendum; no new scientific authorization',
+    'M0':'PASS_SOURCE_PIN_AND_COMPLETE_STRUCTURED_RECONCILIATION',
+    'M1':'22_OF_24_COPY_READBACK_VERIFIED_ALL_SOURCES_RETAINED',
+    'M2':'NO_FILES_DELETED_TWO_VERIFIED_STOPPED_IDENTITIES_SIGNALED_WITH_FD_VISIBILITY_CAVEAT',
+    'M3':'SANITIZED_AGGREGATES_PREPARED_OWNER_PUBLICATION_AND_REMOTE_NAVIGATION_READBACK_PENDING',
+    'copy':{k:migration[k] for k in ['copied_verified_candidates','skipped_candidates','regular_files_copied_verified','logical_bytes_copied','destination_regular_file_allocated_bytes']},
+    'file_deletions':0,'cache_candidates_skipped':9,'derived_view_deletions':0,
+    'process_individual_signals':2,'process_exit_observed':2,'other_processes_signaled':0,
+    'phase2_new_freed_allocated_bytes':0,
+    'earlier_phase1':{'already_freed_allocated_bytes':44017266688,'allocated_GiB':44017266688/1024**3,
+        'repeat_or_recount':False,'public_receipt':'reports/maintenance/2026-10-13-corelab-storage/ACTUAL_RECEIPT.json'},
+    'CPU_accounting':resources['charged_upper_CPU_s'],
+    'private_receipt_sha256':{n:digest(n) for n in ['MIGRATION_COPY_PRIVATE.json','PROCESS_RETIREMENT_PRIVATE.json','PROCESS_RETIREMENT_FINAL_PRIVATE.json','ARCHIVE_POST_ONLY_PRIVATE.json']},
+    'source_and_execution_identity':'SOURCE_AUDIT_SHA.json',
+    'selected':'NONE','deployment':'NONE','GitHub_comment_and_readback':'OWNER_PENDING_NOT_CLAIMED',
+    'remaining':['Remote host-aware navigation/readback requires owner receipt','Permission-limited FD visibility after child exit',
+        'Nine cache and two static-reference copy candidates skipped','No eligible new model view','Quota and bounded static references unresolved']}
+deletions={'schema':'PHASE2_DELETION_RECEIPT_V1','status':'ZERO_FILES_DELETED_SAFE_SKIPS',
+    'deleted_files':[],'files_deleted':0,'new_freed_allocated_bytes':0,
+    'cache_candidates_skipped':9,'derived_view_candidates_proven':0,
+    'reason':'No cache/model candidate satisfies all recovery/reference/permission gates; process termination does not authorize file unlink.',
+    'prior_phase1_excluded':True}
+for name,data in [('SOURCE_AUDIT_SHA.json',source_sha),('MIGRATION_COPY_RECEIPT.json',migration),
+    ('PROCESS_RETIREMENT_RECEIPT.json',retirement),('RETENTION_DECISIONS_SUMMARY.json',decisions),
+    ('RETENTION_DECISIONS.json',decisions),
+    ('RESOURCE_BEFORE_AFTER.json',resources),('PATH_ROLE_INDEX.json',paths),
+    ('PATH_ROLE_MAP.json',paths),
+    ('ACTUAL_RECEIPT.json',actual),('DELETION_RECEIPT.json',deletions)]:
+    encoded=json.dumps(data,ensure_ascii=False,indent=2)+'\n'
+    assert '@LOCAL_OR_CORE_HOME@' not in encoded and '/var/cache/' not in encoded and 'cmdline' not in encoded.replace('start ticks/executable/commandline/cwd/parent','')
+    (out/name).write_text(encoded)
+print(json.dumps({'destination':str(out),'copied_candidates':len(copied),'files':len(files),
+    'logical_bytes':logical,'allocated_bytes':dest_alloc,'known_CPU_s':measured_cpu,'public_JSONs':10}))

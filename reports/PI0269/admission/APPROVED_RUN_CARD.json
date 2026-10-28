@@ -1,0 +1,64 @@
+{
+  "arms": [
+    "UNIFORM",
+    "PREFIX"
+  ],
+  "canonical": 5964897978,
+  "coefficients": {
+    "increment": 0.1,
+    "native": 1,
+    "position": 0.4,
+    "rotation": 0.1,
+    "speed": 0.1
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "donor_revision": "97d8bf027f07241e2206b05e07597e4719c891e4",
+  "launch_allowed": true,
+  "optimizer": {
+    "accumulation": 2,
+    "clip": 1.0,
+    "cosine_steps": 4096,
+    "learning_rate": 1e-05,
+    "name": "AdamW",
+    "warmup": 10,
+    "weight_decay": 1e-05
+  },
+  "prefix_mass": 0.8,
+  "prefix_points": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "prefix_transitions": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "quality_steps": [
+    4096
+  ],
+  "raw_training_head_cap": 160000,
+  "raw_update_cap": 8480,
+  "release": "e77ad092406555645fb8c68ba34cc8594ef18ee6",
+  "save_steps": [
+    2048,
+    4096
+  ],
+  "schema": "PI0269_MATCHED_TEMPORAL_CARD_V1",
+  "selected_checkpoint": "NONE",
+  "source_plan_sha256": "fca9a29e69e4b63ec35ab995bacc60a4867e4b86a11e2d7a3c6397d4d316f5ef",
+  "statistics_sha256": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9",
+  "suffix_mass": 0.2,
+  "updates_per_arm": 4096
+}

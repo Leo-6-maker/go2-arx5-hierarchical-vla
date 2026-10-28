@@ -1,0 +1,73 @@
+{
+  "status": "STOP_FIXED_SOURCE_POOL_NOT_ADMITTED",
+  "adopted_release": "e7d6537facc3c670cdd197e64302eac913965534",
+  "execution_source": "544abbe48e858fff8c6cf3d5ab14964eee057a65",
+  "science_question": "Can six fixed successful TRAIN submitted-action segments transfer to the full-body W0 start under the adopted warp, time and original safety contract?",
+  "execution": "COMPLETE_TO_EXPLICIT_SCIENTIFIC_STOP",
+  "quality": "NO_ADMITTED_TARGET_BODY_SOURCE",
+  "CPU_checks_passed": 16,
+  "source_extractions": 6,
+  "source_candidates": 6,
+  "task_results": [
+    {
+      "task": "T2",
+      "status": "NOT_ADMITTED_FIXED_SOURCE_POOL",
+      "reason": "ALL_THREE_SOURCE_TIME_LOWER_BOUNDS_FAIL",
+      "physical_starts": 0
+    },
+    {
+      "task": "T1",
+      "status": "NOT_ADMITTED_FIXED_SOURCE_POOL",
+      "reason": "NO_REGISTERED_SOURCE_ROUTE_AND_TIME",
+      "physical_starts": 0
+    }
+  ],
+  "new_bundles": 3,
+  "new_goal_IK_calls": 6,
+  "new_CLIK_initializations": 96,
+  "new_RRT_calls": 0,
+  "new_dense_points": 0,
+  "new_physical_starts": 0,
+  "new_integrations": 0,
+  "new_RGB_pairs": 0,
+  "new_GR00T_queries": 0,
+  "new_GPU_PBS": 0,
+  "new_training_updates": 0,
+  "successful_target_body_seeds": 0,
+  "real_contact": "NOT_OBSERVED_NO_NEW_PHYSICS",
+  "full_conditions": [
+    {
+      "id": "SDR_SEED_W0_T2",
+      "status": "NOT_RUN_OWN_SOURCE_PREREQUISITE_FAILED"
+    },
+    {
+      "id": "SDR_SEED_W0_T1",
+      "status": "NOT_RUN_OWN_SOURCE_PREREQUISITE_FAILED"
+    }
+  ],
+  "WBC_changes": 0,
+  "safety_threshold_changes": 0,
+  "final_task_score_changes": 0,
+  "old_evidence": {
+    "TASK_PILOT_CLOSED.json": "f6264df2becc0f6178feffd32a720b9e4834604b2b033db3d65f4f6e582831a5",
+    "NATIVE_SAFETY_FAIL.json": "175ae9cdab3d108e4826968c5ffb3724a34ec069a3ed1f909cf82fafb6a39a71",
+    "teacher-qualification-v1/SERIES_CLOSED.json": "e6d0afe727dcae067fc36fd75f72320e3bee9450f06ddd4e0ebb25c294bd59e6",
+    "teacher-qualification-v2/SERIES_CLOSED.json": "e0ae3f6f5f06807fdd9dd2a3d2f541911af3b94778b0e651c616db89b7cb6eaa",
+    "maniskill-component-v1/SERIES_CLOSED.json": "7528affd1924220b86ccbc1dedf1d5625e1551776a59c2af9ba96480e9ee097c",
+    "maniskill-search-v2/SERIES_CLOSED.json": "2ed2f7f80fc1fcdc8db634708fad011770e03428ac9e8cb32e493f4dc87200cb",
+    "maniskill-search-v2/episodes/MPS2_DEV_W0_T2/INDEPENDENT_CPU_AUDIT.json": "e2ee65534cd483678142d9d0d0656b3eefd3b5c75440f4012bb6b6629a41d192"
+  },
+  "initial_parent_counters": {
+    "main_starts": 38,
+    "main_integrations": 353508,
+    "RGB_pairs": 12248,
+    "Core_CPU_s": 15614.037112470665
+  },
+  "new_T0": false,
+  "budget_reset": false,
+  "no_global_IK_infeasibility_or_WBC_task_failure_claim": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "closed_epoch": 1792073007.730265,
+  "independent_reconciliation_sha256": "074f805c4153a595a19da594e83ad485ceb49528040eb95a4d7983e552a7ab43"
+}

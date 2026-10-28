@@ -1,0 +1,11 @@
+{
+  "schema": "PI0260_R3_S3_ENGINEERING_AMENDMENT_4",
+  "failed_attempt": "638835.hopper-m-02",
+  "phase": "Base canary split 4 to 8 exact resume",
+  "raw_accounting": {"complete_model_loads": 0, "native_training_forwards": 0, "backwards": 0, "completed_optimizer_updates": 0},
+  "failure": "official OmegaConf TrainingConfig.resume_from_checkpoint accepts a bool, not an explicit path string",
+  "repair": "use True and assert the sole latest complete Trainer checkpoint is the requested saved step before official trainer entry",
+  "preserved_resume_source": "Base/canary-split/training/checkpoint-4",
+  "trainer_sha256": "b324dfa72426177d6a39447e23215a2273cda7460f6544993f8da7eb11d23a12",
+  "science_contract_change": false
+}

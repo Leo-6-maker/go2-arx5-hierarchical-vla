@@ -1,0 +1,305 @@
+{
+  "schema": "PI0247_D2_RUN_CARD_V1",
+  "revision": 1,
+  "created_utc": "2026-09-25T20:08:51Z",
+  "release_commit": "50e66efe6ccfbe814d04caf12499493821be7957",
+  "execution_parent": "9879d01290fd220a05a13f184262389d4c4c7d00",
+  "execution_code_commit": "4c740ed569bf9bda31a202b741d715b75fe065a9",
+  "runner_sha256": "51c2f7349f8ba9ed0f435822e3480516bfbf32e956d796c9b0b33117877247e4",
+  "query_helper_sha256": "1f668589f3ad9d8004c35de0a2ea3550102d7074390e06e081367f5ae83de5cc",
+  "static_preflight_canonical_sha256": "7368b26b2cc1fce4a0d158bce5766e28e7cbeca4240eaab314fe64b80a8d0f4b",
+  "static_preflight_file_sha256": "0f4116575c74bbe08e9319d623d4206d8fb4b6a49165b135d231f861e5c882ce",
+  "static_preflight_path": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/static_preflight.json",
+  "d1_run_card_sha256": "91c40aab890dfd1380f0fc12e506f123479bcab6c668b60548d10266f4ccf018",
+  "d1_report_sha256": "a7e5eb96a93e8726577b740286ab6115d01938cb5f1219941fd2cf103cd1b6b3",
+  "d1_r_star": "S4",
+  "d1_selection_route": "NO_SUPPORTED_RUNTIME_GAIN_IN_D1",
+  "input_identity_audit_sha256": "6d29ec55639d53f2b17297572327e868ad6056858b504e4b27f5f695bff046aa",
+  "source_cohort": "original fixed 16 TRAIN windows",
+  "source_episode_ids": [
+    "pi0227_persistent_train_a_j03_yp015_s04_ym050_r01_r01_227077:obs-0013",
+    "pi0227_persistent_train_a_j03_yp015_s03_yp050_r00_r00_227072:obs-0033",
+    "pi0227_persistent_train_a_j02_xm015_s02_xm050_r02_r02_227050:obs-0060",
+    "pi0227_persistent_train_a_j03_yp015_s04_ym050_r03_r03_227079:obs-0093",
+    "pi0227_persistent_train_b_j02_xm015_s03_yp050_r01_r01_227233:obs-0020",
+    "pi0227_persistent_train_b_j00_nominal_s00_c0_r02_r02_227182:obs-0033",
+    "pi0227_persistent_train_b_j02_xm015_s04_ym050_r02_r02_227238:obs-0073",
+    "pi0227_persistent_train_b_j00_nominal_s03_yp050_r00_r00_227192:obs-0100",
+    "pi0227_persistent_train_c_j01_xp015_s04_ym050_r03_r03_227399:obs-0013",
+    "pi0227_persistent_train_c_j03_yp015_s04_ym050_r01_r01_227437:obs-0026",
+    "pi0227_persistent_train_c_j02_xm015_s00_c0_r00_r00_227400:obs-0060",
+    "pi0227_persistent_train_c_j01_xp015_s01_xp050_r00_r00_227384:obs-0093",
+    "pi0227_persistent_train_d_j01_xp015_s03_yp050_r02_r02_227574:obs-0006",
+    "pi0227_persistent_train_d_j03_yp015_s00_c0_r02_r02_227602:obs-0046",
+    "pi0227_persistent_train_d_j00_nominal_s03_yp050_r02_r02_227554:obs-0053",
+    "pi0227_persistent_train_d_j00_nominal_s00_c0_r02_r02_227542:obs-0100"
+  ],
+  "runtimes": [
+    {
+      "inactive": "stock",
+      "steps": 4,
+      "id": "S4"
+    }
+  ],
+  "weights": [
+    {
+      "model_root": "/var/cache/users/liuyu-nfs/pi0246_p_screen_validation_20260925/models/P2000",
+      "revision": "74ab6fbcf73832a6411f71bb2369c3e8bfd0ba5e",
+      "manifest_sha256": "2f04ba786e82cb5aee69ae3be63a381bab21989a93b2ede0b159d000ff663299",
+      "family": "PI0246_P_PHYSPOS_M16_2K_V1",
+      "artifact": "PI0246-P-final2000",
+      "id": "P2000",
+      "checkpoint_step": 2000
+    }
+  ],
+  "padding_proof": {
+    "inactive_dims": "10:132",
+    "rows": [
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 2.220446049250313E-16,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_a_j03_yp015_s04_ym050_r01_r01_227077:obs-0013",
+        "source_tensor_sha256": "8cf0672f04957cfedd9ba2cd7ce7285f52bf16c4eb443cdb35eb979a1a53b95e"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 7.342129115794904E-08,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_a_j03_yp015_s03_yp050_r00_r00_227072:obs-0033",
+        "source_tensor_sha256": "f15b09ae93982c737656fc4743ae47d56be6dd5b11bb13a973385f1c9bbe3d3a"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 2.1861064125605623E-08,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_a_j02_xm015_s02_xm050_r02_r02_227050:obs-0060",
+        "source_tensor_sha256": "6b3d6594660fa0f04015688d57ba361c61ef1f99a09fa95ec92b5684fbce9b36"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 6.898589022252821E-08,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_a_j03_yp015_s04_ym050_r03_r03_227079:obs-0093",
+        "source_tensor_sha256": "1334784fcad33b735be0846cb8acc2656cd76cfc1c6c986e0c67d07258761aff"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 9.538589085256177E-09,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_b_j02_xm015_s03_yp050_r01_r01_227233:obs-0020",
+        "source_tensor_sha256": "5d12518f65c2355b7aa6ce29c56c16274b79584d0635ffa7cda17f4e51441075"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 2.220446049250313E-16,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_b_j00_nominal_s00_c0_r02_r02_227182:obs-0033",
+        "source_tensor_sha256": "e8b127cdbc550b04c54257f0e38e47377dcea559578582baaea40772417b85df"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 4.996003610813204E-16,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_b_j02_xm015_s04_ym050_r02_r02_227238:obs-0073",
+        "source_tensor_sha256": "37c1357c5608891822b437cc146a1064293d5ef4f62407b5492c4ba57110acf5"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 1.2105890401237218E-08,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_b_j00_nominal_s03_yp050_r00_r00_227192:obs-0100",
+        "source_tensor_sha256": "6dacc6f6572d40f352310decb927fa95ab280113e6487f5bda5aa7512ce9eca9"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 3.652375735185842E-09,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_c_j01_xp015_s04_ym050_r03_r03_227399:obs-0013",
+        "source_tensor_sha256": "d4ba22b7e84b42777bd80695879d2adcd05be9c19dfeba930145a4faab684544"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 3.6565813335553976E-08,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_c_j03_yp015_s04_ym050_r01_r01_227437:obs-0026",
+        "source_tensor_sha256": "e9279cef2229c425c59b8f42e0a2b93c43460a746766ae519aad956c0a73c48b"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 3.272898779771438E-08,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_c_j02_xm015_s00_c0_r00_r00_227400:obs-0060",
+        "source_tensor_sha256": "b7db4fa944dcdbdb934a2a180f41d8230b966f779781e875f1e304a3813e6b1d"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 3.3306690738754696E-16,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_c_j01_xp015_s01_xp050_r00_r00_227384:obs-0093",
+        "source_tensor_sha256": "0d54c277fb758654b3caee8db6aef933a29098dc93d58f2fb1b78dca9f397207"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 3.3306690738754696E-16,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_d_j01_xp015_s03_yp050_r02_r02_227574:obs-0006",
+        "source_tensor_sha256": "f01a3d115709baf2ac51c1e56e6e1523a830d94853cfc0f0bc69d80358a44f31"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 2.42861286636753E-16,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_d_j03_yp015_s00_c0_r02_r02_227602:obs-0046",
+        "source_tensor_sha256": "ebc60731318ac6f53435ba4659f0471ebc713d6eb3c90aab914a95e493ec3d71"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 7.487571229702894E-09,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_d_j00_nominal_s03_yp050_r02_r02_227554:obs-0053",
+        "source_tensor_sha256": "7e9dc8040535c88a1e0a30dee3a143a26b93e5ebe2144dd8d9ea970e4fe12242"
+      },
+      {
+        "active_mask_ones": 400,
+        "expert_roundtrip_max_abs": 2.415543657457997E-08,
+        "inactive_encoded_nonzero": 0,
+        "inactive_mask_nonzero": 0,
+        "source_episode_id": "pi0227_persistent_train_d_j00_nominal_s00_c0_r02_r02_227542:obs-0100",
+        "source_tensor_sha256": "0079ca00b8b29d1ce8c36e9ca78d1b4963dbc8c6287670c2786b3825024db370"
+      }
+    ],
+    "source": "all 16 fixed TRAIN windows, existing action_mask plus bound P1 processor encode_expert",
+    "structural_zero_padding_proven": true
+  },
+  "noise_identity": {
+    "B0": {
+      "definition": "original S0 per-source source_float32 actual packet; saved separately for every source even when tensors are byte-identical",
+      "per_source": {
+        "pi0227_persistent_train_a_j03_yp015_s04_ym050_r01_r01_227077:obs-0013": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_a_j03_yp015_s03_yp050_r00_r00_227072:obs-0033": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_a_j02_xm015_s02_xm050_r02_r02_227050:obs-0060": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_a_j03_yp015_s04_ym050_r03_r03_227079:obs-0093": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_b_j02_xm015_s03_yp050_r01_r01_227233:obs-0020": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_b_j00_nominal_s00_c0_r02_r02_227182:obs-0033": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_b_j02_xm015_s04_ym050_r02_r02_227238:obs-0073": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_b_j00_nominal_s03_yp050_r00_r00_227192:obs-0100": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_c_j01_xp015_s04_ym050_r03_r03_227399:obs-0013": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_c_j03_yp015_s04_ym050_r01_r01_227437:obs-0026": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_c_j02_xm015_s00_c0_r00_r00_227400:obs-0060": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_c_j01_xp015_s01_xp050_r00_r00_227384:obs-0093": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_d_j01_xp015_s03_yp050_r02_r02_227574:obs-0006": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_d_j03_yp015_s00_c0_r02_r02_227602:obs-0046": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_d_j00_nominal_s03_yp050_r02_r02_227554:obs-0053": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        },
+        "pi0227_persistent_train_d_j00_nominal_s00_c0_r02_r02_227542:obs-0100": {
+          "source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+          "packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019"
+        }
+      }
+    },
+    "B1": {
+      "definition": "P1 N1 original full [1,40,132] tensor shared across all sources",
+      "shared_across_sources": true,
+      "source_tensor_sha256": "50a3194bb111c620adcc81506bcd5c61a319542fa73e6d6fb292aad44a72987e",
+      "file_sha256": "962268a4da77a8ab82c6c0b7ca31b63ab2013cf03657aa5466bf77490f03886a"
+    }
+  },
+  "expected_counts": {
+    "logical_cells": 32,
+    "reused_d1_b1_cells": 4,
+    "new_queries": 28
+  },
+  "thresholds_per_group": {
+    "invalid_count": 0,
+    "reject_count": 0,
+    "median_xyz_rmse_m_max": 0.02,
+    "p95_xyz_rmse_m_max": 0.035,
+    "median_so3_rmse_rad_max": 0.05,
+    "p95_method": "linear",
+    "valid_points": 40
+  },
+  "paths": {
+    "stage_root": "/var/cache/users/liuyu-nfs/pi0246-p1-corelab-stage-20260924",
+    "code_root": "/var/cache/users/liuyu-nfs/pi0246-p1-corelab-stage-20260924/pi0244_fixed16_10k_v1",
+    "output_root": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/d2",
+    "input_identity_audit": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/audit/PI0247_D2_INPUT_IDENTITY_AUDIT_20260926.json",
+    "s0_packets_root": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/audit/original_s0_packets/S0/cells",
+    "d1_report": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/d1/pi0247_d1_mechanism_report.json",
+    "d1_run_card": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/d1/PI0247_D1_RUN_CARD_20260926_R2.json",
+    "d1_cells_root": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/d1/cells"
+  },
+  "resource": {
+    "host": "corelab-4080s",
+    "checked_utc": "2026-09-25T20:09:17Z",
+    "device": "cuda:0",
+    "gpu_index": 0,
+    "gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "gpu_name": "NVIDIA GeForce RTX 4080 SUPER",
+    "memory_total_mib": 32760,
+    "memory_free_mib": 32148,
+    "utilization_pct": 0,
+    "active_compute_processes": [],
+    "var_cache_free_bytes": 763438485504,
+    "python_executable": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/runtime/venv/bin/python"
+  }
+}

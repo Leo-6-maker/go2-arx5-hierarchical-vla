@@ -1,0 +1,72 @@
+{
+  "status": "VALID_NATIVE_HOLD_QUALITY_FAIL",
+  "complete_10s": true,
+  "original_native_safety": true,
+  "reference_integrity": true,
+  "source_anchor_unchanged": true,
+  "actual_task_duration_s": 10.014,
+  "actual_physics": {
+    "XYZ_RMS_m": 0.012535353795480765,
+    "XYZ_max_m": 0.03141585848086537,
+    "SO3_RMS_rad": 0.0696509067107775,
+    "SO3_max_rad": 0.0938370487085845
+  },
+  "actual_native_FK": {
+    "XYZ_RMS_m": 0.012525667355314019,
+    "XYZ_max_m": 0.031415867379533245,
+    "SO3_RMS_rad": 0.06959903761111498,
+    "SO3_max_rad": 0.09337856118631918
+  },
+  "installed_reference_error": {
+    "XYZ_RMS_m": 0.0,
+    "XYZ_max_m": 0.0,
+    "SO3_RMS_rad": 0.0,
+    "SO3_max_rad": 0.0
+  },
+  "source_clock": {
+    "offset_s": -0.004784922077885945,
+    "max_residual_s": 0.02083853390239998,
+    "gate_s": 0.025
+  },
+  "accepted_packets": 33,
+  "rejected_packets": 0,
+  "actual_free_root": true,
+  "actual_qpos_dimension": 25,
+  "root_xyz_span_m": [
+    0.06126648003199602,
+    0.03422060545188049,
+    0.059583957019816225
+  ],
+  "all_12_leg_channels_actuated": true,
+  "observed_physics_lower_bound": 7591,
+  "original_RESULT_sha256": "9e0b664004e8e99e475bb9f77db6d7cc440afd0a0cdf341dda3a96a5a2200014",
+  "original_array_hashes": {
+    "control.jsonl": "3b208cd77dea4a89759c520e72ff65bfc557ae29338c417c132bb21009624b47",
+    "initialization.jsonl": "11ef6d78634460129be06e02bd811190f591c8bae9c149f2785fc8cd0f09fb6d",
+    "sim.log": "60b6978100f6d101068826cd14b5d27e20dcb62bc5f9dc3c057fb112831f126c",
+    "CONTACT_SAFETY_ARMED": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "physics.jsonl": "b60490c28f5f1644be8a929dfdedab7d837b171df23ebf3d41885e52e7ebcfd1",
+    "START.json": "e5cf9884fc97c92c371f59aa69f7ef873b90f67b3675da075c18ea59188e2876",
+    "planner.log": "2cfc864f1e7b5c2eccdea6ae619323701b2cdf47ae75cfcdf1a19765849ffcdf",
+    "ISSUED.json": "7059a5c2e70f0e46ac2ac7c0b6679f495b8921813b2e301204f6de634126faeb",
+    "RESULT.json": "9e0b664004e8e99e475bb9f77db6d7cc440afd0a0cdf341dda3a96a5a2200014",
+    "TASK_START.json": "f56586aac0ca6a94190aa4cfca1e65989fad36ed9558cffb78b386507bfcafdd",
+    "PAUSE_CHECK.json": "5efbf55e3960c12608db97652936e77a2369c2d97cafbcfddffd14ce68b6a8ba",
+    "controller.log": "8e99ca40a0b5c68fa5b0f719d44951fea9b2cb3104e91cd7e7ab38b2f3adfda7",
+    "solver.log": "e509b9290809630b7604785fcd73f716bf3ee1e4023ee2503cb510f160fb0eaa",
+    "BEFORE_FIRST_INTEGRATION.json": "83c398511f5dd52a36dcb9318628ba385acd4b314acff534c8ccdb500fb4e5d9",
+    "PREEXECUTION_AUDIT.json": "9c0c57a14466564568d2bcd156c52692f0bcc057739ca1fd1f923f8f99ad88a4",
+    "planner.jsonl": "378cdb5e09c14d19a5d1e02ff655fc184c5c57733784fcb89ed9fbc12bafd3b8",
+    "ros.jsonl": "dec4d49eb891b2ffa8c6bc7bceb1591705d626d573d66d0566e60b4b0b3c9670"
+  },
+  "pause_actual_physics_clock_stable": true,
+  "pause_late_EE_message_bounded_by_frozen_physics_time": true,
+  "original_pause_comparison_error_retained": "ValueError: PAUSE_CLOCK_ADVANCED",
+  "resume_history_qualified": false,
+  "gripper_camera_task_plant_qualified": false,
+  "teacher_qualified": false,
+  "new_neural_queries": 0,
+  "new_physics": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

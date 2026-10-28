@@ -1,0 +1,112 @@
+{
+  "schema": "WDR1_SOURCE_COMPONENT_SEAL_AND_EXISTING_LEDGER_IO_CPU_ACTUAL_V1",
+  "status": "ACTUAL_PRIVATE_PREDECLARATION_AND_CPU_IO_TESTS_NOT_NATIVE_DISPATCH",
+  "observed_epoch": 1792701180.0209398,
+  "source_baseline": "80854c8d3914ffc77d55259e07257b904795ca0d",
+  "files_sha256": {
+    "scripts/pi0294/dec1/source_component_meter.py": "53af91afa23f902ed74c9a6ab09d45b057e77d265ebf4ffca5c8d8aa5c3d5625",
+    "scripts/pi0294/dec1/test_source_component_meter.py": "40e79b210885735e2188bfd8af330dc4be6d391031ecad1e8d3893cfe230f90f",
+    "scripts/pi0294/dec1/source_component_evidence.py": "f3fad6170ca48c9baaf312d7ad706262418a39be97dd0dc002e6808074326f52",
+    "scripts/pi0294/dec1/test_source_component_evidence.py": "2112bae08cad5e69a4342dc4dbaee37a9c920377cb194fca4258aea8bc5ab859"
+  },
+  "source_baseline_verification": {
+    "exact_commit": "80854c8d3914ffc77d55259e07257b904795ca0d",
+    "CI_run": 39848664403,
+    "job": 120068649927,
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "all_12_steps_success": true,
+    "all_11_changed_files_fully_read_back": true
+  },
+  "actual_predeclaration": {
+    "plan_sha256": "65f9d193239105ca3ff78916bb468856d002938981c1d75cb65bdedb4c6307ad",
+    "bytes": 13534,
+    "exclusive_once_creation_and_fsync_and_exact_readback": true,
+    "plan_owner_release": "80854c8d3914ffc77d55259e07257b904795ca0d",
+    "future_runtime_release_must_be_independently_pinned": true,
+    "original_population_sha256": "288be5e878baf1b112190a8ac69c1b507336ca03f550ae9b4f4672f13ef90db1",
+    "selection_after_results": false,
+    "conditions": [
+      {
+        "id": "DEC1-SOURCE-COMMISSION-F0-000-T1-I_TIME",
+        "task": "T1",
+        "interface": "I_TIME",
+        "scene_group": "PI0294/PV1/TRAIN/F0/000",
+        "card_sha256": "afafe235b443f7a531da949b18aaebca3c7e85a6b9d85481aa78d49e899efc50"
+      },
+      {
+        "id": "DEC1-SOURCE-COMMISSION-F0-000-T2-I_PROGRESS",
+        "task": "T2",
+        "interface": "I_PROGRESS",
+        "scene_group": "PI0294/PV1/TRAIN/F0/000",
+        "card_sha256": "be3ab67a67e8c75cd2b6755c0884a6852ab8b18581f3cd269e611f6e8bda2a0a"
+      },
+      {
+        "id": "DEC1-SOURCE-COMMISSION-F1-000-T1-I_PROGRESS",
+        "task": "T1",
+        "interface": "I_PROGRESS",
+        "scene_group": "PI0294/PV1/TRAIN/F1/000",
+        "card_sha256": "e40db5cb950fe84ddf55895157339f946d6727fd77e6b6d1f16963e59a9b14a9"
+      },
+      {
+        "id": "DEC1-SOURCE-COMMISSION-F1-000-T2-I_TIME",
+        "task": "T2",
+        "interface": "I_TIME",
+        "scene_group": "PI0294/PV1/TRAIN/F1/000",
+        "card_sha256": "c8a0b159c65d007e994c1fc32a19f074353b906b10a130ee45a04fcb1a8c551c"
+      }
+    ],
+    "source_slots": 4,
+    "target_slots_reserved": 4,
+    "total_original_slots": 8,
+    "new_training_data": false,
+    "neural_model_queries": 0,
+    "registered_scientific_child": false,
+    "native_physics": 0
+  },
+  "CPU_tests": {
+    "combined_passed": 35,
+    "new_meter_cases": 18,
+    "new_durable_event_cases": 13,
+    "original_Core_ledger_cases": 4,
+    "real_existing_Ledger_steps_fixture_integration_included": true,
+    "denied_external_or_native_attempts": 0
+  },
+  "meter": {
+    "existing_outer_16000_live_context_is_only_live_debit": true,
+    "one_existing_200_shadow_context_per_prefix": true,
+    "original_constructor_and_clone_meter_remains_only_constructor_debit": true,
+    "known_partial_S1_or_reference_rejection_closes_actual_shadow_before_error": true,
+    "unknown_retains_shadow_and_outer_live_upper_and_actual_lower_bound_evidence": true,
+    "attempted_finish_not_retried_or_redebited": true,
+    "original_ledger_implementation_modified": false
+  },
+  "event_IO": {
+    "exclusive_bounded_owner_file": true,
+    "append_fsync_and_byte_readback_before_return": true,
+    "exact_sequence_hash_chain_and_complete_reader_validation": true,
+    "ordinary_known_short_writes_advance_remaining_bytes": true,
+    "interrupted_or_unknown_append_never_retried_or_truncated": true,
+    "partial_tail_extra_bytes_foreign_identity_symlink_and_mutation_rejected": true,
+    "hash_consistency_is_not_native_execution_proof": true
+  },
+  "helper_static_compatibility": {
+    "report_sha256": "2335b1045476be4702c5c9af6699587998ec4309d5b214f8f7d2d3664b9b614e",
+    "text_only": true,
+    "no_proven_class_swap_or_S1_clone_ABI_conflict": true,
+    "snapshot_mj_forward_full_fingerprint_byte_idempotence_requires_native_verification": true,
+    "saved_stop_record_is_precommit_until_actual_return_and_owner_ACK_event": true,
+    "engine_close_does_not_substitute_for_stop": true,
+    "no_extra_global_science_quality_gate_added": true
+  },
+  "pending": [
+    "Versioned CPU component role/runtime intake and standard child manifest/lease/fresh complete resources",
+    "Component-only raw Teacher plan prebinding and actual physics/8ACK durable readback",
+    "Existing pv1.core explicit admitted factory wiring and original counter/stop/native commissioning",
+    "Separate original CORR2048/R0 neural source evaluation and frozen target WBC task qualification"
+  ],
+  "native_B_registered_or_submitted": false,
+  "active_A_immutable_source_unchanged": true,
+  "overall_goal_complete": false
+}

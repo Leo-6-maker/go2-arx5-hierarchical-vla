@@ -1,0 +1,107 @@
+{
+  "status": "ACTUAL_CLOSED_TRAINING_ENDPOINT_PANELS_AND_NO_ACTIVE_GPU_INTERVALS_AT_SNAPSHOT_OWNER_TERMINAL_PENDING",
+  "snapshot_epochs": {
+    "hop": 1791526815.6485093,
+    "core": 1791526816.1020153
+  },
+  "original_caps": {
+    "starts": 176,
+    "rgb": 116160,
+    "control": 116160,
+    "dispatch": 232320,
+    "physics": 580800,
+    "teacher": 43000,
+    "query": 10000,
+    "head": 40000,
+    "formal": 2048,
+    "canary": 32,
+    "technical": 32,
+    "all_updates": 2112,
+    "owned_bytes": 107374182400
+  },
+  "closed_training_counts": {
+    "formal": 2048,
+    "canary": 32,
+    "technical": 0,
+    "all_updates": 2080
+  },
+  "updates_by_arm_phase": {
+    "C0_REPLAY1024/continuous/canary": 8,
+    "C0_REPLAY1024/split/canary": 8,
+    "C0_REPLAY1024/main/formal": 1024,
+    "C1_CORRECT1024/continuous/canary": 8,
+    "C1_CORRECT1024/split/canary": 8,
+    "C1_CORRECT1024/main/formal": 1024
+  },
+  "quality_counts": {
+    "query": 4092,
+    "head": 16368
+  },
+  "raw_charged_cumulative_counts": {
+    "starts": 81,
+    "rgb": 53267,
+    "control": 53268,
+    "dispatch": 106536,
+    "physics": 266335,
+    "teacher": 15680
+  },
+  "remaining_at_snapshot": {
+    "starts": 95,
+    "rgb": 62893,
+    "control": 62892,
+    "dispatch": 125784,
+    "physics": 314465,
+    "teacher": 27320,
+    "query": 5908,
+    "head": 23632
+  },
+  "raw_starts_unique_slots": 80,
+  "repeated_raw_start_slots": {
+    "PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109": 2
+  },
+  "charged_before_operation": "Ledger reservation rows are counted, including incomplete engineering attempts and live partial operations; not a claim that every currently reserved operation is completed.",
+  "GPU_intervals": {
+    "hop": {
+      "closed_interval_union_seconds": 5083.990034818649,
+      "including_live_to_snapshot_union_seconds": 5083.990034818649,
+      "active_starts": [],
+      "interpretation": "Reservation/service interval union, not measured GPU-compute utilization. Never sum nested model child phases again within same device lease."
+    },
+    "core": {
+      "closed_interval_union_seconds": 3147.9018359184265,
+      "including_live_to_snapshot_union_seconds": 3147.9018359184265,
+      "active_starts": [],
+      "interpretation": "Reservation/service interval union, not measured GPU-compute utilization. Never sum nested model child phases again within same device lease."
+    }
+  },
+  "known_closed_scheduler": {
+    "C0": {
+      "walltime_seconds": 1576,
+      "status": "OWNER_VERIFIED_QSTAT_F_EXIT0",
+      "peak_host_memory": "UNOBSERVED_IN_THIS_SMALL_RECEIPT"
+    },
+    "C1": {
+      "walltime_seconds": 2853,
+      "status": "ACTUAL_CLOSED_QSTAT_F_EXIT0",
+      "peak_host_mem_kb": 62223724,
+      "peak_host_vmem_kb": 118993688,
+      "source": "reports/PI0286/execution/C1_ACTUAL_FULL1024_TRAINING_CPU_AND_ACCOUNTING.json"
+    }
+  },
+  "scheduler_walltime_not_added_again_to_GPU_interval_union": true,
+  "planner_calls": "UNOBSERVED_NOT_RECORDED_IN_READ_LEDGERS",
+  "CPU_per_phase_utilization": "UNOBSERVED; saved native timing and scheduler cput are not full hardware utilization",
+  "GPU_compute_utilization": "UNOBSERVED; interval occupancy is not GPU busy fraction",
+  "model_eval_starts_final": "C0TRAIN8+C1TRAIN8+C1DEV16=32_SOURCE_EVALUATION_EPISODES; not counting learner16 or correction32 as model evaluation",
+  "source_confirm_started": "NOT_STARTED_NO_ELIGIBLE_ENDPOINT",
+  "new_model": 0,
+  "new_gradient": 0,
+  "new_optimizer": 0,
+  "new_physics": 0,
+  "new_codec": 0,
+  "owner_final_receipt_sha256": "ae3e4d81072a1dc664b21cb908972e8185fb0fa8668e1ddb55c1f8e550e6bb1e",
+  "owner_readback_container_sha256": "5935069e274db90d81519f731ebea15db6d72a7c40e0356f96c4e19b76457e1b",
+  "science_stopped": true,
+  "remaining_CPU_cumulative_budget": "UNOBSERVED_NO_CUMULATIVE_CPU_QUOTA_IN_READ_LEDGERS;4threads/16GiB are per-worker limits, not measured remaining CPU-time budget",
+  "remaining_GPU_arithmetic_headroom_not_new_science_authority": true
+}

@@ -1,0 +1,321 @@
+{
+  "schema": "CORELAB_STAGE45C_TRAIN24_LATE_BINDING_CANDIDATE_V1",
+  "stage": "Stage45C",
+  "pi_gate": "PI_GATE_STATE_0089",
+  "authority_comment": 5597325095,
+  "status": "LATE_BINDING_CANDIDATE_NOT_FROZEN",
+  "owner": "corelab",
+  "branch": "stage45c/corelab-train24-evaluator-prep",
+  "source_prep_sha": "4ff83c03d1071560c99070882ebd86b69c6c92f3",
+  "source_golden_head": "8197e4cd591b9c44cf9f43576d3020e9e6ff5f24",
+  "scientific_contract_changed": false,
+  "canonical_branch_untouched": true,
+  "accepted_authorities": {
+    "golden_release_promotion_manifest": {
+      "sha256": "a6f803e257ceeb0434027d8a35e32a7b8c66baf8226234bd6299cebf417446f9",
+      "role": "ACCEPTED_READ_ONLY_VANDA_P0"
+    },
+    "checkpoint_integrity_delta_audit": {
+      "sha256": "a672e39b45e025f9a7681c1a1a45d807dd9be2a4641e54db60b036252bb59539",
+      "role": "ACCEPTED_READ_ONLY_VANDA_P1"
+    },
+    "full24_checkpoint_1000": {
+      "tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
+      "role": "ACCEPTED_READ_ONLY_VANDA_P1"
+    },
+    "full24_checkpoint_2000": {
+      "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+      "role": "ACCEPTED_READ_ONLY_VANDA_P1"
+    }
+  },
+  "golden_training_release_v2": {
+    "release_id": "GOLDEN_TRAINING_RELEASE_V2",
+    "promotion_manifest_sha256": "a6f803e257ceeb0434027d8a35e32a7b8c66baf8226234bd6299cebf417446f9",
+    "checkpoint_integrity_delta_audit_sha256": "a672e39b45e025f9a7681c1a1a45d807dd9be2a4641e54db60b036252bb59539",
+    "status": "ACCEPTED_READ_ONLY",
+    "runtime_locator": "LATE_BOUND_FROM_VANDA_P0_MANIFEST",
+    "path": null
+  },
+  "base": {
+    "role": "EXACT_BASE",
+    "tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "index_sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+    "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+    "statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+    "status": "ACCEPTED_READ_ONLY",
+    "path": null
+  },
+  "full24_train24": {
+    "dataset_id": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN",
+    "role": "EXACT_TRAIN24_COHORT",
+    "tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+    "source_manifest_sha256": "c1105002485ebee88c13f56a2198b7b5edbdb9d5a0f4d641f4e644f7b211e566",
+    "regular_file_count": 85,
+    "total_bytes": 919661,
+    "source_expert_episode_count": 4,
+    "snapshots_per_source_episode": 6,
+    "window_count": 24,
+    "frame_count": 960,
+    "target_order": [
+      "red_target_train_a",
+      "red_target_train_b",
+      "red_target_train_c",
+      "red_target_train_d"
+    ],
+    "window_order": "target_major_then_snapshot_major",
+    "window_ids": [
+      "stage22_expert_red_target_train_a:expert-0000",
+      "stage22_expert_red_target_train_a:expert-0001",
+      "stage22_expert_red_target_train_a:expert-0002",
+      "stage22_expert_red_target_train_a:expert-0003",
+      "stage22_expert_red_target_train_a:expert-0004",
+      "stage22_expert_red_target_train_a:expert-0005",
+      "stage22_expert_red_target_train_b:expert-0000",
+      "stage22_expert_red_target_train_b:expert-0001",
+      "stage22_expert_red_target_train_b:expert-0002",
+      "stage22_expert_red_target_train_b:expert-0003",
+      "stage22_expert_red_target_train_b:expert-0004",
+      "stage22_expert_red_target_train_b:expert-0005",
+      "stage22_expert_red_target_train_c:expert-0000",
+      "stage22_expert_red_target_train_c:expert-0001",
+      "stage22_expert_red_target_train_c:expert-0002",
+      "stage22_expert_red_target_train_c:expert-0003",
+      "stage22_expert_red_target_train_c:expert-0004",
+      "stage22_expert_red_target_train_c:expert-0005",
+      "stage22_expert_red_target_train_d:expert-0000",
+      "stage22_expert_red_target_train_d:expert-0001",
+      "stage22_expert_red_target_train_d:expert-0002",
+      "stage22_expert_red_target_train_d:expert-0003",
+      "stage22_expert_red_target_train_d:expert-0004",
+      "stage22_expert_red_target_train_d:expert-0005"
+    ],
+    "target_positions_world_m": {
+      "red_target_train_a": [0.3, 0.1, 0.58],
+      "red_target_train_b": [0.3, -0.1, 0.58],
+      "red_target_train_c": [0.3, 0.05, 0.64],
+      "red_target_train_d": [0.3, -0.05, 0.63]
+    },
+    "path": null
+  },
+  "runtime_v2": {
+    "identity_status": "ACCEPTED_READ_ONLY",
+    "protocol_revision": "RUNTIME_PARQUET_PROVENANCE_V2",
+    "schema": "CORELAB_STAGE45B_FULL24_RUNTIME_PARQUET_STATS_V2",
+    "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "bytes": 137169,
+    "normalization": {
+      "mode": "MINMAX_TO_NEG1_POS1",
+      "lower": "q01",
+      "upper": "q99",
+      "use_percentiles": true,
+      "active_physical_dimensions": 10,
+      "inactive_dimensions_excluded": true,
+      "padding_excluded": true,
+      "source": "SEALED_FULL24_TRAIN_PARQUET_LABELS"
+    },
+    "stage22_stats_sha256": "fd2769f4eca4cd578255bd5dd428585906f05d3d1aba3a89747d47b1c1a39b23",
+    "stage22_relative_stats_sha256": "8291ca2f5bc153ae6f75d886746569a31a93c3802ed08f3d03c41a44908f89b1",
+    "historical_b0_stats_sha256": "49c7139dff09d5795e31205c7e72cb11e5801ce5f176572ebc1ec8d91f310c3d",
+    "historical_b0_payload_sha256": "c31c818121ac01a402fc70e577db225ffb6f5d110649aef9dada94338c8a5032",
+    "path": null,
+    "locator": "LATE_BOUND_FROM_GOLDEN_RELEASE_V2"
+  },
+  "groot_runtime": {
+    "identity_status": "ACCEPTED_READ_ONLY",
+    "groot_source_commit_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_materialized_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "training_config_sha256": "9c3cd1d7bea603b95b1c777d8bcfebd61bd7eb5d86ca8ebbc3175f8141498a7c",
+    "runtime_manifest": {
+      "sha256": "a6f803e257ceeb0434027d8a35e32a7b8c66baf8226234bd6299cebf417446f9",
+      "role": "GOLDEN_RELEASE_PROMOTION_MANIFEST_RUNTIME_AUTHORITY",
+      "status": "ACCEPTED_READ_ONLY"
+    },
+    "path": null
+  },
+  "checkpoints": {
+    "integrity_delta_audit_sha256": "a672e39b45e025f9a7681c1a1a45d807dd9be2a4641e54db60b036252bb59539",
+    "materialization": "LATE_BOUND_FROM_GOLDEN_RELEASE_V2",
+    "entries": [
+      {
+        "label": "BASE",
+        "role": "REFERENCE",
+        "tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+        "status": "ACCEPTED_READ_ONLY"
+      },
+      {
+        "label": "STRUCTURED@1000",
+        "role": "HISTORICAL_TINY1_COVERAGE_CONTROL",
+        "tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+        "status": "EXPECTED_IDENTITY_PENDING_VANDA_RECOVERY"
+      },
+      {
+        "label": "FULL24@1000",
+        "role": "PRIMARY_COVERAGE_ENDPOINT",
+        "tree_sha256": "38a00f578eededcebd26fa07ecfdba095a4edc64afd949599f1de5284efea12c",
+        "status": "ACCEPTED_READ_ONLY"
+      },
+      {
+        "label": "FULL24@2000",
+        "role": "SECONDARY_EXPOSURE_ENDPOINT",
+        "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+        "status": "ACCEPTED_READ_ONLY"
+      }
+    ]
+  },
+  "historical_comparator": {
+    "label": "STRUCTURED@1000",
+    "role": "HISTORICAL_TINY1_COVERAGE_CONTROL",
+    "expected_tree_sha256": "30b14d36e47e08dfbb9d3b353d199971863d6e7f6ceedea2d478ef367d0a1137",
+    "expected_file_count": 19,
+    "expected_total_bytes": 20889596357,
+    "expected_structured_action_stats_sha256": "0553436da13b4500e896cf4ec06ef36aba8d230536595cdd219818d912567206",
+    "known_package_sha256": "4e2f5ca562f108b0f0ec55cd97083d163b4e450be0e8c4ae0f1215bf98b458b6",
+    "runtime_materialization_status": "PENDING_VANDA_RECOVERY",
+    "materialization_path": null,
+    "substitution_allowed": false
+  },
+  "sampler_noise_protocol": {
+    "protocol_status": "FROZEN_SEMANTICS_LATE_BOUND_RUNTIME_BYTES",
+    "development_seed": 4242,
+    "noise_generation": "Golden_Release_runtime_RNG_seeded_from_development_seed",
+    "seed_scope": "fixed_seed_4242_for_all_checkpoint_passes; exact_RNG_construction_late_bound_to_Golden_Release",
+    "noise_shape": [1, 40, 132],
+    "same_noise_across_checkpoints": true,
+    "sampler": "source-mapped-four-step-Euler-action-head-graph",
+    "official_public_sampler_called": false,
+    "steps": 4,
+    "dt": 0.25,
+    "timestep_ids": [0, 250, 500, 750],
+    "checkpoint_order": ["BASE", "STRUCTURED@1000", "FULL24@1000", "FULL24@2000"],
+    "windows_per_checkpoint": 24,
+    "planned_forwards_total": 96,
+    "adaptive_extension": false,
+    "noise_hashes": "recorded_per_raw_prediction_artifact_at_execution",
+    "path": null
+  },
+  "structured_action_contract": {
+    "schema": "StructuredActionV1",
+    "geometry": "K16",
+    "timing": "T16",
+    "horizon": "H40",
+    "raw_shape": [1, 40, 132],
+    "decoded_shape": [40, 10],
+    "state_v1_shape": [10],
+    "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
+    "target_xyz_in_model_input": false,
+    "decoder": "go2arx5_vla.stage40_structured_decode.decode_raw_structured_action",
+    "decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+    "normalization": "runtime_v2_stats_only",
+    "path": null
+  },
+  "metric_protocol": {
+    "semantics_source": "ACCEPTED_STAGE44R",
+    "trajectory_function": "go2arx5_vla.evaluation.trajectory_metrics.trajectory_metrics",
+    "comparison_function": "go2arx5_vla.evaluation.trajectory_metrics.comparison_metrics",
+    "trajectory_source_sha256": "913be32a7bc418b3213f7d2277d59831d40fec9ab81a171efc5918bb8e8f5ed4",
+    "comparison_source_sha256": "913be32a7bc418b3213f7d2277d59831d40fec9ab81a171efc5918bb8e8f5ed4",
+    "target_metrics": [
+      "initial_target_distance_m",
+      "minimum_target_distance_m",
+      "final_target_distance_m",
+      "absolute_progress_m",
+      "best_progress_m",
+      "progress_sign",
+      "endpoint_target_vector_cosine",
+      "path_length_m",
+      "roughness_position_second_difference_m"
+    ],
+    "comparison_metrics": [
+      "position_rmse_m",
+      "position_max_abs_m",
+      "endpoint_error_m",
+      "prediction_path_length_m",
+      "expert_path_length_m",
+      "prediction_roughness_position_second_difference_m",
+      "expert_roughness_position_second_difference_m",
+      "roughness_ratio",
+      "eef_rot6d_rmse",
+      "eef_rot6d_max_abs",
+      "gripper_rmse",
+      "gripper_max_abs",
+      "full_action_rmse_mixed_units"
+    ],
+    "progress_definition": "d_start_minus_d_end_in_world_frame_metres",
+    "progress_tolerance_m": 1e-09,
+    "task_success_threshold": null,
+    "safety_gate_allowed": ["ACCEPT", "WARN"],
+    "aggregate": "ordered_per_window_rows_then_target_and_cohort_summaries",
+    "path": null
+  },
+  "output_evidence_schema": {
+    "raw_prediction_schema": {
+      "authority": "go2arx5_vla.evaluation.checkpoint_eval.evaluate_raw_prediction",
+      "form": "external_record_with_hash_bound_raw_artifact"
+    },
+    "per_window_schema": "CORELAB_STAGE45C_TRAIN24_EVALUATION_ROW_V1",
+    "aggregate_schema": "CORELAB_STAGE45C_TRAIN24_EVALUATION_AGGREGATE_V1",
+    "raw_predictions_preserved_separately": true,
+    "required_hashes": [
+      "raw_artifact_sha256",
+      "raw_array_sha256",
+      "decoded_array_sha256",
+      "checkpoint_tree_sha256",
+      "model_runtime_identity_sha256",
+      "noise_sha256"
+    ],
+    "required_order": "target_major_then_snapshot_major",
+    "output_root": null,
+    "output_root_locator": "LATE_BOUND_FROM_VANDA_RUNTIME_ADMISSION"
+  },
+  "locked_inputs": {
+    "Validation-E": "LOCKED",
+    "Holdout-F": "LOCKED",
+    "WBC": "LOCKED",
+    "simulator": "LOCKED",
+    "hardware": "LOCKED",
+    "new_data": "LOCKED"
+  },
+  "execution_boundary": {
+    "model_constructed": false,
+    "model_forward": false,
+    "gr00t_forwards": 0,
+    "gpu": false,
+    "h200": false,
+    "pbs_submissions": 0,
+    "training": false,
+    "optimizer_steps": 0,
+    "checkpoint_recovery_or_transfer": false,
+    "validation_e_read": false,
+    "holdout_f_read": false,
+    "wbc_steps": 0,
+    "simulator_steps": 0,
+    "hardware_execution": false
+  },
+  "late_binding": {
+    "required_before_vanda_integration": [
+      "Golden Release runtime manifest exact hash",
+      "runtime admission exact hash",
+      "output root and raw artifact hashes",
+      "STRUCTURED@1000 materialization exact path and read-only seal"
+    ],
+    "path_policy": "all runtime and checkpoint paths remain manifest-bound and absent here",
+    "historical_structured_1000": "PENDING_VANDA_RECOVERY"
+  },
+  "integration": {
+    "base_sha": "4ff83c03d1071560c99070882ebd86b69c6c92f3",
+    "expected_change_class": "new_candidate_manifest_verifier_report_tests_only",
+    "canonical_stage45c_branch_touched": false,
+    "history_rewrite": false,
+    "merge_performed": false,
+    "final_protocol_freeze_issued": false,
+    "h200_evaluation_authorized_here": false
+  },
+  "return_token": "CORELAB_STAGE45C_LATE_BINDING_CANDIDATE_READY"
+}

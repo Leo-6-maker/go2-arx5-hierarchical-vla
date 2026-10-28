@@ -1,0 +1,48 @@
+{
+  "parent_root": "/home/liuyu-nfs/Projects/go2-arx5/PI0283",
+  "parent_code": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code",
+  "parent_point": "EVENT1024",
+  "allowed_K": [
+    4,
+    16
+  ],
+  "host_caps": {
+    "query": 6272,
+    "head": 100352,
+    "GPU_seconds": 14400
+  },
+  "reserved_other_host": {
+    "query": 128,
+    "head": 2048,
+    "GPU_seconds": 28800
+  },
+  "dependencies": {
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/audit.py": "182c38e43b2229233f46b0198a174ee6a9c0076f6445c61fa0cbbe177f6a1510",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/plan.py": "e8be9fdab5436d1acdcb3ad1c176dfcb5cff89c64c4f938120a1e601c8d94c09",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/authority.py": "7b9721704b36d4ccd36cd7dba5b014770ed670545bbee31b54edcd766deac492",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/canary.py": "db3b0e23a38f9bcb787e861c171d0561ead89f5578d66107b919e18bbc17e315",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/codec.py": "2b2181644b021a0c3b70ca4d4a232a3c194cd96843695c049d592f4ab25200b9",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/continuation.py": "4a7351546e9d561497e2d21268c6f8dbc3a8cc9ff2f573c13286aa87285e8dfd",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/cpu_inputs.py": "a28db8767d4ccfd85d844224e94f55849a99a44a9ea7a6e6022860c374e635d6",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/data.py": "d554fa8051ad9213b535c97a343ae3337a0364b718b6f1d20b0467a9e8949ec7",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/evaluate.py": "1be2274f68e2819963c2badc7606eb7a99d34cae1e32ba9882b8f44f5056ba73",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/inference.py": "65b90f82ad8f5b77631a200f1534381583c9e570543579a20d5a05a9c4efea29",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/launch.py": "4e7438b310495c23fabcbe4466a262f812f506a0c1df36eb239f559bc8798755",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/learning.py": "8c08a758b765d5edcb79dda7ffff9eb5752021b4ebe8a08e5dd10c6ba367f87d",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/model_view.py": "493a160bc03ac37a0eb63e388021a8018e49ffea09a64c709bb764272b19cf8a",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/native_model.py": "8d1c523079fe33c368450809de00b956b7c1fc2ec6e368d51ad1329ab1b60cd3",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/phase.py": "c0233747cd9a663dc561cbbcc67e181707d6eb7020f0cad3b663d52d62d47995",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/scope.py": "c3b697df2adc1eb2dd4c543a8d72ce23648d5d1e7b8564ebbae34e61596fb81b",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/source.py": "1e931308f9f64feb83bdfeb2f47a4320e249e4049990dd2a82f13843fe8c5fee",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/source_launch.py": "482538bec044e4f4166f46c3ca33042a9578ad1b894ed9c3ac778305c34abb40",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/train.py": "937241939919c5043361a40065116523395f7147346581e20f5a8347dd617ed0",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/training_launch.py": "584ac5962e5fcf58cbc75f554a481106cc30ca4c1c08f39454ae8272d2bd0bc6",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/transport.py": "37e8d835af57e832d6e9dcecb97c586dc1e06119c3b94a5d5883481009757ced",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0280/official/gr00t/model/gr00t_n1d7/gr00t_n1d7.py": "6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0280/official/gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0280/official/gr00t/data/state_action/state_action_processor.py": "0151dd0bb6cb727fd401bf78121efc532e7184f2575e6ef25294085f629ac145",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0280/official/gr00t/data/state_action/pose.py": "4a09d0f1da9fe80bd8c3b0788e04c06979666f5dd636a91799a21e7d92c5f808",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0280/official/gr00t/policy/gr00t_policy.py": "ad1183a3ce1ebed6cace4a9cb8c5a123e823a0760ebf46f3694639a5ad1521ec"
+  },
+  "independent_CPU_audit": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/runtime/closed_loop_audit.py"
+}

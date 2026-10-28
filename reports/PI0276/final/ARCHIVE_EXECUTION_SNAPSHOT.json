@@ -1,0 +1,41 @@
+{
+  "captured_utc": "2026-10-06T10:25:22Z",
+  "disk": {
+    "total": 1905283825664,
+    "used": 1381521780736,
+    "free": 426931507200
+  },
+  "processes": {
+    "3348169": {
+      "live": true,
+      "cmdline": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0276/code/archive.py source ",
+      "io": "rchar: 531093741289\nwchar: 148530413264\nsyscr: 26254144\nsyscw: 7961891\nread_bytes: 475841232896\nwrite_bytes: 119806717952\ncancelled_write_bytes: 77828096\n"
+    },
+    "3455362": {
+      "live": true,
+      "cmdline": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0276/code/archive.py predictions ",
+      "io": "rchar: 67145774684\nwchar: 0\nsyscr: 32486\nsyscw: 0\nread_bytes: 66577743872\nwrite_bytes: 0\ncancelled_write_bytes: 0\n"
+    }
+  },
+  "receipts": {
+    "source": {
+      "status": null,
+      "revision": null,
+      "tree_sha256": null
+    },
+    "predictions": {
+      "status": null,
+      "revision": null,
+      "tree_sha256": null
+    },
+    "summary": {
+      "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+      "revision": "5feb031c0b9b789725f1d6098744a8c7ab5f2522",
+      "tree_sha256": "59e22f97e37b01bca41f97254020ee4fec703ecc0a2912c1f13895d699609b12"
+    }
+  },
+  "final_artifact_audit_exists": false,
+  "scope": "Read-only actual archive snapshot, not a completion receipt",
+  "new_model_queries": 0,
+  "new_training_updates": 0
+}

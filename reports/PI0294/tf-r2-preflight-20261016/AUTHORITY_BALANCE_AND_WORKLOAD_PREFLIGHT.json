@@ -1,0 +1,93 @@
+{
+  "status": "READ_COMPLETE_AWAIT_EXPLICIT_TF_R2_WINDOW_AND_PACKAGE_ADOPTION",
+  "fixed_proposal_release": "13c72eca98d682280fa67ec316b909f1aa1fdd5b",
+  "canonical": 6205929222,
+  "engineering_pointer": 6205932540,
+  "old_runtime_state": {
+    "status": "READ_ONLY_EXPIRED_RUN_BALANCE_PREFLIGHT_NOT_ADOPTION",
+    "epoch": 1792118499.1178973,
+    "source": "d3135982f157b72d67788a22cd31f7e5f17220e6",
+    "raw_ledger_sha256": "84534a644a29314a40226cc685b7fa178e09d8cab6096970639268895023772c",
+    "search_ledger_sha256": "ed293f47f22203b24d903c5ee4c23c9bbf2f1a6c2d7d6d317bfca1ad58177c82",
+    "adoption_sha256": "308d96b46f7d718da0f2cad401b00ca5984801c750bfb23095cf75883681ea59",
+    "old_deadline_epoch": 1792116000,
+    "old_hard_deadline_expired": true,
+    "native_active": [],
+    "CPU_reservations": {},
+    "native_lease_obtainable": true,
+    "actual": {
+      "main_starts": 20,
+      "main_integrations": 57909,
+      "RGB_pairs": 768,
+      "Core_CPU_s": 3303.908206758788,
+      "parent_CPU_upper_s": 99946.07684278488,
+      "native_safety_failures": 7,
+      "parent_native_safety_failures": 1
+    },
+    "search_counters": {
+      "goal_IK_calls": 133,
+      "CLIK_reserved": 2128,
+      "RRT_calls": 121,
+      "dense_reserved_points": 344513,
+      "local_IK_reserved": 1722565
+    },
+    "static_reserved": 741483,
+    "remainders": {
+      "R1_CPU_s": 111896.09179324121,
+      "parent64h_after_old_and_R1_CPU_s": 127150.01495045633,
+      "native_starts": 32,
+      "integrations": 3400247,
+      "RGB_pairs": 132404,
+      "planning_bundles": 1084,
+      "CLIK": 266672,
+      "RRT": 5479,
+      "static_plus_dense_remaining": 3914004,
+      "local_IK_remaining_separate_old_cap": 23277435
+    },
+    "proposed_transfer_upper_not_reserved": {
+      "Core_CPU_s": 72000,
+      "native_starts": 32,
+      "integrations": 1616096,
+      "RGB_pairs": 61472,
+      "planning_bundles": 1084,
+      "CLIK": 266667,
+      "RRT": 5479,
+      "static_and_local_points": 2000000
+    },
+    "storage_free_bytes": {
+      "working": 492452962304,
+      "evidence": 1577423208448
+    },
+    "quota": "UNKNOWN",
+    "new_physics": 0,
+    "new_model_queries": 0,
+    "adoption_written": false,
+    "transfer_made": false
+  },
+  "workload": {
+    "basis": "CURRENT_IMPLEMENTATION_NO_NEW_SCIENTIFIC_COMPUTE",
+    "minimum_full_episodes": 13,
+    "includes": "one_seed_plus_two_repeatability_plus_8_TRAIN_plus_2_DEV_all_success_no_engineering_or_quality_failures",
+    "queries_per_96s_episode": 240,
+    "warmup_bundles_per_episode": 1,
+    "minimum_bundles": 3133,
+    "proposed_bundle_cap": 1084,
+    "minimum_dense_geometric_points": 3278470,
+    "minimum_dense_reservations_without_warmup": 3435120,
+    "proposed_static_and_local_point_cap": 2000000,
+    "local_iteration_accounting_must_not_be_treated_as_free": true,
+    "serial_parallel_does_not_reduce_total_query_cost": true,
+    "old_failures_or_development_seeds_count_as_production": false,
+    "conclusion": "S7_FITS_BUT_CURRENT_PER_WINDOW_REPLAN_CANNOT_CLOSE_MINIMUM_BANK_WITH_PROPOSED_SEARCH_CAPS",
+    "engineering_equivalent_reuse_not_yet_proven": true,
+    "no_budget_or_science_changed": true
+  },
+  "adoption_written": false,
+  "successor_T0": "NOT_SET",
+  "transfer_made": false,
+  "runtime_modified": false,
+  "new_physics": 0,
+  "new_model_queries": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

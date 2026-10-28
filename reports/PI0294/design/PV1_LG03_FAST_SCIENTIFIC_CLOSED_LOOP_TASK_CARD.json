@@ -1,0 +1,210 @@
+{
+  "schema": "PI0294_PV1_LG03_FAST_SCIENTIFIC_CLOSED_LOOP_TASK_CARD_V1",
+  "date_SGT": "2026-10-19",
+  "goal_id": "PV1_LG03_FAST_SCIENTIFIC_CLOSED_LOOP_V1",
+  "status": "USER_REQUESTED_HANDOFF_NOT_NATIVE_ADOPTED",
+  "authority_existing_only": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "original_protocol": "docs/protocols/PI0294_PV1_MULTITASK_POLICY_RELEASE_20261019.md",
+  "original_scope": "reports/PI0294/design/PV1_MULTITASK_POLICY_SCOPE_20261019.json",
+  "prior_adopted_long_goal": "docs/handover/2026-10-19/PV1_LONG_GOAL_QUEUE_MEMORY_TO_SHARED_POLICY.md",
+  "canonical_instruction": "docs/handover/2026-10-19/PV1_LG03_FAST_SCIENTIFIC_CLOSED_LOOP.md",
+  "baseline_repository_sha": "917fcda059324961a5c2f10b9f262d2c6711fd03",
+  "baseline_science_source": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-6268758561",
+  "p5_engineering_source": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/47#issuecomment-6268432885",
+  "owner": "EXISTING_SINGLE_LOCAL_PC_COORDINATOR",
+  "concurrency": {
+    "existing_owner_only": true,
+    "subagents_running": 0,
+    "no_new_subagents": true,
+    "one_mutation_owner_per_shared_checkout": true,
+    "one_integration_publisher": true,
+    "max_concurrent_H200": 1,
+    "max_training_on_login_nodes": 0,
+    "do_not_cancel_or_hot_update_active_job": true
+  },
+  "verified_at_snapshot": {
+    "when_SGT": "2026-10-19T21:47:21+08:00",
+    "job_id": "675967.hopper-m-02",
+    "job_last_native_state": "R",
+    "job_runtime_source_sha": "1c4cdc9aac8dbe1748f83f7003a8959842449ed6",
+    "GPU": "1xH200",
+    "host_RAM_request": "128GB",
+    "native_science_status": "PV1_NATIVE_MODEL_READY",
+    "baseline": "B0_CORR@2048",
+    "valid_B0_cells_minimum": 10,
+    "planned_B0_cells": 48,
+    "unresolved_B0_cells_maximum": 38,
+    "original_complete9": {
+      "success": 6,
+      "valid_task_failure": 3
+    },
+    "recovered_one_engineering_incomplete": "DEV/F1/002/T2/N294101-REPLACEMENT-01",
+    "recovered_result": "SUCCESS_REAL_32_SECONDS_RAW_AUDIT_PASS",
+    "newest_condition_started": "DEV/F1/003/T1/N294101",
+    "new_training_updates": 0,
+    "live_state_now": "MUST_RECHECK_NATIVE",
+    "p5_impl": "CPU_CONTRACT_READY_NOT_NATIVE_EVALUATED",
+    "LOCKBOX_opened": false,
+    "selected": "NONE",
+    "real_robot_deployment": "NONE"
+  },
+  "minimum_science_done_requires": [
+    "EXACT_B0_DEV48_COMPLETE_AND_INDEPENDENT_RAW_CAUSAL_AUDIT",
+    "BOTH_PRIMARY_ARMS_4096_ACTUAL_NATIVE_OPTIMIZER_UPDATES_SAME_PARENT_AND_SAMPLER_CONTRACT",
+    "A_CONTROL_DEV48_COMPLETE_AUDITED",
+    "B_COVERAGE_DEV48_COMPLETE_AUDITED",
+    "ALL_THREE_CANDIDATES_SAME_FROZEN_TASK_SCENE_NOISE_PLAN",
+    "A_VERSUS_B_AND_B_VERSUS_B0_TASKWISE_EFFECTS_AND_FAILURE_TYPES_PUBLISHED",
+    "ACTUAL_RESOURCE_AND_FULL_STATE_CHECKPOINT_EVIDENCE_CLOSED",
+    "IF_NO_SUCCESS_DELIVER_SCIENTIFIC_NEGATIVE_NO_FALSE_V1"
+  ],
+  "policy_V1_only_when": {
+    "candidate_DEV_each_task_min_success_out_of24": 18,
+    "retain_B0_each_task_no_decline_more_than1": true,
+    "worst_task_net_improvement_required": true,
+    "same_shared_weights_for_T1_T2": true,
+    "unique_candidate_frozen_pre_lockbox": true,
+    "lockbox_conditions": 80,
+    "candidate_validated_each_task_success_min_out_of40": 32,
+    "candidate_beta_each_task_success_min_out_of40": 28,
+    "invalid_if_no_DEV_qualification": true,
+    "no_real_robot_deployment_claim": true,
+    "replica_omitted_max_grade": "PV1_BETA"
+  },
+  "while_GPU_busy_CPU_lanes": [
+    {
+      "priority": 1,
+      "id": "C1",
+      "task": "Existing owner liveness plus read-only audit and prior-case evidence reconciliation, no repeat of valid B0 episodes",
+      "disable_if": "RISKS_REMOTE_HEARTBEAT_OR_LIVE_JOB"
+    },
+    {
+      "priority": 2,
+      "id": "C2",
+      "task": "Preseal A/B independent cold-input and manifest/recipe/sampler/checkpoint/test readiness using fixed bank and common CORR2048 parent; no new job submit",
+      "deliverable": "A_AND_B_PREPARED_NOT_SUBMITTED",
+      "new_PBS_submissions_from_preparation": 0
+    },
+    {
+      "priority": 3,
+      "id": "C3",
+      "task": "Fresh read-only all-site remaining-mandatory-work forecast with source actual costs, 1024 probes, 4096 endpoints, A/B DEV48 each, final protected 80, qualification and closeout",
+      "deliverable": "BOUNDED_RUNWAY_WITH_EXPLICIT_UNKNOWN_AND_HARD_CAP"
+    },
+    {
+      "priority": 4,
+      "id": "C4",
+      "task": "Reuse existing P5 native cold path/offline package CPU tests, no real LOCKBOX open or redundant rewrite",
+      "skip_if": "C1_TO_C3_OR_GPU_JOB_NEED_RESOURCES"
+    }
+  ],
+  "post_B0_workflow": [
+    {
+      "stage": "G0_B0",
+      "requires": "KEEP_EXISTING_675967_ACTIVE_WITH_NATIVE_GUARDS",
+      "done": "EXACT_COMPLETE_ALL48_AND_ALL_EFFECTS_RECONCILED"
+    },
+    {
+      "stage": "G1_A",
+      "requires": "G0_DONE_AND_ACTUAL_RESOURCE_AND_OWNED_JOB_GATES",
+      "run": "A_CONTROL_1024_TRAIN_PROBES_THEN_EXACT_RESUME_TO4096"
+    },
+    {
+      "stage": "G1_B",
+      "requires": "G0_DONE_AND_ACTUAL_RESOURCE_AND_OWNED_JOB_GATES",
+      "run": "B_COVERAGE_1024_TRAIN_PROBES_THEN_EXACT_RESUME_TO4096"
+    },
+    {
+      "stage": "G1_COMPARE",
+      "requires": "BOTH_4096_TERMINAL_AND_DEV48_EACH",
+      "done": "MATCHED_AB_SCIENCE_REVIEW_ALL_TRUE_OUTCOMES"
+    },
+    {
+      "stage": "G2_DEV_SELECT",
+      "requires": "ORIGINAL_WORST_TASK_MACRO_S1_COMPLEXITY_ID_GATES",
+      "done": "ONE_QUALIFIED_CANDIDATE_OR_SCIENTIFIC_NEGATIVE"
+    },
+    {
+      "stage": "G3_OPTIONAL_REPLICA",
+      "requires": "ONLY_IF_ACTUAL_ALL_RESOURCE_REMAINING_AFTER_P5_PROTECTION",
+      "skip_default": true
+    },
+    {
+      "stage": "G4_P5",
+      "requires": "ONE_QUALIFIED_FROZEN_CANDIDATE_AND_P5_NATIVE_ACTUAL_ADMISSION_AND_PROTECTED_FINISHABLE_BUDGET",
+      "done": "80_INDEPENDENTLY_AUDITED_CONDITIONS_AND_RUNNABLE_RESEARCH_POLICY_OR_EXACT_BLOCKER"
+    }
+  ],
+  "sampling": {
+    "source_parent": "S_CORR_2048",
+    "parent_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "unchanged_statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "HF_bank_fixed_revision": "e4f603a1b768018077a8b5c9640250be67500902",
+    "train_new_episodes": 139,
+    "train_new_scene_groups": 77,
+    "paired_new_groups": 62,
+    "action_contract": "EEF10_H40_PREFIX8",
+    "route": "COVERAGE_FIRST",
+    "tune_visual_language": false,
+    "primary_train_arms": [
+      "A_CONTROL",
+      "B_COVERAGE"
+    ],
+    "optimizer_updates_each": 4096,
+    "effective_batch": 32,
+    "microbatch": 2,
+    "grad_accum": 16,
+    "native_1024_probes_are_not_DEV_selection": true,
+    "no_change_loss_stats_action_codec_or_execution_safety": true
+  },
+  "budgets_unchanged": {
+    "global_H200_hours_max": 96,
+    "H200_PBS_submissions_max": 24,
+    "H200_concurrent_max": 1,
+    "H200_job_wall_hours_max": 8,
+    "H200_final_protected_hours": 20,
+    "optimiser_updates_campaign_max": 16384,
+    "neural_queries_campaign_max": 48000,
+    "no_new_science_or_resource_GO_by_handoff": true,
+    "all_CPU_physics_constructor_IO_storage_and_query_limits": "ORIGINAL_SCOPE_AND_SITE_SMALLER_WINS",
+    "original_T0_SGT": "2026-10-19T02:29:56+08:00",
+    "stop_new_job_SGT": "2026-10-25T02:29:56+08:00",
+    "stop_new_training_SGT": "2026-10-25T14:29:56+08:00",
+    "stop_new_physics_SGT": "2026-10-25T18:29:56+08:00",
+    "hard_closeout_SGT": "2026-10-26T02:29:56+08:00"
+  },
+  "protections": [
+    "NO_WBC_LEG_PLANT_GRIPPER_PD_S1_SCORE_OR_STATS_CHANGES",
+    "NO_WORLD_MODEL_NEW_DAGGER_NEW_DATASET_HORIZON_OR_LOSS_UNDER_THIS_GOAL",
+    "NO_REPEAT_OF_KNOWN_VALID_FAILURE_OR_ENGINEERING_REPLACEMENT",
+    "NO_B0_GATE_REMOVAL_OR_PROTOCOL_AMENDMENT_WITHOUT_SEPARATE_GO",
+    "NO_LOCKBOX_USE_BEFORE_UNIQUE_DEV_FROZEN_CANDIDATE",
+    "NO_FAKE_ORACLE_SUCCESS_OR_UNEXECUTED_ACTION_NEXT_STATE",
+    "NO_DUPLICATE_PBS_SUBMISSIONS_OR_UNRECONCILED_SIDE_EFFECT_RETRY",
+    "NO_HOT_CAPSULE_UPDATES_OR_UNAUTHORIZED_ASYNC_AGENT",
+    "NO_UNQUALIFIED_MODEL_CALLED_PV1_VALIDATED"
+  ],
+  "stop_states": [
+    "STOPPED_BY_SAFETY",
+    "UNKNOWN_EFFECTS_BLOCKED",
+    "CLOSED_RESOURCE_BLOCKED",
+    "SCIENTIFIC_NEGATIVE_CLOSED",
+    "EXACT_AUTHORITY_AMENDMENT_REQUIRED",
+    "POLICY_RELEASED"
+  ],
+  "evidence_issue_science": 11,
+  "evidence_issue_engineering": 47,
+  "owner_adoption_receipt": "FAST_SCIENCE_GOAL_ADOPTED",
+  "report_when": "NATIVE_NEW_RESULT_OR_MATERIAL_CHANGE; AT_MOST_EVERY_4_ACTIVE_HOURS; NO_POLL_SPAM",
+  "future_model_forbidden_under_current_scope": true,
+  "publication_effects": {
+    "new_PBS": 0,
+    "cancelled_PBS": 0,
+    "model_loads": 0,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "changed_current_job": 0,
+    "WBC_mutation": 0
+  }
+}

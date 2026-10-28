@@ -1,0 +1,132 @@
+{
+  "schema": "PI0294_R3_EXPLICIT_MODE_SEPARATED_AUTHORITY_V1",
+  "run_uuid": "20261014T121640Z-incoming-pi0294-r3",
+  "status": "ADOPTED_RUNTIME_AND_SCIENCE_NOT_YET_QUALIFIED",
+  "authorizes_execution": true,
+  "owner": "EXISTING_LOCAL_PC",
+  "approval_source": "DIRECT_HUMAN_REPLY_TO_MERGED_R3_QUESTION",
+  "approval_text": "采用完整R3，含脱敏checkpoint发布",
+  "approval_sha256": "986da73eac215b62667e037d905e53c8508093748a0757a67a142574e611be33",
+  "proposal_release": "6b3455bd3cf0d336c9129d809206842901d21e66",
+  "T0_epoch": 1791980200,
+  "new_work_cutoff_epoch": 1792005400,
+  "deadline_epoch": 1792009000,
+  "T0_SGT": "2026-10-14 20:16:40 +08:00",
+  "cutoff_SGT": "2026-10-15 03:16:40 +08:00",
+  "deadline_SGT": "2026-10-15 04:16:40 +08:00",
+  "reset_on_reconnect": false,
+  "old_clocks_or_balances_reused": false,
+  "mode_authority": {
+    "OFFLINE_TRAIN_ALLOWED_WITH_P1_D1_UNQUALIFIED": true,
+    "LIVE_MODEL_EXECUTION_REQUIRES_S1_QUALIFIED": true,
+    "S1_IS_SIMULATOR_PRIVILEGED_REJECT_ONLY_PREFLIGHT": true
+  },
+  "limits": {
+    "wall_hours_from_explicit_adoption": 8,
+    "closeout_last_hours": 1,
+    "clock_reset_on_reconnect": false,
+    "new_PBS_calls": 2,
+    "H200_allocated_hours": 6,
+    "team_concurrent_H200": 1,
+    "account_independent_allocations": 2,
+    "reserve_GPU_hours_for_eval": 2,
+    "new_formal_updates": 1536,
+    "isolated_engineering_updates": 4,
+    "generation_intents": 1600,
+    "Core_CPU_core_hours": 24,
+    "Core_concurrent_cores": 8,
+    "Hopper_CPU_core_hours": 16,
+    "main_or_diagnostic_starts": 32,
+    "main_or_diagnostic_integrations": 512000,
+    "main_RGB_pairs": 20512,
+    "auxiliary_diagnostic_render_calls": 120,
+    "shadow_advance_invocations": 2500,
+    "shadow_integrations": 600000,
+    "all_integrations": 1112000,
+    "new_Core_peak_GiB": 16,
+    "new_Hopper_peak_GiB": 120,
+    "new_local_peak_GiB": 2,
+    "Hopper_personal_margin_GiB": 20,
+    "public_sanitized_checkpoint_count": 1,
+    "public_sanitized_checkpoint_total_GiB": 30,
+    "new_TRAIN_collection": 0,
+    "WBC_or_hardware_calls": 0,
+    "historical_deletions": 0
+  },
+  "training": {
+    "from_global_step": 512,
+    "from_consumed_samples": 16384,
+    "new_formal_updates": 1536,
+    "target_global_step": 2048,
+    "optimizer_RNG_scheduler_sampler_restore": "FULL_STATE_REQUIRED",
+    "scheduler_horizon": 6144,
+    "warmup_steps": 308,
+    "microbatch": 2,
+    "gradient_accumulation": 16,
+    "effective_batch": 32,
+    "workers": 0,
+    "learning_rate": 0.0001,
+    "bf16": true,
+    "numerical_mode": "DETERMINISTIC_CUDA_MATH_SDP_V1",
+    "frozen_VLM": true,
+    "train_projector_and_DiT": true,
+    "native_masked_flow_matching": true,
+    "data": "v3.0_UNCHANGED",
+    "task_phase_sampling": "ORIGINAL_PI0294_UNCHANGED",
+    "pristine_restart": false,
+    "M4096_and_M6144": "OUT_OF_SCOPE",
+    "local_ready_independent_of_remote_archive": true
+  },
+  "source_pins": {
+    "R2_scientific_source": "43ced701d73f1df73389711f03b5b5ed68c90867",
+    "R1_original_runtime": "021d813fd669561a24ffbf89431a4a9812e0f2ca",
+    "neural_parent": "a171997a704072e127d16410ba584c8aa0ddd573",
+    "official_gr00t": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "base_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "M512_private_inventory": "6fdc10c2cfb13841bbabd444aa0ab8a4a6aef09adfbffae7d5fb4dee24747a8a",
+    "M512_public_READY": "c698f54d0fc422ebfdd1e2ce1fc96552b6930c52",
+    "v3_0_manifest": "b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df",
+    "v3_0_statistics": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7"
+  },
+  "evaluation_panels": {
+    "TRAIN_groups": [
+      "PI0294/TRAIN/F0/000",
+      "PI0294/TRAIN/F1/000"
+    ],
+    "tasks_each_group": [
+      "T1",
+      "T2"
+    ],
+    "TRAIN_checkpoints": [
+      512,
+      2048
+    ],
+    "DEV_groups": [
+      "PI0294/DEV/F0/000",
+      "PI0294/DEV/F1/000",
+      "PI0294/DEV/F2/000",
+      "PI0294/DEV/F1/001"
+    ],
+    "DEV_checkpoints": [
+      2048
+    ],
+    "planned_live_episodes_including_Teacher": 20,
+    "rejected_episodes_remain_in_success_denominator": true,
+    "independent_confirmation_opened": false,
+    "new_candidate_selection": false,
+    "report_identity": "CHECKPOINT_PLUS_D0_PLUS_S1_NOT_UNFILTERED_POLICY"
+  },
+  "public_checkpoint": {
+    "authorized": true,
+    "count": 1,
+    "total_GiB": 30,
+    "sanitized_only": true,
+    "public_raw_video_WBC": false
+  },
+  "original_P1": "FAIL_IMMUTABLE",
+  "original_D1": "NONE",
+  "original_R2_candidate": "RETIRED",
+  "stage_dependency": "OFFLINE_INPUTS_AND_FULLSTATE_INDEPENDENT_OF_CONTACT_AND_S1;LIVE_DEPENDS_ON_S1",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

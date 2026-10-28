@@ -1,0 +1,273 @@
+{
+  "hinge_epsilon_rad": 0.0001,
+  "slide_epsilon_m": 1e-06,
+  "hinge_immediate_rad": 0.001,
+  "slide_immediate_m": 0.0001,
+  "sustained_epsilon_stop_s": 0.02,
+  "source": "PI0288 fixed release section3",
+  "loaded_joints": [
+    {
+      "name": "",
+      "type": 0,
+      "limited": 0,
+      "qposadr": 0,
+      "dofadr": 0,
+      "range": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FL_hip_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 7,
+      "dofadr": 6,
+      "range": [
+        -1.0472,
+        1.0472
+      ]
+    },
+    {
+      "name": "FL_thigh_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 8,
+      "dofadr": 7,
+      "range": [
+        -1.5708,
+        3.4907
+      ]
+    },
+    {
+      "name": "FL_calf_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 9,
+      "dofadr": 8,
+      "range": [
+        -2.7227,
+        -0.83776
+      ]
+    },
+    {
+      "name": "FR_hip_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 10,
+      "dofadr": 9,
+      "range": [
+        -1.0472,
+        1.0472
+      ]
+    },
+    {
+      "name": "FR_thigh_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 11,
+      "dofadr": 10,
+      "range": [
+        -1.5708,
+        3.4907
+      ]
+    },
+    {
+      "name": "FR_calf_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 12,
+      "dofadr": 11,
+      "range": [
+        -2.7227,
+        -0.83776
+      ]
+    },
+    {
+      "name": "RL_hip_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 13,
+      "dofadr": 12,
+      "range": [
+        -1.0472,
+        1.0472
+      ]
+    },
+    {
+      "name": "RL_thigh_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 14,
+      "dofadr": 13,
+      "range": [
+        -0.5236,
+        4.5379
+      ]
+    },
+    {
+      "name": "RL_calf_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 15,
+      "dofadr": 14,
+      "range": [
+        -2.7227,
+        -0.83776
+      ]
+    },
+    {
+      "name": "RR_hip_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 16,
+      "dofadr": 15,
+      "range": [
+        -1.0472,
+        1.0472
+      ]
+    },
+    {
+      "name": "RR_thigh_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 17,
+      "dofadr": 16,
+      "range": [
+        -0.5236,
+        4.5379
+      ]
+    },
+    {
+      "name": "RR_calf_joint",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 18,
+      "dofadr": 17,
+      "range": [
+        -2.7227,
+        -0.83776
+      ]
+    },
+    {
+      "name": "x5_joint1",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 19,
+      "dofadr": 18,
+      "range": [
+        -2.094,
+        3.14159
+      ]
+    },
+    {
+      "name": "x5_joint2",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 20,
+      "dofadr": 19,
+      "range": [
+        0,
+        3.665
+      ]
+    },
+    {
+      "name": "x5_joint3",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 21,
+      "dofadr": 20,
+      "range": [
+        0,
+        3.24
+      ]
+    },
+    {
+      "name": "x5_joint4",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 22,
+      "dofadr": 21,
+      "range": [
+        -1.671,
+        1.671
+      ]
+    },
+    {
+      "name": "x5_joint5",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 23,
+      "dofadr": 22,
+      "range": [
+        -1.671,
+        1.671
+      ]
+    },
+    {
+      "name": "x5_joint6",
+      "type": 3,
+      "limited": 1,
+      "qposadr": 24,
+      "dofadr": 23,
+      "range": [
+        -2.094,
+        2.094
+      ]
+    }
+  ],
+  "first_step_positive_violations": [
+    {
+      "joint": "FL_calf_joint",
+      "q": -0.008233293493700035,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "positive_violation": 0.8295267065062999,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": true
+    },
+    {
+      "joint": "FR_calf_joint",
+      "q": -0.008233293635162245,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "positive_violation": 0.8295267063648377,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": true
+    },
+    {
+      "joint": "RL_calf_joint",
+      "q": -0.008233121658031509,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "positive_violation": 0.8295268783419685,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": true
+    },
+    {
+      "joint": "RR_calf_joint",
+      "q": -0.008233121775140066,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "positive_violation": 0.8295268782248599,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": true
+    },
+    {
+      "joint": "x5_joint2",
+      "q": -0.000140333787240693,
+      "lower": 0,
+      "upper": 3.665,
+      "positive_violation": 0.000140333787240693,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": false
+    }
+  ],
+  "unmodified_raw_limits": true,
+  "contact_whitelist": [
+    "FL-floor",
+    "FR-floor",
+    "RL-floor",
+    "RR-floor"
+  ]
+}

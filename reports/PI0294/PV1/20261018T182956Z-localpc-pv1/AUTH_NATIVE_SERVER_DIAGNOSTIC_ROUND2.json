@@ -1,0 +1,102 @@
+{
+  "schema": "PI0294_PV1_AUTH_NATIVE_SERVER_DIAGNOSTIC_V1",
+  "status": "NATIVE_AUTH_BLOCKED_SERVER_HTTP401_NO_NEW_ALLOCATION",
+  "engineering_goal": "5d1393154054b977134b7d8c456f66ca478d0bf9",
+  "previous_repair_commit": "3358225481510b159f90f90c6b78422b8a00b764",
+  "previous_exact_CI": {
+    "run": 39434247735,
+    "job": 118666963183,
+    "conclusion": "success"
+  },
+  "updated_UTC": "2026-10-20T14:05:50Z",
+  "repair_round": 2,
+  "distinct_diagnostic": "OFFICIAL_NORMAL_LOGIN_SOCKET_AND_HTTP_STATUS_ONLY",
+  "native_evidence": {
+    "official_CLI_version": "2024.1.0",
+    "entry_sha256": "76052027cebd66a7f4e149a4d2cab9091b26a45795f343a871088e3f4892df6a",
+    "principal": "e1192548",
+    "same_context_before_after": true,
+    "context_fingerprint": "614b7e4e90f60bc5df7c626daeee8810d3649b6d9d2d52b9f057c3ec4fa00401",
+    "normal_login": {
+      "password_prompt_answered": true,
+      "CLI_exit_status": 1,
+      "official_API_HTTP_status": 401,
+      "HTTP_response_elapsed_s": 10.043156144209206,
+      "operation_elapsed_s": 10.195413182023913,
+      "socket_connection_observed": true,
+      "private_endpoint": "REDACTED_FROM_PUBLIC_REPORT",
+      "transport_receipt_sha256": "abababb530e3797310361967df0cff5f9566996eefc2b58c47af031677b661bb"
+    },
+    "auth_cache_metadata_only": {
+      "owned_by_current_uid": true,
+      "mode": "0600",
+      "readable": true,
+      "writable": true,
+      "parent_writable": true,
+      "diagnostic_collected_credential_content": false,
+      "cache_path": "PRIVATE_RUNMAP_ONLY"
+    },
+    "supported_official_logout": {
+      "documented_by_installed_help": true,
+      "executed_once_after_own_queue_verified_empty": true,
+      "CLI_exit_status": 1,
+      "manual_cache_or_token_file_edits": 0,
+      "fresh_project_query_after": "PV1_PROJECT_AUTH_EXPIRED_15006"
+    },
+    "fresh_project_query_after_login": "PV1_PROJECT_AUTH_EXPIRED_15006",
+    "membership_and_balance_freshly_verified": false,
+    "specific_password_error_proven": false,
+    "human_only_auth_boundary_proven": false,
+    "MFA_challenge_observed": false,
+    "token_TTL": "UNKNOWN_NOT_EXPOSED_BY_SUPPORTED_CLI",
+    "HTTP_headers_or_bodies_recorded": false,
+    "raw_CLI_output_logged": false,
+    "password_or_token_saved": false,
+    "credential_in_arguments": false,
+    "MFA_bypassed": false
+  },
+  "code_correction": {
+    "reason": "CLI_TIMEOUT_WORDING_IS_NOT_PROOF_OF_NETWORK_FAILURE_OR_A_HUMAN_ONLY_CHALLENGE",
+    "nonzero_login": "AUTHENTICATION_UNAVAILABLE_REQUIRES_NATIVE_READBACK",
+    "human_auth_required": "ONLY_EXPLICIT_MFA_OR_CAPTCHA_PROMPT",
+    "SSH_return_255": "SEPARATE_SSH_TRANSPORT_FAILURE",
+    "sha256": {
+      "scripts/pi0294/pv1/auth_lifecycle.py": "9c920ab60ce1a5561ffcfcfc3d98d2993dbd6f053ea194364ba0111d6d6ac431",
+      "scripts/pi0294/test_pv1_auth_lifecycle.py": "642a53dfae83ee62df1cbda9cbb8eafaa5dca014fcee17a2c1affb6cadf43999"
+    },
+    "focused_tests": 27,
+    "previous_source_full_local_tests": 967,
+    "previous_source_full_local_subtests": 836,
+    "new_source_exact_CI": "REQUIRED_AFTER_PUSH_NOT_PRECLAIMED"
+  },
+  "accounting": {
+    "charged_to_original_PV1": true,
+    "idempotent_settlement_key": "POST_CR1_AUTH_NATIVE_TRANSPORT_DIAG_ROUND2",
+    "local_CPU_upper_s": 300,
+    "Hopper_CPU_upper_s": 180,
+    "Core_CPU_s": 0,
+    "campaign_H200_used_s": 20473,
+    "H200_reserved_s": 0,
+    "PBS_used": 10,
+    "new_PBS": 0,
+    "new_model_loads": 0,
+    "new_queries": 0,
+    "new_episodes": 0,
+    "new_physics": 0,
+    "new_optimizer_updates": 0,
+    "unknown_effects": []
+  },
+  "current_native_queue": "NO_OWN_ACTIVE_JOBS",
+  "child11_leases": "BOTH_CLOSED",
+  "new_child_bound": false,
+  "new_owner_loop_started": false,
+  "B0": {"valid": 14, "total": 48, "successes": 9, "valid_task_failures": 5, "remaining": 34},
+  "optimizer_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "original_freezes_budget_and_deadline": "UNCHANGED",
+  "CR1_COV1": "CLOSED_UNCHANGED",
+  "CR2": "AWAITING_EXPLICIT_SCIENCE_GO",
+  "next_required_gate": "REAL_SAME_CONTEXT_OFFICIAL_AUTH_AND_FRESH_ACTIVE_MEMBER_CLUSTER_BALANCE_PROOF",
+  "not_a_remedy": ["MORE_PBS", "RELAX_175_SECONDS", "FAKE_PROJECT_PROOF", "REPLAY_TERMINAL_CHILD", "REPEAT_UNCHANGED_PASSWORD_ATTEMPTS"]
+}

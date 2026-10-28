@@ -1,0 +1,92 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Fresh native admission and one-shot PBS submission for the authorized R1."""
+import argparse
+import time
+from pi0294_r1_prepare import BASE,RUN,save
+from pi0294_remote import remote_multiplexed
+
+CODE=r'''
+import json,os,shlex,shutil,subprocess,sys,time,uuid
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import OwnerLock,read,write
+from scripts.pi0292.allocation_admission import owned_jobs,personal_quota,current_project
+from scripts.pi0294.continuation import validate_entry,CUTOFF
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='hopper-neural');lock=OwnerLock(root/'PBS_SUBMIT.lock')
+l=read(root/'HOPPER_RESOURCE_LEDGER.json');assert not l['CPU_reserved_s'] and not l['GPU_reserved_s'] and not l['pending_updates']
+assert len(l['PBS_submissions'])<3 and all(x['status']=='RECONCILED_TERMINAL' for x in l['PBS_submissions'])
+assert l['main_updates']==512 and l['generation_queries']==0,'FIRST_EVAL_ALLOCATION_ONLY'
+cpu=read(root/'evidence/model-M512/CPU_INPUT_QUALIFICATION.json')
+assert cpu['status']=='PASS_ACTUAL_TRAIN4_OBSERVATION_ONLY_CPU_INPUTS_AND_FIXED_LOCAL_MODEL_REGISTRY'
+assert cpu['source_sha']==m['code']['vla_commit'] and not cpu['CUDA_initialized'] and not cpu['model_loaded']
+wall=21600;assert time.time()+wall+600<CUTOFF
+assert l['GPU_allocated_s']+wall<=28800
+jobs=owned_jobs(os.environ['USER']);peers={k:v for k,v in jobs.items() if int(v.get('Resource_List',{}).get('ngpus',0))>0}
+assert len(peers)<=1 and all(v['job_state']=='R' and int(v['Resource_List']['ngpus'])==1 for v in peers.values())
+owned=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
+peak=90*1024**3;remaining=peak-owned;assert 0<remaining and shutil.disk_usage(root).free>=remaining+20*1024**3
+quota=personal_quota(os.environ['USER']);assert 0<=time.time()-quota['report_epoch']<=900 and quota['hard_bytes']-quota['used_bytes']>=remaining+20*1024**3
+if ACTION=='plan':
+ print(json.dumps(dict(status='PLAN_ONLY_NO_AUTH_REFRESH_NO_PBS',walltime_s=wall,queue='auto',project='CFP04-CF-007',
+  source_sha=m['code']['vla_commit'],source_root=str(source),own_GPU_jobs=len(peers),quota_headroom_bytes=quota['hard_bytes']-quota['used_bytes'],
+  predicted_union_owned_peak_bytes=peak,remaining_new_peak_bytes=remaining,CPU_new_charged_s=l['CPU_s'],PBS_used=len(l['PBS_submissions']))))
+ lock.close();raise SystemExit(0)
+project=current_project(executable='/opt/am/python/bin/amgr')
+nonce=str(uuid.uuid4());rid='eval-first-'+str(len(l['PBS_submissions'])+1).zfill(2)
+d=root/'pbs'/rid;d.mkdir(exist_ok=False)
+project.update(run_uuid=RUN,request_nonce=nonce);write(d/'PROJECT_ADMISSION.private.json',project)
+b=read(root/'NEURAL_BINDINGS.private.json');script=d/'job.pbs';request_path=d/'REQUEST.json'
+text='\n'.join(['#!/bin/bash -l','#PBS -N PI0294-r1-eval','#PBS -P CFP04-CF-007','#PBS -q auto',
+ '#PBS -l select=1:ncpus=12:mem=225gb:ngpus=1','#PBS -l walltime=06:00:00','#PBS -j oe','#PBS -o '+str(d/'pbs.log'),
+ 'set -eu','export PYTHONDONTWRITEBYTECODE=1','export PYTHONPATH='+shlex.quote(str(source/'src')+':'+str(source)),
+ 'export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1',
+ 'export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1',
+ 'cd '+shlex.quote(str(source)),
+ 'exec '+shlex.join([b['python'],'-m','scripts.pi0294.allocation_admission',str(request_path)]),''])
+with script.open('x') as f:f.write(text);f.flush();os.fsync(f.fileno())
+request=dict(root=str(root),request_id=rid,stage='continuation',mode='continuation',allowed_modes=['continuation'],
+ source_sha=m['code']['vla_commit'],run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),code_seal_sha256=m['code']['source_seal_sha256'],
+ bindings=str(root/'NEURAL_BINDINGS.private.json'),bindings_sha256=sha(root/'NEURAL_BINDINGS.private.json'),python=b['python'],
+ request_nonce=nonce,walltime_s=wall,predicted_total_owned_peak_bytes=peak,predicted_remaining_peak_bytes=remaining,
+ project_admission_sha256=sha(d/'PROJECT_ADMISSION.private.json'),allowed_peer_ids=sorted(peers),
+ prior_GPU_allocated_s=l['GPU_allocated_s'],submit_count=len(l['PBS_submissions'])+1,
+ numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',microbatch=2,workers=0,script_sha256=sha(script))
+write(request_path,request)
+diagdir=d/'diagnostic-M512';diagdir.mkdir()
+shutil.copyfile(d/'PROJECT_ADMISSION.private.json',diagdir/'PROJECT_ADMISSION.private.json')
+(diagdir/'PROJECT_ADMISSION.private.json').chmod(0o600)
+identity=read(root/'evidence/model-M512/IDENTITY.json')
+ready=read(root/'evidence/local-M512-01/identity/LOCAL_READY.private.json')
+assert identity['global_step']==512 and ready['status']=='LOCAL_CHECKPOINT_READY'
+child=dict(request,mode='resident',stage='resident',allowed_modes=['resident'],resident_operation='TRAIN_DIAGNOSTIC',
+ parent_request_relative=str(request_path.relative_to(root)),parent_request_sha256=sha(request_path),
+ checkpoint=ready['source_directory'],identity=str(root/'evidence/model-M512/IDENTITY.json'),
+ directory=str(root/'evidence/model-M512/offline'),diagnostic_plan=str(root/'evidence/model-M512/DIAGNOSTIC_PLAN.json'),
+ diagnostic_plan_sha256=sha(root/'evidence/model-M512/DIAGNOSTIC_PLAN.json'))
+write(diagdir/'REQUEST.json',child)
+entry=dict(request_id=rid,stage='continuation',status='SUBMITTING',job_id=None,submitted_epoch=time.time(),
+ source_sha=request['source_sha'],request_sha256=sha(request_path),GPU_reserved_s=wall)
+l['PBS_submissions'].append(entry);l['GPU_reserved_s']+=wall;write(root/'HOPPER_RESOURCE_LEDGER.json',l)
+try:r=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qsub',str(script)],cwd=d,capture_output=True,text=True,timeout=30)
+except BaseException as e:
+ entry.update(status='SUBMISSION_OUTCOME_UNKNOWN_NO_RETRY',error_type=type(e).__name__);write(root/'HOPPER_RESOURCE_LEDGER.json',l);raise
+if r.returncode or not r.stdout.strip() or '\n' in r.stdout.strip():entry.update(status='SUBMISSION_FAILED_OR_UNKNOWN_NO_RETRY',error_type='PBS_RESPONSE_NOT_SUCCESS')
+else:entry.update(status='SUBMITTED',job_id=r.stdout.strip())
+write(root/'HOPPER_RESOURCE_LEDGER.json',l);write(d/'SUBMISSION.json',entry)
+if entry['status']=='SUBMITTED':
+ # Only the admitted parent executes this; no model work occurs on login.
+ write(d/'SEALED_DIAGNOSTIC_FIRST_STAGE.json',dict(run_uuid=RUN,job_id=entry['job_id'],sequence=0,mode='resident',
+  request_relative=str((diagdir/'REQUEST.json').relative_to(root)),request_sha256=sha(diagdir/'REQUEST.json')))
+lock.close();print(json.dumps(entry))
+'''
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['plan','submit']);a=p.parse_args()
+    r=remote_multiplexed('hopper','RUN='+repr(RUN)+'\nACTION='+repr(a.action)+'\n'+CODE)
+    save(BASE/('PBS_'+a.action+'_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    print(r.stdout if r.returncode==0 else 'PBS_PREFLIGHT_OR_SUBMISSION_FAILED_INSPECT_PRIVATE_RECEIPT_NO_RETRY')
+    assert r.returncode==0

@@ -1,0 +1,56 @@
+{
+  "status": "PASS_INDEPENDENT_RECONCILIATION_OF_VALID_NATIVE_STARTUP_SAFETY_FAIL",
+  "quality": "NO_TARGET_SUCCESS",
+  "physical_source": "34e9ac3a09dae4cea385478a0ae468b97a4d8c30",
+  "audit_source": "257d9b9ebcb2d0e51c41106854229d190cc6ef40",
+  "original_native_stop": [
+    {
+      "kind": "stop",
+      "reason": "REGISTERED_JOINT_SAFETY",
+      "steps": 22
+    }
+  ],
+  "native_integrations": 22,
+  "native_time_s": 0.044,
+  "task_submissions": 0,
+  "task_observations": 0,
+  "new_task_RGB_pairs": 0,
+  "actual_task_object_contact": false,
+  "high_rate_raw_range_PASS": false,
+  "crossing_joints": [
+    {
+      "joint": "FL_calf_joint",
+      "range": [
+        -2.7227,
+        -0.83776
+      ],
+      "min_q": -2.7724534831678347,
+      "max_q": -1.5000000000005864,
+      "crossing_samples": 1,
+      "first_crossing_step": 22,
+      "last_crossing_step": 22
+    }
+  ],
+  "actual_initialization": {
+    "status": "PASS_REAL_MJDATA_EQUALS_PREEXECUTION",
+    "qpos_sha256": "7b73d50c4979863d0ac3c28fc12d70cf05ae74088f72862dc139c5fd5babf3c2",
+    "finger_qpos_m": [
+      0.002,
+      0.002
+    ],
+    "table_top_m": 0.47,
+    "time_s": 0,
+    "physics_before_audit": 0
+  },
+  "old_hashes_and_parent_ledger_unchanged": true,
+  "new_dispatch_rejected": true,
+  "frozen_binaries_and_source_identity": "PASS",
+  "no_unique_task_side_cause_proved": true,
+  "no_safety_retry": true,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "new_physics": 0,
+  "new_neural_queries": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

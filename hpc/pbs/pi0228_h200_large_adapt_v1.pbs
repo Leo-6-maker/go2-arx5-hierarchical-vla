@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# PI0228: mature Stage28 H200 shell + Stage38 local Cosmos binding.
+# Formal training is fail-closed behind the explicit PI0228 authorization.
+
+#PBS -N pi0228_h200_adapt_v1
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=24:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${PI0228_PROJECT_ROOT:?set the project root}"
+: "${PI0228_SCRATCH_ROOT:?set scratch root}"
+: "${PI0228_STAGE10_ROOT:?set Stage10 root}"
+: "${PI0228_GR00T_SOURCE:?set GR00T source}"
+: "${PI0228_BASE_CHECKPOINT:?set checkpoint-1000}"
+: "${PI0228_TRAIN_DATASET:?set sealed TRAIN dataset}"
+: "${PI0228_MODALITY_CONFIG:?set modality config}"
+: "${PI0228_COSMOS_CACHE_ROOT:?set Cosmos cache root}"
+: "${PI0228_COSMOS_SNAPSHOT:?set pinned Cosmos snapshot}"
+: "${PBS_JOBID:?PBS_JOBID must be present}"
+: "${PI0228_FFMPEG_RUNTIME_ROOT:?set sealed Stage45B FFmpeg runtime root}"
+: "${PI0228_TORCHCODEC_PACKAGE_ROOT:?set exact torchcodec package root}"
+: "${PI0228_TORCH_LIBRARY_ROOT:?set exact torch library root}"
+
+PI0228_PYTHON="${PI0228_PYTHON:-${PI0228_STAGE10_ROOT}/runtime/venv/bin/python}"
+PI0228_RUN_ROOT="${PI0228_SCRATCH_ROOT%/}/pi0228_h200_large_adapt_v1_${PBS_JOBID}"
+PI0228_RUN_MODE="${PI0228_RUN_MODE:-preflight}"
+export PI0228_CHECKPOINT_ARCHIVE_MANIFEST="${PI0228_CHECKPOINT_ARCHIVE_MANIFEST:-${PI0228_RUN_ROOT}/pi0228_checkpoint_archive_manifest.json}"
+
+test -d "${PI0228_FFMPEG_RUNTIME_ROOT}/lib"
+test -d "${PI0228_FFMPEG_RUNTIME_ROOT}/compat"
+test -d "${PI0228_TORCHCODEC_PACKAGE_ROOT}"
+test -d "${PI0228_TORCH_LIBRARY_ROOT}"
+PI0228_AMBIENT_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${PI0228_FFMPEG_RUNTIME_ROOT}/lib:${PI0228_FFMPEG_RUNTIME_ROOT}/compat:${PI0228_TORCHCODEC_PACKAGE_ROOT}:${PI0228_TORCH_LIBRARY_ROOT}:${PI0228_AMBIENT_LD_LIBRARY_PATH}"
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1 || { echo "FAIL_CLOSED: expected one visible GPU" >&2; exit 2; }
+case "${GPU_NAME}" in *H200*) ;; *) echo "FAIL_CLOSED: expected H200, observed ${GPU_NAME}" >&2; exit 2 ;; esac
+
+COMMON=(
+  --stage10-root "${PI0228_STAGE10_ROOT}"
+  --groot-source "${PI0228_GR00T_SOURCE}"
+  --base-model-path "${PI0228_BASE_CHECKPOINT}"
+  --dataset-dir "${PI0228_TRAIN_DATASET}"
+  --modality-config "${PI0228_MODALITY_CONFIG}"
+  --cosmos-cache-root "${PI0228_COSMOS_CACHE_ROOT}"
+  --cosmos-snapshot "${PI0228_COSMOS_SNAPSHOT}"
+  --output-dir "${PI0228_RUN_ROOT}"
+)
+
+cd "${PI0228_PROJECT_ROOT}"
+"${PI0228_PYTHON}" scripts/pi0228_h200_large_adapt_v1.py --preflight "${COMMON[@]}"
+
+if [[ "${PI0228_RUN_MODE}" == "preflight" ]]; then
+  echo "PI0228_H200_PREFLIGHT_PASS"
+  exit 0
+fi
+[[ "${PI0228_RUN_MODE}" == "smoke" || "${PI0228_RUN_MODE}" == "train" ]] || { echo "FAIL_CLOSED: invalid run mode" >&2; exit 2; }
+: "${PI0228_TRAIN_AUTHORIZATION:?explicit PI0228 authorization required}"
+if [[ "${PI0228_RUN_MODE}" == "smoke" ]]; then
+  "${PI0228_PYTHON}" scripts/pi0228_h200_large_adapt_v1.py --smoke "${COMMON[@]}" --authorization "${PI0228_TRAIN_AUTHORIZATION}"
+  echo "PI0228_H200_EXACT_SMOKE_PASS"
+else
+  "${PI0228_PYTHON}" scripts/pi0228_h200_large_adapt_v1.py --train "${COMMON[@]}" --authorization "${PI0228_TRAIN_AUTHORIZATION}"
+  echo "PI0228_H200_LARGE_ADAPT_V1_COMPLETE"
+fi

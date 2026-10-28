@@ -1,0 +1,1 @@
+PI0260-R1 H0 accepted and fixed-order DEVELOPMENT started: [Issue #11 canonical5894006224](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-5894006224). Same-owner read-only replay; original science and cumulative budgets unchanged. Pointer only; no merge.

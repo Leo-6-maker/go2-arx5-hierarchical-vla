@@ -1,0 +1,39 @@
+{
+  "status": "PASS_CPU_NEGATIVE_TESTS",
+  "checks": [
+    "source_96px_raw_masks_nonzero_root_fk",
+    "changed_target",
+    "swapped_command",
+    "mixed_frame",
+    "dropped_initial_quarter",
+    "camera_fetch_pose_mismatch",
+    "image_state_timestamp_mismatch",
+    "visibility_recomputed_from_masks_not_pass_or_boxes",
+    "target_metadata_in_collator",
+    "paired_inputs_byte_compared",
+    "color_alias_cannot_cross_geometry_split",
+    "paired_input_changed",
+    "wrong_manifest_hash",
+    "path_traversal",
+    "source_overwrite",
+    "readonly_companion_cards_receipt_no_false_design_pass",
+    "h2_noise_identity",
+    "h2_intermediate_endpoint_denied",
+    "h2_sealed_numeric_metrics_and_card_no_model",
+    "native_h0_start_only_sectors_and_later_endpoint_threshold",
+    "blocked_import_torch",
+    "blocked_import_transformers",
+    "blocked_import_isaacgym",
+    "blocked_import_isaacsim",
+    "run_episode_guard_stub_only"
+  ],
+  "new_calls": {
+    "model_loads": 0,
+    "model_queries": 0,
+    "training": 0,
+    "scene_construction": 0,
+    "physics": 0,
+    "wbc_calls": 0,
+    "hopper_jobs": 0
+  }
+}

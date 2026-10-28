@@ -1,0 +1,161 @@
+{
+  "schema": "SOURCE_ACCESS_V3_TASK_CARD",
+  "scope": "PI0294_TABLE_CLEARANCE_CONTACT_ENTRY_SEED_V3",
+  "status": "PREPARED_FOR_EXPLICIT_ADOPTION_NOT_AUTHORIZED",
+  "authorizes_execution": false,
+  "authorizes_scientific_execution": false,
+  "launch_allowed": false,
+  "protocol": "docs/protocols/PI0294_TABLE_CLEARANCE_AND_CONTACT_ENTRY_SEED_V3.md",
+  "user_request": "基于V2负结果准备并发布；T1机身桌面碰撞/T2接近IK各最小改动，冻结WBC、安全、原任务评分，明确内部搜索与物理预算，取得真实接触和完整种子。",
+  "scientific_execution_requested_in_this_turn": false,
+  "runtime_implementation": "NOT_IMPLEMENTED",
+  "changed_contract_checks_executed": 0,
+  "checks_planned": [
+    "EXPLICIT_ADOPTION_NEW_SCOPE_ONLY_OLD_V2_NATIVE_FAIL_AND_CLOSURE_UNCHANGED",
+    "COMPILED_DIFF_WHITELIST_NATIVE_ROBOT_SAFETY_FRICTION_MARGIN_MASS_AND_ALL_DOF_UNCHANGED",
+    "T1_FIXED_H47_FULL_SLAB_DIMENSIONS_SAVED_ENVELOPE_AND_UNMODIFIED_ROOT_INITIALIZATION",
+    "T1_COMMON_Z_TRANSLATION_EXACT_ROTATION_GRIPPER_TIMES_SOURCE_INDEX_PARITY",
+    "T1_ORIGINAL_SCORE_FUNCTION_EXPLICIT_TABLE_PARAMETER_AND_COMMON_TRANSLATION_EQUIVALENCE",
+    "T2_EXACT_CONTACT_CUT_PREFIX_ORIGINAL_GEOM_IDS_AND_FULL_PUSH_WITHDRAW_HOLD_SUFFIX",
+    "T2_WORKING_CLOSED_INITIAL_QPOS_AND_RESET_AND_FIRST_ACTUAL_PACKET_TARGET_CONSISTENT",
+    "OLD_GOAL_CACHE_CONSUMER_FULL_IDENTITY_NO_STALE_ACTUAL_OR_RESPONSE_HASH_REWRITE",
+    "CPU_PREVIEW_LABELLED_NOT_ACTUAL_RGB_NO_SYNTHETIC_OBSERVATION_OR_MODEL_QUERY",
+    "ACTUAL_WARMUP_SAME_LOCKED_SOURCE_FRESH_STATE_FULLBODY_AND_UPDATED_WORLD_GEOMETRY",
+    "H40_SOURCE_CLOCK_INTERNAL_JOIN_GRIPPER20HZ_INSTALL_ACK_PAUSE_HISTORY_UNCHANGED",
+    "PERSISTENT_GLOBAL_INTERNAL_RESERVATION_DEADLINE_NO_REDRAW_AND_NATIVE_FAIL_STOPS_ALL_PHYSICS"
+  ],
+  "prior_CPU_checks_retained": 20,
+  "prior_V2_release": "3b607bbbf4373f61a53280d5b06afc3651e35f54",
+  "prior_V2_canonical_comment": 6195800940,
+  "objective": "ACTUAL_TASK_OBJECT_CONTACT_AND_ORIGINAL_FULL_OBJECT_TASK_SUCCESS_SEED_OR_SPECIFIC_VALID_STOP",
+  "next_stage_on_own_CPU_and_actual_warmup_PASS": "DIRECT_32S_NO_EXTRA_SHORT_QUALITY_GATE_OR_ROUTINE_GO",
+  "helper_approval_required": false,
+  "task_independent": true,
+  "physical_order": [
+    "T1",
+    "T2"
+  ],
+  "valid_failure_retry": false,
+  "post_lock_source_switch": false,
+  "old_scope_reopened": false,
+  "new_T0": false,
+  "budget_reset": false,
+  "window": {
+    "original_T0_epoch": 1792044600,
+    "execution_work_deadline_epoch": 1792083759,
+    "parent_cutoff_epoch": 1792084200,
+    "closeout_deadline_epoch": 1792087800,
+    "timezone": "Asia/Singapore",
+    "reset_T0": false,
+    "reset_counters": false,
+    "automatic_extension": false
+  },
+  "proposed_limits": {
+    "scientific_full_conditions": 2,
+    "native_starts": 4,
+    "pretask_engineering_replacements": 2,
+    "integrations": 42012,
+    "RGB_pairs": 1282,
+    "planning_bundles": 164,
+    "new_goal_IK_calls": 165,
+    "CLIK_initializations": 2640,
+    "RRT_calls": 660,
+    "dense_points_reserved": 166166,
+    "local_IK_iterations_reserved": 830830,
+    "CPU_core_seconds": 14000,
+    "CPU_closeout_reserve": 1800,
+    "CPU_cores": 4,
+    "physical_workers": 1,
+    "new_staging_bytes": 8589934592,
+    "new_GPU_seconds": 0,
+    "new_PBS": 0,
+    "new_neural_queries": 0,
+    "new_training_updates": 0,
+    "formal_expansion": 0,
+    "external_demo_downloads": 0
+  },
+  "resource_baseline": {
+    "main_starts": 39,
+    "main_integrations": 358808,
+    "RGB_pairs": 12361,
+    "Core_CPU_s": 15856.836595361141
+  },
+  "baseline_current_series_search": {
+    "maniskill-search-v2": {
+      "keys": [
+        "bundles",
+        "counters"
+      ],
+      "counters": {
+        "goal_IK_calls": 94,
+        "CLIK_reserved": 1504,
+        "RRT_calls": 62,
+        "dense_reserved_points": 31031
+      },
+      "bundle_count": 32
+    },
+    "source-demo-retarget-v1": {
+      "keys": [
+        "bundles",
+        "counters"
+      ],
+      "counters": {
+        "goal_IK_calls": 6,
+        "CLIK_reserved": 96
+      },
+      "bundle_count": 3
+    },
+    "source-demo-retime-join-v2": {
+      "keys": [
+        "bundles",
+        "counters"
+      ],
+      "counters": {
+        "goal_IK_calls": 22,
+        "CLIK_reserved": 352,
+        "RRT_calls": 16,
+        "dense_reserved_points": 17017,
+        "local_IK_reserved": 85085
+      },
+      "bundle_count": 18
+    }
+  },
+  "cumulative_search_reallocation": {
+    "group": "MP_S2_PLUS_SOURCE_V1_V2_V3",
+    "initial_bundles": 53,
+    "new_bundles_cap": 164,
+    "cumulative_bundles_cap": 217,
+    "previous_source_local_bundles_ceiling": 200,
+    "enclosing_MP_S2_bundles_ceiling": 222,
+    "initial_IK_calls": 122,
+    "cumulative_IK_calls_cap": 287,
+    "initial_CLIK_reserved": 1952,
+    "cumulative_CLIK_cap": 4592,
+    "initial_RRT_calls": 78,
+    "cumulative_RRT_cap": 738,
+    "initial_dense_reserved": 48048,
+    "cumulative_dense_reserved_cap": 214214,
+    "previous_source_local_dense_ceiling": 205205,
+    "enclosing_MP_S2_dense_ceiling": 221221,
+    "legacy_ManiSkill_V1_dense_reserved_separate": 11011,
+    "all_dense_reserved_cap": 225225,
+    "enclosing_all_dense_ceiling": 232232,
+    "meaning": "Explicit adoption reallocates the local 200/205205 bounds to 217/214214; enclosing older 222/221221 and all-series 232232 bounds remain. No spent slot refunded or counter reset."
+  },
+  "source_CPU_allowance": 14400,
+  "source_CPU_original_baseline": 15614.037112470665,
+  "parent_CPU_ceiling": 36844.79211945514,
+  "source_physical_parent_caps": {
+    "main_starts": 43,
+    "main_integrations": 404023,
+    "RGB_pairs": 13771
+  },
+  "maximal_parent_after_V3": {
+    "main_starts": 43,
+    "main_integrations": 400820,
+    "RGB_pairs": 13643,
+    "Core_CPU_s": 29856.836595361143
+  },
+  "selected": "NONE",
+  "deployment": "NONE"
+}

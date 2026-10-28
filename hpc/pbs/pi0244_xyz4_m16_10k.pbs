@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+# PI0244 R2/XYZ4: reuse the sealed Stage28/PI0243 trainer, with a thin loss adapter.
+#PBS -N pi0244x_xyz4_m16_10k
+#PBS -P CFP03-CF-004
+#PBS -W group_list=HPC_Users_3104
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=48:00:00
+#PBS -o /scratch/e1192548/pi0244x_xyz4_m16_10k_logs/
+#PBS -e /scratch/e1192548/pi0244x_xyz4_m16_10k_logs/
+
+set -euo pipefail
+trap 'rc=$?; echo "PI0244_R2_FAILURE: line=${LINENO} status=$rc" >&2' ERR
+
+: "$PI0243_PROJECT_ROOT"
+: "$PI0243_STAGE10_ROOT"
+: "$PI0243_GR00T_SOURCE"
+: "$PI0243_RUN_CARD"
+: "$PI0243_METADATA_MIRROR_ROOT"
+: "$PI0243_OUTPUT_MIRROR_ROOT"
+: "$PI0243_ARCHIVE_ROOT"
+: "$PI0243_FFMPEG_RUNTIME_ROOT"
+: "$PI0243_TORCHCODEC_PACKAGE_ROOT"
+: "$PI0243_TORCH_LIBRARY_ROOT"
+: "$PI0243_PYTHON"
+: "$PI0243_PUBLISHER_PYTHON"
+: "$PI0243_HF_REPO_ID"
+: "$PI0243_HF_TOKEN_FILE"
+: "$PI0243_HF_PATH_PREFIX"
+: "$PBS_JOBID"
+
+test -x "$PI0243_PYTHON"
+test -x "$PI0243_PUBLISHER_PYTHON"
+test -d "$PI0243_FFMPEG_RUNTIME_ROOT/lib"
+test -d "$PI0243_FFMPEG_RUNTIME_ROOT/compat"
+test -d "$PI0243_TORCHCODEC_PACKAGE_ROOT"
+test -d "$PI0243_TORCH_LIBRARY_ROOT"
+echo "PI0244_R2_PATH_CONTEXT: host=${HOSTNAME:-unknown}"
+id
+findmnt -T "$PI0243_RUN_CARD" -o TARGET,SOURCE,FSTYPE 2>&1 || true
+if ! test -r "$PI0243_RUN_CARD"; then
+  echo "FAIL_CLOSED: sealed run card is unreadable on compute: $PI0243_RUN_CARD" >&2
+  namei -l "$PI0243_RUN_CARD" >&2 || true
+  exit 2
+fi
+test -r "$PI0243_METADATA_MIRROR_ROOT/stage_cohort.json"
+test -r "$PI0243_METADATA_MIRROR_ROOT/stage_exposure_schedule.json"
+test -r "$PI0243_HF_TOKEN_FILE"
+mkdir -p "$PI0243_OUTPUT_MIRROR_ROOT" "$PI0243_ARCHIVE_ROOT"
+test -w "$PI0243_OUTPUT_MIRROR_ROOT"
+
+ambient_ld="$(printenv LD_LIBRARY_PATH || true)"
+ambient_pythonpath="$(printenv PYTHONPATH || true)"
+export LD_LIBRARY_PATH="$PI0243_FFMPEG_RUNTIME_ROOT/lib:$PI0243_FFMPEG_RUNTIME_ROOT/compat:$PI0243_TORCHCODEC_PACKAGE_ROOT:$PI0243_TORCH_LIBRARY_ROOT:$ambient_ld"
+export PYTHONPATH="$PI0243_PROJECT_ROOT/src:$PI0243_PROJECT_ROOT/scripts:$PI0243_GR00T_SOURCE:$ambient_pythonpath"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false
+export PI0243_METADATA_MIRROR_ROOT PI0243_OUTPUT_MIRROR_ROOT
+export PI0243_HF_REPO_ID PI0243_HF_TOKEN_FILE PI0243_HF_PATH_PREFIX
+
+if ! GPU_QUERY="$(nvidia-smi --query-gpu=name --format=csv,noheader 2>&1)"; then
+  echo "FAIL_CLOSED: nvidia-smi query failed: $GPU_QUERY" >&2
+  exit 2
+fi
+GPU_NAME="$(printf '%s\n' "$GPU_QUERY" | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(printf '%s\n' "$GPU_QUERY" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+echo "PI0244_R2_GPU_PREFLIGHT: host=${HOSTNAME:-unknown} count=$GPU_COUNT name=$GPU_NAME cuda_visible=$(printenv CUDA_VISIBLE_DEVICES || true)"
+test "$GPU_COUNT" -eq 1
+case "$GPU_NAME" in *H200*|*H100*) ;; *) echo "FAIL_CLOSED: expected H200/H100, observed $GPU_NAME" >&2; exit 2 ;; esac
+
+cd "$PI0243_PROJECT_ROOT"
+archive_output() {
+  rsync -a --partial --human-readable --exclude='/training/checkpoint-*' "$PI0243_OUTPUT_MIRROR_ROOT/" "$PI0243_ARCHIVE_ROOT/"
+}
+
+case "$(printenv PI0244_R2_PHASE || true)" in
+  train)
+    HF_SIDECAR_LOG="$PI0243_OUTPUT_MIRROR_ROOT/hf_checkpoint_sidecar.log"
+    HF_SIDECAR_STATE="$PI0243_OUTPUT_MIRROR_ROOT/hf_checkpoint_sidecar.jsonl"
+    "$PI0243_PUBLISHER_PYTHON" -u scripts/pi0243_hf_checkpoint_sidecar.py \
+      --output-root "$PI0243_OUTPUT_MIRROR_ROOT" \
+      --repo-id "$PI0243_HF_REPO_ID" \
+      --token-file "$PI0243_HF_TOKEN_FILE" \
+      --path-prefix "$PI0243_HF_PATH_PREFIX" \
+      --family "PI0244X_XYZ4_M16_10K_V1" \
+      --max-steps 10000 --steps 2500 5000 7500 10000 --state-path "$HF_SIDECAR_STATE" >"$HF_SIDECAR_LOG" 2>&1 &
+    HF_SIDECAR_PID=$!
+    set +e
+    "$PI0243_PYTHON" -u scripts/pi0244_xyz4_m16_10k.py --phase train --run-card "$PI0243_RUN_CARD"
+    run_status=$?
+    set -e
+    if [ "$run_status" -eq 0 ]; then
+      wait "$HF_SIDECAR_PID" || run_status=$?
+    else
+      kill "$HF_SIDECAR_PID" 2>/dev/null || true
+      wait "$HF_SIDECAR_PID" 2>/dev/null || true
+    fi
+    archive_output || { echo "FAIL_CLOSED: R2 evidence archive failed" >&2; exit 3; }
+    exit "$run_status"
+    ;;
+  screen)
+    set +e
+    "$PI0243_PYTHON" -u scripts/pi0244_xyz4_m16_10k.py --phase screen --run-card "$PI0243_RUN_CARD" --device cuda:0
+    run_status=$?
+    set -e
+    archive_output || { echo "FAIL_CLOSED: R2 screen archive failed" >&2; exit 3; }
+    exit "$run_status"
+    ;;
+  *)
+    echo "FAIL_CLOSED: PI0244_R2_PHASE must be train or screen" >&2
+    exit 2
+    ;;
+esac

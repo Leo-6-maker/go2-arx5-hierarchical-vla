@@ -1,0 +1,58 @@
+{
+  "schema": "PI0247_R1_PROGRESS_UPDATE_V1",
+  "recorded_at_utc": "2026-09-26T08:50:53Z",
+  "supersedes_current_runtime_state_in": {
+    "commit": "8759c45b9dc08100d7e0f69f225b9ee59c8f3e4f",
+    "path": "reports/evidence/PI0247_R1_PROGRESS_UPDATE_633422_20260926.json"
+  },
+  "authority": {
+    "canonical_issue": 11,
+    "canonical_issue_comment": 5844159421,
+    "execution_token": "PI0247_R1_L_REPLAY_AFTER_ENGINEERING_FAILURE_GO",
+    "execution_code_commit": "161314e73d5a4b33e6c16c0a1e069cf64c4c3392",
+    "capacity_proof_commit": "8759c45b9dc08100d7e0f69f225b9ee59c8f3e4f"
+  },
+  "science": {
+    "d1": "COMPLETE_R_STAR_S4",
+    "d2": "COMPLETE_B0_FAIL_B1_FAIL",
+    "old_pi0246_8000_updates_208_cells": "PRESERVED",
+    "633321_engineering_attempt_updates_counted_in_raw_compute": 1000,
+    "canonical_L_replay_budget": 2000,
+    "canonical_L_replay_job": "633415.hopper-m-02",
+    "canonical_L_replay_state": "RUNNING",
+    "canonical_L_run_card_sha256": "54fb7423c1dceb2be918515a50b4d118ea2917a83e129ef0098840fd97c618e5",
+    "execution_code_commit": "161314e73d5a4b33e6c16c0a1e069cf64c4c3392",
+    "execution_state": "TRAINING_STARTED",
+    "execution_state_sha256": "edff9288eaee4eab09e42d5ccf07c254e212b94cf31ea0b224c8db5c473bf837",
+    "started_at_utc": "2026-09-26T08:50:26Z",
+    "pre_model_preflight": "PASS_PRE_MODEL_PREFLIGHT",
+    "pre_model_preflight_sha256": "76f33e71b63553e1375b70c3730e5a394a1873b2f3e329d3dcf34a358d2b5db5",
+    "hf_online_preflight": "PASS",
+    "hf_preflight_receipt_sha256": "12a9d399ed03a8b45490cd37a94cb792034851eae06c6452f1b414153be7c26f",
+    "hf_public_repo": "leoyuer/pi0246-gate-pass-campaign",
+    "hf_target_prefix_empty_at_preflight": true,
+    "model_weights_downloaded_at_preflight": false,
+    "sample_consumption_records": 142,
+    "L_local_forward_records": 142,
+    "update_audit_status": "RUNNING",
+    "update_audit_steps_observed": [
+      1,
+      10,
+      100
+    ],
+    "durable_checkpoint_receipts": [],
+    "U_job_submitted": false,
+    "selected_checkpoint": "NONE",
+    "scientific_result": "NO_FINAL_L_VERDICT"
+  },
+  "scheduler": {
+    "pbs_job_id": "633415.hopper-m-02",
+    "job_state": "R",
+    "hold_types": "n",
+    "execution_host": "hopper-22",
+    "assigned_resources": "1 H200, 12 CPUs, 225 GB RAM",
+    "started_at_local": "2026-09-26 16:49:37 Asia/Singapore",
+    "walltime_at_observation": "00:00:49"
+  },
+  "next": "Continue the authorized L2000 from update 0. Do not submit U until L has valid training-integrity closeout. Evaluate only the final-2000 checkpoints and preserve both-noise-group gates."
+}

@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+# PI0244 thin launcher.  Scientific behavior stays in the sealed PI0243 path;
+# this shell only binds the new family, prefix, output root, and 10K sidecar.
+#PBS -N pi0244_m16_10k
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=48:00:00
+# PBS stage-out must target a shared scratch directory visible from compute nodes.
+#PBS -o /scratch/e1192548/pi0244_m16_10k_logs/
+#PBS -e /scratch/e1192548/pi0244_m16_10k_logs/
+
+set -euo pipefail
+trap 'rc=$?; echo "PI0244_PRETRAIN_FAILURE: line=${LINENO} status=${rc}" >&2' ERR
+
+: "${PI0243_PROJECT_ROOT:?set PI0243_PROJECT_ROOT}"
+: "${PI0243_STAGE10_ROOT:?set PI0243_STAGE10_ROOT}"
+: "${PI0243_GR00T_SOURCE:?set PI0243_GR00T_SOURCE}"
+: "${PI0243_RUN_CARD:?set PI0243_RUN_CARD}"
+: "${PI0243_METADATA_MIRROR_ROOT:?set PI0243_METADATA_MIRROR_ROOT}"
+: "${PI0243_OUTPUT_MIRROR_ROOT:?set PI0243_OUTPUT_MIRROR_ROOT}"
+: "${PI0243_ARCHIVE_HOST:?set PI0243_ARCHIVE_HOST}"
+: "${PI0243_ARCHIVE_ROOT:?set PI0243_ARCHIVE_ROOT}"
+: "${PI0243_FFMPEG_RUNTIME_ROOT:?set PI0243_FFMPEG_RUNTIME_ROOT}"
+: "${PI0243_TORCHCODEC_PACKAGE_ROOT:?set PI0243_TORCHCODEC_PACKAGE_ROOT}"
+: "${PI0243_TORCH_LIBRARY_ROOT:?set PI0243_TORCH_LIBRARY_ROOT}"
+: "${PBS_JOBID:?PBS_JOBID must be present}"
+
+PI0243_PYTHON="${PI0243_PYTHON:-${PI0243_STAGE10_ROOT}/runtime/venv/bin/python}"
+test -x "${PI0243_PYTHON}"
+test -d "${PI0243_FFMPEG_RUNTIME_ROOT}/lib"
+test -d "${PI0243_FFMPEG_RUNTIME_ROOT}/compat"
+test -d "${PI0243_TORCHCODEC_PACKAGE_ROOT}"
+test -d "${PI0243_TORCH_LIBRARY_ROOT}"
+test -r "${PI0243_RUN_CARD}"
+test -r "${PI0243_METADATA_MIRROR_ROOT}/stage_cohort.json"
+test -r "${PI0243_METADATA_MIRROR_ROOT}/stage_exposure_schedule.json"
+mkdir -p "${PI0243_OUTPUT_MIRROR_ROOT}"
+test -w "${PI0243_OUTPUT_MIRROR_ROOT}"
+: "${PI0243_HF_REPO_ID:?set PI0243_HF_REPO_ID}"
+: "${PI0243_HF_TOKEN_FILE:?set PI0243_HF_TOKEN_FILE}"
+: "${PI0243_HF_PATH_PREFIX:?set PI0243_HF_PATH_PREFIX}"
+test -r "${PI0243_HF_TOKEN_FILE}"
+
+ambient_ld="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${PI0243_FFMPEG_RUNTIME_ROOT}/lib:${PI0243_FFMPEG_RUNTIME_ROOT}/compat:${PI0243_TORCHCODEC_PACKAGE_ROOT}:${PI0243_TORCH_LIBRARY_ROOT}:${ambient_ld}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false
+export PYTHONPATH="${PI0243_PROJECT_ROOT}/src:${PI0243_PROJECT_ROOT}/scripts:${PI0243_GR00T_SOURCE}:${PYTHONPATH:-}"
+
+if ! GPU_QUERY="$(nvidia-smi --query-gpu=name --format=csv,noheader 2>&1)"; then
+  echo "FAIL_CLOSED: nvidia-smi query failed: ${GPU_QUERY}" >&2
+  exit 2
+fi
+GPU_NAME="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+echo "PI0244_GPU_PREFLIGHT: host=${HOSTNAME:-unknown} count=${GPU_COUNT} name=${GPU_NAME:-unknown} cuda_visible=${CUDA_VISIBLE_DEVICES:-unset}"
+test "${GPU_COUNT}" -eq 1
+case "${GPU_NAME}" in *H200*|*H100*) ;; *) echo "FAIL_CLOSED: expected H200/H100, observed ${GPU_NAME}" >&2; exit 2 ;; esac
+
+cd "${PI0243_PROJECT_ROOT}"
+archive_output() {
+  mkdir -p "${PI0243_ARCHIVE_ROOT}"
+  rsync -a --partial --human-readable --exclude='/training/checkpoint-*' "${PI0243_OUTPUT_MIRROR_ROOT}/" "${PI0243_ARCHIVE_ROOT}/"
+}
+
+case "${PI0244_PHASE:-train}" in
+  train)
+    HF_SIDECAR_LOG="${PI0243_OUTPUT_MIRROR_ROOT}/hf_checkpoint_sidecar.log"
+    HF_SIDECAR_STATE="${PI0243_OUTPUT_MIRROR_ROOT}/hf_checkpoint_sidecar.jsonl"
+    "${PI0243_PUBLISHER_PYTHON:-${PI0243_STAGE10_ROOT}/runtime/venv/bin/python}" -u scripts/pi0243_hf_checkpoint_sidecar.py \
+      --output-root "${PI0243_OUTPUT_MIRROR_ROOT}" \
+      --repo-id "${PI0243_HF_REPO_ID}" \
+      --token-file "${PI0243_HF_TOKEN_FILE}" \
+      --path-prefix "${PI0243_HF_PATH_PREFIX}" \
+      --family "PI0244_M16_10K_V1" \
+      --max-steps 10000 --steps 2500 5000 7500 10000 --state-path "${HF_SIDECAR_STATE}" >"${HF_SIDECAR_LOG}" 2>&1 &
+    HF_SIDECAR_PID=$!
+    set +e
+    "${PI0243_PYTHON}" -u scripts/pi0244_fixed16_10k.py --phase train --run-card "${PI0243_RUN_CARD}"
+    run_status=$?
+    set -e
+    if [[ "${run_status}" -eq 0 ]]; then
+      wait "${HF_SIDECAR_PID}" || run_status=$?
+    else
+      kill "${HF_SIDECAR_PID}" 2>/dev/null || true
+      wait "${HF_SIDECAR_PID}" 2>/dev/null || true
+    fi
+    archive_output || { echo "FAIL_CLOSED: output archive failed" >&2; exit 3; }
+    exit "${run_status}"
+    ;;
+  recover)
+    : "${PI0244_PLAN:?set sealed recovery plan path}"
+    : "${PI0244_RESUME_STEP:?set exact recovery source step}"
+    : "${PI0244_STOP_STEP:?set exact recovery stop step}"
+    case "${PI0244_RESUME_STEP}:${PI0244_STOP_STEP}" in
+      5000:7500|7500:10000) ;;
+      *) echo "FAIL_CLOSED: unauthorized recovery segment ${PI0244_RESUME_STEP}:${PI0244_STOP_STEP}" >&2; exit 2 ;;
+    esac
+    test -r "${PI0244_PLAN}"
+    CUDA_VISIBLE_DEVICES="" "${PI0243_PYTHON}" -u scripts/pi0244_fixed16_10k.py --phase validate-plan --run-card "${PI0243_RUN_CARD}" --plan "${PI0244_PLAN}"
+    safe_job_id="$(printf '%s' "${PBS_JOBID}" | tr -c 'A-Za-z0-9_.-' '_')"
+    sidecar_root="${PI0243_OUTPUT_MIRROR_ROOT}/recovery_sidecars"
+    mkdir -p "${sidecar_root}"
+    sidecar_log="${sidecar_root}/${PI0243_OUTPUT_MIRROR_ROOT##*/}-${PI0244_RESUME_STEP}-to-${PI0244_STOP_STEP}-${safe_job_id}.log"
+    sidecar_state="${sidecar_root}/${PI0244_RESUME_STEP}-to-${PI0244_STOP_STEP}-${safe_job_id}.jsonl"
+    "${PI0243_PUBLISHER_PYTHON:-${PI0243_STAGE10_ROOT}/runtime/venv/bin/python}" -u scripts/pi0243_hf_checkpoint_sidecar.py \
+      --output-root "${PI0243_OUTPUT_MIRROR_ROOT}" \
+      --repo-id "${PI0243_HF_REPO_ID}" \
+      --token-file "${PI0243_HF_TOKEN_FILE}" \
+      --path-prefix "${PI0243_HF_PATH_PREFIX}" \
+      --family "PI0244_M16_10K_V1" \
+      --max-steps 10000 --steps "${PI0244_STOP_STEP}" --state-path "${sidecar_state}" >"${sidecar_log}" 2>&1 &
+    HF_SIDECAR_PID=$!
+    set +e
+    "${PI0243_PYTHON}" -u scripts/pi0244_fixed16_10k.py --phase recover --run-card "${PI0243_RUN_CARD}" --plan "${PI0244_PLAN}"
+    run_status=$?
+    set -e
+    if [[ "${run_status}" -eq 0 ]]; then
+      wait "${HF_SIDECAR_PID}" || run_status=$?
+    else
+      kill "${HF_SIDECAR_PID}" 2>/dev/null || true
+      wait "${HF_SIDECAR_PID}" 2>/dev/null || true
+    fi
+    if [[ "${run_status}" -eq 0 ]]; then
+      set +e
+      "${PI0243_PYTHON}" -u scripts/pi0244_fixed16_10k.py --phase verify-recovery --run-card "${PI0243_RUN_CARD}" --plan "${PI0244_PLAN}" --job-id "${PBS_JOBID}"
+      verify_status=$?
+      set -e
+      [[ "${verify_status}" -eq 0 ]] || run_status="${verify_status}"
+    fi
+    archive_output || { echo "FAIL_CLOSED: output archive failed" >&2; exit 3; }
+    exit "${run_status}"
+    ;;
+  screen)
+    set +e
+    "${PI0243_PYTHON}" -u scripts/pi0244_fixed16_10k.py --phase screen --run-card "${PI0243_RUN_CARD}" --device "${PI0243_DEVICE:-cuda:0}"
+    run_status=$?
+    set -e
+    archive_output || { echo "FAIL_CLOSED: output archive failed" >&2; exit 3; }
+    exit "${run_status}"
+    ;;
+  *)
+    echo "FAIL_CLOSED: unsupported PI0244 phase: ${PI0244_PHASE}" >&2
+    exit 2
+    ;;
+esac

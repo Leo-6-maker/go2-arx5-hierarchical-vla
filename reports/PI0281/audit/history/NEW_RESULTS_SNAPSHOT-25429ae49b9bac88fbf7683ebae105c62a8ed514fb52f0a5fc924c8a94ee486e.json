@@ -1,0 +1,917 @@
+{
+  "status": "FINITE_PROVISIONAL_SNAPSHOT_NOT_TERMINAL",
+  "observed_unix_s": 1791387577.808534,
+  "source": [
+    {
+      "lane": "ORIGINAL_BASE_JOINT",
+      "condition": 10000,
+      "status": "VALID_JOINT_HARD_LIMIT_REJECT",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/RESULT.json",
+        "bytes": 1663,
+        "sha256": "3b4eb271689f406371417bb2b24f9e044f0a37319d0052c318875b5298f742ca"
+      },
+      "quality": false,
+      "full32s": false,
+      "physics_samples": 1966,
+      "success41": 0,
+      "window_samples": 0,
+      "persistent": false,
+      "persistent41_observed": null,
+      "persistent41_status": "UNOBSERVED_EARLY_TERMINATION",
+      "task_elapsed_s": 18.650000000000002,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.01999993808567524,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.01999993808567524,
+        "max_height_increase_m": 0.0,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": null,
+        "static_41": null,
+        "on_top_41": null,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 393,
+        "mean": 0.009163848169281502,
+        "rms": 0.011638040399803543,
+        "p50": 0.0074938638135790825,
+        "p95": 0.02342004030942917,
+        "max": 0.042270611971616745
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 393,
+        "mean": 0.009163848169281502,
+        "rms": 0.011638040399803543,
+        "p50": 0.0074938638135790825,
+        "p95": 0.02342004030942917,
+        "max": 0.042270611971616745
+      },
+      "recorded_command_to_exactFK_m": {
+        "n": 393,
+        "mean": 1.975209374966774e-08,
+        "rms": 2.17743066538983e-08,
+        "p50": 1.9016956012393148e-08,
+        "p95": 3.5546077787365816e-08,
+        "max": 4.940095410905162e-08
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.2443857739448547,
+        1.1527544477462768,
+        1.0996380994796753,
+        0.36042738609313973,
+        2.0378385732650757,
+        0.01792997360229487,
+        1.0099534938812256
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "rejected_before_dispatch": {
+        "control_tick": 393,
+        "task_time_s": 18.650000000000002,
+        "query_index": 34,
+        "native_sample": 7,
+        "violations": [
+          {
+            "joint": "panda_joint6",
+            "command_rad": 3.7583348751068115,
+            "limits_rad": [
+              -0.0175,
+              3.7525
+            ],
+            "margin_rad": -0.005834875106811577
+          }
+        ]
+      },
+      "noise_identical_to_PI0280": true,
+      "queries": 35,
+      "rawQ_to_installed_joint_max_abs_rad": 0.0,
+      "decoded_gripper_to_actuator_max_abs": 0.0,
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/physics.npz",
+          "bytes": 594390,
+          "sha256": "f8e62dd82781ea76815016e8c8fdc91cacb7f494d8696747793b362f74bc6c07"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/commands.npz",
+          "bytes": 19618,
+          "sha256": "bd48d951568a9b77fe3de45ded5a0908ca407a5712de9e639d29a87b21bd2cab"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/installed.npz",
+          "bytes": 49520,
+          "sha256": "06127efd0b952dc5a4ac89f516176ad5b47e01044bf56a1dcfc7c37c4c8f390b"
+        }
+      ]
+    },
+    {
+      "lane": "ORIGINAL_BASE_JOINT",
+      "condition": 10001,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/RESULT.json",
+        "bytes": 1654,
+        "sha256": "c94db057cf25633cf2c7ff286d2c42992863c0294b8d56f3e10167090029db61"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.019999917596578598,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.019999917596578598,
+        "max_height_increase_m": 0.0,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.007463740884097178,
+        "rms": 0.009133556908840271,
+        "p50": 0.00624390016309917,
+        "p95": 0.017930709104985,
+        "max": 0.03908112645149231
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.007463740884097178,
+        "rms": 0.009133556908840271,
+        "p50": 0.00624390016309917,
+        "p95": 0.017930709104985,
+        "max": 0.03908112645149231
+      },
+      "recorded_command_to_exactFK_m": {
+        "n": 660,
+        "mean": 1.659431775559859e-08,
+        "rms": 1.8226838231296458e-08,
+        "p50": 1.6155131286380873e-08,
+        "p95": 2.9328890374090862e-08,
+        "max": 3.179436129697705e-08
+      },
+      "actual_joint_hard_margin_min_rad": [
+        1.686791057395935,
+        0.2947514274597167,
+        2.6083049724578857,
+        0.19663437147140503,
+        2.0811897466659546,
+        0.8462768363952636,
+        1.7490193794250488
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "noise_identical_to_PI0280": true,
+      "queries": 60,
+      "rawQ_to_installed_joint_max_abs_rad": 0.0,
+      "decoded_gripper_to_actuator_max_abs": 0.0,
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "fac63826332ad3dc5b141ca0ef54e03c7e4fff0fef70e920f670f2a406e7a86c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/commands.npz",
+          "bytes": 32434,
+          "sha256": "06d7e0b046d527f662104e1581a0739f74a64b85343ba482aecd49bbdfebd5c1"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/installed.npz",
+          "bytes": 82628,
+          "sha256": "ad69d88e5a5bc9d2b702fb3acf270eee8184280848daf56b168fd10c61f1172c"
+        }
+      ]
+    },
+    {
+      "lane": "ORIGINAL_BASE_JOINT",
+      "condition": 10002,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/RESULT.json",
+        "bytes": 1652,
+        "sha256": "2d4eceb5040aa24a9a370bf3c3c895a702c4ce26a1d2384f7d282c04227b8ff4"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 2895,
+      "max_cubeA_height_m": 0.5424278378486633,
+      "object_funnel": {
+        "first_grasp_s": 3.0600000000000005,
+        "grasp_samples": 2895,
+        "longest_grasp_s": 28.95,
+        "task_initial_height_m": 0.019999919459223747,
+        "max_height_increase_m": 0.5224279165267944,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": 3.3600000000000003,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 0,
+        "static_41": 0,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.00858350338690362,
+        "rms": 0.010946508454937666,
+        "p50": 0.006605238653719425,
+        "p95": 0.022444602660834746,
+        "max": 0.05009467527270317
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.00858350338690362,
+        "rms": 0.010946508454937666,
+        "p50": 0.006605238653719425,
+        "p95": 0.022444602660834746,
+        "max": 0.05009467527270317
+      },
+      "recorded_command_to_exactFK_m": {
+        "n": 660,
+        "mean": 2.0883404692310348e-08,
+        "rms": 2.2570705006997567e-08,
+        "p50": 2.1982443868657378e-08,
+        "p95": 3.337865646717558e-08,
+        "max": 4.6973980487957365e-08
+      },
+      "actual_joint_hard_margin_min_rad": [
+        1.8061537693023682,
+        1.0161601522445678,
+        2.2030302832603454,
+        0.8664383953094483,
+        2.290540511417389,
+        0.771531286239624,
+        1.881007308769226
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "noise_identical_to_PI0280": true,
+      "queries": 60,
+      "rawQ_to_installed_joint_max_abs_rad": 0.0,
+      "decoded_gripper_to_actuator_max_abs": 0.0,
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "11ffd7438197cef11ac9fd7d22fbdf92d32c8c13772760e259a7cd87bd39ef6a"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/commands.npz",
+          "bytes": 32434,
+          "sha256": "ad6081bf0401146cd8491003ed94790627686b1b7a26717dfe90f4e52c1d1016"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/installed.npz",
+          "bytes": 82628,
+          "sha256": "655d995c2d3ebc227d2b22301e6e351129d72367d4551c25a6439deb7dbd929d"
+        }
+      ]
+    },
+    {
+      "lane": "ORIGINAL_BASE_JOINT",
+      "condition": 10003,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10003/attempt-000/RESULT.json",
+        "bytes": 1651,
+        "sha256": "fbadabd056907a6de7a07dd2a9bdae258709a5ff012fafa4e9c6a5b1d30f2904"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.019999971613287926,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.019999906420707703,
+        "max_height_increase_m": 6.51925802230835e-08,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.005767053519292458,
+        "rms": 0.006858509617915825,
+        "p50": 0.005016465671360493,
+        "p95": 0.012555922660976647,
+        "max": 0.02674400992691517
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.005767053519292458,
+        "rms": 0.006858509617915825,
+        "p50": 0.005016465671360493,
+        "p95": 0.012555922660976647,
+        "max": 0.02674400992691517
+      },
+      "recorded_command_to_exactFK_m": {
+        "n": 660,
+        "mean": 1.6669647110383692e-08,
+        "rms": 1.8491957384013147e-08,
+        "p50": 1.616374671572331e-08,
+        "p95": 2.947597329292752e-08,
+        "max": 3.6633832314155377e-08
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.296783323097229,
+        0.8911371448516845,
+        2.5129986355781555,
+        0.8949384754180909,
+        2.656340951728821,
+        1.3302859687805175,
+        2.093340987968445
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "noise_identical_to_PI0280": true,
+      "queries": 60,
+      "rawQ_to_installed_joint_max_abs_rad": 0.0,
+      "decoded_gripper_to_actuator_max_abs": 0.0,
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10003/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "e523b9d12260a6c14a28b1da04cdf00042fa322b0ca903e1c8650b5d9d636bac"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10003/attempt-000/commands.npz",
+          "bytes": 32434,
+          "sha256": "2607a8ea9dbe05e66ee2bd49c56e3eb49570cebb1e933bc2def16f004a2687a8"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10003/attempt-000/installed.npz",
+          "bytes": 82628,
+          "sha256": "2415a40b7d1e07a5bbb0d87ab046e840e2ff5cb61853535575e2f2bf7d12833a"
+        }
+      ]
+    },
+    {
+      "lane": "FK_OF_JOINT_COMMAND_REPLAY",
+      "condition": 10000,
+      "status": "VALID_REPLAY_GATE_REJECT",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/RESULT.json",
+        "bytes": 1847,
+        "sha256": "059fb4ef941cc30684382bec15d9c924534763e60deedc89ff20ebdafb64edb8"
+      },
+      "quality": false,
+      "full32s": false,
+      "physics_samples": 701,
+      "success41": 0,
+      "window_samples": 0,
+      "persistent": false,
+      "persistent41_observed": null,
+      "persistent41_status": "UNOBSERVED_EARLY_TERMINATION",
+      "task_elapsed_s": 6.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.01999993808567524,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.01999993808567524,
+        "max_height_increase_m": 0.0,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": null,
+        "static_41": null,
+        "on_top_41": null,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 140,
+        "mean": 0.009854344644752391,
+        "rms": 0.013144023381958393,
+        "p50": 0.007546591339632869,
+        "p95": 0.027143430244177556,
+        "max": 0.03963836655020714
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 140,
+        "mean": 0.009820156823313856,
+        "rms": 0.013113443475595116,
+        "p50": 0.007500584935769439,
+        "p95": 0.02710654437541959,
+        "max": 0.03959796577692032
+      },
+      "canonical_replay_to_command_m": {
+        "n": 140,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 15,
+        "decisions": {
+          "ACCEPT": 7,
+          "WARN": 7,
+          "REJECT": 1
+        },
+        "rejects": [
+          {
+            "control_tick": 140,
+            "task_time_s": 6.0,
+            "unchanged_issues": [
+              {
+                "code": "LINEAR_SPEED_WARN",
+                "severity": "WARNING",
+                "message": "linear_speed exceeds warning threshold (m/s)",
+                "provenance": "TEST_ONLY",
+                "observed": 1.1079833513778259,
+                "threshold": 1.0
+              },
+              {
+                "code": "ANGULAR_SPEED_REJECT",
+                "severity": "REJECT",
+                "message": "angular_speed exceeds rejection threshold (rad/s)",
+                "provenance": "TEST_ONLY",
+                "observed": 4.3998350124341625,
+                "threshold": 4.0
+              }
+            ],
+            "preview_max_angular_radps": 4.399834988114574,
+            "preview_max_linear_mps": 1.1079832315444946,
+            "angular_peak_pair_replay_ticks": [
+              169,
+              170
+            ],
+            "pair_poses": [
+              [
+                [
+                  -0.9791394472122192,
+                  -0.1527545303106308,
+                  -0.13398532569408417,
+                  -0.44741472601890564
+                ],
+                [
+                  -0.1647101193666458,
+                  0.9828299283981323,
+                  0.08316163718700409,
+                  0.4524298310279846
+                ],
+                [
+                  0.11898146569728851,
+                  0.10349558293819427,
+                  -0.98748779296875,
+                  0.18659479916095734
+                ],
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              [
+                [
+                  -0.99949049949646,
+                  -0.027752026915550232,
+                  -0.015768583863973618,
+                  -0.41625118255615234
+                ],
+                [
+                  -0.03060942515730858,
+                  0.9734095931053162,
+                  0.22701714932918549,
+                  0.4842164218425751
+                ],
+                [
+                  0.00904910545796156,
+                  0.22738413512706757,
+                  -0.973763108253479,
+                  0.2195722758769989
+                ],
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ]
+            ],
+            "meaning": "Original gate looks ahead over40 stored20Hz commands; rejected preview suffix was not dispatched by this replay",
+            "literal_parent_commanded_q_pair_rad": [
+              [
+                -0.32129722833633423,
+                0.2735327184200287,
+                1.4790834188461304,
+                -2.4606235027313232,
+                -0.19353672862052917,
+                2.4992880821228027,
+                -1.2109352350234985
+              ],
+              [
+                -0.3687466084957123,
+                0.15739277005195618,
+                1.5207105875015259,
+                -2.4358344078063965,
+                -0.09846450388431549,
+                2.6442644596099854,
+                -1.1685627698898315
+              ]
+            ],
+            "parent_installed_identity": {
+              "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/installed.npz",
+              "bytes": 49520,
+              "sha256": "06127efd0b952dc5a4ac89f516176ad5b47e01044bf56a1dcfc7c37c4c8f390b"
+            }
+          }
+        ],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/GATES.json",
+          "bytes": 30630,
+          "sha256": "47bac084730c44231e12366995a954f6698f144584c9158d497eb021b43584db"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/physics.npz",
+          "bytes": 214890,
+          "sha256": "d309914f22af7b7db2a91a126d3d68c58ee170b3d652f078b297349a52c32fdc"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/commands.npz",
+          "bytes": 7614,
+          "sha256": "9b1502bf3b80bbf4d94f25fbdf6e7dd5692993b7c27cb83c0e4ff1d80e28259f"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/installed.npz",
+          "bytes": 26802,
+          "sha256": "7d4d3be94da17d9289235a2bb26ae98a63c3d68768bd8aaa5d9ae5b19de06b3a"
+        }
+      ]
+    },
+    {
+      "lane": "FK_OF_JOINT_COMMAND_REPLAY",
+      "condition": 10001,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/RESULT.json",
+        "bytes": 1870,
+        "sha256": "dbe0c875c00e5dadb9fa2f0cf39da34a92f6a0e38a6a9592a86da062f60a64f9"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.019999917596578598,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.019999917596578598,
+        "max_height_increase_m": 0.0,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.012754006541831587,
+        "rms": 0.0272259487382946,
+        "p50": 0.006580819142982364,
+        "p95": 0.0423912785947321,
+        "max": 0.14660373330116272
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.012719504314711203,
+        "rms": 0.027208337296469057,
+        "p50": 0.0065515246242284775,
+        "p95": 0.042349220439791495,
+        "max": 0.1465679109096527
+      },
+      "actual_joint_hard_margin_min_rad": [
+        1.6555004070281982,
+        0.22971000461578361,
+        2.765300641465187,
+        -8.47439765930269e-06,
+        2.1945012162208557,
+        0.8495407271385192,
+        1.6917177389144897
+      ],
+      "actual_hard_penetration_rad": 8.47439765930269e-06,
+      "source_recorded_actual_hard_penetration_rad": 8.471310138702393e-06,
+      "source_recorded_joint_hard_margin_min_rad": [
+        1.6555004119873047,
+        0.22970998287200928,
+        2.765300750732422,
+        -8.471310138702393e-06,
+        2.1945011615753174,
+        0.8495407104492188,
+        1.6917177438735962
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 3.0875206002978217e-09,
+      "actual_hard_penetration_samples": 106,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.3484595821380615,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "actual_hard_penetration_peak": {
+        "physics_index": 1157,
+        "task_time_s": 10.57,
+        "joint": "panda_joint4",
+        "actual_q_rad": -0.0697915256023407,
+        "limits_rad": [
+          -3.0718,
+          -0.0698
+        ],
+        "margin_rad": -8.47439765930269e-06
+      },
+      "canonical_replay_to_command_m": {
+        "n": 660,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 63,
+        "decisions": {
+          "ACCEPT": 52,
+          "WARN": 11
+        },
+        "rejects": [],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/GATES.json",
+          "bytes": 121448,
+          "sha256": "64f2591afd35ef46f1e5b4b508ea728696edc97e5c45f4e0a0e59e3c00565ca9"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "c6af1b33c99d8e1e30ca92d783119b260f7feb06e1af140420b36648d7b087b4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/commands.npz",
+          "bytes": 33094,
+          "sha256": "efb05a45a62b5347841774fcf39fdacb23b7861607bcd2061273c1752079a7f9"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/installed.npz",
+          "bytes": 122482,
+          "sha256": "60866eda758e4b788baf37a587a64b15bea64e66a5a4bf534218450b03a9f6c5"
+        }
+      ]
+    },
+    {
+      "lane": "FK_OF_JOINT_COMMAND_REPLAY",
+      "condition": 10002,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/RESULT.json",
+        "bytes": 1846,
+        "sha256": "3e29bfe7c13257d3dc79a7812cc5b0208cc4ee0559d6ab873d826f68be6775eb"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 2895,
+      "max_cubeA_height_m": 0.5428891777992249,
+      "object_funnel": {
+        "first_grasp_s": 3.0600000000000005,
+        "grasp_samples": 2895,
+        "longest_grasp_s": 28.95,
+        "task_initial_height_m": 0.019999919459223747,
+        "max_height_increase_m": 0.522889256477356,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": 3.3600000000000003,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 0,
+        "static_41": 0,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.008603556230443822,
+        "rms": 0.010954314803659633,
+        "p50": 0.006593701196834445,
+        "p95": 0.022561051417142135,
+        "max": 0.05007338151335716
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.008564328791134493,
+        "rms": 0.010919484458424295,
+        "p50": 0.006550203775987029,
+        "p95": 0.022521202359348517,
+        "max": 0.05001330375671387
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.1686364958763122,
+        1.019072256374359,
+        2.370575125026703,
+        0.8612804477691651,
+        2.4476589510917663,
+        0.7689933204650878,
+        1.7417716930389404
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.1686365604400635,
+        1.0190722942352295,
+        2.370575189590454,
+        0.8612804412841797,
+        2.4476590156555176,
+        0.7689933776855469,
+        1.7417716979980469
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "canonical_replay_to_command_m": {
+        "n": 660,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 63,
+        "decisions": {
+          "ACCEPT": 52,
+          "WARN": 11
+        },
+        "rejects": [],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/GATES.json",
+          "bytes": 123342,
+          "sha256": "b2115711e15d2360e1d8355679f75954ab7dcbafe971e652a83c8595e910e52c"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "cacb15ea70d7c3d9d1600066b3f753a26066eb4072de8a4fa36a1a4129a7cd3e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/commands.npz",
+          "bytes": 33094,
+          "sha256": "34c417f9d30c4423ad3f1ded40825992ecb29eb57fb93d2ecf35f5d8c95052c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/installed.npz",
+          "bytes": 122482,
+          "sha256": "5b27e716999c819f91b42ffeb55123701683c9c5bcb75eb5bf86510d3bec090a"
+        }
+      ]
+    },
+    {
+      "lane": "FK_OF_JOINT_COMMAND_REPLAY",
+      "condition": 10003,
+      "status": "NOT_YET_CLOSED",
+      "quality": null
+    },
+    {
+      "lane": "EXPERT_DROID_BRIDGE_ROUNDTRIP",
+      "condition": 10000,
+      "status": "NOT_YET_CLOSED",
+      "quality": null
+    },
+    {
+      "lane": "EXPERT_DROID_BRIDGE_ROUNDTRIP",
+      "condition": 10001,
+      "status": "NOT_YET_CLOSED",
+      "quality": null
+    },
+    {
+      "lane": "EXPERT_DROID_BRIDGE_ROUNDTRIP",
+      "condition": 10002,
+      "status": "NOT_YET_CLOSED",
+      "quality": null
+    },
+    {
+      "lane": "EXPERT_DROID_BRIDGE_ROUNDTRIP",
+      "condition": 10003,
+      "status": "NOT_YET_CLOSED",
+      "quality": null
+    }
+  ],
+  "wbc": [],
+  "new_model_calls": 0,
+  "new_physics_steps": 0,
+  "new_training_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

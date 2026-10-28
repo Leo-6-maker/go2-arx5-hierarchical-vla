@@ -1,0 +1,179 @@
+{
+  "schema": "VAP1_A2_STORAGE_ONLY_ADOPTION_AND_QUEUE_ACTUAL_V1",
+  "status": "ACTUAL_STORAGE_ADOPTED_A2_RUNNING_NATIVE_STARTUP",
+  "observed_epoch": 1792672563.4128501,
+  "human_approval": "批准这两个存储上限，继续原实验（推荐）",
+  "authorization": {
+    "release": "1abb20973d84836b29baebf1d73466377c98759c",
+    "grant_sha256": "fd8761efd5a0c8a49b2e5f5c378965502c23a201f7fbd9c37eb681e5430862cd",
+    "approved_draft": "75faef9ec9eb11f36116dd89721d4348019fb4a7",
+    "DEC1_cap_bytes": 377957122048,
+    "global_cap_bytes": 449897824256,
+    "all_checkpoints_preserved": true,
+    "retirement_credit_bytes": 0
+  },
+  "runtime": {
+    "source_sha": "3a1420e76c492196fa83905f4bde92924cc12c28",
+    "CI_run": 39777328633,
+    "CI_job": 119819488833,
+    "CI_result": "ALL12_STEPS_SUCCESS",
+    "changed_files_exact_remote_readback": 10,
+    "local_PI0294_tests": 1193,
+    "local_PI0294_subtests": 1185,
+    "additional_integration_tests": 6,
+    "additional_integration_subtests": 17,
+    "active_source_hot_switched": false
+  },
+  "native_adoption": {
+    "status": "ACTUAL_ONCE_STORAGE_ONLY_ADOPTED_AND_READBACK_VERIFIED",
+    "epoch": 1792671883.5084298,
+    "only_added_matching_markers_and_global_transaction_revision": true,
+    "prior_GPU_CPU_PBS_update_query_storage_costs_preserved": true,
+    "unknown_effects": [],
+    "prior_closed_leases_preserved": true
+  },
+  "A2": {
+    "job_id": "1475719.stdct-mgmt-02",
+    "native_state": "R",
+    "request_id": "9d1582d5-1c87-41bf-ad53-4e049cc21fe9",
+    "submission_nonce": "3104eb01-637c-4afa-b33e-9aca24bd8204",
+    "request_sha256": "298d68cf547e1540e2a259c0e5318e5bb5c7a07bccb3afea01dae43878d67200",
+    "run_manifest_sha256": "ae5acd27be71fb05c46c8a801c7b080877e5887ec9fbc481171aa5cea5d066e1",
+    "arm": "A_CONTROL",
+    "lineage": "A_CONTROL_SAVE_RECOVERY1",
+    "start_step": 2048,
+    "target_step": 4096,
+    "start_cursor": 65536,
+    "original_1024_TRAIN_probes": "PRESERVED_NOT_REPEATED",
+    "single_qsub": true,
+    "owner_service": "ACTIVE_RUNNING",
+    "native_first_update_admission": "PENDING_FULL_STATE_IMPORT_AND_NATIVE_FIRST_UPDATE",
+    "training_completion_claimed": false,
+    "current_step": 2048,
+    "new_queries": 0,
+    "new_model_loads": 0,
+    "new_optimizer_updates": 0
+  },
+  "accounting": {
+    "used": {
+      "H200_s": 40813.0,
+      "PBS_submissions": 17,
+      "optimizer_updates": 3072,
+      "neural_queries": 1117
+    },
+    "reserved": {
+      "H200_s": 22560,
+      "neural_queries": 29,
+      "optimizer_updates": 2048
+    },
+    "CPU_used_s": 63680.822133859,
+    "CPU_reserved_s": 54000,
+    "output_current_bytes": 193915770907,
+    "output_reserved_bytes": 70000000000,
+    "unknown_effects": [],
+    "pending_updates": []
+  },
+  "remaining_order": [
+    "A2048_TO4096",
+    "INDEPENDENT_B_ORIGINAL_CORR0_TO2048",
+    "B2048_TO4096"
+  ],
+  "preserved": {
+    "original_T0_epoch": 1792348196,
+    "new_job_cutoff": 1792866596,
+    "training_cutoff": 1792909796,
+    "physics_cutoff": 1792924196,
+    "hard_close": 1792952996,
+    "final_GPU_s": 72000,
+    "final_output_bytes": 42949672960,
+    "all_non_storage_allowances_unchanged": true,
+    "original_R0_recipe_sampler_WBC_S1_scoring": true,
+    "old_lost_A1024_cost_not_relabelled": true,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "target_executor_qualification": "NOT_YET_DELIVERED_NOT_A_SOURCE_TRAINING_BLOCKER"
+  },
+  "followup": {
+    "same_thread_low_frequency_minutes": 15,
+    "automation_id": "vanda",
+    "original_owner_heartbeat_unchanged": true,
+    "unchanged_queue_no_repeated_notifications": true
+  },
+  "next_gate": "COMPLETE_FULL_STATE_IMPORT_COMPATIBILITY_AND_FIRST_UPDATE_ADMISSION",
+  "full_scientific_goal_complete": false,
+  "initial_queue_observed_epoch": 1792672030.0908883,
+  "parallel_preparation": {
+    "B1": {
+      "status": "PASS_LOCAL_METADATA_ONLY_NOT_NATIVE_ADMISSION",
+      "metadata_sha256": "3b4e33f3995c3a778a96096f341766fda069bd4c8a0396c76e987fe1900250d4",
+      "checks_passed": 31,
+      "source": "3a1420e76c492196fa83905f4bde92924cc12c28",
+      "source_members": 841,
+      "small_inputs": 25,
+      "original_CORR0_independent": true,
+      "R0_recipes_data_sampler_unchanged": true,
+      "remaining_plan_keeps_unfinished_A2": true,
+      "requires_actual_A4096_audit_settlement_GPU_CPU_closure_and_fresh_admission": true
+    },
+    "A2_terminal": {
+      "status": "LOCAL_A2_4096_TERMINAL_ADAPTER_PREPARED_AND_PURE_TESTED_NOT_EXECUTED",
+      "wrapper_sha256": "74c591d1973703156639b0a3f32ba8a4651ebf4a24a776c1a47551026885575f",
+      "test_sha256": "1acc4dbe92aee7392d72fef3270708aa1e64d7255f4c2ede23c5c48f4ca6259a",
+      "tests_passed": 8,
+      "actual_audit_or_settlement": false,
+      "expected_success_effects": {
+        "new_updates": 2048,
+        "queries": 17,
+        "model_loads": 2,
+        "total_charged_updates": 5120
+      },
+      "observed_epoch": 1792672424.8133981
+    }
+  },
+  "remaining_control_full_plan_check": {
+    "status": "PASS_ACTUAL_POST_ADOPTION_PREQUEUE_VECTOR_WITH_BOTH_FUTURE_CPU_CONTROLS",
+    "observed_epoch": 1792672285.0506864,
+    "snapshot_epoch": 1792672028.5052316,
+    "extra_control_caps_not_new_allowance": {
+      "Hopper_CPU_s": 3600,
+      "local_CPU_s": 2400,
+      "transfer_bytes": 536870912
+    },
+    "checks": {
+      "global": {
+        "Hopper_CPU_s": {
+          "projected_including_two_remaining_controls": 309280.822133859,
+          "cap": 576000
+        },
+        "local_CPU_s": {
+          "projected_including_two_remaining_controls": 42383.974682509,
+          "cap": 172800
+        },
+        "transfer_bytes": {
+          "projected_including_two_remaining_controls": 67614249601,
+          "cap": 322122547200
+        }
+      },
+      "DEC1": {
+        "Hopper_CPU_s": {
+          "projected_including_two_remaining_controls": 302610.0,
+          "cap": 345600
+        },
+        "local_CPU_s": {
+          "projected_including_two_remaining_controls": 42383.974682509,
+          "cap": 57600
+        },
+        "transfer_bytes": {
+          "projected_including_two_remaining_controls": 48260080941,
+          "cap": 137438953472
+        }
+      }
+    },
+    "all_retained_DEC1_peak_bytes": 377869712411,
+    "DEC1_cap_bytes": 377957122048,
+    "global_peak_with_original_final_bytes": 449147145243,
+    "global_cap_bytes": 449897824256,
+    "actual_native_mutations": 0,
+    "training_gpu_jobs_added": 0
+  }
+}

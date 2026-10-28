@@ -1,0 +1,46 @@
+{
+  "run_uuid": "20261014T072142Z-incoming-pi0294-r2",
+  "actual_source_sha": "43ced701d73f1df73389711f03b5b5ed68c90867",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "old_P1_FAIL_preserved": true,
+  "schema": "PI0294_R2_ALLOWLIST_ACTUAL_V1",
+  "status": "TESTED_CANDIDATE_RETIRED_NOT_DEPLOYMENT_DRIVER",
+  "default_without_hook": "ORIGINAL_D0_FORMULA",
+  "modified_existing_file": "scripts/pi0291_arx5_data/engine.py",
+  "existing_diff": [
+    "snapshot reports bound driver version, default original version",
+    "optional finger motor force hook before unchanged8N cap"
+  ],
+  "new_scientific_files": [
+    "scripts/pi0294/gripper_safety.py",
+    "scripts/pi0294/gripper_driver.py"
+  ],
+  "frozen_numerical_files18": "ALL18_EXACT_OLD_HASHES_MATCH",
+  "preserved": {
+    "finger_kp_N_m": 400,
+    "force_cap_N": 8,
+    "reference_slew_m_s": 0.04,
+    "passive_damping_N_s_m": 3,
+    "effective_finger_limit_m": [
+      -0.001,
+      0.045
+    ],
+    "nominal_finger_limit_m": [
+      0,
+      0.044
+    ],
+    "dt_s": 0.002,
+    "SafetyGate": true,
+    "high_rate_native_checks": true,
+    "arm_controller": true,
+    "scene_geometry": true,
+    "masses_friction_solver": true,
+    "teacher": true,
+    "processor_stats": true,
+    "neural_training": true
+  },
+  "CPU_contract": "PASS_CPU_SINGLE_MECHANISM_POWER_GAIN_AND_ORIGINAL_FORCE_CAP",
+  "CPU_contract_is_not_physical_qualification": true,
+  "final_D1": "NONE"
+}

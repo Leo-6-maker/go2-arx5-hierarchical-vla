@@ -1,0 +1,189 @@
+{
+  "schema": "SEPTEMBER_RETIREMENT_CORELAB_ACTUAL_RECEIPT_V1",
+  "status": "CORELAB_EXACT_SEPTEMBER_RETIREMENT_COMPLETE_CURRENT_ASSETS_PASS",
+  "authority_comment": 6140769226,
+  "run_uuid": "20261013T074558Z-localpc-september-retirement",
+  "maintenance_T0_epoch": 1791877558.1337488,
+  "maintenance_deadline_epoch": 1791891958.1337488,
+  "independent_of_science_clock": true,
+  "storage": [
+    {
+      "storage": "CORELAB_SHARED_NFS",
+      "observed_epoch": 1791882695.017378,
+      "deleted_file_entries": 202847,
+      "deleted_last_link_file_st_blocks_bytes": 100175826944,
+      "filesystem_available_before_bytes": 1484684693504,
+      "filesystem_available_after_bytes": 1584548114432,
+      "observed_filesystem_available_delta_bytes": 99863420928,
+      "measured_retirement_actor_CPU_s": 62.437335000000004,
+      "batch_count": 7,
+      "all_retirement_actors_terminal_and_absent": true,
+      "all_exact_candidate_roots_absent": true,
+      "doctors_after_navigation_adoption": [
+        {
+          "profile": "amd-management",
+          "status": "PASS",
+          "checks": 4,
+          "CPU_s": 0.200375
+        }
+      ],
+      "batches": [
+        {
+          "batch": "amd-home-batch-01",
+          "deleted_file_entries": 0,
+          "deleted_last_link_file_st_blocks_bytes": 0,
+          "CPU_s": 0.158245
+        },
+        {
+          "batch": "amd-home-batch-02",
+          "deleted_file_entries": 25927,
+          "deleted_last_link_file_st_blocks_bytes": 20456886272,
+          "CPU_s": 8.157577
+        },
+        {
+          "batch": "amd-home-batch-03",
+          "deleted_file_entries": 29437,
+          "deleted_last_link_file_st_blocks_bytes": 713846784,
+          "CPU_s": 5.693415
+        },
+        {
+          "batch": "amd-home-batch-04",
+          "deleted_file_entries": 9932,
+          "deleted_last_link_file_st_blocks_bytes": 57903005696,
+          "CPU_s": 2.4105600000000003
+        },
+        {
+          "batch": "nfs-additional-september-01",
+          "deleted_file_entries": 16618,
+          "deleted_last_link_file_st_blocks_bytes": 2281877504,
+          "CPU_s": 4.710576
+        },
+        {
+          "batch": "nfs-september-projects-01",
+          "deleted_file_entries": 65642,
+          "deleted_last_link_file_st_blocks_bytes": 6568181760,
+          "CPU_s": 24.860298
+        },
+        {
+          "batch": "nfs-september-projects-02",
+          "deleted_file_entries": 55291,
+          "deleted_last_link_file_st_blocks_bytes": 12252028928,
+          "CPU_s": 16.446664
+        }
+      ]
+    },
+    {
+      "storage": "CORELAB_4080S_LOCAL_SSD",
+      "observed_epoch": 1791882722.0802624,
+      "deleted_file_entries": 167871,
+      "deleted_last_link_file_st_blocks_bytes": 81641566208,
+      "filesystem_available_before_bytes": 562233593856,
+      "filesystem_available_after_bytes": 643692781568,
+      "observed_filesystem_available_delta_bytes": 81459187712,
+      "measured_retirement_actor_CPU_s": 15.324677999999999,
+      "batch_count": 4,
+      "all_retirement_actors_terminal_and_absent": true,
+      "all_exact_candidate_roots_absent": true,
+      "doctors_after_navigation_adoption": [
+        {
+          "profile": "4080-simulation",
+          "status": "PASS",
+          "checks": 5,
+          "CPU_s": 0.312014
+        },
+        {
+          "profile": "4080-cpu-data",
+          "status": "PASS",
+          "checks": 5,
+          "CPU_s": 0.241585
+        }
+      ],
+      "batches": [
+        {
+          "batch": "ssd-additional-september-01",
+          "deleted_file_entries": 984,
+          "deleted_last_link_file_st_blocks_bytes": 4948267008,
+          "CPU_s": 0.192199
+        },
+        {
+          "batch": "ssd-september-dated-01",
+          "deleted_file_entries": 90656,
+          "deleted_last_link_file_st_blocks_bytes": 61136764928,
+          "CPU_s": 8.780313
+        },
+        {
+          "batch": "ssd-september-dated-02",
+          "deleted_file_entries": 0,
+          "deleted_last_link_file_st_blocks_bytes": 0,
+          "CPU_s": 0.20988099999999998
+        },
+        {
+          "batch": "ssd-september-projects-01",
+          "deleted_file_entries": 76231,
+          "deleted_last_link_file_st_blocks_bytes": 15556534272,
+          "CPU_s": 6.142285
+        }
+      ]
+    }
+  ],
+  "current_data_and_source": {
+    "status": "PASS_CURRENT_BANK_BYTES_AND_AVAILABLE_SOURCE_SEALS",
+    "epoch": 1791880702.7434683,
+    "numeric_files": 80,
+    "unique_RGB_files": 96160,
+    "split_counts": {
+      "TRAIN": 64,
+      "DEV": 16
+    },
+    "seals": [
+      {
+        "name": "CODE_SEAL.json",
+        "count": 136,
+        "source_sha": "35290803cd82e10a164daaa53af5743dd43054ee"
+      },
+      {
+        "name": "CODE_SEAL.json",
+        "count": 121,
+        "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541"
+      }
+    ],
+    "manifest_sha256": "c228f59473c110264f58cf34dbd75198a3ee12207e0788967614d33f27f6999a",
+    "statistics_sha256": "c3b871e3b5a854e876e4dbff806640f3472bef32b64f9d3db764a4d2c39b5fe4",
+    "actual_CPU_s": 4.170096,
+    "physics": 0,
+    "model_calls": 0,
+    "operations_seal_files": 30,
+    "operations_seal_sha256": "735999a7905b7af86ea765c03cbc359cd4c1e2c56b284047d741ecacabb2495d"
+  },
+  "accounting": "Last-link st_blocks counts are exact deletion accounting, not a guarantee of unique physical extent release on Btrfs. Filesystem available deltas are separately observed and may include concurrent writers, metadata and retained tiny receipts; they are not claimed solely attributable to this actor.",
+  "NFS_not_double_counted_on_4080S": true,
+  "earlier_failures_preserved": [
+    "Pre-dispatch source extraction syntax error",
+    "Peer observation syntax error; no deletion",
+    "Verified system desktop integration FD gap",
+    "Owned read-only directory cleanup retry",
+    "Hardlink ctime changes caused by own unlink; final-link accounting repair",
+    "Alias peer helper stdin __file__ failure before unlink"
+  ],
+  "transient_holds_resolved_by_exact_retry": true,
+  "excluded": [
+    "Other user accounts",
+    "Current PI0290/PI0291/PI0292 and October experiments",
+    "Mixed original WBC root and provenance-unqualified August contents",
+    "Whole mixed go2-arx5 parents"
+  ],
+  "additional_September_provenance": "PI0261/PI0262/PI0263 protocol first publication is September30 SGT; later archival copies are the same abandoned cohort, not current October protocols.",
+  "alias_retirement": {
+    "exact_September_PI0256_stale_alias_removed": true,
+    "additional_claimed_release_bytes": 0
+  },
+  "retained_reports": "Bounded small protocol/audit/report files verified in private maintenance receipts; no large backup or HF upload",
+  "hopper_scope": "Independent pre-existing maintenance actor owns actual Hopper retirement; do not double-delete or credit its released bytes to this CoreLab actor. Observed current migrated bindings are adopted as navigation metadata only.",
+  "GPU_PBS_physics_model_WBC_hardware_added_by_maintenance": 0,
+  "measured_retirement_actor_CPU_s": 77.762013,
+  "maintenance_CPU_wall_cap_upper_s": 20655.786054611206,
+  "maintenance_CPU_upper_basis": "Four-CPU ceiling multiplied by actual maintenance wall time through final observation; includes measured actor CPU, not added again",
+  "maintenance_CPU_total_upper_below_16_core_hours": true,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

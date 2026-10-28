@@ -1,0 +1,44 @@
+#!/bin/bash
+# PI0238 G0-G3: one bounded CPU-only audit job; no model/forward/WBC/sim.
+#PBS -N pi0238-g0g3
+#PBS -P CFP03-CF-004
+# Let the site route this short audit to the platform's standard node.
+# CUDA is disabled below; no model or GPU work is performed.
+# Match the platform's proven auto-route request; the site fills CPU/memory.
+#PBS -l select=1:ngpus=1
+#PBS -q auto
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -V
+
+set -euo pipefail
+
+OUT=/scratch/e1192548/pi0238_audit_to_sim_20260920T034100Z
+PY=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
+SCRIPT=$OUT/scripts/pi0238_audit_to_sim.py
+PROTO=$OUT/scripts/PI0238_AUDIT_TO_LARGE_SIM_CLOSED_LOOP_GOALS_V1.md
+P237=/scratch/e1192548/pi0237_failure_attribution_20260920T014727Z
+RUN=/scratch/e1192548/pi0236_train_calib_eval_624097.hopper-m-02
+TRAIN=/scratch/e1192548/pi0227_large_adapt_v1_inputs/train_dataset
+CALIB=/scratch/e1192548/pi0227_large_adapt_v1_inputs/train_calib_dataset
+PREP=/scratch/e1192548/pi0228_h200_prep_20260919
+VLA=/scratch/e1192548/go2-arx5-hierarchical-vla_takeover
+STAGE10=/scratch/e1192548/stage22_h200_runtime_deb920_20260902
+BASE=/scratch/e1192548/pi0227_large_adapt_v1_inputs/checkpoint-1000
+COSMOS=/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561
+MODALITY=/scratch/e1192548/pi0227_h200_prep_20260919/inputs/go2_arx5_modality.py
+
+export CUDA_VISIBLE_DEVICES=""
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export OMP_NUM_THREADS=2
+export MKL_NUM_THREADS=2
+export PYTHONUNBUFFERED=1
+
+common=(--output-root "$OUT" --p237-root "$P237" --run-root "$RUN" --train-dataset "$TRAIN" --calib-dataset "$CALIB" --prep-root "$PREP" --vla-source "$VLA" --stage10-root "$STAGE10" --baseline "$BASE" --cosmos-snapshot "$COSMOS" --modality-config "$MODALITY" --protocol "$PROTO")
+printf 'PI0238 CPU audit start UTC=%s PBS_JOBID=%s\n' "$(date -u +%Y%m%dT%H%M%SZ)" "${PBS_JOBID:-unknown}"
+"$PY" "$SCRIPT" --phase g0 "${common[@]}"
+"$PY" "$SCRIPT" --phase g1 "${common[@]}"
+"$PY" "$SCRIPT" --phase g2 "${common[@]}"
+"$PY" "$SCRIPT" --phase g3 "${common[@]}"
+printf 'PI0238 CPU audit complete UTC=%s\n' "$(date -u +%Y%m%dT%H%M%SZ)"

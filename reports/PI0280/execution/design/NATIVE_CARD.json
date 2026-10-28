@@ -1,0 +1,318 @@
+{
+  "release": "9c0172ced33c6052f7cb037b4a6d91910f9fe69e",
+  "official_code": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "model_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+  "source_tag": "oxe_droid_relative_eef_relative_joint",
+  "fps": 15,
+  "action_horizon": 40,
+  "action_period_s": 0.06666666666666667,
+  "history_frame_deltas": [
+    -15,
+    0
+  ],
+  "video_key_binding": {
+    "exterior_image_1_left": "observation.images.exterior_1_left",
+    "wrist_image_left": "observation.images.wrist_left"
+  },
+  "state_slices": {
+    "eef_9d": [
+      0,
+      9
+    ],
+    "gripper_position": [
+      9,
+      10
+    ],
+    "joint_position": [
+      10,
+      17
+    ]
+  },
+  "selection": "16 equally spaced valid anchors per real episode, inclusive [15, length-40], fixed before outputs",
+  "sources": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/assets/droid_sample/data/chunk-000/episode_000001.parquet",
+      "sha256": "14f86cfe04380c5ba8e876cab6e0532b9231af5cd4e5ddcd8e019e458f79d709"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/assets/droid_sample/videos/chunk-000/observation.images.exterior_1_left/episode_000001.mp4",
+      "sha256": "89f71cb8289f565fe2b6b405909b6810dc0e51166ee409e95cc8e84ed3f9199f"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/assets/droid_sample/videos/chunk-000/observation.images.wrist_left/episode_000001.mp4",
+      "sha256": "3b01e89c75c74ac90b518656e49a7033d249ca4a3213aeae8c388a2db3d17b91"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/assets/droid_sample/data/chunk-000/episode_000002.parquet",
+      "sha256": "c22df4dca06122846d4ea0848751d734a211ed008d2bd63e29b66a8ce67222c6"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/assets/droid_sample/videos/chunk-000/observation.images.exterior_1_left/episode_000002.mp4",
+      "sha256": "a6d575be937d4259dac4f3d33529d7a81ecda5b22b6c1159ae7222a5adfbd80e"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/assets/droid_sample/videos/chunk-000/observation.images.wrist_left/episode_000002.mp4",
+      "sha256": "82eeeb20596dae59bd7074c7e44f4dd8c292551d5bd1b2d9948a765523a1f541"
+    }
+  ],
+  "rows": [
+    {
+      "id": "episode1-frame0015",
+      "episode": 1,
+      "frame": 15,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0015.npz",
+      "input_sha256": "362fe778d7b5fb6aea2229e59067a0c25f2effab3b6d7e33e4f1e7321999cb80"
+    },
+    {
+      "id": "episode1-frame0029",
+      "episode": 1,
+      "frame": 29,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0029.npz",
+      "input_sha256": "4dd187d71abe4e6bfea487341ee86dd0a4eb72ba2e2b8f0056d2609f43ef42c0"
+    },
+    {
+      "id": "episode1-frame0043",
+      "episode": 1,
+      "frame": 43,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0043.npz",
+      "input_sha256": "3ac223b7fca98fe2f3abad7207bf3ac948315718f02fe9433325d5b84928bc39"
+    },
+    {
+      "id": "episode1-frame0057",
+      "episode": 1,
+      "frame": 57,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0057.npz",
+      "input_sha256": "918f69b07103b93732d56c9c598681034e760054e290b9bd92e27929591deb53"
+    },
+    {
+      "id": "episode1-frame0071",
+      "episode": 1,
+      "frame": 71,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0071.npz",
+      "input_sha256": "e6c423c08443236863bdfa5eb5e3c8f88d2be2a8e1bc127edf77039dc3d968c3"
+    },
+    {
+      "id": "episode1-frame0085",
+      "episode": 1,
+      "frame": 85,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0085.npz",
+      "input_sha256": "e9b75675fd85c6f9b03eead4da6c10a255774504ca9b82d1f1054e6f7e8d5fa0"
+    },
+    {
+      "id": "episode1-frame0099",
+      "episode": 1,
+      "frame": 99,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0099.npz",
+      "input_sha256": "1711f1386213ad9fff59812e2de915633fd3f7e3134dbc2c22052484eb275678"
+    },
+    {
+      "id": "episode1-frame0113",
+      "episode": 1,
+      "frame": 113,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0113.npz",
+      "input_sha256": "34323c4779caf496fcd2b86a467e96c0159baef0ce0f9f83edde1cf9ebc8d0b0"
+    },
+    {
+      "id": "episode1-frame0127",
+      "episode": 1,
+      "frame": 127,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0127.npz",
+      "input_sha256": "50b5b0c58dfbc9b3f9a7d931a032dbc263b25946277f6145825b5be44231c297"
+    },
+    {
+      "id": "episode1-frame0141",
+      "episode": 1,
+      "frame": 141,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0141.npz",
+      "input_sha256": "fab66d08e63d004dd241eb011b39567f6e1c57cd68a89c215ee6a839b90976d4"
+    },
+    {
+      "id": "episode1-frame0155",
+      "episode": 1,
+      "frame": 155,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0155.npz",
+      "input_sha256": "17f99e78405bf8a566fa480316b4409e0bb2789244d8dad920eca51f17ddad1f"
+    },
+    {
+      "id": "episode1-frame0169",
+      "episode": 1,
+      "frame": 169,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0169.npz",
+      "input_sha256": "25a081c18d689e7b2abf47cf7c8f8496fa2f8e1bc5383087b128c699dfc33415"
+    },
+    {
+      "id": "episode1-frame0183",
+      "episode": 1,
+      "frame": 183,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0183.npz",
+      "input_sha256": "7a411ca1fd70aafc1e6fb163c11bb61503d64452e8d81252cf07a0a720813cc2"
+    },
+    {
+      "id": "episode1-frame0197",
+      "episode": 1,
+      "frame": 197,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0197.npz",
+      "input_sha256": "59fc117e36afbdd47d5853ff3eda08e759a0b850bd16224b8f39a51e9b555693"
+    },
+    {
+      "id": "episode1-frame0211",
+      "episode": 1,
+      "frame": 211,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0211.npz",
+      "input_sha256": "38cf110234bebaea0072769a199716d377de0622e786a6b69c083e9a41884e6e"
+    },
+    {
+      "id": "episode1-frame0226",
+      "episode": 1,
+      "frame": 226,
+      "language": "Put the blue block in the green bowl",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode1-frame0226.npz",
+      "input_sha256": "e46ad056803411ae6d6a146deab5b5fb1eb19e82b6dfc02e8f5d4dba4ce47d5a"
+    },
+    {
+      "id": "episode2-frame0015",
+      "episode": 2,
+      "frame": 15,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0015.npz",
+      "input_sha256": "e7f5506687e2a77c87374ac97d86881ae8a6a731c8e713b366c5ed19b011d817"
+    },
+    {
+      "id": "episode2-frame0038",
+      "episode": 2,
+      "frame": 38,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0038.npz",
+      "input_sha256": "18f444ae6165cde54ddc8f291ec06d7d604410e14df72beff330fb5837fd2013"
+    },
+    {
+      "id": "episode2-frame0062",
+      "episode": 2,
+      "frame": 62,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0062.npz",
+      "input_sha256": "9caff9034700a03f4f0d47a50da626732faefc7c7bf7dd2ad65fe1a16d3658b1"
+    },
+    {
+      "id": "episode2-frame0086",
+      "episode": 2,
+      "frame": 86,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0086.npz",
+      "input_sha256": "acc6eec773477e0a8f225c976c24e17958da18e8c607ea7994edba03c1a0121d"
+    },
+    {
+      "id": "episode2-frame0109",
+      "episode": 2,
+      "frame": 109,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0109.npz",
+      "input_sha256": "6ea3352de1440c6444723657cd0525d5e9cb2b56888c2bce3c4fb20830e27af3"
+    },
+    {
+      "id": "episode2-frame0133",
+      "episode": 2,
+      "frame": 133,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0133.npz",
+      "input_sha256": "e05d8d0b946f1c663de1f64017f5bb75f28c9fd83fba8f2667cabab4ac649766"
+    },
+    {
+      "id": "episode2-frame0157",
+      "episode": 2,
+      "frame": 157,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0157.npz",
+      "input_sha256": "fc1395c5b31a1efbd11bb9d0c8d2198f6560877761e74476cae491822d4acdf4"
+    },
+    {
+      "id": "episode2-frame0181",
+      "episode": 2,
+      "frame": 181,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0181.npz",
+      "input_sha256": "3e78ec181c453c1cf6e06103b72e9811cc6dedda76e608f07e423e91264ce140"
+    },
+    {
+      "id": "episode2-frame0204",
+      "episode": 2,
+      "frame": 204,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0204.npz",
+      "input_sha256": "8a12d9b120065aa97d0cf59f849515e224e8f791e445d9a91cfb893f1e1012a9"
+    },
+    {
+      "id": "episode2-frame0228",
+      "episode": 2,
+      "frame": 228,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0228.npz",
+      "input_sha256": "f372c9632f58f5cca2e91adefe4a29b80e655e6485d3cc59e618d142ea774452"
+    },
+    {
+      "id": "episode2-frame0252",
+      "episode": 2,
+      "frame": 252,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0252.npz",
+      "input_sha256": "ab5dd4fdd8a22c9ea3716d423707f7b2531a9719da7bae27cca6871e4ee6356b"
+    },
+    {
+      "id": "episode2-frame0276",
+      "episode": 2,
+      "frame": 276,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0276.npz",
+      "input_sha256": "d8bda87555121461d153c626e785d6694855b4322466b7312d498750917a124f"
+    },
+    {
+      "id": "episode2-frame0299",
+      "episode": 2,
+      "frame": 299,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0299.npz",
+      "input_sha256": "e0e36181814bdc5aaa18a9a3a3d9258baf8ff96640f16eade43e6ee8d09de83f"
+    },
+    {
+      "id": "episode2-frame0323",
+      "episode": 2,
+      "frame": 323,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0323.npz",
+      "input_sha256": "924dd13a1efbb975d6479c7a8d4f67a8e2942c71adc3f086c775cce7522468c8"
+    },
+    {
+      "id": "episode2-frame0347",
+      "episode": 2,
+      "frame": 347,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0347.npz",
+      "input_sha256": "07b7dc257d7f676057c4373199412f66ad1beb9d30ad0b0e9bb09ab1d05ad664"
+    },
+    {
+      "id": "episode2-frame0371",
+      "episode": 2,
+      "frame": 371,
+      "language": "Move the bottom right tip of the duvet to the left",
+      "input_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/native/inputs/episode2-frame0371.npz",
+      "input_sha256": "62c03fd02a4f0c2980be490332ad150011db712337ef35b4befa40111ff33c79"
+    }
+  ],
+  "actual_queries_planned": 64,
+  "training_updates": 0
+}

@@ -1,0 +1,605 @@
+{
+  "official_head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "files": {
+    "gr00t/model/gr00t_n1d7/gr00t_n1d7.py": {
+      "sha256": "6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c",
+      "reviewed_line_count": 627,
+      "committed_sha256": "6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c",
+      "working_bytes_match_commit": true,
+      "excerpts": [
+        {
+          "start_line": 66,
+          "end_line": 96,
+          "text": "        self.state_encoder = CategorySpecificMLP(\n            num_categories=config.max_num_embodiments,\n            input_dim=config.max_state_dim * config.state_history_length,\n            hidden_dim=self.hidden_size,\n            output_dim=self.input_embedding_dim,\n        )\n        self.action_encoder = MultiEmbodimentActionEncoder(\n            action_dim=self.action_dim,\n            hidden_size=self.input_embedding_dim,\n            num_embodiments=config.max_num_embodiments,\n        )\n        self.action_decoder = CategorySpecificMLP(\n            num_categories=config.max_num_embodiments,\n            input_dim=self.hidden_size,\n            hidden_dim=self.hidden_size,\n            output_dim=self.action_dim,\n        )\n\n        self.vlln = (\n            nn.LayerNorm(config.backbone_embedding_dim) if config.use_vlln else nn.Identity()\n        )\n\n        vl_self_attention_cfg = getattr(config, \"vl_self_attention_cfg\", None)\n        if vl_self_attention_cfg and vl_self_attention_cfg.get(\"num_layers\", 0) > 0:\n            self.vl_self_attention = SelfAttentionTransformer(**vl_self_attention_cfg)\n        else:\n            self.vl_self_attention = nn.Identity()\n\n        if config.add_pos_embed:\n            self.position_embedding = nn.Embedding(config.max_seq_len, self.input_embedding_dim)\n            nn.init.normal_(self.position_embedding.weight, mean=0.0, std=0.02)"
+        },
+        {
+          "start_line": 121,
+          "end_line": 168,
+          "text": "    def set_trainable_parameters(\n        self, tune_projector: bool, tune_diffusion_model: bool, tune_vlln: bool\n    ):\n        self.tune_projector = tune_projector\n        self.tune_diffusion_model = tune_diffusion_model\n        self.tune_vlln = tune_vlln\n        for p in self.parameters():\n            p.requires_grad = True\n        if not tune_projector:\n            self.state_encoder.requires_grad_(False)\n            self.action_encoder.requires_grad_(False)\n            self.action_decoder.requires_grad_(False)\n            if self.config.add_pos_embed:\n                self.position_embedding.requires_grad_(False)\n        if not tune_diffusion_model:\n            self.model.requires_grad_(False)\n        if not tune_vlln:\n            self.vlln.requires_grad_(False)\n            self.vl_self_attention.requires_grad_(False)\n        logger.debug(f\"Tune action head projector: {self.tune_projector}\")\n        logger.debug(f\"Tune action head diffusion model: {self.tune_diffusion_model}\")\n        logger.debug(f\"Tune action head vlln: {self.tune_vlln}\")\n        # Check if any parameters are still trainable. If not, log a warning.\n        if not tune_projector and not tune_diffusion_model and not tune_vlln:\n            for name, p in self.named_parameters():\n                if p.requires_grad:\n                    logger.debug(f\"Action head trainable parameter: {name}\")\n        if not any(p.requires_grad for p in self.parameters()):\n            logger.warning(\"No action head trainable parameters found.\")\n\n    def set_frozen_modules_to_eval_mode(self):\n        \"\"\"\n        Huggingface will call model.train() at each training_step. To ensure\n        the expected behaviors for modules like dropout, batchnorm, etc., we\n        need to call model.eval() for the frozen modules.\n        \"\"\"\n        if self.training:\n            if not self.tune_projector:\n                self.state_encoder.eval()\n                self.action_encoder.eval()\n                self.action_decoder.eval()\n                if self.config.add_pos_embed:\n                    self.position_embedding.eval()\n            if not self.tune_diffusion_model:\n                self.model.eval()\n            if not self.tune_vlln:\n                self.vlln.eval()\n                self.vl_self_attention.eval()"
+        },
+        {
+          "start_line": 209,
+          "end_line": 245,
+          "text": "        # Get embodiment ID.\n        embodiment_id = action_input.embodiment_id\n\n        # Handle state history\n        assert action_input.state.shape[1] == self.config.state_history_length\n        action_input.state = action_input.state.view(action_input.state.shape[0], 1, -1)\n\n        # Embed state.\n        state_features = self.state_encoder(action_input.state, embodiment_id)\n\n        # Dropout state features (training only): zero out dropped states.\n        if self.training and self.state_dropout_prob > 0:\n            do_dropout = (\n                torch.rand(state_features.shape[0], device=state_features.device)\n                < self.state_dropout_prob\n            )\n            do_dropout = do_dropout[:, None, None].to(dtype=state_features.dtype)\n            state_features = state_features * (1 - do_dropout)\n\n        # Embed noised action trajectory.\n        actions = action_input.action\n        noise = torch.randn(actions.shape, device=actions.device, dtype=actions.dtype)\n        t = self.sample_time(actions.shape[0], device=actions.device, dtype=actions.dtype)\n        t = t[:, None, None]  # shape (B,1,1) for broadcast\n\n        noisy_trajectory = (1 - t) * noise + t * actions\n        velocity = actions - noise\n\n        # Convert (continuous) t -> discrete if needed\n        t_discretized = (t[:, 0, 0] * self.num_timestep_buckets).long()\n        action_features = self.action_encoder(noisy_trajectory, t_discretized, embodiment_id)\n\n        # Maybe add position embedding.\n        if self.config.add_pos_embed:\n            pos_ids = torch.arange(action_features.shape[1], dtype=torch.long, device=device)\n            pos_embs = self.position_embedding(pos_ids).unsqueeze(0)\n            action_features = action_features + pos_embs"
+        },
+        {
+          "start_line": 272,
+          "end_line": 278,
+          "text": "        pred = self.action_decoder(model_output, embodiment_id)\n        pred_actions = pred[:, -actions.shape[1] :]\n\n        # Slice out only the action portion of pred and target.\n        action_mask = action_input.action_mask\n        action_loss = F.mse_loss(pred_actions, velocity, reduction=\"none\") * action_mask\n        loss = action_loss.sum() / (action_mask.sum() + 1e-6)"
+        },
+        {
+          "start_line": 313,
+          "end_line": 321,
+          "text": "        # Handle state history: if we have fewer timesteps than expected, repeat to fill\n        state = action_input.state\n        current_T = state.shape[1]\n        assert current_T == self.config.state_history_length, \"current_T != state_history_length\"\n        # Reshape state from [B, state_history_length, max_state_dim] to [B, 1, state_history_length * max_state_dim]\n        state = state.view(state.shape[0], 1, -1)\n\n        # Embed state.\n        state_features = self.state_encoder(state, embodiment_id)"
+        },
+        {
+          "start_line": 346,
+          "end_line": 353,
+          "text": "        # Set initial actions as the sampled noise.\n        batch_size = vl_embeds.shape[0]\n        device = vl_embeds.device\n        actions = torch.randn(\n            size=(batch_size, self.config.action_horizon, self.action_dim),\n            dtype=vl_embeds.dtype,\n            device=device,\n        )"
+        },
+        {
+          "start_line": 396,
+          "end_line": 435,
+          "text": "        # Run denoising steps.\n        for t in range(self.num_inference_timesteps):\n            t_cont = t / float(self.num_inference_timesteps)  # e.g. goes 0, 1/N, 2/N, ...\n            t_discretized = int(t_cont * self.num_timestep_buckets)\n\n            # Embed noised action trajectory.\n            timesteps_tensor = torch.full(\n                size=(batch_size,), fill_value=t_discretized, device=device\n            )\n            action_features = self.action_encoder(actions, timesteps_tensor, embodiment_id)\n            # Add position embedding.\n            if self.config.add_pos_embed:\n                pos_ids = torch.arange(action_features.shape[1], dtype=torch.long, device=device)\n                pos_embs = self.position_embedding(pos_ids).unsqueeze(0)\n                action_features = action_features + pos_embs\n\n            # Join vision, language, state and action embedding along sequence dimension.\n            sa_embs = torch.cat((state_features, action_features), dim=1)\n\n            # Run model forward.\n            if self.config.use_alternate_vl_dit:\n                model_output = self.model(\n                    hidden_states=sa_embs,\n                    encoder_hidden_states=vl_embeds,\n                    timestep=timesteps_tensor,\n                    image_mask=backbone_output.image_mask,\n                    backbone_attention_mask=backbone_output.backbone_attention_mask,\n                )\n            else:\n                model_output = self.model(\n                    hidden_states=sa_embs,\n                    encoder_hidden_states=vl_embeds,\n                    timestep=timesteps_tensor,\n                )\n            pred = self.action_decoder(model_output, embodiment_id)\n\n            pred_velocity = pred[:, -self.action_horizon :]\n\n            # Update actions using euler integration.\n            actions = actions + dt * pred_velocity * vel_strength"
+        }
+      ]
+    },
+    "gr00t/model/modules/embodiment_conditioned_mlp.py": {
+      "sha256": "d8c60775642016262e3df742e7ed10da38007d7a6bc6aa94fcb427f2ff9e1752",
+      "reviewed_line_count": 238,
+      "committed_sha256": "d8c60775642016262e3df742e7ed10da38007d7a6bc6aa94fcb427f2ff9e1752",
+      "working_bytes_match_commit": true,
+      "excerpts": [
+        {
+          "start_line": 59,
+          "end_line": 79,
+          "text": "class CategorySpecificLinear(nn.Module):\n    \"\"\"Linear layer with category-specific weights and biases for multi-embodiment support.\"\"\"\n\n    def __init__(self, num_categories, input_dim, hidden_dim):\n        super().__init__()\n        self.num_categories = num_categories\n        # For each category, we have separate weights and biases.\n        self.W = nn.Parameter(0.02 * torch.randn(num_categories, input_dim, hidden_dim))\n        self.b = nn.Parameter(torch.zeros(num_categories, hidden_dim))\n\n    def forward(self, x, cat_ids):\n        \"\"\"\n        Args:\n            x: [B, T, input_dim] input tensor\n            cat_ids: [B] category/embodiment IDs\n        Returns:\n            [B, T, hidden_dim] output tensor\n        \"\"\"\n        selected_W = self.W[cat_ids]\n        selected_b = self.b[cat_ids]\n        return torch.bmm(x, selected_W) + selected_b.unsqueeze(1)"
+        },
+        {
+          "start_line": 143,
+          "end_line": 161,
+          "text": "class CategorySpecificMLP(nn.Module):\n    \"\"\"Two-layer MLP with category-specific weights for multi-embodiment support.\"\"\"\n\n    def __init__(self, num_categories, input_dim, hidden_dim, output_dim):\n        super().__init__()\n        self.num_categories = num_categories\n        self.layer1 = CategorySpecificLinear(num_categories, input_dim, hidden_dim)\n        self.layer2 = CategorySpecificLinear(num_categories, hidden_dim, output_dim)\n\n    def forward(self, x, cat_ids):\n        \"\"\"\n        Args:\n            x: [B, T, input_dim] input tensor\n            cat_ids: [B] category/embodiment IDs\n        Returns:\n            [B, T, output_dim] output tensor\n        \"\"\"\n        hidden = F.relu(self.layer1(x, cat_ids))\n        return self.layer2(hidden, cat_ids)"
+        },
+        {
+          "start_line": 177,
+          "end_line": 225,
+          "text": "class MultiEmbodimentActionEncoder(nn.Module):\n    \"\"\"Action encoder with multi-embodiment support and sinusoidal positional encoding.\"\"\"\n\n    def __init__(self, action_dim, hidden_size, num_embodiments):\n        super().__init__()\n        self.hidden_size = hidden_size\n        self.num_embodiments = num_embodiments\n\n        # W1: R^{w x d}, W2: R^{w x 2w}, W3: R^{w x w}\n        self.W1 = CategorySpecificLinear(num_embodiments, action_dim, hidden_size)  # (d -> w)\n        self.W2 = CategorySpecificLinear(num_embodiments, 2 * hidden_size, hidden_size)  # (2w -> w)\n        self.W3 = CategorySpecificLinear(num_embodiments, hidden_size, hidden_size)  # (w -> w)\n        self.pos_encoding = SinusoidalPositionalEncoding(hidden_size)\n\n    def forward(self, actions, timesteps, cat_ids):\n        \"\"\"\n        Args:\n            actions: [B, T, action_dim] action tensor\n            timesteps: [B,] timesteps - a single scalar per batch item\n            cat_ids: [B,] category/embodiment IDs\n        Returns:\n            [B, T, hidden_size] encoded action features\n        \"\"\"\n        B, T, _ = actions.shape\n\n        # 1) Expand each batch's single scalar time 'tau' across all T steps\n        #    so that shape => (B, T)\n        #    e.g. if timesteps is (B,), replicate across T\n        if timesteps.dim() == 1 and timesteps.shape[0] == B:\n            # shape (B,) => (B,T)\n            timesteps = timesteps.unsqueeze(1).expand(-1, T)\n        else:\n            raise ValueError(\n                \"Expected `timesteps` to have shape (B,) so we can replicate across T.\"\n            )\n\n        # 2) Standard action MLP step for shape => (B, T, w)\n        a_emb = self.W1(actions, cat_ids)\n\n        # 3) Get the sinusoidal encoding (B, T, w)\n        tau_emb = self.pos_encoding(timesteps).to(dtype=a_emb.dtype)\n\n        # 4) Concat along last dim => (B, T, 2w), then W2 => (B, T, w), swish\n        x = torch.cat([a_emb, tau_emb], dim=-1)\n        x = swish(self.W2(x, cat_ids))\n\n        # 5) Finally W3 => (B, T, w)\n        x = self.W3(x, cat_ids)\n        return x"
+        }
+      ]
+    },
+    "gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py": {
+      "sha256": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f",
+      "reviewed_line_count": 889,
+      "committed_sha256": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f",
+      "working_bytes_match_commit": true,
+      "excerpts": [
+        {
+          "start_line": 58,
+          "end_line": 120,
+          "text": "### Projector-index assignments, declared as ``{projector_index: {tags}}``.\n#\n# This grouped form is the source of truth: a tag only shares a projector with\n# another tag if it is deliberately placed inside that index's set, so an\n# accidental collision can't slip in unnoticed. Multiple tags share an index\n# only when they describe the *same physical embodiment*. To add a brand-new\n# embodiment, give it an unused index; to add a data-source/subtask variant of\n# an existing one, add its tag to that group.\n#\n# ``EMBODIMENT_TAG_TO_PROJECTOR_INDEX`` below is derived from this and is the\n# public, tag-keyed lookup used everywhere else.\n_PROJECTOR_INDEX_GROUPS: dict[int, set[str]] = {\n    0: {\"simpler_env_google\"},\n    1: {\"simpler_env_widowx\"},\n    2: {\"libero_sim\"},\n    # Finetune placeholder projector; sim-eval robocasa tags piggyback on\n    # `new_embodiment`.\n    10: {\"new_embodiment\", \"robocasa_panda_omron\", \"robocasa_gr1_tabletop\"},\n    11: {\"unitree_g1_sonic\"},\n    24: {\"oxe_droid_relative_eef_relative_joint\"},\n    # Same G1 embodiment either side of the pretrain/posttrain boundary\n    # (`real_g1_*` is pretrain, `unitree_g1_full_body_*` is posttrain).\n    25: {\n        \"real_g1_relative_eef_relative_joints\",\n        \"unitree_g1_full_body_with_waist_height_nav_cmd\",\n    },\n    # One R1 Pro Sharpa robot, four data-source variants.\n    26: {\n        \"real_r1_pro_sharpa_relative_eef\",\n        \"real_r1_pro_sharpa_relative_eef_human\",\n        \"real_r1_pro_sharpa_relative_eef_maxinsights\",\n        \"real_r1_pro_sharpa_relative_eef_mecka\",\n    },\n    # xdof base + subtask refinement.\n    27: {\n        \"xdof_relative_eef_relative_joint\",\n        \"xdof_relative_eef_relative_joint_subtask\",\n    },\n}\n\n\ndef _build_tag_to_projector_index(groups: dict[int, set[str]]) -> dict[str, int]:\n    \"\"\"Flatten ``{index: {tags}}`` into ``{tag: index}``.\n\n    Guards against a tag accidentally appearing in two groups, which would\n    otherwise be silently resolved by insertion order into a single mapping.\n    \"\"\"\n    mapping: dict[str, int] = {}\n    for index, tags in groups.items():\n        for tag in tags:\n            if tag in mapping:\n                raise ValueError(\n                    f\"Embodiment tag {tag!r} is assigned to multiple projector \"\n                    f\"indices ({mapping[tag]} and {index}) in \"\n                    \"_PROJECTOR_INDEX_GROUPS; each tag must map to exactly one index.\"\n                )\n            mapping[tag] = index\n    return mapping\n\n\nEMBODIMENT_TAG_TO_PROJECTOR_INDEX: dict[str, int] = _build_tag_to_projector_index(\n    _PROJECTOR_INDEX_GROUPS\n)"
+        },
+        {
+          "start_line": 292,
+          "end_line": 297,
+          "text": "        self.embodiment_id_mapping = embodiment_id_mapping or EMBODIMENT_TAG_TO_PROJECTOR_INDEX\n        # Merge any missing pre-trained embodiment tags into the custom mapping\n        for k, v in EMBODIMENT_TAG_TO_PROJECTOR_INDEX.items():\n            if k not in self.embodiment_id_mapping:\n                self.embodiment_id_mapping[k] = v\n        self.shortest_image_edge = shortest_image_edge"
+        },
+        {
+          "start_line": 382,
+          "end_line": 404,
+          "text": "    def decode_action(\n        self,\n        action: np.ndarray,\n        embodiment_tag: EmbodimentTag,\n        state: dict[str, np.ndarray] | None = None,\n    ):\n        \"\"\"Undo action normalization and convert relative actions to absolute.\"\"\"\n        # Split concatenated action into joint groups\n        out_dict = {}\n        start_idx = 0\n        joint_groups = self.modality_configs[embodiment_tag.value][\"action\"].modality_keys\n        action_horizon = len(self.modality_configs[embodiment_tag.value][\"action\"].delta_indices)\n        for key in joint_groups:\n            joint_dim = self.state_action_processor.norm_params[embodiment_tag.value][\"action\"][\n                key\n            ][\"dim\"].item()\n            out_dict[key] = action[..., :action_horizon, start_idx : start_idx + joint_dim]\n            start_idx += joint_dim\n\n        # Use StateActionProcessor to unnormalize and convert to absolute\n        return self.state_action_processor.unapply_action(\n            out_dict, embodiment_tag.value, state=state\n        )"
+        },
+        {
+          "start_line": 460,
+          "end_line": 485,
+          "text": "        state_keys = modality_config[\"state\"].modality_keys\n        state_data = {key: observation[f\"state.{key}\"] for key in state_keys}\n        exclude_state = self.exclude_state or getattr(\n            modality_config[\"state\"], \"exclude_state\", False\n        )\n        if exclude_state:\n            normalized_states = torch.cat(\n                [torch.from_numpy(np.zeros_like(state_data[key])) for key in state_keys], dim=-1\n            )\n        else:\n            norm_state_dict = self.state_action_processor.apply_state(\n                state=state_data, embodiment_tag=embodiment_tag.value\n            )\n            normalized_states = torch.cat(\n                [torch.from_numpy(norm_state_dict[key]) for key in state_keys], dim=-1\n            )\n\n        assert normalized_states.shape[1] <= self.max_state_dim, (\n            f\"State dimension {normalized_states.shape[1]} exceeds max_state_dim {self.max_state_dim}\"\n        )\n        padding_shape = (\n            *normalized_states.shape[:-1],\n            self.max_state_dim - normalized_states.shape[-1],\n        )\n        normalized_states = torch.cat([normalized_states, torch.zeros(padding_shape)], dim=-1)\n        transformed_observation[\"state\"] = normalized_states"
+        },
+        {
+          "start_line": 526,
+          "end_line": 542,
+          "text": "        embodiment_id = (\n            torch.ones(B, dtype=torch.int32) * self.embodiment_id_mapping[embodiment_tag.value]\n        )\n        transformed_observation[\"embodiment_id\"] = embodiment_id\n\n        # Action mask: shape (B, max_action_horizon), 1 in the valid horizon window\n        action_config = modality_config[\"action\"]\n        action_horizon = len(action_config.delta_indices)\n        assert action_horizon <= self.max_action_horizon, (\n            f\"Action horizon {action_horizon} (from delta_indices) exceeds\"\n            f\" max_action_horizon {self.max_action_horizon}. Increase model config\"\n            f\" action_horizon to >= {action_horizon}.\"\n        )\n        action_mask = torch.zeros((B, self.max_action_horizon), dtype=torch.float32)\n        if action_horizon > 0:\n            action_mask[:, :action_horizon] = 1.0\n        transformed_observation[\"action_mask\"] = action_mask"
+        },
+        {
+          "start_line": 597,
+          "end_line": 668,
+          "text": "        if normalized_actions:\n            # Concatenate actions\n            action_keys = self.modality_configs[embodiment_tag.value][\"action\"].modality_keys\n            normalized_actions = torch.cat(\n                [torch.from_numpy(normalized_actions[key]) for key in action_keys],\n                dim=-1,\n            )  # (t, d)\n            action_dim = normalized_actions.shape[1]\n            # Pad action to max_action_dim\n            normalized_actions = torch.cat(\n                [\n                    normalized_actions,\n                    torch.zeros(\n                        normalized_actions.shape[0],\n                        self.max_action_dim - normalized_actions.shape[1],\n                    ),\n                ],\n                dim=-1,\n            )  # (t, max_action_dim)\n            # Pad action to max_action_horizon\n            action_horizon = normalized_actions.shape[0]\n            assert action_horizon <= self.max_action_horizon, (\n                f\"Action sequence length {action_horizon} exceeds max_action_horizon\"\n                f\" {self.max_action_horizon}. Increase model config action_horizon to\"\n                f\" >= {action_horizon}.\"\n            )\n            normalized_actions = torch.cat(\n                [\n                    normalized_actions,\n                    torch.zeros(\n                        self.max_action_horizon - normalized_actions.shape[0],\n                        self.max_action_dim,\n                    ),\n                ],\n                dim=0,\n            )  # (max_action_horizon, max_action_dim)\n            # Create action mask\n            action_mask = torch.ones_like(normalized_actions)\n            action_mask[action_horizon:] = 0\n            action_mask[:, action_dim:] = 0\n        else:\n            assert not self.training, \"Action is required in training mode\"\n            normalized_actions = None\n            action_mask = None\n\n        # Concatenate states with optional dropout/noise augmentation\n        state_keys = self.modality_configs[embodiment_tag.value][\"state\"].modality_keys\n        exclude_state = self.exclude_state or getattr(\n            self.modality_configs[embodiment_tag.value][\"state\"], \"exclude_state\", False\n        )\n        if exclude_state or (\n            self.state_dropout_prob > 0\n            and random.random() < self.state_dropout_prob\n            and self.training\n        ):\n            normalized_states = torch.cat(\n                [torch.from_numpy(np.zeros_like(state_data[key])) for key in state_keys], dim=-1\n            )\n        else:\n            normalized_states = torch.cat(\n                [torch.from_numpy(norm_state_dict[key]) for key in state_keys], dim=-1\n            )\n        normalized_states = torch.cat(\n            [\n                normalized_states,\n                torch.zeros(\n                    normalized_states.shape[0],\n                    self.max_state_dim - normalized_states.shape[1],\n                ),\n            ],\n            dim=-1,\n        )"
+        }
+      ]
+    },
+    "gr00t/data/state_action/state_action_processor.py": {
+      "sha256": "0151dd0bb6cb727fd401bf78121efc532e7184f2575e6ef25294085f629ac145",
+      "reviewed_line_count": 695,
+      "committed_sha256": "0151dd0bb6cb727fd401bf78121efc532e7184f2575e6ef25294085f629ac145",
+      "working_bytes_match_commit": true,
+      "excerpts": [
+        {
+          "start_line": 145,
+          "end_line": 204,
+          "text": "    def _compute_normalization_parameters(self) -> None:\n        \"\"\"Compute and cache normalization parameters from statistics for all embodiments and modalities.\"\"\"\n        for embodiment_tag in self.statistics:\n            self.norm_params[embodiment_tag] = {}\n\n            for modality in [\"state\", \"action\"]:\n                if modality not in self.statistics[embodiment_tag]:\n                    continue\n\n                self.norm_params[embodiment_tag][modality] = {}\n\n                for joint_group, stats in self.statistics[embodiment_tag][modality].items():\n                    if self.use_percentiles:\n                        min_vals = np.array(stats[\"q01\"])\n                        max_vals = np.array(stats[\"q99\"])\n                    else:\n                        min_vals = np.array(stats[\"min\"])\n                        max_vals = np.array(stats[\"max\"])\n\n                    mean_vals = np.array(stats[\"mean\"])\n                    std_vals = np.array(stats[\"std\"])\n\n                    # Compute range, ensuring it's not zero\n                    range_vals = max_vals - min_vals\n                    range_vals = np.maximum(range_vals, 1e-8)\n\n                    self.norm_params[embodiment_tag][modality][joint_group] = {\n                        \"min\": min_vals,\n                        \"max\": max_vals,\n                        \"dim\": np.array(range_vals.shape[0]),\n                        \"mean\": mean_vals,\n                        \"std\": std_vals,\n                    }\n\n            # Override absolute action stats with relative stats where specified\n            if \"action\" in self.modality_configs[embodiment_tag]:\n                modality_keys = self.modality_configs[embodiment_tag][\"action\"].modality_keys\n                action_configs = self.modality_configs[embodiment_tag][\"action\"].action_configs\n\n                if action_configs is not None:\n                    for key, action_config in zip(modality_keys, action_configs):\n                        if (\n                            action_config.rep == ActionRepresentation.RELATIVE\n                            and self.use_relative_action\n                        ):\n                            if \"relative_action\" not in self.statistics[embodiment_tag]:\n                                raise ValueError(\n                                    f\"Relative action statistics required for embodiment '{embodiment_tag}' \"\n                                    f\"but 'relative_action' not found in statistics\"\n                                )\n                            if key not in self.statistics[embodiment_tag][\"relative_action\"]:\n                                raise ValueError(\n                                    f\"Relative action statistics required for key '{key}' \"\n                                    f\"in embodiment '{embodiment_tag}' but not found\"\n                                )\n                            action_dim = self.norm_params[embodiment_tag][\"action\"][key][\"dim\"]\n                            self.norm_params[embodiment_tag][\"action\"][key] = nested_dict_to_numpy(\n                                self.statistics[embodiment_tag][\"relative_action\"][key]\n                            )\n                            self.norm_params[embodiment_tag][\"action\"][key][\"dim\"] = action_dim"
+        },
+        {
+          "start_line": 363,
+          "end_line": 394,
+          "text": "        # Step 1: Convert absolute actions to relative (if needed)\n        modality_keys = self.modality_configs[embodiment_tag][\"action\"].modality_keys\n        action_configs = self.modality_configs[embodiment_tag][\"action\"].action_configs\n\n        if action_configs is not None:\n            for key, action_config in zip(modality_keys, action_configs):\n                if action_config.rep == ActionRepresentation.RELATIVE and self.use_relative_action:\n                    if state is None:\n                        raise ValueError(\n                            f\"State dict required for relative action processing of key '{key}' \"\n                            f\"in embodiment '{embodiment_tag}'\"\n                        )\n\n                    # Determine which state key to use as reference\n                    state_key = action_config.state_key if action_config.state_key else key\n\n                    if state_key not in state:\n                        raise KeyError(\n                            f\"Reference state key '{state_key}' not found in state dict \"\n                            f\"for embodiment '{embodiment_tag}'\"\n                        )\n\n                    # Use last state as reference frame\n                    reference_state = state[state_key][-1]\n\n                    # Convert absolute to relative\n                    action[key] = self._convert_to_relative_action(\n                        action=action[key],\n                        reference_state=reference_state,\n                        action_type=action_config.type,\n                        action_format=action_config.format,\n                    )"
+        },
+        {
+          "start_line": 473,
+          "end_line": 524,
+          "text": "        # Step 2: Convert relative actions to absolute (if needed)\n        action_configs = self.modality_configs[embodiment_tag][\"action\"].action_configs\n\n        if action_configs is not None:\n            for key, action_config in zip(modality_keys, action_configs):\n                if action_config.rep == ActionRepresentation.RELATIVE and self.use_relative_action:\n                    if state is None:\n                        raise ValueError(\n                            f\"State dict required for relative->absolute conversion of key '{key}' \"\n                            f\"in embodiment '{embodiment_tag}'\"\n                        )\n\n                    # Determine which state key to use as reference\n                    state_key = action_config.state_key if action_config.state_key else key\n\n                    if state_key not in state:\n                        raise KeyError(\n                            f\"Reference state key '{state_key}' not found in state dict \"\n                            f\"for embodiment '{embodiment_tag}'\"\n                        )\n\n                    relative_action = unnormalized_values[key]\n\n                    # Handle batched and unbatched cases\n                    is_batched = relative_action.ndim == 3\n                    if not is_batched:\n                        assert relative_action.ndim == 2\n                        reference_state = state[state_key]\n                        if reference_state.ndim == 2:\n                            reference_state = reference_state[None, :]\n                        relative_action = relative_action[None, :]\n                    else:\n                        reference_state = state[state_key]\n                        if reference_state.ndim == 2:\n                            reference_state = reference_state[None, :]\n\n                    # Convert batched relative actions to absolute\n                    absolute_actions = []\n                    for s, a in zip(reference_state, relative_action):\n                        # Use last timestep of state as reference\n                        absolute_action = self._convert_to_absolute_action(\n                            action=a,\n                            reference_state=s[-1],\n                            action_type=action_config.type,\n                            action_format=action_config.format,\n                        )\n                        absolute_actions.append(absolute_action)\n\n                    if is_batched:\n                        unnormalized_values[key] = np.stack(absolute_actions, axis=0)\n                    else:\n                        unnormalized_values[key] = absolute_actions[0]"
+        },
+        {
+          "start_line": 639,
+          "end_line": 692,
+          "text": "    def _convert_to_relative_action(\n        self,\n        action: np.ndarray,\n        reference_state: np.ndarray,\n        action_type: ActionType,\n        action_format: ActionFormat,\n    ) -> np.ndarray:\n        \"\"\"Convert absolute action to relative action using reference state.\"\"\"\n        assert action.ndim == 2, f\"Expected action shape (T, D), got {action.shape}\"\n        assert reference_state.ndim == 1, f\"Expected state shape (D,), got {reference_state.shape}\"\n\n        if action_type == ActionType.EEF:\n            action_chunking = EndEffectorActionChunk.from_array(action, action_format)\n            reference_frame = EndEffectorPose.from_action_format(reference_state, action_format)\n\n        elif action_type == ActionType.NON_EEF:\n            action_chunking = JointActionChunk([JointPose(m) for m in action])\n            reference_frame = JointPose(reference_state)\n\n        else:\n            raise ValueError(f\"Unknown ActionType: {action_type}\")\n\n        relative_action_chunking = action_chunking.relative_chunking(\n            reference_frame=reference_frame\n        )\n        return relative_action_chunking.to(action_format)\n\n    def _convert_to_absolute_action(\n        self,\n        action: np.ndarray,\n        reference_state: np.ndarray,\n        action_type: ActionType,\n        action_format: ActionFormat,\n    ) -> np.ndarray:\n        \"\"\"Convert relative action to absolute action using reference state.\"\"\"\n        assert action.ndim == 2, f\"Expected action shape (T, D), got {action.shape}\"\n        assert reference_state.ndim == 1, f\"Expected state shape (D,), got {reference_state.shape}\"\n        assert reference_state.shape[0] == action.shape[1], (\n            f\"State dim {reference_state.shape[0]} != action dim {action.shape[1]}\"\n        )\n\n        if action_type == ActionType.EEF:\n            rel_action = EndEffectorActionChunk.from_array(action, action_format)\n            reference_frame = EndEffectorPose.from_action_format(reference_state, action_format)\n\n        elif action_type == ActionType.NON_EEF:\n            rel_action = JointActionChunk([JointPose(pose) for pose in action])\n            reference_frame = JointPose(reference_state)\n\n        else:\n            raise ValueError(f\"Unknown ActionType: {action_type}\")\n\n        abs_action = rel_action.to_absolute_chunking(reference_frame=reference_frame)\n        return abs_action.to(action_format)"
+        }
+      ]
+    },
+    "gr00t/data/embodiment_tags.py": {
+      "sha256": "eadc1a395175209cc0d57afa21541cc64be7d848300602209de81fe42713ca47",
+      "reviewed_line_count": 224,
+      "committed_sha256": "eadc1a395175209cc0d57afa21541cc64be7d848300602209de81fe42713ca47",
+      "working_bytes_match_commit": true,
+      "excerpts": [
+        {
+          "start_line": 29,
+          "end_line": 52,
+          "text": "class EmbodimentTag(Enum):\n    \"\"\"Embodiment tags supported by the GR00T N1.7 checkpoint.\n\n    Pretrain tags (baked into the base model nvidia/GR00T-N1.7-3B, inference-ready):\n    - OXE_DROID_RELATIVE_EEF_RELATIVE_JOINT -> \"oxe_droid_relative_eef_relative_joint\"\n    - XDOF                                  -> \"xdof_relative_eef_relative_joint\"\n    - XDOF_SUBTASK                          -> \"xdof_relative_eef_relative_joint_subtask\"\n    - REAL_G1                               -> \"real_g1_relative_eef_relative_joints\"\n    - REAL_R1_PRO_SHARPA                    -> \"real_r1_pro_sharpa_relative_eef\"\n    - REAL_R1_PRO_SHARPA_HUMAN              -> \"real_r1_pro_sharpa_relative_eef_human\"\n    - REAL_R1_PRO_SHARPA_MAXINSIGHTS        -> \"real_r1_pro_sharpa_relative_eef_maxinsights\"\n    - REAL_R1_PRO_SHARPA_MECKA              -> \"real_r1_pro_sharpa_relative_eef_mecka\"\n\n    Pre-registered posttrain tags (require finetuned checkpoint):\n    - UNITREE_G1           -> \"unitree_g1_full_body_with_waist_height_nav_cmd\"\n    - UNITREE_G1_SONIC     -> \"unitree_g1_sonic\"\n    - SIMPLER_ENV_GOOGLE   -> \"simpler_env_google\"\n    - SIMPLER_ENV_WIDOWX   -> \"simpler_env_widowx\"\n    - LIBERO_PANDA         -> \"libero_sim\"\n\n    Finetuning tag (for custom robots):\n    - NEW_EMBODIMENT        -> \"new_embodiment\"\n    - ROBOCASA_PANDA_OMRON  -> \"robocasa_panda_omron\"\n    - ROBOCASA_GR1_TABLETOP -> \"robocasa_gr1_tabletop\""
+        },
+        {
+          "start_line": 217,
+          "end_line": 224,
+          "text": "FINETUNE_ONLY_TAGS: frozenset[EmbodimentTag] = frozenset(\n    {\n        EmbodimentTag.NEW_EMBODIMENT,\n        EmbodimentTag.ROBOCASA_PANDA_OMRON,\n        EmbodimentTag.ROBOCASA_GR1_TABLETOP,\n    }\n)\n\"\"\"Tags for custom robots (finetuning only, not in any shipped checkpoint).\"\"\""
+        }
+      ]
+    },
+    "gr00t/model/modules/dit.py": {
+      "sha256": "d4da27be51d9ebe1c923dedd3ae80fe2754c97f96500e82c26fe19fec0062c13",
+      "reviewed_line_count": 483,
+      "committed_sha256": "d4da27be51d9ebe1c923dedd3ae80fe2754c97f96500e82c26fe19fec0062c13",
+      "working_bytes_match_commit": true,
+      "excerpts": []
+    },
+    "gr00t/model/modules/qwen3_backbone.py": {
+      "sha256": "e3902c8385d586fb9f079abf58d37795cbcefc55f2f506f761c4b78a5afbaf52",
+      "reviewed_line_count": 372,
+      "committed_sha256": "e3902c8385d586fb9f079abf58d37795cbcefc55f2f506f761c4b78a5afbaf52",
+      "working_bytes_match_commit": true,
+      "excerpts": []
+    },
+    "gr00t/data/state_action/action_chunking.py": {
+      "sha256": "0b8379b903a87ec35e1671afa15f8bb4af8d948ee239b5e0eb1c90c8b4dd6b78",
+      "reviewed_line_count": 680,
+      "committed_sha256": "0b8379b903a87ec35e1671afa15f8bb4af8d948ee239b5e0eb1c90c8b4dd6b78",
+      "working_bytes_match_commit": true,
+      "excerpts": [
+        {
+          "start_line": 82,
+          "end_line": 133,
+          "text": "    def relative_chunking(\n        self, reference_frame: Optional[PoseType] = None\n    ) -> \"ActionChunk[PoseType]\":\n        \"\"\"\n        Compute the relative action chunking with respect to a reference frame.\n\n        If reference_frame is None, uses the first pose in the action chunking as reference.\n        All poses are transformed to be relative to the reference frame.\n\n        Args:\n            reference_frame: Optional reference pose. If None, uses first pose.\n\n        Returns:\n            A new ActionChunk of the same type where all poses are relative to the reference frame.\n        \"\"\"\n        if not self._poses:\n            return self.__class__([], times=[])\n\n        # Use the first pose as the reference if one is not provided.\n        ref_pose = reference_frame if reference_frame is not None else self._poses[0]\n\n        # Use the polymorphic subtraction defined in the Pose subclasses.\n        # The subtraction returns the same type as the operands\n        relative_poses: List[PoseType] = [pose - ref_pose for pose in self._poses]  # type: ignore[misc]\n\n        # Return a new instance of the same action chunking class\n        # (e.g., JointActionChunk or EndEffectorActionChunk)\n        return self.__class__(relative_poses, times=self.times)\n\n    def delta_chunking(self, reference_frame: Optional[PoseType] = None) -> \"ActionChunk[PoseType]\":\n        \"\"\"\n        Compute the delta action chunking where each pose represents the relative\n        transformation from the previous frame.\n\n        If reference_frame is provided, it is treated as the first frame, and the\n        first delta will be from reference_frame to the first pose in the action chunking.\n        Otherwise, the first pose in the delta action chunking will be the identity/zero transformation.\n\n        Args:\n            reference_frame: Optional reference pose to use as the first frame.\n\n        Returns:\n            A new ActionChunk of the same type where each pose is relative to the previous pose.\n        \"\"\"\n        if not self._poses:\n            return self.__class__([], times=[])\n\n        delta_poses: List[PoseType] = []\n\n        # Determine the initial reference for the very first pose.\n        # If a reference_frame is given, the first delta is pose[0] - reference_frame.\n        # If not, the first delta is pose[0] - pose[0], resulting in an identity/zero pose."
+        },
+        {
+          "start_line": 624,
+          "end_line": 658,
+          "text": "    def to_absolute_chunking(self, reference_frame: EndEffectorPose) -> \"EndEffectorActionChunk\":\n        \"\"\"\n        Convert a relative end-effector action chunking to an absolute action chunking by\n        composing each relative transformation with the reference frame.\n\n        This is the inverse operation of relative_chunking(). Each relative pose\n        represents a transformation that is applied on top of the reference frame\n        to produce absolute poses.\n\n        Args:\n            reference_frame: The reference end-effector pose to apply the relative trajectory on top of.\n\n        Returns:\n            A new EndEffectorActionChunk with absolute poses.\n        \"\"\"\n        if not self._poses:\n            return EndEffectorActionChunk([], times=[])\n\n        # Get reference frame as homogeneous matrix\n        T_ref = reference_frame.homogeneous\n\n        # Compose each relative transformation with the reference frame\n        absolute_poses: List[EndEffectorPose] = []\n        for relative_pose in self._poses:\n            # Get relative transformation as homogeneous matrix\n            T_relative = relative_pose.homogeneous\n\n            # Compose transformations: T_absolute = T_ref @ T_relative\n            T_absolute = T_ref @ T_relative\n\n            # Create absolute pose from composed transformation\n            absolute_pose = EndEffectorPose(homogeneous=T_absolute)\n            absolute_poses.append(absolute_pose)\n\n        return EndEffectorActionChunk(absolute_poses, times=self.times)"
+        }
+      ]
+    },
+    "gr00t/configs/model/gr00t_n1d7.py": {
+      "sha256": "379ff708496a73b25b12f4656850284a16fde0e205828e2a0c0be0af61463744",
+      "reviewed_line_count": 180,
+      "committed_sha256": "379ff708496a73b25b12f4656850284a16fde0e205828e2a0c0be0af61463744",
+      "working_bytes_match_commit": true,
+      "excerpts": [
+        {
+          "start_line": 73,
+          "end_line": 89,
+          "text": "    # Action head configuration parameters\n    max_state_dim: int = 132  # Default from state_shape\n    max_action_dim: int = 132  # Default from action_shape\n    action_horizon: int = 40\n    hidden_size: int = 1024\n    input_embedding_dim: int = 1536\n\n    # State history: number of consecutive state timesteps fed to the state encoder\n    state_history_length: int = 1\n\n    # Global parameters\n    add_pos_embed: bool = True\n    attn_dropout: float = 0.2\n    use_vlln: bool = True\n    max_seq_len: int = 1024\n    use_alternate_vl_dit: bool = True  # True for AlternateVLDiT, False for DiT\n    attend_text_every_n_blocks: int = 2"
+        }
+      ]
+    }
+  },
+  "config": {
+    "action_horizon": 40,
+    "add_pos_embed": true,
+    "apply_sincos_state_encoding": false,
+    "architectures": [
+      "Gr00tN1d7"
+    ],
+    "attn_dropout": 0.2,
+    "backbone_embedding_dim": 2048,
+    "color_jitter_params": {
+      "brightness": 0.3,
+      "contrast": 0.4,
+      "hue": 0.08,
+      "saturation": 0.5
+    },
+    "crop_fraction": 0.95,
+    "diffusion_model_cfg": {
+      "attention_head_dim": 48,
+      "dropout": 0.2,
+      "final_dropout": true,
+      "interleave_self_attention": true,
+      "norm_type": "ada_norm",
+      "num_attention_heads": 32,
+      "num_layers": 32,
+      "output_dim": 1024,
+      "positional_embeddings": null
+    },
+    "dtype": "bfloat16",
+    "exclude_state": false,
+    "formalize_language": true,
+    "hidden_size": 1024,
+    "image_crop_size": [
+      230,
+      230
+    ],
+    "image_target_size": [
+      256,
+      256
+    ],
+    "letter_box_transform": false,
+    "load_bf16": true,
+    "max_action_dim": 132,
+    "max_num_embodiments": 32,
+    "max_seq_len": 1024,
+    "max_state_dim": 132,
+    "model_dtype": "bfloat16",
+    "model_type": "Gr00tN1d7",
+    "noise_beta_alpha": 1.5,
+    "noise_beta_beta": 1.0,
+    "noise_s": 0.999,
+    "num_inference_timesteps": 4,
+    "num_timestep_buckets": 1000,
+    "random_history_crop": true,
+    "random_rotation_angle": 0,
+    "reproject_vision": false,
+    "rtc_ramp_rate": 6.0,
+    "select_layer": 16,
+    "shortest_image_edge": 256,
+    "state_dropout_prob": 0.2,
+    "state_gaussian_noise_std": 0.0,
+    "transformers_version": "4.57.1",
+    "tune_diffusion_model": true,
+    "tune_linear": true,
+    "tune_llm": true,
+    "tune_projector": true,
+    "tune_top_llm_layers": 0,
+    "tune_visual": true,
+    "tune_vlln": true,
+    "use_albumentations": true,
+    "use_alternate_vl_dit": true,
+    "use_flash_attention": true,
+    "use_future_tokens": false,
+    "use_mean_std": false,
+    "use_percentiles": true,
+    "use_vl_self_attention": true,
+    "use_vlln": true,
+    "vl_self_attention_cfg": {
+      "attention_head_dim": 64,
+      "dropout": 0.2,
+      "final_dropout": true,
+      "num_attention_heads": 32,
+      "num_layers": 4,
+      "positional_embeddings": null
+    },
+    "model_name": "nvidia/Cosmos-Reason2-2B"
+  },
+  "embodiment_id": {
+    "robocasa_panda_omron": 13,
+    "oxe_droid": 17,
+    "oxe_fractal": 18,
+    "oxe_language_table": 19,
+    "oxe_bridge": 20,
+    "unknown": 22,
+    "gr1_unified": 20,
+    "agibot": 26,
+    "sim_behavior_r1_pro": 23,
+    "xdof": 24,
+    "xdof_oss_data": 25,
+    "unitree_g1_full_body_with_waist_height_nav_cmd": 25,
+    "real_r1_pro_sharpa": 27,
+    "real_r1_pro_sharpa_add_view": 27,
+    "real_r1_pro_sharpa_relative_arm_joint": 26,
+    "real_r1_pro_sharpa_delta_eef": 26,
+    "real_r1_pro_sharpa_absolute_eef": 26,
+    "real_r1_pro_sharpa_meanstd": 26,
+    "real_r1_pro_sharpa_relative_eef": 26,
+    "real_r1_pro_sharpa_relative_eef_add_view": 26,
+    "real_r1_pro_sharpa_relative_eef_relative_hand": 26,
+    "real_r1_pro_sharpa_relative_eef_human": 26,
+    "real_r1_pro_sharpa_relative_eef_human_add_view": 26,
+    "real_r1_pro_sharpa_relative_eef_human_relative_hand": 26,
+    "real_r1_pro_sharpa_relative_eef_egodex": 26,
+    "real_r1_pro_sharpa_relative_eef_egodex_relative_hand": 26,
+    "real_r1_pro_sharpa_relative_eef_egodex_wrist_only": 26,
+    "real_r1_pro_sharpa_relative_eef_maxinsights": 26,
+    "real_r1_pro_sharpa_relative_eef_maxinsights_relative_hand": 26,
+    "real_r1_pro_sharpa_relative_eef_mecka": 26,
+    "real_r1_pro_sharpa_relative_eef_mecka_relative_hand": 26,
+    "real_g1_relative_eef_absolute_joints": 25,
+    "real_g1_relative_eef_absolute_joints_wrist_cam": 25,
+    "real_g1_relative_eef_relative_joints": 25,
+    "real_r1_pro_sharpa_relative_eef_relative_hand_relative_joint": 26,
+    "real_r1_pro_sharpa_relative_joint": 29,
+    "oxe_droid_relative_eef_relative_joint": 24,
+    "oxe_droid_relative_eef_relative_joint_swapped": 24,
+    "oxe_droid_relative_eef_relative_joint_upweight_z": 24,
+    "oxe_droid_relative_eef_relative_joint_upweight_z_swapped": 24,
+    "oxe_droid_relative_eef_relative_joint_3view": 24,
+    "oxe_droid_relative_eef_relative_joint_3view_swapped": 24,
+    "oxe_droid_relative_eef": 24,
+    "oxe_droid_joint_position_relative": 24,
+    "xdof_relative_eef_relative_joint": 27,
+    "xdof_relative_eef_relative_joint_subtask": 27,
+    "xdof_relative_eef": 27,
+    "xdof_relative_joint": 28,
+    "simpler_env_google": 0,
+    "simpler_env_widowx": 1,
+    "libero_sim": 2,
+    "droid_sim": 3
+  },
+  "tensor_headers": {
+    "action_head.action_decoder.layer1.W": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1024,
+        1024
+      ],
+      "data_offsets": [
+        0,
+        67108864
+      ]
+    },
+    "action_head.action_decoder.layer1.b": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1024
+      ],
+      "data_offsets": [
+        67108864,
+        67174400
+      ]
+    },
+    "action_head.action_decoder.layer2.W": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1024,
+        132
+      ],
+      "data_offsets": [
+        67174400,
+        75825152
+      ]
+    },
+    "action_head.action_decoder.layer2.b": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        132
+      ],
+      "data_offsets": [
+        75825152,
+        75833600
+      ]
+    },
+    "action_head.action_encoder.W1.W": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        132,
+        1536
+      ],
+      "data_offsets": [
+        75833600,
+        88809728
+      ]
+    },
+    "action_head.action_encoder.W1.b": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1536
+      ],
+      "data_offsets": [
+        88809728,
+        88908032
+      ]
+    },
+    "action_head.action_encoder.W2.W": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        3072,
+        1536
+      ],
+      "data_offsets": [
+        88908032,
+        390897920
+      ]
+    },
+    "action_head.action_encoder.W2.b": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1536
+      ],
+      "data_offsets": [
+        390897920,
+        390996224
+      ]
+    },
+    "action_head.action_encoder.W3.W": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1536,
+        1536
+      ],
+      "data_offsets": [
+        390996224,
+        541991168
+      ]
+    },
+    "action_head.action_encoder.W3.b": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1536
+      ],
+      "data_offsets": [
+        541991168,
+        542089472
+      ]
+    },
+    "action_head.position_embedding.weight": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        1024,
+        1536
+      ],
+      "data_offsets": [
+        1404448000,
+        1407593728
+      ]
+    },
+    "action_head.state_encoder.layer1.W": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        132,
+        1024
+      ],
+      "data_offsets": [
+        1407593728,
+        1416244480
+      ]
+    },
+    "action_head.state_encoder.layer1.b": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1024
+      ],
+      "data_offsets": [
+        1416244480,
+        1416310016
+      ]
+    },
+    "action_head.state_encoder.layer2.W": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1024,
+        1536
+      ],
+      "data_offsets": [
+        1416310016,
+        1516973312
+      ]
+    },
+    "action_head.state_encoder.layer2.b": {
+      "file": "model-00002-of-00002.safetensors",
+      "dtype": "BF16",
+      "shape": [
+        32,
+        1536
+      ],
+      "data_offsets": [
+        1516973312,
+        1517071616
+      ]
+    }
+  },
+  "metadata_only": true,
+  "model_instantiation": false,
+  "processor_settings": {
+    "processor_class": "Gr00tN1d7Processor",
+    "processor_kwargs": {
+      "use_percentiles": true,
+      "use_mean_std": false,
+      "image_crop_size": [
+        230,
+        230
+      ],
+      "image_target_size": [
+        256,
+        256
+      ],
+      "formalize_language": true,
+      "max_state_dim": 132,
+      "max_action_dim": 132,
+      "apply_sincos_state_encoding": false,
+      "color_jitter_params": {
+        "brightness": 0.3,
+        "contrast": 0.4,
+        "saturation": 0.5,
+        "hue": 0.08
+      },
+      "random_rotation_angle": 0,
+      "letter_box_transform": false,
+      "exclude_state": false,
+      "state_dropout_prob": 0.2,
+      "use_albumentations": true,
+      "shortest_image_edge": 256,
+      "crop_fraction": 0.95,
+      "max_action_horizon": 40,
+      "use_relative_action": true
+    }
+  },
+  "statistics_tags": [
+    "xdof_relative_eef_relative_joint",
+    "xdof_relative_eef_relative_joint_subtask",
+    "oxe_droid_relative_eef_relative_joint",
+    "real_g1_relative_eef_relative_joints",
+    "real_r1_pro_sharpa_relative_eef",
+    "real_r1_pro_sharpa_relative_eef_mecka",
+    "real_r1_pro_sharpa_relative_eef_maxinsights",
+    "real_r1_pro_sharpa_relative_eef_human"
+  ],
+  "state_action_files": [
+    "gr00t/data/state_action/action_chunking.py",
+    "gr00t/data/state_action/droid_frame.py",
+    "gr00t/data/state_action/pose.py",
+    "gr00t/data/state_action/state_action_processor.py"
+  ],
+  "status": "",
+  "official_root": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/official",
+  "model_root": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/assets/GR00T-N1.7-3B",
+  "observed_at_utc": "2026-10-07T13:58:57.902390+00:00",
+  "source_method": "coordinator.remote(core): read source and git show; read 8-byte safetensors header length plus JSON header only; stdlib only",
+  "local_input_sha256": {
+    "reports/PI0280/execution/evidence/SUPPORTED_INPUT_MATRIX.json": "4460c7df640bbe182d057774522f0b4999769e0b2fb3854b55cbe1d0207d0e46",
+    "reports/PI0280/execution/design/BASELINE_BINDING.json": "113fab3915914b0e834bd682378ea650e3e1625c14bd25eaca19e65faa8b6d35",
+    "reports/PI0280/execution/evidence/WEIGHT_LOADING.json": "945b279084d5d909590e5b8a6324a6d7d50453dce6bd3a062b7507a6d73b04a6"
+  },
+  "memory_lookup": "No PI0280/PI0276/PI0269 registry hit; no memory evidence used",
+  "research_charter_binding": {
+    "decision_id": "GROOT_OBJECT_MANIPULATION_MAINLINE_CHARTER_V1",
+    "issue11_direction_comment": "5994405991",
+    "release": "ed398fee17151cfec47864fed9d48ce149b28d61",
+    "path": "docs/RESEARCH_CHARTER_TASK_SPACE_MANIPULATION_V1.md",
+    "sha256": "98d66199555cb90d2abc81250440e62d43945398acdd98b194f97eeededa3202",
+    "review_method": "read full pinned local Git object",
+    "relevant_lines": {
+      "63": "任务数据不得以“师兄的当前WBC必须先完整执行成功”作为生成或保留的前提。可以在独立任务环境中核验教师解法、物理接触、标签与安全；这种任务有效性检查不同于用目标WBC成功率筛选高层训练支持。目标机器人执行能力随后单独验证，其失败不能被回填为数据不存在。",
+      "143": "先读取本章程 `GROOT_OBJECT_MANIPULATION_MAINLINE_CHARTER_V1` 及Issue #11绑定的固定提交。后续GR00T以真实物体操作的任务数据、学习和闭环为主线，只输出任务空间EEF轨迹与夹爪命令；继续冻结师兄WBC，不训练机器人joint action，不以目标WBC成功过滤任务数据。几何轨迹工作仅作基础设施、执行侧qualification或有明确物体任务阻断的有限诊断。现役PI0274按原授权收口；所有新方案写明主线对齐、对照、预算与物体任务成功标准，另行授权后执行。不创建竞争goal，不重置预算，selected/deployment保持NONE。"
+    },
+    "execution_authorization": false
+  }
+}

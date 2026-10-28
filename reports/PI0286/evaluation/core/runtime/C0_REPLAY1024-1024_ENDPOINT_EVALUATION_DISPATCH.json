@@ -1,0 +1,58 @@
+{
+  "status": "STARTED_ONCE_ACTUAL_1024_TRAINING_CPU_GATED_FINITE_ENDPOINT",
+  "pid": 2664447,
+  "point": "C0_REPLAY1024-1024",
+  "arguments": [
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python",
+    "-u",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0286/code/evaluate.py",
+    "--point",
+    "C0_REPLAY1024-1024",
+    "--mode",
+    "endpoint"
+  ],
+  "started_epoch": 1791522139.6878765,
+  "Hopper_ready_CPU_identity": {
+    "epoch": 1791522138.384279,
+    "point": "C0_REPLAY1024-1024",
+    "READY": true,
+    "TRAINING_CPU": true,
+    "phases": {
+      "C0_REPLAY1024-continuous-0-8": {
+        "returncode": 0,
+        "elapsed_s": 202.68277887720615
+      },
+      "C0_REPLAY1024-split-0-4": {
+        "returncode": 0,
+        "elapsed_s": 176.14421090390533
+      },
+      "C0_REPLAY1024-split-4-8": {
+        "returncode": 0,
+        "elapsed_s": 178.976658788044
+      },
+      "C0_REPLAY1024-CANARY-continuous": {
+        "returncode": 0,
+        "elapsed_s": 82.30610335618258
+      },
+      "C0_REPLAY1024-CANARY-split": {
+        "returncode": 0,
+        "elapsed_s": 67.10819022543728
+      },
+      "C0_REPLAY1024-main-0-1024": {
+        "returncode": 0,
+        "elapsed_s": 1214.6490216553211
+      }
+    },
+    "endpoint_actual_ready_CPU_PASS": true,
+    "READY_sha256": "12073f7e59845fc44af87520451e087e784deeb6fbb6897f6251a8ece01ae44b",
+    "TRAINING_CPU_sha256": "5f41404bd6463ee2edfed76b0efc8ec04f3c23e9cf332898f74b06e50f61face",
+    "EXPORT_sha256": "c4c7a9f88730da968b6da6970f271231c1766bfbda5739110f99221c57108c57"
+  },
+  "evaluator_sha256": "3608ca55084039456848a6ef7d3a3457bfb1ea370b70496f5b1c1c45d7af66b1",
+  "Core_seal_sha256": "d52006fea30351c14fc4b49953a2cc31ca0dfa1ca0b49db14b7d7b173659937e",
+  "GPU0_free_MiB_before_launch": 24911,
+  "unrelated_GPU_processes_preserved": true,
+  "confirmation_started": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

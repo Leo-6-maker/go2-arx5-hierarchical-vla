@@ -1,0 +1,54 @@
+{
+  "status": "PASS_CLOSED_TWO_ARM_NATIVE_CONSUMPTION_PREFIX_READONLY_EXPOSURE_AND_NOISE_IDENTITY",
+  "epoch": 1791526479.7020357,
+  "arms": {
+    "C0_REPLAY1024": {
+      "CPU_sha256": "5f41404bd6463ee2edfed76b0efc8ec04f3c23e9cf332898f74b06e50f61face",
+      "consumption_prefix_sha256": "c74bba7f0a7c48844e43dc7c6bb10274bd98a469fb1c699a4741e162dda58218",
+      "source_counts": {
+        "expert": 8192
+      },
+      "phase_counts": {
+        "3": 1638,
+        "1": 2048,
+        "0": 2048,
+        "2": 2048,
+        "4": 410
+      },
+      "native_loss_first16_mean": 0.016680526721756905,
+      "native_loss_last16_mean": 0.009791978642169852,
+      "frozen_parameter_tensors": 560,
+      "other31_rows_exact": true,
+      "other31_Adam_moments_zero": true
+    },
+    "C1_CORRECT1024": {
+      "CPU_sha256": "210385b5caf3a79bf768cac459fc8afc5d72bdc124a6856b906f81caaf8b4d81",
+      "consumption_prefix_sha256": "0bc238f6d38bfd1f91f23911b26572026a5049c4945dc3e59102ce3f7e2bbad8",
+      "source_counts": {
+        "expert": 4096,
+        "corrected_suffix": 4096
+      },
+      "phase_counts": {
+        "3": 1638,
+        "1": 2048,
+        "2": 2048,
+        "0": 2048,
+        "4": 410
+      },
+      "native_loss_first16_mean": 0.13281707481655758,
+      "native_loss_last16_mean": 0.026623198020388372,
+      "frozen_parameter_tensors": 560,
+      "other31_rows_exact": true,
+      "other31_Adam_moments_zero": true
+    }
+  },
+  "matched_microbatches": 2048,
+  "noise_equal_microbatches": 2048,
+  "time_equal_microbatches": 2048,
+  "mismatches": [],
+  "new_model": 0,
+  "new_gradient": 0,
+  "new_optimizer": 0,
+  "new_codec": 0,
+  "new_physics": 0
+}

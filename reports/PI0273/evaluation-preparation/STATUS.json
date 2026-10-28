@@ -1,0 +1,19 @@
+{
+  "observed_utc": "2026-10-04T17:32:22.137240+00:00",
+  "classification_of_previous_goal_turn": "PROGRESS",
+  "job": "646518.hopper-m-02",
+  "qstat": "Job Id: 646518.hopper-m-02\n    Job_Name = pi0273_matched\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 151\n    resources_used.cput = 00:31:04\n    resources_used.mem = 72638344kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 69227672kb\n    resources_used.walltime = 00:28:20\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Mon Oct  5 01:02:47 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0273/logs/\n    exec_host = hopper-26/3*12\n    exec_vnode = (hopper-26:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Mon Oct  5 01:31:54 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0273/logs/\n    Priority = 0\n    qtime = Mon Oct  5 01:02:47 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 43200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 12:00:00\n    stime = Mon Oct  5 01:03:25 2026\n    session_id = 2808445\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Mon Oct 05 at 01:03 on (hopper-26:ngpus=1:ncpus=12:mem\n\t=235929600kb)\n    etime = Mon Oct  5 01:02:47 2026\n    run_count = 1\n    Submit_arguments = /scratch/e1192548/Projects/go2-arx5/experiments/PI0273/c\n\tode/training.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "latest_completed_update": {
+    "arm": "BROAD",
+    "job": "646518.hopper-m-02",
+    "ordinal": 655,
+    "phase": "main",
+    "unit": 623
+  },
+  "canaries": "BOTH_PASS",
+  "training_and_quality_complete": false,
+  "new_quality_queries": 0,
+  "report_preparation": "CPU_FIXTURES_PASS_ACTUAL_ENDPOINTS_NOT_YET_AVAILABLE",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

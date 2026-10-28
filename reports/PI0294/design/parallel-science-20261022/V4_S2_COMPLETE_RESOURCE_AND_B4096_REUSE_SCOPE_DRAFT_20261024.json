@@ -1,0 +1,253 @@
+{
+  "schema": "V4_S2_COMPLETE_RESOURCE_AND_EXACT_SAVED_B4096_REUSE_PROPOSAL_V1",
+  "status": "DRAFT_REQUIRES_EXPLICIT_HUMAN_APPROVAL_NOT_NATIVE_GO",
+  "scientific_scope": "Only existing B0_CORR/A_CONTROL4096/B_COVERAGE4096 on the original frozen DEV48. Keep all 17 old attempts and 14 valid outcomes; original remaining 34+48+48=130. No training, new bank, WBC tuning, LOCKBOX, task threshold or panel change.",
+  "prior_exact_authorized_global_caps": {
+    "GPU_hours": 96,
+    "PBS_submissions": 28,
+    "GPU_site_CPU_hours": 160,
+    "GPU_site_output_GiB": 680
+  },
+  "requested_global_caps_only": {
+    "GPU_hours": 121,
+    "PBS_submissions": 34,
+    "GPU_site_CPU_hours": 213,
+    "GPU_site_output_GiB": 810
+  },
+  "exact_current_regular_work_shortfalls": {
+    "H200_s": 89288.0,
+    "PBS_submissions": 6,
+    "Hopper_CPU_s": 189889.65859775804,
+    "Hopper_storage_bytes": 139546445824
+  },
+  "resources": {
+    "H200_s": 173160,
+    "PBS_submissions": 6,
+    "optimizer_updates": 0,
+    "neural_queries": 10502,
+    "episode_starts": 130,
+    "physics_ticks": 4160000,
+    "engine_starts": 10542,
+    "Core_CPU_s": 511800,
+    "Hopper_CPU_s": 523800,
+    "local_CPU_s": 43800,
+    "transfer_bytes": 140660178944,
+    "Hopper_storage_bytes": 139586437120,
+    "Core_storage_bytes": 107911053312,
+    "local_storage_bytes": 402653184
+  },
+  "full_dimensions": {
+    "H200_s": {
+      "cap": 345600,
+      "used": 103148.0,
+      "reserved": 0,
+      "remaining_S2": 173160,
+      "exact_current_credit": 0,
+      "matrix": 86580,
+      "final": 72000,
+      "projected": 434888.0,
+      "shortfall": 89288.0
+    },
+    "PBS_submissions": {
+      "cap": 28,
+      "used": 25,
+      "reserved": 0,
+      "remaining_S2": 6,
+      "exact_current_credit": 0,
+      "matrix": 3,
+      "final": 0,
+      "projected": 34,
+      "shortfall": 6
+    },
+    "optimizer_updates": {
+      "cap": 16384,
+      "used": 11714,
+      "reserved": 0,
+      "remaining_S2": 0,
+      "exact_current_credit": 0,
+      "matrix": 0,
+      "final": 0,
+      "projected": 11714,
+      "shortfall": 0
+    },
+    "episode_starts": {
+      "cap": 1000,
+      "used": 343,
+      "reserved": 0,
+      "remaining_S2": 130,
+      "exact_current_credit": 0,
+      "matrix": 88,
+      "final": 100,
+      "projected": 661,
+      "shortfall": 0
+    },
+    "neural_queries": {
+      "cap": 48000,
+      "used": 1231,
+      "reserved": 0,
+      "remaining_S2": 10502,
+      "exact_current_credit": 0,
+      "matrix": 7040,
+      "final": 9000,
+      "projected": 27773,
+      "shortfall": 0
+    },
+    "physics_ticks": {
+      "cap": 40000000,
+      "used": 10681025,
+      "reserved": 0,
+      "remaining_S2": 4160000,
+      "exact_current_credit": 0,
+      "matrix": 2816000,
+      "final": 3200000,
+      "projected": 20857025,
+      "shortfall": 0
+    },
+    "engine_starts": {
+      "cap": 100000,
+      "used": 29705,
+      "reserved": 0,
+      "remaining_S2": 10542,
+      "exact_current_credit": 0,
+      "matrix": 7128,
+      "final": 0,
+      "projected": 47375,
+      "shortfall": 0
+    },
+    "Core_CPU_s": {
+      "cap": 1152000,
+      "used": 180598.97856362094,
+      "reserved": 0,
+      "remaining_S2": 511800,
+      "exact_current_credit": 0,
+      "matrix": 193968.05627,
+      "final": 0,
+      "projected": 886367.034833621,
+      "shortfall": 0
+    },
+    "Hopper_CPU_s": {
+      "cap": 576000,
+      "used": 156569.658597758,
+      "reserved": 0,
+      "remaining_S2": 523800,
+      "exact_current_credit": 0,
+      "matrix": 85520,
+      "final": 0,
+      "projected": 765889.658597758,
+      "shortfall": 189889.65859775804
+    },
+    "local_CPU_s": {
+      "cap": 172800,
+      "used": 51058.974682509,
+      "reserved": 0,
+      "remaining_S2": 43800,
+      "exact_current_credit": 0,
+      "matrix": 6600,
+      "final": 0,
+      "projected": 101458.974682509,
+      "shortfall": 0
+    },
+    "transfer_bytes": {
+      "cap": 322122547200,
+      "used": 60601373313,
+      "reserved": 0,
+      "remaining_S2": 140660178944,
+      "exact_current_credit": 0,
+      "matrix": 6174015488,
+      "final": 0,
+      "projected": 207435567745,
+      "shortfall": 0
+    },
+    "Hopper_storage_bytes": {
+      "cap": 730144440320,
+      "used": 677711804228,
+      "reserved": 0,
+      "remaining_S2": 139586437120,
+      "exact_current_credit": 0,
+      "matrix": 9442971836,
+      "final": 42949672960,
+      "projected": 869690886144,
+      "shortfall": 139546445824
+    },
+    "Core_storage_bytes": {
+      "cap": 322122547200,
+      "used": 115058147328,
+      "reserved": 0,
+      "remaining_S2": 107911053312,
+      "exact_current_credit": 0,
+      "matrix": 17968398336,
+      "final": 0,
+      "projected": 240937598976,
+      "shortfall": 0
+    },
+    "local_storage_bytes": {
+      "cap": 21474836480,
+      "used": 8589934592,
+      "reserved": 0,
+      "remaining_S2": 402653184,
+      "exact_current_credit": 0,
+      "matrix": 0,
+      "final": 0,
+      "projected": 8992587776,
+      "shortfall": 0
+    }
+  },
+  "evidence": {
+    "primary17_report": "V4_COMPLETE_ORIGINAL_PRIMARY17_HISTORY_ACTUAL_20261024.json",
+    "primary17_source": "b1bc5ac020bf63c12824f0f36e73b9b7c88ca33b",
+    "raw_resource_proof_sha256": "9ceeaa4093e2c52b49fbd2b9862af912f285ce349f43af98e59d7a2a8f084bc6",
+    "resource_runtime_report": "reports/PI0294/design/parallel-science-20261022/V4_FULL_RESOURCE_AND_ORIGINAL_ONCE_RESERVE_CPU_20261024.json"
+  },
+  "saved_B4096_reuse_exception": {
+    "job": "1481574.stdct-mgmt-02",
+    "native_state": "F",
+    "native_exit": 0,
+    "original_owner_exit": 1,
+    "owner_failure": "POST_TRAINING_READ_ONLY_PROGRAM_RETURN1",
+    "checkpoint_complete_sha256": "be7ab71dee0fb68e17efae06a04ff8dde9cd776ff429c1d6c408ae01323a9c19",
+    "sampler_cursor": 131072,
+    "independent_three_15_member_states_and_original12_probes": "PASS",
+    "once_settlement": true,
+    "GPU_and_current_Vanda_CPU_leases": "CLOSED",
+    "independent_closed_readback": true,
+    "closure_proof_sha256": "e875123dd3f6e713ce24d3d0f5f7a294dde3ee64cd86723135b1aacda3462519",
+    "requested_exception": "Permit only subsequent read-only use of this exact complete audited B4096 for the original DEV comparison despite the outer owner post-training read-only Exit1. Preserve original failure, all costs and closed requests; no job restart or training replay. Fresh source/site/resource and original numerical/premodel qualification remain mandatory.",
+    "grants_no_model_release_or_scientific_PASS": true
+  },
+  "unchanged": {
+    "DEC1_caps": true,
+    "optimizer_update_caps": true,
+    "all_other_global_caps": true,
+    "model_recipe_stats_data_executor": true,
+    "old_unknowns_and_failed_costs": true,
+    "original_matrix": true,
+    "final_GPU_s": 72000,
+    "final_output_GiB": 40,
+    "original_T0_epoch": 1792348196,
+    "stop_new_epoch": 1792866596,
+    "stop_train_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_close_epoch": 1792952996
+  },
+  "execution_bounds": {
+    "six_original_noise_panels_full_allocation_upper": true,
+    "new_engineering_or_GPU_attempt_pool": false,
+    "original_per_condition_engineering_rule_only_with_actual_costs_and_remaining_resources": true,
+    "known_valid_outcomes_never_replayed": true,
+    "UNKNOWN_never_resent": true,
+    "no_new_GPU_until_all_applicable_fresh_gates_pass": true,
+    "server_resident_sole_owner_required": true,
+    "no_agent_polling_dependency_for_physics_or_heartbeat": true
+  },
+  "clock": {
+    "combined_matrix_and_S2_GPU_upper_s": 259740,
+    "full_conservative_upper_fits_original_remaining_window": false,
+    "deadline_extension_requested": false,
+    "approval_does_not_guarantee_all_work_completes": true,
+    "only_original_bounded_stage_that_fits_may_be_submitted": true,
+    "unrun_cells_retained_as_NOT_RUN": true
+  },
+  "authorization_adopted": false,
+  "approval_status": "NOT_GRANTED",
+  "goal_complete": false
+}

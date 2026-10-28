@@ -1,0 +1,29 @@
+{
+  "schema": "PI0269_STORAGE_ONLY_EXPLICIT_RETIREMENT_V1",
+  "host": "Corelab",
+  "root": "/var/cache/users/liuyu-nfs/Projects/go2-arx5",
+  "free_scope": "/var/cache/users/liuyu-nfs/Projects/go2-arx5",
+  "paths": [
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0268/R1/models/OLD2048/arms/PI0268/OLD/checkpoint-2048",
+      "classification": "RETIRED_SCIENTIFIC_FAIL_MODEL_VIEW",
+      "evidence": "PI0268 final quality FAIL; saved-state P0 complete; current eval only ROT2048"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0264/models/B2048/arms/PI0264/B/checkpoint-2048",
+      "classification": "RETIRED_SCIENTIFIC_FAIL_MODEL_VIEW",
+      "evidence": "PI0264 final B2048 combined_pass=false; no PI0269 consumer"
+    }
+  ],
+  "authority": "User 2026-10-03: scientifically retired checkpoint direct deletion",
+  "preserve": [
+    "PI0269 all active runtime/recoveries/2048+4096 candidates",
+    "PI0268 ROT2048 donor full Trainer/model view",
+    "PI0267 N/R finals pending old secondary lane dependency resolution",
+    "PI0264 L2048 donor",
+    "all data/statistics/logs/manifests/results/HF/Git/other projects"
+  ],
+  "scope": "Only index-listed large model shards and optimizer.pt; keep small checkpoint evidence",
+  "quota_headroom": "UNKNOWN",
+  "selected_checkpoint": "NONE"
+}

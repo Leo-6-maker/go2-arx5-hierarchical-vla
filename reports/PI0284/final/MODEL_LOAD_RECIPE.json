@@ -1,0 +1,350 @@
+{
+  "schema": "PI0284_TERMINAL_MODEL_LOAD_RECIPE_V1",
+  "parent_master_sha256": "ac8fad1a39aad656fac3f0bdafaa856b984d67cd55a0df111103ae79a80f8e2a",
+  "pristine_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+  "official_code": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "Cosmos": "9ce19a195e423419c349abfc86fd07178b230561",
+  "actual_training_code": "a1e9389019773561cf936dd88e8c950afde593e5",
+  "actual_evaluation_code": "7694cd510d3f677c225bb124ff7c025d499e31db",
+  "sampler_K": 4,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "resume_class": "FULL_14_MEMBER_TRAINER_HOPPER_AND_HF",
+  "corelab_class": "MODEL_ONLY_NOT_OPTIMIZER_RESUME",
+  "checkpoints": [
+    {
+      "arm": "CTRL2048",
+      "complete_trainer": true,
+      "files": [
+        {
+          "bytes": 67169,
+          "path": "PI0282_RECOVERY.json",
+          "sha256": "f6a1735a70a7e041fdb98c458f60a248f2f96980a26df4bdd4add6c56c3cd344"
+        },
+        {
+          "bytes": 1610,
+          "path": "PI0282_SCOPE_PROOF.json",
+          "sha256": "20d163701b2603506856f530246c061d3c4315bee5238bebbbdbd8ef2ed745e9"
+        },
+        {
+          "bytes": 2105,
+          "path": "config.json",
+          "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+        },
+        {
+          "bytes": 2146,
+          "path": "embodiment_id.json",
+          "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "0b2a850f09435cdc2d559e800ed906de9bc849a09f7c637a4aaa1e7d878d6265"
+        },
+        {
+          "bytes": 4129471992,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "26a044f4d0c67d306ef6dbae3704756db22bf5ac0b1ed0d64e7beb22f56808c5"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+        },
+        {
+          "bytes": 11340462437,
+          "path": "optimizer.pt",
+          "sha256": "b57e1b44c56a8f22e65d64e0f69ab2e694882f9b12c962e49aa7fa2b54e37f13"
+        },
+        {
+          "bytes": 23145,
+          "path": "processor_config.json",
+          "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d"
+        },
+        {
+          "bytes": 14709,
+          "path": "rng_state.pth",
+          "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+        },
+        {
+          "bytes": 1465,
+          "path": "scheduler.pt",
+          "sha256": "1348282322ff36524af93722059af29d84fdb1f8f7188c1d3048f90aa4864444"
+        },
+        {
+          "bytes": 4299507,
+          "path": "statistics.json",
+          "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9"
+        },
+        {
+          "bytes": 9588,
+          "path": "trainer_state.json",
+          "sha256": "0eb2fd2a5943a7eeb61628cffb2fbb4e61eb01710b599bee96f037f926a1a403"
+        },
+        {
+          "bytes": 5905,
+          "path": "training_args.bin",
+          "sha256": "d1705480658e9c851e5acbbebcc0a9142bcf870936c583b7c4fdec4eae5baaa5"
+        }
+      ],
+      "prefix": "arms/PI0284/CTRL2048/checkpoint-1024",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "efa8cca500bbb7b0f25a868d08654b495e16acbb",
+      "schema": "PI0284_FULL_TRAINER_HF_READBACK_V1",
+      "status": "PASS_FULL_FILE_READBACK",
+      "step": 1024,
+      "tree_sha256": "c2f1e8a2ceca060fc533a906982bcdbc0ca544f56dc63425e8dae6e5db46f752"
+    },
+    {
+      "arm": "CTRL2048",
+      "complete_trainer": true,
+      "files": [
+        {
+          "bytes": 67170,
+          "path": "PI0282_RECOVERY.json",
+          "sha256": "68f05231430569b56f0440f273fdefdcb046f52db1dcb82378660fcb9da79e65"
+        },
+        {
+          "bytes": 1610,
+          "path": "PI0282_SCOPE_PROOF.json",
+          "sha256": "f079b2ffa01d99ec1e6d0ea14665c3922bfbe25a1ce852e36b3c7a0973a58082"
+        },
+        {
+          "bytes": 2105,
+          "path": "config.json",
+          "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+        },
+        {
+          "bytes": 2146,
+          "path": "embodiment_id.json",
+          "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "248e56a1591416c64e9efc0406608f5259f038b6e7787ed784d7b0befe847a75"
+        },
+        {
+          "bytes": 4129471992,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "8afb33f6aa66f968ee5f0423710e3b9d818dda7a5aae83ca4701b724b90a8926"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+        },
+        {
+          "bytes": 11340462437,
+          "path": "optimizer.pt",
+          "sha256": "007adfa404eff69361bcd95cf154d2d36a36cbf695b780ca151cd3468f44d6e6"
+        },
+        {
+          "bytes": 23145,
+          "path": "processor_config.json",
+          "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d"
+        },
+        {
+          "bytes": 14709,
+          "path": "rng_state.pth",
+          "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+        },
+        {
+          "bytes": 1465,
+          "path": "scheduler.pt",
+          "sha256": "eddad147ac624dc8f58b93a10e3580cfdd0f45a8abf43dfd4511104e04059dbd"
+        },
+        {
+          "bytes": 4299507,
+          "path": "statistics.json",
+          "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9"
+        },
+        {
+          "bytes": 18535,
+          "path": "trainer_state.json",
+          "sha256": "f85303ac35d24b1104a0d3770fbf4b11327f692dde97d2278e7786574308fdd6"
+        },
+        {
+          "bytes": 5905,
+          "path": "training_args.bin",
+          "sha256": "d1705480658e9c851e5acbbebcc0a9142bcf870936c583b7c4fdec4eae5baaa5"
+        }
+      ],
+      "prefix": "arms/PI0284/CTRL2048/checkpoint-2048",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "fa84b4b7d054fae1426e117bc59405ea5e9e3e17",
+      "schema": "PI0284_FULL_TRAINER_HF_READBACK_V1",
+      "status": "PASS_FULL_FILE_READBACK",
+      "step": 2048,
+      "tree_sha256": "6ab7615180306b744f3e266fec5dc96e1f810d178020e217bb9e746ae75d7108"
+    },
+    {
+      "arm": "LR5X2048",
+      "complete_trainer": true,
+      "files": [
+        {
+          "bytes": 67169,
+          "path": "PI0282_RECOVERY.json",
+          "sha256": "a4cae8562565246bbdb6b3bf3581b9d6fe0c794779bcee2e7656c7f7e9102c90"
+        },
+        {
+          "bytes": 1610,
+          "path": "PI0282_SCOPE_PROOF.json",
+          "sha256": "dbd444b00120d09dc8324c4241dc6c398ca9d83062bad073f85eac7935a1b7c9"
+        },
+        {
+          "bytes": 2105,
+          "path": "config.json",
+          "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+        },
+        {
+          "bytes": 2146,
+          "path": "embodiment_id.json",
+          "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "cceb244bf8051053191d75f21725dcc1e6a15a87c23035ddf2077f330c711ab1"
+        },
+        {
+          "bytes": 4129471992,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "cd5f62a43b08c25f6031347be6b88bb2b85861458dbc5d407616c6502218218a"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+        },
+        {
+          "bytes": 11340462437,
+          "path": "optimizer.pt",
+          "sha256": "23f56ea1cc69b8b34ab1dc556be2073104488c8ae6ae543b98bffd4d8d27a67a"
+        },
+        {
+          "bytes": 23145,
+          "path": "processor_config.json",
+          "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d"
+        },
+        {
+          "bytes": 14709,
+          "path": "rng_state.pth",
+          "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+        },
+        {
+          "bytes": 1465,
+          "path": "scheduler.pt",
+          "sha256": "953cddba9dc9aacc65e4cdd2ebf691667753b2bd00b32939a3d5bf4c536491b0"
+        },
+        {
+          "bytes": 4299507,
+          "path": "statistics.json",
+          "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9"
+        },
+        {
+          "bytes": 9582,
+          "path": "trainer_state.json",
+          "sha256": "c45821835071c0094716e2f8a2a4eb601214fab9e58a3a5fa1976894c5fd0ec7"
+        },
+        {
+          "bytes": 5905,
+          "path": "training_args.bin",
+          "sha256": "e2354a6728c3f17f0bcfa52a9b0e328cd73432f9e23cee8eb77ac1190fa47069"
+        }
+      ],
+      "prefix": "arms/PI0284/LR5X2048/checkpoint-1024",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "038346f257479513cb00478466d5546717b966ae",
+      "schema": "PI0284_FULL_TRAINER_HF_READBACK_V1",
+      "status": "PASS_FULL_FILE_READBACK",
+      "step": 1024,
+      "tree_sha256": "2777645a2a67bf972085bbadd0b99f273970d03892c7c3d5838bbb87ccec5529"
+    },
+    {
+      "arm": "LR5X2048",
+      "complete_trainer": true,
+      "files": [
+        {
+          "bytes": 67170,
+          "path": "PI0282_RECOVERY.json",
+          "sha256": "ffe0bcf954ac279f62280c6bc16cbd89c2b9ebfd19f28ed9fa314e44cffd91b2"
+        },
+        {
+          "bytes": 1610,
+          "path": "PI0282_SCOPE_PROOF.json",
+          "sha256": "9856685d60c11e728df72f1d3077a0345e9900206a7f043f1cd5e5f7ac5b221b"
+        },
+        {
+          "bytes": 2105,
+          "path": "config.json",
+          "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+        },
+        {
+          "bytes": 2146,
+          "path": "embodiment_id.json",
+          "sha256": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb"
+        },
+        {
+          "bytes": 4993709288,
+          "path": "model-00001-of-00002.safetensors",
+          "sha256": "6b0d1029198c1a6ad7e1b5a6ee9554a02cdf8012bf8d7c145ae94c4ab96b1857"
+        },
+        {
+          "bytes": 4129471992,
+          "path": "model-00002-of-00002.safetensors",
+          "sha256": "2fcdc0eb852dff7fb2d74ed9fc9d7ce50f5386f85784d1929065b4d77cbd8dd8"
+        },
+        {
+          "bytes": 104912,
+          "path": "model.safetensors.index.json",
+          "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+        },
+        {
+          "bytes": 11340462437,
+          "path": "optimizer.pt",
+          "sha256": "3ccbbdd6307c7ab2a962e00f1d26086ce39c3909d8cb21838fa8242ec1d475c1"
+        },
+        {
+          "bytes": 23145,
+          "path": "processor_config.json",
+          "sha256": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d"
+        },
+        {
+          "bytes": 14709,
+          "path": "rng_state.pth",
+          "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+        },
+        {
+          "bytes": 1465,
+          "path": "scheduler.pt",
+          "sha256": "c48aa543fbc7c468e8f3c03a499187d0b524ae091e8e25c5110e08f8cc37e6df"
+        },
+        {
+          "bytes": 4299507,
+          "path": "statistics.json",
+          "sha256": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9"
+        },
+        {
+          "bytes": 18535,
+          "path": "trainer_state.json",
+          "sha256": "c2d44c0f5d11044ef0972b50fab7e9d00bd2f6ed4bd70b35ed5a79f838a2d991"
+        },
+        {
+          "bytes": 5905,
+          "path": "training_args.bin",
+          "sha256": "e2354a6728c3f17f0bcfa52a9b0e328cd73432f9e23cee8eb77ac1190fa47069"
+        }
+      ],
+      "prefix": "arms/PI0284/LR5X2048/checkpoint-2048",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "6677220016c4524eeda5a5bba5dbce801f9b9c67",
+      "schema": "PI0284_FULL_TRAINER_HF_READBACK_V1",
+      "status": "PASS_FULL_FILE_READBACK",
+      "step": 2048,
+      "tree_sha256": "3ddf536579f80858793dbe970fe666c4c3122533942430e384a35c1a44e6ad6c"
+    }
+  ],
+  "authority": "fc9647b2183e5bb9d3943f4a57565ed9751e0739",
+  "canonical": 6053658526
+}

@@ -1,0 +1,47 @@
+{
+  "epoch": 1791523651.2989848,
+  "worker_start": {
+    "status": "STARTED_SOLE_CPU_ARCHIVE_FOREGROUND_SSH_KEEPALIVE",
+    "pid": 1012623,
+    "wrapper_pid": 1012608,
+    "argv": [
+      "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python",
+      "-u",
+      "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/archive/c1_full_trainer/archive_c1_trainer.py"
+    ],
+    "started_epoch": 1791523628.0140345,
+    "wrapper_sha256": "ca63220fbfb0fb68ddb60f8f54f90932ac95d7d37abd33387369b0bec51fbeee",
+    "max_CPU_threads": 4,
+    "memory_limit_bytes": 17179869184,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "physics_calls": 0,
+    "training_code_seal_changed": false
+  },
+  "process_alive": true,
+  "ready": false,
+  "receipts": {
+    "ONLINE_PREFLIGHT.json": {
+      "epoch": 1791523629.295763,
+      "helper_sha256": "126880ca6a0aab20ad556417335500f5b18f26c1f9fbbfdb81027b62049a064c",
+      "local_full_trainer_retained": true,
+      "max_CPU_threads": 4,
+      "memory_limit_bytes": 17179869184,
+      "model_queries": 0,
+      "offline_training_environment_changed": false,
+      "optimizer_updates": 0,
+      "physics_calls": 0,
+      "prefix": "arms/PI0286/C1_CORRECT1024/checkpoint-1024",
+      "public": true,
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "status": "PASS_CPU_ONLY_ONLINE_PUBLIC_ARCHIVE_PREFLIGHT",
+      "wrapper_sha256": "ca63220fbfb0fb68ddb60f8f54f90932ac95d7d37abd33387369b0bec51fbeee"
+    },
+    "WAITING_COMPLETE_C1.json": {
+      "epoch": 1791523629.304825,
+      "model_queries": 0,
+      "optimizer_updates": 0,
+      "status": "WAIT_ACTUAL_C1_FULL14_AND_NATIVE_TRAINING_CPU_PASS"
+    }
+  }
+}

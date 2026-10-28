@@ -1,0 +1,52 @@
+{
+  "schema": "PI0244_R2_PROJECTOR_UPDATE_PREFIX_AUDIT_V1",
+  "status": "PASS_SOURCE_AND_PINNED_ARCHIVE_PREFIX_PARITY",
+  "protocol_commit": "984565af45097b547354e681fc0c63fc7fa304af",
+  "run_card_sha256": "72283a8039f1518d93e7274c35eb81d633dcf75cca4e2ba1f1d74922fd010969",
+  "checkpoint_step": 10000,
+  "method": {
+    "group_rule": "PI0243_stage_a_cpu_audit._parameter_group projector token set",
+    "sample_rule": "first min(4096, numel) raw F32 elements from each projector tensor",
+    "projector_tensor_count": 15,
+    "sampled_prefix_count_per_checkpoint": 15,
+    "source_and_hf_sample_map_sha256_must_match": true,
+    "hf_ranges_required_http_206_exact_content_range": true,
+    "model_weights_constructed": false,
+    "model_forwards": 0,
+    "backward_optimizer_scheduler_steps": 0
+  },
+  "initializer": {
+    "role": "PI0226_ADAPTED_BASELINE_CHECKPOINT_1000",
+    "local_path": "/scratch/e1192548/pi0227_large_adapt_v1_inputs/checkpoint-1000",
+    "model_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+    "model_shard": "model-00002-of-00002.safetensors",
+    "model_shard_bytes": 4535492016,
+    "sealed_model_shard_sha256": "d4f53b931163a765e77fc2d62037fb5e52d94ed7f4fb9d4a1a034ebe631a44c7",
+    "hf_repo_id": "leoyuer/pi0243-stage-a-admitted-v1",
+    "hf_revision": "879fddc7833ced105b9de3e1134d929661cd61e7",
+    "hf_path": "pi0226-adapted-checkpoint-1000",
+    "local_sample_map_sha256": "a1aef64f2e11761849a49e45f8842edf47422700d34dc06e505aa65bfd1f009f",
+    "hf_sample_map_sha256": "a1aef64f2e11761849a49e45f8842edf47422700d34dc06e505aa65bfd1f009f"
+  },
+  "final_checkpoint": {
+    "role": "PI0244_R2_XYZ4_CHECKPOINT_10000",
+    "local_path": "/scratch/e1192548/pi0244x_xyz4_m16_10k_v1_r2_xyz4/training/checkpoint-10000",
+    "model_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+    "model_shard": "model-00002-of-00002.safetensors",
+    "model_shard_bytes": 4535492016,
+    "sealed_model_shard_sha256": "e032eeca00873826d1c832ed54cbee63aaf9c2045d15a1bb1c19c809bf992187",
+    "hf_repo_id": "leoyuer/pi0243-stage-a-admitted-v1",
+    "hf_revision": "c3b99af24f269dbebbca25709b5bdd0c3a915542",
+    "hf_path": "pi0244x-xyz4-m16-10k-v1/checkpoint-10000",
+    "local_sample_map_sha256": "0c9c123754850218e68b3635fdf7c2e90a77a44354e3e6dce97be3109957676e",
+    "hf_sample_map_sha256": "0c9c123754850218e68b3635fdf7c2e90a77a44354e3e6dce97be3109957676e"
+  },
+  "result": {
+    "changed_projector_sampled_tensors": [
+      "action_head.action_decoder.layer2.b",
+      "action_head.position_embedding.weight"
+    ],
+    "unchanged_representative_sample": "action_head.state_encoder.layer1.W",
+    "claim": "At least two exact projector tensor prefixes differ between the sealed initializer and checkpoint-10000. This proves projector_updated=true under the existing any-nonzero-projector-parameter integrity predicate; it does not claim a full-projector L2 norm or that all 15 tensors changed."
+  }
+}

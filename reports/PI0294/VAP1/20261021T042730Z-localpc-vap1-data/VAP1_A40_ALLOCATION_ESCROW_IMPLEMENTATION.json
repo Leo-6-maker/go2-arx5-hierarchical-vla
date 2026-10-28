@@ -1,0 +1,211 @@
+{
+  "schema": "VAP1_A40_SOURCE_ALLOCATION_AND_ESCROW_CPU_IMPLEMENTATION_V1",
+  "status": "CODE_AND_EXACT_CI_PASS_NOT_NATIVE_TRAINING_OR_SUBMISSION",
+  "reported_SGT": "2026-10-21T19:03:51.238055+08:00",
+  "authority_release": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+  "concurrency_release": "4b6ef6e3e6e741e423d7561d67312008b9b68024",
+  "same_existing_local_PC_owner": true,
+  "source": {
+    "source_sha": "c0c11559db4d0fca0185d16a5a7664312f071462",
+    "CI_head_sha": "c0c11559db4d0fca0185d16a5a7664312f071462",
+    "CI_run": 39588046751,
+    "CI_job": 119181761606,
+    "CI_status": "completed",
+    "CI_conclusion": "success",
+    "all_CI_steps_success": true,
+    "files_exact_readback": true,
+    "files": [
+      {
+        "path": "scripts/pi0294/dec1/a40_accounting.py",
+        "bytes": 15747,
+        "sha256": "ad51e2009c41e4c1798517f90ed761f047c5f26ec58165f7f5ae8bbfd8e2b4bf",
+        "git_blob": "0dbb594621349570f99ea5e24b4f608ff23ce7d0"
+      },
+      {
+        "path": "scripts/pi0294/dec1/a40_allocation.py",
+        "bytes": 15408,
+        "sha256": "4a611e79adfcff7f61672796025de8fc82be20c62c2b8e98f7015f5001bc2834",
+        "git_blob": "19c91842c0d7f3a75080017237af86786eac3939"
+      },
+      {
+        "path": "scripts/pi0294/dec1/a40_future.py",
+        "bytes": 5697,
+        "sha256": "348388d1a23afc04c48a13c3dc4cf76e0a0cd233a8deef19e2a9e84b556077d2",
+        "git_blob": "7b230842a5025df8be8d4d6c38d3a1ca07c9d9ee"
+      },
+      {
+        "path": "scripts/pi0294/dec1/alternate_accounting.py",
+        "bytes": 14172,
+        "sha256": "a15a6da53a894db715a57d0f29bbc1d2c02c24b025a3c7d703aa2905ef6a5862",
+        "git_blob": "5e693bff176d3350f38ceb0f38c20d25a043a46b"
+      },
+      {
+        "path": "scripts/pi0294/dec1/future_admission.py",
+        "bytes": 13255,
+        "sha256": "d34e5c80d633d75691c151bff88d19d988c4810fdaf388003211faa8e8cd74fd",
+        "git_blob": "b466360d219a3edac7bd5f4e8f1248f3b8a67148"
+      },
+      {
+        "path": "scripts/pi0294/dec1/test_a40_accounting.py",
+        "bytes": 7578,
+        "sha256": "b25a68df34dfda04d178b400dbb85e99186775b1a55a092caaed5190008c75ea",
+        "git_blob": "06419fdedb7dffc75cc5b5fb52bb06728d21b8d6"
+      },
+      {
+        "path": "scripts/pi0294/dec1/test_a40_allocation.py",
+        "bytes": 14138,
+        "sha256": "364c227d04fab814bf16938845bffc9a3a6cee37fa8a411edc8ab66cdce12273",
+        "git_blob": "aa0e8756cecbe4b8a38eb6492a89dae20223d219"
+      },
+      {
+        "path": "scripts/pi0294/dec1/test_future_admission.py",
+        "bytes": 14904,
+        "sha256": "c436363d181687df1100513b8e3ba1bbe4ad10a69dc6dda4158db77323b3163e",
+        "git_blob": "9e13f2907d5f75acdfa9b38e7e18cd4816387485"
+      }
+    ]
+  },
+  "actual_implemented": [
+    "Distinct_A40_native_allocation_type_not_H200_impersonation",
+    "Own_running_job_request_nonce_project_date_membership_and_after_allocation_auth",
+    "Fresh_entire_campaign_queue_view_one_chain_per_platform",
+    "Presealed_allowed_capacity_profiles_4CPU_32GiB_or_site_36CPU_240GiB",
+    "Four_actual_process_CPUs_distinct_from_allocated_slots_and_project_billing",
+    "Fresh_project_GPU_and_CPU_balance_cover_actual_native_allocation_capacity",
+    "Reuse_existing_DEC1_full_pair_matrix_and_final_reserve_forecast",
+    "Raw_native_Hopper_and_DEC1_ledger_hashes_and_exact_spent_reserved_IO_CPU_counters",
+    "A40_unmeasured_performance_ceiling_explicit_not_H200_timing_relabeling",
+    "Pure_before_qsub_global_and_DEC1_whole_job_GPU_update_query_CPU_output_reservations",
+    "Unknown_submit_reply_not_retried_one_exact_native_reply_binding",
+    "Native_terminal_and_actual_effect_journal_only_once_settlement",
+    "Known_32_updates_charged_inside_A_CONTROL_not_extra_free_training",
+    "Unsettled_optimizer_or_query_intents_retain_reservations_and_global_unknown_fence",
+    "A40_pair_claim_cannot_enter_old_Hopper_source_contract",
+    "Old_seventeen_query_compatibility_contract_unchanged"
+  ],
+  "tests": {
+    "local_DEC1_unittest_cases": 106,
+    "exact_CI": {
+      "root_tests_passed": 895,
+      "root_tests_skipped": 14,
+      "root_subtests_passed": 60,
+      "PI0292_tests_passed": 109,
+      "PI0292_subtests_passed": 150,
+      "PI0294_tests_passed": 1111,
+      "PI0294_subtests_passed": 998
+    },
+    "tests_are_synthetic_CPU_contracts_not_CUDA_model_or_site_allocation_evidence": true
+  },
+  "engineering_effects": {
+    "new_PBS": 0,
+    "new_model_loads": 0,
+    "new_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_task_episodes": 0,
+    "new_physics": 0,
+    "old_capsules_changed": false,
+    "actual_runtime_deployment": false,
+    "actual_A40_cold_training_binding": false,
+    "actual_live_dispatch_or_terminal_settlement_performed": false,
+    "CPU_cost_settlement": {
+      "epoch": 1792580561.1314232,
+      "key": "VAP1_A40_SOURCE_NATIVE_GUARDS_ESCROW_CPU_SITE60_LOCAL300_V1",
+      "GPU_site_CPU_upper_charged_s": 60,
+      "local_CPU_upper_to_charge_s": 300,
+      "GPU_site_CPU_s": 32650.822133859,
+      "DEC1_GPU_site_CPU_s": 25980.0,
+      "GPU_allocated_s": 20745,
+      "GPU_reserved_s": 0,
+      "PBS": 12,
+      "queries": 1054,
+      "updates": 0,
+      "new_GPU": 0,
+      "new_PBS": 0,
+      "new_queries": 0,
+      "new_updates": 0,
+      "new_physics": 0,
+      "local_CPU_s": 30323.974682508997,
+      "Core_CPU_s": 168631.81682287893,
+      "CPU_costs_are_conservative_uppers_not_GPU_effects": true
+    }
+  },
+  "current_source139_CPU_consumer": {
+    "progress": {
+      "epoch": 1792580436.563981,
+      "pid": 2554034,
+      "proc_start": "8325246",
+      "active": true,
+      "CPU_s": 571.85,
+      "process_state": "D",
+      "archive_progress": [
+        "parents-009.json",
+        "parents-007.json",
+        "parents-012.json",
+        "parents-004.json",
+        "parents-000.json",
+        "parents-005.json",
+        "parents-010.json",
+        "parents-008.json",
+        "parents-003.json",
+        "parents-001.json",
+        "parents-011.json",
+        "parents-002.json",
+        "parents-006.json"
+      ],
+      "raw_parent_dirs": 107,
+      "result_present": false
+    },
+    "fixed_bank": "PV1_R0_139_NOT_NEW_VAP1_R1",
+    "restart_count_this_turn": 0,
+    "full_bank_PASS": false,
+    "original126_C1_dispatched": false,
+    "finite_existing_observer_active": true,
+    "observer_poll_s": 120
+  },
+  "storage_readonly": {
+    "observed_epoch": 1792580211.0194616,
+    "project_filesystem_type": "nfs",
+    "project_filesystem_free_bytes": 48612128063488,
+    "own_quota_command_returncode": 1,
+    "official_own_report_epoch": 1792580242.6566951,
+    "own_Home_usage_reported": "38.32G / 40.00G",
+    "own_personal_scratch_usage_reported": "479.32G / 500.00G",
+    "those_personal_paths_are_not_the_registered_project_output_root": true,
+    "project_specific_quota_qualification": "NOT_YET_PROVEN_BY_PERSONAL_REPORT_OR_FILESYSTEM_FREE_BYTES",
+    "files_deleted": 0,
+    "other_project_jobs_modified": false
+  },
+  "remaining_required_not_completed": [
+    "Same_typed_A40_runtime_current_directory_and_premodel_compatibility_receipts",
+    "Bounded_native_A40_effect_ledger_and_actual_Trainer_interface",
+    "Same_job_17_saved_TRAIN_qualification_before_training",
+    "First32_real_counted_updates_memory_gradient_and_remaining_work_recheck",
+    "Same_allocation_1024_full_save_fixed12_probes_full_optimizer_RNG_sampler_resume_to4096",
+    "Native_auth_maintainer_release_terminal_owner_chain_reusing_mature_lifecycle",
+    "Complete_actual_139_and_original126_C1_CPU_readers",
+    "Registered_cold_profile_quota_and_space_inputs_exact_capsule_before_one_PBS",
+    "Actual_independent_source_A4096_B4096_or_qualified_DEC1_matrix64"
+  ],
+  "native_remaining_implementation_boundaries": {
+    "source_stage_only_no_full_B0_claim": true,
+    "existing_Hopper_future_bridge_not_yet_parallel_foreign_active_job_capable": true,
+    "current_new_request_contract_start_steps": "0_TO_1023_ONLY",
+    "post1024_interrupted_new_allocation_resume_contract": "NOT_IMPLEMENTED",
+    "future_profile_needs_actual_allocation_and_CUDA_not_CPU_PASS": true
+  },
+  "global_actual": {
+    "allocated_GPU_seconds": 20745,
+    "reserved_GPU_seconds": 0,
+    "PBS": 12,
+    "queries": 1054,
+    "optimizer_updates": 0,
+    "final_GPU_protected_s": 72000,
+    "original_T0_epoch": 1792348196,
+    "original_hard_close_epoch": 1792952996
+  },
+  "D48_evidence": "cb34c23285b0e31387e644628015eb0472fc8d40",
+  "WBC_plant_gripper_PD_S1_scoring_R0_recipe_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "goal_complete": false
+}

@@ -1,0 +1,39 @@
+{
+  "observed_utc": "2026-10-06T17:40:28.964938+00:00",
+  "governing_release": "a5a7e569684d52170f02b0819ae006a7587800dd",
+  "canonical": 6021627390,
+  "runtime_release": "1a20200ff066ef5a003650110cd20106f9a4bf64",
+  "job": "651332.hopper-m-02",
+  "qstat": "Job Id: 651332.hopper-m-02\n    Job_Name = pi0277_r2_focus\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 99\n    resources_used.cput = 00:13:47\n    resources_used.mem = 65443368kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 85377648kb\n    resources_used.walltime = 00:22:20\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Wed Oct  7 01:08:28 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0277/R2_FOCUS/runtime/pbs-01.err\n    exec_host = hopper-15/7*12\n    exec_vnode = (hopper-15:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Wed Oct  7 01:39:49 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0277/R2_FOCUS/runtime/pbs-01.out\n    Priority = 0\n    qtime = Wed Oct  7 01:08:35 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 14400,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 04:00:00\n    stime = Wed Oct  7 01:17:27 2026\n    session_id = 3828114\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Wed Oct 07 at 01:17 on (hopper-15:ngpus=1:ncpus=12:mem\n\t=235929600kb)\n    etime = Wed Oct  7 01:08:35 2026\n    run_count = 1\n    Submit_arguments = -o /scratch/e1192548/Projects/go2-arx5/experiments/PI027\n\t7/R2_FOCUS/runtime/pbs-01.out -e /scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0277/R2_FOCUS/runtime/pbs-01.err /scratch/e1192548/Projects\n\t/go2-arx5/experiments/PI0277/R2_FOCUS/code/focus.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "cursor": {
+    "completed_update": 414,
+    "next_unconsumed_micro": 828,
+    "queues_are_discardable": true
+  },
+  "canary": {
+    "continuous8_vs4_restore4": true,
+    "legacy_status_name": true,
+    "lineage": "FOCUS",
+    "model_max_abs": 0.0,
+    "optimizer_max_abs": 0.0,
+    "outputs_gradients_rng_scheduler_inputs_losses": "EXACT",
+    "route": "FAST_CACHE2",
+    "status": "PASS_R2_EXACT_GRIP_RESUME"
+  },
+  "all_completed": 4550,
+  "qualification": 40,
+  "formal_by_arm": {
+    "GRIP": 4096,
+    "FOCUS": 414
+  },
+  "training_heads": 81996,
+  "CPU_items": 23498,
+  "snapshots": [
+    "GRIP512",
+    "GRIP2048",
+    "GRIP4096"
+  ],
+  "bound_objective": "NOT_TRIGGERED_NOT_APPLIED",
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE"
+}

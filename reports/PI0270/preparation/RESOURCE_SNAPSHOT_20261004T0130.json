@@ -1,0 +1,38 @@
+{
+  "model_queries": 0,
+  "observations": [
+    {
+      "command": [
+        "/usr/bin/hpc",
+        "quota"
+      ],
+      "returncode": 1,
+      "stderr": "",
+      "stdout": "\n -----------------------------------------------------------------\n  Disk space for HPC Hopper home directory\n  Report at:  2026-10-04 00:49\n -----------------------------------------------------------------\n          HPC Home Dir      Usage      Quota      Status\n    /home/svu/e1192548     17.44G     40.00G      43.6%\n =================================================================\n\n\n-------------------------------------------------------------------------\n  Disk space for Hopper /scratch/e1192548 [Report at:  2026-10-04 01:23]\n-------------------------------------------------------------------------\n        user/group  ||           size          ||    chunk files \n          username  ||    used    |    hard    ||    used   |  hard\n          e1192548  ||    648.4GB |    1.0TB   ||   519470  | unlimited \n=========================================================================\n\n"
+    },
+    {
+      "command": [
+        "/usr/bin/df",
+        "-B1",
+        "--output=avail",
+        "/scratch/e1192548"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "       Avail\n403254018048\n"
+    },
+    {
+      "command": [
+        "/usr/bin/hpc",
+        "project"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "\n To check the authorized PBS Project, credits and members, please run this command\n   on terminal first to login:\n\n   #  amgr login \n\n  Enter your NUS account password to login.\n\n  Please note to wait for 5~10 seconds to try again, if login fails with error.\n  Contact HPC administrators for help via ASK if problem persists.\n\n\n"
+    }
+  ],
+  "optimizer_updates": 0,
+  "qsub_count": 0,
+  "status": "READ_ONLY_RESOURCE_SNAPSHOT_NOT_LAUNCH_ADMISSION",
+  "utc": "2026-10-03T17:28:27.323450+00:00"
+}

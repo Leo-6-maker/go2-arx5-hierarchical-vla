@@ -1,0 +1,268 @@
+{
+  "status": "PREPARATORY_DESIGN_ONLY",
+  "authorization": "NOT_AUTHORIZED",
+  "launch_allowed": false,
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE",
+  "parent_protocol_release": "9c0172ced33c6052f7cb037b4a6d91910f9fe69e",
+  "reviewed_workspace_base": "5ceb22c87e5bda68291021cd83ede09388831727",
+  "official_source_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "original_model_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+  "actual_operations": {
+    "neural_calls": 0,
+    "physics_starts": 0,
+    "training_updates": 0,
+    "optimizer_constructions": 0,
+    "target_initializations": 0,
+    "statistics_fits": 0,
+    "dataset_episodes_generated": 0,
+    "live_processor_changes": 0,
+    "hardware_commands": 0
+  },
+  "candidate": {
+    "name": "EEF_ONLY_NEW_EMBODIMENT_ROW10",
+    "tag": "new_embodiment",
+    "projector_index": 10,
+    "initialization": "FUTURE_SEEDED_OFFICIAL_RANDOM_ROW_ONLY_UNTRAINED_TARGET_INTERFACE",
+    "source_row_copy": false,
+    "max_state_dim": 132,
+    "max_action_dim": 132,
+    "semantic_dim": 10,
+    "action_horizon": 40,
+    "state_history_length": 1,
+    "num_inference_timesteps": 4,
+    "action_period_s_proposed": 0.06666666666666667,
+    "action_period_is_target_proposal": true,
+    "replan_samples": 8,
+    "video_keys_proposed": [
+      "target_body_rgb",
+      "target_wrist_rgb"
+    ],
+    "video_delta_indices_proposed": [
+      -15,
+      0
+    ],
+    "state_delta_indices": [
+      0
+    ],
+    "field_slices": {
+      "eef_9d": [
+        0,
+        9
+      ],
+      "gripper_width": [
+        9,
+        10
+      ],
+      "structural_padding": [
+        10,
+        132
+      ]
+    },
+    "actions": [
+      {
+        "key": "eef_9d",
+        "rep": "RELATIVE",
+        "type": "EEF",
+        "format": "XYZ_ROT6D",
+        "state_key": "eef_9d"
+      },
+      {
+        "key": "gripper_width",
+        "rep": "ABSOLUTE",
+        "type": "NON_EEF",
+        "format": "DEFAULT",
+        "state_key": "gripper_width"
+      }
+    ],
+    "raw_action_labels": "source-bound interface-valid absolute installed task reference; target WBC success not required",
+    "gripper_units": "metres of physical opening",
+    "eef_translation_units": "metres",
+    "frame_tool_camera_binding": "REQUIRED_NOT_RESOLVED",
+    "rot6d_convention_roundtrip": "REQUIRED_NOT_RUN",
+    "target_normalization": "SOURCE_BOUND_TRAIN_WINDOWS_ONLY_REQUIRED_NOT_FITTED",
+    "padding_noise_path": "STOCK_FULL132_UNCHANGED",
+    "missing_source_semantics_fabricated": false
+  },
+  "parameters": {
+    "per_row": {
+      "action_decoder": 1184900,
+      "action_encoder": 7285248,
+      "state_encoder": 1710592
+    },
+    "allowed_to_change_scalars": 10180740,
+    "packed_projector_scalars": 325783680,
+    "stock_tune_projector_scalars_including_shared_positions": 327356544,
+    "trainable_row_tensor_keys": [
+      "action_head.action_decoder.layer1.W",
+      "action_head.action_decoder.layer1.b",
+      "action_head.action_decoder.layer2.W",
+      "action_head.action_decoder.layer2.b",
+      "action_head.action_encoder.W1.W",
+      "action_head.action_encoder.W1.b",
+      "action_head.action_encoder.W2.W",
+      "action_head.action_encoder.W2.b",
+      "action_head.action_encoder.W3.W",
+      "action_head.action_encoder.W3.b",
+      "action_head.state_encoder.layer1.W",
+      "action_head.state_encoder.layer1.b",
+      "action_head.state_encoder.layer2.W",
+      "action_head.state_encoder.layer2.b"
+    ],
+    "frozen": [
+      "backbone.*",
+      "action_head.model.*",
+      "action_head.vlln.*",
+      "action_head.vl_self_attention.*",
+      "action_head.position_embedding.*",
+      "all non10 projector rows"
+    ],
+    "stock_flags_sufficient": false,
+    "packed_optimizer_required_closure": [
+      "row_gradient_mask",
+      "zero_weight_decay",
+      "fresh_optimizer_state",
+      "frozen_row_and_shared_tensor_byte_readback"
+    ],
+    "frozen_trunk_autograd": "REQUIRED_TO_ENCODER_INPUTS; parameter freeze/eval only, no trunk no_grad"
+  },
+  "tasks_proposed": [
+    "pick_place",
+    "stack",
+    "place_in_container",
+    "push_to_region"
+  ],
+  "minimum_tasks": 2,
+  "maximum_tasks": 4,
+  "default_tasks": [
+    "pick_place",
+    "stack"
+  ],
+  "dataset_plan": {
+    "train_episodes_per_task": 20,
+    "validation_episodes_per_task": 5,
+    "sealed_test_episodes_per_task": 10,
+    "episode_duration_max_s": 32,
+    "attempts_may_not_extend_until_success": true,
+    "all_attempts_and_failures_retained": true,
+    "split_unit": "whole demonstration/object-placement/scene/session group; fixed before outputs",
+    "task_sampling": "uniform over declared tasks; then uniform episode and valid causal anchor",
+    "labels_require_real_full40_timestamps": true,
+    "statistics_fit_allowed_now": false,
+    "episode_fields": [
+      "episode_id",
+      "task_id",
+      "split",
+      "group_ids",
+      "instruction",
+      "camera_file_hashes",
+      "camera_sensor_timestamps",
+      "actual_achieved_tcp",
+      "actual_achieved_gripper_width",
+      "state_timestamps",
+      "raw_expert_reference",
+      "gate_decision",
+      "installed_expert_reference",
+      "installed_reference_timestamps",
+      "commanded_gripper",
+      "achieved_gripper",
+      "frame_tool_camera_wbc_scene_hashes",
+      "teacher_provenance",
+      "scoring_only_contacts_object_states_task_predicates",
+      "source_domain_id",
+      "source_controller_hash",
+      "episode_failure_label",
+      "window_failure_label",
+      "failure_cause",
+      "window_admission_reason"
+    ],
+    "collection_attempts_max_per_task_including_failures": 35,
+    "source_domain": "independently bound physical task/tool environment, actual source RGB/EEF/gripper feedback",
+    "target_wbc_success_filter": false,
+    "successful_episode_required": false,
+    "admission": "source-bound interface-valid windows, including failed episodes with correct references and actual feedback",
+    "failure_labels": "explicit episode/window cause/admission reason in audit-only namespace; never policy input",
+    "target_wbc_feasibility_required_for_collection_or_retention": false
+  },
+  "future_budget_proposed_not_authorized": {
+    "first_hypothesis_max_updates_including_canary": 2048,
+    "pilot_updates_in_total": 512,
+    "batch_size": 16,
+    "gradient_accumulation": 1,
+    "sampled_chunks_max": 32768,
+    "gpus": 1,
+    "gpu_hours_max": 4,
+    "learning_rate_optimizer_schedule": "REQUIRES_NEXT_AUTHORITY_BINDING",
+    "checkpoint_selection": "fixed final update-count; validation diagnostic only",
+    "episode_max_policy_queries": 60,
+    "max_policy_calls_two_tasks": 2160,
+    "max_policy_calls_four_tasks": 4320,
+    "head_evaluations_per_policy_call": 4,
+    "wbc_tick_actor_gripper_preroll_caps": "REQUIRED_FROM_ACTUAL_NATIVE_DT_BEFORE_LAUNCH",
+    "valid_failure_retries": 0,
+    "evaluation_starts_per_task": 22,
+    "max_evaluation_starts_two_tasks": 44,
+    "max_evaluation_starts_four_tasks": 88,
+    "max_dataset_collection_starts_per_task": 35,
+    "max_all_simulation_starts_per_task": 79,
+    "max_all_simulation_starts_two_tasks": 158,
+    "max_all_simulation_starts_four_tasks": 316,
+    "evaluation_panel_domains": [
+      "independent_source_tool_task_learning",
+      "frozen_target_wbc_execution"
+    ],
+    "evaluation_cap_fields_44_88_and_policy2160_4320_are_per_domain": true,
+    "max_both_domain_evaluation_starts_two_tasks": 88,
+    "max_both_domain_evaluation_starts_four_tasks": 176,
+    "max_both_domain_policy_calls_two_tasks": 4320,
+    "max_both_domain_policy_calls_four_tasks": 8640
+  },
+  "comparisons": [
+    "reuse sealed PI0280 original source baseline as domain-specific context",
+    "independent physical task/tool panel: expert4/task, untrained4/task, trained developed4/task and sealedtest10/task",
+    "separate frozen target WBC panel with same four arms/counts; target feasibility does not filter task data"
+  ],
+  "task_success_goals_proposed": {
+    "expert_feasibility": "execution goal at least3/4 per task per domain, no severe safety violation; never a data admission gate",
+    "trained_developed": "at least3/4 per task",
+    "trained_sealed_test": "at least8/10 per task",
+    "confidence": "exact fractions with binomial uncertainty; no broad generalization claim",
+    "fresh_closed_loop": "at least3 genuine target queries and2 changed-feedback reference replacements",
+    "reach": "position<=0.02m and SO3 angle<=10deg at every final2s sample",
+    "pick_place": "released, stable support contact, in prebound goal region for2s",
+    "stack": "unchanged StackCube predicate all41 samples28..30s",
+    "place_in_container": "released object entirely inside prebound interior, below prebound velocity criterion for2s",
+    "new_scene_geometric_velocity_thresholds": "REQUIRED_NOT_RESOLVED",
+    "original_safety_required": true,
+    "reach_role": "optional bounded controller qualification, excluded from main object-task dataset",
+    "push_to_region": "designated object moves through actual contact into prebound region and remains settled2s",
+    "interpretation": "source task-reference learning assessable independently; target controller/scene blocker limits target composition interpretation; no automatic training"
+  },
+  "deferred": [
+    "shared DiT lowLR needs another reviewed decision",
+    "matched randomized/fresh trunk comparison required before causal pretrained-prior claim",
+    "VLM tuning",
+    "hardware",
+    "broad benchmark expansion"
+  ],
+  "evidence_file": "SOURCE_REVIEW.json",
+  "narrative_file": "MINIMAL_EEF_INTERFACE_DRAFT.md",
+  "research_charter_binding": {
+    "decision_id": "GROOT_OBJECT_MANIPULATION_MAINLINE_CHARTER_V1",
+    "issue11_direction_comment": "5994405991",
+    "release": "ed398fee17151cfec47864fed9d48ce149b28d61",
+    "path": "docs/RESEARCH_CHARTER_TASK_SPACE_MANIPULATION_V1.md",
+    "sha256": "98d66199555cb90d2abc81250440e62d43945398acdd98b194f97eeededa3202",
+    "review_method": "read full pinned local Git object",
+    "relevant_lines": {
+      "63": "任务数据不得以“师兄的当前WBC必须先完整执行成功”作为生成或保留的前提。可以在独立任务环境中核验教师解法、物理接触、标签与安全；这种任务有效性检查不同于用目标WBC成功率筛选高层训练支持。目标机器人执行能力随后单独验证，其失败不能被回填为数据不存在。",
+      "143": "先读取本章程 `GROOT_OBJECT_MANIPULATION_MAINLINE_CHARTER_V1` 及Issue #11绑定的固定提交。后续GR00T以真实物体操作的任务数据、学习和闭环为主线，只输出任务空间EEF轨迹与夹爪命令；继续冻结师兄WBC，不训练机器人joint action，不以目标WBC成功过滤任务数据。几何轨迹工作仅作基础设施、执行侧qualification或有明确物体任务阻断的有限诊断。现役PI0274按原授权收口；所有新方案写明主线对齐、对照、预算与物体任务成功标准，另行授权后执行。不创建竞争goal，不重置预算，selected/deployment保持NONE。"
+    },
+    "execution_authorization": false
+  },
+  "optional_controller_qualification": {
+    "task": "reach",
+    "part_of_main_object_task_dataset": false,
+    "budget": "requires separate bounded next-authority binding; no new starts here"
+  }
+}

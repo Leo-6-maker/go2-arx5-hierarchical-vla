@@ -1,0 +1,70 @@
+{
+  "status": "REFERENCE_QUALITY_FAIL",
+  "pass": false,
+  "condition": "hold",
+  "complete_10s": false,
+  "sample_count": 1667,
+  "reasons": [
+    "INCOMPLETE_10S_TRACE",
+    "TRACKING_FAIL_requested_pose",
+    "TRACKING_FAIL_installed_pose"
+  ],
+  "missing_real_evidence": [],
+  "errors": {
+    "requested_pose": {
+      "full_position_m": {
+        "RMS": 0.013700770812307849,
+        "P95": 0.025439363913933404,
+        "max": 0.03339589031400661
+      },
+      "full_SO3_rad": {
+        "RMS": 0.06433606800468211,
+        "P95": 0.06574254965750931,
+        "max": 0.08804268971169468
+      },
+      "last2_position_m": {
+        "RMS": 0.011672903618327733,
+        "P95": 0.01169965928057663,
+        "max": 0.01171269576888932
+      },
+      "last2_SO3_rad": {
+        "RMS": 0.06519967421232312,
+        "P95": 0.06525597142268333,
+        "max": 0.06529646236682371
+      }
+    },
+    "installed_pose": {
+      "full_position_m": {
+        "RMS": 0.014203064616299757,
+        "P95": 0.026618227393823767,
+        "max": 0.046513155414822864
+      },
+      "full_SO3_rad": {
+        "RMS": 0.06467708076416873,
+        "P95": 0.06574511688518606,
+        "max": 0.09547332578504074
+      },
+      "last2_position_m": {
+        "RMS": 0.011672903618327733,
+        "P95": 0.01169965928057663,
+        "max": 0.01171269576888932
+      },
+      "last2_SO3_rad": {
+        "RMS": 0.06519967421232352,
+        "P95": 0.06525597142268333,
+        "max": 0.06529646236682371
+      }
+    }
+  },
+  "directed_completion": null,
+  "latency": [
+    {
+      "ref_id": "a7ff3a9a26c34aab9843fa5c4abecef3:0",
+      "accept_s": 0.02407031483016908,
+      "install_s": 0.08008242887444794
+    }
+  ],
+  "common_future_jumps": [],
+  "reference_v_max_m_s": 0.05,
+  "reference_w_max_rad_s": 0.2
+}

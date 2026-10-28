@@ -1,0 +1,16 @@
+{
+  "CPU_check_sha256": "d504d072a6a7c7f060e97135bf73d2c601224fd80f33c80ececed6992cc38e48",
+  "cause": "Native Trainer saves processor and experiment metadata beside checkpoint; new check read missing checkpoint/statistics.json",
+  "completed_updates": 8,
+  "correction": "Attach exact existing native processor/config sidecars to every checkpoint and persist first-update gradient evidence immediately after actual backward",
+  "failed_job": "643670.hopper-m-02",
+  "main_updates_before_repair": 0,
+  "old_fileset_sha256": "3efa692c25ef7298ec5dff57110bfae154353848c055f0c99eea0894284316c6",
+  "required_gradient_receipt": "UNOBSERVED",
+  "retained_original": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/OLD/failed-643670-continuous",
+  "saved_complete_model_optimizer_scheduler_rng": true,
+  "status": "CPU_VERIFIED_NATIVE_CHECKPOINT_METADATA_REPAIR",
+  "technical_canary_recovery_updates_planned": 8,
+  "training_heads": 152,
+  "unchanged_data_processor_loss_precision_rng_and_budgets": true
+}

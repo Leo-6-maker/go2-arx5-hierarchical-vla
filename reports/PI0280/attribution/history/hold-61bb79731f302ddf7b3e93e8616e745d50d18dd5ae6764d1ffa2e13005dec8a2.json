@@ -1,0 +1,237 @@
+{
+  "fixture": "hold",
+  "execution_status": "WBC_FIXTURE_EXECUTED",
+  "execution_error": null,
+  "controller": "DELIVERED_OLD_WBC",
+  "lane": "WBC_NATIVE_FIXTURE",
+  "task_success": "NOT_AN_OBJECT_TASK",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "raw_result": {
+    "status": "WBC_FIXTURE_EXECUTED",
+    "fixture": "hold",
+    "loads": [
+      {
+        "role": "arm",
+        "safe_load": "PASS",
+        "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+        "payload_keys": 29,
+        "inference_keys": 14
+      },
+      {
+        "role": "dog",
+        "safe_load": "PASS",
+        "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+        "payload_keys": 17,
+        "inference_keys": 8
+      }
+    ],
+    "initialization_s": 0.019999999552965164,
+    "controlled_ticks": 500,
+    "actual_elapsed_s": 9.999999776482582,
+    "gripper_actual_q": [
+      0.04399999976158142,
+      0.043965402990579605
+    ],
+    "task_success": "NOT_AN_OBJECT_TASK"
+  },
+  "initialization_sim_time_s": 0.019999999552965164,
+  "saved_rows": 501,
+  "saved_controlled_rows": 500,
+  "saved_actor_output_rows": 500,
+  "ledger_counts": {
+    "physical_start": 1,
+    "control_tick": 501,
+    "gripper_dispatch": 2004,
+    "integration": 2004,
+    "RGB_pair": 100,
+    "actor_forward": 1000
+  },
+  "installed_orientation_tracking": "UNOBSERVED_NATIVE_INSTALLED_ROTATION_NOT_RECORDED",
+  "object_contacts": "UNOBSERVED_NOT_AN_OBJECT_TASK",
+  "object_completion": "NOT_AN_OBJECT_TASK",
+  "metric_semantics": "Saved installed=p_at(s_ref(traj_sim_time)) after step; pre-step dispatched nine-point preview is not saved. Timestamped raw reference is a distinct clock from spatial progress.",
+  "raw_inputs": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/hold/START.json",
+      "bytes": 138,
+      "sha256": "92c90cfcb50d0b64df4dd696cac5e906ac53b89d9b31143281a8879a5390fb18"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/hold/construction_gate.json",
+      "bytes": 1700,
+      "sha256": "e1dacc5ede7498fc809ad4d5eeb28f763d9668e40be01ac1ab5fb37f46e6f98a"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/hold/reference.npz",
+      "bytes": 1412,
+      "sha256": "04677d932f69d760188e2558bf4a222fff488a0f0626772e534411ae80802059"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/hold/install_gate.json",
+      "bytes": 1732,
+      "sha256": "1ff1e2ef3856bc14de6b24f6cb013794f8fddbcd4fd20a7e68f9c4a688834b89"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/hold/installation.json",
+      "bytes": 599,
+      "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/hold/actor_outputs.jsonl",
+      "bytes": 510768,
+      "sha256": "edeeb32af38ef17bbcd5d287b65a0038982682cca59d3df7359b9b5bd7528cdd"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/hold/rows.json",
+      "bytes": 3015397,
+      "sha256": "1ce702c43969ce75961c92dfaaeac8923b4cd3f63bd3d1e0d9ed5aa21890dc0e"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/hold/RESULT.json",
+      "bytes": 945,
+      "sha256": "8781bda533a42edb1efa7809b494466c7300cfa6991aebd3db2f102016072be1"
+    }
+  ],
+  "initialization_row": {
+    "sim_time_s": 0.019999999552965164,
+    "FK_cache_error_m": 3.884375082218632e-07,
+    "hard_max_penetration": 0.0,
+    "soft_margin_min": -0.019805818796157837
+  },
+  "last_saved_sim_time_s": 10.019999776035547,
+  "saved_controlled_elapsed_s": 9.999999776482582,
+  "actual_to_same_tick_installed_position_m": {
+    "mean": 0.0072395988838783116,
+    "rms": 0.007568596302468149,
+    "p95": 0.010395116833698304,
+    "max": 0.016238899530373285,
+    "final": 0.007048804841942757
+  },
+  "actual_to_timestamped_raw_position_m": {
+    "mean": 0.007239578262565606,
+    "rms": 0.00756857664689708,
+    "p95": 0.010395094053939955,
+    "max": 0.016238917183619247,
+    "final": 0.007048780971516749
+  },
+  "same_tick_installed_to_timestamped_raw_position_m": {
+    "mean": 2.3983586491511215e-08,
+    "rms": 2.3983586491511215e-08,
+    "p95": 2.3983586491511215e-08,
+    "max": 2.3983586491511215e-08,
+    "final": 2.3983586491511215e-08
+  },
+  "actual_to_raw_fixed_orientation_rad": {
+    "mean": 1.1173589852973338,
+    "rms": 1.118988238822676,
+    "p95": 1.1649737670571827,
+    "max": 1.2100564305200114,
+    "final": 1.0742886348867613
+  },
+  "FK_cache_error_m": {
+    "mean": 4.7677168068143087e-07,
+    "rms": 4.862778204001263e-07,
+    "p95": 6.313723449773625e-07,
+    "max": 7.661639147281919e-07,
+    "final": 5.624589805010687e-07
+  },
+  "hard_penetration": {
+    "unit": "rad_for_revolute_m_for_prismatic",
+    "rows_with_any": 0,
+    "per_joint_max": {
+      "FL_hip_joint": 0.0,
+      "FL_thigh_joint": 0.0,
+      "FL_calf_joint": 0.0,
+      "FR_hip_joint": 0.0,
+      "FR_thigh_joint": 0.0,
+      "FR_calf_joint": 0.0,
+      "RL_hip_joint": 0.0,
+      "RL_thigh_joint": 0.0,
+      "RL_calf_joint": 0.0,
+      "RR_hip_joint": 0.0,
+      "RR_thigh_joint": 0.0,
+      "RR_calf_joint": 0.0,
+      "x5_joint1": 0.0,
+      "x5_joint2": 0.0,
+      "x5_joint3": 0.0,
+      "x5_joint4": 0.0,
+      "x5_joint5": 0.0,
+      "x5_joint6": 0.0,
+      "x5_gripper_joint": 0.0,
+      "x5_joint8": 0.0
+    }
+  },
+  "inherited_soft_margins": {
+    "rows_with_any_negative": 487,
+    "per_joint_min": {
+      "FL_hip_joint": 0.7050932794809341,
+      "FL_thigh_joint": 1.9263306856155396,
+      "FL_calf_joint": 0.3853633403778076,
+      "FR_hip_joint": 0.5599311590194702,
+      "FR_thigh_joint": 1.9215986728668213,
+      "FR_calf_joint": 0.5802462100982666,
+      "RL_hip_joint": 0.7055803835391998,
+      "RL_thigh_joint": 0.9938037991523743,
+      "RL_calf_joint": 0.2404484748840332,
+      "RR_hip_joint": 0.4328485131263733,
+      "RR_thigh_joint": 1.160989224910736,
+      "RR_calf_joint": 0.1224360466003418,
+      "x5_joint1": 1.4352068603038788,
+      "x5_joint2": 0.04487030208110809,
+      "x5_joint3": 0.02718837559223175,
+      "x5_joint4": -0.1082003116607666,
+      "x5_joint5": 0.5950746536254883,
+      "x5_joint6": 1.535830706357956,
+      "x5_gripper_joint": -0.002199999988079071,
+      "x5_joint8": -0.002199999988079071
+    },
+    "per_joint_negative_rows": {
+      "FL_hip_joint": 0,
+      "FL_thigh_joint": 0,
+      "FL_calf_joint": 0,
+      "FR_hip_joint": 0,
+      "FR_thigh_joint": 0,
+      "FR_calf_joint": 0,
+      "RL_hip_joint": 0,
+      "RL_thigh_joint": 0,
+      "RL_calf_joint": 0,
+      "RR_hip_joint": 0,
+      "RR_thigh_joint": 0,
+      "RR_calf_joint": 0,
+      "x5_joint1": 0,
+      "x5_joint2": 0,
+      "x5_joint3": 0,
+      "x5_joint4": 435,
+      "x5_joint5": 0,
+      "x5_joint6": 0,
+      "x5_gripper_joint": 487,
+      "x5_joint8": 487
+    },
+    "meaning": "Inherited 0.9 range soft margins; negative does not imply URDF hard penetration"
+  },
+  "gripper_actual_final_m": {
+    "x5_gripper_joint": 0.04399999976158142,
+    "x5_joint8": 0.043965402990579605
+  },
+  "telemetry_flags": {
+    "invalid_state": 0,
+    "fall_flag": 0,
+    "joint_limit_violation": 487
+  },
+  "video": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/attribution/hold.mp4",
+    "bytes": 311458,
+    "sha256": "d9caf406fb92beed7343520fedc3459396cc466d7d6c814d50e75865e4a41bc7",
+    "source": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/wbc/hold/frames.npz",
+      "bytes": 1155136,
+      "sha256": "07da877b5369c59efeb8ddb1718c62b44d467c897a76aca3a7213cb4184c85c9"
+    },
+    "saved_frames": 100,
+    "first_sim_time_s": 0.019999999552965164,
+    "last_sim_time_s": 9.919999778270721,
+    "fps": 10.000000223517423,
+    "rendering": "Only actual saved body/wrist RGB; nearest pixel enlargement; timestamps preserved"
+  }
+}

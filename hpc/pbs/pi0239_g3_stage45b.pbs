@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# PI0239: one resumable G2-clock/G3 CPU audit attempt.
+# G0-G2 census is reused; this job never loads model weights or calls GR00T.
+# The exact Stage45B FFmpeg6 environment is bound by the Python runner.
+#PBS -N pi0239-g3-cpu
+#PBS -P CFP03-CF-004
+# The project is authorized through auto; its route applies the site's GPU
+# floor even for CUDA-disabled audit code, so retain the known route request.
+#PBS -q auto
+# G3 is a zero-model CPU audit; requesting a GPU only routes it into the
+# unavailable GPU pool and is not part of the scientific contract.
+# This GPU is an execution-site floor only; the runner disables CUDA and does
+# not load model weights or call get_action during G3.
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -V
+
+set -euo pipefail
+: "${PI0239_LAUNCH_CONFIG:?missing PI0239_LAUNCH_CONFIG}"
+: "${PI0239_PYTHON:?missing PI0239_PYTHON}"
+: "${PI0239_SCRIPT:?missing PI0239_SCRIPT}"
+: "${PI0239_OUTPUT_ROOT:?missing PI0239_OUTPUT_ROOT}"
+
+export CUDA_VISIBLE_DEVICES=""
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export PYTHONNOUSERSITE=1
+export PYTHONPATH=""
+
+run_phase() {
+  local phase="$1"
+  "$PI0239_PYTHON" "$PI0239_SCRIPT" --phase "$phase" --launch-config "$PI0239_LAUNCH_CONFIG"
+}
+
+run_phase preflight
+if [[ -d "$PI0239_OUTPUT_ROOT/evidence" ]]; then
+  echo "PI0239 phase resume: preserving existing output/evidence"
+else
+  run_phase initialize
+fi
+run_phase reuse
+if [[ -s "$PI0239_OUTPUT_ROOT/evidence/g2_clock_control_rev2.json" ]]; then
+  echo "PI0239 phase reuse: G2 clock-control revision already PASS"
+else
+  run_phase clock
+fi
+run_phase g3

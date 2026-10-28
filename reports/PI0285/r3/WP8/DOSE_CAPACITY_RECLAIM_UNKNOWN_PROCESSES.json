@@ -1,0 +1,47 @@
+{
+  "epoch": 1791488924.6245155,
+  "pids": [
+    {
+      "pid": 2261671,
+      "cmdline": "(sd-pam) ",
+      "status": "Name:\t(sd-pam)\nUmask:\t0022\nState:\tS (sleeping)\nTgid:\t2261671\nNgid:\t0\nPid:\t2261671\nPPid:\t2261667\nTracerPid:\t0\nUid:\t22182\t22182\t22182\t22182\nGid:\t300\t300\t300\t300\nFDSize:\t64\nGroups:\t \nNStgid:\t2261671\nNSpid:\t2261671\nNSpgid:\t2261667\nNSsid:\t2261667\nVmPeak:\t  184396 kB\nVmSize:\t  184396 kB\nVmLck:\t       0 kB\nVmPin:\t       0 kB\nVmHWM:\t   10772 kB\nVmRSS:\t   10772 kB\nRssAnon:\t    8736 kB\nRssFile:\t    2036 kB\nRssShmem:\t       0 kB\nVmData:\t   23960 kB\nVmStk:\t    1040 kB\nVmExe:\t      44 kB\nVmLib:\t   14860 kB\nVmPTE:\t     112 kB\nVmSwap:\t       0 kB\nHugetlbPages:\t       0 kB\nCoreDumping:\t0\nTHP_enabled:\t1\nuntag_mask:\t0xffffffffffffffff\nThreads:\t1\nSigQ:\t0/2061611\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000000001000\nSigCgt:\t0000000100000000\nCapInh:\t0000000000000000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t000001ffffffffff\nCapAmb:\t0000000000000000\nNoNewPrivs:\t0\nSeccomp:\t0\nSeccomp_filters:\t0\nSpeculation_Store_Bypass:\tthread vulnerable\nSpeculationIndirectBranch:\tconditional enabled\nCpus_allowed:\tffffffff,ffffffff,ffffffff,ffffffff\nCpus_allowed_list:\t0-127\nMems_allowed:\t00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000003\nMems_allowed_list:\t0-1\nvoluntary_ctxt_switches:\t1\nnonvoluntary_ctxt_switches:\t0\nx86_Thread_features:\t\nx86_Thread_features_locked:\t\n",
+      "stat": "2261671 ((sd-pam)) S 2261667 2261667 2261667 0 -1 4194624 60 0 0 0 0 0 0 0 20 0 1 0 194168807 188821504 2440 18446744073709551615 1 1 0 0 0 0 0 4096 0 0 0 0 17 93 0 0 0 0 0 0 0 0 0 0 0 0 0\n",
+      "exe": {
+        "error": "[Errno 13] Permission denied: '/proc/2261671/exe'"
+      },
+      "cwd": {
+        "error": "[Errno 13] Permission denied: '/proc/2261671/cwd'"
+      }
+    },
+    {
+      "pid": 2261685,
+      "cmdline": "sshd-session: e1192548@notty            ",
+      "status": "Name:\tsshd-session\nUmask:\t0022\nState:\tS (sleeping)\nTgid:\t2261685\nNgid:\t0\nPid:\t2261685\nPPid:\t2261663\nTracerPid:\t0\nUid:\t22182\t22182\t22182\t22182\nGid:\t300\t300\t300\t300\nFDSize:\t64\nGroups:\t300 321 3103 3104 3115 3237 3239 3261 3317 3383 3384 3385 3386 3387 3388 3389 3392 3407 3412 3413 3414 \nNStgid:\t2261685\nNSpid:\t2261685\nNSpgid:\t2261663\nNSsid:\t2261663\nVmPeak:\t   26856 kB\nVmSize:\t   26856 kB\nVmLck:\t       0 kB\nVmPin:\t       0 kB\nVmHWM:\t    8636 kB\nVmRSS:\t    8636 kB\nRssAnon:\t    2776 kB\nRssFile:\t    5860 kB\nRssShmem:\t       0 kB\nVmData:\t    2200 kB\nVmStk:\t     132 kB\nVmExe:\t     576 kB\nVmLib:\t   12008 kB\nVmPTE:\t      84 kB\nVmSwap:\t       0 kB\nHugetlbPages:\t       0 kB\nCoreDumping:\t0\nTHP_enabled:\t1\nuntag_mask:\t0xffffffffffffffff\nThreads:\t1\nSigQ:\t0/2061611\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000000001000\nSigCgt:\t0000000000010000\nCapInh:\t0000000000000000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t000001ffffffffff\nCapAmb:\t0000000000000000\nNoNewPrivs:\t0\nSeccomp:\t0\nSeccomp_filters:\t0\nSpeculation_Store_Bypass:\tthread vulnerable\nSpeculationIndirectBranch:\tconditional enabled\nCpus_allowed:\tffffffff,ffffffff,ffffffff,ffffffff\nCpus_allowed_list:\t0-127\nMems_allowed:\t00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000003\nMems_allowed_list:\t0-1\nvoluntary_ctxt_switches:\t39\nnonvoluntary_ctxt_switches:\t0\nx86_Thread_features:\t\nx86_Thread_features_locked:\t\n",
+      "stat": "2261685 (sshd-session) S 2261663 2261663 2261663 0 -1 4194624 461 0 0 0 0 0 0 0 20 0 1 0 194168826 27500544 1810 18446744073709551615 1 1 0 0 0 0 0 4096 65536 0 0 0 17 124 0 0 0 0 0 0 0 0 0 0 0 0 0\n",
+      "exe": {
+        "error": "[Errno 13] Permission denied: '/proc/2261685/exe'"
+      },
+      "cwd": {
+        "error": "[Errno 13] Permission denied: '/proc/2261685/cwd'"
+      }
+    },
+    {
+      "pid": 2347150,
+      "cmdline": {
+        "error": "[Errno 2] No such file or directory: '/proc/2347150/cmdline'"
+      },
+      "status": {
+        "error": "[Errno 2] No such file or directory: '/proc/2347150/status'"
+      },
+      "stat": {
+        "error": "[Errno 2] No such file or directory: '/proc/2347150/stat'"
+      },
+      "exe": {
+        "error": "[Errno 2] No such file or directory: '/proc/2347150/exe'"
+      },
+      "cwd": {
+        "error": "[Errno 2] No such file or directory: '/proc/2347150/cwd'"
+      }
+    }
+  ]
+}

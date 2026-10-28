@@ -1,0 +1,71 @@
+{
+  "status": "ACTUAL_1536_UPDATES_AND_24576_MICROBATCHES_CPU_AUDITED",
+  "new_updates": 1536,
+  "global_step": 2048,
+  "consumed_new_samples": 49152,
+  "sampler_start": 16384,
+  "sampler_final": 65536,
+  "all_observed_samples_TRAIN": true,
+  "sample_counts": [
+    {
+      "task": "T1",
+      "family": "F0",
+      "origin": "legacy",
+      "count": 2677
+    },
+    {
+      "task": "T1",
+      "family": "F0",
+      "origin": "new",
+      "count": 5482
+    },
+    {
+      "task": "T1",
+      "family": "F1",
+      "origin": "new",
+      "count": 8243
+    },
+    {
+      "task": "T1",
+      "family": "F2",
+      "origin": "new",
+      "count": 8174
+    },
+    {
+      "task": "T2",
+      "family": "F0",
+      "origin": "new",
+      "count": 8232
+    },
+    {
+      "task": "T2",
+      "family": "F1",
+      "origin": "new",
+      "count": 8185
+    },
+    {
+      "task": "T2",
+      "family": "F2",
+      "origin": "new",
+      "count": 8159
+    }
+  ],
+  "mean_native_loss": 0.04407437314927165,
+  "first64_updates_mean": 0.06808303130856075,
+  "last64_updates_mean": 0.03260816479814821,
+  "frozen_VLM_unchanged": true,
+  "changed_trainable_parameter_count": 537,
+  "detailed_main_gradient_tensors": "UNOBSERVED_NOT_SAVED",
+  "training_loss_is_not_task_success": true,
+  "evidence": {
+    "TRAINING_RUN.json": "5f9c0eca1f045dae064aa1853382dab3a7a22e988ed76e857b55a52ac4f43694",
+    "MICROBATCHES.jsonl": "6dd9f03284ffea4b66329075f41bee450553100e15f60d8ccd987e37dfbc0810",
+    "OPTIMIZER_STEPS.jsonl": "d2023117745715f5bb6e4bf5c4c159d775365ac0bbae3f4cdde9456e2b9731ec",
+    "RECIPE.json": "67319790d4391dcb670577a3ace7dac592a1e2c0ce0ece6d54b682646a3ab53b"
+  },
+  "CPU_s": 0.21700345,
+  "new_neural_queries": 0,
+  "new_optimizer_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

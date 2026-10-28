@@ -1,0 +1,30 @@
+{
+  "status": "PASS_EXACT_RETIRED_FAILURE_PAYLOADS_DELETED_ACTIVE_PARENT_PRESERVED",
+  "Hopper": {
+    "logical_deleted_bytes": 122781862302,
+    "target_allocated_decrease_bytes": 122781892608,
+    "observed_shared_free_delta_bytes": 122780909568,
+    "protected_parent": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/main/checkpoint-2048",
+    "parent_stamps_unchanged": true,
+    "quota": "CACHED_2026_10_09_1123_SGT_898_6GB_USED_OF_1_0TB",
+    "exact_live_quota_headroom": "UNKNOWN"
+  },
+  "Corelab": {
+    "first_logical_deleted_bytes": 12576338896,
+    "first_allocated_decrease_bytes": 12576366592,
+    "extra_logical_bytes": 18864508344,
+    "extra_allocated_bytes": 18864549888,
+    "extra_free_before_bytes": 7932252160,
+    "extra_free_after_bytes": 26469625856,
+    "extra_observed_shared_free_delta_bytes": 18537373696
+  },
+  "HF_history_deleted": false,
+  "small_evidence_retained": true,
+  "no_model_or_physics_calls": true,
+  "source_receipts": {
+    "storage/PURGE_EXECUTED.json": "037083e371733b800404aebfd8d26a6c7b1fce53764cae550a9e4c2c3903f331",
+    "preparation/SSD_RECLAIM_EXECUTED.json": "a0d21bb50659a27e10acc1f64b8f2fc38346e06a7f79f034cc0bd75f8dcc66f7",
+    "preparation/SSD_RECLAIM_EXTRA_EXECUTED.json": "0239c2ab0616e6e9c3e1755a373bdf25abcfcc2adc7e70c0a02c4abb3a25fc6f",
+    "storage/POST_CLEANUP_QUOTA_REFRESH.json": "0e5bce7603606efe2300feaa16e9ec31dd3724604b10da078634abdde405bbe1"
+  }
+}

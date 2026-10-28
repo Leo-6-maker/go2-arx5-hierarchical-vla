@@ -1,0 +1,173 @@
+{
+  "schema": "V5_C50_VALID11_REMAINING13_ORIGINAL_NATIVE_CONTINUATION_ACTUAL_V1",
+  "observed_epoch": 1793141717.9999545,
+  "runtime_source": "ae30beaf53dc6b61c157f9e35b291ddba773e73e",
+  "cold_export_source": "e7afed9135cea119d7a0b54b39879c62e91fbde1",
+  "request_id": "d4b63eff-71e6-4c77-a7c7-dbdfe1b79a52",
+  "run": "v5-cd-c50-n294101-13",
+  "overall_goal_complete": false,
+  "original_panel": {
+    "total": 24,
+    "independently_valid_previous": 11,
+    "previous_success": 1,
+    "previous_valid_failures": 10,
+    "remaining_original_conditions": 13,
+    "prior_history_sha256": "dd2806c99b34044db90e9b94d28106bdfb15d56530807d381c9e0d5b508e3cbc",
+    "valid_failures_and_first_success_not_replayed": true,
+    "one_original_engineering_replacement": "F1/003/T2-REPLACEMENT-01",
+    "new_valid_conditions": 0
+  },
+  "native": {
+    "host": "corelab-4080s",
+    "uid": 2009,
+    "processes": {
+      "v5-cd-c50-eval-owner-12.service": {
+        "pid": 1893369,
+        "uid": 2009,
+        "proc_start": 291011904,
+        "state": "S"
+      },
+      "v5-cd-c50-n294101-13-neural.service": {
+        "pid": 1893464,
+        "uid": 2009,
+        "proc_start": 291012242,
+        "state": "S"
+      }
+    },
+    "postqualification_same_process_fresh_resource_recheck": true,
+    "qualification": {
+      "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+      "receipt_sha256": "cd5a617dd8d0b2d52909984a6637d4cffac8240adae24408795effeb88ad3d9b",
+      "heartbeat_elapsed_s": 600.0051345820539,
+      "transport_cycles": 80,
+      "new_model_queries": 0,
+      "new_physics": 0
+    },
+    "actual_model_status": "PV1_NATIVE_MODEL_READY",
+    "actual_checkpoint_manifest_sha256": "179af34b0d1b0922aa3679516b44fe4755d122738eb53fab87b4e710bc975475",
+    "current_episode": [
+      "C50-PI0294-PV1-DEV-F1-003-T2-N294101-REPLACEMENT-01"
+    ],
+    "query_snapshots": [
+      {
+        "label": "C50-DEV-N294101",
+        "attempts": 3,
+        "returned": 3
+      }
+    ],
+    "completed_ACKs": 2,
+    "pipeline_observation_is_not_a_valid_terminal": true,
+    "owner_exception_present": false,
+    "new_native_actors": 2,
+    "agent_heartbeat": false
+  },
+  "once_scope_adoption": {
+    "GLOBAL_sha256": "96ff740a63990874cebd3e03d320df3fb63e269aa8d17cf2da75bd6e77960332",
+    "LOCAL_sha256": "2974261b4111696ceeb1401555151fad88a286d8e06c413e0822efaf4fd17f8a",
+    "both_original_onceIO_reconciled": true,
+    "prepaid_control": {
+      "H200_s": 0,
+      "PBS_submissions": 0,
+      "optimizer_updates": 0,
+      "episode_starts": 0,
+      "neural_queries": 0,
+      "physics_ticks": 0,
+      "engine_starts": 0,
+      "Core_CPU_s": 0,
+      "Hopper_CPU_s": 7200,
+      "local_CPU_s": 7200,
+      "transfer_bytes": 134217728,
+      "Hopper_storage_bytes": 67108864,
+      "Core_storage_bytes": 134217728,
+      "local_storage_bytes": 0
+    },
+    "no_new_PBS": true,
+    "no_new_caps": true,
+    "all_old_costs_and_unknowns_preserved": true
+  },
+  "finite_remainder": {
+    "walltime_s": 18000,
+    "reserved_GPU_s": 18060,
+    "neural_CPU_upper_s": 40000,
+    "physical_CPU_upper_s": 47100,
+    "conditions": 13,
+    "query_upper": 1057,
+    "constructors_upper": 1055,
+    "physics_ticks_upper": 416000,
+    "per_condition_wall_s": 900,
+    "new_neural_output_upper_bytes": 4294967296,
+    "new_control_output_upper_bytes": 3221225472,
+    "retained_IO": {
+      "status": "ACTUAL_OLD_CENSUS_AND_CONDITIONAL_REMAINING13_FINITE_OUTPUT_BOUNDS",
+      "inventory_sha256": "5e2497b7a62aa09604cf9ac3253c9905eb46cee2dc4308a8d6dad4ab49275195",
+      "old_unique_logical_bytes": 14946668032,
+      "old_unique_allocated_bytes": 15000354816,
+      "future_output_uppers": {
+        "neural_output_bytes": 4294967296,
+        "physical_raw_bytes": 10468982784,
+        "physical_metadata_bytes": 536870912,
+        "new_control_bytes": 3221225472,
+        "new_source_bytes": 67108864
+      },
+      "combined_retained_upper_bytes": 33589510144,
+      "original_Core_gross_already_paid": 34051160888,
+      "Core_paid_gross_headroom_bytes": 461650744,
+      "original_GPU_gross_already_paid": 42641095480,
+      "old_control_actual_over_128MiB_recorded": true,
+      "old_control_and_every_old_raw_file_retained_in_combined_total": true,
+      "future_native_output_guards_and_exact_input_inode_bind": "NOT_RUN",
+      "new_native_IO_credit_adopted": false,
+      "old_cost_refund": false
+    },
+    "original_model_view": "DIRECTORY_ALIAS_TO_UNCHANGED_PAID_16_INODES_NO_NEW_TENSOR_HARDLINK_OR_COPY",
+    "full_original_future_shortfalls": {},
+    "matrix3_and_final20GPUh40GiB_preserved": true
+  },
+  "source_custody": {
+    "full_native_hash_performed": true,
+    "source_files": 1279,
+    "source_bytes": 10673138,
+    "closed_kernel_identity_checks_before_every_remote_transaction": true,
+    "original_onceIO_and_unknown_fences_unchanged": true,
+    "new_actor_reply_and_output_bounds": true,
+    "old_requests_keep_full_hash_semantics": true,
+    "original_15_numerical_files_unchanged": true,
+    "episode_relay_overlay_source": "887e65629291f16f73863e2b111123007542d268"
+  },
+  "validation": {
+    "related_Core_CPU": {
+      "passed": 126,
+      "skipped": 15,
+      "skip_reason": "Other private optional source/C11 captures not supplied in this invocation"
+    },
+    "original_onceIO_actual_temp_commit_reconcile_replay_rejection": true,
+    "official_export_and_actual_captured_phase_tickets_CPU": {
+      "passed": 30,
+      "skipped": 0
+    },
+    "native_GR00T_E0_E1_E2_PASS": false,
+    "source_publication_full_SHA_and_gitblob_verified": [
+      {
+        "source": "ae30beaf53dc6b61c157f9e35b291ddba773e73e",
+        "files": 17
+      },
+      {
+        "source": "e7afed9135cea119d7a0b54b39879c62e91fbde1",
+        "files": 2
+      }
+    ],
+    "initial_cold_filename_selector_KeyError_fixed_before_registration": true,
+    "initial_test_filename_errors_preserved": true
+  },
+  "remaining": {
+    "C50": "ACTIVE_REMAINING13_NO_INTERIM_SELECTION",
+    "D25": "ORIGINAL24_NOT_STARTED",
+    "GEN1": "ORIGINAL24_NOT_STARTED",
+    "E0_E1_E2": "NO_NEW_REQUEST_OR_NATIVE_MODEL_OR_OPTIMIZER; original five-session dispatcher/registered owner and independent terminal join still required",
+    "frozen_WBC_core64": 0
+  },
+  "next_minimum_block": "Complete actual current thirteen and independent full24 audit/once terminal/GPU+physical+control closure, then original D25. Finish first512 registered original entry and five-session full native proof at legal serial boundary; later explicit D25 concurrency only.",
+  "deadline_epoch": 1793537549.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "T_CD": 1792932749.8133287
+}

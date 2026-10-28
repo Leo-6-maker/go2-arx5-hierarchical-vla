@@ -1,0 +1,2406 @@
+{
+  "schema": "PI0291_FORMAL_CHUNK_RAW_AUDIT_V1",
+  "authority": "15cc7957488fb879f5f050e3602327592da7036b",
+  "created_utc": "2026-10-12 21:49:59 UTC",
+  "run_id": "20261013T023717-localpc-arx5",
+  "domain": "FIXED_BASE_ARX5_TASK_SIM",
+  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "chunk": {
+    "split": "TRAIN",
+    "start": 16,
+    "count": 16,
+    "ids": [
+      "T291016",
+      "T291017",
+      "T291018",
+      "T291019",
+      "T291020",
+      "T291021",
+      "T291022",
+      "T291023",
+      "T291024",
+      "T291025",
+      "T291026",
+      "T291027",
+      "T291028",
+      "T291029",
+      "T291030",
+      "T291031"
+    ]
+  },
+  "status": "RAW_AUDIT_PASS_OWNER_ADMISSION_PENDING",
+  "counts": {
+    "registered_TRAIN_denominator": 64,
+    "registered_DEV_denominator": 16,
+    "chunk_attempted": 16,
+    "chunk_complete": 16,
+    "chunk_independent_physical_success": 16,
+    "chunk_raw_pass": 16,
+    "chunk_eligible_for_BC": 16,
+    "chunk_admitted_by_this_agent": 0,
+    "chunk_failed": 0,
+    "chunk_unattempted": 0,
+    "cumulative_audited_through_this_chunk": 32,
+    "global_audited_at_receipt_creation": 33
+  },
+  "admission": "Only owner reviews and installs final DATASET_ADMISSION; all frozen registered attempts remain denominator; pilots/commissioning/legacy excluded; no quality retries.",
+  "bindings": {
+    "teacher_layout_seal_sha256": "f4919dd5b4ad4f978f182cb0663e6cbdb3b50be34a84d19f56f2d7aa98398f9d",
+    "code_seal_sha256": "1fd64b8aa2304de7e30ec1e1229ac8abaf85fda28934779f71d0b81361de945c",
+    "sealed_code_file_count": 121,
+    "code_hash_mismatches": [],
+    "all_current_raw_card_bindings_pass": true
+  },
+  "per_episode": [
+    {
+      "id": "T291016",
+      "seed": "11512960445645739799",
+      "group": "PI0291/T291016",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "4fbde8de211011ee3b60ef90d9bbade43bac584f5822e7972ed81fc287dbe18c",
+      "card_sha256": "8ff8c4eed6f3be2b51d87a0be125a5faf6ba22e4f032828ec323d4775252519f",
+      "manifest_sha256": "6602b397b2ebeb17cc32c8b0e74682964052d2d4d92a77181fbaf2048f95238a",
+      "samples_sha256": "3a87527ebadf47293f477736c24f1103671fb5cb823a86d0c1e34b634cfeb795",
+      "physics_sha256": "7efc60ad64f86d03ef4a038f17b2d9e297febe8c2307f9b2051f08b8818a3494",
+      "audit_receipt_sha256": "2512509268768296a63148bc7cc45466a40f68f09439b7e41a82b002cc14271f",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "6f354d2da4759d16d91f6aabc3bc7a8e25dcacf2a0ab63ace0649e2268e4fd81",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 9.992007221626409e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 3.947106377855114e-9,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2366,
+        "minimum_body_red_pixels": 56,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2849,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2845,
+            "maximum_red_pixels": 4250
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2698,
+            "maximum_red_pixels": 4354
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2671,
+            "maximum_red_pixels": 2688
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2657,
+            "maximum_red_pixels": 2693
+          },
+          "carry": {
+            "frames": 64,
+            "minimum_red_pixels": 2682,
+            "maximum_red_pixels": 4050
+          },
+          "lower": {
+            "frames": 30,
+            "minimum_red_pixels": 3977,
+            "maximum_red_pixels": 4027
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3933,
+            "maximum_red_pixels": 4956
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2448,
+            "maximum_red_pixels": 5524
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2366,
+            "maximum_red_pixels": 2535
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.43174616237290653,
+        1.0006495431736662
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.37129,
+      "audit_receipt": "evidence/T291016_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291017",
+      "seed": "15072169860588782581",
+      "group": "PI0291/T291017",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "ae158ac604b34ebf6728420243e92d35d3734f631871958b929a578c96ad0548",
+      "card_sha256": "04f862043d3f889e1d35d0b1ec1f0abaa39b553bf900e0f922cd21092cf63d92",
+      "manifest_sha256": "11078b5239d0cf11f3ccb8ca115d3dfb3fa000913bf93e2b6c4bfee04cdf11f6",
+      "samples_sha256": "3eb986dd7d0ab1173ac9a566c78120bdf806868aa09f204eda31f84c45ade728",
+      "physics_sha256": "cdb3c8652edcea439d5fe276b6376585bf03c71a462d6ad4ef4f19e4ff526fe2",
+      "audit_receipt_sha256": "1710a52f83fa875344e6752873df1b95387f41eb8ec95e848580dbec556dc327",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "608e4daa32276d409a1f3317dc20afccdb506aac60f06e8db9410c68cb75e635",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 5.1615187124376405e-9,
+      "native_codec_roundtrip_max_abs": 8.881784197001252e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2358,
+        "minimum_body_red_pixels": 58,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2883,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2879,
+            "maximum_red_pixels": 4248
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2649,
+            "maximum_red_pixels": 4374
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2651,
+            "maximum_red_pixels": 2666
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2645,
+            "maximum_red_pixels": 2673
+          },
+          "carry": {
+            "frames": 61,
+            "minimum_red_pixels": 2658,
+            "maximum_red_pixels": 4018
+          },
+          "lower": {
+            "frames": 33,
+            "minimum_red_pixels": 3958,
+            "maximum_red_pixels": 4004
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3925,
+            "maximum_red_pixels": 4932
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2443,
+            "maximum_red_pixels": 5509
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2358,
+            "maximum_red_pixels": 2540
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319141330068215,
+        1.0006495135779374
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.3879849999999996,
+      "audit_receipt": "evidence/T291017_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291018",
+      "seed": "429490312968593717",
+      "group": "PI0291/T291018",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "d65f2eb4a7ee8515c5ff26e9e523bcc2187fb7b1e3390114ac454fd94740cc0c",
+      "card_sha256": "f22ac71b985d3372eac1956b2dc71a1c8e638a42ea68399db3ae6d015ac05161",
+      "manifest_sha256": "6ff0ea6e59ef78a651d794064bbe6f4e7313eef09942fb607c6205a11cdc2c3b",
+      "samples_sha256": "218b8fb35ba3cba95374ae90f76c55e8902010eb44fc2e2ead2215223d5cd400",
+      "physics_sha256": "3833cc2bf1afe032420464a66b6c6a34fc6c195154473db52b4e919d686f76db",
+      "audit_receipt_sha256": "c2acb532a8743e50df041a5efbeae9a5f113529fd89b68671342f512700b7ab9",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "39ffceb9c8297c3a0c33b7b05fa32a47b718fef41926762750805ad2d2f4672e",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.1770358687712701e-8,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2375,
+        "minimum_body_red_pixels": 51,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3354,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3345,
+            "maximum_red_pixels": 5167
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 3843,
+            "maximum_red_pixels": 5448
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3873,
+            "maximum_red_pixels": 3902
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 3437,
+            "maximum_red_pixels": 4021
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 3497,
+            "maximum_red_pixels": 4114
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 4024,
+            "maximum_red_pixels": 4091
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3976,
+            "maximum_red_pixels": 4947
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2459,
+            "maximum_red_pixels": 5527
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2375,
+            "maximum_red_pixels": 2532
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.43174088656294307,
+        1.000649536961707
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.370345,
+      "audit_receipt": "evidence/T291018_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291019",
+      "seed": "14681353997236590762",
+      "group": "PI0291/T291019",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "d5ba442b0211153dee4a923bb0ec8b088ec47932d743b062271d962d4df6e23d",
+      "card_sha256": "edec95ac67c03681812ed52aaabe2910fca05aebe8344411705e7c0b658faf00",
+      "manifest_sha256": "f9143bf1712b55d55f3278ba68612b30974bcff41316b95e3fcd752bc40b242d",
+      "samples_sha256": "2497abd189f600b3bee78eec51604dbd78e8bf85308721d4b61e6eddbca1bfd6",
+      "physics_sha256": "b339c6cb3f35174679d478ca1101a92d28ddbc4076d8a00be608e9d21ee11d7e",
+      "audit_receipt_sha256": "0deddbe6e2ac9709b763125d22fce638e72ec8e624204665c77f9f34584d8d25",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "9069b8854c9983f4ec13deb3dc16718f0cf292c45b4261e1327c7564790b2b66",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 9.992007221626409e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.5160127458946349e-9,
+      "native_codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2362,
+        "minimum_body_red_pixels": 41,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2911,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2908,
+            "maximum_red_pixels": 4250
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2645,
+            "maximum_red_pixels": 4359
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2650,
+            "maximum_red_pixels": 2667
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2635,
+            "maximum_red_pixels": 2657
+          },
+          "carry": {
+            "frames": 64,
+            "minimum_red_pixels": 2643,
+            "maximum_red_pixels": 4013
+          },
+          "lower": {
+            "frames": 30,
+            "minimum_red_pixels": 3951,
+            "maximum_red_pixels": 3995
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3915,
+            "maximum_red_pixels": 4956
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2447,
+            "maximum_red_pixels": 5526
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2362,
+            "maximum_red_pixels": 2540
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319220445719033,
+        1.000649546237959
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.3942980000000005,
+      "audit_receipt": "evidence/T291019_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291020",
+      "seed": "14409973024053214014",
+      "group": "PI0291/T291020",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "6a9db365ad779eccb01565336370eb2f3b6fd9027ce606f3128ca1800f16fb6d",
+      "card_sha256": "d22f54071e29e86a6b3eb5774a691b24fed9f3c570d3e50a2f4dc1e69315c5b5",
+      "manifest_sha256": "ee82caffcb65626ae389bc45e4a92d32e1cb455ca637094caaea28ddae73911e",
+      "samples_sha256": "fa9eccf8468ebf61243c80d9080fadc055fe9586d2a23bcf0ac9d1143d8d10b9",
+      "physics_sha256": "c62e589ecf670ee465cd06e8b5cb86753db97896e55a857925007c05422bd7ba",
+      "audit_receipt_sha256": "e28a83733779c8c3458ad51a1023eaa5899e00ee78d5e9af91f28230e353cb44",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "d0b193a53556eea4fc0f11b3723f4800a47a397c19a7021a57efd1fb2b0d806c",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.418295660944203e-9,
+      "native_codec_roundtrip_max_abs": 9.992007221626409e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2355,
+        "minimum_body_red_pixels": 57,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2891,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2884,
+            "maximum_red_pixels": 4242
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2686,
+            "maximum_red_pixels": 4369
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2648,
+            "maximum_red_pixels": 2673
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2649,
+            "maximum_red_pixels": 2669
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 2657,
+            "maximum_red_pixels": 4021
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 3964,
+            "maximum_red_pixels": 4005
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3924,
+            "maximum_red_pixels": 4919
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2436,
+            "maximum_red_pixels": 5499
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2355,
+            "maximum_red_pixels": 2522
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4317209537477243,
+        1.0006495286112236
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.3828549999999997,
+      "audit_receipt": "evidence/T291020_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291021",
+      "seed": "720374939249061491",
+      "group": "PI0291/T291021",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "72cd1ad4f5ff2e9ff68c8a6777ec7049d76daff4a36d393d209313111316c68e",
+      "card_sha256": "77bf2777586f49a8c365e515c9b86a44db3a6843283ab6aa01ea9fd21e9cd766",
+      "manifest_sha256": "19c59d96b6ee1790395899b4bfed2c691e19e9a956fd9bf30bd04a279b5185a9",
+      "samples_sha256": "deff66d356b451b125ed90b8a37f4cc3535f48ef851e34c3134e027523540f1b",
+      "physics_sha256": "daeefe8865ab7199881b1d4c1311078b4bb6bfdbbdb5f43b85e24da044cc5b71",
+      "audit_receipt_sha256": "7f89143d532e3a283693016c5e58e6e0ff4700aab77e9f3b7737c763994e47c4",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "f7f0420d16900a16eab590b74a2d491b4394c5722d14d93d434c6097b4e357d9",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 5.220234147729208e-9,
+      "native_codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2355,
+        "minimum_body_red_pixels": 42,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2915,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2915,
+            "maximum_red_pixels": 4236
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2647,
+            "maximum_red_pixels": 4355
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2650,
+            "maximum_red_pixels": 2671
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2641,
+            "maximum_red_pixels": 2663
+          },
+          "carry": {
+            "frames": 63,
+            "minimum_red_pixels": 2642,
+            "maximum_red_pixels": 4012
+          },
+          "lower": {
+            "frames": 31,
+            "minimum_red_pixels": 3944,
+            "maximum_red_pixels": 3995
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3913,
+            "maximum_red_pixels": 4918
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2441,
+            "maximum_red_pixels": 5503
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2355,
+            "maximum_red_pixels": 2528
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319160050198691,
+        1.0006495249677965
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.3924659999999998,
+      "audit_receipt": "evidence/T291021_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291022",
+      "seed": "16039866775542488639",
+      "group": "PI0291/T291022",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "2652710afd0b3fbd0d33a134810c79bacb95c124592c0bd2774c81a17f863a41",
+      "card_sha256": "edb05bd65f3faee59aa4f46f593916085212e8255a46624d6824f99e237bde8c",
+      "manifest_sha256": "1427b85219c46e1b9fabf344f074c8a5ccfaac9313e3f10adfd38255dee992a7",
+      "samples_sha256": "1bbbfd88f82f19ea281164ac7cd3ed4eb2748eaf05fc16992307d066f93fa794",
+      "physics_sha256": "8acf35320d1626dfa4d1ad14be3acae5704e22484c94b04775114e24d37ad649",
+      "audit_receipt_sha256": "aa0d32e1f668b271aa7e89ac4c2cb271c67e25c9bbec1832d6f430e96ad22920",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "165a700f50ef6d9b7eebb1c09061b6886bcba4050d9bb4e9fcc2bb0b812d65c7",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 9.830517233577751e-10,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2361,
+        "minimum_body_red_pixels": 58,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2898,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2893,
+            "maximum_red_pixels": 4265
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2687,
+            "maximum_red_pixels": 4362
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2651,
+            "maximum_red_pixels": 2673
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2645,
+            "maximum_red_pixels": 2669
+          },
+          "carry": {
+            "frames": 61,
+            "minimum_red_pixels": 2650,
+            "maximum_red_pixels": 4024
+          },
+          "lower": {
+            "frames": 33,
+            "minimum_red_pixels": 3960,
+            "maximum_red_pixels": 4003
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3920,
+            "maximum_red_pixels": 4920
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2431,
+            "maximum_red_pixels": 5495
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2361,
+            "maximum_red_pixels": 2524
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4317526949215509,
+        1.0006495317684516
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.4022060000000005,
+      "audit_receipt": "evidence/T291022_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291023",
+      "seed": "4614134082192716333",
+      "group": "PI0291/T291023",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "32c52acf4ac1c70a329eccf8600a017499b162ceed7f6fb7b15301d0778e7e2f",
+      "card_sha256": "332530e6904d10eefd86061a882c9e2ee4161206cce36bb849bb209774792fd8",
+      "manifest_sha256": "6050709105213d7bb8f785e94be17a1081d0ce8ce42459edccf3153dd5baf82b",
+      "samples_sha256": "1d027f24f53f2217b1d192ddf7edc18f8d81168425a4a6e0bd4cb85b60a710db",
+      "physics_sha256": "c11d8142f93dc150661cf9d2fc5b4c7c752c86f71e9610760c7bfe81ece40263",
+      "audit_receipt_sha256": "ce22b7d006b2fe6a06c65cd3cb36256d4c7f179144dab3ca779b27488befeb17",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "14cbaf96ecda6f6a68388e910ac937bab9bbfaf6b5a5b9f0705a7c678d83a42c",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 7.771561172376096e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 5.272479924878226e-9,
+      "native_codec_roundtrip_max_abs": 8.881784197001252e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2364,
+        "minimum_body_red_pixels": 57,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2862,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2855,
+            "maximum_red_pixels": 4242
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2662,
+            "maximum_red_pixels": 4369
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2659,
+            "maximum_red_pixels": 2670
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2648,
+            "maximum_red_pixels": 2688
+          },
+          "carry": {
+            "frames": 61,
+            "minimum_red_pixels": 2664,
+            "maximum_red_pixels": 4044
+          },
+          "lower": {
+            "frames": 33,
+            "minimum_red_pixels": 3975,
+            "maximum_red_pixels": 4015
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3930,
+            "maximum_red_pixels": 4919
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2431,
+            "maximum_red_pixels": 5503
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2364,
+            "maximum_red_pixels": 2516
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.43192151427585,
+        1.0006495292698594
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.396605,
+      "audit_receipt": "evidence/T291023_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291024",
+      "seed": "3150771569940447093",
+      "group": "PI0291/T291024",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "c2a5001c66bec40df69c3f309034ba74fc1fe3315d4912e43a1b0a3f1a311f9e",
+      "card_sha256": "f57083e15c11304e9e229d776c957438ef001d2dda35dd2debad6c2d1399a030",
+      "manifest_sha256": "31b2a2f21e3c39446f8f75217f4c562146615c1a621b27db6e2d13c412cafb02",
+      "samples_sha256": "12e80d973e1a314deb2eb8a4abe49fa92bb077e6435fab51d4c12ef0cc01d982",
+      "physics_sha256": "85abc478f5d039d3a63543a3836e5651a54f55b66cb3c137a2cc12b87fd31ce7",
+      "audit_receipt_sha256": "2c1a9398871deb6de826b7890cca54f48cfae045df015729a79995bbc48dc15e",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "38c46e8faa79450874f159327459f5db93fb1603f1f87a7dd1cd43454a8da87d",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 7.771561172376096e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.5028514280257532e-8,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2362,
+        "minimum_body_red_pixels": 58,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2876,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2876,
+            "maximum_red_pixels": 4254
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2657,
+            "maximum_red_pixels": 4362
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2653,
+            "maximum_red_pixels": 2673
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2644,
+            "maximum_red_pixels": 2672
+          },
+          "carry": {
+            "frames": 60,
+            "minimum_red_pixels": 2655,
+            "maximum_red_pixels": 4020
+          },
+          "lower": {
+            "frames": 34,
+            "minimum_red_pixels": 3961,
+            "maximum_red_pixels": 4002
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3924,
+            "maximum_red_pixels": 4949
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2449,
+            "maximum_red_pixels": 5517
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2362,
+            "maximum_red_pixels": 2536
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319214818179019,
+        1.000649530334686
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.400556,
+      "audit_receipt": "evidence/T291024_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291025",
+      "seed": "101791533907986582",
+      "group": "PI0291/T291025",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "aa4c1b6e4682347090f8073219db96891b600a57a3718da8c624122b5d40eedd",
+      "card_sha256": "7f3679cd85e8c6b17c70bdca1fb4f3cd685688b4b18639761670c4715e219311",
+      "manifest_sha256": "2de3f81741efbc1e8b6df5cf15152b42583fff4612d4e04b6a14d70472531a55",
+      "samples_sha256": "60130f2730cadcf2ec938f612119fbf4827b27d79c9a3c329b5c7a22c8853337",
+      "physics_sha256": "338fe585e31e02149eb75e5a3124aa5c617636ea5f1a7b39ef1ffa8bf934e619",
+      "audit_receipt_sha256": "ca36cc90f1d819673f374668fb8194a28e0426bfabd64b909e248433b8c973c5",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "141e760ab9565af69806f516b78f8e88751a2bb2d7ef866cb44ecd1589bf7daf",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.6256438412364247e-9,
+      "native_codec_roundtrip_max_abs": 9.992007221626409e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2359,
+        "minimum_body_red_pixels": 44,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2915,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2912,
+            "maximum_red_pixels": 4244
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2647,
+            "maximum_red_pixels": 4355
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2649,
+            "maximum_red_pixels": 2665
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2640,
+            "maximum_red_pixels": 2661
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 2643,
+            "maximum_red_pixels": 4017
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 3949,
+            "maximum_red_pixels": 3996
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3910,
+            "maximum_red_pixels": 4918
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2436,
+            "maximum_red_pixels": 5489
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2359,
+            "maximum_red_pixels": 2526
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319229536614183,
+        1.0006495336948844
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.407408,
+      "audit_receipt": "evidence/T291025_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291026",
+      "seed": "5056151076573626770",
+      "group": "PI0291/T291026",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "53f49e18dce6f9d0767b8b422b68c572b6100874dd241edbfbc4a91097e69bee",
+      "card_sha256": "2156591c058005512a7c248f57395a7acb5c4dd4df85aa9635a581cd29da6066",
+      "manifest_sha256": "0c6d06c120c2b7a577daa461cf79fc2f8660e7fa08bbf072b962b7bc21a5c2ff",
+      "samples_sha256": "ae842faa384af47de298e09dd1c171ad01d8acdce840fa890669a31946c65606",
+      "physics_sha256": "1b6226be9ed40663aaf33d1ecd7c0149a6d2eeb4d92ba0af6f82f09fa02b8078",
+      "audit_receipt_sha256": "16c146aa431f1cbf0c2078dd4b7ed51bcb374b861322295fa6f14972cd8e3e0e",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "5e9f33c0ac66f21be1e3a932ac87190a7682e6f7f86baa314194eb8a3ff39ff8",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 9.992007221626409e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.3613596911165047e-9,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2364,
+        "minimum_body_red_pixels": 49,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2822,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2821,
+            "maximum_red_pixels": 4252
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2709,
+            "maximum_red_pixels": 4360
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2680,
+            "maximum_red_pixels": 2703
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2657,
+            "maximum_red_pixels": 2700
+          },
+          "carry": {
+            "frames": 63,
+            "minimum_red_pixels": 2689,
+            "maximum_red_pixels": 4063
+          },
+          "lower": {
+            "frames": 31,
+            "minimum_red_pixels": 3985,
+            "maximum_red_pixels": 4048
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3947,
+            "maximum_red_pixels": 4918
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2438,
+            "maximum_red_pixels": 5491
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2364,
+            "maximum_red_pixels": 2512
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.431750158783718,
+        1.0006495575730412
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.383935,
+      "audit_receipt": "evidence/T291026_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291027",
+      "seed": "2934923458945270943",
+      "group": "PI0291/T291027",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "e5e4b3738a0b3ff7b96f4e488f95520fa46e8977adffeae5e6f225462c3cf48c",
+      "card_sha256": "492fc1c3276f1685c817c2a76b262bf24243fb4f16013d498ec94ff95ceb99db",
+      "manifest_sha256": "384887ce3484978bbb3b355fd3b74e71e4c285fd121a371b01c01819a9a9b0a9",
+      "samples_sha256": "a76addd7df86b8786e0d3f8d195f346ff1258166bf4f66487170e00ba0215152",
+      "physics_sha256": "12bf1f796317f3db1d539aa6fb9ffd577eead2ba45a1b4980196ef79137bf87c",
+      "audit_receipt_sha256": "b870803b21c02be2df3f385a0017ae0f8f1b023aba13f2d66ae79de8131ff215",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "735b3656c649845746d8f8220faa6d9df050070b4be2e06192a49cbfb03605b6",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 9.992007221626409e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.3729922199168243e-9,
+      "native_codec_roundtrip_max_abs": 8.881784197001252e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2357,
+        "minimum_body_red_pixels": 39,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2931,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2927,
+            "maximum_red_pixels": 4256
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2676,
+            "maximum_red_pixels": 4349
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2636,
+            "maximum_red_pixels": 2663
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2630,
+            "maximum_red_pixels": 2658
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 2634,
+            "maximum_red_pixels": 4002
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 3933,
+            "maximum_red_pixels": 3989
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3908,
+            "maximum_red_pixels": 4911
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2438,
+            "maximum_red_pixels": 5485
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2357,
+            "maximum_red_pixels": 2529
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.431748097231904,
+        1.000649533133385
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.39014,
+      "audit_receipt": "evidence/T291027_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291028",
+      "seed": "4534306909279809207",
+      "group": "PI0291/T291028",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "f88570cb79edcd6f71bd772b2699c89be8a07e5db47e4d9b35cdd60c9bdd0c1b",
+      "card_sha256": "bd582f8389b36c5873c1fda6377ae66045d9b74df31764140262a983f1b54fec",
+      "manifest_sha256": "dcc490c8899931438379af38a6bf2a2127c5d43ad501daa33f5766f3947a522a",
+      "samples_sha256": "7f113d54a29a06606f818d9172bce1394f53bf35e47c11b0bb3cf90c28d4d8bd",
+      "physics_sha256": "c1b23cb249e6a97971f44ac4fd74f16b38e4b82e731aec5e6b2e9189bc6a6a87",
+      "audit_receipt_sha256": "d19d8a1d70968d46345f3929508e4ba82b8878752d33877f61738b5a81e70e88",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "4153c2da5c7795b63593676e6bc058d7b7a397c40ddc161ceca25d889bc32d3e",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.439429710627167e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 3.3301682522690612e-9,
+      "native_codec_roundtrip_max_abs": 8.881784197001252e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2370,
+        "minimum_body_red_pixels": 57,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2833,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2826,
+            "maximum_red_pixels": 4234
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2701,
+            "maximum_red_pixels": 4370
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2661,
+            "maximum_red_pixels": 2689
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2658,
+            "maximum_red_pixels": 2700
+          },
+          "carry": {
+            "frames": 59,
+            "minimum_red_pixels": 2681,
+            "maximum_red_pixels": 4055
+          },
+          "lower": {
+            "frames": 35,
+            "minimum_red_pixels": 3982,
+            "maximum_red_pixels": 4023
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3935,
+            "maximum_red_pixels": 4928
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2446,
+            "maximum_red_pixels": 5507
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2370,
+            "maximum_red_pixels": 2522
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4317214699114282,
+        1.0006495305939844
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.3847769999999997,
+      "audit_receipt": "evidence/T291028_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291029",
+      "seed": "12531926748334897747",
+      "group": "PI0291/T291029",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "f5bf0a29aaa5820458058bb2405e23a6be904214bc704ee760c5cf604a1dc3d4",
+      "card_sha256": "b1756573d33861478370d85c06dd808db71de8d21acbe2194992e1c3a2a1d30e",
+      "manifest_sha256": "572cb828a92e6dc226a6e93c3ae3063a7ca479b052ae087bdb8a303c6dad6c84",
+      "samples_sha256": "cb6481cb92282333fd9be7bb17c19f5028d2c2963c89f3e80cc5b89413e5609b",
+      "physics_sha256": "e63f67da9db731892997ad859618db298ced7266ae2813534ddd8aab3c5992dc",
+      "audit_receipt_sha256": "1007cd8a9a71299844d7ba36b15522500962e4d3526c090c41278a936a71f056",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "317ec49c6969c71b5e659205a0fd6c37bc69746fa8173ea38570c25ed8db2772",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 9.992007221626409e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.538316432043608e-9,
+      "native_codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2349,
+        "minimum_body_red_pixels": 40,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2924,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2917,
+            "maximum_red_pixels": 4244
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2681,
+            "maximum_red_pixels": 4360
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2641,
+            "maximum_red_pixels": 2670
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2640,
+            "maximum_red_pixels": 2662
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 2642,
+            "maximum_red_pixels": 4014
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 3947,
+            "maximum_red_pixels": 3993
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3910,
+            "maximum_red_pixels": 4917
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2425,
+            "maximum_red_pixels": 5483
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2349,
+            "maximum_red_pixels": 2525
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4317239079606228,
+        1.0006495243997353
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.4031779999999996,
+      "audit_receipt": "evidence/T291029_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291030",
+      "seed": "391558321365495260",
+      "group": "PI0291/T291030",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "33427c60966e220e37d1fe41324fd4fe889a849c810035a0a184d67e2b010bb0",
+      "card_sha256": "f6880ec10cf822935760a8130dae98581c1cace981d5cab93f6f70a505c2d4bf",
+      "manifest_sha256": "c9322b4a0c4a0e67e10b44d003227cd7ea4a440e119a9f4456a16c833868bf58",
+      "samples_sha256": "ee3d0ae72d3fa63fe6281398f7254a9762100b94b3ba30e246bf5718dd2319ef",
+      "physics_sha256": "113af7ca1787143987a4cd154d4d8bb5e8ce2bd893d7afc6fbefd46431dc181f",
+      "audit_receipt_sha256": "0f33f2a045ca05f96f915bae70e5c59892bf87c0b9532d6659f19d82857934a4",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "5f48f88a4a93898bdbafe58c24c469ae3b943d51cd6e534e15bbbfa537ff0691",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.2866220444894836e-8,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2357,
+        "minimum_body_red_pixels": 58,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2874,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2871,
+            "maximum_red_pixels": 4254
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2653,
+            "maximum_red_pixels": 4363
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2658,
+            "maximum_red_pixels": 2678
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2651,
+            "maximum_red_pixels": 2672
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 2660,
+            "maximum_red_pixels": 4031
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 3974,
+            "maximum_red_pixels": 4018
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3926,
+            "maximum_red_pixels": 4910
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2435,
+            "maximum_red_pixels": 5485
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2357,
+            "maximum_red_pixels": 2513
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319109591818916,
+        1.000649548982169
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.4008459999999996,
+      "audit_receipt": "evidence/T291030_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291031",
+      "seed": "17806389179977406459",
+      "group": "PI0291/T291031",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "4216eb7a9637a5af0819cf4183fb3e1325f6b1787ec9f94f049c02f4ca7f839a",
+      "card_sha256": "cd81b2c3406875838e8ea979e04d505a4478c18928fcfe6263fba562c1d4df2c",
+      "manifest_sha256": "482ab98e6db2343a6daa69d981f8d41b4aa14b321adb45e0b019ec61cc43e4ab",
+      "samples_sha256": "73894a4df1bee1905acfa065fb7cea1206905b7287c012b0ce25b18b695195e0",
+      "physics_sha256": "dd396fb133b2a8a9cd9e9a2d783eb04eee4260915064694e057360ddabbfce1d",
+      "audit_receipt_sha256": "e3ef6bd47d8b937931272569eeba4d8380b1dba97851f6c60e7e9fe0a35eece4",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "mode": "normal",
+      "negative_fixture": false,
+      "negative_fixture_is_T1_quality_claim": false,
+      "all_action_supervision_valid": true,
+      "formal_BC_admitted": false,
+      "admission_boundary": "Raw audit is evidence only; commissioning/negatives never formal TRAIN/DEV",
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+      "saved_scene_sha256": "5b46be9cb39025762b2287c27f7b8c98e883a6cc03daab3809c6fb1a3f7dc7f5",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.7170279031919478e-8,
+      "native_codec_roundtrip_max_abs": 9.992007221626409e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2362,
+        "minimum_body_red_pixels": 52,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3138,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2908,
+            "maximum_red_pixels": 4259
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2680,
+            "maximum_red_pixels": 4374
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2688,
+            "maximum_red_pixels": 2699
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2676,
+            "maximum_red_pixels": 2716
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 2694,
+            "maximum_red_pixels": 4076
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 3990,
+            "maximum_red_pixels": 4057
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3949,
+            "maximum_red_pixels": 4911
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2436,
+            "maximum_red_pixels": 5495
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2362,
+            "maximum_red_pixels": 2511
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.4319295666652876,
+        1.000649557356147
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "audit_CPU_s": 3.394568,
+      "audit_receipt": "evidence/T291031_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    }
+  ],
+  "CPU_s": {
+    "chunk_raw_audits": 54.263458,
+    "readiness_measured_cumulative": 1.2513530000000002,
+    "readiness_new_measured_since_prior_chunk": 0.442565,
+    "binding_check": 0.576314,
+    "meter_loss_recovery_verification": 0.020544,
+    "new_measured_aux_total": 1.039423,
+    "remote_affinity_cpu_limit": 1,
+    "includes_audit_children": true,
+    "ledger_mutated_by_agent": false,
+    "missing_probe_CPU": "UNKNOWN; separate READINESS_METER_LOSS_RECEIPT.json; do not call its upper measured or charge twice",
+    "meter_loss_recovery_verification_already_owner_charged": true,
+    "new_measured_aux_to_charge": 1.018879,
+    "new_measured_aux_total_note": "Includes measured recovery verification0.020544 already charged in CPU_AUX_READINESS_METER_LOSS; charge readiness0.442565+binding0.576314 only."
+  },
+  "boundary": {
+    "formal_admission": "OWNER_PENDING",
+    "statistics": "NOT_RUN",
+    "native_formal_processor_qualification": "NOT_RUN",
+    "neural": 0,
+    "training": 0,
+    "Hopper_PBS": 0,
+    "WBC": 0,
+    "audit_integrations": 0,
+    "audit_render_calls": 0,
+    "original_raw_mutations": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "metadata_precision_correction": "Exact original uint64 seed carried as decimal string; prior JS Number serialization could round. Raw cards/seals/hashes and Python pre-serialization seed equality tests are unchanged; no physics/audit rerun."
+}

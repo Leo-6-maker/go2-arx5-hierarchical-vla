@@ -1,0 +1,24 @@
+{
+  "schema": "PI0260_R3_S4_IDENTICAL_FORWARD_REUSE_AMENDMENT_V1",
+  "classification": "engineering query efficiency correction before final6000 quality calls",
+  "completed_step0": {
+    "points": ["Base_0", "G_0"],
+    "logical_cells_per_point": 440,
+    "actual_query_attempts_per_point": 440,
+    "distinct_processor_conditions_per_point": 211,
+    "noise_packets": 2,
+    "identical_condition_noise_redundant_queries_per_point": 18,
+    "saved_array_repeat_raw_max_abs": 0.0,
+    "independent_cpu_replay": "PASS for both points",
+    "decision": "retain all first-valid step0 records; no retrial or score substitution"
+  },
+  "final6000_entry": {
+    "method": "cache only identical actual processor condition SHA256 and actual B0/B1 noise within one bound model point; copy raw and four S4 traces, decode against each row's StateV1, score every original row label",
+    "source_sha256": "32d13f4f8b40627ea243993e31cc9f84faf1a5ca3887c8ab9ea241ce3493ea7f",
+    "cpu_preflight": "R3_EVAL_SOURCE_AND_NOISE_PREFLIGHT_PASS 1760",
+    "new_model_queries": 0
+  },
+  "scientific_inputs_changed": false,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

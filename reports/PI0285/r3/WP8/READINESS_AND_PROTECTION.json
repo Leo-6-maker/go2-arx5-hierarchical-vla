@@ -1,0 +1,121 @@
+{
+  "owner": "R3_WP7_WP8_SHARED_DELIVERY",
+  "state": "READY",
+  "status": "CPU_DELIVERY_AND_SHARED_READINESS_ACTUAL_HASHES_NO_TASK_QUALIFICATION",
+  "bindings": {
+    "scripts/pi0285_execution/r3_shared.py": "012f5b2f9315a161a6a54071351b7651b74a52ca8e585e418b2360741a56e82b",
+    "scripts/pi0285_execution/r3_delivery.py": "c6b8c206b804f2e990f1c7f3971e21f381bab3dfb35fffd504513c50f894e2f3",
+    "docs/protocols/PI0285_R3_PARALLEL_WORKPACKAGES_AND_POLICY_DELIVERY_V1.md": "a932355d05616efb128b6d0286182c2bfaa23d958f29a82926de6dae6905362a",
+    "docs/protocols/PI0285_R2_1000_SCOPED_ADMISSION_AND_POLICY_DELIVERY_V1.md": "0ab161148953eeb55a9857822aa20ed4018e1d769cbe7674e4725bdf5a8b44bf",
+    "docs/protocols/PI0285_FIRST_MANIPULATION_THEN_SHARED_TWO_TASK_V1.md": "c61b3c46ecdc378f9cd68938cfb40fbea7135f096b8678a8fd48a1dc9c8d3de0",
+    "reports/PI0285/r3/WP7/SHARED_READY.json": "d6e26ea11701ca27e8f8c942e8c38cf538b2196d13555d8691d81e326c3634cb",
+    "reports/PI0285/r3/WP7/CPU_CHECK_FINAL.json": "e9e0fcaa8f64ea334a7f0a2a092dc058cc2a6ab1438d8400610e35fe339615a0",
+    "reports/PI0285/r3/WP8/CPU_CHECK_FINAL.json": "ce4dade57d548c0d863c449464073d4509cd3481721aad36e12c1f5bf49a649f",
+    "reports/PI0285/r3/WP8/DELIVERY_MANIFEST.json": "e66cdb71cec1c2d6db237d42ba8850f89e4e01c5c595f711520d4da0794deb9f",
+    "reports/PI0285/r3/WP8/QUALIFICATION.json": "f0a1014f64cee0f2d5be5d9ed324e8b0c8eb1e9ed744af46551d985f9e12590e",
+    "reports/PI0285/r3/WP8/LOAD_RECIPE.md": "29011bd4bb75f9a9a9ad067a9c12fbc336b5eb76fa93c09b4373bcac26ec7336",
+    "reports/PI0285/r3/WP8/HANDOFF.md": "e01d7124939033de848e2e6d353faf990e2d5a1dd7eeb87f5e5c50aeb04e029b"
+  },
+  "point": "PLACE4096-1024",
+  "qualification": {
+    "status": "DEVELOPMENT_ONLY_NOT_CONFIRMED",
+    "qualified": false,
+    "point": "PLACE4096-1024",
+    "missing": "TRAIN",
+    "proofs": {},
+    "counts": {},
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "protection": {
+    "state": "NOT_TRIGGERED",
+    "reason": "No actual CONFIRM_A32 independent CPU PASS",
+    "full_Trainer_audit_sha256": "84fad2efe959806f24835ee2cef6e5ed752ba969b8d8a6708ffb8037a0858a53",
+    "full_Trainer_entries": [
+      {
+        "path": "PI0282_RECOVERY.json",
+        "bytes": 67009,
+        "sha256": "158f745a110a33e415e3eca77e1b94e00237eac34edbfe4a29fb240c591bfe78"
+      },
+      {
+        "path": "PI0282_SCOPE_PROOF.json",
+        "bytes": 1681,
+        "sha256": "366dc32c92a504b0c40869fe97f08a1891c2f5f5733735e47c7bddc194439716"
+      },
+      {
+        "path": "config.json",
+        "bytes": 2105,
+        "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+      },
+      {
+        "path": "embodiment_id.json",
+        "bytes": 2146,
+        "sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+      },
+      {
+        "path": "model-00001-of-00002.safetensors",
+        "bytes": 4993709288,
+        "sha256": "3906151bf31e84ab28e1dae82875ed4901fdc78d06dae34d712e5ba7237b53b9"
+      },
+      {
+        "path": "model-00002-of-00002.safetensors",
+        "bytes": 4129471992,
+        "sha256": "338d2d4fcf4f499108a71160fcdc33d17eb330ade44d58ea031f22b25e656025"
+      },
+      {
+        "path": "model.safetensors.index.json",
+        "bytes": 104912,
+        "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+      },
+      {
+        "path": "optimizer.pt",
+        "bytes": 11340455909,
+        "sha256": "35bd0ca307f19304d5c8a390dfb843aed1e514e7fa127a068cf09e8dcb038eeb"
+      },
+      {
+        "path": "processor_config.json",
+        "bytes": 23145,
+        "sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3"
+      },
+      {
+        "path": "rng_state.pth",
+        "bytes": 14709,
+        "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+      },
+      {
+        "path": "scheduler.pt",
+        "bytes": 1465,
+        "sha256": "ceb1e8c88ed0b6a491fe6fdd317a3a221c8bc643cf8f6021303ab085c5f81de4"
+      },
+      {
+        "path": "statistics.json",
+        "bytes": 4299523,
+        "sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81"
+      },
+      {
+        "path": "trainer_state.json",
+        "bytes": 9571,
+        "sha256": "b1e65ad308da3af2197cb6e632d2c5a3fd442bad48b30547eb31a061d8aa31b4"
+      },
+      {
+        "path": "training_args.bin",
+        "bytes": 5905,
+        "sha256": "708aa1554e90c1c16ff2313f0cf56e5ee06ec0cbb6f3617a01246fa6bb23b403"
+      }
+    ],
+    "full_Trainer_host_role": "HOPPER",
+    "independent_copy_created": false,
+    "prepared_helper": "scripts/pi0285_execution/r3_delivery.py protect",
+    "shared_phase_card_created": false
+  },
+  "calls": {
+    "new_model_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_physics": 0,
+    "new_PBS": 0
+  },
+  "computational_thread_cap": 4,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "healthy_runtime_edited": false
+}

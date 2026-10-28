@@ -1,0 +1,49 @@
+#!/bin/bash
+# Stage45C H200 inference envelope for the Corelab runtime adapter.
+#
+# This file is a handoff artifact.  Corelab does not submit it.  A separately
+# authorized H200 operator may invoke it once, with a Vanda-issued runtime
+# binding whose paths and hashes have been independently sealed.  The Python
+# adapter performs all identity checks before importing GR00T and retains raw
+# arrays before the existing Stage44R evaluator is called.
+
+#PBS -N st45c_eval
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=08:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE45C_REPO:?Set the clean Corelab adapter checkout}"
+: "${STAGE45C_PROTOCOL:?Set the frozen Stage45C protocol file}"
+: "${STAGE45C_MAPPING:?Set the audited checkpoint runtime mapping}"
+: "${STAGE45C_RUNTIME_BINDING:?Set the external Golden Release runtime binding}"
+: "${STAGE45C_PYTHON:?Set the admitted Golden Release runtime Python}"
+: "${STAGE45C_EXPECTED_HEAD:?Set the exact support-branch adapter HEAD}"
+: "${STAGE45C_DEVICE:?Set the admitted CUDA device, normally cuda:0}"
+: "${PBS_JOBID:?PBS_JOBID must be available}"
+
+cd "${STAGE45C_REPO}"
+test "$(git branch --show-current)" = "stage45c/corelab-h200-eval-runtime-adapter"
+test "$(git rev-parse HEAD)" = "${STAGE45C_EXPECTED_HEAD}"
+test -z "$(git status --porcelain=v1)"
+test -f "${STAGE45C_PROTOCOL}"
+test -f "${STAGE45C_MAPPING}"
+test -f "${STAGE45C_RUNTIME_BINDING}"
+test -x "${STAGE45C_PYTHON}"
+
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1
+export PYTHONDONTWRITEBYTECODE=1
+
+"${STAGE45C_PYTHON}" "${STAGE45C_REPO}/scripts/stage45c_h200_eval_runtime_adapter.py" \
+  --execute \
+  --protocol "${STAGE45C_PROTOCOL}" \
+  --mapping "${STAGE45C_MAPPING}" \
+  --runtime-binding "${STAGE45C_RUNTIME_BINDING}" \
+  --device "${STAGE45C_DEVICE}"
+
+echo "CORELAB_STAGE45C_H200_EVAL_RUNTIME_ADAPTER_EXECUTION_COMPLETE"

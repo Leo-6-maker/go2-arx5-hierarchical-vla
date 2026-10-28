@@ -1,0 +1,187 @@
+# PI0267 R1 — complete fixed offline results; closed-loop study remains active
+
+All2088 logical rows are complete: donor/N4096/R4096 each696. Donor's440 old outputs were reused;1648 new queries were made. Independent numerical replay covers all2088 metrics and all1648 saved native four-step Euler/noise/decoder outputs. Every output is finite. No new model, gradient or physics query was used for replay.
+
+## Reference-window results
+
+Median XYZ RMSE in millimetres; REJECT is the original unmodified gate. Each new-domain column contains128 windows; each legacy column contains440 rows. New arclength-teacher and old time-paced-reference errors are separate diagnostic contracts.
+
+| Point | New nominal mm | REJECT/128 | New recovery mm | REJECT/128 | Legacy mm | REJECT/440 |
+|---|---:|---:|---:|---:|---:|---:|
+| donor |12.042|0|14.820|0|7.350|0|
+| N4096 |9.274|0|12.650|0|16.017|0|
+| R4096 |13.941|0|519.739|86|19.987|128|
+
+The aggregate N improvement must not conceal task differences. On nominal M1 command0/1, N median errors are6.174/4.415mm versus donor10.007/7.951mm. On nominal M3 they are21.679/19.722mm versus donor17.018/17.874mm. On recovery M3 command0, N is26.263mm versus donor15.990mm.
+
+R's recovery degradation spans both tasks and commands:
+
+| Recovery subgroup | Rows | Original REJECT | Median XYZ RMSE mm |
+|---|---:|---:|---:|
+| M1 command0 |32|22|525.159|
+| M1 command1 |32|20|376.391|
+| M3 command0 |32|22|714.638|
+| M3 command1 |32|22|573.482|
+
+These valid negative outputs are retained. No intermediate checkpoint, extra updates, new noise or recipe is substituted. Offline reference errors and gate decisions do not establish the original closed-loop candidate qualification. All192 frozen virtual episodes and32 secondary WBC conditions remain required.
+
+## Replay and source boundary
+
+- `evidence/COMPLETE_OFFLINE_CPU_REPLAY.json`:2088 numerical metric checks and1648 original-noise/four-Euler-step/decoder checks. The earlier1392-point metric receipt is reused with unchanged record/tensor hashes.
+- `evidence/OFFLINE2088_NUMERICAL_ROWS.csv`: complete row indices, point/domain/window/family/task/command/arclength/variant fields and numerical failures. Full raw gate records remain in the source cells.
+- `evidence/OFFLINE_TASK_COMMAND_SUMMARY.json`: all fixed new-domain task/command subgroups, including failures.
+- `evidence/BATCHED_DECODER_CPU_RECONCILIATION.json`: the initially failing CPU comparison omitted the original bridge's final float32 conversion. The actual full processor and correctly typed CPU output exactly reproduce the saved output. Only the CPU auditor was corrected; original predictions, decoder, metrics, gate and comparison tolerance were unchanged.
+
+Training integrity, four complete Trainer PUBLIC readbacks and the explicit cross-host label-byte deviation remain documented in the earlier training return. Neither that deviation nor the reporting dtype correction is relabelled as a model-quality PASS.
+
+## Separate physical evidence
+
+The first two fixed TRAIN expert M1 controls completed40s with recorded success. The first M1's2001 states passed independent full-tree FK and shared-scorer replay. The first expert M3 command0 completed40s with valid `MISSING_ENTRY`: installed-reference entry5.180s, achieved broad readiness5.600s, no achieved narrow entry. Same-tick tracking RMS9.766mm, p9513.009mm. This is a physical executor-transfer result; no entry tolerance or WBC setting is changed. Remaining fixed controls continue.
+
+Primary virtual episodes are `VIRTUAL_EEF_KINEMATIC / NOT_WBC / NON_REALTIME_LOCKSTEP`. Expert controls are not learned-policy successes. This return closes only the offline lane, not the whole goal or a candidate qualification.
+
+`selected_checkpoint=NONE`; `deployment_selected_checkpoint=NONE`.
+
+## Expert-only secondary update — 2026-10-02 10:18 UTC
+
+All eight fixed expert WBC conditions are now VALID and independently replayed. Three M1 conditions meet the existing scorer; three M3 conditions fail the task criterion with no acquired observable entry; family005 M1 command1 and M3 command1 stop on the conservative local H40 `IK_RESIDUAL` witness. The latter does not prove global unreachability. No tolerance, teacher or WBC setting was changed.
+
+Full-tree FK replay across all eight actual root/DOF histories gives maximum XYZ difference 4.353e-16 m and SO3 difference 3.799e-16 rad. Shared-scorer replay and independent M3 entry reconstruction agree with the saved results. Eight actual physics starts consumed 13208 control ticks, 52832 simulate calls and 26400 actor calls; the recorded simulated duration is 264.159994 s. CPU replay added no model query or physical step.
+
+The three recorded successes use the original criterion-hit rule. Their final XYZ errors are 30.903, 30.957 and 23.977 mm; they must not be described as accurate terminal tracking for the whole 40 seconds. Existing movement/hold partitions and final errors are retained without changing the scoring rule.
+
+`evidence/EXPERT_ONLY_SECONDARY_CPU_REPLAY.json`, `EXPERT_ONLY_SECONDARY_VERDICT.json` and `EXPERT_ONLY_SECONDARY32.csv` preserve this intermediate snapshot: eight completed expert conditions and 24 explicitly NOT_RUN model conditions. `SECONDARY_PARTIAL` at this snapshot means the model conditions are still pending, not a completed secondary verdict. Primary virtual execution continues; the original 24 model WBC conditions remain required.
+
+## Native lifecycle recovery — 2026-10-02 11:46 UTC
+
+The first virtual process ended with signal11 after preserving47 valid donor results. Start48 (`pi0265-family-033-M3-c1-E1`) reached native renderer construction but produced no observation, prediction or physics step. The completed records contain4700 virtual queries; cumulative inference accounting at the failure is6348 attempts/25392 heads, including1648 offline queries. All48 start entries remain. The exact native fault is unavailable without kernel/core access; this is an engineering lifecycle failure, not a valid model-quality result.
+
+Recovery uses a fresh native process for each of the SAME eight fixed families, in the original donor/N/R order. A narrow CLI family selector bounds repeated native environment construction to eight conditions per process. `read`, `advance`, `message`, `language` and `run_episode` have identical ASTs; the renderer, worker, scorer, gate, data and noise are unchanged. The runnable native self-check verifies exact family selection/rejection, prefix execution and the original timestamped gate with zero queries/renders/physics.
+
+The new entry is isolated at `R1/runtime/virtual_family/pi0267_virtual_episode.py`, SHA256 `9902baf2df3fff4e5a1ff52383dd0d522282305cb68223ad6797baabdb2a63ca`. Original `code/pi0267_virtual_episode.py` stays at `36165145558c56ea025ab87af8413164e89c6c33f1f7866a51d87586325044b9`; secondary imports and their seal remain unchanged. The earlier quality seal and log are retained. Two launcher seal-path preflight errors occurred before any recovery process/query/start; the actual seal is under `R1/design`.
+
+The restored first required query is actual attempt6349 with original key `M3_E1_000`. Its RGB/state/TCP/time arrays and processed-condition identity exactly match the corresponding saved E0 initial observation from the same family and command; its distinct E1 noise matches the frozen registry. Model binding is unchanged. Hashes of all47 completed results/trajectories remain exact. These checks add no model query or render. The interrupted start remains counted and only missing conditions continue.
+
+Evidence: `VIRTUAL_NATIVE_EXIT_20261002.json`, `VIRTUAL_FAMILY_LIFECYCLE_CHECK.json`, `VIRTUAL_RECOVERY_INPUT_IDENTITY.json` and the amended `QUALITY_EXECUTION_FILESET.json`. This is verified execution recovery, not completion of192 virtual cases or a quality PASS.
+
+## Completed donor virtual baseline — 2026-10-02 12:18 UTC
+
+All64 donor virtual conditions are VALID and complete, consuming6400 actual queries. The original V3 groups are:
+
+| Task/backend | Success/16 | Command0/8 | Command1/8 | Qualification |
+|---|---:|---:|---:|---|
+| M1/E0 |6|2|4|FAIL|
+| M1/E1 |7|3|4|FAIL|
+| M3/E0 |0|0|0|FAIL|
+| M3/E1 |0|0|0|FAIL|
+
+The baseline has13/64 recorded task successes and zero recorded dangerous collisions. All four groups fail the original13/16 and6/8-per-command conditions. V2 side scores have the same group totals. This baseline result does not cancel or reconfigure N/R; N4096 has started automatically under the same fixed card.
+
+`evidence/DONOR64_VIRTUAL_CPU_REPLAY.json` verifies all64 trajectory/result hashes and shared-scorer replays, plus independent entry geometry for all32 M3 trajectories. This check made zero queries/renders/physics steps. Full saved prediction noise/Euler/codec replay remains part of the final192-case report; this receipt does not claim that larger scope is already complete. Virtual motion remains `NOT_WBC / NON_REALTIME_LOCKSTEP`, and no candidate is selected from this partial comparison.
+
+### Donor raw result archive
+
+PUBLIC fixed revision `fe7f45d3faeeec0e25a8f7df909ac0bcc966e58c`, repo `leoyuer/pi0246-gate-pass-campaign`, prefix `evidence/PI0267/R1/final-results-20261002/donor`, has passed anonymous whole-file and all33776 internal-member readback. Source bytes:1116150256; tree SHA256 `afbcb47d1999a615269128f0b6d821ba99c8b406220065c87023983013edef29`. Receipt: `evidence/RESULT_ARCHIVE_donor.json`. Local originals remain retained.
+
+Completed point partitions may now archive while the remaining model points run. `PARTITION_ARCHIVE_ADMISSION_CHECK.json` verifies the exact64 virtual conditions and696 offline rows, rejects incomplete N and global-summary partitions, and confirms unchanged packaging/upload/full-readback code. This archival boundary change makes no quality query and does not change whole-study completion or qualification.
+
+## Coordinator continuation at a completed-family boundary — 2026-10-02 13:14 UTC
+
+After the prior local SSH transport reset, the remote coordinator continued several families and then disappeared after completing N family031. The coordinator, native renderer and model worker were all confirmed absent before continuation. No coordinator stderr was available for that exit, so its exact cause remains UNKNOWN. All96 completed valid results (donor64, N32) and their trajectory hashes were checked and preserved. Their actual9479 virtual queries plus1648 offline queries reconcile to11127 attempts and44508 heads;97 virtual starts include the earlier zero-query native failure. The first preflight incorrectly assumed100 queries for every completed case and stopped before launch; it was corrected to sum actual result records.
+
+The unchanged finite family sequence now runs with a detached coordinator and a durable remote log. It resumes at start98, `N4096/pi0265-family-032-M1-c0-E0`; the first61 new saved predictions and the live coordinator were verified at13:14 UTC. No completed condition, model query or training update was repeated. Episode/model/gate sources and all scientific budgets are unchanged. `evidence/VIRTUAL_COORDINATOR_TRANSPORT_RECOVERY_20261002.json` preserves the before-state hashes, actual accounting and continuation evidence; the exact coordinator source is retained in the remote audit-code bundle. N remains partial and R remains pending; this is execution recovery, not a final quality verdict.
+
+## Donor reference, tracking and terminal-pose decomposition
+
+`evidence/VIRTUAL_DECOMPOSITION_donor.json` uses the complete64 fixed donor arrays and their original targets. It changes no score and consumes zero model queries/renders/physics. All6400 donor gates were ACCEPT. The per-episode, full-task-window diagnostics are:
+
+| Task/backend | Original successes/16 | Median achieved final XYZ error mm | Median same-tick tracking RMS mm | Achieved/installed M3 entries | Original successes outside pose bounds at final time |
+|---|---:|---:|---:|---|---:|
+| M1/E0 |6|547.353|0.000|N/A|6/6|
+| M1/E1 |7|401.068|1.915|N/A|7/7|
+| M3/E0 |0|131.901|0.000|0/16; 0/16|N/A|
+| M3/E1 |0|110.103|0.882|0/16; 0/16|N/A|
+
+The original M1 rule records the first0.25s interval inside35mm/0.10rad; all13 successful donor episodes subsequently end outside those original pose bounds. Their original success labels remain intact, but they do not demonstrate stability through the full40s window. The receipt retains each first criterion time, subsequent pose-exit time and final errors. This is a diagnostic distinction, not a new qualification gate.
+
+All32 M3 episodes have zero completed bins and fail with MISSING_ENTRY. Only one E1 trajectory achieves broad readiness; none acquires V3 entry. The installed-position/orientation arrays likewise acquire no entry. E0 actual and installed positions are exactly equal throughout, with zero maximum same-tick position error. Thus these E0 failures are already present in the generated/installed motion; attributing them to physical WBC tracking or only to lag is unsupported. E1 maximum same-tick position errors are4.763mm for M1 and4.142mm for M3. Installed-reference entry replay is an array diagnostic, not an extra episode or a robot result.
+
+The small decomposition reader validates the exact64-case set, result/card/trajectory hashes, original final metrics and independent M3 entry before summarizing. Its incomplete-N guard was also exercised and rejected the partial point without writing a result. N/R comparisons will use the same reader only after each complete fixed point is available; no partial result is promoted to a final verdict.
+
+## Completed N4096 virtual point — 2026-10-02 14:07 UTC
+
+All64 fixed N conditions are VALID and complete; R has started automatically with its original frozen model/card. N consumes6210 queries. Its original recorded groups are:
+
+| Task/backend | Success/16 | Command0/8 | Command1/8 | Actual collision episodes | Original qualification |
+|---|---:|---:|---:|---:|---|
+| M1/E0 |13|6|7|2|FAIL: safety|
+| M1/E1 |13|6|7|2|FAIL: safety|
+| M3/E0 |0|0|0|0|FAIL: task|
+| M3/E1 |0|0|0|0|FAIL: task|
+
+All6210 gate decisions are ACCEPT, but four M1 episodes encounter actual virtual-tool collision: family030/c0/E0 at12.62s, family033/c0/E0 at17.78s, family028/c0/E1 at18.42s and family034/c0/E1 at34.06s. The original collision termination and failed outcomes remain intact. Increased M1 first-hold success relative to donor does not satisfy the original safety requirements.
+
+`evidence/VIRTUAL_DECOMPOSITION_N4096.json` applies the same complete-point fixed-array reader used for donor. All32 M3 conditions lack both installed and achieved V3 entry, with no broad readiness and zero bins. E0 follows its installed positions exactly. All26 originally successful M1 conditions end outside the original pose bounds; full-window median achieved final XYZ errors are602.887mm (E0) and375.065mm (E1). Median per-episode same-tick E1 tracking RMS is1.902mm for M1 and0.862mm for M3. N's stronger early M1 reach/hold count does not establish persistent terminal stability or complete-task qualification.
+
+The N point is unqualified under the unchanged criteria. R is not cancelled or modified. The full192-case prediction/scorer CPU replay and paired study verdict remain pending; this point-specific array decomposition does not claim that larger scope. PUBLIC raw-result archival runs independently while local originals remain retained. At launch, actual filesystem free space was844999172096bytes; quota headroom remains UNKNOWN.
+
+N raw archive subsequently completed at fixed PUBLIC revision `57890d1dcfba2e9663db2ee7dc6141296b9bd282`, repo `leoyuer/pi0246-gate-pass-campaign`, prefix `evidence/PI0267/R1/final-results-20261002/N4096`. Anonymous full-file and all33706-member readback passed; source bytes1138673166, tree SHA256 `9f293ca5e2984448a9a42bedfe7c9be144b3196a36879f8553436acad708f5ff`. Receipt: `evidence/RESULT_ARCHIVE_N4096.json`. Local originals remain protected. At14:11 UTC, R has2/64 completed conditions and its next original condition is actively producing predictions.
+
+
+## Closed-result paired analysis — 2026-10-02 14:50 UTC
+
+This analysis uses only the complete2088 offline rows and the complete donor/N64 virtual points. `evidence/CLOSED_RESULTS_PAIRED_ANALYSIS.json` binds all three input SHA256s, checks exact paired identities and preserves task/command/backend/family breakdowns. It adds zero model queries, renders or physics steps. R virtual is excluded from this comparison until its complete64 fixed conditions are available; at14:50 UTC it has25 completed conditions and a healthy current worker.
+
+### Learning gain is concentrated in early M1 attainment
+
+Across the same32 M1 conditions, donor has13 original successes and N has26: nine conditions succeed at both points,17 change FAIL to success, four change success to FAIL, and two fail at both points. The four regressions are family028/c0/E1 and family030/c0/E0 (actual virtual-tool collision), plus family030/c1/E0 and E1 (original hold criterion not met). N has four collisions in total; two arise in conditions where donor also failed. Family030 falls from4/8 to1/8 across its complete task/backend/command set, despite the overall improvement. All32 M3 conditions fail at both points.
+
+For M1/E0 the paired transitions are4 both-success,9 gains,2 regressions and1 both-failure; E1 has5,8,2,1 respectively. These fixed conditions share families and related backends; the counts are descriptive and must not be treated as independent random trials.
+
+The original M1 success rule remains the first qualifying0.25s hold. All13 donor and26 N successes subsequently end outside the original35mm/0.10rad pose bounds. Thus N improves early attainment while neither completed point establishes sustained40s retention. No new retention gate is introduced. Original safety and M3 failures still disqualify N.
+
+### Paired offline changes differ from differences between marginal medians
+
+Negative paired delta means lower XYZ RMSE than donor on the identical row. Every fixed row, including REJECT, remains in its denominator.
+
+| Point/domain | Rows improved/total | Median paired XYZ change, mm | ACCEPT to REJECT |
+|---|---:|---:|---:|
+| N/new nominal |65/128|-0.539|0|
+| N/new recovery |60/128|+0.404|0|
+| N/legacy |156/440|+5.556|0|
+| R/new nominal |56/128|+3.981|0|
+| R/new recovery |19/128|+512.545|86|
+| R/legacy |25/440|+14.785|128|
+
+N's recovery marginal median improves from14.820 to12.650mm, but only60/128 matched rows improve and the median within-row change is+0.404mm. These are different summaries, not an arithmetic inconsistency. For N, M1 nominal command0/1 improves on21/32 and23/32 rows; M3 nominal improves on only11/32 and10/32. M3 recovery command0/1 improves on only10/32 and9/32. The aggregate new-domain number therefore conceals a task trade-off. The full receipt retains all24 offline subgroup summaries.
+
+R's fixed offline recovery and legacy regression is already a complete observed result, even while its virtual evaluation is still running. Training-integrity PASS does not imply quality PASS. These held-out panels do not establish training-set fit or identify the cause of the regression; no extra TRAIN queries or altered R run are introduced.
+
+### Reference generation, execution and safety remain distinct
+
+Both completed points have exact E0 position following of installed references, yet all M3 E0 tasks fail to acquire entry. Their installed-reference arrays also contain no qualifying M3 entry. Therefore physical WBC tracking error is not necessary for these primary failures. This does not establish a unique model-side cause. All donor/N gates ACCEPT, but N still incurs four actual virtual-tool collisions: trajectory acceptance, collision freedom and task success are separate recorded outcomes.
+
+The eight completed expert WBC conditions remain a separate3/8-success physical control lane, with24 fixed model WBC conditions still pending. Virtual E0/E1 are mathematical executors, not WBC or a second robot embodiment. R's final virtual point, the full prediction/scorer CPU replay and all remaining required deliveries continue unchanged. `selected_checkpoint=NONE`; `deployment_selected_checkpoint=NONE`.
+
+
+### Actual query-to-execution chain replay
+
+`QUERY_CHAIN_REPLAY_donor.json` and `QUERY_CHAIN_REPLAY_N4096.json` close all6400 donor and6210 N queries. Every saved query uses its actual preceding trajectory state and timestamp; its StateV1 and saved model input state agree exactly. Source observation/prediction hashes, model point, frozen family/noise key and actual noise bytes are checked. Replaying the original shared E0/E1 prefix function reproduces installed/achieved positions and rotations within the1e-12 replay bound, including collision-truncated prefixes. Maximum coordinate/matrix-element differences are5.5511151231257827e-16 (donor) and4.4408920985006262e-16 (N). This is saved-input/chain validation and shared executor replay, not an independent renderer, model prediction or physical simulation. It adds zero model queries/renders/physics steps. R is checked only after its full point closes. An initial local report-copy assertion incorrectly required exact zero and stopped before copying/publishing; the original CPU receipts correctly retain their actual floating-point differences.
+
+
+### Frozen recovery-variant breakdown
+
+The complete existing offline records localize R's86 new-domain rejections to variants1–4. Original variants pair a10mm world-axis position displacement with a same-sign0.060rad world-axis rotation; they are not isolated position-only or orientation-only interventions. Original source/card hashes and all2088 row hashes/gate codes are retained in `OFFLINE_VARIANT_GATE_BREAKDOWN.json`.
+
+| Recovery variant | Joint perturbation | Rows | R REJECT | R median XYZ RMSE mm |
+|---|---|---:|---:|---:|
+|1|+X / +rotation-X|22|22|390.455|
+|2|-X / -rotation-X|22|22|717.908|
+|3|+Y / +rotation-Y|21|21|1136.967|
+|4|-Y / -rotation-Y|21|21|2847.566|
+|5|+Z / +rotation-Z|21|0|19.278|
+|6|-Z / -rotation-Z|21|0|13.484|
+
+Donor and N have zero REJECT in every variant. R's X/Y combined variants fail86/86 while its Z combined variants pass the gate42/42. Across R recovery,73 rows carry LINEAR_SPEED_REJECT,40 ANGULAR_SPEED_REJECT and31 PATH_LENGTH_SANITY; these overlapping issue counts are not separate failed rows. R's128 legacy rejections all include LINEAR_SPEED_REJECT, with86 path-length and63 angular-speed co-occurrences. Original threshold provenance is retained; TEST_ONLY in the gate's existing provenance describes threshold origin, not access to protected TEST data. No threshold or gate is changed.
+
+This is a descriptive localization on the frozen evaluation panel, not proof of a rotation-only, normalizer or training-fit cause. Position, orientation and rendered input change together, and variant assignment is fixed across different windows. No additional model query, intervention, TRAIN probe or recipe change follows from this breakdown.

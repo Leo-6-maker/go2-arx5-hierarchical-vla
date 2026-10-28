@@ -1,0 +1,66 @@
+{
+  "schema": "WDR1_VANDA_FINITE_READONLY_AUDIT_CPU_PARTITION_V1",
+  "status": "ACTUAL_FIRST_AUDIT_FAILED_NEW_PARTITION_CPU_ONLY_NOT_NATIVE_ADOPTED",
+  "actual_storage_supplement": {
+    "source": "7d8bd384dd960b6e0f4f68f82ab22c72531da495",
+    "CI_run": 39961479891,
+    "CI_job": 120440284722,
+    "all12steps_success": true,
+    "full_readbacks": 5,
+    "once_charged_output_bytes": 8388608,
+    "independent_dual_once_reconciliation": true,
+    "caps_increased": false,
+    "global_after_sha256": "a91de739b2ba727b7fb9ae95ce12051573f8702ded6c4eb79fd7c267750db92b",
+    "DEC1_after_sha256": "ac1e5ae2da0f74b01d33d0b7f8c181f9997f79e08ee5c96009912741471f6dde"
+  },
+  "actual_finite_audit": {
+    "server_resident": true,
+    "agent_connection_required": false,
+    "worker_pid": 3655999,
+    "worker_procstart": "26829317",
+    "program_sha256": "e3d2a198a87f46bc51c08f20abb809a72d1fef08111afd5c3bd07ca53d083c6c",
+    "failed_receipt_sha256": "681668e0726ed1943853b428cdb3cc340efb9d83532c8f7e3049dc7d548a6163",
+    "failure": "FINITE_NATIVE_AUDIT_CPU_OR_WALL_LIMIT",
+    "actual_CPU_s": 108.212535426,
+    "completed_epoch": 1792762815.290701,
+    "later_exact_actor_handle_missing": true,
+    "full_state_audit_pass": false,
+    "original_actor_or_intent_replayed": false
+  },
+  "new_readonly_partition": {
+    "source_reservation": "SAME_ORIGINAL_FAILED_REQUEST_ALREADY_HELD_CPU54000",
+    "old_read_group_preserved_upper_s": 480,
+    "new_finite_audit_CPU_upper_s": 600,
+    "old_observer_upper_s": 1500,
+    "remaining_closeout_upper_s": 120,
+    "native_PBS_CPU_s": 8323,
+    "whole_failed_request_CPU_upper_s": 11023,
+    "original_and_after_CPU_hold_s": 54000,
+    "new_CPU_prepayment": 0,
+    "new_cap_or_clock": 0,
+    "new_GPU_PBS_models_queries_updates_physics": 0,
+    "requires_old_failed_receipt_and_absent_exact_actor": true,
+    "requires_exact_current_migrated_paired_ledgers": true,
+    "native_adopted_or_started": false
+  },
+  "CPU_validation": {
+    "new_cases": 18,
+    "selected_combined_cases": 93,
+    "actual_captured_paired54000_CPU_reservation_pure_check": true,
+    "old480_join_contract_unchanged": true
+  },
+  "current_financial_state": {
+    "settled_updates": 8744,
+    "settled_queries": 1197,
+    "new922_updates_unsettled": true,
+    "all_old_reservations_preserved": true,
+    "GPU_or_CPU_closures_not_claimed": true
+  },
+  "goal": {
+    "status": "ACTIVE_INCOMPLETE",
+    "target_task_native_qualified": false,
+    "core64": 0,
+    "teacher_source_independent_of_WBC": true,
+    "original_CORR_R0_and_recipes_unchanged": true
+  }
+}

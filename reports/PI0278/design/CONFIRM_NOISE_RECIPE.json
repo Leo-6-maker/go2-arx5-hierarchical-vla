@@ -1,0 +1,13 @@
+{
+  "schema": "PI0278_CONDITIONAL_CONFIRMATION_NOISE_RECIPE",
+  "release": "83af9099f3bab9a4ac08eaa85380c2cfd6351f34",
+  "namespace": "PI0278:CONFIRM:27803:{seed}",
+  "rng_seed": "sha256(namespace) first8 bytes big-endian mod2**31",
+  "generator": "numpy.Generator(PCG64(rng_seed))",
+  "packets_per_episode": 80,
+  "shape": [1, 40, 132],
+  "dtype": "float32",
+  "created_before_DEV_results": true,
+  "actual_packets_created": false,
+  "requires_one_frozen_candidate_and_actual_untouched_check": true
+}

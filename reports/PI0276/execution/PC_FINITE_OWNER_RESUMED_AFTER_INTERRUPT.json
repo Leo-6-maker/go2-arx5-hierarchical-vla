@@ -1,0 +1,30 @@
+{
+  "status": "PASS_PC_FINITE_OWNER_REATTACHED_TO_HEALTHY_PBS_JOB",
+  "captured_utc": "2026-10-06T05:02:06.9729298Z",
+  "previous_unified_exec_handle": 8708,
+  "previous_handle_missing": true,
+  "owner_processes": [
+    {
+      "ProcessId": 28832,
+      "ParentProcessId": 6576,
+      "CommandLine": "\"C:\\Windows\\py.exe\" -3.12 -u scripts/pi0276_execution/run.py all --release 57fd8a9c53ce241c05a8d5b351034bed7ba56b14 --resume"
+    },
+    {
+      "ProcessId": 25796,
+      "ParentProcessId": 28832,
+      "CommandLine": "D:\\Users\\anaconda\\python.exe -u scripts/pi0276_execution/run.py all --release 57fd8a9c53ce241c05a8d5b351034bed7ba56b14 --resume"
+    }
+  ],
+  "adopted_job_id": "649362.hopper-m-02",
+  "job_state_snapshot": [
+    "job_state = R"
+  ],
+  "formal_updates_snapshot": 4418,
+  "raw_completed_updates_snapshot": 4434,
+  "new_pbs_submissions": 0,
+  "training_restarts": 0,
+  "new_model_queries": 0,
+  "resume_command": "py -3.12 -u scripts/pi0276_execution/run.py all --release 57fd8a9c53ce241c05a8d5b351034bed7ba56b14 --resume",
+  "stdout": "D:/Users/GR00T project/Projects/go2-arx5/PI0276/runtime/PC_RESUME_AFTER_INTERRUPT_20261006.log",
+  "stderr": "D:/Users/GR00T project/Projects/go2-arx5/PI0276/runtime/PC_RESUME_AFTER_INTERRUPT_20261006.err.log"
+}

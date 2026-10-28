@@ -1,0 +1,4146 @@
+{
+  "schema": "FD1_FIRST_GEOMETRY_V1",
+  "authority_release": "6ab80b40e2036c2c29a8d2eb648987f2af7447a2",
+  "baseline_release": "658b432fa1ee37182945e84b7d4ec4d830bee67e",
+  "FD1_run_uuid": "20261018T162151Z-localpc-fd1",
+  "FD1_T0_epoch": 1792340511,
+  "candidate_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "plan_sha256": "6e5a45e121aa493e1de32977c00d3f20ecc3c1f9cb7a6b9698438cbb16028e97",
+  "original_results_changed": false,
+  "WBC_S1_plant_gripper_score_frozen": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "status": "NATIVE_SHADOW_22_OF_23_QUALIFIED_ONE_SPENT_DIAGNOSTIC_GAP",
+  "original23_rejections": 23,
+  "original_collision_rejections": 21,
+  "collision_geometry_measured": 20,
+  "collision_geometry_missing": 1,
+  "collision_geometry_coverage_fraction": 0.9523809523809523,
+  "all_rule_reconstructions_qualified": 22,
+  "rule_coverage_fraction": 0.9565217391304348,
+  "categories": {
+    "table-pad": 20,
+    "UNPROVEN": 1,
+    "TCP_velocity": 1,
+    "joint_limit": 1
+  },
+  "category_counts_align_with_original23": true,
+  "rows": [
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B0-F0-000-T1",
+      "task": "T1",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "2fe588fc0cccdb92cf80dee362e0a1747870b09b69fbe891ffa87176b2c7cc88",
+        "RESULT.json": "dcbea11011cdc652fcec64593ef27c4eae7f664a80a1d1017b3bbce80a14cf19",
+        "MP1_ADJUDICATION.json": "dcd5f2f08846654a5007a42302441a8d3dca71fa725df57294f42796d039f0ae",
+        "FILE_MANIFEST.json": "0e717961482051519777de1be2c4669610427c96faeca9777d1eb2305787ed0b",
+        "SCORE.json": "81276d67b5958d84c76a8866a0b8f2bd0c95d819717e86c5c7fefa77c6543c79",
+        "S1_PREFLIGHTS.json": "075e0afb99e83db009584c7978d4716d0951b4bd02d8665e39906aa8cdba5adc",
+        "S1_RESULT.json": "c898a1e7f282c409a57ac4c66198b234e4e0035d968bdd08fea7c063eca47240",
+        "physics.npz": "f8d478ad1bdfcb2097ee6258ba42b8b4f60a5255f7731fcab4e5ffd609a221cc",
+        "highrate.npz": "4158801ab005a6f1555d25d8b933829de8d04b62eafde2fa2765a5cc8ca897a6",
+        "samples.json": "addb7c7dd6b5de46198995014e702eb4a66876bf754db572d31d73ebc70aa7d0",
+        "references.json": "0d134aa53daaac2ded3968ee9d42ad21fcac395b7e6bde3568c50695dff766b2",
+        "scene.xml.json": "b743eadb2c2622a1f6746f6a2b238be27b5e51210ef65abc0f80d61ce287ceb7"
+      },
+      "model_xml_sha256": "2accfb57efbcd8eb32fe903a452084f5d2cb076389e5647e71f69eeae6bc7279",
+      "original_action_sha256": "4a4d6d5d5d9d1931f6c4c08f4681cb087165f9b45af253bc594aef58fcf56aa4",
+      "original_decision_time_s": 9.6,
+      "first_predicted_violation_offset_tick": 78,
+      "first_predicted_violation_absolute_s": 9.756,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.45471662242555977,
+            0.13948780745066136,
+            0.4399988860584839
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.1139415160417942e-06,
+          "penetration_m": 1.1139415160417942e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.00191352405095546,
+      "arm_joint_q_at_violation": [
+        0.23468492324015672,
+        2.215100313988851,
+        1.5275653319750906,
+        -0.8948724232659773,
+        -0.00030988650832063,
+        0.19475472853807715
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.3296849232401566,
+        2.216100313988851,
+        1.5285653319750907,
+        0.7771275767340229,
+        1.6716901134916795,
+        2.289754728538077
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.907905076759843,
+        1.450899686011149,
+        1.7134346680249095,
+        2.5668724232659774,
+        1.6723098865083208,
+        1.9002452714619227
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -2.227883032113187e-06,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": 0.00015688345128367365,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.002016162107215169,
+      "request_point_at_first_violation": 3,
+      "request_XYZ_m": [
+        0.44109283233358826,
+        0.09382376986377866,
+        0.4620614525940506
+      ],
+      "request_rotation": [
+        [
+          -0.00800814338221284,
+          -0.03999804385109323,
+          0.9991676666744457
+        ],
+        [
+          -0.0016655906617729505,
+          0.9991988541705894,
+          0.03998594292909539
+        ],
+        [
+          -0.9999665471641128,
+          -0.001343991170909249,
+          -0.008068348059868424
+        ]
+      ],
+      "request_gripper_fraction": 0.9852527379989624,
+      "request_minus_predecision_XYZ_m": [
+        0.0011322486024510914,
+        -6.462788980199363e-05,
+        -0.0002184254792753082
+      ],
+      "request_minus_predecision_SO3_rad": 0.004151500634646965,
+      "predecision_gripper_fraction": 0.708726278164375,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 3,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.0018555268371221456,
+          "actual_pose_actual_opening_static_clearance_m": 0.002016162107215169,
+          "requested_XYZ_only_static_clearance_m": 0.001797736627939861,
+          "requested_SO3_only_static_clearance_m": 0.0020903168324207244,
+          "requested_gripper_only_static_clearance_m": 0.0019944938046482785
+        },
+        {
+          "prefix_point": 3,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.0019815271400562273,
+          "actual_pose_actual_opening_static_clearance_m": 0.002139694600374775,
+          "requested_XYZ_only_static_clearance_m": 0.001921269121099467,
+          "requested_SO3_only_static_clearance_m": 0.002183612012747249,
+          "requested_gripper_only_static_clearance_m": 0.002161331244385112
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B0-F0-000-T2-REPLACEMENT-01",
+      "task": "T2",
+      "status": "RESTORE_UNQUALIFIED",
+      "geometry_category": "UNPROVEN",
+      "error": "ValueError: FD1_PASSIVE_MEASUREMENT_CHANGED_ORIGINAL_STATE"
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B0-F0-001-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "887e65629291f16f73863e2b111123007542d268",
+      "original_files_sha256": {
+        "CARD.json": "fc9c5bae84a0854a7ce00e25aa4b5e1876c18d93bbcc141d16388ab185582287",
+        "RESULT.json": "3bc41c94e906138677129d0089ffa52ac51f14b4ce00e4cb1eb7208a270f4e1e",
+        "MP1_ADJUDICATION.json": "f2e2f07d21e928b0370668ffbe5f6f218e3a0cc1667ad8fe33a5fabfe8594423",
+        "FILE_MANIFEST.json": "5cd121c6d8b29f6f9402ba39137e53eda5cfec732f6daf7f39832dfcf1b9cbd2",
+        "SCORE.json": "a0d325082e4f23f20320712332952c8a74ff5ce424f6e79dcefd5ac4fcd9e9e8",
+        "S1_PREFLIGHTS.json": "77051ef08cdb04ecb7967a3bdb998ec514964ecb96b0c61bea4bcddb4eece086",
+        "S1_RESULT.json": "2df5f323511151e28d73059e2d4b42c28d80eae888f81d2052c9d0e99e22ff6b",
+        "physics.npz": "1e2b0f50ea5ff7f7e7949b05d831a2efd7bcb375174816f0422bbb3a795e32eb",
+        "highrate.npz": "87e355d5a4ee9cfdba53cb239bbd310c2e939f4f5d08ade7acb997fa7d95666e",
+        "samples.json": "f6c927bbd566a5860668cb18d6724f65ab3c7085728af9393ab22e6334a0a3d8",
+        "references.json": "3dc51dfc1b51751179698feda1b5c97391eb0bf2488323a07c18a70725ab3930",
+        "scene.xml.json": "e633c45438b208dc50f4781c31bbd9c3884849255804da76cf81a114e689b094"
+      },
+      "model_xml_sha256": "7855eb0ab1af4677f4b9410b5971944e89195c0232f07dcc80c7af72edf2a703",
+      "original_action_sha256": "adb3e5cf5d7ae2d9768f9b9004787c00fd65e4187d3bed87ee6499ea45247b00",
+      "original_decision_time_s": 21.6,
+      "first_predicted_violation_offset_tick": 41,
+      "first_predicted_violation_absolute_s": 21.682000000000002,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.46623255762042304,
+            0.019601027760557,
+            0.43999984644005086
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.5355994912972392e-07,
+          "penetration_m": 1.5355994912972392e-07,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.014707129965879933,
+      "arm_joint_q_at_violation": [
+        0.08352742085826202,
+        2.2379518472620408,
+        1.5659102173960044,
+        -0.9012184466325864,
+        -0.004329820594754547,
+        -1.7183707359168447
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.178527420858262,
+        2.2389518472620407,
+        1.5669102173960046,
+        0.7707815533674137,
+        1.6676701794052455,
+        0.3766292640831552
+      ],
+      "arm_joint_margin_upper_rad": [
+        3.0590625791417376,
+        1.4280481527379592,
+        1.6750897826039957,
+        2.5732184466325867,
+        1.6763298205947548,
+        3.8133707359168447
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 1.2256774054530961e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -3.071198982906864e-07,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.0003801560161429962,
+      "request_point_at_first_violation": 1,
+      "request_XYZ_m": [
+        0.4576797117269996,
+        0.0343151867449329,
+        0.45820606715931456
+      ],
+      "request_rotation": [
+        [
+          -0.003493742374440223,
+          -0.9733661692317829,
+          -0.2292293488174355
+        ],
+        [
+          0.004577789403173549,
+          -0.22924391374000497,
+          0.9733582443567967
+        ],
+        [
+          -0.9999834186667306,
+          0.0023512992599072522,
+          0.005256784510432861
+        ]
+      ],
+      "request_gripper_fraction": 0.0,
+      "request_minus_predecision_XYZ_m": [
+        0.0005826248133058987,
+        -0.0005704054407420847,
+        -0.0023040739518792597
+      ],
+      "request_minus_predecision_SO3_rad": 0.0038871204870561905,
+      "predecision_gripper_fraction": -0.002002281190200485,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 1,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.001877534523728519,
+          "actual_pose_actual_opening_static_clearance_m": 0.0004200898856784874,
+          "requested_XYZ_only_static_clearance_m": -0.0018839840662007723,
+          "requested_SO3_only_static_clearance_m": 0.00042656790330586336,
+          "requested_gripper_only_static_clearance_m": 0.00042001951002312854
+        },
+        {
+          "prefix_point": 1,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.0018941070065908172,
+          "actual_pose_actual_opening_static_clearance_m": 0.0003801560161429962,
+          "requested_XYZ_only_static_clearance_m": -0.0019239179357362635,
+          "requested_SO3_only_static_clearance_m": 0.0004104097211242719,
+          "requested_gripper_only_static_clearance_m": 0.00037906170640161774
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B0-F1-000-T1",
+      "task": "T1",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "887e65629291f16f73863e2b111123007542d268",
+      "original_files_sha256": {
+        "CARD.json": "e931dfa5bb1e2daec5c04f61833e99a78f4f906b7b06bb518a5e2887f3c8f310",
+        "RESULT.json": "24badb8a57b81665d43d6d3d71a23fa2695014c92e2a4a64c92c429c4d340ded",
+        "MP1_ADJUDICATION.json": "cfca3ffab7c8f66f632aed31cc40d3f6b546b4050bef269af99531a8ea177ff8",
+        "FILE_MANIFEST.json": "38ff289ef6e6675d49a6619be23594c83577efee51500e0bc77e98408be7480b",
+        "SCORE.json": "9fd0d36c3950c4459f393eb6fc96b2e07bd5a354af5e8e30c592752928429894",
+        "S1_PREFLIGHTS.json": "b9fe5703a0be6357d23a445165e4b8c57eb049432733627096a7e1cba51c97ee",
+        "S1_RESULT.json": "0628b4bedff9a2d425f89fd2412d39701ca7370f8d34b89a86ea5eab8445b476",
+        "physics.npz": "c288c960bd7f3b15cf0e8f0d774c2653da5433da2dc5054625f324a62583cf5f",
+        "highrate.npz": "5961490abb18cb9ece73de146f2c5a54522df302935910fd7d54f3987abd7295",
+        "samples.json": "b303a4ed393d0f05d96817aae5c039a9304177ee8ad1064eed2e6d682a75b7f4",
+        "references.json": "4cba56c0fc8857764ca757fcf1248b4dfe109652fbbf7f519dc95c26f3ea434d",
+        "scene.xml.json": "4ee3b15cf6efa8ce3abd885af4182f9fd1fb467d6dd99478f30c99836791f55d"
+      },
+      "model_xml_sha256": "da7070da0bbbd6d125e095370b78bf7fd1e22246d4c68a26327e9d66295aa0a1",
+      "original_action_sha256": "66063ba8aa9f8e7d0bbe15fb0ff3d2b05fd07b68af8da5318647ec48b698c201",
+      "original_decision_time_s": 9.6,
+      "first_predicted_violation_offset_tick": 113,
+      "first_predicted_violation_absolute_s": 9.826,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.4380075129295085,
+            0.1104923399561934,
+            0.4399982617152198
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.7382847802138853e-06,
+          "penetration_m": 1.7382847802138853e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.43780344332944926,
+            0.11648886847465745,
+            0.4399988373842003
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.1626157996619109e-06,
+          "penetration_m": 1.1626157996619109e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4397625466343303,
+            0.05891822195209137,
+            0.4399933110579914
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -6.688942008600276e-06,
+          "penetration_m": 6.688942008600276e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.43955847703427103,
+            0.06491475047055542,
+            0.43999388672697193
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -6.113273028048302e-06,
+          "penetration_m": 6.113273028048302e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.029282249895278275,
+      "arm_joint_q_at_violation": [
+        0.22433960885021842,
+        2.14900562615574,
+        1.4158733082556458,
+        -0.8469968404679059,
+        -0.001993380806039924,
+        0.19031122995468014
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.319339608850218,
+        2.15000562615574,
+        1.416873308255646,
+        0.8250031595320942,
+        1.6700066191939602,
+        2.28531122995468
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.9182503911497815,
+        1.51699437384426,
+        1.8251266917443543,
+        2.518996840467906,
+        1.67399338080604,
+        1.9046887700453197
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -3.4765695604566105e-06,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -1.3377884017229391e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.000161298630199036,
+      "request_point_at_first_violation": 4,
+      "request_XYZ_m": [
+        0.4217674159959036,
+        0.08438065245032465,
+        0.4588925387952851
+      ],
+      "request_rotation": [
+        [
+          -0.009847490881564502,
+          -0.031075057614364417,
+          0.9994685426353355
+        ],
+        [
+          0.00047725456958377764,
+          0.9995167470284869,
+          0.031081258624253396
+        ],
+        [
+          -0.9999513983946487,
+          0.000783073340017836,
+          -0.009827901339087503
+        ]
+      ],
+      "request_gripper_fraction": 1.0,
+      "request_minus_predecision_XYZ_m": [
+        -2.803012456004117e-05,
+        0.0004866868153393239,
+        -0.001498190637534036
+      ],
+      "request_minus_predecision_SO3_rad": 0.007075367376813209,
+      "predecision_gripper_fraction": 0.4375255905639726,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 4,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.0012373003517863745,
+          "actual_pose_actual_opening_static_clearance_m": 0.00022607623645182207,
+          "requested_XYZ_only_static_clearance_m": -0.0012721144010822139,
+          "requested_SO3_only_static_clearance_m": 0.00024159184503130815,
+          "requested_gripper_only_static_clearance_m": 0.000261124108563382
+        },
+        {
+          "prefix_point": 4,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.001311728923818145,
+          "actual_pose_actual_opening_static_clearance_m": 0.000161298630199036,
+          "requested_XYZ_only_static_clearance_m": -0.001336892007335,
+          "requested_SO3_only_static_clearance_m": 0.0002059236398730402,
+          "requested_gripper_only_static_clearance_m": 0.00012595385239932977
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B1-F1-000-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "91fde13363512f20aff6d71963d32d49591f3fc2a3361275967a18ec9ac24d13",
+        "RESULT.json": "58d2c38fadd7bf1703f182487deb8161aeac0ed64dd8da5493a0d129c22f77e8",
+        "MP1_ADJUDICATION.json": "203344e62b008d947455ecf2850ac65f268d6c0a1c7c764dde028a762eb4db62",
+        "FILE_MANIFEST.json": "f8a549cd08dc3f33f9618cb66e720d951850709375855a5b2f1b76ba02b76eba",
+        "SCORE.json": "8d0eb0fe2fabeab50b811c5ee28dbff8e4608a78575f03c8a83eb8cad0b886ea",
+        "S1_PREFLIGHTS.json": "02c792d616b543d22639c208bb64c62b3fb0786cade317ed243d87da92e8297c",
+        "S1_RESULT.json": "f766f2e21f0a087e35dbb09a0e774a05ef6ae4a0c27cc1e8d69ca149b3022e2c",
+        "physics.npz": "36ee96f1bfc8f2d72d7f9d454fb3bd5971f24aad4a51165c6f6ef658b639320d",
+        "highrate.npz": "a047c7ea38c17c952fa494c61828fd56cfd7a24cbecefeafae378107f530feea",
+        "samples.json": "e0e30f1ff7ea75cccba492058d8c2ea496292cf6a861b5cd8ca19cee78450a1f",
+        "references.json": "f407629f1052d490f5544cad819b40e9dbe485287a4b9605c6861e1593039b9a",
+        "scene.xml.json": "4ee3b15cf6efa8ce3abd885af4182f9fd1fb467d6dd99478f30c99836791f55d"
+      },
+      "model_xml_sha256": "da7070da0bbbd6d125e095370b78bf7fd1e22246d4c68a26327e9d66295aa0a1",
+      "original_action_sha256": "0d9d33502cb1df869a60a786ac42e1d7b73b9d4c3606ed94f0128aa30936c842",
+      "original_decision_time_s": 21.6,
+      "first_predicted_violation_offset_tick": 14,
+      "first_predicted_violation_absolute_s": 21.628,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.44146754860042164,
+            0.03932258265480146,
+            0.43999986333529256
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.36664707401751e-07,
+          "penetration_m": 1.36664707401751e-07,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.03654816756074672,
+      "arm_joint_q_at_violation": [
+        0.12929126348883585,
+        2.1631205098257693,
+        1.4404403760292621,
+        -0.8554369856669096,
+        -0.024712393902380874,
+        -1.6835911632644975
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.2242912634888357,
+        2.164120509825769,
+        1.4414403760292622,
+        0.8165630143330905,
+        1.6472876060976194,
+        0.41140883673550244
+      ],
+      "arm_joint_margin_upper_rad": [
+        3.013298736511164,
+        1.5028794901742306,
+        1.800559623970738,
+        2.5274369856669097,
+        1.696712393902381,
+        3.7785911632644975
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 3.5674656023221285e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -2.733294148238308e-07,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.00011380016280720939,
+      "request_point_at_first_violation": 0,
+      "request_XYZ_m": [
+        0.43450803953981926,
+        0.05501133982821227,
+        0.4600800740274269
+      ],
+      "request_rotation": [
+        [
+          -0.0010358487269591377,
+          -0.9706426529720986,
+          -0.24052394319215148
+        ],
+        [
+          0.027383900224911273,
+          -0.2404614062372753,
+          0.9702723504866375
+        ],
+        [
+          -0.999624453995543,
+          -0.005581428283020869,
+          0.02682906320456481
+        ]
+      ],
+      "request_gripper_fraction": 0.02296885848045349,
+      "request_minus_predecision_XYZ_m": [
+        0.001306066463095057,
+        0.0014436478465906233,
+        -0.0010999078995787004
+      ],
+      "request_minus_predecision_SO3_rad": 0.010666460436456698,
+      "predecision_gripper_fraction": -0.0002570697474443353,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 0,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.00042052887068649847,
+          "actual_pose_actual_opening_static_clearance_m": 0.000778527591415723,
+          "requested_XYZ_only_static_clearance_m": -0.00032138030816297736,
+          "requested_SO3_only_static_clearance_m": 0.0006850897839226211,
+          "requested_gripper_only_static_clearance_m": 0.0007832794509144425
+        },
+        {
+          "prefix_point": 0,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.0003699121318552212,
+          "actual_pose_actual_opening_static_clearance_m": 0.000745897532687334,
+          "requested_XYZ_only_static_clearance_m": -0.00035401036689136633,
+          "requested_SO3_only_static_clearance_m": 0.0007242987437153792,
+          "requested_gripper_only_static_clearance_m": 0.0007411570986285421
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B1-F1-001-T1",
+      "task": "T1",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "12ffce8a94eb0a552ea59f903e837a74b42c48fda7d33b24857809c623e497d5",
+        "RESULT.json": "a2f8931dc7e4fcf2cec2095e949d51e4c324ba8383fd8b5ec37c648133965554",
+        "MP1_ADJUDICATION.json": "990225b6c5d82315bfab4af1e9fe9bf7e9f980d48bc1d290baca25061232db56",
+        "FILE_MANIFEST.json": "8f8f42b95d5b96d4aa0cea4328fe5b477f2adabc1c5a7ced95cf6f6498b569d6",
+        "SCORE.json": "8addabe3da0ce240381787c7538b88bad178a4bed9709f566effcf050e07a9b8",
+        "S1_PREFLIGHTS.json": "41b796dfaa6d9b19ca18928a883daa87dfa660d72f87cb3404b8244ce51bcfac",
+        "S1_RESULT.json": "b6e92eb2348c6df0af4b50bb0e00ab007ebb3b4aa5e09f7b134e129b1e4c4fee",
+        "physics.npz": "deff7bbdd630f712b0a320741afa017fc3e44ef06b51afb11a962e92473649a3",
+        "highrate.npz": "bb5d5a837cffcfa4f4b2cb3416b2345d6d06ed6f5cfc7d50f4f79c59fbe1dfee",
+        "samples.json": "e77ddccc7a2eebf1086326a75208e91092b66b845c3ccd3684581d85f3668e3d",
+        "references.json": "5cc0f72fccb1723d870ad812afe8808e57c592ad11664b91b999803ba826a852",
+        "scene.xml.json": "93ee954612d86ea61152fcf1f72b20d7dc4e130b5bdb9d2d6b9fe628e2703ea9"
+      },
+      "model_xml_sha256": "0f3f6e5f15f7dbc322f752b1d03b03aa113e09eed6ab2860f2dfe7a4c395e3c3",
+      "original_action_sha256": "a3e0f26f123e612b808a483381d20717f318eb011119646d0c4b1f655c4ae63a",
+      "original_decision_time_s": 1.2,
+      "first_predicted_violation_offset_tick": 200,
+      "first_predicted_violation_absolute_s": 1.6,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.4562315245723331,
+            0.1220227254444597,
+            0.43999971512644626
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -2.8487355372793557e-07,
+          "penetration_m": 2.8487355372793557e-07,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.08194716148958622,
+      "arm_joint_q_at_violation": [
+        0.18504527911023239,
+        2.184716718746619,
+        1.4758000977810959,
+        -0.8658455484137385,
+        0.0020471370287078305,
+        0.23039225559665294
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.280045279110232,
+        2.185716718746619,
+        1.476800097781096,
+        0.8061544515862616,
+        1.674047137028708,
+        2.3253922555966526
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.9575447208897674,
+        1.481283281253381,
+        1.7651999022189042,
+        2.5378455484137388,
+        1.6699528629712923,
+        1.8646077444033469
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -5.697471074928018e-07,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": 0.00026592467825292676,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.01614402111456842,
+      "request_point_at_first_violation": 7,
+      "request_XYZ_m": [
+        0.43684649887045185,
+        0.0726414969242742,
+        0.45822553489413215
+      ],
+      "request_rotation": [
+        [
+          -0.0018952161279677804,
+          0.04110413576380924,
+          0.9991530704446334
+        ],
+        [
+          -0.0025258064231087965,
+          0.9991514809167015,
+          -0.041108861378969665
+        ],
+        [
+          -0.9999950142164415,
+          -0.002601577420085746,
+          -0.001789786910787659
+        ]
+      ],
+      "request_gripper_fraction": 0.9706446528434753,
+      "request_minus_predecision_XYZ_m": [
+        0.006832443746970118,
+        -0.005303462557492478,
+        -0.01837415756813715
+      ],
+      "request_minus_predecision_SO3_rad": 0.02407354250092504,
+      "predecision_gripper_fraction": 0.978877710376683,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 7,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.0019375201723372815,
+          "actual_pose_actual_opening_static_clearance_m": 0.01614402111456842,
+          "requested_XYZ_only_static_clearance_m": -0.002230136453568732,
+          "requested_SO3_only_static_clearance_m": 0.016436011432234332,
+          "requested_gripper_only_static_clearance_m": 0.016145119753747716
+        },
+        {
+          "prefix_point": 7,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.0016969658410666555,
+          "actual_pose_actual_opening_static_clearance_m": 0.016569531227903445,
+          "requested_XYZ_only_static_clearance_m": -0.001804626340233706,
+          "requested_SO3_only_static_clearance_m": 0.016678450629923736,
+          "requested_gripper_only_static_clearance_m": 0.016567321706337568
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B1-F1-001-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "f93248d6d7d54b9479cb1e6248eab2de7e85f702599f2497478b36507470f63f",
+        "RESULT.json": "6659638dca7c0c06375f0f0e34b9f0148407270783972b22069df503130f15e5",
+        "MP1_ADJUDICATION.json": "eedf5b0790f349195f6b92e63a33dc483ea58369f2c01fb851512cec5c00ef4b",
+        "FILE_MANIFEST.json": "bb9bf5ee4c77c5db397d51b731d0d02ddb3af80a98871ec00e91f7a5c3b56859",
+        "SCORE.json": "9d80dadfce879e0bc7e5c1195999538bdd19f54b4814ebf663f175de7a6dd4f4",
+        "S1_PREFLIGHTS.json": "90964a03b0a6e11858229b513ae74378fb719d6f0d9561b31d462410769d6e93",
+        "S1_RESULT.json": "54e0cb26c444eda1478953bcafbcac5385e8329dc4b315fe47c49f7018ff6ab3",
+        "physics.npz": "b745852ebc741e8dc35273ab9e5a7d03159a691e5a2fd6c2f9ddb7c790e7f2e5",
+        "highrate.npz": "2a56b8fad5af5d28cea61f4fbe0550aceefaa1728cd6844a5b6ee323ff507390",
+        "samples.json": "2773e595648d8d6d37e36a847a0184563add5203a8291774f2fb8fd19e7b82be",
+        "references.json": "7222f960c64d70bdc92658d85e8f3cfffec212a41d5c20789ff08cc70d8acdc1",
+        "scene.xml.json": "93ee954612d86ea61152fcf1f72b20d7dc4e130b5bdb9d2d6b9fe628e2703ea9"
+      },
+      "model_xml_sha256": "0f3f6e5f15f7dbc322f752b1d03b03aa113e09eed6ab2860f2dfe7a4c395e3c3",
+      "original_action_sha256": "e0d13185d0fc54fab30d94cd0f4143858082a8876053dbdb080543c365f2537f",
+      "original_decision_time_s": 12.8,
+      "first_predicted_violation_offset_tick": 89,
+      "first_predicted_violation_absolute_s": 12.978000000000002,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4359776063991323,
+            0.10395609864156094,
+            0.43992117319801627
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -7.88268019837418e-05,
+          "penetration_m": 7.88268019837418e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4419050230240194,
+            0.10303844242170052,
+            0.43999804844950163
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.9515504983451057e-06,
+          "penetration_m": 1.9515504983451057e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.43077275549450805,
+            0.070357076223974,
+            0.4399828571568757
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.7142843124293586e-05,
+          "penetration_m": 1.7142843124293586e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.10847882626339782,
+      "arm_joint_q_at_violation": [
+        0.22554827606369912,
+        2.1760863712419494,
+        1.460134539312183,
+        -0.8323791039737897,
+        0.012856684087161951,
+        1.9498428576629563
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.320548276063699,
+        2.1770863712419493,
+        1.461134539312183,
+        0.8396208960262105,
+        1.6848566840871622,
+        4.044842857662957
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.9170417239363005,
+        1.4899136287580506,
+        1.7808654606878171,
+        2.5043791039737897,
+        1.6591433159128381,
+        0.14515714233704347
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 2.2272094513553498e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -0.00015765360396752248,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.0031715051501939873,
+      "request_point_at_first_violation": 3,
+      "request_XYZ_m": [
+        0.4414065469196649,
+        0.084136024671898,
+        0.45912436554040725
+      ],
+      "request_rotation": [
+        [
+          0.03115358577944529,
+          0.9846579851800896,
+          -0.17169189355985673
+        ],
+        [
+          -0.007312815379677595,
+          -0.1715461310026166,
+          -0.9851489469462249
+        ],
+        [
+          -0.9994878572670634,
+          0.03194647334400991,
+          0.0018563449504253385
+        ]
+      ],
+      "request_gripper_fraction": 0.0,
+      "request_minus_predecision_XYZ_m": [
+        -0.002713198193498856,
+        0.0005910449983230204,
+        -0.007478531058223659
+      ],
+      "request_minus_predecision_SO3_rad": 0.03815545778119589,
+      "predecision_gripper_fraction": -0.001424796736177956,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 3,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.0008231529300321561,
+          "actual_pose_actual_opening_static_clearance_m": 0.006653584429041903,
+          "requested_XYZ_only_static_clearance_m": -0.0008249466291817553,
+          "requested_SO3_only_static_clearance_m": 0.0066506260027612285,
+          "requested_gripper_only_static_clearance_m": 0.006658890866418465
+        },
+        {
+          "prefix_point": 3,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.001048311859795148,
+          "actual_pose_actual_opening_static_clearance_m": 0.006406635000703154,
+          "requested_XYZ_only_static_clearance_m": -0.001071896057520505,
+          "requested_SO3_only_static_clearance_m": 0.006429472589322083,
+          "requested_gripper_only_static_clearance_m": 0.006407468698072072
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B2-F1-003-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "490c406df3918d750dc1be90ecb8620666dd1dd46c8adbd838b032085e36ae6d",
+        "RESULT.json": "36775f135d48a13212cfb26423dd4749d18d3d65d7c311f4dfc0fea240925193",
+        "MP1_ADJUDICATION.json": "9dd35c4b428485d4991d450051efe93c50ed266aec3f362069353d09423f0d01",
+        "FILE_MANIFEST.json": "989910b91af59b24f10d23ee4626789693eaaf4933f5d496f623d7f7bdd65aee",
+        "SCORE.json": "8e2b00cfb26ee43da6d7355621fff242d4bd8626e7ed1f827d63f571f7a52f84",
+        "S1_PREFLIGHTS.json": "97c16e83f74b6f880974f771018fa19d765f7f372dc5622ddf69fdb997602a6e",
+        "S1_RESULT.json": "42e13c5d17aa02b9f1a81a3654f8cedd690e9a651f8cefa1e252a1860cb5fe37",
+        "physics.npz": "e7ad3c7e660619a2ed50fb37e6994fb2af8ef28a17c45c2e8b565d9bf2f633cf",
+        "highrate.npz": "65d481a727a4e7d65fa50eed7d158722aae30e4c3449905187ec65d2a5091b05",
+        "samples.json": "db50d5871406e3b51eef628e06b694d5e42a221cb0e6efdfc2fb30f29951fa1d",
+        "references.json": "5a0f9308ee93f15c01ffe6dcd732818d62abee6e636e531d0a66aa64de38df1a",
+        "scene.xml.json": "da46367011abee19f8bcb3841b31cfdc2386898e68ef537ea48212b235567a49"
+      },
+      "model_xml_sha256": "e0d470d9658cf4e264bb2690a2163433ed1b1040acf99393124de4fa11a8993f",
+      "original_action_sha256": "5e95192a63ce7fd3698aafe725699f866d8b003d064d3ad918118f3c4326713e",
+      "original_decision_time_s": 12.0,
+      "first_predicted_violation_offset_tick": 70,
+      "first_predicted_violation_absolute_s": 12.14,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.45004473120431454,
+            0.13741742216081565,
+            0.43993541178858225
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -6.458821141770883e-05,
+          "penetration_m": 6.458821141770883e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4466685552930992,
+            0.10358567507426905,
+            0.43999525593715805
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -4.744062841953342e-06,
+          "penetration_m": 4.744062841953342e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.1112526179489137,
+      "arm_joint_q_at_violation": [
+        0.2975874282677496,
+        2.2457895482295207,
+        1.5787939330561027,
+        -0.8702017101735361,
+        0.017899299070784216,
+        1.9674801200706495
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.3925874282677495,
+        2.2467895482295206,
+        1.5797939330561028,
+        0.8017982898264641,
+        1.6898992990707844,
+        4.062480120070649
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.84500257173225,
+        1.4202104517704792,
+        1.6622060669438974,
+        2.5422017101735364,
+        1.654100700929216,
+        0.1275198799293502
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 0.00015684991715714247,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -0.00012917642283544195,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.007240080917101932,
+      "request_point_at_first_violation": 2,
+      "request_XYZ_m": [
+        0.4565003751505529,
+        0.11698691981105884,
+        0.4606671394950088
+      ],
+      "request_rotation": [
+        [
+          0.04821208064452663,
+          0.9919346601452883,
+          -0.11722297250273592
+        ],
+        [
+          -0.004391020501799899,
+          -0.11714783118667711,
+          -0.9931047802660153
+        ],
+        [
+          -0.9988274696957822,
+          0.04839437623019147,
+          -0.0012923352553595923
+        ]
+      ],
+      "request_gripper_fraction": 0.005205363035202026,
+      "request_minus_predecision_XYZ_m": [
+        0.00043262618859934987,
+        -0.0002569650943407831,
+        -0.009450985868092343
+      ],
+      "request_minus_predecision_SO3_rad": 0.026559720468569158,
+      "predecision_gripper_fraction": -0.00034706017749064507,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 2,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.0007914953346843667,
+          "actual_pose_actual_opening_static_clearance_m": 0.010236212954002899,
+          "requested_XYZ_only_static_clearance_m": 0.0007852270859105559,
+          "requested_SO3_only_static_clearance_m": 0.010239318779787843,
+          "requested_gripper_only_static_clearance_m": 0.010239250809814193
+        },
+        {
+          "prefix_point": 2,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.00042824379409933666,
+          "actual_pose_actual_opening_static_clearance_m": 0.009909984298987706,
+          "requested_XYZ_only_static_clearance_m": 0.0004589984308953632,
+          "requested_SO3_only_static_clearance_m": 0.009899713372301888,
+          "requested_gripper_only_static_clearance_m": 0.009890307437918133
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B2-F2-001-T1",
+      "task": "T1",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "887e65629291f16f73863e2b111123007542d268",
+      "original_files_sha256": {
+        "CARD.json": "b2f89266da6c708a951d316ba64194383ae89298bc52f7b5764a9e729b5b7a04",
+        "RESULT.json": "ebbb68e4f5946a96d9288d8c198395979eeae31c4257cbd5ed9a0da1894c1fe2",
+        "MP1_ADJUDICATION.json": "75f5a941884e3c44e00415f0bd613d1107b8ed8bf8eea85467434314347e23b9",
+        "FILE_MANIFEST.json": "fa53cd882d0d79628cf60be339efd18e2d5ccb31f9afb635e7af61ab670bcbef",
+        "SCORE.json": "be364bac494c0aff0751500acf081d5087c88346e897cfa484b1691efcf5400e",
+        "S1_PREFLIGHTS.json": "770c0fcfc79f7a258bc5dcf293e6a95de7e91aa2986f294c6a319f340e9e930b",
+        "S1_RESULT.json": "9f8f5e476651ed2b822459096583d25f56b9a7aa55b44804c5fee750d15e3820",
+        "physics.npz": "08cbf1f9940c022cf5eebae8f5de54e2c037c6ad718d7e3b2c2b41ab33d9142a",
+        "highrate.npz": "61873a18dd0829459e4169ec79c50c4465559e888f24aaf539280c9937354e87",
+        "samples.json": "52ab1a0c83cdba178d3172824b7cbd0fad4853785e0ea7cfa5ca072f11e8cce2",
+        "references.json": "e5f3829e128be4586ea2ddf951e4d9b13b0e9ebc9ed3c60605949dfa77336302",
+        "scene.xml.json": "480f84a8b2ce8ce70be8beba2ca022419bb84d473a600d376ce059a073a11045"
+      },
+      "model_xml_sha256": "1e4175b9c721314db1b8c92cce9fb5f2833ffd912d37346a3c21b50cdcc8a650",
+      "original_action_sha256": "881c8113a3719baa289e600326ac9bdf81cb0a8b1d68c13c372e3ffe038fa096",
+      "original_decision_time_s": 1.6,
+      "first_predicted_violation_offset_tick": 29,
+      "first_predicted_violation_absolute_s": 1.6580000000000001,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.4820522938520776,
+            -0.041563278452899505,
+            0.4399981039785819
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.8960214180627903e-06,
+          "penetration_m": 1.8960214180627903e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.4817991408740198,
+            -0.04755793505100735,
+            0.43999931233103395
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -6.876689660076892e-07,
+          "penetration_m": 6.876689660076892e-07,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.024918972154898782,
+      "arm_joint_q_at_violation": [
+        -0.2150148767986386,
+        2.2835997173391136,
+        1.644884508612026,
+        -0.9324870242864414,
+        0.0004797255337386744,
+        -0.17280998755700971
+      ],
+      "arm_joint_margin_lower_rad": [
+        1.8799851232013614,
+        2.2845997173391135,
+        1.6458845086120262,
+        0.7395129757135588,
+        1.672479725533739,
+        1.9221900124429903
+      ],
+      "arm_joint_margin_upper_rad": [
+        3.3576048767986384,
+        1.3824002826608863,
+        1.596115491387974,
+        2.6044870242864415,
+        1.6715202744662614,
+        2.2678099875570092
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -3.7920428361259972e-06,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": 3.226737681111258e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.0008617283066208459,
+      "request_point_at_first_violation": 1,
+      "request_XYZ_m": [
+        0.4638478121816785,
+        -0.08670276990464423,
+        0.46017279434326297
+      ],
+      "request_rotation": [
+        [
+          -0.0005891885678808717,
+          0.048641811283497025,
+          0.9988161127314138
+        ],
+        [
+          -0.0007675636151642032,
+          0.9988159698713855,
+          -0.04864225710203256
+        ],
+        [
+          -0.9999995318513546,
+          -0.00079531436817282,
+          -0.0005511552663481697
+        ]
+      ],
+      "request_gripper_fraction": 0.9037525653839111,
+      "request_minus_predecision_XYZ_m": [
+        0.002113004774922933,
+        0.0017476685699846228,
+        -0.0007670804823387556
+      ],
+      "request_minus_predecision_SO3_rad": 0.01120314925611922,
+      "predecision_gripper_fraction": 0.9926133072040462,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 1,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.00012519918356990178,
+          "actual_pose_actual_opening_static_clearance_m": 0.0008681245704519336,
+          "requested_XYZ_only_static_clearance_m": 0.000101044088113178,
+          "requested_SO3_only_static_clearance_m": 0.00088917715508674,
+          "requested_gripper_only_static_clearance_m": 0.00086786022723917
+        },
+        {
+          "prefix_point": 1,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.0001940561455983092,
+          "actual_pose_actual_opening_static_clearance_m": 0.0008617283066208459,
+          "requested_XYZ_only_static_clearance_m": 9.464782428209029e-05,
+          "requested_SO3_only_static_clearance_m": 0.0009642532728919018,
+          "requested_gripper_only_static_clearance_m": 0.0008619938541040151
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B3-F2-001-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "887e65629291f16f73863e2b111123007542d268",
+      "original_files_sha256": {
+        "CARD.json": "ec2e4ddc14a5eb6bb7e87d1f1fc722452addac486dd302bd33b4d0f1af230465",
+        "RESULT.json": "87b8ce115a143ace6abcb306494299deb01201eca7985d0aebad40068a3e065f",
+        "MP1_ADJUDICATION.json": "77c4db7e94a65148db2b5257cfb1a543b11c754bab1e5ca8186270e8bae1c0de",
+        "FILE_MANIFEST.json": "798dd51395f4aab88b8d8216888fe70f59d6dd9f12e964dcd979ad4b05dcaebb",
+        "SCORE.json": "c47e842e51a7fdb9de167baee7887fe159be3778f1cff0ef9c7a16b832302f88",
+        "S1_PREFLIGHTS.json": "56dcb8d1ff4e59e50b09fac919a77654374a0f9b1aafe9b4ed194e419c84bfc6",
+        "S1_RESULT.json": "2a894f7e2e1e2cbf96f35078bd2307848f9e07a22b9e53c23e46394affc7cd8a",
+        "physics.npz": "65eb492ec3404910369818805469e18b90d9a7237957edae6269267e9def6ead",
+        "highrate.npz": "0e532825b3544fa9768e13f5df15008a483262aea9395ee6f10959e8173c646c",
+        "samples.json": "576a96f746347dd4b29695cf954ef53c5588ed1bd04712a3b80b4450cac550c7",
+        "references.json": "2f421d80a04030703bc40f7d7bf2d026f3a36a7a9e513a2f0e8f471d548d9845",
+        "scene.xml.json": "480f84a8b2ce8ce70be8beba2ca022419bb84d473a600d376ce059a073a11045"
+      },
+      "model_xml_sha256": "1e4175b9c721314db1b8c92cce9fb5f2833ffd912d37346a3c21b50cdcc8a650",
+      "original_action_sha256": "7ff8b5d6fe2b6b67845fb757eb59b979ba77dae1cfb749a0812ccd390feaf912",
+      "original_decision_time_s": 22.400000000000002,
+      "first_predicted_violation_offset_tick": 103,
+      "first_predicted_violation_absolute_s": 22.606,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.4649185201143654,
+            0.04745127368650319,
+            0.4399869545632492
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.3045436750785218e-05,
+          "penetration_m": 1.3045436750785218e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.05893573113184103,
+      "arm_joint_q_at_violation": [
+        0.14065444143148165,
+        2.279128322250603,
+        1.6390644103254552,
+        -0.9232333824966645,
+        -0.03286793949672231,
+        -1.6559793691592153
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.2356544414314814,
+        2.280128322250603,
+        1.6400644103254554,
+        0.7487666175033356,
+        1.6391320605032778,
+        0.4390206308407847
+      ],
+      "arm_joint_margin_upper_rad": [
+        3.001935558568518,
+        1.3868716777493968,
+        1.6019355896745449,
+        2.595233382496665,
+        1.7048679394967226,
+        3.7509793691592153
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -2.6090873501583012e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": 4.392843019990211e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.003406107744976239,
+      "request_point_at_first_violation": 4,
+      "request_XYZ_m": [
+        0.4719832020918967,
+        0.06539861813528852,
+        0.4613094676261276
+      ],
+      "request_rotation": [
+        [
+          0.008717060250227478,
+          -0.9755319070223856,
+          -0.21968502735020815
+        ],
+        [
+          0.03546841646177457,
+          -0.219253494184075,
+          0.9750230236880398
+        ],
+        [
+          -0.9993327795555833,
+          -0.01629121448332114,
+          0.03268932603114364
+        ]
+      ],
+      "request_gripper_fraction": 0.023928284645080566,
+      "request_minus_predecision_XYZ_m": [
+        0.00682453411328926,
+        -0.0020176318234872564,
+        -0.004053916488124809
+      ],
+      "request_minus_predecision_SO3_rad": 0.01133534457607546,
+      "predecision_gripper_fraction": 0.11084031165447816,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 4,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.0006145646530983928,
+          "actual_pose_actual_opening_static_clearance_m": 0.004801158951386053,
+          "requested_XYZ_only_static_clearance_m": 0.000747242463261244,
+          "requested_SO3_only_static_clearance_m": 0.004589492819339125,
+          "requested_gripper_only_static_clearance_m": 0.004833737939514693
+        },
+        {
+          "prefix_point": 4,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.0007636860957729863,
+          "actual_pose_actual_opening_static_clearance_m": 0.004914054557260683,
+          "requested_XYZ_only_static_clearance_m": 0.000860138069135874,
+          "requested_SO3_only_static_clearance_m": 0.004863213679654477,
+          "requested_gripper_only_static_clearance_m": 0.004895242113702625
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B3-F2-002-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "887e65629291f16f73863e2b111123007542d268",
+      "original_files_sha256": {
+        "CARD.json": "8e30ea55af81964f8514e38a2a61acbe57313d86c880886dd56dcea732a51aee",
+        "RESULT.json": "00bba764a91ed52e4b3d2e8b64b4f960cc52a82b83887e46d73f2a37b9cf461a",
+        "MP1_ADJUDICATION.json": "c2e0bb580b7829c022e70f218abac2af88fee1ab77ea83bea7d48c3de75b5cec",
+        "FILE_MANIFEST.json": "0526299c886c381d5aa2fc117c77e058904ecb03ba789d6bad1433613143c01e",
+        "SCORE.json": "86f138d33d50ea65a48576f5b0dcac00f6128cf1d4ca845c9d3d502dbf7ab7ce",
+        "S1_PREFLIGHTS.json": "bc0641d32e31221e81001c05d2c8acbe05522331a25ae75077ccf12c85dee3b6",
+        "S1_RESULT.json": "c62574c35dfb42d20b615e446a4a4cdd9d022bb0fc453c676834104ad99d80d6",
+        "physics.npz": "09706e9dd662f10f6d499c371ddb9ef2e635e455117240e3e862c0812e692311",
+        "highrate.npz": "3bca959ac0f7fd4b2508fb13cbad1ddf6ce3be88849d2903755bcbfcdf1d454e",
+        "samples.json": "ae457b4c4e6bcda320886034eed254a15b5d8a2b5ce936550b9f10b63622e4e6",
+        "references.json": "e42c8e093277af707d2d185a618d4f958ad6bb974d8957fc3f5a7a2e3315ca80",
+        "scene.xml.json": "a03ef4bae1b3a530c988e5a350224975c826a90843d1e6e7147150bc5c9fdd34"
+      },
+      "model_xml_sha256": "8b93cb8579e709a4b74fd9c1bd1edfe2e33ca7782ad80888649c7b515d66febe",
+      "original_action_sha256": "de95bd0dae39bd5da406af11ec174c0309444ec072d2fdd2f906dc30f8561499",
+      "original_decision_time_s": 28.8,
+      "first_predicted_violation_offset_tick": 20,
+      "first_predicted_violation_absolute_s": 28.84,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.39444581958596403,
+            0.17056655940900653,
+            0.4399871648941628
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.2835105837210207e-05,
+          "penetration_m": 1.2835105837210207e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.40029959316493957,
+            0.17188308298342347,
+            0.4399921789766496
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -7.821023350365944e-06,
+          "penetration_m": 7.821023350365944e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4009688944588375,
+            0.17203350748337956,
+            0.43999275275849287
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -7.247241507129135e-06,
+          "penetration_m": 7.247241507129135e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.406822668037813,
+            0.1733500310577965,
+            0.4399977668409797
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -2.2331590202848725e-06,
+          "penetration_m": 2.2331590202848725e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.03333105017584392,
+      "arm_joint_q_at_violation": [
+        0.41719148203331,
+        2.16498238063432,
+        1.4424822468067096,
+        -0.8486308695311768,
+        0.010268986640551762,
+        -1.374815522582343
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.5121914820333098,
+        2.1659823806343197,
+        1.4434822468067097,
+        0.8233691304688233,
+        1.682268986640552,
+        0.7201844774176569
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.7253985179666897,
+        1.5010176193656801,
+        1.7985177531932905,
+        2.520630869531177,
+        1.6617310133594483,
+        3.469815522582343
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -2.5670211674433396e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -1.4494483014271253e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.00034382322608961235,
+      "request_point_at_first_violation": 0,
+      "request_XYZ_m": [
+        0.40378610870431103,
+        0.15487318898533417,
+        0.4565063250898838
+      ],
+      "request_rotation": [
+        [
+          -0.0007600157515720298,
+          -0.9753927118651928,
+          -0.22047330907917706
+        ],
+        [
+          -0.008826915119081015,
+          -0.22045824003563452,
+          0.9753564732803444
+        ],
+        [
+          -0.9999607532026135,
+          0.002687385468355615,
+          -0.008442156940413373
+        ]
+      ],
+      "request_gripper_fraction": 0.0,
+      "request_minus_predecision_XYZ_m": [
+        -0.0016093008176095713,
+        -0.0012889110007618665,
+        -0.0040216987252121306
+      ],
+      "request_minus_predecision_SO3_rad": 0.002083954700655197,
+      "predecision_gripper_fraction": 0.007996981243995487,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 0,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.003630199625939301,
+          "actual_pose_actual_opening_static_clearance_m": 0.00036115361783323197,
+          "requested_XYZ_only_static_clearance_m": -0.0036605451073788986,
+          "requested_SO3_only_static_clearance_m": 0.00039284883080431543,
+          "requested_gripper_only_static_clearance_m": 0.00036003068801432336
+        },
+        {
+          "prefix_point": 0,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.00364913947450457,
+          "actual_pose_actual_opening_static_clearance_m": 0.00034382322608961235,
+          "requested_XYZ_only_static_clearance_m": -0.003677875499122518,
+          "requested_SO3_only_static_clearance_m": 0.0003720177767747024,
+          "requested_gripper_only_static_clearance_m": 0.00034427371362083514
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B0-F0-000-T1",
+      "task": "T1",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "db38ccf6802af5a506a960fb8f360804db20879d8dbec3eeea73b826b7ebeb7c",
+        "RESULT.json": "e3357c9266d890c120879ac6800606d73a8617fa407a0fb7bb4368d48eb9ddaf",
+        "MP1_ADJUDICATION.json": "9371ea88f814a5ab5daf0a3ca3fc4e40731245a5f7a374dd77f26985d4a474fe",
+        "FILE_MANIFEST.json": "f38ff6dbae55ebed56beee9bd1ffa404d79d9c3fd305cec913aa60c81c8e2b4f",
+        "SCORE.json": "001201741c4ced09b36942429ae6a91fa43a7a61eddd860b90151032a10102f9",
+        "S1_PREFLIGHTS.json": "67a8542b45259641b1d1189216c169fd8e0c80a98209f5e294765233ce004ee7",
+        "S1_RESULT.json": "036ba6889486f93be58e68450c6685dd4a058ffb53c3142d9a82158fe75cbff3",
+        "physics.npz": "574500b0cd065c436780783b7651fbeeb4ad9c1575a533cc873f394ec496cf1d",
+        "highrate.npz": "be3ad0f7bded8e51c08dd69a9dfb593352574cfb8be9340498045c0faf5c9f26",
+        "samples.json": "5d81ef090576d4e4ed4ba2cf7ef900029a49762f91f11d76463d75e0b8695e10",
+        "references.json": "ab9921c2e32fccbc14688ec83492816fd77deffe26408b643fcb1e2ec59551af",
+        "scene.xml.json": "b743eadb2c2622a1f6746f6a2b238be27b5e51210ef65abc0f80d61ce287ceb7"
+      },
+      "model_xml_sha256": "2accfb57efbcd8eb32fe903a452084f5d2cb076389e5647e71f69eeae6bc7279",
+      "original_action_sha256": "c5dcaba7a4a89cd884abed72b619ac4afc4d62fd349e74a897407dfda4cb3ad3",
+      "original_decision_time_s": 9.6,
+      "first_predicted_violation_offset_tick": 60,
+      "first_predicted_violation_absolute_s": 9.719999999999999,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.45347746568309055,
+            0.14323754068279534,
+            0.4399940668682526
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -5.93313174739404e-06,
+          "penetration_m": 5.93313174739404e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.012628827529611803,
+      "arm_joint_q_at_violation": [
+        0.24371479794891032,
+        2.2144528603172726,
+        1.5264671690497063,
+        -0.8949658171947199,
+        -0.0004552391767320511,
+        0.20280584213016098
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.33871479794891,
+        2.2154528603172725,
+        1.5274671690497064,
+        0.7770341828052802,
+        1.671544760823268,
+        2.2978058421301606
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.8988752020510895,
+        1.4515471396827273,
+        1.7145328309502939,
+        2.56696581719472,
+        1.6724552391767322,
+        1.8921941578698387
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -1.1866263494808571e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": 0.00015300775565096902,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.00246531653685772,
+      "request_point_at_first_violation": 2,
+      "request_XYZ_m": [
+        0.4393846216922096,
+        0.09712422409922279,
+        0.46083216854480036
+      ],
+      "request_rotation": [
+        [
+          -0.0072895442572440405,
+          -0.03851312023245339,
+          0.999231505765547
+        ],
+        [
+          -0.001191485359210459,
+          0.9992576803225353,
+          0.03850543700654107
+        ],
+        [
+          -0.9999727210815106,
+          -0.000909882622377767,
+          -0.0073300209039966185
+        ]
+      ],
+      "request_gripper_fraction": 1.0,
+      "request_minus_predecision_XYZ_m": [
+        -0.00029840343910941813,
+        8.873755338784095e-06,
+        -0.0022457944481761305
+      ],
+      "request_minus_predecision_SO3_rad": 0.0007338999406116314,
+      "predecision_gripper_fraction": 0.7463967988521704,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 2,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.0006605070748235131,
+          "actual_pose_actual_opening_static_clearance_m": 0.002926284202920959,
+          "requested_XYZ_only_static_clearance_m": 0.0006804897547448285,
+          "requested_SO3_only_static_clearance_m": 0.0029164454960791675,
+          "requested_gripper_only_static_clearance_m": 0.0029168995094441263
+        },
+        {
+          "prefix_point": 2,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.0007469903313173099,
+          "actual_pose_actual_opening_static_clearance_m": 0.002987508153449614,
+          "requested_XYZ_only_static_clearance_m": 0.0007417137052734835,
+          "requested_SO3_only_static_clearance_m": 0.0029826228277510247,
+          "requested_gripper_only_static_clearance_m": 0.002996909479880683
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B0-F0-000-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "934345720b8ac6d433c30c2c97f25a19d9e00ae77a634ca1bfc4e0828a89b59e",
+        "RESULT.json": "79d78f5fec62cdf44aa9dccc8b3dacef1409f1e57bd8ede10b0b1c407853e89f",
+        "MP1_ADJUDICATION.json": "3c76ee995970c3168789c34719129ff04a9ca80d2dd804feb9ccde5564db3edb",
+        "FILE_MANIFEST.json": "43be92c2c5b25f47092456fd096ee683e65dd32256bd3e6aaa212454621e36b9",
+        "SCORE.json": "e117b515067bac7f0bcb199d0293a79e4d08d40be5b6155d96c92d6196d439f7",
+        "S1_PREFLIGHTS.json": "fb3a3e5c4ec2164a20e67817902ec7540f836b43293fd01d1477d2f387e3e6ff",
+        "S1_RESULT.json": "33de8d1cfdebb4a71f74f7878a1fa222d4404f87516a15e8121c80f6201221ee",
+        "physics.npz": "5f57190a4f069aa7158947e49512199f0449b70a1c663e85a1a80bf1d1e2b18e",
+        "highrate.npz": "949a3c4c2641e74c25a23c9f80979f683803193b1b09c0c8e82092220a7f9abc",
+        "samples.json": "dbc76688823dd9bffe0044cc99c089965dafa4f0a77fad11a57a68a3c059b790",
+        "references.json": "a2a8b667a06aa037d811224010409f9a24f2db712e99c41f5d249e8433fa98e9",
+        "scene.xml.json": "b743eadb2c2622a1f6746f6a2b238be27b5e51210ef65abc0f80d61ce287ceb7"
+      },
+      "model_xml_sha256": "2accfb57efbcd8eb32fe903a452084f5d2cb076389e5647e71f69eeae6bc7279",
+      "original_action_sha256": "73f2a6444739791139d24604f85d8d9e2ed2ff60c1fd0f455e4ed4102e9cfe25",
+      "original_decision_time_s": 22.400000000000002,
+      "first_predicted_violation_offset_tick": 28,
+      "first_predicted_violation_absolute_s": 22.456000000000003,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.40339339858891377,
+            0.089749218108706,
+            0.43998213883283394
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.786116716606182e-05,
+          "penetration_m": 1.786116716606182e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.4091498792612415,
+            0.09144103348917797,
+            0.4399952821535285
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -4.717846471456211e-06,
+          "penetration_m": 4.717846471456211e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.40958977263966473,
+            0.0915702128408346,
+            0.43999628712104283
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -3.712878957169019e-06,
+          "penetration_m": 3.712878957169019e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.026145000795909264,
+      "arm_joint_q_at_violation": [
+        0.21029698176993586,
+        2.1109247739130033,
+        1.3536173683446657,
+        -0.8081271454796906,
+        0.012789033092456041,
+        -1.6463536358567734
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.305296981769936,
+        2.111924773913003,
+        1.3546173683446658,
+        0.8638728545203096,
+        1.6847890330924562,
+        0.44864636414322656
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.9322930182300637,
+        1.5550752260869967,
+        1.8873826316553344,
+        2.480127145479691,
+        1.659210966907544,
+        3.741353635856773
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -3.572233433213334e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -7.4257579143477415e-06,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.0011286355135228798,
+      "request_point_at_first_violation": 1,
+      "request_XYZ_m": [
+        0.4132997741596491,
+        0.07846080732549901,
+        0.4565924674900003
+      ],
+      "request_rotation": [
+        [
+          -0.00043727721533470826,
+          -0.957253866060583,
+          -0.28924875920339627
+        ],
+        [
+          -0.006721109302979201,
+          -0.28923944026147214,
+          0.9572331862649601
+        ],
+        [
+          -0.999977317481939,
+          0.002362648788473049,
+          -0.006307330047490085
+        ]
+      ],
+      "request_gripper_fraction": 0.0058907270431518555,
+      "request_minus_predecision_XYZ_m": [
+        -0.0033239626991937166,
+        0.002374406284979508,
+        -0.005158788125343039
+      ],
+      "request_minus_predecision_SO3_rad": 0.010941417330847325,
+      "predecision_gripper_fraction": 0.010125973061329585,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 1,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.0035082340028365633,
+          "actual_pose_actual_opening_static_clearance_m": 0.001519276752188492,
+          "requested_XYZ_only_static_clearance_m": -0.003639511373154547,
+          "requested_SO3_only_static_clearance_m": 0.0016496088392571884,
+          "requested_gripper_only_static_clearance_m": 0.0015176188215301756
+        },
+        {
+          "prefix_point": 1,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.003526110080046496,
+          "actual_pose_actual_opening_static_clearance_m": 0.0015521762720495658,
+          "requested_XYZ_only_static_clearance_m": -0.0036066118532934732,
+          "requested_SO3_only_static_clearance_m": 0.0016308521989463198,
+          "requested_gripper_only_static_clearance_m": 0.0015489739232895094
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B0-F0-001-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "1f017fc671f3435e9900d09c2e4f0a1e755af9fe8e7f44b0dd98ad39ffb07ccc",
+        "RESULT.json": "d61e98a6149eb415fc536ab4dc1db68b059464517dcc9a11673161bc6cf44dd8",
+        "MP1_ADJUDICATION.json": "69af6c7b65a7b57a8d1ce38d02bb2e753ca984533a074cd3c3d3d432769f6d2f",
+        "FILE_MANIFEST.json": "563f5b9de113330d944bf8ba239eb1aaddb0c20f4b386c29642e7ebd8348aecd",
+        "SCORE.json": "61e0b734816426681078fcb38a472e4cb30493aa4015f2df8b9dce4a8c1dddc1",
+        "S1_PREFLIGHTS.json": "1cd4ebc2b95d064214ac200007345dfe0633b3c996566ede7747e7b682d8b661",
+        "S1_RESULT.json": "878a0b9cd6b36957452581fcd41b93064493faa793854077aa00d88bad202ccd",
+        "physics.npz": "55aaf55c4da5be21983f3e15f4be847132e60ce8b3a335e64248335a54e8a83e",
+        "highrate.npz": "ade447048322e457f0a54bc0b00319dd9b64c0c357fcb971f8e4f337bd47596c",
+        "samples.json": "3dd0fe07fc363b363c8f22c843f6e2e526e825bede7f541823e5f7458c20959c",
+        "references.json": "84bcfb6a22d55b9e4f98c801192d11ec520ad54c3071cb9380975f6e64ee0ada",
+        "scene.xml.json": "e633c45438b208dc50f4781c31bbd9c3884849255804da76cf81a114e689b094"
+      },
+      "model_xml_sha256": "7855eb0ab1af4677f4b9410b5971944e89195c0232f07dcc80c7af72edf2a703",
+      "original_action_sha256": "df74b90e9bbc1b68562415d71109cf7bb56f8bde625d35f808ce62ba94665d87",
+      "original_decision_time_s": 22.0,
+      "first_predicted_violation_offset_tick": 180,
+      "first_predicted_violation_absolute_s": 22.36,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4850559969904425,
+            0.052557445786855755,
+            0.4399908039670991
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -9.196032900887179e-06,
+          "penetration_m": 9.196032900887179e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.030404855669932958,
+      "arm_joint_q_at_violation": [
+        0.1567099791536595,
+        2.3121952195388285,
+        1.6955661617118352,
+        -0.9628755901365289,
+        -0.003478578284771032,
+        -1.5965979046298973
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.2517099791536594,
+        2.3131952195388283,
+        1.6965661617118353,
+        0.7091244098634713,
+        1.668521421715229,
+        0.4984020953701027
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.98588002084634,
+        1.3538047804611715,
+        1.545433838288165,
+        2.634875590136529,
+        1.6754785782847712,
+        3.691597904629897
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 0.00011619654206923569,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -1.839206580178665e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.0030506633401097827,
+      "request_point_at_first_violation": 7,
+      "request_XYZ_m": [
+        0.4724922252229931,
+        0.06879748350305454,
+        0.4622959067971123
+      ],
+      "request_rotation": [
+        [
+          -0.006102703766216409,
+          -0.9835432827764077,
+          -0.18056956529866644
+        ],
+        [
+          0.0030790304100923303,
+          -0.18059055375021763,
+          0.9835535427560227
+        ],
+        [
+          -0.9999766380163466,
+          0.005446356726960925,
+          0.004130450329825159
+        ]
+      ],
+      "request_gripper_fraction": 0.1063118577003479,
+      "request_minus_predecision_XYZ_m": [
+        0.0040433152992550014,
+        -0.003573726171493055,
+        -0.0031441266213844132
+      ],
+      "request_minus_predecision_SO3_rad": 0.006441332656791937,
+      "predecision_gripper_fraction": 0.054516921375190944,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 7,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.0022642144195217373,
+          "actual_pose_actual_opening_static_clearance_m": 0.0054270716859620705,
+          "requested_XYZ_only_static_clearance_m": 0.0022829450645776572,
+          "requested_SO3_only_static_clearance_m": 0.005396775081949301,
+          "requested_gripper_only_static_clearance_m": 0.005449204135605401
+        },
+        {
+          "prefix_point": 7,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.0021748750017468454,
+          "actual_pose_actual_opening_static_clearance_m": 0.005303616806178357,
+          "requested_XYZ_only_static_clearance_m": 0.002159490184793944,
+          "requested_SO3_only_static_clearance_m": 0.005332259909763659,
+          "requested_gripper_only_static_clearance_m": 0.00527824594308407
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B0-F1-000-T1",
+      "task": "T1",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "80bc7918441225b116b3b160c479b24c47c8a5d161d6f921b9200464c95bf019",
+        "RESULT.json": "ca7b1d0661aa8b48e30d5bdf1f6d0ac35700f98ea4e151b51cc2e4c74926f090",
+        "MP1_ADJUDICATION.json": "913623096071ec043b7fd51a4a4b7171e04c9f0a6f326c238963e324e8ca54d2",
+        "FILE_MANIFEST.json": "67cc8371e5b306adde0a3e6363d013768b433dda16fe4ef96218c67fbc6ad810",
+        "SCORE.json": "503bfbf2f3d17e7c0ff9537e10136ad1f0d7bec113f924a56e3a6d8e6a6dbf74",
+        "S1_PREFLIGHTS.json": "c892a07a2fb81fddfba50eab331dd8e770dbb7f355f5e6a3b03f4dcdde6a6b52",
+        "S1_RESULT.json": "78194a8954fbb38f7bc752fb30d47e39858c1f5c0b09c949723139f5c2e678e5",
+        "physics.npz": "8fc9eeb58a6eb13e185eccfd6e82d10e5f20278053dad4508e3fe949c3dd7774",
+        "highrate.npz": "226b2dac68f5e50656cd2f801b658d5365ce719183333bca664547931feee0c8",
+        "samples.json": "ec207be06284b29c2dd59d5d7c782af117396dfc6ddcc84c4bf0be7a8d43f3b8",
+        "references.json": "9bde3a7a08c33d240aaedd89821969613c30e7d989c8f010ba20d8746b5e33f5",
+        "scene.xml.json": "4ee3b15cf6efa8ce3abd885af4182f9fd1fb467d6dd99478f30c99836791f55d"
+      },
+      "model_xml_sha256": "da7070da0bbbd6d125e095370b78bf7fd1e22246d4c68a26327e9d66295aa0a1",
+      "original_action_sha256": "76c3f440e561b1b9a07492f6d77e8ed292d8385cf3cdcfb8fcb1e758d51d7af7",
+      "original_decision_time_s": 1.2,
+      "first_predicted_violation_offset_tick": 198,
+      "first_predicted_violation_absolute_s": 1.596,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.45595554400793187,
+            -0.03736212395793985,
+            0.4399650140570842
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -3.4985942915767565e-05,
+          "penetration_m": 3.4985942915767565e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.45590981226149374,
+            -0.043361949560258496,
+            0.4399655948172437
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -3.4405182756281605e-05,
+          "penetration_m": 3.4405182756281605e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4552370201173243,
+            -0.13161651789547335,
+            0.43997413780282413
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -2.5862197175881285e-05,
+          "penetration_m": 2.5862197175881285e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4551912883708862,
+            -0.137616343497792,
+            0.4399747185629836
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -2.528143701639532e-05,
+          "penetration_m": 2.528143701639532e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.05344283107478079,
+      "arm_joint_q_at_violation": [
+        -0.2251004053846369,
+        2.2036024966463392,
+        1.5069666113413147,
+        -0.8796064219056859,
+        0.001401662570308703,
+        -0.21747401298529945
+      ],
+      "arm_joint_margin_lower_rad": [
+        1.8698995946153631,
+        2.204602496646339,
+        1.5079666113413148,
+        0.7923935780943142,
+        1.6734016625703088,
+        1.8775259870147005
+      ],
+      "arm_joint_margin_upper_rad": [
+        3.3676904053846366,
+        1.4623975033536607,
+        1.7340333886586854,
+        2.551606421905686,
+        1.6705983374296915,
+        2.312474012985299
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -6.997188583157676e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -5.1724394351804204e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.01643453879868162,
+      "request_point_at_first_violation": 7,
+      "request_XYZ_m": [
+        0.44112152799316784,
+        -0.0891890406620536,
+        0.4611197193905955
+      ],
+      "request_rotation": [
+        [
+          0.0016972224218998466,
+          0.0017995052576376554,
+          0.9999969406037592
+        ],
+        [
+          -0.0017474469545470989,
+          0.9999968594329174,
+          -0.00179653929634391
+        ],
+        [
+          -0.9999970329281941,
+          -0.001744392481638876,
+          0.001700361631641127
+        ]
+      ],
+      "request_gripper_fraction": 0.9873522520065308,
+      "request_minus_predecision_XYZ_m": [
+        0.006977523077815517,
+        -0.008858924867199705,
+        -0.015346072828334001
+      ],
+      "request_minus_predecision_SO3_rad": 0.011158350258445124,
+      "predecision_gripper_fraction": 0.9920929091858444,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 7,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.001000594339621741,
+          "actual_pose_actual_opening_static_clearance_m": 0.016434538798681564,
+          "requested_XYZ_only_static_clearance_m": 0.001088465970347563,
+          "requested_SO3_only_static_clearance_m": 0.01634648689943602,
+          "requested_gripper_only_static_clearance_m": 0.01643454431296787
+        },
+        {
+          "prefix_point": 7,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.0011644536741675093,
+          "actual_pose_actual_opening_static_clearance_m": 0.01643957357308684,
+          "requested_XYZ_only_static_clearance_m": 0.00109350074475284,
+          "requested_SO3_only_static_clearance_m": 0.01651107395585505,
+          "requested_gripper_only_static_clearance_m": 0.016439556826876534
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B1-F1-000-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "04bd8878f17982f34e1bfe9a46bc6f3d0f5ddc6eb6d7d7636817419f17f95dee",
+        "RESULT.json": "9974fca53ef9e4363ea2d3b934266c28b28ecf6699d5a8a7c4f658fbbdea6bb3",
+        "MP1_ADJUDICATION.json": "b185b0b0127730910a69ce43170aa48ad7f58c770310b46b625ce29432f50958",
+        "FILE_MANIFEST.json": "96fb0d8a426e7e5a98cbb02308352df23b3ae2de2196438b4f042f54422167d5",
+        "SCORE.json": "49ae4b6231cc97502aae0f9787f2d8c58a11f2489e48c4362c8d9d8f14aad986",
+        "S1_PREFLIGHTS.json": "9777510639fe40172ebda4b2656e22d0c937712f8b1defc3ddf7312f09f5d188",
+        "S1_RESULT.json": "affb070cd5d9e58c73411b6c283189174fb4e1c1e70289b8de7cca09d219842b",
+        "physics.npz": "41bec0734d7a94ae9916344d2c9927aaa594721f21ccf916d098f4e1b449c69f",
+        "highrate.npz": "396f1cbc728f8758819b37bd5134fe72cbd443abc32261862f00d898e8429816",
+        "samples.json": "f611bc587d5c3ebe5ece0c27e9fbecfa45ea90b69acc40fce1ae81866688c032",
+        "references.json": "43d6582300023115a00c8b554063af6769bd738d896811306a706915710e66b3",
+        "scene.xml.json": "4ee3b15cf6efa8ce3abd885af4182f9fd1fb467d6dd99478f30c99836791f55d"
+      },
+      "model_xml_sha256": "da7070da0bbbd6d125e095370b78bf7fd1e22246d4c68a26327e9d66295aa0a1",
+      "original_action_sha256": "56a5d7971c9b42c12ccbf7a69b53a77500ea4a49e65cea18fad7d03ef5e91140",
+      "original_decision_time_s": 18.400000000000002,
+      "first_predicted_violation_offset_tick": 111,
+      "first_predicted_violation_absolute_s": 18.622000000000003,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4306113334007744,
+            0.0229215525596101,
+            0.4399923521813196
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -7.647818680389285e-06,
+          "penetration_m": 7.647818680389285e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.04632649105300333,
+      "arm_joint_q_at_violation": [
+        0.020062101774729127,
+        2.1507319785137633,
+        1.418875772850799,
+        -0.860767912281363,
+        0.012214087705374303,
+        -1.7150603757596674
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.115062101774729,
+        2.151731978513763,
+        1.4198757728507991,
+        0.8112320877186372,
+        1.6842140877053744,
+        0.37993962424033256
+      ],
+      "arm_joint_margin_upper_rad": [
+        3.1225278982252704,
+        1.5152680214862366,
+        1.822124227149201,
+        2.532767912281363,
+        1.659785912294626,
+        3.810060375759667
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 0.00015318813614534355,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -1.529563736080153e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.004287982274865876,
+      "request_point_at_first_violation": 4,
+      "request_XYZ_m": [
+        0.4301143166255719,
+        0.003699199178078626,
+        0.46139179428875926
+      ],
+      "request_rotation": [
+        [
+          -0.013384994643593717,
+          -0.9857529402285334,
+          -0.16766628387720778
+        ],
+        [
+          -0.012982152635288735,
+          -0.16749585087877564,
+          0.9857873014252867
+        ],
+        [
+          -0.9998261377016232,
+          0.01537142703838573,
+          -0.010555264063894891
+        ]
+      ],
+      "request_gripper_fraction": 0.0,
+      "request_minus_predecision_XYZ_m": [
+        0.001958196904519982,
+        -0.004276378884232788,
+        -0.004009924292998401
+      ],
+      "request_minus_predecision_SO3_rad": 0.010341001037665708,
+      "predecision_gripper_fraction": 0.004201311564407988,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 4,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.0012513389865729252,
+          "actual_pose_actual_opening_static_clearance_m": 0.005217459023389437,
+          "requested_XYZ_only_static_clearance_m": 0.0012075347303910355,
+          "requested_SO3_only_static_clearance_m": 0.005261365787354311,
+          "requested_gripper_only_static_clearance_m": 0.005217358103440317
+        },
+        {
+          "prefix_point": 4,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.0011430022243327231,
+          "actual_pose_actual_opening_static_clearance_m": 0.0051052056360500475,
+          "requested_XYZ_only_static_clearance_m": 0.0010952813430516462,
+          "requested_SO3_only_static_clearance_m": 0.005147345971546424,
+          "requested_gripper_only_static_clearance_m": 0.005110699739818203
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B1-F1-001-T1",
+      "task": "T1",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "c7dbb8c91a04ec49700ee71e1fda18149f37adb4f4a910663d6ea64c1aecdf55",
+        "RESULT.json": "d5e8e2553a233c89d5bdb1bd8dd845f4d8f31746ca72821282fae3554fc115c6",
+        "MP1_ADJUDICATION.json": "2b945274b93fa2c7986222357c0199c199a1442a07d4900a3f7e3bb67899bc1a",
+        "FILE_MANIFEST.json": "db65b6db678176a3f7c607b3e9f80ae06076454491d12f1a991be33b7cf44b8f",
+        "SCORE.json": "5da567d5a543aab4cd797f578d2544327c4988c99ca7df89af446454a39cf3e4",
+        "S1_PREFLIGHTS.json": "28a7e659966f73818f573e0d1ab78e6071c2a89f9e061832eacfdc0194e4b610",
+        "S1_RESULT.json": "250ca47e51210a19b99ea91868c2a4333d4a140c582fc06fac8b81b28ac86285",
+        "physics.npz": "706f67d53ee67891d0de2e6cf96ebf1bbc83f62f66bc525dd9d1046b25911c13",
+        "highrate.npz": "431f5df084e433e995e4a7cc08d1ac49c2ee1226809a0e8714f81a4b6e564d33",
+        "samples.json": "9db30f99416e0650ad184e016d75dcb8bd16dd401284369b49d58071c1b25a51",
+        "references.json": "8ee3a141a05a82af58a36c9f1ccf4c81f0152107810f27cf4caf5d34ae47ea04",
+        "scene.xml.json": "93ee954612d86ea61152fcf1f72b20d7dc4e130b5bdb9d2d6b9fe628e2703ea9"
+      },
+      "model_xml_sha256": "0f3f6e5f15f7dbc322f752b1d03b03aa113e09eed6ab2860f2dfe7a4c395e3c3",
+      "original_action_sha256": "7292cfc6893efff8c18eb92fcfa6c70626f61521ede49b08868dca0fae2c968c",
+      "original_decision_time_s": 11.200000000000001,
+      "first_predicted_violation_offset_tick": 39,
+      "first_predicted_violation_absolute_s": 11.278,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.44596819692693507,
+            -0.13564404291640086,
+            0.4399776175733532
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -2.238242664677011e-05,
+          "penetration_m": 2.238242664677011e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.44601462529555036,
+            -0.12964422672435488,
+            0.4399811555194598
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.884448054018186e-05,
+          "penetration_m": 1.884448054018186e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.03749374211855802,
+      "arm_joint_q_at_violation": [
+        -0.24676315281580743,
+        2.1795147661740093,
+        1.466673022609809,
+        -0.8652231551367865,
+        0.0005574218033779062,
+        -0.2390272248885214
+      ],
+      "arm_joint_margin_lower_rad": [
+        1.8482368471841926,
+        2.180514766174009,
+        1.4676730226098091,
+        0.8067768448632137,
+        1.672557421803378,
+        1.8559727751114785
+      ],
+      "arm_joint_margin_upper_rad": [
+        3.3893531528158074,
+        1.4864852338259906,
+        1.774326977390191,
+        2.5372231551367865,
+        1.6714425781966222,
+        2.334027224888521
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 4.606683268432166e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -4.476485329357738e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.0014410547682651709,
+      "request_point_at_first_violation": 1,
+      "request_XYZ_m": [
+        0.42890719763140905,
+        -0.09407134393923607,
+        0.45893507621560914
+      ],
+      "request_rotation": [
+        [
+          -0.006937086544632987,
+          0.0058580063660214985,
+          0.9999587794462771
+        ],
+        [
+          0.0009173793675181915,
+          0.9999824573839728,
+          -0.005851780874846327
+        ],
+        [
+          -0.9999755173229837,
+          0.0008767472422636513,
+          -0.006942338864162366
+        ]
+      ],
+      "request_gripper_fraction": 0.9957594275474548,
+      "request_minus_predecision_XYZ_m": [
+        -0.0001419985226605025,
+        0.0009079693804376482,
+        -0.003380774811325704
+      ],
+      "request_minus_predecision_SO3_rad": 0.0013256368273413183,
+      "predecision_gripper_fraction": 0.7241092013261319,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 1,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.001142016009034852,
+          "actual_pose_actual_opening_static_clearance_m": 0.0022439341126008205,
+          "requested_XYZ_only_static_clearance_m": -0.0011368406987248836,
+          "requested_SO3_only_static_clearance_m": 0.0022281847595805315,
+          "requested_gripper_only_static_clearance_m": 0.00226164023601777
+        },
+        {
+          "prefix_point": 1,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.0012250212105858194,
+          "actual_pose_actual_opening_static_clearance_m": 0.0021400376826792855,
+          "requested_XYZ_only_static_clearance_m": -0.0012407371286464186,
+          "requested_SO3_only_static_clearance_m": 0.002166138393659145,
+          "requested_gripper_only_static_clearance_m": 0.002122648456049092
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B1-F1-001-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "0775053ed1d708420519113aaa32ce3c302d4980c42556a708251539104a700e",
+        "RESULT.json": "871dbbd0e9f2efbbdc4ceeff41571b5c6066bcbe6343c79488d4fe1a01da3aa2",
+        "MP1_ADJUDICATION.json": "f3e25c9124f32d25697547198536d382d4918d58a417ec2389f8d2c7e5f132cf",
+        "FILE_MANIFEST.json": "51d1ebca78a1f6db9b17b2d1feb1ac738e2115041f03200300e90b8ed2546929",
+        "SCORE.json": "c083fa826b447d34354c09b2a0b9ce114bd2e24fc48caa7b41c819dd7deffe72",
+        "S1_PREFLIGHTS.json": "e9a126a002877b8214a8ddfe4ed8089b3578dcbc1462a0048f555fdde4f12ac8",
+        "S1_RESULT.json": "e6d47a719b0ccfd81a7b33b63672d5db15a6a6d7e261a229a552cafa0afc0e26",
+        "physics.npz": "e6160b20b18d37bf60714454df4327e8730cff6d0e1d047738457ee3331f6840",
+        "highrate.npz": "2a8af3f101ef81252e602863a2acc748373f065cc9df083f507efaeb48ce2c07",
+        "samples.json": "7ee0903560cc3bd88c9434aabc9d78a742b12d7d6c91dc5ce16f71116af1587a",
+        "references.json": "82a2c1de084cf487cfb3abcf2cae056f048af99a0ea903c924789a5f0d1f6c9e",
+        "scene.xml.json": "93ee954612d86ea61152fcf1f72b20d7dc4e130b5bdb9d2d6b9fe628e2703ea9"
+      },
+      "model_xml_sha256": "0f3f6e5f15f7dbc322f752b1d03b03aa113e09eed6ab2860f2dfe7a4c395e3c3",
+      "original_action_sha256": "c19262dd4b0d0c142c6459c2a73afa3898fc858720f9da7e54ec1d6b759cd9f1",
+      "original_decision_time_s": 14.8,
+      "first_predicted_violation_offset_tick": 56,
+      "first_predicted_violation_absolute_s": 14.912,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.43975395858949207,
+            0.07366311868806759,
+            0.4399784292982613
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -2.157070173869287e-05,
+          "penetration_m": 2.157070173869287e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4319847596913093,
+            0.040562672458831925,
+            0.43997983517461964
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -2.0164825380338216e-05,
+          "penetration_m": 2.0164825380338216e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.1338552645075456,
+      "arm_joint_q_at_violation": [
+        0.14472596011038938,
+        2.1750420000498556,
+        1.4587286901384902,
+        -0.8389254676214513,
+        0.006217237809753675,
+        1.9460158812534722
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.239725960110389,
+        2.1760420000498555,
+        1.4597286901384903,
+        0.8330745323785489,
+        1.6782172378097537,
+        4.041015881253473
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.9978640398896106,
+        1.4909579999501443,
+        1.78227130986151,
+        2.510925467621451,
+        1.6657827621902466,
+        0.1489841187465275
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 9.019247409969289e-05,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -4.314140347738693e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.003475033287022533,
+      "request_point_at_first_violation": 2,
+      "request_XYZ_m": [
+        0.43013755397175485,
+        0.05418847737439086,
+        0.4566034595433332
+      ],
+      "request_rotation": [
+        [
+          0.02011351231447855,
+          0.9635418922696801,
+          -0.26680042815509014
+        ],
+        [
+          -0.006322754504992367,
+          -0.26672648986735903,
+          -0.9637515252275908
+        ],
+        [
+          -0.9997777099924989,
+          0.02107134177981412,
+          0.000727432301552226
+        ]
+      ],
+      "request_gripper_fraction": 0.0,
+      "request_minus_predecision_XYZ_m": [
+        -0.01377081231883498,
+        0.00033719597600893186,
+        -0.009505753286211005
+      ],
+      "request_minus_predecision_SO3_rad": 0.04820493603632942,
+      "predecision_gripper_fraction": -0.000410376135037695,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 2,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.0033557861333885497,
+          "actual_pose_actual_opening_static_clearance_m": 0.006094150942083043,
+          "requested_XYZ_only_static_clearance_m": -0.003411602344127962,
+          "requested_SO3_only_static_clearance_m": 0.006148903629257796,
+          "requested_gripper_only_static_clearance_m": 0.006095402248888326
+        },
+        {
+          "prefix_point": 2,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.0035042970229958725,
+          "actual_pose_actual_opening_static_clearance_m": 0.005920313771238805,
+          "requested_XYZ_only_static_clearance_m": -0.0035854395149721996,
+          "requested_SO3_only_static_clearance_m": 0.0060011536911208085,
+          "requested_gripper_only_static_clearance_m": 0.005920669767601527
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B1-F1-002-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "TCP_velocity",
+      "original_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+      "original_files_sha256": {
+        "CARD.json": "525a3b751bbc1ff5b5145c475ae89da4c0799908eb0589fb89a03d4eb071edcd",
+        "RESULT.json": "7da7a67657904a9281de43709a26b44b75a41f3e05a6740e4f840d0e0295ff54",
+        "MP1_ADJUDICATION.json": "c2955b4cb26f72ebc17813a26c45ae16f20c71adea0453a5dab16a024b206c1e",
+        "FILE_MANIFEST.json": "c36c9e2bb6437d2190a72939f3952643f08379533e6b407481a74072a0363786",
+        "SCORE.json": "45431d66fdab28fab074752b9a0e0217cb2f5d4cf00849472280e29c34df7f8e",
+        "S1_PREFLIGHTS.json": "9eee57cb9068c3bacb6493c2311e70793e7bad708413c079139fe25d1dd16416",
+        "S1_RESULT.json": "c910b5f861bd046491404794bfb526ac421f22ae732f8558e1bc266f22b6eba7",
+        "physics.npz": "7355fbdb367b151eb4ca5dc3acd1c7929bc3743c0d5f83a32a110472f84d1cd4",
+        "highrate.npz": "2c77bc326e98eb31e3fb201e9a6bcf279bce9cdbe4fd9840eaa17f9482ab6d45",
+        "samples.json": "f209fd05ab934438bda2a79876223a503fd6ea05bc4afbc3c34450e96de11607",
+        "references.json": "edd20f463b72616f67590812a4a9f924317cb925d31a3b082e755865757f68c0",
+        "scene.xml.json": "dec14b69f64d4fbf007e48b0b77ebea087880780b11bf2ddeedc9b198ef03cbd"
+      },
+      "model_xml_sha256": "d00bec40f976b16b18049a6357fc9a20b77f8cd7ee8b2a98b38a559e3677f15d",
+      "original_action_sha256": "19ed1a34bbc3502cc7cda91ed37afcb6b3fb95b015c3e9ab4abba43e5f02094a",
+      "original_decision_time_s": 26.0,
+      "first_predicted_violation_offset_tick": 193,
+      "first_predicted_violation_absolute_s": 26.386,
+      "original_native_rule_categories": [
+        "TCP_VELOCITY"
+      ],
+      "first_illegal_pairs": [],
+      "TCP_linear_speed_m_s": 0.40221174643305513,
+      "arm_joint_q_at_violation": [
+        0.19478289475326963,
+        2.6055810230358714,
+        2.761501119163252,
+        -1.6524347820015617,
+        0.029557235302830612,
+        -1.7305949832359735
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.2897828947532695,
+        2.6065810230358712,
+        2.762501119163252,
+        0.01956521799843846,
+        1.7015572353028308,
+        0.3644050167640265
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.94780710524673,
+        1.0604189769641286,
+        0.47949888083674796,
+        3.324434782001562,
+        1.6424427646971695,
+        3.8255949832359732
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 0.12615306883473537,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": 0.13256772737894224,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.009502762904387951,
+      "request_point_at_first_violation": 7,
+      "request_XYZ_m": [
+        0.5174291249879871,
+        0.0860174753315551,
+        0.6140920630547932
+      ],
+      "request_rotation": [
+        [
+          0.030761072819319335,
+          -0.9360063762437377,
+          -0.3506363073471871
+        ],
+        [
+          -0.024014827138445716,
+          -0.35139315574476143,
+          0.9359199421816209
+        ],
+        [
+          -0.9992382320930856,
+          -0.02036943118509636,
+          -0.03328726177805137
+        ]
+      ],
+      "request_gripper_fraction": 0.9807470440864563,
+      "request_minus_predecision_XYZ_m": [
+        0.004942099339522388,
+        0.0011686494955296528,
+        0.0033227564327460435
+      ],
+      "request_minus_predecision_SO3_rad": 0.037827283935845175,
+      "predecision_gripper_fraction": 0.995853541615767,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 7,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.15249314224615224,
+          "actual_pose_actual_opening_static_clearance_m": 0.14824249374427528,
+          "requested_XYZ_only_static_clearance_m": 0.15156525017702133,
+          "requested_SO3_only_static_clearance_m": 0.1491507261884532,
+          "requested_gripper_only_static_clearance_m": 0.14827846335735956
+        },
+        {
+          "prefix_point": 7,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.15439470815522732,
+          "actual_pose_actual_opening_static_clearance_m": 0.15177117471329143,
+          "requested_XYZ_only_static_clearance_m": 0.15509393114603748,
+          "requested_SO3_only_static_clearance_m": 0.15107937064457294,
+          "requested_gripper_only_static_clearance_m": 0.15175760091634577
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B2-F1-003-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "887e65629291f16f73863e2b111123007542d268",
+      "original_files_sha256": {
+        "CARD.json": "59e11fd0af621c54d220698e97d6a50689b9d2079384486a21563acc9f26f4b9",
+        "RESULT.json": "3c25999039d2520e9f223208bb9b179595f25b084c47d0b2d19be2d4e4944b33",
+        "MP1_ADJUDICATION.json": "69fb87ca0f6625866b7db9cc19c34e0f378d24ab3115d756b83fb5148f754ecf",
+        "FILE_MANIFEST.json": "c9d6f9f3b7d9721c7ca07c039d88ccf6d5f30b0d3b10e03120b9714f54a37b32",
+        "SCORE.json": "779f410b319c3875e65fb8dade0518e4effc0f5ccffa94cced16b5b522553bde",
+        "S1_PREFLIGHTS.json": "96c6a3a0c6db0b2d36de51ded7182cbf47e18c3e2a658817cf7210f468f8fad5",
+        "S1_RESULT.json": "1b2a01fec41c89b3e9179df79354a4c945d4bcd67df5b2e156e87f24c72fc33e",
+        "physics.npz": "b7efa8990655237c43b24f49478e78604258e3b5fcfe3a280fa7563de3fbc6d9",
+        "highrate.npz": "a8cbdbcf2a4f538f9efe195cb5aaaa682f61934a68d27f1d5e5eea841d071527",
+        "samples.json": "21a8662daabc565c620202adf7d33b9171fbd3c8b177b8866f1b294c224fe0f1",
+        "references.json": "83becbed9da29517024920bf7b2e95340a3b57bd8aca50c363f06e714a3147f1",
+        "scene.xml.json": "da46367011abee19f8bcb3841b31cfdc2386898e68ef537ea48212b235567a49"
+      },
+      "model_xml_sha256": "e0d470d9658cf4e264bb2690a2163433ed1b1040acf99393124de4fa11a8993f",
+      "original_action_sha256": "a9fa1c961e37a3a1c093c4eabd88aeaffdf6279d3667f4d923b8f09d23fac170",
+      "original_decision_time_s": 20.0,
+      "first_predicted_violation_offset_tick": 127,
+      "first_predicted_violation_absolute_s": 20.254,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.4560873505511719,
+            -0.056215243681703574,
+            0.43999828550927816
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.7144907218064202e-06,
+          "penetration_m": 1.7144907218064202e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.06691523420907615,
+      "arm_joint_q_at_violation": [
+        -0.09919136156942857,
+        2.2042718926739537,
+        1.5082535232047938,
+        -0.8807110081802041,
+        -0.000545193649541033,
+        1.442579614651247
+      ],
+      "arm_joint_margin_lower_rad": [
+        1.9958086384305713,
+        2.2052718926739536,
+        1.509253523204794,
+        0.7912889918197961,
+        1.671454806350459,
+        3.537579614651247
+      ],
+      "arm_joint_margin_upper_rad": [
+        3.241781361569428,
+        1.4617281073260462,
+        1.7327464767952063,
+        2.5527110081802045,
+        1.6725451936495412,
+        0.6524203853487527
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -3.4289814436205823e-06,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": 4.423633769579105e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.00399777475516655,
+      "request_point_at_first_violation": 5,
+      "request_XYZ_m": [
+        0.44594650819127424,
+        -0.03791693133812157,
+        0.4622037573152997
+      ],
+      "request_rotation": [
+        [
+          -0.00040714969279276325,
+          0.9995830660506999,
+          0.028870890076506735
+        ],
+        [
+          0.0009900072257015837,
+          0.02887128123423655,
+          -0.9995826474112017
+        ],
+        [
+          -0.9999994270572463,
+          -0.00037839737802626994,
+          -0.0010013493913641892
+        ]
+      ],
+      "request_gripper_fraction": 0.0,
+      "request_minus_predecision_XYZ_m": [
+        -0.004129564880294534,
+        0.007865632615239232,
+        -0.0020257960146670695
+      ],
+      "request_minus_predecision_SO3_rad": 0.008914336044097339,
+      "predecision_gripper_fraction": -0.00017974302143713161,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 5,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.0021836012521553316,
+          "actual_pose_actual_opening_static_clearance_m": 0.0041960718302658795,
+          "requested_XYZ_only_static_clearance_m": 0.00217027581559881,
+          "requested_SO3_only_static_clearance_m": 0.004209396917555452,
+          "requested_gripper_only_static_clearance_m": 0.0041960712928647
+        },
+        {
+          "prefix_point": 5,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.0021862682970105185,
+          "actual_pose_actual_opening_static_clearance_m": 0.0041919777379585965,
+          "requested_XYZ_only_static_clearance_m": 0.002166181723291527,
+          "requested_SO3_only_static_clearance_m": 0.004212057977153294,
+          "requested_gripper_only_static_clearance_m": 0.0041919679913138275
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B2-F2-000-T2",
+      "task": "T2",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "joint_limit",
+      "original_source_sha": "887e65629291f16f73863e2b111123007542d268",
+      "original_files_sha256": {
+        "CARD.json": "340f1fae974a4159967a9e776edea5f4bddd3a472594c1e49d6f508b31b50cbd",
+        "RESULT.json": "36cd9d135cb6fd02bcd8999b87ce8f9a11c946efbf10e70a8e75591b4b52b071",
+        "MP1_ADJUDICATION.json": "f427f0291c19b1727957d3e89f9729e21f2aa94476060e76c648fcbe65567fb7",
+        "FILE_MANIFEST.json": "5b9f8be0e0f81199f78a19e95aa38366cdfa002dbd6d2899eeb4b34d7dc43d9f",
+        "SCORE.json": "05b49f0008b4888c7b473304e08aa28c1f2e411754596a813d39a2c8b3fb3a38",
+        "S1_PREFLIGHTS.json": "7c5027f564e7650d62913f7e913ca87dcd71ed540c19a1468be7f377242c4f02",
+        "S1_RESULT.json": "7d2e804658a24eb2d927ae6aba4e4be1b1298305e7ff278a6f96c678bc4b3459",
+        "physics.npz": "d45752c1e4237dc9b2a1d6abf726811fd4334b2f8f614c845b7d9976cc3e9c2b",
+        "highrate.npz": "9f5ebef7bb38097885918035d18ca19bbbbdfae291d87bf97e8215f558311120",
+        "samples.json": "e574a265e40ffddaad56ddee3ce34e5a19179cd7df94a30669a725dd21d8be24",
+        "references.json": "0d3c2b11f7f1478392f098c24b8105ce701541012f4f6c99757626c91ab1e563",
+        "scene.xml.json": "3249702dcc4c5e918ae22fa7745d0ed531c7845be48ba9d6c77ac06a8b79129a"
+      },
+      "model_xml_sha256": "fbf9f472d16e2597acfbc426254d336a720de5b7c24cf4d2262c4d46b39904f9",
+      "original_action_sha256": "f2b2451e1789816a6619c116b4b2b858655705ac266ba31cc5cafcbd95f33f83",
+      "original_decision_time_s": 23.6,
+      "first_predicted_violation_offset_tick": 52,
+      "first_predicted_violation_absolute_s": 23.704,
+      "original_native_rule_categories": [
+        "JOINT_LIMIT"
+      ],
+      "first_illegal_pairs": [],
+      "TCP_linear_speed_m_s": 0.08875740711442516,
+      "arm_joint_q_at_violation": [
+        0.1401690464944026,
+        2.177069136667235,
+        1.4707759202105937,
+        -0.8582902374284298,
+        0.005269820539363699,
+        -1.5876250102657266
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.2351690464944025,
+        2.1780691366672347,
+        1.4717759202105938,
+        0.8137097625715703,
+        1.677269820539364,
+        0.5073749897342734
+      ],
+      "arm_joint_margin_upper_rad": [
+        3.002420953505597,
+        1.4889308633327651,
+        1.7702240797894064,
+        2.5302902374284297,
+        1.6667301794606364,
+        3.6826250102657263
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 0.0018141935718667401,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": 0.0018627329707977536,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.004905567389304699,
+      "request_point_at_first_violation": 2,
+      "request_XYZ_m": [
+        0.43239738239832914,
+        0.056873927279065865,
+        0.467822510416315
+      ],
+      "request_rotation": [
+        [
+          0.008563481383275532,
+          -0.9831209980358702,
+          -0.18275603959254763
+        ],
+        [
+          -0.004210941625535648,
+          -0.18279657475976177,
+          0.9831417396422173
+        ],
+        [
+          -0.9999544663419554,
+          -0.00764954097010895,
+          -0.00570524019844915
+        ]
+      ],
+      "request_gripper_fraction": 0.0,
+      "request_minus_predecision_XYZ_m": [
+        -0.0023398742451246624,
+        -0.006188368284508923,
+        0.0009462683203394495
+      ],
+      "request_minus_predecision_SO3_rad": 0.014944467941986424,
+      "predecision_gripper_fraction": 0.002068873316166869,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 2,
+          "side": "left",
+          "requested_static_box_clearance_m": 0.007662863750116655,
+          "actual_pose_actual_opening_static_clearance_m": 0.006709582658371183,
+          "requested_XYZ_only_static_clearance_m": 0.007655850978710632,
+          "requested_SO3_only_static_clearance_m": 0.006717206352421734,
+          "requested_gripper_only_static_clearance_m": 0.0067089395852029665
+        },
+        {
+          "prefix_point": 2,
+          "side": "right",
+          "requested_static_box_clearance_m": 0.007716778285398074,
+          "actual_pose_actual_opening_static_clearance_m": 0.006767800478925945,
+          "requested_XYZ_only_static_clearance_m": 0.0077140687992653945,
+          "requested_SO3_only_static_clearance_m": 0.0067725135696481975,
+          "requested_gripper_only_static_clearance_m": 0.006765691432285004
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B2-F2-001-T1",
+      "task": "T1",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "887e65629291f16f73863e2b111123007542d268",
+      "original_files_sha256": {
+        "CARD.json": "0225601deca2f00ff85e1f55ee6e88f0155fc1cd7a20c3fc7e29041127c41eb2",
+        "RESULT.json": "e3c921b53dce960bad2d5fb3cef4fb34a0a777fbe54594c0fb42ff4c0f9e24e7",
+        "MP1_ADJUDICATION.json": "7e8880cbadabca659a045a2067316ba680d347a654b4f7f7db4d60b8028a59bf",
+        "FILE_MANIFEST.json": "8ab8a9bacfdb7aa4a7ed4589f48c462d4089f873a769a47137a103dfce06c90b",
+        "SCORE.json": "400927de3840a29adcd7e3e0e91e0cec52f67cd1b0082ea61e54d26eb60ff82f",
+        "S1_PREFLIGHTS.json": "feb1f78178b1648d592cc0ced159b96143b86694093ba9c6f3e3be7eaf8dd0b0",
+        "S1_RESULT.json": "e11bacf9e156972756f5747501ef81dd73b11737e654bd542d3cea9845da54b9",
+        "physics.npz": "9498732dc83c4f60c2a52ef7da6526f828f4dd33d815562e7528b8afe99c72e8",
+        "highrate.npz": "490be72ad833262afe7401af65032a9e6adcef207722c0fce694d66db4f80cc0",
+        "samples.json": "30330f1b754a25d2682e5c7a8c02e8c8e96ee3fc9fb7cbea977b1d9e5b6f89fe",
+        "references.json": "aa4ae8257eaf78ec609b1b0c7c0386644bc5afbaf0893a3841c77c471fedc02e",
+        "scene.xml.json": "480f84a8b2ce8ce70be8beba2ca022419bb84d473a600d376ce059a073a11045"
+      },
+      "model_xml_sha256": "1e4175b9c721314db1b8c92cce9fb5f2833ffd912d37346a3c21b50cdcc8a650",
+      "original_action_sha256": "73c591e51b33e2c7c350743a65cbec00c1a504f5c9dc09bd3dac68b4e5f68a5a",
+      "original_decision_time_s": 9.6,
+      "first_predicted_violation_offset_tick": 169,
+      "first_predicted_violation_absolute_s": 9.937999999999999,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.48274668827234574,
+            0.05033828872599193,
+            0.4399757174988023
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -2.428250119764226e-05,
+          "penetration_m": 2.428250119764226e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.48254452036382817,
+            0.05633484797514741,
+            0.4399857836317921
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.4216368207912816e-05,
+          "penetration_m": 1.4216368207912816e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.44876599679967916,
+            0.04919263382357199,
+            0.4399802419879087
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -1.9758012091298553e-05,
+          "penetration_m": 1.9758012091298553e-05,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "table",
+            "right_pad"
+          ],
+          "body_ids": [
+            0,
+            26
+          ],
+          "body_names": [
+            "world",
+            "x5_link8"
+          ],
+          "position_world": [
+            0.4485638288911616,
+            0.05518919307272747,
+            0.4399903081208984
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -9.69187910156911e-06,
+          "penetration_m": 9.69187910156911e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.04328218289798791,
+      "arm_joint_q_at_violation": [
+        0.17857187765501423,
+        2.2792701882789803,
+        1.6373863124500778,
+        -0.9286914124131184,
+        -0.0033586571879224325,
+        0.1448705821164456
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.273571877655014,
+        2.28027018827898,
+        1.638386312450078,
+        0.7433085875868818,
+        1.6686413428120777,
+        2.2398705821164455
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.9640181223449855,
+        1.3867298117210196,
+        1.6036136875499223,
+        2.6006914124131186,
+        1.6753586571879227,
+        1.9501294178835542
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": 0.00011726631955527589,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": -4.856500239530659e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.0026218568379333673,
+      "request_point_at_first_violation": 6,
+      "request_XYZ_m": [
+        0.46449647711956626,
+        0.07627594506947372,
+        0.45887169264216043
+      ],
+      "request_rotation": [
+        [
+          -0.00228514858389578,
+          -0.040392647761850205,
+          0.9991812708926927
+        ],
+        [
+          0.004643089290977721,
+          0.9991726806867283,
+          0.040402919339244045
+        ],
+        [
+          -0.9999866098192443,
+          0.004731614532540699,
+          -0.002095711366081346
+        ]
+      ],
+      "request_gripper_fraction": 1.0,
+      "request_minus_predecision_XYZ_m": [
+        0.0011603300245910941,
+        -0.006591431601252237,
+        -0.004117993089081062
+      ],
+      "request_minus_predecision_SO3_rad": 0.006239510331868107,
+      "predecision_gripper_fraction": 0.43973491820077004,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 6,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.0009445457880170594,
+          "actual_pose_actual_opening_static_clearance_m": 0.0031296977688385907,
+          "requested_XYZ_only_static_clearance_m": -0.0009882953202424716,
+          "requested_SO3_only_static_clearance_m": 0.0030650937667608957,
+          "requested_gripper_only_static_clearance_m": 0.003341340364132195
+        },
+        {
+          "prefix_point": 6,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.0013942760765349171,
+          "actual_pose_actual_opening_static_clearance_m": 0.0027069226585651474,
+          "requested_XYZ_only_static_clearance_m": -0.001411070430515915,
+          "requested_SO3_only_static_clearance_m": 0.0028486478177173202,
+          "requested_gripper_only_static_clearance_m": 0.002462900347630692
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    },
+    {
+      "attempt_id": "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29202-B3-F2-002-T1",
+      "task": "T1",
+      "status": "QUALIFIED_ACTUAL_CAUSE_OF_ORIGINAL_PREDICTED_REJECTION",
+      "geometry_category": "table-pad",
+      "original_source_sha": "887e65629291f16f73863e2b111123007542d268",
+      "original_files_sha256": {
+        "CARD.json": "ca858711740966e966a1510f019c6bd198bca93b8cf92442053c60025153bbe5",
+        "RESULT.json": "476c4abc56351dc9be2a76ae94e53e1af9be8b902d74254013e474748cbd7523",
+        "MP1_ADJUDICATION.json": "4ca5369cb01b90e983491bda719e6264d9ba573512f4ccbad38407a5de4fa1e2",
+        "FILE_MANIFEST.json": "65146df6820b10993c583454d05722d69cfbd4ff8865f7596700013518860d61",
+        "SCORE.json": "3fe5d506d909c5429c446a0af8e1eac54b81a09ddbc9096d57bb8178c3beb896",
+        "S1_PREFLIGHTS.json": "bdcdd9a94c7596accffca79a228def991a46b84605034ba5e25e4a0a00db7ec0",
+        "S1_RESULT.json": "532062e617093a43de723541d2ab5c7affe5e53ddab66ad8c6874d7d5a5be524",
+        "physics.npz": "3b5d3b1856873409af0d7da09080a61b8af8ead658a25f0ed81cd089a64b3803",
+        "highrate.npz": "336ff23c6569b73d5f1c4dc0164ec83e82e87f017d6db5044ae4abbfc5dd87c5",
+        "samples.json": "9e93a960c6ebc4da4bcd680f7095151557f5c800285b2a9c856a19c867d87c1f",
+        "references.json": "e55912add880a04ed8b0ba40448869b0eef0af9a69dd807d9421be7464837d2e",
+        "scene.xml.json": "a03ef4bae1b3a530c988e5a350224975c826a90843d1e6e7147150bc5c9fdd34"
+      },
+      "model_xml_sha256": "8b93cb8579e709a4b74fd9c1bd1edfe2e33ca7782ad80888649c7b515d66febe",
+      "original_action_sha256": "f2c605eb10cb43a21960e23167238b7ff70825ebc82effc27863f8a57a8e6b6f",
+      "original_decision_time_s": 10.0,
+      "first_predicted_violation_offset_tick": 170,
+      "first_predicted_violation_absolute_s": 10.34,
+      "original_native_rule_categories": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "first_illegal_pairs": [
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.4674046213564442,
+            0.13044472337468235,
+            0.4399964025410938
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -3.5974589062126583e-06,
+          "penetration_m": 3.5974589062126583e-06,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        },
+        {
+          "geom_ids": [
+            1,
+            75
+          ],
+          "geom_names": [
+            "table",
+            "left_pad"
+          ],
+          "body_ids": [
+            0,
+            25
+          ],
+          "body_names": [
+            "world",
+            "x5_link7"
+          ],
+          "position_world": [
+            0.4675771631525437,
+            0.12444720893886292,
+            0.4399999352714925
+          ],
+          "normal_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "signed_distance_m": -6.472850746162296e-08,
+          "penetration_m": 6.472850746162296e-08,
+          "original_rule": "ARM_TABLE_OR_FLOOR",
+          "penetration_stop_m": 0.004
+        }
+      ],
+      "TCP_linear_speed_m_s": 0.01581707905359785,
+      "arm_joint_q_at_violation": [
+        0.20681579875836364,
+        2.2466162519676716,
+        1.5812414990165138,
+        -0.9134391268460622,
+        -0.0002463731462206552,
+        0.17805853189469806
+      ],
+      "arm_joint_margin_lower_rad": [
+        2.3018157987583634,
+        2.2476162519676715,
+        1.582241499016514,
+        0.7585608731539379,
+        1.6717536268537796,
+        2.273058531894698
+      ],
+      "arm_joint_margin_upper_rad": [
+        2.935774201241636,
+        1.4193837480323284,
+        1.6597585009834863,
+        2.5854391268460626,
+        1.6722463731462207,
+        1.9169414681053016
+      ],
+      "pad_clearance_at_first_violation": [
+        {
+          "side": "left",
+          "vertical_box_bottom_minus_table_top_m": -7.194917812425317e-06,
+          "projected_box_overlaps_table": true
+        },
+        {
+          "side": "right",
+          "vertical_box_bottom_minus_table_top_m": 8.913606675592378e-05,
+          "projected_box_overlaps_table": true
+        }
+      ],
+      "minimum_actual_history_pad_vertical_clearance_m": 0.0006203889382982442,
+      "request_point_at_first_violation": 6,
+      "request_XYZ_m": [
+        0.45203490722755724,
+        0.08520539797168201,
+        0.4599198438004967
+      ],
+      "request_rotation": [
+        [
+          -0.006855199849268524,
+          -0.027797652191281722,
+          0.9995900643602252
+        ],
+        [
+          -0.001079489254862162,
+          0.9996131757029252,
+          0.027790891746423265
+        ],
+        [
+          -0.9999759201790688,
+          -0.0008885346168327215,
+          -0.0068825553582564074
+        ]
+      ],
+      "request_gripper_fraction": 1.0,
+      "request_minus_predecision_XYZ_m": [
+        0.0003760614859258382,
+        -0.0010343720227158487,
+        -0.002072834532737322
+      ],
+      "request_minus_predecision_SO3_rad": 0.006623308491365644,
+      "predecision_gripper_fraction": 0.5399201515561654,
+      "passive_channel_static_clearance_at_trigger": [
+        {
+          "prefix_point": 6,
+          "side": "left",
+          "requested_static_box_clearance_m": -0.00024315797823704077,
+          "actual_pose_actual_opening_static_clearance_m": 0.0018681878034013666,
+          "requested_XYZ_only_static_clearance_m": -0.0002046467293359555,
+          "requested_SO3_only_static_clearance_m": 0.0018475580205295494,
+          "requested_gripper_only_static_clearance_m": 0.0018619851989054026
+        },
+        {
+          "prefix_point": 6,
+          "side": "right",
+          "requested_static_box_clearance_m": -0.0001587038517208983,
+          "actual_pose_actual_opening_static_clearance_m": 0.0018850046632122863,
+          "requested_XYZ_only_static_clearance_m": -0.00018782986952503578,
+          "requested_SO3_only_static_clearance_m": 0.00189603802232291,
+          "requested_gripper_only_static_clearance_m": 0.0018912805248207376
+        }
+      ],
+      "passive_channel_geometry_is_not_an_expert_substitution_or_causal_dynamic_trial": true,
+      "maximum_original_highrate_error": 0.0,
+      "maximum_original_EEF_observation_error": 0.0,
+      "full_native_IK_cache_copy_error": 0.0,
+      "original_unrecorded_hidden_state_bitwise_identity_claim": false,
+      "original_rejected_prefix_live_integrations": 0,
+      "predicted_not_actual_live_collision": true
+    }
+  ],
+  "original_archive_exact_geom_coverage": 0,
+  "archive_missing_marker": "FIRST_GEOMETRY_NOT_IN_ARCHIVE",
+  "all20_pairs_use_original_rule": "ARM_TABLE_OR_FLOOR_NOT_4MM_PENETRATION_THRESHOLD",
+  "original_actual_live_collisions": 0,
+  "no_new_case_retry_after_measurement_gap": true
+}

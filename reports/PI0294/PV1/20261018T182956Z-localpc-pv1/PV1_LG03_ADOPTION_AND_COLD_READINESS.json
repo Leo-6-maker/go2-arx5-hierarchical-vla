@@ -1,0 +1,152 @@
+{
+  "schema": "PI0294_PV1_LG03_ADOPTION_AND_COLD_READINESS_V1",
+  "status": "FAST_SCIENCE_GOAL_ADOPTED_B0_INCOMPLETE_TRAINING_BLOCKED",
+  "observed_at_SGT": "2026-10-19T23:53:01+08:00",
+  "goal_commit": "42faa3f7bce84877b1fd51c3c31de1d8686a15df",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "single_owner": "EXISTING_LOCAL_PC_COORDINATOR",
+  "B0": {
+    "required_valid_conditions": 48,
+    "valid_conditions": 12,
+    "successes": 8,
+    "valid_task_failures": 4,
+    "task_counts": {
+      "T1": {"valid": 6, "success": 4, "valid_task_failure": 2},
+      "T2": {"valid": 6, "success": 4, "valid_task_failure": 2}
+    },
+    "remaining_valid_conditions": 36,
+    "new_training_updates": 0,
+    "complete_baseline_admission": false,
+    "success_rate_is_not_the_training_gate": true,
+    "latest_native_job": {
+      "job_id": "675967.hopper-m-02",
+      "state": "F",
+      "exit_status": 1,
+      "allocated_H200_s": 3539,
+      "conservative_charged_H200_s": 3552,
+      "settled": true
+    },
+    "valid_evidence": [
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F0-000-T1-N294101","status":"VALID_TASK_FAIL","result_sha256":"1192252acbf6f0d1dbbd6277b3b8974ef4ec7c2cfeb7b0e9ec1204158bb9a4c9","audit_sha256":"cb94b07e6bc3e114868ceaacf47c45d51b8e7be1604f1c2e5afcaea0f5b8f629"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F0-000-T2-N294101","status":"SUCCESS","result_sha256":"8cf19659ee68811bd18b6bb0357812d7acbec51351d4015063530c74f847b474","audit_sha256":"a2742e99e759895005037966083362dd29a3e5b2c51c52f8f81d4b0fc0e4ed41"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F0-001-T1-N294101","status":"SUCCESS","result_sha256":"09e5bfe722196466dad3c9e5bc821f780ea0c236c9f1c0b46e08823cfe30d726","audit_sha256":"82c5d73c51ae62c2fb7ba1874fdaa671898a0d5071a171af70e1de9648d4eda7"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F0-001-T2-N294101","status":"SUCCESS","result_sha256":"a351bf1336c7014c69c82acd7eda99522d84fc648ab3f305655c9841747f8790","audit_sha256":"2d60c26d9965fc171f7240c1b98a50bec3e68f520a237987d5b4ec507e5e609b"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F1-000-T1-N294101","status":"SUCCESS","result_sha256":"e110408a4409ae88500df8367b4f32f1010a2279cce743b6b68ab00c0eac2152","audit_sha256":"05a9e14fe4c9abff2c5679ccd16071c781a8c6241d0116050b4166dcacb27a1b"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F1-000-T2-N294101","status":"SUCCESS","result_sha256":"2dd95745508ef0abde637ba73f2d88772af94e11a599c6c049111732af175a49","audit_sha256":"9884b8f8a70e4708a3a9d95090a1e2b616e0da15245418b3269d13ae48d31015"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F1-001-T1-N294101","status":"VALID_TASK_FAIL","result_sha256":"5e1f3c066caaa772412d78b34010549dee00976634c159d0ab71dcea2d5cf031","audit_sha256":"319ac9a11b1326a9c69d5ffcc36cd4e54d229da64e2375a040a6bf93314f5b85"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F1-001-T2-N294101","status":"VALID_TASK_FAIL","result_sha256":"86b8a82b7322cec21289be19307e3ecc48c64f524a50ec8a9e82c4641de8326d","audit_sha256":"a37f41f8f8d8f2e8e86b2a1d0b51a4ac3b26f21f602019eed798deaa7718b846"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F1-002-T1-N294101","status":"SUCCESS","result_sha256":"14c69baaf592098352cb3b61fb3cddba9abcecdadcc3fdaa57b9fbcc400b9009","audit_sha256":"f181ca68148b6e4d677cc319b40b55c6c9c9de67f93f0c92f684381e379502c6"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F1-002-T2-N294101-REPLACEMENT-01","status":"SUCCESS","result_sha256":"787920e1801b84b281d458ffe0fdc88bcc9fda7dc4f31a338ec42b50edb888a5","audit_sha256":"de44f8e0f6e29cf621a7868651316f0c6e979bf99640945bb17db380e8de0536"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F1-003-T1-N294101","status":"SUCCESS","result_sha256":"2a24fde7c2b8558f5dde03f818cc24ba148a804cf0f6c3e3d6d4482a887e433f","audit_sha256":"cd69286f1d34061884b272ca135e514d966955b38209df2862ae679b3ab63432"},
+      {"attempt_id":"B0_CORR-PI0294-PV1-DEV-F1-003-T2-N294101","status":"VALID_TASK_FAIL","result_sha256":"e6ec267e3405af56846f4edfe0ec6120eb77472ad6952d13f4ff099098e0e76b","audit_sha256":"d2f9f37b7460dfc4e15cc895b9654f5101644b83bcb0456c74ded3cfe5baaf57"}
+    ]
+  },
+  "engineering_closure": {
+    "attempt_id": "B0_CORR-PI0294-PV1-DEV-F1-004-T1-N294101",
+    "outcome_retained": "ENGINEERING_INCOMPLETE",
+    "native_safety_failure": false,
+    "root_cause": "BUFFERED_STDIN_PREFETCH_HIDDEN_FROM_FD_SELECT",
+    "request_sha256": "6ed2e7619673cada9a570d9165916983ac951cc6ae24b9cfe639e2224cd3b2e1",
+    "ack_sha256": "d62ef43ff03b9d069ce746fd1692880a1fd8e95bcc89858d77d98ec3d3e8ea73",
+    "abandoned_response_bytes": 770,
+    "abandoned_response_sha256": "b605fab3db0f752c9b55be5404feac7ac36dea50cae348355e753440da9f5212",
+    "reconstructed_response_sha256_matches_abandoned_stdout": true,
+    "replay_performed": false,
+    "repair": "RAW_FD_NEWLINE_FRAME_READER_WITH_INTERNAL_BUFFER_AND_MONOTONIC_DEADLINE",
+    "one_evidence_qualified_replacement_required": true
+  },
+  "cold_training_readiness": {
+    "status": "A_AND_B_PREPARED_NOT_SUBMITTED",
+    "private_acceptance_sha256": "619d78c2f2919511d84a0c379a26b2921e1a3561520230121b0a2842cd882283",
+    "parent_checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "HF_bank_revision": "e4f603a1b768018077a8b5c9640250be67500902",
+    "arms": {
+      "A_CONTROL": {"dataset_manifest_sha256":"4aa1d671fb4b1862af28ea9f9c39c3ca0df7f00eee92bcd512467b1da3e6311b","metadata_rows":160930,"fixed_TRAIN_probes_at1024":12,"sampler_cursor_at1024":32768,"target_updates":4096},
+      "B_COVERAGE": {"dataset_manifest_sha256":"bc4adae1dabff73f215b04f76c9b71c561251ca38ce6b5be63729c43d87448ca","metadata_rows":160930,"fixed_TRAIN_probes_at1024":12,"sampler_cursor_at1024":32768,"target_updates":4096}
+    },
+    "effective_batch": 32,
+    "microbatch": 2,
+    "gradient_accumulation_steps": 16,
+    "seed": 20261019,
+    "optimizer_state": "FRESH_IDENTICAL_PER_ARM",
+    "full_checkpoint_resume_files_verified": true,
+    "native_training_admission": "BLOCKED_BY_B0_12_OF_48",
+    "PBS_submissions_from_preparation": 0,
+    "model_loads_from_preparation": 0,
+    "optimizer_updates_from_preparation": 0
+  },
+  "provisional_runway": {
+    "classification": "SCIENCE_LOOP_FITS_CONSERVATIVE_H200_CAP_FINAL_REPLACEMENT_UPPER_DOES_NOT_YET_FIT",
+    "used": {"H200_s":14706,"H200_h":4.085,"PBS_submissions":4},
+    "assumptions": {
+      "observed_case_max_s": 890.8798307231627,
+      "case_headroom_multiplier": 1.25,
+      "case_upper_s": 1114,
+      "cold_job_overhead_s": 900,
+      "accounting_pad_s_per_job": 60,
+      "site_wall_limit_s": 28800,
+      "conditions_per_evaluation_job_upper": 25,
+      "training_rate_s_per_update_observed_slow_sample": 4.6509056767488985,
+      "training_rate_headroom_multiplier": 1.25,
+      "training_first_stage_per_arm_H200_s": 10860,
+      "training_resume_stage_per_arm_H200_s": 21660,
+      "queue_delay": "UNKNOWN_NOT_ZERO",
+      "last_observed_675967_queue_delay_s": 18549,
+      "last_observed_queue_delay_is_not_a_bound": true
+    },
+    "minimum_matched_science": {
+      "work": "B0_REMAINING36_PLUS_A_B_FOUR_TRAIN_STAGES_PLUS_A_B_DEV48",
+      "future_H200_s": 217848,
+      "future_H200_h": 60.513333333333335,
+      "total_including_used_H200_s": 232554,
+      "total_including_used_H200_h": 64.59833333333333,
+      "future_PBS_submissions": 10,
+      "total_PBS_submissions": 14,
+      "margin_before_20h_final_reserve_H200_s": 41046,
+      "queue_free_clock_fit": true,
+      "repeat_last_observed_queue_delay_projected_elapsed_h": 112.03833333333333,
+      "repeat_last_observed_queue_delay_is_not_a_guarantee": true
+    },
+    "conditional_LOCKBOX80_no_engineering_replacements": {
+      "future_H200_s": 310808,
+      "total_including_used_H200_s": 325514,
+      "total_including_used_H200_h": 90.42055555555555,
+      "total_PBS_submissions": 18,
+      "H200_cap_margin_s": 20086,
+      "H200_cap_fit": true,
+      "repeat_last_observed_queue_delay_projected_elapsed_h": 158.47055555555556,
+      "clock_fit_if_queue_delay_repeats": false
+    },
+    "conditional_LOCKBOX80_plus20_engineering_replacement_upper": {
+      "future_H200_s": 333088,
+      "total_including_used_H200_s": 347794,
+      "total_including_used_H200_h": 96.60944444444445,
+      "total_PBS_submissions": 18,
+      "H200_cap_shortfall_s": 2194,
+      "H200_cap_shortfall_h": 0.6094444444444445,
+      "admissible_now": false,
+      "required_action": "RECOMPUTE_FROM_ACTUAL_COSTS_AFTER_B0_AND_DEV_BEFORE_OPENING_LOCKBOX"
+    },
+    "site_project": {"name":"CFP04-CF-007","active":true,"member":true,"verified_at_SGT":"2026-10-19T23:54:09+08:00"},
+    "current_PV1_H200_jobs": 0,
+    "other_user_owned_H200_job_observed": true,
+    "other_job_not_modified": true
+  },
+  "verification": {
+    "targeted_file_RPC_and_control_tests_passed": 28,
+    "PI0294_tests_passed_excluding_missing_local_optional_dependencies": 882,
+    "PI0294_test_failures_due_missing_local_torch": 1,
+    "PI0294_collection_omitted_due_missing_local_safetensors": 1,
+    "GitHub_CI": "PENDING",
+    "new_PBS": 0,
+    "new_model_queries": 0,
+    "new_physics": 0,
+    "new_optimizer_updates": 0
+  },
+  "frozen": {"WBC":true,"plant":true,"gripper_PD":true,"S1":true,"scoring":true,"statistics":true},
+  "selected": "NONE",
+  "deployment": "NONE",
+  "next_legal_action": "PUBLISH_FIX_AND_CI_THEN_ONE_FRESH_COLD_B0_ALLOCATION_ONLY_IF_OWNER_LEASE_PROJECT_LEDGER_AND_RESOURCE_GATES_PASS"
+}

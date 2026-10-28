@@ -1,0 +1,208 @@
+{
+  "epoch": 1791490631.8322983,
+  "formal_DOSE_updates": 4,
+  "last": [
+    {
+      "arm": "REPAIR_A2048",
+      "phase": "main",
+      "work_kind": "formal",
+      "step": 4,
+      "consumed_chunks": 32,
+      "wall": 1791490629.2467523
+    }
+  ],
+  "canary_retirement": {
+    "status": "DELETED_CONSUMED_CANARY_PAYLOAD_SMALL_PROOFS_RETAINED",
+    "comparison_sha256": "4e9d5fc5a2a549143172b41a0fbf0de05e93a5d7013d9f6465d91c9f61a3fa70",
+    "entries": [
+      {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/continuous/checkpoint-8",
+        "files": {
+          "rng_state.pth": {
+            "bytes": 14709,
+            "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+          },
+          "model-00001-of-00002.safetensors": {
+            "bytes": 4993709288,
+            "sha256": "ce569b85a186d69a6b151c9df179f2297f2b465c56e85809e7a553827e61cda7"
+          },
+          "trainer_state.json": {
+            "bytes": 759,
+            "sha256": "f89e30f5d5ca18c1e16c0c9d1adad9822c5bcde17d1888e7ffc826d3d4b20c9a"
+          },
+          "processor_config.json": {
+            "bytes": 23145,
+            "sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3"
+          },
+          "PI0282_RECOVERY.json": {
+            "bytes": 67102,
+            "sha256": "8da0d4705f767e1826349a3b88b8a6cd69a8af2dfb89f6dda68af133d6a9e05f"
+          },
+          "embodiment_id.json": {
+            "bytes": 2146,
+            "sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+          },
+          "PI0282_SCOPE_PROOF.json": {
+            "bytes": 1681,
+            "sha256": "33d551941f3e792cfeed8d55ec0f9ef321d4446fdbc2c7f8f08e9cf35504e507"
+          },
+          "model-00002-of-00002.safetensors": {
+            "bytes": 4129471992,
+            "sha256": "ec172bac3f860bd5fc6bd8ae6cadd776c2f735527d357f32cdab2be59fde0308"
+          },
+          "model.safetensors.index.json": {
+            "bytes": 104912,
+            "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+          },
+          "training_args.bin": {
+            "bytes": 5969,
+            "sha256": "1673fcefcfb56e24a305068fd796e5b45df3a82955b9a86e8fbb822a612ea08e"
+          },
+          "statistics.json": {
+            "bytes": 4299523,
+            "sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81"
+          },
+          "config.json": {
+            "bytes": 2105,
+            "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+          },
+          "optimizer.pt": {
+            "bytes": 11340462437,
+            "sha256": "15dd98fcefc137d0eaa35a945c1e563c4105d4c61a869c50d9a1f212fd77c0b0"
+          },
+          "scheduler.pt": {
+            "bytes": 1465,
+            "sha256": "0db11f852422f8ab730d64cd92b3189856a085b1a7d41c7618512a7be7d257cb"
+          }
+        },
+        "bytes": 20468167233
+      },
+      {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/split/checkpoint-4",
+        "files": {
+          "model-00001-of-00002.safetensors": {
+            "bytes": 4993709288,
+            "sha256": "5d612ccd6b01de9b6b552b5e6ac00266d7b0254c82d527c7716a303a1c940e34"
+          },
+          "rng_state.pth": {
+            "bytes": 14709,
+            "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+          },
+          "trainer_state.json": {
+            "bytes": 760,
+            "sha256": "814f2ed0c5b9195b629c93c8d15529cf3aa6bf7a54d577e0c9d39d3e85cc7e2a"
+          },
+          "processor_config.json": {
+            "bytes": 23145,
+            "sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3"
+          },
+          "PI0282_RECOVERY.json": {
+            "bytes": 67102,
+            "sha256": "d76af0f0772f13e65e242ec7e6bd3aa2be35352747421dc8902084cd82e7f938"
+          },
+          "embodiment_id.json": {
+            "bytes": 2146,
+            "sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+          },
+          "PI0282_SCOPE_PROOF.json": {
+            "bytes": 1681,
+            "sha256": "bc34550320f1ec33dffd644817f40128c5ab885a32ab0eae634f3862e71fc731"
+          },
+          "model-00002-of-00002.safetensors": {
+            "bytes": 4129471992,
+            "sha256": "201289fbdc3e6a64153e67e10b90444ae69ee4958ec4e21a42108879fbaa3d92"
+          },
+          "model.safetensors.index.json": {
+            "bytes": 104912,
+            "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+          },
+          "training_args.bin": {
+            "bytes": 5905,
+            "sha256": "0fd0c66fb162f7255d7849f11bf4c2aac57dd57acde383f335851943219c6f80"
+          },
+          "statistics.json": {
+            "bytes": 4299523,
+            "sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81"
+          },
+          "config.json": {
+            "bytes": 2105,
+            "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+          },
+          "optimizer.pt": {
+            "bytes": 11340462437,
+            "sha256": "93ff2f6dc8bbdab08cdb370f7c2026c8f1dbf214bca016f06a71f07726b7aad9"
+          },
+          "scheduler.pt": {
+            "bytes": 1465,
+            "sha256": "72711785f4e991f0c95b934e9a033b606af6203f2e666943255f9462c1f60e63"
+          }
+        },
+        "bytes": 20468167170
+      },
+      {
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/split/checkpoint-8",
+        "files": {
+          "model-00001-of-00002.safetensors": {
+            "bytes": 4993709288,
+            "sha256": "ce569b85a186d69a6b151c9df179f2297f2b465c56e85809e7a553827e61cda7"
+          },
+          "rng_state.pth": {
+            "bytes": 14709,
+            "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+          },
+          "trainer_state.json": {
+            "bytes": 770,
+            "sha256": "8170f61b2f10cd86939bd79bc3df67fd4e333d48f8ce8eaf952579ee27bd2fe2"
+          },
+          "processor_config.json": {
+            "bytes": 23145,
+            "sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3"
+          },
+          "PI0282_RECOVERY.json": {
+            "bytes": 67102,
+            "sha256": "8da0d4705f767e1826349a3b88b8a6cd69a8af2dfb89f6dda68af133d6a9e05f"
+          },
+          "embodiment_id.json": {
+            "bytes": 2146,
+            "sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+          },
+          "PI0282_SCOPE_PROOF.json": {
+            "bytes": 1681,
+            "sha256": "33d551941f3e792cfeed8d55ec0f9ef321d4446fdbc2c7f8f08e9cf35504e507"
+          },
+          "model-00002-of-00002.safetensors": {
+            "bytes": 4129471992,
+            "sha256": "ec172bac3f860bd5fc6bd8ae6cadd776c2f735527d357f32cdab2be59fde0308"
+          },
+          "model.safetensors.index.json": {
+            "bytes": 104912,
+            "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+          },
+          "training_args.bin": {
+            "bytes": 5905,
+            "sha256": "1a51573d28967a23c7ebc17b0547bd94dd36b1fb4809a64382dec8cb71540dfe"
+          },
+          "statistics.json": {
+            "bytes": 4299523,
+            "sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81"
+          },
+          "config.json": {
+            "bytes": 2105,
+            "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+          },
+          "optimizer.pt": {
+            "bytes": 11340455909,
+            "sha256": "1629cdb89e28badab7e579e0e68d7c60284d85e46612e55d8e0d2b74a14d344a"
+          },
+          "scheduler.pt": {
+            "bytes": 1465,
+            "sha256": "0db11f852422f8ab730d64cd92b3189856a085b1a7d41c7618512a7be7d257cb"
+          }
+        },
+        "bytes": 20468160652
+      }
+    ]
+  },
+  "allocation_closed": false,
+  "main_tail": "ateVLDiT' object attribute is deprecated. Please access 'output_dim' over 'AlternateVLDiT's config object instead, e.g. 'unet.config.output_dim'.\n  self.proj_out_2 = nn.Linear(self.inner_dim, self.output_dim)\nTotal number of DiT parameters:  1091722240\nTotal number of SelfAttentionTransformer parameters:  201433088\n\nLoading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]\nLoading checkpoint shards:  50%|\u2588\u2588\u2588\u2588\u2588     | 1/2 [00:01<00:01,  1.83s/it]\nLoading checkpoint shards: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 2/2 [00:02<00:00,  1.04it/s]\nLoading checkpoint shards: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 2/2 [00:02<00:00,  1.09s/it]\n\n  0%|          | 0/2048 [00:00<?, ?it/s]Could not estimate the number of tokens of the input, floating-point operations will not be computed\n\n  0%|          | 1/2048 [00:27<15:48:08, 27.79s/it]\n  0%|          | 2/2048 [00:28<6:49:49, 12.02s/it] \n  0%|          | 3/2048 [00:29<3:57:41,  6.97s/it]\n  0%|          | 4/2048 [00:30<2:36:53,  4.61s/it]"
+}

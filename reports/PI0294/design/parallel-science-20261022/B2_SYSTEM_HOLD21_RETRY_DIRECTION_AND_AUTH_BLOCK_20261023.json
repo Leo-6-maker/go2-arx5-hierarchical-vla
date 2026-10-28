@@ -1,0 +1,41 @@
+{
+  "schema": "B2_SYSTEM_HOLD21_HUMAN_RETRY_DIRECTION_AND_NATIVE_AUTH_BLOCK_V1",
+  "observed_epoch": 1792744960.1517365,
+  "human_directive": "通过amgr login检查project额度并重试",
+  "retry_direction_received": true,
+  "old_job": "1480412.stdct-mgmt-02",
+  "old_native_F_Exit_minus3_preserved": true,
+  "old_job_restarted_or_requeued": false,
+  "new_request_or_registration_or_PBS_submitted": false,
+  "amgr": {
+    "actual_classification": "TOKEN_EXPIRED",
+    "project": "CFP04-CF-007",
+    "native_project_balance_available": true,
+    "supported_login": "amgr login",
+    "login_requires_masked_password": true,
+    "credential_not_in_chat_or_source": true,
+    "human_terminal_login_requested_once": true,
+    "current_classification": "SUCCESS",
+    "native_project_balance_sufficient_for_original_request": true,
+    "credential_saved": false
+  },
+  "remaining_admission": {
+    "full_original_matrix_and_final_work_retained": true,
+    "no_old_held_job_fee_assumed_zero": true,
+    "old_22560GPU_54000CPU_reservations_retained": true,
+    "old_GPU_and_CPU_leases_not_yet_closed": true,
+    "minimum_DEC1_PBS_with_one_new_retry_and_original_three_matrix": 15,
+    "minimum_global_PBS_with_one_new_retry_and_original_three_matrix": 26,
+    "current_approved_DEC1_PBS": 14,
+    "current_approved_global_PBS": 25,
+    "explicit_cap_increase_not_yet_recorded_or_natively_adopted": true,
+    "DEC1_GPU_headroom_before_failed_job_charge": 16781.0,
+    "all_other_caps_T0_deadlines_science_checkpoint_costs_unchanged": true
+  },
+  "next": "Fresh amgr project/query/balance after human masked login; exact original failure fee/accounting and lawful once closeout; concrete full-remaining-work retry scope and fresh native admission before any unique new request. No automatic qrls/qrerun/qsub, old UNKNOWN latches unchanged.",
+  "goal_complete": false,
+  "target_task_native_qualified": false,
+  "core64": 0,
+  "latest_authentication_status": "SUCCESS_NORMAL_MASKED_LOGIN_AND_FRESH_PROJECT_QUERY",
+  "initial_TOKEN_EXPIRED_is_history": true
+}

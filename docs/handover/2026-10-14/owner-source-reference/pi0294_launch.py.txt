@@ -1,0 +1,135 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Dispatch only registered, sealed PI0294 CPU stages; no PBS submission."""
+import argparse
+import time
+
+from pi0294_adopt import BASE, CUTOFF, DEADLINE, RUN, T0, remote, save
+
+CODE = r'''
+import hashlib,json,os,socket,subprocess,time
+from pathlib import Path
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def write(p,v):
+ with p.open('x') as f:json.dump(v,f,indent=2);f.write('\n');f.flush();os.fsync(f.fileno())
+ p.chmod(0o600)
+hopper=STAGE.startswith('hopper-cpu');host=socket.gethostname()
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN if hopper else Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text())
+source=root/manifest['code'].get('capsule_relative','code');env=dict(os.environ,PYTHONPATH=str(source/'src')+':'+str(source),CUDA_VISIBLE_DEVICES='',
+ HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',
+ OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',TOKENIZERS_PARALLELISM='false',NO_ALBUMENTATIONS_UPDATE='1')
+assert time.time()<CUTOFF
+if not hopper and PLAN=='formal-v3_0.json':
+ pilot=json.loads((root/'plans/frozen-pilot.json').read_text())
+ assert len(pilot['episodes'])==8
+ for row in pilot['episodes']:
+  worker=json.loads((root/'episodes'/row['id']/'WORKER_RECEIPT.json').read_text())
+  audit=json.loads((root/'episodes'/row['id']/'AUDIT.json').read_text())
+  assert worker['status']=='VALID_COMPLETE' and worker['score']['safety_valid']
+  assert audit['status']=='PASS_INDEPENDENT_RAW_AUDIT' and audit['admitted']
+directory=root/'evidence'/STAGE;directory.mkdir(exist_ok=False)
+if hopper:
+ assert host=='hopper-l-01' and not os.environ.get('PBS_JOBID')
+ binding=json.loads((root/'NEURAL_BINDINGS.private.json').read_text());python=binding['python']
+ ledger_path=root/'HOPPER_RESOURCE_LEDGER.json';ledger=json.loads(ledger_path.read_text())
+ assert all(ledger[k]==0 for k in ['GPU_allocated_s','model_loads','model_smoke_updates','main_updates'])
+ assert ledger.get('CPU_reserved_s',0)==0,'RECONCILE_PREVIOUS_CPU_ATTEMPT_FIRST'
+ ledger['CPU_reserved_s']=3600
+ temporary=ledger_path.with_name(ledger_path.name+'.reserved.'+str(os.getpid()));write(temporary,ledger);os.replace(temporary,ledger_path)
+ output=directory/'PI0294_NATIVE_CPU_QUALIFICATION.json'
+ command=[python,'-m','scripts.pi0294.native_train','--dataset',binding['dataset'],
+  '--source',binding['source'],'--cosmos',binding['cosmos'],'--raw-bindings',binding['raw_bindings'],
+  '--output',str(output),'--legacy-smoke']
+ # An own process group and timeout bound cover the processor/loader children.
+ command=['/usr/bin/timeout','--signal=TERM','--kill-after=10','600',*command]
+else:
+ assert host=='corelab-4080s'
+ entry=json.loads((root/'ENTRY_BINDING.private.json').read_text());python=entry['python']
+ sys=__import__('sys');sys.path[:0]=[str(source/'src'),str(source)]
+ from scripts.pi0294.scene_cards import scene_group,task_card
+ from scripts.pi0294.run_admission import validate
+ validate(root,profile='4080-simulation')
+ if PLAN:
+  plan_path=root/'plans'/PLAN;assert plan_path.resolve().is_relative_to(root/'plans')
+  plan=json.loads(plan_path.read_text());cards=[r['card'] for r in plan['episodes']]
+  freeze=json.loads((root/'evidence/SCENE_PLAN_FREEZE.json').read_text())
+  if PLAN in freeze['plans']:assert sha(plan_path)==freeze['plans'][PLAN],'PREFIRST_ATTEMPT_PLAN_CHANGED'
+ else:
+  group=scene_group('COMMISSIONING','F0',INDEX)
+  cards=[task_card(group,t) for t in ['T2','T1']]
+  plan=dict(schema='PI0294_COMMISSIONING_PLAN_V1',fixture=False,authorizes_execution=True,
+   kind='TEACHER_DEVELOPMENT',category='DEVELOPMENT_NOT_FORMAL_DATA',episodes=[dict(id=c['id'],card=c) for c in cards])
+  plan_path=root/'plans'/(STAGE+'.json');write(plan_path,plan)
+ attempts=dict(attempts={c['id']:dict(logical_id=c['id'],card=c) for c in cards})
+ if (root/'ATTEMPT_PLAN.json').exists():
+  prior=json.loads((root/'ATTEMPT_PLAN.json').read_text());write(directory/'PRIOR_ATTEMPT_PLAN.json',prior)
+  assert not set(prior['attempts']) & set(attempts['attempts'])
+  prior['attempts'].update(attempts['attempts']);attempts=prior
+  temporary=root/('ATTEMPT_PLAN.json.pending.'+str(os.getpid()));write(temporary,attempts);os.replace(temporary,root/'ATTEMPT_PLAN.json')
+ else:write(root/'ATTEMPT_PLAN.json',attempts)
+ binding=json.loads((root/'PRIVATE_ASSET_BINDING.json').read_text())
+ admission=dict(schema='PI0294_LIVE_ADMISSION_V1',status='LIVE_ADMITTED_ACTUAL_RUNTIME',fixture=False,
+  hostname=host,profile='4080-simulation',root=str(root),run_uuid=RUN,plan_sha256=sha(plan_path),
+  run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),source_seal_sha256=sha(root/manifest['code'].get('source_seal_relative','SOURCE_SEAL.json')),
+  source_sha=manifest['code']['vla_commit'],source_root=str(source),asset_root=binding['native_asset_root'],
+  T0_epoch=T0,cutoff_epoch=CUTOFF,deadline_epoch=DEADLINE,lease_expires_epoch=DEADLINE,
+  qualified_workers=1,qualification_basis='SERIAL_DEVELOPMENT_ONLY_NOT_PARALLEL_QUALIFIED',
+  allowed_cpus=list(range(16)),auxiliary_cpu_count=1,memory_limit_bytes=24*1024**3,
+  free_space_margin_bytes=10*1024**3,
+  limits=dict(physics_starts=400,physics_steps=6400000,rgb_pairs=256400,cpu_s=576000,output_bytes=192*1024**3),
+  prior_actual=json.loads((root/'LIVE_QUEUE.json').read_text())['actual'] if (root/'LIVE_QUEUE.json').exists() else
+   dict(physics_starts=0,physics_steps=0,rgb_pairs=0,cpu_s=180,
+        output_bytes=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())))
+ if plan['kind']=='PARALLEL_QUALIFICATION':
+  if WORKERS==4 and PLAN=='requal-f1fdf3ac-four.json':
+   prior=json.loads((root/'evidence/PARALLEL_TWO_ACTUAL_requal-f1fdf3ac.json').read_text())
+   assert prior['status']=='PASS_ACTUAL_PARALLEL_QUALIFICATION' and prior['qualified_workers']>=2
+   assert prior['source_sha']==manifest['code']['vla_commit'] and prior['faster_than_serial']
+  admission['diagnostic_workers']=WORKERS
+ elif WORKERS>1:
+  proof_path=root/PARALLEL_PROOF
+  assert proof_path.resolve().is_relative_to(root/'evidence') and not proof_path.is_symlink()
+  proof=json.loads(proof_path.read_text())
+  assert proof['status']=='PASS_ACTUAL_PARALLEL_QUALIFICATION' and WORKERS<=proof['qualified_workers']
+  assert proof['source_sha']==manifest['code']['vla_commit'],'REQUALIFY_CHANGED_PHYSICS_SOURCE_AT_BOUNDARY'
+  admission.update(qualified_workers=proof['qualified_workers'],parallel4_receipt_sha256=sha(proof_path))
+ if (root/'LIVE_QUEUE.json').exists():
+  old_queue=json.loads((root/'LIVE_QUEUE.json').read_text())
+  if old_queue['source_sha']!=manifest['code']['vla_commit']:
+   boundary=source.parent/'SOURCE_BOUNDARY.json'
+   assert boundary.is_file()
+   admission.update(source_boundary_receipt_path=str(boundary),source_boundary_receipt_sha256=sha(boundary))
+ admission_path=directory/'LIVE_ADMISSION.private.json';write(admission_path,admission)
+ args=['--root',str(root),'--plan',str(plan_path),'--admission',str(admission_path),
+  '--workers',str(WORKERS),'--python',python,'--timeout-s','600']
+ if not AUDIT:args.append('--no-audit')
+ if (root/'LIVE_QUEUE.json').exists():args.append('--stage-boundary')
+ bootstrap='import sys;sys.path[:0]='+repr([str(source/'src'),str(source)])+';sys.argv='+repr(['scripts.pi0294.dispatcher',*args])+';from scripts.pi0294.dispatcher import main;raise SystemExit(main())'
+ env.update(LIBGL_ALWAYS_SOFTWARE='1',__EGL_VENDOR_LIBRARY_FILENAMES='/usr/share/glvnd/egl_vendor.d/50_mesa.json',
+  MUJOCO_GL='egl',GALLIUM_DRIVER='llvmpipe',LP_NUM_THREADS='3')
+ env.pop('MUJOCO_EGL_DEVICE_ID',None)
+ command=[entry['entry'],'4080-simulation','python','-c',bootstrap]
+stdout=(directory/'stdout.log').open('xb');stderr=(directory/'stderr.log').open('xb')
+proc=subprocess.Popen(command,env=env,cwd=source,stdout=stdout,stderr=stderr,
+ stdin=subprocess.DEVNULL,start_new_session=True)
+record=dict(status='DISPATCHED_NOT_YET_QUALIFIED',stage=STAGE,pid=proc.pid,
+ proc_start=Path('/proc/'+str(proc.pid)+'/stat').read_text().split()[21],command=command,
+ epoch=time.time(),source_sha=manifest['code']['vla_commit'],manifest_sha256=sha(root/'RUN_MANIFEST.json'))
+write(directory/'PROCESS.private.json',record)
+print(json.dumps(dict(status=record['status'],stage=STAGE,pid=proc.pid,proc_start=record['proc_start'],
+ source_sha=record['source_sha'],new_models=0,new_PBS=0)))
+'''
+
+if __name__=='__main__':
+ p=argparse.ArgumentParser();p.add_argument('--stage',required=True);p.add_argument('--index',type=int,default=0)
+ p.add_argument('--plan');p.add_argument('--workers',type=int,choices=[1,2,4],default=1);p.add_argument('--audit',action='store_true')
+ p.add_argument('--parallel-proof',default='evidence/PARALLEL_THROUGHPUT.json');args=p.parse_args()
+ assert args.stage.startswith(('hopper-cpu','corelab-')) and '/' not in args.stage
+ host='hopper' if args.stage.startswith('hopper-cpu') else 'corelab-4080s'
+ values=dict(STAGE=args.stage,INDEX=args.index,PLAN=args.plan,WORKERS=args.workers,AUDIT=args.audit,PARALLEL_PROOF=args.parallel_proof,RUN=RUN,T0=T0,CUTOFF=CUTOFF,DEADLINE=DEADLINE)
+ result=remote(host,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+ save(BASE/('LAUNCH_'+args.stage+'_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-3000:])
+ print(result.stdout)

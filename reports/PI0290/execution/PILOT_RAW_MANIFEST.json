@@ -1,0 +1,762 @@
+{
+  "all_attempts_included": true,
+  "commissioning_only_for_qualification": true,
+  "commissioning_visual_caveat": "original wrist occlusion; no training admission; diagnostics never substitute original observations",
+  "dataset_admitted_ids": [
+    "P2900",
+    "P2901",
+    "P2902",
+    "P2903",
+    "P2904",
+    "P2905",
+    "P2906",
+    "P2907"
+  ],
+  "episodes": [
+    {
+      "bytes": 659901,
+      "data_location": "Corelab PI0290/episodes/C2900",
+      "file_count": 26,
+      "file_manifest_sha256": "b36e53dbe961c67a96f17c07b3db514b528ffde700f6c1b1031edb5840cf4a36",
+      "id": "C2900",
+      "original_failures_preserved": true,
+      "paired_frames": 8,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": "RuntimeError: FINGER_VELOCITY",
+        "id": "C2900",
+        "paired_samples": 8,
+        "physics_steps": 194,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": false,
+          "complete_32s": false,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": false,
+            "sustained_grasp": false,
+            "sustained_lift": false
+          },
+          "hold_observed": 0,
+          "hold_pass": 0,
+          "hold_subpredicates": {
+            "angular_speed": 0,
+            "linear_speed": 0,
+            "object_and_contacts_valid": 0,
+            "released": 0,
+            "table_height": 0,
+            "tcp_clear": 0,
+            "zone_corners": 0
+          },
+          "maximum_actual_carry_xy_m": 0,
+          "maximum_actual_lift_m": 0,
+          "persistent_success": false,
+          "physics_sha256": "a740822dc9e6834fbd0dc719cee625a533a8c8f3723af20e427c5ac090e0c939",
+          "raw_sample_count": 8,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "126abb6347641653e8c02813d32eab237cdbb912",
+        "status": "ENGINEERING_INCOMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 47685442,
+      "data_location": "Corelab PI0290/episodes/C2901",
+      "file_count": 1292,
+      "file_manifest_sha256": "ccfba88d906551297662fbb44e898b92abc8358268624265c7e745357cef1a57",
+      "id": "C2901",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "C2901",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "postprocess_recovery": {
+          "correction": "Separate contact-negative scoring; never admitted as T1 quality success",
+          "error": "generic T1 scorer rejected shifted empty-grasp fixture source-goal separation",
+          "original_result_sha256": "e410ec4a9cbf3b227ec29f647837a7c1b04bd5e6f693d8d4209e515a1a3b3220",
+          "original_run_CPU_measured": false,
+          "original_run_CPU_s_conservative_upper": 97.05274963378906,
+          "physics_integrations": 0,
+          "quality_retry": false
+        },
+        "render_backend": "mesa_cpu",
+        "score": {
+          "actual_grasp_samples": 0,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "fixture": "EMPTY_GRASP_CONTACT_NEGATIVE_NOT_A_T1_QUALITY_LAYOUT",
+          "history": {
+            "horizontal_carry": false,
+            "sustained_grasp": false,
+            "sustained_lift": false
+          },
+          "left_contact_samples": 0,
+          "original_source_shift_m": 0.22,
+          "persistent_success": false,
+          "physics_sha256": "a596d3b3b98dc2dd2b87479ecff37b6d1e59775c0ad7ceaf17300313a46ffca3",
+          "raw_sample_count": 641,
+          "right_contact_samples": 0,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "66c2f5bc58571c046c9db5ff55594a475a19b3fb",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 48876143,
+      "data_location": "Corelab PI0290/episodes/C2902",
+      "file_count": 1292,
+      "file_manifest_sha256": "0fd0696c15b6432cc06a3f79d94b8f690614ff767733afa616aaf4fb101db357",
+      "id": "C2902",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "C2902",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": false,
+            "sustained_grasp": false,
+            "sustained_lift": false
+          },
+          "hold_observed": 41,
+          "hold_pass": 0,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 0,
+            "zone_corners": 0
+          },
+          "maximum_actual_carry_xy_m": 0.016677864783891716,
+          "maximum_actual_lift_m": 0.0003811121965570097,
+          "persistent_success": false,
+          "physics_sha256": "5f531c1873c9f8765d5f0ff5fbae264ce720cf38e8e4205243e1023d19db68cd",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "50bacdf2de2cf505b5cebfd6d9dc9a6b45fa5e52",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 51823924,
+      "data_location": "Corelab PI0290/episodes/C2903",
+      "file_count": 1294,
+      "file_manifest_sha256": "66148bbddf83fe54d6a248228403b6b3e12e7a76793b91b3bca3f59643fe2bab",
+      "id": "C2903",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "C2903",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": true,
+            "sustained_grasp": true,
+            "sustained_lift": true
+          },
+          "hold_observed": 41,
+          "hold_pass": 41,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 41,
+            "zone_corners": 41
+          },
+          "maximum_actual_carry_xy_m": 0.274039085660322,
+          "maximum_actual_lift_m": 0.07839998059348724,
+          "persistent_success": true,
+          "physics_sha256": "2feb80c6d786fb941adf7663aeb690815c033f2b91fd120290113104b2e43e35",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "50bacdf2de2cf505b5cebfd6d9dc9a6b45fa5e52",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 52940941,
+      "data_location": "Corelab PI0290/episodes/P2900",
+      "file_count": 1294,
+      "file_manifest_sha256": "7079d276c379a0546a6ed1a3a50cf03e894838da17272d8ac5a4bb34a529dace",
+      "id": "P2900",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "P2900",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": true,
+            "sustained_grasp": true,
+            "sustained_lift": true
+          },
+          "hold_observed": 41,
+          "hold_pass": 41,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 41,
+            "zone_corners": 41
+          },
+          "maximum_actual_carry_xy_m": 0.2624345750453223,
+          "maximum_actual_lift_m": 0.07839998347174004,
+          "persistent_success": true,
+          "physics_sha256": "84b582364ea81a025ac9852ca740a3fb9fad0b9d0a4959e04dcbc45f737bc5b6",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 53481756,
+      "data_location": "Corelab PI0290/episodes/P2901",
+      "file_count": 1294,
+      "file_manifest_sha256": "6a0954535cbd6fabbf80be1a869ac16d06687615d5a4b76be8eae4576f966e05",
+      "id": "P2901",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "P2901",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": true,
+            "sustained_grasp": true,
+            "sustained_lift": true
+          },
+          "hold_observed": 41,
+          "hold_pass": 41,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 41,
+            "zone_corners": 41
+          },
+          "maximum_actual_carry_xy_m": 0.2504333134440662,
+          "maximum_actual_lift_m": 0.07840034415384078,
+          "persistent_success": true,
+          "physics_sha256": "ca2fbcecc1a78887d642bb1a8e473142d0d5551875780ac4e235f330ff706273",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 53387736,
+      "data_location": "Corelab PI0290/episodes/P2902",
+      "file_count": 1294,
+      "file_manifest_sha256": "4e5c550707a35fef9367a979fb33388009a86337d00dbb89fe54040057e43c09",
+      "id": "P2902",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "P2902",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": true,
+            "sustained_grasp": true,
+            "sustained_lift": true
+          },
+          "hold_observed": 41,
+          "hold_pass": 41,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 41,
+            "zone_corners": 41
+          },
+          "maximum_actual_carry_xy_m": 0.2783649634648877,
+          "maximum_actual_lift_m": 0.07839998213826427,
+          "persistent_success": true,
+          "physics_sha256": "11cf2bd35859d604b4231860506a7185caff35049281bd0ee493ae2799c35dd4",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 53227216,
+      "data_location": "Corelab PI0290/episodes/P2903",
+      "file_count": 1294,
+      "file_manifest_sha256": "d14cc56ef43176a07702e62f7761215effa6afa762027a380ed59e7be39c7046",
+      "id": "P2903",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "P2903",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": true,
+            "sustained_grasp": true,
+            "sustained_lift": true
+          },
+          "hold_observed": 41,
+          "hold_pass": 41,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 41,
+            "zone_corners": 41
+          },
+          "maximum_actual_carry_xy_m": 0.24470979399921025,
+          "maximum_actual_lift_m": 0.07839998059348724,
+          "persistent_success": true,
+          "physics_sha256": "c1d38bf723a8c87c6a3295947179839a4cfa10bf61179bb95ace2a2775afe7bc",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 52316443,
+      "data_location": "Corelab PI0290/episodes/P2904",
+      "file_count": 1294,
+      "file_manifest_sha256": "ca833c259bdd434bf20b90d930482c93a320728fb046f57427afe6c864909e2c",
+      "id": "P2904",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "P2904",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": true,
+            "sustained_grasp": true,
+            "sustained_lift": true
+          },
+          "hold_observed": 41,
+          "hold_pass": 41,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 41,
+            "zone_corners": 41
+          },
+          "maximum_actual_carry_xy_m": 0.2570847943646925,
+          "maximum_actual_lift_m": 0.07840034415384167,
+          "persistent_success": true,
+          "physics_sha256": "8a174abb12dfc89d795cd103f1854e8431d42dcd9e331aab3e9a19ad09a62ac0",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 52664357,
+      "data_location": "Corelab PI0290/episodes/P2905",
+      "file_count": 1294,
+      "file_manifest_sha256": "05da4f01bf9eb3657fb8f0dd02fe9aefb716c43e89eb71b7ed88c70db69a0b89",
+      "id": "P2905",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "P2905",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": true,
+            "sustained_grasp": true,
+            "sustained_lift": true
+          },
+          "hold_observed": 41,
+          "hold_pass": 41,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 41,
+            "zone_corners": 41
+          },
+          "maximum_actual_carry_xy_m": 0.24442098880502686,
+          "maximum_actual_lift_m": 0.07839998059348718,
+          "persistent_success": true,
+          "physics_sha256": "36b5215fc34c487293f6d80fcfbda1d8e4a4d9aed2c726387727cf74a0bbec30",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 52084319,
+      "data_location": "Corelab PI0290/episodes/P2906",
+      "file_count": 1294,
+      "file_manifest_sha256": "6ea9edca677014a3bf83ba46c964056ce0c87bb299ed44e4f78d103c9f3ca1d2",
+      "id": "P2906",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "P2906",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": true,
+            "sustained_grasp": true,
+            "sustained_lift": true
+          },
+          "hold_observed": 41,
+          "hold_pass": 41,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 41,
+            "zone_corners": 41
+          },
+          "maximum_actual_carry_xy_m": 0.2802802114555912,
+          "maximum_actual_lift_m": 0.07839998059348718,
+          "persistent_success": true,
+          "physics_sha256": "c38d9bcfe7ee587243047829ea26c382f06525f49edf27b7de763d9aec9fb2ae",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    },
+    {
+      "bytes": 51993564,
+      "data_location": "Corelab PI0290/episodes/P2907",
+      "file_count": 1294,
+      "file_manifest_sha256": "37fb2d31b2f6901943a31c17f6b5787f64df60faa85d359d9ec1115fc379e8c3",
+      "id": "P2907",
+      "original_failures_preserved": true,
+      "paired_frames": 641,
+      "quality_retries": 0,
+      "result": {
+        "GPU_service_s": 0,
+        "deployment": "NONE",
+        "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+        "error": null,
+        "id": "P2907",
+        "paired_samples": 641,
+        "physics_steps": 16000,
+        "render_backend": "mesa_cpu",
+        "score": {
+          "clock_valid": true,
+          "complete_32s": true,
+          "deployment": "NONE",
+          "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME",
+          "evidence_source": "REAL_MUJOCO_INDEPENDENT_DYNAMIC_TOOL",
+          "history": {
+            "horizontal_carry": true,
+            "sustained_grasp": true,
+            "sustained_lift": true
+          },
+          "hold_observed": 41,
+          "hold_pass": 41,
+          "hold_subpredicates": {
+            "angular_speed": 41,
+            "linear_speed": 41,
+            "object_and_contacts_valid": 41,
+            "released": 41,
+            "table_height": 41,
+            "tcp_clear": 41,
+            "zone_corners": 41
+          },
+          "maximum_actual_carry_xy_m": 0.2618269342404441,
+          "maximum_actual_lift_m": 0.07839998059348735,
+          "persistent_success": true,
+          "physics_sha256": "88dc9b1bdfda570ccdccef368749be24559cc4a4486ab7c75fd46740cd24cbb4",
+          "raw_sample_count": 641,
+          "safety_valid": true,
+          "selected": "NONE",
+          "task_id": "INDEP_MJ_PLACE_V1"
+        },
+        "selected": "NONE",
+        "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+        "status": "VALID_COMPLETE"
+      },
+      "streams": [
+        "policy_obs",
+        "causal_history",
+        "supervision",
+        "execution",
+        "privileged",
+        "geometry"
+      ]
+    }
+  ],
+  "schema": "INDEPENDENT_DYNAMIC_TOOL_DATA_V1",
+  "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402"
+}

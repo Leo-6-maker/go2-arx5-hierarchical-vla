@@ -1,0 +1,89 @@
+{
+  "schema": "ARX5_FIRST512_FAILED_ZERO_EFFECT_CUSTODY_RETRY_FORECAST_V1",
+  "captured_epoch": 1793157066.9366848,
+  "source": "bbf0f220",
+  "actual_original_job": "1501631.stdct-mgmt-02",
+  "independent_audit_and_settlement_verified": true,
+  "retained_worker_allocated_bytes": 4366336,
+  "original_booked_output_upper_bytes": 144294967296,
+  "gross_duplicate_charge_forecast": {
+    "H200_s": {
+      "projected": 514053.0,
+      "cap": 532800,
+      "shortfall": 0
+    },
+    "PBS_submissions": {
+      "projected": 39,
+      "cap": 39,
+      "shortfall": 0
+    },
+    "optimizer_updates": {
+      "projected": 15814,
+      "cap": 16384,
+      "shortfall": 0
+    },
+    "episode_starts": {
+      "projected": 727,
+      "cap": 1000,
+      "shortfall": 0
+    },
+    "neural_queries": {
+      "projected": 30412,
+      "cap": 48000,
+      "shortfall": 0
+    },
+    "physics_ticks": {
+      "projected": 22265970,
+      "cap": 40000000,
+      "shortfall": 0
+    },
+    "engine_starts": {
+      "projected": 51448,
+      "cap": 100000,
+      "shortfall": 0
+    },
+    "Core_CPU_s": {
+      "projected": 1203120.291909418,
+      "cap": 1368000,
+      "shortfall": 0
+    },
+    "Hopper_CPU_s": {
+      "projected": 879220.658597758,
+      "cap": 954000,
+      "shortfall": 0
+    },
+    "local_CPU_s": {
+      "projected": 157933.974682509,
+      "cap": 172800,
+      "shortfall": 0
+    },
+    "transfer_bytes": {
+      "projected": 432051217073,
+      "cap": 488552529920,
+      "shortfall": 0
+    },
+    "Hopper_storage_bytes": {
+      "projected": 1603387639232,
+      "cap": 1502164811776,
+      "shortfall": 101222827456
+    },
+    "Core_storage_bytes": {
+      "projected": 555401705920,
+      "cap": 590558003200,
+      "shortfall": 0
+    },
+    "local_storage_bytes": {
+      "projected": 9395240960,
+      "cap": 21474836480,
+      "shortfall": 0
+    }
+  },
+  "gross_duplicate_charge_shortfalls": {
+    "Hopper_storage_bytes": 101222827456
+  },
+  "reused_credit_authorized": false,
+  "physical_output_limit_and_single_once_replacement_accounting_not_yet_implemented": true,
+  "new_GPU_PBS_models_or_physics": 0,
+  "scope_or_caps_changed": false,
+  "whole_goal_complete": false
+}

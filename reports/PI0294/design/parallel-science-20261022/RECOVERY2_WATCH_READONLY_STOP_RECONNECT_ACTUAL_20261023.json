@@ -1,0 +1,112 @@
+{
+  "schema": "VAP1_EXISTING_RECOVERY2_WATCH_READONLY_STOP_RECONNECTION_ACTUAL_V1",
+  "observed_epoch": 1792690936.795184,
+  "status": "ACTUAL_EXISTING_JOB_WATCH_ONLY_RECONNECTED_HEARTBEAT_CONFIRMED",
+  "job_id": "1477127.stdct-mgmt-02",
+  "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+  "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
+  "runtime_source": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+  "original_owner_stop": {
+    "epoch": 1792690405.1013396,
+    "error_type": "ReadOnlyFailure",
+    "message": "READ_ONLY_READ_ONLY_5F863BA6D5F25AB527A5_FAILED",
+    "qsub_intent": true,
+    "job_bound": true,
+    "automatic_mutation_retry": false
+  },
+  "control_errors": [
+    {
+      "epoch": 1792690340.9892435,
+      "phase": "READ_ONLY_838268923C8968CCD5E7",
+      "error_type": "TimeoutExpired",
+      "effect": "READ_ONLY",
+      "outcome": "READ_FAILED"
+    },
+    {
+      "epoch": 1792690373.0261517,
+      "phase": "READ_ONLY_5F863BA6D5F25AB527A5",
+      "error_type": "ConnectionError",
+      "effect": "READ_ONLY",
+      "outcome": "READ_FAILED"
+    },
+    {
+      "epoch": 1792690405.0925717,
+      "phase": "READ_ONLY_5F863BA6D5F25AB527A5",
+      "error_type": "ConnectionError",
+      "effect": "READ_ONLY",
+      "outcome": "READ_FAILED"
+    }
+  ],
+  "old_service": "vap1-a40-heartbeat-recovery2-owner-01",
+  "old_service_MainPID": 0,
+  "old_service_ExecMainStatus": 1,
+  "new_watch_service": "vap1-a40-heartbeat-recovery2-watch-resume-01",
+  "new_watch_PID": 369896,
+  "new_watch_active_observed": true,
+  "watch_only_script_sha256": "71f89e6d374b99b66cd4c6dcee6c01d7775a5938ffead5f1a7c631c97da2517b",
+  "watch_test_sha256": "da2e3e646ea8b15c658dc23e2afb822f026d7320dd7af0e93339699f659af1a8",
+  "watch_CPU_tests_passed": 4,
+  "diagnosis": "One bounded Vanda read timeout followed by two Hopper SSH read failures; no terminal job or unknown write inferred. Exact configured qselect/exact-qstat and both lease/manifest readbacks revalidated original queued request.",
+  "raw_qstat_u_diagnostic": "Site wrapper emits a table plus JSON without Jobs; discarded as invalid, not treated as empty queue. Original configured qselect then exact-qstat interface was used for authoritative view.",
+  "preflight_status": "PASS_EXISTING_JOB_EXCLUSIVE_QUEUED_NO_EFFECTS_READ_ONLY_RECONNECT",
+  "preflight_epoch": 1792690863.5864315,
+  "whole_remaining_admission": "PASS_ORIGINAL_GLOBAL_AND_DEC1_REMAINING_WORK",
+  "resource_shortfalls": {},
+  "native_state": "Q",
+  "native_observed_epoch": 1792690884.2421815,
+  "current_heartbeat": {
+    "status": "CONFIRMED",
+    "phase": "HEARTBEAT",
+    "started_epoch": 1792690884.2432904
+  },
+  "leases": {
+    "hopper": {
+      "status": "ACTIVE",
+      "manifest_sha256": "5e7f92c49717c6a5937b10eaf197a0351adfc89b860ef43097bf8d24c7cc1a28",
+      "lease_sha256": "018819f606fe35aaf29b6fa1d79d1ae27892aa051eef3da4432317bbe08c4da8"
+    },
+    "vanda": {
+      "status": "ACTIVE",
+      "manifest_sha256": "02dd8597d62293c966900149be7df29fa892edc8d313168b30b07912c582720e",
+      "lease_sha256": "93565b4776576d85e06a0b02e3be401236bf0eb98f8777268fc8838d6bcd0d4d"
+    }
+  },
+  "campaign_job_count": 1,
+  "global_used": {
+    "H200_s": 48363.0,
+    "PBS_submissions": 18,
+    "optimizer_updates": 3843,
+    "neural_queries": 1134
+  },
+  "global_reserved": {
+    "H200_s": 22560,
+    "neural_queries": 29,
+    "optimizer_updates": 2048
+  },
+  "global_CPU_reserved_s": 54000,
+  "DEC1_PBS": 7,
+  "unknown_effects": [],
+  "pending_updates": [],
+  "new_PBS": 0,
+  "new_model_calls": 0,
+  "new_updates": 0,
+  "no_source_capsule_or_original_controller_modified": true,
+  "original_controller_sha256": "9566c0c2cd1199917eb86831d20d1efe6952394cd3fddbd11e8c640471f18a2f",
+  "same_logical_owner": true,
+  "maximum_new_qsub": 0,
+  "credential_persistent": false,
+  "latest_complete_checkpoint": 2048,
+  "cursor": 65536,
+  "active_job_full_restore": "NOT_YET_ALLOCATED_OR_RELEASED",
+  "terminal_preparation_update": {
+    "service": "vap1-a40-heartbeat-recovery2-watch-resume-01",
+    "wrapper_sha256": "7264082932f0082dd11408c3631c49661d75087e7ad26a6e02fa7f50e15e1ffe",
+    "CPU_tests_passed": 9,
+    "actual_terminal_audit": false,
+    "expected_success_total_updates": 5891
+  },
+  "B1_metadata": "B1_RECOVERY2_V4_METADATA_CPU_ACTUAL_20261023.json",
+  "original_T0": 1792348196,
+  "hard_close": 1792952996,
+  "goal_complete": false
+}

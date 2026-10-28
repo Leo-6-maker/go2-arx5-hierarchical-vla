@@ -1,0 +1,18 @@
+hpc/pbs/pi0245_p1_stock_h200.pbs text eol=lf
+
+scripts/pi0263_*.pbs text eol=lf
+
+# Preserve published evidence bytes and hashes.
+scripts/pi0264_*.py text eol=lf
+reports/PI0264/*.json -text
+reports/PI0264/interim_B/*.json -text
+reports/PI0264/final/** -text
+reports/PI0264/** whitespace=cr-at-eol
+scripts/pi0265_*.py text eol=lf
+reports/PI0265/** -text whitespace=cr-at-eol
+
+docs/protocols/PI0266_STATE_CONDITIONED_FEEDBACK_FINETUNING_V1.md -text
+reports/PI0266/** -text whitespace=cr-at-eol
+scripts/pi0266_*.py text eol=lf
+reports/PI0288/execution/** -text whitespace=cr-at-eol
+reports/PI0294/tf-r2-20261016/*.pdf binary

@@ -1,0 +1,907 @@
+{
+  "schema": "MP1_N1_CHECKPOINT_RETIREMENT_DURING_CONFIRMATION_ACTUAL_V1",
+  "status": "ACTUAL_SCOPED_CURRENT_INSPECTION_COMPLETE_NO_QUALIFIED_FAILED_PAYLOAD_NO_DELETION",
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "observed_epoch": 1792300860.1529949,
+  "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+  "authority_handoff_sha": "e30a9512124156a54505616a10beed2fa3b4abbf",
+  "canonical_handoff": "docs/handover/2026-10-18/CHECKPOINT_RETIREMENT_DURING_SOURCE_CONFIRMATION.md",
+  "supplementary_handoff_is_not_a_second_lane": true,
+  "original_N1_T0_epoch": 1792264081,
+  "new_clock_or_budget": false,
+  "observations": [
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "observed_epoch": 1792300251.3062243,
+      "directories_examined": 905,
+      "checkpoint_shaped_containers": 29,
+      "scope_complete_for_declared_roots": true,
+      "root_categories": [
+        "runs",
+        "archive",
+        "models",
+        "assets"
+      ],
+      "registered_root_identity_and_owned_UID_checked": true,
+      "registry_sha256": "71348dd2d88293d3fed8a53d3fe67828e1386ef77af55822fcd8d49e42126404",
+      "large_failed_or_incomplete_payload_candidates": 0,
+      "protected_large_model_states": 9,
+      "file_deletions": 0,
+      "actual_freed_allocated_bytes": 0,
+      "global_filesystem_observation_not_personal_quota": {
+        "before_available_bytes": 3453943758716928,
+        "after_available_bytes": 3453943076093952,
+        "changes_not_attributed_to_this_no_delete_lane": true
+      },
+      "measured_successful_observer_CPU_s": 0.373708855
+    },
+    {
+      "site": "CoreLab_4080S_owned_registered_workspace",
+      "observed_epoch": 1792300380.5920491,
+      "directories_examined": 2309,
+      "checkpoint_shaped_containers": 0,
+      "scope_complete_for_declared_roots": true,
+      "root_categories": [
+        "runs",
+        "archive",
+        "models",
+        "assets"
+      ],
+      "registered_root_identity_and_owned_UID_checked": true,
+      "registry_sha256": "eca8f606c92566da30c39a5f7aecccbb3c21741a43a88707f14f7451c53cd74d",
+      "large_failed_or_incomplete_payload_candidates": 0,
+      "protected_large_model_states": 0,
+      "file_deletions": 0,
+      "actual_freed_allocated_bytes": 0,
+      "global_filesystem_observation_not_personal_quota": {
+        "before_available_bytes": 477000437760,
+        "after_available_bytes": 477000409088,
+        "changes_not_attributed_to_this_no_delete_lane": true
+      },
+      "measured_successful_observer_CPU_s": 0.033877214
+    },
+    {
+      "site": "CoreLab_AMD_shared_NFS_workspace",
+      "observed_epoch": 1792300411.7736144,
+      "directories_examined": 1425,
+      "checkpoint_shaped_containers": 2,
+      "scope_complete_for_declared_roots": true,
+      "root_categories": [
+        "runs",
+        "archive",
+        "models",
+        "assets"
+      ],
+      "registered_root_identity_and_owned_UID_checked": true,
+      "registry_sha256": "eca8f606c92566da30c39a5f7aecccbb3c21741a43a88707f14f7451c53cd74d",
+      "large_failed_or_incomplete_payload_candidates": 0,
+      "protected_large_model_states": 0,
+      "file_deletions": 0,
+      "actual_freed_allocated_bytes": 0,
+      "global_filesystem_observation_not_personal_quota": {
+        "before_available_bytes": 1567469875200,
+        "after_available_bytes": 1567469875200,
+        "changes_not_attributed_to_this_no_delete_lane": true
+      },
+      "measured_successful_observer_CPU_s": 0.046071057
+    }
+  ],
+  "retained_objects": [
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261014T121640Z-incoming-pi0294-r3/delivery/public-M2048-R3/payload",
+      "path_identity_sha256": "fb7c50b9b0e21ab72c11c12178e759cdb7e71de0ca041d69cf7f58babf985712",
+      "manifest_sha256": "fbdc0077dd4a31f770d33a6d3b8eae20b5df9ff289d0acfec2ae4d3854c96d97",
+      "global_step": 2048,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261014T121640Z-incoming-pi0294-r3/training/main/checkpoint-2048",
+      "path_identity_sha256": "ea5b7ae9cb1faab8c471d66a2ee16b700c1e614aa3f9763008c2d7857e4a7091",
+      "manifest_sha256": "fbdc0077dd4a31f770d33a6d3b8eae20b5df9ff289d0acfec2ae4d3854c96d97",
+      "global_step": 2048,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/artifacts/SOURCE_S_BC2048_HISTORICAL_STUDENT_DRAWS_V1/readback/PI0294/20261016T191445Z-localpc-mp1/SOURCE_S_BC2048_HISTORICAL_STUDENT_DRAWS_V1",
+      "path_identity_sha256": "62113ea33bd9352eb3cfc719851e599ce5b56c7db6cedcab14efd02e3a48ed69",
+      "manifest_sha256": "ac0f46924d540ec5519f8c64b1ec0ea1c7f37bba96df0a21744e6a6a8e88efc2",
+      "global_step": 2048,
+      "classification": "PROTECTED_CURRENT_OR_COMPARISON_OR_PARENT",
+      "protected_identity": "BC_ENDPOINT_2048",
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [
+        {
+          "name": "STUDENT_PROBES.private.json",
+          "logical_bytes": 1259484,
+          "allocated_bytes": 1261568,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/artifacts/SOURCE_S_BC512_HISTORICAL_STUDENT_DRAWS_V1/readback/PI0294/20261016T191445Z-localpc-mp1/SOURCE_S_BC512_HISTORICAL_STUDENT_DRAWS_V1",
+      "path_identity_sha256": "fb915c50bad90361769cff09579c8061dc85819a21660af60d74c359e9342720",
+      "manifest_sha256": "1cf83ad430c03c1d953266562cf90f3d0475f49c806701448fe5750d494c4d8c",
+      "global_step": 512,
+      "classification": "PROTECTED_CURRENT_OR_COMPARISON_OR_PARENT",
+      "protected_identity": "BC_FIXED_512",
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [
+        {
+          "name": "STUDENT_PROBES.private.json",
+          "logical_bytes": 1259484,
+          "allocated_bytes": 1261568,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/artifacts/SOURCE_S_CORR512_HISTORICAL_STUDENT_DRAWS_V1/readback/PI0294/20261016T191445Z-localpc-mp1/SOURCE_S_CORR512_HISTORICAL_STUDENT_DRAWS_V1",
+      "path_identity_sha256": "b84077c6ca0c965b6e0f11d139fa774e6018c1bfff0ef87722fc69860a847d7b",
+      "manifest_sha256": "31f0514beb4003e42afc3437aa4781b5df47fc35a6270ba5c4fa081b31102d02",
+      "global_step": 512,
+      "classification": "PROTECTED_CURRENT_OR_COMPARISON_OR_PARENT",
+      "protected_identity": "CORR_FIXED_512",
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [
+        {
+          "name": "STUDENT_PROBES.private.json",
+          "logical_bytes": 1259484,
+          "allocated_bytes": 1261568,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/children/source-pair-01/training/S-CORR/checkpoint-512",
+      "path_identity_sha256": "c1cb1aff72ca7d8d54ce180b36cd963788dca0456e0e45cf26ba85d1b959bcfa",
+      "manifest_sha256": "31f0514beb4003e42afc3437aa4781b5df47fc35a6270ba5c4fa081b31102d02",
+      "global_step": 512,
+      "classification": "PROTECTED_CURRENT_OR_COMPARISON_OR_PARENT",
+      "protected_identity": "CORR_FIXED_512",
+      "large_payload_logical_bytes": 25540803094,
+      "large_payload_allocated_bytes": 25540812800,
+      "payload_members": [
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "logical_bytes": 4970792616,
+          "allocated_bytes": 4970795008,
+          "nlink": 1
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "logical_bytes": 4986649584,
+          "allocated_bytes": 4986650624,
+          "nlink": 1
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "logical_bytes": 2618758696,
+          "allocated_bytes": 2618761216,
+          "nlink": 1
+        },
+        {
+          "name": "optimizer.pt",
+          "logical_bytes": 12964602198,
+          "allocated_bytes": 12964605952,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": true,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Current parent, fixed source comparison/endpoint, or earlier E1 learning/resume witness. Required members present; not a disposable failed checkpoint."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/children/source-pair-01/training/S-CORR/checkpoint-2048",
+      "path_identity_sha256": "024e63289ee36c48b38c84ddf002b4f47c240b328894a9198b34840bb10e3bf7",
+      "manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+      "global_step": 2048,
+      "classification": "PROTECTED_CURRENT_OR_COMPARISON_OR_PARENT",
+      "protected_identity": "ACTIVE_CONFIRM_CORR_2048",
+      "large_payload_logical_bytes": 25540803094,
+      "large_payload_allocated_bytes": 25540812800,
+      "payload_members": [
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "logical_bytes": 4970792616,
+          "allocated_bytes": 4970795008,
+          "nlink": 1
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "logical_bytes": 4986649584,
+          "allocated_bytes": 4986650624,
+          "nlink": 1
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "logical_bytes": 2618758696,
+          "allocated_bytes": 2618761216,
+          "nlink": 1
+        },
+        {
+          "name": "optimizer.pt",
+          "logical_bytes": 12964602198,
+          "allocated_bytes": 12964605952,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": true,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Current parent, fixed source comparison/endpoint, or earlier E1 learning/resume witness. Required members present; not a disposable failed checkpoint."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/children/source-pair-01/training/S-BC/checkpoint-1631",
+      "path_identity_sha256": "5380898cea5f77c2a6f0e6d6e708720566a61df52d873762046e56e719e29a5f",
+      "manifest_sha256": "a54ab1ab635f7ea221ffd982e71b503752c40d7c6574d9db16e309d4facbec0c",
+      "global_step": 1631,
+      "classification": "SUPERSEDED_VALID_PARTIAL_REQUIRES_DEPENDENCY_PROOF",
+      "protected_identity": "SUPERSEDED_VALID_BC_1631_REQUIRES_PAYLOAD_DEPENDENCY_REVIEW",
+      "large_payload_logical_bytes": 25540803094,
+      "large_payload_allocated_bytes": 25540812800,
+      "payload_members": [
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "logical_bytes": 4970792616,
+          "allocated_bytes": 4970795008,
+          "nlink": 1
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "logical_bytes": 4986649584,
+          "allocated_bytes": 4986650624,
+          "nlink": 1
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "logical_bytes": 2618758696,
+          "allocated_bytes": 2618761216,
+          "nlink": 1
+        },
+        {
+          "name": "optimizer.pt",
+          "logical_bytes": 12964602198,
+          "allocated_bytes": 12964605952,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": true,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Valid superseded partial, not a failed artifact. Current confirmation does not load it and old ten source jobs are terminal, but its actual fullstate resume witness edge is recorded and payload-dispensability for reproducibility is not proven. Hold is conditional, not blanket permanent protection."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/children/source-pair-01/training/S-BC/checkpoint-512",
+      "path_identity_sha256": "7c1ac1929f4d53bf448df85fc3edabd560260c8f3f0bfff444c089ab92b12f30",
+      "manifest_sha256": "1cf83ad430c03c1d953266562cf90f3d0475f49c806701448fe5750d494c4d8c",
+      "global_step": 512,
+      "classification": "PROTECTED_CURRENT_OR_COMPARISON_OR_PARENT",
+      "protected_identity": "BC_FIXED_512",
+      "large_payload_logical_bytes": 25540803094,
+      "large_payload_allocated_bytes": 25540812800,
+      "payload_members": [
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "logical_bytes": 4970792616,
+          "allocated_bytes": 4970795008,
+          "nlink": 1
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "logical_bytes": 4986649584,
+          "allocated_bytes": 4986650624,
+          "nlink": 1
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "logical_bytes": 2618758696,
+          "allocated_bytes": 2618761216,
+          "nlink": 1
+        },
+        {
+          "name": "optimizer.pt",
+          "logical_bytes": 12964602198,
+          "allocated_bytes": 12964605952,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": true,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Current parent, fixed source comparison/endpoint, or earlier E1 learning/resume witness. Required members present; not a disposable failed checkpoint."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/children/source-pair-01/training/S-BC/checkpoint-2048",
+      "path_identity_sha256": "38ef241d6e3939d385818abafdc31a176d8ab25a24638ab1eba4547d081403d6",
+      "manifest_sha256": "ac0f46924d540ec5519f8c64b1ec0ea1c7f37bba96df0a21744e6a6a8e88efc2",
+      "global_step": 2048,
+      "classification": "PROTECTED_CURRENT_OR_COMPARISON_OR_PARENT",
+      "protected_identity": "BC_ENDPOINT_2048",
+      "large_payload_logical_bytes": 25540803094,
+      "large_payload_allocated_bytes": 25540812800,
+      "payload_members": [
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "logical_bytes": 4970792616,
+          "allocated_bytes": 4970795008,
+          "nlink": 1
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "logical_bytes": 4986649584,
+          "allocated_bytes": 4986650624,
+          "nlink": 1
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "logical_bytes": 2618758696,
+          "allocated_bytes": 2618761216,
+          "nlink": 1
+        },
+        {
+          "name": "optimizer.pt",
+          "logical_bytes": 12964602198,
+          "allocated_bytes": 12964605952,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": true,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Current parent, fixed source comparison/endpoint, or earlier E1 learning/resume witness. Required members present; not a disposable failed checkpoint."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/evidence/SOURCE_PAIR_EXPOSURE_CHECKPOINT512_01",
+      "path_identity_sha256": "c08bed598ebfa14d7f2cca2d3a55cc378ae965865e7f6b2b59aa32c73e1fe261",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/evidence/SOURCE_PAIR_EXPOSURE_CHECKPOINT1631_01",
+      "path_identity_sha256": "7feeb0c55cb00e5b476b008a2884250997fa363472b8698b5e52bbdbacd04252",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/evidence/SOURCE_PAIR_EXPOSURE_CHECKPOINT512_02",
+      "path_identity_sha256": "622b04055c3fb1f081939856c9b740ad53161dc8286d0e7c2c4e8a26ec8d7494",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T191445Z-localpc-mp1/evidence/SOURCE_PAIR_EXPOSURE_CHECKPOINT2048_01",
+      "path_identity_sha256": "7b369b7f86f8c32d8e43581999813d0a81acb024941b278fddc5b8553f9effe8",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T150228Z-localpc-e1/training/M2-CORR/checkpoint-512",
+      "path_identity_sha256": "7f25537ef36e9bc6ab1611c20dc8dfb3c69824614a31d7b2043d9bd87b2e94d2",
+      "manifest_sha256": "5275bb0c188a1d2148418d0cd7593dd712d2563e74b1907148563e5582a01f9a",
+      "global_step": 512,
+      "classification": "VALID_OR_PARTIAL_STATE_NOT_A_FAILED_ARTIFACT",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 25540803094,
+      "large_payload_allocated_bytes": 25540812800,
+      "payload_members": [
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "logical_bytes": 4970792616,
+          "allocated_bytes": 4970795008,
+          "nlink": 1
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "logical_bytes": 4986649584,
+          "allocated_bytes": 4986650624,
+          "nlink": 1
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "logical_bytes": 2618758696,
+          "allocated_bytes": 2618761216,
+          "nlink": 1
+        },
+        {
+          "name": "optimizer.pt",
+          "logical_bytes": 12964602198,
+          "allocated_bytes": 12964605952,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": true,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Current parent, fixed source comparison/endpoint, or earlier E1 learning/resume witness. Required members present; not a disposable failed checkpoint."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T150228Z-localpc-e1/training/M2-BC/checkpoint-512",
+      "path_identity_sha256": "be28e0c9384907b0dfa23dcd00dff6b370abef60f07ff5cd9c3e921938225342",
+      "manifest_sha256": "edc0f390776056f9b22cd07d152c8fd5e273556f1d242f8e4f220b3034f9ffe6",
+      "global_step": 512,
+      "classification": "VALID_OR_PARTIAL_STATE_NOT_A_FAILED_ARTIFACT",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 25540803094,
+      "large_payload_allocated_bytes": 25540812800,
+      "payload_members": [
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "logical_bytes": 4970792616,
+          "allocated_bytes": 4970795008,
+          "nlink": 1
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "logical_bytes": 4986649584,
+          "allocated_bytes": 4986650624,
+          "nlink": 1
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "logical_bytes": 2618758696,
+          "allocated_bytes": 2618761216,
+          "nlink": 1
+        },
+        {
+          "name": "optimizer.pt",
+          "logical_bytes": 12964602198,
+          "allocated_bytes": 12964605952,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": true,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Current parent, fixed source comparison/endpoint, or earlier E1 learning/resume witness. Required members present; not a disposable failed checkpoint."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T150228Z-localpc-e1/training/M1/checkpoint-256",
+      "path_identity_sha256": "d462f6f60f8ffe77e91f78d051ed75ee76937caa572a82cde2b580f56283ae27",
+      "manifest_sha256": "8cca44ba53dc60f58551c45591b79fe72b0822de166bbc98dd916fa30e783727",
+      "global_step": 256,
+      "classification": "VALID_OR_PARTIAL_STATE_NOT_A_FAILED_ARTIFACT",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 12576200896,
+      "large_payload_allocated_bytes": 12576206848,
+      "payload_members": [
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "logical_bytes": 4970792616,
+          "allocated_bytes": 4970795008,
+          "nlink": 1
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "logical_bytes": 4986649584,
+          "allocated_bytes": 4986650624,
+          "nlink": 1
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "logical_bytes": 2618758696,
+          "allocated_bytes": 2618761216,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": true,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Current parent, fixed source comparison/endpoint, or earlier E1 learning/resume witness. Required members present; not a disposable failed checkpoint."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261016T150228Z-localpc-e1/training/M1/checkpoint-1024",
+      "path_identity_sha256": "df07d51ef013105c6dad33b667064db19a9a3c64b79ae210d4d0aaa0f9a0c4ee",
+      "manifest_sha256": "7dba1c4c8abacdb57e2faa0e6d7563ed5dcef2e5473cb13c281eb0e57d5a5150",
+      "global_step": 1024,
+      "classification": "PROTECTED_CURRENT_OR_COMPARISON_OR_PARENT",
+      "protected_identity": "M1_PARENT_1024",
+      "large_payload_logical_bytes": 25540803094,
+      "large_payload_allocated_bytes": 25540812800,
+      "payload_members": [
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "logical_bytes": 4970792616,
+          "allocated_bytes": 4970795008,
+          "nlink": 1
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "logical_bytes": 4986649584,
+          "allocated_bytes": 4986650624,
+          "nlink": 1
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "logical_bytes": 2618758696,
+          "allocated_bytes": 2618761216,
+          "nlink": 1
+        },
+        {
+          "name": "optimizer.pt",
+          "logical_bytes": 12964602198,
+          "allocated_bytes": 12964605952,
+          "nlink": 1
+        }
+      ],
+      "required_members_present": true,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Current parent, fixed source comparison/endpoint, or earlier E1 learning/resume witness. Required members present; not a disposable failed checkpoint."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/delivery/checkpoint-engineering-M4-01",
+      "path_identity_sha256": "2103a7996ff1a28b0372d3e8e4573e6af6f562725300b5badf0d5212edb53d8c",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/delivery/checkpoint-main-M512-01",
+      "path_identity_sha256": "e2ab3672eeb9e6c301ddb15f529a2774d60701c908a55e5da6431018eb77e9e5",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/training/main/checkpoint-512",
+      "path_identity_sha256": "1abc1afc29efaa2aea7c9eee17d3de9ec95978e7041397394377019e2696c0aa",
+      "manifest_sha256": "d00fde13d0bd57b89a5ad11fc6319def02a851ce0ef5a0a39ec5064039781299",
+      "global_step": 512,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/pbs/night-final-04/checkpoint-512",
+      "path_identity_sha256": "257dd0e9cc68001d8aa83aa50b0d9e4217180278dea8e851cef31c914a5ccfa2",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/smoke_attempts/model-smoke-02/training/smoke_split/checkpoint-2",
+      "path_identity_sha256": "74f1b12412502b9fbe01162442dcaebf00824c3ecb9ae12405531d4326e13b27",
+      "manifest_sha256": "8b3d14171933835759aa93599f26b24adfae18e3a010a6c2997efd484f28c799",
+      "global_step": 2,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/smoke_attempts/model-smoke-02/training/smoke_split/checkpoint-4",
+      "path_identity_sha256": "f9f8cb802b8e093b58169f9990b5d1527127f1c86802901e3060059a92ba9627",
+      "manifest_sha256": "e3458f87b56b4541e3f486ce0a270c6139010181ce68181179164e2fd94bd992",
+      "global_step": 4,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/smoke_attempts/model-smoke-02/training/smoke_continuous/checkpoint-2",
+      "path_identity_sha256": "d7f037cb9376cbef32c483a669994780c3a569cc753041f47c7ff41665902754",
+      "manifest_sha256": "e98e3f9860644cf2d8fcc5b2da40178bf5d1ddafdd93720dc1ae8d20dbbdc43a",
+      "global_step": 2,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/smoke_attempts/model-smoke-02/training/smoke_continuous/checkpoint-4",
+      "path_identity_sha256": "2445edc2fcb22e026321f0b19d4712351a9146253405549ad8771777cbae07bb",
+      "manifest_sha256": "139bb38bc312d0f5dc05355816f9cf90ec5cab239370ae1bd4243c9a7425d344",
+      "global_step": 4,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/smoke_attempts/strict-requalification-04/training/smoke_split/checkpoint-4",
+      "path_identity_sha256": "708ddbba10705c76abc6279028648328fbe59627d33544413bcefa0e04dcb0d9",
+      "manifest_sha256": "0fe29653dd8234bc64a9713c4eb3843afc0910a35abfaa8d3c5be3c12cdf53e1",
+      "global_step": 4,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/evidence/checkpoint-delivery-engineering-M4-01",
+      "path_identity_sha256": "0c71129ca18c675ec015d067c473a90abbeeda75f80a11424cb424836e1e9a50",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "logical_id": "runs/PI0294/20261013T142457Z-localpc-pi0294/evidence/public-checkpoint-M512-01",
+      "path_identity_sha256": "eaf8eaec01f44b798e174a7dacde0dcd9b06d0bdecc0f70080d2aac551c276b1",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Empty directory, small failed-run metadata, or original checkpoint/probe identity witness with no large neural payload. Preserve failure and audit records."
+    },
+    {
+      "site": "CoreLab_AMD_shared_NFS_workspace",
+      "logical_id": "archive/verified-retirement/20261013T031510Z-localpc-retirement/objects/545367129930-initialized/refs/codex/turn-diffs/checkpoints",
+      "path_identity_sha256": "5956ce41f72d75e12b15ded065b5b8ea77df6a4b860e7eb7abfc018f074c113a",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Archived Git recovery references named checkpoints, not neural model payload. Preserve recovery metadata."
+    },
+    {
+      "site": "CoreLab_AMD_shared_NFS_workspace",
+      "logical_id": "archive/verified-retirement/20261013T031510Z-localpc-retirement/objects/545367129930/refs/codex/turn-diffs/checkpoints",
+      "path_identity_sha256": "dc10aa8f20007c3700eddf0a2cf7fb79b804b4c4277e0dc5e8af44bdddfb16ba",
+      "manifest_sha256": null,
+      "global_step": null,
+      "classification": "SMALL_METADATA_OR_EMPTY_NO_LARGE_PAYLOAD",
+      "protected_identity": null,
+      "large_payload_logical_bytes": 0,
+      "large_payload_allocated_bytes": 0,
+      "payload_members": [],
+      "required_members_present": false,
+      "disposition": "RETAINED_NOT_ELIGIBLE",
+      "reason": "Archived Git recovery references named checkpoints, not neural model payload. Preserve recovery metadata."
+    }
+  ],
+  "result": {
+    "eligible_large_failed_checkpoint_payloads": 0,
+    "deleted_files": 0,
+    "deleted_checkpoint_directories": 0,
+    "deleted_logical_bytes": 0,
+    "actual_freed_allocated_bytes": 0,
+    "exact_delete_intent_files": [],
+    "unlink_operations": [],
+    "dry_run_or_moves_reported_as_deletion": false,
+    "old_cleanup_bytes_counted_again": false,
+    "large_model_states_retained": 9,
+    "retained_large_payload_logical_bytes": 216902625648,
+    "retained_large_payload_allocated_bytes": 216902709248,
+    "actual_open_FD_clearance_claimed": false,
+    "FD_and_unlink_race_checks_not_triggered_because_no_object_passed_failure_and_dependency_qualification": true
+  },
+  "superseded_valid_partial_review": {
+    "identity": "S-BC@1631",
+    "manifest_sha256": "a54ab1ab635f7ea221ffd982e71b503752c40d7c6574d9db16e309d4facbec0c",
+    "actual_JSON_reference_files_examined": 292,
+    "metadata_bytes_examined": 9430754,
+    "current_confirmation_loads_partial": false,
+    "old_source_native_jobs_freshly_F": 10,
+    "actual_resume_witness_metadata": "children/source-pair-01/training/S-BC/session-resume-1631/TRAINING_RUN.json",
+    "actual_resume_witness_field": "loaded_checkpoint_manifest_sha256",
+    "another_historical_reference_is_capacity_estimation_not_an_active_consumer": true,
+    "oversized_metadata_skipped": [
+      "children/source-confirm-01/plans/SOURCE_EVALUATION_PLAN.json"
+    ],
+    "payload_independence_for_actual_resume_replay_proven": false,
+    "retirement_qualification": false,
+    "classification": "SUPERSEDED_VALID_PARTIAL_NOT_FAILED_NOT_PERMANENTLY_PROTECTED_BY_NAME"
+  },
+  "scope": {
+    "owned_registered_workspace_roots": [
+      "runs",
+      "archive",
+      "models",
+      "assets"
+    ],
+    "mixed_legacy_asset_index_boundary_stat_only_not_deep_scanned": true,
+    "whole_Home_or_personal_storage_inventory_claimed": false,
+    "raw_data_camera_episode_dataset_environment_source_capsule_and_vendor_trees_not_retirement_targets": true,
+    "symlink_targets_followed": false,
+    "large_weight_hashing_performed": false,
+    "all_retained_required_member_presence_checks_are_not_full_tensor_hash_revalidation": true,
+    "HF_history_deleted_or_repository_visibility_changed": false
+  },
+  "observer_scope_repair": {
+    "first_Core_and_AMD_directory_cap_failures_retained": true,
+    "initial_directory_limit": 6000,
+    "initial_no_delete_observers_terminal": true,
+    "bounded_fix": "Keep registered mixed legacy index at metadata boundary; prune environment/source/raw trees; expose partial scope limits explicitly instead of implying complete coverage.",
+    "regression_test": "6010-directory fixture emits scope_complete=false, DIRECTORY_COUNT, count6000, deletions0",
+    "successful_declared_scope_observations_are_not_a_second_deletion_lane": true
+  },
+  "Hopper_personal_quota": {
+    "before": {
+      "used_bytes": 659363299328,
+      "hard_bytes": 1099511627776,
+      "report_epoch": 1792299787.257825
+    },
+    "after": {
+      "used_bytes": 659379990528,
+      "hard_bytes": 1099511627776,
+      "report_epoch": 1792300387.104613
+    },
+    "quota_deltas_not_equated_to_this_lane_freed_space": true,
+    "whole_shared_filesystem_free_bytes_not_used_as_personal_quota": true
+  },
+  "live_science_postcheck": {
+    "native": {
+      "job_id": "673388.hopper-m-02",
+      "state": "R",
+      "generation_queries": 903,
+      "optimizer_updates": 0,
+      "GPU_cost": "OPEN_NOT_SETTLED",
+      "GPU_reserved_s": 28800
+    },
+    "actor_source_sha": "6b291000858612423b67838275efa52caf8b633f",
+    "Core_manifest_sha256": "3243f28277377e48e8ac7adb34f1f5e04cbf5351ec1bf8198ba181edf3e00bd9",
+    "Hopper_manifest_sha256": "03550b20978bffb6ff434c74e4683253b37d2910e74d632144ea9b329e19e711",
+    "plan_sha256": "6e5a45e121aa493e1de32977c00d3f20ecc3c1f9cb7a6b9698438cbb16028e97",
+    "active_candidate_complete_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "both_registered_leases": "ACTIVE",
+    "both_manifest_and_plan_hashes_unchanged": true,
+    "source_safety_stop": false,
+    "jobs_cancelled": 0,
+    "model_or_physics_workers_signalled": 0,
+    "model_or_source_hot_switches": 0
+  },
+  "resources": {
+    "maintenance_CPU_upper_s": {
+      "CoreLab": 600,
+      "Hopper": 300,
+      "local_PC": 600
+    },
+    "total_CPU_upper_s": 1500,
+    "accounting": "ONE_CONSERVATIVE_REGISTERED_MAINTENANCE_UPPER_INCLUDING_FAILED_SCOPE_OBSERVERS_CONTROL_PUBLICATION_AND_SUCCESSFUL_METADATA_CHECKS",
+    "successful_observer_measured_CPU_s": 0.45365712599999997,
+    "failed_observer_exact_CPU_not_claimed_and_covered_by_upper": true,
+    "positive_nice_priority": 15,
+    "single_CPU_affinity": true,
+    "new_GPU_PBS": 0,
+    "new_model_queries": 0,
+    "new_physics_integrations": 0,
+    "new_training_updates": 0,
+    "new_checkpoint_backup_or_model_downloads": 0
+  },
+  "selected": "NONE",
+  "deployment": "NONE"
+}

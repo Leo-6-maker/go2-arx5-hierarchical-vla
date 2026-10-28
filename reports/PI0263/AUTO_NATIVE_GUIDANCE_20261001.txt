@@ -1,0 +1,41 @@
+
+ ========================================================================
+  You can use Hopper GPUs running following Jobs via the Job scheduler.
+  You do not need to define which batch queue to use in the job script,
+      the Job scheduler will determine and route the new job to the right
+      running queue based on GPU(s) requested for the new job.
+
+  You can list out job submission steps & sample script by: [1;32m hpc ai [0m
+ ========================================================================
+  Job Type            :   Num of GPUs :    Num of Max  :  Max Running 
+                      :    per Job    :   Running Jobs :   Walltime   
+ ------------------------------------------------------------------------
+    Standard Job Queues for All Project Users
+ ------------------------------------------------------------------------
+  interactive job     :   1  -->   2  :        1       :    02:00:00 hrs
+  small   job [batch] :   1  -->   2  :        3       :   144:00:00 hrs
+  medium  job [batch] :   3  -->   7  :        2       :    96:00:00 hrs
+  large   job [batch] :   8  -->  16  :        1       :    48:00:00 hrs
+ ------------------------------------------------------------------------
+
+ ------------------------------------------------------------------------
+    Express Job Queues via <autox> for Self-Funded Project Users Only 
+ ------------------------------------------------------------------------
+  smallx  job [batch] :   1  -->   2  :        3       :   144:00:00 hrs
+  mediumx job [batch] :   3  -->   7  :        2       :    96:00:00 hrs
+  largex  job [batch] :   8  -->  16  :        1       :    48:00:00 hrs
+ ------------------------------------------------------------------------
+  * CPUs/Mem will be auto-assigned based on GPUs requested for the job.
+
+
+ To check the authorized PBS Project, credits and members, please run this command
+   on terminal first to login:
+
+   #  amgr login 
+
+  Enter your NUS account password to login.
+
+  Please note to wait for 5~10 seconds to try again, if login fails with error.
+  Contact HPC administrators for help via ASK if problem persists.
+
+

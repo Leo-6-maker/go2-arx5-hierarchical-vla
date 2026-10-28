@@ -1,0 +1,62 @@
+#!/bin/bash
+# PI0130: recovered-primary L1 TRAIN24 E4 evaluation only.
+# This surface never starts a training child, backward pass, optimizer step,
+# checkpoint write, retry, Validation-E/Holdout-F read, or downstream system.
+
+#PBS -N st45e_l1_eval
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=24:00:00
+#PBS -r n
+#PBS -j oe
+
+set -euo pipefail
+
+: "${STAGE45E_L1_REPO:?Set the exact clean L1 execution checkout}"
+: "${STAGE45E_L1_EXPECTED_HEAD:?Set the exact pushed L1 execution HEAD}"
+: "${STAGE45E_L1_PYTHON:?Set the admitted H200 runtime Python}"
+: "${STAGE45E_L1_FFMPEG_RUNTIME_ROOT:?Set the sealed native FFmpeg runtime root}"
+: "${STAGE45E_L1_RECOVERY_TRAINING_ROOT:?Set the immutable 612326 training root}"
+: "${STAGE45E_L1_RECOVERED_EVAL_INPUT:?Set the contract-bound recovered-input V2}"
+: "${STAGE45E_L1_EVAL_OUTPUT_ROOT:?Set a fresh evaluation output root}"
+: "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
+
+test -x "${STAGE45E_L1_PYTHON}"
+resolved_python="$(readlink -f "${STAGE45E_L1_PYTHON}")"
+case "${resolved_python}" in
+  /cm/shared/apps/python/3.12.3/bin/python3.12|/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12) ;;
+  *) echo "L1 evaluation Python resolves outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
+esac
+test "$(git -C "${STAGE45E_L1_REPO}" branch --show-current)" = "stage45e/l1-physical-error-aware-loss"
+test "$(git -C "${STAGE45E_L1_REPO}" rev-parse HEAD)" = "${STAGE45E_L1_EXPECTED_HEAD}"
+test -z "$(git -C "${STAGE45E_L1_REPO}" status --porcelain=v1 --untracked-files=all)"
+test -d "${STAGE45E_L1_FFMPEG_RUNTIME_ROOT}/lib"
+test -d "${STAGE45E_L1_FFMPEG_RUNTIME_ROOT}/compat"
+test -d "${STAGE45E_L1_RECOVERY_TRAINING_ROOT}/checkpoint-1000"
+test -d "${STAGE45E_L1_RECOVERY_TRAINING_ROOT}/checkpoint-2000"
+test -f "${STAGE45E_L1_RECOVERED_EVAL_INPUT}"
+test ! -e "${STAGE45E_L1_EVAL_OUTPUT_ROOT}"
+
+: "${STAGE45E_L1_SITE:=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages}"
+: "${STAGE45E_L1_TORCHCODEC_PACKAGE_ROOT:=${STAGE45E_L1_SITE}/torchcodec}"
+: "${STAGE45E_L1_TORCH_LIBRARY_ROOT:=${STAGE45E_L1_SITE}/torch/lib}"
+test -d "${STAGE45E_L1_TORCHCODEC_PACKAGE_ROOT}"
+test -d "${STAGE45E_L1_TORCH_LIBRARY_ROOT}"
+
+ambient_ld_library_path="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${STAGE45E_L1_FFMPEG_RUNTIME_ROOT}/lib:${STAGE45E_L1_FFMPEG_RUNTIME_ROOT}/compat:${STAGE45E_L1_TORCHCODEC_PACKAGE_ROOT}:${STAGE45E_L1_TORCH_LIBRARY_ROOT}:${ambient_ld_library_path}"
+export CUDA_VISIBLE_DEVICES=0
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export STAGE45E_L1_AUTHORITY_TOKEN=PI_GATE_STATE_0123
+unset PYTHONPATH 2>/dev/null || true
+
+# Absolute-path recovered-eval launcher from a foreign CWD; it invokes only
+# the eval-only child and passes the recovered V2 input explicitly.
+cd "${TMPDIR:-/tmp}"
+exec "${STAGE45E_L1_PYTHON}" "${STAGE45E_L1_REPO}/scripts/stage45e_l1_recovered_eval_launcher.py" \
+  --execute \
+  --expected-head "${STAGE45E_L1_EXPECTED_HEAD}" \
+  --training-root "${STAGE45E_L1_RECOVERY_TRAINING_ROOT}" \
+  --recovered-eval-input "${STAGE45E_L1_RECOVERED_EVAL_INPUT}" \
+  --output-root "${STAGE45E_L1_EVAL_OUTPUT_ROOT}"

@@ -1,0 +1,54 @@
+{
+  "authority": "PI0281_CORELAB_NATIVE_READOUT_WBC_REPAIR_AND_ADAPTATION_GAP_GO_V1",
+  "release": "360b412f55be8aec1568054d7d039ce7de2bc597",
+  "canonical": 6040516315,
+  "single_budget_owner": "/root",
+  "worker_model": "gpt-6.1-sol",
+  "worker_reasoning_effort": "high",
+  "scopes": {
+    "SOURCE": {
+      "agent": "/root/source_policy",
+      "code": "scripts/pi0281_execution/source*",
+      "reports": "reports/PI0281/source",
+      "initial_nominal_starts": 14,
+      "initial_policy_requests_max": 272,
+      "initial_policy_heads_max": 1088,
+      "initial_integrations_reserved_max": 41000,
+      "initial_controls_RGB_pairs_max": 8500,
+      "conditional_DIRECT_EEF": "NO_LAUNCH_WITHOUT_PROVEN_SEMANTIC_DEFECT"
+    },
+    "WBC": {
+      "agent": "/root/interface_draft",
+      "code": "scripts/pi0281_execution/wbc*",
+      "reports": "reports/PI0281/wbc",
+      "initial_nominal_starts": 6,
+      "initial_integrations_reserved_max": 14000,
+      "initial_WBC_controls_max": 3500,
+      "initial_actor_forwards_max": 7000,
+      "task_replay_prerequisite": "ALL_THREE_FINAL_FIXTURES_PASS",
+      "model_reference_prerequisite": "EXPERT_PERSISTENT_AT_LEAST_3_OF_4",
+      "repair_packages_max": 1
+    },
+    "AUDIT": {
+      "agent": "/root/evidence_audit",
+      "code": "scripts/pi0281_execution/audit*",
+      "reports": "reports/PI0281/audit",
+      "CPU_threads_max": 4,
+      "memory_GiB_max": 16,
+      "new_model_actor_physics_queries": 0
+    }
+  },
+  "reservation_semantics": "Atomic cross-process upper bound per unique attempt before launch; each lane preserves actual per-event ledger, enforces the attempt bound, and posts immutable final actual counts. Reserved counts are never labelled completed rows.",
+  "new_policy_requests_hard": 640,
+  "new_policy_heads_hard": 2560,
+  "new_physical_starts_hard": 36,
+  "technical_replacements_hard_shared": 4,
+  "valid_quality_retries": 0,
+  "GPU": "Corelab GPU0 only; model resident once; actual headroom required before concurrent WBC",
+  "old_training_pause": "REMAINS_ACTIVE",
+  "new_training_backward_optimizer_statistics_targetVLA_hardware": 0,
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE",
+  "publication_before_new_physics": true,
+  "HF_bulk_archive": "DEFERRED"
+}

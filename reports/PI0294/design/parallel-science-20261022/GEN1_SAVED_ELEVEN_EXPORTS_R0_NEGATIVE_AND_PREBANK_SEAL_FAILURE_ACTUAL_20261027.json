@@ -1,0 +1,60 @@
+{
+  "schema": "GEN1_CPU_SAVED_EXPORT_SEAL_FAILURE_ACTUAL_V1",
+  "observed_epoch": 1793065526.045671,
+  "science_source": "3396c3adbfb0a26685ddb4f28cf7083464913e37",
+  "control_source": "f1846c62e8cef1144ccd4461802bc454b17e7a83",
+  "job_id": "1497612.stdct-mgmt-02",
+  "native": {
+    "state": "F",
+    "Exit_status": 1,
+    "run_count": 1,
+    "node": "CN-017",
+    "CPUs": 1,
+    "GPUs": 0
+  },
+  "actual_export_parents": 11,
+  "R0_admitted_parents": 10,
+  "R0_rejected_parent_ids": [
+    "GEN1-PILOT-d7a1a12f0484a566-T1"
+  ],
+  "R0_rejection": {
+    "status": "BLOCKED_FROZEN_CODEC_PHYSICAL_ERROR",
+    "retained": true,
+    "recollected": false,
+    "thresholds_unchanged": true
+  },
+  "all_task_layout_support_missing": [],
+  "bank_complete": false,
+  "GPU_training_submitted": false,
+  "model_loads": 0,
+  "queries": 0,
+  "updates": 0,
+  "constructors": 0,
+  "physics_ticks": 0,
+  "causal_boundary": "ALL_ELEVEN_EXPORTS_SAVED_THEN_NUMERIC_0600_SEAL_REJECTED_BEFORE_CROSS_PARENT_BATCH",
+  "saved_numeric_files_mode": "0600",
+  "original_mature_reader_requires": "0400",
+  "original_UNKNOWN_counter_preserved": true,
+  "numeric_payloads_changed": false,
+  "old_plus_new_retained_bytes": 1301036016,
+  "conservative_CPU_s": 150,
+  "financial_settlement": "PURE_PROPOSAL_PASS_NATIVE_NOT_YET_RUN",
+  "own_lease": "ACTIVE_PENDING_ONCE_FINANCIAL_CLOSE",
+  "cold_fix": {
+    "action": "Seal only verified newly generated owned numeric and dataset manifest files before the original cross-parent qualifier",
+    "legacy_input_gate_relaxed": false,
+    "native_adopted": false
+  },
+  "validation": {
+    "targeted_CPU_pass": 29,
+    "captured_failure_cases": true,
+    "full_actual_settlement_arithmetic": true,
+    "CI_claim": false
+  },
+  "first_test_command_error": "Two guessed test paths did not exist; no tests ran in that command. Correct focused paths were then executed.",
+  "next_minimum_blocker": "Once settle/close failed CPU role, then finish saved-data bank qualification without re-exporting or replaying valid negatives; real bank gate still precedes model/update release.",
+  "GEN1_behavior": "NOT_EVALUATED",
+  "C_D_behavior_each": "0/24",
+  "WDR_core64": 0,
+  "full_goal_complete": false
+}

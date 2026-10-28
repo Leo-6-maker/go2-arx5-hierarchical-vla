@@ -1,0 +1,121 @@
+{
+  "schema": "POST_PI0276_PREPARATION_REVIEW_AND_LIMITS_V1",
+  "decision": "POST_PI0276_ACCELERATION_AND_MULTISCENE_PREP_V1",
+  "status": "GO_CPU_PREPARATION_ONLY_NOT_EXECUTION_RECEIPT",
+  "date_sgt": "2026-10-06",
+  "plan_path": "docs/plans/POST_PI0276_ACCELERATION_AND_MULTISCENE_PREPARATION_V1.md",
+  "plan_first_commit": "6091865756fa5d28d597d877c1e4f07c4a2a7cff",
+  "reviewed_project_sha": "be3b44f09ff107d37f731afe74f31f2c82a362a2",
+  "initial_review_sha": "73d75bc9d0c8c35488a30d04800da74ddc475b06",
+  "initial_to_final_review_diff": "One added TRAINING_LOG_SUMMARY.json; reviewed training and source code unchanged",
+  "current_science": {
+    "canonical": 6000169298,
+    "release": "57fd8a9c53ce241c05a8d5b351034bed7ba56b14",
+    "changed_by_this_preparation": false,
+    "latest_read_science_comment": 6011159275,
+    "comment_created_utc": "2026-10-06T07:02:27Z",
+    "formal_training_updates": 8192,
+    "microbatches": 16384,
+    "total_completed_updates": 8208,
+    "training_heads": 147768,
+    "technical_completed_updates": 0,
+    "audit_status": "PASS_PI0276_ACTUAL8192_TASK_TRAINING",
+    "model_task_quality": "NOT_ESTABLISHED_BY_TRAINING_AUDIT",
+    "remaining_priority": "Original fixed final evaluation, full archival closeout and readback"
+  },
+  "reviewed_sources": [
+    {"path": "scripts/pi0276_execution/train.py", "blob": "8c7c26b453af9fc03d35198c5ae3531bb175724e", "scope": "Full source: map-style dataset, cached episodes, scalar logging, fixed worker0, actual-consumption cursor and source-bound AST adapter"},
+    {"path": "scripts/pi0276_execution/source_worker.py", "blob": "1eed0c1edf3d1ef90a62f2341ac8002e69ec8433", "scope": "Lines1-220: native conversion, global physics instrumentation, actual observations and command/state recording"},
+    {"path": "reports/PI0276/execution/POSTTRAINING_MAIN_TRAINING_AUDIT.json", "blob": "bfa885f261c020357f65c2c2446e7a9c0fd0c47f", "scope": "Returned checkpoint inventories and exact completion/status accounting; no remote arrays replayed by reviewer"},
+    {"path": "reports/PI0276/execution/POSTTRAINING_REPAIR.json", "blob": "b68fac02fcb466630a804b1bc2f754d39ec81ac7", "scope": "Full: completed training versus failed posttraining auditor, separate zero-query repair"},
+    {"path": "reports/PI0276/execution/TRAINING_LOG_SUMMARY.json", "blob": "27f112b69ae7840b429e1d1ad58a45e7db7ad45f", "scope": "Full: descriptive training metrics, not a same-condition task-quality comparison"},
+    {"repository": "mani-skill/ManiSkill", "sha": "62ff3a5896b4d5b4cf0ac4c8d79afe600c9404a3", "path": "mani_skill/envs/tasks/tabletop/place_sphere.py", "blob": "07c4b6f0295a39d864eaf4bf3518740e703e0eb7", "scope": "Lines1-220: source support is panda/fetch; predicate and privileged obs extras; task not executed"}
+  ],
+  "official_references": [
+    "https://docs.pytorch.org/docs/stable/data.html",
+    "https://docs.pytorch.org/tutorials/recipes/recipes/tuning_guide.html",
+    "https://maniskill.readthedocs.io/en/latest/user_guide/tutorials/domain_randomization.html"
+  ],
+  "historical_context_used": "Policy identity; group/episode-first splits; object outcome separate from trajectory fit; no target-WBC data-success filter. Older authorizations/statuses do not override current charter.",
+  "observed_training_metric_caution": {
+    "total_loss_first_last_512_microbatch_means": [1.764840081188595, 0.1613477425325982],
+    "generated_gripper_MAE_first_last_512_microbatch_means": [0.4263114988716552, 0.2989088302711025],
+    "interpretation": "Different consumed inputs; neither paired model quality nor proof more scenes will solve failure"
+  },
+  "authorized_now": {
+    "isolated_cpu_preparation_code": true,
+    "read_existing_permitted_train_records": true,
+    "cpu_input_benchmark": true,
+    "static_scene_cards_and_mock_collection": true,
+    "new_neural_forward_calls": 0,
+    "new_backward_calls": 0,
+    "new_optimizer_updates": 0,
+    "new_native_simulator_constructions_or_resets": 0,
+    "new_physics_steps": 0,
+    "new_render_calls": 0,
+    "new_teacher_planner_calls": 0,
+    "new_target_WBC_or_hardware_calls": 0,
+    "old_TEST_access_for_preparation": false,
+    "automatic_future_gpu_or_data_launch": false
+  },
+  "cpu_benchmark_binding": {
+    "candidates": [0, 2, 4],
+    "workers4_conditional": "W2 exact correctness, >=15 percent median CPU throughput gain, memory below half ceiling and legitimately idle CPUs",
+    "scope_clarification": "The plan section5 first2048 restriction applies to measured throughput passes. The separately specified section4 resume tests may read up to32 TRAIN entries beginning at min(2*k,16384), k in [0,4,128,4096,8191], stopping at stream end. No VAL/TEST; all extra calls share the32768 cap.",
+    "warmup_clarification": "Each fresh-process pass warms using the first64 schedule positions, then restarts the CPU-only sampler at0 for the first2048 measured positions. Prefetched work remains counted; do not suppress it from resource reports.",
+    "repeats_max_per_config": 3,
+    "warmup_calls_per_pass": 64,
+    "measured_calls_per_pass": 2048,
+    "three_config_base_calls": 19008,
+    "all_actual_item_calls_hard": 32768,
+    "cuda_visible": false,
+    "pin_memory_for_cpu_timing": false,
+    "model_instantiation": false,
+    "shared_cache_note": "Optional memmap implementation is prepared and byte-verified; comparisons must identify their storage variant. Do not add an unbounded fourth benchmark configuration under the same cap.",
+    "result_name": "CPU_LOADER_CANDIDATE_NOT_H200_SPEEDUP_PROOF"
+  },
+  "scene_preparation": {
+    "upstream": "mani-skill/ManiSkill@62ff3a5896b4d5b4cf0ac4c8d79afe600c9404a3",
+    "task": "StackCube-v1",
+    "robot": "panda_wristcam",
+    "domains": ["D0_LAYOUT", "D1_APPEARANCE", "D2_EXTERNAL_CAMERA"],
+    "split_base_seed_ranges_inclusive": {"DEV": [50000,50007], "TRAIN": [51000,51095], "VAL": [52000,52015], "TEST": [53000,53031]},
+    "base_groups": 152,
+    "cards": 456,
+    "TRAIN_base_groups": 96,
+    "TRAIN_variant_cards": 288,
+    "TEST_metadata_only": true,
+    "all_variants_same_parent_split": true,
+    "native_physics_teacher_renderer_or_model_tested": false,
+    "new_task_candidate": "PlaceSphere-v1 source audit only; wristcam support/teacher/privileged fields require explicit adapter qualification",
+    "language_claim": "Constant instruction in first wave; no demonstrated language selection, multi-task or cross-embodiment capability"
+  },
+  "prospective_only_not_granted": {
+    "GPU_equivalence_draft_completed_updates": 24,
+    "DEV_pilot_base_groups": 8,
+    "DEV_variants": 24,
+    "DEV_native_plus_EEF_episodes": 48,
+    "pilot_control_steps_excluding_setup_negatives_retries": 30720,
+    "pilot_physics_steps_excluding_setup_negatives_retries": 153600,
+    "requires_separate_release_before_any_call": true
+  },
+  "preparation_resource_hard_limits": {
+    "allocated_CPU_count": 8,
+    "aggregate_CPU_core_hours": 16,
+    "process_tree_RAM_GiB": 64,
+    "derived_artifacts_GiB": 20,
+    "source_docs_network_MiB": 256,
+    "extra_GPU_jobs": 0,
+    "respect_actual_allocation_and_main_evaluation_priority": true
+  },
+  "independent_arithmetic": {
+    "TRAIN_RGB_only_bytes": 3291217920,
+    "TRAIN_RGB_only_GiB": 3.065185546875,
+    "not_a_peak_RSS_prediction": true,
+    "formula": "93*640*96*96*3*2"
+  },
+  "reviewer_execution": {"SSH": false, "remote_agent_started": false, "GPU_or_data_benchmark_run": false, "simulator_started": false, "local_CPU_arithmetic": true},
+  "required_terminal": "POST_PI0276_CPU_PREPARATION_COMPLETE_STOP_BEFORE_GPU_QUALIFICATION_OR_NEW_COLLECTION_OR_EXPLICIT_PARTIAL",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

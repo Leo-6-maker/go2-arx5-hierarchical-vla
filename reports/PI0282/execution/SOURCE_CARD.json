@@ -1,0 +1,153 @@
+{
+  "release": "8fdaab73b8b6686409317d9562833235c2839acc",
+  "canonical": 6044490956,
+  "points": [
+    "EXPERT",
+    "UNADAPTED_INTERFACE0",
+    "ACTION1024",
+    "ACTION2048",
+    "INTERFACE1024",
+    "INTERFACE2048",
+    "ACTION512"
+  ],
+  "panels": {
+    "TRAIN": [
+      10000,
+      10001,
+      10002,
+      10003
+    ],
+    "DEV": [
+      30000,
+      30001,
+      30002,
+      30003,
+      30004,
+      30005,
+      30006,
+      30007
+    ],
+    "CONFIRM": [
+      30032,
+      30033,
+      30034,
+      30035,
+      30036,
+      30037,
+      30038,
+      30039,
+      30040,
+      30041,
+      30042,
+      30043,
+      30044,
+      30045,
+      30046,
+      30047
+    ]
+  },
+  "codec_command": [
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python",
+    "-u",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0282/code/codec.py",
+    "--stdio",
+    "--root",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0282/data"
+  ],
+  "policy_command": [
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python",
+    "-u",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0282/code/inference.py",
+    "--root",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0282"
+  ],
+  "native_pythonpath": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/code:/home/liuyu-nfs/Projects/go2-arx5/PI0280/official:/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src/src",
+  "hf_home": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/hf_home",
+  "expert_parents": {
+    "10000": {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10000-eef/attempt-000",
+      "files": {
+        "RESULT.json": "e31e4eab5bf9bda7647eae0c1eb283f1dcba2dd750fe6cc7c00c538948fe15ca",
+        "commands.npz": "865c26a7bad29183cd01dfdd018f6f660515a1dd3c19340790756f66d357d076",
+        "initial.npz": "bc6e0cf1ebbc8a4d80fc14ab05af78e24fd033843619e86e8b538434010281c2"
+      }
+    },
+    "10001": {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10001-eef/attempt-000",
+      "files": {
+        "RESULT.json": "7a68026182f90bef46631276582f6eaeb3fae3e5c5a27d917722c8b3f79279d4",
+        "commands.npz": "5880501be81568f835f400ece77092d6555ef16127ee46ebd6abb687402c5d17",
+        "initial.npz": "3969116792246743486d792d1ff8f41ef7f51b54bba14c8a206b99dbcac2c42f"
+      }
+    },
+    "10002": {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10002-eef/attempt-000",
+      "files": {
+        "RESULT.json": "3f932d3625623288d7419eccf108c8ff0ea12b2fa3cfb34754c6c547cd903137",
+        "commands.npz": "123149bdb1b34beea939b7875cb7f0a3a440ad2f7f2ef9458963c5ee64447b97",
+        "initial.npz": "5505d107c95cc4d6b7ba866ba08130b23a5d5859e8ab64273b1e6d412a170bf9"
+      }
+    },
+    "10003": {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10003-eef/attempt-000",
+      "files": {
+        "RESULT.json": "23be88c3d35f099f6e5d015327768c83485db387013e3c2b6bdedd39bf8baf0d",
+        "commands.npz": "831742944b4140faaad59c0c359e654b250aa8d804085c1a31c6f9e27307ea13",
+        "initial.npz": "d7aafd71dce40a40ce37dc99bfba3d8a1687c1bd28bfe6bfa6edbce4494d6992"
+      }
+    }
+  },
+  "predecessors": {
+    "source_worker": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/source_worker.py",
+      "sha256": "12317af70db5cf913d0f07151d63195eb7785a1e76134add687cd133210d0bd3"
+    },
+    "source_fileset": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/design/SOURCE_FILESET.json",
+      "sha256": "36b697b83293f39e1965e30bff2f0e39a1f69263a3e06e7a07ca97f0198bf190"
+    }
+  },
+  "code_sha256": {
+    "source.py": "8b26de01789bba2c24c05833058a4f8ee0f618292f72d4d1ede22c2d35215d38",
+    "source_launch.py": "482538bec044e4f4166f46c3ca33042a9578ad1b894ed9c3ac778305c34abb40",
+    "inference.py": "5a87a3c9601a5557388f772d9a774189c582b893ebb41cf117c1852126505af2",
+    "codec.py": "2b2181644b021a0c3b70ca4d4a232a3c194cd96843695c049d592f4ab25200b9",
+    "cpu_inputs.py": "a28db8767d4ccfd85d844224e94f55849a99a44a9ea7a6e6022860c374e635d6",
+    "native_model.py": "b1f080dd049de2f98671ddb4f667fe60ab72b723dde3f6e0357662f7626cae6a",
+    "authority.py": "d5b886ad7660c9120438b578eac70a3777f429f1a0f9eae2dcd0d3894cb62f7f"
+  },
+  "step_s": 0.05,
+  "control_Hz": 20,
+  "physics_Hz": 100,
+  "task_control_calls": 640,
+  "pre_roll_control_calls": 20,
+  "H": 40,
+  "prefix": 8,
+  "observations": "ACTUAL_CURRENT_RAW128_TCP_ROW6D_MEASURED_OPENING_NO_JOINT_PHASE_TIME_OR_TRUTH",
+  "source_controller": "UNCHANGED_PI0276_NATIVE_PD_EE_POSE",
+  "physical_caps": {
+    "starts": 60,
+    "control": 45000,
+    "physics": 220000,
+    "rgb": 45000,
+    "dispatches": 90000,
+    "teacher": 0
+  },
+  "model_caps": {
+    "requests": 5120,
+    "heads": 20480
+  },
+  "metric": "FULL32S_AND_ALL41_ORIGINAL_TASK_SUCCESS_SAMPLES28_TO30",
+  "NON_REALTIME": true,
+  "technical_replacements": {},
+  "point_bindings": {},
+  "selected": "NONE",
+  "deployment": "NONE",
+  "authority_release": "fdcde0e29f7eb689d0eea0f4dd20586309e77326",
+  "development_points": [
+    "ACTION512",
+    "ACTION1024",
+    "ACTION2048"
+  ],
+  "conservative_episode_reserve_s": 360
+}

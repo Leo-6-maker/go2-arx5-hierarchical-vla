@@ -1,0 +1,46 @@
+{
+  "schema": "DEC1_A40_HISTORICAL_NATIVE_RESOURCE_COMPARISON_V1",
+  "observed_epoch": 1792532969.8750248,
+  "old_native_job": {
+    "job_id": "1462451.stdct-mgmt-02",
+    "job_name": "groot_vanda_s1",
+    "project": "CFP04-CF-007",
+    "job_state": "F",
+    "Exit_status": 0,
+    "ngpus": 1,
+    "ncpus": 36,
+    "memory": "240gb",
+    "walltime_limit": "00:30:00",
+    "select": "1:ngpus=1:ncpus=36:mem=240gb:node_pool=gpu_node",
+    "resources_used": {
+      "cpupercent": 20,
+      "cput": "00:00:38",
+      "mem": "3231816kb",
+      "ncpus": 36,
+      "ngpus": 0,
+      "vmem": "32920488kb",
+      "walltime": "00:02:17"
+    },
+    "not_current_CORR_model_qualification": true,
+    "old_budget_not_added_to_DEC1": true
+  },
+  "current_job_id": "1471903.stdct-mgmt-02",
+  "current_fixed_source": "a2caf6a54f37cb76f64f8d7f42abd5f0e3252339",
+  "established_facts": [
+    "36CPU/240GB allocation is not unique to this new request; the old successful mature probe also had it.",
+    "The mature probe limits its process affinity to four CPUs; it did not require native allocated ncpus to equal four.",
+    "The new DEC1 native_running admission additionally requires Resource_List.ncpus equal four. Current Q resources do not satisfy it.",
+    "This is an admission-contract versus native-allocation conflict, not evidence of a GR00T model, weights, training or WBC failure."
+  ],
+  "unknowns": [
+    "The exact hook or routing rule producing the rewrite is unproven.",
+    "Whether normal user qalter can legally preserve the original requested 4CPU/32GB on this current job is not yet tested or authorized in this fixed scope.",
+    "The historical resources_used.ngpus=0 field is not a reliable independent model/CUDA-use metric and is not used to reclassify the old model proof."
+  ],
+  "pending_action": "ONE_EXPLICIT_QUESTION_FOR_ORIGINAL_SELECT_SAME_JOB_QALTER_AND_READBACK_NO_RESUBMIT",
+  "automatic_qalter_cancel_new_submission": false,
+  "current_CORR_neural_qualification": "NOT_PROVEN",
+  "WBC_S1_scoring_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -1,0 +1,71 @@
+{
+  "authority_commit": "7e5a4aae69912ba8e593d50d313f288abc16a914",
+  "cohort_sizes": {
+    "E64": 64,
+    "N512": 512,
+    "O64": 64,
+    "P64": 64
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "inference_head_cap": 7680,
+  "input_hashes": {
+    "G_score_card.json": "4eb44674e7cb1d82ff1ddc7d3c397f5e65e6db4f1068cf509eacfde5c49fb1e4",
+    "O64_manifest.json": "3560fd0c21432b01ccd4d47fd9e578c4dbfb211fb518be1e29f72fa7b54917f8",
+    "full_cohort.json": "08f3e13771ef00d892ef73b83d0247316e9c4cf41a9f7d84e26e83ee1fda1755",
+    "original_observation_times.json": "92573b239ee5952801f7e50abff5f0972617e8b73daf9dc31fce30035f7344b2"
+  },
+  "jitter_coverage": {
+    "E64": {
+      "00_nominal": 3,
+      "01_xp015": 8,
+      "02_xm015": 4,
+      "03_yp015": 5,
+      "04_ym015": 7,
+      "05_zp015": 8,
+      "06_zm015": 8,
+      "07_xp010_yp010": 10,
+      "08_xm010_ym010": 11
+    },
+    "N512": {
+      "00_nominal": 52,
+      "01_xp015": 44,
+      "02_xm015": 40,
+      "03_yp015": 36,
+      "04_ym015": 60,
+      "05_zp015": 52,
+      "06_zm015": 68,
+      "07_xp010_yp010": 72,
+      "08_xm010_ym010": 88
+    },
+    "O64": {
+      "00_nominal": 16,
+      "01_xp015": 16,
+      "02_xm015": 16,
+      "03_yp015": 16
+    },
+    "P64": {
+      "00_nominal": 2,
+      "01_xp015": 7,
+      "02_xm015": 6,
+      "03_yp015": 4,
+      "04_ym015": 12,
+      "05_zp015": 6,
+      "06_zm015": 10,
+      "07_xp010_yp010": 11,
+      "08_xm010_ym010": 6
+    }
+  },
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "planned_queries": 1856,
+  "query_cap": 1920,
+  "rollout_sizes": {
+    "E64": 64,
+    "N512": 128,
+    "O64": 61,
+    "P64": 64
+  },
+  "shared_source_visit_draws": 3584,
+  "status": "PASS_DESIGN_CPU_CARDINALITY_DISJOINTNESS_EXPOSURE_AND_POISON",
+  "training_updates_per_arm": 4608
+}

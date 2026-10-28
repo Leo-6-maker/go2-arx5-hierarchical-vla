@@ -1,0 +1,267 @@
+{
+  "schema": "PI0294_V4A_CORE_NATIVE_BACKEND_ACCOUNTING_SCOPE_AND_OS_CPU_PREPARATION_V1",
+  "status": "CPU_AND_REAL_OS_PREPARATION_ONLY_NO_GPU_EXECUTION",
+  "observed_epoch": 1792837970.1234348,
+  "execution_stage": "V4A_MATCHED_AB_N294101_STAGE1",
+  "planned_conditions": {
+    "A_CONTROL": 24,
+    "B_COVERAGE": 24
+  },
+  "actual_valid_results": {
+    "B0_CORR": 14,
+    "A_CONTROL": 0,
+    "B_COVERAGE": 0,
+    "S1_core64": 0
+  },
+  "native_backend_preparation": {
+    "physical_platform": "CORELAB_RTX4080",
+    "native_GPU_profile": "4080-neural-evaluation",
+    "scope": "PI0294_PV1_SHARED_POLICY_CORELAB_EVALUATION_V1",
+    "native_handle_format": "coregpu:<boot UUID>:<PID>:<proc start>",
+    "PBS_JOBID_alias": false,
+    "PBS_rows_or_counts_created": false,
+    "original_global_ledger_retained": true,
+    "separate_Core_classification_index": "Core_native_GPU_allocations",
+    "original_25_PBS_rows_and_training_costs_preserved": true,
+    "optimizer_updates_preserved": 11714,
+    "same_original_AB_bank_294101_only": true,
+    "single_campaign_GPU_across_platforms": true,
+    "kernel_GPU_identity_requires_real_unit_and_lock": true,
+    "metadata_scope_is_not_model_admission": true
+  },
+  "actual_OS_limit_CPU_test": {
+    "status": "PASS_ACTUAL_CORE_OS_CPU_MEMORY_TASK_LIMITS_ONLY",
+    "CPU_quota": "400000 100000",
+    "memory_max_bytes": 51539607552,
+    "pids_max": 32,
+    "cgroup_usage_usec": 17545,
+    "transient_CPU_only_test_units": 1,
+    "unit_naturally_exited": true,
+    "GPU_allocation": false
+  },
+  "server_captured_resource_and_once_CPU": {
+    "status": "PASS_ACTUAL_CORE_CAPTURED_PURE_RESERVATION_AND_TEMP_ONCE_IO",
+    "CPU_s": 0.107595999,
+    "original_history_and_grant_checks_unmocked": true,
+    "fixtures_not_registered_or_native": true,
+    "once_IO_targets": "temporary files only",
+    "shortfalls": {},
+    "dimensions": {
+      "H200_s": {
+        "cap": 435600,
+        "used": 103148.0,
+        "reserved": 0,
+        "remaining_stage_upper": 57720,
+        "matrix": 86580,
+        "final": 72000,
+        "projected": 319448.0,
+        "shortfall": 0
+      },
+      "PBS_submissions": {
+        "cap": 34,
+        "used": 25,
+        "reserved": 0,
+        "remaining_stage_upper": 2,
+        "matrix": 3,
+        "final": 0,
+        "projected": 30,
+        "shortfall": 0
+      },
+      "optimizer_updates": {
+        "cap": 16384,
+        "used": 11714,
+        "reserved": 0,
+        "remaining_stage_upper": 0,
+        "matrix": 0,
+        "final": 0,
+        "projected": 11714,
+        "shortfall": 0
+      },
+      "episode_starts": {
+        "cap": 1000,
+        "used": 343,
+        "reserved": 0,
+        "remaining_stage_upper": 48,
+        "matrix": 88,
+        "final": 100,
+        "projected": 579,
+        "shortfall": 0
+      },
+      "neural_queries": {
+        "cap": 48000,
+        "used": 1231,
+        "reserved": 0,
+        "remaining_stage_upper": 3874,
+        "matrix": 7040,
+        "final": 9000,
+        "projected": 21145,
+        "shortfall": 0
+      },
+      "physics_ticks": {
+        "cap": 40000000,
+        "used": 10681025,
+        "reserved": 0,
+        "remaining_stage_upper": 1536000,
+        "matrix": 2816000,
+        "final": 3200000,
+        "projected": 18233025,
+        "shortfall": 0
+      },
+      "engine_starts": {
+        "cap": 100000,
+        "used": 29705,
+        "reserved": 0,
+        "remaining_stage_upper": 3892,
+        "matrix": 7128,
+        "final": 0,
+        "projected": 40725,
+        "shortfall": 0
+      },
+      "Core_CPU_s": {
+        "cap": 1152000,
+        "used": 180598.97856362094,
+        "reserved": 0,
+        "remaining_stage_upper": 362800,
+        "matrix": 193968.05627,
+        "final": 0,
+        "projected": 737367.034833621,
+        "shortfall": 0
+      },
+      "Hopper_CPU_s": {
+        "cap": 766800,
+        "used": 156569.658597758,
+        "reserved": 0,
+        "remaining_stage_upper": 175000,
+        "matrix": 85520,
+        "final": 0,
+        "projected": 417089.65859775804,
+        "shortfall": 0
+      },
+      "local_CPU_s": {
+        "cap": 172800,
+        "used": 51058.974682509,
+        "reserved": 0,
+        "remaining_stage_upper": 15000,
+        "matrix": 6600,
+        "final": 0,
+        "projected": 72658.974682509,
+        "shortfall": 0
+      },
+      "transfer_bytes": {
+        "cap": 322122547200,
+        "used": 60601373313,
+        "reserved": 0,
+        "remaining_stage_upper": 102918647008,
+        "matrix": 6174015488,
+        "final": 0,
+        "projected": 169694035809,
+        "shortfall": 0
+      },
+      "Hopper_storage_bytes": {
+        "cap": 869730877440,
+        "used": 677711804228,
+        "reserved": 0,
+        "remaining_stage_upper": 76692256368,
+        "matrix": 9442971836,
+        "final": 42949672960,
+        "projected": 806796705392,
+        "shortfall": 0
+      },
+      "Core_storage_bytes": {
+        "cap": 322122547200,
+        "used": 115058147328,
+        "reserved": 0,
+        "remaining_stage_upper": 116420703856,
+        "matrix": 17968398336,
+        "final": 0,
+        "projected": 249447249520,
+        "shortfall": 0
+      },
+      "local_storage_bytes": {
+        "cap": 21474836480,
+        "used": 8589934592,
+        "reserved": 0,
+        "remaining_stage_upper": 134217728,
+        "matrix": 0,
+        "final": 0,
+        "projected": 8724152320,
+        "shortfall": 0
+      }
+    },
+    "server_source_hashes": {
+      "scripts.pi0294.pv1.evaluation_core_accounting": "259ef6125177514cd8ffc842609751c12664ba725399c0301eb636caab9c1af6",
+      "scripts.pi0294.pv1.evaluation_core_admission": "19627b60fbfa185623fdb56dabf458276b285ac7652ecfd8109fe961e63599a7",
+      "scripts.pi0294.pv1.evaluation_core_identity": "1a4e30d2e000669d2eaaa34232c974d8ea62880c302c89927d42805d07c75145",
+      "scripts.pi0294.pv1.evaluation_core_ledger": "ffcdd4292790f026f243f86bd24db077dd3aee8c22797fe712105fa259cde4a8",
+      "scripts.pi0294.pv1.evaluation_core_scope": "474711540e4baeb16a9d0b265ed9cc1092347ae731bbb1e39e1f0ca9f4955b74",
+      "scripts.pi0294.pv1.evaluation_admission": "6be19f1224a03614c109805fa49eb3046fe10bb0fbf2ce38753ada8d0da641e1",
+      "scripts.pi0294.pv1.evaluation_platform": "75044c467a7734b5887f15f165407d947b4733f24c6bf32352843503e9df89ec",
+      "scripts.pi0294.pv1.evaluation_stage": "55630555cfbbf97895205090c5dcbf2e99862fd2b96b08e308369f8f062b59a7",
+      "scripts.pi0294.pv1.neural_ledger": "d122845a7b3d50eed882897f3b3a0588f4a9c54b6910cccc0ef9276e8a517d71",
+      "scripts.pi0294.pv1.neural_scope": "bf15316018e1e604e61c75ffc73518c8f7a3afd805a9cad1b032c3cb094211c1",
+      "scripts.pi0294.pv1.runtime": "038be0190eeee2a58732c02c02535ee21a8e023049330f220b21d07e49dea39a",
+      "scripts.pi0294.pv1.evaluation_transfer": "cc730f10883eed1ddaca792f01f938b8f884688ec2bddd07d0b1d4eff720304d"
+    }
+  },
+  "storage_accounting": {
+    "model_payload_bytes_each": 12576324408,
+    "GPU_neural_output_upper_bytes_each": 25769803776,
+    "Core_GPU_output_plus_model_upper_bytes_each": 38346128184,
+    "Core_GPU_model_copies_counted_in_both_Core_and_global_GPU_site_dimensions": true,
+    "no_model_cache_or_HF_dedup_credit": true,
+    "old_01649_capture_was_preparation_not_native_admission": true
+  },
+  "remote_accounting_IO": {
+    "uses_original_canonical_master_only": true,
+    "fresh_SSH_fallback": false,
+    "original_40s_MUTATION_and_READ_ONLY_bounds": true,
+    "original_RPC_UNKNOWN_latch_retained": true,
+    "original_once_IO_receipts": true,
+    "remote_stdout_stderr_diagnostics_saved_privately": true,
+    "temporary_write_applied_then_returncode_7_case_refuses_resend": true,
+    "remote_bound_existing_neural_Python_required": true,
+    "native_transport_to_Vanda_not_yet_executed_for_new_role": true
+  },
+  "validation": {
+    "targeted_core_cases": 74,
+    "earlier_full_PV1_cases": 725,
+    "earlier_full_PV1_subtests": 268,
+    "final_full_PV1": {
+      "passed": 729,
+      "subtests_passed": 268
+    },
+    "GitHub_Actions_success_claimed": false,
+    "server_CPU_OS_limits_actual": true,
+    "server_CPU_accounting_proposals_actual": true,
+    "GPU_model_or_transport_qualified": false
+  },
+  "actual_native_scientific_changes": {
+    "GPU_jobs": 0,
+    "PBS_submissions": 0,
+    "model_loads": 0,
+    "model_queries": 0,
+    "physics": 0,
+    "training_updates": 0,
+    "canonical_ledger_mutations": 0,
+    "registry_or_scientific_lease_mutations": 0,
+    "HF_upload_download": 0
+  },
+  "remaining_critical_path": [
+    "finish registered Core owner dispatch and native task lifecycle; current modules are preparation only",
+    "connect actual remote global debit adapter and original native 600s/80cycle qualification",
+    "perform complete fresh resource, source, GPU exclusivity and original-clock admission",
+    "fixed revision licensed exact model transfer and original metadata restoration",
+    "load A4096 and B4096 with original numerical mode and frozen parameter checks",
+    "fresh first-query release, original feedback/ACK/STOP DEV loops and independent terminal audits",
+    "settle actual effects and close all GPU/physical/control leases before follow-on work"
+  ],
+  "native_queue_or_service_registered": false,
+  "original_matrix_final_caps_and_deadlines_unchanged": true,
+  "new_training_or_collection_authorized": false,
+  "goal_status": "ACTIVE",
+  "receipts_sha256": {
+    "ACTUAL_CORE_OS_LIMITS_CPU.private.json": "9c01add3d232e52292c35b80db47639164c79c2f2e3275d10153c2428d3e7828",
+    "CORE_ORIGINAL_PARENT_AND_LOCAL_READBACK.private.json": "6fedc4a66c961aa359a187e4bf1bb84b442ef6a107a78ef70b35e8709614494c",
+    "ACTUAL_CORE_CAPTURED_ACCOUNTING_AND_ONCE_CPU.private.json": "4b10cf63208e606e18bcbb90374fa11f07fb49a5e2977c979469a494b49447cc"
+  }
+}

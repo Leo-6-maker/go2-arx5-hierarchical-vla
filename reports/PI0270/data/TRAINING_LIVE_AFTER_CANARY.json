@@ -1,0 +1,36 @@
+{
+  "canary": {
+    "arm": "AGG",
+    "microbatches": 16,
+    "mode_restored": true,
+    "model_max_abs": 0.0,
+    "model_tensors": 1030,
+    "optimizer_max_abs": 0.0,
+    "optimizer_tensors": 1413,
+    "packet_equal": true,
+    "saved_RNG_states_equal": {
+      "cpu": true,
+      "cuda": true,
+      "numpy": true,
+      "python": true
+    },
+    "scheduler_lr_abs": 0.0,
+    "split_phase": "split",
+    "status": "PASS_PI0270_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY",
+    "units": 8
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "exec_host": "hopper-25/4*12",
+  "job_id": "645483.hopper-m-02",
+  "job_state": "R",
+  "main_samples": 150,
+  "observed_utc": "2026-10-04T03:45:37.693420+00:00",
+  "phase_updates": {
+    "continuous": 8,
+    "main": 74,
+    "split": 8
+  },
+  "raw_completed_updates": 90,
+  "raw_training_heads": 1662,
+  "selected_checkpoint": "NONE"
+}

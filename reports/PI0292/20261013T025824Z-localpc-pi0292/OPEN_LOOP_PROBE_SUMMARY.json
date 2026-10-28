@@ -1,0 +1,281 @@
+{
+  "status": "SEALED_BEFORE_MAIN",
+  "schema": "PI0292_OPEN_LOOP_PROBE_V1",
+  "TRAIN_ids": [
+    "T291000",
+    "T291004",
+    "T291008",
+    "T291012",
+    "T291016",
+    "T291021",
+    "T291025",
+    "T291029",
+    "T291033",
+    "T291037",
+    "T291042",
+    "T291046",
+    "T291050",
+    "T291054",
+    "T291058",
+    "T291063"
+  ],
+  "DEV_ids": [
+    "D291000",
+    "D291001",
+    "D291002",
+    "D291003",
+    "D291004",
+    "D291005",
+    "D291006",
+    "D291007",
+    "D291008",
+    "D291009",
+    "D291010",
+    "D291011",
+    "D291012",
+    "D291013",
+    "D291014",
+    "D291015"
+  ],
+  "omissions": [
+    {
+      "id": "T291000",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291004",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291008",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291012",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291016",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291021",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291025",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291029",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291033",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291037",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291042",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291046",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291050",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291054",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291058",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "T291063",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291000",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291001",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291002",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291003",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291004",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291005",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291006",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291007",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291008",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291009",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291010",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291011",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291012",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291013",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291014",
+      "missing_stages": [],
+      "no_replacement": true
+    },
+    {
+      "id": "D291015",
+      "missing_stages": [],
+      "no_replacement": true
+    }
+  ],
+  "selection": "Numeric sort; TRAIN index j*(N-1)//15, j=0..15; all DEV",
+  "anchors": "0 and first observed close/lift/carry/release/hold stage at index<=600; deduplicate; never replace missing",
+  "noise_banks": [
+    29201,
+    29202
+  ],
+  "noise_derivation": "uint64_be(SHA256(PI0292/OFFLINE/{bank}/{id}/{anchor})[:8]) mod 2**63",
+  "per_profile_queries": 384,
+  "total_three_profile_queries": 1152,
+  "native_inference_steps": 4,
+  "statistics_sha256": "c3b871e3b5a854e876e4dbff806640f3472bef32b64f9d3db764a4d2c39b5fe4",
+  "manifest_sha256": "c228f59473c110264f58cf34dbd75198a3ee12207e0788967614d33f27f6999a",
+  "gate": {
+    "parameters": {
+      "initial_position_warn_m": 0.25,
+      "initial_position_reject_m": 0.75,
+      "initial_rotation_warn_rad": 0.5,
+      "initial_rotation_reject_rad": 1.5,
+      "linear_speed_warn_mps": 1.0,
+      "linear_speed_reject_mps": 2.0,
+      "angular_speed_warn_radps": 2.0,
+      "angular_speed_reject_radps": 4.0,
+      "workspace_warn_min_m": null,
+      "workspace_warn_max_m": null,
+      "workspace_reject_min_m": null,
+      "workspace_reject_max_m": null,
+      "max_path_length_m": 5.0,
+      "min_arc_length_m": 1e-06,
+      "aging_age_s": 0.2,
+      "stale_age_s": 0.75,
+      "min_points": 2,
+      "lambda_m_per_rad": 0.15,
+      "threshold_provenance": {
+        "initial_position_warn_m": "BENCHMARK_DERIVED",
+        "initial_position_reject_m": "BENCHMARK_DERIVED",
+        "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+        "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+        "linear_speed_warn_mps": "TEST_ONLY",
+        "linear_speed_reject_mps": "TEST_ONLY",
+        "angular_speed_warn_radps": "TEST_ONLY",
+        "angular_speed_reject_radps": "TEST_ONLY",
+        "workspace_warn_min_m": "GENERATOR_SUPPORT",
+        "workspace_warn_max_m": "GENERATOR_SUPPORT",
+        "workspace_reject_min_m": "TEST_ONLY",
+        "workspace_reject_max_m": "TEST_ONLY",
+        "max_path_length_m": "TEST_ONLY",
+        "min_arc_length_m": "CONTROLLER_CONTRACT",
+        "aging_age_s": "CONTROLLER_CONTRACT",
+        "stale_age_s": "CONTROLLER_CONTRACT",
+        "min_points": "CONTROLLER_CONTRACT"
+      }
+    },
+    "source_frame": "PI0291_MUJOCO_WORLD",
+    "tcp_semantic_id": "ARX5_NATIVE_SITE_x5_ee",
+    "orientation": "N1.7 native rows -> matrix -> canonical xyzw; no column-rot6d shortcut",
+    "clock": "Paused simulation time: obs tick/500; wall timeout independently <=60s",
+    "gripper": "0 closed, 1 open; commands must be within [0,1]; no extra clipping",
+    "corrective_action": "NONE",
+    "real_robot_qualification": false
+  },
+  "gate_code_hashes": {
+    "src/go2arx5_vla/contracts/trajectory.py": "1e173811c750feac32d6bb3c2d59241f5f5455704ccbbb997f94c3e037d6b2c5",
+    "src/go2arx5_vla/safety/trajectory_gate.py": "cd1d2667b5e8f67a99e08baca28ffc1abc492a34dd0ef585f3739259b359d1c4",
+    "src/go2arx5_vla/trajectory/so3.py": "668135c8db99496f31409b0382e39ceb3bbd962cac422d3273aaf54b357f1e7a"
+  },
+  "evaluation_script_hashes": {
+    "seal_probe.py": "d1f3037bb5ba9eaa7a3aeca1cc8ec43ed4d51d11d2758b61b4eb7b8051dd70c0",
+    "eval_contract.py": "8d18bef9216672d3b7d9d8f4d90a7592c524ea257947187c4f2b8c97dd2a6075",
+    "generate_probes.py": "fbb832514f4fac84fdacfb02a1ec7f6355395e7e13162afe444d4aeec99eda12"
+  },
+  "expert_rejects": 0,
+  "retain_rejected_errors": true,
+  "per_episode_macro_required": true,
+  "models_loaded": 0,
+  "physics_steps": 0,
+  "CPU_s": 7.033125999999999,
+  "full_receipt_sha256": "06548b8939d3b741aa9f5249a475a7ebb42f0b28b6093cf0c06bfe5f2fa0a9c7",
+  "actual_windows": 192,
+  "model_generation_calls": 0
+}

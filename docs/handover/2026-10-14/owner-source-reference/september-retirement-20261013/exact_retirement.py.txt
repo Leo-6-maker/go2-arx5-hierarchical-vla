@@ -1,0 +1,267 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Exact-inode retirement under the user's September-history authority."""
+import argparse
+import fcntl
+import hashlib
+import json
+import os
+from pathlib import Path
+import resource
+import shutil
+import socket
+import stat
+import subprocess
+import sys
+import time
+
+
+def write(path, value):
+    temporary = path.with_name(path.name + '.pending.' + str(os.getpid()))
+    with temporary.open('x') as f:
+        json.dump(value, f, separators=(',', ':'))
+        f.flush(); os.fsync(f.fileno())
+    temporary.chmod(0o600); os.replace(temporary, path)
+
+
+def norm(path):
+    return str(path).replace('/mnt/LocalHDD1/HomeNFS/@CORELAB_STORAGE_USER@', '@LOCAL_OR_CORE_HOME@-nfs').rstrip('/')
+
+
+def under(path, root):
+    return norm(path) == norm(root) or norm(path).startswith(norm(root) + '/')
+
+
+def identity(path):
+    s = path.lstat()
+    return stat_identity(s)
+
+
+def stat_identity(s):
+    return [s.st_dev, s.st_ino, s.st_uid, s.st_gid, s.st_nlink, s.st_size,
+            s.st_blocks, s.st_mode, s.st_mtime_ns, s.st_ctime_ns]
+
+
+def consumers(target):
+    hits = []; gaps = []; system_gaps = []
+    for proc in Path('/proc').iterdir():
+        if not proc.name.isdigit(): continue
+        try:
+            if proc.stat().st_uid != os.getuid() or int(proc.name) == os.getpid(): continue
+            command = (proc / 'cmdline').read_bytes().replace(b'\0', b' ').decode(errors='replace')
+            name = (proc / 'comm').read_text().strip()
+            paths = []
+            try:
+                markers = [proc / 'cwd', proc / 'exe'] + list((proc / 'fd').iterdir())
+                for marker in markers:
+                    try: paths.append(os.readlink(marker).removesuffix(' (deleted)'))
+                    except FileNotFoundError: pass
+                try:
+                    for line in (proc / 'maps').read_text().splitlines():
+                        parts = line.split(maxsplit=5)
+                        if len(parts) == 6 and parts[5].startswith('/'): paths.append(parts[5])
+                except PermissionError: pass
+            except PermissionError:
+                # These non-workload processes are non-dumpable on both hosts.
+                desktop_service = (name=='snap-confine' and command.startswith('/snap/snapd/')
+                    and ' snap.snapd-desktop-integration.snapd-desktop-integration ' in command
+                    and command.endswith('/usr/lib/snapd/snap-exec snapd-desktop-integration.snapd-desktop-integration '))
+                if desktop_service:
+                    system_gaps.append(dict(pid=int(proc.name),name=name,classification='VERIFIED_OS_DESKTOP_INTEGRATION'))
+                elif name not in ('systemd', '(sd-pam)', 'sd-pam', 'sshd', 'sshd-session', 'ps'):
+                    gaps.append(dict(pid=int(proc.name), name=name))
+            matching = [x for x in paths if under(x, target)]
+            if matching or str(target) in command or norm(target) in command:
+                hits.append(dict(pid=int(proc.name), name=name, paths=matching))
+        except (FileNotFoundError, ProcessLookupError): pass
+    return dict(epoch=time.time(), hits=hits, unknown_workload_FD_gaps=gaps,known_system_FD_gaps=system_gaps)
+
+
+def peer_consumers(target):
+    source = Path(__file__).read_text().rsplit("\nif __name__ == '__main__':", 1)[0]
+    program = source + '\nprint(json.dumps(consumers(Path(' + repr(str(target)) + '))))\n'
+    result = subprocess.run(['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15',
+        'corelab-4080s', 'python3 -'], input=program, capture_output=True, text=True, timeout=45)
+    if result.returncode: raise RuntimeError('PEER_FD_OBSERVATION_UNKNOWN:'+result.stderr[-1000:])
+    return json.loads(result.stdout)
+
+
+def capacity(root, hopper):
+    s = os.statvfs(root)
+    value = dict(epoch=time.time(), filesystem_available_bytes=s.f_bavail*s.f_frsize,
+                 filesystem_total_bytes=s.f_blocks*s.f_frsize,
+                 mount=subprocess.check_output(['findmnt', '-T', str(root), '-n', '-o', 'TARGET,SOURCE,FSTYPE'], text=True).strip())
+    if hopper:
+        report = Path('@HOPPER_SHARED_HOME@/ccepbs/nushpc/quota_hw_report/hpfs_quota_raw.txt')
+        user = os.environ['USER']; rows = []
+        with report.open() as f:
+            for line in f:
+                fields = line.split()
+                if '/' + user in fields: rows.append(fields)
+        if len(rows) != 1: raise RuntimeError('PERSONAL_QUOTA_ROW_UNKNOWN')
+        value.update(personal_used_bytes=int(rows[0][4]), personal_hard_bytes=int(rows[0][5]),
+            quota_report_epoch=report.stat().st_mtime)
+    return value
+
+
+def execute(config_path):
+    config = json.loads(config_path.read_text())
+    output = Path(config['output']); output.mkdir(parents=True, exist_ok=True, mode=0o700)
+    lock = (output.parent/'SEPTEMBER_RETIREMENT_OWNER.lock').open('a')
+    fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    os.sched_setaffinity(0, {min(os.sched_getaffinity(0))})
+    resource.setrlimit(resource.RLIMIT_CPU, (4*3600, 4*3600+10))
+    assert config['authority_comment'] == 6140769226
+    assert os.getuid() == config['uid'] and socket.gethostname().split('.')[0] == config['hostname']
+    assert time.time() < config['T0_epoch'] + 14400
+    roots = [Path(x).resolve(strict=True) for x in config['allowed_roots']]
+    protected = [Path(x).resolve() for x in config['protected']]
+    state_path = output/'STATE.json'
+    if state_path.exists():
+        lock.close()
+        raise FileExistsError('Inspect existing actor; never restart a deletion session')
+    state = dict(status='RUNNING', pid=os.getpid(), proc_start=Path('/proc/self/stat').read_text().split()[21],
+        started_epoch=time.time(), current=None, completed=[], actor_CPU_s=0,
+        authority_comment=config['authority_comment'], source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+    write(state_path, state)
+    before = {str(x): capacity(x, config['hopper']) for x in roots}
+    write(output/'CAPACITY_BEFORE.json', before)
+    preserved_total = 0
+    try:
+        for ordinal, item in enumerate(config['candidates']):
+            if time.time() >= config['T0_epoch'] + 12600: raise TimeoutError('RESERVE_30_MINUTE_CLOSEOUT')
+            candidate = Path(item['path'])
+            result = dict(id=item['id'], path=str(candidate), provenance=item['provenance'],
+                          status='AUDITING', deleted_files=0, logical_bytes=0, allocated_lower_bound_bytes=0,
+                          symlinks=0, held=[], started_epoch=time.time())
+            state['current'] = item['id']; write(state_path, state)
+            manifest = output/(str(ordinal)+'.MANIFEST.jsonl')
+            receipts = output/(str(ordinal)+'.DELETE.jsonl')
+            try:
+                if not os.path.lexists(candidate):
+                    result['status'] = 'ALREADY_ABSENT_NO_NEW_RELEASE'; continue
+                real = candidate.resolve(strict=True)
+                if candidate.is_symlink(): raise RuntimeError('ROOT_ALIAS_RETAINED_UNTIL_TARGET_REVIEW')
+                if not any(real != x and real.is_relative_to(x) for x in roots): raise RuntimeError('OUTSIDE_OWN_REGISTERED_ROOT')
+                if any(under(real, x) for x in protected): raise RuntimeError('CURRENT_DEPENDENCY_PROTECTED')
+                original_root = identity(candidate)
+                if original_root[2] != os.getuid(): raise RuntimeError('FOREIGN_ROOT')
+                if config['hopper']:
+                    jobs = json.loads(subprocess.check_output(['/cm/shared/apps/pbspro/current/bin/qstat',
+                        '-u', os.environ['USER'], '-f', '-F', 'json'], text=True, timeout=20)).get('Jobs', {})
+                    if jobs: raise RuntimeError('OWN_PBS_ALLOCATION_PRESENT_NO_DELETE')
+                checks = [consumers(real)]
+                if config['peer']: checks.append(peer_consumers(candidate))
+                result['consumer_checks'] = checks
+                if any(c['hits'] or c['unknown_workload_FD_gaps'] for c in checks): raise RuntimeError('ACTIVE_OR_UNKNOWN_WORKLOAD_CONSUMER')
+                stack = [candidate]; directories = []
+                with manifest.open('x') as mf:
+                    while stack:
+                        path = stack.pop(); row = identity(path)
+                        if row[0] != original_root[0] or row[2] != os.getuid():
+                            result['held'].append(dict(path=str(path), reason='FOREIGN_UID_OR_NESTED_DEVICE')); continue
+                        resolved = path.resolve() if not path.is_symlink() else path
+                        if any(under(resolved, x) for x in protected):
+                            result['held'].append(dict(path=str(path), reason='MINIMAL_CURRENT_DEPENDENCY')); continue
+                        rel = str(path.relative_to(candidate))
+                        if stat.S_ISDIR(row[7]):
+                            directories.append([rel, row[0], row[1], row[2]])
+                            stack.extend(Path(x.path) for x in os.scandir(path))
+                        elif stat.S_ISREG(row[7]) or stat.S_ISLNK(row[7]):
+                            mf.write(json.dumps([rel,row],separators=(',',':'))+'\n')
+                        else: result['held'].append(dict(path=str(path), reason='SPECIAL_FILE'))
+                    mf.flush(); os.fsync(mf.fileno())
+                write(output/(str(ordinal)+'.DIRECTORIES.json'), directories)
+                checks = [consumers(real)]
+                if config['peer']: checks.append(peer_consumers(candidate))
+                if any(c['hits'] or c['unknown_workload_FD_gaps'] for c in checks): raise RuntimeError('CONSUMER_CHANGED_BEFORE_DELETE')
+                result['status'] = 'DELETING_FIXED_MANIFEST'
+                write(output/(str(ordinal)+'.RESULT.json'), result)
+                own_hardlink_changes={}
+                with manifest.open() as mf, receipts.open('x') as rf:
+                    for line in mf:
+                        rel, expected = json.loads(line); path = candidate/rel
+                        actual = identity(path)
+                        inode=tuple(expected[:2])
+                        if actual != own_hardlink_changes.get(inode,expected): raise RuntimeError('MEMBER_IDENTITY_CHANGED:'+rel)
+                        if time.time() >= config['T0_epoch']+12600: raise TimeoutError('CLOSEOUT_DEADLINE')
+                        # Keep bounded small scientific summaries, not old data or weight copies.
+                        name = path.name.lower()
+                        report_name = any(w in name for w in ('report','summary','receipt','score','manifest','metadata','config','verdict',
+                            'closeout','audit','qualification','protocol','binding','adoption','metric','counter'))
+                        if (stat.S_ISREG(actual[7]) and report_name and path.suffix.lower() in ('.json','.md','.txt','.yaml','.yml','.csv')
+                                and actual[5] <= 1<<20 and preserved_total+actual[5] <= 256<<20):
+                            target=output/'retained_small_reports'/item['id']/rel
+                            target.parent.mkdir(parents=True,exist_ok=True)
+                            shutil.copy2(path,target)
+                            if hashlib.sha256(target.read_bytes()).digest()!=hashlib.sha256(path.read_bytes()).digest():
+                                raise RuntimeError('SMALL_REPORT_READBACK_FAILED')
+                            preserved_total += actual[5]
+                        if identity(path) != actual: raise RuntimeError('MEMBER_CHANGED_BEFORE_UNLINK:'+rel)
+                        rf.write(json.dumps(dict(event='INTENT',relative=rel,identity=actual),separators=(',',':'))+'\n')
+                        rf.flush()
+                        inode_fd=os.open(path,os.O_PATH|os.O_NOFOLLOW) if stat.S_ISREG(actual[7]) and actual[4]>1 else None
+                        try:
+                            if inode_fd is not None and stat_identity(os.fstat(inode_fd))!=actual:
+                                raise RuntimeError('HARDLINK_CHANGED_BEFORE_UNLINK')
+                            try:
+                                os.unlink(path)
+                            except PermissionError:
+                                parent=path.parent;info=parent.lstat()
+                                if info.st_uid!=os.getuid() or info.st_dev!=original_root[0]:raise
+                                rf.write(json.dumps(dict(event='OWN_DIRECTORY_DELETE_PERMISSION',
+                                    relative=str(parent.relative_to(candidate)),mode_before=info.st_mode))+'\n')
+                                rf.flush();os.fsync(rf.fileno())
+                                parent.chmod(info.st_mode|stat.S_IWUSR|stat.S_IXUSR)
+                                if identity(path)!=actual:raise RuntimeError('MEMBER_CHANGED_BEFORE_REPAIRED_UNLINK')
+                                os.unlink(path)
+                            if inode_fd is not None:own_hardlink_changes[inode]=stat_identity(os.fstat(inode_fd))
+                        finally:
+                            if inode_fd is not None:os.close(inode_fd)
+                        if os.path.lexists(path): raise RuntimeError('MEMBER_NOT_ABSENT:'+rel)
+                        rf.write(json.dumps(dict(event='DELETED_ABSENT',relative=rel),separators=(',',':'))+'\n')
+                        result['deleted_files'] += 1
+                        result['logical_bytes'] += actual[5]
+                        if stat.S_ISLNK(actual[7]): result['symlinks'] += 1
+                        elif actual[4] == 1: result['allocated_lower_bound_bytes'] += actual[6]*512
+                        if result['deleted_files'] % 2000 == 0:
+                            rf.flush(); os.fsync(rf.fileno())
+                            write(output/(str(ordinal)+'.RESULT.json'),result)
+                    rf.flush(); os.fsync(rf.fileno())
+                removed = 0
+                for rel,dev,ino,uid in reversed(directories):
+                    path=candidate/rel
+                    current=path.lstat()
+                    if (current.st_dev,current.st_ino,current.st_uid)!=(dev,ino,uid):raise RuntimeError('DIRECTORY_IDENTITY_CHANGED')
+                    try: path.rmdir(); removed += 1
+                    except PermissionError:
+                        parent=path.parent;info=parent.lstat()
+                        if info.st_uid!=os.getuid() or info.st_dev!=original_root[0]:raise
+                        parent.chmod(info.st_mode|stat.S_IWUSR|stat.S_IXUSR)
+                        path.rmdir();removed+=1
+                    except OSError:
+                        if not list(path.iterdir()): raise
+                result.update(status='RETIRED_WITH_MINIMAL_DEPENDENCIES' if result['held'] else 'RETIRED_AND_VERIFIED',
+                    removed_directories=removed,root_absent=not os.path.lexists(candidate))
+            except Exception as error:
+                result.update(status='PARTIAL_DELETE_PRESERVED' if result['deleted_files'] else 'HOLD_NO_DELETE',error=str(error))
+            finally:
+                result['finished_epoch']=time.time()
+                write(output/(str(ordinal)+'.RESULT.json'),result)
+                state['completed'].append(result);state['current']=None
+                state['actor_CPU_s']=resource.getrusage(resource.RUSAGE_SELF).ru_utime+resource.getrusage(resource.RUSAGE_SELF).ru_stime
+                write(state_path,state)
+        state['status']='TERMINAL_RETIREMENT_PASS_OR_EXACT_HOLDS'
+    except BaseException as error:
+        state.update(status='TERMINAL_PARTIAL_PRESERVED',error=str(error));raise
+    finally:
+        write(output/'CAPACITY_AFTER.json',{str(x):capacity(x,config['hopper']) for x in roots})
+        state.update(finished_epoch=time.time(),small_reports_retained_bytes=preserved_total,
+            actor_CPU_s=resource.getrusage(resource.RUSAGE_SELF).ru_utime+resource.getrusage(resource.RUSAGE_SELF).ru_stime)
+        write(state_path,state);lock.close()
+
+
+if __name__ == '__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('--config',required=True)
+    execute(Path(parser.parse_args().config))

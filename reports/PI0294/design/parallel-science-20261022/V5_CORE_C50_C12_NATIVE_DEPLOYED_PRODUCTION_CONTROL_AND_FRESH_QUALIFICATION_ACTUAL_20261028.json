@@ -1,0 +1,88 @@
+{
+  "schema": "V5_CORE_C50_C12_ORIGINAL_PANEL_ACTUAL_NATIVE_RESTART_V1",
+  "date_SGT": "2026-10-28",
+  "request_id": "bb72707c-5e58-448d-9285-a34affd8993a",
+  "source_sha": "8fba44f38aa5c6858614d8bd4e34ad7f969dd40c",
+  "run_uuid": "v5-cd-c50-n294101-12",
+  "independent_status_observed_epoch": 1793128838.8899863,
+  "actual_processes": {
+    "v5-cd-c50-eval-owner-11.service": {
+      "properties": {
+        "MainPID": "1744618",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "actual_process": {
+        "pid": 1744618,
+        "proc_start": 289770294,
+        "state": "S"
+      }
+    },
+    "v5-cd-c50-n294101-12-neural.service": {
+      "properties": {
+        "MainPID": "1744670",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "actual_process": {
+        "pid": 1744670,
+        "proc_start": 289770769,
+        "state": "S"
+      }
+    }
+  },
+  "dual_continuation_once": {
+    "GLOBAL_after_sha256": "57b8614e618746ec311ed98c9623a4843363c477510b309cf8c26d595c652c4c",
+    "LOCAL_after_sha256": "474d1c0f6fcaa68b5a64ce0be1eb77ba93034e45ae81f14434dcfa531ca117cd",
+    "independent_readback": true,
+    "all_predecessor_costs_and_unknowns_retained": true
+  },
+  "source_deployment": {
+    "sites": [
+      "CORELAB",
+      "VANDA"
+    ],
+    "files_per_site": 1261,
+    "source_bytes_per_site": 10491759,
+    "all_members_full_hash_readback": true,
+    "original_15_numerical_overlay_unchanged": true
+  },
+  "cold_admission": {
+    "status": "ACTUAL_REGISTERED_CD_DUAL_COLD_CONTEXT_AND_EXCLUSIVE_NATIVE_DEVICE_READONLY_PASS",
+    "owner_only_heartbeat_and_directory_control_presealed": true,
+    "new_control_source_immutable": true,
+    "real_CPU_inherited_limit_s": 6880
+  },
+  "qualification": {
+    "transport_cycles": 80,
+    "heartbeat_reads": 30,
+    "full600_status": "IN_PROGRESS_NOT_YET_PASS",
+    "old_qualification_reused": false
+  },
+  "model_queries_physics_valid_conditions": {
+    "model_loaded": false,
+    "query_attempts": 0,
+    "source_constructors": 0,
+    "physical_integrations": 0,
+    "valid_conditions": 0
+  },
+  "CPU_validation": {
+    "targeted_tests": 58,
+    "passed": 58,
+    "native_GR00T_or_behavior_PASS": false
+  },
+  "full_future_cap_changes_required": {},
+  "next_minimum_blocker": "Fresh same-process600s80cycles, fresh resource/model release, both actual registered production contracts, original driver C50 whole24 and independent audits",
+  "remaining_science": {
+    "C50_original24": 0,
+    "D25_original24": 0,
+    "GEN1_original24": 0,
+    "E0_native": "NOT_RUN",
+    "E1_formal512": "NOT_RUN",
+    "E2_formal512": "NOT_RUN"
+  },
+  "entire_goal_status": "ACTIVE_NOT_COMPLETE",
+  "deadlines_caps_matrix_final_and_valid_failures_unchanged": true
+}

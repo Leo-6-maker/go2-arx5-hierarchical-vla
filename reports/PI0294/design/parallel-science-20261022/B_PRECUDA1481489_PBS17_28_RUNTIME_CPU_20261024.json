@@ -1,0 +1,78 @@
+{
+  "schema": "B_PRECUDA1481489_PBS17_28_INTEGRATION_CPU_V1",
+  "status": "EXACT_HUMAN_GRANT_RUNTIME_INTEGRATION_CPU_NOT_NATIVE_ADOPTED",
+  "authority_release": "0a7444b0a47712a0be0b0534f20a1d3753273a47",
+  "grant_sha256": "5b1d2c72b1e4aa2cebb9376faaaaebdd3f343756a2475c68b3dc098fe435a9de",
+  "changes": {
+    "DEC1_PBS": [
+      16,
+      17
+    ],
+    "global_PBS": [
+      27,
+      28
+    ]
+  },
+  "closed_failure": {
+    "job": "1481489.stdct-mgmt-02",
+    "model_loads": 0,
+    "queries": 0,
+    "updates": 0,
+    "GPU_s": 265,
+    "CPU_s": 1180,
+    "output_bytes": 67108864,
+    "all_costs_preserved": true
+  },
+  "CPU_validation": {
+    "new_public_cases": 14,
+    "actual_closed_full_captured_byte_cases": 13,
+    "full_PI0294_passed": 2425,
+    "full_PI0294_subtests": 1499,
+    "private_parser_skips": 13,
+    "full_PI0294_elapsed_s": 108.46,
+    "actual_pair_only_adds_marker": true,
+    "whole_original_future_and_new_control15_fit": true
+  },
+  "runtime_integration": [
+    "exact separate marker and sealed grant",
+    "global admission 28 and DEC1 remaining runway 17 only for new scope",
+    "request, reservation, model and first-update proofs carry exact new grant",
+    "bounded source history 13 preserves one active chain",
+    "original lineage and model/training/data numerical implementation unchanged"
+  ],
+  "unchanged": {
+    "updates_cap": 11714,
+    "GPU_site_storage_GiB": [
+      614,
+      680
+    ],
+    "T0_epoch": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "final_GPU_s": 72000,
+    "final_storage_GiB": 40,
+    "all_CPU_query_physics_transfer_caps": true,
+    "all_prior_costs_and805_922_losses": true,
+    "original_three_matrix_jobs": true,
+    "original_future_controller_upper": {
+      "site_CPU_s": 5520,
+      "LOCAL_CPU_s": 3600
+    }
+  },
+  "next_inside_existing_caps": {
+    "new_control_CPU_site_s": 1800,
+    "new_control_CPU_LOCAL_s": 15,
+    "transfer_bytes": 268435456,
+    "output_bytes": 67108864,
+    "new_request_new_leases_fresh_complete_admission_required": true
+  },
+  "native_adoption": false,
+  "new_GPU_request": false,
+  "new_GPU_submission": false,
+  "current_GPU_task_running": false,
+  "whole_WDR1_goal_complete": false,
+  "target_task_native_qualified": false,
+  "core64": 0
+}

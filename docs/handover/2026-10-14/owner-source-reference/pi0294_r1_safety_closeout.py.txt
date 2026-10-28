@@ -1,0 +1,183 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Terminal reconciliation and saved-evidence CPU audit; no neural/physics."""
+import argparse
+import subprocess
+import time
+
+from pi0294_r1_prepare import BASE,REPO,RUN,save
+from pi0294_remote import remote_multiplexed
+
+CORE_RECONCILE=r'''
+import json,os,sys,time
+from pathlib import Path
+root=Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read,write,OwnerLock
+from scripts.pi0294.continuation import validate_entry
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='4080-simulation');lock=OwnerLock(root/'COORDINATOR.lock');q=read(root/'LIVE_QUEUE.json')
+assert q['status']=='LIVE_STOP_SAFETY' and not q['reservations'] and len(q['records'])==1
+d=root/'evidence/model-M512-02';rec=read(d/'PROCESS.private.json');p=Path('/proc')/str(rec['pid'])/'stat'
+assert not p.exists() or p.read_text().split()[21]!=rec['proc_start'] or p.read_text().split()[2] in ('Z','X')
+for f in (root/'worker_processes').glob('*.json'):
+ v=read(f)
+ if 'pid' not in v:continue
+ p=Path('/proc')/str(v['pid'])/'stat';assert not p.exists() or p.read_text().split()[21]!=v['proc_start'] or p.read_text().split()[2] in ('Z','X')
+assert read(d/'CORE_FAILURE.json')['error']=='LOCAL_ROUTE_TERMINAL_NOT_ACKNOWLEDGED'
+assert set(q['auxiliary'])=={'M512-serial-RPC'}
+prior=sha(root/'LIVE_QUEUE.json');rpc=q['auxiliary']['M512-serial-RPC'];charged=rpc['reservation']['cpu_s']
+q['actual']['cpu_s']+=charged;del q['auxiliary']['M512-serial-RPC']
+q.setdefault('auxiliary_records',[]).append(dict(id=rpc['id'],cpu_s=charged,output_bytes=0,
+ source_sha=rpc['source_sha'],run_manifest_sha256=rpc['run_manifest_sha256'],cpus=rpc['cpus'],
+ accounting='CONSERVATIVE_FULL_CPU_UPPER_AFTER_VERIFIED_TERMINAL_CONTROLLER_AND_INTERRUPTED_LOCAL_ROUTE',
+ measured_RPC_CPU_s=sum(read(p)['CPU_s'] for p in (d/'rpc').glob('*.json'))))
+# Existing worker raw bytes and registered roots are still present. This charge
+# concerns CPU only, not fabricated physical starts, steps, or task outcomes.
+q['status']='LIVE_STOP_SAFETY';write(root/'LIVE_QUEUE.json',q)
+v=dict(status='ACTUAL_SAFETY_STOP_TERMINAL_RESERVATIONS_RECONCILED',old_queue_sha256=prior,new_queue_sha256=sha(root/'LIVE_QUEUE.json'),
+ conservative_CPU_charge_s=charged,actual=q['actual'],physical_reservations=0,CPU_reservations=0,
+ model_loads_on_CoreLab=0,new_physics=0,old_failure_preserved=True)
+write(d/'SAFETY_RECONCILIATION.json',v);lock.close();print(json.dumps(v))
+'''
+
+HOPPER_RECONCILE=r'''
+import json,os,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read,write,OwnerLock
+from scripts.pi0292.allocation_admission import owned_jobs
+from scripts.pi0294.continuation import validate_entry
+validate_entry(root,profile='hopper-neural');lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock')
+l=read(root/'HOPPER_RESOURCE_LEDGER.json');assert not l['GPU_reserved_s'] and not l['pending_updates']
+assert len(l['PBS_submissions'])==2 and all(e['status']=='RECONCILED_TERMINAL' for e in l['PBS_submissions'])
+assert not any(e['job_id'] in owned_jobs(os.environ['USER']) for e in l['PBS_submissions'])
+d=root/'evidence/model-M512-02';s=read(d/'resident/STATE.json')
+assert s['status']=='OWN_SESSION_TERMINAL_NOT_TASK_SUCCESS' and s['queries']==6
+assert read(d/'resident/QUERY_STATE.json')['pending'] is None
+ticket=read(d/'RPC_RESERVATION.json');assert l['CPU_reserved_s']==ticket['CPU_upper_s']==5000
+actual=sum(read(p)['CPU_s'] for p in (d/'rpc').glob('*.json'));charged=actual+120
+assert charged<=l['CPU_reserved_s'];l['CPU_s']+=charged;l['CPU_reserved_s']=0
+write(root/'HOPPER_RESOURCE_LEDGER.json',l)
+v=dict(status='TERMINAL_LOGIN_CPU_RPC_RECONCILED_NO_NEURAL_ON_LOGIN',measured_RPC_CPU_s=actual,
+ startup_and_interrupted_read_bound_s=120,charged_CPU_s=charged,ledger=l)
+write(d/'RPC_TERMINAL_RECONCILIATION.private.json',v);lock.close();print(json.dumps(v))
+'''
+
+AUDIT=r'''
+import json,os,sys,time,resource
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read,write
+from scripts.pi0294.continuation import validate_entry
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='4080-simulation');ticket=read(TICKET);q=read(root/'LIVE_QUEUE.json')
+assert q['auxiliary'][ticket['id']]==ticket and ticket['run_manifest_sha256']==sha(root/'RUN_MANIFEST.json')
+assert time.time()<ticket['deadline_epoch'];os.sched_setaffinity(0,set(ticket['cpus']));resource.setrlimit(resource.RLIMIT_CPU,(300,300))
+before=resource.getrusage(resource.RUSAGE_SELF);start=time.monotonic()
+import numpy as np,mujoco
+from scripts.pi0291_arx5_data.config import PARAMETERS as P
+from scripts.pi0291_arx5_data.scene import ARM_NAMES,FINGER_NAMES
+folder=root/'episodes'/IDENTIFIER
+worker=read(folder/'WORKER_RECEIPT.json');assert worker['status']=='SAFETY_STOP_PRESERVED' and worker['physics_steps']==1081
+manifest=read(folder/'FILE_MANIFEST.json')
+for row in manifest:
+ p=folder/row['path'];assert p.resolve().is_relative_to(folder.resolve()) and p.stat().st_size==row['bytes'] and sha(p)==row['sha256']
+with np.load(folder/'highrate.npz',allow_pickle=False) as f:rows=f['rows'].copy();nq=int(f['nq']);external=f['external_force_max'].copy()
+assert len(rows)==1081 and np.isfinite(rows).all() and not external.any()
+scene=read(folder/'scene.xml.json');assert __import__('hashlib').sha256(scene['xml'].encode()).hexdigest()==scene['sha256']
+model=mujoco.MjModel.from_xml_string(scene['xml']);assert model.nq==nq
+details=[]
+for name in ARM_NAMES+FINGER_NAMES:
+ jid=mujoco.mj_name2id(model,mujoco.mjtObj.mjOBJ_JOINT,name);adr=int(model.jnt_qposadr[jid]);values=rows[:,1+adr]
+ if name in ARM_NAMES:lo,hi=model.jnt_range[jid]+np.asarray([-.001,.001])
+ else:lo,hi=-.001,P['finger_travel']+.001
+ bad=np.flatnonzero((values<lo)|(values>hi))
+ details.append(dict(joint=name,last_q=float(values[-1]),effective_lower=float(lo),effective_upper=float(hi),
+  violating_rows=len(bad),first_violating_tick=int(bad[0]+1) if len(bad) else None,
+  first_violating_sim_time_s=float(rows[bad[0],0]) if len(bad) else None,
+  penetration_m_or_rad=float(max(lo-values[-1],values[-1]-hi,0))))
+assert any(r['violating_rows'] for r in details)
+with np.load(folder/'physics.npz',allow_pickle=False) as f:camera_time=f['time_s'].copy();sample_safe=f['safety_valid'].copy()
+own=resource.getrusage(resource.RUSAGE_SELF)
+v=dict(status='PASS_SAVED_HIGH_RATE_REAL_JOINT_LIMIT_VERIFICATION_SCIENTIFIC_SAFETY_FAIL',run_uuid=RUN,
+ id=IDENTIFIER,rows=len(rows),last_integration_time_s=float(rows[-1,0]),last_20Hz_observation_time_s=float(camera_time[-1]),
+ camera_samples=len(camera_time),last_high_rate_safety_flag=float(rows[-1,-1]),joints=details,
+ sampled_20Hz_score_safety_valid=bool(sample_safe.all()),authoritative_safety_valid=False,
+ sampled_score_cannot_override_native_abort=True,worker_receipt_sha256=sha(folder/'WORKER_RECEIPT.json'),
+ highrate_sha256=sha(folder/'highrate.npz'),physics_sha256=sha(folder/'physics.npz'),raw_manifest_verified=True,
+ physics_integrations=0,render_calls=0,model_loads=0,external_force_max=0,
+ CPU_s=own.ru_utime+own.ru_stime-before.ru_utime-before.ru_stime,wall_s=time.monotonic()-start)
+write(folder/'SAVED_SAFETY_AUDIT.json',v);print(json.dumps(v))
+'''
+
+CONTROLLER=r'''
+import json,os,sys,subprocess,time
+from pathlib import Path
+root=Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read,write,OwnerLock
+from scripts.iteration.queue import LiveCoordinator
+from scripts.pi0294.continuation import validate_entry
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='4080-simulation')
+owner=LiveCoordinator.__new__(LiveCoordinator);owner.root=root;owner.path=root/'LIVE_QUEUE.json'
+owner.lock=OwnerLock(root/'COORDINATOR.lock');owner.plan_path=root/'plans/model-M512-02.json'
+owner.admission_path=root/'evidence/model-M512-02/LIVE_ADMISSION.private.json';owner.plan=read(owner.plan_path)
+owner.admission=read(owner.admission_path);owner.value=read(owner.path);owner.workers=1;owner.now=time.time
+assert owner.value['status']=='LIVE_STOP_SAFETY' and not owner.value['reservations'] and not owner.value['auxiliary'];owner._admit(1)
+entry=read(root/'ENTRY_BINDING.private.json');identifier=owner.value['records'][0]['id'];mode=ACTION
+ticket=owner.reserve_auxiliary('safety-'+mode,cpu_count=1 if mode=='audit' else 2,timeout_s=300,
+ output_bytes=16*1024**2,memory_bytes=2*1024**3)
+path=root/'reservations'/('aux-'+ticket['id']+'.json');d=root/'evidence/model-M512-02'
+if mode=='audit':program='ROOT='+repr(str(root))+'\nTICKET='+repr(str(path))+'\nIDENTIFIER='+repr(identifier)+'\nRUN='+repr(RUN)+'\n'+AUDIT
+else:
+ import shutil
+ original=root/'episodes'/identifier/'FILE_MANIFEST.json'
+ retained=d/'RAW_FILE_MANIFEST_BEFORE_VIDEO.json';assert not retained.exists();shutil.copyfile(original,retained)
+ retained.chmod(0o400)
+ program="""
+import os,resource,time,json,sys
+from pathlib import Path
+root=Path(ROOT);ticket=json.loads(Path(TICKET).read_text());sys.path[:0]=[SOURCE+'/src',SOURCE]
+from scripts.pi0294.continuation import validate_entry
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='4080-simulation');q=json.loads((root/'LIVE_QUEUE.json').read_text())
+assert q['auxiliary'][ticket['id']]==ticket and ticket['run_manifest_sha256']==sha(root/'RUN_MANIFEST.json')
+assert time.time()<ticket['deadline_epoch'];os.sched_setaffinity(0,set(ticket['cpus']));resource.setrlimit(resource.RLIMIT_CPU,(300,300))
+namespace=dict(__name__='mature_saved_video',__file__=PROGRAM_PATH)
+exec(VIDEO,namespace);namespace['main'](ROOT,IDENTIFIER)
+"""
+ program='\n'.join(k+'='+repr(v) for k,v in dict(ROOT=str(root),TICKET=str(path),SOURCE=str(source),IDENTIFIER=identifier,
+ VIDEO=VIDEO,PROGRAM_PATH=str(d/'safety-video.private.py')).items())+'\n'+program
+bootstrap=d/('safety-'+mode+'.private.py');assert not bootstrap.exists();bootstrap.write_text(program);bootstrap.chmod(0o400)
+write(d/('SAFETY_'+mode.upper()+'_REQUEST.private.json'),dict(run_uuid=RUN,source_sha=m['code']['vla_commit'],
+ bootstrap_sha256=sha(bootstrap),ticket_sha256=sha(path),new_models=0,new_physics=0,video_source_sha=VIDEO_SHA if mode=='video' else 'NOT_APPLICABLE'))
+env=dict(os.environ,CUDA_VISIBLE_DEVICES='',PYTHONDONTWRITEBYTECODE='1',PYTHONPATH=str(source/'src')+':'+str(source),
+ OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+r=subprocess.run([entry['entry'],'4080-simulation','python',str(bootstrap)],env=env,cwd=source,capture_output=True,text=True,timeout=310)
+write(d/('SAFETY_'+mode.upper()+'_EXIT.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+out=root/'episodes'/identifier/('SAVED_SAFETY_AUDIT.json' if mode=='audit' else 'VIDEO_RECEIPT.json')
+assert not r.returncode and out.exists(),'Preserve CPU reservation on unknown/failed analysis'
+actual=read(out);owner.complete_auxiliary(ticket['id'],cpu_s=actual['CPU_s']+10,
+ output_bytes=out.stat().st_size+(root/'episodes'/identifier/'ACTUAL_DUAL_RGB.mp4').stat().st_size if mode=='video' else out.stat().st_size+4096)
+owner.close();print(json.dumps(actual))
+'''
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['core-reconcile','hopper-reconcile','audit','video']);a=p.parse_args()
+    host='hopper' if a.action=='hopper-reconcile' else 'corelab-4080s'
+    values=dict(RUN=RUN,ACTION=a.action)
+    if a.action=='core-reconcile':code=CORE_RECONCILE
+    elif a.action=='hopper-reconcile':code=HOPPER_RECONCILE
+    else:
+        video=subprocess.check_output(['git','show','021d813fd669561a24ffbf89431a4a9812e0f2ca:scripts/pi0291_delivery/video_saved.py'],cwd=REPO,text=True)
+        # Display label only; numerical saved-RGB encoding is the mature code.
+        values.update(AUDIT=AUDIT,VIDEO=video.replace("f'PI0291 ","f'PI0294 "),VIDEO_SHA=__import__('hashlib').sha256(video.encode()).hexdigest())
+        code=CONTROLLER
+    r=remote_multiplexed(host,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+code)
+    save(BASE/('SAFETY_'+a.action+'_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    print(r.stdout if not r.returncode else 'SAFETY_CPU_CLOSEOUT_FAILED_PRESERVE_RESERVATIONS_NO_RETRY')
+    assert r.returncode==0

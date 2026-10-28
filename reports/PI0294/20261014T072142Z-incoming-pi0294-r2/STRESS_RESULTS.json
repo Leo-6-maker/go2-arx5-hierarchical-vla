@@ -1,0 +1,233 @@
+{
+  "run_uuid": "20261014T072142Z-incoming-pi0294-r2",
+  "actual_source_sha": "43ced701d73f1df73389711f03b5b5ed68c90867",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "old_P1_FAIL_preserved": true,
+  "schema": "PI0294_R2_FIRST_VALID_STRESS_ACTUAL_V1",
+  "status": "VALID_SAFETY_FAIL_CANDIDATE_RETIRED",
+  "candidate": "R2_VEL_C01",
+  "cases": [
+    {
+      "case": "open_hold",
+      "driver_version": "R2_VEL_C01",
+      "driver_spec_sha256": "7ca8c0129f1e814df867111ef5f697648fd84c19d6692ca59fa07b945c88d2bb",
+      "status": "STRESS_CASE_PASS",
+      "error": null,
+      "safety": [],
+      "physics_steps": 2000,
+      "physical_starts": 1,
+      "final_finger_q": [
+        0.0440000000002487,
+        0.0439999999986039
+      ],
+      "finger_minimum_m": [
+        0.044000000000026684,
+        0.04399999999860223
+      ],
+      "finger_maximum_m": [
+        0.044000000000248944,
+        0.04399999999997339
+      ],
+      "finger_ctrl_saturation_rows": 0,
+      "RGB_pairs": 0,
+      "neural_queries": 0,
+      "old_safety_and_arm_controller_unchanged": true,
+      "explicit_last_reference_hold_after_2_4s": false,
+      "task_success_claim": false
+    },
+    {
+      "case": "closed_hold",
+      "driver_version": "R2_VEL_C01",
+      "driver_spec_sha256": "7ca8c0129f1e814df867111ef5f697648fd84c19d6692ca59fa07b945c88d2bb",
+      "status": "STRESS_CASE_PASS",
+      "error": null,
+      "safety": [],
+      "physics_steps": 2000,
+      "physical_starts": 1,
+      "final_finger_q": [
+        1.393556563308924e-12,
+        -2.4913473000763043e-13
+      ],
+      "finger_minimum_m": [
+        2.6735873491234572e-14,
+        -2.4936804563648273e-13
+      ],
+      "finger_maximum_m": [
+        1.395434795532654e-12,
+        -2.6661319770379727e-14
+      ],
+      "finger_ctrl_saturation_rows": 0,
+      "RGB_pairs": 0,
+      "neural_queries": 0,
+      "old_safety_and_arm_controller_unchanged": true,
+      "explicit_last_reference_hold_after_2_4s": false,
+      "task_success_claim": false
+    },
+    {
+      "case": "open_close",
+      "driver_version": "R2_VEL_C01",
+      "driver_spec_sha256": "7ca8c0129f1e814df867111ef5f697648fd84c19d6692ca59fa07b945c88d2bb",
+      "status": "STRESS_CASE_PASS",
+      "error": null,
+      "safety": [],
+      "physics_steps": 2000,
+      "physical_starts": 1,
+      "final_finger_q": [
+        8.34896384030734e-11,
+        -1.8044780507932116e-11
+      ],
+      "finger_minimum_m": [
+        -2.8657275770080694e-08,
+        -2.2905088387522163e-08
+      ],
+      "finger_maximum_m": [
+        0.044000000000248944,
+        0.04399999999997339
+      ],
+      "finger_ctrl_saturation_rows": 0,
+      "RGB_pairs": 0,
+      "neural_queries": 0,
+      "old_safety_and_arm_controller_unchanged": true,
+      "explicit_last_reference_hold_after_2_4s": false,
+      "task_success_claim": false
+    },
+    {
+      "case": "close_open",
+      "driver_version": "R2_VEL_C01",
+      "driver_spec_sha256": "7ca8c0129f1e814df867111ef5f697648fd84c19d6692ca59fa07b945c88d2bb",
+      "status": "STRESS_CASE_PASS",
+      "error": null,
+      "safety": [],
+      "physics_steps": 2000,
+      "physical_starts": 1,
+      "final_finger_q": [
+        0.043999999920117785,
+        0.044000000017508555
+      ],
+      "finger_minimum_m": [
+        2.6735873491234572e-14,
+        -2.4936804563648273e-13
+      ],
+      "finger_maximum_m": [
+        0.04400003014196194,
+        0.04400002252528563
+      ],
+      "finger_ctrl_saturation_rows": 0,
+      "RGB_pairs": 0,
+      "neural_queries": 0,
+      "old_safety_and_arm_controller_unchanged": true,
+      "explicit_last_reference_hold_after_2_4s": false,
+      "task_success_claim": false
+    },
+    {
+      "case": "high_end",
+      "driver_version": "R2_VEL_C01",
+      "driver_spec_sha256": "7ca8c0129f1e814df867111ef5f697648fd84c19d6692ca59fa07b945c88d2bb",
+      "status": "STRESS_CASE_PASS",
+      "error": null,
+      "safety": [],
+      "physics_steps": 2000,
+      "physical_starts": 1,
+      "final_finger_q": [
+        0.04399999998518419,
+        0.044000000005516474
+      ],
+      "finger_minimum_m": [
+        0.0424373749796731,
+        0.04243670798148487
+      ],
+      "finger_maximum_m": [
+        0.0440000471694792,
+        0.04400000746923254
+      ],
+      "finger_ctrl_saturation_rows": 0,
+      "RGB_pairs": 0,
+      "neural_queries": 0,
+      "old_safety_and_arm_controller_unchanged": true,
+      "explicit_last_reference_hold_after_2_4s": false,
+      "task_success_claim": false
+    },
+    {
+      "case": "failure_prefix_hold",
+      "driver_version": "R2_VEL_C01",
+      "driver_spec_sha256": "7ca8c0129f1e814df867111ef5f697648fd84c19d6692ca59fa07b945c88d2bb",
+      "status": "VALID_SAFETY_FAIL_CANDIDATE_RETIRED",
+      "error": "RuntimeError: JOINT_LIMIT",
+      "safety": [
+        "JOINT_LIMIT"
+      ],
+      "physics_steps": 1078,
+      "physical_starts": 1,
+      "final_finger_q": [
+        0.04433521136345364,
+        0.04502298223451378
+      ],
+      "finger_minimum_m": [
+        0.0425692377390795,
+        0.0426661440015524
+      ],
+      "finger_maximum_m": [
+        0.04433521136345364,
+        0.04502298223451378
+      ],
+      "finger_ctrl_saturation_rows": 0,
+      "RGB_pairs": 0,
+      "neural_queries": 0,
+      "old_safety_and_arm_controller_unchanged": true,
+      "explicit_last_reference_hold_after_2_4s": true,
+      "task_success_claim": false
+    }
+  ],
+  "full_pass_candidates": 0,
+  "adopted_D1": "NONE",
+  "failure_tick": 1078,
+  "failure_time_s": 2.156,
+  "effective_right_upper_excess_m": 2.2982234513781175e-05,
+  "no_valid_quality_retry": true,
+  "no_gain_search": true,
+  "independent_CPU": [
+    {
+      "case": "close_open",
+      "status": "PASS_INDEPENDENT_SAVED_ARRAY_RECOMPUTATION",
+      "rows": 2000,
+      "terminal_safety_flag": 0.0,
+      "original_effective_upper_margin_m": 0.0009999698580380606
+    },
+    {
+      "case": "closed_hold",
+      "status": "PASS_INDEPENDENT_SAVED_ARRAY_RECOMPUTATION",
+      "rows": 2000,
+      "terminal_safety_flag": 0.0,
+      "original_effective_upper_margin_m": 0.044999999998604566
+    },
+    {
+      "case": "failure_prefix_hold",
+      "status": "PASS_INDEPENDENT_SAVED_ARRAY_RECOMPUTATION",
+      "rows": 1078,
+      "terminal_safety_flag": 1.0,
+      "original_effective_upper_margin_m": -2.2982234513781175e-05
+    },
+    {
+      "case": "high_end",
+      "status": "PASS_INDEPENDENT_SAVED_ARRAY_RECOMPUTATION",
+      "rows": 2000,
+      "terminal_safety_flag": 0.0,
+      "original_effective_upper_margin_m": 0.0009999528305207964
+    },
+    {
+      "case": "open_close",
+      "status": "PASS_INDEPENDENT_SAVED_ARRAY_RECOMPUTATION",
+      "rows": 2000,
+      "terminal_safety_flag": 0.0,
+      "original_effective_upper_margin_m": 0.0009999999997510542
+    },
+    {
+      "case": "open_hold",
+      "status": "PASS_INDEPENDENT_SAVED_ARRAY_RECOMPUTATION",
+      "rows": 2000,
+      "terminal_safety_flag": 0.0,
+      "original_effective_upper_margin_m": 0.0009999999997510542
+    }
+  ]
+}

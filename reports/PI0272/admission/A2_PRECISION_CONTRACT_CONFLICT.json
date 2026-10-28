@@ -1,0 +1,169 @@
+{
+  "actual_dtype_counts": [
+    {
+      "Euler_states": [
+        "torch.float32",
+        "torch.float32",
+        "torch.float32",
+        "torch.float32"
+      ],
+      "S4_query": "torch.float32",
+      "VL_features": "torch.float32",
+      "native_epsilon": "torch.bfloat16",
+      "rows": 8192
+    }
+  ],
+  "canonical": 5979236384,
+  "checked_at_utc": "2026-10-04T12:49:50.661308+00:00",
+  "conflict": "Qualified AGG S4 initial query and processed VL features are FP32, from BF16 native epsilon. All 8192 consumed rows agree.",
+  "deployment_selected_checkpoint": "NONE",
+  "first_actual_identities": {
+    "euler_states": [
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "bd3a4bee880024cc776af6a17c847f18bb57f16dba3218b5da3205863a5fc733",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "30c37a53efba1c0464636b0c6bfaf75fc9cfb03ae97eb52fc300b72cec3f2f61",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "052eb0d12fa2616aa9756a3995d6b1fc8903458f977d6dae8ae2e4c3f67362d9",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "5b5f58a6fd6746c35ade06ecfd9c6175408c427d7f363ccbc1d5bb0fc1d4c681",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      }
+    ],
+    "native_epsilon": {
+      "byte_count": 10560,
+      "device": "cuda:0",
+      "dtype": "torch.bfloat16",
+      "sha256": "0b10930307b86399220b6b75413e11f4fc518c4e7f24f1772062d120188c12ec",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "stock_initial_noise": {
+      "byte_count": 21120,
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "sha256": "220823b4b74aed4ab46f454fb9c9ac78957397b0b3000c447c33141714f7f5f5",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "stock_vl_features": {
+      "byte_count": 1220608,
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "sha256": "493b45337f1c0fa46b23dd232bf6c9986b7e47433b3e5474f00e38a788c1ee04",
+      "shape": [
+        1,
+        149,
+        2048
+      ]
+    }
+  },
+  "launch_allowed": false,
+  "new_PBS_submissions": 0,
+  "new_completed_updates": 0,
+  "new_quality_queries": 0,
+  "new_training_heads": 0,
+  "proposed_reconciliation": "Explicitly bind generated query dtype to actual FP32 native feature dtype in both arms; preserve BF16 native epsilon/autocast and all other boundaries. Do not cast qualified S4 to BF16.",
+  "protocol_requirement": "Sections 3/4 require BF16 generated query while preserving exact qualified S4 precision and native feature dtype.",
+  "recommendation_NOT_executed": true,
+  "release": "e62e6a469dce1f4d3df5d49b38bad4a3c627e969",
+  "required_scientific_clarification": true,
+  "schema": "PI0272_SOURCE_PRECISION_CONFLICT_V1",
+  "selected_checkpoint": "NONE",
+  "source_files": [
+    {
+      "bytes": 20591775,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0270/AGG/main/training/S4_audit.jsonl",
+      "sha256": "0d2bd6253c433425d6e7dda3963d81a06da19abb8321fac9f667508e02f9b917"
+    },
+    {
+      "bytes": 9579,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0270/AGG/main/training/S4_parity.json",
+      "sha256": "ba79c8c628378b316b99f024640bfab99f3f5f8677b104bc5137c98b3b97a54b"
+    },
+    {
+      "bytes": 972,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0270/AGG/main-4096.graph_loss_gradient_audit.json",
+      "sha256": "8182fcb03a3bef132fb033fa83229d36ce7c80fb4f1844cfaa1fc178cdcba4c4"
+    },
+    {
+      "bytes": 68477,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0270/evidence/MAIN_TRAINING_AUDIT.json",
+      "sha256": "a86f780adde27f4dfb273e9cec2c5b4e1dbde81cc0e47d3aec402009fefe0102"
+    },
+    {
+      "bytes": 8481,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code/pi0264_training_audit.py",
+      "sha256": "ff0da2dbf4281df2ab4efca1c74f62575bf000f427b497c049b2648d1e733457"
+    }
+  ],
+  "source_rows": 8192,
+  "status": "BLOCKED_SOURCE_PRECISION_CONTRACT",
+  "stock_parity": {
+    "decoded_xyz_max_abs_m": 0.0,
+    "native_epsilon": {
+      "byte_count": 10560,
+      "device": "cuda:0",
+      "dtype": "torch.bfloat16",
+      "sha256": "0b10930307b86399220b6b75413e11f4fc518c4e7f24f1772062d120188c12ec",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "raw_final_max_abs": 0.0,
+    "status": "PASS_PI0247_U_S4_PARITY",
+    "stock_noise": {
+      "byte_count": 21120,
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "sha256": "220823b4b74aed4ab46f454fb9c9ac78957397b0b3000c447c33141714f7f5f5",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    }
+  }
+}

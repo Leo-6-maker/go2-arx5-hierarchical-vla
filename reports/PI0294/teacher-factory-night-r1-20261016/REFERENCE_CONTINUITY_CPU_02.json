@@ -1,0 +1,218 @@
+{
+  "status": "SAVED_V3_REFERENCE_REPRODUCED_NOT_TASK_QUALIFIED",
+  "source": "f8dd9ca9278446592581c9d2a3603bc1d37140a6",
+  "fixture_sha256": "94343d8bf4a5459359dd7a62eeafc4f2b7ab1b09ed5649aecd10b08c26838f92",
+  "original": {
+    "max_velocity": 0.2445635776441177,
+    "max_acceleration": 4.012846782557784,
+    "violations": [
+      {
+        "index": 33,
+        "joint": 2,
+        "time_s": [
+          7.25,
+          7.3,
+          7.35
+        ],
+        "acceleration": -1.4384984310421003,
+        "labels": [
+          "WITHIN_SEGMENT"
+        ],
+        "connector_center_distance_s": 0.08499653245769245
+      },
+      {
+        "index": 34,
+        "joint": 2,
+        "time_s": [
+          7.3,
+          7.35,
+          7.3999999999999995
+        ],
+        "acceleration": 4.012846782557784,
+        "labels": [
+          "WITHIN_SEGMENT"
+        ],
+        "connector_center_distance_s": 0.13499653245769228
+      }
+    ]
+  },
+  "retiming": {
+    "attempts": [
+      {
+        "factor": 1.0,
+        "status": "RATE_REJECT_AFTER_QUANTIZATION",
+        "duration_s": 2.25,
+        "max_velocity": 0.24456357764411685,
+        "max_acceleration": 1.3379471816585808,
+        "changed_intervals": 3,
+        "continuous_source_path_unchanged": true,
+        "quantized_samples_are_not_all_dense_knots": true,
+        "physics_qualification": false
+      },
+      {
+        "factor": 1.25,
+        "status": "RATE_REJECT_AFTER_QUANTIZATION",
+        "duration_s": 2.25,
+        "max_velocity": 0.24456357764411685,
+        "max_acceleration": 1.3379471816585808,
+        "changed_intervals": 3,
+        "continuous_source_path_unchanged": true,
+        "quantized_samples_are_not_all_dense_knots": true,
+        "physics_qualification": false
+      },
+      {
+        "factor": 1.5,
+        "status": "RATE_REJECT_AFTER_QUANTIZATION",
+        "duration_s": 2.35,
+        "max_velocity": 0.24456357764411685,
+        "max_acceleration": 1.0034909128762617,
+        "changed_intervals": 3,
+        "continuous_source_path_unchanged": true,
+        "quantized_samples_are_not_all_dense_knots": true,
+        "physics_qualification": false
+      },
+      {
+        "factor": 2.0,
+        "status": "PASS_SAVED_JOINT_WITNESS_ONLY",
+        "duration_s": 2.5,
+        "max_velocity": 0.24456357764411685,
+        "max_acceleration": 0.917137972561879,
+        "changed_intervals": 3,
+        "continuous_source_path_unchanged": true,
+        "quantized_samples_are_not_all_dense_knots": true,
+        "physics_qualification": false
+      }
+    ],
+    "solver_converged": true,
+    "solver_iterations": 2,
+    "input_q_sha256": "885f1d308a5a4a6de16126b80585c1fc603e8f25306c2281bcf5adcde4dbe1c4",
+    "input_time_sha256": "bdd4f3e17aa5be619b0b6122ffbb907ee9fc20ead5ec270058f08dac7b6cba1d",
+    "selected_proof": {
+      "factor": 2.0,
+      "status": "PASS_SAVED_JOINT_WITNESS_ONLY",
+      "duration_s": 2.5,
+      "max_velocity": 0.24456357764411685,
+      "max_acceleration": 0.917137972561879,
+      "changed_intervals": 3,
+      "continuous_source_path_unchanged": true,
+      "quantized_samples_are_not_all_dense_knots": true,
+      "physics_qualification": false
+    }
+  },
+  "real_executed_prefix_samples": [
+    {
+      "time_s": 5.55,
+      "native_step": 5275,
+      "active_intent_sequence": 13,
+      "executed_prefix_index": 6
+    },
+    {
+      "time_s": 5.6000000000000005,
+      "native_step": 5300,
+      "active_intent_sequence": 13,
+      "executed_prefix_index": 7
+    }
+  ],
+  "real_history_and_next_preview": {
+    "status": "NOT_COMPARABLE_WITHOUT_COMMON_ROOT_CONTINUATION",
+    "reason": "COMMON_ROOT_AND_IK_BRANCH_WITNESS_REQUIRED",
+    "old_root_sha256": "81be1cfd8c87e6a854fea17365aff61d4273d78af3702e372ec101707d81a968",
+    "new_root_sha256": "a719587754e705082919d210f400426570a6518306805fc46c6e28f002d0d8c1"
+  },
+  "world_pose_seam": {
+    "max_XYZ_velocity": 0.05837323677194273,
+    "first_two_join_velocity": [
+      [
+        -0.006137086734486763,
+        -0.023254517366423644,
+        -0.05318832916816785
+      ],
+      [
+        -0.0061929427932061465,
+        -0.023170324099924533,
+        -0.05301861275563757
+      ]
+    ],
+    "first_two_join_SO3_angle": [
+      0.014217503256001227,
+      0.014173422652304068
+    ],
+    "command_representation": "WORLD_EEF_POSE_NOT_COMMANDED_JOINT_ACTION"
+  },
+  "contracts": {
+    "status": "PASS_REFERENCE_FIXTURE_CONTRACTS_ONLY",
+    "cases": [
+      {
+        "name": "FOUR_FIXED_TIMING_FACTORS",
+        "status": "PASS_FIXTURE_ONLY"
+      },
+      {
+        "name": "NAN_TIME",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "UNAUTHORIZED_GRID",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "OUTSIDE_DURATION_SET",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "NO_PREVIEW_AS_EXECUTED_HISTORY",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "REJECT_CANNOT_BE_EXECUTED",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "ACK_ID_MISMATCH",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "SOURCE_CLOCK_NOT_NATIVE_CLOCK",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "NATIVE_AND_SOURCE_CLOCKS_SEPARATE",
+        "status": "PASS_FIXTURE_ONLY"
+      },
+      {
+        "name": "REPLAYED_PREFIX",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "UNEXECUTED_PREVIEW_TAIL",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "GAP_AT_CHUNK_JOIN",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "INCOMPATIBLE_ROOT_WITNESSES",
+        "status": "PASS_EXPECTED_REJECTION"
+      },
+      {
+        "name": "ACTUAL_EXECUTED_COMMAND_SEAM_REJECTS_JUMP",
+        "status": "PASS_FIXTURE_ONLY"
+      },
+      {
+        "name": "NEAR_CONNECTOR_IS_NOT_CROSSING_CONNECTOR",
+        "status": "PASS_FIXTURE_ONLY"
+      }
+    ],
+    "new_physics": 0,
+    "new_IK": 0,
+    "new_RRT": 0,
+    "model_queries": 0,
+    "task_qualification": false
+  },
+  "full_path_collision_qualification": "NOT_RUN",
+  "startup_qualification": "NOT_PASSED",
+  "new_physics": 0,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "models": 0
+}

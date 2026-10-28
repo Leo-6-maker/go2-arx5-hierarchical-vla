@@ -1,0 +1,77 @@
+{
+  "schema": "B2_STARTUP_FAILURE_ACTUAL_FINANCIAL_CLOSURE_AND_PBS_ONLY_RETRY_CPU_V1",
+  "observed_epoch": 1792746886.4960954,
+  "failed_job": "1480412.stdct-mgmt-02",
+  "native": {
+    "job_state": "F",
+    "exit_status": -3,
+    "run_count": 21,
+    "process_final_created": false,
+    "new_model_query_update_effects": 0
+  },
+  "financial": {
+    "GPU_seconds_upper": 484,
+    "CPU_seconds_upper": 15384,
+    "entire_request_lifetime_seconds": 424,
+    "all21_attempts_and_queue_hold_included": true,
+    "additional_output_charge": 0,
+    "already_prepaid_output_bytes": 67108864,
+    "global_GPU_s": 82257.0,
+    "DEC1_GPU_s": 61763.0,
+    "cumulative_optimizer_updates": 8744,
+    "queries": 1197,
+    "global_PBS": 22,
+    "DEC1_PBS": 11,
+    "all_reservations_zero": true,
+    "unknown_effects": []
+  },
+  "GPU_closed": {
+    "terminal_sha256": "6c471e0c789ddc2eafb0b03f579027387a40fbb23b70d03b5d026c69e14a83c9",
+    "lease_sha256": "b8f19d13cc7ae0008755173f6ae1fea24d9b0b242d9139f6a8e0fa9c3b72dd59"
+  },
+  "CPU_closed": {
+    "terminal_sha256": "e1b4074b0908f256152c165dd0a747eff4c1c5e5f87a239cff817a011078568f",
+    "lease_sha256": "5093434a037fb45b86cab05a18239c9c44f3d57c9d7baedaf1ba579ffd6c1d7a"
+  },
+  "independent_dual_closure_confirmed": "ACTUAL_ADMINISTRATIVE_STARTUP_FAILURE_ONCE_SETTLED_BOTH_LEASES_CLOSED",
+  "amgr": {
+    "normal_masked_login": "SUCCESS",
+    "project": "CFP04-CF-007",
+    "balance_GPU_hours": 299155.476,
+    "balance_CPU_hours": 9996.996,
+    "old_job_last_transaction_still_unreconciled": true,
+    "no_refund_or_reconcile_write": true,
+    "AMS_GPU_units_not_physical_seconds": true,
+    "underlying_MOM_startup_failure_cause": "UNKNOWN"
+  },
+  "email": {
+    "hourly_NUS_PBS_summary_opt_out": true,
+    "independently_read_back": true,
+    "normal_PBS_mail_points": "n",
+    "reference": "https://nusit.nus.edu.sg/technus/friendly-email-alert-for-hpc-batch-jobs/"
+  },
+  "retry": {
+    "human_authority_release": "e48db225033ba0510230d96b43f58c0743b05912",
+    "grant_sha256": "98c081a33e60a7a0d98a4e7a392530fca2de77c395f1262dd0ffd8b5e5b421e0",
+    "only_cap_changes": {
+      "DEC1_PBS": [
+        14,
+        15
+      ],
+      "global_PBS": [
+        25,
+        26
+      ]
+    },
+    "other_caps_clocks_science_unchanged": true,
+    "CPU_code_new_grant_full_remaining_forecast_and_native_guards": true,
+    "native_new_grant_adoption": false,
+    "new_retry_request_registered_or_submitted": false,
+    "existing_control1800Hopper180LOCAL256MiB64MiB_must_be_shared_not_recharged": true
+  },
+  "WDR1": {
+    "status": "ACTIVE",
+    "target_task_native_qualified": false,
+    "core64": 0
+  }
+}

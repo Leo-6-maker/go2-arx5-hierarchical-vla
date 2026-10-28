@@ -1,0 +1,775 @@
+{
+  "time_utc": "2026-10-05T18:28:02.393269+00:00",
+  "sources": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/evidence/HANDOFF.json",
+      "sha256": "e63df123c8737bb4dc426feccbd03847b24ef472d48097d942face50e9b2e9ee",
+      "receipt": {
+        "status": "SUPERSEDED_BEFORE_NATIVE_RUN_BY_PI0276",
+        "PI0275_preserved": true,
+        "physics_starts": 0,
+        "physics_calls": 0,
+        "model_calls": 0,
+        "release": "57fd8a9c53ce241c05a8d5b351034bed7ba56b14",
+        "quality_completed": {
+          "BROAD_original_outputs_reused": true,
+          "CPU_video_archive_and_verdict_still_required": true,
+          "EQUIL_final_only": true,
+          "deployment_selected_checkpoint": "NONE",
+          "new_component": 32,
+          "new_early_rows": 192,
+          "new_late_rows": 592,
+          "new_main": 64,
+          "new_offline_rows": 968,
+          "selected_checkpoint": "NONE",
+          "status": "ALL_FIXED_NEW_QUALITY_QUERY_LANES_COMPLETE"
+        }
+      }
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/QUALITY_QUERY_LANES_COMPLETE.json",
+      "sha256": "a83778cca52caad85f2047ad82c21f6aff0287d628549245d8ab140714c05419",
+      "receipt": {
+        "BROAD_original_outputs_reused": true,
+        "CPU_video_archive_and_verdict_still_required": true,
+        "EQUIL_final_only": true,
+        "deployment_selected_checkpoint": "NONE",
+        "new_component": 32,
+        "new_early_rows": 192,
+        "new_late_rows": 592,
+        "new_main": 64,
+        "new_offline_rows": 968,
+        "selected_checkpoint": "NONE",
+        "status": "ALL_FIXED_NEW_QUALITY_QUERY_LANES_COMPLETE"
+      }
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/POSTPROCESS_EXECUTION_FILESET_R1.json",
+      "sha256": "78bf6f9e65c9e0a68adf2ab14dabe01c0edcd926e91cadd2a2a0e69395ad84c2",
+      "receipt": {
+        "status": "POSTPROCESS_ONLY_ORDER_AND_OUTPUT_PATH_REPAIR_AFTER_ALL_QUERIES",
+        "supersedes_sha256": "614b42f1d73493c037dca39e9b641dbe185b62f6c18352ec01213fc8770c355a",
+        "original_quality_fileset_unchanged": true,
+        "changes": [
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/query_inventory.py",
+            "original_sha256": "0c78c66a29c4479372eba13d7cf6370ee29a5803debebb875f56bcab4487352e",
+            "replacement_sha256": "c2095ce4f9ef01d4aa727d38ea9e2c8eac4a06d9919ea1090f4be919c816785b"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/postprocess.py",
+            "original_sha256": "aff27ccf695b28dcbc7428f502269d1b3a5b3a3eb88d4d43e96367ec10ffe76e",
+            "replacement_sha256": "9abdb9185609ed11d8c85d41d526ad0a68b19ab5bcda5799b043dd9b88a63135"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/onset_final.py",
+            "original_sha256": "67728e7d5b4bb1cb39ceabd72dc57511fd7df8976ec31757ef6074cdea95d70b",
+            "replacement_sha256": "9ef7049f65ee8326b36145b12f5161df16d7d4d56151845e46d41e3f90e43e4f",
+            "reason": "Match full prefixed output path; preserve original A0 receipt"
+          }
+        ],
+        "files": [
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/pi0228_train_calib_checkpoint_selection.py",
+            "bytes": 21102,
+            "sha256": "e3ff2066d4a1e9a4aed55bb4dfe03775dc59d960b447f7c0bc68d7e3a8309cf6"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/pi0242_train_infer_bridge.py",
+            "bytes": 116609,
+            "sha256": "5a36ad1029958bcf756596a56bf16846052eec304c332ecd89305e6e0c604a7c"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/pi0243_staged_learning_to_sim.py",
+            "bytes": 37139,
+            "sha256": "4ac698cdb2aa8bbc3afade8a3bb7a53164754a7b41f35345877c2d2aa416adc4"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage21_same_scene_groot_inference.py",
+            "bytes": 17392,
+            "sha256": "fd7c32584a97bc14fa13d190043cffa27ab77aa8335189dfe40950a6827a2ae3"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage40_b0_model_control.py",
+            "bytes": 6857,
+            "sha256": "640a527b0604dc082242de1aa860e0fc647b0270ec3a62ce4e99485d7520cdd9"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0264/code/pi0264_freeze_eval.py",
+            "bytes": 7689,
+            "sha256": "4f1f691fa8b3cddc456005df44ac91d2b2d28050a9692fbc15aa2a3f3e184234"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0266/code/pi0266_expert.py",
+            "bytes": 4751,
+            "sha256": "0716fdf38bb02b161c106530d66da91ea83b0b8ba4e78cab9d72d143280f0245"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0259_observation.py",
+            "bytes": 1817,
+            "sha256": "decf09a4f41e788fc912a575ca242c2300062158f6113acd50afaf026dcf1a81"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_cpu.py",
+            "bytes": 15697,
+            "sha256": "474868a33dd92cf8b4a5a62fc5b375b4b40f486a7e3480f8748263479287f0aa"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_metrics_v3.py",
+            "bytes": 5247,
+            "sha256": "ffd9a0a5a9ed178438acf9858fc8e10f2e6fe13966299ba12113efcec1f5db4a"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_virtual_data.py",
+            "bytes": 6204,
+            "sha256": "8203b975bb875d9ac906bccd7c09a9115007a47b8db49a1ee26fa1f979bd5a32"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_virtual_renderer.py",
+            "bytes": 10445,
+            "sha256": "d0250ea351adbe4705d3ffb0d7cb4ac808f414f7ac88cf91d67373a2054fbfea"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0268/R1/code/reliability.py",
+            "bytes": 3465,
+            "sha256": "cdbe67ab2a0f159c286fe1be835aba1e537e258e1ee0fde2a344877364aa6c28"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0268/R1/code/report.py",
+            "bytes": 17982,
+            "sha256": "1db82278af12f085144990a644f43c183b24bb072c149662ff04c5758c6b3e73"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/newfit.py",
+            "bytes": 4469,
+            "sha256": "3cad09e4897a6ec08d58b9693d1a62323e57f30172964d7b105d1f1f2230341c"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_components.py",
+            "bytes": 1684,
+            "sha256": "8979e7a84783c098d2d1ac921e3f78079d7cd442846a365d13f9f3eac4c3d6c7"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_cpu_check.py",
+            "bytes": 4221,
+            "sha256": "14b91f21d646cf23128ca2d8eb56d8905c3944aaacf049d75be3e0e683de06b6"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_evaluate.py",
+            "bytes": 5121,
+            "sha256": "df736fd38bc2a4a1c2b86cdb82b95b002003f49903ac2a863a42ac110f682af8"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_gate.py",
+            "bytes": 1893,
+            "sha256": "b39f1881d8b08b8d28ad0acfa55412815cc30e519588d163413a482cbeb386f9"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_offline.py",
+            "bytes": 5160,
+            "sha256": "efe8c836de5c379eac55b99051d40898eb866e08b7335f25d1b4a579e6878731"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_report.py",
+            "bytes": 17972,
+            "sha256": "f7b2760b11d25ba6173b2b00b880f615f35c4b777cc869a87d7f6ab7a15c071b"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_source_check.py",
+            "bytes": 4271,
+            "sha256": "b30448c342d0d0b09ebb9a25e833299db91e28b8b8ab9a2e6d5abd8a2d43116f"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_virtual.py",
+            "bytes": 13266,
+            "sha256": "3d14dbeb97bd1a271d7389a66c1d8fe62ae10d294749af8240d44d879dbbbe18"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/quality_worker.py",
+            "bytes": 8581,
+            "sha256": "7e70551b613b218986efae1dfe6f2fa9be2d347779352166274e8d31686ceeb4"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/seal_quality.py",
+            "bytes": 3274,
+            "sha256": "b2440ad172f2fa430b78e3b1ded6a66aae46a130ac85c03a177fa9e5f4ce59d4"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/trajectory_replay.py",
+            "bytes": 9093,
+            "sha256": "c3f89163a033ba64f0e5ed93d514a04bc7ac3e80c033c853600402930434ef05"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/code/video.py",
+            "bytes": 1537,
+            "sha256": "8fb52644ecf373e5b652a7324e66206afd61a3fda2efdd5165884dd44444e4f2"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/archive.py",
+            "bytes": 4580,
+            "sha256": "0599733b50ef6e6e0cdd83425d21b861834a72576bab17bfad9900dc4a2200d4"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/archive_predecessor.py",
+            "bytes": 6187,
+            "sha256": "847364b17669c18d9512c913af3d9c782f1205105396527d7e17092a01a3f98b"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/camera.py",
+            "bytes": 3799,
+            "sha256": "069c4a0f51f782bcb63145c1ee8e3d11016a11e603e406bfd2fd85fcf2e7c33a"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/close_predecessor.py",
+            "bytes": 11229,
+            "sha256": "7f1cede0e12002d3c569d61240995c6eb56ca2bcdbdc596e99fecdf07ecfae6a"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/error_bank.py",
+            "bytes": 4103,
+            "sha256": "50c6483a49904724ccf0709778cff24390e2de98a2b1199a87b239e2f8efe1ec"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/evaluate.py",
+            "bytes": 3777,
+            "sha256": "461039d49ab4cd6de9dda0807f8dd9a7786effd24aed51893e356a61c2c997bf"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/final_audit.py",
+            "bytes": 7221,
+            "sha256": "4aa6c32f95cd4839ef49cb07b5b2e214ebe31cb2d4ddf8d8e00f56ca662d7511"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/predecessor.py",
+            "bytes": 10549,
+            "sha256": "3cef09b37dcba4fcdb3e20530a791ff99bc22e3516875693b310d71b6a89f0c1"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/predecessor_report.py",
+            "bytes": 1195,
+            "sha256": "3c1fa43c12c814e916fc90d034184559327bd150e22327933f5ab9ba2092fe1f"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/register.py",
+            "bytes": 4522,
+            "sha256": "0e9a83744daa57b8c4539f38607515e1b50712f10b3903d714121b02a33c4e79"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/report.py",
+            "bytes": 17860,
+            "sha256": "93a2b4b56996123a47fa3b72025498a0125a209a9334f256536e2a6d96cd3dbb"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/support.py",
+            "bytes": 9997,
+            "sha256": "6833880d9703e355b70b528a0ddfe947052e454e0a5109870770c473b054e896"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/teacher.py",
+            "bytes": 8483,
+            "sha256": "15a96aa180b8977b2e8a3f86222cfc62a7e8765bc99fb115d51f865e47218003"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/visited.py",
+            "bytes": 5799,
+            "sha256": "e540b66a1791bb04018ea3c9d972974efc1984a10ba2eb7d9e593a544f0a7330"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/worker.py",
+            "bytes": 4975,
+            "sha256": "bc4358d2cc7107b12bdcf650c963901510ad8cf8f1c02a8a127a6f8b2f9db2ce"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/archive.py",
+            "bytes": 3906,
+            "sha256": "56afc775c0768a2730eeea33db8ff078a0e321228268e24374344757fe60ec11"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/check_quality.py",
+            "bytes": 2728,
+            "sha256": "aadd8ff0ad15f88caa92c11e9e98ac68e4b144850964e71696e8c25688f99412"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/check_reporting.py",
+            "bytes": 1638,
+            "sha256": "bdd73bc4410dcbe1510c6d9ec20649c079fcbce6604af363998d7acae38afa7a"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/final_audit.py",
+            "bytes": 4348,
+            "sha256": "67c34b423e9864d642f0e1718d17897ed4362a8c37a9259103a0672308372f98"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/late.py",
+            "bytes": 2252,
+            "sha256": "7237c238554c64d7a2027bad4ccef48f76b3c9339336f683413d80626d41a6ca"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/materialize.py",
+            "bytes": 4348,
+            "sha256": "3eb92175031661dd9b90d7bcf72b2880138040b5aec7117b7abe92330c935c49"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/newfit.py",
+            "bytes": 3831,
+            "sha256": "0832d66f1fe3144aa9256791246606a3928782abcb2fc44ee880353f6dbd45e7"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/prepare.py",
+            "bytes": 9630,
+            "sha256": "42292c6fd9fe790e3efdeb0627503f8e7bc3955a33c88bc0a285b1f23765e296"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/prepare_quality.py",
+            "bytes": 3300,
+            "sha256": "3e610771786781a4af18e6f0f195b212d4fad99046b059f9eeb9cb22309705c3"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/quality_components.py",
+            "bytes": 1725,
+            "sha256": "fe8442c9a4839e1f261625b1fe5369a8878ec25d854a26c466be017f2bed831d"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/quality_evaluate.py",
+            "bytes": 5778,
+            "sha256": "9520ecf3d0a29f9aef4ddeb70418424b68d0ebcde2c3ad0e80abfdb54063d27e"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/quality_gate.py",
+            "bytes": 1913,
+            "sha256": "94a8bc515ee4d46545d8820b6a9e80cc0672c1b0a38e4e82659e94f1dd808e92"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/quality_offline.py",
+            "bytes": 5705,
+            "sha256": "21bce65e15e5346f26e641c6c3abae400548b450c81cee4f203bad1ab3e7a18a"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/quality_virtual.py",
+            "bytes": 13348,
+            "sha256": "b0447aaa232a50c6fc8a9611189c32cac35e0a63344638caf50d4eec680cf80a"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/quality_worker.py",
+            "bytes": 9717,
+            "sha256": "c4e0a4d13bcf4c2c165173a8d798b7c01a25306f10208f4f9914afbb10ee7606"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/query_inventory.py",
+            "bytes": 6998,
+            "sha256": "b69e04704a16dd328464e88a71af5730b141bc9bd8ee43896f8a9c2c8d7eb3d7"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/report.py",
+            "bytes": 16963,
+            "sha256": "5df56892fb353fa72545f8338ee48737a89e69f9a2e0a2e66c09e19643d156a0"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/reuse.py",
+            "bytes": 2277,
+            "sha256": "bc21b2d3804a1da48793ff8c1df70bc69e354f9b7615f67cc896d71c10d18e97"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/seal_quality.py",
+            "bytes": 3162,
+            "sha256": "579f1fee22769f5ca84cf3206e78d60acdb2783bbde7889db5c9ffa8999d7fdb"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/trajectory_replay.py",
+            "bytes": 8944,
+            "sha256": "8e85f044a1b90bd4ac9b1d6339f371fffc31351e44b0d915406c76227b08a728"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/transitions.py",
+            "bytes": 9371,
+            "sha256": "cdd82be41f5126427c777ee203582e85b8d4fbd8f069a54d0d4193683801fe71"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/code/video.py",
+            "bytes": 1564,
+            "sha256": "29d2ca149a4c3c855bbb0a6dd0bef2764640bdf6cad2c1ca159c11077302a8a7"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0273/evidence/NATIVE_CPU_FIXTURES.json",
+            "bytes": 313,
+            "sha256": "a1a7a20b2ca624f4d49d4a30dcb3478aba215bbbd83e242a966b853c1749d18b"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/admit.py",
+            "bytes": 6760,
+            "sha256": "733f8aa6ddcfdba829ecda38d2fc10397ba356d1a6a221e2ab290189e250960e"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/archive.py",
+            "bytes": 2745,
+            "sha256": "ff272fbdc2b7923096868af666163acc911fa00524e5e9b692339e70da7736fd"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/archive_results.py",
+            "bytes": 3758,
+            "sha256": "6f91acfde920d6c94e126f9d058d89d208862f77578fb2a8e544eef36dff49b3"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/check_quality.py",
+            "bytes": 3773,
+            "sha256": "ce7481264b1bd0895b76387461047f4f6d7734d3f0499db58cc3200fb7edd2f8"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/check_reporting.py",
+            "bytes": 2469,
+            "sha256": "237184fa916b88d02bdd4e08788f58cc094c39d0b5e2a7af27308468df966e55"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/compare.py",
+            "bytes": 6469,
+            "sha256": "a47ad8412e3435cb7281379b6afc4c6047c2aff1b32cf3eedca9d6358fe2b2f2"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/compat.py",
+            "bytes": 3589,
+            "sha256": "d4f77800b90c0fb227197fa5ef17646c14423561eb4e3313aa729649049115bb"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/data.py",
+            "bytes": 6557,
+            "sha256": "45a71dc72ba4cc0f61b0bae52bab6f562ce3ae60198227ad7da5658acad037fe"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/exposure.py",
+            "bytes": 2497,
+            "sha256": "27970b1f6d03122f38c05d94cd13b53fcb836855aca5f3e5d7468d297b17058f"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/field.py",
+            "bytes": 3743,
+            "sha256": "2fa9b89b0c112f57bafb922ad3f2b243dbee0f38cbf74c44686d1d769ec75638"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/field_cpu.py",
+            "bytes": 3939,
+            "sha256": "906423cfdc40aa6d8606e87043ed7bf060acd71534b814edb71f8dbb29dac11c"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/field_report.py",
+            "bytes": 9540,
+            "sha256": "37e61852d0a635b40b2924a1bba8539a53838f6970e079a91a76758b109773f5"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/final_audit.py",
+            "bytes": 5639,
+            "sha256": "70bbae150546f512906a38d43f36f9c65122b45cfe2b99cc65817af2d232c062"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/late.py",
+            "bytes": 391,
+            "sha256": "97a813fe10a5349dc6db435a93d33a568a143d94e3b5b25b670af0fb1e80c85b"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/late_final.py",
+            "bytes": 738,
+            "sha256": "57bb7b4974157d1c6a9a0383ac68c2f5bccb37ebe793f3a5d4978e86391ccfcd"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/local_map.py",
+            "bytes": 1729,
+            "sha256": "ea9c0fb4425debd3ca81226a062ab8feb652ef8c2cac6f95286968aab6b381c8"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/materialize.py",
+            "bytes": 1345,
+            "sha256": "e59acce30ba310eb7a3e1be760af952e5261217131b8b7abfcf04f92e11fe351"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/newfit.py",
+            "bytes": 372,
+            "sha256": "6e4448376d979b33c67cd75185fc7f75b69fc5148ba9142c434c6044ef17fe8d"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/onset.py",
+            "bytes": 8977,
+            "sha256": "2bb88bea7fe0799de18a4151cfd455253d2c7de186942488278cd83defd8df52"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/onset_final.py",
+            "bytes": 1970,
+            "sha256": "9ef7049f65ee8326b36145b12f5161df16d7d4d56151845e46d41e3f90e43e4f"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/postprocess.py",
+            "bytes": 2177,
+            "sha256": "9abdb9185609ed11d8c85d41d526ad0a68b19ab5bcda5799b043dd9b88a63135"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/prepare.py",
+            "bytes": 6372,
+            "sha256": "0ced16e3ed9db29a10a1ba048624426eb1e1cd5e1daf3490d5b6659e6c33884e"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/prepare_quality.py",
+            "bytes": 2384,
+            "sha256": "933bb2e38478e8744d43828fa15ef0f121b30c3887b8f2bd84da83e2789c0fd6"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/quality_components.py",
+            "bytes": 427,
+            "sha256": "b3849f5bfaeb73116fdeb1c5b47246107c975ae39506c2e4daab30e33f7106c6"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/quality_evaluate.py",
+            "bytes": 4740,
+            "sha256": "b65eeab4d5a39d9fbe86eb9d7d098d65fe8e3fb7d32ba553912562240672f1c4"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/quality_gate.py",
+            "bytes": 2623,
+            "sha256": "766f78afa19ffbe97989fc1aaa9c654d674b5588336d16c315bdfae5a13a177c"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/quality_offline.py",
+            "bytes": 380,
+            "sha256": "c377ac09f80bc40ada23ffee71639bd049ba872dcb2726f1a4c28c4ae93d9f48"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/quality_virtual.py",
+            "bytes": 424,
+            "sha256": "dbbb8d0973647fb5a51e94bd458fe896cadd3fd9baeadede682f5691876809f7"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/quality_worker.py",
+            "bytes": 508,
+            "sha256": "3c6a3cb43d1198f0c4fbcd237c2d647b8325c6c5b3db9d2eb212e4e956594b83"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/query_inventory.py",
+            "bytes": 3623,
+            "sha256": "c2095ce4f9ef01d4aa727d38ea9e2c8eac4a06d9919ea1090f4be919c816785b"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/report.py",
+            "bytes": 4456,
+            "sha256": "24c8424a05a5e171094abebdebb633583ee15a7f5419444fd1bfc7cf65384344"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/research_return.py",
+            "bytes": 7314,
+            "sha256": "bfb0aca8576845906f568b3558f436b5852038ec20964886c1eacd577822ba74"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/reuse.py",
+            "bytes": 1591,
+            "sha256": "ea3d853b614a1026b39143258c6a71d2ee25b7772fbca8431a9ffaf13a7eb727"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/run_data.py",
+            "bytes": 522,
+            "sha256": "3a6da3274693ba498cf9abeed03ae40466984edaa22881e7251cac9724c850e2"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/seal_quality_final.py",
+            "bytes": 2501,
+            "sha256": "c6441dce18ed001bc8b2f251f23db7caa4abe2f23a46e64cc985d160a86bd68f"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/trajectory_replay.py",
+            "bytes": 1146,
+            "sha256": "10f01397ca0a42a6fa2c6faf087dabc16defa9aa91aba672318b7787089e86ee"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/transitions.py",
+            "bytes": 1531,
+            "sha256": "b78c9b2c3c4ff410f882de4ce8fa6e8513f69b402594493fb6eca544c6b992e2"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/code/video.py",
+            "bytes": 1338,
+            "sha256": "5e0bb817a66624fa46ace844a743265db63878f0c9ffaca1677067da80ee5501"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/contracts/ROT/source/dataset/statistics.json",
+            "bytes": 67963,
+            "sha256": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/BROAD_READOUT_R1.json",
+            "bytes": 2577,
+            "sha256": "2f1ece62ece87d6ffe8ecc49dc3d9040f7fcd2976c1d356c8103427c32b6cae2"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/EQUIL_READOUT_R1.json",
+            "bytes": 2577,
+            "sha256": "e2c788aeee26d2e9947a6c7cf1d40b65c54c8b031d2ea30023918c8c24d24b28"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/FIELD_QUERY_CARD.json",
+            "bytes": 82381,
+            "sha256": "5c715043bf3698930205ab82206621ea4ca39b8655b2638123642d3f6d60e5bc"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/FITTING_CARD.json",
+            "bytes": 13043776,
+            "sha256": "9860c7ff6cd97b267976ee97bac30161f6df613f919d0873c0c5a37c7980c761"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/LATE_QUERY_CARD.json",
+            "bytes": 361767,
+            "sha256": "60ad3cbf95cb53d27d70862175642e4c89868b11fc152865e28ab6b089f87337"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/NEWFIT_QUERY_CARD.json",
+            "bytes": 94824,
+            "sha256": "dd42018148f0c733d5d1546f8059b58da6dc68d9ce559a72277e4fbb8e730016"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/NEW_FIT192.json",
+            "bytes": 503815,
+            "sha256": "553d254cea5ad5c32d0d8acf615f2abfe222459ac10e9d0bb0e09b786884d226"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/POSE_CARD.json",
+            "bytes": 1499353,
+            "sha256": "fdd6a192f2889f1996df2a164ca13629b010713faf1de0fbb2551679bf4b016d"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/QUALITY_EXECUTION_FILESET.json",
+            "bytes": 20173,
+            "sha256": "0a9c2960148ab39f3cf27c0903e1621baecc73aca9052547385e185c9584c2e6"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/QUALITY_SCOPE.json",
+            "bytes": 2316,
+            "sha256": "14b15e2f25a719ac2af3ea3a3e037edf6aaf1ffc3d23023e92f254bacc10f58c"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/RUNTIME_COMPONENT_CARD.json",
+            "bytes": 269539,
+            "sha256": "ea1935cae88fac7c429e29fbe344cf53ebbfb6da867b2d119fb81c18e74a31ab"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/RUNTIME_EVALUATION_CARD.json",
+            "bytes": 811504,
+            "sha256": "e10cd6612c9b498dcbcc8540aa19629313ff5d60f2594eb7c4ecdb5f14c9ac3e"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/RUNTIME_OFFLINE_CARD.json",
+            "bytes": 1354872,
+            "sha256": "b454bc8d46e1561d2839ba855e8e5f594adb27d253df87430854cc024ed2b22b"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/SUPPORT_CARD.json",
+            "bytes": 1658443,
+            "sha256": "385f5b2675b9fcfb733ef59627c794c9d565f3e3a4c0164b904419b9cb780362"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/design/TRAIN_PLAN.json",
+            "bytes": 10355986,
+            "sha256": "de461d33ccef31a85df24c464a291e51f05a2f8c6bf51964613b799b1362bf2a"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/EQUIL/checkpoint-5120.archive_receipt.json",
+            "bytes": 4662,
+            "sha256": "c009793f424069891b2ca177c1257f328c77409cb81cb3894c4a3d84e16d6f68"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/EQUIL5120/FROZEN_SCOPE.json",
+            "bytes": 91258,
+            "sha256": "31f4add56a58ef37db02317996dd9f8d58b38d66588281b064f4d014154f3ae3"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/EXPOSURE_AND_ACTUAL_SEEN.json",
+            "bytes": 903598,
+            "sha256": "858e2818f7d735117a66990c803d181e39a1bce98638489309872c39b97bdfc8"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/HISTORICAL_TABLE_REUSE.json",
+            "bytes": 1006,
+            "sha256": "ff2116f6982553c2c2bf294bf9a2e0b640b9a5b5f868243f769bc1606fa9bf09"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/HOPPER_CPU_ADMISSION.json",
+            "bytes": 808,
+            "sha256": "ae97f2b0e52e236b887d8c565a33650fdb66c1a4a46cf8ce8a3e9e69f1eaad9c"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/MAIN_TRAINING_AUDIT.json",
+            "bytes": 104336,
+            "sha256": "6c82d14ec884bca50356fca6a8928cb53d2b5c7ffacbed933f51339696ba7892"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/PRECISION_CONTRACT_RESOLUTION.json",
+            "bytes": 7570,
+            "sha256": "ed463b20f3cf799b2daa03e743ba336ec3c35e5f954528385bae86d6833a5189"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/QUALITY_CPU_FIXTURES.json",
+            "bytes": 3972,
+            "sha256": "aee3e6e4ef1609f1dc85474bd5de72cd1c3f7d260bd210e457f9bbf5bac21eff"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/REPORT_CPU_FIXTURES.json",
+            "bytes": 3391,
+            "sha256": "52a1fa85251f1b05793fce45f881f42321b68293691d37a75b066f50ae7dacff"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/evidence/RESULT_ARCHIVE_data.json",
+            "bytes": 915,
+            "sha256": "01b931bb8baff4f01d945a78311412b3071763d79b6fdd1523640fefcd86e00e"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/model_bindings/BROAD5120.json",
+            "bytes": 1099,
+            "sha256": "95a993300453381d3af1803d52bd9be65dc4d5b44e73e6742a5deaa9aa03a048"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0274/model_bindings/EQUIL5120.json",
+            "bytes": 1099,
+            "sha256": "b6ff0b428cdc9deb16015ec65a237d3e3dc933d32f32fdd6c22cd41de2590198"
+          },
+          {
+            "path": "/home/liuyu-nfs/Projects/isaac-gr00t/gr00t/data/state_action/state_action_processor.py",
+            "bytes": 29707,
+            "sha256": "0151dd0bb6cb727fd401bf78121efc532e7184f2575e6ef25294085f629ac145"
+          },
+          {
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/R3/pi0260_r3_inputs.py",
+            "bytes": 456,
+            "sha256": "88e83ca2f51deefd18b26949165bf8c5e800439750bd6d524cfde81ea7c4d5b5"
+          },
+          {
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/qa/pi0260_r2_codec.py",
+            "bytes": 4419,
+            "sha256": "071e018b1b7788e3beea962f6db77e55e79697b981f293b82e77cfd75093faed"
+          },
+          {
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/runtime/pi0255_motion3.py",
+            "bytes": 24016,
+            "sha256": "a40e9e422ae567b74dd014b86de172d458514132f49ecc7b15f17a4ff7a93a96"
+          },
+          {
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/src/go2arx5_vla/providers/__init__.py",
+            "bytes": 363,
+            "sha256": "c2d3213ea00b84a66f4928398866930ce03394c6f788330d8ecfa5a12671b361"
+          },
+          {
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/src/go2arx5_vla/safety/__init__.py",
+            "bytes": 456,
+            "sha256": "89b0d30a3cf894c056bb2ef9ac77f6259ccfd3fbd6db618ee824d949ad56243d"
+          },
+          {
+            "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/src/go2arx5_vla/trajectory/so3.py",
+            "bytes": 5981,
+            "sha256": "668135c8db99496f31409b0382e39ceb3bbd962cac422d3273aaf54b357f1e7a"
+          }
+        ],
+        "physics_calls": 0,
+        "model_calls": 0,
+        "optimizer_updates": 0,
+        "time_utc": "2026-10-05T18:16:08.208837+00:00"
+      }
+    }
+  ],
+  "processes": "    PID STAT     ELAPSED COMMAND\n2561706 D          05:06 /home/liuyu-nfs/Projects/go2-arx5/PI0276/venv/bin/python -m pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu\n2561786 Ssl        05:06 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0274/code/postprocess.py\n2564277 Sl         03:13 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0274/code/archive_results.py predictions",
+  "PI0276_model_queries": 0,
+  "PI0276_physics_starts": 0,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

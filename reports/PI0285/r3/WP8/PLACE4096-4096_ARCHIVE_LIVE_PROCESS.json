@@ -1,0 +1,35 @@
+{
+  "epoch": 1791491053.1708407,
+  "actual_archive_processes": [
+    {
+      "pid": 2261753,
+      "argv": [
+        "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python",
+        "-u",
+        "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/archive/code/archive_trainer.py",
+        "--root",
+        "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285",
+        "--arm",
+        "PLACE4096",
+        "--step",
+        "4096"
+      ],
+      "status": "Name:\tpython\nUmask:\t0022\nState:\tR (running)\nTgid:\t2261753\nNgid:\t2261753\nPid:\t2261753\nPPid:\t2261752\nTracerPid:\t0\nUid:\t22182\t22182\t22182\t22182\nGid:\t300\t300\t300\t300\nFDSize:\t8192\nGroups:\t300 321 3103 3104 3115 3237 3239 3261 3317 3383 3384 3385 3386 3387 3388 3389 3392 3407 3412 3413 3414 \nNStgid:\t2261753\nNSpid:\t2261753\nNSpgid:\t2261752\nNSsid:\t2261752\nVmPeak:\t 4276460 kB\nVmSize:\t 1587868 kB\nVmLck:\t       0 kB\nVmPin:\t       0 kB\nVmHWM:\t 2819424 kB\nVmRSS:\t  433520 kB\nRssAnon:\t  411488 kB\nRssFile:\t   22028 kB\nRssShmem:\t       4 kB\nVmData:\t  515752 kB\nVmStk:\t     132 kB\nVmExe:\t    2376 kB\nVmLib:\t   15412 kB\nVmPTE:\t    1088 kB\nVmSwap:\t       0 kB\nHugetlbPages:\t       0 kB\nCoreDumping:\t0\nTHP_enabled:\t1\nuntag_mask:\t0xffffffffffffffff\nThreads:\t6\nSigQ:\t0/2061611\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000001001000\nSigCgt:\t0000000100000002\nCapInh:\t0000000000000000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t000001ffffffffff\nCapAmb:\t0000000000000000\nNoNewPrivs:\t0\nSeccomp:\t0\nSeccomp_filters:\t0\nSpeculation_Store_Bypass:\tthread vulnerable\nSpeculationIndirectBranch:\tconditional enabled\nCpus_allowed:\tffffffff,ffffffff,ffffffff,ffffffff\nCpus_allowed_list:\t0-127\nMems_allowed:\t00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000003\nMems_allowed_list:\t0-1\nvoluntary_ctxt_switches:\t895133\nnonvoluntary_ctxt_switches:\t572\nx86_Thread_features:\t\nx86_Thread_features_locked:\t\n",
+      "io": "rchar: 81354055952\nwchar: 12487709086\nsyscr: 4273699\nsyscw: 244085\nread_bytes: 20695932928\nwrite_bytes: 90382336\ncancelled_write_bytes: 4096\n"
+    }
+  ],
+  "readback_implementation": [
+    [
+      69,
+      "    readback = evidence / f'checkpoint-{step}.full_readback.json'"
+    ],
+    [
+      79,
+      "        with requests.get(url, stream=True, timeout=(30, 180)) as response:"
+    ],
+    [
+      81,
+      "            for block in response.iter_content(8 << 20):"
+    ]
+  ]
+}

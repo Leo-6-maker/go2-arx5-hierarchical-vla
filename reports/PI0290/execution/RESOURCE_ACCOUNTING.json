@@ -1,0 +1,303 @@
+{
+  "CPU_s": 388.68585763378906,
+  "GPU_s": 0.18143939971923828,
+  "GR00T": 0,
+  "Hopper_PBS": 0,
+  "WBC": 0,
+  "authority": "e9918c68d03cc9a1049aa33e2bd2b0ef4eaea398",
+  "deployment": "NONE",
+  "diagnostic_pairs_actual": 34,
+  "diagnostic_pairs_provenance": "2 zero-step software dual probes +10 first optics diagnostics +10 X-side optics diagnostics +12 fixed-layout reset preflight pairs",
+  "events": [
+    {
+      "CPU_s": 0.230724,
+      "GPU_s": 0,
+      "stage": "CPU_TESTS"
+    },
+    {
+      "CPU_s": 0.19836199999999998,
+      "GPU_s": 0,
+      "stage": "CPU_TESTS"
+    },
+    {
+      "CPU_s": 0.08453200000000001,
+      "GPU_s": 0,
+      "stage": "D0_SOFTWARE_RENDER_PROBE"
+    },
+    {
+      "CPU_s": 0.20340799999999998,
+      "GPU_s": 0,
+      "stage": "CPU_TESTS"
+    },
+    {
+      "CPU_s": 0.21425999999999998,
+      "GPU_s": 0,
+      "stage": "CPU_TESTS"
+    },
+    {
+      "CPU_s": 0.06582299999999999,
+      "GPU_s": 0,
+      "stage": "C2901_POSTPROCESS_RECOVERY"
+    },
+    {
+      "CPU_s": 0.211858,
+      "GPU_s": 0,
+      "stage": "CPU_TESTS"
+    },
+    {
+      "CPU_s": 3.432899,
+      "GPU_s": 0,
+      "stage": "VIDEO_C2903"
+    },
+    {
+      "CPU_s": 1.370456,
+      "GPU_s": 0,
+      "stage": "CPU_TOKENIZER_HF_DEPENDENCIES"
+    },
+    {
+      "CPU_s": 6.858027999999999,
+      "GPU_s": 0,
+      "stage": "D1_AUDIT"
+    },
+    {
+      "CPU_s": 0.337468,
+      "GPU_s": 0,
+      "stage": "CAMERA_V2_QUALIFICATION"
+    },
+    {
+      "CPU_s": 0.351503,
+      "GPU_s": 0,
+      "stage": "CAMERA_V2_QUALIFICATION"
+    },
+    {
+      "CPU_s": 0.6531429999999999,
+      "GPU_s": 0,
+      "stage": "LAYOUT_RESET_PREFLIGHT"
+    },
+    {
+      "CPU_s": 0.21110099999999998,
+      "GPU_s": 0,
+      "stage": "CPU_TESTS"
+    },
+    {
+      "CPU_s": 0.008481999999999998,
+      "GPU_s": 0,
+      "stage": "D2_PREPILOT_SEAL"
+    },
+    {
+      "CPU_s": 3.4211780000000003,
+      "GPU_s": 0,
+      "stage": "VIDEO_P2900"
+    },
+    {
+      "CPU_s": 3.423066,
+      "GPU_s": 0,
+      "stage": "VIDEO_P2901"
+    },
+    {
+      "CPU_s": 3.432876,
+      "GPU_s": 0,
+      "stage": "VIDEO_P2902"
+    },
+    {
+      "CPU_s": 3.418032,
+      "GPU_s": 0,
+      "stage": "VIDEO_P2903"
+    },
+    {
+      "CPU_s": 3.4218789999999997,
+      "GPU_s": 0,
+      "stage": "VIDEO_P2904"
+    },
+    {
+      "CPU_s": 3.461585,
+      "GPU_s": 0,
+      "stage": "VIDEO_P2905"
+    },
+    {
+      "CPU_s": 3.4479450000000003,
+      "GPU_s": 0,
+      "stage": "VIDEO_P2906"
+    },
+    {
+      "CPU_s": 3.4482909999999998,
+      "GPU_s": 0,
+      "stage": "VIDEO_P2907"
+    },
+    {
+      "CPU_s": 21.232009000000005,
+      "GPU_s": 0,
+      "stage": "D3_AUDIT"
+    },
+    {
+      "CPU_s": 0.277942,
+      "GPU_s": 0,
+      "stage": "D3_INDEPENDENT_REPEAT_SCORE_AND_MANIFEST"
+    },
+    {
+      "CPU_s": 10.605451000000002,
+      "GPU_s": 0,
+      "stage": "D4_PRIVATE_HF_ARCHIVE_UPLOAD_AND_READBACK"
+    },
+    {
+      "CPU_s": 0.07678399999999998,
+      "GPU_s": 0,
+      "stage": "D4_ACTUAL_EVIDENCE_FIGURE"
+    },
+    {
+      "CPU_s": 0.739497,
+      "GPU_s": 0,
+      "stage": "D4_NATIVE_COMMITTED_WINDOW_EXPORT_AND_READBACK"
+    },
+    {
+      "CPU_s": 0.5691539999999999,
+      "GPU_s": 0,
+      "stage": "D4_FINAL_SOURCE_RESOURCE_AND_RUNTIME_TEST_AUDIT"
+    }
+  ],
+  "hardware": 0,
+  "limits": {
+    "CPU_s": 86400,
+    "GPU_s": 3600,
+    "commissioning": 4,
+    "output_bytes": 10737418240,
+    "pairs": 7692,
+    "physics_steps": 200000,
+    "pilot": 8,
+    "starts": 12
+  },
+  "optics_repair_physical_xml_unchanged": true,
+  "owned_output_bytes": 1216549178,
+  "pairs": 7059,
+  "physics_steps": 176194,
+  "schema": "PI0290_RESOURCE_ACCOUNTING_V1",
+  "selected": "NONE",
+  "setup_CPU_accounting": "Conservative 6-minute bootstrap interval x20 host CPUs plus metadata margin, not measured utilization",
+  "setup_steps_actual": 0,
+  "setup_steps_registered_max": 8000,
+  "starts": [
+    {
+      "CPU_s": 0.421107,
+      "GPU_s": 0,
+      "epoch": 1791824599.2649617,
+      "id": "C2900",
+      "pairs": 8,
+      "source_sha": "126abb6347641653e8c02813d32eab237cdbb912",
+      "status": "ENGINEERING_INCOMPLETE",
+      "steps": 194
+    },
+    {
+      "CPU_s_measured": false,
+      "CPU_s_upper": 97.05274963378906,
+      "GPU_s": 0,
+      "epoch": 1791824739.7358403,
+      "id": "C2901",
+      "pairs": 641,
+      "source_sha": "66c2f5bc58571c046c9db5ff55594a475a19b3fb",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 20.956853999999996,
+      "GPU_s": 0,
+      "epoch": 1791824848.8118715,
+      "id": "C2902",
+      "pairs": 641,
+      "source_sha": "50bacdf2de2cf505b5cebfd6d9dc9a6b45fa5e52",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 21.610969,
+      "GPU_s": 0,
+      "epoch": 1791824877.8891423,
+      "id": "C2903",
+      "pairs": 641,
+      "source_sha": "50bacdf2de2cf505b5cebfd6d9dc9a6b45fa5e52",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 21.501323,
+      "GPU_s": 0,
+      "epoch": 1791825680.1874883,
+      "id": "P2900",
+      "pairs": 641,
+      "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 21.580879999999997,
+      "GPU_s": 0,
+      "epoch": 1791825697.7637568,
+      "id": "P2901",
+      "pairs": 641,
+      "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 21.82187,
+      "GPU_s": 0,
+      "epoch": 1791825715.7108612,
+      "id": "P2902",
+      "pairs": 641,
+      "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 21.797376999999997,
+      "GPU_s": 0,
+      "epoch": 1791825733.7980592,
+      "id": "P2903",
+      "pairs": 641,
+      "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 21.602965999999995,
+      "GPU_s": 0,
+      "epoch": 1791825751.890779,
+      "id": "P2904",
+      "pairs": 641,
+      "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 21.612653,
+      "GPU_s": 0,
+      "epoch": 1791825769.6818156,
+      "id": "P2905",
+      "pairs": 641,
+      "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 21.527428,
+      "GPU_s": 0,
+      "epoch": 1791825787.5865774,
+      "id": "P2906",
+      "pairs": 641,
+      "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    },
+    {
+      "CPU_s": 21.637473000000004,
+      "GPU_s": 0,
+      "epoch": 1791825805.5170765,
+      "id": "P2907",
+      "pairs": 641,
+      "source_sha": "c4853f3b7bd9747dff485d58780a0c0abb1e3402",
+      "status": "VALID_COMPLETE",
+      "steps": 16000
+    }
+  ],
+  "total_pairs_including_diagnostics": 7093,
+  "unmetered_dependency_setup_CPU_s_upper": 7200
+}

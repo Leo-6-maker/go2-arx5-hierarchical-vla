@@ -1,0 +1,188 @@
+{
+  "status": "SCIENTIFIC_EXECUTION_DEADLINE_PARTIAL_REPORT_COMPLETE",
+  "objective_achieved": false,
+  "model_capability": {
+    "conclusion": "原DOSE6144能够在部分源Panda布局完成全程物体操作，独立CONFIRM_A未达26/32。累计任务漏斗显示31次抓取、28次抓取并抬升、26次完成搬运历史，20次满足稳定放置、释放、撤离与原最终任务门。",
+    "panel_counts": {
+      "TRAIN": {
+        "requested": 8,
+        "grasp_history": 7,
+        "grasp_and_lift_history": 7,
+        "acquisition_history": 7,
+        "acquisition_plus_stable_place": 7,
+        "previous_plus_release": 7,
+        "previous_plus_withdraw": 7,
+        "complete_task": 7
+      },
+      "DEV": {
+        "requested": 16,
+        "grasp_history": 15,
+        "grasp_and_lift_history": 13,
+        "acquisition_history": 13,
+        "acquisition_plus_stable_place": 13,
+        "previous_plus_release": 13,
+        "previous_plus_withdraw": 13,
+        "complete_task": 13
+      },
+      "CONFIRM_A": {
+        "requested": 32,
+        "grasp_history": 31,
+        "grasp_and_lift_history": 28,
+        "acquisition_history": 26,
+        "acquisition_plus_stable_place": 20,
+        "previous_plus_release": 20,
+        "previous_plus_withdraw": 20,
+        "complete_task": 20
+      },
+      "EXPLORATORY_TRAIN16": {
+        "requested": 16,
+        "grasp_history": 14,
+        "grasp_and_lift_history": 13,
+        "acquisition_history": 13,
+        "acquisition_plus_stable_place": 12,
+        "previous_plus_release": 12,
+        "previous_plus_withdraw": 12,
+        "complete_task": 12
+      },
+      "CORRECTION3S": {
+        "requested": 16,
+        "grasp_history": 16,
+        "grasp_and_lift_history": 15,
+        "acquisition_history": 15,
+        "acquisition_plus_stable_place": 15,
+        "previous_plus_release": 15,
+        "previous_plus_withdraw": 15,
+        "complete_task": 15
+      },
+      "CORRECTION12S": {
+        "requested": 16,
+        "grasp_history": 14,
+        "grasp_and_lift_history": 13,
+        "acquisition_history": 13,
+        "acquisition_plus_stable_place": 13,
+        "previous_plus_release": 13,
+        "previous_plus_withdraw": 13,
+        "complete_task": 13
+      }
+    },
+    "method": {
+      "history": "ORIGINAL_SUSTAINED_CONTACT_LIFT_AND_HORIZONTAL_HISTORY",
+      "cumulative": "PREFIX_HISTORY_THEN_ALL41_FINAL_HOLD_SAMPLES_ZONE_TABLE_STATIC_RELEASE_TCP_CLEAR",
+      "release_and_withdraw_not_counted_by_first_true_at_reset": true,
+      "correction_history_includes_faithful_replayed_model_prefix": true,
+      "tracking_time": "INSTALLED_COMMAND_TO_ACHIEVED_AFTER_SAME_50MS_CONTROL_INTERVAL",
+      "causal_learning_comparison": "UNOBSERVED_C0_C1_NOT_EXECUTED",
+      "heldout_confirmation": "OLD_EXPOSED_CONFIRM_A_DESCRIPTIVE_ONLY"
+    }
+  },
+  "remaining_failure": {
+    "conclusion": "12个旧确认失败由6个获取历史不完整和6个终态未完成组成。晚期6例中zone失败3例，table/static/not_grasped/TCP_clear分别5例，这些谓词可同时失败，不能相加为独立原因。",
+    "late_predicates": {
+      "episodes": 6,
+      "counts": {
+        "zone": 3,
+        "table": 5,
+        "static": 5,
+        "not_grasped": 5,
+        "TCP_clear": 5,
+        "green_unmoved": 0
+      },
+      "overlapping_counts_not_independent_causes": true
+    },
+    "IK_tracking": [
+      {
+        "group": "CONFIRM_SUCCESS",
+        "n": 20,
+        "with_IK_holds": 2,
+        "zero_IK_holds": 18,
+        "gate_rejects": 0,
+        "reference_to_installed_XYZ_RMS_m_median": 6.582929395873787e-05,
+        "installed_to_next_50ms_achieved_XYZ_RMS_m_median": 0.006024436792358756
+      },
+      {
+        "group": "CONFIRM_FAIL",
+        "n": 12,
+        "with_IK_holds": 7,
+        "zero_IK_holds": 5,
+        "gate_rejects": 0,
+        "reference_to_installed_XYZ_RMS_m_median": 0.007889390522330827,
+        "installed_to_next_50ms_achieved_XYZ_RMS_m_median": 0.005643920972943306
+      }
+    ],
+    "interpretation": "失败组参考到安装XYZ RMS中位数7.889mm，成功组0.0658mm；同一50ms安装到实测RMS中位数失败5.644mm、成功6.024mm。安装可行性与失败有关联，但5个失败没有IK hold，实际短时跟踪残差不能作为唯一因果解释。"
+  },
+  "learning_effect": {
+    "conclusion": "C0/C1各0更新，没有新增训练终点或独立CONFIRM_C评价，学习收益未观测。教师纠正28/32与原模型12/16的不同实验分母不能作为模型学习提升。",
+    "teacher_pairing": [
+      {
+        "parent_32s_task_success": true,
+        "requested_branches": 24,
+        "teacher_32s_task_success": 24,
+        "native_codec_valid": 24
+      },
+      {
+        "parent_32s_task_success": false,
+        "requested_branches": 8,
+        "teacher_32s_task_success": 4,
+        "native_codec_valid": 3
+      }
+    ],
+    "coverage": "来自原模型最终成功布局的24分支全部教师完成且codec有效；来自原模型最终失败布局的8分支仅4分支教师完成、3分支codec有效。银行27/32通过仍需保留这项恢复覆盖限制。",
+    "current_training": {
+      "C0": "NOT_EXECUTED",
+      "C1": "NOT_EXECUTED",
+      "formal_updates": 0,
+      "canary_updates": 0,
+      "rollback_updates": 0,
+      "checkpoints": 0,
+      "sole_accepted_job": "655971.hopper-m-02",
+      "job_exit": 1,
+      "job_failure_phase": "BEFORE_MODEL_LOAD",
+      "job_failure": "CROSS_MOUNT_FILE_STAT_IDENTITY_CHECK",
+      "repair": "CPU_PASS_FULL_BYTE_IDENTITY",
+      "replacement_submitted": false,
+      "time_gate": "2026-10-09T11:30:00+08:00"
+    }
+  },
+  "next_research": {
+    "conclusion": "在新的明确时间与作业授权下，先完成原同父模型等更新REPLAY与CORRECT对照。当前T1独立资格仍FAIL，T1/T2共享训练不在本轮启动。",
+    "same_loss_and_parent": true,
+    "no_new_candidate_seed_or_loss_search": true,
+    "bucket_sampler_draft": {
+      "status": "PASS_ACTUAL_BANK_ORIGINAL_BUCKET_CONDITIONAL_EQUALITY_CPU_PLAN_DRAFT",
+      "rows": 8192,
+      "source_counts": {
+        "expert": 4096,
+        "corrected_suffix": 4096
+      },
+      "bucket_counts": [
+        1024,
+        1024,
+        1024,
+        819,
+        205
+      ],
+      "plan_sha256": "0194583c35e93000771aed598817091a6d670b9f1720d31da6a06d6b37934f0e",
+      "plan_bytes": 8777993,
+      "launch_allowed": false,
+      "live_runtime_modified": false
+    },
+    "remaining_admission": [
+      "新的训练时间与一次串行替换lease授权",
+      "源绑定的运行代码/计划封存和有效容量预检",
+      "每臂真实连续8对4+save+restore+4 canary",
+      "固定终点TRAIN/DEV及唯一未曝光CONFIRM_C，不按结果换候选"
+    ]
+  },
+  "preservation": {
+    "model": "原DOSE完整14文件Trainer和固定HF仍可恢复",
+    "scientific_evidence": "原64数据、原48新episode、小失败证据及V1/V2判定均保留",
+    "HF_revision": "5c082ed3d063f32e3486f17f08a89dad6288ed2f",
+    "scientific_budget_unchanged": true
+  },
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physics": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

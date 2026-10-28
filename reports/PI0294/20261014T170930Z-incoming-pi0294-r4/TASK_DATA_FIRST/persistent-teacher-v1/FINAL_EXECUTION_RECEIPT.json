@@ -1,0 +1,68 @@
+{
+  "epoch": 1792059029.512079,
+  "status": "FINAL_READ_ONLY_STATE_VERIFIED",
+  "source_sha": "d5735524377d8c2fd092397a51c4d7734c51e41a",
+  "current_admission": "PERSISTENT_TEACHER_SERIES_TERMINAL_PRESERVED",
+  "active_CPU_reservations": {},
+  "cumulative": {
+    "Core_CPU_s": 14454.489882687434,
+    "Hopper_CPU_s": 0,
+    "GPU_allocated_s": 0,
+    "GPU_reserved_s": 0,
+    "main_starts": 33,
+    "main_integrations": 316993,
+    "RGB_pairs": 11284,
+    "new_formal_updates": 0,
+    "new_engineering_updates": 0,
+    "generation_intents": 0
+  },
+  "series_CPU_including_all_parent_charged_stages_s": 427.87222184376697,
+  "closure": {
+    "status": "STOP_SHORT_MILESTONES_NOT_MET_WITH_TWO_ENGINEERING_INCOMPLETE",
+    "runtime_source_sha": "4a12eef87c10d437b4c204e9b6abbd83abefa1f0",
+    "audit_source_sha": "a35d562ba07b55c7bc244f6a168b5dd9415269ad",
+    "clock_repair_source_sha": "a2dc4a2293117d4ad7c04b02683af2a2eb57b030",
+    "physics_after_clock_repair": 0,
+    "clock_repair_CPU_regression": "PASS_NOT_PHYSICAL_QUALIFICATION",
+    "short_conditions_attempted": 4,
+    "short_conditions_max": 4,
+    "valid_no_progress_failures": 2,
+    "engineering_incomplete": 2,
+    "conditional_full_tasks_executed": 0,
+    "reason_full_not_admitted": "ACTUAL_PRECONTACT_CONTACT_AND_MANIPULATION_MILESTONES_NOT_MET",
+    "old_pilot_successes": 0,
+    "old_pilot_denominator": 4,
+    "old_evidence_modified": false,
+    "new_successful_FULLBODY_TRAIN": 0,
+    "new_training_updates": 0,
+    "new_GR00T_queries": 0,
+    "new_PBS": 0,
+    "WBC_changes": 0,
+    "safety_threshold_changes": 0,
+    "final_task_metric_changes": 0,
+    "series_used": {
+      "starts": 4,
+      "integrations": 19462,
+      "RGB_pairs": 380,
+      "conservative_physical_CPU_s": 418.4909312147647
+    },
+    "parent_counters_at_closeout": {
+      "main_starts": 33,
+      "main_integrations": 316993,
+      "RGB_pairs": 11284,
+      "Core_CPU_s": 14452.748246044433
+    },
+    "original_window_unchanged": true,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "closed_epoch": 1792058827.7804503
+  },
+  "archive": {
+    "status": "PASS_PRIVATE_FULL_FILE_READBACK",
+    "files": 1302,
+    "bytes": 440579732,
+    "tree_sha256": "18b8b418e015df2be123812be674eb59666a8b65fceffa5fbba0d459b7c7ca2f"
+  },
+  "old_fixed_pilot_terminal_unchanged": true,
+  "old_native_safety_failure_unchanged": true
+}

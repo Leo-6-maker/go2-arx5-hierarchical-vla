@@ -1,0 +1,140 @@
+{
+  "run_uuid": "20261014T072142Z-incoming-pi0294-r2",
+  "actual_source_sha": "43ced701d73f1df73389711f03b5b5ed68c90867",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "old_P1_FAIL_preserved": true,
+  "schema": "PI0294_R2_FIXED_2X2_ACTUAL_V1",
+  "status": "FOUR_FIRST_VALID_CAUSAL_REPLAYS_COMPLETE",
+  "cases": [
+    {
+      "case": "A",
+      "status": "VALID_SAFETY_FAIL",
+      "error": "RuntimeError: JOINT_LIMIT",
+      "safety": [
+        "JOINT_LIMIT"
+      ],
+      "physical_starts": 1,
+      "physics_steps": 1081,
+      "RGB_pairs": 0,
+      "new_neural_queries": 0,
+      "wall_s": 0.4209917869884521,
+      "recorded_arm": "ORIGINAL_REFERENCE",
+      "recorded_finger": "ORIGINAL_REFERENCE",
+      "maximum_original_row_abs_difference": 0.0,
+      "original_reproduced": true,
+      "final_finger_q": [
+        0.04438907399717869,
+        0.045004271727453214
+      ],
+      "final_finger_qvel": [
+        -0.004894000883086152,
+        0.005746004968401156
+      ],
+      "final_motor_ctrl": [
+        -0.35154479957793805,
+        -0.5891118870065576
+      ],
+      "not_online_policy_or_training_data": true,
+      "original_safety_unchanged": true
+    },
+    {
+      "case": "B",
+      "status": "VALID_SAFETY_FAIL",
+      "error": "RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION",
+      "safety": [
+        "ILLEGAL_CONTACT_OR_PENETRATION"
+      ],
+      "physical_starts": 1,
+      "physics_steps": 1118,
+      "RGB_pairs": 0,
+      "new_neural_queries": 0,
+      "wall_s": 0.4363353110384196,
+      "recorded_arm": "ORIGINAL_REFERENCE",
+      "recorded_finger": "ALL_OPEN_1",
+      "maximum_original_row_abs_difference": 2.988762587685072,
+      "original_reproduced": false,
+      "final_finger_q": [
+        0.04404123769583198,
+        0.044969529982582
+      ],
+      "final_finger_qvel": [
+        0.0026535260696599386,
+        -0.0006705801481701456
+      ],
+      "final_motor_ctrl": [
+        -0.014372257477066053,
+        -0.3883484571513385
+      ],
+      "not_online_policy_or_training_data": true,
+      "original_safety_unchanged": true
+    },
+    {
+      "case": "C",
+      "status": "BOUNDED_DIAGNOSTIC_COMPLETE",
+      "error": null,
+      "safety": [],
+      "physical_starts": 1,
+      "physics_steps": 1200,
+      "RGB_pairs": 0,
+      "new_neural_queries": 0,
+      "wall_s": 0.3784642070531845,
+      "recorded_arm": "ORIGINAL_CONTROLLER_INITIAL_TCP_HOLD",
+      "recorded_finger": "ORIGINAL_REFERENCE",
+      "maximum_original_row_abs_difference": 4.014602218307275,
+      "original_reproduced": false,
+      "final_finger_q": [
+        0.0342228253134207,
+        0.034223613943645835
+      ],
+      "final_finger_qvel": [
+        -0.04069333237777842,
+        -0.04070903241141754
+      ],
+      "final_motor_ctrl": [
+        -0.1216847912703406,
+        -0.1220128033873058
+      ],
+      "not_online_policy_or_training_data": true,
+      "original_safety_unchanged": true
+    },
+    {
+      "case": "D",
+      "status": "BOUNDED_DIAGNOSTIC_COMPLETE",
+      "error": null,
+      "safety": [],
+      "physical_starts": 1,
+      "physics_steps": 1200,
+      "RGB_pairs": 0,
+      "new_neural_queries": 0,
+      "wall_s": 0.3764033680781722,
+      "recorded_arm": "ORIGINAL_CONTROLLER_INITIAL_TCP_HOLD",
+      "recorded_finger": "ALL_OPEN_1",
+      "maximum_original_row_abs_difference": 4.014982663618577,
+      "original_reproduced": false,
+      "final_finger_q": [
+        0.044000000000248715,
+        0.043999999998603906
+      ],
+      "final_finger_qvel": [
+        -1.2999393464720895e-16,
+        4.876559393609567e-16
+      ],
+      "final_motor_ctrl": [
+        -9.948708523666028e-11,
+        5.584366302713306e-10
+      ],
+      "not_online_policy_or_training_data": true,
+      "original_safety_unchanged": true
+    }
+  ],
+  "new_model_queries": 0,
+  "new_training_data": 0,
+  "supported": "Original arm movement is necessary for the observed failures in this finite matrix; original finger command alone with held TCP did not reproduce them.",
+  "not_proven": [
+    "A unique physical root cause",
+    "All arm motions fail",
+    "Open command solves safety",
+    "Task success"
+  ]
+}

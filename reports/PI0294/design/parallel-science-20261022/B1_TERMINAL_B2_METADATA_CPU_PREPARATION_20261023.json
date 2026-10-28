@@ -1,0 +1,64 @@
+{
+  "schema": "VAP1_B1_TERMINAL_AND_B2_FULL_STATE_METADATA_CPU_PREPARATION_V1",
+  "observed_epoch": 1792692769.2229228,
+  "status": "PREPARED_CPU_VERIFIED_NOT_NATIVE_B_EVIDENCE",
+  "runtime_source": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+  "B1_terminal_sha256": "ae7154d2263e9cc871fa2ecc948398a732f62cfaec7fd63cb6096f4fe5a06c54",
+  "B2_metadata_sha256": "3d5507e82d9f8114ccd652e1e49668565f379775ac41fc41e2990cbd023d9718",
+  "test_sha256": "005c6d89e017083d8b0f346173cf22add8dd7cdff22bafe3295b13c703d93e19",
+  "CPU_tests_passed": 6,
+  "guard": "AUDIT_HOOK_BEFORE_IMPORTS_DENIES_NETWORK_SUBPROCESS_EXEC",
+  "fixture": "Captured actual old ledgers plus explicit synthetic future A4096/B2048 request/job/terminal/closure/probe tables in memory; no native future evidence is fabricated on disk.",
+  "tests": [
+    "No bound B job rejects audit, observe, settlement and both closures before native IO.",
+    "Compile mature full-state audit and both B2048 closure programs; preserve all A1024/2819/4096 costs.",
+    "Typed reserve/bind/settle fixture reaches7939 cumulative updates with2048 B updates/29queries/4loads; cursor65536 and original12 probes are required.",
+    "B1024/B2048 origins must be this B1, never the A job.",
+    "B2 metadata reuses all full checkpoint member tables and exact original12 probe bytes; only completed B1 plan block is removed.",
+    "Reject missing CPU closure/live owner/unknown effects/wrong cumulative total/changed history, optimizer omission, probe-array deletion, mixed A arm, partial2048, changed probe bytes or mismatched request hash."
+  ],
+  "expected_B1_success": {
+    "start": 0,
+    "stop": 2048,
+    "updates": 2048,
+    "queries": 29,
+    "model_loads": 4,
+    "cursor": 65536,
+    "global_updates": 7939,
+    "GPU_closure_status": "CLOSED_SEGMENT_FULL_STATE_PRESERVED",
+    "CPU_closure_status": "CLOSED_CPU_B2048_CONTROL_AFTER_KNOWN_EFFECTS_SETTLEMENT"
+  },
+  "B2_metadata": {
+    "start": 2048,
+    "stop": 4096,
+    "resume": "training/B_COVERAGE/checkpoint-2048",
+    "fixed_R0_data_recipes_unchanged": true,
+    "original_CORR_parent_identity_unchanged": true,
+    "new_funded_native_intake_still_required": true,
+    "seal_inputs": [
+      "SEGMENT2048_SOURCE_BINDING.private.json",
+      "SEGMENT2048_FULL_STATE_IMPORT.private.json",
+      "COMPLETED_1024_TRAIN_PROBES.json"
+    ]
+  },
+  "actual_B1_job_or_checkpoint": false,
+  "actual_B1_audit_settle_close": false,
+  "actual_B2_metadata_or_native_registration": false,
+  "B2_native_owner_and4096_terminal_connection_pending": true,
+  "new_GPU_PBS_models_queries_updates_physics": 0,
+  "old_checkpoint_retirement_credit": 0,
+  "hard_close": 1792952996,
+  "goal_complete": false,
+  "required_import_contract": {
+    "arm": "B_COVERAGE",
+    "source_step": 2048,
+    "lineage": "B_COVERAGE",
+    "native_owner_natural_exit_required": true,
+    "all_manifest_members_hashed_in_original_auditor": true,
+    "optimizer_scheduler_RNG_sampler_processor_statistics_models_preserved": true,
+    "source1024_and2048_origins": "ACTUAL_B1_IDENTITY",
+    "original12_TRAIN_probes_reused": true,
+    "new_probes": 0,
+    "source_closed_GPU_and_CPU_required": true
+  }
+}

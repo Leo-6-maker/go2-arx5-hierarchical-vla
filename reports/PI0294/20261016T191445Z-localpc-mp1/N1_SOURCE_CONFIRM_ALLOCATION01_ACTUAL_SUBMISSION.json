@@ -1,0 +1,94 @@
+{
+  "schema": "MP1_N1_SOURCE_CONFIRM_FIRST_ACTUAL_SUBMISSION_V1",
+  "observed_epoch": 1792292871.5171838,
+  "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+  "original_N1_T0_epoch": 1792264081,
+  "new_T0": false,
+  "run_uuid": "source-confirm-01",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "source_sha": "6b291000858612423b67838275efa52caf8b633f",
+  "native": {
+    "job_id": "673388.hopper-m-02",
+    "state": "R",
+    "project": "CFP04-CF-007",
+    "queue": "small",
+    "actual_resources": {
+      "ncpus": 12,
+      "mem": "225gb",
+      "ngpus": 1,
+      "select": "1:ncpus=12:mem=225GB:ngpus=1",
+      "walltime": "08:00:00"
+    },
+    "source_family_submission_number": 11,
+    "child_submission_number": 1,
+    "parent_Hopper_submission_number": 14,
+    "released": true,
+    "qualification_started": true,
+    "qualification_passed": false,
+    "qualification_required_before_model": {
+      "heartbeat_s": 600,
+      "real_cycles": 80,
+      "all_faults": true
+    },
+    "actual_cost": "OPEN_RUNNING_NOT_SETTLED",
+    "prior_source_H200_s": 42833,
+    "prior_parent_H200_s": 47333,
+    "reservation_H200_s": 28800,
+    "healthy_jobs_cancelled": false
+  },
+  "actual_counters": {
+    "model_load_intents": 0,
+    "generation_queries": 0,
+    "optimizer_updates": 0,
+    "pending_updates": []
+  },
+  "qualification_summary": null,
+  "no_automatic_next_submission": true,
+  "maximum_new_submissions_this_controller": 1,
+  "local_pre_submission_guard": {
+    "rejected_old_controller_before_request": true,
+    "native_PBS_cost_of_rejected_local_controller": 0,
+    "old_process_terminal": true,
+    "mechanism": "MATURE_PRIVATE_HELPER_MUTATED_SYS_PATH_BEFORE_SCIENCE_IMPORT",
+    "repair": "PIN_PACKAGE_PATHS_BEFORE_HELPER_IMPORT_AND_REUSE_ORIGINAL_VISIBILITY_ADAPTER",
+    "regression": "ACTUAL_IMMUTABLE_CONTROLLER_IMPORT_CHECK_PASS_NO_NATIVE_MUTATIONS",
+    "original_log_binding_and_launch_retained": true,
+    "scientific_runtime_changed": false,
+    "extra_PBS_authorized": false
+  },
+  "preparation": {
+    "status": "CLOSED_ONCE_AFTER_EXACT_PUBLICATION_AND_FINITE_CONTROL_HANDOFF",
+    "CPU_upper_charged_s": 6000,
+    "CPU_is_whole_host_exact": false,
+    "publication_sha": "e6d58adf1bbc1840fba57abf89b1abd9ae800e31",
+    "science_comment": 6244937368,
+    "engineering_comment": 6244941868
+  },
+  "resources": {
+    "parent_GPU_used_s": {
+      "Hopper": 47333,
+      "Vanda": 22
+    },
+    "parent_GPU_reserved_s": {
+      "Hopper": 28800,
+      "Vanda": 0
+    },
+    "parent_CPU_s": {
+      "CoreLab": 28426.693504476,
+      "Vanda": 3643,
+      "Hopper": 31946.617082388,
+      "local_PC": 92220
+    },
+    "active_finite_control_CPU_upper_s": 3960,
+    "final_H200_reserve_s": 21600,
+    "source_family_total_PBS_cap": 12,
+    "confirmation_PBS_cap": 2,
+    "source_family_H200_s_cap": 129600
+  },
+  "current_task_results": "NOT_CLAIMED_BY_SUBMISSION_OR_QUALIFICATION",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "goal_complete": false,
+  "WBC_frozen": true,
+  "TF_R3_STOP_retained": true
+}

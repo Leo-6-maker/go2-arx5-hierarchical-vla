@@ -1,0 +1,35 @@
+{
+  "actuated_tool_dofs": 8,
+  "asset_sha256": "44e62ac4fe50e54529fbfc0a59a9fcddb589adec4a872d67d736e7c5364669ca",
+  "base_load_requires": "fix_base_link=True",
+  "deployment_selected_checkpoint": "NONE",
+  "draft_tcp_geometry": {
+    "corrected_offset_m": 0.027,
+    "corrected_table_clearance_m": 0.0020000000000000018,
+    "physics_proven": false,
+    "previous_offset_m": 0.02,
+    "previous_table_clearance_m": -0.0050000000000000044,
+    "vertical_pad_object_overlap_m": 0.028000000000000025
+  },
+  "dynamics_contact_grasp": "NOT_RUN",
+  "finger_joint_opening_rule": "q_left=q_right=full_width_m/2",
+  "force_limits": "URDF per DOF; future controller must also enforce vector force/torque limits",
+  "launch_allowed": false,
+  "links": 9,
+  "model_queries": 0,
+  "native_asset_load": "NOT_RUN",
+  "opening_m": [
+    0,
+    0.03,
+    0.08
+  ],
+  "palm_tcp_semantic": "palm +z face center; fingers extend local +z",
+  "physics_steps": 0,
+  "renders": 0,
+  "robot_joint_supervision": false,
+  "rotational_chain": "Rz(yaw) Ry(pitch) Rx(roll)",
+  "selected_checkpoint": "NONE",
+  "source_sha256": "b27a636c2ab25a5a6131f418b0b3d54db4fce4513d43a23fd29f8c9c3e3c8908",
+  "status": "PASS_CPU_DRAFT_TOOL_URDF_TOPOLOGY_TCP_OPENING_AND_FK",
+  "teacher_calls": 0
+}

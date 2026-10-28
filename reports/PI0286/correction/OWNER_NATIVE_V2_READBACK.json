@@ -1,0 +1,484 @@
+{
+  "BANK_NATIVE_CONTRACT_V2.json": {
+    "sha256": "f2c7b43af6edc42795ee0595ed0a9c9f05f440369945d5b43bfc38419e21cb8d",
+    "bytes": 37501144,
+    "summary": {
+      "status": "PASS_ACTUAL_BRANCH_RESTORE_FRESH_CORRECTIONS_FIXED_CODEC",
+      "requested_branches": 32,
+      "valid_branches": 27,
+      "valid_per_task": {
+        "T1": 27
+      },
+      "duplicates": [],
+      "missing": [],
+      "duplicate_states": [],
+      "codec_failure_stops_branch": true,
+      "valid_slots": [
+        "T1-TRAIN-285108-TAKEOVER-03s",
+        "T1-TRAIN-285108-TAKEOVER-12s",
+        "T1-TRAIN-285109-TAKEOVER-03s",
+        "T1-TRAIN-285109-TAKEOVER-12s",
+        "T1-TRAIN-285110-TAKEOVER-03s",
+        "T1-TRAIN-285110-TAKEOVER-12s",
+        "T1-TRAIN-285111-TAKEOVER-03s",
+        "T1-TRAIN-285111-TAKEOVER-12s",
+        "T1-TRAIN-285112-TAKEOVER-03s",
+        "T1-TRAIN-285112-TAKEOVER-12s",
+        "T1-TRAIN-285114-TAKEOVER-03s",
+        "T1-TRAIN-285115-TAKEOVER-03s",
+        "T1-TRAIN-285115-TAKEOVER-12s",
+        "T1-TRAIN-285116-TAKEOVER-03s",
+        "T1-TRAIN-285116-TAKEOVER-12s",
+        "T1-TRAIN-285117-TAKEOVER-03s",
+        "T1-TRAIN-285117-TAKEOVER-12s",
+        "T1-TRAIN-285119-TAKEOVER-03s",
+        "T1-TRAIN-285119-TAKEOVER-12s",
+        "T1-TRAIN-285120-TAKEOVER-03s",
+        "T1-TRAIN-285120-TAKEOVER-12s",
+        "T1-TRAIN-285121-TAKEOVER-03s",
+        "T1-TRAIN-285121-TAKEOVER-12s",
+        "T1-TRAIN-285122-TAKEOVER-03s",
+        "T1-TRAIN-285122-TAKEOVER-12s",
+        "T1-TRAIN-285123-TAKEOVER-03s",
+        "T1-TRAIN-285123-TAKEOVER-12s"
+      ],
+      "teacher_sha256": "88c386c35734914964a496cf2cb6ff7700edf7cd7e2e211d8e89a8047bc0e7d7",
+      "processor": {
+        "statistics.json": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81",
+        "processor_config.json": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3",
+        "embodiment_id.json": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+      },
+      "schema": "BANK_NATIVE_CONTRACT_V2",
+      "derivation": "SEALED_ALL_H40_MAXIMA_AND_FAILURE_ERRORS_NO_REENCODING",
+      "supersedes_V1_contract_interpretation_only": true,
+      "original_V1_bank_sha256": "d65d138ba6237f839dcd18222745c602f4f5c4bd971cf439a434253c74384da6",
+      "original_V1_valid_branches": 15,
+      "reclassified_preclip_only_slots": [
+        "T1-TRAIN-285108-TAKEOVER-12s",
+        "T1-TRAIN-285109-TAKEOVER-12s",
+        "T1-TRAIN-285111-TAKEOVER-12s",
+        "T1-TRAIN-285112-TAKEOVER-12s",
+        "T1-TRAIN-285115-TAKEOVER-12s",
+        "T1-TRAIN-285116-TAKEOVER-12s",
+        "T1-TRAIN-285117-TAKEOVER-12s",
+        "T1-TRAIN-285119-TAKEOVER-12s",
+        "T1-TRAIN-285120-TAKEOVER-12s",
+        "T1-TRAIN-285121-TAKEOVER-12s",
+        "T1-TRAIN-285122-TAKEOVER-12s",
+        "T1-TRAIN-285123-TAKEOVER-12s"
+      ],
+      "physical_success_branches": 28,
+      "source_contract_codec_valid_branches": 27,
+      "collection_sha256": "503f1597e304df1f29881cf1eade99bc2ab54a4aa11620067f4051a8737cf765",
+      "failed_prefix_labels": 0,
+      "statistics_refit": 0,
+      "new_model_queries": 0,
+      "new_physics": 0,
+      "new_codec_calls": 0,
+      "parent_point": "PI0285_REPAIR_A2048-2048",
+      "learner_point": "PARENT_DOSE6144",
+      "layouts": [
+        285108,
+        285109,
+        285110,
+        285111,
+        285112,
+        285113,
+        285114,
+        285115,
+        285116,
+        285117,
+        285118,
+        285119,
+        285120,
+        285121,
+        285122,
+        285123
+      ],
+      "branch_times_seconds": [
+        3,
+        12
+      ],
+      "recovery_code_sha256": "8b97c64e00cfcb403c75681c12cdb57faa45569cb9495ccc0ea893bd2157fbca",
+      "training_admission": false,
+      "optimizer_launch_allowed": false,
+      "training_time_gate_owner_stopped": true,
+      "slot_summary": [
+        {
+          "slot": "T1-TRAIN-285108-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.6341780312577612e-08,
+            "SO3_max_rad": 2.8230171628230308e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285108-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 1.9603454859407066e-08,
+            "SO3_max_rad": 1.4954340241732038e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285109-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.78775207362969e-08,
+            "SO3_max_rad": 5.6364955316165455e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285109-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 1.666000493116826e-08,
+            "SO3_max_rad": 1.2811301691321934e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285110-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 3.003425064207477e-08,
+            "SO3_max_rad": 3.84152702457499e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285110-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.60770320892334e-08,
+            "SO3_max_rad": 6.956590542729907e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285111-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.8125324291750076e-08,
+            "SO3_max_rad": 3.7971755821542916e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285111-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 1.9800189932084322e-08,
+            "SO3_max_rad": 2.793643547584114e-09,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285112-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.891602868260179e-08,
+            "SO3_max_rad": 4.9744306872743445e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285112-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.499000650857397e-08,
+            "SO3_max_rad": 2.8642002298232926e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285113-TAKEOVER-03s",
+          "status": "NOT_ADMITTED_ORIGINAL_ATTEMPT_PRESERVED"
+        },
+        {
+          "slot": "T1-TRAIN-285113-TAKEOVER-12s",
+          "status": "NOT_ADMITTED_ORIGINAL_ATTEMPT_PRESERVED"
+        },
+        {
+          "slot": "T1-TRAIN-285114-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 3.003425064207477e-08,
+            "SO3_max_rad": 5.862906027108804e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285114-TAKEOVER-12s",
+          "status": "NOT_ADMITTED_ORIGINAL_ATTEMPT_PRESERVED"
+        },
+        {
+          "slot": "T1-TRAIN-285115-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 3.161013495400766e-08,
+            "SO3_max_rad": 4.4797671025378794e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285115-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 1.666000493116826e-08,
+            "SO3_max_rad": 2.7256860367283093e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285116-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.686345013103164e-08,
+            "SO3_max_rad": 2.5335830730631434e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285116-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 1.666000493116826e-08,
+            "SO3_max_rad": 1.8048310335309526e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285117-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.78775207362969e-08,
+            "SO3_max_rad": 5.088317976653697e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285117-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 1.6686016124367598e-08,
+            "SO3_max_rad": 2.7389647110888106e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285118-TAKEOVER-03s",
+          "status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH",
+          "maxima": {
+            "XYZ_max_m": 2.686345013103164e-08,
+            "SO3_max_rad": 0.010654909013566369,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285118-TAKEOVER-12s",
+          "status": "NOT_ADMITTED_ORIGINAL_ATTEMPT_PRESERVED"
+        },
+        {
+          "slot": "T1-TRAIN-285119-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 3.1828893298779803e-08,
+            "SO3_max_rad": 2.6594221531470764e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285119-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.107342389479072e-08,
+            "SO3_max_rad": 2.5696338339248225e-09,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285120-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 3.0719530030864917e-08,
+            "SO3_max_rad": 2.8769266405792855e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285120-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 1.9199706713379783e-08,
+            "SO3_max_rad": 4.255667350970907e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285121-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.4142639887259065e-08,
+            "SO3_max_rad": 3.919568584242748e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285121-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 2.5876692788529e-08,
+            "SO3_max_rad": 2.7259280732443014e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285122-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 3.1733371486097894e-08,
+            "SO3_max_rad": 5.3065629353857256e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285122-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 1.8995327977222587e-08,
+            "SO3_max_rad": 1.648627117940665e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        },
+        {
+          "slot": "T1-TRAIN-285123-TAKEOVER-03s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 3.094458378427589e-08,
+            "SO3_max_rad": 4.23655338652426e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "PASS_FRESH_SUFFIX_STRICT_CODEC"
+        },
+        {
+          "slot": "T1-TRAIN-285123-TAKEOVER-12s",
+          "status": "PASS_FRESH_SUFFIX_STRICT_CODEC",
+          "maxima": {
+            "XYZ_max_m": 1.666000493116826e-08,
+            "SO3_max_rad": 4.723938953197717e-08,
+            "gripper_max_fraction": 0.0
+          },
+          "sealed_V1_status": "FAIL_SUPERVISION_CODEC_PRESERVE_RAW_STOP_BRANCH"
+        }
+      ]
+    }
+  },
+  "C1_PLAN_NATIVE_CONTRACT_V2.json": {
+    "sha256": "787c263115aad5c2e241f82aa57c09aa6410ac184e4fac0c7d2a2eccb044db4e",
+    "bytes": 5686,
+    "summary": {
+      "status": "IMPLEMENTED_GLOBAL_EQUAL_BRANCH_FIXED_BUCKET_FLOW_INFEASIBLE_NATIVE_CONTRACT_V2",
+      "error": "AssertionError('Fixed equal-branch/bucket quotas infeasible; no fallback weighting authorized')",
+      "requested_rows": 8192,
+      "source_draw_counts": {
+        "expert": 4096,
+        "corrected_suffix": 4096
+      },
+      "schema": "C1_PLAN_NATIVE_CONTRACT_V2",
+      "actual_sampler_attempts": 1,
+      "bank_sha256": "f2c7b43af6edc42795ee0595ed0a9c9f05f440369945d5b43bfc38419e21cb8d",
+      "valid_branches": 27,
+      "required_phase_draw_counts": [
+        1024,
+        1024,
+        1024,
+        819,
+        205
+      ],
+      "equal_global_branch_draw_counts": {
+        "T1-TRAIN-285108-TAKEOVER-03s": 152,
+        "T1-TRAIN-285108-TAKEOVER-12s": 152,
+        "T1-TRAIN-285109-TAKEOVER-03s": 152,
+        "T1-TRAIN-285109-TAKEOVER-12s": 152,
+        "T1-TRAIN-285110-TAKEOVER-03s": 152,
+        "T1-TRAIN-285110-TAKEOVER-12s": 152,
+        "T1-TRAIN-285111-TAKEOVER-03s": 152,
+        "T1-TRAIN-285111-TAKEOVER-12s": 152,
+        "T1-TRAIN-285112-TAKEOVER-03s": 152,
+        "T1-TRAIN-285112-TAKEOVER-12s": 152,
+        "T1-TRAIN-285114-TAKEOVER-03s": 152,
+        "T1-TRAIN-285115-TAKEOVER-03s": 152,
+        "T1-TRAIN-285115-TAKEOVER-12s": 152,
+        "T1-TRAIN-285116-TAKEOVER-03s": 152,
+        "T1-TRAIN-285116-TAKEOVER-12s": 152,
+        "T1-TRAIN-285117-TAKEOVER-03s": 152,
+        "T1-TRAIN-285117-TAKEOVER-12s": 152,
+        "T1-TRAIN-285119-TAKEOVER-03s": 152,
+        "T1-TRAIN-285119-TAKEOVER-12s": 152,
+        "T1-TRAIN-285120-TAKEOVER-03s": 151,
+        "T1-TRAIN-285120-TAKEOVER-12s": 151,
+        "T1-TRAIN-285121-TAKEOVER-03s": 151,
+        "T1-TRAIN-285121-TAKEOVER-12s": 151,
+        "T1-TRAIN-285122-TAKEOVER-03s": 151,
+        "T1-TRAIN-285122-TAKEOVER-12s": 151,
+        "T1-TRAIN-285123-TAKEOVER-03s": 151,
+        "T1-TRAIN-285123-TAKEOVER-12s": 151
+      },
+      "forced_single_bucket_minimum_draws": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1517
+      },
+      "phase_coverage_branch_counts": {
+        "0": 15,
+        "1": 15,
+        "2": 15,
+        "3": 17,
+        "4": 27
+      },
+      "implementation_constraint": "EXACT_GLOBAL_EQUAL_BRANCH_COUNTS_THEN_FIXED_PHASE_TOTALS",
+      "release_text": "equal episode/branch weighting within source and existing behavior buckets",
+      "global_exact_branch_count_not_explicit_in_release": true,
+      "no_bucket_or_weight_change": true,
+      "no_fallback_sampler_run": true,
+      "training_admission": false,
+      "optimizer_launch_allowed": false,
+      "training_time_gate_owner_stopped": true,
+      "model_calls": 0,
+      "physics_calls": 0,
+      "codec_calls": 0
+    }
+  }
+}

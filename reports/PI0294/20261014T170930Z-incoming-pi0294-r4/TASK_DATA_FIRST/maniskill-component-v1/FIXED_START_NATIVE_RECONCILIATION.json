@@ -1,0 +1,410 @@
+{
+  "status": "INDEPENDENT_NATIVE_FK_AND_LIMIT_RECONCILIATION",
+  "cases": [
+    {
+      "task": "T1",
+      "fixed_condition": "MP_CPU_W0_T1",
+      "fixed_source_frame": 0,
+      "target_world": [
+        [
+          0.0,
+          -2.4090343194145708e-24,
+          1.0,
+          0.44999995000000004
+        ],
+        [
+          0.0,
+          1.0,
+          2.4090343194145708e-24,
+          -0.08178600000012556
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          0.5398932559887006
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "actual_root_qpos": [
+        -0.041805712285593565,
+        0.01031497241639316,
+        0.30979424353435225,
+        0.9996651362532389,
+        0.01104550600593734,
+        -0.0024034460079078446,
+        0.023277362482755363
+      ],
+      "original_planner_status": "IK Failed! Cannot find valid solution.",
+      "actual_IK_candidates": 8,
+      "native_model_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+      "request_sha256": "669a38c9fdf39c7407f1c5221ba6c03dc485478a50324fa4634ed57abb6f65b6",
+      "response_sha256": "27a00515b6ee781990b05876308f3f8f374c6062b7dae7bf7ba36716c8d79cb6",
+      "candidates": [
+        {
+          "candidate": 0,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 1.6086392022389915e-06,
+          "native_FK_goal_rotation_error_rad": 9.604257898383692e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.7339172412779806,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.0629172412779806
+            }
+          ]
+        },
+        {
+          "candidate": 1,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 3.2577064946004996e-06,
+          "native_FK_goal_rotation_error_rad": 8.338740930158822e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint3",
+              "candidate": 3.9217084800702997,
+              "lower": 0.0,
+              "upper": 3.24,
+              "violation_rad_or_m": 0.6817084800702995
+            },
+            {
+              "joint": "x5_joint5",
+              "candidate": 3.1189764867986733,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 1.4479764867986733
+            },
+            {
+              "joint": "x5_joint6",
+              "candidate": 2.9510971608380174,
+              "lower": -2.094,
+              "upper": 2.094,
+              "violation_rad_or_m": 0.8570971608380176
+            }
+          ]
+        },
+        {
+          "candidate": 2,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 4.1250300898645535e-06,
+          "native_FK_goal_rotation_error_rad": 8.385184096270209e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.7339056669682467,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.06290566696824662
+            }
+          ]
+        },
+        {
+          "candidate": 3,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 1.4448927583327877e-06,
+          "native_FK_goal_rotation_error_rad": 9.01913015468826e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint3",
+              "candidate": 3.921694411930118,
+              "lower": 0.0,
+              "upper": 3.24,
+              "violation_rad_or_m": 0.6816944119301178
+            },
+            {
+              "joint": "x5_joint5",
+              "candidate": 3.1189798708247025,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 1.4479798708247025
+            },
+            {
+              "joint": "x5_joint6",
+              "candidate": 2.9510948917362843,
+              "lower": -2.094,
+              "upper": 2.094,
+              "violation_rad_or_m": 0.8570948917362844
+            }
+          ]
+        },
+        {
+          "candidate": 4,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 2.5051756826797954e-06,
+          "native_FK_goal_rotation_error_rad": 9.572392753429128e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.7339057186078757,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.06290571860787564
+            }
+          ]
+        },
+        {
+          "candidate": 5,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 2.539743056149526e-06,
+          "native_FK_goal_rotation_error_rad": 8.991366097368584e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.7339213780918232,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.06292137809182319
+            }
+          ]
+        },
+        {
+          "candidate": 6,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 2.1344446145755103e-06,
+          "native_FK_goal_rotation_error_rad": 8.86186977281877e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.7339085383205235,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.06290853832052345
+            }
+          ]
+        },
+        {
+          "candidate": 7,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 1.8407181927376026e-06,
+          "native_FK_goal_rotation_error_rad": 9.01275150228022e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.7339132209721064,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.06291322097210639
+            }
+          ]
+        }
+      ],
+      "any_registered_candidate_with_valid_native_limits": false,
+      "new_IK_queries": 0,
+      "new_RRT_queries": 0,
+      "new_physics": 0
+    },
+    {
+      "task": "T2",
+      "fixed_condition": "MP_CPU_W0_T2",
+      "fixed_source_frame": 0,
+      "target_world": [
+        [
+          0.0,
+          -1.0,
+          6.123233995736766e-17,
+          0.45
+        ],
+        [
+          0.0,
+          6.123233995736766e-17,
+          1.0,
+          -0.14200009999992894
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          0.544
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "actual_root_qpos": [
+        -0.03927341208802852,
+        0.0023394613803485484,
+        0.31472226155790906,
+        0.998681530086802,
+        0.012811200772902938,
+        -0.0015049660369943832,
+        0.04968711780199874
+      ],
+      "original_planner_status": "IK Failed! Cannot find valid solution.",
+      "actual_IK_candidates": 8,
+      "native_model_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55",
+      "request_sha256": "c3272d4cc8b59c57372ebefac8392d58028fd8aaec732d2620475fcad58989d0",
+      "response_sha256": "3abd11f9e50f5ae937b186018bfdf6f32f03d1cec9bc92c91e1d3205ec8a7046",
+      "candidates": [
+        {
+          "candidate": 0,
+          "numerical_IK_converged": false,
+          "native_FK_goal_position_error_m": 0.004184252914473019,
+          "native_FK_goal_rotation_error_rad": 0.0,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.802464913061534,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.13146491306153396
+            }
+          ]
+        },
+        {
+          "candidate": 1,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 3.150908284467825e-06,
+          "native_FK_goal_rotation_error_rad": 9.061474413416341e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": 1.9750465056349285,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.3040465056349284
+            },
+            {
+              "joint": "x5_joint5",
+              "candidate": 3.1165217549347024,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 1.4455217549347024
+            }
+          ]
+        },
+        {
+          "candidate": 2,
+          "numerical_IK_converged": false,
+          "native_FK_goal_position_error_m": 0.0038876910544536052,
+          "native_FK_goal_rotation_error_rad": 0.0,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.8096340392617851,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.13863403926178508
+            }
+          ]
+        },
+        {
+          "candidate": 3,
+          "numerical_IK_converged": true,
+          "native_FK_goal_position_error_m": 3.869605442505732e-06,
+          "native_FK_goal_rotation_error_rad": 9.11629610817443e-06,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": 1.975048746657038,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.30404874665703785
+            },
+            {
+              "joint": "x5_joint5",
+              "candidate": 3.1165272203575913,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 1.4455272203575913
+            }
+          ]
+        },
+        {
+          "candidate": 4,
+          "numerical_IK_converged": false,
+          "native_FK_goal_position_error_m": 0.0034526697778966835,
+          "native_FK_goal_rotation_error_rad": 0.0,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.9586861396022641,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.2876861396022641
+            }
+          ]
+        },
+        {
+          "candidate": 5,
+          "numerical_IK_converged": false,
+          "native_FK_goal_position_error_m": 0.002990663638791855,
+          "native_FK_goal_rotation_error_rad": 0.0,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.8370558689621068,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.16605586896210678
+            }
+          ]
+        },
+        {
+          "candidate": 6,
+          "numerical_IK_converged": false,
+          "native_FK_goal_position_error_m": 0.038508309688353115,
+          "native_FK_goal_rotation_error_rad": 0.0,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": 2.385480868799405,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.7144808687994051
+            }
+          ]
+        },
+        {
+          "candidate": 7,
+          "numerical_IK_converged": false,
+          "native_FK_goal_position_error_m": 0.002729271694881692,
+          "native_FK_goal_rotation_error_rad": 0.0,
+          "all_native_joint_limits_valid": false,
+          "violations": [
+            {
+              "joint": "x5_joint4",
+              "candidate": -1.9319541764479031,
+              "lower": -1.671,
+              "upper": 1.671,
+              "violation_rad_or_m": 0.2609541764479031
+            }
+          ]
+        }
+      ],
+      "any_registered_candidate_with_valid_native_limits": false,
+      "new_IK_queries": 0,
+      "new_RRT_queries": 0,
+      "new_physics": 0
+    }
+  ],
+  "existing_requests_unchanged": true,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "new_physics": 0,
+  "does_not_prove_global_IK_infeasibility": true
+}

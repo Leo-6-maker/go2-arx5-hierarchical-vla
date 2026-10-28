@@ -1,0 +1,21 @@
+{
+  "schema": "V5_D25_VANDA_FIRST_DIRECT_HUMAN_AUTHORITY_V1",
+  "task": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+  "original_task_source": "5b5de6f5d26ac90a6002c83ebcb60005acf06462",
+  "direct_human_answer": "start now",
+  "answered_proposal": "D25 training then original C50 and D25 Eval24 when Core recovers",
+  "physical_execution_order": [
+    "TRAIN:C50:1024",
+    "TRAIN:D25:1024",
+    "EVAL:C50:N294101",
+    "EVAL:D25:N294101"
+  ],
+  "only_remaining_training": "D25 fresh common CORR2048 1024 updates",
+  "C50_extra_training": false,
+  "recipes_R0_parent_original48_safety_and_scoring_unchanged": true,
+  "caps_T_CD_stop_new_training_and_deadline_unchanged": true,
+  "native_admission_still_required": true,
+  "ordinary_cold_owner_entry_and_ledger_seam_repairs_within_scope": true,
+  "Core_execution_not_authorized_by_offline_snapshot": true,
+  "old_failures_costs_and_unknown_journals_preserved": true
+}

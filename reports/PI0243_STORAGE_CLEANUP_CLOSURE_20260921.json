@@ -1,0 +1,85 @@
+{
+  "schema": "PI0243_STORAGE_CLEANUP_CLOSURE_V1",
+  "status": "COMPLETE_WITH_HF_WRITE_BLOCKER",
+  "date": "2026-09-21",
+  "scope": "PI0241 historical checkpoint replicas and failed-attempt residuals only",
+  "protected": [
+    "PI0226 adapted checkpoint-1000 initializer",
+    "PI0243 current card/data/runtime/output",
+    "TRAIN and TRAIN-CALIB",
+    "GR00T/Cosmos/FFmpeg/torchcodec runtime",
+    "WBC source and checkpoints",
+    "canonical manifests, reports, NPZ and logs",
+    "selected_checkpoint"
+  ],
+  "hf_archive": {
+    "repo_id": "leoyuer/pi0241-fixed16-learning-v1",
+    "revision": "2f9fb89b0788890a01391fec9c4abce8c37e76d9",
+    "write_status": "historical_valid_checkpoints_already_archived; Hopper_upload_of_failed_attempts_blocked_by_HTTP_401",
+    "checkpoint_tree_sha256": {
+      "250": "746d498b0ff4e7ee2c935c588290d34b35d5662093e85abc5e7fed74de6e04cd",
+      "500": "5c693760152fe803638c0eb8da7f23011a3e0168e32762dfbbf51609a8297688",
+      "1000": "bbf0d48a39b7433f3a650ac3a34a69a7deb5058f89cb3eab65897aa6a94b6180"
+    },
+    "verification": "fixed-revision inventory, file size and content SHA256 matched for all 18 checkpoint files; local manifests matched"
+  },
+  "deleted_local_replicas": [
+    "/scratch/e1192548/pi0241_fixed16_v1_20260921/screen_models/checkpoint-250",
+    "/scratch/e1192548/pi0241_fixed16_v1_20260921/screen_models/checkpoint-500",
+    "/scratch/e1192548/pi0241_fixed16_v1_20260921/training/checkpoint-1000",
+    "/scratch/e1192548/pi0241_fixed16_v1_20260921/recovery_audit.failed-625381",
+    "/scratch/e1192548/pi0241_fixed16_v1_20260921/recovery_audit.failed-625384",
+    "/scratch/e1192548/pi0243_stage_a_runtime_r1_20260921"
+  ],
+  "failed_attempt_archives": [
+    {
+      "attempt": "625381",
+      "archive": "/Project_Storage/CFP-03/CFP03-CF-004/pi0243_storage_cleanup_20260921/failed-attempts/625381/pi0241_update_audit.json",
+      "sha256": "4bf24305b5bc4211896f7054655b35014c453cd2cde29060292cf9fece16a7cd"
+    },
+    {
+      "attempt": "625384",
+      "archive": "/Project_Storage/CFP-03/CFP03-CF-004/pi0243_storage_cleanup_20260921/failed-attempts/625384/pi0241_update_audit.json",
+      "sha256": "d1aefa75ea9413101ec05a70e24a7664de506f35b174d9d6b044d6b8ba61a6d0"
+    },
+    {
+      "attempt": "625949",
+      "archive": "/Project_Storage/CFP-03/CFP03-CF-004/pi0243_storage_cleanup_20260921/failed-attempts/625949_runtime",
+      "source_bytes": 7196567,
+      "archive_bytes": 7178375,
+      "source_tree_sha256": "fd8d35a8f0f11c31f26d360035e4a887969615f35e3a36bef39a50fd3b0bdcef",
+      "pbs_log_sha256": "369ddb521e48d6898aee0650fbe47774b4b50b9a6d975885b74f56b50ec764a2"
+    }
+  ],
+  "pi0243_job_626184": {
+    "state": "F",
+    "exit_status": 1,
+    "stageout_status": 1,
+    "node": "hopper-29",
+    "model_calls": 0,
+    "checkpoint_count": 0,
+    "failure": "No space left on device while creating /hpctmp/e1192548/pi0243_stage_a_runtime_r2_20260921",
+    "pbs_log": "/Project_Storage/CFP-03/CFP03-CF-004/pi0243_stage_a_20260921_r2/engineering_failure_626184/pi0243_stage.o626184",
+    "pbs_log_sha256": "d9c7bb71dbf262f32ce4cfc32bf7c4e777a50f3d0de4efb510cd0b3e31684cc5",
+    "action": "not_requeued_or_modified_under_storage_only_authorization"
+  },
+  "storage_observation": {
+    "filesystem": "hpfs.nus.edu.sg:/hpfs-main",
+    "mount": "/scratch",
+    "cleanup_start_available_1024_blocks": 2092032,
+    "cleanup_end_available_1024_blocks": 41111552,
+    "reclaimed_1024_blocks": 39019520,
+    "reclaimed_bytes": 39955988480,
+    "current_df_observation": "2026-09-21: 20% used, 3463688869888 1K-blocks available; filesystem/quota views are not interchangeable"
+  },
+  "science_counters": {
+    "training": 0,
+    "backward": 0,
+    "optimizer": 0,
+    "WBC": 0,
+    "sim": 0,
+    "DEV_E_read": 0,
+    "Final_F_read": 0,
+    "selected_checkpoint": "NONE"
+  }
+}

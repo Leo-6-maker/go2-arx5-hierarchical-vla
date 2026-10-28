@@ -1,0 +1,177 @@
+{
+  "schema": "VAP1_A1_1024_FULL_SAVE_ORIGINAL_PROBES_AND_REENTRY_ACTUAL_V1",
+  "status": "ACTUAL_NATIVE_FULL1024_SAVE_ORIGINAL12_PROBES_AND_SAME_JOB_REENTRY",
+  "observed_epoch": 1792659828.3064995,
+  "native": {
+    "job_id": "1474599.stdct-mgmt-02",
+    "state": "R",
+    "source_sha": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+    "request_id": "75e12289-7b99-4f46-bd69-bbe64ff9cad0",
+    "request_sha256": "b2d088dec7aa9174970b19284b3f4ee85206d3819941899dd65be295d357c651",
+    "run_manifest_sha256": "25b7717c02c31ddacddd81530be76ea1166df74a4ae442c90b1e687e77bc0dbe",
+    "native_step": 1030,
+    "actual_consumed_cursor": 32960,
+    "unknown_effects": [],
+    "live_owned_pending_update_count": 1,
+    "owner_heartbeat_age_s": 2.4210238456726074,
+    "root_STOP": false,
+    "parent_STOP": false,
+    "new_submission_or_owner_handoff": false
+  },
+  "lineage": {
+    "key": "A_CONTROL_SAVE_RECOVERY1",
+    "imported_native_step": 32,
+    "before_probe_phase": {
+      "status": "PV1_EXACT_PARTIAL_STATE_PRESERVED",
+      "global_step": 1024,
+      "resumed_from_step": 32,
+      "actual_updates_this_attempt": 992,
+      "actual_samples_this_attempt": 31744,
+      "actual_consumed_cursor": 32768,
+      "loaded_checkpoint_manifest_sha256": "1c50579c172367894fe83921d84e4053803dd451c1c3e693d7881f1ff673e6f8",
+      "source_manifest_sha256": "4aa1d671fb4b1862af28ea9f9c39c3ca0df7f00eee92bcd512467b1da3e6311b",
+      "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+      "frozen_parameters_unchanged": true,
+      "wall_s": 6191.459498672746,
+      "peak_GPU_bytes": 35406000640
+    },
+    "old_lost_A1024_remains_spent_not_model_progress": true,
+    "settled_costs_not_concatenated_as_native_step": true
+  },
+  "checkpoint1024": {
+    "complete_manifest_sha256": "50528e38c1e785533916fbcdd0a48d63df27f2624bb317e6d0ed113e05318f4e",
+    "global_step": 1024,
+    "actual_consumed_cursor": 32768,
+    "full_resume": true,
+    "member_count": 15,
+    "members_sha256": {
+      "SAMPLER_STATE.json": "b13e28f2875804785e6e94c0f705b8fb67688c51b3c98c5bbbbcfce6882cd8dd",
+      "config.json": "4dbc48a7850eadcfda91ff3c09d528ca41ca9527da8041f2972ed89b505ca4bb",
+      "model-00001-of-00003.safetensors": "cbcaea5ee88f1e0f1465043920a2647c67e7de17d24adfd1c477742a6168edec",
+      "model-00002-of-00003.safetensors": "7ff98566d33481175c5680e04aedcec66687251a742f8b21c49f09a83986f0ae",
+      "model-00003-of-00003.safetensors": "0efb9ccefaa3c45b773f181c90ef948381b46de0d413969d267f4091eeb0778f",
+      "model.safetensors.index.json": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+      "optimizer.pt": "40b968b42a599d7bdfd45e83d86710c7e9935149554abca2873dcbbd00ad349c",
+      "processor/embodiment_id.json": "f0a1e56702c84df579d46eb517737e3e720b0eadd2e47d77e5e17254286c5a90",
+      "processor/processor_config.json": "eb69779e407182bb5548d49c2d17bae3c0e3634236ecb637c07fc544e455bd64",
+      "processor/statistics.json": "9160be2f9acc2bdb2a2f120c439b4a3bfa537dda1c7c90e6a9524eb7ef16bdbf",
+      "rng_state.pth": "52fbd3946ba1262043098cb705eb082c1d4d1769b4cd6d47578f0754f5660853",
+      "scheduler.pt": "fe51aab046ace61fbaa493733127af879ff06148fd2bb23763bf1c6fa3f464ad",
+      "statistics.json": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+      "trainer_state.json": "22bc3494a0d3161ef3950442896dcb6733267b5d8caaa597869db16424d91f50",
+      "training_args.bin": "041f8afa4bb811b9eff8e286a7e9ae7c62fb052a55254cf237a5a028d421c64a"
+    },
+    "origin_job_id": "1474599.stdct-mgmt-02",
+    "origin_source_sha": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "recipe_sha256": "eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7",
+    "native_mature_checked_resume_before_postprobe_training": true,
+    "additional_tensor_rehash_in_this_readonly_observation": false,
+    "latest_complete_recoverable_step": 1024
+  },
+  "original_TRAIN_probes": {
+    "status": "ACTUAL_FIXED_TRAIN_PROBES_NOT_TASK_SUCCESS",
+    "complete": true,
+    "count": 12,
+    "probe_plan_sha256": "8ab9174d8517eea237790d6c0d4b6b4831ab91ddb2e9dc04763a22d295dfc29f",
+    "checkpoint_manifest_sha256": "50528e38c1e785533916fbcdd0a48d63df27f2624bb317e6d0ed113e05318f4e",
+    "result_sha256": "c8e6f4b76fdb9df234386efe432d9351ba894e6b5188a63b985d2a448006ab34",
+    "records_sha256": "9cd95a241fafaed2158917eb12d573e200f42bb3b5bf8e9377e19d9fba2cb822",
+    "new_queries": 12,
+    "reused_completed_draws": 0,
+    "all_original_array_sha256_readback": {
+      "original_T1-000": "136848d319ad9722fcb93952086911204b29aa52872993e059d907d45d19b536",
+      "original_T1-240": "76082deeedb71b875850bb3c24e1c98394aac705b77cf8c8e3ce4bbc5f459c3b",
+      "original_T1-560": "3bc8dd7c9f2234d474ad647e5e0dba1fb1179af9264ff7ce9dddb331fe107a97",
+      "original_T2-000": "aef885352959c7eb90cfbdad11c5ea4ed63e7871755c114dd26ce8ffdcf653c4",
+      "original_T2-240": "81e4e6c6061d100b0dd4362cdea4e66d4f324b99611c01bf7caa5ad90dc18c05",
+      "original_T2-560": "f7214ca570ff3462fb605469f167adcf94b799e0fb342435e97f41bb4aa0608f",
+      "new_T1-000": "6b52ed6d44b3b949bc19a6ed05961427ead08eebafe3bcdba88f40aa3cd8b168",
+      "new_T1-240": "44cd41a75f8d92956839d31bb77f28ccefc2905a00241d93dd69707557ba56cb",
+      "new_T1-560": "fe56fff1915ea9917d3ae2cfd192788e955cbb997844c4c0fcbf3dd04492f9da",
+      "new_T2-000": "5c3f199e337c40f69f01f9ebf3964b4dca98276a90e7ae138d2851b4e81de939",
+      "new_T2-240": "4cb4e6572b9048884c84656e2cd86f0b7750283c049435323ca5259927f0a7c1",
+      "new_T2-560": "78dca986bd017e9db1ea808f082a76deb8a578f0d4a0cc16a183fa1dbf00f140"
+    },
+    "original_ids_and_order_verified": true,
+    "split": "TRAIN",
+    "new_physics": 0,
+    "physical_success_gate": false,
+    "task_success_claim": false,
+    "original_gate_decisions": {
+      "ACCEPT": 12
+    },
+    "split_counts": {
+      "TRAIN": 12
+    },
+    "expert_codec_roundtrip_maximum_absolute_difference": 3.05725974536486e-08
+  },
+  "same_job_reentry": {
+    "model_load_intents": {
+      "COMPATIBILITY": {
+        "job_id": "1474599.stdct-mgmt-02",
+        "request_sha256": "b2d088dec7aa9174970b19284b3f4ee85206d3819941899dd65be295d357c651",
+        "checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38"
+      },
+      "TRAIN-INPUT": {
+        "job_id": "1474599.stdct-mgmt-02",
+        "request_sha256": "b2d088dec7aa9174970b19284b3f4ee85206d3819941899dd65be295d357c651",
+        "checkpoint_manifest_sha256": "1c50579c172367894fe83921d84e4053803dd451c1c3e693d7881f1ff673e6f8"
+      },
+      "TRAIN-REENTRY": {
+        "job_id": "1474599.stdct-mgmt-02",
+        "request_sha256": "b2d088dec7aa9174970b19284b3f4ee85206d3819941899dd65be295d357c651",
+        "checkpoint_manifest_sha256": "50528e38c1e785533916fbcdd0a48d63df27f2624bb317e6d0ed113e05318f4e"
+      },
+      "PROBES": {
+        "job_id": "1474599.stdct-mgmt-02",
+        "request_sha256": "b2d088dec7aa9174970b19284b3f4ee85206d3819941899dd65be295d357c651",
+        "checkpoint_manifest_sha256": "50528e38c1e785533916fbcdd0a48d63df27f2624bb317e6d0ed113e05318f4e"
+      }
+    },
+    "first_committed_update": {
+      "step": 1025,
+      "cursor": 32800,
+      "native_loss": 0.02896207571029663,
+      "learning_rate": [
+        8.796347572063592e-06,
+        8.796347572063592e-06
+      ],
+      "synchronized_s": 4.687955366913229,
+      "epoch": 1792659637.5129213
+    },
+    "latest_progress": {
+      "step": 1030,
+      "cursor": 32960,
+      "native_loss": 0.0065497481264173985,
+      "learning_rate": [
+        8.78438832714026e-06,
+        8.78438832714026e-06
+      ],
+      "synchronized_s": 4.470821626018733,
+      "epoch": 1792659826.0310934
+    },
+    "native_generation_queries_total": 29,
+    "native_model_load_attempts_total": 4,
+    "no_update_replay": true,
+    "meaning": "Existing native full-state restore passed and actual optimizer steps1025 onward were committed; no new independent bitwise-resume experiment was run"
+  },
+  "accounting": {
+    "original_current_reservation_preserved": true,
+    "terminal_settlement_executed": false,
+    "lease_closed": false,
+    "no_spent_cost_or_clock_reset": true,
+    "no_extra_models_queries_updates_for_readonly_observation": true
+  },
+  "next_legal_action": "Continue original healthy A1 job to2048; after successful native terminal and original watcher natural exit, audit full1024/2048 and original probes and settle once before any cold A2 admission",
+  "claim_boundaries": {
+    "A2048_complete": false,
+    "A4096_complete": false,
+    "B_started": false,
+    "source_pair_science_complete": false,
+    "target_executor_qualified": false,
+    "new_data_or_WBC_change": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}

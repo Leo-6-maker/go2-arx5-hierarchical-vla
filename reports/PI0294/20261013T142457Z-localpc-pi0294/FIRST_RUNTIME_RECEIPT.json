@@ -1,0 +1,31 @@
+{
+  "schema": "PI0294_FIRST_RUNTIME_PROGRESS_V1",
+  "status": "IN_PROGRESS_NOT_POLICY_QUALIFICATION",
+  "run_uuid": "20261013T142457Z-localpc-pi0294",
+  "protocol_release": "09e68e41752383fcb1087a23c52fe487c9a14a89",
+  "runtime_source": "8810aa2927c44f428a455534414fc00479e44db1",
+  "runtime_CI": {"run_id": 38423015401, "head_sha": "8810aa2927c44f428a455534414fc00479e44db1", "conclusion": "success"},
+  "source_file_readback": {"files": 19, "byte_exact": true},
+  "local_CPU_tests": {"passed": 150, "subtests_passed": 153, "not_model_or_physics_qualification": true},
+  "ownership": {"owner": "EXISTING_LOCAL_PC", "latest_human_instruction": "SINGLE_AGENT_CONTINUE", "active_subagents": 0, "second_cloud_owner": false},
+  "first_development_pair": {
+    "source_sha": "4f11bf73974db87239ff0d42dc5341789665033d",
+    "group": "PI0294/COMMISSIONING/F0/001",
+    "category": "DEVELOPMENT_NOT_FORMAL_DATA",
+    "independent_audit": "NOT_RUN_AT_RECEIPT_TIME",
+    "T1": {"physics_steps": 16000, "RGB_pairs": 641, "worker_persistent_success": true, "worker_safety_valid": true, "wall_s": 213.20245513995178, "CPU_s": 434.433243142, "maximum_actual_lift_m": 0.08292953878241699, "physics_sha256": "bb1ec297e63fdc24386313bb8ec235a6084953fa13fb6a2a99dc9b718cf2e965"},
+    "T2": {"physics_steps": 16000, "RGB_pairs": 641, "worker_persistent_success": true, "worker_safety_valid": true, "wall_s": 197.93587460997514, "CPU_s": 378.712664839, "maximum_horizontal_push_m": 0.16398610279107975, "maximum_center_height_rise_m": 0.0002599040113404616, "maximum_bilateral_grasp_s": 0.0, "physics_sha256": "31f89e3618491811f3c38f01a9b780360a938dc43d190b7484b6276655612895"}
+  },
+  "engineering_failure_preserved": {
+    "collector": {"reason": "SPAWN_TARGET_PICKLING_BEFORE_CHILD", "physics_steps": 0, "charged_CPU_upper_s": 1800, "original_IDs_not_reused": true},
+    "Hopper_CPU_loader": {"reason": "EARLY_EXPLICIT_WORKER_TEARDOWN_ABORT", "model_loaded": false, "PBS_submissions": 0, "charged_CPU_upper_s": 3600, "exact_owned_process_group_missing_verified": true}
+  },
+  "new_actual_Hopper_CPU_qualification": {"status": "PASS_PI0294_ACTUAL_NATIVE_CPU_LOADER_0_2_4", "actual_attempt_CPU_s": 120.27711099999999, "manifest_sha256": "c228f59473c110264f58cf34dbd75198a3ee12207e0788967614d33f27f6999a", "statistics_sha256": "c3b871e3b5a854e876e4dbff806640f3472bef32b64f9d3db764a4d2c39b5fe4", "model_loaded": false, "CUDA_initialized": false, "old_data_recollected": false},
+  "new_model_smoke": {"request_id": "model-smoke-01", "job_id": "664410.hopper-m-02", "project": "CFP04-CF-007", "queue": "auto", "observed_status": "Q", "PBS_calls_used": 1, "PBS_calls_cap": 4, "GPU_reserved_s": 1800, "GPU_allocated_s_at_observation": 0, "request_sha256": "4d8ca100ee7870ddcddf18f9e6651c21f32f20946050573b3b99c585feca221f", "model_smoke_PASS": "NOT_YET", "formal_main": "NOT_RUN"},
+  "frozen_candidate_scene_plan": {"v3_0_groups": 40, "v3_1_groups": 112, "confirmation_groups": 16, "legacy_layouts_plus_development_exclusions": 103, "prefreeze_rejected_candidates": 5, "v3_0_sha256": "7943a6ad6ecbd34cbf183e48b920eecb5dfff62d4516031672db04dd5a6a0e95", "v3_1_sha256": "fe6e60ccb1b8db39692ad86c59655fd44cb01b6a89ae4f99c3e0496d6ddfa169", "qualification": "GEOMETRIC_UNIQUENESS_NOT_ALL_STATIC_OR_LIVE_PHYSICS"},
+  "unchanged_limits": {"T0_epoch": 1791901497, "cutoff_epoch": 1791939600, "deadline_epoch": 1791943200, "reset_on_resume": false},
+  "selected": "NONE",
+  "deployment": "NONE",
+  "WBC_modified_or_run": false,
+  "real_model_closed_loop": "NOT_RUN"
+}

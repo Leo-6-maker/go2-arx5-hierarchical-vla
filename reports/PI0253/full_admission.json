@@ -1,0 +1,112 @@
+{
+  "authority_commit": "82554098fb55b39ceca4b955252f8952c91c0dc0",
+  "authorization": "PI0253_LIVE_BRIDGE_TO_FULL_SUPPORT_GO",
+  "boundaries": {
+    "historical_CALIB_report_peek_deviation": {
+      "details": "A lookup opened historical archived CALIB alignment rows while locating TRAIN provenance. No CALIB dataset, policy queries, weights, statistics or selector were run or used. Preserved explicitly; no selection claim.",
+      "historical_pi0237_label_alignment_report_peek": true
+    },
+    "no_new_CALIB_dataset_read": true,
+    "old_sim_success_not_admission_requirement": true,
+    "unobserved_expert_zero_tick_byte_dump": true,
+    "unobserved_per_rollout_world_anchor": true
+  },
+  "canonical_issue_comment": 5870278574,
+  "conditions": {
+    "G_recoverable": true,
+    "Q_S_bridge": true,
+    "WBC_same_runtime_expert_A_D_reused": true,
+    "expert_correct_native_time_sampling": true,
+    "no_observed_unresolved_input_frame_time_label_conflict": true,
+    "original_full_TRAIN_seal_and_reset_support": true,
+    "persistent_full_checkpoint_and_resume_cpu_entry": true
+  },
+  "created_epoch_s": 1790604928.4219933,
+  "development_checkpoint": "G2000",
+  "evidence": {
+    "CPU": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/evidence/FULL_ENTRY_CPU_CHECK.json",
+      "sha256": "dd2b93c583d3614a79ba1d4e865fb02aeb12d0eb3d11fe021792cb5cc14a720a"
+    },
+    "D0": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/evidence/live_contract_support_audit.json",
+      "sha256": "be7492b7b8f2f9dc5f0a3a95b907e8050308b3fcc29792fe254ca7ca47ead373"
+    },
+    "D0_D1_HF": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/evidence/D0_D1_HF_READBACK.json",
+      "sha256": "b3fad9cc859d010b9b2ee8e3738104a44c4e51cb43b470c58091b20ec11f74b9"
+    },
+    "D1": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/evidence/bridge_report.json",
+      "sha256": "6a482f5d9d470f73a5f83a8a6cf9d0e0053d5aca6d8c3fca58ef984b09f0a610"
+    },
+    "G_qualification": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/evidence/G_qualification_index.json",
+      "sha256": "43c86f9e1ee99104eea4c335f887cfa10a705ca6e9ecc39c7c5e22b201413b72"
+    },
+    "HF_preflight": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/hf_preflight_receipt.json",
+      "sha256": "be3d282dc3c0141a009a3d08227dfe4eb654637c26c5338bb1f75aec9c4f16ff"
+    },
+    "TRAIN_support": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/evidence/full_support.json",
+      "sha256": "214e6837aff9664cb866714737bf43a42071a6c6f7fb925f1007c08510bb799b"
+    },
+    "card": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/run_card.json",
+      "sha256": "3bece4c02d8158ec09a35fc597d6ffd34290b8d1559ea55ed877da75c6714277"
+    },
+    "seal": {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/run_card.seal.json",
+      "sha256": "382c4d78dba9068f16bcfb2c650f9aad762eb2ec2b796c4084a690bfb0d49657"
+    }
+  },
+  "execution_plan": {
+    "Corelab_training": false,
+    "canonical_updates": 10000,
+    "exact_resume_after_pass": true,
+    "full_saves": [
+      2500,
+      5000,
+      7500,
+      10000
+    ],
+    "loss_changes": false,
+    "model_only_1000": true,
+    "new_nonselection_parity_queries": 0,
+    "planned_2500_pause_for_original_early_barrier": true,
+    "selected_checkpoint": "NONE"
+  },
+  "family": "PI0253_FULL_G_SUPPORT_V1",
+  "old_G_M64_quality": "PRESERVED_PASS_FOUR_GROUPS",
+  "old_G_TRAIN_A_C0_sim": "PRESERVED_VALID_FAIL_NO_RETRY",
+  "pointer_pr_comment": 5870286088,
+  "resources": {
+    "GPU": "H200",
+    "allocation": "PENDING_PBS",
+    "capacity_basis": "same complete S4+AdamW profile as successful G; inherited documented 4080S AdamW OOM, no Corelab training",
+    "group_acl_membership": "hpc_hopperusers",
+    "previous_valid_jobs": [
+      "636240.hopper-m-02",
+      "636296.hopper-m-02"
+    ],
+    "project": "CFP03-CF-004",
+    "queue": "auto",
+    "queue_enabled": true,
+    "queue_started": true,
+    "select": "1:ngpus=1:ncpus=12:mem=225GB",
+    "walltime": "16:00:00"
+  },
+  "run_card_sha256": "3bece4c02d8158ec09a35fc597d6ffd34290b8d1559ea55ed877da75c6714277",
+  "schema": "PI0253_FULL_ADMISSION_V1",
+  "selected_checkpoint": "NONE",
+  "status": "PASS_FULL_ADMISSION",
+  "storage": {
+    "actual_fileset_probe": "/scratch/e1192548",
+    "free_bytes": 80606134272,
+    "no_tmpfs_unique_source": true,
+    "quota_headroom": "UNKNOWN",
+    "required_next_full_save_plus_reserve": 31620064634,
+    "reserve_bytes": 10737418240
+  }
+}

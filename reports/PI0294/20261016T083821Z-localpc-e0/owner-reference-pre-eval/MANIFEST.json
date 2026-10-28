@@ -1,0 +1,81 @@
+{
+  "schema": "SANITIZED_OWNER_SOURCE_REFERENCE_V1",
+  "status": "SOURCE_REFERENCE_NOT_RUNNABLE_DEPLOYMENT",
+  "source_file_count": 7,
+  "total_bytes": 67328,
+  "files": [
+    {
+      "path": "e0_audit_worker.py.txt",
+      "original_source_sha256": "e8f03b43ea3225265cb8129e1322bc6230e9ca21aed03038e5ccc77767a0fccd",
+      "sanitized_source_sha256": "2c2ac2cfd2bc47292a8ad73d2635904b53e8d6808c08509ad59dc8edff6e72e5",
+      "bytes": 9349,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "e0_bind.py.txt",
+      "original_source_sha256": "9617e14d3a4124703af371d8e2c8a752a5aee47b6247a63ba399127346835aeb",
+      "sanitized_source_sha256": "dec453534dc935dc065c28b4c1a6b55fa0284701182176ffaa589e9b90b4ce99",
+      "bytes": 9382,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "e0_closeout.py.txt",
+      "original_source_sha256": "9cbc0cf028c7beb51008c7b90e6b70dd48421caa4336f58f2b27ccdd59ac218d",
+      "sanitized_source_sha256": "188b8637c52425e4b927588036beb688c4fe114a1430ee1d80035dc49dda3a0e",
+      "bytes": 5499,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "e0_owner.py.txt",
+      "original_source_sha256": "0a6df12ea6b2c10b24b4a7fd01468ac2d7026739276c8f08dcaca4be8b811a5f",
+      "sanitized_source_sha256": "07c2160d9fde05cf70699201f2bdbbf83723bf054092ccba5a2b81781b5e1353",
+      "bytes": 4356,
+      "role_redaction_counts": {
+        "@CORELAB_NODE_STORAGE@": 1,
+        "@HOPPER_SCRATCH@": 1,
+        "@LOCAL_OR_CORE_HOME@": 3
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "e0_pbs_owner.py.txt",
+      "original_source_sha256": "91a0330b3526e3ceeb265ce294b126aa7b02fc6f334f20c9d03641aa35e0bd5c",
+      "sanitized_source_sha256": "3649e77eed799471c7be47786aae0d08ea92332b0b1d9f5301455f2399a68473",
+      "bytes": 10858,
+      "role_redaction_counts": {
+        "@HOPPER_SHARED_HOME@": 1
+      },
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "e0_prepare.py.txt",
+      "original_source_sha256": "5da9d9cd4a6f943867d78ec1013edda250b35f40e6da1a959b92b68adf8ae17b",
+      "sanitized_source_sha256": "c4947a0a61ec6326fc4e9d8a0512992f0809a5302471a68c1516aa83c6757971",
+      "bytes": 15814,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    },
+    {
+      "path": "e0_route.py.txt",
+      "original_source_sha256": "e9eabba0698b8a1bd941232f815369bfacffdc20be49177db34ab12c0bdcab60",
+      "sanitized_source_sha256": "644e77aca92c5e59f383190db9fa6ab34879ec4b815c2a63e9f5267bae070555",
+      "bytes": 12070,
+      "role_redaction_counts": {},
+      "syntax": "PARSE_PASS",
+      "executable": false
+    }
+  ],
+  "exact_private_originals_retained": true,
+  "private_json_logs_data_weights_credentials_excluded": true,
+  "runtime_source_changed": false,
+  "scientific_GO_created": false
+}

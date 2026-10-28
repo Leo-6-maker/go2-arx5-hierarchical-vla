@@ -1,0 +1,89 @@
+{
+  "epoch": 1791523343.9144042,
+  "small": {
+    "runtime/C0_REPLAY1024-1024_endpoint_EVALUATION_CLOSED.json": {
+      "status": "ENDPOINT_CLOSED_VALID_TRAIN_FAIL",
+      "point": "C0_REPLAY1024-1024",
+      "ended_epoch": 1791523291.0729396,
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    "audit/C0_REPLAY1024-1024_DIAG_CPU.json": {
+      "status": "PASS_CPU_FIXED_DIAG_NATIVE_DECODE_NOISE_PREFIX_FULL_H40_AND_GATE",
+      "point": "C0_REPLAY1024-1024",
+      "selected": "NONE",
+      "deployment": "NONE",
+      "source_sha256": "3b4f6add21c5b86a9e58bab455c170341a588ebb4665069a55ca64db1b646b78"
+    },
+    "qualification/C0_REPLAY1024-1024_ROUTE.json": {
+      "status": "PI0286_ACTUAL_INDEPENDENT_CPU_ENDPOINT_ROUTE",
+      "point": "C0_REPLAY1024-1024",
+      "next_action": "ENDPOINT_CLOSED_VALID_TRAIN_FAIL",
+      "TRAIN": {
+        "T1": 2
+      },
+      "DEV": null,
+      "confirmation": null,
+      "selected": "NONE",
+      "deployment": "NONE"
+    }
+  },
+  "transport-cec9464c2c38.EVAL_COMPLETE.json": {
+    "script": "transport.py",
+    "arguments": [
+      "--point",
+      "C0_REPLAY1024-1024"
+    ],
+    "returncode": 0,
+    "elapsed": 702.9470934867859
+  },
+  "policy-698a71b6fb3a.EVAL_COMPLETE.json": {
+    "script": "policy.py",
+    "arguments": [
+      "--point",
+      "C0_REPLAY1024-1024",
+      "--panel",
+      "TRAIN"
+    ],
+    "returncode": 0,
+    "elapsed": 310.6993806362152
+  },
+  "audit_source-5b4d2c2738dd.EVAL_COMPLETE.json": {
+    "script": "audit_source.py",
+    "arguments": [
+      "--split",
+      "C0_REPLAY1024-1024_TRAIN"
+    ],
+    "returncode": 0,
+    "elapsed": 4.486386060714722
+  },
+  "diagnostics-4b83d2a5bcb6.EVAL_COMPLETE.json": {
+    "script": "diagnostics.py",
+    "arguments": [
+      "run",
+      "--point",
+      "C0_REPLAY1024-1024"
+    ],
+    "returncode": 0,
+    "elapsed": 98.38629221916199
+  },
+  "diagnostics-a6c53f6163d3.EVAL_COMPLETE.json": {
+    "script": "diagnostics.py",
+    "arguments": [
+      "cpu",
+      "--point",
+      "C0_REPLAY1024-1024"
+    ],
+    "returncode": 0,
+    "elapsed": 32.174943685531616
+  },
+  "qualification-cec9464c2c38.EVAL_COMPLETE.json": {
+    "script": "qualification.py",
+    "arguments": [
+      "--point",
+      "C0_REPLAY1024-1024"
+    ],
+    "returncode": 0,
+    "elapsed": 0.7638459205627441
+  }
+}

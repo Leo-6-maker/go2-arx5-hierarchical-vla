@@ -1,0 +1,110 @@
+{
+  "schema": "VANDA_RESIDENT_DETACHED_WATCH_AND_TERMINAL_HISTORY_CPU_V1",
+  "status": "CPU_QUALIFIED_COLD_BINDING_NOT_NATIVE_DEPLOYED",
+  "epoch": 1792770850.6141648,
+  "problem": "A finished registered job can leave the current account queue before its costs are settled. A separate fresh native terminal history read is required to let the existing owner return normally.",
+  "resulting_behavior": {
+    "current_queue": "Retain exact complete qselect/qstat current account proof",
+    "terminal_history": "Distinct qstat -x single handle, exact F and integer Exit_status, same owner/project/job name/request and nonce; never fabricate a current queue entry",
+    "view_schema": "WDR1_VANDA_ONLY_CURRENT_CAMPAIGN_VIEW_V2",
+    "terminal_does_not_settle_or_release": true,
+    "failed_history_is_not_terminal_or_empty": true,
+    "detached_watch": "Existing cold_owner.watch remains running after its launcher exits; the real OS CPU fixture continues heartbeats and returns exact terminal without resubmission",
+    "ordinary_login_CPU_bound": "Optional explicit process CPU limit for the ordinary masked login child; default old callers unchanged",
+    "watchdog_RPC_read_retry_and_all_original_clocks": "UNCHANGED"
+  },
+  "validation": {
+    "new_CPU_cases": 23,
+    "focused_cases": 103,
+    "focused_subtests": 5,
+    "full_CPU_cases": 2467,
+    "full_subtests": 1649,
+    "private_parser_skips": 13,
+    "detached_CPU_fixture": "Launcher exited, child still live and produced multiple heartbeats; independent matching terminal then normal watch return; no native PBS/auth/model/GPU",
+    "masked_login_CPU_fixture": "Real dummy password-prompt subprocess killed by 1CPU-second limit, no raw secret/output logged"
+  },
+  "adopted_five_caps_unchanged": {
+    "DEC1_updates": 11714,
+    "DEC1_PBS": 16,
+    "global_PBS": 27,
+    "DEC1_GPUsite_storage_GiB": 614,
+    "global_GPUsite_storage_GiB": 680
+  },
+  "actual_settled_updates": 9666,
+  "old_lineage2970_and_paid922_preserved": true,
+  "no_new_GPU_request_qsub_or_control_prepayment": true,
+  "scheduler_latest": "Prior three10s qselect reads plus original25s qstat read timed out. A later low-frequency same own-qstat25s also timed out; queue remains unknown, never assumed empty.",
+  "resident_binding": "19temporary bootstrap cases passed, including original foreground-shell OS exit capture. Current native metadata is verified, but full PBS queue is unknown and no new prepay/register/owner/job exists.",
+  "runtime_before_this_change": {
+    "source": "2d323e5574abba6419920fc0fd240fc10c7572b5",
+    "CI39976861380_all12_success": true
+  },
+  "full_goal": "ACTIVE",
+  "target_task_native_qualified": false,
+  "core64": 0,
+  "CI_failed_history": {
+    "source": "026fd575b7ed01ff55202ff166ed0bc1a7f616ae",
+    "run": 39982253385,
+    "job": 120512269822,
+    "conclusion": "failure",
+    "failure": "Only the new detached CPU fixture failed to import scripts in a child launched outside the repository without PYTHONPATH. Main and PI0292 CPU steps succeeded; PI0294 had2357passed/1failed/13skips/1499subtests.",
+    "native_deployed": false
+  },
+  "fixture_repair": {
+    "explicit_repository_import_path": true,
+    "launcher_environment_removes_PYTHONPATH": true,
+    "selected_file_tests_passed": 20,
+    "exact_new_CI": "39983917781_COMPLETED_SUCCESS_ALL12",
+    "production_code_changed": false
+  },
+  "latest_runtime_qualification": {
+    "source": "90d357a74d3d8e1f033ca978f16c5f3191a087f9",
+    "CI_run": 39983917781,
+    "CI_job": 120518029162,
+    "status": "completed",
+    "conclusion": "success",
+    "all12steps": true,
+    "full_raw_Gitblob_local_files": 26
+  },
+  "cold_bootstrap_actual_CPU": {
+    "cases": 19,
+    "temporary_only": true,
+    "actual_captured_ledger_inputs": true,
+    "priced_full_original_prequeue_recomputation": true,
+    "once_native_pair_and_LOCAL_projection_replay_rejection": true,
+    "standard_GPU_registration_keeps_existing_profile": true,
+    "CPU_hardlinks_immutable_GPU_source": true,
+    "full_capsule_file_SHA_readback": true,
+    "detached_OS_launch_after_parent_exit_and_no_duplicate": true,
+    "credential_fixture": "Dummy-only token through stdin/RAM; no real credential in source, argv, receipt or output",
+    "source_files": 966,
+    "small_inputs": 35,
+    "all_original_future_resource_shortfalls": {},
+    "original_foreground_exit_capture_pattern": true,
+    "actual_OS_exit0_and_exit7_checked": true,
+    "owner_PID_start_UID_recorded": true,
+    "all_future_project_GPU_plus_protected_final_checked": true
+  },
+  "latest_native_queue_boundary": {
+    "qstat_own_timeout_s": 25,
+    "qselect_own_timeout_s": 10,
+    "current_queue": "UNKNOWN",
+    "correct_scheduler_route": true,
+    "scheduler_TCP_connects": true,
+    "network_connection_is_not_complete_queue_or_admission": true,
+    "client_state_diagnostic": "Own readonly qselect was observed sleeping in poll at two real process samples, with no child process and no stdout/stderr; only that diagnostic reader was terminated.",
+    "no_authentication_or_scheduler_root_cause_proven": true,
+    "last_cold_queue_failure_reply_epoch": 1792772763.0532339
+  },
+  "current_actual_native_metadata": {
+    "observed_epoch": 1792772469.9337456,
+    "all_eight_authority_cards_match": true,
+    "environment_pin_matches": true,
+    "new_roles_absent": true,
+    "new_roots_absent": true,
+    "paired_ledgers_unchanged_after_cap_adoption": true,
+    "queue_observed": false,
+    "metadata_is_not_admission": true
+  },
+  "remaining_terminal_connector": "New lineage4096 audit/settle/GPU+CPU closure still needs final typed binding to the future actual request/job; old1480817 terminal must never be run unchanged."
+}

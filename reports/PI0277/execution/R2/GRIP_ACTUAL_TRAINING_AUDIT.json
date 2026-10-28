@@ -1,0 +1,59 @@
+{
+  "status": "PASS_ACTUAL_JOURNAL_INPUT_LOSS_S4_MODE_SCOPE_AUDIT",
+  "arm": "GRIP",
+  "updates": 4096,
+  "microbatches": 8192,
+  "inputs_and_labels": "ALL_MATCH_FROZEN_PLAN_AND_PROOFS",
+  "actual_noise": "ALL_OBSERVED_NATIVE_EPSILON_TAU_AND_S4_IDENTITIES_MATCH",
+  "raw_noise_regeneration": "NOT_PERFORMED",
+  "mode_restored": 8192,
+  "S4_full_steps": 4,
+  "loss_binding": "OLD_PLUS_POINT1_GENERATED_GRIPPER",
+  "trainable": 471,
+  "frozen": 559,
+  "final_frozen_tensor_byte_comparison": "UNOBSERVED_NOT_CLAIMED",
+  "phase_exposure": {
+    "0": 2048,
+    "1": 2048,
+    "2": 2048,
+    "3": 2048
+  },
+  "production": {
+    "median_update_s": 1.7490845575230196,
+    "median_loader_wait_s": 0.00017281458713114262,
+    "peak_allocated_bytes": 34377103872,
+    "peak_process_tree_RSS_bytes": 12917051392
+  },
+  "journals": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/sample_audit.jsonl",
+      "sha256": "b4af4a2a95e062b18d98fd48164e5a22a0b18833df2003eb3f13f01988d07ab3",
+      "rows": 8192
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/step_rng.jsonl",
+      "sha256": "3b60aa76646d2a02817f9667bdb058551bbeeb7536f5aa436e540b251ff31e84",
+      "rows": 8192
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/S4_audit.jsonl",
+      "sha256": "96d6c4e049bacba836fe9bd0adbe3aad397331ff022710adfa951e27609abc84",
+      "rows": 8192
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/gripper_objective.jsonl",
+      "sha256": "0902537171c42e070a97096ac1fc82172cb9b4ca9ad6a953c8c47ee7f4950772",
+      "rows": 8192
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2/GRIP/main/training/full_loss.jsonl",
+      "sha256": "201cd090c74e2f818e2983f742f37493fe5e03b87cde6738d2fe81888bf85e64",
+      "rows": 8192
+    }
+  ],
+  "quality": "SEPARATE_ACTUAL_PHYSICAL_PANEL_REQUIRED",
+  "new_model_queries": 0,
+  "new_gradient_queries": 0,
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE"
+}

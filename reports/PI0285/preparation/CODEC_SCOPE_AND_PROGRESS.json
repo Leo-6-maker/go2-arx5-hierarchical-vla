@@ -1,0 +1,152 @@
+{
+  "status": "ACTUAL_SOURCE_AND_TRAIN_ASSERTIONS_CLOSED_DEV_CODEC_SCOPE_PENDING",
+  "release": "7e840324c71aef47b401bd861b22710774334c97",
+  "canonical": 6058329368,
+  "teacher": {
+    "PILOT": {
+      "T1": "8/8",
+      "T2": "8/8"
+    },
+    "TRAIN": {
+      "T1": "64/64",
+      "T2": "64/64"
+    },
+    "DEV": {
+      "T1": "16/16",
+      "T2": "16/16"
+    }
+  },
+  "admitted_episodes": 160,
+  "original_codec_script_sha256": "f838eb74ca67adc880e244d5ad51028f5577df8e25d6a7c2c49f6af680224e0a",
+  "original_codec_returncode": 1,
+  "TRAIN_H40_assertions_passed_before_first_DEV_failure": 76928,
+  "TRAIN_maxima": "UNOBSERVED_NO_AGGREGATE_RECEIPT_WRITTEN",
+  "DEV_representative_H40": 192,
+  "DEV_counts": {
+    "T1_FAIL": 1,
+    "T1_PASS": 95,
+    "T2_FAIL": 1,
+    "T2_PASS": 95
+  },
+  "DEV_failures": [
+    {
+      "episode": "T1-DEV-285200",
+      "task": "T1",
+      "anchor": 20,
+      "phase": 0,
+      "native_error": {
+        "XYZ_max_m": 0.0,
+        "SO3_max_rad": 0.03574657900047457,
+        "gripper_max_fraction": 0.0,
+        "nonfinite": false,
+        "command_rot6d_validity": {
+          "minimum_first_row_norm": 0.9999999403953552,
+          "minimum_cross_norm": 0.9999997615814209,
+          "degenerate_count": 0
+        },
+        "decoded_rot6d_validity": {
+          "minimum_first_row_norm": 0.9999999403953552,
+          "minimum_cross_norm": 0.9999999403953552,
+          "degenerate_count": 0
+        }
+      },
+      "counterfactual_unbounded_math_error": {
+        "XYZ_max_m": 0.0,
+        "SO3_max_rad": 1.6489141620571712e-08,
+        "gripper_max_fraction": 0.0,
+        "nonfinite": false,
+        "command_rot6d_validity": {
+          "minimum_first_row_norm": 0.9999999403953552,
+          "minimum_cross_norm": 0.9999997615814209,
+          "degenerate_count": 0
+        },
+        "decoded_rot6d_validity": {
+          "minimum_first_row_norm": 0.9999999403953552,
+          "minimum_cross_norm": 0.9999999403953552,
+          "degenerate_count": 0
+        }
+      },
+      "gate_pass": false,
+      "preclip_OOB_by_EEF_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        34
+      ],
+      "preclip_max_abs": 1.4482065239046347
+    },
+    {
+      "episode": "T2-DEV-285200",
+      "task": "T2",
+      "anchor": 20,
+      "phase": 0,
+      "native_error": {
+        "XYZ_max_m": 0.0,
+        "SO3_max_rad": 0.03574657900047457,
+        "gripper_max_fraction": 0.0,
+        "nonfinite": false,
+        "command_rot6d_validity": {
+          "minimum_first_row_norm": 0.9999999403953552,
+          "minimum_cross_norm": 0.9999997615814209,
+          "degenerate_count": 0
+        },
+        "decoded_rot6d_validity": {
+          "minimum_first_row_norm": 0.9999999403953552,
+          "minimum_cross_norm": 0.9999999403953552,
+          "degenerate_count": 0
+        }
+      },
+      "counterfactual_unbounded_math_error": {
+        "XYZ_max_m": 0.0,
+        "SO3_max_rad": 1.6489141620571712e-08,
+        "gripper_max_fraction": 0.0,
+        "nonfinite": false,
+        "command_rot6d_validity": {
+          "minimum_first_row_norm": 0.9999999403953552,
+          "minimum_cross_norm": 0.9999997615814209,
+          "degenerate_count": 0
+        },
+        "decoded_rot6d_validity": {
+          "minimum_first_row_norm": 0.9999999403953552,
+          "minimum_cross_norm": 0.9999999403953552,
+          "degenerate_count": 0
+        }
+      },
+      "gate_pass": false,
+      "preclip_OOB_by_EEF_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        34
+      ],
+      "preclip_max_abs": 1.4482065239046347
+    }
+  ],
+  "mechanism": "FROZEN_TRAIN_RELATIVE_ROT6D_CHANNEL8_MINMAX_EXTRAPOLATION_NATIVE_CLIPPING",
+  "counterfactual_is_diagnostic_only": true,
+  "statistics_changed": false,
+  "processor_changed": false,
+  "decoder_changed": false,
+  "original_FAIL_preserved": true,
+  "scope_resolution_requested": "Whether non-supervised DEV label roundtrip remains a launch gate or is disclosed extrapolation diagnostic; supervised TRAIN/recovery tolerances unchanged",
+  "scope_resolution_received": false,
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_PBS_submissions": 0,
+  "launch_allowed": false,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "native_inputs_status": "PASS_ACTUAL_NATIVE_INPUTS_ONLY_NOT_CODEC_ADMISSION",
+  "native_inputs_count": 24,
+  "native_two_worker_batches": 6
+}

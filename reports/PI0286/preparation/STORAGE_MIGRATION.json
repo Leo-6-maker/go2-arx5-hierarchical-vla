@@ -1,0 +1,2310 @@
+{
+  "status": "PASS_EXACT_STOPPED_SOURCE_NOISE_AND_GLOBAL_QUALITY_LEDGER_STORAGE_MIGRATION",
+  "tier": {
+    "status": "PASS_STOPPED_PI0286_SAME_CONDITION_CUMULATIVE_LEDGER_EXACT_STORAGE_READBACK",
+    "record_root": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0286/source",
+    "large_output_roots": {},
+    "reason": "OWNER_ENGINEERING_STORAGE_PAUSE_AFTER_NFS_LATENCY_MEASUREMENT",
+    "original_record_root": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/source-NFS-engineering-archive",
+    "original_source_inventory_sha256": "2509934127e89ef381e901be90d3a39773c85d3addba6350eac4dc61816ce058",
+    "cumulative_quality_budget_sha256": "e1db79dd9facc5ccc4c9c57a50b517e5311e23efd64a35e40dcf8bfafd07a19b",
+    "noise_inventory_sha256": "83b99bfa96bf30039962a96a6c8be86ed026708a473f324fe5f7f928031e0f89",
+    "code_seal_sha256": "cf82000848cf8a4d315cce33aedf21d9df5f4e27acae7d7c31b865b5f39440f7",
+    "algorithm_or_frame_or_fsync_changes": 0,
+    "quality_retry": 0,
+    "model_queries": 0,
+    "physics": 0
+  },
+  "source_files": 434,
+  "source_bytes": 582164680,
+  "quality_ledger_aliases_same_inode": true,
+  "source_inventory": {
+    "evidence/budget.jsonl": {
+      "size": 1231368,
+      "sha256": "2589b5b78ea99f6afe645501b5e1d8598369e1baafd05d8ccb63ac9d5fa1135b"
+    },
+    "evidence/PARENT_DOSE6144_LEARNER_TRAIN16_PROGRESS.json": {
+      "size": 5579,
+      "sha256": "1ed249b2fd378e3d21faa295efa1e039feb5cbc7950b57fa1a89ce8100022f11"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/START.json": {
+      "size": 168,
+      "sha256": "65fdde79634aef2037d6a727bf02d91aedc9eb96d8921ed0d80fb0cf77de28e7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/contacts.jsonl": {
+      "size": 9733671,
+      "sha256": "13a3d8d1d973d7c43671e61ca3cbeb4e3cf2458622d0bd33f10364997a2c0176"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/initial.npz": {
+      "size": 1378,
+      "sha256": "b3da21e02a72a9c6d9d947395b26dce5730de662cbba5840f469606b3e62d44e"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/NATIVE_INVENTORY.json": {
+      "size": 3134,
+      "sha256": "8873f3bc0fda3142ef060e5f5c4a9350e79d6baf57c77f4566a297bc5a6c3645"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/EPISODE_CARD.json": {
+      "size": 768,
+      "sha256": "0d94548b1d6924bfeec621824c58e645b09c944062439e08b2de28dcb391ac03"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/QUERIES.json": {
+      "size": 167811,
+      "sha256": "5164aa9c0a5ac75327720c3818f933c23b33f04ae42511e3138a8ec4d097b48a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/TASK_SCORE_CPU.json": {
+      "size": 2635,
+      "sha256": "5fefa9ac8d2bbf3775ec3c988a79c1a9de48c620d050a92d4639afd983303cf4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/physics.npz": {
+      "size": 994890,
+      "sha256": "5898093dec6dc9ad6987ef2e953602683e0164ba2bb7b3dbe56fa4c2370bf5c1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/observations.npz": {
+      "size": 317876714,
+      "sha256": "97977d837ece3080fb3e9e150049e844b4314b3b3418b1158ae62c52e0a2a8f6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/commands.npz": {
+      "size": 33094,
+      "sha256": "b067f279bc744eb7817390791b18ec8cfc5a87356f9a448428a4e2ec70969d00"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/installed.npz": {
+      "size": 122482,
+      "sha256": "dda83152e057274114fa3a8304238e8a1fa335597edd5a7f926c2d334e00ba05"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/RESULT.json": {
+      "size": 4815,
+      "sha256": "b6c1608bdc1dbb1c113ca595c2fccff79f76b5dd622a51d406ae390a7108e960"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q000/input.npz": {
+      "size": 64146,
+      "sha256": "b9a1c7659cf815dc8ee3a9fd0ad5d122b1abf43cb64c975607ac6ca0df47d1ef"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q000/output.npz": {
+      "size": 66183,
+      "sha256": "bd0943439a87c5ef4ff299a4f676650f2dbff5f79df1e5c9d0380b7802215560"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q000/GATE.json": {
+      "size": 1662,
+      "sha256": "aebfef3eb9ead31d60057dbf716b88d74119e85652e5fe488ba73015e7753de5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q001/input.npz": {
+      "size": 64581,
+      "sha256": "5320e17042afca46b3c29d6044b301f64100c5958e7e47e42a070d30925a850f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q001/output.npz": {
+      "size": 66204,
+      "sha256": "b4f44688cf8419fdcef153b1ebe131272411335a3065516e81a18e9eeaf1ad54"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q001/GATE.json": {
+      "size": 1666,
+      "sha256": "141d78548f08c55cf53077c3d2fc8bfdea2f05dbf5d64e65d04a92ebbb19f9b4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q002/input.npz": {
+      "size": 65526,
+      "sha256": "98432a185966136e41d4912701644c45c75ea2067f446b0c9e7c6d7bd3ce5602"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q002/output.npz": {
+      "size": 66286,
+      "sha256": "882ba351ef3f9aae74573a489966fd711d76fcf9f09bce68273f9d2059658f47"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q002/GATE.json": {
+      "size": 1667,
+      "sha256": "6a9390f9175d0dd87937f7f100026f8bbe359643aeb5a132b56ff251a5af69cb"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q003/input.npz": {
+      "size": 66633,
+      "sha256": "60039fb30cd16e942a6af80e137f0141c19063326c885a74ac4b6b7c8745b9a8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q003/output.npz": {
+      "size": 66320,
+      "sha256": "3a028180d5b339d73c4c76ae51a77ed51b07ae1c7cd0f939b13c35fe2e1b95ef"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q003/GATE.json": {
+      "size": 1667,
+      "sha256": "9b55af76f7d2d379f2a9c920dd442129e0f89b40f523193d5b95b3b3924b5526"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q004/input.npz": {
+      "size": 67276,
+      "sha256": "cc9cb9275302e0af869fb85fa325a50d80528a2ddcee92d9640e073cf0c311e2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q004/output.npz": {
+      "size": 66247,
+      "sha256": "2960a397c68f569647ee017b27c12ffe621b597facf87d3a47fbb3e237e173c5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q004/GATE.json": {
+      "size": 1670,
+      "sha256": "87544f86e0bb338a1d7ee7d08e93887b1c9fd4eba9d4eb6f34aa106381d837fb"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q005/input.npz": {
+      "size": 64647,
+      "sha256": "aba9aa65a6a748077974d571c2ef2fde8ac9428f02e43de39306438ff39f8a11"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q005/output.npz": {
+      "size": 66267,
+      "sha256": "936874ea51b5e104f6c9cc70a6c53ae36ce5a09606fcbaf8d832fe39454affd6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q005/GATE.json": {
+      "size": 1667,
+      "sha256": "3dec0d10c6f439e5cb4e9f55f70cb092b9f0dbaba8648f1594dab7f0bb25df2c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q006/input.npz": {
+      "size": 64619,
+      "sha256": "4452d07cfb875fe0bf40878fab7badb9a60cd5287a970f06590f5246c09d7657"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q006/output.npz": {
+      "size": 66147,
+      "sha256": "4bac4b40fc0932c9cfece4394ed8ab387e6bf29a5867d073bc3e8f3a25d16f03"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q006/GATE.json": {
+      "size": 1665,
+      "sha256": "d1bd0eeb1d787ec47dfa5c4d43bfb3972f5b7e59683a7dd68767219172ad60bd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q007/input.npz": {
+      "size": 64758,
+      "sha256": "7a58229b8c05cf96c3ef7b4ca6c431d9f27e29e65ed277b8bf906b377859c486"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q007/output.npz": {
+      "size": 66234,
+      "sha256": "df8b4ac84c2a15a3eecd7ec2320b9d32a89d02f14f1a61e8c1ee59360874554b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q007/GATE.json": {
+      "size": 1666,
+      "sha256": "1475f13f28b9e2c599bf383f7a752465e476bfcf862eea54030dabfabbff68b0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q008/input.npz": {
+      "size": 64317,
+      "sha256": "e489fae7c4fb6b58501eb99fe2991c74ad24ba2949e3d29256be64671220171c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q008/output.npz": {
+      "size": 66170,
+      "sha256": "42a8d594cebff3707cfcf029c08f9050320d03b05b36ee55d8af2be86bef77df"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q008/GATE.json": {
+      "size": 1666,
+      "sha256": "4c82fa4867180c1df31cae9c979a1b1a355979ee31ae81d1fb6ec46e38698f2c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q009/input.npz": {
+      "size": 63528,
+      "sha256": "3110ef7cdd07dfb2e405df0960e73d63e80b64e9d873f1262934ec8ef19e3137"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q009/output.npz": {
+      "size": 66355,
+      "sha256": "9a235e2e831d1b2495fa28fc59ed6d679290b61537df2e80b287ca756fef181f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q009/GATE.json": {
+      "size": 1667,
+      "sha256": "18824e19e85fd903e004831376845c51f60f8ad7b73cb296d20c81a1e4128363"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q010/input.npz": {
+      "size": 63052,
+      "sha256": "b16f4b994fb16be2cbdb51274433d92fae13f6e50ff260e2434eff34b49b587f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q010/output.npz": {
+      "size": 66348,
+      "sha256": "f367d03c1914538db2dcab83eec4be1091015a977aa06ae671edcc9d07c2324f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q010/GATE.json": {
+      "size": 1668,
+      "sha256": "93d2391ca8003a18cec8c8a439e7cd02c429bf8f036342019d18da32e4ed981b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q011/input.npz": {
+      "size": 62870,
+      "sha256": "3e9343e9317b272c53f9f09cc3c74c4fb6a5d10c076e2f85647c180b5d4f62b3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q011/output.npz": {
+      "size": 66169,
+      "sha256": "ff1c03e160507b4d0661bc3c5777bce9b66d62322acf26cb1558a6fb70f567ed"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q011/GATE.json": {
+      "size": 1664,
+      "sha256": "3b915ab8d7086a112941f2d726d0c0912a3b172060bc3f530460207037afd9fd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q012/input.npz": {
+      "size": 62114,
+      "sha256": "757eeb488e33c35eb9d2bb116ba21b323d53355f7c73236bd007c4b3145924fd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q012/output.npz": {
+      "size": 66295,
+      "sha256": "d2635643296a656738c00bfbb20bd53320addf0f4fe7f64168b913fd921745a3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q012/GATE.json": {
+      "size": 1668,
+      "sha256": "2ee2cbaaee769c0384b5bd3adc0c513f555ba00d43c95c2b48d9e13322fba01b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q013/input.npz": {
+      "size": 62070,
+      "sha256": "b6d7e4f1141da03660de131949000a82793d6d653039f22d5f0deae24b2e0a28"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q013/output.npz": {
+      "size": 66265,
+      "sha256": "93d2564ee2eb0c57bff522669d801ee46a41a1d951c79b2d52e56f028e1776c0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q013/GATE.json": {
+      "size": 1668,
+      "sha256": "e018ce3df42998bac784efa7f6624fcf603ecbade344fc21c2c5ace3582b9b0e"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q014/input.npz": {
+      "size": 60955,
+      "sha256": "eb077878733ab935345148aee8cc14e80d9502d38c1153be49379f76297063b8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q014/output.npz": {
+      "size": 66248,
+      "sha256": "6950bd9c72f72c2019eb5f39e4783a5b971402770e4f061542b52f4f12e8cb53"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q014/GATE.json": {
+      "size": 1669,
+      "sha256": "221917fee90afe019499e541216415f3fcf310d38904e3912943980d14cb985a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q015/input.npz": {
+      "size": 58455,
+      "sha256": "4544dd4a5414cad958918fb15710e85274b348d11378a400ca1910f6658ed83a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q015/output.npz": {
+      "size": 66423,
+      "sha256": "675468a8409f6d6e8b6c1cc683801213456940c12e86b296e2e20235e19aebd0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q015/GATE.json": {
+      "size": 1667,
+      "sha256": "e87aa34f498a11e4c0e41c4aa840fba175ec6b94a193de51e1ad907eed3e1a01"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q016/input.npz": {
+      "size": 53932,
+      "sha256": "5de715e08066df3444d29c2732a79188a00315cc20a1e9dc4c188bbbffe3cf62"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q016/output.npz": {
+      "size": 66242,
+      "sha256": "9c35a8196bb0cac50cea48034a11ad7b706ff4a12f7a300c546b98fc847972f1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q016/GATE.json": {
+      "size": 1668,
+      "sha256": "cebfb66eedfddceaf18a83de3e0043efb5d93a13af36986b6770674a2a7806aa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q017/input.npz": {
+      "size": 51582,
+      "sha256": "62e723434492625ba9495caabc6ff1cb05f528071c6b4ffd3c48bbc47e31f204"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q017/output.npz": {
+      "size": 66127,
+      "sha256": "c4d97cdabf61b96020171d5ec6a169ce8b9432ef38c1495fe835fd54e709cc32"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q017/GATE.json": {
+      "size": 1667,
+      "sha256": "3c35a8c8b4f0996ffb918ff1996e09c39bcde9f812244fe810f33061b6133fc5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q018/input.npz": {
+      "size": 54699,
+      "sha256": "15bbfaa1c8876bfd7b8eaab834ba5aa1b5fa1f90549966d78972022867bd18e8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q018/output.npz": {
+      "size": 66164,
+      "sha256": "4ffcc2080f98c4a3cc528ecbc8749101511245b5574849417cdd2b16d11752df"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q018/GATE.json": {
+      "size": 1671,
+      "sha256": "f899a59b0728ae879c3bd8c314817c19645d50e28cbeae950fa183e46b44cef1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q019/input.npz": {
+      "size": 61251,
+      "sha256": "2846fbdd3397d601d3f6368c277dd4846f37d6e621c2ceba51888a2f9bb180fa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q019/output.npz": {
+      "size": 66216,
+      "sha256": "e55bf6c5f814e22c88497ff99ec9a6544db1f4937403fee2d9dd1fc5ff8ece59"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q019/GATE.json": {
+      "size": 1669,
+      "sha256": "156a6260d5821744c09343e43031065c3311bb25b4f5d687a77992a0e6fa9250"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q020/input.npz": {
+      "size": 62697,
+      "sha256": "636f698aaf56ccbae7d9a34072d8ef082f1e4ee45779d90de873fed78369f8f4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q020/output.npz": {
+      "size": 66178,
+      "sha256": "77f3b2c196da7a5f7e18b8807555cdd0e20abf3fe1cf491c2d94958f84f021b1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q020/GATE.json": {
+      "size": 1668,
+      "sha256": "642538e7feed075f5d7b4c39fd18855777a7104f23caa8a641e0c88755cd6cd8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q021/input.npz": {
+      "size": 63384,
+      "sha256": "b948231369897491ab20c6ee5af3c89cf4e14479a37af227e2ff2b4fe55c5ba2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q021/output.npz": {
+      "size": 66154,
+      "sha256": "3a6cca06b2d16e5166f9ac2763b0d7f8c474ffeb6d299edc1964be76ff405bc7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q021/GATE.json": {
+      "size": 1671,
+      "sha256": "3f62ef352d4f9391a8839681302fd495b26b9b4de3cc30dd2ce5344658d779c1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q022/input.npz": {
+      "size": 63605,
+      "sha256": "7318d32af7086b4ba97d40b891073c9ed419d89e35dc260164451eec4400479d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q022/output.npz": {
+      "size": 66206,
+      "sha256": "75ed81685fb23692fe6caf24f5a8562abbe3c02f4f8334b37c11c05d12ede246"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q022/GATE.json": {
+      "size": 1670,
+      "sha256": "a2d1a59d525e1438108f2d68459a341ad370f32c0a957ad596171f4e65839cb7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q023/input.npz": {
+      "size": 63647,
+      "sha256": "036ea75d6b23b27fff381b0e5665a153cdc800c91d1d5e0fa8444359199816d5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q023/output.npz": {
+      "size": 66295,
+      "sha256": "61aa7a33d9c4085ddf016d9992f05280051c3b94c7b084b1aedbbf4d3b8ff3b1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q023/GATE.json": {
+      "size": 1669,
+      "sha256": "36dcb43d819783d057d84fe727b68cf627dbb3f42b96e15266ed39c6db7424ed"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q024/input.npz": {
+      "size": 63480,
+      "sha256": "f51e883797a9c1c7177af605a2926e70a4f8c4efe404e6c8b0cb505edee4e8ec"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q024/output.npz": {
+      "size": 66168,
+      "sha256": "5a55f763cd35164ac90ded1c11f979edf6674287c655b4805e1f6edb09efb6d2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q024/GATE.json": {
+      "size": 1672,
+      "sha256": "eb3101f25fe4487211de4d1fe7b59f9e8e22bf39323718aec664f0830f263de2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q025/input.npz": {
+      "size": 63660,
+      "sha256": "6412f0be34a1f3b38ffe5ab5f513207074900c6e7e3118872b9e731af8031e92"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q025/output.npz": {
+      "size": 66270,
+      "sha256": "7acd2d4841b16527344948ee7fad6950a2c00b1418f14922e332d69527fb8ce7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q025/GATE.json": {
+      "size": 1667,
+      "sha256": "c6770244802933626f377d7375c1685d29af5f7dba9ff5eb2d07bcc9dc91aeba"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q026/input.npz": {
+      "size": 64308,
+      "sha256": "eb03029f9a4244003414a242d97a8cb564803d937d4d801ce189b456860d576d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q026/output.npz": {
+      "size": 66317,
+      "sha256": "6cc0de803adb171cea0e605ae601196bac5080751b53d62b814dbf0cbb5c9e2a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q026/GATE.json": {
+      "size": 1672,
+      "sha256": "8053b8bb8fd17510b05d4bc80f4db8269aff626882e199858c098a8c8b196209"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q027/input.npz": {
+      "size": 63869,
+      "sha256": "260dc017f1579d109e3dbc27eea12d1876a689a7618979f847f8796135b86c1a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q027/output.npz": {
+      "size": 66189,
+      "sha256": "b433bb834ba1a6718adf0b63c484b1445b83ef3c07c40642fd49f71f92e1a938"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q027/GATE.json": {
+      "size": 1663,
+      "sha256": "8f1c6ef7f6196803f78e9f9d17bb4d834c38833686cb2b73efbbe157d655ad44"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q028/input.npz": {
+      "size": 63517,
+      "sha256": "4df34858f5c9d1ab224180db374be5c1f95a6ea94c110ba5cb42820941fdd4aa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q028/output.npz": {
+      "size": 66106,
+      "sha256": "577598ab04ddcc57294d13a9231fae2f07d8e181cd429c90e788ce4bfc59f710"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q028/GATE.json": {
+      "size": 1670,
+      "sha256": "80970d9f8a51cfbf2dfee099e4a29a71a448166181cb7f461652454991c17113"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q029/input.npz": {
+      "size": 63791,
+      "sha256": "89cd1cd7241d8ddf5760417e814e616674cb9f9ebcf5f27be06073735b01e93a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q029/output.npz": {
+      "size": 66194,
+      "sha256": "10e8537a20b475619628a2fc06412c85c6d4b4e211de4656f3f57f39eec041af"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q029/GATE.json": {
+      "size": 1670,
+      "sha256": "d96c81cb0402b071a5dff44af6f52ca1863416249ccd7d9185180f969ed52650"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q030/input.npz": {
+      "size": 63568,
+      "sha256": "611ddb9d02683702943a136fb43d4e3ce7ee680748db7b50304c544fe03b9694"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q030/output.npz": {
+      "size": 66315,
+      "sha256": "4211c41f472fa6cfb206db884f95695ae0a8fa9a25c3d46e7d31dd7a2f107699"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q030/GATE.json": {
+      "size": 1670,
+      "sha256": "7d7f3f01655d696e9fe2cda02ea9e991ab8ceb8fcf7b2793bd9d12f2b9870b83"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q031/input.npz": {
+      "size": 63671,
+      "sha256": "0d149a3cae8e279ea61b167eff7de5320668b933316b8195b050953583d9eee6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q031/output.npz": {
+      "size": 66287,
+      "sha256": "83fda2a0db0b0f725a7b450f4b42ca9b94a74a1079dceba5b6822abf2b4bc2bc"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q031/GATE.json": {
+      "size": 1673,
+      "sha256": "d5653f396b12b623ec20d84acc79453d2887bb3a1fa4045e8977aec3e02eeb19"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q032/input.npz": {
+      "size": 63510,
+      "sha256": "e01e67e7ba9b0e4d534d4cf716cf1dd88681aff2f5e3060a758b09819fca58b5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q032/output.npz": {
+      "size": 66313,
+      "sha256": "d5bc5b870a8d650db471f44c5660cf2896d95b71152e3ad03d21102a3ed0b686"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q032/GATE.json": {
+      "size": 1672,
+      "sha256": "0f091aabb9238cb210411f2ff40a53388c507322b0f43c0390d88799adb5717a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q033/input.npz": {
+      "size": 63925,
+      "sha256": "8f62c03511170206cc3358f8f5c178da43e5c52f0e9431848dc21443ee1ea8db"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q033/output.npz": {
+      "size": 66210,
+      "sha256": "b9298d0563dc87c92a6626b1cc463abacd79b59bfbd7eba36c8915c2aede4a68"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q033/GATE.json": {
+      "size": 1671,
+      "sha256": "8cece3477e125a242c713f267d1207290ac5122b15bdb30f8a548a75e93417fa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q034/input.npz": {
+      "size": 63760,
+      "sha256": "8be07e86f040c051aaab0ee471308c9bfce76773820231d6af18f140b11a3b77"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q034/output.npz": {
+      "size": 66348,
+      "sha256": "0b10e8479b3d8640044bbaf832e01192243b449be4a2ff3823d37428bfc4d4ee"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q034/GATE.json": {
+      "size": 1672,
+      "sha256": "d1674d516adf172983d019b907d60de26a878a59890644195ca03c4b636ffdd0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q035/input.npz": {
+      "size": 63834,
+      "sha256": "93a099d109185adda6f82d4213d8b716e6931d58f0aba832a6955382d4426d43"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q035/output.npz": {
+      "size": 66156,
+      "sha256": "b2ad8776bd186f7f3303845a1a902c1fea78eabc1f57a38cc31e3a33a511a2e7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q035/GATE.json": {
+      "size": 1671,
+      "sha256": "d891e7717adcd92738b9a30932a5bfe758e9d91a690084e94651a93633dc6b7e"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q036/input.npz": {
+      "size": 63566,
+      "sha256": "6d4b120e985a04406a625661706d9f485f2829b6810d3f410961174fa55898e9"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q036/output.npz": {
+      "size": 66201,
+      "sha256": "1383e84d5e48d9da8e5bb7a447856417cbcdee2ce6cde8236ca1f5d5c8f2de9d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q036/GATE.json": {
+      "size": 1672,
+      "sha256": "da144c858dbe8bc7f579e98848eadff0b4d23d8c3173edd7903f10402f990d6d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q037/input.npz": {
+      "size": 64105,
+      "sha256": "1856d88a1a1a5ab5584d90de23ee9e5047d864c717ce6f9ac729a77f5c2c34ee"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q037/output.npz": {
+      "size": 66202,
+      "sha256": "6479365c3d4d23309b3472d7cb003cd029d215f081377c113891d91afd24dc59"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q037/GATE.json": {
+      "size": 1670,
+      "sha256": "be7de87583f215d9ea6e767877fa86c3f9ddc4887d9921d522675b2ef2ff32e3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q038/input.npz": {
+      "size": 63403,
+      "sha256": "730f3c67fdaeb289c70837782908f64813b6d510899fc60fa8b2b6f5201a9ebe"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q038/output.npz": {
+      "size": 66196,
+      "sha256": "ff0c271e7c1260fd5504d1220340685e0a5a00e610573c1128aeda3c48a6b178"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q038/GATE.json": {
+      "size": 1670,
+      "sha256": "c0e8b61954381ac74014ed4f6994ce7f22619ba7f86b2c2464427e79f36804d3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q039/input.npz": {
+      "size": 63571,
+      "sha256": "898c1554275639c16edbf775524f66f9be0795fd8581fdb65f91ecb7ef8cb8c0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q039/output.npz": {
+      "size": 66282,
+      "sha256": "54793a9150f64eca6e3f99c5804b736509858d98297541fd99cc81d86676421c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q039/GATE.json": {
+      "size": 1666,
+      "sha256": "ec85590f4e18ef731a0f675e8f90910a5fefc35d66e4aae9afcd68fedccd9a3c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q040/input.npz": {
+      "size": 63601,
+      "sha256": "474ef3349d07768c3b84b39acd696fe179afdcf18a7342fa37f4f14d86c950ff"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q040/output.npz": {
+      "size": 66266,
+      "sha256": "3add70391f651cf52b0c6977030d9b4fad420324e11537e742ee5fdbbf8c9b7b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q040/GATE.json": {
+      "size": 1668,
+      "sha256": "286bcc510f6be29e8df490ed2cb5b3d4eee618e98aace174151f901b4bbc33a5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q041/input.npz": {
+      "size": 63718,
+      "sha256": "c6a8b236c9ae732449bcd5d1d9ec653cb2d4ece1184edc7acf269fe6626be2f4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q041/output.npz": {
+      "size": 66271,
+      "sha256": "204c0a7bfa33be0ca4fac36ef0f5a04fd0e299bfc660f883a2bc957d00171264"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q041/GATE.json": {
+      "size": 1671,
+      "sha256": "898370793479be9e463648441e5f8c74e47a218e20a60b061274a5622ff0c7a5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q042/input.npz": {
+      "size": 64039,
+      "sha256": "c64985e2589011c94baf74d2e0e65ce6e1f79765720499f99114aac16c5112cd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q042/output.npz": {
+      "size": 66102,
+      "sha256": "aca38aca45727e1d4e266365e93f8bd8480cb8de3f235747bdcb31adada48ec8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q042/GATE.json": {
+      "size": 1666,
+      "sha256": "23860aebd985afeebe994aded84caed9121e7d09dd65ce8814f3db99f33981d4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q043/input.npz": {
+      "size": 63319,
+      "sha256": "b2bbeb2585c914dd9d5adfb22afa1d9f9535f6f2307cffff2df8ce30bb93d113"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q043/output.npz": {
+      "size": 66327,
+      "sha256": "8be62420d36e9ce0f875de9f97f6bfb49fdf2e173d48394af275ed2428f8ff1c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q043/GATE.json": {
+      "size": 1673,
+      "sha256": "30ce96be04447e3639ef0ebeddec1235e548bb95726098450a22be93bbeae7f8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q044/input.npz": {
+      "size": 63786,
+      "sha256": "9f11f9fbed40c93a6dcda1e060b68090fe251d6c8825cf6458f719ab7984ae69"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q044/output.npz": {
+      "size": 66347,
+      "sha256": "5b89ac6c8e9790b96ce0e16733592d654265b860c80a8086aedc93dd373f6b0e"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q044/GATE.json": {
+      "size": 1667,
+      "sha256": "d47668aecf8a13939b4c81cf0ccca162e82116446ca49f60aabfd1d4b32002bd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q045/input.npz": {
+      "size": 63542,
+      "sha256": "cf83fed81e79d12b230060b3f8adee42938d744c5330ef5feb3ff228fe121d80"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q045/output.npz": {
+      "size": 66283,
+      "sha256": "39ddbc149dc4abfa7c7c91f00e0bfa0f5ac90b7da3776127f86049b73f771941"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q045/GATE.json": {
+      "size": 1670,
+      "sha256": "0ee644895755791e2851f8242ab9241d1d698b73563bff896a6e84b59c09fc12"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q046/input.npz": {
+      "size": 63414,
+      "sha256": "58dc8efb73329499c9818cb9f3d20ea322cfb958a1fb9b67b8a5b0d7765be6f3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q046/output.npz": {
+      "size": 66285,
+      "sha256": "878c566d1e4ea1a831a2e6951c7bc7da059eab83fc187140f0f5646625a4cc4c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q046/GATE.json": {
+      "size": 1669,
+      "sha256": "f4500aeb47e2e4efb56b8210303a756e66006ce35fc07c2e59ea892dbeb06d31"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q047/input.npz": {
+      "size": 63243,
+      "sha256": "5c9afab7ad1fa081929a5b8738b547dfa2c45d87e9b3cf741a18feec21cf7bb4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q047/output.npz": {
+      "size": 66307,
+      "sha256": "6dfba045954242b3f447548338465c3fcf11c93bf11606e44e91f4f71e13b4e3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q047/GATE.json": {
+      "size": 1667,
+      "sha256": "aaf0dc6d1d6ffc35a425480c50ae58dac7a2182c201b27517ddb8f63be5fc34d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q048/input.npz": {
+      "size": 63261,
+      "sha256": "281959c50c3a104390e8868981a8ef2ada61fc3e14eda8e62c226667fc42f134"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q048/output.npz": {
+      "size": 66185,
+      "sha256": "5f3c51447cbbb54f990278f4b736a60f711a679171999a7d346abc3265a6a380"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q048/GATE.json": {
+      "size": 1672,
+      "sha256": "77ce85f51d8cc9b662c5f658b6623c29d47ab5922e69d87fed5bb9b71c3e0836"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q049/input.npz": {
+      "size": 62523,
+      "sha256": "0095919ddc41a0ba5f64c6c888ab46048a02e84e0268bcad07e762a6047b1082"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q049/output.npz": {
+      "size": 66181,
+      "sha256": "b35741556114e8fcfbd535e06723bcbd020bbd73255b2c9096589f52ad77da95"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q049/GATE.json": {
+      "size": 1669,
+      "sha256": "826c7c0a9abb197d032ae79e83ba89b76a113682a45a5d78f33ab33b43e3be1c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q050/input.npz": {
+      "size": 62750,
+      "sha256": "90b07d3a94544cf88b3c72e249ffe55871f9b21970f74ef20549cdbc4361abf3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q050/output.npz": {
+      "size": 66255,
+      "sha256": "ba3ac78877754ddcff5018672d68af482578732decbb5ac42b07df6aed12bfe8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q050/GATE.json": {
+      "size": 1670,
+      "sha256": "0fcd0d5604abaa87fd8b5359ea9162bb46a41f41a7f0d7c78fe089f355c4f640"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q051/input.npz": {
+      "size": 61909,
+      "sha256": "ff4fc7ea27834b89fc29f040c484b51713a2f16a849c67db56a425fbb1f0323f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q051/output.npz": {
+      "size": 66242,
+      "sha256": "7840bbaa7db7b8ad787572d9265cbddbce4b445645baea26ad53b6b41d6ad730"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q051/GATE.json": {
+      "size": 1669,
+      "sha256": "cf14f174c4e427eb8ff762e7e599808e569f7ae359988c1bb3e54f57aba03470"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q052/input.npz": {
+      "size": 62483,
+      "sha256": "f25f6197f8133150bc3341c8e5603d2a6c237e50a10f2b8617a65d2cb93bf973"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q052/output.npz": {
+      "size": 66224,
+      "sha256": "8bd736155f777efdf59f45bf69a4a796821a30946dbe6438c90047682656c549"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q052/GATE.json": {
+      "size": 1668,
+      "sha256": "7c297a7fb23551028209b8cd61006a2183453164f64358c6bbac7dd316ed287a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q053/input.npz": {
+      "size": 62825,
+      "sha256": "418278f6f4ccd58f41d0414001224e82bf0576a314fb349b58fa31bc7a9562e5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q053/output.npz": {
+      "size": 66308,
+      "sha256": "d5623c0bb78e6544d8a9ad843e2ea55847ac275162a1792f5999e6980856984f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q053/GATE.json": {
+      "size": 1665,
+      "sha256": "f2f59ed05849d3fb67cdcaa2682ac23991d2ff162f340bc76e52b0a691d2bc00"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q054/input.npz": {
+      "size": 63271,
+      "sha256": "189ae621fdc37bf8dcd49c66aaf98cd0e3d88123554df665006ff1131331791c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q054/output.npz": {
+      "size": 66281,
+      "sha256": "31459f3b365ee056f5c6dabd12144e17d652701cb9c09d23e427c4221f94d152"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q054/GATE.json": {
+      "size": 1672,
+      "sha256": "0affeaf6688b96a9c29b442825da5f28ae246e4c130890a0f01c867c66d8d584"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q055/input.npz": {
+      "size": 63241,
+      "sha256": "5ab1359c68b43d247706b5ad642543454cbf90d687f08840741140359265d10f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q055/output.npz": {
+      "size": 66196,
+      "sha256": "b9514e2d7552248df3cfa7aeeb9901ab204301ddb4e6aca85468c56d8517f300"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q055/GATE.json": {
+      "size": 1670,
+      "sha256": "6efb78ab32c0e4bac2ca74309d90f09cca9aef126fc8019dc54416bbe148edbb"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q056/input.npz": {
+      "size": 62983,
+      "sha256": "32cf6440ce522629aa0a067b2c16aa33a63aca2b250c6664c24f73dd3a494c20"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q056/output.npz": {
+      "size": 66227,
+      "sha256": "d1eae0c375cacee73af5b35676d121fe563959b1513a46c0eaacc57da40c71b6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q056/GATE.json": {
+      "size": 1669,
+      "sha256": "f3082d51db9259aa24f68cb679102b3e3cf0e012a863d57156469323612587f2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q057/input.npz": {
+      "size": 63161,
+      "sha256": "49ee15d83b71815f105658f8be42740b46379b1cea41455d895cff397bfa1168"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q057/output.npz": {
+      "size": 66215,
+      "sha256": "0eb984227a5fc1d3f7a9f0fecf34da2064219f941e7ec8c039b7e4af4dba981d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q057/GATE.json": {
+      "size": 1670,
+      "sha256": "b995e99d0313532638534283395c60ac47da75fe437b9cdc1ef4cf890e9a220b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q058/input.npz": {
+      "size": 64184,
+      "sha256": "98d106923598e6bd0be069ff58bc98388635fd92d3f2fa3a624c96a5aad5bda7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q058/output.npz": {
+      "size": 66159,
+      "sha256": "c34d5f6fb0fc61dac7d7395b0513118b0aa3adf8d1fae8e5eee86ac6159684ec"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q058/GATE.json": {
+      "size": 1672,
+      "sha256": "a7e7e275506a3dc2f4f7d88448b5935ce9afff6919f3d63c9d338aa069ac578a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q059/input.npz": {
+      "size": 63355,
+      "sha256": "348c67fb2d49924793c901dd7bbafc9608574ca072477818234e9a09053f2fdc"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q059/output.npz": {
+      "size": 66123,
+      "sha256": "c4360c38029ea1404253d86c615b73a90b7b8d40ea6253cdbaa1502ea7ea6f2b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q059/GATE.json": {
+      "size": 1667,
+      "sha256": "cf626a07f439a8538456401e5dda93878c719404a19a8346c62fdd5e94cd4171"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q060/input.npz": {
+      "size": 64043,
+      "sha256": "ca57218b0d3c65e08ccda3214d0a52975e6ed9f32edbc4e691d02f31bef0305c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q060/output.npz": {
+      "size": 66136,
+      "sha256": "3c3416035c31b8ffa6e52471da98d616244a4768a527ec859be9897490b494cb"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q060/GATE.json": {
+      "size": 1670,
+      "sha256": "0712500fbe26f35a4ba19b27dbd83d64a1b8211eaa1e06a478639d80ea882246"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q061/input.npz": {
+      "size": 63733,
+      "sha256": "733b8a8dd6eebdfae93183dcfbd13ff221d937b6cb340d3899c11a54d2f0c767"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q061/output.npz": {
+      "size": 66125,
+      "sha256": "5b3fc3557f04d764a3dc5e98fd006581ff8b8a4f9453fb98ff3e7c8c913353a9"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q061/GATE.json": {
+      "size": 1669,
+      "sha256": "c6e8166df58f980231da0ece8488ec4f8d6cadc84a5c90b31a44599f84e8f14c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q062/input.npz": {
+      "size": 63954,
+      "sha256": "b4369f2fa2fb09fc399d97ccda9d8397a5a73c1e94e404d69feb99c30bb36fce"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q062/output.npz": {
+      "size": 66341,
+      "sha256": "a413a073c1ddc7ebb92c22ca6ec6843bad1ff6bf6a56f9d73144f9c207c7b3ef"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q062/GATE.json": {
+      "size": 1670,
+      "sha256": "66329db94fc7c36b731a21fe8b76ce99485e7b3a2f095f4098818160109191ad"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q063/input.npz": {
+      "size": 63506,
+      "sha256": "4f2eb9a18594c55429078b02c123f3b6cdb5959ff3bc3d670f888f04d293f5aa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q063/output.npz": {
+      "size": 66237,
+      "sha256": "c3a3c84e72e1639387ca961975ed3d99cdb20afc5d8e5fdf85a93002d020802e"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q063/GATE.json": {
+      "size": 1668,
+      "sha256": "5dc6e56971c0b8e46b8b87db15bed1d258d02a610893bf97b7ee572f4b8c1c70"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q064/input.npz": {
+      "size": 64231,
+      "sha256": "49f3eed5fc7a14ba2b23fb10eb5f35cd5753d0e005b490b81e972cbdc79c9d77"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q064/output.npz": {
+      "size": 66127,
+      "sha256": "228859a1af8586f7855c03c57df975bb56b8893c0254c5496ebac1c57ecb7a4f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q064/GATE.json": {
+      "size": 1670,
+      "sha256": "868c310415d9553aa9ca0f254e106a5453fb5358536ca5ee8074d4a848875261"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q065/input.npz": {
+      "size": 64567,
+      "sha256": "c07f7a2e9f1fc3249a4e7c8b642e91613c2ceb67c30a741e94a51bc34822b6a0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q065/output.npz": {
+      "size": 66185,
+      "sha256": "60483325bb4d3819227bc3f4726538fee474e17a66eea281d8d2d1e36df515bd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q065/GATE.json": {
+      "size": 1669,
+      "sha256": "adaba8c7b03c1fbc0f09517a10488e0811b37b17d9dd0604039bb3786e3b567e"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q066/input.npz": {
+      "size": 64529,
+      "sha256": "820cc8c9df58eefe7e4c7f23ea36f193e97d52667625aa0fc54e90052fb64ab6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q066/output.npz": {
+      "size": 66245,
+      "sha256": "266bb9438acb81affce161dc939b00dcddf372645838cc792cad4aa41a4a7a8d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q066/GATE.json": {
+      "size": 1664,
+      "sha256": "57aad06a6fed30441b7509617fe124d3bc733485f4c529b5dde0a637c3dd2a8d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q067/input.npz": {
+      "size": 64469,
+      "sha256": "fcb70252481f8e2d85bfda266f46d666297ebd0fafd1f21d4f4585b3156bb3b9"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q067/output.npz": {
+      "size": 66253,
+      "sha256": "6b08034fbe5274cd998a1b112b6da21fa772c762e4b0cfa39f104b642ca59d25"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q067/GATE.json": {
+      "size": 1671,
+      "sha256": "15ca15044466871d124c16e8481dd2a9ee05eed3b44de8fe225207767f168dc7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q068/input.npz": {
+      "size": 65009,
+      "sha256": "d16433a6d9c33ee5f332f3bda637f59a0c326b46a1ba16f72a90702b6d2c7ae7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q068/output.npz": {
+      "size": 66204,
+      "sha256": "42c524186fd99d3d84745e1516d34664bd85a1a710c40b149504ee8f3fe54475"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q068/GATE.json": {
+      "size": 1668,
+      "sha256": "0994ccb39c203b9447c288dc971c59ff00581b0163e4add6098f1ba3fe1158d2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q069/input.npz": {
+      "size": 64159,
+      "sha256": "29cba9630a6d6d5cf721743314b1bc671aca5385777c5e35a5acbdf868629c2d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q069/output.npz": {
+      "size": 66178,
+      "sha256": "b5e0905065badd2552ab8f015cbcae839e9d83256c31d56d89775df2d9bfea98"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q069/GATE.json": {
+      "size": 1670,
+      "sha256": "fadfe447696969d53846660048f11b872b5e762f528d6dbf82dbb408b8e46859"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q070/input.npz": {
+      "size": 64136,
+      "sha256": "0ec99623c9305eb91c449d27f24803e9007251d004dc1ed31346388370cac151"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q070/output.npz": {
+      "size": 66080,
+      "sha256": "9a8c12ddf3d01bf9e7b3af83532eb5ff436b591491cf79cbac7efdbfeb530339"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q070/GATE.json": {
+      "size": 1668,
+      "sha256": "a85cf81a56459064153c781d6926b46e9300eb79c155c059b906d683cd2c0548"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q071/input.npz": {
+      "size": 64561,
+      "sha256": "1afb8902ab2bc03e93b48cf199c54ce355910b8049d4c3afd46fef1304e78aa5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q071/output.npz": {
+      "size": 66255,
+      "sha256": "3e70136f56aa233cf253b8e659f1389091cfdb0e5ba59a99c21cf4d12c00c273"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q071/GATE.json": {
+      "size": 1670,
+      "sha256": "f6a09e6b5c5294c76fd9984ee64430f92fb15dab0248127c7bd32e2e25b6f40a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q072/input.npz": {
+      "size": 64814,
+      "sha256": "938a4c5c0ee0c30e3663424e763b843a969e094b0c03d7d99fce300b20700340"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q072/output.npz": {
+      "size": 66255,
+      "sha256": "32717fc00f9d81ff10573f7bb057e9959fd8559e7582ee00bb187573e6f1c409"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q072/GATE.json": {
+      "size": 1668,
+      "sha256": "b3398be78c5cbfd7b99d873d2b27bd8a913573ca51d811ca7c334addf0bd0694"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q073/input.npz": {
+      "size": 64226,
+      "sha256": "b78a7267394b85153d205da2ed3cd5017701bd1b31f7971873dc9331a4c1b0be"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q073/output.npz": {
+      "size": 66244,
+      "sha256": "adfdd6f21043c7d9820363f8e72abb92406037643932b26bdef02a32ec570b5c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q073/GATE.json": {
+      "size": 1669,
+      "sha256": "2595fbe2417835851122783290d5c84152e651034e858a23c723156d2161e3af"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q074/input.npz": {
+      "size": 64062,
+      "sha256": "f1d79e117899f510d1e1f5dff1c716cbb6ae5fd488623b40382c11baedb730fa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q074/output.npz": {
+      "size": 66190,
+      "sha256": "d0fba46a5a55a4ef63bd966f51d90926cde1986d882053888c8d1c023c163adf"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q074/GATE.json": {
+      "size": 1669,
+      "sha256": "59dbe5331c1bb9b32699c6541a6a78296da53fae282ef3cad1cfb938c546efe1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q075/input.npz": {
+      "size": 63811,
+      "sha256": "b8a08e0a426d4e3acf5c713e69ed8d24de4465d3bf851fd9c279d3433262bc63"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q075/output.npz": {
+      "size": 66272,
+      "sha256": "0caf280e899e2f9444b61912192c66fc8a84b4dabcce4d36a45d219a17fea4d0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q075/GATE.json": {
+      "size": 1669,
+      "sha256": "b0f052ce20640b066b34e512a6518c97a0a6e41023436ef87aab18e5eb9f6858"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q076/input.npz": {
+      "size": 63395,
+      "sha256": "6247de306d08d225c33029d1c1a92fbd2b916a471a00569874e2bbd6474d772d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q076/output.npz": {
+      "size": 66384,
+      "sha256": "adc0546b04ce231090cdb40f755d438930c2b494033d80c55ec7621a863e476e"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q076/GATE.json": {
+      "size": 1669,
+      "sha256": "7de618ef41a7d9c9adc28ea9518011677fac4394110b8e0f9d8e15a0a413420a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q077/input.npz": {
+      "size": 63690,
+      "sha256": "0d88f6b4defa4a32f9e228b96bffc8468a13a7435858f6b6e90a0db8d0964e53"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q077/output.npz": {
+      "size": 66295,
+      "sha256": "7d651e71c609c220a03511fd4d9a6d0ef033e5d7a4d76ebc917f246a2ea3785b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q077/GATE.json": {
+      "size": 1664,
+      "sha256": "10abcd16220f36bb4789eceab6687d11829a08712e6124343ff9cf23b43f81b0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q078/input.npz": {
+      "size": 63964,
+      "sha256": "244841038c898d6fcaa824ac8559e3f72a54300934e7f9d63897b1b57058f388"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q078/output.npz": {
+      "size": 66281,
+      "sha256": "90d7cb73b46c33a4d15bc696cebe9ff139abc9a78eba6d65a9a6530cd78d60cd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q078/GATE.json": {
+      "size": 1668,
+      "sha256": "6307007d34655e56227957be96674f42a3b4fbac9a29bf844b5e0c200013253a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q079/input.npz": {
+      "size": 63794,
+      "sha256": "b5548df615ad1170dcd5b625824254a251c6b614f4a4cc860babd592e64f828e"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q079/output.npz": {
+      "size": 66268,
+      "sha256": "6b423c6d82535dbee5a270c2cb261189764439ab0ab1a46e27cf9c96ddb51585"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285108/attempt-000/q079/GATE.json": {
+      "size": 1670,
+      "sha256": "e5978f0ec5878aa9361912cad01eb12621a2298bd2578e5be44bd405d67155dd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/START.json": {
+      "size": 168,
+      "sha256": "4b2bf274b8a02430c9aae0bd25c22cc0a473acb6889f9a2a2b08089b653337c2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/contacts.jsonl": {
+      "size": 8248863,
+      "sha256": "c1b72c167b430565f54dcaf0e4b0e3723f2b1591e0b39e02ab23244c8f738744"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/initial.npz": {
+      "size": 1378,
+      "sha256": "b40f5e0f1e4f06ccdb2982b30d56054809d54548aded960bdf90fc48e445b48b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/NATIVE_INVENTORY.json": {
+      "size": 3134,
+      "sha256": "77ad697eaac55b44e0b1255202f377d5dc669900718ae830cd2709c580817216"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/EPISODE_CARD.json": {
+      "size": 768,
+      "sha256": "1311ee99c2adfc2d8a3d9b60a78b7575fc3c036df28c8605d7ce10ba85092fd4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/QUERIES.json": {
+      "size": 117445,
+      "sha256": "b878154c7d432a5faff12560f3818235bc255768248d036ea5d3f94d9ea4eff4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/physics.npz": {
+      "size": 705390,
+      "sha256": "9f9cad1e3aa93a85faaa2ee1c8cc24886b7961f970ba3cd912f064e8cf99de57"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/observations.npz": {
+      "size": 224923282,
+      "sha256": "3f2f1084becde7b0341770a342679b8f56e07b2454f50f6d60efc36f86617b59"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/commands.npz": {
+      "size": 23637,
+      "sha256": "7cad7a0dc94e19d9b018acb5956209eb598c97b6cc0d969345891c51022367ca"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/installed.npz": {
+      "size": 86970,
+      "sha256": "7b0e5f4e7b7a529892e0a3adeeec6045fee1263ca6ff97fb447f6c89971fc09c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/RESULT.json": {
+      "size": 1209,
+      "sha256": "f5846300e8f61540990678a8aabf9111fd8ee178a936ed2dca1feca820926c66"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/ENGINEERING_REPLACEMENT.json": {
+      "size": 1370,
+      "sha256": "9f371220e3a428c254720c5a6a1ea62e65f66c5c9aee32941cfa2b7a31627c24"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q000/input.npz": {
+      "size": 65135,
+      "sha256": "4cef42043532e4ba9c5a5493693a7caba01fc047775be0ecbef517e6dfd4764e"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q000/output.npz": {
+      "size": 66213,
+      "sha256": "c92a1790673af0307b738013563a8cf5facccf589d32616562df86c2ee9adeca"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q000/GATE.json": {
+      "size": 1660,
+      "sha256": "8539f873fc38e754152fdc1d85f5fb260d25ae2129325fe9f03e85ae453536e6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q001/input.npz": {
+      "size": 65496,
+      "sha256": "5c3f08258a1897ef2a57380c0156ed4dffe995321bbe5e77050e12aa8c731cce"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q001/output.npz": {
+      "size": 66190,
+      "sha256": "4f1f04174f10a993b14a1822a7d66a37fe86594fc89447b0eb08974099ff5983"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q001/GATE.json": {
+      "size": 1667,
+      "sha256": "ae79532fcfcc17a7599180e81c3820bf27f12244ee4592b4923cd52f3e5f38a9"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q002/input.npz": {
+      "size": 67724,
+      "sha256": "d8c73a69473035ae244fc8ee516beaf065abc8ded192c231d7e7a4f93f9860b4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q002/output.npz": {
+      "size": 66309,
+      "sha256": "bb71ff45fa237c7730f9511681c85a4d091942eacf393eda07623dd88004020f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q002/GATE.json": {
+      "size": 1665,
+      "sha256": "3d4fb2f235187ea74e5b5229ac76383c102c05c15a3c252ba19d4ea76bd8454d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q003/input.npz": {
+      "size": 68467,
+      "sha256": "bf3943960a4cd173d8ffee6e85fb09942fca1f593070b7aad73243eccd386d0c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q003/output.npz": {
+      "size": 66323,
+      "sha256": "46efc1979fd3212247813edee12485c1875c8257eb3729f1419ef5edbb5af2f7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q003/GATE.json": {
+      "size": 1670,
+      "sha256": "6b8c9246642b4961252b9026a100dfd8ee5fea35bcad26ca92cb39125f8ec659"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q004/input.npz": {
+      "size": 68157,
+      "sha256": "cb12d488a731cbbc175514eb3f296b5c66890cddf3ad41514de34c673ae811a6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q004/output.npz": {
+      "size": 66230,
+      "sha256": "a1b2cf61decab4903c140982e8fbe7ebbf9276ff7240089a31ef54b360c538d4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q004/GATE.json": {
+      "size": 1668,
+      "sha256": "26fd10dc67ded57524d7a49d6fceaef8185823249442b1152b44c3d0ed7b84b7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q005/input.npz": {
+      "size": 65270,
+      "sha256": "0a9002d1e91e1d2f6e1ec5b5e358e9298ec5033067acd61dbbb30081c69088a2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q005/output.npz": {
+      "size": 66145,
+      "sha256": "43794f587704e44333fa0095680a83ad4545bbe70a6151e978d3a8a65b82870a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q005/GATE.json": {
+      "size": 1665,
+      "sha256": "412f6718a1d880714922e21d421f4f2fafe2c9722a1bfb4bb01f3a3956de7b8b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q006/input.npz": {
+      "size": 64269,
+      "sha256": "b2a707b0c515b6bb3a2f99dfe45bb9da720bdcebe01fcd1a75e23ea123fee69b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q006/output.npz": {
+      "size": 66300,
+      "sha256": "e888bba758936da032254907f781f34fbf901a41c2139225360abc446ea64997"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q006/GATE.json": {
+      "size": 1667,
+      "sha256": "787b355cb9538a21f97236735ba6e3c186ed69ce88a565eba1d6da685238e920"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q007/input.npz": {
+      "size": 64696,
+      "sha256": "0fdbea129d682a51ebdce915c296092e38268f33af1a471132ce17a40d93d772"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q007/output.npz": {
+      "size": 66259,
+      "sha256": "00499c59420655153b53b9dff411412a5e3be5b20cc499e49bda867b743a7116"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q007/GATE.json": {
+      "size": 1669,
+      "sha256": "eb507598e201893ab01afc7a9c38ea83c39e71247bd463f9ac3737497c89f6e5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q008/input.npz": {
+      "size": 64019,
+      "sha256": "0f5c321a5e367964795fbba4b3d23238be4d6b9b59e567992bcb7bdebd2461cd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q008/output.npz": {
+      "size": 66146,
+      "sha256": "5e2049e7971985dd669decf3733e71a21e63ebf859468ad186459a1ffada5901"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q008/GATE.json": {
+      "size": 1669,
+      "sha256": "16c4c5d540fadf0b184873d17c10396bfe98a66ca83b9897281059f0a2f2e1aa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q009/input.npz": {
+      "size": 62956,
+      "sha256": "91655ce32e9854e8e10d6bbfbcfcd7ffe43083f25f18978b4ecfb2d636cb5879"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q009/output.npz": {
+      "size": 66190,
+      "sha256": "35de956896461e859d95619b77ad700742048c238d265f6f58d29c95ebbc2272"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q009/GATE.json": {
+      "size": 1667,
+      "sha256": "d9c35201c1763b13e24ec1e235b11d82de38d925b4e26033161207f1269ef13d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q010/input.npz": {
+      "size": 61482,
+      "sha256": "d4e07cd43a865cdd3a5752a1d67e0c52770dd8f5461b41e12b7a381285f1b79a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q010/output.npz": {
+      "size": 66214,
+      "sha256": "2db5d715757b1b826991cbc02cda93ae6102dcf6b7275b8d1cf6a6ce2531b1fc"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q010/GATE.json": {
+      "size": 1668,
+      "sha256": "d77b6f2fd62b444ee8ee9fc5d6625db18631909b28c1519d413e2aadd0a39ab5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q011/input.npz": {
+      "size": 60941,
+      "sha256": "49372e539df9fac59e6a2697597a3d03451f7857c4d9d7882f11893f90b3d1fa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q011/output.npz": {
+      "size": 66326,
+      "sha256": "02e963a06f1f0d87d371bfbc7004e099b608cf03b89ed61f4acf59801ca3b10c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q011/GATE.json": {
+      "size": 1668,
+      "sha256": "62d5d2bf6d2500e5d6fc8bc61425e80dc4f9aa28836cd44af68011990529bbf5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q012/input.npz": {
+      "size": 62110,
+      "sha256": "14453be3e9c4256ac56fa62f098bd93a54193d94fcc75854df2bc4dcfe2df30c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q012/output.npz": {
+      "size": 66325,
+      "sha256": "fec119e8d39d3baa4d84ea57e23a20eabfcf171e0e230c7412315ddd002706b8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q012/GATE.json": {
+      "size": 1666,
+      "sha256": "8bc075b07f5648e3eea06679f5ac77a336af4131775f7d985eeb57e5d09cb8bc"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q013/input.npz": {
+      "size": 60985,
+      "sha256": "01538af97a95741b378eb1c2e60fb2d88184d294e85b07f55c19fc9ef4127dd8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q013/output.npz": {
+      "size": 66279,
+      "sha256": "622e475f4adc248fb6d6441268c53a2aee76444f5119a223f4bc2eeb78313b14"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q013/GATE.json": {
+      "size": 1667,
+      "sha256": "63466b432c89a41ce8488be8f53b54d1b8a1657e93e6cc9894a7e7112f2c67e1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q014/input.npz": {
+      "size": 61132,
+      "sha256": "9c32342abd60421b0a5b7b526063bfd5dee8cf8c2206ec0fed366cd678988828"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q014/output.npz": {
+      "size": 66227,
+      "sha256": "b4f4f432f096947fae27b0dad581c3e7791fd551c4c8819f352d9f5486f39969"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q014/GATE.json": {
+      "size": 1669,
+      "sha256": "a470c904dd14c1d073e5e3fe1dc01ceecd69b4d4e5b5a03be4de72977f720238"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q015/input.npz": {
+      "size": 59968,
+      "sha256": "b3374eece60e39a8508681a2a0a24a5a7cc0b1a4386f55eb339eb7edfcbf4d64"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q015/output.npz": {
+      "size": 66145,
+      "sha256": "c828bb8cf193c8871682e6994d8e8b211ee748684ef4a745119baeab9d1f4456"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q015/GATE.json": {
+      "size": 1665,
+      "sha256": "be3d4a933e66e318519509e0562e74e6a5b3188f3094f4e67eed433214f25daf"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q016/input.npz": {
+      "size": 53183,
+      "sha256": "27a49d88cfb9fbf81da600b25950767f7174eb74af045fa45795a433c917ae16"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q016/output.npz": {
+      "size": 66249,
+      "sha256": "639f091d1cfd7f3870e02e33da1307fb702f68173dfff70cbf72a0bea8cd955a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q016/GATE.json": {
+      "size": 1667,
+      "sha256": "ef647e59f2605df432d8563d7e8433c4eee919140183a29cfb1622491965fbb9"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q017/input.npz": {
+      "size": 47985,
+      "sha256": "5c7b8ff70ff5393edd00235cc1193c2fd77d35eff2d2565e4287e48550129287"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q017/output.npz": {
+      "size": 66165,
+      "sha256": "911a820ab4cbbd16996e8d0c5783b3d01c6d0ce7c062baceb3d33a3992e4bef3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q017/GATE.json": {
+      "size": 1670,
+      "sha256": "02b6118b58f0e5cef606eaae4a0322ac8d15f045d8bae3c410e15304c3937f55"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q018/input.npz": {
+      "size": 50450,
+      "sha256": "b2db59c5916c9831a1464489a50607c42bdfbdb0c93cefc1081526b07778b241"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q018/output.npz": {
+      "size": 66278,
+      "sha256": "c456a100c50432f66f248a87d3baaf536723e8feeed62f5bb22b4fcf0c40ecf2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q018/GATE.json": {
+      "size": 1670,
+      "sha256": "74298e28d78210fae4266eaad404b4ff3d48eacb95bbc9a214b80acd90963507"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q019/input.npz": {
+      "size": 56580,
+      "sha256": "f6f1e264e6e4166f7a1f5010d06519b8d425e0c858cf96ed6719c16c807b87b6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q019/output.npz": {
+      "size": 66268,
+      "sha256": "c1b81dcac3e2ed1b569f82a3c83dc04b51f9e70d3c34f691ae5ff63d7324d930"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q019/GATE.json": {
+      "size": 1673,
+      "sha256": "e682e64d6af361ac8213c5f4da4ac8f8fa573e98583735a14a5727f32b2f8288"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q020/input.npz": {
+      "size": 63052,
+      "sha256": "65924d217b29d8194100ac0a83b2f6efc212f8f595357287cb27701a3a311d1f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q020/output.npz": {
+      "size": 66142,
+      "sha256": "c7f6612b707270f7abe4536e49945f8cc3a5d402d0e1afcb5cf29b654badca2a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q020/GATE.json": {
+      "size": 1669,
+      "sha256": "4f3e8fd8b4b8afdfa855958f833e610b930d5d35a08dcb8f920a99d27100b1e0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q021/input.npz": {
+      "size": 64733,
+      "sha256": "641039666dc1e03d3ce118269e6b152ad430a445639b9b4ec5bf6c416f218b1a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q021/output.npz": {
+      "size": 66013,
+      "sha256": "d21769b8e51fb9a144135b783b8dc3aaa22f0fbe674cc10b72cca808830ec9b8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q021/GATE.json": {
+      "size": 1671,
+      "sha256": "bbfdc3f43aef8a1b809eba8ab4960dd490a3d565a3ee790705e97fe019882ece"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q022/input.npz": {
+      "size": 64629,
+      "sha256": "9a6828ece3a6f2ef945883b8acdf82579cfe745f459f38e47ed4ba50f325a346"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q022/output.npz": {
+      "size": 66123,
+      "sha256": "7278c9d079ce4259aa889b0babf75e0ec5c0139db029a8c82c6e05c388ac072b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q022/GATE.json": {
+      "size": 1668,
+      "sha256": "4a75f2efa2a934cad492493674191349cfdd97ca1f47b8d3efc577f27d885607"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q023/input.npz": {
+      "size": 64739,
+      "sha256": "0508e6530dc25c511afc719fa767ba3e81b96a3be87057697cbb930b4cc8e6e3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q023/output.npz": {
+      "size": 66189,
+      "sha256": "b921be035941e6e48895ee0c7cf45b79eab127ff356b2168fd11002fb8a59f7f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q023/GATE.json": {
+      "size": 1670,
+      "sha256": "2fcaaeaf09dd75a39ee1c842e334362419bd831cb33f78e1ac4f4ff944f604f7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q024/input.npz": {
+      "size": 64547,
+      "sha256": "657e6402c1df1e00e83dffb896276dd4fdd023ba85e8f0166018a53445b350a6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q024/output.npz": {
+      "size": 66171,
+      "sha256": "596fbb1924860daa7959c2632d7dfa9c57249bc40066f9e34f397ddd7b65e8b6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q024/GATE.json": {
+      "size": 1670,
+      "sha256": "85462749d995c1076a2c0b12b3714728712ce1f24b0ca33d8af450bdaac7eb3a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q025/input.npz": {
+      "size": 64674,
+      "sha256": "8678bd90bf473d1166f543749fa84c70822d4a9f00eca0b0ed91434f6d906807"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q025/output.npz": {
+      "size": 66225,
+      "sha256": "48ca84a99bfa2f0f4208d39f19173223e1ba871dc177ed3875e19158d753a055"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q025/GATE.json": {
+      "size": 1669,
+      "sha256": "a7f5611e03959a51727559af1422f5b367f797c3986672701fdbabaebff84514"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q026/input.npz": {
+      "size": 64717,
+      "sha256": "c131227c6ef320e19e6f25df79966bc0b15af62837b7d16a7d35d0aff16bf364"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q026/output.npz": {
+      "size": 66081,
+      "sha256": "3b78ace4c89d69272ad0c319ce1ca6ce9ce66717fd39e54b2316c0cee315f83b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q026/GATE.json": {
+      "size": 1668,
+      "sha256": "96cfd64028f0db348911645b71da2b9b600cba4f1968d9c7bab53addb5da5e4b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q027/input.npz": {
+      "size": 64552,
+      "sha256": "42e53b519fbcb16bff4f4ec6fe823a24772a88b922008647744771268900d635"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q027/output.npz": {
+      "size": 66252,
+      "sha256": "55cdc8f75c84529d4120052d7c62a4ab21b3289325bdfe15d7027dfa6309b3ea"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q027/GATE.json": {
+      "size": 1668,
+      "sha256": "a4b5d07fd76d369a160a055bd1b40fd9008d51ceab565469a9f3ee2111c7a196"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q028/input.npz": {
+      "size": 64686,
+      "sha256": "173b158ee936777b2336f7b2ba6556e193e5d5de82ee1e9989057f0a3545ce9d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q028/output.npz": {
+      "size": 66192,
+      "sha256": "71810d9f97f2554b20ea57bc7e7b7e73a1eaca55210b753dcdd89d7286e2464c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q028/GATE.json": {
+      "size": 1672,
+      "sha256": "17aab0af05ebbbf4918c046fb24786d3c5a306cb5deb687ef8a2eda2e93c13a7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q029/input.npz": {
+      "size": 64604,
+      "sha256": "48e81953b5ebac7560bdff84138f203553384121c5d7823fee3ce9c58e7df516"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q029/output.npz": {
+      "size": 66299,
+      "sha256": "315643827329bee4165c0f697d6118cfa04ce895bccd1f9b7c0fd72f7d59413c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q029/GATE.json": {
+      "size": 1667,
+      "sha256": "a876fed3f223ce1b54535c44eb78b7b3d2727d4b05fc6a64a972344afcee923d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q030/input.npz": {
+      "size": 65205,
+      "sha256": "22b729a3d55c5e0fa534a4dbd54f1ef68ea4779f70b7404b817f9d297e5a1510"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q030/output.npz": {
+      "size": 66258,
+      "sha256": "19d6c8ca892a7a50e208756740f985b4b096a93c34b8b040e23e8ec6bb810b89"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q030/GATE.json": {
+      "size": 1669,
+      "sha256": "d185cce929d9e8ebaa10ffacfcd00322f7d9a1bb38885e92225cc0bd15ee7014"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q031/input.npz": {
+      "size": 65297,
+      "sha256": "0d6991495d688f9f97c7f0bef76700b56de761eca04e3d341e770b3d7b80b6b1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q031/output.npz": {
+      "size": 66178,
+      "sha256": "e773b51fa13a8542fdc4955030eeac8582d5a2fffd945c6622f8cb913b71b4ce"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q031/GATE.json": {
+      "size": 1671,
+      "sha256": "919ffe130d834abe977162bd6f6810e5577729dc5530f4b1c01a0b58d3790015"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q032/input.npz": {
+      "size": 65543,
+      "sha256": "a260c2d65fa3bc19cc551952a5d148499c75011a4383699b5be992f375d2faab"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q032/output.npz": {
+      "size": 66277,
+      "sha256": "13f39cd90bd0617685d67fb0b7fccc0e7af85afd8103cd5a8e3104e9b1295b8a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q032/GATE.json": {
+      "size": 1672,
+      "sha256": "36f03adff49cb3ba596aeb9774d1446f370ce5a7ee12eafcfdb63e09f066ae9d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q033/input.npz": {
+      "size": 65355,
+      "sha256": "af16ec6f6514aef78e941dab8c70d8d1c3e631045717d7afd69230747954ff8f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q033/output.npz": {
+      "size": 66240,
+      "sha256": "25c160bebf9fa145265cf8009e912f1a7a539bad674dbd45beafa3699452df3a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q033/GATE.json": {
+      "size": 1668,
+      "sha256": "658cea9f2c468a896716e8f65c26d10e78a7715900f705f8f23053e6a4a89541"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q034/input.npz": {
+      "size": 65756,
+      "sha256": "ade90ff7353792236d69351ccfc5e00910114d589db4f0f0dce16acb36d6d82a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q034/output.npz": {
+      "size": 66219,
+      "sha256": "82fca43035bb1fcbeb2e0f70551dcef113fcd3716c96a4c78b8f48cc76ea157a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q034/GATE.json": {
+      "size": 1671,
+      "sha256": "7dc0c60aaa343a94acadc273f3c85582741279ebe61afde1738e80343f67c3f4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q035/input.npz": {
+      "size": 65447,
+      "sha256": "8a488ce0a06f71506d53effb55604c427a3b7fc87b606798b83c3c30e4278366"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q035/output.npz": {
+      "size": 66249,
+      "sha256": "3c0f7fe3b0518453a196ebe00ae8182c28c86eee7acc03d36e0e577b5015d1d2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q035/GATE.json": {
+      "size": 1670,
+      "sha256": "1eaac7898121c5ccc2a113c56dab122864326871b4c689144aeaccc05c2500f1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q036/input.npz": {
+      "size": 65031,
+      "sha256": "1a89d0bd9ed379bb69babd64aeb3d1416b3a4822e89e14d5a70ee1de5fd3b006"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q036/output.npz": {
+      "size": 66187,
+      "sha256": "f3b9415f96e0e16d16eed171ba35e9166b8f5ec18fc80a31bd9f0d1ff42531c8"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q036/GATE.json": {
+      "size": 1671,
+      "sha256": "523e0093c86692bda2d2619cca95b58bd120dd5d469795a47feb945390fcddfc"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q037/input.npz": {
+      "size": 65196,
+      "sha256": "bc4edec83b50f83c8fecfa422e86e1bcf6ae7b0c8f5a1d5dfd9e66fef83505aa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q037/output.npz": {
+      "size": 66233,
+      "sha256": "8f7fa4fd9ae07846a2632373eb6a95d23a2982a75da2187328501adfd8fbeee4"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q037/GATE.json": {
+      "size": 1668,
+      "sha256": "b052e24b9f92d72804b3029cd7164ed14e5dcacbae5b9688e84d8e04155cc5f2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q038/input.npz": {
+      "size": 65214,
+      "sha256": "34264d89ba9a8ec3864d423c7924dde0bbcfd8e5137c7201c44e83da2c5cdd85"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q038/output.npz": {
+      "size": 66310,
+      "sha256": "0b0eeacd7b1a7a8d9823ce1d26e24e5694374f4963fb63a39292ee00901ee8b1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q038/GATE.json": {
+      "size": 1671,
+      "sha256": "44629080dbe7c52a7f64527605751c50ca30b0d39f470b0973cdde52e869ad38"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q039/input.npz": {
+      "size": 65361,
+      "sha256": "211a16f4318e21f8945bc0bd38ec1d9e76bc7e61a07951269d20fcac442aabae"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q039/output.npz": {
+      "size": 66298,
+      "sha256": "8b6c8d6d5b29b8325e7bd03c15f249d96911bf91a92bc8778af5c720b0ead5f3"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q039/GATE.json": {
+      "size": 1672,
+      "sha256": "7e6b2ce015bf959770d54133664c6ef0b352a48b58c01d06c89fe09d4ce01abc"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q040/input.npz": {
+      "size": 65861,
+      "sha256": "b52432955e4f5c828751e3487d533640e7b5b560f6e5dbcdbd32dba1389254b6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q040/output.npz": {
+      "size": 66200,
+      "sha256": "6709c0c7dc404cb28238d98162f651c368fbc2f2008b43f3ad2e04bd0846d561"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q040/GATE.json": {
+      "size": 1671,
+      "sha256": "f68a6aab8f9069b4bb5f2a97d767c66d97a3e257396628566586a73c953457b0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q041/input.npz": {
+      "size": 65916,
+      "sha256": "538711e67c8686bc5f55b7b71b02c16ddea3aed1de68dafeab8a3f26c00e34aa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q041/output.npz": {
+      "size": 66313,
+      "sha256": "d7906605b3ea0f9a09d0d3df28205e01275a0dd86c627830bc4450ce989840aa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q041/GATE.json": {
+      "size": 1666,
+      "sha256": "f0c85c0cc694aa419a1862f0b758843fba5a9741e3efc56702a41f2493609cf0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q042/input.npz": {
+      "size": 65719,
+      "sha256": "8964ec31f5148631a2749e1ae720607ec57b49748a61209f477f692e53bcef80"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q042/output.npz": {
+      "size": 66239,
+      "sha256": "0d661fd3dc087716912dfeb1c3f5407240f7708aa6930e62b5f8393a007c6982"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q042/GATE.json": {
+      "size": 1671,
+      "sha256": "ca6256a123abf1e90653469cdccd1508fb96b631f8f1528bc637378e68e00036"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q043/input.npz": {
+      "size": 65983,
+      "sha256": "6d9d50d1c87f54fc4551ee4839929fcee818a54cb1260cbe3cce37015a41315d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q043/output.npz": {
+      "size": 66223,
+      "sha256": "671778598c24ecd662c978b46feb5dd1e747f15367ad586cf3efdf05634c9b57"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q043/GATE.json": {
+      "size": 1670,
+      "sha256": "4cad063396da4135fecafa474dd35807c0341b5de903ec689e938beb62a5b72a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q044/input.npz": {
+      "size": 66136,
+      "sha256": "7884c21e66056b34d54cb204f469515f4b33465330d3890099b1f0df08d0b276"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q044/output.npz": {
+      "size": 66298,
+      "sha256": "005b74dfaa8ed3e2585165009a052a829d6a275a606bc2328605a0bdec50ebf2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q044/GATE.json": {
+      "size": 1670,
+      "sha256": "ac9c0befb54d902ccf2fac381149c8a60c311a5e9f0a9d9780c31d3e43212ba2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q045/input.npz": {
+      "size": 66067,
+      "sha256": "96e2b8e169e7d6fc0a89407bed22d6587f9e92fe12cb9b1e5343faa912e51a09"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q045/output.npz": {
+      "size": 66277,
+      "sha256": "199725db1bbf5dd791c99932fb92fbaddfc7676daa0c50f3fee634d8ea6a814b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q045/GATE.json": {
+      "size": 1670,
+      "sha256": "1e180ff372aa76cf751ebd6896ee4e49635e4bb465495cfb86a4d525bd0387b7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q046/input.npz": {
+      "size": 66364,
+      "sha256": "09598624f133964cbe19c5bec0a4aacf648b313f37fb27b5b9fc29ad893d235b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q046/output.npz": {
+      "size": 66273,
+      "sha256": "c90546a994edc5d2c80ff4340196df137bd2674d08b969e763cca4d0fca0259f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q046/GATE.json": {
+      "size": 1670,
+      "sha256": "6315194dfd5f200a5a5d2197c7e4e19411864f988a2a251154e545a263db6300"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q047/input.npz": {
+      "size": 66100,
+      "sha256": "04cd255af636fd228d8c28566e8d9001754f0f1c5743beb1d4c55410fa4b1d53"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q047/output.npz": {
+      "size": 66229,
+      "sha256": "f6967a875a55b6d29131fcf0e1770ecb546587730922e5b3e5196b38da76bd5c"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q047/GATE.json": {
+      "size": 1672,
+      "sha256": "d4240b16d3d35a00dad913ca91812631a39b12b7be8cb376edbb393fd493b0d2"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q048/input.npz": {
+      "size": 65800,
+      "sha256": "a22999b93972679f2caee73ded6b644cc6f4b1ea38d8c70c1759c8a891604438"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q048/output.npz": {
+      "size": 66305,
+      "sha256": "232b9a84f9728816a135afebf0eb5127e12a2cc5c6f285b51730dcbae966f4cd"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q048/GATE.json": {
+      "size": 1668,
+      "sha256": "29b7450a08b9c88c6a2fb05c19738381ea25f7e96e75749b91f8cebfeab6fbd7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q049/input.npz": {
+      "size": 65285,
+      "sha256": "606e18f9bef5a2bd41d80c064984aed4ec458c5f85606031db75199e7703ee17"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q049/output.npz": {
+      "size": 66337,
+      "sha256": "394588e2f9a865d4b6e7375ac39d6e89f09536677e6aa82ae8ab37ea725109c1"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q049/GATE.json": {
+      "size": 1671,
+      "sha256": "92752a3a5ef8c1cfe1781867464fbbad7527e9aceb9c5e7f80c40ddc4c022fe7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q050/input.npz": {
+      "size": 65073,
+      "sha256": "6511eee0ad1464256fe51fca6718ff1c628f3238b216138852429238d271ab78"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q050/output.npz": {
+      "size": 66177,
+      "sha256": "46ef76a64cb69c92afbedc274500e2e4d65b2d5b17cbd010dcd187fa3ba92b44"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q050/GATE.json": {
+      "size": 1669,
+      "sha256": "0b349a04ef1374ee58fcd3d5e6338b22e6f576fcc1ab15c8624886110a5bc560"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q051/input.npz": {
+      "size": 65238,
+      "sha256": "058f7abd7733d29a4b77f18febe5d24c6d9c713834182b4ab6698ebc3a181fe7"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q051/output.npz": {
+      "size": 66159,
+      "sha256": "e7ed6c2329d054076a27f4fba273311f1a55bee9207a80d18b284aa2f7af073d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q051/GATE.json": {
+      "size": 1668,
+      "sha256": "4f04feab1bb708a806731594bcaf4c504ea901c4f95887c93d7b5ad5471faec9"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q052/input.npz": {
+      "size": 64893,
+      "sha256": "8579fb6b072e01af86a68801316ac682a9d652ec7c6ff966cbfe9aa186cd7356"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q052/output.npz": {
+      "size": 66217,
+      "sha256": "a9a6c532cd17e7147c79180553d0676dd330cbcfa00f49328625231621f74984"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q052/GATE.json": {
+      "size": 1666,
+      "sha256": "1281a9a19a9362c5859ee8381f5ec815571f89795dab2284cf4b7c40010a65b0"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q053/input.npz": {
+      "size": 64154,
+      "sha256": "77fa3fcea874a25c244a9c46bca835b0bc7ee0d3dc3aa73cf9be43e4c9490d9a"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q053/output.npz": {
+      "size": 66178,
+      "sha256": "9d82387ffd11a62e236f9b954064dfc02d3642cccf33f43f84b95bb44298254f"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q053/GATE.json": {
+      "size": 1666,
+      "sha256": "44bc8d42890018f3ffdcdad6721a4cbdf63e14704a49ae8fe03389faf92f8590"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q054/input.npz": {
+      "size": 64298,
+      "sha256": "a122c0d97bfaa48f4be6a18823d2047b33c9b679ba2aea50cb45a0339c13334d"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q054/output.npz": {
+      "size": 66296,
+      "sha256": "68436a33af985bdba7aa1705b0422fafd5f82f16102fe78ca8de739c5db169d6"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q054/GATE.json": {
+      "size": 1665,
+      "sha256": "787b0392533ca8df9002db9fb265a0d7cff63da516e19e12a4aca91a42498cfa"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q055/input.npz": {
+      "size": 64489,
+      "sha256": "3ac295b838900266925ea155420808ca04fe62479a6124fefa7232197d77404b"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q055/output.npz": {
+      "size": 66277,
+      "sha256": "6ed62984d7c0cd6ffc1882c13fc9ab11dab5a24d9bfdd770773c6952d83ee1e5"
+    },
+    "episodes/PARENT_DOSE6144-T1-LEARNER_TRAIN16-285109/attempt-000/q055/GATE.json": {
+      "size": 1670,
+      "sha256": "e4c843fb49f6606b79a7844bb1c94a8c2bea3c05f39cc6c75c77f3734a2e2973"
+    }
+  },
+  "noise_inventory": {
+    "110a7e38b87ed7b2f636e4a31ffc081bc9d1b183ce9842e1d390cd4a77f09207.npy": {
+      "size": 10688,
+      "sha256": "0ac6bc1c8b35b2654b811840e1a8faeea544d4944d9336b7986a8be254680e82"
+    },
+    "b18cd4c1659975dacfa6f1725d19b3f6b00543eede5813d040d095c161049c39.npy": {
+      "size": 10688,
+      "sha256": "54117bcbc5742c01b14746471ef50a8eebce3c0641ec1e1d37db5e9433778637"
+    },
+    "79fc5a0bbb97b04f4628dddb4aa5152778d6394d0ecf123df37f02d3d82be5d5.npy": {
+      "size": 10688,
+      "sha256": "b2e4157f2f662db321f52bf9ea46b2b34c9bca01f8bea723171a3a7e28c42ef6"
+    },
+    "afc7e21a5c88e75242e25a0ecd2b57a6b81b0b1be79b4e821865461078e9bc72.npy": {
+      "size": 10688,
+      "sha256": "25b8332deeaf7a53ed6a4c761c2efc1753e66d480e90c1fad571d215da8e3b21"
+    },
+    "0e9413d3dc3c256d73b40d7a966e71b2bd28375792295fd128f62be15fde79a5.npy": {
+      "size": 10688,
+      "sha256": "bfa4e17ca656d1dcfabdc60b5f633f427a4177b6d585ee2a8643c71adb85ae41"
+    },
+    "73359f738e0b6cada9397374ae23bd7b556a8d0f9dd57482ddaca627ddcd98e9.npy": {
+      "size": 10688,
+      "sha256": "26bfa79ca40bae41784effbde7f029aa20b7c53b7007bbac93585846ab3cc624"
+    },
+    "3340f0e1cc83349478536660a641c10047ee7e816cd750220b75cbc828192751.npy": {
+      "size": 10688,
+      "sha256": "295b527a6f4abc5a563dfab1e71ec45967d4562d1e537f1376aeced93000f776"
+    },
+    "e4397c1c75359e412b67cb565f45b3321f37902dd44c2852cd49b4972019d558.npy": {
+      "size": 10688,
+      "sha256": "09d6f6a30b1b15d255044e00102dd545bbab0c086e689c8eb0149f88d5ae955e"
+    },
+    "63918db08886f30e36c3ea45e40e19c0dc438adffb70209de8728589f2a6454b.npy": {
+      "size": 10688,
+      "sha256": "ab90ee97d260ebb223eb7f781837d0f797b21d408392cc9ab3ff81b73f6618a6"
+    },
+    "06ee08bcc97fe14640aa26c1fa62dcc892bacc48f6493c7e3fb69b76b637f916.npy": {
+      "size": 10688,
+      "sha256": "34f36799272429c664aba707e34d22fb9292aabe606561f8d95b4db830fb59e4"
+    },
+    "2ecddba6dc103781107ae2a659a821cc8f3a7960e92147e62a37748fb802044d.npy": {
+      "size": 10688,
+      "sha256": "2a5d0f15cc72ab3e5115f51462b67f5dfd2f7d5ee1b3e6b8947dfe5e49fad5d0"
+    },
+    "65085a21c45c7b51c198b4d74e76efe6e74930276e7b67c786d51d65d619c711.npy": {
+      "size": 10688,
+      "sha256": "eb2972eae7d275372488abde09c5387f56111dc54d82730d02b1783b44fa1aa9"
+    },
+    "25263ceb11fb40ba86e8d9f2971f64d71adc1ab921c616fd4c0c1dab4edd7ab0.npy": {
+      "size": 10688,
+      "sha256": "86c6c253332609f5f560f7db5a890dce539b0026e6345833e4dab05d13232eca"
+    },
+    "511072e0cb3fea63bc8d56c8173e145a84c5f8ca8efd1d513963413dd7e176d4.npy": {
+      "size": 10688,
+      "sha256": "b3e6d5034e99a2a7b3f0187db409de127730cf071fb784a38af9298cf8e6bd79"
+    },
+    "072aca22b934a24a276ae41f0466c87b18639997d307afffbe4afe46fb148478.npy": {
+      "size": 10688,
+      "sha256": "24171317bf4e4d272cc2ffb38675ceb92ba4cf034b5d5a307775283b1b91b04a"
+    },
+    "47c47df4b96bdd13fabce26456cee8b15222628316d4ddfab7c1132e6fcccfd4.npy": {
+      "size": 10688,
+      "sha256": "4e5e98ce6b9b50e03669f074ed32e5efb2c78a40fa525f94e7ed93f22807ddc0"
+    },
+    "df9ca89f8f6713d7de9ce0c5d5ae7aa25d2191d914943a12adb6d5f20ce8c55d.npy": {
+      "size": 10688,
+      "sha256": "028ed8245cd2d2d84037523c4edb018a1270cbf1babd01a96a17a49cb393bc18"
+    },
+    "6bcc1f262a36c0cd07fc99baf01b4bcc45098409b2026124903d487ab8f6bad6.npy": {
+      "size": 10688,
+      "sha256": "f5c926e3b033738bcc2857a89d80294c2496d5b18bbc2553731b8be322b2bde8"
+    },
+    "abfdf5e4d8e3176668ad128331ba09cccb8c192a1373b8bac48fb6e3066ce946.npy": {
+      "size": 10688,
+      "sha256": "69ffb35fe35d2282d797cbddd348459f4ceb3cb657d3ee3ed3907085dfa7b4dc"
+    },
+    "e19c104bd4f4ee9ddcc1395a135898bcfc174e9bd2ce1785c54db97a052450fe.npy": {
+      "size": 10688,
+      "sha256": "f976030e920285efbeaa041575cfec8b123ac25637c7a16f747bc3acd7271c4c"
+    },
+    "b6dd8ed3a73c401bb9a9d3cf912721aecda03b9e7926ae3fac04e770f3938853.npy": {
+      "size": 10688,
+      "sha256": "89989b29f90fd659b768b766bbfbf2356a65cb76d25c7b9d239d6e770d21f572"
+    },
+    "1462cc725c9e39f34497fbd67ef604356af2fbf443708a2dba00be14863e0a2d.npy": {
+      "size": 10688,
+      "sha256": "3f4499e269d94e13eadbfc777bb268221cf8711bc4e440fa98c499862f4c0f8b"
+    },
+    "673d7704a6683f6f098e35501f17545cbcd06bf918e0ddc68eda7c93e99caea8.npy": {
+      "size": 10688,
+      "sha256": "fc751f75dd03949679977639549fd19b51824827b58cefd910d76958a6445c7b"
+    },
+    "558f8c2ec4cabcf15cb9a3b51f53d24cb9df4e336db0c8eabdc8071a2db926a7.npy": {
+      "size": 10688,
+      "sha256": "22623bced409a2b6c2691a2a00b6a00fcf7dd5ccaeb73466ed0802fb034fdf81"
+    },
+    "abb34ada274a49e8ad06c3ac7d4a50d92afc6dc3f3c9aab946b6d69ebd64052c.npy": {
+      "size": 10688,
+      "sha256": "56a63da5c606ea53b827b7d9deab883781215d6fc65caa0ebd0b410902009c19"
+    },
+    "510f068caf37486ceb9c6b055fb6b95f8ded34d2528f13675112628dc41ad12d.npy": {
+      "size": 10688,
+      "sha256": "99b610aaf7c0d52418dd9d5a1c482de1cceb3bc6c1b86fc1b1835b5fa0dd5358"
+    },
+    "a58bec10783a619d64a2b4e1aaf0ffcbafb9e76defc3ab23842f52bab9255859.npy": {
+      "size": 10688,
+      "sha256": "32c4832df09e4876e551563a3a2aabb554431aa348d32e4dc5534339457c1863"
+    },
+    "bd26304d2a93ab0a6accebb7aa88ff925ad196117d91c7fba1c1d8336c954c95.npy": {
+      "size": 10688,
+      "sha256": "98afeba4663a0f567ea049b4046673542af5ac1360c8df81525a66197f052055"
+    },
+    "ff0ab6e8ea7fc953b29fe6c4c1c456cf6cbe5bd65e1cffb6c372e85f8b66608d.npy": {
+      "size": 10688,
+      "sha256": "5a3c29cc8d360a8a8ec84bd0ded8a48e97d1234b2626c624106d8da797844341"
+    },
+    "672878671774c2becce4110a9610ffd8d062ef75b8b1ad1b3ed7501b78b5e7a6.npy": {
+      "size": 10688,
+      "sha256": "f5226c21a16d951a5af029cc0b48c4740244ca96f18aa7dea0238e5a490e2074"
+    },
+    "bc541f95915f92f2f83f35facfa61b377927b4c01d1b128fe15d3799b6d2ec89.npy": {
+      "size": 10688,
+      "sha256": "56fad956b84333cb6aebc9eb1d3a81eb367d768373a18f583e866f7eb81e9b64"
+    },
+    "833ba7efdd1fe6b8c0787bd40280c16937540bb580efe86346544f01d18cd77e.npy": {
+      "size": 10688,
+      "sha256": "527b7d21f8744a02914be7733ff433d57d3b67af2fc928632fd80bbeefd83225"
+    },
+    "8c95d170948642db8ece7a9386412e825b3c94cc89ea3051eb8332a9fabb5db4.npy": {
+      "size": 10688,
+      "sha256": "f704bb91e55ed65347b0a79cb4828fc80da8d276e013e50c7fc1591433a1882f"
+    },
+    "53333c77d7f36d39e6e1527a0dd22c3825fb2719d8d4f6267a66e957dabffb14.npy": {
+      "size": 10688,
+      "sha256": "8f59479d4d9c91c29a6e20f7fd58ec0f36750baf276116db1b4b1a6649f6dca1"
+    },
+    "7ddfd03076d8c9ad66a30b7ac3e09f0fbfa5b1ab2739b6c74f1762e954ba1e9e.npy": {
+      "size": 10688,
+      "sha256": "5bb63035fd5122bcd9e1a8837c26499cfd25610d2447fbad8432d6b1e15d41d5"
+    },
+    "13a63d5079d1bf06277613c39b414afbc44ee27a2fb709dbcb52a1f079b58b7b.npy": {
+      "size": 10688,
+      "sha256": "7d27d0858c6d8c79dc57576c3aa18e754b08f8b3bf64f87503ebda75b6da00c6"
+    },
+    "bd1d593d2ab86fb65aabead9d35ee8f909ac977aa106cd36ba440b958f323ede.npy": {
+      "size": 10688,
+      "sha256": "f7322ce5fa5e2ac257bdac5a286fe0b0755b0549414213c96fa5099c9aa1a12b"
+    },
+    "161d8c5df3fc40488fcae2c97a1c930b4da51cb573b2d9b6c417ba985c48cad1.npy": {
+      "size": 10688,
+      "sha256": "814aa685f01ecd93a3de070a87c2ba7e90a3f1632d837291a837e56868d37ea5"
+    },
+    "a8b641c625d4e916516a82be4d8bdafe918ac4fa57e917b4ddc13ef116b656e5.npy": {
+      "size": 10688,
+      "sha256": "6c810dbf7b14dc2ddb2a4a1d10c957acb98b6d5f4f80081d1b27c99e0a0cd2c2"
+    },
+    "925430b8584b3341d4f2b27b1302a1dab274ea54fbda2ce45b8ce18984bae763.npy": {
+      "size": 10688,
+      "sha256": "5fbac78ed686dc19da372fc91f1a2ec5f3e1bdc9f0a3cfd9c1c823fbbd3f726d"
+    },
+    "c045945419a7fb5d1dda0a58eebf726b9b1315f1c9f7f014f482b9b51d43f51b.npy": {
+      "size": 10688,
+      "sha256": "42ff7869f2cef722babc29701c335e76f43a9021f1e0f7e590306d50dd809ea8"
+    },
+    "769804b410c71b07ca970c6fb9e55c967918ed438ac9d5c59697a509497be594.npy": {
+      "size": 10688,
+      "sha256": "5701547a69b0f7169ea40147d1299370ecd3faeaa6d665168459c6124db2afc4"
+    },
+    "12b1bf40012fc0a5705b90edc928190b5baabaf975ff90052e0b115e426bcd52.npy": {
+      "size": 10688,
+      "sha256": "9af6256370650b40c5ab66b24127ff9e6dc0d3bfc106ec04c16b2d8923540f97"
+    },
+    "c1953c1e12d464ff7e8e189520af4529331ddfcf653c48626e98c93094b1e224.npy": {
+      "size": 10688,
+      "sha256": "b6a01422dab980550a138a4e65150a009105aed11a1f6cae80ea69b4c70a5951"
+    },
+    "cc36511057ec1463076c9f225cd5a6960260c0d2b26e37186afaeb07a10addfe.npy": {
+      "size": 10688,
+      "sha256": "d8bcf21e3258d6f333879f3db80d3f20f9de71f074fa74b32009911b19d031d5"
+    },
+    "4e5d6b32cdcd13579a013d2cde6cfcca8f5707e58f759e217102d5714d381052.npy": {
+      "size": 10688,
+      "sha256": "b0c958be5b7e2e25b43c5a73a49dde5a027cbfd3f5a802e6a2374b1f723b4168"
+    },
+    "2d94f2b296693689e603f82f973ed25d240c4f2a4000e1550501e2b8472271bb.npy": {
+      "size": 10688,
+      "sha256": "73f721760225d547b651f45f6e2e42da046c2f7f63f87e28ddc2d05433dd56c5"
+    },
+    "320e3a16ceb0e5b3219aa4f7484117a543740489257922a94b46d6c3856af920.npy": {
+      "size": 10688,
+      "sha256": "24b1032912605962dd6041ae34f1abc6ab02fb0c9d3689e0a613af966d7752f2"
+    },
+    "6f3c889beeb4c425924a9fb6b962d0245f8b63b0dc89c2b6f26339bbe1b0ff49.npy": {
+      "size": 10688,
+      "sha256": "3fe226369c4593b7bcf155d1625bb449f61925b9e4c1fd303ede8c1a06039ade"
+    },
+    "ddc7800fdbed603df5a027bd5b134804ad94b1b338ef501dbd4e6d39ed5bcce6.npy": {
+      "size": 10688,
+      "sha256": "a4651eff1782738a26fe58be313067bcd26387bb89fd93405135c4acf34468be"
+    },
+    "51d3d5ae15b6fc510ab836c5bd5764d05c8a0972e32f4dca1518b41a5d3a7ea3.npy": {
+      "size": 10688,
+      "sha256": "ddc0e3d00009d7df81e87f1a920226c5d1c8b8c7698e68ab1b12f50620dd73fa"
+    },
+    "7c6620f4b52d9c7ff8e7cbfe6a0a467edf3f7d49514d17db7f467ae767b6a0b9.npy": {
+      "size": 10688,
+      "sha256": "b987c860d20390ccdd8747b5060447fe0b40ad86c0576cb34a914f83a414b4e6"
+    },
+    "32317c298bb4c3e39bcd0c708b2b82a24ab4bd3da5f8dc6b90247ac6ada66843.npy": {
+      "size": 10688,
+      "sha256": "7d2f93806dc0992e86b40ce390b99f6b99606c98a0355a6e3687e70ee27be7ac"
+    },
+    "29d2d59a6436f00d30dd34f8869e04476bbe98671fa869401722aa0d94200ccc.npy": {
+      "size": 10688,
+      "sha256": "17cd8a8354d77d0ac993bf81342b412f511c9ab87ec95aaf464c36467d933aa6"
+    },
+    "07e309fb1cb9fbd20abb8368ee04022c7ecee235dda0f457312997d2e4461392.npy": {
+      "size": 10688,
+      "sha256": "db3840284c29cd8221fb96b3dbfc4db08f73dd6d65a2b89a94d82beccc4e19b3"
+    },
+    "177393275914939665ef33337e59b26f7c2df493af87a1d639c082ed4e05e599.npy": {
+      "size": 10688,
+      "sha256": "770e0985c979a82d2f6c2e4c222af715f82ca853bacf046b23732ceb17705d32"
+    },
+    "65a50dd3c29a6f89ed4f9347530857e8e7f1783ea1b77d29ba35264d408f003c.npy": {
+      "size": 10688,
+      "sha256": "43658d7e4eac584df71c321fa2101a6f846a64420f31c1755c736d58c42abfc6"
+    },
+    "298c5b670a44877df2d37f134f80d6818365b544213ae98c8e506997ab44232e.npy": {
+      "size": 10688,
+      "sha256": "bbfd1ff83e9084ccbb69aec547e1b6216e74d06fb4e4d136e27fa0f20cfaea06"
+    },
+    "554c577a94a6bd176496b5c6c45f7278cffd46cf816ef9118b025efa82579c84.npy": {
+      "size": 10688,
+      "sha256": "b2aabb91ea071e00a31121f2bc3e270ea086daed91812bec63480bfa652caf4c"
+    },
+    "7e462636c28e7aec449f44d5b68c1bfb52577e8821f652f2b29a6ac57935e890.npy": {
+      "size": 10688,
+      "sha256": "7b3a31f442c2c50db95eabe99177b43812d6e420bc84b5cb0c1cdee18874f6a5"
+    },
+    "d28b3e4871cb6c08de09611bfe9b86aec766830478a7968b11837e57674b78dd.npy": {
+      "size": 10688,
+      "sha256": "13096f838462f4510710c83d68638b4f36307840af92c05c3edd4b93c8691cae"
+    },
+    "6c844f0a89b07fd34dac921d78aa8e80bc7f5d8311e067a481c8b8b838eb1da3.npy": {
+      "size": 10688,
+      "sha256": "6c563435894d5439fd149f8f174e03b39de6ea21caccff99e801ee7c5bcd9f69"
+    },
+    "2b054a0b421e5a0b7d7db04c34328a172e54774bb27a7c34a0b30760b0f847fb.npy": {
+      "size": 10688,
+      "sha256": "be4800eed32c35e565828dde46a6b646e0ef405736733d1ac87b3bba9f1480cc"
+    },
+    "affc330b422c572517aed75f745853d837c866a8a07a98ceddd199b28286fc3f.npy": {
+      "size": 10688,
+      "sha256": "c9cdea747b55929d3d189ee533dcbc5bb673dc427551b31b490b2c7107bd6de2"
+    },
+    "4eb9727d6325adc617160231a3db68ba016e195821b1cce13e45bc33e3a76399.npy": {
+      "size": 10688,
+      "sha256": "1b02d3df26b91c482eb9650e05cf145574aabe940aa6b693587cb8a1cf02ee16"
+    },
+    "244f5b197400eb65e1dc2afa24b983f6062679204f2de86d3b8aa596d9937cfb.npy": {
+      "size": 10688,
+      "sha256": "9eb6e600a19b3d5b048ce7663e365ca574cef4db7722fd4d7be285798e1d1969"
+    },
+    "3dc264db13f65c75156a7bb555758ff07fa38ea149b9636ae4576c5a609ed0ca.npy": {
+      "size": 10688,
+      "sha256": "f7ad713bfe29de730b5001fe48a93ec40f653d8026cfdf13faeaafb0157800c5"
+    },
+    "389f681676467e003447bd36d09c2dcb20760367422bad754b85b200f8f9e0dd.npy": {
+      "size": 10688,
+      "sha256": "362671774665b2c66d8301b9881bdb8b3f3d24f1a823594705ebfe9baf11040e"
+    },
+    "20726f25922bd57a74ddb568493fae93899e2f3190cf0e8dc01646cf723cc088.npy": {
+      "size": 10688,
+      "sha256": "341f47e46237691b83bedf27cc11164b78936821c7f0736a0a9daebe3fe9a01d"
+    },
+    "989222b3cb9b567b148658648190e200e7c2f4f0e8aac9021c4e5f09faa72d98.npy": {
+      "size": 10688,
+      "sha256": "d1c425d472c529bf6a84cfcbfb2738621370485493d4360320644cfca5c3ea09"
+    },
+    "c4a700af43f1834f89f74de73de3c00a9577eda2760334b825d7afc6df572735.npy": {
+      "size": 10688,
+      "sha256": "f89030b2a380178eb41164d0b75ffc1ca0b55fade0058f8f92f0eb8b95aa13a7"
+    },
+    "896d96bc7eae96066d6a02e3373bf2fb41a1474a08504b29eeb49b7ed5a8dc3c.npy": {
+      "size": 10688,
+      "sha256": "733e8f693b2606e7813b90f33f89704548b1ef4d735f09f9d775ce3f4489be5b"
+    },
+    "dad3d290d4a94851b8734b87175e9b9197f9a86099fdb94c68a0cd311ff27312.npy": {
+      "size": 10688,
+      "sha256": "d59f91818545a049f84ae82004cf5aa4cb5287698bb2028bd370556441c3e7d4"
+    },
+    "c2add63e999aff2693f344c3b67f7a167c6ea44d5da935a34adf1a67383bad75.npy": {
+      "size": 10688,
+      "sha256": "78e5f230ed016e3039c538d40abdd48c3f9ead438181b7d3c24e4b8116dda0e2"
+    },
+    "a9bb1de7717a5b02a28e98b02837c528d762b56cc76dfc5ef90159b29ba1e1c7.npy": {
+      "size": 10688,
+      "sha256": "b51d6c93a95f771f48b55b6dd2c355962fe5a7f5f657d704976447138537bd91"
+    },
+    "7019d170b019195c08e05dd99394efbb23d25a13eec4148b4d2fe8a020b546ad.npy": {
+      "size": 10688,
+      "sha256": "f3994e6ce151f855f33f39c4eb9ceecda708f36485fb3266b0385e54ece7087f"
+    },
+    "ca5c9821df73eac6911a9f345ce4965676ee50605ab397299263ed8a1df3a26e.npy": {
+      "size": 10688,
+      "sha256": "75f48af34af5a4483170de3eed5432728cdc1475e4926e7d912e277da184c7ba"
+    },
+    "7c34b221f8b2c7dfe0ca980291cd6269315a542f011ce9a8b91b9b065179ac9d.npy": {
+      "size": 10688,
+      "sha256": "70ba1df59996cced9a4138ee610a1999889ebeee6ffbeee8c3ddc8de4f6a236c"
+    },
+    "53a38a9301ed3e4cc2bceda31fe7627123a7ed59752cc039fd797cfe1819908b.npy": {
+      "size": 10688,
+      "sha256": "217b0bba486b1ccad09eef1ebbc18d9dd49d2d09a3fa1336720d6722be169979"
+    },
+    "39f7a7af8b9f1c8f186dcf79c1b565d05bf57d2e5218706b5e5a4923c8d8d350.npy": {
+      "size": 10688,
+      "sha256": "29f3b312dd1bc1fbd2f39e2ebe2acf1b319c3d1acbdd3beac6e0c4514edc7172"
+    },
+    "305b2bbf18ff3b41aee737ab7410c05c9074f0921d5b6942c53808e620d74c5f.npy": {
+      "size": 10688,
+      "sha256": "57544ed44f045e6c2787ebc40cf8ff88a3b83b1d3c19728fa2e6e60deb7c692f"
+    },
+    "f8a6eeccc1a54956e9fe315a8a1da2741e6ae505db08532227152ba0e1951a81.npy": {
+      "size": 10688,
+      "sha256": "70f5c84a24eebad807290213f462dab41008f0e156341b2b6d06c515240b5603"
+    },
+    "2196f2f80d4d8e0a08db941a99c90e08e11f4e77ff91040ea8bfc865747c1027.npy": {
+      "size": 10688,
+      "sha256": "36f46583db14ba98736c1c34714dbca0483e5ef40f322bce15915bcebdc702c0"
+    },
+    "84f5b1023cd37fea69f621d1b58b626af8efd3014cf3387012cf9a5f0d0200d4.npy": {
+      "size": 10688,
+      "sha256": "50d3ab35ce8144fcbb52bdfe62fc11d2cbd6ade316d28e38b19a9be38c4e437d"
+    },
+    "ed5a438347f35540a7d0de0c579999da067186afbc6493da53512a0179d1e012.npy": {
+      "size": 10688,
+      "sha256": "ca0ee12c812fab444544c80bd472cad00011676c698b7896063ca51ab63256a6"
+    },
+    "bc2fb7d4501e0e6800c6a3f94dbeb618cedd11cde009adbf21d2cb90c77c80fa.npy": {
+      "size": 10688,
+      "sha256": "87fa217c4c672aa606dece46d5c746eebd682e22e609503a3236f7a4d799873a"
+    },
+    "df785de2313e823b3b84116dd1ba7535e9f8c91e6ccbc5e4073353b8c5a0cb2c.npy": {
+      "size": 10688,
+      "sha256": "323b754b665d02f1becafede420422984d0aa3244167e21c8f175a0af6721430"
+    },
+    "bbb438a69152423972926f23520150bb5c9632d2347c062df0631716785da017.npy": {
+      "size": 10688,
+      "sha256": "5dba7d743d744ade8089afacfdde5c73a8c03ca88ef220732a80e78253f7146b"
+    },
+    "f0ca701cd9c826ce5e6d59afa83d96b31097c166b0cf37e1d2b57448ea957dac.npy": {
+      "size": 10688,
+      "sha256": "758aac03734d1ee4fc24994b0aef0657693b5113118474c48ad0ce34a600a93c"
+    },
+    "4146e8f10d087e3aefec86e4b82f428dc4a389caed361b9c6ca893b5ff4e7763.npy": {
+      "size": 10688,
+      "sha256": "8353bc7562af9abf028ebc75526d98f85c3251db17066da82b955f6c21c48ef4"
+    },
+    "cbd1f3eedc3b38eada6d5498c32c904cd75ea0c7bed26a3791c15e95b8d639a2.npy": {
+      "size": 10688,
+      "sha256": "fcf3116d923b9088e375e90392387754eb1b6ccfcd9b7c84917e34974c1a84eb"
+    },
+    "0ea8377135731de1c88ff19d904f964436603c858d64c6491b02701d9f3ff4f4.npy": {
+      "size": 10688,
+      "sha256": "d6ca222ab4ce4c63ecc0ee87ab2d398ab6d27f1cbe0ea77c94ccf6a92fc5e885"
+    },
+    "e4573b4c89fd049db84288c62a75acae005ad799c5ebad32d2baa7367224bed6.npy": {
+      "size": 10688,
+      "sha256": "1f082782ad3b6d34844daebd1186f0428fc3275a570e8cc79b3ffd3fe3d33c52"
+    },
+    "192db1fc7b240efbc05371a54c5478db7eaefb4e714dae5a55e23cd870aa4890.npy": {
+      "size": 10688,
+      "sha256": "b9434e5ef0f29cfc247bb2f3d219095b72e70c88396810c3b1ae6cb20b038d67"
+    },
+    "4070281de6aab0dddd08bdecc9524d1b49a55cc055a8c71208428b35558cf1fa.npy": {
+      "size": 10688,
+      "sha256": "fd2b86becd7f8efdcbcdc5ef32d24fc60e5f8577bcbf782a9060bb902881862d"
+    },
+    "5f7dbe16f3864c892131e70ad1a0701ff9852317c7f05463196bde3adfd1aece.npy": {
+      "size": 10688,
+      "sha256": "1c179f03fb0ed88da4f4c32a96bb1c20d616c468f5184a2f91dba15b63558e5d"
+    },
+    "5242794e2d62e16776ce0e35ccf15cd864eca6f7d5c1a410d86e6cb1ce11c5b2.npy": {
+      "size": 10688,
+      "sha256": "22688720ede7835032b9777674c44585c4a8e48e61a128549a9e44c9d47c81e9"
+    },
+    "bc7099d015fcf6425c42c2d8b09f4b59f51350b3c55e6e4e0528eca92ed9eca1.npy": {
+      "size": 10688,
+      "sha256": "b26397f8717679f45fc7cc8c3f1c90d039b175b1915492069bf82dd69f6d84f0"
+    },
+    "12c16948a79c8f3d5600444060acc7db2b7c5e8cfd25f877af5a069927ac2068.npy": {
+      "size": 10688,
+      "sha256": "846817e9278858a7c5acf9ed869a62fff571417296e0d8705798b3c5ab237882"
+    },
+    "c85b2fb0baae9e77d3378422ffb8a7c9be8a41b482296297b279ba6fa566d3b1.npy": {
+      "size": 10688,
+      "sha256": "915941f70eee04d416049ffb7edd9756d6d887dd757d4101b97bc22476a0fb27"
+    },
+    "ae8e23e447c48a45631b268377a37ba390910400a18c44c13c1626258627e72c.npy": {
+      "size": 10688,
+      "sha256": "92845294143baa1ef5fac8ad4a0439f06f15009630e3abdd7397eed7b311aaa2"
+    },
+    "97ae610be50d58c72c282de8c32592d55793131492300e41f5b7ae7bff34ac76.npy": {
+      "size": 10688,
+      "sha256": "06913cb5576a5ed03816aa775305e22abb1dd7b55ddb84db3b965997cd8aa5e6"
+    },
+    "5755089ed2a1e808ecab570fc09e1cc4213fbe5182cc28aa332cfb0844abe439.npy": {
+      "size": 10688,
+      "sha256": "83ccd9943409f4a039892e7a228554585d2d340b989acb1cc60199d4cfa3b395"
+    },
+    "a9c33410bf48503b9ca077ee753488195dc934123210ba56d896fb33c19eb12e.npy": {
+      "size": 10688,
+      "sha256": "83b9df6339930cef339dba6ddd3da82a4cdec4a26d031c827f588fa90527f40e"
+    },
+    "4299236eac950dfa019bb588c42697bfbc790fc6504a70ab290159c60709a2e9.npy": {
+      "size": 10688,
+      "sha256": "568fda7332d728493a7b3cab057cd96ce50f9dacf7fb05aae9db14d3502d8b85"
+    },
+    "8bf425c24d64634acc8bc1f3c09a25865fd4518bbe7f6a52c59948616d3998c7.npy": {
+      "size": 10688,
+      "sha256": "767fb77fd59c5adfdf021efe172931b2be1a302b2a8213b6c40e49de33560d31"
+    },
+    "229ea58408b6e819a77a2aa2318dbc23b3a20eed7ee35310076aff3aaf0fa72c.npy": {
+      "size": 10688,
+      "sha256": "dec1ebc1261a6dbcb78cbbfc6945b10ad5a29db242b92b222e07e682c4174153"
+    },
+    "83589c22e538b7a1ceb34f1870f09727c46e2c019fe68c6acfa6a2513dbd8468.npy": {
+      "size": 10688,
+      "sha256": "5f32ecb84884a67c304ec2f9e745bfc8331e0f99e3d279a7f1bbb25f458e2b1f"
+    },
+    "669cffbf8c05d6bfee512ab2a08be658660c85b4362f2a41420e72e6902e288c.npy": {
+      "size": 10688,
+      "sha256": "11eb933be478b9104b78935d46e0becbe281301ad2f54eee56dd63d9bc1ce267"
+    },
+    "15543684056c1eb757ee50644f56cba638f9fc457599e11b35ec933411cc3bf0.npy": {
+      "size": 10688,
+      "sha256": "7b1462fa797db5b455e5df388f170b423cc988a23ef8d1ccb9615ef36bc8bd9f"
+    },
+    "3a9e4dda5e1a2289489695254b08342416d429a6e17c2ad9514f5ca491473aca.npy": {
+      "size": 10688,
+      "sha256": "ab605edb17dea3b5ae04ca67b958c2345c097c35ed336ef5db7a8d62ccd4f39d"
+    },
+    "7232d8a87c51add358bb5a6062d9597544a7cbc2af3a4bbf5584f4ddcbe02001.npy": {
+      "size": 10688,
+      "sha256": "3a5b4063cbc40787ed3e82ec6e7c20a5148f66e58cc26737e74c6d7c9e1670f4"
+    },
+    "7ec40de3e5d6d81ff2e3b58a99e9874297d6edcd46cda2aa403bc6e836809743.npy": {
+      "size": 10688,
+      "sha256": "f91fb4cc3890365e1f342fe8475fc6b744184b8074fc8f5d640feb607af99cce"
+    },
+    "ebfd4cbef72db4575e0893da6a5cb65676a564e0109cda57452e2347485193ef.npy": {
+      "size": 10688,
+      "sha256": "b1eb3cf4880a26f0bd0a9137ae32294bf153e964d33a1c3490d7d9127fb7246e"
+    },
+    "c2e115f974758109c5d563c6f25f53861a7df01837e292a8bb77e07bb8aa4278.npy": {
+      "size": 10688,
+      "sha256": "6b9f51601af900fab72af41873beadaf1d4ea873b204baccce26b94c010e69e9"
+    },
+    "73584cf9c5538bd38c92f37565ce0a70c2edaf7184a48f79dca88a13ff2ef14f.npy": {
+      "size": 10688,
+      "sha256": "5d7fe7500323e1a8ab7a2956fa550b568b060deba46d9b9277db7d3704c0128e"
+    },
+    "da58c4ef50d6a7b87cc12f13412b6c7eed884e54eb1d06f38a4861326a609e4b.npy": {
+      "size": 10688,
+      "sha256": "0b463a6398cc4e49c637599d8268f98368891cd1866a3808332356912871df79"
+    },
+    "9c9e3048293aa5622a42298d7987f5053e2ffad09b46f83b8e740bc66b5d0d3e.npy": {
+      "size": 10688,
+      "sha256": "e97baf7949fe1a9bdfeac3657b0dec9492bb1f00f16154541627e5122a7a54c4"
+    },
+    "8adbad0dc10006cc1caa55280610dca59af0b6d8fc5da888df214ed02b9f3c12.npy": {
+      "size": 10688,
+      "sha256": "91823cd0e7f5daccc0ce0094bdece787f7fe1b53694ce86b384c16aa0bc02668"
+    },
+    "afc1d1cf4317e251ff4809d436eea5ee01a132d274ec3f61b174944041446c98.npy": {
+      "size": 10688,
+      "sha256": "4568fd7df2da4c1a74d329c1ba601d50617381d42237a0a46c0d291eb14571f1"
+    },
+    "c7cafd48a67b5d605b9d609fccf7612235c1017affeeb41b071e59e1e3232208.npy": {
+      "size": 10688,
+      "sha256": "ec2a1ddbe040e355b06ef368a1a94c77a3a7667e50f6fd5821098ee8c402e122"
+    },
+    "0bac67a406419a9066fe78a75521477c08c970e8f40473a807bc4144dcff5462.npy": {
+      "size": 10688,
+      "sha256": "b873fc56e4b3368ebb85b2689751bd32d115b824aac3c0e08642090a567bfa8a"
+    },
+    "c26619d11d02f3edbbb2d1ed387ef2f226db74e1ea707b727168746b0f1fa170.npy": {
+      "size": 10688,
+      "sha256": "3cf1a7a79cdd048138c7fba733aaf50fe9a0b59ab24a1495d13c12ad3d73c703"
+    },
+    "31be706796a5a04ca1cce60420afb7bba576e2b435e75c315376aa3a9bd25a54.npy": {
+      "size": 10688,
+      "sha256": "3570a38cb52188546cf91d9ee7b6bfefe071724ba1585e6d6a00e382295dea70"
+    },
+    "da85a8f8c7f08976906591bfee02a4247be1af661906fd7bfc2bd1943c748c36.npy": {
+      "size": 10688,
+      "sha256": "eac09f7863b784ac5bbd159c1ddb80efd0340540cadd69b4bc14ebf4491c3544"
+    },
+    "76d2208d1f1d076f0f8708bd585c709baa61a425588cc293f6586333d995f3d8.npy": {
+      "size": 10688,
+      "sha256": "9eaf1ab7f04741634b2a4236bba21e5f8ed32d11c2d81c5e5add13fb4b878dbe"
+    },
+    "dee9e2f481dec6bc5698a95b3410d04d94ebafd010b4f46cd3813834dff55073.npy": {
+      "size": 10688,
+      "sha256": "cd97a22b456f97db11729fc1a3e7d43c08ae1fc3fd38840193ae8a6ee318e898"
+    },
+    "74c8606fba7333f5f3efa1a0b68d31d216322c06e216e111dfec4a2d15772009.npy": {
+      "size": 10688,
+      "sha256": "25abc46ac1bb66ddda8ba8b09097081419be2bfdd4f277b064b3be15b4f28988"
+    },
+    "6fce6f71a0f0148ff62f1fd9e271aa5ec7641da0bb37572ea3fc207d24323610.npy": {
+      "size": 10688,
+      "sha256": "a32582b48e03f44137ca76c7dbea5345dc721ec875d6580aa5adbc3ef59e397a"
+    },
+    "29875c08f4e2a29850d93bd8783e22dbef889ab81a11e27aecd6ca543ee4ad75.npy": {
+      "size": 10688,
+      "sha256": "a2deb7e81dfa8295c3e9193660e99d891d72932e9add90cc143c4694b11f9782"
+    },
+    "3b65486b422e94f8a64ab9e58303070babd9577ef9ebffb234b4262bd2d6d0d1.npy": {
+      "size": 10688,
+      "sha256": "8f79996a5ae1cd1506e7b813753a626b5460f28e134895354c9e26375a68079f"
+    },
+    "de7ec4d2ec0ac708cdd591e75d399d72f87b4184164dc33ee936aaafb37afe38.npy": {
+      "size": 10688,
+      "sha256": "fd0c3a52916dcf50d21fba84dc6177b141fb4dc5316dfbbe39b01df2e0acb43e"
+    },
+    "474d395a2740a6b0ef9c308a300f30e94d01ec1a12273642dc3c8aa2533b3173.npy": {
+      "size": 10688,
+      "sha256": "8ce0f8a6f1ae8eaa9058dbdcc97283731372fe7046149c709ac293c8a44577e5"
+    },
+    "b4ca321ebdbf37a8228c3e98eebede9f38f3f9e40b63ebc4f647c744df7403c3.npy": {
+      "size": 10688,
+      "sha256": "fbe83106dab04d02733c695f7289c931aa266f3e9f3ff765c00c1153b4f599c4"
+    },
+    "df3beb4ead3fa552c876198225ff2b56088d0ed91017c0b5d9ac68cbec39b990.npy": {
+      "size": 10688,
+      "sha256": "3c8d6d5bbb9af6c548a475c48a9fddb48933d54b61a2209b788e602fe6d8375a"
+    },
+    "9feda2f7fb20fd70e09794c778ae089ab7dade2bff00b713be2976f5cdcb1117.npy": {
+      "size": 10688,
+      "sha256": "00a21caacb43886c488890a5b41183e12b3a0c54c7707972e5311a9c8d488c59"
+    }
+  },
+  "free_after_bytes": 18790924288,
+  "original_NFS_source_retained": true,
+  "model_queries": 0,
+  "physics": 0,
+  "epoch": 1791513537.9845335
+}

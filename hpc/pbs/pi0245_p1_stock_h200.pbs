@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+#PBS -N pi0245_p1_stock
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -W group_list=HPC_Users_3104
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=04:00:00
+#PBS -o /scratch/e1192548/pi0245_physical_temporal_pilot_20260924/logs/
+#PBS -e /scratch/e1192548/pi0245_physical_temporal_pilot_20260924/logs/
+
+set -euo pipefail
+trap 'rc=$?; echo "PI0245_P1_FAILURE line=${LINENO} status=${rc}" >&2' ERR
+
+PATH_OVERLAY=${PI0245_PATH_OVERLAY:-/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p1_path_overlay_r1_hf_cache_v3.json}
+MODEL_NAME=${PI0245_MODEL_NAME:?set PI0245_MODEL_NAME=R0 or R2}
+PREFLIGHT_ONLY=${PI0245_P1_PREFLIGHT_ONLY:-0}
+test -r "${PATH_OVERLAY}"
+COSMOS_SNAPSHOT="$(jq -er '.paths.cosmos_snapshot' "${PATH_OVERLAY}")"
+COSMOS_HUB_CACHE="$(dirname "$(dirname "$(dirname "${COSMOS_SNAPSHOT}")")")"
+COSMOS_HF_HOME="$(dirname "${COSMOS_HUB_CACHE}")"
+COSMOS_REVISION="$(basename "${COSMOS_SNAPSHOT}")"
+RUN_ROOT="$(jq -er '.paths.r0_root' "${PATH_OVERLAY}")"
+NOISE="$(jq -er '.paths.noise_root' "${PATH_OVERLAY}")"
+MODEL_BASE="$(jq -er '.paths.model_base_root' "${PATH_OVERLAY}")"
+OUT="$(jq -er '.paths.output_root' "${PATH_OVERLAY}")"
+CODE="$(jq -er '.paths.code_root' "${PATH_OVERLAY}")"
+STAGE10="$(jq -er '.paths.stage10_root' "${PATH_OVERLAY}")"
+GROOT="$(jq -er '.paths.groot_source' "${PATH_OVERLAY}")"
+SCRIPT="$(jq -er '.paths.p1_runner' "${PATH_OVERLAY}")"
+RUNTIME=${STAGE10}/runtime/venv/bin/python
+CARD=${RUN_ROOT}/pi0243_run_card.json
+case "${MODEL_NAME}" in
+  R0|R2) MODEL_ROOT="${MODEL_BASE}/${MODEL_NAME}" ;;
+  *) echo "unsupported P1 model ${MODEL_NAME}" >&2; exit 2 ;;
+esac
+case "${PREFLIGHT_ONLY}" in
+  0|1) ;;
+  *) echo "PI0245_P1_PREFLIGHT_ONLY must be 0 or 1" >&2; exit 2 ;;
+esac
+
+printf 'PI0245_P1_COMPUTE_INPUT_PREFLIGHT host=%s job=%s\n' "${HOSTNAME:-unknown}" "${PBS_JOBID:-unknown}"
+id
+groups
+findmnt -T /scratch/e1192548 || true
+test -d "${MODEL_ROOT}"
+test -r "${NOISE}/manifest.json"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false
+export HF_HOME="${COSMOS_HF_HOME}" HF_HUB_CACHE="${COSMOS_HUB_CACHE}"
+export HUGGINGFACE_HUB_CACHE="${HF_HUB_CACHE}" TRANSFORMERS_CACHE="${HF_HUB_CACHE}"
+export PYTHONPATH="${CODE}/scripts:${CODE}/src:${GROOT}:${PYTHONPATH:-}"
+
+test -x "${RUNTIME}"
+test -r "${CARD}"
+test -r "${RUN_ROOT}/pi0243_run_card.seal.json"
+test -r "${SCRIPT}"
+test -r "${NOISE}/manifest.json"
+test -r "${MODEL_ROOT}/pi0245_inference_restore.json"
+test -r "${RUN_ROOT}/screen/step-10000/records.jsonl"
+
+CARD_SHA="$(sha256sum "${CARD}" | awk '{print $1}')"
+test "${CARD_SHA}" = "12e09718d5499aece46800b348f733d1bb506400d0468cb128f233f571f75191"
+test "$(jq -er '.source_run_card_sha256' "${PATH_OVERLAY}")" = "${CARD_SHA}"
+OVERLAY_SHA="$(sha256sum "${PATH_OVERLAY}" | awk '{print $1}')"
+echo "PI0245_P1_PATH_BINDING overlay_sha256=${OVERLAY_SHA} run_card_sha256=${CARD_SHA} r0_root=${RUN_ROOT} output_root=${OUT} model_root=${MODEL_ROOT}"
+for key in code_root groot_source stage10_root cosmos_snapshot processor_base_model train_dataset modality_config; do
+  test -e "$(jq -er --arg key "${key}" '.paths[$key]' "${PATH_OVERLAY}")"
+done
+COSMOS_REPO_CACHE="${HF_HUB_CACHE}/models--nvidia--Cosmos-Reason2-2B"
+test -r "${COSMOS_SNAPSHOT}/config.json"
+test "$(cat "${COSMOS_REPO_CACHE}/refs/main")" = "${COSMOS_REVISION}"
+echo "PI0245_P1_COSMOS_HF_BINDING hf_home=${HF_HOME} hub_cache=${HF_HUB_CACHE} revision=${COSMOS_REVISION}"
+"${RUNTIME}" -c 'from transformers import AutoConfig; c = AutoConfig.from_pretrained("nvidia/Cosmos-Reason2-2B", local_files_only=True); assert c.model_type == "qwen3_vl", c.model_type; print("PI0245_P1_COSMOS_OFFLINE_CONFIG_PASS model_type=" + c.model_type)'
+mkdir -p "${OUT}" /scratch/e1192548/pi0245_physical_temporal_pilot_20260924/logs
+test -w "${OUT}"
+for args in model-preflight bind-preflight label-preflight; do
+  "${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --path-overlay "${PATH_OVERLAY}" --noise-root "${NOISE}" --model-root "${MODEL_ROOT}" --model-name "${MODEL_NAME}" --output-root "${OUT}" --source-index 0 --noise-name N0 --"${args}"
+done
+
+if [[ "${PREFLIGHT_ONLY}" == "1" ]]; then
+  echo "PI0245_P1_PREFLIGHT_ONLY_PASS model=${MODEL_NAME} model_root=${MODEL_ROOT}"
+  exit 0
+fi
+
+GPU_QUERY="$(nvidia-smi --query-gpu=name --format=csv,noheader)"
+GPU_NAME="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(printf '%s\n' "${GPU_QUERY}" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+echo "PI0245_P1_GPU_PREFLIGHT host=${HOSTNAME:-unknown} count=${GPU_COUNT} name=${GPU_NAME:-unknown} job=${PBS_JOBID:-unknown}"
+test "${GPU_COUNT}" -eq 1
+case "${GPU_NAME}" in *H200*|*H100*) ;; *) echo "unexpected GPU ${GPU_NAME}" >&2; exit 2 ;; esac
+
+"${RUNTIME}" -u "${SCRIPT}" --r0-root "${RUN_ROOT}" --run-card "${CARD}" --path-overlay "${PATH_OVERLAY}" --noise-root "${NOISE}" --model-root "${MODEL_ROOT}" --model-name "${MODEL_NAME}" --output-root "${OUT}" --source-index 0 --noise-name N0 --all
+echo "PI0245_P1_ARCHIVE_PENDING output=${OUT}"

@@ -1,0 +1,12 @@
+{
+  "epoch": 1791522500.2317564,
+  "process_alive": true,
+  "CPU_status": [
+    "VmSize:\t 1503632 kB",
+    "VmRSS:\t  370124 kB",
+    "Threads:\t5",
+    "Cpus_allowed_list:\t0-3"
+  ],
+  "receipts": {},
+  "log_tail": "full_trainer/archive_c0_trainer.py\", line 95, in <module>\n    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--preflight',action='store_true');a=p.parse_args();run(a.preflight)\n                                                                                                                      ^^^^^^^^^^^^^^^^\n  File \"/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/archive/c0_full_trainer/archive_c0_trainer.py\", line 82, in run\n    write(archive/'ACTUAL_C0_BINDING.json',dict(**online,**boundary,status='ACTUAL_COMPLETE_C0_CPU_AUDIT_BOUND_BEFORE_ARCHIVE'))\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: dict() got multiple values for keyword argument 'status'\n{\"status\": \"PASS_CPU_ONLY_ONLINE_PUBLIC_ARCHIVE_PREFLIGHT\", \"repo_id\": \"leoyuer/pi0246-gate-pass-campaign\", \"public\": true, \"prefix\": \"arms/PI0286/C0_REPLAY1024/checkpoint-1024\", \"helper_sha256\": \"126880ca6a0aab20ad556417335500f5b18f26c1f9fbbfdb81027b62049a064c\", \"wrapper_sha256\": \"ac2a142d81e1a75eb7854e91a2332956a34195e7d7bfa863905f71ac3c68eafc\", \"max_CPU_threads\": 4, \"memory_limit_bytes\": 17179869184, \"offline_training_environment_changed\": false, \"local_full_trainer_retained\": true, \"model_queries\": 0, \"optimizer_updates\": 0, \"physics_calls\": 0, \"epoch\": 1791522094.9181857}\n{\"status\": \"PI0286_HF_MEMBER_READBACK\", \"arm\": \"C0_REPLAY1024\", \"step\": 1024, \"path\": \"PI0282_RECOVERY.json\", \"bytes\": 67108}\n{\"status\": \"PI0286_HF_MEMBER_READBACK\", \"arm\": \"C0_REPLAY1024\", \"step\": 1024, \"path\": \"PI0282_SCOPE_PROOF.json\", \"bytes\": 1681}\n{\"status\": \"PI0286_HF_MEMBER_READBACK\", \"arm\": \"C0_REPLAY1024\", \"step\": 1024, \"path\": \"config.json\", \"bytes\": 2105}\n{\"status\": \"PI0286_HF_MEMBER_READBACK\", \"arm\": \"C0_REPLAY1024\", \"step\": 1024, \"path\": \"embodiment_id.json\", \"bytes\": 2146}\n{\"status\": \"PI0286_HF_MEMBER_READBACK\", \"arm\": \"C0_REPLAY1024\", \"step\": 1024, \"path\": \"model-00001-of-00002.safetensors\", \"bytes\": 4993709288}\n"
+}

@@ -1,0 +1,133 @@
+{
+  "schema": "PI0285_R3_ACTUAL_TERMINAL_V1",
+  "status": "EXECUTION_COMPLETE_VALID_CONFIRMATION_FAIL",
+  "execution_closed": true,
+  "quality_pass": false,
+  "authority_canonical": 6066233135,
+  "authority_release": "d6bdb8678e28ca5331d335b2ccd4d5753aef17d6",
+  "candidate": "REPAIR_A2048-2048",
+  "TRAIN": {
+    "success": 7,
+    "requested": 8,
+    "threshold": 7
+  },
+  "DEV": {
+    "success": 13,
+    "requested": 16,
+    "threshold": 13
+  },
+  "CONFIRM_A": {
+    "success": 20,
+    "requested": 32,
+    "threshold": 26
+  },
+  "next_action": "STOP_CONFIRMATION_VALID_QUALITY_FAIL_NO_SECOND_CANDIDATE",
+  "shared": "NOT_LAUNCHED_CONFIRMATION_FAIL",
+  "protected_qualified_T1": "NOT_TRIGGERED_NO_QUALIFIED_POLICY",
+  "source": "PANDA_NATIVE_PD_NON_REALTIME_NOT_TARGET_WBC",
+  "formal_updates": 6144,
+  "discarded_canary_updates": 32,
+  "completed_updates": 6176,
+  "quality_requests": 6901,
+  "K4_heads": 27600,
+  "physical": {
+    "starts": 257,
+    "rgb": 169620,
+    "control": 169620,
+    "dispatch": 339240,
+    "physics": 848100,
+    "teacher": 112640
+  },
+  "technical_physical_replacements": 1,
+  "extra_physical_quality_retries": 0,
+  "full_Trainer_HF": {
+    "arm": "REPAIR_A2048",
+    "complete_trainer": true,
+    "files": [
+      {
+        "bytes": 67105,
+        "path": "PI0282_RECOVERY.json",
+        "sha256": "68fa66b99ea02a41125c700b290ba8ec9f5f0d45d9f9c283b48c6948ef46fccf"
+      },
+      {
+        "bytes": 1681,
+        "path": "PI0282_SCOPE_PROOF.json",
+        "sha256": "da764a48ac3947a44c451839df03c0f66d784b8e3128b1393be35e3e1841d243"
+      },
+      {
+        "bytes": 2105,
+        "path": "config.json",
+        "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+      },
+      {
+        "bytes": 2146,
+        "path": "embodiment_id.json",
+        "sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+      },
+      {
+        "bytes": 4993709288,
+        "path": "model-00001-of-00002.safetensors",
+        "sha256": "c33885821fc3bd0aee2c5eb10814ad9d80a0e3106641a5a620912d5d8dc91189"
+      },
+      {
+        "bytes": 4129471992,
+        "path": "model-00002-of-00002.safetensors",
+        "sha256": "8e2141ac97ec1684a0ad06733779389970a9892e04ebddcca02ad31b3cf05d8f"
+      },
+      {
+        "bytes": 104912,
+        "path": "model.safetensors.index.json",
+        "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+      },
+      {
+        "bytes": 11340462437,
+        "path": "optimizer.pt",
+        "sha256": "ad71a724227b19637c251fd2812b79ba556693a0f3e4e58dae43d186cc6b8311"
+      },
+      {
+        "bytes": 23145,
+        "path": "processor_config.json",
+        "sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3"
+      },
+      {
+        "bytes": 14709,
+        "path": "rng_state.pth",
+        "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+      },
+      {
+        "bytes": 1465,
+        "path": "scheduler.pt",
+        "sha256": "6c8a0b7f35fb25a6e85b4c795fac63223e73473d99489c471712b906653291d2"
+      },
+      {
+        "bytes": 4299523,
+        "path": "statistics.json",
+        "sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81"
+      },
+      {
+        "bytes": 18563,
+        "path": "trainer_state.json",
+        "sha256": "f460b8971c2ff0f2980f430f14b66ede0ad9ed0b08388ebd596528932aaa40ee"
+      },
+      {
+        "bytes": 5905,
+        "path": "training_args.bin",
+        "sha256": "084d702665fbf468c31259546adba6f93e2923bcfcb60ddd4136e0dddb682c19"
+      }
+    ],
+    "prefix": "arms/PI0285/REPAIR_A2048/checkpoint-2048",
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "revision": "75432eb91a2c602930a9e1e979aaebbeaebff02b",
+    "schema": "PI0285_FULL_TRAINER_HF_READBACK_V1",
+    "status": "PASS_FULL_FILE_READBACK",
+    "step": 2048,
+    "tree_sha256": "fb17b65effc3ae8dcbefa784adc8f7e6fab916821d29e4b2539e5be685ed8469"
+  },
+  "history_failures_preserved": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "target_WBC": 0,
+  "target_physics": 0,
+  "hardware": 0,
+  "new_learning_or_neural_or_physics_launch_allowed": false
+}

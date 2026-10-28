@@ -1,0 +1,144 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Register and deploy only the authorized new run; never dispatch workloads."""
+import base64
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+from pi0294_remote import remote_multiplexed
+from pi0294_adopt import REPO,save
+
+sys.path[:0]=[str(REPO/'src'),str(REPO)]
+from scripts.pi0294.continuation import RUN,PARENT,AUTHORITY,GO_COMMENT,T0,CUTOFF,DEADLINE,LIMITS,DATA,STATS,NUMERICAL_PATHS
+
+BASE=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/pi0294-r1')
+
+CODE=r'''
+import base64,copy,fcntl,hashlib,json,os,socket,subprocess,sys,time
+from pathlib import Path
+def read(p):return json.loads(Path(p).read_text())
+def sha(p):
+ h=hashlib.sha256()
+ with Path(p).open('rb') as f:
+  for b in iter(lambda:f.read(4<<20),b''):h.update(b)
+ return h.hexdigest()
+def write(p,v):
+ p=Path(p);p.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+ data=(json.dumps(v,indent=2,allow_nan=False)+'\n').encode()
+ tmp=p.with_name(p.name+'.pending.'+str(os.getpid()))
+ with tmp.open('xb') as f:f.write(data);f.flush();os.fsync(f.fileno())
+ tmp.chmod(0o600);os.replace(tmp,p)
+host=socket.gethostname();hopper=host.startswith('hopper');uid=os.getuid()
+assert uid==(22182 if hopper else 2009) and T0<=time.time()<CUTOFF
+parent_dir=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294') if hopper else Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')
+old=parent_dir/PARENT;root=parent_dir/RUN;old_m=read(old/'RUN_MANIFEST.json');old_manifest_bytes=(old/'RUN_MANIFEST.json').read_bytes()
+old_binding=read(old/'OUTPUT_BINDING.private.json');registry_path=Path(old_binding['registry'])
+infra=registry_path.parent;lock=(infra/'PI0294_R1_REGISTRATION.lock').open('a')
+fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+assert not root.exists(),'NO_OVERWRITE_OR_DUPLICATE_NEW_RUN'
+registry=read(registry_path);role='PI0294_R1_HOPPER_RUN' if hopper else 'PI0294_R1_4080_RUN'
+assert not any(r.get('role')==role or r.get('run_uuid')==RUN for r in registry['entries'])
+lease_path=infra/'leases/PI0294_R1.json';assert not lease_path.exists()
+root.mkdir(mode=0o700)
+for name in ('code','evidence','episodes','plans','pbs','worker_logs','worker_processes','reservations'):(root/name).mkdir(mode=0o700)
+write(root/'ADOPTION.json',dict(schema='PI0294_R1_ADOPTION_V1',pi='PI0294',run_uuid=RUN,parent_run_uuid=PARENT,
+ protocol_release=AUTHORITY,T0_epoch=T0,new_work_cutoff_epoch=CUTOFF,deadline_epoch=DEADLINE,
+ reset_on_resume=False,owner='EXISTING_LOCAL_PC',science_comment=GO_COMMENT))
+write(root/'PARENT_BINDING.private.json',dict(root=str(old),run_uuid=PARENT,
+ parent_manifest_sha256=sha(old/'RUN_MANIFEST.json'),parent_source_sha=old_m['code']['vla_commit'],
+ parent_source_root=str(old/old_m['code']['capsule_relative']),parent_manifest_unchanged=True))
+binding=dict(old_binding,run_uuid=RUN,role=role,run_root=str(root),lease=str(lease_path))
+write(root/'OUTPUT_BINDING.private.json',binding)
+write(root/'evidence/PRIOR_REGISTRY.private.json',registry)
+registry['entries'].append(dict(role=role,path=str(root),executor_node='hopper' if hopper else host,
+ run_uuid=RUN,protocol_ref=AUTHORITY,owner='EXISTING_LOCAL_PC',lifecycle='CURRENT_EVAL_FIRST_CONTINUATION'))
+write(registry_path,registry)
+write(lease_path,dict(schema='PI0294_R1_LEASE_V1',run_uuid=RUN,owner='EXISTING_LOCAL_PC',status='ACTIVE',
+ protocol_ref=AUTHORITY,T0_epoch=T0,deadline_epoch=DEADLINE,protected_entries=[dict(role=role,path=str(root)),
+ dict(role='READ_ONLY_PARENT_M512_AND_REUSED_INPUTS',path=str(old))],parent_lease_unmodified=True))
+files={}
+for n,encoded in CONTENTS.items():
+ p=root/'code'/n;assert p.resolve().is_relative_to((root/'code').resolve())
+ p.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+ with p.open('xb') as f:f.write(base64.b64decode(encoded))
+ p.chmod(0o440);files[n]=sha(p)
+assert all(files[n]==digest for n,digest in NUMERICAL.items())
+seal=dict(schema='PI0294_R1_SOURCE_SEAL_V1',source_sha=SOURCE,protocol_release=AUTHORITY,files=files,
+ run_uuid=RUN,unchanged_numerical_files=NUMERICAL,numerical_parent_source='a171997a704072e127d16410ba584c8aa0ddd573')
+write(root/'SOURCE_SEAL.json',seal)
+m=copy.deepcopy(old_m);m.update(run_uuid=RUN,parent_run_uuid=PARENT,status='NEW_AUTHORIZED_FIXED_CAPSULE_NOT_EXECUTED')
+m['authority']=dict(protocol_ref=AUTHORITY,go_comment=GO_COMMENT,approval='USER_CHAT_COMPLETE_SECTION5_PACKAGE')
+m['limits']=LIMITS
+m['code'].update(vla_commit=SOURCE,capsule_relative='code',source_seal_relative='SOURCE_SEAL.json',
+ source_seal_sha256=sha(root/'SOURCE_SEAL.json'),unchanged_numerical_files=NUMERICAL)
+m['data'].update(manifest_sha256=DATA,dataset_version='ORIGINAL_FROZEN_V3_0',hf_revision='6aa94f4f40d791bedd6b4e75489e4ede6504d10d')
+m['interfaces']['statistics_sha256']=STATS
+m['execution'].update(private_path_role=role,output_binding_sha256=sha(root/'OUTPUT_BINDING.private.json'))
+write(root/'RUN_MANIFEST.json',m)
+write(root/'evidence/FIXED_MODEL_EVAL_PANELS.json',read(old/'evidence/FIXED_MODEL_EVAL_PANELS.json'))
+assert sha(root/'evidence/FIXED_MODEL_EVAL_PANELS.json')==sha(old/'evidence/FIXED_MODEL_EVAL_PANELS.json')
+write(root/'evidence/LIVE_READINESS.json',read(old/'evidence/LIVE_READINESS.json'))
+assert sha(root/'evidence/LIVE_READINESS.json')=='c2ca87bda6942f17b037d47bdacf33f069f2bd1ecb2f8d57126d87ba8a69ed5c'
+if hopper:
+ for n in ('NEURAL_BINDINGS.private.json',):write(root/n,read(old/n))
+ for n in ('PRETRAINED_FILES.private.json','COSMOS_IDENTITY.private.json','HOPPER_INPUT_QUALIFICATION.json',
+           'MODEL_SMOKE.json','TRAINING_PROFILE_SEAL.json'):
+  write(root/'evidence'/n,read(old/'evidence'/n))
+ b=read(root/'NEURAL_BINDINGS.private.json');python=b['python']
+ assert sha(root/'NEURAL_BINDINGS.private.json')==sha(old/'NEURAL_BINDINGS.private.json')
+ alias=root/'model_inputs/nvidia/Cosmos-Reason2-2B';alias.parent.mkdir(parents=True);alias.symlink_to(b['cosmos'])
+ assert alias.resolve(strict=True)==Path(b['cosmos']).resolve(strict=True)
+ write(root/'HOPPER_RESOURCE_LEDGER.json',dict(schema='PI0294_R1_INCREMENTAL_HOPPER_LEDGER_V1',run_uuid=RUN,
+  T0_epoch=T0,deadline_epoch=DEADLINE,main_updates=512,model_smoke_updates=16,new_formal_updates=0,
+  new_engineering_updates=0,pending_updates=0,model_loads=0,generation_queries=0,PBS_submissions=[],
+  GPU_allocated_s=0,GPU_reserved_s=0,CPU_s=180,CPU_preflight_conservative_upper_s=180,CPU_reserved_s=0,
+  parent_actual=dict(PBS_calls=4,GPU_allocated_s=3669,main_updates=512,engineering_updates=16,
+  CPU_s=8316.916974),parent_counters_not_recharged=True))
+else:
+ for n in ('ENTRY_BINDING.private.json','PRIVATE_ASSET_BINDING.json'):
+  v=read(old/n)
+  if n=='ENTRY_BINDING.private.json':v['bootstrap_source']=str(root/'code')
+  write(root/n,v)
+ python=read(root/'ENTRY_BINDING.private.json')['python']
+ write(root/'ATTEMPT_PLAN.json',dict(attempts={}))
+ write(root/'plans/PARENT_FORMAL_V30.private.json',read(old/'plans/formal-v3_0.json'))
+ write(root/'PARENT_CORE_RESOURCE_SNAPSHOT.private.json',read(old/'LIVE_QUEUE.json'))
+sys.path[:0]=[str(root/'code/src'),str(root/'code')]
+from scripts.pi0294.continuation import validate_entry
+validate_entry(root,profile='hopper-neural' if hopper else '4080-simulation')
+assert (old/'RUN_MANIFEST.json').read_bytes()==old_manifest_bytes
+index=infra.parent/'experiments/PI0294'/RUN
+write(index/'INDEX.private.json',dict(run_uuid=RUN,role=role,status='FIXED_CAPSULE_REGISTERED_NO_WORKLOAD',
+ private_binding=str(root/'OUTPUT_BINDING.private.json'),protocol_ref=AUTHORITY))
+receipt=dict(status='PASS_REGISTERED_SEALED_NEW_AUTHORITY_ENTRY_NO_WORKLOAD',run_uuid=RUN,host=host,
+ source_sha=SOURCE,manifest_sha256=sha(root/'RUN_MANIFEST.json'),seal_sha256=sha(root/'SOURCE_SEAL.json'),
+ numerical_file_count=len(NUMERICAL),parent_source_unchanged=True,new_PBS=0,new_model_loads=0,new_physics=0,
+ source_members=len(files),python=python,root=str(root))
+write(root/'evidence/PREPARATION.private.json',receipt)
+print(json.dumps(receipt))
+'''
+
+if __name__=='__main__':
+    BASE.mkdir(mode=0o700,exist_ok=True)
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    names=subprocess.check_output(['git','ls-tree','-r','--name-only',source,'src','scripts/pi0291_arx5_data',
+        'scripts/pi0292','scripts/pi0294','scripts/iteration'],cwd=REPO,text=True).splitlines()
+    contents={n:base64.b64encode(subprocess.check_output(['git','show',source+':'+n],cwd=REPO)).decode() for n in names}
+    numerical={}
+    for n in NUMERICAL_PATHS:
+        old=subprocess.check_output(['git','show','a171997a704072e127d16410ba584c8aa0ddd573:'+n],cwd=REPO)
+        assert base64.b64decode(contents[n])==old
+        numerical[n]=hashlib.sha256(old).hexdigest()
+    for host in ('hopper','corelab-4080s'):
+        values=dict(CONTENTS=contents,NUMERICAL=numerical,SOURCE=source,RUN=RUN,PARENT=PARENT,
+            AUTHORITY=AUTHORITY,GO_COMMENT=GO_COMMENT,T0=T0,CUTOFF=CUTOFF,DEADLINE=DEADLINE,
+            LIMITS=LIMITS,DATA=DATA,STATS=STATS)
+        r=remote_multiplexed(host,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+        save(BASE/('PREPARE_'+host+'_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+        if r.returncode:raise RuntimeError('Preparation failed; preserve partial registration, inspect private receipt')
+        print(r.stdout)

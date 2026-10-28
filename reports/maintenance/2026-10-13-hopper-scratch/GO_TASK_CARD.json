@@ -1,0 +1,105 @@
+{
+  "schema": "HOPPER_SCRATCH_CLEANUP_HF_PUBLIC_GO_V1",
+  "status": "PUBLISHED_NOT_REMOTE_EXECUTED",
+  "branch": "pi0267/executor-decoupled-recovery",
+  "repo": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "maintainer": "EXISTING_LOCAL_PC_OWNER_ONLY",
+  "protocol": "docs/maintenance/2026-10-13_HOPPER_SCRATCH_RETENTION_AND_HF_PUBLIC_GO_V1.md",
+  "exec_prompt": "docs/handover/2026-10-13_HOPPER_SCRATCH_EXECUTE_PROMPT.md",
+  "scientific_owner_untouched": true,
+  "scope": "HOPPER_ACCOUNT_OWNED_PERSONAL_SCRATCH_ONLY",
+  "observed_quota": {
+    "used_display": "940.7 GB",
+    "hard_display": "1.0 TB",
+    "observed_date": "2026-10-13",
+    "must_refresh": true
+  },
+  "scientific_protect": {
+    "run": "PI0292/20261013T025824Z-localpc-pi0292",
+    "data_hf_rev": "6075aac0cdc44b8d252d7540efbac208701c30b3",
+    "train_count": 64,
+    "dev_count": 16,
+    "current_model_loads_at_review": 0,
+    "current_project_expired": true
+  },
+  "historical_first_candidates": [
+    {
+      "id": "PI0286_C0_REPLAY1024",
+      "training": "2/8",
+      "status": "FAIL_SCIENCE",
+      "hf_repo": "leoyuer/pi0246-gate-pass-campaign",
+      "hf_revision": "b0b8c65de8d5bbdf0946ccdda9ecb23348cf16c9",
+      "local_at_previous_audit": "ALREADY_RETIRED_BIG_FILES",
+      "action": "VERIFY_NO_DOUBLE_COUNT"
+    },
+    {
+      "id": "PI0286_C1_CORRECT1024",
+      "training": "8/8",
+      "dev": "5/16",
+      "status": "FAIL_SCIENCE",
+      "hf_repo": "leoyuer/pi0246-gate-pass-campaign",
+      "hf_revision": "d35dcda18def3d0691b55957ce461fe6b8449437",
+      "historical_full_trainer_bytes": 20468176035,
+      "action": "VERIFY_NO_ACTIVE_DEPENDENCY_AND_FULL_HF_MEMBER_READBACK_THEN_DIRECT_UNLINK_LOCAL_DUPLICATE"
+    },
+    {
+      "id": "PI0276_CHECKPOINT_4096_8192",
+      "status": "QUALIFICATION_UNRESOLVED",
+      "action": "NO_DELETE_UNTIL_SPECIFIC_SCIENCE_QUALITY_AND_CONSUMER_RECONCILED"
+    }
+  ],
+  "classes": [
+    "ACTIVE_PROTECT",
+    "UNIQUE_REFERENCE_PROTECT",
+    "FAILED_MODEL_DELETE",
+    "TEMP_DELETE",
+    "REMOTE_VERIFIED_LOCAL_DUPLICATE",
+    "HF_PUBLIC_CANDIDATE",
+    "UNKNOWN_HOLD"
+  ],
+  "limits": {
+    "from_actual_T0_max_wall_hours": 4,
+    "max_CPU_core_hours": 12,
+    "max_CPU_concurrent": 4,
+    "new_evidence_peak_GiB": 2,
+    "max_new_public_models": 2,
+    "max_new_public_upload_GiB": 30,
+    "max_Hopper_GPU_hours": 0,
+    "PBS_submissions": 0,
+    "optimizer_updates": 0,
+    "WBC_calls": 0,
+    "physics_starts": 0,
+    "Corelab_deletions": 0,
+    "resume_resets_T0": false
+  },
+  "cleanup": {
+    "soft_target_personal_quota_used_GB_at_most": 850,
+    "verify_UID_inode_link_lease_on_every_candidate": true,
+    "small_failure_evidence_remains": true,
+    "full_failed_weight_backup_not_required": true,
+    "remove_exact_file_unlinks_not_trash": true,
+    "measure_actual_quota_delta": true,
+    "no_wildcard_rm_rf": true
+  },
+  "HF_public": {
+    "model_only": true,
+    "NVIDIA_weights_license_not_Apache2": true,
+    "license_NOTICE_required": true,
+    "private_WBC_mesh_data_credentials_excluded": true,
+    "anonymous_fixed_revision_readback": true,
+    "no_scientific_success_invention": true,
+    "zero_releases_allowed": true
+  },
+  "required_reports": [
+    "ADOPTION.json",
+    "CLASSIFICATION_SUMMARY.json",
+    "HOPPER_RETENTION_MANIFEST.json",
+    "DELETE_ACTUAL_RECEIPTS.jsonl",
+    "HF_PUBLIC_MODEL_RELEASE.json",
+    "RESOURCE_BEFORE_AFTER.json",
+    "HOPPER_CAPACITY_READBACK.json",
+    "PROTECTED_HASH_READBACK.json",
+    "FINAL_REPORT.md"
+  ],
+  "publication_is_not_remote_cleanup": true
+}

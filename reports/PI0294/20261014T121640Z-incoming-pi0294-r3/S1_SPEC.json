@@ -1,0 +1,54 @@
+{
+  "version": "PI0294_R3_D0_S1_COPYDATA_V1",
+  "teacher_cards": [
+    {
+      "id": "PI0294-R3-S1-TEACHER-F0-T1",
+      "family": "F0",
+      "task": "T1",
+      "initial_state_sha256": "2a6b2ea49bd823c321f049b3c115350f95f0e935d3c432c03fecfb02925f28f5"
+    },
+    {
+      "id": "PI0294-R3-S1-TEACHER-F0-T2",
+      "family": "F0",
+      "task": "T2",
+      "initial_state_sha256": "2a6b2ea49bd823c321f049b3c115350f95f0e935d3c432c03fecfb02925f28f5"
+    },
+    {
+      "id": "PI0294-R3-S1-TEACHER-F1-T1",
+      "family": "F1",
+      "task": "T1",
+      "initial_state_sha256": "b74d0f1ed334ba5d6bcccceaedeaea165d16e1f8042fde55908be048933583cb"
+    },
+    {
+      "id": "PI0294-R3-S1-TEACHER-F1-T2",
+      "family": "F1",
+      "task": "T2",
+      "initial_state_sha256": "b74d0f1ed334ba5d6bcccceaedeaea165d16e1f8042fde55908be048933583cb"
+    }
+  ],
+  "context_sequences": {
+    "F0-T1": [
+      0,
+      4,
+      7,
+      11
+    ],
+    "F0-T2": [
+      0,
+      21,
+      28,
+      29
+    ]
+  },
+  "tolerance": 1e-10,
+  "frozen_before_teacher_runs": true,
+  "actions_modified": false,
+  "main_seconds": 32,
+  "known_failure_offsets": {
+    "A": 81,
+    "B": 118
+  },
+  "selected": "NONE",
+  "deployment": "NONE",
+  "sanitized_design_card_indices_only": true
+}

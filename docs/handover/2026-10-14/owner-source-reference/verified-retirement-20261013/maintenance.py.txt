@@ -1,0 +1,383 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Exact-list, journaled maintenance. All paths derive from adopted private inventory."""
+from pathlib import Path
+import argparse,base64,fcntl,hashlib,json,os,resource,shutil,socket,stat,subprocess,time
+os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+HOME=Path.home();WS=HOME/'Projects/GR00T-WBC';INF=WS/'infrastructure'
+SESSION='20261013T031510Z-localpc-retirement'
+ROOT=WS/'archive/verified-retirement'/SESSION
+ADOPTION={'session':SESSION,'T0_epoch':1791861310.6652887,'deadline_epoch':1791875710.6652887,'stop_new_migration_epoch':1791873910.6652887,'release':'3835ecea4560ed523ce77dad4c3e9dd2e937a817','issue':47,'comment':6137256578,'owner':'EXISTING_LOCAL_PC','limit_bytes':17179869184}
+ENV=dict(os.environ,GIT_OPTIONAL_LOCKS='0',GIT_LFS_SKIP_SMUDGE='1',PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+
+def save(p,v):
+ p=Path(p);p.parent.mkdir(parents=True,exist_ok=True,mode=0o700);q=p.with_name(p.name+'.partial');q.write_text(json.dumps(v,indent=2)+'\n');q.chmod(0o600);q.replace(p)
+
+def cmd(args,timeout=120,check=True):
+ p=subprocess.run([str(x) for x in args],capture_output=True,env=ENV,timeout=timeout)
+ if check and p.returncode:raise RuntimeError('command failed '+repr([str(x) for x in args[:4]])+': '+p.stderr.decode(errors='replace')[:1000])
+ return p
+
+def git(p,*args,check=True,timeout=120):return cmd(['git','-C',p,*args],timeout,check)
+
+def textgit(p,*args):return git(p,*args).stdout.decode().strip()
+
+def sha(p):
+ z=hashlib.sha256()
+ with p.open('rb') as f:
+  for b in iter(lambda:f.read(4<<20),b''):z.update(b)
+ return z.hexdigest()
+
+def ident(p):
+ s=p.lstat();return dict(dev=s.st_dev,ino=s.st_ino,mode=s.st_mode,uid=s.st_uid,gid=s.st_gid,nlink=s.st_nlink,size=s.st_size,allocated=s.st_blocks*512,mtime_ns=s.st_mtime_ns)
+
+def walk(p,exclude_git=False):
+ p=Path(p);dev=p.lstat().st_dev;stack=[p];rows=[]
+ mounts={Path(x.split()[4].replace('\\040',' ')) for x in Path('/proc/self/mountinfo').read_text().splitlines()}
+ while stack:
+  f=stack.pop();s=f.lstat();rel=str(f.relative_to(p));i=ident(f)
+  if s.st_dev!=dev or f!=p and f.resolve() in mounts:raise RuntimeError('nested mount '+str(f))
+  if s.st_uid!=os.getuid():raise RuntimeError('not owned '+str(f))
+  if stat.S_ISLNK(s.st_mode):r=dict(relative=rel,type='symlink',target=os.readlink(f),identity=i)
+  elif stat.S_ISREG(s.st_mode):
+   h=sha(f);after=ident(f)
+   if i!=after:raise RuntimeError('file changed while hashing '+str(f))
+   r=dict(relative=rel,type='file',sha256=h,identity=i)
+  elif stat.S_ISDIR(s.st_mode):
+   r=dict(relative=rel,type='directory',identity=i)
+   stack.extend(reversed(sorted(x for x in f.iterdir() if not(exclude_git and x.name=='.git'))))
+  else:raise RuntimeError('special file '+str(f))
+  rows.append(r)
+ return rows
+
+def content(rows):return [(r['relative'],r['type'],stat.S_IMODE(r['identity']['mode']),r.get('sha256'),r.get('target')) for r in rows]
+
+def copy_verified(src,dst,rows):
+ src=Path(src);dst=Path(dst)
+ if dst.exists():
+  assert content(walk(dst))==content(rows),'existing recovery mismatch '+str(dst);return
+ for r in rows:
+  s=src if r['relative']=='.' else src/r['relative'];d=dst if r['relative']=='.' else dst/r['relative']
+  if r['type']=='directory':d.mkdir(parents=True,exist_ok=True,mode=stat.S_IMODE(r['identity']['mode']))
+  elif r['type']=='file':d.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(s,d)
+  else:d.parent.mkdir(parents=True,exist_ok=True);d.symlink_to(r['target'])
+ for r in reversed(rows):
+  if r['type']=='directory':shutil.copystat(src/r['relative'],dst/r['relative'],follow_symlinks=False)
+ assert content(walk(dst))==content(rows),'independent readback mismatch'
+
+def usage():
+ u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+ return u.ru_utime+u.ru_stime+c.ru_utime+c.ru_stime
+
+def budget():
+ assert time.time()<ADOPTION['deadline_epoch'],'maintenance deadline expired'
+ used=sum(ident(p)['allocated'] for p in ROOT.rglob('*') if p.is_file() and not p.is_symlink())
+ assert used<ADOPTION['limit_bytes'],'recovery space budget exceeded'
+ return used
+
+def norm(p):return str(p).replace('/mnt/LocalHDD1/HomeNFS/@CORELAB_STORAGE_USER@','@LOCAL_OR_CORE_HOME@-nfs').rstrip('/')
+
+def under(p,root):return norm(p)==norm(root) or norm(p).startswith(norm(root)+'/')
+
+def protections():
+ paths=[]
+ for p in (INF/'leases').glob('*.json'):
+  if p.name=='STORAGE_RETIREMENT.json':continue
+  j=json.loads(p.read_text())
+  if j.get('status') in {'HELD_FOR_SCIENCE','ACTIVE','RUNNING','HELD'}:
+   paths.extend(x['path'] for x in j.get('protected_entries',[]));paths.extend(j.get('protected_roots',[]))
+   if j.get('new_run'):paths.append(j['new_run'])
+ return paths
+
+def snapshot():
+ result={}
+ for p in [HOME,HOME/'Projects']:
+  result[str(p)]=[dict(name=x.name,path=str(x),realpath=str(x.resolve()),type='symlink' if x.is_symlink() else 'directory' if x.is_dir() else 'file',identity=ident(x),target=os.readlink(x) if x.is_symlink() else None) for x in sorted(p.iterdir()) if not x.name.startswith('.')]
+ result['capacity']={str(p):dict(available_bytes=os.statvfs(p).f_bavail*os.statvfs(p).f_frsize) for p in [HOME,Path('@CORELAB_NODE_STORAGE@')]}
+ return result
+
+def init():
+ ROOT.mkdir(parents=True,exist_ok=True,mode=0o700)
+ lease=INF/'leases/STORAGE_RETIREMENT.json'
+ if lease.exists():
+  old=json.loads(lease.read_text());assert old.get('session')==SESSION or old.get('status') not in {'ACTIVE','HELD'},'other maintenance owner active'
+ if not (ROOT/'ADOPTION.json').exists():save(ROOT/'ADOPTION.json',ADOPTION);save(ROOT/'BEFORE.json',snapshot())
+ save(lease,dict(**ADOPTION,status='ACTIVE',scope='EXACT_PREEXISTING_CANDIDATES_ONLY',protected_paths=protections(),no_science=True))
+ print(json.dumps(dict(status='ADOPTED',private_root=str(ROOT))))
+
+def audit_repo(path,allow_nested=False):
+ p=Path(path);assert p.parent==HOME/'Projects'
+ idx={x['path']:x for x in json.loads((INF/'RETIRE_CANDIDATES.json').read_text())['items'] if x['node']=='corelab-amd-server'}
+ assert str(p) in idx and ident(p)['ino']==idx[str(p)]['st_ino']
+ rdir=ROOT/'code'/p.name;rdir.mkdir(parents=True,exist_ok=True,mode=0o700)
+ head=textgit(p,'rev-parse','HEAD');common=Path(textgit(p,'rev-parse','--path-format=absolute','--git-common-dir'));gdir=Path(textgit(p,'rev-parse','--absolute-git-dir'))
+ nested=[]
+ for base,dirs,files in os.walk(p,followlinks=False):
+  if Path(base)!=p and '.git' in dirs+files:nested.append(str(Path(base)/'.git'))
+  dirs[:]=[x for x in dirs if x!='.git' and not (Path(base)/x).is_symlink()]
+ assert not nested or allow_nested,'NESTED_GIT_REQUIRES_SEPARATE_OBJECT_RECOVERY:'+str(nested)
+ commonid=hashlib.sha256(str(common).encode()).hexdigest()[:12];gbackup=ROOT/'objects'/commonid
+ nested_info=[]
+ if nested:
+  nested_legal={'https://github.com/Lifelong-Robot-Learning/LIBERO.git','https://github.com/squarefk/SimplerEnv.git','https://github.com/youliangtan/ManiSkill2_real2sim','https://github.com/squarefk/robocasa','https://github.com/robocasa/robocasa-gr1-tabletop-tasks'}
+  for marker in nested:
+   module=Path(marker).parent;origin=textgit(module,'remote','get-url','origin');assert origin in nested_legal
+   mc=Path(textgit(module,'rev-parse','--path-format=absolute','--git-common-dir'));assert mc.resolve().is_relative_to(common.resolve())
+   assert not (mc/'objects/info/alternates').exists(),'nested object alternates outside closure'
+   fetch=git(module,'-c','gc.auto=0','fetch','--no-tags','origin',timeout=180,check=False).returncode
+   ni=dict(relative=str(module.relative_to(p)),common_relative=str(mc.resolve().relative_to(common.resolve())),head=textgit(module,'rev-parse','HEAD'),tree=textgit(module,'rev-parse','HEAD^{tree}'),origin=origin,fetch=fetch,
+    refs=git(module,'for-each-ref','--format=%(refname)%00%(objectname)').stdout.decode(),reflog_commits=git(module,'reflog','show','--all','--format=%H').stdout.decode().splitlines(),
+    local_only_commits=git(module,'rev-list','--branches','--tags','HEAD','--not','--remotes=origin',check=False).stdout.decode().splitlines(),
+    fsck_unreachable=git(module,'fsck','--full','--unreachable','--no-reflogs',check=False,timeout=180).stdout.decode(),stash=git(module,'stash','list','--format=%H').stdout.decode(),
+    status=git(module,'status','--porcelain=v1','-z','--untracked-files=all').stdout.decode(),ignored=git(module,'ls-files','--others','--ignored','--exclude-standard','-z').stdout.decode().split('\0'),
+    untracked=git(module,'ls-files','--others','--exclude-standard','-z').stdout.decode().split('\0'),lfs=git(module,'lfs','ls-files','--all','--long',check=False).stdout.decode(),git_marker_identity=ident(Path(marker)),git_marker_sha256=sha(Path(marker)))
+   nested_info.append(ni)
+  # Capture fresh complete parent+module metadata after the nested-origin refresh.
+  gbackup=ROOT/'objects'/(commonid+'-initialized')
+ audit=dict(path=str(p),identity=ident(p),head=head,tree=textgit(p,'rev-parse','HEAD^{tree}'),common_dir=str(common),gitdir=str(gdir),common_id=commonid,origin=textgit(p,'remote','get-url','origin'),
+     refs=git(p,'for-each-ref','--format=%(refname)%00%(objectname)').stdout.decode(),status=git(p,'status','--porcelain=v1','-z','--untracked-files=all').stdout.decode(),
+     untracked=git(p,'ls-files','--others','--exclude-standard','-z').stdout.decode().split('\0'),ignored=git(p,'ls-files','--others','--ignored','--exclude-standard','-z').stdout.decode().split('\0'),
+     stash=git(p,'stash','list','--format=%H').stdout.decode(),worktrees=git(p,'worktree','list','--porcelain','-z').stdout.decode(),
+     submodule=git(p,'submodule','status','--recursive',check=False).stdout.decode(),lfs=git(p,'lfs','ls-files','--all','--long',check=False).stdout.decode())
+ legal={'git@github.com:Leo-6-maker/go2-arx5-hierarchical-vla.git','https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla.git','https://github.com/NVIDIA/Isaac-GR00T.git'}
+ assert audit['origin'] in legal,'origin outside explicit allowlist'
+ # Only refresh a normal remote-tracking namespace; retain all local branch/tag/stash data.
+ audit['fetch']=git(p,'-c','gc.auto=0','fetch','--no-tags','origin',timeout=180,check=False).returncode
+ audit['local_only_commits']=git(p,'rev-list','--branches','--tags','HEAD','--not','--remotes=origin',check=False).stdout.decode().splitlines()
+ audit['reflog_commits']=git(p,'reflog','show','--all','--format=%H').stdout.decode().splitlines()
+ audit['fsck_unreachable']=git(p,'fsck','--full','--unreachable','--no-reflogs',check=False,timeout=180).stdout.decode()
+ save(rdir/'CODE_BACKUP_AUDIT.json',audit)
+ if not gbackup.exists():
+  grows=walk(common);copy_verified(common,gbackup,grows);save(ROOT/'objects'/(commonid+'.manifest.json'),grows)
+ # Raw complete common-dir is independent backup, including loose unreachable objects, reflog, stash and worktree metadata.
+ audit['raw_common_backup']=str(gbackup);audit['raw_common_backup_verified']=True
+ bundle=ROOT/'objects'/(commonid+'.bundle')
+ if not bundle.exists():
+  git(p,'bundle','create',str(bundle),'--all','HEAD',timeout=180)
+ audit['bundle_verify_rc']=git(p,'bundle','verify',str(bundle)).returncode
+ rows=walk(p,exclude_git=True);save(rdir/'SOURCE_MANIFEST.json',rows)
+ if sum(r['identity']['allocated'] for r in rows)>4*2**30:raise RuntimeError('candidate exceeds bounded code snapshot budget')
+ snapshot_dir=rdir/'original_bytes';copy_verified(p,snapshot_dir,rows)
+ (rdir/'staged.patch').write_bytes(git(p,'diff','--binary','--cached','--no-ext-diff').stdout)
+ (rdir/'unstaged.patch').write_bytes(git(p,'diff','--binary','--no-ext-diff').stdout)
+ restore=rdir/'independent_restore'
+ if not restore.exists():cmd(['git','clone','--no-hardlinks','--no-checkout',bundle,restore],180)
+ git(restore,'checkout','--detach',head,timeout=180)
+ assert not (restore/'.git/objects/info/alternates').exists()
+ assert textgit(restore,'rev-parse','HEAD')==head and textgit(restore,'rev-parse','HEAD^{tree}')==audit['tree']
+ # Materialize all original tracked modifications plus ignored/untracked bytes, exact modes and links on a clean independent clone.
+ for r in rows:
+  rel=r['relative'];s=snapshot_dir/rel;d=restore/rel
+  if rel=='.':continue
+  if r['type']=='directory':d.mkdir(parents=True,exist_ok=True,mode=stat.S_IMODE(r['identity']['mode']))
+  elif r['type']=='file':
+   if d.is_symlink():d.unlink()
+   d.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(s,d)
+  else:
+   if d.exists() or d.is_symlink():d.unlink()
+   d.parent.mkdir(parents=True,exist_ok=True);d.symlink_to(r['target'])
+
+ for r in reversed(rows):
+  if r['type']=='directory' and r['relative']!='.':shutil.copystat(snapshot_dir/r['relative'],restore/r['relative'],follow_symlinks=False)
+ if nested_info:
+  module_rows=walk(gbackup/'modules');copy_verified(gbackup/'modules',restore/'.git/modules',module_rows)
+  marker_dir=rdir/'original_git_markers';marker_dir.mkdir(exist_ok=True)
+  for ni in nested_info:
+   module=restore/ni['relative'];mg=restore/'.git'/ni['common_relative'];marker=p/ni['relative']/'.git'
+   shutil.copy2(marker,marker_dir/(hashlib.sha256(ni['relative'].encode()).hexdigest()[:12]+'.gitfile'))
+   assert not (mg/'objects/info/alternates').exists()
+   git(module.parent,'--git-dir',str(mg),'config','core.worktree',str(module))
+   (module/'.git').write_text('gitdir: '+str(mg)+'\n');(module/'.git').chmod(stat.S_IMODE(ni['git_marker_identity']['mode']))
+   assert textgit(module,'rev-parse','HEAD')==ni['head'] and textgit(module,'rev-parse','HEAD^{tree}')==ni['tree']
+   ni.update(independent_restore=str(module),independent_common_dir=str(mg),no_source_objects_or_alternates=True)
+  save(rdir/'NESTED_GIT_AUDIT.json',nested_info)
+ assert content(walk(restore,exclude_git=True))[1:]==content(rows)[1:],'full byte restore mismatched'
+ audit.update(snapshot=str(snapshot_dir),independent_restore=str(restore),independent_all_files_verified=True,
+     files=sum(x['type']=='file' for x in rows),allocated_bytes=sum(x['identity']['allocated'] for x in rows),
+     backup_cpu_s=usage(),protected_by_current_lease=[x for x in protections() if under(x,p) or under(p,x)],
+     initialized_nested_git=nested_info,status='CODE_BYTES_AND_GIT_OBJECTS_INDEPENDENTLY_RESTORED',uncovered=[],recovery_used_bytes=budget())
+ save(rdir/'CODE_BACKUP_AUDIT.json',audit);print(json.dumps({k:audit[k] for k in ['path','status','files','allocated_bytes','protected_by_current_lease','recovery_used_bytes']}))
+
+def preserve_official_mods():
+ p=HOME/'Projects/isaac-gr00t';target=ROOT/'official_modifications'
+ rows=[]
+ for rel in ['CLAUDE.md','getting_started/GR00T_inference.ipynb']:
+  f=p/rel;r=ident(f);d=target/rel;d.parent.mkdir(parents=True,exist_ok=True,mode=0o700);shutil.copy2(f,d);assert sha(d)==sha(f)
+  rows.append(dict(relative=rel,identity=r,sha256=sha(f),recovery=str(d)))
+ target.mkdir(parents=True,exist_ok=True)
+ for name,args in [('staged.patch',['diff','--cached','--binary']),('unstaged.patch',['diff','--binary'])]:
+  raw=git(p,*args,'--','CLAUDE.md','getting_started/GR00T_inference.ipynb').stdout;(target/name).write_bytes(raw)
+ save(target/'MANIFEST.json',dict(status='ORIGINAL_BYTES_AND_EXACT_PATCH_PRIVATE_VERIFIED',files=rows,upstream_modified=False,pushed_private_notebook=False))
+ print(json.dumps(dict(status='OFFICIAL_MODIFICATIONS_SAVED',files=len(rows))))
+
+
+def consumers(path):
+ code=(ROOT/'consumer_checks.py').read_bytes();env=dict(ENV,MAINTENANCE_OWNER_PID=str(os.getpid()))
+ p=subprocess.run(['/usr/bin/python3','-'],input=code,capture_output=True,timeout=90,env=env);assert p.returncode==0,p.stderr.decode()
+ local=json.loads(p.stdout)
+ q=subprocess.run(['ssh','-o','BatchMode=yes','-o','ConnectTimeout=12','corelab-4080s','PYTHONDONTWRITEBYTECODE=1 python3 -'],input=code,capture_output=True,timeout=90,env=ENV)
+ assert q.returncode==0,q.stderr.decode();gpu=json.loads(q.stdout)
+ save(ROOT/'checks'/(str(time.time_ns())+'.json'),dict(candidate=str(path),nodes=[local,gpu]))
+ conflicts=[]
+ for node in [local,gpu]:
+  assert not node['errors'],'runtime-entry scan errors'
+  for key in ['live_process_consumers','active_launcher_or_install_refs']:
+   conflicts.extend(dict(node=node['node'],kind=key,**r) for r in node[key] if str(path) in r['candidates'])
+  for k,r in node['jobs'].items():
+   if str(path) in r['candidates']:conflicts.append(dict(node=node['node'],kind=k))
+ return conflicts
+
+def removable(path):
+ p=Path(path)
+ assert p.exists() and not p.is_symlink()
+ assert time.time()<ADOPTION['stop_new_migration_epoch']
+ assert not any(under(p,x) or under(x,p) for x in protections()),'CURRENT_SCIENCE_LEASE_PROTECTED'
+ conflicts=consumers(p)
+ assert not conflicts,'LIVE_OR_EXECUTABLE_CONSUMER:'+str(conflicts)[:1500]
+
+
+def unlink_manifest(p,rows,receipt):
+ # Full preflight has completed. Journal each exact object, never follow a link.
+ log=ROOT/'journals'/(hashlib.sha256(str(p).encode()).hexdigest()[:12]+'.jsonl');log.parent.mkdir(exist_ok=True)
+ deleted=[]
+ with log.open('a') as f:
+  for r in reversed(rows):
+   target=p/r['relative'] if r['relative']!='.' else p
+   now=ident(target);old=r['identity']
+   assert (now['dev'],now['ino'],now['mode'],now['uid'])==(old['dev'],old['ino'],old['mode'],old['uid']),'IDENTITY_CHANGED '+str(target)
+   if r['type']=='file':
+    assert now==old and sha(target)==r['sha256'],'FILE_CHANGED '+str(target)
+   elif r['type']=='symlink':assert os.readlink(target)==r['target']
+   event=dict(path=str(target),relative=r['relative'],type=r['type'],identity=old,sha256=r.get('sha256'),intent_epoch=time.time())
+   f.write(json.dumps(dict(event='DELETE_INTENT',**event))+'\n');f.flush();os.fsync(f.fileno())
+   if r['type']=='directory':target.rmdir()
+   else:target.unlink()
+   f.write(json.dumps(dict(event='DELETED',**event,deleted_epoch=time.time()))+'\n');f.flush();os.fsync(f.fileno());deleted.append(event)
+ receipt.update(status='RETIRED_EXACT_MANIFEST',deleted_files=sum(r['type']=='file' for r in rows),deleted_symlinks=sum(r['type']=='symlink' for r in rows),deleted_directories=sum(r['type']=='directory' for r in rows),
+   allocated_bytes_of_deleted_objects=sum(r['identity']['allocated'] for r in rows),hardlinked_objects=[r['relative'] for r in rows if r['type']=='file' and r['identity']['nlink']>1],
+   source_absent=not(p.exists() or p.is_symlink()),journal=str(log),deleted_epoch=time.time())
+ assert receipt['source_absent'];return receipt
+
+
+def retire_repo(path):
+ p=Path(path);rdir=ROOT/'code'/p.name;a=json.loads((rdir/'CODE_BACKUP_AUDIT.json').read_text());rows=json.loads((rdir/'SOURCE_MANIFEST.json').read_text())
+ assert a['independent_all_files_verified'] and not a['uncovered'];removable(p)
+ assert ident(p)==a['identity'],'candidate root changed'
+ assert textgit(p,'rev-parse','HEAD')==a['head']
+ assert content(walk(p,exclude_git=True))==content(rows),'source content changed'
+ assert content(walk(Path(a['snapshot'])))==content(rows)
+ assert content(walk(Path(a['independent_restore']),exclude_git=True))[1:]==content(rows)[1:]
+ status=git(p,'status','--porcelain=v1','-z','--untracked-files=all').stdout;assert not status,'dirty/untracked candidate requires separate exact recovery'
+ receipt=dict(path=str(p),method=None,source_head=a['head'],source_tree=a['tree'],source_identity=a['identity'],backup_audit=str(rdir/'CODE_BACKUP_AUDIT.json'),started_epoch=time.time(),status='PREDELETE_VERIFIED',prior_deletion_counts_not_inherited=True)
+ save(rdir/'DELETION_RECEIPT.json',receipt)
+ if Path(a['gitdir'])!=Path(a['common_dir']):
+  assert not (Path(a['gitdir'])/'locked').exists(),'WORKTREE_LOCKED'
+  original_metadata=walk(Path(a['gitdir']));copy_verified(Path(a['gitdir']),rdir/'git_worktree_metadata',original_metadata)
+  receipt['method']='git worktree remove (non-force)'
+  # Correct AMD common-dir namespace; never require old 4080S gitdir to work first.
+  result=git(Path(a['common_dir']).parent,'worktree','remove',str(p.resolve()),check=False,timeout=120)
+  receipt['native_remove_rc']=result.returncode;receipt['native_remove_stderr']=result.stderr.decode()
+  if result.returncode:
+   receipt['status']='HELD_NATIVE_REMOVE_REFUSED';save(rdir/'DELETION_RECEIPT.json',receipt);print(json.dumps(receipt));return
+  receipt.update(status='RETIRED_NATIVE_WORKTREE',source_absent=not p.exists(),deleted_files=sum(x['type']=='file' for x in rows)+1,
+     deleted_symlinks=sum(x['type']=='symlink' for x in rows),deleted_directories=sum(x['type']=='directory' for x in rows),allocated_bytes_of_deleted_objects=sum(x['identity']['allocated'] for x in rows),
+     allocation_scope='full payload manifest; git indirection file and removed common-dir metadata excluded',hardlinked_objects=[x['relative'] for x in rows if x['type']=='file' and x['identity']['nlink']>1],deleted_epoch=time.time(),
+     after_worktree_registration=git(Path(a['common_dir']).parent,'worktree','list','--porcelain','-z').stdout.decode())
+  assert receipt['source_absent']
+ else:
+  wt=textgit(p,'worktree','list','--porcelain');assert wt.count('worktree ')==1,'PARENT_HAS_SURVIVING_LINKED_WORKTREES'
+  # Refresh full metadata after linked worktree changes, independently save and verify before parent retirement.
+  full=walk(p);save(rdir/'FULL_PARENT_PREDELETE_MANIFEST.json',full)
+  copy_verified(p,rdir/'full_parent_final',full)
+  receipt['method']='exact manifest unlink/rmdir (standalone parent)';receipt=unlink_manifest(p,full,receipt)
+ save(rdir/'DELETION_RECEIPT.json',receipt);print(json.dumps({k:receipt[k] for k in ['path','status','source_absent','deleted_files','allocated_bytes_of_deleted_objects']}))
+
+
+def retire_home_copies():
+ previous=json.loads((ROOT/'PRIOR_COPY_PRIVATE.json').read_text());review={x['path']:x for x in json.loads((INF/'HOME_RETIRE_REVIEW.json').read_text())['items']}
+ for prior in previous['candidates']:
+  if prior['status']!='COPY_READBACK_VERIFIED_SOURCE_RETAINED':continue
+  p=Path(prior['source']);dst=Path(prior['destination']);rdir=ROOT/'home'/p.name;rdir.mkdir(parents=True,exist_ok=True,mode=0o700);rp=rdir/'DELETION_RECEIPT.json'
+  if rp.exists() and json.loads(rp.read_text()).get('source_absent'):continue
+  receipt=dict(path=str(p),destination=str(dst),source_copy_receipt='PREEXISTING_PHASE2_COPY_ONLY',started_epoch=time.time(),status='VALIDATING')
+  try:
+   assert str(p) in review and ident(p)['ino']==review[str(p)]['st_ino']
+   removable(p);rows=walk(p);destrows=walk(dst)
+   sourcefiles={r['relative']:r for r in rows if r['type']=='file'}
+   # A single-file candidate uses '.' in the new manifest and its filename in prior copy receipt.
+   oldfiles={r['relative']:r for r in prior['files']}
+   if p.is_file():oldfiles={'.':next(iter(oldfiles.values()))}
+   assert set(sourcefiles)==set(oldfiles),'prior file coverage mismatch'
+   for rel,r in sourcefiles.items():
+    old=oldfiles[rel];assert r['sha256']==old['sha256'];assert (r['identity']['ino'],r['identity']['dev'],r['identity']['size'],r['identity']['mtime_ns'])==(old['source_identity']['ino'],old['source_identity']['dev'],old['source_identity']['size'],old['source_identity']['mtime_ns'])
+   # The earlier copy receipt covered files, not empty directories or directory modes.
+   # Reuse those verified bytes, completing only missing directories and metadata.
+   sourceby={r['relative']:r for r in rows}
+   for r in destrows:
+    assert r['relative'] in sourceby,'unexpected archive object'
+    orig=sourceby[r['relative']]
+    assert r['type']==orig['type'] and r.get('sha256')==orig.get('sha256') and r.get('target')==orig.get('target'),'prior archive changed'
+   for r in rows:
+    if r['type']=='directory':(dst/r['relative']).mkdir(parents=True,exist_ok=True,mode=stat.S_IMODE(r['identity']['mode']))
+   for r in reversed(rows):
+    shutil.copystat(p/r['relative'],dst/r['relative'],follow_symlinks=False)
+   assert content(rows)==content(walk(dst)),'archive source bytes/mode/link mismatch'
+   save(rdir/'PREDELETE_MANIFEST.json',rows)
+   receipt.update(independent_archive_full_readback=True,files=len(sourcefiles),method='exact manifest unlink/rmdir of verified duplicate; authority retained in archive')
+   save(rp,receipt);receipt=unlink_manifest(p,rows,receipt);save(rp,receipt)
+  except Exception as e:
+   receipt.update(status='HELD_EXACT_REASON',reason=str(e));save(rp,receipt)
+  print(json.dumps({k:receipt.get(k) for k in ['path','status','reason','deleted_files','allocated_bytes_of_deleted_objects']}),flush=True)
+
+def archive_small():
+ review={x['path']:x for x in json.loads((INF/'HOME_RETIRE_REVIEW.json').read_text())['items']}
+ candidates=[HOME/' ',HOME/'_housekeeping_20260927',HOME/'pi0223_goal_a_20260918',HOME/'pi0225_torch_extensions_gpu0',HOME/'test_local',HOME/'Projects/stage45e_n2_runtime_5080d53']
+ for p in candidates:
+  rdir=ROOT/('code' if p.parent==HOME/'Projects' else 'home')/p.name;rp=rdir/'DELETION_RECEIPT.json'
+  receipt=dict(path=str(p),status='VALIDATING_COLD_MIGRATION',started_epoch=time.time(),method='verified cold archive followed by exact manifest unlink/rmdir',net_recovery_claimed=False)
+  try:
+   if p.parent==HOME:assert str(p) in review and ident(p)['ino']==review[str(p)]['st_ino']
+   else:
+    original=next(x for x in json.loads((INF/'RETIRE_CANDIDATES.json').read_text())['items'] if x['path']==str(p) and x['node']=='corelab-amd-server')
+    assert ident(p)['ino']==original['st_ino']
+   removable(p);rows=walk(p);assert sum(r['identity']['allocated'] for r in rows)<32*2**20,'cold candidate exceeds 32 MiB scope'
+   if p.name=='stage45e_n2_runtime_5080d53':
+    assert all(r['type']!='symlink' for r in rows)
+    assert all(Path(r['relative']).suffix in {'.json','.md','.yaml','.yml','.toml','.sh','.xml','.pbs',''} for r in rows if r['type']=='file'),'unexpected data or environment file'
+    assert not any(Path(r['relative']).name in {'python','pyvenv.cfg','.git','site-packages','venv','runtime'} for r in rows)
+   if p.name==' ':assert all(r['type']=='directory' for r in rows),'unexpected nonempty whitespace directory'
+   if p.name=='test_local':assert p.is_file() and p.stat().st_size==1,'test marker changed scope'
+   archive=WS/'archive/legacy'/SESSION/('projects' if p.parent==HOME/'Projects' else 'home')/p.name
+   archive.parent.mkdir(parents=True,exist_ok=True,mode=0o700);copy_verified(p,archive,rows)
+   assert content(walk(p))==content(rows),'source changed during archive'
+   removable(p);save(rdir/'PREDELETE_MANIFEST.json',rows)
+   receipt.update(destination=str(archive),independent_archive_full_readback=True,source_identity=ident(p),files=sum(r['type']=='file' for r in rows),content_class='COLD_SMALL_HISTORICAL_CODE_REPORT_OR_EMPTY_TREE_FULLY_PRESERVED')
+   save(rp,receipt);receipt=unlink_manifest(p,rows,receipt);receipt['status']='MIGRATED_COLD_ARCHIVE_SOURCE_RETIRED';save(rp,receipt)
+  except Exception as e:
+   receipt.update(status='HELD_EXACT_REASON',reason=str(e));save(rp,receipt)
+  print(json.dumps({k:receipt.get(k) for k in ['path','status','reason','deleted_files','allocated_bytes_of_deleted_objects']}),flush=True)
+
+def main():
+ ap=argparse.ArgumentParser();ap.add_argument('action',choices=['init','audit-repo','audit-protected-nested','preserve-official-mods','retire-repo','retire-home-copies','batch-repos','archive-small']);ap.add_argument('path',nargs='?');args=ap.parse_args()
+ if args.action=='init':init();return
+ assert socket.gethostname()=='corelab-amd-server'
+ with (ROOT/'OWNER.lock').open('a') as f:
+  fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB);budget()
+  if args.action=='audit-repo':audit_repo(args.path)
+  elif args.action=='audit-protected-nested':audit_repo(args.path,allow_nested=True)
+  elif args.action=='retire-repo':retire_repo(args.path)
+  elif args.action=='retire-home-copies':retire_home_copies()
+  elif args.action=='archive-small':archive_small()
+  elif args.action=='batch-repos':
+   for name in ['go2-arx5-hierarchical-vla-pi0240','go2-arx5-hierarchical-vla-rtx4080s','isaac-gr00t-rtx4080s','go2-arx5-hierarchical-vla-rtx4080s-dynamic','go2-arx5-hierarchical-vla']:
+    path=HOME/'Projects'/name
+    try:
+     audit_repo(path);retire_repo(path)
+    except Exception as e:
+     rp=ROOT/'code'/name/'DELETION_RECEIPT.json'
+     prior=json.loads(rp.read_text()) if rp.exists() else {'path':str(path)}
+     prior.update(status='HELD_EXACT_REASON',reason=str(e),source_absent=not path.exists(),epoch=time.time());save(rp,prior);print(json.dumps(prior),flush=True)
+  else:preserve_official_mods()
+ save(ROOT/('RESOURCE_'+str(time.time_ns())+'.json'),dict(cpu_seconds=usage(),recovery_bytes=budget(),action=args.action,epoch=time.time()))
+if __name__=='__main__':main()

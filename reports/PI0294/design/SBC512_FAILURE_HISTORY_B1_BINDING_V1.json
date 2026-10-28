@@ -1,0 +1,63 @@
+{
+  "schema": "MP1_B1_IMPLEMENTATION_BINDING_V1",
+  "status": "ORIGINAL_MP1_CHILD_SCOPE_PENDING_ACTUAL_REGISTRATION_NOT_EXECUTION",
+  "authority": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "adopted_review": "fb16d10142e884df9f6b7d9cbcf951fe70c92044",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "child_run": "sbc512-failure-history-01",
+  "new_budget_or_T0": false,
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "source_read_only_child": "source-pair-01",
+  "original_scientific_source": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+  "host": "CoreLab_4080S_EXISTING_APPROVED_4080_SIMULATION_PROFILE",
+  "CPU_cores_max": 1,
+  "CPU_seconds_max_including_registration": 3600,
+  "wall_seconds_max_including_registration": 3600,
+  "source_diagnostic_starts_max_conservatively_charged": 4,
+  "shadow_integrations_max": 28400,
+  "maximum_charge_derivation": "27600 recorded actual-history ticks plus four at-most-200-tick original rejected-prefix shadows",
+  "live_integrations": 0,
+  "new_autonomous_policy_episodes": 0,
+  "new_neural_queries": 0,
+  "new_optimizer_updates": 0,
+  "GPU_seconds": 0,
+  "new_PBS": 0,
+  "new_expert_or_hybrid_labels": 0,
+  "new_output_peak_bytes_max": 67108864,
+  "anchor_selection": "LAST_REJECTED_PREFIX_INPUT_AND_PREVIOUS_ACCEPTED_PREFIX_INPUT",
+  "anchor_semantics": "Two distinct original decision inputs per failure,after their respective previous actual ACKs;not two copies of the same final tick",
+  "cases": [
+    {"attempt_id": "PI0294-MP1-S-BC-512-TRAIN4-F0-000-T1", "sequences": [3, 4], "ticks": [600, 800], "original_rejection_offset_ticks": 64},
+    {"attempt_id": "PI0294-MP1-S-BC-512-TRAIN4-F0-000-T2", "sequences": [51, 52], "ticks": [10200, 10400], "original_rejection_offset_ticks": 124},
+    {"attempt_id": "PI0294-MP1-S-BC-512-TRAIN4-F1-000-T1", "sequences": [25, 26], "ticks": [5000, 5200], "original_rejection_offset_ticks": 63},
+    {"attempt_id": "PI0294-MP1-S-BC-512-TRAIN4-F1-000-T2", "sequences": [55, 56], "ticks": [11000, 11200], "original_rejection_offset_ticks": 150}
+  ],
+  "required_before_dispatch": [
+    "Fresh native owner,used/reserved,pending-effect and parent lease checks;one new registered Core child lease",
+    "Immutable tested source manifest,all15 original numerical files unchanged,original S1/data/stats hashes",
+    "Four original adjudications,raw clocks,observations,commands,ACKs,highrate,initial images and static IK qualifier sealed and read back",
+    "Parent original MP1 CPU,source-start,physics and storage allowances reserved once without borrowing GPU final reserve"
+  ],
+  "reconstruction": [
+    "Start original D0 model/initial state and reproduce initial static IK qualification without new rendering",
+    "Apply only original ACKed prefixes in original order,including original snapshot and teacher-observe timing",
+    "Match every recorded time/qpos/qvel/ctrl/zero-wrench/native-safety row within1e-10",
+    "Match selected original proprioception/language and both exact saved camera bytes",
+    "Save full live and IK integration states,controller/Python/teacher history and new diagnostic RNG state,not qpos/qvel alone",
+    "Inspect original rejected prefix using frozen original S1 semantics;match rejection offset and reason before reporting first illegal geometry"
+  ],
+  "limits_on_claims": [
+    "Historical original process RNG and complete hidden-state fingerprints were not independently stored;do not manufacture bitwise identity to them",
+    "Frozen D0 physics engine has no random sampling;history reconstruction is supported by deterministic path and full actual highrate parity",
+    "Shadow-predicted collision is not an actual original live collision",
+    "AUDIT_ONLY teacher phase is not a policy phase label",
+    "No original results,source capsules,physics,PD,limits,WBC,S1 or scoring modified",
+    "Current first illegal geometry remains unknown until actual reconstruction qualifies",
+    "Any future endpoint-model queries require a separate sealed NI/CPU/shadow binding within original MP1;24 is not new allowance",
+    "No short safety check is admitted as complete recovery or training success"
+  ],
+  "on_mismatch": "Preserve raw failure and counter effects,stop this diagnostic child,no blind restart or live negative repeat;healthy training remains unchanged",
+  "deliverables": ["Eight source-bound anchor records and private full-history snapshots", "Four actual first-geometry/rejection records or honest reconstruction gaps", "All actual CPU/shadow/start costs and terminal lease receipt"],
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -1,0 +1,78 @@
+{
+  "schema": "WDR1_CURRENT_TARGET_ZERO_PHYSICS_QUOTA_STOP_CPU_PREPARATION_V1",
+  "status": "CPU_COMPONENT_TESTED_NOT_NATIVE_ADMISSION_OR_QUALIFICATION",
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "target_task_native_qualified": false,
+  "core64_cells": 0,
+  "purpose": "Prepare the existing target receiver, real feedback, install ACK and STOP chain for a current non-object zero-integration commissioning check",
+  "implementation": {
+    "new_component": "scripts/pi0294/dec1/target_zero_quota.py",
+    "shared_component": "scripts/pi0294/dec1/target_paused_stop.py",
+    "original_positive_native_quota_semantics_preserved": true,
+    "dedicated_request_role": "DEC1_FROZEN_TARGET_NATIVE_IO_QUALIFICATION_V1",
+    "maximum_native_step": 0,
+    "arm_count_upper": 1,
+    "positive_quota_rejected": true,
+    "request_exact_hash_rechecked_by_each_guard": true,
+    "original_frozen_clock_sha256": "82004c3171cc8cd2a0486f391595ac39424bad96882d12c5936c4eca55fe3b08",
+    "STOP_requires": [
+      "ACTUAL_ZERO_STEP_GRTSTATE_FULL_STATE_PACKET",
+      "ORIGINAL_PAUSED_CLOCK_FSM_LEG_HISTORY_AND_GAIT_UNCHANGED",
+      "FRESH_NATIVE_PAUSE_ACK_SEQUENCE",
+      "UNCHANGED_ZERO_QUOTA_AND_BYTE_IDENTICAL_FULL_STATE",
+      "DURABLE_STOP_READBACK_AND_OWNER_LATCH"
+    ],
+    "old_partial_intent_and_pending_quota_rejected_before_new_owner": true,
+    "unknown_write_never_reissued": true
+  },
+  "validation": {
+    "new_CPU_cases": 29,
+    "related_CPU_passed": 156,
+    "private_parser_tests_skipped": 12,
+    "tests_are_temp_file_ABI_fixtures_not_native_evidence": true,
+    "initial_new_fault_fixture_intercepted_intent_write_instead_of_quota": "CORRECTED_TO_INJECT_ONLY_AT_QUOTA_REPLACE",
+    "previous_frozen_evidence_source": "4b5edda1d137d9de86fb445532df29d86e556b40",
+    "previous_exact_CI": {
+      "run": 40039484020,
+      "job": 120706917235,
+      "all12_success": true,
+      "full_text_and_Git_blob_verified_files": 5
+    },
+    "this_source_exact_CI_and_full_readback": "REQUIRED_AFTER_COMMIT_NOT_CLAIMED_BY_THIS_REPORT"
+  },
+  "remaining_before_native_dispatch": [
+    "CURRENT_STANDARD_MANIFEST_REGISTERED_ROLE_AND_ACTUAL_BOTH_EIGHT_DIMENSION_RESERVATIONS",
+    "FRESH_COMPLETE_REMAINING_WORK_FORECAST_INCLUDING_ALL_CLOSED_SDK_COSTS_AND_NEW_COMPONENT_COSTS",
+    "PINNED_NATIVE_PROCESS_AND_RECEIVER_COLD_INTEGRATION_BEFORE_ANY_NATIVE_IMPORT",
+    "NATIVE_DENIAL_OF_EVERY_INTEGRATION_ENTRY_POINT_INDEPENDENT_OF_OWNER_QUOTA",
+    "ACTUAL_FROZEN_PAUSE_PRODUCER_AND_NATIVE_STATE_AND_ROS_INSTALL_ACK_STOP_READBACK",
+    "EXACT_ACTUAL_EFFECTS_ONCE_SETTLEMENT_AND_LEASE_CLOSE"
+  ],
+  "separate_full_scientific_requirement": "Original raw and mapped H40, complete native prefix safety, actual feedback, T1/T2 qualification and original CORR2048/R0 paired core64 remain mandatory; zero-physics IO or 12D SDK does not satisfy them",
+  "native_effects_by_this_change": {
+    "registration": 0,
+    "reservation": 0,
+    "new_Core_child": 0,
+    "model_constructors": 0,
+    "physics_ticks": 0,
+    "GR00T_queries": 0,
+    "GPU_or_PBS": 0
+  },
+  "SDK_financial_unknown": {
+    "original_journal": "UNKNOWN_RETAINED",
+    "reissued": false,
+    "known_zero_cold_exception_draft_source": "cdb521f55de9bec1e4ea26ba60c9923e48212ee5",
+    "previous_explicit_human_question": "STILL_PENDING_NO_DUPLICATE_QUESTION"
+  },
+  "unchanged": {
+    "T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "all_costs_caps_final_protection_and_failure_history": true,
+    "no_old_pilot_or_closed_request_replay": true,
+    "no_WBC_controller_parameter_binary_or_solver_change": true,
+    "automation": "PAUSED"
+  }
+}

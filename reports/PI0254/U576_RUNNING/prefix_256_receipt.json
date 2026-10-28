@@ -1,0 +1,173 @@
+{
+  "actual_fixed_update_records": [
+    {
+      "accounting": "DURABLE_BEFORE_OPTIMIZER_CONSERVATIVE_IF_INTERRUPTED",
+      "arm": "U576",
+      "learning_rates": [
+        0.0,
+        0.0
+      ],
+      "nonfinite": false,
+      "optimizer_completed": true,
+      "optimizer_step": 1,
+      "parameter_dtypes": {
+        "diffusion": [
+          "torch.float32"
+        ],
+        "projector": [
+          "torch.float32"
+        ]
+      },
+      "parameter_update_norms": {
+        "diffusion": 0.0,
+        "projector": 0.0
+      },
+      "post_clip_grad_norm": 1.0000000476471813,
+      "pre_clip_grad_norm": "USE_EXISTING_TRAINER_LOG_IF_AVAILABLE",
+      "raw_ordinal": 1,
+      "source_episode_id": "pi0227_persistent_train_d_j07_xp010_yp010_s01_xp050_r03_r03_227687:obs-0033",
+      "visit": 1
+    },
+    {
+      "accounting": "DURABLE_BEFORE_OPTIMIZER_CONSERVATIVE_IF_INTERRUPTED",
+      "arm": "U576",
+      "learning_rates": [
+        9.996722021504902e-06,
+        9.996722021504902e-06
+      ],
+      "nonfinite": false,
+      "optimizer_completed": true,
+      "optimizer_step": 64,
+      "parameter_dtypes": {
+        "diffusion": [
+          "torch.float32"
+        ],
+        "projector": [
+          "torch.float32"
+        ]
+      },
+      "parameter_update_norms": {
+        "diffusion": 0.06352916083418185,
+        "projector": 0.006488816589689337
+      },
+      "post_clip_grad_norm": 1.0000000742824275,
+      "pre_clip_grad_norm": "USE_EXISTING_TRAINER_LOG_IF_AVAILABLE",
+      "raw_ordinal": 64,
+      "source_episode_id": "pi0227_persistent_train_c_j08_xm010_ym010_s00_c0_r03_r03_227523:obs-0033",
+      "visit": 1
+    },
+    {
+      "accounting": "DURABLE_BEFORE_OPTIMIZER_CONSERVATIVE_IF_INTERRUPTED",
+      "arm": "U576",
+      "learning_rates": [
+        9.93010926398486e-06,
+        9.93010926398486e-06
+      ],
+      "nonfinite": false,
+      "optimizer_completed": true,
+      "optimizer_step": 256,
+      "parameter_dtypes": {
+        "diffusion": [
+          "torch.float32"
+        ],
+        "projector": [
+          "torch.float32"
+        ]
+      },
+      "parameter_update_norms": {
+        "diffusion": 0.08128994108067059,
+        "projector": 0.008151417586753704
+      },
+      "post_clip_grad_norm": 1.0000000254035413,
+      "pre_clip_grad_norm": "USE_EXISTING_TRAINER_LOG_IF_AVAILABLE",
+      "raw_ordinal": 256,
+      "source_episode_id": "pi0227_persistent_train_c_j03_yp015_s02_xm050_r00_r00_227428:obs-0060",
+      "visit": 1
+    }
+  ],
+  "completed_updates": 256,
+  "counts": {
+    "backward_recompute": 1024,
+    "native_training": 256,
+    "rollout_forward": 1024
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "epoch_s": 1790656600.757219,
+  "failed_prior_attempt_counts": {
+    "aborted_recompute_prehooks": 1,
+    "completed_updates": 0,
+    "native_training": 1,
+    "rollout_forward": 4
+  },
+  "first_draw_equal_archived_failed_attempt": true,
+  "first_step_lr_zero": "EXPECTED_COSINE_WARMUP_CURSOR0_OPTIMIZER_STEP_STILL_ACCOUNTED",
+  "first_update_gradient": {
+    "checkpointed_recompute_steps": 4,
+    "euler_steps": 4,
+    "mode_restored_after_backward": true,
+    "mode_restored_after_forward": true,
+    "optimizer_step": 1,
+    "schema": "PI0247_U_FIRST_UPDATE_CHAIN_GRADIENT_V1",
+    "state_gradient_norms": {
+      "1": 0.0642845556139946,
+      "2": 0.13227055966854095,
+      "3": 1.2571847438812256,
+      "4": 4.695941925048828
+    },
+    "status": "PASS_PI0247_U_FIRST_UPDATE_FULL_EULER_CHAIN"
+  },
+  "fixed_prefix": 256,
+  "identity_fields": [
+    "key",
+    "seed",
+    "model_input_sha256",
+    "native_tau",
+    "native_tau_identity",
+    "native_epsilon",
+    "native_epsilon_sha256",
+    "stock_initial_noise"
+  ],
+  "inventory": [
+    {
+      "bytes": 116988,
+      "path": "updates.jsonl",
+      "sha256": "b545565f8d6fbe32d3cc5491eb9c9c3658c4e0f4d057549d74336dd3ac4cea8a"
+    },
+    {
+      "bytes": 109048,
+      "path": "raw_optimizer_intents.jsonl",
+      "sha256": "712fdd9be20a6d61e34b43067b61569aa1a4801ff11d72af4045f3d0ffd7d205"
+    },
+    {
+      "bytes": 156468,
+      "path": "head_forwards.jsonl",
+      "sha256": "d3e4e9896d8cf99bbb25ab3e5dc0c3d9fdd535ddc1e674f8293050e3f31d03b4"
+    },
+    {
+      "bytes": 96443,
+      "path": "step_rng.jsonl",
+      "sha256": "ffb243f59bc74054c3171312f0f1d92405a7fecf2cdb6c376eaa8bad7e025dbb"
+    },
+    {
+      "bytes": 334114,
+      "path": "pair_identity.jsonl",
+      "sha256": "b80a1687ccdb780ac1bce34175145b931acd48f57999b41b0af137233adb28a6"
+    },
+    {
+      "bytes": 393207,
+      "path": "source_visit_pair.jsonl",
+      "sha256": "57859ec7d80eb052df2397f64a8a8a0ddbc499f3c4bfcc4bde196f20fa36d60f"
+    },
+    {
+      "bytes": 32366,
+      "path": "mode_restore.jsonl",
+      "sha256": "c75f7b02bb29314133eeaa1b3c14ab03b9bda1b596fc9bd13a34cc2a982117fc"
+    }
+  ],
+  "job_id": "637538.hopper-m-02",
+  "mode_restore_all_prefix": true,
+  "new_inference_queries": 0,
+  "run_card_sha256": "0a5bd8865093dcf19365c06651f73c973e6ab0a72099a048855ea06800f00232",
+  "schema": "PI0254_RUNNING_PREFIX_RECEIPT_V1",
+  "status": "VALID_RUNNING_PREFIX_NOT_FINAL_INTEGRITY"
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "PI0294_PV1_CHILD11_FRESH_AUTH_PREMODEL_TERMINAL_V1",
+  "status": "ENGINEERING_FAILURE_PENDING_ORIGINAL_PV1_SETTLEMENT_AND_LEASE_CLOSURE",
+  "observed_epoch": 1792497374.6201587,
+  "job_id": "678230.hopper-m-02",
+  "run_uuid": "policy-b0-11",
+  "runtime_source": "d7dc38ef842263e605be210401fbfa6bb5ef2052",
+  "native": {
+    "job_state": "F",
+    "Exit_status": 1,
+    "stime": "Tue Oct 20 19:37:53 2026",
+    "obittime": "Tue Oct 20 19:41:11 2026",
+    "resources_used": {
+      "cpupercent": 1,
+      "cput": "00:00:00",
+      "mem": "93660kb",
+      "ncpus": 12,
+      "vmem": "112568kb",
+      "walltime": "00:03:08"
+    }
+  },
+  "native_receipt_sha256": {
+    "PBS_READY.json": "ab86a560e3096f811885a413e3aaba09d73c9a84238bd6041f998de14981f57f",
+    "PBS_WRAPPER_FINAL.json": "dd59a3723177c5171f4435114f210e379e3872befbb5d1bcdc3ede436ca928e9"
+  },
+  "PBS_READY": {
+    "run_uuid": "policy-b0-11",
+    "job_id": "678230.hopper-m-02",
+    "hostname": "hopper-23",
+    "pid": 227353,
+    "proc_start": "1418977891",
+    "observed_epoch": 1792496287.9118326,
+    "request_sha256": "c211f95e70c37aeead6f8825627153ef9b8522b6495ca15bdcd864d282009ebb",
+    "models_loaded": 0,
+    "amgr_login_in_compute": false
+  },
+  "PBS_WRAPPER_FINAL": {
+    "status": "FAILED_PRESERVED",
+    "error": "TimeoutError: PV1_OWNER_FRESH_PROJECT_RELEASE_MISSING_NO_IDLE_MODEL",
+    "job_id": "678230.hopper-m-02",
+    "hostname": "hopper-23",
+    "returncode": null,
+    "self_CPU_s": 0.6428528419999999,
+    "all_children_CPU_s": 0.021360000000000004,
+    "already_charged_neural_CPU_s": 0,
+    "additional_control_CPU_s": 60.664212842,
+    "bootstrap_control_upper_s": 60,
+    "GPU_allocation_accounting": "OWNER_NATIVE_PBS_TERMINAL_SETTLEMENT_REQUIRED",
+    "models_loaded_by_launcher": 0,
+    "amgr_login_in_compute": false,
+    "completed_epoch": 1792496468.1100876
+  },
+  "owner_service": "failed",
+  "owner_exception": "PV1_PROJECT_AUTH_EXPIRED_15006_EXISTING_AUTH_ONLY",
+  "released": false,
+  "new_model_loads": 0,
+  "new_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_task_episodes": 0,
+  "new_live_or_shadow_integrations": 0,
+  "unknown_effects": [],
+  "Hopper_H200_reserved_s_not_yet_settled": 28860,
+  "Core_CPU_reserved_s_not_yet_reconciled": 43200,
+  "child_leases": "ACTIVE_PENDING_ORIGINAL_OWNER_CLOSURE",
+  "native_GPU_time": "NOT_YET_SETTLED_DO_NOT_ASSUME_ZERO",
+  "B0": {
+    "valid": 14,
+    "total": 48,
+    "successes": 9,
+    "valid_task_failures": 5,
+    "remaining": 34
+  },
+  "total_queries": 1054,
+  "total_updates": 0,
+  "CR1_scope_changed_PV1": false,
+  "no_automatic_retry_or_submission": true,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

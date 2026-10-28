@@ -1,0 +1,69 @@
+{
+  "EVAL_payload_opened": true,
+  "files": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_infer_worker.py",
+      "sha256": "110041beb4533f6b775365d91aef80ba43b589b9484cf4ac3302a85e01a22323"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_virtual_episode.py",
+      "sha256": "36165145558c56ea025ab87af8413164e89c6c33f1f7866a51d87586325044b9"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_offline.py",
+      "sha256": "80d30984d93c1444f7feea3760465f703d184610485e86b3fc4eefa508bd32b2"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_eval_report.py",
+      "sha256": "f34a9eeed7cf03d51d01f66e7103905be14ddf71d2dad43e60bcd72598707b78"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_video.py",
+      "sha256": "e7060a638e8a2ff91241c6588d49dda2b67a497f1e07dbf9c5df420c4f3ca46e"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/code/pi0267_freeze_offline.py",
+      "sha256": "69ab734e6bd1efa4a2363a16ed66235bc02b916a144cb6c56820949d4397b3a8"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/R1/runtime/virtual_family/pi0267_virtual_episode.py",
+      "sha256": "9902baf2df3fff4e5a1ff52383dd0d522282305cb68223ad6797baabdb2a63ca"
+    }
+  ],
+  "local_processor_binding_repair": {
+    "before_model_attempts": 0,
+    "original_failed_start_retained": true,
+    "policy_input_identity_unchanged": true,
+    "receipt_sha256": "7520236cb03f71cc045dea638a8a2cc00baa3fd56a29382db36c1a1fd770edf2"
+  },
+  "native_lifecycle_recovery": {
+    "cumulative_model_attempts_before_recovery": 6348,
+    "cumulative_model_heads_before_recovery": 25392,
+    "entry": "/home/liuyu-nfs/Projects/go2-arx5/PI0267/R1/runtime/virtual_family/pi0267_virtual_episode.py",
+    "failed_start": 48,
+    "fixed_family_process_boundary": true,
+    "launcher_seal_path_preflight_failures": 2,
+    "narrow_check_sha256": "06e1995723e2ddba46797695a2f73c1a112f69e10d637a0292524785664a2109",
+    "original_entry_retained": true,
+    "preflight_failure_model_queries": 0,
+    "receipt_sha256": "9999fa34bdc81f5fabcdd0ccb4e15e4c3f33660b242a33f16ec6fd83e5b98679",
+    "renderer_scorer_gate_worker_unchanged": true,
+    "timestamp_UTC": "2026-10-02T11:44:12.859000+00:00"
+  },
+  "new_model_queries": 0,
+  "new_offline_noise": "already frozen E0 positions0..7",
+  "offline_T0_shared_across_commands": true,
+  "pre_query_reconciliation": "All actual model execution refusals remain failures even if an earlier pose satisfied task hold; original no-policy callback path unchanged. Numerical scorer/gate/physics untouched.",
+  "report_only_FP32_replay_fix": {
+    "complete_offline_replay_sha256": "5484a4b8797f8a6cae7f506048e6afd9bfd28fcbef486b7795434f125cd23aad",
+    "metric_and_gate_tolerances_unchanged": true,
+    "original_decoder_unchanged": true,
+    "reason": "Match original bridge final astype(float32) in CPU decoded-array comparison; all1648 original outputs replayed",
+    "timestamp_UTC": "2026-10-02T10:02:18.528015+00:00",
+    "worker_unchanged": true
+  },
+  "reporting_addendum": "Instrumented native S4 latency; fixed nominal/recovery, task/command/stage errors and complete gate details; no query or metric change.",
+  "status": "FROZEN_EXECUTION_WITH_SOURCE_BOUND_NATIVE_LIFECYCLE_RECOVERY",
+  "training_admission": "Both real4096 endpoints and four complete audited local Trainer inventories; full HF preservation proceeds independently; each model-only fixed revision/file still fully verified.",
+  "virtual_tool_gripper": "fixed procedural tool; actual model output untouched for gate"
+}

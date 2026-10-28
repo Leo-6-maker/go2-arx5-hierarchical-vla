@@ -1,0 +1,58 @@
+{
+  "status": "BANK_V2_CPU_AND_EXPERT_PROBE_QUALIFIED",
+  "pid": 3080053,
+  "proc_start": "163591448",
+  "started": 1791866807.5563073,
+  "deadline": 1791870407.415369,
+  "steps": [
+    {
+      "stage": "export",
+      "exit": 0,
+      "receipt": "BANK_V2_ADMISSION.json",
+      "status": "ARX5_BANK_V2_QUALIFIED",
+      "sha256": "e6556197040bc9fe26bb58ed4fd531d57ee1ccd64f1db1d87ab5a830217749b1"
+    },
+    {
+      "stage": "native_all_windows",
+      "exit": 0,
+      "receipt": "evidence/DATALOADER_SMOKE.json",
+      "status": "NATIVE_DATALOADER_PASS",
+      "sha256": "bc56d2d28c107787d0a614748ce0307e19e10d52af95b72baf53ffc75f67976e"
+    },
+    {
+      "stage": "adapter_TRAIN",
+      "exit": 0,
+      "receipt": "evidence/adapter_bank_v2/TRAIN_COMPARISON.json",
+      "status": "PASS_REAL_SPLIT_TENSOR_EQUIVALENCE",
+      "sha256": "1359f859ca98207227d61966727acb99321e23f467dce169d33a867310a7d13f"
+    },
+    {
+      "stage": "adapter_DEV",
+      "exit": 0,
+      "receipt": "evidence/adapter_bank_v2/DEV_COMPARISON.json",
+      "status": "PASS_REAL_SPLIT_TENSOR_EQUIVALENCE",
+      "sha256": "68c2bad9b5f9abeea32695590b8f57457731a387782e12ad243b65271dbb2f45"
+    },
+    {
+      "stage": "trainer_loader",
+      "exit": 0,
+      "receipt": "evidence/trainer_loader_bank_v2/LOADER_COMPARISON.json",
+      "status": "PASS_REAL_TRAINER_LOADER_CPU_ONLY",
+      "sha256": "c6d573b56adb8a24d43e48e7ea786cf500cb6a47a2b53dac49952b1113e19016"
+    },
+    {
+      "stage": "probe_seal",
+      "exit": 0,
+      "receipt": "evidence/OPEN_LOOP_PROBE_SEAL.json",
+      "status": "SEALED_BEFORE_MAIN",
+      "sha256": "06548b8939d3b741aa9f5249a475a7ebb42f0b28b6093cf0c06bfe5f2fa0a9c7"
+    }
+  ],
+  "current": null,
+  "child_pid": null,
+  "CPU_reserved_s": 14399.999992370605,
+  "updated": 1791867506.9833953,
+  "child_start": "163661412",
+  "CPU_s": 720.844958,
+  "finished": 1791867514.8151152
+}

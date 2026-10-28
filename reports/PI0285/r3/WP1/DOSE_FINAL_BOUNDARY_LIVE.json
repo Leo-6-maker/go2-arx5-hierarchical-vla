@@ -1,0 +1,244 @@
+{
+  "epoch": 1791492712.8351688,
+  "job_state": "job_state = R",
+  "exit_status": null,
+  "latest": {
+    "arm": "REPAIR_A2048",
+    "phase": "main",
+    "work_kind": "formal",
+    "step": 2048,
+    "consumed_chunks": 16384,
+    "wall": 1791492573.0171368
+  },
+  "artifacts": {
+    "ready": {
+      "status": "LOCAL_IMMUTABLE_MODEL_ONLY_SNAPSHOT",
+      "point": "REPAIR_A2048-2048",
+      "full_recovery": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/main/checkpoint-2048",
+      "card_sha256": "8bc900ed484ba365a9de8825f5bcc42910dcac1c3219537c17b194034727528a",
+      "files": [
+        {
+          "path": "processor_config.json",
+          "bytes": 23145,
+          "sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3"
+        },
+        {
+          "path": "exact_changed_tensors.safetensors",
+          "bytes": 5670085448,
+          "sha256": "404da387d97c2daa57152e4b439bfb1be3372fcd7b0a8caf3568ede8ac69ed9b"
+        },
+        {
+          "path": "embodiment_id.json",
+          "bytes": 2146,
+          "sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+        },
+        {
+          "path": "EXPORT.json",
+          "bytes": 492536,
+          "sha256": "f79c72a6efeb1bb99c395c67f147bbbe4c1b7c8e46bc813c0d646b3e75f8b2d7"
+        },
+        {
+          "path": "statistics.json",
+          "bytes": 4299523,
+          "sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2105,
+          "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+        }
+      ],
+      "optimizer_transfer": false
+    },
+    "audit": {
+      "status": "PASS_ACTUAL_NATIVE_TRAINER_INPUT_PLAN_NOISE_LOSS_MODES_SCOPE_AND_COMPLETE_LOCAL_STATE",
+      "point": "REPAIR_A2048-2048",
+      "checkpoint": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/main/checkpoint-2048",
+      "entries": [
+        {
+          "path": "PI0282_RECOVERY.json",
+          "bytes": 67105,
+          "sha256": "68fa66b99ea02a41125c700b290ba8ec9f5f0d45d9f9c283b48c6948ef46fccf"
+        },
+        {
+          "path": "PI0282_SCOPE_PROOF.json",
+          "bytes": 1681,
+          "sha256": "da764a48ac3947a44c451839df03c0f66d784b8e3128b1393be35e3e1841d243"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2105,
+          "sha256": "2caf4def1238b29e4ee35057d99b6bf234a8874b3cbdc39e5f36e0ffec11118a"
+        },
+        {
+          "path": "embodiment_id.json",
+          "bytes": 2146,
+          "sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+        },
+        {
+          "path": "model-00001-of-00002.safetensors",
+          "bytes": 4993709288,
+          "sha256": "c33885821fc3bd0aee2c5eb10814ad9d80a0e3106641a5a620912d5d8dc91189"
+        },
+        {
+          "path": "model-00002-of-00002.safetensors",
+          "bytes": 4129471992,
+          "sha256": "8e2141ac97ec1684a0ad06733779389970a9892e04ebddcca02ad31b3cf05d8f"
+        },
+        {
+          "path": "model.safetensors.index.json",
+          "bytes": 104912,
+          "sha256": "5c8cda9fefe78bce75fb8ee9b1685e4c045aaa3fca0e661ba267386dc2b25fdc"
+        },
+        {
+          "path": "optimizer.pt",
+          "bytes": 11340462437,
+          "sha256": "ad71a724227b19637c251fd2812b79ba556693a0f3e4e58dae43d186cc6b8311"
+        },
+        {
+          "path": "processor_config.json",
+          "bytes": 23145,
+          "sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3"
+        },
+        {
+          "path": "rng_state.pth",
+          "bytes": 14709,
+          "sha256": "1266bca69fc8d9c5f05c5fcf627fe9eb9f9acea55d114186372ef018e8b3426e"
+        },
+        {
+          "path": "scheduler.pt",
+          "bytes": 1465,
+          "sha256": "6c8a0b7f35fb25a6e85b4c795fac63223e73473d99489c471712b906653291d2"
+        },
+        {
+          "path": "statistics.json",
+          "bytes": 4299523,
+          "sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81"
+        },
+        {
+          "path": "trainer_state.json",
+          "bytes": 18563,
+          "sha256": "f460b8971c2ff0f2980f430f14b66ede0ad9ed0b08388ebd596528932aaa40ee"
+        },
+        {
+          "path": "training_args.bin",
+          "bytes": 5905,
+          "sha256": "084d702665fbf468c31259546adba6f93e2923bcfcb60ddd4136e0dddb682c19"
+        }
+      ],
+      "plan_sha256": "0f796594f3726a175c74357039aae53c4ff85194982424ea37be40b1154993db",
+      "export_sha256": "f79c72a6efeb1bb99c395c67f147bbbe4c1b7c8e46bc813c0d646b3e75f8b2d7",
+      "journal_prefixes": {
+        "consumption": {
+          "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/main/consumption.jsonl",
+          "bytes": 20285840,
+          "lines": 4096,
+          "sha256": "05d78007f7a21e85c10b59e28ea3c8f3d8e9ad527e59ee0b30cf2266b0174090"
+        },
+        "native_forward": {
+          "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/main/native_training_forwards.jsonl",
+          "bytes": 13809157,
+          "lines": 4096,
+          "sha256": "4dc190dc7f7c974d3c766bf7c6355e3b6cb7149b7156d8572f6ec87cf2e82af9"
+        },
+        "native_modes": {
+          "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/main/native_loss_modes_LR.jsonl",
+          "bytes": 5565077,
+          "lines": 4096,
+          "sha256": "8609818ec5cc115bb22e2df3c833a7e7395f2e902d765816c2da915014efb0f3"
+        }
+      },
+      "formal_microbatches": 4096,
+      "chunks": 16384,
+      "task_counts": {
+        "T1": 16384
+      },
+      "phase_counts": {
+        "2": 4096,
+        "3": 3277,
+        "0": 4096,
+        "1": 4096,
+        "4": 819
+      },
+      "detailed_gradient_microbatches": 48,
+      "actual_LR_peaks": [
+        5e-05,
+        5e-06
+      ],
+      "actual_module_modes_first": {
+        "action_head.action_decoder": {
+          "trainable_parameters": true,
+          "training": true
+        },
+        "action_head.action_decoder.layer1": {
+          "trainable_parameters": true,
+          "training": true
+        },
+        "action_head.action_decoder.layer2": {
+          "trainable_parameters": true,
+          "training": true
+        },
+        "action_head.action_encoder": {
+          "trainable_parameters": true,
+          "training": true
+        },
+        "action_head.model": {
+          "trainable_parameters": true,
+          "training": true
+        },
+        "action_head.position_embedding": {
+          "trainable_parameters": false,
+          "training": true
+        },
+        "action_head.state_encoder": {
+          "trainable_parameters": true,
+          "training": true
+        },
+        "action_head.vl_self_attention": {
+          "trainable_parameters": false,
+          "training": false
+        },
+        "action_head.vlln": {
+          "trainable_parameters": false,
+          "training": false
+        },
+        "backbone": {
+          "trainable_parameters": false,
+          "training": true
+        },
+        "backbone.model": {
+          "trainable_parameters": false,
+          "training": true
+        }
+      },
+      "native_loss_first16_mean": 0.04061432419985067,
+      "native_loss_last16_mean": 0.008504929930495564,
+      "changed_row10_tensors": [
+        "action_head.action_decoder.layer1.W",
+        "action_head.action_decoder.layer1.b",
+        "action_head.action_decoder.layer2.W",
+        "action_head.action_decoder.layer2.b",
+        "action_head.action_encoder.W1.W",
+        "action_head.action_encoder.W1.b",
+        "action_head.action_encoder.W2.W",
+        "action_head.action_encoder.W2.b",
+        "action_head.action_encoder.W3.W",
+        "action_head.action_encoder.W3.b",
+        "action_head.state_encoder.layer1.W",
+        "action_head.state_encoder.layer1.b",
+        "action_head.state_encoder.layer2.W",
+        "action_head.state_encoder.layer2.b"
+      ],
+      "changed_DiT_tensors": 456,
+      "frozen_parameter_tensors": 560,
+      "other31_rows_exact": true,
+      "other31_Adam_moments_zero": true,
+      "new_model_queries": 0,
+      "new_optimizer_updates": 0,
+      "new_physics": 0,
+      "selected": "NONE",
+      "deployment": "NONE"
+    }
+  },
+  "audit_log": " \"lines\": 4096, \"sha256\": \"4dc190dc7f7c974d3c766bf7c6355e3b6cb7149b7156d8572f6ec87cf2e82af9\"}, \"native_modes\": {\"path\": \"/scratch/e1192548/Projects/go2-arx5/experiments/PI0285/learning/REPAIR_A2048/main/native_loss_modes_LR.jsonl\", \"bytes\": 5565077, \"lines\": 4096, \"sha256\": \"8609818ec5cc115bb22e2df3c833a7e7395f2e902d765816c2da915014efb0f3\"}}, \"formal_microbatches\": 4096, \"chunks\": 16384, \"task_counts\": {\"T1\": 16384}, \"phase_counts\": {\"2\": 4096, \"3\": 3277, \"0\": 4096, \"1\": 4096, \"4\": 819}, \"detailed_gradient_microbatches\": 48, \"actual_LR_peaks\": [5e-05, 5e-06], \"native_loss_first16_mean\": 0.04061432419985067, \"native_loss_last16_mean\": 0.008504929930495564, \"changed_DiT_tensors\": 456, \"frozen_parameter_tensors\": 560, \"other31_rows_exact\": true, \"other31_Adam_moments_zero\": true, \"new_model_queries\": 0, \"new_optimizer_updates\": 0, \"new_physics\": 0, \"selected\": \"NONE\", \"deployment\": \"NONE\"}\n"
+}

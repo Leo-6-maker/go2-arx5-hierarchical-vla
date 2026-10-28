@@ -1,0 +1,79 @@
+{
+  "stage": "D3",
+  "status": "PASS_NATIVE_CPU_ADMISSION_AND_INDEPENDENT_REPEAT_SCORE",
+  "audit_source_sha": "15562ea29eb9448ef2c6eb0b48a741d85d438d86",
+  "pilot_successes": 8,
+  "denominator": 8,
+  "heldout_successes": 4,
+  "heldout_denominator": 4,
+  "hold_pass_per_pilot": 41,
+  "all_raw_hashes_checked": true,
+  "all_RGB_shapes": [
+    2,
+    256,
+    256,
+    3
+  ],
+  "calibration_checked_every_sample": true,
+  "contacts_forward_recomputed_without_integration": true,
+  "native_codec_shape": [
+    40,
+    10
+  ],
+  "actual_committed_H40_windows_per_pilot": 601,
+  "privileged_no_leak": true,
+  "negative_gates": {
+    "codec_rotation": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_DATA",
+    "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_DATA",
+    "privileged_leak": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_DATA",
+    "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_DATA"
+  },
+  "tokenizer": {
+    "decode_roundtrip": true,
+    "ids": [
+      36953,
+      705,
+      279,
+      2518,
+      23739,
+      11,
+      1992,
+      432,
+      4766,
+      279,
+      6303,
+      9334,
+      11,
+      4879,
+      432,
+      11,
+      323,
+      3271,
+      279,
+      22993,
+      6922,
+      3123,
+      13
+    ],
+    "network_loads": 0,
+    "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+    "source": "existing Cosmos-Reason2-2B fixed revision 9ce19a195e423419c349abfc86fd07178b230561"
+  },
+  "official_GR00T_processor_collator": "NOT_RUN",
+  "training_statistics_fitted": false,
+  "admitted_ids": [
+    "P2900",
+    "P2901",
+    "P2902",
+    "P2903",
+    "P2904",
+    "P2905",
+    "P2906",
+    "P2907"
+  ],
+  "commissioning_admitted": false,
+  "GR00T": 0,
+  "WBC": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

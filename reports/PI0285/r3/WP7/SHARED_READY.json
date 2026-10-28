@@ -1,0 +1,42 @@
+{
+  "status": "READY_CPU_SCHEMA_MASK_STREAM_NOT_TASK_CAPABILITY",
+  "owner": "R3_WP7_SHARED_DELIVERY",
+  "state": "READY",
+  "bindings": {
+    "SHARED4096.jsonl": "44b33a5a689ffaf63ffb02935306ab0e936cea8e20b7b2ee7e074a5b979f37a1",
+    "SOURCE_BANK.json": "752386fd00786a3532bfc3854bed116974d57f94e5dd9f207ca83ad7314aabcd",
+    "NATIVE_INPUTS_CHECK.json": "8d0f5d9b0e3167ec92ffd1bb2daec34d49fa13040a8ffbda11c95bbb854b11f6",
+    "STATISTICS_RELEASE.json": "f73711457febdf2a6639210feb7edee5481bdd02be8b88fa3fb9967e1d10e233",
+    "statistics.json": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81",
+    "processor_config.json": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3",
+    "embodiment_id.json": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+  },
+  "rows": 32768,
+  "task_counts": {
+    "T1": 16384,
+    "T2": 16384
+  },
+  "paired_TRAIN_layouts": 64,
+  "reused_inputs": 24,
+  "reused_native_batches": 6,
+  "reused_workers": 2,
+  "confirmation_in_stream": 0,
+  "known_task_set_TRAIN_preprocessing": true,
+  "shared_tokenizer_collator_cache": true,
+  "prerequisites": [
+    "CONFIRM_A>=26/32",
+    "independent_exact_protected_full_Trainer_and_model",
+    "T2_DEV16_acquisition",
+    "measured_time_reserve_before_06:30"
+  ],
+  "task_capability": "NOT_MEASURED_BY_READINESS",
+  "launch_allowed": false,
+  "consumed": {
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "physics": 0
+  },
+  "selected": "NONE",
+  "deployment": "NONE",
+  "helper_sha256": "012f5b2f9315a161a6a54071351b7651b74a52ca8e585e418b2360741a56e82b"
+}

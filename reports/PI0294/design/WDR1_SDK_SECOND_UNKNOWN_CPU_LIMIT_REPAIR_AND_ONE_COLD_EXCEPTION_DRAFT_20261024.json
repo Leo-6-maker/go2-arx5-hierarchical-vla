@@ -1,0 +1,96 @@
+{
+  "schema": "WDR1_TWO_UNKNOWN_SDK_CPU_TAIL_EXCEPTION_DRAFT_V1",
+  "status": "DRAFT_REQUIRES_NEW_EXPLICIT_DIRECT_HUMAN_EXCEPTION_NOT_NATIVE_GO",
+  "previous_human_approval_source": "4e306b41b40693a11b294c95eecea67f56aa607d",
+  "previous_answer": "批准新冷边界一次投影",
+  "previous_question_reference": "call_d87eae808f8d4d90b0b0c2449c0900ce",
+  "current_actual": {
+    "new_cold_boundary_returncode": 255,
+    "new_native_stdout": "",
+    "new_native_stderr": "",
+    "both_UNKNOWN_preserved": true,
+    "UNKNOWN_state_sha256": {
+      "closed-cost-projection-01": "60db92e609e2f5c363a7890602c662c9baed78028599d2999d9a67818e2bb641",
+      "closed-cost-known-zero-01": "e6060280adee96277782e9d819b7e7280cc7ee3e633cf65f3d16734de370d49c"
+    },
+    "global_before_and_current_sha256": "2e8ec303d9be9ebedbedddcbc7fa76297276115907713982159675412f70d273",
+    "DEC1_before_and_current_sha256": "c575a89e83bab436b60c09f52058fe467e011ae0abe5fce775594054b891dd5a",
+    "native_intent_receipt_temporary_present": false,
+    "matching_native_actors": [],
+    "unreadable_owned_processes": [],
+    "automatic_retry_permitted": false
+  },
+  "diagnostic": {
+    "method": "Actual same pre-CAS code with the lock and entire write section removed before compilation; unchanged 40-second RPC",
+    "actual_process_CPU_at_tail_entry_s": 8.721813186,
+    "old_absolute_soft_hard_CPU_s": [
+      8,
+      10
+    ],
+    "actual_SIGXCPU_handler_returncode": 88,
+    "actual_SIGXCPU_process_CPU_s": 8.722630241,
+    "finding": "The financial tail applied an absolute process CPU limit below CPU already consumed by its current native context. This readonly reproduction does not relabel either uncertain write.",
+    "large_inert_721721_byte_stdin_test_returncode": 0,
+    "network_failure_not_inferred_from_remote_exit255": true
+  },
+  "repair": {
+    "source_file": "scripts/pi0294/dec1/administrative_cpu_tail.py",
+    "fixed_absolute_limits": "(int(began_process_CPU_s)+8, int(began_process_CPU_s)+10)",
+    "maximum_additional_soft_hard_CPU_s": [
+      8,
+      10
+    ],
+    "flooring_never_adds_tail_headroom": true,
+    "process_CPU_plus_hard_tail_must_fit_existing_paid_1800_s": true,
+    "existing_paid_upper_not_recharged": true,
+    "RPC_timeout_s": 40,
+    "native_watchdog_extended": false,
+    "source_transform_rejects_unrecognized_or_multiple_legacy_boundaries": true,
+    "CAS_and_financial_proposal_unchanged": true,
+    "original_request_and_marker_not_replayed": true
+  },
+  "prepared_private_helper": {
+    "sha256": "2196cf1e2d1b367c9d6f629cce8dc32b865489097d8e36a1db659da74c605920",
+    "no_native_call_on_import": true,
+    "requires_new_exact_grant_and_repair_CI": true,
+    "preserves_both_UNKNOWN_bytes": true,
+    "fresh_negative_files_ledger_and_process_check_before_sole_CAS": true,
+    "one_new_local_cold_journal": true,
+    "no_automatic_retry": true
+  },
+  "requested_exception": {
+    "scope": "ONE_NEW_CPU_FIXED_COLD_SDK_CLASSIFICATION",
+    "one_financial_CAS_only": true,
+    "financial_constructor_classification": 10,
+    "transfer_classification_bytes": 335544320,
+    "global_charge_delta": 0,
+    "new_GPU_PBS_models_training_queries_episodes_physics": 0,
+    "new_budget_or_science_permission": false,
+    "both_old_UNKNOWN_must_remain": true,
+    "all_other_costs_and_checkpoints_preserved": true
+  },
+  "validation": {
+    "new_CPU_tail_cases": 11,
+    "new_captured_guard_cases": 7,
+    "earlier_captured_guard_cases": 7,
+    "repair_CI": "PENDING_EXACT_PUBLICATION_AND_CI",
+    "actual_CPU_fixed_pre_CAS_readonly": {
+      "returncode": 0,
+      "old_context_CPU_s": 8.811981027,
+      "completed_process_CPU_s": 8.843022026,
+      "new_writes": 0,
+      "lock_and_CAS_removed_before_compile": true,
+      "program_sha256": "0d0ab42937d96b714ca3e31ced08a29b9aa52ad719b87c87d0b31c01ee7b6b6b"
+    }
+  },
+  "clock": {
+    "original_T0_epoch": 1792348196,
+    "stop_new_epoch": 1792866596,
+    "stop_train_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_close_epoch": 1792952996
+  },
+  "target_task_native_qualified": false,
+  "core64": 0,
+  "full_goal": "ACTIVE"
+}

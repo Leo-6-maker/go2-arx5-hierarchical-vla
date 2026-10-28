@@ -1,0 +1,719 @@
+{
+  "status": "ACTUAL_TRAIN_REPLAY_AND_COLLISION_DIAGNOSTIC",
+  "source_artifact_sha256": "57f3cbf7fa5df6e52c4156ee04b30078a05fb13979d2a609974a57882e2ab92d",
+  "runtime_source": "b30fd0c18089908f36955294750c4e033ccc449d",
+  "cases": [
+    {
+      "attempt_id": "PI0294-E0-M2048-TRAIN-F0-000-T1",
+      "task": "T1",
+      "original_main_steps": 600,
+      "maximum_actual_highrate_difference": 0.0,
+      "original_initial_state_exact": true,
+      "control_targets_and_IK_history_reconstructed": true,
+      "old_process_RNG_unobserved": true,
+      "collision_checks": [
+        {
+          "candidate": "MODEL",
+          "decision": "REJECT",
+          "shadow_integrations": 127,
+          "first_violation_offset_ticks": 127,
+          "first_violation_offset_s": 0.254,
+          "illegal_pairs": [
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.46615020126448803,
+                -0.09993694538773372,
+                0.43996902430181795
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -3.0975698182024694e-05,
+              "penetration_m": 3.0975698182024694e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            },
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.4658227452348561,
+                -0.09394589003139504,
+                0.43997168258807434
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -2.8317411925630498e-05,
+              "penetration_m": 2.8317411925630498e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            }
+          ],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "SAME_STATE_EXPERT",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "illegal_pairs": [],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "EXPERT_XYZ_ONLY",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "illegal_pairs": [],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "EXPERT_SO3_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 127,
+          "first_violation_offset_ticks": 127,
+          "first_violation_offset_s": 0.254,
+          "illegal_pairs": [
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.46302716346673833,
+                -0.0999163301124146,
+                0.43995547315813427
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -4.452684186573214e-05,
+              "penetration_m": 4.452684186573214e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            },
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.46289670878817446,
+                -0.09391777681867873,
+                0.4399646921473867
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -3.530785261327686e-05,
+              "penetration_m": 3.530785261327686e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            }
+          ],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "EXPERT_GRIPPER_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 126,
+          "first_violation_offset_ticks": 126,
+          "first_violation_offset_s": 0.252,
+          "illegal_pairs": [
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.4661483523093278,
+                -0.09997319268060587,
+                0.4399917066131468
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -8.293386853207288e-06,
+              "penetration_m": 8.293386853207288e-06,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            },
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.4658201939913815,
+                -0.09398217658540947,
+                0.4399947995672519
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -5.200432748070602e-06,
+              "penetration_m": 5.200432748070602e-06,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            }
+          ],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        }
+      ],
+      "component_errors": {
+        "prefix8": {
+          "XYZ_m": {
+            "mean": 0.013680770358156975,
+            "maximum": 0.023906266722182858
+          },
+          "SO3_rad": {
+            "mean": 0.03750857494019727,
+            "maximum": 0.05374833180618767
+          },
+          "gripper_absolute": {
+            "mean": 0.008234396576881409,
+            "maximum": 0.033284783363342285
+          }
+        },
+        "H40": {
+          "XYZ_m": {
+            "mean": 0.025204566120801453,
+            "maximum": 0.035223032131702164
+          },
+          "SO3_rad": {
+            "mean": 0.058855417209101216,
+            "maximum": 0.07363535916079289
+          },
+          "gripper_absolute": {
+            "mean": 0.7941744036972522,
+            "maximum": 1.0
+          }
+        }
+      },
+      "expert_stage": "align"
+    },
+    {
+      "attempt_id": "PI0294-E0-M2048-TRAIN-F0-000-T2",
+      "task": "T2",
+      "original_main_steps": 7400,
+      "maximum_actual_highrate_difference": 0.0,
+      "original_initial_state_exact": true,
+      "control_targets_and_IK_history_reconstructed": true,
+      "old_process_RNG_unobserved": true,
+      "collision_checks": []
+    },
+    {
+      "attempt_id": "PI0294-E0-M2048-TRAIN-F1-000-T1",
+      "task": "T1",
+      "original_main_steps": 600,
+      "maximum_actual_highrate_difference": 0.0,
+      "original_initial_state_exact": true,
+      "control_targets_and_IK_history_reconstructed": true,
+      "old_process_RNG_unobserved": true,
+      "collision_checks": [
+        {
+          "candidate": "MODEL",
+          "decision": "REJECT",
+          "shadow_integrations": 156,
+          "first_violation_offset_ticks": 156,
+          "first_violation_offset_s": 0.312,
+          "illegal_pairs": [
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.4636241572803607,
+                -0.1057927752180911,
+                0.43999170303936513
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -8.296960634860067e-06,
+              "penetration_m": 8.296960634860067e-06,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            }
+          ],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "SAME_STATE_EXPERT",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "illegal_pairs": [],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "EXPERT_XYZ_ONLY",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "illegal_pairs": [],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "EXPERT_SO3_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 158,
+          "first_violation_offset_ticks": 158,
+          "first_violation_offset_s": 0.316,
+          "illegal_pairs": [
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.46153515537384265,
+                -0.10680747910022295,
+                0.439974486322532
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -2.551367746798471e-05,
+              "penetration_m": 2.551367746798471e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            },
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.4612129551387761,
+                -0.10081614917237,
+                0.4399806649982913
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -1.9335001708700015e-05,
+              "penetration_m": 1.9335001708700015e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            }
+          ],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "EXPERT_GRIPPER_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 156,
+          "first_violation_offset_ticks": 156,
+          "first_violation_offset_s": 0.312,
+          "illegal_pairs": [
+            {
+              "geom_ids": [
+                1,
+                77
+              ],
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_ids": [
+                0,
+                26
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "position_world": [
+                0.4637265062365912,
+                -0.10679783739194414,
+                0.4399893591597115
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -1.0640840288474618e-05,
+              "penetration_m": 1.0640840288474618e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            }
+          ],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        }
+      ],
+      "component_errors": {
+        "prefix8": {
+          "XYZ_m": {
+            "mean": 0.013299811944055273,
+            "maximum": 0.019547891940210376
+          },
+          "SO3_rad": {
+            "mean": 0.049699976967685855,
+            "maximum": 0.05862010932711793
+          },
+          "gripper_absolute": {
+            "mean": 0.006823904812335968,
+            "maximum": 0.02286851406097412
+          }
+        },
+        "H40": {
+          "XYZ_m": {
+            "mean": 0.01935425987198628,
+            "maximum": 0.026036879773147684
+          },
+          "SO3_rad": {
+            "mean": 0.050028401117580376,
+            "maximum": 0.06171180001971121
+          },
+          "gripper_absolute": {
+            "mean": 0.7487507991492748,
+            "maximum": 1.0
+          }
+        }
+      },
+      "expert_stage": "align"
+    },
+    {
+      "attempt_id": "PI0294-E0-M2048-TRAIN-F1-000-T2",
+      "task": "T2",
+      "original_main_steps": 6200,
+      "maximum_actual_highrate_difference": 0.0,
+      "original_initial_state_exact": true,
+      "control_targets_and_IK_history_reconstructed": true,
+      "old_process_RNG_unobserved": true,
+      "collision_checks": [
+        {
+          "candidate": "MODEL",
+          "decision": "REJECT",
+          "shadow_integrations": 69,
+          "first_violation_offset_ticks": 69,
+          "first_violation_offset_s": 0.138,
+          "illegal_pairs": [
+            {
+              "geom_ids": [
+                1,
+                75
+              ],
+              "geom_names": [
+                "table",
+                "left_pad"
+              ],
+              "body_ids": [
+                0,
+                25
+              ],
+              "body_names": [
+                "world",
+                "x5_link7"
+              ],
+              "position_world": [
+                0.3834440722192535,
+                -0.12253478601320228,
+                0.4399779939321486
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -2.200606785140179e-05,
+              "penetration_m": 2.200606785140179e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            }
+          ],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "SAME_STATE_EXPERT",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "illegal_pairs": [],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "EXPERT_XYZ_ONLY",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "illegal_pairs": [],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "EXPERT_SO3_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 67,
+          "first_violation_offset_ticks": 67,
+          "first_violation_offset_s": 0.134,
+          "illegal_pairs": [
+            {
+              "geom_ids": [
+                1,
+                75
+              ],
+              "geom_names": [
+                "table",
+                "left_pad"
+              ],
+              "body_ids": [
+                0,
+                25
+              ],
+              "body_names": [
+                "world",
+                "x5_link7"
+              ],
+              "position_world": [
+                0.3831184966228489,
+                -0.12311801891685625,
+                0.43992801299712575
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -7.198700287423935e-05,
+              "penetration_m": 7.198700287423935e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            }
+          ],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        },
+        {
+          "candidate": "EXPERT_GRIPPER_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 66,
+          "first_violation_offset_ticks": 66,
+          "first_violation_offset_s": 0.132,
+          "illegal_pairs": [
+            {
+              "geom_ids": [
+                1,
+                75
+              ],
+              "geom_names": [
+                "table",
+                "left_pad"
+              ],
+              "body_ids": [
+                0,
+                25
+              ],
+              "body_names": [
+                "world",
+                "x5_link7"
+              ],
+              "position_world": [
+                0.3773746437379032,
+                -0.12345023081400577,
+                0.43995202733763783
+              ],
+              "normal_world": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "signed_distance_m": -4.797266236217641e-05,
+              "penetration_m": 4.797266236217641e-05,
+              "original_rule": "ARM_TABLE_OR_FLOOR",
+              "penetration_stop_m": 0.004
+            }
+          ],
+          "live_state_unchanged": true,
+          "actions_modified": false
+        }
+      ],
+      "component_errors": {
+        "prefix8": {
+          "XYZ_m": {
+            "mean": 0.017542623800061226,
+            "maximum": 0.024015801912698313
+          },
+          "SO3_rad": {
+            "mean": 0.03626409315106528,
+            "maximum": 0.08300011874170879
+          },
+          "gripper_absolute": {
+            "mean": 0.9727963246405125,
+            "maximum": 0.9947691857814789
+          }
+        },
+        "H40": {
+          "XYZ_m": {
+            "mean": 0.06062172888191033,
+            "maximum": 0.09977165730581461
+          },
+          "SO3_rad": {
+            "mean": 0.121225458685397,
+            "maximum": 0.158826508981195
+          },
+          "gripper_absolute": {
+            "mean": 0.9808911509811878,
+            "maximum": 1.0
+          }
+        }
+      },
+      "expert_stage": "approach"
+    }
+  ],
+  "unique_cause_claimed": false
+}

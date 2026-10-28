@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#PBS -N pi0260_r3_canary
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -m n
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200
+#PBS -l walltime=06:00:00
+#PBS -o /scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/logs/
+#PBS -e /scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/logs/
+set -euo pipefail
+root=/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3
+venv=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv
+ff=/scratch/e1192548/Projects/go2-arx5/archive/stage_runs/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+test "$(sha256sum "$root/execution/pi0260_r3_train.py" | cut -d ' ' -f 1)" = "${PI0260_R3_CODE_SHA256:?}"
+test "$(sha256sum "$root/train_visits.json" | cut -d ' ' -f 1)" = 3cf0b85e2fc60bad6cb83c6ce633ab446163aad1757a465244751f457cd10bd4
+test "$(sha256sum "$root/H1_R3_ADMITTED.json" | cut -d ' ' -f 1)" = 93432e44326bbb7f05455f6ece257288bf65e35506dc8c0ca61eb06c7b25e7b3
+test -x "$venv/bin/python" && test -d "$ff/lib"
+export HF_HOME=/scratch/e1192548/stage22_h200_cosmos_v2_20260902/hf_home
+export HF_HUB_CACHE="$HF_HOME/hub" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+export HF_HUB_DISABLE_TELEMETRY=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1 PYTHONUNBUFFERED=1 CUBLAS_WORKSPACE_CONFIG=:4096:8
+export LD_LIBRARY_PATH="$ff/lib:$ff/compat:$venv/lib/python3.12/site-packages/torchcodec:$venv/lib/python3.12/site-packages/torch/lib:${LD_LIBRARY_PATH:-}"
+export PYTHONPATH="$root/execution:/scratch/e1192548/pi0244_fixed16_10k_v1/scripts:/scratch/e1192548/pi0244_fixed16_10k_v1/src:/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_m64_39b3718a0a1e/scripts:/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_m64_39b3718a0a1e/src:/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t:${PYTHONPATH:-}"
+"$venv/bin/python" -u "$root/execution/pi0260_r3_train.py" --arm "${PI0260_R3_ARM:?}" --phase "${PI0260_R3_PHASE:?}" --limit "${PI0260_R3_LIMIT:?}" --resume "${PI0260_R3_RESUME:-0}"

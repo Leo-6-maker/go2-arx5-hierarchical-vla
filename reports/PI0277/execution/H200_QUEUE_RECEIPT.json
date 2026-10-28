@@ -1,0 +1,75 @@
+{
+  "job_id": "650646.hopper-m-02",
+  "qstat": "Job Id: 650646.hopper-m-02\n    Job_Name = pi0277_repair\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    job_state = Q\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Tue Oct  6 19:36:09 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0277/runtime/pbs.err\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Tue Oct  6 19:36:10 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0277/runtime/pbs.out\n    Priority = 0\n    qtime = Tue Oct  6 19:36:09 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 43200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"formula_constants\": \"\", \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 12:00:00\n    substate = 10\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/scratch/e1192548/Projects/go2-arx5/experiments/PI0277,\n\tPBS_O_SYSTEM=Linux,PBS_O_QUEUE=auto\n    comment = Not Running: Insufficient amount of resource: ngpus (R: 1 A: 0 T:\n\t 208)\n    etime = Tue Oct  6 19:36:09 2026\n    Submit_arguments = -o /scratch/e1192548/Projects/go2-arx5/experiments/PI027\n\t7/runtime/pbs.out -e /scratch/e1192548/Projects/go2-arx5/experiments/PI\n\t0277/runtime/pbs.err /scratch/e1192548/Projects/go2-arx5/experiments/PI\n\t0277/code/train.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "counts": {
+    "raw_completed_updates.jsonl": 0,
+    "raw_training_heads.jsonl": 0,
+    "runtime/cpu_items.jsonl": 0
+  },
+  "staged": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/cpu_inputs.py",
+      "bytes": 9814,
+      "sha256": "41f93c55612911062b03aae9858b1accb152a8233b62448e34fa23c24b3b4980"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/qualify.py",
+      "bytes": 11445,
+      "sha256": "6bdacd3b33c7b6f9468d20ed3dfcf7299f531975a2e86de64c19c55633f497cd"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/train.py",
+      "bytes": 21024,
+      "sha256": "64c572b450f6e5cb6ba60e8f6c0a195d1535cfefeb267deb314ebfde843d3c76"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/gripper.py",
+      "bytes": 2763,
+      "sha256": "73f5718f83c6250402448d3d7a45d20b60abee3e60425413ec5f55c716ef67eb"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/audit_existing.py",
+      "bytes": 10624,
+      "sha256": "9440a4306393a02c252c1a498c03a6a04786de48a27bd91769ea7bdfffbb698d"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/audit_exposure.py",
+      "bytes": 9442,
+      "sha256": "d9ce3e50fa1501aec07f4bdcf424ad0d3fd2665517da188170d780287bd692c4"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/prepare.py",
+      "bytes": 6915,
+      "sha256": "8c781f08744901ccc8fdbdfd307f291ad8f440b1e89700eb841f4ac960277eee"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/run.py",
+      "bytes": 1581,
+      "sha256": "e0aa9f817407218fe8f35da7e6815afd4209d4d1804cb32964d567fcc8405adc"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/bench_cpu.py",
+      "bytes": 4053,
+      "sha256": "414e1db84aeb56052072036349f1467b3994a0a9cc35a6db1438da8aa38187f2"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/code/train.pbs",
+      "bytes": 557,
+      "sha256": "c215ce5fe3491243c2a6ec45f7ffe3bee0e75daae8fc345483d1cc0a0b9ef8d7"
+    }
+  ],
+  "local_binding_present": false,
+  "observed_utc": "2026-10-06T11:38:22.191599+00:00",
+  "release": "63151a4548243ab0fb4ba172eea6f7d92e02c576",
+  "status": "ACTUAL_H200_JOB_QUEUED",
+  "independent_of_PI0276_archive": true,
+  "speed_claim": "NOT_MEASURED",
+  "quality_claim": "NOT_RUN",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "implementation_checks": [
+    "Python AST parse",
+    "bash -n PBS script"
+  ],
+  "actual_runtime_checks": "PENDING_ALLOCATED_EXECUTION"
+}

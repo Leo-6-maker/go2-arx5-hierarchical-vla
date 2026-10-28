@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# PI0238-R2: one resolved-launch CPU audit job.
+# The site routes auto to small, whose floor reserves one GPU; CUDA remains explicitly disabled.
+# No old PI0238 PBS is reused and no job is submitted by this file itself.
+#PBS -N pi0238-r1-audit
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -V
+
+set -euo pipefail
+: "\${PI0238_LAUNCH_CONFIG:?missing PI0238_LAUNCH_CONFIG}"
+: "\${PI0238_PYTHON:?missing PI0238_PYTHON}"
+: "\${PI0238_SCRIPT:?missing PI0238_SCRIPT}"
+
+export CUDA_VISIBLE_DEVICES=""
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export PYTHONNOUSERSITE=1
+export PYTHONPATH=""
+
+# Reuse the sealed Stage45B native FFmpeg6 runtime.  The Hopper image exposes
+# FFmpeg 8 by default, while torchcodec 0.8.0 supports FFmpeg 4-7 only.
+PI0238_FFMPEG_RUNTIME_ROOT="/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf"
+PI0238_TORCHCODEC_PACKAGE_ROOT="/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages/torchcodec"
+PI0238_TORCH_LIBRARY_ROOT="/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages/torch/lib"
+test -d "${PI0238_FFMPEG_RUNTIME_ROOT}/lib"
+test -d "${PI0238_FFMPEG_RUNTIME_ROOT}/compat"
+test -d "${PI0238_TORCHCODEC_PACKAGE_ROOT}"
+test -d "${PI0238_TORCH_LIBRARY_ROOT}"
+PI0238_AMBIENT_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${PI0238_FFMPEG_RUNTIME_ROOT}/lib:${PI0238_FFMPEG_RUNTIME_ROOT}/compat:${PI0238_TORCHCODEC_PACKAGE_ROOT}:${PI0238_TORCH_LIBRARY_ROOT}:${PI0238_AMBIENT_LD_LIBRARY_PATH}"
+
+run_phase() {
+  local phase="$1"
+  "$PI0238_PYTHON" "$PI0238_SCRIPT" --phase "$phase" --launch-config "$PI0238_LAUNCH_CONFIG"
+}
+
+# Verify-only has no output/cache/tmp side effects; initialize is the single
+# owner-bound creation step for this attempt.
+"$PI0238_PYTHON" "$PI0238_SCRIPT" --preflight-only --launch-config "$PI0238_LAUNCH_CONFIG"
+
+"$PI0238_PYTHON" "$PI0238_SCRIPT" --initialize --launch-config "$PI0238_LAUNCH_CONFIG"
+
+phase_failed=0
+for phase in g0 g1 g2 g3; do
+  if ! run_phase "$phase"; then
+    phase_failed=1
+    break
+  fi
+done
+
+run_phase g4 || phase_failed=1
+
+# This CPU job never starts G4 inference; it only records the admission result.
+run_phase g5 || phase_failed=1
+exit "$phase_failed"

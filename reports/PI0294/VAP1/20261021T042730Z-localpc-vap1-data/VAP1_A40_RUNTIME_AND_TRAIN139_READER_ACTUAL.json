@@ -1,0 +1,256 @@
+{
+  "schema": "VAP1_A40_MATURE_TRAINER_CONNECTOR_AND_TRAIN139_ACTUAL_V1",
+  "status": "RUNTIME_IMPLEMENTED_EXACT_CI_PASS_TRAIN139_REAL_READER_PASS_NOT_GPU_TRAINING",
+  "reported_SGT": "2026-10-21T19:55:20.339408+08:00",
+  "authority_release": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+  "concurrency_release": "4b6ef6e3e6e741e423d7561d67312008b9b68024",
+  "source": {
+    "source_sha": "f5627e2bfa06d4125617fe52e3ab708d43e78465",
+    "CI_head_sha": "f5627e2bfa06d4125617fe52e3ab708d43e78465",
+    "CI_run_id": 39594763079,
+    "CI_job_id": 119204222022,
+    "CI_status": "completed",
+    "CI_conclusion": "success",
+    "all_steps_success": true,
+    "files_exact_readback": true,
+    "files": [
+      {
+        "path": "scripts/pi0294/dec1/a40_allocation.py",
+        "bytes": 15439,
+        "sha256": "edf58c19add4681c0cc5d3098283fb3b49e0c74bc5c4307c5f6251dec9e39bed",
+        "Git_blob": "20a002ec90ea1fca01dd029db0f228667fcd931d",
+        "full_bytes_equal": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/a40_native_ledger.py",
+        "bytes": 7786,
+        "sha256": "27cf34fff3eab5a28f5567370cd0096694aaed0377b25eb6507e61e93d8495f4",
+        "Git_blob": "4a9724a66f2271a149f6ffd04fa836cb24542e98",
+        "full_bytes_equal": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/a40_training_context.py",
+        "bytes": 21393,
+        "sha256": "fcac874ae9a6f3466e7e0b9e66678cbd31ea955dfe7218c73938bc7ee73f277b",
+        "Git_blob": "710ae8962fc2ccfcf3081bf5d51248175e0db940",
+        "full_bytes_equal": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/a40_training_runtime.py",
+        "bytes": 12656,
+        "sha256": "e3324410432138a7b89c758ab6e0bca26480eb53a972d5395c563bc0489df82c",
+        "Git_blob": "bd5ea30b9774aa95c61dbdcb7a45f91e276565b3",
+        "full_bytes_equal": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/test_a40_native_ledger.py",
+        "bytes": 6245,
+        "sha256": "0432aa89f6e35c97eaf18b4dbc97478f09ba51d5f5c82d1a2021335a6036ff70",
+        "Git_blob": "7d3e49e24485374e814f66a72a5f735780ec3d8e",
+        "full_bytes_equal": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/test_a40_training_context.py",
+        "bytes": 10676,
+        "sha256": "9ee03f1f1506915d2201fe5fadfec523a0db83e1c986274afbeb19c027720389",
+        "Git_blob": "3d9eff513dd0352c3d22d527f0b7456cc79e7f62",
+        "full_bytes_equal": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/test_a40_training_runtime.py",
+        "bytes": 10650,
+        "sha256": "6a5fd0d6bfd45652cf485090a4c9ccb09878d45652be734026d3a65f374b17e2",
+        "Git_blob": "378f0b7a80ef5b1cbd7558b192cd6437981cf414",
+        "full_bytes_equal": true
+      },
+      {
+        "path": "scripts/pi0294/pv1/performance.py",
+        "bytes": 15788,
+        "sha256": "c2955a2f38a367b13b1f7bfb0e4abd142a83e491271e63fcbdf481331c6f7204",
+        "Git_blob": "5118013e8856e5c45d67bd7bf57534709fe85a26",
+        "full_bytes_equal": true
+      },
+      {
+        "path": "scripts/pi0294/pv1/training.py",
+        "bytes": 19004,
+        "sha256": "de6560f01c3aa4fb5278f8cdfaf4beb66f86e2769f979666e3b4550d50da474b",
+        "Git_blob": "8b54f48f901e14b61b34798b3ef51cc2c337a384",
+        "full_bytes_equal": true
+      }
+    ],
+    "root_tests": 895,
+    "root_skipped": 14,
+    "root_subtests": 60,
+    "PI0292_tests": 109,
+    "PI0292_subtests": 150,
+    "PI0294_tests": 1129,
+    "PI0294_subtests": 1032,
+    "CPU_only_not_CUDA_or_native_model_qualification": true
+  },
+  "existing_single_owner": true,
+  "scientific_GPU_concurrency": {
+    "HOPPER_H200": 1,
+    "VANDA_A40": 1,
+    "total": 2
+  },
+  "actual_code_changes": [
+    "Distinct_typed_A40_source_training_entry_reusing_original_model_Trainer_loss_recipe_sampler_and_full_state_saves",
+    "Native_compute_independent_own_R_job_nonce_host_project_capacity_and_single_visible_A40_checks",
+    "Immutable_full_source_seal_CI_manifest_request_grant_environment_and_closed_actual_data_consumers",
+    "Same_job_seventeen_seeded_saved_TRAIN_queries_and_finite_H40_arrays_before_any_optimizer_update",
+    "Local_effect_journal_bounded_by_original_central_whole4096_update_and29query_reservation_not_a_second_budget",
+    "CUDA_synchronization_before_committed_update_receipt_async_failure_keeps_pending_intent",
+    "Actual_first32_A_CONTROL_updates_counted_cost_ceiling_qualification_preserves_state_on_miss",
+    "Fresh_whole_remaining_pair_matrix_final20h_budget_recomputed_before_first_update",
+    "Same_job_1024_full_checkpoint_then_original12TRAIN_draws_then_full_optimizer_RNG_sampler_resume_to4096",
+    "After_probes_reuses_original_whole4096_authorization_not_a_second_first_update_handshake",
+    "Original_initialized_probe_reader_and_sealed_probe_arrays_before_update1025",
+    "Native_terminal_effect_summary_preserves_unknown_queries_pending_updates_and_unlinked_intents",
+    "Historical_H200_qualification_not_forged_A40_profile_explicit_and_old_capsules_not_modified"
+  ],
+  "CPU_contract_tests": {
+    "local_related_tests": 139,
+    "local_subtests": 194,
+    "exact_CI_PI0294_tests": 1129,
+    "exact_CI_PI0294_subtests": 1032,
+    "root_and_PI0292_counts_in_source_proof": true,
+    "overlapping_suites_not_added": true,
+    "not_proof_of_real_CUDA_model_memory_throughput_or_task_success": true
+  },
+  "actual_train139": {
+    "run_uuid": "vap1-source139-cache-03",
+    "source_sha": "380eefe18d35491f846974e5a16d380c46fefff3",
+    "status": "PASS_VANDA_CPU_FIXED_PV1_139_TRAIN_FULL_MEMBER_AND_READER",
+    "failure": null,
+    "parent_episodes": 139,
+    "full_member_hashes_verified": true,
+    "result_sha256": "2728828d46931b42b48de1f21ee57aef78d1cd9220b97ea65cd07f17b99451be",
+    "CPU_actual_s": 1082.826496144,
+    "fixed_bank": "ORIGINAL_PV1_139_R0_NOT_VAP1_R1_D48",
+    "consumer_PID": 2554034,
+    "consumer_proc_start": "8325246",
+    "actual_consumer_terminal": true,
+    "original_failed_attempt_unchanged": true,
+    "zero_scientific_effects": {
+      "GPU": 0,
+      "PBS": 0,
+      "models": 0,
+      "new_optimizer_updates": 0,
+      "new_physics": 0
+    }
+  },
+  "closeout": {
+    "observed_epoch": 1792583667.9683745,
+    "lease_status": "ACTIVE",
+    "close_intent_once": true,
+    "transport_observation_timeout_s": 110,
+    "prior_local_driver": "TERMINAL_EXIT1_AFTER_CLOSE_OBSERVATION_TIMEOUT",
+    "actual_native_close_process_candidates": [
+      {
+        "pid": 3728044,
+        "proc_start": "8907452",
+        "state": "D",
+        "started_epoch": 1792583276.52,
+        "CPU_s": 45.56,
+        "target_FD_relative": []
+      }
+    ],
+    "native_scan_still_live": true,
+    "not_a_consumer_restart": true,
+    "closure_not_reissued": true,
+    "closure_and_resource_settlement_complete": false,
+    "original126_C1_dispatched": false,
+    "required_next": "OBSERVE_SAME_CLOSER_HANDLE_RECONCILE_NATIVE_LEASE_AND_REGISTRY_BEFORE_SETTLE_OR_ORIGINAL126_DISPATCH"
+  },
+  "official_project_storage": {
+    "status": "OFFICIAL_OWN_PROJECT_REPORT_AND_TARGET_FILESYSTEM_STABLE_READ",
+    "observed_epoch": 1792583154.1229587,
+    "report_mtime_epoch": 1792582771.668369,
+    "report_age_s": 382.4545934200287,
+    "report_sha256": "3e34f375074efb1a099684b24ef43124d3ec3d4123b36614efcdd899feca6c22",
+    "report_bytes": 1335,
+    "reported_project_used": "142.69G",
+    "reported_project_hard": "97.66T",
+    "project_headroom_bytes_lower": 107224019605913,
+    "filesystem_available_bytes": 48496617455616,
+    "available_bytes_lower": 48496617455616,
+    "one_GiB_rounding_headroom_guard": true,
+    "target_NFS_export_matches_official_project_report": true,
+    "not_personal_scratch_quota": true,
+    "not_allocation_admission": true,
+    "new_GPU": 0,
+    "new_PBS": 0,
+    "new_models": 0
+  },
+  "native_queue_read": {
+    "observed_epoch": 1792583369.4003682,
+    "status": "PASS_TWO_PLATFORM_CAMPAIGN_VIEW",
+    "campaign_jobs": [],
+    "account_owned_job_count": 4,
+    "account_queue_filtered_or_forged_empty": false,
+    "other_project_jobs_untouched": true,
+    "auth": {
+      "hopper": {
+        "returncode": 1,
+        "classification": "TOKEN_EXPIRED"
+      },
+      "vanda": {
+        "returncode": 1,
+        "classification": "TOKEN_EXPIRED"
+      }
+    },
+    "next_project_auth_must_be_refreshed_before_any_PBS": true,
+    "Hopper_previous_distinct_official_login_and_HTTP401_diagnostic_not_repeated": true
+  },
+  "current_global": {
+    "allocated_GPU_s": 20745,
+    "reserved_GPU_s": 0,
+    "PBS": 12,
+    "queries": 1054,
+    "optimizer_updates": 0,
+    "GPU_site_CPU_s": 32710.822133859,
+    "DEC1_GPU_site_CPU_s": 26040.0,
+    "local_CPU_s": 30923.974682508997,
+    "Core_CPU_s": 168631.81682287893,
+    "unknown_effects": [],
+    "final_GPU_protected_s": 72000,
+    "original_T0_epoch": 1792348196,
+    "hard_close_epoch": 1792952996
+  },
+  "engineering_cost": {
+    "key": "VAP1_A40_RUNTIME_TRAINER_CONNECTOR_CPU_SITE60_LOCAL600_V1",
+    "GPU_site_CPU_upper_charged_s": 60,
+    "local_CPU_upper_charged_s": 600,
+    "inside_original_caps_not_additional_allowance": true
+  },
+  "effects_this_work": {
+    "new_PBS": 0,
+    "new_models": 0,
+    "new_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_physics": 0,
+    "runtime_deployed": false,
+    "native_A40_model_qualification": false,
+    "files_deleted": 0
+  },
+  "remaining_required": [
+    "Reconcile_actual_139_close_process_then_once_settle",
+    "Actual_original126_and_C1_official_reader_PASS_and_closed_consumers",
+    "Cold_standard_native_profile_environment_manifest_and_request_binding",
+    "Single_owner_auth_maintenance_release_first_update_and_native_terminal_settlement_chain",
+    "Fresh_project_balance_quota_queue_complete_budget_before_one_long_A40_job",
+    "Actual_17_model_draws_A_CONTROL4096_B_COVERAGE4096_same_platform_or_qualified_DEC1_matrix64"
+  ],
+  "implementation_boundaries": {
+    "post1024_new_allocation_resume": "NOT_IMPLEMENTED",
+    "current_request_start_steps": "0_TO_1023",
+    "same_job_continuation_to4096": "IMPLEMENTED_CPU_TESTED_NOT_NATIVE_EXECUTED",
+    "existing_Hopper_future_bridge_foreign_active_scientific_allocation": "NOT_IMPLEMENTED"
+  },
+  "D48_actual_evidence": "cb34c23285b0e31387e644628015eb0472fc8d40",
+  "Teacher_recovery": "NOT_TESTABLE_NO_QUALIFIED_FULL_STATE_SOURCE_BOUND",
+  "WBC_plant_gripper_PD_S1_scoring_R0_recipe_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "goal_complete": false
+}

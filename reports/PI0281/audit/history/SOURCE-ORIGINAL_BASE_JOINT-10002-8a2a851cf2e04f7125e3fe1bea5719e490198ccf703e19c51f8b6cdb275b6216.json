@@ -1,0 +1,95 @@
+{
+  "lane": "ORIGINAL_BASE_JOINT",
+  "condition": 10002,
+  "status": "VALID_SOURCE_COMPLETE",
+  "result": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/RESULT.json",
+    "bytes": 1652,
+    "sha256": "2d4eceb5040aa24a9a370bf3c3c895a702c4ce26a1d2384f7d282c04227b8ff4"
+  },
+  "quality": false,
+  "full32s": true,
+  "physics_samples": 3301,
+  "success41": 0,
+  "window_samples": 41,
+  "persistent": false,
+  "persistent41_observed": false,
+  "persistent41_status": "OBSERVED_ALL41",
+  "task_elapsed_s": 32.0,
+  "first_success_s": null,
+  "original_lift": "UNOBSERVED_NOT_RECORDED",
+  "grasp_physics_samples": 2895,
+  "max_cubeA_height_m": 0.5424278378486633,
+  "object_funnel": {
+    "first_grasp_s": 3.0600000000000005,
+    "grasp_samples": 2895,
+    "longest_grasp_s": 28.95,
+    "task_initial_height_m": 0.019999919459223747,
+    "max_height_increase_m": 0.5224279165267944,
+    "original_lift": "UNOBSERVED_NOT_RECORDED",
+    "descriptive_lift_2cm_s": 3.3600000000000003,
+    "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+    "first_on_top_s": null,
+    "on_top_samples": 0,
+    "first_success_physics_s": null,
+    "released_41": 0,
+    "static_41": 0,
+    "on_top_41": 0,
+    "release_after_first_grasp_s": null
+  },
+  "command_to_actual_xyz_m": {
+    "n": 660,
+    "mean": 0.00858350338690362,
+    "rms": 0.010946508454937666,
+    "p50": 0.006605238653719425,
+    "p95": 0.022444602660834746,
+    "max": 0.05009467527270317
+  },
+  "installedFK_to_actual_xyz_m": {
+    "n": 660,
+    "mean": 0.00858350338690362,
+    "rms": 0.010946508454937666,
+    "p50": 0.006605238653719425,
+    "p95": 0.022444602660834746,
+    "max": 0.05009467527270317
+  },
+  "recorded_command_to_exactFK_m": {
+    "n": 660,
+    "mean": 2.0883404692310348e-08,
+    "rms": 2.2570705006997567e-08,
+    "p50": 2.1982443868657378e-08,
+    "p95": 3.337865646717558e-08,
+    "max": 4.6973980487957365e-08
+  },
+  "actual_joint_hard_margin_min_rad": [
+    1.8061537693023682,
+    1.0161601522445678,
+    2.2030302832603454,
+    0.8664383953094483,
+    2.290540511417389,
+    0.771531286239624,
+    1.881007308769226
+  ],
+  "actual_hard_penetration_rad": 0.0,
+  "noise_identical_to_PI0280": true,
+  "queries": 60,
+  "rawQ_to_installed_joint_max_abs_rad": 0.0,
+  "decoded_gripper_to_actuator_max_abs": 0.0,
+  "raw_inputs": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/physics.npz",
+      "bytes": 994890,
+      "sha256": "11ffd7438197cef11ac9fd7d22fbdf92d32c8c13772760e259a7cd87bd39ef6a"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/commands.npz",
+      "bytes": 32434,
+      "sha256": "ad6081bf0401146cd8491003ed94790627686b1b7a26717dfe90f4e52c1d1016"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/installed.npz",
+      "bytes": 82628,
+      "sha256": "655d995c2d3ebc227d2b22301e6e351129d72367d4551c25a6439deb7dbd929d"
+    }
+  ]
+}

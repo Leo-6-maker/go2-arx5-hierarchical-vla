@@ -1,0 +1,111 @@
+{
+  "schema": "V4_1_SCIENCE_FIRST_MINIMUM_SPEND_EVALUATION_PLANNING_CARD_V1",
+  "status": "ALTERNATIVE_ONLY_NOT_CURRENT_NATIVE_DISPATCH",
+  "source_head_before_publication": "730d0fde901be34f5ffeb9657a981b1677069823",
+  "decision": "GET_PAIRED_BEHAVIOR_EVAL_BEFORE_TRAINING_OR_FULL130_WORK; ALREADY_ADOPTED_GLOBAL_CAPS_ARE_CEILINGS_NOT_SPEND_TARGETS",
+  "first_goal": "P0_MINIMUM_PAIRED_SOURCE_DEV_DIAGNOSTIC",
+  "P0": {
+    "geometry_groups": [
+      "F0/000",
+      "F0/001",
+      "F1/000",
+      "F1/001"
+    ],
+    "noise_bank": 294101,
+    "task_condition_ids": [
+      "PI0294/PV1/DEV/F0/000/T1/N294101",
+      "PI0294/PV1/DEV/F0/000/T2/N294101",
+      "PI0294/PV1/DEV/F0/001/T1/N294101",
+      "PI0294/PV1/DEV/F0/001/T2/N294101",
+      "PI0294/PV1/DEV/F1/000/T1/N294101",
+      "PI0294/PV1/DEV/F1/000/T2/N294101",
+      "PI0294/PV1/DEV/F1/001/T1/N294101",
+      "PI0294/PV1/DEV/F1/001/T2/N294101"
+    ],
+    "models": [
+      "A_CONTROL4096",
+      "B_COVERAGE4096"
+    ],
+    "original_B0_outcomes_reused": 8,
+    "new_valid_task_conditions_upper": 16,
+    "neural_task_queries_upper": 1280,
+    "live_task_ticks_upper_excluding_warmup_and_shadow": 256000,
+    "additional_probe_load_warmup_shadow_cost_required": true,
+    "planned_PBS_not_native_reserved_or_approved": 2,
+    "independent_scene_groups": 4,
+    "families_covered": [
+      "F0",
+      "F1"
+    ],
+    "family_F2_covered": false,
+    "noise_294102_covered": false,
+    "diagnostic_only_not_complete_DEV_or_qualification": true,
+    "already_measured_B0_replayed": false,
+    "exact_original_DEV_identity_and_original_S1_required": true
+  },
+  "P1_conditional": {
+    "condition_ids": [
+      "PI0294/PV1/DEV/F1/002/T1/N294101",
+      "PI0294/PV1/DEV/F1/002/T2/N294101",
+      "PI0294/PV1/DEV/F1/003/T1/N294101",
+      "PI0294/PV1/DEV/F1/003/T2/N294101",
+      "PI0294/PV1/DEV/F1/004/T1/N294101",
+      "PI0294/PV1/DEV/F1/004/T2/N294101"
+    ],
+    "noise_bank": 294101,
+    "additional_A_B_condition_upper": 12,
+    "new_task_queries_upper": 960,
+    "cumulative_A_B_per_model": 14,
+    "total_independent_groups": 7,
+    "decision_only_after_P0_paired_behavior_and_measured_cost": true,
+    "no_automatic_dispatch": true
+  },
+  "frozen": {
+    "same_existing_DEV48": true,
+    "original_B0_valid": 14,
+    "original_B0_success": 9,
+    "original_B0_valid_failure": 5,
+    "A4096_training_complete": true,
+    "B4096_training_complete": true,
+    "A_DEV_actual": 0,
+    "B_DEV_actual": 0,
+    "core64_actual": 0,
+    "WBC_unchanged": true,
+    "original_safety_scoring_and_deadlines_unchanged": true
+  },
+  "grants": {
+    "global_current_adopted": {
+      "GPU_hours": 121,
+      "PBS": 34,
+      "GPU_site_CPU_hours": 213,
+      "GPU_site_output_GiB": 810
+    },
+    "historical_grant_or_ledger_rollback": false,
+    "new_budget_requested": false,
+    "full130_automatic_dispatch": false,
+    "DEC1_matrix_and_final_reserve_protected": true
+  },
+  "blockers": [
+    "Current mature evaluator enforces whole original remaining 24-condition noise panel; pilot 8-cell subpanel needs cold versioned diagnostic admission, no silent runner truncation",
+    "Fresh exact Vanda numeric/profile, saved B4096 read-only reuse, GPU/site/CPU/query/output complete-stage bounds and live safety/ACK",
+    "If lawful diagnostic-subpanel cannot fit original clock/resources, retain NOT_RUN and do not silently substitute full 24-cell panel"
+  ],
+  "no_new_native_gpu_pbs_physics_model_query_or_ledger_write_by_document": true,
+  "decision_after_p0": "REPORT_PAIRED_EFFECT_AND_FAILURES_THEN_CHOOSE_P1_OR_STOP; NO_NEW_TRAINING_FROM_P0_ALONE",
+  "original_stop_new_sgt": "2026-10-25T02:29:56+08:00",
+  "original_stop_physics_sgt": "2026-10-25T18:29:56+08:00",
+  "original_hard_close_sgt": "2026-10-26T02:29:56+08:00",
+  "prior_reservations_and_valid_failures_retained": true,
+  "publication_only": true,
+  "execution_precedence": {
+    "primary": "docs/protocols/GR00T_WBC_V4A_EVAL_FIRST_STAGED_EXECUTION_20261024.md",
+    "stage_original_noise_bank": 294101,
+    "primary_A_and_B_full_conditions": 48,
+    "primary_only_if_fresh_complete_two_panel_budget_and_clock_pass": true,
+    "alternative": "docs/handover/2026-10-24/SCIENCE_FIRST_MINIMUM_SPEND_EVAL_V4_1.md",
+    "alternative_requires_new_legal_original_DEV_diagnostic_subpanel_admission": true,
+    "plans_mutually_exclusive": true,
+    "no_double_dispatch_or_replay": true,
+    "full130_not_automatic": true
+  }
+}

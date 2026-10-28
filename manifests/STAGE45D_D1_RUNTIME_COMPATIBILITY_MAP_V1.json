@@ -1,0 +1,143 @@
+{
+  "schema": "CORELAB_STAGE45D_D1_RUNTIME_COMPATIBILITY_MAP_V1",
+  "status": "STATIC_ONLY_NOT_EXECUTED",
+  "stage": "Stage45D-D1",
+  "owner": "corelab",
+  "authority": {
+    "issue_11": 11,
+    "issue_11_comment": 5629752688,
+    "pr_51_comment": 5629755293,
+    "issue_50": 50,
+    "issue_50_comment": 5629756230
+  },
+  "protocol_provenance": {
+    "path": "manifests/STAGE45D_D1_PROTOCOL_CORRECTED_V1.json",
+    "sha256": "24cebea0d5bd884c8eb4ca1db2b9d55dfae57326936939ccd09d3868c96309b3",
+    "head": "1dd5837267cb1af34cd2ae7a978f70d6c8f78bdb",
+    "role": "IMMUTABLE_PROTOCOL_PROVENANCE_ONLY"
+  },
+  "corelab_execution_harness": {
+    "branch": "stage45d/corelab-d1-protocol-correction",
+    "execution_checkout_identity": "LATE_BOUND_OBSERVED_RUNTIME_HEAD_BRANCH_WORKTREE",
+    "runner": "scripts/stage45d_d1_teacher_forced_local_flow.py",
+    "admission": "scripts/stage45d_d1_runtime_admission.py",
+    "scientific_contract": "manifests/STAGE45D_D1_EXECUTION_MANIFEST_V1.json"
+  },
+  "vanda_runtime_reference": {
+    "pr_number": 49,
+    "head": "7d055069ba1d391c17457f709f7fc9aff544ef02",
+    "launcher": "scripts/reusable_h200_inference_canary.py",
+    "admission_validator": "src/go2arx5_vla/evaluation/h200_admission.py",
+    "bootstrap": "scripts/stage45c_h200_eval_bootstrap.py",
+    "runtime_adapter": "scripts/stage45c_h200_eval_runtime_adapter.py",
+    "role": "reusable runtime/admission substrate reference only"
+  },
+  "responsibility_map": [
+    {
+      "boundary": "repo_bootstrap",
+      "d1_contract": "resolve Corelab repository from __file__; foreign cwd and empty PYTHONPATH are valid",
+      "vanda_mechanism": "launcher/bootstrap resolves the execution checkout before runtime admission",
+      "late_bound_identity": "observed repo root, branch, exact execution HEAD, clean worktree"
+    },
+    {
+      "boundary": "runtime_config",
+      "d1_contract": "Stage45D manifest and runtime-admission template remain distinct from scientific protocol",
+      "vanda_mechanism": "manifest-driven runtime configuration and explicit late-bound runtime fields",
+      "late_bound_identity": "runtime identity and admission document"
+    },
+    {
+      "boundary": "host_gpu_observation",
+      "d1_contract": "no Corelab GPU/PBS execution in this closure",
+      "vanda_mechanism": "observed host, GPU, CUDA, Python, and PBS identity before model import",
+      "late_bound_identity": "observed runtime environment; no copied manifest defaults"
+    },
+    {
+      "boundary": "admission_before_model_import",
+      "d1_contract": "all identity, token, lock, budget, and freshness checks precede model import",
+      "vanda_mechanism": "validate_h200_inference_admission before Torch/GR00T/model construction",
+      "late_bound_identity": "pre-model import guard and ordered admission verdict"
+    },
+    {
+      "boundary": "checkpoint_identity",
+      "d1_contract": "STRUCTURED@1000, FULL24@1000, FULL24@2000 in frozen order",
+      "vanda_mechanism": "artifact identity verification binds each materialized checkpoint",
+      "late_bound_identity": "tree/file/content identity for every checkpoint"
+    },
+    {
+      "boundary": "checkpoint_specific_stats",
+      "d1_contract": "historical fixed stats only for STRUCTURED; runtime-V2 bridge for FULL24",
+      "vanda_mechanism": "statistics artifact identity is checked alongside each checkpoint",
+      "late_bound_identity": "stats path, SHA256, payload SHA256, and route"
+    },
+    {
+      "boundary": "train24_cohort",
+      "d1_contract": "24 TRAIN-only windows, target-major then snapshot-major order",
+      "vanda_mechanism": "cohort artifact and exact window/target order are admitted",
+      "late_bound_identity": "dataset tree, split lock, manifest, window order"
+    },
+    {
+      "boundary": "source_identity",
+      "d1_contract": "pinned GR00T/Cosmos/modality/processor/decoder/metrics identities",
+      "vanda_mechanism": "runtime source and payload identities are checked before model construction",
+      "late_bound_identity": "source commit/revision and exact payload hashes"
+    },
+    {
+      "boundary": "offline_environment",
+      "d1_contract": "offline model-side diagnostic; no network-dependent substitution",
+      "vanda_mechanism": "offline mode is an explicit admission field",
+      "late_bound_identity": "observed offline flag and runtime environment"
+    },
+    {
+      "boundary": "fresh_output_root",
+      "d1_contract": "future D1 output is a new empty root; no reuse",
+      "vanda_mechanism": "launcher/admission rejects non-empty or symlink output roots",
+      "late_bound_identity": "observed output root path and freshness assertion"
+    },
+    {
+      "boundary": "raw_first_evidence",
+      "d1_contract": "raw local-flow arrays are durable before normalized/physical metrics",
+      "vanda_mechanism": "raw prediction handoff and artifact sealing before evaluator consumption",
+      "late_bound_identity": "raw file/array hashes and per-probe identity"
+    },
+    {
+      "boundary": "failure_and_inventory",
+      "d1_contract": "failure seal, counters, manifest, inventory, and artifact hashes are mandatory",
+      "vanda_mechanism": "runtime/evaluator emits failure evidence and inventory on any mismatch",
+      "late_bound_identity": "sealed failure reason and zero/observed counters"
+    },
+    {
+      "boundary": "locked_boundaries",
+      "d1_contract": "Validation-E, Holdout-F, WBC, simulator, hardware, and new data stay locked",
+      "vanda_mechanism": "admission rejects unlocked scientific boundaries",
+      "late_bound_identity": "observed lock map, not a caller assertion"
+    }
+  ],
+  "d1_identity_summary": {
+    "checkpoint_order": [
+      "STRUCTURED@1000",
+      "FULL24@1000",
+      "FULL24@2000"
+    ],
+    "windows": 24,
+    "seeds": [2223, 2224, 2225],
+    "t_buckets": [67, 369, 783],
+    "action_head_calls": 648,
+    "conditioning_passes": 72,
+    "total_model_side_calls": 720,
+    "free_running_sampler_calls": 0,
+    "target_xyz_in_model_input": false
+  },
+  "scientific_semantics_transfer": "NONE",
+  "execution_boundary": {
+    "model_construction": 0,
+    "model_forward": 0,
+    "gpu": 0,
+    "pbs": 0,
+    "training": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0
+  }
+}

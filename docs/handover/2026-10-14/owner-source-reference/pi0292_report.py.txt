@@ -1,0 +1,114 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Generate sanitized checkpoint reports without rewriting producer evidence."""
+import hashlib
+import json
+from pathlib import Path
+import re
+import sys
+from pi0292_adopt import BASE,REPO,NEW,RUN_ID,remote,save
+
+CODE=r'''
+import hashlib,json,time
+from pathlib import Path
+r=Path(NEW)
+names=['ADOPTION.json','WORKSPACE_HANDSHAKE.json','SCIENCE_SOURCE_EQUIVALENCE.json','RUNNER_RELIABILITY_TEST.json',
+       'ENV_CANARY_GATE.json','RESOURCE_LEDGER.json','evidence/DISPATCH_supplement.json',
+       'evidence/AUDIT_C29200.json','evidence/AUDIT_BOUND_C29200.json','evidence/AUDIT_BOUND_C29201.json',
+       'evidence/adapter_preliminary/TRAIN_COMPARISON.json']
+out={n:json.loads((r/n).read_text()) for n in names if (r/n).is_file()}
+loader=r/'evidence/trainer_loader_preliminary/LOADER_COMPARISON.json'
+if loader.exists():
+    value=json.loads(loader.read_text())
+    out['TRAINER_LOADER_CPU']={k:value[k] for k in ('status','statistics_sha256','CPU_s','model_loaded','model_qualification','CUDA_initialized')}
+    out['TRAINER_LOADER_CPU'].update(full_receipt_sha256=hashlib.sha256(loader.read_bytes()).hexdigest(),
+        operations_source='6445fddd8b788fd055a4b1cb63025e74f4478f33',actual_worker_modes=[0,2],
+        continuous_samples_per_worker_mode=40,resume_cursor=32,resumed_samples_per_worker_mode=8,
+        scope='Original 56 TRAIN only; final bank v2 qualification pending')
+out['observed_epoch']=time.time()
+print(json.dumps(out))
+'''
+
+def sanitized(value):
+    if isinstance(value,dict):return {k:str(v) if k=='seed' else sanitized(v) for k,v in value.items()}
+    if isinstance(value,list):return [sanitized(v) for v in value]
+    if isinstance(value,str):return re.sub(r'/(?:var/cache/users|home/@CORELAB_STORAGE_USER@|scratch/@HOPPER_ACCOUNT@)/[^\s\"\']+', '<PRIVATE_HOST_PATH>',value)
+    return value
+
+if __name__=='__main__':
+    response=remote('corelab-4080s','NEW='+repr(NEW)+'\n'+CODE)
+    if response.returncode:print(response.stderr);sys.exit(response.returncode)
+    raw=json.loads(response.stdout)
+    save(BASE/('REPORT_SNAPSHOT_'+str(int(raw['observed_epoch']))+'.private.json'),raw)
+    output=REPO/'reports/PI0292'/RUN_ID;output.mkdir(parents=True,exist_ok=True)
+    def publish(name,value):
+        (output/name).write_text(json.dumps(sanitized(value),indent=2,ensure_ascii=False)+'\n')
+    for name in ('ADOPTION.json','WORKSPACE_HANDSHAKE.json','SCIENCE_SOURCE_EQUIVALENCE.json','RUNNER_RELIABILITY_TEST.json','ENV_CANARY_GATE.json','RESOURCE_LEDGER.json'):
+        if name in raw:publish(name,raw[name])
+    bindings=json.loads((BASE/'HOST_PATH_BINDINGS.private.json').read_text())
+    publish('ACTIVE_DEPENDENCIES.json',dict(status='HELD_FOR_SCIENCE',deadline_epoch=bindings['deadline_epoch'],
+        roles=[dict(role=r['role'],executor_node=r['executor_node'],storage_role=r['storage_role'],present=True) for r in bindings['protected_entries']],
+        paths='Private owner map only; stable original runtime/raw paths; new immutable operations snapshots',maintenance_thread_ack=True))
+    publish('PRETRAINED_FILE_IDENTITY.json',json.loads((BASE/'HOPPER_PRETRAINED_FILES.private.json').read_text()))
+    publish('ADAPTER_PRELIMINARY.json',json.loads((BASE/'ADAPTER_PRELIMINARY.private.json').read_text()))
+    if 'TRAINER_LOADER_CPU' in raw:publish('TRAINER_LOADER_PRELIMINARY.json',raw['TRAINER_LOADER_CPU'])
+    cosmos=json.loads((BASE/'HOPPER_COSMOS_IDENTITY.private.json').read_text())
+    publish('COSMOS_CACHE_IDENTITY.json',{k:v for k,v in cosmos.items() if k not in ('HF_HOME','snapshot')})
+    hopper=json.loads(max(BASE.glob('HOPPER_CONSUMER_STATUS_*.private.json'),key=lambda p:p.stat().st_mtime).read_text())
+    publish('HOPPER_DATA_PROGRESS.json',dict(status=hopper['state']['status'],observed_epoch=hopper['observed_epoch'],
+        completed=len(hopper['state']['completed']),planned=56,current=hopper['state']['current'],
+        fixed_revision=hopper['state']['revision'],process_identity_confirmed=hopper['process']['identity_matches'],
+        full_archive_and_member_hash_verification=True,model_loads=0,PBS_submissions=0,
+        CPU_reserved_upper_s=1800,stage_peak_bound_bytes=16*1024**3,quota='UNKNOWN',
+        existing_originals_recollected=False))
+    publish('CANARY_AUDIT_ENGINEERING_FAILURE.json',raw['evidence/AUDIT_C29200.json'])
+    state=raw.get('evidence/DISPATCH_supplement.json',{})
+    ledger=raw['RESOURCE_LEDGER.json'];completed=len(state.get('records',[]))
+    publish('PHASE_STATUS.json',dict(observed_epoch=raw['observed_epoch'],WORKSPACE='PASS',ENV_CANARY='PASS_2_OF_2',
+        SUPPLEMENT=state.get('status','NOT_RUN'),supplement_completed=completed,current=state.get('current'),
+        DATASET='BANK_V2_NOT_YET_BUILT',ADAPTER_CPU='PRELIMINARY_OLD_TRAIN_PASS_NEW_BANK_PENDING',MODEL_SMOKE='NOT_RUN',
+        TRAIN='NOT_RUN',OPEN_LOOP='NOT_RUN',RELAY='NOT_RUN',CLOSED_LOOP='NOT_RUN',HF='ORIGINAL_56_FULL_TRANSFER_RUNNING_NEW_BANK_HANDOFF_NOT_RUN',selected='NONE',deployment='NONE'))
+    report=f'''# PI0292 Progress Checkpoint
+
+PI0292 is active. This is an intermediate execution receipt, not completion of S0-S6.
+
+- Authority: release `261bc5b37f20aaff1ad7d5742252d3dc1a91fa65`, Issue #11 comment 6137102979.
+- Run: `{RUN_ID}`. T0 `2026-10-13T02:58:24Z`; deadline `2026-10-14T02:58:24Z`; new work cutoff `2026-10-14T01:58:24Z`. Resumes do not reset these times.
+- S0 passed: maintenance owner reports no active migration/deletion; exact private dependencies and shared NFS lease established. Original 121 sealed source hashes verified; old owner terminal; original 56 TRAIN retained; all 24 supplement IDs were unattempted.
+- Durable fake job completed 179 persisted updates after observation disconnect; live duplicate rejected with exit73. CPU fault tests cover stale/duplicate/reorder/corrupt messages, counter/deadline rejection and preservation of the last committed state on disk-write error.
+- Physical capsule source `35290803cd82e10a164daaa53af5743dd43054ee`. Original physics/scene/teacher/scorer/camera math unchanged; original run loop AST identical. Initial pre-physics source labeling was corrected after a sparse-checkout git-add failure; its correction receipt is retained.
+- Environment canaries: 2/2 full 32-second success, independent raw audits and original dual-RGB videos verified; no quality retries, excluded from TRAIN/DEV. First canary initially failed camera identity audit because raw geometry kept the origin layout ID; separate operations `a917c6ea` binds that identity to the sealed origin. Original audit FAIL retained, same data re-audited, no physics repeated.
+- Supplement is {state.get('status','NOT_RUN')}: {completed}/24 completed at this snapshot, current `{state.get('current')}`. Sequence is DEV16 then TRAIN8. Dispatcher operations `688946a95aa36847fc9775199397a8d131b77a9e`; source and attempt namespace independent of the old PI0291 ledger.
+- Preliminary new training adapter matches legacy processor/collator tensors on actual old TRAIN observations across two episodes and multiple anchors, with workers0/2 identical. Frozen stats, processed-only collation, DEV exclusion and complete-cycle/resume sampling checked. New bank/DEV qualification and the actual Trainer/model interface remain pending.
+- Actual official Trainer subclass loader CPU qualification passed on original TRAIN RGB: workers0/2 yield identical tensors and actual worker identities; 40 continuous samples match 8 resumed samples starting at consumed cursor32. CPU receipt reports 6.755992s, covered conservatively by the retained engineering reserve until boundary reconciliation. Eleven local CPU contract tests passed. Native training and fixed-tolerance smoke comparison code is prepared but has not run a model; no model qualification is claimed.
+- Existing Cosmos cache was fully streamed and matched official fixed revision `9ce19a195e423419c349abfc86fd07178b230561`, including the 4,877,470,304-byte model file and tokenizer/configuration. No historical model was downloaded. Hopper's new bounded CPU consumer has verified {len(hopper['state']['completed'])}/56 original TRAIN archives and all their members at its separate observation epoch {hopper['observed_epoch']}; status `{hopper['state']['status']}`. Its actual PID/start identity was confirmed, with no restart. This is existing-data transfer, not new collection or a bank v2 gate.
+- Existing Hopper base files match official `nvidia/GR00T-N1.7-3B` revision `2fc962b973bccdd5d8ce4f67cc63b264d6886495`: both full shards and configuration hashes checked. Tensor bytes 6,910,361,856; physical shard files 6,910,499,416 bytes including headers. No model load or PBS submission. Old private HF READY at `c25eeadf9be0aa7d46bb6f7b65e260cbf3a305ea` re-read and hash/private status verified; new handoff not yet executed.
+- Actual resource snapshot: {len(ledger['starts'])} starts, {ledger['physics_steps']} integrations, {ledger['pairs']} paired observations; Corelab CPU {ledger['CPU_s']:.6f}s measured plus {ledger['CPU_upper_s']:.0f}s retained upper bounds/reservations. Hopper base/cache hash CPU is 21.802233s, with 60s metadata upper and 1800s reserved for the running consumer. Its data-stage peak bound is 16 GiB plus20 GiB free-space margin; an actual bounded write/readback passed. Quota queries timed out or were unavailable, so quota remains UNKNOWN and shared free space is not treated as personal quota. Local-PC administrative CPU retains a separate conservative 600s upper. No maintenance deletion/space reclamation is attributed to science.
+
+PI0291 remains PARTIAL. No original 56 recollection, original ledger/stat overwrite, WBC/hardware run, or selected/deployment candidate. The adopted S3-S6 work remains authorized conditionally on its gates and budgets.
+'''
+    (output/'PROGRESS_REPORT.md').write_text(report)
+    resume='''# PI0292 Resume
+
+The local owner must inspect the live supplementary handle first. Never repeat launch because an observation timed out.
+
+From the existing local workspace:
+```bash
+python3 work/private/pi0292_control.py status supplement
+python3 work/private/pi0292_hopper_status.py
+```
+
+Existing run UUID and T0/deadline are fixed in ADOPTION.json. The remote dispatcher owns DEV16 then TRAIN8 and writes persistent regular-file stdout/stderr. A phase manifest or lock file alone is not proof of liveness; inspect PID/start identity and actual counters. An active attempt must never be recollected.
+
+Hopper's separate original TRAIN consumer downloads only the fixed original56 dependency, retaining archives and checking every member. Do not rerun the workspace initializer or consumer launch while that PID/start identity is live. The prepared neural entry requires an explicit own running single-H200 PBS allocation, final bank v2 CPU/full-data gates, and additional main-training smoke/probe/throughput gates. No PBS/model work has begun.
+
+After the dispatcher is confirmed terminal, reconcile all24 starts/results/audits/videos and charge outstanding CPU receipts. Complete bank v2 admission/statistics/native CPU and TRAIN/DEV adapter qualification, fixed private HF handoff/full Hopper data verification, then S3-S6 as specified by the adopted release. No additional GO is needed for already authorized, passed gates. Model/PBS actions have not yet started.
+
+The original frozen source capsule is immutable. Add engineering changes as a separate committed operations snapshot, record source differences, and switch only at a confirmed job boundary. The original audit failure and pre-physics source-label correction are evidence, not reasons to repeat physics.
+'''
+    (output/'RESUME.md').write_text(resume)
+    deliver=Path('@LOCAL_OR_CORE_HOME@/Documents/Codex/2026-10-12/github-plugin-github-openai-curated-remote-2/outputs/PI0292_PROGRESS_REPORT.md')
+    deliver.write_text(report)
+    publish('ARTIFACT_INDEX.json',dict(files=[dict(path=p.name,bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in output.iterdir() if p.is_file() and p.name!='ARTIFACT_INDEX.json'],producer_raw_private=True,public_projection=True))
+    print(json.dumps(dict(report=str(output),completed=completed,current=state.get('current'),starts=len(ledger['starts']))))

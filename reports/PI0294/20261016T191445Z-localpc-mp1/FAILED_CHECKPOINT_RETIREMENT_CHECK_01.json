@@ -1,0 +1,70 @@
+{
+  "schema": "MP1_DIRECT_USER_FAILED_CHECKPOINT_RETIREMENT_CHECK_V1",
+  "status": "SCOPED_CHECK_COMPLETE_NO_ELIGIBLE_LARGE_FAILED_CHECKPOINT_FOUND",
+  "authority": "DIRECT_CURRENT_USER_FAILED_CHECKPOINTS_MAY_BE_DELETED",
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "original_MP1_T0_epoch": 1792178085,
+  "new_science_budget": false,
+  "observations": [
+    {
+      "site": "Hopper_owned_registered_workspace",
+      "observed_epoch": 1792252150.97639,
+      "directories_examined": 907
+    },
+    {
+      "site": "CoreLab_4080S_owned_registered_workspace",
+      "observed_epoch": 1792252201.5721223,
+      "directories_examined": 1751
+    },
+    {
+      "site": "CoreLab_AMD_shared_Home_owned_registered_workspace",
+      "observed_epoch": 1792252278.6341958,
+      "directories_examined": 1412
+    }
+  ],
+  "scope": {
+    "roots": ["registered_runs", "workspace_archive", "workspace_assets", "workspace_models", "NFS_experiment_navigation"],
+    "symlink_targets_followed": false,
+    "raw_episode_dataset_environment_and_source_capsule_trees_pruned": true,
+    "whole_personal_storage_inventory_claimed": false,
+    "other_users_or_vendor_assets_touched": false
+  },
+  "actual_result": {
+    "eligible_large_failed_checkpoints": 0,
+    "checkpoint_directories_deleted": 0,
+    "files_deleted": 0,
+    "freed_allocated_bytes": 0,
+    "dry_run_reported_as_deletion": false,
+    "old_retirement_bytes_counted_again": false,
+    "notes": [
+      "Older main/smoke checkpoint directories found on Hopper contain metadata but no large model shards or optimizer payload; no new space recovery is attributed to them.",
+      "The CoreLab SSD failed-publication directory is empty and is not a model checkpoint.",
+      "NFS Git recovery refs named checkpoints and empty LFS incomplete directories are not failed neural checkpoints and are preserved.",
+      "A valid task-negative fixed checkpoint is not classified as a disposable failed training artifact.",
+      "No backup upload, full historical model download, process cancellation or new PBS was performed."
+    ]
+  },
+  "protected_fullstates_fresh_metadata_check": {
+    "observed_epoch": 1792252323.4179063,
+    "large_weight_bytes_rehashed": false,
+    "required_members_present": true,
+    "models": [
+      {"label": "ORIGINAL_M1@1024", "manifest_sha256": "7dba1c4c8abacdb57e2faa0e6d7563ed5dcef2e5473cb13c281eb0e57d5a5150"},
+      {"label": "S-BC@512", "manifest_sha256": "1cf83ad430c03c1d953266562cf90f3d0475f49c806701448fe5750d494c4d8c"},
+      {"label": "S-BC@1631", "manifest_sha256": "a54ab1ab635f7ea221ffd982e71b503752c40d7c6574d9db16e309d4facbec0c", "role": "SUPERSEDED_VALID_RESUME_NOT_A_FAILED_CHECKPOINT"},
+      {"label": "S-BC@2048", "manifest_sha256": "ac0f46924d540ec5519f8c64b1ec0ea1c7f37bba96df0a21744e6a6a8e88efc2"},
+      {"label": "S-CORR@512", "manifest_sha256": "31f0514beb4003e42afc3437aa4781b5df47fc35a6270ba5c4fa081b31102d02", "role": "CURRENT_EXACT_RESUME_AND_FIXED_DIAGNOSTIC"}
+    ]
+  },
+  "Hopper_personal_quota_snapshot": {
+    "observed_epoch": 1792252323.4179063,
+    "report_epoch": 1792251787.252782,
+    "used_bytes": 827296477184,
+    "hard_bytes": 1099511627776,
+    "not_shared_filesystem_free_space": true,
+    "current_owned_native_jobs": 0
+  },
+  "future_retirement_policy": "Delete directly only personally owned, evidenced failed/abandoned checkpoint payloads with no current consumer or required reproducibility role; retain exact identities and actual bytes removed. No per-candidate backup requirement is reintroduced.",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -1,0 +1,429 @@
+{
+  "schema": "PI0292_OBSERVATION_ONLY_INPUT_CPU_QUALIFICATION_V1",
+  "status": "PASS_RECORDED_RGB_OBSERVATION_ONLY_CPU_EQUIVALENCE_NOT_LIVE_PHYSICS",
+  "scientific_run": "20261013T025824Z-localpc-pi0292",
+  "original_T0": 1791860304,
+  "original_cutoff": 1791943104,
+  "original_deadline": 1791946704,
+  "source": "cefcb3a23fe899aa75dacfea1fcc7c322e523b88",
+  "run_manifest_sha256": "60fc34aa86fc2dcb2011bc3eaed5e155670d938704dd603d8075a206530b451d",
+  "manifest_output_role_note": "Inherited PBS_AND_TRAINING label in first prelaunch manifest was imprecise; actual output stayed in registered CPU evidence/capsule paths. No retroactive manifest edit or new top-level root.",
+  "observed_epoch": 1791886224.4251094,
+  "all_original_fields_preserved": true,
+  "inference_actions_constructed": null,
+  "actual_payload_fields": [
+    "snapshot_uuid",
+    "language",
+    "state_eef10",
+    "images",
+    "frame",
+    "tcp"
+  ],
+  "packet_policy": "Two original RGB images and original language/current EEF/gripper only; all extra fields rejected",
+  "equality": "All tensor dtype/shape/bytes hashes equal to the prior qualified official dataset/collator inference view after removing its action/action_mask outputs",
+  "comparison_cases": [
+    {
+      "split": "TRAIN",
+      "index": 0,
+      "identity": {
+        "episode_id": "T291000",
+        "split": "TRAIN",
+        "anchor": 0
+      },
+      "tensor_inventory": {
+        "inputs": {
+          "attention_mask": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "785d4f933cab5c8f4a0d32983c5cd6dda481faf6b28c03f42f2969e0ad021fc9"
+          },
+          "embodiment_id": {
+            "shape": [
+              1
+            ],
+            "dtype": "int64",
+            "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed"
+          },
+          "image_grid_thw": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04"
+          },
+          "input_ids": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "54e23cbe5a788a75f254e94e34c619b7f0a3beffa80a1a517807d8e0ef12e530"
+          },
+          "pixel_values": {
+            "shape": [
+              512,
+              1536
+            ],
+            "dtype": "float32",
+            "sha256": "3b17ebfd2d43434802f72ee86f337d15285c91ecda973e412dd3eb843d5dbb86"
+          },
+          "state": {
+            "shape": [
+              1,
+              1,
+              132
+            ],
+            "dtype": "float32",
+            "sha256": "81db925b2635b690661318e1d4b9058d89680cce04a564a652cc1a774567bd12"
+          }
+        }
+      },
+      "future_action_present": false,
+      "privileged_task_coordinates_present": false
+    },
+    {
+      "split": "TRAIN",
+      "index": 19232,
+      "identity": {
+        "episode_id": "T291032",
+        "split": "TRAIN",
+        "anchor": 0
+      },
+      "tensor_inventory": {
+        "inputs": {
+          "attention_mask": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "785d4f933cab5c8f4a0d32983c5cd6dda481faf6b28c03f42f2969e0ad021fc9"
+          },
+          "embodiment_id": {
+            "shape": [
+              1
+            ],
+            "dtype": "int64",
+            "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed"
+          },
+          "image_grid_thw": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04"
+          },
+          "input_ids": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "54e23cbe5a788a75f254e94e34c619b7f0a3beffa80a1a517807d8e0ef12e530"
+          },
+          "pixel_values": {
+            "shape": [
+              512,
+              1536
+            ],
+            "dtype": "float32",
+            "sha256": "09f4b64cd6f46ce14c8c98a5addf7cc2011498e7a128c15e59d2c38f4c3b2f88"
+          },
+          "state": {
+            "shape": [
+              1,
+              1,
+              132
+            ],
+            "dtype": "float32",
+            "sha256": "6a3d3b570b6097e3e58994e547c554e6a945ad22f3eba3dade9f61bcc968d7bb"
+          }
+        }
+      },
+      "future_action_present": false,
+      "privileged_task_coordinates_present": false
+    },
+    {
+      "split": "TRAIN",
+      "index": 38463,
+      "identity": {
+        "episode_id": "T291063",
+        "split": "TRAIN",
+        "anchor": 600
+      },
+      "tensor_inventory": {
+        "inputs": {
+          "attention_mask": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "785d4f933cab5c8f4a0d32983c5cd6dda481faf6b28c03f42f2969e0ad021fc9"
+          },
+          "embodiment_id": {
+            "shape": [
+              1
+            ],
+            "dtype": "int64",
+            "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed"
+          },
+          "image_grid_thw": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04"
+          },
+          "input_ids": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "54e23cbe5a788a75f254e94e34c619b7f0a3beffa80a1a517807d8e0ef12e530"
+          },
+          "pixel_values": {
+            "shape": [
+              512,
+              1536
+            ],
+            "dtype": "float32",
+            "sha256": "7228df682e54d3e8f1e0bf11467b9972f4499b732e72801caff0fdf8441f6957"
+          },
+          "state": {
+            "shape": [
+              1,
+              1,
+              132
+            ],
+            "dtype": "float32",
+            "sha256": "1b516e67e08e8c107ab7d2dfc078b3652ae48324536b60cd247e8337ee9ef009"
+          }
+        }
+      },
+      "future_action_present": false,
+      "privileged_task_coordinates_present": false
+    },
+    {
+      "split": "DEV",
+      "index": 0,
+      "identity": {
+        "episode_id": "D291000",
+        "split": "DEV",
+        "anchor": 0
+      },
+      "tensor_inventory": {
+        "inputs": {
+          "attention_mask": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "785d4f933cab5c8f4a0d32983c5cd6dda481faf6b28c03f42f2969e0ad021fc9"
+          },
+          "embodiment_id": {
+            "shape": [
+              1
+            ],
+            "dtype": "int64",
+            "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed"
+          },
+          "image_grid_thw": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04"
+          },
+          "input_ids": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "54e23cbe5a788a75f254e94e34c619b7f0a3beffa80a1a517807d8e0ef12e530"
+          },
+          "pixel_values": {
+            "shape": [
+              512,
+              1536
+            ],
+            "dtype": "float32",
+            "sha256": "d24b0bae7fd7aa44a1ae8be1c8e931352c842f50a4f6aa953639593a4cba12a4"
+          },
+          "state": {
+            "shape": [
+              1,
+              1,
+              132
+            ],
+            "dtype": "float32",
+            "sha256": "54e1486023732fd2a64bf1c83a93d0637f3ff0fa8ccf40b5a3aa7b1cf124fef1"
+          }
+        }
+      },
+      "future_action_present": false,
+      "privileged_task_coordinates_present": false
+    },
+    {
+      "split": "DEV",
+      "index": 4808,
+      "identity": {
+        "episode_id": "D291008",
+        "split": "DEV",
+        "anchor": 0
+      },
+      "tensor_inventory": {
+        "inputs": {
+          "attention_mask": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "785d4f933cab5c8f4a0d32983c5cd6dda481faf6b28c03f42f2969e0ad021fc9"
+          },
+          "embodiment_id": {
+            "shape": [
+              1
+            ],
+            "dtype": "int64",
+            "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed"
+          },
+          "image_grid_thw": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04"
+          },
+          "input_ids": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "54e23cbe5a788a75f254e94e34c619b7f0a3beffa80a1a517807d8e0ef12e530"
+          },
+          "pixel_values": {
+            "shape": [
+              512,
+              1536
+            ],
+            "dtype": "float32",
+            "sha256": "98299caa840925c3488a52eae91ceb94dbf7b234923c84ead300ad3ec60394ea"
+          },
+          "state": {
+            "shape": [
+              1,
+              1,
+              132
+            ],
+            "dtype": "float32",
+            "sha256": "c411c07f906f807f2e1bec2cdef7fc3865d8db1edbf42086bac9ba1d00059164"
+          }
+        }
+      },
+      "future_action_present": false,
+      "privileged_task_coordinates_present": false
+    },
+    {
+      "split": "DEV",
+      "index": 9615,
+      "identity": {
+        "episode_id": "D291015",
+        "split": "DEV",
+        "anchor": 600
+      },
+      "tensor_inventory": {
+        "inputs": {
+          "attention_mask": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "785d4f933cab5c8f4a0d32983c5cd6dda481faf6b28c03f42f2969e0ad021fc9"
+          },
+          "embodiment_id": {
+            "shape": [
+              1
+            ],
+            "dtype": "int64",
+            "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed"
+          },
+          "image_grid_thw": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "int64",
+            "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04"
+          },
+          "input_ids": {
+            "shape": [
+              1,
+              156
+            ],
+            "dtype": "int64",
+            "sha256": "54e23cbe5a788a75f254e94e34c619b7f0a3beffa80a1a517807d8e0ef12e530"
+          },
+          "pixel_values": {
+            "shape": [
+              512,
+              1536
+            ],
+            "dtype": "float32",
+            "sha256": "7beb07308ae0aa4d15dc713f8075ec5ac0f63bc07292c925e2bb97df7677deb9"
+          },
+          "state": {
+            "shape": [
+              1,
+              1,
+              132
+            ],
+            "dtype": "float32",
+            "sha256": "dcf782a2b2d2181649a7cb4780afce4409beda93f8cbca28db8b915f26a8144b"
+          }
+        }
+      },
+      "future_action_present": false,
+      "privileged_task_coordinates_present": false
+    }
+  ],
+  "statistics_sha256": "c3b871e3b5a854e876e4dbff806640f3472bef32b64f9d3db764a4d2c39b5fe4",
+  "actual_CPU_s": 9.02705,
+  "terminal_child_PID_absent": true,
+  "remaining_CPU_reservations": 0,
+  "model_constructed": false,
+  "CUDA_initialized": false,
+  "physics_integrations": 0,
+  "prerecorded_bank_used_for_CPU_input_equivalence_only": true,
+  "fresh_physics_observation": false,
+  "live_relay_qualification": false,
+  "teacher_relay_attempts": 0,
+  "model_canaries": 0,
+  "confirm_attempts": 0,
+  "hopper_resource_snapshot": {
+    "CPU_s": 448.35497999999995,
+    "CPU_upper_s": 2010,
+    "model_loads": 0,
+    "GPU_allocated_s": 0,
+    "model_smoke_updates": 0,
+    "main_updates": 0
+  },
+  "scientific_model_source": "c187d9573bdff302783fb5f41d06fcaa1753d2a8_UNCHANGED",
+  "scientific_recipe_and_statistics_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

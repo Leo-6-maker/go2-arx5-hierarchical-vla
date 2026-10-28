@@ -1,0 +1,69 @@
+{
+  "status": "REFERENCE_QUALITY_FAIL",
+  "pass": false,
+  "condition": "hold",
+  "complete_10s": true,
+  "sample_count": 2001,
+  "reasons": [
+    "TRACKING_FAIL_requested_pose",
+    "TRACKING_FAIL_installed_pose"
+  ],
+  "missing_real_evidence": [],
+  "errors": {
+    "requested_pose": {
+      "full_position_m": {
+        "RMS": 0.013695918839320163,
+        "P95": 0.025452082350118067,
+        "max": 0.033402475886830874
+      },
+      "full_SO3_rad": {
+        "RMS": 0.06430640319362099,
+        "P95": 0.06574162879887133,
+        "max": 0.08820866920292396
+      },
+      "last2_position_m": {
+        "RMS": 0.011672953955557097,
+        "P95": 0.011700049959201778,
+        "max": 0.011712613973242744
+      },
+      "last2_SO3_rad": {
+        "RMS": 0.06519971661469263,
+        "P95": 0.06525677569558558,
+        "max": 0.06529582304703958
+      }
+    },
+    "installed_pose": {
+      "full_position_m": {
+        "RMS": 0.014166364760042313,
+        "P95": 0.026550182583931582,
+        "max": 0.04651316617661697
+      },
+      "full_SO3_rad": {
+        "RMS": 0.0646213630538039,
+        "P95": 0.06574397470597523,
+        "max": 0.09266272174737329
+      },
+      "last2_position_m": {
+        "RMS": 0.011672953955557095,
+        "P95": 0.011700049959201778,
+        "max": 0.011712613973242744
+      },
+      "last2_SO3_rad": {
+        "RMS": 0.06519971661469288,
+        "P95": 0.06525677569558558,
+        "max": 0.06529582304703618
+      }
+    }
+  },
+  "directed_completion": null,
+  "latency": [
+    {
+      "ref_id": "a7ff3a9a26c34aab9843fa5c4abecef3:0",
+      "accept_s": 0.02407031483016908,
+      "install_s": 0.08008242887444794
+    }
+  ],
+  "common_future_jumps": [],
+  "reference_v_max_m_s": 0.05,
+  "reference_w_max_rad_s": 0.2
+}

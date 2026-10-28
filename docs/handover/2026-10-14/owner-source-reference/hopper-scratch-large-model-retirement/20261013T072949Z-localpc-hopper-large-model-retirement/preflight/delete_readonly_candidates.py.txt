@@ -1,0 +1,92 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import collections,json,os,stat,sys,time
+manifest,batch,receipt,roots_file=sys.argv[1:5]
+UID,DEV=22182,49
+selected={x.strip() for x in open(roots_file) if x.strip()}
+if os.getuid()!=UID or not selected:raise SystemExit('uid or root set mismatch')
+allowed={'@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/'+os.path.basename(r) for r in selected}
+if allowed!=selected:raise SystemExit('scope mismatch')
+roots=collections.defaultdict(list);errors=collections.defaultdict(list);ends={}
+for line in open(manifest,encoding='utf-8'):
+ x=json.loads(line)
+ if x.get('batch')!=batch:continue
+ if x.get('event')=='path':roots[x['root']].append(x)
+ elif x.get('event')=='error':errors[x['root']].append(x)
+ elif x.get('event')=='root_end':ends[x['root']]=x['manifest_entries']
+if set(roots)!=selected or set(ends)!=selected:raise SystemExit('manifest root set mismatch')
+def typ(s):
+ if stat.S_ISREG(s.st_mode):return 'regular'
+ if stat.S_ISDIR(s.st_mode):return 'directory'
+ if stat.S_ISLNK(s.st_mode):return 'symlink'
+ return 'special'
+def check(x):
+ try:s=os.lstat(x['path'])
+ except FileNotFoundError:return False,'missing'
+ t=os.readlink(x['path']) if stat.S_ISLNK(s.st_mode) else None
+ got=(typ(s),s.st_uid,s.st_gid,s.st_dev,s.st_ino,s.st_nlink,s.st_size,s.st_blocks,stat.S_IMODE(s.st_mode),s.st_mtime_ns,t)
+ want=(x['type'],x['uid'],x['gid'],x['dev'],x['ino'],x['nlink'],x['size_bytes'],x['blocks'],x['mode'],x['mtime_ns'],x.get('link_target'))
+ return got==want,{'got':got,'want':want}
+def emit(x):
+ with open(receipt,'a',encoding='utf-8') as f:f.write(json.dumps(x,sort_keys=True,separators=(',',':'))+'\n')
+def active(root):
+ hit=[]
+ for pid in os.listdir('/proc'):
+  if not pid.isdigit():continue
+  pd='/proc/'+pid
+  try:
+   if os.stat(pd).st_uid!=UID:continue
+  except OSError:continue
+  for name in ('cwd','root','exe'):
+   try:v=os.readlink(pd+'/'+name)
+   except OSError:continue
+   if v==root or v.startswith(root+'/'):hit.append((pid,name,v));break
+  if hit:continue
+  try:fds=os.listdir(pd+'/fd')
+  except OSError:continue
+  for fd in fds:
+   try:v=os.readlink(pd+'/fd/'+fd)
+   except OSError:continue
+   if v==root or v.startswith(root+'/'):hit.append((pid,'fd:'+fd,v));break
+ return hit
+for root in sorted(selected):
+ es=roots[root]
+ if errors[root]:emit({'event':'candidate_hold','batch':batch,'root':root,'reason':'inventory_error','errors':errors[root][:20]});continue
+ if ends[root]!=len(es):emit({'event':'candidate_hold','batch':batch,'root':root,'reason':'manifest_count_mismatch'});continue
+ bad=[x for x in es if not x.get('exists') or x.get('uid')!=UID or x.get('dev')!=DEV or x.get('type')=='special']
+ if bad:emit({'event':'candidate_hold','batch':batch,'root':root,'reason':'not_personal_or_special','count':len(bad),'members':bad[:20]});continue
+ mismatch=[]
+ for x in es:
+  ok,why=check(x)
+  if not ok:mismatch.append({'path':x['path'],'reason':why})
+ if mismatch:emit({'event':'candidate_hold','batch':batch,'root':root,'reason':'identity_changed','count':len(mismatch),'mismatches':mismatch[:30]});continue
+ refs=active(root)
+ if refs:emit({'event':'candidate_hold','batch':batch,'root':root,'reason':'owned_process_reference','references':refs[:20]});continue
+ dirs=sorted((x for x in es if x['type']=='directory'),key=lambda x:(x['path'].count('/'),x['path'].encode()))
+ changes=[];chmod_errors=[]
+ for x in dirs:
+  p=x['path'];old=stat.S_IMODE(os.lstat(p).st_mode);new=old|0o700
+  if new==old:continue
+  try:os.chmod(p,new,follow_symlinks=False);got=stat.S_IMODE(os.lstat(p).st_mode)
+  except Exception as e:chmod_errors.append((p,repr(e)));break
+  if got!=new:chmod_errors.append((p,'mode_readback_mismatch:'+oct(got)));break
+  changes.append({'path':p,'before_mode':old,'after_mode':got})
+ if chmod_errors:
+  for c in reversed(changes):
+   try:os.chmod(c['path'],c['before_mode'],follow_symlinks=False)
+   except Exception:pass
+  emit({'event':'candidate_hold','batch':batch,'root':root,'reason':'cannot_make_owned_directories_writable','errors':chmod_errors[:20],'permissions_reverted':True});continue
+ emit({'event':'directory_permission_changes','batch':batch,'root':root,'changes':changes,'count':len(changes),'purpose':'allow removal of user-owned read-only historical files'})
+ files=[x for x in es if x['type'] in ('regular','symlink')];fail=[];removed=0
+ for x in sorted(files,key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True):
+  p=x['path']
+  try:s=os.lstat(p);os.unlink(p);absent=not os.path.lexists(p);emit({'event':'unlink','batch':batch,'root':root,'path':p,'type':x['type'],'uid':s.st_uid,'dev':s.st_dev,'ino':s.st_ino,'size_bytes':s.st_size,'allocated_bytes':s.st_blocks*512,'verified_absent':absent});removed+=1 if absent else 0
+  except Exception as e:fail.append((p,repr(e)));emit({'event':'unlink_error','batch':batch,'root':root,'path':p,'error':repr(e)})
+ for x in sorted(dirs,key=lambda x:(x['path'].count('/'),x['path'].encode()),reverse=True):
+  p=x['path']
+  try:os.rmdir(p);absent=not os.path.lexists(p);emit({'event':'rmdir','batch':batch,'root':root,'path':p,'verified_absent':absent});removed+=1 if absent else 0
+  except Exception as e:fail.append((p,repr(e)));emit({'event':'rmdir_error','batch':batch,'root':root,'path':p,'error':repr(e)})
+ absent=not os.path.lexists(root)
+ emit({'event':'candidate_result','batch':batch,'root':root,'status':'retired' if absent and not fail else 'partial_or_held','members':len(es),'members_removed_verified':removed,'error_count':len(fail),'errors':fail[:30],'root_absent':absent})
+print(json.dumps({'batch':batch,'roots':len(selected),'paths':sum(map(len,roots.values())),'receipt':receipt},sort_keys=True))

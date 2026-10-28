@@ -1,0 +1,20 @@
+{
+  "utc_ns": 1791395041491878701,
+  "items": {
+    "qstat -u e1192548": {
+      "code": 0,
+      "output": "",
+      "stderr": ""
+    },
+    "hpc quota": {
+      "code": 1,
+      "output": "\n -----------------------------------------------------------------\n  Disk space for HPC Hopper home directory\n  Report at:  2026-10-08 00:49\n -----------------------------------------------------------------\n          HPC Home Dir      Usage      Quota      Status\n    /home/svu/e1192548     20.53G     40.00G      51.3%\n =================================================================\n\n\n-------------------------------------------------------------------------\n  Disk space for Hopper /scratch/e1192548 [Report at:  2026-10-08 01:43]\n-------------------------------------------------------------------------\n        user/group  ||           size          ||    chunk files \n          username  ||    used    |    hard    ||    used   |  hard\n          e1192548  ||    825.4GB |    1.0TB   ||   581274  | unlimited \n=========================================================================\n\n",
+      "stderr": ""
+    },
+    "hpc help": {
+      "code": 0,
+      "output": "\n  Use command as:\n\n  > hpc  option\n\n  option: \n          [AI|ai|hopper]            ==> to list instruction on AI & Deep Learning job submission and job monitor\n          [dos|win|windows]         ==> to list instruction on common problem with Windows text file/program\n          [pbs|PBS]                 ==> to list the common PBS job scheduling commands and flag options\n          [gstat|q]                 ==> to list latest status of Hopper GPU cluster nodes and batch queues\n          [project|proj] [date]     ==> to list the Name, Credits, Team Members, and End_date of Project(s)\n          [project-usage]           ==> to list the project usage by members in a fixed time window.\n          [quota|space|s]           ==> to list available disk space and quota limit\n          [space --project]         ==> to list and check disk space usage and quota of CFP Project Folders.\n          [space project=CFP04-*]   ==> to list and check disk space usage and quota of a CFP Project Folder.\n          [how many GPUs can I use] ==> to list and check how many GPUs can use to run different sized jobs.\n          [ssh access to GPU node]  ==> to list steps on ssh access to GPU node for debug/monitor of a running job.\n\n",
+      "stderr": ""
+    }
+  }
+}

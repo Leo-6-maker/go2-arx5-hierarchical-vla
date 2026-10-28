@@ -1,0 +1,23 @@
+{
+  "execution_authority": "NOT_RESTORED_OR_GRANTED_BY_CLEANUP",
+  "final_quota_report": {
+    "approximate_free": "292.6 GB",
+    "hard": "1.0 TB",
+    "reported_at_sgt": "2026-10-13 17:53",
+    "used": "707.4 GB"
+  },
+  "fresh_PI0292_capacity_preparation_run": false,
+  "prior_PI0292_preparation": {
+    "authorizes_execution": false,
+    "blocker": "PERSONAL_QUOTA_FREE_MARGIN",
+    "previous_additional_headroom_needed_bytes": 17898618880,
+    "required_margin_bytes": 21474836480,
+    "required_remaining_peak_bytes": 85899345920,
+    "required_total_bytes": 107374182400,
+    "selected": "NONE"
+  },
+  "remaining_execution_condition": "Refresh the PI0292 capacity preparation and confirm a currently valid Hopper project/allocation through the user’s own account before any future job. No PBS/GPU job was submitted in this maintenance.",
+  "run_id": "20261013T072949Z-localpc-hopper-large-model-retirement",
+  "schema": "HOPPER_CAPACITY_READBACK_V1",
+  "storage_assessment": "Reported final free quota exceeds the prior 80 GiB peak plus 20 GiB margin by a wide margin; the soft ≤850 GB used target is met."
+}

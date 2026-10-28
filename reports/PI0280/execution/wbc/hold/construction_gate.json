@@ -1,0 +1,56 @@
+{
+  "decision": "WARN",
+  "issues": [
+    {
+      "code": "ARC_LENGTH_DEGENERACY",
+      "severity": "WARNING",
+      "message": "trajectory has negligible SE(3) arc length; preview will hold a pose",
+      "provenance": "CONTROLLER_CONTRACT",
+      "observed": 0.0,
+      "threshold": 1e-06
+    }
+  ],
+  "metrics": {
+    "chunk_id": "hold",
+    "linear_speed_mps": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    },
+    "angular_speed_radps": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    },
+    "translation_path_length_m": 0.0,
+    "se3_arc_length_m": 0.0,
+    "initial_position_discontinuity_m": 0.0,
+    "initial_rotation_discontinuity_rad": 0.0,
+    "chunk_age_s": 0.0
+  },
+  "provenance": {
+    "gate": "TrajectorySafetyGateV1",
+    "corrective_action": "NONE",
+    "threshold_provenance": {
+      "initial_position_warn_m": "BENCHMARK_DERIVED",
+      "initial_position_reject_m": "BENCHMARK_DERIVED",
+      "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+      "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+      "linear_speed_warn_mps": "TEST_ONLY",
+      "linear_speed_reject_mps": "TEST_ONLY",
+      "angular_speed_warn_radps": "TEST_ONLY",
+      "angular_speed_reject_radps": "TEST_ONLY",
+      "workspace_warn_min_m": "GENERATOR_SUPPORT",
+      "workspace_warn_max_m": "GENERATOR_SUPPORT",
+      "workspace_reject_min_m": "TEST_ONLY",
+      "workspace_reject_max_m": "TEST_ONLY",
+      "max_path_length_m": "TEST_ONLY",
+      "min_arc_length_m": "CONTROLLER_CONTRACT",
+      "aging_age_s": "CONTROLLER_CONTRACT",
+      "stale_age_s": "CONTROLLER_CONTRACT",
+      "min_points": "CONTROLLER_CONTRACT"
+    }
+  }
+}

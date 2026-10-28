@@ -1,0 +1,127 @@
+{
+  "schema": "PI0294_PV1_AUTH_LIFECYCLE_REPAIR_AND_NATIVE_READBACK_V1",
+  "status": "CPU_REPAIR_TESTED_NATIVE_AUTH_NOT_RESTORED_NO_NEW_ALLOCATION",
+  "engineering_goal": "5d1393154054b977134b7d8c456f66ca478d0bf9",
+  "first_observed_epoch": 1792503677.5152497,
+  "report_updated_UTC": "2026-10-20T13:52:24Z",
+  "repair_round": 1,
+  "root_fingerprint": "EXPIRED_PROJECT_AT_ALLOCATION_OWNER_EXITED_BEFORE_RELEASE",
+  "original_authority": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "clock_and_budget_reset": false,
+  "code_sha256": {
+    "scripts/pi0294/pv1/auth_lifecycle.py": "dd06e114125404c0bcad9def7a1763e258bcebacae06011a3b2da412c8403073",
+    "scripts/pi0294/pv1/pbs_owner.py": "25a32a4fe45137712e845cdf5059d20d18a6eda6fae3edeb9802d9d004e98a43",
+    "scripts/pi0294/test_pv1_auth_lifecycle.py": "3a77de1a5eb637ebfc877962d51109fe6415fdc908ba5e2e51895120ad559bd1",
+    "scripts/pi0294/test_pv1_release_recovery.py": "64f6881198164da75701b5374be7c298c1c40a7de9ba776650595f200a214d70"
+  },
+  "original_release_window_s": 175,
+  "release_window_extended": false,
+  "CPU_regressions": {
+    "focused_tests": 26,
+    "full_PI0294_tests": 967,
+    "subtests": 836,
+    "covers": [
+      "Q_TOKEN_EXPIRES_THEN_RENEWS",
+      "FRESH_R_QUERY_NOT_Q_CACHE",
+      "AUTH_CONTEXT_MISMATCH",
+      "RIGHTS_REVOKED_NO_RENEW",
+      "INSUFFICIENT_READY_BUDGET",
+      "SLOW_QUERY_NO_LATE_START",
+      "PARTIAL_PROOF_RESTART_PRESERVES_FIRST_PROOF",
+      "DUPLICATE_CALLBACK_NO_SECOND_RELEASE",
+      "AUTH_FAILURE_STILL_SETTLES_TERMINAL_JOB",
+      "ATOMIC_0400_START_PUBLICATION",
+      "UNKNOWN_REPLY_NATIVE_PID_AND_JOURNAL_READBACK",
+      "LOCK_ALONE_IS_UNKNOWN_NOT_TERMINAL",
+      "MASKED_LOGIN_MFA_REJECTED_AND_NO_CREDENTIAL_LOGGING",
+      "NO_PTY_FILE_DESCRIPTOR_LEAK",
+      "SITE_CLOCK_INDEPENDENT_OF_PC_EPOCH_SKEW",
+      "MASKED_LOGIN_CONNECTIVITY_ERRORS_DISTINCT_FROM_CREDENTIAL_REJECTION",
+      "NO_READY_AND_ALREADY_RELEASED_DO_NOT_PUBLISH"
+    ]
+  },
+  "native_auth": {
+    "status": "AUTH_NOT_RESTORED_RETRYABLE_TRANSPORT_OR_SITE_AUTH_BOUNDARY_UNRESOLVED",
+    "principal": "e1192548",
+    "same_context_before_after": true,
+    "context_fingerprint": "614b7e4e90f60bc5df7c626daeee8810d3649b6d9d2d52b9f057c3ec4fa00401",
+    "observed_after": {
+      "status": "BLOCKED",
+      "error": "PV1_PROJECT_AUTH_EXPIRED_15006"
+    },
+    "official_CLI_version": "2024.1.0",
+    "normal_masked_login_succeeded": false,
+    "password_prompt_shape_verified_without_credential": true,
+    "official_sshlogin_restored_auth": false,
+    "official_same_host_sshlogin_restored_auth": false,
+    "masked_login_attempt02": {
+      "CLI_exit_status": 1,
+      "password_prompt_answered": true,
+      "server_codes": [15006],
+      "classified_hints": ["TRANSPORT_OR_SERVER_CONNECTIVITY"],
+      "context_unchanged": true,
+      "fresh_project_query_after": "PV1_PROJECT_AUTH_EXPIRED_15006",
+      "password_incorrect_proven": false,
+      "human_only_auth_boundary_proven": false,
+      "raw_output_logged": false
+    },
+    "supported_sshlogin_connectivity_probe": {
+      "CLI_exit_status": 1,
+      "explicit_ssh_connection_error": false,
+      "raw_output_logged": false,
+      "does_not_prove_renewal_or_password_rejection": true
+    },
+    "real_renewal_success_not_proven": true,
+    "token_TTL": "UNKNOWN_NOT_EXPOSED_BY_SUPPORTED_CLI",
+    "credential_saved": false,
+    "password_in_arguments": false,
+    "raw_CLI_output_logged": false,
+    "MFA_bypassed": false,
+    "question_sent_once": true
+  },
+  "deployment": "NOT_DEPLOYED_TO_NEW_CHILD;EXACT_PUSH_CI_AND_NATIVE_AUTH_REQUIRED",
+  "mature_private_owner_adapter": {
+    "status": "PASS_CPU_INJECTION_ONLY_NOT_DEPLOYED",
+    "sha256": "29011ef868d1574f35b326dc909a545a6b6f899df765481e0f3ee8082e8abac2",
+    "same_route_same_principal_context": true,
+    "bounded_native_project_query_timeout_s_each": 10,
+    "failed_auth_retains_terminal_settlement": true,
+    "real_owner_loop_started": false,
+    "private_source_not_published": true
+  },
+  "actual_next_allocation": null,
+  "new_PBS": 0,
+  "new_model_loads": 0,
+  "new_queries": 0,
+  "new_episodes": 0,
+  "new_physics": 0,
+  "optimizer_updates": 0,
+  "campaign_used_H200_s": 20473,
+  "campaign_reserved_H200_s": 0,
+  "PBS_used": 10,
+  "B0": {
+    "valid": 14,
+    "total": 48,
+    "successes": 9,
+    "valid_task_failures": 5,
+    "remaining": 34
+  },
+  "unknown_effects": [],
+  "control_cost": {
+    "local_CPU_upper_s": 900,
+    "Hopper_CPU_upper_s": 180,
+    "charged_to_original_PV1": true
+  },
+  "CR1": "CLOSED_UNCHANGED",
+  "CR2": "AWAITING_EXPLICIT_SCIENCE_GO",
+  "selected": "NONE",
+  "deployment_model": "NONE",
+  "remaining_goal": [
+    "REAL_AUTH_RENEWAL_AND_SAME_CONTEXT_PROOF",
+    "COLD_BOUND_NEXT_CHILD_FULL_INPUTS",
+    "ONE_LEGAL_NEXT_ALLOCATION_AND_NEW_AUDITED_B0_RESULT",
+    "COMPLETE_B0_48",
+    "MATCHED_A_B_4096_AND_DEV48",
+    "ORIGINAL_QUALIFIED_UNIQUE_LOCKBOX_AND_POLICY_PACKAGE"
+  ]
+}

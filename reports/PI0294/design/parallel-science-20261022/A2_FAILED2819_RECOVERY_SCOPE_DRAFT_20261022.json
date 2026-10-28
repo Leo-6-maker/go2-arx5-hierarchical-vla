@@ -1,0 +1,326 @@
+{
+  "schema": "VAP1_A2_FAILED2819_RECOVERY_SCOPE_DRAFT_V1",
+  "status": "DRAFT_NOT_AUTHORIZED_NOT_ADOPTED_NOT_NATIVE_ADMISSION",
+  "created_epoch": 1792683017.0461338,
+  "basis": "Immutable A2 settled ledgers plus original sealed remaining-work plan; offline arithmetic, not fresh quota/queue admission.",
+  "closed_job": "1475719.stdct-mgmt-02",
+  "current_runtime": "3a1420e76c492196fa83905f4bde92924cc12c28",
+  "settlement_sha256": "41619ea632460281bb0898bd133766783ecb421d734b9ee9085acd90a7ff3e7c",
+  "requested_narrow_changes": {
+    "DEC1_cumulative_updates": [
+      9216,
+      9987
+    ],
+    "DEC1_new_PBS": [
+      11,
+      12
+    ],
+    "DEC1_GPU_site_output_GiB": [
+      352,
+      418
+    ],
+    "global_GPU_site_output_GiB": [
+      419,
+      485
+    ]
+  },
+  "recovery_semantics": {
+    "latest_complete_step": 2048,
+    "saved_cursor": 65536,
+    "failed_lineage_actual_step": 2819,
+    "old_lost_updates": 1024,
+    "new_lost_updates": 771,
+    "all_charged_updates_before_recovery": 3843,
+    "A_remaining_updates": 2048,
+    "B_remaining_updates": 4096,
+    "total_required_updates": 9987,
+    "new_named_lineage_required": true,
+    "failed_lineage_or_cost_rollback": false,
+    "new_request_and_registration_required": true,
+    "B_independent_original_CORR": true,
+    "original12_A_probes_preserved_no_repeat": true,
+    "proposed_lineage_key": "A_CONTROL_HEARTBEAT_RECOVERY2",
+    "seed_full_state_step": 2048,
+    "failed_lineage_preserved": "A_CONTROL_SAVE_RECOVERY1",
+    "seed_is_imported_state_not_new_charged_updates": true
+  },
+  "remaining_training": [
+    {
+      "CPU_envelope_profile": "A40_SEGMENT_22500S_PROCESS_CPU54000_V1",
+      "arm": "A_CONTROL",
+      "resources": {
+        "Core_CPU_s": 180,
+        "H200_s": 22560,
+        "Hopper_CPU_s": 54000,
+        "Hopper_storage_bytes": 70000000000,
+        "PBS_submissions": 1,
+        "engine_starts": 3,
+        "local_CPU_s": 120,
+        "neural_queries": 29,
+        "optimizer_updates": 2048,
+        "transfer_bytes": 2147483648
+      },
+      "same_allocation_1024_probes": true,
+      "segmented_authorization_release": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+      "segmented_grant_sha256": "2eb61986e4d87ca428ec386e703df323c8480916c5ddb0ea9abaef3bf26f5615",
+      "start_step": 2048,
+      "stop_step": 4096,
+      "walltime_upper_s": 22500,
+      "work_id": "TRAIN:A_CONTROL:SEGMENT:4096"
+    },
+    {
+      "CPU_envelope_profile": "A40_SEGMENT_22500S_PROCESS_CPU54000_V1",
+      "arm": "B_COVERAGE",
+      "resources": {
+        "Core_CPU_s": 180,
+        "H200_s": 22560,
+        "Hopper_CPU_s": 54000,
+        "Hopper_storage_bytes": 70000000000,
+        "PBS_submissions": 1,
+        "engine_starts": 3,
+        "local_CPU_s": 120,
+        "neural_queries": 29,
+        "optimizer_updates": 2048,
+        "transfer_bytes": 2147483648
+      },
+      "same_allocation_1024_probes": true,
+      "segmented_authorization_release": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+      "segmented_grant_sha256": "2eb61986e4d87ca428ec386e703df323c8480916c5ddb0ea9abaef3bf26f5615",
+      "start_step": 0,
+      "stop_step": 2048,
+      "walltime_upper_s": 22500,
+      "work_id": "TRAIN:B_COVERAGE:SEGMENT:2048"
+    },
+    {
+      "CPU_envelope_profile": "A40_SEGMENT_22500S_PROCESS_CPU54000_V1",
+      "arm": "B_COVERAGE",
+      "resources": {
+        "Core_CPU_s": 180,
+        "H200_s": 22560,
+        "Hopper_CPU_s": 54000,
+        "Hopper_storage_bytes": 70000000000,
+        "PBS_submissions": 1,
+        "engine_starts": 3,
+        "local_CPU_s": 120,
+        "neural_queries": 29,
+        "optimizer_updates": 2048,
+        "transfer_bytes": 2147483648
+      },
+      "same_allocation_1024_probes": true,
+      "segmented_authorization_release": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+      "segmented_grant_sha256": "2eb61986e4d87ca428ec386e703df323c8480916c5ddb0ea9abaef3bf26f5615",
+      "start_step": 2048,
+      "stop_step": 4096,
+      "walltime_upper_s": 22500,
+      "work_id": "TRAIN:B_COVERAGE:SEGMENT:4096"
+    }
+  ],
+  "matrix": {
+    "commissioning_upper": 8,
+    "core_cells": 64,
+    "engineering_replacements_upper": 16,
+    "resources": {
+      "Core_CPU_s": 200000,
+      "Core_storage_bytes": 21474836480,
+      "H200_s": 86580,
+      "Hopper_CPU_s": 80000,
+      "Hopper_storage_bytes": 2147483648,
+      "PBS_submissions": 3,
+      "engine_starts": 7128,
+      "episode_starts": 88,
+      "local_CPU_s": 3600,
+      "local_storage_bytes": 1073741824,
+      "neural_queries": 7040,
+      "physics_ticks": 2816000,
+      "transfer_bytes": 5368709120
+    },
+    "valid_failure_replays": 0
+  },
+  "future_control_extra": {
+    "Hopper_CPU_s": 5400,
+    "local_CPU_s": 3600,
+    "transfer_bytes": 805306368,
+    "Hopper_storage_bytes": 201326592
+  },
+  "incident_remote_CPU_allowance_s": 120,
+  "incident_CPU_allowance_already_booked": false,
+  "resource_dimension_forecast": {
+    "H200_s": {
+      "DEC1_projected": 182129.0,
+      "DEC1_current_cap": 187200,
+      "DEC1_proposed_cap": 187200,
+      "global_projected_with_final_protection": 274623.0,
+      "global_current_cap": 345600,
+      "global_proposed_cap": 345600
+    },
+    "PBS_submissions": {
+      "DEC1_projected": 12,
+      "DEC1_current_cap": 11,
+      "DEC1_proposed_cap": 12,
+      "global_projected_with_final_protection": 23,
+      "global_current_cap": 24,
+      "global_proposed_cap": 24
+    },
+    "optimizer_updates": {
+      "DEC1_projected": 9987,
+      "DEC1_current_cap": 9216,
+      "DEC1_proposed_cap": 9987,
+      "global_projected_with_final_protection": 9987,
+      "global_current_cap": 16384,
+      "global_proposed_cap": 16384
+    },
+    "episode_starts": {
+      "DEC1_projected": 88,
+      "DEC1_current_cap": 136,
+      "DEC1_proposed_cap": 136,
+      "global_projected_with_final_protection": 526,
+      "global_current_cap": 1000,
+      "global_proposed_cap": 1000
+    },
+    "neural_queries": {
+      "DEC1_projected": 7207,
+      "DEC1_current_cap": 14000,
+      "DEC1_proposed_cap": 14000,
+      "global_projected_with_final_protection": 17261,
+      "global_current_cap": 48000,
+      "global_proposed_cap": 48000
+    },
+    "physics_ticks": {
+      "DEC1_projected": 2816000,
+      "DEC1_current_cap": 5000000,
+      "DEC1_proposed_cap": 5000000,
+      "global_projected_with_final_protection": 16666404,
+      "global_current_cap": 40000000,
+      "global_proposed_cap": 40000000
+    },
+    "engine_starts": {
+      "DEC1_projected": 7137,
+      "DEC1_current_cap": 12000,
+      "DEC1_proposed_cap": 12000,
+      "global_projected_with_final_protection": 36754,
+      "global_current_cap": 100000,
+      "global_proposed_cap": 100000
+    },
+    "Core_CPU_s": {
+      "DEC1_projected": 369171.8168228789,
+      "DEC1_current_cap": 576000,
+      "DEC1_proposed_cap": 576000,
+      "global_projected_with_final_protection": 369171.8168228789,
+      "global_current_cap": 1152000,
+      "global_proposed_cap": 1152000
+    },
+    "Hopper_CPU_s": {
+      "DEC1_projected": 311459.0,
+      "DEC1_current_cap": 345600,
+      "DEC1_proposed_cap": 345600,
+      "global_projected_with_final_protection": 318129.82213385904,
+      "global_current_cap": 576000,
+      "global_proposed_cap": 576000
+    },
+    "local_CPU_s": {
+      "DEC1_projected": 50783.974682509,
+      "DEC1_current_cap": 57600,
+      "DEC1_proposed_cap": 57600,
+      "global_projected_with_final_protection": 50783.974682509,
+      "global_current_cap": 172800,
+      "global_proposed_cap": 172800
+    },
+    "transfer_bytes": {
+      "DEC1_projected": 48562070829,
+      "DEC1_current_cap": 137438953472,
+      "DEC1_proposed_cap": 137438953472,
+      "global_projected_with_final_protection": 67916239489,
+      "global_current_cap": 322122547200,
+      "global_proposed_cap": 322122547200
+    },
+    "Hopper_storage_bytes": {
+      "DEC1_projected": 447953598491,
+      "DEC1_current_cap": 377957122048,
+      "DEC1_proposed_cap": 448824082432,
+      "global_projected_with_final_protection": 519231031323,
+      "global_current_cap": 449897824256,
+      "global_proposed_cap": 520764784640
+    },
+    "Core_storage_bytes": {
+      "DEC1_projected": 107374182400,
+      "DEC1_current_cap": 137438953472,
+      "DEC1_proposed_cap": 137438953472,
+      "global_projected_with_final_protection": 128849018880,
+      "global_current_cap": 322122547200,
+      "global_proposed_cap": 322122547200
+    },
+    "local_storage_bytes": {
+      "DEC1_projected": 8589934592,
+      "DEC1_current_cap": 8589934592,
+      "DEC1_proposed_cap": 8589934592,
+      "global_projected_with_final_protection": 10737418240,
+      "global_current_cap": 21474836480,
+      "global_proposed_cap": 21474836480
+    }
+  },
+  "storage": {
+    "current_DEC1_allocated_upper_bytes": 235588011035,
+    "current_global_allocated_upper_bytes": 263915770907,
+    "remaining_training_bytes": 210000000000,
+    "future_control_bytes": 201326592,
+    "original_matrix_bytes": 2147483648,
+    "additional_small_output_upper_bytes": 16777216,
+    "DEC1_retained_peak_upper_bytes": 447953598491,
+    "DEC1_rounded_cap_bytes": 448824082432,
+    "global_other_bytes": 28327759872,
+    "global_cap_uses_rounded_DEC1_plus_other_plus_final40GiB": true,
+    "global_rounded_cap_bytes": 520764784640,
+    "failed_A2_charged70GB_is_conservative_not_measured": true,
+    "deletion_or_retirement_credit_bytes": 0
+  },
+  "clock_forecast": {
+    "original_T0_epoch": 1792348196,
+    "original_clock": {
+      "stop_new_jobs_epoch": 1792866596,
+      "stop_training_epoch": 1792909796,
+      "stop_physics_epoch": 1792924196,
+      "hard_closeout_epoch": 1792952996
+    },
+    "original_queue_delay_upper_per_PBS_s": 3600,
+    "last_submission_epoch": 1792761317.0461338,
+    "training_finish_epoch": 1792761317.0461338,
+    "matrix_finish_epoch": 1792858697.0461338,
+    "package_finish_epoch": 1792862297.0461338,
+    "clock_failures": [],
+    "target_runtime_feasibility": "UNKNOWN_NATIVE_COMMISSIONING_STILL_REQUIRED",
+    "scheduling_or_resource_reservation": false
+  },
+  "unchanged": [
+    "global96GPUh",
+    "DEC1_52GPUh",
+    "global24PBS",
+    "originalCPU/query/physics/transfer_caps",
+    "final20GPUh_and40GiB",
+    "singleGPU",
+    "R0_recipes_sampler_WBC_S1_scoring",
+    "all_checkpoints_retained",
+    "original_T0_and_cutoffs"
+  ],
+  "engineering_prerequisites": [
+    "Exact cold call-chain source CI/readback before adoption.",
+    "Explicit new recovery grant and adopted preserved-cost recovery2 lineage; original failed2819 lineage remains unchanged.",
+    "Actual new registered owner proof, fresh original2048 byte audit and exact source/host binding.",
+    "Fresh quota/queue/full-budget admission; original watchdog300s, all science gates and original deadlines unchanged.",
+    "Rejected helper connection draft remains unused; recovery uses the root-reviewed cold call path."
+  ],
+  "new_GPU_PBS_models_physics": 0,
+  "goal_complete": false,
+  "engineering_preparation": {
+    "component_source": "a3d5d91b1745900adf15587035c7e9bed085c32d",
+    "component_CI": {
+      "run": 39803337300,
+      "status": "completed",
+      "conclusion": "success",
+      "exact_head": "a3d5d91b1745900adf15587035c7e9bed085c32d"
+    },
+    "call_chain_receipt": "COLD_OWNER_CALL_CHAIN_CPU_ACTUAL_20261022.json",
+    "total_CPU_tests_passed": 62,
+    "native_deployment": false,
+    "exact_call_chain_head_CI": "PENDING_PUBLICATION"
+  }
+}

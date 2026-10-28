@@ -1,0 +1,915 @@
+{
+  "schema": "PI0294_E0_FIXED_ORIGINAL_M2048_PANEL_V1",
+  "run_uuid": "20261016T083821Z-localpc-e0",
+  "protocol_ref": "22e5f0baeed0af662a7cf1c97edae1f4060947fe",
+  "original_run_uuid": "20261014T121640Z-incoming-pi0294-r3",
+  "original_registry_semantic_sha256": "d9cdc95e908ef5ef163659159ca399f2521360686171060603f2d884f0379c9b",
+  "original_frozen_panel_semantic_sha256": "1065a6e5af28e337579cd8643eb1012c656a7254ddf9ba381eb98000d401123e",
+  "historical16_NOT_RUN_unchanged": true,
+  "model_step": 2048,
+  "conditions": [
+    {
+      "index": 0,
+      "attempt_id": "PI0294-E0-M2048-TRAIN-F0-000-T1",
+      "original_attempt_id": "PI0294-TRAIN-F0-000-T1",
+      "split": "TRAIN",
+      "task": "T1",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "initial_state_sha256": "2a6b2ea49bd823c321f049b3c115350f95f0e935d3c432c03fecfb02925f28f5",
+      "original_card_sha256": "594536dc28561c458f47e7d2e572f545c786a802730c8209b6236327cccdd18a",
+      "execution_card_sha256": "38c6563042f6c0032cc0e265cae79dfc40981833ca3171d363e6aa1b91a729c3",
+      "card": {
+        "cube_yaw": -0.004229534950302691,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F0",
+        "goal_xy": [
+          0.46277492292458655,
+          0.09007288028396371
+        ],
+        "group_id": "PI0294/TRAIN/F0/000",
+        "id": "PI0294-E0-M2048-TRAIN-F0-000-T1",
+        "initial_state_sha256": "2a6b2ea49bd823c321f049b3c115350f95f0e935d3c432c03fecfb02925f28f5",
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/TRAIN/F0/000",
+        "seed": 7768893173180062711,
+        "source_xy": [
+          0.4571955564143642,
+          -0.07391292045913811
+        ],
+        "split": "TRAIN",
+        "table_top_m": 0.44,
+        "task": "T1",
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 2623351921344962863,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 1,
+      "attempt_id": "PI0294-E0-M2048-TRAIN-F0-000-T2",
+      "original_attempt_id": "PI0294-TRAIN-F0-000-T2",
+      "split": "TRAIN",
+      "task": "T2",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "initial_state_sha256": "2a6b2ea49bd823c321f049b3c115350f95f0e935d3c432c03fecfb02925f28f5",
+      "original_card_sha256": "1916eb27743044cf1664296f23cf9327186c881d8ee796fad38a8ba21ad274d4",
+      "execution_card_sha256": "e113b396ba32eb22abcce7f3c551e9e1c452249b413fa7176e2815a8401422a0",
+      "card": {
+        "cube_yaw": -0.004229534950302691,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F0",
+        "goal_xy": [
+          0.46277492292458655,
+          0.09007288028396371
+        ],
+        "group_id": "PI0294/TRAIN/F0/000",
+        "id": "PI0294-E0-M2048-TRAIN-F0-000-T2",
+        "initial_state_sha256": "2a6b2ea49bd823c321f049b3c115350f95f0e935d3c432c03fecfb02925f28f5",
+        "instruction": "Push the red cube along the table into the blue square without lifting it, then move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/TRAIN/F0/000",
+        "seed": 7768893173180062711,
+        "source_xy": [
+          0.4571955564143642,
+          -0.07391292045913811
+        ],
+        "split": "TRAIN",
+        "table_top_m": 0.44,
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 2623351921344962863,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 2,
+      "attempt_id": "PI0294-E0-M2048-TRAIN-F1-000-T1",
+      "original_attempt_id": "PI0294-TRAIN-F1-000-T1",
+      "split": "TRAIN",
+      "task": "T1",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "initial_state_sha256": "b74d0f1ed334ba5d6bcccceaedeaea165d16e1f8042fde55908be048933583cb",
+      "original_card_sha256": "d33d310eccb43e8f7f462f2be5d2535c24434930e5fd50a6d50a19612d49b76a",
+      "execution_card_sha256": "0ce72b77f2a291199125cfe286a1d0f58d85f90a7ef013c38bdc88c01f92a01f",
+      "card": {
+        "cube_yaw": 0.04824052505480199,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F1",
+        "goal_xy": [
+          0.4550571986126572,
+          0.08906105973613682
+        ],
+        "group_id": "PI0294/TRAIN/F1/000",
+        "id": "PI0294-E0-M2048-TRAIN-F1-000-T1",
+        "initial_state_sha256": "b74d0f1ed334ba5d6bcccceaedeaea165d16e1f8042fde55908be048933583cb",
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/TRAIN/F1/000",
+        "seed": 7182027079307474509,
+        "source_xy": [
+          0.45222155996621993,
+          -0.07876856010133773
+        ],
+        "split": "TRAIN",
+        "table_top_m": 0.44,
+        "task": "T1",
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 6785128050285040083,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 3,
+      "attempt_id": "PI0294-E0-M2048-TRAIN-F1-000-T2",
+      "original_attempt_id": "PI0294-TRAIN-F1-000-T2",
+      "split": "TRAIN",
+      "task": "T2",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "initial_state_sha256": "b74d0f1ed334ba5d6bcccceaedeaea165d16e1f8042fde55908be048933583cb",
+      "original_card_sha256": "bbb1358aac001a56fadf7b5ac93e8915c2b77f4430142c548b486c6c212f0c76",
+      "execution_card_sha256": "c55efd7d98028780330a7d6de20b0db108f40afaf19ffb8e36c011ec6920258e",
+      "card": {
+        "cube_yaw": 0.04824052505480199,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F1",
+        "goal_xy": [
+          0.4550571986126572,
+          0.08906105973613682
+        ],
+        "group_id": "PI0294/TRAIN/F1/000",
+        "id": "PI0294-E0-M2048-TRAIN-F1-000-T2",
+        "initial_state_sha256": "b74d0f1ed334ba5d6bcccceaedeaea165d16e1f8042fde55908be048933583cb",
+        "instruction": "Push the red cube along the table into the blue square without lifting it, then move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/TRAIN/F1/000",
+        "seed": 7182027079307474509,
+        "source_xy": [
+          0.45222155996621993,
+          -0.07876856010133773
+        ],
+        "split": "TRAIN",
+        "table_top_m": 0.44,
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 6785128050285040083,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 4,
+      "attempt_id": "PI0294-E0-M2048-DEV-F0-000-T1",
+      "original_attempt_id": "PI0294-DEV-F0-000-T1",
+      "split": "DEV",
+      "task": "T1",
+      "scene_group": "PI0294/DEV/F0/000",
+      "initial_state_sha256": "b77396c49ca33d1353331e3b74ac5603f4e5e2194bc7afdae29ff460bf77ab4d",
+      "original_card_sha256": "5be7e19f20f5e9cecca0b43d190a7fa6f203135603c08555b357ee06faca02b4",
+      "execution_card_sha256": "8ed215553753af3cc51d038f55fa351e7f2949137058a8477e8192745c06f396",
+      "card": {
+        "cube_yaw": -0.04955700289896274,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F0",
+        "goal_xy": [
+          0.45519694760292834,
+          0.08982566019980277
+        ],
+        "group_id": "PI0294/DEV/F0/000",
+        "id": "PI0294-E0-M2048-DEV-F0-000-T1",
+        "initial_state_sha256": "b77396c49ca33d1353331e3b74ac5603f4e5e2194bc7afdae29ff460bf77ab4d",
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/DEV/F0/000",
+        "seed": 2172353931584390166,
+        "source_xy": [
+          0.4535913465679187,
+          -0.07176993466897984
+        ],
+        "split": "DEV",
+        "table_top_m": 0.44,
+        "task": "T1",
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 3445557703205838892,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 5,
+      "attempt_id": "PI0294-E0-M2048-DEV-F0-000-T2",
+      "original_attempt_id": "PI0294-DEV-F0-000-T2",
+      "split": "DEV",
+      "task": "T2",
+      "scene_group": "PI0294/DEV/F0/000",
+      "initial_state_sha256": "b77396c49ca33d1353331e3b74ac5603f4e5e2194bc7afdae29ff460bf77ab4d",
+      "original_card_sha256": "27660e1635d9cad61d7753980cfd22ae4df468b512373d20c28076f18a35edd9",
+      "execution_card_sha256": "e2ba629ce54e2f324931d438bac36898ef00e85e63122ccd406e1cc3dec5e784",
+      "card": {
+        "cube_yaw": -0.04955700289896274,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F0",
+        "goal_xy": [
+          0.45519694760292834,
+          0.08982566019980277
+        ],
+        "group_id": "PI0294/DEV/F0/000",
+        "id": "PI0294-E0-M2048-DEV-F0-000-T2",
+        "initial_state_sha256": "b77396c49ca33d1353331e3b74ac5603f4e5e2194bc7afdae29ff460bf77ab4d",
+        "instruction": "Push the red cube along the table into the blue square without lifting it, then move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/DEV/F0/000",
+        "seed": 2172353931584390166,
+        "source_xy": [
+          0.4535913465679187,
+          -0.07176993466897984
+        ],
+        "split": "DEV",
+        "table_top_m": 0.44,
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 3445557703205838892,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 6,
+      "attempt_id": "PI0294-E0-M2048-DEV-F1-000-T1",
+      "original_attempt_id": "PI0294-DEV-F1-000-T1",
+      "split": "DEV",
+      "task": "T1",
+      "scene_group": "PI0294/DEV/F1/000",
+      "initial_state_sha256": "28a6298653d9543913aa2d669de5c113779bf69e62fc8222525c2e84d8c31a55",
+      "original_card_sha256": "abe542b8948fc857e1c336903c0c9cefecb2bfeda76bb725eb5de853fede21f9",
+      "execution_card_sha256": "6e585978d384d1bee3e25451ba4fcc58bf88b8edad8b45fd4722196609d0a31e",
+      "card": {
+        "cube_yaw": 0.03673172227875508,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F1",
+        "goal_xy": [
+          0.4401223584627139,
+          0.08604823769904557
+        ],
+        "group_id": "PI0294/DEV/F1/000",
+        "id": "PI0294-E0-M2048-DEV-F1-000-T1",
+        "initial_state_sha256": "28a6298653d9543913aa2d669de5c113779bf69e62fc8222525c2e84d8c31a55",
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/DEV/F1/000",
+        "seed": 5823266856127193029,
+        "source_xy": [
+          0.44480983910514166,
+          -0.10115344715536242
+        ],
+        "split": "DEV",
+        "table_top_m": 0.44,
+        "task": "T1",
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 3120175816853451073,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 7,
+      "attempt_id": "PI0294-E0-M2048-DEV-F1-000-T2",
+      "original_attempt_id": "PI0294-DEV-F1-000-T2",
+      "split": "DEV",
+      "task": "T2",
+      "scene_group": "PI0294/DEV/F1/000",
+      "initial_state_sha256": "28a6298653d9543913aa2d669de5c113779bf69e62fc8222525c2e84d8c31a55",
+      "original_card_sha256": "dc33cb04264cf80e08511792a48efe2c0d17e253334b7d7bb42b69b7bcf804ed",
+      "execution_card_sha256": "d52cb2c1cea7b972364d999c513b2aef26847377e8a1cd167f318885f73fad3a",
+      "card": {
+        "cube_yaw": 0.03673172227875508,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F1",
+        "goal_xy": [
+          0.4401223584627139,
+          0.08604823769904557
+        ],
+        "group_id": "PI0294/DEV/F1/000",
+        "id": "PI0294-E0-M2048-DEV-F1-000-T2",
+        "initial_state_sha256": "28a6298653d9543913aa2d669de5c113779bf69e62fc8222525c2e84d8c31a55",
+        "instruction": "Push the red cube along the table into the blue square without lifting it, then move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/DEV/F1/000",
+        "seed": 5823266856127193029,
+        "source_xy": [
+          0.44480983910514166,
+          -0.10115344715536242
+        ],
+        "split": "DEV",
+        "table_top_m": 0.44,
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 3120175816853451073,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 8,
+      "attempt_id": "PI0294-E0-M2048-DEV-F1-001-T1",
+      "original_attempt_id": "PI0294-DEV-F1-001-T1",
+      "split": "DEV",
+      "task": "T1",
+      "scene_group": "PI0294/DEV/F1/001",
+      "initial_state_sha256": "74514388a024ab136616d1d1027041b44ab995306938ce6ea5c97e2bc7ddc090",
+      "original_card_sha256": "0e56bdd207a3abd46e088c74ecd81870f6467d75098c8daa910c47651330a68b",
+      "execution_card_sha256": "abae4d0a3f3b8a75d66ca11c215f8d09f36987612cd0fe01241d43fa3e6a10f2",
+      "card": {
+        "cube_yaw": -0.043404008588432304,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F1",
+        "goal_xy": [
+          0.45829213829643917,
+          -0.08376712263551728
+        ],
+        "group_id": "PI0294/DEV/F1/001",
+        "id": "PI0294-E0-M2048-DEV-F1-001-T1",
+        "initial_state_sha256": "74514388a024ab136616d1d1027041b44ab995306938ce6ea5c97e2bc7ddc090",
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/DEV/F1/001",
+        "seed": 13235625576756443100,
+        "source_xy": [
+          0.45804836366368773,
+          0.10655807779947879
+        ],
+        "split": "DEV",
+        "table_top_m": 0.44,
+        "task": "T1",
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 1556734783252196920,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 9,
+      "attempt_id": "PI0294-E0-M2048-DEV-F1-001-T2",
+      "original_attempt_id": "PI0294-DEV-F1-001-T2",
+      "split": "DEV",
+      "task": "T2",
+      "scene_group": "PI0294/DEV/F1/001",
+      "initial_state_sha256": "74514388a024ab136616d1d1027041b44ab995306938ce6ea5c97e2bc7ddc090",
+      "original_card_sha256": "5966d8f1adcf933d4e07ac2d1c6d3a0fdec87d1640ecd990594c1406b280bf58",
+      "execution_card_sha256": "140f522d690d9f2a9963c06fac5f0248900951f5464b874aec47b11c42827a5e",
+      "card": {
+        "cube_yaw": -0.043404008588432304,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F1",
+        "goal_xy": [
+          0.45829213829643917,
+          -0.08376712263551728
+        ],
+        "group_id": "PI0294/DEV/F1/001",
+        "id": "PI0294-E0-M2048-DEV-F1-001-T2",
+        "initial_state_sha256": "74514388a024ab136616d1d1027041b44ab995306938ce6ea5c97e2bc7ddc090",
+        "instruction": "Push the red cube along the table into the blue square without lifting it, then move the gripper away.",
+        "layout_candidate_index": 0,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/DEV/F1/001",
+        "seed": 13235625576756443100,
+        "source_xy": [
+          0.45804836366368773,
+          0.10655807779947879
+        ],
+        "split": "DEV",
+        "table_top_m": 0.44,
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.72,
+            0.74,
+            0.76,
+            1.0
+          ],
+          "light_scale": 1.0,
+          "table_rgba": [
+            0.69,
+            0.7,
+            0.66,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 1556734783252196920,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 10,
+      "attempt_id": "PI0294-E0-M2048-DEV-F2-000-T1",
+      "original_attempt_id": "PI0294-DEV-F2-000-T1",
+      "split": "DEV",
+      "task": "T1",
+      "scene_group": "PI0294/DEV/F2/000",
+      "initial_state_sha256": "ef7111fb8a8b864404f647d8805d3341d018e2fc3b8cae987768563f375bc423",
+      "original_card_sha256": "499d7de442b5d3305a99afe01963851285f0fd54da896cb14e6657210ac0166b",
+      "execution_card_sha256": "65cee43b6ae7ad2483fd23e7a677d666820d3fb8ce555d42ffb6a92e8142ed5a",
+      "card": {
+        "cube_yaw": 0.05786621930767889,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F2",
+        "goal_xy": [
+          0.4474239512495883,
+          0.07953285751469488
+        ],
+        "group_id": "PI0294/DEV/F2/000",
+        "id": "PI0294-E0-M2048-DEV-F2-000-T1",
+        "initial_state_sha256": "ef7111fb8a8b864404f647d8805d3341d018e2fc3b8cae987768563f375bc423",
+        "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+        "layout_candidate_index": 1,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/DEV/F2/000",
+        "seed": 9907056654262110909,
+        "source_xy": [
+          0.44201600557538645,
+          -0.08588005587451619
+        ],
+        "split": "DEV",
+        "table_top_m": 0.44,
+        "task": "T1",
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.6138425388522913,
+            0.6252826921148482,
+            0.6883266550980968,
+            1.0
+          ],
+          "light_scale": 0.91560933975415,
+          "table_rgba": [
+            0.5961418294854787,
+            0.6202840588244422,
+            0.6553591378161175,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 5621554721337544695,
+      "status": "NOT_RUN"
+    },
+    {
+      "index": 11,
+      "attempt_id": "PI0294-E0-M2048-DEV-F2-000-T2",
+      "original_attempt_id": "PI0294-DEV-F2-000-T2",
+      "split": "DEV",
+      "task": "T2",
+      "scene_group": "PI0294/DEV/F2/000",
+      "initial_state_sha256": "ef7111fb8a8b864404f647d8805d3341d018e2fc3b8cae987768563f375bc423",
+      "original_card_sha256": "386694126158b076c6a00a73b6d7dfbf5bb0818a294a2d2e0dd6efcf2d82bc43",
+      "execution_card_sha256": "5313bae4fe3b8405038b565bef66b0f4b3703b1c871ff2a79f23ca24cbbcd0bd",
+      "card": {
+        "cube_yaw": 0.05786621930767889,
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "family": "F2",
+        "goal_xy": [
+          0.4474239512495883,
+          0.07953285751469488
+        ],
+        "group_id": "PI0294/DEV/F2/000",
+        "id": "PI0294-E0-M2048-DEV-F2-000-T2",
+        "initial_state_sha256": "ef7111fb8a8b864404f647d8805d3341d018e2fc3b8cae987768563f375bc423",
+        "instruction": "Push the red cube along the table into the blue square without lifting it, then move the gripper away.",
+        "layout_candidate_index": 1,
+        "mode": "normal",
+        "qualification": "NOT_STATIC_OR_CONTACT_QUALIFIED",
+        "scene_group": "PI0294/DEV/F2/000",
+        "seed": 9907056654262110909,
+        "source_xy": [
+          0.44201600557538645,
+          -0.08588005587451619
+        ],
+        "split": "DEV",
+        "table_top_m": 0.44,
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "visual": {
+          "body_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "body_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "floor_rgba": [
+            0.6138425388522913,
+            0.6252826921148482,
+            0.6883266550980968,
+            1.0
+          ],
+          "light_scale": 0.91560933975415,
+          "table_rgba": [
+            0.5961418294854787,
+            0.6202840588244422,
+            0.6553591378161175,
+            1.0
+          ],
+          "wrist_camera_rpy": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wrist_camera_translation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "randomness_rule": "sha256(PI0294/<original_scene_group>/<prefix_sequence>)[:8]_big_endian_mod_2**63",
+      "prefix0_seed": 5621554721337544695,
+      "status": "NOT_RUN"
+    }
+  ],
+  "TRAIN4_to_DEV8": "PIPELINE_TRUSTWORTHY_AND_NO_REAL_SAFETY_DEFECT_NOT_SUCCESS_THRESHOLD",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

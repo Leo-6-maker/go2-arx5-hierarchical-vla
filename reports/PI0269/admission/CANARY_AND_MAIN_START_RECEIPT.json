@@ -1,0 +1,85 @@
+{
+  "actual_canary_loss_join_cpu_check": {
+    "new_backwards": 0,
+    "new_model_queries": 0,
+    "script_sha256": "fd644c25ab89928805fbfb0fc30e6ede4cc81684fecb73002af8f95f6102abc0",
+    "status": "PASS_ACTUAL_CANARY_LOSS_INPUT_JOIN_NO_MODEL",
+    "stdout": "PASS_ACTUAL_CANARY_LOSS_INPUT_JOIN_NO_MODEL"
+  },
+  "canaries": {
+    "PREFIX": {
+      "arm": "PREFIX",
+      "microbatches": 16,
+      "mode_restored": true,
+      "model_max_abs": 0.0,
+      "model_tensors": 1030,
+      "optimizer_max_abs": 0.0,
+      "optimizer_tensors": 1413,
+      "packet_equal": true,
+      "saved_RNG_states_equal": {
+        "cpu": true,
+        "cuda": true,
+        "numpy": true,
+        "python": true
+      },
+      "scheduler_lr_abs": 0.0,
+      "split_phase": "split",
+      "status": "PASS_PI0269_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY",
+      "units": 8
+    },
+    "UNIFORM": {
+      "arm": "UNIFORM",
+      "microbatches": 16,
+      "mode_restored": true,
+      "model_max_abs": 0.0,
+      "model_tensors": 1030,
+      "optimizer_max_abs": 0.0,
+      "optimizer_tensors": 1413,
+      "packet_equal": true,
+      "saved_RNG_states_equal": {
+        "cpu": true,
+        "cuda": true,
+        "numpy": true,
+        "python": true
+      },
+      "scheduler_lr_abs": 0.0,
+      "split_phase": "split",
+      "status": "PASS_PI0269_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY",
+      "units": 8
+    }
+  },
+  "complete_trainer_and_quality_deliverables": "PENDING_ACTUAL_TWO_ARM_COMPLETION",
+  "deployment_selected_checkpoint": "NONE",
+  "gpu_host": "hopper-17",
+  "gpu_model": "H200",
+  "job": "644116.hopper-m-02",
+  "main_optimizer_updates": {
+    "PREFIX": 0,
+    "UNIFORM": 213
+  },
+  "official_endpoint_per_arm": 4096,
+  "old_quality_failures_preserved": true,
+  "planned_canary_updates_complete": 32,
+  "quality_attempts": 0,
+  "queue": "auto_to_small",
+  "raw_completed_updates": 245,
+  "raw_training_heads": 4450,
+  "release": "e77ad092406555645fb8c68ba34cc8594ef18ee6",
+  "same_pass_gradient_norms": {
+    "PREFIX": {
+      "1": 0.004337501712143421,
+      "2": 0.006292957346886396,
+      "3": 0.0120884720236063,
+      "4": 0.03443729877471924
+    },
+    "UNIFORM": {
+      "1": 0.005053299013525248,
+      "2": 0.007370881270617247,
+      "3": 0.012877415865659714,
+      "4": 0.022594686597585678
+    }
+  },
+  "selected_checkpoint": "NONE",
+  "status": "BOTH_REAL_CANARIES_PASS_MAIN_TRAINING_RUNNING_NOT_QUALITY_PASS",
+  "timestamp_UTC": "2026-10-03T04:45:20Z"
+}

@@ -1,0 +1,235 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""One-owner PI0294 PBS submission and scheduler accounting, without retries."""
+import argparse
+import json
+import time
+from pathlib import Path
+from pi0294_adopt import BASE, CUTOFF, DEADLINE, RUN, remote, save
+
+CODE=r'''
+import hashlib,json,os,shlex,shutil,subprocess,sys,time,uuid
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text())
+source=root/manifest['code'].get('capsule_relative','code')
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import OwnerLock,read,write
+from scripts.pi0292.allocation_admission import owned_jobs,personal_quota,current_project
+from scripts.pi0294.run_admission import validate,sha
+validate(root,profile='hopper-neural')
+ledger_path=root/'HOPPER_RESOURCE_LEDGER.json'
+pbs='/cm/shared/apps/pbspro/current/bin/'
+if ACTION in ('submit-smoke','submit-recovery','plan-night','submit-night'):
+ night=ACTION in ('plan-night','submit-night')
+ owner=OwnerLock(root/'PBS_SUBMIT.lock')
+ ledger=read(ledger_path)
+ assert len(ledger['PBS_submissions'])<4 and ledger['main_updates']==0
+ assert ledger['model_smoke_updates']==(8 if night else (6 if ACTION=='submit-recovery' else 0))
+ assert not ledger.get('CPU_reserved_s',0) and not ledger.get('pending_updates',0)
+ assert all(x['status']=='RECONCILED_TERMINAL' for x in ledger['PBS_submissions'])
+ gate=read(root/'evidence/HOPPER_INPUT_QUALIFICATION.json')
+ assert gate['status']=='PASS_FIXED_INPUTS_CPU_INTERFACE' and gate['mode']==('multitask_v3' if night else 'legacy_smoke_only')
+ qualification=read(gate['actual_cpu_qualification'])
+ assert sha(gate['actual_cpu_qualification'])==gate['actual_cpu_qualification_sha256']
+ assert qualification['status']=='PASS_PI0294_ACTUAL_NATIVE_CPU_LOADER_0_2_4'
+ assert not qualification['model_loaded'] and not qualification['CUDA_initialized']
+ bindings=read(root/'NEURAL_BINDINGS.private.json')
+ assert sha(root/'NEURAL_BINDINGS.private.json')==gate['bindings_sha256']
+ assert time.time()+1800<CUTOFF
+ walltime=1800
+ if night:
+  assert len(ledger['PBS_submissions'])==3 and ledger['GPU_allocated_s']==489
+  assert manifest['code']['vla_commit']=='a171997a704072e127d16410ba584c8aa0ddd573'
+  ready=root/'evidence/LIVE_READINESS.json'
+  assert read(ready)['status']=='PASS_ACTUAL_TEACHER_AND_DUAL_SSH_ROUTE'
+  assert sha(ready)=='c2ca87bda6942f17b037d47bdacf33f069f2bd1ecb2f8d57126d87ba8a69ed5c'
+  walltime=int((DEADLINE-time.time()-120)//60)*60
+  assert 1800<=walltime<=43200-ledger['GPU_allocated_s']
+ jobs=owned_jobs(os.environ['USER'])
+ gpujobs={k:v for k,v in jobs.items() if int(v.get('Resource_List',{}).get('ngpus',0))>0}
+ assert len(gpujobs)<=1
+ for job in gpujobs.values():
+  assert job['job_state']=='R' and job['Job_Owner'].split('@')[0]==os.environ['USER']
+  assert int(job['Resource_List']['ngpus'])==1
+ assert ledger['GPU_allocated_s']+ledger.get('GPU_reserved_s',0)+walltime<=43200
+ owned=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink())
+ total_peak=160*1024**3 if ACTION=='submit-recovery' else None
+ remaining=total_peak-owned if total_peak else 110*1024**3
+ if night:
+  checkpoints=list((root/'smoke_attempts/model-smoke-02/training').glob('*/checkpoint-*'))
+  assert len(checkpoints)==4 and all((p/'CHECKPOINT_COMPLETE.json').is_file() and not p.is_symlink() for p in checkpoints)
+  measured=max(sum(p.stat().st_size for p in d.rglob('*') if p.is_file() and not p.is_symlink()) for d in checkpoints)
+  assert measured>=25_000_000_000
+  remaining=3*measured+2*1024**3
+  total_peak=owned+remaining
+ assert owned+remaining<=180*1024**3 and shutil.disk_usage(root).free>=remaining+20*1024**3
+ quota=personal_quota(os.environ['USER'])
+ assert 0<=time.time()-quota['report_epoch']<=900 and quota['hard_bytes']-quota['used_bytes']>=remaining+20*1024**3
+ if ACTION=='plan-night':
+  owner.close()
+  print(json.dumps(dict(status='PLAN_ONLY_NO_AUTH_OR_PBS',source_sha=manifest['code']['vla_commit'],
+   walltime_s=walltime,owned_bytes=owned,measured_full_checkpoint_bytes=measured,
+   predicted_total_owned_peak_bytes=total_peak,remaining_peak_bytes=remaining,
+   preserved_failed_checkpoints=4,engineering_updates_remaining=8,main_updates=0,
+   workers=0,microbatch=2,first_main_stop=512,initial_project_authentication='REQUIRED_AT_ACTUAL_SUBMISSION',
+   quota_headroom_bytes=quota['hard_bytes']-quota['used_bytes'])))
+  raise SystemExit(0)
+ project=current_project(executable='/opt/am/python/bin/amgr')
+ nonce=str(uuid.uuid4());rid=('night-final-' if night else ('model-recovery-' if ACTION=='submit-recovery' else 'model-smoke-'))+str(len(ledger['PBS_submissions'])+1).zfill(2)
+ directory=root/'pbs'/rid;directory.mkdir(parents=True,exist_ok=False)
+ project.update(request_nonce=nonce,run_uuid=RUN)
+ write(directory/'PROJECT_ADMISSION.private.json',project)
+ script=directory/'job.pbs';request_path=directory/'REQUEST.json'
+ text='\n'.join(['#!/bin/bash -l','#PBS -N '+('PI0294-night' if night else 'PI0294-smoke'),'#PBS -P CFP04-CF-007',
+  '#PBS -q auto','#PBS -l select=1:ncpus=12:mem=225gb:ngpus=1',
+  '#PBS -l walltime='+f'{walltime//3600:02d}:{walltime//60%60:02d}:{walltime%60:02d}',
+  '#PBS -j oe','#PBS -o '+str(directory/'pbs.log'),'set -eu',
+  'export PYTHONDONTWRITEBYTECODE=1','export PYTHONPATH='+shlex.quote(str(source/'src')+':'+str(source)),
+  'export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1',
+  'export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1',
+  'cd '+shlex.quote(str(source)),
+  'exec '+shlex.join([bindings['python'],'-m','scripts.pi0294.allocation_admission',str(request_path)]),''])
+ with script.open('x') as f:f.write(text);f.flush();os.fsync(f.fileno())
+ request=dict(root=str(root),request_id=rid,stage='smoke',mode='smoke-all',
+  allowed_modes=['smoke-all','smoke-continuous','smoke-first','smoke-resume'],
+  source_sha=manifest['code']['vla_commit'],run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+  code_seal_sha256=sha(root/manifest['code'].get('source_seal_relative','SOURCE_SEAL.json')),
+  bindings=str(root/'NEURAL_BINDINGS.private.json'),bindings_sha256=sha(root/'NEURAL_BINDINGS.private.json'),
+  python=bindings['python'],request_nonce=nonce,walltime_s=walltime,predicted_remaining_peak_bytes=remaining,
+  project_admission_sha256=sha(directory/'PROJECT_ADMISSION.private.json'),allowed_peer_ids=sorted(gpujobs),
+  prior_GPU_allocated_s=ledger['GPU_allocated_s'],submit_count=len(ledger['PBS_submissions'])+1,
+  microbatch=2,workers=0,script_sha256=sha(script),main_training=False)
+ if night:
+  pbsjobs=[]
+  for entry in ledger['PBS_submissions']:
+   result=subprocess.run([pbs+'qstat','-xf','-F','json',entry['job_id']],text=True,capture_output=True,timeout=25,check=True)
+   job=json.loads(result.stdout)['Jobs'][entry['job_id']]
+   assert job['job_state']=='F' and job['Job_Owner'].split('@')[0]==os.environ['USER'] and job['project']=='CFP04-CF-007'
+   pbsjobs.append(dict(job_id=entry['job_id'],job_state='F',exit_status=job['Exit_status']))
+  comparison=root/'smoke_attempts/model-smoke-02/evidence/RESUME_EQUIVALENCE.json'
+  assert read(comparison)['status']!='PASS_FIXED_RESUME_EQUIVALENCE'
+  retry=root/'evidence/ENGINEERING_REQUALIFICATION_04.json';assert not retry.exists()
+  proof=dict(status='KNOWN_TERMINAL_NUMERICAL_SMOKE_REQUALIFICATION_8_REMAINING',run_uuid=RUN,
+   prior_job_terminal=True,actual_optimizer_updates=8,prior_jobs=pbsjobs,
+   failed_comparison_sha256=sha(comparison),preserved_failed_checkpoints=4,
+   numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',tolerance_changed=False,budget_reset=False)
+  write(retry,proof)
+  request.update(mode='night-final',stage='night-final',
+   allowed_modes=['night-final','smoke-all','smoke-continuous','smoke-first','smoke-resume'],
+   smoke_output_relative='smoke_attempts/strict-requalification-04',
+   engineering_retry_receipt=str(retry),engineering_retry_receipt_sha256=sha(retry),
+   prior_engineering_updates=8,numerical_mode='DETERMINISTIC_CUDA_MATH_SDP_V1',
+   minimal_engineering_checkpoints=True,predicted_total_owned_peak_bytes=total_peak,
+   cpu_qualification=gate['actual_cpu_qualification'],cpu_qualification_sha256=gate['actual_cpu_qualification_sha256'],
+   live_readiness_sha256=sha(ready))
+ if len(ledger['PBS_submissions'])==1:
+  retry=root/'evidence/ENGINEERING_RETRY_02.json';proof=read(retry)
+  assert proof['status']=='KNOWN_TERMINAL_ZERO_UPDATE_ENGINEERING_RETRY' and proof['actual_optimizer_updates']==0
+  request.update(smoke_output_relative='smoke_attempts/'+rid,
+   engineering_retry_receipt=str(retry),engineering_retry_receipt_sha256=sha(retry))
+ if ACTION=='submit-recovery':
+  retry=root/'evidence/ENGINEERING_RECOVERY_03.json';proof=read(retry)
+  assert proof['status']=='KNOWN_TERMINAL_SIX_UPDATE_SMOKE_RESUME_ONLY' and proof['actual_optimizer_updates']==6
+  request.update(mode='smoke-recovery-benchmark',smoke_output_relative='smoke_attempts/model-smoke-02',
+   allowed_modes=['smoke-recovery-benchmark','smoke-resume','benchmark-all','benchmark'],
+   engineering_retry_receipt=str(retry),engineering_retry_receipt_sha256=sha(retry),
+   predicted_total_owned_peak_bytes=total_peak,predicted_remaining_peak_bytes=remaining,
+   cpu_qualification=gate['actual_cpu_qualification'],cpu_qualification_sha256=gate['actual_cpu_qualification_sha256'])
+ write(request_path,request)
+ assert set(k for k,v in owned_jobs(os.environ['USER']).items() if int(v.get('Resource_List',{}).get('ngpus',0))>0).issubset(gpujobs)
+ entry=dict(request_id=rid,stage='smoke',status='SUBMITTING',job_id=None,submitted_epoch=time.time(),
+  source_sha=request['source_sha'],request_sha256=sha(request_path),GPU_reserved_s=walltime,CPU_reserved_s=12*walltime)
+ ledger['PBS_submissions'].append(entry);ledger['GPU_reserved_s']+=walltime
+ write(ledger_path,ledger)
+ try:result=subprocess.run([pbs+'qsub',str(script)],cwd=directory,text=True,capture_output=True,timeout=30)
+ except BaseException as error:
+  entry.update(status='SUBMISSION_OUTCOME_UNKNOWN_NO_RETRY',error_type=type(error).__name__)
+  write(ledger_path,ledger);raise
+ if result.returncode or not result.stdout.strip() or '\n' in result.stdout.strip():
+  entry.update(status='SUBMISSION_FAILED_OR_UNKNOWN_NO_RETRY',error=result.stderr[-2000:])
+ else:entry.update(status='SUBMITTED',job_id=result.stdout.strip())
+ write(ledger_path,ledger);write(directory/'SUBMISSION.json',entry);owner.close()
+ if night and entry['status']=='SUBMITTED':
+  main_directory=directory/'main-512';main_directory.mkdir(exist_ok=False)
+  shutil.copyfile(directory/'PROJECT_ADMISSION.private.json',main_directory/'PROJECT_ADMISSION.private.json')
+  (main_directory/'PROJECT_ADMISSION.private.json').chmod(0o600)
+  child=dict(request,mode='main',stage='main',allowed_modes=['main'],main_training=True,max_steps=4096,stop_at=512,
+   night_parent_request_relative=str(request_path.relative_to(root)),night_parent_request_sha256=sha(request_path))
+  child_path=main_directory/'REQUEST.json';write(child_path,child)
+  # The night parent consumes this only after its strict full comparison passes.
+  write(directory/'SEALED_MAIN_FIRST_STAGE.json',dict(run_uuid=RUN,job_id=entry['job_id'],sequence=0,mode='main',
+   request_relative=str(child_path.relative_to(root)),request_sha256=sha(child_path)))
+  artifact_directory=directory/'checkpoint-512';artifact_directory.mkdir(exist_ok=False)
+  shutil.copyfile(directory/'PROJECT_ADMISSION.private.json',artifact_directory/'PROJECT_ADMISSION.private.json')
+  (artifact_directory/'PROJECT_ADMISSION.private.json').chmod(0o600)
+  artifact=dict(request,mode='checkpoint',stage='checkpoint',allowed_modes=['checkpoint'],main_training=False,
+   night_parent_request_relative=str(request_path.relative_to(root)),night_parent_request_sha256=sha(request_path),
+   purpose='FULL_CHECKPOINT_DELIVERY_BETWEEN_OPTIMIZATION_STAGES',repo='leoyuer/pi0291-arx5-fixed-base',
+   checkpoint=str(root/'training/main/checkpoint-512'),expected_step=512,
+   output=str(root/'delivery/checkpoint-main-M512-01'),existing_token_file='@HOPPER_SHARED_HOME@/@HOPPER_ACCOUNT@/.config/huggingface/token')
+  artifact_path=artifact_directory/'REQUEST.json';write(artifact_path,artifact)
+  write(directory/'SEALED_CHECKPOINT_FIRST_STAGE.json',dict(run_uuid=RUN,job_id=entry['job_id'],sequence=1,mode='checkpoint',
+   request_relative=str(artifact_path.relative_to(root)),request_sha256=sha(artifact_path)))
+ print(json.dumps(entry))
+elif ACTION in ('prime-main','prime-checkpoint'):
+ directory=root/'pbs/night-final-04';request=read(directory/'REQUEST.json')
+ ledger=read(ledger_path);entry=ledger['PBS_submissions'][-1]
+ assert len(ledger['PBS_submissions'])==4 and entry['request_id']=='night-final-04' and entry['status']=='SUBMITTED'
+ assert entry['request_sha256']==sha(directory/'REQUEST.json') and request['mode']=='night-final'
+ job=owned_jobs(os.environ['USER']).get(entry['job_id'])
+ assert job and job['job_state']=='R' and job['project']=='CFP04-CF-007'
+ assert job['Job_Owner'].split('@')[0]==os.environ['USER']
+ state=read(directory/'night-session/STATE.json')
+ sequence=0 if ACTION=='prime-main' else 1
+ assert state['sequence']==sequence
+ if ACTION=='prime-main':
+  assert state['status'] in ('ACTUAL_FINAL_ALLOCATION_REQUALIFICATION','WAIT_OWNER_NEXT_SEALED_STAGE')
+ else:
+  assert state['status']=='WAIT_OWNER_NEXT_SEALED_STAGE'
+  assert ledger['main_updates']==512 and ledger['model_smoke_updates']==16 and not ledger.get('pending_updates',0)
+  assert read(root/'evidence/MODEL_SMOKE.json')['status']=='TRAINER_MODEL_INTERFACE_QUALIFIED'
+  complete=read(root/'training/main/checkpoint-512/CHECKPOINT_COMPLETE.json')
+  assert complete['global_step']==512 and complete['status']=='FULL_STATE_SAVED_MODEL_ARCHIVE_HASH_PENDING'
+  assert len(state['stages'])==1 and state['stages'][0]['mode']=='main' and state['stages'][0]['exit']==0
+ assert state['job_id']==entry['job_id'] and state['parent_request_sha256']==sha(directory/'REQUEST.json')
+ directive=read(directory/('SEALED_MAIN_FIRST_STAGE.json' if ACTION=='prime-main' else 'SEALED_CHECKPOINT_FIRST_STAGE.json'))
+ assert sha(root/directive['request_relative'])==directive['request_sha256']
+ target=directory/'night-session'/f'NEXT-{sequence:03d}.json';assert not target.exists()
+ write(target,directive)
+ print(json.dumps(dict(status='SEALED_NEXT_BOUND_STAGE_PRIMED',mode=directive['mode'],sequence=sequence,
+  job_id=entry['job_id'],new_PBS=0,artifact_or_main_executed_by_this_helper=False)))
+else:
+ ledger=read(ledger_path);observed=[]
+ for entry in ledger['PBS_submissions']:
+  if not entry.get('job_id'):continue
+  query=subprocess.run([pbs+'qstat','-xf','-F','json',entry['job_id']],text=True,capture_output=True,timeout=25)
+  job=json.loads(query.stdout).get('Jobs',{}).get(entry['job_id']) if query.returncode==0 else None
+  row=dict(request_id=entry['request_id'],job_id=entry['job_id'],query_exit=query.returncode,
+    state=job.get('job_state') if job else None,exit_status=job.get('Exit_status') if job else None,
+    resources=job.get('resources_used') if job else None)
+  if ACTION=='reconcile' and job and job['job_state']=='F' and entry['status']!='RECONCILED_TERMINAL':
+   from scripts.pi0292.pbs_smoke import seconds,pbs_epoch
+   assert job['Job_Owner'].split('@')[0]==os.environ['USER'] and job['project']=='CFP04-CF-007'
+   used=seconds(job.get('resources_used',{}).get('walltime','00:00:00'))
+   if job.get('stime'):
+    finish=job.get('obittime',job.get('mtime'));assert finish
+    used=max(used,pbs_epoch(finish)-pbs_epoch(job['stime']))
+   assert 0<=used<=entry['GPU_reserved_s']+120
+   cpu=seconds(job.get('resources_used',{}).get('cput','00:00:00'))
+   ledger['GPU_allocated_s']+=used;ledger['GPU_reserved_s']-=entry['GPU_reserved_s'];ledger['CPU_s']+=cpu
+   entry.update(status='RECONCILED_TERMINAL',GPU_actual_allocated_s=used,CPU_scheduler_s=cpu,
+    GPU_reserved_s=0,CPU_reserved_s=0,exit_status=job.get('Exit_status'))
+   write(ledger_path,ledger)
+  observed.append(row)
+ print(json.dumps(dict(jobs=observed,GPU_allocated_s=ledger['GPU_allocated_s'],GPU_reserved_s=ledger['GPU_reserved_s'],
+  model_smoke_updates=ledger['model_smoke_updates'],main_updates=ledger['main_updates'])))
+'''
+
+if __name__=='__main__':
+ p=argparse.ArgumentParser();p.add_argument('action',choices=['submit-smoke','submit-recovery','plan-night','submit-night','prime-main','prime-checkpoint','status','reconcile']);a=p.parse_args()
+ result=remote('hopper','\n'.join(k+'='+repr(v) for k,v in dict(ACTION=a.action,RUN=RUN,CUTOFF=CUTOFF,DEADLINE=DEADLINE).items())+'\n'+CODE)
+ save(BASE/('PBS_'+a.action+'_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-3000:])
+ print(result.stdout)

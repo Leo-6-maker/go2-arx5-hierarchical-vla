@@ -1,0 +1,113 @@
+{
+  "lane": "FK_OF_JOINT_COMMAND_REPLAY",
+  "condition": 10002,
+  "status": "VALID_SOURCE_COMPLETE",
+  "result": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/RESULT.json",
+    "bytes": 1846,
+    "sha256": "3e29bfe7c13257d3dc79a7812cc5b0208cc4ee0559d6ab873d826f68be6775eb"
+  },
+  "quality": false,
+  "full32s": true,
+  "physics_samples": 3301,
+  "success41": 0,
+  "window_samples": 41,
+  "persistent": false,
+  "persistent41_observed": false,
+  "persistent41_status": "OBSERVED_ALL41",
+  "task_elapsed_s": 32.0,
+  "first_success_s": null,
+  "original_lift": "UNOBSERVED_NOT_RECORDED",
+  "grasp_physics_samples": 2895,
+  "max_cubeA_height_m": 0.5428891777992249,
+  "object_funnel": {
+    "first_grasp_s": 3.0600000000000005,
+    "grasp_samples": 2895,
+    "longest_grasp_s": 28.95,
+    "task_initial_height_m": 0.019999919459223747,
+    "max_height_increase_m": 0.522889256477356,
+    "original_lift": "UNOBSERVED_NOT_RECORDED",
+    "descriptive_lift_2cm_s": 3.3600000000000003,
+    "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+    "first_on_top_s": null,
+    "on_top_samples": 0,
+    "first_success_physics_s": null,
+    "released_41": 0,
+    "static_41": 0,
+    "on_top_41": 0,
+    "release_after_first_grasp_s": null
+  },
+  "command_to_actual_xyz_m": {
+    "n": 660,
+    "mean": 0.008603556230443822,
+    "rms": 0.010954314803659633,
+    "p50": 0.006593701196834445,
+    "p95": 0.022561051417142135,
+    "max": 0.05007338151335716
+  },
+  "installedFK_to_actual_xyz_m": {
+    "n": 660,
+    "mean": 0.008564328791134493,
+    "rms": 0.010919484458424295,
+    "p50": 0.006550203775987029,
+    "p95": 0.022521202359348517,
+    "max": 0.05001330375671387
+  },
+  "actual_joint_hard_margin_min_rad": [
+    2.1686364958763122,
+    1.019072256374359,
+    2.370575125026703,
+    0.8612804477691651,
+    2.4476589510917663,
+    0.7689933204650878,
+    1.7417716930389404
+  ],
+  "actual_hard_penetration_rad": 0.0,
+  "actual_hard_penetration_samples": 0,
+  "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+  "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+  "source_executor_identity": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+    "bytes": 27349,
+    "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+  },
+  "canonical_replay_to_command_m": {
+    "n": 660,
+    "mean": 0.0,
+    "rms": 0.0,
+    "p50": 0.0,
+    "p95": 0.0,
+    "max": 0.0
+  },
+  "replay_gate_readback": {
+    "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+    "gate_calls": 63,
+    "decisions": {
+      "ACCEPT": 52,
+      "WARN": 11
+    },
+    "rejects": [],
+    "gate_identity": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/GATES.json",
+      "bytes": 123342,
+      "sha256": "b2115711e15d2360e1d8355679f75954ab7dcbafe971e652a83c8595e910e52c"
+    }
+  },
+  "raw_inputs": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/physics.npz",
+      "bytes": 994890,
+      "sha256": "cacb15ea70d7c3d9d1600066b3f753a26066eb4072de8a4fa36a1a4129a7cd3e"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/commands.npz",
+      "bytes": 33094,
+      "sha256": "34c417f9d30c4423ad3f1ded40825992ecb29eb57fb93d2ecf35f5d8c95052c2"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/installed.npz",
+      "bytes": 122482,
+      "sha256": "5b27e716999c819f91b42ffeb55123701683c9c5bcb75eb5bf86510d3bec090a"
+    }
+  ]
+}

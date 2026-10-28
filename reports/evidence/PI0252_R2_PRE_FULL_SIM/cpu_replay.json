@@ -1,0 +1,113 @@
+{
+  "schema": "PI0252_PRE_FULL_CPU_REPLAY_V1",
+  "status": "PASS_INDEPENDENT_CPU_REPLAY",
+  "controls": [
+    {
+      "task": "A",
+      "status": "PASS",
+      "min_m": 0.008711638133222097,
+      "final_m": 0.019257587029929687,
+      "rows": 97,
+      "first_hit_tick": 41,
+      "source_sha256": "81d7b7ecaffbc326a09a3ca4e2f1e5eb1af10dbe3df48c4bfebb330c31526e0b"
+    },
+    {
+      "task": "B",
+      "status": "PASS",
+      "min_m": 0.002691730714555939,
+      "final_m": 0.0904491353808138,
+      "rows": 97,
+      "first_hit_tick": 44,
+      "source_sha256": "1180b6bdb46628a54351b718c3c8fd78c2fe70179228fb63f6d67a3586d84a83"
+    },
+    {
+      "task": "C",
+      "status": "PASS",
+      "min_m": 0.004513579296359816,
+      "final_m": 0.07112218024816082,
+      "rows": 97,
+      "first_hit_tick": 41,
+      "source_sha256": "f72dca5fd431731c30abadfa9ec3f9425c8c6dacc5bd9a91c93765019dd1dad5"
+    },
+    {
+      "task": "D",
+      "status": "PASS",
+      "min_m": 0.00982843643567486,
+      "final_m": 0.06943200507930888,
+      "rows": 97,
+      "first_hit_tick": 37,
+      "source_sha256": "3f07834f380576afb4e450c033c6f499bd6c8c7f9eb9c680f9dcedd4a6c315bb"
+    }
+  ],
+  "one_chunk": [
+    {
+      "task": "TRAIN-A_C0_G2000",
+      "qualification": "FAIL",
+      "gate": "ACCEPT",
+      "reference_min_m": 0.10497794769237719,
+      "reference_final_m": 0.17647578043478232,
+      "achieved_min_m": 0.15649767760855235,
+      "achieved_final_m": 0.20134563374433626,
+      "first_hit_tick": null,
+      "tracking_max_m": 0.16681461002383685,
+      "rows": 97,
+      "complete_duration": true,
+      "physical_clean": true,
+      "gate_cpu_replay": "PASS",
+      "initial_bind_identity": "PASS",
+      "actual_reset_buf_count": 0,
+      "legacy_summary_reset_events": 1,
+      "legacy_reset_counter_note": "Original helper counts wrapper reference-completion done as reset_events; actual reset_buf and native termination remain zero.",
+      "manifest_sha256": "f136ec0213bda0d8598f9fd64509b15c3c0f4bd4f6172a15e0b206e44854f739",
+      "rows_sha256": "f84e85461cc3c1ddf846c67347a939e446165f8a9272dc019063a34d99d71256",
+      "sampler_receipt_sha256": "c91f135edbda93db0089a5ee3894119fb0ada0764d7ebffba4cf4a18d41f45e4"
+    }
+  ],
+  "videos": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/G/A/output/actual_body_wrist.mp4",
+      "frames": 98,
+      "sha256": "f2b1ee1f616cc44e0162bf91ece0f5583f912cdb619b63483f02a68ca4e7daaf",
+      "source_sha256": "37f051527689eac267f1ba98f95382d88548a1bed32ed810936d4652888f9756"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/controls/A_attempt1/actual_body_wrist.mp4",
+      "frames": 97,
+      "sha256": "29d57b98237ba1d9e1967e99d1d5ce22f53e735f910671298d93f803bf033486",
+      "source_sha256": "f504d06e44c6144f909cf3d9cbd6c19bfb66ef95cdf9e2e8a625d1e6c7f2eed0"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/controls/A_attempt2/actual_body_wrist.mp4",
+      "frames": 98,
+      "sha256": "f4bc5c0060166a9bb6373a9f42b146aed01587063c945c62675720f876c39741",
+      "source_sha256": "4448d06765a9ecae1ba5ed3f42b438b8e70e2bb6ee79cef595a1acac93f5d129"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/controls/B_attempt1/actual_body_wrist.mp4",
+      "frames": 98,
+      "sha256": "c8cd8fa6cf32314a33686c76b990e6b8ca084664bf69af4c02ef0a33f5cd7051",
+      "source_sha256": "84ece72642337fbab993225c8965192efc9ec1462534ed4e26e99c4afc387fa7"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/controls/C_attempt1/actual_body_wrist.mp4",
+      "frames": 98,
+      "sha256": "7f68cc1a5d96544eeee8086a27afee043bae15cd2771731903e26de3078710b4",
+      "source_sha256": "f4cd7d2edcaca33e381f1b37e1d859d6af90b10c4632ecab906f7e39bef13daf"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/pre_full_sim/controls/D_attempt1/actual_body_wrist.mp4",
+      "frames": 98,
+      "sha256": "7b1a67ee148e76826e06dae191a0b0118f17e068b3560d7de733e5408099cbe5",
+      "source_sha256": "a83b78ecab960d02de0ac09ecb2d7f0c215ac8ae7d83dbf21380b95eb3564567"
+    }
+  ],
+  "selected_checkpoint": "NONE",
+  "model_queries": 1,
+  "optimizer_updates": 0,
+  "decision": "PI0252_R1_PRE_FULL_TRAIN_SIM_FAIL",
+  "deprecated_diagnostics": {
+    "original_canary_oracle_world_target_stats": "INVALID_OLD_ANCHOR_UNBOUND_EXPERT_REFERENCE_NOT_A_SCORER",
+    "original_canary_oracle_vs_model_position_rmse_m": "INVALID_UNMATCHED_SAMPLING_AND_ANCHOR_NOT_USED_FOR_QUALIFICATION",
+    "qualification_dependency": "Actual model reference and achieved TCP versus fixed world target only; unaffected by discarded oracle side diagnostics."
+  }
+}

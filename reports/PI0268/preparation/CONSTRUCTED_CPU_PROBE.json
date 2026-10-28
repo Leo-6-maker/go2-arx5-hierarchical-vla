@@ -1,0 +1,29 @@
+{
+  "status": "PASS_CONSTRUCTED_CPU_FIXTURES",
+  "scope": "No project statistics, original samples, model, renderer, WBC, or training replay.",
+  "normalization": {
+    "rule": "2*(x-lo)/max(hi-lo,1e-6)-1",
+    "toy_bounds": "Constructed yaw-only rotations with yaw range +/-0.3 rad; NOT measured project bounds.",
+    "floor_forward_gain": 2000000.0,
+    "rows": [
+      {"axis":"x","sign":1,"raw_max_abs":1.0,"normalized_max_abs":119929.0129588892,"float32_roundtrip_max_component_error":1.3330554021750984e-09},
+      {"axis":"x","sign":-1,"raw_max_abs":1.0,"normalized_max_abs":119927.0129588892,"float32_roundtrip_max_component_error":1.3330554021750984e-09},
+      {"axis":"y","sign":1,"raw_max_abs":1.0,"normalized_max_abs":119927.0129588892,"float32_roundtrip_max_component_error":1.3330554021750984e-09},
+      {"axis":"y","sign":-1,"raw_max_abs":1.0,"normalized_max_abs":119929.0129588892,"float32_roundtrip_max_component_error":1.3330554021750984e-09},
+      {"axis":"z","sign":1,"raw_max_abs":0.9982005399352042,"normalized_max_abs":1.0,"float32_roundtrip_max_component_error":5.754678955582904e-10},
+      {"axis":"z","sign":-1,"raw_max_abs":0.9982005399352042,"normalized_max_abs":1.0,"float32_roundtrip_max_component_error":5.754678955582904e-10}
+    ],
+    "interpretation": "Accurate inverse roundtrip does not establish a well-scaled learning problem."
+  },
+  "local_pose_support": {
+    "coupled_six_state_rank": 3,
+    "independent_twelve_state_rank": 6,
+    "coupled_singular_values": [2.0,2.0,1.9999999999999996,1.7554167342883504e-16,3.3547044514052247e-17,7.919212451729795e-33],
+    "caution": "Rank is per-anchor perturbation support, not the rank of the whole corpus. It does not by itself explain R failures on the combined variants."
+  },
+  "actual_model_queries": 0,
+  "optimizer_updates": 0,
+  "policy_frame_pairs": 0,
+  "physics_starts": 0,
+  "script_sha256": "02c9218769e3a44f6c1c60756bd4576b488cb5e4094921e2c6923e2fb9d99690"
+}

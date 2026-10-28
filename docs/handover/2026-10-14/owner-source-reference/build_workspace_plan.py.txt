@@ -1,0 +1,171 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Build a private navigation workspace from reconciled, bounded observations."""
+import csv
+import hashlib
+import io
+import json
+from pathlib import Path
+import time
+
+BASE=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work')
+OUT=BASE/'private/workspace-consolidation-20261013'
+OUT.mkdir(exist_ok=True)
+audit=BASE/'corelab-storage-audit-20261013'
+pins=json.loads((audit/'ARTIFACT_SHA256.json').read_text())['files']
+names=['AUDIT_REPORT.md','FULL_STORAGE_INVENTORY.csv','RETENTION_PLAN.json','README_STORAGE.md','validate_run_paths.py']
+source=[]
+for name in names:
+    b=(audit/name).read_bytes();h=hashlib.sha256(b).hexdigest()
+    pin=next(x for x in pins if x['path']==name)
+    assert pin['sha256']==h and pin['bytes']==len(b)
+    source.append(dict(file=name,sha256=h,bytes=len(b)))
+items=json.loads((audit/'RETENTION_PLAN.json').read_text())['items']
+with (audit/'FULL_STORAGE_INVENTORY.csv').open() as f: rows=list(csv.DictReader(f))
+assert len(items)==len(rows)==448
+for item,row in zip(items,rows):
+    assert item['path']==row['path'] and item['node']==row['node']
+    for key in ['realpath','decision','reason']: assert item[key]==row[key]
+    for key in ['file_count','allocated_bytes','logical_bytes']: assert item[key]==int(row[key])
+
+probes=[json.loads((BASE/'private'/name).read_text()) for name in ['WORKSPACE_AMD_PROBE.json','WORKSPACE_4080S_PROBE.json']]
+assert [p['node'] for p in probes]==['corelab-amd-server','corelab-4080s']
+assert all(not p['ancestor_instructions'] for p in probes)
+HOME=probes[0]['home'];ROOT=HOME+'/Projects/GR00T-WBC'
+CURRENT='e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b'
+OFFICIAL='51d4c89f72fda44cbf77285c6a8114b52676b8a1'
+RUN='@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5'
+entries=[];candidates=[];gitrows=[]
+for p in probes:
+    for e in p['entries']:
+        matching=[x for x in items if x['node']==p['node'] and x['path']==e['path']]
+        old=matching[0] if matching else None
+        e['historical_audit']=dict(allocated_bytes=old['allocated_bytes'],logical_bytes=old['logical_bytes'],file_count=old['file_count'],decision=old['decision'],static_reference_count=old['static_reference_count'],external_static_reference_count=old['external_static_reference_count']) if old else None
+        entries.append(dict(node=p['node'],**e))
+        if e['base']==HOME+'/Projects':
+            g=e.get('git',{})
+            if g:
+                # Official-source instructions were read; no edits/tests execute there.
+                gitrows.append(dict(node=p['node'],name=e['name'],path=e['path'],head=g['head'],status=g['status'],git_dir=g['git_dir'],common_dir=g['common_dir'],worktrees=g['worktrees']))
+            protected=e['name'] in ['GR00T-WholeBodyControl','go2-arx5','isaac-gr00t','_handoff']
+            candidates.append(dict(node=p['node'],name=e['name'],path=e['path'],realpath=e.get('realpath'),st_dev=e.get('st_dev'),st_ino=e.get('st_ino'),
+                status='PROTECTED_ORIGINAL' if protected else 'DEFER_NOT_PROVEN_REDUNDANT',
+                known_head=g.get('head'),tracked_and_untracked_normal_status=g.get('status'),
+                reason='Protected native assets/environment/modifications/credentials' if protected else 'Registered worktree or historical runtime;global references/ignored files/independent restoration not qualified',
+                independent_recovery_verified=False,global_dependency_closure_verified=False,
+                worktree_safe_retirement_qualified=False,executable_now=False,approved_file_delete_list=[]))
+registry=[]
+def role(name,path,node,storage,**kwargs):
+    registry.append(dict(role=name,path=path,executor_node=node,storage_role=storage,**kwargs))
+role('VLA_CODE',ROOT+'/code/vla','BOTH_CORELAB_NODES','SHARED_NFS',expected_git_sha=CURRENT,lifecycle='CANONICAL_NEW_CHECKOUT')
+role('OFFICIAL_GR00T_SHARED',HOME+'/Projects/isaac-gr00t-rtx4080s-remote','BOTH_CORELAB_NODES','SHARED_NFS',expected_git_sha=OFFICIAL,lifecycle='PROTECTED_EXISTING_CLEAN_WORKTREE_NAVIGATION_ONLY')
+role('OFFICIAL_GR00T_CPU_RUNTIME','@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/src/isaac-gr00t','corelab-4080s','NODE_LOCAL_SSD',expected_git_sha=OFFICIAL,lifecycle='PROTECTED_CURRENT_RUNTIME_UNCHANGED')
+role('PI0290_RAW','@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0290','corelab-4080s','NODE_LOCAL_SSD',lifecycle='PROTECTED_RAW_AND_RUNTIME')
+role('PI0291_RAW',RUN+'/episodes','corelab-4080s','NODE_LOCAL_SSD',lifecycle='PROTECTED_ORIGINALS')
+role('PI0291_NATIVE_DATA',RUN+'/native_dataset','corelab-4080s','NODE_LOCAL_SSD',lifecycle='PARTIAL_56_TRAIN_0_DEV_VERIFIED')
+role('PI0291_EVIDENCE',RUN+'/evidence','corelab-4080s','NODE_LOCAL_SSD',lifecycle='TERMINAL_IMMUTABLE_RECEIPTS')
+role('PI0291_FROZEN_CODE',RUN+'/code','corelab-4080s','NODE_LOCAL_SSD',source_sha='57a02b4923e5001df5fd4b3b5958c372b9cff541',lifecycle='SEALED_121_FILES_DO_NOT_EDIT')
+role('SIMULATION_PYTHON','@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0290/runtime/venv/bin/python','corelab-4080s','NODE_LOCAL_SSD',lifecycle='KEEP_ABSOLUTE_RUNTIME_PATH')
+role('CPU_DATA_PYTHON','@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/runtime/venv/bin/python','corelab-4080s','NODE_LOCAL_SSD',lifecycle='KEEP_ABSOLUTE_RUNTIME_PATH')
+role('PRIVATE_NATIVE_WBC',HOME+'/Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098','BOTH_CORELAB_NODES','SHARED_NFS',lifecycle='PROTECTED_READ_ONLY_ORIGINAL')
+role('HISTORICAL_WBC_REPO',HOME+'/Projects/GR00T-WholeBodyControl','BOTH_CORELAB_NODES','SHARED_NFS',expected_git_sha='a0732b642c0333077e127a2f56ab0014c196bca4',lifecycle='PROTECTED_NOT_CURRENT_WBC_QUALIFICATION')
+role('LEGACY_ASSET_INDEX',HOME+'/Projects/go2-arx5','BOTH_CORELAB_NODES','SHARED_NFS',lifecycle='PROTECTED_MIXED_NFS_AND_NODE_LOCAL_ALIASES')
+role('HOPPER_OFFICIAL_CODE','@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t','hopper','HOPPER_SCRATCH',expected_git_sha=OFFICIAL,lifecycle='NEURAL_ONLY_LEGAL_PBS_FUTURE_GO')
+role('HOPPER_PRETRAINED_CANDIDATE','@HOPPER_SCRATCH@/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B','hopper','HOPPER_SCRATCH',lifecycle='UNSELECTED_FULL_IDENTITY_UNQUALIFIED')
+
+files={}
+def put(name,value): files[name]=(json.dumps(value,indent=2,allow_nan=False)+'\n').encode()
+put('infrastructure/PATH_REGISTRY.json',dict(schema='GR00T_WBC_HOST_AWARE_PATH_REGISTRY_V1',entries=registry,automatic_execution=False,no_cross_node_SSD_symlinks=True))
+put('infrastructure/ACTIVE_DEPENDENCIES.json',dict(status='PARTIAL_GLOBAL_REFERENCE_CLOSURE_UNKNOWN',code=gitrows,
+    protected=[dict(node=p['node'],entries=p['protected_dependencies']) for p in probes],
+    own_process_observations=[dict(node=p['node'],observed_epoch=p['observed_epoch'],references=p['own_process_references'],own_FD_gaps=p['own_FD_gaps'],own_metadata_unread=p['own_process_metadata_unread'],other_UIDs_uninspected=p['other_UID_processes_not_inspected']) for p in probes],
+    earlier_reference_scan_cap='80MiB per node previously reached;not a complete dependency proof',source_pins=source,
+    current_runtime_paths_changed=False,model_or_physics_execution=0))
+put('infrastructure/RETIRE_CANDIDATES.json',dict(status='NO_EXECUTABLE_DELETION_CANDIDATES',items=candidates,
+    exact_file_delete_list=[],new_file_deletions=0,freed_allocated_bytes=0,old_phase2_not_expanded=True,
+    gates=['Unique tracked/untracked/ignored files and git objects preserved','Registered worktree safely retired by git tooling','Two-node process/FD/lease plus static references resolved','Independent exact complete recovery copy and restore verified','Expected-SHA/inode exact candidate list freshly approved and rechecked']))
+put('infrastructure/SOURCE_AUDIT_SHA.json',dict(status='PASS_ORIGINAL_SHA_AND_448_CSV_JSON_RECONCILIATION',files=source,prior_448_decisions={'REVIEW':343,'KEEP':72,'MIGRATE':24,'CACHE_DELETE':9},recursive_rescan=False))
+put('infrastructure/TOPLEVEL_IDENTITIES.json',dict(observations=entries,metadata_sizes_are_not_tree_sizes=True,historical_sizes_are_not_new_live_reclamation_proof=True))
+table=io.StringIO();w=csv.writer(table,delimiter='\t');w.writerow(['node','base','name','kind','realpath','st_dev','st_ino','uid','link_target_exists','git_sha','git_status','historical_allocated_bytes','retirement_state'])
+for x in entries:
+    g=x.get('git',{});old=x.get('historical_audit') or {}
+    w.writerow([x['node'],x['base'],x.get('name'),x.get('kind'),x.get('realpath'),x.get('st_dev'),x.get('st_ino'),x.get('uid'),x.get('exists_following_link'),g.get('head',{}).get('stdout','').strip(),g.get('status',{}).get('stdout','').replace('\n',' | '),old.get('allocated_bytes'), 'HOLD_NO_DELETE_PROOF'])
+files['infrastructure/DIRECTORY_INVENTORY.tsv']=table.getvalue().encode()
+localrepo=BASE/'pi0290-source'
+transfer=json.loads((localrepo/'reports/PI0291/20261013T023717-localpc-arx5/closeout-final/TRANSFER_MANIFEST.json').read_text())
+put('datasets/DATASET_INDEX.json',dict(PI0291=dict(status='PARTIAL_NATIVE_CPU_AND_HF_VERIFIED',TRAIN=56,DEV=0,H40_TRAIN=33656,repo=transfer['repo_id'],revision=transfer['revision'],prefix=transfer['prefix'],files=transfer['files'],raw_role='PI0291_RAW',native_role='PI0291_NATIVE_DATA',Trainer_adapter='NOT_QUALIFIED'),PI0290=dict(status='PREVIOUS_INDEPENDENT_TOOL_DATA_NOT_ARX5',receipt_role='Fixed PI0290 transfer/readback metadata;do not substitute for native ARX5')))
+for name in ['DATASET_ADMISSION.json','STATISTICS_PROVENANCE.json','statistics.json','EXPORT_RECEIPT.json']:
+    files['datasets/PI0291/'+name]=(localrepo/'reports/PI0291/20261013T023717-localpc-arx5/closeout-raw'/name).read_bytes()
+for name in ['DATALOADER_SMOKE.json']:
+    files['datasets/PI0291/'+name]=(localrepo/'reports/PI0291/20261013T023717-localpc-arx5/closeout-native'/name).read_bytes()
+for name in ['TRANSFER_MANIFEST.json','HF_READBACK_RECEIPT.json','HOPPER_READY_READBACK.json']:
+    files['datasets/PI0291/'+name]=(localrepo/'reports/PI0291/20261013T023717-localpc-arx5/closeout-final'/name).read_bytes()
+for name in ['FINAL_REPORT.md','RESUME.md','NEXT_DATA_GOAL_DRAFT.md']:
+    files['experiments/PI0291/'+name]=(localrepo/'reports/PI0291/20261013T023717-localpc-arx5'/name).read_bytes()
+put('assets/ASSET_INDEX.json',dict(robot_assets_role='PRIVATE_NATIVE_WBC',WBC_historical_comparison_role='HISTORICAL_WBC_REPO',latest_local_WBC='@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/wbc_mujoco_minimal',latest_native_asset_binding='Prior3 native identity hashes matched Corelab sealed assets;no original WBC execution or modification',copy_large_assets=False,third_party_redistribution='NOT_FULLY_AUDITED',selected='NONE',deployment='NONE'))
+readme='''# GR00T + WBC Project Workspace
+
+This is the shared NFS navigation and canonical code entry. Existing raw
+data, environments, worktrees and private WBC originals have NOT moved.
+The rest of Projects is not yet retired. Deletions and new reclaimed bytes:0.
+
+## Current Mainline
+
+- code/vla:one new independent current-branch checkout pinned to
+  e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b at adoption. Use normal reviewed
+  Git updates;this is not main and not an autonomous execution owner.
+- code/isaac-gr00t:a navigation alias to an existing clean shared worktree at
+  51d4c89f72fda44cbf77285c6a8114b52676b8a1. Do not edit/switch this protected
+  reference or assume this changes the existing SSD processor runtime.
+- PI0291:56 admitted fixed-base ARX5 TRAIN,0 DEV;33,656 H40;official CPU loader
+  and immutable private HF readback PASS. This is PARTIAL, not first-training
+  READY. Trainer integration and independent DEV remain unqualified.
+- Simulation/teacher/physics/CPU scoring/video stay on Corelab4080S;
+  future neural training/inference/evaluation stay on Hopper under legal PBS.
+  The existing local-PC is the sole scheduler. No service or scientific job
+  is started by this workspace.
+
+## Navigation
+
+Use infrastructure/PATH_REGISTRY.json or the read-only resolver:
+
+```bash
+python3 infrastructure/resolve_path.py VLA_CODE --validate
+python3 infrastructure/resolve_path.py PI0291_NATIVE_DATA --validate
+```
+
+On AMD, an SSD role returns HOST_REQUIRED/corelab-4080s, not DATA_LOST.
+Inspect it from that executor through existing local-PC SSH routes.
+Do not create cross-host SSD symlinks or move large raw data back to NFS.
+Hopper roles are also host-qualified;this resolver never starts SSH or jobs.
+
+assets/ contains protected identities, not copied meshes or WBC code.
+datasets/ contains metadata/fixed HF versions, not a second raw dataset.
+experiments/ contains scientific review pointers;PI IDs are internal version
+names. infrastructure/ contains inventory/dependencies/retirement gates.
+Credential and private runmap originals remain where configured;never
+paste tokens into reports or Git. This workspace is user-private.
+
+## Retirement
+
+RETIRE_CANDIDATES.json contains no executable deletion list. Existing linked
+Git worktrees, two modified official-source files, legacy home venv, unique
+raw/model/failure/archive assets and unresolved references are protected.
+Clean git status does not prove ignored files or global consumers absent.
+Only later exact recovery/reference/worktree-qualified candidates can be
+retired. Do not rm -rf PI@HOME_PROJECTS@ patterns or count navigation as freed
+space. Old phase2 copy-only and checkpoint protection rules do not expand.
+
+No new simulation, model load/forward/training, PBS, WBC or hardware is
+authorized by directory organization. selected=NONE;deployment=NONE.
+'''
+files['README.md']=readme.encode()
+for name,content in files.items():
+    dest=OUT/'payload'/name;dest.parent.mkdir(parents=True,exist_ok=True)
+    with dest.open('xb') as f:f.write(content)
+manifest=dict(workspace_root=ROOT,code_sha=CURRENT,official_sha=OFFICIAL,files=[dict(path=n,bytes=len(b),sha256=hashlib.sha256(b).hexdigest()) for n,b in files.items()],
+    clone_origin='https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla.git',branch='pi0267/executor-decoupled-recovery',
+    official_alias_target=HOME+'/Projects/isaac-gr00t-rtx4080s-remote',source_pins=source,stage='NAVIGATION_AND_CANONICAL_ENTRY_ONLY',new_deletions=0)
+(OUT/'PLAN.json').write_text(json.dumps(manifest,indent=2)+'\n')
+print(json.dumps(dict(payload_files=len(files),top_level_identity_rows=len(entries),git_observations=len(gitrows),candidate_observations=len(candidates),executable_delete_candidates=0,old_audit_reconciled=448)))

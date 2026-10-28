@@ -1,0 +1,571 @@
+{
+  "schema": "PI0280_CPU_RAW_ATTRIBUTION_V1",
+  "observed_unix_s": 1791381362.5629647,
+  "implementation": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/attribution/attribution.py",
+    "bytes": 10921,
+    "sha256": "a5e1b7bebaa793d1d8ae120c11645d296406e79f47e019ee855e29f21ac9960e"
+  },
+  "status": "COMPLETED_RAW_AUDITED_WITH_EXECUTION_OUTCOMES_RETAINED",
+  "binding": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/evidence/WBC_BINDING.json",
+    "bytes": 27071,
+    "sha256": "4c6b3e09ff563fd4edeb50263d0f9abfdaf12d28c65078bbc136e745fd05d8ee"
+  },
+  "configuration": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/design/WBC_CONFIG.json",
+    "bytes": 56361,
+    "sha256": "4d056215bec546f8063e9b83903352cdaf99360e32e31ef6cb4b81eaed4803e6"
+  },
+  "frozen_WBC_identity_files": [
+    {
+      "name": "scripts/native_wbc_benchmark.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/native_wbc_benchmark.py",
+      "sha256": "41059b8a24de94497cb24a589ac73bfb7b7ffb233f24356411279880e70cc3f8",
+      "bytes": 40578,
+      "current_sha256": "41059b8a24de94497cb24a589ac73bfb7b7ffb233f24356411279880e70cc3f8"
+    },
+    {
+      "name": "scripts/stage21_native_receding_horizon.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage21_native_receding_horizon.py",
+      "sha256": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00",
+      "bytes": 55403,
+      "current_sha256": "753244da3f4cccce2cef94a6aba5a2fa37450499e324db7446b42841569abb00"
+    },
+    {
+      "name": "scripts/stage22_native_expert_dataset.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/scripts/stage22_native_expert_dataset.py",
+      "sha256": "0ab3f9546cf4a766010f2349d6851f17b3e66d110f8c4c2c3548f867664cad6e",
+      "bytes": 27699,
+      "current_sha256": "0ab3f9546cf4a766010f2349d6851f17b3e66d110f8c4c2c3548f867664cad6e"
+    },
+    {
+      "name": "src/go2arx5_vla/wbc/native/kinematics.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/wbc/native/kinematics.py",
+      "sha256": "2a77529e5ed650167963648579a5832aeb0602546ba7d5fa8e53b83394d65315",
+      "bytes": 7834,
+      "current_sha256": "2a77529e5ed650167963648579a5832aeb0602546ba7d5fa8e53b83394d65315"
+    },
+    {
+      "name": "arm_checkpoint",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+      "sha256": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a",
+      "bytes": 52693641,
+      "current_sha256": "99a3a9bda30f7372c7c31240cc3584757ba46cb3b6b9881f00b371906d077a0a"
+    },
+    {
+      "name": "dog_checkpoint",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+      "sha256": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670",
+      "bytes": 12607221,
+      "current_sha256": "51776ddfd7177213444c0bf0c8f017b66ffd28a8674458aa0a16c3b9f77cc670"
+    },
+    {
+      "name": "legged_robot",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/legged_robot.py",
+      "sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60",
+      "bytes": 136506,
+      "current_sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60"
+    },
+    {
+      "name": "native_config",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wbc.py",
+      "sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb",
+      "bytes": 28299,
+      "current_sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb"
+    },
+    {
+      "name": "native_reach_table",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/reach_tables/go2_x5_2d.pt",
+      "sha256": "e34ca5c595b30b737209f5dcdd7f3f1e0b95cdf6232fbc0f6f50e3ee7140f5fa",
+      "bytes": 32868,
+      "current_sha256": "e34ca5c595b30b737209f5dcdd7f3f1e0b95cdf6232fbc0f6f50e3ee7140f5fa"
+    },
+    {
+      "name": "native_urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+      "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25",
+      "bytes": 34918,
+      "current_sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+    },
+    {
+      "name": "trajectory_module",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/modules/trajectory.py",
+      "sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a",
+      "bytes": 24861,
+      "current_sha256": "8386841b29b58f324cd2e9afa086439add4183992be2466f688382be8ed9d76a"
+    },
+    {
+      "name": "wbc_env",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+      "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e",
+      "bytes": 141128,
+      "current_sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+    },
+    {
+      "name": "wbc_wrapper",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env_wrapper.py",
+      "sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7",
+      "bytes": 36017,
+      "current_sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7"
+    },
+    {
+      "name": "compatibility_shim",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/runtime/PI0226_pytorch3d_shim/pytorch3d/transforms.py",
+      "sha256": "c7bbd05bfffe9c8fc223be88cf9770c4506d61d9c598ab726b868fc727a9c282",
+      "bytes": 1041,
+      "current_sha256": "c7bbd05bfffe9c8fc223be88cf9770c4506d61d9c598ab726b868fc727a9c282"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/__init__.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/__init__.py",
+      "sha256": "2afb6fdc2089e02035c02320b94115e7be9938a4840f8c9210f87daf90c62fcf",
+      "bytes": 497,
+      "current_sha256": "2afb6fdc2089e02035c02320b94115e7be9938a4840f8c9210f87daf90c62fcf"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/motion_intent.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/motion_intent.py",
+      "sha256": "f4bb1c763d975941c1db5b44181432236281f3a8d7fc8c3352f899ef1ec78746",
+      "bytes": 19595,
+      "current_sha256": "f4bb1c763d975941c1db5b44181432236281f3a8d7fc8c3352f899ef1ec78746"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/placement.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/placement.py",
+      "sha256": "f80630b2f8750cd52380005027ab6a36185024b0d422b912967ddcfda4fb43c4",
+      "bytes": 2018,
+      "current_sha256": "f80630b2f8750cd52380005027ab6a36185024b0d422b912967ddcfda4fb43c4"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/reference_binding.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/reference_binding.py",
+      "sha256": "df5832b462a455981faa530356d2885994ba6f2cec6e120c4b062a9fdc6de524",
+      "bytes": 9478,
+      "current_sha256": "df5832b462a455981faa530356d2885994ba6f2cec6e120c4b062a9fdc6de524"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/trajectory.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/trajectory.py",
+      "sha256": "1e173811c750feac32d6bb3c2d59241f5f5455704ccbbb997f94c3e037d6b2c5",
+      "bytes": 9078,
+      "current_sha256": "1e173811c750feac32d6bb3c2d59241f5f5455704ccbbb997f94c3e037d6b2c5"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/trajectory_shape.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/contracts/trajectory_shape.py",
+      "sha256": "68d20f3ba8b007a2fe5f22c827c5578d8be578f207233d4e5ed6c4356f4e529d",
+      "bytes": 6354,
+      "current_sha256": "68d20f3ba8b007a2fe5f22c827c5578d8be578f207233d4e5ed6c4356f4e529d"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/safety/__init__.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/safety/__init__.py",
+      "sha256": "89b0d30a3cf894c056bb2ef9ac77f6259ccfd3fbd6db618ee824d949ad56243d",
+      "bytes": 456,
+      "current_sha256": "89b0d30a3cf894c056bb2ef9ac77f6259ccfd3fbd6db618ee824d949ad56243d"
+    },
+    {
+      "name": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/safety/trajectory_gate.py",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/reference-317a/src/go2arx5_vla/safety/trajectory_gate.py",
+      "sha256": "cd1d2667b5e8f67a99e08baca28ffc1abc492a34dd0ef585f3739259b359d1c4",
+      "bytes": 22574,
+      "current_sha256": "cd1d2667b5e8f67a99e08baca28ffc1abc492a34dd0ef585f3739259b359d1c4"
+    },
+    {
+      "name": "go1_gym/envs/config/__init__.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/__init__.py",
+      "sha256": "7297b5b522b4aa8f0627a68ed5b42e1dbc458471cb8d08ae7179a5c8fbc88b6a",
+      "bytes": 1144,
+      "current_sha256": "7297b5b522b4aa8f0627a68ed5b42e1dbc458471cb8d08ae7179a5c8fbc88b6a"
+    },
+    {
+      "name": "go1_gym/envs/config/core.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/core.py",
+      "sha256": "fae8db47633677e16e9b894d9881e0ae6e89a2e8ff2b966038ab1d64b5cde1a8",
+      "bytes": 28283,
+      "current_sha256": "fae8db47633677e16e9b894d9881e0ae6e89a2e8ff2b966038ab1d64b5cde1a8"
+    },
+    {
+      "name": "go1_gym/envs/config/go1.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/go1.py",
+      "sha256": "5399dec8fd677aa6f0a264704286a2fd7cf46321e6a2b349c0d2a02d0c031cf8",
+      "bytes": 3179,
+      "current_sha256": "5399dec8fd677aa6f0a264704286a2fd7cf46321e6a2b349c0d2a02d0c031cf8"
+    },
+    {
+      "name": "go1_gym/envs/config/legged_robot.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/legged_robot.py",
+      "sha256": "3cfc9ad36c63b67199d983655c87d280352e2ccfb1f336fd0f652b4ca306cf9a",
+      "bytes": 16241,
+      "current_sha256": "3cfc9ad36c63b67199d983655c87d280352e2ccfb1f336fd0f652b4ca306cf9a"
+    },
+    {
+      "name": "go1_gym/envs/config/wbc.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/wbc.py",
+      "sha256": "a4f6764eb2a34a74efc88025669c2cb6338090f00470bf1e4192cfc389ce277d",
+      "bytes": 28302,
+      "current_sha256": "a4f6764eb2a34a74efc88025669c2cb6338090f00470bf1e4192cfc389ce277d"
+    },
+    {
+      "name": "go1_gym/envs/config/wtw.py",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/config/wtw.py",
+      "sha256": "c7e6cddc8acfcf386a9b739a38d01f9d4800a4e826fe5e15c4b805b53f8840b2",
+      "bytes": 8349,
+      "current_sha256": "c7e6cddc8acfcf386a9b739a38d01f9d4800a4e826fe5e15c4b805b53f8840b2"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/config/ocs2/task.info",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/config/ocs2/task.info",
+      "sha256": "67080b4ca33e94798fd6bb0608f5ae7dd4de3a48759423e95cf1f7699d5a64f9",
+      "bytes": 6922,
+      "current_sha256": "67080b4ca33e94798fd6bb0608f5ae7dd4de3a48759423e95cf1f7699d5a64f9"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/config/ros2_control/arx_r5.yaml",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/config/ros2_control/arx_r5.yaml",
+      "sha256": "f49489a8a7f00eaa55f3c5573edef31cfb4e26e68e59568168c84daabae915b6",
+      "bytes": 1184,
+      "current_sha256": "f49489a8a7f00eaa55f3c5573edef31cfb4e26e68e59568168c84daabae915b6"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/config/ros2_control/ros2_controllers.yaml",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/config/ros2_control/ros2_controllers.yaml",
+      "sha256": "c48edef07498525d35737b94e30bb5ce76ff27d9c8e2dee33a54d224c302ad3f",
+      "bytes": 1220,
+      "current_sha256": "c48edef07498525d35737b94e30bb5ce76ff27d9c8e2dee33a54d224c302ad3f"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/ac1/link5.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/ac1/link5.glb",
+      "sha256": "d16c987533394d26597b44e06ac5931a1fb0a0cfb5a4890171bfcd0508cdbe5e",
+      "bytes": 781068,
+      "current_sha256": "d16c987533394d26597b44e06ac5931a1fb0a0cfb5a4890171bfcd0508cdbe5e"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/ac1/link6.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/ac1/link6.glb",
+      "sha256": "778f3444b3537a038f56674f1fec77a0a08ddef07e56d9e35fcbe70ff1b2a2e4",
+      "bytes": 875960,
+      "current_sha256": "778f3444b3537a038f56674f1fec77a0a08ddef07e56d9e35fcbe70ff1b2a2e4"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/ac1/link7.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/ac1/link7.glb",
+      "sha256": "c3ba62861fb7dbcc7e3b66d0138cc659d4e6c375429591ec9155f40f3a507ca8",
+      "bytes": 232216,
+      "current_sha256": "c3ba62861fb7dbcc7e3b66d0138cc659d4e6c375429591ec9155f40f3a507ca8"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/ac1/link8.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/ac1/link8.glb",
+      "sha256": "f90810e84c00d69593eae9ab367de77c68bcd69182e328fbde9a908b49fb415c",
+      "bytes": 232496,
+      "current_sha256": "f90810e84c00d69593eae9ab367de77c68bcd69182e328fbde9a908b49fb415c"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.glb",
+      "sha256": "63f3c30cf5c9deb11d99b7284af672ef3148371a8e315ece5d253907fdce1bc4",
+      "bytes": 34012,
+      "current_sha256": "63f3c30cf5c9deb11d99b7284af672ef3148371a8e315ece5d253907fdce1bc4"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.mtl",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.mtl",
+      "sha256": "70bb34f9bd3836c28ba07ee57a6c5ef33cd9ecae5f955491b08aa09b138bd1ea",
+      "bytes": 240,
+      "current_sha256": "70bb34f9bd3836c28ba07ee57a6c5ef33cd9ecae5f955491b08aa09b138bd1ea"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.obj",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d405.obj",
+      "sha256": "28ac8639c03eec898e63a30ab63636de98ba96c77df8958f6d4c43d3ecae07b0",
+      "bytes": 37172,
+      "current_sha256": "28ac8639c03eec898e63a30ab63636de98ba96c77df8958f6d4c43d3ecae07b0"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.glb",
+      "sha256": "876cf1fa42e94f041bce09460f58d7ab6bfc89d070f745f6bb016c827d346732",
+      "bytes": 42632,
+      "current_sha256": "876cf1fa42e94f041bce09460f58d7ab6bfc89d070f745f6bb016c827d346732"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.mtl",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.mtl",
+      "sha256": "70bb34f9bd3836c28ba07ee57a6c5ef33cd9ecae5f955491b08aa09b138bd1ea",
+      "bytes": 240,
+      "current_sha256": "70bb34f9bd3836c28ba07ee57a6c5ef33cd9ecae5f955491b08aa09b138bd1ea"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.obj",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/camera_stand/stand_d435.obj",
+      "sha256": "67ab5f96c83d7ecb89492dba6b0934b7b194d647581aafba3456aa84cff1d072",
+      "bytes": 42908,
+      "current_sha256": "67ab5f96c83d7ecb89492dba6b0934b7b194d647581aafba3456aa84cff1d072"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/base.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/base.dae",
+      "sha256": "ac4d5de5870c3dca89c7bfa5f7670d9aeb336cabd5e862d4a0dfe8a1a17c5be4",
+      "bytes": 10727399,
+      "current_sha256": "ac4d5de5870c3dca89c7bfa5f7670d9aeb336cabd5e862d4a0dfe8a1a17c5be4"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/calf.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/calf.dae",
+      "sha256": "0e15d069faa4984ec85890e2cb6119b757d75ff44480018ada3e13c3ebb8e537",
+      "bytes": 1125517,
+      "current_sha256": "0e15d069faa4984ec85890e2cb6119b757d75ff44480018ada3e13c3ebb8e537"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/calf_mirror.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/calf_mirror.dae",
+      "sha256": "69305f09d67ab5d27cf07ecdf91b7d17aa8faba6556b16757f31d9f57ea7beec",
+      "bytes": 1125457,
+      "current_sha256": "69305f09d67ab5d27cf07ecdf91b7d17aa8faba6556b16757f31d9f57ea7beec"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/foot.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/foot.dae",
+      "sha256": "1e621a5c8571eb486802a862f4f9fdd2f4feaecff0cb2ead85b5208cf41345a7",
+      "bytes": 506988,
+      "current_sha256": "1e621a5c8571eb486802a862f4f9fdd2f4feaecff0cb2ead85b5208cf41345a7"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/hip.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/hip.dae",
+      "sha256": "3e8c23a440cea642c4b276d42c0ed02968bc2718a86306e66c6a213fd2b235eb",
+      "bytes": 4666421,
+      "current_sha256": "3e8c23a440cea642c4b276d42c0ed02968bc2718a86306e66c6a213fd2b235eb"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/thigh.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/thigh.dae",
+      "sha256": "276a3b48122946f7c00cd20b186f96bad11fc027dc51c43a9ae7998b85840d69",
+      "bytes": 3884136,
+      "current_sha256": "276a3b48122946f7c00cd20b186f96bad11fc027dc51c43a9ae7998b85840d69"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/go2/thigh_mirror.dae",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/go2/thigh_mirror.dae",
+      "sha256": "6b8bd43781322953a90c7f5258914a22b224dc95a33bb41b0431f83f4f3affaa",
+      "bytes": 3896575,
+      "current_sha256": "6b8bd43781322953a90c7f5258914a22b224dc95a33bb41b0431f83f4f3affaa"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/base_link.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/base_link.glb",
+      "sha256": "75543bbce045a98ad1c16ebfe94b11104cb7ec7d8286c26cae68e28fc5154b2b",
+      "bytes": 1702556,
+      "current_sha256": "75543bbce045a98ad1c16ebfe94b11104cb7ec7d8286c26cae68e28fc5154b2b"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link1.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link1.glb",
+      "sha256": "1f56f8a2de8c461e8b606e17c94062ad11663e7aadd7a34cfcd67e61734b318e",
+      "bytes": 134056,
+      "current_sha256": "1f56f8a2de8c461e8b606e17c94062ad11663e7aadd7a34cfcd67e61734b318e"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link2.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link2.glb",
+      "sha256": "2ccb31ed002ce950d38339429eb5380fd9d5685ae0d9a3856a5260b035343301",
+      "bytes": 5195976,
+      "current_sha256": "2ccb31ed002ce950d38339429eb5380fd9d5685ae0d9a3856a5260b035343301"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link3.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link3.glb",
+      "sha256": "39fd0f700c60c8291e1049f652897df201f4f4e68286f3918a4da958f6d3608f",
+      "bytes": 1270216,
+      "current_sha256": "39fd0f700c60c8291e1049f652897df201f4f4e68286f3918a4da958f6d3608f"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link4.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link4.glb",
+      "sha256": "f9152343a93ed7697a5d8020ae4f53250229bbc56d9fc8cea7c2dc17273f18eb",
+      "bytes": 138052,
+      "current_sha256": "f9152343a93ed7697a5d8020ae4f53250229bbc56d9fc8cea7c2dc17273f18eb"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/meshes/x5/link5.glb",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/meshes/x5/link5.glb",
+      "sha256": "74e4f5799971d6ead6845710f4b73374c84b0d9a7b08236e2abea429956ce33f",
+      "bytes": 656324,
+      "current_sha256": "74e4f5799971d6ead6845710f4b73374c84b0d9a7b08236e2abea429956ce33f"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/arx5.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/arx5.urdf",
+      "sha256": "1c53d97394e7407ec90630e84c534ac8df7ff9bd4210e4bceb584a80d2200040",
+      "bytes": 10105,
+      "current_sha256": "1c53d97394e7407ec90630e84c534ac8df7ff9bd4210e4bceb584a80d2200040"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/arx5_ac1.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/arx5_ac1.urdf",
+      "sha256": "d48ac9c9ff66c48da55a9a4a5c8aedbca2ec773d701293bbbe8664678a0c8e3f",
+      "bytes": 10250,
+      "current_sha256": "d48ac9c9ff66c48da55a9a4a5c8aedbca2ec773d701293bbbe8664678a0c8e3f"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_description.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_description.urdf",
+      "sha256": "6a39d3ef547d3165d957e42b6c11d59279814dbb28e7449486213818b6aee7b3",
+      "bytes": 27492,
+      "current_sha256": "6a39d3ef547d3165d957e42b6c11d59279814dbb28e7449486213818b6aee7b3"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+      "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25",
+      "bytes": 34918,
+      "current_sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_00.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_00.urdf",
+      "sha256": "a15d12e9f72fe4b4a5bbe8e746675aecd8fd09bd82945428904d51fbbb635a79",
+      "bytes": 34174,
+      "current_sha256": "a15d12e9f72fe4b4a5bbe8e746675aecd8fd09bd82945428904d51fbbb635a79"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_01.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_01.urdf",
+      "sha256": "1522b71c4d742d570a8e71ed9c4b50adb41ac840556930a2a03097f24f0435eb",
+      "bytes": 34227,
+      "current_sha256": "1522b71c4d742d570a8e71ed9c4b50adb41ac840556930a2a03097f24f0435eb"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_02.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_02.urdf",
+      "sha256": "348ce12a05bc78947e55e1671dcebf9f9185fa27c981ebbd3af40eb1c4be8ef9",
+      "bytes": 34225,
+      "current_sha256": "348ce12a05bc78947e55e1671dcebf9f9185fa27c981ebbd3af40eb1c4be8ef9"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_03.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_03.urdf",
+      "sha256": "7ffb1cd9aede3514761ac3750aa0d50883b6244d750685658edb0f39480771ac",
+      "bytes": 34224,
+      "current_sha256": "7ffb1cd9aede3514761ac3750aa0d50883b6244d750685658edb0f39480771ac"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_04.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_04.urdf",
+      "sha256": "a83e8d3d69cb5bdaeb71070078f61587c1b3a5a52183466c18e6a80c679ca9ff",
+      "bytes": 34222,
+      "current_sha256": "a83e8d3d69cb5bdaeb71070078f61587c1b3a5a52183466c18e6a80c679ca9ff"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_05.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_05.urdf",
+      "sha256": "ecb7095741debe16f07d72a193b4d25cb245ef14d060e47b7a2872c7aade9b3e",
+      "bytes": 34224,
+      "current_sha256": "ecb7095741debe16f07d72a193b4d25cb245ef14d060e47b7a2872c7aade9b3e"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_06.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_06.urdf",
+      "sha256": "b9035307eb21156f7cc5425845dca66ec9d29bb8f071e78591fcd895c0219ec2",
+      "bytes": 34224,
+      "current_sha256": "b9035307eb21156f7cc5425845dca66ec9d29bb8f071e78591fcd895c0219ec2"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_07.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_07.urdf",
+      "sha256": "2b21841f53a91341b3275adab71174c9ca607d654a7a81cda920c0e842e889b5",
+      "bytes": 34223,
+      "current_sha256": "2b21841f53a91341b3275adab71174c9ca607d654a7a81cda920c0e842e889b5"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_08.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_08.urdf",
+      "sha256": "09c19480ed3fff8aa8bd1689431272443a6c926efe6301514d7aecb8264364f7",
+      "bytes": 34226,
+      "current_sha256": "09c19480ed3fff8aa8bd1689431272443a6c926efe6301514d7aecb8264364f7"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_09.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_09.urdf",
+      "sha256": "ab80dca1fa9f639f797c82dc2a1099d4976dd67b2ac1908d5559edc8afbda039",
+      "bytes": 34226,
+      "current_sha256": "ab80dca1fa9f639f797c82dc2a1099d4976dd67b2ac1908d5559edc8afbda039"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_10.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_10.urdf",
+      "sha256": "c57ff516f102a0363e33cc74cccdf4982b76e2cca2416baafe091e09dad2f52f",
+      "bytes": 34222,
+      "current_sha256": "c57ff516f102a0363e33cc74cccdf4982b76e2cca2416baafe091e09dad2f52f"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_11.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_11.urdf",
+      "sha256": "13a00f591d624ff7bc6c6fc2b9a63914a10cdc58469b8762ea10a464a7e7fafb",
+      "bytes": 34224,
+      "current_sha256": "13a00f591d624ff7bc6c6fc2b9a63914a10cdc58469b8762ea10a464a7e7fafb"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_12.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_12.urdf",
+      "sha256": "5560b419b9cd0bac9f748eb63e785a3cf96652d8b95e404e6142e4b07b54f1bb",
+      "bytes": 34219,
+      "current_sha256": "5560b419b9cd0bac9f748eb63e785a3cf96652d8b95e404e6142e4b07b54f1bb"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_13.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_13.urdf",
+      "sha256": "278a60c441bbfe9a9d6ce8b4b7c6acbbad8b6d9c63feab100e5f986c90287522",
+      "bytes": 34227,
+      "current_sha256": "278a60c441bbfe9a9d6ce8b4b7c6acbbad8b6d9c63feab100e5f986c90287522"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_14.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_14.urdf",
+      "sha256": "129f3df6a652dec7c1d0b3c09722218cef94d6e44b5b4b4918702947e910a500",
+      "bytes": 34223,
+      "current_sha256": "129f3df6a652dec7c1d0b3c09722218cef94d6e44b5b4b4918702947e910a500"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_15.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5_mount_bucket_15.urdf",
+      "sha256": "836ddb9926e4274b984f60fb549c55033074ce5aea91b15b1af15c848b9a82b7",
+      "bytes": 34225,
+      "current_sha256": "836ddb9926e4274b984f60fb549c55033074ce5aea91b15b1af15c848b9a82b7"
+    },
+    {
+      "name": "resources/robots/go2_x5_v3/urdf/unitree_go2.urdf",
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/unitree_go2.urdf",
+      "sha256": "76b4452afd3daf56be193cf3c3d01fc75126d338a704d7cd03a95bf24b39b89d",
+      "bytes": 17381,
+      "current_sha256": "76b4452afd3daf56be193cf3c3d01fc75126d338a704d7cd03a95bf24b39b89d"
+    }
+  ],
+  "completed_or_partial_fixtures": [
+    "hold",
+    "vertical"
+  ],
+  "original_wbc_ledger": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/evidence/wbc_budget.jsonl",
+    "bytes": 431376,
+    "sha256": "6e28c8f62840f496f642366ec25357631994294d3a79636d38ce19869bb3f6de"
+  },
+  "cumulative_wbc_ledger_counts": {
+    "physical_start": 2,
+    "control_tick": 527,
+    "gripper_dispatch": 2108,
+    "integration": 2108,
+    "RGB_pair": 105,
+    "actor_forward": 1050
+  },
+  "ledger_semantics": "Reservation is written before invocation. Failed operations count; saved returned rows independently report completed telemetry. Existing ledgers untouched.",
+  "new_policy_calls": 0,
+  "new_WBC_actor_calls": 0,
+  "new_physics_steps": 0,
+  "new_training_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

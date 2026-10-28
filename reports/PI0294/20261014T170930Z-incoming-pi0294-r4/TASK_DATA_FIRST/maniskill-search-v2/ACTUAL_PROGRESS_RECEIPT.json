@@ -1,0 +1,168 @@
+{
+  "schema": "MP_S2_ACTUAL_INTERIM_RECEIPT_V1",
+  "status": "PARTIAL_NO_SUCCESSFUL_TARGET_BODY_SEED",
+  "epoch": 1792069718.8291106,
+  "auditor_source": "08afa0189aaf34939297fe9b15443808b69b09b6",
+  "actual_source": "b08580ddce029cb6cf977394d35abd7c46432c0b",
+  "adopted_release": "c2ac452bf873f1c8187d0340f2da9c4d696e08c5",
+  "authority_release": "cb3389f18fffa604f3f33ca53c141e0af5fb7005",
+  "CPU_checks_passed": 16,
+  "start_results": [
+    {
+      "task": "T1",
+      "condition": "MPS2_CPU_W0_T1",
+      "status": "FAIL_REGISTERED_SEARCH",
+      "reason": "NO_LEGAL_REGISTERED_PAIR"
+    },
+    {
+      "task": "T2",
+      "condition": "MPS2_CPU_W0_T2",
+      "status": "PASS_VALID_PLANNED_H40",
+      "selected_candidate": 4,
+      "certificate": {
+        "duration_s": 8.122926993684986,
+        "uniform_time_scale": 2.262800778577292,
+        "max_linear_speed": 0.03681614090823587,
+        "max_angular_speed": 0.2520038472676296,
+        "dense": {
+          "status": "PASS",
+          "reason": null,
+          "points": 1001,
+          "local_IK_iterations": 1001,
+          "window_sha256": "430892614fee9a1f1bb71e56ff2427207dfb12894cbe69a5d79359ab9f661d65",
+          "max_native_IK_position_residual_m": 1.4782022803933203e-06,
+          "max_native_IK_rotation_residual_rad": 6.051415440162052e-06,
+          "physics_steps": 0,
+          "actual_state_modified": false
+        },
+        "input_sha256": "f1e158c06e52f4fe67edc8ec4d0a029617ee1005e5a0857727384a4fb98c8ec2",
+        "response_sha256": "4da4733fe7be51d645fad2621e8106e42571e6736007ec88269ebd18ef2a91fc",
+        "FK_error": [
+          1.0721208602853095e-15,
+          0.0
+        ]
+      }
+    }
+  ],
+  "T2_independent_audit": {
+    "status": "VALID_SHORT_MILESTONE_FAIL_INTEGRITY_PASS",
+    "id": "MPS2_DEV_W0_T2",
+    "source_sha": "b08580ddce029cb6cf977394d35abd7c46432c0b",
+    "demonstration_source": "AUTOMATIC_PLANNING",
+    "observations": 241,
+    "submitted_and_installed": 30,
+    "native_integrations": 8500,
+    "task_duration_s": 12.0,
+    "complete": true,
+    "quality": null,
+    "milestones": {
+      "position_progress": true,
+      "safe_precontact": false,
+      "actual_contact": false,
+      "manipulation": false
+    },
+    "actual_contact_ticks": 0,
+    "longest_grasp_s": 0.0,
+    "RGB_from_saved_actual_state_reconstruction": true,
+    "original_recorder_failure_preserved": true,
+    "max_actual_object_displacement_m": 0.0,
+    "max_actual_object_rise_m": 0.0,
+    "approach_distance_initial_min_final_m": [
+      0.2529172761967154,
+      0.22027407842783425,
+      0.339088894499707
+    ],
+    "actual_TCP_initial_final_xyz": [
+      [
+        0.35446309639285634,
+        0.014099385063919691,
+        0.7174933214477637
+      ],
+      [
+        0.16312778680293866,
+        0.031448603390377985,
+        0.4919271634988416
+      ]
+    ],
+    "RGB_pairs": 241,
+    "installation": {
+      "transactions": 30,
+      "installed_messages": 150,
+      "max_xyz_abs_m": 2.9795778955232777e-08,
+      "max_sign_invariant_unit_quaternion_component": 3.374156953839247e-08,
+      "tolerance": 1e-06
+    },
+    "source_labels_exact": true,
+    "selected_MPC_policy_consumption": "UNKNOWN",
+    "stop_reason": null,
+    "new_physics": 0,
+    "new_model": 0,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "raw_evidence": {
+      "samples.jsonl": "61d8eed9b8a326c920faafa6379bbf5b26363093b05281f9f0c05e699929fd3d",
+      "state.bin.journal": "514a01a35d3042d8650ba435fdf396dea2f6841ef3a9f7ffb58a8a743941defb",
+      "committed_intents.jsonl": "2479f1927fd8f0bc7284483d87d684a3de446330c8053bbce0f2b0f845d1a1d7",
+      "planner.jsonl": "cae4c79ae01b336fb6afb58d895a3ff5329951fed906dde92c2d50b61c89c4a9",
+      "pause_intervals.jsonl": "ccc118811996b3caad8d2922edc4b4a6d69fc329915d77a3f37869840f470050",
+      "physics.jsonl": "4b6b73dc081a6c59365269033195243cdf7226c0846e2cad8035769d4da6b1ae",
+      "ACTUAL_PHYSICS.npz": "794b9c43382438ce2921e1000cc8421e600a82e65cafee5fd7f78804585e8a49",
+      "RGB_HASHES.json": "384db4a8080331f4184f2bf4c00bb4e099ab43b1ebc8053ed0411d2b9183a707"
+    }
+  },
+  "search_ledger_sha256": "cb14ca631f3a02b2fbbea8f08205e4121c6d674499af876dcab5077305a25086",
+  "search_counters": {
+    "goal_IK_calls": 94,
+    "CLIK_reserved": 1504,
+    "RRT_calls": 62,
+    "dense_reserved_points": 31031
+  },
+  "planning_bundles": 32,
+  "preserved_metadata_deviation": "Initial formatter emitted IK_calls=RRT_calls=0. Those fields are omitted here, not interpreted as zero work; durable SEARCH_LEDGER counters remain authoritative. Original receipt retained.",
+  "RGB_recovery": {
+    "status": "PASS_FIXED_ACTUAL_STATE_RGB_RECONSTRUCTION",
+    "original_result_sha256": "3b0ff05996709e9d531da17af97d6a256609a28e1c98baabe19772885327c60a",
+    "samples_sha256": "61d8eed9b8a326c920faafa6379bbf5b26363093b05281f9f0c05e699929fd3d",
+    "journal_sha256": "514a01a35d3042d8650ba435fdf396dea2f6841ef3a9f7ffb58a8a743941defb",
+    "native_model_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55"
+  },
+  "receipt_hashes": {
+    "CPU_ADMISSION.json": "45fbd89c3593c2c6e64e18e147efe97217c9d7c0fc3d6dc8290724e11eeb6afd",
+    "CPU_EXECUTION_BINDING.json": "5801fe191db9b867c43ec86919a1bd5b6dc81041783f5a87761d3cda1d097c13",
+    "episodes/MPS2_DEV_W0_T2/RESULT.json": "3b0ff05996709e9d531da17af97d6a256609a28e1c98baabe19772885327c60a",
+    "episodes/MPS2_DEV_W0_T2/RECORDER_RECOVERY.json": "95de251f7dac3b12f54152e970a0d208a90aa4bdc5fd5d531d068a38344b09a1",
+    "episodes/MPS2_DEV_W0_T2/INDEPENDENT_CPU_AUDIT.json": "e2ee65534cd483678142d9d0d0656b3eefd3b5c75440f4012bb6b6629a41d192"
+  },
+  "parent_counters": {
+    "main_starts": 38,
+    "main_integrations": 353508,
+    "RGB_pairs": 12248,
+    "Core_CPU_s": 15613.158759592665,
+    "Hopper_CPU_s": 0,
+    "GPU_allocated_s": 0,
+    "GPU_reserved_s": 0,
+    "new_formal_updates": 0,
+    "new_engineering_updates": 0
+  },
+  "new_series": {
+    "starts": 1,
+    "charged_integrations": 8503,
+    "RGB_pairs": 241,
+    "all_charged_CPU_s_since_adoption": 343.0205664645255,
+    "successful_seeds": 0
+  },
+  "active_CPU_reservations": {},
+  "full_AUTO_admission": {
+    "T1": false,
+    "T2": false
+  },
+  "ASSISTED_status": "PENDING_ACTUAL_HUMAN_AND_TESTED_UI_NO_LAUNCH",
+  "external_demo_payload_downloads": 0,
+  "WBC_changes": 0,
+  "safety_changes": 0,
+  "score_changes": 0,
+  "old_evidence_preserved": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "series_closed": false
+}

@@ -1,0 +1,54 @@
+{
+  "run_uuid": "20261014T121640Z-incoming-pi0294-r3",
+  "status": "IN_PROGRESS_NOT_FINAL_OR_S1_QUALIFICATION",
+  "observed_Core_epoch": 1791986619.647725,
+  "observed_Hopper_epoch": 1791986628.8940377,
+  "main_step": 544,
+  "new_formal_updates": 32,
+  "actual_initial_restore": "PASS_1030_TENSORS_ONE_EXACT_TIED_STORAGE_ALIAS_OPTIMIZER_SCHEDULER_RNG_SAMPLER",
+  "jobs": {
+    "first": "665990_ZERO_UPDATE_ENGINEERING_FAILURE_213_ALLOCATED_SECONDS",
+    "second": "666047_RUNNING_NATIVE_H200"
+  },
+  "teachers": [
+    {
+      "key": "F0-T1",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "steps": 16000,
+      "pre_execution_rejections": 0,
+      "actual_native_failures": 0,
+      "maximum_clone_error": 5.728750807065808e-14
+    },
+    {
+      "key": "F0-T2",
+      "status": "VALID_COMPLETE",
+      "persistent_success": true,
+      "steps": 16000,
+      "pre_execution_rejections": 0,
+      "actual_native_failures": 0,
+      "maximum_clone_error": 1.5631940186722204e-13
+    },
+    {
+      "key": "F1-T1",
+      "status": "RUNNING_OR_NOT_YET_COMPLETE",
+      "persistent_success": null,
+      "steps": null,
+      "pre_execution_rejections": null,
+      "actual_native_failures": null,
+      "maximum_clone_error": null
+    },
+    {
+      "key": "F1-T2",
+      "status": "RUNNING_OR_NOT_YET_COMPLETE",
+      "persistent_success": null,
+      "steps": null,
+      "pre_execution_rejections": null,
+      "actual_native_failures": null,
+      "maximum_clone_error": null
+    }
+  ],
+  "S1_live_model_permission": "NOT_YET_QUALIFIED",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

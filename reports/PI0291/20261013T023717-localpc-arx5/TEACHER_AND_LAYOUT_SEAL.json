@@ -1,0 +1,1908 @@
+{
+  "authority": "15cc7957488fb879f5f050e3602327592da7036b",
+  "code_files": {
+    "scripts/pi0291_arx5_data/audit_data.py": "786a972b02e4fb8de4a65cd61aab9b12bbe150bdd47fbaede3f5dd5336ab203b",
+    "scripts/pi0291_arx5_data/benchmark_driver_cache.py": "cba246c2f11f97b63eb71e8301be1e3067464647209edc2ac83480b38bb4590e",
+    "scripts/pi0291_arx5_data/bind_run.py": "0c031bbaf5fe3619531fe9f762c91da9eb34a5c1d0a892225e9c5eda1933680f",
+    "scripts/pi0291_arx5_data/config.py": "debc6d9d0358bc6dcf5a1107c5723bb6eb8ff4b396fc35f7901fb67f771f593c",
+    "scripts/pi0291_arx5_data/engine.py": "f2a5178a59d70c63a261e56a8e26e741d5161c62956f0746f14786f3323ec9bb",
+    "scripts/pi0291_arx5_data/export_dataset.py": "aa7dc59513af94ddb9066fe7efb60f53e3bf195f338427d2dc6a6449f71591d7",
+    "scripts/pi0291_arx5_data/native_dataset.py": "512c4833fb4b9044eafbb39a69358a85fa7f09cdd9e7610e0952933e611a4a37",
+    "scripts/pi0291_arx5_data/probe_arx5.py": "7964cb63f77b7544c2767d9e671505416f5e118d4bc2c49ea95448417266f41a",
+    "scripts/pi0291_arx5_data/probe_contract.py": "1f464001af736d30c23f429d1fdcd60e1ecc86acd29d754a90053d7cdbb691b0",
+    "scripts/pi0291_arx5_data/qualify_loader.py": "990d11e7b0ddbca83cd2cd2d823c3dd445b1bd3d8792243e2239343f09b50193",
+    "scripts/pi0291_arx5_data/resource_guard.py": "a296554cfeca2d7e2755b4372378bd5d4655cae9b13e09c2cbdff29165c94281",
+    "scripts/pi0291_arx5_data/run_episode.py": "a4c083e611ec7930efd309b6e7e9063d0115f6bf0b7183dc456a54eba79155cb",
+    "scripts/pi0291_arx5_data/run_negatives.py": "9b8916e65b7ae226bb63830e1e7bb78845c3da5d8159e929963b5fc07010cc00",
+    "scripts/pi0291_arx5_data/run_queue.py": "bf739b584855ca25381608d5d0fbcec2c8be5c89407145bc8e18aed613c9ecaf",
+    "scripts/pi0291_arx5_data/scene.py": "86d15d28cf294c1289b941f792c9c949180e1914142f1bb3794549717db6fb49",
+    "scripts/pi0291_arx5_data/score.py": "011f6b71c297c294581ff424c5ef4d8d9bb6e9f5e97cd1e2ab4fa29fe58ec052",
+    "scripts/pi0291_arx5_data/seal_run.py": "7a78b43cfca457b5abc5a802885930b36a8ebc4f0e096029951e98cc79bbdbad",
+    "scripts/pi0291_arx5_data/static_probe.py": "d0dcc2f97aa96286062316032fa7325a6975c5a6909be6b8658d6bb9c9f4b75c",
+    "scripts/pi0291_arx5_data/teacher.py": "7b1a8b64a2b01573394323a945ecdd9d05821fc3ae83a1ad257adc44874fb234",
+    "scripts/pi0291_arx5_data/test_native_dataset.py": "69cc447e36552a3f960b0a1e6aba7fe296be115a4424bbb4658493f206bfd980",
+    "scripts/pi0291_arx5_data/video.py": "53e82203b917de6c94200ddf668d1bb07c548927156b93f1de2ba721b7011a4a",
+    "src/go2arx5_vla/__init__.py": "5919bffb7260ec0605c40a9bbfe2dfe462d4b9b87f791f28e93879f593968782",
+    "src/go2arx5_vla/adapters/__init__.py": "1d5ddf18574e39b16c62c23cc6ccf54aee253bd6af5fd6f1c2fe1a3ad73926fc",
+    "src/go2arx5_vla/adapters/groot_to_wbc.py": "f5e657964b00b2b1ee4ed0d6bdb84c516b8fc31e045d765a289dd002c479358c",
+    "src/go2arx5_vla/artifacts/__init__.py": "afe484a02a46f4bab0960c81e20c1fbd08711a1404414987ff82e2240898c680",
+    "src/go2arx5_vla/artifacts/manifest.py": "e7649ab49fef09750a81f21c57dd56f3ef06b2a76bd241dd16449e52733d7974",
+    "src/go2arx5_vla/benchmark/__init__.py": "b41119872c9ff505da5af02901223c40a2978995cbc2799636db5cb6e7aa6e54",
+    "src/go2arx5_vla/benchmark/lifecycle.py": "1f85f1225fe0994a9fb453dd02e571ce4242b1ccaec04ecf9899434046cedbf6",
+    "src/go2arx5_vla/benchmark/native_suite.py": "d461b6d66338ca4dbfdd3912dcbd682e8d255086b689e0394406ecff81b9a3e2",
+    "src/go2arx5_vla/benchmark/progressive_relocation.py": "8d6bfbab0dafe8fef9639af88bda1053c7452f6af238e06256fabb52ce37df6d",
+    "src/go2arx5_vla/contracts/__init__.py": "2afb6fdc2089e02035c02320b94115e7be9938a4840f8c9210f87daf90c62fcf",
+    "src/go2arx5_vla/contracts/motion_intent.py": "f4bb1c763d975941c1db5b44181432236281f3a8d7fc8c3352f899ef1ec78746",
+    "src/go2arx5_vla/contracts/placement.py": "f80630b2f8750cd52380005027ab6a36185024b0d422b912967ddcfda4fb43c4",
+    "src/go2arx5_vla/contracts/reference_binding.py": "df5832b462a455981faa530356d2885994ba6f2cec6e120c4b062a9fdc6de524",
+    "src/go2arx5_vla/contracts/trajectory.py": "1e173811c750feac32d6bb3c2d59241f5f5455704ccbbb997f94c3e037d6b2c5",
+    "src/go2arx5_vla/contracts/trajectory_shape.py": "68d20f3ba8b007a2fe5f22c827c5578d8be578f207233d4e5ed6c4356f4e529d",
+    "src/go2arx5_vla/data/__init__.py": "5e6e9d5a9284b7615c4b6d3bc47c9ad30857548fc5c023b9ec52cd23301643c2",
+    "src/go2arx5_vla/data/materialization.py": "313a39c375aac1f718dfed0278a48f3af7c8e2286c996f93552c12440c9acf25",
+    "src/go2arx5_vla/data/processor.py": "7be1e2d3745151b5ed71ff70644e7a0abfe0b8248a5dbac424af1f1be35cdf46",
+    "src/go2arx5_vla/data/quality.py": "a32d7f35f476a8b4f049ef3b16e00c9f82e7bc14917fb638ae090efcab5663fc",
+    "src/go2arx5_vla/data/readiness.py": "7e844d5a6fd509ebf04db84bbce711b6dcb4baaf4445522b8b35d90788aa560a",
+    "src/go2arx5_vla/data/recorder.py": "2055a8c63ea478b5a4274593e9622844f189698edd83e3a78ef22663b56bbf33",
+    "src/go2arx5_vla/data/stage22_expert.py": "32bc343f7947a29d1ee6e101f484e119e16e44aca419e81f6fcbb183e366640a",
+    "src/go2arx5_vla/data/stage22_snapshot_lock.py": "4f4b73ab1ad3ec0beec00f39062362cab879047ea5a74e23f50d4cfed301b424",
+    "src/go2arx5_vla/data/stage22_split.py": "c2c366ab14a0383eb240c8892df8a444abe518932623ece226b34486e90c485e",
+    "src/go2arx5_vla/data/stress.py": "1f37be06105a26b95fdcb380d430bc0f3f916212c23f42f570f713e2c57e16b5",
+    "src/go2arx5_vla/data/teleop.py": "c8b86b68620bb1ff8e5427008340ee5b4dd2811f09cc4b5ac803f5a9b234cbac",
+    "src/go2arx5_vla/diagnostics/__init__.py": "17195044f688c92623042287ab3ed2c080763768c5b1bf30fa4809edd30c0edf",
+    "src/go2arx5_vla/diagnostics/stage23_action_pipeline.py": "13dd3bba4e777806dc8ba4ee86ee414f9055a13021fc6f08a8eddb222b802ebe",
+    "src/go2arx5_vla/evaluation/__init__.py": "a35e5f9da13c2aafada80f82bb2b12754264d8233f24d21f33beb55778b96ad3",
+    "src/go2arx5_vla/evaluation/checkpoint_eval.py": "2135654ed65017ac10ee36bc79c3c3eeda3c554b6230c3a7cea275f89bb26ff9",
+    "src/go2arx5_vla/evaluation/structured_action_eval.py": "3abe9160702d6f5ff5486df4503462e228ec442b5e90cfa3379c0894a860d487",
+    "src/go2arx5_vla/evaluation/trajectory_metrics.py": "913be32a7bc418b3213f7d2277d59831d40fec9ab81a171efc5918bb8e8f5ed4",
+    "src/go2arx5_vla/experiments/__init__.py": "23dd00198edb0f136835bc638a52532860b494d8e7c962d60e569e30610e5a73",
+    "src/go2arx5_vla/experiments/native_wbc.py": "86d0b0717420b896be5edfddd46bc3cff5d0c9a4f9dc948c0f0ede75f3158d4c",
+    "src/go2arx5_vla/metrics/__init__.py": "41bdf23e7d40a9c87f43a3578227df0b6342da872864e798c8e33e9cb5f082c6",
+    "src/go2arx5_vla/metrics/action_profile.py": "c0a9ce3e698c5373d843eeb68c61b5a3de262738ae221fb74c40a3cfaf5a1b72",
+    "src/go2arx5_vla/metrics/h2_paired.py": "792abab2b5e23e68dce695aa7d466ac1911a51841a8945d829640e6788a45f6e",
+    "src/go2arx5_vla/metrics/internal_plan.py": "8724946890a5c383f6f21b3d57ffb63efdd30a02cdadf43ffe9eb0f0c9af1a2c",
+    "src/go2arx5_vla/metrics/task_space.py": "ea8ddea2403481939fc4fe3e4e6642a3d19ed6fc5f2fdcc151bd72a81faba15f",
+    "src/go2arx5_vla/metrics/whole_body.py": "de1f82bc4a360af2247d62fc655a7b35cb646ce7d72bce69cf91a28d873a15d0",
+    "src/go2arx5_vla/motion_api/__init__.py": "d03884989b170bf4cfb4b7440f1ef00bb497b61c4b51630dd9781c6ac24ae08a",
+    "src/go2arx5_vla/motion_api/qualification.py": "bb04fbcbdf414b5a08f6a26f564f7872dddfb288b9facfc4804f351a1b13c899",
+    "src/go2arx5_vla/oracle/__init__.py": "3da2272288d695036a922b8f33ab995d6025f106fc22caa49b5a884de43020fb",
+    "src/go2arx5_vla/oracle/stage35_corpus.py": "6c514f3bbe8fdf6036216033a661b8b6825230dbf83ab682271ed50b92256aec",
+    "src/go2arx5_vla/providers/__init__.py": "c2d3213ea00b84a66f4928398866930ce03394c6f788330d8ecfa5a12671b361",
+    "src/go2arx5_vla/providers/base.py": "6e2cb61f67b664975d3ac6bc3573f67bdc5d589aebf9bb0aff63dd40e88cd2e7",
+    "src/go2arx5_vla/providers/benchmark.py": "204f0c057285dc00d3f511e2a94b4e1437b613932eee181791ac6379edf109a9",
+    "src/go2arx5_vla/providers/groot.py": "94a1c74c480249f952f4ea27ecac8d0871c88c1d2625fb9b2351ca37641409f0",
+    "src/go2arx5_vla/providers/replay.py": "8c7af1649ba593c77fc9ac6c183254847121b44fdb442d3b80b11ff0704d3f25",
+    "src/go2arx5_vla/runtime/__init__.py": "5c5a32d76d52062b028179f3a6257a5a1f4f3f16f47507f01216aafcedb18d91",
+    "src/go2arx5_vla/runtime/chunk_lifecycle.py": "67828cb01a9fecbb05251812c77f62d8b4b69a53d215df578d0ffd7506502dbf",
+    "src/go2arx5_vla/runtime/receding_horizon.py": "fceefe1f89b1ffd4cac7cbda98726ffb95ebf662f563cd4ef11caaf2f1462b64",
+    "src/go2arx5_vla/safety/__init__.py": "89b0d30a3cf894c056bb2ef9ac77f6259ccfd3fbd6db618ee824d949ad56243d",
+    "src/go2arx5_vla/safety/trajectory_gate.py": "cd1d2667b5e8f67a99e08baca28ffc1abc492a34dd0ef585f3739259b359d1c4",
+    "src/go2arx5_vla/simulation/__init__.py": "2f63b11d435ca7ae25b5732ec3e7473e21b41452ccc8a16280c638ccd1039176",
+    "src/go2arx5_vla/simulation/expert.py": "0f88347c830eb22b46061f1fe9a8e8433c4b5bc1d4da4b6ee989a83c02491685",
+    "src/go2arx5_vla/simulation/same_scene.py": "ad6b44b4adee579884cac466e93817bf1de83d70c32a26784ec03e608fed42c4",
+    "src/go2arx5_vla/simulation/visual_reach.py": "175c43047c083d85b2d6ee97a0626f08dbfd8bd73f930da44c5a3d59979dcf9e",
+    "src/go2arx5_vla/stage38_structured_training.py": "492caa5b930ed888f953ff0c0eed3fb96fa1d125651eaa0e8e5c09688a5709a9",
+    "src/go2arx5_vla/stage40_structured_decode.py": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+    "src/go2arx5_vla/stage45e_l1_loss.py": "ad4572fc176399c9e4eb25c3ded78f3fcbf09c647d1cbecbc5da989bb7832635",
+    "src/go2arx5_vla/stage45e_l1_runtime_weight_evidence.py": "5128c8576a3f77271432b7182487dd2808277ffa5997c77893324d6b9055015e",
+    "src/go2arx5_vla/structured_action.py": "2355659e3af869bc9e4f235e746f967961e4fe9be9f5da4e0959af1866764315",
+    "src/go2arx5_vla/target_mujoco/dataset.py": "66f759c15b9a9d5fb02613b726d8aef13c4fd7444e52957c0db26e87372bffbf",
+    "src/go2arx5_vla/target_mujoco/mapping.py": "6b71a7ba8790fd1246eb1f80314b9f582cfa1e9aed00bed045df6a644347b010",
+    "src/go2arx5_vla/target_mujoco/recorder.py": "4f20fa49a8e642800b393306cefaa49a3446202b151d39f2dcedefa65cd0ad12",
+    "src/go2arx5_vla/target_mujoco/reference.py": "da67f29edef1925bc76dcdc1a381f00891a23d24e540430bd6ec852703f7734a",
+    "src/go2arx5_vla/target_mujoco/scene.py": "64c5a01f253350f33bb48035fabee57acf3c19954550fcbba555dd60f1f4ae5d",
+    "src/go2arx5_vla/target_mujoco/scorer.py": "bcbc49fc306d68b59150eadce588c6883444e001eba419e02cf513d98f2a0717",
+    "src/go2arx5_vla/target_mujoco/teacher.py": "8a3fb19495e80268c1961388af759ae5a9347756df473bc2c77f9aaba15eaebe",
+    "src/go2arx5_vla/target_sim/bridge.py": "f9f13da006e6cc2441ff78984e11543bd9adcaf9930d443b8d51ef1e7ef121e3",
+    "src/go2arx5_vla/target_sim/budget.py": "68165d3b10d7f22338065211edf7c575a6d089ec996b4e0e2c11ea2e1607c630",
+    "src/go2arx5_vla/target_sim/dataset.py": "8e9314f7fba5b91d3ed319cff29c2ac5fe2151ef15a2ac5a96ba31a5222d34ec",
+    "src/go2arx5_vla/target_sim/environment.py": "b8f36df87621ee675d03bcf60a36fbc4120a03392bd0500abcf36ac87a12ac94",
+    "src/go2arx5_vla/target_sim/indexing.py": "7aca692de853d58eba58c3b37f421f68e8a6e2ffe68101676d095a05ad605af1",
+    "src/go2arx5_vla/target_sim/limits.py": "36f819fcbe6f50fbd55d76593e5d985e36a50129615605aaf06e453567f9e428",
+    "src/go2arx5_vla/target_sim/recorder.py": "3ddbf7d6a7a991f35891db5dc1a8c838ebf4f939af5ef80a8467be677f25880d",
+    "src/go2arx5_vla/target_sim/scorer.py": "8da98606b9301c789ec1619d15ddae50702f94205e7d78025dd2d4a47fa32720",
+    "src/go2arx5_vla/target_sim/teacher.py": "d05249c09e43be1d51b6375fe5298c8780c89021c28275a11ff2ee2ced494c11",
+    "src/go2arx5_vla/task_data/__init__.py": "6614f184d3d197ea3ee3f4150c9bf002ba62fe9ec6f9658ed28ebc64af37c459",
+    "src/go2arx5_vla/task_data/audit.py": "07f689f90d76e637f3345f1af704e23f83bff55cc70a0f33d7ba5f3b64fe207a",
+    "src/go2arx5_vla/task_data/codec.py": "9326ecb262479dc56f13dd0d0afe960ca489f4f84a1389ed5dddb5e37cb7c0f8",
+    "src/go2arx5_vla/task_data/config.py": "310190d9e0b597df0fab47fbc760d87d1f94801e7d045cfa98a694618dc197da",
+    "src/go2arx5_vla/task_data/engine.py": "c06278d96a25eef866bbe607fc7b045747ce850c0e90c75d992b6bc768dfcd31",
+    "src/go2arx5_vla/task_data/io.py": "a55fc7b6d2807574c3529fb3eae060667e49f5574bac99fd05aa94adca652a27",
+    "src/go2arx5_vla/task_data/resource.py": "be616ebab6119d7e2ca865597852a2dd1f293e90808919a72c61d02ebe5ae819",
+    "src/go2arx5_vla/task_data/scene.py": "1e5ba10ba850882b427dfd4c2d3d012b008792621b67c1008a87132b58a32a1f",
+    "src/go2arx5_vla/task_data/score.py": "6db1c89b03a31c09276e48ecbda19dfdffcaa510736c17cee717a9a898eca376",
+    "src/go2arx5_vla/task_data/teacher.py": "be47a9d85d894165b4bb999840280a5d1a1dbf098ec57f1d3b969a72e8c78580",
+    "src/go2arx5_vla/trajectory/__init__.py": "d06a061cbb8acfff392599c4176db32e167475e76cddecf407ef51805508dd19",
+    "src/go2arx5_vla/trajectory/native_transport.py": "5dc799db6f074163d77543b18b6e182c731ac38a449ef50cccd4e15847d63e54",
+    "src/go2arx5_vla/trajectory/preview.py": "4c10f745d79a2c9a8ec261c7d6d4ae66fc0c3fab7b6a2799404db845dc5c4e54",
+    "src/go2arx5_vla/trajectory/relative_se3.py": "e9cb27bb44d602724784fa4eb0d8a8056c260f5cfd16d3d63bdede76781df6ae",
+    "src/go2arx5_vla/trajectory/so3.py": "668135c8db99496f31409b0382e39ceb3bbd962cac422d3273aaf54b357f1e7a",
+    "src/go2arx5_vla/wbc/__init__.py": "cf57f166c9e0b6f623ef427523580137d4cf610211fb36f01289688cdd2ec978",
+    "src/go2arx5_vla/wbc/native/__init__.py": "0de3051598699a0766e702f172e8b4933b9d575e8814660056a1097a18e36322",
+    "src/go2arx5_vla/wbc/native/kinematics.py": "2a77529e5ed650167963648579a5832aeb0602546ba7d5fa8e53b83394d65315",
+    "src/go2arx5_vla/wbc/native/reference_binding.py": "2bffb1b00876e7d1a262f5566a7023b7e6c17f2c1117f5f32ebc86e1659e26c6",
+    "src/go2arx5_vla/wbc/reference_modes.py": "23d05bb435b0a167327217e7e01e6c8acd8993c05844ed7dd1b4bb93f9e1bfdf",
+    "src/go2arx5_vla/wbc/reference_source.py": "46770b4555bd675c228f2cf3b5763d31be9b78cc486469a837c39c093865f9de"
+  },
+  "commissioning": {
+    "C29100": {
+      "physics_sha256": "19a788c6a6b4d999f0462ecf0ed3a040048f694e9d23a1a01d97b406ff9dc338",
+      "result_sha256": "ba1031384dd6f011e65735b50310d18d5a687c7073dd42c85339d3f21aac19a7",
+      "source_sha": "302ad022f3d3a74dcaba72aa46e59282effad215"
+    },
+    "C29101": {
+      "physics_sha256": "9b186b10c65f0de655b4b46bbd10978170c59ee4f546f6a834c2ea68c0064c24",
+      "result_sha256": "a91aad6353a2a76eaf2eade16346e0301d807aea96e87a47247dc15e45d1f688",
+      "source_sha": "4b8929174d124520d348855614e4639d48a0870c"
+    },
+    "C29102": {
+      "physics_sha256": "854c0948a232d07dffc9cea9dcfea2fe27ea9c7930d85e024b636eb30e170447",
+      "result_sha256": "a0b23a4ddc3cec4a5d92b1081acf3fd3810ef0a46727de5c2cca8dbc1bc76aac",
+      "source_sha": "4b8929174d124520d348855614e4639d48a0870c"
+    },
+    "C29103": {
+      "physics_sha256": "7343ada0c9ab0e4e4ee78c04b99d57b58e224c1bac1eb7bec01e1bd12a2179eb",
+      "result_sha256": "4f5037e8eb204e92c1aaf6e9caa9a47dff8b544fa4de14aee7f4992b087243c1",
+      "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541"
+    }
+  },
+  "deployment": "NONE",
+  "driver_version": "PI0291_REAL_CHAIN_V2_EXACT_TARGET_IK_CACHE",
+  "forbidden": {
+    "Hopper_PBS": 0,
+    "WBC": 0,
+    "hardware": 0,
+    "neural": 0,
+    "training": 0
+  },
+  "formal_order": [
+    "T291000",
+    "T291001",
+    "T291002",
+    "T291003",
+    "T291004",
+    "T291005",
+    "T291006",
+    "T291007",
+    "T291008",
+    "T291009",
+    "T291010",
+    "T291011",
+    "T291012",
+    "T291013",
+    "T291014",
+    "T291015",
+    "T291016",
+    "T291017",
+    "T291018",
+    "T291019",
+    "T291020",
+    "T291021",
+    "T291022",
+    "T291023",
+    "T291024",
+    "T291025",
+    "T291026",
+    "T291027",
+    "T291028",
+    "T291029",
+    "T291030",
+    "T291031",
+    "T291032",
+    "T291033",
+    "T291034",
+    "T291035",
+    "T291036",
+    "T291037",
+    "T291038",
+    "T291039",
+    "T291040",
+    "T291041",
+    "T291042",
+    "T291043",
+    "T291044",
+    "T291045",
+    "T291046",
+    "T291047",
+    "T291048",
+    "T291049",
+    "T291050",
+    "T291051",
+    "T291052",
+    "T291053",
+    "T291054",
+    "T291055",
+    "T291056",
+    "T291057",
+    "T291058",
+    "T291059",
+    "T291060",
+    "T291061",
+    "T291062",
+    "T291063",
+    "D291000",
+    "D291001",
+    "D291002",
+    "D291003",
+    "D291004",
+    "D291005",
+    "D291006",
+    "D291007",
+    "D291008",
+    "D291009",
+    "D291010",
+    "D291011",
+    "D291012",
+    "D291013",
+    "D291014",
+    "D291015"
+  ],
+  "layout_sha256": "9711fc0b51d8fda9608db5db3545315ea798624ffc74ceec101433431768935c",
+  "layouts": {
+    "D291000": {
+      "cube_yaw": -0.0026840013860396778,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45737847692578304,
+        0.08149607728992968
+      ],
+      "group_id": "PI0291/D291000",
+      "id": "D291000",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 3255925807206590206,
+      "source_xy": [
+        0.45510310869499293,
+        -0.07494858548397781
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291001": {
+      "cube_yaw": -0.052490651318174125,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45066197297569466,
+        0.08550436258998656
+      ],
+      "group_id": "PI0291/D291001",
+      "id": "D291001",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 123778798377336241,
+      "source_xy": [
+        0.44291820728145426,
+        -0.07846622308311818
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291002": {
+      "cube_yaw": 0.03352169839409899,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4465928000666096,
+        0.08578268125581041
+      ],
+      "group_id": "PI0291/D291002",
+      "id": "D291002",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 14316897949700764516,
+      "source_xy": [
+        0.44636161351609555,
+        -0.08737154263025657
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291003": {
+      "cube_yaw": -0.043767957229397664,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44467922402241405,
+        0.08000650740549622
+      ],
+      "group_id": "PI0291/D291003",
+      "id": "D291003",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 2040916015253784045,
+      "source_xy": [
+        0.44880501537846357,
+        -0.08684754459354442
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291004": {
+      "cube_yaw": 0.018590557730816942,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44967766221153715,
+        0.08340106481126994
+      ],
+      "group_id": "PI0291/D291004",
+      "id": "D291004",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 15432158635671592309,
+      "source_xy": [
+        0.4453496974650542,
+        -0.0871820821544121
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291005": {
+      "cube_yaw": -0.07252889516432143,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4422766622180991,
+        0.07744452081035744
+      ],
+      "group_id": "PI0291/D291005",
+      "id": "D291005",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 17368044599086920254,
+      "source_xy": [
+        0.4447347566630351,
+        -0.0828213199543021
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291006": {
+      "cube_yaw": 0.06184304574413352,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45719178949740474,
+        0.08554001708281253
+      ],
+      "group_id": "PI0291/D291006",
+      "id": "D291006",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 6247068517703456469,
+      "source_xy": [
+        0.4459357675604022,
+        -0.08560211122878618
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291007": {
+      "cube_yaw": 0.02460373001168767,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4513042732039829,
+        0.0853730963307884
+      ],
+      "group_id": "PI0291/D291007",
+      "id": "D291007",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 214623647721097280,
+      "source_xy": [
+        0.44460485198863386,
+        -0.07490828718187972
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291008": {
+      "cube_yaw": -0.06890086207724372,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44208347017915695,
+        0.0809321144139401
+      ],
+      "group_id": "PI0291/D291008",
+      "id": "D291008",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 6228462274885078086,
+      "source_xy": [
+        0.455693477537535,
+        -0.08421188237452702
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291009": {
+      "cube_yaw": 0.08979392347693968,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4549139974880987,
+        0.08607317653973892
+      ],
+      "group_id": "PI0291/D291009",
+      "id": "D291009",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 6675839643397680912,
+      "source_xy": [
+        0.452745295429271,
+        -0.07680709160970303
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291010": {
+      "cube_yaw": 0.07824395689665706,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4551619260033773,
+        0.0829069496322416
+      ],
+      "group_id": "PI0291/D291010",
+      "id": "D291010",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 4393331165656728096,
+      "source_xy": [
+        0.4570950804110081,
+        -0.0720930503677584
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291011": {
+      "cube_yaw": 0.08153889190119964,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45746778230467966,
+        0.08253697728555483
+      ],
+      "group_id": "PI0291/D291011",
+      "id": "D291011",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 14016966198013502393,
+      "source_xy": [
+        0.44352818130356875,
+        -0.07246302271444517
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291012": {
+      "cube_yaw": -0.058313473604882995,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44558857108861394,
+        0.07774207164093407
+      ],
+      "group_id": "PI0291/D291012",
+      "id": "D291012",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 2298401634748898476,
+      "source_xy": [
+        0.45451218435588153,
+        -0.07870370337160107
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291013": {
+      "cube_yaw": -0.005992957291681075,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4557408553430379,
+        0.07897176688666105
+      ],
+      "group_id": "PI0291/D291013",
+      "id": "D291013",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 9721817008297348164,
+      "source_xy": [
+        0.4542773071170903,
+        -0.07827713944816717
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291014": {
+      "cube_yaw": -0.0040664655118370086,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4450216203327367,
+        0.08260919530682155
+      ],
+      "group_id": "PI0291/D291014",
+      "id": "D291014",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 16621431715980657397,
+      "source_xy": [
+        0.44593861601939555,
+        -0.08093328502498444
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "D291015": {
+      "cube_yaw": -0.09793921573831876,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4519358773088598,
+        0.08223879934393767
+      ],
+      "group_id": "PI0291/D291015",
+      "id": "D291015",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 5739522427993149174,
+      "source_xy": [
+        0.4529163208860393,
+        -0.07505245759544488
+      ],
+      "split": "DEV",
+      "table_top_m": 0.44
+    },
+    "P29100": {
+      "cube_yaw": 0.09161369270194808,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45756568215735455,
+        0.07584469250509634
+      ],
+      "group_id": "PI0291/P29100",
+      "id": "P29100",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 14183965928021042369,
+      "source_xy": [
+        0.44940702161717055,
+        -0.08309381830822322
+      ],
+      "split": "PILOT",
+      "table_top_m": 0.44
+    },
+    "P29101": {
+      "cube_yaw": -0.0368956820760442,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45563674394488435,
+        0.07551763458346311
+      ],
+      "group_id": "PI0291/P29101",
+      "id": "P29101",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 5455803428691512536,
+      "source_xy": [
+        0.4502739785717019,
+        -0.08140557498942912
+      ],
+      "split": "PILOT",
+      "table_top_m": 0.44
+    },
+    "P29102": {
+      "cube_yaw": -0.018928871833345018,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4532511168697823,
+        0.08405195758167847
+      ],
+      "group_id": "PI0291/P29102",
+      "id": "P29102",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 9324995939653561784,
+      "source_xy": [
+        0.44626755973419524,
+        -0.07611046037079466
+      ],
+      "split": "PILOT",
+      "table_top_m": 0.44
+    },
+    "P29103": {
+      "cube_yaw": 0.01647748018348641,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4562453959335577,
+        0.08403114405418236
+      ],
+      "group_id": "PI0291/P29103",
+      "id": "P29103",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 14544165559870351629,
+      "source_xy": [
+        0.4463576044030041,
+        -0.08605284613539435
+      ],
+      "split": "PILOT",
+      "table_top_m": 0.44
+    },
+    "P29104": {
+      "cube_yaw": 0.08967193035422569,
+      "family": "NEW_QUALIFICATION_REVERSED_Y",
+      "goal_xy": [
+        0.45693662536112645,
+        -0.07638126484341029
+      ],
+      "group_id": "PI0291/P29104",
+      "id": "P29104",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 1038914626787738666,
+      "source_xy": [
+        0.4510582606524568,
+        0.08524467610413654
+      ],
+      "split": "PILOT",
+      "table_top_m": 0.44
+    },
+    "P29105": {
+      "cube_yaw": -0.04798061124508131,
+      "family": "NEW_QUALIFICATION_REVERSED_Y",
+      "goal_xy": [
+        0.447524616830056,
+        -0.08140947084236892
+      ],
+      "group_id": "PI0291/P29105",
+      "id": "P29105",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 12669166036409577808,
+      "source_xy": [
+        0.4562089640807011,
+        0.08683035241441643
+      ],
+      "split": "PILOT",
+      "table_top_m": 0.44
+    },
+    "P29106": {
+      "cube_yaw": 0.04803052037257863,
+      "family": "NEW_QUALIFICATION_REVERSED_Y",
+      "goal_xy": [
+        0.4522281134896003,
+        -0.07487324436610722
+      ],
+      "group_id": "PI0291/P29106",
+      "id": "P29106",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 16062127343053937923,
+      "source_xy": [
+        0.4472299897262317,
+        0.07990660553679034
+      ],
+      "split": "PILOT",
+      "table_top_m": 0.44
+    },
+    "P29107": {
+      "cube_yaw": 0.06402703455540013,
+      "family": "NEW_QUALIFICATION_REVERSED_Y",
+      "goal_xy": [
+        0.45686958691831875,
+        -0.07876211111476702
+      ],
+      "group_id": "PI0291/P29107",
+      "id": "P29107",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 6560692073381760573,
+      "source_xy": [
+        0.4429826186383536,
+        0.0874721860168164
+      ],
+      "split": "PILOT",
+      "table_top_m": 0.44
+    },
+    "T291000": {
+      "cube_yaw": -0.057849847995992465,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4420315473931876,
+        0.07589153448467027
+      ],
+      "group_id": "PI0291/T291000",
+      "id": "T291000",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 9820627790027372738,
+      "source_xy": [
+        0.4526276640793837,
+        -0.07616692200519364
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291001": {
+      "cube_yaw": 0.025066993539534232,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4572772750861181,
+        0.07465763476841768
+      ],
+      "group_id": "PI0291/T291001",
+      "id": "T291001",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 4559614978549100088,
+      "source_xy": [
+        0.4457073342331989,
+        -0.0800593102560551
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291002": {
+      "cube_yaw": 0.07782873746196295,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4474072419816226,
+        0.08791297210182228
+      ],
+      "group_id": "PI0291/T291002",
+      "id": "T291002",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 5435944331197149107,
+      "source_xy": [
+        0.45168150977812566,
+        -0.07862700584198778
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291003": {
+      "cube_yaw": 0.0498454322751829,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4468145272652522,
+        0.08427405706174636
+      ],
+      "group_id": "PI0291/T291003",
+      "id": "T291003",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 6214712525449961550,
+      "source_xy": [
+        0.4536578216664012,
+        -0.08729461164775325
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291004": {
+      "cube_yaw": -0.08274878778482547,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4500920887248274,
+        0.07756732254146767
+      ],
+      "group_id": "PI0291/T291004",
+      "id": "T291004",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 6261165592078185920,
+      "source_xy": [
+        0.447009538668856,
+        -0.08793655467439716
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291005": {
+      "cube_yaw": 0.008747682131464152,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.451793465087549,
+        0.08085861388850388
+      ],
+      "group_id": "PI0291/T291005",
+      "id": "T291005",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 3437927347166500861,
+      "source_xy": [
+        0.44781867379779133,
+        -0.08076194284158689
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291006": {
+      "cube_yaw": -0.07523446365498854,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44231829911013465,
+        0.0724550220727998
+      ],
+      "group_id": "PI0291/T291006",
+      "id": "T291006",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 8191245994697768199,
+      "source_xy": [
+        0.44278874328580625,
+        -0.08618941051675942
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291007": {
+      "cube_yaw": 0.07983563539758484,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4464859085106085,
+        0.079102202905474
+      ],
+      "group_id": "PI0291/T291007",
+      "id": "T291007",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 12080424017823814145,
+      "source_xy": [
+        0.45242307581561936,
+        -0.07716595741316244
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291008": {
+      "cube_yaw": 0.09068801524698475,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45376890700316846,
+        0.07212530814837634
+      ],
+      "group_id": "PI0291/T291008",
+      "id": "T291008",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 10668076527158387387,
+      "source_xy": [
+        0.44623012870265033,
+        -0.08491116758747186
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291009": {
+      "cube_yaw": -0.014111443299867216,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4438087984286864,
+        0.07594006892662941
+      ],
+      "group_id": "PI0291/T291009",
+      "id": "T291009",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 4434311655608279564,
+      "source_xy": [
+        0.4555783503465086,
+        -0.07875811347407723
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291010": {
+      "cube_yaw": 0.07399523775738259,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4555634418415639,
+        0.07641361557041462
+      ],
+      "group_id": "PI0291/T291010",
+      "id": "T291010",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 15020938532987478860,
+      "source_xy": [
+        0.4427420952290474,
+        -0.07633404458598606
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291011": {
+      "cube_yaw": 0.02047053040409183,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4462733872407422,
+        0.07558349707866598
+      ],
+      "group_id": "PI0291/T291011",
+      "id": "T291011",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 9962073025280293280,
+      "source_xy": [
+        0.44476125842965514,
+        -0.08745900743872648
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291012": {
+      "cube_yaw": 0.02292531043033648,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4495886431892487,
+        0.0796354827179767
+      ],
+      "group_id": "PI0291/T291012",
+      "id": "T291012",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 9683702147349320751,
+      "source_xy": [
+        0.45774256612625275,
+        -0.07847813855192014
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291013": {
+      "cube_yaw": -0.0611928193046702,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4456014152115752,
+        0.07647047837448687
+      ],
+      "group_id": "PI0291/T291013",
+      "id": "T291013",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 13081946132178041446,
+      "source_xy": [
+        0.44759660618933955,
+        -0.07363558633682499
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291014": {
+      "cube_yaw": 0.01486374476526775,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45251528154207643,
+        0.07566712711727154
+      ],
+      "group_id": "PI0291/T291014",
+      "id": "T291014",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 15130830493385616505,
+      "source_xy": [
+        0.4507458799107058,
+        -0.0764828099828612
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291015": {
+      "cube_yaw": -0.06795198821692894,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.451096736840295,
+        0.07533537836838329
+      ],
+      "group_id": "PI0291/T291015",
+      "id": "T291015",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 7610692804229467250,
+      "source_xy": [
+        0.44712533087220613,
+        -0.08540456107887066
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291016": {
+      "cube_yaw": -0.009816791623203452,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45235134629746493,
+        0.07790812448995649
+      ],
+      "group_id": "PI0291/T291016",
+      "id": "T291016",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 11512960445645739799,
+      "source_xy": [
+        0.4568831588775654,
+        -0.08728146484795386
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291017": {
+      "cube_yaw": -0.048571835109671335,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4523175852578125,
+        0.08236732751746631
+      ],
+      "group_id": "PI0291/T291017",
+      "id": "T291017",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 15072169860588782581,
+      "source_xy": [
+        0.44777908147498396,
+        -0.07263267248253369
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291018": {
+      "cube_yaw": 0.09592438461815567,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4541990265610705,
+        0.08221306341533642
+      ],
+      "group_id": "PI0291/T291018",
+      "id": "T291018",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 429490312968593717,
+      "source_xy": [
+        0.44823183017612733,
+        -0.07434343855608391
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291019": {
+      "cube_yaw": -0.07466155848759437,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45015611224231256,
+        0.08301016958486106
+      ],
+      "group_id": "PI0291/T291019",
+      "id": "T291019",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 14681353997236590762,
+      "source_xy": [
+        0.450731653981884,
+        -0.0833949109828338
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291020": {
+      "cube_yaw": -0.051689974085221496,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44763549693459104,
+        0.08172116160935027
+      ],
+      "group_id": "PI0291/T291020",
+      "id": "T291020",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 14409973024053214014,
+      "source_xy": [
+        0.44538848171383894,
+        -0.07760410020171471
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291021": {
+      "cube_yaw": -0.07676997621397155,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4510054022189262,
+        0.07375862734928681
+      ],
+      "group_id": "PI0291/T291021",
+      "id": "T291021",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 720374939249061491,
+      "source_xy": [
+        0.44240446893755725,
+        -0.08645162479508742
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291022": {
+      "cube_yaw": -0.06065887847510359,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44535707197803953,
+        0.07892571012170191
+      ],
+      "group_id": "PI0291/T291022",
+      "id": "T291022",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 16039866775542488639,
+      "source_xy": [
+        0.4554124694573861,
+        -0.07706298606684271
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291023": {
+      "cube_yaw": -0.023734511680418097,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44616751893547846,
+        0.0807058361557707
+      ],
+      "group_id": "PI0291/T291023",
+      "id": "T291023",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 4614134082192716333,
+      "source_xy": [
+        0.4483485777204221,
+        -0.0742941638442293
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291024": {
+      "cube_yaw": -0.044544434453410414,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45536398159455516,
+        0.07382170230944142
+      ],
+      "group_id": "PI0291/T291024",
+      "id": "T291024",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 3150771569940447093,
+      "source_xy": [
+        0.4528802337978113,
+        -0.07985736295673201
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291025": {
+      "cube_yaw": -0.07366960030230037,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4484891172011897,
+        0.07234062588883196
+      ],
+      "group_id": "PI0291/T291025",
+      "id": "T291025",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 101791533907986582,
+      "source_xy": [
+        0.4490091070201078,
+        -0.08555791415388057
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291026": {
+      "cube_yaw": 0.0043800837569982765,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4446835093638889,
+        0.07519763932205736
+      ],
+      "group_id": "PI0291/T291026",
+      "id": "T291026",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 5056151076573626770,
+      "source_xy": [
+        0.4575542502592285,
+        -0.08512775831305958
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291027": {
+      "cube_yaw": -0.09179723450370013,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44620091313728144,
+        0.07403484037723987
+      ],
+      "group_id": "PI0291/T291027",
+      "id": "T291027",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 2934923458945270943,
+      "source_xy": [
+        0.4528335740530709,
+        -0.08488111089982635
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291028": {
+      "cube_yaw": 0.001382327145132936,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4455091927573169,
+        0.07913909644090063
+      ],
+      "group_id": "PI0291/T291028",
+      "id": "T291028",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 4534306909279809207,
+      "source_xy": [
+        0.44521747066497264,
+        -0.07303730258334838
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291029": {
+      "cube_yaw": -0.08098164222758303,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4461429051168758,
+        0.08682292288096062
+      ],
+      "group_id": "PI0291/T291029",
+      "id": "T291029",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 12531926748334897747,
+      "source_xy": [
+        0.4455294446972846,
+        -0.07237794010965248
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291030": {
+      "cube_yaw": -0.04055053937581421,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4431756835510382,
+        0.07540751298906392
+      ],
+      "group_id": "PI0291/T291030",
+      "id": "T291030",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 391558321365495260,
+      "source_xy": [
+        0.4524552365364651,
+        -0.08419954342335502
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291031": {
+      "cube_yaw": 0.027112603182935013,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44301235527608607,
+        0.08293368435842419
+      ],
+      "group_id": "PI0291/T291031",
+      "id": "T291031",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 17806389179977406459,
+      "source_xy": [
+        0.4484582311044913,
+        -0.0747131644235326
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291032": {
+      "cube_yaw": -0.09808737901835658,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45694679072687844,
+        0.08199807907602095
+      ],
+      "group_id": "PI0291/T291032",
+      "id": "T291032",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 12663791985623809563,
+      "source_xy": [
+        0.45222034978375675,
+        -0.07939159621873108
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291033": {
+      "cube_yaw": 0.07358389380383254,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4545487380922577,
+        0.07959236693437946
+      ],
+      "group_id": "PI0291/T291033",
+      "id": "T291033",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 7989707936522886821,
+      "source_xy": [
+        0.45054480126932833,
+        -0.08510916303089186
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291034": {
+      "cube_yaw": -0.062172796113708295,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4427746121170576,
+        0.07775345409871001
+      ],
+      "group_id": "PI0291/T291034",
+      "id": "T291034",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 7997813362399865285,
+      "source_xy": [
+        0.4510403420071381,
+        -0.08758907384109625
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291035": {
+      "cube_yaw": 0.013647613583457924,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4563077991770673,
+        0.08696282207341587
+      ],
+      "group_id": "PI0291/T291035",
+      "id": "T291035",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 7611575451512658556,
+      "source_xy": [
+        0.45187309493941663,
+        -0.0828717151419846
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291036": {
+      "cube_yaw": -0.023979305483411734,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45031819105519844,
+        0.07526925007087669
+      ],
+      "group_id": "PI0291/T291036",
+      "id": "T291036",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 16505780136098906942,
+      "source_xy": [
+        0.4557867098023706,
+        -0.08256345156146933
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291037": {
+      "cube_yaw": -0.007470533944041735,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45155117193739996,
+        0.07339613650579592
+      ],
+      "group_id": "PI0291/T291037",
+      "id": "T291037",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 11570002942188773805,
+      "source_xy": [
+        0.45125145111900095,
+        -0.08383242822940551
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291038": {
+      "cube_yaw": 0.05706334965672219,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4485315904730927,
+        0.07320630712644402
+      ],
+      "group_id": "PI0291/T291038",
+      "id": "T291038",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 17048309436677907409,
+      "source_xy": [
+        0.4457096609760517,
+        -0.08690477318890145
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291039": {
+      "cube_yaw": -0.05197950451553264,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44327085315825826,
+        0.07559350540064856
+      ],
+      "group_id": "PI0291/T291039",
+      "id": "T291039",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 3126501213006205614,
+      "source_xy": [
+        0.4467384108096949,
+        -0.082097565872809
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291040": {
+      "cube_yaw": 0.09312619325972454,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4570675513089499,
+        0.07769498181245617
+      ],
+      "group_id": "PI0291/T291040",
+      "id": "T291040",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 13290501589428559633,
+      "source_xy": [
+        0.44689429077743065,
+        -0.0826739768639894
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291041": {
+      "cube_yaw": -0.0706775705520118,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45546383828007675,
+        0.07451021391734532
+      ],
+      "group_id": "PI0291/T291041",
+      "id": "T291041",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 12133391693124004498,
+      "source_xy": [
+        0.45176496743887135,
+        -0.08105200244450357
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291042": {
+      "cube_yaw": 0.04250747450901263,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4510924168642855,
+        0.07925894750211761
+      ],
+      "group_id": "PI0291/T291042",
+      "id": "T291042",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 4668091476896487136,
+      "source_xy": [
+        0.44569094089863315,
+        -0.08556904852625974
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291043": {
+      "cube_yaw": -0.01888201384763384,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4490899148351196,
+        0.08654940605872108
+      ],
+      "group_id": "PI0291/T291043",
+      "id": "T291043",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 15098566992477124338,
+      "source_xy": [
+        0.4553078886994867,
+        -0.07557634814025391
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291044": {
+      "cube_yaw": -0.014111762123508467,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4442943625446724,
+        0.08270742028050013
+      ],
+      "group_id": "PI0291/T291044",
+      "id": "T291044",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 4143338704997988305,
+      "source_xy": [
+        0.44411648017359795,
+        -0.07294581364432723
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291045": {
+      "cube_yaw": -0.05510023190743858,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4549269032277071,
+        0.07954829768723509
+      ],
+      "group_id": "PI0291/T291045",
+      "id": "T291045",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 9482183957440184543,
+      "source_xy": [
+        0.4556554664923258,
+        -0.08578249689810069
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291046": {
+      "cube_yaw": -0.08617077252453609,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44366448231794087,
+        0.08587772178487066
+      ],
+      "group_id": "PI0291/T291046",
+      "id": "T291046",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 17081853301089079688,
+      "source_xy": [
+        0.4520266971978194,
+        -0.07461857560761594
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291047": {
+      "cube_yaw": 0.028184554787328342,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45143030293036573,
+        0.0843610171435577
+      ],
+      "group_id": "PI0291/T291047",
+      "id": "T291047",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 3363966358504530937,
+      "source_xy": [
+        0.4516445954287923,
+        -0.08000338105971774
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291048": {
+      "cube_yaw": -0.09088311059724251,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44226519222678945,
+        0.07952686796392147
+      ],
+      "group_id": "PI0291/T291048",
+      "id": "T291048",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 1569549144270111203,
+      "source_xy": [
+        0.4477581532612232,
+        -0.07322852457079626
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291049": {
+      "cube_yaw": 0.05726791124203809,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4512385723914578,
+        0.07904355844614064
+      ],
+      "group_id": "PI0291/T291049",
+      "id": "T291049",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 4356602164080284975,
+      "source_xy": [
+        0.45538865779328913,
+        -0.08205394936762223
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291050": {
+      "cube_yaw": -0.06597634058206658,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44804259047782136,
+        0.08461880241558781
+      ],
+      "group_id": "PI0291/T291050",
+      "id": "T291050",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 8887866254953340848,
+      "source_xy": [
+        0.4549056189832068,
+        -0.0855097360195974
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291051": {
+      "cube_yaw": 0.08920990074595,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4558583770366201,
+        0.08451847848326996
+      ],
+      "group_id": "PI0291/T291051",
+      "id": "T291051",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 11161438469332541686,
+      "source_xy": [
+        0.44523820467794323,
+        -0.07829451418402207
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291052": {
+      "cube_yaw": 0.045255176231297545,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44626643119158554,
+        0.07400837783541588
+      ],
+      "group_id": "PI0291/T291052",
+      "id": "T291052",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 8030445676589931259,
+      "source_xy": [
+        0.44347371244118505,
+        -0.07756901630225034
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291053": {
+      "cube_yaw": -0.04438426537142462,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4569841151117798,
+        0.07268384701997074
+      ],
+      "group_id": "PI0291/T291053",
+      "id": "T291053",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 1866931981334061265,
+      "source_xy": [
+        0.45494954777453656,
+        -0.07819950371492326
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291054": {
+      "cube_yaw": 0.036897361363197934,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44973708466133727,
+        0.08187309881789274
+      ],
+      "group_id": "PI0291/T291054",
+      "id": "T291054",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 1454124043141419067,
+      "source_xy": [
+        0.44263305596777275,
+        -0.07312690118210725
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291055": {
+      "cube_yaw": -0.0402262132224708,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44849261396381546,
+        0.08254875359182223
+      ],
+      "group_id": "PI0291/T291055",
+      "id": "T291055",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 11189540673358471166,
+      "source_xy": [
+        0.44308205220224356,
+        -0.07828068970176356
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291056": {
+      "cube_yaw": -0.0812147663607697,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4464353347032253,
+        0.07341369307363825
+      ],
+      "group_id": "PI0291/T291056",
+      "id": "T291056",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 14168032865231547958,
+      "source_xy": [
+        0.45647922863778884,
+        -0.08635791071472557
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291057": {
+      "cube_yaw": -0.04895264686059153,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44979918425603066,
+        0.08680584866749314
+      ],
+      "group_id": "PI0291/T291057",
+      "id": "T291057",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 2639960518453351090,
+      "source_xy": [
+        0.44213207192792126,
+        -0.08771057776918738
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291058": {
+      "cube_yaw": 0.016447368081922126,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4507622827925051,
+        0.08492453963196656
+      ],
+      "group_id": "PI0291/T291058",
+      "id": "T291058",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 3048074256123438762,
+      "source_xy": [
+        0.44863525519831,
+        -0.08320819985529448
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291059": {
+      "cube_yaw": 0.08353187431097892,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.4505422472004746,
+        0.08001976127015623
+      ],
+      "group_id": "PI0291/T291059",
+      "id": "T291059",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 5324185110410478039,
+      "source_xy": [
+        0.4519749176291676,
+        -0.085567690410322
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291060": {
+      "cube_yaw": 0.03636715870020374,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45296570821129745,
+        0.0727230670677323
+      ],
+      "group_id": "PI0291/T291060",
+      "id": "T291060",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 1142758915937292865,
+      "source_xy": [
+        0.45660367864609736,
+        -0.08511469783155538
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291061": {
+      "cube_yaw": -0.09844247033985297,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.44847292757408613,
+        0.08652692033012829
+      ],
+      "group_id": "PI0291/T291061",
+      "id": "T291061",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 7426614388076271858,
+      "source_xy": [
+        0.44378108303916464,
+        -0.08698729000415588
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291062": {
+      "cube_yaw": 0.045794048991973924,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45470059123547096,
+        0.07947854140734763
+      ],
+      "group_id": "PI0291/T291062",
+      "id": "T291062",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 16774042251218964926,
+      "source_xy": [
+        0.44512824388962097,
+        -0.0825359401654287
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    },
+    "T291063": {
+      "cube_yaw": -0.07769832418049456,
+      "family": "ARX5_FORWARD_TABLE",
+      "goal_xy": [
+        0.45388164476149645,
+        0.0815082838661767
+      ],
+      "group_id": "PI0291/T291063",
+      "id": "T291063",
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "seed": 11627358755302230151,
+      "source_xy": [
+        0.44793348769398833,
+        -0.0863165214688467
+      ],
+      "split": "TRAIN",
+      "table_top_m": 0.44
+    }
+  },
+  "parameter_sha256": "f30cfe3fac288d5b8fa9dd780e656d707f25ff5d214b4dbea348ad36ffc11225",
+  "parameters": {
+    "H": 40,
+    "arm_joint_damping": 3.0,
+    "arm_kp": [
+      90.0,
+      120.0,
+      100.0,
+      40.0,
+      30.0,
+      25.0
+    ],
+    "arm_speed_stop_rad_s": [
+      5.5,
+      5.5,
+      5.5,
+      20.0,
+      20.0,
+      20.0
+    ],
+    "arm_target_speed_rad_s": 0.7,
+    "arm_torque_max_Nm": [
+      27.0,
+      27.0,
+      27.0,
+      7.0,
+      7.0,
+      7.0
+    ],
+    "closed_inner_gap": 0.001048,
+    "cube_edge": 0.04,
+    "cube_friction": 0.8,
+    "cube_mass": 0.05,
+    "dt": 0.002,
+    "duration": 32.0,
+    "finger_force_max_N": 8.0,
+    "finger_kd": 3.0,
+    "finger_kp": 400.0,
+    "finger_speed_stop_m_s": 0.25,
+    "finger_target_speed_m_s": 0.04,
+    "finger_travel": 0.044,
+    "lift_clearance": 0.08,
+    "minimum_contact_force_N": 0.05,
+    "opposing_contact_dot_max": -0.5,
+    "pad_friction": 1.2,
+    "penetration_stop_m": 0.004,
+    "pixels": 256,
+    "position_stage_tolerance_m": 0.004,
+    "prefix": 8,
+    "reference_angular_speed_rad_s": 0.3,
+    "reference_speed_m_s": 0.06,
+    "relative_grasp_speed_max_m_s": 0.02,
+    "sensor_hz": 20,
+    "table_friction": 0.8,
+    "table_top": 0.44,
+    "tool_speed_stop_m_s": 0.4,
+    "version": "PI0291_REAL_CHAIN_V1",
+    "withdraw_clearance": 0.13
+  },
+  "pilot_order": [
+    "P29100",
+    "P29101",
+    "P29102",
+    "P29103",
+    "P29104",
+    "P29105",
+    "P29106",
+    "P29107"
+  ],
+  "sealed_epoch": 1791832557.6479077,
+  "selected": "NONE",
+  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "statistics_rule": {
+    "DEV_refit": false,
+    "action": "601 H40 windows per admitted episode, equal window/timestep weight; repeated overlap intentional",
+    "clip_outliers": false,
+    "inverse_clipping": "stock decoder clipping must be measured",
+    "normalizer": "stock min/max",
+    "population": "ADMITTED_FORMAL_TRAIN_ONLY",
+    "state": "601 legal observation anchors per admitted episode, equal anchor weight",
+    "use_percentiles": false
+  }
+}

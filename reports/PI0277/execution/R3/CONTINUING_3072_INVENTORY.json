@@ -1,0 +1,47 @@
+{
+  "observed_utc": "2026-10-06T19:43:27.651814+00:00",
+  "cursor": {
+    "completed_update": 3322,
+    "next_unconsumed_micro": 6644,
+    "queues_are_discardable": true
+  },
+  "job": "Job Id: 651442.hopper-m-02\n    Job_Name = pi0277_r3_bound\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 104\n    resources_used.cput = 00:45:23\n    resources_used.mem = 36298144kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 85336148kb\n    resources_used.walltime = 00:50:22\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Wed Oct  7 02:50:44 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0277/R3_BOUND/runtime/pbs-01.err\n    exec_host = hopper-15/7*12\n    exec_vnode = (hopper-15:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Wed Oct  7 03:41:31 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0277/R3_BOUND/runtime/pbs-01.out\n    Priority = 0\n    qtime = Wed Oct  7 02:50:48 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 14400,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 04:00:00\n    stime = Wed Oct  7 02:51:07 2026\n    session_id = 280799\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Wed Oct 07 at 02:51 on (hopper-15:ngpus=1:ncpus=12:mem\n\t=235929600kb)\n    etime = Wed Oct  7 02:50:48 2026\n    run_count = 1\n    Submit_arguments = -o /scratch/e1192548/Projects/go2-arx5/experiments/PI027\n\t7/R3_BOUND/runtime/pbs-01.out -e /scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0277/R3_BOUND/runtime/pbs-01.err /scratch/e1192548/Projects\n\t/go2-arx5/experiments/PI0277/R3_BOUND/code/continue.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "complete_checkpoints": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2_FOCUS/FOCUS/main/training/checkpoint-3072",
+      "global_step": 3072,
+      "max_steps": 4096,
+      "full_optimizer_scheduler_rng": true,
+      "files": 29,
+      "logical_bytes": 20883956073,
+      "phase": {
+        "governing_release": "a5a7e569684d52170f02b0819ae006a7587800dd",
+        "old_source_sha256": "8b3166d1ed2926f66bbf58eb7944ae210ba43af82f1225fd67b2136916043162",
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R3_BOUND/evidence/OBJECTIVE_SEAL.json",
+        "phase": "FOCUS_GRIP_BOUND_R3",
+        "resume_update": 1802,
+        "sha256": "fd7979d8ea0778ecd60baebe3e38e6901126f2e3a884fe792c164c30c836977e"
+      }
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R2_FOCUS/FOCUS/main/training/checkpoint-2048",
+      "global_step": 2048,
+      "max_steps": 4096,
+      "full_optimizer_scheduler_rng": true,
+      "files": 29,
+      "logical_bytes": 20883814221,
+      "phase": {
+        "governing_release": "a5a7e569684d52170f02b0819ae006a7587800dd",
+        "old_source_sha256": "8b3166d1ed2926f66bbf58eb7944ae210ba43af82f1225fd67b2136916043162",
+        "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0277/R3_BOUND/evidence/OBJECTIVE_SEAL.json",
+        "phase": "FOCUS_GRIP_BOUND_R3",
+        "resume_update": 1802,
+        "sha256": "fd7979d8ea0778ecd60baebe3e38e6901126f2e3a884fe792c164c30c836977e"
+      }
+    }
+  ],
+  "staging": [],
+  "no_new_submission": true,
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE"
+}

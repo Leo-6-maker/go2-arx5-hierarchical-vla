@@ -1,0 +1,69 @@
+{
+  "A0_missing_and_still_required": true,
+  "checks": [
+    {
+      "args": [
+        "--self-check"
+      ],
+      "returncode": 0,
+      "script": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/support.py",
+      "sha256": "6833880d9703e355b70b528a0ddfe947052e454e0a5109870770c473b054e896",
+      "stderr": "",
+      "stdout": "PASS_FIXED_SELECTION_ORDER_MISSING_BUCKET_AND_NAMESPACE_NO_QUERY\n"
+    },
+    {
+      "args": [
+        "--self-check"
+      ],
+      "returncode": 0,
+      "script": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/worker.py",
+      "sha256": "bc4358d2cc7107b12bdcf650c963901510ad8cf8f1c02a8a127a6f8b2f9db2ce",
+      "stderr": "",
+      "stdout": "PASS_UNCHANGED_S4_DECODE_SAVE_AND_MISSING_A0_BLOCK_NO_MODEL_QUERY\n"
+    },
+    {
+      "args": [
+        "collection",
+        "--self-check"
+      ],
+      "returncode": 0,
+      "script": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/archive_predecessor.py",
+      "sha256": "847364b17669c18d9512c913af3d9c782f1205105396527d7e17092a01a3f98b",
+      "stderr": "",
+      "stdout": "PASS_QUALIFIED_PACK_AND_ANONYMOUS_ALL_MEMBER_READBACK_SOURCE_NO_UPLOAD\n"
+    }
+  ],
+  "copies": [
+    {
+      "bytes": 811435,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/design/EVALUATION_CARD.json",
+      "sha256": "1b5aaddf2b259c6dc75819257ed2fe2e918b99bff1eb04e7801e2d70f9786b73",
+      "source": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/design/EVALUATION_CARD.json"
+    },
+    {
+      "bytes": 67963,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/contracts/ROT/source/dataset/statistics.json",
+      "sha256": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9",
+      "source": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/contracts/ROT/source/dataset/statistics.json"
+    },
+    {
+      "bytes": 1000,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/model_bindings/AGG4096.json",
+      "sha256": "8025e38bf7aca1db979a35800ebd5deb53f200700f8f8ebc3dcdeab272da15e5",
+      "source": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/model_bindings/AGG4096.json"
+    },
+    {
+      "bytes": 1012,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/model_bindings/PREFIX4096.json",
+      "sha256": "813bb4b3042d3e170d195eec1875e2eae3783c8d649c018d4db672e29ee3d26f",
+      "source": "/home/liuyu-nfs/Projects/go2-arx5/PI0270/model_bindings/PREFIX4096.json"
+    }
+  ],
+  "model_queries": 0,
+  "new_episodes": 0,
+  "observed_utc": "2026-10-04T07:22:04.817424+00:00",
+  "renders": 0,
+  "status": "PASS_CPU_PREPARATION_AND_MISSING_A0_MODEL_LOAD_BLOCK",
+  "teacher_calls": 0,
+  "training_updates": 0
+}

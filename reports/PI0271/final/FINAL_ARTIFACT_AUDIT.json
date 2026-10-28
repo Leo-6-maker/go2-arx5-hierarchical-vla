@@ -1,0 +1,115 @@
+{
+  "A3_reused_AGG_predictions": 64,
+  "S4_heads": 9600,
+  "archives": [
+    {
+      "deployment_selected_checkpoint": "NONE",
+      "files": [
+        {
+          "anonymous": true,
+          "bytes": 1052534,
+          "path": "MEMBER_MANIFEST.json",
+          "sha256": "d1a17f64cb52e98a3c79be849567fb17b64d7a1fd8be13c5d862d3cd309ae854"
+        },
+        {
+          "anonymous": true,
+          "bytes": 328683520,
+          "path": "support.tar",
+          "sha256": "5fc6e8d2278a37b4ade5bc5ab52260e4d111a581a5c4af157ba51cfc1e8dc748"
+        }
+      ],
+      "members": 5840,
+      "not_physical_generalization": true,
+      "part": "support",
+      "prefix": "evidence/PI0271/frozen-policy-diagnosis-20261004/support",
+      "preserves_original_V2_FAIL": true,
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "5b5dc9bc65dec326c9f4d758a8920a4268d00a29",
+      "selected_checkpoint": "NONE",
+      "source_bytes": 323824421,
+      "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+      "tree_sha256": "e40157c532d2fe880f14c8ffa8b1a518571f4c2ef0524dd93827a31353a6a1f8"
+    },
+    {
+      "deployment_selected_checkpoint": "NONE",
+      "files": [
+        {
+          "anonymous": true,
+          "bytes": 51237,
+          "path": "MEMBER_MANIFEST.json",
+          "sha256": "c2059000c0a462bd70a4067717c6bc6afcb2906fb6e6503f39b1e6bc1100cade"
+        },
+        {
+          "anonymous": true,
+          "bytes": 10260480,
+          "path": "visited.tar",
+          "sha256": "171c140535288bb5aa72e43c55407212c1a70ef91c6b965793630ba387d8f23f"
+        }
+      ],
+      "members": 256,
+      "not_physical_generalization": true,
+      "part": "visited",
+      "prefix": "evidence/PI0271/frozen-policy-diagnosis-20261004/visited",
+      "preserves_original_V2_FAIL": true,
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "5fa779e7b8dcbe2ec5949baf9c169a377b15a921",
+      "selected_checkpoint": "NONE",
+      "source_bytes": 10044224,
+      "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+      "tree_sha256": "fb4fd3ab7871cbaeb83b6cb3134caa8bb7e5649a6dd70abfcc5ddb9df5634c30"
+    }
+  ],
+  "deployment_selected_checkpoint": "NONE",
+  "fixed_queries": {
+    "A1": 1184,
+    "A2": 1152,
+    "A3": 64
+  },
+  "inference_attempts": 2400,
+  "label_outcomes": {
+    "UNUSABLE_LABEL_KEEP_DENOMINATOR": 1,
+    "VALID_SAME_STATE_LABEL": 63
+  },
+  "no_new_training_episode_render_or_physics_by_sealed_execution": true,
+  "selected_checkpoint": "NONE",
+  "source_files": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/design/EXECUTION_FILESET.json",
+      "sha256": "07d534a679a5128e2525bd47a2de8f993e3ca8d8e6527adc3615a75bc04005cf"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/evidence/A0_DECISION.json",
+      "sha256": "2effe1b62c67db378f6b4912536ee068fadd80aec552daa4b63a7aa5de0d9261"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/design/QUERY_PLAN.json",
+      "sha256": "e0af41a3710280b7a870816bb43fae228b4597ce167265a6e5d18ca384e466ac"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/evidence/QUERY_OUTPUTS_COMPLETE.json",
+      "sha256": "5b43ee8368b5f95ad39e2b7aa828206da9def8915e9f74f94af08f9491e22875"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/evidence/VISITED_LABELS_COMPLETE.json",
+      "sha256": "d27ac5495594e9d982325e050e123822293f9cf03d8e422c211f4734c568c53e"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0271/delivery/CPU_REPLAY.json",
+      "sha256": "e384c4613df573d12d332d8b6ac9a558c0734586888022f340a905485eff6d31"
+    },
+    {
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0271/delivery/K8_BANKS192.json",
+      "sha256": "5d24827a25a262f77d1764989c5aef86735072ff783df16552c13ff5ecfba5e4"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0271/code/final_audit.py",
+      "sha256": "4aa6c32f95cd4839ef49cb07b5b2e214ebe31cb2d4ddf8d8e00f56ca662d7511"
+    }
+  ],
+  "status": "PASS_COMPLETE_FIXED_DIAGNOSIS_ARTIFACTS_AND_BUDGETS",
+  "summary_archive_and_terminal_publication": "STILL_REQUIRED",
+  "teacher_attempts": 64,
+  "teacher_proposals": 64,
+  "technical_inference_attempts": [],
+  "unique_new_outputs": 2400
+}

@@ -1,0 +1,84 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Exact same-job directives and native scheduler reconciliation, no retries."""
+import argparse
+import time
+from pi0294_r1_prepare import BASE,RUN,save
+from pi0294_remote import remote_multiplexed
+
+CODE=r'''
+import json,os,shutil,subprocess,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import OwnerLock,read,write
+from scripts.pi0294.native_dataset import sha
+from scripts.pi0294.continuation import validate_entry
+l=read(root/'HOPPER_RESOURCE_LEDGER.json');assert l['PBS_submissions']
+entry=l['PBS_submissions'][-1];parent_path=root/'pbs'/entry['request_id']/'REQUEST.json';parent=read(parent_path)
+assert sha(parent_path)==entry['request_sha256']
+r=subprocess.run(['/cm/shared/apps/pbspro/current/bin/qstat','-xf','-F','json',entry['job_id']],capture_output=True,text=True,timeout=25)
+job=json.loads(r.stdout).get('Jobs',{}).get(entry['job_id']) if r.returncode==0 else None
+state_path=parent_path.parent/'continuation-session/STATE.json';state=read(state_path) if state_path.exists() else None
+if ACTION=='status':
+ v=dict(job_id=entry['job_id'],query_exit=r.returncode,job_state=job.get('job_state') if job else None,
+  exit_status=job.get('Exit_status') if job else None,resources_used=job.get('resources_used') if job else None,
+  session=state,ledger={k:l[k] for k in ('CPU_s','CPU_reserved_s','GPU_allocated_s','GPU_reserved_s','main_updates','model_loads','generation_queries','pending_updates')})
+ child=read(parent_path.parent/'diagnostic-M512/REQUEST.json')
+ p=Path(child['directory'])/'RESULT.json';v['offline_result']=read(p) if p.exists() else None
+ if job and job['job_state']=='F':v['pbs_log_tail']=(parent_path.parent/'pbs.log').read_text()[-4000:]
+ print(json.dumps(v));raise SystemExit(0)
+if ACTION=='reconcile':
+ assert job and job['job_state']=='F' and job['Job_Owner'].split('@')[0]==os.environ['USER'] and job['project']=='CFP04-CF-007'
+ assert entry['status']!='RECONCILED_TERMINAL'
+ from scripts.pi0292.pbs_smoke import seconds,pbs_epoch
+ used=seconds(job.get('resources_used',{}).get('walltime','00:00:00'))
+ if job.get('stime'):used=max(used,pbs_epoch(job.get('obittime',job['mtime']))-pbs_epoch(job['stime']))
+ assert 0<=used<=entry['GPU_reserved_s']+120
+ cpu=seconds(job.get('resources_used',{}).get('cput','00:00:00'))
+ l['GPU_allocated_s']+=used;l['GPU_reserved_s']-=entry['GPU_reserved_s'];l['CPU_s']+=cpu
+ l['new_formal_updates']=l['main_updates']-512;l['new_engineering_updates']=l['model_smoke_updates']-16
+ entry.update(status='RECONCILED_TERMINAL',GPU_actual_allocated_s=used,GPU_reserved_s=0,CPU_scheduler_s=cpu,exit_status=job.get('Exit_status'))
+ write(root/'HOPPER_RESOURCE_LEDGER.json',l);print(json.dumps(entry));raise SystemExit(0)
+validate_entry(root,profile='hopper-neural')
+assert job and job['job_state']=='R' and job['Job_Owner'].split('@')[0]==os.environ['USER'] and job['project']=='CFP04-CF-007'
+assert state and state['job_id']==entry['job_id'] and state['parent_request_sha256']==sha(parent_path)
+assert state['status']=='WAIT_OWNER_NEXT_SEALED_STAGE'
+lock=OwnerLock(root/'STAGE_DIRECTIVE_OWNER.lock')
+sequence=state['sequence'];target=state_path.parent/f'NEXT-{sequence:03d}.json';assert not target.exists()
+if ACTION=='prime-diag':
+ assert sequence==0
+ directive=read(parent_path.parent/'SEALED_DIAGNOSTIC_FIRST_STAGE.json')
+ assert sha(root/directive['request_relative'])==directive['request_sha256']
+elif ACTION=='prime-resident':
+ assert sequence==1 and len(state['stages'])==1 and state['stages'][0]['exit']==0
+ child=read(parent_path.parent/'diagnostic-M512/REQUEST.json')
+ offline=read(Path(child['directory'])/'RESULT.json')
+ assert offline['status']=='ACTUAL_M512_OFFLINE_GENERATION_NOT_CLOSED_LOOP_OR_SKILL' and offline['expert_positive_control']=='PASS'
+ stage=root/'evidence/model-M512-02';registry=read(stage/'REGISTRY.json')
+ assert time.time()+900<registry['deadline_epoch']
+ ready=read(root/'evidence/local-M512-01/identity/LOCAL_READY.private.json')
+ d=parent_path.parent/'resident-M512';d.mkdir(exist_ok=False)
+ shutil.copyfile(parent_path.parent/'PROJECT_ADMISSION.private.json',d/'PROJECT_ADMISSION.private.json')
+ (d/'PROJECT_ADMISSION.private.json').chmod(0o600)
+ request=dict(parent,mode='resident',stage='resident',allowed_modes=['resident'],
+  parent_request_relative=str(parent_path.relative_to(root)),parent_request_sha256=sha(parent_path),
+  checkpoint=ready['source_directory'],registry=str(stage/'REGISTRY.json'),identity=str(stage/'IDENTITY.json'),
+  directory=str(stage/'resident'),resident_registry_sha256=sha(stage/'REGISTRY.json'),
+  resident_identity_sha256=sha(stage/'IDENTITY.json'),live_readiness_sha256=sha(root/'evidence/LIVE_READINESS.json'),max_queries=320)
+ path=d/'REQUEST.json';write(path,request)
+ directive=dict(run_uuid=RUN,job_id=entry['job_id'],sequence=sequence,mode='resident',request_relative=str(path.relative_to(root)),request_sha256=sha(path))
+elif ACTION=='finish':
+ directive=dict(run_uuid=RUN,job_id=entry['job_id'],sequence=sequence,mode='finish',request_relative=None,request_sha256=None)
+else:raise PermissionError('UNKNOWN_OWNER_ACTION')
+write(target,directive);lock.close()
+print(json.dumps(dict(status='EXACT_BOUND_DIRECTIVE_PUBLISHED_NOT_STAGE_COMPLETION',job_id=entry['job_id'],sequence=sequence,mode=directive['mode'],new_PBS=0)))
+'''
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['status','prime-diag','prime-resident','finish','reconcile']);a=p.parse_args()
+    r=remote_multiplexed('hopper','RUN='+repr(RUN)+'\nACTION='+repr(a.action)+'\n'+CODE)
+    save(BASE/('STAGE_'+a.action+'_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    print(r.stdout if r.returncode==0 else 'OWNER_STAGE_GATE_FAILED_NO_AUTOMATIC_RETRY')
+    assert r.returncode==0

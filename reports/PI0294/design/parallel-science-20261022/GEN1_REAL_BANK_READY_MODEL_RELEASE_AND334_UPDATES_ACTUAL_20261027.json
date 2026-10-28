@@ -1,0 +1,133 @@
+{
+  "schema": "GEN1_ORIGINAL_BACKGROUND_BANK_AND_REAL_OPTIMIZATION_PROGRESS_V1",
+  "status": "ACTUAL_R_WITH334_COMMITTED_UPDATES_NOT_COMPLETE_ENDPOINT",
+  "runtime_source": "92baa7ff414b846363f226dde9fec29869c54356",
+  "job_id": "1497959.stdct-mgmt-02",
+  "request_id": "99eb0b5b-5f6a-4483-a00a-513ecc343311",
+  "submission_nonce": "c798d352-ce44-454a-b956-e4c2292c6e31",
+  "request_sha256": "bb0c4d3ab36d00851d4701690967589b0cee01062dc7188665aa964834090ab0",
+  "run_manifest_sha256": "4f2a382c6eb8362b2d329d8669e310fa32626497a809f088d2e0f77a47d25df6",
+  "observed_epoch": 1793075381.9124732,
+  "native": {
+    "state": "R",
+    "host": "GN-A40-093",
+    "run_count": 1,
+    "complete_account_queue_observed": true,
+    "unknown_queue": [],
+    "actual_owner_processes": [
+      {
+        "record": "control/RESIDENT_WRAPPER_PROCESS.private.json",
+        "pid": 3814946,
+        "expected_procstart": "57848782",
+        "actual_procstart": "57848782",
+        "state": "S"
+      },
+      {
+        "record": "control/resident-owner/SERVER_OWNER_PROCESS.private.json",
+        "pid": 3814952,
+        "expected_procstart": "57848783",
+        "actual_procstart": "57848783",
+        "state": "S"
+      }
+    ]
+  },
+  "bank": {
+    "actual": {
+      "status": "PASS_ACTUAL_SAVED_GEN1_PREMODEL_BANK_PACK",
+      "ready": {
+        "schema": "GEN1_LOCAL_FULL_R0_OFFICIAL_BANK_READY_V1",
+        "status": "SEALED_GEN1_RAW_R0_OFFICIAL_BANK_READY",
+        "training_identity": "GEN1_LAYOUT_V0_CORR1024",
+        "dataset_manifest_sha256": "4dd8a677a00b21ecbea6f8649ce17ebce8e68811741c3c14b5dd5bef58138f64",
+        "payload_manifest_sha256": "7b8d5e0600725afdcffe91b246993168a6ee4a69bf3b3f4cce5a7be476d48273",
+        "cross_parent_qualification_sha256": "358dab282adc92772168d33497f7c3cb9194d6b6ef44a84b24c53de1d64ad700",
+        "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+        "files": 13,
+        "logical_payload_bytes": 1208736,
+        "registered_source_RGB_bindings_sha256": "f99f0d998cfb6d7924dfc9e690237c1c34839a392f7bf8060e91342143330eef",
+        "later_rows_hot_injected": false,
+        "HF_delivery_claim": false,
+        "native_training_admission": false
+      },
+      "CPU_s": 15.453167957,
+      "model_loads": 0,
+      "queries": 0,
+      "updates": 0,
+      "constructors": 0,
+      "physics_ticks": 0,
+      "Teacher_episodes": 0,
+      "old_output_unchanged": true
+    },
+    "already_saved_ten_R0_parents_used": true,
+    "original_failed_outputs_unchanged": true,
+    "no_new_Teacher_episodes_or_RGB_tensor_copy": true
+  },
+  "releases": {
+    "model_start_epoch": 1793072887.017666,
+    "first_update_epoch": 1793073071.1086645,
+    "fresh_project_quota_complete_queue_and_full_remaining_each_passed": true,
+    "original_same_job_compatibility_gate_passed_before_first_update": true
+  },
+  "effects": {
+    "optimizer_updates_committed": 334,
+    "query_attempts": 17,
+    "model_load_attempts": 2,
+    "pending_updates": [
+      {
+        "arm": "GEN1_LAYOUT_V0_CORR1024",
+        "run_key": "GEN1_LAYOUT_V0_CORR1024",
+        "local_step_before": 334,
+        "request_id": "99eb0b5b-5f6a-4483-a00a-513ecc343311"
+      }
+    ],
+    "unknown_effects": [],
+    "pending_is_one_normal_inflight_update_not_a_committed_update": true,
+    "not_1024_full_checkpoint": true
+  },
+  "GLOBAL": {
+    "sha256": "3bcbf8f821a150f13fc975910b7083c05a185416646cbe112a9d009ad82bf5e1",
+    "used": {
+      "H200_s": 150429.0,
+      "PBS_submissions": 34,
+      "optimizer_updates": 13762,
+      "neural_queries": 4482
+    },
+    "reserved": {
+      "H200_s": 51420,
+      "neural_queries": 2126,
+      "optimizer_updates": 1024
+    },
+    "effects_not_prematurely_added_to_terminal_settlement": true
+  },
+  "unchanged": {
+    "scientific_recipe": true,
+    "R0": true,
+    "common_CORR2048_fresh_optimizer": true,
+    "original_twelve_TRAIN_probes": true,
+    "fifteen_frozen_numerical_files": true,
+    "valid_negative_examples_retained": true,
+    "run_capsule_not_hot_edited": true,
+    "single_experiment_GPU": true,
+    "original_T_CD_and_deadline": true,
+    "matrix3_and_final20GPUh40GiB": true,
+    "old_UNKNOWNs_and_paid_costs_retained": true
+  },
+  "operations": {
+    "restarted": false,
+    "resubmitted": false,
+    "new_registration_or_prepayment": false,
+    "agent_GPU_heartbeat": false,
+    "read_only_observation_only": true
+  },
+  "remaining": {
+    "complete1024": false,
+    "independent_15_state_and12probe_terminal_audit": false,
+    "once_terminal_settlement_and_own_lease_close": false,
+    "C50_Eval_valid": 0,
+    "D25_Eval_valid": 0,
+    "WDR_core64": 0,
+    "whole_goal_complete": false
+  },
+  "next_minimal_boundary": "ORIGINAL_BACKGROUND_TRAINER_CONTINUE_TO_REAL1024_THEN_FULL_STATE_AUDIT_AND_ONCE_SETTLEMENT_CLOSE",
+  "report_epoch": 1793075424.8407214
+}

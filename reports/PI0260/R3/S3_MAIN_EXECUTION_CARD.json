@@ -1,0 +1,20 @@
+{
+  "schema": "PI0260_R3_S3_MAIN_EXECUTION_CARD_V1",
+  "status": "MAIN_TRAINING_ADMITTED_AFTER_BOTH_REAL_CANARIES",
+  "authority_commit": "fd8e69b59a16aa90b1761d23b3a8f5a78cee8763",
+  "parent_run_card_sha256": "ba2e2c82f468d564cc74e364199a8161d10ad0d5454c08faf5b69db4a02b917b",
+  "H1_receipt_sha256": "93432e44326bbb7f05455f6ece257288bf65e35506dc8c0ca61eb06c7b25e7b3",
+  "schedule_sha256": "3cf0b85e2fc60bad6cb83c6ce633ab446163aad1757a465244751f457cd10bd4",
+  "Base_canary_pass_sha256": "b904627035f4b1e2daddf7eaf23e3bc5ce9080884d9c3f3b5cf374d06c467dcf",
+  "G_canary_pass_sha256": "661f182b5c9193e679bfc2daacb81ebc1f062918d97e314132754d90cae7f778",
+  "actual_trainer_sha256": "eafd1350f8b6553f5a83835ebde9ee7b8f03e1e8cbd56415cde2ce060323ac64",
+  "actual_PBS_sha256": "7926a261bfa8a583beddc2d67639fed4a24b19a43ab2fda050fefba82a6f1d7b",
+  "backend": {"torch_deterministic_algorithms": true, "CUBLAS_WORKSPACE_CONFIG": ":4096:8", "cudnn_benchmark": false},
+  "main_updates": {"Base": 6000, "G": 6000},
+  "segments_per_arm": [[0, 1000], [1000, 3000], [3000, 6000]],
+  "checkpoint_steps": [1000, 3000, 6000],
+  "checkpoint_rule": "complete Trainer state; archive and fixed-revision full-file readback before next segment",
+  "quality_eval_card_sha256": "effd23215c4d1bf15655585394a68b731b943dd11a0c5f2561549dfd868baebf",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

@@ -1,0 +1,4630 @@
+{
+  "status": "FINITE_PROVISIONAL_SNAPSHOT_NOT_TERMINAL",
+  "observed_unix_s": 1791390026.9185176,
+  "source": [
+    {
+      "lane": "ORIGINAL_BASE_JOINT",
+      "condition": 10000,
+      "status": "VALID_JOINT_HARD_LIMIT_REJECT",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/RESULT.json",
+        "bytes": 1663,
+        "sha256": "3b4eb271689f406371417bb2b24f9e044f0a37319d0052c318875b5298f742ca"
+      },
+      "quality": false,
+      "full32s": false,
+      "physics_samples": 1966,
+      "success41": 0,
+      "window_samples": 0,
+      "persistent": false,
+      "persistent41_observed": null,
+      "persistent41_status": "UNOBSERVED_EARLY_TERMINATION",
+      "task_elapsed_s": 18.650000000000002,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.01999993808567524,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.01999993808567524,
+        "max_height_increase_m": 0.0,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": null,
+        "static_41": null,
+        "on_top_41": null,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 393,
+        "mean": 0.009163848169281502,
+        "rms": 0.011638040399803543,
+        "p50": 0.0074938638135790825,
+        "p95": 0.02342004030942917,
+        "max": 0.042270611971616745
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 393,
+        "mean": 0.009163848169281502,
+        "rms": 0.011638040399803543,
+        "p50": 0.0074938638135790825,
+        "p95": 0.02342004030942917,
+        "max": 0.042270611971616745
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.2443857739448547,
+        1.1527544477462768,
+        1.0996380994796753,
+        0.36042738609313973,
+        2.0378385732650757,
+        0.01792997360229487,
+        1.0099534938812256
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.2443857192993164,
+        1.1527544260025024,
+        1.0996381044387817,
+        0.3604273796081543,
+        2.0378384590148926,
+        0.017930030822753906,
+        1.009953498840332
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "recorded_command_to_exactFK_m": {
+        "n": 393,
+        "mean": 1.975209374966774e-08,
+        "rms": 2.17743066538983e-08,
+        "p50": 1.9016956012393148e-08,
+        "p95": 3.5546077787365816e-08,
+        "max": 4.940095410905162e-08
+      },
+      "rejected_before_dispatch": {
+        "control_tick": 393,
+        "task_time_s": 18.650000000000002,
+        "query_index": 34,
+        "native_sample": 7,
+        "violations": [
+          {
+            "joint": "panda_joint6",
+            "command_rad": 3.7583348751068115,
+            "limits_rad": [
+              -0.0175,
+              3.7525
+            ],
+            "margin_rad": -0.005834875106811577
+          }
+        ]
+      },
+      "noise_identical_to_PI0280": true,
+      "queries": 35,
+      "rawQ_to_installed_joint_max_abs_rad": 0.0,
+      "decoded_gripper_to_actuator_max_abs": 0.0,
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/physics.npz",
+          "bytes": 594390,
+          "sha256": "f8e62dd82781ea76815016e8c8fdc91cacb7f494d8696747793b362f74bc6c07"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/commands.npz",
+          "bytes": 19618,
+          "sha256": "bd48d951568a9b77fe3de45ded5a0908ca407a5712de9e639d29a87b21bd2cab"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/installed.npz",
+          "bytes": 49520,
+          "sha256": "06127efd0b952dc5a4ac89f516176ad5b47e01044bf56a1dcfc7c37c4c8f390b"
+        }
+      ]
+    },
+    {
+      "lane": "ORIGINAL_BASE_JOINT",
+      "condition": 10001,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/RESULT.json",
+        "bytes": 1654,
+        "sha256": "c94db057cf25633cf2c7ff286d2c42992863c0294b8d56f3e10167090029db61"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.019999917596578598,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.019999917596578598,
+        "max_height_increase_m": 0.0,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.007463740884097178,
+        "rms": 0.009133556908840271,
+        "p50": 0.00624390016309917,
+        "p95": 0.017930709104985,
+        "max": 0.03908112645149231
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.007463740884097178,
+        "rms": 0.009133556908840271,
+        "p50": 0.00624390016309917,
+        "p95": 0.017930709104985,
+        "max": 0.03908112645149231
+      },
+      "actual_joint_hard_margin_min_rad": [
+        1.686791057395935,
+        0.2947514274597167,
+        2.6083049724578857,
+        0.19663437147140503,
+        2.0811897466659546,
+        0.8462768363952636,
+        1.7490193794250488
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        1.6867910623550415,
+        0.2947514057159424,
+        2.608304977416992,
+        0.19663438200950623,
+        2.0811896324157715,
+        0.8462768197059631,
+        1.7490193843841553
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "recorded_command_to_exactFK_m": {
+        "n": 660,
+        "mean": 1.659431775559859e-08,
+        "rms": 1.8226838231296458e-08,
+        "p50": 1.6155131286380873e-08,
+        "p95": 2.9328890374090862e-08,
+        "max": 3.179436129697705e-08
+      },
+      "noise_identical_to_PI0280": true,
+      "queries": 60,
+      "rawQ_to_installed_joint_max_abs_rad": 0.0,
+      "decoded_gripper_to_actuator_max_abs": 0.0,
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "fac63826332ad3dc5b141ca0ef54e03c7e4fff0fef70e920f670f2a406e7a86c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/commands.npz",
+          "bytes": 32434,
+          "sha256": "06d7e0b046d527f662104e1581a0739f74a64b85343ba482aecd49bbdfebd5c1"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/installed.npz",
+          "bytes": 82628,
+          "sha256": "ad69d88e5a5bc9d2b702fb3acf270eee8184280848daf56b168fd10c61f1172c"
+        }
+      ]
+    },
+    {
+      "lane": "ORIGINAL_BASE_JOINT",
+      "condition": 10002,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/RESULT.json",
+        "bytes": 1652,
+        "sha256": "2d4eceb5040aa24a9a370bf3c3c895a702c4ce26a1d2384f7d282c04227b8ff4"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 2895,
+      "max_cubeA_height_m": 0.5424278378486633,
+      "object_funnel": {
+        "first_grasp_s": 3.0600000000000005,
+        "grasp_samples": 2895,
+        "longest_grasp_s": 28.95,
+        "task_initial_height_m": 0.019999919459223747,
+        "max_height_increase_m": 0.5224279165267944,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": 3.3600000000000003,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 0,
+        "static_41": 0,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.00858350338690362,
+        "rms": 0.010946508454937666,
+        "p50": 0.006605238653719425,
+        "p95": 0.022444602660834746,
+        "max": 0.05009467527270317
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.00858350338690362,
+        "rms": 0.010946508454937666,
+        "p50": 0.006605238653719425,
+        "p95": 0.022444602660834746,
+        "max": 0.05009467527270317
+      },
+      "actual_joint_hard_margin_min_rad": [
+        1.8061537693023682,
+        1.0161601522445678,
+        2.2030302832603454,
+        0.8664383953094483,
+        2.290540511417389,
+        0.771531286239624,
+        1.881007308769226
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        1.8061537742614746,
+        1.0161601305007935,
+        2.2030303478240967,
+        0.8664383888244629,
+        2.2905404567718506,
+        0.771531343460083,
+        1.8810073137283325
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "recorded_command_to_exactFK_m": {
+        "n": 660,
+        "mean": 2.0883404692310348e-08,
+        "rms": 2.2570705006997567e-08,
+        "p50": 2.1982443868657378e-08,
+        "p95": 3.337865646717558e-08,
+        "max": 4.6973980487957365e-08
+      },
+      "noise_identical_to_PI0280": true,
+      "queries": 60,
+      "rawQ_to_installed_joint_max_abs_rad": 0.0,
+      "decoded_gripper_to_actuator_max_abs": 0.0,
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "11ffd7438197cef11ac9fd7d22fbdf92d32c8c13772760e259a7cd87bd39ef6a"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/commands.npz",
+          "bytes": 32434,
+          "sha256": "ad6081bf0401146cd8491003ed94790627686b1b7a26717dfe90f4e52c1d1016"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10002/attempt-000/installed.npz",
+          "bytes": 82628,
+          "sha256": "655d995c2d3ebc227d2b22301e6e351129d72367d4551c25a6439deb7dbd929d"
+        }
+      ]
+    },
+    {
+      "lane": "ORIGINAL_BASE_JOINT",
+      "condition": 10003,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10003/attempt-000/RESULT.json",
+        "bytes": 1651,
+        "sha256": "fbadabd056907a6de7a07dd2a9bdae258709a5ff012fafa4e9c6a5b1d30f2904"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.019999971613287926,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.019999906420707703,
+        "max_height_increase_m": 6.51925802230835e-08,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.005767053519292458,
+        "rms": 0.006858509617915825,
+        "p50": 0.005016465671360493,
+        "p95": 0.012555922660976647,
+        "max": 0.02674400992691517
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.005767053519292458,
+        "rms": 0.006858509617915825,
+        "p50": 0.005016465671360493,
+        "p95": 0.012555922660976647,
+        "max": 0.02674400992691517
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.296783323097229,
+        0.8911371448516845,
+        2.5129986355781555,
+        0.8949384754180909,
+        2.656340951728821,
+        1.3302859687805175,
+        2.093340987968445
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.296783447265625,
+        0.8911371231079102,
+        2.512998580932617,
+        0.8949384689331055,
+        2.656341075897217,
+        1.3302860260009766,
+        2.0933408737182617
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "recorded_command_to_exactFK_m": {
+        "n": 660,
+        "mean": 1.6669647110383692e-08,
+        "rms": 1.8491957384013147e-08,
+        "p50": 1.616374671572331e-08,
+        "p95": 2.947597329292752e-08,
+        "max": 3.6633832314155377e-08
+      },
+      "noise_identical_to_PI0280": true,
+      "queries": 60,
+      "rawQ_to_installed_joint_max_abs_rad": 0.0,
+      "decoded_gripper_to_actuator_max_abs": 0.0,
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10003/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "e523b9d12260a6c14a28b1da04cdf00042fa322b0ca903e1c8650b5d9d636bac"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10003/attempt-000/commands.npz",
+          "bytes": 32434,
+          "sha256": "2607a8ea9dbe05e66ee2bd49c56e3eb49570cebb1e933bc2def16f004a2687a8"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10003/attempt-000/installed.npz",
+          "bytes": 82628,
+          "sha256": "2415a40b7d1e07a5bbb0d87ab046e840e2ff5cb61853535575e2f2bf7d12833a"
+        }
+      ]
+    },
+    {
+      "lane": "FK_OF_JOINT_COMMAND_REPLAY",
+      "condition": 10000,
+      "status": "VALID_REPLAY_GATE_REJECT",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/RESULT.json",
+        "bytes": 1847,
+        "sha256": "059fb4ef941cc30684382bec15d9c924534763e60deedc89ff20ebdafb64edb8"
+      },
+      "quality": false,
+      "full32s": false,
+      "physics_samples": 701,
+      "success41": 0,
+      "window_samples": 0,
+      "persistent": false,
+      "persistent41_observed": null,
+      "persistent41_status": "UNOBSERVED_EARLY_TERMINATION",
+      "task_elapsed_s": 6.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.01999993808567524,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.01999993808567524,
+        "max_height_increase_m": 0.0,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": null,
+        "static_41": null,
+        "on_top_41": null,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 140,
+        "mean": 0.009854344644752391,
+        "rms": 0.013144023381958393,
+        "p50": 0.007546591339632869,
+        "p95": 0.027143430244177556,
+        "max": 0.03963836655020714
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 140,
+        "mean": 0.009820156823313856,
+        "rms": 0.013113443475595116,
+        "p50": 0.007500584935769439,
+        "p95": 0.02710654437541959,
+        "max": 0.03959796577692032
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.5120136986255646,
+        1.1542772272109985,
+        2.341865773010254,
+        0.6157181327819825,
+        2.762953559565544,
+        1.0907728099822998,
+        1.5950624893188476
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.5120136737823486,
+        1.1542772054672241,
+        2.3418657779693604,
+        0.6157181262969971,
+        2.762953519821167,
+        1.0907728672027588,
+        1.595062494277954
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "canonical_replay_to_command_m": {
+        "n": 140,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 15,
+        "decisions": {
+          "ACCEPT": 7,
+          "WARN": 7,
+          "REJECT": 1
+        },
+        "rejects": [
+          {
+            "control_tick": 140,
+            "task_time_s": 6.0,
+            "unchanged_issues": [
+              {
+                "code": "LINEAR_SPEED_WARN",
+                "severity": "WARNING",
+                "message": "linear_speed exceeds warning threshold (m/s)",
+                "provenance": "TEST_ONLY",
+                "observed": 1.1079833513778259,
+                "threshold": 1.0
+              },
+              {
+                "code": "ANGULAR_SPEED_REJECT",
+                "severity": "REJECT",
+                "message": "angular_speed exceeds rejection threshold (rad/s)",
+                "provenance": "TEST_ONLY",
+                "observed": 4.3998350124341625,
+                "threshold": 4.0
+              }
+            ],
+            "preview_max_angular_radps": 4.399834988114574,
+            "preview_max_linear_mps": 1.1079832315444946,
+            "angular_peak_pair_replay_ticks": [
+              169,
+              170
+            ],
+            "pair_poses": [
+              [
+                [
+                  -0.9791394472122192,
+                  -0.1527545303106308,
+                  -0.13398532569408417,
+                  -0.44741472601890564
+                ],
+                [
+                  -0.1647101193666458,
+                  0.9828299283981323,
+                  0.08316163718700409,
+                  0.4524298310279846
+                ],
+                [
+                  0.11898146569728851,
+                  0.10349558293819427,
+                  -0.98748779296875,
+                  0.18659479916095734
+                ],
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              [
+                [
+                  -0.99949049949646,
+                  -0.027752026915550232,
+                  -0.015768583863973618,
+                  -0.41625118255615234
+                ],
+                [
+                  -0.03060942515730858,
+                  0.9734095931053162,
+                  0.22701714932918549,
+                  0.4842164218425751
+                ],
+                [
+                  0.00904910545796156,
+                  0.22738413512706757,
+                  -0.973763108253479,
+                  0.2195722758769989
+                ],
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ]
+            ],
+            "meaning": "Original gate looks ahead over40 stored20Hz commands; rejected preview suffix was not dispatched by this replay",
+            "literal_parent_commanded_q_pair_rad": [
+              [
+                -0.32129722833633423,
+                0.2735327184200287,
+                1.4790834188461304,
+                -2.4606235027313232,
+                -0.19353672862052917,
+                2.4992880821228027,
+                -1.2109352350234985
+              ],
+              [
+                -0.3687466084957123,
+                0.15739277005195618,
+                1.5207105875015259,
+                -2.4358344078063965,
+                -0.09846450388431549,
+                2.6442644596099854,
+                -1.1685627698898315
+              ]
+            ],
+            "parent_installed_identity": {
+              "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10000/attempt-000/installed.npz",
+              "bytes": 49520,
+              "sha256": "06127efd0b952dc5a4ac89f516176ad5b47e01044bf56a1dcfc7c37c4c8f390b"
+            }
+          }
+        ],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/GATES.json",
+          "bytes": 30630,
+          "sha256": "47bac084730c44231e12366995a954f6698f144584c9158d497eb021b43584db"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/physics.npz",
+          "bytes": 214890,
+          "sha256": "d309914f22af7b7db2a91a126d3d68c58ee170b3d652f078b297349a52c32fdc"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/commands.npz",
+          "bytes": 7614,
+          "sha256": "9b1502bf3b80bbf4d94f25fbdf6e7dd5692993b7c27cb83c0e4ff1d80e28259f"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10000/attempt-000/installed.npz",
+          "bytes": 26802,
+          "sha256": "7d4d3be94da17d9289235a2bb26ae98a63c3d68768bd8aaa5d9ae5b19de06b3a"
+        }
+      ]
+    },
+    {
+      "lane": "FK_OF_JOINT_COMMAND_REPLAY",
+      "condition": 10001,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/RESULT.json",
+        "bytes": 1870,
+        "sha256": "dbe0c875c00e5dadb9fa2f0cf39da34a92f6a0e38a6a9592a86da062f60a64f9"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.019999917596578598,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.019999917596578598,
+        "max_height_increase_m": 0.0,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.012754006541831587,
+        "rms": 0.0272259487382946,
+        "p50": 0.006580819142982364,
+        "p95": 0.0423912785947321,
+        "max": 0.14660373330116272
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.012719504314711203,
+        "rms": 0.027208337296469057,
+        "p50": 0.0065515246242284775,
+        "p95": 0.042349220439791495,
+        "max": 0.1465679109096527
+      },
+      "actual_joint_hard_margin_min_rad": [
+        1.6555004070281982,
+        0.22971000461578361,
+        2.765300641465187,
+        -8.47439765930269e-06,
+        2.1945012162208557,
+        0.8495407271385192,
+        1.6917177389144897
+      ],
+      "actual_hard_penetration_rad": 8.47439765930269e-06,
+      "source_recorded_actual_hard_penetration_rad": 8.471310138702393e-06,
+      "source_recorded_joint_hard_margin_min_rad": [
+        1.6555004119873047,
+        0.22970998287200928,
+        2.765300750732422,
+        -8.471310138702393e-06,
+        2.1945011615753174,
+        0.8495407104492188,
+        1.6917177438735962
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 3.0875206002978217e-09,
+      "actual_hard_penetration_samples": 106,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.3484595821380615,
+      "installed_arm_target_hard_penetration_peak": {
+        "control_tick": 246,
+        "task_time_s": 11.3,
+        "joint": "panda_joint4",
+        "installed_q_rad": 0.2786595821380615,
+        "limits_rad": [
+          -3.0718,
+          -0.0698
+        ],
+        "margin_rad": -0.3484595821380615
+      },
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "actual_hard_penetration_peak": {
+        "physics_index": 1157,
+        "task_time_s": 10.57,
+        "joint": "panda_joint4",
+        "actual_q_rad": -0.0697915256023407,
+        "limits_rad": [
+          -3.0718,
+          -0.0698
+        ],
+        "margin_rad": -8.47439765930269e-06
+      },
+      "canonical_replay_to_command_m": {
+        "n": 660,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 63,
+        "decisions": {
+          "ACCEPT": 52,
+          "WARN": 11
+        },
+        "rejects": [],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/GATES.json",
+          "bytes": 121448,
+          "sha256": "64f2591afd35ef46f1e5b4b508ea728696edc97e5c45f4e0a0e59e3c00565ca9"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "c6af1b33c99d8e1e30ca92d783119b260f7feb06e1af140420b36648d7b087b4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/commands.npz",
+          "bytes": 33094,
+          "sha256": "efb05a45a62b5347841774fcf39fdacb23b7861607bcd2061273c1752079a7f9"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10001/attempt-000/installed.npz",
+          "bytes": 122482,
+          "sha256": "60866eda758e4b788baf37a587a64b15bea64e66a5a4bf534218450b03a9f6c5"
+        }
+      ]
+    },
+    {
+      "lane": "FK_OF_JOINT_COMMAND_REPLAY",
+      "condition": 10002,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/RESULT.json",
+        "bytes": 1846,
+        "sha256": "3e29bfe7c13257d3dc79a7812cc5b0208cc4ee0559d6ab873d826f68be6775eb"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 2895,
+      "max_cubeA_height_m": 0.5428891777992249,
+      "object_funnel": {
+        "first_grasp_s": 3.0600000000000005,
+        "grasp_samples": 2895,
+        "longest_grasp_s": 28.95,
+        "task_initial_height_m": 0.019999919459223747,
+        "max_height_increase_m": 0.522889256477356,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": 3.3600000000000003,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 0,
+        "static_41": 0,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.008603556230443822,
+        "rms": 0.010954314803659633,
+        "p50": 0.006593701196834445,
+        "p95": 0.022561051417142135,
+        "max": 0.05007338151335716
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.008564328791134493,
+        "rms": 0.010919484458424295,
+        "p50": 0.006550203775987029,
+        "p95": 0.022521202359348517,
+        "max": 0.05001330375671387
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.1686364958763122,
+        1.019072256374359,
+        2.370575125026703,
+        0.8612804477691651,
+        2.4476589510917663,
+        0.7689933204650878,
+        1.7417716930389404
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.1686365604400635,
+        1.0190722942352295,
+        2.370575189590454,
+        0.8612804412841797,
+        2.4476590156555176,
+        0.7689933776855469,
+        1.7417716979980469
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "canonical_replay_to_command_m": {
+        "n": 660,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 63,
+        "decisions": {
+          "ACCEPT": 52,
+          "WARN": 11
+        },
+        "rejects": [],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/GATES.json",
+          "bytes": 123342,
+          "sha256": "b2115711e15d2360e1d8355679f75954ab7dcbafe971e652a83c8595e910e52c"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "cacb15ea70d7c3d9d1600066b3f753a26066eb4072de8a4fa36a1a4129a7cd3e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/commands.npz",
+          "bytes": 33094,
+          "sha256": "34c417f9d30c4423ad3f1ded40825992ecb29eb57fb93d2ecf35f5d8c95052c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10002/attempt-000/installed.npz",
+          "bytes": 122482,
+          "sha256": "5b27e716999c819f91b42ffeb55123701683c9c5bcb75eb5bf86510d3bec090a"
+        }
+      ]
+    },
+    {
+      "lane": "FK_OF_JOINT_COMMAND_REPLAY",
+      "condition": 10003,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10003/attempt-000/RESULT.json",
+        "bytes": 1844,
+        "sha256": "d4fc28f0d0762d7c10591dd7e2b3449a1a6bed8a39c0c774eb32b325da9c9ceb"
+      },
+      "quality": false,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 0,
+      "window_samples": 41,
+      "persistent": false,
+      "persistent41_observed": false,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": null,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 0,
+      "max_cubeA_height_m": 0.019999971613287926,
+      "object_funnel": {
+        "first_grasp_s": null,
+        "grasp_samples": 0,
+        "longest_grasp_s": 0.0,
+        "task_initial_height_m": 0.019999906420707703,
+        "max_height_increase_m": 6.51925802230835e-08,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": null,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": null,
+        "on_top_samples": 0,
+        "first_success_physics_s": null,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 0,
+        "release_after_first_grasp_s": null
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.005799780144735161,
+        "rms": 0.006891314573955217,
+        "p50": 0.005038620671257377,
+        "p95": 0.012594886776059864,
+        "max": 0.026689406484365463
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.0057599044222766595,
+        "rms": 0.006853358644109394,
+        "p50": 0.004997107665985823,
+        "p95": 0.012554610101506112,
+        "max": 0.02666187286376953
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.195371265220642,
+        0.8918005445480346,
+        2.6582210461378097,
+        0.8952653472900391,
+        2.7432903597831726,
+        1.330418291091919,
+        2.0652160594940185
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.195371150970459,
+        0.8918005228042603,
+        2.6582210063934326,
+        0.8952653408050537,
+        2.743290424346924,
+        1.330418348312378,
+        2.065216064453125
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "canonical_replay_to_command_m": {
+        "n": 660,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 63,
+        "decisions": {
+          "ACCEPT": 63
+        },
+        "rejects": [],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10003/attempt-000/GATES.json",
+          "bytes": 118546,
+          "sha256": "e6a26a946bf0778211d7e367ad43ec0856681306420c619b976630ed49eb3386"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10003/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "fbb2650d81a1204316f764f724d22e86f62a9120735da65146860b2b12955395"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10003/attempt-000/commands.npz",
+          "bytes": 33094,
+          "sha256": "1b80ce0e43f57cfcb10878c921691854d61cdcacc82338a4e0af310c90405419"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/FK_OF_JOINT_COMMAND_REPLAY-10003/attempt-000/installed.npz",
+          "bytes": 122482,
+          "sha256": "5dea1bfe708148d619a8a535ab2c2e681869042f2dd293005520991884214250"
+        }
+      ]
+    },
+    {
+      "lane": "EXPERT_DROID_BRIDGE_ROUNDTRIP",
+      "condition": 10000,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10000/attempt-000/RESULT.json",
+        "bytes": 1850,
+        "sha256": "f10e92b487816b0375cf30d8f00845cab41b1b9bc121f44510906d771d92bee0"
+      },
+      "quality": true,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 41,
+      "window_samples": 41,
+      "persistent": true,
+      "persistent41_observed": true,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": 6.65,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 341,
+      "max_cubeA_height_m": 0.11709438264369965,
+      "object_funnel": {
+        "first_grasp_s": 3.16,
+        "grasp_samples": 341,
+        "longest_grasp_s": 3.41,
+        "task_initial_height_m": 0.01999993808567524,
+        "max_height_increase_m": 0.09709444642066956,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": 3.8600000000000003,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": 6.46,
+        "on_top_samples": 2555,
+        "first_success_physics_s": 6.62,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 41,
+        "release_after_first_grasp_s": 6.57
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.0017261495887416181,
+        "rms": 0.004873644588377213,
+        "p50": 1.8681462853472278e-05,
+        "p95": 0.014189230378374447,
+        "max": 0.021494045804983913
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.0016961247222723327,
+        "rms": 0.0048443137844154105,
+        "p50": 9.003052525713429e-08,
+        "p95": 0.01411958918906744,
+        "max": 0.021423298865556717
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.5859667013168335,
+        0.49880208759307854,
+        2.821410859632492,
+        0.7596702768325806,
+        2.8214601675748825,
+        1.1886050128936767,
+        1.996952647972107
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.5859665870666504,
+        0.4988020658493042,
+        2.821410894393921,
+        0.7596702575683594,
+        2.821460247039795,
+        1.1886050701141357,
+        1.9969526529312134
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "canonical_replay_to_command_m": {
+        "n": 640,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 61,
+        "decisions": {
+          "ACCEPT": 14,
+          "WARN": 47
+        },
+        "rejects": [],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10000/attempt-000/GATES.json",
+          "bytes": 121952,
+          "sha256": "36490ff47e6ca8716611a70f7ebb2640e0ab1bb702c368a3e52a91302b095de5"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10000/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "c589947acd931c10f95f184d4962e43167a0281228dadd58933a421eea196ce4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10000/attempt-000/commands.npz",
+          "bytes": 59494,
+          "sha256": "bb72361fdff384cd740cb2d31190e84b3298c0ea663207641d953f91beda764c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10000/attempt-000/installed.npz",
+          "bytes": 122482,
+          "sha256": "3f890aa395eafef08c539ee47dc410a752967eac2a943af870a60cb9a4239aa2"
+        }
+      ]
+    },
+    {
+      "lane": "EXPERT_DROID_BRIDGE_ROUNDTRIP",
+      "condition": 10001,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10001/attempt-000/RESULT.json",
+        "bytes": 1862,
+        "sha256": "284340e734e3c062096e98e1c7cb686b2ab95749b987c2cd80eb84b8f2727bca"
+      },
+      "quality": true,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 41,
+      "window_samples": 41,
+      "persistent": true,
+      "persistent41_observed": true,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": 5.3500000000000005,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 276,
+      "max_cubeA_height_m": 0.11749929934740067,
+      "object_funnel": {
+        "first_grasp_s": 2.5100000000000002,
+        "grasp_samples": 276,
+        "longest_grasp_s": 2.7600000000000002,
+        "task_initial_height_m": 0.019999917596578598,
+        "max_height_increase_m": 0.09749938547611237,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": 3.17,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": 4.99,
+        "on_top_samples": 2702,
+        "first_success_physics_s": 5.3100000000000005,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 41,
+        "release_after_first_grasp_s": 5.2700000000000005
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.0011773438213202076,
+        "rms": 0.0036871029567083127,
+        "p50": 2.8906457959163637e-05,
+        "p95": 0.009794537065882401,
+        "max": 0.021161193232078178
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.001144726844520788,
+        "rms": 0.0036649170440887116,
+        "p50": 3.965477048950561e-07,
+        "p95": 0.009774671355262386,
+        "max": 0.02106669545173645
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.5440381715774536,
+        0.8340912678718566,
+        2.7775853375673294,
+        1.1457607810974122,
+        2.776262568938732,
+        1.215740623474121,
+        1.146462197113037
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.5440382957458496,
+        0.8340912461280823,
+        2.77758526802063,
+        1.1457607746124268,
+        2.7762625217437744,
+        1.21574068069458,
+        1.1464622020721436
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "canonical_replay_to_command_m": {
+        "n": 640,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 61,
+        "decisions": {
+          "ACCEPT": 11,
+          "WARN": 50
+        },
+        "rejects": [],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10001/attempt-000/GATES.json",
+          "bytes": 122349,
+          "sha256": "29cfd65f2c1d9c2adac86ad0c18f1bd49a28674d50f5d1b0e89736ccc6055ce5"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10001/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "0645071bdd4ba12d7e1d18f09ea202a496594526235c7e5906030ef1dc703abb"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10001/attempt-000/commands.npz",
+          "bytes": 59494,
+          "sha256": "56b0f484396e2f281c8a82e118ac57a2b7635da1436ce5531003c8b609669797"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10001/attempt-000/installed.npz",
+          "bytes": 122482,
+          "sha256": "dfd6e08a37fef31e8d30552cc4ecb8138969987b6ca20f23ba0a4cff799a7694"
+        }
+      ]
+    },
+    {
+      "lane": "EXPERT_DROID_BRIDGE_ROUNDTRIP",
+      "condition": 10002,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10002/attempt-000/RESULT.json",
+        "bytes": 1851,
+        "sha256": "2e710337157297d00091a4d4252ea84494edb2ebbd1697a60d547811acdfecb2"
+      },
+      "quality": true,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 41,
+      "window_samples": 41,
+      "persistent": true,
+      "persistent41_observed": true,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": 4.9,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 301,
+      "max_cubeA_height_m": 0.11758725345134735,
+      "object_funnel": {
+        "first_grasp_s": 1.8599999999999999,
+        "grasp_samples": 301,
+        "longest_grasp_s": 3.0100000000000002,
+        "task_initial_height_m": 0.019999919459223747,
+        "max_height_increase_m": 0.09758733212947845,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": 2.52,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": 4.36,
+        "on_top_samples": 2765,
+        "first_success_physics_s": 4.9,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 41,
+        "release_after_first_grasp_s": 4.87
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.0011877252190937548,
+        "rms": 0.003814759511032963,
+        "p50": 3.320129966859604e-05,
+        "p95": 0.010521729810964152,
+        "max": 0.021316721909751108
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.0011487807068837395,
+        "rms": 0.00378742028914076,
+        "p50": 1.7429422882742074e-07,
+        "p95": 0.010423964448273182,
+        "max": 0.021221380680799484
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.7321534405231476,
+        0.9150242426872253,
+        2.8650590541541576,
+        1.0241115158081056,
+        2.8749452369987964,
+        1.0990418815612792,
+        1.923987204837799
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.7321534156799316,
+        0.9150242209434509,
+        2.8650591373443604,
+        1.0241115093231201,
+        2.8749451637268066,
+        1.0990419387817383,
+        1.9239871501922607
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "canonical_replay_to_command_m": {
+        "n": 640,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 61,
+        "decisions": {
+          "ACCEPT": 10,
+          "WARN": 51
+        },
+        "rejects": [],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10002/attempt-000/GATES.json",
+          "bytes": 122397,
+          "sha256": "c030e137d461cd77498b68d14540966ebf724d735df742654deb136611995e18"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10002/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "2b5b55dbfcabb6cfcf5b7bbeaee8c49ae88d52c292bc7926d29a75c470febfd8"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10002/attempt-000/commands.npz",
+          "bytes": 59494,
+          "sha256": "428751a1f4bc2aa0e24a743f18eea6f83565e1b79091a70cd70d3ef5f1c818df"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10002/attempt-000/installed.npz",
+          "bytes": 122482,
+          "sha256": "fee7bbd24a0b7705864bf2632ef7b06950c607260983cdcf2e3b5adeccc2d41a"
+        }
+      ]
+    },
+    {
+      "lane": "EXPERT_DROID_BRIDGE_ROUNDTRIP",
+      "condition": 10003,
+      "status": "VALID_SOURCE_COMPLETE",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/RESULT.json",
+        "bytes": 1849,
+        "sha256": "6a54229c74730185ec7ddab8dc37c833b8b6c6a299dd21ea7036c08377fa808f"
+      },
+      "quality": true,
+      "full32s": true,
+      "physics_samples": 3301,
+      "success41": 41,
+      "window_samples": 41,
+      "persistent": true,
+      "persistent41_observed": true,
+      "persistent41_status": "OBSERVED_ALL41",
+      "task_elapsed_s": 32.0,
+      "first_success_s": 4.45,
+      "original_lift": "UNOBSERVED_NOT_RECORDED",
+      "grasp_physics_samples": 236,
+      "max_cubeA_height_m": 0.11574054509401321,
+      "object_funnel": {
+        "first_grasp_s": 2.06,
+        "grasp_samples": 236,
+        "longest_grasp_s": 2.36,
+        "task_initial_height_m": 0.019999906420707703,
+        "max_height_increase_m": 0.09574063867330551,
+        "original_lift": "UNOBSERVED_NOT_RECORDED",
+        "descriptive_lift_2cm_s": 2.72,
+        "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+        "first_on_top_s": 4.28,
+        "on_top_samples": 2773,
+        "first_success_physics_s": 4.45,
+        "released_41": 41,
+        "static_41": 41,
+        "on_top_41": 41,
+        "release_after_first_grasp_s": 4.42
+      },
+      "command_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.001082274268851243,
+        "rms": 0.0037226659055463046,
+        "p50": 1.8461716370788287e-05,
+        "p95": 0.009420704162362873,
+        "max": 0.02430424114572923
+      },
+      "installedFK_to_actual_xyz_m": {
+        "n": 660,
+        "mean": 0.0010582784257396173,
+        "rms": 0.0037007076254069148,
+        "p50": 3.098044203397876e-07,
+        "p95": 0.009334464231505978,
+        "max": 0.02420683577656746
+      },
+      "actual_joint_hard_margin_min_rad": [
+        2.7323610435009003,
+        0.9097442248344421,
+        2.815563264000416,
+        1.1257380311965943,
+        2.8156782264590263,
+        1.2671596431732177,
+        1.7708135793685913
+      ],
+      "actual_hard_penetration_rad": 0.0,
+      "source_recorded_actual_hard_penetration_rad": 0.0,
+      "source_recorded_joint_hard_margin_min_rad": [
+        2.732361078262329,
+        0.9097442030906677,
+        2.815563201904297,
+        1.1257380247116089,
+        2.815678119659424,
+        1.2671597003936768,
+        1.7708135843276978
+      ],
+      "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+      "actual_hard_penetration_samples": 0,
+      "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+      "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+      "source_executor_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+        "bytes": 27349,
+        "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+      },
+      "installed_arm_target_hard_penetration_rad": 0.0,
+      "safety_classification": {
+        "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+        "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+        "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+        "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+      },
+      "canonical_replay_to_command_m": {
+        "n": 640,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "replay_gate_readback": {
+        "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+        "gate_calls": 61,
+        "decisions": {
+          "ACCEPT": 9,
+          "WARN": 52
+        },
+        "rejects": [],
+        "gate_identity": {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/GATES.json",
+          "bytes": 122622,
+          "sha256": "c090f158163689fa86960f6c68ea469473df29c1ab4d7c41cd8e8e5036f32c54"
+        }
+      },
+      "raw_inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/physics.npz",
+          "bytes": 994890,
+          "sha256": "fdbc162c61b12f48b38d8cdb4333249c307abaf1eefb5004b4adf5606f5fb5c4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/commands.npz",
+          "bytes": 59494,
+          "sha256": "2adb566745e839429654257629a0c5615b362e6447ec51c1d7faa18bbb384915"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/installed.npz",
+          "bytes": 122482,
+          "sha256": "14166998bb42aa0369ceacc26f75640d9886ce32358d61ca6cb2e9ecc3c45165"
+        }
+      ]
+    }
+  ],
+  "wbc": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold",
+      "status": "WBC_FIXTURE_EXECUTED",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/RESULT.json",
+        "bytes": 1318,
+        "sha256": "ba7b0f0ddda571e19a23b227f18c6202fa7dcd38666b9e7f15e6a91170d054b8"
+      },
+      "quality": false,
+      "saved_rows": 501,
+      "rows_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/rows.json",
+        "bytes": 3520819,
+        "sha256": "3d06534b32fdd7e247b5cdc9fb3ddf9bd04076cc6e2b549d53a5885793253f5e"
+      },
+      "position_all_saved_m": {
+        "n": 501,
+        "mean": 0.007229765453094206,
+        "rms": 0.007561745196056538,
+        "p50": 0.007432869479653218,
+        "p95": 0.010395025432191772,
+        "max": 0.01623889953037328
+      },
+      "position_final2s_m": {
+        "n": 100,
+        "mean": 0.008961079367589182,
+        "rms": 0.009062921046767486,
+        "p50": 0.009107397987046555,
+        "p95": 0.011076744827315972,
+        "max": 0.011837873363840831
+      },
+      "rotation_final2s_rad": {
+        "n": 100,
+        "mean": 1.1050984059656717,
+        "rms": 1.1052187366509207,
+        "p50": 1.10554445505355,
+        "p95": 1.131778782864353,
+        "max": 1.1392035599424486
+      },
+      "full10s": true,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.1082003116607666,
+      "prospective_fixture_gate": false,
+      "prospective_fixture_gate_semantics": "All10s plus final2s sameTCP position/SO3 and hardpenetration<=1e-6; soft negatives retained; original native stop wins",
+      "sameTCP_geodesic_vs_proxy_norm_abs_rad": {
+        "n": 501,
+        "mean": 0.586571157003174,
+        "rms": 0.5878871883374592,
+        "p50": 0.5897500462516388,
+        "p95": 0.6148587045615072,
+        "max": 0.6412715391413513
+      }
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic",
+      "status": "WBC_FIXTURE_EXECUTED",
+      "result": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/RESULT.json",
+        "bytes": 1323,
+        "sha256": "d9695842829e970f6dfc7d52bad07cd965cd16786125e91f2753b433c0d0df52"
+      },
+      "quality": false,
+      "saved_rows": 501,
+      "rows_identity": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/rows.json",
+        "bytes": 3543837,
+        "sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c"
+      },
+      "position_all_saved_m": {
+        "n": 501,
+        "mean": 0.01104082984090331,
+        "rms": 0.01143722574952031,
+        "p50": 0.011890521343477298,
+        "p95": 0.014360085672257727,
+        "max": 0.021984443631509958
+      },
+      "position_final2s_m": {
+        "n": 100,
+        "mean": 0.011925028044159722,
+        "rms": 0.012038521263462831,
+        "p50": 0.011933746431077256,
+        "p95": 0.01461720603241722,
+        "max": 0.016076651767377593
+      },
+      "rotation_final2s_rad": {
+        "n": 100,
+        "mean": 0.6290579956223352,
+        "rms": 0.6293256530333395,
+        "p50": 0.6296516853104941,
+        "p95": 0.6584418153083424,
+        "max": 0.6638407285090934
+      },
+      "full10s": true,
+      "hard_penetration_max_SI": 0.0,
+      "soft_margin_min_mixed_SI": -0.13423669338226318,
+      "prospective_fixture_gate": false,
+      "prospective_fixture_gate_semantics": "All10s plus final2s sameTCP position/SO3 and hardpenetration<=1e-6; soft negatives retained; original native stop wins",
+      "sameTCP_geodesic_vs_proxy_norm_abs_rad": {
+        "n": 501,
+        "mean": 0.4290503525760166,
+        "rms": 0.44958177651473047,
+        "p50": 0.39318203749959263,
+        "p95": 0.6175938126204656,
+        "max": 0.6419370710481445
+      }
+    },
+    {
+      "status": "CPU_READBACK_COMPLETE",
+      "fixture": "native_hold",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "quality": false,
+      "full10s": true,
+      "final2s_samples": 100,
+      "position_final2s_m": {
+        "n": 100,
+        "mean": 0.008961450189294368,
+        "rms": 0.0090632928278682,
+        "p50": 0.009107922521911883,
+        "p95": 0.011077136503558046,
+        "max": 0.0118382904156581
+      },
+      "rotation_final2s_rad": {
+        "n": 100,
+        "mean": 1.1050974321702625,
+        "rms": 1.1052177622640948,
+        "p50": 1.1055433020041883,
+        "p95": 1.1317776250738731,
+        "max": 1.1392023503683124
+      },
+      "hard_penetration_max_SI": 0.0,
+      "hard_penetration_raw_recomputation_max_abs": 0.0,
+      "soft_margin_min_mixed_SI": -0.1082003116607666,
+      "FK_saved_position_max_abs_m": 3.3306690738754696e-16,
+      "FK_native_position_m": {
+        "n": 501,
+        "mean": 4.765953649638636e-07,
+        "rms": 4.8610214504168e-07,
+        "p50": 4.7631497669491134e-07,
+        "p95": 6.312808117068569e-07,
+        "max": 7.66163914674277e-07
+      },
+      "FK_native_rotation_rad": {
+        "n": 501,
+        "mean": 1.3774155036375892e-06,
+        "rms": 1.4116974729471043e-06,
+        "p50": 1.3730442750444527e-06,
+        "p95": 1.8576023210014752e-06,
+        "max": 2.2984523818849953e-06
+      },
+      "raw_to_installed_position_m": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "raw_to_installed_orientation_rad": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+      "progress": {
+        "max_step_m": 0.0,
+        "last_m": 0.0,
+        "last_s_ref_m": 0.0,
+        "last_timing_error_m": 0.0
+      },
+      "native_termination": null,
+      "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+      "proxy_norm_all": {
+        "n": 501,
+        "mean": 0.5290337837481578,
+        "rms": 0.5300403577678283,
+        "p50": 0.5318735624216883,
+        "p95": 0.5500930153775777,
+        "max": 0.568784877599082
+      },
+      "proxy_recovered_theta_all_rad": {
+        "n": 501,
+        "mean": 1.1156040008880495,
+        "rms": 1.1179207869651475,
+        "p50": 1.121622981000276,
+        "p95": 1.164951231307075,
+        "max": 1.2100554443783256
+      },
+      "actor_readback": {
+        "preview_rot6d": {
+          "n": 500,
+          "mean": 1.1138809155890329e-07,
+          "rms": 1.1772208347988905e-07,
+          "p50": 1.0446076986400654e-07,
+          "p95": 1.7893518641787232e-07,
+          "max": 2.367006022852003e-07
+        },
+        "preview_position": {
+          "n": 500,
+          "mean": 1.4893842504026811e-08,
+          "rms": 1.6416837774203316e-08,
+          "p50": 1.4901161193847656e-08,
+          "p95": 2.874771607430659e-08,
+          "max": 3.536455661645732e-08
+        },
+        "body_target_rot6d": {
+          "n": 500,
+          "mean": 4.449005116635707e-08,
+          "rms": 4.9261047554481616e-08,
+          "p50": 3.877128079698977e-08,
+          "p95": 8.784650593618435e-08,
+          "max": 1.2232878321416507e-07
+        },
+        "body_target_quaternion": {
+          "n": 500,
+          "mean": 1.353198216440308e-07,
+          "rms": 1.450225009414558e-07,
+          "p50": 1.364528525711703e-07,
+          "p95": 2.2251025651661302e-07,
+          "max": 2.6158245519037664e-07
+        },
+        "body_target_position": {
+          "n": 500,
+          "mean": 2.7412570879251087e-08,
+          "rms": 3.118386831563479e-08,
+          "p50": 2.5259266317467777e-08,
+          "p95": 5.501759915149673e-08,
+          "max": 7.879276842093219e-08
+        },
+        "body_position_error": {
+          "n": 500,
+          "mean": 2.986973160045564e-10,
+          "rms": 3.4188100190335104e-10,
+          "p50": 2.744301047259007e-10,
+          "p95": 6.143998614559218e-10,
+          "max": 1.2074446546772588e-09
+        },
+        "body_rotation_proxy": {
+          "n": 500,
+          "mean": 1.915731037413493e-08,
+          "rms": 2.0964415868791945e-08,
+          "p50": 1.879162611628793e-08,
+          "p95": 3.42441729084264e-08,
+          "max": 5.1839434966893805e-08
+        },
+        "proxy_sin_halfangle": {
+          "n": 500,
+          "mean": 3.403768753665326e-08,
+          "rms": 4.243532456665734e-08,
+          "p50": 2.927672509978052e-08,
+          "p95": 7.929477238710625e-08,
+          "max": 1.2206996291563854e-07
+        },
+        "native_link6_orientation": {
+          "n": 500,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "actor_FK_orientation": {
+          "n": 500,
+          "mean": 1.3768393357299304e-06,
+          "rms": 1.411144130749884e-06,
+          "p50": 1.372792343488174e-06,
+          "p95": 1.857819793412713e-06,
+          "max": 2.2984523818849953e-06
+        },
+        "history_shift": {
+          "n": 499,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "actor_records": 500,
+      "history_frame_width": 201,
+      "history_frames": 60,
+      "initial_history_distinct_frames": 2,
+      "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+      "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+      "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+      "inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/RESULT.json",
+          "bytes": 1318,
+          "sha256": "ba7b0f0ddda571e19a23b227f18c6202fa7dcd38666b9e7f15e6a91170d054b8"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/DONE.json",
+          "bytes": 366,
+          "sha256": "79e50c19e6d58ee4c07d9bbaffd33657976ac1d18f0bf9e5ee36a3c0f170da2c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/rows.json",
+          "bytes": 3520819,
+          "sha256": "3d06534b32fdd7e247b5cdc9fb3ddf9bd04076cc6e2b549d53a5885793253f5e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/reference.npz",
+          "bytes": 1412,
+          "sha256": "04677d932f69d760188e2558bf4a222fff488a0f0626772e534411ae80802059"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/actor_inputs.jsonl",
+          "bytes": 100724682,
+          "sha256": "565f586ac963c41c2a9a26c5f169998c73839446be12204aaf74bcda691909ae"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_hold/installation.json",
+          "bytes": 599,
+          "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+          "bytes": 34918,
+          "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+        }
+      ],
+      "new_model_queries": 0,
+      "new_actor_forwards": 0,
+      "new_physics_steps": 0,
+      "new_training_updates": 0,
+      "source_files": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+          "bytes": 4495,
+          "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+          "bytes": 141128,
+          "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+          "bytes": 14441,
+          "sha256": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+        }
+      ]
+    },
+    {
+      "status": "CPU_READBACK_COMPLETE",
+      "fixture": "native_monotonic",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "quality": false,
+      "full10s": true,
+      "final2s_samples": 100,
+      "position_final2s_m": {
+        "n": 100,
+        "mean": 0.0119249931316209,
+        "rms": 0.012038487294185959,
+        "p50": 0.011933698155245857,
+        "p95": 0.014617169440044991,
+        "max": 0.016076506797523545
+      },
+      "rotation_final2s_rad": {
+        "n": 100,
+        "mean": 0.62905778287032,
+        "rms": 0.6293254413632702,
+        "p50": 0.6296514068181103,
+        "p95": 0.6584419075058975,
+        "max": 0.663840602724407
+      },
+      "hard_penetration_max_SI": 0.0,
+      "hard_penetration_raw_recomputation_max_abs": 0.0,
+      "soft_margin_min_mixed_SI": -0.13423669338226318,
+      "FK_saved_position_max_abs_m": 4.440892098500626e-16,
+      "FK_native_position_m": {
+        "n": 501,
+        "mean": 4.751247871549385e-07,
+        "rms": 4.828434153912164e-07,
+        "p50": 4.7095795716705727e-07,
+        "p95": 6.263114271194669e-07,
+        "max": 7.009970767468933e-07
+      },
+      "FK_native_rotation_rad": {
+        "n": 501,
+        "mean": 1.1626289721492184e-06,
+        "rms": 1.2006567750832852e-06,
+        "p50": 1.1639194725491091e-06,
+        "p95": 1.6657270893643058e-06,
+        "max": 2.226011111620433e-06
+      },
+      "raw_to_installed_position_m": {
+        "n": 501,
+        "mean": 1.7131873947417664e-08,
+        "rms": 2.2200034196294302e-07,
+        "p50": 0.0,
+        "p95": 5.960464477539063e-08,
+        "max": 4.947185516357422e-06
+      },
+      "raw_to_installed_orientation_rad": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+      "progress": {
+        "max_step_m": 0.010000000707805157,
+        "last_m": 0.04290817677974701,
+        "last_s_ref_m": 0.04999999701976776,
+        "last_timing_error_m": -0.007091820240020752
+      },
+      "native_termination": null,
+      "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+      "proxy_norm_all": {
+        "n": 501,
+        "mean": 0.399388838482827,
+        "rms": 0.41470878908946424,
+        "p50": 0.37447107311577205,
+        "p95": 0.5520512450406796,
+        "max": 0.5692496040011827
+      },
+      "proxy_recovered_theta_all_rad": {
+        "n": 501,
+        "mean": 0.82843849028929,
+        "rms": 0.8641799586467033,
+        "p50": 0.7676525528033818,
+        "p95": 1.1696446529276678,
+        "max": 1.2111857178893224
+      },
+      "actor_readback": {
+        "preview_rot6d": {
+          "n": 500,
+          "mean": 1.0312805137872513e-07,
+          "rms": 1.0883848684237832e-07,
+          "p50": 9.610569234874689e-08,
+          "p95": 1.6432125237858505e-07,
+          "max": 2.3481454089480103e-07
+        },
+        "preview_position": {
+          "n": 500,
+          "mean": 2.113775686789221e-08,
+          "rms": 2.4849834872337875e-08,
+          "p50": 1.6788535506240265e-08,
+          "p95": 4.8009564890955064e-08,
+          "max": 8.674009643883096e-08
+        },
+        "body_target_rot6d": {
+          "n": 500,
+          "mean": 4.298363562654783e-08,
+          "rms": 4.849859313079016e-08,
+          "p50": 3.724670727400792e-08,
+          "p95": 8.662036454221144e-08,
+          "max": 1.2519057068782757e-07
+        },
+        "body_target_quaternion": {
+          "n": 500,
+          "mean": 1.310670379515936e-07,
+          "rms": 1.396672254394937e-07,
+          "p50": 1.298641125862448e-07,
+          "p95": 2.1285023190121015e-07,
+          "max": 2.541028314217039e-07
+        },
+        "body_target_position": {
+          "n": 500,
+          "mean": 3.9051903194989304e-08,
+          "rms": 4.836960501019885e-08,
+          "p50": 3.0892875285681853e-08,
+          "p95": 9.81971002303461e-08,
+          "max": 1.9926387015423153e-07
+        },
+        "body_position_error": {
+          "n": 500,
+          "mean": 6.490855212955846e-10,
+          "rms": 8.173997215195992e-10,
+          "p50": 4.963876002947454e-10,
+          "p95": 1.6829286974412424e-09,
+          "max": 2.6843183153699157e-09
+        },
+        "body_rotation_proxy": {
+          "n": 500,
+          "mean": 2.5068363384853076e-08,
+          "rms": 3.246570720553714e-08,
+          "p50": 1.8254327605049525e-08,
+          "p95": 7.308628388047466e-08,
+          "max": 1.323880743364647e-07
+        },
+        "proxy_sin_halfangle": {
+          "n": 500,
+          "mean": 3.3589856152232975e-08,
+          "rms": 4.1563181151788636e-08,
+          "p50": 2.771815479918338e-08,
+          "p95": 7.953840634455921e-08,
+          "max": 1.375184048857392e-07
+        },
+        "native_link6_orientation": {
+          "n": 500,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "actor_FK_orientation": {
+          "n": 500,
+          "mean": 1.1633227267873078e-06,
+          "rms": 1.2013030189828943e-06,
+          "p50": 1.1639712116220282e-06,
+          "p95": 1.6658399618192338e-06,
+          "max": 2.226011111620433e-06
+        },
+        "history_shift": {
+          "n": 499,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "actor_records": 500,
+      "history_frame_width": 201,
+      "history_frames": 60,
+      "initial_history_distinct_frames": 2,
+      "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+      "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+      "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+      "inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/RESULT.json",
+          "bytes": 1323,
+          "sha256": "d9695842829e970f6dfc7d52bad07cd965cd16786125e91f2753b433c0d0df52"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/DONE.json",
+          "bytes": 366,
+          "sha256": "f54f01f1522386e58d819e5d9f271cb64dafc6413552d88fbbc4e1fc6cbccdd6"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/rows.json",
+          "bytes": 3543837,
+          "sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/reference.npz",
+          "bytes": 2185,
+          "sha256": "fb8d59949287e16f1c883b96a8cd4543279cb669f3e2419077b27087d28e5871"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/actor_inputs.jsonl",
+          "bytes": 103400996,
+          "sha256": "797dcb6148c37d66c31d76cd6cd92a4c26cce8297e09360943f94daef02e7670"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_monotonic/installation.json",
+          "bytes": 604,
+          "sha256": "9e60ef037d6eed1c3684adee4e89adc3c9cfd00b8d9fe5208f3387e8204117e6"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+          "bytes": 34918,
+          "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+        }
+      ],
+      "new_model_queries": 0,
+      "new_actor_forwards": 0,
+      "new_physics_steps": 0,
+      "new_training_updates": 0,
+      "source_files": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+          "bytes": 4495,
+          "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+          "bytes": 141128,
+          "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+          "bytes": 14441,
+          "sha256": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+        }
+      ]
+    },
+    {
+      "status": "CPU_READBACK_COMPLETE",
+      "fixture": "native_return",
+      "result_status": "VALID_NATIVE_TERMINATION",
+      "quality": false,
+      "full10s": false,
+      "final2s_samples": 0,
+      "position_final2s_m": null,
+      "rotation_final2s_rad": null,
+      "hard_penetration_max_SI": 0.0,
+      "hard_penetration_raw_recomputation_max_abs": 0.0,
+      "soft_margin_min_mixed_SI": -0.019805818796157837,
+      "FK_saved_position_max_abs_m": 2.7755575615628914e-16,
+      "FK_native_position_m": {
+        "n": 26,
+        "mean": 3.331783300206462e-07,
+        "rms": 3.400012346662367e-07,
+        "p50": 3.305981842793357e-07,
+        "p95": 4.270063219883466e-07,
+        "max": 5.271750991311262e-07
+      },
+      "FK_native_rotation_rad": {
+        "n": 26,
+        "mean": 7.568620721257996e-07,
+        "rms": 7.864447181989363e-07,
+        "p50": 7.335658280298964e-07,
+        "p95": 1.1060966362751527e-06,
+        "max": 1.3620185277122836e-06
+      },
+      "raw_to_installed_position_m": {
+        "n": 26,
+        "mean": 1.90276366013747e-07,
+        "rms": 9.70222903279619e-07,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 4.947185516357422e-06
+      },
+      "raw_to_installed_orientation_rad": {
+        "n": 26,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+      "progress": {
+        "max_step_m": 0.030378270894289017,
+        "last_m": 0.09999999403953552,
+        "last_s_ref_m": 0.001223579398356378,
+        "last_timing_error_m": 0.09877641499042511
+      },
+      "native_termination": {
+        "reset_buf": true,
+        "time_out_buf": false,
+        "body_height_buf": false,
+        "fall_flag": false,
+        "traj_early_term": true,
+        "termination_cause": [
+          false,
+          true
+        ],
+        "invalid_state": false,
+        "joint_limit_violation": true,
+        "joint_limit_termination": false,
+        "sim_time": 0.5000000596046448,
+        "traj_s": 0.09999999403953552,
+        "traj_s_ref": 0.001223579398356378,
+        "traj_d_lat": 0.003157773520797491,
+        "traj_timing_err": 0.09877641499042511,
+        "traj_L": 0.09999999403953552,
+        "reference_duration": 10.0,
+        "desired_pos": [
+          0.33305609226226807,
+          -0.1112048476934433,
+          0.6591067314147949
+        ],
+        "desired_quat": [
+          -0.2654011845588684,
+          0.019654691219329834,
+          -0.1717747151851654,
+          0.9485090374946594
+        ],
+        "preview_pos": [
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ]
+        ],
+        "preview_quat": [
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ]
+        ],
+        "achieved_pos": [
+          0.3355845510959625,
+          -0.11131516844034195,
+          0.6559948921203613
+        ],
+        "achieved_quat": [
+          -0.11289116740226746,
+          -0.21534056961536407,
+          0.2293216586112976,
+          0.9424943327903748
+        ],
+        "eef_linear_velocity": [
+          0.004350240807980299,
+          0.018881261348724365,
+          -0.04282743111252785
+        ],
+        "eef_angular_velocity": [
+          0.6170994639396667,
+          0.32198187708854675,
+          -0.18204471468925476
+        ],
+        "base_pos": [
+          -0.036864571273326874,
+          -0.06974122673273087,
+          0.25787004828453064
+        ],
+        "base_quat": [
+          0.07518234103918076,
+          -0.0960962250828743,
+          0.030682319775223732,
+          0.992054283618927
+        ],
+        "base_lin_vel": [
+          0.029835475608706474,
+          0.10800821334123611,
+          0.061650823801755905
+        ],
+        "base_feedforward": [
+          -0.036142218858003616,
+          0.005686762277036905,
+          -0.05275515094399452
+        ],
+        "delta_velocity": [
+          0.1453196257352829,
+          0.16834580898284912,
+          -0.05391467735171318
+        ],
+        "commands_dog": [
+          0.10917741060256958,
+          0.1740325689315796,
+          -0.1066698282957077,
+          0.344949871301651,
+          -0.151550754904747,
+          0.12452434003353119,
+          4.0,
+          0.05999999865889549,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.49000000953674316
+        ],
+        "dof_pos": [
+          -0.1594255268573761,
+          1.177123785018921,
+          -1.7360539436340332,
+          -0.24739249050617218,
+          1.194207787513733,
+          -1.7128568887710571,
+          -0.05993133783340454,
+          1.204541563987732,
+          -2.0996201038360596,
+          -0.2877754271030426,
+          1.3377164602279663,
+          -2.1948752403259277,
+          -0.3645024001598358,
+          1.529172658920288,
+          0.5414764285087585,
+          1.1688923835754395,
+          -0.8436108827590942,
+          -0.2412327378988266,
+          0.04399999976158142,
+          0.04380180686712265
+        ],
+        "dof_vel": [
+          1.1933870315551758,
+          -1.1357477903366089,
+          -0.43290257453918457,
+          -0.43496453762054443,
+          -0.28933438658714294,
+          0.670628547668457,
+          -0.6521046757698059,
+          0.34991735219955444,
+          -0.05013725161552429,
+          -0.5922063589096069,
+          0.5732539296150208,
+          -1.7358424663543701,
+          -0.05488274618983269,
+          0.47030678391456604,
+          -0.21207347512245178,
+          0.44582638144493103,
+          0.2685808539390564,
+          0.3699296712875366,
+          0.0031134560704231262,
+          0.00016579485964030027
+        ],
+        "joint_pos_target": [
+          -0.09140049666166306,
+          1.1656490564346313,
+          -1.7539218664169312,
+          0.010027274489402771,
+          0.9965984225273132,
+          -1.033083438873291,
+          -0.3336334824562073,
+          1.27892005443573,
+          -1.532544732093811,
+          -0.33310243487358093,
+          1.3729063272476196,
+          -2.2467522621154785,
+          -0.3651675879955292,
+          1.552078127861023,
+          0.5701524019241333,
+          1.2158937454223633,
+          -0.7919890284538269,
+          -0.21705296635627747,
+          0.0,
+          0.0
+        ],
+        "arm_q": [
+          -0.3645024001598358,
+          1.529172658920288,
+          0.5414764285087585,
+          1.1688923835754395,
+          -0.8436108827590942,
+          -0.2412327378988266
+        ],
+        "arm_dq": [
+          -0.05488274618983269,
+          0.47030678391456604,
+          -0.21207347512245178,
+          0.44582638144493103,
+          0.2685808539390564,
+          0.3699296712875366
+        ],
+        "dog_q": [
+          -0.1594255268573761,
+          1.177123785018921,
+          -1.7360539436340332,
+          -0.24739249050617218,
+          1.194207787513733,
+          -1.7128568887710571,
+          -0.05993133783340454,
+          1.204541563987732,
+          -2.0996201038360596,
+          -0.2877754271030426,
+          1.3377164602279663,
+          -2.1948752403259277
+        ],
+        "dog_dq": [
+          1.1933870315551758,
+          -1.1357477903366089,
+          -0.43290257453918457,
+          -0.43496453762054443,
+          -0.28933438658714294,
+          0.670628547668457,
+          -0.6521046757698059,
+          0.34991735219955444,
+          -0.05013725161552429,
+          -0.5922063589096069,
+          0.5732539296150208,
+          -1.7358424663543701
+        ],
+        "joint_limit_margin": [
+          0.7830544710159302,
+          2.0605010986328125,
+          0.8040469288825989,
+          0.6950874924659729,
+          2.043416976928711,
+          0.7808498740196228,
+          0.8825486302375793,
+          1.4750665426254272,
+          0.5288329124450684,
+          0.6547045707702637,
+          1.6082414388656616,
+          0.4335777759552002,
+          1.4677178859710693,
+          1.345922589302063,
+          0.3794763684272766,
+          0.33500754833221436,
+          0.6602890491485596,
+          1.6433672904968262,
+          -0.002199999988079071,
+          -0.0020018070936203003
+        ],
+        "termination_code": "TRACKING_ABORT"
+      },
+      "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+      "proxy_norm_all": {
+        "n": 26,
+        "mean": 0.44694344088217003,
+        "rms": 0.4576898570298047,
+        "p50": 0.4787260529919503,
+        "p95": 0.52149595615991,
+        "max": 0.5220286305403199
+      },
+      "proxy_recovered_theta_all_rad": {
+        "n": 26,
+        "mean": 0.9315493022350725,
+        "rms": 0.9554134289043281,
+        "p50": 0.9984094561130529,
+        "p95": 1.0972068371954293,
+        "max": 1.0984553111537605
+      },
+      "actor_readback": {
+        "preview_rot6d": {
+          "n": 25,
+          "mean": 1.1113754989217073e-07,
+          "rms": 1.1885454754033366e-07,
+          "p50": 1.1560525133014199e-07,
+          "p95": 1.6433138270155462e-07,
+          "max": 2.2981134711885787e-07
+        },
+        "preview_position": {
+          "n": 25,
+          "mean": 1.4744281545131522e-08,
+          "rms": 1.704061677121788e-08,
+          "p50": 1.4173983875487295e-08,
+          "p95": 2.657475686174137e-08,
+          "max": 3.138859561158114e-08
+        },
+        "body_target_rot6d": {
+          "n": 25,
+          "mean": 4.4949314814690664e-08,
+          "rms": 4.921127656920506e-08,
+          "p50": 3.821458116615162e-08,
+          "p95": 9.029074075073133e-08,
+          "max": 9.640263420873652e-08
+        },
+        "body_target_quaternion": {
+          "n": 25,
+          "mean": 1.1851582782327152e-07,
+          "rms": 1.2955409637245484e-07,
+          "p50": 1.2888042754973517e-07,
+          "p95": 2.0409525283490266e-07,
+          "max": 2.1457774886394877e-07
+        },
+        "body_target_position": {
+          "n": 25,
+          "mean": 1.7593511028035634e-08,
+          "rms": 1.9857444444050428e-08,
+          "p50": 1.5460053959248654e-08,
+          "p95": 3.6030755379279336e-08,
+          "max": 4.066473197061882e-08
+        },
+        "body_position_error": {
+          "n": 25,
+          "mean": 5.114294877048634e-10,
+          "rms": 7.898771165600591e-10,
+          "p50": 2.202243587143271e-10,
+          "p95": 1.7511556649196764e-09,
+          "max": 2.50712762356331e-09
+        },
+        "body_rotation_proxy": {
+          "n": 25,
+          "mean": 1.5096059650665518e-08,
+          "rms": 1.6517825505943688e-08,
+          "p50": 1.5077666337681705e-08,
+          "p95": 2.625090934627039e-08,
+          "max": 2.8813889996204267e-08
+        },
+        "proxy_sin_halfangle": {
+          "n": 25,
+          "mean": 3.4622948808515906e-08,
+          "rms": 4.2258291112642104e-08,
+          "p50": 3.2555570239622966e-08,
+          "p95": 7.859306865309885e-08,
+          "max": 8.578234211853442e-08
+        },
+        "native_link6_orientation": {
+          "n": 25,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "actor_FK_orientation": {
+          "n": 25,
+          "mean": 7.638097620787535e-07,
+          "rms": 7.934933048626958e-07,
+          "p50": 7.366357952961856e-07,
+          "p95": 1.1142373575818565e-06,
+          "max": 1.3620185277122836e-06
+        },
+        "history_shift": {
+          "n": 24,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "actor_records": 25,
+      "history_frame_width": 201,
+      "history_frames": 60,
+      "initial_history_distinct_frames": 2,
+      "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+      "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+      "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+      "inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/RESULT.json",
+          "bytes": 8941,
+          "sha256": "805350ab246ddb498032bde4a4a0f2a130684e7842f97282006fee9ff2ad1791"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/DONE.json",
+          "bytes": 361,
+          "sha256": "09343e9fe61066ee6fd9ab23c20d01b2b5d02384b6b1aa3be0d09e40202e91a1"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/rows.json",
+          "bytes": 183289,
+          "sha256": "099bf3d62866ab63fe55a0cc981998e3d73c146c65463a7d0778fbc9c536374c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/reference.npz",
+          "bytes": 2435,
+          "sha256": "5742ad0aeb83b1f1d7aa979f3b4987acd54672e5e1c41a27ed877a52971853e4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/actor_inputs.jsonl",
+          "bytes": 2521991,
+          "sha256": "c8838b8fb7d72d0a1492ff64f7719c2ccb1344c8b029cee7b35ba9ee70f8e75a"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/native_return/installation.json",
+          "bytes": 601,
+          "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+          "bytes": 34918,
+          "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+        }
+      ],
+      "new_model_queries": 0,
+      "new_actor_forwards": 0,
+      "new_physics_steps": 0,
+      "new_training_updates": 0,
+      "source_files": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+          "bytes": 4495,
+          "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+          "bytes": 141128,
+          "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+          "bytes": 14441,
+          "sha256": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+        }
+      ]
+    },
+    {
+      "status": "CPU_READBACK_COMPLETE",
+      "fixture": "repair_hold",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "quality": false,
+      "full10s": true,
+      "final2s_samples": 100,
+      "position_final2s_m": {
+        "n": 100,
+        "mean": 0.008961450189294368,
+        "rms": 0.0090632928278682,
+        "p50": 0.009107922521911883,
+        "p95": 0.011077136503558046,
+        "max": 0.0118382904156581
+      },
+      "rotation_final2s_rad": {
+        "n": 100,
+        "mean": 1.1050974321702625,
+        "rms": 1.1052177622640948,
+        "p50": 1.1055433020041883,
+        "p95": 1.1317776250738731,
+        "max": 1.1392023503683124
+      },
+      "hard_penetration_max_SI": 0.0,
+      "hard_penetration_raw_recomputation_max_abs": 0.0,
+      "soft_margin_min_mixed_SI": -0.1082003116607666,
+      "FK_saved_position_max_abs_m": 3.3306690738754696e-16,
+      "FK_native_position_m": {
+        "n": 501,
+        "mean": 4.765953649638636e-07,
+        "rms": 4.8610214504168e-07,
+        "p50": 4.7631497669491134e-07,
+        "p95": 6.312808117068569e-07,
+        "max": 7.66163914674277e-07
+      },
+      "FK_native_rotation_rad": {
+        "n": 501,
+        "mean": 1.3774155036375892e-06,
+        "rms": 1.4116974729471043e-06,
+        "p50": 1.3730442750444527e-06,
+        "p95": 1.8576023210014752e-06,
+        "max": 2.2984523818849953e-06
+      },
+      "raw_to_installed_position_m": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "raw_to_installed_orientation_rad": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+      "progress": {
+        "max_step_m": 0.0,
+        "last_m": 0.0,
+        "last_s_ref_m": 0.0,
+        "last_timing_error_m": 0.0
+      },
+      "native_termination": null,
+      "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+      "proxy_norm_all": {
+        "n": 501,
+        "mean": 0.5290337837481578,
+        "rms": 0.5300403577678283,
+        "p50": 0.5318735624216883,
+        "p95": 0.5500930153775777,
+        "max": 0.568784877599082
+      },
+      "proxy_recovered_theta_all_rad": {
+        "n": 501,
+        "mean": 1.1156040008880495,
+        "rms": 1.1179207869651475,
+        "p50": 1.121622981000276,
+        "p95": 1.164951231307075,
+        "max": 1.2100554443783256
+      },
+      "actor_readback": {
+        "preview_rot6d": {
+          "n": 500,
+          "mean": 1.1138809155890329e-07,
+          "rms": 1.1772208347988905e-07,
+          "p50": 1.0446076986400654e-07,
+          "p95": 1.7893518641787232e-07,
+          "max": 2.367006022852003e-07
+        },
+        "preview_position": {
+          "n": 500,
+          "mean": 1.4893842504026811e-08,
+          "rms": 1.6416837774203316e-08,
+          "p50": 1.4901161193847656e-08,
+          "p95": 2.874771607430659e-08,
+          "max": 3.536455661645732e-08
+        },
+        "body_target_rot6d": {
+          "n": 500,
+          "mean": 4.449005116635707e-08,
+          "rms": 4.9261047554481616e-08,
+          "p50": 3.877128079698977e-08,
+          "p95": 8.784650593618435e-08,
+          "max": 1.2232878321416507e-07
+        },
+        "body_target_quaternion": {
+          "n": 500,
+          "mean": 1.353198216440308e-07,
+          "rms": 1.450225009414558e-07,
+          "p50": 1.364528525711703e-07,
+          "p95": 2.2251025651661302e-07,
+          "max": 2.6158245519037664e-07
+        },
+        "body_target_position": {
+          "n": 500,
+          "mean": 2.7412570879251087e-08,
+          "rms": 3.118386831563479e-08,
+          "p50": 2.5259266317467777e-08,
+          "p95": 5.501759915149673e-08,
+          "max": 7.879276842093219e-08
+        },
+        "body_position_error": {
+          "n": 500,
+          "mean": 2.986973160045564e-10,
+          "rms": 3.4188100190335104e-10,
+          "p50": 2.744301047259007e-10,
+          "p95": 6.143998614559218e-10,
+          "max": 1.2074446546772588e-09
+        },
+        "body_rotation_proxy": {
+          "n": 500,
+          "mean": 1.915731037413493e-08,
+          "rms": 2.0964415868791945e-08,
+          "p50": 1.879162611628793e-08,
+          "p95": 3.42441729084264e-08,
+          "max": 5.1839434966893805e-08
+        },
+        "proxy_sin_halfangle": {
+          "n": 500,
+          "mean": 3.403768753665326e-08,
+          "rms": 4.243532456665734e-08,
+          "p50": 2.927672509978052e-08,
+          "p95": 7.929477238710625e-08,
+          "max": 1.2206996291563854e-07
+        },
+        "native_link6_orientation": {
+          "n": 500,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "actor_FK_orientation": {
+          "n": 500,
+          "mean": 1.3768393357299304e-06,
+          "rms": 1.411144130749884e-06,
+          "p50": 1.372792343488174e-06,
+          "p95": 1.857819793412713e-06,
+          "max": 2.2984523818849953e-06
+        },
+        "history_shift": {
+          "n": 499,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "actor_records": 500,
+      "history_frame_width": 201,
+      "history_frames": 60,
+      "initial_history_distinct_frames": 2,
+      "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+      "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+      "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+      "inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/RESULT.json",
+          "bytes": 1318,
+          "sha256": "9aeb6be92c66ef55161222875bec0232daf0f0b38755ebd1a253cf785292ff8b"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/DONE.json",
+          "bytes": 363,
+          "sha256": "5f084a809d47c04d16ab1f0bb3a83a88649ef67aa1d0e9968edf79745b6f8a70"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/rows.json",
+          "bytes": 3520819,
+          "sha256": "3d06534b32fdd7e247b5cdc9fb3ddf9bd04076cc6e2b549d53a5885793253f5e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/reference.npz",
+          "bytes": 1412,
+          "sha256": "04677d932f69d760188e2558bf4a222fff488a0f0626772e534411ae80802059"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/actor_inputs.jsonl",
+          "bytes": 100724682,
+          "sha256": "565f586ac963c41c2a9a26c5f169998c73839446be12204aaf74bcda691909ae"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold/installation.json",
+          "bytes": 599,
+          "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+          "bytes": 34918,
+          "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+        }
+      ],
+      "new_model_queries": 0,
+      "new_actor_forwards": 0,
+      "new_physics_steps": 0,
+      "new_training_updates": 0,
+      "source_files": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+          "bytes": 4495,
+          "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+          "bytes": 141128,
+          "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+          "bytes": 14441,
+          "sha256": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+        }
+      ]
+    },
+    {
+      "status": "CPU_READBACK_COMPLETE",
+      "fixture": "repair_monotonic",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "quality": false,
+      "full10s": true,
+      "final2s_samples": 100,
+      "position_final2s_m": {
+        "n": 100,
+        "mean": 0.0119249931316209,
+        "rms": 0.012038487294185959,
+        "p50": 0.011933698155245857,
+        "p95": 0.014617169440044991,
+        "max": 0.016076506797523545
+      },
+      "rotation_final2s_rad": {
+        "n": 100,
+        "mean": 0.62905778287032,
+        "rms": 0.6293254413632702,
+        "p50": 0.6296514068181103,
+        "p95": 0.6584419075058975,
+        "max": 0.663840602724407
+      },
+      "hard_penetration_max_SI": 0.0,
+      "hard_penetration_raw_recomputation_max_abs": 0.0,
+      "soft_margin_min_mixed_SI": -0.13423669338226318,
+      "FK_saved_position_max_abs_m": 4.440892098500626e-16,
+      "FK_native_position_m": {
+        "n": 501,
+        "mean": 4.751247871549385e-07,
+        "rms": 4.828434153912164e-07,
+        "p50": 4.7095795716705727e-07,
+        "p95": 6.263114271194669e-07,
+        "max": 7.009970767468933e-07
+      },
+      "FK_native_rotation_rad": {
+        "n": 501,
+        "mean": 1.1626289721492184e-06,
+        "rms": 1.2006567750832852e-06,
+        "p50": 1.1639194725491091e-06,
+        "p95": 1.6657270893643058e-06,
+        "max": 2.226011111620433e-06
+      },
+      "raw_to_installed_position_m": {
+        "n": 501,
+        "mean": 1.7131873947417664e-08,
+        "rms": 2.2200034196294302e-07,
+        "p50": 0.0,
+        "p95": 5.960464477539063e-08,
+        "max": 4.947185516357422e-06
+      },
+      "raw_to_installed_orientation_rad": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+      "progress": {
+        "max_step_m": 0.010000000707805157,
+        "last_m": 0.04290817677974701,
+        "last_s_ref_m": 0.04999999701976776,
+        "last_timing_error_m": -0.007091820240020752
+      },
+      "native_termination": null,
+      "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+      "proxy_norm_all": {
+        "n": 501,
+        "mean": 0.399388838482827,
+        "rms": 0.41470878908946424,
+        "p50": 0.37447107311577205,
+        "p95": 0.5520512450406796,
+        "max": 0.5692496040011827
+      },
+      "proxy_recovered_theta_all_rad": {
+        "n": 501,
+        "mean": 0.82843849028929,
+        "rms": 0.8641799586467033,
+        "p50": 0.7676525528033818,
+        "p95": 1.1696446529276678,
+        "max": 1.2111857178893224
+      },
+      "actor_readback": {
+        "preview_rot6d": {
+          "n": 500,
+          "mean": 1.0312805137872513e-07,
+          "rms": 1.0883848684237832e-07,
+          "p50": 9.610569234874689e-08,
+          "p95": 1.6432125237858505e-07,
+          "max": 2.3481454089480103e-07
+        },
+        "preview_position": {
+          "n": 500,
+          "mean": 2.113775686789221e-08,
+          "rms": 2.4849834872337875e-08,
+          "p50": 1.6788535506240265e-08,
+          "p95": 4.8009564890955064e-08,
+          "max": 8.674009643883096e-08
+        },
+        "body_target_rot6d": {
+          "n": 500,
+          "mean": 4.298363562654783e-08,
+          "rms": 4.849859313079016e-08,
+          "p50": 3.724670727400792e-08,
+          "p95": 8.662036454221144e-08,
+          "max": 1.2519057068782757e-07
+        },
+        "body_target_quaternion": {
+          "n": 500,
+          "mean": 1.310670379515936e-07,
+          "rms": 1.396672254394937e-07,
+          "p50": 1.298641125862448e-07,
+          "p95": 2.1285023190121015e-07,
+          "max": 2.541028314217039e-07
+        },
+        "body_target_position": {
+          "n": 500,
+          "mean": 3.9051903194989304e-08,
+          "rms": 4.836960501019885e-08,
+          "p50": 3.0892875285681853e-08,
+          "p95": 9.81971002303461e-08,
+          "max": 1.9926387015423153e-07
+        },
+        "body_position_error": {
+          "n": 500,
+          "mean": 6.490855212955846e-10,
+          "rms": 8.173997215195992e-10,
+          "p50": 4.963876002947454e-10,
+          "p95": 1.6829286974412424e-09,
+          "max": 2.6843183153699157e-09
+        },
+        "body_rotation_proxy": {
+          "n": 500,
+          "mean": 2.5068363384853076e-08,
+          "rms": 3.246570720553714e-08,
+          "p50": 1.8254327605049525e-08,
+          "p95": 7.308628388047466e-08,
+          "max": 1.323880743364647e-07
+        },
+        "proxy_sin_halfangle": {
+          "n": 500,
+          "mean": 3.3589856152232975e-08,
+          "rms": 4.1563181151788636e-08,
+          "p50": 2.771815479918338e-08,
+          "p95": 7.953840634455921e-08,
+          "max": 1.375184048857392e-07
+        },
+        "native_link6_orientation": {
+          "n": 500,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "actor_FK_orientation": {
+          "n": 500,
+          "mean": 1.1633227267873078e-06,
+          "rms": 1.2013030189828943e-06,
+          "p50": 1.1639712116220282e-06,
+          "p95": 1.6658399618192338e-06,
+          "max": 2.226011111620433e-06
+        },
+        "history_shift": {
+          "n": 499,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "actor_records": 500,
+      "history_frame_width": 201,
+      "history_frames": 60,
+      "initial_history_distinct_frames": 2,
+      "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+      "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+      "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+      "inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/RESULT.json",
+          "bytes": 1323,
+          "sha256": "5d68a72658a9a23447e896e69c05326cb24e9810f72bb51f7ba95ba55e5abe7d"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/DONE.json",
+          "bytes": 361,
+          "sha256": "677f180eefe1e3dc4e8d973bcb8417cd187096bfa23720a7e2247fe477ed6bbc"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/rows.json",
+          "bytes": 3543837,
+          "sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/reference.npz",
+          "bytes": 2185,
+          "sha256": "fb8d59949287e16f1c883b96a8cd4543279cb669f3e2419077b27087d28e5871"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/actor_inputs.jsonl",
+          "bytes": 103400996,
+          "sha256": "797dcb6148c37d66c31d76cd6cd92a4c26cce8297e09360943f94daef02e7670"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic/installation.json",
+          "bytes": 604,
+          "sha256": "9e60ef037d6eed1c3684adee4e89adc3c9cfd00b8d9fe5208f3387e8204117e6"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+          "bytes": 34918,
+          "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+        }
+      ],
+      "new_model_queries": 0,
+      "new_actor_forwards": 0,
+      "new_physics_steps": 0,
+      "new_training_updates": 0,
+      "source_files": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+          "bytes": 4495,
+          "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+          "bytes": 141128,
+          "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+          "bytes": 14441,
+          "sha256": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+        }
+      ]
+    },
+    {
+      "status": "CPU_READBACK_COMPLETE",
+      "fixture": "repair_return",
+      "result_status": "VALID_NATIVE_TERMINATION",
+      "quality": false,
+      "full10s": false,
+      "final2s_samples": 0,
+      "position_final2s_m": null,
+      "rotation_final2s_rad": null,
+      "hard_penetration_max_SI": 0.0,
+      "hard_penetration_raw_recomputation_max_abs": 0.0,
+      "soft_margin_min_mixed_SI": -0.019805818796157837,
+      "FK_saved_position_max_abs_m": 2.7755575615628914e-16,
+      "FK_native_position_m": {
+        "n": 26,
+        "mean": 3.331783300206462e-07,
+        "rms": 3.400012346662367e-07,
+        "p50": 3.305981842793357e-07,
+        "p95": 4.270063219883466e-07,
+        "max": 5.271750991311262e-07
+      },
+      "FK_native_rotation_rad": {
+        "n": 26,
+        "mean": 7.568620721257996e-07,
+        "rms": 7.864447181989363e-07,
+        "p50": 7.335658280298964e-07,
+        "p95": 1.1060966362751527e-06,
+        "max": 1.3620185277122836e-06
+      },
+      "raw_to_installed_position_m": {
+        "n": 26,
+        "mean": 1.90276366013747e-07,
+        "rms": 9.70222903279619e-07,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 4.947185516357422e-06
+      },
+      "raw_to_installed_orientation_rad": {
+        "n": 26,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+      "progress": {
+        "max_step_m": 0.030378270894289017,
+        "last_m": 0.09999999403953552,
+        "last_s_ref_m": 0.001223579398356378,
+        "last_timing_error_m": 0.09877641499042511
+      },
+      "native_termination": {
+        "reset_buf": true,
+        "time_out_buf": false,
+        "body_height_buf": false,
+        "fall_flag": false,
+        "traj_early_term": true,
+        "termination_cause": [
+          false,
+          true
+        ],
+        "invalid_state": false,
+        "joint_limit_violation": true,
+        "joint_limit_termination": false,
+        "sim_time": 0.5000000596046448,
+        "traj_s": 0.09999999403953552,
+        "traj_s_ref": 0.001223579398356378,
+        "traj_d_lat": 0.003157773520797491,
+        "traj_timing_err": 0.09877641499042511,
+        "traj_L": 0.09999999403953552,
+        "reference_duration": 10.0,
+        "desired_pos": [
+          0.33305609226226807,
+          -0.1112048476934433,
+          0.6591067314147949
+        ],
+        "desired_quat": [
+          -0.2654011845588684,
+          0.019654691219329834,
+          -0.1717747151851654,
+          0.9485090374946594
+        ],
+        "preview_pos": [
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ],
+          [
+            0.33305609226226807,
+            -0.1112048476934433,
+            0.65788334608078
+          ]
+        ],
+        "preview_quat": [
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ],
+          [
+            -0.2654011845588684,
+            0.019654691219329834,
+            -0.1717747151851654,
+            0.9485090374946594
+          ]
+        ],
+        "achieved_pos": [
+          0.3355845510959625,
+          -0.11131516844034195,
+          0.6559948921203613
+        ],
+        "achieved_quat": [
+          -0.11289116740226746,
+          -0.21534056961536407,
+          0.2293216586112976,
+          0.9424943327903748
+        ],
+        "eef_linear_velocity": [
+          0.004350240807980299,
+          0.018881261348724365,
+          -0.04282743111252785
+        ],
+        "eef_angular_velocity": [
+          0.6170994639396667,
+          0.32198187708854675,
+          -0.18204471468925476
+        ],
+        "base_pos": [
+          -0.036864571273326874,
+          -0.06974122673273087,
+          0.25787004828453064
+        ],
+        "base_quat": [
+          0.07518234103918076,
+          -0.0960962250828743,
+          0.030682319775223732,
+          0.992054283618927
+        ],
+        "base_lin_vel": [
+          0.029835475608706474,
+          0.10800821334123611,
+          0.061650823801755905
+        ],
+        "base_feedforward": [
+          -0.036142218858003616,
+          0.005686762277036905,
+          -0.05275515094399452
+        ],
+        "delta_velocity": [
+          0.1453196257352829,
+          0.16834580898284912,
+          -0.05391467735171318
+        ],
+        "commands_dog": [
+          0.10917741060256958,
+          0.1740325689315796,
+          -0.1066698282957077,
+          0.344949871301651,
+          -0.151550754904747,
+          0.12452434003353119,
+          4.0,
+          0.05999999865889549,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.49000000953674316
+        ],
+        "dof_pos": [
+          -0.1594255268573761,
+          1.177123785018921,
+          -1.7360539436340332,
+          -0.24739249050617218,
+          1.194207787513733,
+          -1.7128568887710571,
+          -0.05993133783340454,
+          1.204541563987732,
+          -2.0996201038360596,
+          -0.2877754271030426,
+          1.3377164602279663,
+          -2.1948752403259277,
+          -0.3645024001598358,
+          1.529172658920288,
+          0.5414764285087585,
+          1.1688923835754395,
+          -0.8436108827590942,
+          -0.2412327378988266,
+          0.04399999976158142,
+          0.04380180686712265
+        ],
+        "dof_vel": [
+          1.1933870315551758,
+          -1.1357477903366089,
+          -0.43290257453918457,
+          -0.43496453762054443,
+          -0.28933438658714294,
+          0.670628547668457,
+          -0.6521046757698059,
+          0.34991735219955444,
+          -0.05013725161552429,
+          -0.5922063589096069,
+          0.5732539296150208,
+          -1.7358424663543701,
+          -0.05488274618983269,
+          0.47030678391456604,
+          -0.21207347512245178,
+          0.44582638144493103,
+          0.2685808539390564,
+          0.3699296712875366,
+          0.0031134560704231262,
+          0.00016579485964030027
+        ],
+        "joint_pos_target": [
+          -0.09140049666166306,
+          1.1656490564346313,
+          -1.7539218664169312,
+          0.010027274489402771,
+          0.9965984225273132,
+          -1.033083438873291,
+          -0.3336334824562073,
+          1.27892005443573,
+          -1.532544732093811,
+          -0.33310243487358093,
+          1.3729063272476196,
+          -2.2467522621154785,
+          -0.3651675879955292,
+          1.552078127861023,
+          0.5701524019241333,
+          1.2158937454223633,
+          -0.7919890284538269,
+          -0.21705296635627747,
+          0.0,
+          0.0
+        ],
+        "arm_q": [
+          -0.3645024001598358,
+          1.529172658920288,
+          0.5414764285087585,
+          1.1688923835754395,
+          -0.8436108827590942,
+          -0.2412327378988266
+        ],
+        "arm_dq": [
+          -0.05488274618983269,
+          0.47030678391456604,
+          -0.21207347512245178,
+          0.44582638144493103,
+          0.2685808539390564,
+          0.3699296712875366
+        ],
+        "dog_q": [
+          -0.1594255268573761,
+          1.177123785018921,
+          -1.7360539436340332,
+          -0.24739249050617218,
+          1.194207787513733,
+          -1.7128568887710571,
+          -0.05993133783340454,
+          1.204541563987732,
+          -2.0996201038360596,
+          -0.2877754271030426,
+          1.3377164602279663,
+          -2.1948752403259277
+        ],
+        "dog_dq": [
+          1.1933870315551758,
+          -1.1357477903366089,
+          -0.43290257453918457,
+          -0.43496453762054443,
+          -0.28933438658714294,
+          0.670628547668457,
+          -0.6521046757698059,
+          0.34991735219955444,
+          -0.05013725161552429,
+          -0.5922063589096069,
+          0.5732539296150208,
+          -1.7358424663543701
+        ],
+        "joint_limit_margin": [
+          0.7830544710159302,
+          2.0605010986328125,
+          0.8040469288825989,
+          0.6950874924659729,
+          2.043416976928711,
+          0.7808498740196228,
+          0.8825486302375793,
+          1.4750665426254272,
+          0.5288329124450684,
+          0.6547045707702637,
+          1.6082414388656616,
+          0.4335777759552002,
+          1.4677178859710693,
+          1.345922589302063,
+          0.3794763684272766,
+          0.33500754833221436,
+          0.6602890491485596,
+          1.6433672904968262,
+          -0.002199999988079071,
+          -0.0020018070936203003
+        ],
+        "termination_code": "TRACKING_ABORT"
+      },
+      "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+      "proxy_norm_all": {
+        "n": 26,
+        "mean": 0.44694344088217003,
+        "rms": 0.4576898570298047,
+        "p50": 0.4787260529919503,
+        "p95": 0.52149595615991,
+        "max": 0.5220286305403199
+      },
+      "proxy_recovered_theta_all_rad": {
+        "n": 26,
+        "mean": 0.9315493022350725,
+        "rms": 0.9554134289043281,
+        "p50": 0.9984094561130529,
+        "p95": 1.0972068371954293,
+        "max": 1.0984553111537605
+      },
+      "actor_readback": {
+        "preview_rot6d": {
+          "n": 25,
+          "mean": 1.1113754989217073e-07,
+          "rms": 1.1885454754033366e-07,
+          "p50": 1.1560525133014199e-07,
+          "p95": 1.6433138270155462e-07,
+          "max": 2.2981134711885787e-07
+        },
+        "preview_position": {
+          "n": 25,
+          "mean": 1.4744281545131522e-08,
+          "rms": 1.704061677121788e-08,
+          "p50": 1.4173983875487295e-08,
+          "p95": 2.657475686174137e-08,
+          "max": 3.138859561158114e-08
+        },
+        "body_target_rot6d": {
+          "n": 25,
+          "mean": 4.4949314814690664e-08,
+          "rms": 4.921127656920506e-08,
+          "p50": 3.821458116615162e-08,
+          "p95": 9.029074075073133e-08,
+          "max": 9.640263420873652e-08
+        },
+        "body_target_quaternion": {
+          "n": 25,
+          "mean": 1.1851582782327152e-07,
+          "rms": 1.2955409637245484e-07,
+          "p50": 1.2888042754973517e-07,
+          "p95": 2.0409525283490266e-07,
+          "max": 2.1457774886394877e-07
+        },
+        "body_target_position": {
+          "n": 25,
+          "mean": 1.7593511028035634e-08,
+          "rms": 1.9857444444050428e-08,
+          "p50": 1.5460053959248654e-08,
+          "p95": 3.6030755379279336e-08,
+          "max": 4.066473197061882e-08
+        },
+        "body_position_error": {
+          "n": 25,
+          "mean": 5.114294877048634e-10,
+          "rms": 7.898771165600591e-10,
+          "p50": 2.202243587143271e-10,
+          "p95": 1.7511556649196764e-09,
+          "max": 2.50712762356331e-09
+        },
+        "body_rotation_proxy": {
+          "n": 25,
+          "mean": 1.5096059650665518e-08,
+          "rms": 1.6517825505943688e-08,
+          "p50": 1.5077666337681705e-08,
+          "p95": 2.625090934627039e-08,
+          "max": 2.8813889996204267e-08
+        },
+        "proxy_sin_halfangle": {
+          "n": 25,
+          "mean": 3.4622948808515906e-08,
+          "rms": 4.2258291112642104e-08,
+          "p50": 3.2555570239622966e-08,
+          "p95": 7.859306865309885e-08,
+          "max": 8.578234211853442e-08
+        },
+        "native_link6_orientation": {
+          "n": 25,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "actor_FK_orientation": {
+          "n": 25,
+          "mean": 7.638097620787535e-07,
+          "rms": 7.934933048626958e-07,
+          "p50": 7.366357952961856e-07,
+          "p95": 1.1142373575818565e-06,
+          "max": 1.3620185277122836e-06
+        },
+        "history_shift": {
+          "n": 24,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "actor_records": 25,
+      "history_frame_width": 201,
+      "history_frames": 60,
+      "initial_history_distinct_frames": 2,
+      "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+      "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+      "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+      "inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/RESULT.json",
+          "bytes": 8941,
+          "sha256": "5daa792ef008e87d017884076a591931f17217c1e97031fe8710f516d2eb9772"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/DONE.json",
+          "bytes": 360,
+          "sha256": "b8c480e69bf2e35a58255009430c5ad2a164db5d8fdd510c0e8d8d96c44061b6"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/rows.json",
+          "bytes": 183289,
+          "sha256": "099bf3d62866ab63fe55a0cc981998e3d73c146c65463a7d0778fbc9c536374c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/reference.npz",
+          "bytes": 2435,
+          "sha256": "5742ad0aeb83b1f1d7aa979f3b4987acd54672e5e1c41a27ed877a52971853e4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/actor_inputs.jsonl",
+          "bytes": 2521991,
+          "sha256": "c8838b8fb7d72d0a1492ff64f7719c2ccb1344c8b029cee7b35ba9ee70f8e75a"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return/installation.json",
+          "bytes": 601,
+          "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+          "bytes": 34918,
+          "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+        }
+      ],
+      "new_model_queries": 0,
+      "new_actor_forwards": 0,
+      "new_physics_steps": 0,
+      "new_training_updates": 0,
+      "source_files": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+          "bytes": 4495,
+          "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+          "bytes": 141128,
+          "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+          "bytes": 14441,
+          "sha256": "5c65213a5c33f448bc98cbb0ae1b4db21b0fe28430fbc313daed424945432278"
+        }
+      ]
+    },
+    {
+      "status": "CPU_READBACK_COMPLETE",
+      "fixture": "repair_hold-engineering-001",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "quality": false,
+      "full10s": true,
+      "final2s_samples": 100,
+      "position_final2s_m": {
+        "n": 100,
+        "mean": 0.008961450189294368,
+        "rms": 0.0090632928278682,
+        "p50": 0.009107922521911883,
+        "p95": 0.011077136503558046,
+        "max": 0.0118382904156581
+      },
+      "rotation_final2s_rad": {
+        "n": 100,
+        "mean": 1.1050974321702625,
+        "rms": 1.1052177622640948,
+        "p50": 1.1055433020041883,
+        "p95": 1.1317776250738731,
+        "max": 1.1392023503683124
+      },
+      "hard_penetration_max_SI": 0.0,
+      "hard_penetration_raw_recomputation_max_abs": 0.0,
+      "soft_margin_min_mixed_SI": -0.1082003116607666,
+      "FK_saved_position_max_abs_m": 3.3306690738754696e-16,
+      "FK_native_position_m": {
+        "n": 501,
+        "mean": 4.765953649638636e-07,
+        "rms": 4.8610214504168e-07,
+        "p50": 4.7631497669491134e-07,
+        "p95": 6.312808117068569e-07,
+        "max": 7.66163914674277e-07
+      },
+      "FK_native_rotation_rad": {
+        "n": 501,
+        "mean": 1.3774155036375892e-06,
+        "rms": 1.4116974729471043e-06,
+        "p50": 1.3730442750444527e-06,
+        "p95": 1.8576023210014752e-06,
+        "max": 2.2984523818849953e-06
+      },
+      "raw_to_installed_position_m": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "raw_to_installed_orientation_rad": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+      "progress": {
+        "max_step_m": 0.0,
+        "last_m": 0.0,
+        "last_s_ref_m": 0.0,
+        "last_timing_error_m": 0.0
+      },
+      "native_termination": null,
+      "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+      "proxy_norm_all": {
+        "n": 501,
+        "mean": 0.5290337837481578,
+        "rms": 0.5300403577678283,
+        "p50": 0.5318735624216883,
+        "p95": 0.5500930153775777,
+        "max": 0.568784877599082
+      },
+      "proxy_recovered_theta_all_rad": {
+        "n": 501,
+        "mean": 1.1156040008880495,
+        "rms": 1.1179207869651475,
+        "p50": 1.121622981000276,
+        "p95": 1.164951231307075,
+        "max": 1.2100554443783256
+      },
+      "actor_readback": {
+        "preview_rot6d": {
+          "n": 500,
+          "mean": 1.1138809155890329e-07,
+          "rms": 1.1772208347988905e-07,
+          "p50": 1.0446076986400654e-07,
+          "p95": 1.7893518641787232e-07,
+          "max": 2.367006022852003e-07
+        },
+        "preview_position": {
+          "n": 500,
+          "mean": 1.4893842504026811e-08,
+          "rms": 1.6416837774203316e-08,
+          "p50": 1.4901161193847656e-08,
+          "p95": 2.874771607430659e-08,
+          "max": 3.536455661645732e-08
+        },
+        "body_target_rot6d": {
+          "n": 500,
+          "mean": 4.449005116635707e-08,
+          "rms": 4.9261047554481616e-08,
+          "p50": 3.877128079698977e-08,
+          "p95": 8.784650593618435e-08,
+          "max": 1.2232878321416507e-07
+        },
+        "body_target_quaternion": {
+          "n": 500,
+          "mean": 1.353198216440308e-07,
+          "rms": 1.450225009414558e-07,
+          "p50": 1.364528525711703e-07,
+          "p95": 2.2251025651661302e-07,
+          "max": 2.6158245519037664e-07
+        },
+        "body_target_position": {
+          "n": 500,
+          "mean": 2.7412570879251087e-08,
+          "rms": 3.118386831563479e-08,
+          "p50": 2.5259266317467777e-08,
+          "p95": 5.501759915149673e-08,
+          "max": 7.879276842093219e-08
+        },
+        "body_position_error": {
+          "n": 500,
+          "mean": 2.986973160045564e-10,
+          "rms": 3.4188100190335104e-10,
+          "p50": 2.744301047259007e-10,
+          "p95": 6.143998614559218e-10,
+          "max": 1.2074446546772588e-09
+        },
+        "body_rotation_proxy": {
+          "n": 500,
+          "mean": 1.915731037413493e-08,
+          "rms": 2.0964415868791945e-08,
+          "p50": 1.879162611628793e-08,
+          "p95": 3.42441729084264e-08,
+          "max": 5.1839434966893805e-08
+        },
+        "proxy_sin_halfangle": {
+          "n": 500,
+          "mean": 3.403768753665326e-08,
+          "rms": 4.243532456665734e-08,
+          "p50": 2.927672509978052e-08,
+          "p95": 7.929477238710625e-08,
+          "max": 1.2206996291563854e-07
+        },
+        "native_link6_orientation": {
+          "n": 500,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "actor_FK_orientation": {
+          "n": 500,
+          "mean": 1.3768393357299304e-06,
+          "rms": 1.411144130749884e-06,
+          "p50": 1.372792343488174e-06,
+          "p95": 1.857819793412713e-06,
+          "max": 2.2984523818849953e-06
+        },
+        "history_shift": {
+          "n": 499,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "actor_records": 500,
+      "history_frame_width": 201,
+      "history_frames": 60,
+      "initial_history_distinct_frames": 2,
+      "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+      "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+      "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+      "inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/RESULT.json",
+          "bytes": 1384,
+          "sha256": "254c0ef50ce81a5740ec6198d9a00c668805e6f19d41460b665a3d44d3297c6e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/DONE.json",
+          "bytes": 362,
+          "sha256": "1098c0bdbaf9203479f9dab86ab85ad3f4bfab33e0e1207b954289e2195e3f0e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/rows.json",
+          "bytes": 3520819,
+          "sha256": "3d06534b32fdd7e247b5cdc9fb3ddf9bd04076cc6e2b549d53a5885793253f5e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/reference.npz",
+          "bytes": 1412,
+          "sha256": "04677d932f69d760188e2558bf4a222fff488a0f0626772e534411ae80802059"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/actor_inputs.jsonl",
+          "bytes": 100724682,
+          "sha256": "565f586ac963c41c2a9a26c5f169998c73839446be12204aaf74bcda691909ae"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_hold-engineering-001/installation.json",
+          "bytes": 599,
+          "sha256": "bb0fefe8ff6ad54b1c5bef8cc67b87446686ca7dc22b988c7026fa027c620735"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+          "bytes": 34918,
+          "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+        }
+      ],
+      "new_model_queries": 0,
+      "new_actor_forwards": 0,
+      "new_physics_steps": 0,
+      "new_training_updates": 0,
+      "source_files": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+          "bytes": 4495,
+          "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+          "bytes": 141128,
+          "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+          "bytes": 14912,
+          "sha256": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4"
+        }
+      ]
+    },
+    {
+      "status": "CPU_READBACK_COMPLETE",
+      "fixture": "repair_monotonic-engineering-001",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "quality": false,
+      "full10s": true,
+      "final2s_samples": 100,
+      "position_final2s_m": {
+        "n": 100,
+        "mean": 0.0119249931316209,
+        "rms": 0.012038487294185959,
+        "p50": 0.011933698155245857,
+        "p95": 0.014617169440044991,
+        "max": 0.016076506797523545
+      },
+      "rotation_final2s_rad": {
+        "n": 100,
+        "mean": 0.62905778287032,
+        "rms": 0.6293254413632702,
+        "p50": 0.6296514068181103,
+        "p95": 0.6584419075058975,
+        "max": 0.663840602724407
+      },
+      "hard_penetration_max_SI": 0.0,
+      "hard_penetration_raw_recomputation_max_abs": 0.0,
+      "soft_margin_min_mixed_SI": -0.13423669338226318,
+      "FK_saved_position_max_abs_m": 4.440892098500626e-16,
+      "FK_native_position_m": {
+        "n": 501,
+        "mean": 4.751247871549385e-07,
+        "rms": 4.828434153912164e-07,
+        "p50": 4.7095795716705727e-07,
+        "p95": 6.263114271194669e-07,
+        "max": 7.009970767468933e-07
+      },
+      "FK_native_rotation_rad": {
+        "n": 501,
+        "mean": 1.1626289721492184e-06,
+        "rms": 1.2006567750832852e-06,
+        "p50": 1.1639194725491091e-06,
+        "p95": 1.6657270893643058e-06,
+        "max": 2.226011111620433e-06
+      },
+      "raw_to_installed_position_m": {
+        "n": 501,
+        "mean": 1.7131873947417664e-08,
+        "rms": 2.2200034196294302e-07,
+        "p50": 0.0,
+        "p95": 5.960464477539063e-08,
+        "max": 4.947185516357422e-06
+      },
+      "raw_to_installed_orientation_rad": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+      "progress": {
+        "max_step_m": 0.010000000707805157,
+        "last_m": 0.04290817677974701,
+        "last_s_ref_m": 0.04999999701976776,
+        "last_timing_error_m": -0.007091820240020752
+      },
+      "native_termination": null,
+      "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+      "proxy_norm_all": {
+        "n": 501,
+        "mean": 0.399388838482827,
+        "rms": 0.41470878908946424,
+        "p50": 0.37447107311577205,
+        "p95": 0.5520512450406796,
+        "max": 0.5692496040011827
+      },
+      "proxy_recovered_theta_all_rad": {
+        "n": 501,
+        "mean": 0.82843849028929,
+        "rms": 0.8641799586467033,
+        "p50": 0.7676525528033818,
+        "p95": 1.1696446529276678,
+        "max": 1.2111857178893224
+      },
+      "actor_readback": {
+        "preview_rot6d": {
+          "n": 500,
+          "mean": 1.0312805137872513e-07,
+          "rms": 1.0883848684237832e-07,
+          "p50": 9.610569234874689e-08,
+          "p95": 1.6432125237858505e-07,
+          "max": 2.3481454089480103e-07
+        },
+        "preview_position": {
+          "n": 500,
+          "mean": 2.113775686789221e-08,
+          "rms": 2.4849834872337875e-08,
+          "p50": 1.6788535506240265e-08,
+          "p95": 4.8009564890955064e-08,
+          "max": 8.674009643883096e-08
+        },
+        "body_target_rot6d": {
+          "n": 500,
+          "mean": 4.298363562654783e-08,
+          "rms": 4.849859313079016e-08,
+          "p50": 3.724670727400792e-08,
+          "p95": 8.662036454221144e-08,
+          "max": 1.2519057068782757e-07
+        },
+        "body_target_quaternion": {
+          "n": 500,
+          "mean": 1.310670379515936e-07,
+          "rms": 1.396672254394937e-07,
+          "p50": 1.298641125862448e-07,
+          "p95": 2.1285023190121015e-07,
+          "max": 2.541028314217039e-07
+        },
+        "body_target_position": {
+          "n": 500,
+          "mean": 3.9051903194989304e-08,
+          "rms": 4.836960501019885e-08,
+          "p50": 3.0892875285681853e-08,
+          "p95": 9.81971002303461e-08,
+          "max": 1.9926387015423153e-07
+        },
+        "body_position_error": {
+          "n": 500,
+          "mean": 6.490855212955846e-10,
+          "rms": 8.173997215195992e-10,
+          "p50": 4.963876002947454e-10,
+          "p95": 1.6829286974412424e-09,
+          "max": 2.6843183153699157e-09
+        },
+        "body_rotation_proxy": {
+          "n": 500,
+          "mean": 2.5068363384853076e-08,
+          "rms": 3.246570720553714e-08,
+          "p50": 1.8254327605049525e-08,
+          "p95": 7.308628388047466e-08,
+          "max": 1.323880743364647e-07
+        },
+        "proxy_sin_halfangle": {
+          "n": 500,
+          "mean": 3.3589856152232975e-08,
+          "rms": 4.1563181151788636e-08,
+          "p50": 2.771815479918338e-08,
+          "p95": 7.953840634455921e-08,
+          "max": 1.375184048857392e-07
+        },
+        "native_link6_orientation": {
+          "n": 500,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "actor_FK_orientation": {
+          "n": 500,
+          "mean": 1.1633227267873078e-06,
+          "rms": 1.2013030189828943e-06,
+          "p50": 1.1639712116220282e-06,
+          "p95": 1.6658399618192338e-06,
+          "max": 2.226011111620433e-06
+        },
+        "history_shift": {
+          "n": 499,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "actor_records": 500,
+      "history_frame_width": 201,
+      "history_frames": 60,
+      "initial_history_distinct_frames": 2,
+      "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+      "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+      "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+      "inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/RESULT.json",
+          "bytes": 1389,
+          "sha256": "8aa7da3b7b7682c394bf12914e1326643ee300b0ec8c66cc5548d382e6670dad"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/DONE.json",
+          "bytes": 363,
+          "sha256": "0b69d98788684e057491af9ded390edbb149b0921a4443cc6974a39d077c7d5a"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/rows.json",
+          "bytes": 3543837,
+          "sha256": "835a932a6fee8c6eafe857319008917d54de961387bb4439fa124dd185d15c4c"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/reference.npz",
+          "bytes": 2185,
+          "sha256": "fb8d59949287e16f1c883b96a8cd4543279cb669f3e2419077b27087d28e5871"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/actor_inputs.jsonl",
+          "bytes": 103400996,
+          "sha256": "797dcb6148c37d66c31d76cd6cd92a4c26cce8297e09360943f94daef02e7670"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_monotonic-engineering-001/installation.json",
+          "bytes": 604,
+          "sha256": "9e60ef037d6eed1c3684adee4e89adc3c9cfd00b8d9fe5208f3387e8204117e6"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+          "bytes": 34918,
+          "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+        }
+      ],
+      "new_model_queries": 0,
+      "new_actor_forwards": 0,
+      "new_physics_steps": 0,
+      "new_training_updates": 0,
+      "source_files": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+          "bytes": 4495,
+          "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+          "bytes": 141128,
+          "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+          "bytes": 14912,
+          "sha256": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4"
+        }
+      ]
+    },
+    {
+      "status": "CPU_READBACK_COMPLETE",
+      "fixture": "repair_return-engineering-001",
+      "result_status": "WBC_FIXTURE_EXECUTED",
+      "quality": false,
+      "full10s": true,
+      "final2s_samples": 100,
+      "position_final2s_m": {
+        "n": 100,
+        "mean": 0.008937790826344038,
+        "rms": 0.009007799408190404,
+        "p50": 0.00882252392407456,
+        "p95": 0.010879643141043801,
+        "max": 0.01220634623073856
+      },
+      "rotation_final2s_rad": {
+        "n": 100,
+        "mean": 0.5426956036247804,
+        "rms": 0.543152610788581,
+        "p50": 0.5485530213203191,
+        "p95": 0.5710903933288991,
+        "max": 0.5754222157117594
+      },
+      "hard_penetration_max_SI": 0.0,
+      "hard_penetration_raw_recomputation_max_abs": 0.0,
+      "soft_margin_min_mixed_SI": -0.019805818796157837,
+      "FK_saved_position_max_abs_m": 3.3306690738754696e-16,
+      "FK_native_position_m": {
+        "n": 501,
+        "mean": 4.328569801384658e-07,
+        "rms": 4.402759843372958e-07,
+        "p50": 4.3627011479122413e-07,
+        "p95": 5.655500367585823e-07,
+        "max": 6.498285303675957e-07
+      },
+      "FK_native_rotation_rad": {
+        "n": 501,
+        "mean": 1.1310532477903444e-06,
+        "rms": 1.1680554480994944e-06,
+        "p50": 1.1342369627169258e-06,
+        "p95": 1.6010665212554253e-06,
+        "max": 1.970342418813326e-06
+      },
+      "raw_to_installed_position_m": {
+        "n": 501,
+        "mean": 5.5083733594822074e-08,
+        "rms": 2.3136941783112767e-07,
+        "p50": 5.960464477539063e-08,
+        "p95": 1.7881393432617188e-07,
+        "max": 4.947185516357422e-06
+      },
+      "raw_to_installed_orientation_rad": {
+        "n": 501,
+        "mean": 0.0,
+        "rms": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "intended_reference": "Exact delivered canonical curve at s_ref(elapsed); not s_progress or closest achieved point",
+      "progress": {
+        "max_step_m": 0.013333333656191826,
+        "last_m": 0.04329388961195946,
+        "last_s_ref_m": 0.09999999403953552,
+        "last_timing_error_m": -0.056706104427576065
+      },
+      "native_termination": null,
+      "native_proxy_definition": "Sign-corrected quaternion vector part, norm=sin(theta/2), dimensionless; true SO3 geodesic theta is radians. Original actor input unchanged.",
+      "proxy_norm_all": {
+        "n": 501,
+        "mean": 0.3493297223206203,
+        "rms": 0.3654496935991599,
+        "p50": 0.3315862288181469,
+        "p95": 0.49750019093949066,
+        "max": 0.5363209917858476
+      },
+      "proxy_recovered_theta_all_rad": {
+        "n": 501,
+        "mean": 0.7187711136401257,
+        "rms": 0.754895047648349,
+        "p50": 0.6759688617194899,
+        "p95": 1.0414292839906718,
+        "max": 1.132144200503842
+      },
+      "actor_readback": {
+        "preview_rot6d": {
+          "n": 500,
+          "mean": 1.028715349177603e-07,
+          "rms": 1.088447555813733e-07,
+          "p50": 9.556406985189447e-08,
+          "p95": 1.6111073357083501e-07,
+          "max": 2.45990411776309e-07
+        },
+        "preview_position": {
+          "n": 500,
+          "mean": 2.0474784474214248e-08,
+          "rms": 2.4996681999869987e-08,
+          "p50": 1.6766151939018314e-08,
+          "p95": 4.8715969043489045e-08,
+          "max": 8.340664175987555e-08
+        },
+        "body_target_rot6d": {
+          "n": 500,
+          "mean": 4.4397576499044524e-08,
+          "rms": 4.9745305396967306e-08,
+          "p50": 3.888545191399473e-08,
+          "p95": 9.002566668248057e-08,
+          "max": 1.5105797535053256e-07
+        },
+        "body_target_quaternion": {
+          "n": 500,
+          "mean": 1.259440591884903e-07,
+          "rms": 1.353722210010216e-07,
+          "p50": 1.2366540724738546e-07,
+          "p95": 2.0960065728116205e-07,
+          "max": 2.6705461187171575e-07
+        },
+        "body_target_position": {
+          "n": 500,
+          "mean": 4.2844254250842816e-08,
+          "rms": 5.292785183802137e-08,
+          "p50": 3.266963197190442e-08,
+          "p95": 1.0890799697418903e-07,
+          "max": 1.4896972433398048e-07
+        },
+        "body_position_error": {
+          "n": 500,
+          "mean": 9.226277607048307e-10,
+          "rms": 1.091508079158904e-09,
+          "p50": 8.212313667640969e-10,
+          "p95": 2.1226738029615767e-09,
+          "max": 3.5347394343118732e-09
+        },
+        "body_rotation_proxy": {
+          "n": 500,
+          "mean": 2.4146048561282662e-08,
+          "rms": 2.989308065000834e-08,
+          "p50": 1.863577622773782e-08,
+          "p95": 6.358643806492202e-08,
+          "max": 9.436322945255426e-08
+        },
+        "proxy_sin_halfangle": {
+          "n": 500,
+          "mean": 3.252630454783634e-08,
+          "rms": 3.998542921047919e-08,
+          "p50": 2.9432859843803172e-08,
+          "p95": 7.686567365799974e-08,
+          "max": 1.465343911766226e-07
+        },
+        "native_link6_orientation": {
+          "n": 500,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "actor_FK_orientation": {
+          "n": 500,
+          "mean": 1.1312297534780939e-06,
+          "rms": 1.1682925025565161e-06,
+          "p50": 1.1356459946608563e-06,
+          "p95": 1.6012072922816628e-06,
+          "max": 1.970342418813326e-06
+        },
+        "history_shift": {
+          "n": 499,
+          "mean": 0.0,
+          "rms": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "actor_records": 500,
+      "history_frame_width": 201,
+      "history_frames": 60,
+      "initial_history_distinct_frames": 2,
+      "initial_history_meaning": "Initial saved actor history is inherited simulator history, not invented fresh stationary observations",
+      "sameTCP": "Full URDF chain from floating root to x5_link6 plus translation[.1424,0,.0001057] and identity rotation; q order bound by saved hard_penetration insertion order in sealed snapshot",
+      "gate_semantics": "Original native stop wins; complete10s plus final2s position RMS/max<=.020/.040m, SO3<=.15/.30rad, hard limits<=1e-6SI. Fixture is NOT_AN_OBJECT_TASK.",
+      "inputs": [
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/RESULT.json",
+          "bytes": 1385,
+          "sha256": "5b4a892dd639d9ddfded0a8163b9352e0855a8af72c7a4a845298cd3e75fb1ca"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/DONE.json",
+          "bytes": 362,
+          "sha256": "4ecb1f3cc0362cae2534fb52ed35a6fce8fbd52e65e97598554c1005c28931bc"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/rows.json",
+          "bytes": 3545020,
+          "sha256": "b0579c6c1075ae909821e51f1016cfb3e160e495d6530dbe04b2e8e1e0aba888"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/reference.npz",
+          "bytes": 2435,
+          "sha256": "5742ad0aeb83b1f1d7aa979f3b4987acd54672e5e1c41a27ed877a52971853e4"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/actor_inputs.jsonl",
+          "bytes": 107935361,
+          "sha256": "2b186303bd57c8804b7226506a0cdbe8d20658f174daa6f5c926db6395caea50"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/observation_layout.json",
+          "bytes": 570,
+          "sha256": "00365902ce61191efa9b76410e16ddcbe5e245d452743a56b47592c8d1e6f0c2"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/wbc/repair_return-engineering-001/installation.json",
+          "bytes": 601,
+          "sha256": "df8ff2820aaca0177a70d3d9975891247269d44a17057eca07a586eeb4c2d0d5"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/resources/robots/go2_x5_v3/urdf/go2_x5.urdf",
+          "bytes": 34918,
+          "sha256": "96c1a81e3dd42af5f1bf87ac8958a0aebd7e798ce06408462e0e49a8a2067e25"
+        }
+      ],
+      "new_model_queries": 0,
+      "new_actor_forwards": 0,
+      "new_physics_steps": 0,
+      "new_training_updates": 0,
+      "source_files": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+          "bytes": 4495,
+          "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/envs/roboduet/wbc_env.py",
+          "bytes": 141128,
+          "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+        },
+        {
+          "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/wbc.py",
+          "bytes": 14912,
+          "sha256": "fcbc0d242103e376e2dfb75ec8f67613159126c7190c136add96b89d69fc38c4"
+        }
+      ]
+    }
+  ],
+  "new_model_calls": 0,
+  "new_physics_steps": 0,
+  "new_training_updates": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

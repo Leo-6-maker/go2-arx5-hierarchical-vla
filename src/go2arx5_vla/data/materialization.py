@@ -260,9 +260,10 @@ def materialize_lerobot_v2(
             raise FileExistsError(f"output exists; pass overwrite explicitly: {output}")
         shutil.rmtree(output)
 
-    data_dir = output / "data" / "chunk-000"
+    chunk_size = 1000
+    data_root = output / "data"
     meta_dir = output / "meta"
-    data_dir.mkdir(parents=True, exist_ok=True)
+    data_root.mkdir(parents=True, exist_ok=True)
     meta_dir.mkdir(parents=True, exist_ok=True)
 
     config_dict = config.as_dict()
@@ -330,6 +331,9 @@ def materialize_lerobot_v2(
         }
         import pandas as pd
 
+        episode_chunk = episode_index // chunk_size
+        data_dir = data_root / f"chunk-{episode_chunk:03d}"
+        data_dir.mkdir(parents=True, exist_ok=True)
         parquet_path = data_dir / f"episode_{episode_index:06d}.parquet"
         pd.DataFrame(table_rows).to_parquet(parquet_path, index=False)
 
@@ -346,7 +350,7 @@ def materialize_lerobot_v2(
             video_path = (
                 output
                 / "videos"
-                / "chunk-000"
+                / f"chunk-{episode_chunk:03d}"
                 / video_key
                 / f"episode_{episode_index:06d}.mp4"
             )
@@ -466,8 +470,8 @@ def materialize_lerobot_v2(
         "total_frames": total_frames,
         "total_tasks": len(task_rows),
         "total_videos": len(inputs) * 2,
-        "total_chunks": 1,
-        "chunks_size": 1000,
+        "total_chunks": (len(inputs) + chunk_size - 1) // chunk_size,
+        "chunks_size": chunk_size,
         "fps": fps,
         "data_path": "data/chunk-{episode_chunk:03d}/episode_{episode_index:06d}.parquet",
         "video_path": "videos/chunk-{episode_chunk:03d}/{video_key}/episode_{episode_index:06d}.mp4",

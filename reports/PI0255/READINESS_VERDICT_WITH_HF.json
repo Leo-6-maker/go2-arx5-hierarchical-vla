@@ -1,0 +1,74 @@
+{
+  "schema": "PI0255_READINESS_VERDICT_V1",
+  "status": "PARTIAL_MULTITASK_PREPARATION_BLOCKED",
+  "authority_commit": "eac535e7c4016df39821798b111fae7ad79e8253",
+  "mandatory_family_admission": {
+    "M1": {
+      "admitted": false,
+      "required": 10,
+      "successful": 0,
+      "valid": 12
+    },
+    "M2": {
+      "admitted": false,
+      "required": 10,
+      "successful": 0,
+      "valid": 12
+    },
+    "M3": {
+      "admitted": false,
+      "required": 10,
+      "successful": 0,
+      "valid": 12
+    }
+  },
+  "counters": {
+    "MT_VAL_episodes": 0,
+    "TEST_executions": 0,
+    "TRAIN_episodes": 0,
+    "eligible_imitation_windows": 0,
+    "engineering_started_invalid": 0,
+    "expert_physics_starts": 36,
+    "learned_policy_episodes": 0,
+    "new_GR00T_backward": 0,
+    "new_GR00T_loads": 0,
+    "new_GR00T_optimizer": 0,
+    "new_GR00T_queries": 0,
+    "planned_not_executed_due_admission": 300,
+    "valid_expert_failures": 36,
+    "valid_expert_successes": 0
+  },
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "data_ready": false,
+  "training_authorized": false,
+  "HF_public_full_readback": {
+    "status": "PASS_PUBLIC_ANONYMOUS_FULL_FILE_AND_MEMBER_READBACK",
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "prefix": "evidence/PI0255/fixed-pilot-audit-v1-20260929",
+    "revision": "c6bc2a041323788a4b19b7b8ef11227f9950a0a6",
+    "source_tree_sha256": "8d7f94322144ba2b3620d9b45e913528c3d5a37e0b9297646093d857b9875190",
+    "source_files": 789,
+    "receipt": "HF/pilot_HF_public_receipt.json"
+  },
+  "scientific_stop": "FROZEN_PREPARATION_FAILED_ALL36_FIRST_VALID; DO_NOT_COLLECT_TRAIN_VAL_OR_RETRY_VALID_FAILURES",
+  "independent_completed": [
+    "source/runtime capability and contact gaps",
+    "immutable task/scene/split/expert/scorer",
+    "36 actual fixed expert pilots",
+    "all18 paired-reset identities",
+    "actual V2 gate CPU replay",
+    "four recorded failure videos",
+    "Base/G header/config/tokenizer metadata",
+    "matched6000 draft sampler/RNG and legacy2000 guard",
+    "future comparison/test exposure proposal"
+  ],
+  "incomplete_required": [
+    "successful task phase/eligible motion TRAIN-VAL data",
+    "new TRAIN C_T support and numerical C_MT",
+    "every-window actual codec/gate/observability",
+    "common actual processor and real6000 Trainer/full-state resume binding"
+  ],
+  "new_model_activity": false,
+  "old_selected_or_generalization_success_claim": false
+}

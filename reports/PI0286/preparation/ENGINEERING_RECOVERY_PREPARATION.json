@@ -1,0 +1,24 @@
+{
+  "status": "ACTIVATED_EXPLICIT_USER_AMENDMENT_STOPPED_RECORD_HANDOFF_OWNER_SUBMIT_READY",
+  "previous_PBS_JOBID": "655971.hopper-m-02",
+  "technical_recovery_ordinal": 1,
+  "previous_reported_scheduler_occupancy_s": 17,
+  "previous_updates": 0,
+  "previous_queries": 0,
+  "amendment_sha256": "ab65633f54763fa4bedb93e0c2ca190073b06e740add7935a9aadf9815887de2",
+  "CPU_repair_sha256": "4096ac4ed3bfcaa6242d0cd89ecc3d8a03f2a6aaaedea5cb86edb494e77199a7",
+  "historical_records": {
+    "runtime/TRAINING_ALLOCATION.json": "0d694b257d51bd94b32dbcc6b1285c2ef9b40ec8b560c00808e46a6aa77dfea5",
+    "runtime/JOB_SUBMISSION.json": "8d3dda514a9267bcfecf79ae494dea5916804d64d6b549a0becad0db6f014420",
+    "runtime/GPU_PROCESSES.jsonl": "9fea491eb0f1a857a836197cfc96ee16c70a1fb00b008f22e803b08472c4d387"
+  },
+  "formal_cap": 2048,
+  "all_updates_cap": 2112,
+  "canary_cap": 32,
+  "technical_rollback_cap": 32,
+  "new_PBS_submissions": 0,
+  "historical_directory": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/runtime/failed-engineering655971",
+  "GPU_process_ledger_unchanged": true,
+  "occupancy_accounting": "Retain17s reported oldscheduler occupancy in total PI0286 reconciliation; never reset closed process intervals",
+  "owner_next_command": "py -3.12 scripts/pi0286_execution/submit.py"
+}

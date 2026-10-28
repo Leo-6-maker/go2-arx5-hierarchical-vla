@@ -1,0 +1,126 @@
+{
+  "status": "SAVED_ARRAY_MECHANISM_REPORT_NOT_UNIQUE_CAUSE_PROOF",
+  "windows": {
+    "first_second": {
+      "samples": 167,
+      "XYZ_RMS_m": 0.02195323448964323,
+      "XYZ_max_m": 0.03141585848086537,
+      "SO3_RMS_rad": 0.06464653689516722,
+      "SO3_max_rad": 0.0938370487085845,
+      "mean_XYZ_error_m": [
+        -0.013431735497471968,
+        0.007046982690139344,
+        -0.010063159918122446
+      ],
+      "mean_target_frame_rotation_error_rad": [
+        0.0062769745702140065,
+        0.06149514686911281,
+        -0.0007670469432759624
+      ]
+    },
+    "seconds_1_to_10": {
+      "samples": 1502,
+      "XYZ_RMS_m": 0.011000960523467374,
+      "XYZ_max_m": 0.02501784115263854,
+      "SO3_RMS_rad": 0.07018527922306346,
+      "SO3_max_rad": 0.07189685404485699,
+      "mean_XYZ_error_m": [
+        -0.005691057842379708,
+        0.0003782654363849486,
+        -0.008987812825731294
+      ],
+      "mean_target_frame_rotation_error_rad": [
+        0.006499687320837129,
+        0.06981922970785302,
+        0.0019329843086328842
+      ]
+    },
+    "last_two_seconds": {
+      "samples": 336,
+      "XYZ_RMS_m": 0.010318675772558577,
+      "XYZ_max_m": 0.010583957349550659,
+      "SO3_RMS_rad": 0.07051348349343507,
+      "SO3_max_rad": 0.07148662594150848,
+      "mean_XYZ_error_m": [
+        -0.005336946062611487,
+        0.00036670301141234,
+        -0.008822204024676645
+      ],
+      "mean_target_frame_rotation_error_rad": [
+        0.006692206447811705,
+        0.07016195011241126,
+        0.0021196324058199885
+      ]
+    }
+  },
+  "mean_rotation_bias_norm_rad": 0.06930969939823646,
+  "rotation_jitter_RMS_about_mean_rad": 0.006885809680765592,
+  "arm_joint_order": [
+    "x5_joint1",
+    "x5_joint2",
+    "x5_joint3",
+    "x5_joint4",
+    "x5_joint5",
+    "x5_joint6"
+  ],
+  "arm_requested_minus_actual_RMS_rad": [
+    0.0014052826510012318,
+    0.009868280522225756,
+    0.036260247331162426,
+    0.03526920393981481,
+    0.0011039144935776778,
+    0.001248302628047945
+  ],
+  "arm_requested_minus_actual_mean_rad": [
+    0.0012173767864292863,
+    0.0026411105408445305,
+    0.035365543519485725,
+    0.03512430384594027,
+    -0.0006887009431343855,
+    0.0007799618605810975
+  ],
+  "minimum_recorded_joint_margin_rad": {
+    "FL_hip_joint": 0.8680407214675891,
+    "FL_thigh_joint": 2.2740039269197223,
+    "FL_calf_joint": 0.5317135085497248,
+    "FR_hip_joint": 0.7649762038028141,
+    "FR_thigh_joint": 2.2642362313408384,
+    "FR_calf_joint": 0.5060816139627601,
+    "RL_hip_joint": 0.8423358571270776,
+    "RL_thigh_joint": 1.3237884646564957,
+    "RL_calf_joint": 0.5172487815851742,
+    "RR_hip_joint": 0.7978837235120761,
+    "RR_thigh_joint": 1.1809631131089486,
+    "RR_calf_joint": 0.5368708251531803,
+    "x5_joint1": 2.0770907904891263,
+    "x5_joint2": 0.6324336952801272,
+    "x5_joint3": 0.5696484459589496,
+    "x5_joint4": 1.3974208212870374,
+    "x5_joint5": 1.6382184890339415,
+    "x5_joint6": 2.076353700711679
+  },
+  "native_selected_body_vx_vy_wz_mean": [
+    0.016763056991300707,
+    -0.0245499120721576,
+    -0.004194128493629512
+  ],
+  "native_selected_body_vx_vy_wz_abs_max": [
+    0.1584436446428299,
+    0.09324552118778229,
+    0.018630661070346832
+  ],
+  "BASE_preference": "OMITTED_NOT_ZERO_SOFT_HOLD",
+  "high_level_velocity_commands": 0,
+  "task_root_xyz_span_m": [
+    0.05522414158332186,
+    0.02897804283727959,
+    0.04058969364809817
+  ],
+  "measured_FK_and_physics_RMS_agree": true,
+  "requested_installed_orientation_identical": true,
+  "interpretation": "Persistent achieved orientation error after correct constant world reference. Frozen WBC selected nonzero body commands with BASE preference omitted. This does not establish a unique controller cause; gain/cost changes or quality retry are not authorized.",
+  "native_core_changed": false,
+  "new_model_queries": 0,
+  "new_physics": 0,
+  "new_render": 0
+}

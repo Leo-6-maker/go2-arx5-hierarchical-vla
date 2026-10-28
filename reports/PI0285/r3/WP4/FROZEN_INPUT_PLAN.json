@@ -1,0 +1,517 @@
+{
+  "status": "FROZEN_REAL_INPUT_IDENTITY_CPU_ONLY_NO_NEURAL_RESULTS",
+  "owner": "r3_response",
+  "root": "/home/liuyu-nfs/Projects/go2-arx5/PI0285",
+  "DIAG_plan_sha256": "04cb427fa2cd2375849bf745bff61b8e18e1cf82c47bb8d9436dc33e0a714794",
+  "processor": {
+    "processor_config.json": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3",
+    "statistics.json": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81",
+    "embodiment_id.json": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+  },
+  "rows": [
+    {
+      "uid": "T1-TRAIN-285100-91",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285100,
+      "anchor": 91,
+      "phase_anchor_rule": "FIRST_PHASE2_FIXED_DIAG_NO_REPLACEMENTS",
+      "time_s": 4.55,
+      "time_source_sha256": "89cf2afeec78176fdb28d4a8bd5545cf4f60b9446dc3b44d96e5ca4e7273f0c7",
+      "source_input": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/diagnostics/inputs/T1-TRAIN-285100-91/input.npz",
+      "source_input_sha256": "673e4d6126d5792de6895134245326bf49dc94c1a4c223879aac3143b85722c9",
+      "base_RGB_sha256": "b9d19e4ea621cfbbfe4d67371b98752836aa18b02e68c6a7205f9009a2e4803f",
+      "wrist_RGB_sha256": "385db96a09c3b6fc30e25ab646ad8ea3ea1fc9c9f5e77654fc343bf3d3081480",
+      "actual_state_sha256": "1b64888a822533707d8adb2a53321a28635a8ab34b5ccf345da456c8802e761c",
+      "RGB_shape": [
+        128,
+        128,
+        3
+      ],
+      "state_shape": [
+        10
+      ],
+      "declared_goal_geometry_evidence_only": {
+        "T1_blue_zone_xy": [
+          0.05268809399332297,
+          -0.06336003284394567
+        ],
+        "T2_red_center_on_green_xyz": [
+          -0.12861773371696472,
+          0.049844738095998764,
+          0.05999994553625584
+        ],
+        "never_model_input": true,
+        "not_counterfactual_expert_labels": true
+      },
+      "noise": [
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285100-91",
+            "noise_replica": 0
+          },
+          "query_index": 0,
+          "seed": 6884159099930478432,
+          "noise_file": "runtime/noise/edaab7b42e9e87402ed6e3d836a6c96443d633e161ecc97905f60c562e72efd4.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        },
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285100-91",
+            "noise_replica": 1
+          },
+          "query_index": 0,
+          "seed": 6751647723641466113,
+          "noise_file": "runtime/noise/a313cf64b425ec4b03961659ffec99a1b99b4b467f389dbd26069dda250aa569.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        }
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285101-86",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285101,
+      "anchor": 86,
+      "phase_anchor_rule": "FIRST_PHASE2_FIXED_DIAG_NO_REPLACEMENTS",
+      "time_s": 4.3,
+      "time_source_sha256": "89cf2afeec78176fdb28d4a8bd5545cf4f60b9446dc3b44d96e5ca4e7273f0c7",
+      "source_input": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/diagnostics/inputs/T1-TRAIN-285101-86/input.npz",
+      "source_input_sha256": "e39cb1d0a9d6b678bfc54159c8659872dc991f1b82c2f3b8a1d68531ba361560",
+      "base_RGB_sha256": "ca957bacdc26ab3bfd2a4095185c2d7a77aaa0c681cad2d8d4860a98426aa251",
+      "wrist_RGB_sha256": "d8670f7cd610b53171761aa7ec7dbe3b87f7ad520b06fe4eb6d05e6f28654949",
+      "actual_state_sha256": "d426ec6be581fec8049fd511fa35f1e624b3c79a6eb8996bc1a79a8839c1b946",
+      "RGB_shape": [
+        128,
+        128,
+        3
+      ],
+      "state_shape": [
+        10
+      ],
+      "declared_goal_geometry_evidence_only": {
+        "T1_blue_zone_xy": [
+          0.01760691440190651,
+          -0.11925791312307073
+        ],
+        "T2_red_center_on_green_xyz": [
+          0.09154583513736725,
+          0.16522864997386932,
+          0.05999989151954651
+        ],
+        "never_model_input": true,
+        "not_counterfactual_expert_labels": true
+      },
+      "noise": [
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285101-86",
+            "noise_replica": 0
+          },
+          "query_index": 0,
+          "seed": 8211000101841377685,
+          "noise_file": "runtime/noise/a35c58295739a51fe6fecb28e5d799011662af40e7043a5a4d29c817fcc37d3a.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        },
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285101-86",
+            "noise_replica": 1
+          },
+          "query_index": 0,
+          "seed": 2393365368504109866,
+          "noise_file": "runtime/noise/b896f6a06970f835085cbd24955efb5d23202ba6c80c5c1a364b2e885a108a01.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        }
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285102-90",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285102,
+      "anchor": 90,
+      "phase_anchor_rule": "FIRST_PHASE2_FIXED_DIAG_NO_REPLACEMENTS",
+      "time_s": 4.5,
+      "time_source_sha256": "89cf2afeec78176fdb28d4a8bd5545cf4f60b9446dc3b44d96e5ca4e7273f0c7",
+      "source_input": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/diagnostics/inputs/T1-TRAIN-285102-90/input.npz",
+      "source_input_sha256": "67a6817e38f8ede12cf387342e0828c883b5f635f7cc2560742e8df6f76ba682",
+      "base_RGB_sha256": "c71c333c863ddb7162434240f735ce92fb558f7b960f65a22ad56d2c00d5f6aa",
+      "wrist_RGB_sha256": "12bf9223cdb9e49bd79a7fd9571a10861344f576ef905b4ecfe381f07777ad73",
+      "actual_state_sha256": "a81a83d7d9659e8fe5388ea4158f3f60e6ab83481d6067bceeb7f8c35d9da608",
+      "RGB_shape": [
+        128,
+        128,
+        3
+      ],
+      "state_shape": [
+        10
+      ],
+      "declared_goal_geometry_evidence_only": {
+        "T1_blue_zone_xy": [
+          -0.03418142015111397,
+          -0.11858875895027113
+        ],
+        "T2_red_center_on_green_xyz": [
+          -0.07069533318281174,
+          0.11141080409288406,
+          0.05999988220632076
+        ],
+        "never_model_input": true,
+        "not_counterfactual_expert_labels": true
+      },
+      "noise": [
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285102-90",
+            "noise_replica": 0
+          },
+          "query_index": 0,
+          "seed": 749853230942664071,
+          "noise_file": "runtime/noise/179bf4174bef30fe27a01b256d25a953b74c346ba65a1ce105008b3c992a86c5.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        },
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285102-90",
+            "noise_replica": 1
+          },
+          "query_index": 0,
+          "seed": 5086604393056466675,
+          "noise_file": "runtime/noise/b82891c8f802a03c75e25816bd00d756c24dc6c7a85746e3032a4251e9414ea0.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        }
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285103-94",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285103,
+      "anchor": 94,
+      "phase_anchor_rule": "FIRST_PHASE2_FIXED_DIAG_NO_REPLACEMENTS",
+      "time_s": 4.7,
+      "time_source_sha256": "89cf2afeec78176fdb28d4a8bd5545cf4f60b9446dc3b44d96e5ca4e7273f0c7",
+      "source_input": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/diagnostics/inputs/T1-TRAIN-285103-94/input.npz",
+      "source_input_sha256": "9ee804eee8ae600bacb87b1092905b3d0e2016c3e5ba48c22478eabd47403503",
+      "base_RGB_sha256": "4dcc3c620a793595f375bb77ca60bb4781f944ad36b57dee19aee574a31e7944",
+      "wrist_RGB_sha256": "5dd418f3ca6eeb1df67a8bdd8bf5d4869d4938951419eef87fc8c3dd903ba791",
+      "actual_state_sha256": "f21982f7fe11b19b6c4439498d9752659180d9041fb5e76e713ea9c8f6b31cbc",
+      "RGB_shape": [
+        128,
+        128,
+        3
+      ],
+      "state_shape": [
+        10
+      ],
+      "declared_goal_geometry_evidence_only": {
+        "T1_blue_zone_xy": [
+          0.02390742956200667,
+          -0.018825646652369882
+        ],
+        "T2_red_center_on_green_xyz": [
+          -0.14144937694072723,
+          -0.11024149507284164,
+          0.05999993808567524
+        ],
+        "never_model_input": true,
+        "not_counterfactual_expert_labels": true
+      },
+      "noise": [
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285103-94",
+            "noise_replica": 0
+          },
+          "query_index": 0,
+          "seed": 3310468424471911836,
+          "noise_file": "runtime/noise/bcddeceff881b2067a5ab08b2038c71f4b6b4013d1d7344944904c67f1676e86.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        },
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285103-94",
+            "noise_replica": 1
+          },
+          "query_index": 0,
+          "seed": 2539599407986552106,
+          "noise_file": "runtime/noise/17d3a73d456e6d5308e213ddcccf7f4f8074343b12c621938fea7e962471d86f.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        }
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285104-90",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285104,
+      "anchor": 90,
+      "phase_anchor_rule": "FIRST_PHASE2_FIXED_DIAG_NO_REPLACEMENTS",
+      "time_s": 4.5,
+      "time_source_sha256": "89cf2afeec78176fdb28d4a8bd5545cf4f60b9446dc3b44d96e5ca4e7273f0c7",
+      "source_input": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/diagnostics/inputs/T1-TRAIN-285104-90/input.npz",
+      "source_input_sha256": "cebf5fdf8def24e30d989052dd9a8e0010ef132596c62c90f5468a6af1321806",
+      "base_RGB_sha256": "27e3bf217a4cd1ec9a973d3ecc2dcd1f279281c866822f734ab89da96f5d3ac5",
+      "wrist_RGB_sha256": "3a710fa38b18f07467672a93ec32d4f44c96a6dea8c77e548c0e1ef611663e8b",
+      "actual_state_sha256": "590aadfe5a38364704676652c6d63cc5f5cb56bd6665be843e147e228ceff430",
+      "RGB_shape": [
+        128,
+        128,
+        3
+      ],
+      "state_shape": [
+        10
+      ],
+      "declared_goal_geometry_evidence_only": {
+        "T1_blue_zone_xy": [
+          -0.05991086800200925,
+          -0.09009824577961684
+        ],
+        "T2_red_center_on_green_xyz": [
+          -0.13695859909057617,
+          0.09262032061815262,
+          0.05999985985457897
+        ],
+        "never_model_input": true,
+        "not_counterfactual_expert_labels": true
+      },
+      "noise": [
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285104-90",
+            "noise_replica": 0
+          },
+          "query_index": 0,
+          "seed": 7239073096950059891,
+          "noise_file": "runtime/noise/543c4eaf456880ca0ffa02c1dc4f666e42294924dd98e97870fa79a834706c48.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        },
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285104-90",
+            "noise_replica": 1
+          },
+          "query_index": 0,
+          "seed": 5169454063615478789,
+          "noise_file": "runtime/noise/7d3c2947b65143a8ab180755cbe169e9027669cc356997ea80b86527b042aa20.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        }
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285105-88",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285105,
+      "anchor": 88,
+      "phase_anchor_rule": "FIRST_PHASE2_FIXED_DIAG_NO_REPLACEMENTS",
+      "time_s": 4.4,
+      "time_source_sha256": "89cf2afeec78176fdb28d4a8bd5545cf4f60b9446dc3b44d96e5ca4e7273f0c7",
+      "source_input": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/diagnostics/inputs/T1-TRAIN-285105-88/input.npz",
+      "source_input_sha256": "8bb5ffcf01002e74a0848294f549c2b65e44f14598d3b8440665e0899d3cb473",
+      "base_RGB_sha256": "689489c1cdf1854b62fc8a339fa40d185b1ffe353dbe9f4eece002e3623ca9bc",
+      "wrist_RGB_sha256": "ad8cc2ef5fce9cce8942eab98fae454a233916299405a6c8cad43360ac562e86",
+      "actual_state_sha256": "7126c8c2ea0509516c057cdb932da62d8cf80f74b3bf89593927c60816fcabb2",
+      "RGB_shape": [
+        128,
+        128,
+        3
+      ],
+      "state_shape": [
+        10
+      ],
+      "declared_goal_geometry_evidence_only": {
+        "T1_blue_zone_xy": [
+          -0.1009088059043598,
+          0.06766574073368359
+        ],
+        "T2_red_center_on_green_xyz": [
+          0.036110103130340576,
+          0.15897460281848907,
+          0.05999991945922375
+        ],
+        "never_model_input": true,
+        "not_counterfactual_expert_labels": true
+      },
+      "noise": [
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285105-88",
+            "noise_replica": 0
+          },
+          "query_index": 0,
+          "seed": 2161691474806832635,
+          "noise_file": "runtime/noise/bb830bbc97ac29423c71be1f060db4a8625f4667e05f6f1ec364ebdd5907e5a4.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        },
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285105-88",
+            "noise_replica": 1
+          },
+          "query_index": 0,
+          "seed": 4389122137791579681,
+          "noise_file": "runtime/noise/9f5f8dfb0d62302919f9d21ec1aa7fda0cc84f36079f206da468bab4e3453d11.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        }
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285106-84",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285106,
+      "anchor": 84,
+      "phase_anchor_rule": "FIRST_PHASE2_FIXED_DIAG_NO_REPLACEMENTS",
+      "time_s": 4.2,
+      "time_source_sha256": "89cf2afeec78176fdb28d4a8bd5545cf4f60b9446dc3b44d96e5ca4e7273f0c7",
+      "source_input": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/diagnostics/inputs/T1-TRAIN-285106-84/input.npz",
+      "source_input_sha256": "c2e152d737508d9ea603d3d16680b968cf65053d26cfe5ed463eeaf22ec4b69b",
+      "base_RGB_sha256": "e3597561b3a156293d4a790786b939e52a697682a8d8fe18190632e5febd7e3c",
+      "wrist_RGB_sha256": "c81854852ab2931d52e20f6f16ccacb77c496ac0b3c71b1fe21ec1fc8b2add3a",
+      "actual_state_sha256": "db695e1cb88245a66f44f11ea0df313a8fc7c4c6402db94b5e942c19b689d8f5",
+      "RGB_shape": [
+        128,
+        128,
+        3
+      ],
+      "state_shape": [
+        10
+      ],
+      "declared_goal_geometry_evidence_only": {
+        "T1_blue_zone_xy": [
+          0.07972344807466297,
+          -0.10366678680345154
+        ],
+        "T2_red_center_on_green_xyz": [
+          0.014344997704029083,
+          0.11080528050661087,
+          0.05999988779425621
+        ],
+        "never_model_input": true,
+        "not_counterfactual_expert_labels": true
+      },
+      "noise": [
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285106-84",
+            "noise_replica": 0
+          },
+          "query_index": 0,
+          "seed": 950404490827117778,
+          "noise_file": "runtime/noise/30897e363380d86e120348dc45cbc0f52f6bc3d4eac0139324e33aa8a23dab89.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        },
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285106-84",
+            "noise_replica": 1
+          },
+          "query_index": 0,
+          "seed": 385771098443099500,
+          "noise_file": "runtime/noise/1e84d87ab62ee41934cc8a59b572b24acc97818f315cfbc0ab4bd51f74a65ded.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        }
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285107-91",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285107,
+      "anchor": 91,
+      "phase_anchor_rule": "FIRST_PHASE2_FIXED_DIAG_NO_REPLACEMENTS",
+      "time_s": 4.55,
+      "time_source_sha256": "89cf2afeec78176fdb28d4a8bd5545cf4f60b9446dc3b44d96e5ca4e7273f0c7",
+      "source_input": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/diagnostics/inputs/T1-TRAIN-285107-91/input.npz",
+      "source_input_sha256": "f179b0ab50c832647cdd858df75d88ca583f133ea7aaf362e618a9eff110b36d",
+      "base_RGB_sha256": "7f1d0af349128e368463297ee89e074fa60e7154417b0683a8de4b7de8e5375c",
+      "wrist_RGB_sha256": "0d6dcd06488a1dc6a66cbdf2be46949d375d03f03b1e309e138118b8a76c1c29",
+      "actual_state_sha256": "27ead4b7c8d4fa1140697d2b695f3280285232a9eb6358a1e713b7cdf99d9ca1",
+      "RGB_shape": [
+        128,
+        128,
+        3
+      ],
+      "state_shape": [
+        10
+      ],
+      "declared_goal_geometry_evidence_only": {
+        "T1_blue_zone_xy": [
+          -0.09774324271056145,
+          0.10685949610165052
+        ],
+        "T2_red_center_on_green_xyz": [
+          0.15544165670871735,
+          -0.027069928124547005,
+          0.059999928772449494
+        ],
+        "never_model_input": true,
+        "not_counterfactual_expert_labels": true
+      },
+      "noise": [
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285107-91",
+            "noise_replica": 0
+          },
+          "query_index": 0,
+          "seed": 1240157518708858644,
+          "noise_file": "runtime/noise/bd619f7dbb53f057dd44dac29c1f843787a883f539eb684fede83c3f71fc112d.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        },
+        {
+          "condition": {
+            "WP4_UID": "T1-TRAIN-285107-91",
+            "noise_replica": 1
+          },
+          "query_index": 0,
+          "seed": 5561521536000834092,
+          "noise_file": "runtime/noise/949d724f80e111a06a64b30670e266be20dccb91020df98f24d1b78bdb9f4381.npy",
+          "packet_sha256": "UNOBSERVED",
+          "status": "NOT_FROZEN_REAL_GPU_BF16_PACKET"
+        }
+      ]
+    }
+  ],
+  "instructions": {
+    "T1": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+    "T2": "Stack the red cube on the green cube, release it, and move the gripper away."
+  },
+  "slots": [
+    "EARLIEST1024",
+    "FINAL_T1",
+    "FINAL_SHARED"
+  ],
+  "requests_per_distinct_point": 32,
+  "max_distinct_points": 3,
+  "max_language_requests": 96,
+  "max_all_R3_descriptive_requests": 128,
+  "max_all_R3_descriptive_K4_heads": 512,
+  "noise_rule": "ALL16_REAL_CUDA_BF16_1x40x132_PACKETS_FROZEN_BEFORE_ANY_OUTPUT; condition excludes instruction/model/point",
+  "noise_status": "UNOBSERVED",
+  "query_results": "UNOBSERVED",
+  "new_model_queries": 0,
+  "new_physics": 0,
+  "new_teacher": 0,
+  "new_render": 0,
+  "scientific_effect": "DESCRIPTIVE_ONLY_NO_QUALIFICATION_SELECTION_OR_BRANCH_EFFECT",
+  "alternate_expert_labels": false,
+  "helper_sha256": "14b879101b2c7363b1e15c2b27960a67151cafd1adac58d2cc50a8a2bb3b500d"
+}

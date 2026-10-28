@@ -1,0 +1,41 @@
+{
+  "schema": "PI0243_RESUME_DECISION_V1",
+  "status": "NOT_RESUMABLE",
+  "decision": "RESTART_PI0243_STAGE_A_FROM_PI0226_INITIALIZER",
+  "selected_checkpoint": "NONE",
+  "observed_path": "/scratch/e1192548/pi0241_fixed16_v1_20260921/training/checkpoint-1000.incomplete-625370.hopper-m-02",
+  "observed_lineage": {
+    "directory_family": "PI0241_FIXED16_V1",
+    "job_suffix": "625370.hopper-m-02",
+    "file_count": 1,
+    "files": [
+      {
+        "path": "config.json",
+        "bytes": 2148,
+        "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+      }
+    ],
+    "directory_bytes": 6244
+  },
+  "missing_required_trainer_state": [
+    "model.safetensors.index.json",
+    "model shards",
+    "optimizer.pt",
+    "scheduler.pt",
+    "rng_state.pth",
+    "trainer_state.json",
+    "sample-consumption cursor and valid A lineage"
+  ],
+  "reason": "The retained path is under PI0241, contains only config.json, and cannot prove PI0243 Stage A family, complete Trainer state, global_step, schedule cursor, or official resume semantics.",
+  "scientific_action": "Use the original PI0243 Stage A initializer, seed and schedule after storage admission; do not mix or repair this partial directory.",
+  "source_evidence": "live Hopper inspection recorded during PI0243 storage-admitted continuation preflight",
+  "forbidden_counts": {
+    "training": 0,
+    "backward": 0,
+    "optimizer": 0,
+    "WBC": 0,
+    "sim": 0,
+    "DEV_E_read": 0,
+    "Final_F_read": 0
+  }
+}

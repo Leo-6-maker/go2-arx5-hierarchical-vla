@@ -1,0 +1,126 @@
+{
+  "schema": "VANDA_PRECUDA_RETRY_PBS17_28_UNIQUE_GPU_SUBMISSION_ACTUAL_V1",
+  "status": "ACTUAL_UNIQUE_SUBMISSION_BOUND_R_MODEL_RELEASED_FIRST_UPDATE_NOT_YET_OBSERVED",
+  "observed_epoch": 1792777571.0412414,
+  "runtime_source": "36925d272095d000ba1ad3ce5e9cdc44373fdce6",
+  "runtime_CI": {
+    "run": 39996540379,
+    "job": 120561415782,
+    "status": "completed",
+    "conclusion": "success",
+    "all12steps": true,
+    "fullraw_and_Gitblob_readback_files": 18
+  },
+  "authority_release": "0a7444b0a47712a0be0b0534f20a1d3753273a47",
+  "grant_sha256": "5b1d2c72b1e4aa2cebb9376faaaaebdd3f343756a2475c68b3dc098fe435a9de",
+  "exact_cap_changes": {
+    "DEC1_PBS": [
+      16,
+      17
+    ],
+    "global_PBS": [
+      27,
+      28
+    ]
+  },
+  "dual_once_adoption": {
+    "status": "INDEPENDENT_VANDA_PRECUDA1481489_PBS17_28_ADOPTION_CONFIRMED",
+    "global_after_sha256": "86eb9516ef9f7ce720ab15fb9b2423e624411b77af1ea49b6945dee676fbca74",
+    "DEC1_after_sha256": "7423b0589ef294e5100c9bc7d38e70e30f6714e5de29fc581c13ae29c20815e4",
+    "independent_readback": true,
+    "old_costs_updates_and_lineages_unchanged": true
+  },
+  "control_once_prepayment": {
+    "site_CPU_s": 1800,
+    "LOCAL_CPU_s": 15,
+    "transfer_bytes": 268435456,
+    "output_bytes": 67108864,
+    "old_control_costs_fully_preserved": true,
+    "original_remaining_controller_envelope": {
+      "site_CPU_s": 5520,
+      "LOCAL_CPU_s": 3600
+    }
+  },
+  "GPU_manifest_sha256": "e424d578434062b8e1c8e31c81d2635584d83f96da0ce3ec5e1736d1e331ff47",
+  "CPU_manifest_sha256": "ebc7e699be700bf5912725f579d6923777636c529896853b2aabfb709289f98d",
+  "full_native_registered_readback": {
+    "unique_files": 1019,
+    "sealed_member_counts": {
+      "vap1-a40-b-recovery2-retry1-01": 1013,
+      "vap1-a40-b-recovery2-retry1-vanda-control-01": 978
+    }
+  },
+  "job_id": "1481574.stdct-mgmt-02",
+  "request_id": "310edd77-f972-4dbd-baa8-4c2c674c08ea",
+  "request_sha256": "e02b55d3a0946ef1453c3f38e5a8f5c13655c4b6cd225349d49ce7077e9131a2",
+  "submission_nonce": "d476a779-4ca2-4442-8200-15924a32921f",
+  "qsub_reply": {
+    "returncode": 0,
+    "stdout": "1481574.stdct-mgmt-02",
+    "stderr": "",
+    "observed_epoch": 1792777453.3701909,
+    "request_id": "310edd77-f972-4dbd-baa8-4c2c674c08ea",
+    "script_sha256": "686b3d5052d5a7e9518344193c778ea47489111e0da19288551b787b05f9aa8a"
+  },
+  "native_state": "R",
+  "owner": {
+    "wrapper_pid": 372539,
+    "owner_pid": 372546,
+    "both_same_process_instances_present": true,
+    "server_resident": true,
+    "desktop_agent_connection_required": false,
+    "maximum_qsub": 1,
+    "running_rpc_status": "CONFIRMED"
+  },
+  "model_start_released": true,
+  "first_update_released": false,
+  "new_training_effects_observed": false,
+  "training": {
+    "arm": "B_COVERAGE",
+    "lineage": "B_COVERAGE_HEARTBEAT_RECOVERY2",
+    "seed_step": 2048,
+    "cursor": 65536,
+    "stop_step": 4096,
+    "remaining_updates": 2048,
+    "no_A_inheritance": true,
+    "original12probes_not_replayed": true
+  },
+  "current_settled_baseline": {
+    "updates": 9666,
+    "queries": 1214,
+    "global_GPU_s": 91003,
+    "DEC1_GPU_s": 70509,
+    "global_PBS_after_submission": 25,
+    "DEC1_PBS_after_submission": 14
+  },
+  "reserved": {
+    "GPU_s": 22560,
+    "site_CPU_s": 54000,
+    "updates": 2048,
+    "queries": 29,
+    "output_bytes": 70000000000
+  },
+  "cold_storage_peak_fixed_bytes": 658827016192,
+  "unchanged": {
+    "update_cap": 11714,
+    "DEC1_global_GPUsite_storage_GiB": [
+      614,
+      680
+    ],
+    "T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "final_GPU_s": 72000,
+    "final_storage_GiB": 40,
+    "all_GPU_CPU_query_physics_transfer_limits": true,
+    "all_failures_and_paid805_922_losses": true,
+    "original_three_matrix_jobs": true
+  },
+  "whole_goal_complete": false,
+  "target_task_native_qualified": false,
+  "core64": 0,
+  "native_observed_epoch": 1792777553.9212556,
+  "previous_Q_snapshot_release": "f8054201658144301334487ac2c48be1e06ff817"
+}

@@ -1,0 +1,52 @@
+{
+  "backward_recompute_heads": 40000,
+  "first_epoch_unique9792": true,
+  "first_update_four_step_gradients": {
+    "1": 0.11636084318161011,
+    "2": 0.23117457330226898,
+    "3": 2.9021480083465576,
+    "4": 11.306455612182617
+  },
+  "forward_heads": 40000,
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "schema": "PI0253_ZERO_MODEL_COMPLETION_LEDGER_RECHECK_V1",
+  "scope": "Raw step/source/key/noise/loss/mode and recorded first-update full Euler gradient chain; does not newly query gradients or prove every frozen parameter by itself",
+  "second_epoch_unique208": true,
+  "sources": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/run_card.json",
+      "sha256": "3bece4c02d8158ec09a35fc597d6ffd34290b8d1559ea55ed877da75c6714277"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/full_schedule.json",
+      "sha256": "8a44b52d861c9f3a44a5c2f0771187581f24a64383c607fa211d3e60b41bbb9f"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/pi0253_step_rng_audit.jsonl",
+      "sha256": "86039d554b055c3515a8bdf3a8c24debf64b562a1bfbca1fce56c88319dbdc3a"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/pi0253_pair_identity.jsonl",
+      "sha256": "2045c3b1a9feb21c9f2372df4de47026168646ca9c960e95543c573fdcf3b47d"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/pi0253_pre_forward_guard.jsonl",
+      "sha256": "d5364611fd05c3a1fed5b7d097f0999d4e034cbb12c9d41332b386e471fb6f00"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/u_mode_restoration_checks.jsonl",
+      "sha256": "ddeb7b024fe57ddb68dd0c3cb35f407546717446dced9ac12557b00f090b322d"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/pi0247_U_rollout_forward.complete.jsonl",
+      "sha256": "640f50038d836a8c8d91340845b8acfcff0e6e812d13c8fe8f7662a56487135a"
+    },
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/u_first_update_chain_gradient.json",
+      "sha256": "1eddcb5f2e8cba6b1cb5c096233867a71e3f7f9deb74a33077630b548915ba88"
+    }
+  ],
+  "status": "PASS_ALL_10000_ACTUAL_ROWS",
+  "updates": 10000
+}

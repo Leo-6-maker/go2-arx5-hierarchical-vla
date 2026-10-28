@@ -1,0 +1,21 @@
+{
+  "status": "RAW_DATA_AUDIT_FAIL",
+  "episodes": [
+    {
+      "id": "C29200",
+      "status": "AUDIT_FAIL",
+      "error_type": "ValueError",
+      "error": "Camera snapshot identity differs",
+      "traceback": "Traceback (most recent call last):\n  File \"<PRIVATE_HOST_PATH>\", line 392, in main\n    records.append(audit_episode(args.root, identifier, Engine, PARAMETERS))\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_HOST_PATH>\", line 255, in audit_episode\n    raise ValueError(\"Camera snapshot identity differs\")\nValueError: Camera snapshot identity differs\n",
+      "integrations": 0
+    }
+  ],
+  "CPU_s": 1.1063859999999999,
+  "elapsed_s": 0.5794252399355173,
+  "audit_script_sha256": "786a972b02e4fb8de4a65cd61aab9b12bbe150bdd47fbaede3f5dd5336ab203b",
+  "integrations": 0,
+  "model_loads": 0,
+  "render_calls": 0,
+  "CPU_includes_children": true,
+  "resource_ledger_mutation": "Owner must serially charge this measured CPU; auditor does not race physical ledger"
+}

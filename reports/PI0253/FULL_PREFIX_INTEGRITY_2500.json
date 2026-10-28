@@ -1,0 +1,50 @@
+{
+  "actual_consumption_sha256": "7b7a109f856217ac6138fd0e37df817f2265b31d77bde8948e6bebd866da08bd",
+  "canonical_terminal": 10000,
+  "checkpoint_2500_full_receipts": [
+    {
+      "readback_sha256": "f16910b27337ff851512747b23e91fa846bb847b552ff7d9df79be370bc9fc81",
+      "receipt_sha256": "ccaebbc289973d8bb2e5f70249872b71be75a2068aad5dc7771427a4141f3cc0",
+      "step": 2500,
+      "tree_sha256": "fadc5581ebfce50e79a94078d7d6434ee333a55f7e8c1f8e9350f475c5a580cb"
+    }
+  ],
+  "first_update_gradient_chain_sha256": "1eddcb5f2e8cba6b1cb5c096233867a71e3f7f9deb74a33077630b548915ba88",
+  "frozen_backbone_unchanged": true,
+  "frozen_vlln_unchanged": true,
+  "full_training_complete": false,
+  "last_actual_source": {
+    "episode_index": 4976,
+    "fixed_index": 4976,
+    "observation_index": 0,
+    "optimizer_step": 2500,
+    "source_episode_id": "pi0227_persistent_train_c_j00_nominal_s00_c0_r03_r03_227363:obs-0000",
+    "yield_ordinal": 2500
+  },
+  "last_step_key": "PI0253|22301|stage=FULL|optimizer_step=2500",
+  "mode_audit_sha256": "0b44c577b7c1bf20d5c53f0bfb32deb45fd9b1aa99a11aea5480211a26090a6c",
+  "model_queries": 0,
+  "objective_audit_sha256": "b52b0994c307aca2af13388b957f81fac230a13e183d423f39e5d7be7844cc7c",
+  "optimizer_membership": {
+    "dtypes": {
+      "torch.float32": 471
+    },
+    "frozen_parameter_tensors": 559,
+    "groups": {
+      "diffusion": 456,
+      "projector": 15
+    },
+    "illegal_frozen": [],
+    "missing_trainable": [],
+    "trainable_parameter_tensors": 471
+  },
+  "optimizer_updates": 0,
+  "original_finalizer_objective_validator_reused": true,
+  "run_card_sha256": "3bece4c02d8158ec09a35fc597d6ffd34290b8d1559ea55ed877da75c6714277",
+  "schema": "PI0253_FULL_PREFIX_INTEGRITY_V1",
+  "selected_checkpoint": "NONE",
+  "status": "PASS_READONLY_PREFIX_2500",
+  "step_rng_audit_sha256": "bb10e61236549e6ee515e49667704a9b3ca902aa35a96a695c75dae173026b51",
+  "temporary_validator_scope": "prefix length2500 and key-table prefix; original sealed card and files unchanged",
+  "verified_prefix_updates": 2500
+}

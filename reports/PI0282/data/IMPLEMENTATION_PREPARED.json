@@ -1,0 +1,54 @@
+{
+  "API": {
+    "codec": "load_codec(root), encode_actions(commands40x10,actual_state10), decode_actions(normalized40x132,actual_state10), observation(base_raw,wrist_raw,actual_state10)",
+    "collate": "collate(items) -> {inputs: native tensor batch}; fixed fullfield256+instruction require identical token lengths, CPU parity pending",
+    "dataset": "FrozenDataset(root, plan_path=None, cache=True), rows property; item tensors have singleton batch axis",
+    "diagnostics": "DIAG48.jsonl",
+    "plan": "PLAN16384.jsonl",
+    "processor_files": [
+      "statistics.json",
+      "processor_config.json",
+      "embodiment_id.json"
+    ]
+  },
+  "CPU_AST": "PASS",
+  "authority_canonical": 6043060523,
+  "authority_release_prefix": "8fdaab73",
+  "expected_root": "/home/liuyu-nfs/Projects/go2-arx5/PI0282/data",
+  "files": {
+    "scripts/pi0282_execution/codec.py": "2b2181644b021a0c3b70ca4d4a232a3c194cd96843695c049d592f4ab25200b9",
+    "scripts/pi0282_execution/cpu_inputs.py": "a28db8767d4ccfd85d844224e94f55849a99a44a9ea7a6e6022860c374e635d6",
+    "scripts/pi0282_execution/data.py": "d554fa8051ad9213b535c97a343ae3337a0364b718b6f1d20b0467a9e8949ec7"
+  },
+  "model_forward": 0,
+  "native_fields": {
+    "action": [
+      40,
+      132
+    ],
+    "action_mask": [
+      40,
+      132
+    ],
+    "active_dimensions": 10,
+    "embodiment_id": 10,
+    "state": [
+      1,
+      132
+    ]
+  },
+  "no_old_encoded_cache_or_unbounded_codec": true,
+  "physics": 0,
+  "plan_method": "4096 visits/phase,93 episode cycles,44/45 visits each episode-phase; first/last then up to8 equal-rank strata hashed UID order",
+  "planned_CPU_commands": [
+    "python data.py",
+    "python cpu_inputs.py materialize",
+    "python cpu_inputs.py check",
+    "python cpu_inputs.py roundtrip"
+  ],
+  "remote_science_calls": 0,
+  "runtime_blocker": "NUS_VPN_DISCONNECTED_CONFIRMED_BY_OWNER",
+  "schema": "PI0282_DATA_IMPLEMENTATION_PREPARED_V1",
+  "status": "PREPARED_NOT_REMOTE_EXECUTED",
+  "training": 0
+}

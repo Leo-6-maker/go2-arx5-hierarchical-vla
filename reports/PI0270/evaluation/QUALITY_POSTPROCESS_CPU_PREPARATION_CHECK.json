@@ -1,0 +1,35 @@
+{
+  "actual_new_qualification_not_claimed": true,
+  "checks": [
+    {
+      "guard_stdout": "PASS_MISSING_FINAL_SEAL_DENIED_BEFORE_TORCH_OR_VIDEO_WRITER\n",
+      "name": "quality_report.py",
+      "source_sha256": "f7b2760b11d25ba6173b2b00b880f615f35c4b777cc869a87d7f6ab7a15c071b",
+      "stdout": "PASS_CPU_TYPED_REUSE_ORIGINAL_AND_GATE_DENOMINATOR_PAIRED_DELTA_NO_QUERY\n"
+    },
+    {
+      "guard_stdout": "PASS_MISSING_FINAL_SEAL_DENIED_BEFORE_TORCH_OR_VIDEO_WRITER\n",
+      "name": "video.py",
+      "source_sha256": "8fb52644ecf373e5b652a7324e66206afd61a3fda2efdd5165884dd44444e4f2",
+      "stdout": "PASS_QUALIFIED_FIXED_ALL8_SAVED_RGB_VIDEO_SOURCE_NO_FRAME_PROCESSING\n"
+    }
+  ],
+  "deployment_selected_checkpoint": "NONE",
+  "gradient_queries": 0,
+  "model_queries": 0,
+  "observed_at_utc": "2026-10-03T19:43:34.161521+00:00",
+  "old_verified_logical_rows": {
+    "component": 64,
+    "offline": 1936,
+    "virtual": 128
+  },
+  "optimizer_updates": 0,
+  "physics_calls": 0,
+  "renderer_calls": 0,
+  "scope": "SOURCE_PREPARATION_AND_CLOSED_TABLE_REUSE_NOT_ACTUAL_AGG_QUALITY",
+  "seal_source_sha256": "b2440ad172f2fa430b78e3b1ded6a66aae46a130ac85c03a177fa9e5f4ce59d4",
+  "selected_checkpoint": "NONE",
+  "status": "PASS_PREPARED_POSTPROCESS_SOURCE_AND_CPU_BOUNDARIES_NO_QUALITY_QUERY",
+  "teacher_calls": 0,
+  "video_frames_generated": 0
+}

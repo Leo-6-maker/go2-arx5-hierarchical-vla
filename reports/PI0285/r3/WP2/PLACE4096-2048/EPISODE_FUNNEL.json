@@ -1,0 +1,1436 @@
+{
+  "status": "ACTUAL_CPU_CLOSED_EPISODE_FUNNEL_NOT_NEW_QUALIFICATION",
+  "point": "PLACE4096-2048",
+  "proofs": {
+    "TRAIN": {
+      "source_sha256": "0a8244be4d7d8464f5312ea948f32f22e5ead1a3bcf6c2bcd772d5d9a04e9205",
+      "CPU_sha256": "727ccd895fe45c5086d6201147c8df6d5c24bbf9bb09e4d11025fb7336d93b06"
+    }
+  },
+  "rows": [
+    {
+      "task": "T1",
+      "layout": 285100,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": false,
+        "lift": false,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 13.92,
+          "changes": [
+            {
+              "time_s": 13.92,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": 15.93,
+          "changes": [
+            {
+              "time_s": 15.93,
+              "value": true
+            },
+            {
+              "time_s": 17.240000000000002,
+              "value": false
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": []
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.96,
+              "value": false
+            },
+            {
+              "time_s": 18.35,
+              "value": true
+            },
+            {
+              "time_s": 18.69,
+              "value": false
+            },
+            {
+              "time_s": 18.84,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 6.205162524901214e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.018841102719306946,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/PLACE4096-2048-T1-TRAIN-285100/attempt-000/PLACE4096-2048-ACTUAL_MODEL.mp4",
+          "sha256": "a61a5188f90ac358107893fe8b134249de0193c05b22238eb7eda6b745d2338c"
+        }
+      ],
+      "video_status": "ORIGINAL_MODEL_VIDEO",
+      "source_result_sha256": "9ed3c5f570c039bc56c0f1e740c64a3bd12c2b26141c920fbe5ac7d8a2f0adaa"
+    },
+    {
+      "task": "T1",
+      "layout": 285101,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": false,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.0,
+          "changes": [
+            {
+              "time_s": 2.0,
+              "value": true
+            },
+            {
+              "time_s": 3.2199999999999998,
+              "value": false
+            },
+            {
+              "time_s": 3.26,
+              "value": true
+            },
+            {
+              "time_s": 3.62,
+              "value": false
+            },
+            {
+              "time_s": 3.7800000000000002,
+              "value": true
+            },
+            {
+              "time_s": 4.01,
+              "value": false
+            },
+            {
+              "time_s": 11.31,
+              "value": true
+            },
+            {
+              "time_s": 11.44,
+              "value": false
+            },
+            {
+              "time_s": 11.870000000000001,
+              "value": true
+            },
+            {
+              "time_s": 11.9,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 2.79,
+          "changes": [
+            {
+              "time_s": 2.79,
+              "value": true
+            },
+            {
+              "time_s": 2.96,
+              "value": false
+            },
+            {
+              "time_s": 3.09,
+              "value": true
+            },
+            {
+              "time_s": 3.25,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 13.4,
+          "changes": [
+            {
+              "time_s": 13.4,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.0,
+              "value": false
+            },
+            {
+              "time_s": 3.2199999999999998,
+              "value": true
+            },
+            {
+              "time_s": 3.26,
+              "value": false
+            },
+            {
+              "time_s": 3.62,
+              "value": true
+            },
+            {
+              "time_s": 3.7800000000000002,
+              "value": false
+            },
+            {
+              "time_s": 4.01,
+              "value": true
+            },
+            {
+              "time_s": 11.31,
+              "value": false
+            },
+            {
+              "time_s": 11.44,
+              "value": true
+            },
+            {
+              "time_s": 11.870000000000001,
+              "value": false
+            },
+            {
+              "time_s": 11.9,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.13,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.01734268469794989,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.015988657251000404,
+      "IK_holds": 255,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "0246f5b096377ea33cd12348102b181f8f5b9e0abf9447c1cc46ed98f095ef17"
+    },
+    {
+      "task": "T1",
+      "layout": 285102,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.36,
+          "changes": [
+            {
+              "time_s": 2.36,
+              "value": true
+            },
+            {
+              "time_s": 8.77,
+              "value": false
+            },
+            {
+              "time_s": 8.870000000000001,
+              "value": true
+            },
+            {
+              "time_s": 8.91,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.59,
+          "changes": [
+            {
+              "time_s": 3.59,
+              "value": true
+            },
+            {
+              "time_s": 8.07,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.37,
+          "changes": [
+            {
+              "time_s": 5.37,
+              "value": true
+            },
+            {
+              "time_s": 5.49,
+              "value": false
+            },
+            {
+              "time_s": 5.54,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 7.380000000000001,
+          "changes": [
+            {
+              "time_s": 7.380000000000001,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.36,
+              "value": false
+            },
+            {
+              "time_s": 8.77,
+              "value": true
+            },
+            {
+              "time_s": 8.870000000000001,
+              "value": false
+            },
+            {
+              "time_s": 8.91,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.2200000000000002,
+              "value": false
+            },
+            {
+              "time_s": 10.040000000000001,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 10.040000000000001,
+          "changes": [
+            {
+              "time_s": 10.040000000000001,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 10.040000000000001,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 6.305971721145645e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.008721528574824333,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/PLACE4096-2048-T1-TRAIN-285102/attempt-000/PLACE4096-2048-ACTUAL_MODEL.mp4",
+          "sha256": "36dd5086fc1928ae9ee372a9b9c5da45cddd657937c18590e05387ed74bd3c81"
+        }
+      ],
+      "video_status": "ORIGINAL_MODEL_VIDEO",
+      "source_result_sha256": "e1f1156a611f05208a9730c7d6027f03b713622529f5a83ade507a2d9d1c328e"
+    },
+    {
+      "task": "T1",
+      "layout": 285103,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": true,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 3.24,
+          "changes": [
+            {
+              "time_s": 3.24,
+              "value": true
+            },
+            {
+              "time_s": 6.22,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": 3.8200000000000003,
+          "changes": [
+            {
+              "time_s": 3.8200000000000003,
+              "value": true
+            },
+            {
+              "time_s": 3.9400000000000004,
+              "value": false
+            },
+            {
+              "time_s": 3.99,
+              "value": true
+            },
+            {
+              "time_s": 4.18,
+              "value": false
+            },
+            {
+              "time_s": 4.92,
+              "value": true
+            },
+            {
+              "time_s": 5.83,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 5.15,
+          "changes": [
+            {
+              "time_s": 5.15,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 41,
+          "first_true_s": 5.640000000000001,
+          "changes": [
+            {
+              "time_s": 5.640000000000001,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 3.24,
+              "value": false
+            },
+            {
+              "time_s": 6.22,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.0700000000000003,
+              "value": false
+            },
+            {
+              "time_s": 6.83,
+              "value": true
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 41,
+          "first_true_s": 6.83,
+          "changes": [
+            {
+              "time_s": 6.83,
+              "value": true
+            }
+          ]
+        }
+      },
+      "first_task_hold_s": 6.83,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 41,
+      "reference_to_installed_XYZ_RMS_m": 5.853738065243131e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.007914060726761818,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/PLACE4096-2048-T1-TRAIN-285103/attempt-000/PLACE4096-2048-ACTUAL_MODEL.mp4",
+          "sha256": "b7393005e5fca8f0e194430157df95285e70691cfb91eaecc379ba7b0ccc5f1f"
+        }
+      ],
+      "video_status": "ORIGINAL_MODEL_VIDEO",
+      "source_result_sha256": "209873363f17eb4ac06b93142549c9308182a9066e0f68720f8c12ad20d64583"
+    },
+    {
+      "task": "T1",
+      "layout": 285104,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": false,
+        "lift": false,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 0,
+          "first_true_s": 2.25,
+          "changes": [
+            {
+              "time_s": 2.25,
+              "value": true
+            },
+            {
+              "time_s": 2.42,
+              "value": false
+            },
+            {
+              "time_s": 2.59,
+              "value": true
+            },
+            {
+              "time_s": 2.7,
+              "value": false
+            },
+            {
+              "time_s": 11.32,
+              "value": true
+            },
+            {
+              "time_s": 11.33,
+              "value": false
+            },
+            {
+              "time_s": 18.400000000000002,
+              "value": true
+            },
+            {
+              "time_s": 18.41,
+              "value": false
+            },
+            {
+              "time_s": 18.76,
+              "value": true
+            },
+            {
+              "time_s": 18.81,
+              "value": false
+            },
+            {
+              "time_s": 19.150000000000002,
+              "value": true
+            },
+            {
+              "time_s": 19.21,
+              "value": false
+            },
+            {
+              "time_s": 19.52,
+              "value": true
+            },
+            {
+              "time_s": 19.61,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 10.58,
+          "changes": [
+            {
+              "time_s": 10.58,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 41,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.25,
+              "value": false
+            },
+            {
+              "time_s": 2.42,
+              "value": true
+            },
+            {
+              "time_s": 2.59,
+              "value": false
+            },
+            {
+              "time_s": 2.7,
+              "value": true
+            },
+            {
+              "time_s": 11.32,
+              "value": false
+            },
+            {
+              "time_s": 11.33,
+              "value": true
+            },
+            {
+              "time_s": 18.400000000000002,
+              "value": false
+            },
+            {
+              "time_s": 18.41,
+              "value": true
+            },
+            {
+              "time_s": 18.76,
+              "value": false
+            },
+            {
+              "time_s": 18.81,
+              "value": true
+            },
+            {
+              "time_s": 19.150000000000002,
+              "value": false
+            },
+            {
+              "time_s": 19.21,
+              "value": true
+            },
+            {
+              "time_s": 19.52,
+              "value": false
+            },
+            {
+              "time_s": 19.61,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.2800000000000002,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.02534821262343948,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.017086612060666084,
+      "IK_holds": 348,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "9044ee4b05ddc489acf87db34383109d0ea10cede0969f2f66623ef0e1bb43aa"
+    },
+    {
+      "task": "T1",
+      "layout": 285105,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 41,
+          "first_true_s": 3.91,
+          "changes": [
+            {
+              "time_s": 3.91,
+              "value": true
+            },
+            {
+              "time_s": 4.01,
+              "value": false
+            },
+            {
+              "time_s": 4.32,
+              "value": true
+            },
+            {
+              "time_s": 4.41,
+              "value": false
+            },
+            {
+              "time_s": 4.63,
+              "value": true
+            },
+            {
+              "time_s": 4.8100000000000005,
+              "value": false
+            },
+            {
+              "time_s": 5.15,
+              "value": true
+            },
+            {
+              "time_s": 5.19,
+              "value": false
+            },
+            {
+              "time_s": 20.330000000000002,
+              "value": true
+            },
+            {
+              "time_s": 31.85,
+              "value": false
+            },
+            {
+              "time_s": 31.92,
+              "value": true
+            },
+            {
+              "time_s": 31.939999999999998,
+              "value": false
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 12,
+          "first_true_s": 29.45,
+          "changes": [
+            {
+              "time_s": 29.45,
+              "value": true
+            },
+            {
+              "time_s": 30.84,
+              "value": false
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 11.200000000000001,
+          "changes": [
+            {
+              "time_s": 11.200000000000001,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": 30.84,
+          "changes": [
+            {
+              "time_s": 30.84,
+              "value": true
+            }
+          ]
+        },
+        "release": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 3.91,
+              "value": false
+            },
+            {
+              "time_s": 4.01,
+              "value": true
+            },
+            {
+              "time_s": 4.32,
+              "value": false
+            },
+            {
+              "time_s": 4.41,
+              "value": true
+            },
+            {
+              "time_s": 4.63,
+              "value": false
+            },
+            {
+              "time_s": 4.8100000000000005,
+              "value": true
+            },
+            {
+              "time_s": 5.15,
+              "value": false
+            },
+            {
+              "time_s": 5.19,
+              "value": true
+            },
+            {
+              "time_s": 20.330000000000002,
+              "value": false
+            },
+            {
+              "time_s": 31.85,
+              "value": true
+            },
+            {
+              "time_s": 31.92,
+              "value": false
+            },
+            {
+              "time_s": 31.939999999999998,
+              "value": true
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.36,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 0.01067971294619005,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.020961249247193336,
+      "IK_holds": 82,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "090ca3648fa192870d817c5735038067f019c428fecbfa270cee633073dd426e"
+    },
+    {
+      "task": "T1",
+      "layout": 285106,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": false,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 6,
+          "first_true_s": 17.1,
+          "changes": [
+            {
+              "time_s": 17.1,
+              "value": true
+            },
+            {
+              "time_s": 17.11,
+              "value": false
+            },
+            {
+              "time_s": 17.46,
+              "value": true
+            },
+            {
+              "time_s": 17.53,
+              "value": false
+            },
+            {
+              "time_s": 20.19,
+              "value": true
+            },
+            {
+              "time_s": 22.05,
+              "value": false
+            },
+            {
+              "time_s": 24.76,
+              "value": true
+            },
+            {
+              "time_s": 24.77,
+              "value": false
+            },
+            {
+              "time_s": 24.87,
+              "value": true
+            },
+            {
+              "time_s": 24.89,
+              "value": false
+            },
+            {
+              "time_s": 25.47,
+              "value": true
+            },
+            {
+              "time_s": 25.52,
+              "value": false
+            },
+            {
+              "time_s": 26.68,
+              "value": true
+            },
+            {
+              "time_s": 27.04,
+              "value": false
+            },
+            {
+              "time_s": 27.18,
+              "value": true
+            },
+            {
+              "time_s": 27.21,
+              "value": false
+            },
+            {
+              "time_s": 27.27,
+              "value": true
+            },
+            {
+              "time_s": 27.28,
+              "value": false
+            },
+            {
+              "time_s": 29.72,
+              "value": true
+            },
+            {
+              "time_s": 31.299999999999997,
+              "value": false
+            },
+            {
+              "time_s": 31.380000000000003,
+              "value": true
+            },
+            {
+              "time_s": 31.53,
+              "value": false
+            },
+            {
+              "time_s": 31.590000000000003,
+              "value": true
+            },
+            {
+              "time_s": 31.72,
+              "value": false
+            },
+            {
+              "time_s": 31.79,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 21.650000000000002,
+          "changes": [
+            {
+              "time_s": 21.650000000000002,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 35,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 17.1,
+              "value": false
+            },
+            {
+              "time_s": 17.11,
+              "value": true
+            },
+            {
+              "time_s": 17.46,
+              "value": false
+            },
+            {
+              "time_s": 17.53,
+              "value": true
+            },
+            {
+              "time_s": 20.19,
+              "value": false
+            },
+            {
+              "time_s": 22.05,
+              "value": true
+            },
+            {
+              "time_s": 24.76,
+              "value": false
+            },
+            {
+              "time_s": 24.77,
+              "value": true
+            },
+            {
+              "time_s": 24.87,
+              "value": false
+            },
+            {
+              "time_s": 24.89,
+              "value": true
+            },
+            {
+              "time_s": 25.47,
+              "value": false
+            },
+            {
+              "time_s": 25.52,
+              "value": true
+            },
+            {
+              "time_s": 26.68,
+              "value": false
+            },
+            {
+              "time_s": 27.04,
+              "value": true
+            },
+            {
+              "time_s": 27.18,
+              "value": false
+            },
+            {
+              "time_s": 27.21,
+              "value": true
+            },
+            {
+              "time_s": 27.27,
+              "value": false
+            },
+            {
+              "time_s": 27.28,
+              "value": true
+            },
+            {
+              "time_s": 29.72,
+              "value": false
+            },
+            {
+              "time_s": 31.299999999999997,
+              "value": true
+            },
+            {
+              "time_s": 31.380000000000003,
+              "value": false
+            },
+            {
+              "time_s": 31.53,
+              "value": true
+            },
+            {
+              "time_s": 31.590000000000003,
+              "value": false
+            },
+            {
+              "time_s": 31.72,
+              "value": true
+            },
+            {
+              "time_s": 31.79,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 2.27,
+              "value": false
+            },
+            {
+              "time_s": 7.83,
+              "value": true
+            },
+            {
+              "time_s": 8.44,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 5.9872463670070484e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.021094337105751038,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "7f9dc2a890b2092ef390bdc4cc74131674a452b4ac93f1e7ea6ea965a5147693"
+    },
+    {
+      "task": "T1",
+      "layout": 285107,
+      "panel": "TRAIN",
+      "status": "VALID_SOURCE_COMPLETE",
+      "complete_32s": true,
+      "persistent_success": false,
+      "history": {
+        "grasp": true,
+        "lift": true,
+        "horizontal_transfer": true
+      },
+      "stages": {
+        "grasp": {
+          "hold_pass": 41,
+          "first_true_s": 3.84,
+          "changes": [
+            {
+              "time_s": 3.84,
+              "value": true
+            },
+            {
+              "time_s": 3.8899999999999997,
+              "value": false
+            },
+            {
+              "time_s": 4.01,
+              "value": true
+            },
+            {
+              "time_s": 4.04,
+              "value": false
+            },
+            {
+              "time_s": 4.14,
+              "value": true
+            },
+            {
+              "time_s": 4.17,
+              "value": false
+            },
+            {
+              "time_s": 17.45,
+              "value": true
+            },
+            {
+              "time_s": 17.67,
+              "value": false
+            },
+            {
+              "time_s": 19.63,
+              "value": true
+            },
+            {
+              "time_s": 22.82,
+              "value": false
+            },
+            {
+              "time_s": 23.05,
+              "value": true
+            }
+          ]
+        },
+        "lift": {
+          "hold_pass": 41,
+          "first_true_s": 19.97,
+          "changes": [
+            {
+              "time_s": 19.97,
+              "value": true
+            },
+            {
+              "time_s": 21.85,
+              "value": false
+            },
+            {
+              "time_s": 21.86,
+              "value": true
+            },
+            {
+              "time_s": 22.86,
+              "value": false
+            },
+            {
+              "time_s": 24.94,
+              "value": true
+            },
+            {
+              "time_s": 25.29,
+              "value": false
+            },
+            {
+              "time_s": 25.740000000000002,
+              "value": true
+            }
+          ]
+        },
+        "transfer": {
+          "hold_pass": 41,
+          "first_true_s": 6.09,
+          "changes": [
+            {
+              "time_s": 6.09,
+              "value": true
+            },
+            {
+              "time_s": 6.5200000000000005,
+              "value": false
+            },
+            {
+              "time_s": 6.69,
+              "value": true
+            },
+            {
+              "time_s": 15.8,
+              "value": false
+            },
+            {
+              "time_s": 20.5,
+              "value": true
+            }
+          ]
+        },
+        "place": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        },
+        "release": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 3.84,
+              "value": false
+            },
+            {
+              "time_s": 3.8899999999999997,
+              "value": true
+            },
+            {
+              "time_s": 4.01,
+              "value": false
+            },
+            {
+              "time_s": 4.04,
+              "value": true
+            },
+            {
+              "time_s": 4.14,
+              "value": false
+            },
+            {
+              "time_s": 4.17,
+              "value": true
+            },
+            {
+              "time_s": 17.45,
+              "value": false
+            },
+            {
+              "time_s": 17.67,
+              "value": true
+            },
+            {
+              "time_s": 19.63,
+              "value": false
+            },
+            {
+              "time_s": 22.82,
+              "value": true
+            },
+            {
+              "time_s": 23.05,
+              "value": false
+            }
+          ]
+        },
+        "withdraw": {
+          "hold_pass": 0,
+          "first_true_s": 0.0,
+          "changes": [
+            {
+              "time_s": 1.19,
+              "value": false
+            },
+            {
+              "time_s": 8.01,
+              "value": true
+            },
+            {
+              "time_s": 14.780000000000001,
+              "value": false
+            }
+          ]
+        },
+        "hold": {
+          "hold_pass": 0,
+          "first_true_s": null,
+          "changes": []
+        }
+      },
+      "first_task_hold_s": null,
+      "first_task_hold_loss_s": null,
+      "hold_required": 41,
+      "hold_observed": 41,
+      "hold_pass": 0,
+      "reference_to_installed_XYZ_RMS_m": 6.281735904316588e-05,
+      "installed_to_same_issued_achieved_XYZ_RMS_m": 0.02693413570523262,
+      "IK_holds": 0,
+      "gate_rejects": 0,
+      "model_queries": 80,
+      "videos": [],
+      "video_status": "NOT_YET_RENDERED",
+      "source_result_sha256": "6b12b5cfd3f82bba95b5caf6b21258bb0d0ec1c557a1298ed3c7d7b909d12d94"
+    }
+  ],
+  "model_queries_added": 0,
+  "physics_added": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

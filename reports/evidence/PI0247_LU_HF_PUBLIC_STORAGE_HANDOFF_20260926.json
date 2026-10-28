@@ -1,0 +1,262 @@
+{
+  "schema": "PI0247_LU_HF_PUBLIC_STORAGE_HANDOFF_V1",
+  "recorded_at_utc": "2026-09-26T08:15:05Z",
+  "status": "FULL_SIZE_STORAGE_PROBE_RUNNING_L_HELD",
+  "authority": {
+    "r1_canonical_issue_comment": 5844159421,
+    "r1_execution_update_commit": "354bf97c95547e4110b29ee3d890f7a7d4cd6993",
+    "previous_execution_comment": 5843913368,
+    "execution_branch": "pi0247/execution-20260926",
+    "execution_head": "161314e73d5a4b33e6c16c0a1e069cf64c4c3392",
+    "staged_runner_sha256": "371860dab36ea48620d7adae705f83279ca9acb4aadf17b7cb6042d283d7dca7",
+    "issue_11_is_canonical": true,
+    "pr_77_is_pointer_only": true,
+    "execution_decision": "GO_REPLAY_SAME_L_TRAJECTORY_AFTER_STORAGE_REPAIR",
+    "execution_token": "PI0247_R1_L_REPLAY_AFTER_ENGINEERING_FAILURE_GO",
+    "execution_code_commit": "161314e73d5a4b33e6c16c0a1e069cf64c4c3392"
+  },
+  "science": {
+    "d1": "COMPLETE_R_STAR_S4",
+    "d2": "COMPLETE_B0_FAIL_B1_FAIL",
+    "old_pi0246_8000_updates_208_cells": "PRESERVED",
+    "new_cells_completed": 0,
+    "L_job": "633415.hopper-m-02",
+    "L_optimizer_updates_observed": 1000,
+    "L_valid_full_trainer_checkpoint": false,
+    "L_optimizer_state_archive_valid": false,
+    "U_job_submitted_for_r1_card": false,
+    "active_pbs_jobs_at_latest_check": 0,
+    "selected_checkpoint": "NONE",
+    "scientific_result": "NO_NEW_SCIENTIFIC_RESULT_YET",
+    "budget_disposition": "PI authorizes one fresh canonical L2000 after storage repair; retain the prior 1000 engineering-attempt updates in raw accounting, then report 3000 total physical L updates after the replay. No reset of raw compute; no partial-state resume for 633321.",
+    "canonical_L_replay_authorized_updates": 2000,
+    "canonical_L_replay_updates_completed": 0,
+    "U_updates_completed": 0,
+    "raw_L_updates_after_one_complete_replay": 3000,
+    "L_job_state": "USER_HELD_PENDING_FULL_SIZE_CAPACITY_PROOF",
+    "L_job_execution_started": false,
+    "U_job_submitted": false,
+    "active_pbs_jobs_for_user": 2,
+    "model_training_updates_since_replay_authorization": 0
+  },
+  "storage": {
+    "project_storage_used": false,
+    "destination": "Hugging Face public model repository",
+    "scratch_report_after_retirement": {
+      "reported_used": "1024.0GB",
+      "reported_hard_quota": "1.0TB",
+      "reported_chunks": 512024,
+      "report_time_local": "2026-09-26 15:03",
+      "capacity_for_one_full_Trainer_checkpoint_proven": false
+    },
+    "retired_local_invalid_checkpoint_bytes": 16254020573,
+    "retired_local_invalid_checkpoint_tree_sha256": "34a48c0578fedd278375d05f3bc58b2e586424080323f30be14b5bdf6d111979",
+    "retirement_predelete_receipt": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPAIRED/L/checkpoint_retirements/engineering-failure-633321-checkpoint-1000.predelete.json",
+    "retirement_completion_receipt": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPAIRED/L/checkpoint_retirements/engineering-failure-633321-checkpoint-1000.deleted.json",
+    "original_P_initializer_local_copy": "PRESERVED",
+    "quota_crosscheck": {
+      "checked_at_utc": "2026-09-26T08:04:40Z",
+      "quota_path": "/scratch/e1192548",
+      "user_quota_bytes": 1099511627776,
+      "user_quota_used_bytes": 1073723998208,
+      "user_quota_available_bytes": 25787629568,
+      "P_full_checkpoint_bytes": 20889738947,
+      "required_checkpoint_plus_4GiB_reserve_bytes": 25184706243,
+      "remaining_margin_bytes": 602923325,
+      "project_child_statvfs_reported_available_bytes": 3506689167851520,
+      "project_child_statvfs_is_quota_authority": false,
+      "same_hpfs_device": true,
+      "runner_fix": "use the minimum available bytes from output path and existing same-device ancestors; this captures the per-user quota surfaced at /scratch/e1192548",
+      "capacity_gate": "PASS_ONE_FULL_CHECKPOINT_PLUS_4GIB_RESERVE_AT_EXACT_L_OUTPUT_ROOT",
+      "full_checkpoint_write_and_HF_roundtrip_selfcheck": "PENDING"
+    },
+    "cleanup": {
+      "local_failed_633321_checkpoint_bytes_retired_after_HF_readback": 16254020573,
+      "local_duplicate_PI0246_PT_model_shards_bytes_removed_after_pinned_HF_match": 9529201304,
+      "local_P_initializer": "PRESERVED",
+      "failed_attempt_logs_and_receipts": "PRESERVED",
+      "HF_public_failure_archive": "PRESERVED_AND_PINNED"
+    },
+    "checkpoint_storage_path_test": {
+      "runner_commit": "161314e73d5a4b33e6c16c0a1e069cf64c4c3392",
+      "quota_probe_path": "/scratch/e1192548",
+      "L_exact_output_root": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPLAY_5844159421/L",
+      "capacity_result": "PASS",
+      "local_hf_readback_retirement_result": "PASS_SYNTHETIC_CHECKPOINT",
+      "full_size_trainer_checkpoint_write": "NOT_SIMULATED; capacity is verified against the sealed 20,889,738,947-byte full P Trainer checkpoint plus 4GiB reserve",
+      "tmpfs_is_not_the_only_source": true
+    }
+  },
+  "L_failure_archive": {
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "public": true,
+    "path_prefix": "arms/PI0247/engineering-failures/L/633321/checkpoint-1000-incomplete",
+    "pinned_revision": "fe8e89b61ef48037e9e671b25b1569f922ed6f82",
+    "remote_receipt_path": "arms/PI0247/engineering-failures/L/633321/ARCHIVE_RECEIPT.json",
+    "remote_receipt_sha256": "c385b34772e182cb88ba12fe7f22a0304e5528e6db8ffc2f24f2c70da12dc8ec",
+    "tree_sha256": "34a48c0578fedd278375d05f3bc58b2e586424080323f30be14b5bdf6d111979",
+    "file_count": 6,
+    "total_bytes": 16254020573,
+    "pinned_revision_file_set_size_sha256": "PASS",
+    "consumer_readback": "PASS",
+    "files": [
+      {
+        "path": "config.json",
+        "bytes": 2148,
+        "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+      },
+      {
+        "path": "model-00001-of-00002.safetensors",
+        "bytes": 4993709288,
+        "sha256": "740aac8ccc0481ef26f8fd7c6d599fa425bd08fc24473a2f1b4d6f9c7e3864"
+      },
+      {
+        "path": "model-00002-of-00002.safetensors",
+        "bytes": 4535492016,
+        "sha256": "2da80d843bafc20312074128dae8168a58fcc38c30a0875f565bd2e1eb1bba06"
+      },
+      {
+        "path": "model.safetensors.index.json",
+        "bytes": 104912,
+        "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+      },
+      {
+        "path": "optimizer.pt",
+        "bytes": 6724706304,
+        "sha256": "00136cec3339a4994d0a0d9883c236b8c5b5e00d9d877409030f93bc56d53fbd"
+      },
+      {
+        "path": "training_args.bin",
+        "bytes": 5905,
+        "sha256": "5f706c50d715e7c1d2be9f7ebcc8c96f2e2cbcde04201d4353e5531e3e9add92"
+      }
+    ]
+  },
+  "P_initializer_archive": {
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "public": true,
+    "path_prefix": "arms/P/checkpoint-2000",
+    "pinned_revision": "74ab6fbcf73832a6411f71bb2369c3e8bfd0ba5e",
+    "tree_sha256": "fd2c5fc80f00b0cc96ee80991a20dc6b0f7c50ddaf4af36e6de31cb7374e8538",
+    "file_count": 18,
+    "pinned_revision_file_set_size_sha256": "PASS",
+    "local_optimizer_sha256_match": "PASS",
+    "local_optimizer_sha256": "c69e5563516be27e00edcb8d24babadbf48dbc97ee9468846875f3c408e97226",
+    "local_initializer_deleted": false
+  },
+  "next_action": "Wait for 633422 full-size scratch write and cleanup receipt; then verify quota restored, release the existing L job 633415, and continue the same authorized L2000. Do not submit U.",
+  "engineering_repairs": {
+    "commit": "161314e73d5a4b33e6c16c0a1e069cf64c4c3392",
+    "pushed_to": "origin/pi0247/execution-20260926",
+    "H200_allocation_check": "now runs before exact-HF checkpoint restore or attempt-directory creation",
+    "storage_preflight": "honors smallest available-byte report on output directory and same-device ancestors",
+    "HF_restore_staging": "removes downloaded cache symlink after verified no-copy hardlink staging",
+    "selfcheck": "now exercises storage quota guard, full read-only finalizer, archive-retirement receipts and exact-resume release; zero project model loads",
+    "pbs_entrypoint_sha256": "1f4cc4be69a51a672b186e84f7ef5d8576ad85f6087196f4b90bf6eac928249b",
+    "pbs_entrypoint": "validates new canonical, arm authorization, HF prefix, replay output root and durable HF resume receipts"
+  },
+  "runtime_observation": {
+    "Hopper_login_host": "hopper-l-01",
+    "PI0247_training_processes": "none observed by pgrep at 2026-09-26T07:46:58Z",
+    "PBS_queue": "not yet verified; qstat/qsub absent from noninteractive PATH",
+    "new_replay_job_submitted": false
+  },
+  "preparation": {
+    "bootstrap_path": "/scratch/e1192548/pi0247_generation_to_sim_20260926/PI0247_LU_R1_REPLAY_BOOTSTRAP_5844159421_v2.json",
+    "bootstrap_sha256": "750b7e8f5e61c2903c1cf820a6a743b87000eacd6cd6510a2fcae10023381d57",
+    "code_root": "/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_r1_replay_161314e",
+    "L_run_card_path": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPLAY_5844159421/L/run_card.json",
+    "L_run_card_sha256": "54fb7423c1dceb2be918515a50b4d118ea2917a83e129ef0098840fd97c618e5",
+    "U_run_card_path": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPLAY_5844159421/U/run_card.json",
+    "U_run_card_sha256": "3555aadc9723f7b54f23e2c60882b407337d4b8f2f10c18c8128583708e927a1",
+    "run_card_state": "SEALED_READY_NOT_STARTED",
+    "selected_checkpoint": "NONE",
+    "HF_public_repo": "leoyuer/pi0246-gate-pass-campaign",
+    "HF_target_prefixes_empty_before_training": true,
+    "L_hf_write_probe_commit": "c675990083f82ade5488ad0e5566045f70c56a82",
+    "U_hf_write_probe_commit": "bff60da6c0962feaad7309fffd6f53df848957dd"
+  },
+  "self_checks": {
+    "synthetic_finalizer": {
+      "status": "PASS",
+      "sha256": "84a2e50dd943309f886c14de647d01cf82db245c3323ccfe86551be40a255d38",
+      "model_loads": 0,
+      "selected_checkpoint": "NONE",
+      "storage_quota_probe_path": "/scratch/e1192548",
+      "coefficient_mismatch_rejected": true,
+      "exact_resume_release_exercised": true
+    },
+    "real_HF_public_sidecar": {
+      "status": "PASS",
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "prefix": "control/PI0247/r1-replay-5844159421/storage-selfcheck-161314e-v2",
+      "pinned_revision": "44c430a3767baf746afa016bb22bb8112b2fb491",
+      "tree_sha256": "92a357953b5caa53878e310b175c33260c38940e55a07f5e3de93c9c711adf58",
+      "bytes": 176,
+      "file_count": 6,
+      "full_readback": "PASS",
+      "local_synthetic_checkpoint_retired": true,
+      "project_model_training": false
+    },
+    "first_HF_sidecar_attempt": {
+      "status": "ENGINEERING_FIXTURE_INCOMPLETE",
+      "prefix": "control/PI0247/r1-replay-5844159421/storage-selfcheck-161314e",
+      "pinned_repository_revision": "1b8c603c0a4515a5300c3abddcf5d03ab9f5bb19",
+      "files_uploaded": 5,
+      "cause": "synthetic fixture omitted config.json required by existing archive consumer readback",
+      "receipt_or_manifest_created": false,
+      "preserved": true
+    },
+    "first_prepare_attempt": {
+      "status": "STOPPED_BEFORE_HF_PREFLIGHT_OR_OUTPUT_CREATION",
+      "cause": "source bootstrap used P/training instead of sealed P/training/checkpoint-2000 as base_model_path",
+      "repair": "new v2 bootstrap binds the already-sealed P-final2000 path",
+      "P_initializer_modified": false
+    }
+  },
+  "pbs_submission": {
+    "job_id": "633415.hopper-m-02",
+    "state": "H",
+    "requested_queue": "auto",
+    "routed_execution_queue": "small",
+    "resource_list": "1 H200 GPU, 12 CPUs, 225 GB RAM, 16 hours, CFP03-CF-004",
+    "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus",
+    "queue_selection_reason": "auto routes to small for one GPU; medium requires at least 3 GPUs and large at least 8",
+    "model_training_started": false,
+    "updates": 0,
+    "logs_directory_empty_at_check": true,
+    "U_submitted": false,
+    "hold_type": "user",
+    "hold_reason": "avoid starting L while the full-size write proof temporarily consumes the single-checkpoint scratch reserve",
+    "held_at_utc": "2026-09-26T08:08:06Z"
+  },
+  "capacity_probe": {
+    "job_id": "633422.hopper-m-02",
+    "state": "R",
+    "execution_host": "hopper-23",
+    "PBS_auto_route": "small",
+    "requested_work": "full-size scratch quota and atomic directory-rename proof; no model load or CUDA call",
+    "allocation_bytes": 20889738947,
+    "progress_bytes_at_record": 2931965635,
+    "progress_fraction": 0.14035434537687524,
+    "quota_available_bytes_during_write": 22791847936,
+    "reserve_bytes_required": 4294967296,
+    "run_card_initializer_bytes": 20889738947,
+    "probe_script_sha256": "b9edd242cf8890540e1be7bc95f8b90e27884b6aefbbe4b2e602422939a3abeb",
+    "pbs_script_sha256": "2a5bbc649512aa3bba6f209a512e63079302f82aa86e1526a6216ec6960909fc",
+    "full_write_result": "IN_PROGRESS"
+  },
+  "pbs_scheduler_observation": {
+    "auto_queue_type": "Route",
+    "route_destinations": [
+      "small",
+      "medium",
+      "large",
+      "special"
+    ],
+    "cpu_only_probe_effective_allocation": "site default still assigned one H200 GPU, 12 CPUs, 225GB RAM",
+    "current_policy": "single capacity proof only; probe contains no project model code, CUDA import, or training",
+    "medium_minimum_gpus": 3,
+    "large_minimum_gpus": 8
+  }
+}

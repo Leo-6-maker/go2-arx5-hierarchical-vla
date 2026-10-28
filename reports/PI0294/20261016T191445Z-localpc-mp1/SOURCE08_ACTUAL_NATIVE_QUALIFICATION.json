@@ -1,0 +1,215 @@
+{
+  "schema": "MP1_N1_SOURCE08_ACTUAL_NATIVE_QUALIFICATION_V1",
+  "status": "PASS_REAL_SAME_JOB_PREMODEL_QUALIFICATION_NOT_GOAL_COMPLETION",
+  "observed_epoch": 1792277542.9007874,
+  "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+  "N1_T0_epoch": 1792264081,
+  "original_MP1_T0_epoch": 1792178085,
+  "native_proof": {
+    "status": "PASS_NATIVE_PREMODEL_HEARTBEAT_AND_REAL_TRANSPORT",
+    "job_id": "673235.hopper-m-02",
+    "source_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
+    "manifest_sha256": "4e9368197a846499b6ad52ac22f0013af8b395653ce29f65c41b370dcb4ed273",
+    "raw_qualification_sha256": "fcd7c14d6da3f1e94823ad7f71501568a5467610ac8dbe8d590bfb495258b4b4",
+    "same_job_readback": {
+      "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+      "receipt_sha256": "fcd7c14d6da3f1e94823ad7f71501568a5467610ac8dbe8d590bfb495258b4b4",
+      "heartbeat_elapsed_s": 600.0219832863659,
+      "transport_cycles": 80,
+      "new_model_queries": 0,
+      "new_physics": 0
+    },
+    "heartbeat": {
+      "rows": 81,
+      "span_s": 600.0219832863659,
+      "distinct_owner_epochs": 79,
+      "minimum_interval_s": 4.583846718072891,
+      "maximum_interval_s": 7.650223122909665,
+      "native_fragment_sha256": "2bc34f6d2896ce28bd58da0aaa92938d7facfb89720a14c2a831da53db3e2a84"
+    },
+    "transport": {
+      "cycles": 80,
+      "RGB_payload_bytes": 94080,
+      "maximum_RPC_s": 0.8224013650033157,
+      "duplicate_fixture_installs": 0,
+      "physical_installs": 0,
+      "unknown_effects_resent": 0,
+      "raw_binding_sha256": "6dd810de0ee5df5b96ddda080f47fa163f970333da2742b43896863ffe588108"
+    },
+    "faults": {
+      "actual_expired_heartbeat": {
+        "status": "PASS",
+        "failed_closed": true,
+        "unknown_effects_resent": 0,
+        "expected_error": "HeartbeatLost",
+        "heartbeat_sha256": "92d7cc14b66e438cde3f33b086b31d9487445527c72c9bf49d008e3e3c177ca1",
+        "diagnostics": {
+          "cached_age_s": 600.3207173347473,
+          "revalidated_age_s": 600.3219270706177,
+          "heartbeat": {
+            "run_uuid": "source-pair-01",
+            "observed_epoch": 1792276828.971024
+          },
+          "watchdog_s": 300,
+          "heartbeat_written": false,
+          "cached_clock_epoch": 1792277429.2917414,
+          "revalidated_clock_epoch": 1792277429.292951,
+          "clock_sampled_after_read": true
+        },
+        "production_heartbeat_written": false
+      },
+      "actual_future_heartbeat": {
+        "status": "PASS",
+        "failed_closed": true,
+        "unknown_effects_resent": 0,
+        "expected_error": "HeartbeatLost",
+        "heartbeat_sha256": "b4e65d6f551789adcf57f1cdebfb87b22f5f31b08a41239b1f4df1712e4c4981",
+        "diagnostics": {
+          "cached_age_s": -29.99025821685791,
+          "revalidated_age_s": -29.989515781402588,
+          "heartbeat": {
+            "run_uuid": "source-pair-01",
+            "observed_epoch": 1792277459.2945092
+          },
+          "watchdog_s": 300,
+          "heartbeat_written": false,
+          "cached_clock_epoch": 1792277429.304251,
+          "revalidated_clock_epoch": 1792277429.3049934,
+          "clock_sampled_after_read": true
+        },
+        "production_heartbeat_written": false
+      },
+      "wrong_run_heartbeat": {
+        "status": "PASS",
+        "failed_closed": true,
+        "unknown_effects_resent": 0,
+        "expected_error": "PermissionError",
+        "heartbeat_sha256": "746ce98cfb8c9318291d87fcd5fa271a1c724e1c824974f49b098da74b8148db",
+        "diagnostics": null,
+        "production_heartbeat_written": false
+      },
+      "concurrent_replace": {
+        "status": "PASS",
+        "failed_closed": false,
+        "unknown_effects_resent": 0,
+        "actual_replaces": 237,
+        "post_read_samples": 40,
+        "rows_sha256": "eff5843d57b39ca75983945cc4f66e55dd9fe0bbcd04768f8ed948e2aeefe5da",
+        "production_heartbeat_written": false
+      },
+      "metadata_read_failure": {
+        "status": "PASS",
+        "failed_closed": false,
+        "unknown_effects_resent": 0,
+        "attempts": 2,
+        "wall_s": 0.011177456006407738,
+        "injected_errno": 116,
+        "recovered_only_declared_idempotent_read": true,
+        "production_read_fault_injected": false
+      },
+      "statistics_lock": {
+        "status": "PASS",
+        "failed_closed": false,
+        "unknown_effects_resent": 0,
+        "actual_lock_holder_exit": 0,
+        "reply_while_lock_held": true,
+        "reply_wall_s": 3.259629011154175e-06,
+        "settlement_after_unlock": {
+          "RPC_calls": 1,
+          "CPU_s": 0.0004130740000007904,
+          "telemetry_settled_once": true,
+          "scientific_resource_transactions_changed": false
+        },
+        "production_session_metrics_primitive": true,
+        "production_ledger_lock_injected": false
+      },
+      "late_response": {
+        "native_process_terminal_verified": true,
+        "job_id": "673235.hopper-m-02",
+        "label": "N1-PREMODEL-FAULT-LATE-ALLOCATION-08",
+        "role": "hopper",
+        "source_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
+        "worker_record_sha256": "e34834df17f5a183d5472b4caffaef55b9f27fa015c2bb8bd5c69106391611bc",
+        "actual_fault_requests": 1,
+        "native_fault_intent_sha256": "8bc126a9e93f1b6df0f1aac79d88eea0e301d343f9874aa820634ab9f681fec9",
+        "raw_fault_rpc_id": "99c39e73-0869-4893-9080-b9118577fe12",
+        "actual_server_exit": 0,
+        "status": "PASS",
+        "failed_closed": true,
+        "unknown_effects_resent": 0,
+        "second_call_blocked_before_send": true,
+        "actual_client_error": "TimeoutError",
+        "actual_client_wall_s": 20.019376619020477
+      },
+      "process_exit": {
+        "native_process_terminal_verified": true,
+        "job_id": "673235.hopper-m-02",
+        "label": "N1-PREMODEL-FAULT-EXIT-ALLOCATION-08",
+        "role": "hopper",
+        "source_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a",
+        "worker_record_sha256": "a84bbf3ac70b9396c5e8a27e75c88babc28a583a79e896d10cde6e650952ade6",
+        "actual_fault_requests": 1,
+        "native_fault_intent_sha256": "53c7e524c468832ae6772be5c54585934aa686e041e386381d06fa3cb27ac23d",
+        "raw_fault_rpc_id": "45d9c48c-667a-4f76-a6f6-094d4d42534a",
+        "actual_server_exit": 72,
+        "status": "PASS",
+        "failed_closed": true,
+        "unknown_effects_resent": 0,
+        "second_call_blocked_before_send": true,
+        "actual_client_error": "ConnectionError",
+        "actual_client_wall_s": 0.025596246006898582
+      }
+    },
+    "new_model_queries_at_qualification": 0,
+    "new_physics_at_qualification": 0
+  },
+  "source_code_actual_CI": {
+    "run": 39075533027,
+    "conclusion": "SUCCESS",
+    "head_sha": "eb851e8212f94cf7ffff0f8a664b07209694bc7a"
+  },
+  "all_80_cycles_are_recorded_fixture_not_policy_actions_or_closed_loop": true,
+  "original_20_60_900s_watchdogs_and_0to300s_heartbeat_predicate_unchanged": true,
+  "real_owner_loss_and_future_wrong_identity_still_fail_closed": true,
+  "no_production_heartbeat_or_physics_fault_injected": true,
+  "actual_current_neural_snapshot": {
+    "job_id": "673235.hopper-m-02",
+    "native_state": "R",
+    "session": "S-CORR-2048-DEV8-ALLOCATION-08",
+    "generation_queries_cumulative": 1902,
+    "combined_formal_updates": 4096,
+    "pending_updates": 0,
+    "task_outcomes": "SIX_REMAINING_DEV_IN_PROGRESS_NOT_YET_INDEPENDENTLY_AUDITED",
+    "this_is_after_the_zero_model_premodel_proof": true
+  },
+  "resources": {
+    "source_GPU_settled_s": 36607,
+    "parent_Hopper_GPU_settled_s": 41107,
+    "current_GPU_reserved_s": 28800,
+    "current_native_cost": "OPEN_UNTIL_NATIVE_TERMINAL_NOT_ZERO_SPENT",
+    "source_PBS_used": 8,
+    "parent_Hopper_PBS_used": 11,
+    "final_H200_reserve_s": 21600,
+    "original_clocks_and_cumulative_costs_reset": false,
+    "automatic_next_submission": false
+  },
+  "Vanda_readonly_refresh": {
+    "parent_control_lease": "ACTIVE_CONTROL_PLANE_ONLY",
+    "old_camera_lease": "CLOSED",
+    "owned_native_jobs": 0,
+    "old_camera_runtime": "NOT_RUN",
+    "existing_image_and_scene_present": true,
+    "new_PBS": 0,
+    "new_physics": 0,
+    "new_model_queries": 0,
+    "qualification": "NOT_PROVEN"
+  },
+  "publication_CPU_upper_s": 540,
+  "publication_CPU_settlement": "OPEN_UNTIL_EXACT_GITHUB_READBACK",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "WBC": "FROZEN",
+  "S1": "FROZEN",
+  "TF_R3_STOP": "PRESERVED",
+  "goal": "ACTIVE_INCOMPLETE"
+}

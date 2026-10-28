@@ -1,0 +1,128 @@
+{
+  "schema": "STAGE45F_PI0185_VALIDATION_E_GEN1_HOPPER_RESUME_V1",
+  "status": "FROZEN_EXECUTION_MECHANISM_BOUND_TO_PI0185",
+  "authority": {
+    "issue_11_comment": 5666484505,
+    "pr_71_comment": 5661697942,
+    "pr_73_comment": 5661699939,
+    "source_head": "ce3c0179f3974648cdf6527e145d0328b0ac9262",
+    "branch": "stage45f/localpc-validation-e-hopper-resume",
+    "donor_head": "bdc0a3f68210927629d3b64a4cda97b0af030efc"
+  },
+  "frozen_science_contract": {
+    "arms": [
+      "Legacy(seed2222)@2000",
+      "Legacy(seed2223)@2000",
+      "Legacy(seed2224)@2000",
+      "L1(seed2222)@2000",
+      "L1(seed2223)@2000",
+      "L1(seed2224)@2000"
+    ],
+    "windows": [
+      "stage22_expert_red_target_holdout_e:expert-0000",
+      "stage22_expert_red_target_holdout_e:expert-0001",
+      "stage22_expert_red_target_holdout_e:expert-0002",
+      "stage22_expert_red_target_holdout_e:expert-0003",
+      "stage22_expert_red_target_holdout_e:expert-0004",
+      "stage22_expert_red_target_holdout_e:expert-0005"
+    ],
+    "global_step": 2000,
+    "raw_shape": [1, 40, 132],
+    "timestep_ids": [0, 250, 500, 750],
+    "dt": 0.25,
+    "noise_seed": 4242,
+    "target_excluded_from_model_input": true,
+    "holdout_f_read": false
+  },
+  "preserved_raw": {
+    "source_allocation": 8,
+    "cells": 6,
+    "model_loads": 0,
+    "model_forwards": 0,
+    "manifest_sha256": "0ebe595377d32164ff395d9d0f6d779b74a3654e473f12863eca2c6e83d0f8df"
+  },
+  "new_raw_budget": {
+    "cells": 30,
+    "nominal": {
+      "model_loads": 5,
+      "conditioning": 30,
+      "action_head": 120,
+      "model_side_total": 150
+    },
+    "ceiling": {
+      "model_loads": 7,
+      "conditioning": 34,
+      "action_head": 136,
+      "model_side_total": 170
+    },
+    "primary_allocations": 1,
+    "continuation_allocations": 1,
+    "continuation_only_for_missing_cells": true
+  },
+  "phase_order": [
+    "RUNTIME_BOOTSTRAP",
+    "RUNTIME_IMPORT_PROBE",
+    "PROCESSOR_BUILD",
+    "WINDOW_PREPARATION",
+    "NOISE_BANK_READY",
+    "MODEL_LOAD",
+    "CONDITIONING",
+    "ACTION_HEAD",
+    "RAW_SEALED",
+    "MODEL_RELEASE",
+    "DECODE_DERIVED",
+    "ARM_AGGREGATE",
+    "FINAL_SEAL"
+  ],
+  "engineering_mechanics": {
+    "raw_inventory_authoritative": true,
+    "fresh_child_per_arm": true,
+    "per_phase_timing_rss_cuda_telemetry": true,
+    "raw_before_decode_seal": true,
+    "cpu_posthoc": true,
+    "interruption_safe_resume": true,
+    "per_process_timing_optional": true,
+    "shared_global_ledger": false,
+    "rtx_specific_admission": false,
+    "gpu_model_allowlist": ["H200"],
+    "single_visible_gpu": true,
+    "single_gpu_uuid_per_allocation": true
+  },
+  "corelab_qualification": {
+    "cpu_static_required": true,
+    "train24_first_window_canary_max": {
+      "model_loads": 1,
+      "conditioning": 1,
+      "action_head": 4,
+      "model_side_total": 5
+    },
+    "validation_e_model_calls": 0,
+    "training": false,
+    "h200_submissions": 0,
+    "pbs_submissions": 0
+  },
+  "forbidden": {
+    "checkpoint_relay": true,
+    "extra_validation_e_smoke": true,
+    "training": true,
+    "backward": true,
+    "optimizer_steps": true,
+    "checkpoint_writes": true,
+    "holdout_f": true,
+    "icl": true,
+    "dagger": true,
+    "wbc": true,
+    "simulator": true,
+    "hardware": true,
+    "next_generation": true
+  },
+  "closeout": {
+    "raw_cells": 36,
+    "derived_cells": 36,
+    "arm_aggregates": 6,
+    "paired_cells": 18,
+    "seed_summaries": 3,
+    "return_token": "LOCALPC_PI0185_VALIDATION_E_GEN1_FOR_PI_REVIEW — COMPLETED",
+    "science_hold": "LOCALPC_PI0185_SCIENCE_REVIEW_HOLD"
+  }
+}

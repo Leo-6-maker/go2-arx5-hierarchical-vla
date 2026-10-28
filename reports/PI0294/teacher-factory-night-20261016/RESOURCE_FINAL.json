@@ -1,0 +1,104 @@
+{
+  "status": "SETTLED_ZERO_RESERVATIONS_WITH_CONSERVATIVE_CORELAB_ENVELOPE",
+  "T0_epoch": 1792081407.219026,
+  "settled_epoch": 1792084483.270519,
+  "observed_metered_CPU_charged_s": 638.9231094266288,
+  "total_CoreLab_CPU_upper_bound_s": 36912.61788082123,
+  "CPU_upper_bound_method": "12 allowed concurrent project cores times full adoption-to-settlement wall duration; includes idle and unmetered bootstrap/metadata, not measured consumption.",
+  "CPU_budget_s": 230400,
+  "CPU_budget_upper_bound_PASS": true,
+  "unmetered_PC_CPU": "UNOBSERVED",
+  "new_native_starts": 1,
+  "new_native_integrations_actual": 22,
+  "new_native_integrations_charged": 22,
+  "new_RGB_pairs": 0,
+  "native_safety_failures": 1,
+  "new_teacher_versions": [
+    "TFN_V1",
+    "TFN_V2"
+  ],
+  "raw_launcher_attempts": 2,
+  "max_environment_workers": 1,
+  "max_worker_CPU_cores": 4,
+  "CPU_reservations": {},
+  "new_bundles": 8,
+  "search_reserved": {
+    "goal_IK_calls": 6,
+    "CLIK_reserved": 96,
+    "RRT_calls": 6,
+    "dense_reserved_points": 6006,
+    "local_IK_reserved": 30030
+  },
+  "search_actual": {
+    "goal_IK_calls": 6,
+    "CLIK_initializations": 96,
+    "RRT_calls": 6,
+    "dense_points": 6006,
+    "local_IK_iterations": 6006
+  },
+  "static_reservations": {
+    "TFN_V1_CPU_T2_0_E2_FULL_SOURCE": {
+      "reserved_points": 1330,
+      "status": "INCOMPLETE",
+      "actual_points": 547
+    },
+    "TFN_V1_CPU_T2_1_E2_FULL_SOURCE": {
+      "reserved_points": 1370,
+      "status": "INCOMPLETE",
+      "actual_points": 566
+    },
+    "TFN_V1_CPU_T2_2_E2_FULL_SOURCE": {
+      "reserved_points": 1370,
+      "status": "INCOMPLETE",
+      "actual_points": 568
+    },
+    "TFN_V2_CPU_T2_0_FULL_SOURCE": {
+      "reserved_points": 1330,
+      "status": "PARTIAL_FIXED_ROOT_PREVIEW_NOT_ACTUAL_FULLBODY_FAILURE",
+      "actual_points": 528
+    },
+    "TFN_V2_CPU_T2_1_FULL_SOURCE": {
+      "reserved_points": 1370,
+      "status": "PARTIAL_FIXED_ROOT_PREVIEW_NOT_ACTUAL_FULLBODY_FAILURE",
+      "actual_points": 548
+    },
+    "TFN_V2_CPU_T2_2_FULL_SOURCE": {
+      "reserved_points": 1370,
+      "status": "PARTIAL_FIXED_ROOT_PREVIEW_NOT_ACTUAL_FULLBODY_FAILURE",
+      "actual_points": 553
+    },
+    "TFN_V2_CPU_T2_0_TIMING_E2_FULL_SOURCE": {
+      "reserved_points": 1330,
+      "status": "PARTIAL_FIXED_ROOT_PREVIEW_NOT_ACTUAL_FULLBODY_FAILURE",
+      "actual_points": 528
+    },
+    "RAW_RANGE_AUDIT_TFN_V2_DEV_T2_00_E1": {
+      "reserved_points": 66503,
+      "status": "COMPLETE",
+      "actual_points": 22
+    }
+  },
+  "preserved_old_counters": {
+    "main_starts": 40,
+    "main_integrations": 364111,
+    "RGB_pairs": 12474,
+    "Core_CPU_s": 16020.381657165588
+  },
+  "derived_cumulative_starts": 41,
+  "derived_cumulative_integrations": 364133,
+  "derived_cumulative_RGB_pairs": 12474,
+  "old_parent_ledger_modified": false,
+  "source_regular_logical_bytes": 104290624,
+  "source_allocated_bytes": 112209920,
+  "source_and_archive_budget_GiB": 96,
+  "source_and_archive_upper_bound_bytes": 216969856,
+  "source_free_GiB": 462.50747299194336,
+  "archive_free_GiB": 1472.240234375,
+  "minimum_free_GiB": 20,
+  "new_GR00T_queries": 0,
+  "new_GPU_PBS": 0,
+  "new_optimizer_updates": 0,
+  "new_robot_calls": 0,
+  "historical_deletions": 0,
+  "public_raw_uploads": 0
+}

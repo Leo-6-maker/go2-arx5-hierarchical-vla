@@ -1,0 +1,54 @@
+{
+  "GR00T": 0,
+  "gate": {
+    "decision": "ACCEPT",
+    "issues": [],
+    "metrics": {
+      "angular_speed_radps": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "p95": 0.0
+      },
+      "chunk_age_s": 0.0,
+      "chunk_id": "cpu-native-full-reference",
+      "initial_position_discontinuity_m": 0.0,
+      "initial_rotation_discontinuity_rad": 0.0,
+      "linear_speed_mps": {
+        "max": 0.3906364555100052,
+        "mean": 0.07878414679788735,
+        "median": 0.0,
+        "p95": 0.3609292367918688
+      },
+      "se3_arc_length_m": 0.3939207339894368,
+      "translation_path_length_m": 0.3939207339894368
+    },
+    "provenance": {
+      "corrective_action": "NONE",
+      "gate": "TrajectorySafetyGateV1",
+      "threshold_provenance": {
+        "aging_age_s": "CONTROLLER_CONTRACT",
+        "angular_speed_reject_radps": "TEST_ONLY",
+        "angular_speed_warn_radps": "TEST_ONLY",
+        "initial_position_reject_m": "BENCHMARK_DERIVED",
+        "initial_position_warn_m": "BENCHMARK_DERIVED",
+        "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+        "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+        "linear_speed_reject_mps": "TEST_ONLY",
+        "linear_speed_warn_mps": "TEST_ONLY",
+        "max_path_length_m": "TEST_ONLY",
+        "min_arc_length_m": "CONTROLLER_CONTRACT",
+        "min_points": "CONTROLLER_CONTRACT",
+        "stale_age_s": "CONTROLLER_CONTRACT",
+        "workspace_reject_max_m": "TEST_ONLY",
+        "workspace_reject_min_m": "TEST_ONLY",
+        "workspace_warn_max_m": "GENERATOR_SUPPORT",
+        "workspace_warn_min_m": "GENERATOR_SUPPORT"
+      }
+    }
+  },
+  "physics": 0,
+  "points": 101,
+  "source_sha256": "49352f0fbb573e0c7cb1e75df0d9f133d9a6b06910cbcba06ee71771b37a695e",
+  "status": "PASS_ACTUAL_NATIVE_CANONICAL_FULL_PREPARATION"
+}

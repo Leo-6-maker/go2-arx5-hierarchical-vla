@@ -1,0 +1,126 @@
+{
+  "schema": "PI0268_NEXT_RUN_DRAFT_V1",
+  "status": "NEXT_RUN_DRAFT",
+  "launch_allowed": false,
+  "approval_status": "NOT_AUTHORIZED",
+  "missing_authorization": [
+    "Separate immutable scientific release and Issue11 GO for diagnostics/rendering and the selected comparison",
+    "Final main PI0267 outcome must be read at launch decision",
+    "Prospective run-card approval of exact proposed costs, gates and independent-generalization scope"
+  ],
+  "donor": {
+    "repo": "leoyuer/pi0246-gate-pass-campaign",
+    "revision": "e4290e6ca387abd2de4337b5f12b9c72a5f85c99",
+    "prefix": "arms/PI0264/L/checkpoint-2048",
+    "tree_sha256": "2f61d8ed8c8fe8444b7ef23164cb4df2bcacd8a73c93f19be77fcdf459ef6fae"
+  },
+  "comparison": "NORMALIZATION_ONLY_COMBINED_ROTATION_BLOCKS",
+  "arms": [
+    "CONTROL_OLD",
+    "TREAT_ROT6D_BOUNDS"
+  ],
+  "one_factor_diff": {
+    "control": "Exact old processor/decoder numerical contract",
+    "treatment": "Only min/q01=-1,max/q99=1 for state.eef_9d[3:9] and relative_action.eef_9d[:,3:9]",
+    "untouched": [
+      "XYZ affine",
+      "gripper",
+      "unused absolute-action EEF map",
+      "raw labels",
+      "S4/loss formulas and coefficients",
+      "camera/RGB",
+      "teacher/timing",
+      "trainable names and precision",
+      "gate/scorer"
+    ]
+  },
+  "policy_warning": "Identical weights under different processors are different initial policies. Native target scaling changes effective native-loss weighting. No R inference-only swap.",
+  "data": {
+    "plan_sha256": "fca9a29e69e4b63ec35ab995bacc60a4867e4b86a11e2d7a3c6397d4d316f5ef",
+    "selection": "Original R indices/language/order for units1..2048, identical both arms; no sample replacement",
+    "updates_per_arm": 2048,
+    "microbatches_per_update": 2,
+    "examples_per_arm": 4096,
+    "distinct_input_conditions": 3840,
+    "distinct_raw_sources": 3584,
+    "source_families": 24
+  },
+  "optimizer": {
+    "fresh": true,
+    "LR": 1e-05,
+    "scheduler": "cosine2048",
+    "warmup_steps": 10,
+    "weight_decay": 1e-05,
+    "max_grad_norm": 1.0,
+    "trainable_scope": "Exact PI0267 sealed parameter-name/freeze contract; verify against REUSED_EXECUTION_FILESET before any approved load"
+  },
+  "randomness": {
+    "seed": 26741,
+    "unit_seed": "sha256(PI0267:TRAIN:26741:{unit}) first8 little modulo2**31",
+    "native_and_S4": "Paired actual packets; preserve exact draw order and audit actual bytes",
+    "no_new_seeds": true
+  },
+  "save_resume": {
+    "save_updates": [
+      1024,
+      2048
+    ],
+    "complete_trainers": 4,
+    "components": [
+      "model shards/index/config",
+      "optimizer",
+      "scheduler",
+      "Trainer state/global step",
+      "Python/NumPy/CPU/CUDA RNG",
+      "processor/statistics",
+      "actual sample/noise/loss/update audit"
+    ],
+    "exact_resume": "Resume same arm/contract and cursor at checkpoint; restore RNG after zero-worker DataLoader iterator creation before first microbatch, as sealed PI0267 lifecycle. Verify complete state, never configuration-only resume.",
+    "preservation": "Persistent complete source until fixed HF PUBLIC revision full-file readback; no tmpfs-only recovery source; no broad cleanup",
+    "canary": "Proposed actual8 continuous vs4+complete-save/restore+4 per arm, separately authorized; compare actual inputs/noise/gradients/final weights/optimizer/scheduler/RNG. NOT RUN."
+  },
+  "evaluation": {
+    "points": "Per-contract donor step0 and final2048 only;1024 inventory only",
+    "panels": "112 seen TRAIN at two fixed packets +304 consistent TRAIN factors at one fixed packet +unchanged440 prior-domain retention rows",
+    "tentative_rows_per_point": 968,
+    "tentative_contract_points": 4,
+    "tentative_queries": 3872,
+    "tentative_attempt_cap": 4064,
+    "tentative_S4_head_cap": 16256,
+    "proposed_final_virtual_episodes": 128,
+    "virtual_scope": "Existing64 frozen conditions per final,0.4s feedback, originalV3/V2 and gates, all late failures retained; not WBC or new independent TEST",
+    "model_queries_allocated": 0,
+    "optimizer_updates_allocated": 0,
+    "render_pairs_allocated": 0,
+    "separate_diagnostic_panels": {
+      "planned": 1584,
+      "attempts": 1664,
+      "heads": 6656,
+      "frame_pairs": 304,
+      "status": "NOT_AUTHORIZED"
+    },
+    "no_double_count": "Budget must deduplicate shared exact point/contract/input/noise tuples at authorization; no budget is granted here"
+  },
+  "decision_plan": [
+    "Do not compare normalized loss values as equal-scale quality across contracts; use physical metrics and original gate failures per task/command/variant/noise.",
+    "Separate treatment step0 effect from final-minus-own-step0 learning; report both arms regardless of outcome.",
+    "A preparation-local mechanistic contrast is positive only if treatment reduces each M1/M3 X/Y rejection count and each corresponding median physical XYZ error versus control without any increase in legacy rejection count or legacy median XYZ/SO3; report all strata, no aggregate rescue. This proposed decision rule needs future scientific approval and grants no deployment status.",
+    "Nonfinite output, REJECT, collision and late drift remain valid failures. No quality retries, seed/candidate switching, tuning or1024 selection.",
+    "Integrity failure pauses only affected lane for same-state repair; preserve raw budget. Valid scientific failure stops that claim, not the other preauthorized arm.",
+    "No independent-generalization or physical-transfer claim without a later preregistered authorization."
+  ],
+  "dependencies": {
+    "statistics_sha256": "4439e24348bc43f5c93d380c9ae3c25b4057dbd8111e1e9bf9563b868c53bc73",
+    "TRAIN_source_index": "TRAIN_SOURCE_IDENTITIES.json",
+    "consumed_index": "CONSUMED_CONDITION_INDEX.json.gz",
+    "runtime_seal": "REUSED_EXECUTION_FILESET.json",
+    "donor": "REUSED_DONOR_BINDING.json",
+    "noise": "PROPOSED_EXISTING_NOISE_IDENTITIES.json",
+    "panels": [
+      "SEEN_TRAIN_112_MANIFEST.json",
+      "FACTOR_304_MANIFEST.json"
+    ]
+  },
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

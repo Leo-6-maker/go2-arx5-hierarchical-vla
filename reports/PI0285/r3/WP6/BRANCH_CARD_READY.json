@@ -1,0 +1,47 @@
+{
+  "status": "READY_ISOLATED_OPTIONAL_BRANCH_CARD_NOT_ADOPTED_OR_LAUNCH_ADMITTED",
+  "state": "READY",
+  "generated_epoch": 1791487230.558917,
+  "dependency_sha256": {
+    "scripts/pi0285_execution/r3_branch_card.py": "5fdc1e3e908f2c3dead366a45e26f7bb4ef813ecf2a9554fbf474a9d5d81781f",
+    "scripts/pi0285_execution/r3_recovery.py": "5b9c2da1dbd38dca6ce7a080a0ed3c6abff6125d9360355192b905cbe0aa690a",
+    "scripts/pi0285_execution/r2_branch.py": "c9dc9814a13e9201db5af8d660f6f2987e541d3821b37b1fc36ee3440003d36a",
+    "scripts/pi0285_execution/authority.py": "e5be5c58f3dc295d006bd20879c1d43ce26190cf6ee60e388d6b7816a2011f34",
+    "scripts/pi0285_execution/train.py": "a98d3c07386054008eb0a20b922bd5b48d57140ff44c9c35e55177deaceb158f",
+    "scripts/pi0285_execution/launch.py": "bf9b85995b5f0ffd9aff61dd4ea7c8437455da9dbdd3196b2eabfdfe314f8d43",
+    "scripts/pi0285_execution/training_audit.py": "545fef822e105bc2699d57efaeadb75ff30b177aadd63fd39512aa898930e629",
+    "scripts/pi0283_execution/runtime/phase.py": "79a472f82b5f296b9a2781a821fb3bdcc55c33d18d23a8c6198cb531790c90df",
+    "scripts/pi0283_execution/runtime/train.py": "a1516114403402f7ab8b54c4a110f18eb188b996c8f125c095a22f7c2677b3c3",
+    "scripts/pi0283_execution/runtime/canary.py": "093a80ec58a410b0c0fcc3ee5a9b4286914548556bc8735d1c81542262def226",
+    "reports/PI0285/execution/R2_CANARY_COMPARISON.json": "773bb7fc41955ff6e31018eeb930fa5428abbcb9a9a89274bc35167377246f03"
+  },
+  "recommended_diff_sha256": "dd46007b14d65440acc698202b8a13d60114fe52f09bfdd33a7ec584154e5c8e",
+  "synthetic_check_sha256": "83e86181ec16bfa8536a8c6bd2906e56daa57a7080f04b345f61c1d601fffab3",
+  "authority_modified": false,
+  "launch_allowed": false,
+  "actual4096_gate": "UNOBSERVED_BY_WORKER",
+  "branch_card_real": "NOT_CREATED_WITHOUT_ACTUAL4096_PROOFS",
+  "canary": {
+    "existing_actual_status": "PASS_FULL_RESUME_CANARY",
+    "existing_actual_arm": "PLACE4096",
+    "existing_completed_discarded_updates": 16,
+    "existing_parent_none": true,
+    "covers_new_parent_Adam_new_cosine": false,
+    "recommended_single_additional_discarded_updates": 16,
+    "resulting_known_discarded_updates": 32,
+    "existing_cap": 64,
+    "real_branch_canary": "NOT_EXECUTED"
+  },
+  "consumed": {
+    "synthetic_branch_card_check_runs": 3,
+    "remote_calls": 0,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "render_calls": 0,
+    "teacher_calls": 0,
+    "physics_calls": 0,
+    "PBS_calls": 0
+  },
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "WDR1_FROZEN_RL_PLT_LOCAL_CONSTANT_CPU_V1",
+  "status": "READONLY_EXTENDED_BINDING_CPU_VALIDATED_ACTUAL_READ_PENDING",
+  "CPU_tests_passed": 17,
+  "added_evidence": [
+    "Decode PLT/GOT jump slots and ELF symbol names without loading a DSO",
+    "Include local cold function symbols",
+    "Resolve code-section references to exact local function byte addresses",
+    "Compare compiler-declared merge numeric constants and referenced string suffix bytes"
+  ],
+  "rejections": [
+    "Substituted call or PLT destination",
+    "Changed named or merge constant contents",
+    "Foreign object-local label used as a global symbol",
+    "NOBITS treated as file bytes"
+  ],
+  "dynamic_DSO_implementation_qualified": false,
+  "full_header_state_ABI_qualified": false,
+  "native_prefix_safety_qualified": false,
+  "target_task_native_qualified": false,
+  "core64": 0,
+  "new_native_models_physics_or_controller_builds": 0,
+  "objective_complete": false
+}

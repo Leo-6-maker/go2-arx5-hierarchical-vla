@@ -1,0 +1,32 @@
+{
+  "attributes": {
+    "Error_Path": "hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/experiments/PI0270/logs/",
+    "Job_Name": "pi0270_agg",
+    "Job_Owner": "e1192548@hopper-l-01.cm.cluster",
+    "Mail_Points": "n",
+    "Output_Path": "hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/experiments/PI0270/logs/",
+    "Resource_List": {
+      "am_job_cache": "{\"job.ngpus\": 1.0, \"job.walltime\": 43200, \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0, \"am_cloud_enabled\": false}",
+      "mem": "225gb",
+      "ncpus": 12,
+      "ngpus": 1,
+      "nodect": 1,
+      "nodes": 1,
+      "place": "free",
+      "queue_charge_rate": 1,
+      "select": "1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200",
+      "walltime": "12:00:00"
+    },
+    "Submit_arguments": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0270/code/training.pbs",
+    "comment": "Job run at Sun Oct 04 at 11:37 on (hopper-25:ngpus=1:ncpus=12:mem=235929600kb)",
+    "ctime": "Sun Oct  4 11:37:04 2026",
+    "exec_host": "hopper-25/4*12",
+    "exec_vnode": "(hopper-25:ngpus=1:ncpus=12:mem=235929600kb)",
+    "job_state": "R",
+    "project": "CFP05-CF-052",
+    "qtime": "Sun Oct  4 11:37:11 2026",
+    "queue": "small",
+    "stime": "Sun Oct  4 11:37:13 2026"
+  },
+  "job_id": "645483.hopper-m-02"
+}

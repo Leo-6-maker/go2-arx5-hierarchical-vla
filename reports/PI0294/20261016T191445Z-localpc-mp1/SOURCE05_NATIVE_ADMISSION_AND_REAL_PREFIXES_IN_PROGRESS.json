@@ -1,0 +1,79 @@
+{
+  "schema": "MP1_SOURCE05_ACTUAL_NATIVE_ADMISSION_AND_IN_PROGRESS_PREFIXES_V1",
+  "status": "ACTUAL_NATIVE_R_FORCED_POST_READ_HEARTBEAT_PASS_ORIGINAL_REPLACEMENT_IN_PROGRESS",
+  "observed_epoch": 1792261885.551177,
+  "job_id": "673008.hopper-m-02",
+  "native_state": "R",
+  "native_walltime": "00:05:45",
+  "scientific_source_sha": "e418bb790d291c6c936ce3878366314f4f5af83e",
+  "original_MP1_T0_epoch": 1792178085,
+  "source_PBS_used": 5,
+  "source_PBS_cap": 5,
+  "automatic_sixth": false,
+  "initial_native_compute_qualification": {
+    "status": "PASS_FORCED_NATIVE_COMPUTE_OWNER_READ_BEFORE_MODEL_LOAD",
+    "job_id": "673008.hopper-m-02",
+    "epoch": 1792261547.2214794,
+    "proof": {
+      "status": "PASS_ORIGINAL_300S_OWNER_HEARTBEAT",
+      "heartbeat": {
+        "run_uuid": "source-pair-01",
+        "observed_epoch": 1792261536.9718187
+      },
+      "cached_age_s": 10.24854588508606,
+      "server_revalidation": true,
+      "revalidated_age_s": 10.24963092803955,
+      "heartbeat_written": false,
+      "watchdog_s": 300,
+      "cached_clock_epoch": 1792261547.2203646,
+      "revalidated_clock_epoch": 1792261547.2214496,
+      "clock_sampled_after_read": true
+    },
+    "models_loaded": 0,
+    "new_queries": 0,
+    "new_physics": 0
+  },
+  "core_progress": {
+    "attempt_id": "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2-REPLACEMENT-01",
+    "actual_ACK_count": 15,
+    "last_ACK": {
+      "body": {
+        "protocol": "PI0292_PAUSED_RELAY_ACK_CHAIN_V2",
+        "kind": "ack",
+        "run_uuid": "source-pair-01",
+        "episode_uuid": "2a96c6a7-179e-41d9-a700-4570fd82a142",
+        "sequence": 14,
+        "tick": 2800,
+        "payload": {
+          "query_uuid": "925711a0-dbc9-432f-a086-801b2cfc38f0",
+          "reference_uuid": "0b0cde6b-3d79-49ef-9cf1-73b7c57d9de8",
+          "prefix_sha256": "1fa3759e1bc71e8292a7cab982fa86708d65418c8b482bfd6e236da52dac6488",
+          "command_sha256": "361c91b2694cc23f541f8273f65c51db2156e64c65e5319c5fe00b90933e4232",
+          "tick_after": 3000,
+          "integrations": 200,
+          "physics_receipt_sha256": "9554126fd87166643364be9101accf331f1ca08e713c881286415dc4166d5eba"
+        }
+      },
+      "sha256": "8e96ef5fd141e98855cd12b8fa96929d0b41abec31b06061eeb62a3c29148c59"
+    },
+    "adjudication": null,
+    "new_engineering_STOP": false,
+    "native_safety_STOP": false
+  },
+  "full_closed_loop_raw_and_chain_audit": "PENDING_ACTUAL_CONDITION_TERMINAL",
+  "sustained_native_clock_and_transport_qualification": "IN_PROGRESS_NOT_INFERRED_FROM_INITIAL_READ",
+  "combined_source_updates": 2560,
+  "source_native_queries": 1314,
+  "CORR2048": "NOT_RUN",
+  "remaining_formal_updates_max": 1536,
+  "F1_T1_third_attempt": false,
+  "valid_policy_negatives_replayed": false,
+  "new_budget_or_clock": false,
+  "same_finite_owner": true,
+  "readonly_serial_auditor_not_second_science_owner": true,
+  "final_matched_pair": "INCOMPLETE",
+  "TF_R3": "STOP",
+  "Vanda": "CLOSED_NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

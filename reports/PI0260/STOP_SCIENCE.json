@@ -1,0 +1,33 @@
+{
+  "status": "BLOCKED_SCIENCE",
+  "reason": "PI0260_ELIGIBLE_SCENE_SHORTFALL",
+  "owner": "PI0260_SINGLE_OWNER_M",
+  "expected_DEV_families": 6,
+  "actual_DEV_families": 4,
+  "evaluated_DEV_families": 20,
+  "review_mode": "SAME_OWNER_READONLY_REPLAY",
+  "review_receipt_sha256": "024592ae2c19020151424464310da9b9382d9d89b09a65789e6c50910083186c",
+  "cumulative_counters": {
+    "IK_solver_calls": 11399,
+    "WBC_actor_calls": 0,
+    "active_raw_windows": 3520,
+    "calibration_image_pairs": 84,
+    "completed_geometry_results": 80,
+    "model_queries": 0,
+    "new_kinematic_sequence_attempts": 80,
+    "optimizer_updates": 0,
+    "physics_steps": 0,
+    "production_image_pairs": 2134
+  },
+  "TRAIN_proposals_evaluated": 0,
+  "VAL_proposals_evaluated": 0,
+  "processor": "NOT_RUN",
+  "canary": "NOT_RUN",
+  "Base6000": "NOT_RUN",
+  "G6000": "NOT_RUN",
+  "quality_queries_1760": "NOT_RUN",
+  "next_action": "Preserve and archive fixed-design shortfall; no borrowing proposals or scientific retry under current authority",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "goal_complete": false
+}

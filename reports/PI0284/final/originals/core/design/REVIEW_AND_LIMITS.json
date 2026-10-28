@@ -1,0 +1,252 @@
+{
+  "schema": "PI0284_NATIVE_GENERATION_CONDITIONING_LIMITS_V1",
+  "publication_status": "PREPARED_NOT_PUBLISHED",
+  "proposed_authority": "PI0284_NATIVE_GENERATION_CONDITIONING_GO_V1",
+  "protocol": "docs/protocols/PI0284_NATIVE_GENERATION_AND_CONDITIONING_V1.md",
+  "review_sha": "e873939fa6a78698211b18a8995cfce3f664f831",
+  "predecessor": {
+    "goal": "PI0283",
+    "canonical": 6048886543,
+    "release": "508e3db7b63d3c47758794f3ffbad87b577e6e9d",
+    "last_owner_receipt": 6053296607,
+    "last_receipt_sgt": "2026-10-08T13:49:46+08:00",
+    "EVENT_completed_at_snapshot": 1024,
+    "EVENT_target": 1024,
+    "terminal_result_known": true,
+    "terminal_quality": "VALID_QUALITY_FAIL",
+    "EVENT_TRAIN_fit": [
+      6,
+      24
+    ],
+    "EVENT_VAL_fit": [
+      3,
+      24
+    ],
+    "EVENT_persistent": [
+      0,
+      4
+    ],
+    "DEV_CONFIRM": "NOT_EXECUTED",
+    "job_at_snapshot": "653917.hopper-m-02",
+    "new_science_waits_for_predecessor_terminal": true,
+    "if_predecessor_qualified": "NO_REMEDIATION_TRAINING_OR_QUALITY_CALLS",
+    "old_09_deadline_removed_by_recorded_user_instruction": true,
+    "old_budgets_not_reset": true
+  },
+  "lineage": {
+    "pristine": "nvidia/GR00T-N1.7-3B",
+    "revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "official_code": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "parent_rule": "SEALED_EVENT1024_ONLY_FULL_TRAINER",
+    "parent_master_sha256": "ac8fad1a39aad656fac3f0bdafaa856b984d67cd55a0df111103ae79a80f8e2a",
+    "parent_global_Adam_step": 5120,
+    "old_task_weight_lineages": false
+  },
+  "invariants": {
+    "TRAIN_episodes": 93,
+    "VAL_episodes": 15,
+    "input": "two_actual_raw128_RGB+actual_TCP+actual_measured_opening+fixed_language",
+    "action": "native_relative_EEF9+absolute_gripper",
+    "active_dims": 10,
+    "full_noise_dims": 132,
+    "H": 40,
+    "prefix": 8,
+    "control_hz": 20,
+    "physics_hz": 100,
+    "task_seconds": 32,
+    "statistics": "UNCHANGED_NATIVE_TRAIN_MINMAX",
+    "native_inverse_clipping": "UNCHANGED",
+    "model_objective": "NATIVE_MASKED_FLOW_MATCHING_ONLY",
+    "new_loss_or_VLM_unfreezing": false,
+    "WBC_target_hardware": 0
+  },
+  "sampler_diagnostic": {
+    "Ks": [
+      4,
+      16
+    ],
+    "DIAG_rows": 48,
+    "packets_each": 4,
+    "max_calls": 384,
+    "max_heads": 3840,
+    "choose_from": "TRAIN24_ONLY",
+    "J": "(XYZ_RMS/.010)^2+(SO3_RMS/.10)^2+(gripper_MAE/.10)^2",
+    "K16_gates": {
+      "median_ratio_max": 0.75,
+      "paired_improved_min": 16,
+      "paired_denominator": 24,
+      "invalid_or_gate_increase_allowed": false,
+      "approach_XYZ_regression_max_m": 0.002,
+      "first_release_gripper_regression_max": 0.02
+    },
+    "initial_noise_shared": true,
+    "no_best_noise_or_mean_action_deployment": true
+  },
+  "natural_contrast": {
+    "max_disjoint_pairs": 8,
+    "source": "EXISTING_TRAIN_ANCHOR0_ACTUAL_PACKETS",
+    "state_xyz_max_m": 0.002,
+    "state_SO3_max_rad": 0.02,
+    "state_gripper_max": 0.02,
+    "teacher_waypoint7_difference_min_m": 0.01,
+    "packets": 2,
+    "call_cap_parent_and_endpoints": 96,
+    "weak_flag_min_pairs": 6,
+    "weak_flag_fraction": 0.75,
+    "weak_response_ratio": 0.25,
+    "fake_state_or_image_swap": false,
+    "insufficient_pairs": "INCONCLUSIVE"
+  },
+  "learning_route": {
+    "fit_adequate": "18/24 joint gate and half each represented phase",
+    "good_fit_bad_physics": "STOP_DIAGNOSTIC_AND_PROPOSE_RECOVERY_NO_COLLECTION",
+    "poor_fit_weak_response": [
+      "CTRL2048",
+      "STATE20_2048"
+    ],
+    "poor_fit_other": [
+      "CTRL2048",
+      "LR5X2048"
+    ],
+    "only_one_contrast": true,
+    "intervention_arms": 1,
+    "control_arms": 1,
+    "updates_each": 2048,
+    "formal_total": 4096,
+    "effective_batch": 8,
+    "preferred_microbatch": 4,
+    "preferred_accumulation": 2,
+    "common_projector_peak_LR": 0.0001,
+    "control_DiT_peak_LR": 1e-05,
+    "STATE20_DiT_peak_LR": 1e-05,
+    "LR5X_DiT_peak_LR": 5e-05,
+    "CTRL_state_dropout": 0.0,
+    "STATE20_state_dropout": 0.2,
+    "LR5X_state_dropout": 0.0,
+    "optimizer": "torch_AdamW",
+    "carry_identical_parent_moments": true,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "grad_clip": 1.0,
+    "projector_decay": 0.0,
+    "DiT_decay": 1e-05,
+    "schedule_steps": 2048,
+    "warmup_steps": 103,
+    "one_shared_fixed_EVENT_family_sampling_plan": true,
+    "frozen_VLM_other_rows_positions_vlln_VLattention": true,
+    "row10_only_projector_plus_shared_DiT": true,
+    "actual_native_noise_time_pairing_required": true,
+    "new_data_or_teacher": false,
+    "new_aux_loss": false
+  },
+  "evaluation": {
+    "checkpoints": [
+      1024,
+      2048
+    ],
+    "selected_endpoints_only": [
+      2048
+    ],
+    "training_DIAG_packets": 2,
+    "max_parent_K16_TRAIN_episodes": 4,
+    "max_parent_K16_DEV_episodes": 8,
+    "trained_TRAIN_episodes": 16,
+    "trained_DEV_episodes": 16,
+    "one_confirm_episodes": 16,
+    "confirmation_ids": [
+      30100,
+      30101,
+      30102,
+      30103,
+      30104,
+      30105,
+      30106,
+      30107,
+      30108,
+      30109,
+      30110,
+      30111,
+      30112,
+      30113,
+      30114,
+      30115
+    ],
+    "confirm_ids_predeclared_before_new_scores": true,
+    "exposure_collision": "BLOCK_NO_REPLACEMENT",
+    "old_confirmation_ids_untouched": true,
+    "task_gate": {
+      "TRAIN": [
+        3,
+        4
+      ],
+      "DEV": [
+        6,
+        8
+      ],
+      "CONFIRM": [
+        12,
+        16
+      ]
+    },
+    "selected_K_fixed_in_policy": true,
+    "source_real_time_claim": false,
+    "same_candidate_confirm_once": true,
+    "confirmed_failure_no_return_to_training": true,
+    "retention_DROID_calls": 64,
+    "retention_not_full_multitask_proof": true
+  },
+  "nominal_maxima": {
+    "physical_episodes": 60,
+    "quality_calls": 5792,
+    "head_evaluations": 89600
+  },
+  "hard_caps": {
+    "formal_updates": 4096,
+    "canary_updates": 32,
+    "memory_updates": 16,
+    "technical_rollback_updates": 64,
+    "completed_updates": 4208,
+    "formal_chunks": 32768,
+    "technical_training_recoveries": 2,
+    "policy_quality_calls": 6400,
+    "head_evaluations": 102400,
+    "physical_starts": 64,
+    "technical_physical_replacements": 4,
+    "valid_quality_retries": 0,
+    "source_controls": 45000,
+    "source_integrations": 230000,
+    "RGB_pairs": 45000,
+    "control_gripper_dispatches": 90000,
+    "GPU_hours": 12,
+    "CPU_core_hours": 96,
+    "new_retained_output_cache_GiB": 120,
+    "missing_nonmodel_dependencies_GiB": 2,
+    "model_downloads": 0,
+    "new_teacher_calls": 0,
+    "new_physical_training_data": 0,
+    "WBC_target_physics_hardware": 0,
+    "multitask_experiments": 0
+  },
+  "execution": {
+    "one_owner": true,
+    "max_workers": 3,
+    "direct_model_transfer_no_HF_gate": true,
+    "no_new_competing_goal": true,
+    "no_new_fixed_calendar_deadline": true,
+    "finite_cap_and_stage_reserve_required": true,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "source_candidate": "NONE_UNTIL_QUALIFIED"
+  },
+  "not_established": [
+    "K16 improves task",
+    "state shortcut is sole cause",
+    "LR is sole cause",
+    "more epochs necessarily solve task",
+    "shared pretrained behavior all retained",
+    "target_WBC_transfer"
+  ]
+}

@@ -1,0 +1,52 @@
+#!/bin/bash
+# PI0159: continuation of the frozen PI0154 Validation-E experiment.
+# The wrapper performs CPU/runtime cache binding before the PI0154 evaluator
+# imports Torch/GR00T.  One H200, one active model at a time; no retry inside
+# the job, no training, and no Holdout-F.
+
+#PBS -N st45f_pi0159
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=02:00:00
+#PBS -r n
+#PBS -j oe
+
+set -euo pipefail
+
+: "${PI0159_REPO:?Set the exact clean Validation-E checkout}"
+: "${PI0159_EXPECTED_HEAD:?Set the exact Validation-E continuation HEAD}"
+: "${PI0159_PYTHON:?Set the admitted H200 Python}"
+: "${PI0159_CONFIG:?Set the immutable PI0159 continuation config}"
+: "${PI0159_FFMPEG_ROOT:?Set the qualified native FFmpeg runtime root}"
+: "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
+
+test -x "${PI0159_PYTHON}"
+resolved_python="$(readlink -f "${PI0159_PYTHON}")"
+case "${resolved_python}" in
+  /cm/shared/apps/python/3.12.3/bin/python3.12|/app1/Hopper/shared/apps/python/3.12.3/bin/python3.12) ;;
+  *) echo "PI0159 Python is outside the allowlist: ${resolved_python}" >&2; exit 1 ;;
+esac
+test -d "${PI0159_FFMPEG_ROOT}/lib"
+test -d "${PI0159_FFMPEG_ROOT}/compat"
+test "$(git -C "${PI0159_REPO}" branch --show-current)" = "stage45f/vanda-validation-e-gen1-l1-2000"
+test "$(git -C "${PI0159_REPO}" rev-parse HEAD)" = "${PI0159_EXPECTED_HEAD}"
+test -z "$(git -C "${PI0159_REPO}" status --porcelain=v1 --untracked-files=all)"
+test -f "${PI0159_CONFIG}"
+
+site="$(dirname "${PI0159_PYTHON}")/../lib/python3.12/site-packages"
+test -d "${site}/torchcodec"
+test -d "${site}/torch/lib"
+ambient_ld_library_path="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${PI0159_FFMPEG_ROOT}/lib:${PI0159_FFMPEG_ROOT}/compat:${site}/torchcodec:${site}/torch/lib:${ambient_ld_library_path}"
+export CUDA_VISIBLE_DEVICES=0
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export GROOT_HF_LOCAL_FIRST=1 GROOT_PATCH_MISTRAL=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+unset PYTHONPATH 2>/dev/null || true
+
+# Absolute-path entrypoint from a foreign CWD.  The continuation wrapper
+# binds the accepted Cosmos cache into a fresh per-attempt HF namespace before
+# it calls the already-frozen PI0154 evaluator.
+cd "${TMPDIR:-/tmp}"
+exec "${PI0159_PYTHON}" "${PI0159_REPO}/scripts/stage45f_pi0159_validation_e_continuation.py" --execute --config "${PI0159_CONFIG}"

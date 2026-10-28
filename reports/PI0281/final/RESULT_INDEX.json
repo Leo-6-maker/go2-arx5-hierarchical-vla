@@ -1,0 +1,40 @@
+{
+  "primary": "final/FINAL_RESULT.json",
+  "source_panels": "final/SOURCE_TASKS.csv",
+  "WBC_qualification": "final/WBC_FIXTURES.csv",
+  "effective_WBC_attempts": [
+    "native_hold",
+    "native_monotonic",
+    "native_return",
+    "repair_hold-engineering-001",
+    "repair_monotonic-engineering-001",
+    "repair_return-engineering-001"
+  ],
+  "engineering_invalid_attempts": [
+    "repair_hold",
+    "repair_monotonic",
+    "repair_return"
+  ],
+  "deviation": "wbc/REPAIR_INSTALLATION_DEFECT.json",
+  "accounting": "evidence/ACCOUNTING_CORRECTION.json",
+  "old_PI0280": "SEALED_UNCHANGED",
+  "closure_codes": [
+    "audit_saved.py",
+    "audit_wbc.py",
+    "budget.py",
+    "finish.py",
+    "source.py",
+    "source_launch.py",
+    "source_math.py",
+    "source_media.py",
+    "wbc.py",
+    "wbc_batch.py",
+    "wbc_cpu.py",
+    "wbc_launch.py",
+    "wbc_media.py",
+    "wbc_readout.py",
+    "wbc_recovery.py",
+    "wbc_repair.py"
+  ],
+  "primary_precedence": "Final owner receipts select actual consumed repair; old provisional arrays/manifests retained, no retrospective gate change"
+}

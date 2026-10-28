@@ -1,0 +1,153 @@
+{
+  "schema": "DEC1_NATIVE_ADOPTION_AND_BUDGET_V1",
+  "status": "DEC1_AUTHORITY_ADOPTED_CONTROL_ONLY",
+  "authority_release": "a7a7ecd9a6be62a7221af25a5e32a0009b076a84",
+  "authority_file_sha256": {
+    "docs/protocols/DEC1_CONTROLLER_DISJOINT_VLA_SCIENCE_GO_20261021.md": "e16712722774c376f8203b80692d2a360591db48471dca493ad4a3feafe7c1d3",
+    "reports/PI0294/design/DEC1_CONTROLLER_DISJOINT_SCIENCE_GO_20261021.json": "ce2ff14951cff8c9c007fc5696848952a774eae1115c178d776f0d2bb360b7f2"
+  },
+  "original_authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "owner": "EXISTING_SINGLE_LOCAL_PC_COORDINATOR",
+  "adopted_epoch": 1792516655.2563019,
+  "original_T0_epoch": 1792348196,
+  "original_hard_close_epoch": 1792952996,
+  "original_cutoffs": {
+    "stop_new_jobs_epoch": 1792866596,
+    "stop_new_training_epoch": 1792909796,
+    "stop_new_physics_epoch": 1792924196,
+    "hard_closeout_epoch": 1792952996
+  },
+  "clock_reset": false,
+  "additive_budget": false,
+  "accounting": {
+    "schema": "DEC1_NONADDITIVE_AVAILABLE_CLASSIFICATION_V1",
+    "original_remaining_after_spent_reservations_and_final": {
+      "GPU_s": 224267,
+      "GPU_submissions": 13,
+      "optimizer_updates": 16384,
+      "neural_queries": 37946,
+      "CoreLab_CPU_s": 972731.207737596,
+      "Hopper_CPU_s": 569329.177866141,
+      "local_CPU_s": 147576.025317491,
+      "episode_starts": 610,
+      "physics_ticks": 27644434,
+      "constructors": 74620
+    },
+    "DEC1_effective_caps": {
+      "GPU_s": 172800,
+      "GPU_submissions": 8,
+      "optimizer_updates": 8192,
+      "neural_queries": 14000,
+      "CoreLab_CPU_s": 345600,
+      "Hopper_CPU_s": 345600,
+      "local_CPU_s": 28800,
+      "episode_starts": 136,
+      "physics_ticks": 5000000,
+      "constructors": 12000
+    },
+    "DEC1_authorized_caps": {
+      "GPU_s": 172800,
+      "GPU_submissions": 8,
+      "optimizer_updates": 8192,
+      "neural_queries": 14000,
+      "CoreLab_CPU_s": 345600,
+      "Hopper_CPU_s": 345600,
+      "local_CPU_s": 28800,
+      "episode_starts": 136,
+      "physics_ticks": 5000000,
+      "constructors": 12000
+    },
+    "old_costs_or_reservations_reset": false,
+    "active_job_ids": [
+      "679029.hopper-m-02"
+    ],
+    "no_new_GPU_while_held_may_recover": true,
+    "site_permission": "NOT_GRANTED_BY_ACCOUNTING"
+  },
+  "source_training_requires_complete_B0": false,
+  "legacy_authority_and_baseline_relative_release_require_complete_B0": true,
+  "source_training_scope_implementation": "NEW_VERSIONED_STAGE_GATE_CPU_TESTED; FRESH_DEC1_FUTURE_BUDGET_COLD_BINDING_AND_EXACT_CI_STILL_REQUIRED",
+  "original_valid_B0": 14,
+  "original_B0_successes": 9,
+  "original_B0_valid_failures": 5,
+  "native_held_job": {
+    "job_id": "679029.hopper-m-02",
+    "job_state": "H",
+    "Hold_Types": "s",
+    "run_count": 1,
+    "Exit_status": -16,
+    "launcher_markers_absent": true,
+    "unsettled_prelaunch_upper_s": 21,
+    "original_reserved_H200_s": 28860,
+    "cancel_or_release": false
+  },
+  "target_delivery": "TARGET_EXECUTOR_NOT_DELIVERED_FOR_DEC1_QUALIFIED_TASK_ABI",
+  "initial_CPU_upper_s": {
+    "CoreLab": 180,
+    "Hopper": 180,
+    "local_PC": 1200
+  },
+  "single_GPU": true,
+  "CR2_budget_separate": true,
+  "WBC_S1_scoring_frozen": true,
+  "new_GPU_PBS": 0,
+  "new_model_loads": 0,
+  "new_updates": 0,
+  "new_physics": 0,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "native_initial_source_training_scope_implementation": "PENDING_NEW_COLD_ADMISSION_AND_EXACT_CI_NOT_AUTHORIZED_BY_THIS_RECEIPT_ALONE",
+  "observed_epoch": 1792517024.9190345,
+  "native_adoption_sha256": "21e5a6fafafd73873c5ba0c8e06c2245be37e1d8e0068b69d09f10caa8450433",
+  "native_sites": {
+    "CoreLab": {
+      "status": "DEC1_NATIVE_AUTHORITY_BOUND_TO_EXISTING_PARENT",
+      "adoption_sha256": "21e5a6fafafd73873c5ba0c8e06c2245be37e1d8e0068b69d09f10caa8450433",
+      "resource_ledger_sha256": "11815a8aefd59446b0b2fca7bd40160a66e64c99ccfc066a194ea4347899957c",
+      "binding_sha256": "c2c28c5aac2675f4bd84a8074bfa3fc03e04f387be89593f6f5707187d73a567",
+      "parent_lease_sha256": "e7965f40a0ba3671c5424fcaad1af28522c5b4624fc370aac5e0fcaf7bbb2066",
+      "original_parent_adoption_unchanged": true
+    },
+    "Hopper": {
+      "status": "DEC1_NATIVE_AUTHORITY_BOUND_TO_EXISTING_PARENT",
+      "adoption_sha256": "21e5a6fafafd73873c5ba0c8e06c2245be37e1d8e0068b69d09f10caa8450433",
+      "resource_ledger_sha256": "11815a8aefd59446b0b2fca7bd40160a66e64c99ccfc066a194ea4347899957c",
+      "binding_sha256": "a72bc7b0ff0e1c60630f1b1bd202f06da91942f7d2108e7fdebfe3050d8a152a",
+      "parent_lease_sha256": "e7965f40a0ba3671c5424fcaad1af28522c5b4624fc370aac5e0fcaf7bbb2066",
+      "original_parent_adoption_unchanged": true
+    }
+  },
+  "target_inventory_artifact": "DEC1_EXECUTOR_POLICY_INTERFACE_MANIFESTS.json",
+  "current_blockers": [
+    "HOPPER_SITE_HOOK_REJECTION_ROOT_CAUSE_UNRESOLVED_NO_BLIND_RETRY",
+    "DEC1_FRESH_FUTURE_BUDGET_AND_COLD_TRAINING_BINDING_NOT_YET_INTEGRATED",
+    "TARGET_DEC1_TASK_ABI_AND_SAFETY_DELIVERY_MISSING"
+  ],
+  "next_legal_action": "COMPLETE_DEC1_FUTURE_BUDGET_AND_COLD_SOURCE_TRAINING_BINDING_AND_REGISTERED_ALTERNATE_COMPATIBILITY; NO_QRLS_OR_SAME_HOOK_BLIND_RETRY",
+  "post_adoption_native_job_disposition": "DEC1_HELD_JOB_DISPOSITION_AND_SETTLEMENT.json",
+  "post_adoption_resource_reconciliation_and_initial_projection_erratum": "DEC1_CURRENT_RESOURCE_RECONCILIATION.json",
+  "B0_hot_modified": false,
+  "old_budget_reset": false,
+  "shared_frame_fix": {
+    "status": "CPU_REPRODUCED_AND_FIXED_NOT_DEPLOYED",
+    "failed_before": 2,
+    "adapter_and_preview_tests_passed_after": 16,
+    "same_fix_for_both_interfaces": true,
+    "WBC_internal_changes": 0
+  },
+  "CPU_test_evidence": {
+    "authority_budget_tests": 4,
+    "source_stage_admission_tests": 4,
+    "focused_PV1_and_budget_tests_before_stage_change": 33,
+    "private_readonly_retry_contract_cases": 3,
+    "full_PI0294_suite_before_stage_change": {
+      "tests": 979,
+      "status": "PASS"
+    },
+    "full_PI0294_suite_after_stage_change": {
+      "tests": 984,
+      "status": "PASS_LOCAL_CPU_ONLY_EXACT_CI_STILL_PENDING"
+    }
+  }
+}

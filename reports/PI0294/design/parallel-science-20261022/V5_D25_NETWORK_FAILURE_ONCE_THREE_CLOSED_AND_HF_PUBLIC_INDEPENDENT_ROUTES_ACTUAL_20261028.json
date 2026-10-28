@@ -1,0 +1,130 @@
+{
+  "schema": "V5_D25_NETWORK_FAILED_ORIGINAL_ONCE_THREE_CLOSED_AND_INDEPENDENT_HF_PUBLIC_ROUTES_ACTUAL_V1",
+  "date": "2026-10-28",
+  "runtime_source": "9e399b397b975456147d1efc370b609ab4e3c647",
+  "request_id": "e686f017-743d-4286-8289-c8b594dfb224",
+  "actual_native_terminal": {
+    "exit_status": 1,
+    "owner_exit_status": 1,
+    "phase": "ACTUAL_NATIVE_600S_80_CYCLE_QUALIFICATION",
+    "qualification_complete": false,
+    "model_loads": 0,
+    "queries": 0,
+    "optimizer_updates": 0,
+    "physics_ticks": 0,
+    "valid_conditions": 0
+  },
+  "cause": {
+    "observed": "Core-to-Vanda canonical GLOBAL reads exceeded original bounded deadlines; original owner STOP caused qualification to exit before model",
+    "network_root_cause": "NOT_PROVEN",
+    "user_route_instruction": "Models through existing HF public fixed revisions; reuse configured keys and independent site connections"
+  },
+  "CPU_debit": {
+    "token": "2210001:293233116:0:DEBIT",
+    "seconds": 2.975953482,
+    "once_intent_receipt_and_current_bytes_confirmed": true,
+    "original_unknown_preserved": true,
+    "replayed": false
+  },
+  "settled": {
+    "GPU_s": 656,
+    "neural_CPU_s": 4,
+    "physical_CPU_s": 300.594775983,
+    "GLOBAL_sha256": "a83f60f2735a0230f3db0a3a6f542976c28daa929ea66ec941924aee774d4f44",
+    "LOCAL_sha256": "996aef06220ad18557f54d8bf78b397d78776735f6d86ef3dc8c76017d89c97b",
+    "full_gross_GPU_output_charged_bytes": 42641095480,
+    "full_gross_Core_output_charged_bytes": 34051160888,
+    "full_gross_transfer_charged_bytes": 55217419888,
+    "canonical_once_both_reconciled": true,
+    "all_old_costs_current_peak_preserved": true
+  },
+  "leases": {
+    "control": {
+      "status": "CLOSED",
+      "sha256": "f681317d3511fe0fe684770e932ae82b318d09666c33dd2dded19fe5887a88e4"
+    },
+    "GPU": {
+      "status": "CLOSED",
+      "sha256": "1149e41ab3dc0b93ab71a161a59cf08666ef9a16cbe902e8f4a9ea4af8b01cef"
+    },
+    "physical": {
+      "status": "CLOSED",
+      "sha256": "327c14f4addf3be49737f5909c12d7d7d3601b8c3b7e394aea7f60306f084cc6"
+    }
+  },
+  "actual_public_HF_reads": {
+    "coreHF": {
+      "status": "PUBLIC_HF_FIXED_D25_REVISION_AND_SMALL_MEMBER_ACTUAL_READONLY",
+      "host": "corelab-4080s",
+      "uid": 2009,
+      "revision": "4887843bbff8f69c8c439d5456469f173194c317",
+      "repo_id": "leoyuer/pi0294-public-artifacts",
+      "member": "processor/embodiment_id.json",
+      "member_bytes": 615,
+      "member_sha256": "6a81139638dbdcc4c8ee27a29a618d7817ffb2d93f8dd24edb292440b354a038",
+      "credentials_loaded": false,
+      "new_uploads": 0,
+      "new_tensor_downloads": 0,
+      "new_GPU_models": 0,
+      "observed_epoch": 1793164632.369253,
+      "existing_delivery_receipt_sha256": "cc2228779fcfff332e77208a9d6c2f614db249288ae7cb7a824875651d90f57d",
+      "prior_full_delivery_bytes": 12576324408,
+      "existing9_restored_sizes_match": true,
+      "small_restored_metadata_sha_match": true
+    },
+    "vandaHF": {
+      "status": "PUBLIC_HF_FIXED_D25_REVISION_AND_SMALL_MEMBER_ACTUAL_READONLY",
+      "host": "stdct-login-01",
+      "uid": 22182,
+      "revision": "4887843bbff8f69c8c439d5456469f173194c317",
+      "repo_id": "leoyuer/pi0294-public-artifacts",
+      "member": "processor/embodiment_id.json",
+      "member_bytes": 615,
+      "member_sha256": "6a81139638dbdcc4c8ee27a29a618d7817ffb2d93f8dd24edb292440b354a038",
+      "credentials_loaded": false,
+      "new_uploads": 0,
+      "new_tensor_downloads": 0,
+      "new_GPU_models": 0,
+      "observed_epoch": 1793164600.6437888
+    }
+  },
+  "independent_management_route": {
+    "local_to_Vanda_existing_key_login": true,
+    "local_via_AMD_to_Core_existing_key": true,
+    "no_private_key_copy": true,
+    "no_credentials_printed": true,
+    "no_upload_or_tensor_download": true,
+    "no_Core_to_Vanda_dependency_in_this_financial_close": true
+  },
+  "validation_and_failures": {
+    "actual_captured_settlement_parity": true,
+    "old_rows_and_CPU_effect_retained": true,
+    "real_temporary_onceIO_CAS_reconcile_and_repeat_refusal": true,
+    "early_LOCAL_read_before_confirmed_completion_rejected_preserved": true,
+    "large_bundle_independent_readonly35s_timeout_preserved": true,
+    "subsequent_small_original_onceIO_full_pair_readback": true,
+    "HF_Core_first_size_check_mistook_public_config_for_restored_private_metadata": true,
+    "corrected_expected_original_restoration_hashes_verified": true
+  },
+  "science": {
+    "C50_completed_conditions": 24,
+    "C50_successes": 6,
+    "D25_completed_conditions": 0,
+    "GEN1_completed_conditions": 0,
+    "E0_real_model": false,
+    "E1_E2_real_updates": 0,
+    "WDR_core64": 0
+  },
+  "next_minimum_blocker": "Cold original Core owner/ledger finite allocation delegation removing continuous Core-to-Vanda SSH, with fresh complete actual remaining budget before new request; not merely changing model transport or raising timeout",
+  "control_decoupling_native_deployed": false,
+  "new_science_or_budget_grant": false,
+  "whole_goal_complete": false,
+  "evidence_sha256": {
+    "closed": "71998310ae577e543087f4b5b389ac7449acb914997066c267ef3bacea5fe3bc",
+    "paid": "494062fed0c367b4161ff0db5745d726f30d7a0fd5329b064a60787684e3f021",
+    "terminal": "7497e856cab70dfebaa0b814afd6c109ae9ffc3f7860e7c937ade40d2aa52167",
+    "coreHF": "a3ca9d923053a85e5fc6e32710bd674ac0c08f2e1461cf1989c3dede2f3c2657",
+    "vandaHF": "012537a29b54e0ce3e7f75fec10c42740f71fde0dda12572692411cc6aac0aee",
+    "CPUreconcile": "dce9babdc182aafc13174f9ff3908c489be84ecb2f4b98b20c256f9d61e7737e"
+  }
+}

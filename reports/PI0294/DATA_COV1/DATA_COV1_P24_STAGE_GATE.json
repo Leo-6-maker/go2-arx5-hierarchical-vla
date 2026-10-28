@@ -1,0 +1,213 @@
+{
+  "schema": "PI0294_DATA_COV1_CUMULATIVE_COUNT_GATE_V1",
+  "stage": "P24",
+  "count_gate_pass": false,
+  "checks": {
+    "all_planned_cells_terminal": true,
+    "native_safety": true,
+    "known_effects": true,
+    "task_success_each": false,
+    "full_admission_each": false,
+    "paired_support": false,
+    "each_stratum_task": false,
+    "priority_reverse_appearance": false
+  },
+  "tasks": {
+    "T1": {
+      "planned": 24,
+      "reported": 24,
+      "task_success": 1,
+      "admitted": 1,
+      "task_success_minimum": 20,
+      "admitted_minimum": 18
+    },
+    "T2": {
+      "planned": 24,
+      "reported": 24,
+      "task_success": 2,
+      "admitted": 1,
+      "task_success_minimum": 20,
+      "admitted_minimum": 18
+    }
+  },
+  "strata": {
+    "AP0/+Y/NEAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP0/+Y/FAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP0/-Y/NEAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP0/-Y/FAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP1/+Y/NEAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP1/+Y/FAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP1/-Y/NEAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP1/-Y/FAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP2/+Y/NEAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP2/+Y/FAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP2/-Y/NEAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 0,
+        "minimum": 1
+      }
+    },
+    "AP2/-Y/FAR": {
+      "T1": {
+        "planned": 2,
+        "admitted": 1,
+        "minimum": 1
+      },
+      "T2": {
+        "planned": 2,
+        "admitted": 1,
+        "minimum": 1
+      }
+    }
+  },
+  "priority_reverse_appearance": {
+    "AP0": {
+      "T1": {
+        "admitted": 0,
+        "minimum": 3
+      },
+      "T2": {
+        "admitted": 0,
+        "minimum": 3
+      }
+    },
+    "AP2": {
+      "T1": {
+        "admitted": 1,
+        "minimum": 3
+      },
+      "T2": {
+        "admitted": 1,
+        "minimum": 3
+      }
+    }
+  },
+  "paired_groups": 1,
+  "paired_minimum": 16,
+  "missing": [],
+  "statuses": {
+    "ENGINEERING_INCOMPLETE": 1,
+    "CODEC_REJECT": 1,
+    "ADMITTED": 2,
+    "NOT_RUN": 44
+  },
+  "native_identity_and_fresh_resource_admission_still_required": true,
+  "metric": "TEACHER_DATA_QUALIFICATION_NOT_POLICY_SUCCESS",
+  "PV1_bank_changed": false
+}

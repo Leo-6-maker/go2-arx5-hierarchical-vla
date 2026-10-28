@@ -1,0 +1,50 @@
+{
+  "schema": "WDR1_SOURCE_EPISODE_WIRING_CPU_PREPARATION_V1",
+  "status": "EXISTING_EPISODE_HOOKS_CPU_TESTED_NATIVE_BINDINGS_PENDING",
+  "observed_epoch": 1792697799.2581851,
+  "files": {
+    "scripts/pi0294/episode.py": "e299e84d72697143758f31c427be02bdadf5572c8a670e47a43aa144dbd30262",
+    "scripts/pi0294/dec1/source_episode_wire.py": "f70b446640d72dced6f6ec22a42999bb783a38d352e202f906aec4f29cc56cbb",
+    "scripts/pi0294/dec1/test_source_episode_wire.py": "49f47f2a53ebd1523108ae842a95f8ab99983480631ab74073557c467a58b9ee"
+  },
+  "combined_CPU_tests_passed": 92,
+  "new_source_prefix_tests": 20,
+  "new_episode_wire_tests": 16,
+  "existing_progress_tests": 56,
+  "network_process_MuJoCo_and_neural_imports_denied": true,
+  "implementation": {
+    "same_episode_run_and_saved_score": true,
+    "default_legacy_teacher_path_preserved": true,
+    "raw_H40_labels_retained": true,
+    "mapped_command_resolved_before_committed_supervision": true,
+    "outer_episode_is_only_live_Engine_step_owner": true,
+    "one_shadow_clone_and_200_shadow_ticks_per_prefix": true,
+    "eight_actual_feedback_reanchors_and_ACKs": true,
+    "live_charging_owned_by_existing_outer_meter": true,
+    "shadow_charging_owned_by_existing_single_meter": true,
+    "clone_charging_owned_by_existing_counter_wrapper": true,
+    "partial_native_and_record_failure_preserved": true,
+    "maximum_live_shadow_error_unobserved_is_None": true,
+    "actual_stop_ACK_required": true,
+    "typed_raw_mapped_protocol_ACK_return_required": true,
+    "no_op_ACK_and_mismatched_raw_hash_tick_episode_refused": true,
+    "unknown_ACK_cannot_be_relabelled_VALID_COMPLETE": true
+  },
+  "remaining_native_dependencies": [
+    "Admitted DEC1 source owner factory replacing old protected wrapper without nesting it",
+    "Original relay consumer/previous_ack must explicitly bind raw fullH40 and mapped executed8 plus native physics receipt; unchanged raw-only ACK is refused",
+    "Actual owner shadow meter, existing live meter suballocation, durable S1 result and safe stop bindings",
+    "Finite original-scope native source qualification",
+    "Existing target frozen WBC T1/T2 qualification remains independent"
+  ],
+  "original_sources_unchanged": [
+    "Plant",
+    "Low-level WBC/gains/solver",
+    "Safety thresholds",
+    "Scoring",
+    "Frozen data/R0/recipes",
+    "Active training runtime0cf86cbc"
+  ],
+  "native_GPU_PBS_models_physics": 0,
+  "scientific_closure_claimed": false
+}

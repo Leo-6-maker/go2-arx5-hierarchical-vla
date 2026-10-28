@@ -1,0 +1,59 @@
+{
+  "schema": "V5_USER_CORELAB_EVAL_PRIORITY_V1",
+  "observed_epoch": 1793039245.6652644,
+  "direct_human_request": "我的意思是是否可以把eval作业放到5080-1上，减少vanda提交作业排队等待时间，VANDA专门负责训练微调实施，REVAL放到CORELAB",
+  "effective_strategy": {
+    "preferred_Eval_host": "CoreLab5080-1",
+    "Vanda_role": "Training/fine-tuning; no automatic Eval resubmission while implementing human-selected CoreLab route",
+    "current_C50_D25_training": "Both complete1024 and once closed; no extra training authorized",
+    "scientific_order": "C50 originalN294101 Eval24 then D25 same24 then paired analysis"
+  },
+  "actual_native_state": {
+    "active_Vanda_Eval": false,
+    "last_C50_job": "1497143 FExit1, independently audited zero model/query/constructor/physics, once settled and all three leases CLOSED",
+    "new_CoreLab_5080_request": false,
+    "new_GPU": false,
+    "new_model": false,
+    "new_physics": false,
+    "C50_behavior": 0,
+    "D25_behavior": 0,
+    "whole_goal": "ACTIVE_UNFINISHED"
+  },
+  "actual_5080_readiness": {
+    "login": "Not established; original AMD key routes previously timed out awaiting authentication",
+    "new_WAN_route": "Pinned existing5080 host identity before authentication; hostname in historical table does not currently resolve on AMD",
+    "shared_entry": "Fresh actual AMD canonical ENVIRONMENTS has amd-management,4080-simulation,4080-cpu-data,hopper-neural,4080-neural-evaluation; no5080 profile. Canonical PATH_REGISTRY has no5080 entry",
+    "local_environment": "UNKNOWN_NOT_OBSERVED_FROM_AMD",
+    "GPU_memory": "Historical specification16GiB, not current native inventory",
+    "existing_Eval_entry": "Explicit4080 host/model identity and minimum30GiB, cannot relabel as5080 or simply remove memory check"
+  },
+  "necessary_cold_acceptance": [
+    "Restore actual5080 login; read current host/UID/GPU/VRAM/processes and existing local runtime without changing independent jobs",
+    "Use existing standard entry/owner/registry/onceIO with explicit5080 identity; reuse original driver/relay/auditor and real closed endpoints",
+    "Validate native Torch/CUDA and model compatibility on actual hardware; original inference dtype,4steps,RGB,H40/Prefix8 and safety unchanged. No unapproved quantization, resolution, recipe or score changes",
+    "Prove original600s80cycle plus same dualRGB/zero-integration/native counter and full future resources before model/physical release",
+    "Resolve current authority/cost ledger and retained-output custody explicitly; unavailable4080 LOCAL remains historical/PENDING and is never copied into a fake fresh ledger",
+    "Then launch independent background owner for original C24→D24, preserve all valid failures, audit/once settle/close"
+  ],
+  "budget": {
+    "caps_unchanged": true,
+    "PBS_cap": 34,
+    "no_extra_Vanda_PBS_requested_or_consumed": true,
+    "unused_D_and_matrix_PBS_not_reassigned": true,
+    "prior_costs_and_all_checkpoints_retained": true,
+    "original_Final20GPUh40GiB_protected": true,
+    "T_CD": 1792932749.8133287,
+    "deadline": 1793537549.8133287,
+    "stop_new_training": 1793451149.8133287
+  },
+  "limits": {
+    "GEN1": "Only original24 static images and finite three-home preparation; no collection/extra training/WBC physics",
+    "WDRcore64": 0,
+    "credentials_not_stored_or_repeated": true,
+    "no_server_service_key_or_independent_job_changed": true
+  },
+  "private_proof_sha256": {
+    "CORELAB_5080_EVAL_NEW_WAN_PINNED_READONLY_1793039136243259545.private.json": "23c55c4208530633c5a1a7f72544f5d0809224f4e415a097a7e4cbe37a2ab45d",
+    "CORELAB_5080_EXISTING_SHARED_ENTRY_READONLY_1793039196657486138.private.json": "d4bed2801beaf2307e846fc815d7b3042f7ed39278c2bbc5f6c737cd81e8f896"
+  }
+}

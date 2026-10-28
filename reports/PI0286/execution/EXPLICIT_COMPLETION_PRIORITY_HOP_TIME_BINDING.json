@@ -1,0 +1,23 @@
+{
+  "status": "EXPLICIT_HUMAN_COMPLETION_PRIORITY_NO_1400_CUTOFF_BOUND_AT_STOPPED_CANARY_FORMAL_BOUNDARY",
+  "human_reply": "\u5b8c\u6210\u4e24\u81c2\uff0c\u5141\u8bb8\u8d8a\u8fc714:00",
+  "epoch": 1791523954.4561172,
+  "original_release": "eae6dbc1f9281b204a4e28e5f7c100d705837318",
+  "original_canonical": 6072813602,
+  "PBS_JOBID": "656178.hopper-m-02",
+  "scheduler_record": "Job Id: 656178.hopper-m-02\n    Job_Name = PI0286_C1\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 92\n    resources_used.cput = 00:11:31\n    resources_used.mem = 46925376kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 86384624kb\n    resources_used.walltime = 00:21:47\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Fri Oct  9 13:07:13 2026\n    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp\n\teriments/PI0286/runtime/continuation-c1/pbs.err\n    exec_host = hopper-17/4*12\n    exec_vnode = (hopper-17:ncpus=12:mem=201326592kb:ngpus=1)\n    Hold_Types = n\n    Join_Path = n\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Fri Oct  9 13:31:34 2026\n    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex\n\tperiments/PI0286/runtime/continuation-c1/pbs.out\n    Priority = 0\n    qtime = Fri Oct  9 13:07:13 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 7200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 192gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ncpus=12:mem=192gb:ngpus=1:gpu_model=H200\n    Resource_List.walltime = 02:00:00\n    stime = Fri Oct  9 13:09:46 2026\n    session_id = 2841052\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Fri Oct 09 at 13:09 on (hopper-17:ncpus=12:mem=2013265\n\t92kb:ngpus=1)\n    etime = Fri Oct  9 13:07:13 2026\n    run_count = 1\n    Submit_arguments = -P CFP05-CF-052 /scratch/e1192548/Projects/go2-arx5/expe\n\triments/PI0286/runtime/continuation-c1/C1.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "legal_PBS_end_epoch": 1791529786,
+  "optimizer_stop_epoch": 1791529666,
+  "calendar_model_stop_epoch": 1791540000,
+  "confirmation_latest_epoch": 1791537300,
+  "actual_canary_sha256": "a65f9612a3a565ec347126b07c66eb3288b12b086cda22dd68e1bc0d4ae1ff9e",
+  "r2_sha256": "0259b89b80aa549a79bb8e6f0108812bcd5e9273cc8575ed97f5a40864ea270a",
+  "Hopper_and_Core_each_GPU_cap_seconds": 14400,
+  "formal_cap": 2048,
+  "canary_cap": 32,
+  "all_updates_cap": 2112,
+  "all_original_scientific_and_quality_budgets_unchanged": true,
+  "healthy_model_or_training_child_active": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

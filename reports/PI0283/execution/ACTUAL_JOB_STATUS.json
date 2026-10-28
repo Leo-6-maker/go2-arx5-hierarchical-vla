@@ -1,0 +1,116 @@
+{
+  "epoch": 1791427569.9315453,
+  "logs": {
+    "pbs.log": "",
+    "MORE-split-0-4.log": "2548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages/torch/backends/__init__.py:46: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:80.)\n  self.setter(val)\n`torch_dtype` is deprecated! Use `dtype` instead!\nflash_attn is not installed. Falling back to sdpa attention. Install flash-attn for better performance: pip install flash-attn\n/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t/gr00t/model/modules/dit.py:255: FutureWarning: Accessing config attribute `compute_dtype` directly via 'AlternateVLDiT' object attribute is deprecated. Please access 'compute_dtype' over 'AlternateVLDiT's config object instead, e.g. 'unet.config.compute_dtype'.\n  embedding_dim=self.inner_dim, compute_dtype=self.compute_dtype\n/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t/gr00t/model/modules/dit.py:286: FutureWarning: Accessing config attribute `output_dim` directly via 'AlternateVLDiT' object attribute is deprecated. Please access 'output_dim' over 'AlternateVLDiT's config object instead, e.g. 'unet.config.output_dim'.\n  self.proj_out_2 = nn.Linear(self.inner_dim, self.output_dim)\nTotal number of DiT parameters:  1091722240\nTotal number of SelfAttentionTransformer parameters:  201433088\n\nLoading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]\nLoading checkpoint shards:  50%|\u2588\u2588\u2588\u2588\u2588     | 1/2 [00:00<00:00,  1.39it/s]\nLoading checkpoint shards: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 2/2 [00:00<00:00,  2.71it/s]\n\n  0%|          | 0/2048 [00:00<?, ?it/s]Could not estimate the number of tokens of the input, floating-point operations will not be computed\n\n  0%|          | 1/2048 [00:40<23:09:08, 40.72s/it]\n  0%|          | 2/2048 [00:41<9:50:50, 17.33s/it] \n  0%|          | 3/2048 [00:42<5:35:45,  9.85s/it]\n  0%|          | 4/2048 [00:43<3:35:54,  6.34s/it]",
+    "MORE-continuous-0-8.log": "e-and-later-devices (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:80.)\n  self.setter(val)\n`torch_dtype` is deprecated! Use `dtype` instead!\nflash_attn is not installed. Falling back to sdpa attention. Install flash-attn for better performance: pip install flash-attn\n/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t/gr00t/model/modules/dit.py:255: FutureWarning: Accessing config attribute `compute_dtype` directly via 'AlternateVLDiT' object attribute is deprecated. Please access 'compute_dtype' over 'AlternateVLDiT's config object instead, e.g. 'unet.config.compute_dtype'.\n  embedding_dim=self.inner_dim, compute_dtype=self.compute_dtype\n/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t/gr00t/model/modules/dit.py:286: FutureWarning: Accessing config attribute `output_dim` directly via 'AlternateVLDiT' object attribute is deprecated. Please access 'output_dim' over 'AlternateVLDiT's config object instead, e.g. 'unet.config.output_dim'.\n  self.proj_out_2 = nn.Linear(self.inner_dim, self.output_dim)\nTotal number of DiT parameters:  1091722240\nTotal number of SelfAttentionTransformer parameters:  201433088\n\nLoading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]\nLoading checkpoint shards:  50%|\u2588\u2588\u2588\u2588\u2588     | 1/2 [00:01<00:01,  1.47s/it]\nLoading checkpoint shards: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 2/2 [00:01<00:00,  1.36it/s]\nLoading checkpoint shards: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 2/2 [00:01<00:00,  1.18it/s]\n\n  0%|          | 0/2048 [00:00<?, ?it/s]Could not estimate the number of tokens of the input, floating-point operations will not be computed\n\n  0%|          | 1/2048 [00:42<24:26:43, 42.99s/it]\n  0%|          | 2/2048 [00:43<10:22:51, 18.27s/it]\n  0%|          | 3/2048 [00:44<5:53:11, 10.36s/it] \n  0%|          | 4/2048 [00:45<3:46:28,  6.65s/it]\n  0%|          | 5/2048 [00:51<3:34:43,  6.31s/it]\n  0%|          | 6/2048 [00:52<2:32:43,  4.49s/it]\n  0%|          | 7/2048 [00:53<1:53:28,  3.34s/it]\n  0%|          | 8/2048 [00:54<1:27:40,  2.58s/it]\n                                                  \n{'train_runtime': 71.5315, 'train_samples_per_second': 229.046, 'train_steps_per_second': 28.631, 'train_loss': 0.03346893563866615}\n\n  0%|          | 8/2048 [01:11<1:27:40,  2.58s/it]\n  0%|          | 8/2048 [01:11<5:04:00,  8.94s/it]\n"
+  },
+  "done": {
+    "MORE-continuous-0-8.done.json": {
+      "returncode": 0,
+      "elapsed_s": 200.33834829111584,
+      "pid": 2673853,
+      "user_CPU_s": 146.171917,
+      "system_CPU_s": 19.7139
+    }
+  },
+  "updates": [
+    {
+      "arm": "MORE",
+      "phase": "continuous",
+      "work_kind": "canary",
+      "step": 1,
+      "consumed_chunks": 8,
+      "wall": 1791427374.1469274
+    },
+    {
+      "arm": "MORE",
+      "phase": "continuous",
+      "work_kind": "canary",
+      "step": 2,
+      "consumed_chunks": 16,
+      "wall": 1791427375.1025653
+    },
+    {
+      "arm": "MORE",
+      "phase": "continuous",
+      "work_kind": "canary",
+      "step": 3,
+      "consumed_chunks": 24,
+      "wall": 1791427376.0605524
+    },
+    {
+      "arm": "MORE",
+      "phase": "continuous",
+      "work_kind": "canary",
+      "step": 4,
+      "consumed_chunks": 32,
+      "wall": 1791427377.0141568
+    },
+    {
+      "arm": "MORE",
+      "phase": "continuous",
+      "work_kind": "canary",
+      "step": 5,
+      "consumed_chunks": 40,
+      "wall": 1791427382.714091
+    },
+    {
+      "arm": "MORE",
+      "phase": "continuous",
+      "work_kind": "canary",
+      "step": 6,
+      "consumed_chunks": 48,
+      "wall": 1791427383.670663
+    },
+    {
+      "arm": "MORE",
+      "phase": "continuous",
+      "work_kind": "canary",
+      "step": 7,
+      "consumed_chunks": 56,
+      "wall": 1791427384.6361814
+    },
+    {
+      "arm": "MORE",
+      "phase": "continuous",
+      "work_kind": "canary",
+      "step": 8,
+      "consumed_chunks": 64,
+      "wall": 1791427385.5928724
+    },
+    {
+      "arm": "MORE",
+      "phase": "split",
+      "work_kind": "canary",
+      "step": 1,
+      "consumed_chunks": 8,
+      "wall": 1791427552.2645392
+    },
+    {
+      "arm": "MORE",
+      "phase": "split",
+      "work_kind": "canary",
+      "step": 2,
+      "consumed_chunks": 16,
+      "wall": 1791427553.2181888
+    },
+    {
+      "arm": "MORE",
+      "phase": "split",
+      "work_kind": "canary",
+      "step": 3,
+      "consumed_chunks": 24,
+      "wall": 1791427554.173027
+    },
+    {
+      "arm": "MORE",
+      "phase": "split",
+      "work_kind": "canary",
+      "step": 4,
+      "consumed_chunks": 32,
+      "wall": 1791427555.125411
+    }
+  ],
+  "mode_tail": "ng\": true}, \"action_head.vl_self_attention\": {\"trainable_parameters\": false, \"training\": false}, \"action_head.vlln\": {\"trainable_parameters\": false, \"training\": false}, \"backbone\": {\"trainable_parameters\": false, \"training\": true}, \"backbone.model\": {\"trainable_parameters\": false, \"training\": true}}, \"native_loss\": 0.046685293316841125, \"native_reduction\": {\"active_mask_sum\": 1600.0, \"element_sum\": 74.69647216796875}, \"phase_step\": 8, \"position_parameters\": {\"action_head.position_embedding.weight\": {\"dtype\": \"torch.bfloat16\", \"requires_grad\": false}, \"backbone.model.model.visual.pos_embed.weight\": {\"dtype\": \"torch.bfloat16\", \"requires_grad\": false}}}\n{\"actual_LRs\": [1.09375e-05, 1.0937500000000001e-06], \"cursor\": 60, \"expected_returned_loss\": 0.0179287139326334, \"modules\": {\"action_head.action_decoder\": {\"trainable_parameters\": true, \"training\": true}, \"action_head.action_decoder.layer1\": {\"trainable_parameters\": true, \"training\": true}, \"action_head.action_decoder.layer2\": {\"trainable_parameters\": true, \"training\": true}, \"action_head.action_encoder\": {\"trainable_parameters\": true, \"training\": true}, \"action_head.model\": {\"trainable_parameters\": true, \"training\": true}, \"action_head.position_embedding\": {\"trainable_parameters\": false, \"training\": true}, \"action_head.state_encoder\": {\"trainable_parameters\": true, \"training\": true}, \"action_head.vl_self_attention\": {\"trainable_parameters\": false, \"training\": false}, \"action_head.vlln\": {\"trainable_parameters\": false, \"training\": false}, \"backbone\": {\"trainable_parameters\": false, \"training\": true}, \"backbone.model\": {\"trainable_parameters\": false, \"training\": true}}, \"native_loss\": 0.0358574278652668, \"native_reduction\": {\"active_mask_sum\": 1600.0, \"element_sum\": 57.371883392333984}, \"phase_step\": 8, \"position_parameters\": {\"action_head.position_embedding.weight\": {\"dtype\": \"torch.bfloat16\", \"requires_grad\": false}, \"backbone.model.model.visual.pos_embed.weight\": {\"dtype\": \"torch.bfloat16\", \"requires_grad\": false}}}\n"
+}

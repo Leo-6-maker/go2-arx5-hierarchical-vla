@@ -1,0 +1,58 @@
+{
+  "calib_statistics": [
+    {
+      "checkpoint": 2500,
+      "complete_denominator": 1088,
+      "median_nonreject_m": 0.7317013013505814,
+      "raw_relative_minus_world_example_m": 0.7376363149668936,
+      "selector_nonreject_denominator": 1077
+    },
+    {
+      "checkpoint": 5000,
+      "complete_denominator": 1088,
+      "median_nonreject_m": 0.762744308891493,
+      "raw_relative_minus_world_example_m": 0.7231631734579363,
+      "selector_nonreject_denominator": 1079
+    },
+    {
+      "checkpoint": 7500,
+      "complete_denominator": 1088,
+      "median_nonreject_m": 0.7320018094707433,
+      "raw_relative_minus_world_example_m": 0.7122377015759124,
+      "selector_nonreject_denominator": 1077
+    },
+    {
+      "checkpoint": 10000,
+      "complete_denominator": 1088,
+      "median_nonreject_m": 0.7480773134187281,
+      "raw_relative_minus_world_example_m": 0.7183628991630571,
+      "selector_nonreject_denominator": 1078
+    }
+  ],
+  "clip_events": "UNOBSERVED; out-of-range normalized values do not prove clipping",
+  "interpretation": "Original historical statistic reproduced; mixed relative/world coordinates, not a world-TCP distance. No selector/scorer rewritten. Anchor-based world correction not invented.",
+  "live_formula": "min_t norm(decoded_native_relative_xyz[t] + actual_anchor_world - target_world)",
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physical_episodes": 0,
+  "paired_retention": {
+    "B0": {
+      "median_offset_sse_fraction": 0.7520334692965305,
+      "n": 64,
+      "shape_worse_than_G": 61,
+      "xyz_worse_than_G": 63
+    },
+    "B1": {
+      "median_offset_sse_fraction": 0.7419223227347258,
+      "n": 64,
+      "shape_worse_than_G": 61,
+      "xyz_worse_than_G": 63
+    }
+  },
+  "scoring_formula": "min_t norm(decoded_native_relative_xyz[t] - target_world_xyz)",
+  "selected_checkpoint": "NONE",
+  "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+  "target_authority_field": "target_position_world_m",
+  "target_authority_sha256": "06fa238a27485ecde39c75797fe9fd82dd1cdc5f5c79f5d5a5b3d9dcab7597e8",
+  "world_conversion_in_original_calib_scorer": false
+}

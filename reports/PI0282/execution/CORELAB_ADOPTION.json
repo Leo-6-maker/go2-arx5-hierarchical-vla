@@ -1,0 +1,11 @@
+{
+  "nvidia-smi": "0, NVIDIA GeForce RTX 4080 SUPER, 32760 MiB, 136 MiB, 0 %\n1, NVIDIA GeForce RTX 4080 SUPER, 16376 MiB, 68 MiB, 0 %\n",
+  "ps": "    PID COMMAND\n 915007 sshd: liuyu-nfs@notty\n 915020 python3\n 915025 ps -u 2009 -o pid,args\n3347303 /usr/lib/systemd/systemd --user\n3347307 (sd-pam)\n3347339 /usr/bin/pipewire\n3347341 /usr/bin/pipewire -c filter-chain.conf\n3347343 /snap/snapd-desktop-integration/391/usr/bin/user-session-helper /snap/snapd-desktop-integration/391/usr/bin/snapd-desktop-integration\n3347345 /usr/bin/wireplumber\n3347347 /usr/bin/pipewire-pulse\n3347375 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only\n3347449 /usr/libexec/xdg-document-portal\n3347453 /usr/libexec/xdg-permission-store\n3455361 /usr/bin/python3 -u -c import json,os,subprocess from pathlib import Path root=Path('/home/liuyu-nfs/Projects/go2-arx5/PI0276');done=root/'runtime'/'archive-caf60a7bb012.done.json' env=dict(os.environ,OMP_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_CORETYPE='Prescott') if 'archive.py' not in ('evaluate.py',):env['CUDA_VISIBLE_DEVICES']='' with (root/'runtime'/('continuation-'+'archive.py'+'.log')).open('ab') as f:  result=subprocess.run(['/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python', '-u', '/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/archive.py', 'predictions'],env=env,stdout=f,stderr=subprocess.STDOUT) tmp=done.with_suffix('.tmp');tmp.write_text(json.dumps({'returncode':result.returncode,'target':'/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/archive.py','arguments':['predictions']})+'\\n');tmp.replace(done) \n3455362 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0276/code/archive.py predictions\n",
+  "disk": {
+    "total": 4000785104896,
+    "used": 2164483162112,
+    "free": 1833351249920
+  },
+  "quota_headroom": "UNKNOWN",
+  "utc_ns": 1791395073101208770
+}

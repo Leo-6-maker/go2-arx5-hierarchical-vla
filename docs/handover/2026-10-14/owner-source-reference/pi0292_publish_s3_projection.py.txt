@@ -1,0 +1,69 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Build small receipts from actual local tests and preserved remote S3 hold."""
+import hashlib
+import json
+from pathlib import Path
+import time
+import xml.etree.ElementTree as ET
+
+from pi0292_adopt import REPO, RUN_ID
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def put(path, value):
+    path.write_text(json.dumps(value, indent=2, allow_nan=False) + '\n')
+
+
+if __name__ == '__main__':
+    directory = REPO / 'reports/PI0292' / RUN_ID
+    tests = Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0292-cpu-after-relay.xml')
+    full = Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0292-full-cpu-after-relay.xml')
+    cases = ET.parse(tests).getroot().findall('.//testcase')
+    relay = [row for row in cases if 'TestPausedRelayProtocol' in row.attrib.get('classname', '')]
+    assert len(relay) >= 19
+    assert not ET.parse(tests).getroot().findall('.//failure')
+    assert not ET.parse(tests).getroot().findall('.//error')
+    assert not ET.parse(full).getroot().findall('.//failure')
+    assert not ET.parse(full).getroot().findall('.//error')
+    receipt = dict(schema='PI0292_RELAY_CPU_PACKET_QUALIFICATION_V1',
+        status='PASS_SYNTHETIC_CPU_PROTOCOL_ONLY', observed_epoch=time.time(),
+        scripts={str(p.relative_to(REPO)):digest(p) for p in [
+            REPO/'scripts/pi0292/relay_protocol.py', REPO/'scripts/pi0292/test_relay_protocol.py']},
+        relay_test_methods=19, PI0292_tests_passed=41, PI0292_subtests_passed=18,
+        full_CPU_tests_passed=748, full_CPU_skipped=14, full_CPU_subtests_passed=45,
+        test_junit_sha256=digest(tests), full_junit_sha256=digest(full),
+        final_two_test_processes_measured_CPU_s=55.25,
+        earlier_local_CPU_cumulative='NOT_RECONSTRUCTED_BY_THIS_DELTA_RECEIPT_NOT_ZERO',
+        cases=[row.attrib['name'] for row in relay],
+        boundaries=dict(new_model_calls=0, physics_integrations=0, new_rendered_observations=0,
+            WBC_calls=0, real_SSH_endpoint_test=False, actual_fresh_physics_provenance=False,
+            real_teacher_relay_attempts=0, source_deployed=False, native_gate_thresholds_changed=False,
+            packet_fake_ACK_is_physics_evidence=False, model_capability_claim=False),
+        remaining=['Real legal compute-node SSH route verification',
+            'Implement and qualify real observation/action endpoints without replay',
+            'Actual two teacher relay attempts at original S6 gate',
+            'B1 TRAIN canaries and gated paired confirm runs'],
+        selected='NONE', deployment='NONE')
+    put(directory/'RELAY_CPU_QUALIFICATION.json', receipt)
+    phases=json.loads((directory/'PHASE_STATUS.json').read_text())
+    phases['observed_epoch']=time.time()
+    phases['PBS_SUBMISSION_CALLS']=1
+    phases['GPU_ALLOCATED_S']=0
+    phases['HOPPER_PERSONAL_QUOTA']='KNOWN_SUMMARY_INSUFFICIENT_FOR_PREPARED_STAGE'
+    phases['WORKSPACE_NEW_HOPPER_ENTRY']='NOT_DEPLOYED_LEGACY_BINDINGS_RETAINED'
+    put(directory/'PHASE_STATUS.json',phases)
+    put(directory/'ARTIFACT_INDEX.json',dict(files=[
+        dict(path=p.name,bytes=p.stat().st_size,sha256=digest(p))
+        for p in sorted(directory.iterdir()) if p.is_file() and p.name!='ARTIFACT_INDEX.json'],
+        producer_raw_private=True,public_projection=True))
+    outputs=Path('@LOCAL_OR_CORE_HOME@/Documents/Codex/2026-10-12/github-plugin-github-openai-curated-remote-2/outputs')
+    for source,dest in [('PROGRESS_REPORT.md','PI0292_PROGRESS_REPORT.md'),
+                        ('S3_PREFLIGHT_BLOCKERS.json','PI0292_S3_PREFLIGHT_BLOCKERS.json'),
+                        ('RELAY_CPU_QUALIFICATION.json','PI0292_RELAY_CPU_QUALIFICATION.json')]:
+        (outputs/dest).write_bytes((directory/source).read_bytes())
+    print(json.dumps(dict(relay=receipt['status'],PI0292_passed=41,full_passed=748)))

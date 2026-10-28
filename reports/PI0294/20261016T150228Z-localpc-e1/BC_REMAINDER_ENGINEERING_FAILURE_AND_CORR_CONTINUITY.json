@@ -1,0 +1,483 @@
+{
+  "run_uuid": "20261016T150228Z-localpc-e1",
+  "status": "M2_BC_REMAINDER_ENGINEERING_FAILURES_PRESERVED_CORR_TRAINING_CONTINUES",
+  "rows": [
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F0-000-T1",
+      "model": "M2-BC-REMAINDER-03",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 6.0,
+      "main_integrations": 3000,
+      "RGB_pairs": 121,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 6.092348847630547e-14,
+      "result_sha256": "380aa561ed6a9bfb41ac507e96a99d2c76e27b3eb22bbf4f7c9869e59cc36415",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "route_failure": {
+        "type": "TimeoutError",
+        "message": "ORIGINAL_20S_FILE_RPC_TIMEOUT_UNKNOWN_EFFECT_NO_RETRY"
+      }
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F0-000-T2",
+      "model": "M2-BC-REMAINDER-03",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 0.0,
+      "main_integrations": 0,
+      "RGB_pairs": 1,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 0.0,
+      "result_sha256": "f55c99e49abb76c5b8dad9d5e6f50594330e7959be04c464955fa07529527533",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "route_failure": {
+        "type": "ValueError",
+        "message": "FILE_RPC_RESPONSE_ID_MISMATCH_NO_REPLAY"
+      }
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F1-000-T1",
+      "model": "M2-BC-REMAINDER-03",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 0.0,
+      "main_integrations": 0,
+      "RGB_pairs": 1,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 0.0,
+      "result_sha256": "a630920f6d5fa021c95bb6d737bc88146d734010dca7b9dc89f8e330c4e707c4",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "route_failure": {
+        "type": "ValueError",
+        "message": "FILE_RPC_RESPONSE_ID_MISMATCH_NO_REPLAY"
+      }
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F1-000-T2",
+      "model": "M2-BC-REMAINDER-03",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 0.0,
+      "main_integrations": 0,
+      "RGB_pairs": 1,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 0.0,
+      "result_sha256": "f791dddbd2dc221368923e6298730e977dc59fa4476a208a2ff503b98b00a7f7",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "route_failure": {
+        "type": "ValueError",
+        "message": "FILE_RPC_RESPONSE_ID_MISMATCH_NO_REPLAY"
+      }
+    }
+  ],
+  "actual_Core": {
+    "rows": [
+      {
+        "row": {
+          "status": "ENGINEERING_INCOMPLETE",
+          "failure_stage": "ENGINEERING_OR_UNKNOWN",
+          "pipeline_trustworthy": false,
+          "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F0-000-T1",
+          "model": "M2-BC-REMAINDER-03",
+          "task": "T1",
+          "split": "TRAIN",
+          "scene_group": "PI0294/TRAIN/F0/000",
+          "duration_s": 6.0,
+          "main_integrations": 3000,
+          "RGB_pairs": 121,
+          "S1_rejections": 0,
+          "live_native_failures": 0,
+          "maximum_live_shadow_difference": 6.092348847630547e-14,
+          "result_sha256": "380aa561ed6a9bfb41ac507e96a99d2c76e27b3eb22bbf4f7c9869e59cc36415",
+          "teacher_takeover": false,
+          "selected": "NONE",
+          "deployment": "NONE"
+        },
+        "worker_CPU_s": 80.881168485,
+        "worker_wall_s": 506.8171242119279,
+        "commands": [
+          {
+            "sequence": 0,
+            "query_uuid": "b5e36ce1-6713-4f5c-a57a-006827a266cd",
+            "command_mtime": 1792209282.4805162,
+            "ACK_mtime": 1792209285.1873538
+          },
+          {
+            "sequence": 1,
+            "query_uuid": "dd21b20e-1ed3-474b-bc1c-99449c38527b",
+            "command_mtime": 1792209316.0511112,
+            "ACK_mtime": 1792209318.7058735
+          },
+          {
+            "sequence": 2,
+            "query_uuid": "1bbb5304-b348-42e2-b667-a61d08afe550",
+            "command_mtime": 1792209349.7304177,
+            "ACK_mtime": 1792209352.3910255
+          },
+          {
+            "sequence": 3,
+            "query_uuid": "ae052486-ffcf-4bd0-b272-1f4963a5284d",
+            "command_mtime": 1792209383.1243887,
+            "ACK_mtime": 1792209385.8080506
+          },
+          {
+            "sequence": 4,
+            "query_uuid": "16cb999d-3875-43cb-932c-6f6fd906d28a",
+            "command_mtime": 1792209416.802709,
+            "ACK_mtime": 1792209419.487395
+          },
+          {
+            "sequence": 5,
+            "query_uuid": "19b9c0c8-e6f5-4685-8974-79699cd41e21",
+            "command_mtime": 1792209450.2194602,
+            "ACK_mtime": 1792209453.043144
+          },
+          {
+            "sequence": 6,
+            "query_uuid": "94cffa77-4535-4928-ba8d-5f45f5a870af",
+            "command_mtime": 1792209483.9769378,
+            "ACK_mtime": 1792209486.6855505
+          },
+          {
+            "sequence": 7,
+            "query_uuid": "8bd0a3f0-2097-40f6-abaf-bddb8dca50cf",
+            "command_mtime": 1792209517.467158,
+            "ACK_mtime": 1792209520.2652624
+          },
+          {
+            "sequence": 8,
+            "query_uuid": "0e36332b-a00b-4ee2-a772-45e2dbd335d2",
+            "command_mtime": 1792209551.2608752,
+            "ACK_mtime": 1792209553.9580398
+          },
+          {
+            "sequence": 9,
+            "query_uuid": "fcc7718d-9cdc-4f36-9d30-f721a2382171",
+            "command_mtime": 1792209584.7054808,
+            "ACK_mtime": 1792209587.3828382
+          },
+          {
+            "sequence": 10,
+            "query_uuid": "94129f6f-9e99-4ee6-b4f9-f0fd2818866a",
+            "command_mtime": 1792209618.326542,
+            "ACK_mtime": 1792209620.9697866
+          },
+          {
+            "sequence": 11,
+            "query_uuid": "c7b3f7b0-333b-4813-8626-b34006d9067d",
+            "command_mtime": 1792209651.719556,
+            "ACK_mtime": 1792209654.4997947
+          },
+          {
+            "sequence": 12,
+            "query_uuid": "3c83daea-1ea7-4372-9e97-20e6044d4251",
+            "command_mtime": 1792209657.7293634,
+            "ACK_mtime": 1792209660.4193072
+          },
+          {
+            "sequence": 13,
+            "query_uuid": "a0c7adef-d1c9-429b-8f0e-e55307b54c9b",
+            "command_mtime": 1792209687.7355473,
+            "ACK_mtime": 1792209690.882078
+          },
+          {
+            "sequence": 14,
+            "query_uuid": "eb72229a-4f0b-4025-b6c1-e60b9c432b3c",
+            "command_mtime": 1792209721.6692734,
+            "ACK_mtime": 1792209724.5911136
+          }
+        ]
+      },
+      {
+        "row": {
+          "status": "ENGINEERING_INCOMPLETE",
+          "failure_stage": "ENGINEERING_OR_UNKNOWN",
+          "pipeline_trustworthy": false,
+          "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F0-000-T2",
+          "model": "M2-BC-REMAINDER-03",
+          "task": "T2",
+          "split": "TRAIN",
+          "scene_group": "PI0294/TRAIN/F0/000",
+          "duration_s": 0.0,
+          "main_integrations": 0,
+          "RGB_pairs": 1,
+          "S1_rejections": 0,
+          "live_native_failures": 0,
+          "maximum_live_shadow_difference": 0.0,
+          "result_sha256": "f55c99e49abb76c5b8dad9d5e6f50594330e7959be04c464955fa07529527533",
+          "teacher_takeover": false,
+          "selected": "NONE",
+          "deployment": "NONE"
+        },
+        "worker_CPU_s": 1.56589858,
+        "worker_wall_s": 1.427602200070396,
+        "commands": []
+      },
+      {
+        "row": {
+          "status": "ENGINEERING_INCOMPLETE",
+          "failure_stage": "ENGINEERING_OR_UNKNOWN",
+          "pipeline_trustworthy": false,
+          "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F1-000-T1",
+          "model": "M2-BC-REMAINDER-03",
+          "task": "T1",
+          "split": "TRAIN",
+          "scene_group": "PI0294/TRAIN/F1/000",
+          "duration_s": 0.0,
+          "main_integrations": 0,
+          "RGB_pairs": 1,
+          "S1_rejections": 0,
+          "live_native_failures": 0,
+          "maximum_live_shadow_difference": 0.0,
+          "result_sha256": "a630920f6d5fa021c95bb6d737bc88146d734010dca7b9dc89f8e330c4e707c4",
+          "teacher_takeover": false,
+          "selected": "NONE",
+          "deployment": "NONE"
+        },
+        "worker_CPU_s": 1.5299997760000001,
+        "worker_wall_s": 1.4303132379427552,
+        "commands": []
+      },
+      {
+        "row": {
+          "status": "ENGINEERING_INCOMPLETE",
+          "failure_stage": "ENGINEERING_OR_UNKNOWN",
+          "pipeline_trustworthy": false,
+          "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F1-000-T2",
+          "model": "M2-BC-REMAINDER-03",
+          "task": "T2",
+          "split": "TRAIN",
+          "scene_group": "PI0294/TRAIN/F1/000",
+          "duration_s": 0.0,
+          "main_integrations": 0,
+          "RGB_pairs": 1,
+          "S1_rejections": 0,
+          "live_native_failures": 0,
+          "maximum_live_shadow_difference": 0.0,
+          "result_sha256": "f791dddbd2dc221368923e6298730e977dc59fa4476a208a2ff503b98b00a7f7",
+          "teacher_takeover": false,
+          "selected": "NONE",
+          "deployment": "NONE"
+        },
+        "worker_CPU_s": 1.568844355,
+        "worker_wall_s": 1.3825198749545962,
+        "commands": []
+      }
+    ],
+    "source_stop": false,
+    "physical_reservations": {}
+  },
+  "actual_Hopper": {
+    "now": 1792210075.5392222,
+    "responses_mtime": {
+      "fcc7718d-9cdc-4f36-9d30-f721a2382171": 1792209554.798829,
+      "dd21b20e-1ed3-474b-bc1c-99449c38527b": 1792209286.084137,
+      "ae052486-ffcf-4bd0-b272-1f4963a5284d": 1792209353.277305,
+      "8cb2524d-80e0-4ae2-b1eb-4d7adab706f0": 1792209725.805979,
+      "16cb999d-3875-43cb-932c-6f6fd906d28a": 1792209386.871521,
+      "94129f6f-9e99-4ee6-b4f9-f0fd2818866a": 1792209588.401306,
+      "0e36332b-a00b-4ee2-a772-45e2dbd335d2": 1792209521.448357,
+      "b5e36ce1-6713-4f5c-a57a-006827a266cd": 1792209253.447379,
+      "eb72229a-4f0b-4025-b6c1-e60b9c432b3c": 1792209691.83029,
+      "1bbb5304-b348-42e2-b667-a61d08afe550": 1792209319.79551,
+      "d309368e-e3e9-4714-83ab-09fdbcd034a0": 1792209759.394929,
+      "c7b3f7b0-333b-4813-8626-b34006d9067d": 1792209621.893898,
+      "3c83daea-1ea7-4372-9e97-20e6044d4251": 1792209655.700587,
+      "19b9c0c8-e6f5-4685-8974-79699cd41e21": 1792209420.386934,
+      "94cffa77-4535-4928-ba8d-5f45f5a870af": 1792209454.126116,
+      "a0c7adef-d1c9-429b-8f0e-e55307b54c9b": 1792209661.569136,
+      "8bd0a3f0-2097-40f6-abaf-bddb8dca50cf": 1792209487.486424,
+      "93ca4039-e17f-46ae-b290-7a5048edeae3": 1792209762.342752,
+      "592c8c3e-9135-4ac2-b168-521a93093d96": 1792209765.343898
+    },
+    "resident_queries": 19,
+    "pending_query": null,
+    "CORR_progress": {
+      "step": 58,
+      "cursor": 1856,
+      "native_loss": 0.006183988880366087,
+      "learning_rate": [
+        9.841709514411166e-06,
+        9.841709514411166e-06
+      ],
+      "synchronized_s": 3.9547674139030278,
+      "epoch": 1792210072.549973
+    },
+    "source_sha": "3ed7a5a3e327442dd9753c9256f669d212c206ed",
+    "native_job": "671655.hopper-m-02",
+    "neural_model_cancelled_or_restarted": false
+  },
+  "actual_completed_RPC": {
+    "core": {
+      "completed_calls": 715,
+      "median_wall_s": 0.02199025599838933,
+      "maximum_completed_call_wall_s": 0.502308372000698,
+      "terminal": {
+        "local_SSH_pid": 470550,
+        "returncode": 0,
+        "started_epoch": 1792209249.385059,
+        "ended_epoch": 1792209766.464877,
+        "calls": 715,
+        "unknown_process_terminal": false,
+        "healthy_GPU_jobs_cancelled": false,
+        "effects_automatically_retried": false
+      }
+    },
+    "hopper": {
+      "completed_calls": 4075,
+      "median_wall_s": 0.05101162900973577,
+      "maximum_completed_call_wall_s": 1.394707938998181,
+      "terminal": {
+        "local_SSH_pid": 470559,
+        "returncode": 0,
+        "started_epoch": 1792209250.746884,
+        "ended_epoch": 1792209766.5794573,
+        "calls": 4075,
+        "unknown_process_terminal": false,
+        "healthy_GPU_jobs_cancelled": false,
+        "effects_automatically_retried": false
+      }
+    }
+  },
+  "timing": [
+    {
+      "sequence": 0,
+      "response_file_to_install_wall_s": 29.03313708305359,
+      "install_to_ACK_wall_s": 2.7068376541137695
+    },
+    {
+      "sequence": 1,
+      "response_file_to_install_wall_s": 29.96697425842285,
+      "install_to_ACK_wall_s": 2.6547622680664062
+    },
+    {
+      "sequence": 2,
+      "response_file_to_install_wall_s": 29.93490767478943,
+      "install_to_ACK_wall_s": 2.6606078147888184
+    },
+    {
+      "sequence": 3,
+      "response_file_to_install_wall_s": 29.847083806991577,
+      "install_to_ACK_wall_s": 2.683661937713623
+    },
+    {
+      "sequence": 4,
+      "response_file_to_install_wall_s": 29.931188106536865,
+      "install_to_ACK_wall_s": 2.6846859455108643
+    },
+    {
+      "sequence": 5,
+      "response_file_to_install_wall_s": 29.832526206970215,
+      "install_to_ACK_wall_s": 2.823683738708496
+    },
+    {
+      "sequence": 6,
+      "response_file_to_install_wall_s": 29.85082173347473,
+      "install_to_ACK_wall_s": 2.7086126804351807
+    },
+    {
+      "sequence": 7,
+      "response_file_to_install_wall_s": 29.98073410987854,
+      "install_to_ACK_wall_s": 2.7981042861938477
+    },
+    {
+      "sequence": 8,
+      "response_file_to_install_wall_s": 29.81251811981201,
+      "install_to_ACK_wall_s": 2.697164535522461
+    },
+    {
+      "sequence": 9,
+      "response_file_to_install_wall_s": 29.906651735305786,
+      "install_to_ACK_wall_s": 2.6773574352264404
+    },
+    {
+      "sequence": 10,
+      "response_file_to_install_wall_s": 29.925235986709595,
+      "install_to_ACK_wall_s": 2.643244743347168
+    },
+    {
+      "sequence": 11,
+      "response_file_to_install_wall_s": 29.825658082962036,
+      "install_to_ACK_wall_s": 2.780238628387451
+    },
+    {
+      "sequence": 12,
+      "response_file_to_install_wall_s": 2.0287764072418213,
+      "install_to_ACK_wall_s": 2.689943790435791
+    },
+    {
+      "sequence": 13,
+      "response_file_to_install_wall_s": 26.16641139984131,
+      "install_to_ACK_wall_s": 3.1465306282043457
+    },
+    {
+      "sequence": 14,
+      "response_file_to_install_wall_s": 29.838983297348022,
+      "install_to_ACK_wall_s": 2.921840190887451
+    }
+  ],
+  "timing_clock_caveat": "Filesystem wall timestamps across hosts; no independent clock-offset calibration. Not a latency-causality proof.",
+  "observed_failure_chain": "First call exceeded original20s and left late response; same session was incorrectly reused and three subsequent cases failed response-ID checks before any physical integration.",
+  "unique_NFS_cache_root_cause_proven": false,
+  "NFS_directory_only_refresh_actual_speedup_proven": false,
+  "subsequent_controls": {
+    "session_latched_invalid_after_unknown_response": true,
+    "no_next_physical_case_after_known_poisoned_channel": true,
+    "read_only_direct_open_visibility_helper": "SEALED_CPU_AUX_READY_FOR_CORR_NOT_YET_NATIVE_TESTED",
+    "source_model_and_physics_capsule_unchanged": "3ed7a5a3e327442dd9753c9256f669d212c206ed",
+    "local_controller_handoff": {
+      "native_proof": {
+        "status": "SETTLED_BC_AND_ONGOING_FIXED_CORR_TRAIN_NO_PHYSICS",
+        "CORR_step": 26,
+        "job_id": "671655.hopper-m-02",
+        "job_state": "R"
+      },
+      "Core_boundary": {
+        "source_stop": false,
+        "history_hold": false,
+        "active": [],
+        "reservations": {}
+      },
+      "replacement_controller_sha256": "0ec231755a606cadbd2abdef8808fb522c904ebc96f3dedfe53e13fcbabee378",
+      "native_GPU_or_model_process_stopped": false,
+      "original_run_and_deadlines_unchanged": true
+    },
+    "same_owner_and_original_lock": true,
+    "no_new_native_job": true,
+    "no_training_restart": true,
+    "no_more_BC_replays_in_E1": true,
+    "original20s_RPC_60s_action_900s_episode_and_S1_unchanged": true
+  },
+  "scientific_claim": "NOT_A_VALID_BC_VS_CORRECTION_TASK_COMPARISON",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

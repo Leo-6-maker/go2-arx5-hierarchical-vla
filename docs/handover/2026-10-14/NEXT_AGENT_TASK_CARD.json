@@ -1,0 +1,138 @@
+{
+  "schema": "GR00T_WBC_INCOMING_OWNER_PLAN_V1",
+  "date": "2026-10-14",
+  "status": "TAKEOVER_PLANNED_SCIENTIFIC_EXECUTION_AWAITING_EXPLICIT_ADOPTION",
+  "authorizes_scientific_execution": false,
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "branch": "pi0267/executor-decoupled-recovery",
+  "handoff_sha": "7e7773a5628d7f119076220ac94bb92a1a9ce120",
+  "plan": "docs/handover/2026-10-14/NEXT_AGENT_EXECUTION_PLAN.md",
+  "owner_mode": "REPLACE_STOPPED_LOCAL_PC_OWNER_NOT_ADD_COMPETING_OWNER",
+  "current_state": {
+    "science": "BLOCKED_REAL_NATIVE_FINGER_JOINT_LIMIT_NO_P1_GATE",
+    "global_step": 512,
+    "old_P1": "FAIL_RETAINED",
+    "selected": "NONE",
+    "deployment": "NONE",
+    "old_R1_PBS": 2,
+    "old_R1_allocated_GPU_s": 890,
+    "old_R1_queries": 55,
+    "old_R1_physics_starts": 1,
+    "old_R1_integrations": 1081,
+    "old_R1_RGB_pairs": 44,
+    "all_old_reservations_at_handoff": 0
+  },
+  "identities": {
+    "runtime": "021d813fd669561a24ffbf89431a4a9812e0f2ca",
+    "native_neural_parent": "a171997a704072e127d16410ba584c8aa0ddd573",
+    "official_GR00T": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "base_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "dataset": "v3.0",
+    "dataset_READY_revision": "6aa94f4f40d791bedd6b4e75489e4ede6504d10d",
+    "stats_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "public_M512_READY_revision": "c698f54d0fc422ebfdd1e2ce1fc96552b6930c52"
+  },
+  "phases": [
+    {
+      "id": "A",
+      "task": "READONLY_OWNER_PATH_PROCESS_ASSET_AND_AUTHORITY_ADOPTION",
+      "new_scientific_GO_required": false,
+      "gate": "TAKEOVER_VERIFIED_NO_SIM_OR_MODEL"
+    },
+    {
+      "id": "B",
+      "task": "G0_G3_CAUSAL_GRIPPER_REQUALIFICATION",
+      "new_scientific_GO_required": true,
+      "gate": "ONE_D1_STRESS_PASS_AND_TEACHER_8_OF_8_SAFE"
+    },
+    {
+      "id": "C",
+      "task": "FOUR_FRESH_M512_D1_DEVELOPMENT_CLOSED_LOOPS",
+      "new_scientific_GO_required": true,
+      "gate": "FOUR_COMPLETE_ZERO_REAL_SAFETY_VIOLATIONS_NO_REPLAY"
+    },
+    {
+      "id": "D",
+      "task": "EXACT_M512_RESUME_TO_M2048_AND_M4096_WITH_DEV",
+      "new_scientific_GO_required": true,
+      "gate": "FIXED_SHARED_DEV_AND_CANDIDATE_SELECTION"
+    },
+    {
+      "id": "E",
+      "task": "CORE_CONFIRMATION_REGRESSION_OPTIONAL_CHALLENGE",
+      "new_scientific_GO_required": true,
+      "gate": "T1_GE6_OF8_T2_GE6_OF8_PAIRED_GE5_OF8_REGRESSION_GE6_OF8_REAL_SAFETY0"
+    }
+  ],
+  "proposed_NEW_PACKAGE_NOT_ACTIVE": {
+    "window": "NEW_T0_PLUS12H_CUTOFF_PLUS11H_AFTER_EXPLICIT_ADOPTION_ONLY",
+    "old_windows_and_balances_reused": false,
+    "wall_hours": 12,
+    "GPU_allocated_hours": 8,
+    "H200_concurrent": 1,
+    "account_independent_allocations": 2,
+    "PBS_calls": 3,
+    "new_formal_updates": 3584,
+    "target_global_step": 4096,
+    "isolated_engineering_updates": 4,
+    "Core_CPU_core_hours": 48,
+    "Core_concurrent_cores": 8,
+    "Hopper_CPU_core_hours": 16,
+    "safety_subcaps": {
+      "wall_hours": 4,
+      "Core_CPU_core_hours": 8,
+      "concurrent_cores": 4,
+      "physical_starts_including_P1R": 32,
+      "integrations": 512000,
+      "RGB_pairs": 20512,
+      "GPU_before_D1_teacher_pass": 0
+    },
+    "all_physical_starts": 128,
+    "all_integrations": 2048000,
+    "all_RGB_pairs": 82048,
+    "H40_query_intents": 5200,
+    "new_peak_GiB": {
+      "Hopper": 120,
+      "CoreLab": 36,
+      "local_pc": 1
+    },
+    "personal_free_margin_GiB": 20,
+    "conditional_public_derivatives": {
+      "requires_explicit_publication_scope_adoption": true,
+      "max_checkpoints": 2,
+      "aggregate_GiB": 60
+    },
+    "new_training_data_collection": 0,
+    "WBC_calls": 0,
+    "hardware_calls": 0,
+    "historical_deletions": 0
+  },
+  "fixed_training": {
+    "dataset": "v3.0",
+    "freeze_VLM": true,
+    "microbatch": 2,
+    "accumulation": 16,
+    "workers": 0,
+    "effective_batch": 32,
+    "scheduler_horizon": 6144,
+    "warmup_steps": 308,
+    "native_loss": "MASKED_FLOW_MATCHING",
+    "numerics": "DETERMINISTIC_CUDA_MATH_SDP_V1",
+    "conditional_6144_allowed": false,
+    "hot_dataset_switch": false
+  },
+  "invariants": [
+    "NO_SAFETY_LIMIT_RELAXATION",
+    "NO_QPOS_QVEL_CLAMP",
+    "NO_MODEL_GRIPPER_THRESHOLD_OR_SMOOTHING_HIDDEN_CHANGE",
+    "NO_TEACHER_TAKEOVER",
+    "SAME_D1_FOR_TEACHER_AND_MODEL",
+    "OLD_D0_P1FAIL_IMMUTABLE",
+    "LOCAL_READY_SEPARATE_FROM_REMOTE_ARCHIVE",
+    "NO_ARCHIVED_OWNER_SCRIPT_DIRECT_EXECUTION",
+    "NO_AUTO_OLD_PBS_BALANCE_OR_CLOCK_REUSE"
+  ],
+  "first_deliverable": "OWNER_ADOPTION_READONLY.json",
+  "critical_behavior_deliverable": "P1R_MODEL_RESULTS.json_AND_FOUR_ACTUAL_VIDEOS",
+  "publication_is_not_remote_execution": true
+}

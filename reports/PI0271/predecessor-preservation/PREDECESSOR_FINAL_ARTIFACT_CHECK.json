@@ -1,0 +1,546 @@
+{
+  "all_complete_result_parts": 4,
+  "closed_collection_predictions": 19200,
+  "deployment_selected_checkpoint": "NONE",
+  "numerical_replay_new_predictions": 8392,
+  "required_members": [
+    {
+      "member": "delivery/FINAL_RESEARCH_RETURN.md",
+      "sha256": "14d7da869d3301a139b62dfb0b2d1ee4a7513845f1e2f36b0fad6f4fcf931842"
+    },
+    {
+      "member": "delivery/PRIMARY_VERDICT.json",
+      "sha256": "e05b056434fc57f4604209d60bc18f25da427a1682ff1b45f5df38a701ab32a1"
+    },
+    {
+      "member": "delivery/CPU_REPLAY.json",
+      "sha256": "9789ec9604c1973823b8abde2335df07fb3ee4d4f12026eda6e928eaa8ed3a79"
+    },
+    {
+      "member": "delivery/OFFLINE2904.csv",
+      "sha256": "85830d60d4bb369454acb500b1553be56e5db41c83f786a94b982bdfb5782faa"
+    },
+    {
+      "member": "delivery/NEW_FIT384.csv",
+      "sha256": "604b1dff08b42a6d1c1352a4dc87ca6be02c5b66009b5c374f88509d6494c924"
+    },
+    {
+      "member": "delivery/VIRTUAL192.csv",
+      "sha256": "a6b6e80c89fb9e7906e9de276b15b31af90e6c01d0ca44d39f18639803822363"
+    },
+    {
+      "member": "delivery/COMPONENT96.csv",
+      "sha256": "a7aa066b99fc224efc182ca17806f11142624d67003126a254f53f663e0e16cd"
+    },
+    {
+      "member": "delivery/PAIRED_OFFLINE_CHANGES.csv",
+      "sha256": "e344af899913fa61cd6c80627c8e85d7ff191e017a1bd68c39ee8777593ec5f0"
+    },
+    {
+      "member": "delivery/PAIRED_NEW_FIT_CHANGES.csv",
+      "sha256": "7c01de21b2b9abf19685b40e378dd65476bfff7da0b7bf167c6dc7444f75c0cb"
+    },
+    {
+      "member": "delivery/PAIRED_MAIN_FAMILY_CHANGES.csv",
+      "sha256": "0e150c81db4a6f4519f123030ced3a99a47120abe96cc607f497f151ee950058"
+    },
+    {
+      "member": "delivery/PAIRED_NEW_FIT_CELLS.csv",
+      "sha256": "3bbc2f00252f236a7e452ec1eb15c0ba38b487e6dad9b030d7d104c5cf14d04a"
+    },
+    {
+      "member": "delivery/OFFLINE_SUBGROUPS.csv",
+      "sha256": "57f748c3d3ddb067164016cd677438c8bd02f3621525c4c948d6015ae1a5e7d2"
+    },
+    {
+      "member": "delivery/SAME_TICK_REFERENCE_INSTALLED_ACHIEVED.csv",
+      "sha256": "ee5d2a25a273fe0dd9611c144e520043612e6bf220c1d5a8eb16a8e6570f01eb"
+    },
+    {
+      "member": "delivery/PREDECESSOR_SUBGROUP_AND_TRANSITION_ANALYSIS.json",
+      "sha256": "b204bebb97f2c717dfe31f3b4c93b4aa4d5685671d1855efecd44644c19392a1"
+    },
+    {
+      "member": "delivery/M3_TIMING_INTERPRETATION.json",
+      "sha256": "970546cb72e53af0c7b20bdc3eeb9b2c9ad74b3c944f0131bd060f74c6c2ce12"
+    },
+    {
+      "member": "delivery/PI0270_AGG4096_VIRTUAL.mp4",
+      "sha256": "aa36c8826c61a101a9e564dd91fb86bf5941b1d6f3ec464f7a885a82e249a309"
+    },
+    {
+      "member": "delivery/AGG4096-VIDEO_RECEIPT.json",
+      "sha256": "eae6c0a9af1288b8b2a565886af00cc0eca881eb6552975b912979917dec155b"
+    },
+    {
+      "member": "delivery/VIDEO_VISUAL_QA.json",
+      "sha256": "0552af7c1ffc133b3a6c06107260ac5be495265cf6cb8c1c99c63ed36599d958"
+    },
+    {
+      "member": "delivery/PREDECESSOR_REPORT_IMPORT_RECOVERY.json",
+      "sha256": "552caf1cadfc48b0a4d39144fce1902b981665a9b0404b9efa3fd2c794bad550"
+    },
+    {
+      "member": "delivery/REPORT_EXECUTION_SOURCES.json",
+      "sha256": "452f0201719912f42416551221a9d6664253b3fb87dbfeac5f619dcf5223fe5b"
+    },
+    {
+      "member": "evidence/A0_PREDECESSOR_CLOSEOUT.json",
+      "sha256": "d8f7ed7935a400ce1d2c26ea134c5c8eb5938f5ae21347a65660227274242320"
+    },
+    {
+      "member": "evidence/MAIN_TRAINING_AUDIT.json",
+      "sha256": "a86f780adde27f4dfb273e9cec2c5b4e1dbde81cc0e47d3aec402009fefe0102"
+    },
+    {
+      "member": "evidence/PRIMARY_COMPLETION_AUDIT.json",
+      "sha256": "e738e6e747c6c51797ac4ebf858ad551f29344b3a7ad4f40cbbfce9e4f10f187"
+    },
+    {
+      "member": "evidence/TRAINING_EVIDENCE_TRANSFER.json",
+      "sha256": "f1cd0832c91e072091ef10bc04c917d9838bf0883fee6e4bbc0b82e4aa6307bf"
+    },
+    {
+      "member": "evidence/TRAINING_DATA_ARCHIVE.json",
+      "sha256": "bb305582dae2b1c7c5dff3fa0982a0a2f4baf6b0798323e2d66ee34e586b2607"
+    },
+    {
+      "member": "evidence/DATA_COVERAGE_ADMISSION.json",
+      "sha256": "0f87395b1ac060bfdbdc5a2b9ecee186ace7771a38dc93ff151c0d11939099a8"
+    },
+    {
+      "member": "evidence/EVALUATION_EXACT_REUSE.json",
+      "sha256": "846ffbc040be3629d4480cf1e075b15c1fd8207347cb5d2a0e7907dccaca29a0"
+    },
+    {
+      "member": "evidence/COLLECTION_S4_REPLAY_FAMILIES_24.json",
+      "sha256": "19740b4c30f2c87dd8c391890a2579935a1efa0b9722b931411d338c6d2429b2"
+    },
+    {
+      "member": "evidence/TRAJECTORY_CPU_collection_192.json",
+      "sha256": "424e9ac9398f51298292cfd7b9d6976e8e8431e9cb7cc3be30a0eb09ceca6b6d"
+    },
+    {
+      "member": "evidence/FULL_COLLECTION_AND_SUPPORT_CPU_RETURN.json",
+      "sha256": "e7c52cdd904428210ae10795422ffc167d1e8b2cbac2c1c3589f26684731fbfa"
+    },
+    {
+      "member": "evidence/QUALITY_QUERY_LANES_COMPLETE.json",
+      "sha256": "a216627d56d47a5017475241cc607ecac9cba9884ca7a1f517b69eb127ba10b1"
+    },
+    {
+      "member": "evidence/AGG/checkpoint-2048.full_readback.json",
+      "sha256": "bc7345e4f51e6242420e0bc66a20fa6fa9755ae1bf716ac76d9038ee48050011"
+    },
+    {
+      "member": "evidence/AGG/checkpoint-4096.full_readback.json",
+      "sha256": "628ad1812d86f9976e776a48bd1386c606dc1750d160f95c18aed7273433afbc"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/DISCARDED_CANARY_PAYLOADS.json",
+      "sha256": "2a0faabcb40e53d4323deeeeb2af5a80d979f015366e2770d6cf8890b123526e"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/canary_compare.json",
+      "sha256": "06d508ba216dd50d6a8952cd9d43a685b49677e1a60131b6c21bff8139fe5c9f"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/CPU_ENCODER_KERNEL.json",
+      "sha256": "64145a4a362ab4aa9a8d88bea465859eb48eb6c3037cb30dbfcd40f0576bed62"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/S4_audit.jsonl",
+      "sha256": "7059df4890f94da628a9cd8d0ff4ea1dc6a1c492448bc0886f40a1693afd3857"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/S4_first_update_gradients.json",
+      "sha256": "4f22c8466f0ffcbecc418d116709daa5ee39da041a32eeb5e93f0d8aed05009c"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/S4_parity.json",
+      "sha256": "ba79c8c628378b316b99f024640bfab99f3f5f8677b104bc5137c98b3b97a54b"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/checkpoint_capacity.jsonl",
+      "sha256": "2e487524dff6bdc24a9ecbdd153f52a2a7132b06ea6660cd08e4c239ae029e34"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/full_loss.jsonl",
+      "sha256": "796d9a5a278b91a4b02b499fb4a8442ed765c67d39c1b3ac4ee08dde378d12d4"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/sample_audit.jsonl",
+      "sha256": "954c5975ec6be230f124b7a423b58aca4fada4f26a14ba66d6935c0137345b3a"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/step_rng.jsonl",
+      "sha256": "1c23ddb63db5ab1d3e7b4bbe08ccfe339d61cd8cff74f27ec26cc1abfd01407a"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/temporal_components.jsonl",
+      "sha256": "c57825d05929383fa16afda02a9c5650a04355b9bbce418f7b7c11f7589bd6be"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/update_gradient_norms.jsonl",
+      "sha256": "af62fa7532c76addb6a0a745507f6b9c4cc918d02badf5ee6d6c4d9db93dae31"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/continuous/training/wandb_config.json",
+      "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/CPU_ENCODER_KERNEL.json",
+      "sha256": "64145a4a362ab4aa9a8d88bea465859eb48eb6c3037cb30dbfcd40f0576bed62"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/S4_audit.jsonl",
+      "sha256": "0d2bd6253c433425d6e7dda3963d81a06da19abb8321fac9f667508e02f9b917"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/S4_first_update_gradients.json",
+      "sha256": "4f22c8466f0ffcbecc418d116709daa5ee39da041a32eeb5e93f0d8aed05009c"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/S4_parity.json",
+      "sha256": "ba79c8c628378b316b99f024640bfab99f3f5f8677b104bc5137c98b3b97a54b"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/checkpoint_capacity.jsonl",
+      "sha256": "5b73d6f20b280a31a5ef3bc229ec8f57071d41ef0112049400e4064bfff42ab7"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/full_loss.jsonl",
+      "sha256": "bc780b521cb1697cd0a2201c43804e60d5e8181fcb9293ff84af0343f07f21fe"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/sample_audit.jsonl",
+      "sha256": "938d1514a372b48a506ab538d7aa206689bc73c7f9258af3c66b5274af9e5cbc"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/step_rng.jsonl",
+      "sha256": "1e87c05d722fad0d1514dee5a20c4886374fcf0dd55b1bd30d5afca7216fe413"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/temporal_components.jsonl",
+      "sha256": "5fdfeebfda30eba2e6f878b2bec3fc341c9d3983cb9102766255badf9628e6c1"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/update_gradient_norms.jsonl",
+      "sha256": "61518f10daa1797dabef6cae55260b0be8ca05e495046821958851f5f78dcd1f"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main/training/wandb_config.json",
+      "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/main-4096.graph_loss_gradient_audit.json",
+      "sha256": "8182fcb03a3bef132fb033fa83229d36ce7c80fb4f1844cfaa1fc178cdcba4c4"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/CPU_ENCODER_KERNEL.json",
+      "sha256": "64145a4a362ab4aa9a8d88bea465859eb48eb6c3037cb30dbfcd40f0576bed62"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/RESUME_RNG_LIFECYCLE.json",
+      "sha256": "15689cfdd2074d8265c13c32ce3c200e1af7db38c81a922205891d9701c18fed"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/S4_audit.jsonl",
+      "sha256": "7059df4890f94da628a9cd8d0ff4ea1dc6a1c492448bc0886f40a1693afd3857"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/S4_first_update_gradients.json",
+      "sha256": "4f22c8466f0ffcbecc418d116709daa5ee39da041a32eeb5e93f0d8aed05009c"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/S4_parity.json",
+      "sha256": "ba79c8c628378b316b99f024640bfab99f3f5f8677b104bc5137c98b3b97a54b"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/checkpoint_capacity.jsonl",
+      "sha256": "161ac4bfc645117060aa8dad1ac00ce69a57ee8336ea02c676723d6c142263d2"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/full_loss.jsonl",
+      "sha256": "796d9a5a278b91a4b02b499fb4a8442ed765c67d39c1b3ac4ee08dde378d12d4"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/sample_audit.jsonl",
+      "sha256": "954c5975ec6be230f124b7a423b58aca4fada4f26a14ba66d6935c0137345b3a"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/step_rng.jsonl",
+      "sha256": "1c23ddb63db5ab1d3e7b4bbe08ccfe339d61cd8cff74f27ec26cc1abfd01407a"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/temporal_components.jsonl",
+      "sha256": "c57825d05929383fa16afda02a9c5650a04355b9bbce418f7b7c11f7589bd6be"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/update_gradient_norms.jsonl",
+      "sha256": "af62fa7532c76addb6a0a745507f6b9c4cc918d02badf5ee6d6c4d9db93dae31"
+    },
+    {
+      "member": "evidence/training_hopper/AGG/split/training/wandb_config.json",
+      "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+    },
+    {
+      "member": "evidence/training_hopper/DONOR_LOCAL_READBACK.json",
+      "sha256": "fab34b6054ee35027e4035b55d19823ac5702563b36a43cdbea3fda7380bfc26"
+    },
+    {
+      "member": "evidence/training_hopper/EXECUTION_FILESET.json",
+      "sha256": "96a2f7d26728007de068e83f602d1b59c66ae9dac6d1be140bbbbd087fdef095"
+    },
+    {
+      "member": "evidence/training_hopper/PAIRING_PLAN.json",
+      "sha256": "fca9a29e69e4b63ec35ab995bacc60a4867e4b86a11e2d7a3c6397d4d316f5ef"
+    },
+    {
+      "member": "evidence/training_hopper/RECOVERY_MAPPING.json",
+      "sha256": "53fe049e406f079e079d03af71e25c0ffd339b587fab7d8e5dc80bebe35fd633"
+    },
+    {
+      "member": "evidence/training_hopper/STORAGE_ADMISSION.json",
+      "sha256": "1fd4f64faf4497a664b65c75a20c8857a30b7c84de6ff5b245946706ead63f3d"
+    },
+    {
+      "member": "evidence/training_hopper/code/archive_data.py",
+      "sha256": "c5671af752bdb1a9f45a7426760192ed1bc0c4c0d5b7b461afecc09ccfbba3e8"
+    },
+    {
+      "member": "evidence/training_hopper/code/checkpoint.py",
+      "sha256": "33d1c2a182584eb0b1e37ff41b9c8998beac4bb4803ff832ae6bec59db7d2817"
+    },
+    {
+      "member": "evidence/training_hopper/code/cpu_admission.py",
+      "sha256": "9e156576318de905dbf64329480ecd6afa756e4769465c5978662feb89b6f05e"
+    },
+    {
+      "member": "evidence/training_hopper/code/provision.py",
+      "sha256": "a6b2036ee9f04cc8e6abe36cc3d3bd926e391c6815c33800a9aaad676fe98502"
+    },
+    {
+      "member": "evidence/training_hopper/code/retire_discarded_canary.py",
+      "sha256": "a857c415917d6e358b20865c877d0f3c25da33a97c1cfee4bdf8d9b032d82725"
+    },
+    {
+      "member": "evidence/training_hopper/code/runtime_binding_check.py",
+      "sha256": "2e125c203a0df39ce5adfc2ad768ed2b1a6fd86bd38a1d6bc318595f1467db1e"
+    },
+    {
+      "member": "evidence/training_hopper/code/seal_training.py",
+      "sha256": "668adc45d9c9a990b5eee6040aeb7e97ac2753486b3d966d3f8aeb040bf4050f"
+    },
+    {
+      "member": "evidence/training_hopper/code/stage_data.py",
+      "sha256": "535f551234f8e448ad2cf027f0d8133a14f4ff51c89ce0326e01e2bb1538c64c"
+    },
+    {
+      "member": "evidence/training_hopper/code/train.py",
+      "sha256": "0a7466539ab9ab8e3eac38927d7316521cf8d67887c27a786c51888eee5bcf7a"
+    },
+    {
+      "member": "evidence/training_hopper/code/training.pbs",
+      "sha256": "caa8fff16fd3fc4672902b3f8b226ce9be074cd0929e01c89e4e8759e380ce07"
+    },
+    {
+      "member": "evidence/training_hopper/code/training_audit.py",
+      "sha256": "c70aa58f0a9f7d5d57e82e14de68d5bfbd721d77a62e3ed03b39f6d5ed70d034"
+    },
+    {
+      "member": "evidence/training_hopper/code/training_source_check.py",
+      "sha256": "9c68e0b14033fe810eef4dd1b9104215325100041066484d11180e6a06935292"
+    },
+    {
+      "member": "evidence/training_hopper/contracts/ROT/source/dataset/statistics.json",
+      "sha256": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9"
+    },
+    {
+      "member": "evidence/training_hopper/design/APPROVED_RUN_CARD.json",
+      "sha256": "a013ec75f40807ec8a954f2b5755873114c5bcd80406e2ad54870027025b0a42"
+    },
+    {
+      "member": "evidence/training_hopper/design/LABEL_PROPOSAL_CARD.json",
+      "sha256": "c086bef94cf9d29ab3dce5ba5396b8ffc32550fb58b873ee42cd6981759026a4"
+    },
+    {
+      "member": "evidence/training_hopper/design/NEW_FIT192.json",
+      "sha256": "553d254cea5ad5c32d0d8acf615f2abfe222459ac10e9d0bb0e09b786884d226"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/A0_PREDECESSOR_CLOSEOUT.json",
+      "sha256": "d8f7ed7935a400ce1d2c26ea134c5c8eb5938f5ae21347a65660227274242320"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/AGG/checkpoint-2048.archive_receipt.json",
+      "sha256": "c552b9a99c2010f4f5b7efef746fb982c5fe100e1cd7db41b874740aa888e466"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/AGG/checkpoint-2048.full_readback.json",
+      "sha256": "bc7345e4f51e6242420e0bc66a20fa6fa9755ae1bf716ac76d9038ee48050011"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/AGG/checkpoint-4096.archive_receipt.json",
+      "sha256": "4e4e488da6524767290d47a91ebdebfc57faadcdce5508bb66f2c65a64cdecf0"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/AGG/checkpoint-4096.full_readback.json",
+      "sha256": "628ad1812d86f9976e776a48bd1386c606dc1750d160f95c18aed7273433afbc"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/ALL_FIXED_SUPPORT_CPU_COMPLETE.json",
+      "sha256": "c9340caf02edbd46db9d45f22676f242f9c8fa1ed77c7ded744e520446123bde"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/COLLECTION_INPUT_ARCHIVE.json",
+      "sha256": "72281fff6f820910850b742e75c14ad60a830920613f036c86c38b0a5b7808ab"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/DATA_COVERAGE_ADMISSION.json",
+      "sha256": "0f87395b1ac060bfdbdc5a2b9ecee186ace7771a38dc93ff151c0d11939099a8"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/DONOR_REUSE_BINDING.json",
+      "sha256": "185de776c057f92b2375006c54539c1beeed45afe9a1eecef59dc9ad0ce1ac0b"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/ENCODER_RUNTIME_SOURCE_STAGE.json",
+      "sha256": "cd388c4b38be3983c3967c00c6718c768e8caafaec9f2d2f28abd67a89f7bff5"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/ENCODING_PLATFORM_RECONCILIATION.json",
+      "sha256": "8598a845bfb95485bd309235d62d02ad0f165003e66363d447106eb4f80d87d1"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/HOPPER_CPU_ADMISSION.json",
+      "sha256": "d00f99b81a70ead450875d22dc4e965033a4137e885fbed97005b473e85b0f0c"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/HOPPER_CPU_ENCODING_PROCESS.json",
+      "sha256": "7d4f3d0a00c826de26431b0e498625d44520f0937c176f9f9e474191081d02ab"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/HOPPER_DATA_ADMISSION_FOREGROUND.json",
+      "sha256": "5c31f4c00a036f59dd716fb5b8df56e86de181fd957ff7c1dbef850b178e4da7"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/HOPPER_DATA_ADMISSION_PROCESS.json",
+      "sha256": "320edebb2c0bd4363e411519211214193d26012e393c190e9b9e15b04232d68a"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/HOPPER_GPU_ALLOCATION.json",
+      "sha256": "bfc52ae6f4b9157f742285418a4b318d4158ba1eb50bb3a364775374a4e24dec"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/MAIN_TRAINING_AUDIT.json",
+      "sha256": "a86f780adde27f4dfb273e9cec2c5b4e1dbde81cc0e47d3aec402009fefe0102"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/NEWFIT_ADMISSION.json",
+      "sha256": "99e4700716c1e39fbbacad9ec09ada7f8f07f81e2c33aedf93a9d9a62b5a7f26"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/POST_DATA_HELPER_SOURCE_STAGE.json",
+      "sha256": "f5ed9c7a3d3b956890f095dc7b8246359c645e9a509fac720336ad711e09f203"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/RESOURCE_SNAPSHOT_20261004T0130.json",
+      "sha256": "6ba422b2cdd5e12f4aa88a7bc220000042630da49944d5ca7951dd6b898203e4"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/RUNTIME_BINDING_AGG.json",
+      "sha256": "b48f96a131ab32f92de7f6c1c2aa614e37bbf7478ab5a73e51d89c0c03e1ca52"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/TRAINING_DATA_ARCHIVE.json",
+      "sha256": "bb305582dae2b1c7c5dff3fa0982a0a2f4baf6b0798323e2d66ee34e586b2607"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/TRAINING_DATA_LOCAL_READBACK.json",
+      "sha256": "97758676d843cccc6260a974c1377a1033cc75eca859e9f9fbc7f24484319dbb"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/TRAINING_JOB_FIRST_SNAPSHOT.json",
+      "sha256": "99762387557935db292dfc1c3136e8b9c125c8bc4a7cedccf3de5107aaf8c72f"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/TRAINING_LIVE_AFTER_CANARY.json",
+      "sha256": "eaac7a15900cfe2ac805f3eed54d3b6265b05eac19dad7e51a0eb91cc73eec5d"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/TRAINING_SOURCE_ENCODER_REPAIR_CHECK.json",
+      "sha256": "2218a687d55a98ebb0c44e8fbc754ca775bb888c8fb2037db884c7214b757c1f"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/TRAINING_SOURCE_PREPARED.json",
+      "sha256": "be4e415b9cfa11f2cd96364c3885deca7e408ef82a3adb5d3be3e1f0a075d494"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/TRAINING_SUBMISSION.json",
+      "sha256": "42c8064c986afbebeec927bd6fcf5a55b807334192a7b84b26d91cc970cfe44e"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/TRAINING_SUBMISSION_INTENT.json",
+      "sha256": "4c3d3eaa1128194ab0d2cc66751f8c131dcd682eaa4bcb1b87145af4d62ddea8"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/hopper-cpu-prescott.log",
+      "sha256": "f19dbec4e8ee516c69f4bb2fde03ed87ffb385e3f7e7b10156d4698e858b0480"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/hopper-data-admission.log",
+      "sha256": "49a5ccfbbadc787f2c60ab01cf6af06845ca5fe0d77d459fd6128cbbb9ab2786"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/input-audit/AGG/sample_audit.jsonl",
+      "sha256": "938d1514a372b48a506ab538d7aa206689bc73c7f9258af3c66b5274af9e5cbc"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/input-mismatch/CPU_DEFAULT_NATIVE_PARTIAL_196.jsonl",
+      "sha256": "3b495684b027b05392deec165aed5a34fb5330140624678e5665447619171c7b"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/input-mismatch/HOPPER_u99m0.inventory.json",
+      "sha256": "c2fb942c7526941c48dc5c9ff1da71193af1a2b350e200827ce3b9c24587dc4e"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/runtime-pre-encoder/seal_training.py",
+      "sha256": "a87bf76b22ae73fd29875aa7322df3edf9e17a4a31708d3d05b711a14c17b109"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/runtime-pre-encoder/train.py",
+      "sha256": "cabf7ea58f61ac397f7ce46da7b38fecdb3bbe0be249004a32bec76c7075cc32"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/runtime-pre-encoder/training.pbs",
+      "sha256": "8561939db55cb614c930a3057ee3c48c5efa04440012149f2f6a046b5ebc5fdd"
+    },
+    {
+      "member": "evidence/training_hopper/evidence/runtime-pre-encoder/training_audit.py",
+      "sha256": "4d95edb4d3403ba5c8ee658caecb60cb5ad14c3c0d626948e2fe2b4355266d39"
+    },
+    {
+      "member": "evidence/training_hopper/logs/645483.hopper-m-02.ER",
+      "sha256": "02b0ac2f021db857cbfe9945dd6dfa5e0ea5b90f91a131f81fbfd2f56fa8232e"
+    },
+    {
+      "member": "evidence/training_hopper/logs/645483.hopper-m-02.OU",
+      "sha256": "cbdc70b485d2e073f730ed20801820f0e7502c12d6dd61aff43f6a65ac680f65"
+    },
+    {
+      "member": "evidence/training_hopper/raw_completed_updates.jsonl",
+      "sha256": "b619bb1d4b5a68068255cd755db2368c3f46524cad9a92743d04a6f9530a3322"
+    },
+    {
+      "member": "evidence/training_hopper/raw_training_heads.jsonl",
+      "sha256": "1cdc0f7186edf36fe87b8ee7d1da5a8e461f0913066b03453f00d0191a589508"
+    }
+  ],
+  "selected_checkpoint": "NONE",
+  "status": "PASS_ALL_REQUIRED_PI0270_RESULTS_AND_FULL_TRAINING_JOURNALS_PRESERVED",
+  "summary_revision": "c62f4d010328c69f2b8f22fb91bb696cb3bd3539",
+  "summary_tree_sha256": "95340f505499c7c716ca86e94bd3c2ed84cc92bc5c460f403a0cc6e874d571d1",
+  "terminal_canonical": "PENDING",
+  "training_files": 100
+}

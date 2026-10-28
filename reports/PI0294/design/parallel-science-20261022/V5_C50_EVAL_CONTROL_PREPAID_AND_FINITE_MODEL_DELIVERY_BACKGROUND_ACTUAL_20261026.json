@@ -1,0 +1,100 @@
+{
+  "schema": "V5_CD_C50_EVAL_CONTROL_AND_BACKGROUND_MODEL_DELIVERY_ACTUAL_V1",
+  "observed_epoch": 1792961826.0441055,
+  "task": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+  "status": "MODEL_ONLY_HF_UPLOAD_ACTIVE_NOT_YET_DELIVERED_OR_EVALUATED",
+  "code_sources": [
+    "76a367d22b70792fdf6eac3cff296948340eab19",
+    "cf467ba3042f5dee19b703b117a7571313767f5a",
+    "ffe65220c4c57b1a399d48ec1ae46442660ceed4",
+    "15ec4266258b76fe0a5d9d110ee8bf85a51a278f"
+  ],
+  "publication_full_readbacks": true,
+  "validation": {
+    "targeted_CPU_passes": 60,
+    "actual_local_child_pipe_and_OS_exit_tests": 2,
+    "actual_temp_Journal_lost_reply_case": 1,
+    "actual_private_captured_dual_full_validator_PASS": true,
+    "initial_test_failures_preserved": [
+      "synthetic fixture did not carry original pending/header fields",
+      "synthetic child package fixture omitted init files",
+      "fake token assertion scanned its own fixture source"
+    ],
+    "old_broader_suite_limits_preserved": true,
+    "CI_success_claimed": false
+  },
+  "closed_C50": {
+    "checkpoint_manifest_sha256": "179af34b0d1b0922aa3679516b44fe4755d122738eb53fab87b4e710bc975475",
+    "job_id": "1492934.stdct-mgmt-02",
+    "full_state_and_original12probes": "ACTUALLY_AUDITED_PREVIOUSLY_NOT_REPEATED",
+    "updates": 1024,
+    "queries": 29,
+    "loads": 3,
+    "already_settled_and_GPU_closed": true
+  },
+  "Eval_control": {
+    "GLOBAL_sha256": "ed4ab638d41322b9a6cf49eb112caa2ae9b2644a0faf8b6dbc9a7eaa25f038b8",
+    "LOCAL_sha256": "0920baffb2a89cc47736552c0991f156e8e923a51b0868b7e9e769f2cfc8234c",
+    "site_CPU_prepaid_s": 7200,
+    "LOCAL_CPU_prepaid_s": 7200,
+    "site_output_prepaid_bytes": 67108864,
+    "Core_output_prepaid_bytes": 134217728,
+    "transfer_prepaid_bytes": 1073741824,
+    "all_from_original_stage_escrow": true,
+    "new_reservation": false,
+    "old_GLOBAL_return_timeout": "UNKNOWN_PRESERVED_EXACT_NATIVE_INTENT_RECEIPT_AFTER_BYTES_CONFIRM_APPLIED",
+    "global_write_replayed": false
+  },
+  "actual_failure": {
+    "reason": "MISSING_EXISTING_REGISTERED_CONTROL_JOURNAL_DIRECTORY",
+    "Core_service": "v5-c50-model-only-delivery-01.service",
+    "MainPID": 0,
+    "ExecMainStatus": 1,
+    "CPU_actual_s": 0.248656,
+    "source_upload_actions": 0,
+    "ledger_bytes_unchanged": true,
+    "cold_repair": "create original Journal directory before constructor",
+    "old_service_not_restarted": true,
+    "prior_all_Core_metadata_upper_s": 10,
+    "replacement_Core_metadata_limit_s": 290,
+    "combined_original_Core_metadata_upper_s": 300
+  },
+  "actual_background": {
+    "Core_service": "v5-c50-model-only-delivery-02.service",
+    "Core_PID": 1211302,
+    "Core_proc_start": 273070733,
+    "Core_active": true,
+    "Vanda_PID": 1247813,
+    "Vanda_proc_start": 46739860,
+    "Vanda_active": true,
+    "source_full_streaming_before_upload_complete": true,
+    "one_HF_commit_intent": true,
+    "HF_fixed_revision_returned": false,
+    "native_source_fail_receipt": false,
+    "source_native_OS_final": false,
+    "agent_liveness_required": false,
+    "payload_bytes": 12576324408,
+    "inference_files": 9,
+    "full_resume_stays_private_at_source": true,
+    "token_in_files_argv_or_logs": false
+  },
+  "science": {
+    "new_GPU_allocations": 0,
+    "new_PBS": 0,
+    "new_model_loads": 0,
+    "new_queries": 0,
+    "new_physics": 0,
+    "C50_valid_conditions": 0,
+    "D25_training_started": false,
+    "GEN1_images": 0,
+    "WDR_core64": 0,
+    "R0_recipe_population_score_unchanged": true,
+    "whole_task_complete": false
+  },
+  "next_minimum_blocker": "Finish original resident Core owner explicit C/D paired registration, own control custody, fresh process/GPU/full-resource release and dual terminal once bridge; after actual fixed-revision nine-file Core delivery, run original C50 N294101 Eval24 before D25 fresh common CORR. Do not prepay again, replay old UNKNOWN, or borrow old B24 sharing.",
+  "private_proof_sha256": {
+    "C50_EVAL_CONTROL_DUAL_PREPAID_INDEPENDENT_READBACK.private.json": "d34fedeaf139d3bc695e9d986b9dce171c7fcced42fd6ea84130ce830c89c0b6",
+    "C50_MODEL_DELIVERY_DIRECTORY_FAILURE_EXACT_ZERO_COLD_REPAIR_PROOF.private.json": "c53ef2d670ad23e309d263c747ed995793327c2cb84ba6eb357417fbbad611fd",
+    "SOURCE15ec4266_PUBLICATION_FULL_READBACK.private.json": "1ff86d56077eafb9bb542193b62d30ce8826a8d3af3f2982e239352826e91e20"
+  }
+}

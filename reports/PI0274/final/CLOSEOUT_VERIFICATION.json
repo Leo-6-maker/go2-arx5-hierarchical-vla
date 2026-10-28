@@ -1,0 +1,805 @@
+{
+  "status": "PI0274_POSE_EQUILIBRIUM_RECOVERY_COMPLETE",
+  "execution": "COMPLETE",
+  "quality": "VALID_FAIL_FULL_QUALIFICATION",
+  "missing_scientific_requirements": [],
+  "terminal_canonical": 6000835729,
+  "audit": {
+    "comparison_sha256": "a02ad56525872ef2fc754842c0c1e46c5188bcf553e03bfcf103309236fc00e5",
+    "complete_trainer_readbacks": [
+      {
+        "arm": "EQUIL",
+        "complete_trainer": true,
+        "files": [
+          {
+            "bytes": 265,
+            "path": "PI0270_POLICY_CONTRACT.json",
+            "sha256": "a29b75188f1103e2ddd17c20a1c26862a6cb346025f72fe9879baae70fadc749"
+          },
+          {
+            "bytes": 2365,
+            "path": "PI0274_READOUT_CONTRACT.json",
+            "sha256": "25382674e70c6ba49dbff5cf1f7a470c92e80a27e3bf057df6e046f9dc70b74b"
+          },
+          {
+            "bytes": 2148,
+            "path": "config.json",
+            "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+          },
+          {
+            "bytes": 67963,
+            "path": "effective_statistics.json",
+            "sha256": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9"
+          },
+          {
+            "bytes": 615,
+            "path": "embodiment_id.json",
+            "sha256": "9253bd0a78fbfd48f8164a880fd8c90abe2ce010280bf4f1c7ea2fc6cd049cd1"
+          },
+          {
+            "bytes": 5522,
+            "path": "experiment_cfg/conf.yaml",
+            "sha256": "aaa197155a3a7c0dbc7c6bb2c3e32f486019b363fbebb48f8c1081f0e77123c7"
+          },
+          {
+            "bytes": 5489,
+            "path": "experiment_cfg/config.yaml",
+            "sha256": "8765c76499a45712ca9046045367a08c9288caab142cdbc6bf2895634cb2c9b3"
+          },
+          {
+            "bytes": 1513,
+            "path": "experiment_cfg/final_model_config.json",
+            "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+          },
+          {
+            "bytes": 4993709288,
+            "path": "model-00001-of-00002.safetensors",
+            "sha256": "3967d60026cdf17fba46cdcbd378b478c7eee5be604432780f2666c5529c48fb"
+          },
+          {
+            "bytes": 4535492016,
+            "path": "model-00002-of-00002.safetensors",
+            "sha256": "803951d7d9637e63397a217de2e0bf9b8c6ff82b0d3e72374a9fac7a7e76818f"
+          },
+          {
+            "bytes": 104912,
+            "path": "model.safetensors.index.json",
+            "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+          },
+          {
+            "bytes": 11353039304,
+            "path": "optimizer.pt",
+            "sha256": "71df3ea946e69ffc7745ae9dca73a1b545e3ecfb1c5cea04f3185ada15ad836e"
+          },
+          {
+            "bytes": 296,
+            "path": "pi0274_provenance/CPU_ENCODER_KERNEL.json",
+            "sha256": "53ed074781d36f81c53aa85196ba1e08fd0635a68d4897a86a07ce86c30870d5"
+          },
+          {
+            "bytes": 167827,
+            "path": "pi0274_provenance/DONOR_PARAMETER_SCOPE.json",
+            "sha256": "f6027e3ad9c8b2d0793cb129978eb9ee4697a3c91ecddf784f35fea531a2e79a"
+          },
+          {
+            "bytes": 318502,
+            "path": "pi0274_provenance/EXECUTION_FILESET_R1.json",
+            "sha256": "95f8a0606070d26fe39ac60965f8de69afaf076abccfd5844ee96f6e35cd3279"
+          },
+          {
+            "bytes": 121615,
+            "path": "pi0274_provenance/PARAMETER_SCOPE.json",
+            "sha256": "4ef52cf9f50bfbfa00af5f50f3d2f209b97d74c6aa6c961f81b3f02bddd29f51"
+          },
+          {
+            "bytes": 1283,
+            "path": "pi0274_provenance/STORAGE_ADMISSION.json",
+            "sha256": "29617b3f0fbbf5041bc5a5ff87ff2b892f43eb5c049f63879fabfc2a5d8b8fc8"
+          },
+          {
+            "bytes": 13043776,
+            "path": "pi0274_provenance/design/FITTING_CARD.json",
+            "sha256": "9860c7ff6cd97b267976ee97bac30161f6df613f919d0873c0c5a37c7980c761"
+          },
+          {
+            "bytes": 7570,
+            "path": "pi0274_provenance/evidence/PRECISION_CONTRACT_RESOLUTION.json",
+            "sha256": "ed463b20f3cf799b2daa03e743ba336ec3c35e5f954528385bae86d6833a5189"
+          },
+          {
+            "bytes": 3125,
+            "path": "processor_config.json",
+            "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+          },
+          {
+            "bytes": 14709,
+            "path": "rng_state.pth",
+            "sha256": "ff9e9dfb7397e772fee522223e1e171e1411abeface6a0f6dd75e3dbcdf67ec4"
+          },
+          {
+            "bytes": 1465,
+            "path": "scheduler.pt",
+            "sha256": "ca5e9c7850caffef0609e55347eae9638e925f7feed3387526bc73cd3238b60f"
+          },
+          {
+            "bytes": 67962,
+            "path": "statistics.json",
+            "sha256": "9e83ab73235f63e4357942434db6b3ce6e28fe4c5c8613a1b4872ae858364717"
+          },
+          {
+            "bytes": 353375,
+            "path": "trainer_state.json",
+            "sha256": "a52d35faa36fe1783200dc695e483b9b06a2c764b565abc5c532b47841ee48d2"
+          },
+          {
+            "bytes": 5905,
+            "path": "training_args.bin",
+            "sha256": "33251fb43e823251e1c0c48ae216003c4e70054509237ad9f77b06dacb894c8f"
+          },
+          {
+            "bytes": 56,
+            "path": "wandb_config.json",
+            "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+          }
+        ],
+        "prefix": "arms/PI0274/EQUIL/checkpoint-2560",
+        "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+        "revision": "894b03c46cbb7f9c1b64c7dada5200837f18d668",
+        "schema": "PI0274_FULL_TRAINER_HF_READBACK_V1",
+        "status": "PASS_FULL_FILE_READBACK",
+        "step": 2560,
+        "tree_sha256": "60689df6231efce650e5b04bf51e53faffe712b488ba3bb87df7277f25448ef7"
+      },
+      {
+        "arm": "EQUIL",
+        "complete_trainer": true,
+        "files": [
+          {
+            "bytes": 265,
+            "path": "PI0270_POLICY_CONTRACT.json",
+            "sha256": "a29b75188f1103e2ddd17c20a1c26862a6cb346025f72fe9879baae70fadc749"
+          },
+          {
+            "bytes": 2365,
+            "path": "PI0274_READOUT_CONTRACT.json",
+            "sha256": "25382674e70c6ba49dbff5cf1f7a470c92e80a27e3bf057df6e046f9dc70b74b"
+          },
+          {
+            "bytes": 2148,
+            "path": "config.json",
+            "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+          },
+          {
+            "bytes": 67963,
+            "path": "effective_statistics.json",
+            "sha256": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9"
+          },
+          {
+            "bytes": 615,
+            "path": "embodiment_id.json",
+            "sha256": "9253bd0a78fbfd48f8164a880fd8c90abe2ce010280bf4f1c7ea2fc6cd049cd1"
+          },
+          {
+            "bytes": 5522,
+            "path": "experiment_cfg/conf.yaml",
+            "sha256": "aaa197155a3a7c0dbc7c6bb2c3e32f486019b363fbebb48f8c1081f0e77123c7"
+          },
+          {
+            "bytes": 5489,
+            "path": "experiment_cfg/config.yaml",
+            "sha256": "8765c76499a45712ca9046045367a08c9288caab142cdbc6bf2895634cb2c9b3"
+          },
+          {
+            "bytes": 1513,
+            "path": "experiment_cfg/final_model_config.json",
+            "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+          },
+          {
+            "bytes": 4993709288,
+            "path": "model-00001-of-00002.safetensors",
+            "sha256": "7416bfb2edf5c8e89ba1ffa0b9232f43f8577ef1c5cee39f68380087e6e5dffc"
+          },
+          {
+            "bytes": 4535492016,
+            "path": "model-00002-of-00002.safetensors",
+            "sha256": "83c4a7332cdef8f63e11cd32805f5175339b20e9b622568b3a579b96042c3ae7"
+          },
+          {
+            "bytes": 104912,
+            "path": "model.safetensors.index.json",
+            "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+          },
+          {
+            "bytes": 11353039304,
+            "path": "optimizer.pt",
+            "sha256": "a3f5166f82c9eb47d81134a437de7c0958890682b08c883d1ff5da50f3e96734"
+          },
+          {
+            "bytes": 296,
+            "path": "pi0274_provenance/CPU_ENCODER_KERNEL.json",
+            "sha256": "53ed074781d36f81c53aa85196ba1e08fd0635a68d4897a86a07ce86c30870d5"
+          },
+          {
+            "bytes": 167827,
+            "path": "pi0274_provenance/DONOR_PARAMETER_SCOPE.json",
+            "sha256": "f6027e3ad9c8b2d0793cb129978eb9ee4697a3c91ecddf784f35fea531a2e79a"
+          },
+          {
+            "bytes": 318502,
+            "path": "pi0274_provenance/EXECUTION_FILESET_R1.json",
+            "sha256": "95f8a0606070d26fe39ac60965f8de69afaf076abccfd5844ee96f6e35cd3279"
+          },
+          {
+            "bytes": 121615,
+            "path": "pi0274_provenance/PARAMETER_SCOPE.json",
+            "sha256": "4ef52cf9f50bfbfa00af5f50f3d2f209b97d74c6aa6c961f81b3f02bddd29f51"
+          },
+          {
+            "bytes": 1283,
+            "path": "pi0274_provenance/STORAGE_ADMISSION.json",
+            "sha256": "29617b3f0fbbf5041bc5a5ff87ff2b892f43eb5c049f63879fabfc2a5d8b8fc8"
+          },
+          {
+            "bytes": 13043776,
+            "path": "pi0274_provenance/design/FITTING_CARD.json",
+            "sha256": "9860c7ff6cd97b267976ee97bac30161f6df613f919d0873c0c5a37c7980c761"
+          },
+          {
+            "bytes": 7570,
+            "path": "pi0274_provenance/evidence/PRECISION_CONTRACT_RESOLUTION.json",
+            "sha256": "ed463b20f3cf799b2daa03e743ba336ec3c35e5f954528385bae86d6833a5189"
+          },
+          {
+            "bytes": 3125,
+            "path": "processor_config.json",
+            "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+          },
+          {
+            "bytes": 14709,
+            "path": "rng_state.pth",
+            "sha256": "ff9e9dfb7397e772fee522223e1e171e1411abeface6a0f6dd75e3dbcdf67ec4"
+          },
+          {
+            "bytes": 1465,
+            "path": "scheduler.pt",
+            "sha256": "ec09194e07d33ed92cfef73c61af0bedf32b8e581ead00db546884ab5b0e4684"
+          },
+          {
+            "bytes": 67962,
+            "path": "statistics.json",
+            "sha256": "9e83ab73235f63e4357942434db6b3ce6e28fe4c5c8613a1b4872ae858364717"
+          },
+          {
+            "bytes": 708779,
+            "path": "trainer_state.json",
+            "sha256": "c0bf1058c308619a6d3aa009dbe610b55d7b3708c98e5fd2331772e47e9bce9a"
+          },
+          {
+            "bytes": 5905,
+            "path": "training_args.bin",
+            "sha256": "33251fb43e823251e1c0c48ae216003c4e70054509237ad9f77b06dacb894c8f"
+          },
+          {
+            "bytes": 56,
+            "path": "wandb_config.json",
+            "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+          }
+        ],
+        "prefix": "arms/PI0274/EQUIL/checkpoint-5120",
+        "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+        "revision": "76a12d99ae8f70700068d39c33b1e7f1ef3031e7",
+        "schema": "PI0274_FULL_TRAINER_HF_READBACK_V1",
+        "status": "PASS_FULL_FILE_READBACK",
+        "step": 5120,
+        "tree_sha256": "da06758bcd245b03e280f95ea99eb125d6b716d5f36c5d89af59f35c619f6a2b"
+      }
+    ],
+    "data_archive": {
+      "deployment_selected_checkpoint": "NONE",
+      "files": [
+        {
+          "anonymous": true,
+          "bytes": 1619538,
+          "path": "MEMBER_MANIFEST.json",
+          "sha256": "0578ea0ed985d0489c0695cc2623d625e2a50ec295d29b5bc72f3f24797a3c7f"
+        },
+        {
+          "anonymous": true,
+          "bytes": 114534400,
+          "path": "data.tar",
+          "sha256": "6ec47262722ba4f994a5e5c2151c7235731b161ea95d8f8df86f19cca52a0382"
+        }
+      ],
+      "members": 8946,
+      "not_physical_generalization": true,
+      "part": "data",
+      "prefix": "evidence/PI0274/pose-equilibrium-20261005/data",
+      "preserves_original_V2_FAIL": true,
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "a786d91e501d241eb8af29d9666f6b8fd3c7a6be",
+      "selected_checkpoint": "NONE",
+      "source_bytes": 107445155,
+      "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+      "tree_sha256": "427e854ff3cd4e284fe20809738c790add6da8b8ac0e050aeea604c41b321520"
+    },
+    "deployment_selected_checkpoint": "NONE",
+    "execution_complete_not_quality_PASS": true,
+    "fields": [
+      {
+        "CPU_sha256": "d440687b58e514bebec7c84abdf4854a9fec66e42889587af79fc5f4a8e8b363",
+        "analysis_sha256": "1f5ed15bf5fc44670f16770b3604947086ebbe0244128669f0ab0c4c82583fa2",
+        "point": "BROAD5120",
+        "summary": [
+          {
+            "center_SO3_median_rad": 0.004245706427897651,
+            "center_XYZ_median_m": 0.001901750963551398,
+            "center_draws": 96,
+            "full_accepted_matrices": 96,
+            "gate_counts": {
+              "ACCEPT": 1248
+            },
+            "observed": 1248,
+            "pure_rotation_observed": 576,
+            "registered": 1248,
+            "sampled_matrices_largest_singular_value_above_one": 94,
+            "sampled_matrices_spectral_radius_above_one": 30,
+            "task": "M1",
+            "toward_center_increment": 466
+          },
+          {
+            "center_SO3_median_rad": 0.002365373328522363,
+            "center_XYZ_median_m": 0.002351929620225442,
+            "center_draws": 96,
+            "full_accepted_matrices": 96,
+            "gate_counts": {
+              "ACCEPT": 1248
+            },
+            "observed": 1248,
+            "pure_rotation_observed": 576,
+            "registered": 1248,
+            "sampled_matrices_largest_singular_value_above_one": 96,
+            "sampled_matrices_spectral_radius_above_one": 77,
+            "task": "M3",
+            "toward_center_increment": 538
+          }
+        ]
+      },
+      {
+        "CPU_sha256": "76680cc3c6791c3b31640aadfa6be6873fa4920994fea212757014457a8ec1e4",
+        "analysis_sha256": "416335591e989d4668aca9f83e1d636a964a23f4ef86b88bd173268f0d44c8bf",
+        "point": "EQUIL5120",
+        "summary": [
+          {
+            "center_SO3_median_rad": 0.005069596482160876,
+            "center_XYZ_median_m": 0.0012147262303756478,
+            "center_draws": 96,
+            "full_accepted_matrices": 96,
+            "gate_counts": {
+              "ACCEPT": 1248
+            },
+            "observed": 1248,
+            "pure_rotation_observed": 576,
+            "registered": 1248,
+            "sampled_matrices_largest_singular_value_above_one": 34,
+            "sampled_matrices_spectral_radius_above_one": 2,
+            "task": "M1",
+            "toward_center_increment": 576
+          },
+          {
+            "center_SO3_median_rad": 0.004172362035296237,
+            "center_XYZ_median_m": 0.0007910880862248234,
+            "center_draws": 96,
+            "full_accepted_matrices": 96,
+            "gate_counts": {
+              "ACCEPT": 1248
+            },
+            "observed": 1248,
+            "pure_rotation_observed": 576,
+            "registered": 1248,
+            "sampled_matrices_largest_singular_value_above_one": 94,
+            "sampled_matrices_spectral_radius_above_one": 63,
+            "task": "M3",
+            "toward_center_increment": 576
+          }
+        ]
+      }
+    ],
+    "formal_updates": {
+      "EQUIL": 5120
+    },
+    "new_WBC": 0,
+    "new_data_frame_pairs": 1248,
+    "new_dynamic_physics": 0,
+    "new_frame_attempts": 8288,
+    "new_hardware": 0,
+    "new_onset_episodes": 64,
+    "new_quality_outputs": 13784,
+    "new_teacher_labels": 1248,
+    "new_virtual_starts": 96,
+    "old_A0_episodes": 128,
+    "original_BROAD_control": "REUSED_NO_RETRAIN_OR_OLD_PANEL_QUERY",
+    "predictions_archive": {
+      "deployment_selected_checkpoint": "NONE",
+      "files": [
+        {
+          "anonymous": true,
+          "bytes": 11398407,
+          "path": "MEMBER_MANIFEST.json",
+          "sha256": "b2ab1745753e6ddffbab441512328a7283b1ac766a7044c1159f73720d5d57ec"
+        },
+        {
+          "anonymous": true,
+          "bytes": 2287841280,
+          "path": "predictions.tar",
+          "sha256": "b6f55fccf3fa535e236add1dfd1b1cc015627d691dc10eb4b4dba4f0d8d46370"
+        }
+      ],
+      "members": 56064,
+      "not_physical_generalization": true,
+      "part": "predictions",
+      "prefix": "evidence/PI0274/pose-equilibrium-20261005/predictions",
+      "preserves_original_V2_FAIL": true,
+      "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+      "revision": "7878d54a541daab32938208268ec1419b128f229",
+      "selected_checkpoint": "NONE",
+      "source_bytes": 2243095810,
+      "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+      "tree_sha256": "0b3bc807a32ee18eccd421aa6d223e5c1985c52b0e793a3326a4b03b576cbc58"
+    },
+    "quality_attempts": 13784,
+    "quality_heads": 55136,
+    "raw_completed_updates": 5136,
+    "raw_training_heads": 92472,
+    "selected_checkpoint": "NONE",
+    "status": "PASS_PI0274_ALL_FIXED_RESULTS_TRAINERS_DATA_AND_BUDGETS",
+    "summary_archive_and_terminal_publication": "STILL_REQUIRED",
+    "technical_quality_attempts": [],
+    "videos": [
+      {
+        "chapters": [
+          {
+            "case": "pi0265-family-028-M1-c0-E0",
+            "first_frame": 0,
+            "last_frame": 99,
+            "original_success": true,
+            "reliable_40s": true,
+            "result_sha256": "c33959a9501609c04413b2dedf0e6625269a4898b44363a914c379fd6abd5d27",
+            "stop_reason": null
+          },
+          {
+            "case": "pi0265-family-028-M1-c0-E1",
+            "first_frame": 100,
+            "last_frame": 199,
+            "original_success": true,
+            "reliable_40s": true,
+            "result_sha256": "eab445796f05a82c588425a3deb3b154def645a764336b2b03bf447b7d404993",
+            "stop_reason": null
+          },
+          {
+            "case": "pi0265-family-028-M1-c1-E0",
+            "first_frame": 200,
+            "last_frame": 299,
+            "original_success": true,
+            "reliable_40s": true,
+            "result_sha256": "45b8595b6a2554f556ee6639c32cec394f6547da77342d21227662b5615717b5",
+            "stop_reason": null
+          },
+          {
+            "case": "pi0265-family-028-M1-c1-E1",
+            "first_frame": 300,
+            "last_frame": 399,
+            "original_success": true,
+            "reliable_40s": true,
+            "result_sha256": "0c0a987e6bb17b73b9bca1cf85ea3cda75d775c975e244ca6495880c005c1cb3",
+            "stop_reason": null
+          },
+          {
+            "case": "pi0265-family-028-M3-c0-E0",
+            "first_frame": 400,
+            "last_frame": 499,
+            "original_success": false,
+            "reliable_40s": false,
+            "result_sha256": "63dc9e2856dfc2d26e8303cff4f80581348ee6c32888e5f9885c04a90422d4ca",
+            "stop_reason": null
+          },
+          {
+            "case": "pi0265-family-028-M3-c0-E1",
+            "first_frame": 500,
+            "last_frame": 599,
+            "original_success": false,
+            "reliable_40s": false,
+            "result_sha256": "7ca0529a3b37fbf63c14b2e7d7afc2ce93c006968eef4ee9f070cae9c2c7047b",
+            "stop_reason": null
+          },
+          {
+            "case": "pi0265-family-028-M3-c1-E0",
+            "first_frame": 600,
+            "last_frame": 699,
+            "original_success": false,
+            "reliable_40s": false,
+            "result_sha256": "3641b4b3f15db3706e0b317561a212fecd701746bde37e50393b69412235c880",
+            "stop_reason": null
+          },
+          {
+            "case": "pi0265-family-028-M3-c1-E1",
+            "first_frame": 700,
+            "last_frame": 799,
+            "original_success": false,
+            "reliable_40s": false,
+            "result_sha256": "3294863c82bccff9c1fb15c2d7846f4d08797723d6797d628a6e66a1149030c4",
+            "stop_reason": null
+          }
+        ],
+        "file": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0274/delivery/PI0274_EQUIL5120_VIRTUAL.mp4",
+        "fps": 5.0,
+        "frames": 800,
+        "model_queries": 0,
+        "new_renders": 0,
+        "physics_steps": 0,
+        "point": "EQUIL5120",
+        "qualification_summary_csv_sha256": "62c84f34e614d4bffc2632cb9482975c3ff1223a6eb1c242af0e326bca054a63",
+        "scope": "VIRTUAL / NOT_WBC / NON_REALTIME",
+        "selected_checkpoint": "NONE",
+        "selection": "First frozen EVAL family, both tasks/commands/backends, entire recorded observation stream",
+        "sha256": "758df22de95325d3e28d4d1b2e2b0e9eaffd36f21e3fcb36ac5b4769e12c0b83",
+        "status": "PASS_RECORDED_RGB_VIDEO_FULL_DECODE"
+      }
+    ]
+  },
+  "summary_archive": {
+    "deployment_selected_checkpoint": "NONE",
+    "files": [
+      {
+        "anonymous": true,
+        "bytes": 70295,
+        "path": "A0_ONSET128.csv",
+        "sha256": "4068e9f12dbcd9ca741dc2c21ebc5d890ffeeff15d6ef037a94c4e95716ba3b0"
+      },
+      {
+        "anonymous": true,
+        "bytes": 23063378,
+        "path": "A0_REFERENCE_AND_VISIBILITY12368.csv",
+        "sha256": "67c109038be327332cef9d03c21959cb972d7a46dddb58784f0203497096e464"
+      },
+      {
+        "anonymous": true,
+        "bytes": 2048398,
+        "path": "COMPONENT96.csv",
+        "sha256": "8b9b1c989f42b52593e13f23a418f22f5f01d44f31b74d3e7da72331e4fcd4c1"
+      },
+      {
+        "anonymous": true,
+        "bytes": 4280627,
+        "path": "CPU_REPLAY.json",
+        "sha256": "9a1dc6cd017aa9f1f91002f01b09f8ab35707cb401d457ff1ab1f64ff5ded35f"
+      },
+      {
+        "anonymous": true,
+        "bytes": 1901181,
+        "path": "EARLY_CONTEXT768.csv",
+        "sha256": "dbe2c20870d0f718ffedb3f90913bf6772aba0c2b91f13b2e36a94d2cd398a42"
+      },
+      {
+        "anonymous": true,
+        "bytes": 2956,
+        "path": "EQUIL5120-VIDEO_RECEIPT.json",
+        "sha256": "ee5162d5b37496e346d7172a0660d6b99e6fdda6150a415981457cd7d040dae0"
+      },
+      {
+        "anonymous": true,
+        "bytes": 29787,
+        "path": "EQUIL_ONSET64.csv",
+        "sha256": "89f15480bbe5a7bab3b63d63a2b000bc8f7718354b6cefe5cec98631e769f9b0"
+      },
+      {
+        "anonymous": true,
+        "bytes": 11960254,
+        "path": "EQUIL_REFERENCE_AND_VISIBILITY.csv",
+        "sha256": "bd431963d190c39f4d3846dfb23e69d606226bd7b22ee1d97aecfbeb2af60eb8"
+      },
+      {
+        "anonymous": true,
+        "bytes": 7812,
+        "path": "FAILURE_AND_POST_SUCCESS_DIAGNOSIS64.csv",
+        "sha256": "8a59c0c24d2e1425f83f40813cae0a57af789b8c37293c7adf7ff4fb38cde02a"
+      },
+      {
+        "anonymous": true,
+        "bytes": 2643615,
+        "path": "FIELD_BROAD5120.csv",
+        "sha256": "b6f8033b6c5629d2675a265ee311c233277734556bccf57bef1d828e2c41e2b1"
+      },
+      {
+        "anonymous": true,
+        "bytes": 2644386,
+        "path": "FIELD_BROAD5120.json",
+        "sha256": "1f5ed15bf5fc44670f16770b3604947086ebbe0244128669f0ab0c4c82583fa2"
+      },
+      {
+        "anonymous": true,
+        "bytes": 1726869,
+        "path": "FIELD_CPU_BROAD5120.json",
+        "sha256": "d440687b58e514bebec7c84abdf4854a9fec66e42889587af79fc5f4a8e8b363"
+      },
+      {
+        "anonymous": true,
+        "bytes": 1726794,
+        "path": "FIELD_CPU_EQUIL5120.json",
+        "sha256": "76680cc3c6791c3b31640aadfa6be6873fa4920994fea212757014457a8ec1e4"
+      },
+      {
+        "anonymous": true,
+        "bytes": 2645344,
+        "path": "FIELD_EQUIL5120.csv",
+        "sha256": "d6c9b898d463e3c65083aa02121957d321f52d6058685261bf705dc8c8723e72"
+      },
+      {
+        "anonymous": true,
+        "bytes": 2643504,
+        "path": "FIELD_EQUIL5120.json",
+        "sha256": "416335591e989d4668aca9f83e1d636a964a23f4ef86b88bd173268f0d44c8bf"
+      },
+      {
+        "anonymous": true,
+        "bytes": 1871652,
+        "path": "FIELD_PARTIAL_BROAD5120.csv",
+        "sha256": "a7ad40642d7de907f1ff3fb44ac31f07ae642aeaf7eaa21820428b5a19b56072"
+      },
+      {
+        "anonymous": true,
+        "bytes": 2080217,
+        "path": "FIELD_PARTIAL_BROAD5120.json",
+        "sha256": "959c74a50949d7f048dea2431dfc165dc36306ff395409448e45edebe5b45034"
+      },
+      {
+        "anonymous": true,
+        "bytes": 5339,
+        "path": "FINAL_RESEARCH_RETURN.md",
+        "sha256": "b37c67b1ff2f42f1d9bf21c8471b048299a01ed34409b17b91f282b2f705963d"
+      },
+      {
+        "anonymous": true,
+        "bytes": 7356,
+        "path": "INTERVENTION_COMPARISON.json",
+        "sha256": "a02ad56525872ef2fc754842c0c1e46c5188bcf553e03bfcf103309236fc00e5"
+      },
+      {
+        "anonymous": true,
+        "bytes": 5825490,
+        "path": "LATE_CONTEXT2368.csv",
+        "sha256": "ea20e2f53e8632ecfc4a7b03b22a3dc01c7a71d335e695dbddba3dccdd67fe3c"
+      },
+      {
+        "anonymous": true,
+        "bytes": 499215,
+        "path": "LATE_PER_CONDITION1184.csv",
+        "sha256": "be68495d5674b0ed1259957790afb8f15d4bdb2dff830398bec91892632a0fe5"
+      },
+      {
+        "anonymous": true,
+        "bytes": 19013,
+        "path": "MATCHED_CASE_GAIN_LOSS256.csv",
+        "sha256": "746d80cbac10549104c816ab2374dda7bcda6ef9a3e959930eb4be1f0cd85cb4"
+      },
+      {
+        "anonymous": true,
+        "bytes": 48545,
+        "path": "MEMBER_MANIFEST.json",
+        "sha256": "ce1fe4377f8ac274f3709630181436f6bf52a3b195ed55e81e43a675f63df63e"
+      },
+      {
+        "anonymous": true,
+        "bytes": 1429454,
+        "path": "NEW_FIT576.csv",
+        "sha256": "549386eb7aca7db071c779da7b34bdfd651bfe926ba8bffe0d418d4b53505456"
+      },
+      {
+        "anonymous": true,
+        "bytes": 4676134,
+        "path": "OFFLINE2904.csv",
+        "sha256": "519d49b1ab9b727f25b28b1be0d42b60cd2f4756f138ec3360fc025c2e6f83e6"
+      },
+      {
+        "anonymous": true,
+        "bytes": 211799,
+        "path": "PAIRED_EARLY_CHANGES.csv",
+        "sha256": "681d71b2bfc35c4305ba27c216c9b9ede37d9951a7cbadbcdd14ece228dc7906"
+      },
+      {
+        "anonymous": true,
+        "bytes": 1887449,
+        "path": "PAIRED_FIELD2496.csv",
+        "sha256": "774e3e108e9a69cdd185b9358d5d866ab889ce4f69b8d3f7304235363c180ea7"
+      },
+      {
+        "anonymous": true,
+        "bytes": 337202,
+        "path": "PAIRED_LATE_CONDITION_CHANGES.csv",
+        "sha256": "23758ad9e6e0bcd3c635c01861cb967f282904af9511e204ff75d4b776a2a55b"
+      },
+      {
+        "anonymous": true,
+        "bytes": 699274,
+        "path": "PAIRED_OFFLINE_CHANGES.csv",
+        "sha256": "466fb832b693a6cb6a2ce4354ea1117094154ef7295b4ad4d1e0f3135a839ed8"
+      },
+      {
+        "anonymous": true,
+        "bytes": 11136893,
+        "path": "PI0274_EQUIL5120_VIRTUAL.mp4",
+        "sha256": "758df22de95325d3e28d4d1b2e2b0e9eaffd36f21e3fcb36ac5b4769e12c0b83"
+      },
+      {
+        "anonymous": true,
+        "bytes": 8526,
+        "path": "PRIMARY_VERDICT.json",
+        "sha256": "3a8ef2d592ab0520efd20ca3c69d7f7523b7a567f7ea04a3468b4bff7241f5a5"
+      },
+      {
+        "anonymous": true,
+        "bytes": 3525,
+        "path": "RESEARCH_RETURN_RECEIPT.json",
+        "sha256": "2d9d6944a2b9f87fca71bf22fd110b8a3c94f4ab30991fd4c94b1c766d991a12"
+      },
+      {
+        "anonymous": true,
+        "bytes": 2943336,
+        "path": "SAME_TICK_REFERENCE_INSTALLED_ACHIEVED.csv",
+        "sha256": "c1261caaca81997fe544b5ee5124a2c0c26ec8391e0066b9d24c47cd9c4d05d1"
+      },
+      {
+        "anonymous": true,
+        "bytes": 1652128,
+        "path": "SUPPORT_FAMILIES.csv",
+        "sha256": "ce361123961ead872e9f630c86e9d4c969925b80cb1d733e5de30bb39c162dca"
+      },
+      {
+        "anonymous": true,
+        "bytes": 103666,
+        "path": "SUPPORT_STRATA.csv",
+        "sha256": "04fc3adf6da411487fe9c35e57345c51dc38f94cf3d69076a81376ef243f058a"
+      },
+      {
+        "anonymous": true,
+        "bytes": 62160,
+        "path": "TRANSITION_ANALYSIS.json",
+        "sha256": "447e5cc84bbe0a59c8e6422b1e3993935b0e4d61ccaf356075cea03f809c2661"
+      },
+      {
+        "anonymous": true,
+        "bytes": 147622,
+        "path": "VIRTUAL192.csv",
+        "sha256": "62c84f34e614d4bffc2632cb9482975c3ff1223a6eb1c242af0e326bca054a63"
+      },
+      {
+        "anonymous": true,
+        "bytes": 163522560,
+        "path": "summary.tar",
+        "sha256": "2fe8c425e17b28a9b4068141d37b88a1b5fd5c329e1d2f4abed418bccd76935d"
+      }
+    ],
+    "members": 261,
+    "not_physical_generalization": true,
+    "part": "summary",
+    "prefix": "evidence/PI0274/pose-equilibrium-20261005/summary",
+    "preserves_original_V2_FAIL": true,
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "revision": "f861dde944a9a40be6eb53ab4263b91b3b8e99ac",
+    "selected_checkpoint": "NONE",
+    "source_bytes": 163295116,
+    "status": "PASS_PUBLIC_FIXED_REVISION_FILES_AND_ALL_MEMBERS",
+    "tree_sha256": "3d34cc03a2532777896d86c2930e157be6b1a5f065746f6f6be02d0342d1c1d0"
+  },
+  "postprocess": {
+    "artifact_audit_sha256": "5672c99e2ad91b4f31a1a35d7e0e4565e77127348926e0a4c8f0e925f6fa32da",
+    "deployment_selected_checkpoint": "NONE",
+    "report_sha256": "b37c67b1ff2f42f1d9bf21c8471b048299a01ed34409b17b91f282b2f705963d",
+    "selected_checkpoint": "NONE",
+    "status": "ALL_FIXED_CPU_VIDEO_AND_HF_READBACKS_COMPLETE",
+    "summary_receipt_sha256": "64336f820b53724bebe4fcbb3a0b8851da053256f2daf2bc90ce69b8020bb437",
+    "terminal_GitHub_publication": "STILL_REQUIRED"
+  },
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE",
+  "terminal_readback_url": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/issues/11#issuecomment-6000835729"
+}

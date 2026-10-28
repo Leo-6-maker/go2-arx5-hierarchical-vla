@@ -1,0 +1,129 @@
+{
+  "status": "VALID_NATIVE_SAFETY_FAIL_INTEGRITY_RECONCILED",
+  "runtime_source_sha": "dc9a066d0d4063becf395e518f1e511745ec154e",
+  "episode": "SDR2_SEED_W0_T1",
+  "observations": 113,
+  "installed_chunks": 14,
+  "native_integrations": 5300,
+  "task_integrations": 2800,
+  "task_prefix_s": 5.6000000000000005,
+  "complete_32s": false,
+  "quality": {
+    "task_id": "GO2_PLACE_V1",
+    "evidence_source": "REAL_MUJOCO_FULL_GO2_ARX5",
+    "complete_32s": false,
+    "clock_valid": false,
+    "safety_valid": false,
+    "history": {
+      "sustained_grasp": false,
+      "sustained_lift": false,
+      "horizontal_carry": false
+    },
+    "hold_observed": 0,
+    "hold_pass": 0,
+    "hold_subpredicates": {
+      "zone_corners": 0,
+      "table_height": 0,
+      "linear_speed": 0,
+      "angular_speed": 0,
+      "released": 0,
+      "tcp_clear": 0,
+      "object_and_contacts_valid": 0
+    },
+    "persistent_success": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "actual_object_contact_ticks": 0,
+  "actual_grasp_ticks": 0,
+  "illegal_contact_records": 2,
+  "first_illegal_contact": {
+    "step": 5300,
+    "task_sample_time_s": 5.6000000000000005,
+    "native_contact_source_time_s": 5.598000000000209,
+    "geom_ids": [
+      1,
+      11
+    ],
+    "geom_names": [
+      "task_table",
+      null
+    ],
+    "body_names": [
+      "world",
+      "base_link"
+    ],
+    "distance_m": 0.00048110323798577207,
+    "normal_force_N": 125.2827984382298
+  },
+  "last_illegal_contact": {
+    "step": 5300,
+    "task_sample_time_s": 5.6000000000000005,
+    "native_contact_source_time_s": 5.598000000000209,
+    "geom_ids": [
+      1,
+      11
+    ],
+    "geom_names": [
+      "task_table",
+      null
+    ],
+    "body_names": [
+      "world",
+      "base_link"
+    ],
+    "distance_m": 0.0004751865089615871,
+    "normal_force_N": 0.0
+  },
+  "original_native_stop": [
+    {
+      "kind": "stop",
+      "reason": "ILLEGAL_CONTACT",
+      "steps": 5300
+    }
+  ],
+  "pending_planning_stop": "VALID_PLANNING_FAILURE: FROZEN_SOURCE_NATIVE_COLLISION:['task_table', None]",
+  "final_source_phase": "approach",
+  "initial_actual_TCP_xyz": [
+    0.35142177263157476,
+    0.018430295332901265,
+    0.7175987033757022
+  ],
+  "final_actual_TCP_xyz": [
+    0.43255591987132797,
+    -0.04745778708816377,
+    0.5158613702946427
+  ],
+  "final_same_tick_reference_xyz": [
+    0.46124473048473297,
+    -0.05657752024065943,
+    0.5276837363906747
+  ],
+  "max_actual_TCP_displacement_m": 0.23566810158808857,
+  "max_actual_object_horizontal_displacement_m": 0.0,
+  "tracking_XYZ_initial_m": 0.0,
+  "tracking_XYZ_final_m": 0.03234170260349868,
+  "tracking_XYZ_median_m": 0.04340510938406481,
+  "tracking_SO3_final_rad": 0.028386915613775796,
+  "image_files_verified": 226,
+  "actual_RGB_pairs": 113,
+  "source_reference_values_replayed_exact": true,
+  "source_gripper20Hz_labels_exact": true,
+  "installed_reference": {
+    "transactions": 14,
+    "installed_messages": 69,
+    "max_xyz_abs_m": 2.979906577049718e-08,
+    "max_sign_invariant_unit_quaternion_component": 3.353695932073464e-08,
+    "tolerance": 1e-06
+  },
+  "pause_history_unchanged": true,
+  "actual_state_and_FK_replay": true,
+  "interpretation": "BODY_TABLE_SAFETY_FAIL; NOT_TASK_OBJECT_CONTACT_OR_SUCCESS; NO_RETRY",
+  "new_physics": 0,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "new_render": 0,
+  "new_neural_queries": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

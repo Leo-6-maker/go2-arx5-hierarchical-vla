@@ -1,0 +1,83 @@
+{
+  "schema": "VAP1_LONG_ALLOCATION_SCHEDULING_V1",
+  "status": "ADOPTED_USER_SCHEDULING_DIRECTION_NOT_NATIVE_SUBMISSION",
+  "decision_date_SGT": "2026-10-21",
+  "authority_release": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+  "decision_source": "USER_REQUEST_FUTURE_A40_TASKS_USE_ONE_LONG_ALLOCATION",
+  "owner": "EXISTING_LOCAL_PC_ONLY",
+  "default": {
+    "unit": "ONE_COMPLETE_ARM_PER_LONG_ALLOCATION_WHEN_RESOURCE_ENVELOPE_FITS",
+    "arms": ["A_CONTROL", "B_COVERAGE"],
+    "target_updates_per_arm": 4096,
+    "total_update_cap": 8192,
+    "walltime_request": "LONGEST_USEFUL_BOUNDED_ENVELOPE_NOT_SHORT_PROBE_DEFAULT",
+    "walltime_upper_s": 28800,
+    "stricter_site_limit_wins": true,
+    "checkpoint_1024_is_queue_boundary": false,
+    "separate_gpu_job_for_first_32_updates": false,
+    "artificial_stop_and_requeue_at_1024": false
+  },
+  "presealed_in_allocation_sequence": [
+    "NATIVE_PROJECT_OWNER_LEASE_ALLOCATION_AND_RESOURCE_ADMISSION",
+    "LOAD_EXACT_CORR_PARENT_OR_LATEST_COMPLETE_SAME_ARM_RESUME",
+    "FIRST_32_REAL_UPDATES_PROFILE_WITHIN_A_CONTROL_4096_NO_DISCARDED_UPDATES",
+    "TRAIN_TO_1024_SAVE_AND_VERIFY_FULL_NATIVE_STATE",
+    "RUN_ORIGINAL_FIXED_12_TRAIN_PROBES_BEFORE_ANY_UPDATE_1025",
+    "CONTINUE_SAME_ARM_OPTIMIZER_SCHEDULER_RNG_AND_SAMPLER_TO_4096",
+    "SAVE_VERIFY_FULL_ENDPOINT_AND_SETTLE_ACTUAL_RESOURCES"
+  ],
+  "two_arm_single_allocation": {
+    "mode": "CONDITIONAL_PRESEALED_SEQUENTIAL_PACKING_NOT_REQUIRED",
+    "requires_complete_walltime_cpu_gpu_storage_and_closeout_envelope": true,
+    "requires_relevant_A40_timing_evidence_not_H200_rate": true,
+    "independent_initialization_from_common_CORR_parent": true,
+    "B_initializes_from_A": false,
+    "otherwise": "ONE_LONG_ALLOCATION_PER_ARM_NOT_FOUR_LOGICAL_PHASE_JOBS"
+  },
+  "resume_only_when_needed": [
+    "INSUFFICIENT_REMAINING_NATIVE_WALLTIME_WITH_PROTECTED_SAVE_AND_CLOSEOUT",
+    "RESOURCE_OR_ORIGINAL_CLOCK_BOUND",
+    "NATIVE_SAFETY_INTEGRITY_OR_KNOWN_ENGINEERING_STOP"
+  ],
+  "resume_requires": "LATEST_HASH_VERIFIED_FULL_SAME_ARM_STATE_AND_RECONCILED_EFFECTS_NO_ROLLBACK",
+  "cold_preparation": {
+    "model_and_data_full_readback_before_queue": true,
+    "reuse_already_verified_assets_without_full_redownload": true,
+    "source_ci_permissions_aliases_reader_and_resource_checks_before_queue": true,
+    "predeclare_probe_execution_and_training_reentry": true,
+    "unknown_effects_blind_retry": false
+  },
+  "protected_current_job": {
+    "job_id": "1471903.stdct-mgmt-02",
+    "original_scope": "A40_17_SAVED_TRAIN_DRAWS_30_MINUTES",
+    "expand_in_flight": false,
+    "cancel_healthy_job_to_replace": false,
+    "qalter_by_this_decision": false
+  },
+  "unchanged": {
+    "GPU_global_hours": 96,
+    "GPU_DEC1_hours": 48,
+    "global_PBS_limit": 24,
+    "DEC1_new_PBS_limit_including_existing_probe": 8,
+    "concurrent_GPUs": 1,
+    "final_GPU_protected_s": 72000,
+    "original_T0_epoch": 1792348196,
+    "original_hard_close_epoch": 1792952996,
+    "recipe_micro_batch": 2,
+    "recipe_gradient_accumulation": 16,
+    "statistics": "ORIGINAL_R0_NOT_NEW_R1",
+    "WBC_plant_gripper_PD_S1_scoring": "FROZEN",
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "execution_status": {
+    "new_PBS_by_this_publication": 0,
+    "new_model_loads_by_this_publication": 0,
+    "new_optimizer_updates_by_this_publication": 0,
+    "new_physics_by_this_publication": 0,
+    "native_long_training_contract": "NOT_YET_IMPLEMENTED_OR_DEPLOYED",
+    "old_split_prepared_inputs": "HISTORICAL_ONLY_NOT_A_NEW_LONG_ALLOCATION_BINDING",
+    "next_cold_training_contract_must_adopt_this_direction": true,
+    "publication_is_native_admission": false
+  }
+}

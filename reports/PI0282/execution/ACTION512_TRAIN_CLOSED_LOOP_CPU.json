@@ -1,0 +1,98 @@
+{
+  "status": "PASS_INDEPENDENT_CPU_NATIVE_TASK_AND_ACTUAL_INSTALLATION_RECOMPUTE",
+  "point": "ACTION512",
+  "panel": "TRAIN",
+  "rows": [
+    {
+      "condition": 10000,
+      "status": "VALID_SOURCE_GATE_REJECT",
+      "persistent": false,
+      "first_success_s": null,
+      "sustained_grasp_0p3": false,
+      "actual_current_observation_and_full_noise_verified_queries": 1,
+      "task_controls": 0,
+      "observed_hold_samples": 0,
+      "hold_pass_samples": 0,
+      "max_cube_lift_above_initial_m": 1.2852251529693604e-07,
+      "reference_to_installed_XYZ_RMS_m": null,
+      "installed_to_achieved_after_control_XYZ_RMS_m": null,
+      "reference_to_achieved_after_control_XYZ_RMS_m": null,
+      "tracking_boundary": "Actual TCP after five physics steps of the same issued control; not a difference of minima",
+      "rejected_gate_codes": [
+        "ANGULAR_SPEED_REJECT"
+      ],
+      "result_sha256": "f3cc279e72432a24009d2de6089494895021bea4e6f0c5cd8326c8035b440dcb"
+    },
+    {
+      "condition": 10001,
+      "status": "VALID_SOURCE_GATE_REJECT",
+      "persistent": false,
+      "first_success_s": null,
+      "sustained_grasp_0p3": false,
+      "actual_current_observation_and_full_noise_verified_queries": 74,
+      "task_controls": 584,
+      "observed_hold_samples": 25,
+      "hold_pass_samples": 0,
+      "max_cube_lift_above_initial_m": 1.0803341865539551e-07,
+      "reference_to_installed_XYZ_RMS_m": 0.02390669845044613,
+      "installed_to_achieved_after_control_XYZ_RMS_m": 0.032846786081790924,
+      "reference_to_achieved_after_control_XYZ_RMS_m": 0.04051930829882622,
+      "tracking_boundary": "Actual TCP after five physics steps of the same issued control; not a difference of minima",
+      "rejected_gate_codes": [
+        "LINEAR_SPEED_REJECT"
+      ],
+      "result_sha256": "edf1ec3ca22dd4b196e87dc3d9e07e24a2f2fd78dbae355ef8c7b90b0693f9cb"
+    },
+    {
+      "condition": 10002,
+      "status": "VALID_SOURCE_GATE_REJECT",
+      "persistent": false,
+      "first_success_s": null,
+      "sustained_grasp_0p3": false,
+      "actual_current_observation_and_full_noise_verified_queries": 6,
+      "task_controls": 40,
+      "observed_hold_samples": 0,
+      "hold_pass_samples": 0,
+      "max_cube_lift_above_initial_m": 1.043081283569336e-07,
+      "reference_to_installed_XYZ_RMS_m": 6.931203097337857e-05,
+      "installed_to_achieved_after_control_XYZ_RMS_m": 0.023097341880202293,
+      "reference_to_achieved_after_control_XYZ_RMS_m": 0.02315511368215084,
+      "tracking_boundary": "Actual TCP after five physics steps of the same issued control; not a difference of minima",
+      "rejected_gate_codes": [
+        "LINEAR_SPEED_REJECT",
+        "ANGULAR_SPEED_REJECT"
+      ],
+      "result_sha256": "63b23b817a8b7c936df580059942b475badc2f4e9538fa64b2b918ccafbf01f2"
+    },
+    {
+      "condition": 10003,
+      "status": "VALID_SOURCE_GATE_REJECT",
+      "persistent": false,
+      "first_success_s": null,
+      "sustained_grasp_0p3": false,
+      "actual_current_observation_and_full_noise_verified_queries": 4,
+      "task_controls": 24,
+      "observed_hold_samples": 0,
+      "hold_pass_samples": 0,
+      "max_cube_lift_above_initial_m": 8.940696716308594e-08,
+      "reference_to_installed_XYZ_RMS_m": 7.539437501691282e-05,
+      "installed_to_achieved_after_control_XYZ_RMS_m": 0.02545420452952385,
+      "reference_to_achieved_after_control_XYZ_RMS_m": 0.025520602241158485,
+      "tracking_boundary": "Actual TCP after five physics steps of the same issued control; not a difference of minima",
+      "rejected_gate_codes": [
+        "ANGULAR_SPEED_REJECT"
+      ],
+      "result_sha256": "fb5c3e08cd53a68fdbadcc474280bc6891dd067e52adca542284d46d4af90a01"
+    }
+  ],
+  "source_panel_sha256": "2929441739d08992d968aa34e03d60548c61f185b97ced74af9129ef1f5a30d2",
+  "native_source_sha256": {
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/envs/tasks/tabletop/stack_cube.py": "3aaf7ad185e689c82a78a593cf46ec37e873733080a92ef62158fc7a72236052",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0276/ManiSkill/mani_skill/agents/robots/panda/panda.py": "bf85577be75b7513802e676decb5543e3e65f2a3dfbc26175dd8b77ae57691f3"
+  },
+  "persistent_count": 0,
+  "new_model_queries": 0,
+  "new_physics_steps": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

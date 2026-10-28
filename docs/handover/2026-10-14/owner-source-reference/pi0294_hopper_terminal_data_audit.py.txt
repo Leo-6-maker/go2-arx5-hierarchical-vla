@@ -1,0 +1,87 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Reconcile the failed outer receiver without rerunning completed native tests."""
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r'''
+import json,os,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/manifest['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import OwnerLock,read,write
+validate(root,profile='hopper-neural')
+original=root/'evidence/hopper-v3_0-receive-01';request=read(original/'REQUEST.private.json')
+lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock')
+ledger_path=root/'HOPPER_RESOURCE_LEDGER.json';ledger=read(ledger_path)
+assert ledger['CPU_reserved_s']==7200 and ledger['CPU_data_request_sha256']==sha(original/'REQUEST.private.json')
+assert not ledger.get('GPU_reserved_s',0) and not ledger.get('pending_updates',0)
+records=[read(original/name) for name in ('PROCESS.private.json','CHILD.private.json')]
+groups={record['pid'] for record in records};alive=[]
+for proc in Path('/proc').iterdir():
+    if not proc.name.isdigit():continue
+    try:
+        if proc.stat().st_uid!=os.getuid():continue
+        fields=(proc/'stat').read_text().split()
+        if fields[2] not in ('Z','X') and (int(fields[4]) in groups or any(
+            int(proc.name)==record['pid'] and fields[21]==record['proc_start'] for record in records)):
+            alive.append(dict(pid=int(proc.name),proc_start=fields[21]))
+    except (OSError,ProcessLookupError):pass
+assert not alive,'ORIGINAL_PROCESS_OR_GROUP_STILL_LIVE_DO_NOT_RESTART'
+outer=read(original/'CPU_STAGE.json');assert outer['status']=='FAILED_PRESERVED' and outer['unreaped_children_unknown']
+assert 'ORIGINAL_BOUNDED_DATA_RECEIVE_DEADLINE' in (original/'stderr.log').read_text()
+qpath=original/'PI0294_NATIVE_CPU_QUALIFICATION.json';q=read(qpath)
+child_cpu=read(qpath.with_name(qpath.name+'.CPU_ATTEMPT.json'))
+assert q['status']=='PASS_PI0294_ACTUAL_NATIVE_CPU_LOADER_0_2_4' and not q['legacy_smoke']
+assert child_cpu['status']=='PASS' and not child_cpu['unreaped_children_unknown']
+assert not q['CUDA_initialized'] and not q['model_loaded']
+assert qpath.stat().st_mtime>(original/'CPU_STAGE.json').stat().st_mtime
+transfer=read(original/'TRANSFER.json');download=read(original/'DOWNLOAD.json')
+assert sha(original/'TRANSFER.json')==request['transfer_sha256']
+assert download['revision']==transfer['revision']=='6aa94f4f40d791bedd6b4e75489e4ede6504d10d'
+assert download['old_raw_downloaded']==0 and download['new_raw_downloaded']==78
+data=Path(request['output'])
+assert sha(data/'native/DATASET_MANIFEST.json')==q['manifest_sha256']==transfer['manifest_sha256']
+assert sha(data/'native/statistics.json')==q['statistics_sha256']==transfer['statistics_sha256']
+for workers in (0,2,4):
+    for resume in (0,1):assert q['actual_loader_throughput'][str(workers)+'/'+str(resume)]['natural_iterator_exhaustion']
+directory=root/'evidence/hopper-v3_0-terminal-audit-02';directory.mkdir(exist_ok=False)
+write(directory/'PROCESS.private.json',records[0]);write(directory/'CHILD.private.json',records[1])
+status='PASS_ACTUAL_INCREMENTAL_HF_AND_HOPPER_NATIVE_LOADER'
+qualified=dict(status=status,manifest_sha256=q['manifest_sha256'],statistics_sha256=q['statistics_sha256'],
+    HF_revision=transfer['revision'],prefix=transfer['prefix'],actual_loader_receipt_sha256=sha(qpath),
+    actual_loader_receipt_relative=str(qpath.relative_to(root)),source_sha=request['source_sha'],
+    qualified_epoch=time.time(),models_loaded=0,CUDA_initialized=False,old_raw_downloaded=0,
+    bindings_not_yet_adopted=True,original_outer_status='FAILED_PRESERVED',
+    original_outer_receipt_sha256=sha(original/'CPU_STAGE.json'),late_native_completion_disclosed=True,
+    rerun_native_loader=False,repeated_download_bytes=0)
+write(directory/'INPUT_RECEIVE_QUALIFICATION.json',qualified)
+# The child was still live after outer exit, so its lifetime CPU was not in
+# the parent's reaped-child scope. Startup/terminal audit gets an explicit upper.
+charged=outer['CPU_s']+q['CPU_s']+60
+assert 0<charged<7200 and q['CPU_s']>=child_cpu['CPU_s']
+reconciled=dict(status='OUTER_DEADLINE_FAIL_PRESERVED_NATIVE_PASS_AND_GROUPS_TERMINAL',
+    original_request_sha256=sha(original/'REQUEST.private.json'),parent_CPU_s=outer['CPU_s'],
+    orphan_native_lifetime_CPU_s=q['CPU_s'],startup_and_terminal_audit_CPU_upper_s=60,
+    whole_charged_CPU_s=charged,original_reserved_upper_s=7200,own_groups_terminal=True,
+    clock_reset=False,first_parent_failure_preserved=True,models_loaded=0,PBS_submissions=0,epoch=time.time())
+write(directory/'RECONCILIATION.json',reconciled)
+write(directory/'CPU_STAGE.json',dict(status=status,CPU_s=charged,unreaped_children_unknown=False,
+    accounting='PARENT_MEASURED_PLUS_ORPHAN_LIFETIME_PLUS_EXPLICIT_60S_UPPER_ONCE',
+    original_outer_failed=True,models_loaded=0,CUDA_initialized=False))
+ledger['CPU_s']+=charged;ledger['CPU_reserved_s']=0
+ledger.setdefault('CPU_data_stages',[]).append(reconciled);write(ledger_path,ledger)
+lock.close()
+print(json.dumps(dict(status=status,original_outer_failed=True,native_loader_rerun=False,
+    repeated_download_bytes=0,whole_CPU_charged_s=charged,source_sha=request['source_sha'],
+    manifest_sha256=q['manifest_sha256'],statistics_sha256=q['statistics_sha256'],CPU_reserved_s=0)))
+'''
+
+if __name__=='__main__':
+    r=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+    save(BASE/('TERMINAL_DATA_AUDIT_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    if r.returncode:raise RuntimeError(r.stderr[-2000:])
+    print(r.stdout)

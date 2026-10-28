@@ -1,0 +1,46 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Conservatively account pre-audit failure after no owned group survives."""
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r'''
+import hashlib,json,os,time
+from pathlib import Path
+root=Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+stage=root/'evidence/development-independent-audit'
+record=json.loads((stage/'PROCESS.private.json').read_text());assert record['pid']==3616381
+survivors=[]
+for path in Path('/proc').iterdir():
+ if not path.name.isdigit():continue
+ try:
+  if path.stat().st_uid!=os.getuid():continue
+  stat=(path/'stat').read_text().split()
+  if stat[2] not in ('Z','X') and stat[4]==str(record['pid']):survivors.append(int(path.name))
+ except OSError:pass
+assert not survivors
+stderr=(stage/'stderr.log').read_text();assert 'CPU_STAGE_EXACT_ALLOWED_AFFINITY_REQUIRED' in stderr
+queue_path=root/'LIVE_QUEUE.json';old=queue_path.read_bytes();queue=json.loads(old)
+assert not queue['reservations'] and len(queue['auxiliary'])==1
+identifier,ticket=next(iter(queue['auxiliary'].items()))
+assert identifier=='independent-PI0294-COMMISSIONING-F0-001-T2' and not (root/'episodes'/record['ids'][0]/'AUDIT.json').exists()
+proof=dict(status='PRE_AUDIT_AFFINITY_REJECTION_TERMINAL_FULL_CPU_UPPER_CHARGED',epoch=time.time(),
+ live_owned_group=survivors,owner_pid=record['pid'],source_sha=record['source_sha'],
+ old_queue_sha256=hashlib.sha256(old).hexdigest(),stderr_sha256=hashlib.sha256(stderr.encode()).hexdigest(),
+ id=identifier,CPU_s=ticket['reservation']['cpu_s'],integrations=0,render_calls=0)
+def write(p,v):
+ with p.open('x') as f:json.dump(v,f,indent=2);f.write('\n');f.flush();os.fsync(f.fileno())
+ p.chmod(0o600)
+write(stage/'RECONCILIATION.json',proof)
+queue['actual']['cpu_s']+=ticket['reservation']['cpu_s'];queue['auxiliary'].clear()
+queue.setdefault('auxiliary_records',[]).append(proof)
+pending=queue_path.with_name('LIVE_QUEUE.reconciled.'+str(os.getpid()));write(pending,queue)
+assert queue_path.read_bytes()==old;os.replace(pending,queue_path)
+print(json.dumps(proof))
+'''
+if __name__=='__main__':
+ result=remote('corelab-4080s','RUN='+repr(RUN)+'\n'+CODE)
+ save(BASE/('AUX_RECONCILE_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-2200:])
+ print(result.stdout)

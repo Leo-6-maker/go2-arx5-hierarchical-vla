@@ -1,0 +1,26 @@
+{
+  "status": "PASS_LOCAL_FIXED_DIAG_ENTRY_CPU_CHECKS_NOT_MODEL_EVALUATION",
+  "rows_per_admitted_task": 96,
+  "layouts": {
+    "TRAIN": 8,
+    "DEV": 8
+  },
+  "anchors_per_layout": 6,
+  "anchor_rule": "FIRST_VALID_H40_IN_PHASE_0_1_2_3_4_AND_LAST_H40_620",
+  "native_K": 4,
+  "phase_truth_input": false,
+  "noise_packets_per_UID": 1,
+  "output_first_valid": true,
+  "physics": 0,
+  "neural_queries": 0,
+  "actual_bank_preparation": "NOT_EXECUTED_CORELAB_LINK_UNAVAILABLE",
+  "checks": [
+    "ALL_OWN_MODULES_PARSE",
+    "EXACT_SIX_FIXED_ANCHORS",
+    "KNOWN_XYZ_GRIP_ROTATION_METRICS",
+    "NATIVE_SO3_VS_INDEPENDENT_CPU_MATRIX",
+    "NONFINITE_AND_DEGENERATE_ROTATION_PRESERVED"
+  ],
+  "selected": "NONE",
+  "deployment": "NONE"
+}

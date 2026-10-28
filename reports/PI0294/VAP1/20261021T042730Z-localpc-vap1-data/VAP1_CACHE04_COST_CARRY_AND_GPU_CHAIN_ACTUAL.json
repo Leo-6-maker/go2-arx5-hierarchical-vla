@@ -1,0 +1,73 @@
+{
+  "status": "CACHE04_ACTUALLY_RUNNING_SAME_OWNER_GPU_CHAIN_ACTIVE_NOT_SUBMITTED",
+  "observed_epoch": 1792607552.2282546,
+  "authority_release": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+  "original_clock_budget_and_all_failures_preserved": true,
+  "previous_cache03": {
+    "status": "CLOSED_FAILED_CPU_STAGING_PRESERVED",
+    "failure": "QSELECT_READ_ONLY_TIMEOUT_25_SECONDS",
+    "CPU_actual_seconds": 6.713544245,
+    "result_sha256": "33c9fec37ea5a6c95748911981ad97ace2b0637e2df4da9bb1c3ce1400697d41",
+    "lease_sha256": "4a8a62096563886248e4cc82b4daffccf1c68cb6ff16f1ab14814b908e70e5c6",
+    "new_partial_output_upper_bytes": 39559168,
+    "already_charged_shared_inode_bytes_not_new": 183562142,
+    "partial_transfer_upper_bytes": 134217728,
+    "partial_costs_remain_in_same_data_escrow_until_final_settlement": true,
+    "original_failed_result_unchanged": true,
+    "GPU_PBS_model_queries_updates_physics": 0
+  },
+  "repair": {
+    "source_sha": "b2a82480dcdf70ca35d8d5643428460fb82c2d05",
+    "CI_run": 39652926789,
+    "CI_job": 119405661124,
+    "CI_all_steps_success": true,
+    "changed_and_critical_files_fixed_SHA_byte_and_blob_readback": true,
+    "runtime_source_identical_to_a4a3_except_test_isolation_fix": true,
+    "a4a3_CI_failure_preserved": "CPU_BUDGET_FIXTURE_ACCIDENTALLY_DEPENDED_ON_RUNNER_40GIB_FREE_DISK",
+    "runtime_40GiB_filesystem_reserve_not_reduced": true,
+    "focused_tests_passed": 47,
+    "focused_subtests_passed": 72,
+    "closed_probe_priority_explicit_terminal_only_opt_in": true,
+    "legacy_unclosed_probe_and_GPU_admission_rules_not_bypassed": true,
+    "carried_CPU_upper_seconds": 60,
+    "new_process_CPU_hard_limit_seconds": 4440,
+    "combined_reader_CPU_scope_seconds": 4500,
+    "same_original_prepayment_no_refund_or_additional_charge": true,
+    "further_chained_cost_carry_allowed": false
+  },
+  "cache04": {
+    "scope": "FIXED_ORIGINAL126_C1_ONLY_NOT_NEW_R1",
+    "manifest_sha256": "d3f9a133c132e2f3784a31a7890727260f39426d95dd69c34fb6fe5a30247e99",
+    "pid": 3160502,
+    "proc_start": "11333624",
+    "started_epoch": 1792607538.4118693,
+    "same_handle_verified_active_epoch": 1792607552.2282546,
+    "full_reader_PASS": false,
+    "completed_139_bank_not_repeated": true
+  },
+  "same_owner": {
+    "unit": "vap1-a40-ready-source-owner-03",
+    "pid": 323781,
+    "native_service_status": "active_running",
+    "previous_owner02_MainPID": 0,
+    "maximum_new_A40_qsub": 1,
+    "new_PBS_submission_verified": false,
+    "next": "ACTUAL_READER_PASS_CLOSE_SETTLE_FRESH_QUEUE_PROJECT_QUOTA_AND_COMPLETE_FORECAST_THEN_A_CONTROL",
+    "poll_seconds": 120,
+    "automatic_retry_of_unknown_mutation": false,
+    "credentials_persistent": false,
+    "new_cloud_or_local_Codex_owner": false
+  },
+  "last_independent_native_global_counters": {
+    "GPU_seconds": 20814,
+    "PBS_submissions": 13,
+    "GPU_reserved_seconds": 0,
+    "optimizer_updates": 0,
+    "neural_queries": 1054,
+    "unknown_effects": []
+  },
+  "WBC_plant_gripper_PD_S1_scoring_R0_recipe": "UNCHANGED",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "training_success_claimed": false
+}

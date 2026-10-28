@@ -1,0 +1,97 @@
+{
+  "schema": "PV1_STRATEGY_RECORD_V1",
+  "status": "STRATEGY_RECORDED",
+  "observed_utc": "2026-10-19T10:36:00Z",
+  "owner": "existing_single_local_pc",
+  "strategy_release": "eecfd0ee3b43dcd73fc3a9b94b2dddd6e2794719",
+  "strategy_id": "GROOT_TASKSPACE_POLICY_WM_LONG_TERM_V1",
+  "files_read_in_full_and_verified_against_git_blobs": [
+    {
+      "path": "docs/protocols/GR00T_TASKSPACE_POLICY_WORLD_MODEL_LONG_TERM_STRATEGY_V1.md",
+      "git_blob": "3ee6965b613393e1fd868b5bdb8972c0d3c01d5f"
+    },
+    {
+      "path": "docs/handover/2026-10-19/LONG_TERM_TASKSPACE_POLICY_WORLD_MODEL_STRATEGY.md",
+      "git_blob": "1afe3612b91ebf61e9b166b564d7625d6d7b10bf"
+    }
+  ],
+  "science_index_comment": 6265130912,
+  "pv1_authority_unchanged": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "run_uuid": "20261018T182956Z-localpc-pv1",
+  "original_T0_epoch": 1792348196,
+  "original_hard_close_epoch": 1792952996,
+  "native_read_only_snapshot": {
+    "job_id": "675967.hopper-m-02",
+    "submission_number": 4,
+    "state": "Q",
+    "scheduler_comment": "Not Running: Insufficient amount of resource: mem ",
+    "running_capsule_unchanged": "1c4cdc9aac8dbe1748f83f7003a8959842449ed6",
+    "generation_queries_cumulative": 642,
+    "optimizer_updates": 0,
+    "unknown_effects": [],
+    "snapshot_is_not_a_future_queue_or_resource_guarantee": true
+  },
+  "current_science": {
+    "baseline_valid_conditions": 9,
+    "baseline_successes": 6,
+    "baseline_valid_failures": 3,
+    "separate_original_engineering_incomplete_attempts": 1,
+    "remaining_conditions_including_one_diagnosed_replacement": 39,
+    "new_bank_demonstrations": 139,
+    "new_bank_unique_geometry_groups": 77,
+    "new_bank_paired_task_geometry_groups": 62,
+    "new_ab_learning_benefit": "NOT_MEASURED",
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "covered_by_existing_pv1_only_when_original_gates_pass": [
+    "Finish actual audited B0 DEV48 without repeating valid results or adding a success-rate admission gate.",
+    "Same CORR2048 parent and frozen statistics: A_CONTROL and B_COVERAGE, 4096 updates each; fixed TRAIN probes at 1024.",
+    "Original endpoint DEV selection, at most one evidence-qualified P3 intervention, independent-seed replica and unique-candidate LOCKBOX80.",
+    "Publish runnable shared-policy package, all actual attempts, independent audits and honest qualification grade.",
+    "Same-semantics cold engineering repairs and bounded measurements within existing resources; no hot update of active capsules."
+  ],
+  "not_authorized_by_this_strategy": [
+    "New codec statistics, history inputs, loss or horizon changes beyond the original PV1 protocol.",
+    "World-model or action-consequence predictor training, candidate-oracle branching or best-of-N evaluation.",
+    "New planner, distillation, DAgger expansion, task, embodiment or target WBC transfer experiment.",
+    "Additional actors, owners, automations, GPU concurrency, PBS, resource budget or clock."
+  ],
+  "future_minimal_proposal_not_execution": {
+    "status": "NOT_AUTHORIZED_REQUIRES_NEW_BOUNDED_SCIENCE_GO",
+    "question": "Do frozen policy candidates at the same TRAIN-only state contain a materially better feasible choice?",
+    "requirements": [
+      "Pre-register independent TRAIN state groups, fixed candidates, original safety rules, qualified simulator and all branch costs.",
+      "Keep every candidate, rejection and failure; simulation oracle is diagnostic only, not a deployed result.",
+      "Only after candidate headroom is established, test action-sensitive short-prefix prediction against no-action and simple-motion baselines."
+    ],
+    "does_not_block_current_pv1": true
+  },
+  "data_and_safety_contract": [
+    "Raw, installed and actual achieved actions remain distinct; unexecuted H40 tail is not an observed environment input.",
+    "S1-rejected zero-live actions have rejection labels, not observed next-state transitions.",
+    "Valid failed TRAIN executions may support future authorized dynamics learning; they are not automatically successful BC labels.",
+    "DEV remains original development selection only; DEV, CONFIRM, LOCKBOX and derived branches do not become training or calibration data for any learned component.",
+    "Compare single VLA, planner-assisted system and distilled VLA separately, with matched candidate sets and compute controls where applicable.",
+    "WBC, legs, plant, gripper PD, original safety gates and scoring remain frozen; historical TF-R3 STOP is retained."
+  ],
+  "existing_evidence_reused_without_rerun": [
+    "ad6e3654288888d20b34e5ece547fd1c82fcd8f7",
+    "fbfcce0d9d89864faa7bce5388568922191464ac",
+    "d85d846cc4242d47b948c77e4d9a453166d82aed"
+  ],
+  "resource_and_execution_delta_from_strategy_adoption": {
+    "new_pbs": 0,
+    "new_gpu_allocations": 0,
+    "new_neural_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_physics_ticks": 0,
+    "checkpoint_deletions": 0,
+    "new_subagents_or_owners": 0,
+    "budget_or_deadline_changes": 0,
+    "in_flight_actor_changes": 0,
+    "read_only_native_status_and_local_documentation_only": true
+  },
+  "next_actual_step": "Preserve the healthy queued 675967 job and existing finite owner. On allocation, pass that job's original qualification and continue the 39 remaining B0 conditions. Full actual B0 evidence and fresh mandatory-work resource admission precede matched primary training.",
+  "goal_status": "ACTIVE_NOT_POLICY_RELEASE_COMPLETE"
+}

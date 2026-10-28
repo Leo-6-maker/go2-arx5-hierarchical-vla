@@ -1,0 +1,38 @@
+{
+  "observed_at": "2026-10-04T14:44:09.125738+00:00",
+  "job": "646325.hopper-m-02",
+  "arms": {
+    "S4FIT": {
+      "canary": {
+        "arm": "S4FIT",
+        "microbatches": 16,
+        "model_max_abs": 0.0,
+        "model_tensors": 1030,
+        "optimizer_max_abs": 0.0,
+        "optimizer_tensors": 1413,
+        "saved_rng_scheduler_exact": true,
+        "status": "PASS_PI0272_REAL_EXACT_RESUME_CANARY",
+        "units": 8
+      },
+      "canary_sha256": "264c9e0bc0459acf278830306264df9d04ed032e7da040eecf91e8b46abed200",
+      "main_microbatches": 53
+    },
+    "DIRECT": {
+      "canary": {
+        "arm": "DIRECT",
+        "microbatches": 16,
+        "model_max_abs": 0.0,
+        "model_tensors": 1030,
+        "optimizer_max_abs": 0.0,
+        "optimizer_tensors": 1413,
+        "saved_rng_scheduler_exact": true,
+        "status": "PASS_PI0272_REAL_EXACT_RESUME_CANARY",
+        "units": 8
+      },
+      "canary_sha256": "ffe9144a5fe20766e58ad588642774b4cae9cce3f849ab5cb346e3629298abe1",
+      "main_microbatches": 0
+    }
+  },
+  "raw_completed_updates.jsonl": 58,
+  "raw_training_heads.jsonl": 896
+}

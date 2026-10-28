@@ -1,0 +1,145 @@
+{
+  "schema": "GEN1_AMD_PILOT12_BACKGROUND_STARTED_ACTUAL_V1",
+  "date": "2026-10-27",
+  "goal_complete": false,
+  "runtime_source": "363d5eb753d3f56d50883b5df220ede00ec5b647",
+  "authority": {
+    "human_answer": "批准仅这四项调整",
+    "grant_sha256": "73c7d2da1573c5ff440c8833da0f01910bca69ade2188645af866aef88c245e6",
+    "actual_GLOBAL_caps": {
+      "PBS": 36,
+      "GPU_site_output_GiB": 1176,
+      "Core_output_GiB": 477,
+      "transfer_GiB": 332
+    },
+    "canonical_4080_LOCAL": "HISTORICAL_PENDING_NOT_COPIED_TO_AMD",
+    "other_caps_changed": false,
+    "T_CD": 1792932749.8133287,
+    "stop_new_training": 1793451149.8133287,
+    "deadline": 1793537549.8133287,
+    "matrix3_and_final20GPUh40GiB_protected": true
+  },
+  "predecessors": {
+    "environment_metadata_actual_OS": 0,
+    "SIF_sha256": "2cae97d18c6a41450bb102e3bd54819d0c30552605d222d73ffc387c6ec14c8c",
+    "static24_actual_images": 24,
+    "static_constructor_attempts": 44,
+    "static_integrations": 0,
+    "static_settled_and_lease_closed": true,
+    "common_home_candidates": 3,
+    "common_home_selected": false,
+    "common_home_dynamic_qualification": false
+  },
+  "codec_actual": {
+    "OS": {
+      "returncode": 0,
+      "CPU_s": 0.932074777,
+      "epoch": 1793046936.0501287
+    },
+    "status": "PASS_ORIGINAL_AUDITOR_CODEC_IN_ORIGINAL_SIF",
+    "video": {
+      "sha256": "68148b7a6ca399a8c9c1821ef99ce74a6a2f4a82dfcebac92cc045ab3454fdd9",
+      "bytes": 1642,
+      "actual_paired_frames": 2,
+      "decoded_frames": 2,
+      "fps": 20,
+      "playback_duration_s": 0.1,
+      "padding_or_interpolation": false,
+      "raw_video_private": true
+    },
+    "synthetic_frames_not_training": true,
+    "constructors": 0,
+    "physics": 0
+  },
+  "native_launch": {
+    "status": "ACTUAL_AMD_PILOT12_BACKGROUND_OWNER_STARTED",
+    "epoch": 1793047160.520782,
+    "background_server_owner": true,
+    "agent_heartbeat_required": false,
+    "registered_roots": 3,
+    "source_files_each": 1179,
+    "codec_files": 407,
+    "worker_count": 2,
+    "planned_first_attempts": 12,
+    "visual_profile": "V0",
+    "new_GPU": 0,
+    "new_PBS": 0,
+    "install_reply_UNKNOWN_preserved": true,
+    "independent_fullhash_reconciled_install_complete": true
+  },
+  "actual_observation": {
+    "epoch": 1793047451.307323,
+    "private_receipt_sha256": "524aa3182934a3bbf745b8c2b27d9e4e431193fc0e52738655c30b0925f6aace",
+    "owner_procstart_matches": true,
+    "workers": {
+      "0": {
+        "status": "RUNNING",
+        "ticks": 11800,
+        "live_ticks": 5800,
+        "shadow_ticks": 6000,
+        "engine_starts": 35,
+        "episode_starts": 1,
+        "unknown_effects": [],
+        "completed_attempts": 0
+      },
+      "1": {
+        "status": "RUNNING",
+        "ticks": 11400,
+        "live_ticks": 5600,
+        "shadow_ticks": 5800,
+        "engine_starts": 34,
+        "episode_starts": 1,
+        "unknown_effects": [],
+        "completed_attempts": 0
+      }
+    }
+  },
+  "cold_export": {
+    "status": "CPU_CONTRACT_ONLY_NOT_NATIVE_DEPLOYED",
+    "new_tests": 16,
+    "related_tests_passed": 90,
+    "original_committed_EEF10_packet": true,
+    "original_raw_reader_codec_loader_collator_reused": true,
+    "old_PV1_population_gate_unchanged": true,
+    "all12_outcomes_and_four_task_strata_required": true,
+    "official_R0_export": false,
+    "new_training_submitted": false
+  },
+  "cold_terminal_repair": {
+    "running_capsule_unchanged": true,
+    "issue": "Meter.progress supplies worker_CPU_s internally; passing the same keyword at terminal raises a duplicate-keyword TypeError",
+    "future_cold_fix": "Store total process-and-child cost as CPU_s while original worker_CPU_s retains original own-process meaning",
+    "actual_temp_original_durable_writer_test": "PASS",
+    "native_adoption": false,
+    "observed_native_terminal_failure_at_this_snapshot": false,
+    "must_preserve_all_first_attempts_and_any_failure": true,
+    "no_valid_failure_replay": true
+  },
+  "next_minimum_boundary": [
+    "Actual finite Teacher outcomes and original independent raw/video audit",
+    "Once actual-effect settlement and all three lease closures; never replay an unknown write",
+    "Original Vanda CPU official export with separate GEN identity and full raw custody",
+    "Only if all declared support and R0 gates pass: fresh native training admission for independent CORR2048 to1024"
+  ],
+  "complex_tasks": {
+    "door_bookshelf": "DESIGN_AND_ASSET_GAP_PREPARATION_ONLY",
+    "new_task_physics": 0,
+    "Teacher_factory_current_tasks": [
+      "T1",
+      "T2"
+    ]
+  },
+  "scientific_results": {
+    "C50_behavior": {
+      "completed": 0,
+      "planned": 24
+    },
+    "D25_behavior": {
+      "completed": 0,
+      "planned": 24
+    },
+    "new_GEN_training_updates": 0,
+    "WDR_core64_completed": 0,
+    "behavior_improvement": "UNKNOWN"
+  }
+}

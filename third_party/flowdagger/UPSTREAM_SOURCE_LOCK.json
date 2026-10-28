@@ -1,0 +1,89 @@
+{
+  "schema": "FLOWDAGGER_PREPARATION_UPSTREAM_LOCK_V1",
+  "status": "SOURCE_READBACK_NOT_RUNTIME_PARITY",
+  "upstream": {
+    "repository": "microsoft/FlowDAgger",
+    "commit": "3426f246510fd67a9e39c3c08bd5b02d586ad688",
+    "license": "MIT",
+    "files": [
+      {
+        "path": "LICENSE",
+        "git_blob_sha": "22aed37e650bbf933b6983cda9c2c5db65dcdd04"
+      },
+      {
+        "path": "README.md",
+        "git_blob_sha": "6e70ecea8a13139248aa0967e37afc6685961187"
+      },
+      {
+        "path": "flowdagger_gr00t/groot_inversion.py",
+        "git_blob_sha": "96e0ba35287bc19614c8a6cde588a18ed4b47387"
+      },
+      {
+        "path": "flowdagger_gr00t/groot_expert_inversion.py",
+        "git_blob_sha": "60feb7eb6cbbe52c24cd858a1a0dfb47c46b2bcf"
+      },
+      {
+        "path": "flowdagger_gr00t/train_groot_flowdagger.py",
+        "git_blob_sha": "bd2d5ce5dc82e8a612b51fe4fc4bccb7446b0f7b"
+      },
+      {
+        "path": "shared/intervention_handler.py",
+        "git_blob_sha": "f5339929be62fe3a6642b8c2836c00c741117929"
+      },
+      {
+        "path": "shared/experts/libero_expert.py",
+        "git_blob_sha": "4a9ebb215430e9ae96c9d7231909a8f689a40a41"
+      },
+      {
+        "path": "flowdagger_gr00t/README.md",
+        "git_blob_sha": "f5a974bd9580e327725629909dc3054ba3b9633d"
+      }
+    ]
+  },
+  "upstream_example_gr00t_commit": "9c7e746b2cd37a810070a98ef41d290a07e806c2",
+  "our_official": {
+    "repository": "NVIDIA/Isaac-GR00T",
+    "commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "files": [
+      {
+        "path": "gr00t/model/gr00t_n1d7/gr00t_n1d7.py",
+        "git_blob_sha": "346b597a4b9a115a9a5b1053621f47f07833da09"
+      },
+      {
+        "path": "gr00t/data/state_action/state_action_processor.py",
+        "git_blob_sha": "3bebaca6db900f6b5d0637451009ab7251869b90"
+      },
+      {
+        "path": "gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py",
+        "git_blob_sha": "ec0d59f771c206e56ebbaf8697a30c8913b2d75c"
+      },
+      {
+        "path": "gr00t/data/types.py",
+        "git_blob_sha": "7bd6d5fe522dc0d1e750be245fabf872c244bbc1"
+      }
+    ]
+  },
+  "our_model_metadata_actual": {
+    "global_step": 2048,
+    "action_horizon": 40,
+    "max_action_dim": 132,
+    "effective_action_dim": 10,
+    "num_inference_timesteps": 4,
+    "num_timestep_buckets": 1000,
+    "use_alternate_vl_dit": true,
+    "processor_kwargs": {
+      "max_action_dim": 132,
+      "max_action_horizon": 40,
+      "use_relative_action": true,
+      "use_percentiles": false,
+      "clip_outliers": false
+    },
+    "config_sha256": "83dee2a2e6c6da3efd880b8f2bab2a0183a0bc2910781cad45c3384972898b77",
+    "processor_config_sha256": "f01d9c54a50ae457f98b6c87d3c0950d5f95eb3d8206433ddf8b0d9ad4a4fd14",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "actual_model_loaded_for_preparation": false
+  },
+  "LIBERO_environment_encoder_or_expert_imported": false,
+  "upstream_full_training_loop_imported": false,
+  "actual_M2048_inversion_or_sampler_parity": "NOT_RUN_REQUIRES_SEPARATE_SCIENTIFIC_GO"
+}

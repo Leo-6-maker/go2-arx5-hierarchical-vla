@@ -1,0 +1,12 @@
+{
+  "schema": "PI0260_R3_FIXED_DISPLAY_SELECTION_V1",
+  "selection_rule": "first sealed KIN-VAL semantic paired family in each behavior, command 0 then 1, noise B0; one first sealed KIN-VAL alias group",
+  "semantic_cases": [
+    {"task": "M1", "family": "pi0260-family-120", "case_indices": [48, 50], "commands": [0, 1], "noise": "B0"},
+    {"task": "M3", "family": "pi0260-family-120", "case_indices": [126, 128], "commands": [0, 1], "noise": "B0"}
+  ],
+  "alias_example": {"sequence": "pi0260-family-120-M1-c0", "indices": [0, 16], "times_s": [0.0, 0.8], "source": "condition_audit.json KIN-VAL first alias group"},
+  "points": ["Base_0", "Base_6000", "G_0", "G_6000"],
+  "display_limits": "saved 96x96 RGB, saved H40 decoded predictions and original references only; fixed physical axes; no new model or renderer calls",
+  "watermark": "KINEMATIC RENDERED REFERENCE / OFFLINE MODEL PREDICTION / NO PHYSICS OR WBC EXECUTION"
+}

@@ -1,0 +1,29 @@
+{
+  "pid": 2900271,
+  "parent_pid": 2860503,
+  "PBS_JOBID": "654134.hopper-m-02",
+  "argv": [
+    "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python",
+    "-u",
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0284/code/train_arm.py",
+    "--root",
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0284",
+    "--base",
+    "/scratch/e1192548/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+    "--data-root",
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0284/data",
+    "--microbatch",
+    "4",
+    "--arm",
+    "CTRL2048",
+    "--continuation-card",
+    "/scratch/e1192548/Projects/go2-arx5/experiments/PI0284/design/CTRL2048_CARD.json",
+    "--phase",
+    "split",
+    "--resume",
+    "0",
+    "--stop",
+    "4"
+  ],
+  "utc_ns": 1791443532359503142
+}

@@ -1,0 +1,81 @@
+{
+  "schema": "WDR1_ORIGINAL_SDK_CONSTRAINT_CLIENT_COLD_CPU_V1",
+  "status": "CONCRETE_SDK_READER_AND_WIRE_CPU_ONLY_NOT_NATIVE_BUILD_OR_TASK_QUALIFICATION",
+  "plan": "GROOT_WBC_LONG_HORIZON_V3_20261024",
+  "implementation": {
+    "reader": "scripts/pi0294/dec1/target_sdk_constraints.hpp",
+    "wire": "scripts/pi0294/dec1/target_sdk_constraint_wire.py",
+    "consumes": "Dedicated admitted original SDK OptimalControlProblem; never share mutable precomputation with an active solver",
+    "uses": [
+      "Original StateInputSoftBoxConstraint::getValue for jointLimits",
+      "Original StateSoftConstraint::get<StateConstraint>().getValue for selfCollision",
+      "Original preComputation request Constraint+SoftConstraint before each existing native policy knot"
+    ],
+    "no_controller_solver_or_model_math_reimplementation": true,
+    "no_new_tracking_RMS_gate": true,
+    "sampling": "Original native policy knots only; no new rollout/interpolation or continuous/full-body safety claim",
+    "request_binding": "Exact policy/install hashes, native times and all 12D state/input rows; duplicates, stale replies, missing/ragged/nonfinite rows rejected",
+    "CXX_failure_behavior": "Whole batch validated before cache mutation, same owner thread, permanent failure latch; no partial result or fallback",
+    "actual_joint_API_correction": "jointLimits is StateInputSoftBoxConstraint, not StateInputSoftConstraint. Private bounds are not exposed. Scalar cost includes an initialized offset and is NOT a signed feasibility margin. No private-layout access or threshold derived from cost.",
+    "original_task_cache_switch": "Actual frozen config has recompileLibraries=true. A new client-only byte-exact derived config changes only this build-cache flag to false. Original WBC config remains unchanged; no native client construction or codegen attempted.",
+    "cache_derivation": {
+      "original_sha256": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca",
+      "client_only_sha256": "d0c485bc0d4a4d420c2fcd621103358718f99980e4cde3b6c464e189b2896ad3",
+      "all_other_bytes_unchanged": true,
+      "missing_or_stale_cache_must_not_trigger_vendor_rebuild": true
+    }
+  },
+  "actual_header_readback": {
+    "installed_and_current_source_MobileManipulatorInterface_header_equal": true,
+    "installed_header_sha256": "b17e16c55a5cf63c89a588e2398ce81d90c3a2861a0c389465f14b2bd408725e",
+    "current_header_equality_not_complete_frozen_binary_build_input_proof": true,
+    "frozen_static_SDK_mobile_archive_sha256": "dee326b07daca9a3c61cf2baf187520e551e4120ed4f22e94d078dd689b3235b",
+    "native_actual_metadata_CPU_s": 0.01133218,
+    "current_control_manifest_lease_registry_DEC1_ledger_unchanged": true,
+    "new_native_models_builds_physics_children": 0
+  },
+  "evidence_sha256": {
+    "SDK_headers": "231d91d843e36e9c36eff1a518851d3686badfc50c894086b9b7f202e1dbdff7",
+    "constraint_API": "b19a62081c905031f6517867d01e6f22b04a99e3472bfc48253ddc37fff80a24",
+    "precomputation_API": "42d02eb9b5bc24602c583f2ca5bc9b0671520469fbb094d572b4cf745b37cb8f",
+    "box_cost_API": "a87eead33383cfe84f73cf6377c11762e5efbf4c0b6de10b5f8393803cdbde08",
+    "exact_captured_cache_derivation": "4e1436fceeb1ddfd8fc6833c9d9513076e15e507c8edab6efe1cfdac12363685"
+  },
+  "validation": {
+    "new_CPU_cases": 32,
+    "related_cases_passed": 87,
+    "compiled_CXX_tests_use_explicit_generated_API_standins": true,
+    "actual_SDK_build_ABI_or_construction_qualified": false,
+    "full_local_regression": "PASS",
+    "exact_commit_CI": "PENDING_AFTER_PUBLICATION_NOT_NATIVE_QUALIFICATION",
+    "full_local_PI0294_cases_passed": 2519,
+    "full_local_PI0294_subtests_passed": 1499,
+    "private_runtime_tests_skipped": 13,
+    "full_local_regression_seconds": 106.54
+  },
+  "actual_training_snapshot": {
+    "job_id": "1481574.stdct-mgmt-02",
+    "native_observed_epoch": 1792782492.5644403,
+    "state": "R",
+    "native_step": 2822,
+    "seed_step": 2048,
+    "new_committed_updates": 774,
+    "actual_queries": 17,
+    "actual_model_loads": 2,
+    "unknown_effects": [],
+    "same_original_owner_wrapper_live": true,
+    "heartbeat": "CONFIRMED",
+    "last_complete_recoverable_step": 2048,
+    "B4096_complete": false,
+    "original_runtime_source": "36925d272095d000ba1ad3ce5e9cdc44373fdce6"
+  },
+  "remaining_native_delta": [
+    "Build/link and lifecycle qualification of a dedicated thin client against the pinned installed SDK; never dlopen the frozen PIE or share its object memory. Bytes/numeric transport avoids passing C++ objects between processes.",
+    "Current DEC1 target child manifest/profile/authority, full Core+LOCAL resource accounting and remaining-work admission, original frozen assets/cache/frame/clock binding before native construction.",
+    "Join provided native prediction and original native full-state safety/feedback, install ACK, owned quota and STOP under the existing task components. Knot samples or joint cost alone never authorize physics.",
+    "Original finite target commissioning then fixed CORR2048/R0 core64 if qualified; no new target controller, target-success selection gate or invented new shadow-model prerequisite."
+  ],
+  "target_task_native_qualified": false,
+  "core64_completed": 0,
+  "unchanged": "Sole existing GPU owner/capsule, all costs and failures/checkpoints, current resource caps, original T0/deadlines and final protection preserved. No new GPU/PBS/Core child or physics action; complete goal remains ACTIVE."
+}

@@ -1,0 +1,1436 @@
+{
+  "engineering_repair": {
+    "cause": "Same-name older PI0264 helper took precedence over qualified PI0267 staged helper",
+    "correction": "Import exact PI0267 helper directory; source/hash/signature and real hook installation validated on CPU for both contracts",
+    "failed_job": "643647.hopper-m-02",
+    "optimizer_updates": 0,
+    "previous_fileset_sha256": "e57df99c7d60c80c9803d25f7ad0b4fb63ac01bdbaa058c26ccd92de192173aa",
+    "status": "CPU_VERIFIED_IMPORT_RESOLUTION_REPAIR",
+    "training_heads": 0,
+    "unchanged_data_processor_loss_precision_rng_and_budgets": true
+  },
+  "files": [
+    {
+      "bytes": 4419,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution/pi0260_r2_codec.py",
+      "sha256": "071e018b1b7788e3beea962f6db77e55e79697b981f293b82e77cfd75093faed"
+    },
+    {
+      "bytes": 2906,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution/pi0260_r2_inputs.py",
+      "sha256": "a55283b64a34424e65db3e5058f6ff40ba124d226562d3f35b2528ad391066b1"
+    },
+    {
+      "bytes": 4817,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution/pi0260_r3_compare_canary.py",
+      "sha256": "c8070f3da8054bf97a0fa9121c13ca17b50ef13e3eeb565c045ca7254c27f843"
+    },
+    {
+      "bytes": 456,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution/pi0260_r3_inputs.py",
+      "sha256": "88e83ca2f51deefd18b26949165bf8c5e800439750bd6d524cfde81ea7c4d5b5"
+    },
+    {
+      "bytes": 1928,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution/pi0260_r3_physical.py",
+      "sha256": "cda770aeaf4420b0609bd302c85c5e5af5ff2fbbb833db2cfc1284648ca50016"
+    },
+    {
+      "bytes": 11187,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0260/R3/execution/pi0260_r3_train.py",
+      "sha256": "eafd1350f8b6553f5a83835ebde9ee7b8f03e1e8cbd56415cde2ce060323ac64"
+    },
+    {
+      "bytes": 5763,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0264/code/pi0263_plan.py",
+      "sha256": "c27a98334ebaedec72f88979e800b90e9679774ebb6476012d34e8a8f40d729f"
+    },
+    {
+      "bytes": 7899,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0264/code/pi0264_plan.py",
+      "sha256": "5b7f5efbae6a41c9a54a1147bf765537e0e9636dcba56ede3eebd980240a455f"
+    },
+    {
+      "bytes": 147,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/CANARY_ROUTES.json",
+      "sha256": "fc1794b6d88d1ff0a7abc17710cb785598efcde46487a18541928ef221de5059"
+    },
+    {
+      "bytes": 59898,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/DATA_ADMISSION.json",
+      "sha256": "04a26d818e1d06a8b73dc53aa1756606caaf608b063aa3788edc42627c2c16a8"
+    },
+    {
+      "bytes": 3915,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/DONOR_LOCAL_READBACK.json",
+      "sha256": "2dbe8653823aef24eb3bcdd72f9f074b69d1afc4dc682000dfdaac3be0b273c9"
+    },
+    {
+      "bytes": 810577,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/EVALUATION_CARD.json",
+      "sha256": "46997c55759bd571930c57aa2121cf2f72b3bb8476c0b6389f32e680bf9cc79b"
+    },
+    {
+      "bytes": 2124713,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/PAIRING_PLAN.json",
+      "sha256": "fca9a29e69e4b63ec35ab995bacc60a4867e4b86a11e2d7a3c6397d4d316f5ef"
+    },
+    {
+      "bytes": 1001779,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/PROCESSED_PLAN_AUDIT.json",
+      "sha256": "c8ec24914dace6d84168247263c57e6c62c18084cc7dfc01436c0b27c04c4193"
+    },
+    {
+      "bytes": 142845,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/SCENE_CARD.json",
+      "sha256": "e94785e284e637b214f98aa615a3d842f32f1ac652d4fc9380dc2c8b5665b142"
+    },
+    {
+      "bytes": 440,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/STORAGE_ADMISSION.json",
+      "sha256": "a33a8aee370076590ac979aef7e131cd991711954a459a92ffae6a04c392aa2f"
+    },
+    {
+      "bytes": 2372,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/VIRTUAL_TOOL_CARD.json",
+      "sha256": "58170b20d4aec5240117388fc44dfcf76a9db0dc65436ca85471848d0ccf5c1c"
+    },
+    {
+      "bytes": 3363,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code/pi0264_compare_canary.py",
+      "sha256": "faef22a02965f2080de38f0c2f5fcdc2ec5d6a9496ed6ef24b713542c5acb0a9"
+    },
+    {
+      "bytes": 16985,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code/pi0264_train.py",
+      "sha256": "05e4057df3ab68e9b461674499bdd2ac103c6b362684f9b5861b2026f63960b6"
+    },
+    {
+      "bytes": 1971,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code/pi0267_canary.pbs",
+      "sha256": "cb0980376c1b58d299ce61d5c49338f3bb17b5609ff35dc4fefa5271dbd6fb5d"
+    },
+    {
+      "bytes": 2095,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code/pi0267_canary_recovery.pbs",
+      "sha256": "5332dfbc6fd253ad42d7d69d11368124da0e56e81aa751aa671101b5ac046421"
+    },
+    {
+      "bytes": 1753,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code/pi0267_main.pbs",
+      "sha256": "6238c1416df9c6023312fd94974ecfe705a65082b012f4b2789ae78798ca9581"
+    },
+    {
+      "bytes": 12185,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code/pi0267_train.py",
+      "sha256": "2b05bd1a873e39daa6096a6660aca07ccba68bf8b7732ed4ee611f4793d9af37"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-004/COMPLETE.json",
+      "sha256": "a2fe83dfa9d73eb7d21ffb319f9764cb91859549825db2e69f75aa46a1d7845a"
+    },
+    {
+      "bytes": 87173,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-004/codec_admission.json",
+      "sha256": "ff0230ec01135394d593cb3765ccbafa4a6ca0edc9a39c9734bdb9379e9fc7ae"
+    },
+    {
+      "bytes": 2228489,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-004/policy_frames.npz",
+      "sha256": "03d7bbd9d5878514f10be1e01ba7e6f2951ef75446ca5da7f7489439639e398b"
+    },
+    {
+      "bytes": 973602,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-004/proposals.npz",
+      "sha256": "eeed3dde827de2165f1c2e891900dea26edf6fe8c32319539fc39f7a745546cc"
+    },
+    {
+      "bytes": 2643062,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-004/rows.json",
+      "sha256": "4121b8aca412dbce8e805db65eaed4a3b52852bc1be562561cecfcd1eedec46d"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-005/COMPLETE.json",
+      "sha256": "1e94ca12ee392c0f9601b7b9a7cfeebad08d260702be30e36800298ac2f1ad10"
+    },
+    {
+      "bytes": 87169,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-005/codec_admission.json",
+      "sha256": "d080e9d148b9be3b5a6e4cd459613589ae4ada436c88becc051d869f38841958"
+    },
+    {
+      "bytes": 2225507,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-005/policy_frames.npz",
+      "sha256": "dc9fbcdece5fcb9a20d5d2816b289a0f6e605d046fa940f3ce1bd69e34fd5086"
+    },
+    {
+      "bytes": 944343,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-005/proposals.npz",
+      "sha256": "a0ceb002b8a685f6ae35ea7234e9fad6db336f52ef7fe25d19481f8817cee04d"
+    },
+    {
+      "bytes": 2642230,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-005/rows.json",
+      "sha256": "db88dce53502184f96dc9107be28ad89e69a162341a410e6e4b21924e1fac4ea"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-006/COMPLETE.json",
+      "sha256": "ae23a350ecbe97586f9260915077d6842dd7deb3d4577f08bef00f933412806c"
+    },
+    {
+      "bytes": 87201,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-006/codec_admission.json",
+      "sha256": "991f820e5110f789c2f7c017638b62ac2e06b229e6e251ed0cfb77e5d04806ee"
+    },
+    {
+      "bytes": 2195367,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-006/policy_frames.npz",
+      "sha256": "6b61a33692af9589551bb44ca866f609b3daa845895f43e806fb820f28fcdef8"
+    },
+    {
+      "bytes": 952342,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-006/proposals.npz",
+      "sha256": "67527bb29a6c832553f34f2348f8db9eb3ed87645e9b4938cdd1646a06acc4cc"
+    },
+    {
+      "bytes": 2642344,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-006/rows.json",
+      "sha256": "4cfaaa5bee7f26f13aa0e05c682f19d39d59d0a880ac9f63778c0cbf19fa3241"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-007/COMPLETE.json",
+      "sha256": "567b8bf23ac0f85ba6eff04da2cc47324f8b1e665d5c45bbfb47684c026ca28f"
+    },
+    {
+      "bytes": 87147,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-007/codec_admission.json",
+      "sha256": "5eeb0a1de49e9b34f09458b5dbdac8f1a61725d45ef3af65218df63b1348a7f3"
+    },
+    {
+      "bytes": 2232685,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-007/policy_frames.npz",
+      "sha256": "0afec96126b2ccd449530bd28a9ecfd1b9a540dbabaa2a5df869fa22f9ba39fe"
+    },
+    {
+      "bytes": 971756,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-007/proposals.npz",
+      "sha256": "9abc6746c5be19c3bdca248e376ca03b1294365ba0a2a1d956dcfed4ec99b69f"
+    },
+    {
+      "bytes": 2642156,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-007/rows.json",
+      "sha256": "22ce336db1d8dbb932377de1944d057ff25ad41057141a787de1e52a0d3eae45"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-008/COMPLETE.json",
+      "sha256": "b8e2e91df115b91e7074e3cbf1b6f49a0b1663da3ebd606fc8e6602d54e82d58"
+    },
+    {
+      "bytes": 87148,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-008/codec_admission.json",
+      "sha256": "1c8492622c95dc5e33ad3bfa7d47e0d06e090502ac3dffdabd10628bb8a238a0"
+    },
+    {
+      "bytes": 2226805,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-008/policy_frames.npz",
+      "sha256": "e889c650329aa5ef530c3a71c475d14785ad0d0b0b4a7eb3140e1c837c5ed562"
+    },
+    {
+      "bytes": 948553,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-008/proposals.npz",
+      "sha256": "01165ac1bdf7b4b48e3fc681071f4d682e443dd3a08751a5d4e4a8beeb330559"
+    },
+    {
+      "bytes": 2642138,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-008/rows.json",
+      "sha256": "e39813630a22304a53dbabd5594be6c9c4c64a6ee241e95664b794f17ed3dbb0"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-009/COMPLETE.json",
+      "sha256": "44f4b072d1a1cd05e8f8a8166ff48fe24cc3ba7418b43e71e06a0948335c0f95"
+    },
+    {
+      "bytes": 87190,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-009/codec_admission.json",
+      "sha256": "66c352d66d4680729e6c13b4b86382bab359d2d0353e671d8370b42dfb38dced"
+    },
+    {
+      "bytes": 2239260,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-009/policy_frames.npz",
+      "sha256": "2437330442701a0f7c33ef13c149afb32b8e93ea2b56151f906fe30cabe40e84"
+    },
+    {
+      "bytes": 950660,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-009/proposals.npz",
+      "sha256": "5f3404e44c54aff5641061e75253672ec39fca65564137473e92ea44617c4140"
+    },
+    {
+      "bytes": 2643212,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-009/rows.json",
+      "sha256": "f8796929498c5967f480abc1d2af0249de361eb24ab2ffacd29382e906866189"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-010/COMPLETE.json",
+      "sha256": "4b63b3e67d73e60677dbac6fc48e2f9d0c2c6763b661666df8b8d3e8583815f0"
+    },
+    {
+      "bytes": 87180,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-010/codec_admission.json",
+      "sha256": "c61a32902b8bfc646ba6b7012f576182803345998feab415b440177df560d2a8"
+    },
+    {
+      "bytes": 2224795,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-010/policy_frames.npz",
+      "sha256": "a7802368dbee9915cca35b350f1d8be33e3ca46f4209c145b2d35c84f2836745"
+    },
+    {
+      "bytes": 968261,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-010/proposals.npz",
+      "sha256": "1e75d7e709afe018ff2cd598474e15127d13bdef36b40df2584cab4324a09280"
+    },
+    {
+      "bytes": 2643718,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-010/rows.json",
+      "sha256": "f6be070e8f2ca6219fe0b4014de289b1e01ab38dc92351d07bca893b5daaf3e6"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-011/COMPLETE.json",
+      "sha256": "2ebee6c450e3ae488ae9a4b66bbc7c6aa129855c46e5807ad1f1e657124d8fb1"
+    },
+    {
+      "bytes": 87136,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-011/codec_admission.json",
+      "sha256": "069b47a2a3febd0380d8107472b7f697dc5cf6649d47fb97e80e8d6d077b139c"
+    },
+    {
+      "bytes": 2205834,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-011/policy_frames.npz",
+      "sha256": "8d55ddae1847587a8cad7eab6a21030dd3108525620eca4deecdb4651ae4bda4"
+    },
+    {
+      "bytes": 964800,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-011/proposals.npz",
+      "sha256": "d11f13b700caa7d5cf86d96534821c2e5e71f53a011a664779ec7a8e19cc301f"
+    },
+    {
+      "bytes": 2644517,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-011/rows.json",
+      "sha256": "5a7dd41f9f2b15951e85a6e9e8cf6f86a7aaecc2cb80783cb8439a0fc5d698bf"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-012/COMPLETE.json",
+      "sha256": "a8174c2fbed611c9234d2308d74860e25f6412e4d3876a0b30638e5b33a1c728"
+    },
+    {
+      "bytes": 87169,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-012/codec_admission.json",
+      "sha256": "7aefe0e58d899a3043767870e0ab826bd503ffd2a1eb3a7f0cc90e5fd9429c27"
+    },
+    {
+      "bytes": 2225497,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-012/policy_frames.npz",
+      "sha256": "7b3efd6bf7e1f31866ded3d1b349af78f2f3df4f86c43298d577bf849026872d"
+    },
+    {
+      "bytes": 961333,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-012/proposals.npz",
+      "sha256": "dacec8ab1a99b420b99974752dd687f17342a6ee369ca19408edaa525ef5bdcd"
+    },
+    {
+      "bytes": 2644619,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-012/rows.json",
+      "sha256": "62179e12cd6fff04671fbfb348f30d5b7233d21b4bd5ce47d56a09777a04ac8e"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-013/COMPLETE.json",
+      "sha256": "7c3938b7e0e44a4bacb1fef192e71a0bc5945ec828273217c2e8e38b74d29c3a"
+    },
+    {
+      "bytes": 87166,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-013/codec_admission.json",
+      "sha256": "32bb12675ce527bc123ad5d4f09c97d75fe580d98ee1658a2ed3da0d48ed9fda"
+    },
+    {
+      "bytes": 2221999,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-013/policy_frames.npz",
+      "sha256": "10bf1841555da9c7bf553b557cde6205a7fb1b0d564808bc454e2aba738d56e9"
+    },
+    {
+      "bytes": 963159,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-013/proposals.npz",
+      "sha256": "42f3b0d1d99586fbf3c344ce8b30c16710054d4ecf924f33db3ac4b9b7375156"
+    },
+    {
+      "bytes": 2644658,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-013/rows.json",
+      "sha256": "d5ba83b1bd507c55b721592dff63e069707f189d2225e5225751e03b373177fa"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-014/COMPLETE.json",
+      "sha256": "9ddb9a5915cc3768561bf4087ec3b2c0a68988cff22686a363de2141b21a6082"
+    },
+    {
+      "bytes": 87175,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-014/codec_admission.json",
+      "sha256": "4e3a8bf3985056482fa81199180a66cfd57abbfb1a46ff7508147af75ea253cd"
+    },
+    {
+      "bytes": 2248817,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-014/policy_frames.npz",
+      "sha256": "c6354b624d4eea83f18bbf8b126b41b00db3a80341ec84789ea79975d9d92f6a"
+    },
+    {
+      "bytes": 961418,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-014/proposals.npz",
+      "sha256": "2e4432355afd3a96272fe058d8094d689c8b3aaa332c417d1a1d8e5751ff6e62"
+    },
+    {
+      "bytes": 2645692,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-014/rows.json",
+      "sha256": "886ac7269f94c84e8a13f9c40a8724f86d0d9395b9deef0dbe072daec393498b"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-015/COMPLETE.json",
+      "sha256": "4f373a017dfa1a762172b434fda04e349f1590e56b708ab9f57411aadfcc5252"
+    },
+    {
+      "bytes": 87160,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-015/codec_admission.json",
+      "sha256": "53d14707a4d803f6c8925213bf1e4cb3f00251fee5e9b310323633222fc5193c"
+    },
+    {
+      "bytes": 2197470,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-015/policy_frames.npz",
+      "sha256": "f3a03fea7acb08ac7b017a8824d73bb51450d6af448057bdc93cabb7d486a4ad"
+    },
+    {
+      "bytes": 973062,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-015/proposals.npz",
+      "sha256": "834a3f34dc241bc4c8f25826093805bac58dddc00aac36a06db1bec9fdb13bb1"
+    },
+    {
+      "bytes": 2641187,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-015/rows.json",
+      "sha256": "1d2c073d711fe87e4e71bde9daf42cb0ae088016b53a5dc31d09b34e2c5ae91b"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-016/COMPLETE.json",
+      "sha256": "f48511505e61879338858df939894131c91abb96703e952f1123274341a1c014"
+    },
+    {
+      "bytes": 87156,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-016/codec_admission.json",
+      "sha256": "504add057752b5b0cbf14ede4ef7a38abe7b3420b8403854f5a296a82f71d586"
+    },
+    {
+      "bytes": 2224811,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-016/policy_frames.npz",
+      "sha256": "6ad2db663eda00a73fb464c01501af9f897a2f4d6904856ab24b4d6e04acdde4"
+    },
+    {
+      "bytes": 948169,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-016/proposals.npz",
+      "sha256": "7ea6e9808949c26018c27d677542e82ed63359d0753b2f3bf2129495cd037fa6"
+    },
+    {
+      "bytes": 2642574,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-016/rows.json",
+      "sha256": "d722eb890e614d5def772c4ae7dc1a2003b27e1bbdda2027998a670da8a98b66"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-017/COMPLETE.json",
+      "sha256": "78b8d82113d88fa810e4427dbffa3937661bf85c3aa74be3584c7dde4deefde9"
+    },
+    {
+      "bytes": 87201,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-017/codec_admission.json",
+      "sha256": "27d4c402a120229a6204d49326b054485e58219431203c8688220b12fe96377d"
+    },
+    {
+      "bytes": 2235784,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-017/policy_frames.npz",
+      "sha256": "3ed174e2de19e80b2e11adc053bf43eb8ec747449d57809fd39392ece6bd7d88"
+    },
+    {
+      "bytes": 965757,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-017/proposals.npz",
+      "sha256": "7d66bccfa492fef59a9b2b379e0cc17731d7743385559a4ad1e65b465111599b"
+    },
+    {
+      "bytes": 2643625,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-017/rows.json",
+      "sha256": "5f86784e48ba8b4a01e5c199a86dc5f57d40dc5374c9ceccd6961e783f05f5da"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-018/COMPLETE.json",
+      "sha256": "02d3a3eb0a6b32c2b6d80ca5130e44da03b9ea049519b177a15f270eaca2153d"
+    },
+    {
+      "bytes": 87168,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-018/codec_admission.json",
+      "sha256": "4e263689707965a0c056b90f505215d8989e7703aee101c02d68d5c308dd8575"
+    },
+    {
+      "bytes": 2261082,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-018/policy_frames.npz",
+      "sha256": "6dc7960340c7ee6cfc90aabc6b185c7b6f098e9517b6cf5ba674642315261b92"
+    },
+    {
+      "bytes": 959045,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-018/proposals.npz",
+      "sha256": "bdc4acf3aab1d721ae34cdc45d482cc1a350e4304cd00501cec932d883dc7eb7"
+    },
+    {
+      "bytes": 2645511,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-018/rows.json",
+      "sha256": "9702b5814baa9e2f823d3b34746b47d75b83c2ac5c95db6bdd7cfd003f5c0a91"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-019/COMPLETE.json",
+      "sha256": "9d56baa301cd2ea44b22f02d6fe5127dfd01f311d3bb55c0d1de1b7753a18d93"
+    },
+    {
+      "bytes": 87176,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-019/codec_admission.json",
+      "sha256": "dee991a28298ff4415cdbf70013a5003fe38abe04f1becae4cf9e5f35bd89254"
+    },
+    {
+      "bytes": 2261898,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-019/policy_frames.npz",
+      "sha256": "7a8e66e00321feb71973718e03699ce7230352d896c2c5a18488941028556f19"
+    },
+    {
+      "bytes": 948241,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-019/proposals.npz",
+      "sha256": "22afc889f33f4022af95ff4461548b9e5ccbcf36a13af352ae05b599036db186"
+    },
+    {
+      "bytes": 2644076,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-019/rows.json",
+      "sha256": "93222b01cf664fe70664ec5cf60e59d53f24db0a072986801a1e737c2502d4e3"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-020/COMPLETE.json",
+      "sha256": "6d97764f516a28d63656b691080a13cb1022418bbf6f1fe3a84d83b9241aec85"
+    },
+    {
+      "bytes": 87138,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-020/codec_admission.json",
+      "sha256": "11e300c1765a7517196fd201c0c15d728baa3d45fc10dd547a8b9dcb0abed319"
+    },
+    {
+      "bytes": 2200565,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-020/policy_frames.npz",
+      "sha256": "d408af6b019a305fcc03687accec65c8f932a78bad103df4b43edb403788bf9f"
+    },
+    {
+      "bytes": 971291,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-020/proposals.npz",
+      "sha256": "28ac33fde32b4503e23438a7f181219fb35fd27b90f2846b7a93f85618c4fff1"
+    },
+    {
+      "bytes": 2641520,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-020/rows.json",
+      "sha256": "a1a7e40022dd1b4d5c584365ee29fc21bcf14a06477d84bf78d4ffb7897a0dc3"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-021/COMPLETE.json",
+      "sha256": "9c7fe83ab99784ccf815afbfa3420027321c9ed98d430b193742183cf4b2c384"
+    },
+    {
+      "bytes": 87143,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-021/codec_admission.json",
+      "sha256": "adbf583c83c32c73784de18245f3fe1194fe6f7535742f459e88cc80d4f3494c"
+    },
+    {
+      "bytes": 2226202,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-021/policy_frames.npz",
+      "sha256": "645350aa948611e0853e937782d9bf5312144dd6f5c77a64ef1bb1ab0d7eef57"
+    },
+    {
+      "bytes": 954426,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-021/proposals.npz",
+      "sha256": "049c45156f9af9ac398b2efe90874321b6ed066b9670e9b5dd2125fae1ebbe1e"
+    },
+    {
+      "bytes": 2642520,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-021/rows.json",
+      "sha256": "a5e97a89d161a9ee7da4c84d4233b23365ea374487ec6c11e1d7e34b6916506e"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-022/COMPLETE.json",
+      "sha256": "e2d1121b2e89afc7be81351afbc8956ec3e92fe0847340a1ebf95885f35a7828"
+    },
+    {
+      "bytes": 87200,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-022/codec_admission.json",
+      "sha256": "e9f85e83e6b189e0a430e4707d186cf479083bed3d535dbeb05057452cfdf817"
+    },
+    {
+      "bytes": 2221011,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-022/policy_frames.npz",
+      "sha256": "559f91488e741df64b039d3f66c8414cb5eabdbdadb1f84e358bced421305080"
+    },
+    {
+      "bytes": 957768,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-022/proposals.npz",
+      "sha256": "cd09249146594f7698e4bf34449a6c35f7a23e45055e61deb48473f9e17506d5"
+    },
+    {
+      "bytes": 2643885,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-022/rows.json",
+      "sha256": "8158b1321235ec101ca6c6d75e9b9c24b9c3789027b904af47223bbb27b5b8ca"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-023/COMPLETE.json",
+      "sha256": "b26ff6b50b219cc88f1b6d3a2a9cdbd86178b21cfdd62b76644ba2979c7d8e11"
+    },
+    {
+      "bytes": 87163,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-023/codec_admission.json",
+      "sha256": "182769a791045bc31c0f88125c8f77463911fd9302a4f697068d384d07984e5b"
+    },
+    {
+      "bytes": 2235341,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-023/policy_frames.npz",
+      "sha256": "668a6269128f11aa1b7f3c4ec3b5f91b6b3b5f3d7567b532d36e6e1c71569b0c"
+    },
+    {
+      "bytes": 966157,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-023/proposals.npz",
+      "sha256": "4b779b562f83b7ca1bf60a3cbc9d9efd69fd0d2f92f8b8082f1d8cde170d9698"
+    },
+    {
+      "bytes": 2643144,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-023/rows.json",
+      "sha256": "1786112fce4bd38219440a762c3a455acc1aac0c36637fc8359607f9de6f00d0"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-024/COMPLETE.json",
+      "sha256": "9fd47a309e7330aeee4179330e4b652eb781140700cbaaae96d8f9045b33f546"
+    },
+    {
+      "bytes": 87140,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-024/codec_admission.json",
+      "sha256": "7455ae3ca2f1d41b98ccb3d50a2d31e6e9499bd987ba865c0d23b1c9e29fdf57"
+    },
+    {
+      "bytes": 2178835,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-024/policy_frames.npz",
+      "sha256": "181e55861216af78b35cb6ded803202108edb81064705c154bc0b10c06535204"
+    },
+    {
+      "bytes": 958952,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-024/proposals.npz",
+      "sha256": "625c1a01ee6936356b41c1ea9b9638b3347139c8c67499a21388fcc539336b06"
+    },
+    {
+      "bytes": 2640741,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-024/rows.json",
+      "sha256": "8c7738a3fc09db46208cb18c736be1c17185ddd5708fd50366d6bcd95847afc3"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-025/COMPLETE.json",
+      "sha256": "5050bacbdf6bf68efd66e9e75d28c170440faf531bf67a680ff00e657973144d"
+    },
+    {
+      "bytes": 87136,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-025/codec_admission.json",
+      "sha256": "d8eeabec06c85f0c034943deac5d69cec4d431bd3a1d8160d9b61d205250bb69"
+    },
+    {
+      "bytes": 2217741,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-025/policy_frames.npz",
+      "sha256": "dc3380e4450c166a1901d68b87f96854a71c7ac678263d30d6aba19a431eb528"
+    },
+    {
+      "bytes": 969231,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-025/proposals.npz",
+      "sha256": "05e1e2233c8cfc1a0bf7073cbfd13c87f634144b0c55abdf121bc8ea87f0b6fa"
+    },
+    {
+      "bytes": 2641950,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-025/rows.json",
+      "sha256": "0a17acbab078821bdb690c5490dc59566cc92f06ad4bf761d81506bd64f06c38"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-026/COMPLETE.json",
+      "sha256": "629331e4466401d17098f8e78aa8866032a2f706c0b4a09dbbdbd37c41f31830"
+    },
+    {
+      "bytes": 87159,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-026/codec_admission.json",
+      "sha256": "39ba9ea8f0ca4662f9a29978055b5c9e2b47a8d4b404d52911a74da04da069c8"
+    },
+    {
+      "bytes": 2188428,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-026/policy_frames.npz",
+      "sha256": "b3bc0a1e2d58930f6807bdd0e9562603d9ab432e5a77b9034e3f207a7c48e8a0"
+    },
+    {
+      "bytes": 954611,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-026/proposals.npz",
+      "sha256": "a72d47dbf4f980edf3c3a693351dbae4c3d129848f792da7fc32b90da03d1f6f"
+    },
+    {
+      "bytes": 2641863,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-026/rows.json",
+      "sha256": "68c9343f66d363cea032e151dba342223c1a76dc06e9a3c591ecd837db0c1415"
+    },
+    {
+      "bytes": 634,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-027/COMPLETE.json",
+      "sha256": "63df1af8b41c9983d0faee8beabf5109eea016d69f1a93344d24eeb1a7bc6eec"
+    },
+    {
+      "bytes": 87191,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-027/codec_admission.json",
+      "sha256": "3225be211e66361c9d9b2d16b1b9c0691120e4e198de881f281f8cc8b061e186"
+    },
+    {
+      "bytes": 2218292,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-027/policy_frames.npz",
+      "sha256": "f111e8b6ac9cb83e448ca74d195a92314d5f6d3e0b0817b6f8ad4f8b50b48ce8"
+    },
+    {
+      "bytes": 949115,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-027/proposals.npz",
+      "sha256": "38d8d443a96b553fc307e01731e553a00d4f648374e5a0c4c28ae1bc70f6a60d"
+    },
+    {
+      "bytes": 2642742,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-027/rows.json",
+      "sha256": "635433e8057f90cb9f9d2f4018c7b0fab8f134e1bdbe2263a82758fb6e805031"
+    },
+    {
+      "bytes": 82120,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/dataset/statistics.json",
+      "sha256": "4439e24348bc43f5c93d380c9ae3c25b4057dbd8111e1e9bf9563b868c53bc73"
+    },
+    {
+      "bytes": 2477,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/retire_discarded_canary.py",
+      "sha256": "fd40c4ee9223467c2a0f10686c80c0ea2b12fa9dcbfb0081afc357460d15f2ab"
+    },
+    {
+      "bytes": 13314,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/train.py",
+      "sha256": "49be6367fd313494b9fb3c1004aeb1ed130c43c46d1059358d96c2c001d33fab"
+    },
+    {
+      "bytes": 4361,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/training_audit.py",
+      "sha256": "cf98d28fdb73d7502c522bcd65038562c324cd30399558dc2ce82940878ae153"
+    },
+    {
+      "bytes": 2266,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/training.pbs",
+      "sha256": "084a5b4c134e0c04ff3017d5f57128c3d876a67115145e967c3eec3d7d5facf1"
+    },
+    {
+      "bytes": 1440,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/cpu_admission.sh",
+      "sha256": "59fb90f7cea535f95d5ec275d92e174759cae6f49d20a0b4a5b5ca186bce8684"
+    },
+    {
+      "bytes": 1442,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/hopper_fixtures.sh",
+      "sha256": "ac30e967a24abd67994741591a3af243c55b058c77e4aac96815ffce58454a26"
+    },
+    {
+      "bytes": 4830,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/cpu_admission.py",
+      "sha256": "44c7193186f6ccd7a9bded806f459bea970b4f668308e0e439635313fe035639"
+    },
+    {
+      "bytes": 1999,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/hopper_fixtures.py",
+      "sha256": "12ee33fdc7aac31f0cf49bff8d0eb29b8977464296b7ee88f3583af14a63101c"
+    },
+    {
+      "bytes": 82120,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/contracts/OLD/source/dataset/statistics.json",
+      "sha256": "4439e24348bc43f5c93d380c9ae3c25b4057dbd8111e1e9bf9563b868c53bc73"
+    },
+    {
+      "bytes": 67963,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/contracts/ROT/source/dataset/statistics.json",
+      "sha256": "0ea96eaf9ba6f2bfb5c16681542723e9ee0e82281dd07c4e33ed9189799580e9"
+    },
+    {
+      "bytes": 1653,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/APPROVED_RUN_CARD.json",
+      "sha256": "b02fc79b7a6b81ee8f2f909fd32c609328d6fcbfe411c60ab402e889426054be"
+    },
+    {
+      "bytes": 256609,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/FIT112_FIRST2048.json",
+      "sha256": "1f910a874e9e511d52d70a0eae8956339e251b97951ee98af9fbcf175174137c"
+    },
+    {
+      "bytes": 139486,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/EXACT_STATISTICS_DIFF.json",
+      "sha256": "6b4693c87c368515924637aa1fed76b5ea333b284f7ed1e5a256e1eb61507847"
+    },
+    {
+      "bytes": 11519,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-014.npz",
+      "sha256": "f53877b39715abc6d0dab609b90f86ca825fe645327819024c73e627fafd8fb3"
+    },
+    {
+      "bytes": 11689,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-016.npz",
+      "sha256": "215dd9b681732c2af8558f8c6de7ac8feb4ecd7482aaedbf8ac929f0dee34ad7"
+    },
+    {
+      "bytes": 12283,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-019.npz",
+      "sha256": "dfe9a1cbf38a2033ef35629585c6a26c601be2df0f2f78e178a8cbbd4ee4aa07"
+    },
+    {
+      "bytes": 11423,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-020.npz",
+      "sha256": "c2791d8812e4229e575037543b8cc76521e1d9316d4e4bd9b1e56cc698c85941"
+    },
+    {
+      "bytes": 11355,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-022.npz",
+      "sha256": "b851317aea592112886a3aed04ae6170645c768d574cce69a4fec67e065776b7"
+    },
+    {
+      "bytes": 11465,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-055.npz",
+      "sha256": "6cdceb3ef51e93b485168c77ef8cc29e6a7ff0052818a695e5334af8b18d5f68"
+    },
+    {
+      "bytes": 10567,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-057.npz",
+      "sha256": "713ef33339ab2e4b7c407606bf904f0225c3407cc8722343d32456d3b25cc105"
+    },
+    {
+      "bytes": 10282,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-058.npz",
+      "sha256": "005c9f2d29c18553f0b004ad396c9b535b24df4c0638e3186025b435a25a30b4"
+    },
+    {
+      "bytes": 11307,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-061.npz",
+      "sha256": "710464ef9779a37b65492b96754ac04ee78e46462929a512a9589e36ef16bd72"
+    },
+    {
+      "bytes": 11188,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-063.npz",
+      "sha256": "ada7160582433ab8fb34c209c7cdd0ea80c5fcb3c4ea043d7c8dbe2b3755dc58"
+    },
+    {
+      "bytes": 10728,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-084.npz",
+      "sha256": "c3f959464578ec3b49626343db920084e36b58f71ce875c3ba000033837411cc"
+    },
+    {
+      "bytes": 10411,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-086.npz",
+      "sha256": "e2306bbe81653c805c045bd072440033ae8338e95db87e91dd3343fbf5bb0cb7"
+    },
+    {
+      "bytes": 11163,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-089.npz",
+      "sha256": "d904f8e8e480ca55af348984c2889e7a9a24bbe696aef8c537e6ca1617e87761"
+    },
+    {
+      "bytes": 11539,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-110.npz",
+      "sha256": "91697df66fabc4f5e488126c308fffe76fad0b2f4a2f246941696e8c959e3fdc"
+    },
+    {
+      "bytes": 11822,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-004.npz",
+      "sha256": "90602f2f58c5fe2f4bf6b123edf8bba21ff1b4d9d0a0c244a7135f5915cf955b"
+    },
+    {
+      "bytes": 12019,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-006.npz",
+      "sha256": "80e6538f7d26f336a20e6dabdd6e7e7d0944a3ccb311788de5cc9853b8a804c9"
+    },
+    {
+      "bytes": 12280,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-009.npz",
+      "sha256": "68e94e10b8991508c148515638961419ef66f476457111d1b17bd5883a853b0a"
+    },
+    {
+      "bytes": 11405,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-030.npz",
+      "sha256": "5d0a88859a68991e532295c68df58ea07dc8cf5f4d3e07b6604879e12fcef027"
+    },
+    {
+      "bytes": 11822,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-032.npz",
+      "sha256": "777f820fd3d2e3593c1b9471990e56649cfe1ab850705e4972b736dec41b769f"
+    },
+    {
+      "bytes": 12070,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-045.npz",
+      "sha256": "d2e6bdd4582006bf5716d8857e6d7e1aa4782e8ba4e5de4db4d106e11a138cf9"
+    },
+    {
+      "bytes": 12264,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-047.npz",
+      "sha256": "c40ceaef25e3284f5eb9608a2d5e00d2c79c3e159e963880ba5a0490921f6bda"
+    },
+    {
+      "bytes": 11415,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-048.npz",
+      "sha256": "5c5a89c7b1d082e27231266b16af1bbbd478d1cd2a334c2618a44d94576ac974"
+    },
+    {
+      "bytes": 10044,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-071.npz",
+      "sha256": "122d5c6abfd4d6d4748f821879bb1c1cb0f8d1a93e6219a911aa1599b263dd0d"
+    },
+    {
+      "bytes": 10837,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-073.npz",
+      "sha256": "192f1be317d618ce4d8a9ce947e08d65934b8a23bce01f7b25ac487b5f083bf3"
+    },
+    {
+      "bytes": 11299,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-094.npz",
+      "sha256": "98847761ab2d037b187de34da6650e9427e8cca895b070f6ee8ab1805ce6e5f1"
+    },
+    {
+      "bytes": 10229,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-096.npz",
+      "sha256": "6762dc88d07f850f58583a647e9108a37e6b989fa8899323dac2edd888e2a454"
+    },
+    {
+      "bytes": 9799,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-099.npz",
+      "sha256": "af0aca3b896af8ace5ed1b2c2b9c356f258f274246b6586f0b1c7190fedc7d0b"
+    },
+    {
+      "bytes": 11087,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-100.npz",
+      "sha256": "4729ccaf65af7b11ab21a88bc8b4fa6ba46995d454e6dc6013d87ce332aed9d1"
+    },
+    {
+      "bytes": 10937,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-102.npz",
+      "sha256": "305dba62047d534a3169a7a57cc78f971024c0fdee0b06e96d8c3c342de35fbd"
+    },
+    {
+      "bytes": 12464,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-010.npz",
+      "sha256": "ec11e14f1025844001be3d158e9bb0768a0303545cf9021b95e1e33ac1cd60af"
+    },
+    {
+      "bytes": 10620,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-012.npz",
+      "sha256": "540da09fdc9325bff40a2e600b4d443ac1534d3423f54f41dc7e372e0d5c016f"
+    },
+    {
+      "bytes": 11783,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-024.npz",
+      "sha256": "193bbff31e18254890197dcc0b1f278e15a933f7ffb3d927b8061cae2ca1318c"
+    },
+    {
+      "bytes": 11921,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-026.npz",
+      "sha256": "565f5bbd7a5cc45f1fbbd54097cb15d0cb25317980f9a3a76684c625c28377c6"
+    },
+    {
+      "bytes": 11502,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-029.npz",
+      "sha256": "23a29831aa925c02cee22c29927bd56ffc41b98927f52b78f58f908ea8e2be7c"
+    },
+    {
+      "bytes": 11513,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-051.npz",
+      "sha256": "b1f7ef23600ad57b50e1dbc294cbb57de1ddbfa993cb6c8ff02c6e3a44da3ad6"
+    },
+    {
+      "bytes": 11497,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-053.npz",
+      "sha256": "8108c4e85946eca9e73402b9f099b3048c5d7d9380a1f731bf10bc0773bc1448"
+    },
+    {
+      "bytes": 11549,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-065.npz",
+      "sha256": "9b6673d07389c7496c8b1608f1e033a473024da7c61b102313365b44b69fe4a2"
+    },
+    {
+      "bytes": 11462,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-067.npz",
+      "sha256": "0d1fff3c3ad3b3e8dd42e98fbfb2773fa7146e182ded1a3f9444abeb159c6226"
+    },
+    {
+      "bytes": 10201,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-068.npz",
+      "sha256": "2001c241d58ec5cfe9f15683d6305812cae533723f29bade08744a3a2a7dd33e"
+    },
+    {
+      "bytes": 11671,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-080.npz",
+      "sha256": "50e722ea19d43356bc4c04569fff48169ef587b71fca2f954a6cabdd6a31fb1c"
+    },
+    {
+      "bytes": 11416,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-082.npz",
+      "sha256": "962ad4af1cf291c55e25050cf1ef67be78e50063a7bb1016b4d4e3ec5c4b6b00"
+    },
+    {
+      "bytes": 11168,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-000.npz",
+      "sha256": "52f1d469e383ec36ae86bdfc94e6d3028933020e53bc35a648f6f6ae7698d3f3"
+    },
+    {
+      "bytes": 11675,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-002.npz",
+      "sha256": "cb042caaf4f2259fa31015da4a1a0b75f0395e7bd73e4fcfd0cb3bf8d8906e43"
+    },
+    {
+      "bytes": 12111,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-034.npz",
+      "sha256": "356aa32b440ebcc392d014a5e0892cdd3a6b6256e9a1881efcacc21fdbf037be"
+    },
+    {
+      "bytes": 12116,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-036.npz",
+      "sha256": "2ad0e161dd43f8d443767dba39205d73338b9147aa3b935c5649dffb5171fd6e"
+    },
+    {
+      "bytes": 12160,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-039.npz",
+      "sha256": "bed911bb4595dce974b3671269f8d68969651fd4d8c9fd4b7e811e76d083d56d"
+    },
+    {
+      "bytes": 11264,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-041.npz",
+      "sha256": "70b59fe0e0a18827d6fe597bffcea95aed20e45b94ec27879d9f13249d280af9"
+    },
+    {
+      "bytes": 11180,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-043.npz",
+      "sha256": "1c499a9565fd4b55f500ef0ecf9775dadffdb436a1741199a96fef5b7a29a419"
+    },
+    {
+      "bytes": 10898,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-075.npz",
+      "sha256": "83dca16afb6c57d4cc30fc69aad1c1da63bb1877e435c95ac37cdbfc757faa61"
+    },
+    {
+      "bytes": 11442,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-077.npz",
+      "sha256": "5c8ec714301a79c8c80b5cc989d4aa03c29755adf77a4531b4eb3ce7d3277200"
+    },
+    {
+      "bytes": 10909,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-078.npz",
+      "sha256": "66697e20b78f74db3ad1c0f9704768026c213ce4dcefa2473bb84187b9e0b79a"
+    },
+    {
+      "bytes": 11067,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-090.npz",
+      "sha256": "57ee1e21f8c8fb7a73def3feded80baa7aa6b140dec75dc318aa0a3c71eafcf0"
+    },
+    {
+      "bytes": 11736,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-092.npz",
+      "sha256": "c32759699c739b1169e5cd9474d8382218d4bf630704d8162c90a369614cb2db"
+    },
+    {
+      "bytes": 11386,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-104.npz",
+      "sha256": "a68bdfa2b15b615f784e018e6daa89e9bb05ef7ad3dce1058041c6815cc7062d"
+    },
+    {
+      "bytes": 11080,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-106.npz",
+      "sha256": "faa8070d7833dd38575a208304774a4ff1cda98a9147b4549652295e74a3ac98"
+    },
+    {
+      "bytes": 12114,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-109.npz",
+      "sha256": "b4a0476c2876c87222a6d3e59a3f923fd1571e9ee91a06249d21af79bd0e64d3"
+    },
+    {
+      "bytes": 11513,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-015.npz",
+      "sha256": "987041838434a74efb9f7093585ab7d176a58df631381794bf40b98f1b32d37f"
+    },
+    {
+      "bytes": 12255,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-017.npz",
+      "sha256": "d7a4cd1bf8609ffb3dcffbf1b30023c5fbe546e8e5ea8505264150743bf6ecd9"
+    },
+    {
+      "bytes": 12253,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-018.npz",
+      "sha256": "f6980600e24a4c602863671a2d47b9613f254c02ddd482e4b9eefd1ee4801245"
+    },
+    {
+      "bytes": 11186,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-021.npz",
+      "sha256": "da91dafc262ea6dd7b957dc6d6913975c1b1eda380de9586007812f5b54462d8"
+    },
+    {
+      "bytes": 11502,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-023.npz",
+      "sha256": "1d8e89653cb05527ae77262690cbbf1b11572c6b31c5e8fb38e7bd132969ae38"
+    },
+    {
+      "bytes": 11522,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-054.npz",
+      "sha256": "2305e81bb39c08d6d25be3ede75f2ba3a21266822bce934b1db30f3ce0a8be31"
+    },
+    {
+      "bytes": 10714,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-056.npz",
+      "sha256": "3a04a2efb3db341d42c420d108f16337dc7b379aaa22661fa701989469a6e293"
+    },
+    {
+      "bytes": 10445,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-059.npz",
+      "sha256": "e26694b584e80154e1901d4a7d3b0fafa00b25ea2007a6e6dc9384eb78394d2a"
+    },
+    {
+      "bytes": 11411,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-060.npz",
+      "sha256": "22b0952c40d1ce0b98f66cfa96737b970d18cd27f6ee1808d0204be832a18a3b"
+    },
+    {
+      "bytes": 11084,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-062.npz",
+      "sha256": "2eea80dbca6bdadc75f56ea790146f66b07f6c048b9265aaece57b561457d356"
+    },
+    {
+      "bytes": 10914,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-085.npz",
+      "sha256": "048cac2a3f3fe32688a36badede6983b8cdba0bd1aa1d02e75d9521f7b4e7be8"
+    },
+    {
+      "bytes": 10195,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-087.npz",
+      "sha256": "421d51c29f864bd517332bf5dc8eecd606c4965bc679d8c0f4943a66bb08b2cd"
+    },
+    {
+      "bytes": 11418,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-088.npz",
+      "sha256": "5ecfcdaf66621486dfb8b7e2b9963da0739cd78f7a57756c6219dd89db0ba0ba"
+    },
+    {
+      "bytes": 11307,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-111.npz",
+      "sha256": "d197a10cd1a10e1eef2f890dac82c134d7d103699f296e2e9f8b11bdab1cffd2"
+    },
+    {
+      "bytes": 12026,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-005.npz",
+      "sha256": "cf79f946c07c7ca7031fbaab7985574cb1772c80b5672181c68e497f579cf76f"
+    },
+    {
+      "bytes": 11894,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-007.npz",
+      "sha256": "77663ecb184c2d930cdf72d730d463c1f25f9d06f1415b0ddf1d6f5647707c8f"
+    },
+    {
+      "bytes": 12136,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-008.npz",
+      "sha256": "21bd48810713e656e734c2399868193c4b54b81f9f326d29433e4a004af5abc2"
+    },
+    {
+      "bytes": 10936,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-031.npz",
+      "sha256": "b9bf62aa5396aaf092743c2890399e913082f34a079f1c75f02f846d8b50042c"
+    },
+    {
+      "bytes": 11906,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-033.npz",
+      "sha256": "354956014ca6e1ee8dea345d74fed81f35351ccbde7151eff3c384f3b187c476"
+    },
+    {
+      "bytes": 11487,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-044.npz",
+      "sha256": "03da8955077fa75163532d1fd84cd72ed007d86e17a6c810e32c0d79fc37b94c"
+    },
+    {
+      "bytes": 12241,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-046.npz",
+      "sha256": "be5257ba1189cac79a2a2e115f457d1c2495c1d116e4a33a4410967a6a1d0db5"
+    },
+    {
+      "bytes": 11510,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-049.npz",
+      "sha256": "9cec3661293569c0d4c7bca15b0daddce5b593883962f4a63ed56ec26678ba02"
+    },
+    {
+      "bytes": 9934,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-070.npz",
+      "sha256": "1e6c5fef88ec64e8a7bedb5f487463fdd9f6dccf2b9fd9bf333bebc8f370c205"
+    },
+    {
+      "bytes": 11104,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-072.npz",
+      "sha256": "917a7eace60bbd3ec1fc4e7f6eff0c2799eb65de625b7861e0fab4721d062be5"
+    },
+    {
+      "bytes": 11162,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-095.npz",
+      "sha256": "a394fa7f71a215ac403c0bd3e31404a0bef8565bfc6aaec6e0cfad8d8c5689cf"
+    },
+    {
+      "bytes": 10566,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-097.npz",
+      "sha256": "70d4ae4254bc45975b8bf4a1c04e5822bcde4a0a483b21ec17e04413449d866f"
+    },
+    {
+      "bytes": 9964,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-098.npz",
+      "sha256": "d2c5c631a68cf1a289ca64b4fb51130e3d9b74f9e2c749750c7cbcd79825f98e"
+    },
+    {
+      "bytes": 10973,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-101.npz",
+      "sha256": "67270415daf6bed2c498c22399907a1dd7ad8ae579d0497b02a454c9b6683035"
+    },
+    {
+      "bytes": 10586,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-103.npz",
+      "sha256": "e2078f8cc3024146aea6a1337d5c70cca601533f1a3b0c3f3a335dc4c06032d7"
+    },
+    {
+      "bytes": 12458,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-011.npz",
+      "sha256": "c15d9b43847d2335115f80c972ed7b0fecd0a2bd15b999801a15a45881602d1d"
+    },
+    {
+      "bytes": 11394,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-013.npz",
+      "sha256": "8becb998f1babf711db598a5db7d0d371f1152d6adbecd8ad264d61cc1a73e30"
+    },
+    {
+      "bytes": 11864,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-025.npz",
+      "sha256": "a8cdee48c500bcc0bf513e110f6d05c28647a7a66ac8934237eaaf861974d4f1"
+    },
+    {
+      "bytes": 11970,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-027.npz",
+      "sha256": "3c15e67bd7b241bae1504a6153f0d02825a531199ac5eb71e269eb1c68677f31"
+    },
+    {
+      "bytes": 11161,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-028.npz",
+      "sha256": "967866a5024c37dcd32ed0e417e37d54c938ab3d17da29d53a48c804a2830d22"
+    },
+    {
+      "bytes": 11313,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-050.npz",
+      "sha256": "571e7e2994b7cfc5064fde81dfe83fa7444c92fa971cc08fe8f65a0354ba5a08"
+    },
+    {
+      "bytes": 11783,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-052.npz",
+      "sha256": "f2b3fd16cb292b8cf2457ca03500a51f6e81efce5784ffef7ad6ba86586d2feb"
+    },
+    {
+      "bytes": 11728,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-064.npz",
+      "sha256": "d8e8f2eebffd8e5b8354e19e828f0ccaca2887b209d48dc0a46f0215bb5b194c"
+    },
+    {
+      "bytes": 11279,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-066.npz",
+      "sha256": "95726b3ebb79ebe6ede1a8cce7cdec4e20eb5b28ae196800eed95a1456b1fa06"
+    },
+    {
+      "bytes": 9961,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-069.npz",
+      "sha256": "171b4f613d8ec1a00a5cbbee3dcf2ddec0f81c7f7c2a9b9a485c49a9c85480ec"
+    },
+    {
+      "bytes": 11393,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-081.npz",
+      "sha256": "cd9a5208f8af037b60bbdd1aa0c92e418b8a7720eeb0f609cb972355dbfaadd8"
+    },
+    {
+      "bytes": 11595,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-083.npz",
+      "sha256": "1cc99739b91d4b42429dd12fbe834c4b86bfbd6ecd881f0acfe0ba00b0cf94f9"
+    },
+    {
+      "bytes": 11636,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-001.npz",
+      "sha256": "e3abc22f7e70d47d6ac0f3fb1ecc48fbcd4cd4a1b650f52c78b6b7d898f04551"
+    },
+    {
+      "bytes": 11372,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-003.npz",
+      "sha256": "d956e70955300f3bd552c4b9e84177e0050e13c2ead9c1598c93f7b6a690bc7d"
+    },
+    {
+      "bytes": 11974,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-035.npz",
+      "sha256": "425e633d2bd369b19397a56030e11371e909eadf620228a77b78d353cec50d3b"
+    },
+    {
+      "bytes": 12101,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-037.npz",
+      "sha256": "b91ee6329df393e396d79b15498c4e36ff422ce698d96f96046d31cf6e972571"
+    },
+    {
+      "bytes": 11832,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-038.npz",
+      "sha256": "0f75d01e836b8ca4304db360d89ebfa57011c3629e018d743859fcdf9886d1a1"
+    },
+    {
+      "bytes": 10817,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-040.npz",
+      "sha256": "0d946ab640d52ba48f7168c5aad167d1097b75a5d07db3396d89cc86ef2ecfe8"
+    },
+    {
+      "bytes": 11154,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-042.npz",
+      "sha256": "d5b023f88feb6ced38f452e58c7f759e68a8e3cd2b6b086ea6135554f9ebb6c3"
+    },
+    {
+      "bytes": 10875,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-074.npz",
+      "sha256": "b8d80c855961d2453c772f92b8837da38ba08e542e315d467e82839542ea3e17"
+    },
+    {
+      "bytes": 11393,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-076.npz",
+      "sha256": "507d7650fd56f0aa10512d0af272594fcc7810636ce12cdf5e4c94dc61d7fc72"
+    },
+    {
+      "bytes": 11230,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-079.npz",
+      "sha256": "5c65b60f953b2d1840c101cb84e69a0f00589c1b8482037a1680d55e9d61fae5"
+    },
+    {
+      "bytes": 11038,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-091.npz",
+      "sha256": "8064f52f277d22ec142a3e54a26c033aa7424d598b0e2d60971014020ae17ef1"
+    },
+    {
+      "bytes": 12237,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-093.npz",
+      "sha256": "2801b8511d4278c630bb029974751f33007569bce8991a065ca6846092a62dc0"
+    },
+    {
+      "bytes": 11815,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-105.npz",
+      "sha256": "de239372b63742274d6f3debac5a7d0240b63d16e4a1fc4d282ca5687fa0e11e"
+    },
+    {
+      "bytes": 11050,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-107.npz",
+      "sha256": "c6b8d57440d307e0ebf0472886507c8fe85e1c33be210a3d97ccd11f84d7d8f7"
+    },
+    {
+      "bytes": 11766,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/design/fit_fixtures/fit-first2048-108.npz",
+      "sha256": "6d4c3dedffbaa9a3ee4779564ed75efc565b43994ad37d7d35b9153fcdbebfb5"
+    },
+    {
+      "bytes": 2124713,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/PAIRING_PLAN.json",
+      "sha256": "fca9a29e69e4b63ec35ab995bacc60a4867e4b86a11e2d7a3c6397d4d316f5ef"
+    },
+    {
+      "bytes": 3915,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/DONOR_LOCAL_READBACK.json",
+      "sha256": "2dbe8653823aef24eb3bcdd72f9f074b69d1afc4dc682000dfdaac3be0b273c9"
+    },
+    {
+      "bytes": 1643,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/STORAGE_ADMISSION.json",
+      "sha256": "c2278af5df407d3144607a166e6e4884a05e0cca4b7388dfa04c4864df3ff301"
+    },
+    {
+      "bytes": 1577,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/evidence/HOPPER_CPU_ADMISSION.json",
+      "sha256": "fb1ad7aa739d5b2943400ad97a0889d084b6ef4b953af152477ea65621da2d1f"
+    },
+    {
+      "bytes": 33570,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/evidence/HOPPER_PHYSICAL_FIXTURES.json",
+      "sha256": "904714bee64ce0060f9c2d75c40bcedf58499773c24629bc6c86a0a2b2e2b60d"
+    },
+    {
+      "bytes": 4499,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/evidence/DONOR_REUSE_VERIFIED.json",
+      "sha256": "e496282b6d5218d1946aeb694e50f4694ff4b03f0cc1cd0add14484b2a1915e6"
+    },
+    {
+      "bytes": 359,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/evidence/HEAD_BUDGET_PROOF.json",
+      "sha256": "7632920ac53b7a8050b31d9d24b096eba3be1cf496d0e824b981b488913038d4"
+    },
+    {
+      "bytes": 2927128,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/evidence/input-audit/OLD/sample_audit.jsonl",
+      "sha256": "204d356994b82733182d401c81e478f9ae005afa009c771fb1e983b2b8448e31"
+    },
+    {
+      "bytes": 2927128,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/evidence/input-audit/ROT/sample_audit.jsonl",
+      "sha256": "e6eaf78c51d5c9571ce261e665ea6ba718e34301f0d92a94801d633120d19ddf"
+    },
+    {
+      "bytes": 3051,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/runtime_binding_check.py",
+      "sha256": "8eee3ce31a9afda51dd28aac476dfec591cd8a503622197d9d0d1c8764416ba8"
+    },
+    {
+      "bytes": 1583,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/code/runtime_binding_check.sh",
+      "sha256": "039631c4ea28135f36007ba0bc1b54a87863f7b72bde637a8c792d2099faa27a"
+    },
+    {
+      "bytes": 2155,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/evidence/RUNTIME_BINDING_OLD.json",
+      "sha256": "14788be285aa022c1d4ff8e0a6dc9089aa5388a1a1e1a9bac521fae03d87f28d"
+    },
+    {
+      "bytes": 2155,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0268/evidence/RUNTIME_BINDING_ROT.json",
+      "sha256": "9066dce1e9fb5a10fe2c35aec26b2a498be0c88548a3aea4f20af7f099a80038"
+    },
+    {
+      "bytes": 8481,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code/pi0264_training_audit.py",
+      "sha256": "ff0da2dbf4281df2ab4efca1c74f62575bf000f427b497c049b2648d1e733457"
+    },
+    {
+      "bytes": 4713,
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/code/pi0264_archive_trainer.py",
+      "sha256": "5743b8951e284d3f4acf8d0cb6c1e1ce6b9d61c0f21c269b6e264599cbb03e57"
+    }
+  ],
+  "release": "e5ec6d52100f6bb2e32be5b9661c756b0adb61f4",
+  "schema": "PI0268_R1_STAGED_EXECUTION_V1"
+}

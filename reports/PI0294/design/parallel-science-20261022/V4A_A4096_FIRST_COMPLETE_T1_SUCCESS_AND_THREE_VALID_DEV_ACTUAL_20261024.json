@@ -1,0 +1,253 @@
+{
+  "schema": "V4A_A4096_FIRST_COMPLETE_32S_T1_SUCCESS_INDEPENDENTLY_AUDITED_ACTUAL_V1",
+  "goal_status": "ACTIVE",
+  "observed_epoch": 1792850102.5633323,
+  "native_runtime_source_sha": "7cc751803e18b911fbe6ad896efd9a1c0ed936b0",
+  "first_success": {
+    "status": "SUCCESS",
+    "failure_stage": "COMPLETE_SUCCESS",
+    "pipeline_trustworthy": true,
+    "attempt_id": "A_CONTROL-PI0294-PV1-DEV-F0-001-T1-N294101",
+    "condition_id": "PI0294/PV1/DEV/F0/001/T1/N294101",
+    "model": "A_CONTROL",
+    "task": "T1",
+    "split": "DEV",
+    "scene_group": "PI0294/PV1/DEV/F0/001",
+    "noise_bank": 294101,
+    "family": "F0",
+    "duration_s": 32.0,
+    "main_integrations": 16000,
+    "RGB_pairs": 641,
+    "S1_rejections": 0,
+    "live_native_failures": 0,
+    "maximum_live_shadow_difference": 4.5130565951012613e-14,
+    "result_sha256": "9efb91edc14b7514d939759c43fa4b02348bebaccf96d66893b3b04b7dba50cf",
+    "teacher_takeover": false,
+    "selected": "NONE",
+    "real_robot_deployment": "NONE"
+  },
+  "actual_original_task_score": {
+    "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+    "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+    "complete_32s": true,
+    "clock_valid": true,
+    "safety_valid": true,
+    "history": {
+      "sustained_grasp": true,
+      "sustained_lift": true,
+      "horizontal_carry": true
+    },
+    "hold_observed": 41,
+    "hold_pass": 41,
+    "hold_subpredicates": {
+      "zone_corners": 41,
+      "table_height": 41,
+      "linear_speed": 41,
+      "angular_speed": 41,
+      "released": 41,
+      "tcp_clear": 41,
+      "object_and_contacts_valid": 41
+    },
+    "persistent_success": true,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "task": "T1",
+    "domain": "FIXED_BASE_ARX5_TASK_SIM",
+    "maximum_actual_lift_m": 0.07831725037496312,
+    "maximum_actual_carry_xy_m": 0.1613798096876164,
+    "physics_sha256": "95b03c3156ddb73bfc7e34a02b2593a840e1ef8a5dd47c479db1dacae45ec871",
+    "raw_sample_count": 641
+  },
+  "actual_S1": {
+    "shadow_integrations": 16000,
+    "live_native_failures": 0,
+    "pre_execution_rejections": 0,
+    "maximum_live_shadow_difference": 4.5130565951012613e-14,
+    "actions_modified": false
+  },
+  "independent_audit": {
+    "status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+    "checks": {
+      "raw_manifest_all_sizes_and_hashes": true,
+      "actual_execution_source_not_later_root_manifest": true,
+      "adjudication_result_hash": true,
+      "original_submitted_installed_committed_prefix_labels": true,
+      "original_20Hz_clock_tolerance": true,
+      "independent_saved_state_score_exact": true,
+      "actual_contact_tick_coverage": true,
+      "actual_highrate_clock_and_count": true,
+      "original_S1_no_action_modification": true,
+      "original_S1_live_shadow_parity": true,
+      "shadow_did_not_mutate_live": true,
+      "S1_rejection_accounting": true,
+      "paired_actual_camera_names": true,
+      "actual_RGB_count": true,
+      "RGB_0_0": true,
+      "RGB_0_640": true,
+      "RGB_1_0": true,
+      "RGB_1_640": true
+    },
+    "errors": [],
+    "actual_native_safety_flag_rows": 0,
+    "maximum_reference_label_difference": 0.0,
+    "maximum_20Hz_clock_difference_s": 6.831868404333363e-12,
+    "video": {
+      "sha256": "757d8af88a022ceceb76eff2bd97bf54bb68a603d265ea9353f05ab2c6d6e31e",
+      "bytes": 1301411,
+      "actual_paired_frames": 641,
+      "decoded_frames": 641,
+      "fps": 20,
+      "playback_duration_s": 32.05,
+      "padding_or_interpolation": false,
+      "raw_video_private": true,
+      "logical_id": "PV1_MAIN/A_CONTROL-PI0294-PV1-DEV-F0-001-T1-N294101",
+      "relative_path": "evidence/audits/A_CONTROL-PI0294-PV1-DEV-F0-001-T1-N294101/actual-body-wrist.mp4",
+      "native_duration_s": 32.0,
+      "initial_frame_included": true
+    }
+  },
+  "actual_causal_chain": {
+    "status": "PASS_INDEPENDENT_ACTUAL_TWO_SITE_CAUSAL_CHAIN",
+    "draws": 80,
+    "executed_ACKs": 80,
+    "adjudication_sha256": "7a9c645df381e3aa6ae9723451ba3ccac1b4550a2390e911fa5f3695f0997908",
+    "core_proof_sha256": "779da4b4d387ff5c0d2e969e1c038c486accc7d5a4279adbdd25e9c5112c87b5",
+    "hopper_proof_sha256": "cccc769d0371adf1e35fc219339bc10ac9fba0bb88f11ee93c96c9438ff60092"
+  },
+  "raw_original_file_proofs": {
+    "result": {
+      "sha256": "9efb91edc14b7514d939759c43fa4b02348bebaccf96d66893b3b04b7dba50cf",
+      "bytes": 1718
+    },
+    "adjudication": {
+      "sha256": "7a9c645df381e3aa6ae9723451ba3ccac1b4550a2390e911fa5f3695f0997908",
+      "bytes": 711
+    },
+    "s1": {
+      "sha256": "30bfc39f7d0a2c47f759f14ead542eb63c5133504ea9cb15a5676291ed287a30",
+      "bytes": 1533
+    },
+    "audit": {
+      "sha256": "4a5893cc63219ed5e71633080a1e5e3be482a59e4cad9db21067c92dafcda1f4",
+      "bytes": 3686
+    },
+    "causal": {
+      "sha256": "46185d41744ce91dc85ef59543287e08ff86860cd88ceed485a4742713ecb13d",
+      "bytes": 141104
+    }
+  },
+  "original_checkpoint_manifest_sha256": "e0b9d8cb67efc82ae8daa67d71f95df8fb5c607e0f75e26d58cf01412a3e807a",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "task_CPU_s": 439.76415714999996,
+  "task_wall_s": 652.6976714339107,
+  "actual_panel_snapshot": {
+    "observed_epoch": 1792850047.4148383,
+    "A_valid": 3,
+    "A_success": 1,
+    "A_valid_task_failures": 2,
+    "A_remaining_valid_conditions": 21,
+    "B_valid": 0,
+    "paired_conditions": 0,
+    "A_B_effect_estimate": null,
+    "prior_valid_failures_preserved": true
+  },
+  "pure_saved_evidence_analysis": {
+    "parser_status": "ACTUAL_THREE_TERMINAL_DEV_BYTES_READER_PASS_NO_MOCK",
+    "CPU_s": 0.030222777000000006,
+    "private_proof_sha256": "7d1bce25f2bff33e6280458c119dc6ea8d7247c86aa1e193bbc9b1d29465233a",
+    "by_candidate_task": {
+      "A_CONTROL": {
+        "T1": {
+          "planned": 12,
+          "valid_observed": 2,
+          "successes": 1,
+          "valid_task_failures": 1,
+          "failure_stages": {
+            "ORIGINAL_REFERENCE_GATE_REJECT": 1
+          },
+          "observed_success_rate": 0.5,
+          "complete_panel_success_rate": null,
+          "engineering_missing": 0,
+          "no_supplied_terminal_evidence": 10
+        },
+        "T2": {
+          "planned": 12,
+          "valid_observed": 1,
+          "successes": 0,
+          "valid_task_failures": 1,
+          "failure_stages": {
+            "S1_PRE_EXECUTION_REJECT": 1
+          },
+          "observed_success_rate": 0.0,
+          "complete_panel_success_rate": null,
+          "engineering_missing": 0,
+          "no_supplied_terminal_evidence": 11
+        }
+      },
+      "B_COVERAGE": {
+        "T1": {
+          "planned": 12,
+          "valid_observed": 0,
+          "successes": 0,
+          "valid_task_failures": 0,
+          "failure_stages": {},
+          "observed_success_rate": null,
+          "complete_panel_success_rate": null,
+          "engineering_missing": 0,
+          "no_supplied_terminal_evidence": 12
+        },
+        "T2": {
+          "planned": 12,
+          "valid_observed": 0,
+          "successes": 0,
+          "valid_task_failures": 0,
+          "failure_stages": {},
+          "observed_success_rate": null,
+          "complete_panel_success_rate": null,
+          "engineering_missing": 0,
+          "no_supplied_terminal_evidence": 12
+        }
+      }
+    },
+    "paired_by_task": {
+      "T1": {
+        "pairs": 0,
+        "A_successes": 0,
+        "B_successes": 0,
+        "B_only_success": 0,
+        "A_only_success": 0,
+        "both_success": 0,
+        "both_fail": 0,
+        "descriptive_B_minus_A": null
+      },
+      "T2": {
+        "pairs": 0,
+        "A_successes": 0,
+        "B_successes": 0,
+        "B_only_success": 0,
+        "A_only_success": 0,
+        "both_success": 0,
+        "both_fail": 0,
+        "descriptive_B_minus_A": null
+      }
+    },
+    "effect_estimates": null,
+    "intervals": null,
+    "result_status": "EXPLORATORY_PARTIAL"
+  },
+  "background": {
+    "same_existing_owner_active": true,
+    "server_automatic_A_to_B": true,
+    "logout_persistence_verified": true,
+    "agent_heartbeat_or_dispatch_required": false,
+    "restarted": false,
+    "new_requests": 0
+  },
+  "interpretation": "First complete source-domain A_CONTROL task success; two earlier valid failures remain. Three ordered DEV observations do not establish overall performance, B-minus-A improvement, model selection, target transfer or generalization.",
+  "original_caps_clocks_models_R0_tasks_safety_scoring_matrix_final_preserved": true,
+  "S1_core64": 0,
+  "target_task_native_qualified": false,
+  "complete_goal": false,
+  "CI_success_claimed": false,
+  "private_first_success_readback_sha256": "d3098fbe7c199f510b56556d41e37b68b2f88faad8140a8d0474f6a617c9645a"
+}

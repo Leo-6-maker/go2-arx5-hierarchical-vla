@@ -1,0 +1,73 @@
+{
+  "schema": "PI0286_SCOPED_OWNED_STORAGE_READONLY_V1",
+  "epoch": 1791523149.5974479,
+  "hosts": [
+    {
+      "host": "core",
+      "snapshot_epoch": 1791522865.252875,
+      "owned_unique_file_logical_bytes": 25167794582,
+      "owned_unique_file_allocated_bytes": 25184743424,
+      "directory_allocated_bytes": 180224,
+      "path_logical_bytes": 25167794582,
+      "hardlink_duplicate_paths": 0,
+      "errors": []
+    },
+    {
+      "host": "hop",
+      "snapshot_epoch": 1791522855.8480427,
+      "owned_unique_file_logical_bytes": 27601745103,
+      "owned_unique_file_allocated_bytes": 27602743296,
+      "directory_allocated_bytes": 413696,
+      "path_logical_bytes": 27601745103,
+      "hardlink_duplicate_paths": 0,
+      "errors": []
+    }
+  ],
+  "aggregate_allocated_bytes": 52788080640,
+  "cap_bytes": 107374182400,
+  "headroom_bytes": 54586101760,
+  "full_14_checkpoint_logical_bytes": 20468176040,
+  "three_C1_canary_additional_logical_bytes": 61404528120,
+  "static_projected_peak_bytes": 114192608760,
+  "static_excess_bytes": 6818426360,
+  "future_raw_growth_not_in_projection": true,
+  "external_original_parent_expert_and_pristine": "EXCLUDED_BY_NOT_FOLLOWING_EXTERNAL_SYMLINKS; original parent14 stat identity only; no traversal or blob reads",
+  "known_C0_first_shard_sha256": "de31bfffe2193b70598c162e675b6fc1db54e5bcbe78db3c8ca38b2b981dc5e6",
+  "original_parent_first_shard_sha256": "c33885821fc3bd0aee2c5eb10814ad9d80a0e3106641a5a620912d5d8dc91189",
+  "C0_first_shard_equals_parent": false,
+  "C1_immutable_shard_identity": "UNOBSERVED; never infer identical byte SHA from frozen VLM or BF16 equality",
+  "hardlink_dedup": "Only exactly equal immutable SHA+size on same filesystem can preserve byte-identical full checkpoint semantics; actual identity and consumers must be checked. Existing output st_nlink=1. No hardlinks made.",
+  "cleanup_candidates": [
+    {
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0286/delivery/C0_REPLAY1024-1024/exact_changed_tensors.safetensors",
+      "allocated_bytes": 5670088704,
+      "condition": "Consumed transfer duplicate only, preserve final full Trainer/export metadata; owner must close transport/archive readers and verify replayability/durable receipt.",
+      "sufficient_alone": false
+    },
+    {
+      "paths": [
+        "/home/liuyu-nfs/Projects/go2-arx5/PI0286/models/C0_REPLAY1024-1024/model-00001-of-00002.safetensors",
+        "/home/liuyu-nfs/Projects/go2-arx5/PI0286/models/C0_REPLAY1024-1024/model-00002-of-00002.safetensors"
+      ],
+      "allocated_bytes": 6288175104,
+      "condition": "Core BF16 view, not full Trainer. Proc argv/maps/FD readback found zero path matches13:16; live RAM resident evaluator still logically uses C0. Owner must confirm no reload/restart dependency and preserve exact rematerialization inputs before retiring. Preserve MATERIALIZATION/config/stats/index.",
+      "sufficient_alone": false
+    }
+  ],
+  "combined_candidate_allocated_bytes": 11958263808,
+  "retire_formal_full_C0": false,
+  "retire_parent_expert": false,
+  "delete_calls": 0,
+  "model": 0,
+  "physics": 0,
+  "C1_model_transfer": {
+    "source": "Delivery owner-authorized plan, actual future files UNOBSERVED",
+    "delta_logical_bytes": 5670085448,
+    "BF16_view_logical_bytes": 6288169448,
+    "temporary_peak_logical_bytes": 11958254896,
+    "post_consumption_retained_view_logical_bytes": 6288169448,
+    "after_canary_retirement_with_full_C1_main_static_bytes": 85214511576,
+    "not_concurrent_with_canary_peak_if_retired_before_main": true,
+    "future_raw_growth_not_included": true
+  }
+}

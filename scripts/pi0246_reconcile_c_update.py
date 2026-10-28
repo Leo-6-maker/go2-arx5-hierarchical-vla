@@ -1,0 +1,228 @@
+#!/usr/bin/env python3
+"""Read-only full-projector reconciliation for PI0246 C/T/P/PT training."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+
+import numpy as np
+from safetensors import safe_open
+
+import pi0241_fixed16_learning as fixed16
+
+
+def sha(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for block in iter(lambda: f.read(8 * 1024 * 1024), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def read(path: Path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def index(root: Path) -> dict:
+    return read(root / "model.safetensors.index.json")["weight_map"]
+
+
+def tensor(root: Path, weight_map: dict, name: str) -> np.ndarray:
+    with safe_open(str(root / weight_map[name]), framework="np") as f:
+        return np.asarray(f.get_tensor(name))
+
+
+def compare_projector(base: Path, checkpoint: Path) -> dict:
+    base_map, trained_map = index(base), index(checkpoint)
+    base_names = {name for name in base_map if fixed16._parameter_group(name) == "projector"}
+    trained_names = {name for name in trained_map if fixed16._parameter_group(name) == "projector"}
+    if not base_names or base_names != trained_names:
+        raise RuntimeError(f"projector key mismatch: baseline={len(base_names)} trained={len(trained_names)}")
+    rows = []
+    for name in sorted(base_names):
+        before, after = tensor(base, base_map, name), tensor(checkpoint, trained_map, name)
+        if before.shape != after.shape or before.dtype != after.dtype:
+            raise RuntimeError(f"tensor contract changed for {name}")
+        delta = after.astype(np.float64) - before.astype(np.float64)
+        rows.append({
+            "name": name,
+            "shape": list(before.shape),
+            "dtype": str(before.dtype),
+            "changed_elements": int(np.count_nonzero(delta)),
+            "numel": int(delta.size),
+            "delta_l2": float(np.linalg.norm(delta.ravel())),
+            "delta_max_abs": float(np.max(np.abs(delta))),
+        })
+    return {
+        "tensor_count": len(rows),
+        "changed_tensor_count": sum(row["changed_elements"] > 0 for row in rows),
+        "changed_element_count": sum(row["changed_elements"] for row in rows),
+        "max_abs_delta": max(row["delta_max_abs"] for row in rows),
+        "tensors": rows,
+    }
+
+
+def reconcile(card_path: Path, training: Path, output: Path) -> dict:
+    card = read(card_path)
+    seal = read(card_path.with_name("run_card.seal.json"))
+    arm = card.get("arm")
+    if arm not in {"C", "T", "P", "PT"} or seal.get("sha256") != sha(card_path):
+        raise RuntimeError("C/T/P/PT sealed run-card identity mismatch")
+    manifest_path = training.parent / "training_manifest.json"
+    manifest = read(manifest_path)
+    if manifest.get("arm") != arm or manifest.get("run_card_sha256") != sha(card_path):
+        raise RuntimeError("training manifest is not bound to this arm card")
+    if Path(fixed16.__file__).resolve() != (Path(card["paths"]["code_root"]) / "scripts/pi0241_fixed16_learning.py").resolve():
+        raise RuntimeError("parameter classifier import is not the run-card code root")
+    audit_path = training / "pi0241_update_audit.json"
+    audit = read(audit_path)
+    schedule = read(Path(card["schedule"]["path"]))["rows"]
+    consumed = [json.loads(line) for line in (training / "pi0241_sample_consumption.jsonl").read_text().splitlines() if line.strip()]
+    contracts = [json.loads(line) for line in (training / "pi0241_sample_contracts.jsonl").read_text().splitlines() if line.strip()]
+    if len(schedule) != 2000 or len(consumed) != 2000 or [r["source_episode_id"] for r in consumed] != [r["source_episode_id"] for r in schedule]:
+        raise RuntimeError("sample-consumption evidence is incomplete or differs from the sealed schedule")
+    if len(contracts) != 16 or {int(r["fixed_index"]) for r in contracts} != set(range(16)):
+        raise RuntimeError("action/mask contract evidence is incomplete")
+    if audit.get("status") != "COMPLETE" or int(audit.get("global_step", -1)) != 2000:
+        raise RuntimeError("update audit is not complete at step 2000")
+    original_integrity = manifest.get("update_integrity", {})
+    non_projector_checks = {key: value for key, value in original_integrity.items() if key != "projector_updated"}
+    if not non_projector_checks or not all(non_projector_checks.values()) or not isinstance(original_integrity.get("projector_updated"), bool):
+        raise RuntimeError(f"update audit has failures beyond the sampled projector probe: {original_integrity}")
+    membership = audit["optimizer_membership"]
+    if membership["missing_trainable"] or membership["illegal_frozen"]:
+        raise RuntimeError("optimizer membership audit failed")
+    updates = {}
+    for step in (1000, 2000):
+        checkpoint = training / f"checkpoint-{step}"
+        receipt = manifest["checkpoints"][str(step)]
+        if arm == "PT":
+            durable = read(Path(receipt["durable_receipt_path"]))
+            readback_path = Path(receipt["hf_readback_path"])
+            readback = read(readback_path)
+            intent_path = training.parent / "checkpoint_retirements" / f"checkpoint-{step}.predelete.json"
+            completion_path = training.parent / "checkpoint_retirements" / f"checkpoint-{step}.deleted.json"
+            intent, completion = read(intent_path), read(completion_path)
+            local_record = {key: receipt[key] for key in ("schema", "family", "checkpoint_step", "max_steps", "global_step", "inventory")}
+            expected_readback = {
+                f"{card['archive']['path_prefix']}/checkpoint-{step}/{entry['path']}": (int(entry["bytes"]), entry["sha256"])
+                for entry in local_record["inventory"]["entries"]
+            }
+            observed_readback = {str(row.get("path")): row for row in readback.get("files", [])}
+            if (checkpoint.exists() or checkpoint.is_symlink() or receipt.get("local_retired_after_verified_archive") is not True
+                    or receipt.get("global_step") != step or receipt.get("file_count") != 18
+                    or durable.get("status") != "DURABLE_VERIFIED"
+                    or durable.get("source_record") != local_record
+                    or durable.get("hf_manifest_commit_id") != receipt.get("hf_manifest_commit_id")
+                    or durable.get("durable_path") != receipt.get("durable_path")
+                    or receipt.get("durable_receipt_sha256") != sha(Path(receipt["durable_receipt_path"]))
+                    or intent.get("status") != "DURABLE_HF_COPY_VERIFIED_DELETE_AUTHORIZED"
+                    or intent.get("checkpoint_record") != local_record
+                    or intent.get("durable_receipt_sha256") != receipt.get("durable_receipt_sha256")
+                    or intent.get("hf_manifest_commit_id") != receipt.get("hf_manifest_commit_id")
+                    or intent.get("full_hf_readback_path") != str(readback_path)
+                    or intent.get("full_hf_readback_sha256") != receipt.get("hf_readback_sha256")
+                    or completion.get("status") != "LOCAL_COPY_REMOVED_AFTER_DURABLE_VERIFICATION"
+                    or completion.get("predelete_intent_sha256") != sha(intent_path)
+                    or completion.get("durable_receipt_sha256") != receipt.get("durable_receipt_sha256")
+                    or completion.get("full_hf_readback_sha256") != receipt.get("hf_readback_sha256")
+                    or receipt.get("hf_readback_sha256") != sha(readback_path)
+                    or readback.get("status") != "PASS_PT_FULL_HF_READBACK"
+                    or readback.get("family") != card["family"]
+                    or readback.get("checkpoint_step") != step or readback.get("max_steps") != 2000
+                    or readback.get("repo_id") != card["archive"]["repo_id"]
+                    or readback.get("path_prefix") != card["archive"]["path_prefix"]
+                    or readback.get("revision") != receipt.get("hf_manifest_commit_id")
+                    or readback.get("source_tree_sha256") != local_record["inventory"]["tree_sha256"]
+                    or readback.get("file_count") != len(expected_readback)
+                    or set(observed_readback) != set(expected_readback)
+                    or any(int(observed_readback[path].get("bytes", -1)) != size
+                           or observed_readback[path].get("sha256") != digest
+                           for path, (size, digest) in expected_readback.items())):
+                raise RuntimeError(f"checkpoint-{step} rolling archive/retirement chain is invalid")
+            tensor_path = Path(receipt["projector_reconciliation_path"])
+            tensors = read(tensor_path)
+            comparison = tensors.get("comparison", {})
+            if (receipt.get("projector_reconciliation_sha256") != sha(tensor_path)
+                    or tensors.get("status") != "PASS_PROJECTOR_TENSOR_COMPARE"
+                    or tensors.get("checkpoint_tree_sha256") != receipt["inventory"]["tree_sha256"]
+                    or tensors.get("initializer_manifest_sha256") != card["parent"]["restore_manifest_sha256"]
+                    or tensors.get("checkpoint_step") != step
+                    or tensors.get("reconciliation_script_sha256") != sha(Path(__file__).resolve())
+                    or not comparison.get("tensor_count")
+                    or comparison.get("changed_tensor_count") != comparison.get("tensor_count")):
+                raise RuntimeError(f"checkpoint-{step} complete projector tensor evidence is invalid")
+            updates[str(step)] = comparison
+        else:
+            state = read(checkpoint / "trainer_state.json")
+            if int(state["global_step"]) != step or int(receipt["global_step"]) != step or int(receipt["file_count"]) != 18:
+                raise RuntimeError(f"checkpoint-{step} full Trainer receipt mismatch")
+            updates[str(step)] = compare_projector(Path(card["paths"]["base_model_path"]), checkpoint)
+    final = audit["final_parameters"]
+    status = f"TRAINING_INTEGRITY_RECONCILED_{arm}_FULL_PROJECTOR_TENSORS"
+    if any(updates[str(step)]["changed_tensor_count"] != updates[str(step)]["tensor_count"] for step in (1000, 2000)):
+        status = "PROJECTOR_UPDATE_NOT_CONFIRMED"
+    effective_integrity = dict(original_integrity)
+    effective_integrity["projector_updated"] = status != "PROJECTOR_UPDATE_NOT_CONFIRMED"
+    if arm == "PT":
+        pt_binding = manifest.get("pt_runtime_binding") or {}
+        pt_binding_path = Path(pt_binding.get("runtime_root", "")) / "PT_runtime_binding.json"
+        if (not pt_binding_path.is_file()
+                or sha(pt_binding_path) != manifest.get("pt_runtime_binding_sha256")
+                or read(pt_binding_path) != pt_binding):
+            raise RuntimeError("PT runtime binding does not match the training manifest")
+        overlay_root = Path(pt_binding["runtime_root"])
+    else:
+        overlay_root = Path(card["paths"]["campaign_code_root"])
+    overlay_name = "pi0246_pt_combined_overlay.py" if arm == "PT" else "pi0245_native_overlay.py"
+    result = {
+        "schema": f"PI0246_{arm}_READONLY_UPDATE_RECONCILIATION_V1",
+        "status": status,
+        "source": {
+            "reconciliation_script_sha256": sha(Path(__file__).resolve()),
+            "parameter_classifier_sha256": sha(Path(fixed16.__file__).resolve()),
+            "campaign_trainer_sha256": sha(Path(card["paths"]["campaign_code_root"]) / "pi0246_gate_pass_train.py"),
+            "native_overlay_sha256": sha(overlay_root / overlay_name),
+            "run_card_sha256": sha(card_path),
+            "training_manifest_sha256": sha(manifest_path),
+            "original_training_status": manifest.get("status"),
+            "update_audit_sha256": sha(audit_path),
+            "schedule_sha256": sha(Path(card["schedule"]["path"])),
+            "consumed_rows": len(consumed),
+            "action_mask_contracts": len(contracts),
+            "forward_calls": 0,
+            "backward_calls": 0,
+            "optimizer_steps": 0,
+        },
+        "original_projector_probe": final.get("projector"),
+        "original_update_integrity": original_integrity,
+        "effective_update_integrity_after_readonly_tensor_comparison": effective_integrity,
+        "original_frozen_and_optimizer_checks": {
+            key: final.get(key) for key in ("diffusion", "frozen_backbone", "frozen_vlln")
+        },
+        "full_projector_tensor_differences_vs_r0": updates,
+        "interpretation": "The sampled projector probe is not treated as authoritative. Read-only full tensor comparisons at steps 1000 and 2000 are authoritative; original training manifests remain untouched.",
+        "selected_checkpoint": "NONE",
+    }
+    output.parent.mkdir(parents=True, exist_ok=True)
+    tmp = output.with_suffix(output.suffix + f".tmp.{os.getpid()}")
+    tmp.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    os.replace(tmp, output)
+    return result
+
+
+def main() -> None:
+    p = argparse.ArgumentParser()
+    p.add_argument("--run-card", type=Path, required=True)
+    p.add_argument("--training-root", type=Path, required=True)
+    p.add_argument("--output", type=Path, required=True)
+    args = p.parse_args()
+    print(json.dumps(reconcile(args.run_card, args.training_root, args.output), indent=2, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()

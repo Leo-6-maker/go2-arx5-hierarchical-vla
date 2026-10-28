@@ -1,0 +1,83 @@
+{
+  "schema": "VAP1_PARALLEL_HELPERS_ACTUAL_DISPATCH_V1",
+  "status": "PARALLEL_HELPERS_ADOPTED_AND_DISPATCHED",
+  "observed_epoch": 1792677836.9141927,
+  "observed_SGT": "2026-10-22T22:03:56.914193+08:00",
+  "authorization_commit": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+  "native_mutation_owner": "EXISTING_ROOT_OWNER",
+  "integration_publisher": "EXISTING_ROOT_OWNER",
+  "helpers_reused_not_newly_spawned": true,
+  "helpers": [
+    {
+      "task": "T_B_CHAIN_READY",
+      "agent": "/root/science_training_prep",
+      "state": "STARTED_ACKNOWLEDGED",
+      "base_sha": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "exclusive_output_role": "parallel-helpers-20261022/train-next",
+      "write_scope": "ISOLATED_B_CHAIN_PATCH_TEST_AND_B_CHAIN_AGENT_REVIEW_ONLY",
+      "next_deliverable": "B_CHAIN_AGENT_REVIEW.json with B1/B2 full-state and failure-path checks; minimal proven-gap patch if needed",
+      "CPU_upper_s": 3600,
+      "single_core": true
+    },
+    {
+      "task": "S_DEC1_WIRING_AND_RESULTS",
+      "agent": "/root/science_data_prep",
+      "state": "STARTED_ACKNOWLEDGED",
+      "base_sha": "60b787edf2268f124f0aaed32ec32433be9ddaf0",
+      "exclusive_output_role": "parallel-helpers-20261022/science-next",
+      "write_scope": "ISOLATED_DEC1_WIRING_AGGREGATION_PATCH_TEST_AND_REVIEW_ONLY",
+      "next_deliverable": "DEC1_WIRING_AGENT_REVIEW.json with callable source wiring/results code, targeted CPU tests and exact target ABI gaps",
+      "CPU_upper_s": 3600,
+      "single_core": true
+    }
+  ],
+  "resource_accounting": {
+    "status": "LOCAL_CONSERVATIVE_UPPER_CHARGED_ONCE_READBACK_VERIFIED",
+    "key": "VAP1_A2_PARALLEL_HELPERS_60b787ed_LOCAL7200_IO32M_OUTPUT16M_V1",
+    "local_CPU_upper_charged_once_s": 7200,
+    "local_CPU_used_including_upper_s": 43223.974682509,
+    "full_remaining_local_CPU_projected_s": 49583.974682509,
+    "DEC1_local_CPU_cap_s": 57600,
+    "outputs_upper_bytes": 16777216,
+    "receipt_transfer_upper_bytes": 33554432,
+    "original_future_DEC1_retained_peak_bytes": 377869712411,
+    "conservative_peak_including_helpers_bytes": 377886489627,
+    "DEC1_cap_bytes": 377957122048,
+    "native_remote_writes": 0,
+    "remaining_A2_B1_B2_matrix_and_two_future_controls_preserved": true,
+    "final_GPU_s": 72000,
+    "final_storage_bytes": 42949672960,
+    "not_new_allowance": true
+  },
+  "live_owner_observation": {
+    "observed_epoch": 1792677692.2379649,
+    "job": "1475719.stdct-mgmt-02",
+    "state": "R",
+    "runtime_sha": "3a1420e76c492196fa83905f4bde92924cc12c28",
+    "live_step": 2599,
+    "last_full_checkpoint": 2048,
+    "A4096_terminal": false,
+    "unknown_effects": [],
+    "settled_GPU_s": 40813,
+    "settled_updates": 3072,
+    "settled_PBS": 17,
+    "reserved_GPU_s": 22560,
+    "reserved_updates": 2048
+  },
+  "reused_inputs": {
+    "B1_V3_sha256": "3b4e33f3995c3a778a96096f341766fda069bd4c8a0396c76e987fe1900250d4",
+    "A2_terminal_adapter_sha256": "74c591d1973703156639b0a3f32ba8a4651ebf4a24a776c1a47551026885575f",
+    "B1_cold_adapter_sha256": "f5e56e801a063c57c5e1de8d384c8778f2dd38dbdb758b5611a3900b4e262117",
+    "B1_cold_adapter_root_tests": 5,
+    "data_and_evaluation_templates": "EXISTING_FROZEN_PREPARATION_REUSED"
+  },
+  "native_gates": "A4096_ACTUAL_FULL_STATE_AUDIT_SETTLEMENT_GPU_CPU_CLOSE_THEN_FRESH_B1_ADMISSION",
+  "helper_completion_is_new_B1_gate": false,
+  "source_training_blocked_by_missing_target": false,
+  "target_status": "TARGET_NOT_DELIVERED",
+  "native_commissioning": "NOT_RUN",
+  "original_T0_epoch": 1792348196,
+  "original_hard_close_epoch": 1792952996,
+  "goal_tool_panel": "PREVIOUS_BLOCKED_STATUS_API_CANNOT_RESUME; EXISTING_GOAL_NOT_RECREATED",
+  "current_goal_complete": false
+}

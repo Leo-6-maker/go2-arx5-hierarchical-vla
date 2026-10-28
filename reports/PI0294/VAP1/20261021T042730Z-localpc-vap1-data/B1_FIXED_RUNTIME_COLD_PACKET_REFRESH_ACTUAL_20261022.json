@@ -1,0 +1,174 @@
+{
+  "schema": "VAP1_B1_FIXED_RUNTIME_COLD_PACKET_REFRESH_ACTUAL_V1",
+  "status": "ACTUAL_LOCAL_FIXED_RUNTIME_PACKET_REFRESHED_NOT_ADMITTED_OR_SUBMITTED",
+  "runtime_source": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+  "exact_runtime_publication_and_CI": {
+    "source_sha": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+    "CI_head_sha": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+    "CI_status": "completed",
+    "CI_conclusion": "success",
+    "CI_run_id": 39755484145,
+    "CI_job_id": 119746292613,
+    "CI_all_12_steps_success": true,
+    "files_exact_readback": true,
+    "file_readback_details": [
+      {
+        "path": "scripts/pi0294/dec1/a40_accounting.py",
+        "blob_sha": "7c0404305e52cfd50622f9b5abe00242f1b68f6a",
+        "exact_bytes": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/lost_save_recovery.py",
+        "blob_sha": "4a09f47f2b82ba03f21e803a91922bedff83edb9",
+        "exact_bytes": true
+      },
+      {
+        "path": "scripts/pi0294/dec1/test_lost_save_recovery.py",
+        "blob_sha": "97cbf01ba938edc5e13739d97e2b6e66e1895348",
+        "exact_bytes": true
+      },
+      {
+        "path": "reports/PI0294/VAP1/20261021T042730Z-localpc-vap1-data/B_MATCHED_RECIPE_ACCOUNTING_FIX_PREPARATION_20261022.json",
+        "blob_sha": "d9b767de0ab21f0bb4457c3dec08be6a96a4e6b8",
+        "exact_bytes": true
+      }
+    ],
+    "local_PI0294_tests": 1187,
+    "local_PI0294_subtests": 1123,
+    "not_deployed_to_active_A1": true,
+    "observed_epoch": 1792661441.7186985
+  },
+  "B1_actual_metadata": {
+    "status": "LOCAL_B0_TO2048_COLD_METADATA_PREPARED_NOT_ADMITTED",
+    "runtime_source": "cf0a64108d98f14881c577f27b4e8958ebbeeb1b",
+    "arm": "B_COVERAGE",
+    "start_step": 0,
+    "stop_step": 2048,
+    "source_members": 838,
+    "small_inputs": 24,
+    "metadata_sha256": "9c978135b12ea5ba209f46298fa627e0379ccaa5a460acb3c9a4d04f04d0582f",
+    "independent_original_CORR": true,
+    "A1_input_unchanged": true,
+    "A_recovery_references_removed": true,
+    "B_composite_manifest_sha256": "bc4adae1dabff73f215b04f76c9b71c561251ca38ce6b5be63729c43d87448ca",
+    "sampler_support_sha256": "8b5e8810f076bf49cd67c906787205e2e14ef684fe467a6c446b521be25b80ac",
+    "new_GPU": 0,
+    "new_PBS": 0,
+    "new_models": 0,
+    "new_queries": 0,
+    "new_updates": 0,
+    "new_physics": 0,
+    "cold_registration_and_fresh_full_remaining_work_admission_required": true,
+    "A4096_terminal_and_settlement_required_before_submission": true,
+    "observed_epoch": 1792661687.5352116
+  },
+  "comparison": {
+    "previous_runtime_source": "2ba5211e738c24e7848a169687af9f043ce7ecd0",
+    "previous_metadata_sha256": "baaf761c4d5979b40d16bab2d0bd23f944f583dd5a5e6b887d04c8a218a47b10",
+    "old_metadata_and_builder_bytes_preserved": true,
+    "code_capsule_member_differences": [
+      "scripts/pi0294/dec1/a40_accounting.py",
+      "scripts/pi0294/dec1/lost_save_recovery.py",
+      "scripts/pi0294/dec1/test_lost_save_recovery.py"
+    ],
+    "small_input_differences": [
+      "POLICY_IDENTITY.json",
+      "plans/PUBLICATION_AND_CI.json"
+    ],
+    "original_CORR_R0_recipe_split_seal_data_B_composite_sampler_probes_and_segment_bytes_unchanged": true,
+    "source_member_count": 838,
+    "small_input_count": 24
+  },
+  "current_private_controls": {
+    "B1_builder_sha256": "ca5057611deb082e4ad52f6b1ee37ebd4c4b3f5088c009315467ba64c8e23ce2",
+    "A2_assembler_sha256": "bba0cf83e5894181383b070ced57bcf0b350160c741caf408eba16f85996af13",
+    "terminal_wrapper_sha256": "a21ef94017ebe97e61bf4c530ee07e1a3943a4f0867f8220b8a17985148da049",
+    "verification_source_sha256": "5b6499a00ed7e421bf77641892267b77c53c16d68354c916e2e95cd73a487c44",
+    "code_capsule_checks_require_every_published_code_member": true,
+    "independently_verified_public_report_not_packed_as_executable_source": true,
+    "old_code_bytes_preserved_with_original_hashes": true
+  },
+  "current_local_boundary_checks": {
+    "status": "PASS_LOCAL_TERMINAL_AND_A2_AUDIT_HANDOFF_FIXTURES_NOT_NATIVE2048_EVIDENCE",
+    "checks": [
+      "FIXTURE_VALID_TERMINAL",
+      "REJECT_NATIVE_job_state_R",
+      "REJECT_NATIVE_job_state_Q",
+      "REJECT_NATIVE_job_state_H",
+      "REJECT_NATIVE_job_state_UNKNOWN",
+      "REJECT_NATIVE_Exit_status_1",
+      "REJECT_NATIVE_Job_Owner_other@fixture",
+      "REJECT_NATIVE_project_other",
+      "REJECT_NATIVE_Job_Name_other",
+      "REJECT_NATIVE_Rerunable_True",
+      "REJECT_NATIVE_run_count_2",
+      "REJECT_NATIVE_PV1_REQUEST_ID",
+      "REJECT_NATIVE_PV1_SUBMISSION_NONCE",
+      "EXCLUDE_EXACT_PREEXISTING_INODE",
+      "COUNT_NEW_INDEPENDENT_INODE",
+      "DEDUP_OWN_OUTPUT_HARDLINK",
+      "ALLOW_ONLY_ORIGINAL_INPUT_ALIAS",
+      "REJECT_UNKNOWN_SYMLINK",
+      "FIXTURE_SINGLE_AUDIT_TO_CLOSED_A2_INPUTS_WITH_EXACT_PROBE_BYTES",
+      "REJECT_AUDIT_HANDOFF_active_lease",
+      "REJECT_AUDIT_HANDOFF_different_effects",
+      "REJECT_AUDIT_HANDOFF_different_checkpoint",
+      "REJECT_AUDIT_HANDOFF_different_native_proof",
+      "REJECT_AUDIT_HANDOFF_live_native",
+      "REJECT_AUDIT_HANDOFF_new_query",
+      "REJECT_AUDIT_HANDOFF_corrupt_probe",
+      "REJECT_AUDIT_HANDOFF_invalid_closure_hash",
+      "REJECT_A2_PUBLICATION_missing_code",
+      "REJECT_B_PUBLICATION_missing_code",
+      "REJECT_A2_PUBLICATION_unverified_report",
+      "REJECT_B_PUBLICATION_unverified_report",
+      "ACTIVE_A1_INPUT_BYTES_UNCHANGED"
+    ],
+    "checks_count": 32,
+    "terminal_wrapper_sha256": "a21ef94017ebe97e61bf4c530ee07e1a3943a4f0867f8220b8a17985148da049",
+    "A2_assembler_sha256": "bba0cf83e5894181383b070ced57bcf0b350160c741caf408eba16f85996af13",
+    "verification_source_sha256": "5b6499a00ed7e421bf77641892267b77c53c16d68354c916e2e95cd73a487c44",
+    "real_terminal_audit_or_settlement_executed": false,
+    "real_A2_inputs_materialized": false,
+    "new_GPU_PBS_models_queries_updates_physics": 0,
+    "observed_epoch": 1792661746.9086914
+  },
+  "A2_scope": {
+    "uses_same_fixed_runtime": true,
+    "actual_closed2048_source_not_yet_available": true,
+    "actual_A2_metadata_materialized": false,
+    "still_requires_successful_native_terminal_original_actor_exit_full1024_and2048_audit_typed_settlement_closed_lease_and_funded_independent_intake": true
+  },
+  "active_A1_snapshot": {
+    "observed_epoch": 1792661766.2021742,
+    "job_id": "1474599.stdct-mgmt-02",
+    "native_state": "R",
+    "native_step": 1348,
+    "cursor": 43136,
+    "latest_complete_checkpoint": 1024,
+    "active_source": "2b141e9f40babfa749b508f33ea5f6057f59ba33",
+    "unknown_effects": [],
+    "owned_pending_updates": 0,
+    "root_STOP": false,
+    "parent_STOP": false,
+    "active_runtime_or_owner_changed": false
+  },
+  "remaining_gates": [
+    "A1 must finish2048 and be natively audited and settled before any A2 registration/admission",
+    "A2 must finish full4096 endpoint and be natively audited and settled before B submission",
+    "Every later segment still requires original entry/profile/authority/lease plus fresh whole remaining-work budget, project, quota, queue, storage and deadline checks",
+    "B actual original-parent model qualification, native1024 fullsave and original12 probes remain unexecuted"
+  ],
+  "no_new_scientific_effects": {
+    "GPU": 0,
+    "PBS": 0,
+    "models": 0,
+    "queries": 0,
+    "optimizer_updates": 0,
+    "physics": 0,
+    "data_collection": 0,
+    "checkpoint_deletions": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}

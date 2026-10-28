@@ -1,0 +1,78 @@
+{
+  "schema": "DEC1_CURRENT_RESOURCE_RECONCILIATION_V1",
+  "status": "ACTUAL_POST_TERMINAL_RESOURCE_RECONCILIATION_NO_NEW_SCIENCE",
+  "authority_release": "a7a7ecd9a6be62a7221af25a5e32a0009b076a84",
+  "current": {
+    "schema": "DEC1_NONADDITIVE_AVAILABLE_CLASSIFICATION_V1",
+    "original_remaining_after_spent_reservations_and_final": {
+      "GPU_s": 253106,
+      "GPU_submissions": 13,
+      "optimizer_updates": 16384,
+      "neural_queries": 37946,
+      "CoreLab_CPU_s": 1015388.703390843,
+      "Hopper_CPU_s": 569149.177866141,
+      "local_CPU_s": 146376.025317491,
+      "episode_starts": 610,
+      "physics_ticks": 27644434,
+      "constructors": 74618
+    },
+    "DEC1_effective_caps": {
+      "GPU_s": 172800,
+      "GPU_submissions": 8,
+      "optimizer_updates": 8192,
+      "neural_queries": 14000,
+      "CoreLab_CPU_s": 345600,
+      "Hopper_CPU_s": 345600,
+      "local_CPU_s": 28800,
+      "episode_starts": 136,
+      "physics_ticks": 5000000,
+      "constructors": 12000
+    },
+    "DEC1_authorized_caps": {
+      "GPU_s": 172800,
+      "GPU_submissions": 8,
+      "optimizer_updates": 8192,
+      "neural_queries": 14000,
+      "CoreLab_CPU_s": 345600,
+      "Hopper_CPU_s": 345600,
+      "local_CPU_s": 28800,
+      "episode_starts": 136,
+      "physics_ticks": 5000000,
+      "constructors": 12000
+    },
+    "old_costs_or_reservations_reset": false,
+    "active_job_ids": [],
+    "no_new_GPU_while_held_may_recover": false,
+    "site_permission": "NOT_GRANTED_BY_ACCOUNTING"
+  },
+  "native_H200_used_s": 20494,
+  "native_H200_reserved_s": 0,
+  "Core_CPU_reserved_s": 0,
+  "original_adoption_snapshot_preserved": true,
+  "initial_projection_erratum": {
+    "omitted_old_child_reservations": {
+      "episode_starts": 34,
+      "physics_ticks": 1088000,
+      "constructors": 5942
+    },
+    "corrected_initial_remaining": {
+      "GPU_s": 224267,
+      "GPU_submissions": 13,
+      "optimizer_updates": 16384,
+      "neural_queries": 37946,
+      "CoreLab_CPU_s": 972731.207737596,
+      "Hopper_CPU_s": 569329.177866141,
+      "local_CPU_s": 147576.025317491,
+      "episode_starts": 576,
+      "physics_ticks": 26556434,
+      "constructors": 68678
+    },
+    "effective_DEC1_caps_unchanged": true,
+    "no_scientific_dispatch_used_the_projection": true
+  },
+  "new_submissions": 0,
+  "new_optimizer_updates": 0,
+  "new_physics": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

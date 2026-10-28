@@ -1,0 +1,66 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Record tested preparation without creating a live main-training gate."""
+import hashlib
+import json
+from pathlib import Path
+import time
+import xml.etree.ElementTree as ET
+
+from pi0292_adopt import REPO, RUN_ID
+
+
+if __name__ == '__main__':
+    paths=['scripts/pi0292/checkpoint_artifacts.py', 'scripts/pi0292/main_capacity.py',
+           'scripts/pi0292/test_checkpoint_capacity.py']
+    junit=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0292-cpu-capacity-all.xml')
+    xml=ET.parse(junit).getroot()
+    assert not xml.findall('.//failure') and not xml.findall('.//error')
+    tests=xml.findall('.//testcase')
+    assert len(tests)>=60
+    receipt=dict(schema='PI0292_CHECKPOINT_CAPACITY_CPU_PREPARATION_V1',
+        status='LOCAL_CPU_TESTED_NOT_DEPLOYED_NOT_MAIN_ADMISSION',observed_epoch=time.time(),
+        run_uuid=RUN_ID,protocol_release='261bc5b37f20aaff1ad7d5742252d3dc1a91fa65',
+        files={p:hashlib.sha256((REPO/p).read_bytes()).hexdigest() for p in paths},
+        tests=dict(new_methods=19,new_subtests=6,all_PI0292_passed=60,all_PI0292_subtests=24,
+            junit_sha256=hashlib.sha256(junit.read_bytes()).hexdigest(),
+            measured_CPU_s_final_test_command=3.67,earlier_cumulative_CPU='NOT_ZERO_NOT_RECONSTRUCTED_HERE'),
+        checkpoint_audit=dict(full_model_shard_set=True,all_file_hashes=True,optimizer_scheduler_RNG_files=True,
+            frozen_statistics=True,processor_config=True,processor_statistics=True,
+            processor_embodiment_mapping=True,processor_statistics_match_canonical=True,
+            unknown_files_refused=True,consumed_cursor_and_worker_trace=True,
+            rejects_symlinks=True,uses_official_safetensors_parser=True,
+            pickle_deserialized=False,model_loaded=False,standalone_proof_of_resume=False,
+            actual_checkpoint_available=False),
+        capacity_plan=dict(actual_smoke_required=True,unreconciled_allocation_refused=True,
+            actual_interstep_time_with_factor=1.25,main_steps=4096,effective_batch=32,exposures=131072,
+            main_share_s=16200,evaluation_reserve_s=10800,full_main_checkpoints=2,
+            conservative_failed_submission_retained=True,combined_next_allocation_planned=True,
+            filesystem_and_personal_quota_checked_separately=True,unknown_quota_not_assumed_unlimited=True,
+            NaN_and_negative_resource_values_refused=True,authorizes_execution=False,
+            actual_MAIN_CAPACITY_PREFLIGHT_created=False),
+        actual_remote_revalidation=dict(project_query='USER_LOGIN_REQUIRED',
+            existing_official_amgr_sshlogin='EXIT_1_OUTPUT_NOT_RETAINED_NO_CREDENTIAL_DISCLOSURE',
+            subsequent_structured_project_query='EXIT_1_LOGIN_REQUIRED',
+            scratch_quota_display='940.7GB / 1.0TB',quota_report_local='2026-10-13 14:13',
+            new_qsub_calls=0,known_PI0292_jobs=[],GPU_allocated_s=0,model_loads=0),
+        remaining=['User account-manager authentication and verified unexpired project',
+            'Verified sufficient personal quota or separately authorized storage binding',
+            'Actual S3 smoke and resume equivalence',
+            'Bind capacity plan to actual receipts and approved launcher before S4',
+            'Combined allocation lifecycle and full checkpoint HF delivery integration',
+            'Actual S5 model records and S6 endpoint/teacher/model qualification'],
+        changes=dict(frozen_source_capsules=False,upstream_code=False,data_or_statistics=False,
+            original_deadline=False,PBS_budget_reset=False,WBC=False,deleted_assets=False),
+        selected='NONE',deployment='NONE')
+    report=REPO/'reports/PI0292'/RUN_ID/'CHECKPOINT_CAPACITY_CPU_PREPARATION.json'
+    report.write_text(json.dumps(receipt,indent=2)+'\n')
+    directory=report.parent
+    index=dict(files=[dict(path=p.name,bytes=p.stat().st_size,
+        sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in sorted(directory.iterdir())
+        if p.is_file() and p.name!='ARTIFACT_INDEX.json'],producer_raw_private=True,public_projection=True)
+    (directory/'ARTIFACT_INDEX.json').write_text(json.dumps(index,indent=2)+'\n')
+    output=Path('@LOCAL_OR_CORE_HOME@/Documents/Codex/2026-10-12/github-plugin-github-openai-curated-remote-2/outputs/PI0292_CHECKPOINT_CAPACITY_CPU_PREPARATION.json')
+    output.write_bytes(report.read_bytes())
+    print(json.dumps(dict(status=receipt['status'],passed=60,new_qsub=0)))

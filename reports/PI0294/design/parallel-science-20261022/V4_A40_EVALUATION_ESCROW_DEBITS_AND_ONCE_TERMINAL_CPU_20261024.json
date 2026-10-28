@@ -1,0 +1,63 @@
+{
+  "schema": "V4_A40_EVALUATION_ESCROW_DEBITS_AND_ONCE_TERMINAL_CPU_V1",
+  "status": "CPU_VALIDATED_NO_NATIVE_DISPATCH_OR_ADMISSION",
+  "purpose": "Connect mature evaluation bookkeeping to the same global escrow, avoiding double query/CPU/model billing at terminal settlement",
+  "implemented": [
+    "Pure one-time binding of an already known qsub reply; no resubmission or rebinding",
+    "Request/job/actor-bound pre-effect debits with unique intent index; each query and CPU amount is already charged or remains reserved",
+    "Explicit financial F settlement from fresh own native terminal/process/inventory proof plus complete zero-training effect journal; credit all prior debits once",
+    "Failure costs remain; unknown query intents retain hold and marker; older UNKNOWN records are preserved; terminal settlement never reports a task PASS",
+    "Mature launcher/neural dispatcher select the evaluation escrow adapter only for the explicit evaluation version; original H200 branch and model/query journals retain their guards"
+  ],
+  "validation": {
+    "targeted_tests": 83,
+    "targeted_subtests": 5,
+    "regression_tests": 115,
+    "regression_subtests": 72,
+    "targeted_process_CPU_s": 0.437924,
+    "regression_process_CPU_s": 2.664008,
+    "private_captured_once_receipt_sha256": "5d5a0b8d3926824979e0fa80a8d8a4c638f01deecdc5ecdfe67d0e9719928a16",
+    "captured_once_CPU_s": 0.045268482,
+    "temporary_once_transitions": 6,
+    "old25_actual_native_rows_and_training_runs_preserved": true,
+    "unmocked_old_grant_validation": true,
+    "synthetic_new_job_is_not_a_native_submission": true,
+    "temporary_filesystem_only": true,
+    "duplicate_bind_settle_and_IO_rejected": true,
+    "unknown_journal_not_cleared_or_resent": true,
+    "CPU_query_model_charged_once": true,
+    "protected_LOCAL_and_two_SDK_UNKNOWN_hashes_unchanged": true,
+    "original_matrix_PBS_still_rejected_if_uncovered": true
+  },
+  "source_files_sha256": {
+    "scripts/pi0294/pv1/evaluation_accounting.py": "c783445f0f49052c6e801c4a62b852392eaccd49f7dc60fe7a409acfc6f9af86",
+    "scripts/pi0294/pv1/evaluation_ledger.py": "e0b1cabac548ba7dd62be0be9338ae7cf32b95b4e1f4a904469d36fe8845b6bb",
+    "scripts/pi0294/pv1/neural.py": "056beaf9c38edb77954cea6e3bc2af99c053013e2ed95c848dc082a3c991d3eb",
+    "scripts/pi0294/pv1/launcher.py": "ef3327646b825883755fdd304217df71f87ea50ad4b8b350a587b3ffe7a3d3ea",
+    "scripts/pi0294/test_pv1_a40_evaluation_lifecycle.py": "c57cc8187bd8192e227044b42232eb82b0447b13a36917cf75a2fb8b824427b0",
+    "scripts/pi0294/test_pv1_a40_evaluation_accounting.py": "8eb8a02a284c52a3c3922a6b19e6d0bd2bf5c5427d182029597f0359423400d8"
+  },
+  "unchanged": [
+    "Original15 numerical files, model/math/precision/noise, data/R0, safety and scores",
+    "All closed training/source/SDK/zeroIO histories, old failed costs and checkpoints",
+    "Original T0, stop-new/stop-train/stop-physics/hard-close, caps and final protection"
+  ],
+  "remaining_before_native": [
+    "Actual V4 independent S2 all-remaining-work proof with full S1/final protection, project/quota and complete Vanda queue; complete B0 is not an A/B DEV reporting prerequisite",
+    "Owner prequeue reservation producer and existing once/lock transport integration with fresh original material; no allocation is authorized by these pure functions",
+    "Typed A40 native admission/bootstrap, enforced CPU profile and numerical/data-consumer reuse binding before mature evaluation",
+    "Actual source qualification, original same-job600s80cycle, full outcome/audit history and exact B4096 reuse boundary"
+  ],
+  "S2_proposed_full_resource_caps_adopted": false,
+  "native_deployed": false,
+  "new_GPU_PBS_models_physics_or_native_ledger_writes": 0,
+  "closed_requests_replayed": false,
+  "unknown_writes_reissued": false,
+  "science": {
+    "S1_core64": 0,
+    "S2_B0_valid": 14,
+    "S2_A_DEV": 0,
+    "S2_B_DEV": 0
+  },
+  "goal_complete": false
+}

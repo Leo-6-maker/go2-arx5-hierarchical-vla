@@ -1,0 +1,26 @@
+{
+  "schema": "WDR1_DIRECT_HUMAN_ONE_LOCAL_CONTROL_MINUTE_V1",
+  "direct_human_answer": "批准仅增加1分钟LOCAL CPU",
+  "approved_draft_source": "07504d9c56637747e547de8f8334f50d38352771",
+  "approved_draft": "reports/PI0294/design/WDR1_ONE_LOCAL_CONTROL_MINUTE_ZERO_IO_REPAIR_SCOPE_DRAFT_20261024.json",
+  "approved_draft_sha256": "77f32079bde7c7947c4cfefa87934d548a3401ae471714603913c617afbf81b3",
+  "exact_cap_change": {
+    "DEC1_LOCAL_CPU_s": {
+      "before": 57600,
+      "after": 57660,
+      "delta": 60
+    }
+  },
+  "scope": "One fresh zero-physics cold engineering continuation bound to both real CLOSED IO histories",
+  "old_request": "b1cf63f5-040e-43fd-930d-64bc35ec49c2",
+  "original_T0_epoch": 1792348196,
+  "hard_close_epoch": 1792952996,
+  "unchanged": [
+    "GPU/PBS and every other budget",
+    "All original future matrix and control upper bounds",
+    "Original clocks and final protection",
+    "Original WBC and safety",
+    "All failed costs and closed checkpoints",
+    "Both SDK UNKNOWN journals; no new write reissue exception"
+  ]
+}

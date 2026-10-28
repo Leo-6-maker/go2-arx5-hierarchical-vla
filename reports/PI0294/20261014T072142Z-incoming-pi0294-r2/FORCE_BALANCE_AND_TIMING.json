@@ -1,0 +1,241 @@
+{
+  "run_uuid": "20261014T072142Z-incoming-pi0294-r2",
+  "actual_source_sha": "43ced701d73f1df73389711f03b5b5ed68c90867",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "old_P1_FAIL_preserved": true,
+  "schema": "PI0294_R2_MECHANICS_ACTUAL_V1",
+  "status": "SAVED_PRE_POST_TIMING_AND_RECOMPUTED_MECHANICS_COMPLETE",
+  "saved_rows": 1081,
+  "prefix_points_sent": 48,
+  "prefix_points_started": 44,
+  "new_integrations": 0,
+  "model_constructions": 1,
+  "dynamics_forward_evaluations": 1081,
+  "arithmetic": {
+    "status": "PASS_SAVED_PREFIX_TO_MOTOR_COMMAND_ARITHMETIC_NOT_PHYSICS_OR_CAUSAL_PROOF",
+    "high_rate_rows": 1081,
+    "sent_prefixes": 6,
+    "executed_20Hz_points": 44,
+    "all_sent_gripper_commands_in_unit_interval": true,
+    "prefixes": [
+      {
+        "sequence": 0,
+        "start_tick": 0,
+        "minimum": 0.9645643830299377,
+        "maximum": 1.0,
+        "points_executed_at_least_one_tick": 8
+      },
+      {
+        "sequence": 1,
+        "start_tick": 200,
+        "minimum": 0.9855000972747803,
+        "maximum": 1.0,
+        "points_executed_at_least_one_tick": 8
+      },
+      {
+        "sequence": 2,
+        "start_tick": 400,
+        "minimum": 0.9803905487060547,
+        "maximum": 1.0,
+        "points_executed_at_least_one_tick": 8
+      },
+      {
+        "sequence": 3,
+        "start_tick": 600,
+        "minimum": 0.9617726802825928,
+        "maximum": 1.0,
+        "points_executed_at_least_one_tick": 8
+      },
+      {
+        "sequence": 4,
+        "start_tick": 800,
+        "minimum": 0.8846115469932556,
+        "maximum": 1.0,
+        "points_executed_at_least_one_tick": 8
+      },
+      {
+        "sequence": 5,
+        "start_tick": 1000,
+        "minimum": 0.06306922435760498,
+        "maximum": 1.0,
+        "points_executed_at_least_one_tick": 4
+      }
+    ],
+    "joints": [
+      {
+        "joint": "left_slide",
+        "initial_position_m": 0.044,
+        "final_position_m": 0.04438907399717869,
+        "final_velocity_m_s": -0.004894000883086152,
+        "final_slewed_target_m": 0.04352000000000002,
+        "final_motor_ctrl_N": -0.35154479957793805,
+        "maximum_position_m": 0.04473319519212101,
+        "minimum_position_m": 0.04167152057655863,
+        "maximum_target_m": 0.044,
+        "minimum_target_m": 0.04200000000000008,
+        "first_limit_violation_tick": null,
+        "violating_rows": 0,
+        "final_position_above_target_m": 0.000869073997178671
+      },
+      {
+        "joint": "right_slide",
+        "initial_position_m": 0.044,
+        "final_position_m": 0.045004271727453214,
+        "final_velocity_m_s": 0.005746004968401156,
+        "final_slewed_target_m": 0.04352000000000002,
+        "final_motor_ctrl_N": -0.5891118870065576,
+        "maximum_position_m": 0.045004271727453214,
+        "minimum_position_m": 0.04209105265495418,
+        "maximum_target_m": 0.044,
+        "minimum_target_m": 0.04200000000000008,
+        "first_limit_violation_tick": 1081,
+        "violating_rows": 1,
+        "final_position_above_target_m": 0.0014842717274531972
+      }
+    ],
+    "motor_ctrl_max_abs_reconstruction_error_N": 0.0,
+    "final_sampled_command_open_fraction": 0.07716932892799377,
+    "frozen_parameters": {
+      "dt_s": 0.002,
+      "point_hold_ticks": 25,
+      "travel_m": 0.044,
+      "target_speed_m_s": 0.04,
+      "proportional_gain_N_m": 400,
+      "force_cap_N": 8,
+      "effective_lower_m": -0.001,
+      "effective_upper_m": 0.045
+    },
+    "model_loads": 0,
+    "physics_integrations": 0,
+    "render_calls": 0,
+    "correction_applied": false
+  },
+  "mapping": {
+    "left_slide": {
+      "qpos": 6,
+      "qvel": 6,
+      "ctrl": 6
+    },
+    "right_slide": {
+      "qpos": 7,
+      "qvel": 7,
+      "ctrl": 7
+    }
+  },
+  "joints": [
+    {
+      "name": "left_slide",
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "gear": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "damping": 3.0,
+      "armature": 0.002
+    },
+    {
+      "name": "right_slide",
+      "axis": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "gear": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "damping": 3.0,
+      "armature": 0.002
+    }
+  ],
+  "maximum_recomputed_equation_residual": 3.5716887636372263e-07,
+  "measured_fields": [
+    "saved_post_qpos",
+    "saved_post_qvel",
+    "saved_pre_step_ctrl",
+    "initial_qpos_qvel",
+    "prefix_packets"
+  ],
+  "reconstructed_fields": [
+    "pre_qpos_qvel_from_previous_saved_row",
+    "bias",
+    "passive",
+    "constraint",
+    "M",
+    "qacc"
+  ],
+  "UNOBSERVED": [
+    "original_warmstart",
+    "original_solver_internal_state",
+    "original_qfrc_bias_passive_constraint",
+    "original_qacc"
+  ],
+  "exact_original_full_state_restore_claim": false,
+  "coupling_proxy_is_not_native_continuous_acceleration": true,
+  "original_FAILURE_preserved": true,
+  "physics_starts": 0,
+  "RGB_pairs": 0,
+  "neural_queries": 0,
+  "final_pre_step_named_summary": {
+    "pre_time_s": 2.16,
+    "q_L_m": 0.04439886199894486,
+    "q_R_m": 0.04499277971751641,
+    "v_L_m_s": -0.0036179189207300065,
+    "v_R_m_s": 0.0070177554970312,
+    "saved_ctrl_L_N": -0.35154479957793805,
+    "saved_ctrl_R_N": -0.5891118870065576,
+    "actuator_L_N": -0.35154479957793805,
+    "actuator_R_N": -0.5891118870065576,
+    "bias_L_N": -0.01900326510330311,
+    "bias_R_N": 0.018312382524344237,
+    "passive_L_N": 0.010853756762190019,
+    "passive_R_N": -0.021053266491093597,
+    "constraint_L_N": -0.0003690270100484474,
+    "constraint_R_N": 0.8111165690281907,
+    "qacc_L_m_s2": -0.6307239927340957,
+    "qacc_R_m_s2": -0.7184514792207521,
+    "arm_coupling_proxy_L_N": -0.2600136997127342,
+    "arm_coupling_proxy_R_N": 0.24457455550095183,
+    "mass_diagonal_L_kg": 0.09124,
+    "mass_diagonal_R_kg": 0.091402
+  },
+  "late_bias_assessment": {
+    "bias_R_outward_fraction_late": 1.0,
+    "bias_R_late_range_N": [
+      0.008903881173975486,
+      0.018312382524344237
+    ],
+    "bias_R_late_mean_N": 0.012895201929741668,
+    "recomputed_constraint_R_late_range_N": [
+      -0.3729913800198205,
+      0.9661205501794905
+    ],
+    "final_bias_R_N": 0.018312382524344237,
+    "adding_positive_bias_mechanically_reduces_existing_inward_motor_force_at_saved_final_pre_state": true,
+    "full_trajectory_counterfactual_not_computed": true,
+    "original_constraint_not_observed": true
+  },
+  "second_candidate": {
+    "kind": "BIAS_FEEDFORWARD",
+    "status": "NOT_RUN_INSUFFICIENT_MECHANISM_SUPPORT",
+    "reason": "In the last0.16s right bias is positive0.00890..0.01831N. Adding it cancels an inward bias contribution and reduces the existing inward motor force at the saved near-limit state. It does not cancel contact or arm-acceleration coupling. No complete trajectory counterfactual or proof of impossibility is claimed."
+  },
+  "limitations": [
+    "Recomputed constraint forces use a fresh solver state, not measured original warmstart.",
+    "2x2 isolates holding versus moving arm references, not inertia versus contact.",
+    "Measured mass diagonal is not the exact coupled effective inertia."
+  ]
+}

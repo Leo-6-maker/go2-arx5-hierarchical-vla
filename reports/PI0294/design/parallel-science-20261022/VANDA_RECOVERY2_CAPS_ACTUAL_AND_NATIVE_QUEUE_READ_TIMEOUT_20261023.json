@@ -1,0 +1,117 @@
+{
+  "schema": "VANDA_RECOVERY2_ACTUAL_CAP_ADOPTION_AND_SCHEDULER_READ_INTERRUPTION_V1",
+  "status": "GPU_AUTHORIZED_CAPS_ACTUALLY_ADOPTED_NATIVE_PREQUEUE_NOT_ADMITTED",
+  "epoch": 1792769710.714652,
+  "human_grant": {
+    "source": "1f700ee346a91006da6ed7e7856c9b42ec496335",
+    "sha256": "86eb04c444d027f081fa921860a9dfdfd31d726b6abe208c1b78c7b9e43047f7"
+  },
+  "actual_paired_adoption": {
+    "global_sha256": "0d9c03091f3986c11d7021968243a8bb37de1d6423e5ca16761ee41a97ceacd1",
+    "DEC1_sha256": "c2a1edd6a6b60509f03b6dc205a4a369911d1323c6f28e21a5ef3917d7b6020c",
+    "both_original_once_receipts_independently_confirmed": true,
+    "marker": {
+      "authority_release": "1f700ee346a91006da6ed7e7856c9b42ec496335",
+      "grant_sha256": "86eb04c444d027f081fa921860a9dfdfd31d726b6abe208c1b78c7b9e43047f7",
+      "failed_job_id": "1480817.stdct-mgmt-02",
+      "failed_request_sha256": "8e437f152edf4c2f3f28c11795d31594b65fca9f6fb91666e8017edb13e3be24",
+      "failed_lineage_key": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+      "failed_lineage_last_native_step": 2970,
+      "paid_lost_updates": 922,
+      "replacement_lineage_key": "B_COVERAGE_HEARTBEAT_RECOVERY2",
+      "seed_native_step": 2048,
+      "seed_checkpoint_sha256": "db2b2be84e1d2e6eeca1715107f6eb42a8b151e38fe513ddac6029e8db97bbcf",
+      "probe_sha256": "074ffbcce72e9917caecd70a2855ca67eb9b60afbb20dd6daf9ab98343130154",
+      "GPU_closed_terminal_sha256": "548b23720524f46e8008fd256be480b842d9be19536b1f628e9ba0dc507bfddc",
+      "old_Hopper_CPU_physical_lease": "UNAVAILABLE_FENCED_NOT_CLOSED",
+      "original_T0_epoch": 1792348196,
+      "DEC1_updates_limit": 11714,
+      "DEC1_PBS_limit": 16,
+      "global_PBS_limit": 27,
+      "DEC1_storage_GiB": 614,
+      "global_storage_GiB": 680,
+      "adopted_epoch": 1792768510.8991113
+    }
+  },
+  "original_failed2970_and_all_costs_preserved": true,
+  "actual_settled_updates": 9666,
+  "runtime": {
+    "source": "2d323e5574abba6419920fc0fd240fc10c7572b5",
+    "CI_run": 39976861380,
+    "CI_job": 120493606263,
+    "all12steps_success": true,
+    "full_raw_Gitblob_readbacks": 4,
+    "parent_source": "6b1b266e0e05a3f1187fde750a61d1cce9e6a869",
+    "parent_exact_CI39975513066_all12_success": true,
+    "parent_full_raw_Gitblob_readbacks": 23,
+    "full_CPU_tests": 2444,
+    "subtests": 1644,
+    "private_parser_skips": 13
+  },
+  "ordinary_project_login": {
+    "status": "CLI_EXIT_SUCCESS_AND_FRESH_PROJECT_NATIVE_READBACK_SUCCESS",
+    "observed_epoch": 1792769075.0849562,
+    "native_project_eligible": true,
+    "balance_covers_original_allocation_threshold": true,
+    "credential_raw_output_or_plaintext_stored": false
+  },
+  "scheduler": {
+    "complete_account_qselect_attempts": [
+      {
+        "sha256": "2dea68db4c7bd3835bdbfe06526bafdfac5e78b95ae28d928e560cc5a84e5cb9",
+        "command": "qselect own account complete selection",
+        "native_timeout_s": 10,
+        "observed_file_epoch": 1792769251.7673268,
+        "queue_known": false
+      },
+      {
+        "sha256": "2dea68db4c7bd3835bdbfe06526bafdfac5e78b95ae28d928e560cc5a84e5cb9",
+        "command": "qselect own account complete selection",
+        "native_timeout_s": 10,
+        "observed_file_epoch": 1792769355.1394112,
+        "queue_known": false
+      },
+      {
+        "sha256": "2dea68db4c7bd3835bdbfe06526bafdfac5e78b95ae28d928e560cc5a84e5cb9",
+        "command": "qselect own account complete selection",
+        "native_timeout_s": 10,
+        "observed_file_epoch": 1792769458.5114946,
+        "queue_known": false
+      }
+    ],
+    "distinct_original_complete_qstat_route": {
+      "native_timeout_s": 25,
+      "diagnostic_sha256": "7742bd0a9b71f928c53aa474c3b991b8f8d80fb5164a972576ea1c3f10074434",
+      "queue_known": false
+    },
+    "timeouts_are_not_empty_queue_or_terminal_evidence": true,
+    "scheduler_root_cause": "UNKNOWN",
+    "original_RPC_and_watchdog_limits_unchanged": true,
+    "current_three_attempt_group_exhausted": true
+  },
+  "cold_preparation": {
+    "local_sealed_source_files": 966,
+    "sealed_small_inputs": 35,
+    "lineage": "B_COVERAGE_HEARTBEAT_RECOVERY2",
+    "seed_step": 2048,
+    "cursor": 65536,
+    "owner_binding": "PRIVATE_WORK_IN_PROGRESS_NOT_DEPLOYED",
+    "prospective_control_CPU1800_LOCAL20_transfer256MiB_output64MiB_full_runway_arithmetic_pass": true,
+    "original_all_future_control_ceilings_preserved": true,
+    "prospective_control_not_prepaid_or_registered": true
+  },
+  "new_GPU_owner_started": false,
+  "new_GPU_request": false,
+  "new_qsub": false,
+  "new_model_or_training_effects": false,
+  "no_old_owner_request_or_cost_mirror_replayed": true,
+  "next_required": [
+    "Complete resident cold binding and private integration checks",
+    "Fresh actual scheduler/project/quota/full remaining resource admission",
+    "New cold registrations and unique submission after those gates pass"
+  ],
+  "original_clocks_other_caps_and_final_protection_unchanged": true,
+  "full_goal": "ACTIVE",
+  "target_task_native_qualified": false,
+  "core64": 0
+}

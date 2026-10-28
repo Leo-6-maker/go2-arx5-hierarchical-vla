@@ -1,0 +1,46 @@
+{
+  "action_statistics_q01": [
+    0.0
+  ],
+  "action_statistics_q99": [
+    1.0
+  ],
+  "command_inverse": "(u+1)/2",
+  "execution_transport": "A0 physical audit confirms native command equals 2*clip(decoded_fraction,0,1)-1; declared existing saturation only",
+  "full_A0": "Combine AUDIT_EXISTING.json, TRAIN_EXPOSURE.json and this receipt; new loss CPU and real canary still required",
+  "generated_gripper_old_logging_detached": true,
+  "indirect_generated_gripper_gradients_possible": true,
+  "native_active_elements_for_full_batch1_H40": 400,
+  "native_denominator": "action_loss.sum() / (action_mask.sum() + 1e-06)",
+  "native_gripper_fraction_of_equal_active_weights": "40/(400+1e-6); not 1/132",
+  "native_gripper_supervision_present": true,
+  "new_model_queries": 0,
+  "new_physics_steps": 0,
+  "new_teacher_calls": 0,
+  "original_data_admission_sha256": "ef6c56f76d6d034e1f7a1774a23fb48ab52d0a186746920bbfa4bdd713b23baa",
+  "saved384_inverse_affine_exact": true,
+  "source_bindings": {
+    "RUNTIME_BINDING_TASK.json": {
+      "sha256": "28ffb7781f2eeca2f9e663319ab8e8f9f35fc08d3167ae774fbf5b2ac1f2b7e7",
+      "source": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/evidence/RUNTIME_BINDING_TASK.json"
+    },
+    "native_head.py": {
+      "sha256": "6bd66ef768f1484ac5a7889c40358a599f1862b1d554d47d357e113f2f96501c",
+      "source": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t/gr00t/model/gr00t_n1d7/gr00t_n1d7.py"
+    },
+    "sample_audit.jsonl": {
+      "sha256": "12ed99043065625279c83f2c62dc8ae19702d1b1df7ee2ed47036c0cc9bc0649",
+      "source": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/TASK/main/training/sample_audit.jsonl"
+    },
+    "statistics.json": {
+      "sha256": "b3da3d500d514ce3d1ce83001de30846d9ab76d699dc48831db8e4367ce98572",
+      "source": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/contracts/TASK/source/dataset/statistics.json"
+    },
+    "train.py": {
+      "sha256": "d709d17ab4f05609695eab3f62d6fb4d465dc485dc3852aafbba4d1d710cf5d4",
+      "source": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/code/train.py"
+    }
+  },
+  "source_command_transitions_audited": 93,
+  "status": "PASS_SOURCE_OBJECTIVE_ASYMMETRY_AND_SAVED_DECODE_BINDING"
+}

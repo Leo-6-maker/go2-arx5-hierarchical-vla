@@ -1,0 +1,143 @@
+{
+  "schema": "B2_APPROVED_PBS15_26_UNIQUE_RETRY_ACTUAL_V1",
+  "observed_epoch": 1792747906.796517,
+  "source_sha": "36b5ed27d41f71a74767c17f0e028149c34ac8a1",
+  "runtime_exact_CI": {
+    "run": 39930693477,
+    "job": 120337913304,
+    "all12_success": true,
+    "full_source_file_readback": 13
+  },
+  "human_grant": {
+    "release": "e48db225033ba0510230d96b43f58c0743b05912",
+    "sha256": "98c081a33e60a7a0d98a4e7a392530fca2de77c395f1262dd0ffd8b5e5b421e0",
+    "actual_dual_once_adopted": true,
+    "global_after_sha256": "b26ec2dca483edaee9ae48b220ce250f06c1282cfb19a3d1d3557a5fafbf67dc",
+    "DEC1_after_sha256": "331209ca1ad23eab125a3b62dc5bcc52652ca96c5126c9c11bd3364a79cd8142",
+    "only_changes": {
+      "DEC1_PBS_limit": [
+        14,
+        15
+      ],
+      "global_PBS_limit": [
+        25,
+        26
+      ]
+    }
+  },
+  "request_id": "28efd26a-f579-454b-b14a-a4c9847cbfa2",
+  "request_sha256": "8e437f152edf4c2f3f28c11795d31594b65fca9f6fb91666e8017edb13e3be24",
+  "nonce": "29952496-9cc0-4d33-a188-282dfa2d38c0",
+  "job_id": "1480817.stdct-mgmt-02",
+  "unique_qsub_returncode": 0,
+  "PBS_script_sha256": "3c0872db825347d695d5efc169f11aaed55046facbcebbc1db7c9ce752facf22",
+  "native_Q": {
+    "observed_epoch": 1792747809.0898845,
+    "state": "Q",
+    "comment": "Not Running: Insufficient amount of resource: node_pool ",
+    "complete_dual_campaign_view": {
+      "schema": "VAP1_DUAL_PLATFORM_NATIVE_CAMPAIGN_VIEW_V1",
+      "observed_epoch": 1792747809.0895011,
+      "status": "PASS_TWO_PLATFORM_CAMPAIGN_VIEW",
+      "grant_sha256": "79f5c77f4a59c4f86c912a0663f13775ad2dcf9e01e27ea7bcb99c25987505ab",
+      "campaign_jobs": [
+        {
+          "platform": "VANDA_A40",
+          "job_id": "1480817.stdct-mgmt-02",
+          "state": "Q",
+          "project": "CFP04-CF-007",
+          "name": "pi0294_dec1_a40_train"
+        }
+      ],
+      "campaign_running_by_platform": {},
+      "user_confirmed_independent_jobs": [],
+      "outside_registered_campaign_jobs": [],
+      "account_owned_job_count": 1,
+      "unknown_campaign_jobs": [],
+      "account_view_filtered_or_forged_empty": false,
+      "other_jobs_modified": false
+    },
+    "receipts": {},
+    "model_or_first_training_release_confirmed": false
+  },
+  "owner": {
+    "unit": "vap1-a40-b-recovery1-b2-retry1-owner-01",
+    "state": [
+      "MainPID=933683",
+      "ExecMainStatus=0",
+      "ActiveState=active"
+    ],
+    "running_RPC": "CONFIRMED_HEARTBEAT",
+    "controller_sha256": "7c1c098888e4ff9051da5a2edea95137e131cc87ee3778c850c9bffdebe61ade"
+  },
+  "CPU_manifest_sha256": "0b5df5794c0b28545bd851a7f1a11db68101ddbf207e80b1a6a136fa0e1fc42b",
+  "GPU_manifest_sha256": "c33004ea21dc2b0c1fa78d51c22ccb1be54bec0b4a049743eb46b7b8b4eb3d07",
+  "actual_CPU_source_members": 939,
+  "actual_GPU_sealed_members": 978,
+  "already_settled": {
+    "optimizer_updates": 8744,
+    "global_GPU_s": 82257,
+    "DEC1_GPU_s": 61763,
+    "queries": 1197
+  },
+  "PBS_count": {
+    "global_PBS": 23,
+    "DEC1_PBS": 12,
+    "original_three_matrix_still_fit_caps": [
+      26,
+      15
+    ]
+  },
+  "reserved": {
+    "GPU_s": 22560,
+    "CPU_s": 54000,
+    "optimizer_updates": 2048,
+    "queries": 29,
+    "output_bytes": 70000000000
+  },
+  "shared_control_plan": {
+    "schema": "B2_EXISTING_SINGLE_PREPAY_SHARED_RETRY_CONTROL_PLAN_V1",
+    "prepaid_key": "VAP1_B_RECOVERY1_B2_CONTROL_CPU1800_LOCAL180_TRANSFER256M_OUTPUT64M_V1",
+    "old_measured_all_phase_CPU_s": 35.424215,
+    "withdrawal_cleanup_preserved_upper_s": 10,
+    "non_science_auth_mail_and_read_control_upper_s": 35,
+    "retry_phase_CPU_uppers": {
+      "setup": 20,
+      "serve": 72,
+      "terminal": 5
+    },
+    "combined_LOCAL_upper_s": 177.424215,
+    "already_charged_LOCAL_upper_s": 180,
+    "already_charged_Hopper_upper_s": 1800,
+    "already_charged_transfer_upper_bytes": 268435456,
+    "already_charged_output_upper_bytes": 67108864,
+    "new_prepayment_or_refund": false,
+    "all_original_future_control_ceilings_preserved": true
+  },
+  "all_old_new_output_projection": {
+    "old_actual_allocated_upper_bytes": 42065920,
+    "all_four_roots_upper_bytes": 64995328,
+    "already_prepaid_upper_bytes": 67108864,
+    "manifest_adoption_receipt_padding_bytes": 2097152,
+    "bytecode_writes_disabled": true,
+    "new_output_charge": 0
+  },
+  "all_historical_failures_costs_checkpoints_unknown_latches_preserved": true,
+  "no_old_request_owner_registration_prepayment_or_mirror_replay": true,
+  "old_1480412_F_minus3_closed_after_once484GPU15384CPU": true,
+  "scientific_identity": {
+    "arm": "B_COVERAGE",
+    "lineage": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+    "resume_full_step": 2048,
+    "cursor": 65536,
+    "stop_step": 4096,
+    "original12probes_preserved": true,
+    "A_inheritance": false
+  },
+  "WDR1": {
+    "status": "ACTIVE",
+    "target_task_native_qualified": false,
+    "core64": 0
+  },
+  "goal_complete": false
+}

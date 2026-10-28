@@ -1,0 +1,227 @@
+{
+  "GR00T_queries": 0,
+  "WBC_actor_calls": 0,
+  "actual_preview_checks": [
+    {
+      "SO3_roundtrip_rad": 1.896445994318692e-07,
+      "actual_source_function": true,
+      "position_roundtrip_m": 1.1744550180887003e-08,
+      "preview_points": 9,
+      "reach_urgency_stubbed_only_for_coordinate_fixture": true,
+      "version": "LEGACY"
+    },
+    {
+      "SO3_roundtrip_rad": 1.6426264376197114e-07,
+      "actual_source_function": true,
+      "position_roundtrip_m": 1.1744550180887003e-08,
+      "preview_points": 9,
+      "reach_urgency_stubbed_only_for_coordinate_fixture": true,
+      "version": "ROW6D"
+    }
+  ],
+  "budget": {
+    "GR00T_queries": 11000,
+    "S4_heads": 44000,
+    "control_dt": 0.02,
+    "decimation": 4,
+    "hard_actor_calls": 739200,
+    "hard_control_ticks": 369600,
+    "hard_integration_substeps": 1478400,
+    "hard_simulate_calls": 1478400,
+    "hard_simulated_seconds": 7392.0,
+    "hard_starts": 352,
+    "implicit_reset_steps_included": true,
+    "planned_starts": 344,
+    "sim_dt": 0.005,
+    "sim_substeps": 1,
+    "training_head_cap": 210000,
+    "training_updates": 8480
+  },
+  "full_20s_hold_canonical": {
+    "finite": true,
+    "points": 401
+  },
+  "metrics": {
+    "status": "PASS_FROZEN_TASK_AND_TIME_NEGATIVES",
+    "tests": [
+      "wrong_target",
+      "brief_minimum",
+      "endpoint_shortcut",
+      "reverse_arc",
+      "unsafe_hit",
+      "clock_mismatch",
+      "stale_frame",
+      "post_reset_pose"
+    ]
+  },
+  "native_error_proxy": {
+    "feature": "bounded signed quaternion vector",
+    "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/go1_gym/utils/math_utils.py",
+    "sha256": "67930f74384fb1581bcb6d16285f2c4b4e6762590101b1479a50606a278696ee",
+    "unchanged": true
+  },
+  "new_physics_starts": 0,
+  "rotation_checks": [
+    {
+      "current_body_and_future_heading_frames": true,
+      "max_roundtrip_so3_rad": 1.572568470162361e-08,
+      "nonidentity_cases": 8,
+      "physical_matrix_quaternion_unchanged": true,
+      "version": "LEGACY"
+    },
+    {
+      "current_body_and_future_heading_frames": true,
+      "max_roundtrip_so3_rad": 3.554797526862715e-08,
+      "nonidentity_cases": 8,
+      "physical_matrix_quaternion_unchanged": true,
+      "version": "ROW6D"
+    }
+  ],
+  "source_sha256": "2aaa7d16b5bf126e082304a47de9fe6a41e3ef0c5b564a384e49bd0ee834cbab",
+  "stage41": {
+    "all_readbacks_match": true,
+    "classification": "NON_SCIENTIFIC_DEVELOPMENT_EVIDENCE",
+    "counters": {
+      "gr00t_forward_count": 4,
+      "reference_update_count": 3,
+      "wbc_step_count": 245
+    },
+    "files": 20,
+    "forbidden_operations": {
+      "adaptive_retiming": false,
+      "blending": false,
+      "checkpoint_substitution": false,
+      "clipping": false,
+      "cpu_offload": false,
+      "formal_seed_used": false,
+      "h200_used": false,
+      "hardware_executed": false,
+      "holdout_f_read": false,
+      "model_substitution": false,
+      "physics_reset": false,
+      "physics_teleport": false,
+      "policy_history_clear": false,
+      "precision_change": false,
+      "processor_substitution": false,
+      "quantization": false,
+      "smoothing": false,
+      "training": false,
+      "validation_e_read": false
+    },
+    "seal_sha256": "ad178ac49da1ced987f60224987ccab8dc1d3343674bb511b7c3fe13a3b8dcc5"
+  },
+  "status": "PASS_NATIVE_CPU_CONTRACT",
+  "training_convention": "UNKNOWN_INSTALLED_TRAINING_PYTORCH3D_NOT_RECORDED",
+  "training_metadata": [
+    {
+      "import_or_packing_lines": [
+        {
+          "line": 849,
+          "text": "'use_rot6d': True"
+        }
+      ],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/params.txt",
+      "sha256": "d8e5ac2c6f763f194c8a3c057ee4e658e0aeedd37fc7743857753f9078e31c88"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/__init__.py",
+      "sha256": "58c00bdfef879e84ab9b13b93006433f90148e4ead52112dcf7f24fa4001c7a2"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/arm_ac.py",
+      "sha256": "11dba790639f3c10eb2947a6d1d5d2dda1edf1c55816ba65ce1b7b5d2579b0d7"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/auto_train.py",
+      "sha256": "2bb4a9990aa37e156a48c2727ebe1a6915895dfe65cc6889627a5d9eb1ac5c48"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/__init__.py",
+      "sha256": "7297b5b522b4aa8f0627a68ed5b42e1dbc458471cb8d08ae7179a5c8fbc88b6a"
+    },
+    {
+      "import_or_packing_lines": [
+        {
+          "line": 173,
+          "text": "use_rot6d: bool = True"
+        },
+        {
+          "line": 194,
+          "text": "use_rot6d=getattr(args, \"use_rot6d\", True),"
+        },
+        {
+          "line": 517,
+          "text": "cfg.use_rot6d = True"
+        },
+        {
+          "line": 655,
+          "text": "if options.use_rot6d:"
+        },
+        {
+          "line": 658,
+          "text": "cfg.use_rot6d = False"
+        }
+      ],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/core.py",
+      "sha256": "fae8db47633677e16e9b894d9881e0ae6e89a2e8ff2b966038ab1d64b5cde1a8"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/go1.py",
+      "sha256": "5399dec8fd677aa6f0a264704286a2fd7cf46321e6a2b349c0d2a02d0c031cf8"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/legged_robot.py",
+      "sha256": "3cfc9ad36c63b67199d983655c87d280352e2ccfb1f336fd0f652b4ca306cf9a"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wbc.py",
+      "sha256": "56132d4ff9b866ce196bbc1b1353900b967c54f0f48d2d4e4b82c3555769a0bb"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/config/wtw.py",
+      "sha256": "c7e6cddc8acfcf386a9b739a38d01f9d4800a4e826fe5e15c4b805b53f8840b2"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/dog_ac.py",
+      "sha256": "8aa11b2aaab147acf66ee8f4eb0002fee0b4df467abbedb89dcdd493e3131a93"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/legged_robot.py",
+      "sha256": "4dc9107af7c1f77dc3b1b686911addf1a1d1a5179dfb194d0b1f4d0bdb8d8a60"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/utils.py",
+      "sha256": "4c2166bb97650fce4744766d45e6a123dba3d95c2ca1451b1d09c6aaa054a072"
+    },
+    {
+      "import_or_packing_lines": [
+        {
+          "line": 8,
+          "text": "import pytorch3d.transforms as pt3d"
+        },
+        {
+          "line": 2149,
+          "text": "if self.cfg.use_rot6d:"
+        }
+      ],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/wbc_env.py",
+      "sha256": "e39e1bb1dfe4c7a5c2b7309f4f158b6dcf1c9aac91ccbf8a60988ed8a64e992e"
+    },
+    {
+      "import_or_packing_lines": [],
+      "path": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/scripts/wbc_env_wrapper.py",
+      "sha256": "9fa688ce7c3f4665ec48752f0f31639f05ab3309b53d00d95e3d0afd0cb300c7"
+    }
+  ]
+}

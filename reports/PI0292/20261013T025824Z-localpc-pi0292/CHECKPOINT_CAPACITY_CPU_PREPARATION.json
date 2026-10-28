@@ -1,0 +1,87 @@
+{
+  "schema": "PI0292_CHECKPOINT_CAPACITY_CPU_PREPARATION_V1",
+  "status": "LOCAL_CPU_TESTED_NOT_DEPLOYED_NOT_MAIN_ADMISSION",
+  "observed_epoch": 1791872547.7933917,
+  "run_uuid": "20261013T025824Z-localpc-pi0292",
+  "protocol_release": "261bc5b37f20aaff1ad7d5742252d3dc1a91fa65",
+  "files": {
+    "scripts/pi0292/checkpoint_artifacts.py": "6198125eec0352970404163a0d6bcf6be70e596be563fc6d433b6d2fb0f2cb3b",
+    "scripts/pi0292/main_capacity.py": "ddc7b5cb172a8479e1a1c516062e129bd8c3d3526e213a340ea77bfc69717531",
+    "scripts/pi0292/test_checkpoint_capacity.py": "8454e36033118522021cea925595384d441c029a5e88abf491a957bd53d2b99d"
+  },
+  "tests": {
+    "new_methods": 19,
+    "new_subtests": 6,
+    "all_PI0292_passed": 60,
+    "all_PI0292_subtests": 24,
+    "junit_sha256": "f9b182a46cf55599f79606d9d0c7ed31ba40409ee782dd3ce6c29f78e0fe6ecd",
+    "measured_CPU_s_final_test_command": 3.67,
+    "earlier_cumulative_CPU": "NOT_ZERO_NOT_RECONSTRUCTED_HERE"
+  },
+  "checkpoint_audit": {
+    "full_model_shard_set": true,
+    "all_file_hashes": true,
+    "optimizer_scheduler_RNG_files": true,
+    "frozen_statistics": true,
+    "processor_config": true,
+    "processor_statistics": true,
+    "processor_embodiment_mapping": true,
+    "processor_statistics_match_canonical": true,
+    "unknown_files_refused": true,
+    "consumed_cursor_and_worker_trace": true,
+    "rejects_symlinks": true,
+    "uses_official_safetensors_parser": true,
+    "pickle_deserialized": false,
+    "model_loaded": false,
+    "standalone_proof_of_resume": false,
+    "actual_checkpoint_available": false
+  },
+  "capacity_plan": {
+    "actual_smoke_required": true,
+    "unreconciled_allocation_refused": true,
+    "actual_interstep_time_with_factor": 1.25,
+    "main_steps": 4096,
+    "effective_batch": 32,
+    "exposures": 131072,
+    "main_share_s": 16200,
+    "evaluation_reserve_s": 10800,
+    "full_main_checkpoints": 2,
+    "conservative_failed_submission_retained": true,
+    "combined_next_allocation_planned": true,
+    "filesystem_and_personal_quota_checked_separately": true,
+    "unknown_quota_not_assumed_unlimited": true,
+    "NaN_and_negative_resource_values_refused": true,
+    "authorizes_execution": false,
+    "actual_MAIN_CAPACITY_PREFLIGHT_created": false
+  },
+  "actual_remote_revalidation": {
+    "project_query": "USER_LOGIN_REQUIRED",
+    "existing_official_amgr_sshlogin": "EXIT_1_OUTPUT_NOT_RETAINED_NO_CREDENTIAL_DISCLOSURE",
+    "subsequent_structured_project_query": "EXIT_1_LOGIN_REQUIRED",
+    "scratch_quota_display": "940.7GB / 1.0TB",
+    "quota_report_local": "2026-10-13 14:13",
+    "new_qsub_calls": 0,
+    "known_PI0292_jobs": [],
+    "GPU_allocated_s": 0,
+    "model_loads": 0
+  },
+  "remaining": [
+    "User account-manager authentication and verified unexpired project",
+    "Verified sufficient personal quota or separately authorized storage binding",
+    "Actual S3 smoke and resume equivalence",
+    "Bind capacity plan to actual receipts and approved launcher before S4",
+    "Combined allocation lifecycle and full checkpoint HF delivery integration",
+    "Actual S5 model records and S6 endpoint/teacher/model qualification"
+  ],
+  "changes": {
+    "frozen_source_capsules": false,
+    "upstream_code": false,
+    "data_or_statistics": false,
+    "original_deadline": false,
+    "PBS_budget_reset": false,
+    "WBC": false,
+    "deleted_assets": false
+  },
+  "selected": "NONE",
+  "deployment": "NONE"
+}

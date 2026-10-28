@@ -1,0 +1,63 @@
+{
+  "schema": "FD1_DATA_GAPS_V1",
+  "authority_release": "6ab80b40e2036c2c29a8d2eb648987f2af7447a2",
+  "baseline_release": "658b432fa1ee37182945e84b7d4ec4d830bee67e",
+  "FD1_run_uuid": "20261018T162151Z-localpc-fd1",
+  "FD1_T0_epoch": 1792340511,
+  "candidate_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+  "plan_sha256": "6e5a45e121aa493e1de32977c00d3f20ecc3c1f9cb7a6b9698438cbb16028e97",
+  "original_results_changed": false,
+  "WBC_S1_plant_gripper_score_frozen": true,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "original_raw_geom_pairs_missing": 23,
+  "reconstructed_collision_pairs_known": 20,
+  "remaining_collision_pair_gap": 1,
+  "native_archive_42_attempt_join_complete": true,
+  "missing_data_not_imputed": true,
+  "gaps": [
+    {
+      "id": "G1",
+      "grade": "UNQUALIFIED",
+      "affected_cases": [
+        "PI0294-MP1-SOURCE-CONFIRM-S-CORR-2048-N29201-B0-F0-000-T2-REPLACEMENT-01"
+      ],
+      "description": "One T2 original history replay reached the decision but extra diagnostic snapshot changed its fingerprint. Case remains spent; no retry and no inferred geom."
+    },
+    {
+      "id": "G2",
+      "grade": "UNMEASURED",
+      "description": "Original CONFIRM40 Teacher dynamic success and signed-clearance distribution were never qualified; static IK/FOV is not dynamic feasibility."
+    },
+    {
+      "id": "G3",
+      "grade": "UNMEASURED",
+      "description": "Original process hidden IK/Python/RNG snapshots were not saved. Complete deterministic history and observed-state parity are measured; bitwise unrecorded identity is not."
+    },
+    {
+      "id": "G4",
+      "grade": "UNMEASURED",
+      "description": "No same-state qualified T2 expert channel-replacement trial. Static channel projections are not dynamic causal ablations."
+    },
+    {
+      "id": "G5",
+      "grade": "UNMEASURED",
+      "description": "Exact offending finger side/position at JOINT_LIMIT not logged; all arm margins are positive, so frozen rule identifies finger-validity branch, not an arm joint violation."
+    },
+    {
+      "id": "G6",
+      "grade": "LIMITATION",
+      "description": "Single candidate/training seed,10 scene groups per task and2 banks. Family confounds geometry, direction and visual appearance; no unique neural cause or broad OOD claim."
+    },
+    {
+      "id": "G7",
+      "grade": "LIMITATION",
+      "description": "Only original sampled20Hz camera/TCP divergence is measured; an event between samples has at most50ms timing resolution. No new render."
+    },
+    {
+      "id": "G8",
+      "grade": "UNMEASURED",
+      "description": "No Go2/WBC or real-robot task proof; TF-R3 STOP remains. Source fixed-base outcomes cannot substitute for target transfer."
+    }
+  ]
+}

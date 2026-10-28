@@ -1,0 +1,1752 @@
+{
+  "status": "PASS_FIRST_THREE_EXISTING_TRAIN_PER_TASK_IDENTITY_ONLY",
+  "manifest_sha256": "b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df",
+  "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+  "selection": "TASK_T1_T2_SORT_ID_NONLEGACY_TRAIN_FIRST3_NO_REPLACEMENT",
+  "rows": [
+    {
+      "id": "PI0294-TRAIN-F0-000-T1",
+      "task": "T1",
+      "split": "TRAIN",
+      "origin": "new",
+      "family": "F0",
+      "source_numeric_sha256": "f39779bfae9e8b9fb3f46db501df16460352e483c16eca7e030877c815c4c46b",
+      "schema": {
+        "actual_state10": {
+          "shape": [
+            601,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "committed_absolute10": {
+          "shape": [
+            640,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "rgb_paths": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U18"
+        },
+        "rgb_sha256": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U64"
+        },
+        "valid_window": {
+          "shape": [
+            601
+          ],
+          "dtype": "bool"
+        },
+        "anchor_time_s": {
+          "shape": [
+            601
+          ],
+          "dtype": "float64"
+        },
+        "offset_s": {
+          "shape": [
+            40
+          ],
+          "dtype": "float64"
+        },
+        "instruction": {
+          "shape": [],
+          "dtype": "<U93"
+        },
+        "label_representation": {
+          "shape": [],
+          "dtype": "<U24"
+        }
+      },
+      "numeric": {
+        "observations": 601,
+        "actual_state_finite": true,
+        "committed_finite": true,
+        "label_representation": "ABSOLUTE_COMMITTED_EEF10",
+        "source_numeric_sha256": "f39779bfae9e8b9fb3f46db501df16460352e483c16eca7e030877c815c4c46b"
+      },
+      "raw_exists": true,
+      "raw_children": [
+        "highrate.npz",
+        "scene.xml.json",
+        "INITIAL_STATE.json",
+        "auditor.stdout",
+        "FILE_MANIFEST.json",
+        "physics.npz",
+        "WORKER_RECEIPT.json",
+        "RESULT.json",
+        "CARD.json",
+        "STATIC_QUALIFICATION.json",
+        "AUDIT.json",
+        "TEACHER_EVENTS.json",
+        "references.json",
+        "RENDER_PROCESS.json",
+        "wrist_rgb",
+        "READY.json",
+        "SCORE.json",
+        "samples.json",
+        "body_rgb",
+        "RESERVATION.json"
+      ],
+      "raw_first_keys": [],
+      "raw_metadata": {
+        "samples.json": {
+          "sha256": "84e7bc96534acf1e0b7c3f57da68de3f03f32a303db21366f33fe4ef1af86043",
+          "type": "list",
+          "entries": 641,
+          "first_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ],
+          "last_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ]
+        },
+        "references.json": {
+          "sha256": "3647a6ca216c8d09fd99a541eca31bb902750e0c3d1e6b249b9107369887826b",
+          "type": "list",
+          "entries": 80,
+          "first_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ],
+          "last_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ]
+        },
+        "TEACHER_EVENTS.json": {
+          "sha256": "321fe92abc30ea37f05cfeb527fe91a38f105265c74aca28bb26fc31e903e204",
+          "type": "list",
+          "entries": 9,
+          "first_keys": [
+            "actual_carry",
+            "actual_lift",
+            "physical_grasp",
+            "previous",
+            "stage",
+            "time_s"
+          ],
+          "last_keys": [
+            "actual_carry",
+            "actual_lift",
+            "physical_grasp",
+            "previous",
+            "stage",
+            "time_s"
+          ]
+        },
+        "SCORE.json": {
+          "sha256": "1a4d24d6cfc274947e74895ed18cf1e7c1d66a38de1a10a89386146fe232a575",
+          "type": "dict",
+          "keys": [
+            "clock_valid",
+            "complete_32s",
+            "deployment",
+            "domain",
+            "evidence_source",
+            "history",
+            "hold_observed",
+            "hold_pass",
+            "hold_subpredicates",
+            "maximum_actual_carry_xy_m",
+            "maximum_actual_lift_m",
+            "persistent_success",
+            "physics_sha256",
+            "raw_sample_count",
+            "safety_valid",
+            "selected",
+            "task",
+            "task_id"
+          ],
+          "value": {
+            "clock_valid": true,
+            "complete_32s": true,
+            "deployment": "NONE",
+            "domain": "FIXED_BASE_ARX5_TASK_SIM",
+            "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+            "history": {
+              "horizontal_carry": true,
+              "sustained_grasp": true,
+              "sustained_lift": true
+            },
+            "hold_observed": 41,
+            "hold_pass": 41,
+            "hold_subpredicates": {
+              "angular_speed": 41,
+              "linear_speed": 41,
+              "object_and_contacts_valid": 41,
+              "released": 41,
+              "table_height": 41,
+              "tcp_clear": 41,
+              "zone_corners": 41
+            },
+            "maximum_actual_carry_xy_m": 0.16959139450898394,
+            "maximum_actual_lift_m": 0.08294841613270748,
+            "persistent_success": true,
+            "physics_sha256": "b7b19ddbb6e1ec511a24bb35d6e108f86473c87fa2c126143e8b31655766750e",
+            "raw_sample_count": 641,
+            "safety_valid": true,
+            "selected": "NONE",
+            "task": "T1",
+            "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1"
+          }
+        },
+        "AUDIT.json": {
+          "sha256": "7209998149c33fd9db0aeab9051b46402df63158278e567de546500396dcf773",
+          "type": "dict",
+          "keys": [
+            "id",
+            "fixture",
+            "integrations",
+            "render_calls",
+            "model_loads",
+            "admitted",
+            "status",
+            "quality_terminal",
+            "detail",
+            "micro_reconstruction",
+            "card_sha256",
+            "samples_sha256",
+            "manifest_sha256",
+            "source_sha",
+            "group",
+            "task",
+            "split",
+            "family",
+            "first_attempt",
+            "CPU_s",
+            "wall_s"
+          ]
+        },
+        "CARD.json": {
+          "sha256": "abd38fcb3e0e61f83559ff8a30dfaa08e27aaf78c41fa8fb14649078dc05db3e",
+          "type": "dict",
+          "keys": [
+            "cube_yaw",
+            "domain",
+            "family",
+            "goal_xy",
+            "group_id",
+            "id",
+            "initial_state_sha256",
+            "instruction",
+            "layout_candidate_index",
+            "mode",
+            "qualification",
+            "scene_group",
+            "seed",
+            "source_xy",
+            "split",
+            "table_top_m",
+            "task",
+            "task_id",
+            "visual"
+          ]
+        }
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-001-T1",
+      "task": "T1",
+      "split": "TRAIN",
+      "origin": "new",
+      "family": "F0",
+      "source_numeric_sha256": "292ac19a4c2892570e5d5bd8957fb8f4dd2f2a39c533ecbd6ff46e9eadb52b52",
+      "schema": {
+        "actual_state10": {
+          "shape": [
+            601,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "committed_absolute10": {
+          "shape": [
+            640,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "rgb_paths": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U18"
+        },
+        "rgb_sha256": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U64"
+        },
+        "valid_window": {
+          "shape": [
+            601
+          ],
+          "dtype": "bool"
+        },
+        "anchor_time_s": {
+          "shape": [
+            601
+          ],
+          "dtype": "float64"
+        },
+        "offset_s": {
+          "shape": [
+            40
+          ],
+          "dtype": "float64"
+        },
+        "instruction": {
+          "shape": [],
+          "dtype": "<U93"
+        },
+        "label_representation": {
+          "shape": [],
+          "dtype": "<U24"
+        }
+      },
+      "numeric": {
+        "observations": 601,
+        "actual_state_finite": true,
+        "committed_finite": true,
+        "label_representation": "ABSOLUTE_COMMITTED_EEF10",
+        "source_numeric_sha256": "292ac19a4c2892570e5d5bd8957fb8f4dd2f2a39c533ecbd6ff46e9eadb52b52"
+      },
+      "raw_exists": true,
+      "raw_children": [
+        "highrate.npz",
+        "scene.xml.json",
+        "INITIAL_STATE.json",
+        "auditor.stdout",
+        "FILE_MANIFEST.json",
+        "physics.npz",
+        "WORKER_RECEIPT.json",
+        "RESULT.json",
+        "CARD.json",
+        "STATIC_QUALIFICATION.json",
+        "AUDIT.json",
+        "TEACHER_EVENTS.json",
+        "references.json",
+        "RENDER_PROCESS.json",
+        "wrist_rgb",
+        "READY.json",
+        "SCORE.json",
+        "samples.json",
+        "body_rgb",
+        "RESERVATION.json"
+      ],
+      "raw_first_keys": [],
+      "raw_metadata": {
+        "samples.json": {
+          "sha256": "826f97b6e65c96beb16db75f64de56e774305a0d48a9ed66f6e3532f74cdbdd1",
+          "type": "list",
+          "entries": 641,
+          "first_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ],
+          "last_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ]
+        },
+        "references.json": {
+          "sha256": "8a91974c8fb3f8086c943f4413525cf990277fb568f655528b32f9befc03cbe2",
+          "type": "list",
+          "entries": 80,
+          "first_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ],
+          "last_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ]
+        },
+        "TEACHER_EVENTS.json": {
+          "sha256": "8314bb8b7008d7a1d5bcd9d70525dc1cb4f0a50185b60fc574ccaae2536601e6",
+          "type": "list",
+          "entries": 9,
+          "first_keys": [
+            "actual_carry",
+            "actual_lift",
+            "physical_grasp",
+            "previous",
+            "stage",
+            "time_s"
+          ],
+          "last_keys": [
+            "actual_carry",
+            "actual_lift",
+            "physical_grasp",
+            "previous",
+            "stage",
+            "time_s"
+          ]
+        },
+        "SCORE.json": {
+          "sha256": "6d2e717aeb900e36cb52dd917b36f4f1a6b9e3f9cd91f1e0c6a49d7d6d0297b0",
+          "type": "dict",
+          "keys": [
+            "clock_valid",
+            "complete_32s",
+            "deployment",
+            "domain",
+            "evidence_source",
+            "history",
+            "hold_observed",
+            "hold_pass",
+            "hold_subpredicates",
+            "maximum_actual_carry_xy_m",
+            "maximum_actual_lift_m",
+            "persistent_success",
+            "physics_sha256",
+            "raw_sample_count",
+            "safety_valid",
+            "selected",
+            "task",
+            "task_id"
+          ],
+          "value": {
+            "clock_valid": true,
+            "complete_32s": true,
+            "deployment": "NONE",
+            "domain": "FIXED_BASE_ARX5_TASK_SIM",
+            "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+            "history": {
+              "horizontal_carry": true,
+              "sustained_grasp": true,
+              "sustained_lift": true
+            },
+            "hold_observed": 41,
+            "hold_pass": 41,
+            "hold_subpredicates": {
+              "angular_speed": 41,
+              "linear_speed": 41,
+              "object_and_contacts_valid": 41,
+              "released": 41,
+              "table_height": 41,
+              "tcp_clear": 41,
+              "zone_corners": 41
+            },
+            "maximum_actual_carry_xy_m": 0.17109701659100282,
+            "maximum_actual_lift_m": 0.08279633494264554,
+            "persistent_success": true,
+            "physics_sha256": "101835316bb16be2d67a134e02d9f2bafd37a2c544fdd101fd6238fc975da939",
+            "raw_sample_count": 641,
+            "safety_valid": true,
+            "selected": "NONE",
+            "task": "T1",
+            "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1"
+          }
+        },
+        "AUDIT.json": {
+          "sha256": "3368609f5a3ddc01b07abf2f6b3ea5c53f3480724ee8cb8c1b28f17f0afe3318",
+          "type": "dict",
+          "keys": [
+            "id",
+            "fixture",
+            "integrations",
+            "render_calls",
+            "model_loads",
+            "admitted",
+            "status",
+            "quality_terminal",
+            "detail",
+            "micro_reconstruction",
+            "card_sha256",
+            "samples_sha256",
+            "manifest_sha256",
+            "source_sha",
+            "group",
+            "task",
+            "split",
+            "family",
+            "first_attempt",
+            "CPU_s",
+            "wall_s"
+          ]
+        },
+        "CARD.json": {
+          "sha256": "1a58c1ad71e392b786f772123b3520986aa53ba430acea238958a6f0b63f8c7c",
+          "type": "dict",
+          "keys": [
+            "cube_yaw",
+            "domain",
+            "family",
+            "goal_xy",
+            "group_id",
+            "id",
+            "initial_state_sha256",
+            "instruction",
+            "layout_candidate_index",
+            "mode",
+            "qualification",
+            "scene_group",
+            "seed",
+            "source_xy",
+            "split",
+            "table_top_m",
+            "task",
+            "task_id",
+            "visual"
+          ]
+        }
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-002-T1",
+      "task": "T1",
+      "split": "TRAIN",
+      "origin": "new",
+      "family": "F0",
+      "source_numeric_sha256": "2a3ad5a3a9827f48be43d43f3043db5a64173f63da7d28328df796a3367e3fc8",
+      "schema": {
+        "actual_state10": {
+          "shape": [
+            601,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "committed_absolute10": {
+          "shape": [
+            640,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "rgb_paths": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U18"
+        },
+        "rgb_sha256": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U64"
+        },
+        "valid_window": {
+          "shape": [
+            601
+          ],
+          "dtype": "bool"
+        },
+        "anchor_time_s": {
+          "shape": [
+            601
+          ],
+          "dtype": "float64"
+        },
+        "offset_s": {
+          "shape": [
+            40
+          ],
+          "dtype": "float64"
+        },
+        "instruction": {
+          "shape": [],
+          "dtype": "<U93"
+        },
+        "label_representation": {
+          "shape": [],
+          "dtype": "<U24"
+        }
+      },
+      "numeric": {
+        "observations": 601,
+        "actual_state_finite": true,
+        "committed_finite": true,
+        "label_representation": "ABSOLUTE_COMMITTED_EEF10",
+        "source_numeric_sha256": "2a3ad5a3a9827f48be43d43f3043db5a64173f63da7d28328df796a3367e3fc8"
+      },
+      "raw_exists": true,
+      "raw_children": [
+        "highrate.npz",
+        "scene.xml.json",
+        "INITIAL_STATE.json",
+        "auditor.stdout",
+        "FILE_MANIFEST.json",
+        "physics.npz",
+        "WORKER_RECEIPT.json",
+        "RESULT.json",
+        "CARD.json",
+        "STATIC_QUALIFICATION.json",
+        "AUDIT.json",
+        "TEACHER_EVENTS.json",
+        "references.json",
+        "RENDER_PROCESS.json",
+        "wrist_rgb",
+        "READY.json",
+        "SCORE.json",
+        "samples.json",
+        "body_rgb",
+        "RESERVATION.json"
+      ],
+      "raw_first_keys": [],
+      "raw_metadata": {
+        "samples.json": {
+          "sha256": "b1caa76d25630d1ab8e1f56e30147d04fe636569689aae1a8d6a32cde2fc5e0f",
+          "type": "list",
+          "entries": 641,
+          "first_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ],
+          "last_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ]
+        },
+        "references.json": {
+          "sha256": "b6dedb972c1e37f5f2fb457308fce6d3f2ea5ba07c4f4ce6477c1bae8b4f3d19",
+          "type": "list",
+          "entries": 80,
+          "first_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ],
+          "last_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ]
+        },
+        "TEACHER_EVENTS.json": {
+          "sha256": "8314bb8b7008d7a1d5bcd9d70525dc1cb4f0a50185b60fc574ccaae2536601e6",
+          "type": "list",
+          "entries": 9,
+          "first_keys": [
+            "actual_carry",
+            "actual_lift",
+            "physical_grasp",
+            "previous",
+            "stage",
+            "time_s"
+          ],
+          "last_keys": [
+            "actual_carry",
+            "actual_lift",
+            "physical_grasp",
+            "previous",
+            "stage",
+            "time_s"
+          ]
+        },
+        "SCORE.json": {
+          "sha256": "7342cdcdd11002e83cd7be768210caba20950c9c37916f7621c34e344ad17313",
+          "type": "dict",
+          "keys": [
+            "clock_valid",
+            "complete_32s",
+            "deployment",
+            "domain",
+            "evidence_source",
+            "history",
+            "hold_observed",
+            "hold_pass",
+            "hold_subpredicates",
+            "maximum_actual_carry_xy_m",
+            "maximum_actual_lift_m",
+            "persistent_success",
+            "physics_sha256",
+            "raw_sample_count",
+            "safety_valid",
+            "selected",
+            "task",
+            "task_id"
+          ],
+          "value": {
+            "clock_valid": true,
+            "complete_32s": true,
+            "deployment": "NONE",
+            "domain": "FIXED_BASE_ARX5_TASK_SIM",
+            "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+            "history": {
+              "horizontal_carry": true,
+              "sustained_grasp": true,
+              "sustained_lift": true
+            },
+            "hold_observed": 41,
+            "hold_pass": 41,
+            "hold_subpredicates": {
+              "angular_speed": 41,
+              "linear_speed": 41,
+              "object_and_contacts_valid": 41,
+              "released": 41,
+              "table_height": 41,
+              "tcp_clear": 41,
+              "zone_corners": 41
+            },
+            "maximum_actual_carry_xy_m": 0.1716304881145314,
+            "maximum_actual_lift_m": 0.08279992582809975,
+            "persistent_success": true,
+            "physics_sha256": "38a5c2c547ba9437f4828a5d67093339ce1ff4a1e956b20eb34f3083895e267c",
+            "raw_sample_count": 641,
+            "safety_valid": true,
+            "selected": "NONE",
+            "task": "T1",
+            "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1"
+          }
+        },
+        "AUDIT.json": {
+          "sha256": "d7005587eb43440d6404a164d5ddc38beff7a7a207a9ec8b757271f3ca45984b",
+          "type": "dict",
+          "keys": [
+            "id",
+            "fixture",
+            "integrations",
+            "render_calls",
+            "model_loads",
+            "admitted",
+            "status",
+            "quality_terminal",
+            "detail",
+            "micro_reconstruction",
+            "card_sha256",
+            "samples_sha256",
+            "manifest_sha256",
+            "source_sha",
+            "group",
+            "task",
+            "split",
+            "family",
+            "first_attempt",
+            "CPU_s",
+            "wall_s"
+          ]
+        },
+        "CARD.json": {
+          "sha256": "5e5b94dafd254f8b0f5b1ebd7c2b8b892e0295a96e69682acc78e1dc1c165e2e",
+          "type": "dict",
+          "keys": [
+            "cube_yaw",
+            "domain",
+            "family",
+            "goal_xy",
+            "group_id",
+            "id",
+            "initial_state_sha256",
+            "instruction",
+            "layout_candidate_index",
+            "mode",
+            "qualification",
+            "scene_group",
+            "seed",
+            "source_xy",
+            "split",
+            "table_top_m",
+            "task",
+            "task_id",
+            "visual"
+          ]
+        }
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-000-T2",
+      "task": "T2",
+      "split": "TRAIN",
+      "origin": "new",
+      "family": "F0",
+      "source_numeric_sha256": "f11687ca5db007882137585f0d579b30e8e28c1922fcffaa1dd3b81ce3eb5b38",
+      "schema": {
+        "actual_state10": {
+          "shape": [
+            601,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "committed_absolute10": {
+          "shape": [
+            640,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "rgb_paths": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U18"
+        },
+        "rgb_sha256": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U64"
+        },
+        "valid_window": {
+          "shape": [
+            601
+          ],
+          "dtype": "bool"
+        },
+        "anchor_time_s": {
+          "shape": [
+            601
+          ],
+          "dtype": "float64"
+        },
+        "offset_s": {
+          "shape": [
+            40
+          ],
+          "dtype": "float64"
+        },
+        "instruction": {
+          "shape": [],
+          "dtype": "<U102"
+        },
+        "label_representation": {
+          "shape": [],
+          "dtype": "<U24"
+        }
+      },
+      "numeric": {
+        "observations": 601,
+        "actual_state_finite": true,
+        "committed_finite": true,
+        "label_representation": "ABSOLUTE_COMMITTED_EEF10",
+        "source_numeric_sha256": "f11687ca5db007882137585f0d579b30e8e28c1922fcffaa1dd3b81ce3eb5b38"
+      },
+      "raw_exists": true,
+      "raw_children": [
+        "highrate.npz",
+        "scene.xml.json",
+        "INITIAL_STATE.json",
+        "auditor.stdout",
+        "FILE_MANIFEST.json",
+        "physics.npz",
+        "WORKER_RECEIPT.json",
+        "RESULT.json",
+        "CARD.json",
+        "PUSH_GEOMETRY.json",
+        "STATIC_QUALIFICATION.json",
+        "AUDIT.json",
+        "TEACHER_EVENTS.json",
+        "references.json",
+        "RENDER_PROCESS.json",
+        "wrist_rgb",
+        "READY.json",
+        "SCORE.json",
+        "samples.json",
+        "body_rgb",
+        "RESERVATION.json"
+      ],
+      "raw_first_keys": [],
+      "raw_metadata": {
+        "samples.json": {
+          "sha256": "6ee846ffafb694488fe5ac0dcb7ab8af2d4d776cf052033818d4f476e1706736",
+          "type": "list",
+          "entries": 641,
+          "first_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ],
+          "last_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ]
+        },
+        "references.json": {
+          "sha256": "cfcec5212667bfe841f84bee6b09b4b4af3bdc1e0fe6df2d957ec983e7ab1000",
+          "type": "list",
+          "entries": 80,
+          "first_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ],
+          "last_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ]
+        },
+        "TEACHER_EVENTS.json": {
+          "sha256": "58c9193df859e31815c63daa877e6e8789591692b966d2603ef50a4872de2e9d",
+          "type": "list",
+          "entries": 7,
+          "first_keys": [
+            "actual_contact",
+            "actual_displacement_m",
+            "previous",
+            "stage",
+            "time_s"
+          ],
+          "last_keys": [
+            "actual_contact",
+            "actual_displacement_m",
+            "previous",
+            "stage",
+            "time_s"
+          ]
+        },
+        "SCORE.json": {
+          "sha256": "d415be07e481fe94f1ef6fdafe083c3e64fed1a8aff3c39295117d9f19119e05",
+          "type": "dict",
+          "keys": [
+            "clock_valid",
+            "complete_32s",
+            "contact_height_numerical_tolerance_m",
+            "deployment",
+            "domain",
+            "evidence_source",
+            "history",
+            "hold_observed",
+            "hold_pass",
+            "hold_subpredicates",
+            "maximum_actual_carry_xy_m",
+            "maximum_actual_lift_m",
+            "maximum_bilateral_grasp_s",
+            "maximum_center_height_rise_m",
+            "persistent_success",
+            "physics_sha256",
+            "raw_sample_count",
+            "safety_valid",
+            "selected",
+            "task",
+            "task_id"
+          ],
+          "value": {
+            "clock_valid": true,
+            "complete_32s": true,
+            "contact_height_numerical_tolerance_m": 1e-08,
+            "deployment": "NONE",
+            "domain": "FIXED_BASE_ARX5_TASK_SIM",
+            "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+            "history": {
+              "actual_robot_contact": true,
+              "highrate_contact_complete": true,
+              "horizontal_push": true,
+              "no_lift": true,
+              "no_sustained_bilateral_grasp": true
+            },
+            "hold_observed": 41,
+            "hold_pass": 41,
+            "hold_subpredicates": {
+              "angular_speed": 41,
+              "linear_speed": 41,
+              "object_and_contacts_valid": 41,
+              "released": 41,
+              "robot_separated": 41,
+              "table_height": 41,
+              "tcp_clear": 41,
+              "zone_corners": 41
+            },
+            "maximum_actual_carry_xy_m": 0.1621982922452449,
+            "maximum_actual_lift_m": 0.00023775283957033766,
+            "maximum_bilateral_grasp_s": 0.0,
+            "maximum_center_height_rise_m": 0.0002685872748325324,
+            "persistent_success": true,
+            "physics_sha256": "c7939352a1cf6b3bf81968edf29a508630dce54fbb388ab69b5d41bd6705babf",
+            "raw_sample_count": 641,
+            "safety_valid": true,
+            "selected": "NONE",
+            "task": "T2",
+            "task_id": "ARX5_FIXED_BASE_PUSH_V1"
+          }
+        },
+        "AUDIT.json": {
+          "sha256": "2985f8c135b99dda370e654adb88346b073af09f8918387d82889fd5e4de5aef",
+          "type": "dict",
+          "keys": [
+            "id",
+            "fixture",
+            "integrations",
+            "render_calls",
+            "model_loads",
+            "admitted",
+            "status",
+            "quality_terminal",
+            "detail",
+            "micro_reconstruction",
+            "card_sha256",
+            "samples_sha256",
+            "manifest_sha256",
+            "source_sha",
+            "group",
+            "task",
+            "split",
+            "family",
+            "first_attempt",
+            "CPU_s",
+            "wall_s"
+          ]
+        },
+        "CARD.json": {
+          "sha256": "7b64803b81a10323dffc764f9d61575cde6ab6d7a955ef960da768e230bc2f74",
+          "type": "dict",
+          "keys": [
+            "cube_yaw",
+            "domain",
+            "family",
+            "goal_xy",
+            "group_id",
+            "id",
+            "initial_state_sha256",
+            "instruction",
+            "layout_candidate_index",
+            "mode",
+            "qualification",
+            "scene_group",
+            "seed",
+            "source_xy",
+            "split",
+            "table_top_m",
+            "task",
+            "task_id",
+            "visual"
+          ]
+        }
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-001-T2",
+      "task": "T2",
+      "split": "TRAIN",
+      "origin": "new",
+      "family": "F0",
+      "source_numeric_sha256": "cb83c4bc5bb68ce0fb312b44855f8d713db59292a1c8dbe3dde408d17a2bb40f",
+      "schema": {
+        "actual_state10": {
+          "shape": [
+            601,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "committed_absolute10": {
+          "shape": [
+            640,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "rgb_paths": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U18"
+        },
+        "rgb_sha256": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U64"
+        },
+        "valid_window": {
+          "shape": [
+            601
+          ],
+          "dtype": "bool"
+        },
+        "anchor_time_s": {
+          "shape": [
+            601
+          ],
+          "dtype": "float64"
+        },
+        "offset_s": {
+          "shape": [
+            40
+          ],
+          "dtype": "float64"
+        },
+        "instruction": {
+          "shape": [],
+          "dtype": "<U102"
+        },
+        "label_representation": {
+          "shape": [],
+          "dtype": "<U24"
+        }
+      },
+      "numeric": {
+        "observations": 601,
+        "actual_state_finite": true,
+        "committed_finite": true,
+        "label_representation": "ABSOLUTE_COMMITTED_EEF10",
+        "source_numeric_sha256": "cb83c4bc5bb68ce0fb312b44855f8d713db59292a1c8dbe3dde408d17a2bb40f"
+      },
+      "raw_exists": true,
+      "raw_children": [
+        "highrate.npz",
+        "scene.xml.json",
+        "INITIAL_STATE.json",
+        "auditor.stdout",
+        "FILE_MANIFEST.json",
+        "physics.npz",
+        "WORKER_RECEIPT.json",
+        "RESULT.json",
+        "CARD.json",
+        "PUSH_GEOMETRY.json",
+        "STATIC_QUALIFICATION.json",
+        "AUDIT.json",
+        "TEACHER_EVENTS.json",
+        "references.json",
+        "RENDER_PROCESS.json",
+        "wrist_rgb",
+        "READY.json",
+        "SCORE.json",
+        "samples.json",
+        "body_rgb",
+        "RESERVATION.json"
+      ],
+      "raw_first_keys": [],
+      "raw_metadata": {
+        "samples.json": {
+          "sha256": "fb9feea731650d08a78a953b3cef4c367c938975b883b4abb69a82b1bae5a7fc",
+          "type": "list",
+          "entries": 641,
+          "first_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ],
+          "last_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ]
+        },
+        "references.json": {
+          "sha256": "f4e7a4cf95048af44b376cbeabe265245b6ad065ef920f3a08e0e026dfa87c06",
+          "type": "list",
+          "entries": 80,
+          "first_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ],
+          "last_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ]
+        },
+        "TEACHER_EVENTS.json": {
+          "sha256": "3fb0ee19cfb08acc8f8cf2e70c09a966f98c9b8461cd40e5706759e58dcac882",
+          "type": "list",
+          "entries": 7,
+          "first_keys": [
+            "actual_contact",
+            "actual_displacement_m",
+            "previous",
+            "stage",
+            "time_s"
+          ],
+          "last_keys": [
+            "actual_contact",
+            "actual_displacement_m",
+            "previous",
+            "stage",
+            "time_s"
+          ]
+        },
+        "SCORE.json": {
+          "sha256": "a4e2caa55119696c314bf6b026e4f9282a97a66ec9b5cb71dca458c808a0d8ea",
+          "type": "dict",
+          "keys": [
+            "clock_valid",
+            "complete_32s",
+            "contact_height_numerical_tolerance_m",
+            "deployment",
+            "domain",
+            "evidence_source",
+            "history",
+            "hold_observed",
+            "hold_pass",
+            "hold_subpredicates",
+            "maximum_actual_carry_xy_m",
+            "maximum_actual_lift_m",
+            "maximum_bilateral_grasp_s",
+            "maximum_center_height_rise_m",
+            "persistent_success",
+            "physics_sha256",
+            "raw_sample_count",
+            "safety_valid",
+            "selected",
+            "task",
+            "task_id"
+          ],
+          "value": {
+            "clock_valid": true,
+            "complete_32s": true,
+            "contact_height_numerical_tolerance_m": 1e-08,
+            "deployment": "NONE",
+            "domain": "FIXED_BASE_ARX5_TASK_SIM",
+            "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+            "history": {
+              "actual_robot_contact": true,
+              "highrate_contact_complete": true,
+              "horizontal_push": true,
+              "no_lift": true,
+              "no_sustained_bilateral_grasp": true
+            },
+            "hold_observed": 41,
+            "hold_pass": 41,
+            "hold_subpredicates": {
+              "angular_speed": 41,
+              "linear_speed": 41,
+              "object_and_contacts_valid": 41,
+              "released": 41,
+              "robot_separated": 41,
+              "table_height": 41,
+              "tcp_clear": 41,
+              "zone_corners": 41
+            },
+            "maximum_actual_carry_xy_m": 0.1647115140721023,
+            "maximum_actual_lift_m": 0.0002089705542168696,
+            "maximum_bilateral_grasp_s": 0.0,
+            "maximum_center_height_rise_m": 0.0002661271492293005,
+            "persistent_success": true,
+            "physics_sha256": "519ae132563acb5cc30edc210d5ff8f68d456e8f62119460c53d5097e4377528",
+            "raw_sample_count": 641,
+            "safety_valid": true,
+            "selected": "NONE",
+            "task": "T2",
+            "task_id": "ARX5_FIXED_BASE_PUSH_V1"
+          }
+        },
+        "AUDIT.json": {
+          "sha256": "99be9f5feac48b88e620515f726d512792c83a84d6d1132c2096283aa3303b79",
+          "type": "dict",
+          "keys": [
+            "id",
+            "fixture",
+            "integrations",
+            "render_calls",
+            "model_loads",
+            "admitted",
+            "status",
+            "quality_terminal",
+            "detail",
+            "micro_reconstruction",
+            "card_sha256",
+            "samples_sha256",
+            "manifest_sha256",
+            "source_sha",
+            "group",
+            "task",
+            "split",
+            "family",
+            "first_attempt",
+            "CPU_s",
+            "wall_s"
+          ]
+        },
+        "CARD.json": {
+          "sha256": "86f92f53254bbb9d84d9c8cde20d00f06902c6bbeb23434846b9a41cd9326b47",
+          "type": "dict",
+          "keys": [
+            "cube_yaw",
+            "domain",
+            "family",
+            "goal_xy",
+            "group_id",
+            "id",
+            "initial_state_sha256",
+            "instruction",
+            "layout_candidate_index",
+            "mode",
+            "qualification",
+            "scene_group",
+            "seed",
+            "source_xy",
+            "split",
+            "table_top_m",
+            "task",
+            "task_id",
+            "visual"
+          ]
+        }
+      }
+    },
+    {
+      "id": "PI0294-TRAIN-F0-002-T2",
+      "task": "T2",
+      "split": "TRAIN",
+      "origin": "new",
+      "family": "F0",
+      "source_numeric_sha256": "9362b6cc4e66fb3fe8a1190ff1d396e7366ef7b8631a68c4d62c368969e90e27",
+      "schema": {
+        "actual_state10": {
+          "shape": [
+            601,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "committed_absolute10": {
+          "shape": [
+            640,
+            10
+          ],
+          "dtype": "float64"
+        },
+        "rgb_paths": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U18"
+        },
+        "rgb_sha256": {
+          "shape": [
+            601,
+            2
+          ],
+          "dtype": "<U64"
+        },
+        "valid_window": {
+          "shape": [
+            601
+          ],
+          "dtype": "bool"
+        },
+        "anchor_time_s": {
+          "shape": [
+            601
+          ],
+          "dtype": "float64"
+        },
+        "offset_s": {
+          "shape": [
+            40
+          ],
+          "dtype": "float64"
+        },
+        "instruction": {
+          "shape": [],
+          "dtype": "<U102"
+        },
+        "label_representation": {
+          "shape": [],
+          "dtype": "<U24"
+        }
+      },
+      "numeric": {
+        "observations": 601,
+        "actual_state_finite": true,
+        "committed_finite": true,
+        "label_representation": "ABSOLUTE_COMMITTED_EEF10",
+        "source_numeric_sha256": "9362b6cc4e66fb3fe8a1190ff1d396e7366ef7b8631a68c4d62c368969e90e27"
+      },
+      "raw_exists": true,
+      "raw_children": [
+        "highrate.npz",
+        "scene.xml.json",
+        "INITIAL_STATE.json",
+        "auditor.stdout",
+        "FILE_MANIFEST.json",
+        "physics.npz",
+        "WORKER_RECEIPT.json",
+        "RESULT.json",
+        "CARD.json",
+        "PUSH_GEOMETRY.json",
+        "STATIC_QUALIFICATION.json",
+        "AUDIT.json",
+        "TEACHER_EVENTS.json",
+        "references.json",
+        "RENDER_PROCESS.json",
+        "wrist_rgb",
+        "READY.json",
+        "SCORE.json",
+        "samples.json",
+        "body_rgb",
+        "RESERVATION.json"
+      ],
+      "raw_first_keys": [],
+      "raw_metadata": {
+        "samples.json": {
+          "sha256": "d49514e04993cbe6404da571bf9dde88bc42bf9536c3d905d0e1d30f6165d66b",
+          "type": "list",
+          "entries": 641,
+          "first_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ],
+          "last_keys": [
+            "causal_history",
+            "execution",
+            "geometry",
+            "policy_obs",
+            "privileged",
+            "snapshot_id",
+            "supervision"
+          ]
+        },
+        "references.json": {
+          "sha256": "0124991f04254be160c258c01cf0c011d43cd185634fc33fbd7fb81a3c491c42",
+          "type": "list",
+          "entries": 80,
+          "first_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ],
+          "last_keys": [
+            "anchor_actual_tcp",
+            "committed_prefix_count",
+            "decision_index",
+            "decision_time_s",
+            "gripper_H40",
+            "observation_snapshot",
+            "offsets_s",
+            "planned_H40",
+            "prior_committed_count",
+            "privileged_teacher_stage",
+            "raw_quaternion_xyzw",
+            "ref_id",
+            "rows10",
+            "source"
+          ]
+        },
+        "TEACHER_EVENTS.json": {
+          "sha256": "647324a3ca729da9a35a6bd79380a87ba085541d28f79d027769bdeb6c6345c2",
+          "type": "list",
+          "entries": 7,
+          "first_keys": [
+            "actual_contact",
+            "actual_displacement_m",
+            "previous",
+            "stage",
+            "time_s"
+          ],
+          "last_keys": [
+            "actual_contact",
+            "actual_displacement_m",
+            "previous",
+            "stage",
+            "time_s"
+          ]
+        },
+        "SCORE.json": {
+          "sha256": "8566523d70fdfd237974e374bcf14e191ba72b5f36818e9a0679d6f6f48784c3",
+          "type": "dict",
+          "keys": [
+            "clock_valid",
+            "complete_32s",
+            "contact_height_numerical_tolerance_m",
+            "deployment",
+            "domain",
+            "evidence_source",
+            "history",
+            "hold_observed",
+            "hold_pass",
+            "hold_subpredicates",
+            "maximum_actual_carry_xy_m",
+            "maximum_actual_lift_m",
+            "maximum_bilateral_grasp_s",
+            "maximum_center_height_rise_m",
+            "persistent_success",
+            "physics_sha256",
+            "raw_sample_count",
+            "safety_valid",
+            "selected",
+            "task",
+            "task_id"
+          ],
+          "value": {
+            "clock_valid": true,
+            "complete_32s": true,
+            "contact_height_numerical_tolerance_m": 1e-08,
+            "deployment": "NONE",
+            "domain": "FIXED_BASE_ARX5_TASK_SIM",
+            "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+            "history": {
+              "actual_robot_contact": true,
+              "highrate_contact_complete": true,
+              "horizontal_push": true,
+              "no_lift": true,
+              "no_sustained_bilateral_grasp": true
+            },
+            "hold_observed": 41,
+            "hold_pass": 41,
+            "hold_subpredicates": {
+              "angular_speed": 41,
+              "linear_speed": 41,
+              "object_and_contacts_valid": 41,
+              "released": 41,
+              "robot_separated": 41,
+              "table_height": 41,
+              "tcp_clear": 41,
+              "zone_corners": 41
+            },
+            "maximum_actual_carry_xy_m": 0.1662757999576693,
+            "maximum_actual_lift_m": 0.0002272598220892097,
+            "maximum_bilateral_grasp_s": 0.0,
+            "maximum_center_height_rise_m": 0.00024954816528610646,
+            "persistent_success": true,
+            "physics_sha256": "913dbf3157c4ffb78d4d7b6ca8d6fa7ad0784b0924e2d551c998d893e4e2facd",
+            "raw_sample_count": 641,
+            "safety_valid": true,
+            "selected": "NONE",
+            "task": "T2",
+            "task_id": "ARX5_FIXED_BASE_PUSH_V1"
+          }
+        },
+        "AUDIT.json": {
+          "sha256": "8d03cb11f97f9354241b96ec536e6675323224272553769600ff0b11dcbe1836",
+          "type": "dict",
+          "keys": [
+            "id",
+            "fixture",
+            "integrations",
+            "render_calls",
+            "model_loads",
+            "admitted",
+            "status",
+            "quality_terminal",
+            "detail",
+            "micro_reconstruction",
+            "card_sha256",
+            "samples_sha256",
+            "manifest_sha256",
+            "source_sha",
+            "group",
+            "task",
+            "split",
+            "family",
+            "first_attempt",
+            "CPU_s",
+            "wall_s"
+          ]
+        },
+        "CARD.json": {
+          "sha256": "452cc78dae428ebae1b5144b670c59182c92813f91f6f4818a298326d4b4ad66",
+          "type": "dict",
+          "keys": [
+            "cube_yaw",
+            "domain",
+            "family",
+            "goal_xy",
+            "group_id",
+            "id",
+            "initial_state_sha256",
+            "instruction",
+            "layout_candidate_index",
+            "mode",
+            "qualification",
+            "scene_group",
+            "seed",
+            "source_xy",
+            "split",
+            "table_top_m",
+            "task",
+            "task_id",
+            "visual"
+          ]
+        }
+      }
+    }
+  ],
+  "new_render": 0,
+  "new_physics": 0,
+  "new_model_queries": 0,
+  "source_mutations": 0
+}

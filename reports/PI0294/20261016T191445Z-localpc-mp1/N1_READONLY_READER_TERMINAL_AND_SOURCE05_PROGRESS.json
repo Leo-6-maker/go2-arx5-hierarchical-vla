@@ -1,0 +1,80 @@
+{
+  "schema": "MP1_N1_READONLY_READER_TERMINAL_AND_SOURCE05_PROGRESS_V1",
+  "status": "HEALTHY_FIFTH_SCIENCE_JOB_PRESERVED_READONLY_HELPER_TERMINAL",
+  "observed_epoch": 1792267968.1602995,
+  "corrects_current_state_of_receipt": "af9c1bf6352ea3cc190a034363f88c2ce665bac2",
+  "previous_receipt_exact_GitHub_blob_readbacks": 3,
+  "authority": {
+    "fifth_submission": "DIRECT_HUMAN_SINGLE_BOUNDED_CONTINUATION_ONLY",
+    "N1_adoption_unchanged": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+    "N1_T0_epoch": 1792264081,
+    "original_MP1_T0_epoch": 1792178085,
+    "fifth_native_request_hot_changed": false,
+    "sixth_submitted": false
+  },
+  "native_scientific_job": {
+    "job_id": "673008.hopper-m-02",
+    "state": "R",
+    "source_PBS_count": 5,
+    "requested_walltime": "04:00:00",
+    "scheduler_reported_walltime": "01:45:26",
+    "CORR_optimizer_updates": 1828,
+    "CORR_target_updates": 2048,
+    "pending_optimizer_updates": 1,
+    "pending_update_replayed_or_cleared": false,
+    "source_GPU_settled_s": 24119,
+    "source_GPU_reserved_s": 14400,
+    "scientific_source": "e418bb790d291c6c936ce3878366314f4f5af83e",
+    "original_local_controller_pid_and_start_identity_live": true,
+    "new_model_or_controller_restart": false,
+    "cancelled": false,
+    "endpoint_complete": false
+  },
+  "readonly_reader_03_terminal": {
+    "status": "PRESERVED_HELPER_FAILURE_NO_SCIENCE_MUTATION",
+    "pid_absent_and_terminal_record_present": true,
+    "actual_subprocess_returncode": -13,
+    "actual_signal": "SIGPIPE",
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "operation": "CLOSED_EPISODE_METADATA_READ_ONLY",
+    "wrapper_error": "UNCLASSIFIED_REMOTE_READ_FAILURE_NO_RETRY",
+    "underlying_pipe_or_network_root_cause": "NOT_YET_ESTABLISHED",
+    "automatically_retried": false,
+    "completed_condition_audits": 0,
+    "new_condition_audit_intents": 0,
+    "measured_local_CPU_s": 0.167009969,
+    "conservative_CPU_s_settled": {
+      "CoreLab": 180,
+      "Hopper": 180,
+      "local_PC": 180
+    },
+    "CPU_reserved_s": 0,
+    "replacement_reader_launched": false
+  },
+  "subsequent_independent_readonly_query": {
+    "site": "CoreLab",
+    "status": "SUCCESS",
+    "eligible_closed_conditions": 1,
+    "condition": "PI0294-MP1-S-CORR-512-TRAIN4-F1-000-T2-REPLACEMENT-01",
+    "result": "VALID_TASK_FAIL",
+    "already_completed_raw_and_chain_audit_preserved": true,
+    "new_policy_attempt": false,
+    "does_not_prove_transport_endurance": true
+  },
+  "frozen_attempt_rights": {
+    "F1_T1": "NO_FURTHER_ATTEMPT",
+    "F1_T2_midpoint_replacement": "SPENT_AUDITED_ORIGINAL_S1_NEGATIVE",
+    "valid_results_replayed": false
+  },
+  "new_PBS_by_this_receipt": 0,
+  "new_model_loads_by_this_receipt": 0,
+  "new_model_queries_by_this_receipt": 0,
+  "new_physics_by_this_receipt": 0,
+  "N1_native_600s_80cycles": "NOT_RUN",
+  "full_paired_endpoint_result": "PENDING",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "WBC": "FROZEN",
+  "TF_R3_STOP": "PRESERVED"
+}

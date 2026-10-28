@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# PI0233 P1: one TRAIN-CALIB baseline row, read-only H200 canary.
+
+#PBS -N pi0233_p1_canary
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=02:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+PY=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python
+STAGE10=/scratch/e1192548/stage22_h200_runtime_deb920_20260902
+PREP=/scratch/e1192548/pi0228_h200_prep_20260919
+VLA_SOURCE=/scratch/e1192548/go2-arx5-hierarchical-vla_takeover
+RUN_ROOT=/scratch/e1192548/pi0233_p1_baseline_canary_${PBS_JOBID}
+CACHE_ROOT=/scratch/e1192548/pi0233_p1_baseline_cache_${PBS_JOBID}
+
+GPU_NAME="$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1 | sed 's/[[:space:]]*$//')"
+GPU_COUNT="$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^[[:space:]]*$/d' | wc -l)"
+test "${GPU_COUNT}" -eq 1
+case "${GPU_NAME}" in *H200*) ;; *) echo "FAIL_CLOSED: expected H200, observed ${GPU_NAME}" >&2; exit 2 ;; esac
+
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export PYTHONUNBUFFERED=1
+test "$(git -C "${VLA_SOURCE}" rev-parse HEAD)" = "83779cbf03c31fe3477efc8eaba06ddeb2b46b0a"
+export PYTHONPATH="${VLA_SOURCE}/src:${PREP}/scripts:${STAGE10}/src/isaac-gr00t"
+
+cd "${PREP}"
+"${PY}" -u scripts/pi0233_p1_baseline_canary.py \
+  --output-root "${RUN_ROOT}" \
+  --cache-root "${CACHE_ROOT}"

@@ -1,0 +1,131 @@
+{
+  "lane": "EXPERT_DROID_BRIDGE_ROUNDTRIP",
+  "condition": 10003,
+  "status": "VALID_SOURCE_COMPLETE",
+  "result": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/RESULT.json",
+    "bytes": 1849,
+    "sha256": "6a54229c74730185ec7ddab8dc37c833b8b6c6a299dd21ea7036c08377fa808f"
+  },
+  "quality": true,
+  "full32s": true,
+  "physics_samples": 3301,
+  "success41": 41,
+  "window_samples": 41,
+  "persistent": true,
+  "persistent41_observed": true,
+  "persistent41_status": "OBSERVED_ALL41",
+  "task_elapsed_s": 32.0,
+  "first_success_s": 4.45,
+  "original_lift": "UNOBSERVED_NOT_RECORDED",
+  "grasp_physics_samples": 236,
+  "max_cubeA_height_m": 0.11574054509401321,
+  "object_funnel": {
+    "first_grasp_s": 2.06,
+    "grasp_samples": 236,
+    "longest_grasp_s": 2.36,
+    "task_initial_height_m": 0.019999906420707703,
+    "max_height_increase_m": 0.09574063867330551,
+    "original_lift": "UNOBSERVED_NOT_RECORDED",
+    "descriptive_lift_2cm_s": 2.72,
+    "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+    "first_on_top_s": 4.28,
+    "on_top_samples": 2773,
+    "first_success_physics_s": 4.45,
+    "released_41": 41,
+    "static_41": 41,
+    "on_top_41": 41,
+    "release_after_first_grasp_s": 4.42
+  },
+  "command_to_actual_xyz_m": {
+    "n": 660,
+    "mean": 0.001082274268851243,
+    "rms": 0.0037226659055463046,
+    "p50": 1.8461716370788287e-05,
+    "p95": 0.009420704162362873,
+    "max": 0.02430424114572923
+  },
+  "installedFK_to_actual_xyz_m": {
+    "n": 660,
+    "mean": 0.0010582784257396173,
+    "rms": 0.0037007076254069148,
+    "p50": 3.098044203397876e-07,
+    "p95": 0.009334464231505978,
+    "max": 0.02420683577656746
+  },
+  "actual_joint_hard_margin_min_rad": [
+    2.7323610435009003,
+    0.9097442248344421,
+    2.815563264000416,
+    1.1257380311965943,
+    2.8156782264590263,
+    1.2671596431732177,
+    1.7708135793685913
+  ],
+  "actual_hard_penetration_rad": 0.0,
+  "source_recorded_actual_hard_penetration_rad": 0.0,
+  "source_recorded_joint_hard_margin_min_rad": [
+    2.732361078262329,
+    0.9097442030906677,
+    2.815563201904297,
+    1.1257380247116089,
+    2.815678119659424,
+    1.2671597003936768,
+    1.7708135843276978
+  ],
+  "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+  "actual_hard_penetration_samples": 0,
+  "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+  "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+  "source_executor_identity": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+    "bytes": 27349,
+    "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+  },
+  "installed_arm_target_hard_penetration_rad": 0.0,
+  "safety_classification": {
+    "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+    "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+    "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+    "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+  },
+  "canonical_replay_to_command_m": {
+    "n": 640,
+    "mean": 0.0,
+    "rms": 0.0,
+    "p50": 0.0,
+    "p95": 0.0,
+    "max": 0.0
+  },
+  "replay_gate_readback": {
+    "status": "PASS_UNCHANGED_GATE_ARRAY_RECOMPUTATION",
+    "gate_calls": 61,
+    "decisions": {
+      "ACCEPT": 9,
+      "WARN": 52
+    },
+    "rejects": [],
+    "gate_identity": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/GATES.json",
+      "bytes": 122622,
+      "sha256": "c090f158163689fa86960f6c68ea469473df29c1ab4d7c41cd8e8e5036f32c54"
+    }
+  },
+  "raw_inputs": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/physics.npz",
+      "bytes": 994890,
+      "sha256": "fdbc162c61b12f48b38d8cdb4333249c307abaf1eefb5004b4adf5606f5fb5c4"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/commands.npz",
+      "bytes": 59494,
+      "sha256": "2adb566745e839429654257629a0c5615b362e6447ec51c1d7faa18bbb384915"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/EXPERT_DROID_BRIDGE_ROUNDTRIP-10003/attempt-000/installed.npz",
+      "bytes": 122482,
+      "sha256": "14166998bb42aa0369ceacc26f75640d9886ce32358d61ca6cb2e9ecc3c45165"
+    }
+  ]
+}

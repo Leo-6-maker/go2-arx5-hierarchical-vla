@@ -1,0 +1,51 @@
+{
+  "status": "PASS_ACTUAL_PARENT_ADAM_GROUPS_STEPS_READBACK",
+  "groups": [
+    {
+      "lr": 0.0,
+      "weight_decay": 0.0,
+      "group_name": "packed_projectors",
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "amsgrad": false,
+      "maximize": false,
+      "foreach": null,
+      "capturable": false,
+      "differentiable": false,
+      "fused": null,
+      "decoupled_weight_decay": true,
+      "initial_lr": 0.0001
+    },
+    {
+      "lr": 0.0,
+      "weight_decay": 1e-05,
+      "group_name": "shared_DiT",
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "amsgrad": false,
+      "maximize": false,
+      "foreach": null,
+      "capturable": false,
+      "differentiable": false,
+      "fused": null,
+      "decoupled_weight_decay": true,
+      "initial_lr": 1e-05
+    }
+  ],
+  "optimizer_global_steps": [
+    2048
+  ],
+  "native_forward_loss": "masked elementwise MSE sum / (action_mask sum + 1e-6)",
+  "installed_Trainer_accumulation": "actual installed Trainer divides by current_gradient_accumulation_steps when no loss kwargs/compute_loss_func; verified with actual loss during canary",
+  "historical_group1_LR_steps": "UNOBSERVED",
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "elapsed_s": 15.686562776565552,
+  "CPU_s": 13.655082
+}

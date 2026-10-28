@@ -1,0 +1,364 @@
+{
+  "schema": "V4A_B19_MATCHED_T1_TIMING_ACTUAL_V1",
+  "status": "PARTIAL_ORIGINAL_PANEL_NOT_FINAL_EFFECT",
+  "counts": {
+    "A_CONTROL": {
+      "valid_conditions": 24,
+      "outcomes": {
+        "VALID_TASK_FAIL": 13,
+        "SUCCESS": 11
+      },
+      "failure_stages": {
+        "ORIGINAL_REFERENCE_GATE_REJECT": 1,
+        "S1_PRE_EXECUTION_REJECT": 8,
+        "OBJECT_TASK_RESULT": 4
+      }
+    },
+    "B_COVERAGE": {
+      "valid_conditions": 19,
+      "outcomes": {
+        "VALID_TASK_FAIL": 13,
+        "SUCCESS": 6
+      },
+      "failure_stages": {
+        "OBJECT_TASK_RESULT": 6,
+        "S1_PRE_EXECUTION_REJECT": 7
+      }
+    }
+  },
+  "paired_conditions": 19,
+  "paired_by_task": {
+    "T1": {
+      "pairs": 10,
+      "A_successes": 7,
+      "B_successes": 5,
+      "B_only_success": 0,
+      "A_only_success": 2,
+      "both_success": 5,
+      "both_fail": 3,
+      "descriptive_B_minus_A": -0.2
+    },
+    "T2": {
+      "pairs": 9,
+      "A_successes": 3,
+      "B_successes": 1,
+      "B_only_success": 1,
+      "A_only_success": 3,
+      "both_success": 0,
+      "both_fail": 5,
+      "descriptive_B_minus_A": -0.2222222222222222
+    }
+  },
+  "effect_estimates": null,
+  "intervals": null,
+  "matched_condition_timelines": [
+    {
+      "candidate": "A_CONTROL",
+      "condition_id": "PI0294/PV1/DEV/F2/002/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/002",
+      "family": "F2",
+      "task": "T1",
+      "noise_bank": 294101,
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "actual_duration_s": 32.0,
+      "live_integrations": 16000,
+      "raw_object_last_observed_s": 31.999999999993143,
+      "raw_object_samples": 641,
+      "original_score": {
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.0856561535830212,
+        "maximum_actual_carry_xy_m": 0.16537747422886,
+        "physics_sha256": "56820fb218bd85c1bcd4158226d95feecb8bab0abfd2746024b76c6df1b147dc",
+        "raw_sample_count": 641
+      },
+      "derived_event_timeline": {
+        "actual_contact": {
+          "first_s": 1.8700000000000014,
+          "last_s": 9.10399999999971,
+          "observed_samples": 3605
+        },
+        "native_grasp_flag": {
+          "first_s": 2.002000000000001,
+          "last_s": 9.065999999999697,
+          "observed_samples": 3472
+        },
+        "transport_at_least_10cm": {
+          "first_s": 5.807999999999582,
+          "last_s": 31.999999999993143,
+          "observed_samples": 13097
+        },
+        "native_grasp_end_after_transport": {
+          "first_s": 6.525999999999503,
+          "last_s": 9.067999999999698,
+          "transitions": 2
+        },
+        "contact_end_after_transport": {
+          "first_s": 9.093999999999706,
+          "last_s": 9.10599999999971,
+          "transitions": 2
+        },
+        "all_corners_in_goal_zone": {
+          "first_s": 6.049999999999556,
+          "last_s": 31.999999999993143,
+          "observed_samples": 520
+        },
+        "TCP_clear_after_transport": {
+          "first_s": 11.400000000000476,
+          "last_s": 31.999999999993143,
+          "observed_samples": 413
+        }
+      },
+      "chronological_first_milestones": [
+        {
+          "event": "actual_contact",
+          "first_observed_s": 1.8700000000000014,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "native_grasp_flag",
+          "first_observed_s": 2.002000000000001,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "transport_at_least_10cm",
+          "first_observed_s": 5.807999999999582,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "all_corners_in_goal_zone",
+          "first_observed_s": 6.049999999999556,
+          "time_resolution_s": 0.05
+        },
+        {
+          "event": "native_grasp_end_after_transport",
+          "first_observed_s": 6.525999999999503,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "contact_end_after_transport",
+          "first_observed_s": 9.093999999999706,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "TCP_clear_after_transport",
+          "first_observed_s": 11.400000000000476,
+          "time_resolution_s": 0.05
+        }
+      ],
+      "reference_ACK_timeline": {
+        "draws": 80,
+        "executed_ACKs": 80,
+        "actual_reference_rows": 80,
+        "first_reference_source_s": 0.0,
+        "last_reference_source_s": 31.599999999993365,
+        "terminal_classification": "EXECUTED_ACKED_PREFIX",
+        "terminal_original_grid_s": 31.6,
+        "terminal_reference_source_s": 31.599999999993365,
+        "source_time_grid_is_audited_not_new_wallclock_measurement": true,
+        "rejected_prefix_has_no_ACK_or_live_execution": null
+      },
+      "original_S1_rejected_rows": [],
+      "original_reference_rejection": null,
+      "evidence": {
+        "adjudication_sha256": "5165654161eeb8bfd41c9c3b891b2b626d3746a66ae08d50e0bd7c7fc7056ad4",
+        "independent_audit_sha256": "b1299f77dccfbac14aa306ba37c2d832c51fbbbcafc20b95bbdf82f0fdc3b127",
+        "causal_wrapper_sha256": "83cd25b7c72c04b641c964ae58d7f4404d6df340bbfef1f5a3f3fa38c6d73f6a",
+        "physics_sha256": "56820fb218bd85c1bcd4158226d95feecb8bab0abfd2746024b76c6df1b147dc",
+        "references_sha256": "1493d6efdbc0dd3b9a78da832a49653d48c711136bc8d21e631b3129c742a607",
+        "S1_preflights_sha256": "cddc63f8b90178a8ec1fe00cc122cff7a55c8cf0f1926f4d0c36ee8e147a89de",
+        "original_file_manifest_sha256": "44d0ba12e9e87aceb361a70c3383c06e2fe6e4d211f2ac38789b593bd1e88d10"
+      },
+      "new_integrations": 0,
+      "new_model_queries": 0,
+      "shared_original_score_math_reproduced_exact": true,
+      "new_training_labels": false,
+      "causal_failure_mechanism_not_proven": true
+    },
+    {
+      "candidate": "B_COVERAGE",
+      "condition_id": "PI0294/PV1/DEV/F2/002/T1/N294101",
+      "scene_group": "PI0294/PV1/DEV/F2/002",
+      "family": "F2",
+      "task": "T1",
+      "noise_bank": 294101,
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "actual_duration_s": 32.0,
+      "live_integrations": 16000,
+      "raw_object_last_observed_s": 31.999999999993143,
+      "raw_object_samples": 641,
+      "original_score": {
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "persistent_success": true,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.08695074557072185,
+        "maximum_actual_carry_xy_m": 0.1674473290436091,
+        "physics_sha256": "b11dc6fcabdc461f84190ff4b31c91ff2e863aec3a162f84fc52023ae6f38d0b",
+        "raw_sample_count": 641
+      },
+      "derived_event_timeline": {
+        "actual_contact": {
+          "first_s": 1.9800000000000015,
+          "last_s": 24.179999999997477,
+          "observed_samples": 11100
+        },
+        "native_grasp_flag": {
+          "first_s": 2.129999999999987,
+          "last_s": 24.179999999997477,
+          "observed_samples": 10531
+        },
+        "transport_at_least_10cm": {
+          "first_s": 6.1339999999995465,
+          "last_s": 31.999999999993143,
+          "observed_samples": 12934
+        },
+        "native_grasp_end_after_transport": {
+          "first_s": 9.679999999999902,
+          "last_s": 24.181999999997476,
+          "transitions": 23
+        },
+        "contact_end_after_transport": {
+          "first_s": 24.181999999997476,
+          "last_s": 24.181999999997476,
+          "transitions": 1
+        },
+        "all_corners_in_goal_zone": {
+          "first_s": 6.399999999999517,
+          "last_s": 31.999999999993143,
+          "observed_samples": 402
+        },
+        "TCP_clear_after_transport": {
+          "first_s": 26.299999999996302,
+          "last_s": 31.999999999993143,
+          "observed_samples": 115
+        }
+      },
+      "chronological_first_milestones": [
+        {
+          "event": "actual_contact",
+          "first_observed_s": 1.9800000000000015,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "native_grasp_flag",
+          "first_observed_s": 2.129999999999987,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "transport_at_least_10cm",
+          "first_observed_s": 6.1339999999995465,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "all_corners_in_goal_zone",
+          "first_observed_s": 6.399999999999517,
+          "time_resolution_s": 0.05
+        },
+        {
+          "event": "native_grasp_end_after_transport",
+          "first_observed_s": 9.679999999999902,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "contact_end_after_transport",
+          "first_observed_s": 24.181999999997476,
+          "time_resolution_s": 0.002
+        },
+        {
+          "event": "TCP_clear_after_transport",
+          "first_observed_s": 26.299999999996302,
+          "time_resolution_s": 0.05
+        }
+      ],
+      "reference_ACK_timeline": {
+        "draws": 80,
+        "executed_ACKs": 80,
+        "actual_reference_rows": 80,
+        "first_reference_source_s": 0.0,
+        "last_reference_source_s": 31.599999999993365,
+        "terminal_classification": "EXECUTED_ACKED_PREFIX",
+        "terminal_original_grid_s": 31.6,
+        "terminal_reference_source_s": 31.599999999993365,
+        "source_time_grid_is_audited_not_new_wallclock_measurement": true,
+        "rejected_prefix_has_no_ACK_or_live_execution": null
+      },
+      "original_S1_rejected_rows": [],
+      "original_reference_rejection": null,
+      "evidence": {
+        "adjudication_sha256": "dd418cb28fbdeddf997dcf29e2ef8abb123b410cbe69b8457bab5b33da4cb2a4",
+        "independent_audit_sha256": "c2e1aa13912131c1218858c33bd4a2e34953406b7c79d8b12534e32823cfee1f",
+        "causal_wrapper_sha256": "ac6ab89a74b7ed2cca2fe2c1bdb00509f66b2e352e3bb28eac776be4d483b598",
+        "physics_sha256": "b11dc6fcabdc461f84190ff4b31c91ff2e863aec3a162f84fc52023ae6f38d0b",
+        "references_sha256": "a4f50d8e26a5b614c5853cef3836d46f4ac04d2e67eeea920b12e9a78da9863d",
+        "S1_preflights_sha256": "2267fff8063ebb807c25ae51d6d892243c71c2a6b0d313108c1fcd5315c94ca8",
+        "original_file_manifest_sha256": "a4a4e796427461a9b3a75c98f077889f8a3100f10b93c2325961933bcaf0f897"
+      },
+      "new_integrations": 0,
+      "new_model_queries": 0,
+      "shared_original_score_math_reproduced_exact": true,
+      "new_training_labels": false,
+      "causal_failure_mechanism_not_proven": true
+    }
+  ],
+  "source_atlas_sha256": "35f796fb25b71082d7607559480770850c3c5025b29a90f0d3cb59983d5b9045",
+  "original_new_row_read": {
+    "receipt_sha256": "16b2145d528869673f4ce8a23f34ff41849edf8513aa118f256bb44caead4aff",
+    "source_bytes": 381342,
+    "CPU_s": 0.020766324999999995,
+    "read_only": true
+  },
+  "new_physics": 0,
+  "new_queries": 0,
+  "new_training_labels": false,
+  "causal_effect_not_established": true,
+  "full_goal_status": "ACTIVE"
+}

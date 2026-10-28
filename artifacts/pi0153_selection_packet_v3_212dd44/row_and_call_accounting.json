@@ -1,0 +1,32 @@
+{
+  "model_calls": {
+    "accepted_unique_scientific_calls": 8976,
+    "all_attempted_model_calls_deduplicated_by_scientific_identity": 8976,
+    "failed_attempt_model_calls": 120,
+    "formula": "8856 new current calls + 120 retained recovery-source calls = 8976 accepted unique calls",
+    "new_current_allocation_calls": 8856,
+    "overlapped_recovery_model_calls": 120,
+    "recovery_warning": "The 120 failed-attempt calls are the same retained recovery-source identities; do not count them again as new calls.",
+    "reused_recovery_source_calls": 120
+  },
+  "physical_rows": {
+    "additive_formula": "312 current-direct + 24 recovery + 96 historical = 432 unique physical rows",
+    "canonical_index_is_not_physical_metric_rows": true,
+    "canonical_phase_reference_entries": 1296,
+    "current_direct_rows": 312,
+    "current_phase_rows_including_recovery": 336,
+    "current_recovery_rows": 24,
+    "historical_readonly_rows": 96,
+    "non_additive_warning": "336 current-phase rows already include the 24 recovery rows; do not add 336+24+96",
+    "physical_metric_rows": 432,
+    "source_kind_counts": {
+      "CURRENT_H200_RECOVERY_SOURCE": 24,
+      "CURRENT_H200_SEALED_E4": 312,
+      "HISTORICAL_L1_E4_READONLY": 48,
+      "HISTORICAL_LEGACY_D2B_E4_READONLY": 48
+    },
+    "unique_physical_row_keys": 432
+  },
+  "schema": "VANDA_STAGE45E_PI0153_ROW_AND_CALL_ACCOUNTING_V1",
+  "status": "PASS_DEDUPLICATED_SOURCE_BOUND_ACCOUNTING"
+}

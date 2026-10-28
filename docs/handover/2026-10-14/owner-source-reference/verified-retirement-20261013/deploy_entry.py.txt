@@ -1,0 +1,75 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Reuse canonical root; independent official clone and atomic navigation switch."""
+from pathlib import Path
+import base64,json,os,shutil,subprocess,sys,time,hashlib,fcntl
+os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+HOME=Path.home();WS=HOME/'Projects/GR00T-WBC';INF=WS/'infrastructure'
+ROOT=WS/'archive/verified-retirement/20261013T031510Z-localpc-retirement'
+payload=json.load(sys.stdin)
+OFFICIAL='51d4c89f72fda44cbf77285c6a8114b52676b8a1'
+ENV=dict(os.environ,GIT_LFS_SKIP_SMUDGE='1',GIT_OPTIONAL_LOCKS='0',PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1')
+def cmd(args):
+ r=subprocess.run([str(x) for x in args],capture_output=True,env=ENV,timeout=180)
+ assert r.returncode==0,r.stderr.decode()[:2000]
+ return r.stdout.decode().strip()
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def save(p,j):
+ q=p.with_name(p.name+'.partial');q.write_text(json.dumps(j,indent=2)+'\n');q.chmod(0o600);q.replace(p)
+with (ROOT/'OWNER.lock').open('a') as lock:
+ fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+ assert time.time()<1791873910.6652887
+ audit=json.loads((ROOT/'code/isaac-gr00t-rtx4080s/CODE_BACKUP_AUDIT.json').read_text())
+ assert audit['independent_all_files_verified'] and audit['head']==OFFICIAL
+ bundle=ROOT/'objects'/(audit['common_id']+'.bundle')
+ new=WS/'code/isaac-gr00t-51d4c89f';alias=WS/'code/isaac-gr00t'
+ if not new.exists():
+  cmd(['git','clone','--no-hardlinks','--no-checkout',bundle,new]);cmd(['git','-C',new,'checkout','--detach',OFFICIAL])
+  cmd(['git','-C',new,'remote','set-url','origin','https://github.com/NVIDIA/Isaac-GR00T.git'])
+  src=Path(audit['snapshot']);rows=json.loads((ROOT/'code/isaac-gr00t-rtx4080s/SOURCE_MANIFEST.json').read_text())
+  for r in rows:
+   if r['relative']=='.':continue
+   s=src/r['relative'];d=new/r['relative']
+   if r['type']=='directory':d.mkdir(parents=True,exist_ok=True)
+   elif r['type']=='file':shutil.copy2(s,d);assert sha(d)==r['sha256']
+   else:
+    if d.exists() or d.is_symlink():d.unlink()
+    d.symlink_to(r['target'])
+  for r in reversed(rows):
+   if r['type']=='directory' and r['relative']!='.':shutil.copystat(src/r['relative'],new/r['relative'])
+ assert cmd(['git','-C',new,'rev-parse','HEAD'])==OFFICIAL
+ assert cmd(['git','-C',new,'status','--porcelain=v1','--untracked-files=all'])==''
+ assert not (new/'.git/objects/info/alternates').exists()
+ common=Path(cmd(['git','-C',new,'rev-parse','--path-format=absolute','--git-common-dir']))
+ assert common.resolve()==(new/'.git').resolve()
+ oldtarget=os.readlink(alias)
+ # Navigation is unused by current scientific lease, which explicitly pins the old direct path.
+ lease=json.loads((INF/'leases/PI0292.json').read_text())
+ assert all(x['path']!=str(alias) for x in lease['protected_entries'])
+ temp=alias.with_name('.isaac-gr00t-navigation-next');assert not temp.exists() and not temp.is_symlink()
+ temp.symlink_to(new.name);temp.replace(alias)
+ save(ROOT/'OFFICIAL_ENTRY_SWITCH.json',dict(epoch=time.time(),old_navigation_target=oldtarget,new_navigation_target=str(new),fixed_sha=OFFICIAL,independent_git_common_dir=str(common),alternates=False,old_source_deleted=False,atomic_symlink_replace=True,current_science_binding_unchanged=True))
+ registry=json.loads((INF/'PATH_REGISTRY.json').read_text())
+ if not any(x['role']=='OFFICIAL_GR00T_CANONICAL' for x in registry['entries']):
+  registry['entries'].append(dict(role='OFFICIAL_GR00T_CANONICAL',path=str(alias),executor_node='BOTH_CORELAB_NODES',storage_role='SHARED_NFS',expected_git_sha=OFFICIAL,lifecycle='INDEPENDENT_CANONICAL_FIXED_CHECKOUT'))
+ save(ROOT/'PRIOR_PATH_REGISTRY.json',json.loads((INF/'PATH_REGISTRY.json').read_text()));save(INF/'PATH_REGISTRY.json',registry)
+ profiles=[dict(name='amd-management',hostnames=['corelab-amd-server'],python='/opt/miniconda3/envs/base312/bin/python',role='EXISTING_CPU_MANAGEMENT_NUMPY_ENV',source=str(WS/'code/vla'),no_model_or_physics=True),dict(name='4080-simulation',hostnames=['corelab-4080s'],python='@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0290/runtime/venv/bin/python',role='EXISTING_SIMULATION_ENV_UNMOVED',source=str(WS/'code/vla'),no_model_or_physics_in_doctor=True),dict(name='4080-cpu-data',hostnames=['corelab-4080s'],python='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/runtime/venv/bin/python',role='EXISTING_CPU_DATA_ENV_UNMOVED',source=str(WS/'code/vla')),dict(name='hopper-neural',hostnames=['hopper-l-01'],python='@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python',role='EXISTING_NEURAL_ENV_PBS_REQUIRED',source='@HOPPER_SCRATCH@/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t',metadata_observed_python_version='3.12.3',no_job_submitted=True)]
+ save(INF/'ENVIRONMENTS.json',dict(profiles=profiles,existing_absolute_paths_unchanged=True,new_installs=0))
+ save(INF/'HOST_PATHS.json',dict(entries=registry['entries'],validated_hostnames=registry.get('validated_hostnames',{}),science_lease_file='leases/PI0292.json',science_bindings_unchanged=True))
+ expected=dict(source_sha=dict(vla=cmd(['git','-C',WS/'code/vla','rev-parse','HEAD']),**{'isaac-gr00t':OFFICIAL}),shared_files=[],**payload['data_baseline'])
+ for rel in ['gr00t/data/state_action/pose.py','gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py']:
+  f=alias/rel;blob=subprocess.run(['git','-C',str(alias),'show',OFFICIAL+':'+rel],capture_output=True,env=ENV,check=True).stdout
+  assert f.read_bytes()==blob
+  expected['shared_files'].append(dict(relative='code/isaac-gr00t/'+rel,sha256=sha(f),fixed_git_sha=OFFICIAL))
+ for rel,h in [('datasets/PI0291/statistics.json','43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d'),('datasets/PI0291/STATISTICS_PROVENANCE.json','0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359')]:
+  assert sha(WS/rel)==h;expected['shared_files'].append(dict(relative=rel,sha256=h))
+ save(INF/'ENTRY_HASH_BASELINE.json',expected)
+ for name,b in payload['files'].items():
+  dest=INF/name;assert not dest.exists(),'refuse overwriting preexisting entry implementation '+name
+  dest.write_bytes(base64.b64decode(b));dest.chmod(0o700 if name=='enter.sh' else 0o600)
+ # Fetch is permitted. The checkout stays at the scientific lease's fixed source until boundary.
+ assert cmd(['git','-C',WS/'code/vla','status','--porcelain=v1','--untracked-files=all'])==''
+ cmd(['git','-C',WS/'code/vla','-c','gc.auto=0','fetch','--no-tags','origin'])
+ save(ROOT/'VLA_SYNC_RECEIPT.json',dict(status='HELD_BY_PI0292_SOURCE_LEASE',head=expected['source_sha']['vla'],origin_head=cmd(['git','-C',WS/'code/vla','rev-parse','origin/'+cmd(['git','-C',WS/'code/vla','branch','--show-current'])]),fetch_completed=True,reset_force_checkout=False,next_action='At PI0292 job boundary refresh protected bindings then fast-forward canonical VLA'))
+ print(json.dumps(dict(status='INDEPENDENT_OFFICIAL_ENTRY_DEPLOYED',fixed_sha=OFFICIAL,profiles=len(profiles),new_installs=0)))

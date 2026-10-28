@@ -1,0 +1,367 @@
+{
+  "schema": "V4A_A4096_HALF_PANEL_SAVED_FAILURE_DIAGNOSTICS_ACTUAL_V1",
+  "status": "EXPLORATORY_A_ONLY_NOT_A_COVERAGE_EFFECT_OR_TRAINING_DECISION",
+  "scope": {
+    "candidate": "A_CONTROL",
+    "checkpoint_step": 4096,
+    "noise_bank": 294101,
+    "half_panel_snapshot_valid": 12,
+    "successes": 7,
+    "valid_task_failures": 5,
+    "B_valid_at_same_snapshot": 0,
+    "paired_conditions": 0,
+    "source_capture_sha256": "7f7ea82a0c97e50c754e464a4c49aa514cc61225ec94129abb05b2c8449b4ba7",
+    "private_diagnostic_sha256": "7dc8fb616431dc67d53a93c7c35f2193acabe1d34eeae5fa33691184e08a13af"
+  },
+  "failure_stage_counts": {
+    "ORIGINAL_REFERENCE_GATE_REJECT": 1,
+    "S1_PRE_EXECUTION_REJECT": 2,
+    "OBJECT_TASK_RESULT": 2
+  },
+  "valid_failures": [
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/000/T1/N294101",
+      "task": "T1",
+      "status": "VALID_TASK_FAIL",
+      "original_failure_stage": "ORIGINAL_REFERENCE_GATE_REJECT",
+      "duration_s": 28.8,
+      "live_native_failures": 0,
+      "original_score": {
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": false,
+        "clock_valid": false,
+        "safety_valid": true,
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 16,
+        "hold_pass": 16,
+        "hold_subpredicates": {
+          "zone_corners": 16,
+          "table_height": 16,
+          "linear_speed": 16,
+          "angular_speed": 16,
+          "released": 16,
+          "tcp_clear": 16,
+          "object_and_contacts_valid": 16
+        },
+        "persistent_success": false,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.08167217266482069,
+        "maximum_actual_carry_xy_m": 0.16568559300790514,
+        "physics_sha256": "b6faa3e0c86daf8c41f867ceb45d4ed8364c6850c75adc6c49056e609658182a",
+        "raw_sample_count": 576
+      },
+      "original_adjudication_sha256": "f153de984abf1d13507ca45374dc8e06f07891955f2efb4d47d34f1b3598c981",
+      "original_result_sha256": "6a66e2b032cab3cee1e6341e52d035129b706be62cf60944179c7bc758b177dc",
+      "original_independent_audit_sha256": "f85ae3a6a9911f24819648edb68c0a47b26e6c4a33b7320a45b4ec7f714fdebc",
+      "original_causal_wrapper_sha256": "9ea9a5dcbdb606f082c77ccdc9169528d81679b8b980933e346a3f917475d203",
+      "incomplete_score_clock_false_does_not_mean_raw_clock_integrity_failure": true
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F0/000/T2/N294101",
+      "task": "T2",
+      "status": "VALID_TASK_FAIL",
+      "original_failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "duration_s": 21.2,
+      "live_native_failures": 0,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": false,
+        "clock_valid": false,
+        "safety_valid": false,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": false
+        },
+        "hold_observed": 0,
+        "hold_pass": 0,
+        "hold_subpredicates": {
+          "zone_corners": 0,
+          "table_height": 0,
+          "linear_speed": 0,
+          "angular_speed": 0,
+          "released": 0,
+          "robot_separated": 0,
+          "tcp_clear": 0,
+          "object_and_contacts_valid": 0
+        },
+        "maximum_center_height_rise_m": 0.00031719212324532453,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": false,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.00031719212324532453,
+        "maximum_actual_carry_xy_m": 0.1765805127007579,
+        "physics_sha256": "5d7d32bcdc8097db9c0050bffe2015254ff92f9766e9858354673e495055d662",
+        "raw_sample_count": 424
+      },
+      "original_adjudication_sha256": "810cb564704f6e1247c4ce75144591c27160915a0015996e15dc188c12a051c8",
+      "original_result_sha256": "83252a62cee48a39c35746815421fa7ec062db363fa6ffb1969d9f4a58e5425f",
+      "original_independent_audit_sha256": "943536b621ff7229398b053787391200e78a8dec3b63a46430ba458c59a412b1",
+      "original_causal_wrapper_sha256": "9918285c557f6096cd749d405dcee77b288cbb1a7ed3e6d6c0c76c1124d9fb24",
+      "incomplete_score_clock_false_does_not_mean_raw_clock_integrity_failure": true
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/001/T2/N294101",
+      "task": "T2",
+      "status": "VALID_TASK_FAIL",
+      "original_failure_stage": "OBJECT_TASK_RESULT",
+      "duration_s": 32.0,
+      "live_native_failures": 0,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": false,
+          "no_lift": true,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 0,
+        "hold_subpredicates": {
+          "zone_corners": 0,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.0019147441256252562,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": false,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.0015700246280433983,
+        "maximum_actual_carry_xy_m": 0.062191636274329574,
+        "physics_sha256": "7cd8cc385150104c4b24faa94a63bdc3cda5570a473c3749efcf892d8e7de29d",
+        "raw_sample_count": 641
+      },
+      "original_adjudication_sha256": "4032cccf63afe960b3c9e18108e11729803d78ecdfeabd38ba82ef7587037a61",
+      "original_result_sha256": "6163da1813592a1e819d9548ca26a4b079a33be9f8b7da91cbee296d3741db02",
+      "original_independent_audit_sha256": "1cac70427bbc3a00ff52f52219322972b4445dd830ca08263d940cdc4a607c84",
+      "original_causal_wrapper_sha256": "3238ac732818c0600602c1dc8bf0aa4d066b10ef3ddb722508849931c670b072",
+      "observed_failed_original_predicates": {
+        "history_false": [
+          "horizontal_push"
+        ],
+        "hold_observed": 41,
+        "hold_pass": 0,
+        "hold_subpredicates": {
+          "zone_corners": 0
+        }
+      },
+      "learning_or_neural_mechanism_proven": false
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/002/T1/N294101",
+      "task": "T1",
+      "status": "VALID_TASK_FAIL",
+      "original_failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "duration_s": 16.4,
+      "live_native_failures": 0,
+      "original_score": {
+        "task_id": "ARX5_FIXED_BASE_PICK_PLACE_V1",
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": false,
+        "clock_valid": false,
+        "safety_valid": true,
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 0,
+        "hold_pass": 0,
+        "hold_subpredicates": {
+          "zone_corners": 0,
+          "table_height": 0,
+          "linear_speed": 0,
+          "angular_speed": 0,
+          "released": 0,
+          "tcp_clear": 0,
+          "object_and_contacts_valid": 0
+        },
+        "persistent_success": false,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.08677857322423815,
+        "maximum_actual_carry_xy_m": 0.16696454308591327,
+        "physics_sha256": "d9e39caddabf0b80fffeaf17177ba00e94cf63b7ac65e8e01c0ca113ec3479e3",
+        "raw_sample_count": 328
+      },
+      "original_adjudication_sha256": "9a1da112f09879ed289fdb065673dcdbf0f0f79227278730ebdece938c0ac19f",
+      "original_result_sha256": "c49509be7514bf76b5a5d9d7fade41b442e949263bf5f8e7f1e7190c15e0119f",
+      "original_independent_audit_sha256": "031f8989a04715951a8ec4fe19a710a884186d8ff0b5433a39a2cb583ceab9ba",
+      "original_causal_wrapper_sha256": "30d6888d24d5f7ecc7613f4a658ba1c0c8616e2890e458ba891847395e37fb32",
+      "incomplete_score_clock_false_does_not_mean_raw_clock_integrity_failure": true
+    },
+    {
+      "condition_id": "PI0294/PV1/DEV/F1/003/T2/N294101",
+      "task": "T2",
+      "status": "VALID_TASK_FAIL",
+      "original_failure_stage": "OBJECT_TASK_RESULT",
+      "duration_s": 32.0,
+      "live_native_failures": 0,
+      "original_score": {
+        "evidence_source": "REAL_MUJOCO_FIXED_BASE_ARX5",
+        "complete_32s": true,
+        "clock_valid": true,
+        "safety_valid": true,
+        "history": {
+          "actual_robot_contact": true,
+          "horizontal_push": true,
+          "no_lift": false,
+          "no_sustained_bilateral_grasp": true,
+          "highrate_contact_complete": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 0,
+        "hold_subpredicates": {
+          "zone_corners": 0,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "robot_separated": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "maximum_center_height_rise_m": 0.005566037416414593,
+        "maximum_bilateral_grasp_s": 0.0,
+        "contact_height_numerical_tolerance_m": 1e-08,
+        "persistent_success": false,
+        "selected": "NONE",
+        "deployment": "NONE",
+        "task": "T2",
+        "task_id": "ARX5_FIXED_BASE_PUSH_V1",
+        "domain": "FIXED_BASE_ARX5_TASK_SIM",
+        "maximum_actual_lift_m": 0.005144826323838225,
+        "maximum_actual_carry_xy_m": 0.10014600872737536,
+        "physics_sha256": "b85bffcb70d6067e2253f77d2049bd9af6155bc7adec45ad911d3da58c5626ae",
+        "raw_sample_count": 641
+      },
+      "original_adjudication_sha256": "5b2512879cce49c25ebe4f604e2aab838609e71d0c3e2ae81838cc66edfa1959",
+      "original_result_sha256": "fa0e8caca7ace945bdce5dc856b9d24abdf10e11318871be118e71e5a675fa35",
+      "original_independent_audit_sha256": "651157990daebe4f35cb8e2241b3e1fd9b41fee1a1e8cb03bccf5283227c0ba0",
+      "original_causal_wrapper_sha256": "dc393be088b00c7e4ac7e8feb8c88b18b1bedbe1ed74e8745d4b67429149baac",
+      "observed_failed_original_predicates": {
+        "history_false": [
+          "no_lift"
+        ],
+        "hold_observed": 41,
+        "hold_pass": 0,
+        "hold_subpredicates": {
+          "zone_corners": 0
+        }
+      },
+      "learning_or_neural_mechanism_proven": false
+    }
+  ],
+  "original_reference_rejection": {
+    "original_model_reject_sha256": "b3a56b7dc032aca7d9e8355752b0445c2b0b3c99587df045f4e59ab4464fc60c",
+    "readback_sha256": "7edc71d53584e546daa9c2024357653d960b6668d8a618cdc3201bf38777e9f8",
+    "gate": "TrajectorySafetyGateV1",
+    "issues": [
+      {
+        "code": "LINEAR_SPEED_REJECT",
+        "severity": "REJECT",
+        "message": "linear_speed exceeds rejection threshold (m/s)",
+        "provenance": "TEST_ONLY",
+        "observed": 2.0429210197725443,
+        "threshold": 2.0
+      }
+    ],
+    "thresholds_and_original_TEST_ONLY_provenance_preserved": true,
+    "no_action_correction": true
+  },
+  "original_S1_rejections": {
+    "F0_T2": {
+      "readback_sha256": "d247355ba74b5408657414df6d1088e3d2cd1fc489acd58bcb1c34ae7f1e8edf",
+      "original_decision": "REJECT",
+      "original_error": "RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION",
+      "shadow_integrations": 61,
+      "first_predicted_violation_offset_tick": 61,
+      "live_integrations_of_rejected_prefix": 0,
+      "live_state_unchanged": true,
+      "actions_modified": false,
+      "prediction_is_not_a_realized_live_safety_fault": true
+    },
+    "F1_T1": {
+      "readback_sha256": "93707f1881e6a777096a328d465e1028f27ace2c61954f4bffc9bc6fe53c4048",
+      "original_decision": "REJECT",
+      "original_error": "RuntimeError: ILLEGAL_CONTACT_OR_PENETRATION",
+      "shadow_integrations": 184,
+      "first_predicted_violation_offset_tick": 184,
+      "live_integrations_of_rejected_prefix": 0,
+      "live_state_unchanged": true,
+      "actions_modified": false,
+      "prediction_is_not_a_realized_live_safety_fault": true
+    }
+  },
+  "interpretation": {
+    "complete_task_failures": [
+      "One T2 case has original horizontal_push=false and zero final zone hold samples.",
+      "Another T2 case has original no_lift=false and zero final zone hold samples."
+    ],
+    "incomplete_reference_and_S1_rejections_remain_valid_original_policy_negatives": true,
+    "original_raw_clock_audits_passed": true,
+    "do_not_relabel_unexecuted_rejected_prefix_as_live_safety_incident": true,
+    "original_scores_not_recomputed": true,
+    "original_gates_or_thresholds_not_changed": true,
+    "learning_gap_or_demonstration_coverage_cause_not_proven": true,
+    "wait_for_same_original_B_conditions_before_B_minus_A_or_further_intervention": true
+  },
+  "execution": {
+    "existing_A_then_B_server_owner_unchanged": true,
+    "no_new_gpu_job": true,
+    "no_new_queries": true,
+    "no_new_physics": true,
+    "no_new_data_or_training": true,
+    "no_deployment_or_selection": true
+  },
+  "full_goal": {
+    "status": "ACTIVE_INCOMPLETE",
+    "target_task_native_qualified": false,
+    "core64": 0,
+    "complete_first_AB_pair": false,
+    "formal_DEV48_per_candidate": false,
+    "independent_confirmation": false
+  },
+  "clock": {
+    "T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996
+  },
+  "qualification": {
+    "document_analysis_only": true,
+    "no_new_CI_claim": true
+  }
+}

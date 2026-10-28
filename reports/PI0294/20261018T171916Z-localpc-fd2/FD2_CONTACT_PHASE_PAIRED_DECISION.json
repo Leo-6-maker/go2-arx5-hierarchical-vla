@@ -1,0 +1,63 @@
+{
+  "schema": "PI0294_PV1_FD2_AND_TEACHER_DECISION_V1",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "route": "CLEARANCE_PAIR",
+  "pairs": [
+    {
+      "scene_group": "PI0294/FD2/TRAIN/G0",
+      "direction": "+Y",
+      "original_contact_minimum_gap_m": 0.0039880895854464415,
+      "alternate_contact_minimum_gap_m": 0.011990533556310357,
+      "paired_gain_m": 0.008002443970863915,
+      "gain_at_least_4mm": true,
+      "original_success": true,
+      "alternate_success": true,
+      "alternate_no_lift": true
+    },
+    {
+      "scene_group": "PI0294/FD2/TRAIN/G1",
+      "direction": "+Y",
+      "original_contact_minimum_gap_m": 0.004088160204352431,
+      "alternate_contact_minimum_gap_m": 0.012114753222653818,
+      "paired_gain_m": 0.008026593018301387,
+      "gain_at_least_4mm": true,
+      "original_success": true,
+      "alternate_success": true,
+      "alternate_no_lift": true
+    },
+    {
+      "scene_group": "PI0294/FD2/TRAIN/G2",
+      "direction": "-Y",
+      "original_contact_minimum_gap_m": 0.004009573872370387,
+      "alternate_contact_minimum_gap_m": 0.012016106504494639,
+      "paired_gain_m": 0.008006532632124252,
+      "gain_at_least_4mm": true,
+      "original_success": true,
+      "alternate_success": true,
+      "alternate_no_lift": true
+    },
+    {
+      "scene_group": "PI0294/FD2/TRAIN/G3",
+      "direction": "-Y",
+      "original_contact_minimum_gap_m": 0.004044293485376771,
+      "alternate_contact_minimum_gap_m": 0.012054742652321593,
+      "paired_gain_m": 0.008010449166944822,
+      "gain_at_least_4mm": true,
+      "original_success": true,
+      "alternate_success": true,
+      "alternate_no_lift": true
+    }
+  ],
+  "original_successes_out_of_4": 4,
+  "alternate_successes_out_of_4": 4,
+  "contact_gain_qualified_pairs": 4,
+  "FD2_evidence_sha256": "44c83a63455b4015a59cb9d2a94dedb0ed55f598896e98535ed5a869b652aee1",
+  "saved_geometry_sha256": "306422ab174ec0e419422c57213dc31eb5a066b42a985fc899721d20f3e97f13",
+  "FD2_repeated": false,
+  "FD2_costs_recharged": false,
+  "neural_training_cause_proven": false,
+  "new_paired_training_requires_common_success_groups": 64,
+  "insufficient_common_support_fallback": "ORIGINAL_TEACHER_COVERAGE_ONLY_IF_BANK_QUALIFIED",
+  "selected": "NONE",
+  "real_robot_deployment": "NONE"
+}

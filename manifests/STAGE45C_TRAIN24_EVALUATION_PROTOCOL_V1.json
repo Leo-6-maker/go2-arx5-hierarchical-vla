@@ -1,0 +1,103 @@
+{
+  "schema": "CORELAB_STAGE45C_TRAIN24_EVALUATION_PROTOCOL_V1",
+  "stage": "Stage45C",
+  "pi_gate": "PI_GATE_STATE_0088",
+  "source_golden_head": "8197e4cd591b9c44cf9f43576d3020e9e6ff5f24",
+  "status": "PREPARED_NOT_EXECUTED",
+  "owner": "corelab",
+  "cohort": {
+    "name": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN",
+    "expected_window_count": 24,
+    "window_order": "target_major_then_snapshot_major",
+    "window_ids": [
+      "stage22_expert_red_target_train_a:expert-0000",
+      "stage22_expert_red_target_train_a:expert-0001",
+      "stage22_expert_red_target_train_a:expert-0002",
+      "stage22_expert_red_target_train_a:expert-0003",
+      "stage22_expert_red_target_train_a:expert-0004",
+      "stage22_expert_red_target_train_a:expert-0005",
+      "stage22_expert_red_target_train_b:expert-0000",
+      "stage22_expert_red_target_train_b:expert-0001",
+      "stage22_expert_red_target_train_b:expert-0002",
+      "stage22_expert_red_target_train_b:expert-0003",
+      "stage22_expert_red_target_train_b:expert-0004",
+      "stage22_expert_red_target_train_b:expert-0005",
+      "stage22_expert_red_target_train_c:expert-0000",
+      "stage22_expert_red_target_train_c:expert-0001",
+      "stage22_expert_red_target_train_c:expert-0002",
+      "stage22_expert_red_target_train_c:expert-0003",
+      "stage22_expert_red_target_train_c:expert-0004",
+      "stage22_expert_red_target_train_c:expert-0005",
+      "stage22_expert_red_target_train_d:expert-0000",
+      "stage22_expert_red_target_train_d:expert-0001",
+      "stage22_expert_red_target_train_d:expert-0002",
+      "stage22_expert_red_target_train_d:expert-0003",
+      "stage22_expert_red_target_train_d:expert-0004",
+      "stage22_expert_red_target_train_d:expert-0005"
+    ]
+  },
+  "contract": {
+    "structured_action_schema": "StructuredActionV1",
+    "raw_action_shape": [1, 40, 132],
+    "decoded_action_shape": [40, 10],
+    "state_v1_shape": [10],
+    "geometry": "K16",
+    "timing": "T16",
+    "horizon": "H40",
+    "source_frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "model_input_keys": ["body_rgb", "wrist_rgb", "state"],
+    "target_xyz_in_model_input": false,
+    "decoder": "go2arx5_vla.stage40_structured_decode.decode_raw_structured_action",
+    "normalization": "late_bound_to_Golden_Release_statistics_manifest"
+  },
+  "runtime_binding": {
+    "golden_release_manifest": null,
+    "groot_runtime_manifest": null,
+    "full24_manifest": null,
+    "checkpoint_manifest": null,
+    "runtime_admission": null,
+    "structured_statistics": null,
+    "sampler_noise_seed": null,
+    "output_root": null
+  },
+  "late_bound": [
+    "golden_release_manifest",
+    "groot_runtime_manifest",
+    "full24_manifest",
+    "checkpoint_manifest",
+    "runtime_admission",
+    "structured_statistics",
+    "sampler_noise_seed",
+    "output_root"
+  ],
+  "locked_inputs": {
+    "Validation-E": "LOCKED",
+    "Holdout-F": "LOCKED",
+    "WBC": "LOCKED",
+    "new_data": "LOCKED",
+    "hardware": "LOCKED"
+  },
+  "execution_budget": {
+    "forwards_per_checkpoint": 24,
+    "reference_updates": 0,
+    "wbc_steps": 0,
+    "checkpoints": "late_bound_to_Vanda_P0_P1_manifest"
+  },
+  "execution_policy": {
+    "model_forward": "DEFERRED",
+    "gpu_h200": "HOLD",
+    "pbs_submission": "HOLD",
+    "training": "HOLD",
+    "safety_gate": "preserve_runtime_decision; ACCEPT_or_WARN_only",
+    "raw_predictions": "preserve_separately_and_hash_bind",
+    "threshold_used": null
+  },
+  "evidence": {
+    "metric_library": "src/go2arx5_vla/evaluation/",
+    "raw_to_decode_to_metric_pipeline": true,
+    "aggregate_is_cpu_only": true,
+    "scientific_semantics_source": "Stage44R accepted _trajectory_metrics and _comparison_metrics"
+  }
+}

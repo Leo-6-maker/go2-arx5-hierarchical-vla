@@ -1,0 +1,122 @@
+{
+  "schema": "V5_C50_REAL_TRAIN1024_CLOSED_AND_NEXT_CORE_RESOURCE_BOUNDARY_ACTUAL_V1",
+  "task": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+  "created_epoch": 1792959702.3596008,
+  "runtime_source": "bd7cc42f54453e98f05a8bba96d4cf9fb5b52810",
+  "cold_engineering_source": "def7c88a480afc4af376af21f11dadb222ddc0e0",
+  "job_id": "1492934.stdct-mgmt-02",
+  "request_id": "fe372d34-5378-47dd-9251-d2b4689d3cf4",
+  "native": {
+    "job_state": "F",
+    "Exit_status": 0,
+    "wrapper_returncode": 0,
+    "owner_returncode": 0,
+    "foreground_OS_returncode": 0
+  },
+  "audit": {
+    "status": "PASS_INDEPENDENT_V5_CD_1024_COMPLETE_STATE",
+    "member_count": 15,
+    "checkpoint_manifest_sha256": "179af34b0d1b0922aa3679516b44fe4755d122738eb53fab87b4e710bc975475",
+    "actual_consumed_cursor": 32768,
+    "optimizer_steps": [
+      1024
+    ],
+    "scheduler_last_epoch": 1024,
+    "rng_keys": [
+      "cpu",
+      "cuda",
+      "numpy",
+      "python"
+    ],
+    "parent_checkpoint_manifest_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "probe_result_sha256": "100ca7f7418eae3cf725d8c5ceb52155d464b2d612cecddfb13d3e2427e3a1a2"
+  },
+  "actual_effects": {
+    "optimizer_updates_committed": 1024,
+    "query_attempts": 29,
+    "model_load_attempts": 3,
+    "pending_updates": [],
+    "unknown_query_intents": []
+  },
+  "actual_allocation_cost": {
+    "conservative_GPU_s": 8740,
+    "conservative_CPU_s": 7918
+  },
+  "GPU_lease_status": "CLOSED",
+  "training_handoff": {
+    "schema": "V5_CD_REAL_CLOSED_1024_TRAINING_HANDOFF_V1",
+    "arm": "C50",
+    "request_id": "fe372d34-5378-47dd-9251-d2b4689d3cf4",
+    "job_id": "1492934.stdct-mgmt-02",
+    "source_sha": "bd7cc42f54453e98f05a8bba96d4cf9fb5b52810",
+    "checkpoint_manifest_sha256": "179af34b0d1b0922aa3679516b44fe4755d122738eb53fab87b4e710bc975475",
+    "global_step": 1024,
+    "global_sha256": "89e134f04df42f551f9523b56fb85b15569144c3c1473a153f842bb1a3e655b2",
+    "settled_sha256": "e04c4d82eb8920201a8c71fe18e0b79780f5f824f80344a335c00fb14c015f65",
+    "closed_lease_sha256": "e8650ae5c7cb449a27b4a371e330cd764639af61bc65fbc71445c66bd85c7713",
+    "closed_receipt_sha256": "16cf341fecb20274364c0beb99694a0d61b61c965f815af6e35f783fbc7025ea",
+    "owner_exit_sha256": "1c520a3f0034aa13c58cf5652ce79b2374845c82b92a516430e8876cf505fa16",
+    "OS_exit_sha256": "c7bd9ccdee4c26444899cf9f7f6442d9b72151084a4a8f00b2d1279d75bceadb",
+    "independent_audit_sha256": "d2a0a2921c119e32a5a02906de303dafa8137bce009e087cb1415395fa83a5fa",
+    "no_new_native_effects": true,
+    "model_or_physics_admission": false
+  },
+  "LOCAL_paid_projection": {
+    "independently_confirmed": true,
+    "old_import_failure_UNKNOWN_preserved": true,
+    "old_failure_reason": "Old registered80371880 control capsule has no mix_accounting module; ImportError preceded original onceIO.",
+    "exact_zero_readback": {
+      "LOCAL_bytes_unchanged": true,
+      "native_intents_and_receipts_absent": true,
+      "native_temporary_files_absent": true
+    },
+    "cold_fix": "One published def7c88a pure accounting module supplied in memory in a distinct cold operation. Old capsule/registry/lease/source unchanged. Actual Core read-only production-program preflight and7 temporary-filesystem cases passed before one CAS.",
+    "no_old_operation_replayed": true,
+    "intermediate_LOCAL_sha256": "c58c7f98543f3392b5082397cf6547b48a09ecc88660ebb09aafaad1f0e87427"
+  },
+  "Core_CPU_classification": {
+    "actual_dual_adopted": true,
+    "GLOBAL_sha256": "89e134f04df42f551f9523b56fb85b15569144c3c1473a153f842bb1a3e655b2",
+    "LOCAL_sha256": "1a70fb8c7b6df26bfe9e1a284990bec3f041d15951069c9be66fc9ec7df36b97",
+    "additional_reserved_s": 160000,
+    "remaining_and_held_Core_CPU_s": 349000,
+    "cap_s": 1152000,
+    "caps_changed": {},
+    "GPU_site_original_uppers_preserved": true,
+    "full_remaining_shortfalls": {},
+    "matrix_three_PBS_and_final_20GPUh_40GiB_protected": true
+  },
+  "GLOBAL_used": {
+    "H200_s": 142199.0,
+    "PBS_submissions": 27,
+    "optimizer_updates": 12738,
+    "neural_queries": 4453
+  },
+  "completed_stages": [
+    "TRAIN:C50:1024"
+  ],
+  "inference_view": {
+    "files": 9,
+    "payload_bytes": 12576324408,
+    "numerical_tensor_changes": 0,
+    "HF_uploaded": false,
+    "Core_delivered": false,
+    "optimizer_scheduler_RNG_transferred": false
+  },
+  "new_GPU_or_PBS_requests_this_followup": 0,
+  "Core_Eval_native_deployed": false,
+  "Core_Eval_valid_conditions": 0,
+  "D25_started": false,
+  "GEN_actual_images": 0,
+  "core64": 0,
+  "next_minimum_boundary": "Complete the existing Core resident owner cold C/D adapter and paired registered manifests/custody, exact fixed model delivery, actual native process and full fresh resource admission plus original600s80cycle qualification. Run original C50 N294101 Eval24, then D25 fresh commonCORR train1024 and its same24. The original driver/relay/S1/scoring and all valid failures stay fixed.",
+  "validation": {
+    "new_cold_CPU_cases": 35,
+    "related_CPU_passed": 468,
+    "public_source_files_full_GitHub_and_gitblob_readback": 13,
+    "private_LOCAL_program_temp_CPU_cases_each_version": 7,
+    "full_suite_or_CI_or_native_Eval_PASS_claimed": false
+  },
+  "whole_task_complete": false
+}

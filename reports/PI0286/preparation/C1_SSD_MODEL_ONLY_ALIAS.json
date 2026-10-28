@@ -1,0 +1,36 @@
+{
+  "status": "PASS_CLOSED_BOUNDARY_EMPTY_FIXED_C1_MODEL_ONLY_SSD_ALIASES",
+  "point": "C1_CORRECT1024-1024",
+  "epoch": 1791523356.1368873,
+  "actual_free_before_B": 35205300224,
+  "actual_free_after_B": 35205283840,
+  "estimated_delta_plus_BF16_peak_B": 11958254896,
+  "full_master_disk_temporary": false,
+  "paths": [
+    {
+      "logical": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/transfers/C1_CORRECT1024-1024.partial",
+      "actual": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0286/transfers/C1_CORRECT1024-1024",
+      "empty": true
+    },
+    {
+      "logical": "/home/liuyu-nfs/Projects/go2-arx5/PI0286/models/C1_CORRECT1024-1024",
+      "actual": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0286/models/C1_CORRECT1024-1024",
+      "empty": true
+    }
+  ],
+  "C0_closure_sha256": "09bbd5b082cd2a8463c2f76e79d69a4f7fda200eb0dd1663a905df8b704fda40",
+  "C0_closure_status": "ENDPOINT_CLOSED_VALID_TRAIN_FAIL",
+  "Core_seal_sha256": "d52006fea30351c14fc4b49953a2cc31ca0dfa1ca0b49db14b7d7b173659937e",
+  "code_sha256": {
+    "transport.py": "1bce31dc110c8717c2982520bde1808157652cadfb31f09484fe2801260c5353",
+    "model_worker.py": "6d86cd694cf58555964452bbaefd74399adffa252c24168e4aed7e6b839d50a8",
+    "policy.py": "ce62aa5c7102bc15dad83975ddde6df640c13cd9c6c39a2a5940caa2a208c427"
+  },
+  "model_view_sha256": "493a160bc03ac37a0eb63e388021a8018e49ffea09a64c709bb764272b19cf8a",
+  "same_logical_model_point": true,
+  "actual_C1_transfer": false,
+  "model_queries": 0,
+  "physics": 0,
+  "optimizer_transfer": false,
+  "global_100GiB_cap_owner_retained": true
+}

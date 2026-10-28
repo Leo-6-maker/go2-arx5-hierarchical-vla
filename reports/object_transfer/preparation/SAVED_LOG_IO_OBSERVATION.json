@@ -1,0 +1,31 @@
+{
+  "schema": "FUTURE_LOG_IO_PREPARATION_V1",
+  "observed_at_utc": "2026-10-05T15:30:20.289122+00:00",
+  "status": "CPU_SAVED_LOG_ACCESS_EQUIVALENCE_ONLY",
+  "current_runtime_changed": false,
+  "actual_log": {
+    "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0274/EQUIL/main/training/step_rng.jsonl",
+    "bytes": 6242731,
+    "sha256": "4e5429c60e32b163bc5025559e0d221dc8f59ad4b10be88a20c50d8ff2fc3065"
+  },
+  "closed_control": {
+    "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0273/BROAD/main/training/step_rng.jsonl",
+    "bytes": 6242573,
+    "sha256": "c7306e4bd9f14dcaee9203e12f6274f612b4d731b1e0aaddd3e963186d13bdb3"
+  },
+  "microbatches": 10240,
+  "source_pattern_total_log_bytes_reparsed": 95878064839,
+  "source_pattern_total_JSON_rows_parsed": 157291520,
+  "proposed_total_JSON_rows_parsed": 20480,
+  "benchmark_trials": [
+    {"current_full_reads_s": 0.22364916699007154, "proposed_tail_and_cached_lookup_s": 0.00034556305035948753},
+    {"current_full_reads_s": 0.20182964485138655, "proposed_tail_and_cached_lookup_s": 0.0005732830613851547},
+    {"current_full_reads_s": 0.20928469207137823, "proposed_tail_and_cached_lookup_s": 0.0004069679416716099}
+  ],
+  "benchmark_scope": "CPU JSON and file access only; warm-cache end-of-run files; not training throughput or GPU wait measurement",
+  "not_attributed": {"CPU_encode_seconds": "UNOBSERVED", "GPU_wait_seconds": "UNOBSERVED", "training_speedup": "UNOBSERVED"},
+  "future_launch_allowed": false,
+  "model_queries": 0,
+  "gradients": 0,
+  "optimizer_updates": 0
+}

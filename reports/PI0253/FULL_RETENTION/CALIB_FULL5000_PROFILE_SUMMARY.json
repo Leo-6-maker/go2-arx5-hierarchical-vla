@@ -1,0 +1,57 @@
+{
+  "action_contract": "official_dense_relative_H40",
+  "action_dt_s": 0.05,
+  "calib_seal_sha256": "cf8d673e80a684f0ef1ac0932f09eaf95a83ef8f45d7741933ffd50f822a7de5",
+  "cell_status_counts": {
+    "VALID": 1088
+  },
+  "checkpoint_index_sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7",
+  "checkpoint_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models/FULL5000/inference_view",
+  "checkpoint_step": 5000,
+  "cpu_replay": {
+    "checkpoint_step": 5000,
+    "count": 1088,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "profile_sha256": "878944ae51be2eb16846f4bc901782532a7a87dd08411f323c95e6bb4df16bc2",
+    "schema": "PI0253_FULL_CALIB_CPU_REPLAY_V1",
+    "status": "PASS_INDEPENDENT_CPU_REPLAY"
+  },
+  "expected_forward_count": 1088,
+  "forward_count": 1088,
+  "independent_CPU_subprocess_completed_before_observed_phase": "7500_PROFILE",
+  "model_input_keys": [
+    "body_rgb",
+    "wrist_rgb",
+    "state"
+  ],
+  "new_head_forwards": 4352,
+  "new_model_queries": 1088,
+  "new_optimizer_updates": 0,
+  "physics_episodes": 0,
+  "profile_card_sha256": "2409f572c55ce3a54df5f4981ccd31290cffa022571686e2a887b545a90adabf",
+  "profile_sha256": "878944ae51be2eb16846f4bc901782532a7a87dd08411f323c95e6bb4df16bc2",
+  "reference_min_target_distance_m": {
+    "count": 1079,
+    "max": 1.103452745168506,
+    "median": 0.762744308891493
+  },
+  "reject_issue_counts": {
+    "INITIAL_ROTATION_DISCONTINUITY_REJECT": 9
+  },
+  "safety_gate_counts": {
+    "ACCEPT": 50,
+    "REJECT": 9,
+    "WARN": 1029
+  },
+  "schema": "PI0253_FORMAL_CANDIDATE_CALIB_OBSERVATION_V1",
+  "seed": 22301,
+  "selected_checkpoint": "NONE",
+  "source_profile_schema": "PI0228_TRAIN_CALIB_PROFILE_V1",
+  "status": "SAFETY_GATE_REJECT",
+  "target_authority_sha256": "06fa238a27485ecde39c75797fe9fd82dd1cdc5f5c79f5d5a5b3d9dcab7597e8",
+  "target_authority_source_grid_manifest_sha256": "d6e6e51ebf7b9e9a43cb691e8896fa2ddfe10de43f936aede4fa2898ac3f2bc4",
+  "target_xyz_in_model_input": false,
+  "wbc_execution": false,
+  "worst_cell_median_reference_min_target_distance_m": 0.8982311131410323
+}

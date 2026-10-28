@@ -1,0 +1,86 @@
+{
+  "schema": "WDR1_ORIGINAL_SDK_FINITE_CLIENT_COLD_CPU_V1",
+  "status": "COMPANION_PROCESS_AND_PINNED_BUILD_PLAN_IMPLEMENTED_NO_NATIVE_ADOPTION",
+  "previous_qualified_reader_source": "becdd8e2f47fe322dfa224fefc9121556bcb22b5",
+  "purpose": "Use the installed original SDK as a finite numeric-only companion of the current DEC1 task owner, without changing the frozen controller or reopening any old run.",
+  "implementation": {
+    "client": "scripts/pi0294/dec1/target_sdk_client.cpp",
+    "owner_IO": "scripts/pi0294/dec1/target_sdk_client.py",
+    "build_plan": "scripts/pi0294/dec1/target_sdk_build_plan.py",
+    "process_lifetime": "One dedicated original SDK problem per admitted companion; reuse for at most the original 80 policy-knot requests. No constructor per knot/query and no sharing a live controller precomputation cache.",
+    "transport": "Bounded little-endian binary pipe on a dedicated inherited descriptor. Vendor stdout/stderr remain logs, never parsed as policy/constraint replies. Numeric vectors cross the process boundary; no C++ object ABI exchange with a frozen executable.",
+    "startup": "Original model type3/state12/input12 required before READY. Explicit original frame overrides and exact client-only cache-flag config, URDF and SDK pins required.",
+    "freeze": "Two explicit sealed modes: ORIGINAL_SDK_INITIALIZE uses the byte-exact original task and original SDK constructor to realize numerical AD caches in a new empty registered output, only in a zero-physics/zero-GR00T CPU qualification role. It never rebuilds vendor controller sources. Immediately after construction, execve/execveat (including x32) are disabled. Cache inventory is bounded and sealed read-only only after successful natural process exit. SEALED_CACHE_LOAD uses the derived build-cache flag only, rejects missing/changed cache inputs and disables exec BEFORE construction. No automatic mode switch/fallback.",
+    "once_semantics": "Exclusive local INTENT before Popen and each request. Timeouts, partial replies, unknown writes or changed current identity latch without restart/resend. Child cleanup remains possible on original owner guard failure. Exit receipt never claims CPU/constructor settlement or lease closure.",
+    "identity": "Pinned CURRENT DEC1 child manifest, sealed request id/run/source, original campaign T0/hard-close/deadline and output subtree are rechecked. Old R4/closed-counter roles rejected; fresh stop-new check immediately before Popen.",
+    "admission_boundary": "These new current-role client checks are not full resource admission or a registered child. Actual parent/Core once reservations, profile/authority and complete remaining-work forecast must be implemented/bound by the existing owner before native dispatch.",
+    "no_original_controller_solver_cost_gain_policy_or_physics_change": true,
+    "native_prefix_safety_qualified": false,
+    "physics_advance_authorized": false,
+    "initialization_is_not_a_new_science_gate": "A pre-existing AD cache is not a prerequisite: original SDK numerical initialization can be explicitly reserved, bounded and billed in the cold qualification phase. Task-role clients cannot enable compilation.",
+    "companion_environment": "Original simulation clock/actuation LD_PRELOAD/LD_AUDIT interposers are removed from this separate SDK subprocess; no CUDA visibility, finite CPU thread bounds."
+  },
+  "build": {
+    "actual_installed_original_CMake_flags_sha256": "b9d8d124223c89216d5401b16455f55db5c9247b8d21a870827f4f7aef55f371",
+    "actual_original_link_record_sha256": "242b8c4088cb5f5dc3854a5432f3c4748afa15fbd5145124040931e1cc7c3a5f",
+    "actual_captured_pure_plan_sha256": "4d298d191f99c74b47ae89e9d5ffa52b954d6c31f4e27dee7c5592e5b50837a9",
+    "parsed_compile_argv_tokens": 187,
+    "parsed_link_argv_tokens": 200,
+    "original_link_input_paths": 185,
+    "replaces_only_original_MPC_node_main_object_with_our_client_object": true,
+    "shell_evaluation": false,
+    "vendor_sources_compiled": [],
+    "native_compiler_executed": false,
+    "next_native_build_still_requires_full_headers_dependencies_runtime_link_hashes_and_lifecycle_readback": true
+  },
+  "read_only_native_evidence": {
+    "receipt_sha256": "bfc5a3e269607f430e813ee7350375692c6656e1706d9cccf8aa31e0e490778b",
+    "Core_metadata_CPU_s": 0.002864246,
+    "observed_false_cache_flag_calls_loadModelsIfAvailable_not_guaranteed_no_compile": true,
+    "current_control_manifest_lease_registry_and_DEC1_ledger_full_hashes_unchanged": true,
+    "new_Core_child_models_physics_GPU_PBS": 0
+  },
+  "validation": {
+    "new_finite_client_CPU_cases": 24,
+    "new_pure_build_cases": 7,
+    "related_final_CPU_cases_passed": 63,
+    "real_new_CXX_companion_compiled_and_executed_against_explicit_generated_CPU_SDK_API_standins": true,
+    "real_process_pipe_syscall_filter_no_exec_timeout_partial_and_cleanup_behaviors_exercised": true,
+    "final_source_exact_CI": "PENDING_AFTER_PUBLICATION",
+    "private_CPU_fixture_clock_only_no_native_historical_now_or_lease": true,
+    "actual_installed_SDK_client_compile_construction_and_ABI_qualification": false,
+    "full_local_final_source_regression": {
+      "cases_passed": 2550,
+      "subtests_passed": 1499,
+      "private_runtime_skips": 13,
+      "seconds": 108.45
+    }
+  },
+  "current_training_snapshot": {
+    "job_id": "1481574.stdct-mgmt-02",
+    "native_observed_epoch": 1792785264.5348265,
+    "state": "R",
+    "native_step": 3346,
+    "seed_step": 2048,
+    "new_committed_updates": 1298,
+    "actual_queries": 17,
+    "actual_model_loads": 2,
+    "unknown_effects": [],
+    "same_original_owner_wrapper_live": true,
+    "heartbeat": "CONFIRMED",
+    "last_complete_recoverable_step": 2048,
+    "B4096_complete": false,
+    "original_runtime_source": "36925d272095d000ba1ad3ce5e9cdc44373fdce6"
+  },
+  "next_current_scope_steps": [
+    "Protect the live GPU owner; only actual B4096/F0/natural owner exit permits original independent audit/once settlement/GPU+CPU closure.",
+    "Finish the current DEC1 SDK qualification role once-resource contract, full remaining Core/LOCAL/IO admission and actual standard manifest/registry before native build. No new Core cost or hold is injected into the active GPU capsule.",
+    "At the real inactive boundary, build only our companion against pinned original installed SDK, verify dependencies and finite constructor/constraint exchange/exit, account every actual or unknown cost and close once.",
+    "Wire this component into the existing target worker with original raw+mapped checks, original native full-state safety/feedback/install ACK/quota/STOP and finite T1/T2 commissioning; policy-knot samples or box cost never grant safety permission.",
+    "Run fixed CORR2048/R0 core64 when actually qualified. Teacher source remains independent; no student-success screening gate, new controller or new full-body shadow-model prerequisite."
+  ],
+  "target_task_native_qualified": false,
+  "core64_completed": 0,
+  "goal_status": "ACTIVE",
+  "unchanged": "Original scopes/caps/T0/deadlines/final protection, all paid failed updates and complete checkpoints preserved; running GPU capsule unmodified; no new native scientific action by publication."
+}

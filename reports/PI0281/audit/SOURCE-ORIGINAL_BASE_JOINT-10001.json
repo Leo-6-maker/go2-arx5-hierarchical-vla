@@ -1,0 +1,121 @@
+{
+  "lane": "ORIGINAL_BASE_JOINT",
+  "condition": 10001,
+  "status": "VALID_SOURCE_COMPLETE",
+  "result": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/RESULT.json",
+    "bytes": 1654,
+    "sha256": "c94db057cf25633cf2c7ff286d2c42992863c0294b8d56f3e10167090029db61"
+  },
+  "quality": false,
+  "full32s": true,
+  "physics_samples": 3301,
+  "success41": 0,
+  "window_samples": 41,
+  "persistent": false,
+  "persistent41_observed": false,
+  "persistent41_status": "OBSERVED_ALL41",
+  "task_elapsed_s": 32.0,
+  "first_success_s": null,
+  "original_lift": "UNOBSERVED_NOT_RECORDED",
+  "grasp_physics_samples": 0,
+  "max_cubeA_height_m": 0.019999917596578598,
+  "object_funnel": {
+    "first_grasp_s": null,
+    "grasp_samples": 0,
+    "longest_grasp_s": 0.0,
+    "task_initial_height_m": 0.019999917596578598,
+    "max_height_increase_m": 0.0,
+    "original_lift": "UNOBSERVED_NOT_RECORDED",
+    "descriptive_lift_2cm_s": null,
+    "descriptive_lift_rule": "Measured height increase >2cm; diagnostic only",
+    "first_on_top_s": null,
+    "on_top_samples": 0,
+    "first_success_physics_s": null,
+    "released_41": 41,
+    "static_41": 41,
+    "on_top_41": 0,
+    "release_after_first_grasp_s": null
+  },
+  "command_to_actual_xyz_m": {
+    "n": 660,
+    "mean": 0.007463740884097178,
+    "rms": 0.009133556908840271,
+    "p50": 0.00624390016309917,
+    "p95": 0.017930709104985,
+    "max": 0.03908112645149231
+  },
+  "installedFK_to_actual_xyz_m": {
+    "n": 660,
+    "mean": 0.007463740884097178,
+    "rms": 0.009133556908840271,
+    "p50": 0.00624390016309917,
+    "p95": 0.017930709104985,
+    "max": 0.03908112645149231
+  },
+  "actual_joint_hard_margin_min_rad": [
+    1.686791057395935,
+    0.2947514274597167,
+    2.6083049724578857,
+    0.19663437147140503,
+    2.0811897466659546,
+    0.8462768363952636,
+    1.7490193794250488
+  ],
+  "actual_hard_penetration_rad": 0.0,
+  "source_recorded_actual_hard_penetration_rad": 0.0,
+  "source_recorded_joint_hard_margin_min_rad": [
+    1.6867910623550415,
+    0.2947514057159424,
+    2.608304977416992,
+    0.19663438200950623,
+    2.0811896324157715,
+    0.8462768197059631,
+    1.7490193843841553
+  ],
+  "urdf_vs_native_limit_rounding_penetration_difference_rad": 0.0,
+  "actual_hard_penetration_samples": 0,
+  "actual_hard_penetration_definition": "Exact saved physical qpos versus actual Panda URDF seven arm limits; raw penetration retained in radians",
+  "source_safety_semantics": "Joint route rejects nonfinite or out-of-limit commanded q before dispatch. EEF replay uses unchanged commanded-pose gate; finish records actual arm penetration descriptively, without a new post-step penetration rejection. WBC prospective 1e-6 tolerance is not substituted for a source task gate.",
+  "source_executor_identity": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/code/source.py",
+    "bytes": 27349,
+    "sha256": "b1f213b40b1897d676df1479d62074305ac0788cb477dca1bb5f4e0025f0df07"
+  },
+  "installed_arm_target_hard_penetration_rad": 0.0,
+  "safety_classification": {
+    "RAW": "Finite commands and route-specific unchanged pre-dispatch gates; rejected future commands are not achieved states",
+    "INSTALL": "Recorded actuator/controller arm_target limits audited separately from raw reference",
+    "ACTUAL": "Physical qpos penetration is retained even when native simulation completes",
+    "TASK": "Original object persistent predicate only; no retrospective substitution of WBC integration gate"
+  },
+  "recorded_command_to_exactFK_m": {
+    "n": 660,
+    "mean": 1.659431775559859e-08,
+    "rms": 1.8226838231296458e-08,
+    "p50": 1.6155131286380873e-08,
+    "p95": 2.9328890374090862e-08,
+    "max": 3.179436129697705e-08
+  },
+  "noise_identical_to_PI0280": true,
+  "queries": 60,
+  "rawQ_to_installed_joint_max_abs_rad": 0.0,
+  "decoded_gripper_to_actuator_max_abs": 0.0,
+  "raw_inputs": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/physics.npz",
+      "bytes": 994890,
+      "sha256": "fac63826332ad3dc5b141ca0ef54e03c7e4fff0fef70e920f670f2a406e7a86c"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/commands.npz",
+      "bytes": 32434,
+      "sha256": "06d7e0b046d527f662104e1581a0739f74a64b85343ba482aecd49bbdfebd5c1"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/installed.npz",
+      "bytes": 82628,
+      "sha256": "ad69d88e5a5bc9d2b702fb3acf270eee8184280848daf56b168fd10c61f1172c"
+    }
+  ]
+}

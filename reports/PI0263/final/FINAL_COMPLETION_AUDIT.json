@@ -1,0 +1,63 @@
+{
+  "all_required_deliverables_verified": true,
+  "deployment_selected_checkpoint": "NONE",
+  "final_audit_code_sha256": "47d4489b957b4bc865686e636610f3a1f30b3e35116819c5f6c1a75bb4ea102c",
+  "model_queries_by_final_audit": 0,
+  "models": [
+    {
+      "arm": "F",
+      "revision": "768cc6b74700d6e3a849064e3c91694f645bdf0a",
+      "step": 1000,
+      "tree_sha256": "cdf5155478c885ab77a93e8ff3c823c032c66afb45162ed5e766d69d2fdb1194"
+    },
+    {
+      "arm": "F",
+      "revision": "4e5f40a4f6fe516003e5ee322a8c92eb7b03a6a4",
+      "step": 2000,
+      "tree_sha256": "ac62469c76725ed28fd6f7eba99da159b940d89865cdc1ac2f9844d68ac6cd0b"
+    },
+    {
+      "arm": "X",
+      "revision": "fb9b9f84b5fcb1b67cebb72aea831c68e9be2287",
+      "step": 1000,
+      "tree_sha256": "3f274001d714345fac898f9c5446add04716f708fd8b0984c185f84ee6031d6c"
+    },
+    {
+      "arm": "X",
+      "revision": "a2f9f767a11e4af269377603f3da432f4931d623",
+      "step": 2000,
+      "tree_sha256": "4ec3b3a44ad40a057cfdcd7ad992a86b68889b4efba98be70ed109e571497694"
+    }
+  ],
+  "next_scientific_execution_authorized": false,
+  "physics_steps": 0,
+  "public_members": 9379,
+  "public_readback_status": "PASS_PUBLIC_ANONYMOUS_FULL_FILE_AND_MEMBER_READBACK",
+  "public_revision": "8c378ad358c7415b587d82758f621a965a1c1a06",
+  "public_tree_sha256": "9fb131a1ba425934b0b7b898ae2f95d3dc3b0f38a7b2c995b3320db0cb81b367",
+  "quality": {
+    "F2000": "VALID_FAIL",
+    "X2000": "VALID_FAIL"
+  },
+  "receipt_sha256": "0975e248b1ff98001e5a8336d535da1c40c823ce5bd03436bc05c1cb23029a55",
+  "report_sha256": "d01ca9d97eb4f7566ca83c827ae161f673514888ae43ac9398b32944036e0630",
+  "requirements": {
+    "both_complete_final2000_and_original_objective": "MAIN_TRAINING_AUDIT.json; frozen tensor scope; four full Trainer HF readbacks",
+    "both_real_exact_restore_canaries": "F_CANARY_COMPARE.json; X_CANARY_COMPARE.json; actual packet audits",
+    "budgets_and_valid_fail": "4032 completed updates;72624 training heads;2232 queries/8928 inference heads; both valid quality FAIL",
+    "closed_admission": "selected/deployment/candidate NONE; stop for independent generalization or physical admission",
+    "family_wording_direction_color_noise_and_regressions": "MODEL_QUALITY_REPORT.md and all eight row/stratum diagnostic CSVs",
+    "finite_actual_negative_controls": "PROCESSED_PLAN_AUDIT.json: seven rejected controls,8000 samples",
+    "full3456_union_and_both_panel_views": "CPU_REPLAY.json;2040 legacy memberships;1920 crossed memberships; all3456 raw record/tensor pairs in public seal",
+    "independent_computation_path_cpu": "Same owner, not external signoff; preserved raw CPU scope erratum",
+    "public_results_and_anonymous_every_member_readback": "PUBLIC_RECEIPT.json; MEMBER_MANIFEST.json; immutable revision/tree",
+    "recoverable_public_full_trainer": "All four checkpoints sixteen files, fixed-revision full-file readback",
+    "saved_array_video": "18 fixed chapters,720 decoded frames, visual watermarks,0 new queries/renders/physics",
+    "source_bound_diagnosis_and_frozen_schedule": "PROCESSED_PLAN_AUDIT.json; PAIRING_PLAN.json; MODEL_QUALITY_REPORT.md"
+  },
+  "schema": "PI0263_FINAL_COMPLETION_ADMISSION_AUDIT_V1",
+  "selected_checkpoint": "NONE",
+  "status": "PI0263_TEMPLATE_COUNTERBALANCING_PILOT_COMPLETE",
+  "stop": "STOP_FOR_INDEPENDENT_GENERALIZATION_OR_PHYSICAL_ADMISSION",
+  "synthetic_research_candidate": "NONE"
+}

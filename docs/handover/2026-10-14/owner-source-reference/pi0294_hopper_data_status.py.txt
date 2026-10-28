@@ -1,0 +1,47 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read the original incremental receive process identities; never retry it."""
+import time
+from pi0294_adopt import BASE, RUN, remote, save
+
+CODE=r'''
+import json,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+directory=root/'evidence/hopper-v3_0-receive-01'
+v=dict(epoch=time.time(),stage=directory.name,processes=[],receipts={})
+for name in ('PROCESS.private.json','CHILD.private.json'):
+    p=directory/name
+    if not p.exists():continue
+    record=json.loads(p.read_text());stat=Path('/proc')/str(record['pid'])/'stat'
+    fields=stat.read_text().split() if stat.exists() else None
+    record['live_identity_verified']=bool(fields and fields[21]==record['proc_start'] and fields[2] not in ('Z','X'))
+    if fields:record.update(state=fields[2],CPU_ticks=int(fields[13])+int(fields[14]),RSS_pages=int(fields[23]))
+    io=Path('/proc')/str(record['pid'])/'io'
+    if fields and io.is_file():
+        record['IO_counters']={k.strip():int(value) for k,value in (line.split(':',1) for line in io.read_text().splitlines())}
+    v['processes'].append(record)
+for name in ('DOWNLOAD.json','INPUT_RECEIVE_QUALIFICATION.json','CPU_STAGE.json','PI0294_NATIVE_CPU_QUALIFICATION.json'):
+    p=directory/name
+    if p.exists():
+        value=json.loads(p.read_text())
+        v['receipts'][name]={k:value[k] for k in ('status','CPU_s','wall_s','failure','source_sha','manifest_sha256',
+            'statistics_sha256','HF_revision','revision','prefix','old_raw_downloaded','new_raw_downloaded',
+            'actual_loader_throughput','models_loaded','CUDA_initialized','bindings_not_yet_adopted') if k in value}
+v['stderr_tail']=(directory/'stderr.log').read_text()[-1800:] if (directory/'stderr.log').exists() else None
+ledger=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text())
+v['ledger']={k:ledger.get(k) for k in ('CPU_s','CPU_reserved_s','GPU_allocated_s','GPU_reserved_s','model_smoke_updates','main_updates')}
+data=root/'data/bank_v3_0'
+archives=list((data/'blobs/PI0294'/RUN/'bank-v3_0-2fd28e00/episodes').glob('*.tar.gz'))
+v['materialization_progress']=dict(downloaded_new_archives=len(archives),
+    downloaded_archive_bytes=sum(p.stat().st_size for p in archives),
+    raw_episode_directories=len(list((data/'raw').glob('PI0294-*'))),native_manifest_exists=(data/'native/DATASET_MANIFEST.json').is_file())
+print(json.dumps(v))
+'''
+
+if __name__=='__main__':
+    r=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+    save(BASE/('HOPPER_DATA_STATUS_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    if r.returncode:raise RuntimeError(r.stderr[-1000:])
+    print(r.stdout)

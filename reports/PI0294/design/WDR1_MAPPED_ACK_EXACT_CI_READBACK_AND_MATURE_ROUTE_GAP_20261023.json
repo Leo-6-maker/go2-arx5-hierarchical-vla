@@ -1,0 +1,42 @@
+{
+  "schema": "WDR1_MAPPED_ACK_EXACT_CI_READBACK_AND_MATURE_ROUTE_GAP_V1",
+  "observed_epoch": 1792699065.931116,
+  "source_commit": "641acd1be36d4525846830a208e0badf06e3d988",
+  "CI_run": 39844023081,
+  "CI_job": 120052390525,
+  "status": "completed",
+  "conclusion": "success",
+  "changed_files_full_text_readback": 14,
+  "local_CPU_tests_passed": 168,
+  "subtests_passed": 35,
+  "clean_import_assertion_separately_passed": true,
+  "B1_terminal_B2_metadata_CPU_tests": 10,
+  "B2_owner_terminal_CPU_tests": 10,
+  "active_training_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+  "active_training_unchanged": true,
+  "mature_route_static_gap": {
+    "status": "EXISTING_PV1_RESIDENT_CONSUMER_AND_RELAY_FACTORY_NOT_YET_COLD_BOUND",
+    "source_file_sha256": {
+      "scripts/pi0294/resident.py": "5f600ad55247e7009c411fff263685fd60f2c0782ddb367ce6d4c431fa6b74de",
+      "scripts/pi0294/e1/neural.py": "26819f46d1ea62ec72a08f0acd55b14fd3b9d9eb982d5201fc1e475e1a7f4ac4",
+      "scripts/pi0294/pv1/neural.py": "15fe80cbbb356bb5e2c93ffb136dee32175103209384914c2af0c1ce342c04dd",
+      "scripts/pi0294/relay_transport.py": "398be077f3059657244d9819c9d05a1f5cc474c6337014e5cba3a35c9802939b"
+    },
+    "call_chain": [
+      "pv1.neural uses e1.neural.serve",
+      "e1.neural imports resident.QueryReservations and constructs it in serve",
+      "resident.QueryReservations.begin still strict RAW ACK",
+      "relay_transport.run_episode constructs RelayExchange without mapped contract"
+    ],
+    "delivered_generic_consumer": "pi0292.neural_relay.QueryReservations plus RelayExchange optional mapped bindings",
+    "remaining": [
+      "Optional mapped contract seam in actual resident.QueryReservations",
+      "Explicit cold injection through actual e1.neural.serve and relay_transport.run_episode",
+      "Original completed full action/command bytes into resident completion",
+      "Actual sealed DEC1 panel/condition and admitted evaluation owner factory remain absent",
+      "Original S1/result/stop/partial accounting native commissioning remains pending"
+    ]
+  },
+  "native_scientific_qualification": false,
+  "new_native_GPU_PBS_models_queries_updates_physics": 0
+}

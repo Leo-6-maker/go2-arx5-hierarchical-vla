@@ -1,0 +1,94 @@
+{
+  "schema": "PI0246_CAMPAIGN_STATE_SNAPSHOT_V1",
+  "updated_at_utc": "2026-09-25T12:10:38Z",
+  "execution_branch": "pi0246/gate-pass-campaign-20260924",
+  "execution_head_at_snapshot": "a216c10b01c93a9d0bc2a78861be6cc31186a29b",
+  "prior_snapshot_preserved": "artifacts/PI0246_CAMPAIGN_STATE.json",
+  "snapshot_is_additive": true,
+  "training": {
+    "completed_updates": {"C": 2000, "T": 2000, "P": 2000, "PT": 2000},
+    "cumulative_updates": 8000,
+    "P_training_manifest_or_reconciliation_sha256": "b819f23221e33c9af890cb32d92e711797193fa124fdabe0afe2eba39e8fc2ff",
+    "PT_training_manifest_sha256": "e43d2506737fd93211ca75eaca00f74cee9cee104b7593a9f1d10139b2ccb090",
+    "PT_reconciliation_sha256": "c7bacdfea43589051bd275b917792906375ee5aeb797b4ac98d1d011ec9bfc7d",
+    "PT_update_audit_sha256": "bc8dfdcc2ccd06bfb30b7b86eea6369b9378a32fc9bdf4320f2d259257ee8961"
+  },
+  "science": {
+    "C_T_main": {
+      "profiles": 5,
+      "cells": 80,
+      "final_C2000": {"reject_warn": [9, 7], "median_xyz_rmse_m": 0.0441649, "linear_p95_xyz_rmse_m": 0.0528444, "median_so3_rmse_rad": 0.0318809, "verdict": "VALID_FAIL"},
+      "final_T2000": {"reject_warn": [1, 15], "median_xyz_rmse_m": 0.0623276, "linear_p95_xyz_rmse_m": 0.0811081, "median_so3_rmse_rad": 0.036843, "verdict": "VALID_FAIL"},
+      "source_comment": 5825455989
+    },
+    "C_T_cross_noise": {"cells": 32, "C_reject_warn": [9, 7], "T_reject_warn": [3, 13], "source_comment": 5825569583},
+    "P_screen": {
+      "status": "COMPLETE_VALID_FAIL",
+      "P1000_cells": 16,
+      "P1000_reject_warn": [8, 8],
+      "P1000_median_xyz_rmse_m": 0.045299243190,
+      "P1000_linear_p95_xyz_rmse_m": 0.057564626282,
+      "P1000_median_so3_rmse_rad": 0.031464569718,
+      "P1000_records_sha256": "f476cb7a5962394c25161d1800733961527eb27319b185a9e36a456e7a8b6dc5",
+      "P1000_queries_sha256": "006429fc2aca7c5905963408cec729251d193f0186b23698b45ed3364f76f34f",
+      "P1000_cpu_report_sha256": "a479d8dae91977b44dd1b2fa36bc789754889dcb919594d5ec1833d139a89770",
+      "P2000_cells": 16,
+      "P2000_reject_warn": [1, 15],
+      "P2000_median_xyz_rmse_m": 0.040536257911,
+      "P2000_linear_p95_xyz_rmse_m": 0.052076788223,
+      "P2000_median_so3_rmse_rad": 0.033319905221,
+      "pinned_revision": "74ab6fbcf73832a6411f71bb2369c3e8bfd0ba5e",
+      "full_archive_receipt_sha256": "71fa13bc93783e20756884f0c61379ee4f7b64d061fd8f5f04a4bd9637571a70",
+      "inference_view_receipt_sha256": "ff9f0876ba56de7ee530a56a4f2391abb308dea519bad2cb3a173444e77b3966",
+      "source_comment": 5829602620
+    },
+    "PT_screen": {
+      "status": "COMPLETE_VALID_FAIL",
+      "PT1000_cells": 16,
+      "PT2000_cells": 16,
+      "PT2000_reject_warn": [1, 15],
+      "PT2000_median_xyz_rmse_m": 0.040540258821,
+      "PT2000_linear_p95_xyz_rmse_m": 0.051897411957,
+      "PT2000_median_so3_rmse_rad": 0.04072628885,
+      "PT1000_cpu_report_sha256": "d5e339d102c837ec6915583e4a5b84f81c10eac7355a95246bf27498c3884617",
+      "PT2000_cpu_report_sha256": "bfaadbdd880537d80fb7d7353900f81e500485383bcafbd1e28b8ffc0df8b26f",
+      "PT1000_records_sha256": "0fe16a53b10107ec60ad5e2fd6fa9b11abfdb1fc1c8918e8a56966b47d636a56",
+      "PT2000_records_sha256": "30830ce10bd3b592a9337fe6a3805e7216624694a812344db9d2fbdd7318f600",
+      "PT1000_queries_sha256": "a2b02c0ab7414f715221b50ee820eb9e2b46bf9cd9262e0774ff9dee6e1d69bc",
+      "PT2000_queries_sha256": "457ad694b5bc32e451c53c43ebeef7870834e29f2df0be4bdff2835210b60c3f",
+      "cpu_replay": "16/16 each; PASS_READONLY_PROFILE_REPLAY; 0 model loads/queries",
+      "source_comment": 5831082853
+    }
+  },
+  "archive_and_access": {
+    "P_full_checkpoint_archive": "verified at pinned revision per P-screen closure; source comment 5829602620",
+    "PT_full_checkpoints": "1000 and 2000 DURABLE_VERIFIED with pinned-revision full-file readback",
+    "PT_HF_revisions": {"1000": "a1d699834abf184502756e74fff21c7eee6e15c6", "2000": "e4da899edb981cf2a0e9e8269249da4c08f45891"},
+    "PT_full_checkpoint_tree_sha256": {"1000": "821c5aa6117231d3edb9db6ffb8d6d6c4e90471979575d22f8d29dd12ef7560a", "2000": "b3b87b8d01609e18483ff84bb0e4edebf16e9b2b4a1f2b7b708abbc9adb0ef51"},
+    "PT_1000_inference_view_receipt_sha256": "95052a643940691476903045830d0a3a79ba96d1914c52835b4a508898e85610",
+    "PT_2000_inference_view_receipt_sha256": "97e4f7c79b71e746aa819c74df2587fbaf9e44f53bb869f0ace92e0ce32c0f7c",
+    "current_Hopper_qstat": "UNKNOWN; current SSH invocation reports qstat command not found; last canonical training owner 632392 is terminal",
+    "current_Corelab_screen_owner": "PT1000 and PT2000 screens and CPU replay are complete; no screen process remains in the recorded execution"
+  },
+  "P1_hash_erratum": {
+    "prior_snapshot_value_preserved": "closure SHA ending ...cc70a",
+    "correct_canonical_closure_sha256": "77712a2598ae7f8d8a076139c4160ec480c4d9ff624b2e45be9a0a51a55cc70b",
+    "source_comment": 5827198412,
+    "historical_artifact_modified": false
+  },
+  "next_action": "STOP_FOR_PI_NEW_HYPOTHESIS; no further arm authorized by this campaign",
+  "latest_live_recheck": {
+    "observed_at_utc": "2026-09-25T12:32:48Z",
+    "hopper_qstat_owner_query": "qstat -u e1192548 exited 0 with no active jobs returned",
+    "historical_job_629669": "F/Exit_status=1/Stageout_status=1 on hopper-22; preserved logs",
+    "job_629669_stdout_sha256": "f29ce791afae64fcb4208827cda7e423ff183de2120112c5048dc48dcd04e262",
+    "job_629669_stderr_sha256": "725140e3bb8a6440d727375477744b2759705e790db17f7974e3994c776025ab",
+    "paired_closeout": "docs/evidence/PI0246_R1_PAIRED_TERMINAL_CLOSEOUT_20260925.json",
+    "paired_closeout_sha256": "1076236be2946d59ea58589767a0fe4ba23cb7a0764d31e73f4292f2b70decb3",
+    "paired_closeout_rows": 112,
+    "model_queries": 0,
+    "training_updates": 0
+  },
+  "selected_checkpoint": "NONE",
+  "locked_activity": ["M64", "FULL", "CALIB", "selector", "WBC", "sim", "DEV-E", "DEV-F", "Final-F", "DAgger", "hardware", "PR merge"]
+}

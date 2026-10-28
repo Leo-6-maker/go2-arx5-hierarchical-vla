@@ -1,0 +1,35 @@
+{
+  "data_mapping_and_processor_and_recipe_unchanged": true,
+  "full_input_microbatches": 8192,
+  "model_queries": 0,
+  "observed_utc": "2026-10-04T03:34:11.914971+00:00",
+  "optimizer_updates": 0,
+  "source_changes": [
+    {
+      "name": "train.py",
+      "new_sha256": "0a7466539ab9ab8e3eac38927d7316521cf8d67887c27a786c51888eee5bcf7a",
+      "old_sha256": "cabf7ea58f61ac397f7ce46da7b38fecdb3bbe0be249004a32bec76c7075cc32"
+    },
+    {
+      "name": "training.pbs",
+      "new_sha256": "caa8fff16fd3fc4672902b3f8b226ce9be074cd0929e01c89e4e8759e380ce07",
+      "old_sha256": "8561939db55cb614c930a3057ee3c48c5efa04440012149f2f6a046b5ebc5fdd"
+    },
+    {
+      "name": "training_audit.py",
+      "new_sha256": "c70aa58f0a9f7d5d57e82e14de68d5bfbd721d77a62e3ed03b39f6d5ed70d034",
+      "old_sha256": "4d95edb4d3403ba5c8ee658caecb60cb5ad14c3c0d626948e2fe2b4355266d39"
+    },
+    {
+      "name": "seal_training.py",
+      "new_sha256": "668adc45d9c9a990b5eee6040aeb7e97ac2753486b3d966d3f8aeb040bf4050f",
+      "old_sha256": "a87bf76b22ae73fd29875aa7322df3edf9e17a4a31708d3d05b711a14c17b109"
+    },
+    {
+      "name": "training_source_check.py",
+      "new_sha256": "9c68e0b14033fe810eef4dd1b9104215325100041066484d11180e6a06935292",
+      "old_sha256": "7e6771c4df535f8a9f2dd72acafd6c9f8e7558e350792b817a366a7681ba5a2d"
+    }
+  ],
+  "status": "SOURCE_ENCODER_KERNEL_BINDING_STAGED_AFTER_FULL_CPU_PASS_BEFORE_ANY_TRAINING"
+}

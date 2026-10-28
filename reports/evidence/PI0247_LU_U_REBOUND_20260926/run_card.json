@@ -1,0 +1,262 @@
+{
+  "archive": {
+    "checkpoint_steps": [
+      1000,
+      2000
+    ],
+    "full_trainer_checkpoints": true,
+    "path_prefix": "arms/PI0247/r1-replay-5844159421/U",
+    "public": true,
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "token_file": "/home/svu/e1192548/.config/huggingface/token"
+  },
+  "arm": "U",
+  "authorization": "PI0247_GENERATION_TO_SELECTED_SIM_GO",
+  "canonical_issue_comment": 5844159421,
+  "cohort": {
+    "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/fixed16_cohort.json",
+    "sha256": "3d679d9cf5814d6aca63ca52e5953e1a50fb6097e3d8d67a7b875ab1178e36cd"
+  },
+  "d1_report_sha256": "a7e5eb96a93e8726577b740286ab6115d01938cb5f1219941fd2cf103cd1b6b3",
+  "d1_runtime_id": "S4",
+  "d2_report_sha256": "3316e2b50b742fade18da34225af531d9716aa4f0c3b765695a52fe03ed0ad28",
+  "embodiment_tag": "new_embodiment",
+  "execution_authorization": "PI0247_R1_MAINLINE_LU_CONTINUATION_GO",
+  "execution_update_commit": "ebca5491c2c9a28e755d492c13794d95f315e988",
+  "family": "PI0247_U_ROLLOUT_M16_2K_V1",
+  "forbidden_counts": {
+    "calib_reads": 0,
+    "dev_f_reads": 0,
+    "expert_prefix_inputs": 0,
+    "final_f_reads": 0,
+    "hardware_runs": 0,
+    "local_pc_model_weight_downloads": 0,
+    "rtc_conditioning": 0,
+    "truncated_rollout_gradients": 0,
+    "wbc_runs": 0
+  },
+  "hf_preflight": {
+    "existing_prefix_files": {
+      "arms/PI0247/r1-replay-5844159421/L": [],
+      "arms/PI0247/r1-replay-5844159421/U": []
+    },
+    "prefixes_empty": true,
+    "public": true,
+    "repo_id": "leoyuer/pi0246-gate-pass-campaign",
+    "token_identity_verified": true
+  },
+  "initializer": {
+    "durable_receipt_path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P/durable_receipts/checkpoint-2000.durable_receipt.json",
+    "durable_receipt_sha256": "71fa13bc93783e20756884f0c61379ee4f7b64d061fd8f5f04a4bd9637571a70",
+    "durable_revision": "74ab6fbcf73832a6411f71bb2369c3e8bfd0ba5e",
+    "full_checkpoint_bytes": 20889738947,
+    "full_checkpoint_tree_sha256": "fd2c5fc80f00b0cc96ee80991a20dc6b0f7c50ddaf4af36e6de31cb7374e8538",
+    "model_files": [
+      {
+        "bytes": 2148,
+        "path": "config.json",
+        "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+      },
+      {
+        "bytes": 2226,
+        "path": "embodiment_id.json",
+        "sha256": "5e8611697dc90b7b7a92cf2a8da926275c16f5966c5eb109e0216c3c51af15a1"
+      },
+      {
+        "bytes": 4993709288,
+        "path": "model-00001-of-00002.safetensors",
+        "sha256": "9e99707d7bd6efbe7382c531265eb6c2ed7129a038e55c9ce34b6f6922686e65"
+      },
+      {
+        "bytes": 4535492016,
+        "path": "model-00002-of-00002.safetensors",
+        "sha256": "0b12d3184ce70c4b4efce62a2bacbbe8e5d46b9fc5192c3545ba09d5410e1824"
+      },
+      {
+        "bytes": 104912,
+        "path": "model.safetensors.index.json",
+        "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+      },
+      {
+        "bytes": 26965,
+        "path": "processor_config.json",
+        "sha256": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9"
+      },
+      {
+        "bytes": 4374044,
+        "path": "statistics.json",
+        "sha256": "c33e6aee734e0afcc9df879bd615c30f314bd75f23efdaead5fb40e1cea9a78a"
+      }
+    ],
+    "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P/training/checkpoint-2000",
+    "screen_manifest_sha256": "2f04ba786e82cb5aee69ae3be63a381bab21989a93b2ede0b159d000ff663299",
+    "screen_revision": "74ab6fbcf73832a6411f71bb2369c3e8bfd0ba5e"
+  },
+  "input_identity_audit_sha256": "6d29ec55639d53f2b17297572327e868ad6056858b504e4b27f5f695bff046aa",
+  "loss": "L_native + 0.1*ell_pos(a_free_S4) + 0.1*ell_delta(a_free_S4)",
+  "loss_coefficients": {
+    "ell_delta": 0.1,
+    "ell_pos": 0.1
+  },
+  "loss_contract": {
+    "active_action_smoothing": false,
+    "backpropagate_through_all_euler_steps": true,
+    "euler_steps": 4,
+    "expert_prefix_input": false,
+    "generation": "complete pure-noise label-free S4 rollout before physical losses",
+    "horizon": 40,
+    "objective": "L_native + 0.1*ell_pos(a_free_S4) + 0.1*ell_delta(a_free_S4)",
+    "physical_dt_s": 0.05,
+    "truncated_gradients": false
+  },
+  "optimizer": {
+    "batch_size": 1,
+    "checkpoint_steps": [
+      1000,
+      2000
+    ],
+    "gradient_accumulation_steps": 1,
+    "learning_rate": 1e-05,
+    "max_grad_norm": 1.0,
+    "optimizer_state": "fresh AdamW; no resume",
+    "scheduler": "cosine",
+    "steps": 2000,
+    "warmup_steps": 10,
+    "weight_decay": 1e-05,
+    "workers": 0
+  },
+  "paths": {
+    "base_model_path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P/training/checkpoint-2000",
+    "code_root": "/scratch/e1192548/pi0244_fixed16_10k_v1",
+    "groot_source": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+    "modality_config": "/scratch/e1192548/pi0227_h200_prep_20260919/inputs/go2_arx5_modality.py",
+    "output_base": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPLAY_5844159421",
+    "output_root": "/scratch/e1192548/pi0247_generation_to_sim_20260926/LU_R1_REPLAY_5844159421/U",
+    "p0_effective": "/scratch/e1192548/pi0245_physical_temporal_pilot_20260924/p0/effective_processor_xyz_v2.json",
+    "p_runtime_root": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P_runtime_position_20260925_v1",
+    "repo_code_root": "/scratch/e1192548/pi0247_generation_to_sim_20260926/execution_code_r1_replay_ebca549",
+    "stage10_root": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902",
+    "train_dataset": "/scratch/e1192548/pi0227_large_adapt_v1_inputs/train_dataset",
+    "training_runtime_root": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/PT_runtime_combined_20260925_v3"
+  },
+  "physical_contract": {
+    "active_action_smoothing": false,
+    "decoder_unchanged": true,
+    "horizon": 40,
+    "native_forward_per_update": 1,
+    "physical_dt_s": 0.05,
+    "rstar": "S4",
+    "safety_gate_unchanged": true,
+    "u_checkpointed_euler_steps": 4,
+    "u_euler_steps": 4,
+    "u_full_rollout_per_update": 1
+  },
+  "pointer_pr_comment": 5842568324,
+  "release_commit": "50e66efe6ccfbe814d04caf12499493821be7957",
+  "resolved_config": {
+    "action_horizon": 40,
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "adam_epsilon": 1e-08,
+    "backbone_trainable_params_fp32": false,
+    "batch_size": 1,
+    "bf16": true,
+    "crop_fraction": 1.0,
+    "dataloader_num_workers": 0,
+    "eval_strategy": "no",
+    "fp16": false,
+    "gradient_accumulation_steps": 1,
+    "gradient_checkpointing": false,
+    "learning_rate": 1e-05,
+    "load_bf16": true,
+    "max_grad_norm": 1.0,
+    "max_steps": 2000,
+    "modality_config_keys": [
+      "new_embodiment"
+    ],
+    "num_gpus": 1,
+    "optimizer": "adamw_torch",
+    "random_rotation_angle": null,
+    "resume_from_checkpoint": false,
+    "save_only_model": false,
+    "save_step_set": [
+      1000,
+      2000
+    ],
+    "save_steps": 1000,
+    "save_total_limit": 3,
+    "scheduler": "cosine",
+    "seed": 22301,
+    "shortest_image_edge": 96,
+    "start_from_checkpoint": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P/training/checkpoint-2000",
+    "state_dropout_prob": 0.0,
+    "tf32": true,
+    "tune_diffusion_model": true,
+    "tune_llm": false,
+    "tune_projector": true,
+    "tune_visual": false,
+    "tune_vlln": false,
+    "use_relative_action": true,
+    "warmup_ratio": 0.0,
+    "warmup_steps": 10,
+    "weight_decay": 1e-05
+  },
+  "resource": {
+    "gpu": "H200",
+    "pbs_project": "CFP03-CF-004",
+    "queue": "auto",
+    "select": "1:ngpus=1:ncpus=12:mem=225GB",
+    "walltime": "16:00:00"
+  },
+  "schedule": {
+    "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/fixed2000_schedule.json",
+    "sha256": "b8d0fe1b262f70c35753c3cecba5d13a75e07a5e2f0a3f112a368da9751523bf"
+  },
+  "schema": "PI0247_LU_RUN_CARD_V1",
+  "seed": 22301,
+  "source": {
+    "execution_code_commit": "ebca5491c2c9a28e755d492c13794d95f315e988",
+    "execution_code_sha256": {
+      "pi0228_h200_large_adapt_v1.py": "a4b73d46d29d810d3da6b653efc360c3fe208838ec086779cfb6d1e1d822fd91",
+      "pi0228_train_calib_checkpoint_selection.py": "349ba45694679f5ca8a7125551f21916f98e8ee8be47ee18532b33d09b33167c",
+      "pi0241_fixed16_learning.py": "a7dc7a8c818fa2e1de88d3a9b76ed5e68de750d6f1887a45679d8f306cda9c7b",
+      "pi0241_reconcile_update_integrity.py": "1baaa1e27b73ac686ff7e0b744b558d7946b414809824be5ca9524e567814f66",
+      "pi0243_checkpoint_persistence.py": "77b67a23351c2ca7057dd84ac656f23d9b995badec92a194da21369fed1ba1dc",
+      "pi0243_hf_archive_tree.py": "c96687765cedae9bdd4c23221e15f5cc2585af96103cbfb5c81890079b6c5701",
+      "pi0243_hf_checkpoint_sidecar.py": "2e975638dd5d6579db0f1511b1438b2102fe24b59eb025324913c8fe761bbf41",
+      "pi0243_hf_write_probe.py": "3e174ba9ff6e7d09523ab2358952a9efba0ff8ecb6df967a8f138eb13ba9ab0a",
+      "pi0243_storage_retirement.py": "ae956e98323b484dc367a341e4693a476e31df08f9b950400a7c9bcb02cc2598",
+      "pi0245_physical_delta.py": "e89b647b4dd4529aa677f7f69fdd988b7c6692bffb8ef3c51c82db1b0a8826b3",
+      "pi0246_gate_pass_train.py": "f6f2857917b28fc506256da0e94a0bc8512650c3f5514eaa62e5a9a427393ac9",
+      "pi0246_physical_position.py": "23f45ad20251a665686d204dcba43d30ed57736b5f91023dbcf8fb455c6ab47c",
+      "pi0246_pt_combined_overlay.py": "8a528c7f7ed38d8e9231c17e68c2c7190a255f9765a6e6cce61b9784a81b69db",
+      "pi0247_lu_train.py": "e2c4209d2de7b23e191b8c8bef09f31596d9aec6565d2a7e9a0e14560716b9e9",
+      "pi0247_lu_train_h200.pbs": "1f4cc4be69a51a672b186e84f7ef5d8576ad85f6087196f4b90bf6eac928249b",
+      "pi0247_u_rollout_overlay.py": "56d9a23b873f5e3d1bf1afc838f85bdc9c070bef532cd9df66f348ca8b4ae137",
+      "stage40_b0_model_control.py": "640a527b0604dc082242de1aa860e0fc647b0270ec3a62ce4e99485d7520cdd9"
+    },
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "modality_config_sha256": "244f37f28e62b7b392a1598b78e78f00e67693f6c08a606b3c5358830ada8b25",
+    "p0_effective_sha256": "6351150ac04566e8238fbfa996869d5ba039256eb5b12d1a0b9bf8a7345ba702",
+    "parent_resolved_config_path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P/training/resolved_config.json",
+    "parent_resolved_config_sha256": "5db9cb6f50114c61dee68b6a2e9db9d8fe8770a7cc6aecc9e5c189c341f15b00",
+    "runtime_bindings": {
+      "P": {
+        "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/P_runtime_position_20260925_v1/P_runtime_binding.json",
+        "resolved_config_sha256": "e2b9f4a3582e36ece44c92345f0e2f09aca608fabfd36800e0ca4dae905ad4ef",
+        "run_card_sha256": "7aa496963ee99ed241bad1506779a63e1f0383617a008f4ac09cfefde04041ce",
+        "schema": "PI0246_P_PHYSPOS_SAME_FORWARD_RUNTIME_V1",
+        "sha256": "bc714188a2795233139b8b703f8476414e1b1918004a5fe137689683a1bd5b61"
+      },
+      "PT": {
+        "path": "/scratch/e1192548/pi0246_gate_pass_campaign_20260924/PT_runtime_combined_20260925_v3/PT_runtime_binding.json",
+        "resolved_config_sha256": "e2b9f4a3582e36ece44c92345f0e2f09aca608fabfd36800e0ca4dae905ad4ef",
+        "run_card_sha256": "9d8d0c34a98b077be22f696b4e45420c1719d8c733796ec9e7e2ea1473e5ff00",
+        "schema": "PI0246_PT_SINGLE_FORWARD_RUNTIME_V1",
+        "sha256": "ddb55e196215ea899f670fbbe42d0844d294a8b8a715d84b7dd96826b07506b2"
+      }
+    },
+    "runtime_core_sha256": "f6f2857917b28fc506256da0e94a0bc8512650c3f5514eaa62e5a9a427393ac9"
+  },
+  "status": "SEALED_READY_NOT_STARTED"
+}

@@ -1,0 +1,262 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Existing local owner dispatches only explicitly authorized data closeout."""
+import argparse
+import base64
+import hashlib
+import json
+from pathlib import Path
+import shlex
+import subprocess
+import tarfile
+import time
+
+from pi0291_resume_inspect import ROOT
+
+LOCAL=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0290-source')
+AUTH=LOCAL/'reports/PI0291/20261013T023717-localpc-arx5/DATA_CLOSEOUT_AUTHORIZATION.json'
+DELIVERY=ROOT+'/delivery_code_closeout_v2'
+TRANSFER_DELIVERY=ROOT+'/delivery_code_closeout_v3'
+PHYS_PY='@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0290/runtime/venv/bin/python'
+CPU_PY='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/runtime/venv/bin/python'
+OFFICIAL='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/src/isaac-gr00t'
+COSMOS='@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561'
+
+
+def ssh(command, data=None):
+    inner=shlex.join(['ssh','-o','BatchMode=yes','corelab-4080s',command])
+    return subprocess.run(['ssh','-o','BatchMode=yes','corelab-amd-server',inner],input=data,check=True)
+
+
+def deploy(transfer=False):
+    files={p.name:base64.b64encode(p.read_bytes()).decode() for p in (LOCAL/'scripts/pi0291_delivery').glob('*.py') if not p.name.startswith('test')}
+    files['DATA_CLOSEOUT_AUTHORIZATION.json']=base64.b64encode(AUTH.read_bytes()).decode()
+    files['CPU_AUX_READINESS_AFTER_TRAIN032_016.json']=base64.b64encode((LOCAL.parent/'private/CPU_AUX_READINESS_AFTER_TRAIN032_016.json').read_bytes()).decode()
+    code='''import base64,hashlib,json,sys
+from pathlib import Path
+payload=json.load(sys.stdin)
+root=Path(payload['root']);target=root/payload['directory']
+state=json.loads((root/'evidence/OWNER_N3_QUEUE_STATE.json').read_text())
+ledger=json.loads((root/'RESOURCE_ACCOUNTING.json').read_text())
+assert state['physics_running'] is False and state['current'] is None
+assert not any(x['status']=='STARTED' for x in ledger['starts'])
+target.mkdir(exist_ok=True)
+hashes={}
+for name,encoded in payload['files'].items():
+    assert '/' not in name and name.endswith(('.py','.json'))
+    b=base64.b64decode(encoded)
+    path=root/'evidence'/name if name.endswith('.json') else target/name
+    if path.exists(): assert path.read_bytes()==b
+    else:
+        with path.open('xb') as f: f.write(b)
+    hashes[name]=hashlib.sha256(path.read_bytes()).hexdigest()
+print(json.dumps(dict(status='DEPLOYED_READBACK_EQUAL',hashes=hashes)))
+'''
+    ssh(shlex.join(['python3','-c',code]),json.dumps(dict(root=ROOT,files=files,directory='delivery_code_closeout_v3' if transfer else 'delivery_code_closeout_v2')).encode())
+
+
+def stage(name):
+    authority_sha=hashlib.sha256(AUTH.read_bytes()).hexdigest()
+    env=dict(CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',
+        PYTHONPATH=ROOT+'/code:'+ROOT+'/code/src',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',
+        PI0291_CLOSEOUT_AUTHORIZATION_SHA256=authority_sha)
+    if name.startswith('audit'):
+        identifier='T2910'+name[-2:]
+        receipt=ROOT+'/evidence/'+identifier+'_RAW_AUDIT.json'
+        command=[PHYS_PY,DELIVERY+'/run_native_stage.py','--root',ROOT,'--stage','audit_data','--stage-receipt',receipt,'--',
+            '--root',ROOT,'--ids',identifier,'--physics-code-root',ROOT+'/code','--output',receipt]
+    elif name=='finalize':
+        command=[PHYS_PY,DELIVERY+'/finalize_raw_bank.py','--root',ROOT]
+    elif name=='export':
+        command=[CPU_PY,DELIVERY+'/run_native_stage.py','--root',ROOT,'--stage','export_dataset','--',
+            '--root',ROOT,'--admission',ROOT+'/DATASET_ADMISSION.json','--output',ROOT+'/native_dataset']
+    elif name=='qualify':
+        command=[CPU_PY,DELIVERY+'/run_native_stage.py','--root',ROOT,'--stage','qualify_loader','--',
+            '--dataset-root',ROOT+'/native_dataset','--official-source',OFFICIAL,'--cosmos-processor-cache',COSMOS,'--output',ROOT+'/evidence/DATALOADER_SMOKE.json']
+    elif name=='account':
+        command=[PHYS_PY,'@LOCAL_OR_CORE_HOME@-nfs/Projects/go2-arx5/maintenance/pi0291-staging/pi0291_accounting.py','--root',ROOT]
+    elif name in ('archive','readback'):
+        token_file=json.loads((LOCAL.parent/'private/PI0291_EXISTING_AUTH_PATHS.json').read_text())['HF_core']
+        env['HF_HUB_OFFLINE']='0'
+        if name=='archive':
+            command=[CPU_PY,TRANSFER_DELIVERY+'/archive_transfer.py','--root',ROOT,'--dataset-root',ROOT+'/native_dataset',
+                '--repo','leoyuer/pi0291-arx5-fixed-base','--existing-token-file',token_file]
+        else:
+            command=[CPU_PY,TRANSFER_DELIVERY+'/readback_transfer.py','--run-root',ROOT,'--transfer-manifest',ROOT+'/evidence/TRANSFER_MANIFEST.json',
+                '--existing-token-file',token_file,'--frozen-code-root',ROOT+'/code','--official-source',OFFICIAL,'--cosmos-processor-cache',COSMOS]
+    else:
+        raise ValueError(name)
+    if name.startswith('audit'):
+        env['MUJOCO_GL']='egl'
+        env['__EGL_VENDOR_LIBRARY_FILENAMES']='/usr/share/glvnd/egl_vendor.d/50_mesa.json'
+        env['LIBGL_ALWAYS_SOFTWARE']='1'
+    ssh(shlex.join(['env',*[k+'='+v for k,v in env.items()],*command]))
+
+
+def snapshot():
+    destination=LOCAL.parent/'private'/('pi0291-receipts-'+str(int(time.time())))
+    destination.mkdir()
+    code='''import io,json,sys,tarfile
+from pathlib import Path
+r=Path(ROOT)
+files=[r/'DATASET_ADMISSION.json',r/'RESOURCE_ACCOUNTING.json',r/'TEACHER_AND_LAYOUT_SEAL.json',r/'PILOT_GATE.json']
+files+=list((r/'native_dataset').glob('*.json'))
+files+=list((r/'evidence').glob('*RAW_AUDIT*.json'))+list((r/'evidence').glob('CPU_AUX_*.json'))
+files+=[r/'evidence'/n for n in ['ATTEMPT_LEDGER.jsonl','PILOT_SCORE.json','OWNER_N3_QUEUE_STATE.json','QUEUE_train_048_016.json','DATA_CLOSEOUT_AUTHORIZATION.json','DATASET_CARD.md','TRAINING_HANDOFF.json','TRANSFER_MANIFEST.json','HF_READBACK_RECEIPT.json','HOPPER_READY_READBACK.json','FINAL_RESOURCE_SNAPSHOT.json']]
+smoke=r/'evidence/DATALOADER_SMOKE.json'
+if smoke.is_file() and 'CPU_total_s' in json.loads(smoke.read_text()): files.append(smoke)
+with tarfile.open(fileobj=sys.stdout.buffer,mode='w|gz') as t:
+    for p in sorted(set(files)):
+        if p.is_file(): t.add(p,arcname=str(p.relative_to(r)),recursive=False)
+'''
+    code='ROOT='+repr(ROOT)+'\n'+code
+    command=shlex.join(['python3','-c',code])
+    inner=shlex.join(['ssh','-o','BatchMode=yes','corelab-4080s',command])
+    archive=destination/'producer_receipts.tar.gz'
+    with archive.open('xb') as output:
+        subprocess.run(['ssh','-o','BatchMode=yes','corelab-amd-server',inner],stdout=output,check=True)
+    with tarfile.open(archive) as t:
+        for member in t.getmembers():
+            assert member.isfile() and not Path(member.name).is_absolute() and '..' not in Path(member.name).parts
+        t.extractall(destination/'producer')
+    (LOCAL.parent/'private/PI0291_CLOSEOUT_LATEST_SNAPSHOT.json').write_text(json.dumps(dict(producer=str(destination/'producer'))))
+    print(json.dumps(dict(private_snapshot=str(destination),archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest())))
+
+
+def publish_evidence():
+    names=['DATASET_CARD.md','TRAINING_HANDOFF.json']
+    files={n:base64.b64encode((AUTH.parent/n).read_bytes()).decode() for n in names}
+    code='''import base64,hashlib,json,os,sys
+from pathlib import Path
+p=json.load(sys.stdin);r=Path(p['root'])
+for name,encoded in p['files'].items():
+    assert name in ['DATASET_CARD.md','TRAINING_HANDOFF.json']
+    b=base64.b64decode(encoded);path=r/'evidence'/name;temporary=path.with_name(name+'.owner-pending')
+    with temporary.open('wb') as f: f.write(b);f.flush();os.fsync(f.fileno())
+    temporary.replace(path)
+    assert path.read_bytes()==b
+print(json.dumps(dict(status='OWNED_HANDOFF_METADATA_COPIED_AND_READBACK',hashes={n:hashlib.sha256((r/'evidence'/n).read_bytes()).hexdigest() for n in p['files']})))
+'''
+    ssh(shlex.join(['python3','-c',code]),json.dumps(dict(root=ROOT,files=files)).encode())
+
+
+def admin_receipt():
+    b=(LOCAL.parent/'private/CPU_AUX_CLOSEOUT_ADMIN_UPPER.json').read_bytes()
+    code='''import base64,json,sys
+from pathlib import Path
+p=json.load(sys.stdin);b=base64.b64decode(p['bytes']);path=Path(p['root'])/'evidence/CPU_AUX_CLOSEOUT_ADMIN_UPPER.json'
+if path.exists(): assert path.read_bytes()==b
+else:
+    with path.open('xb') as f: f.write(b)
+print('ADMIN_UPPER_RECEIPT_PRESERVED')
+'''
+    ssh(shlex.join(['python3','-c',code]),json.dumps(dict(root=ROOT,bytes=base64.b64encode(b).decode())).encode())
+
+
+def final_resources():
+    code='''import hashlib,json,os,resource,shutil,time
+from pathlib import Path
+r=Path(ROOT);logical=0;allocated=0;count=0;seen=set()
+for p in r.rglob('*'):
+    if p.is_file() and not p.is_symlink():
+        s=p.stat();logical+=s.st_size;count+=1
+        identity=(s.st_dev,s.st_ino)
+        if identity not in seen: allocated+=s.st_blocks*512;seen.add(identity)
+seal=json.loads((r/'TEACHER_AND_LAYOUT_SEAL.json').read_text())
+checked={n:hashlib.sha256((r/'code'/n).read_bytes()).hexdigest() for n in seal['code_files']}
+assert checked==seal['code_files']
+l=json.loads((r/'RESOURCE_ACCOUNTING.json').read_text())
+assert not any(x['status']=='STARTED' for x in l['starts'])
+state=json.loads((r/'evidence/OWNER_N3_QUEUE_STATE.json').read_text())
+assert state['physics_running'] is False and state['current'] is None
+auth=json.loads((r/'evidence/DATA_CLOSEOUT_AUTHORIZATION.json').read_text())
+assert logical+256*1024**2<auth['total_output_limit_bytes']
+delta=l['CPU_s']-auth['CPU_ledger_baseline_s']
+assert delta<auth['new_CPU_budget_s']
+u=resource.getrusage(resource.RUSAGE_SELF)
+receipt=dict(status='FINAL_CPU_DATA_CLOSEOUT_RESOURCE_SNAPSHOT',observed_epoch=time.time(),CPU_ledger_s=l['CPU_s'],bootstrap_CPU_upper_s=l['unmetered_dependency_setup_CPU_s_upper'],CPU_closeout_conservatively_charged_delta_s=delta,CPU_new_cap_s=auth['new_CPU_budget_s'],admin_CPU_upper_already_in_ledger_s=60,owned_logical_bytes=logical,owned_allocated_unique_inode_bytes=allocated,owned_files=count,external_output_bytes_upper=256*1024**2,output_cap_bytes=auth['total_output_limit_bytes'],SSD_free_bytes=shutil.disk_usage(r).free,quota='UNKNOWN_NOT_INFERRED_FROM_DF',starts=len(l['starts']),physics_steps=l['physics_steps'],paired_observations=l['pairs'],sealed_source_files_rechecked=len(checked),all_sealed_hashes_equal=True,original_owner_state_terminal=True,model_load_forward_train_new_PBS_WBC_hardware=0,GPU_s=0,metadata_snapshot_CPU_s=u.ru_utime+u.ru_stime,metadata_CPU_covered_by_admin_upper=True,selected='NONE',deployment='NONE')
+b=(json.dumps(receipt,indent=2)+'\\n').encode();path=r/'evidence/FINAL_RESOURCE_SNAPSHOT.json'
+assert not path.exists()
+with path.open('xb') as f: f.write(b)
+print(json.dumps(receipt))
+'''
+    ssh(shlex.join(['python3','-c','ROOT='+repr(ROOT)+'\n'+code]))
+
+
+def hopper_ready():
+    paths=json.loads((LOCAL.parent/'private/PI0291_EXISTING_AUTH_PATHS.json').read_text())
+    producer=Path(json.loads((LOCAL.parent/'private/PI0291_CLOSEOUT_LATEST_SNAPSHOT.json').read_text())['producer'])
+    transfer=json.loads((producer/'evidence/TRANSFER_MANIFEST.json').read_text())
+    ready=next(x for x in transfer['files'] if x['path'].endswith('/READY.json'))
+    payload=dict(repo=transfer['repo_id'],revision=transfer['revision'],ready=ready,token_file=paths['HF_hopper'])
+    code='''import hashlib,json,resource,sys,time,urllib.request
+p=json.load(sys.stdin)
+token=open(p['token_file']).read().strip()
+def fetch(url):
+    req=urllib.request.Request(url,headers={'Authorization':'Bearer '+token})
+    with urllib.request.urlopen(req,timeout=30) as f: b=f.read(2*1024**2+1)
+    assert len(b)<=2*1024**2
+    return b
+info=json.loads(fetch('https://huggingface.co/api/datasets/'+p['repo']+'/revision/'+p['revision']))
+assert info['private'] is True
+b=fetch('https://huggingface.co/datasets/'+p['repo']+'/resolve/'+p['revision']+'/'+p['ready']['path'])
+assert len(b)==p['ready']['bytes'] and hashlib.sha256(b).hexdigest()==p['ready']['sha256']
+ready=json.loads(b)
+assert ready['source_sha']=='57a02b4923e5001df5fd4b3b5958c372b9cff541'
+assert ready['NATIVE_DATALOADER_PASS'] and ready['dataset_component_status']=='PARTIAL'
+u=resource.getrusage(resource.RUSAGE_SELF)
+print(json.dumps(dict(status='PASS_HOPPER_ACTUAL_SMALL_FIXED_REVISION_READY_READBACK',repo_id=p['repo'],revision=p['revision'],private=True,READY_sha256=p['ready']['sha256'],READY_bytes=len(b),CPU_s=u.ru_utime+u.ru_stime,observed_epoch=time.time(),existing_auth_reused=True,model_loads=0,neural_forward=0,new_PBS=0,GPU_s=0,large_dataset_or_model_downloads=0)))
+'''
+    r=subprocess.run(['ssh','-o','BatchMode=yes','hopper',shlex.join(['python3','-c',code])],input=json.dumps(payload).encode(),capture_output=True,check=True,timeout=75)
+    value=json.loads(r.stdout)
+    raw=json.dumps(value,indent=2).encode()+b'\n'
+    (LOCAL.parent/'private/HOPPER_READY_READBACK.json').write_bytes(raw)
+    copy='''import json,sys
+from pathlib import Path
+p=json.load(sys.stdin);r=Path(p['root'])
+b=(json.dumps(p['receipt'],indent=2)+'\\n').encode()
+for n in ['HOPPER_READY_READBACK.json','CPU_AUX_HOPPER_READY_READBACK.json']:
+    path=r/'evidence'/n
+    if path.exists(): assert path.read_bytes()==b
+    else:
+        with path.open('xb') as f: f.write(b)
+print(json.dumps(p['receipt']))
+'''
+    ssh(shlex.join(['python3','-c',copy]),json.dumps(dict(root=ROOT,receipt=value)).encode())
+
+
+def status():
+    code='''import json,os,time
+from pathlib import Path
+r=Path(ROOT);active=[]
+for p in Path('/proc').iterdir():
+    if not p.name.isdigit(): continue
+    try:
+        uid=next(x for x in (p/'status').read_text().splitlines() if x.startswith('Uid:')).split()[1]
+        if int(uid)!=2009: continue
+        argv=(p/'cmdline').read_bytes().split(bytes([0]))
+        cmd=b' '.join(argv).decode()
+        if ROOT not in cmd or not any(x.decode().endswith('/run_native_stage.py') for x in argv): continue
+        fields=(p/'stat').read_text().split(') ',1)[1].split()
+        active.append(dict(pid=int(p.name),state=fields[0],CPU_s=(int(fields[11])+int(fields[12]))/os.sysconf('SC_CLK_TCK')))
+    except (FileNotFoundError,PermissionError,StopIteration): pass
+smoke=r/'evidence/DATALOADER_SMOKE.json'
+value=json.loads(smoke.read_text()) if smoke.exists() else {}
+print(json.dumps(dict(observed_epoch=time.time(),active_owned_stage=active,smoke_status=value.get('status'),smoke_CPU_total_s=value.get('CPU_total_s'))))
+'''
+    ssh(shlex.join(['python3','-c','ROOT='+repr(ROOT)+'\n'+code]))
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('stage',choices=['deploy','deploy-transfer','audit54','audit55','finalize','export','qualify','account','archive','readback','snapshot','status','publish-evidence','hopper-ready','admin-receipt','final-resources'])
+    a=p.parse_args()
+    if a.stage=='deploy': deploy()
+    elif a.stage=='deploy-transfer': deploy(True)
+    elif a.stage=='snapshot': snapshot()
+    elif a.stage=='status': status()
+    elif a.stage=='publish-evidence': publish_evidence()
+    elif a.stage=='hopper-ready': hopper_ready()
+    elif a.stage=='admin-receipt': admin_receipt()
+    elif a.stage=='final-resources': final_resources()
+    else: stage(a.stage)

@@ -1,0 +1,213 @@
+{
+  "schema": "PI0251_G0_SOURCE_REPORT_RECEIPT_INDEX_V1",
+  "status": "PASS_WITH_SOURCE_COPY_VARIANCE_NOTED",
+  "authority": {
+    "protocol_commit": "e2b86ef2c2d3ee2fb8cab05d24de24a43cd0f0a6",
+    "protocol_path": "docs/protocols/PI0251_XYZ_EXCESS_RISK_TO_TRAIN_SIM_V1.md",
+    "issue_11_canonical_comment": "5858091531",
+    "pr_77_pointer_comment": "5858094328"
+  },
+  "scope": "Read-only source/report/receipt inventory for the completed PI0249 K/X runs and PI0250 K2000/X2000 final screens. No training, model inference, screen query, or threshold change was performed.",
+  "pair_identity_classification": {
+    "classification": "OBSERVED_POSTHOC_CAPTURED_IDENTITIES",
+    "validation_method_in_receipt": "EXACT_COMPARE_OF_CAPTURED_K_X_TRAINING_IDENTITIES",
+    "validation_timing_in_receipt": "POSTHOC_CPU_REPLAY",
+    "receipt_status": "PASS_POSTHOC_CPU_REPLAY",
+    "pair_rows": 2000,
+    "preserved_raw_prefix_rows": 1000,
+    "reconstructed_recovery_rows_from_captured_audits": 1000,
+    "model_queries_during_reconciliation": 0,
+    "online_pre_backward_proof": false,
+    "checked_identity_fields": [
+      "step_key_seed",
+      "model_input_sha256",
+      "source_episode",
+      "native_tau",
+      "native_epsilon_dtype_device_shape_bytes",
+      "stock_initial_noise_dtype_device_shape_bytes",
+      "stock_vl_features_dtype_device_shape_bytes",
+      "yield_ordinal",
+      "S4_no_expert_prefix_no_active_action_change"
+    ],
+    "interpretation": "The closeout and surviving reconciliation source read K/X training JSONL captures and preserve the original X first-1000 pair rows. The 1000-row recovery suffix is reconstructed from persisted K/X rollout, RNG, and sample-consumption records. This is evidence from observed training captures, not a comparison to newly regenerated expected randomness. It remains post-hoc and does not establish an in-training pre-backward guard."
+  },
+  "reconciliation_source_copy_note": {
+    "receipt_declared_script_sha256": "f10b27ac6d4a2086158a175ec8c0d4ca1935ad93b56ae8a8c1ce2d300ec9b7c9",
+    "preserved_local_copy": {
+      "path": "D:/Users/GR00T project/Projects/go2-arx5/PI0250/runtime/pi0250_x_pair_identity_reconcile.py",
+      "sha256": "f10b27ac6d4a2086158a175ec8c0d4ca1935ad93b56ae8a8c1ce2d300ec9b7c9",
+      "matches_receipt": true
+    },
+    "current_corelab_copy": {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/pi0250_x_pair_identity_reconcile.py",
+      "sha256": "0f56826cfbcd0bc125ec3f3c702e9749eb1c39c0d90f82c0e3fa70dede84d0cf",
+      "matches_receipt": false
+    },
+    "execution_path_recorded_in_closeout": false,
+    "note": "Both copies are preserved by reference; the closeout hash matches the local source copy and differs from the current Corelab copy. The source path used to create the closeout is not recorded, so this exact path discrepancy is retained explicitly. The pair classification above is supported by the receipt's captured-source hashes and existing JSONL artifacts, not by claiming these two script copies are byte-identical."
+  },
+  "training_code": [
+    {
+      "role": "PI0249 K/X trainer used for the parent runs",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0249/pi0249_r_anchored_xyz_20260927/pi0249_execution_089ed7c/pi0249_kx_train.py",
+      "sha256": "f718ecdcb2c46e3be12df834ddcf08a74e82e4964651eb803d16d6e62fc1179d"
+    },
+    {
+      "role": "PI0249 optimizer-step RNG capture helper",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0249/pi0249_r_anchored_xyz_20260927/pi0249_execution_089ed7c/pi0249_step_rng.py",
+      "sha256": "e62212cff425c1e461559c608d43ac65f54b642fe736cddc68cf470dd27e8e6f"
+    }
+  ],
+  "captured_pair_artifacts": [
+    {
+      "role": "K actual rollout capture",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0249/pi0249_r_anchored_xyz_20260927/kx_execution_v2/K/recovery_attempts/634822.hopper-m-02/training/pi0247_U_rollout_forward.jsonl",
+      "sha256": "a2acb65c1cab82b9031f2ae909aefe79805ab4b98662d0d1c8b4aaa17c5fbf8d"
+    },
+    {
+      "role": "X actual rollout capture",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0249/pi0249_r_anchored_xyz_20260927/kx_execution_v4/X/recovery_attempts/634990.hopper-m-02/training/pi0247_U_rollout_forward.jsonl",
+      "sha256": "9e9a20172d5f1c7c120cad049cd0620f7b2708ecfb9110e357cee58b63d5e24c"
+    },
+    {
+      "role": "K actual sample-consumption records",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0249/pi0249_r_anchored_xyz_20260927/kx_execution_v2/K/recovery_attempts/634822.hopper-m-02/training/pi0241_sample_consumption.jsonl",
+      "sha256": "e940e14f504b347d6a14680f3f1255789d3756a31d40a977c26666bb15f83cbd"
+    },
+    {
+      "role": "X actual sample-consumption records",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0249/pi0249_r_anchored_xyz_20260927/kx_execution_v4/X/recovery_attempts/634990.hopper-m-02/training/pi0241_sample_consumption.jsonl",
+      "sha256": "e940e14f504b347d6a14680f3f1255789d3756a31d40a977c26666bb15f83cbd"
+    },
+    {
+      "role": "K/X actual step-RNG audit records",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0249/pi0249_r_anchored_xyz_20260927/kx_execution_v4/X/recovery_attempts/634990.hopper-m-02/training/pi0249_step_rng_audit.jsonl",
+      "sha256": "55ede79d210db4b57c084367892392b0b52c994d5d6d0dc3d9a7b921df785bd7"
+    },
+    {
+      "role": "complete observed pair-identity rows",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0249/pi0249_r_anchored_xyz_20260927/kx_execution_v4/X/recovery_attempts/634990.hopper-m-02/training/pi0249_pair_identity.jsonl",
+      "sha256": "68c952e8e5e57efe5400ee43e14981efef471bc5bb378d12bcc436f7a4199207"
+    },
+    {
+      "role": "preserved X first-1000 raw pair prefix",
+      "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0249/pi0249_r_anchored_xyz_20260927/kx_execution_v4/X/recovery_attempts/634990.hopper-m-02/training/pi0249_pair_identity.prefix_raw_1000.jsonl",
+      "sha256": "e47c62f5b8c60beee1527765a5f0c88cfe3f2cab76edc9aff0c549014fe148f9"
+    }
+  ],
+  "screen_pipeline_code": [
+    {
+      "role": "K2000 screen runner",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/run_pi0250_k2000_screen.py",
+      "sha256": "3a3f0078dc81d5c1627e6d9f6f979698f7742f5364b79140a21dbd8fd179736a"
+    },
+    {
+      "role": "X2000 screen runner",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/run_pi0250_x2000_screen.py",
+      "sha256": "4a59604fc0e1ba56b41b76dce131caf803b9f5a790a6fdeb71e4db2772d3452c"
+    },
+    {
+      "role": "K2000 independent CPU replay",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/pi0250_k2000_cpu_replay.py",
+      "sha256": "3d1fbd88b96a36b36c3b17a7ac7d571cee08d7a60ba982adbe79b0112e315be7"
+    },
+    {
+      "role": "X2000 independent CPU replay",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/pi0250_x2000_cpu_replay.py",
+      "sha256": "33a7ea6994b340f273d24781d6647d089ab8414eb7319d82a61ff261d2adbb69"
+    },
+    {
+      "role": "shared screen bridge/source validation",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/pi0248_cr_screen.actual.py",
+      "sha256": "d06e82a8707776599db4b3a3a51f8fff36e0ad02c1c7e659cee70ce2fedc95b6"
+    },
+    {
+      "role": "frozen screen input preparation",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/prepare_screen_inputs.py",
+      "sha256": "bca368dcbdfc6984fe4deae14efe1858ade0af8ea06c0f3b27550ce2fedc95b6"
+    },
+    {
+      "role": "condition materialization",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/materialize_pi0250_conditions.py",
+      "sha256": "ebcc04d72e0b560a0ec483d9aa1f83288d4d1a7f29da20818df798712906b127"
+    }
+  ],
+  "frozen_screen_inputs": {
+    "source64_manifest_sha256": "3560fd0c21432b01ccd4d47fd9e578c4dbfb211fb518be1e29f72fa7b54917f8",
+    "noise_manifest_sha256": "f05afaedeecc5b0f3341c3be79faaf76372d3161cc6c05ab7bafe4780746b5aa",
+    "screen_input_manifest_sha256": "b2e6526b5004cf5956deb0b39c412453e264299657819d894fd7e4432accf208",
+    "conditions_baseline_manifest_sha256": "4af7e3057c4b18bcef565e75d737baf5480c7421f5887eb294260084bf398e4d",
+    "conditions_recomputed_manifest_sha256": "07ec4c457aa7d933434ce0f00f130fd1acda085a26bc425b3fbafcd575c3672e",
+    "same_inputs_and_noise_between_arms": true,
+    "source_count": 64,
+    "noise_groups": ["B0", "B1"],
+    "target_xyz_in_model_input": false
+  },
+  "g0_analysis_code": {
+    "path": "scripts/pi0251_g0_npz_breakdown.py",
+    "sha256": "d397e1cc9dfd3220168f7fd7c6af4c3f3a27810e72281635d224b13b97a813ad",
+    "execution_host": "corelab-amd-server",
+    "execution_environment": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python",
+    "read_only": true
+  },
+  "screen_artifacts": [
+    {
+      "arm": "K2000",
+      "checkpoint_revision": "b06dfcd14cc9d67881868fb5c239146a020d871d",
+      "checkpoint_tree_sha256": "e2c82f95d8a1f46af46742e200af3ee0121adff288df032c8afdfefd0ad50760",
+      "screen_report_sha256": "3707da9e6b9822f878c84298953300b08b8b1aaa88b807487e6981d71cf5640a",
+      "score_card_sha256": "14eb594ac0f6b09ff947572e830f148d41e4e8edf71f077dfb8ffa05077713f2",
+      "cpu_replay_sha256": "ec129a0eec71e9c45c3437aabcbd63d348eb1fe5d3174b32a1636543931c3662",
+      "cpu_replay_status": "PASS_INDEPENDENT_CPU_REPLAY",
+      "durable_receipt_sha256": "d1787833deaeb392a2077f67fc938e1d451ca5b86658372a25f1c48414500a80",
+      "hf_readback_sha256_in_score_card": "2d4aa919ecbbbcdb4dbdebd576669f98123a7d1fb2dfa13d2721fdcf0c63a67f",
+      "selected_checkpoint": "NONE"
+    },
+    {
+      "arm": "X2000",
+      "checkpoint_revision": "c289992952c08161b8c37e215ceef98b6cb38b70",
+      "checkpoint_tree_sha256": "e8c8ac97f6b455204decc93ec753ab90e0bbe8f380260488fdfdc20c50b86467",
+      "screen_report_sha256": "b49840c1827579467643a572d51ef42272396d0d0a08b9f04f87ec83222f55f2",
+      "score_card_sha256": "2c2f5704470fb8b6a72c239c0157760da4ffaf0e0a0c3b57d3cb92e4a9c97df4",
+      "cpu_replay_sha256": "e56384f35a2a6186ca94fac9437383dbd1a2d40d5e74b049c444ddfc7c2c4c6a",
+      "cpu_replay_status": "PASS_INDEPENDENT_CPU_REPLAY",
+      "durable_receipt_sha256": "a6ac0c6c1c3faad3e788cfd5e97c16cf3379e209522690e2ae7a0df95efef018",
+      "hf_readback_sha256_in_score_card": "4ac1142bf398615587d53db9cdab13886aa8a48689cff3dd8a1d3ad34e8e2c22",
+      "hf_readback_receipt_sha256": "4ac1142bf398615587d53db9cdab13886aa8a48689cff3dd8a1d3ad34e8e2c22",
+      "selected_checkpoint": "NONE"
+    }
+  ],
+  "audit_receipts": [
+    {
+      "role": "paired verdict",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/evidence/PI0250/PI0249_KX_PAIRED_VERDICT_20260928.json",
+      "sha256": "e444dcde07e8a15285fd9a0e0ffa79a5084562a0d6717850c59489828beb1f8b"
+    },
+    {
+      "role": "X paired-identity post-hoc closeout",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/evidence/X2000/recovery_attempts/634990.hopper-m-02/pair_identity_replay_closeout.json",
+      "sha256": "2106860f734aa35f33f1b7fab95a058f1bbb9881d0fdff30b0724ece14774b59"
+    },
+    {
+      "role": "X post-training evidence reconciliation",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/evidence/X2000/recovery_attempts/634990.hopper-m-02/post_training_audit_closeout.json",
+      "sha256": "f2f2964b837ec33531320559bac2dfe8fd8bd3dc5d9a69908829f3a0ec4ffbde"
+    },
+    {
+      "role": "K training integrity receipt",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/evidence/K2000/pi0249_training_integrity.json",
+      "sha256": "7b502dc6cdfb2cb0c377d4b8a70332dd2a6e4304651b21204d85366494b2b936"
+    },
+    {
+      "role": "X training integrity receipt",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/evidence/X2000/pi0249_training_integrity.json",
+      "sha256": "3f8bd0804c61b40ae518a1929a66b9584fa01641df73442e4e53389e94ab354a"
+    },
+    {
+      "role": "PI0251 actual NPZ mechanism breakdown",
+      "path": "reports/evidence/PI0251_G0/PI0251_G0_ACTUAL_NPZ_BREAKDOWN_20260928.json",
+      "sha256": "77538e8d6b14cb82b8c2ab76a8fdb2cd1e9f3d15e854589ee63b008c812eb3c7"
+    }
+  ],
+  "model_queries_added": 0
+}

@@ -1,0 +1,2932 @@
+{
+  "status": "FIXED_TEACHER_PANEL_COMPLETE",
+  "split": "PILOT",
+  "tasks": {
+    "T1": {
+      "success": 8,
+      "requested": 8,
+      "admitted": true
+    },
+    "T2": {
+      "success": 8,
+      "requested": 8,
+      "admitted": true
+    }
+  },
+  "rows": [
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": null,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "831266af8467c79f3c30da195b3dd65ec5349b85f9883cac33e91255cda1a583",
+        "contacts.jsonl": "c2ae4988ca38c7efff2702fe60348b206123a3557177b47b4c181611a3c29576",
+        "initial.npz": "c237d3e5562db43e9df22422b80a19eb26a972d2efc9ecd5b0cc2e17f31ccafd",
+        "NATIVE_INVENTORY.json": "a1d6768f986a9243a706e8dc2555d46d8126f74f4725f86ac4e059e460851b1e",
+        "EPISODE_CARD.json": "cbfdcfb83d82cfe9836c46bc5b37a8d72446d88270872105cdb18304e37434e2",
+        "TEACHER_EVENTS.json": "20a2f40e7017a7f4f5fa1dd269923cbc4669a98575c39a5b67a9864ddc8e5fc4",
+        "GATE_RECORDS.json": "e95a511965e8f1241c8007c0d50691a8ada2a1b27fd994ef34f7e3ba75688c8a",
+        "TASK_SCORE_CPU.json": "458ff6168bce1bc405ade89e4bd8bcae576993ea64e43036ff96d6f391bc7c4d",
+        "physics.npz": "142a669f7482e41159d0572746112907f50129196f17a19f7e84e119b18c1731",
+        "observations.npz": "87f5687f168b88364dd26be5550bfef00fd19882324d77181c0cb182c65e1125",
+        "commands.npz": "279e265864dd59891ebc33e1d6f71709ccabeb5a3f55c792c5ba436301ccd5e5",
+        "installed.npz": "e7b1bcd02084df9d335cf9ebb24fc4cc83626c702db0d283293f31d7d9b3265b"
+      },
+      "task": "T1",
+      "split": "PILOT",
+      "layout": 285000,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T1-PILOT-285000-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.81,
+            "changes": [
+              {
+                "time_s": 1.81,
+                "value": true
+              },
+              {
+                "time_s": 5.67,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.42,
+            "changes": [
+              {
+                "time_s": 2.42,
+                "value": true
+              },
+              {
+                "time_s": 5.36,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.8500000000000005,
+            "changes": [
+              {
+                "time_s": 3.8500000000000005,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.14,
+            "changes": [
+              {
+                "time_s": 4.14,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.3000000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.48,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.8000000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.67,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.81,
+                "value": false
+              },
+              {
+                "time_s": 5.67,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.8,
+                "value": false
+              },
+              {
+                "time_s": 6.67,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.67,
+            "changes": [
+              {
+                "time_s": 6.67,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 241.5340394973755,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": 6.800000000000001,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "49d163e2a5330f397d4af883685cf04be48ccf975d5033808d6116cb0f772d4e",
+        "contacts.jsonl": "56df96803a2396d01f064d19438477e3578a6db2cc47ff9b04a23d4a40e284c4",
+        "initial.npz": "c237d3e5562db43e9df22422b80a19eb26a972d2efc9ecd5b0cc2e17f31ccafd",
+        "NATIVE_INVENTORY.json": "a1d6768f986a9243a706e8dc2555d46d8126f74f4725f86ac4e059e460851b1e",
+        "EPISODE_CARD.json": "da540e5b8c5982a78de03aff3eabb331032b229331ffc1beeb0bda60f98986da",
+        "TEACHER_EVENTS.json": "003ed96339f659c475cbc95818f2a29239ec4e63eca3588362ba1137a619145b",
+        "GATE_RECORDS.json": "e95a511965e8f1241c8007c0d50691a8ada2a1b27fd994ef34f7e3ba75688c8a",
+        "TASK_SCORE_CPU.json": "9713a986bb8ebb2a714ce019e036e7277a922d5e5ef0e0717060259893a52901",
+        "physics.npz": "65bb3ac7ebd99eb9154535f8c3a82a6a99d633f18ab95bd07156333f0cfd8f6c",
+        "observations.npz": "443b4ae29a7616cadba04d660d356713e8aef07ac7b1bb197ae05423c0aacc16",
+        "commands.npz": "e683900652cd945fb38ba97275aa0d9c5613b6f232c8eda42651a51ed770702d",
+        "installed.npz": "85952de898d033935a54f6758620d227edb3b19fd39af7cf841f9b1130d2418e"
+      },
+      "task": "T2",
+      "split": "PILOT",
+      "layout": 285000,
+      "instruction": "Stack the red cube on the green cube, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T2-PILOT-285000-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.81,
+            "changes": [
+              {
+                "time_s": 1.81,
+                "value": true
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.42,
+            "changes": [
+              {
+                "time_s": 2.42,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.8600000000000003,
+            "changes": [
+              {
+                "time_s": 3.8600000000000003,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.3000000000000003,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.8000000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.81,
+                "value": false
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.8,
+                "value": false
+              },
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.7700000000000005,
+            "changes": [
+              {
+                "time_s": 5.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.7700000000000005,
+            "changes": [
+              {
+                "time_s": 6.7700000000000005,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 201.1840672492981,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": null,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "9c1ac14df17032da75030411e6f97c49357a3bfe7c832458a672d9309c5d051e",
+        "contacts.jsonl": "34a9c12a827b483ea234d28bcb6476db89e128edfde3fe47e1fc8051f2d9de10",
+        "initial.npz": "6eb9d3e720ab04fecc428ffd7d025322dca62cd83236a20d3bd42acc93b5c8fd",
+        "NATIVE_INVENTORY.json": "8e3e0ca3b6e943ae62b98ae0c1e5a9bd97fac877ae5455faf16e9e1bf1a74d64",
+        "EPISODE_CARD.json": "30efdbddecf04752f24e07b667a61df348faf4031d02db77400f40a594b54f2a",
+        "TEACHER_EVENTS.json": "2d50bfcda85a63d9ed6c425eacc35758f60dc5f8db5051adda41baca2a7fbfd7",
+        "GATE_RECORDS.json": "a36944ff10db245f90715af3de05458d5771b13ddc2be7513bf0f88fcb85df53",
+        "TASK_SCORE_CPU.json": "022497fc928f79b80c0a59c7adbdea62ac4d5cc12edeec8b671f0aa448471530",
+        "physics.npz": "e33053c98ad71824ae987376d50452f1ab6cfe1ed4c76c0912af7af6ea080a91",
+        "observations.npz": "992973583adcc1bed5f45631a264d03556d3f0c8d69789d55d820b7257263c0c",
+        "commands.npz": "8b58056af1ab59c6b4d20df9215af1ffb5ac8a1b7d37dfe6ed3cd510bcda4b7a",
+        "installed.npz": "8904ab21b050fca8b63ef47c1b3ca470c703382708639b9f42ceeeb9c43895c1"
+      },
+      "task": "T1",
+      "split": "PILOT",
+      "layout": 285001,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T1-PILOT-285001-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 6.22,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.72,
+            "changes": [
+              {
+                "time_s": 2.72,
+                "value": true
+              },
+              {
+                "time_s": 5.91,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.15,
+            "changes": [
+              {
+                "time_s": 4.15,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.78,
+            "changes": [
+              {
+                "time_s": 4.78,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": false
+              },
+              {
+                "time_s": 6.0200000000000005,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.1,
+                "value": false
+              },
+              {
+                "time_s": 6.21,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": false
+              },
+              {
+                "time_s": 6.22,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.06,
+                "value": false
+              },
+              {
+                "time_s": 7.210000000000001,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.210000000000001,
+            "changes": [
+              {
+                "time_s": 7.210000000000001,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 202.31767320632935,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": 7.2,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "876c042588fae88d2fd87ae5c7a9799fa470361b861837ffff4e3e2e18f66caf",
+        "contacts.jsonl": "4bf05cf5b9eadb106e35bdf8c7ab2927ccd9219cec2017c80d2e69d9266f8df7",
+        "initial.npz": "6eb9d3e720ab04fecc428ffd7d025322dca62cd83236a20d3bd42acc93b5c8fd",
+        "NATIVE_INVENTORY.json": "8e3e0ca3b6e943ae62b98ae0c1e5a9bd97fac877ae5455faf16e9e1bf1a74d64",
+        "EPISODE_CARD.json": "55fee604e5ebcd198a2a235776d30cb93f202f12bf541bd8e82340ec7b24620c",
+        "TEACHER_EVENTS.json": "8bb2966ae05c313d0e761277021c44198d9681fdf76a0dc55822b991e1597757",
+        "GATE_RECORDS.json": "a36944ff10db245f90715af3de05458d5771b13ddc2be7513bf0f88fcb85df53",
+        "TASK_SCORE_CPU.json": "44a4fa537f7e62c9895b76c512f23eee540621cd16e2077e85a27ab71f2c43b4",
+        "physics.npz": "e9cd2ce097c91225bc2f7c9c420182eb51895cba4e00fa52d6aac3a1d810ca2f",
+        "observations.npz": "7363e4c77a96fbb4144c9d221bf9ef7304b272e064e30e3beba3dccffbe09ac6",
+        "commands.npz": "0d921ce7c1716972d7ebb05d5d4f8ff14a72735a10a29abb9b291366ab8ee7b3",
+        "installed.npz": "2455ae87697359b74e37c94f9a72cad5e4b4e51ca7746055ea5ef90838ddff9f"
+      },
+      "task": "T2",
+      "split": "PILOT",
+      "layout": 285001,
+      "instruction": "Stack the red cube on the green cube, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T2-PILOT-285001-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 6.17,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.72,
+            "changes": [
+              {
+                "time_s": 2.72,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.16,
+            "changes": [
+              {
+                "time_s": 4.16,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.6,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.1,
+                "value": false
+              },
+              {
+                "time_s": 6.17,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": false
+              },
+              {
+                "time_s": 6.17,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.06,
+                "value": false
+              },
+              {
+                "time_s": 7.16,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 6.17,
+            "changes": [
+              {
+                "time_s": 6.17,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.16,
+            "changes": [
+              {
+                "time_s": 7.16,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 191.97916531562805,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": null,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "fc1a2d054752172417f7524636694827a56d7d46d3281912549393e758df1733",
+        "contacts.jsonl": "40b170f9c608a85993119d93624ce9b6adb3b0ca13e2a5fd4b65012b0593e1fd",
+        "initial.npz": "0b108b669a430d9cd0e9d6ea789229b4a8eb08810c86eb7d905cd87993035de3",
+        "NATIVE_INVENTORY.json": "babf7f5d5bedab9dcb0599153a0517f7b06fa4674f15bfb00b8921d7372a1e98",
+        "EPISODE_CARD.json": "7a7df2c766df76c95e9d72259d457e480cb328442e11e0426f3a1d44cd9bc0a3",
+        "TEACHER_EVENTS.json": "f7dd9d1f883cc4dbc3740339be157775cc2918fe8b9c6456c076c7329c6030c6",
+        "GATE_RECORDS.json": "e95a511965e8f1241c8007c0d50691a8ada2a1b27fd994ef34f7e3ba75688c8a",
+        "TASK_SCORE_CPU.json": "f14120d5e2282f37b763b9b8bfd1e6173a063e3085f2e64f19f487078c9ab896",
+        "physics.npz": "e5065f51d2d8306be3796ab3279689f7066241f82934eea725ccf0bedc7ee773",
+        "observations.npz": "c0c7219aea691504a28e01133698aedfccea3f289e2ada3de735f07a058e966b",
+        "commands.npz": "cb6e7d4f4d3c67f53beb8bd8a6c8f202e37390f830e3ab4a19e98718c31644cd",
+        "installed.npz": "7173091ae62604f65db76971522308ba04dae05f962608684ca9538d2de79c37"
+      },
+      "task": "T1",
+      "split": "PILOT",
+      "layout": 285002,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T1-PILOT-285002-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.2600000000000002,
+            "changes": [
+              {
+                "time_s": 2.2600000000000002,
+                "value": true
+              },
+              {
+                "time_s": 6.67,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.87,
+            "changes": [
+              {
+                "time_s": 2.87,
+                "value": true
+              },
+              {
+                "time_s": 6.36,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.3,
+            "changes": [
+              {
+                "time_s": 4.3,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 5.2,
+            "changes": [
+              {
+                "time_s": 5.2,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.75,
+                "value": false
+              },
+              {
+                "time_s": 6.47,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": false
+              },
+              {
+                "time_s": 6.66,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.2600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 6.67,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.23,
+                "value": false
+              },
+              {
+                "time_s": 7.67,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.67,
+            "changes": [
+              {
+                "time_s": 7.67,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 179.13001227378845,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": 7.1000000000000005,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "551374d75080bd6e599200ee69aa1d6c88fe3d0296a66266d7154a5bab7c2ea7",
+        "contacts.jsonl": "52b58c4bb5d81b4f815fceef804477968bf4600e286f4ef70e0ef7c3d765d4f8",
+        "initial.npz": "0b108b669a430d9cd0e9d6ea789229b4a8eb08810c86eb7d905cd87993035de3",
+        "NATIVE_INVENTORY.json": "babf7f5d5bedab9dcb0599153a0517f7b06fa4674f15bfb00b8921d7372a1e98",
+        "EPISODE_CARD.json": "1f45dfbfa86e9fd8daf787f655fb1be12fa8ec94c78267885fb7c097c6aeb8a1",
+        "TEACHER_EVENTS.json": "bf9501cf5c4e0f33ffa77947b18c99bd13cb03a470f5691d17d75c8ab2546504",
+        "GATE_RECORDS.json": "e95a511965e8f1241c8007c0d50691a8ada2a1b27fd994ef34f7e3ba75688c8a",
+        "TASK_SCORE_CPU.json": "30a72f92f9df7091adf14b55ec2fcc03fcfad63a0d47f1d262011b4beacbab82",
+        "physics.npz": "c797f9d9a2cfcf508277dca7569f2eda84102a687c295933c0a0d626b6094c88",
+        "observations.npz": "d7db8bb3733b438604868efacb290f738128a133ace8e1f41d48d02ff4c6be9a",
+        "commands.npz": "92c42ca9cb39fba542f13186ac251880785e59a0b3f3e66f350f1d22edf606d5",
+        "installed.npz": "46770d71e5bbe1db51b2fa729324ed207e1806e4a624da0b40fdf712d04c05b5"
+      },
+      "task": "T2",
+      "split": "PILOT",
+      "layout": 285002,
+      "instruction": "Stack the red cube on the green cube, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T2-PILOT-285002-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.2600000000000002,
+            "changes": [
+              {
+                "time_s": 2.2600000000000002,
+                "value": true
+              },
+              {
+                "time_s": 6.07,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.87,
+            "changes": [
+              {
+                "time_s": 2.87,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.3100000000000005,
+            "changes": [
+              {
+                "time_s": 4.3100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.75,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": false
+              },
+              {
+                "time_s": 6.0600000000000005,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.2600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 6.07,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.23,
+                "value": false
+              },
+              {
+                "time_s": 7.0600000000000005,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 6.07,
+            "changes": [
+              {
+                "time_s": 6.07,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.0600000000000005,
+            "changes": [
+              {
+                "time_s": 7.0600000000000005,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 187.58422875404358,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": null,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "b1b9fcae878799df95626f0ce8dfcb30f6761470fcd70cc9b5027a508c6643ac",
+        "contacts.jsonl": "73f34e513c3fa403122dd92399a4386d2d729b15d0fc8950568d9f144126738d",
+        "initial.npz": "f1e8ca3c687ac131d53f151cd4c26e8658bbe22cc4dd1dbc313bd4c1e1fa2233",
+        "NATIVE_INVENTORY.json": "251abb42968764369c40c7891b5d694d20ccf04352cc3285bd4992089a5913aa",
+        "EPISODE_CARD.json": "8fd42c6f7de4fb7ce8196d40f63d8ef6cef8d6a7ddbab0810f3a0f8995e79b74",
+        "TEACHER_EVENTS.json": "9e2df7f598901825f2ac410a93176b94e3ae8cda1378cf8809ff2fe1d5302046",
+        "GATE_RECORDS.json": "e95a511965e8f1241c8007c0d50691a8ada2a1b27fd994ef34f7e3ba75688c8a",
+        "TASK_SCORE_CPU.json": "d45cda3dc56ec35066dc4181e19f2335090e9f2738b832c2cce30bb798dab938",
+        "physics.npz": "656f96643d7d0cf6f25e224b1fbca37971c79cad19d54a65c8eaa838208a4528",
+        "observations.npz": "f39aa630a0f1f24071360321feb34e83957c05a58fe6ec776c6a354331226afe",
+        "commands.npz": "a81def468efb1b2a33fae9332ad18e4a8b345c4bd12543e8a142d4a5efba4a69",
+        "installed.npz": "d7c49839f16a5cc38847616840f46740128bdfd12648f21e553dc28341644b67"
+      },
+      "task": "T1",
+      "split": "PILOT",
+      "layout": 285003,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T1-PILOT-285003-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.8599999999999999,
+            "changes": [
+              {
+                "time_s": 1.8599999999999999,
+                "value": true
+              },
+              {
+                "time_s": 5.32,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.47,
+            "changes": [
+              {
+                "time_s": 2.47,
+                "value": true
+              },
+              {
+                "time_s": 5.01,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.9000000000000004,
+            "changes": [
+              {
+                "time_s": 3.9000000000000004,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 3.9299999999999997,
+            "changes": [
+              {
+                "time_s": 3.9299999999999997,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": false
+              },
+              {
+                "time_s": 5.12,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.85,
+                "value": false
+              },
+              {
+                "time_s": 5.32,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.8599999999999999,
+                "value": false
+              },
+              {
+                "time_s": 5.32,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.8,
+                "value": false
+              },
+              {
+                "time_s": 6.32,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.32,
+            "changes": [
+              {
+                "time_s": 6.32,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 210.9128816127777,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": 6.45,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "4bb4307749d663ac08666a379ce6589a435363465b0331397f3a7b82b13d6d0e",
+        "contacts.jsonl": "b4b0442097d8f5d75f65688eccfc37c5cff7fe073e2c317e0e30dc6ccebc6161",
+        "initial.npz": "f1e8ca3c687ac131d53f151cd4c26e8658bbe22cc4dd1dbc313bd4c1e1fa2233",
+        "NATIVE_INVENTORY.json": "251abb42968764369c40c7891b5d694d20ccf04352cc3285bd4992089a5913aa",
+        "EPISODE_CARD.json": "8a204eeac228c75dad96aa6151ff793124e17235009f3218d0020f97bb40249a",
+        "TEACHER_EVENTS.json": "1b2c64dee1120269c95aa61f39677c52fcbab22e81edf79fa0db0e58d1e81520",
+        "GATE_RECORDS.json": "e95a511965e8f1241c8007c0d50691a8ada2a1b27fd994ef34f7e3ba75688c8a",
+        "TASK_SCORE_CPU.json": "a39265aeec94e63c8a68549b7b6efe9614fbc2c719742b9e603f680f8d9d1f83",
+        "physics.npz": "b87f3dfdc8496815f44f68ac4e6b6e5b22b00fb96d94f26956f9cec9912c91af",
+        "observations.npz": "c41c6d0bd625468a42c22be63667020fe0d94464230f5acc066c15046ca2ba06",
+        "commands.npz": "c3c428ad85be180684935500318fb82944bc6394e76523602c7da923b27a16f8",
+        "installed.npz": "6bfa1ba2c2f2b3505a5174f308657623234289bec113ea5e56f449fa897507b8"
+      },
+      "task": "T2",
+      "split": "PILOT",
+      "layout": 285003,
+      "instruction": "Stack the red cube on the green cube, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T2-PILOT-285003-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.8599999999999999,
+            "changes": [
+              {
+                "time_s": 1.8599999999999999,
+                "value": true
+              },
+              {
+                "time_s": 5.42,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.47,
+            "changes": [
+              {
+                "time_s": 2.47,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.92,
+            "changes": [
+              {
+                "time_s": 3.92,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.85,
+                "value": false
+              },
+              {
+                "time_s": 5.42,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.8599999999999999,
+                "value": false
+              },
+              {
+                "time_s": 5.42,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.8,
+                "value": false
+              },
+              {
+                "time_s": 6.42,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.42,
+            "changes": [
+              {
+                "time_s": 5.42,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.42,
+            "changes": [
+              {
+                "time_s": 6.42,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 236.73998618125916,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": null,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "3eda2319d0d757ede1a49206eba48f0d2ba6f80532b9a1259cc4da7b92a1b793",
+        "contacts.jsonl": "2adf6a8f2195478ead2012b159fa4d0cf570c294a0c957f8262b9de17fe2edc1",
+        "initial.npz": "49471df20f2ed95a238382fde98d5b455df315362ede8c6cba1f21cb9f7822bc",
+        "NATIVE_INVENTORY.json": "c67c0f18f0c305650c2e1890f650e3c397eb982725ad079a005184f1f6b6c8c0",
+        "EPISODE_CARD.json": "d92d2e24a6d0febc29c7a9c1c898e56150b68783d1821f4a14cfe6c5c7e4cccd",
+        "TEACHER_EVENTS.json": "b168947b38fe36ae6cccf5d79244b05f19b6f0f57f383ad16f5c7d1abc76e519",
+        "GATE_RECORDS.json": "ad9d0b1a74c02a4839274d6eb4ccf345a61ef7115b06fa36fd0da1c1458d3628",
+        "TASK_SCORE_CPU.json": "605fb7dd0898b601b3f630d6d4567a3cbbbbfbbeb63a46f39d00441181993dcd",
+        "physics.npz": "fa057ae407c8a8868a78f8d512e0ba1d92124ad27ebbe15b0ae51bb5b8edc246",
+        "observations.npz": "49f5a0790a1202d575a91b89117a2fee1f89799f2af22bdd663ce6da1e3cb7e5",
+        "commands.npz": "21f83966cfe0eab46bfeae716882aba35652869f37c8b1aadd11b9a7765487ff",
+        "installed.npz": "2b14994ddcea8146e99600026d413e9c4e847535f99b5673b027de1545a18605"
+      },
+      "task": "T1",
+      "split": "PILOT",
+      "layout": 285004,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T1-PILOT-285004-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.7600000000000002,
+            "changes": [
+              {
+                "time_s": 1.7600000000000002,
+                "value": true
+              },
+              {
+                "time_s": 5.42,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.37,
+            "changes": [
+              {
+                "time_s": 2.37,
+                "value": true
+              },
+              {
+                "time_s": 5.11,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.8,
+            "changes": [
+              {
+                "time_s": 3.8,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.03,
+            "changes": [
+              {
+                "time_s": 4.03,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": false
+              },
+              {
+                "time_s": 5.23,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.75,
+                "value": false
+              },
+              {
+                "time_s": 5.42,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.7600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 5.42,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.72,
+                "value": false
+              },
+              {
+                "time_s": 6.42,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.42,
+            "changes": [
+              {
+                "time_s": 6.42,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 257.35650658607483,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": 6.25,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "1f786d57a6cf4ebb39cd3f5d8659d2b2ebdcf81ce4aba8e7f12b11b2ed7beb64",
+        "contacts.jsonl": "4cc8ee6a581b958357fa7e7b81ad1b30bea4014f0bdc89844582e0728c045c81",
+        "initial.npz": "49471df20f2ed95a238382fde98d5b455df315362ede8c6cba1f21cb9f7822bc",
+        "NATIVE_INVENTORY.json": "c67c0f18f0c305650c2e1890f650e3c397eb982725ad079a005184f1f6b6c8c0",
+        "EPISODE_CARD.json": "90b96dbc05912a760a0146a172678b4e12260114f5a3def4ecad898f76417431",
+        "TEACHER_EVENTS.json": "ddade33affe6ab0a3ae259840a3d4109fa8ffbc100462dc9eda8abe4afdcfab6",
+        "GATE_RECORDS.json": "ad9d0b1a74c02a4839274d6eb4ccf345a61ef7115b06fa36fd0da1c1458d3628",
+        "TASK_SCORE_CPU.json": "227d3cb34151d28d4d46793454fea1b84b1cb6e7355b1318e263abbb852ed164",
+        "physics.npz": "6d67cc2601cdcec4651e66852f477d8cad82a7d267e6312ffb9190b55d4c19d1",
+        "observations.npz": "1dfa6a34a35879347b710198d29ca03fbbbb970f8dfeb1d73bc816a361ecdeaa",
+        "commands.npz": "19cfa1d2964291e679e2ccaaeed66ef272b1e5d68266e420431859d296c066f9",
+        "installed.npz": "9ca2f8ea7950573ef5f7862ba9412043ea18f7673e0d774f4e3eaf41505f2674"
+      },
+      "task": "T2",
+      "split": "PILOT",
+      "layout": 285004,
+      "instruction": "Stack the red cube on the green cube, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T2-PILOT-285004-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.7600000000000002,
+            "changes": [
+              {
+                "time_s": 1.7600000000000002,
+                "value": true
+              },
+              {
+                "time_s": 5.22,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.37,
+            "changes": [
+              {
+                "time_s": 2.37,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.8200000000000003,
+            "changes": [
+              {
+                "time_s": 3.8200000000000003,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.75,
+                "value": false
+              },
+              {
+                "time_s": 5.22,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.7600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 5.22,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.72,
+                "value": false
+              },
+              {
+                "time_s": 6.22,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.22,
+            "changes": [
+              {
+                "time_s": 5.22,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.22,
+            "changes": [
+              {
+                "time_s": 6.22,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 231.68759202957153,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": null,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "12d93e33ede7cfe31d4397e54604bc2135e337f7a733ed8970378a3592fae8b1",
+        "contacts.jsonl": "17d4aac34f7dc04e6547d2caa61a95d6b0fa7cf87ccb21570f8a031eca54e1b7",
+        "initial.npz": "ed6586b54e3846cef609f710a03edb1378cf6759587cf6c19cfa1ff013e0d578",
+        "NATIVE_INVENTORY.json": "40d386db5ebbaad9070166ec456adeed191e3b5a8b27dc015a0381ba0b4727c6",
+        "EPISODE_CARD.json": "268088ef53fe8b7935b215418022057169636f1c18f469f8afe70a9dc0dc34e7",
+        "TEACHER_EVENTS.json": "b4977390ee8f288e5fa25906a457333330bd4520b8c3cfad030edbb1da4c67b5",
+        "GATE_RECORDS.json": "e95a511965e8f1241c8007c0d50691a8ada2a1b27fd994ef34f7e3ba75688c8a",
+        "TASK_SCORE_CPU.json": "6b7cfc862495ea967265655346e2464d109d0343a927f8828c3d3a3f1057b952",
+        "physics.npz": "26ae5a6f79123217945d7f4d6350a593c5714f256bbfd4c1c6bb316c4110ee78",
+        "observations.npz": "7f93f1b77fc4fd0888cb64b3c36b0dad082f66da1b2f9cf2be5acb55eb94dfae",
+        "commands.npz": "2470a481860c06ab2380f1d37bccbff5a6846657a4cfe11b39e82d521d071197",
+        "installed.npz": "ad1b6dc7d733d9be547cb5b801fa49f804db2bb48f22f80a8ae652ec5f463895"
+      },
+      "task": "T1",
+      "split": "PILOT",
+      "layout": 285005,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T1-PILOT-285005-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.6600000000000001,
+            "changes": [
+              {
+                "time_s": 1.6600000000000001,
+                "value": true
+              },
+              {
+                "time_s": 5.32,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.27,
+            "changes": [
+              {
+                "time_s": 2.27,
+                "value": true
+              },
+              {
+                "time_s": 5.01,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.7,
+            "changes": [
+              {
+                "time_s": 3.7,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 3.8100000000000005,
+            "changes": [
+              {
+                "time_s": 3.8100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.15,
+                "value": false
+              },
+              {
+                "time_s": 5.12,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.65,
+                "value": false
+              },
+              {
+                "time_s": 5.32,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.6600000000000001,
+                "value": false
+              },
+              {
+                "time_s": 5.32,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.7,
+                "value": false
+              },
+              {
+                "time_s": 6.3100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.3100000000000005,
+            "changes": [
+              {
+                "time_s": 6.3100000000000005,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 216.88539481163025,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": 6.800000000000001,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "3938909fcb07e8e6ea31ce2649c7afaade38fecd0f1bc085d81166dbcd2ba578",
+        "contacts.jsonl": "d10795365084fc72bc401f2662657958002532bf2deccfed8d45b1c0f756757b",
+        "initial.npz": "ed6586b54e3846cef609f710a03edb1378cf6759587cf6c19cfa1ff013e0d578",
+        "NATIVE_INVENTORY.json": "40d386db5ebbaad9070166ec456adeed191e3b5a8b27dc015a0381ba0b4727c6",
+        "EPISODE_CARD.json": "59e6b8ebe740ad5e1f888df0e909204f0f51351c2070d8ca3ba39bfe9cd8ed92",
+        "TEACHER_EVENTS.json": "d94e26a394304275986f61ed81a20025cf309754d0066d356670b48ab7410148",
+        "GATE_RECORDS.json": "e95a511965e8f1241c8007c0d50691a8ada2a1b27fd994ef34f7e3ba75688c8a",
+        "TASK_SCORE_CPU.json": "5dfd78737193288868d5b68a569313a999e820f1ad182fe9b991c3de830d3f05",
+        "physics.npz": "520ff2dcd97bc478d10ca2d2bececa0dbdfb79cfbb1d5a988e53a4ba0a636df6",
+        "observations.npz": "a2680c2a6768d616427b636c5d5e40daaadd2c8a7bb21ae068c35be73e398148",
+        "commands.npz": "161c0e3bccfef089d73d360e390d78360afbe6a6572ee825464f6c7d2fb46d5c",
+        "installed.npz": "7d670ca1eb0ba893682ae0841523df89c84ec8b48f8974d111383c36c959ae03"
+      },
+      "task": "T2",
+      "split": "PILOT",
+      "layout": 285005,
+      "instruction": "Stack the red cube on the green cube, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T2-PILOT-285005-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.6600000000000001,
+            "changes": [
+              {
+                "time_s": 1.6600000000000001,
+                "value": true
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.27,
+            "changes": [
+              {
+                "time_s": 2.27,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.71,
+            "changes": [
+              {
+                "time_s": 3.71,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.15,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.65,
+                "value": false
+              },
+              {
+                "time_s": 5.78,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.6600000000000001,
+                "value": false
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.7,
+                "value": false
+              },
+              {
+                "time_s": 6.76,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.78,
+            "changes": [
+              {
+                "time_s": 5.78,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.76,
+            "changes": [
+              {
+                "time_s": 6.76,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 196.89478278160095,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": null,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "48a42b132444ef067f220e77c962611995c28e517d0722924270e658240c5393",
+        "contacts.jsonl": "21f4b0e63bd229d8fcea67d702ab91d85d325a4819d0f5c6d0d8ce249d8e84d0",
+        "initial.npz": "15021707d63826c1e8c2fcd79a3397bb6c133235f6375e814a65a3720c4c0cf1",
+        "NATIVE_INVENTORY.json": "8ea1d41b3c94d30c62a0118122f8cc7c8544e4b6dc21387917f12edce649c2b2",
+        "EPISODE_CARD.json": "f5f4fc022054f6b44574397a2f08af07d191c2c9c5ad83956bdbe1ec74ea918e",
+        "TEACHER_EVENTS.json": "6683b2eec7b0a9af09d5881b544d0a16547761d2297f34309b2f260f8cf5da83",
+        "GATE_RECORDS.json": "f3b51550272a74d20d599a31ca292d681d40a8569ac329212c96d23b130ea98b",
+        "TASK_SCORE_CPU.json": "78a9bbc8d5f616bd6d2fb616ad69c4a1cd18f3155835e54d3fefb53839d4f501",
+        "physics.npz": "e6ef6944626f9bd6b0bcfa863cd929d30fe0474f4a68ebbd12cad150825d0d59",
+        "observations.npz": "f7f7bf9da94e7117f4a2c830918d598c14440f868ce1f4c286f5b01ce62e3e87",
+        "commands.npz": "0c932d878df44b25a3871fc1b83b8e6d4d3d5560138b69688e904e7715e7d955",
+        "installed.npz": "631d12c1766e5309feb8787864da7fb68f205fbce546bcd2061dd5d8b01e3a9b"
+      },
+      "task": "T1",
+      "split": "PILOT",
+      "layout": 285006,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T1-PILOT-285006-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.06,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": true
+              },
+              {
+                "time_s": 6.07,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.67,
+            "changes": [
+              {
+                "time_s": 2.67,
+                "value": true
+              },
+              {
+                "time_s": 5.76,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.09,
+            "changes": [
+              {
+                "time_s": 4.09,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 4.72,
+            "changes": [
+              {
+                "time_s": 4.72,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.5500000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.88,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.0500000000000003,
+                "value": false
+              },
+              {
+                "time_s": 6.07,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": false
+              },
+              {
+                "time_s": 6.07,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0300000000000002,
+                "value": false
+              },
+              {
+                "time_s": 7.07,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 7.07,
+            "changes": [
+              {
+                "time_s": 7.07,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 186.93604922294617,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": 6.8500000000000005,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "0eaa53076ddd5d6ccb8f35f733622e48aea30cf65cc979930448deced6e33e91",
+        "contacts.jsonl": "11e9e1b03ae5477e471d87303f70cf1c4176f5dc37acf79e4704f2163fe9b91a",
+        "initial.npz": "15021707d63826c1e8c2fcd79a3397bb6c133235f6375e814a65a3720c4c0cf1",
+        "NATIVE_INVENTORY.json": "8ea1d41b3c94d30c62a0118122f8cc7c8544e4b6dc21387917f12edce649c2b2",
+        "EPISODE_CARD.json": "8e600c1d27bbd0810cc9bf8d14bc15f047faccad0883482a0e66f6d11d02925a",
+        "TEACHER_EVENTS.json": "1ff5200eb2a1dd1862ad040e6662de508bf7ad14fed8421c6388f3190e308cff",
+        "GATE_RECORDS.json": "f3b51550272a74d20d599a31ca292d681d40a8569ac329212c96d23b130ea98b",
+        "TASK_SCORE_CPU.json": "b9313ac479c393b01b0c409b1e595ce99326174582d6f12a40ff1322b200779a",
+        "physics.npz": "ef015d8599b0f7a4e01d001cc1f04570823493a97efcceba5654c7a1fb75a2ba",
+        "observations.npz": "c15e4e497e8e157c3ff1c96e1bcace9ce3a40ad10f386c4c74280118674d4d49",
+        "commands.npz": "119b6240ddb06a51d6db8220ce0599d9fcd6d1b7007977e5cdc2c3534d5ba4da",
+        "installed.npz": "114564426bbe32a50776a39cdeee427a55039dc97320f8469669c48c4c64bcb3"
+      },
+      "task": "T2",
+      "split": "PILOT",
+      "layout": 285006,
+      "instruction": "Stack the red cube on the green cube, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T2-PILOT-285006-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.06,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": true
+              },
+              {
+                "time_s": 5.82,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.67,
+            "changes": [
+              {
+                "time_s": 2.67,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.11,
+            "changes": [
+              {
+                "time_s": 4.11,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.5500000000000003,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.0500000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.82,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.06,
+                "value": false
+              },
+              {
+                "time_s": 5.82,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0300000000000002,
+                "value": false
+              },
+              {
+                "time_s": 6.82,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.82,
+            "changes": [
+              {
+                "time_s": 5.82,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.82,
+            "changes": [
+              {
+                "time_s": 6.82,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 166.42972350120544,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": null,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "1dd8fa11dcfaf3c88cc5149b74fe72fe3c10e1b3028e7708237e43e6289a72ed",
+        "contacts.jsonl": "32ffa340c4ec2721f583b14cdd9af84e7ab7d2d22197782f5f5a4c112eff46be",
+        "initial.npz": "74984f56a788cb79c26622fba225563a7b8f488a995c2c4b4c707e95c641bdfb",
+        "NATIVE_INVENTORY.json": "babf7f5d5bedab9dcb0599153a0517f7b06fa4674f15bfb00b8921d7372a1e98",
+        "EPISODE_CARD.json": "cb6c8f2783f2f3ef02026f7d151e480a963786b8220f277e8c1b214aeac0eb8d",
+        "TEACHER_EVENTS.json": "8f781eba0260ea8362060af65f16626504cf699b3e84137439eefa9fc87eaa05",
+        "GATE_RECORDS.json": "134c37291a728d51a1e3c5caff0ef4c9bf8f0ff2140e658d4d16f5e255867b7d",
+        "TASK_SCORE_CPU.json": "75baf2894bbc8239a14feeca39ad573512d2a40a0be3bd58c2559cd84b344c63",
+        "physics.npz": "8c8f565ae12c93fd9ac843ce933cb1510274936b7f0831ef50f09162f5591590",
+        "observations.npz": "4ef289242ff5676b4445bfa89b9d2768cb0f35add2a103501e52c274e86d22a8",
+        "commands.npz": "b5433bdd09f7097fecdea0c823eeac0358585577b016ae2da3a8c33d33093903",
+        "installed.npz": "aa193fbae4db3117792da4acec7aaf17ad0e2aa8d598a51db2e564cb93596006"
+      },
+      "task": "T1",
+      "split": "PILOT",
+      "layout": 285007,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T1-PILOT-285007-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.81,
+            "changes": [
+              {
+                "time_s": 1.81,
+                "value": true
+              },
+              {
+                "time_s": 5.32,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.42,
+            "changes": [
+              {
+                "time_s": 2.42,
+                "value": true
+              },
+              {
+                "time_s": 5.01,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.8500000000000005,
+            "changes": [
+              {
+                "time_s": 3.8500000000000005,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 3.9299999999999997,
+            "changes": [
+              {
+                "time_s": 3.9299999999999997,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.3000000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.13,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.8000000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.33,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.81,
+                "value": false
+              },
+              {
+                "time_s": 5.32,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.79,
+                "value": false
+              },
+              {
+                "time_s": 6.32,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.32,
+            "changes": [
+              {
+                "time_s": 6.32,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 118.11919903755188,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "first_success_s": 6.4,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "START.json": "07d9eff783bb388dd4c678a91f67853624b967900a5c29c0715eea24b5a981af",
+        "contacts.jsonl": "b70438a443ffdca080d2ebd541c655445e2bb8e5323a10ac5a60a4d77d21ee57",
+        "initial.npz": "74984f56a788cb79c26622fba225563a7b8f488a995c2c4b4c707e95c641bdfb",
+        "NATIVE_INVENTORY.json": "babf7f5d5bedab9dcb0599153a0517f7b06fa4674f15bfb00b8921d7372a1e98",
+        "EPISODE_CARD.json": "62dca3176075b62d2236f22a515327f4c684a9f77a01d78628c56284f81c98c8",
+        "TEACHER_EVENTS.json": "158252e79f8d9bea09d1ff5eaffe198bd1823e10fb037805cb1152cd0beead29",
+        "GATE_RECORDS.json": "134c37291a728d51a1e3c5caff0ef4c9bf8f0ff2140e658d4d16f5e255867b7d",
+        "TASK_SCORE_CPU.json": "c25d3706198c0c5786297a4013ea661fdbb1377152c7a2a989121ac1833ac7a3",
+        "physics.npz": "51a2b79c7f65b09a7f905acbb87cbbb035c656a3720e114e76d7d4dfc248c7d0",
+        "observations.npz": "2a48e151ab046c6d37b43417016c7a5d3334da9f7dfc996a004d848540693501",
+        "commands.npz": "697e0ad370b33e6424d8e93a95d3eb0a2122224b1467fdd4cd499fee736135ed",
+        "installed.npz": "72a09b916cf103b98ae2e09d6fd875ce6feb3df95ac890167f2103d513475b98"
+      },
+      "task": "T2",
+      "split": "PILOT",
+      "layout": 285007,
+      "instruction": "Stack the red cube on the green cube, release it, and move the gripper away.",
+      "folder": "/home/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/T2-PILOT-285007-TEACHER/attempt-000",
+      "task_score": {
+        "task": "T2",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 41,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 1.81,
+            "changes": [
+              {
+                "time_s": 1.81,
+                "value": true
+              },
+              {
+                "time_s": 5.37,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 41,
+            "first_true_s": 2.42,
+            "changes": [
+              {
+                "time_s": 2.42,
+                "value": true
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.87,
+            "changes": [
+              {
+                "time_s": 3.87,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 0,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.3000000000000003,
+                "value": false
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.8000000000000003,
+                "value": false
+              },
+              {
+                "time_s": 5.37,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.81,
+                "value": false
+              },
+              {
+                "time_s": 5.37,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 0.79,
+                "value": false
+              },
+              {
+                "time_s": 6.37,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 41,
+            "first_true_s": 5.37,
+            "changes": [
+              {
+                "time_s": 5.37,
+                "value": true
+              }
+            ]
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 41,
+            "first_true_s": 6.37,
+            "changes": [
+              {
+                "time_s": 6.37,
+                "value": true
+              }
+            ]
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 114.97333765029907,
+      "teacher_passes": 1,
+      "planner_calls": 0,
+      "model_queries": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    }
+  ],
+  "new_model_queries": 0,
+  "new_WBC": 0
+}

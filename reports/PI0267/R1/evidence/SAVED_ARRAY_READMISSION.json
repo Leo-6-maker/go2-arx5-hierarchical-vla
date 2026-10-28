@@ -1,0 +1,4529 @@
+{
+  "GR00T_queries": 0,
+  "actual_new_teacher_episodes": 0,
+  "actual_new_teacher_plans": 0,
+  "cumulative_old_CPU_episodes": 64,
+  "deployment_selected_checkpoint": "NONE",
+  "groups": [
+    {
+      "backend": "E0",
+      "task": "M1",
+      "teacher": "OLD",
+      "total": 8,
+      "v2": 8,
+      "v3": 8
+    },
+    {
+      "backend": "E0",
+      "task": "M3",
+      "teacher": "OLD",
+      "total": 8,
+      "v2": 1,
+      "v3": 8
+    },
+    {
+      "backend": "E1",
+      "task": "M1",
+      "teacher": "OLD",
+      "total": 8,
+      "v2": 8,
+      "v3": 8
+    },
+    {
+      "backend": "E1",
+      "task": "M3",
+      "teacher": "OLD",
+      "total": 8,
+      "v2": 1,
+      "v3": 8
+    },
+    {
+      "backend": "E0",
+      "task": "M1",
+      "teacher": "NEW",
+      "total": 8,
+      "v2": 8,
+      "v3": 8
+    },
+    {
+      "backend": "E0",
+      "task": "M3",
+      "teacher": "NEW",
+      "total": 8,
+      "v2": 1,
+      "v3": 8
+    },
+    {
+      "backend": "E1",
+      "task": "M1",
+      "teacher": "NEW",
+      "total": 8,
+      "v2": 8,
+      "v3": 8
+    },
+    {
+      "backend": "E1",
+      "task": "M3",
+      "teacher": "NEW",
+      "total": 8,
+      "v2": 1,
+      "v3": 8
+    }
+  ],
+  "new_model_learning_claim": false,
+  "original_arrays_unchanged": true,
+  "original_v2_rows_exactly_reproduced": 64,
+  "production_scorer_sha256": "ffd9a0a5a9ed178438acf9858fc8e10f2e6fe13966299ba12113efcec1f5db4a",
+  "rows": [
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-000",
+      "independent_entry": null,
+      "key": "pi0265-family-000-M1-c0-OLD-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M1-c0-OLD-E0.npz",
+      "source_sha256": "e461356d5e6bfe35d2a3262f3a942f3e2ce7a80d460d681bfb2672c598c44e09",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.985953468341961e-08,
+        "final_xyz_m": 7.147535937562181e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.9859604599714586e-08,
+          "final_xyz_m": 7.1475610548293315e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 3.985143992130557e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.3200000000000003,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 166,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 167,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.3200000000000003,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-000",
+      "independent_entry": null,
+      "key": "pi0265-family-000-M1-c0-OLD-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M1-c0-OLD-E1.npz",
+      "source_sha256": "b5954686751e8483491cb7ebe995d521bbc0af168d3364c21044736579e51f4e",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 4.2939117789187094e-08,
+        "final_xyz_m": 1.545398172636244e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 4.2803421362869346e-08,
+          "final_xyz_m": 1.5405143844857665e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 6.954232490405308e-10,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 4.64,
+          "tracking_so3_rms_rad": 0.002658183795676216,
+          "tracking_xyz_p95_m": 0.00240668827312524,
+          "tracking_xyz_rms_m": 0.0009566923131397867
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 232,
+          "so3_rms_rad": 0.004216148330414536,
+          "xyz_p95_m": 0.0027290061196606893,
+          "xyz_rms_m": 0.0015174107619366681
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 233,
+          "so3_rms_rad": 0.004207091073271866,
+          "xyz_p95_m": 0.002728396588166655,
+          "xyz_rms_m": 0.001514151014322294
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 4.64,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-000",
+      "independent_entry": null,
+      "key": "pi0265-family-000-M1-c0-NEW-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M1-c0-NEW-E0.npz",
+      "source_sha256": "26df7cb7035d9eed54735e7cf7af59a966dcacf070392bf63bbfc979e6c451d0",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.3968267681407905e-08,
+        "final_xyz_m": 5.0272423710142195e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 3.939377787864907e-08,
+          "final_xyz_m": 1.4177997923930657e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 0.0,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 2.14,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 107,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 108,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 2.14,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-000",
+      "independent_entry": null,
+      "key": "pi0265-family-000-M1-c0-NEW-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M1-c0-NEW-E1.npz",
+      "source_sha256": "2f14912e59fe14ad0a60939fcfbab53d1abd5f40ddfa6bcbc81330e6ef23cf2a",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.3822119088180386e-08,
+        "final_xyz_m": 4.974642910402749e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.4916970797473868e-08,
+          "final_xyz_m": 5.368684955854905e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 4.906918988881198e-10,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.04,
+          "tracking_so3_rms_rad": 0.0028323440939891577,
+          "tracking_xyz_p95_m": 0.0024898301233927016,
+          "tracking_xyz_rms_m": 0.0010193733884368043
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 152,
+          "so3_rms_rad": 0.005436164365975091,
+          "xyz_p95_m": 0.0025572275881929557,
+          "xyz_rms_m": 0.0019565000246981384
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 153,
+          "so3_rms_rad": 0.005418369999521537,
+          "xyz_p95_m": 0.0025572275881929536,
+          "xyz_rms_m": 0.0019500957521151074
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.04,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-000",
+      "independent_entry": null,
+      "key": "pi0265-family-000-M1-c1-OLD-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M1-c1-OLD-E0.npz",
+      "source_sha256": "2479cbd2711dca6c37e0efe9569dc88586b4a223367a4bb1e07d62742d12e5c8",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.9859534544641733e-08,
+        "final_xyz_m": 1.1824868589805144e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.9859503569419346e-08,
+          "final_xyz_m": 1.1824850292366488e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 6.592849224756302e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.96,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 198,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 199,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.96,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-000",
+      "independent_entry": null,
+      "key": "pi0265-family-000-M1-c1-OLD-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M1-c1-OLD-E1.npz",
+      "source_sha256": "a6fe461040aba43f8f4bd05733be7ef6f4447d337293ff5861611682752e54d0",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 4.2939117816942663e-08,
+        "final_xyz_m": 2.5567035628694222e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 4.280342136286933e-08,
+          "final_xyz_m": 2.5486238494571686e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 1.150506823819557e-09,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 5.64,
+          "tracking_so3_rms_rad": 0.002658183795676214,
+          "tracking_xyz_p95_m": 0.003981620139817018,
+          "tracking_xyz_rms_m": 0.0015827497994407623
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 282,
+          "so3_rms_rad": 0.004562184176528925,
+          "xyz_p95_m": 0.004552655236261621,
+          "xyz_rms_m": 0.002716439736845241
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 283,
+          "so3_rms_rad": 0.004554116647357864,
+          "xyz_p95_m": 0.004551249940027508,
+          "xyz_rms_m": 0.002711636126124925
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 5.64,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-000",
+      "independent_entry": null,
+      "key": "pi0265-family-000-M1-c1-NEW-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M1-c1-NEW-E0.npz",
+      "source_sha256": "ec08dadbe8523085f74aea93eec5c7c12b770191183f57b53c8d0cf366175f24",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 7.536367391258734e-09,
+        "final_xyz_m": 4.487343562312326e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 7.536367391258734e-09,
+          "final_xyz_m": 4.487343562312326e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 1.3877787807814457e-17,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 4.48,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 224,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 225,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 4.48,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-000",
+      "independent_entry": null,
+      "key": "pi0265-family-000-M1-c1-NEW-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M1-c1-NEW-E1.npz",
+      "source_sha256": "6054113f0be45603aa73f49cdf17e2c2b214db8be150181f45f7c81a76d4c8df",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.2166215285214248e-08,
+        "final_xyz_m": 7.24407191654949e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.2166047946848868e-08,
+          "final_xyz_m": 7.24397226770335e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 5.205708118180723e-12,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 6.5600000000000005,
+          "tracking_so3_rms_rad": 0.00221708214188714,
+          "tracking_xyz_p95_m": 0.0025410862095487643,
+          "tracking_xyz_rms_m": 0.0013201067289340294
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 328,
+          "so3_rms_rad": 0.0033291266333783836,
+          "xyz_p95_m": 0.0025727324008875297,
+          "xyz_rms_m": 0.001982246118520232
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 329,
+          "so3_rms_rad": 0.0033240633199790545,
+          "xyz_p95_m": 0.0025727324008875292,
+          "xyz_rms_m": 0.0019792312937815027
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 6.5600000000000005,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-000",
+      "independent_entry": {
+        "acquired_index": 126,
+        "broad_index": 126,
+        "entry_arc_m": 0.0
+      },
+      "key": "pi0265-family-000-M3-c0-OLD-E0",
+      "old_first_violation_index": null,
+      "old_first_violation_precedes_v3_acquisition": null,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M3-c0-OLD-E0.npz",
+      "source_sha256": "6a53242d924e5ac9743c221d5cd386cffccc4622167c755911fc03232f190fae",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "broad_readiness_arc_m": 0.0,
+        "earliest_broad_readiness_s": 2.52,
+        "entry_arc_m": 0.0,
+        "entry_index": 126,
+        "entry_time_s": 2.52,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.8717170394533067e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 9.464268373449159e-09,
+        "movement_tracking": {
+          "rows": 676,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.012702877782000507,
+        "path_distance_p95_m": 6.243853200677355e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.03485905500362723,
+          "path_length_m": 0.03485905500362722,
+          "rows": 127
+        },
+        "qualification_tracking": {
+          "rows": 679,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 3,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 13.56,
+        "total_negative_variation_m": 5.187765283309875e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-000",
+      "independent_entry": {
+        "acquired_index": 180,
+        "broad_index": 180,
+        "entry_arc_m": -5.329070518200751e-17
+      },
+      "key": "pi0265-family-000-M3-c0-OLD-E1",
+      "old_first_violation_index": null,
+      "old_first_violation_precedes_v3_acquisition": null,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M3-c0-OLD-E1.npz",
+      "source_sha256": "a5847d7b458639a63976b64e3336999008440e4be8145742332bed630abf319a",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "broad_readiness_arc_m": -5.329070518200751e-17,
+        "earliest_broad_readiness_s": 3.6,
+        "entry_arc_m": -5.329070518200751e-17,
+        "entry_index": 180,
+        "entry_time_s": 3.6,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 8.26733931850345e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 5.1765410802318e-09,
+        "movement_tracking": {
+          "rows": 989,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0034502659468775526,
+          "xyz_rms_m": 0.0019105812112425096
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.01295602454840311,
+        "path_distance_p95_m": 0.0008059092187905171,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.03460590823722463,
+          "path_length_m": 0.03460590823722463,
+          "rows": 181
+        },
+        "qualification_tracking": {
+          "rows": 995,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.003448628644997369,
+          "xyz_rms_m": 0.0019048124377395996
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 6,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 3.003204808638784e-05,
+          "xyz_rms_m": 1.7475277895314898e-05
+        },
+        "time_to_success_s": 19.88,
+        "total_negative_variation_m": 1.7380502571384691e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-000",
+      "independent_entry": {
+        "acquired_index": 87,
+        "broad_index": 87,
+        "entry_arc_m": 1.7763568394002505e-17
+      },
+      "key": "pi0265-family-000-M3-c0-NEW-E0",
+      "old_first_violation_index": null,
+      "old_first_violation_precedes_v3_acquisition": null,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M3-c0-NEW-E0.npz",
+      "source_sha256": "a442bd53533042f577c06233bb7bae41796170c0725d085a78a7fff763b0c9b7",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "broad_readiness_arc_m": 1.7763568394002505e-17,
+        "earliest_broad_readiness_s": 1.74,
+        "entry_arc_m": 1.7763568394002505e-17,
+        "entry_index": 87,
+        "entry_time_s": 1.74,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 7.102858981368584e-09,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 1.8942632955543104e-08,
+        "movement_tracking": {
+          "rows": 566,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.012761932785627808,
+        "path_distance_p95_m": 3.165609009768769e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.03479999999999993,
+          "path_length_m": 0.034799999999999935,
+          "rows": 88
+        },
+        "qualification_tracking": {
+          "rows": 567,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 11.32,
+        "total_negative_variation_m": 4.957553452378216e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-000",
+      "independent_entry": {
+        "acquired_index": 128,
+        "broad_index": 128,
+        "entry_arc_m": 8.881784197001253e-17
+      },
+      "key": "pi0265-family-000-M3-c0-NEW-E1",
+      "old_first_violation_index": null,
+      "old_first_violation_precedes_v3_acquisition": null,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M3-c0-NEW-E1.npz",
+      "source_sha256": "e032468c68881f8e35333e41945c0ee0c0f5ab2a159e314c51c9bf93fb2bd192",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "broad_readiness_arc_m": 8.881784197001253e-17,
+        "earliest_broad_readiness_s": 2.56,
+        "entry_arc_m": 8.881784197001253e-17,
+        "entry_index": 128,
+        "entry_time_s": 2.56,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.146638781151373e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 2.9285017788538425e-09,
+        "movement_tracking": {
+          "rows": 831,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603394084,
+          "xyz_rms_m": 0.001988397032641567
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.013858700636134206,
+        "path_distance_p95_m": 0.0002667620072745204,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.033703232149493535,
+          "path_length_m": 0.03370323214949353,
+          "rows": 129
+        },
+        "qualification_tracking": {
+          "rows": 832,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603394084,
+          "xyz_rms_m": 0.0019872017232262775
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 16.62,
+        "total_negative_variation_m": 1.4715080503435722e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-000",
+      "independent_entry": {
+        "acquired_index": 172,
+        "broad_index": 155,
+        "entry_arc_m": -0.0009571137399819562
+      },
+      "key": "pi0265-family-000-M3-c1-OLD-E0",
+      "old_first_violation_index": 155,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M3-c1-OLD-E0.npz",
+      "source_sha256": "758d2cd0d49eef6fa1dcd2538c2b0a5595426c19add6d228235562fa34059909",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.003625360534484816,
+        "earliest_broad_readiness_s": 3.1,
+        "entry_arc_m": -0.0009571137399819562,
+        "entry_index": 172,
+        "entry_time_s": 3.44,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.8717170388399897e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009571137399819562,
+        "movement_tracking": {
+          "rows": 676,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.001363070285754349,
+        "path_distance_p95_m": 4.706047162695278e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.07354851854672281,
+          "path_length_m": 0.07354851854672281,
+          "rows": 173
+        },
+        "qualification_tracking": {
+          "rows": 679,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 3,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 13.56,
+        "total_negative_variation_m": 5.187759650837606e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-000",
+      "independent_entry": {
+        "acquired_index": 255,
+        "broad_index": 223,
+        "entry_arc_m": -0.0009319318493423801
+      },
+      "key": "pi0265-family-000-M3-c1-OLD-E1",
+      "old_first_violation_index": 223,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M3-c1-OLD-E1.npz",
+      "source_sha256": "845f43f696480d04fe7df67ee5df2acc9e51952bf9fb6129d8fbae532e44ad18",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.004314719464209542,
+        "earliest_broad_readiness_s": 4.46,
+        "entry_arc_m": -0.0009319318493423801,
+        "entry_index": 255,
+        "entry_time_s": 5.1000000000000005,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 8.30051715295155e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009319318493423801,
+        "movement_tracking": {
+          "rows": 991,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0037125905456134325,
+          "xyz_rms_m": 0.002133018786288682
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0013281492543161786,
+        "path_distance_p95_m": 0.0007735507601441086,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.07359125811483629,
+          "path_length_m": 0.0735912581148363,
+          "rows": 256
+        },
+        "qualification_tracking": {
+          "rows": 996,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0037120683613737857,
+          "xyz_rms_m": 0.0021276591466746464
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 5,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 4.780818468898924e-05,
+          "xyz_rms_m": 2.9967562702117543e-05
+        },
+        "time_to_success_s": 19.900000000000002,
+        "total_negative_variation_m": 1.7147164356856593e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-000",
+      "independent_entry": {
+        "acquired_index": 184,
+        "broad_index": 174,
+        "entry_arc_m": -0.0009267846955492942
+      },
+      "key": "pi0265-family-000-M3-c1-NEW-E0",
+      "old_first_violation_index": 174,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M3-c1-NEW-E0.npz",
+      "source_sha256": "e02f99ee63049e4808a817bf9a3996f0079219939ae8fab4687bffdc242a5027",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0034102362338584054,
+        "earliest_broad_readiness_s": 3.48,
+        "entry_arc_m": -0.0009267846955492942,
+        "entry_index": 184,
+        "entry_time_s": 3.68,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 7.102858980908597e-09,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009267846955492942,
+        "movement_tracking": {
+          "rows": 635,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.001321005343739365,
+        "path_distance_p95_m": 3.1361820650513397e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.07359999999999997,
+          "path_length_m": 0.07359999999999997,
+          "rows": 185
+        },
+        "qualification_tracking": {
+          "rows": 636,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 12.700000000000001,
+        "total_negative_variation_m": 4.7497190806211304e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-000",
+      "independent_entry": {
+        "acquired_index": 275,
+        "broad_index": 257,
+        "entry_arc_m": -0.0008182754762266598
+      },
+      "key": "pi0265-family-000-M3-c1-NEW-E1",
+      "old_first_violation_index": 257,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-000-M3-c1-NEW-E1.npz",
+      "source_sha256": "eb40049c05393204bdab7c007bddda70b7f6adfb8ce07d96ddb7bbcb07d1a198",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0038247257088245596,
+        "earliest_broad_readiness_s": 5.14,
+        "entry_arc_m": -0.0008182754762266598,
+        "entry_index": 275,
+        "entry_time_s": 5.5,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.1466387750795253e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0008182754762266598,
+        "movement_tracking": {
+          "rows": 933,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603396213,
+          "xyz_rms_m": 0.0019944135399606877
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0014320665379766956,
+        "path_distance_p95_m": 0.00023401055106106006,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.07357043878656806,
+          "path_length_m": 0.07358574010809163,
+          "rows": 276
+        },
+        "qualification_tracking": {
+          "rows": 934,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603396213,
+          "xyz_rms_m": 0.0019933455808265697
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 18.66,
+        "total_negative_variation_m": 1.3008201158015706e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-001",
+      "independent_entry": null,
+      "key": "pi0265-family-001-M1-c0-OLD-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M1-c0-OLD-E0.npz",
+      "source_sha256": "131a571b4a85b3fdb8d70c1b4b3eeffa2b0cc889e293db664b164417deddc0ea",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 4.604342213054836e-08,
+        "final_xyz_m": 1.2984836830047059e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 7.606163376916448e-08,
+          "final_xyz_m": 2.145035835658277e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 3.122535979166616e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.2800000000000002,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 164,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 165,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.2800000000000002,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-001",
+      "independent_entry": null,
+      "key": "pi0265-family-001-M1-c0-OLD-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M1-c0-OLD-E1.npz",
+      "source_sha256": "ae8770202f9983bb7e246c00ed5fa0364f2416702a893caf9f4ecab54479c8b3",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 7.281257674574022e-08,
+        "final_xyz_m": 2.0534082369229e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 5.766579375121621e-08,
+          "final_xyz_m": 1.6262494974714554e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 5.449175620915902e-10,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 4.6000000000000005,
+          "tracking_so3_rms_rad": 0.0026581837956825955,
+          "tracking_xyz_p95_m": 0.001885825342696135,
+          "tracking_xyz_rms_m": 0.0007496419995195418
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 230,
+          "so3_rms_rad": 0.004186788192035692,
+          "xyz_p95_m": 0.002139341392152971,
+          "xyz_rms_m": 0.0011807280884565347
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 231,
+          "so3_rms_rad": 0.004177716050948244,
+          "xyz_p95_m": 0.002138863777352822,
+          "xyz_rms_m": 0.0011781696280536971
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 4.6000000000000005,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-001",
+      "independent_entry": null,
+      "key": "pi0265-family-001-M1-c0-NEW-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M1-c0-NEW-E0.npz",
+      "source_sha256": "33f1b280b4b5d9b9c25387dca0f00812b44f0b4155ca2ecd5fc210be95495de6",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 5.370823510930659e-08,
+        "final_xyz_m": 1.5146412605243095e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 2.8282724912065408e-08,
+          "final_xyz_m": 7.976091928412082e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 6.938893903907228e-18,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 1.7,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 85,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 86,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 1.7,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-001",
+      "independent_entry": null,
+      "key": "pi0265-family-001-M1-c0-NEW-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M1-c0-NEW-E1.npz",
+      "source_sha256": "a40840c3be4c37c3b5f4a5ef77e0cee33665b01bf3cf8d24579f2695fc8cac8e",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 6.517560624530475e-08,
+        "final_xyz_m": 1.8380358705526116e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 6.51756061897936e-08,
+          "final_xyz_m": 1.8380358694453916e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 4.9892351118018054e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 2.46,
+          "tracking_so3_rms_rad": 0.0031774118380599324,
+          "tracking_xyz_p95_m": 0.0023876662156735256,
+          "tracking_xyz_rms_m": 0.0008960709817917846
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 123,
+          "so3_rms_rad": 0.006919819473241099,
+          "xyz_p95_m": 0.002542141437289132,
+          "xyz_rms_m": 0.0019514780410068177
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 124,
+          "so3_rms_rad": 0.00689186049234445,
+          "xyz_p95_m": 0.0025421414372891315,
+          "xyz_rms_m": 0.0019435932490003602
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 2.46,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-001",
+      "independent_entry": null,
+      "key": "pi0265-family-001-M1-c1-OLD-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M1-c1-OLD-E0.npz",
+      "source_sha256": "60cfb16b868f73652f18133f3ce3a19c1c2d6f5d8801e7b575a5fce546543ebb",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.9859534544641733e-08,
+        "final_xyz_m": 1.0959354976208598e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.9859503569419346e-08,
+          "final_xyz_m": 1.0959337959780754e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 6.109774381436648e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.88,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 194,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 195,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.88,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-001",
+      "independent_entry": null,
+      "key": "pi0265-family-001-M1-c1-OLD-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M1-c1-OLD-E1.npz",
+      "source_sha256": "0603e30a40c2251ef8f587e1959b2e6f8229f732c4a6aa60c730f4d15fa861ce",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 4.2939117816942663e-08,
+        "final_xyz_m": 2.369567284347286e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 4.280342136286933e-08,
+          "final_xyz_m": 2.362078972845294e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 1.066296368294625e-09,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 5.46,
+          "tracking_so3_rms_rad": 0.002658183795676224,
+          "tracking_xyz_p95_m": 0.0036901880327366745,
+          "tracking_xyz_rms_m": 0.0014669014530806026
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 273,
+          "so3_rms_rad": 0.00451161711953996,
+          "xyz_p95_m": 0.004229193665504144,
+          "xyz_rms_m": 0.0024897065880701815
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 274,
+          "so3_rms_rad": 0.004503376716095716,
+          "xyz_p95_m": 0.0042281355850243224,
+          "xyz_rms_m": 0.0024851591749808404
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 5.46,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-001",
+      "independent_entry": null,
+      "key": "pi0265-family-001-M1-c1-NEW-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M1-c1-NEW-E0.npz",
+      "source_sha256": "db7fbecdf16a0585e2d90a250a89bb9ad06af1d34dc916ce521876dda8a2e439",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 7.536367391258734e-09,
+        "final_xyz_m": 4.1588953423759515e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 7.536367391258734e-09,
+          "final_xyz_m": 4.1588953423759515e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 0.0,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 4.0600000000000005,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 203,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 204,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 4.0600000000000005,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-001",
+      "independent_entry": null,
+      "key": "pi0265-family-001-M1-c1-NEW-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M1-c1-NEW-E1.npz",
+      "source_sha256": "98d411cd0bb124b77ead3955fc674d296f7b7f5c438de1ee9a7ec543e5483a1c",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.216621531296983e-08,
+        "final_xyz_m": 6.713846803259262e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.2166282342684938e-08,
+          "final_xyz_m": 6.71388375831832e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 5.393958886028562e-10,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 5.92,
+          "tracking_so3_rms_rad": 0.002301258707586121,
+          "tracking_xyz_p95_m": 0.0025396267668512176,
+          "tracking_xyz_rms_m": 0.0012699346627435772
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 296,
+          "so3_rms_rad": 0.0036003268693254944,
+          "xyz_p95_m": 0.0025712547825756872,
+          "xyz_rms_m": 0.001986816985631073
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 297,
+          "so3_rms_rad": 0.0035942606023890576,
+          "xyz_p95_m": 0.0025712547825756872,
+          "xyz_rms_m": 0.0019834693556446477
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 5.92,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-001",
+      "independent_entry": {
+        "acquired_index": 168,
+        "broad_index": 146,
+        "entry_arc_m": 0.0009189492445223024
+      },
+      "key": "pi0265-family-001-M3-c0-OLD-E0",
+      "old_first_violation_index": 152,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M3-c0-OLD-E0.npz",
+      "source_sha256": "bf1caa608e9af9abcf655713c0e462fb2ab4f557c27ee0a2d05fe6d00424d04b",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": 0.003861941248765497,
+        "earliest_broad_readiness_s": 2.92,
+        "entry_arc_m": 0.0009189492445223024,
+        "entry_index": 168,
+        "entry_time_s": 3.36,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.8717170394533067e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009189492772890517,
+        "movement_tracking": {
+          "rows": 676,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0013154108751597285,
+        "path_distance_p95_m": 4.837447434040287e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.048648931705745295,
+          "path_length_m": 0.0486489317057453,
+          "rows": 169
+        },
+        "qualification_tracking": {
+          "rows": 679,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 3,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 13.56,
+        "total_negative_variation_m": 0.0009194680194239542
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-001",
+      "independent_entry": {
+        "acquired_index": 248,
+        "broad_index": 211,
+        "entry_arc_m": 0.0009760681591044751
+      },
+      "key": "pi0265-family-001-M3-c0-OLD-E1",
+      "old_first_violation_index": 218,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M3-c0-OLD-E1.npz",
+      "source_sha256": "bef61b6a310b39c3d966d3c4f95538ae27b16a01f9646f6f0a8e22157c9b49f0",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": 0.004275258876712655,
+        "earliest_broad_readiness_s": 4.22,
+        "entry_arc_m": 0.0009760681591044751,
+        "entry_index": 248,
+        "entry_time_s": 4.96,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 8.255866058565089e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009731117653204713,
+        "movement_tracking": {
+          "rows": 989,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0034501734734610433,
+          "xyz_rms_m": 0.001928964066242503
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0013949977024103285,
+        "path_distance_p95_m": 0.0007731980200687442,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.04855165996460523,
+          "path_length_m": 0.048551659964605226,
+          "rows": 249
+        },
+        "qualification_tracking": {
+          "rows": 995,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0034481760071651355,
+          "xyz_rms_m": 0.0019231398357686573
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 6,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 3.171351126516366e-05,
+          "xyz_rms_m": 1.84886599818712e-05
+        },
+        "time_to_success_s": 19.88,
+        "total_negative_variation_m": 0.000973284295523928
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-001",
+      "independent_entry": {
+        "acquired_index": 122,
+        "broad_index": 111,
+        "entry_arc_m": 0.000830521958029067
+      },
+      "key": "pi0265-family-001-M3-c0-NEW-E0",
+      "old_first_violation_index": 115,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M3-c0-NEW-E0.npz",
+      "source_sha256": "a7b38c31802cab6b9238a1a91e44af26da51a9d669b7a220fb82287615015db9",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": 0.003550358259637036,
+        "earliest_broad_readiness_s": 2.22,
+        "entry_arc_m": 0.000830521958029067,
+        "entry_index": 122,
+        "entry_time_s": 2.44,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 7.102858981368584e-09,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0006903791503961543,
+        "movement_tracking": {
+          "rows": 573,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.00119171102624216,
+        "path_distance_p95_m": 3.12653119997619e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.048799999999999934,
+          "path_length_m": 0.048799999999999934,
+          "rows": 123
+        },
+        "qualification_tracking": {
+          "rows": 574,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 11.46,
+        "total_negative_variation_m": 0.0006908749025151582
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-001",
+      "independent_entry": {
+        "acquired_index": 185,
+        "broad_index": 163,
+        "entry_arc_m": 0.0009128680906126441
+      },
+      "key": "pi0265-family-001-M3-c0-NEW-E1",
+      "old_first_violation_index": 170,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M3-c0-NEW-E1.npz",
+      "source_sha256": "79f750cf9584e643c9d1e2e674f0904c069f4d000a14b5039ae9e60e50d1e5da",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": 0.004212387326279768,
+        "earliest_broad_readiness_s": 3.2600000000000002,
+        "entry_arc_m": 0.0009128680906126441,
+        "entry_index": 185,
+        "entry_time_s": 3.7,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.1466387782074493e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 5.278002434449647e-05,
+        "movement_tracking": {
+          "rows": 844,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.002581787360339584,
+          "xyz_rms_m": 0.0019839245026413957
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0010597577389885834,
+        "path_distance_p95_m": 0.0001833060164207866,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.048861812056418576,
+          "path_length_m": 0.04888172368321436,
+          "rows": 186
+        },
+        "qualification_tracking": {
+          "rows": 845,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.002581787360339584,
+          "xyz_rms_m": 0.0019827502352981266
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 16.88,
+        "total_negative_variation_m": 5.292418880882702e-05
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-001",
+      "independent_entry": {
+        "acquired_index": 159,
+        "broad_index": 141,
+        "entry_arc_m": -0.0009793467587038227
+      },
+      "key": "pi0265-family-001-M3-c1-OLD-E0",
+      "old_first_violation_index": 141,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M3-c1-OLD-E0.npz",
+      "source_sha256": "80705491f56b9e57cb103c2ad97742ec4741fefff09f55bd0e7e4172cc47536d",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0030176418966999926,
+        "earliest_broad_readiness_s": 2.82,
+        "entry_arc_m": -0.0009793467587038227,
+        "entry_index": 159,
+        "entry_time_s": 3.18,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.8717170388399897e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.000979346758703823,
+        "movement_tracking": {
+          "rows": 676,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.004674487653942724,
+        "path_distance_p95_m": 5.257598168816111e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.07216961338387186,
+          "path_length_m": 0.07216961338387184,
+          "rows": 160
+        },
+        "qualification_tracking": {
+          "rows": 679,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 3,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 13.56,
+        "total_negative_variation_m": 5.187734260303487e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-001",
+      "independent_entry": {
+        "acquired_index": 234,
+        "broad_index": 202,
+        "entry_arc_m": -0.000971563119093286
+      },
+      "key": "pi0265-family-001-M3-c1-OLD-E1",
+      "old_first_violation_index": 202,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M3-c1-OLD-E1.npz",
+      "source_sha256": "ea5bf4fde7739bc9ffeb6df63976514134e6fc506f1d5969e8bc6fa762c58c31",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.003401493932101918,
+        "earliest_broad_readiness_s": 4.04,
+        "entry_arc_m": -0.000971563119093286,
+        "entry_index": 234,
+        "entry_time_s": 4.68,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 8.276868214023859e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009715631190932861,
+        "movement_tracking": {
+          "rows": 990,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0037150183685047333,
+          "xyz_rms_m": 0.0021506375803457987
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.004641299497603202,
+        "path_distance_p95_m": 0.0007825049474815845,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.07220352466146132,
+          "path_length_m": 0.07220352466146132,
+          "rows": 235
+        },
+        "qualification_tracking": {
+          "rows": 996,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0037135664268588622,
+          "xyz_rms_m": 0.002144151092880681
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 6,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 4.8583874209444566e-05,
+          "xyz_rms_m": 2.825918534866318e-05
+        },
+        "time_to_success_s": 19.900000000000002,
+        "total_negative_variation_m": 1.7178249962057645e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-001",
+      "independent_entry": {
+        "acquired_index": 181,
+        "broad_index": 160,
+        "entry_arc_m": -0.0009267211426739231
+      },
+      "key": "pi0265-family-001-M3-c1-NEW-E0",
+      "old_first_violation_index": 160,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M3-c1-NEW-E0.npz",
+      "source_sha256": "b961225921e2cf8590afb346dc19ffdf7134236b2f1a2aa8413aa6381cc40248",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0033271520915305075,
+        "earliest_broad_readiness_s": 3.2,
+        "entry_arc_m": -0.0009267211426739231,
+        "entry_index": 181,
+        "entry_time_s": 3.62,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 7.102858980908597e-09,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009267211426739231,
+        "movement_tracking": {
+          "rows": 640,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.004448989838069543,
+        "path_distance_p95_m": 3.1393433816348515e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.07240000000000005,
+          "path_length_m": 0.07240000000000003,
+          "rows": 182
+        },
+        "qualification_tracking": {
+          "rows": 641,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 12.8,
+        "total_negative_variation_m": 4.6804086021978414e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-001",
+      "independent_entry": {
+        "acquired_index": 271,
+        "broad_index": 238,
+        "entry_arc_m": -0.0009453896224286317
+      },
+      "key": "pi0265-family-001-M3-c1-NEW-E1",
+      "old_first_violation_index": 238,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-001-M3-c1-NEW-E1.npz",
+      "source_sha256": "637c4a752483691f36389aea57538913a762f6720dc52f18dafa7ae611d2cb4b",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0033470864620200836,
+        "earliest_broad_readiness_s": 4.76,
+        "entry_arc_m": -0.0009453896224286317,
+        "entry_index": 271,
+        "entry_time_s": 5.42,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.1466387721662672e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009453896224286318,
+        "movement_tracking": {
+          "rows": 943,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603396213,
+          "xyz_rms_m": 0.0019914850705842254
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.004529282498294024,
+        "path_distance_p95_m": 0.00018882137805497344,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.07231797315077858,
+          "path_length_m": 0.07231797315077859,
+          "rows": 272
+        },
+        "qualification_tracking": {
+          "rows": 944,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.002581787360339621,
+          "xyz_rms_m": 0.0019904299790820435
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 18.86,
+        "total_negative_variation_m": 1.322930043556878e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-002",
+      "independent_entry": null,
+      "key": "pi0265-family-002-M1-c0-OLD-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M1-c0-OLD-E0.npz",
+      "source_sha256": "b30f0f4494f3b0b2a8ab3ff40ad995cd016495e2e3de285ea09fa25d556fb53c",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.9859534544641733e-08,
+        "final_xyz_m": 1.1486491859059628e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.9859503569419346e-08,
+          "final_xyz_m": 1.1486474078336975e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 6.404009611903544e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.92,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 196,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 197,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.92,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-002",
+      "independent_entry": null,
+      "key": "pi0265-family-002-M1-c0-OLD-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M1-c0-OLD-E1.npz",
+      "source_sha256": "1bcb9890e67360bed8b079b462539ff9d03c58d81a139488a82572d77da73b83",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 4.2939117789187094e-08,
+        "final_xyz_m": 2.483541732253063e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 4.2803421362869346e-08,
+          "final_xyz_m": 2.4756932237391763e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 1.117584400842519e-09,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 5.6000000000000005,
+          "tracking_so3_rms_rad": 0.0026581837956762173,
+          "tracking_xyz_p95_m": 0.0038676833440004694,
+          "tracking_xyz_rms_m": 0.0015374583265239615
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 280,
+          "so3_rms_rad": 0.00457699960317798,
+          "xyz_p95_m": 0.004424851934922907,
+          "xyz_rms_m": 0.002647275994176588
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 281,
+          "so3_rms_rad": 0.004568848217183847,
+          "xyz_p95_m": 0.0044237429615556646,
+          "xyz_rms_m": 0.002642561340400662
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 5.6000000000000005,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-002",
+      "independent_entry": null,
+      "key": "pi0265-family-002-M1-c0-NEW-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M1-c0-NEW-E0.npz",
+      "source_sha256": "6fd33f3edde16c8c4f73e03dab3bad5347e7b8acd74910121f60f17b4cc401f7",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 7.536367391258734e-09,
+        "final_xyz_m": 4.35893515312431e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 7.536367391258734e-09,
+          "final_xyz_m": 4.35893515312431e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 0.0,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 4.32,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 216,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 217,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 4.32,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-002",
+      "independent_entry": null,
+      "key": "pi0265-family-002-M1-c0-NEW-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M1-c0-NEW-E1.npz",
+      "source_sha256": "c3e0f50cec17a7ceade2df3c208b24019fa220a05e55aecda1e1f2620d73a986",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.21662153129697e-08,
+        "final_xyz_m": 7.0367778952688e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.21663371044355e-08,
+          "final_xyz_m": 7.036848363124352e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 1.6920808783833886e-09,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 6.3,
+          "tracking_so3_rms_rad": 0.002249076359955772,
+          "tracking_xyz_p95_m": 0.0025405544930272696,
+          "tracking_xyz_rms_m": 0.0013008360002144043
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 315,
+          "so3_rms_rad": 0.003434381105507588,
+          "xyz_p95_m": 0.002572194062472362,
+          "xyz_rms_m": 0.001986400577607899
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 316,
+          "so3_rms_rad": 0.0034289426522056007,
+          "xyz_p95_m": 0.0025721940624723614,
+          "xyz_rms_m": 0.0019832550481956165
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 6.3,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-002",
+      "independent_entry": null,
+      "key": "pi0265-family-002-M1-c1-OLD-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M1-c1-OLD-E0.npz",
+      "source_sha256": "780550fe3fde3ae39f38534c5b7b64c3df5928306aa8b1621931acb931451a6d",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 2.6700975486182447e-08,
+        "final_xyz_m": 8.836822853655027e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 3.454426034110725e-08,
+          "final_xyz_m": 1.143259765121309e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 3.66439279603647e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.2800000000000002,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 164,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 165,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.2800000000000002,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-002",
+      "independent_entry": null,
+      "key": "pi0265-family-002-M1-c1-OLD-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M1-c1-OLD-E1.npz",
+      "source_sha256": "f3b52cb3cd4c996789606a66f424d0306ffed224fa1fa6bac6d7771ff8667510",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 4.2939117789187094e-08,
+        "final_xyz_m": 1.4210918124599797e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 4.280342136286934e-08,
+          "final_xyz_m": 1.4166008539871848e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 6.394861519652704e-10,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 4.6000000000000005,
+          "tracking_so3_rms_rad": 0.0026581837956762147,
+          "tracking_xyz_p95_m": 0.0022131027892217077,
+          "tracking_xyz_rms_m": 0.0008797393706029351
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 230,
+          "so3_rms_rad": 0.004186788192035448,
+          "xyz_p95_m": 0.0025106155352130895,
+          "xyz_rms_m": 0.001385638726298867
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 231,
+          "so3_rms_rad": 0.004177716050948,
+          "xyz_p95_m": 0.002510055032274413,
+          "xyz_rms_m": 0.001382636255324785
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 4.6000000000000005,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-002",
+      "independent_entry": null,
+      "key": "pi0265-family-002-M1-c1-NEW-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M1-c1-NEW-E0.npz",
+      "source_sha256": "f00a18597eac63619fde598a0075d616448ed9538f54d442b04e006b114d5b5a",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 4.366652855969378e-08,
+        "final_xyz_m": 1.4451658462946755e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 2.3477449179187815e-08,
+          "final_xyz_m": 7.769980531774062e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 0.0,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 1.94,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 97,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 98,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 1.94,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-002",
+      "independent_entry": null,
+      "key": "pi0265-family-002-M1-c1-NEW-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M1-c1-NEW-E1.npz",
+      "source_sha256": "387b2ea51741c47425f2c8e695e287434d667764b4cb2f07cb4a4ef193d855fe",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 3.5588924029994645e-08,
+        "final_xyz_m": 1.1778334554016817e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 2.0654174537337992e-08,
+          "final_xyz_m": 6.835603656013516e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 7.209568740851965e-10,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 2.82,
+          "tracking_so3_rms_rad": 0.0029479583787276054,
+          "tracking_xyz_p95_m": 0.0024445394123493317,
+          "tracking_xyz_rms_m": 0.0009756417343616007
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 141,
+          "so3_rms_rad": 0.005965470433583145,
+          "xyz_p95_m": 0.0025528182822909993,
+          "xyz_rms_m": 0.001974302609596544
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 142,
+          "so3_rms_rad": 0.005944428144263088,
+          "xyz_p95_m": 0.002552818282290999,
+          "xyz_rms_m": 0.00196733855752739
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 2.82,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-002",
+      "independent_entry": {
+        "acquired_index": 159,
+        "broad_index": 146,
+        "entry_arc_m": -0.0009699188586701269
+      },
+      "key": "pi0265-family-002-M3-c0-OLD-E0",
+      "old_first_violation_index": 146,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M3-c0-OLD-E0.npz",
+      "source_sha256": "e2de589354a4382b1ac603c465e896777802a51b36c32b39a52a5d15b2cedcf0",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0022145478919305406,
+        "earliest_broad_readiness_s": 2.92,
+        "entry_arc_m": -0.0009699188586701269,
+        "entry_index": 159,
+        "entry_time_s": 3.18,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 2.33964629073019e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009699188586701269,
+        "movement_tracking": {
+          "rows": 676,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.005664473107785145,
+        "path_distance_p95_m": 6.571999242515298e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.08691455203924292,
+          "path_length_m": 0.0869145520392429,
+          "rows": 160
+        },
+        "qualification_tracking": {
+          "rows": 679,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 3,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 13.56,
+        "total_negative_variation_m": 6.228847535094652e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-002",
+      "independent_entry": {
+        "acquired_index": 234,
+        "broad_index": 211,
+        "entry_arc_m": -0.0009622832164889015
+      },
+      "key": "pi0265-family-002-M3-c0-OLD-E1",
+      "old_first_violation_index": 211,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M3-c0-OLD-E1.npz",
+      "source_sha256": "5ab92961aca71d03e8dd8e1f54dadd9636865c676c91cdb111aa4ec84fdf5a06",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0024915444846733254,
+        "earliest_broad_readiness_s": 4.22,
+        "entry_arc_m": -0.0009622832164889015,
+        "entry_index": 234,
+        "entry_time_s": 4.68,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 9.95722480540505e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009622832164889018,
+        "movement_tracking": {
+          "rows": 990,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.004601745845024873,
+          "xyz_rms_m": 0.0026543983671380327
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.005624220397887484,
+        "path_distance_p95_m": 0.0009777583191659621,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.08695539171348488,
+          "path_length_m": 0.08695539171348488,
+          "rows": 235
+        },
+        "qualification_tracking": {
+          "rows": 995,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.004600737587179681,
+          "xyz_rms_m": 0.0026477219195172206
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 5,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 5.8885076122098834e-05,
+          "xyz_rms_m": 3.693704398971798e-05
+        },
+        "time_to_success_s": 19.88,
+        "total_negative_variation_m": 1.812446051907556e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-002",
+      "independent_entry": {
+        "acquired_index": 217,
+        "broad_index": 200,
+        "entry_arc_m": -0.0009913983964490614
+      },
+      "key": "pi0265-family-002-M3-c0-NEW-E0",
+      "old_first_violation_index": 200,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M3-c0-NEW-E0.npz",
+      "source_sha256": "0fd7019dbbe2c3d21ddde535349118721986c2260407176a2dd769fdf01f5ebe",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0024546825722216777,
+        "earliest_broad_readiness_s": 4.0,
+        "entry_arc_m": -0.0009913983964490614,
+        "entry_index": 217,
+        "entry_time_s": 4.34,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 8.878573664152354e-09,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009913983964490614,
+        "movement_tracking": {
+          "rows": 787,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.005777373943474256,
+        "path_distance_p95_m": 2.6035381770841278e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.08679999999999999,
+          "path_length_m": 0.08679999999999999,
+          "rows": 218
+        },
+        "qualification_tracking": {
+          "rows": 788,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 15.74,
+        "total_negative_variation_m": 4.952360992849243e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-002",
+      "independent_entry": {
+        "acquired_index": 325,
+        "broad_index": 296,
+        "entry_arc_m": -0.0009759919431689746
+      },
+      "key": "pi0265-family-002-M3-c0-NEW-E1",
+      "old_first_violation_index": 296,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M3-c0-NEW-E1.npz",
+      "source_sha256": "5cf9571f1c82a751b8616e154f8fc7fc9f4b7567ef3266effe6804344eae3242",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0026060260180698737,
+        "earliest_broad_readiness_s": 5.92,
+        "entry_arc_m": -0.0009759919431689746,
+        "entry_index": 325,
+        "entry_time_s": 6.5,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.4332984386648948e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009759919431689746,
+        "movement_tracking": {
+          "rows": 1162,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603396556,
+          "xyz_rms_m": 0.0019939460289469945
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.005696444164289971,
+        "path_distance_p95_m": 0.00015354328715467403,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.08688211412994612,
+          "path_length_m": 0.08688211412994612,
+          "rows": 326
+        },
+        "qualification_tracking": {
+          "rows": 1163,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.002581787360339655,
+          "xyz_rms_m": 0.0019930886021049636
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 23.240000000000002,
+        "total_negative_variation_m": 1.1847082914684395e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-002",
+      "independent_entry": {
+        "acquired_index": 168,
+        "broad_index": 146,
+        "entry_arc_m": 0.0009211235062857926
+      },
+      "key": "pi0265-family-002-M3-c1-OLD-E0",
+      "old_first_violation_index": 152,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M3-c1-OLD-E0.npz",
+      "source_sha256": "fe6ce850422577ee7265481f9c92661f6ea58d10058962f08c2e2089831dec64",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": 0.0039039198913296772,
+        "earliest_broad_readiness_s": 2.92,
+        "entry_arc_m": 0.0009211235062857926,
+        "entry_index": 168,
+        "entry_time_s": 3.36,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 2.3396462893808917e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009211235390526262,
+        "movement_tracking": {
+          "rows": 676,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0018891940779745976,
+        "path_distance_p95_m": 6.046803961286939e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.06379692432783865,
+          "path_length_m": 0.06379692432783865,
+          "rows": 169
+        },
+        "qualification_tracking": {
+          "rows": 679,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 3,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 13.56,
+        "total_negative_variation_m": 0.0009217463852674533
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-002",
+      "independent_entry": {
+        "acquired_index": 248,
+        "broad_index": 212,
+        "entry_arc_m": 0.000978525538503794
+      },
+      "key": "pi0265-family-002-M3-c1-OLD-E1",
+      "old_first_violation_index": 219,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M3-c1-OLD-E1.npz",
+      "source_sha256": "28d595a9a30a69a292a8ed1f85d179cb0f837d0528e0d09ab52b074d17f87abf",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": 0.004167355268293394,
+        "earliest_broad_readiness_s": 4.24,
+        "entry_arc_m": 0.000978525538503794,
+        "entry_index": 248,
+        "entry_time_s": 4.96,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 9.653848512465212e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009752531441644008,
+        "movement_tracking": {
+          "rows": 989,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0043127274310244225,
+          "xyz_rms_m": 0.00243309247338007
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.00200377291250983,
+        "path_distance_p95_m": 0.000967315002831571,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.06366936473524028,
+          "path_length_m": 0.06366936473524026,
+          "rows": 249
+        },
+        "qualification_tracking": {
+          "rows": 995,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.004310271185619419,
+          "xyz_rms_m": 0.0024257461535527923
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 6,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 4.159352975820353e-05,
+          "xyz_rms_m": 2.4235903964690907e-05
+        },
+        "time_to_success_s": 19.88,
+        "total_negative_variation_m": 0.0009754360398103175
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-002",
+      "independent_entry": {
+        "acquired_index": 160,
+        "broad_index": 144,
+        "entry_arc_m": 0.0008300699553532853
+      },
+      "key": "pi0265-family-002-M3-c1-NEW-E0",
+      "old_first_violation_index": 149,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M3-c1-NEW-E0.npz",
+      "source_sha256": "beabdea6ed9d471523e24820608c3d13dc6b7575ba23d072ce5063d06a04167d",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": 0.003905455114846168,
+        "earliest_broad_readiness_s": 2.88,
+        "entry_arc_m": 0.0008300699553532853,
+        "entry_index": 160,
+        "entry_time_s": 3.2,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 8.878573662925718e-09,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0007242004801717439,
+        "movement_tracking": {
+          "rows": 720,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.00170670462950853,
+        "path_distance_p95_m": 2.561080152334305e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.06399999999999993,
+          "path_length_m": 0.06399999999999993,
+          "rows": 161
+        },
+        "qualification_tracking": {
+          "rows": 721,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 14.4,
+        "total_negative_variation_m": 0.0007247303609348332
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-002",
+      "independent_entry": {
+        "acquired_index": 243,
+        "broad_index": 214,
+        "entry_arc_m": 0.0009584334679402229
+      },
+      "key": "pi0265-family-002-M3-c1-NEW-E1",
+      "old_first_violation_index": 220,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-002-M3-c1-NEW-E1.npz",
+      "source_sha256": "f14ac76796f7f350d416dbb7c4bbc7221b7249f6e9b05641cb41d0066df8adc5",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": 0.004147226989590336,
+        "earliest_broad_readiness_s": 4.28,
+        "entry_arc_m": 0.0009584334679402229,
+        "entry_index": 243,
+        "entry_time_s": 4.86,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.4332984613530663e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.00010424476359491842,
+        "movement_tracking": {
+          "rows": 1063,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603396634,
+          "xyz_rms_m": 0.001988357388175944
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.001193143338266136,
+        "path_distance_p95_m": 0.00014751730611116276,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.0644069816548933,
+          "path_length_m": 0.06448323435220085,
+          "rows": 244
+        },
+        "qualification_tracking": {
+          "rows": 1064,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603396616,
+          "xyz_rms_m": 0.0019874227900570133
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 21.26,
+        "total_negative_variation_m": 0.0001043803491500128
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-003",
+      "independent_entry": null,
+      "key": "pi0265-family-003-M1-c0-OLD-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M1-c0-OLD-E0.npz",
+      "source_sha256": "1a19c8efd68eec5003c95ce2d9c49f17dcf88258fac1f94126b1d8260b2590f2",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.9859534544641733e-08,
+        "final_xyz_m": 8.531080114734581e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.9859503569419346e-08,
+          "final_xyz_m": 8.531067005704276e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 4.75593519536082e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.56,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 178,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 179,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.56,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-003",
+      "independent_entry": null,
+      "key": "pi0265-family-003-M1-c0-OLD-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M1-c0-OLD-E1.npz",
+      "source_sha256": "6d6a8f1533603c1d796ce19b916a735eb2f9d173d13ff8df29a10e86d011d0dd",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 4.2939117816942663e-08,
+        "final_xyz_m": 1.8445399997205512e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 4.280342136286933e-08,
+          "final_xyz_m": 1.8387108654228127e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 8.300360284885511e-10,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 5.0200000000000005,
+          "tracking_so3_rms_rad": 0.0026581837956762156,
+          "tracking_xyz_p95_m": 0.002872549527323585,
+          "tracking_xyz_rms_m": 0.001141878689729567
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 251,
+          "so3_rms_rad": 0.004381279596636056,
+          "xyz_p95_m": 0.003307610762549448,
+          "xyz_rms_m": 0.0018820706879950685
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 252,
+          "so3_rms_rad": 0.004372577940386761,
+          "xyz_p95_m": 0.0033070507714341576,
+          "xyz_rms_m": 0.0018783327087580487
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 5.0200000000000005,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-003",
+      "independent_entry": null,
+      "key": "pi0265-family-003-M1-c0-NEW-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M1-c0-NEW-E0.npz",
+      "source_sha256": "96a3c6f1bcacab36187020a527533af607b078e3213bd2469ddd9b76827f7e82",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 7.536367391258734e-09,
+        "final_xyz_m": 3.237404901937028e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 7.536367391258734e-09,
+          "final_xyz_m": 3.237404901937028e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 1.3877787807814457e-17,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 2.84,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 142,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 143,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 2.84,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-003",
+      "independent_entry": null,
+      "key": "pi0265-family-003-M1-c0-NEW-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M1-c0-NEW-E1.npz",
+      "source_sha256": "6ce2506da6f499f5c473291ff6710bc0a9b93e2397022a500748fa88da8612b2",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.216621528521423e-08,
+        "final_xyz_m": 5.226253398310985e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.2166230134447186e-08,
+          "final_xyz_m": 5.226259770700185e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 9.646060897433842e-10,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 4.12,
+          "tracking_so3_rms_rad": 0.002598625417266984,
+          "tracking_xyz_p95_m": 0.0024968858016802663,
+          "tracking_xyz_rms_m": 0.0011162941371448173
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 206,
+          "so3_rms_rad": 0.0045848122411975695,
+          "xyz_p95_m": 0.0025644742573536013,
+          "xyz_rms_m": 0.001969502411063662
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 207,
+          "so3_rms_rad": 0.004573724408179503,
+          "xyz_p95_m": 0.0025644742573536,
+          "xyz_rms_m": 0.0019647393994693526
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 4.12,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-003",
+      "independent_entry": null,
+      "key": "pi0265-family-003-M1-c1-OLD-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M1-c1-OLD-E0.npz",
+      "source_sha256": "ab5b9728d2c3a35969182ba72882765475cdd192f30610b0bc2a172d0c4a4615",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.9859534544641733e-08,
+        "final_xyz_m": 1.011728281211609e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.9859503569419346e-08,
+          "final_xyz_m": 1.0117267195446688e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 5.640676494737626e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.7800000000000002,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 189,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 190,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.7800000000000002,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-003",
+      "independent_entry": null,
+      "key": "pi0265-family-003-M1-c1-OLD-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M1-c1-OLD-E1.npz",
+      "source_sha256": "295b01f60539d2235c71802fcc2192e44646e71a8dcca82b45eadfe250184706",
+      "task": "M1",
+      "teacher": "OLD",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 4.2939117789187094e-08,
+        "final_xyz_m": 2.1874994148662055e-08,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 4.2803421362869346e-08,
+          "final_xyz_m": 2.18058645769302e-08,
+          "gap_shortcut": false,
+          "min_xyz_m": 9.84366403012957e-10,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 5.36,
+          "tracking_so3_rms_rad": 0.002658183795676218,
+          "tracking_xyz_p95_m": 0.0034066490306741137,
+          "tracking_xyz_rms_m": 0.0013541907265700018
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 268,
+          "so3_rms_rad": 0.004481394677437714,
+          "xyz_p95_m": 0.00390912357781129,
+          "xyz_rms_m": 0.002283011101097507
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 269,
+          "so3_rms_rad": 0.004473057191746641,
+          "xyz_p95_m": 0.003908146795921317,
+          "xyz_rms_m": 0.0022787636349049407
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 5.36,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-003",
+      "independent_entry": null,
+      "key": "pi0265-family-003-M1-c1-NEW-E0",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M1-c1-NEW-E0.npz",
+      "source_sha256": "bb6f3c3e67a6de4d4cd2416dca8d32616dc63a6324dde6d2ff86bb31e02aa60d",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 7.536367391258734e-09,
+        "final_xyz_m": 3.839342780655353e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 7.536367391258734e-09,
+          "final_xyz_m": 3.839342780655353e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 1.3877787807814457e-17,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 3.64,
+          "tracking_so3_rms_rad": 0.0,
+          "tracking_xyz_p95_m": 0.0,
+          "tracking_xyz_rms_m": 0.0
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 182,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 183,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 3.64,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-003",
+      "independent_entry": null,
+      "key": "pi0265-family-003-M1-c1-NEW-E1",
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M1-c1-NEW-E1.npz",
+      "source_sha256": "300a7befed69d8298f34ae7a27b738be804fa36d5b923486d9eb6985916d38ae",
+      "task": "M1",
+      "teacher": "NEW",
+      "v2_success": true,
+      "v3": {
+        "entry_time_s": null,
+        "final_so3_rad": 1.2166215257458667e-08,
+        "final_xyz_m": 6.197982153598973e-09,
+        "gap_shortcut": false,
+        "legacy_v1_first20s": {
+          "final_so3_rad": 1.2166186363904453e-08,
+          "final_xyz_m": 6.197967480154338e-09,
+          "gap_shortcut": false,
+          "min_xyz_m": 9.272308617493858e-11,
+          "ordered_bins": [],
+          "progress_rad": [],
+          "reverse": false,
+          "safety_failure": false,
+          "start_admitted": true,
+          "success": true,
+          "time_to_success_s": 5.3,
+          "tracking_so3_rms_rad": 0.0023918312708722115,
+          "tracking_xyz_p95_m": 0.0025378359110404254,
+          "tracking_xyz_rms_m": 0.0012184995378437765
+        },
+        "max_backward_excursion_m": 0.0,
+        "movement_tracking": {
+          "rows": 265,
+          "so3_rms_rad": 0.0038855949113128538,
+          "xyz_p95_m": 0.002569441623796393,
+          "xyz_rms_m": 0.001979485618965218
+        },
+        "ordered_bins": [],
+        "path_distance_max_m": null,
+        "path_distance_p95_m": null,
+        "qualification_tracking": {
+          "rows": 266,
+          "so3_rms_rad": 0.0038782842841195695,
+          "xyz_p95_m": 0.0025694416237963926,
+          "xyz_rms_m": 0.0019757612777188903
+        },
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 5.3,
+        "total_negative_variation_m": 0.0
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-003",
+      "independent_entry": {
+        "acquired_index": 158,
+        "broad_index": 128,
+        "entry_arc_m": -0.0009510189489622966
+      },
+      "key": "pi0265-family-003-M3-c0-OLD-E0",
+      "old_first_violation_index": 128,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M3-c0-OLD-E0.npz",
+      "source_sha256": "4bb4b473b087ad5800feb957f4e45b8a42bb038980630c9a9f6690c1ffce62a5",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0038188138496719048,
+        "earliest_broad_readiness_s": 2.56,
+        "entry_arc_m": -0.0009510189489622966,
+        "entry_index": 158,
+        "entry_time_s": 3.16,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.8717170394533067e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009510189489622966,
+        "movement_tracking": {
+          "rows": 676,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0032243780575381105,
+        "path_distance_p95_m": 5.255904148655248e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.04756736418364415,
+          "path_length_m": 0.04756736418364416,
+          "rows": 159
+        },
+        "qualification_tracking": {
+          "rows": 679,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 3,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 13.56,
+        "total_negative_variation_m": 5.187764189074063e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-003",
+      "independent_entry": {
+        "acquired_index": 232,
+        "broad_index": 183,
+        "entry_arc_m": -0.0009791283930537808
+      },
+      "key": "pi0265-family-003-M3-c0-OLD-E1",
+      "old_first_violation_index": 183,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M3-c0-OLD-E1.npz",
+      "source_sha256": "86f77d3c646d80deafd401582ddccd598a5c5b1a4900dbcbabe3806fdcd1add6",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.004079490721272716,
+        "earliest_broad_readiness_s": 3.66,
+        "entry_arc_m": -0.0009791283930537808,
+        "entry_index": 232,
+        "entry_time_s": 4.64,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 8.276695262465468e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009791283930537808,
+        "movement_tracking": {
+          "rows": 990,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0034501140669039674,
+          "xyz_rms_m": 0.0019332274198502195
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.003317744157065232,
+        "path_distance_p95_m": 0.0007801288142194098,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.047470013029887057,
+          "path_length_m": 0.04747001302988706,
+          "rows": 233
+        },
+        "qualification_tracking": {
+          "rows": 996,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0034487685419672502,
+          "xyz_rms_m": 0.0019273961960598687
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 6,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 3.2163790326259776e-05,
+          "xyz_rms_m": 1.8698964221589877e-05
+        },
+        "time_to_success_s": 19.900000000000002,
+        "total_negative_variation_m": 1.7175991207096794e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 0,
+      "family": "pi0265-family-003",
+      "independent_entry": {
+        "acquired_index": 119,
+        "broad_index": 95,
+        "entry_arc_m": -0.0009416025629775681
+      },
+      "key": "pi0265-family-003-M3-c0-NEW-E0",
+      "old_first_violation_index": 95,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M3-c0-NEW-E0.npz",
+      "source_sha256": "6bdf16000feca9df5e7326664cb8fc57445be604b8765c763812a8eb3e0b8d93",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.0038658710817543523,
+        "earliest_broad_readiness_s": 1.9000000000000001,
+        "entry_arc_m": -0.0009416025629775681,
+        "entry_index": 119,
+        "entry_time_s": 2.38,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 7.102858981368584e-09,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009416025629775681,
+        "movement_tracking": {
+          "rows": 575,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.003193077166659276,
+        "path_distance_p95_m": 3.1260965872463574e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.04760000000000014,
+          "path_length_m": 0.047600000000000135,
+          "rows": 120
+        },
+        "qualification_tracking": {
+          "rows": 576,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 11.5,
+        "total_negative_variation_m": 4.957584807740967e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 0,
+      "family": "pi0265-family-003",
+      "independent_entry": {
+        "acquired_index": 177,
+        "broad_index": 141,
+        "entry_arc_m": -0.0009965845740259561
+      },
+      "key": "pi0265-family-003-M3-c0-NEW-E1",
+      "old_first_violation_index": 141,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M3-c0-NEW-E1.npz",
+      "source_sha256": "34afda37f451ca3ca76c721a1cded1629db0c95354e866dc6b624a926842095a",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.003935670267612732,
+        "earliest_broad_readiness_s": 2.82,
+        "entry_arc_m": -0.0009965845740259561,
+        "entry_index": 177,
+        "entry_time_s": 3.54,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.1466387782074493e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009965845740259561,
+        "movement_tracking": {
+          "rows": 846,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603395628,
+          "xyz_rms_m": 0.001990190722295621
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0033756709063410472,
+        "path_distance_p95_m": 0.0001834861512431745,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.04740961146725737,
+          "path_length_m": 0.04740961146725737,
+          "rows": 178
+        },
+        "qualification_tracking": {
+          "rows": 847,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603395628,
+          "xyz_rms_m": 0.00198901552838016
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 16.92,
+        "total_negative_variation_m": 1.4731223142661056e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-003",
+      "independent_entry": {
+        "acquired_index": 168,
+        "broad_index": 146,
+        "entry_arc_m": -0.0009189492445223559
+      },
+      "key": "pi0265-family-003-M3-c1-OLD-E0",
+      "old_first_violation_index": 146,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M3-c1-OLD-E0.npz",
+      "source_sha256": "ffd2cbae0798dd99fbe51edca3b9efdd162d625f987dab9af6cf3fb485a17c76",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.003861941248765497,
+        "earliest_broad_readiness_s": 2.92,
+        "entry_arc_m": -0.0009189492445223559,
+        "entry_index": 168,
+        "entry_time_s": 3.36,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.87171703920798e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009189492445223558,
+        "movement_tracking": {
+          "rows": 676,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0017163472806740775,
+        "path_distance_p95_m": 4.885523557772557e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.05908933514274521,
+          "path_length_m": 0.05908933514274521,
+          "rows": 169
+        },
+        "qualification_tracking": {
+          "rows": 679,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 3,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 13.56,
+        "total_negative_variation_m": 5.187761944824833e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-003",
+      "independent_entry": {
+        "acquired_index": 248,
+        "broad_index": 211,
+        "entry_arc_m": -0.0009760681591042442
+      },
+      "key": "pi0265-family-003-M3-c1-OLD-E1",
+      "old_first_violation_index": 211,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M3-c1-OLD-E1.npz",
+      "source_sha256": "ca47fddac922d49485ba6feb03c2dbbd12749f51d1d89f5391c63a453a6befb2",
+      "task": "M3",
+      "teacher": "OLD",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.004275258876712158,
+        "earliest_broad_readiness_s": 4.22,
+        "entry_arc_m": -0.0009760681591042442,
+        "entry_index": 248,
+        "entry_time_s": 4.96,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 8.288303846049225e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0009760681591042442,
+        "movement_tracking": {
+          "rows": 991,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.003509988783263306,
+          "xyz_rms_m": 0.002008731611008752
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0018204189018702704,
+        "path_distance_p95_m": 0.0007743550104553819,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.058971188200755156,
+          "path_length_m": 0.058971188200755156,
+          "rows": 249
+        },
+        "qualification_tracking": {
+          "rows": 996,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0035093580491622426,
+          "xyz_rms_m": 0.002003684011103637
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 5,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 3.8796780979629294e-05,
+          "xyz_rms_m": 2.4318662494553472e-05
+        },
+        "time_to_success_s": 19.900000000000002,
+        "total_negative_variation_m": 1.7163178998913523e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E0",
+      "command": 1,
+      "family": "pi0265-family-003",
+      "independent_entry": {
+        "acquired_index": 148,
+        "broad_index": 134,
+        "entry_arc_m": -0.0008655764311596315
+      },
+      "key": "pi0265-family-003-M3-c1-NEW-E0",
+      "old_first_violation_index": 134,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M3-c1-NEW-E0.npz",
+      "source_sha256": "ccc95b962c9249b600c2c2eede3d2b82bacf1a88173ea56a8a8efbef3cece4e9",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.003727601902131301,
+        "earliest_broad_readiness_s": 2.68,
+        "entry_arc_m": -0.0008655764311596315,
+        "entry_index": 148,
+        "entry_time_s": 2.96,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 7.102858981368584e-09,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.0008655764311596315,
+        "movement_tracking": {
+          "rows": 600,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.0016188323102180723,
+        "path_distance_p95_m": 3.1219990724945524e-06,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.059200000000000044,
+          "path_length_m": 0.059200000000000044,
+          "rows": 149
+        },
+        "qualification_tracking": {
+          "rows": 601,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 12.0,
+        "total_negative_variation_m": 4.818977745912856e-07
+      },
+      "v3_success": true
+    },
+    {
+      "backend": "E1",
+      "command": 1,
+      "family": "pi0265-family-003",
+      "independent_entry": {
+        "acquired_index": 219,
+        "broad_index": 198,
+        "entry_arc_m": -0.000954301859911304
+      },
+      "key": "pi0265-family-003-M3-c1-NEW-E1",
+      "old_first_violation_index": 198,
+      "old_first_violation_precedes_v3_acquisition": true,
+      "source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0267/S1/pi0265-family-003-M3-c1-NEW-E1.npz",
+      "source_sha256": "9892a9ec53f4daa13cbc14f2725474a746faffe0a4848ed315954e914bb20307",
+      "task": "M3",
+      "teacher": "NEW",
+      "v2_success": false,
+      "v3": {
+        "broad_readiness_arc_m": -0.003964797005924564,
+        "earliest_broad_readiness_s": 3.96,
+        "entry_arc_m": -0.000954301859911304,
+        "entry_index": 219,
+        "entry_time_s": 4.38,
+        "final_so3_rad": 0.0,
+        "final_xyz_m": 1.1466387762448322e-08,
+        "gap_shortcut": false,
+        "max_backward_excursion_m": 0.000954301859911304,
+        "movement_tracking": {
+          "rows": 884,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0025817873603396525,
+          "xyz_rms_m": 0.0019928153970730934
+        },
+        "ordered_bins": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "path_distance_max_m": 0.00193912274477959,
+        "path_distance_p95_m": 0.00018347225420859442,
+        "pre_acquisition_motion": {
+          "displacement_m": 0.058876773389347214,
+          "path_length_m": 0.058881855354157416,
+          "rows": 220
+        },
+        "qualification_tracking": {
+          "rows": 885,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.002581787360339652,
+          "xyz_rms_m": 0.001991689194441711
+        },
+        "reason": null,
+        "reverse": false,
+        "safety_failure": false,
+        "schema": "PI0267_PATH_V3_OBSERVABLE_ENTRY",
+        "success": true,
+        "terminal_hold_tracking": {
+          "rows": 1,
+          "so3_rms_rad": 0.0,
+          "xyz_p95_m": 0.0,
+          "xyz_rms_m": 0.0
+        },
+        "time_to_success_s": 17.68,
+        "total_negative_variation_m": 1.383279061428766e-07
+      },
+      "v3_success": true
+    }
+  ],
+  "selected_checkpoint": "NONE",
+  "status": "PASS_V3_SAVED_ARRAY_READMISSION_CONTINUE_S2"
+}

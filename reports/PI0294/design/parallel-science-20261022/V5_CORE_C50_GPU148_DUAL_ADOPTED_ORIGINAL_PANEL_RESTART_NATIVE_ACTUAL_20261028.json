@@ -1,0 +1,54 @@
+{
+  "status": "ACTUAL_GPU148_DUAL_ONCE_ADOPTED_ORIGINAL_C50_COLD_CONTINUATION_REGISTERED_AND_NATIVE_STARTED",
+  "runtime_source": "090b5d301a031804500d72e9863386a9bd6aa384",
+  "human_answer": "批准仅GPU总上限147→148小时",
+  "cap_before_s": 529200,
+  "cap_after_s": 532800,
+  "cap_actual_dual": {
+    "GLOBAL_sha256": "00315ad0ea22f9439b70973c0412ae66738347045829af78d04174c501816081",
+    "LOCAL_sha256": "c354086f3c104475bd1665af0e00418c07e91f2d20636dc0d89c85e86609f525",
+    "independent_reconcile": true
+  },
+  "continuation_actual_dual": {
+    "GLOBAL_sha256": "7e3bde053688f8ce85d4f72345d3a9a4facc04dfa252e685ff3e52c27005bdab",
+    "LOCAL_sha256": "7068dcd44f1c39b9e6819df06aee78fb59f3451f020e08f18f3e0bdca3b37d5b",
+    "independent_reconcile": true
+  },
+  "request_id": "ed3880cd-2a21-4855-84aa-ec8d943104cb",
+  "run_uuid": "v5-cd-c50-n294101-10",
+  "source_files": 1257,
+  "source_bytes": 10447258,
+  "source_install_actual_statuses": {
+    "CORE": "CD_CORE_IMMUTABLE_FULL_SOURCE_ACTUAL_INSTALLED_NO_NATIVE_GO",
+    "VANDA": "CD_CORE_IMMUTABLE_FULL_SOURCE_ACTUAL_INSTALLED_NO_NATIVE_GO"
+  },
+  "owner_manifest_sha256": "f0a4a066ada42f763c07c4365a5e92f1bd07233ef914f90a0d162e268f43a501",
+  "observed_epoch": 1793125447.4115047,
+  "live_processes": {
+    "v5-cd-c50-eval-owner-09.service": {
+      "pid": 1702142,
+      "uid": 2009,
+      "proc_start": 289454389,
+      "state": "S"
+    },
+    "v5-cd-c50-n294101-10-neural.service": {
+      "pid": 1702251,
+      "uid": 2009,
+      "proc_start": 289454871,
+      "state": "S"
+    }
+  },
+  "native_started": true,
+  "original_600s_80cycles_qualification": "IN_PROGRESS_NOT_YET_PASS",
+  "model_release": false,
+  "new_model_or_behavior_claim": false,
+  "behavior_valid_conditions": {
+    "C50": 0,
+    "D25": 0,
+    "GEN1": 0
+  },
+  "E1_E2_native": "NOT_RUN",
+  "old_caps_except_H200_original_clocks_R0_recipe_safety_scoring_all_history_preserved": true,
+  "new_PBS": 0,
+  "next_minimum_blocker": "original bound native600s80cycle qualification then fresh same-process resource proof and original model release; no concurrent Vanda training against strict active Core capsule"
+}

@@ -1,0 +1,92 @@
+{
+  "parent_saved42": [
+    {
+      "name": "initialization.jsonl",
+      "sha256": "7f2138a06e04c9157c9d63a3b8e1cb0cd468c1801e5ee8eec718dea1acdda5f5",
+      "bytes": 349
+    },
+    {
+      "name": "sim.log",
+      "sha256": "1533440690818fd177ee7a082eae605e5384552a6b156e77fbd2336f1dea20c6",
+      "bytes": 2465
+    },
+    {
+      "name": "wbc.log",
+      "sha256": "53fac473956ec9b98c766b9ccbf560a7f4f04ef10202ec9776e37a062d545073",
+      "bytes": 58462
+    },
+    {
+      "name": "physics.jsonl",
+      "sha256": "fdca15b6d3e509e8923d3bff058e23fc4d5a6aed5f3f101b79c2f4245e9f1ba0",
+      "bytes": 89353
+    },
+    {
+      "name": "START.json",
+      "sha256": "c64b97fac3776226361806fbf4ed0abe93bd9c2bf6fbdfe6bee735ecba45567b",
+      "bytes": 636
+    },
+    {
+      "name": "RESULT.json",
+      "sha256": "aee12ac7122cd202ff1e55859bb4e07cff1e9aa814254d67b0f3b44fd88df6a9",
+      "bytes": 352
+    },
+    {
+      "name": "PREEXECUTION_AUDIT.json",
+      "sha256": "8120cf364194a0c463dc413eac4327dcea712389987cda79cfa0ccd56c0af158",
+      "bytes": 8766
+    },
+    {
+      "name": "ros.jsonl",
+      "sha256": "525e999495fc84dd58e2a7651cdb350a9ced5a5a06a7bab34d476d5e576e72b0",
+      "bytes": 26596
+    }
+  ],
+  "source": [
+    {
+      "path": "src/ctrl/rl_sar/src/rl_sar/src/rl_sim_mujoco.cpp",
+      "sha256": "e05de9ee87d3030871743445a50b2e69e4565e3a786429b8566f24b012263d29"
+    },
+    {
+      "path": "src/ctrl/rl_sar/src/rl_sar/fsm_robot/fsm_go2_x5.hpp",
+      "sha256": "07bc071f8bb589b6407ba50f5aa282c21b1657b4faa4503927641fdf770ec39f"
+    },
+    {
+      "path": "src/ctrl/rl_sar/src/rl_sar/library/core/rl_sdk/rl_sdk.cpp",
+      "sha256": "f0109bd5a812fdac3b3b7befa180c6cfac8370cfab93afeb5b83dec576c190e0"
+    },
+    {
+      "path": "src/ctrl/go2_x5_ocs2/config/task_floating.info",
+      "sha256": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca"
+    }
+  ],
+  "physics_integrations": 0,
+  "GR00T_forward": 0,
+  "original_force_channels": "UNOBSERVED",
+  "reconstruction": "mj_forward at saved state; fresh data, no original solver warmstart; not actual measured force or unique cause proof",
+  "startup_variant": "V1_MPC_INITIAL_ARM_PAUSED_HOLD",
+  "arm": [
+    0,
+    0.9,
+    0.9,
+    0,
+    0,
+    0
+  ],
+  "source_initial_arm_lines": [
+    182,
+    192
+  ],
+  "gain_normalizer_MPC_RL_changes": false,
+  "parent_local_hash_checked": [
+    "initialization.jsonl",
+    "sim.log",
+    "physics.jsonl",
+    "START.json",
+    "RESULT.json",
+    "PREEXECUTION_AUDIT.json",
+    "ros.jsonl"
+  ],
+  "parent_remote_only": [
+    "wbc.log"
+  ]
+}

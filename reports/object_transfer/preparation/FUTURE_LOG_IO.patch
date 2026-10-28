@@ -1,0 +1,38 @@
+--- a/scripts/pi0273_execution/train.py
++++ b/scripts/pi0273_execution/train.py
+@@ -130,6 +130,11 @@
+     assert config.training.warmup_steps==10 and config.training.max_grad_norm==1. and config.training.weight_decay==1e-5
+     audit=hooks(args,output)
+     from gr00t.experiment import experiment
++    closed_packets=None
++    if args.arm=='TARGET':
++        other=ROOT/'BROAD'/args.phase/'training/step_rng.jsonl'
++        closed_stat=other.stat()
++        closed_packets=read_lines(other)
+     class Trainer(experiment.Gr00tTrainer):
+         def training_step(self,model,inputs,*pos,**kw):
+             if not getattr(self,'scope_checked',False):
+@@ -151,12 +156,20 @@
+             if args.resume and not getattr(self,'rng_synced',False):
+                 assert self.args.dataloader_num_workers==0 and self.state.global_step==args.resume
+                 self._load_rng_state(str(output/f'checkpoint-{args.resume}'));self.rng_synced=True
++            rng_path=output/'step_rng.jsonl'
++            position=rng_path.stat().st_size if rng_path.exists() else 0
+             result=super().training_step(model,inputs,*pos,**kw)
+             assert audit['native_mode_snapshot']==[m.training for m in model.action_head.modules()]
+-            row=read_lines(output/'step_rng.jsonl')[-1];assert np.isfinite(row['loss'])
++            with rng_path.open('rb') as stream:
++                stream.seek(position);line=stream.readline()
++                assert line.endswith(b'\n') and not stream.read(1)
++                row=json.loads(line)
++            assert np.isfinite(row['loss'])
+             if args.arm=='TARGET':
+-                other=ROOT/'BROAD'/args.phase/'training/step_rng.jsonl'
+-                expected=read_lines(other)[2*(row['unit']-1)+row['micro']]
++                current=other.stat()
++                for name in ('st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns'):
++                    assert getattr(current,name)==getattr(closed_stat,name),'CLOSED_RANDOM_PACKETS_CHANGED'
++                expected=closed_packets[2*(row['unit']-1)+row['micro']]
+                 for k in ('unit','micro','command','seed','native_epsilon','native_tau','stock_initial_noise','mode_restored'):
+                     assert row[k]==expected[k],('MATCHED_PACKET',k,row['unit'])
+             gradients=audit['first_update_euler_gradient_norms'];target=output/'S4_first_update_gradients.json'

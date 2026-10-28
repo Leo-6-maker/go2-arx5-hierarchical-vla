@@ -1,0 +1,31 @@
+{
+  "status": "PASS_CPU_PAUSE_SYNCHRONIZATION_BUILD_ONLY",
+  "source": "c42ca318f042be2e470182be96ffed8cf8f8fad4",
+  "original_clock_binaries": {
+    "rl_sim_mujoco": "ef16df59267d255e0874eed1b5635e389f6f264248810a2c8707c62a8aeffc7f",
+    "go2_x5_ocs2_node": "885042aee96eec2761e5cc9c1598194c94181bebe0de0548eb48b1110ddaa186"
+  },
+  "binary_sha256": {
+    "rl_sim_mujoco": "a97374dce8ab9a61e30bacb11958c9589cbfafa8d5b91d5830248632e40a6d94"
+  },
+  "sources": {
+    "rl_sim_mujoco.cpp": "2f59f90ebce46c3a7f06bd860942ee3f1826e8c22138b0581eeb73e66ff05347",
+    "rl_sim_mujoco.hpp": "06cf01b0ae34c3b406a02b772fc5f80945b9f4c6dfd2bcd7e720250f1422e1be",
+    "mujoco_utils.hpp": "7d16639421e692778c0f5f20abb7de4464c783508758d46aa555214da56bd8e3"
+  },
+  "private_diff_sha256": "277c12e9fac730798b39af4b0cecfd51fdc404c9435672449279747a2daf1f27",
+  "normal_native_N1_sim_mutex_conditional_restored": true,
+  "full_native_RunModel_computation_equal": true,
+  "full_native_SetCommand_equal": true,
+  "normal_PD_progress_during_inflight_inference_CPU_PASS": true,
+  "pause_waits_for_inflight_inference_CPU_PASS": true,
+  "nested_pause_lock_CPU_PASS": true,
+  "native_period_changes": 0,
+  "controller_math_changes": 0,
+  "gain_changes": 0,
+  "safety_threshold_changes": 0,
+  "physics_changes": 0,
+  "old_pause_binary_preserved": true,
+  "new_physics": 0,
+  "new_neural_queries": 0
+}

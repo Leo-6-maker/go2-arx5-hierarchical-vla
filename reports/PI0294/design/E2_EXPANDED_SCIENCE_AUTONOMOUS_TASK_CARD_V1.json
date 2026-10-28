@@ -1,0 +1,336 @@
+{
+  "schema": "PI0294_E2_EXPANDED_SCIENCE_AUTONOMOUS_V1",
+  "issue": 11,
+  "date_SGT": "2026-10-17",
+  "status": "USER_AUTHORIZED_BOUNDED_GO_PENDING_ACTUAL_OWNER_AND_SITE_ADOPTION",
+  "scientific_intent": "Complete demonstrably valid source-task learning, on-student-state corrective imitation, frozen-WBC fullbody execution and small-target-data adaptation, in independently qualified stages.",
+  "authority": "USER_REQUEST_TO_AUTHORIZE_MORE_FINITE_BUDGET_AND_UPDATE_LONG_HORIZON_GOAL",
+  "publication_is_execution": false,
+  "site_resources_are_preapproved_by_publication": false,
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "branch": "pi0267/executor-decoupled-recovery",
+  "review_base": "8fdb2a179f5db88c294fea4182c2d177a2e2801a",
+  "protocol": "docs/protocols/PI0294_E2_EXPANDED_SCIENCE_AUTONOMOUS_GO_V1.md",
+  "roadmap": "docs/roadmap/2026-10-17_GR00T_WBC_SCIENCE_LONG_HORIZON_ROADMAP_V2.md",
+  "handoff": "docs/handover/2026-10-17/E2_EXPANDED_SCIENCE_EXECUTE.md",
+  "owner": "EXISTING_SINGLE_LOCAL_PC_OWNER_WITH_EXISTING_UNIFIED_ENTRY",
+  "old_runs": {
+    "E0": {
+      "release": "208175f9ccec24edcac4bb50629676c43f2bad3f",
+      "status": "CLOSED",
+      "attempted": 12,
+      "valid_fail": 11,
+      "engineering_incomplete": 1,
+      "train_success": "0/3",
+      "dev_success": "0/8",
+      "live_native_failures": 0
+    },
+    "E1": {
+      "release": "c851cc791e1fbb3efb293f7075f0e771518cf5c0",
+      "run": "20261016T150228Z-localpc-e1",
+      "original_T0_SGT": "2026-10-16T23:02:28+08:00",
+      "hard_closeout_SGT": "2026-10-18T11:02:28+08:00",
+      "original_H200_hours": 8,
+      "original_PBS_max": 3,
+      "last_published_own_gpu_job": "670729.hopper-m-02",
+      "last_published_status": "R_SNAPSHOT_NOT_LIVE_QUERY",
+      "preserve_science_failures": true,
+      "preserve_protocol_scope_deviation": true,
+      "extend_or_repeat_old_conditions": false
+    },
+    "Vanda": {
+      "old_jobs": [
+        "1462438.stdct-mgmt-02",
+        "1462451.stdct-mgmt-02",
+        "1462595.stdct-mgmt-02"
+      ],
+      "last_published_state": "Q_H_Q_SNAPSHOT_NOT_LIVE_QUERY",
+      "existing_adoption_independent": true,
+      "do_not_duplicate_or_reset": true
+    },
+    "Fullbody_TF_R3": {
+      "native_safety_stop_retained": true,
+      "complete_target_success_seeds_at_review": 0,
+      "old_worker_restart_under_E2": false
+    }
+  },
+  "current_new_evidence": {
+    "M1_train_updates": 1024,
+    "M1_fixed_source_T1_success": {
+      "split": "TRAIN",
+      "layout": "F0/000",
+      "duration_s": 32,
+      "task": "T1",
+      "actual_integrations": 16000,
+      "RGB_pairs": 641,
+      "object_lift_m": 0.08353574116917467,
+      "object_carry_m": 0.17690587418978276,
+      "hold_pass": "41/41",
+      "native_faults": 0,
+      "preexecution_S1_rejections": 0,
+      "teacher_takeover": false,
+      "independent_audit": "PASS_ACTUAL_FULL_TASK_NOT_TARGET_WBC"
+    },
+    "T1_source_recovery": {
+      "qualified": true,
+      "full_fork_successes": 2,
+      "independent_E0_student_episodes": 2
+    },
+    "T2_source_recovery": {
+      "qualified": false,
+      "full_fork_successes": 0,
+      "full_forks_attempted": 2
+    },
+    "C0_source_correction_bank": {
+      "independent_E0_student_episodes": 2,
+      "source_segments": 6,
+      "deduplicated_H40_windows": 833,
+      "status": "E0_STATE_AGGREGATION_ONLY_NOT_ONLINE_M1_DAGGER"
+    },
+    "E1_remaining_M1_M2_results": "UNKNOWN_PENDING_ACTUAL_TERMINAL_REFRESH"
+  },
+  "adoption": {
+    "register_once": "E2_ADOPTION_AND_RESOURCE_BINDING",
+    "T0": "ACTUAL_NEW_E2_OWNER_AND_SITE_BINDING_NOT_BACKDATED",
+    "dependency": "PRE_FIRST_E2_GPU_PHYSICS_VERIFY_RELEVANT_E1_GPU_AND_SOURCE_LEASE_TERMINAL_AND_VANDA_PEER_ISOLATION",
+    "old_T0_counters_and_closures_unchanged": true,
+    "user_go_needs_no_second_routine_approval": true,
+    "science_site_permission_required": true,
+    "no_unlimited_refresh": true,
+    "queue_admission_days_after_T0": 10,
+    "no_new_science_starts_days_after_T0": 21,
+    "hard_closeout_days_after_T0": 28,
+    "last_hours_audit_only": 24,
+    "milestones_days": [
+      7,
+      14,
+      21
+    ]
+  },
+  "incremental_budget": {
+    "GPU": {
+      "Hopper_H200": {
+        "hours_allocated_max": 24,
+        "PBS_submissions_max": 8,
+        "each_walltime_hours_max": 4,
+        "simultaneous_GPU_max": 1
+      },
+      "Vanda_A40": {
+        "hours_allocated_max": 12,
+        "PBS_submissions_max": 6,
+        "each_walltime_hours_max": 3,
+        "simultaneous_GPU_max": 1
+      }
+    },
+    "CPU_core_hours": {
+      "CoreLab": 176,
+      "Vanda": 96,
+      "Hopper_active": 80,
+      "local_PC": 16
+    },
+    "active_cpu_cores_each_execution_host_max": 8,
+    "training_optimizer_updates_max": 6000,
+    "new_neural_action_inference_requests_max": 15000,
+    "source_native_main_starts_max": 64,
+    "fullbody_target_native_main_starts_max": 96,
+    "main_or_recovery_integrations_max": {
+      "source": 1500000,
+      "fullbody_target": 6400000
+    },
+    "shadow_counterfactual_integrations_max": 8000000,
+    "all_integrations_max": 15900000,
+    "incremental_output_logical_peak_GiB": {
+      "Hopper": 160,
+      "CoreLab": 80,
+      "Vanda": 80,
+      "local_PC": 8
+    },
+    "audit_reserve": {
+      "Hopper_GPU_hours": 2,
+      "CoreLab_core_hours": 16,
+      "Vanda_core_hours": 8
+    },
+    "max_fullbody_task_side_scientific_versions": 3,
+    "Vanda_original_jobs_counted_to_E2_incremental_allocation": false,
+    "existing_E1_costs_and_Budget_not_refreshed": true,
+    "phase_envelopes": [
+      {
+        "id": "S1",
+        "H200_h": 6,
+        "A40_h": 0,
+        "CoreLab_coreh": 40,
+        "Vanda_coreh": 0,
+        "focus": "SOURCE_BC_T1_REPEATABILITY_T2_LEARNING_LOCKED_MODEL_DEV"
+      },
+      {
+        "id": "S2",
+        "H200_h": 6,
+        "A40_h": 0,
+        "CoreLab_coreh": 40,
+        "Vanda_coreh": 0,
+        "focus": "REAL_SOURCE_RECOVERY_AND_ACTION_SPACE_DAGGER_BC_CONTROLS"
+      },
+      {
+        "id": "S3",
+        "H200_h": 0,
+        "A40_h": 8,
+        "CoreLab_coreh": 56,
+        "Vanda_coreh": 64,
+        "focus": "CURRENT_VANDA_MUJOCO_WBC_PLATFORM_AND_SOURCE_ONLY_TARGET_TEACHER"
+      },
+      {
+        "id": "S4",
+        "H200_h": 12,
+        "A40_h": 4,
+        "CoreLab_coreh": 40,
+        "Vanda_coreh": 32,
+        "focus": "TARGET_SUCCESS_BANK_TARGET_LOW_SHOT_GR00T_ADAPTATION_AND_EVAL"
+      }
+    ]
+  },
+  "stages": [
+    {
+      "id": "S0",
+      "scope": "READ_ONLY_LIVE_REFRESH_AND_OLD_E1_CLOSEOUT",
+      "source": "E1",
+      "new_model_or_physics": false,
+      "deliver": [
+        "E2_ADOPTION_AND_RESOURCE_BINDING",
+        "E1_TERMINAL_AND_PEER_LEASE_READBACK"
+      ],
+      "next": "S1_S2_AND_S3_WHEN_SITE_AND_ISOLATION"
+    },
+    {
+      "id": "S1",
+      "scope": "SOURCE_TASK_LEARNING_AND_GENERALIZATION",
+      "data": "v3.0 TRAIN_ONLY_FOR_NEW_DIAG; v3.1_SEPARATE_EXPERIMENT_IF_NEEDED",
+      "baseline": "CURRENT_E1_FIXED_MODELS",
+      "task_goal": "T1_REPLICATE_DIFFERENT_TRAIN_LAYOUT_AND_T2_TASK_BEHAVIOR",
+      "checkpoint_rule": "PREFROZEN_TRAIN_SELECTION_THEN_DEV_ONCE",
+      "oracle_not_required": true,
+      "deliver": [
+        "SOURCE_TRAIN_BEHAVIOR_MATRIX",
+        "SOURCE_FROZEN_DEV_ASSESSMENT",
+        "SOURCE_MODEL_CARD"
+      ]
+    },
+    {
+      "id": "S2",
+      "scope": "RECOVERY_ORACLE_AND_ONE_REAL_ONPOLICY_DAGGER_COMPARISON",
+      "first_task": "T1",
+      "T2_allowed_only_after_real_recovery_qualified": true,
+      "student_actual_prefix_required_for_onpolicy": true,
+      "expert_query_same_actual_observation": true,
+      "illegal_student_action_never_installed": true,
+      "baseline": "MATCHED_EXPERT_QUERY_BUDGET_BC_OR_EXTRA_SUCCESS_DEMO",
+      "optional_FlowDAgger": {
+        "requires_real_GR00T_inversion_reconstruction": true,
+        "priority": "LOWER_THAN_ACTUAL_SOURCE_AND_TARGET_LOOP"
+      },
+      "deliver": [
+        "SOURCE_ORACLE_QUALIFICATION",
+        "ONPOLICY_DAGGER_DATASET_AND_READER",
+        "DAgger_BC_ABLATION"
+      ]
+    },
+    {
+      "id": "S3",
+      "scope": "CURRENT_FULLBODY_WBC_MUJOCO_ROS_VANDA_AND_CORELAB_COMPARE",
+      "Vanda_existing_job_dependency": "FOLLOW_ORIGINAL_Q_H_Q_JOBS_NOT_RESUBMIT",
+      "hard_requirement": "ORIGINAL_NATIVE_SAFETY_AND_NEW_TASK_SIDE_VERSION_REQUALIFIED_BEFORE_NEW_TARGET_PHYSICS",
+      "source_transfer": "FIXED_EEF10_GR00T_BASE_PREFERENCE_ABSENT",
+      "deliver": [
+        "VANDA_WBC_NATIVE_ADMISSION",
+        "SOURCE_ONLY_TARGET_TASK_MATRIX",
+        "TARGET_TASK_TEACHER_PILOT"
+      ]
+    },
+    {
+      "id": "S4",
+      "scope": "TARGET_SUCCESS_BANK_AND_FROZEN_WBC_LOW_SHOT_ADAPTATION",
+      "target_data_small_goal_per_task": {
+        "TRAIN_unique_success": 8,
+        "DEV_unique_success": 2,
+        "CPU_independent_loader_pass": true
+      },
+      "few_shot_levels_per_task": [
+        0,
+        5,
+        20
+      ],
+      "requires_actual_target_success_demos": true,
+      "train_BASE3_only_if_nonzero_real_target_BASE_labels": true,
+      "oracle_requires_target_actual_student_state": true,
+      "deliver": [
+        "TARGET_DATASET_CARD",
+        "TARGET_GR00T_ADAPTATION_MATRIX",
+        "FINAL_E2_REPORT"
+      ]
+    }
+  ],
+  "safety_and_science": {
+    "frozen": [
+      "WBC_weights_gains_costs_solver_leg_policy",
+      "robot_mass_friction_geometry_collision",
+      "native_joint_force_contact_thresholds",
+      "task_scoring",
+      "source_D0_S1_numerics",
+      "v3_0_stats",
+      "EEF10_source_baseline",
+      "original_E0_E1_results"
+    ],
+    "source_S1_reject_is_valid_policy_failure": true,
+    "target_old_safety_STOP_not_automatically_lifted": true,
+    "new_target_native_safety_fault": "QUARANTINE_AFFECTED_VERSION_AND_RUN_IMMEDIATELY",
+    "second_new_E2_target_native_safety_fault": "STOP_ALL_NEW_E2_TARGET_PHYSICS",
+    "actual_integrity_or_native_safety_failure": "STOP_RELEVANT_NEW_PHYSICS_AND_CORRECTION_INGESTION",
+    "no_student_privileged_sim_truth": true,
+    "no_unexecuted_expert_plan_as_successful_target_demo": true,
+    "no_student_rejected_motion_executed": true,
+    "no_synthetic_EEF10_to_EEF13_BASE_zero_labels": true,
+    "do_not_use_DEV_for_new_optimization_or_choice": true,
+    "nonzero_BASE_SOFT_INTENT_required_before_claim": true,
+    "no_repeat_valid_failure_as_engineering_recovery": true,
+    "no_machine_switch_to_bypass_safety": true,
+    "no_destructive_cleanup_of_history": true,
+    "no_human_video_LAPA_WING_new_pretraining": true,
+    "no_live_robot": true,
+    "no_model_deployment": true
+  },
+  "allowed_task_side_autonomy": {
+    "bounded_oracle_geometry_and_task_skill_versions": true,
+    "same_semantics_clock_camera_ROS_build_IPC_and_data_repairs": true,
+    "source_TRAIN_only_diagnostics": true,
+    "original_native_limit_preservation": true,
+    "stage_conditional_automatic_continuation": true,
+    "site_permissions_required": true
+  },
+  "outputs": {
+    "report_root": "reports/PI0294/E2-expanded-science-<registered-run>/",
+    "required": [
+      "E2_ADOPTION_AND_RESOURCE_BINDING",
+      "PHASE_LEDGER",
+      "SOURCE_MODEL_AND_BEHAVIOR_MATRIX",
+      "SOURCE_ORACLE_AND_DAGGER",
+      "VANDA_TARGET_PLATFORM_ADMISSION",
+      "TARGET_DATASET_AND_ADAPTATION",
+      "RESOURCE_FINAL",
+      "FINAL_REPORT",
+      "RESUME_IF_BLOCKED"
+    ],
+    "status_vocabulary": [
+      "SOURCE_TASK_EVIDENCE_ONLY",
+      "SOURCE_BC_DAGGER_COMPARED",
+      "TARGET_PLATFORM_CLOSED_LOOP_ONLY",
+      "TARGET_SINGLE_SKILL_DATA_CLOSED",
+      "TARGET_DUAL_TASK_DATA_CLOSED",
+      "TARGET_ADAPTATION_COMPARED",
+      "PARTIAL_WITH_EXACT_BLOCKER",
+      "STOP_NATIVE_SAFETY",
+      "RESOURCE_CLOSED"
+    ],
+    "selection": "NONE",
+    "deployment": "NONE",
+    "counted_actual_new_executions_from_this_publication": 0
+  }
+}

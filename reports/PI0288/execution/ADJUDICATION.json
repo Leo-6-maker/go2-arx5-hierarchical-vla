@@ -1,0 +1,67 @@
+{
+  "status": "ENV_READY_INTERFACE_BLOCKED",
+  "scope": "native build/environment available; task executor, clock, reference and data NOT qualified",
+  "root_cause": "INVALID_NATIVE_DEFAULT_INITIAL_STATE_BEFORE_CONTROLLER_READY",
+  "episode": "55f23c661cdc4c8aa50a8731928dc101",
+  "original_result_status": "TECHNICAL_UNCLASSIFIED",
+  "original_error": "Feedback unavailable",
+  "original_result_sha256": "4a476668f8e9b85c3f0cdafd47f3f00f3b1b67985752237d7fb252dd65096887",
+  "actual_cause": "observer invokes registered native SIGINT after first integration safety violation; ROS feedback unavailable is consequent",
+  "default_qpos0_calf_violation_rad": 0.83776,
+  "first_step_violations": [
+    {
+      "joint": "FL_calf_joint",
+      "q": -0.008233293493700035,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "positive_violation": 0.8295267065062999,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": true
+    },
+    {
+      "joint": "FR_calf_joint",
+      "q": -0.008233293635162245,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "positive_violation": 0.8295267063648377,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": true
+    },
+    {
+      "joint": "RL_calf_joint",
+      "q": -0.008233121658031509,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "positive_violation": 0.8295268783419685,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": true
+    },
+    {
+      "joint": "RR_calf_joint",
+      "q": -0.008233121775140066,
+      "lower": -2.7227,
+      "upper": -0.83776,
+      "positive_violation": 0.8295268782248599,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": true
+    },
+    {
+      "joint": "x5_joint2",
+      "q": -0.000140333787240693,
+      "lower": 0,
+      "upper": 3.665,
+      "positive_violation": 0.000140333787240693,
+      "over_hinge_epsilon": true,
+      "over_hinge_immediate": false
+    }
+  ],
+  "rule": "PI0288 section3 invalid initial condition rejected; no temporary pose replacement",
+  "not_inferred": [
+    "MPC motion tracking failure",
+    "RL weakness",
+    "grasp capability",
+    "safe home-keyframe replacement"
+  ],
+  "home_keyframe": "present but not applied by delivered native startup; not tested as substitute",
+  "core_unchanged": true
+}

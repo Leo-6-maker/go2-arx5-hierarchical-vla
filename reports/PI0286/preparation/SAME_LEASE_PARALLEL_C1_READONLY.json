@@ -1,0 +1,62 @@
+{
+  "epoch": 1791519781.020468,
+  "scheduler": "Job Id: 656142.hopper-m-02\n    Job_Name = pi0286_c0\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 102\n    resources_used.cput = 00:05:39\n    resources_used.mem = 37429164kb\n    resources_used.ncpus = 12\n    resources_used.vmem = 85193084kb\n    resources_used.walltime = 00:07:25\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Fri Oct  9 12:12:33 2026\n    Error_Path = hopper-l-01.cm.cluster:/nfs/home/svu/e1192548/pi0286_c0.e65614\n\t2\n    exec_host = hopper-29/6*12\n    exec_vnode = (hopper-29:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Fri Oct  9 12:22:36 2026\n    Output_Path = hopper-l-01.cm.cluster:/nfs/home/svu/e1192548/pi0286_c0.o6561\n\t42\n    Priority = 0\n    qtime = Fri Oct  9 12:12:33 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 7200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 02:00:00\n    stime = Fri Oct  9 12:15:09 2026\n    session_id = 1966679\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Fri Oct 09 at 12:15 on (hopper-29:ngpus=1:ncpus=12:mem\n\t=235929600kb)\n    etime = Fri Oct  9 12:12:33 2026\n    run_count = 1\n    Submit_arguments = -P CFP05-CF-052 /scratch/e1192548/Projects/go2-arx5/expe\n\triments/PI0286/code/C0_REPLAY1024.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+  "allocation": {
+    "kind": "PBS_H200",
+    "PBS_JOBID": "656142.hopper-m-02",
+    "pid": 1966802,
+    "started_epoch": 1791519316.871716,
+    "deadline_epoch": 1791522720,
+    "scheduler_CUDA_VISIBLE_DEVICES": "GPU-2ef6c882-5309-292c-c6b6-67d3cf02d7b3",
+    "scheduler_record": "Job Id: 656142.hopper-m-02\n    Job_Name = pi0286_c0\n    Job_Owner = e1192548@hopper-l-01.cm.cluster\n    resources_used.cpupercent = 0\n    resources_used.cput = 00:00:00\n    resources_used.mem = 0b\n    resources_used.ncpus = 12\n    resources_used.vmem = 0kb\n    resources_used.walltime = 00:00:00\n    job_state = R\n    queue = small\n    server = hopper-m-02.cm.cluster\n    Checkpoint = u\n    ctime = Fri Oct  9 12:12:33 2026\n    Error_Path = hopper-l-01.cm.cluster:/nfs/home/svu/e1192548/pi0286_c0.e65614\n\t2\n    exec_host = hopper-29/6*12\n    exec_vnode = (hopper-29:ngpus=1:ncpus=12:mem=235929600kb)\n    Hold_Types = n\n    Join_Path = oe\n    Keep_Files = oed\n    Mail_Points = n\n    mtime = Fri Oct  9 12:15:12 2026\n    Output_Path = hopper-l-01.cm.cluster:/nfs/home/svu/e1192548/pi0286_c0.o6561\n\t42\n    Priority = 0\n    qtime = Fri Oct  9 12:12:33 2026\n    Rerunable = True\n    Resource_List.am_job_cache = {\"job.ngpus\": 1.0, \"job.walltime\": 7200,\n\t \"job.ncpus\": 12.0, \"job.queue_charge_rate\": 1.0,\n\t \"am_cloud_enabled\": false}\n    Resource_List.mem = 225gb\n    Resource_List.ncpus = 12\n    Resource_List.ngpus = 1\n    Resource_List.nodect = 1\n    Resource_List.nodes = 1\n    Resource_List.place = free\n    Resource_List.queue_charge_rate = 1\n    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200\n    Resource_List.walltime = 02:00:00\n    stime = Fri Oct  9 12:15:09 2026\n    session_id = 1966679\n    jobdir = /home/svu/e1192548\n    substate = 42\n    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,\n\tPBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,\n\tPBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,\n\tPBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,\n\tPBS_O_QUEUE=auto\n    comment = Job run at Fri Oct 09 at 12:15 on (hopper-29:ngpus=1:ncpus=12:mem\n\t=235929600kb)\n    etime = Fri Oct  9 12:12:33 2026\n    run_count = 1\n    Submit_arguments = -P CFP05-CF-052 /scratch/e1192548/Projects/go2-arx5/expe\n\triments/PI0286/code/C0_REPLAY1024.pbs\n    project = CFP05-CF-052\n    Submit_Host = hopper-l-01.cm.cluster\n\n",
+    "actual_GPU": "NVIDIA H200, GPU-2ef6c882-5309-292c-c6b6-67d3cf02d7b3, 143771 MiB\n",
+    "remaining_own_GPU_seconds": 14385.827429533005,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "login_pbsdsh": null,
+  "PBS_pbsdsh_path": true,
+  "compute_ssh_returncode": 255,
+  "compute_ssh_stdout": "",
+  "compute_ssh_stderr": "Warning: Permanently added 'hopper-29' (ED25519) to the list of known hosts.\n",
+  "status": "READ_ONLY_PARALLEL_C1_RISKS_OWNER_CHOSE_C0_PRIORITY_NO_EXTRA_PROCESS",
+  "C1_started_by_worker": false,
+  "code_or_seal_edits": 0,
+  "new_PBS_submissions": 0,
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "physics_calls": 0,
+  "actual_total_GPU_memory_readback": "UNAVAILABLE_COMPUTE_SSH_RETURNED255",
+  "findings": [
+    {
+      "path": "PI0283/code/training_launch.py:bind",
+      "risk": "Shared design/MODEL_POINTS.json unprotected read-modify-write and common MODEL_POINTS.tmp can lose entries or collide across arms."
+    },
+    {
+      "path": "PI0286/code/model_worker.py:run",
+      "risk": "MODEL_LEASE.lock uses LOCK_NB across whole model worker. Overlapping C0/C1 canary inference rejects one worker rather than waiting."
+    },
+    {
+      "path": "PI0283/code/learning.py:append_completed",
+      "finding": "Global completed update append uses LOCK_EX and fsync with cap validation under lock."
+    },
+    {
+      "path": "PI0283/code/learning.py:check_next_update",
+      "risk": "Preupdate read is unlocked; concurrent write/read could expose partial lines or a stale precap snapshot. Distinct arm and per-arm update caps reduce aggregate overshoot risk but do not protect this read."
+    },
+    {
+      "path": "PI0283/code/training_launch.py:retire_consumed_canary",
+      "finding": "Exact base root/learning/<arm>; passing proof and path containment required; only that arm continuous8/split4/split8 deleted after proof. Different arms isolated."
+    },
+    {
+      "path": "PI0286/code/launch.py:run",
+      "risk": "Outer C0 driver owns accepted PBS process and allocation lifecycle. At ARM_START_STOP, it can close allocation and exit while separately launched C1 remains active; scheduler cleanup can terminate C1."
+    },
+    {
+      "path": "PI0286/code/launch.py:run_arm",
+      "risk": "No shared arm ownership lock protects an additional caller against main driver invoking same C1 before ARM_START_STOP. Native fresh-process receipts detect duplicates only after they exist."
+    }
+  ],
+  "owner_decision": "No concurrent C1 process or live code change; prioritize C0 endpoint and original qualification/confirmation.",
+  "capacity_note": "Prior prejob admission92.39GiB covered90GiB peak on cached quota. Current C0 checkpoint allocation consumes that same headroom; it is not additional free capacity. Concurrent disk peak estimates are prospective, not allocation verified."
+}

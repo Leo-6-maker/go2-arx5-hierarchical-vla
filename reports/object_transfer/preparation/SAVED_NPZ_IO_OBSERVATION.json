@@ -1,0 +1,32 @@
+{
+  "status": "CPU_SAVED_RAW_SLICE_EQUIVALENCE_ONLY",
+  "scope": "four separate raw array accesses; not a new matched observation/label packet or processor admission",
+  "numpy_version": "1.26.4",
+  "family": "pi0265-family-004",
+  "source_files": [
+    {"path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-004/proposals.npz", "bytes": 973602, "sha256": "eeed3dde827de2165f1c2e891900dea26edf6fe8c32319539fc39f7a745546cc"},
+    {"path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0267/source/S2/pi0265-family-004/policy_frames.npz", "bytes": 2228489, "sha256": "03d7bbd9d5878514f10be1e01ba7e6f2951ef75446ca5da7f7489439639e398b"}
+  ],
+  "decoded_cached_bytes_for_probed_family": 24346112,
+  "all_24_closed_TRAIN_families_selected_NPY_member_bytes_including_headers": 584318976,
+  "future_object_dataset_or_total_process_memory_measured": false,
+  "one_time_materialization_s": 0.07504767109639943,
+  "benchmark_trials": [
+    {"lazy_NpzFile_index_s": 0.07298010704107583, "decoded_array_index_and_isolation_copy_s": 0.000017040874809026718},
+    {"lazy_NpzFile_index_s": 0.0688489368185401, "decoded_array_index_and_isolation_copy_s": 0.000015080906450748444},
+    {"lazy_NpzFile_index_s": 0.06943869893439114, "decoded_array_index_and_isolation_copy_s": 0.000014134915545582771}
+  ],
+  "slice_checks": [
+    {"key": "state_v1", "shape": [448,10], "dtype": "float32", "bytes": 17920, "first_slice_sha256": "e6c7627247dae3acfbceec9585747cd7ccf69b259c109fe017156e95b2703b23"},
+    {"key": "raw_action", "shape": [448,40,10], "dtype": "float32", "bytes": 716800, "first_slice_sha256": "63b6d76b4ffddf076d944a67c18a46f6629cd28c140952c25af6b2bb59853531"},
+    {"key": "body_rgb", "shape": [427,96,96,3], "dtype": "uint8", "bytes": 11805696, "first_slice_sha256": "f9db9e50b5ba21b8325cb3362e12c068792e822c65a25d2a73b32d43c0c38d24"},
+    {"key": "wrist_rgb", "shape": [427,96,96,3], "dtype": "uint8", "bytes": 11805696, "first_slice_sha256": "a1cf4fac528219952451051e6bfcfd6093146176c38fea0e6f52902570f8fd64"}
+  ],
+  "new_model_queries": 0,
+  "new_teacher_calls": 0,
+  "new_renders": 0,
+  "new_physics": 0,
+  "trained_runtime_changed": false,
+  "real_training_speedup": "UNOBSERVED",
+  "future_real_processor_and_canary_still_required": true
+}

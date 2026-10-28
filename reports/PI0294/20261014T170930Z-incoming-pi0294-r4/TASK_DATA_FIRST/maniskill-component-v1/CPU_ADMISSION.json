@@ -1,0 +1,359 @@
+{
+  "status": "BLOCKED_VALID_START_PLANNING_FAILURE",
+  "version": "FULLBODY_MANISKILL_COMPONENT_SEED_V1",
+  "source_sha": "59045165b518837fc1cf8fb369f52752caa31ee5",
+  "checks": {
+    "ISOLATED_DEPENDENCY_IMPORT_NO_NATIVE_PROFILE_MUTATION": {
+      "planner_numpy": "1.26.4",
+      "native_numpy": "2.5.4",
+      "actual_installed_source_sha256": "785f77233baf4159f3327b664fae2507572c189223a6075f42546c1133ddfa0e"
+    },
+    "ACTUAL_PACKET_BYTES_UNCHANGED": {
+      "saved_inputs": 12,
+      "unchanged": true
+    },
+    "ARX5_NATIVE_FK_PARITY": {
+      "errors": [
+        [
+          1.1631705747361534e-16,
+          4.2146848510894035e-08
+        ],
+        [
+          3.345273782981758e-16,
+          4.2146848510894035e-08
+        ],
+        [
+          1.2456232622454378e-16,
+          0.0
+        ],
+        [
+          5.682377955034956e-16,
+          0.0
+        ],
+        [
+          2.55987824628e-16,
+          0.0
+        ],
+        [
+          2.0595777971499126e-16,
+          0.0
+        ],
+        [
+          3.066488701017938e-16,
+          0.0
+        ]
+      ],
+      "position_tolerance": 1e-05,
+      "rotation_tolerance": 0.0001
+    },
+    "MOUNT_ROOT_TCP_PAD_FRAME_PARITY": {
+      "fullbody_FK_included_actual_root": true,
+      "tool": "native_x5_ee",
+      "native_model_sha256": "70663bf41a235f8f2baf179447720bd1ca845ce1abf847898ba884a46559fc55"
+    },
+    "MPLIB_WXYZ_NATIVE_XYZW_CONVERSION": {
+      "roundtrip": true
+    },
+    "ROW_ROT6D_ROUNDTRIP": {
+      "roundtrip": true
+    },
+    "ACTUAL_JOINT_ORDER_LIMITS_NO_CLIPPING": {
+      "joints": 20,
+      "legs": 12,
+      "actual_clipping": false
+    },
+    "MISSING_LEG_BODY_COLLISION_COVERAGE_REJECT": true,
+    "ILLEGAL_TABLE_COLLISION_REJECT": true,
+    "STAGE_SPECIFIC_PAD_CUBE_CONTACT_MASK": true,
+    "ATTACHED_OBJECT_ONLY_AFTER_PHYSICAL_GRASP": true,
+    "SAVED_PATH_CONTINUOUS8_EQUALS4_RESTORE4": {
+      "equal": true,
+      "new_RRT_calls": 0
+    },
+    "CROSS_PROCESS_INPUT_PATH_SHA_IDENTITY": {
+      "valid_plans": 7,
+      "all_input_and_response_SHA_checked": true
+    },
+    "INTEGER_NS_CLOCK_PAST_10_2_BOUNDARY": true,
+    "STALE_AND_FUTURE_SOURCE_TIME_REJECT": true,
+    "H40_PREFIX8_AND_BRIDGE_PADDING_ACCOUNTING": {
+      "H": 40,
+      "prefix": 8,
+      "native_endpoints": 41
+    },
+    "REQUEST_INSTALL_LABEL_DUPLICATE_SEQUENCE_IDENTITY": true,
+    "FROZEN_SCORE_RETAINS_LATE_FAILURE": {
+      "positive_hold": 41,
+      "late_failure_hold": 40,
+      "late_failure_rejected": true,
+      "evidence": "CPU_FIXTURE_NOT_PHYSICS"
+    },
+    "NONFINITE_OUTPUT_REJECT": true,
+    "NO_PHYSICAL_QPOS_QVEL_TORQUE_COMMAND": {
+      "backend_physics_calls": 0,
+      "backend_joint_commands": 0
+    },
+    "ZERO_BASE_INTENT_NOT_ABSENT_REFERENCE": true,
+    "REAL_RGB_STATE_TIMESTAMP_BINDING": {
+      "saved_actual_pairs": 12,
+      "new_render": 0
+    },
+    "OLD_TERMINAL_SCOPES_STAY_REJECTED": true,
+    "BUDGET_AND_PRETASK_REPLACEMENT_COUNTERS": {
+      "max_starts": 6,
+      "max_integrations": 59018,
+      "max_CPU_s": 21600,
+      "old_counters_reset": false
+    }
+  },
+  "checks_passed": 24,
+  "saved_input_results": [
+    {
+      "task": "T1",
+      "query_index": 0,
+      "source_frame": 0,
+      "status": "VALID_PLANNING_FAIL_PRESERVED",
+      "reason": "IK Failed! Cannot find valid solution."
+    },
+    {
+      "task": "T1",
+      "query_index": 1,
+      "source_frame": 8,
+      "status": "VALID_PLANNING_FAIL_PRESERVED",
+      "reason": "IK Failed! Cannot find valid solution."
+    },
+    {
+      "task": "T1",
+      "query_index": 2,
+      "source_frame": 16,
+      "status": "PASS_VALID_PLANNED_H40",
+      "certificate": {
+        "duration_s": 6.884415125265247,
+        "uniform_time_scale": 2.126184060782621,
+        "max_linear_speed": 0.030495888143339537,
+        "max_angular_speed": 0.19801954686382325,
+        "dense": {
+          "points": 1001,
+          "max_native_IK_position_residual_m": 2.034043861637848e-06,
+          "max_native_IK_rotation_residual_rad": 3.1297043250250766e-06,
+          "physics_steps": 0,
+          "actual_state_modified": false,
+          "scope": "CURRENT_ROOT_LEGS_SNAPSHOT_NOT_FUTURE_DYNAMICS"
+        },
+        "input_sha256": "f353ae393e6677b7ce0f493e3b397aa383fa7dfde28548e148fd7ad0138f3e5a",
+        "response_sha256": "883b30d9169f1dc139b272b0b4900b6a30f313034fbc5f0392b9a1a1f7e3f129",
+        "FK_error": [
+          1.1631705747361534e-16,
+          4.2146848510894035e-08
+        ],
+        "IK_calls": 1,
+        "RRT_calls": 1
+      },
+      "source_samples_sha256": "99622b4f0b9c411eb8d57ea02b4ae70b17e32eaf10002722b132d327b8271961"
+    },
+    {
+      "task": "T1",
+      "query_index": 3,
+      "source_frame": 24,
+      "status": "PASS_VALID_PLANNED_H40",
+      "certificate": {
+        "duration_s": 7.244664439424759,
+        "uniform_time_scale": 2.207221400205288,
+        "max_linear_speed": 0.03348981693621211,
+        "max_angular_speed": 0.1469997421578322,
+        "dense": {
+          "points": 1001,
+          "max_native_IK_position_residual_m": 1.2377612539758798e-06,
+          "max_native_IK_rotation_residual_rad": 2.3498417915465027e-06,
+          "physics_steps": 0,
+          "actual_state_modified": false,
+          "scope": "CURRENT_ROOT_LEGS_SNAPSHOT_NOT_FUTURE_DYNAMICS"
+        },
+        "input_sha256": "95d1d78c95409620845828109c9c41e7314467473fe5917d57bda2c9ad4046e9",
+        "response_sha256": "36eb7e2b0550c48a9d1f3d78460e8074d243e7314d99908a4bc9609099bd14d5",
+        "FK_error": [
+          3.345273782981758e-16,
+          4.2146848510894035e-08
+        ],
+        "IK_calls": 1,
+        "RRT_calls": 1
+      },
+      "source_samples_sha256": "99622b4f0b9c411eb8d57ea02b4ae70b17e32eaf10002722b132d327b8271961"
+    },
+    {
+      "task": "T1",
+      "query_index": 4,
+      "source_frame": 32,
+      "status": "PASS_VALID_PLANNED_H40",
+      "certificate": {
+        "duration_s": 6.216595956216755,
+        "uniform_time_scale": 2.110109999295418,
+        "max_linear_speed": 0.03709097287604274,
+        "max_angular_speed": 0.22850102025787636,
+        "dense": {
+          "points": 1001,
+          "max_native_IK_position_residual_m": 3.239900588064191e-06,
+          "max_native_IK_rotation_residual_rad": 5.997482634875305e-06,
+          "physics_steps": 0,
+          "actual_state_modified": false,
+          "scope": "CURRENT_ROOT_LEGS_SNAPSHOT_NOT_FUTURE_DYNAMICS"
+        },
+        "input_sha256": "ad696765b52430f44362d5d4a269e75169d1ffff648ff9c0a844973117427b5d",
+        "response_sha256": "e92ab4ff1fecbd5951a0f21b0129da905808a8003993df9f7d8b0f7b1289c53b",
+        "FK_error": [
+          1.2456232622454378e-16,
+          0.0
+        ],
+        "IK_calls": 1,
+        "RRT_calls": 1
+      },
+      "source_samples_sha256": "99622b4f0b9c411eb8d57ea02b4ae70b17e32eaf10002722b132d327b8271961"
+    },
+    {
+      "task": "T1",
+      "query_index": 5,
+      "source_frame": 40,
+      "status": "PASS_VALID_PLANNED_H40",
+      "certificate": {
+        "duration_s": 6.618504117438113,
+        "uniform_time_scale": 2.1802026158761096,
+        "max_linear_speed": 0.026411148873140017,
+        "max_angular_speed": 0.16453865599393874,
+        "dense": {
+          "points": 1001,
+          "max_native_IK_position_residual_m": 1.904509041147062e-06,
+          "max_native_IK_rotation_residual_rad": 3.53572489698951e-06,
+          "physics_steps": 0,
+          "actual_state_modified": false,
+          "scope": "CURRENT_ROOT_LEGS_SNAPSHOT_NOT_FUTURE_DYNAMICS"
+        },
+        "input_sha256": "47841bcaa756751621e8956416cd55968918dbefa0e291af7cc9ba8fef737e10",
+        "response_sha256": "bd2d0d67f79324f673eaed67768a619c217f357c07f7eca87c6a471353c8bf23",
+        "FK_error": [
+          5.682377955034956e-16,
+          0.0
+        ],
+        "IK_calls": 1,
+        "RRT_calls": 1
+      },
+      "source_samples_sha256": "99622b4f0b9c411eb8d57ea02b4ae70b17e32eaf10002722b132d327b8271961"
+    },
+    {
+      "task": "T2",
+      "query_index": 0,
+      "source_frame": 0,
+      "status": "VALID_PLANNING_FAIL_PRESERVED",
+      "reason": "IK Failed! Cannot find valid solution."
+    },
+    {
+      "task": "T2",
+      "query_index": 1,
+      "source_frame": 8,
+      "status": "VALID_PLANNING_FAIL_PRESERVED",
+      "reason": "IK Failed! Cannot find valid solution."
+    },
+    {
+      "task": "T2",
+      "query_index": 2,
+      "source_frame": 16,
+      "status": "VALID_PLANNING_FAIL_PRESERVED",
+      "reason": "IK Failed! Cannot find valid solution."
+    },
+    {
+      "task": "T2",
+      "query_index": 3,
+      "source_frame": 24,
+      "status": "PASS_VALID_PLANNED_H40",
+      "certificate": {
+        "duration_s": 9.18005202759569,
+        "uniform_time_scale": 2.381996352226398,
+        "max_linear_speed": 0.03312952995907472,
+        "max_angular_speed": 0.09181641702877291,
+        "dense": {
+          "points": 1001,
+          "max_native_IK_position_residual_m": 1.1195337246138162e-06,
+          "max_native_IK_rotation_residual_rad": 1.79943677425104e-06,
+          "physics_steps": 0,
+          "actual_state_modified": false,
+          "scope": "CURRENT_ROOT_LEGS_SNAPSHOT_NOT_FUTURE_DYNAMICS"
+        },
+        "input_sha256": "91b2a90c23ec19d61f580e61ef495e43669950625c319aa5a8ab6b28a69dc9b9",
+        "response_sha256": "ba991755428a40aa87c4ab7561239eec859634384fd62abe0f012bc32a8112a3",
+        "FK_error": [
+          2.55987824628e-16,
+          0.0
+        ],
+        "IK_calls": 1,
+        "RRT_calls": 1
+      },
+      "source_samples_sha256": "ad791343da7ca783315ec7a0e92cf9332301891bf2594bf1f0c3704684405b5a"
+    },
+    {
+      "task": "T2",
+      "query_index": 4,
+      "source_frame": 32,
+      "status": "PASS_VALID_PLANNED_H40",
+      "certificate": {
+        "duration_s": 9.255095739554124,
+        "uniform_time_scale": 2.563986344053419,
+        "max_linear_speed": 0.036127330866347306,
+        "max_angular_speed": 0.08004778348346217,
+        "dense": {
+          "points": 1001,
+          "max_native_IK_position_residual_m": 1.3055449179596e-06,
+          "max_native_IK_rotation_residual_rad": 1.4632731464908956e-06,
+          "physics_steps": 0,
+          "actual_state_modified": false,
+          "scope": "CURRENT_ROOT_LEGS_SNAPSHOT_NOT_FUTURE_DYNAMICS"
+        },
+        "input_sha256": "267967ba02ddb79abf052e78cc745893d2df37218dbdad463b031433097be1fe",
+        "response_sha256": "9663d289faa64eb301be4a08e9bf88fe0137d33d8277fed13c4519a8d61c7edd",
+        "FK_error": [
+          2.0595777971499126e-16,
+          0.0
+        ],
+        "IK_calls": 1,
+        "RRT_calls": 1
+      },
+      "source_samples_sha256": "ad791343da7ca783315ec7a0e92cf9332301891bf2594bf1f0c3704684405b5a"
+    },
+    {
+      "task": "T2",
+      "query_index": 5,
+      "source_frame": 40,
+      "status": "PASS_VALID_PLANNED_H40",
+      "certificate": {
+        "duration_s": 9.688625315921774,
+        "uniform_time_scale": 2.5650635115866103,
+        "max_linear_speed": 0.02077144130350127,
+        "max_angular_speed": 0.08068105285812577,
+        "dense": {
+          "points": 1001,
+          "max_native_IK_position_residual_m": 4.7313850406665216e-07,
+          "max_native_IK_rotation_residual_rad": 4.2005043090623047e-07,
+          "physics_steps": 0,
+          "actual_state_modified": false,
+          "scope": "CURRENT_ROOT_LEGS_SNAPSHOT_NOT_FUTURE_DYNAMICS"
+        },
+        "input_sha256": "2fe986748116b23b463406bf28e81134c85ab42d726626b031f5fbe18c38850a",
+        "response_sha256": "511cc9ea4f648788a15923a43757a9d50230e343bfb63d965cbc74667c2109c2",
+        "FK_error": [
+          3.066488701017938e-16,
+          0.0
+        ],
+        "IK_calls": 1,
+        "RRT_calls": 1
+      },
+      "source_samples_sha256": "ad791343da7ca783315ec7a0e92cf9332301891bf2594bf1f0c3704684405b5a"
+    }
+  ],
+  "saved_inputs": 12,
+  "planning_requests": 12,
+  "actual_state_modified": false,
+  "physics_steps": 0,
+  "new_render": 0,
+  "new_neural_queries": 0,
+  "physical_milestones": "NOT_YET_OBSERVED",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

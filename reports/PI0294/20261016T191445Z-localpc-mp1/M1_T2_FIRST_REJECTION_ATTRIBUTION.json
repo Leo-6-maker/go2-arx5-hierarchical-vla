@@ -1,0 +1,736 @@
+{
+  "schema": "MP1_M1_T2_FIRST_REJECTION_ATTRIBUTION_V1",
+  "status": "ACTUAL_EXACT_HISTORY_SHADOW_ATTRIBUTION_COMPLETE",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "child_run": "saved-m1-t2-shadow-01",
+  "authority": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "runtime_source": "9446978a790a3a3690bbcc1a00af18cac672679c",
+  "original_model": "M1@1024_CANONICAL",
+  "figure": {
+    "file": "M1_T2_TIMELINE_AND_CONTACT_DIAGNOSTIC.png",
+    "sha256": "001dc2366187479027009ab4d6e49b7dc0e888da2b71721b03ab00ddb5057411",
+    "pixels": [2520, 1530],
+    "renderer": "scripts/pi0294/mp1/t2_figure.py",
+    "actual_native_data_only": true,
+    "event_timeline_not_interpolated_kinematics": true,
+    "canvas_text_bounds_verified": true,
+    "header_panel_title_overlap_checked": true,
+    "render_visually_reviewed": true
+  },
+  "rows": [
+    {
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F0-000-T2",
+      "task": "T2",
+      "original_main_steps": 8800,
+      "replay_integrations": 8800,
+      "maximum_actual_highrate_difference": 0,
+      "original_initial_state_exact": true,
+      "control_targets_and_IK_history_reconstructed": true,
+      "same_state_comparison": {
+        "component_errors": {
+          "prefix8": {
+            "XYZ_m": {
+              "mean": 0.008854623470599256,
+              "maximum": 0.014748634827272235
+            },
+            "SO3_rad": {
+              "mean": 0.04467101419256225,
+              "maximum": 0.06275053999813276
+            },
+            "gripper_absolute": {
+              "mean": 0.9833923801779747,
+              "maximum": 0.9880874752998352
+            }
+          },
+          "H40": {
+            "XYZ_m": {
+              "mean": 0.04427804531130324,
+              "maximum": 0.09727503288426168
+            },
+            "SO3_rad": {
+              "mean": 0.060300654601419514,
+              "maximum": 0.07819535079782097
+            },
+            "gripper_absolute": {
+              "mean": 0.387372325360775,
+              "maximum": 0.990388035774231
+            }
+          }
+        },
+        "expert_stage": "approach",
+        "source_state_time_s": 17.600000000001124,
+        "expert_is_AUDIT_ONLY_history_not_model_intention": true,
+        "qualified_Recovery_Oracle": false
+      },
+      "signed_prefix_XYZ_model_minus_expert_m": [
+        [
+          -0.0003530043947916339,
+          0.00017211295451209814,
+          -0.004007658043205908
+        ],
+        [
+          0.00015946196484695196,
+          0.0014041729209359997,
+          -0.006972293667937668
+        ],
+        [
+          -0.0004671565937847122,
+          0.0028879715088301703,
+          -0.004336796022094858
+        ],
+        [
+          0.0018451988627792293,
+          0.00426135754257422,
+          -0.006059799980036529
+        ],
+        [
+          -0.00016825669613046434,
+          0.004916304973410401,
+          -0.0060905633900344425
+        ],
+        [
+          0.0016453776492217909,
+          0.008107704631740473,
+          -0.008127438624849548
+        ],
+        [
+          0.0024023803957534673,
+          0.008847058219831148,
+          -0.00872446406902122
+        ],
+        [
+          0.0020733840329446585,
+          0.010480369128254452,
+          -0.010167849863943146
+        ]
+      ],
+      "prefix8_minimum_model_TCP_z_above_table_m": 0.0181286747420083,
+      "first_command_model_minus_anchor_XYZ_m": [
+        -0.0003530043947916339,
+        0.00017211295451209814,
+        -0.004007658043205908
+      ],
+      "collision_checks": [
+        {
+          "candidate": "MODEL",
+          "decision": "REJECT",
+          "shadow_integrations": 56,
+          "first_violation_offset_ticks": 56,
+          "first_violation_offset_s": 0.112,
+          "original_safety_flags": [
+            "ILLEGAL_CONTACT_OR_PENETRATION"
+          ],
+          "illegal_pairs": [
+            {
+              "geom_names": [
+                "table",
+                "left_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link7"
+              ],
+              "signed_distance_m": -0.00003726167070852292,
+              "penetration_m": 0.00003726167070852292,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "left_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link7"
+              ],
+              "signed_distance_m": -0.000028091966065188423,
+              "penetration_m": 0.000028091966065188423,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.00002507736303116869,
+              "penetration_m": 0.00002507736303116869,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.00001590765838783419,
+              "penetration_m": 0.00001590765838783419,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            }
+          ],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.0008016773855107351,
+            -0.0014297462183148098,
+            0.002087276821441608
+          ],
+          "requested_achieved_SO3_rad": 0.0014863165979065068,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": -0.00003726167070852292,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        },
+        {
+          "candidate": "SAME_STATE_EXPERT",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "original_safety_flags": [],
+          "illegal_pairs": [],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.0012820441182065379,
+            0.0003670083871690419,
+            -0.00028641037455506835
+          ],
+          "requested_achieved_SO3_rad": 0.00979232457105348,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": null,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        },
+        {
+          "candidate": "EXPERT_XYZ_ONLY",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "original_safety_flags": [],
+          "illegal_pairs": [],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.0012579254840641707,
+            -0.00007287165339186011,
+            -0.0002999798148885513
+          ],
+          "requested_achieved_SO3_rad": 0.01527160450041875,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": null,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        },
+        {
+          "candidate": "EXPERT_SO3_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 56,
+          "first_violation_offset_ticks": 56,
+          "first_violation_offset_s": 0.112,
+          "original_safety_flags": [
+            "ILLEGAL_CONTACT_OR_PENETRATION"
+          ],
+          "illegal_pairs": [
+            {
+              "geom_names": [
+                "table",
+                "left_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link7"
+              ],
+              "signed_distance_m": -0.00003183893054947528,
+              "penetration_m": 0.00003183893054947528,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "left_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link7"
+              ],
+              "signed_distance_m": -0.00002334548957367882,
+              "penetration_m": 0.00002334548957367882,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.00002056559504193078,
+              "penetration_m": 0.00002056559504193078,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.000012072154066134315,
+              "penetration_m": 0.000012072154066134315,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            }
+          ],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.0009438277048171573,
+            -0.0015967296621732865,
+            0.0020821796657786718
+          ],
+          "requested_achieved_SO3_rad": 0.023213430996146527,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": -0.00003183893054947528,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        },
+        {
+          "candidate": "EXPERT_GRIPPER_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 56,
+          "first_violation_offset_ticks": 56,
+          "first_violation_offset_s": 0.112,
+          "original_safety_flags": [
+            "ILLEGAL_CONTACT_OR_PENETRATION"
+          ],
+          "illegal_pairs": [
+            {
+              "geom_names": [
+                "table",
+                "left_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link7"
+              ],
+              "signed_distance_m": -0.00004510495808990196,
+              "penetration_m": 0.00004510495808990196,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "left_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link7"
+              ],
+              "signed_distance_m": -0.000035934355401368584,
+              "penetration_m": 0.000035934355401368584,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.000017304435021152485,
+              "penetration_m": 0.000017304435021152485,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.000008133832332619116,
+              "penetration_m": 0.000008133832332619116,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            }
+          ],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.000801911563321378,
+            -0.0014245737060379678,
+            0.0020873155868726956
+          ],
+          "requested_achieved_SO3_rad": 0.0014751819232486664,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": -0.00004510495808990196,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        }
+      ]
+    },
+    {
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F1-000-T2",
+      "task": "T2",
+      "original_main_steps": 9200,
+      "replay_integrations": 9200,
+      "maximum_actual_highrate_difference": 0,
+      "original_initial_state_exact": true,
+      "control_targets_and_IK_history_reconstructed": true,
+      "same_state_comparison": {
+        "component_errors": {
+          "prefix8": {
+            "XYZ_m": {
+              "mean": 0.016737744934329543,
+              "maximum": 0.02879275652203242
+            },
+            "SO3_rad": {
+              "mean": 0.05791060452376298,
+              "maximum": 0.11247244827224342
+            },
+            "gripper_absolute": {
+              "mean": 0.9980384670197964,
+              "maximum": 1
+            }
+          },
+          "H40": {
+            "XYZ_m": {
+              "mean": 0.07460445467590657,
+              "maximum": 0.14411480116028613
+            },
+            "SO3_rad": {
+              "mean": 0.13909120964721206,
+              "maximum": 0.1669791557191677
+            },
+            "gripper_absolute": {
+              "mean": 0.97915113940835,
+              "maximum": 1
+            }
+          }
+        },
+        "expert_stage": "approach",
+        "source_state_time_s": 18.40000000000068,
+        "expert_is_AUDIT_ONLY_history_not_model_intention": true,
+        "qualified_Recovery_Oracle": false
+      },
+      "signed_prefix_XYZ_model_minus_expert_m": [
+        [
+          -0.0023571204054425587,
+          0.00294227085631368,
+          -0.004474296644319142
+        ],
+        [
+          -0.0008335312043212251,
+          0.006790858759559766,
+          -0.004528526737229033
+        ],
+        [
+          -0.002676579609080021,
+          0.009279345391006756,
+          -0.006311591037267583
+        ],
+        [
+          -0.001244627168515977,
+          0.013444856847908138,
+          -0.005329748878284468
+        ],
+        [
+          -0.0014548344669874091,
+          0.015853900977443568,
+          -0.008322992877474678
+        ],
+        [
+          -0.002552138617344657,
+          0.0187293030029639,
+          -0.009981291826757221
+        ],
+        [
+          -0.0010441370198279731,
+          0.022948249945268225,
+          -0.011432489709627236
+        ],
+        [
+          -0.0005092333295552698,
+          0.02457797628051391,
+          -0.014989549409758995
+        ]
+      ],
+      "prefix8_minimum_model_TCP_z_above_table_m": 0.016660037230749325,
+      "first_command_model_minus_anchor_XYZ_m": [
+        -0.0023571204054425587,
+        0.00294227085631368,
+        -0.004474296644319142
+      ],
+      "collision_checks": [
+        {
+          "candidate": "MODEL",
+          "decision": "REJECT",
+          "shadow_integrations": 52,
+          "first_violation_offset_ticks": 52,
+          "first_violation_offset_s": 0.10400000000000001,
+          "original_safety_flags": [
+            "ILLEGAL_CONTACT_OR_PENETRATION"
+          ],
+          "illegal_pairs": [
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.00001903496117168272,
+              "penetration_m": 0.00001903496117168272,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            }
+          ],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.001004008856322347,
+            0.0020265033716201503,
+            -0.0013685901900586384
+          ],
+          "requested_achieved_SO3_rad": 0.002526682290575754,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": -0.00001903496117168272,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        },
+        {
+          "candidate": "SAME_STATE_EXPERT",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "original_safety_flags": [],
+          "illegal_pairs": [],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.0010802186833147598,
+            0.00008158171133619725,
+            -0.00024268320941106536
+          ],
+          "requested_achieved_SO3_rad": 0.015833730143791573,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": null,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        },
+        {
+          "candidate": "EXPERT_XYZ_ONLY",
+          "decision": "PASS",
+          "shadow_integrations": 200,
+          "first_violation_offset_ticks": null,
+          "first_violation_offset_s": null,
+          "original_safety_flags": [],
+          "illegal_pairs": [],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.001254908153111134,
+            -0.00018845766890238525,
+            -0.00022512346581210485
+          ],
+          "requested_achieved_SO3_rad": 0.017060418756415247,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": null,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        },
+        {
+          "candidate": "EXPERT_SO3_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 51,
+          "first_violation_offset_ticks": 51,
+          "first_violation_offset_s": 0.10200000000000001,
+          "original_safety_flags": [
+            "ILLEGAL_CONTACT_OR_PENETRATION"
+          ],
+          "illegal_pairs": [
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.0000027294457252645795,
+              "penetration_m": 0.0000027294457252645795,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            }
+          ],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.0010487896919031958,
+            0.0020726909904408113,
+            -0.001426339172793889
+          ],
+          "requested_achieved_SO3_rad": 0.026497797203079262,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": -0.0000027294457252645795,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        },
+        {
+          "candidate": "EXPERT_GRIPPER_ONLY",
+          "decision": "REJECT",
+          "shadow_integrations": 52,
+          "first_violation_offset_ticks": 52,
+          "first_violation_offset_s": 0.10400000000000001,
+          "original_safety_flags": [
+            "ILLEGAL_CONTACT_OR_PENETRATION"
+          ],
+          "illegal_pairs": [
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.00002683012694411269,
+              "penetration_m": 0.00002683012694411269,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            },
+            {
+              "geom_names": [
+                "table",
+                "right_pad"
+              ],
+              "body_names": [
+                "world",
+                "x5_link8"
+              ],
+              "signed_distance_m": -0.000007380456511382641,
+              "penetration_m": 0.000007380456511382641,
+              "all_original_rules_triggered": [
+                "ARM_TABLE_OR_FLOOR"
+              ],
+              "original_penetration_stop_m": 0.004
+            }
+          ],
+          "signed_requested_minus_achieved_XYZ_m": [
+            -0.0010290611330580068,
+            0.002027870999312998,
+            -0.0013761682131462338
+          ],
+          "requested_achieved_SO3_rad": 0.002552819599181566,
+          "minimum_reported_illegal_arm_surface_contact_distance_m": -0.00002683012694411269,
+          "all_geometry_minimum_distance_not_measured": true,
+          "live_state_unchanged": true,
+          "actions_modified": false,
+          "diagnostic_shadow_not_live": true
+        }
+      ]
+    }
+  ],
+  "findings": {
+    "confirmed": [
+      "All 18,000 saved historical integrations reconstructed with zero maximum difference in recorded highrate fields.",
+      "Original model rejects reproduced at 56/52 shadow ticks (0.112/0.104s); rejected prefixes remain unexecuted in original live episodes.",
+      "F0 first predicted violation has table-left_pad and table-right_pad contacts; F1 table-right_pad.",
+      "All model illegal pairs trigger ARM_TABLE_OR_FLOOR; none exceeds the separate 0.004m penetration-stop threshold.",
+      "Both same-state expert and expert-XYZ-only 0.4s prefixes pass; SO3-only and gripper-only substitutions still reject."
+    ],
+    "supported_not_unique_cause": "The tested Cartesian position trajectory is the most discriminating component in these two post-push states under the frozen source executor.",
+    "not_proved": [
+      "A fixed Z bias, frame/stats calibration error or unique learning failure",
+      "Qualified full T2 recovery, DAgger labels or independent task success",
+      "Expert AUDIT_ONLY approach phase is the model's intended phase",
+      "Target WBC or real robot behavior"
+    ],
+    "no_safety_rule_relaxation_authorized": true,
+    "no_axis_only_calibration_or_trajectory_edit_authorized": true
+  },
+  "resources": {
+    "new_live_integrations": 0,
+    "new_neural_queries": 0,
+    "new_training_updates": 0,
+    "new_PBS": 0,
+    "reconstructed_saved_integrations": 18000,
+    "diagnostic_prefix_integrations": 1123,
+    "total_shadow_integrations": 19123,
+    "independent_parent_episodes": 2,
+    "diagnostic_prefix_checks": 10,
+    "conservative_source_start_budget_charge": 2,
+    "new_autonomous_evaluation_starts": 0,
+    "Core_CPU_meter_including_180s_allowance": 189.659017389,
+    "CPU_scope_upper_s": 3600,
+    "GPU_seconds": 0,
+    "all_reservations": 0,
+    "worker_terminal": true,
+    "lease_and_registry": "CLOSED_READBACK_CONFIRMED",
+    "closed_epoch": 1792218281.3803058,
+    "lease_sha256": "4607de5bc95b2a191a65dacf3e6cd2266a8afd1e1dee965c82f5418ee373cb9e",
+    "native_result_sha256": "a2f088fc213cfd0eef7a5cfc12186c13c1e8571cf870b3fda12cc4905e21ad18",
+    "owned_allocated_bytes_sample": 5488640
+  },
+  "invariants": {
+    "original_E1_closed": true,
+    "original_task_results_unchanged": true,
+    "WBC_S1_D0_statistics_score_changed": false,
+    "target_TF_R3_STOP_released": false,
+    "new_test_or_DEV_access": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  }
+}

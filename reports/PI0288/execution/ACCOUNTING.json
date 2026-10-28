@@ -1,0 +1,39 @@
+{
+  "env_episodes_observed": 1,
+  "setup_slots_used": 1,
+  "native_reference_slots_used": 0,
+  "technical_replacement_slots_used": 0,
+  "physics_integrations_observed": 1,
+  "physics_sim_s_observed": 0.002,
+  "leg_RL_forwards": {
+    "observed": "UNOBSERVED",
+    "reserved_upper_bound": 6000
+  },
+  "MPC_solve_attempts": {
+    "observed": "UNOBSERVED",
+    "reserved_upper_bound": 12000
+  },
+  "dispatch": {
+    "received_count": 0,
+    "direct_actual": "UNOBSERVED",
+    "reserved_upper_bound": 36000
+  },
+  "GPU_service_interval_upper_bound_s": 8.010995119111612,
+  "prelaunch_reservation": {
+    "physics": 60000,
+    "leg_rl": 6000,
+    "mpc_attempts": 12000,
+    "dispatch": 36000,
+    "gpu_s": 60,
+    "cpu_core_s": 1200
+  },
+  "CPU_core_time_total": "UNOBSERVED; test wall16.57s and compilation timings retained; no all-cap PASS claim",
+  "new_output_bytes": "see source readback and server inventory receipt",
+  "teacher_plans": 0,
+  "RGB_pairs": 0,
+  "target_teacher_episodes": 0,
+  "GR00T_forwards": 0,
+  "optimizer_updates": 0,
+  "hardware": 0,
+  "budget_reset": false
+}

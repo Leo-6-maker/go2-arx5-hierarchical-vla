@@ -1,0 +1,15 @@
+{
+  "created_utc": "2026-09-25T19:25:12Z",
+  "d1_cell_directories_created": 0,
+  "exception": "KeyError: P",
+  "failure_point": "P2000 restore-family binding indexed cards[\"P\"], but screen.inputs returned card keys C and T; the protocol family is already pinned in this run card and restore manifest.",
+  "get_action_calls": 0,
+  "gpu_compute_apps_after_exit": [],
+  "model_file_verification": "R0 and P2000 restore manifests and file hashes were checked before the key lookup failed.",
+  "model_load_started": false,
+  "outcome": "ABORTED_BEFORE_MODEL_LOAD_OR_QUERY",
+  "recovery": "runner now checks the run-card family directly against the P2000 restore prefix; new card references corrected runner; previous card/report retained.",
+  "run_card_sha256": "874947216e97c25252183e709ed99986f8a57a8f1dca8beb6ab0238e0d7c6812",
+  "runner_sha256": "8f1cd090324c2e044d848f0237e6f04c0613dd291174e9a51960a2c9ee047af8",
+  "schema": "PI0247_D1_PREQUERY_ENGINEERING_FAILURE_V1"
+}

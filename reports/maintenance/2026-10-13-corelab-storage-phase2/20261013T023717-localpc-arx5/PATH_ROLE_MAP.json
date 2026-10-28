@@ -1,0 +1,65 @@
+{
+  "schema": "PHASE2_HOST_AWARE_PATH_ROLE_INDEX_V1",
+  "status": "LOGICAL_PUBLIC_INDEX_PRIVATE_EXACT_BINDINGS",
+  "exact_realpath_device_inode_links_and_file_hashes": "Retained in private original audit and actual receipts, not exposed here.",
+  "roles": [
+    {
+      "role": "SHARED_NFS",
+      "executor_access": [
+        "corelab-amd-server",
+        "corelab-4080s"
+      ],
+      "purpose": "Historical source originals, owner navigation, copy-only legacy-home archive and receipts",
+      "single_shared_regular_file_identity": true,
+      "writes_this_phase": "22 copied candidates; no source relocation"
+    },
+    {
+      "role": "4080S_NODE_LOCAL_SSD",
+      "executor_access": [
+        "corelab-4080s"
+      ],
+      "purpose": "PI0290 protected runtime/raw data and isolated PI0291 current work",
+      "AMD_same_absolute_name_is_same_storage": false,
+      "cross_node_alias_policy": "NFS symlinks to SSD are compatibility hints only; query executor by SSH"
+    },
+    {
+      "role": "AMD_NODE_LOCAL_CACHE",
+      "executor_access": [
+        "corelab-amd-server"
+      ],
+      "purpose": "Node-local cache candidates, all skipped in this phase"
+    },
+    {
+      "role": "PRIVATE_WBC",
+      "access": "Owner private binding only",
+      "lifecycle": "READ_ONLY_PROTECTED"
+    },
+    {
+      "role": "HF_FIXED_IMMUTABLE_ARCHIVE",
+      "purpose": "Per-asset repo type/revision/prefix/hash transfer, not authentication-as-backup",
+      "new_backup_validation_in_this_maintenance": "NOT_RUN_NO_MODEL_DELETION"
+    },
+    {
+      "role": "PI0291_WORK",
+      "executor_access": [
+        "corelab-4080s"
+      ],
+      "run_uuid": "20261013T023717-localpc-arx5",
+      "owner": "existing_local_pc",
+      "status": "PROTECTED_FROM_MAINTENANCE",
+      "public_binding": "reports/PI0291/20261013T023717-localpc-arx5/RESOURCE_AND_PATH_BINDING.json"
+    },
+    {
+      "role": "LOCAL_PRIVATE_RECEIPTS",
+      "purpose": "Exact paths/FDs/identities/commands and per-file checksums",
+      "publicly_uploaded": false
+    }
+  ],
+  "legacy_path_checker": {
+    "read_and_SHA_pinned": true,
+    "official_generic_checker_PASS": "NOT_CLAIMED",
+    "integration_into_scientific_runtime": "NOT_CLAIMED",
+    "note": "Old new-run checker is a draft, not proof of current path/physics qualification."
+  },
+  "remote_navigation_deployment": "OWNER_SEPARATE_RECEIPT_REQUIRED_NOT_PROVEN_BY_THIS_PUBLIC_INDEX"
+}

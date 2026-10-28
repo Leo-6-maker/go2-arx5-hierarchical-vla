@@ -1,0 +1,117 @@
+{
+  "status": "SAVED_TRAINING_LOG_DESCRIPTIVE_SUMMARY",
+  "formal_updates": 8192,
+  "microbatches": 16384,
+  "metrics": {
+    "full_loss.jsonl": {
+      "source_sha256": "5b09ae28f740240569655d396e453c9c56f2ad6a4870d0f8064ebe743753f64d",
+      "metrics": {
+        "total": {
+          "count": 16384,
+          "mean": 0.30766642043266756,
+          "median": 0.09589461609721184,
+          "p95": 1.3045457601547241,
+          "first_window_mean": 1.764840081188595,
+          "last_window_mean": 0.1613477425325982,
+          "window_count": 512,
+          "zero_count": 0
+        },
+        "rotation": {
+          "count": 16384,
+          "mean": 1.3866656589183322,
+          "median": 0.032185886055231094,
+          "p95": 9.014013290405273,
+          "first_window_mean": 3.4520371077342134,
+          "last_window_mean": 0.7398634819892322,
+          "window_count": 512,
+          "zero_count": 0
+        },
+        "speed_margin": {
+          "count": 16384,
+          "mean": 0.0013800035521853715,
+          "median": 0.0,
+          "p95": 0.0,
+          "first_window_mean": 0.0243042801739648,
+          "last_window_mean": 0.0,
+          "window_count": 512,
+          "zero_count": 16367
+        },
+        "peak_speed_mps": {
+          "count": 16384,
+          "mean": 0.3652007893101654,
+          "median": 0.3448794037103653,
+          "p95": 0.6444757580757141,
+          "first_window_mean": 0.7392252565477975,
+          "last_window_mean": 0.24123516169493087,
+          "window_count": 512,
+          "zero_count": 0
+        }
+      }
+    },
+    "gripper_native_loss.jsonl": {
+      "source_sha256": "0b07228fb5c70eb671a74578617c05880d0eec683163689280a5805d5d0bd0c4",
+      "metrics": {
+        "native_velocity_MSE": {
+          "count": 16384,
+          "mean": 0.22025527842220072,
+          "median": 0.09748823940753937,
+          "p95": 0.7935913801193237,
+          "first_window_mean": 1.1424316977936542,
+          "last_window_mean": 0.16163433684596384,
+          "window_count": 512,
+          "zero_count": 0
+        }
+      }
+    },
+    "gripper_generated_error.jsonl": {
+      "source_sha256": "f035e9b5a1d53ffbba712532d967a2dc8a5f2d6fde89fbadf873d9fbec096784",
+      "metrics": {
+        "command_fraction_MAE": {
+          "count": 16384,
+          "mean": 0.3206677213169087,
+          "median": 0.35699598491191864,
+          "p95": 0.5153401494026184,
+          "first_window_mean": 0.4263114988716552,
+          "last_window_mean": 0.2989088302711025,
+          "window_count": 512,
+          "zero_count": 0
+        }
+      }
+    },
+    "gripper_output_gradients.jsonl": {
+      "source_sha256": "a9560ced3d75567c49bd759f8b0fad0d2388625533e02c5431467019ece48acb",
+      "metrics": {
+        "norm": {
+          "count": 81920,
+          "mean": 0.0015983191652794103,
+          "median": 0.0002870499301934615,
+          "p95": 0.008324751630425453,
+          "first_window_mean": 0.016260570481563263,
+          "last_window_mean": 0.0013718956614754418,
+          "window_count": 512,
+          "zero_count": 16384
+        }
+      }
+    },
+    "update_gradient_norms.jsonl": {
+      "source_sha256": "1dd8bdd79c364ba5888db573a74a79b570eafb6048da29b549f7b15ee04d56a3",
+      "metrics": {
+        "accumulated_norm": {
+          "count": 8192,
+          "mean": 15.015396962000523,
+          "median": 9.290082454681396,
+          "p95": 37.68408203125,
+          "first_window_mean": 76.0628996156156,
+          "last_window_mean": 7.782418389804661,
+          "window_count": 256,
+          "zero_count": 0
+        }
+      }
+    }
+  },
+  "interpretation": "Training-log observations only; different scheduled inputs are not a matched quality comparison. Fixed offline and physical task evaluation still required.",
+  "new_model_queries": 0,
+  "new_gradient_queries": 0,
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

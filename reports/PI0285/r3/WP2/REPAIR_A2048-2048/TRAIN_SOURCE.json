@@ -1,0 +1,2566 @@
+{
+  "status": "FIXED_NATIVE_FEEDBACK_PANEL_COMPLETE",
+  "point": "REPAIR_A2048-2048",
+  "split": "TRAIN",
+  "tasks": {
+    "T1": {
+      "success": 7,
+      "requested": 8
+    }
+  },
+  "paired_both_success": null,
+  "rows": [
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "5bc0034ce90a0ba47919a95a0194a6afeabb00c82e933c77c77d8fa2487f11cf",
+        "installed.npz": "61997ca067c6b8a380c7fde9ddff8e5567fd447ec96cd7a4667d2734b116258a",
+        "physics.npz": "5c2110b98eb30a92e7904bb26fb3504cd3c22a57ea14dda2abbc0e7978eb84f9",
+        "START.json": "03584dc1bbe565de7056c29a2499e4f21ef0ba8f336ff91d300c14f9bd0b778d",
+        "TASK_SCORE_CPU.json": "4d5f43337f6f611fd153dbfb460f3683888ba7017918bd1b626a40863a0f3d43",
+        "contacts.jsonl": "2eca85faf1ccc0fd850510f9ce7f833d2d7c492e1ea1660fb843a0a1175f7c8c",
+        "EPISODE_CARD.json": "673d41d3920317603635de287676e20a11fd1116edbc1184c90c349fa464158d",
+        "commands.npz": "c35bbfab116552552087ab0f71d8af24d7f867c9d890fbe32e79ccaba687004e",
+        "initial.npz": "5d5570d19c1bb68e7526389f5ec21d8c7fba57824652a70994e8958ee76a3958",
+        "NATIVE_INVENTORY.json": "228aa583d37b1a5116bb552c9964b81c619cf86c9df37a350d73ecfe90aa4c9f",
+        "QUERIES.json": "827b3a02a6f9ddb45133f95fdd38dcc7dd4898bd02b4e2a9cc9372ae2f335757"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 15.240000000000002,
+      "point": "REPAIR_A2048-2048",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285100,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/REPAIR_A2048-2048-T1-TRAIN-285100/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.81,
+            "changes": [
+              {
+                "time_s": 2.81,
+                "value": true
+              },
+              {
+                "time_s": 14.27,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 4.42,
+            "changes": [
+              {
+                "time_s": 4.42,
+                "value": true
+              },
+              {
+                "time_s": 4.47,
+                "value": false
+              },
+              {
+                "time_s": 4.74,
+                "value": true
+              },
+              {
+                "time_s": 4.92,
+                "value": false
+              },
+              {
+                "time_s": 5.0600000000000005,
+                "value": true
+              },
+              {
+                "time_s": 13.84,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 7.65,
+            "changes": [
+              {
+                "time_s": 7.65,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 11.32,
+            "changes": [
+              {
+                "time_s": 11.32,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 3.58,
+                "value": false
+              },
+              {
+                "time_s": 14.040000000000001,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.7600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 14.280000000000001,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.81,
+                "value": false
+              },
+              {
+                "time_s": 14.27,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.75,
+                "value": false
+              },
+              {
+                "time_s": 15.240000000000002,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 15.240000000000002,
+            "changes": [
+              {
+                "time_s": 15.240000000000002,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 29.19745182991028,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "0977abb5e8fc2a86feb685196576d9cc6ac7b728e68e1f3f906174112b2cf4ee",
+        "installed.npz": "d3b78ba7b016dc7139952fd338819b2465a860c5624fbc82a90ac74c1180f4f4",
+        "physics.npz": "6c3112a0ee6eca11c897a6b95f8ff60e827c7a0ee6f77b75754ed01dcfd2717e",
+        "START.json": "6ab060e9fe0a93e99e59eb4daac65480d7189ea3488784f26b5ced43642c1a4d",
+        "TASK_SCORE_CPU.json": "8daf53e8288c878c38db63ee982fc0369f69653325147880eb65504e20d5ea98",
+        "contacts.jsonl": "723b844c1eabc403aba928372342aec7741864a06315bce794e6d866d7b5a2f4",
+        "EPISODE_CARD.json": "404709b698be4943e8b8d37f68b76609d51336646e689a431e9717b51458c1a5",
+        "commands.npz": "36c0f18ec679e0cd905751006b89ebc6785f0a837ef6629b73354cf3025534e6",
+        "initial.npz": "a3550d3730bd8b1cfb6371e578e9ed4daed1ed423f8ee38b017a9e2608cc21d5",
+        "NATIVE_INVENTORY.json": "3aabb93fe3946fb86b57cc90c751b1c1e98024f349d2edcd41399a2b10e02eaf",
+        "QUERIES.json": "397b13fe000933b9478fc2ce15ea49d87ffb453b3c15facb7e0c1e98fd00cf91"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 8.94,
+      "point": "REPAIR_A2048-2048",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285101,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/REPAIR_A2048-2048-T1-TRAIN-285101/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.11,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": true
+              },
+              {
+                "time_s": 7.42,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.64,
+            "changes": [
+              {
+                "time_s": 2.64,
+                "value": true
+              },
+              {
+                "time_s": 7.040000000000001,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 4.72,
+            "changes": [
+              {
+                "time_s": 4.72,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 5.140000000000001,
+            "changes": [
+              {
+                "time_s": 5.140000000000001,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.5,
+                "value": false
+              },
+              {
+                "time_s": 7.1899999999999995,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.09,
+                "value": false
+              },
+              {
+                "time_s": 7.43,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.11,
+                "value": false
+              },
+              {
+                "time_s": 7.42,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.02,
+                "value": false
+              },
+              {
+                "time_s": 8.94,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 8.94,
+            "changes": [
+              {
+                "time_s": 8.94,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 28.169966220855713,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "69de7c70ee3c144caa9a893fc1337a9588c24c7eca9a7f449fbdc357339392fe",
+        "installed.npz": "7dc0351256ed1759414d50931dbc38b827d957a661d983973a3230f42dd1807e",
+        "physics.npz": "decd77f5a29092534e84e268860af65540cdb1195aadab5ba06def591abb52ba",
+        "START.json": "ffea48bd72b807bbf64215396186a76d2b45af57eaa578af9518de720c66049d",
+        "TASK_SCORE_CPU.json": "d518b1b8803f8724be433fe42255c1af0f6760ce37ca7d61080612885f833494",
+        "contacts.jsonl": "b0dda1722817ea90500111f441c614d952b2657b54a172a9156db32a89e79bae",
+        "EPISODE_CARD.json": "7480abad97c2ae3e98cfb8de4f78726d62cdbabccb12084cc5e7350fdca7f7ca",
+        "commands.npz": "34bda07cb21e0b28cb40aae15318ab9b32f36344282d71d396cf239bfb755adc",
+        "initial.npz": "bf6ad4165474ed2390d9b79a1d1f7df6291fb88b8252f53b724fba4828f5ba19",
+        "NATIVE_INVENTORY.json": "9543c635001facce3aab5eeb08da0db8bf60eaddef6ba71ef56674bfd0c66f80",
+        "QUERIES.json": "d953be5eb261fe48a6dbc7b4a102370a498fdd13dda3dcbb19c4be4d732d1518"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 8.43,
+      "point": "REPAIR_A2048-2048",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285102,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/REPAIR_A2048-2048-T1-TRAIN-285102/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.21,
+            "changes": [
+              {
+                "time_s": 2.21,
+                "value": true
+              },
+              {
+                "time_s": 7.17,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.8200000000000003,
+            "changes": [
+              {
+                "time_s": 2.8200000000000003,
+                "value": true
+              },
+              {
+                "time_s": 6.94,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 5.09,
+            "changes": [
+              {
+                "time_s": 5.09,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 6.0600000000000005,
+            "changes": [
+              {
+                "time_s": 6.0600000000000005,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.7,
+                "value": false
+              },
+              {
+                "time_s": 7.07,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.2,
+                "value": false
+              },
+              {
+                "time_s": 7.1899999999999995,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.21,
+                "value": false
+              },
+              {
+                "time_s": 7.17,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.21,
+                "value": false
+              },
+              {
+                "time_s": 8.43,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 8.43,
+            "changes": [
+              {
+                "time_s": 8.43,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 28.66291093826294,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "5fff627788d57de14b8abb46eb9c74035cec65944efe092ad89bf2d168ccef2e",
+        "installed.npz": "7594829142d9f9f5d17fed09fe93dedb95db98a80c4032f2ab5f48fbe67abd02",
+        "physics.npz": "d3fc1753138b29d343faf3267222de31432081e437a64326f99be7fa22b2eca9",
+        "START.json": "f2380640fcb1f85327e1d60fc1d3e6c73a6338d99b318bca27498f394dcd73f6",
+        "TASK_SCORE_CPU.json": "6eeae4c6fb7d8e4c0c6322b4086d136c8c3e6855a09f1a75f2eee8645eda7a59",
+        "contacts.jsonl": "cd78eddfbda5fff3581fd5a46e9f5bb42f065581d0c8ad24e0c8fc328c27ab65",
+        "EPISODE_CARD.json": "bb528747999c0c8288e981a5ed4b25133780a691d8ed08da454f983b35ae8857",
+        "commands.npz": "d4a7118c9d632533762b2bbb425fcf2aacea9e0e14b640cefe414fa6386e3800",
+        "initial.npz": "0e76f7809bc5cb60842c1dab79d80cdb955c14dab66acf733f338397e9f92b08",
+        "NATIVE_INVENTORY.json": "3bb2f031879bb72d90deca333b014ff9a9b2f96ddb508f8b19162d128423ed43",
+        "QUERIES.json": "f81d971b9eef73c260ddd1ae92cf85577ca748b6017ba9c720e433baac8cdbad"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 11.530000000000001,
+      "point": "REPAIR_A2048-2048",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285103,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/REPAIR_A2048-2048-T1-TRAIN-285103/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 3.1900000000000004,
+            "changes": [
+              {
+                "time_s": 3.1900000000000004,
+                "value": true
+              },
+              {
+                "time_s": 10.47,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 3.59,
+            "changes": [
+              {
+                "time_s": 3.59,
+                "value": true
+              },
+              {
+                "time_s": 10.42,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 7.720000000000001,
+            "changes": [
+              {
+                "time_s": 7.720000000000001,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 8.08,
+            "changes": [
+              {
+                "time_s": 8.08,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 3.37,
+                "value": false
+              },
+              {
+                "time_s": 10.5,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 3.17,
+                "value": false
+              },
+              {
+                "time_s": 10.57,
+                "value": true
+              },
+              {
+                "time_s": 10.950000000000001,
+                "value": false
+              },
+              {
+                "time_s": 10.96,
+                "value": true
+              },
+              {
+                "time_s": 10.98,
+                "value": false
+              },
+              {
+                "time_s": 11.01,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 3.1900000000000004,
+                "value": false
+              },
+              {
+                "time_s": 10.47,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.02,
+                "value": false
+              },
+              {
+                "time_s": 11.530000000000001,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 11.530000000000001,
+            "changes": [
+              {
+                "time_s": 11.530000000000001,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 39.71955633163452,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "581617facc632698cd66579fa5a42587b4039c1058b4cfb16e26bc56b74a3bb3",
+        "installed.npz": "94b1cefe1a4d4c6a230f8a8000e9d9148cc99d7449e311412cd78762be0f983b",
+        "physics.npz": "8d9e8b49677b668672f99ac11b2497b1e7792ddd0021fb1625ff917cca85f9f3",
+        "START.json": "bf7a33abd3f937ae3d1eddffc2733900ca04c93c0034ee8be3d4224811998a9c",
+        "TASK_SCORE_CPU.json": "31d18113fc76ff9370e06b87d11024d5c0783d514e2385cb6a9fc125f0344a0e",
+        "contacts.jsonl": "bd7b25ea49987335538d1abffddd8b50b72d44712df4555ab230f1896b5549cc",
+        "EPISODE_CARD.json": "4b1caaed74c585bbad290778634e817c855722947957915ec9b02f36f8ddfb3f",
+        "commands.npz": "fa5717199f295374a83266769a9efbad008205da2ea1218693e8337a6fca1fb4",
+        "initial.npz": "a8eb1fd2604530bebec8a3de522d1934ca4c1f46e7dc0e8cf971be2df41afba4",
+        "NATIVE_INVENTORY.json": "9543c635001facce3aab5eeb08da0db8bf60eaddef6ba71ef56674bfd0c66f80",
+        "QUERIES.json": "0efaeddb82e69869c67f7155f6d2687f033e345ea0e3ec3701297bd38e0988b1"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 11.32,
+      "point": "REPAIR_A2048-2048",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285104,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/REPAIR_A2048-2048-T1-TRAIN-285104/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.25,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": true
+              },
+              {
+                "time_s": 10.52,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 2.72,
+            "changes": [
+              {
+                "time_s": 2.72,
+                "value": true
+              },
+              {
+                "time_s": 3.09,
+                "value": false
+              },
+              {
+                "time_s": 3.1799999999999997,
+                "value": true
+              },
+              {
+                "time_s": 10.43,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 6.79,
+            "changes": [
+              {
+                "time_s": 6.79,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 9.13,
+            "changes": [
+              {
+                "time_s": 9.13,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.5,
+                "value": false
+              },
+              {
+                "time_s": 10.56,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.23,
+                "value": false
+              },
+              {
+                "time_s": 10.59,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.25,
+                "value": false
+              },
+              {
+                "time_s": 10.52,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.0699999999999998,
+                "value": false
+              },
+              {
+                "time_s": 11.32,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 11.32,
+            "changes": [
+              {
+                "time_s": 11.32,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 28.769192457199097,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "5437d3127fec08c62d7b0671df3f9766e6761d8a0dd20ed584643f927a58ab35",
+        "installed.npz": "7ac855e24cfa9ca5b4f52347bd437ceabfc98fe732ad8177e48d96712479f119",
+        "physics.npz": "0c8e8e0f224ae0bdc321efd70a725c66839352f7ca904ba8d781f7e5b685c36b",
+        "START.json": "2165d795b254b6f326c7b5287c74210ceb7cd0e0cfa3866f5113285d56535b64",
+        "TASK_SCORE_CPU.json": "25ea329fbe16ff64a3981e4606e25afb31d28d31c63c0c5caf98ea4616c7de0f",
+        "contacts.jsonl": "06d7662df822135fec7ed1a502b16cfedcc0e62869c771b96b0cc43d40da45ed",
+        "EPISODE_CARD.json": "9c98d4b5fb967c7c2e0a5954f5a250bbea32970aa714bda5d9490fd379beb7c3",
+        "commands.npz": "76be8d288c4b7fa24e85a46280ce93de9e7891292e2d612e7e23b86921f502e7",
+        "initial.npz": "af9a2bd188a58c948a4f5a8d2c033caaa9308dae9490786b764257d26cfb2e56",
+        "NATIVE_INVENTORY.json": "912084be6c47d2b0f537dddf131bdea837c756ec9453fd6f7103c8173a098999",
+        "QUERIES.json": "5658a7409c53dc421cb00dacaa10a4b209c38c581b4f167279558f144a414313"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 14.040000000000001,
+      "point": "REPAIR_A2048-2048",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285105,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/REPAIR_A2048-2048-T1-TRAIN-285105/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.35,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": true
+              },
+              {
+                "time_s": 5.75,
+                "value": false
+              },
+              {
+                "time_s": 5.97,
+                "value": true
+              },
+              {
+                "time_s": 6.07,
+                "value": false
+              },
+              {
+                "time_s": 6.3500000000000005,
+                "value": true
+              },
+              {
+                "time_s": 12.92,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 7.609999999999999,
+            "changes": [
+              {
+                "time_s": 7.609999999999999,
+                "value": true
+              },
+              {
+                "time_s": 7.65,
+                "value": false
+              },
+              {
+                "time_s": 7.91,
+                "value": true
+              },
+              {
+                "time_s": 12.700000000000001,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 10.68,
+            "changes": [
+              {
+                "time_s": 10.68,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 11.52,
+            "changes": [
+              {
+                "time_s": 11.52,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 6.69,
+                "value": false
+              },
+              {
+                "time_s": 12.870000000000001,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.33,
+                "value": false
+              },
+              {
+                "time_s": 5.76,
+                "value": true
+              },
+              {
+                "time_s": 5.96,
+                "value": false
+              },
+              {
+                "time_s": 6.08,
+                "value": true
+              },
+              {
+                "time_s": 6.12,
+                "value": false
+              },
+              {
+                "time_s": 6.13,
+                "value": true
+              },
+              {
+                "time_s": 6.33,
+                "value": false
+              },
+              {
+                "time_s": 12.96,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.35,
+                "value": false
+              },
+              {
+                "time_s": 5.75,
+                "value": true
+              },
+              {
+                "time_s": 5.97,
+                "value": false
+              },
+              {
+                "time_s": 6.07,
+                "value": true
+              },
+              {
+                "time_s": 6.3500000000000005,
+                "value": false
+              },
+              {
+                "time_s": 12.92,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.1800000000000002,
+                "value": false
+              },
+              {
+                "time_s": 14.040000000000001,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 14.040000000000001,
+            "changes": [
+              {
+                "time_s": 14.040000000000001,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 28.499966382980347,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": false,
+      "sustained_grasp_0p3": false,
+      "ik_holds": 81,
+      "files": {
+        "observations.npz": "357d2d1e3a994ecabba277f1291f4fd157d87e65ab1ee949bd97ef0c1c075c7b",
+        "installed.npz": "7bcd3f0d7d55a2e2071b9ae8c9f472f199e83e7601a8dd46687e1bb3f95cfd3f",
+        "physics.npz": "4d624f66029107138ba33a40193e77c962556415a3d4eb08b2d92171cb525737",
+        "START.json": "b86617f2192f799f20dcfb081bef2d607dcaff70f04c18641b538eaa8db4abf7",
+        "TASK_SCORE_CPU.json": "4484e1d0fc8715542c0eeb653319bc9832de1f83e59c433ec66cf1b3fc9f57a7",
+        "contacts.jsonl": "bf63cb7020903c8a67a4ea94d1f4807ee0a25ae96e00b91bddf6ae4fc0bbf78c",
+        "EPISODE_CARD.json": "ab31de36daf82ced7d96dc0809963dd0ffa2867a21739f4e9618a78999de5f69",
+        "commands.npz": "a1b818244423997157b4493747da4ad47084ce05c169e442840a83335bc1b90a",
+        "initial.npz": "36e6dce19863a123924a06c0433ca63477211f20f66af908ba2bcc639c4e47a1",
+        "NATIVE_INVENTORY.json": "eeb4e582a9beb1a1e1c7717d0785690e4ea985d874c589bc947b34e9a8e687ed",
+        "QUERIES.json": "7cb73d0410d028bfef4af0dae64febee0f58ab1245a9f3e7920a4e68bfed92bd"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": null,
+      "point": "REPAIR_A2048-2048",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285106,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/REPAIR_A2048-2048-T1-TRAIN-285106/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": false,
+          "lift": false,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 0,
+        "green_final_unmoved": true,
+        "persistent_success": false,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 4.97,
+            "changes": [
+              {
+                "time_s": 4.97,
+                "value": true
+              },
+              {
+                "time_s": 5.0600000000000005,
+                "value": false
+              },
+              {
+                "time_s": 5.34,
+                "value": true
+              },
+              {
+                "time_s": 5.47,
+                "value": false
+              },
+              {
+                "time_s": 6.17,
+                "value": true
+              },
+              {
+                "time_s": 6.23,
+                "value": false
+              },
+              {
+                "time_s": 6.2700000000000005,
+                "value": true
+              },
+              {
+                "time_s": 6.3,
+                "value": false
+              },
+              {
+                "time_s": 6.38,
+                "value": true
+              },
+              {
+                "time_s": 6.390000000000001,
+                "value": false
+              },
+              {
+                "time_s": 6.61,
+                "value": true
+              },
+              {
+                "time_s": 6.69,
+                "value": false
+              },
+              {
+                "time_s": 6.92,
+                "value": true
+              },
+              {
+                "time_s": 7.040000000000001,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 3.1900000000000004,
+            "changes": [
+              {
+                "time_s": 3.1900000000000004,
+                "value": true
+              },
+              {
+                "time_s": 3.3600000000000003,
+                "value": false
+              },
+              {
+                "time_s": 3.38,
+                "value": true
+              },
+              {
+                "time_s": 3.4800000000000004,
+                "value": false
+              },
+              {
+                "time_s": 4.2700000000000005,
+                "value": true
+              },
+              {
+                "time_s": 4.41,
+                "value": false
+              },
+              {
+                "time_s": 9.77,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.7600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 3.6799999999999997,
+                "value": true
+              },
+              {
+                "time_s": 3.9299999999999997,
+                "value": false
+              },
+              {
+                "time_s": 3.9400000000000004,
+                "value": true
+              },
+              {
+                "time_s": 3.96,
+                "value": false
+              },
+              {
+                "time_s": 3.9699999999999998,
+                "value": true
+              },
+              {
+                "time_s": 4.18,
+                "value": false
+              },
+              {
+                "time_s": 4.2,
+                "value": true
+              },
+              {
+                "time_s": 4.26,
+                "value": false
+              },
+              {
+                "time_s": 4.29,
+                "value": true
+              },
+              {
+                "time_s": 4.33,
+                "value": false
+              },
+              {
+                "time_s": 4.51,
+                "value": true
+              },
+              {
+                "time_s": 4.96,
+                "value": false
+              },
+              {
+                "time_s": 5.07,
+                "value": true
+              },
+              {
+                "time_s": 5.12,
+                "value": false
+              },
+              {
+                "time_s": 5.13,
+                "value": true
+              },
+              {
+                "time_s": 5.15,
+                "value": false
+              },
+              {
+                "time_s": 5.21,
+                "value": true
+              },
+              {
+                "time_s": 5.28,
+                "value": false
+              },
+              {
+                "time_s": 5.48,
+                "value": true
+              },
+              {
+                "time_s": 5.62,
+                "value": false
+              },
+              {
+                "time_s": 5.75,
+                "value": true
+              },
+              {
+                "time_s": 5.7700000000000005,
+                "value": false
+              },
+              {
+                "time_s": 5.8100000000000005,
+                "value": true
+              },
+              {
+                "time_s": 5.86,
+                "value": false
+              },
+              {
+                "time_s": 5.96,
+                "value": true
+              },
+              {
+                "time_s": 6.13,
+                "value": false
+              },
+              {
+                "time_s": 6.22,
+                "value": true
+              },
+              {
+                "time_s": 6.26,
+                "value": false
+              },
+              {
+                "time_s": 6.2700000000000005,
+                "value": true
+              },
+              {
+                "time_s": 6.3,
+                "value": false
+              },
+              {
+                "time_s": 6.3100000000000005,
+                "value": true
+              },
+              {
+                "time_s": 6.38,
+                "value": false
+              },
+              {
+                "time_s": 6.4,
+                "value": true
+              },
+              {
+                "time_s": 6.57,
+                "value": false
+              },
+              {
+                "time_s": 6.8100000000000005,
+                "value": true
+              },
+              {
+                "time_s": 6.87,
+                "value": false
+              },
+              {
+                "time_s": 7.17,
+                "value": true
+              },
+              {
+                "time_s": 7.48,
+                "value": false
+              },
+              {
+                "time_s": 7.57,
+                "value": true
+              },
+              {
+                "time_s": 7.58,
+                "value": false
+              },
+              {
+                "time_s": 7.59,
+                "value": true
+              },
+              {
+                "time_s": 7.6,
+                "value": false
+              },
+              {
+                "time_s": 7.620000000000001,
+                "value": true
+              },
+              {
+                "time_s": 8.03,
+                "value": false
+              },
+              {
+                "time_s": 8.05,
+                "value": true
+              },
+              {
+                "time_s": 8.57,
+                "value": false
+              },
+              {
+                "time_s": 8.59,
+                "value": true
+              },
+              {
+                "time_s": 8.61,
+                "value": false
+              },
+              {
+                "time_s": 8.700000000000001,
+                "value": true
+              },
+              {
+                "time_s": 8.77,
+                "value": false
+              },
+              {
+                "time_s": 8.81,
+                "value": true
+              },
+              {
+                "time_s": 9.200000000000001,
+                "value": false
+              },
+              {
+                "time_s": 9.22,
+                "value": true
+              },
+              {
+                "time_s": 9.38,
+                "value": false
+              },
+              {
+                "time_s": 9.58,
+                "value": true
+              },
+              {
+                "time_s": 9.59,
+                "value": false
+              },
+              {
+                "time_s": 9.66,
+                "value": true
+              },
+              {
+                "time_s": 9.74,
+                "value": false
+              },
+              {
+                "time_s": 9.8,
+                "value": true
+              },
+              {
+                "time_s": 9.89,
+                "value": false
+              },
+              {
+                "time_s": 9.91,
+                "value": true
+              },
+              {
+                "time_s": 10.11,
+                "value": false
+              },
+              {
+                "time_s": 10.120000000000001,
+                "value": true
+              },
+              {
+                "time_s": 10.13,
+                "value": false
+              },
+              {
+                "time_s": 10.290000000000001,
+                "value": true
+              },
+              {
+                "time_s": 10.3,
+                "value": false
+              },
+              {
+                "time_s": 10.32,
+                "value": true
+              },
+              {
+                "time_s": 10.69,
+                "value": false
+              },
+              {
+                "time_s": 10.84,
+                "value": true
+              },
+              {
+                "time_s": 10.97,
+                "value": false
+              },
+              {
+                "time_s": 11.02,
+                "value": true
+              },
+              {
+                "time_s": 11.07,
+                "value": false
+              },
+              {
+                "time_s": 11.120000000000001,
+                "value": true
+              },
+              {
+                "time_s": 11.21,
+                "value": false
+              },
+              {
+                "time_s": 11.23,
+                "value": true
+              },
+              {
+                "time_s": 11.24,
+                "value": false
+              },
+              {
+                "time_s": 11.290000000000001,
+                "value": true
+              },
+              {
+                "time_s": 11.370000000000001,
+                "value": false
+              },
+              {
+                "time_s": 11.4,
+                "value": true
+              },
+              {
+                "time_s": 12.47,
+                "value": false
+              },
+              {
+                "time_s": 12.540000000000001,
+                "value": true
+              },
+              {
+                "time_s": 12.85,
+                "value": false
+              },
+              {
+                "time_s": 12.99,
+                "value": true
+              },
+              {
+                "time_s": 13.14,
+                "value": false
+              },
+              {
+                "time_s": 13.15,
+                "value": true
+              },
+              {
+                "time_s": 13.24,
+                "value": false
+              },
+              {
+                "time_s": 13.39,
+                "value": true
+              },
+              {
+                "time_s": 13.450000000000001,
+                "value": false
+              },
+              {
+                "time_s": 13.47,
+                "value": true
+              },
+              {
+                "time_s": 13.64,
+                "value": false
+              },
+              {
+                "time_s": 13.74,
+                "value": true
+              },
+              {
+                "time_s": 13.77,
+                "value": false
+              },
+              {
+                "time_s": 13.82,
+                "value": true
+              },
+              {
+                "time_s": 14.05,
+                "value": false
+              },
+              {
+                "time_s": 14.07,
+                "value": true
+              },
+              {
+                "time_s": 14.24,
+                "value": false
+              },
+              {
+                "time_s": 14.35,
+                "value": true
+              },
+              {
+                "time_s": 14.75,
+                "value": false
+              },
+              {
+                "time_s": 14.93,
+                "value": true
+              },
+              {
+                "time_s": 15.71,
+                "value": false
+              },
+              {
+                "time_s": 15.719999999999999,
+                "value": true
+              },
+              {
+                "time_s": 15.86,
+                "value": false
+              },
+              {
+                "time_s": 15.870000000000001,
+                "value": true
+              },
+              {
+                "time_s": 16.04,
+                "value": false
+              },
+              {
+                "time_s": 16.09,
+                "value": true
+              },
+              {
+                "time_s": 16.14,
+                "value": false
+              },
+              {
+                "time_s": 16.35,
+                "value": true
+              },
+              {
+                "time_s": 16.38,
+                "value": false
+              },
+              {
+                "time_s": 16.56,
+                "value": true
+              },
+              {
+                "time_s": 16.57,
+                "value": false
+              },
+              {
+                "time_s": 16.580000000000002,
+                "value": true
+              },
+              {
+                "time_s": 16.59,
+                "value": false
+              },
+              {
+                "time_s": 16.62,
+                "value": true
+              },
+              {
+                "time_s": 16.63,
+                "value": false
+              },
+              {
+                "time_s": 16.64,
+                "value": true
+              },
+              {
+                "time_s": 16.66,
+                "value": false
+              },
+              {
+                "time_s": 16.97,
+                "value": true
+              },
+              {
+                "time_s": 17.23,
+                "value": false
+              },
+              {
+                "time_s": 17.38,
+                "value": true
+              },
+              {
+                "time_s": 17.400000000000002,
+                "value": false
+              },
+              {
+                "time_s": 17.43,
+                "value": true
+              },
+              {
+                "time_s": 17.44,
+                "value": false
+              },
+              {
+                "time_s": 17.79,
+                "value": true
+              },
+              {
+                "time_s": 17.8,
+                "value": false
+              },
+              {
+                "time_s": 18.150000000000002,
+                "value": true
+              },
+              {
+                "time_s": 18.28,
+                "value": false
+              },
+              {
+                "time_s": 18.330000000000002,
+                "value": true
+              },
+              {
+                "time_s": 18.34,
+                "value": false
+              },
+              {
+                "time_s": 18.42,
+                "value": true
+              },
+              {
+                "time_s": 18.43,
+                "value": false
+              },
+              {
+                "time_s": 18.61,
+                "value": true
+              },
+              {
+                "time_s": 18.69,
+                "value": false
+              },
+              {
+                "time_s": 18.7,
+                "value": true
+              },
+              {
+                "time_s": 18.71,
+                "value": false
+              },
+              {
+                "time_s": 18.72,
+                "value": true
+              },
+              {
+                "time_s": 18.73,
+                "value": false
+              },
+              {
+                "time_s": 18.76,
+                "value": true
+              },
+              {
+                "time_s": 18.830000000000002,
+                "value": false
+              },
+              {
+                "time_s": 18.900000000000002,
+                "value": true
+              },
+              {
+                "time_s": 18.91,
+                "value": false
+              },
+              {
+                "time_s": 18.94,
+                "value": true
+              },
+              {
+                "time_s": 18.97,
+                "value": false
+              },
+              {
+                "time_s": 19.0,
+                "value": true
+              },
+              {
+                "time_s": 19.01,
+                "value": false
+              },
+              {
+                "time_s": 19.03,
+                "value": true
+              },
+              {
+                "time_s": 19.06,
+                "value": false
+              },
+              {
+                "time_s": 19.09,
+                "value": true
+              },
+              {
+                "time_s": 19.1,
+                "value": false
+              },
+              {
+                "time_s": 19.14,
+                "value": true
+              },
+              {
+                "time_s": 19.16,
+                "value": false
+              },
+              {
+                "time_s": 19.240000000000002,
+                "value": true
+              },
+              {
+                "time_s": 19.25,
+                "value": false
+              },
+              {
+                "time_s": 19.29,
+                "value": true
+              },
+              {
+                "time_s": 19.3,
+                "value": false
+              },
+              {
+                "time_s": 19.330000000000002,
+                "value": true
+              },
+              {
+                "time_s": 19.35,
+                "value": false
+              },
+              {
+                "time_s": 19.39,
+                "value": true
+              },
+              {
+                "time_s": 19.400000000000002,
+                "value": false
+              },
+              {
+                "time_s": 19.56,
+                "value": true
+              },
+              {
+                "time_s": 19.57,
+                "value": false
+              },
+              {
+                "time_s": 19.580000000000002,
+                "value": true
+              },
+              {
+                "time_s": 19.61,
+                "value": false
+              },
+              {
+                "time_s": 19.86,
+                "value": true
+              },
+              {
+                "time_s": 20.73,
+                "value": false
+              },
+              {
+                "time_s": 20.78,
+                "value": true
+              },
+              {
+                "time_s": 20.81,
+                "value": false
+              },
+              {
+                "time_s": 20.97,
+                "value": true
+              },
+              {
+                "time_s": 21.91,
+                "value": false
+              },
+              {
+                "time_s": 22.05,
+                "value": true
+              },
+              {
+                "time_s": 22.06,
+                "value": false
+              },
+              {
+                "time_s": 22.5,
+                "value": true
+              },
+              {
+                "time_s": 22.53,
+                "value": false
+              },
+              {
+                "time_s": 23.11,
+                "value": true
+              },
+              {
+                "time_s": 23.22,
+                "value": false
+              },
+              {
+                "time_s": 23.310000000000002,
+                "value": true
+              },
+              {
+                "time_s": 23.32,
+                "value": false
+              },
+              {
+                "time_s": 23.330000000000002,
+                "value": true
+              },
+              {
+                "time_s": 23.34,
+                "value": false
+              },
+              {
+                "time_s": 23.35,
+                "value": true
+              },
+              {
+                "time_s": 23.36,
+                "value": false
+              },
+              {
+                "time_s": 23.37,
+                "value": true
+              },
+              {
+                "time_s": 23.46,
+                "value": false
+              },
+              {
+                "time_s": 23.66,
+                "value": true
+              },
+              {
+                "time_s": 23.77,
+                "value": false
+              },
+              {
+                "time_s": 24.02,
+                "value": true
+              },
+              {
+                "time_s": 24.12,
+                "value": false
+              },
+              {
+                "time_s": 24.27,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 4.97,
+                "value": false
+              },
+              {
+                "time_s": 5.0600000000000005,
+                "value": true
+              },
+              {
+                "time_s": 5.34,
+                "value": false
+              },
+              {
+                "time_s": 5.47,
+                "value": true
+              },
+              {
+                "time_s": 6.17,
+                "value": false
+              },
+              {
+                "time_s": 6.23,
+                "value": true
+              },
+              {
+                "time_s": 6.2700000000000005,
+                "value": false
+              },
+              {
+                "time_s": 6.3,
+                "value": true
+              },
+              {
+                "time_s": 6.38,
+                "value": false
+              },
+              {
+                "time_s": 6.390000000000001,
+                "value": true
+              },
+              {
+                "time_s": 6.61,
+                "value": false
+              },
+              {
+                "time_s": 6.69,
+                "value": true
+              },
+              {
+                "time_s": 6.92,
+                "value": false
+              },
+              {
+                "time_s": 7.040000000000001,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.1,
+                "value": false
+              },
+              {
+                "time_s": 19.69,
+                "value": true
+              },
+              {
+                "time_s": 20.73,
+                "value": false
+              },
+              {
+                "time_s": 20.82,
+                "value": true
+              },
+              {
+                "time_s": 21.71,
+                "value": false
+              },
+              {
+                "time_s": 23.03,
+                "value": true
+              },
+              {
+                "time_s": 23.93,
+                "value": false
+              },
+              {
+                "time_s": 23.98,
+                "value": true
+              },
+              {
+                "time_s": 24.16,
+                "value": false
+              },
+              {
+                "time_s": 24.28,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 29.94242024421692,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    {
+      "status": "VALID_SOURCE_COMPLETE",
+      "error": null,
+      "control_calls": 660,
+      "physics_completed": 3300,
+      "physics_samples": 3301,
+      "RGB_pairs": 660,
+      "persistent_success": true,
+      "sustained_grasp_0p3": true,
+      "ik_holds": 0,
+      "files": {
+        "observations.npz": "c757f42a174b50fdf08e53957e9a80bc4353f4233e669163f0179c4a2c5e0857",
+        "installed.npz": "e4133466213c10a63044a4525638b83b590c931fc0fee791f1127d0f5607284e",
+        "physics.npz": "37d31c4db6647771bc663d573aabf2b709d63f577116f975c671494a0191349a",
+        "START.json": "60d540d6d0941ca2e1eefad26e8b0f2e386c66d89e168ef63cd3e8dcf58b354d",
+        "TASK_SCORE_CPU.json": "9af3eacc334c8339cb6983243f47c5c09aa54aea746294d0fdd617a8048dfc05",
+        "contacts.jsonl": "f04c241938932752691fe622df3a13d902319d27965a2c3f1a978380ca953bb5",
+        "EPISODE_CARD.json": "29621b2eda00ea2a2f2419ea0ca789204527d7dd953f0f40472bf3f994b9b9a9",
+        "commands.npz": "a048e3488f3f48df5b976adefc89603145848361d9fbaca2bfe1ff56624f90c3",
+        "initial.npz": "1658ded5fd51315f0c789ac87e2b561125936883afad98d19dc994ecfa312367",
+        "NATIVE_INVENTORY.json": "eeb4e582a9beb1a1e1c7717d0785690e4ea985d874c589bc947b34e9a8e687ed",
+        "QUERIES.json": "d516fed2854996fa02c2a5edc8ff958c6c8fa180f06c7475cc3d732d18728cea"
+      },
+      "original_native_stack_first_success_s": null,
+      "first_task_hold_s": 16.29,
+      "point": "REPAIR_A2048-2048",
+      "task": "T1",
+      "split": "TRAIN",
+      "layout": 285107,
+      "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.",
+      "folder": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285/source/episodes/REPAIR_A2048-2048-T1-TRAIN-285107/attempt-000",
+      "task_score": {
+        "task": "T1",
+        "complete_32s": true,
+        "history": {
+          "grasp": true,
+          "lift": true,
+          "horizontal_transfer": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "green_final_unmoved": true,
+        "persistent_success": true,
+        "original_stack_hold_pass": 0,
+        "subpredicates": {
+          "grasp": {
+            "hold_pass": 0,
+            "first_true_s": 2.0,
+            "changes": [
+              {
+                "time_s": 2.0,
+                "value": true
+              },
+              {
+                "time_s": 2.0100000000000002,
+                "value": false
+              },
+              {
+                "time_s": 3.92,
+                "value": true
+              },
+              {
+                "time_s": 5.62,
+                "value": false
+              },
+              {
+                "time_s": 7.1899999999999995,
+                "value": true
+              },
+              {
+                "time_s": 15.41,
+                "value": false
+              }
+            ]
+          },
+          "lift": {
+            "hold_pass": 0,
+            "first_true_s": 4.63,
+            "changes": [
+              {
+                "time_s": 4.63,
+                "value": true
+              },
+              {
+                "time_s": 5.69,
+                "value": false
+              },
+              {
+                "time_s": 8.41,
+                "value": true
+              },
+              {
+                "time_s": 8.450000000000001,
+                "value": false
+              },
+              {
+                "time_s": 8.58,
+                "value": true
+              },
+              {
+                "time_s": 15.080000000000002,
+                "value": false
+              }
+            ]
+          },
+          "horizontal": {
+            "hold_pass": 41,
+            "first_true_s": 12.35,
+            "changes": [
+              {
+                "time_s": 12.35,
+                "value": true
+              }
+            ]
+          },
+          "zone": {
+            "hold_pass": 41,
+            "first_true_s": 13.67,
+            "changes": [
+              {
+                "time_s": 13.67,
+                "value": true
+              },
+              {
+                "time_s": 13.700000000000001,
+                "value": false
+              },
+              {
+                "time_s": 13.8,
+                "value": true
+              }
+            ]
+          },
+          "table": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 4.3500000000000005,
+                "value": false
+              },
+              {
+                "time_s": 5.71,
+                "value": true
+              },
+              {
+                "time_s": 8.21,
+                "value": false
+              },
+              {
+                "time_s": 15.219999999999999,
+                "value": true
+              }
+            ]
+          },
+          "static": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.98,
+                "value": false
+              },
+              {
+                "time_s": 2.04,
+                "value": true
+              },
+              {
+                "time_s": 3.8600000000000003,
+                "value": false
+              },
+              {
+                "time_s": 3.8899999999999997,
+                "value": true
+              },
+              {
+                "time_s": 3.9000000000000004,
+                "value": false
+              },
+              {
+                "time_s": 5.73,
+                "value": true
+              },
+              {
+                "time_s": 7.18,
+                "value": false
+              },
+              {
+                "time_s": 15.45,
+                "value": true
+              }
+            ]
+          },
+          "not_grasped": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 2.0,
+                "value": false
+              },
+              {
+                "time_s": 2.0100000000000002,
+                "value": true
+              },
+              {
+                "time_s": 3.92,
+                "value": false
+              },
+              {
+                "time_s": 5.62,
+                "value": true
+              },
+              {
+                "time_s": 7.1899999999999995,
+                "value": false
+              },
+              {
+                "time_s": 15.41,
+                "value": true
+              }
+            ]
+          },
+          "TCP_clear": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": [
+              {
+                "time_s": 1.2600000000000002,
+                "value": false
+              },
+              {
+                "time_s": 16.29,
+                "value": true
+              }
+            ]
+          },
+          "green_unmoved": {
+            "hold_pass": 41,
+            "first_true_s": 0.0,
+            "changes": []
+          },
+          "original_stack": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          },
+          "T1_hold": {
+            "hold_pass": 41,
+            "first_true_s": 16.29,
+            "changes": [
+              {
+                "time_s": 16.29,
+                "value": true
+              }
+            ]
+          },
+          "T2_hold": {
+            "hold_pass": 0,
+            "first_true_s": null,
+            "changes": []
+          }
+        },
+        "neutral_controls": 20,
+        "status": "VALID_SOURCE_COMPLETE"
+      },
+      "elapsed_wall_s": 28.78271794319153,
+      "model_queries": 80,
+      "teacher_passes": 0,
+      "NON_REALTIME": true,
+      "domain": "NEW_COMMON_SOURCE_PANDA_NOT_OLD_BENCHMARK",
+      "selected": "NONE",
+      "deployment": "NONE"
+    }
+  ],
+  "new_teacher_calls": 0,
+  "new_WBC": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

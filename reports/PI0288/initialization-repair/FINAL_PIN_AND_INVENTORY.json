@@ -1,0 +1,324 @@
+{
+  "status": "PASS",
+  "original_core_files_unchanged": [
+    {
+      "path": "src/ctrl/go2_x5_ocs2/config/task_floating.info",
+      "sha256": "0b69bd58db364a01e87331b0e4e777a9684fda18a4f67fa60aee55174f72dcca"
+    },
+    {
+      "path": "src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf",
+      "sha256": "403ce252c525437d66aa361a8a65b90bfe2b69dad0fcb1f7a17109582c7261bc"
+    },
+    {
+      "path": "src/ctrl/rl_sar/src/rl_sar_zoo/go2_x5_description/mjcf/go2_x5.xml",
+      "sha256": "b306e99adfb4f5e8af73649df2818ac14472395dadd1ac0b1db1c8473bbe8501"
+    },
+    {
+      "path": "src/ctrl/rl_sar/src/rl_sar_zoo/go2_x5_description/mjcf/scene.xml",
+      "sha256": "f85a5138ea76e4f60fead6281dc6b03b91455c738e4a0266875d3854aef7cec1"
+    },
+    {
+      "path": "src/ctrl/rl_sar/policy/go2_x5/N1_s29_175632/policy.pt",
+      "sha256": "b07c2d494a47cdae2a97fd9b2471d8f6f243049741e949414a5d099fa5148e3a"
+    },
+    {
+      "path": "src/ctrl/rl_sar/policy/go2_x5/N1_s29_175632/config.yaml",
+      "sha256": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855"
+    },
+    {
+      "path": "build/mujoco/bin/rl_sim_mujoco",
+      "sha256": "e8c74b689fa2a283ddd3e9d982288cd9aa0b6b0167f306ed6529f5fbdaea3a21"
+    },
+    {
+      "path": "install/lib/go2_x5_ocs2/go2_x5_ocs2_node",
+      "sha256": "fc985496715995778e1ba1580fddfd3f3922fd4b5c7e0954b66cef7b6ecd128f"
+    },
+    {
+      "path": "install/lib/ocs2_mobile_manipulator_ros/mobile_manipulator_mpc_node",
+      "sha256": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0"
+    }
+  ],
+  "old_safety_observer_sha256": "45b07c266831f3d468f9cf5c82cf7d554fcc4e964deede2c3e400b097eb98b49",
+  "repair_config_sha256": "8551bddab52292b5cf1cbbc43baa4eddddf5309c3cea073bb76141291a3e6f91",
+  "all_initialization_pins_match": true,
+  "repair_inventory": [
+    {
+      "path": "HOME_ZERO_STEP_AUDIT.json",
+      "logical_bytes": 4161,
+      "allocated_bytes": 8192,
+      "private": false
+    },
+    {
+      "path": "audit_home",
+      "logical_bytes": 28792,
+      "allocated_bytes": 32768,
+      "private": false
+    },
+    {
+      "path": "ZERO_INTEGRATION_STACK_BOUNDARY.jsonl",
+      "logical_bytes": 160,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "config.json",
+      "logical_bytes": 3189,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "HOME_SHARED_RESET_CPU_AUDIT.json",
+      "logical_bytes": 4180,
+      "allocated_bytes": 8192,
+      "private": false
+    },
+    {
+      "path": "audit_home.cpp",
+      "logical_bytes": 3910,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "rl_sim_mujoco.cpp.o",
+      "logical_bytes": 3433928,
+      "allocated_bytes": 3436544,
+      "private": true
+    },
+    {
+      "path": "native_home.hpp",
+      "logical_bytes": 1391,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "compile-home-audit.log",
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "private": false
+    },
+    {
+      "path": "COMPILED_MODEL_PARITY.json",
+      "logical_bytes": 131,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "link.log",
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "private": false
+    },
+    {
+      "path": "compile-model-cache-tool.log",
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "private": false
+    },
+    {
+      "path": "XML_COMPILER_SELF_TEST.jsonl",
+      "logical_bytes": 639,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "rl_sim_mujoco",
+      "logical_bytes": 2807024,
+      "allocated_bytes": 2809856,
+      "private": true
+    },
+    {
+      "path": "BUILD_AND_CPU_RECEIPT.json",
+      "logical_bytes": 30557,
+      "allocated_bytes": 32768,
+      "private": false
+    },
+    {
+      "path": "compile-simulate.cc.log",
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "private": false
+    },
+    {
+      "path": "compile-rl_sim_mujoco.cpp.log",
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "private": false
+    },
+    {
+      "path": "HOME_CPU_BUILD_RECEIPT.json",
+      "logical_bytes": 1075,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "MJB_ZERO_INTEGRATION_BOUNDARY.log",
+      "logical_bytes": 1392,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "ZERO_INTEGRATION_STACK_BOUNDARY.log",
+      "logical_bytes": 1291,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "MJB_ZERO_INTEGRATION_BOUNDARY.jsonl",
+      "logical_bytes": 549,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "audit_start_boundary.cpp",
+      "logical_bytes": 1037,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "private-scene.mjb",
+      "logical_bytes": 74461448,
+      "allocated_bytes": 74465280,
+      "private": true
+    },
+    {
+      "path": "simulate.cc.o",
+      "logical_bytes": 164056,
+      "allocated_bytes": 167936,
+      "private": true
+    },
+    {
+      "path": "ZERO_INTEGRATION_BOUNDARY.log",
+      "logical_bytes": 146,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "ZERO_INTEGRATION_BOUNDARY.jsonl",
+      "logical_bytes": 160,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "audit_start_boundary.so",
+      "logical_bytes": 18104,
+      "allocated_bytes": 20480,
+      "private": true
+    },
+    {
+      "path": "run.py",
+      "logical_bytes": 12009,
+      "allocated_bytes": 12288,
+      "private": false
+    },
+    {
+      "path": "PRIVATE_NATIVE_INITIALIZATION.diff",
+      "logical_bytes": 2521,
+      "allocated_bytes": 4096,
+      "private": true
+    },
+    {
+      "path": "compile_model",
+      "logical_bytes": 17576,
+      "allocated_bytes": 20480,
+      "private": false
+    },
+    {
+      "path": "compile_model.cpp",
+      "logical_bytes": 1434,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "precompiled-loader-prior/audit_home",
+      "logical_bytes": 28304,
+      "allocated_bytes": 28672,
+      "private": false
+    },
+    {
+      "path": "precompiled-loader-prior/config.json",
+      "logical_bytes": 2725,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "precompiled-loader-prior/HOME_SHARED_RESET_CPU_AUDIT.json",
+      "logical_bytes": 4180,
+      "allocated_bytes": 8192,
+      "private": false
+    },
+    {
+      "path": "precompiled-loader-prior/audit_home.cpp",
+      "logical_bytes": 3783,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "precompiled-loader-prior/native_home.hpp",
+      "logical_bytes": 1391,
+      "allocated_bytes": 4096,
+      "private": false
+    },
+    {
+      "path": "precompiled-loader-prior/rl_sim_mujoco",
+      "logical_bytes": 2807024,
+      "allocated_bytes": 2809856,
+      "private": true
+    },
+    {
+      "path": "precompiled-loader-prior/BUILD_AND_CPU_RECEIPT.json",
+      "logical_bytes": 29115,
+      "allocated_bytes": 32768,
+      "private": false
+    },
+    {
+      "path": "precompiled-loader-prior/run.py",
+      "logical_bytes": 11704,
+      "allocated_bytes": 12288,
+      "private": false
+    },
+    {
+      "path": "precompiled-loader-prior/PRIVATE_NATIVE_INITIALIZATION.diff",
+      "logical_bytes": 2082,
+      "allocated_bytes": 4096,
+      "private": true
+    },
+    {
+      "path": "private-source/rl_sim_mujoco.hpp",
+      "logical_bytes": 6364,
+      "allocated_bytes": 8192,
+      "private": true
+    },
+    {
+      "path": "private-source/native_home.hpp",
+      "logical_bytes": 1391,
+      "allocated_bytes": 4096,
+      "private": true
+    },
+    {
+      "path": "private-source/mujoco_utils.hpp",
+      "logical_bytes": 14241,
+      "allocated_bytes": 16384,
+      "private": true
+    },
+    {
+      "path": "private-source/rl_sim_mujoco.cpp",
+      "logical_bytes": 45467,
+      "allocated_bytes": 49152,
+      "private": true
+    },
+    {
+      "path": "private-source/simulate.cc",
+      "logical_bytes": 93100,
+      "allocated_bytes": 94208,
+      "private": true
+    },
+    {
+      "path": "__pycache__/run.cpython-312.pyc",
+      "logical_bytes": 23316,
+      "allocated_bytes": 24576,
+      "private": false
+    }
+  ],
+  "logical_bytes": 84075047,
+  "allocated_bytes": 84180992
+}

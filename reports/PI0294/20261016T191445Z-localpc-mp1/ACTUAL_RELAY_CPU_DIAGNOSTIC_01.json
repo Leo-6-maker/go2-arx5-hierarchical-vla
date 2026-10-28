@@ -1,0 +1,263 @@
+{
+  "schema": "MP1_ACTUAL_FILE_RPC_CPU_DIAGNOSTIC_V1",
+  "run_uuid": "20261016T191445Z-localpc-mp1",
+  "scope": "EXISTING_MP1_CPU_CONTROL_PLANE_ONLY_NOT_NEW_SCIENCE_WINDOW",
+  "native_source_sha": "0218b645327a069683befe7b46c237b8e57f6af7",
+  "earlier_CI_failure": {
+    "run_id": 39005631436,
+    "source_sha": "d30354e56e1e54b9fb9aaf5f20626a167ea27e0a",
+    "failures": 4,
+    "layer": "MOCK_TARGET_MODULE_ALIAS_UNDER_PYTEST_PREPEND_VS_UNITTEST",
+    "fix": "PATCH_ACTUAL_IMPORTED_MODULE_OBJECT_NOT_DIFFERENT_STRING_ALIAS",
+    "scientific_source_hot_changed": false
+  },
+  "verified_GitHub_CI_repair": {
+    "run_id": 39007046807,
+    "source_sha": "ee3c1a1400c87554cd15af3991e67279fe41274c",
+    "conclusion": "success",
+    "latest_descendant_SHA_not_claimed_success_before_readback": true
+  },
+  "verified_GitHub_CI_after_attempt_namespace_fix": {
+    "run_id": 39007239327,
+    "source_sha": "0218b645327a069683befe7b46c237b8e57f6af7",
+    "conclusion": "success"
+  },
+  "next_native_admission_readonly_snapshot": {
+    "observed_epoch": 1792215810.8061469,
+    "project": "CFP04-CF-007",
+    "native_project_query": "PASS",
+    "active": true,
+    "account_is_member": true,
+    "positive_balance": true,
+    "owned_native_jobs": 0,
+    "old_E1_lease": "CLOSED",
+    "this_is_not_GPU_allocation_or_future_permission_guarantee": true,
+    "new_GPU_submission": false
+  },
+  "local_tests": {
+    "default_pytest": {
+      "passed": 827,
+      "explicitly_skipped": 14,
+      "subtests": 58
+    },
+    "pi0292_pytest": {
+      "passed": 108,
+      "subtests": 150
+    },
+    "pi0294_pytest": {
+      "passed": 243,
+      "subtests": 147,
+      "source_including_request_path_fixture": "2e941e56"
+    },
+    "later_attempt_namespace_fixture": {
+      "passed": 3,
+      "source_sha": "0218b645327a069683befe7b46c237b8e57f6af7"
+    }
+  },
+  "native_filesystem_results": {
+    "Core": {
+      "status": "PASS_SAME_HOST_FILESYSTEM_PROBE_NOT_CLOSED_LOOP",
+      "role": "core",
+      "source_sha": "0218b645327a069683befe7b46c237b8e57f6af7",
+      "cycles": 96,
+      "summary": {
+        "absent_direct_open_s": {
+          "samples": 96,
+          "median_s": 0.000023558037355542183,
+          "p95_s": 0.000030248891562223434,
+          "maximum_s": 0.000034910859540104866,
+          "at_least_20s": 0
+        },
+        "atomic_packet_fsync_replace_and_directory_fsync_s": {
+          "samples": 96,
+          "median_s": 0.009234847035259008,
+          "p95_s": 0.011618654010817409,
+          "maximum_s": 0.013565396191552281,
+          "at_least_20s": 0
+        },
+        "direct_read_s": {
+          "samples": 96,
+          "median_s": 0.00014478957746177912,
+          "p95_s": 0.0001767359208315611,
+          "maximum_s": 0.00022996589541435242,
+          "at_least_20s": 0
+        },
+        "stat_then_read_s": {
+          "samples": 96,
+          "median_s": 0.00007814157288521528,
+          "p95_s": 0.00008686096407473087,
+          "maximum_s": 0.0000934121198952198,
+          "at_least_20s": 0
+        },
+        "heartbeat_fsync_s": {
+          "samples": 96,
+          "median_s": 0.008688709000125527,
+          "p95_s": 0.01059033302590251,
+          "maximum_s": 0.011608848115429282,
+          "at_least_20s": 0
+        },
+        "accounting_fsync_s": {
+          "samples": 96,
+          "median_s": 0.008665988454595208,
+          "p95_s": 0.010147816967219114,
+          "maximum_s": 0.015737364999949932,
+          "at_least_20s": 0
+        }
+      },
+      "all_operations_same_host_and_kernel": true,
+      "cross_compute_node_NFS_visibility_tested": false,
+      "SSH_roundtrip_or_full_RPC_measured": false,
+      "original_20s_RPC_watchdog_changed": false,
+      "full_32s_closed_loop_qualification": false,
+      "new_model_queries": 0,
+      "new_physical_integrations": 0,
+      "CPU_s": 0.099692112,
+      "wall_s": 2.6496651379857212,
+      "synthetic_only": true,
+      "scientific_source_or_dataset_modified": false
+    },
+    "Hopper": {
+      "status": "PASS_SAME_HOST_FILESYSTEM_PROBE_NOT_CLOSED_LOOP",
+      "role": "hopper",
+      "source_sha": "0218b645327a069683befe7b46c237b8e57f6af7",
+      "cycles": 96,
+      "summary": {
+        "absent_direct_open_s": {
+          "samples": 96,
+          "median_s": 0.0005140919238328934,
+          "p95_s": 0.0008299900218844414,
+          "maximum_s": 0.002889687195420265,
+          "at_least_20s": 0
+        },
+        "atomic_packet_fsync_replace_and_directory_fsync_s": {
+          "samples": 96,
+          "median_s": 0.007010155124589801,
+          "p95_s": 0.009177315980196,
+          "maximum_s": 0.024521898943930864,
+          "at_least_20s": 0
+        },
+        "direct_read_s": {
+          "samples": 96,
+          "median_s": 0.002203326905146241,
+          "p95_s": 0.0026372671127319336,
+          "maximum_s": 0.0035235369578003883,
+          "at_least_20s": 0
+        },
+        "stat_then_read_s": {
+          "samples": 96,
+          "median_s": 0.0006582271307706833,
+          "p95_s": 0.0009427019394934177,
+          "maximum_s": 0.0010576802305877209,
+          "at_least_20s": 0
+        },
+        "heartbeat_fsync_s": {
+          "samples": 96,
+          "median_s": 0.007350121857598424,
+          "p95_s": 0.009068320970982313,
+          "maximum_s": 0.018599099945276976,
+          "at_least_20s": 0
+        },
+        "accounting_fsync_s": {
+          "samples": 96,
+          "median_s": 0.007669763173907995,
+          "p95_s": 0.0094305663369596,
+          "maximum_s": 0.024710192810744047,
+          "at_least_20s": 0
+        }
+      },
+      "all_operations_same_host_and_kernel": true,
+      "cross_compute_node_NFS_visibility_tested": false,
+      "SSH_roundtrip_or_full_RPC_measured": false,
+      "original_20s_RPC_watchdog_changed": false,
+      "full_32s_closed_loop_qualification": false,
+      "new_model_queries": 0,
+      "new_physical_integrations": 0,
+      "CPU_s": 0.180824673,
+      "wall_s": 2.589154229965061,
+      "synthetic_only": true,
+      "scientific_source_or_dataset_modified": false
+    }
+  },
+  "native_proof": {
+    "core": {
+      "active_registered_workers": [],
+      "MP1_control_lease": "ACTIVE_CONTROL_PLANE_ONLY",
+      "old_E1_lease": "CLOSED",
+      "old_E1_manifest_sha256": "965800a488c72f1cb1ab82ddd4d3a5a60dc4e002865ee98ecf063c8b7202f578",
+      "native_result_sha256": "dc418679e09ecb0a42167e1814acc8449b62226d4670034f5d267ba7dcb7acd5",
+      "native_worker_manifest_sha256": "5e3295f997ae17734e63e98b845277e2f4638a0d7e356ab76f53a04deca449ba",
+      "native_source_sha": "0218b645327a069683befe7b46c237b8e57f6af7"
+    },
+    "hopper": {
+      "active_registered_workers": [],
+      "MP1_control_lease": "ACTIVE_CONTROL_PLANE_ONLY",
+      "old_E1_lease": "CLOSED",
+      "old_E1_manifest_sha256": "53394131acac6fffd4bdcd1797fc286326e0203043cf77431f423f28699cbbb0",
+      "native_result_sha256": "2890818c43cf76049645619572fe20b569d06aee6966a4462a99a294f26c26a1",
+      "native_worker_manifest_sha256": "f740dd99afeddb19ece167c79363b8338347495f4485612276a62cf011b71b05",
+      "native_source_sha": "0218b645327a069683befe7b46c237b8e57f6af7"
+    }
+  },
+  "accounting": {
+    "failed_first_attempts_preserved": true,
+    "failed_CPU_cost_upper_s_per_host": 600,
+    "CPU_cost_upper_not_measured_CPU": true,
+    "core_first_failure": "ENTRY_PYTHONPATH_BEFORE_MODULE_IMPORT",
+    "hopper_first_failure": "PATH_CONSTRUCTION_BEFORE_RESULT",
+    "second_dispatch_collision": "PRIOR_IMMUTABLE_REQUEST_PRESERVED_NO_SUBPROCESS_STARTED",
+    "second_dispatch_resumed_only_after_actual_no_worker_no_output_proof": true,
+    "second_successful_CPU_charged_s": {
+      "Core": 0.10041344800000002,
+      "Hopper": 0.18220666499999894
+    },
+    "MP1_CPU_totals_s": {
+      "CoreLab": 780.100413448,
+      "Vanda": 1713,
+      "Hopper": 802.678836061,
+      "local_PC": 480
+    },
+    "CPU_reservations_after_settlement": [
+      {
+        "id": "FILE_RPC_CPU_CORE_01",
+        "CPU_reserved_s": 0,
+        "status": "FAILED_BEFORE_QUALIFICATION_RESULT_COST_UPPER_BOUND_CHARGED",
+        "CPU_accounting_closed": true
+      },
+      {
+        "id": "FILE_RPC_CPU_HOPPER_01",
+        "CPU_reserved_s": 0,
+        "status": "FAILED_BEFORE_QUALIFICATION_RESULT_COST_UPPER_BOUND_CHARGED",
+        "CPU_accounting_closed": true
+      },
+      {
+        "id": "FILE_RPC_CPU_CORE_02",
+        "CPU_reserved_s": 0,
+        "status": "PASS_SAME_HOST_FILESYSTEM_PROBE_NOT_CLOSED_LOOP",
+        "CPU_accounting_closed": true
+      },
+      {
+        "id": "FILE_RPC_CPU_HOPPER_02",
+        "CPU_reserved_s": 0,
+        "status": "PASS_SAME_HOST_FILESYSTEM_PROBE_NOT_CLOSED_LOOP",
+        "CPU_accounting_closed": true
+      }
+    ],
+    "local_management_CPU_upper_s": 300,
+    "new_GPU_PBS": 0,
+    "new_models": 0,
+    "new_physics": 0
+  },
+  "interpretation": {
+    "neither_host_reproduced_20s_stall_in_96_same_host_cycles": true,
+    "testing_same_host_is_not_cross_compute_node_NFS_test": true,
+    "direct_open_not_proven_speedup": true,
+    "atomic_packet_read_write_and_synthetic_ledger_same_host_only": true,
+    "server_guard_invoke_accounting_emit_trace_implemented_not_yet_native_RPC_qualified": true,
+    "full_32s_autonomous_pipeline_fixed": false,
+    "next_falsifiable_test": "USE_SEALED_PHASE_TRACE_IN_A_SEPARATELY_ADMITTED_MP1_NATIVE_ALLOCATION_AND_FIXED_EXISTING_MODEL_EVALUATION; IDENTIFY_LAST_PHASE_BEGIN_WITHOUT_END_IF_STALLED",
+    "old_E1_not_reopened": true,
+    "E1_task_comparison_still_incomplete": true
+  },
+  "selected": "NONE",
+  "deployment": "NONE"
+}

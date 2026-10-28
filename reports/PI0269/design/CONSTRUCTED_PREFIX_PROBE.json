@@ -1,0 +1,44 @@
+{
+  "status": "PASS_CONSTRUCTED_CPU_TEMPORAL_FIXTURES",
+  "checks": [
+    "positive_unit_mass_and_80_20_40",
+    "constant_error_scale_and_zero_optimum_40",
+    "mask_not_repurposed_40",
+    "positive_unit_mass_and_80_20_39",
+    "constant_error_scale_and_zero_optimum_39",
+    "mask_not_repurposed_39",
+    "low_window_rmse_with_reverse_execution_constructed",
+    "constructed_linear_speed_below_2_without_gate_claim",
+    "temporal_location_not_global_weight_scaling",
+    "invalid_contract_and_empty_support_rejected"
+  ],
+  "source_scope": "Synthetic arithmetic only; no original trajectory, learned forward/backward, renderer, WBC or gate execution.",
+  "prefix_grid": {
+    "H": 40,
+    "dt_s": 0.05,
+    "last_executed_index": 8,
+    "execution_s": 0.4
+  },
+  "weights": {
+    "uniform_prefix_point_mass": 0.225,
+    "prefix80_point_mass": 0.8,
+    "prefix_point_weight_multiplier": 3.5555555555555554,
+    "tail_point_weight_multiplier": 0.25806451612903225,
+    "uniform_prefix_transition_mass": 0.20512820512820512
+  },
+  "constructed_reverse": {
+    "full_h40_xyz_rmse_m": 0.004516635916254486,
+    "expert_executed_endpoint_m": [0.008, 0.0, 0.0],
+    "prediction_executed_endpoint_m": [-0.008, 0.0, 0.0],
+    "prefix_endpoint_error_m": 0.016,
+    "linear_speed_peak_mps": 0.34,
+    "uniform_position_term": 0.00816,
+    "prefix80_position_term": 0.02901333333333333
+  },
+  "interpretation": "Equal perfect-fit minima; temporal reweighting does not prove stability or identify the cause of actual PI0268 failure.",
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "renderer_calls": 0,
+  "physics_calls": 0,
+  "script_sha256": "72f1611aa7ef58cf88b3ed04d538298fd9d396db548f8592ab3f88cb64d96ad0"
+}

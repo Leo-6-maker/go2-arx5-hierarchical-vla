@@ -1,0 +1,107 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Publish readiness only after actual two-route, independent-audit termination."""
+import json
+import time
+from pathlib import Path
+from pi0294_adopt import BASE,save
+from pi0294_teacher_route import LOCAL,CORE_ROOT,HOPPER_ROOT,RUN,call
+
+CORE=r'''
+import json,sys,time
+from pathlib import Path
+root=Path(ROOT);stage=root/'evidence/teacher-relay-01';m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import read
+validate(root,profile='4080-simulation')
+assert read(stage/'CORE_TERMINAL.json')['status']=='PASS_TWO_TEACHER_ROUTES_AND_INDEPENDENT_AUDITS'
+process=read(stage/'PROCESS.private.json');p=Path('/proc')/str(process['pid'])/'stat'
+if p.exists():
+    f=p.read_text().split();assert f[21]!=process['proc_start'] or f[2] in ('Z','X')
+registry=read(stage/'REGISTRY.json');rows=[];initial=[];images=[];instructions=[]
+for case in registry['cases'].values():
+    folder=root/'episodes'/case['attempt_id'];worker=read(folder/'WORKER_RECEIPT.json');audit=read(folder/'AUDIT.json')
+    assert worker['status']=='VALID_COMPLETE' and worker['score']['safety_valid'] and worker['score']['persistent_success']
+    assert audit['status']=='PASS_INDEPENDENT_RAW_AUDIT' and audit['admitted']
+    state=read(folder/'relay/STATE.json');assert state['acknowledged_commands']==80
+    initial.append(read(folder/'INITIAL_STATE.json'))
+    images.append({name:sha(folder/name/'0000.png') for name in ('body_rgb','wrist_rgb')})
+    instructions.append(case['card']['instruction'])
+    assert worker['physics_steps']==16000 and worker['paired_samples']==worker['rgb_pairs']==641
+    assert len(list((folder/'relay/acks').glob('*.json')))==80
+    rows.append(dict(task=case['card']['task'],attempt_id=case['attempt_id'],episode_uuid=case['episode_uuid'],
+        initial_state_sha256=case['card']['initial_state_sha256'],worker_receipt_sha256=sha(folder/'WORKER_RECEIPT.json'),
+        independent_audit_sha256=sha(folder/'AUDIT.json'),physical_result_sha256=sha(folder/'RESULT.json'),
+        physics_sha256=sha(folder/'physics.npz'),source_sha=worker['source_sha'],acknowledgements=80,
+        actual_integrations=16000,RGB_pairs=641,persistent_success=True,safety_valid=True))
+assert len(rows)==2 and {r['task'] for r in rows}=={'T1','T2'} and len({r['initial_state_sha256'] for r in rows})==1
+for key in ('qpos','qvel','object_pose','tcp','model_xml_sha256'):assert initial[0][key]==initial[1][key],key
+assert images[0]==images[1] and instructions[0]!=instructions[1]
+print(json.dumps(dict(status='PASS_TWO_ACTUAL_TEACHER_PHYSICAL_AUDITS',rows=rows,core_manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+    code_source_sha=m['code']['vla_commit'],registry_sha256=sha(stage/'REGISTRY.json'),
+    actual_initial_state_and_model_XML_exact=True,actual_initial_two_RGB_SHA_equal=images[0],only_instruction_differs=True)))
+'''
+
+HOPPER=r'''
+import json,sys,time
+from pathlib import Path
+root=Path(ROOT);stage=root/'evidence/teacher-relay-01';m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import read,write,OwnerLock
+validate(root,profile='hopper-neural');lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock')
+ticket=read(stage/'RPC_RESERVATION.json');ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+assert ledger['CPU_reserved_s']==2700 and sha(root/'RUN_MANIFEST.json')==ticket['manifest_sha256']
+registry=read(stage/'REGISTRY.json');assert sha(stage/'REGISTRY.json')==ticket['registry_sha256']
+for episode,case in registry['cases'].items():
+    folder=root/case['hopper_session_relative'];state=read(folder/'QUERY_STATE.json')
+    assert state['pending'] is None and len(state['queries'])==80 and state['episodes'][episode]['next_sequence']==80
+    assert len(list((folder/'outbox').glob('*.json')))==80
+records=[read(p) for p in (stage/'rpc').glob('*.json')]
+assert len(records)==160 and all(r['exit']==0 and r['operation']=='query' and r['models_loaded']==0 for r in records)
+cpu=sum(r['CPU_s'] for r in records)+60
+assert cpu<=2700
+ledger['CPU_s']+=cpu;ledger['CPU_reserved_s']=0
+ledger.setdefault('CPU_data_stages',[]).append(dict(status='PASS_ACTUAL_TEACHER_DOUBLE_SSH_PACKET_ROUTES',
+    CPU_charged_s=cpu,explicit_startup_and_terminal_CPU_upper_s=60,actual_one_shot_queries=160,
+    models_loaded=0,PBS_submissions=0))
+write(root/'HOPPER_RESOURCE_LEDGER.json',ledger);lock.close()
+print(json.dumps(dict(status='PASS_ACTUAL_HOPPER_TEACHER_PACKET_ENDPOINT',CPU_charged_s=cpu,
+    actual_queries=160,CPU_reserved_s=0,manifest_sha256=sha(root/'RUN_MANIFEST.json'),source_sha=m['code']['vla_commit'])))
+'''
+
+PUBLISH=r'''
+import json,sys
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate,sha
+from scripts.pi0292.durable import write
+validate(root,profile=PROFILE)
+assert sha(root/'RUN_MANIFEST.json')==VALUE['core_manifest_sha256' if PROFILE=='4080-simulation' else 'hopper_manifest_sha256']
+p=root/'evidence/LIVE_READINESS.json';assert not p.exists();write(p,VALUE)
+print(json.dumps(dict(status=VALUE['status'],sha256=sha(p))))
+'''
+
+if __name__=='__main__':
+    process=json.loads((LOCAL/'LOCAL_PROCESS.private.json').read_text());p=Path('/proc')/str(process['pid'])/'stat'
+    if p.exists():
+        fields=p.read_text().split();assert fields[21]!=process['proc_start'] or fields[2] in ('Z','X')
+    terminal=json.loads((LOCAL/'TERMINAL.private.json').read_text())
+    assert terminal['status']=='PASS_TWO_ACTUAL_TEACHER_ACK_CHAINS'
+    core=call('corelab-4080s',CORE,ROOT=CORE_ROOT)
+    hopper=call('hopper',HOPPER,ROOT=HOPPER_ROOT)
+    value=dict(status='PASS_ACTUAL_TEACHER_AND_DUAL_SSH_ROUTE',run_uuid=RUN,qualified_epoch=time.time(),
+        core_manifest_sha256=core['core_manifest_sha256'],hopper_manifest_sha256=hopper['manifest_sha256'],
+        core_source_sha=core['code_source_sha'],hopper_source_sha=hopper['source_sha'],rows=core['rows'],
+        local_transport_records=terminal['records'],Hopper_CPU_charged_s=hopper['CPU_charged_s'],
+        same_initial_state_different_language=True,pre_generated_action_replay=False,model_policy_qualification=False,
+        actual_initial_state_and_model_XML_exact=core['actual_initial_state_and_model_XML_exact'],
+        actual_initial_two_RGB_SHA=core['actual_initial_two_RGB_SHA_equal'],
+        selected='NONE',deployment='NONE')
+    results=[]
+    for host,root,profile in [('corelab-4080s',CORE_ROOT,'4080-simulation'),('hopper',HOPPER_ROOT,'hopper-neural')]:
+        results.append(call(host,PUBLISH,ROOT=root,PROFILE=profile,VALUE=value))
+    assert results[0]['sha256']==results[1]['sha256']
+    save(LOCAL/'LIVE_READINESS.private.json',dict(value,readback_sha256=results[0]['sha256']))
+    print(json.dumps(dict(status=value['status'],sha256=results[0]['sha256'],physical_episodes=2,model_episodes=0,
+        Hopper_CPU_charged_s=hopper['CPU_charged_s'])))

@@ -1,0 +1,1620 @@
+{
+  "status": "PASS_AMD_AND_4080S",
+  "checks": [
+    {
+      "status": "PASS",
+      "node": "corelab-amd-server",
+      "epoch": 1791863249.2921624,
+      "profiles": [
+        {
+          "status": "PASS",
+          "profile": "amd-management",
+          "host": "corelab-amd-server",
+          "python": "<AMD_BASE312>/bin/python",
+          "cwd": "<AMD_EXPORT>/Projects/GR00T-WBC/code/vla",
+          "pythonpath": [
+            "<AMD_EXPORT>/Projects/GR00T-WBC/code/vla/src",
+            "<AMD_EXPORT>/Projects/GR00T-WBC/code/isaac-gr00t"
+          ],
+          "checks": [
+            {
+              "check": "independent_fixed_source",
+              "status": "PASS",
+              "result": [
+                {
+                  "code": "vla",
+                  "head": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+                  "common_dir": "<AMD_EXPORT>/Projects/GR00T-WBC/code/vla/.git",
+                  "independent": true
+                },
+                {
+                  "code": "isaac-gr00t",
+                  "head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "common_dir": "<AMD_EXPORT>/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f/.git",
+                  "independent": true
+                }
+              ]
+            },
+            {
+              "check": "actual_canonical_module_import",
+              "status": "PASS",
+              "result": {
+                "python": "<AMD_BASE312>/bin/python",
+                "version": "3.12.9 | packaged by Anaconda, Inc. | (main, Feb  6 2025, 18:56:27) [GCC 11.2.0]",
+                "modules": {
+                  "go2arx5_vla": "<AMD_EXPORT>/Projects/GR00T-WBC/code/vla/src/go2arx5_vla/__init__.py"
+                }
+              }
+            },
+            {
+              "check": "fixed_official_processor_and_shared_statistics",
+              "status": "PASS",
+              "result": [
+                {
+                  "relative": "code/isaac-gr00t/gr00t/data/state_action/pose.py",
+                  "sha256": "4a09d0f1da9fe80bd8c3b0788e04c06979666f5dd636a91799a21e7d92c5f808",
+                  "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "relative": "code/isaac-gr00t/gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py",
+                  "sha256": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f",
+                  "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "relative": "datasets/PI0291/statistics.json",
+                  "sha256": "43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d"
+                },
+                {
+                  "relative": "datasets/PI0291/STATISTICS_PROVENANCE.json",
+                  "sha256": "0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359"
+                }
+              ]
+            },
+            {
+              "check": "host_qualified_asset_and_data_paths",
+              "status": "PASS",
+              "result": [
+                {
+                  "role": "VLA_CODE",
+                  "path": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+                  "lifecycle": "CANONICAL_NEW_CHECKOUT",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-amd-server",
+                  "realpath": "<AMD_EXPORT>/Projects/GR00T-WBC/code/vla",
+                  "st_dev": 67,
+                  "st_ino": 8107333,
+                  "actual_git_sha": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b"
+                },
+                {
+                  "role": "OFFICIAL_GR00T_SHARED",
+                  "path": "<SHARED_HOME>/Projects/isaac-gr00t-rtx4080s-remote",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "PROTECTED_EXISTING_CLEAN_WORKTREE_NAVIGATION_ONLY",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-amd-server",
+                  "realpath": "<AMD_EXPORT>/Projects/isaac-gr00t-rtx4080s-remote",
+                  "st_dev": 67,
+                  "st_ino": 4519144,
+                  "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "role": "OFFICIAL_GR00T_CPU_RUNTIME",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/src/isaac-gr00t",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "PROTECTED_CURRENT_RUNTIME_UNCHANGED",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "PI0290_RAW",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0290",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "PROTECTED_RAW_AND_RUNTIME",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "PI0291_RAW",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/episodes",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "PROTECTED_ORIGINALS",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "PI0291_NATIVE_DATA",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "PARTIAL_56_TRAIN_0_DEV_VERIFIED",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "PI0291_EVIDENCE",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/evidence",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "TERMINAL_IMMUTABLE_RECEIPTS",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "PI0291_FROZEN_CODE",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/code",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+                  "lifecycle": "SEALED_121_FILES_DO_NOT_EDIT",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "SIMULATION_PYTHON",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0290/runtime/venv/bin/python",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "KEEP_ABSOLUTE_RUNTIME_PATH",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "CPU_DATA_PYTHON",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/runtime/venv/bin/python",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "KEEP_ABSOLUTE_RUNTIME_PATH",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "PRIVATE_NATIVE_WBC",
+                  "path": "<SHARED_HOME>/Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "lifecycle": "PROTECTED_READ_ONLY_ORIGINAL",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-amd-server",
+                  "realpath": "<AMD_EXPORT>/Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098",
+                  "st_dev": 67,
+                  "st_ino": 7721021
+                },
+                {
+                  "role": "HISTORICAL_WBC_REPO",
+                  "path": "<SHARED_HOME>/Projects/GR00T-WholeBodyControl",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "a0732b642c0333077e127a2f56ab0014c196bca4",
+                  "lifecycle": "PROTECTED_NOT_CURRENT_WBC_QUALIFICATION",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-amd-server",
+                  "realpath": "<AMD_EXPORT>/Projects/GR00T-WholeBodyControl",
+                  "st_dev": 67,
+                  "st_ino": 4119640,
+                  "actual_git_sha": "a0732b642c0333077e127a2f56ab0014c196bca4"
+                },
+                {
+                  "role": "LEGACY_ASSET_INDEX",
+                  "path": "<SHARED_HOME>/Projects/go2-arx5",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "lifecycle": "PROTECTED_MIXED_NFS_AND_NODE_LOCAL_ALIASES",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-amd-server",
+                  "realpath": "<AMD_EXPORT>/Projects/go2-arx5",
+                  "st_dev": 67,
+                  "st_ino": 5831689
+                },
+                {
+                  "role": "HOPPER_OFFICIAL_CODE",
+                  "path": "<HOPPER_SCRATCH>/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+                  "executor_node": "hopper",
+                  "storage_role": "HOPPER_SCRATCH",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "NEURAL_ONLY_LEGAL_PBS_FUTURE_GO",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "HOPPER_PRETRAINED_CANDIDATE",
+                  "path": "<HOPPER_SCRATCH>/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+                  "executor_node": "hopper",
+                  "storage_role": "HOPPER_SCRATCH",
+                  "lifecycle": "UNSELECTED_FULL_IDENTITY_UNQUALIFIED",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-amd-server",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "OFFICIAL_GR00T_CANONICAL",
+                  "path": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "INDEPENDENT_CANONICAL_FIXED_CHECKOUT",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-amd-server",
+                  "realpath": "<AMD_EXPORT>/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f",
+                  "st_dev": 67,
+                  "st_ino": 8138471,
+                  "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                }
+              ]
+            }
+          ],
+          "failures": [],
+          "epoch": 1791863248.61167,
+          "wall_seconds": 0.20105266571044922,
+          "cpu_seconds": 0.189795,
+          "model_load_forward_train_physics_WBC_PBS_hardware": 0
+        }
+      ],
+      "wrong_host_entry": {
+        "returncode": 2,
+        "stdout": "{\n  \"status\": \"HOST_REQUIRED\",\n  \"profile\": \"4080-cpu-data\",\n  \"observed_host\": \"corelab-amd-server\",\n  \"required_hostnames\": [\n    \"corelab-4080s\"\n  ],\n  \"automatically_connected\": false\n}\n",
+        "stderr": ""
+      },
+      "actual_entry_execution": {
+        "returncode": 0,
+        "stdout": "<AMD_BASE312>/bin/python\n<AMD_EXPORT>/Projects/GR00T-WBC/code/vla/src/go2arx5_vla/__init__.py\n",
+        "stderr": ""
+      },
+      "engineering_tests_18": {
+        "returncode": 0,
+        "stdout": "{\"status\": \"PASS_HASH_CHECKED_CONSUMER_REBINDING\", \"episodes\": 1, \"statistics_refit\": false}\n{\"status\": \"SANITIZED_PROJECTION_NOT_PRODUCER_BYTES\", \"files\": 1}\n",
+        "stderr": "..................\n----------------------------------------------------------------------\nRan 18 tests in 0.036s\n\nOK\n"
+      },
+      "resolver_tests_4": {
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK\n"
+      },
+      "retained_git": [
+        {
+          "path": "<SHARED_HOME>/Projects/GR00T-WholeBodyControl",
+          "head": "a0732b642c0333077e127a2f56ab0014c196bca4",
+          "status": ""
+        },
+        {
+          "path": "<SHARED_HOME>/Projects/go2-arx5-hierarchical-vla",
+          "head": "dc246b6fa1996dc1d2d2e891d431f74714851c4a",
+          "status": ""
+        },
+        {
+          "path": "<SHARED_HOME>/Projects/isaac-gr00t",
+          "head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+          "status": " M CLAUDE.md\n M getting_started/GR00T_inference.ipynb\n"
+        },
+        {
+          "path": "<SHARED_HOME>/Projects/isaac-gr00t-rtx4080s-remote",
+          "head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+          "status": ""
+        }
+      ],
+      "original_notebook_and_CLAUDE_unchanged": true,
+      "visible": {
+        "<SHARED_HOME>": [
+          {
+            "name": "Apps",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "Downloads",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "Projects",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "README.txt",
+            "type": "file",
+            "symlink_target": null
+          },
+          {
+            "name": "bin",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "include",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "lib",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "lib64",
+            "type": "symlink",
+            "symlink_target": "lib"
+          },
+          {
+            "name": "pi0209_corelab_stage45i_20260918",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0215_a049_runtime",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0220_v0_20260918",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0223_goal_b_20260918",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0240_transfer_staging_20260920",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0246_gate_pass_archive_20260924",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0246_gate_pass_campaign_20260924",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0246_gate_pass_screen_20260925",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pyvenv.cfg",
+            "type": "file",
+            "symlink_target": null
+          },
+          {
+            "name": "snap",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "stage13_report_staging",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "stage13b_staging",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "stage13c_staging",
+            "type": "directory",
+            "symlink_target": null
+          }
+        ],
+        "<SHARED_HOME>/Projects": [
+          {
+            "name": "GR00T-WBC",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "GR00T-WholeBodyControl",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "_handoff",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "go2-arx5",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "go2-arx5-hierarchical-vla",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "isaac-gr00t",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "isaac-gr00t-rtx4080s-remote",
+            "type": "directory",
+            "symlink_target": null
+          }
+        ]
+      },
+      "capacity": {
+        "<SHARED_HOME>": 1489420013568,
+        "<NODE_SSD>": 287921319936
+      },
+      "cpu_seconds": 0.6167739999999999,
+      "science_execution": 0
+    },
+    {
+      "status": "PASS",
+      "node": "corelab-4080s",
+      "epoch": 1791863263.8256414,
+      "profiles": [
+        {
+          "status": "PASS",
+          "profile": "4080-simulation",
+          "host": "corelab-4080s",
+          "python": "<NODE_SSD>/Projects/go2-arx5/PI0290/runtime/venv/bin/python",
+          "cwd": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla",
+          "pythonpath": [
+            "<SHARED_HOME>/Projects/GR00T-WBC/code/vla/src",
+            "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t"
+          ],
+          "checks": [
+            {
+              "check": "independent_fixed_source",
+              "status": "PASS",
+              "result": [
+                {
+                  "code": "vla",
+                  "head": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+                  "common_dir": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla/.git",
+                  "independent": true
+                },
+                {
+                  "code": "isaac-gr00t",
+                  "head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "common_dir": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f/.git",
+                  "independent": true
+                }
+              ]
+            },
+            {
+              "check": "actual_canonical_module_import",
+              "status": "PASS",
+              "result": {
+                "python": "<NODE_SSD>/Projects/go2-arx5/PI0290/runtime/venv/bin/python",
+                "version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+                "modules": {
+                  "go2arx5_vla": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla/src/go2arx5_vla/__init__.py",
+                  "go2arx5_vla.task_data.io": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla/src/go2arx5_vla/task_data/io.py",
+                  "gr00t": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t/gr00t/__init__.py"
+                }
+              }
+            },
+            {
+              "check": "fixed_official_processor_and_shared_statistics",
+              "status": "PASS",
+              "result": [
+                {
+                  "relative": "code/isaac-gr00t/gr00t/data/state_action/pose.py",
+                  "sha256": "4a09d0f1da9fe80bd8c3b0788e04c06979666f5dd636a91799a21e7d92c5f808",
+                  "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "relative": "code/isaac-gr00t/gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py",
+                  "sha256": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f",
+                  "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "relative": "datasets/PI0291/statistics.json",
+                  "sha256": "43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d"
+                },
+                {
+                  "relative": "datasets/PI0291/STATISTICS_PROVENANCE.json",
+                  "sha256": "0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359"
+                }
+              ]
+            },
+            {
+              "check": "host_qualified_asset_and_data_paths",
+              "status": "PASS",
+              "result": [
+                {
+                  "role": "VLA_CODE",
+                  "path": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+                  "lifecycle": "CANONICAL_NEW_CHECKOUT",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla",
+                  "st_dev": 112,
+                  "st_ino": 8107333,
+                  "actual_git_sha": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b"
+                },
+                {
+                  "role": "OFFICIAL_GR00T_SHARED",
+                  "path": "<SHARED_HOME>/Projects/isaac-gr00t-rtx4080s-remote",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "PROTECTED_EXISTING_CLEAN_WORKTREE_NAVIGATION_ONLY",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/isaac-gr00t-rtx4080s-remote",
+                  "st_dev": 112,
+                  "st_ino": 4519144,
+                  "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "role": "OFFICIAL_GR00T_CPU_RUNTIME",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/src/isaac-gr00t",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "PROTECTED_CURRENT_RUNTIME_UNCHANGED",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/go2-arx5-vla-stage10/src/isaac-gr00t",
+                  "st_dev": 66308,
+                  "st_ino": 10765659,
+                  "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "role": "PI0290_RAW",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0290",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "PROTECTED_RAW_AND_RUNTIME",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0290",
+                  "st_dev": 66308,
+                  "st_ino": 66998776
+                },
+                {
+                  "role": "PI0291_RAW",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/episodes",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "PROTECTED_ORIGINALS",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/episodes",
+                  "st_dev": 66308,
+                  "st_ino": 67117979
+                },
+                {
+                  "role": "PI0291_NATIVE_DATA",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "PARTIAL_56_TRAIN_0_DEV_VERIFIED",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset",
+                  "st_dev": 66308,
+                  "st_ino": 67391757
+                },
+                {
+                  "role": "PI0291_EVIDENCE",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/evidence",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "TERMINAL_IMMUTABLE_RECEIPTS",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/evidence",
+                  "st_dev": 66308,
+                  "st_ino": 67117980
+                },
+                {
+                  "role": "PI0291_FROZEN_CODE",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/code",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+                  "lifecycle": "SEALED_121_FILES_DO_NOT_EDIT",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/code",
+                  "st_dev": 66308,
+                  "st_ino": 67117978
+                },
+                {
+                  "role": "SIMULATION_PYTHON",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0290/runtime/venv/bin/python",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "KEEP_ABSOLUTE_RUNTIME_PATH",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "/usr/bin/python3.12",
+                  "st_dev": 66308,
+                  "st_ino": 6293652
+                },
+                {
+                  "role": "CPU_DATA_PYTHON",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/runtime/venv/bin/python",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "KEEP_ABSOLUTE_RUNTIME_PATH",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "/usr/bin/python3.12",
+                  "st_dev": 66308,
+                  "st_ino": 6293652
+                },
+                {
+                  "role": "PRIVATE_NATIVE_WBC",
+                  "path": "<SHARED_HOME>/Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "lifecycle": "PROTECTED_READ_ONLY_ORIGINAL",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098",
+                  "st_dev": 112,
+                  "st_ino": 7721021
+                },
+                {
+                  "role": "HISTORICAL_WBC_REPO",
+                  "path": "<SHARED_HOME>/Projects/GR00T-WholeBodyControl",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "a0732b642c0333077e127a2f56ab0014c196bca4",
+                  "lifecycle": "PROTECTED_NOT_CURRENT_WBC_QUALIFICATION",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/GR00T-WholeBodyControl",
+                  "st_dev": 112,
+                  "st_ino": 4119640,
+                  "actual_git_sha": "a0732b642c0333077e127a2f56ab0014c196bca4"
+                },
+                {
+                  "role": "LEGACY_ASSET_INDEX",
+                  "path": "<SHARED_HOME>/Projects/go2-arx5",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "lifecycle": "PROTECTED_MIXED_NFS_AND_NODE_LOCAL_ALIASES",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/go2-arx5",
+                  "st_dev": 112,
+                  "st_ino": 5831689
+                },
+                {
+                  "role": "HOPPER_OFFICIAL_CODE",
+                  "path": "<HOPPER_SCRATCH>/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+                  "executor_node": "hopper",
+                  "storage_role": "HOPPER_SCRATCH",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "NEURAL_ONLY_LEGAL_PBS_FUTURE_GO",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-4080s",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "HOPPER_PRETRAINED_CANDIDATE",
+                  "path": "<HOPPER_SCRATCH>/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+                  "executor_node": "hopper",
+                  "storage_role": "HOPPER_SCRATCH",
+                  "lifecycle": "UNSELECTED_FULL_IDENTITY_UNQUALIFIED",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-4080s",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "OFFICIAL_GR00T_CANONICAL",
+                  "path": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "INDEPENDENT_CANONICAL_FIXED_CHECKOUT",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f",
+                  "st_dev": 112,
+                  "st_ino": 8138471,
+                  "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                }
+              ]
+            },
+            {
+              "check": "original_sample_statistics_and_fixed_tokenizer_bytes",
+              "status": "PASS",
+              "result": [
+                {
+                  "role": "PI0291_statistics.json",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/statistics.json",
+                  "sha256": "43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d",
+                  "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+                },
+                {
+                  "role": "PI0291_STATISTICS_PROVENANCE.json",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/STATISTICS_PROVENANCE.json",
+                  "sha256": "0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359",
+                  "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+                },
+                {
+                  "role": "PI0291_DATASET_MANIFEST.json",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/DATASET_MANIFEST.json",
+                  "sha256": "1d2dd42c681197493570128aa09f60c864e3cc1be80f9a3fa1d6af3b175189d7",
+                  "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_chat_template.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/chat_template.json",
+                  "sha256": "6f8a6a55027e3da5160105556cda5dd69f6423f1c32645f6730d32de7773d0c4",
+                  "blob_id": "e49e75bdda104c8de941eb20e0b3765184fb27bc",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/config.json",
+                  "sha256": "bec4b3d446efa05807365c9e1cec03ac590836879d02f3a6da879971154bdd3b",
+                  "blob_id": "0cd8c646eb55794594b14fefcd1d3acea5cc000f",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_generation_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/generation_config.json",
+                  "sha256": "1e241830b48b397cb0900101421df5450baddc7adf01e5fc86b5615865f3bae4",
+                  "blob_id": "7bb37933d2d86e4ceaabcc6540be989658f238e9",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_merges.txt",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/merges.txt",
+                  "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+                  "blob_id": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_preprocessor_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/preprocessor_config.json",
+                  "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+                  "blob_id": "2ea84a437d448ff71b08df68fdd949d5cc4ebb64",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_tokenizer.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/tokenizer.json",
+                  "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+                  "blob_id": "c6cc1014128b19d1fc46b1d30a23e3b1d35db421",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_tokenizer_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/tokenizer_config.json",
+                  "sha256": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+                  "blob_id": "d3d3763207692c78780f4bf42d4dadf49a5c8012",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_video_preprocessor_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/video_preprocessor_config.json",
+                  "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+                  "blob_id": "3ba673a5ad7d4d13f54155ecd38b2a94a6dac8fe",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_vocab.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/vocab.json",
+                  "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+                  "blob_id": "4783fe10ac3adce15ac8f358ef5462739852c569",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "ORIGINAL_PI0291_NATIVE_SAMPLE",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/episodes/T291000.npz",
+                  "sha256": "14a2e4b4407fbcc33a65c3b617652ee40e88c4ac6a2aa93e3b23efd7d80a7502",
+                  "episode_id": "T291000"
+                }
+              ]
+            }
+          ],
+          "failures": [],
+          "epoch": 1791863251.994812,
+          "wall_seconds": 3.317417860031128,
+          "cpu_seconds": 0.188822,
+          "model_load_forward_train_physics_WBC_PBS_hardware": 0
+        },
+        {
+          "status": "PASS",
+          "profile": "4080-cpu-data",
+          "host": "corelab-4080s",
+          "python": "<NODE_SSD>/go2-arx5-vla-stage10/runtime/venv/bin/python",
+          "cwd": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla",
+          "pythonpath": [
+            "<SHARED_HOME>/Projects/GR00T-WBC/code/vla/src",
+            "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t"
+          ],
+          "checks": [
+            {
+              "check": "independent_fixed_source",
+              "status": "PASS",
+              "result": [
+                {
+                  "code": "vla",
+                  "head": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+                  "common_dir": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla/.git",
+                  "independent": true
+                },
+                {
+                  "code": "isaac-gr00t",
+                  "head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "common_dir": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f/.git",
+                  "independent": true
+                }
+              ]
+            },
+            {
+              "check": "actual_canonical_module_import",
+              "status": "PASS",
+              "result": {
+                "python": "<NODE_SSD>/go2-arx5-vla-stage10/runtime/venv/bin/python",
+                "version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+                "modules": {
+                  "go2arx5_vla": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla/src/go2arx5_vla/__init__.py",
+                  "go2arx5_vla.task_data.io": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla/src/go2arx5_vla/task_data/io.py",
+                  "gr00t": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t/gr00t/__init__.py",
+                  "gr00t.data.state_action.pose": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t/gr00t/data/state_action/pose.py"
+                }
+              }
+            },
+            {
+              "check": "fixed_official_processor_and_shared_statistics",
+              "status": "PASS",
+              "result": [
+                {
+                  "relative": "code/isaac-gr00t/gr00t/data/state_action/pose.py",
+                  "sha256": "4a09d0f1da9fe80bd8c3b0788e04c06979666f5dd636a91799a21e7d92c5f808",
+                  "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "relative": "code/isaac-gr00t/gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py",
+                  "sha256": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f",
+                  "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "relative": "datasets/PI0291/statistics.json",
+                  "sha256": "43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d"
+                },
+                {
+                  "relative": "datasets/PI0291/STATISTICS_PROVENANCE.json",
+                  "sha256": "0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359"
+                }
+              ]
+            },
+            {
+              "check": "host_qualified_asset_and_data_paths",
+              "status": "PASS",
+              "result": [
+                {
+                  "role": "VLA_CODE",
+                  "path": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+                  "lifecycle": "CANONICAL_NEW_CHECKOUT",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla",
+                  "st_dev": 112,
+                  "st_ino": 8107333,
+                  "actual_git_sha": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b"
+                },
+                {
+                  "role": "OFFICIAL_GR00T_SHARED",
+                  "path": "<SHARED_HOME>/Projects/isaac-gr00t-rtx4080s-remote",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "PROTECTED_EXISTING_CLEAN_WORKTREE_NAVIGATION_ONLY",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/isaac-gr00t-rtx4080s-remote",
+                  "st_dev": 112,
+                  "st_ino": 4519144,
+                  "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "role": "OFFICIAL_GR00T_CPU_RUNTIME",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/src/isaac-gr00t",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "PROTECTED_CURRENT_RUNTIME_UNCHANGED",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/go2-arx5-vla-stage10/src/isaac-gr00t",
+                  "st_dev": 66308,
+                  "st_ino": 10765659,
+                  "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                },
+                {
+                  "role": "PI0290_RAW",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0290",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "PROTECTED_RAW_AND_RUNTIME",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0290",
+                  "st_dev": 66308,
+                  "st_ino": 66998776
+                },
+                {
+                  "role": "PI0291_RAW",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/episodes",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "PROTECTED_ORIGINALS",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/episodes",
+                  "st_dev": 66308,
+                  "st_ino": 67117979
+                },
+                {
+                  "role": "PI0291_NATIVE_DATA",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "PARTIAL_56_TRAIN_0_DEV_VERIFIED",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset",
+                  "st_dev": 66308,
+                  "st_ino": 67391757
+                },
+                {
+                  "role": "PI0291_EVIDENCE",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/evidence",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "TERMINAL_IMMUTABLE_RECEIPTS",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/evidence",
+                  "st_dev": 66308,
+                  "st_ino": 67117980
+                },
+                {
+                  "role": "PI0291_FROZEN_CODE",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/code",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+                  "lifecycle": "SEALED_121_FILES_DO_NOT_EDIT",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/code",
+                  "st_dev": 66308,
+                  "st_ino": 67117978
+                },
+                {
+                  "role": "SIMULATION_PYTHON",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0290/runtime/venv/bin/python",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "KEEP_ABSOLUTE_RUNTIME_PATH",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "/usr/bin/python3.12",
+                  "st_dev": 66308,
+                  "st_ino": 6293652
+                },
+                {
+                  "role": "CPU_DATA_PYTHON",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/runtime/venv/bin/python",
+                  "executor_node": "corelab-4080s",
+                  "storage_role": "NODE_LOCAL_SSD",
+                  "lifecycle": "KEEP_ABSOLUTE_RUNTIME_PATH",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "/usr/bin/python3.12",
+                  "st_dev": 66308,
+                  "st_ino": 6293652
+                },
+                {
+                  "role": "PRIVATE_NATIVE_WBC",
+                  "path": "<SHARED_HOME>/Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "lifecycle": "PROTECTED_READ_ONLY_ORIGINAL",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/go2-arx5/private/wbc_mujoco_minimal_20261009_6dd13098",
+                  "st_dev": 112,
+                  "st_ino": 7721021
+                },
+                {
+                  "role": "HISTORICAL_WBC_REPO",
+                  "path": "<SHARED_HOME>/Projects/GR00T-WholeBodyControl",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "a0732b642c0333077e127a2f56ab0014c196bca4",
+                  "lifecycle": "PROTECTED_NOT_CURRENT_WBC_QUALIFICATION",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/GR00T-WholeBodyControl",
+                  "st_dev": 112,
+                  "st_ino": 4119640,
+                  "actual_git_sha": "a0732b642c0333077e127a2f56ab0014c196bca4"
+                },
+                {
+                  "role": "LEGACY_ASSET_INDEX",
+                  "path": "<SHARED_HOME>/Projects/go2-arx5",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "lifecycle": "PROTECTED_MIXED_NFS_AND_NODE_LOCAL_ALIASES",
+                  "status": "PATH_OBSERVED",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/go2-arx5",
+                  "st_dev": 112,
+                  "st_ino": 5831689
+                },
+                {
+                  "role": "HOPPER_OFFICIAL_CODE",
+                  "path": "<HOPPER_SCRATCH>/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+                  "executor_node": "hopper",
+                  "storage_role": "HOPPER_SCRATCH",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "NEURAL_ONLY_LEGAL_PBS_FUTURE_GO",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-4080s",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "HOPPER_PRETRAINED_CANDIDATE",
+                  "path": "<HOPPER_SCRATCH>/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+                  "executor_node": "hopper",
+                  "storage_role": "HOPPER_SCRATCH",
+                  "lifecycle": "UNSELECTED_FULL_IDENTITY_UNQUALIFIED",
+                  "status": "HOST_REQUIRED",
+                  "observed_on": "corelab-4080s",
+                  "local_absence_is_not_data_loss": true,
+                  "automatically_connected": false
+                },
+                {
+                  "role": "OFFICIAL_GR00T_CANONICAL",
+                  "path": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t",
+                  "executor_node": "BOTH_CORELAB_NODES",
+                  "storage_role": "SHARED_NFS",
+                  "expected_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+                  "lifecycle": "INDEPENDENT_CANONICAL_FIXED_CHECKOUT",
+                  "status": "PATH_AND_GIT_IDENTITY_PASS",
+                  "observed_on": "corelab-4080s",
+                  "realpath": "<SHARED_HOME>/Projects/GR00T-WBC/code/isaac-gr00t-51d4c89f",
+                  "st_dev": 112,
+                  "st_ino": 8138471,
+                  "actual_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+                }
+              ]
+            },
+            {
+              "check": "original_sample_statistics_and_fixed_tokenizer_bytes",
+              "status": "PASS",
+              "result": [
+                {
+                  "role": "PI0291_statistics.json",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/statistics.json",
+                  "sha256": "43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d",
+                  "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+                },
+                {
+                  "role": "PI0291_STATISTICS_PROVENANCE.json",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/STATISTICS_PROVENANCE.json",
+                  "sha256": "0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359",
+                  "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+                },
+                {
+                  "role": "PI0291_DATASET_MANIFEST.json",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/DATASET_MANIFEST.json",
+                  "sha256": "1d2dd42c681197493570128aa09f60c864e3cc1be80f9a3fa1d6af3b175189d7",
+                  "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_chat_template.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/chat_template.json",
+                  "sha256": "6f8a6a55027e3da5160105556cda5dd69f6423f1c32645f6730d32de7773d0c4",
+                  "blob_id": "e49e75bdda104c8de941eb20e0b3765184fb27bc",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/config.json",
+                  "sha256": "bec4b3d446efa05807365c9e1cec03ac590836879d02f3a6da879971154bdd3b",
+                  "blob_id": "0cd8c646eb55794594b14fefcd1d3acea5cc000f",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_generation_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/generation_config.json",
+                  "sha256": "1e241830b48b397cb0900101421df5450baddc7adf01e5fc86b5615865f3bae4",
+                  "blob_id": "7bb37933d2d86e4ceaabcc6540be989658f238e9",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_merges.txt",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/merges.txt",
+                  "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+                  "blob_id": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_preprocessor_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/preprocessor_config.json",
+                  "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+                  "blob_id": "2ea84a437d448ff71b08df68fdd949d5cc4ebb64",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_tokenizer.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/tokenizer.json",
+                  "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+                  "blob_id": "c6cc1014128b19d1fc46b1d30a23e3b1d35db421",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_tokenizer_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/tokenizer_config.json",
+                  "sha256": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+                  "blob_id": "d3d3763207692c78780f4bf42d4dadf49a5c8012",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_video_preprocessor_config.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/video_preprocessor_config.json",
+                  "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+                  "blob_id": "3ba673a5ad7d4d13f54155ecd38b2a94a6dac8fe",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "COSMOS_PROCESSOR_vocab.json",
+                  "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/vocab.json",
+                  "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+                  "blob_id": "4783fe10ac3adce15ac8f358ef5462739852c569",
+                  "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+                },
+                {
+                  "role": "ORIGINAL_PI0291_NATIVE_SAMPLE",
+                  "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/episodes/T291000.npz",
+                  "sha256": "14a2e4b4407fbcc33a65c3b617652ee40e88c4ac6a2aa93e3b23efd7d80a7502",
+                  "episode_id": "T291000"
+                }
+              ]
+            }
+          ],
+          "failures": [],
+          "epoch": 1791863253.0747576,
+          "wall_seconds": 1.0459272861480713,
+          "cpu_seconds": 0.186157,
+          "model_load_forward_train_physics_WBC_PBS_hardware": 0
+        }
+      ],
+      "wrong_host_entry": {
+        "returncode": 2,
+        "stdout": "{\n  \"status\": \"HOST_REQUIRED\",\n  \"profile\": \"amd-management\",\n  \"observed_host\": \"corelab-4080s\",\n  \"required_hostnames\": [\n    \"corelab-amd-server\"\n  ],\n  \"automatically_connected\": false\n}\n",
+        "stderr": ""
+      },
+      "actual_entry_execution": {
+        "returncode": 0,
+        "stdout": "<NODE_SSD>/Projects/go2-arx5/PI0290/runtime/venv/bin/python\n<SHARED_HOME>/Projects/GR00T-WBC/code/vla/src/go2arx5_vla/__init__.py\n",
+        "stderr": ""
+      },
+      "engineering_tests_18": {
+        "returncode": 0,
+        "stdout": "{\"status\": \"PASS_HASH_CHECKED_CONSUMER_REBINDING\", \"episodes\": 1, \"statistics_refit\": false}\n{\"status\": \"SANITIZED_PROJECTION_NOT_PRODUCER_BYTES\", \"files\": 1}\n",
+        "stderr": "..................\n----------------------------------------------------------------------\nRan 18 tests in 0.037s\n\nOK\n"
+      },
+      "resolver_tests_4": {
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK\n"
+      },
+      "retained_git": [
+        {
+          "path": "<SHARED_HOME>/Projects/GR00T-WholeBodyControl",
+          "head": "a0732b642c0333077e127a2f56ab0014c196bca4",
+          "status": ""
+        },
+        {
+          "path": "<SHARED_HOME>/Projects/go2-arx5-hierarchical-vla",
+          "head": "dc246b6fa1996dc1d2d2e891d431f74714851c4a",
+          "status": ""
+        },
+        {
+          "path": "<SHARED_HOME>/Projects/isaac-gr00t",
+          "head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+          "status": " M CLAUDE.md\n M getting_started/GR00T_inference.ipynb\n"
+        },
+        {
+          "path": "<SHARED_HOME>/Projects/isaac-gr00t-rtx4080s-remote",
+          "head": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+          "status": ""
+        }
+      ],
+      "original_notebook_and_CLAUDE_unchanged": true,
+      "visible": {
+        "<SHARED_HOME>": [
+          {
+            "name": "Apps",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "Downloads",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "Projects",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "README.txt",
+            "type": "file",
+            "symlink_target": null
+          },
+          {
+            "name": "bin",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "include",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "lib",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "lib64",
+            "type": "symlink",
+            "symlink_target": "lib"
+          },
+          {
+            "name": "pi0209_corelab_stage45i_20260918",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0215_a049_runtime",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0220_v0_20260918",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0223_goal_b_20260918",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0240_transfer_staging_20260920",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0246_gate_pass_archive_20260924",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0246_gate_pass_campaign_20260924",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pi0246_gate_pass_screen_20260925",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "pyvenv.cfg",
+            "type": "file",
+            "symlink_target": null
+          },
+          {
+            "name": "snap",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "stage13_report_staging",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "stage13b_staging",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "stage13c_staging",
+            "type": "directory",
+            "symlink_target": null
+          }
+        ],
+        "<SHARED_HOME>/Projects": [
+          {
+            "name": "GR00T-WBC",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "GR00T-WholeBodyControl",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "_handoff",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "go2-arx5",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "go2-arx5-hierarchical-vla",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "isaac-gr00t",
+            "type": "directory",
+            "symlink_target": null
+          },
+          {
+            "name": "isaac-gr00t-rtx4080s-remote",
+            "type": "directory",
+            "symlink_target": null
+          }
+        ]
+      },
+      "capacity": {
+        "<SHARED_HOME>": 1489417273344,
+        "<NODE_SSD>": 565060763648
+      },
+      "cpu_seconds": 0.833343,
+      "science_execution": 0
+    }
+  ],
+  "profiles": {
+    "profiles": [
+      {
+        "name": "amd-management",
+        "hostnames": [
+          "corelab-amd-server"
+        ],
+        "python": "<AMD_BASE312>/bin/python",
+        "role": "EXISTING_CPU_MANAGEMENT_NUMPY_ENV",
+        "source": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla",
+        "no_model_or_physics": true
+      },
+      {
+        "name": "4080-simulation",
+        "hostnames": [
+          "corelab-4080s"
+        ],
+        "python": "<NODE_SSD>/Projects/go2-arx5/PI0290/runtime/venv/bin/python",
+        "role": "EXISTING_SIMULATION_ENV_UNMOVED",
+        "source": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla",
+        "no_model_or_physics_in_doctor": true
+      },
+      {
+        "name": "4080-cpu-data",
+        "hostnames": [
+          "corelab-4080s"
+        ],
+        "python": "<NODE_SSD>/go2-arx5-vla-stage10/runtime/venv/bin/python",
+        "role": "EXISTING_CPU_DATA_ENV_UNMOVED",
+        "source": "<SHARED_HOME>/Projects/GR00T-WBC/code/vla"
+      },
+      {
+        "name": "hopper-neural",
+        "hostnames": [
+          "hopper-l-01"
+        ],
+        "python": "<HOPPER_SCRATCH>/stage22_h200_runtime_deb920_20260902/runtime/venv/bin/python",
+        "role": "EXISTING_NEURAL_ENV_PBS_REQUIRED",
+        "source": "<HOPPER_SCRATCH>/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+        "metadata_observed_python_version": "3.12.3",
+        "no_job_submitted": true
+      }
+    ],
+    "existing_absolute_paths_unchanged": true,
+    "new_installs": 0
+  },
+  "baseline": {
+    "source_sha": {
+      "vla": "e3cdb22a1802fcae1d97e670487d5bc60b5e5c0b",
+      "isaac-gr00t": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+    },
+    "shared_files": [
+      {
+        "relative": "code/isaac-gr00t/gr00t/data/state_action/pose.py",
+        "sha256": "4a09d0f1da9fe80bd8c3b0788e04c06979666f5dd636a91799a21e7d92c5f808",
+        "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+      },
+      {
+        "relative": "code/isaac-gr00t/gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py",
+        "sha256": "77fd0e1f6972cdcf0334f18f2e84724629f6746612721b6b27135ccb23f00b3f",
+        "fixed_git_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1"
+      },
+      {
+        "relative": "datasets/PI0291/statistics.json",
+        "sha256": "43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d"
+      },
+      {
+        "relative": "datasets/PI0291/STATISTICS_PROVENANCE.json",
+        "sha256": "0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359"
+      }
+    ],
+    "4080_files": [
+      {
+        "role": "PI0291_statistics.json",
+        "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/statistics.json",
+        "sha256": "43469f3818119c075774d91c5b08bbc2a46a0323a572a8e58614daa48155fd2d",
+        "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+      },
+      {
+        "role": "PI0291_STATISTICS_PROVENANCE.json",
+        "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/STATISTICS_PROVENANCE.json",
+        "sha256": "0715b10aec22b7222fecdd9b9b10c940dee21ef610882a709dc7838f0f7f9359",
+        "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+      },
+      {
+        "role": "PI0291_DATASET_MANIFEST.json",
+        "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/DATASET_MANIFEST.json",
+        "sha256": "1d2dd42c681197493570128aa09f60c864e3cc1be80f9a3fa1d6af3b175189d7",
+        "expected_from": "PI0291_FIXED_ARCHIVE_RECEIPT"
+      },
+      {
+        "role": "COSMOS_PROCESSOR_chat_template.json",
+        "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/chat_template.json",
+        "sha256": "6f8a6a55027e3da5160105556cda5dd69f6423f1c32645f6730d32de7773d0c4",
+        "blob_id": "e49e75bdda104c8de941eb20e0b3765184fb27bc",
+        "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+      },
+      {
+        "role": "COSMOS_PROCESSOR_config.json",
+        "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/config.json",
+        "sha256": "bec4b3d446efa05807365c9e1cec03ac590836879d02f3a6da879971154bdd3b",
+        "blob_id": "0cd8c646eb55794594b14fefcd1d3acea5cc000f",
+        "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+      },
+      {
+        "role": "COSMOS_PROCESSOR_generation_config.json",
+        "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/generation_config.json",
+        "sha256": "1e241830b48b397cb0900101421df5450baddc7adf01e5fc86b5615865f3bae4",
+        "blob_id": "7bb37933d2d86e4ceaabcc6540be989658f238e9",
+        "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+      },
+      {
+        "role": "COSMOS_PROCESSOR_merges.txt",
+        "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/merges.txt",
+        "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+        "blob_id": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0",
+        "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+      },
+      {
+        "role": "COSMOS_PROCESSOR_preprocessor_config.json",
+        "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/preprocessor_config.json",
+        "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+        "blob_id": "2ea84a437d448ff71b08df68fdd949d5cc4ebb64",
+        "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+      },
+      {
+        "role": "COSMOS_PROCESSOR_tokenizer.json",
+        "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/tokenizer.json",
+        "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+        "blob_id": "c6cc1014128b19d1fc46b1d30a23e3b1d35db421",
+        "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+      },
+      {
+        "role": "COSMOS_PROCESSOR_tokenizer_config.json",
+        "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/tokenizer_config.json",
+        "sha256": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+        "blob_id": "d3d3763207692c78780f4bf42d4dadf49a5c8012",
+        "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+      },
+      {
+        "role": "COSMOS_PROCESSOR_video_preprocessor_config.json",
+        "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/video_preprocessor_config.json",
+        "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+        "blob_id": "3ba673a5ad7d4d13f54155ecd38b2a94a6dac8fe",
+        "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+      },
+      {
+        "role": "COSMOS_PROCESSOR_vocab.json",
+        "path": "<NODE_SSD>/go2-arx5-vla-stage10/cache/huggingface/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561/vocab.json",
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "blob_id": "4783fe10ac3adce15ac8f358ef5462739852c569",
+        "fixed_revision": "9ce19a195e423419c349abfc86fd07178b230561"
+      }
+    ],
+    "original_sample": {
+      "role": "ORIGINAL_PI0291_NATIVE_SAMPLE",
+      "path": "<NODE_SSD>/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/native_dataset/episodes/T291000.npz",
+      "sha256": "14a2e4b4407fbcc33a65c3b617652ee40e88c4ac6a2aa93e3b23efd7d80a7502",
+      "episode_id": "T291000"
+    }
+  },
+  "implementation_readback": {
+    "entries": {
+      "infrastructure/doctor.py": {
+        "sha256": "013e7cea41740b10fdd213e30f6d65b0fbcaee295cce44b624fc61e23fe6d861",
+        "mode": 33152
+      },
+      "infrastructure/enter.sh": {
+        "sha256": "0c7973e0a3bc0e585e7ab96cfcc9033532a98f56e9c9410882282a291bb7082f",
+        "mode": 33216
+      },
+      "infrastructure/HOST_PATHS.json": {
+        "sha256": "3cf500c39f635ed5bdc4b20fa5e0de946ccffe5722f3ffc62b01e35784c2dd77",
+        "mode": 33152
+      },
+      "infrastructure/ENVIRONMENTS.json": {
+        "sha256": "71a85293c25a78e44ea178a5ec65d8bb89fbaca525c7b5d6ac7b1a7d0765a9c6",
+        "mode": 33152
+      },
+      "infrastructure/PATH_REGISTRY.json": {
+        "sha256": "ad4d7a0c3c68f86166ac474cfc847901d17588d43d591bbe136f4694fe5ff0b0",
+        "mode": 33152
+      },
+      "README.md": {
+        "sha256": "2abb1d03573ce90fb0ffd7eaad06149b5f229853b256182e465f52dbe47ddf45",
+        "mode": 33204
+      }
+    },
+    "private_source_originals_unchanged": true,
+    "epoch": 1791863652.127648
+  },
+  "new_dependency_installs": 0
+}

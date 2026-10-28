@@ -1,0 +1,205 @@
+{
+  "run_uuid": "20261016T150228Z-localpc-e1",
+  "status": "NEW_M1_INTERVENTION_BANK_ACTUALLY_EXPORTED_TRANSFERRED_AND_CONSUMED",
+  "card": {
+    "status": "ACTUAL_NONEMPTY_RECOVERY_BANK_INDEPENDENT_READER_PASS",
+    "origin": "E0_STATE_AGGREGATION_PLUS_E1_INTERVENTION_DATA",
+    "manifest_sha256": "a6c029e3e07f264a08ab47a757eb899b752e350e7a93f1db2dd87c03b88f0052",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "tasks": {
+      "T1": {
+        "windows": 1665,
+        "distinct_student_episodes": 4
+      }
+    },
+    "rows": 8,
+    "complete_H40_windows": 1665,
+    "new_collection_rows": 2,
+    "new_collection_windows": 832,
+    "new_online_DAgger": true,
+    "genuine_DAgger_per_task": {
+      "T1": true
+    },
+    "collection_attempts": [
+      {
+        "attempt_id": "PI0294-E1-D-M1-1024-F0-000-T1",
+        "task": "T1",
+        "student_episode": "b64ecb3f-428d-49e9-9da6-484811a3d00a",
+        "student_prefixes": 80,
+        "expert_prefixes": 0,
+        "data_class": "NO_INTERVENTION_NO_CORRECTION_DATA",
+        "valid_H40_windows": 0,
+        "assisted_task_success": true
+      },
+      {
+        "attempt_id": "PI0294-E1-D-M1-1024-F0-001-T1",
+        "task": "T1",
+        "student_episode": "4c984214-e36c-4700-842b-e0ba5d2d94a2",
+        "student_prefixes": 25,
+        "expert_prefixes": 55,
+        "data_class": "STUDENT_VISITED_INTERVENTION",
+        "valid_H40_windows": 401,
+        "assisted_task_success": true
+      },
+      {
+        "attempt_id": "PI0294-E1-D-M1-1024-F1-000-T1",
+        "task": "T1",
+        "student_episode": "ed3f78ba-5510-421e-9fa8-581b2da7142a",
+        "student_prefixes": 80,
+        "expert_prefixes": 0,
+        "data_class": "NO_INTERVENTION_NO_CORRECTION_DATA",
+        "valid_H40_windows": 0,
+        "assisted_task_success": true
+      },
+      {
+        "attempt_id": "PI0294-E1-D-M1-1024-F1-001-T1",
+        "task": "T1",
+        "student_episode": "27b5c23d-4a01-44ba-b255-135522a47477",
+        "student_prefixes": 3,
+        "expert_prefixes": 77,
+        "data_class": "STUDENT_VISITED_INTERVENTION",
+        "valid_H40_windows": 431,
+        "assisted_task_success": true
+      }
+    ],
+    "original_data_changed": false,
+    "target_WBC_demo": false,
+    "reader": {
+      "status": "PASS_INDEPENDENT_NPZ_JSONL_RGB_READER",
+      "full_windows": 1665,
+      "RGB_references": 3330,
+      "padded_windows": 0,
+      "rejected_student_commands_in_labels": 0
+    },
+    "CPU_s": 3.103954236,
+    "saved_export_attempt": 2,
+    "prior_failed_export_preserved": true,
+    "late_export_changes_existing_training_binding": false
+  },
+  "transfer": {
+    "status": "PASS_PRIVATE_FIXED_REVISION_READY_LAST",
+    "prefix": "PI0294/20261016T150228Z-localpc-e1/E1_SOURCE_CORRECTION_V1-C1-REPAIR-02",
+    "revision": "ce5faf453266689f7f889b8e452dd4f0a9c61200",
+    "data_revision": "b2b55841083de6f0fd0f3cd273a50b6621d8e389",
+    "files": {
+      "correction.tar.gz": {
+        "bytes": 79168580,
+        "sha256": "97ddc515701affc60193b0507b8817387fc078be58c20890ab3800f22c451069"
+      },
+      "MEMBERS.json": {
+        "bytes": 266520,
+        "sha256": "4d680d806d9561763d0c54a86e7fa37aa8d1e07c5a153e3e209dd092e42c6eee"
+      }
+    },
+    "READY_sha256": "35dc70e03fd513180cde766bfbb1487a4516fc7fb208d970fa1bfbb1c2f237d7",
+    "manifest_sha256": "a6c029e3e07f264a08ab47a757eb899b752e350e7a93f1db2dd87c03b88f0052",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "READY_claim": true
+  },
+  "consumer": {
+    "status": "PASS_ACTUAL_HOPPER_CORRECTION_PROCESSOR_LOADER",
+    "revision": "ce5faf453266689f7f889b8e452dd4f0a9c61200",
+    "prefix": "PI0294/20261016T150228Z-localpc-e1/E1_SOURCE_CORRECTION_V1-C1-REPAIR-02",
+    "manifest_sha256": "a6c029e3e07f264a08ab47a757eb899b752e350e7a93f1db2dd87c03b88f0052",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "origin": "E0_STATE_AGGREGATION_PLUS_E1_INTERVENTION_DATA",
+    "qualified_tasks": [
+      "T1"
+    ],
+    "new_M1_online_DAgger": true,
+    "independent_reader": {
+      "status": "PASS_INDEPENDENT_NPZ_JSONL_RGB_READER",
+      "full_windows": 1665,
+      "RGB_references": 3330,
+      "padded_windows": 0,
+      "rejected_student_commands_in_labels": 0
+    },
+    "actual_first_middle_last": [
+      {
+        "identity": {
+          "episode_id": "PI0294-E0-M2048-TRAIN-F0-000-T1-S001-SHORT",
+          "split": "TRAIN",
+          "anchor": 0,
+          "task": "T1",
+          "family": "E0_STUDENT_STATE",
+          "origin": "E0_STATE_AGGREGATION_ONLY"
+        },
+        "roundtrip_maximum_absolute_difference": 1.0253078486927025e-08,
+        "native_decode": {
+          "normalized_outside_unit_components": 0,
+          "native_inverse_clip_declared": true,
+          "extra_postprocessing": false
+        }
+      },
+      {
+        "identity": {
+          "episode_id": "PI0294-E0-M2048-TRAIN-F1-000-T1-S003-FULL",
+          "split": "TRAIN",
+          "anchor": 409,
+          "task": "T1",
+          "family": "E0_STUDENT_STATE",
+          "origin": "E0_STATE_AGGREGATION_ONLY"
+        },
+        "roundtrip_maximum_absolute_difference": 4.261294844765118e-09,
+        "native_decode": {
+          "normalized_outside_unit_components": 0,
+          "native_inverse_clip_declared": true,
+          "extra_postprocessing": false
+        }
+      },
+      {
+        "identity": {
+          "episode_id": "PI0294-E1-D-M1-1024-F1-001-T1",
+          "split": "TRAIN",
+          "anchor": 430,
+          "task": "T1",
+          "family": "F1",
+          "origin": "E1_STUDENT_VISITED_INTERVENTION"
+        },
+        "roundtrip_maximum_absolute_difference": 1.4834344239100794e-08,
+        "native_decode": {
+          "normalized_outside_unit_components": 0,
+          "native_inverse_clip_declared": true,
+          "extra_postprocessing": false
+        }
+      }
+    ],
+    "model_loaded": false,
+    "optimizer_updates": 0,
+    "CPU_s": 27.117860663,
+    "actual_mixed_loader": [
+      {
+        "resume_step": 0,
+        "trace": {
+          "status": "PASS_ACTUAL_SMALL8_CONSUMED_IDENTITIES",
+          "count": 64,
+          "sha256": "6f5f21977fddfb60dee1432bfe5d62c9a81f70ed0bb3c11991ad49f91e075ff3"
+        },
+        "original_samples": 32,
+        "correction_samples": 32
+      },
+      {
+        "resume_step": 1,
+        "trace": {
+          "status": "PASS_ACTUAL_SMALL8_CONSUMED_IDENTITIES",
+          "count": 32,
+          "sha256": "9689536b737c7241036f0760d6ed45822ae74de6656497896fb29d98a99a4cd8"
+        },
+        "original_samples": 16,
+        "correction_samples": 16
+      }
+    ]
+  },
+  "frozen_M2_choice": "C0",
+  "frozen_M2_manifest_sha256": "7580aa55973f1eb7ba24db934a67454acfae3490ac476de648b80377721df85d",
+  "HF_repository": "EXISTING_PRIVATE_DATASET_ALIAS",
+  "raw_public": false,
+  "first_failed_export_preserved": true,
+  "new_physical_integrations_for_repair": 0,
+  "new_model_queries_for_repair": 0,
+  "M2_training_hot_updated": false,
+  "E1_M2_uses_new_intervention_bank": false,
+  "E1_M2_comparison": "ORIGINAL_SMALL8_BC_VS_E0_STATE_AGGREGATION_C0",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

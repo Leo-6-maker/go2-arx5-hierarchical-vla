@@ -1,0 +1,148 @@
+# PI0284 draft — Native generation gap and task-conditioning comparison
+
+**Publication status: PREPARED_NOT_PUBLISHED. This draft is not a GitHub canonical GO.**
+Proposed authority: `PI0284_NATIVE_GENERATION_CONDITIONING_GO_V1`.
+Repository: `Leo-6-maker/go2-arx5-hierarchical-vla`.
+Working branch: `pi0267/executor-decoupled-recovery`.
+Review: runtime/source SHA `e193847f3feeb2a4bf1e5028f0fd3204f65eb0a0`; refreshed terminal evidence SHA `e873939fa6a78698211b18a8995cfce3f664f831`.
+Latest reviewed owner terminal: Issue #11 comment **6053296607**, **2026-10-08 13:49:46 SGT**. The earlier12:46 running snapshot was superseded during review.
+Predecessor: PI0283 canonical **6048886543**, release `508e3db7b63d3c47758794f3ffbad87b577e6e9d`.
+
+## 0. Publication and predecessor barrier
+
+An authorized owner must first refresh the branch/Issue #11, check that PI0284 is not occupied, commit this protocol and the matching limits file, publish an Issue #11 canonical with the exact immutable release, and read both back. Record any substantive revision rather than silently editing this draft. No new scientific execution under this draft before that publication. This review window had GitHub read actions but no file-write or issue-comment action; no release or comment number is invented.
+
+At the refreshed13:49 terminal, PI0283 MORE2048 and EVENT1024 were both complete and sealed as VALID_QUALITY_FAIL; no DEV/CONFIRM was admitted. The earlier104-update EVENT snapshot is obsolete. The independent CPU/Trainer/readback evidence and current local parent remain protected. Do not restart this completed EVENT to finish unused allowances. Owner must still refresh actual leases/processes before adopting PI0284; a saved terminal is not reviewer live SSH. No competing job, in-flight file edit or old-budget reset is authorized.
+
+**All PI0284 neural, optimizer and physical calls wait until PI0283 is scientifically terminal, its current task panels and any admitted confirmation are closed, and its goal-owned scientific GPU leases are released.** HF archival need not finish. If PI0283 already produces an independently qualified source policy, stop this proposed remediation path: preserve that policy, produce the read-only next-stage design, and run zero new learning/quality calls here. There is no automatic multi-task or WBC launch.
+
+PI0283's recorded user instruction removed the old09:00 wall-clock gates. Do not restore that expired deadline or silently extend PI0283 finite caps. PI0284, if published, has its own finite counters below; all predecessor counts and failures remain sealed.
+
+## 1. Research objective and the evidence boundary
+
+The objective is a reusable, pretrained task-space manipulation adaptation method, first validated on the existing source StackCube task, not a sequence of increasingly task-specific trajectory penalties. WBC/Go2/ARX5 parameters, configuration and new execution stay frozen. High-level training data and admission remain independent of target-WBC success.
+
+Actually established at review:
+- ACTION2048 used16384 chunks at effective batch8; fixed TRAIN prefix XYZ median17.335mm, fit1/24, first success2/4 and persistent0/4.
+- MORE added2048 updates with the same93 source episodes and native objective, carrying Adam and changing only the declared phase schedule. MORE1024/2048 both completed TRAIN4 with persistent0/4. MORE2048 median prefix XYZ15.243788mm and fit2/24; its first success on10003 lasted10.80->10.85s.
+- MORE2048 approach errors were60.735/31.916/29.141/35.181mm; first-release gripper MAEs .562256/.496826/.634521/.377197. Spatial accuracy and event behavior are both unresolved. A one-tick success is not stable placement.
+- Recorded native reduction, accumulation, learning-rate groups, parameter changes and exact carry proof passed. EVENT subsequently completed during review; its terminal results are incorporated below. Technical loader/guard/environment failures are not learner quality results.
+- The earlier16,384 draws had12,294 unique UIDs and4,090 repetitions. The release/terminal phase contained3,997 stable-open draws and99 open-first8 draws; across all phases open-first8 was781, not99. No claim that event samples were wholly absent.
+
+Refreshed terminal facts: EVENT1024 has TRAIN fit6/24, VAL3/24, XYZ median12.193mm, SO3 .012378rad, gripper median .002686/p95 .726587, persistent0/4 and first success1/4. All six TRAIN passes are late-hold probes; approach/grasp/transfer remain0/4 each and all first-release probes fail. Approach errors42.066/19.205/24.199/28.453mm; first-release gripper MAEs .864258/.617432/.745850/.375488. Condition10003 had44 consecutive20Hz success samples6.65..8.80s, lost success8.85s, last success13.95s; final object was static/released but off target. Static first became false while on_top remained true and not_grasped, which does not prove a sole contact/controller cause. This is genuine interaction progress but no qualified policy.
+
+EVENT parameter/Adam lineage reached global5120 formal updates(2048 original +2048 MORE +1024 EVENT). PI0283 actual work is3072formal/3088all completed,1108policy/4424heads,13starts/7940controls/39700integrations/7941RGB, teacher/WBC0; all previous counts remain separate. Total old+new completed5168. MORE loss first/last16 means .0362233/.0333367 and EVENT .0364563/.0231171 refer to different sampled windows, not controlled convergence laws. The old ephemeral direct-transfer credential was revoked at closeout; owner must re-establish a scoped authorized path or use a qualified co-located runtime, never reuse a revoked key or embed credentials in Git.
+
+The attached prior review distinguishes where to move, when to grasp/release, and how to recover. Preserve that framing. Neither15mm aggregate error nor low native loss identifies a unique cause. The native head is trained on a noisy-action velocity target, then generates actions by Euler integration from full132-dimensional Gaussian noise. A four-step rollout and successful supervised denoising are different measurements.
+
+Hypotheses, not facts: (H1) coarse native integration contributes to generated error; (H2) the learner inadequately uses scene-conditioned information relative to proprioception; (H3) the conservative shared-DiT optimization schedule leaves the new action mapping underfit; (H4) correct expert-state predictions still fail after actual-state divergence. This goal resolves H1 first and permits **one** controlled H2-or-H3 training comparison, never both. H4 does not automatically authorize recovery-data collection.
+
+## 2. Immutable model/data/execution contract
+
+Adopt the now-sealed full EVENT1024 endpoint, not a favourable historical checkpoint. Its full master SHA256 is `ac8fad1a39aad656fac3f0bdafaa856b984d67cd55a0df111103ae79a80f8e2a`, Adam global5120. The verified complete source is `/scratch/e1192548/Projects/go2-arx5/experiments/PI0283/learning/EVENT/main/checkpoint-1024`; confirm actual access and all14 member hashes from terminal MODEL_LOAD_RECIPE.json. HF full-Trainer revision is `2a288c49d2d2aa7517da2103bf92911bade01947`, prefix `arms/PI0283/EVENT/checkpoint-1024`, as recovery evidence, not required transport. Do not fall back to another parent by quality or restart EVENT. If these exact local artifacts are unavailable, report an artifact blocker. Model-only views are not optimizer resumes.
+
+Record full tensor, buffer, optimizer, processor/statistics/mapping and dependency hashes. Lineage must lead to pristine `nvidia/GR00T-N1.7-3B@2fc962b973bccdd5d8ce4f67cc63b264d6886495`, official code `51d4c89f72fda44cbf77285c6a8114b52676b8a1` and Cosmos `9ce19a195e423419c349abfc86fd07178b230561`. Do not inherit old AGG/TASK/FOCUS/COVER/CLEAR weights.
+
+Keep the93 admitted original TRAIN and15 VAL episodes, their real raw128 RGB views, actual achieved TCP and measured opening, fixed original task instruction, original command labels, native min/max and native inverse clipping. Relative EEF conversion already exists: do not relabel it as a new intervention. External action remains absolute task-frame XYZ+row-packed rot6d+gripper, internal native relative EEF plus absolute gripper; H40 at20Hz, execute first8, fresh feedback every0.4 task seconds. Active10 dimensions and full132-dimensional model/noise/masks remain as declared.
+
+Source physics remains the original Panda/native PD,20Hz control,100Hz integration,32s horizon, same frame/TCP, scene, gripper conversion, SafetyGate and scorer. No hardware, target joints, object-truth inputs, phase/time/success tokens, teacher takeover, stop-on-success, action smoothing, snapping, clamp changes or task relaxation. Source execution is non-real-time unless separately measured; more denoising steps do not silently claim real-time deployment.
+
+Scope of any training remains row10 state/action encoders+decoder and shared DiT; VLM, other31 category rows, position embeddings, vlln/VL attention remain frozen. Preserve the actual native modes and document stochastic modules; a training=True flag alone is not a parameter update or evidence of active dropout. No new head, LoRA, VLM unfreezing, manual normalizer or generated-trajectory auxiliary loss.
+
+## 3. G0 — Adopt evidence rather than rebuild infrastructure
+
+Reuse predecessor expert-codec4/4, complete data/processor checks, fixed DIAG48, source input/noise/scorer checks and complete recovery. Do not repeat official32/32 inference parity, old expert replays or the whole CPU statistics pipeline. Refresh actual process/lease/storage status, freeze parent, and publish G0_ADOPTION with old/new counter crosswalk.
+
+Read the saved loss/LR/event exposure and pre-inverse out-of-range values by XYZ/rotation/gripper and prefix/tail. Separately record raw normalized generation, post-inverse clipping and physical reconstruction; native clipping is not proof of learned validity. Inspect exact duplicate observation hashes with differing future command labels and their phase/timing context. Different valid futures can be multimodal, not automatically data errors. Do not discard such samples or assert partial observability from a hash count alone.
+
+Trace available raw->installed->achieved->object arrays around first lost success. Distinguish task-coordinate error, tracking error and object error. The original historical lift-predicate omission remains disclosed; keep any descriptive height metric separately named.
+
+A proven input/label/codec/loss contradiction stops the affected scientific lane. Permit only bounded same-semantics path/serialization/accounting fixes with regression tests and a new runtime manifest. Do not edit active predecessor files or copy an old launcher then globally replace stage numbers. An isolated explicit stage/configuration adapter must preserve the native model mathematics.
+
+## 4. G1 — Zero-update generation study: K4 versus K16
+
+This is a new, disclosed inference intervention. It does not change H40, physical20Hz, execution-prefix8, model weights, precision, noise law or action decode. Change only official `num_inference_timesteps` between4 and16; dt and time buckets follow the official implementation. No RTC/action prefix is supplied, no teacher actions in inputs, no solver/seed tournament, and no claim that16 is necessarily better.
+
+Use the fixed DIAG48(24TRAIN+24VAL) and four pre-fixed full native BF16 noise packets per observation: packet0 reuses the old saved packet where its identity matches; packets1..3 use seed namespace28401 and are saved before scores. K4 and K16 receive exactly the same packet and observation, not merely equal seeds. All four samples are reported; none is chosen or averaged into a deployed action. Deterministic backbone-feature reuse is allowed only for these identical offline inputs after feature parity, never to reuse stale live images.
+
+Maximum384 quality calls =48x4x2; maximum3840 DiT head evaluations =48x4x(4+16). Reuse matching existing K4/packet0 outputs instead of rerunning them. Log sampling latency, all intermediate raw action states, prefix8/fullH40 XYZ/SO3/gripper errors, command-event timing and finite/gate/clip status. Intermediate states are evidence, not new labels.
+
+For a reproducible sampler choice use TRAIN24 only. For each row average across the four packets the composite `J=(XYZ_RMS/.010)^2+(SO3_RMS/.10)^2+(gripper_MAE/.10)^2`; nonfinite decode is infinity. Lock K16 only if its median J is at most75% of K4, at least16/24 rows have lower J, invalid/gate-reject count does not increase, the median initial-approach XYZ does not worsen by>2mm and median first-release gripper does not worsen by>0.02. These are prospective diagnostic guards, not a task pass or a universal precision threshold. Otherwise lock K4. VAL results are descriptive and must not be used to choose K or tune these cutoffs.
+
+If K16 is selected, run exactly one new parent-K16 TRAIN4 closed loop with the original per-condition/query native noise protocol and fresh actual observations. Compare to the saved parent-K4 panel, whose different visited states are part of behavior. If TRAIN>=3/4, one parent DEV8 is allowed; if DEV>=6/8, freeze this **zero-update inference variant** and proceed directly to G5 confirmation, with no training. If it fails DEV, record it and continue only through G3. The selected K stays fixed for all remaining comparisons; do not choose a different K after seeing physical scores. If the unchanged parent-K4 was already TRAIN/DEV qualified but confirmation was unexecuted solely because the predecessor exhausted resources, preserve those exact results and use PI0284 only for its fresh G5 confirmation, after publication/exposure checks. Skip new sampler/conditioning/training calls; confirmation failure closes this goal. A previously executed failed confirmation must never be relabelled as unexecuted.
+
+## 5. G2 — Natural observation contrast, not fake sensor packets
+
+Before new scores, construct at most8 disjoint pairs from existing TRAIN anchor0 observations. Use actual two-view RGB/TCP/opening packets, no fabricated joints or image/state swaps. Pairing requires TCP translation difference<=2mm, SO3 difference<=.02rad, opening difference<=.02, and expert waypoint7 displacement difference>=10mm. Rank candidate pairs by (normalized state distance, lower UID, upper UID) and take greedily without reuse. If not enough pairs exist, report the available count; do not relax the limits or generate new scenes.
+
+For each actual pair, both members receive the same two fixed noise packets under the locked K: at most16x2=32 calls for the parent. Retain the same pair card for both trained endpoints(64 additional calls). Compute predicted versus expert between-member waypoint7 displacement, cosine direction, residual, and response magnitude. A prospective weak-response flag requires>=6 admissible pairs and, in at least75% of them, the mean predicted between-member displacement norm is<25% of the expert displacement norm. Small remaining state differences and the initial-state-only scope prevent a claim of fully causal visual ablation. This flag does not prove language ignorance, global state shortcutting or a unique root cause.
+
+Separately report endpoint39 motion and noise spread but do not use them to redefine pairs after scoring. Pixel validity, camera ordering and native tokens/features must actually differ when the input images differ. If the input-processing chain collapses distinct images before the model, stop on that concrete bug instead of training through it. Absence of enough pairs is INCONCLUSIVE, not proof that conditioning is good.
+
+## 6. G3 — Choose exactly one native training comparison
+
+First assess actual endpoint TRAIN fit using existing24-row diagnostic: adequate means>=18/24 rows pass XYZ<=10mm, SO3<=.10rad and gripper MAE<=.10 on packet0, and each represented teacher phase has at least half passing. Multi-noise means/tails remain reported. This gate is only a routing device.
+
+- If expert-state fit is adequate but source closed loop fails, do not add another fitting run here. Deliver the sampled-generation/actual-state gap and a bounded recovery-teacher design for a separate decision. No teacher or new recovery data is authorized in PI0284.
+- If fit is inadequate and G2 weak-response is true, execute **CTRL2048 vs STATE20_2048**. The sole intended between-arm difference is native training-time state-feature dropout probability0 versus0.2. Both use projector peakLR1e-4 and DiT1e-5. At inference both read full real EEF/gripper feedback and use eval mode: no state deletion or robot-information fabrication.
+- If fit is inadequate and G2 is not weak or is inconclusive, execute **CTRL2048 vs LR5X2048**. Both use state dropout0, projector1e-4; DiT peaks1e-5 versus5e-5. The only intended between-arm difference is the DiT learning-rate schedule scale. This tests a more active native adaptation rate, not a claim that more LR is intrinsically better. Do not also add state dropout, alter sampling or unfreeze other modules.
+
+Freeze the route before the first new optimizer update. No coefficient grid, optional third arm, rollback to another parent by quality, or cross-branch retry. The no-training K choice is common to both arms and precedes them; it is disclosed, not part of an untouched predecessor baseline.
+
+Both arms independently load the **same** full parent weights and Adam moments; neither starts from the other. Preserve global lineage steps, reset only a declared2048-step phase cosine with103 warmup steps. Optimizer torchAdamW betas(.9,.999),eps1e-8,gradclip1; projector decay0, DiT decay1e-5. FP32 trainable masters/BF16 autocast, FP16/TF32 off. Same actual layout, preferentially microbatch4xaccum2 at effective8. Only a common pre-arm memory choice2x4 or1x8 is allowed; no numerical-runtime change between arms.
+
+Shared data are still the original93 TRAIN episodes, native labels and statistics. Preserve the predeclared EVENT sampler family for both arms: four phases balanced, episodes evenly cycled; within phase50% original command/phase-boundary event neighborhood and50% full-time stratification. Extend its deterministic per-group streams to16,384 draws per arm without score-based targeting; freeze both identical UID lists first. No recovery suffix, FOCUS16 concentration, new task or scene. Relative to the parent these phases also add dose/new schedule; the matched-arm difference, not a parent-only comparison, is the evidence for dropout/LR benefit.
+
+For STATE20 the extra native Bernoulli draw must not accidentally change the paired flow noise/time. One permitted implementation adds an identically shaped, unused control RNG draw at the same state-encoder boundary in CTRL; STATE20 uses its unchanged native dropout draw. Verify from actual packet hashes that both arms' noise and native time draws match. Alternative narrowly scoped RNG isolation requires the same Bernoulli law and proof. Do not replace the native time/noise distribution, mask labels, or alter eval inputs. If pairing cannot be proved, stop before formal learning rather than claim same seed implies same noise.
+
+Each arm runs one16-completed-update carry/resume proof(continuous8 versus4+fresh-resume4), counted as discarded work; generic already-valid parts may be reused but the new intervention/RNG behavior must be checked. Keep exact data/noise/cursor/frozen rows and prior updatedFP32 tolerances(atol1e-6,rtol1e-5), and record bitwise equality. Finite gradients must reach all intended interface modules and DiT. Whole packed projector parameters require row10 masks and zero projector decay; verify other31 rows and moments remain exact. Never cut autograd through a frozen trunk.
+
+## 7. G4/G5 — Physical evaluation and one fresh confirmation
+
+Each trained arm gets checkpoints1024 and2048, each with the existing DIAG48(two fixed packets0/1) and one fixed TRAIN4 physical panel. Only2048 endpoints are selectable. Both endpoints get DEV8(30000..30007), including failed TRAIN endpoints as clearly labelled diagnostics; only an endpoint meeting TRAIN>=3/4 AND DEV>=6/8 is qualified for confirmation. Do not hide a failed arm or select a favourable middle checkpoint.
+
+If both pass, select greater DEV persistent count, then greater TRAIN count, then CTRL. Freeze the full policy identity, including selected K, native processor/statistics/row mapping and decoder. Original source task criterion is unchanged: full valid32s AND original on_top/static/not_grasped at ALL41 samples28..30s. No first-success stop, runtime script, teacher, object-truth or manual gripper patch.
+
+Use exactly one pre-reserved PI0284 confirmation panel **30100..30115**. These IDs are fixed by this draft before new outputs; they are not replacements chosen after a failed prior confirmation. Check exposure in all retained current-project records before any new training, then seal and do not render/query/label them until the one candidate is frozen. If previously exposed, report HOLDOUT_COLLISION and do not invent substitute seeds. PI0283's30032..30047 panel remains untouched and its conclusions unchanged. New confirmation differs only in initial randomization of the same existing task, not a new multi-scene training campaign.
+
+>=12/16 original persistent successes is the engineering source-prototype target. On confirmation failure, stop; do not test a second candidate or return to training on these outcomes. If source-only success is established, selected/deployment stillNONE and source_candidate receives its exact scope. It is not WBC/Go2, real-time, multi-task or broad statistical generalization evidence.
+
+At most one parent-K16 DEV panel, two endpoint DEV panels, and one total confirmation panel across all paths. If the sampler-only candidate passes development, it owns that confirmation slot and training is skipped whether confirmation passes or fails.
+
+## 8. Pretraining and reusable-method checks
+
+Each trained endpoint gets32 already-saved original DROID observations with original tag/processor/statistics and original K4/noise; reuse pristine and available parent outputs. These64 calls describe retained-route change, not a multi-task benchmark or model-selection signal. Frozen VLM/other-row hashes remain mandatory regardless of behavior. No claim that original pretraining is preserved solely because those parameters did not change.
+
+Static downstream design only: specify two future task families with natural language-dependent object/goal choices, unified EEF ABI, task x episode x event sampling, and old-task retention checks. Do not collect data, run a second task or start multi-task training here. The current comparison should become a reusable method rather than a StackCube-specific learned slot or loss.
+
+If no qualified policy results: larger-K benefit isolates a generation-procedure contribution; STATE20-vs-CTRL improvement supports that regularization choice in this sample, not proof of a sole visual shortcut; LR5X improvement supports the tested optimization regime, not a universal step count; poor fit despite all checks motivates an explicit observation/representation or smaller fixed-data learning-capacity study; good fit with bad physics motivates learner-state recovery. Do not automatically launch any of these after termination.
+
+## 9. Runtime, local-first delivery and engineering boundaries
+
+One existing owner, at most three workers(DATA/diagnostic, LEARNING, independent SOURCE/AUDIT), one training lease, one immutable evaluation policy at a time per GPU. No new competing goal while EVENT is healthy. Prefer a legal H200 for training and an independent actual Corelab allocation for evaluation. Shared same-GPU jobs serialize. Do not infer resources from agent count or operate unrelated processes.
+
+Reuse validated input caches only when codec/data/augmentation hashes match. Freeze one stable runtime manifest with explicit stage/K/dropout/LR fields and counter guards; do not build another cascade of global string replacements. Same-semantics packaging fixes must be unit tested before allocation. Verify deterministic-kernel environment(including the actually required CUBLAS workspace) on both hosts before model calls.
+
+No new whole-model download. Preflight direct immutable model-only transfer, full-master reconstruction and fresh-process reload; do not require HF upload/download as transport. Trainable tensors are exact replacements, not quantized differences. Save full local Trainer at1024/2048 and safe stops; protect original parent and unique current recoveries. At least one working inference load path is required before expensive training. Warm evaluator and direct-transfer pipelines must preserve per-condition identity/noise and fresh frames.
+
+Capture actual attempted work, completion counts, module modes, native losses/LRs and finite gradients. Detailed per-step audits may remain interval-based if honestly declared; frozen identity at checkpoints cannot be dropped. Videos derive from stored frames, not new render. HF archival is optional/deferred and must not displace evaluation; private scientific payload visibility is not changed without explicit user direction.
+
+## 10. New finite budget; predecessor budget is not reset
+
+Maximum new formal updates4096(two arms x2048), samples32768. Canary32, prospective memory checks16, technical completed rollback64: **all completed new optimizer updates<=4208**, at most2 technical training recoveries. The zero-update sampler-only or diagnostic-stop paths spend fewer, not mandatory full budget.
+
+Nominal maximal physical path:4 parent-K16 TRAIN +8 failed parent-K16 DEV +16 trained-checkpoint TRAIN +16 endpoint DEV +16 one-candidate CONFIRM =**60 episodes**. Hard **64 starts**, technical replacements<=4, valid-quality retries0. Count neutral pre-roll/reset and incomplete attempts. Hard45000 control steps,230000 per-environment integrations,45000 RGB pairs,90000 control/gripper dispatches. If the predecessor already ran an exact valid condition/policy/noise under the same contract, reuse it.
+
+Quality request upper accounting:384 initial K/noise study +96 natural-contrast(parent and2 endpoints) +384 trained DIAG(two noises x48 x4 checkpoints) +4800 physical(60x80) +64 DROID retention +64 serving/canary sanity =**5792 nominal**, hard **6400**. Variable inference K must be charged directly; **head evaluations hard102400**, not mislabelled universally S4. At maximumK16 nominal heads are89600(3840+1536+6144+76800+256+1024). Native training forwards are separate and include failures.
+
+Existing legal compute only: **12 GPU-hours total**,96 CPU-core-hours,120GiB new retained outputs/cache, missing nonmodel dependencies<=2GiB. These are ceilings, not duration promises. Before each stage reserve enough measured cost for its mandatory final panel/save; if insufficient, terminate with RESOURCE_PARTIAL. Do not cut off all useful work for hypothetically unadmitted future panels, and never fabricate qualification because confirmation does not fit.
+
+New WBC/target-robot neural calls/target simulation/teacher/physical training-data collection/multi-task experiments/hardware commands=0. No inference seed optimization, new purchases, deletion of unique history or reuse of old unused allowances. All selected/deployment fields remainNONE.
+
+## 11. Delivery and review limitations
+
+Deliver immutable parent/child identities, original-base lineage, selected K and measured latency, paired multi-noise generation report, natural-contrast card/results, exact chosen training-route rationale, two-arm exposure/RNG/scope/mode/optimizer evidence, full recoveries, physical funnel and persistent task counts, one-candidate confirmation when admitted, retained-route probes, genuine videos and next-stage design. Separate EXECUTED, QUALITY_FAIL, BLOCKED, UNCONFIRMED and SOURCE_QUALIFIED.
+
+Scientific activation requires GitHub publication/readback; this local draft and its hash are not a remote release. A compact issue closeout is required after execution, but a temporary publication/HF fault does not justify rerunning models. No additional signatures beyond the specified checks are required from subagents.
+
+Review actually read: live branch/Issue11 at the cited SHA; PI0283 clock, MORE card, saved H40 audit and runtime builder; predecessor fixed results and actual exposure/mode records supplied in context; official pinned native sampler and finetune configuration. The reviewer did not SSH, inspect all private checkpoint tensors, rerun raw arrays, watch all remote videos, run a model, simulate physics or start/stop a remote job. The16-step/conditioning/LR contrasts are prospective, not established fixes. The initially missing EVENT result was refreshed at13:49 and its final report/load recipe were actually read before this package was finalized.

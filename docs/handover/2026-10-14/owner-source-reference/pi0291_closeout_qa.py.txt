@@ -1,0 +1,61 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Cross-check saved producer receipts and sanitized report identities."""
+import hashlib
+import json
+from pathlib import Path
+import resource
+import time
+
+HERE=Path(__file__).parent
+producer=Path(json.loads((HERE/'PI0291_CLOSEOUT_LATEST_SNAPSHOT.json').read_text())['producer'])
+public=HERE.parent/'pi0290-source/reports/PI0291/20261013T023717-localpc-arx5'
+def read(path): return json.loads(path.read_text())
+def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+admission=read(producer/'DATASET_ADMISSION.json')
+seal=read(producer/'TEACHER_AND_LAYOUT_SEAL.json')
+projection=read(public/'closeout-raw/DATASET_ADMISSION.json')
+assert len(admission['episodes'])==len(projection['episodes'])==80
+for original,published in zip(admission['episodes'],projection['episodes']):
+    assert original['id']==published['id']
+    assert isinstance(original['seed'],int) and isinstance(published['seed'],str)
+    assert original['seed']==int(published['seed'])==seal['layouts'][original['id']]['seed']
+assert admission['counts']['TRAIN']==dict(planned=64,attempted=56,admitted=56,unattempted=8,admitted_H40_windows=33656)
+assert admission['counts']['DEV']==dict(planned=16,attempted=0,admitted=0,unattempted=16,admitted_H40_windows=0)
+lines=[json.loads(x) for x in (public/'closeout-raw/ATTEMPT_LEDGER.jsonl').read_text().splitlines()]
+assert len(lines)==92 and sum(bool(x['attempted']) for x in lines)==68
+assert sum(bool(x['admitted']) for x in lines)==56
+files=0
+for name in ['closeout-raw','closeout-native','closeout-final']:
+    manifest=read(public/name/'PUBLIC_RECEIPT_PROJECTION_MANIFEST.json')
+    for row in manifest['files']:
+        assert sha(public/name/row['public_file'])==row['public_projection_sha256']
+        files+=1
+smoke=read(producer/'evidence/DATALOADER_SMOKE.json')
+assert smoke['status']=='NATIVE_DATALOADER_PASS' and smoke['two_workers_repeat_equal']
+assert smoke['codec']['TRAIN']['full_H40_windows_actually_checked']==33656
+assert smoke['codec']['DEV']['full_H40_windows_actually_checked']==0
+error=smoke['codec']['TRAIN']['official_normalized_float32_132D_decode']
+assert error['XYZ_m']<=1e-5 and error['SO3_rad']<=1e-4 and error['gripper']<=1e-5
+assert all(x['rejected'] for x in smoke['oracle_and_causality_negatives'].values())
+transfer=read(producer/'evidence/TRANSFER_MANIFEST.json')
+readback=read(producer/'evidence/HF_READBACK_RECEIPT.json')
+hopper=read(producer/'evidence/HOPPER_READY_READBACK.json')
+assert transfer['revision']==readback['revision']==hopper['revision']=='c25eeadf9be0aa7d46bb6f7b65e260cbf3a305ea'
+assert transfer['private'] and len(transfer['files'])==81 and transfer['READY_uploaded_last']
+assert readback['actual_601_H40_codec']['TRAIN']['full_H40_windows_actually_checked']==601
+assert readback['raw_members']==1295 and readback['native_members']==63 and not readback['statistics_refit']
+resources=read(producer/'evidence/FINAL_RESOURCE_SNAPSHOT.json')
+assert resources['all_sealed_hashes_equal'] and resources['sealed_source_files_rechecked']==121
+assert resources['CPU_closeout_conservatively_charged_delta_s']<14400
+assert resources['owned_logical_bytes']+resources['external_output_bytes_upper']<40*1024**3
+assert resources['model_load_forward_train_new_PBS_WBC_hardware']==resources['GPU_s']==0
+for path in public.rglob('*.json'):
+    read(path)
+u=resource.getrusage(resource.RUSAGE_SELF)
+value=dict(status='PASS_SAVED_PRODUCER_AND_PUBLIC_CLOSEOUT_RECEIPT_QA',observed_epoch=time.time(),formal_seed_rows_losslessly_bound=80,attempt_ledger_rows=92,attempted_physical_rows=68,admitted_TRAIN=56,DEV=0,projection_file_hashes_checked=files,HF_fixed_revision=transfer['revision'],public_projections_are_not_producer_bytes=True,DEV_quality_NOT_TESTED=True,highest_READY_allowed=False,source_sha=seal['source_sha'],CPU_s=u.ru_utime+u.ru_stime,CPU_covered_by_admin_upper=True,model_loads=0,physics_steps=0)
+out=public/'CLOSEOUT_QA.json'
+assert not out.exists()
+out.write_text(json.dumps(value,indent=2)+'\n')
+print(json.dumps(value))

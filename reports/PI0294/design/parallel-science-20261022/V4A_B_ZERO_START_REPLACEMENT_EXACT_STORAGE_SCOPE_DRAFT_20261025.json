@@ -1,0 +1,194 @@
+{
+  "status": "DRAFT_EXPLICIT_TWO_STORAGE_CAP_APPROVAL_REQUIRED_NO_NATIVE_ADOPTION",
+  "shortfalls": {
+    "Hopper_storage_bytes": 631713816,
+    "Core_storage_bytes": 30619035672
+  },
+  "clock": {
+    "first_stage_remaining_wall_upper_s": 28860,
+    "both_stage_panels_fit_original_physics_window": true,
+    "last_stage_submission_fits_original_stop_new": true,
+    "original_matrix_and_final_resources_protected": true,
+    "all_protected_future_jobs_wall_completion_promised": false
+  },
+  "dimensions": {
+    "H200_s": {
+      "cap": 435600,
+      "used": 117310.0,
+      "reserved": 0,
+      "remaining_stage_upper": 28860,
+      "matrix": 86580,
+      "final": 72000,
+      "projected": 304750.0,
+      "shortfall": 0
+    },
+    "PBS_submissions": {
+      "cap": 34,
+      "used": 25,
+      "reserved": 0,
+      "remaining_stage_upper": 1,
+      "matrix": 3,
+      "final": 0,
+      "projected": 29,
+      "shortfall": 0
+    },
+    "optimizer_updates": {
+      "cap": 16384,
+      "used": 11714,
+      "reserved": 0,
+      "remaining_stage_upper": 0,
+      "matrix": 0,
+      "final": 0,
+      "projected": 11714,
+      "shortfall": 0
+    },
+    "episode_starts": {
+      "cap": 1000,
+      "used": 367,
+      "reserved": 0,
+      "remaining_stage_upper": 24,
+      "matrix": 88,
+      "final": 100,
+      "projected": 579,
+      "shortfall": 0
+    },
+    "neural_queries": {
+      "cap": 48000,
+      "used": 2850,
+      "reserved": 0,
+      "remaining_stage_upper": 1937,
+      "matrix": 7040,
+      "final": 9000,
+      "projected": 20827,
+      "shortfall": 0
+    },
+    "physics_ticks": {
+      "cap": 40000000,
+      "used": 11325778,
+      "reserved": 0,
+      "remaining_stage_upper": 768000,
+      "matrix": 2816000,
+      "final": 3200000,
+      "projected": 18109778,
+      "shortfall": 0
+    },
+    "engine_starts": {
+      "cap": 100000,
+      "used": 31443,
+      "reserved": 0,
+      "remaining_stage_upper": 1946,
+      "matrix": 7128,
+      "final": 0,
+      "projected": 40517,
+      "shortfall": 0
+    },
+    "Core_CPU_s": {
+      "cap": 1152000,
+      "used": 205295.23270724597,
+      "reserved": 93600,
+      "remaining_stage_upper": 182000,
+      "matrix": 193968.05627,
+      "final": 0,
+      "projected": 674863.288977246,
+      "shortfall": 0
+    },
+    "Hopper_CPU_s": {
+      "cap": 766800,
+      "used": 172817.658597758,
+      "reserved": 7200,
+      "remaining_stage_upper": 87800,
+      "matrix": 85520,
+      "final": 0,
+      "projected": 353337.65859775804,
+      "shortfall": 0
+    },
+    "local_CPU_s": {
+      "cap": 172800,
+      "used": 66058.974682509,
+      "reserved": 7200.0,
+      "remaining_stage_upper": 7800,
+      "matrix": 6600,
+      "final": 0,
+      "projected": 87658.974682509,
+      "shortfall": 0
+    },
+    "transfer_bytes": {
+      "cap": 322122547200,
+      "used": 110907719521,
+      "reserved": 0,
+      "remaining_stage_upper": 51996194416,
+      "matrix": 6174015488,
+      "final": 0,
+      "projected": 169077929425,
+      "shortfall": 0
+    },
+    "Hopper_storage_bytes": {
+      "cap": 869730877440,
+      "used": 779623818276,
+      "reserved": 0,
+      "remaining_stage_upper": 38346128184,
+      "matrix": 9442971836,
+      "final": 42949672960,
+      "projected": 870362591256,
+      "shortfall": 631713816
+    },
+    "Core_storage_bytes": {
+      "cap": 322122547200,
+      "used": 276562832608,
+      "reserved": 0,
+      "remaining_stage_upper": 58210351928,
+      "matrix": 17968398336,
+      "final": 0,
+      "projected": 352741582872,
+      "shortfall": 30619035672
+    },
+    "local_storage_bytes": {
+      "cap": 21474836480,
+      "used": 8791261184,
+      "reserved": 0,
+      "remaining_stage_upper": 67108864,
+      "matrix": 0,
+      "final": 0,
+      "projected": 8858370048,
+      "shortfall": 0
+    }
+  },
+  "schema": "V4A_B_KNOWN_ZERO_COLD_REPLACEMENT_STORAGE_SCOPE_DRAFT_V1",
+  "requested_adjustments": {
+    "GPU_site_storage_GiB": {
+      "old": 810,
+      "proposed": 811,
+      "minimum_projection_bytes": 870362591256
+    },
+    "Core_storage_GiB": {
+      "old": 300,
+      "proposed": 329,
+      "minimum_projection_bytes": 352741582872
+    }
+  },
+  "changes_not_requested": [
+    "GPU_seconds",
+    "CPU_seconds",
+    "PBS_count",
+    "optimizer_updates",
+    "queries",
+    "physics",
+    "transfer",
+    "T0",
+    "deadlines",
+    "original_three_matrix_jobs",
+    "final_20_GPUh_40_GiB"
+  ],
+  "scope": "Exactly one fresh cold B4096 original24/N294101 request after independently closed pre-model startup failure; not six panels or a retry pool",
+  "old_failed_output_financial_bound_bytes_retained": 38346128184,
+  "old_failed_GPU_s_retained": 70,
+  "old_failed_GPU_process_CPU_s_retained": 1,
+  "A24_retained_no_replay": true,
+  "new_training": false,
+  "new_native_dispatch": false,
+  "new_native_registration": false,
+  "full_future_matrix_final_bounds_unchanged": true,
+  "source_placeholder_in_offline_assembly_not_native_admission": true,
+  "engineering_authorization_used": "Existing user instruction to repair engineering autonomously; explicit numeric caps remain binding and are not silently changed",
+  "request": "Only the two storage caps; no additional data collection or training"
+}

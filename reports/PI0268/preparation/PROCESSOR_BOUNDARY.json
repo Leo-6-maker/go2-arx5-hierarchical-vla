@@ -1,0 +1,342 @@
+{
+  "PBS_submissions": 0,
+  "WBC_calls": 0,
+  "build_source_sha256": "a55283b64a34424e65db3e5058f6ff40ba124d226562d3f35b2528ad391066b1",
+  "full_plan_reused_sha256": "08433e7dcd34d5373f9fd28663475075514a8b1089e04e3fba39ae4181c9f285",
+  "gradient_queries": 0,
+  "model_queries": 0,
+  "optimizer_updates": 0,
+  "physics_steps": 0,
+  "renderer_calls": 0,
+  "rows": [
+    {
+      "condition_sha256": "38486c70b037f59b7755dbde95a36e9f1a63230f8d0247a6b2c44650f85170fb",
+      "family": "pi0265-family-004",
+      "index": 0,
+      "inventory": [
+        {
+          "dtype": "torch.float32",
+          "path": "/action",
+          "sha256": "eb0db207cafa5314c1f4124ddcf880a0e6a5ffcd89f247f5b2961551220b754e",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        {
+          "dtype": "torch.float64",
+          "path": "/action_mask",
+          "sha256": "f1e5d2c10d7a698b010e6aa1c2c00b5f8b9105ea043b381bc7e8fda3c4450f08",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/attention_mask",
+          "sha256": "5d2d08db8042a794544718a0b25381bc3c37b55c7e36c8709274c98be1bf3bf5",
+          "shape": [
+            1,
+            149
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/embodiment_id",
+          "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed",
+          "shape": [
+            1
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/image_grid_thw",
+          "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04",
+          "shape": [
+            2,
+            3
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/input_ids",
+          "sha256": "4c8c6d0d106effe886aa6647015b30fac582e72ed0f767d2de8742eab4401cea",
+          "shape": [
+            1,
+            149
+          ]
+        },
+        {
+          "dtype": "torch.float32",
+          "path": "/pixel_values",
+          "sha256": "b4f1eda44d8f0f944fb7b9a253c8a0a2d6d6275d1ad80a62b2e7895695417e51",
+          "shape": [
+            512,
+            1536
+          ]
+        },
+        {
+          "dtype": "torch.float32",
+          "path": "/state",
+          "sha256": "dda92b8f835bf1b1df2ee07896217c2a705e5f692b0a78eb6670bf6457bfd6f7",
+          "shape": [
+            1,
+            1,
+            132
+          ]
+        }
+      ],
+      "raw_processed_exact": true
+    },
+    {
+      "condition_sha256": "ecf1f8ac342f38bf8f92c44ccdb7d75fd78309172238d165bff8a53869ca5fb1",
+      "family": "pi0265-family-004",
+      "index": 1,
+      "inventory": [
+        {
+          "dtype": "torch.float32",
+          "path": "/action",
+          "sha256": "9030f66243e9d5859795d0bdb071740d9ef40ebf4191996cb26000ad5f3414b6",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        {
+          "dtype": "torch.float64",
+          "path": "/action_mask",
+          "sha256": "f1e5d2c10d7a698b010e6aa1c2c00b5f8b9105ea043b381bc7e8fda3c4450f08",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/attention_mask",
+          "sha256": "5d2d08db8042a794544718a0b25381bc3c37b55c7e36c8709274c98be1bf3bf5",
+          "shape": [
+            1,
+            149
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/embodiment_id",
+          "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed",
+          "shape": [
+            1
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/image_grid_thw",
+          "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04",
+          "shape": [
+            2,
+            3
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/input_ids",
+          "sha256": "4c8c6d0d106effe886aa6647015b30fac582e72ed0f767d2de8742eab4401cea",
+          "shape": [
+            1,
+            149
+          ]
+        },
+        {
+          "dtype": "torch.float32",
+          "path": "/pixel_values",
+          "sha256": "1cb30233fb67742d01b99712f5a722147d5c289529a6c88ff58ac0d0a673cd0b",
+          "shape": [
+            512,
+            1536
+          ]
+        },
+        {
+          "dtype": "torch.float32",
+          "path": "/state",
+          "sha256": "7e3eb4c1c7caf05791b70c79ca8e351e4dc844d2c47d7ce9f84330f1bb1f24d8",
+          "shape": [
+            1,
+            1,
+            132
+          ]
+        }
+      ],
+      "raw_processed_exact": true
+    },
+    {
+      "condition_sha256": "d2afe93039342f6c16f31e1bfc614f1bac4d6e5542eb48690601393d1d2ed133",
+      "family": "pi0265-family-004",
+      "index": 224,
+      "inventory": [
+        {
+          "dtype": "torch.float32",
+          "path": "/action",
+          "sha256": "8b1e7b5fca0ac61c4c84f42f5b088941da87074dd19c121b462977b8d40c7626",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        {
+          "dtype": "torch.float64",
+          "path": "/action_mask",
+          "sha256": "f1e5d2c10d7a698b010e6aa1c2c00b5f8b9105ea043b381bc7e8fda3c4450f08",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/attention_mask",
+          "sha256": "200ef2005585f23805913a0dbf42dc7918d034846c0c0d85ca1b10dbe75c2fab",
+          "shape": [
+            1,
+            159
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/embodiment_id",
+          "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed",
+          "shape": [
+            1
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/image_grid_thw",
+          "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04",
+          "shape": [
+            2,
+            3
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/input_ids",
+          "sha256": "6d1164ed9ac69c209242782783b49be05e7608dcd47fbac68069842a66fc0b96",
+          "shape": [
+            1,
+            159
+          ]
+        },
+        {
+          "dtype": "torch.float32",
+          "path": "/pixel_values",
+          "sha256": "b4f1eda44d8f0f944fb7b9a253c8a0a2d6d6275d1ad80a62b2e7895695417e51",
+          "shape": [
+            512,
+            1536
+          ]
+        },
+        {
+          "dtype": "torch.float32",
+          "path": "/state",
+          "sha256": "dda92b8f835bf1b1df2ee07896217c2a705e5f692b0a78eb6670bf6457bfd6f7",
+          "shape": [
+            1,
+            1,
+            132
+          ]
+        }
+      ],
+      "raw_processed_exact": true
+    },
+    {
+      "condition_sha256": "ff18c5b2a50c27528eaab1a7a82b9429909b0614787c8fd99798d643ad75e66e",
+      "family": "pi0265-family-004",
+      "index": 225,
+      "inventory": [
+        {
+          "dtype": "torch.float32",
+          "path": "/action",
+          "sha256": "8a7455247873bae82ff24e29f4ae3d89795187f550cbf415d1e2b3342f3b9d98",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        {
+          "dtype": "torch.float64",
+          "path": "/action_mask",
+          "sha256": "f1e5d2c10d7a698b010e6aa1c2c00b5f8b9105ea043b381bc7e8fda3c4450f08",
+          "shape": [
+            1,
+            40,
+            132
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/attention_mask",
+          "sha256": "200ef2005585f23805913a0dbf42dc7918d034846c0c0d85ca1b10dbe75c2fab",
+          "shape": [
+            1,
+            159
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/embodiment_id",
+          "sha256": "a111f275cc2e7588000001d300a31e76336d15b9d314cd1a1d8f3d3556975eed",
+          "shape": [
+            1
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/image_grid_thw",
+          "sha256": "2b01a37992ae566addcc9b7c20e932af440bc218c99ce0f5301e351cb18dcf04",
+          "shape": [
+            2,
+            3
+          ]
+        },
+        {
+          "dtype": "torch.int64",
+          "path": "/input_ids",
+          "sha256": "6d1164ed9ac69c209242782783b49be05e7608dcd47fbac68069842a66fc0b96",
+          "shape": [
+            1,
+            159
+          ]
+        },
+        {
+          "dtype": "torch.float32",
+          "path": "/pixel_values",
+          "sha256": "1cb30233fb67742d01b99712f5a722147d5c289529a6c88ff58ac0d0a673cd0b",
+          "shape": [
+            512,
+            1536
+          ]
+        },
+        {
+          "dtype": "torch.float32",
+          "path": "/state",
+          "sha256": "7e3eb4c1c7caf05791b70c79ca8e351e4dc844d2c47d7ce9f84330f1bb1f24d8",
+          "shape": [
+            1,
+            1,
+            132
+          ]
+        }
+      ],
+      "raw_processed_exact": true
+    }
+  ],
+  "stats_sha256": "4439e24348bc43f5c93d380c9ae3c25b4057dbd8111e1e9bf9563b868c53bc73"
+}

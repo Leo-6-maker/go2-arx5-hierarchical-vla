@@ -1,0 +1,40 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Current native project/quota/own job evidence only; no PBS or model dispatch."""
+import json
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+CODE=r'''
+import json,os,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/manifest['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0294.run_admission import validate
+from scripts.pi0292.allocation_admission import personal_quota,owned_jobs,current_project
+validate(root,profile='hopper-neural')
+ledger=json.loads((root/'HOPPER_RESOURCE_LEDGER.json').read_text())
+v=dict(epoch=time.time(),source_sha=manifest['code']['vla_commit'],PBS_calls=len(ledger['PBS_submissions']),
+ GPU_allocated_s=ledger['GPU_allocated_s'],GPU_reserved_s=ledger.get('GPU_reserved_s',0),
+ engineering_updates=ledger['model_smoke_updates'],main_updates=ledger['main_updates'],CPU_reserved_s=ledger.get('CPU_reserved_s',0),
+ quota=personal_quota(os.environ['USER']),
+ own_jobs={k:dict(state=row['job_state'],project=row.get('project'),ngpus=row.get('Resource_List',{}).get('ngpus')) for k,row in owned_jobs(os.environ['USER']).items()},
+ owned_bytes=sum(p.stat().st_size for p in root.rglob('*') if p.is_file() and not p.is_symlink()),
+ new_PBS=0,model_loads=0)
+try:
+ project=current_project(executable='/opt/am/python/bin/amgr')
+ v['project']=dict(status='PASS_NATIVE_LOGIN_PROJECT_AND_BALANCE',project=project['project'],observed_epoch=project['observed_epoch'],balance_su=project['balance_su'])
+except Exception as e:
+ output=getattr(e,'output','') or ''
+ if isinstance(output,bytes):output=output.decode(errors='replace')
+ v['project']=dict(status='NATIVE_PROJECT_QUERY_FAILED',error_type=type(e).__name__,
+  amgr_error_code='15006' if '15006' in output else None,token_expired='token has expired' in output.lower(),
+  error=str(e)[:1000])
+print(json.dumps(v))
+'''
+if __name__=='__main__':
+ r=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+ save(BASE/('FINAL_PREFLIGHT_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+ if r.returncode:raise RuntimeError(r.stderr[-2000:])
+ print(r.stdout)

@@ -1,0 +1,187 @@
+{
+  "schema": "STAGE45F_PI0154_VALIDATION_E_GEN1_RECIPE_FREEZE_V1",
+  "status": "FROZEN_BEFORE_VALIDATION_E_PAYLOAD_READ",
+  "authority": {
+    "issue_11_comment": 5650096011,
+    "pr_66_comment": 5650106991,
+    "return_token": "VANDA_PI0154_VALIDATION_E_GEN1_FOR_PI_REVIEW"
+  },
+  "support_checkout": {
+    "base_execution_head": "191120699b8219cbf62be8ffe60dc19755dec218",
+    "branch": "stage45f/vanda-validation-e-gen1-l1-2000",
+    "evaluation_code_commit": "522ea718e99ff8b1c4b2aa08bec680ed5adfcae5",
+    "evaluation_code_paths": [
+      "scripts/stage45f_vanda_validation_e_admission.py",
+      "scripts/stage45f_vanda_validation_e_gen1.py",
+      "hpc/pbs/stage45f_validation_e_gen1_h200.pbs"
+    ]
+  },
+  "selection": {
+    "selection_id": "STAGE45E_SELECTION_L1_AT_2000_THREE_SEEDS_GEN1",
+    "selection_packet_sha256": "369f075cefabbdb128464edda9d71a3fe9f056a4e81a6efe9c4ddc2f974fb69a",
+    "selection_per_window_sha256": "a4f6845572693b7e43afd9607ad822119744a2fe4685a959fcd9831531bbbc7c",
+    "selection_paired_sha256": "df90ccbe8aad297472b77032c391f0a7b3fe8b1419080a3e72d95da2a8c95539"
+  },
+  "checkpoint_arms": [
+    {
+      "route": "Legacy",
+      "seed": 2222,
+      "tier": 2000,
+      "label": "Legacy(seed2222)@2000",
+      "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+      "training_head": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62"
+    },
+    {
+      "route": "Legacy",
+      "seed": 2223,
+      "tier": 2000,
+      "label": "Legacy(seed2223)@2000",
+      "tree_sha256": "4895df0a0d5adf7e9010bce70fe2aaf447bbb7e4d4a28a179316a502d666592b",
+      "training_head": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62"
+    },
+    {
+      "route": "Legacy",
+      "seed": 2224,
+      "tier": 2000,
+      "label": "Legacy(seed2224)@2000",
+      "tree_sha256": "fc4dc36959a44398aed73b0b8f949dcbbfe42d1d15157e87667c17850384d2e9",
+      "training_head": "9ad05f1bc7e2efc9f0d88674d569d42ef8b11e62"
+    },
+    {
+      "route": "L1",
+      "seed": 2222,
+      "tier": 2000,
+      "label": "L1(seed2222)@2000",
+      "tree_sha256": "53293d0ae3555c00acb7595b6c6dd19ed92450668344123cdc46efd5b69fcd49",
+      "training_head": "186efc2977e2795bebf0dfe97d6f503a672716de",
+      "primary_lineage": "612326",
+      "recovered_input_v2_sha256": "211411c307e30242cf5b4e65288e8c9eb2b446164aaec83de4ffd913ca9c8101"
+    },
+    {
+      "route": "L1",
+      "seed": 2223,
+      "tier": 2000,
+      "label": "L1(seed2223)@2000",
+      "tree_sha256": "231e2cff6690242601147b3812298c806030f6562116df248e8b45c5ce53cd16",
+      "training_head": "186efc2977e2795bebf0dfe97d6f503a672716de"
+    },
+    {
+      "route": "L1",
+      "seed": 2224,
+      "tier": 2000,
+      "label": "L1(seed2224)@2000",
+      "tree_sha256": "3c25b67036fcf3af037e3ad98d7a76b97c1933cd54445dd984436dbac5951b92",
+      "training_head": "186efc2977e2795bebf0dfe97d6f503a672716de"
+    }
+  ],
+  "shared_runtime_identity": {
+    "base_tree_sha256": "8717e322de3dd8c66e52bdb81b37badb0f235c518de6acd465532ed01569a6a4",
+    "full24_dataset_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "full24_runtime_stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "full24_runtime_stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75",
+    "full24_split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+    "full24_manifest_sha256": "c1105002485ebee88c13f56a2198b7b5edbdb9d5a0f4d641f4e644f7b211e566",
+    "groot_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "groot_payload_tree_sha256": "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b",
+    "groot_manifest_sha256": "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+    "base_processor_statistics_sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+    "decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+    "metrics_source_sha256": "913be32a7bc418b3213f7d2277d59831d40fec9ab81a171efc5918bb8e8f5ed4",
+    "ffmpeg_runtime_id": "9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf",
+    "ffmpeg_manifest_sha256": "6160d579b98dc5ee4b114ada4a4e00e88ee13df6ed1fc3d308b5879d67027d2c",
+    "video_qualification_sha256": "20e197a868fb289643bd2594c655d37173e636fe39a256d09fad9f1f4b0cc03f",
+    "release_sha256": "8306b76f327b260310a22a5d22551ebf299366f8fea4124bcbfbdab87e807666"
+  },
+  "validation_input_lock": {
+    "target_id": "red_target_holdout_e",
+    "split": "validation",
+    "split_lock_file": "manifests/STAGE22_TARGET_SPLIT_LOCK_V1.json",
+    "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+    "snapshot_lock_file": "manifests/STAGE22_VALIDATION_SNAPSHOT_LOCK_V1.json",
+    "snapshot_lock_sha256": "23c35e2204b9555c8431a3f86fd7e1767740bf7196341972e847bc43c141aec8",
+    "snapshot_ids": [
+      "stage22_expert_red_target_holdout_e:expert-0000",
+      "stage22_expert_red_target_holdout_e:expert-0001",
+      "stage22_expert_red_target_holdout_e:expert-0002",
+      "stage22_expert_red_target_holdout_e:expert-0003",
+      "stage22_expert_red_target_holdout_e:expert-0004",
+      "stage22_expert_red_target_holdout_e:expert-0005"
+    ],
+    "snapshot_count": 6,
+    "expected_overlap_count": 5,
+    "target_position_excluded_from_model_input": true,
+    "holdout_f_access": false
+  },
+  "evaluation_protocol": {
+    "matrix_order": "seed_major_then_legacy_then_l1",
+    "arms": 6,
+    "windows_per_arm": 6,
+    "unique_queries": 36,
+    "noise_seed": 4242,
+    "noise_dtype": "float32",
+    "noise_device": "cpu",
+    "noise_shape": [1, 40, 132],
+    "same_window_noise_across_all_arms": true,
+    "timestep_ids": [0, 250, 500, 750],
+    "t_values": [0.0, 0.25, 0.5, 0.75],
+    "dt": 0.25,
+    "sampler": "direct-source-mapped-action-head-E4",
+    "carried_state": true,
+    "reset_between_stages": false,
+    "target_xyz_in_model_input": false,
+    "public_sampler_calls": 0,
+    "get_action_calls": 0,
+    "batch_size": 1,
+    "raw_shape": [1, 40, 132],
+    "physical_shape": [40, 10],
+    "frame": "NATIVE_WBC_RELATIVE_REFERENCE",
+    "tcp_semantic_id": "x5_link6_gripper_center",
+    "timing": "T16",
+    "nominal_calls": {
+      "conditioning": 36,
+      "action_head": 144,
+      "model_side_total": 180,
+      "raw_outputs": 36
+    },
+    "recovery_ceiling": {
+      "max_allocations": 2,
+      "max_checkpoint_arm_recovery": 1,
+      "max_model_loads": 7,
+      "max_conditioning_calls": 42,
+      "max_action_head_calls": 168,
+      "max_model_side_calls": 210,
+      "max_walltime_minutes_per_allocation": 120,
+      "one_active_job": true
+    }
+  },
+  "locked_boundaries": {
+    "training": false,
+    "checkpoint_write": false,
+    "normalization_change": false,
+    "stats_change": false,
+    "noise_change": false,
+    "new_seed": false,
+    "new_window": false,
+    "N2": false,
+    "at_1000": false,
+    "D1": false,
+    "D2A": false,
+    "D2B": false,
+    "holdout_f": false,
+    "WBC": false,
+    "simulator": false,
+    "hardware": false,
+    "merge": false,
+    "result_based_retry": false
+  },
+  "recipe_freeze_commit": "169819d2b78f815d7eb7b9ba79e25bdfbe686b4c",
+  "payload_read": {
+    "first_read_at_utc": null,
+    "access_ledger_path": null,
+    "source_root": null
+  }
+}

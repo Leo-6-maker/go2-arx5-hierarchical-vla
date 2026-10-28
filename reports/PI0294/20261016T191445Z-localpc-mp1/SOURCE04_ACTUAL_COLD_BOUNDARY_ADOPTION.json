@@ -1,0 +1,86 @@
+{
+  "schema": "MP1_ORIGINAL_SOURCE04_ACTUAL_COLD_BOUNDARY_ADOPTION_V1",
+  "status": "BOTH_NATIVE_COLD_BOUNDARIES_PASS_NO_SUBMISSION",
+  "source_sha": "8e50bcc23318535cd52c386ae862109ae0504f7f",
+  "previous_source_sha": "03646938ece5c6fa5f09b0fd00732f8159a51468",
+  "authority_release": "c8cdf60e41e31da5796b44a064ef2f22d594a491",
+  "adopted_review": "fb16d10142e884df9f6b7d9cbcf951fe70c92044",
+  "owner": "EXISTING_SINGLE_LOCAL_PC",
+  "same_child_run": "source-pair-01",
+  "original_MP1_T0_epoch": 1792178085,
+  "new_namespace_budget_or_clock": false,
+  "old_STOP_sha256_retained_both_sites": "713fef5c2d3c66912781fe7374a95f48fbbdb2370ff49dfc20b213af0bc4526c",
+  "code_qualification": {
+    "local_pytest_passed": 400,
+    "local_subtests_passed": 254,
+    "actual_GitHub_CI_run": 39052726122,
+    "actual_GitHub_CI_conclusion": "success",
+    "fixed_source_files_and_design_card_exact_blob_readbacks": 9,
+    "immutable_capsule_members_per_site": 558,
+    "original_frozen_numerical_members_unchanged": 15,
+    "original_model_learning_dataset_plant_members_unchanged": 12,
+    "unchanged_owner_heartbeat_threshold_seconds": 300,
+    "native_compute_heartbeat_or_NFS_qualification": "NOT_RUN"
+  },
+  "actual_entry_readbacks": {
+    "CoreLab": {
+      "status": "ACTUAL_NATIVE_COLD_BOUNDARY_ALLOC04_ONLY_PASS",
+      "previous_manifest_sha256": "48b87d0a3ff25e12c17f106fc0485b6c8efce472c9a760fd75de1f20035f9b6a",
+      "current_manifest_sha256": "341f51ccbfaec5c10fe18ed4fbc9099256fee619d3f0793824c4f0ecfe145e21"
+    },
+    "Hopper": {
+      "status": "ACTUAL_NATIVE_COLD_BOUNDARY_ALLOC04_ONLY_PASS",
+      "previous_manifest_sha256": "ddda4f6c9aabf1e6e01ec87a71986c80c44ce4278ae74f29c4c86e24fa6948ce",
+      "current_manifest_sha256": "43ccd5e863953c9a0fa6dcb9f46e4b25f079ba17eda6769be4998b1d5289f5b2"
+    }
+  },
+  "actual_cold_deployment": {
+    "all_registered_old_handles_terminal_before_switch": true,
+    "both_immutable_capsules_and_proposed_manifests_validated_before_activation": true,
+    "same_root_current_manifest_pointers_atomically_advanced": true,
+    "previous_manifest_bytes_sealed_in_history": true,
+    "original_request_checkpoint_outcome_capsule_STOP_bytes_modified": false,
+    "native_cumulative_ledger_bytes_changed_by_deployment": false,
+    "old_allocations_still_blocked": true,
+    "only_original_allocation04_cold_scope_qualified": true,
+    "new_PBS_submissions": 0,
+    "new_model_loads_queries_updates_or_physics": 0,
+    "metadata_CPU_upper_seconds_charged_per_Core_Hopper_local": 180,
+    "metadata_CPU_reservation_remaining": 0,
+    "staging_engineering_issue": "Approved CoreLab entry resets the import path. The first CPU validation failed before any current pointer changed. Corrected bootstrap selects the exact staged capsule; immutable files were byte-verified and reused, not overwritten. The same registration and reserve were retained. Both subsequent native entry checks passed."
+  },
+  "unchanged_actual_source_accounting_at_binding": {
+    "native_prior_jobs": ["672080.hopper-m-02", "672471.hopper-m-02", "672829.hopper-m-02"],
+    "all_native_terminal": true,
+    "conservative_H200_seconds": 23728,
+    "parent_Hopper_conservative_seconds": 28228,
+    "source_PBS_used_of_four": 3,
+    "combined_optimizer_updates": 2560,
+    "native_queries": 1277,
+    "GPU_pending_updates_and_physics_reservations": 0
+  },
+  "science_not_yet_done": {
+    "CORR_exact_resume_step": 512,
+    "CORR_sample_cursor": 16384,
+    "CORR_fullstate_manifest_sha256": "31f0514beb4003e42afc3437aa4781b5df47fc35a6270ba5c4fa081b31102d02",
+    "remaining_formal_updates": 1536,
+    "remaining_unattempted_conditions": 13,
+    "CORR512_F1_T1_third_attempt_permitted": false,
+    "valid_negatives_may_be_repeated": false,
+    "next_PBS_is_last_original_source_family_slot": true,
+    "fifth_automatic_submission_permitted": false
+  },
+  "failed_checkpoint_retirement": {
+    "existing_actual_receipt": "FAILED_CHECKPOINT_RETIREMENT_CHECK_01.json",
+    "eligible_large_failed_payloads_found_in_scoped_inventory": 0,
+    "actual_new_deleted_files": 0,
+    "actual_new_freed_allocated_bytes": 0,
+    "required_parent_fixed_models_and_valid_resume_preserved": true,
+    "valid_policy_negative_is_not_a_failed_training_checkpoint": true
+  },
+  "TF_R3": "STOP",
+  "Vanda": "CLOSED_NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "scientific_goal": "INCOMPLETE"
+}

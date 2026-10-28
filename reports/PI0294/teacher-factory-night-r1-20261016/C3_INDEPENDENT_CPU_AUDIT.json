@@ -1,0 +1,360 @@
+{
+  "status": "VALID_NATIVE_SAFETY_FAIL_INTEGRITY_RECONCILED",
+  "runtime_source_sha": "810cf80c2b04a4b41496d7a34f32573bd20d6269",
+  "episode": "TFNR1_C3_DEV_T1_00",
+  "observations": 128,
+  "installed_chunks": 16,
+  "native_integrations": 5684,
+  "task_integrations": 3184,
+  "task_prefix_s": 6.3500000000000005,
+  "complete_32s": false,
+  "complete_declared_duration": false,
+  "duration_domain": "SEED_SLOW64",
+  "quality": {
+    "task_id": "GO2_PLACE_V1",
+    "evidence_source": "REAL_MUJOCO_FULL_GO2_ARX5",
+    "complete_32s": false,
+    "clock_valid": false,
+    "safety_valid": true,
+    "history": {
+      "sustained_grasp": false,
+      "sustained_lift": false,
+      "horizontal_carry": false
+    },
+    "hold_observed": 0,
+    "hold_pass": 0,
+    "hold_subpredicates": {
+      "zone_corners": 0,
+      "table_height": 0,
+      "linear_speed": 0,
+      "angular_speed": 0,
+      "released": 0,
+      "tcp_clear": 0,
+      "object_and_contacts_valid": 0
+    },
+    "persistent_success": false,
+    "selected": "NONE",
+    "deployment": "NONE",
+    "complete_declared_duration": false,
+    "duration_domain": "SEED_SLOW64",
+    "duration_s": 64,
+    "high_rate_raw_ranges_PASS": false
+  },
+  "high_rate_ranges": {
+    "status": "RAW_MECHANICAL_RANGE_FAIL",
+    "native_packets": 5684,
+    "limited_joints": 20,
+    "rows": [
+      {
+        "joint": "FL_hip_joint",
+        "range": [
+          -1.0472,
+          1.0472
+        ],
+        "min_q": -0.14838033044391474,
+        "max_q": 0.616741513784289,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "FL_thigh_joint",
+        "range": [
+          -1.5708,
+          3.4907
+        ],
+        "min_q": 0.5485283504555916,
+        "max_q": 1.001566031131097,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "FL_calf_joint",
+        "range": [
+          -2.7227,
+          -0.83776
+        ],
+        "min_q": -2.0165014372453873,
+        "max_q": -1.2539825499037287,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "FR_hip_joint",
+        "range": [
+          -1.0472,
+          1.0472
+        ],
+        "min_q": -0.28283969973805334,
+        "max_q": -0.08214386718619873,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "FR_thigh_joint",
+        "range": [
+          -1.5708,
+          3.4907
+        ],
+        "min_q": 0.6320811447142223,
+        "max_q": 0.964229950732394,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "FR_calf_joint",
+        "range": [
+          -2.7227,
+          -0.83776
+        ],
+        "min_q": -1.8072954964761183,
+        "max_q": -1.3783749853252483,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "RL_hip_joint",
+        "range": [
+          -1.0472,
+          1.0472
+        ],
+        "min_q": -0.09066195453687097,
+        "max_q": 0.24443309381202566,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "RL_thigh_joint",
+        "range": [
+          -0.5236,
+          4.5379
+        ],
+        "min_q": 0.7360533434618856,
+        "max_q": 1.0347380019945764,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "RL_calf_joint",
+        "range": [
+          -2.7227,
+          -0.83776
+        ],
+        "min_q": -1.7635476045540377,
+        "max_q": -1.2013284912260496,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "RR_hip_joint",
+        "range": [
+          -1.0472,
+          1.0472
+        ],
+        "min_q": -0.5762266337638086,
+        "max_q": -0.021262363394793107,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "RR_thigh_joint",
+        "range": [
+          -0.5236,
+          4.5379
+        ],
+        "min_q": 0.5850840390941949,
+        "max_q": 1.0930559468078112,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "RR_calf_joint",
+        "range": [
+          -2.7227,
+          -0.83776
+        ],
+        "min_q": -1.9877700665721432,
+        "max_q": -1.294764012013103,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "x5_joint1",
+        "range": [
+          -2.094,
+          3.14159
+        ],
+        "min_q": -0.09536079281344054,
+        "max_q": 0.026940359527401217,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "x5_joint2",
+        "range": [
+          0.0,
+          3.665
+        ],
+        "min_q": 0.7046650788533557,
+        "max_q": 0.9328313439234455,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "x5_joint3",
+        "range": [
+          0.0,
+          3.24
+        ],
+        "min_q": 0.6270913055708475,
+        "max_q": 0.8999999998888895,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "x5_joint4",
+        "range": [
+          -1.671,
+          1.671
+        ],
+        "min_q": -1.209234904626287,
+        "max_q": 0.0001792771420234913,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "x5_joint5",
+        "range": [
+          -1.671,
+          1.671
+        ],
+        "min_q": -0.013392997447302789,
+        "max_q": 0.14089732205238756,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "x5_joint6",
+        "range": [
+          -2.094,
+          2.094
+        ],
+        "min_q": -0.07663389628986789,
+        "max_q": 0.006181215733530551,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "task_left_slide",
+        "range": [
+          0.0,
+          0.044
+        ],
+        "min_q": 0.040786688013352675,
+        "max_q": 0.04324650755145588,
+        "crossing_samples": 0,
+        "first_crossing_step": null,
+        "last_crossing_step": null
+      },
+      {
+        "joint": "task_right_slide",
+        "range": [
+          0.0,
+          0.044
+        ],
+        "min_q": 0.04076007271928499,
+        "max_q": 0.04418426692740637,
+        "crossing_samples": 2,
+        "first_crossing_step": 5683,
+        "last_crossing_step": 5684
+      }
+    ],
+    "all_raw_samples_within_original_ranges": false,
+    "new_physics": 0,
+    "new_IK": 0,
+    "new_RRT": 0
+  },
+  "actual_object_contact_ticks": 34,
+  "actual_grasp_ticks": 0,
+  "illegal_contact_records": 0,
+  "first_illegal_contact": null,
+  "last_illegal_contact": null,
+  "original_native_stop": [
+    {
+      "kind": "stop",
+      "reason": "REGISTERED_JOINT_SAFETY",
+      "steps": 5684
+    }
+  ],
+  "pending_planning_stop": "ValueError: NIGHT_RAW_NATIVE_RANGE_STOP:task_right_slide",
+  "final_source_phase": null,
+  "initial_actual_TCP_xyz": [
+    0.33867196594913723,
+    0.03927752568810612,
+    0.6916268165646717
+  ],
+  "final_actual_TCP_xyz": [
+    0.43579616790868275,
+    -0.030112739677111332,
+    0.5280934954522084
+  ],
+  "final_same_tick_reference_xyz": [
+    0.44103380047111196,
+    -0.04181345129635211,
+    0.5822097627980389
+  ],
+  "max_actual_TCP_displacement_m": 0.2024630006885355,
+  "max_actual_object_horizontal_displacement_m": 0.0003124978242169413,
+  "tracking_XYZ_initial_m": 0.0,
+  "tracking_XYZ_final_m": 0.05561393565196639,
+  "tracking_XYZ_median_m": 0.044653762096772825,
+  "tracking_SO3_final_rad": 0.03763052648033718,
+  "image_files_verified": 256,
+  "actual_RGB_pairs": 128,
+  "source_reference_values_replayed_exact": true,
+  "source_gripper20Hz_labels_exact": true,
+  "installed_reference": {
+    "transactions": 16,
+    "installed_messages": 79,
+    "max_xyz_abs_m": 2.977858681862955e-08,
+    "max_sign_invariant_unit_quaternion_component": 3.3029743051748994e-08,
+    "tolerance": 1e-06
+  },
+  "pause_history_unchanged": true,
+  "actual_state_and_FK_replay": true,
+  "terminal_gripper_commands": [
+    {
+      "command_index": 127,
+      "integrations_after_write": 9,
+      "next_RGB_and_20Hz_observation_saved": false,
+      "full_episode_complete": false,
+      "raw_command_preserved": true,
+      "basis": "REGISTERED_SAFETY_TERMINATION_AND_NATIVE_JOURNAL"
+    }
+  ],
+  "interpretation": "ORIGINAL_SAFETY_AND_TASK_VERDICT; NO_RETRY",
+  "new_physics": 0,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "new_render": 0,
+  "new_neural_queries": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

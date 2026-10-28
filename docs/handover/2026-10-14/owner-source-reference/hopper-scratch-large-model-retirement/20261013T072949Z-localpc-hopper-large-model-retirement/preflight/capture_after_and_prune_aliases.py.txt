@@ -1,0 +1,46 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+import json
+import os
+import stat
+import time
+
+base = "@HOPPER_SCRATCH@/Projects/go2-arx5"
+spec = {
+    base + "/historical_launchers": "archive/historical_launchers",
+    base + "/historical_pbs_logs": "archive/historical_pbs_logs",
+    base + "/misc_classified": "archive/misc_classified",
+    base + "/probes": "archive/probes",
+}
+receipt = "/tmp/20261013T072949Z-BROKEN_PROJECT_ALIASES_DELETE_ACTUAL.private.jsonl"
+with open(receipt, "w", encoding="utf-8") as f:
+    for path, target in spec.items():
+        s = os.lstat(path)
+        assert stat.S_ISLNK(s.st_mode) and s.st_uid == 22182 and s.st_dev == 49
+        assert os.readlink(path) == target
+        resolved = os.path.normpath(os.path.join(os.path.dirname(path), target))
+        assert not os.path.lexists(resolved)
+        os.unlink(path)
+        absent = not os.path.lexists(path)
+        row = {"event": "alias_unlink", "path": path, "link_target": target,
+               "resolved_target": resolved, "uid": s.st_uid, "dev": s.st_dev,
+               "ino": s.st_ino, "verified_absent": absent, "time_ns": time.time_ns()}
+        f.write(json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n")
+        if not absent:
+            raise SystemExit("alias still exists: " + path)
+
+def listing(root, out):
+    rows = []
+    with os.scandir(root) as it:
+        for e in it:
+            s = e.stat(follow_symlinks=False)
+            kind = "symlink" if stat.S_ISLNK(s.st_mode) else "directory" if stat.S_ISDIR(s.st_mode) else "file" if stat.S_ISREG(s.st_mode) else "special"
+            rows.append((e.name, kind, s.st_uid, s.st_dev, s.st_ino, s.st_size, s.st_mtime_ns))
+    with open(out, "w", encoding="utf-8") as f:
+        for row in sorted(rows):
+            f.write("\t".join(map(str, row)) + "\n")
+
+listing(base, "/tmp/20261013T072949Z-PROJECTS_TOPLEVEL_AFTER.tsv")
+listing("@HOPPER_SHARED_HOME@/@HOPPER_ACCOUNT@", "/tmp/20261013T072949Z-HOME_TOPLEVEL_AFTER.tsv")
+print("removed_aliases", len(spec), "projects_after", sum(1 for _ in open("/tmp/20261013T072949Z-PROJECTS_TOPLEVEL_AFTER.tsv")), "home_after", sum(1 for _ in open("/tmp/20261013T072949Z-HOME_TOPLEVEL_AFTER.tsv")))

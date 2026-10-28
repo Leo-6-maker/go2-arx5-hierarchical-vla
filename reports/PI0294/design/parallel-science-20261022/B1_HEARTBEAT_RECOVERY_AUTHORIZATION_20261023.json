@@ -1,0 +1,90 @@
+{
+  "schema": "VAP1_B1_HEARTBEAT_RECOVERY_AUTHORIZATION_V1",
+  "status": "HUMAN_AUTHORIZED_EXACT_PRESERVED_COST_RECOVERY",
+  "approval_recorded_epoch": 1792725773,
+  "approval_source": "DIRECT_HUMAN_REPLY_TO_EXACT_FIVE_CHANGE_REQUEST",
+  "approval_answer": "批准五项调整，继续原实验（推荐）",
+  "approved_draft_release": "44a2397bdafb64c0d6ea6da8d05607ff9747e178",
+  "approved_draft_sha256": "f4ba8f060156db85e0383e3aeb2aecb5456ee378f828739e020e4b0c6aae504b",
+  "narrow_changes": {
+    "DEC1_cumulative_updates": [
+      9987,
+      10792
+    ],
+    "DEC1_new_PBS": [
+      13,
+      14
+    ],
+    "global_PBS": [
+      24,
+      25
+    ],
+    "DEC1_GPU_site_output_GiB": [
+      483,
+      549
+    ],
+    "global_GPU_site_output_GiB": [
+      550,
+      615
+    ]
+  },
+  "prior_zero_update_release": "871094ee31b18c47183c7403459ebd5fdad88b1f",
+  "prior_zero_update_grant_sha256": "f32922b15138816517de3e9bd63d4c413698f74b49c20908bb1d4dfea9a279a8",
+  "failed_job": "1478518.stdct-mgmt-02",
+  "failed_request": "22cdd5d4-c735-4dfc-901c-3b9dda2ca246",
+  "failed_source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+  "closed_gpu_receipt_sha256": "fa35994a6245d963bc8687d1f42ad7c43f14352fb32efb76a595990268677505",
+  "closed_control_receipt_sha256": "08c24af740062c92570ca0a256ac7e561e24367a67ed9e44f0615dc722801c92",
+  "latest_full_state": {
+    "step": 1024,
+    "cursor": 32768,
+    "members": 15,
+    "checkpoint_manifest_sha256": "7da8aad42b835edb1181c38daaa1859ffb94516bce693609ebde4e2c10a38e2b",
+    "origin_job_id": "1478518.stdct-mgmt-02",
+    "original_12_probe_result_sha256": "074ffbcce72e9917caecd70a2855ca67eb9b60afbb20dd6daf9ab98343130154"
+  },
+  "old_B_lineage_preserved": {
+    "name": "B_COVERAGE",
+    "actual_failed_step": 1829,
+    "paid_updates": 1829,
+    "unrecoverable_since_full_state": 805
+  },
+  "recovery_semantics": {
+    "new_named_lineage": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+    "new_request_new_registration_new_leases": true,
+    "seed_step": 1024,
+    "seed_is_imported_not_new_updates": true,
+    "original_CORR0_B_model_family_unchanged": true,
+    "A_weights_or_optimizer_inherited": false,
+    "first_segment": [
+      1024,
+      2048
+    ],
+    "second_segment": [
+      2048,
+      4096
+    ],
+    "remaining_updates": 3072,
+    "required_cumulative_updates": 10792,
+    "original_12_B1024_probes_preserved_no_repeat": true,
+    "original_B_arm_recipe_R0_WBC_S1_gripper_scoring_unchanged": true
+  },
+  "all_charged_updates_before_recovery": 7720,
+  "original_T0_epoch": 1792348196,
+  "original_clock": {
+    "stop_new_jobs_epoch": 1792866596,
+    "stop_training_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_closeout_epoch": 1792952996
+  },
+  "original_final": {
+    "GPU_s": 72000,
+    "Hopper_storage_bytes": 42949672960
+  },
+  "other_caps_recipe_R0_WBC_S1_scoring_unchanged": true,
+  "all_checkpoints_preserved": true,
+  "retirement_credit_bytes": 0,
+  "native_adopted": false,
+  "new_request_submitted": false,
+  "goal_complete": false
+}

@@ -1,0 +1,111 @@
+{
+  "schema": "PI0293_SCENE_DATASET_DESIGN_V1",
+  "status": "PREREGISTERED_DESIGN_NOT_PHYSICS_QUALIFIED",
+  "domain": "FIXED_BASE_ARX5_TWO_SKILLS_THREE_INSTRUCTIONS",
+  "physical_skills": ["PICK_PLACE", "PLANAR_PUSH"],
+  "tasks": [
+    {"id": "PLACE_BLUE", "skill": "PICK_PLACE", "instruction": "Pick up the red cube, place it inside the blue square, release it, and move the gripper away.", "goal_color": "blue", "lift_history_required": true},
+    {"id": "PLACE_YELLOW", "skill": "PICK_PLACE", "instruction": "Pick up the red cube, place it inside the yellow square, release it, and move the gripper away.", "goal_color": "yellow", "lift_history_required": true},
+    {"id": "PUSH_BLUE", "skill": "PLANAR_PUSH", "instruction": "Push the red cube along the table into the blue square without lifting it, then move the gripper away.", "goal_color": "blue", "lift_history_forbidden": true}
+  ],
+  "paired_scene_rule": {
+    "same_group_all_three_tasks_share": ["qpos", "qvel", "gripper_opening", "cube_pose", "both_targets", "camera_intrinsics_extrinsics", "lighting", "initial_decoded_RGB"],
+    "differences_allowed": ["instruction", "privileged_teacher_task_choice"],
+    "student_observation_keys": ["external_rgb", "wrist_rgb", "actual_eef9", "actual_gripper", "instruction"],
+    "forbidden_student_keys": ["task_id", "group_id", "seed", "object_ground_truth", "goal_coordinates", "teacher_phase", "success", "future_action", "episode_elapsed_time"],
+    "target_highlighting": false,
+    "per_task_model_or_adapter_routing": false,
+    "initial_RGB_and_state_hash_equality_required": true
+  },
+  "physics": {
+    "mujoco_version": "3.2.7",
+    "dt_s": 0.002,
+    "episode_sim_seconds": 32,
+    "sensor_hz": 20,
+    "observations": 641,
+    "committed_actions": 640,
+    "H": 40,
+    "prefix": 8,
+    "full_windows": 601,
+    "image_resolution": [256, 256],
+    "table_top_m": 0.44,
+    "table_x_bounds_m": [0.33, 0.67],
+    "table_y_bounds_m": [-0.24, 0.24],
+    "cube_edge_m": 0.04,
+    "goal_square_edge_m": 0.16,
+    "both_goal_markers_collidable": false,
+    "baseline_arm_gripper_limits_gains_friction": "UNCHANGED_FROM_QUALIFIED_PI0291_EXECUTOR",
+    "robot_mesh_and_WBC_sources": "PRIVATE_REFERENCES_ONLY",
+    "teleport_weld_hidden_external_forces": false
+  },
+  "families": {
+    "F0": {"name": "NOMINAL_DUAL_TARGET", "source_x_mm": [438, 462], "cube_yaw_mrad": [-100, 100]},
+    "F1": {"name": "SPATIAL", "source_x_mm": [430, 500], "cube_yaw_mrad": [-250, 250]},
+    "F2": {"name": "APPEARANCE", "source_x_mm": [430, 500], "cube_yaw_mrad": [-250, 250], "table_gray_milli": [550, 780], "light_scale_milli": [800, 1150]},
+    "F3": {"name": "VIEWPOINT", "source_x_mm": [430, 500], "cube_yaw_mrad": [-250, 250], "external_camera_translation_mm": [[-30, 30], [-30, 30], [-20, 20]], "recompute_look_at": true}
+  },
+  "common_scene_parameters": {
+    "source_y_mm": [-10, 10],
+    "goal_x_offset_from_source_mm": [-10, 10],
+    "north_goal_y_mm": [135, 150],
+    "south_goal_y_mm": [-150, -135],
+    "minimum_source_goal_distance_mm": 125,
+    "default_table_gray_milli": 690,
+    "default_light_scale_milli": 1000,
+    "external_camera_origin_m": [1.0, -0.9, 1.1],
+    "external_camera_look_at_m": [0.43, 0.0, 0.52],
+    "external_camera_fovy_deg": 55,
+    "wrist_mount": "QUALIFIED_PI0291_FIXED_WRIST_CAMERA_UNCHANGED",
+    "semantic_colors_unchanged": ["red_cube", "blue_goal", "yellow_goal"],
+    "interacting_distractors_or_mass_friction_randomization": false
+  },
+  "group_generation": {
+    "generator_path": "reports/PI0293/design/generate_scene_cards.py",
+    "domain_string": "PI0293-MULTITASK-SCENE-V1",
+    "integer_rule": "low + uint64_big_endian(SHA256(UTF8(domain/group_id/key))[0:8]) % (high-low+1)",
+    "group_id_format": "{split}-G{zero_padded_3_digit_index}",
+    "family_rule": "F + str(index % 4)",
+    "blue_side_rule": "north when (index // 4) % 2 == 0, else south; yellow is the opposite side",
+    "seed_export": "decimal_string_exact_uint64",
+    "must_generate_and_seal_before_formal_physics": true,
+    "generation_changes_after_teacher_or_model_scores": false,
+    "static_bounds_are_not_reachability_or_contact_qualification": true
+  },
+  "splits": {
+    "TRAIN": {"groups": 48, "per_family": 12, "tasks_per_group": 3, "new_episodes": 144, "drop_A_indices": [0, 23], "drop_B_indices": [24, 47]},
+    "DEV": {"groups": 12, "per_family": 3, "tasks_per_group": 3, "new_episodes": 36},
+    "CONFIRM": {"groups": 12, "per_family": 3, "tasks_per_group": 3, "training_episodes": 0, "evaluation_episodes_per_arm": 36}
+  },
+  "qualification": {
+    "commissioning_starts_max": 24,
+    "teacher_versions_max": 2,
+    "pilot_groups_per_version": 4,
+    "pilot_task_episodes_per_version": 12,
+    "pilot_required_success": 12,
+    "formal_scene_teacher_scorer_freeze": true,
+    "drop_A_min_new_TRAIN_admitted_each_task": 20,
+    "drop_A_planned_new_TRAIN_each_task": 24,
+    "drop_A_min_new_DEV_admitted_each_task": 10,
+    "drop_A_planned_new_DEV_each_task": 12,
+    "min_new_TRAIN_per_family_each_task": 4,
+    "min_new_DEV_per_family_each_task": 2,
+    "all_planned_drop_A_first_attempt_terminal_required": true
+  },
+  "score": {
+    "shared": {"planar_displacement_m_min": 0.10, "withdraw_m_min": 0.08, "hold_interval_s": [28, 30], "hold_points_required": 41, "whole_episode_safety": true, "all_cube_corners_in_correct_goal": true, "teacher_done_not_a_success_signal": true},
+    "PICK_PLACE": {"sustained_bilateral_grasp_s_min": 0.3, "lift_m_min": 0.02, "released_at_hold": true},
+    "PLANAR_PUSH": {"valid_robot_cube_contact_total_s_min": 0.3, "cube_bottom_table_clearance_m_max": 0.01, "bilateral_grasp_contiguous_s_max_exclusive": 0.1, "highrate_actual_contact_evidence_required": true}
+  },
+  "drop_versions": {
+    "old_TRAIN_reused": 64,
+    "old_DEV_regression_only": 16,
+    "drop_A_max_TRAIN_episodes": 136,
+    "drop_A_max_TRAIN_H40": 81736,
+    "drop_A_new_DEV_H40": 21636,
+    "drop_B_combined_max_TRAIN_episodes": 208,
+    "drop_B_combined_max_TRAIN_H40": 125008,
+    "current_training_manifest_mutable": false,
+    "drop_B_hot_append": false,
+    "TRAIN_only_shared_stats_fit_once_per_sealed_training_version": true
+  }
+}

@@ -1,0 +1,263 @@
+{
+  "schema": "WDR1_SOURCE02_FINITE_NATIVE_PROGRESS_AND_B2_CLOSED_COSTS_CPU_ACTUAL_V1",
+  "observed_epoch": 1792713917.219704,
+  "status": "ACTUAL_SOURCE02_FOUR_KNOWN_SAFETY_REJECTIONS_DUAL_SETTLED_CLOSED_INDEPENDENTLY_READ_BACK",
+  "qualified_known_terminal_code": {
+    "source": "ec147b0ce1284a1dcdca1ea9b57ef098067ac613",
+    "CI_run": 39873737884,
+    "CI_job": 120154141870,
+    "attempt": 1,
+    "all_12_steps_success": true,
+    "all_5_file_full_readbacks": true,
+    "proof_sha256": "27050b0655e43d013afd0277f9c5161ef67b25f71156db57d6083e8e279d95d9"
+  },
+  "source02": {
+    "source": "47dc6001227572f031ebc3cc33d56a487027d8cb",
+    "request_id": "081c5299-5594-4ff6-8676-d48b9652cf52",
+    "manifest_sha256": "14ce2f841c8db3de7e2eb9c191e95fc9b26720f628493774e4fd954012556b0f",
+    "owner_service": "dec1-source02-finite-components-owner-01",
+    "owner_PID": 597538,
+    "owner_proc_start": "6616713",
+    "claim_sha256": "f6acb1d3d710ba544ccd5c290bad16ec842095d9626d9877960cd0dc9b10b843",
+    "controller_files_sha256": {
+      "source_continuation_owner.py": "c027c66964c425bfb36714f4b275038448f140b4b7bc8a2b8ebb0c5e3175f0b5",
+      "source_continuation_native.py": "1ec886910aa693280d125657665fe71eb43f9319048fa1e1edfb57c1a1bd41b6",
+      "source_component_native_v2.py": "de6140fe14b135a1a6c6528eea3c782e5b102bcc1425d0271c899ba40b52d43f",
+      "register_source_metadata.py": "079f09fe66fc65fd4adb9a10a0611fdcdbe3284fb1d6e4361d367dccdac6a6d8",
+      "audit_source_component_native.py": "38a843d4f47da47549c8594b3cbe33e2bc3b639c5cad4831a35e0e375b69c0f1",
+      "source_known_terminal_owner.py": "aafbfdcfa37a8c261425f247315e837de127103e4494e8876c5f3b5b9521048c"
+    },
+    "independent_known_conditions": [
+      {
+        "condition_id": "DEC1-SOURCE-COMMISSION-F0-000-T1-I_TIME",
+        "status": "KNOWN_REFERENCE_OR_S1_REJECT",
+        "main_integrations": 400,
+        "shadow_integrations": 490,
+        "verified_completed_prefixes": 2,
+        "Teacher_task_success_diagnostic": false
+      },
+      {
+        "condition_id": "DEC1-SOURCE-COMMISSION-F0-000-T2-I_PROGRESS",
+        "status": "KNOWN_REFERENCE_OR_S1_REJECT",
+        "main_integrations": 2800,
+        "shadow_integrations": 2961,
+        "verified_completed_prefixes": 14,
+        "Teacher_task_success_diagnostic": false
+      },
+      {
+        "condition_id": "DEC1-SOURCE-COMMISSION-F1-000-T1-I_PROGRESS",
+        "status": "KNOWN_REFERENCE_OR_S1_REJECT",
+        "main_integrations": 200,
+        "shadow_integrations": 341,
+        "verified_completed_prefixes": 1,
+        "Teacher_task_success_diagnostic": false
+      },
+      {
+        "condition_id": "DEC1-SOURCE-COMMISSION-F1-000-T2-I_TIME",
+        "status": "KNOWN_REFERENCE_OR_S1_REJECT",
+        "main_integrations": 3400,
+        "shadow_integrations": 3539,
+        "verified_completed_prefixes": 17,
+        "Teacher_task_success_diagnostic": false
+      }
+    ],
+    "last_cached_native_observation": {
+      "observed_epoch": 1792713574.2536395,
+      "active": false,
+      "handle": {
+        "pid": 2285642,
+        "proc_start": "248246321",
+        "operation": "scripts.pi0294.pv1.core",
+        "source_sha": "47dc6001227572f031ebc3cc33d56a487027d8cb",
+        "name": "component-DEC1-SOURCE-COMMISSION-F1-000-T2-I_TIME",
+        "arguments": [
+          "--card",
+          "plans/conditions/DEC1-SOURCE-COMMISSION-F1-000-T2-I_TIME.json"
+        ],
+        "manifest_sha256": "14ce2f841c8db3de7e2eb9c191e95fc9b26720f628493774e4fd954012556b0f",
+        "observed_epoch": 1792713356.0817993,
+        "CPU_limit_s": 3600
+      },
+      "exit": {
+        "pid": 2285642,
+        "proc_start": "248246321",
+        "source_sha": "47dc6001227572f031ebc3cc33d56a487027d8cb",
+        "run_uuid": "dec1-source-component-02",
+        "operation": "scripts.pi0294.pv1.core",
+        "name": "component-DEC1-SOURCE-COMMISSION-F1-000-T2-I_TIME",
+        "exit_status": 0,
+        "observed_epoch": 1792713540.579808,
+        "process_CPU_s": 124.835561926,
+        "manifest_sha256": "14ce2f841c8db3de7e2eb9c191e95fc9b26720f628493774e4fd954012556b0f"
+      },
+      "child_meter": {
+        "schema": "PI0294_PV1_CORE_POLICY_LEDGER_V1",
+        "run_uuid": "dec1-source-component-02",
+        "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+        "source_budget_request_id": "081c5299-5594-4ff6-8676-d48b9652cf52",
+        "Core_CPU_s": 376.120895273,
+        "CPU_reserved_s": 15540,
+        "main_starts": 4,
+        "engine_starts": 44,
+        "live_and_recovery_integrations": 6800,
+        "shadow_integrations": 7331,
+        "reservations": {},
+        "unknown_effects": []
+      },
+      "status_receipt_sha256": "1e1714f39f8a9a1b439b9aa24694a7cdbac1fd4398360178f890a2d1509cd1e5"
+    },
+    "first_condition_real_STOP_ACK_confirmed": true,
+    "unknown_outcomes_never_retried": true,
+    "known_safety_rejection_not_task_success": true,
+    "all_four_conditions_finished": true,
+    "once_terminal_settlement_executed": true,
+    "counter_only_actual_audit_and_fresh_actor_readback_pure_proposal_passed": true,
+    "counter_only_prepare_writes": 0,
+    "finite_owner_CPU_methods_passed": 5,
+    "registered_full_pending_kept_until_actual_terminal_close": true,
+    "owner_PID_at_terminal": 0,
+    "owner_service_terminal": "NATURAL_SUCCESSFUL_EXIT",
+    "independently_read_back": {
+      "receipt_sha256": "85f4d31ce10cc4dfbb0ced2408f05b8091a2799124d38bce6623ae245b24a65b",
+      "observed_epoch": 1792713724.7287595,
+      "active_workers": 0,
+      "actor_records": 10,
+      "attempt_files": 138,
+      "all_eight_pending_zero": true,
+      "source01_UNKNOWN_and_13_files_and_16000_liability_preserved": true
+    },
+    "closure": {
+      "dual_receipt_sha256": "a78239eca9e3d8c6a633daa56ab0a2dd21cdfb88a781327f77bc8d8aeba71371",
+      "settlement_sha256": "b55215c402c76d5ed9e36fb4a7e76386aa2a7b4e8fcdcd9f6f9de852a4cb0058",
+      "Core_after_sha256": "3b91071e7e23c192ddb2f0f09523d9fe16dd29fc1f4312969431d9e98f6822a2",
+      "LOCAL_after_sha256": "52a7706c3712c40f491968954463e3a52fb146239e6d29666dfe3ead50ed4e5e",
+      "closed_lease_sha256": "a4fbd8ea582889d98dde9890c04fe5572dc23b3f07e941e1f4a6dc6536b508ee",
+      "Core_proof_sha256": "0619714c2175ef333f3e27d5c7d5ab0012289114aa39557afd783e59edca6833"
+    },
+    "outcome_counts": {
+      "KNOWN_REFERENCE_OR_S1_REJECT": 4
+    },
+    "actual_live_ticks": 6800,
+    "actual_shadow_ticks": 7331,
+    "financial_charged": {
+      "CoreLab_CPU_s": 1277.1213795869999,
+      "local_CPU_s": 720,
+      "episode_starts": 4,
+      "physics_ticks": 14131,
+      "constructors": 44,
+      "CoreLab_output_bytes": 3506438144,
+      "local_output_bytes": 67108864,
+      "transfer_bytes": 1073741824
+    },
+    "task_successes": 0,
+    "native_replay_or_restart_allowed": false
+  },
+  "CPU_preparation": {
+    "related_tests_passed": 302,
+    "subtests_passed": 19,
+    "wall_s": 1.84,
+    "new_cost_storage_cases_passed": 20,
+    "new_post_settlement_aggregation_cases_passed": 18,
+    "private_pending_projection_cases_passed": 60,
+    "private_cost_draft_cases_passed": 13,
+    "external_native_attempts_by_tests": 0,
+    "actual_cached_byte_projection_receipt_sha256": "60707b4457f6031774c4e83f4d297e591deba3c6a60b648d557ba832e918ce43",
+    "actual_cached_projection_not_native_admission": true,
+    "actual_cached_source02_all_eight_pending_retained": true,
+    "old_Hopper_projected_marker_and_zero_delta_preserved": true
+  },
+  "new_code_contracts": [
+    "Exact old financial UNKNOWN and new known-terminal dual receipt/lease/proof/index types are distinct",
+    "Per-request mature episode/tick/constructor/transfer delta only; never charge global spend a second time or hard-bind obsolete A5891/B0",
+    "Closed-only storage adds total retained Core output once to original100/80GiB envelopes, checks actual namespace is inside original LOCAL8GiB",
+    "ACTIVE Source is rejected by closed-only storage and must retain complete separate native pending adapter; no zero placeholders or TRAIN credit",
+    "Post-settlement aggregation uses actual sealed continuation and dual once intent/receipt/after-ledger bytes; retains old UNKNOWN and all attempt records",
+    "NOT_RUN is never charged/classified as a valid task failure; source Teacher component evidence never qualifies student/target/core64"
+  ],
+  "files_sha256": {
+    "scripts/pi0294/dec1/source_closed_costs.py": "b730b63ccda2dda3767a36c973ee76c612c3b08920597e5414322981e0cbbedf",
+    "scripts/pi0294/dec1/test_source_closed_costs.py": "a7b163bf700f624dd63c8e03da3b88fa0cc4621184518af2d6a23cdd9145a442",
+    "scripts/pi0294/dec1/source_closed_storage.py": "245f75892e08186000f8a9227a74c09b792d8583beffb0eaa66b59f2e421aa5f",
+    "scripts/pi0294/dec1/test_source_closed_storage.py": "12ba92632ed3befcab3a40c0845f070a546c389deacdfa2e2df357fae2eb16a1",
+    "scripts/pi0294/dec1/source_component_continuation_v2.py": "ba1a81fd20203cb02b27ad3b8ae5b22f47d366ee50293398d70c64dfe11dddc5",
+    "scripts/pi0294/dec1/test_source_component_continuation_v2.py": "f265acf13d5ce1e2152082e6b193793444a61ec7647b9d74184ccbfc6d63d589"
+  },
+  "B1": {
+    "job_id": "1478518.stdct-mgmt-02",
+    "source": "0cf86cbc67a3a9639488d1b5080284f45ddad40e",
+    "observed_epoch": 1792713901.9384985,
+    "native_state": "R",
+    "returned_updates": 476,
+    "queries": 17,
+    "loads": 2,
+    "unknown_effects": [],
+    "hot_changes_restarts_resubmissions": 0,
+    "global_settled_updates_still": 5891
+  },
+  "science": {
+    "old_Source01_UNKNOWN_and_13_failure_files_and_16000_liability_preserved": true,
+    "old_financial_upper_ticks": 16490,
+    "student_neural_ACK_qualified": false,
+    "target_WBC_task_qualified": false,
+    "core64_cells": 0,
+    "new_training_data": false
+  },
+  "pending": [
+    "Source02 owner/counter/cards/settlement/lease close are terminal and must never replay; all four results are known S1 rejections, not task success or student qualification",
+    "Qualify new cost/storage/aggregation code at exact commit CI and full readback; no B2 native writes while B1 is live",
+    "At real B2048 terminal/dual-close inactive boundary, adopt versioned actual Source02 known-cost catchup and cold closed-storage snapshot; no B2 write while B1 is active",
+    "Native pending ABI/first-update forwarding is not implemented by the60pure tests; old draft known-settlement field assumptions differ from actual schema and must be adapted",
+    "Use existing frozen WBC T1/T2 task/runtime binding and fixed original CORR/R0 neural/64-cell qualification; Source success is not a B gate"
+  ],
+  "goal_complete": false,
+  "original_clocks_budgets_history_checkpoints_WBC_S1_data_and_recipes_unchanged": true,
+  "actual_post_settlement_aggregation": {
+    "summary_sha256": "c785c7428777c694606df3d9f3e40090be62074a191c8710d8485d0281301f4d",
+    "attempts": 5,
+    "attempt_counts": {
+      "ENGINEERING_INCOMPLETE_UNKNOWN": 1,
+      "KNOWN_REFERENCE_OR_S1_REJECT": 4
+    },
+    "current_original_condition_counts": {
+      "KNOWN_REFERENCE_OR_S1_REJECT": 4
+    },
+    "engineering_replacements": 1,
+    "old_UNKNOWN_preserved": true,
+    "actual_dual_once_intent_receipt_afterledger_and_audits_bound": true,
+    "student_or_target_or_core64_qualified": false
+  },
+  "actual_closed_source_B2_pure_projection": {
+    "receipt_sha256": "a4be8f45003d01f378f3e6c721261df0c154cbc7942de04a8d33c651a42b7f25",
+    "delta_fields": {
+      "episode_starts": 4,
+      "physics_ticks": 14131,
+      "constructors": 44,
+      "network_transfer_accounted_bytes": 1073741824
+    },
+    "all_source_pending_zero": true,
+    "total_closed_Core_output_upper_bytes": 7012876288,
+    "unprojected_Core_output_upper_bytes": 3506438144,
+    "actual_native_Hopper_or_global_writes": 0,
+    "requires_real_B2048_inactive_boundary": true
+  },
+  "CI_test_isolation_remediation": {
+    "failed_commit": "5de4ae8c898447656773af93fd59247e868bd5cf",
+    "failed_run": 39876083728,
+    "failed_job": 120161901302,
+    "failures": 35,
+    "cause": "Unconditional process-global audit hook in a newly added test interfered with unrelated subprocess mocks during whole-directory collection.",
+    "fix": "Hook inactive at collection and outside scoped fixture; try/finally deactivates it after cost/storage fixtures. No production or active runtime changes.",
+    "local_exact_workflow_command": "python -m pytest -q scripts/pi0294",
+    "local_passed": 1828,
+    "local_subtests_passed": 1284,
+    "wall_s": 75.37,
+    "exact_fixed_commit_CI": {
+      "source": "53698763ca155f4342492be129e63b2ec3711546",
+      "run": 39877207308,
+      "job": 120165586286,
+      "all_12_steps_success": true,
+      "full_readback_files": 9
+    },
+    "native_runtime_changes": 0
+  }
+}

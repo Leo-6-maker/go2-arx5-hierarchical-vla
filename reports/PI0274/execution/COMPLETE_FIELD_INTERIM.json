@@ -1,0 +1,138 @@
+{
+  "schema": "PI0274_COMPLETE_FIELD_INTERIM_V1",
+  "observed_at_utc": "2026-10-05T15:25:14.229555+00:00",
+  "status": "FIELD_AND_INDEPENDENT_CPU_COMPLETE_OTHER_FIXED_LANES_IN_PROGRESS",
+  "authority_canonical": 5990552027,
+  "field_comparison": [
+    {
+      "point": "BROAD5120",
+      "status": "ALL2496_FIXED_FIELD_CPU_ANALYSIS",
+      "rows": 2496,
+      "summary": [
+        {
+          "center_SO3_median_rad": 0.004245706427897651,
+          "center_XYZ_median_m": 0.001901750963551398,
+          "center_draws": 96,
+          "full_accepted_matrices": 96,
+          "gate_counts": {
+            "ACCEPT": 1248
+          },
+          "observed": 1248,
+          "pure_rotation_observed": 576,
+          "registered": 1248,
+          "sampled_matrices_largest_singular_value_above_one": 94,
+          "sampled_matrices_spectral_radius_above_one": 30,
+          "task": "M1",
+          "toward_center_increment": 466
+        },
+        {
+          "center_SO3_median_rad": 0.002365373328522363,
+          "center_XYZ_median_m": 0.002351929620225442,
+          "center_draws": 96,
+          "full_accepted_matrices": 96,
+          "gate_counts": {
+            "ACCEPT": 1248
+          },
+          "observed": 1248,
+          "pure_rotation_observed": 576,
+          "registered": 1248,
+          "sampled_matrices_largest_singular_value_above_one": 96,
+          "sampled_matrices_spectral_radius_above_one": 77,
+          "task": "M3",
+          "toward_center_increment": 538
+        }
+      ],
+      "sources": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0274/delivery/FIELD_BROAD5120.json",
+          "bytes": 2644386,
+          "sha256": "1f5ed15bf5fc44670f16770b3604947086ebbe0244128669f0ab0c4c82583fa2"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0274/delivery/FIELD_BROAD5120.csv",
+          "bytes": 2643615,
+          "sha256": "b6f8033b6c5629d2675a265ee311c233277734556bccf57bef1d828e2c41e2b1"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0274/delivery/FIELD_CPU_BROAD5120.json",
+          "bytes": 1726869,
+          "sha256": "d440687b58e514bebec7c84abdf4854a9fec66e42889587af79fc5f4a8e8b363"
+        }
+      ],
+      "cpu_status": "PASS_ALL2496_SAVED_FIELD_EULER_DECODE_NOISE_METRIC_GATE"
+    },
+    {
+      "point": "EQUIL5120",
+      "status": "ALL2496_FIXED_FIELD_CPU_ANALYSIS",
+      "rows": 2496,
+      "summary": [
+        {
+          "center_SO3_median_rad": 0.005069596482160876,
+          "center_XYZ_median_m": 0.0012147262303756478,
+          "center_draws": 96,
+          "full_accepted_matrices": 96,
+          "gate_counts": {
+            "ACCEPT": 1248
+          },
+          "observed": 1248,
+          "pure_rotation_observed": 576,
+          "registered": 1248,
+          "sampled_matrices_largest_singular_value_above_one": 34,
+          "sampled_matrices_spectral_radius_above_one": 2,
+          "task": "M1",
+          "toward_center_increment": 576
+        },
+        {
+          "center_SO3_median_rad": 0.004172362035296237,
+          "center_XYZ_median_m": 0.0007910880862248234,
+          "center_draws": 96,
+          "full_accepted_matrices": 96,
+          "gate_counts": {
+            "ACCEPT": 1248
+          },
+          "observed": 1248,
+          "pure_rotation_observed": 576,
+          "registered": 1248,
+          "sampled_matrices_largest_singular_value_above_one": 94,
+          "sampled_matrices_spectral_radius_above_one": 63,
+          "task": "M3",
+          "toward_center_increment": 576
+        }
+      ],
+      "sources": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0274/delivery/FIELD_EQUIL5120.json",
+          "bytes": 2643504,
+          "sha256": "416335591e989d4668aca9f83e1d636a964a23f4ef86b88bd173268f0d44c8bf"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0274/delivery/FIELD_EQUIL5120.csv",
+          "bytes": 2645344,
+          "sha256": "d6c9b898d463e3c65083aa02121957d321f52d6058685261bf705dc8c8723e72"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0274/delivery/FIELD_CPU_EQUIL5120.json",
+          "bytes": 1726794,
+          "sha256": "76680cc3c6791c3b31640aadfa6be6873fa4920994fea212757014457a8ec1e4"
+        }
+      ],
+      "cpu_status": "PASS_ALL2496_SAVED_FIELD_EULER_DECODE_NOISE_METRIC_GATE"
+    }
+  ],
+  "other_lane_counts_snapshot": {
+    "offline": 147,
+    "newfit": 0,
+    "late": 0,
+    "virtual": 0,
+    "component": 0
+  },
+  "driver_pid": 2296899,
+  "driver_ps": "    PID STAT     ELAPSED COMMAND\n2296899 Ss         35:47 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0274/code/quality_evaluate.py\n",
+  "quality_terminal_receipt_exists": false,
+  "new_model_queries_by_CPU_analysis": 0,
+  "local_field_not_closed_loop_success": true,
+  "finite_scaled_maps_not_stability_certificate": true,
+  "geometry_support_only_under_charter": "ed398fee17151cfec47864fed9d48ce149b28d61",
+  "selected_checkpoint": "NONE",
+  "deployment_selected_checkpoint": "NONE"
+}

@@ -1,0 +1,47 @@
+{
+  "status": "WBC_FIXTURE_EXECUTED",
+  "fixture": "hold",
+  "loads": [
+    {
+      "role": "arm",
+      "safe_load": "PASS",
+      "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_arm/ac_weights_039999.pt",
+      "payload_keys": 29,
+      "inference_keys": 14
+    },
+    {
+      "role": "dog",
+      "safe_load": "PASS",
+      "checkpoint": "/var/cache/users/liuyu-nfs/go2-arx5-wbc-stage13/extracted/WBCTrackingShare/runs/2026-08-05/stage2_v3_trajtracking_rl_e2e_gait_wo_postproc_192018/checkpoints_dog/ac_weights_039999.pt",
+      "payload_keys": 17,
+      "inference_keys": 8
+    }
+  ],
+  "initialization_s": 0.019999999552965164,
+  "controlled_ticks": 500,
+  "actual_elapsed_s": 9.999999776482582,
+  "gripper_actual_q": [
+    0.04399999976158142,
+    0.043965402990579605
+  ],
+  "task_success": "NOT_AN_OBJECT_TASK",
+  "version": "repair",
+  "counts": {
+    "physical_starts": 1,
+    "wbc_controls": 501,
+    "wbc_actor_forwards": 1000,
+    "integrations": 2004,
+    "dispatches": 2004,
+    "RGB_pairs": 100,
+    "technical_replacements": 0
+  },
+  "allocation": {
+    "physical_starts": 1,
+    "wbc_controls": 501,
+    "wbc_actor_forwards": 1000,
+    "integrations": 2004,
+    "dispatches": 2004,
+    "RGB_pairs": 100,
+    "technical_replacements": 1
+  }
+}

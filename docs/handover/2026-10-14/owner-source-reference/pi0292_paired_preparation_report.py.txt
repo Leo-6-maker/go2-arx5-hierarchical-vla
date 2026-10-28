@@ -1,0 +1,52 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Publish CPU preparation evidence without fabricating offline model results."""
+import hashlib
+import json
+from pathlib import Path
+import time
+import xml.etree.ElementTree as ET
+
+from pi0292_adopt import REPO, RUN_ID
+
+
+if __name__ == '__main__':
+    directory=REPO/'reports/PI0292'/RUN_ID
+    junit=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0292-cpu-paired-all.xml')
+    root=ET.parse(junit).getroot()
+    assert not root.findall('.//failure') and not root.findall('.//error')
+    paths=['scripts/pi0292/compare_profiles.py','scripts/pi0292/test_compare_profiles.py']
+    result=dict(schema='PI0292_PAIRED_OFFLINE_CPU_PREPARATION_V1',
+        status='CPU_PREPARATION_PASS_ACTUAL_MODEL_PROFILES_NOT_RUN',observed_epoch=time.time(),
+        run_uuid=RUN_ID,authority_release='261bc5b37f20aaff1ad7d5742252d3dc1a91fa65',
+        files={p:hashlib.sha256((REPO/p).read_bytes()).hexdigest() for p in paths},
+        tests=dict(new_methods=7,new_subtests=7,all_PI0292_passed=67,all_PI0292_subtests=31,
+            actual_junit_sha256=hashlib.sha256(junit.read_bytes()).hexdigest(),
+            measured_final_test_CPU_s=4.64,earlier_usage='NOT_ZERO_NOT_RECONSTRUCTED_BY_THIS_DELTA'),
+        behavior=dict(requires_all_three_complete_profiles=True,exact_probe_query_sets=True,
+            actual_initial_noise_bytes_paired=True,actual_EEF_and_expert_bytes_paired=True,
+            recomputes_error_from_saved_arrays=True,recomputes_frozen_Gate=True,
+            retains_all_REJECT_rows=True,incomplete_errors_remain_null=True,
+            TRAIN_DEV_and_stage_episode_macro=True,paired_error_differences=True,
+            missing_spurious_gripper_events_retained=True,fixed_B1='S4096',checkpoint_selection='NONE'),
+        stages=dict(model_smoke='NOT_RUN',main='NOT_RUN',B0='NOT_RUN',S2048='NOT_AVAILABLE',
+            S4096='NOT_AVAILABLE',actual_paired_comparison='NOT_RUN',live_relay='NOT_RUN'),
+        preserved=dict(sealed_generation_scripts_changed=False,probe_selection_changed=False,
+            raw_data_changed=False,stats_refitted=False,source_capsules_hot_switched=False,
+            original_deadline_reset=False),
+        boundaries=dict(new_PBS_calls=0,model_loads=0,physics_integrations=0,WBC_calls=0,
+            actual_model_result_claim=False,source_deployed=False),
+        prerequisites=dict(project='CURRENT_HOPPER_ACCOUNT_LOGIN_AND_AUTHORIZED_UNEXPIRED_PROJECT_REQUIRED',
+            quota='940.7GB_USED_1.0TB_HARD_REPORT_14_23_REQUIRES_ADDITIONAL_VERIFIED_STORAGE',
+            failed_PBS_calls_retained=1,total_PBS_call_cap=3,GPU_allocated_s=0),
+        selected='NONE',deployment='NONE')
+    target=directory/'PAIRED_OFFLINE_CPU_PREPARATION.json'
+    target.write_text(json.dumps(result,indent=2)+'\n')
+    index=dict(files=[dict(path=p.name,bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest())
+        for p in sorted(directory.iterdir()) if p.is_file() and p.name!='ARTIFACT_INDEX.json'],
+        producer_raw_private=True,public_projection=True)
+    (directory/'ARTIFACT_INDEX.json').write_text(json.dumps(index,indent=2)+'\n')
+    outputs=Path('@LOCAL_OR_CORE_HOME@/Documents/Codex/2026-10-12/github-plugin-github-openai-curated-remote-2/outputs')
+    (outputs/'PI0292_PAIRED_OFFLINE_CPU_PREPARATION.json').write_bytes(target.read_bytes())
+    print(json.dumps(dict(status=result['status'],passed=67)))

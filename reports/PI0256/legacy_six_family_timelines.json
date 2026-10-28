@@ -1,0 +1,2866 @@
+{
+  "families": [
+    {
+      "actual_actor_input_history": "UNOBSERVED_IN_ORIGINAL_BYTES",
+      "clean_prefix_SO3_rms_rad": 1.2518783824437187,
+      "clean_prefix_XYZ_rms_m": 0.11172940933149157,
+      "clean_prefix_ticks": 10,
+      "complete_handoff_arrays": 0,
+      "construction_reference": {
+        "anchor_world_m": [
+          0.40222012996673584,
+          0.09481430798768997,
+          0.7092507481575012
+        ],
+        "chunk_id": "gt-0000",
+        "dt_s": 0.05,
+        "episode_length_after": 0,
+        "initial": true,
+        "point_count": 40,
+        "trajectory_hash": "aa47ea1c186047b51f9890ef9327b7a200ee22a663f79e8264462cc2bee50185"
+      },
+      "end_s": 0.2199999950826168,
+      "episode": "pi0255-family-000-M1-c0",
+      "family": 0,
+      "first_actor_outputs": {
+        "arm_action_6d": [
+          -0.4818628430366516,
+          8.283028602600098,
+          16.894372940063477,
+          4.19210147857666,
+          0.9733158349990845,
+          -2.008615493774414
+        ],
+        "arm_raw_output": [
+          -0.4818628430366516,
+          8.283028602600098,
+          16.894372940063477,
+          4.19210147857666,
+          0.9733158349990845,
+          -2.008615493774414,
+          0.9999814033508301,
+          -0.5116423964500427,
+          -0.9092086553573608,
+          0.9419759511947632,
+          -0.9874265789985657,
+          -0.8784078359603882,
+          0.1489904224872589,
+          -0.5669682025909424,
+          0.6689391136169434
+        ],
+        "dog_action_12d": [
+          0.7188401222229004,
+          0.1632251739501953,
+          -0.8981666564941406,
+          -2.1486690044403076,
+          0.5856124758720398,
+          -1.4959691762924194,
+          0.09680907428264618,
+          -0.5651142597198486,
+          -0.5188805460929871,
+          -0.05013404041528702,
+          0.3863763213157654,
+          -0.7919934391975403
+        ],
+        "info_keys": [
+          "time_outs",
+          "train/episode"
+        ],
+        "internal_body_plan_9d": [
+          0.9999814033508301,
+          -0.5116423964500427,
+          -0.9092086553573608,
+          0.9419759511947632,
+          -0.9874265789985657,
+          -0.8784078359603882,
+          0.1489904224872589,
+          -0.5669682025909424,
+          0.6689391136169434
+        ]
+      },
+      "first_bind": {
+        "anchor_world_m": [
+          0.40222012996673584,
+          0.09481430798768997,
+          0.7092507481575012
+        ],
+        "chunk_id": "pi0255-family-000-M1-c0-000000",
+        "dt_s": 0.05,
+        "episode_length_after": 1,
+        "episode_length_unchanged": true,
+        "initial": false,
+        "lifecycle_phase": "INITIAL_BIND",
+        "physics_dof_state_unchanged": true,
+        "physics_reset": false,
+        "physics_root_state_unchanged": true,
+        "physics_teleport": false,
+        "point_count": 40,
+        "policy_history_reset": false,
+        "reset_buf_after": false,
+        "reset_buf_before": false,
+        "trajectory_hash": "52e226f5472bf3aae5290e6e5e82b69fe7ff69685641f1912c1cd1bb51e3143f"
+      },
+      "first_physics_s": 0.0,
+      "first_post_actor_tick_s": 0.03999999910593033,
+      "handoffs": 2,
+      "implicit_reset_step": true,
+      "outcome": "SETTLING_EXPERT_GATE_REJECT",
+      "post_step_TCP": [
+        0.0883718878030777,
+        0.002800300717353821,
+        0.6233844757080078
+      ],
+      "post_step_TCP_is_clean_failure_pose": true,
+      "pre_autoreset_event": null,
+      "raw_sha256": "6a5369d43772f929ec5134b0a0f4e6a9210b959eeb8e8ad26b153b62524d206b",
+      "reference_loads": [
+        {
+          "anchor_world_m": [
+            0.40222012996673584,
+            0.09481430798768997,
+            0.7092507481575012
+          ],
+          "chunk_id": "gt-0000",
+          "dt_s": 0.05,
+          "episode_length_after": 0,
+          "initial": true,
+          "point_count": 40,
+          "trajectory_hash": "aa47ea1c186047b51f9890ef9327b7a200ee22a663f79e8264462cc2bee50185"
+        },
+        {
+          "anchor_world_m": [
+            0.40222012996673584,
+            0.09481430798768997,
+            0.7092507481575012
+          ],
+          "chunk_id": "pi0255-family-000-M1-c0-000000",
+          "dt_s": 0.05,
+          "episode_length_after": 1,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "INITIAL_BIND",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "reset_buf_after": false,
+          "reset_buf_before": false,
+          "trajectory_hash": "52e226f5472bf3aae5290e6e5e82b69fe7ff69685641f1912c1cd1bb51e3143f"
+        }
+      ],
+      "reset_finished_s": 0.019999999552965164,
+      "reset_seed": 2550100,
+      "result_sha256": "867f99c429bd302a458ac53e4853e6f6041a5f022d0939f28572bc12156a0ee3",
+      "terminal_gate": {
+        "decision": "REJECT",
+        "issues": [
+          {
+            "code": "INITIAL_ROTATION_DISCONTINUITY_REJECT",
+            "message": "initial_rotation_discontinuity exceeds rejection threshold (rad)",
+            "observed": 1.5764893137820062,
+            "provenance": "BENCHMARK_DERIVED",
+            "severity": "REJECT",
+            "threshold": 1.5
+          }
+        ],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "pi0255-family-000-M1-c0-000001",
+          "initial_position_discontinuity_m": 0.04322248380568664,
+          "initial_rotation_discontinuity_rad": 1.5764893137820062,
+          "linear_speed_mps": {
+            "max": 0.0010000000000010014,
+            "mean": 0.0010000000000000033,
+            "median": 0.000999999999999889,
+            "p95": 0.0010000000000009992
+          },
+          "se3_arc_length_m": 0.0019500000000000073,
+          "translation_path_length_m": 0.0019500000000000073
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      }
+    },
+    {
+      "actual_actor_input_history": "UNOBSERVED_IN_ORIGINAL_BYTES",
+      "clean_prefix_SO3_rms_rad": 1.1333575611377371,
+      "clean_prefix_XYZ_rms_m": 0.1362099530140706,
+      "clean_prefix_ticks": 10,
+      "complete_handoff_arrays": 0,
+      "construction_reference": {
+        "anchor_world_m": [
+          0.5199456810951233,
+          -0.13979066908359528,
+          0.4229791760444641
+        ],
+        "chunk_id": "gt-0000",
+        "dt_s": 0.05,
+        "episode_length_after": 0,
+        "initial": true,
+        "point_count": 40,
+        "trajectory_hash": "df3352a5139cb3fa23b825db45c08b898ead4cb9560509d1ed4bf996888edce8"
+      },
+      "end_s": 0.2199999950826168,
+      "episode": "pi0255-family-001-M1-c0",
+      "family": 1,
+      "first_actor_outputs": {
+        "arm_action_6d": [
+          1.3033660650253296,
+          1.4751994609832764,
+          17.902481079101562,
+          8.468801498413086,
+          0.12870889902114868,
+          -0.7620512843132019
+        ],
+        "arm_raw_output": [
+          1.3033660650253296,
+          1.4751994609832764,
+          17.902481079101562,
+          8.468801498413086,
+          0.12870889902114868,
+          -0.7620512843132019,
+          0.9957062005996704,
+          0.28377267718315125,
+          -0.7103723883628845,
+          0.9904780983924866,
+          0.5628069639205933,
+          -0.7827838659286499,
+          0.9841780066490173,
+          -0.8175957202911377,
+          0.9206255078315735
+        ],
+        "dog_action_12d": [
+          -2.081768035888672,
+          -1.5931951999664307,
+          -0.6334479451179504,
+          -0.7087352871894836,
+          -1.714280366897583,
+          -1.6746289730072021,
+          3.75081467628479,
+          -1.8376892805099487,
+          -3.054215669631958,
+          -2.935316801071167,
+          -1.0160751342773438,
+          -3.5117924213409424
+        ],
+        "info_keys": [
+          "time_outs",
+          "train/episode"
+        ],
+        "internal_body_plan_9d": [
+          0.9957062005996704,
+          0.28377267718315125,
+          -0.7103723883628845,
+          0.9904780983924866,
+          0.5628069639205933,
+          -0.7827838659286499,
+          0.9841780066490173,
+          -0.8175957202911377,
+          0.9206255078315735
+        ]
+      },
+      "first_bind": {
+        "anchor_world_m": [
+          0.5199456810951233,
+          -0.13979066908359528,
+          0.4229791760444641
+        ],
+        "chunk_id": "pi0255-family-001-M1-c0-000000",
+        "dt_s": 0.05,
+        "episode_length_after": 1,
+        "episode_length_unchanged": true,
+        "initial": false,
+        "lifecycle_phase": "INITIAL_BIND",
+        "physics_dof_state_unchanged": true,
+        "physics_reset": false,
+        "physics_root_state_unchanged": true,
+        "physics_teleport": false,
+        "point_count": 40,
+        "policy_history_reset": false,
+        "reset_buf_after": false,
+        "reset_buf_before": false,
+        "trajectory_hash": "621bb1e3f58117abc19c2a014ad2225ff885617a94f79b0b03c5fc13809ff6fa"
+      },
+      "first_physics_s": 0.0,
+      "first_post_actor_tick_s": 0.03999999910593033,
+      "handoffs": 2,
+      "implicit_reset_step": true,
+      "outcome": "SETTLING_EXPERT_GATE_REJECT",
+      "post_step_TCP": [
+        0.32079631090164185,
+        -0.03021921217441559,
+        0.5481008291244507
+      ],
+      "post_step_TCP_is_clean_failure_pose": true,
+      "pre_autoreset_event": null,
+      "raw_sha256": "a5226f7df8da4213d61c74df859fa019eea898883f1acc35b3adb460841cde3a",
+      "reference_loads": [
+        {
+          "anchor_world_m": [
+            0.5199456810951233,
+            -0.13979066908359528,
+            0.4229791760444641
+          ],
+          "chunk_id": "gt-0000",
+          "dt_s": 0.05,
+          "episode_length_after": 0,
+          "initial": true,
+          "point_count": 40,
+          "trajectory_hash": "df3352a5139cb3fa23b825db45c08b898ead4cb9560509d1ed4bf996888edce8"
+        },
+        {
+          "anchor_world_m": [
+            0.5199456810951233,
+            -0.13979066908359528,
+            0.4229791760444641
+          ],
+          "chunk_id": "pi0255-family-001-M1-c0-000000",
+          "dt_s": 0.05,
+          "episode_length_after": 1,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "INITIAL_BIND",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "reset_buf_after": false,
+          "reset_buf_before": false,
+          "trajectory_hash": "621bb1e3f58117abc19c2a014ad2225ff885617a94f79b0b03c5fc13809ff6fa"
+        }
+      ],
+      "reset_finished_s": 0.019999999552965164,
+      "reset_seed": 2550101,
+      "result_sha256": "3cd5cc429c520a037e8f0f63b799ed462990e7cebd71fa858ee282a8c6b25c31",
+      "terminal_gate": {
+        "decision": "REJECT",
+        "issues": [
+          {
+            "code": "INITIAL_ROTATION_DISCONTINUITY_REJECT",
+            "message": "initial_rotation_discontinuity exceeds rejection threshold (rad)",
+            "observed": 1.6133464098134744,
+            "provenance": "BENCHMARK_DERIVED",
+            "severity": "REJECT",
+            "threshold": 1.5
+          }
+        ],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "pi0255-family-001-M1-c0-000001",
+          "initial_position_discontinuity_m": 0.05415240513618946,
+          "initial_rotation_discontinuity_rad": 1.6133464098134744,
+          "linear_speed_mps": {
+            "max": 0.0010000000000010036,
+            "mean": 0.0010000000000000033,
+            "median": 0.000999999999999889,
+            "p95": 0.0010000000000009994
+          },
+          "se3_arc_length_m": 0.0019500000000000073,
+          "translation_path_length_m": 0.0019500000000000073
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      }
+    },
+    {
+      "actual_actor_input_history": "UNOBSERVED_IN_ORIGINAL_BYTES",
+      "clean_prefix_SO3_rms_rad": 0.7833157513264974,
+      "clean_prefix_XYZ_rms_m": 0.05862504128797127,
+      "clean_prefix_ticks": 24,
+      "complete_handoff_arrays": 0,
+      "construction_reference": {
+        "anchor_world_m": [
+          0.4108388125896454,
+          -0.05339697003364563,
+          0.6938760876655579
+        ],
+        "chunk_id": "gt-0000",
+        "dt_s": 0.05,
+        "episode_length_after": 0,
+        "initial": true,
+        "point_count": 40,
+        "trajectory_hash": "c1820b9d85e9762f18b9b10cb014eb13eb8781cdd84c15944aed219d534d580e"
+      },
+      "end_s": 0.5199999883770943,
+      "episode": "pi0255-family-002-M1-c0",
+      "family": 2,
+      "first_actor_outputs": {
+        "arm_action_6d": [
+          -0.3741299510002136,
+          11.79963493347168,
+          14.548860549926758,
+          0.9000964760780334,
+          2.1883480548858643,
+          -0.28909361362457275
+        ],
+        "arm_raw_output": [
+          -0.3741299510002136,
+          11.79963493347168,
+          14.548860549926758,
+          0.9000964760780334,
+          2.1883480548858643,
+          -0.28909361362457275,
+          0.9999926686286926,
+          0.05926134064793587,
+          -0.6606405973434448,
+          0.8657867908477783,
+          -0.999882698059082,
+          -0.8590250015258789,
+          -0.841828465461731,
+          -0.5983355045318604,
+          0.7038989067077637
+        ],
+        "dog_action_12d": [
+          0.9793754816055298,
+          0.22152522206306458,
+          -1.009381651878357,
+          -1.8164931535720825,
+          0.7336651086807251,
+          -1.6767293214797974,
+          -0.09759345650672913,
+          -0.5258581042289734,
+          -0.5481876134872437,
+          0.04864516109228134,
+          0.009290698915719986,
+          -0.5861749053001404
+        ],
+        "info_keys": [
+          "time_outs",
+          "train/episode"
+        ],
+        "internal_body_plan_9d": [
+          0.9999926686286926,
+          0.05926134064793587,
+          -0.6606405973434448,
+          0.8657867908477783,
+          -0.999882698059082,
+          -0.8590250015258789,
+          -0.841828465461731,
+          -0.5983355045318604,
+          0.7038989067077637
+        ]
+      },
+      "first_bind": {
+        "anchor_world_m": [
+          0.4108388125896454,
+          -0.05339697003364563,
+          0.6938760876655579
+        ],
+        "chunk_id": "pi0255-family-002-M1-c0-000000",
+        "dt_s": 0.05,
+        "episode_length_after": 1,
+        "episode_length_unchanged": true,
+        "initial": false,
+        "lifecycle_phase": "INITIAL_BIND",
+        "physics_dof_state_unchanged": true,
+        "physics_reset": false,
+        "physics_root_state_unchanged": true,
+        "physics_teleport": false,
+        "point_count": 40,
+        "policy_history_reset": false,
+        "reset_buf_after": false,
+        "reset_buf_before": false,
+        "trajectory_hash": "4016c27a707cd7cfb925fe292a4611d9c5ef29303016297f3d31b8b935d87bb3"
+      },
+      "first_physics_s": 0.0,
+      "first_post_actor_tick_s": 0.03999999910593033,
+      "handoffs": 3,
+      "implicit_reset_step": true,
+      "outcome": "SETTLING_PHYSICAL_TERMINATION",
+      "post_step_TCP": [
+        0.019932493567466736,
+        0.0521337166428566,
+        0.747011661529541
+      ],
+      "post_step_TCP_is_clean_failure_pose": false,
+      "pre_autoreset_event": {
+        "achieved_pos": [
+          0.019932493567466736,
+          0.0521337166428566,
+          0.747011661529541
+        ],
+        "achieved_quat": [
+          0.02920161373913288,
+          -0.0767117589712143,
+          0.4969159662723541,
+          0.863908052444458
+        ],
+        "arm_dq": [
+          -1.29889714717865,
+          0.20160722732543945,
+          -0.8682441115379333,
+          1.2862695455551147,
+          0.13684424757957458,
+          0.005320783704519272
+        ],
+        "arm_q": [
+          -0.6739004850387573,
+          0.5861830115318298,
+          0.8317474722862244,
+          -0.5567491054534912,
+          -1.4467718601226807,
+          -0.24943940341472626
+        ],
+        "base_feedforward": [
+          -0.05396239086985588,
+          -0.013579373247921467,
+          0.6624234914779663
+        ],
+        "base_lin_vel": [
+          -0.23106935620307922,
+          -0.07453954964876175,
+          0.17244336009025574
+        ],
+        "base_pos": [
+          -0.11635571718215942,
+          -0.013793152756989002,
+          0.2703761160373688
+        ],
+        "base_quat": [
+          0.05282127112150192,
+          -0.0948665514588356,
+          0.1298348754644394,
+          0.9855725765228271
+        ],
+        "body_height_buf": false,
+        "commands_dog": [
+          -0.32290390133857727,
+          0.03177168220281601,
+          0.5305970311164856,
+          0.33341217041015625,
+          0.11960206180810928,
+          0.03613663464784622,
+          4.0,
+          0.05999999865889549,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.49000000953674316
+        ],
+        "delta_velocity": [
+          -0.2689415216445923,
+          0.0453510545194149,
+          -0.1318264752626419
+        ],
+        "desired_pos": [
+          -0.0011112407082691789,
+          0.031849585473537445,
+          0.7442217469215393
+        ],
+        "desired_quat": [
+          -0.2626749873161316,
+          -0.29053449630737305,
+          0.2847694158554077,
+          0.8749274015426636
+        ],
+        "dof_pos": [
+          -0.07394273579120636,
+          1.1474676132202148,
+          -1.6713088750839233,
+          -0.12323522567749023,
+          1.2213196754455566,
+          -1.627095103263855,
+          0.05733686313033104,
+          1.354171872138977,
+          -2.004958391189575,
+          -0.09465929865837097,
+          1.3877924680709839,
+          -2.238007068634033,
+          -0.6739004850387573,
+          0.5861830115318298,
+          0.8317474722862244,
+          -0.5567491054534912,
+          -1.4467718601226807,
+          -0.24943940341472626,
+          4.391626134747639e-06,
+          0.00014719816681463271
+        ],
+        "dof_vel": [
+          1.710007905960083,
+          0.41084909439086914,
+          -0.41579437255859375,
+          0.5782460570335388,
+          -0.9038037061691284,
+          0.5299803614616394,
+          1.5605714321136475,
+          -2.261763095855713,
+          0.8105553388595581,
+          -2.870906114578247,
+          0.16956008970737457,
+          -2.690614938735962,
+          -1.29889714717865,
+          0.20160722732543945,
+          -0.8682441115379333,
+          1.2862695455551147,
+          0.13684424757957458,
+          0.005320783704519272,
+          0.002522980561479926,
+          -0.005268368870019913
+        ],
+        "dog_dq": [
+          1.710007905960083,
+          0.41084909439086914,
+          -0.41579437255859375,
+          0.5782460570335388,
+          -0.9038037061691284,
+          0.5299803614616394,
+          1.5605714321136475,
+          -2.261763095855713,
+          0.8105553388595581,
+          -2.870906114578247,
+          0.16956008970737457,
+          -2.690614938735962
+        ],
+        "dog_q": [
+          -0.07394273579120636,
+          1.1474676132202148,
+          -1.6713088750839233,
+          -0.12323522567749023,
+          1.2213196754455566,
+          -1.627095103263855,
+          0.05733686313033104,
+          1.354171872138977,
+          -2.004958391189575,
+          -0.09465929865837097,
+          1.3877924680709839,
+          -2.238007068634033
+        ],
+        "eef_angular_velocity": [
+          -0.44698700308799744,
+          -0.03593190386891365,
+          -0.8003097176551819
+        ],
+        "eef_linear_velocity": [
+          -0.021560657769441605,
+          -0.03090064227581024,
+          -0.04292602092027664
+        ],
+        "fall_flag": false,
+        "invalid_state": false,
+        "joint_limit_margin": [
+          0.8685372471809387,
+          2.0901572704315186,
+          0.739301860332489,
+          0.8192447423934937,
+          2.0163052082061768,
+          0.6950880885124207,
+          0.8851431012153625,
+          1.6246968507766724,
+          0.6234946250915527,
+          0.8478206396102905,
+          1.6583174467086792,
+          0.3904459476470947,
+          1.1583198308944702,
+          0.40293294191360474,
+          0.6697474122047424,
+          0.9471508264541626,
+          0.057128071784973145,
+          1.6351606845855713,
+          -0.0021956083364784718,
+          -0.0020528018940240145
+        ],
+        "joint_limit_termination": false,
+        "joint_limit_violation": true,
+        "joint_pos_target": [
+          0.014002479612827301,
+          1.2038873434066772,
+          -1.6890692710876465,
+          0.1401173174381256,
+          0.9211140275001526,
+          -1.1173847913742065,
+          -0.17563718557357788,
+          1.2258906364440918,
+          -1.5669574737548828,
+          -0.21305900812149048,
+          1.4426589012145996,
+          -2.3118507862091064,
+          -0.8042518496513367,
+          0.6370576620101929,
+          0.787498414516449,
+          -0.4327004849910736,
+          -1.415014386177063,
+          -0.2705671191215515,
+          0.0,
+          0.0
+        ],
+        "preview_pos": [
+          [
+            0.0007387399673461914,
+            0.031849585473537445,
+            0.7442217469215393
+          ],
+          [
+            0.0007387399673461914,
+            0.031849585473537445,
+            0.7442217469215393
+          ],
+          [
+            0.0007387399673461914,
+            0.031849585473537445,
+            0.7442217469215393
+          ],
+          [
+            0.0007387399673461914,
+            0.031849585473537445,
+            0.7442217469215393
+          ],
+          [
+            0.0007387399673461914,
+            0.031849585473537445,
+            0.7442217469215393
+          ],
+          [
+            0.0007387399673461914,
+            0.031849585473537445,
+            0.7442217469215393
+          ],
+          [
+            0.0007387399673461914,
+            0.031849585473537445,
+            0.7442217469215393
+          ],
+          [
+            0.0007387399673461914,
+            0.031849585473537445,
+            0.7442217469215393
+          ],
+          [
+            0.0007387399673461914,
+            0.031849585473537445,
+            0.7442217469215393
+          ]
+        ],
+        "preview_quat": [
+          [
+            -0.2626749873161316,
+            -0.29053449630737305,
+            0.2847694158554077,
+            0.8749274015426636
+          ],
+          [
+            -0.2626749873161316,
+            -0.29053449630737305,
+            0.2847694158554077,
+            0.8749274015426636
+          ],
+          [
+            -0.2626749873161316,
+            -0.29053449630737305,
+            0.2847694158554077,
+            0.8749274015426636
+          ],
+          [
+            -0.2626749873161316,
+            -0.29053449630737305,
+            0.2847694158554077,
+            0.8749274015426636
+          ],
+          [
+            -0.2626749873161316,
+            -0.29053449630737305,
+            0.2847694158554077,
+            0.8749274015426636
+          ],
+          [
+            -0.2626749873161316,
+            -0.29053449630737305,
+            0.2847694158554077,
+            0.8749274015426636
+          ],
+          [
+            -0.2626749873161316,
+            -0.29053449630737305,
+            0.2847694158554077,
+            0.8749274015426636
+          ],
+          [
+            -0.2626749873161316,
+            -0.29053449630737305,
+            0.2847694158554077,
+            0.8749274015426636
+          ],
+          [
+            -0.2626749873161316,
+            -0.29053449630737305,
+            0.2847694158554077,
+            0.8749274015426636
+          ]
+        ],
+        "reference_duration": 1.9500000476837158,
+        "reset_buf": true,
+        "sim_time": 0.09999999403953552,
+        "termination_cause": [
+          false,
+          true
+        ],
+        "termination_code": "TRACKING_ABORT",
+        "time_out_buf": false,
+        "traj_L": 0.001949995756149292,
+        "traj_d_lat": 0.02806474268436432,
+        "traj_early_term": true,
+        "traj_s": 0.001949995756149292,
+        "traj_s_ref": 9.998678433476016e-05,
+        "traj_timing_err": 0.0018500089645385742
+      },
+      "raw_sha256": "363ce5e480e0f438bbc743475e323149a7fce54c7aa3809b9770901f50d772fa",
+      "reference_loads": [
+        {
+          "anchor_world_m": [
+            0.4108388125896454,
+            -0.05339697003364563,
+            0.6938760876655579
+          ],
+          "chunk_id": "gt-0000",
+          "dt_s": 0.05,
+          "episode_length_after": 0,
+          "initial": true,
+          "point_count": 40,
+          "trajectory_hash": "c1820b9d85e9762f18b9b10cb014eb13eb8781cdd84c15944aed219d534d580e"
+        },
+        {
+          "anchor_world_m": [
+            0.4108388125896454,
+            -0.05339697003364563,
+            0.6938760876655579
+          ],
+          "chunk_id": "pi0255-family-002-M1-c0-000000",
+          "dt_s": 0.05,
+          "episode_length_after": 1,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "INITIAL_BIND",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "reset_buf_after": false,
+          "reset_buf_before": false,
+          "trajectory_hash": "4016c27a707cd7cfb925fe292a4611d9c5ef29303016297f3d31b8b935d87bb3"
+        },
+        {
+          "anchor_world_m": [
+            0.4108388125896454,
+            -0.05339697003364563,
+            0.6938760876655579
+          ],
+          "chunk_id": "pi0255-family-002-M1-c0-000001",
+          "dt_s": 0.04999999999999999,
+          "episode_length_after": 11,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "65d06c6640aa7663f76de6b1c4253d5d2b92242c6d2eb6de5cee7feb3d04c0ba"
+        },
+        {
+          "anchor_world_m": [
+            0.4108388125896454,
+            -0.05339697003364563,
+            0.6938760876655579
+          ],
+          "chunk_id": "pi0255-family-002-M1-c0-000002",
+          "dt_s": 0.04999999999999999,
+          "episode_length_after": 21,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "fae7a51de3af9904f4d98b6d8c12a87c3554872eae8561b204a323511aa7e4be"
+        },
+        {
+          "anchor_world_m": [
+            0.4985450208187103,
+            0.09038413316011429,
+            0.5639412999153137
+          ],
+          "chunk_id": "gt-0000",
+          "dt_s": 0.05,
+          "episode_length_after": 26,
+          "initial": true,
+          "point_count": 40,
+          "trajectory_hash": "c1820b9d85e9762f18b9b10cb014eb13eb8781cdd84c15944aed219d534d580e"
+        }
+      ],
+      "reset_finished_s": 0.019999999552965164,
+      "reset_seed": 2550102,
+      "result_sha256": "bd75a176f385f48248f90ddd4feb30ae4d65da9f196e113441d1d543bd1155a0",
+      "terminal_gate": {
+        "decision": "WARN",
+        "issues": [
+          {
+            "code": "INITIAL_ROTATION_DISCONTINUITY_WARN",
+            "message": "initial_rotation_discontinuity exceeds warning threshold (rad)",
+            "observed": 0.8687873684862999,
+            "provenance": "BENCHMARK_DERIVED",
+            "severity": "WARNING",
+            "threshold": 0.5
+          }
+        ],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "pi0255-family-002-M1-c0-000002",
+          "initial_position_discontinuity_m": 0.020953239601167788,
+          "initial_rotation_discontinuity_rad": 0.8687873684862999,
+          "linear_speed_mps": {
+            "max": 0.0010000000000010036,
+            "mean": 0.0009999999999999749,
+            "median": 0.000999999999999889,
+            "p95": 0.0010000000000009992
+          },
+          "se3_arc_length_m": 0.0019499999999999518,
+          "translation_path_length_m": 0.0019499999999999518
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      }
+    },
+    {
+      "actual_actor_input_history": "UNOBSERVED_IN_ORIGINAL_BYTES",
+      "clean_prefix_SO3_rms_rad": 0.8414045750235181,
+      "clean_prefix_XYZ_rms_m": 0.02618276201314036,
+      "clean_prefix_ticks": 247,
+      "complete_handoff_arrays": 0,
+      "construction_reference": {
+        "anchor_world_m": [
+          0.5274375677108765,
+          -0.07524848729372025,
+          0.473274290561676
+        ],
+        "chunk_id": "gt-0000",
+        "dt_s": 0.05,
+        "episode_length_after": 0,
+        "initial": true,
+        "point_count": 40,
+        "trajectory_hash": "413a85c69e9c8099fe7ccbc7341f5412ec0d5e3483337beed7bc24881f760d71"
+      },
+      "end_s": 4.979999888688326,
+      "episode": "pi0255-family-003-M1-c0",
+      "family": 3,
+      "first_actor_outputs": {
+        "arm_action_6d": [
+          -0.14235883951187134,
+          5.001668453216553,
+          16.786235809326172,
+          5.467040538787842,
+          1.1797614097595215,
+          -0.47367751598358154
+        ],
+        "arm_raw_output": [
+          -0.14235883951187134,
+          5.001668453216553,
+          16.786235809326172,
+          5.467040538787842,
+          1.1797614097595215,
+          -0.47367751598358154,
+          0.999350905418396,
+          -0.06898784637451172,
+          -0.7219743132591248,
+          0.9677473306655884,
+          -0.8185710310935974,
+          -0.6508738994598389,
+          0.8597763776779175,
+          -0.7607694864273071,
+          0.8864337801933289
+        ],
+        "dog_action_12d": [
+          -0.865586519241333,
+          -1.2404910326004028,
+          -2.0524680614471436,
+          -0.03164650872349739,
+          -1.1781548261642456,
+          -0.24094296991825104,
+          1.944631576538086,
+          -1.9073456525802612,
+          -2.0449697971343994,
+          -2.9210662841796875,
+          -0.8495334386825562,
+          -2.6042349338531494
+        ],
+        "info_keys": [
+          "time_outs",
+          "train/episode"
+        ],
+        "internal_body_plan_9d": [
+          0.999350905418396,
+          -0.06898784637451172,
+          -0.7219743132591248,
+          0.9677473306655884,
+          -0.8185710310935974,
+          -0.6508738994598389,
+          0.8597763776779175,
+          -0.7607694864273071,
+          0.8864337801933289
+        ]
+      },
+      "first_bind": {
+        "anchor_world_m": [
+          0.5274375677108765,
+          -0.07524848729372025,
+          0.473274290561676
+        ],
+        "chunk_id": "pi0255-family-003-M1-c0-000000",
+        "dt_s": 0.05,
+        "episode_length_after": 1,
+        "episode_length_unchanged": true,
+        "initial": false,
+        "lifecycle_phase": "INITIAL_BIND",
+        "physics_dof_state_unchanged": true,
+        "physics_reset": false,
+        "physics_root_state_unchanged": true,
+        "physics_teleport": false,
+        "point_count": 40,
+        "policy_history_reset": false,
+        "reset_buf_after": false,
+        "reset_buf_before": false,
+        "trajectory_hash": "d88d1b9a5a030540fbc3d7b290041aa46f4cf24518801c1295dce88570b9fa95"
+      },
+      "first_physics_s": 0.0,
+      "first_post_actor_tick_s": 0.03999999910593033,
+      "handoffs": 25,
+      "implicit_reset_step": true,
+      "outcome": "SETTLING_PHYSICAL_TERMINATION",
+      "post_step_TCP": [
+        0.19291269779205322,
+        0.0007658191025257111,
+        0.6740140318870544
+      ],
+      "post_step_TCP_is_clean_failure_pose": false,
+      "pre_autoreset_event": {
+        "achieved_pos": [
+          0.19291269779205322,
+          0.0007658191025257111,
+          0.6740140318870544
+        ],
+        "achieved_quat": [
+          -0.05418683961033821,
+          0.13998810946941376,
+          0.20273882150650024,
+          0.9676591157913208
+        ],
+        "arm_dq": [
+          -0.391372412443161,
+          -0.14791497588157654,
+          0.2693762183189392,
+          0.2554103434085846,
+          0.10246346145868301,
+          0.3522023856639862
+        ],
+        "arm_q": [
+          -0.3798515498638153,
+          1.6509078741073608,
+          1.376789927482605,
+          -0.3246273398399353,
+          -1.0038727521896362,
+          -0.2525481879711151
+        ],
+        "base_feedforward": [
+          0.07424740493297577,
+          0.011494829319417477,
+          -0.05460204556584358
+        ],
+        "base_lin_vel": [
+          -0.06953418999910355,
+          0.044669345021247864,
+          -0.0832882970571518
+        ],
+        "base_pos": [
+          -0.23136909306049347,
+          0.014902488328516483,
+          0.22862239181995392
+        ],
+        "base_quat": [
+          -0.12651245296001434,
+          -0.08459939062595367,
+          -0.10124196112155914,
+          0.983151912689209
+        ],
+        "body_height_buf": false,
+        "commands_dog": [
+          0.09600070118904114,
+          0.008134352043271065,
+          -0.08852440118789673,
+          0.2014710009098053,
+          0.275574654340744,
+          -0.03520532324910164,
+          4.0,
+          0.05999999865889549,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.49000000953674316
+        ],
+        "delta_velocity": [
+          0.021753299981355667,
+          -0.0033604775089770555,
+          -0.033922355622053146
+        ],
+        "desired_pos": [
+          0.20517580211162567,
+          0.002808697521686554,
+          0.6683251857757568
+        ],
+        "desired_quat": [
+          0.2537323832511902,
+          -0.04222393408417702,
+          0.10321485251188278,
+          0.9608244895935059
+        ],
+        "dof_pos": [
+          0.37334224581718445,
+          1.2172795534133911,
+          -1.9053341150283813,
+          0.12227097898721695,
+          1.041345477104187,
+          -1.7997995615005493,
+          0.46492525935173035,
+          1.1677558422088623,
+          -2.251457691192627,
+          0.037368640303611755,
+          1.1647961139678955,
+          -2.152252435684204,
+          -0.3798515498638153,
+          1.6509078741073608,
+          1.376789927482605,
+          -0.3246273398399353,
+          -1.0038727521896362,
+          -0.2525481879711151,
+          6.10746574238874e-05,
+          3.578348696464673e-05
+        ],
+        "dof_vel": [
+          0.5856625437736511,
+          0.46314722299575806,
+          -1.0771949291229248,
+          -0.0814971923828125,
+          -1.0274111032485962,
+          -0.27281591296195984,
+          0.8687990307807922,
+          0.8433277010917664,
+          -0.448375403881073,
+          0.2800556719303131,
+          -0.45905742049217224,
+          -0.14939987659454346,
+          -0.391372412443161,
+          -0.14791497588157654,
+          0.2693762183189392,
+          0.2554103434085846,
+          0.10246346145868301,
+          0.3522023856639862,
+          0.002995458897203207,
+          -0.0019110848661512136
+        ],
+        "dog_dq": [
+          0.5856625437736511,
+          0.46314722299575806,
+          -1.0771949291229248,
+          -0.0814971923828125,
+          -1.0274111032485962,
+          -0.27281591296195984,
+          0.8687990307807922,
+          0.8433277010917664,
+          -0.448375403881073,
+          0.2800556719303131,
+          -0.45905742049217224,
+          -0.14939987659454346
+        ],
+        "dog_q": [
+          0.37334224581718445,
+          1.2172795534133911,
+          -1.9053341150283813,
+          0.12227097898721695,
+          1.041345477104187,
+          -1.7997995615005493,
+          0.46492525935173035,
+          1.1677558422088623,
+          -2.251457691192627,
+          0.037368640303611755,
+          1.1647961139678955,
+          -2.152252435684204
+        ],
+        "eef_angular_velocity": [
+          -0.5185293555259705,
+          -0.2386869192123413,
+          -0.6717243790626526
+        ],
+        "eef_linear_velocity": [
+          -0.005906004924327135,
+          0.0887075737118721,
+          0.01664465107023716
+        ],
+        "fall_flag": false,
+        "invalid_state": false,
+        "joint_limit_margin": [
+          0.569137692451477,
+          2.0203452110290527,
+          0.7231189012527466,
+          0.8202089667320251,
+          2.196279525756836,
+          0.8286534547805786,
+          0.47755470871925354,
+          1.4382808208465576,
+          0.376995325088501,
+          0.9051113128662109,
+          1.4353210926055908,
+          0.47620058059692383,
+          1.4523687362670898,
+          1.4676578044891357,
+          1.214789867401123,
+          1.1792726516723633,
+          0.5000271797180176,
+          1.6320518255233765,
+          -0.00213892525061965,
+          -0.0021642164792865515
+        ],
+        "joint_limit_termination": false,
+        "joint_limit_violation": true,
+        "joint_pos_target": [
+          0.15235655009746552,
+          1.1359270811080933,
+          -1.572014331817627,
+          0.09945517033338547,
+          1.0293852090835571,
+          -1.810072422027588,
+          0.5143383145332336,
+          1.2020527124404907,
+          -2.2682008743286133,
+          0.2646214962005615,
+          1.2043797969818115,
+          -1.7840408086776733,
+          -0.41199764609336853,
+          1.5587927103042603,
+          1.4592664241790771,
+          -0.2828172743320465,
+          -0.9911234378814697,
+          -0.21202439069747925,
+          0.0,
+          0.0
+        ],
+        "preview_pos": [
+          [
+            0.20521581172943115,
+            0.002808697521686554,
+            0.6683251857757568
+          ],
+          [
+            0.20521581172943115,
+            0.002808697521686554,
+            0.6683251857757568
+          ],
+          [
+            0.20521581172943115,
+            0.002808697521686554,
+            0.6683251857757568
+          ],
+          [
+            0.20521581172943115,
+            0.002808697521686554,
+            0.6683251857757568
+          ],
+          [
+            0.20521581172943115,
+            0.002808697521686554,
+            0.6683251857757568
+          ],
+          [
+            0.20521581172943115,
+            0.002808697521686554,
+            0.6683251857757568
+          ],
+          [
+            0.20521581172943115,
+            0.002808697521686554,
+            0.6683251857757568
+          ],
+          [
+            0.20521581172943115,
+            0.002808697521686554,
+            0.6683251857757568
+          ],
+          [
+            0.20521581172943115,
+            0.002808697521686554,
+            0.6683251857757568
+          ]
+        ],
+        "preview_quat": [
+          [
+            0.2537323832511902,
+            -0.04222393408417702,
+            0.10321485251188278,
+            0.9608244895935059
+          ],
+          [
+            0.2537323832511902,
+            -0.04222393408417702,
+            0.10321485251188278,
+            0.9608244895935059
+          ],
+          [
+            0.2537323832511902,
+            -0.04222393408417702,
+            0.10321485251188278,
+            0.9608244895935059
+          ],
+          [
+            0.2537323832511902,
+            -0.04222393408417702,
+            0.10321485251188278,
+            0.9608244895935059
+          ],
+          [
+            0.2537323832511902,
+            -0.04222393408417702,
+            0.10321485251188278,
+            0.9608244895935059
+          ],
+          [
+            0.2537323832511902,
+            -0.04222393408417702,
+            0.10321485251188278,
+            0.9608244895935059
+          ],
+          [
+            0.2537323832511902,
+            -0.04222393408417702,
+            0.10321485251188278,
+            0.9608244895935059
+          ],
+          [
+            0.2537323832511902,
+            -0.04222393408417702,
+            0.10321485251188278,
+            0.9608244895935059
+          ],
+          [
+            0.2537323832511902,
+            -0.04222393408417702,
+            0.10321485251188278,
+            0.9608244895935059
+          ]
+        ],
+        "reference_duration": 1.9500000476837158,
+        "reset_buf": true,
+        "sim_time": 0.15999998152256012,
+        "termination_cause": [
+          false,
+          true
+        ],
+        "termination_code": "TRACKING_ABORT",
+        "time_out_buf": false,
+        "traj_L": 0.00020000338554382324,
+        "traj_d_lat": 0.013528548181056976,
+        "traj_early_term": true,
+        "traj_s": 0.0,
+        "traj_s_ref": 0.00015999672177713364,
+        "traj_timing_err": -0.00015999672177713364
+      },
+      "raw_sha256": "5abe17d7adb103dc68844f0112d635a8fe3b7a999449f9b235d0eeccd63dbb85",
+      "reference_loads": [
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "gt-0000",
+          "dt_s": 0.05,
+          "episode_length_after": 0,
+          "initial": true,
+          "point_count": 40,
+          "trajectory_hash": "413a85c69e9c8099fe7ccbc7341f5412ec0d5e3483337beed7bc24881f760d71"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000000",
+          "dt_s": 0.05,
+          "episode_length_after": 1,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "INITIAL_BIND",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "reset_buf_after": false,
+          "reset_buf_before": false,
+          "trajectory_hash": "d88d1b9a5a030540fbc3d7b290041aa46f4cf24518801c1295dce88570b9fa95"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000001",
+          "dt_s": 0.04999999999999999,
+          "episode_length_after": 11,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "0b83f59aa6a1ef6e9b5f8ddaff8cc15b92de3ad3fe13bbb9e0580a998377f890"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000002",
+          "dt_s": 0.04999999999999999,
+          "episode_length_after": 21,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "f34705cb554414c1432d73a27b56e63acb3132a2ae04d566d38d9cd3a0ab93b9"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000003",
+          "dt_s": 0.050000000000000044,
+          "episode_length_after": 31,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "915acb96f04d83ba2f4e35cf3cfd6eb2288610ef67799bd982c2561d80d7cae4"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000004",
+          "dt_s": 0.050000000000000044,
+          "episode_length_after": 41,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "48e23af55b1a839a738cca9678a13b6589c1cf33711de97b6d53c7d39b7351f2"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000005",
+          "dt_s": 0.050000000000000044,
+          "episode_length_after": 51,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "24c84ab087c6023821fac4adbea0eebf69336883883ee6ac60b35a09b2fc8c4a"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000006",
+          "dt_s": 0.050000000000000044,
+          "episode_length_after": 61,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "79863c60fde9c117c85e7f0350a38665049d0865a0b37ecf0ac72d58ced19013"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000007",
+          "dt_s": 0.050000000000000044,
+          "episode_length_after": 71,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "b21e20172588209117cb06ccc60348e5c89b4bccbddfdfd39a3b7c0199583b33"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000008",
+          "dt_s": 0.050000000000000044,
+          "episode_length_after": 81,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "67262e84ba62ebc66ce386a5df95df9a1f9bcd4eef261a327cf06f5d666715f0"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000009",
+          "dt_s": 0.050000000000000044,
+          "episode_length_after": 91,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "831b3ed97f09943b7554f73648985f60131516c02bc643924c96d3e603930a8b"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000010",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 101,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "5ac763437aa14a16875eccd52a859076b5c80f6ed651ceb458cf3edbeebb0ca0"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000011",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 111,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "b14a7a66a002b0bb50b880e02be4d57670ec2ea9c867970b966b55067cac6d75"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000012",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 121,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "51abd6d8e9a2d4069910d471f47b06445a9124e527574c324c16b28abef768dd"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000013",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 131,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "cd63360c717bf774bc73f7d3f4176cd2d236efd8a853da9bd22123f28ed0e056"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000014",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 141,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "bb709c9003429cd0984d2639a5d3bbe2c1091e438c93ab2da15a4a9a54aa403c"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000015",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 151,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "3038798de5109e50a134f0dbac57cfc3e8bd62b4639ffb87156e7b6231a45436"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000016",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 161,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "619e034f7a849ab1086d975a9704674d696b26ee276dc385570a4514da349137"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000017",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 171,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "eeca218df81430ac175e07fc613ef2c49c5e7a7081f44dc72fb76c1e318130ae"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000018",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 181,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "6d5fcb2bf45e6ca14dd132ba74f2cd01e66fd9a8a4b575b87c3bd56541c93e00"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000019",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 191,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "6bd374a14f5b8b81f6b73fea42d4ebaa70c793d5f9bf0872564f853faf8e7137"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000020",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 201,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "e72c7508f79174de27671497c6655437c4a6986c693cbcacddfcc5e4fda94613"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000021",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 211,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "557e5968008951868ba66a3a98eb63cd6a2b9973151ac2766fd2229857d108e7"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000022",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 221,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "44fbd1407d8038e2fe5be939fa21fc3553c0632986abd4cbee742e425f5e2296"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000023",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 231,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "dbba973d4d4d25a3c22f31d33f70d024348f926fc6698b81df84cddbabe44dd4"
+        },
+        {
+          "anchor_world_m": [
+            0.5274375677108765,
+            -0.07524848729372025,
+            0.473274290561676
+          ],
+          "chunk_id": "pi0255-family-003-M1-c0-000024",
+          "dt_s": 0.04999999999999982,
+          "episode_length_after": 241,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "4c8ace72d6cf45faed8ef56be3e4c3febb43f22b9ae77d5dd3b1ce9bcd9029a0"
+        },
+        {
+          "anchor_world_m": [
+            0.5017278790473938,
+            0.12874983251094818,
+            0.529413640499115
+          ],
+          "chunk_id": "gt-0000",
+          "dt_s": 0.05,
+          "episode_length_after": 249,
+          "initial": true,
+          "point_count": 40,
+          "trajectory_hash": "413a85c69e9c8099fe7ccbc7341f5412ec0d5e3483337beed7bc24881f760d71"
+        }
+      ],
+      "reset_finished_s": 0.019999999552965164,
+      "reset_seed": 2550103,
+      "result_sha256": "cd92e2d1acd948ade5890bfdba60937cc4ca75e6fc7547cbb3584f515cc88711",
+      "terminal_gate": {
+        "decision": "WARN",
+        "issues": [
+          {
+            "code": "INITIAL_ROTATION_DISCONTINUITY_WARN",
+            "message": "initial_rotation_discontinuity exceeds warning threshold (rad)",
+            "observed": 0.7377275071254391,
+            "provenance": "BENCHMARK_DERIVED",
+            "severity": "WARNING",
+            "threshold": 0.5
+          }
+        ],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "pi0255-family-003-M1-c0-000024",
+          "initial_position_discontinuity_m": 0.010241425439976035,
+          "initial_rotation_discontinuity_rad": 0.7377275071254391,
+          "linear_speed_mps": {
+            "max": 0.0009999999999998933,
+            "mean": 0.00010256415758378368,
+            "median": 0.0,
+            "p95": 0.0009999999999998933
+          },
+          "se3_arc_length_m": 0.00020000010728837836,
+          "translation_path_length_m": 0.00020000010728837836
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      }
+    },
+    {
+      "actual_actor_input_history": "UNOBSERVED_IN_ORIGINAL_BYTES",
+      "clean_prefix_SO3_rms_rad": 1.2873317234658732,
+      "clean_prefix_XYZ_rms_m": 0.08905033739603299,
+      "clean_prefix_ticks": 20,
+      "complete_handoff_arrays": 3,
+      "construction_reference": {
+        "anchor_world_m": [
+          0.5335544347763062,
+          0.07842902094125748,
+          0.44016367197036743
+        ],
+        "chunk_id": "gt-0000",
+        "dt_s": 0.05,
+        "episode_length_after": 0,
+        "initial": true,
+        "point_count": 40,
+        "trajectory_hash": "57c4c1c6c533ce28a00df9256bb4b96f89d9fae9ca9ec74d226c709d6b609a74"
+      },
+      "end_s": 0.41999999061226845,
+      "episode": "pi0255-family-004-M1-c0",
+      "family": 4,
+      "first_actor_outputs": {
+        "arm_action_6d": [
+          0.04700464755296707,
+          2.595444917678833,
+          16.691139221191406,
+          7.510317802429199,
+          1.3688795566558838,
+          -0.9727823734283447
+        ],
+        "arm_raw_output": [
+          0.04700464755296707,
+          2.595444917678833,
+          16.691139221191406,
+          7.510317802429199,
+          1.3688795566558838,
+          -0.9727823734283447,
+          0.9993663430213928,
+          -0.6597514748573303,
+          -0.8785239458084106,
+          0.9847971796989441,
+          -0.09301898628473282,
+          -0.9803569316864014,
+          0.9704054594039917,
+          -0.8039716482162476,
+          0.762518584728241
+        ],
+        "dog_action_12d": [
+          -1.0439040660858154,
+          -1.1562917232513428,
+          -0.0009811874479055405,
+          -0.6420142650604248,
+          -1.3008596897125244,
+          -1.684389591217041,
+          1.942251443862915,
+          -1.5193465948104858,
+          -2.103978395462036,
+          -1.8336623907089233,
+          -0.8508509397506714,
+          -2.583915948867798
+        ],
+        "info_keys": [
+          "time_outs",
+          "train/episode"
+        ],
+        "internal_body_plan_9d": [
+          0.9993663430213928,
+          -0.6597514748573303,
+          -0.8785239458084106,
+          0.9847971796989441,
+          -0.09301898628473282,
+          -0.9803569316864014,
+          0.9704054594039917,
+          -0.8039716482162476,
+          0.762518584728241
+        ]
+      },
+      "first_bind": {
+        "anchor_world_m": [
+          0.5335544347763062,
+          0.07842902094125748,
+          0.44016367197036743
+        ],
+        "chunk_id": "pi0255-family-004-M1-c0-000000",
+        "dt_s": 0.05,
+        "episode_length_after": 1,
+        "episode_length_unchanged": true,
+        "initial": false,
+        "lifecycle_phase": "INITIAL_BIND",
+        "physics_dof_state_unchanged": true,
+        "physics_reset": false,
+        "physics_root_state_unchanged": true,
+        "physics_teleport": false,
+        "point_count": 40,
+        "policy_history_reset": false,
+        "reset_buf_after": false,
+        "reset_buf_before": false,
+        "trajectory_hash": "c37401e4de11a7da11639e7395fb2828a83da05a2e748899784ac72f956b5358"
+      },
+      "first_physics_s": 0.0,
+      "first_post_actor_tick_s": 0.03999999910593033,
+      "handoffs": 3,
+      "implicit_reset_step": true,
+      "outcome": "SETTLING_EXPERT_GATE_REJECT",
+      "post_step_TCP": [
+        0.23221954703330994,
+        -0.010791279375553131,
+        0.6068644523620605
+      ],
+      "post_step_TCP_is_clean_failure_pose": true,
+      "pre_autoreset_event": null,
+      "raw_sha256": "a47b7fbc0cdda87c7dad11f1b96cb168e82457f5acb74c1a4d2f8de40e692f15",
+      "reference_loads": [
+        {
+          "anchor_world_m": [
+            0.5335544347763062,
+            0.07842902094125748,
+            0.44016367197036743
+          ],
+          "chunk_id": "gt-0000",
+          "dt_s": 0.05,
+          "episode_length_after": 0,
+          "initial": true,
+          "point_count": 40,
+          "trajectory_hash": "57c4c1c6c533ce28a00df9256bb4b96f89d9fae9ca9ec74d226c709d6b609a74"
+        },
+        {
+          "anchor_world_m": [
+            0.5335544347763062,
+            0.07842902094125748,
+            0.44016367197036743
+          ],
+          "chunk_id": "pi0255-family-004-M1-c0-000000",
+          "dt_s": 0.05,
+          "episode_length_after": 1,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "INITIAL_BIND",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "reset_buf_after": false,
+          "reset_buf_before": false,
+          "trajectory_hash": "c37401e4de11a7da11639e7395fb2828a83da05a2e748899784ac72f956b5358"
+        },
+        {
+          "anchor_world_m": [
+            0.5335544347763062,
+            0.07842902094125748,
+            0.44016367197036743
+          ],
+          "chunk_id": "pi0255-family-004-M1-c0-000001",
+          "dt_s": 0.04999999999999999,
+          "episode_length_after": 11,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "59b763c7f8d21d3b700bc3cc984307e7463ca08cb9d24b8a05c0fad82eda0f9e"
+        }
+      ],
+      "reset_finished_s": 0.019999999552965164,
+      "reset_seed": 2550104,
+      "result_sha256": "26b59143224a9f0b64c36569df5db3df33c01d73d1fa1dbba7595b48d8de77ea",
+      "terminal_gate": {
+        "decision": "REJECT",
+        "issues": [
+          {
+            "code": "INITIAL_ROTATION_DISCONTINUITY_REJECT",
+            "message": "initial_rotation_discontinuity exceeds rejection threshold (rad)",
+            "observed": 1.5240039543143336,
+            "provenance": "BENCHMARK_DERIVED",
+            "severity": "REJECT",
+            "threshold": 1.5
+          }
+        ],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "pi0255-family-004-M1-c0-000002",
+          "initial_position_discontinuity_m": 0.00875658252117868,
+          "initial_rotation_discontinuity_rad": 1.5240039543143336,
+          "linear_speed_mps": {
+            "max": 0.0010000000000010036,
+            "mean": 0.0010000000000000033,
+            "median": 0.000999999999999889,
+            "p95": 0.0010000000000009955
+          },
+          "se3_arc_length_m": 0.0019500000000000073,
+          "translation_path_length_m": 0.0019500000000000073
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      }
+    },
+    {
+      "actual_actor_input_history": "UNOBSERVED_IN_ORIGINAL_BYTES",
+      "clean_prefix_SO3_rms_rad": 0.7053266352687596,
+      "clean_prefix_XYZ_rms_m": 0.09194100666779535,
+      "clean_prefix_ticks": 24,
+      "complete_handoff_arrays": 3,
+      "construction_reference": {
+        "anchor_world_m": [
+          0.49134504795074463,
+          0.06958073377609253,
+          0.574155867099762
+        ],
+        "chunk_id": "gt-0000",
+        "dt_s": 0.05,
+        "episode_length_after": 0,
+        "initial": true,
+        "point_count": 40,
+        "trajectory_hash": "4f106666f2086c3821ec5a6f01dd197296efc2482819d867ecdb0e9201aa8e56"
+      },
+      "end_s": 0.5199999883770943,
+      "episode": "pi0255-family-005-M1-c0",
+      "family": 5,
+      "first_actor_outputs": {
+        "arm_action_6d": [
+          -0.6148183941841125,
+          8.209062576293945,
+          14.540804862976074,
+          2.6587517261505127,
+          1.5205461978912354,
+          -0.33746927976608276
+        ],
+        "arm_raw_output": [
+          -0.6148183941841125,
+          8.209062576293945,
+          14.540804862976074,
+          2.6587517261505127,
+          1.5205461978912354,
+          -0.33746927976608276,
+          0.9998117685317993,
+          -0.20779766142368317,
+          -0.7659815549850464,
+          0.9062230587005615,
+          -0.9893936514854431,
+          -0.8999468088150024,
+          0.02663128636777401,
+          -0.6611822843551636,
+          0.6964447498321533
+        ],
+        "dog_action_12d": [
+          -1.1468414068222046,
+          -0.9666479825973511,
+          -0.3499516546726227,
+          -1.9460605382919312,
+          -0.2911994457244873,
+          -1.9999630451202393,
+          1.602206826210022,
+          -1.0620249509811401,
+          -1.4718024730682373,
+          -0.8852251172065735,
+          -0.48290714621543884,
+          -1.9021408557891846
+        ],
+        "info_keys": [
+          "time_outs",
+          "train/episode"
+        ],
+        "internal_body_plan_9d": [
+          0.9998117685317993,
+          -0.20779766142368317,
+          -0.7659815549850464,
+          0.9062230587005615,
+          -0.9893936514854431,
+          -0.8999468088150024,
+          0.02663128636777401,
+          -0.6611822843551636,
+          0.6964447498321533
+        ]
+      },
+      "first_bind": {
+        "anchor_world_m": [
+          0.49134504795074463,
+          0.06958073377609253,
+          0.574155867099762
+        ],
+        "chunk_id": "pi0255-family-005-M1-c0-000000",
+        "dt_s": 0.05,
+        "episode_length_after": 1,
+        "episode_length_unchanged": true,
+        "initial": false,
+        "lifecycle_phase": "INITIAL_BIND",
+        "physics_dof_state_unchanged": true,
+        "physics_reset": false,
+        "physics_root_state_unchanged": true,
+        "physics_teleport": false,
+        "point_count": 40,
+        "policy_history_reset": false,
+        "reset_buf_after": false,
+        "reset_buf_before": false,
+        "trajectory_hash": "1cdbf82061afe27dd19fcd1b4e228f2c1cae878b15c29de8cf6c8b1898350432"
+      },
+      "first_physics_s": 0.0,
+      "first_post_actor_tick_s": 0.03999999910593033,
+      "handoffs": 3,
+      "implicit_reset_step": true,
+      "outcome": "SETTLING_PHYSICAL_TERMINATION",
+      "post_step_TCP": [
+        0.09327998757362366,
+        0.02588970959186554,
+        0.8142315745353699
+      ],
+      "post_step_TCP_is_clean_failure_pose": false,
+      "pre_autoreset_event": {
+        "achieved_pos": [
+          0.09327998757362366,
+          0.02588970959186554,
+          0.8142315745353699
+        ],
+        "achieved_quat": [
+          -0.09848486632108688,
+          -0.15974359214305878,
+          0.5147659182548523,
+          0.8365396857261658
+        ],
+        "arm_dq": [
+          -0.7890129089355469,
+          0.5632387399673462,
+          -0.9106569886207581,
+          2.176659107208252,
+          0.1730264127254486,
+          0.4638063609600067
+        ],
+        "arm_q": [
+          -0.795610785484314,
+          0.7662091851234436,
+          0.9269721508026123,
+          0.009074565023183823,
+          -1.3991259336471558,
+          -0.03867610543966293
+        ],
+        "base_feedforward": [
+          -0.025426601991057396,
+          -0.004186294041574001,
+          0.13051381707191467
+        ],
+        "base_lin_vel": [
+          -0.25720104575157166,
+          -0.11704345047473907,
+          0.18122172355651855
+        ],
+        "base_pos": [
+          -0.05611780285835266,
+          -0.08217565715312958,
+          0.2759247124195099
+        ],
+        "base_quat": [
+          0.0093171251937747,
+          -0.09534388035535812,
+          0.25246524810791016,
+          0.9628520607948303
+        ],
+        "body_height_buf": false,
+        "commands_dog": [
+          -0.2772406041622162,
+          0.14937472343444824,
+          0.05866353213787079,
+          0.3733062446117401,
+          0.20340099930763245,
+          0.15242759883403778,
+          4.0,
+          0.05999999865889549,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.49000000953674316
+        ],
+        "delta_velocity": [
+          -0.25181400775909424,
+          0.15356101095676422,
+          -0.07185028493404388
+        ],
+        "desired_pos": [
+          0.07730475068092346,
+          0.02170965075492859,
+          0.8122211694717407
+        ],
+        "desired_quat": [
+          -0.0585983581840992,
+          -0.15815934538841248,
+          0.05558960884809494,
+          0.9841045141220093
+        ],
+        "dof_pos": [
+          0.15269458293914795,
+          1.1307671070098877,
+          -1.5855774879455566,
+          0.051666509360075,
+          1.1860655546188354,
+          -1.6199437379837036,
+          0.1613347828388214,
+          1.3752275705337524,
+          -1.9838378429412842,
+          0.04149322956800461,
+          1.2757279872894287,
+          -2.150587797164917,
+          -0.795610785484314,
+          0.7662091851234436,
+          0.9269721508026123,
+          0.009074565023183823,
+          -1.3991259336471558,
+          -0.03867610543966293,
+          6.505010969704017e-05,
+          3.516744254739024e-05
+        ],
+        "dof_vel": [
+          0.34178778529167175,
+          -0.36355119943618774,
+          -0.5711304545402527,
+          0.7028908729553223,
+          -1.1023738384246826,
+          0.30624938011169434,
+          1.2883154153823853,
+          -2.3401362895965576,
+          0.9312900900840759,
+          -0.9382432103157043,
+          2.2322256565093994,
+          -1.400631308555603,
+          -0.7890129089355469,
+          0.5632387399673462,
+          -0.9106569886207581,
+          2.176659107208252,
+          0.1730264127254486,
+          0.4638063609600067,
+          0.006981612183153629,
+          -0.004157116170972586
+        ],
+        "dog_dq": [
+          0.34178778529167175,
+          -0.36355119943618774,
+          -0.5711304545402527,
+          0.7028908729553223,
+          -1.1023738384246826,
+          0.30624938011169434,
+          1.2883154153823853,
+          -2.3401362895965576,
+          0.9312900900840759,
+          -0.9382432103157043,
+          2.2322256565093994,
+          -1.400631308555603
+        ],
+        "dog_q": [
+          0.15269458293914795,
+          1.1307671070098877,
+          -1.5855774879455566,
+          0.051666509360075,
+          1.1860655546188354,
+          -1.6199437379837036,
+          0.1613347828388214,
+          1.3752275705337524,
+          -1.9838378429412842,
+          0.04149322956800461,
+          1.2757279872894287,
+          -2.150587797164917
+        ],
+        "eef_angular_velocity": [
+          -0.35578060150146484,
+          -0.27791014313697815,
+          -0.6225958466529846
+        ],
+        "eef_linear_velocity": [
+          0.04714038595557213,
+          -0.09965933114290237,
+          -0.010234196670353413
+        ],
+        "fall_flag": false,
+        "invalid_state": false,
+        "joint_limit_margin": [
+          0.7897853851318359,
+          2.1068577766418457,
+          0.6535704731941223,
+          0.8908134698867798,
+          2.0515594482421875,
+          0.6879367232322693,
+          0.7811452150344849,
+          1.6457525491714478,
+          0.6446151733398438,
+          0.9009867310523987,
+          1.546252965927124,
+          0.47786521911621094,
+          1.0366095304489136,
+          0.5829591155052185,
+          0.7649720907211304,
+          1.4948253631591797,
+          0.10477399826049805,
+          1.845923900604248,
+          -0.0021349499002099037,
+          -0.0021648325491696596
+        ],
+        "joint_limit_termination": false,
+        "joint_limit_violation": true,
+        "joint_pos_target": [
+          0.196280837059021,
+          1.1578816175460815,
+          -1.6247116327285767,
+          0.3197808563709259,
+          0.8973594307899475,
+          -0.9918524026870728,
+          -0.11035891622304916,
+          1.2925937175750732,
+          -1.4779726266860962,
+          -0.03981955349445343,
+          1.377384901046753,
+          -2.197131633758545,
+          -0.8961989283561707,
+          0.8492283821105957,
+          0.8363742828369141,
+          0.2121880203485489,
+          -1.3787052631378174,
+          -0.0018601007759571075,
+          0.0,
+          0.0
+        ],
+        "preview_pos": [
+          [
+            0.07915470004081726,
+            0.02170965075492859,
+            0.8122211694717407
+          ],
+          [
+            0.07915470004081726,
+            0.02170965075492859,
+            0.8122211694717407
+          ],
+          [
+            0.07915470004081726,
+            0.02170965075492859,
+            0.8122211694717407
+          ],
+          [
+            0.07915470004081726,
+            0.02170965075492859,
+            0.8122211694717407
+          ],
+          [
+            0.07915470004081726,
+            0.02170965075492859,
+            0.8122211694717407
+          ],
+          [
+            0.07915470004081726,
+            0.02170965075492859,
+            0.8122211694717407
+          ],
+          [
+            0.07915470004081726,
+            0.02170965075492859,
+            0.8122211694717407
+          ],
+          [
+            0.07915470004081726,
+            0.02170965075492859,
+            0.8122211694717407
+          ],
+          [
+            0.07915470004081726,
+            0.02170965075492859,
+            0.8122211694717407
+          ]
+        ],
+        "preview_quat": [
+          [
+            -0.0585983581840992,
+            -0.15815934538841248,
+            0.05558960884809494,
+            0.9841045141220093
+          ],
+          [
+            -0.0585983581840992,
+            -0.15815934538841248,
+            0.05558960884809494,
+            0.9841045141220093
+          ],
+          [
+            -0.0585983581840992,
+            -0.15815934538841248,
+            0.05558960884809494,
+            0.9841045141220093
+          ],
+          [
+            -0.0585983581840992,
+            -0.15815934538841248,
+            0.05558960884809494,
+            0.9841045141220093
+          ],
+          [
+            -0.0585983581840992,
+            -0.15815934538841248,
+            0.05558960884809494,
+            0.9841045141220093
+          ],
+          [
+            -0.0585983581840992,
+            -0.15815934538841248,
+            0.05558960884809494,
+            0.9841045141220093
+          ],
+          [
+            -0.0585983581840992,
+            -0.15815934538841248,
+            0.05558960884809494,
+            0.9841045141220093
+          ],
+          [
+            -0.0585983581840992,
+            -0.15815934538841248,
+            0.05558960884809494,
+            0.9841045141220093
+          ],
+          [
+            -0.0585983581840992,
+            -0.15815934538841248,
+            0.05558960884809494,
+            0.9841045141220093
+          ]
+        ],
+        "reference_duration": 1.9500000476837158,
+        "reset_buf": true,
+        "sim_time": 0.09999999403953552,
+        "termination_cause": [
+          false,
+          true
+        ],
+        "termination_code": "TRACKING_ABORT",
+        "time_out_buf": false,
+        "traj_L": 0.001949995756149292,
+        "traj_d_lat": 0.014867358841001987,
+        "traj_early_term": true,
+        "traj_s": 0.001949995756149292,
+        "traj_s_ref": 0.00010001658665714785,
+        "traj_timing_err": 0.0018499791622161865
+      },
+      "raw_sha256": "f69c556e6f49c2b1e453b2edc8b12bb39e6c5b10c5f3b4a1c8dc8abb8f643c72",
+      "reference_loads": [
+        {
+          "anchor_world_m": [
+            0.49134504795074463,
+            0.06958073377609253,
+            0.574155867099762
+          ],
+          "chunk_id": "gt-0000",
+          "dt_s": 0.05,
+          "episode_length_after": 0,
+          "initial": true,
+          "point_count": 40,
+          "trajectory_hash": "4f106666f2086c3821ec5a6f01dd197296efc2482819d867ecdb0e9201aa8e56"
+        },
+        {
+          "anchor_world_m": [
+            0.49134504795074463,
+            0.06958073377609253,
+            0.574155867099762
+          ],
+          "chunk_id": "pi0255-family-005-M1-c0-000000",
+          "dt_s": 0.05,
+          "episode_length_after": 1,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "INITIAL_BIND",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "reset_buf_after": false,
+          "reset_buf_before": false,
+          "trajectory_hash": "1cdbf82061afe27dd19fcd1b4e228f2c1cae878b15c29de8cf6c8b1898350432"
+        },
+        {
+          "anchor_world_m": [
+            0.49134504795074463,
+            0.06958073377609253,
+            0.574155867099762
+          ],
+          "chunk_id": "pi0255-family-005-M1-c0-000001",
+          "dt_s": 0.04999999999999999,
+          "episode_length_after": 11,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "b66df898fcc4f9b980ba730812ca5f6daecb724c8dc637ff1c62fd30a2fa9f5c"
+        },
+        {
+          "anchor_world_m": [
+            0.49134504795074463,
+            0.06958073377609253,
+            0.574155867099762
+          ],
+          "chunk_id": "pi0255-family-005-M1-c0-000002",
+          "dt_s": 0.04999999999999999,
+          "episode_length_after": 21,
+          "episode_length_unchanged": true,
+          "initial": false,
+          "lifecycle_phase": "RUNNING_UPDATE",
+          "physics_dof_state_unchanged": true,
+          "physics_reset": false,
+          "physics_root_state_unchanged": true,
+          "physics_teleport": false,
+          "point_count": 40,
+          "policy_history_reset": false,
+          "trajectory_hash": "11f33a594b76b976c6669dc0b1c24ff8cc900c1f14706e4e1621d35043752eef"
+        },
+        {
+          "anchor_world_m": [
+            0.4349673390388489,
+            -0.018813587725162506,
+            0.7009146809577942
+          ],
+          "chunk_id": "gt-0000",
+          "dt_s": 0.05,
+          "episode_length_after": 26,
+          "initial": true,
+          "point_count": 40,
+          "trajectory_hash": "4f106666f2086c3821ec5a6f01dd197296efc2482819d867ecdb0e9201aa8e56"
+        }
+      ],
+      "reset_finished_s": 0.019999999552965164,
+      "reset_seed": 2550105,
+      "result_sha256": "070747372683cf405a974ebdc4ef0582648bdd8a10323b3495165be7a1399644",
+      "terminal_gate": {
+        "decision": "WARN",
+        "issues": [
+          {
+            "code": "INITIAL_ROTATION_DISCONTINUITY_WARN",
+            "message": "initial_rotation_discontinuity exceeds warning threshold (rad)",
+            "observed": 0.9210916759103867,
+            "provenance": "BENCHMARK_DERIVED",
+            "severity": "WARNING",
+            "threshold": 0.5
+          }
+        ],
+        "metrics": {
+          "angular_speed_radps": {
+            "max": 0.0,
+            "mean": 0.0,
+            "median": 0.0,
+            "p95": 0.0
+          },
+          "chunk_age_s": 0.0,
+          "chunk_id": "pi0255-family-005-M1-c0-000002",
+          "initial_position_discontinuity_m": 0.00752339725245468,
+          "initial_rotation_discontinuity_rad": 0.9210916759103867,
+          "linear_speed_mps": {
+            "max": 0.0010000000000010036,
+            "mean": 0.0010000000000000033,
+            "median": 0.000999999999999889,
+            "p95": 0.0010000000000009992
+          },
+          "se3_arc_length_m": 0.0019500000000000073,
+          "translation_path_length_m": 0.0019500000000000073
+        },
+        "provenance": {
+          "corrective_action": "NONE",
+          "gate": "TrajectorySafetyGateV1",
+          "threshold_provenance": {
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT"
+          }
+        }
+      }
+    }
+  ],
+  "new_physics": 0,
+  "schema": "PI0256_SOURCE_AND_RAW_TIMELINES_V1"
+}

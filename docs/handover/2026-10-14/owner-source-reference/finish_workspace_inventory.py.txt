@@ -1,0 +1,68 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Add home review gates and preserve actual two-host receipts in the new entry."""
+import base64
+import hashlib
+import json
+from pathlib import Path
+import shlex
+import subprocess
+
+BASE=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work')
+OUT=BASE/'private/workspace-consolidation-20261013'
+plan=json.loads((OUT/'PLAN.json').read_text())
+probe=json.loads((BASE/'private/WORKSPACE_AMD_PROBE.json').read_text())
+home=probe['home'];rows=[]
+for x in probe['entries']:
+    if x['base']!=home:continue
+    name=x['name']
+    if not (name.startswith(('pi','stage')) or name in [' ','Downloads','test_local','_housekeeping_20260927','bin','include','lib','lib64','pyvenv.cfg']): continue
+    env=name in ['bin','include','lib','lib64','pyvenv.cfg']
+    rows.append(dict(name=name,path=x['path'],kind=x.get('kind'),st_dev=x.get('st_dev'),st_ino=x.get('st_ino'),
+        status='PROTECTED_LEGACY_HOME_VENV' if env else 'DEFER_RECOVERY_AND_REFERENCE_PROOF',
+        reason='Environment provenance and dead interpreter do not authorize removal' if env else 'Historical raw/model/archive/recovery proof or full content/dependency checks unavailable;name/age/earlier small copy alone not enough',
+        content_rescanned=False,independent_recovery_verified=False,no_consumers_verified=False,executable_now=False,exact_file_delete_list=[]))
+value=dict(status='HOME_ALL_LISTED_CANDIDATES_HELD',items=rows,delete_count=0,freed_allocated_bytes=0,
+    home_venv=probe['legacy_home_venv'],hidden_authentication_and_app_directories_not_scanned=True)
+files={'infrastructure/HOME_RETIRE_REVIEW.json':(json.dumps(value,indent=2)+'\n').encode()}
+for name in ['DEPLOYMENT_RECEIPT_PRIVATE.json','READBACK_corelab-amd-server.json','READBACK_corelab-4080s.json']:
+    files['infrastructure/receipts/'+name.replace('_PRIVATE','')]=(OUT/name).read_bytes()
+files['infrastructure/retire_review_gates.md']=b'''# Retirement Review Gates
+
+Current deletions and new reclaimed bytes:0. Projects and Home candidates
+are held, not an executable delete plan. No rename/move counts as space
+reclamation. Old Phase2 limits are not automatically expanded.
+
+Four linked Git worktrees currently fail Git identity queries on4080S
+because their metadata names an AMD-only /mnt namespace. The same failures
+were present before this new workspace;no automated repair/prune/move occurs.
+Canonical code/vla is independent and passes on both hosts.
+
+Before candidate retirement, preserve ignored/untracked/stashed/local-only
+objects, verify independent complete recovery and restore, resolve absolute
+path/static/process/FD/lease consumers on both hosts, and use Git worktree
+tools under a separate reviewed exact plan. Recheck SHA/inode immediately
+before any authorized unlink. Unknown permissions/recovery/references skip.
+
+Do not delete original robot assets, unique Full Trainer state, datasets,
+images/physics/videos/failed receipts or the legacy home venv by directory
+name. Partial/checkpoint failure is not a reason to destroy scientific data.
+'''
+code='''import base64,hashlib,json,os,sys
+from pathlib import Path
+p=json.load(sys.stdin);root=Path(p['root'])
+for name,encoded in p['files'].items():
+    rel=Path(name);assert not rel.is_absolute() and '..' not in rel.parts
+    b=base64.b64decode(encoded);path=root/rel
+    assert not path.exists();path.parent.mkdir(parents=True,exist_ok=True)
+    with path.open('xb') as f:f.write(b);f.flush();os.fsync(f.fileno())
+    os.chmod(path,0o600);assert path.read_bytes()==b
+print(json.dumps(dict(status='NEW_ENTRY_ADDITIVE_RECEIPTS_READBACK_EQUAL',files=len(p['files']),new_deletions=0)))
+'''
+r=subprocess.run(['ssh','-o','BatchMode=yes','corelab-amd-server',shlex.join(['python3','-c',code])],input=json.dumps(dict(root=plan['workspace_root'],files={n:base64.b64encode(b).decode() for n,b in files.items()})).encode(),capture_output=True,check=True,timeout=30)
+for name,b in files.items():
+    path=OUT/'payload'/name;path.parent.mkdir(parents=True,exist_ok=True)
+    with path.open('xb') as f:f.write(b)
+(OUT/'ADDITIVE_FILES_MANIFEST.json').write_text(json.dumps([dict(path=n,sha256=hashlib.sha256(b).hexdigest(),bytes=len(b)) for n,b in files.items()],indent=2)+'\n')
+print(r.stdout.decode())

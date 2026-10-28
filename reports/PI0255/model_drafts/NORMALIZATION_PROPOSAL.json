@@ -1,0 +1,16 @@
+{
+  "actual_TRAIN_samples": 0,
+  "id": "PI0255_C_MT_TRAIN_ONLY_V1",
+  "inherited_C_T_modified": false,
+  "numerical_values": null,
+  "proposal": "retain verified native XYZ and row-packed rot6d + neutral gripper ABI, original relative-action conversion and padding/mask conventions; derive q01/q99 with numpy linear quantiles from new TRAIN raw support for applicable coordinates, same scales/masks/units for Base/G",
+  "required_audits": [
+    "actual C_T clipping/outliers",
+    "inverse decode physical roundtrip",
+    "nonzero SE3",
+    "both initializer identical preprocessing",
+    "constant channel behavior and phase coverage"
+  ],
+  "statistics_source": "successful eligible TRAIN only; no pilot/VAL/TEST",
+  "status": "BLOCKED_NO_ADMITTED_TRAIN_DATA"
+}

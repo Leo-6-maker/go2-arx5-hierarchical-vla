@@ -1,0 +1,669 @@
+{
+  "active_reference_check": "PASS",
+  "allow_roots": [
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/hf_cache",
+    "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0253/models",
+    "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S50/checkpoint-80",
+    "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S25/checkpoint-80",
+    "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/C80/checkpoint-80",
+    "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-1000",
+    "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-2000",
+    "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-1000",
+    "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-2000",
+    "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@2000/checkpoint-2000",
+    "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@1000/checkpoint-1000",
+    "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/m64/weights/checkpoint-5000/arms/PI0247/r2-qualified-U-M64-20260926/recovery/633819.hopper-m-02/checkpoint-5000",
+    "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/m64/weights/checkpoint-1000/arms/PI0247/r2-qualified-U-M64-20260926/checkpoint-1000",
+    "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/m64/weights/checkpoint-2500/arms/PI0247/r2-qualified-U-M64-20260926/recovery/633819.hopper-m-02/checkpoint-2500",
+    "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/lu/L_hf_step2000/arms/PI0247/r1-replay-5844159421/L/checkpoint-2000",
+    "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/lu/L_hf_step1000/arms/PI0247/r1-replay-5844159421/L/checkpoint-1000",
+    "/var/cache/users/liuyu-nfs/pi0246_gate_pass_screen_20260925/hf_home/models--leoyuer--pi0246-gate-pass-campaign/blobs",
+    "/var/cache/users/liuyu-nfs/pi0246_gate_pass_screen_20260925/full_checkpoints/pi0246-gate-pass-campaign/T/checkpoint-1000",
+    "/var/cache/users/liuyu-nfs/pi0246_gate_pass_screen_20260925/full_checkpoints/pi0246-gate-pass-campaign/T/checkpoint-2000",
+    "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-1000",
+    "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-2000",
+    "/var/cache/users/liuyu-nfs/stage45g_pi0205_novanda_20260916/base/E/checkpoint-256",
+    "/var/cache/users/liuyu-nfs/pi0248_as_executed_qualification_20260927/as_executed_screens/R/weights/checkpoint-1000/arms/PI0248/m64-pose-repair-20260927/R/checkpoint-1000",
+    "/var/cache/users/liuyu-nfs/pi0248_as_executed_qualification_20260927/as_executed_screens/R/weights/checkpoint-2000/arms/PI0248/m64-pose-repair-20260927/R/checkpoint-2000",
+    "/var/cache/users/liuyu-nfs/pi0248_as_executed_qualification_20260927/as_executed_screens/C/weights/checkpoint-1000/arms/PI0248/m64-pose-repair-20260927/C/checkpoint-1000",
+    "/var/cache/users/liuyu-nfs/pi0248_as_executed_qualification_20260927/as_executed_screens/C/weights/checkpoint-2000/arms/PI0248/m64-pose-repair-20260927/C/recovery/634402.hopper-m-02/checkpoint-2000",
+    "/var/cache/users/liuyu-nfs/pi0246-p1-corelab-stage-20260924/hf_cache/models--leoyuer--pi0243-stage-a-admitted-v1/blobs",
+    "/var/cache/users/liuyu-nfs/pi0246-p1-corelab-stage-20260924/hf_cache/PT1000/models--leoyuer--pi0246-gate-pass-campaign/blobs",
+    "/var/cache/users/liuyu-nfs/pi0246-p1-corelab-stage-20260924/hf_cache/PT2000/models--leoyuer--pi0246-gate-pass-campaign/blobs",
+    "/var/cache/users/liuyu-nfs/pi0246_p_screen_validation_20260925/hf_cache/models--leoyuer--pi0246-gate-pass-campaign/blobs",
+    "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224",
+    "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223",
+    "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911",
+    "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/corelab_stage",
+    "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/relay/pi0208_g2",
+    "/var/cache/users/liuyu-nfs/stage45g_pi0205_novanda_20260916/relay/hf_e_20260916_v2"
+  ],
+  "authority_commit": "eb2ac1b76338fc5b3486809f6bb28e80529ed4b1",
+  "authorization": "PI0253_STORAGE_TIERING_AND_RETIRED_FAILURE_PURGE_GO",
+  "dependency_proof": {
+    "actual_worker": "FULL5000 pipeline COMPLETE; no G/A/FULL1000 pending model work; future live uses four formal FULL candidates",
+    "retired": "PI0249 KX paired verdict e444dcde07e8a15285fd9a0e0ffa79a5084562a0d6717850c59489828beb1f8b; PI0251 CE canonical5861040750",
+    "shared_nfs": "account once on RTX; AMD separately skips shared payloads"
+  },
+  "host": "corelab-4080s",
+  "items": [
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/K2000/inference_view_step_2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/K2000/inference_view_step_2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/X2000/inference_view_step_2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/X2000/inference_view_step_2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/C2000/inference_view_step_2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/C2000/inference_view_step_2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/E2000/inference_view_step_2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/E2000/inference_view_step_2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD",
+      "terminal_retired": true
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/evidence/A2000/hf_readback.json",
+        "sha256": "c4705e67cec9cb857ec4996a08b42b025075ccb68de6cfdce4d2d20ef165596e",
+        "status": "PASS_PT_FULL_HF_READBACK"
+      },
+      "hf_revision": "2a7945d49d17f3ec1801f2b2af6dba5e5bd6c100",
+      "hf_tree": "f58ec02d44f1c250936d1b9687930669f12b4c2f6044c0df2c38f39dd36f379c",
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/A2000/inference_view_step_2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD"
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/evidence/A2000/hf_readback.json",
+        "sha256": "c4705e67cec9cb857ec4996a08b42b025075ccb68de6cfdce4d2d20ef165596e",
+        "status": "PASS_PT_FULL_HF_READBACK"
+      },
+      "hf_revision": "2a7945d49d17f3ec1801f2b2af6dba5e5bd6c100",
+      "hf_tree": "f58ec02d44f1c250936d1b9687930669f12b4c2f6044c0df2c38f39dd36f379c",
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/A2000/inference_view_step_2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD"
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/evidence/G2000/hf_readback.json",
+        "sha256": "1e946af9a6c3d43f118fb328a20b673a98c0d305090f189c5e21f86656237a22",
+        "status": "PASS_PT_FULL_HF_READBACK"
+      },
+      "hf_revision": "efecea485ae77000599d19171b02491f8d514f42",
+      "hf_tree": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/inference_view_step_2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD"
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/evidence/G2000/hf_readback.json",
+        "sha256": "1e946af9a6c3d43f118fb328a20b673a98c0d305090f189c5e21f86656237a22",
+        "status": "PASS_PT_FULL_HF_READBACK"
+      },
+      "hf_revision": "efecea485ae77000599d19171b02491f8d514f42",
+      "hf_tree": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/inference_view_step_2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "EXCLUSIVE_MODEL_VIEW_LINK_TO_DECLARED_RETIRED_PAYLOAD"
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/K2000/checkpoint-2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "PI0249_KX_HYPOTHESIS_EXHAUSTED_OR_PI0251_CE_VALID_FAIL_NO_CURRENT_WEIGHT_READ",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/K2000/checkpoint-2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "PI0249_KX_HYPOTHESIS_EXHAUSTED_OR_PI0251_CE_VALID_FAIL_NO_CURRENT_WEIGHT_READ",
+      "terminal_retired": true
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/X2000/.cache/huggingface/download/arms/PI0249/r-anchored-xyz-priority-20260927/X/recovery/634990.hopper-m-02/checkpoint-2000/model-00002-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/X2000/.cache/huggingface/download/arms/PI0249/r-anchored-xyz-priority-20260927/X/recovery/634990.hopper-m-02/checkpoint-2000/model-00001-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/X2000/arms/PI0249/r-anchored-xyz-priority-20260927/X/recovery/634990.hopper-m-02/checkpoint-2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "PI0249_KX_HYPOTHESIS_EXHAUSTED_OR_PI0251_CE_VALID_FAIL_NO_CURRENT_WEIGHT_READ",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/models/X2000/arms/PI0249/r-anchored-xyz-priority-20260927/X/recovery/634990.hopper-m-02/checkpoint-2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "PI0249_KX_HYPOTHESIS_EXHAUSTED_OR_PI0251_CE_VALID_FAIL_NO_CURRENT_WEIGHT_READ",
+      "terminal_retired": true
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/C2000/hf_download/.cache/huggingface/download/arms/PI0251/xyz-excess-risk-20260928/C/recovery/635738.hopper-m-02/checkpoint-2000/model-00002-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/C2000/hf_download/.cache/huggingface/download/arms/PI0251/xyz-excess-risk-20260928/C/recovery/635738.hopper-m-02/checkpoint-2000/model-00001-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/C2000/hf_download/arms/PI0251/xyz-excess-risk-20260928/C/recovery/635738.hopper-m-02/checkpoint-2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "PI0249_KX_HYPOTHESIS_EXHAUSTED_OR_PI0251_CE_VALID_FAIL_NO_CURRENT_WEIGHT_READ",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/C2000/hf_download/arms/PI0251/xyz-excess-risk-20260928/C/recovery/635738.hopper-m-02/checkpoint-2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "PI0249_KX_HYPOTHESIS_EXHAUSTED_OR_PI0251_CE_VALID_FAIL_NO_CURRENT_WEIGHT_READ",
+      "terminal_retired": true
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/E2000/hf_download/.cache/huggingface/download/arms/PI0251/xyz-excess-risk-20260928/E/checkpoint-2000/model-00002-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/E2000/hf_download/.cache/huggingface/download/arms/PI0251/xyz-excess-risk-20260928/E/checkpoint-2000/model-00001-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/E2000/hf_download/arms/PI0251/xyz-excess-risk-20260928/E/checkpoint-2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "PI0249_KX_HYPOTHESIS_EXHAUSTED_OR_PI0251_CE_VALID_FAIL_NO_CURRENT_WEIGHT_READ",
+      "terminal_retired": true
+    },
+    {
+      "class": "PURGE_RETIRED",
+      "no_dependencies": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0251/models/E2000/hf_download/arms/PI0251/xyz-excess-risk-20260928/E/checkpoint-2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "PERMANENTLY_RETIRED_WEIGHTS_NOT_RELOADABLE_LOCAL",
+      "reason": "PI0249_KX_HYPOTHESIS_EXHAUSTED_OR_PI0251_CE_VALID_FAIL_NO_CURRENT_WEIGHT_READ",
+      "terminal_retired": true
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/A2000/hf_download/.cache/huggingface/download/arms/PI0252/r1-speed-margin-20260928/A/checkpoint-2000/model-00002-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/A2000/hf_download/.cache/huggingface/download/arms/PI0252/r1-speed-margin-20260928/A/checkpoint-2000/model-00001-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/evidence/A2000/hf_readback.json",
+        "sha256": "c4705e67cec9cb857ec4996a08b42b025075ccb68de6cfdce4d2d20ef165596e",
+        "status": "PASS_PT_FULL_HF_READBACK"
+      },
+      "hf_revision": "2a7945d49d17f3ec1801f2b2af6dba5e5bd6c100",
+      "hf_tree": "f58ec02d44f1c250936d1b9687930669f12b4c2f6044c0df2c38f39dd36f379c",
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/A2000/hf_download/arms/PI0252/r1-speed-margin-20260928/A/checkpoint-2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "COMPLETED_QUERIES_REUSE_ARRAYS_NO_CURRENT_WORKSET"
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/evidence/A2000/hf_readback.json",
+        "sha256": "c4705e67cec9cb857ec4996a08b42b025075ccb68de6cfdce4d2d20ef165596e",
+        "status": "PASS_PT_FULL_HF_READBACK"
+      },
+      "hf_revision": "2a7945d49d17f3ec1801f2b2af6dba5e5bd6c100",
+      "hf_tree": "f58ec02d44f1c250936d1b9687930669f12b4c2f6044c0df2c38f39dd36f379c",
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/A2000/hf_download/arms/PI0252/r1-speed-margin-20260928/A/checkpoint-2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "COMPLETED_QUERIES_REUSE_ARRAYS_NO_CURRENT_WORKSET"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/hf_download/.cache/huggingface/download/arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000/model-00002-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/hf_download/.cache/huggingface/download/arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000/model-00001-of-00002.safetensors.metadata",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/evidence/G2000/hf_readback.json",
+        "sha256": "1e946af9a6c3d43f118fb328a20b673a98c0d305090f189c5e21f86656237a22",
+        "status": "PASS_PT_FULL_HF_READBACK"
+      },
+      "hf_revision": "efecea485ae77000599d19171b02491f8d514f42",
+      "hf_tree": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/hf_download/arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "COMPLETED_QUERIES_REUSE_ARRAYS_NO_CURRENT_WORKSET"
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/evidence/G2000/hf_readback.json",
+        "sha256": "1e946af9a6c3d43f118fb328a20b673a98c0d305090f189c5e21f86656237a22",
+        "status": "PASS_PT_FULL_HF_READBACK"
+      },
+      "hf_revision": "efecea485ae77000599d19171b02491f8d514f42",
+      "hf_tree": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0252/models/G2000/hf_download/arms/PI0252/r1-speed-margin-20260928/G/checkpoint-2000/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "COMPLETED_QUERIES_REUSE_ARRAYS_NO_CURRENT_WORKSET"
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0253/evidence/FULL/model-only-1000.hf_readback.json",
+        "sha256": "23832ffc950037a369088096237f08b202c6e30863bd7f0be29b58ef44b6c44e",
+        "status": "PASS_FULL_FILE_READBACK"
+      },
+      "hf_revision": "6cdfd62f0a8ee15a6f6fdd4ab4f2fae95416f888",
+      "hf_tree": null,
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models/FULL1000/inference_view/model-00001-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "COMPLETED_QUERIES_REUSE_ARRAYS_NO_CURRENT_WORKSET"
+    },
+    {
+      "anonymous_reachability": "PASS",
+      "class": "KEEP_HF",
+      "content_readback_receipt": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0253/evidence/FULL/model-only-1000.hf_readback.json",
+        "sha256": "23832ffc950037a369088096237f08b202c6e30863bd7f0be29b58ef44b6c44e",
+        "status": "PASS_FULL_FILE_READBACK"
+      },
+      "hf_revision": "6cdfd62f0a8ee15a6f6fdd4ab4f2fae95416f888",
+      "hf_tree": null,
+      "needed_workset": false,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models/FULL1000/inference_view/model-00002-of-00002.safetensors",
+      "post_retirement_storage_state": "HF_ONLY_LOCALLY_METADATA_ONLY_NOT_RESUMABLE",
+      "reason": "COMPLETED_QUERIES_REUSE_ARRAYS_NO_CURRENT_WORKSET"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "current_candidate": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models/FULL2500/inference_view/model-00001-of-00002.safetensors",
+      "reason": "FORMAL_CANDIDATE_CURRENT_WORKSET"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "current_candidate": true,
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models/FULL2500/inference_view/model-00002-of-00002.safetensors",
+      "reason": "FORMAL_CANDIDATE_CURRENT_WORKSET"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S50/checkpoint-80/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S50/checkpoint-80/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S50/checkpoint-80/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S50/checkpoint-80/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S25/checkpoint-80/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S25/checkpoint-80/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S25/checkpoint-80/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/S25/checkpoint-80/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/C80/checkpoint-80/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/C80/checkpoint-80/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/C80/checkpoint-80/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/pi0208_g2_corelab_20260917/training/C80/checkpoint-80/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-1000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-1000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-1000/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-1000/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-2000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-2000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-2000/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2224/checkpoint-2000/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-1000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-1000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-1000/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-1000/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-2000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-2000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-2000/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_gpu_sprint_9b2c202_20260911/G1_seed2223/checkpoint-2000/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@2000/checkpoint-2000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@2000/checkpoint-2000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@2000/checkpoint-2000/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@2000/checkpoint-2000/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@1000/checkpoint-1000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@1000/checkpoint-1000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@1000/checkpoint-1000/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_pi0125_exact_full24_relay_20260911/materialized/FULL24@1000/checkpoint-1000/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0246_gate_pass_screen_20260925/full_checkpoints/pi0246-gate-pass-campaign/T/checkpoint-1000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0246_gate_pass_screen_20260925/full_checkpoints/pi0246-gate-pass-campaign/T/checkpoint-1000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0246_gate_pass_screen_20260925/full_checkpoints/pi0246-gate-pass-campaign/T/checkpoint-2000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/pi0246_gate_pass_screen_20260925/full_checkpoints/pi0246-gate-pass-campaign/T/checkpoint-2000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-1000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-1000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-1000/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-1000/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-2000/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-2000/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-2000/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45e_n2_corelab_b41d82e_alloc_train_20260911/checkpoint-2000/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45g_pi0205_novanda_20260916/base/E/checkpoint-256/rng_state.pth",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "KEEP_ACTIVE",
+      "path": "/var/cache/users/liuyu-nfs/stage45g_pi0205_novanda_20260916/base/E/checkpoint-256/scheduler.pt",
+      "reason": "SMALL_EVIDENCE_RETAINED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45g_pi0205_novanda_20260916/base/E/checkpoint-256/model-00001-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    },
+    {
+      "class": "UNKNOWN",
+      "path": "/var/cache/users/liuyu-nfs/stage45g_pi0205_novanda_20260916/base/E/checkpoint-256/model-00002-of-00002.safetensors",
+      "reason": "OLD_ROLE_OR_BASELINE_DEPENDENCY_NOT_CLOSED"
+    }
+  ],
+  "protected_inodes": [],
+  "protected_paths": [
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0250/inputs",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0253/evidence",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0253/runtime",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models/FULL2500",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models/FULL5000",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models/FULL7500",
+    "/home/liuyu-nfs/Projects/go2-arx5/PI0253/models/FULL10000"
+  ],
+  "space_roots": [
+    "/home/liuyu-nfs/Projects/go2-arx5",
+    "/var/cache/users/liuyu-nfs"
+  ]
+}

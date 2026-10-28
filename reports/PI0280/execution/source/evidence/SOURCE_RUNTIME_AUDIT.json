@@ -1,0 +1,121 @@
+{
+  "status": "PASS_SOURCE_RUNTIME_CLOCK_INPUT_OUTPUT_BUDGET_AUDIT",
+  "rows": [
+    {
+      "condition": 10000,
+      "status": "VALID_SOURCE_PHYSICS_COMPLETE",
+      "persistent_success": false,
+      "queries": 60,
+      "control_calls": 660,
+      "physics_steps": 3300,
+      "RGB_pairs": 660,
+      "gate_decisions": {
+        "ACCEPT": 60
+      },
+      "input_reconstruction_max_abs": 5.960464477539063e-08,
+      "installed_first8_reference_max_abs": 3.0054188426831274e-07,
+      "result_sha256": "dba60fd7cbfced31598a46ae9b34fccc15ba98566af4324b84f14dc7c91bc50e",
+      "source_code_sha256": {
+        "source.py": "d44084158a663f248509e32cb635b651a627db6405e16c20c6dff462a6e3e397",
+        "source_control.py": "28541484f30c4a8190b6de1d62bb726bd8eab07427c922bed2e7d1d7877a07a0",
+        "source_contract.py": "2930136eacbae5ae0e851b70275a539a0ded3cc768dc397cc1f694d05861d3ac"
+      }
+    },
+    {
+      "condition": 10001,
+      "status": "VALID_SOURCE_PHYSICS_COMPLETE",
+      "persistent_success": false,
+      "queries": 60,
+      "control_calls": 660,
+      "physics_steps": 3300,
+      "RGB_pairs": 660,
+      "gate_decisions": {
+        "ACCEPT": 59,
+        "WARN": 1
+      },
+      "input_reconstruction_max_abs": 5.960464477539063e-08,
+      "installed_first8_reference_max_abs": 3.295801549452193e-07,
+      "result_sha256": "860cb79438f84d4466e34c0de6102cff37f76449b22562296f8a6b63e86e85e7",
+      "source_code_sha256": {
+        "source.py": "d44084158a663f248509e32cb635b651a627db6405e16c20c6dff462a6e3e397",
+        "source_control.py": "28541484f30c4a8190b6de1d62bb726bd8eab07427c922bed2e7d1d7877a07a0",
+        "source_contract.py": "2930136eacbae5ae0e851b70275a539a0ded3cc768dc397cc1f694d05861d3ac"
+      }
+    },
+    {
+      "condition": 10002,
+      "status": "VALID_SOURCE_PHYSICS_COMPLETE",
+      "persistent_success": false,
+      "queries": 60,
+      "control_calls": 660,
+      "physics_steps": 3300,
+      "RGB_pairs": 660,
+      "gate_decisions": {
+        "ACCEPT": 60
+      },
+      "input_reconstruction_max_abs": 5.960464477539063e-08,
+      "installed_first8_reference_max_abs": 3.590729535790649e-07,
+      "result_sha256": "c9e1fec92caf96600447070d8fea2d74edc5114a50b3a24253ae9eca6e031522",
+      "source_code_sha256": {
+        "source.py": "d44084158a663f248509e32cb635b651a627db6405e16c20c6dff462a6e3e397",
+        "source_control.py": "28541484f30c4a8190b6de1d62bb726bd8eab07427c922bed2e7d1d7877a07a0",
+        "source_contract.py": "2930136eacbae5ae0e851b70275a539a0ded3cc768dc397cc1f694d05861d3ac"
+      }
+    },
+    {
+      "condition": 10003,
+      "status": "VALID_SOURCE_PHYSICS_COMPLETE",
+      "persistent_success": false,
+      "queries": 60,
+      "control_calls": 660,
+      "physics_steps": 3300,
+      "RGB_pairs": 660,
+      "gate_decisions": {
+        "ACCEPT": 60
+      },
+      "input_reconstruction_max_abs": 5.960464477539063e-08,
+      "installed_first8_reference_max_abs": 3.3989975900539093e-07,
+      "result_sha256": "68a992d934ef7dd33e4e915da1b581464b3d80f87898a0aecb30098371a4ca27",
+      "source_code_sha256": {
+        "source.py": "d44084158a663f248509e32cb635b651a627db6405e16c20c6dff462a6e3e397",
+        "source_control.py": "28541484f30c4a8190b6de1d62bb726bd8eab07427c922bed2e7d1d7877a07a0",
+        "source_contract.py": "2930136eacbae5ae0e851b70275a539a0ded3cc768dc397cc1f694d05861d3ac"
+      }
+    }
+  ],
+  "source_policy_counts": {
+    "policy_attempt": 240,
+    "action_head": 960
+  },
+  "source_physics_counts": {
+    "starts": 4,
+    "control": 2640,
+    "rgb": 2640,
+    "physics": 13200
+  },
+  "original_predicate_success_fraction": [
+    0,
+    4
+  ],
+  "starts": 4,
+  "engineering_replacements": 0,
+  "phase_elapsed_s_by_receipt_mtimes": 891.356289868,
+  "phase_start_receipt_unix_ns": 1791381303160867792,
+  "phase_completion_receipt_unix_ns": 1791382194517157660,
+  "policy_latency_s": {
+    "sum": 123.73711993265897,
+    "median": 0.4436296223429963,
+    "minimum": 0.24433983606286347,
+    "maximum": 7.756283610826358
+  },
+  "all_outputs_bytes": 1356404250,
+  "producer_pid": 715680,
+  "policy_pid": 715793,
+  "processes_exited": true,
+  "final_OS_rusage": "UNAVAILABLE_INITIAL_LAUNCH_NO_WAIT4_WRAPPER",
+  "retained_measured_CPU_snapshot_path": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/evidence/SOURCE_PROCESS_TIMING.json",
+  "model_parameters_unchanged": true,
+  "training_updates": 0,
+  "new_audit_model_queries": 0,
+  "new_audit_physics_steps": 0
+}

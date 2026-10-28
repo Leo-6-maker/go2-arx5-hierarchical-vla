@@ -1,0 +1,248 @@
+{
+  "schema": "MP1_ACTUAL_RPC_PHASE_TIMING_V1",
+  "current_third_child_terminal_timings": "RECOVERY03_TERMINAL_RPC_PHASE_TIMING.json",
+  "measurement_scope": "PRESERVED_HISTORICAL_CHILDREN01_02_NOT_CURRENT_TRANSPORT_STATUS",
+  "later_complete32_receipt": "M2_BC_COMPLETE_T1_AND_CLOSED_LOOP_QUALIFICATION.json",
+  "status": "ACTUAL_CROSS_SITE_STALL_LOCATED_TO_ACCOUNTING_REGION",
+  "runtime_sources": [
+    "e77011b918bee38504d1664e0f5ce0c33480a3de",
+    "52d83c3714a825e884b085310d71bc18c4957289"
+  ],
+  "measurement": "Server monotonic elapsed spans; p95 uses sorted floor(0.95*N), capped at N-1.",
+  "traces": [
+    {
+      "child": "e1-panel-recovery-01",
+      "role": "Hopper",
+      "model": "M2-BC",
+      "phases": {
+        "guard": {
+          "count": 1528,
+          "median_s": 0.012245709542185068,
+          "p95_s": 0.01637945929542184,
+          "maximum_s": 0.22194374166429043,
+          "over_20s": 0
+        },
+        "invoke": {
+          "count": 1528,
+          "median_s": 0.0007859044708311558,
+          "p95_s": 0.0012135682627558708,
+          "maximum_s": 0.03496406599879265,
+          "over_20s": 0
+        },
+        "accounting": {
+          "count": 1528,
+          "median_s": 0.011077068746089935,
+          "p95_s": 0.013925374951213598,
+          "maximum_s": 0.14126678416505456,
+          "over_20s": 0
+        },
+        "emit": {
+          "count": 1528,
+          "median_s": 0.000020585954189300537,
+          "p95_s": 0.00003502005711197853,
+          "maximum_s": 0.00028535397723317146,
+          "over_20s": 0
+        }
+      }
+    },
+    {
+      "child": "e1-panel-recovery-01",
+      "role": "Core",
+      "model": "M2-BC",
+      "phases": {
+        "guard": {
+          "count": 112,
+          "median_s": 0.0006125095533207059,
+          "p95_s": 0.0009643621742725372,
+          "maximum_s": 0.007911663968116045,
+          "over_20s": 0
+        },
+        "invoke": {
+          "count": 112,
+          "median_s": 0.0004915394820272923,
+          "p95_s": 0.0006163669750094414,
+          "maximum_s": 0.051335898926481605,
+          "over_20s": 0
+        },
+        "accounting": {
+          "count": 112,
+          "median_s": 0.009393284446559846,
+          "p95_s": 0.012412330135703087,
+          "maximum_s": 0.02417214820161462,
+          "over_20s": 0
+        },
+        "emit": {
+          "count": 112,
+          "median_s": 0.000015190918929874897,
+          "p95_s": 0.00003093993291258812,
+          "maximum_s": 0.00031249504536390305,
+          "over_20s": 0
+        }
+      }
+    },
+    {
+      "child": "e1-panel-recovery-02",
+      "role": "Hopper",
+      "model": "M2-BC",
+      "phases": {
+        "guard": {
+          "count": 285,
+          "median_s": 0.024090833961963654,
+          "p95_s": 0.03231327282264829,
+          "maximum_s": 0.12955466704443097,
+          "over_20s": 0
+        },
+        "invoke": {
+          "count": 285,
+          "median_s": 0.0013675661757588387,
+          "p95_s": 0.0021048542112112045,
+          "maximum_s": 0.04594581574201584,
+          "over_20s": 0
+        },
+        "accounting": {
+          "count": 285,
+          "median_s": 0.017331403214484453,
+          "p95_s": 0.021938511170446873,
+          "maximum_s": 30.3019763212651,
+          "over_20s": 1
+        },
+        "emit": {
+          "count": 285,
+          "median_s": 0.00002519087865948677,
+          "p95_s": 0.00003657303750514984,
+          "maximum_s": 0.0004696054384112358,
+          "over_20s": 0
+        }
+      }
+    },
+    {
+      "child": "e1-panel-recovery-02",
+      "role": "Core",
+      "model": "M2-BC",
+      "phases": {
+        "guard": {
+          "count": 58,
+          "median_s": 0.0005297263851389289,
+          "p95_s": 0.0009725659620016813,
+          "maximum_s": 0.0013331319205462933,
+          "over_20s": 0
+        },
+        "invoke": {
+          "count": 58,
+          "median_s": 0.00047446112148463726,
+          "p95_s": 0.0005966259632259607,
+          "maximum_s": 0.05516339000314474,
+          "over_20s": 0
+        },
+        "accounting": {
+          "count": 58,
+          "median_s": 0.008885743096470833,
+          "p95_s": 0.011775067076086998,
+          "maximum_s": 0.016544408863410354,
+          "over_20s": 0
+        },
+        "emit": {
+          "count": 58,
+          "median_s": 0.000020261039026081562,
+          "p95_s": 0.000037152087315917015,
+          "maximum_s": 0.0001862039789557457,
+          "over_20s": 0
+        }
+      }
+    },
+    {
+      "child": "e1-panel-recovery-02",
+      "role": "Core",
+      "model": "M2-CORR",
+      "phases": {
+        "guard": {
+          "count": 12,
+          "median_s": 0.0004620949039235711,
+          "p95_s": 0.0005731980782002211,
+          "maximum_s": 0.0005731980782002211,
+          "over_20s": 0
+        },
+        "invoke": {
+          "count": 12,
+          "median_s": 0.0004689820343628526,
+          "p95_s": 0.0007753700483590364,
+          "maximum_s": 0.0007753700483590364,
+          "over_20s": 0
+        },
+        "accounting": {
+          "count": 12,
+          "median_s": 0.00854372198227793,
+          "p95_s": 0.009670220781117678,
+          "maximum_s": 0.009670220781117678,
+          "over_20s": 0
+        },
+        "emit": {
+          "count": 12,
+          "median_s": 0.000022346503101289272,
+          "p95_s": 0.0003556930460035801,
+          "maximum_s": 0.0003556930460035801,
+          "over_20s": 0
+        }
+      }
+    },
+    {
+      "child": "e1-panel-recovery-02",
+      "role": "Hopper",
+      "model": "M2-CORR",
+      "phases": {
+        "guard": {
+          "count": 35,
+          "median_s": 0.0163761330768466,
+          "p95_s": 0.027273572981357574,
+          "maximum_s": 0.17449994711205363,
+          "over_20s": 0
+        },
+        "invoke": {
+          "count": 35,
+          "median_s": 0.0009819380939006805,
+          "p95_s": 0.0042234789580106735,
+          "maximum_s": 0.05464622797444463,
+          "over_20s": 0
+        },
+        "accounting": {
+          "count": 35,
+          "median_s": 0.014116019941866398,
+          "p95_s": 0.023973110131919384,
+          "maximum_s": 0.07412894861772656,
+          "over_20s": 0
+        },
+        "emit": {
+          "count": 35,
+          "median_s": 0.00002474430948495865,
+          "p95_s": 0.0000319918617606163,
+          "maximum_s": 0.00003904476761817932,
+          "over_20s": 0
+        }
+      }
+    }
+  ],
+  "critical": {
+    "child": "e1-panel-recovery-02",
+    "model": "M2-BC",
+    "role": "Hopper",
+    "phase": "accounting",
+    "phase_sequence": 1139,
+    "elapsed_s": 30.3019763212651,
+    "original_RPC_watchdog_s": 20,
+    "client_result": "TimeoutError ORIGINAL_20S_FILE_RPC_TIMEOUT_UNKNOWN_EFFECT_NO_RETRY",
+    "server_late_emit_preserved": true,
+    "replayed": false
+  },
+  "attribution": {
+    "confirmed": "Stall is inside ledger.transaction RPC counter accounting, after invoke and before emit.",
+    "not_separated": [
+      "NFS lock acquisition versus ledger read/write/fsync",
+      "Exact model forward versus compute-to-login file visibility",
+      "S1 computation versus physical integration versus RGB production"
+    ],
+    "whole_stall_is_GPU_inference": false,
+    "whole_stall_is_SSH_network": false,
+    "unique_underlying_cause_proved": false
+  },
+  "engineering_candidate_not_deployed": "Move non-scientific RPC poll counts off the shared neural ledger hot path, preserving durable science charges, finite CPU accounting and unknown-effect invariants. Must qualify at a new authorized boundary; this receipt is not permission for a third recovery PBS."
+}

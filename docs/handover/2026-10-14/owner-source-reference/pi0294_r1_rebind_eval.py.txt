@@ -1,0 +1,94 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Version unexecuted TRAIN4 bindings after the terminal source repair."""
+import copy
+import hashlib
+import json
+import sys
+import time
+
+from pi0294_r1_prepare import BASE,REPO,RUN,save
+from pi0294_r1_freeze_eval import CORE
+from pi0294_remote import remote_multiplexed
+
+INFO=r'''
+import json,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read
+from scripts.pi0294.continuation import validate_entry
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='hopper-neural')
+b=read(root/'NEURAL_BINDINGS.private.json');data=Path(b['dataset']);inv=root/'evidence/local-M512-01/identity/CHECKPOINT_MANIFEST.json'
+v=dict(manifest=m,hopper=dict(source_sha=m['code']['vla_commit'],manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+ data_manifest_sha256=sha(data/'DATASET_MANIFEST.json'),statistics_sha256=sha(data/'statistics.json')),
+ panel=read(root/'evidence/FIXED_MODEL_EVAL_PANELS.json'),inventory=read(inv),inventory_sha256=sha(inv),
+ ready=read(inv.parent/'LOCAL_READY.private.json'),processor_sha256=sha(Path(b['source'])/'gr00t/model/gr00t_n1d7/processing_gr00t_n1d7.py'),
+ old_registry_sha256=sha(root/'evidence/model-M512/REGISTRY.json'))
+assert not (root/'evidence/model-M512/resident').exists()
+print(json.dumps(v))
+'''
+
+INSTALL=r'''
+import json,resource,sys,time
+from pathlib import Path
+root=Path(ROOT);m=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/m['code']['capsule_relative'];sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read,write,OwnerLock
+from scripts.pi0294.continuation import validate_entry
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='hopper-neural' if ROLE=='hopper' else '4080-simulation')
+assert sha(root/'RUN_MANIFEST.json')==REGISTRY[ROLE+'_manifest_sha256']
+lock=OwnerLock(root/'EVAL_REBIND_OWNER.lock');d=root/'evidence/model-M512-02';d.mkdir(exist_ok=False)
+write(d/'REGISTRY.json',REGISTRY);write(d/'IDENTITY.json',REGISTRY['checkpoint_identity'])
+assert sha(d/'REGISTRY.json')==REGISTRY_SHA
+if ROLE=='core':
+ assert not (root/'LIVE_QUEUE.json').exists() and not any((root/'worker_processes').iterdir())
+ prior=read(root/'ATTEMPT_PLAN.json');rows=[]
+ for case in REGISTRY['cases'].values():
+  path=root/case['core_request_relative'];assert not path.exists()
+  write(path,case['core_request']);assert sha(path)==case['core_request_sha256']
+  card=dict(case['card'],relay_request_relative=case['core_request_relative'],relay_request_sha256=case['core_request_sha256'])
+  assert card['id'] not in prior['attempts'];prior['attempts'][card['id']]=dict(logical_id=card['id'],card=card)
+  rows.append(dict(id=card['id'],card=card))
+ write(root/'ATTEMPT_PLAN.json',prior)
+ write(root/'plans/model-M512-02.json',dict(schema='PI0294_MODEL_RELAY_PLAN_V1',fixture=False,authorizes_execution=True,
+  kind='MODEL_EVALUATION',not_formal_data=True,episodes=rows))
+ (d/'rpc').mkdir()
+v=dict(status='SOURCE_BOUND_VERSIONED_UNEXECUTED_TRAIN4_REGISTRY_INSTALLED',run_uuid=RUN,source_sha=m['code']['vla_commit'],
+ registry_sha256=REGISTRY_SHA,old_requests_retained=True,old_attempts_executed=False,original_panel_unchanged=True,
+ T0_reset=False,science_cutoff_unchanged=True,new_models=0,new_physics=0,new_PBS=0)
+write(d/'REBIND_RECEIPT.json',v);lock.close();print(json.dumps(v))
+'''
+
+def call(host,code,**values):
+    r=remote_multiplexed(host,'\n'.join(k+'='+repr(v) for k,v in dict(RUN=RUN,**values).items())+'\n'+code)
+    save(BASE/('REBIND_'+host+'_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    assert not r.returncode,'Preserve partial binding; no automatic repeat'
+    return json.loads(r.stdout)
+
+
+if __name__=='__main__':
+    core=call('corelab-4080s',CORE);info=call('hopper',INFO)
+    sys.path[:0]=[str(REPO/'src'),str(REPO)]
+    from scripts.pi0294.relay_transport import model_registry,digest
+    from scripts.pi0294.continuation import CUTOFF
+    registry=model_registry(info['panel'],core['cards'],info['inventory'],info['ready'],step=512,run_uuid=RUN,
+        core=core,hopper=info['hopper'],deadline_epoch=min(CUTOFF,time.time()+7200),
+        inventory_sha256=info['inventory_sha256'],processor_sha256=info['processor_sha256'],
+        live_readiness_sha256=core['live_readiness_sha256'],continuation_manifest=info['manifest'])
+    for case in registry['cases'].values():
+        case['card']['id']+='-R02';case['attempt_id']=case['card']['id']
+        case['core_request_relative']='evidence/model-M512-02/'+case['attempt_id']+'-REQUEST.json'
+        case['core_request']['attempt_id']=case['attempt_id']
+        case['core_request_sha256']=hashlib.sha256((json.dumps(case['core_request'],indent=2,allow_nan=False)+'\n').encode()).hexdigest()
+        case['hopper_session_relative']='evidence/model-M512-02/resident'
+    registry['engineering_binding']=dict(prior_registry_sha256=info['old_registry_sha256'],reason='TERMINAL_SOURCE_API_REPAIR_BEFORE_PHYSICAL_DISPATCH',
+        original_semantic_panel_sha256=digest(info['panel']),old_attempts_not_executed=True,scene_language_noise_safety_unchanged=True)
+    digest_value=hashlib.sha256((json.dumps(registry,indent=2,allow_nan=False)+'\n').encode()).hexdigest()
+    save(BASE/'MODEL_REGISTRY_02.private.json',registry)
+    for role,host,root in [('hopper','hopper','@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294/'+RUN),
+                           ('core','corelab-4080s','@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294/'+RUN)]:
+        value=call(host,INSTALL,ROLE=role,ROOT=root,REGISTRY=registry,REGISTRY_SHA=digest_value)
+        print(json.dumps(value))

@@ -1,0 +1,17 @@
+{
+  "status": "READ_ONLY_POSTTRAINING_AUDIT_BOUNDARY_REPAIR",
+  "cause": "qualified5120 graph range stop5121 was not mapped to8193",
+  "original_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/code/training_audit.py",
+  "original_sha256": "c1d9218bc4b0cbe0996e4740c3f7a5dcb26338dd08be7169eac12ef61db21845",
+  "repaired_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/runtime/repairs/posttraining-audit8192-20261006/training_audit.py",
+  "repaired_sha256": "fef2600fd010768a59a0d6d23ef8305ab14b5623d741d9a52bd03e437f6dbde5",
+  "sealed_runtime_unchanged": true,
+  "formal_updates": 8192,
+  "new_model_queries": 0,
+  "new_training_updates": 0,
+  "audit_status": "PASS_PI0276_ACTUAL8192_TASK_TRAINING",
+  "CPU_check": "PASS_CPU_FINITE_PHASE_ADOPTION_NO_MODEL_QUERY",
+  "old_job": "649362.hopper-m-02",
+  "old_job_exit": 1,
+  "failed_stage": "posttraining read-only audit; training8192 already complete"
+}

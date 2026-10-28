@@ -1,0 +1,37 @@
+{
+  "actual_teacher_episodes": 0,
+  "corrupt_state_rejected": true,
+  "deployment_selected_checkpoint": "NONE",
+  "grasp_tcp_offset_m": 0.027,
+  "launch_allowed": false,
+  "model_queries": 0,
+  "negative_cases": {
+    "DANGEROUS_CONTACT": "GATE_OR_DANGEROUS_CONTACT",
+    "GATE_REJECT": "GATE_OR_DANGEROUS_CONTACT",
+    "LOST_GRASP": "LOST_GRASP_OR_SLIP",
+    "NO_ACTUAL_APPROACH_STAYS_PREGRASP": true,
+    "NO_BILATERAL_GRASP": "TASK_OR_STAGE_TIMEOUT",
+    "PENETRATION": "GATE_OR_DANGEROUS_CONTACT",
+    "SLIP": "LOST_GRASP_OR_SLIP"
+  },
+  "optimizer_updates": 0,
+  "physics_steps": 0,
+  "renders": 0,
+  "selected_checkpoint": "NONE",
+  "source_sha256": "05935f80750aef853e6c7a6f26d9c449c25bf37918d7588f6f4133d1ea175c66",
+  "stage_sequence": [
+    "PREGRASP",
+    "APPROACH",
+    "CLOSE",
+    "LIFT",
+    "TRANSFER",
+    "LOWER",
+    "RELEASE",
+    "RETREAT",
+    "DONE"
+  ],
+  "status": "PASS_CPU_DRAFT_TEACHER_TRANSITIONS_BOUNDS_AND_FAILURES",
+  "synthetic_logic_fixture_only": true,
+  "teacher_calls": 0,
+  "teacher_finished_is_not_task_success": true
+}

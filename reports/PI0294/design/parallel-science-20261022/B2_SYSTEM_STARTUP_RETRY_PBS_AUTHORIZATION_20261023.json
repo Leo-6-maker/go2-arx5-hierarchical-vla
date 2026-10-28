@@ -1,0 +1,51 @@
+{
+  "schema": "B2_SYSTEM_STARTUP_RETRY_PBS_AUTHORIZATION_V1",
+  "human_question_reference": "13b51c21a57c76be38710c1af6ea2a8cd1f11b20/reports/PI0294/design/parallel-science-20261022/B2_SYSTEM_STARTUP_FAILURE_FINANCIAL_AND_RETRY_SCOPE_CPU_20261023.json",
+  "human_answer": "批准仅这两项 PBS 上限调整",
+  "approval_recorded_epoch": 1792746048.7650247,
+  "scope": {
+    "DEC1_PBS_limit": {
+      "prior": 14,
+      "approved": 15
+    },
+    "global_PBS_limit": {
+      "prior": 25,
+      "approved": 26
+    },
+    "additional_unique_retry_submissions": 1
+  },
+  "old_failed_job": "1480412.stdct-mgmt-02",
+  "old_failed_request_sha256": "4455e91b4f49c7f627d82dd9dacab0ec939a23e11cbf1034468d73d43f4523f9",
+  "continuation": {
+    "arm": "B_COVERAGE",
+    "training_lineage_key": "B_COVERAGE_HEARTBEAT_RECOVERY1",
+    "expected_native_start_step": 2048,
+    "stop_after_step": 4096,
+    "checkpoint2048_sha256": "db2b2be84e1d2e6eeca1715107f6eb42a8b151e38fe513ddac6029e8db97bbcf",
+    "original_probe_sha256": "074ffbcce72e9917caecd70a2855ca67eb9b60afbb20dd6daf9ab98343130154",
+    "prior_saved_state_reuse_release": "918c675a7b7f778b947005fc69777f4b6364f792",
+    "original_three_matrix_jobs_preserved": true
+  },
+  "unchanged": {
+    "T0_epoch": 1792348196,
+    "stop_new_epoch": 1792866596,
+    "stop_train_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_close_epoch": 1792952996,
+    "DEC1_optimizer_updates": 10792,
+    "DEC1_GPU_s": 187200,
+    "global_GPU_s": 345600,
+    "DEC1_GPU_site_storage_GiB": 549,
+    "global_GPU_site_storage_GiB": 615,
+    "LOCAL_CPU_s": 57600,
+    "all_other_CPU_query_physics_storage_transfer_caps_unchanged": true,
+    "final_GPU_s_protected": 72000,
+    "final_storage_GiB_protected": 40,
+    "original_numerical_recipe_R0_WBC_S1_science": true
+  },
+  "all_prior_costs_failures_checkpoints_and_UNKNOWN_latches_preserved": true,
+  "no_old_failed_request_owner_or_mirror_replay": true,
+  "new_GPU_CPU_query_update_storage_transfer_physics_or_clock_allowance": false,
+  "native_adoption_and_full_fresh_admission_still_required": true,
+  "source_chain_count_must_truthfully_include_the_one_extra_PBS": true
+}

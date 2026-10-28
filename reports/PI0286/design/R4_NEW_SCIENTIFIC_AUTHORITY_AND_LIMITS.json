@@ -1,0 +1,243 @@
+{
+  "schema": "PI0286_FRESH_CONFIRM_MATCHED_RECOVERY_VS_REPLAY_V1",
+  "authority": "PI0286_TO_1300_RECOVERY_VS_REPLAY_AND_REPORT_GO_V1",
+  "protocol": "docs/protocols/PI0286_TO_1300_RECOVERY_VS_REPLAY_AND_REPORT_V1.md",
+  "protocol_commit": "623c6fccec5877666fac08c1bbfd54b62c00209f",
+  "review_head": "adcb9fa561fe6744936f36cc8d711d658a1964e2",
+  "parent_terminal": {
+    "goal": "PI0285_R3",
+    "terminal_comment": 6070372729,
+    "archival_comment": 6070882425,
+    "terminal_source_commit": "c2ed223b9f677f1ec4a3a3753a420625490144f6",
+    "formal_updates": 6144,
+    "canary_updates": 32,
+    "TRAIN": [
+      7,
+      8
+    ],
+    "DEV": [
+      13,
+      16
+    ],
+    "CONFIRM_A": [
+      20,
+      32
+    ],
+    "CONFIRM_A_id_range": [
+      285300,
+      285331
+    ],
+    "CONFIRM_A_now_exposed": true,
+    "prior_quality": "VALID_CONFIRMATION_FAIL",
+    "prior_budget_reset": false,
+    "prior_reports_unchanged": true
+  },
+  "new_authorization": {
+    "explicit_user_new_date": "2026-10-09",
+    "timezone": "Asia/Singapore",
+    "scientific_absolute_stop": "2026-10-09T13:00:00+08:00",
+    "after_stop": "READ_ONLY_REPORTING_AND_ARCHIVAL_NO_NEURAL_NO_PHYSICS_NO_OPTIMIZER",
+    "no_rollover": true,
+    "old_confirmation_reuse_for_training_or_selection": false,
+    "no_old_budget_transfer": true,
+    "target_WBC_Go2_hardware_calls": 0,
+    "shared_task_training_calls": 0
+  },
+  "frozen_parent": {
+    "model": "nvidia/GR00T-N1.7-3B adapted to EEF10 T1",
+    "HF_repo": "leoyuer/pi0246-gate-pass-campaign",
+    "prefix": "arms/PI0285/REPAIR_A2048/checkpoint-2048",
+    "revision": "75432eb91a2c602930a9e1e979aaebbeaebff02b",
+    "tree_sha256": "fb17b65effc3ae8dcbefa784adc8f7e6fab916821d29e4b2539e5be685ed8469",
+    "Adam_global_step": 6144,
+    "fully_resumable_14_files_required": true,
+    "stats_sha256": "c3ec9c6b797bb735e3ac38d611b409262de04bbb965cb68b7426df749ba7fb81",
+    "processor_sha256": "fae35db9d84083cc1faac16442c062c74a22691fa3358cfc58efb759e01977d3",
+    "mapping_sha256": "fb47934b4bd4b5e11ec1c61ade0c5e03ca9110ec5f16abce9633b10cfd9edfbb"
+  },
+  "data": {
+    "expert_T1_train": [
+      285100,
+      285163
+    ],
+    "new_model_rollout_train_layouts": [
+      285108,
+      285123
+    ],
+    "new_model_rollouts": 16,
+    "branch_times_seconds": [
+      3,
+      12
+    ],
+    "branch_total": 32,
+    "branch_success_required": 24,
+    "correction_teacher_same_source": true,
+    "exact_or_proven_restore_required": true,
+    "no_teleport": true,
+    "no_FAILED_model_prefix_supervision": true,
+    "no_DEV_or_confirm_supervision": true,
+    "no_confirmation_score_selected_train_layouts": true,
+    "correction_truncation": "REAL_CONTINUOUS_H40_WITHIN_SUFFIX_EPISODE_ONLY",
+    "strict_supervision_roundtrip": {
+      "xyz_m": 0.00001,
+      "so3_rad": 0.0001,
+      "gripper": 0.00001
+    },
+    "heldout_rot6d_issue": "PRESERVE_R3_DEV_FAIL_WITHOUT_REFITTING_STATS"
+  },
+  "learning": {
+    "arms": [
+      {
+        "id": "C0_REPLAY1024",
+        "updates": 1024,
+        "source_weights": {
+          "original_T1_expert": 1,
+          "correction": 0
+        },
+        "must_exist_before_C1": false
+      },
+      {
+        "id": "C1_CORRECT1024",
+        "updates": 1024,
+        "requires_actual_valid_correction_at_least": 24,
+        "source_weights": {
+          "original_T1_expert": 0.5,
+          "corrected_suffix": 0.5
+        }
+      }
+    ],
+    "common_parent_same_full_Adam": true,
+    "separate_independent_optimizer_branches": true,
+    "matched_native_epsilon_timestep_and_optimizer_index": true,
+    "mask10of132": true,
+    "action_horizon": 40,
+    "execution_prefix": 8,
+    "K": 4,
+    "effective_batch": 8,
+    "preferred_microbatch": 4,
+    "accumulation": 2,
+    "scheduler": "FRESH_COSINE_1024",
+    "warmup": 52,
+    "peak_lr": {
+      "row10_interface": 0.00005,
+      "shared_DiT": 0.000005
+    },
+    "update_scope": "ROW10_PLUS_SHARED_DIT",
+    "frozen": [
+      "VLM",
+      "other31_rows",
+      "position",
+      "vlln",
+      "VL_attention",
+      "WBC"
+    ],
+    "native_masked_flow_loss_only": true,
+    "precision": "FP32_TRAINABLE_MASTER_BF16_AUTOCAST_BF16_INFERENCE_FP32_DECODE",
+    "no_new_objective_normalizer_history_dit_lr_sweep": true
+  },
+  "evaluation": {
+    "screening_train": [
+      285100,
+      285107
+    ],
+    "screening_dev": [
+      285200,
+      285215
+    ],
+    "screening_thresholds": {
+      "TRAIN": [
+        7,
+        8
+      ],
+      "DEV": [
+        13,
+        16
+      ]
+    },
+    "candidate_selection_order": [
+      "DEV_successes_desc",
+      "TRAIN_successes_desc",
+      "DIAG_invalid_or_REJECT_asc",
+      "C0_tiebreak"
+    ],
+    "new_confirmation_ids": [
+      285500,
+      285531
+    ],
+    "new_confirmation_must_be_unexposed": true,
+    "confirm_one_candidate_once": true,
+    "confirm_success": [
+      26,
+      32
+    ],
+    "full_duration_s": 32,
+    "hold_s": [
+      28,
+      30
+    ],
+    "hold_samples": 41,
+    "scorer": "UNCHANGED_PI0285_T1_GRASP_LIFT_10CM_TRANSFER_BLUE_ZONE_RELEASE_WITHDRAW",
+    "any_old_confirm_as_new_blind": false,
+    "no_quality_retries": true,
+    "source_domain_only": true,
+    "deployment": "NONE",
+    "selected": "NONE"
+  },
+  "schedule": {
+    "all_times_timezone": "Asia/Singapore",
+    "last_correction_collection_start": "2026-10-09T11:10:00+08:00",
+    "last_second_training_arm_start": "2026-10-09T11:30:00+08:00",
+    "latest_confirmation_start": "2026-10-09T12:00:00+08:00",
+    "optimizer_new_update_stop": "2026-10-09T12:10:00+08:00",
+    "all_science_stopped": "2026-10-09T12:55:00+08:00",
+    "hard_sci_end_report_begin": "2026-10-09T13:00:00+08:00",
+    "earlier_actual_eval_reserve_required": true,
+    "minimum_confirm_reserve_minutes": 45,
+    "measured_p90_multiplier": 1.25
+  },
+  "new_caps_NO_OLD_TRANSFER": {
+    "optimizer_formal": 2048,
+    "optimizer_each_arm": 1024,
+    "discarded_canary": 32,
+    "technical_rollback_completed": 32,
+    "all_completed_optimizer": 2112,
+    "technical_training_recoveries": 2,
+    "new_model_train_rollout_starts": 16,
+    "correction_requested_branches": 32,
+    "maximum_correction_physical_passes": 64,
+    "max_candidate_train_dev_physics": 48,
+    "max_new_confirm_physics": 32,
+    "physical_starts_hard": 176,
+    "technical_physical_replacements": 16,
+    "valid_quality_retries": 0,
+    "model_quality_requests": 10000,
+    "dit_k4_heads": 40000,
+    "source_controls": 116160,
+    "RGB_pairs": 116160,
+    "physics_integrations": 580800,
+    "arm_gripper_dispatches": 232320,
+    "source_teacher_decisions": 43000,
+    "motion_planner_invocations": 1024,
+    "new_GPU_hours": 8,
+    "new_CPU_core_hours": 128,
+    "new_owned_output_cache_GiB": 100,
+    "WBC_target_model_target_physics_hardware": 0
+  },
+  "workstreams": [
+    "ONE_OWNER",
+    "H200_TRAIN_C0_C1",
+    "CORELAB_REAL_TRAIN_STATES_TEACHER",
+    "CORELAB_FIXED_EVAL",
+    "CPU_ATTRIBUTION_AND_POST1300_REPORT"
+  ],
+  "terminal_statuses": [
+    "NEW_CONFIRM_QUALIFIED_SOURCE_T1",
+    "NEW_CONFIRM_VALID_FAIL",
+    "DEVELOPMENT_ONLY_NOT_CONFIRMED",
+    "CORRECTION_NOT_ADMITTED",
+    "DEADLINE_PARTIAL",
+    "TECHNICAL_BLOCKED"
+  ],
+  "reviewer_SSH_or_PBS_calls": 0,
+  "publication_not_execution": true
+}

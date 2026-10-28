@@ -1,0 +1,96 @@
+{
+  "schema": "MP1_N1_NI16_ACTUAL_TERMINAL_V1",
+  "status": "ACTUAL_SIXTEEN_ORIGINAL_NOISE_ENDPOINT_DRAWS_NATIVE_F_EXIT0",
+  "observed_epoch": 1792287371.3119276,
+  "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+  "N1_T0_epoch": 1792264081,
+  "original_MP1_T0_epoch": 1792178085,
+  "native": {
+    "job_id": "673318.hopper-m-02",
+    "state": "F",
+    "exit_status": 0,
+    "source_sha": "0ad0cc3aa8810a3719002ae44649a6f6cd4bfdcf",
+    "reported_wall_s": 741,
+    "conservative_H200_s": 745,
+    "reported_native_CPU_s": 103,
+    "measured_neural_CPU_s": 99.90824039200001,
+    "source_cumulative_H200_s": 42833,
+    "parent_cumulative_H200_s": 47333,
+    "H200_reserved_s": 0,
+    "source_PBS_used": 10,
+    "parent_Hopper_PBS_used": 13,
+    "automatic_next_submission": false
+  },
+  "actual_same_job_qualification": {
+    "status": "PASS_SAME_JOB_NATIVE_QUALIFICATION_READBACK",
+    "receipt_sha256": "f7c0cc15559818708b7ed772c9eb082ff0540efb8ed6ac0dce85d5a543def49e",
+    "heartbeat_elapsed_s": 600.0274926349521,
+    "transport_cycles": 80,
+    "new_model_queries": 0,
+    "new_physics": 0,
+    "actual_post_read_samples": 81,
+    "distinct_owner_epochs": 78,
+    "isolated_fault_status": {
+      "actual_expired_heartbeat": "PASS",
+      "actual_future_heartbeat": "PASS",
+      "wrong_run_heartbeat": "PASS",
+      "concurrent_replace": "PASS",
+      "metadata_read_failure": "PASS",
+      "statistics_lock": "PASS",
+      "late_response": "PASS",
+      "process_exit": "PASS"
+    },
+    "models_loaded_at_qualification": 0,
+    "new_queries_at_qualification": 0,
+    "new_physics_at_qualification": 0
+  },
+  "diagnostic": {
+    "states": 8,
+    "original_parent_episodes": 4,
+    "models": [
+      "S-BC-2048",
+      "S-CORR-2048"
+    ],
+    "actual_new_draws": 16,
+    "old_BC512_draws_reused": 8,
+    "cumulative_generation_queries": 2406,
+    "physical_action_shape": [
+      40,
+      10
+    ],
+    "normalized_action_shape": [
+      1,
+      40,
+      132
+    ],
+    "exact_original_noise_tensors_verified": true,
+    "original_observation_fingerprints_verified": true,
+    "canonical_precision": "BF16_AUTOCAST_FP32_MATMUL_TF32_FALSE",
+    "complete_original_query_journals_and_array_hashes_verified": true,
+    "NI_RESULT_matches_own_PBS_PROCESS_FINAL": true,
+    "new_live_or_shadow_physics": 0,
+    "new_optimizer_updates": 0,
+    "combined_formal_updates": 4096,
+    "new_Teacher_labels": 0,
+    "result_sha256": "e8670aacee9a28b054eeda5d8ba3f37ce1a92b40321a6f57611efea6e0a92971",
+    "PBS_PROCESS_FINAL_sha256": "d66c045407054d67ddf5b9c420cdf5da0c1ca7b36462ed30ad0e001c1bc7eadd"
+  },
+  "independent_readback_sha256": "1b406533acbcfbde74d2a4f173d739d20ebabb8b2879533a71f2773f049ebd10",
+  "interpretation": "Offline matched-input draws, not policy evaluation, fresh-observation closed loop, task success, or independent demonstrations.",
+  "HF_handoff": {
+    "status": "ACTUAL_FIXED_REVISION_CONSUMED_ON_CORE",
+    "revision": "5378b8e8bd626e9c01a119ae141dfdd15c3f0838",
+    "prefix": "PI0294/20261016T191445Z-localpc-mp1/N1_CURRENT_EIGHT_ENDPOINT_NI16_ACTUAL_V1"
+  },
+  "matched_Core_shadows": {
+    "status": "ACTUAL_NI16_FIXED_HF_CORE_CONSUMPTION_AND_MATCHED_SHADOWS_CLOSED",
+    "receipt": "N1_CURRENT_EIGHT_ENDPOINT_MATCHED_SHADOWS_ACTUAL.json"
+  },
+  "optional_method": "NONE_NO_OPTIONAL_NEW_TRAINING",
+  "SOURCE_CONFIRM_V1": "NOT_RUN",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "WBC": "FROZEN",
+  "TF_R3_STOP": "PRESERVED",
+  "goal": "ACTIVE_INCOMPLETE"
+}

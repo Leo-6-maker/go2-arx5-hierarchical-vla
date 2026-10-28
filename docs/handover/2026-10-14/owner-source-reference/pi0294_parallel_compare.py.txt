@@ -1,0 +1,117 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Actual same-renderer parallel evidence, billed through the sole CPU owner."""
+import argparse
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r"""
+import json,os,subprocess,sys,time
+from pathlib import Path
+root=Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+manifest=json.loads((root/'RUN_MANIFEST.json').read_text());source=root/manifest['code']['capsule_relative']
+sys.path[:0]=[str(source/'src'),str(source)]
+from scripts.pi0292.durable import read,write
+from scripts.iteration.queue import LiveCoordinator,digest
+from scripts.pi0294.run_admission import validate
+validate(root,profile='4080-simulation')
+queue=read(root/'LIVE_QUEUE.json');assert queue['status']=='LIVE_TERMINAL_ALL_FIRST_ATTEMPTS'
+plan=next(p for p in (root/'plans').glob('*.json') if digest(p)==queue['plan_sha256'])
+previous=next(p for p in (root/'evidence').glob('*/LIVE_ADMISSION.private.json') if digest(p)==queue['admission_sha256'])
+admission=read(previous);admission['prior_actual']=queue['actual']
+assert not NAMESPACE or NAMESPACE=='requal-f1fdf3ac'
+assert not NAMESPACE or manifest['code']['vla_commit']=='f1fdf3acd481687cb275334ba512ce038eba51e9'
+stage=root/'evidence'/('parallel-comparison-'+str(LEVEL)+('-'+NAMESPACE if NAMESPACE else ''));stage.mkdir(exist_ok=False)
+write(stage/'LIVE_ADMISSION.private.json',admission)
+owner=LiveCoordinator.open_terminal(root,plan,stage/'LIVE_ADMISSION.private.json',workers=2 if LEVEL==2 else 4)
+aux_id='parallel-compare-'+str(LEVEL)+('-'+NAMESPACE if NAMESPACE else '')
+ticket=owner.reserve_auxiliary(aux_id,cpu_count=1,timeout_s=180,output_bytes=1024**2,memory_bytes=2*1024**3)
+reservation=root/'reservations'/('aux-'+aux_id+'.json')
+program=r'''
+import hashlib,json,os,resource,sys,time
+from pathlib import Path
+sys.path[:0]=SOURCE_PATHS
+os.sched_setaffinity(0,set(CPUS))
+from scripts.pi0294.bank import validate_cpu_ticket
+from scripts.pi0292.durable import read,write
+validate_cpu_ticket(ROOT,RESERVATION)
+import numpy as np
+root=Path(ROOT);began=time.monotonic();rows=[]
+prefix=NAMESPACE if NAMESPACE else 'parallel'
+base_plan=read(root/'plans'/(prefix+'-serial.json'))
+test_name=prefix+('-two' if LEVEL==2 else '-four')
+test_plan=read(root/'plans'/(test_name+'.json'))
+for test in test_plan['episodes']:
+ baseline=next(r for r in base_plan['episodes'] if r['card']['task']==test['card']['task'])
+ a,b=root/'episodes'/baseline['id'],root/'episodes'/test['id']
+ for p in (a,b):
+  receipt=read(p/'WORKER_RECEIPT.json');audit=read(p/'AUDIT.json')
+  assert receipt['source_sha']==SOURCE,'ACTUAL_WORKER_SOURCE_DOES_NOT_MATCH_QUALIFICATION'
+  assert receipt['status']=='VALID_COMPLETE' and audit['status']=='PASS_INDEPENDENT_RAW_AUDIT' and audit['admitted']
+  assert receipt['physics_steps']==16000 and receipt['paired_samples']==receipt['rgb_pairs']==641
+  assert receipt['render_backend']=='mesa_cpu'
+ for name in ('physics.npz','highrate.npz'):
+  with np.load(a/name,allow_pickle=False) as left,np.load(b/name,allow_pickle=False) as right:
+   assert set(left.files)==set(right.files)
+   for key in left.files:assert np.array_equal(left[key],right[key]),(test['id'],name,key)
+ left,right=read(a/'references.json'),read(b/'references.json');assert len(left)==len(right)==80
+ for x,y in zip(left,right):
+  for key in ('planned_H40','gripper_H40','offsets_s','rows10','privileged_teacher_stage','committed_prefix_count'):
+   assert x[key]==y[key],(test['id'],key)
+ for camera in ('body_rgb','wrist_rgb'):
+  aa=sorted((a/camera).glob('*.png'));bb=sorted((b/camera).glob('*.png'));assert len(aa)==len(bb)==641
+  for x,y in zip(aa,bb):assert x.name==y.name and x.read_bytes()==y.read_bytes(),(test['id'],camera,x.name)
+ rows.append(dict(id=test['id'],baseline_id=baseline['id'],arrays_exact=True,contact_history_exact=True,
+  committed_H40_exact=True,all_1282_PNG_bytes_exact=True,independent_audit_admitted=True,
+  worker_wall_s=read(b/'WORKER_RECEIPT.json')['wall_s'],CPU_s=read(b/'WORKER_RECEIPT.json')['cpu_s']))
+def rate(name,plan):
+ process=read(root/'evidence'/('corelab-'+name)/'PROCESS.private.json')
+ assert process['source_sha']==SOURCE
+ ended=max((root/'episodes'/r['id']/'AUDIT.json').stat().st_mtime for r in plan['episodes'])
+ wall=ended-process['epoch'];assert wall>0
+ return dict(episodes=len(plan['episodes']),actual_pipeline_wall_s=wall,
+  admitted_episodes_per_hour=len(plan['episodes'])*3600/wall,
+  CPU_s=sum(read(root/'episodes'/r['id']/'WORKER_RECEIPT.json')['cpu_s']+read(root/'episodes'/r['id']/'AUDIT.json')['CPU_s'] for r in plan['episodes']),
+  basis='ACTUAL_DISPATCH_EPOCH_TO_LAST_ATOMIC_AUDIT_FILE_MTIME')
+baseline=rate(prefix+'-serial',base_plan);actual=rate(test_name,test_plan)
+faster=actual['admitted_episodes_per_hour']>baseline['admitted_episodes_per_hour']
+qualified=2 if LEVEL==2 and faster else 1
+if LEVEL==4:
+ prior=read(root/'evidence'/('PARALLEL_TWO_ACTUAL'+('_'+NAMESPACE if NAMESPACE else '')+'.json'))
+ assert prior['source_sha']==SOURCE
+ qualified=4 if faster and actual['admitted_episodes_per_hour']>prior['actual']['admitted_episodes_per_hour'] else prior['qualified_workers']
+usage=resource.getrusage(resource.RUSAGE_SELF)
+value=dict(status='PASS_ACTUAL_PARALLEL_QUALIFICATION',run_uuid=root.name,source_sha=SOURCE,
+ diagnostic_only=True,level=LEVEL,qualified_workers=qualified,rows=rows,baseline=baseline,actual=actual,
+ speedup=actual['admitted_episodes_per_hour']/baseline['admitted_episodes_per_hour'],faster_than_serial=faster,
+ CPU_s=usage.ru_utime+usage.ru_stime,comparison_wall_s=time.monotonic()-began,
+ actual_physics_from_saved_receipts=True,comparison_integrations=0,comparison_render_calls=0)
+write(OUTPUT,value)
+'''
+entry=read(root/'ENTRY_BINDING.private.json')
+output=root/'evidence'/(('PARALLEL_TWO_ACTUAL' if LEVEL==2 else 'PARALLEL_THROUGHPUT')+('_'+NAMESPACE if NAMESPACE else '')+'.json')
+assert not output.exists(),'PRESERVE_PRIOR_QUALIFICATION_RECEIPT'
+values=dict(ROOT=str(root),SOURCE=manifest['code']['vla_commit'],SOURCE_PATHS=[str(source/'src'),str(source)],
+ RESERVATION=str(reservation),CPUS=ticket['cpus'],LEVEL=LEVEL,OUTPUT=str(output),NAMESPACE=NAMESPACE)
+env=dict(os.environ,PYTHONPATH=str(source/'src')+':'+str(source),CUDA_VISIBLE_DEVICES='',
+ PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+program_bytes='\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+program
+write(stage/'PROGRAM_IDENTITY.json',dict(sha256=__import__('hashlib').sha256(program_bytes.encode()).hexdigest(),
+ source_sha=manifest['code']['vla_commit'],comparison_integrations=0,comparison_render_calls=0))
+command=[entry['entry'],'4080-simulation','python','-c',program_bytes]
+try:
+ result=subprocess.run(command,env=env,cwd=source,text=True,capture_output=True,timeout=180)
+ write(stage/'EXECUTION.json',dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ assert result.returncode==0,result.stderr[-2200:]
+ value=read(output);owner.complete_auxiliary(aux_id,cpu_s=value['CPU_s'],output_bytes=output.stat().st_size+4096)
+ owner.finish();print(json.dumps(value))
+finally:owner.close()
+"""
+if __name__=='__main__':
+ p=argparse.ArgumentParser();p.add_argument('--level',type=int,choices=[2,4],required=True)
+ p.add_argument('--namespace',choices=['requal-f1fdf3ac'],default='');a=p.parse_args()
+ result=remote('corelab-4080s','RUN='+repr(RUN)+'\nLEVEL='+repr(a.level)+'\nNAMESPACE='+repr(a.namespace)+'\n'+CODE)
+ save(BASE/('PARALLEL_COMPARE_'+str(a.level)+'_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr=result.stderr))
+ if result.returncode:raise RuntimeError(result.stderr[-2800:])
+ print(result.stdout)

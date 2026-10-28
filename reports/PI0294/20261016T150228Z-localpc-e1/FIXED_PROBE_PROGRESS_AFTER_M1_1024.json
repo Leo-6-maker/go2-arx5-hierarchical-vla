@@ -1,0 +1,182 @@
+{
+  "status": "EXISTING_FIXED_PROBE_READONLY_PROGRESS",
+  "models": {
+    "M0": {
+      "tasks": {
+        "T1": {
+          "windows": 48,
+          "metrics": {
+            "prefix8": {
+              "XYZ_mean_m": 0.0056484047796327656,
+              "SO3_mean_rad": 0.016666316256525898,
+              "gripper_MAE": 0.04678251772808532
+            },
+            "H40": {
+              "XYZ_mean_m": 0.007033112238150967,
+              "SO3_mean_rad": 0.015818314564368226,
+              "gripper_MAE": 0.023067582693571845
+            }
+          },
+          "reference_rejections": 0
+        },
+        "T2": {
+          "windows": 48,
+          "metrics": {
+            "prefix8": {
+              "XYZ_mean_m": 0.005623039041052102,
+              "SO3_mean_rad": 0.016559355528349477,
+              "gripper_MAE": 0.06628096119190256
+            },
+            "H40": {
+              "XYZ_mean_m": 0.0072469877210341056,
+              "SO3_mean_rad": 0.01755013114565422,
+              "gripper_MAE": 0.046170685937007266
+            }
+          },
+          "reference_rejections": 0
+        }
+      },
+      "already_generated_expert_probes": 96,
+      "already_generated_student_probes": 0,
+      "original_M0_student_outputs_reused": true,
+      "additional_queries_for_this_aggregation": 0,
+      "not_closed_loop_task_success": true
+    },
+    "M1-256": {
+      "tasks": {
+        "T1": {
+          "windows": 48,
+          "metrics": {
+            "prefix8": {
+              "XYZ_mean_m": 0.0037742593912322353,
+              "SO3_mean_rad": 0.008529979903270863,
+              "gripper_MAE": 0.02834156365133822
+            },
+            "H40": {
+              "XYZ_mean_m": 0.004409607154857452,
+              "SO3_mean_rad": 0.009280054469338769,
+              "gripper_MAE": 0.015458926170443496
+            }
+          },
+          "reference_rejections": 0
+        },
+        "T2": {
+          "windows": 48,
+          "metrics": {
+            "prefix8": {
+              "XYZ_mean_m": 0.003790459769209762,
+              "SO3_mean_rad": 0.009024939465598139,
+              "gripper_MAE": 0.041571022011339664
+            },
+            "H40": {
+              "XYZ_mean_m": 0.0046083090951675575,
+              "SO3_mean_rad": 0.009925515977033911,
+              "gripper_MAE": 0.025800257719432312
+            }
+          },
+          "reference_rejections": 0
+        }
+      },
+      "already_generated_expert_probes": 96,
+      "already_generated_student_probes": 12,
+      "original_M0_student_outputs_reused": false,
+      "additional_queries_for_this_aggregation": 0,
+      "not_closed_loop_task_success": true
+    },
+    "M1-256-CANONICAL": {
+      "tasks": {
+        "T1": {
+          "windows": 48,
+          "metrics": {
+            "prefix8": {
+              "XYZ_mean_m": 0.003775374913007834,
+              "SO3_mean_rad": 0.008524877203638294,
+              "gripper_MAE": 0.02819713957918187
+            },
+            "H40": {
+              "XYZ_mean_m": 0.0043879409349129265,
+              "SO3_mean_rad": 0.009271200265385965,
+              "gripper_MAE": 0.01549995595899721
+            }
+          },
+          "reference_rejections": 0
+        },
+        "T2": {
+          "windows": 48,
+          "metrics": {
+            "prefix8": {
+              "XYZ_mean_m": 0.003789342082424572,
+              "SO3_mean_rad": 0.00904329106086714,
+              "gripper_MAE": 0.04213756384948889
+            },
+            "H40": {
+              "XYZ_mean_m": 0.004606615600796514,
+              "SO3_mean_rad": 0.0099027305223063,
+              "gripper_MAE": 0.025709109489495556
+            }
+          },
+          "reference_rejections": 0
+        }
+      },
+      "already_generated_expert_probes": 96,
+      "already_generated_student_probes": 12,
+      "original_M0_student_outputs_reused": false,
+      "additional_queries_for_this_aggregation": 0,
+      "not_closed_loop_task_success": true
+    },
+    "M1-1024-CANONICAL": {
+      "tasks": {
+        "T1": {
+          "windows": 48,
+          "metrics": {
+            "prefix8": {
+              "XYZ_mean_m": 0.0025827795834152236,
+              "SO3_mean_rad": 0.006612854001087176,
+              "gripper_MAE": 0.024221560064082343
+            },
+            "H40": {
+              "XYZ_mean_m": 0.003623194432286574,
+              "SO3_mean_rad": 0.007339439445713637,
+              "gripper_MAE": 0.013874810887500644
+            }
+          },
+          "reference_rejections": 0
+        },
+        "T2": {
+          "windows": 48,
+          "metrics": {
+            "prefix8": {
+              "XYZ_mean_m": 0.00287297035688122,
+              "SO3_mean_rad": 0.007756063997809906,
+              "gripper_MAE": 0.029370806956042845
+            },
+            "H40": {
+              "XYZ_mean_m": 0.0036623049492025533,
+              "SO3_mean_rad": 0.00885005257299999,
+              "gripper_MAE": 0.018068572444220384
+            }
+          },
+          "reference_rejections": 0
+        }
+      },
+      "already_generated_expert_probes": 96,
+      "already_generated_student_probes": 12,
+      "original_M0_student_outputs_reused": false,
+      "additional_queries_for_this_aggregation": 0,
+      "not_closed_loop_task_success": true
+    }
+  },
+  "inherited_vs_original_context_fixed_student_comparison": {
+    "fixed_student_states": 12,
+    "maximum_absolute_component_difference": {
+      "XYZ_component_m": 0.0006356495022276365,
+      "rotation6D_component": 0.0034854716614458325,
+      "gripper_fraction": 0.082763671875
+    },
+    "all_12_physical_H40_exactly_equal": false,
+    "not_evidence_of_all_unobserved_live_actions_equivalent": true,
+    "causes_of_task_failure_not_isolated": true
+  },
+  "new_model_queries": 0,
+  "all_model_evaluation_stages_terminal": false
+}

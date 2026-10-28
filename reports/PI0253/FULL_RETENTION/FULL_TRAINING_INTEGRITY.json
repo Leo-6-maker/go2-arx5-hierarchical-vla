@@ -1,0 +1,502 @@
+{
+  "actual_random_capture_status": "REFERENCE_CAPTURED_ALL_10000",
+  "actual_sample_consumption_rows": 10000,
+  "arm": "G",
+  "checkpoint_receipts": [
+    {
+      "readback_sha256": "f16910b27337ff851512747b23e91fa846bb847b552ff7d9df79be370bc9fc81",
+      "receipt_sha256": "ccaebbc289973d8bb2e5f70249872b71be75a2068aad5dc7771427a4141f3cc0",
+      "step": 2500,
+      "tree_sha256": "fadc5581ebfce50e79a94078d7d6434ee333a55f7e8c1f8e9350f475c5a580cb"
+    },
+    {
+      "readback_sha256": "fd349ab1d81ec91a8806a4571c56e0cc6c74f9681fd8b786c81edc0b9ea4d84a",
+      "receipt_sha256": "ff70e014f1319cc50e138f42b233152126d0280a7ddedf6ca94dfbc56f62c464",
+      "step": 5000,
+      "tree_sha256": "8cfe43038921d53e27f5408f2ac2307fadd05f568fe9171acc3d3e18db4ff570"
+    },
+    {
+      "readback_sha256": "e954e724492e5082055f48eb6991681db032271a34ab76ca00ba67929f7f9f50",
+      "receipt_sha256": "6ff3f7c943682d4fe1aab3bc2367b545238d13b997954e2561a635556a845687",
+      "step": 7500,
+      "tree_sha256": "f91769fdb3ca6b55994470f04b7546d6c78285824aea47c24d8581f4cde25e26"
+    },
+    {
+      "readback_sha256": "c06f4ac3d3b114fd48e0c92e3d715dd8112957c06205444aa89de484e8035d87",
+      "receipt_sha256": "b30834273ba0dbcb08daee677b9be0d7cfff64fb3fc583366659651d4f8bd85d",
+      "step": 10000,
+      "tree_sha256": "a0ef6005f1ec178addbee8cf176a4bc997551065e1885e9df927780e77e11212"
+    }
+  ],
+  "checkpoint_steps": [
+    2500,
+    5000,
+    7500,
+    10000
+  ],
+  "checkpoints": {
+    "10000": {
+      "checkpoint_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/checkpoint-10000",
+      "durable_receipt_sha256": "b30834273ba0dbcb08daee677b9be0d7cfff64fb3fc583366659651d4f8bd85d",
+      "family": "PI0253_FULL_G_SUPPORT_V1",
+      "file_count": 9,
+      "full_hf_readback_sha256": "c06f4ac3d3b114fd48e0c92e3d715dd8112957c06205444aa89de484e8035d87",
+      "hf_manifest_commit_id": "7bafb99f58f3ed9dea66e85fff8c8b79a7c9785d",
+      "hf_prefix": "arms/PI0253/full-g-support-20260928/G/recovery/637051.hopper-m-02",
+      "local_copy_retired": true,
+      "projector_reconciliation_sha256": "7b552a9003cb56a1c65c9b252a8e4a6723e1af9b9c2360130a40d2baebbddea8",
+      "retirement_completion_sha256": "a08df48a5c47f5016afe01570044bd5c520b77587da16cca76ba729afaecd67e",
+      "retirement_intent_sha256": "2a62d72328a2d2a9da51b405bd1b9fa78ebf1913449562523f3c6f43d161c1b2",
+      "step": 10000,
+      "total_bytes": 20883752676,
+      "tree_sha256": "a0ef6005f1ec178addbee8cf176a4bc997551065e1885e9df927780e77e11212"
+    },
+    "2500": {
+      "checkpoint_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/training/checkpoint-2500",
+      "durable_receipt_sha256": "ccaebbc289973d8bb2e5f70249872b71be75a2068aad5dc7771427a4141f3cc0",
+      "family": "PI0253_FULL_G_SUPPORT_V1",
+      "file_count": 9,
+      "full_hf_readback_sha256": "f16910b27337ff851512747b23e91fa846bb847b552ff7d9df79be370bc9fc81",
+      "hf_manifest_commit_id": "289b3a8c98a8f8aa8cc62a94c26c3a827c154a4b",
+      "hf_prefix": "arms/PI0253/full-g-support-20260928/G",
+      "local_copy_retired": true,
+      "projector_reconciliation_sha256": "07fee4b7415d0519c6f2151a1b07c3cafc4ce17e0a887a4bcf17a223a4c93d86",
+      "retirement_completion_sha256": "e93f1a6c57228337c7609b2cd25ddc4f2854073a8b03c3615c183f42c5111589",
+      "retirement_intent_sha256": "12dd80b445255b0cf152d840024daedbef724587f6327f3c13c9b7309731cc0b",
+      "step": 2500,
+      "total_bytes": 20882714202,
+      "tree_sha256": "fadc5581ebfce50e79a94078d7d6434ee333a55f7e8c1f8e9350f475c5a580cb"
+    },
+    "5000": {
+      "checkpoint_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/checkpoint-5000",
+      "durable_receipt_sha256": "ff70e014f1319cc50e138f42b233152126d0280a7ddedf6ca94dfbc56f62c464",
+      "family": "PI0253_FULL_G_SUPPORT_V1",
+      "file_count": 9,
+      "full_hf_readback_sha256": "fd349ab1d81ec91a8806a4571c56e0cc6c74f9681fd8b786c81edc0b9ea4d84a",
+      "hf_manifest_commit_id": "a8ab7d38970294b52320beba636a10cb6a2d5afe",
+      "hf_prefix": "arms/PI0253/full-g-support-20260928/G/recovery/637051.hopper-m-02",
+      "local_copy_retired": true,
+      "projector_reconciliation_sha256": "1bb8352d18d8cd87f29eee3a3baa80d8fc7f2d5465331d473581fc72e8ca114c",
+      "retirement_completion_sha256": "48c41b68cc35b2b2c660934921e8f8eb736727e28a9b293eb187191b14d3aea6",
+      "retirement_intent_sha256": "3d84dcb9cf15d8b86515a08ac10fa24a7f6edf63cb70ed8e29b8f96417ac29ca",
+      "step": 5000,
+      "total_bytes": 20883059724,
+      "tree_sha256": "8cfe43038921d53e27f5408f2ac2307fadd05f568fe9171acc3d3e18db4ff570"
+    },
+    "7500": {
+      "checkpoint_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/checkpoint-7500",
+      "durable_receipt_sha256": "6ff3f7c943682d4fe1aab3bc2367b545238d13b997954e2561a635556a845687",
+      "family": "PI0253_FULL_G_SUPPORT_V1",
+      "file_count": 9,
+      "full_hf_readback_sha256": "e954e724492e5082055f48eb6991681db032271a34ab76ca00ba67929f7f9f50",
+      "hf_manifest_commit_id": "c25a4252675fae8616d0dc80e4251c91a81c319b",
+      "hf_prefix": "arms/PI0253/full-g-support-20260928/G/recovery/637051.hopper-m-02",
+      "local_copy_retired": true,
+      "projector_reconciliation_sha256": "f66d3e84c01f2d8f4ed3efb3dde0a6101fd3ccfeffaad5ef59c8a1e2587df4f7",
+      "retirement_completion_sha256": "25dbdbe0467fb399ae1fe6b8ab056c5f4d9fa6685b127af4c2f086b991bb3220",
+      "retirement_intent_sha256": "f60214931cebaa211c7873183c459c0c8f5d42fa318f12e91eb36a106daf3f87",
+      "step": 7500,
+      "total_bytes": 20883406264,
+      "tree_sha256": "f91769fdb3ca6b55994470f04b7546d6c78285824aea47c24d8581f4cde25e26"
+    }
+  },
+  "execution_code_commit": "568fe6a16dfbf9aa6700375f668715efae655d7f",
+  "family": "PI0253_FULL_G_SUPPORT_V1",
+  "gradient_chain_sha256": "1eddcb5f2e8cba6b1cb5c096233867a71e3f7f9deb74a33077630b548915ba88",
+  "inherited_parity_sha256": "d4fb051546be12bb55f9c6602e5d7a810e43b9698ac04faf5d13d0ebcabb7504",
+  "initializer_revision": "efecea485ae77000599d19171b02491f8d514f42",
+  "initializer_tree_sha256": "cfbfeb54bea2b5ac266047dfd764cfa6b041a8a77b9688737ea70b56935d5226",
+  "mode_audit_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/u_mode_restoration_checks.jsonl",
+  "mode_audit_sha256": "ddeb7b024fe57ddb68dd0c3cb35f407546717446dced9ac12557b00f090b322d",
+  "mode_restoration_rows": 10000,
+  "new_nonselection_parity_rollouts": 0,
+  "objective_audit_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/pi0247_U_rollout_forward.complete.jsonl",
+  "objective_audit_sha256": "640f50038d836a8c8d91340845b8acfcff0e6e812d13c8fe8f7662a56487135a",
+  "objective_first": {
+    "active_action_modified": false,
+    "backward_recomputation_head_evaluations_expected": 4,
+    "checkpointed_euler_steps": 4,
+    "euler_states": [
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "7639f445676379f88a9deb64293a8c70ef776ddb293ccf4d09c23bd8ba591214",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "1c3572dbd29174e51c9a1887f80b4b450abb417a40b4bd5d921ba4bcf7304d6c",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "bd2ee12a591bce2101aed808229dc55c2b031c4ca65129d4706edcaf2701028e",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "a8c008a8c69609ace94eaca47aac4519581ac05ed02a224e0c464b6aca5f2394",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      }
+    ],
+    "euler_velocities": [
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "7f72e193f3187500fdd113e135b1eb5f21e1ba10084d19fe8833ef9b113978d6",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "251d5bef88ceb1cab3d79f505dc7966e5df13ac9fcc15ff5f75062e71933a769",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "ea05d2f1514c04c3892af055000c4f089e6b7b2a090a91a3a4c23ad1f41d6e86",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "4e89b2f0757fbe8c35d41eb42ac1042990b693483a54b9fbb4209e8246214a61",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      }
+    ],
+    "expert_action_in_condition": false,
+    "forward_index": 1,
+    "lambda_delta": 0.1,
+    "lambda_position": 0.4,
+    "lambda_rotation": 0.1,
+    "native_epsilon": {
+      "byte_count": 10560,
+      "device": "cuda:0",
+      "dtype": "torch.bfloat16",
+      "sha256": "d298a1292a3a480756377892edf7666bdc9ea22e943415200f738e26e2fa0dd2",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "native_epsilon_sha256": "d298a1292a3a480756377892edf7666bdc9ea22e943415200f738e26e2fa0dd2",
+    "native_loss": 0.01402001641690731,
+    "native_tau": [
+      0.40625
+    ],
+    "native_tau_identity": {
+      "byte_count": 2,
+      "device": "cuda:0",
+      "dtype": "torch.bfloat16",
+      "sha256": "426c6f51f8718ae16324b56f08c38201fe0882349da356b3b0261ae408087af1",
+      "shape": [
+        1
+      ]
+    },
+    "physical_delta_loss": 0.07131507992744446,
+    "physical_position_loss": 12.493073463439941,
+    "physical_residual_max_m": 0.19808071851730347,
+    "physical_rotation_loss": 2.460235118865967,
+    "pi0253_actual_training_loss": 5.26440463066101,
+    "pi0253_arm": "G",
+    "pi0253_lambda_speed_margin": 0.1,
+    "pi0253_peak_segment": 10,
+    "pi0253_peak_speed_mps": 0.21506556868553162,
+    "pi0253_peak_z": 0.011563300155103207,
+    "pi0253_speed_margin": 0.0,
+    "pi0253_speed_penalty": 0.0,
+    "relative_row1_norm_min": 1.035008430480957,
+    "relative_row2_orth_norm_min": 0.9683108925819397,
+    "rollout_count": 1,
+    "rollout_head_evaluations": 4,
+    "rollout_steps": 4,
+    "rotation_bounds_sha256": {
+      "maximum": "c71dd370d5dbe73764135081f80502608b3ab820fd82327fa683f9af127314a8",
+      "minimum": "5e5665b3eb94474929195b84058bed6c81ca0dad56005a478e33decf8e1d4ef1"
+    },
+    "rotation_orthogonality_max_abs": 0.0078125,
+    "runtime_id": "S4",
+    "saturated_rotation_values": 0,
+    "saturated_xyz": 0,
+    "stock_initial_noise": {
+      "byte_count": 21120,
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "sha256": "bbb63b4d2edb033c20117206b52d3a417055a559c397fa5c7a2fc2003d7edb57",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "stock_vl_features": {
+      "byte_count": 1196032,
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "sha256": "9de5b8bf5d8bfd97409a708f22bf8410f5ebfcf9ba1676f74fec2a1fd38ed5fe",
+      "shape": [
+        1,
+        146,
+        2048
+      ]
+    },
+    "target_row1_norm_min": 1.000170350074768,
+    "target_row2_orth_norm_min": 0.9993873834609985,
+    "theta_ref_rad": 0.05,
+    "total_loss": 5.018381118774414,
+    "total_loss_with_rotation": 5.26440463066101,
+    "valid_points": 40,
+    "valid_rotation_points": 40,
+    "valid_transitions": 39
+  },
+  "objective_last": {
+    "active_action_modified": false,
+    "backward_recomputation_head_evaluations_expected": 4,
+    "checkpointed_euler_steps": 4,
+    "euler_states": [
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "204a9cc63f62734081a7a74e1fa905cc4c8c6e5d68610691415086b9247aa28e",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "d3779101270724eaae09c928bf7d2c37aeafb8b01f7351fcb46d92cb1cabc535",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "7a3fa6ac0e66814d558ce7c93b76d10966e5e1733ca6831284498d7d70bc547b",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "ec3c4164cdeebf9931ef57273c717df1d03854ef663c838f26d85b0f069fb0ec",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      }
+    ],
+    "euler_velocities": [
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "63f07f4ee6d65731fe0b6196966be0498768f3fcceb3b8db397389eabed9614f",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "5c8f75382b3ce4593c4ebebcf64117ff8870a83bee50de5d534c8d2318f4c8e3",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "960186c525d7af164dc37cddf26227fc324a3059548d2d2439fd03b9ac2321a4",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      },
+      {
+        "byte_count": 21120,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "sha256": "6da8c14d5f5d59d4ef2d15d465a62671491de803b2582f20291f37fb762ada31",
+        "shape": [
+          1,
+          40,
+          132
+        ]
+      }
+    ],
+    "expert_action_in_condition": false,
+    "forward_index": 10000,
+    "lambda_delta": 0.1,
+    "lambda_position": 0.4,
+    "lambda_rotation": 0.1,
+    "native_epsilon": {
+      "byte_count": 10560,
+      "device": "cuda:0",
+      "dtype": "torch.bfloat16",
+      "sha256": "296993db8cff4a2ac84bbb10d78f2112e49b2c11c3aabcbe3b2e08dfaeac0994",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "native_epsilon_sha256": "296993db8cff4a2ac84bbb10d78f2112e49b2c11c3aabcbe3b2e08dfaeac0994",
+    "native_loss": 0.02110160142183304,
+    "native_tau": [
+      0.171875
+    ],
+    "native_tau_identity": {
+      "byte_count": 2,
+      "device": "cuda:0",
+      "dtype": "torch.bfloat16",
+      "sha256": "1c06a6ead859c9c8df38adcca83c76f4b38563132f5d17a31d538fd29cd3032b",
+      "shape": [
+        1
+      ]
+    },
+    "physical_delta_loss": 0.053413353860378265,
+    "physical_position_loss": 6.98196268081665,
+    "physical_residual_max_m": 0.13872727751731873,
+    "physical_rotation_loss": 2.8382229804992676,
+    "pi0253_actual_training_loss": 3.103050470352173,
+    "pi0253_arm": "G",
+    "pi0253_lambda_speed_margin": 0.1,
+    "pi0253_peak_segment": 4,
+    "pi0253_peak_speed_mps": 0.619193971157074,
+    "pi0253_peak_z": 0.09585028886795044,
+    "pi0253_speed_margin": 0.0,
+    "pi0253_speed_penalty": 0.0,
+    "relative_row1_norm_min": 0.9982556104660034,
+    "relative_row2_orth_norm_min": 0.9495941400527954,
+    "rollout_count": 1,
+    "rollout_head_evaluations": 4,
+    "rollout_steps": 4,
+    "rotation_bounds_sha256": {
+      "maximum": "c71dd370d5dbe73764135081f80502608b3ab820fd82327fa683f9af127314a8",
+      "minimum": "5e5665b3eb94474929195b84058bed6c81ca0dad56005a478e33decf8e1d4ef1"
+    },
+    "rotation_orthogonality_max_abs": 0.0078125,
+    "runtime_id": "S4",
+    "saturated_rotation_values": 0,
+    "saturated_xyz": 0,
+    "stock_initial_noise": {
+      "byte_count": 21120,
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "sha256": "727507439d55e70b70b03e494c28115498d69bbbef4635a9d4a25e2a52965b8a",
+      "shape": [
+        1,
+        40,
+        132
+      ]
+    },
+    "stock_vl_features": {
+      "byte_count": 1196032,
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "sha256": "dbe48481cc3d6c148720a7f94fb62a5ace2f74d942ed8b8240bcb87b5e89156c",
+      "shape": [
+        1,
+        146,
+        2048
+      ]
+    },
+    "target_row1_norm_min": 0.9996452331542969,
+    "target_row2_orth_norm_min": 0.9991062879562378,
+    "theta_ref_rad": 0.05,
+    "total_loss": 2.819228172302246,
+    "total_loss_with_rotation": 3.103050470352173,
+    "valid_points": 40,
+    "valid_rotation_points": 40,
+    "valid_transitions": 39
+  },
+  "online_identity_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/pi0253_pair_identity.jsonl",
+  "online_identity_rows": 10000,
+  "online_identity_sha256": "2045c3b1a9feb21c9f2372df4de47026168646ca9c960e95543c573fdcf3b47d",
+  "optimizer_updates": 10000,
+  "paired_arm_comparison": "NOT_APPLICABLE_SINGLE_ARM",
+  "parity_sha256": "d4fb051546be12bb55f9c6602e5d7a810e43b9698ac04faf5d13d0ebcabb7504",
+  "pre_forward_guard_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/pi0253_pre_forward_guard.jsonl",
+  "pre_forward_guard_rows": 10000,
+  "pre_forward_guard_sha256": "d5364611fd05c3a1fed5b7d097f0999d4e034cbb12c9d41332b386e471fb6f00",
+  "resume_after_step": 2500,
+  "run_card_sha256": "3bece4c02d8158ec09a35fc597d6ffd34290b8d1559ea55ed877da75c6714277",
+  "schedule_sha256": "8a44b52d861c9f3a44a5c2f0771187581f24a64383c607fa211d3e60b41bbb9f",
+  "schema": "PI0253_FULL_TRAINING_INTEGRITY_V1",
+  "selected_checkpoint": "NONE",
+  "shared_lifecycle_manifest_sha256": "4df6e3b06e5fb70153de96aa714868a90b50c13f19108f6e57b1d2e25033d423",
+  "sim_admitted": false,
+  "status": "PASS_PI0253_G_TRAINING_INTEGRITY",
+  "step_key_table_sha256": "d79b6980420e211480d39283251235274e5c49e4f378fdfaa122f3bf1665f0da",
+  "step_rng_audit_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/recovery_attempts/637051.hopper-m-02/training/pi0253_step_rng_audit.jsonl",
+  "step_rng_audit_sha256": "86039d554b055c3515a8bdf3a8c24debf64b562a1bfbca1fce56c88319dbdc3a",
+  "step_rng_rows": 10000,
+  "training_manifest_path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0253/FULL_G/pi0253_training_manifest.json",
+  "training_manifest_sha256": "6a9f67fbbcb575765c8bcc3ef262f56f1ba92b6262301ac6f16f08025cdbb095"
+}

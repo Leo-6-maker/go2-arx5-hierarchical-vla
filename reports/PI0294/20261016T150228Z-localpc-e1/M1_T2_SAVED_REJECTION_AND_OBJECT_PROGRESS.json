@@ -1,0 +1,79 @@
+{
+  "schema": "E1_M1_T2_SAVED_EVIDENCE_ONLY_V1",
+  "observed_epoch": 1792211392.8884385,
+  "priority_review_adopted": "114f0786a329fae95aadd89f9d5d96c3ccb143d8",
+  "new_authority_budget_owner_or_T0": false,
+  "model": "M1-1024-CANONICAL",
+  "teacher_takeover": false,
+  "source": "EXISTING_NATIVE_SAMPLES_SCORE_PREFLIGHT_AND_ADJUDICATION",
+  "new_model_queries": 0,
+  "new_physical_integrations": 0,
+  "rows": [
+    {
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F0-000-T2",
+      "status": "VALID_TASK_FAIL",
+      "duration_s": 17.6,
+      "native_safety_faults": 0,
+      "S1_pre_execution_rejections": 1,
+      "actual_robot_contact": true,
+      "horizontal_push": true,
+      "no_lift": true,
+      "maximum_horizontal_displacement_m": 0.1327516571295129,
+      "maximum_center_height_rise_m": 0.00029823272531948053,
+      "initial_recorded_object_xyz_m": [0.4571955564143642, -0.07391292045913811, 0.46],
+      "last_recorded_object_xyz_m": [0.4789614100645598, 0.056947177512513915, 0.4598924539296519],
+      "original_final_S1_reason": "ILLEGAL_CONTACT_OR_PENETRATION",
+      "first_predicted_violation_offset_tick": 56,
+      "first_predicted_violation_offset_s": 0.112,
+      "rejected_prefix_live_integrations": 0,
+      "rejected_prefix_live_state_unchanged": true,
+      "saved_stage_label": "AUDIT_ONLY_approach",
+      "sha256": {
+        "samples.json": "90b02be73c652b3003d758180ebce61806f2eec6fecb857f2988249fb6b75d4f",
+        "S1_PREFLIGHTS.json": "1b0bf73425307e1a636ffbe0e62d5a99824a48e8d9913c01fc6ed69305376522",
+        "SCORE.json": "cce914198acfb8691b4a57468dfda759ffbe7e2b58654f84f58e45b2049896be",
+        "E1_ADJUDICATION.json": "8e9ebc11c48924fd2dcb18fc21d04246d07baceb11d364423cc12aff69ab665d"
+      }
+    },
+    {
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F1-000-T2",
+      "status": "VALID_TASK_FAIL",
+      "duration_s": 18.4,
+      "native_safety_faults": 0,
+      "S1_pre_execution_rejections": 1,
+      "actual_robot_contact": true,
+      "horizontal_push": true,
+      "no_lift": true,
+      "maximum_horizontal_displacement_m": 0.14609119688444316,
+      "maximum_center_height_rise_m": 0.00030741815817697526,
+      "initial_recorded_object_xyz_m": [0.45222155996621993, -0.07876856010133773, 0.46],
+      "last_recorded_object_xyz_m": [0.4397540446406193, 0.0666887306604791, 0.4598930429645912],
+      "original_final_S1_reason": "ILLEGAL_CONTACT_OR_PENETRATION",
+      "first_predicted_violation_offset_tick": 52,
+      "first_predicted_violation_offset_s": 0.104,
+      "rejected_prefix_live_integrations": 0,
+      "rejected_prefix_live_state_unchanged": true,
+      "saved_stage_label": "AUDIT_ONLY_approach",
+      "sha256": {
+        "samples.json": "e417421f144786da1d08e964d83d5e71c57a95dcbd2f38a599e5278bfa20737f",
+        "S1_PREFLIGHTS.json": "2e4588e467fda020c0c343bb04c5b03ff4755f76e1f1c67e925dba9ed930d8d3",
+        "SCORE.json": "cdc917f57b120c5cf02673c89eec8f38c3e1af9e4760ea80731fa395dca5778d",
+        "E1_ADJUDICATION.json": "c060c561d44c676b27508f8b4fcab124dbb0985dd506b07a52d0c357499899b8"
+      }
+    }
+  ],
+  "interpretation": {
+    "complete_task_success": false,
+    "supports_actual_partial_push_before_rejection": true,
+    "specific_rejecting_geom_pair": "NOT_RECORDED_IN_SAVED_FINAL_PREFLIGHT_REQUIRES_EXACT_HISTORY_SHADOW_DIAGNOSIS",
+    "old_M2048_reject_reason_inherited": false,
+    "teacher_stage_is_model_intention": false,
+    "audit_only_teacher_label_does_not_negate_actual_object_motion": true,
+    "SCORE_safety_valid_false_is_not_native_fault_count": true,
+    "unique_causal_attribution": "NOT_ESTABLISHED",
+    "valid_outcomes_replayed": false
+  },
+  "WBC_S1_score_or_training_changed": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

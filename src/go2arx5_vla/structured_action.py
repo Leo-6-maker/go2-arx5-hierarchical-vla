@@ -45,6 +45,7 @@ from .trajectory.so3 import (
     rot6d_rows_to_matrix,
     rot6d_to_matrix,
     rotation_matrix_to_rot6d,
+    rotation_matrix_to_rot6d_rows,
 )
 
 
@@ -144,6 +145,48 @@ def _physical_to_chunk(
     )
 
 
+def _stable_rotation_identity_metrics(
+    state_rotation: np.ndarray,
+    action_rotation: np.ndarray,
+) -> dict[str, float]:
+    """Measure the anchor rotation identity without inverse-trig cancellation.
+
+    ``geodesic_angle`` is retained for scientific metrics, but its trace/
+    ``acos`` form is ill-conditioned at the identity.  For two SO(3) matrices,
+    the Frobenius distance is exactly ``2*sqrt(2)*sin(theta/2)``.  This helper
+    therefore exposes the same strict angular invariant in a numerically stable
+    representation and includes the diagnostics needed to audit the predicate.
+    """
+
+    state = np.asarray(state_rotation, dtype=np.float64)
+    action = np.asarray(action_rotation, dtype=np.float64)
+    if state.shape != (3, 3) or action.shape != (3, 3):
+        raise ValueError("anchor rotations must have shape (3, 3)")
+    identity = np.eye(3, dtype=np.float64)
+    delta = state - action
+    return {
+        "max_abs_matrix_difference": float(np.max(np.abs(delta))),
+        "frobenius_matrix_difference": float(np.linalg.norm(delta, ord="fro")),
+        "orthogonality_residual_state": float(
+            np.max(np.abs(state.T @ state - identity))
+        ),
+        "orthogonality_residual_action": float(
+            np.max(np.abs(action.T @ action - identity))
+        ),
+        "det_state": float(np.linalg.det(state)),
+        "det_action": float(np.linalg.det(action)),
+    }
+
+
+def _rotation_matrix_frobenius_bound(rotation_tolerance_rad: float) -> float:
+    """Convert the unchanged angular tolerance to its exact SO(3) bound."""
+
+    tolerance = float(rotation_tolerance_rad)
+    if not np.isfinite(tolerance) or tolerance < 0.0:
+        return float("nan")
+    return float(2.0 * np.sqrt(2.0) * np.sin(0.5 * tolerance))
+
+
 def _validate_anchor(
     physical_action: np.ndarray,
     state_v1: np.ndarray,
@@ -157,12 +200,152 @@ def _validate_anchor(
     action_rotation = rot6d_rows_to_matrix(action0[3:9])
     position_error = float(np.linalg.norm(action0[:3] - state[:3]))
     rotation_error = float(geodesic_angle(state_rotation, action_rotation))
-    if position_error > position_tolerance_m or rotation_error > rotation_tolerance_rad:
+    rotation_metrics = _stable_rotation_identity_metrics(
+        state_rotation, action_rotation
+    )
+    rotation_bound = _rotation_matrix_frobenius_bound(rotation_tolerance_rad)
+    stable_rotation_identity = bool(
+        np.isfinite(rotation_metrics["frobenius_matrix_difference"])
+        and np.isfinite(rotation_bound)
+        and rotation_metrics["frobenius_matrix_difference"] <= rotation_bound
+    )
+    if position_error > position_tolerance_m or not stable_rotation_identity:
         raise ValueError(
             "structured action control pose 0 is not the measured runtime anchor: "
-            f"position_error_m={position_error}, rotation_error_rad={rotation_error}"
+            f"position_error_m={position_error}, rotation_error_rad={rotation_error}, "
+            "stable_rotation_identity="
+            f"{stable_rotation_identity}, "
+            "stable_rotation_max_abs_matrix_difference="
+            f"{rotation_metrics['max_abs_matrix_difference']}, "
+            "stable_rotation_frobenius_difference="
+            f"{rotation_metrics['frobenius_matrix_difference']}, "
+            f"stable_rotation_frobenius_bound={rotation_bound}, "
+            "state_orthogonality_residual="
+            f"{rotation_metrics['orthogonality_residual_state']}, "
+            "action_orthogonality_residual="
+            f"{rotation_metrics['orthogonality_residual_action']}, "
+            f"state_det={rotation_metrics['det_state']}, "
+            f"action_det={rotation_metrics['det_action']}"
         )
     return state[:3].copy(), state_rotation.copy()
+
+
+def _stable_native_anchor_rot6d(action_rot6d: np.ndarray) -> tuple[np.ndarray, str, float]:
+    """Return a deterministic native-row representation that passes strict self-check.
+
+    The native row-packed representation is decoded by a Gram--Schmidt step.
+    For a few finite float64 inputs, multiplying that decoded matrix by itself
+    produces a trace one ulp below three; the unchanged ``1e-9`` geodesic
+    invariant then reports a false ``~2e-8`` rad mismatch.  This helper searches
+    only representations of the already-decoded action rotation: literal
+    values, a canonical repack, and one-ulp ``nextafter`` neighbours.  It never
+    changes the physical action rotation and fails closed if no representation
+    remains within the Stage45B semantic tolerance.
+    """
+
+    raw = _array("action_pose0_rot6d", action_rot6d, shape=(6,))
+    action_rotation = rot6d_rows_to_matrix(raw)
+    canonical = rotation_matrix_to_rot6d_rows(action_rotation)
+    seeds = ((raw, "literal_native_rot6d"), (canonical, "canonical_native_rot6d"))
+    candidates: list[tuple[np.ndarray, str]] = list(seeds)
+    for seed, label in seeds:
+        for index in range(6):
+            for direction, direction_label in ((-np.inf, "down"), (np.inf, "up")):
+                candidate = seed.copy()
+                candidate[index] = np.nextafter(candidate[index], direction)
+                candidates.append(
+                    (candidate, f"{label}_ulp_{direction_label}_{index}")
+                )
+
+    for candidate, label in candidates:
+        candidate_rotation = rot6d_rows_to_matrix(candidate)
+        semantic_error = float(geodesic_angle(candidate_rotation, action_rotation))
+        if not np.isfinite(semantic_error) or semantic_error > 1e-6:
+            continue
+        strict_error = float(geodesic_angle(candidate_rotation, action_rotation))
+        if np.isfinite(strict_error) and strict_error <= 1e-9:
+            return candidate, label, strict_error
+    raise ValueError(
+        "unable to construct a numerically stable native-row anchor representation "
+        "within the Stage45B 1e-6 semantic tolerance"
+    )
+
+
+def reconcile_stage45b_label_anchor(
+    physical_action: Any,
+    state_v1: Any,
+    *,
+    position_tolerance_m: float = 1e-6,
+    rotation_tolerance_rad: float = 1e-6,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Reconcile only the label-side state anchor for Stage45B.
+
+    The parquet observation state and physical H40 action are read-only.  This
+    function first proves that their pose-0 values have the same physical
+    meaning within the explicit P0 tolerance.  It then returns a copied label
+    state whose EEF pose is sourced from physical action pose 0, while keeping
+    the state gripper value untouched.  The normal ``encode_structured_action``
+    anchor invariant remains unchanged and is expected to validate the result.
+    """
+
+    if not np.isfinite(position_tolerance_m) or position_tolerance_m <= 0.0:
+        raise ValueError("position_tolerance_m must be finite and positive")
+    if not np.isfinite(rotation_tolerance_rad) or rotation_tolerance_rad <= 0.0:
+        raise ValueError("rotation_tolerance_rad must be finite and positive")
+    physical = _array(
+        "physical_action",
+        physical_action,
+        shape=(STRUCTURED_ACTION_HORIZON, STRUCTURED_ACTIVE_DENSE_DIM),
+    )
+    state = _array(
+        "state_v1", state_v1, shape=(STRUCTURED_ACTIVE_DENSE_DIM,)
+    )
+    action_pose0 = physical[0, :STRUCTURED_GEOMETRY_DIM]
+    state_rotation = rot6d_rows_to_matrix(state[3:9])
+    action_rotation = rot6d_rows_to_matrix(action_pose0[3:9])
+    position_error = float(np.linalg.norm(action_pose0[:3] - state[:3]))
+    rotation_error = float(geodesic_angle(state_rotation, action_rotation))
+    if (
+        not np.isfinite(position_error)
+        or not np.isfinite(rotation_error)
+        or position_error > position_tolerance_m
+        or rotation_error > rotation_tolerance_rad
+    ):
+        raise ValueError(
+            "Stage45B label anchor is not the same physical pose as action pose 0: "
+            f"position_error_m={position_error}, rotation_error_rad={rotation_error}"
+        )
+
+    reconciled = state.copy()
+    reconciled[:3] = action_pose0[:3]
+    stable_rot6d, orientation_method, strict_rotation_error = _stable_native_anchor_rot6d(
+        action_pose0[3:9]
+    )
+    reconciled[3:9] = stable_rot6d
+    reconciled_rotation = rot6d_rows_to_matrix(reconciled[3:9])
+    reconciled_error = float(geodesic_angle(reconciled_rotation, action_rotation))
+    if not np.isfinite(reconciled_error) or reconciled_error > 1e-9:
+        raise ValueError(
+            "Stage45B reconciled label anchor does not satisfy the unchanged "
+            f"1e-9 codec invariant: rotation_error_rad={reconciled_error}"
+        )
+    return reconciled, {
+        "method": "LABEL_ONLY_STATE_EEF_ANCHOR_TO_PHYSICAL_ACTION_POSE0",
+        "position_tolerance_m": float(position_tolerance_m),
+        "rotation_tolerance_rad": float(rotation_tolerance_rad),
+        "original_state_action_position_error_m": position_error,
+        "original_state_action_rotation_error_rad": rotation_error,
+        "reconciled_state_action_position_error_m": float(
+            np.linalg.norm(action_pose0[:3] - reconciled[:3])
+        ),
+        "reconciled_state_action_rotation_error_rad": reconciled_error,
+        "strict_codec_rotation_error_rad": strict_rotation_error,
+        "orientation_representation": orientation_method,
+        "label_only_state_copy": True,
+        "physical_action_untouched": True,
+        "original_observation_state_untouched": True,
+        "state_gripper_preserved": bool(reconciled[9] == state[9]),
+    }
 
 
 def _relative_canonical_pose(
@@ -699,6 +882,7 @@ __all__ = [
     "decode_structured_action",
     "encode_structured_action",
     "materialize_structured_action",
+    "reconcile_stage45b_label_anchor",
     "structured_action_contract_summary",
     "structured_action_mask",
     "structured_active_scalar_count",

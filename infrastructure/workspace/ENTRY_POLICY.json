@@ -1,0 +1,76 @@
+{
+  "schema": "WORKSPACE_ENTRY_POLICY_V1",
+  "status": "NORMATIVE_NOT_DEPLOYMENT_RECEIPT",
+  "canonical_standard": "docs/operations/2026-10-13_UNIFIED_ENTRY_AND_GITHUB_SYNC_V1.md",
+  "enforcement_supplement": "docs/operations/WORKSPACE_ENTRY_ENFORCEMENT_V1.md",
+  "canonical_task_card": "reports/maintenance/2026-10-13-unified-entry-standard/GO_TASK_CARD.json",
+  "workspace": "~/Projects/GR00T-WBC",
+  "code_repo_relative": "code/vla",
+  "workspace_itself_is_git_repo": false,
+  "integration_branch": "pi0267/executor-decoupled-recovery",
+  "main_role": "older_accepted_code_and_navigation_until_reviewed_promotion",
+  "publisher": "existing_local_pc",
+  "shared_entry_source": "src/go2arx5_vla/workspace",
+  "optional_thin_wrappers": "scripts/workspace",
+  "existing_entry": "infrastructure/enter.sh",
+  "existing_profiles": [
+    "amd-management",
+    "4080-simulation",
+    "4080-cpu-data"
+  ],
+  "hopper_profile": "hopper-neural",
+  "hopper_entry_deployment": "REQUIRES_ACTUAL_RECEIPT",
+  "planned_cli": "workspace",
+  "planned_commands": [
+    "doctor",
+    "paths",
+    "status",
+    "prepare-run",
+    "validate-run",
+    "sync"
+  ],
+  "new_run_kinds": [
+    "collect",
+    "train",
+    "eval",
+    "audit",
+    "pack"
+  ],
+  "required_checks": [
+    "fixed_code_and_entry_release",
+    "host_profile_and_python_identity",
+    "immutable_input_revisions",
+    "valid_task_authority",
+    "owner_and_active_lease",
+    "budget_and_original_deadline",
+    "registered_output_root",
+    "no_path_escape",
+    "no_duplicate_or_overwritten_run"
+  ],
+  "new_legacy_output_roots_allowed": false,
+  "running_source_auto_sync": false,
+  "force_push_or_reset": false,
+  "private_paths_or_secrets_in_git": false,
+  "resume_resets_counters": false,
+  "legacy_run_registration": "record_only_do_not_restart",
+  "adoption_limits": {
+    "max_wall_hours": 4,
+    "max_cpu_core_hours": 8,
+    "max_concurrent_cpu": 4,
+    "max_new_staging_GiB": 8,
+    "closeout_minutes": 30,
+    "new_physics": 0,
+    "new_model_calls": 0,
+    "new_pbs": 0,
+    "new_wbc_or_hardware": 0,
+    "expanded_delete_scope": false,
+    "clock_binding": "REUSE_CANONICAL_STANDARD_ADOPTION_T0_AND_LEDGER_NO_ADDITIVE_BUDGET"
+  },
+  "separate_acceptance": [
+    "SINGLE_HUMAN_ENTRY",
+    "NEW_WORK_ADMISSION_ENFORCED",
+    "GIT_SYNC_VERIFIED",
+    "PHYSICAL_TOP_LEVEL_ONE_DIR"
+  ],
+  "deployment_status": "NOT_ESTABLISHED_BY_THIS_FILE"
+}

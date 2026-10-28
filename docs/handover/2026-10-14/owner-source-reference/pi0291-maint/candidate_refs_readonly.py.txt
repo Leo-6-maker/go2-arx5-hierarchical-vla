@@ -1,0 +1,62 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Current two-node refs for original candidates only; no remote writes/signals."""
+import json
+from pathlib import Path
+import subprocess
+import time
+
+root = Path(__file__).parent
+facts = json.loads((root/'SOURCE_AUDIT_DECISION_FACTS.json').read_text())
+targets = list({x['path']: x for x in facts['migrate']+facts['cache']}.values())
+remote = r'''
+import datetime,json,os,socket,time
+from pathlib import Path
+cpu=time.process_time()
+TARGETS=json.loads(PAYLOAD)
+matches=[];errors=[];own_count=0;other_count=0
+for proc in Path('/proc').iterdir():
+    if not proc.name.isdigit() or int(proc.name)==os.getpid():continue
+    try:
+        uid=proc.stat().st_uid
+        if uid!=os.getuid():other_count+=1;continue
+        own_count+=1
+        st=(proc/'stat').read_text();tail=st[st.rfind(')')+2:].split()
+        values=[]
+        values.append(('cmdline',(proc/'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')))
+        for part in ('cwd','exe'):
+            try:values.append((part,os.readlink(proc/part)))
+            except OSError as e:errors.append({'pid':int(proc.name),'component':part,'errno':e.errno})
+        try:
+            for fd in (proc/'fd').iterdir():
+                try:values.append(('fd:'+fd.name,os.readlink(fd)))
+                except OSError as e:errors.append({'pid':int(proc.name),'component':'fd:'+fd.name,'errno':e.errno})
+        except OSError as e:errors.append({'pid':int(proc.name),'component':'fd','errno':e.errno})
+        try:values.append(('maps',(proc/'maps').read_text()))
+        except OSError as e:errors.append({'pid':int(proc.name),'component':'maps','errno':e.errno})
+        for target in TARGETS:
+            paths=[target['path'],target['realpath']]
+            kinds=sorted(set(kind for kind,value in values if any(path in value for path in paths)))
+            if kinds:matches.append({'pid':int(proc.name),'uid':uid,'state':tail[0],
+                'start_time_ticks':int(tail[19]),'source':target['path'],'reference_kinds':kinds})
+    except OSError as e:
+        errors.append({'pid':int(proc.name),'component':'process','errno':e.errno})
+print(json.dumps({'hostname':socket.gethostname(),'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    'uid':os.getuid(),'own_processes_inspected':own_count,'other_processes_not_inspected':other_count,
+    'scope':'own UID cmdline/cwd/exe/fd/maps; both path and realpath; no environment/token output',
+    'target_count':len(TARGETS),'matches':matches,'errors':errors,'CPU_s':time.process_time()-cpu,
+    'remote_mutations':0,'all_other_UID_consumers_unknown':True}))
+'''.replace('PAYLOAD', repr(json.dumps(targets)))
+results=[]
+for node in ['corelab-amd-server','corelab-4080s']:
+    args=['ssh','-o','BatchMode=yes','corelab-amd-server']
+    command='python3 -' if node=='corelab-amd-server' else 'ssh -o BatchMode=yes corelab-4080s python3 -'
+    response=subprocess.run(args+[command],input=remote,text=True,capture_output=True,timeout=30,check=True)
+    result=json.loads(response.stdout)
+    assert result['hostname']==node
+    results.append(result)
+out={'schema':'PRIVATE_TWO_HOST_CURRENT_CANDIDATE_REFS','no_remote_mutations':True,'results':results}
+(root/'CANDIDATE_TWO_HOST_REFS_PRIVATE.json').write_text(json.dumps(out,indent=2)+'\n')
+(root/'CANDIDATE_TWO_HOST_REFS_PRIVATE.json').chmod(0o600)
+print(json.dumps(out,indent=2))

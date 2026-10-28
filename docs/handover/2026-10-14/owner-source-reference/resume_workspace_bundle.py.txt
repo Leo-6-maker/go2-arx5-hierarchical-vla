@@ -1,0 +1,66 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Resume only the newly journaled workspace from a credential-free Git bundle."""
+import hashlib
+import json
+from pathlib import Path
+import shlex
+import subprocess
+
+base=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/workspace-consolidation-20261013')
+p=json.loads((base/'PLAN.json').read_text())
+bundle=base/'vla-e3cdb22a.bundle'
+digest=hashlib.sha256(bundle.read_bytes()).hexdigest()
+code='''import hashlib,json,os,resource,socket,subprocess,sys,time
+from pathlib import Path
+p=PLAN;root=Path(p['workspace_root']);began=time.monotonic()
+assert socket.gethostname()=='corelab-amd-server'
+journal=root/'infrastructure/CONSOLIDATION_STATE.json'
+state=json.loads(journal.read_text())
+assert state['status']=='PREPARED_NEW_WORKSPACE_ONLY' and state['code_sha']==p['code_sha']
+assert root.is_dir() and not root.is_symlink() and not (root/'code/vla').exists()
+for x in p['files']:
+    b=(root/x['path']).read_bytes()
+    assert len(b)==x['bytes'] and hashlib.sha256(b).hexdigest()==x['sha256']
+incoming=root/'infrastructure/source_recovery.bundle'
+assert not incoming.exists()
+h=hashlib.sha256();count=0
+with incoming.open('xb') as f:
+    for b in iter(lambda:sys.stdin.buffer.read(8<<20),b''):
+        count+=len(b);assert count<256*1024**2
+        h.update(b);f.write(b)
+    f.flush();os.fsync(f.fileno())
+os.chmod(incoming,0o600);assert h.hexdigest()==BUNDLE_SHA
+def git(*args,cwd):
+    r=subprocess.run(['git',*args],cwd=cwd,capture_output=True,text=True,timeout=120,
+        env=dict(os.environ,GIT_TERMINAL_PROMPT='0',GIT_LFS_SKIP_SMUDGE='1',GIT_OPTIONAL_LOCKS='0'))
+    assert r.returncode==0,(args,r.stderr[:1000]);return r.stdout
+git('bundle','verify',str(incoming),cwd=root/'code') if (root/'code/.git').exists() else None
+canonical=root/'code/vla'
+git('clone','--no-hardlinks',str(incoming),str(canonical),cwd=root)
+assert git('rev-parse','HEAD',cwd=canonical).strip()==p['code_sha']
+git('switch','-c',p['branch'],cwd=canonical)
+git('remote','set-url','origin',p['clone_origin'],cwd=canonical)
+assert git('status','--porcelain=v1','--untracked-files=normal',cwd=canonical)==''
+assert (canonical/'.git').is_dir() and not (canonical/'.git/objects/info/alternates').exists()
+old=Path(p['official_alias_target'])
+assert git('rev-parse','HEAD',cwd=old).strip()==p['official_sha']
+assert git('status','--porcelain=v1','--untracked-files=normal',cwd=old)==''
+assert not (root/'code/isaac-gr00t').exists()
+(root/'code/isaac-gr00t').symlink_to(old,target_is_directory=True)
+u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+value=dict(status='NEW_CANONICAL_ENTRY_CREATED_OLD_RETIREMENT_DEFERRED',root=str(root),observed_epoch=time.time(),code_sha=p['code_sha'],branch=p['branch'],official_sha=p['official_sha'],
+    canonical_from_exact_local_authenticated_bundle=True,bundle_sha256=BUNDLE_SHA,bundle_bytes=count,independent_git_dir=True,shared_official_alias_is_NFS=True,
+    old_paths_moved=0,old_symlinks_changed=0,new_cross_host_SSD_symlinks=0,file_deletions=0,new_freed_bytes=0,model_physics_PBS_WBC_hardware=0,
+    files_sha256={x['path']:x['sha256'] for x in p['files']},CPU_self_s=u.ru_utime+u.ru_stime,CPU_children_s=c.ru_utime+c.ru_stime,wall_s=time.monotonic()-began,
+    failed_initial_direct_clone=dict(error='GitHub authentication unavailable on server',existing_assets_changed=False))
+journal.write_text(json.dumps(value,indent=2)+'\\n');print(json.dumps(value))
+'''
+code='PLAN='+repr(p)+'\nBUNDLE_SHA='+repr(digest)+'\n'+code
+with bundle.open('rb') as f:
+    r=subprocess.run(['ssh','-o','BatchMode=yes','corelab-amd-server',shlex.join(['python3','-c',code])],stdin=f,capture_output=True,timeout=180)
+if r.returncode: raise RuntimeError(r.stderr.decode()[:3000])
+value=json.loads(r.stdout)
+with (base/'DEPLOYMENT_RECEIPT_PRIVATE.json').open('xb') as f:f.write(r.stdout)
+print(json.dumps({k:value[k] for k in ['status','code_sha','branch','bundle_bytes','independent_git_dir','file_deletions','CPU_self_s','CPU_children_s','wall_s']}))

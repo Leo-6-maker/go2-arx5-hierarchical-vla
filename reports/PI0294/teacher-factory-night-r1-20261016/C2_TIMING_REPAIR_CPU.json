@@ -1,0 +1,67 @@
+{
+  "status": "PASS_ACTUAL_FAILED_ENTRY_RETIMED_FULL_STATIC_CONTINUITY",
+  "source": "2a2f2e4d5113c13fa7980e966a523964b94136c0",
+  "old_failed_peak_rad_s": 0.3000029611856628,
+  "old_runtime_source": "4873288451df7857da33610827bd25ddb8d1f75c",
+  "original_failure_preserved": true,
+  "entry_timing": {
+    "changed_intervals": 75,
+    "original_duration_s": 7.994345976047727,
+    "duration_s": 11.250000000000016,
+    "max_joint_velocity": 0.23868741550903572,
+    "max_joint_acceleration": 0.43623323661496904,
+    "fixed_factor_attempts": [
+      {
+        "factor": 1.0,
+        "duration_s": 11.250000000000016,
+        "max_joint_velocity": 0.23868741550903572,
+        "max_joint_acceleration": 0.43623323661496904,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      },
+      {
+        "factor": 1.25,
+        "duration_s": 14.999999999999979,
+        "max_joint_velocity": 0.17901556163177457,
+        "max_joint_acceleration": 0.3271749274611935,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      },
+      {
+        "factor": 1.5,
+        "duration_s": 18.75,
+        "max_joint_velocity": 0.14321244930541877,
+        "max_joint_acceleration": 0.2617399419690525,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      },
+      {
+        "factor": 2.0,
+        "duration_s": 22.500000000000032,
+        "max_joint_velocity": 0.11934370775451786,
+        "max_joint_acceleration": 0.2181166183074401,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      }
+    ],
+    "selected_factor": 1.0,
+    "spatial_knots_changed": false,
+    "gripper_values_changed": false,
+    "uniform_global_drag": false,
+    "iterations": 1,
+    "quantized_iterations": 1,
+    "schema": "QUANTIZED_NATIVE_SLERP_R1",
+    "full_grid_max_linear_speed": 0.041682915347695075,
+    "full_grid_max_angular_speed": 0.2089003248937802,
+    "native_interpolation_unchanged": true,
+    "entry_poses_changed": false
+  },
+  "free_approach_end_s": 9.300000000000011,
+  "entry_and_activity_s": 34.31635816481651,
+  "duration_s": 64,
+  "full_static_windows": 31,
+  "max_stitched_joint_velocity": 0.2426097384772774,
+  "max_stitched_joint_acceleration": 0.970881008943536,
+  "new_IK": 0,
+  "new_RRT": 0,
+  "new_physics": 0,
+  "new_render": 0,
+  "static_continuation_iterations_charged": true,
+  "dynamic_success_not_claimed": true
+}

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#PBS -N pi0274_equil_r1
+#PBS -P CFP05-CF-052
+#PBS -q auto
+#PBS -m n
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200
+#PBS -l walltime=12:00:00
+#PBS -o /scratch/e1192548/Projects/go2-arx5/experiments/PI0274/logs/
+#PBS -e /scratch/e1192548/Projects/go2-arx5/experiments/PI0274/logs/
+set -euo pipefail
+source /scratch/e1192548/Projects/go2-arx5/experiments/PI0274/code/environment.sh
+export PI0274_ROOT="$root"
+exec 9>"$root/runtime/training.lock"
+flock -n 9
+"$venv/bin/python" -c 'import json,os;from pathlib import Path;p=Path(os.environ["PI0274_ROOT"])/"evidence/CONTINUOUS8_READONLY_FINALIZE.json";assert json.loads(p.read_text())["status"]=="PASS_COMPLETED_CONTINUOUS8_READONLY_METADATA_FINALIZATION"'
+"$venv/bin/python" -u "$root/code/train.py" --arm EQUIL --phase split --limit 4
+"$venv/bin/python" -u "$root/code/train.py" --arm EQUIL --phase split --limit 8 --resume 4
+"$venv/bin/python" -u "$root/code/train.py" --arm EQUIL --compare
+"$venv/bin/python" -u "$root/code/retire_discarded_canary.py" EQUIL
+"$venv/bin/python" -u "$root/code/train.py" --arm EQUIL --phase main --limit 5120

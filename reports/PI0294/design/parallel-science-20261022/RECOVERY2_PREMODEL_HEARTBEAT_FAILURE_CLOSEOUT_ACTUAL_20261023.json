@@ -1,0 +1,105 @@
+{
+  "schema": "VAP1_RECOVERY2_PREMODEL_FAILURE_ACTUAL_CLOSEOUT_V1",
+  "status": "ACTUAL_NATIVE_FAILED_ONCE_SETTLED_DUAL_CLOSED_INDEPENDENT_READBACK",
+  "created_epoch": 1792694760.8497636,
+  "job_id": "1477127.stdct-mgmt-02",
+  "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+  "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
+  "runtime": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+  "native_state": "F",
+  "Exit_status": 1,
+  "phase": "ACTUAL_NATIVE_SOURCE_PREMODEL",
+  "failure": {
+    "type": "HeartbeatLost",
+    "message": "MP1_SINGLE_OWNER_HEARTBEAT_LOST_AFTER_SERVER_REVALIDATION"
+  },
+  "watch_failure": {
+    "epoch": 1792693442.030094,
+    "type": "ReadOnlyFailure",
+    "SSH_returncode": 255,
+    "site": "HOPPER",
+    "stderr": "Could not resolve hostname hopper.nus.edu.sg: Name or service not known",
+    "consecutive_read_failures": 3,
+    "last_confirmed_heartbeat_epoch": 1792693333.510138,
+    "native_failure_epoch": 1792693648.8044462,
+    "root_cause_of_DNS_failure": "UNKNOWN",
+    "no_attribution_to_old_A2_or_helper_incident": true
+  },
+  "effects": {
+    "schema": "VAP1_A40_NATIVE_SOURCE_EFFECT_SUMMARY_V1",
+    "job_id": "1477127.stdct-mgmt-02",
+    "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+    "request_sha256": "4b40b38de8142245880e6f55e9325ce8c86b27aebeb3a8de572ab8f7bf5b7b26",
+    "source_sha": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+    "arm": "A_CONTROL",
+    "start_native_step": 2048,
+    "optimizer_updates_committed": 0,
+    "last_native_step": 2048,
+    "query_attempts": 0,
+    "model_load_attempts": 0,
+    "pending_updates": [],
+    "unknown_query_intents": [],
+    "recipe_sha256": "eeed62acb199bb9c4ad56b0ecc2a0ca1ed31cb7fe9c8b50a208a6f488c7479f7",
+    "effect_journal_complete": true,
+    "new_physics": 0,
+    "new_episodes": 0,
+    "finished_epoch": 1792694328.5884385
+  },
+  "settlement": {
+    "status": "EXACT_RECOVERY2_PREMODEL_HEARTBEAT_FAILURE_SETTLED",
+    "job_id": "1477127.stdct-mgmt-02",
+    "request_id": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+    "conservative_GPU_s": 754.0,
+    "conservative_CPU_s": 259,
+    "GPU_total_s": 49117.0,
+    "GPU_reserved_s": 0,
+    "CPU_reserved_s": 0,
+    "updates": 3843,
+    "queries": 1134,
+    "unknown_effects": []
+  },
+  "storage_charge": {
+    "bytes": 70000000000,
+    "basis": "FULL_ORIGINAL_OUTPUT_BOUND_CONSERVATIVE_NOT_MEASURED",
+    "deletion_credit_bytes": 0
+  },
+  "closures": {
+    "hopper": {
+      "lease": "CLOSED",
+      "lease_sha256": "681dc06285d8ec23d8f485216fdf442a54ab0d2f2aabf2b6a6f998a05e1a1054",
+      "terminal_receipt_sha256": "a5f854b15f73a2d9c98db6e1728bf68e1653b3c52a432e677a3fc4ebd81f6349"
+    },
+    "vanda": {
+      "lease": "CLOSED",
+      "lease_sha256": "545f537ead9ec14ee7d7ee48c8faeb9012904f39fe7399f2b8ae1b3bbe91f4c2",
+      "terminal_receipt_sha256": "fb0a148dc06b7ba1fecd02158d7ec2f76e5b4617e94ae8ae08acd3ad1293cc93"
+    }
+  },
+  "independent_close_readback_epoch": 1792694434.2668056,
+  "latest_recoverable_state": {
+    "source": "ORIGINAL_CLOSED_A1_FULL_STATE",
+    "step": 2048,
+    "cursor": 65536,
+    "complete_sha256": "1336326d908bbc91c36f871f0846b316c2bea08bada2bcee0b1bcc9bcb0e5486",
+    "this_failed_root_complete_checkpoints": 0,
+    "A4096_complete": false
+  },
+  "close_template_error": {
+    "reason": "Attempted read of not-yet-imported checkpoint1024 before any native mutation.",
+    "exact_program_sha256": "6fc974e0652f84e85cfcb08db412d670570b1aa64f95d4b97f08771f9759fee3",
+    "initial_unknown_preserved": true,
+    "resolution": "EXACT_PROGRAM_STDERR_AND_FRESH_UNCHANGED_LEASE_REGISTRY_NO_TERMINAL_NO_CHECKPOINT_READBACK",
+    "corrected_separate_intent": true,
+    "settlement_repeated": false
+  },
+  "CPU_tests": {
+    "count": 3,
+    "isolated": true,
+    "native_IO_denied": true
+  },
+  "private_close_wrapper_sha256": "1f66ba2e49b090f360545be3228b7ca486591eb9c89c1ae2ad754601beeffe4b",
+  "private_CPU_tests_sha256": "7efdcc41d3e778d610fbc059addb03c33b291c18f8c6f9938bd1075e76f9eeed",
+  "all_checkpoints_and_historical_costs_preserved": true,
+  "no_restart_no_resubmit_no_B1": true,
+  "goal_complete": false
+}

@@ -1,0 +1,3149 @@
+{
+  "status": "CPU_DESCRIPTIVE_LANGUAGE_AND_NOISE_DIFFERENCES_NOT_QUALIFICATION",
+  "point": "PLACE4096-1024",
+  "source_sha256": "0370880fd67b3817f31d72162935069bfb6913e019df3fb519149b625d4cee03",
+  "outputs": [
+    {
+      "uid": "T1-TRAIN-285100-91",
+      "task": "T1",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285100-91",
+          "linear_speed_mps": {
+            "mean": 0.31305527870815153,
+            "median": 0.3022627515240897,
+            "p95": 0.5044155777256716,
+            "max": 0.6452469187423246
+          },
+          "angular_speed_radps": {
+            "mean": 0.3491263528528948,
+            "median": 0.3271979494350804,
+            "p95": 0.7509534904226527,
+            "max": 0.7989740271562403
+          },
+          "translation_path_length_m": 0.6104577934808955,
+          "se3_arc_length_m": 0.6235260306217578,
+          "initial_position_discontinuity_m": 0.018317445128767974,
+          "initial_rotation_discontinuity_rad": 0.11124609880307028,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        35,
+        0,
+        0,
+        0,
+        3,
+        0,
+        2
+      ],
+      "output_sha256": "10eb0bc2260bd19fbc277b3237ee3fa010e7eb4ec77804679733b3616621cb3e"
+    },
+    {
+      "uid": "T1-TRAIN-285100-91",
+      "task": "T1",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285100-91",
+          "linear_speed_mps": {
+            "mean": 0.3508181217387763,
+            "median": 0.3341704109768777,
+            "p95": 0.724824560644754,
+            "max": 0.7307803200093307
+          },
+          "angular_speed_radps": {
+            "mean": 0.40916356316243363,
+            "median": 0.3016483415425459,
+            "p95": 0.9708335101279115,
+            "max": 1.2493483321158585
+          },
+          "translation_path_length_m": 0.6840953373906141,
+          "se3_arc_length_m": 0.70526674879168,
+          "initial_position_discontinuity_m": 0.07966598702464323,
+          "initial_rotation_discontinuity_rad": 0.05953689183766919,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        7,
+        0,
+        2
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        39,
+        0,
+        6
+      ],
+      "output_sha256": "b5acdc49373f7bb87dc294335ff1dc2b40347264c0adba578f69825e242a3d32"
+    },
+    {
+      "uid": "T1-TRAIN-285100-91",
+      "task": "T2",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285100-91",
+          "linear_speed_mps": {
+            "mean": 0.28068344682425794,
+            "median": 0.2667659020210645,
+            "p95": 0.4660776078928026,
+            "max": 0.559844626282174
+          },
+          "angular_speed_radps": {
+            "mean": 0.34857309868530517,
+            "median": 0.3261712349688753,
+            "p95": 0.6996158937934125,
+            "max": 0.7788999720080089
+          },
+          "translation_path_length_m": 0.547332721307303,
+          "se3_arc_length_m": 0.5628453232916293,
+          "initial_position_discontinuity_m": 0.019477229565763556,
+          "initial_rotation_discontinuity_rad": 0.11330888743947015,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        30,
+        0,
+        0,
+        0,
+        3,
+        0,
+        2
+      ],
+      "output_sha256": "eea7e2fb193d99b979488deccd4d130ebc3c09acc121a03f97436a5d38a2e168"
+    },
+    {
+      "uid": "T1-TRAIN-285100-91",
+      "task": "T2",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285100-91",
+          "linear_speed_mps": {
+            "mean": 0.3229902041835185,
+            "median": 0.3001082072491497,
+            "p95": 0.6027086908763326,
+            "max": 0.65946211890245
+          },
+          "angular_speed_radps": {
+            "mean": 0.40870079738764786,
+            "median": 0.3220039095700989,
+            "p95": 0.9447094837246474,
+            "max": 1.1905986396467223
+          },
+          "translation_path_length_m": 0.6298308981578613,
+          "se3_arc_length_m": 0.6518158373033865,
+          "initial_position_discontinuity_m": 0.08030918639387759,
+          "initial_rotation_discontinuity_rad": 0.06379093593124166,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        2
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        17,
+        0,
+        0,
+        0,
+        39,
+        0,
+        5
+      ],
+      "output_sha256": "5a3e8f3046a402516ca44af581db3ae5f62c70a940bd9d8f3a96809765f50be7"
+    },
+    {
+      "uid": "T1-TRAIN-285101-86",
+      "task": "T1",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285101-86",
+          "linear_speed_mps": {
+            "mean": 0.3345100104484247,
+            "median": 0.3377193622689419,
+            "p95": 0.5964026179771497,
+            "max": 0.6982572855353041
+          },
+          "angular_speed_radps": {
+            "mean": 0.37494027443699673,
+            "median": 0.37190875625704417,
+            "p95": 0.8236032884064567,
+            "max": 0.9363538864694257
+          },
+          "translation_path_length_m": 0.6522945203744283,
+          "se3_arc_length_m": 0.6705245421298075,
+          "initial_position_discontinuity_m": 0.0315556022261883,
+          "initial_rotation_discontinuity_rad": 0.11432124747033133,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        8
+      ],
+      "output_sha256": "9ff1fb51965b329577dd4fcaf55f300016c0d5a0d6183aa4b345fdbc77f3d80a"
+    },
+    {
+      "uid": "T1-TRAIN-285101-86",
+      "task": "T1",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285101-86",
+          "linear_speed_mps": {
+            "mean": 0.30565775654311017,
+            "median": 0.298257590968808,
+            "p95": 0.5716022088745195,
+            "max": 0.6980613696795445
+          },
+          "angular_speed_radps": {
+            "mean": 0.3618638085987261,
+            "median": 0.2773192706192491,
+            "p95": 0.8123803872566078,
+            "max": 1.2794237449051273
+          },
+          "translation_path_length_m": 0.5960326252590648,
+          "se3_arc_length_m": 0.6151768049315798,
+          "initial_position_discontinuity_m": 0.02683102507482341,
+          "initial_rotation_discontinuity_rad": 0.05491691996956371,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        0,
+        8,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        35,
+        0,
+        0,
+        0,
+        40,
+        0,
+        4
+      ],
+      "output_sha256": "45b9a83b9909773dbfbadc4e9d650409c77a148788f71b450bff5b9afcb760d9"
+    },
+    {
+      "uid": "T1-TRAIN-285101-86",
+      "task": "T2",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285101-86",
+          "linear_speed_mps": {
+            "mean": 0.3134628515853179,
+            "median": 0.27415576009945086,
+            "p95": 0.5982870876010723,
+            "max": 0.7254797779978489
+          },
+          "angular_speed_radps": {
+            "mean": 0.3505862472930517,
+            "median": 0.3042314126592752,
+            "p95": 0.8392993404723204,
+            "max": 0.9287086126848051
+          },
+          "translation_path_length_m": 0.6112525605913698,
+          "se3_arc_length_m": 0.6295777370249707,
+          "initial_position_discontinuity_m": 0.030204308982619527,
+          "initial_rotation_discontinuity_rad": 0.12389509665784165,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        2
+      ],
+      "output_sha256": "b099ff97e83e894825dcb0e5090fe03cf2a8e7b25f2e53c44c1ef28291d15f0b"
+    },
+    {
+      "uid": "T1-TRAIN-285101-86",
+      "task": "T2",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285101-86",
+          "linear_speed_mps": {
+            "mean": 0.28876642477020165,
+            "median": 0.30266409584468,
+            "p95": 0.5235435418295467,
+            "max": 0.5328143433100175
+          },
+          "angular_speed_radps": {
+            "mean": 0.333611942026276,
+            "median": 0.2669599720909349,
+            "p95": 0.826397959962843,
+            "max": 1.2308766789594612
+          },
+          "translation_path_length_m": 0.5630945283018931,
+          "se3_arc_length_m": 0.5806026233650138,
+          "initial_position_discontinuity_m": 0.02091682108011776,
+          "initial_rotation_discontinuity_rad": 0.06197169083043245,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        0,
+        8,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        38,
+        0,
+        0,
+        0,
+        40,
+        0,
+        2
+      ],
+      "output_sha256": "b2e8d390086ade121719dd5fe995de2a3bd7edca664f4c2030101885162d18b8"
+    },
+    {
+      "uid": "T1-TRAIN-285102-90",
+      "task": "T1",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285102-90",
+          "linear_speed_mps": {
+            "mean": 0.29257698717366304,
+            "median": 0.3127128692390645,
+            "p95": 0.42119038704870315,
+            "max": 0.6287672338372348
+          },
+          "angular_speed_radps": {
+            "mean": 0.402955178470878,
+            "median": 0.3654373727104222,
+            "p95": 0.9013751578822731,
+            "max": 1.0026346586883155
+          },
+          "translation_path_length_m": 0.570525124988643,
+          "se3_arc_length_m": 0.589258729763304,
+          "initial_position_discontinuity_m": 0.030153466403591504,
+          "initial_rotation_discontinuity_rad": 0.05490843423306367,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        36,
+        0,
+        0,
+        0,
+        17,
+        0,
+        27
+      ],
+      "output_sha256": "41c991bc244692bc48803a8c350cc79306b6ae20f2512feed7c4431240b0d5b5"
+    },
+    {
+      "uid": "T1-TRAIN-285102-90",
+      "task": "T1",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285102-90",
+          "linear_speed_mps": {
+            "mean": 0.33739481169318086,
+            "median": 0.34200581472705105,
+            "p95": 0.615233321587976,
+            "max": 0.7453767921169543
+          },
+          "angular_speed_radps": {
+            "mean": 0.4798190062296561,
+            "median": 0.3981125365751868,
+            "p95": 1.0287446764134156,
+            "max": 1.2787519936484864
+          },
+          "translation_path_length_m": 0.6579198828017029,
+          "se3_arc_length_m": 0.6866736665451331,
+          "initial_position_discontinuity_m": 0.011345770377870252,
+          "initial_rotation_discontinuity_rad": 0.02228586994374758,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        1
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        25,
+        0,
+        22
+      ],
+      "output_sha256": "f3fd7f3496d7c49913bcd6730a4021fb16f648ddf0a25fdbfa6b2055c06fca31"
+    },
+    {
+      "uid": "T1-TRAIN-285102-90",
+      "task": "T2",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285102-90",
+          "linear_speed_mps": {
+            "mean": 0.28837244443280596,
+            "median": 0.300418671829138,
+            "p95": 0.43753473258244613,
+            "max": 0.5845780838054773
+          },
+          "angular_speed_radps": {
+            "mean": 0.43782240752556634,
+            "median": 0.39452993772309675,
+            "p95": 1.0543094445192311,
+            "max": 1.1060578678796364
+          },
+          "translation_path_length_m": 0.5623262666439717,
+          "se3_arc_length_m": 0.5834044994036848,
+          "initial_position_discontinuity_m": 0.02871315197211353,
+          "initial_rotation_discontinuity_rad": 0.06024708289665044,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        38,
+        0,
+        0,
+        0,
+        15,
+        0,
+        24
+      ],
+      "output_sha256": "a20fe72459c168cd0720b1fe03420f5265938b8571b5cf19c982ff7587d72372"
+    },
+    {
+      "uid": "T1-TRAIN-285102-90",
+      "task": "T2",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285102-90",
+          "linear_speed_mps": {
+            "mean": 0.322153960543415,
+            "median": 0.3322976122894993,
+            "p95": 0.5931032432144133,
+            "max": 0.6130641795962388
+          },
+          "angular_speed_radps": {
+            "mean": 0.4814114011880795,
+            "median": 0.3800613816962069,
+            "p95": 1.1272109144430877,
+            "max": 1.4419723234111044
+          },
+          "translation_path_length_m": 0.6282002230596594,
+          "se3_arc_length_m": 0.6573747389894206,
+          "initial_position_discontinuity_m": 0.017585722753249187,
+          "initial_rotation_discontinuity_rad": 0.022499250873893675,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        1
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        24,
+        0,
+        16
+      ],
+      "output_sha256": "44f2f15aed5fc54f4eedf2d674961787fdbdd63c7e0d20062027232e230b5a37"
+    },
+    {
+      "uid": "T1-TRAIN-285103-94",
+      "task": "T1",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285103-94",
+          "linear_speed_mps": {
+            "mean": 0.3341064601916138,
+            "median": 0.29419550255662247,
+            "p95": 0.6681083258770787,
+            "max": 0.8524004438348903
+          },
+          "angular_speed_radps": {
+            "mean": 0.42268351923194486,
+            "median": 0.38298069576689187,
+            "p95": 0.9337247597679779,
+            "max": 1.060869763736999
+          },
+          "translation_path_length_m": 0.651507597373647,
+          "se3_arc_length_m": 0.6718231669483076,
+          "initial_position_discontinuity_m": 0.03917293503970593,
+          "initial_rotation_discontinuity_rad": 0.04360767549289796,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        29,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2
+      ],
+      "output_sha256": "21789dd2a6da1b8b00337d6a2d4ed7b34d4cfe996c5cc74df58139d6027b1219"
+    },
+    {
+      "uid": "T1-TRAIN-285103-94",
+      "task": "T1",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285103-94",
+          "linear_speed_mps": {
+            "mean": 0.31150800630129843,
+            "median": 0.3103700269283894,
+            "p95": 0.49567157080422986,
+            "max": 0.5967157312583584
+          },
+          "angular_speed_radps": {
+            "mean": 0.524759993093611,
+            "median": 0.5362635964173829,
+            "p95": 1.2029372517775754,
+            "max": 1.6229624276377765
+          },
+          "translation_path_length_m": 0.6074406122875321,
+          "se3_arc_length_m": 0.6333048379547787,
+          "initial_position_discontinuity_m": 0.025174903620692624,
+          "initial_rotation_discontinuity_rad": 0.05437342554458975,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        38,
+        0,
+        0,
+        0,
+        5,
+        0,
+        1
+      ],
+      "output_sha256": "d4205ae41673eb304666a796282967bc50c70064d9c9c411682bb05d523002a9"
+    },
+    {
+      "uid": "T1-TRAIN-285103-94",
+      "task": "T2",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285103-94",
+          "linear_speed_mps": {
+            "mean": 0.32944088407556743,
+            "median": 0.28542831919889916,
+            "p95": 0.6444062442090102,
+            "max": 0.82108261390549
+          },
+          "angular_speed_radps": {
+            "mean": 0.4393272844618585,
+            "median": 0.36906591992391874,
+            "p95": 1.0150720183807573,
+            "max": 1.244441083578642
+          },
+          "translation_path_length_m": 0.6424097239473565,
+          "se3_arc_length_m": 0.6636890396519574,
+          "initial_position_discontinuity_m": 0.033045317191638314,
+          "initial_rotation_discontinuity_rad": 0.03620519948002946,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        29,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "output_sha256": "ae5ff8bb86c324297ef276a811f7127de5534662584b0922d64320c6bf49c5cb"
+    },
+    {
+      "uid": "T1-TRAIN-285103-94",
+      "task": "T2",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285103-94",
+          "linear_speed_mps": {
+            "mean": 0.28645976932406203,
+            "median": 0.2696980945268154,
+            "p95": 0.5113825014096591,
+            "max": 0.5800544571427537
+          },
+          "angular_speed_radps": {
+            "mean": 0.5263844729088029,
+            "median": 0.4553228723479598,
+            "p95": 1.022854396799594,
+            "max": 1.5398693015910454
+          },
+          "translation_path_length_m": 0.558596550181921,
+          "se3_arc_length_m": 0.5872159454915417,
+          "initial_position_discontinuity_m": 0.023124830577456394,
+          "initial_rotation_discontinuity_rad": 0.061463089632831334,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        38,
+        0,
+        0,
+        0,
+        4,
+        0,
+        1
+      ],
+      "output_sha256": "afcdc2806b5a832600e181e0fb782940b377f63b280ce1b4bb48329277f5bfe6"
+    },
+    {
+      "uid": "T1-TRAIN-285104-90",
+      "task": "T1",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285104-90",
+          "linear_speed_mps": {
+            "mean": 0.4081749614540513,
+            "median": 0.3619913826883614,
+            "p95": 0.7216358468887264,
+            "max": 0.8702248325663713
+          },
+          "angular_speed_radps": {
+            "mean": 0.5759480408501403,
+            "median": 0.5617163823283178,
+            "p95": 1.1976090745027281,
+            "max": 1.43920177497699
+          },
+          "translation_path_length_m": 0.7959411748354002,
+          "se3_arc_length_m": 0.826682355206739,
+          "initial_position_discontinuity_m": 0.037529474980435934,
+          "initial_rotation_discontinuity_rad": 0.029619146545281548,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        8,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        36,
+        0,
+        0,
+        0,
+        40,
+        0,
+        19
+      ],
+      "output_sha256": "5913828a622e4cffbb5aeaed20122b0a7bc293257e255276c8331c02dff09a9b"
+    },
+    {
+      "uid": "T1-TRAIN-285104-90",
+      "task": "T1",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285104-90",
+          "linear_speed_mps": {
+            "mean": 0.3766574380160244,
+            "median": 0.3518544068027545,
+            "p95": 0.7660013255735276,
+            "max": 0.801666555549206
+          },
+          "angular_speed_radps": {
+            "mean": 0.38068918806328883,
+            "median": 0.3047951667001397,
+            "p95": 0.8141420422299482,
+            "max": 1.2141206460883716
+          },
+          "translation_path_length_m": 0.7344820041312475,
+          "se3_arc_length_m": 0.7492024001060007,
+          "initial_position_discontinuity_m": 0.030620222145716487,
+          "initial_rotation_discontinuity_rad": 0.033992074782545824,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        40,
+        0,
+        0,
+        0,
+        37,
+        0,
+        37
+      ],
+      "output_sha256": "5e14e32a1034fc1382f7c18d3f29d75fc7d2b4eda5679efff8b7a7c162f18d13"
+    },
+    {
+      "uid": "T1-TRAIN-285104-90",
+      "task": "T2",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285104-90",
+          "linear_speed_mps": {
+            "mean": 0.382292295629565,
+            "median": 0.3494443855262331,
+            "p95": 0.7027057378774276,
+            "max": 0.8175891520381481
+          },
+          "angular_speed_radps": {
+            "mean": 0.5755483315837535,
+            "median": 0.49311510431237643,
+            "p95": 1.2218181918821764,
+            "max": 1.3630586653777645
+          },
+          "translation_path_length_m": 0.7454699764776519,
+          "se3_arc_length_m": 0.776544214899121,
+          "initial_position_discontinuity_m": 0.037199576946355416,
+          "initial_rotation_discontinuity_rad": 0.03687121504597693,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        7,
+        0,
+        1
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        35,
+        0,
+        0,
+        0,
+        39,
+        0,
+        22
+      ],
+      "output_sha256": "3836ca837d56b64c73897f4d9b127f5558158c4bbd293c6dd6cd918e482563ed"
+    },
+    {
+      "uid": "T1-TRAIN-285104-90",
+      "task": "T2",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285104-90",
+          "linear_speed_mps": {
+            "mean": 0.3566807632691524,
+            "median": 0.3297298658842454,
+            "p95": 0.646271080218234,
+            "max": 0.684552520818702
+          },
+          "angular_speed_radps": {
+            "mean": 0.36742900451627675,
+            "median": 0.2829409430491344,
+            "p95": 0.8650058753652249,
+            "max": 1.011325189401171
+          },
+          "translation_path_length_m": 0.6955274883748472,
+          "se3_arc_length_m": 0.7096514811995664,
+          "initial_position_discontinuity_m": 0.029288926855290096,
+          "initial_rotation_discontinuity_rad": 0.043750925129721764,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        0,
+        5,
+        0,
+        7
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        40,
+        0,
+        0,
+        0,
+        35,
+        0,
+        39
+      ],
+      "output_sha256": "f8f1c5a72a736bf873e6247162764c8ebc9ef42b80b60ce9a64e77a9e4432401"
+    },
+    {
+      "uid": "T1-TRAIN-285105-88",
+      "task": "T1",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285105-88",
+          "linear_speed_mps": {
+            "mean": 0.36585098863482524,
+            "median": 0.33381566189863937,
+            "p95": 0.6381014259235498,
+            "max": 0.6684625959536762
+          },
+          "angular_speed_radps": {
+            "mean": 0.39816773022670676,
+            "median": 0.30139272081629337,
+            "p95": 0.9769075721848515,
+            "max": 1.186543116867203
+          },
+          "translation_path_length_m": 0.7134094278379095,
+          "se3_arc_length_m": 0.7308742657757576,
+          "initial_position_discontinuity_m": 0.021115839186999934,
+          "initial_rotation_discontinuity_rad": 0.03283344079725936,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        39,
+        0,
+        0,
+        0,
+        27,
+        0,
+        4
+      ],
+      "output_sha256": "faaad503f2f392a7102056286334ade1e51f39f511ce6a7acd94037d07b3d152"
+    },
+    {
+      "uid": "T1-TRAIN-285105-88",
+      "task": "T1",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285105-88",
+          "linear_speed_mps": {
+            "mean": 0.3658372994205315,
+            "median": 0.34967344396819383,
+            "p95": 0.7208884857766388,
+            "max": 0.7881314613891813
+          },
+          "angular_speed_radps": {
+            "mean": 0.4623058295093981,
+            "median": 0.4316619639480761,
+            "p95": 0.9320117053808673,
+            "max": 1.1341394497809025
+          },
+          "translation_path_length_m": 0.7133827338700364,
+          "se3_arc_length_m": 0.736250204773482,
+          "initial_position_discontinuity_m": 0.03816084932096388,
+          "initial_rotation_discontinuity_rad": 0.043389921257776555,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        7,
+        0,
+        6
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        14,
+        0,
+        0,
+        0,
+        37,
+        0,
+        23
+      ],
+      "output_sha256": "9eee8e62aa04d4cf46e2884786aa5f8a81aef1c0c2bf66d8e1709c3f7b04c640"
+    },
+    {
+      "uid": "T1-TRAIN-285105-88",
+      "task": "T2",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285105-88",
+          "linear_speed_mps": {
+            "mean": 0.33406041575184214,
+            "median": 0.2920904620133873,
+            "p95": 0.6201074915249095,
+            "max": 0.6361163347067345
+          },
+          "angular_speed_radps": {
+            "mean": 0.3793650749713655,
+            "median": 0.32400201701063525,
+            "p95": 0.8958442440798517,
+            "max": 1.1858253342507679
+          },
+          "translation_path_length_m": 0.6514178107160921,
+          "se3_arc_length_m": 0.6681593612194584,
+          "initial_position_discontinuity_m": 0.022758951199235,
+          "initial_rotation_discontinuity_rad": 0.03397992967000683,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        39,
+        0,
+        0,
+        0,
+        23,
+        0,
+        5
+      ],
+      "output_sha256": "bc6f89f5680d9c074f4343f9053e35d5cfb5953e86400685d468037f09930dfb"
+    },
+    {
+      "uid": "T1-TRAIN-285105-88",
+      "task": "T2",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285105-88",
+          "linear_speed_mps": {
+            "mean": 0.34223794244631106,
+            "median": 0.32343322185474893,
+            "p95": 0.7016887434526682,
+            "max": 0.7890850001730108
+          },
+          "angular_speed_radps": {
+            "mean": 0.4553581006516975,
+            "median": 0.3717243173301501,
+            "p95": 0.9686498158121782,
+            "max": 1.4229507417420084
+          },
+          "translation_path_length_m": 0.6673639877703066,
+          "se3_arc_length_m": 0.6935365834773413,
+          "initial_position_discontinuity_m": 0.029337227935342505,
+          "initial_rotation_discontinuity_rad": 0.045639799045389104,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        5,
+        0,
+        7
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        33,
+        0,
+        26
+      ],
+      "output_sha256": "08f75fbe2dd1b99cd1b840f851ace2ef8cb2c96ab6e9be20a7385091a4bd49cd"
+    },
+    {
+      "uid": "T1-TRAIN-285106-84",
+      "task": "T1",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285106-84",
+          "linear_speed_mps": {
+            "mean": 0.39886145427782355,
+            "median": 0.40581379959231895,
+            "p95": 0.638995911355847,
+            "max": 0.7380792143185588
+          },
+          "angular_speed_radps": {
+            "mean": 0.3532507475001034,
+            "median": 0.2918375680037098,
+            "p95": 0.7159569139828842,
+            "max": 0.7693833909829176
+          },
+          "translation_path_length_m": 0.7777798358417559,
+          "se3_arc_length_m": 0.789611572493636,
+          "initial_position_discontinuity_m": 0.050439907103876205,
+          "initial_rotation_discontinuity_rad": 0.05752148435260933,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        0,
+        4,
+        0,
+        2
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        40,
+        0,
+        0,
+        0,
+        29,
+        0,
+        12
+      ],
+      "output_sha256": "c054b61817c2767b7a5768bae6ea5a2d11b8dd86785803c9f29ecac960f2810d"
+    },
+    {
+      "uid": "T1-TRAIN-285106-84",
+      "task": "T1",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285106-84",
+          "linear_speed_mps": {
+            "mean": 0.31583396593965846,
+            "median": 0.3176952432358857,
+            "p95": 0.5499875399575617,
+            "max": 0.7469430059851511
+          },
+          "angular_speed_radps": {
+            "mean": 0.4023115573244957,
+            "median": 0.3519214841456829,
+            "p95": 0.8426345590229336,
+            "max": 1.2865031535905063
+          },
+          "translation_path_length_m": 0.6158762335823342,
+          "se3_arc_length_m": 0.63487984914514,
+          "initial_position_discontinuity_m": 0.014409369840261308,
+          "initial_rotation_discontinuity_rad": 0.024993032408259726,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        39,
+        0,
+        0,
+        0,
+        12,
+        0,
+        0
+      ],
+      "output_sha256": "a68e68894d5c20142475144a5e2e4d38a568d9fa8b40e1b9df122be51e8f85c0"
+    },
+    {
+      "uid": "T1-TRAIN-285106-84",
+      "task": "T2",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285106-84",
+          "linear_speed_mps": {
+            "mean": 0.37980623218998466,
+            "median": 0.3539532368949111,
+            "p95": 0.6196069642294735,
+            "max": 0.7067623032400802
+          },
+          "angular_speed_radps": {
+            "mean": 0.32657409902094076,
+            "median": 0.24797487051295125,
+            "p95": 0.6155043744606481,
+            "max": 0.7005593479740632
+          },
+          "translation_path_length_m": 0.74062215277047,
+          "se3_arc_length_m": 0.7515853017897801,
+          "initial_position_discontinuity_m": 0.05429451392404572,
+          "initial_rotation_discontinuity_rad": 0.06661649374606755,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        0,
+        5,
+        0,
+        3
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        40,
+        0,
+        0,
+        0,
+        29,
+        0,
+        17
+      ],
+      "output_sha256": "7c2109c56c23c411912bceee93775005ef02533d594f667dba93e52bfccdc108"
+    },
+    {
+      "uid": "T1-TRAIN-285106-84",
+      "task": "T2",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285106-84",
+          "linear_speed_mps": {
+            "mean": 0.3022497378683205,
+            "median": 0.29724068537501674,
+            "p95": 0.528312875976601,
+            "max": 0.6209223830733847
+          },
+          "angular_speed_radps": {
+            "mean": 0.35770352970066016,
+            "median": 0.29925960985131655,
+            "p95": 0.8752838524521663,
+            "max": 1.3393594914370623
+          },
+          "translation_path_length_m": 0.5893869888432249,
+          "se3_arc_length_m": 0.6066430061882296,
+          "initial_position_discontinuity_m": 0.008847754243261422,
+          "initial_rotation_discontinuity_rad": 0.02834120800408026,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        39,
+        0,
+        0,
+        0,
+        10,
+        0,
+        1
+      ],
+      "output_sha256": "09dbd3dab42a90af911a608417f02644ebcb1053e3b8325f5dfe96a5b2164448"
+    },
+    {
+      "uid": "T1-TRAIN-285107-91",
+      "task": "T1",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285107-91",
+          "linear_speed_mps": {
+            "mean": 0.3044872702256318,
+            "median": 0.29381686134968,
+            "p95": 0.5411066597945844,
+            "max": 0.6220574616017418
+          },
+          "angular_speed_radps": {
+            "mean": 0.3903405462037882,
+            "median": 0.3559338268169251,
+            "p95": 0.90402660898382,
+            "max": 0.9606025883933229
+          },
+          "translation_path_length_m": 0.5937501769399822,
+          "se3_arc_length_m": 0.6127116497414707,
+          "initial_position_discontinuity_m": 0.030081075043971773,
+          "initial_rotation_discontinuity_rad": 0.06086952368479082,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        4,
+        0,
+        1
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        9,
+        0,
+        0,
+        0,
+        20,
+        0,
+        3
+      ],
+      "output_sha256": "fb8406f8451c7551969e41d99a66ce81a2ad687db120124f6553e7734951f1d4"
+    },
+    {
+      "uid": "T1-TRAIN-285107-91",
+      "task": "T1",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285107-91",
+          "linear_speed_mps": {
+            "mean": 0.3322603037242868,
+            "median": 0.3259849771842491,
+            "p95": 0.5390452633064402,
+            "max": 0.7269510747230732
+          },
+          "angular_speed_radps": {
+            "mean": 0.5188249698184106,
+            "median": 0.4039313757713705,
+            "p95": 1.186353956225422,
+            "max": 1.4642136833921968
+          },
+          "translation_path_length_m": 0.6479075922623592,
+          "se3_arc_length_m": 0.6720467320942379,
+          "initial_position_discontinuity_m": 0.04800575687212307,
+          "initial_rotation_discontinuity_rad": 0.029589478132876487,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        20,
+        0,
+        0,
+        0,
+        19,
+        0,
+        2
+      ],
+      "output_sha256": "ecc4027879224d0c7a49560eca28e3709e837f0935ac6f5a09f452e63e1a83bb"
+    },
+    {
+      "uid": "T1-TRAIN-285107-91",
+      "task": "T2",
+      "replica": 0,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285107-91",
+          "linear_speed_mps": {
+            "mean": 0.2910452585159962,
+            "median": 0.28413234623736766,
+            "p95": 0.49245615318494756,
+            "max": 0.6372901880190871
+          },
+          "angular_speed_radps": {
+            "mean": 0.40676068264000786,
+            "median": 0.34764918108477616,
+            "p95": 0.8605660225410693,
+            "max": 0.9511598298147395
+          },
+          "translation_path_length_m": 0.5675382541061927,
+          "se3_arc_length_m": 0.5874548431844508,
+          "initial_position_discontinuity_m": 0.025918206292040755,
+          "initial_rotation_discontinuity_rad": 0.06354306102707268,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        3,
+        0,
+        1
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        14,
+        0,
+        0,
+        0,
+        15,
+        0,
+        4
+      ],
+      "output_sha256": "431c28d240238eb589411f1042471bc3e6742b1791562bfde7fbbca3ed4b0a53"
+    },
+    {
+      "uid": "T1-TRAIN-285107-91",
+      "task": "T2",
+      "replica": 1,
+      "rejection": null,
+      "gate": {
+        "decision": "ACCEPT",
+        "issues": [],
+        "metrics": {
+          "chunk_id": "WP4-T1-TRAIN-285107-91",
+          "linear_speed_mps": {
+            "mean": 0.32591364997816313,
+            "median": 0.29407708453471126,
+            "p95": 0.5593481760359016,
+            "max": 0.7470559095794802
+          },
+          "angular_speed_radps": {
+            "mean": 0.5252262874868919,
+            "median": 0.4357130372342595,
+            "p95": 1.150044594958549,
+            "max": 1.5308820081060666
+          },
+          "translation_path_length_m": 0.6355316174574182,
+          "se3_arc_length_m": 0.6609282013790009,
+          "initial_position_discontinuity_m": 0.04119908193082649,
+          "initial_rotation_discontinuity_rad": 0.034933289708577744,
+          "chunk_age_s": 0.0
+        },
+        "provenance": {
+          "gate": "TrajectorySafetyGateV1",
+          "corrective_action": "NONE",
+          "threshold_provenance": {
+            "initial_position_warn_m": "BENCHMARK_DERIVED",
+            "initial_position_reject_m": "BENCHMARK_DERIVED",
+            "initial_rotation_warn_rad": "BENCHMARK_DERIVED",
+            "initial_rotation_reject_rad": "BENCHMARK_DERIVED",
+            "linear_speed_warn_mps": "TEST_ONLY",
+            "linear_speed_reject_mps": "TEST_ONLY",
+            "angular_speed_warn_radps": "TEST_ONLY",
+            "angular_speed_reject_radps": "TEST_ONLY",
+            "workspace_warn_min_m": "GENERATOR_SUPPORT",
+            "workspace_warn_max_m": "GENERATOR_SUPPORT",
+            "workspace_reject_min_m": "TEST_ONLY",
+            "workspace_reject_max_m": "TEST_ONLY",
+            "max_path_length_m": "TEST_ONLY",
+            "min_arc_length_m": "CONTROLLER_CONTRACT",
+            "aging_age_s": "CONTROLLER_CONTRACT",
+            "stale_age_s": "CONTROLLER_CONTRACT",
+            "min_points": "CONTROLLER_CONTRACT"
+          }
+        }
+      },
+      "decode_error": "",
+      "raw_OOB_first8_by_channel": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "raw_OOB_H40_by_channel": [
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        13,
+        0,
+        2
+      ],
+      "output_sha256": "df3c510c60ab83a97524df8771a564ce5a4a28fb833d156d6160a1e70e6148b4"
+    }
+  ],
+  "differences": [
+    {
+      "uid": "T1-TRAIN-285100-91",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 0,
+      "first8": {
+        "XYZ_RMS_m": 0.0093935236073792,
+        "SO3_RMS_rad": 0.007463427543131589,
+        "gripper_MAE": 0.0029296875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.04374824249376872,
+        "SO3_RMS_rad": 0.0050261954437244025,
+        "gripper_MAE": 0.00712890625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285100-91",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 1,
+      "first8": {
+        "XYZ_RMS_m": 0.005317582701092564,
+        "SO3_RMS_rad": 0.007307428495023436,
+        "gripper_MAE": 0.002685546875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.041555554796466894,
+        "SO3_RMS_rad": 0.004415580319620938,
+        "gripper_MAE": 0.003662109375
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285100-91",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T1",
+      "first8": {
+        "XYZ_RMS_m": 0.08907540283117998,
+        "SO3_RMS_rad": 0.030555212172113145,
+        "gripper_MAE": 0.028564453125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.07417839647343254,
+        "SO3_RMS_rad": 0.03886964062652396,
+        "gripper_MAE": 0.028515625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285100-91",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T2",
+      "first8": {
+        "XYZ_RMS_m": 0.08400168077950229,
+        "SO3_RMS_rad": 0.03043544273364774,
+        "gripper_MAE": 0.02783203125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.07536509973495613,
+        "SO3_RMS_rad": 0.03881721947234696,
+        "gripper_MAE": 0.032177734375
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285101-86",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 0,
+      "first8": {
+        "XYZ_RMS_m": 0.01308910860871744,
+        "SO3_RMS_rad": 0.00915883901163883,
+        "gripper_MAE": 0.010009765625
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.028669490795914142,
+        "SO3_RMS_rad": 0.012489286316482719,
+        "gripper_MAE": 0.013720703125
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285101-86",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 1,
+      "first8": {
+        "XYZ_RMS_m": 0.013884757100110716,
+        "SO3_RMS_rad": 0.009597865076578642,
+        "gripper_MAE": 0.00537109375
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.02722981841156459,
+        "SO3_RMS_rad": 0.010529724636869839,
+        "gripper_MAE": 0.012939453125
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285101-86",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T1",
+      "first8": {
+        "XYZ_RMS_m": 0.02024415501803044,
+        "SO3_RMS_rad": 0.05483982535233407,
+        "gripper_MAE": 0.022705078125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.026330266704220555,
+        "SO3_RMS_rad": 0.04955645465856408,
+        "gripper_MAE": 0.024072265625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285101-86",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T2",
+      "first8": {
+        "XYZ_RMS_m": 0.020010862571426688,
+        "SO3_RMS_rad": 0.05428983325586791,
+        "gripper_MAE": 0.02392578125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.02832991765692981,
+        "SO3_RMS_rad": 0.05092782317950263,
+        "gripper_MAE": 0.027587890625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285102-90",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 0,
+      "first8": {
+        "XYZ_RMS_m": 0.006325375930557097,
+        "SO3_RMS_rad": 0.013839348661693972,
+        "gripper_MAE": 0.001220703125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.022328922822143327,
+        "SO3_RMS_rad": 0.017867902086908024,
+        "gripper_MAE": 0.002685546875
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285102-90",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 1,
+      "first8": {
+        "XYZ_RMS_m": 0.010592577930350046,
+        "SO3_RMS_rad": 0.006325856963807616,
+        "gripper_MAE": 0.00244140625
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.024547500589772966,
+        "SO3_RMS_rad": 0.011154698100600647,
+        "gripper_MAE": 0.002197265625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285102-90",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T1",
+      "first8": {
+        "XYZ_RMS_m": 0.046905218302440946,
+        "SO3_RMS_rad": 0.060251502181113456,
+        "gripper_MAE": 0.014404296875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.052359920543753824,
+        "SO3_RMS_rad": 0.06013087288068845,
+        "gripper_MAE": 0.009619140625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285102-90",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T2",
+      "first8": {
+        "XYZ_RMS_m": 0.05043338278025524,
+        "SO3_RMS_rad": 0.06645379138369963,
+        "gripper_MAE": 0.01318359375
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.05510778193738489,
+        "SO3_RMS_rad": 0.06680544770339457,
+        "gripper_MAE": 0.011767578125
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285103-94",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 0,
+      "first8": {
+        "XYZ_RMS_m": 0.01144147745140441,
+        "SO3_RMS_rad": 0.007837665419410488,
+        "gripper_MAE": 0.006591796875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.01728988448876477,
+        "SO3_RMS_rad": 0.011171209872191392,
+        "gripper_MAE": 0.00556640625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285103-94",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 1,
+      "first8": {
+        "XYZ_RMS_m": 0.014643605251198434,
+        "SO3_RMS_rad": 0.012314326460286094,
+        "gripper_MAE": 0.00439453125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.019422277558112804,
+        "SO3_RMS_rad": 0.012040286324527838,
+        "gripper_MAE": 0.004345703125
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285103-94",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T1",
+      "first8": {
+        "XYZ_RMS_m": 0.049340311937314175,
+        "SO3_RMS_rad": 0.08404683390083949,
+        "gripper_MAE": 0.041748046875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.06658932951736793,
+        "SO3_RMS_rad": 0.09087086497158423,
+        "gripper_MAE": 0.040283203125
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285103-94",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T2",
+      "first8": {
+        "XYZ_RMS_m": 0.05099293540423909,
+        "SO3_RMS_rad": 0.0888479186960559,
+        "gripper_MAE": 0.04248046875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.068089271457668,
+        "SO3_RMS_rad": 0.09124689177943092,
+        "gripper_MAE": 0.03994140625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285104-90",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 0,
+      "first8": {
+        "XYZ_RMS_m": 0.011141306642348742,
+        "SO3_RMS_rad": 0.011131565651038717,
+        "gripper_MAE": 0.009033203125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.025438916964631086,
+        "SO3_RMS_rad": 0.016309187353037526,
+        "gripper_MAE": 0.003662109375
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285104-90",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 1,
+      "first8": {
+        "XYZ_RMS_m": 0.010963452655328795,
+        "SO3_RMS_rad": 0.012425934623059333,
+        "gripper_MAE": 0.001953125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.02397969101975928,
+        "SO3_RMS_rad": 0.01804229232366836,
+        "gripper_MAE": 0.000390625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285104-90",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T1",
+      "first8": {
+        "XYZ_RMS_m": 0.039179297327697295,
+        "SO3_RMS_rad": 0.026491513188620853,
+        "gripper_MAE": 0.028076171875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.04285734923678032,
+        "SO3_RMS_rad": 0.0283768554655573,
+        "gripper_MAE": 0.013427734375
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285104-90",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T2",
+      "first8": {
+        "XYZ_RMS_m": 0.04255436408054958,
+        "SO3_RMS_rad": 0.025398333920788,
+        "gripper_MAE": 0.01953125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.04286544926154743,
+        "SO3_RMS_rad": 0.027536754188432544,
+        "gripper_MAE": 0.01083984375
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285105-88",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 0,
+      "first8": {
+        "XYZ_RMS_m": 0.01962739416741539,
+        "SO3_RMS_rad": 0.004807429566203749,
+        "gripper_MAE": 0.01123046875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.04431403479608848,
+        "SO3_RMS_rad": 0.004352902301192976,
+        "gripper_MAE": 0.00654296875
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285105-88",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 1,
+      "first8": {
+        "XYZ_RMS_m": 0.017857626523074138,
+        "SO3_RMS_rad": 0.007368233183254788,
+        "gripper_MAE": 0.00146484375
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.042332191736015524,
+        "SO3_RMS_rad": 0.006105075702712026,
+        "gripper_MAE": 0.002734375
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285105-88",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T1",
+      "first8": {
+        "XYZ_RMS_m": 0.028487658912359114,
+        "SO3_RMS_rad": 0.03508393964301285,
+        "gripper_MAE": 0.044677734375
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.037257591260831835,
+        "SO3_RMS_rad": 0.02735155967829975,
+        "gripper_MAE": 0.031201171875
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285105-88",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T2",
+      "first8": {
+        "XYZ_RMS_m": 0.029528748293066547,
+        "SO3_RMS_rad": 0.034537355932368674,
+        "gripper_MAE": 0.034912109375
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.038459342775835445,
+        "SO3_RMS_rad": 0.02611265366026362,
+        "gripper_MAE": 0.025439453125
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285106-84",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 0,
+      "first8": {
+        "XYZ_RMS_m": 0.009097156063120776,
+        "SO3_RMS_rad": 0.009019893051961702,
+        "gripper_MAE": 0.009765625
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.0429069749994416,
+        "SO3_RMS_rad": 0.010937942167723529,
+        "gripper_MAE": 0.00732421875
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285106-84",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 1,
+      "first8": {
+        "XYZ_RMS_m": 0.009478888779115664,
+        "SO3_RMS_rad": 0.007810192603722754,
+        "gripper_MAE": 0.007080078125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.03969026715880165,
+        "SO3_RMS_rad": 0.010458403730960531,
+        "gripper_MAE": 0.009716796875
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285106-84",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T1",
+      "first8": {
+        "XYZ_RMS_m": 0.049791924761042286,
+        "SO3_RMS_rad": 0.04528062214772627,
+        "gripper_MAE": 0.034423828125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.05096173036623655,
+        "SO3_RMS_rad": 0.0407514745368748,
+        "gripper_MAE": 0.046826171875
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285106-84",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T2",
+      "first8": {
+        "XYZ_RMS_m": 0.048826872117548284,
+        "SO3_RMS_rad": 0.04671679473555085,
+        "gripper_MAE": 0.03466796875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.05393516565561749,
+        "SO3_RMS_rad": 0.041372462888118425,
+        "gripper_MAE": 0.04345703125
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285107-91",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 0,
+      "first8": {
+        "XYZ_RMS_m": 0.020446226510338537,
+        "SO3_RMS_rad": 0.006675107385240051,
+        "gripper_MAE": 0.0087890625
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.050631467312553066,
+        "SO3_RMS_rad": 0.006054020279117939,
+        "gripper_MAE": 0.004833984375
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285107-91",
+      "comparison": "SAME_NOISE_DIFFERENT_TEXT",
+      "replica": 1,
+      "first8": {
+        "XYZ_RMS_m": 0.019746226828807556,
+        "SO3_RMS_rad": 0.006286605389252835,
+        "gripper_MAE": 0.01220703125
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.0496193217136038,
+        "SO3_RMS_rad": 0.0044110124036255615,
+        "gripper_MAE": 0.00556640625
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285107-91",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T1",
+      "first8": {
+        "XYZ_RMS_m": 0.047266941276603455,
+        "SO3_RMS_rad": 0.04670785102162877,
+        "gripper_MAE": 0.02294921875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.05216349900133524,
+        "SO3_RMS_rad": 0.04651670991395661,
+        "gripper_MAE": 0.028662109375
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    },
+    {
+      "uid": "T1-TRAIN-285107-91",
+      "comparison": "SAME_TEXT_NOISE_SPREAD",
+      "task": "T2",
+      "first8": {
+        "XYZ_RMS_m": 0.050297310124489715,
+        "SO3_RMS_rad": 0.046780631491501246,
+        "gripper_MAE": 0.0185546875
+      },
+      "H40": {
+        "XYZ_RMS_m": 0.05519139630410782,
+        "SO3_RMS_rad": 0.04790048968518388,
+        "gripper_MAE": 0.02841796875
+      },
+      "rejections": [
+        null,
+        null
+      ]
+    }
+  ],
+  "alternate_expert_labels": false,
+  "new_model_queries": 0,
+  "new_physics": 0,
+  "interpretation": "Differences measure response only; shared grasp can legitimately match, T1 training need not master T2, invalid results are retained, no sensitivity threshold selects training or candidate."
+}

@@ -1,0 +1,45 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Verify the existing Cosmos cache without importing or loading a neural model."""
+import json
+import sys
+from pi0292_adopt import BASE, remote, save
+
+CODE = r'''
+import hashlib,json,resource,time,urllib.request
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/stage22_h200_cosmos_v2_20260902/hf_home')
+revision='9ce19a195e423419c349abfc86fd07178b230561'
+repo=root/'hub/models--nvidia--Cosmos-Reason2-2B'
+snapshot=repo/'snapshots'/revision
+assert (repo/'refs/main').read_text().strip()==revision
+token=Path(TOKEN_FILE).read_text().strip()
+request=urllib.request.Request('https://huggingface.co/api/models/nvidia/Cosmos-Reason2-2B/revision/'+revision+'?blobs=true',headers={'Authorization':'Bearer '+token})
+with urllib.request.urlopen(request,timeout=30) as response:info=json.load(response)
+assert info['sha']==revision
+remote={r['rfilename']:r for r in info['siblings']}
+rows=[]
+for path in sorted(snapshot.iterdir()):
+    assert path.is_file() and path.resolve().is_relative_to(repo.resolve())
+    size=path.stat().st_size;h=hashlib.sha256();blob=hashlib.sha1(b'blob '+str(size).encode()+b'\0')
+    with path.open('rb') as handle:
+        for part in iter(lambda:handle.read(8*1024*1024),b''):h.update(part);blob.update(part)
+    other=remote[path.name];lfs=other.get('lfs')
+    assert size==other['size']
+    assert (h.hexdigest()==lfs['sha256']) if lfs else (blob.hexdigest()==other['blobId'])
+    rows.append(dict(file=path.name,bytes=size,sha256=h.hexdigest(),official_identity=lfs['sha256'] if lfs else other['blobId']))
+u=resource.getrusage(resource.RUSAGE_SELF)
+print(json.dumps(dict(status='EXISTING_COSMOS_CACHE_VERIFIED_NOT_LOADED',repo=info['id'],revision=revision,
+    HF_HOME=str(root),snapshot=str(snapshot),files=rows,CPU_s=u.ru_utime+u.ru_stime,
+    model_loads=0,PBS_submissions=0,downloaded_model_bytes=0,observed_epoch=time.time())))
+'''
+
+if __name__ == '__main__':
+    auth=json.loads((BASE.parent/'PI0291_EXISTING_AUTH_PATHS.json').read_text())
+    result=remote('hopper','TOKEN_FILE='+repr(auth['HF_hopper'])+'\n'+CODE)
+    if result.returncode:
+        print(result.stderr[-2000:]);sys.exit(result.returncode)
+    value=json.loads(result.stdout)
+    save(BASE/'HOPPER_COSMOS_IDENTITY.private.json',value)
+    print(json.dumps({k:v for k,v in value.items() if k not in ('HF_HOME','snapshot')}))

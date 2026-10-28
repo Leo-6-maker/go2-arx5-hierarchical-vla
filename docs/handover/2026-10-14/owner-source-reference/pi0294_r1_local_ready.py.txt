@@ -1,0 +1,77 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""One bounded CPU-only inventory ticket in the new registered namespace."""
+import time
+from pi0294_r1_prepare import BASE,RUN,CUTOFF,save
+from pi0294_remote import remote_multiplexed
+
+BOOT=r'''
+import hashlib,json,os,resource,signal,time,sys
+from pathlib import Path
+root=Path(ROOT);directory=Path(DIRECTORY)
+sys.path[:0]=[str(root/'code/src'),str(root/'code')]
+from scripts.pi0292.durable import read,write,OwnerLock
+from scripts.pi0294.continuation import validate_entry
+from scripts.pi0294.local_checkpoint import qualify
+from scripts.pi0294.native_dataset import sha
+ticket=read(directory/'REQUEST.private.json')
+assert sha(Path(__file__))==ticket['bootstrap_sha256']
+validate_entry(root,profile='hopper-neural')
+assert sha(root/'RUN_MANIFEST.json')==ticket['run_manifest_sha256']
+os.sched_setaffinity(0,set(ticket['cpus']))
+resource.setrlimit(resource.RLIMIT_CPU,(600,600))
+def stop(signum,frame):raise TimeoutError('ORIGINAL_CPU_LOCAL_INVENTORY_TICKET_DEADLINE')
+signal.signal(signal.SIGALRM,stop);signal.alarm(max(1,int(ticket['deadline_epoch']-time.time())))
+before=resource.getrusage(resource.RUSAGE_SELF);start=time.monotonic()
+result=dict(status='INVENTORY_RUNNING',model_loaded=False,pickle_executed=False,new_PBS=0,new_GPU=False)
+try:
+ ready=qualify(root,ticket['checkpoint'],directory/'identity',step=512)
+ result.update(status='PASS_ACTUAL_LOCAL_M512_FULL_MEMBER_SHA_AND_CURSOR',global_step=ready['global_step'],
+  consumed_samples=ready['consumed_samples'],members=len(ready['files']),inventory_sha256=ready['inventory_sha256'])
+finally:
+ signal.alarm(0);after=resource.getrusage(resource.RUSAGE_SELF)
+ result.update(CPU_s=after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime,wall_s=time.monotonic()-start)
+ write(directory/'CPU_TERMINAL.json',result)
+ lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock');ledger=read(root/'HOPPER_RESOURCE_LEDGER.json')
+ assert ledger['CPU_request_sha256']==sha(directory/'REQUEST.private.json')
+ ledger['CPU_s']+=result['CPU_s'];ledger['CPU_reserved_s']=0
+ write(root/'HOPPER_RESOURCE_LEDGER.json',ledger);lock.close()
+print(json.dumps(result))
+'''
+
+CODE=r'''
+import hashlib,json,os,subprocess,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+sys.path[:0]=[str(root/'code/src'),str(root/'code')]
+from scripts.pi0292.durable import OwnerLock,read,write
+from scripts.pi0294.continuation import validate_entry,CUTOFF,PARENT
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='hopper-neural');lock=OwnerLock(root/'HOPPER_CPU_OWNER.lock')
+l=read(root/'HOPPER_RESOURCE_LEDGER.json')
+assert not l['CPU_reserved_s'] and not l['GPU_reserved_s'] and not l['pending_updates']
+assert l['CPU_s']+600<=57600
+d=root/'evidence/local-M512-01';d.mkdir(exist_ok=False)
+bootstrap=d/'CPU_BOOTSTRAP.private.py'
+bootstrap.write_text('ROOT='+repr(str(root))+'\nDIRECTORY='+repr(str(d))+'\n'+BOOT);bootstrap.chmod(0o400)
+ticket=dict(run_uuid=RUN,source_sha=read(root/'RUN_MANIFEST.json')['code']['vla_commit'],
+ run_manifest_sha256=sha(root/'RUN_MANIFEST.json'),bootstrap_sha256=sha(bootstrap),
+ deadline_epoch=min(CUTOFF,time.time()+600),CPU_upper_s=600,cpus=[min(os.sched_getaffinity(0))],
+ checkpoint=str(root.parent/PARENT/'training/main/checkpoint-512'),kind='CPU_ONLY_LOCAL_CHECKPOINT_IDENTITY')
+write(d/'REQUEST.private.json',ticket);l['CPU_reserved_s']=600;l['CPU_request_sha256']=sha(d/'REQUEST.private.json')
+write(root/'HOPPER_RESOURCE_LEDGER.json',l)
+b=read(root/'NEURAL_BINDINGS.private.json')
+env=dict(os.environ,CUDA_VISIBLE_DEVICES='',PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
+p=subprocess.Popen([b['python'],str(bootstrap)],env=env,cwd=root/'code',stdin=subprocess.DEVNULL,
+ stdout=(d/'stdout.log').open('xb'),stderr=(d/'stderr.log').open('xb'),start_new_session=True)
+v=dict(status='DISPATCHED_CPU_ONLY_NOT_YET_LOCAL_READY',pid=p.pid,proc_start=Path('/proc/'+str(p.pid)+'/stat').read_text().split()[21],
+ deadline_epoch=ticket['deadline_epoch'],source_sha=ticket['source_sha'],new_PBS=0,new_models=0,new_physics=0)
+write(d/'PROCESS.private.json',v);lock.close();print(json.dumps(v))
+'''
+
+if __name__=='__main__':
+    r=remote_multiplexed('hopper','RUN='+repr(RUN)+'\nBOOT='+repr(BOOT)+'\n'+CODE)
+    save(BASE/('LOCAL_READY_DISPATCH_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+    print(r.stdout if r.returncode==0 else 'LOCAL_CPU_TICKET_DISPATCH_FAILED')
+    assert r.returncode==0

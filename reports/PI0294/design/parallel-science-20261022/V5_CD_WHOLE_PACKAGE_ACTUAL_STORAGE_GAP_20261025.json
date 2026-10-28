@@ -1,0 +1,211 @@
+{
+  "schema": "V5_CD_EXISTING_CAPS_WHOLE_PACKAGE_CPU_RECOMPUTATION_V1",
+  "task": "V5_CD_AUTONOMOUS_SUCCESSOR_V1",
+  "task_source": "5b5de6f5d26ac90a6002c83ebcb60005acf06462",
+  "order": [
+    "TRAIN:C50:1024",
+    "EVAL:C50:N294101",
+    "TRAIN:D25:1024",
+    "EVAL:D25:N294101"
+  ],
+  "dimensions": {
+    "H200_s": {
+      "cap": 435600,
+      "used": 133201.0,
+      "reserved": 0,
+      "successor": 102840,
+      "matrix": 86580,
+      "final": 72000,
+      "projected": 394621.0,
+      "shortfall": 0
+    },
+    "PBS_submissions": {
+      "cap": 34,
+      "used": 25,
+      "reserved": 0,
+      "successor": 2,
+      "matrix": 3,
+      "final": 0,
+      "projected": 30,
+      "shortfall": 0
+    },
+    "optimizer_updates": {
+      "cap": 16384,
+      "used": 11714,
+      "reserved": 0,
+      "successor": 2048,
+      "matrix": 0,
+      "final": 0,
+      "projected": 13762,
+      "shortfall": 0
+    },
+    "episode_starts": {
+      "cap": 1000,
+      "used": 391,
+      "reserved": 0,
+      "successor": 52,
+      "matrix": 88,
+      "final": 100,
+      "projected": 631,
+      "shortfall": 0
+    },
+    "neural_queries": {
+      "cap": 48000,
+      "used": 4424,
+      "reserved": 0,
+      "successor": 4252,
+      "matrix": 7040,
+      "final": 9000,
+      "projected": 24716,
+      "shortfall": 0
+    },
+    "physics_ticks": {
+      "cap": 40000000,
+      "used": 11951979,
+      "reserved": 0,
+      "successor": 1664000,
+      "matrix": 2816000,
+      "final": 3200000,
+      "projected": 19631979,
+      "shortfall": 0
+    },
+    "engine_starts": {
+      "cap": 100000,
+      "used": 33137,
+      "reserved": 0,
+      "successor": 4246,
+      "matrix": 7128,
+      "final": 0,
+      "projected": 44511,
+      "shortfall": 0
+    },
+    "Core_CPU_s": {
+      "cap": 1152000,
+      "used": 251121.97787135502,
+      "reserved": 0.0,
+      "successor": 189000,
+      "matrix": 193968.05627,
+      "final": 0,
+      "projected": 634090.034141355,
+      "shortfall": 0
+    },
+    "Hopper_CPU_s": {
+      "cap": 766800,
+      "used": 210437.658597758,
+      "reserved": 0,
+      "successor": 289000,
+      "matrix": 85520,
+      "final": 0,
+      "projected": 584957.658597758,
+      "shortfall": 0
+    },
+    "local_CPU_s": {
+      "cap": 172800,
+      "used": 102058.974682509,
+      "reserved": 0.0,
+      "successor": 15330,
+      "matrix": 6600,
+      "final": 0,
+      "projected": 123988.974682509,
+      "shortfall": 0
+    },
+    "transfer_bytes": {
+      "cap": 322122547200,
+      "used": 111176154977,
+      "reserved": 0,
+      "successor": 113186303200,
+      "matrix": 6174015488,
+      "final": 0,
+      "projected": 230536473665,
+      "shortfall": 0
+    },
+    "Hopper_storage_bytes": {
+      "cap": 870804619264,
+      "used": 818265218908,
+      "reserved": 0,
+      "successor": 225550626416,
+      "matrix": 9442971836,
+      "final": 42949672960,
+      "projected": 1096208490120,
+      "shortfall": 225403870856
+    },
+    "Core_storage_bytes": {
+      "cap": 353261060096,
+      "used": 335287617560,
+      "reserved": 0,
+      "successor": 68437866096,
+      "matrix": 17968398336,
+      "final": 0,
+      "projected": 421693881992,
+      "shortfall": 68432821896
+    },
+    "local_storage_bytes": {
+      "cap": 21474836480,
+      "used": 9126805504,
+      "reserved": 0,
+      "successor": 268435456,
+      "matrix": 0,
+      "final": 0,
+      "projected": 9395240960,
+      "shortfall": 0
+    }
+  },
+  "shortfalls": {
+    "Hopper_storage_bytes": 225403870856,
+    "Core_storage_bytes": 68432821896
+  },
+  "remaining_package": {
+    "H200_s": 102840,
+    "PBS_submissions": 2,
+    "optimizer_updates": 2048,
+    "episode_starts": 52,
+    "neural_queries": 4252,
+    "physics_ticks": 1664000,
+    "engine_starts": 4246,
+    "Core_CPU_s": 189000,
+    "Hopper_CPU_s": 289000,
+    "local_CPU_s": 15330,
+    "transfer_bytes": 113186303200,
+    "Hopper_storage_bytes": 225550626416,
+    "Core_storage_bytes": 68437866096,
+    "local_storage_bytes": 268435456
+  },
+  "cap_changes": {},
+  "native_admission": false,
+  "new_native_effects": 0,
+  "observed_epoch": 1792919718.9019346,
+  "status": "EXACT_STORAGE_GAP_NO_NATIVE_REGISTRATION_OR_T_CD",
+  "global_sha256": "4113e0fc596e392b0c046aeaaa2076ed41f8167f983d744b98fc49257a5113c3",
+  "Core_LOCAL_sha256": "af8814a3ec144d7f3a0c2e967bbd094089ec31845b989a61d0427cb39e1ff480",
+  "private_receipt_sha256": {
+    "INITIAL_VANDA_EXACT_INVENTORY_1792919124061269225.private.json": "5275552fe583a032a4ac8ae860a104cc23bb1c11a441bb6457a70abe421efc42",
+    "CORE_EXACT_LEDGER_1792919426605310817.private.json": "ad27c1c5020a8c31ad2fd36e890b4382c929750ffcf18e8e2e679ef8656cec69"
+  },
+  "T_CD": null,
+  "checkpoint_member_measurement_bytes": 25541102562,
+  "scope_accepted_by_human": true,
+  "new_PBS": 0,
+  "new_GPU": 0,
+  "new_physics": 0,
+  "state_diagnosis_closed": true,
+  "R0_unchanged": true,
+  "GEN1_images_completed": 0,
+  "minimum_rounded_cap_correction_GiB": {
+    "Hopper_storage_bytes": {
+      "current_GiB": 811,
+      "required_GiB": 1021,
+      "additional_bytes": 225403870856
+    },
+    "Core_storage_bytes": {
+      "current_GiB": 329,
+      "required_GiB": 393,
+      "additional_bytes": 68432821896
+    }
+  },
+  "differential_CPU_validation": {
+    "cases_passed": 9,
+    "native_admission": false,
+    "CI_success_claimed": false,
+    "initial_import_failure_preserved": "source path missing in first pytest invocation; existing src path supplied on successful run"
+  }
+}

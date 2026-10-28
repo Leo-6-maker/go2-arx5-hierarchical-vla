@@ -1,0 +1,112 @@
+{
+  "schema": "WDR1_TARGET_TIME_ACK_EXISTING_RESIDENT_CPU_ACTUAL_V1",
+  "observed_epoch": 1792752643.535187,
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "preparation": {
+    "status": "CPU_BINDING_AND_EXISTING_CONSUMER_INTEGRATION_ONLY",
+    "runtime": "scripts/pi0294/dec1/target_mapped_ack.py",
+    "consumer": "scripts/pi0294/resident.py",
+    "existing_query_loop": "scripts/pi0294/e1/neural.py:serve",
+    "new_runner": false,
+    "new_controller": false,
+    "native_deployed": false,
+    "native_target_child_registered": false,
+    "native_physics": 0,
+    "native_task_qualification": false,
+    "core64": 0
+  },
+  "contract": {
+    "owner_injected_before_fresh_session": true,
+    "wire_request_cannot_select_contract": true,
+    "source_S1_ABI_remains_distinct": true,
+    "source_physics_writer_rejects_target_contract": true,
+    "original_CORR2048_checkpoint": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "original_R0": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "no_A_B_weight_substitution": true,
+    "frozen_task_clock": "82004c3171cc8cd2a0486f391595ac39424bad96882d12c5936c4eca55fe3b08",
+    "original_warmup_native_ticks": 2500,
+    "references": 8,
+    "native_ticks_per_reference": 25,
+    "full_raw_response_retained": true,
+    "original_raw_command_hash_retained": true,
+    "installed_target_events_and_float32_native_policy_bound": true,
+    "independent_MPC_observation_required": true,
+    "actual_feedback_and_pause_byte_hash_links_required": true,
+    "separate_owner_retained_original_target_prefix_verdict_required": true,
+    "physics_receipt_bound_to_prefix_receipt": true,
+    "all_ack_hashes_are_binding_only_not_execution_evidence": true,
+    "MPC12_excludes_legs_and_contact_and_grants_no_safety_or_quota": true,
+    "planning_candidate_cannot_be_executed_ACK": true,
+    "raw_and_source_defaults_preserved": true,
+    "unknown_generation_intent_preserved_no_resampling": true
+  },
+  "tests": {
+    "new_target_ACK_CPU_cases": 41,
+    "related_CPU_passed": 153,
+    "related_private_parser_skips": 12,
+    "combined_root_PI0292_PI0294_CPU": {
+      "passed": 3097,
+      "subtests_passed": 1704,
+      "skipped": 27,
+      "failures": 1,
+      "failure_reason": "Existing wrong-HEAD test ran in the publisher repository configured without an implicit worktree; git failed before its expected branch/HEAD rejection.",
+      "unchanged_test_isolated_with_explicit_GIT_WORK_TREE": {
+        "passed": 1,
+        "seconds": 0.03
+      },
+      "production_code_changed_to_fix_test": false
+    },
+    "native_probe_repeated": false,
+    "model_simulator_solver_executed": false
+  },
+  "preserved_native_training": {
+    "job_id": "1480817.stdct-mgmt-02",
+    "observed_epoch": 1792752622.0921204,
+    "native_state": "R",
+    "local_native_step": 2513,
+    "new_updates": 465,
+    "actual_queries": 17,
+    "actual_loads": 2,
+    "unknown_effects": [],
+    "whole_dual_queue_status": "PASS_TWO_PLATFORM_CAMPAIGN_VIEW",
+    "unique_active_owner": true,
+    "running_entry_sha256": "7c1c098888e4ff9051da5a2edea95137e131cc87ee3778c850c9bffdebe61ade",
+    "entry_and_running_capsules_modified": false,
+    "terminal_audit_or_settlement_run": false
+  },
+  "scope": {
+    "DEC1_updates_cap": 10792,
+    "DEC1_PBS_cap": 15,
+    "global_PBS_cap": 26,
+    "DEC1_GPU_site_GiB_cap": 549,
+    "global_GPU_site_GiB_cap": 615,
+    "latest_PBS_grant": "e48db225033ba0510230d96b43f58c0743b05912",
+    "latest_grant_already_dual_adopted": true,
+    "no_new_PBS_or_registration_or_prepaid_control": true,
+    "no_Source_or_C0_replay": true,
+    "original_T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "original_final_GPU_s": 72000,
+    "original_final_output_GiB": 40
+  },
+  "matrix": {
+    "registered_or_executed": false,
+    "original_fixed_CORR_R0_64_cells_preserved": true,
+    "original_three_PBS_envelope_preserved": true,
+    "existing_query_loop_draws_once": true,
+    "existing_geometry_sequence_noise_seed_unchanged": true,
+    "new_native_target_costs": 0
+  },
+  "next": [
+    "Protect the unique active B4096 training owner; no hot edits or new target physics while it is active.",
+    "Use the already qualified648458a6 terminal only after actual same-job F/Exit0 and natural successful owner exit; independently audit all original full states/probes, settle actual effects once, then close/read back both leases.",
+    "Complete current target cold admission and original native full-prefix/actual-feedback/install-ACK/STOP/T1/T2 qualification before any physical quota or matrix dispatch. No partial12D prediction or hash consistency substitutes this qualification."
+  ],
+  "publication": {
+    "code_CI_status": "PENDING_EXACT_COMMIT_CI_AND_FULL_FILE_READBACK",
+    "no_native_permission_created_by_publication": true
+  }
+}

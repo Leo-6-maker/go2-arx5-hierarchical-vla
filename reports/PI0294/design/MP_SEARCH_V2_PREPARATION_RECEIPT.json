@@ -1,0 +1,72 @@
+{
+  "schema": "MP_SEARCH_V2_PREPARATION_RECEIPT",
+  "scope": "PI0294_MANISKILL_SEARCH_AND_ASSISTED_SEED_V2",
+  "status": "PREPARATION_AND_PUBLICATION_ONLY",
+  "authorizes_execution": false,
+  "launch_allowed": false,
+  "baseline_release": "4de048a66e5a10611180e61025ddacb2c54aa2ce",
+  "science_canonical_read": 6191161535,
+  "research_canonical_read": 6191123183,
+  "actual_remote_state": {
+    "observed_epoch": 1792065024.8268561,
+    "source": "59045165b518837fc1cf8fb369f52752caa31ee5",
+    "old_scope_entry_rejection": "MANISKILL_SERIES_TERMINAL_PRESERVED",
+    "active_CPU_reservations": {},
+    "counters": {
+      "main_starts": 37,
+      "main_integrations": 345005,
+      "RGB_pairs": 12007,
+      "Core_CPU_s": 15270.13819312814
+    },
+    "old_terminal_and_safety_SHA_unchanged": true
+  },
+  "source_identity_checks": "12_FROZEN_PUBLIC_MEMBERS_MATCH_PINNED_SHA256",
+  "document_consistency": "CHECKED_SEPARATELY_BEFORE_PUBLICATION_NOT_RUNTIME_TESTS",
+  "new_candidate_IK_RRT_calls": 0,
+  "new_model_calls": 0,
+  "new_physics_steps": 0,
+  "new_rendered_frames": 0,
+  "new_installs": 0,
+  "new_PBS": 0,
+  "new_training": 0,
+  "new_raw_publication": false,
+  "runtime_implementation": "DESIGN_NOT_IMPLEMENTED",
+  "new_CPU_fixtures_executed": 0,
+  "prepared_files": [
+    {
+      "path": "docs/protocols/PI0294_MANISKILL_BOUNDED_SEARCH_AND_ASSISTED_SEED_V2.md",
+      "sha256": "2bbf4680ed94e6161322b7b7e8ab0e0243b4c155eb20a59b71e48d1805611400"
+    },
+    {
+      "path": "reports/PI0294/design/MP_SEARCH_V2_SEARCH_POLICY.json",
+      "sha256": "8def8863f83d7e4efa30c1b1505a1b956d657854eaaaaa09a51ca6ca19db64cc"
+    },
+    {
+      "path": "reports/PI0294/design/MP_SEARCH_V2_CONDITIONS.json",
+      "sha256": "6f486996261d7b29090e3005efcfa52b97616bc9135bc6b04265bc40d51c67d2"
+    },
+    {
+      "path": "reports/PI0294/design/MP_SEARCH_V2_SOURCE_LOCK.json",
+      "sha256": "e9cc866b27cff49276ad274d506230bf629e3f3c91388c0122bd2bc44993a7c9"
+    },
+    {
+      "path": "reports/PI0294/design/MP_SEARCH_V2_TASK_CARD.json",
+      "sha256": "3c5ad39e66f30d4439841e596c1e2534233e027352ace0878d9553db4d1c6d10"
+    },
+    {
+      "path": "docs/handover/2026-10-15/MANISKILL_SEARCH_V2_ADOPTION_PROMPT.md",
+      "sha256": "54b4d9cb9a342899c04bc1f728e633a8c11d7b39690410185d1e7bc71c9b1161"
+    }
+  ],
+  "publication": "VERIFY_FIXED_GIT_BLOBS_AND_ISSUE_BODY_AFTER_PUSH_NOT_ASSUMED_BY_THIS_FILE",
+  "document_validation": {
+    "status": "PASS_DOCUMENT_IDENTITY_ARITHMETIC_AND_LINK_CHECK_ONLY",
+    "JSON_files": 5,
+    "new_document_files": 7,
+    "local_links": 8,
+    "seed_stream_entries": 4440,
+    "frozen_project_member_SHA_checks": 12,
+    "runtime_tests_run": 0,
+    "new_IK_RRT_physics_model_queries": 0
+  }
+}

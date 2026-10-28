@@ -1,0 +1,121 @@
+{
+  "status": "ACTIVE_DEBUG_ONE_SAFE_START_SECOND_FINGER_FAIL_NO_TEACHER",
+  "epoch": 1792092303.0212648,
+  "T0_epoch": 1792081407.219026,
+  "new_work_cutoff_epoch": 1792112400,
+  "runtime_source": "770c559864fdd6b258be50904c3ac2291d81e4e5",
+  "raw_attempts": [
+    {
+      "episode": "TFNR1_STARTUP_OPEN_00",
+      "role": "STARTUP",
+      "status": "ENGINEERING_PRE_NATIVE_RMW_DOMAIN_REJECT",
+      "source": "1eac26c0745b116c3dad392d9f6d3d8411eaf86a",
+      "actual_integrations": 0,
+      "charged_integrations": 0,
+      "native_stops": null,
+      "actual_CPU_s": null,
+      "conservative_CPU_charged_s": 900
+    },
+    {
+      "episode": "TFNR1_STARTUP_OPEN_01",
+      "role": "STARTUP",
+      "status": "ENGINEERING_OR_NATIVE_SAFETY_INCOMPLETE",
+      "source": "85d963772f6672e37157a31ffc7d061b39b113ff",
+      "actual_integrations": 0,
+      "charged_integrations": 0,
+      "native_stops": [],
+      "actual_CPU_s": 23.700725250999998,
+      "conservative_CPU_charged_s": 50.49692549183965
+    },
+    {
+      "episode": "TFNR1_STARTUP_OPEN_02",
+      "role": "STARTUP",
+      "status": "VALID_NATIVE_OR_HIGH_RATE_SAFETY_FAIL_ALL_PHYSICS_STOP",
+      "source": "42428e1afc12cc1e528023fd7c6f231419577b23",
+      "actual_integrations": 26,
+      "charged_integrations": 26,
+      "native_stops": [
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 26
+        }
+      ],
+      "actual_CPU_s": 9.284397566,
+      "conservative_CPU_charged_s": 25.301662964746356
+    },
+    {
+      "episode": "TFNR1_STARTUP_OPEN_03",
+      "role": "STARTUP",
+      "status": "VALID_NATIVE_OR_HIGH_RATE_SAFETY_FAIL_ALL_PHYSICS_STOP",
+      "source": "d046e174a100b623d1b7d485b7c399f9488034d6",
+      "actual_integrations": 618,
+      "charged_integrations": 618,
+      "native_stops": [
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 616
+        },
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 617
+        },
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 618
+        }
+      ],
+      "actual_CPU_s": 9.639114931,
+      "conservative_CPU_charged_s": 24.968790220096707
+    },
+    {
+      "episode": "TFNR1_STARTUP_OPEN_04",
+      "role": "STARTUP",
+      "status": "RAW_COMPLETE_STARTUP_REQUIRES_INDEPENDENT_AUDIT",
+      "source": "770c559864fdd6b258be50904c3ac2291d81e4e5",
+      "actual_integrations": 2500,
+      "charged_integrations": 2503,
+      "native_stops": [],
+      "actual_CPU_s": 13.932890848,
+      "conservative_CPU_charged_s": 31.169434796087444
+    },
+    {
+      "episode": "TFNR1_STARTUP_OPEN_05",
+      "role": "STARTUP",
+      "status": "VALID_NATIVE_OR_HIGH_RATE_SAFETY_FAIL_ALL_PHYSICS_STOP",
+      "source": "770c559864fdd6b258be50904c3ac2291d81e4e5",
+      "actual_integrations": 617,
+      "charged_integrations": 617,
+      "native_stops": [
+        {
+          "kind": "stop",
+          "reason": "REGISTERED_JOINT_SAFETY",
+          "steps": 617
+        }
+      ],
+      "actual_CPU_s": 5.074907802,
+      "conservative_CPU_charged_s": 15.929288196377456
+    }
+  ],
+  "R1_resource": {
+    "Core_CPU_s": 1055.4515606316272,
+    "reserved_CPU_s": 3600,
+    "charged_startups": 6,
+    "charged_integrations": 3764,
+    "R1_safety_events": 3,
+    "original_night_CPU_upper_s": 99946.07684278488,
+    "old_night_safety_events": 1
+  },
+  "startup_qualification": false,
+  "complete_seeds": 0,
+  "successful_TRAIN": 0,
+  "successful_DEV": 0,
+  "teacher_submissions": 0,
+  "task_RGB": 0,
+  "actual_consumer": "NOT_RUN_NO_ADMITTED_BANK",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -1,0 +1,172 @@
+{
+  "schema": "VAP1_A2_PARALLEL_AGENT_DISPATCH_V1",
+  "task_id": "VAP1_A2_PARALLEL_AGENTS_V1",
+  "date_SGT": "2026-10-22",
+  "status": "USER_AUTHORIZED_ASSIGNMENTS_PENDING_OWNER_DISPATCH",
+  "user_direction": "允许agent同步推进，加速试验主线，发布任务到github",
+  "extends_existing_card": "reports/PI0294/design/parallel-science-20261022/GOAL_SUPPLEMENT_AND_PARALLEL_TASK_CARD.json",
+  "instructions": "docs/handover/2026-10-22/A2_RUNNING_PARALLEL_AGENTS_EXECUTE.md",
+  "review_base_sha": "9422d1690f053302a34e42196d560dd45f754c28",
+  "permission_change": "ALLOW_TWO_BOUNDED_HELPER_AGENTS_WITH_ISOLATED_LOCAL_PATCHES_AND_TESTS; NATIVE_OWNER_REMAINS_SINGLE",
+  "new_scientific_hypothesis_or_compute_budget": false,
+  "supersedes_old_no_subagents_only_for_these_assignments": true,
+  "live_snapshot": {
+    "observed_SGT": "2026-10-22T20:45:26.002208+08:00",
+    "not_live_read_by_publisher": true,
+    "job": "1475719.stdct-mgmt-02",
+    "state": "R",
+    "runtime_sha": "3a1420e76c492196fa83905f4bde92924cc12c28",
+    "CI_run": 39777328633,
+    "arm": "A_CONTROL",
+    "lineage": "A_CONTROL_SAVE_RECOVERY1",
+    "observed_step": 2053,
+    "A2_new_updates": 5,
+    "cursor": 65696,
+    "last_complete_checkpoint": 2048,
+    "last_complete_cursor": 65536,
+    "A4096_complete": false,
+    "unknown_effects": [],
+    "B1_status": "LOCAL_V3_PREPARED_NOT_SUBMITTED",
+    "B1_requires_actual_A4096_audit_settlement_and_both_lease_closures": true,
+    "settled_GPU_s": 40813,
+    "settled_updates": 3072,
+    "settled_PBS": 17,
+    "settled_queries": 1117,
+    "A2_live_updates_not_yet_terminal_settled": true
+  },
+  "parallelism": {
+    "native_mutation_owners": 1,
+    "integration_publishers": 1,
+    "max_helper_agents_including_existing_workers": 2,
+    "reuse_already_running_helpers_before_spawning": true,
+    "helper_recursive_spawning": false,
+    "helper_remote_credentials": false,
+    "helper_remote_polls": false,
+    "helper_native_mutations": false,
+    "helper_isolated_local_patches_and_CPU_fixtures": true,
+    "shared_checkout_concurrent_writes": false,
+    "owner_heartbeats_and_live_capsule": "UNCHANGED"
+  },
+  "assignments": [
+    {
+      "id": "T_B_CHAIN_READY",
+      "role": "TRAIN_NEXT",
+      "priority": "P0",
+      "state": "ASSIGNED_NOT_STARTED_NO_AGENT_RECEIPT_YET",
+      "objective": "Finish missing B1/B2 cold-chain checks without redoing the existing V3 metadata or changing training semantics",
+      "reuse": [
+        "GOAL_SUPPLEMENT_AND_PARALLEL_TASK_CARD.json:cold_training_preparation",
+        "DATA_ASSET_AND_PURPOSE_INDEX.json",
+        "EXPECTED_TRAINING_EXPOSURE.tsv",
+        "EXISTING_SOURCE_PAIR_INPUTS_SEGMENT_INTAKE_AND_TYPED_ACCOUNTING"
+      ],
+      "required_checks": [
+        "B_STARTS_STEP0_FROM_ORIGINAL_CORR_NOT_A; NO_A_RECOVERY_REFERENCE; CORRECT_B_COMPOSITE_IDENTITY",
+        "ORIGINAL_R0_RECIPE_SEED_SAMPLER_BATCH32_AND_DATA_SPLIT",
+        "A4096_TERMINAL_FULL_STATE_CLOSED_AND_SETTLED_BEFORE_B1_NATIVE_SUBMIT",
+        "B1024_FULL_SAVE_AND_ORIGINAL12_TRAIN_PROBES; B2048_FULL_STATE_BEFORE_B2",
+        "REJECT_LIVE_OR_PARTIAL_PREDECESSOR_WRONG_ARM_STALE_IDENTITY_MISSING_PROBES_UNKNOWN_EFFECTS_AND_DUPLICATE_SETTLEMENT",
+        "REUSE_QUALIFIED_TESTS; PATCH_ONLY_PROVEN_ENGINEERING_GAPS"
+      ],
+      "output": "B_CHAIN_AGENT_REVIEW.json",
+      "allowed_code_scope": "ISOLATED_FUTURE_COLD_TRAINING_BINDINGS_AND_TARGETED_TESTS_ONLY; OWNER_ASSIGNS_NONOVERLAPPING_FILES",
+      "completion": "DONE_REUSED_OR_DONE_PATCH_TESTED_WITH_EXACT_NATIVE_GATES_STILL_PENDING",
+      "not_a_new_B1_gate_when_existing_path_is_qualified": true
+    },
+    {
+      "id": "S_DEC1_WIRING_AND_RESULTS",
+      "role": "SCIENCE_NEXT",
+      "priority": "P0",
+      "state": "ASSIGNED_NOT_STARTED_NO_AGENT_RECEIPT_YET",
+      "objective": "Close source-interface and result-aggregation code gaps; expose exact frozen-target ABI dependencies",
+      "reuse": [
+        "EVALUATION_AND_CLAIM_PREPARATION.json",
+        "DEC1_64_CELL_RESULT_TEMPLATE.tsv",
+        "SAVED_DEV48_REMAINING_CONDITIONS.json",
+        "reports/PI0294/DEC1/20261018T182956Z-localpc-pv1/DEC1_SOURCE_ONLY_INTERFACE_FREEZE.json"
+      ],
+      "required_checks": [
+        "RAW_H40_LEGALITY_BEFORE_MAPPING; MAPPED_FULL_REFERENCE_AND_PREFIX_SAFETY_BINDING",
+        "ACTUAL_FEEDBACK_ACK_STALE_RESET_STOP_AND_TICK_ACCOUNTING_CONTRACTS",
+        "CPU_MOCK_TESTS_ONLY; NO_PHYSICS_OR_MODEL_LOADING",
+        "TARGET_EXECUTOR_MANIFEST_FRAME_TCP_GRIPPER_TIME_SAFETY_RESET_STOP_ENTRY_OR_EXACT_MISSING_ITEMS",
+        "EXISTING_RESULT_SCHEMA_REJECTS_DUPLICATE_KEYS_MODEL_NOISE_MIXING_AND_HIDDEN_MISSINGNESS",
+        "DEC1_ANALYSIS_PAIRED_BY8_GEOMETRIES_NOT64_INDEPENDENT_SAMPLES",
+        "ORIGINAL_CORR_R0_DEC1_MATRIX_NOT_REPLACED_WITH_NEW_AB_WINNER"
+      ],
+      "output": "DEC1_WIRING_AGENT_REVIEW.json",
+      "allowed_code_scope": "ISOLATED_INTEGRATION_BOUNDARIES_PARSER_AND_TESTS; NO_FROZEN_INTERFACE_PARAMETERS_WBC_OR_SAFETY_RULE_EDITS",
+      "completion": "SOURCE_WIRING_PATCH_OR_REUSE_PROOF_PLUS_TESTS_AND_EXACT_NATIVE_OR_TARGET_GAPS",
+      "empty_result_template_alone_counts_as_completion": false,
+      "target_missing_blocks_source_training": false
+    }
+  ],
+  "helper_envelope_inside_existing_remainder": {
+    "aggregate_local_CPU_s": 7200,
+    "maximum_concurrent_single_core_workers": 2,
+    "wall_limit_hours_from_dispatch": 6,
+    "aggregate_small_outputs_bytes": 16777216,
+    "aggregate_receipt_transfer_bytes": 33554432,
+    "owner_must_check_actual_remaining_budget_before_dispatch": true,
+    "no_extra_global_allowance": true,
+    "no_work_on_A2_compute_node": true,
+    "no_model_data_downloads_or_checkpoint_copies": true,
+    "source_code_reads_and_small_existing_receipts_only": true,
+    "only_targeted_local_tests_then_owner_one_required_integration_CI": true,
+    "reduce_helpers_before_affecting_healthy_training": true
+  },
+  "existing_scientific_authority_refs": {
+    "DEC1": "a7a7ecd9a6be62a7221af25a5e32a0009b076a84",
+    "VAP1": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+    "segmented_recovery": "3335c8620c29d8d58f6b5e19075f3943e2dd1904",
+    "storage_only_approved_and_adopted": "1abb20973d84836b29baebf1d73466377c98759c",
+    "no_concurrency_or_budget_amendment_beyond_helper_organization": true
+  },
+  "storage_context_not_new_admission": {
+    "DEC1_cap_bytes": 377957122048,
+    "global_cap_bytes": 449897824256,
+    "reported_future_retained_DEC1_peak_bytes": 377869712411,
+    "reported_margin_bytes": 87409637,
+    "all_scientific_checkpoints_preserved": true,
+    "retirement_credit_bytes": 0,
+    "helpers_do_not_delete_or_copy_checkpoints": true,
+    "third_party_vla_wbc_PI05": "EXCLUDED"
+  },
+  "native_owner_sequence": [
+    "KEEP_CURRENT_A2_RUNNING_UNCHANGED",
+    "ACTUAL_A4096_FULL_SAVE_TERMINAL_AUDIT_AND_ONCE_SETTLEMENT",
+    "CLOSE_GPU_AND_CPU_CONTROL_LEASES",
+    "FRESH_REMAINING_WORK_AUTH_QUOTA_QUEUE_STORAGE_ADMISSION",
+    "ORIGINAL_CORR_INDEPENDENT_B1_0_TO2048",
+    "B1_FULL_STATE_AND_PROBES_TERMINAL_CLOSURE",
+    "B2_2048_TO4096",
+    "EXISTING_SCOPE_MATCHED_EVALUATION_ONLY_WHEN_RESOURCES_AND_EXECUTORS_QUALIFIED"
+  ],
+  "preserved": {
+    "R0_recipe_data_sampler_WBC_S1_scoring": "FROZEN",
+    "new_DATA_or_Teacher_DAgger_WorldModel": false,
+    "new_GPU_PBS_physics_or_extra_optimizer_permission": false,
+    "no_hot_changes_to_A2_source_manifest_or_inputs": true,
+    "no_extra_probe_queries_or_duplicate_training": true,
+    "source_DEV_and_LOCKBOX_not_implicitly_paid_by_DEC1_forecast": true,
+    "selected_deployment": "NONE_UNTIL_ORIGINAL_REAL_ACCEPTANCE",
+    "original_T0_epoch": 1792348196,
+    "new_job_cutoff_epoch": 1792866596,
+    "training_cutoff_epoch": 1792909796,
+    "physics_cutoff_epoch": 1792924196,
+    "hard_close_epoch": 1792952996
+  },
+  "adoption_receipt": "PARALLEL_HELPERS_ADOPTED_AND_DISPATCHED_OR_EXACT_LOCAL_BLOCKER",
+  "worker_terminal_states": ["DONE_REUSED", "DONE_PATCH_TESTED", "BLOCKED_EXACT_INPUT"],
+  "required_receipt_fields": ["ACTUAL_AGENT_ID", "BASE_SHA", "EXCLUSIVE_LOCAL_PATHS", "REUSED_ARTIFACTS", "PATCH_AND_TESTS", "CPU_IO_ACCOUNTING", "UNPROVEN_NATIVE_GATES"],
+  "integration_owner_updates_existing_goal_card_without_usage_reset": true,
+  "publication_effects": {
+    "agents_actually_started": 0,
+    "remote_logins": 0,
+    "new_PBS": 0,
+    "model_loads": 0,
+    "training_updates": 0,
+    "physics": 0,
+    "deletions": 0
+  }
+}

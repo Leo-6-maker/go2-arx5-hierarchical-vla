@@ -1,0 +1,41 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Remove exact retired September aliases only after node-local target absence."""
+import json
+from pathlib import Path
+import sys
+
+sys.path.insert(0,str(Path(__file__).parents[1]))
+from pi0292_adopt import remote,save
+
+HERE=Path(__file__).parent
+RUN='20261013T074558Z-localpc-september-retirement'
+original=json.loads((HERE/RUN/'corelab-amd-server_DISCOVERY.private.json').read_text())
+parent='@LOCAL_OR_CORE_HOME@-nfs/Projects/go2-arx5'
+aliases=[r for r in original['roots'][parent]['items'] if r['name'] in ('PI0256','PI0258','PI0259') and r['symlink']]
+targets=[r['realpath'] for r in aliases]
+check=remote('corelab-4080s',"from pathlib import Path;import json,os;targets="+repr(targets)+";print(json.dumps({p:not os.path.lexists(p) for p in targets}))")
+if check.returncode:raise RuntimeError('TARGET_ABSENCE_UNKNOWN')
+absence=json.loads(check.stdout)
+if not all(absence.values()):raise RuntimeError('TARGET_NOT_RETIRED')
+source=(HERE/'exact_retirement.py').read_text().rsplit("\nif __name__ == '__main__':",1)[0]
+program=source+"\n__file__='@LOCAL_OR_CORE_HOME@-nfs/Projects/GR00T-WBC/infrastructure/maintenance/"+RUN+"/nfs-additional-september-01/exact_retirement.py'\nrows="+repr(aliases)+"\n"+'''
+results=[]
+for row in rows:
+ p=Path(row['path']);before=identity(p)
+ assert p.is_symlink() and before[2]==2009
+ assert p.lstat().st_ino==row['ino'] and p.lstat().st_mtime==row['mtime']
+ assert str(p.resolve())==row['realpath']
+ assert row['realpath'].startswith('@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI025')
+ checks=[consumers(p),peer_consumers(Path(row['realpath']))]
+ assert not any(c['hits'] or c['unknown_workload_FD_gaps'] for c in checks)
+ assert identity(p)==before
+ os.unlink(p);assert not os.path.lexists(p)
+ results.append(dict(id=row['name'],event='RETIRED_ALIAS_TARGET_ABSENT',identity=before,verified_absent=True,allocated_released_bytes=0,consumer_checks=checks))
+print(json.dumps(dict(status='EXACT_SEPTEMBER_ALIASES_RETIRED',rows=results,authority_comment=6140769226,epoch=time.time())))
+'''
+r=remote('corelab-amd-server',program)
+save(HERE/RUN/'SEPTEMBER_ALIAS_RECEIPT_02.private.json',dict(returncode=r.returncode,stdout=r.stdout,stderr=r.stderr))
+print(r.stdout,r.stderr)
+if r.returncode:raise RuntimeError('ALIAS_RETIREMENT_PARTIAL_OR_UNKNOWN_INSPECT')

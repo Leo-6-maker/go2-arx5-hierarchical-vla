@@ -1,0 +1,28 @@
+{
+  "status": "PASS_ACTUAL_PRE_UPDATE_MODEL_ADAM_SCHEDULER_RNG_SAMPLER",
+  "run_uuid": "20261014T121640Z-incoming-pi0294-r3",
+  "global_step": 512,
+  "consumed_samples": 16384,
+  "model_state_tensors_compared": 1030,
+  "exact_tied_storage_aliases": {
+    "backbone.model.lm_head.weight": "backbone.model.model.language_model.embed_tokens.weight"
+  },
+  "optimizer_equal": true,
+  "scheduler_equal": true,
+  "rng_equal": true,
+  "sampler": {
+    "seed": 29400,
+    "cursor": 16384,
+    "stop": 196608,
+    "manifest_sha256": "b8ddcb9808e6dfac4f3ac5fa5a4828128fa9644a330c17d1c57bf833ce5889df",
+    "smoke": false,
+    "algorithm": "PI0294_POSITION_FAMILY_FIRST_OLD_EXPOSURE_CAP_V2",
+    "empty_bucket_policy": "RENORMALIZE_AVAILABLE_PHASES_WITH_EXPLICIT_EMPTY_LIST",
+    "empty_bucket_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "updates_before_receipt": 0,
+  "original_native_training_unchanged": true,
+  "audit_consumed_no_RNG": true,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -1,0 +1,132 @@
+{
+  "cpu_decoder_parity": {
+    "actual_normalized_rotation_clipped_values": 158,
+    "cells": 128,
+    "matrix_max_abs": 2.980232238769531e-07,
+    "matrix_max_abs_by_horizon": [
+      2.1606683731079102e-07,
+      2.086162567138672e-07,
+      2.980232238769531e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      1.7881393432617188e-07,
+      2.3096799850463867e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      1.8998980522155762e-07,
+      1.7881393432617188e-07,
+      2.384185791015625e-07,
+      1.7881393432617188e-07,
+      1.7881393432617188e-07,
+      1.7881393432617188e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      2.086162567138672e-07,
+      2.980232238769531e-07,
+      2.086162567138672e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      1.7881393432617188e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      2.980232238769531e-07,
+      2.384185791015625e-07,
+      2.980232238769531e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      1.7881393432617188e-07,
+      2.086162567138672e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07,
+      2.384185791015625e-07
+    ],
+    "noise_groups": [
+      "B0",
+      "B1"
+    ],
+    "nontrivial_anchor_cells": 128,
+    "relative_first_row_norm_min": 0.8306325674057007,
+    "relative_second_row_orthogonal_norm_min": 0.8084707856178284,
+    "saved_official_decode_max_abs": 1e-05,
+    "sources": 64,
+    "worst_cell": {
+      "noise": "B0",
+      "source_episode_id": "pi0227_persistent_train_b_j02_xm015_s03_yp050_r01_r01_227233:obs-0020"
+    }
+  },
+  "m64_screen_report_sha256": "10ff25283156495c79d52207aaab3c57c7a5237b450df2aad84e78eaec3956ef",
+  "model_queries_added": 0,
+  "pinned_statistics": {
+    "clip_outliers": true,
+    "embodiment": "new_embodiment",
+    "horizon_rows_used": 40,
+    "max_shape": [
+      40,
+      9
+    ],
+    "min_shape": [
+      40,
+      9
+    ],
+    "rotation_max_by_dim": [
+      0.9997220039367676,
+      0.9997678995132446,
+      0.9998053312301636,
+      0.972418487071991,
+      0.9987643957138062,
+      0.9858936667442322
+    ],
+    "rotation_min_by_dim": [
+      -0.5844342112541199,
+      -0.9837979674339294,
+      -0.9945489764213562,
+      -0.9983324408531189,
+      -0.9360769987106323,
+      -0.7379211187362671
+    ],
+    "rotation_minmax_sha256": {
+      "maximum": "c71dd370d5dbe73764135081f80502608b3ab820fd82327fa683f9af127314a8",
+      "minimum": "5e5665b3eb94474929195b84058bed6c81ca0dad56005a478e33decf8e1d4ef1"
+    },
+    "use_percentiles": true,
+    "use_relative_action": true
+  },
+  "processor_identity": {
+    "NEW_EMBODIMENT_statistics_source": "C_T train_dataset/meta/stats.json",
+    "NEW_EMBODIMENT_stats_sha256": "c24d465bc4acd594beb041b42f2e0f4ea955a67c7714e178ffdb313a61adb3f4",
+    "T_card_base_statistics_sha256": "c33e6aee734e0afcc9df879bd615c30f314bd75f23efdaead5fb40e1cea9a78a",
+    "T_run_card_sha256": "469c0a29571e05c30d50cf63ab0a13d8e3495a91469044bcf14feb840600e938",
+    "model_base_statistics_differs_from_T_parent": true,
+    "model_base_statistics_sha256": "33aa144909ade7b25d42ef962a711d38f58edd50d41937b65d28fcebe9d39763",
+    "p1_closure_sha256": "77712a2598ae7f8d8a076139c4160ec480c4d9ff624b2e45be9a0a51a55cc70b",
+    "processor_class": "gr00t.model.gr00t_n1d7.processing_gr00t_n1d7.Gr00tN1d7Processor",
+    "processor_config_sha256": "2e6b39e1534028c0bdce801838422c11790dcae76b441ebb4378db1a2924c7f9",
+    "relative_stats_sha256": "10b52e09d40f3754e05bbecc5d86bbc3e0c60a9dc5d12501442177b15ac12ac9",
+    "runtime_binding_sha256": "d520ee2697a186600c6014b7887703b06b4e53ab2c3f6d79e44649ab8e1fb149"
+  },
+  "run_card_sha256": "53bc452b5ca77f4ee9030663415227f471258f0b5b7d76c708acf60527306664",
+  "schema": "PI0248_ROTATION_DECODER_CPU_CHECK_V1",
+  "self_check": {
+    "clipped_decoder_matrix_max_abs": 1.1920928955078125e-07,
+    "equal_action_rotation_loss": 0.0,
+    "finite_difference_autograd": -0.18866951763629913,
+    "finite_difference_centered": -0.1886619720607996,
+    "finite_difference_coordinate": [
+      0,
+      3
+    ],
+    "known_angle_chordal_expected": 54.13812351517245,
+    "known_angle_chordal_observed": 54.13811206817626,
+    "lambda_zero_value_and_gradient_exact": true,
+    "mask_valid_points": 39,
+    "noncommuting_composition_order_max_delta": 0.25944381952285767,
+    "row_vs_column_rotation_max_delta": 1.1457349202009626,
+    "synthetic_clipped_values": 40
+  },
+  "status": "PASS_CPU_DECODER_AND_GRADIENT"
+}

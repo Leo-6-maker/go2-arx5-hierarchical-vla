@@ -1,0 +1,77 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read back new workspace and selected CPU-only tests on each storage host."""
+import json
+from pathlib import Path
+import shlex
+import subprocess
+import sys
+
+node=sys.argv[1]
+assert node in ['corelab-amd-server','corelab-4080s']
+base=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/workspace-consolidation-20261013')
+plan=json.loads((base/'PLAN.json').read_text())
+prior=json.loads(Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/private/'+('WORKSPACE_AMD_PROBE.json' if node=='corelab-amd-server' else 'WORKSPACE_4080S_PROBE.json')).read_text())
+git_before={x['path']:dict(head=x['git']['head'],status=x['git']['status']) for x in prior['entries'] if 'git' in x}
+code='''import ast,hashlib,importlib.util,json,os,resource,socket,subprocess,sys,time
+from pathlib import Path
+p=PLAN;root=Path(p['workspace_root']);began=time.monotonic()
+assert socket.gethostname()==NODE
+files={}
+for x in p['files']:
+    b=(root/x['path']).read_bytes()
+    assert hashlib.sha256(b).hexdigest()==x['sha256'] and len(b)==x['bytes']
+    files[x['path']]=dict(sha256=x['sha256'],st_dev=(root/x['path']).stat().st_dev,st_ino=(root/x['path']).stat().st_ino)
+resolver=root/'infrastructure/resolve_path.py'
+spec=importlib.util.spec_from_file_location('workspace_resolver',resolver)
+module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+registry=json.loads((root/'infrastructure/PATH_REGISTRY.json').read_text())
+roles=[]
+for row in registry['entries']:
+    value=module.resolve(registry,row['role'],NODE,True)
+    assert value['status'] in ['HOST_REQUIRED','PATH_OBSERVED','PATH_AND_GIT_IDENTITY_PASS'],value
+    roles.append(value)
+def cmd(args,cwd=None,env=None):
+    r=subprocess.run(args,cwd=cwd,env=env,capture_output=True,text=True,timeout=30)
+    assert r.returncode==0,(args,r.stderr[:1000]);return r.stdout,r.stderr
+canonical=root/'code/vla'
+head,_=cmd(['git','rev-parse','HEAD'],cwd=canonical);assert head.strip()==p['code_sha']
+status,_=cmd(['git','status','--porcelain=v1','--untracked-files=normal'],cwd=canonical);assert status==''
+tests=cmd(['python3','-m','unittest','discover','-s','scripts/pi0291_delivery','-p','test*.py'],cwd=canonical)
+assert 'Ran 18 tests' in tests[1] and 'OK' in tests[1]
+preserved=[]
+for path,before in GIT_BEFORE.items():
+    observed={}
+    for key,args in [('head',['rev-parse','HEAD']),('status',['status','--porcelain=v1','--untracked-files=normal'])]:
+        q=subprocess.run(['git',*args],cwd=path,capture_output=True,text=True,timeout=20,env=dict(os.environ,GIT_OPTIONAL_LOCKS='0'))
+        assert q.returncode==before[key]['exit_code'] and q.stdout==before[key]['stdout'] and q.stderr==before[key]['stderr'],path
+        observed[key]=dict(exit_code=q.returncode,stdout=q.stdout,stderr=q.stderr)
+    preserved.append(dict(path=path,HEAD_and_status_unchanged=before['head']['exit_code']==0,
+        observed_git_query_state_unchanged=True,unknown_Git_namespace=before['head']['exit_code']!=0,actual_queries=observed))
+official=root/'code/isaac-gr00t';pose=official/'gr00t/data/state_action/pose.py'
+ast.parse(pose.read_text());pose_hash=hashlib.sha256(pose.read_bytes()).hexdigest()
+actual_import='NOT_RUN_ON_AMD_NO_NEW_ENV'
+if NODE=='corelab-4080s':
+    runtime=Path('@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/runtime/venv/bin/python')
+    env=dict(os.environ,CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',PYTHONDONTWRITEBYTECODE='1',PYTHONPATH=str(canonical/'src'))
+    out,_=cmd([str(runtime),'-c','import go2arx5_vla; import go2arx5_vla.task_data.io; print("CANONICAL_CPU_PACKAGE_IMPORT_PASS")'],env=env)
+    assert 'CANONICAL_CPU_PACKAGE_IMPORT_PASS' in out;actual_import=out.strip()
+    oldpose=Path('@CORELAB_NODE_STORAGE@/go2-arx5-vla-stage10/src/isaac-gr00t/gr00t/data/state_action/pose.py')
+    assert hashlib.sha256(oldpose.read_bytes()).hexdigest()==pose_hash
+u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+value=dict(status='PASS_NEW_WORKSPACE_READBACK_OLD_PATHS_PRESERVED',node=NODE,observed_epoch=time.time(),code_sha=p['code_sha'],metadata_files=files,
+    registry_roles=roles,old_git_paths_preserved=preserved,canonical_delivery_unit_tests=18,unit_tests_are_not_scientific_execution=True,
+    actual_canonical_CPU_package_import=actual_import,official_pose_AST_pass=True,official_pose_sha256=pose_hash,
+    unqualified_training_or_neural_import=False,physics_model_PBS_WBC_hardware=0,new_cross_host_SSD_symlinks=0,file_deletions=0,
+    CPU_self_s=u.ru_utime+u.ru_stime,CPU_children_s=c.ru_utime+c.ru_stime,wall_s=time.monotonic()-began)
+print(json.dumps(value))
+'''
+code='PLAN='+repr(plan)+'\nNODE='+repr(node)+'\nGIT_BEFORE='+repr(git_before)+'\n'+code
+command=shlex.join(['python3','-c',code])
+if node=='corelab-4080s': command=shlex.join(['ssh','-o','BatchMode=yes','corelab-4080s',command])
+r=subprocess.run(['ssh','-o','BatchMode=yes','corelab-amd-server',command],capture_output=True,text=True,timeout=120)
+if r.returncode: raise RuntimeError(r.stderr[:3000])
+value=json.loads(r.stdout)
+with (base/('READBACK_'+node+'.json')).open('x') as f:f.write(r.stdout)
+print(json.dumps(dict(status=value['status'],node=node,files=len(value['metadata_files']),roles=len(value['registry_roles']),preserved=len(value['old_git_paths_preserved']),unit_tests=18,CPU_import=value['actual_canonical_CPU_package_import'],CPU_s=value['CPU_self_s']+value['CPU_children_s'])))

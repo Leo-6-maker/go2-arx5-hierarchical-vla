@@ -1,0 +1,60 @@
+{
+  "status": "CORELAB_TCP_TIMEOUT_HOME_FULL_NOT_ESTABLISHED",
+  "captured_utc": "2026-10-08T13:57:22.991737+00:00",
+  "PC_to_core": {
+    "address": "10.248.54.20",
+    "port": 65522,
+    "result": "TCP_TIMEOUT_BEFORE_SSH_BANNER_AUTH_OR_HOME"
+  },
+  "hopper_to_core": {
+    "ports": [
+      65522,
+      22
+    ],
+    "result": "TCP_TIMEOUT"
+  },
+  "NUS_VPN": {
+    "connected": true,
+    "route_interface": "Ethernet 2",
+    "client": "10.195.37.80",
+    "trace_observed_hops": 12,
+    "trace_result": "Hops reply; endpoint not reached within bounded diagnostic"
+  },
+  "known_GPU_DNS": {
+    "name": "corelab-4080s.lan",
+    "PC": "NOT_RESOLVED",
+    "Hopper": "NOT_RESOLVED"
+  },
+  "Hopper_current_df": {
+    "home_size": "40G",
+    "home_used": "21G",
+    "home_available": "20G",
+    "home_use_percent": 52,
+    "scratch_available": "96G",
+    "personal_quota": "UNKNOWN"
+  },
+  "Corelab_last_read_df": {
+    "receipt": "reports/PI0285/adoption/CORE_STAGED.json",
+    "captured_local_SGT": "2026-10-08 19:10:43",
+    "home_filesystem_available_bytes": 1753527353344,
+    "home_use_percent": 57,
+    "current_free": "UNKNOWN",
+    "inode": "UNKNOWN",
+    "personal_quota": "UNKNOWN"
+  },
+  "Corelab_own_large_writes": {
+    "receipt": "reports/PI0285/adoption/RECORDING_TIER.json",
+    "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0285",
+    "home_pilot_retained": true,
+    "teacher_data_model_tier": "GPU_NODE_LOCAL_EXT4"
+  },
+  "conclusion": "No evidence of home exhaustion; cannot exclude a server or resource fault until an alternate session/console can read current filesystem and SSH health",
+  "network_modified": false,
+  "remote_jobs_stopped": false,
+  "files_deleted": false,
+  "last_recheck": {
+    "captured_utc": "2026-10-08T13:59:12.954019+00:00",
+    "result": "TCP_TIMEOUT_OR_UNREACHABLE",
+    "error": "timed out"
+  }
+}

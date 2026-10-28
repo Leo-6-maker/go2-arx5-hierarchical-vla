@@ -1,0 +1,2642 @@
+{
+  "schema": "E1_MODEL_BEHAVIOR_MATRIX_V1",
+  "run_uuid": "20261016T150228Z-localpc-e1",
+  "observed_epoch": 1792212998.6703825,
+  "status": "PARTIAL_WITH_EXPLICIT_EVIDENCE_GAPS",
+  "fixed_terminal_models": {
+    "M1-1024-CANONICAL": {
+      "T1": {
+        "conditions_attempted": 2,
+        "actual_attempts": 2,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 2,
+        "task_successes": 2,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [
+          "M1-1024-CANONICAL",
+          "M1-1024-CANONICAL"
+        ],
+        "failure_stages": {
+          "COMPLETE_SUCCESS": 2
+        },
+        "complete_predeclared_panel": true,
+        "source_task_competence_observed": true,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      },
+      "T2": {
+        "conditions_attempted": 2,
+        "actual_attempts": 2,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 2,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [
+          "M1-1024-CANONICAL",
+          "M1-1024-CANONICAL"
+        ],
+        "failure_stages": {
+          "S1_PRE_EXECUTION_REJECT": 2
+        },
+        "complete_predeclared_panel": true,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      }
+    },
+    "M2-BC": {
+      "T1": {
+        "conditions_attempted": 2,
+        "actual_attempts": 4,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 4,
+        "original_attempt_models": [
+          "M2-BC",
+          "M2-BC",
+          "M2-BC-REMAINDER-03",
+          "M2-BC-REMAINDER-03"
+        ],
+        "failure_stages": {
+          "ENGINEERING_OR_UNKNOWN": 4
+        },
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      },
+      "T2": {
+        "conditions_attempted": 2,
+        "actual_attempts": 3,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 3,
+        "original_attempt_models": [
+          "M2-BC",
+          "M2-BC-REMAINDER-03",
+          "M2-BC-REMAINDER-03"
+        ],
+        "failure_stages": {
+          "ENGINEERING_OR_UNKNOWN": 3
+        },
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      }
+    },
+    "M2-CORR": {
+      "T1": {
+        "conditions_attempted": 1,
+        "actual_attempts": 1,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": false,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 1,
+        "original_attempt_models": [
+          "M2-CORR-REMAINDER-03"
+        ],
+        "failure_stages": {
+          "ENGINEERING_OR_UNKNOWN": 1
+        },
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      },
+      "T2": {
+        "conditions_attempted": 0,
+        "actual_attempts": 0,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": false,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [],
+        "failure_stages": {},
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      }
+    }
+  },
+  "predeclared_condition_matrix": [
+    {
+      "model": "M1-1024-CANONICAL",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "task": "T1",
+      "status": "SUCCESS",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-E1-M1-1024-CANONICAL-F0-000-T1"
+      ],
+      "actual_attempts": 1,
+      "evidence_accounted_attempts": 1
+    },
+    {
+      "model": "M1-1024-CANONICAL",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "task": "T2",
+      "status": "VALID_TASK_FAIL",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-E1-M1-1024-CANONICAL-F0-000-T2"
+      ],
+      "actual_attempts": 1,
+      "evidence_accounted_attempts": 1
+    },
+    {
+      "model": "M1-1024-CANONICAL",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "task": "T1",
+      "status": "SUCCESS",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-E1-M1-1024-CANONICAL-F1-000-T1"
+      ],
+      "actual_attempts": 1,
+      "evidence_accounted_attempts": 1
+    },
+    {
+      "model": "M1-1024-CANONICAL",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "task": "T2",
+      "status": "VALID_TASK_FAIL",
+      "valid_policy_outcome": true,
+      "actual_attempt_ids": [
+        "PI0294-E1-M1-1024-CANONICAL-F1-000-T2"
+      ],
+      "actual_attempts": 1,
+      "evidence_accounted_attempts": 1
+    },
+    {
+      "model": "M2-BC",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "task": "T1",
+      "status": "ENGINEERING_INCOMPLETE",
+      "valid_policy_outcome": false,
+      "actual_attempt_ids": [
+        "PI0294-E1-M2-BC-F0-000-T1",
+        "PI0294-E1-M2-BC-REMAINDER-03-F0-000-T1"
+      ],
+      "actual_attempts": 2,
+      "evidence_accounted_attempts": 2
+    },
+    {
+      "model": "M2-BC",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "task": "T2",
+      "status": "ENGINEERING_INCOMPLETE",
+      "valid_policy_outcome": false,
+      "actual_attempt_ids": [
+        "PI0294-E1-M2-BC-F0-000-T2",
+        "PI0294-E1-M2-BC-REMAINDER-03-F0-000-T2"
+      ],
+      "actual_attempts": 2,
+      "evidence_accounted_attempts": 2
+    },
+    {
+      "model": "M2-BC",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "task": "T1",
+      "status": "ENGINEERING_INCOMPLETE",
+      "valid_policy_outcome": false,
+      "actual_attempt_ids": [
+        "PI0294-E1-M2-BC-F1-000-T1",
+        "PI0294-E1-M2-BC-REMAINDER-03-F1-000-T1"
+      ],
+      "actual_attempts": 2,
+      "evidence_accounted_attempts": 2
+    },
+    {
+      "model": "M2-BC",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "task": "T2",
+      "status": "ENGINEERING_INCOMPLETE",
+      "valid_policy_outcome": false,
+      "actual_attempt_ids": [
+        "PI0294-E1-M2-BC-REMAINDER-03-F1-000-T2"
+      ],
+      "actual_attempts": 1,
+      "evidence_accounted_attempts": 1
+    },
+    {
+      "model": "M2-CORR",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "task": "T1",
+      "status": "ENGINEERING_INCOMPLETE",
+      "valid_policy_outcome": false,
+      "actual_attempt_ids": [
+        "PI0294-E1-M2-CORR-REMAINDER-03-F0-000-T1"
+      ],
+      "actual_attempts": 1,
+      "evidence_accounted_attempts": 1
+    },
+    {
+      "model": "M2-CORR",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "task": "T2",
+      "status": "NOT_RUN",
+      "valid_policy_outcome": false,
+      "actual_attempt_ids": [],
+      "actual_attempts": 0,
+      "evidence_accounted_attempts": 0
+    },
+    {
+      "model": "M2-CORR",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "task": "T1",
+      "status": "NOT_RUN",
+      "valid_policy_outcome": false,
+      "actual_attempt_ids": [],
+      "actual_attempts": 0,
+      "evidence_accounted_attempts": 0
+    },
+    {
+      "model": "M2-CORR",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "task": "T2",
+      "status": "NOT_RUN",
+      "valid_policy_outcome": false,
+      "actual_attempt_ids": [],
+      "actual_attempts": 0,
+      "evidence_accounted_attempts": 0
+    }
+  ],
+  "all_contexts_autonomous_summary": {
+    "D-M1-1024": {
+      "T1": {
+        "conditions_attempted": 0,
+        "actual_attempts": 0,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": false,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [],
+        "failure_stages": {},
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      },
+      "T2": {
+        "conditions_attempted": 0,
+        "actual_attempts": 0,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": false,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [],
+        "failure_stages": {},
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      }
+    },
+    "M1-1024-CANONICAL": {
+      "T1": {
+        "conditions_attempted": 2,
+        "actual_attempts": 2,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 2,
+        "task_successes": 2,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [
+          "M1-1024-CANONICAL",
+          "M1-1024-CANONICAL"
+        ],
+        "failure_stages": {
+          "COMPLETE_SUCCESS": 2
+        },
+        "complete_predeclared_panel": true,
+        "source_task_competence_observed": true,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      },
+      "T2": {
+        "conditions_attempted": 2,
+        "actual_attempts": 2,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 2,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [
+          "M1-1024-CANONICAL",
+          "M1-1024-CANONICAL"
+        ],
+        "failure_stages": {
+          "S1_PRE_EXECUTION_REJECT": 2
+        },
+        "complete_predeclared_panel": true,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      }
+    },
+    "M1-256": {
+      "T1": {
+        "conditions_attempted": 2,
+        "actual_attempts": 2,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 2,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [
+          "M1-256",
+          "M1-256"
+        ],
+        "failure_stages": {
+          "S1_PRE_EXECUTION_REJECT": 2
+        },
+        "complete_predeclared_panel": true,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      },
+      "T2": {
+        "conditions_attempted": 2,
+        "actual_attempts": 2,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 1,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 1,
+        "original_attempt_models": [
+          "M1-256",
+          "M1-256"
+        ],
+        "failure_stages": {
+          "S1_PRE_EXECUTION_REJECT": 1,
+          "ENGINEERING_OR_UNKNOWN": 1
+        },
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      }
+    },
+    "M1-256-CANONICAL": {
+      "T1": {
+        "conditions_attempted": 0,
+        "actual_attempts": 0,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": false,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [],
+        "failure_stages": {},
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      },
+      "T2": {
+        "conditions_attempted": 1,
+        "actual_attempts": 1,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": false,
+        "valid_policy_outcomes": 1,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [
+          "M1-256-CANONICAL"
+        ],
+        "failure_stages": {
+          "OBJECT_TASK_RESULT": 1
+        },
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      }
+    },
+    "M2-BC": {
+      "T1": {
+        "conditions_attempted": 2,
+        "actual_attempts": 4,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 4,
+        "original_attempt_models": [
+          "M2-BC",
+          "M2-BC",
+          "M2-BC-REMAINDER-03",
+          "M2-BC-REMAINDER-03"
+        ],
+        "failure_stages": {
+          "ENGINEERING_OR_UNKNOWN": 4
+        },
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      },
+      "T2": {
+        "conditions_attempted": 2,
+        "actual_attempts": 3,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": true,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 3,
+        "original_attempt_models": [
+          "M2-BC",
+          "M2-BC-REMAINDER-03",
+          "M2-BC-REMAINDER-03"
+        ],
+        "failure_stages": {
+          "ENGINEERING_OR_UNKNOWN": 3
+        },
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      }
+    },
+    "M2-CORR": {
+      "T1": {
+        "conditions_attempted": 1,
+        "actual_attempts": 1,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": false,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 1,
+        "original_attempt_models": [
+          "M2-CORR-REMAINDER-03"
+        ],
+        "failure_stages": {
+          "ENGINEERING_OR_UNKNOWN": 1
+        },
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      },
+      "T2": {
+        "conditions_attempted": 0,
+        "actual_attempts": 0,
+        "planned_distinct_conditions": 2,
+        "all_conditions_attempted": false,
+        "valid_policy_outcomes": 0,
+        "task_successes": 0,
+        "unverified_or_untrustworthy_attempts": 0,
+        "original_attempt_models": [],
+        "failure_stages": {},
+        "complete_predeclared_panel": false,
+        "source_task_competence_observed": false,
+        "DEV_generalization_proven": false,
+        "deployment_qualified": false
+      }
+    }
+  },
+  "actual_attempt_rows": [
+    {
+      "status": "COLLECTION_COMPLETE",
+      "failure_stage": "INTERVENTION_COLLECTION_NOT_AUTONOMOUS_EVALUATION",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-D-M1-1024-F0-000-T1",
+      "model": "D-M1-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 32,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 5.724587470723463e-14,
+      "result_sha256": "6e7dbbb62d0a006561b9a13dd22bd452db04ff111b7cdcf5b71d56347d167aff",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "intervention": {
+        "status": "VALID_COMPLETE",
+        "error": null,
+        "mode": "STUDENT",
+        "first_intervention_tick": null,
+        "student_executed_prefixes": 80,
+        "expert_executed_prefixes": 0,
+        "expert_executed_commands": 0,
+        "invalid_expert": null,
+        "data_class": "NO_INTERVENTION_NO_CORRECTION_DATA",
+        "subsequent_expert_states_are_student_states": false,
+        "switches": 0
+      },
+      "assisted_task_success": true,
+      "autonomous_evaluation": false,
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": true,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 32,
+      "model_autonomous_evaluation": false,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "D-M1-1024",
+      "video": {
+        "sha256": "782db07e00101cea976540b641712b17d02f248caccab99c79c4a9440d8c8673",
+        "bytes": 1503963,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-D-M1-1024-F0-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-D-M1-1024-F0-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 32,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "COLLECTION_COMPLETE",
+      "failure_stage": "INTERVENTION_COLLECTION_NOT_AUTONOMOUS_EVALUATION",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-D-M1-1024-F0-001-T1",
+      "model": "D-M1-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/001",
+      "duration_s": 32,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 5.140332604014475e-14,
+      "result_sha256": "6ce36c87efb6b40a2dff7effbee7a9a3a3f4ab5b004d1e5327dc338e70f5df68",
+      "teacher_takeover": true,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "intervention": {
+        "status": "VALID_COMPLETE",
+        "error": null,
+        "mode": "EXPERT",
+        "first_intervention_tick": 5000,
+        "student_executed_prefixes": 25,
+        "expert_executed_prefixes": 55,
+        "expert_executed_commands": 440,
+        "invalid_expert": null,
+        "data_class": "STUDENT_VISITED_INTERVENTION",
+        "subsequent_expert_states_are_student_states": false,
+        "switches": 1
+      },
+      "assisted_task_success": true,
+      "autonomous_evaluation": false,
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": true,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 32,
+      "model_autonomous_evaluation": false,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "D-M1-1024",
+      "video": {
+        "sha256": "71208f84ceceede4414155bfe6a0337cb789798103ddf56560d56611dfdeece4",
+        "bytes": 1030310,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-D-M1-1024-F0-001-T1",
+        "relative_path": "evidence/audits/PI0294-E1-D-M1-1024-F0-001-T1/actual-body-wrist.mp4",
+        "native_duration_s": 32,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "COLLECTION_COMPLETE",
+      "failure_stage": "INTERVENTION_COLLECTION_NOT_AUTONOMOUS_EVALUATION",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-D-M1-1024-F1-000-T1",
+      "model": "D-M1-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 32,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 5.684341886080802e-14,
+      "result_sha256": "6f348c2d9d41e39f821a88a424206bbf4ba5314d5418b667641ab80fd0ad8ea3",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "intervention": {
+        "status": "VALID_COMPLETE",
+        "error": null,
+        "mode": "STUDENT",
+        "first_intervention_tick": null,
+        "student_executed_prefixes": 80,
+        "expert_executed_prefixes": 0,
+        "expert_executed_commands": 0,
+        "invalid_expert": null,
+        "data_class": "NO_INTERVENTION_NO_CORRECTION_DATA",
+        "subsequent_expert_states_are_student_states": false,
+        "switches": 0
+      },
+      "assisted_task_success": true,
+      "autonomous_evaluation": false,
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": true,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 32,
+      "model_autonomous_evaluation": false,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "D-M1-1024",
+      "video": {
+        "sha256": "262974280d6908ac58bcc65dab3e0890d64aabeda9fb05566f1ac7e2a838c4a4",
+        "bytes": 1518392,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-D-M1-1024-F1-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-D-M1-1024-F1-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 32,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "COLLECTION_COMPLETE",
+      "failure_stage": "INTERVENTION_COLLECTION_NOT_AUTONOMOUS_EVALUATION",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-D-M1-1024-F1-001-T1",
+      "model": "D-M1-1024",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/001",
+      "duration_s": 32,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 4.3853809472693683e-14,
+      "result_sha256": "a38c2490157a25e3ce970948e11b890c3ce59a5c15986d44ac0aa1d3d8411323",
+      "teacher_takeover": true,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "intervention": {
+        "status": "VALID_COMPLETE",
+        "error": null,
+        "mode": "EXPERT",
+        "first_intervention_tick": 600,
+        "student_executed_prefixes": 3,
+        "expert_executed_prefixes": 77,
+        "expert_executed_commands": 616,
+        "invalid_expert": null,
+        "data_class": "STUDENT_VISITED_INTERVENTION",
+        "subsequent_expert_states_are_student_states": false,
+        "switches": 1
+      },
+      "assisted_task_success": true,
+      "autonomous_evaluation": false,
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": true,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 32,
+      "model_autonomous_evaluation": false,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "D-M1-1024",
+      "video": {
+        "sha256": "1d0102338d27b7a3d832f73e95f167af8b324aaffc0b1dbccb0c74e2fe965e3e",
+        "bytes": 646302,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-D-M1-1024-F1-001-T1",
+        "relative_path": "evidence/audits/PI0294-E1-D-M1-1024-F1-001-T1/actual-body-wrist.mp4",
+        "native_duration_s": 32,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F0-000-T1",
+      "model": "M1-1024-CANONICAL",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 32,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 5.724587470723463e-14,
+      "result_sha256": "89a7906b68f98af8a0420b6f39f4ab2a2b3109cd9e579a27230386aa3e5283f6",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": true,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 32,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M1-1024-CANONICAL",
+      "video": {
+        "sha256": "782db07e00101cea976540b641712b17d02f248caccab99c79c4a9440d8c8673",
+        "bytes": 1503963,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-1024-CANONICAL-F0-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-M1-1024-CANONICAL-F0-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 32,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F0-000-T2",
+      "model": "M1-1024-CANONICAL",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 17.6,
+      "main_integrations": 8800,
+      "RGB_pairs": 353,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 7.283063041541027e-14,
+      "result_sha256": "5ba369549ccb35640790625c7dfea5b02d0afc563c9ec4b90d7027cb9e5c60f3",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 17.6,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M1-1024-CANONICAL",
+      "video": {
+        "sha256": "4fd72fcaee5ee0dcf2b1f27a9709c62dff1f73d57b19b335f1187b90c16eb57f",
+        "bytes": 606859,
+        "actual_paired_frames": 353,
+        "decoded_frames": 353,
+        "fps": 20,
+        "playback_duration_s": 17.65,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-1024-CANONICAL-F0-000-T2",
+        "relative_path": "evidence/audits/PI0294-E1-M1-1024-CANONICAL-F0-000-T2/actual-body-wrist.mp4",
+        "native_duration_s": 17.6,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "SUCCESS",
+      "failure_stage": "COMPLETE_SUCCESS",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F1-000-T1",
+      "model": "M1-1024-CANONICAL",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 32,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 5.684341886080802e-14,
+      "result_sha256": "4592a38533f530ee11926fa70d99cd4abc59f4a6d9fc4e78307da424fb7a73fc",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": true,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 32,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M1-1024-CANONICAL",
+      "video": {
+        "sha256": "262974280d6908ac58bcc65dab3e0890d64aabeda9fb05566f1ac7e2a838c4a4",
+        "bytes": 1518392,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-1024-CANONICAL-F1-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-M1-1024-CANONICAL-F1-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 32,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-M1-1024-CANONICAL-F1-000-T2",
+      "model": "M1-1024-CANONICAL",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 18.400000000000002,
+      "main_integrations": 9200,
+      "RGB_pairs": 369,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 1.7053025658242404e-13,
+      "result_sha256": "cb0e431744e9a867b0a90d455e8b317994492ca65f24936dc5e32429b0459e09",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 18.400000000000002,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M1-1024-CANONICAL",
+      "video": {
+        "sha256": "80f64dc5394a6fa914414d8e48abe07506a92e79c4e9ef64cacc7fef732e393b",
+        "bytes": 636812,
+        "actual_paired_frames": 369,
+        "decoded_frames": 369,
+        "fps": 20,
+        "playback_duration_s": 18.45,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-1024-CANONICAL-F1-000-T2",
+        "relative_path": "evidence/audits/PI0294-E1-M1-1024-CANONICAL-F1-000-T2/actual-body-wrist.mp4",
+        "native_duration_s": 18.400000000000002,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M1-256-CANONICAL-F0-000-T1",
+      "model": "M1-256-CANONICAL",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 1.6,
+      "main_integrations": 800,
+      "RGB_pairs": 33,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 2.9037387945797237e-15,
+      "result_sha256": "bf0cba83d9324f8bd1fb0a43138e1a8dd4a548b15dfc825bab26b4c5e64ca0e4",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 1.6,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": true,
+      "canonical_reporting_model": "M1-256-CANONICAL",
+      "video": {
+        "sha256": "9158978358007ca483876620c6749c8ffb1ce95404330148782a96c379e5885e",
+        "bytes": 81705,
+        "actual_paired_frames": 33,
+        "decoded_frames": 33,
+        "fps": 20,
+        "playback_duration_s": 1.65,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-256-CANONICAL-F0-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-M1-256-CANONICAL-F0-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 1.6,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "OBJECT_TASK_RESULT",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-M1-256-CANONICAL-F1-000-T2",
+      "model": "M1-256-CANONICAL",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 32,
+      "main_integrations": 16000,
+      "RGB_pairs": 641,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 1.1368683772161603e-13,
+      "result_sha256": "765f6a23c8bf52914411d57c917a77b8fb9e3ec68259aef7fb2c859c9411d003",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 32,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M1-256-CANONICAL",
+      "video": {
+        "sha256": "a5750156162351fe46314a4bf947597d719a0fd66ab2b00449c1f3a324574941",
+        "bytes": 1224407,
+        "actual_paired_frames": 641,
+        "decoded_frames": 641,
+        "fps": 20,
+        "playback_duration_s": 32.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-256-CANONICAL-F1-000-T2",
+        "relative_path": "evidence/audits/PI0294-E1-M1-256-CANONICAL-F1-000-T2/actual-body-wrist.mp4",
+        "native_duration_s": 32,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-M1-256-F0-000-T1",
+      "model": "M1-256",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 1.6,
+      "main_integrations": 800,
+      "RGB_pairs": 33,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 3.552713678800501e-15,
+      "result_sha256": "f6e9b36721cca1016a9f9c5aebf9750882023b9dd07e9197f02cb0c5bdbc5bc1",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 1.6,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M1-256",
+      "video": {
+        "sha256": "31365b81a89141f3da3195de1e64cd9da0fd5cbf9de63b59bc2f3c7f0ec9a7dc",
+        "bytes": 81496,
+        "actual_paired_frames": 33,
+        "decoded_frames": 33,
+        "fps": 20,
+        "playback_duration_s": 1.65,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-256-F0-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-M1-256-F0-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 1.6,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-M1-256-F0-000-T2",
+      "model": "M1-256",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 14.4,
+      "main_integrations": 7200,
+      "RGB_pairs": 289,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 7.105427357601002e-15,
+      "result_sha256": "70f032a402b9482db44ab1b8e4f7df1aa55ef236e7784d5a15904646a1985b94",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 14.4,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M1-256",
+      "video": {
+        "sha256": "97a5b2c7913a6033a1469d0db3ae6575def3d007861825ffa230136d596f25c8",
+        "bytes": 496214,
+        "actual_paired_frames": 289,
+        "decoded_frames": 289,
+        "fps": 20,
+        "playback_duration_s": 14.45,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-256-F0-000-T2",
+        "relative_path": "evidence/audits/PI0294-E1-M1-256-F0-000-T2/actual-body-wrist.mp4",
+        "native_duration_s": 14.4,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "pipeline_trustworthy": true,
+      "attempt_id": "PI0294-E1-M1-256-F1-000-T1",
+      "model": "M1-256",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 1.6,
+      "main_integrations": 800,
+      "RGB_pairs": 33,
+      "S1_rejections": 1,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 4.440892098500626e-15,
+      "result_sha256": "8736df2ecaf21631ae095d96ccf57ea44becae43a1c13fac9f73e61c68b5575f",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": true,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 1.6,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M1-256",
+      "video": {
+        "sha256": "16c671e1b5eb026432584c6f7cce2d8b26b7b9ca5e633d1651380800af7a4120",
+        "bytes": 80321,
+        "actual_paired_frames": 33,
+        "decoded_frames": 33,
+        "fps": 20,
+        "playback_duration_s": 1.65,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-256-F1-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-M1-256-F1-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 1.6,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M1-256-F1-000-T2",
+      "model": "M1-256",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 8.8,
+      "main_integrations": 4400,
+      "RGB_pairs": 177,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 7.105427357601002e-15,
+      "result_sha256": "9d0be38a6076ffa29f5621c4b6c32ba33182550ffb51fd7c844d4e01934a0af5",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 8.8,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M1-256",
+      "video": {
+        "sha256": "91bbea57ebf61b69284814a09f0c69a7a0abe53117102efeaaa8865ef435408d",
+        "bytes": 285358,
+        "actual_paired_frames": 177,
+        "decoded_frames": 177,
+        "fps": 20,
+        "playback_duration_s": 8.85,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M1-256-F1-000-T2",
+        "relative_path": "evidence/audits/PI0294-E1-M1-256-F1-000-T2/actual-body-wrist.mp4",
+        "native_duration_s": 8.8,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-F0-000-T1",
+      "model": "M2-BC",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 25.6,
+      "main_integrations": 12800,
+      "RGB_pairs": 513,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 6.092348847630547e-14,
+      "result_sha256": "be5242b827e1812b4fc74d9e2da95e18221a1166e57b8e8095781ae74d872e58",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 25.6,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M2-BC",
+      "video": {
+        "sha256": "70483e572a3deaf879d8a7d99fe6e2a87d7b9126818b851b502d043a0e673483",
+        "bytes": 1121622,
+        "actual_paired_frames": 513,
+        "decoded_frames": 513,
+        "fps": 20,
+        "playback_duration_s": 25.65,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M2-BC-F0-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-M2-BC-F0-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 25.6,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-F0-000-T2",
+      "model": "M2-BC",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 20.400000000000002,
+      "main_integrations": 10200,
+      "RGB_pairs": 409,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 8.526512829121202e-14,
+      "result_sha256": "c8dd6e130ceb2ea6f80bc17a7f23e1721dd421f028234a4ff68883d365014a69",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 20.400000000000002,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M2-BC",
+      "video": {
+        "sha256": "3d1769b6da69f2e596baa698241537ad3261fc1920e87ef4b304268dbe576116",
+        "bytes": 720648,
+        "actual_paired_frames": 409,
+        "decoded_frames": 409,
+        "fps": 20,
+        "playback_duration_s": 20.45,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M2-BC-F0-000-T2",
+        "relative_path": "evidence/audits/PI0294-E1-M2-BC-F0-000-T2/actual-body-wrist.mp4",
+        "native_duration_s": 20.400000000000002,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-F1-000-T1",
+      "model": "M2-BC",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 21.6,
+      "main_integrations": 10800,
+      "RGB_pairs": 433,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 4.951594689828198e-14,
+      "result_sha256": "edb9a81265fb05d6629036e31d56541ae0ef3a027febd331987f1f03e9aa8956",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 21.6,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M2-BC",
+      "video": {
+        "sha256": "e5193c865c0686d0a8af06c859593ad55050166fe2b8a4cb9875449962fc6841",
+        "bytes": 946127,
+        "actual_paired_frames": 433,
+        "decoded_frames": 433,
+        "fps": 20,
+        "playback_duration_s": 21.65,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M2-BC-F1-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-M2-BC-F1-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 21.6,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F0-000-T1",
+      "model": "M2-BC-REMAINDER-03",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 6,
+      "main_integrations": 3000,
+      "RGB_pairs": 121,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 6.092348847630547e-14,
+      "result_sha256": "380aa561ed6a9bfb41ac507e96a99d2c76e27b3eb22bbf4f7c9869e59cc36415",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 6,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M2-BC",
+      "video": {
+        "sha256": "fd2bc57954e52ba37a5b3d4ed3fefd73ab43ed4bf2e118a46507390a45128006",
+        "bytes": 239338,
+        "actual_paired_frames": 121,
+        "decoded_frames": 121,
+        "fps": 20,
+        "playback_duration_s": 6.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M2-BC-REMAINDER-03-F0-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-M2-BC-REMAINDER-03-F0-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 6,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F0-000-T2",
+      "model": "M2-BC-REMAINDER-03",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 0,
+      "main_integrations": 0,
+      "RGB_pairs": 1,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 0,
+      "result_sha256": "f55c99e49abb76c5b8dad9d5e6f50594330e7959be04c464955fa07529527533",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": false,
+      "evidence_audit_status": "PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE",
+      "persistent_success": null,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 0,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M2-BC",
+      "video": {
+        "sha256": "8540e546b05854bc28ccaa5a4bdfcc830a1f534d79e55307fb6a1017454e1da2",
+        "bytes": 9989,
+        "actual_paired_frames": 1,
+        "decoded_frames": 1,
+        "fps": 20,
+        "playback_duration_s": 0.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_ZERO_STEP/PI0294-E1-M2-BC-REMAINDER-03-F0-000-T2",
+        "relative_path": "evidence/zero-step-audits/PI0294-E1-M2-BC-REMAINDER-03-F0-000-T2/actual-initial-body-wrist.mp4",
+        "native_duration_s": 0,
+        "initial_frame_only": true,
+        "task_trajectory_video": false
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F1-000-T1",
+      "model": "M2-BC-REMAINDER-03",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 0,
+      "main_integrations": 0,
+      "RGB_pairs": 1,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 0,
+      "result_sha256": "a630920f6d5fa021c95bb6d737bc88146d734010dca7b9dc89f8e330c4e707c4",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": false,
+      "evidence_audit_status": "PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE",
+      "persistent_success": null,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 0,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M2-BC",
+      "video": {
+        "sha256": "9ffddd08e73b64c26b206f13c8df6bd8d4ad9ccaedd5031cd736de9edf68bd6e",
+        "bytes": 9877,
+        "actual_paired_frames": 1,
+        "decoded_frames": 1,
+        "fps": 20,
+        "playback_duration_s": 0.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_ZERO_STEP/PI0294-E1-M2-BC-REMAINDER-03-F1-000-T1",
+        "relative_path": "evidence/zero-step-audits/PI0294-E1-M2-BC-REMAINDER-03-F1-000-T1/actual-initial-body-wrist.mp4",
+        "native_duration_s": 0,
+        "initial_frame_only": true,
+        "task_trajectory_video": false
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-BC-REMAINDER-03-F1-000-T2",
+      "model": "M2-BC-REMAINDER-03",
+      "task": "T2",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F1/000",
+      "duration_s": 0,
+      "main_integrations": 0,
+      "RGB_pairs": 1,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 0,
+      "result_sha256": "f791dddbd2dc221368923e6298730e977dc59fa4476a208a2ff503b98b00a7f7",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": false,
+      "evidence_audit_status": "PASS_ZERO_INTEGRATION_ENGINEERING_EVIDENCE",
+      "persistent_success": null,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 0,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M2-BC",
+      "video": {
+        "sha256": "9ffddd08e73b64c26b206f13c8df6bd8d4ad9ccaedd5031cd736de9edf68bd6e",
+        "bytes": 9877,
+        "actual_paired_frames": 1,
+        "decoded_frames": 1,
+        "fps": 20,
+        "playback_duration_s": 0.05,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_ZERO_STEP/PI0294-E1-M2-BC-REMAINDER-03-F1-000-T2",
+        "relative_path": "evidence/zero-step-audits/PI0294-E1-M2-BC-REMAINDER-03-F1-000-T2/actual-initial-body-wrist.mp4",
+        "native_duration_s": 0,
+        "initial_frame_only": true,
+        "task_trajectory_video": false
+      },
+      "evidence_accounted": true
+    },
+    {
+      "status": "ENGINEERING_INCOMPLETE",
+      "failure_stage": "ENGINEERING_OR_UNKNOWN",
+      "pipeline_trustworthy": false,
+      "attempt_id": "PI0294-E1-M2-CORR-REMAINDER-03-F0-000-T1",
+      "model": "M2-CORR-REMAINDER-03",
+      "task": "T1",
+      "split": "TRAIN",
+      "scene_group": "PI0294/TRAIN/F0/000",
+      "duration_s": 10.8,
+      "main_integrations": 5400,
+      "RGB_pairs": 217,
+      "S1_rejections": 0,
+      "live_native_failures": 0,
+      "maximum_live_shadow_difference": 4.5727310826748635e-14,
+      "result_sha256": "0b611c4d92cb64e2130ad9c31569b9bc331e9b94020a1497f21d3f9fc04fbe1d",
+      "teacher_takeover": false,
+      "selected": "NONE",
+      "deployment": "NONE",
+      "adjudication_pipeline_trustworthy": false,
+      "audit_verified": true,
+      "evidence_audit_status": "PASS_INDEPENDENT_ACTUAL_EVIDENCE_AUDIT",
+      "persistent_success": false,
+      "native_safety_flag_rows": 0,
+      "native_duration_s": 10.8,
+      "model_autonomous_evaluation": true,
+      "excluded_scope_deviation": false,
+      "canonical_reporting_model": "M2-CORR",
+      "video": {
+        "sha256": "fd439aed0862fb53078f1678ec60be77c235871bcbd102377d3fa55010488f46",
+        "bytes": 443048,
+        "actual_paired_frames": 217,
+        "decoded_frames": 217,
+        "fps": 20,
+        "playback_duration_s": 10.85,
+        "padding_or_interpolation": false,
+        "raw_video_private": true,
+        "logical_id": "E1_MAIN/PI0294-E1-M2-CORR-REMAINDER-03-F0-000-T1",
+        "relative_path": "evidence/audits/PI0294-E1-M2-CORR-REMAINDER-03-F0-000-T1/actual-body-wrist.mp4",
+        "native_duration_s": 10.8,
+        "initial_frame_included": true
+      },
+      "evidence_accounted": true
+    }
+  ],
+  "audit_gaps": [],
+  "zero_step_accounted_evidence_is_not_policy_outcome": true,
+  "original_model_labels_preserved": true,
+  "collection_is_not_autonomous_evaluation": true,
+  "valid_policy_outcomes_not_rerun_to_success": true,
+  "fixed_probe_contexts": {
+    "M0": {
+      "complete_fixed_96": true,
+      "precision_context_kept_separate": true,
+      "actual_fixed_expert_windows": 96,
+      "on_expert": {
+        "T1": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0056484047796327656,
+                "worst_episode_mean": 0.006136166924863465,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.016666316256525898,
+                "worst_episode_mean": 0.01919400216740113,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.04678251772808532,
+                "worst_episode_mean": 0.05909645867844423,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.007033112238150967,
+                "worst_episode_mean": 0.007679275338092832,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.015818314564368226,
+                "worst_episode_mean": 0.01901811782311441,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.023067582693571845,
+                "worst_episode_mean": 0.02630777725329002,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        },
+        "T2": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.005623039041052102,
+                "worst_episode_mean": 0.006592041818866138,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.016559355528349477,
+                "worst_episode_mean": 0.021090958582684505,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.06628096119190256,
+                "worst_episode_mean": 0.08575865191717942,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0072469877210341056,
+                "worst_episode_mean": 0.008147333222136854,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.01755013114565422,
+                "worst_episode_mean": 0.019120025557564018,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.046170685937007266,
+                "worst_episode_mean": 0.059093363024294375,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        }
+      }
+    },
+    "M1-1024-CANONICAL": {
+      "complete_fixed_96": true,
+      "precision_context_kept_separate": true,
+      "actual_fixed_expert_windows": 96,
+      "on_expert": {
+        "T1": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0025827795834152236,
+                "worst_episode_mean": 0.0027077941536325237,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.006612854001087176,
+                "worst_episode_mean": 0.007222353109050079,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.024221560064082343,
+                "worst_episode_mean": 0.03627765240768591,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0036231944322865734,
+                "worst_episode_mean": 0.003730135772347615,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.007339439445713637,
+                "worst_episode_mean": 0.008452883704815077,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.013874810887500644,
+                "worst_episode_mean": 0.01697445133080085,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        },
+        "T2": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0028729703568812198,
+                "worst_episode_mean": 0.0035268801211187067,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.007756063997809906,
+                "worst_episode_mean": 0.008323012294974046,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.029370806956042845,
+                "worst_episode_mean": 0.04044764178494612,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0036623049492025533,
+                "worst_episode_mean": 0.004087159389502297,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.00885005257299999,
+                "worst_episode_mean": 0.009438349898720074,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.018068572444220384,
+                "worst_episode_mean": 0.02047060038894415,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        }
+      }
+    },
+    "M1-256": {
+      "complete_fixed_96": true,
+      "precision_context_kept_separate": true,
+      "actual_fixed_expert_windows": 96,
+      "on_expert": {
+        "T1": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0037742593912322353,
+                "worst_episode_mean": 0.003861689103447766,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.008529979903270863,
+                "worst_episode_mean": 0.00985008469786442,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.02834156365133822,
+                "worst_episode_mean": 0.04096280286709467,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.004409607154857452,
+                "worst_episode_mean": 0.004503827117854223,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.009280054469338769,
+                "worst_episode_mean": 0.011176250086701743,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.015458926170443496,
+                "worst_episode_mean": 0.018546276477475962,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        },
+        "T2": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0037904597692097622,
+                "worst_episode_mean": 0.004978455282698482,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.009024939465598139,
+                "worst_episode_mean": 0.009378896063696837,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.041571022011339664,
+                "worst_episode_mean": 0.05971279305716356,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0046083090951675575,
+                "worst_episode_mean": 0.005478565595499768,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.009925515977033911,
+                "worst_episode_mean": 0.01045336993420286,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.025800257719432312,
+                "worst_episode_mean": 0.0343794551367561,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        }
+      }
+    },
+    "M1-256-CANONICAL": {
+      "complete_fixed_96": true,
+      "precision_context_kept_separate": true,
+      "actual_fixed_expert_windows": 96,
+      "on_expert": {
+        "T1": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.003775374913007834,
+                "worst_episode_mean": 0.0038595348731539116,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.008524877203638294,
+                "worst_episode_mean": 0.00980772316619946,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.028197139579181872,
+                "worst_episode_mean": 0.04086805135011673,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0043879409349129265,
+                "worst_episode_mean": 0.0044954680319333655,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.009271200265385965,
+                "worst_episode_mean": 0.011169431012741914,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.01549995595899721,
+                "worst_episode_mean": 0.018555307326217494,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        },
+        "T2": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.003789342082424572,
+                "worst_episode_mean": 0.004992947604410846,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.00904329106086714,
+                "worst_episode_mean": 0.009393902050530345,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.04213756384948889,
+                "worst_episode_mean": 0.061198617642124496,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.004606615600796514,
+                "worst_episode_mean": 0.0055211433980368076,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0099027305223063,
+                "worst_episode_mean": 0.010468499716279011,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.025709109489495556,
+                "worst_episode_mean": 0.03319610164811214,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        }
+      }
+    },
+    "M2-BC": {
+      "complete_fixed_96": true,
+      "precision_context_kept_separate": true,
+      "actual_fixed_expert_windows": 96,
+      "on_expert": {
+        "T1": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.002638942508505991,
+                "worst_episode_mean": 0.0028224401748639374,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.006006923504826722,
+                "worst_episode_mean": 0.0069332843966778065,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.027711191835502785,
+                "worst_episode_mean": 0.0363801084458828,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0036043569453078367,
+                "worst_episode_mean": 0.00399168339043575,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.006155805299968767,
+                "worst_episode_mean": 0.007728282184439322,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.014002336142584683,
+                "worst_episode_mean": 0.017093532532453538,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        },
+        "T2": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0027327629481464742,
+                "worst_episode_mean": 0.0034894560452718272,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.00785696888927551,
+                "worst_episode_mean": 0.008195483844616462,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.023058062341685098,
+                "worst_episode_mean": 0.030848213471472263,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0035524191358209797,
+                "worst_episode_mean": 0.0038680596255750333,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.009285203636499166,
+                "worst_episode_mean": 0.00991577176478666,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.016072905405114093,
+                "worst_episode_mean": 0.023470969187716642,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        }
+      }
+    },
+    "M2-CORR-REMAINDER-03": {
+      "complete_fixed_96": true,
+      "precision_context_kept_separate": true,
+      "actual_fixed_expert_windows": 96,
+      "on_expert": {
+        "T1": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.002579291385577641,
+                "worst_episode_mean": 0.0029121847757179547,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0065378011825637395,
+                "worst_episode_mean": 0.007245564111138179,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.024819097171227135,
+                "worst_episode_mean": 0.03010469612975915,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0036223141338447527,
+                "worst_episode_mean": 0.003889993919595651,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.006797088020177812,
+                "worst_episode_mean": 0.008112085491928456,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.012150836347912749,
+                "worst_episode_mean": 0.016094215773046018,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        },
+        "T2": {
+          "windows": 48,
+          "episodes": 4,
+          "errors": {
+            "prefix8": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.0027950403195042854,
+                "worst_episode_mean": 0.003320614937776108,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.008400203588027969,
+                "worst_episode_mean": 0.00891938580362071,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.020783313550055027,
+                "worst_episode_mean": 0.04011194904645284,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 384,
+                "not_independent_samples": true
+              }
+            },
+            "H40": {
+              "XYZ_euclidean_m": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.003547617610423005,
+                "worst_episode_mean": 0.0038385209029360426,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "SO3_rad": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.009462418947119008,
+                "worst_episode_mean": 0.010368132315120503,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              },
+              "gripper_absolute": {
+                "episodes": 4,
+                "finite_complete_episodes": 4,
+                "episode_macro_mean": 0.01713577602058649,
+                "worst_episode_mean": 0.02134172065804402,
+                "nonfinite_or_short_windows": 0,
+                "expected_points": 1920,
+                "not_independent_samples": true
+              }
+            }
+          },
+          "reference_gate_rejections": 0,
+          "missing_close_events": 0,
+          "missing_open_events": 0
+        }
+      }
+    }
+  },
+  "fixed_probe_prefix_S1": {
+    "M0": {
+      "on_expert": {
+        "T1": {
+          "anchors": 48,
+          "original_prefix_executable": 45,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 48,
+          "original_prefix_executable": 45,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      },
+      "on_student": {
+        "T1": {
+          "anchors": 6,
+          "original_prefix_executable": 4,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 6,
+          "original_prefix_executable": 5,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      }
+    },
+    "M1-256": {
+      "on_expert": {
+        "T1": {
+          "anchors": 48,
+          "original_prefix_executable": 48,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 48,
+          "original_prefix_executable": 48,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      },
+      "on_student": {
+        "T1": {
+          "anchors": 6,
+          "original_prefix_executable": 5,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 6,
+          "original_prefix_executable": 6,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      }
+    },
+    "M1-256-CANONICAL": {
+      "on_expert": {
+        "T1": {
+          "anchors": 48,
+          "original_prefix_executable": 48,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 48,
+          "original_prefix_executable": 48,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      },
+      "on_student": {
+        "T1": {
+          "anchors": 6,
+          "original_prefix_executable": 5,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 6,
+          "original_prefix_executable": 6,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      }
+    },
+    "M1-1024-CANONICAL": {
+      "on_expert": {
+        "T1": {
+          "anchors": 48,
+          "original_prefix_executable": 44,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 48,
+          "original_prefix_executable": 48,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      },
+      "on_student": {
+        "T1": {
+          "anchors": 6,
+          "original_prefix_executable": 4,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 6,
+          "original_prefix_executable": 6,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      }
+    },
+    "M2-BC": {
+      "on_expert": {
+        "T1": {
+          "anchors": 48,
+          "original_prefix_executable": 44,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 48,
+          "original_prefix_executable": 48,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      },
+      "on_student": {
+        "T1": {
+          "anchors": 6,
+          "original_prefix_executable": 4,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 6,
+          "original_prefix_executable": 6,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      }
+    },
+    "M2-CORR-REMAINDER-03": {
+      "on_expert": {
+        "T1": {
+          "anchors": 48,
+          "original_prefix_executable": 46,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 48,
+          "original_prefix_executable": 48,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      },
+      "on_student": {
+        "T1": {
+          "anchors": 6,
+          "original_prefix_executable": 6,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        },
+        "T2": {
+          "anchors": 6,
+          "original_prefix_executable": 6,
+          "reference_reject": 0,
+          "shadow_not_live": true
+        }
+      }
+    }
+  },
+  "probe_S1_available": true,
+  "probe_errors_are_episode_macro_not_independent_windows": true,
+  "model_training_and_resource_receipts_separate": true,
+  "on_student_oracle_errors_in_private_probe_result": "AVAILABLE",
+  "evidence_sha256": {
+    "evidence/PROTOCOL_SCOPE_DEVIATION_01.json": "607eddfbfe8cbed6049360f25c29d2753a250bf9193960ec04fff128b2635ad4",
+    "evidence/MAIN_EVIDENCE_AUDIT_INDEX.private.json": "98bf148c9fe1097cf78440746232ef9b45a71ce80c4447489167df1d3eb8b1b0",
+    "episodes/PI0294-E1-D-M1-1024-F0-000-T1/E1_ADJUDICATION.json": "b4079766f501837ae068441a248cfc8e2d6ed0ed7e531b55c0f6d702f8aac972",
+    "episodes/PI0294-E1-D-M1-1024-F0-000-T1/CARD.json": "3b4008be15e379708997505980d58f8594db3885f95cecb7a96f8554121cdc19",
+    "episodes/PI0294-E1-D-M1-1024-F0-001-T1/E1_ADJUDICATION.json": "431ae9b828c75a63b87e5f41dba95dd7d7b104c42933fd7896ea18b3f0ad094b",
+    "episodes/PI0294-E1-D-M1-1024-F0-001-T1/CARD.json": "1ff2bc7896e637261e3a3aedeca4db26288ff1ca3ebd82a6e5eae5c1d3b2a136",
+    "episodes/PI0294-E1-D-M1-1024-F1-000-T1/E1_ADJUDICATION.json": "00c10575c042460014245ace5a95008cbdd401117995f77c0dea8286bc9b4126",
+    "episodes/PI0294-E1-D-M1-1024-F1-000-T1/CARD.json": "1fa8b81ed6e6e3f90c0c07ca4e40a63528fe1452b4bb81828ac7ea4b07792ed3",
+    "episodes/PI0294-E1-D-M1-1024-F1-001-T1/E1_ADJUDICATION.json": "a1a753a337b591da454ae1a51311880e11fe8ab778161dddb12465cf651e5b56",
+    "episodes/PI0294-E1-D-M1-1024-F1-001-T1/CARD.json": "08830493f4f152b001085c71b75073a04bdb91282c9f6f52c5192efd6e4cc61f",
+    "episodes/PI0294-E1-M1-1024-CANONICAL-F0-000-T1/E1_ADJUDICATION.json": "a3e5cb94fcee5b53932add2eff27a6b0c2e1d1c8d11ad37e81d7f54f42b2bb6f",
+    "episodes/PI0294-E1-M1-1024-CANONICAL-F0-000-T1/CARD.json": "79b524e1db93723f80577e8d15b595d1ba984befa0528445fb21ded9a0a7f005",
+    "episodes/PI0294-E1-M1-1024-CANONICAL-F0-000-T2/E1_ADJUDICATION.json": "8e9ebc11c48924fd2dcb18fc21d04246d07baceb11d364423cc12aff69ab665d",
+    "episodes/PI0294-E1-M1-1024-CANONICAL-F0-000-T2/CARD.json": "fe1170ec5f180f296c7a9b043955801fe066c0470650d0fcb384da3153b48a0c",
+    "episodes/PI0294-E1-M1-1024-CANONICAL-F1-000-T1/E1_ADJUDICATION.json": "9cb59ad69e9b211ef180827baa27f2334c0056277db4e944aad3c4a1f4386c63",
+    "episodes/PI0294-E1-M1-1024-CANONICAL-F1-000-T1/CARD.json": "51f51e4047f7d8d82d5546afc16869343a2ad94c0cb54f4bffff325180ee5626",
+    "episodes/PI0294-E1-M1-1024-CANONICAL-F1-000-T2/E1_ADJUDICATION.json": "c060c561d44c676b27508f8b4fcab124dbb0985dd506b07a52d0c357499899b8",
+    "episodes/PI0294-E1-M1-1024-CANONICAL-F1-000-T2/CARD.json": "aaad1be23990ab73af4efa9a985e9c2eb3e44ce656d22217326c29e3b442a21a",
+    "episodes/PI0294-E1-M1-256-CANONICAL-F0-000-T1/E1_ADJUDICATION.json": "7448f8c8fa32f66b16c9e723e1665baade454226861c049bb88ca8bccff8b8e8",
+    "episodes/PI0294-E1-M1-256-CANONICAL-F0-000-T1/CARD.json": "a225810c655f260585791bcc6ab1ede7e3612fe433e1574e4bc16d71e3059e1b",
+    "episodes/PI0294-E1-M1-256-CANONICAL-F1-000-T2/E1_ADJUDICATION.json": "6c5a89072caa437b357fb41a65844ba182a5fb40b885e069a8c8eb7ec899be9f",
+    "episodes/PI0294-E1-M1-256-CANONICAL-F1-000-T2/CARD.json": "b999e3b82b8cf693a90eb7a77c61ef27794a0906399507226268de4317abde1d",
+    "episodes/PI0294-E1-M1-256-F0-000-T1/E1_ADJUDICATION.json": "a3786ec8bcdb67528a62e6a3f19d34b95ad4e1dac4f0b85a0ce64dbc95dbf9ba",
+    "episodes/PI0294-E1-M1-256-F0-000-T1/CARD.json": "b4c5a9c9f1417e1accee24fdfd8f8b1042d3ee4bb9f8d057b1f5e0831c5e2df4",
+    "episodes/PI0294-E1-M1-256-F0-000-T2/E1_ADJUDICATION.json": "4979f944cf83a63f076fe3484bc327ec7d09daf47196736b9f7f8f2f0cfc4a39",
+    "episodes/PI0294-E1-M1-256-F0-000-T2/CARD.json": "3dd5840acb4f7885ac60ae9c7505d06fa17e21096eb7c3c71899d67b531f8538",
+    "episodes/PI0294-E1-M1-256-F1-000-T1/E1_ADJUDICATION.json": "c4a3ecdafd2eb016ba03847337a29ab64c179ca9e63a713eeec640102823286e",
+    "episodes/PI0294-E1-M1-256-F1-000-T1/CARD.json": "0165f8eebce6279e8165638eae4730a7cba6065b7eb1d6dde37147a9349db0cb",
+    "episodes/PI0294-E1-M1-256-F1-000-T2/E1_ADJUDICATION.json": "4ae60f88bcdc7e6bbb52fc48a07882e78b01bc4cfe69b98089b21439d16d2fb3",
+    "episodes/PI0294-E1-M1-256-F1-000-T2/CARD.json": "335e41986bc73c1816e44ca004d8cc1904963411c87311d4d3e45cd6af2098c3",
+    "episodes/PI0294-E1-M2-BC-F0-000-T1/E1_ADJUDICATION.json": "8dcb6bee125b85f8ad99abd45038ea22129cae9878dea47203934bf47b81fa6f",
+    "episodes/PI0294-E1-M2-BC-F0-000-T1/CARD.json": "b4c1019238ed41817097a58563446a8cae621f7d49482798a163335091e37b23",
+    "episodes/PI0294-E1-M2-BC-F0-000-T2/E1_ADJUDICATION.json": "5f3fda62433585cb5ea1af9a659d0b229702217377747b62e19d0ede530fe89d",
+    "episodes/PI0294-E1-M2-BC-F0-000-T2/CARD.json": "41c787b571a739c755bf22e622ef7134e2de879d42a30e427dcbb0e45989a54a",
+    "episodes/PI0294-E1-M2-BC-F1-000-T1/E1_ADJUDICATION.json": "4902389aab3ea591a2c2404752303b558e6d6f863006ac31129bc35eea191fb6",
+    "episodes/PI0294-E1-M2-BC-F1-000-T1/CARD.json": "910c84c23c2fe4356eeec86ab75e1d1e7a371599b85d4787b55114c9e9b34a78",
+    "episodes/PI0294-E1-M2-BC-REMAINDER-03-F0-000-T1/E1_ADJUDICATION.json": "d9e8116a4db3bb2fcaece9caacdcfe3adb5cb232b5a044bc7b52892e85211394",
+    "episodes/PI0294-E1-M2-BC-REMAINDER-03-F0-000-T1/CARD.json": "254c2223ae859868f4e06b5bc1bd84bca0e422b0e9f72a79422e2e60a30356de",
+    "episodes/PI0294-E1-M2-BC-REMAINDER-03-F0-000-T2/E1_ADJUDICATION.json": "de04f638580e54d6748124adc48faf8bd2408b669384e3aa56e44f920c25e5c2",
+    "episodes/PI0294-E1-M2-BC-REMAINDER-03-F0-000-T2/CARD.json": "a67b90d23f270931553f92c42f6b1a0dc4b812a85bef38011a71f1bc12dbdfca",
+    "episodes/PI0294-E1-M2-BC-REMAINDER-03-F1-000-T1/E1_ADJUDICATION.json": "4e337e442cae819008d5aa1da40faad23785f89e9a2dcbf6ecba90d3bda35e1f",
+    "episodes/PI0294-E1-M2-BC-REMAINDER-03-F1-000-T1/CARD.json": "632abd186270a4be5d1df1f76c651f7294589d8d3dad609e1f577ffadbe7a851",
+    "episodes/PI0294-E1-M2-BC-REMAINDER-03-F1-000-T2/E1_ADJUDICATION.json": "a3d94867c4695cd777aab35870293b9b6382f7d1b1c31b39392734efacd4d11f",
+    "episodes/PI0294-E1-M2-BC-REMAINDER-03-F1-000-T2/CARD.json": "47bcb5ca24ef9976c42f28b418b3e40892b56a5495b118ff3d2a7c7d6d200290",
+    "episodes/PI0294-E1-M2-CORR-REMAINDER-03-F0-000-T1/E1_ADJUDICATION.json": "f93e554366e842b52b48b249c770186f3321f92ff9f4054d485d0dd775e96df0",
+    "episodes/PI0294-E1-M2-CORR-REMAINDER-03-F0-000-T1/CARD.json": "98e81c36236f241bc1b36ddddb2d3199570e71dcd1bdd9cf47a9259a019a4175",
+    "datasets/received-fixed-probes/native/evidence/M0/probes/ON_EXPERT_RESULTS.json": "97371965e2515d6e521274c34b9e0f979a6f00cdb5618efaef4913681e95cf02",
+    "datasets/received-fixed-probes/native/evidence/M1-1024-CANONICAL/probes/ON_EXPERT_RESULTS.json": "e229232c479399889a2fd479dfff0f86991352d470eec5e07bbaf521bb5c2a79",
+    "datasets/received-fixed-probes/native/evidence/M1-256/probes/ON_EXPERT_RESULTS.json": "0dbcf7413e64d3f3007dee4251aedbef0ca9d8c9663e468790603dbe3901ce39",
+    "datasets/received-fixed-probes/native/evidence/M1-256-CANONICAL/probes/ON_EXPERT_RESULTS.json": "87776476158c576a78dfa2b2cf5a0e724b74333c013974ca59693f2a59b118b7",
+    "datasets/received-fixed-probes/native/evidence/M2-BC/probes/ON_EXPERT_RESULTS.json": "6e523d8c504d036cebe37c1909e3e9a99413eacb4c80e9c16e9331e64c716eca",
+    "datasets/received-fixed-probes/native/evidence/M2-CORR-REMAINDER-03/probes/ON_EXPERT_RESULTS.json": "e9d5c422d895e17a6be3a98784b0b4304718cb7320ddb1854c51e3c2ee08b4c5",
+    "evidence/PROBE_PREFIX_S1_RESULTS.private.json": "84f4ec070c770ac604c49eeaea07ee7cec05d703d96856b6faf84b2af86666cb"
+  },
+  "precision_gap_and_scope_deviation_preserved": true,
+  "DEV_generalization_proven": false,
+  "Go2_WBC_or_real_robot_proven": false,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

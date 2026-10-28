@@ -1,0 +1,145 @@
+{
+  "schema": "V5_D25_REAL1024_AUDITED_CLOSED_CORE_EVAL_EXTERNAL_HOLD_ACTUAL_V1",
+  "status": "D25_TRAIN_COMPLETE_AND_CLOSED_CORE_EVAL_NOT_RUN_FULL_TASK_ACTIVE",
+  "observed_epoch": 1793012151.7059844,
+  "observed_SGT": "2026-10-26T18:55:51.705984+08:00",
+  "runtime_source": "8214813e7e9e91ce745ee8ea2766d3d5e38a9ab6",
+  "original_task_source": "5b5de6f5d26ac90a6002c83ebcb60005acf06462",
+  "actual_physical_order": [
+    "TRAIN:C50:1024",
+    "TRAIN:D25:1024",
+    "EVAL:C50:N294101",
+    "EVAL:D25:N294101"
+  ],
+  "D25": {
+    "job_id": "1494545.stdct-mgmt-02",
+    "request_id": "cb540122-74e8-44e0-bccb-eafdb89772e6",
+    "run_uuid": "v5-cd-d25-1024-01",
+    "native_state": "F",
+    "native_exit": 0,
+    "native_node": "GN-A40-041",
+    "checkpoint_manifest_sha256": "8cf977b964411a3ae97f022edd3e3ca390cd2d71fd61a914ab21466efa3a9e9b",
+    "global_step": 1024,
+    "actual_committed_cursor": 32768,
+    "actual_updates": 1024,
+    "actual_queries": 29,
+    "actual_loads": 3,
+    "actual_charged_GPU_s": 8001,
+    "actual_charged_CPU_s": 7947,
+    "pending_updates": [],
+    "unknown_query_intents": [],
+    "audit_status": "PASS_INDEPENDENT_V5_CD_1024_COMPLETE_STATE",
+    "member_count": 15,
+    "optimizer_steps": [
+      1024
+    ],
+    "scheduler_last_epoch": 1024,
+    "rng_keys": [
+      "cpu",
+      "cuda",
+      "numpy",
+      "python"
+    ],
+    "original_12_probe_result_sha256": "923990c3335e35cb584c47fd60ab9dd284a4dbf57ce4e168a5826bd83e3e8f37",
+    "actual_streamed_unique_inodes": 27,
+    "actual_streamed_bytes": 51082840098,
+    "all_unique_inodes_independently_rehashed": true,
+    "common_parent_sha256": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "lease_status": "CLOSED",
+    "owner_returncode": 0,
+    "wrapper_returncode": 0,
+    "natural_owner_finished_SGT": "2026-10-26T18:42:27.885987+08:00",
+    "owner_processes_active": [
+      false,
+      false
+    ],
+    "terminal_hashes": {
+      "SETTLED": "0b2b26ef61a49c568d49d9194fc91fa9074a2cb66e08764974538da2a13583f8",
+      "CLOSED": "cf24af758b85d70734b946391dd65da7693b5f1f22d84cb56f3eb756d8bb1580",
+      "LEASE": "64ddd01001ced8d4d4d12d0d588c71af3ac3ab3032f34ddef29a714492144c10",
+      "OWNER_EXIT": "e4c593b116007a680b76bbdbec0bae1e28ffe517c09d52cef6d4b8ba8745f673",
+      "OS_EXIT": "e88a5afe215a55737bddb9a7a963cb06e56a23dcc2c26cde3978792ab7bd9c41",
+      "AUDIT": "67d141c22b0b75f617221e03db0332e23dcc004a320a4676b56e677238eb74f8",
+      "PROCESS_FINAL": "36d0c2c7e62229e31b48e5a3720ba54236236d20768bd148855c76130556ed04",
+      "WRAPPER_FINAL": "0254dddf5af55fc84b43899a032e3468fbd5e7feeaba7fca39f586c26d2e1289"
+    }
+  },
+  "GLOBAL": {
+    "sha256": "dc4185069e64ba524b319da9f611d5664fb100d6b6b29d79a6a65f2c501f496b",
+    "used": {
+      "H200_s": 150279.0,
+      "optimizer_updates": 13762,
+      "neural_queries": 4482,
+      "PBS_submissions": 28
+    },
+    "remaining_reserved": {
+      "H200_s": 57720,
+      "optimizer_updates": 0,
+      "neural_queries": 4194
+    },
+    "completed_stages": [
+      "TRAIN:C50:1024",
+      "TRAIN:D25:1024"
+    ],
+    "D25_settlement_already_applied": true,
+    "settlement_or_close_replay_allowed": false
+  },
+  "Core": {
+    "canonical_LOCAL_actual_read": false,
+    "canonical_LOCAL_actual_written": false,
+    "LOCAL_sync": "PENDING",
+    "last_confirmed_LOCAL_sha256": "7cea556c4c80765582644ce1ed47d71f3c0c3084b445d02dd16a55854b386f1a",
+    "bounded_connection_attempt": {
+      "returned": "TimeoutExpired",
+      "timeout_s": 40,
+      "observed_epoch": 1793012200.8054922,
+      "modified_services": false,
+      "old_UNKNOWN_retried": false,
+      "remote_process_terminal_inferred": false,
+      "disk_full_proven": false
+    },
+    "pure_real_D25_terminal_catchup": {
+      "proposed_GLOBAL_sha256": "898ad5cd7ec4011b51e346343fdd8121cafc0d689db44f3a2c8f56b5c4e07c63",
+      "proposed_LOCAL_sha256": "7bf206eb79c63e9f6a49f1938b1f5cc4611b2ece7908627e64f52cb67d68807c",
+      "remaining_shortfalls": {},
+      "native_IO": false,
+      "model_or_physics_admission": false,
+      "actual_LOCAL_host_read_required_before_once_CAS": true
+    }
+  },
+  "inference_transfer": {
+    "files": 9,
+    "payload_bytes": 12576324408,
+    "tensor_bytes": 12576200896,
+    "source_metadata_and_original_audit_bound": true,
+    "HF_upload": "NOT_RUN",
+    "Core_delivery": "NOT_RUN",
+    "new_tensor_stream_this_preparation": false,
+    "optimizer_RNG_retained_at_source": true
+  },
+  "unchanged": {
+    "T_CD": 1792932749.8133287,
+    "stop_new_training": 1793451149.8133287,
+    "deadline": 1793537549.8133287,
+    "caps_changed": false,
+    "scientific_recipe_changed": false,
+    "original_matrix3_and_final20GPUh40GiB_protected": true,
+    "old_failure_costs_preserved": true
+  },
+  "remaining": {
+    "C50_Eval_valid_conditions": 0,
+    "D25_Eval_valid_conditions": 0,
+    "GEN_static_images": 0,
+    "WDR_core64": 0,
+    "goal": "ACTIVE_UNFINISHED",
+    "next_minimal_blocker": "Restore existing Core GPU-host authentication, read exact unknown control-close outcome and actual canonical LOCAL, reconcile once with real closed D25 terminal, then fresh native admission and original C50 Eval24 followed by D25 Eval24."
+  },
+  "verification_limits": [
+    "This monitor reused the original terminal-read code with explicit D25/root bindings; it did not rerun model, training, probes, audit streaming, settlement or closure.",
+    "The original server owner independently streamed and rehashed full saved state and original probes; this monitor independently captured terminal bytes and validated original closed_endpoint.",
+    "The actual closed D25 bytes pass original pure reconcile_LOCAL and full remaining computation; the historical LOCAL bytes are not a fresh Core observation or a native adoption.",
+    "Original inference exporter compiled nine files from actual closed D25 audit and seven small metadata bytes. No HF upload or Core download occurred.",
+    "Issue11 comment refresh returned Transport closed; issue body and latest repository handoff were read. Issue47 comments refreshed successfully."
+  ]
+}

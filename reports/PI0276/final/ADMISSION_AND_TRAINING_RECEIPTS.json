@@ -1,0 +1,1985 @@
+{
+  "evidence/AUDIT.json": {
+    "value": {
+      "card_sha256": "01580618c545551fd03831bac4a799de520493208b02c4395bf8a163719945f3",
+      "model_queries": 0,
+      "physics_starts": 0,
+      "status": "PASS_CURRENT_HANDOFF_AND_FROZEN_CONDITIONS"
+    },
+    "sha256": "563fb15c45816e3e0fa57cd524eedee50b73e117a1b1a6760bc9e639684852e9"
+  },
+  "evidence/HANDOFF.json": {
+    "value": {
+      "status": "SUPERSEDED_BEFORE_NATIVE_RUN_BY_PI0276",
+      "PI0275_preserved": true,
+      "physics_starts": 0,
+      "physics_calls": 0,
+      "model_calls": 0,
+      "release": "57fd8a9c53ce241c05a8d5b351034bed7ba56b14",
+      "quality_completed": {
+        "BROAD_original_outputs_reused": true,
+        "CPU_video_archive_and_verdict_still_required": true,
+        "EQUIL_final_only": true,
+        "deployment_selected_checkpoint": "NONE",
+        "new_component": 32,
+        "new_early_rows": 192,
+        "new_late_rows": 592,
+        "new_main": 64,
+        "new_offline_rows": 968,
+        "selected_checkpoint": "NONE",
+        "status": "ALL_FIXED_NEW_QUALITY_QUERY_LANES_COMPLETE"
+      }
+    },
+    "sha256": "e63df123c8737bb4dc426feccbd03847b24ef472d48097d942face50e9b2e9ee"
+  },
+  "evidence/SETUP.json": {
+    "value": {
+      "dependency_lock_sha256": "22636cc8a52ac6f526e6a5ec8cbd7c031f442b353e1161034b8485a8ad9caf52",
+      "model_queries": 0,
+      "physics_starts": 0,
+      "python": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/venv/bin/python",
+      "resize": "Pillow.Image.Resampling.BILINEAR: native128x128RGB->96x96",
+      "source_fileset_sha256": "36b697b83293f39e1965e30bff2f0e39a1f69263a3e06e7a07ca97f0198bf190",
+      "status": "PASS_ISOLATED_PINNED_SOURCE_AND_PACKAGES",
+      "versions": {
+        "Pillow": "12.3.0",
+        "mani_skill": "3.0.1",
+        "mplib": "0.1.1",
+        "numpy": "1.26.4",
+        "pytorch_kinematics": "0.7.6",
+        "sapien": "3.0.3",
+        "torch": "2.5.1+cpu"
+      }
+    },
+    "sha256": "5ea304ba404480cc2038deb14cdf89b44cf900c718f5fe1cbef8307d85aba08e"
+  },
+  "evidence/NATIVE.json": {
+    "value": {
+      "fixtures": 2,
+      "model_queries": 0,
+      "records": {
+        "native-0": "9c12cc0fc06fbfbd9fca7ee22972e8afc81203c53591c38608433448710fb9b2",
+        "native-1": "3ab413b800c3c3ca4d6145898b73b02631b95199f76bd83f73a4acc9556cc3c2"
+      },
+      "status": "PASS_TWO_COUNTED_NATIVE_INTERFACES"
+    },
+    "sha256": "939e4161dc95f88fb86a9416c0d5084438aff63edbaaa5282d309f856ced5cef"
+  },
+  "evidence/DATA_ADMISSION.json": {
+    "value": {
+      "conditions": 64908,
+      "dataset_card_sha256": "4ac409b6742401266862707421c7c132ecd05f54d2cab54d08f098c672c28e6b",
+      "launch_allowed": true,
+      "model_queries": 0,
+      "modules": [
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/qa/pi0260_r2_codec.py",
+          "sha256": "071e018b1b7788e3beea962f6db77e55e79697b981f293b82e77cfd75093faed"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/R3/pi0260_r3_inputs.py",
+          "sha256": "88e83ca2f51deefd18b26949165bf8c5e800439750bd6d524cfde81ea7c4d5b5"
+        },
+        {
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/R2/runtime/pi0260_r2_inputs.py",
+          "sha256": "a55283b64a34424e65db3e5058f6ff40ba124d226562d3f35b2528ad391066b1"
+        }
+      ],
+      "new_physics_steps": 0,
+      "optimizer_updates": 0,
+      "statistics_sha256": "b3da3d500d514ce3d1ce83001de30846d9ab76d699dc48831db8e4367ce98572",
+      "status": "PASS_PI0276_ACTUAL_REPLAY_INPUTS_CODEC_AND_TASK_STATISTICS",
+      "train_plan_sha256": "008c1013fbddd95c47d2d1edbaabd73467c5e50ef333ef38cd78d355fd9b4a73"
+    },
+    "sha256": "ef6c56f76d6d034e1f7a1774a23fb48ab52d0a186746920bbfa4bdd713b23baa"
+  },
+  "evidence/DATA_PRECODEC.json": {
+    "value": {
+      "bank_windows": 64908,
+      "codec_admission": "PENDING",
+      "coverage_failures": [],
+      "dataset_card_sha256": "4ac409b6742401266862707421c7c132ecd05f54d2cab54d08f098c672c28e6b",
+      "episodes": [
+        {
+          "admitted": true,
+          "groups": {
+            "0": 62,
+            "1": 6,
+            "2": 63,
+            "3": 470
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10000-eef/attempt-000",
+          "positive": true,
+          "seed": 10000,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 49,
+            "1": 6,
+            "2": 50,
+            "3": 496
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10001-eef/attempt-000",
+          "positive": true,
+          "seed": 10001,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 36,
+            "1": 6,
+            "2": 55,
+            "3": 504
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10002-eef/attempt-000",
+          "positive": true,
+          "seed": 10002,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 40,
+            "1": 6,
+            "2": 42,
+            "3": 513
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10003-eef/attempt-000",
+          "positive": true,
+          "seed": 10003,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 39,
+            "1": 6,
+            "2": 55,
+            "3": 501
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10004-eef/attempt-000",
+          "positive": true,
+          "seed": 10004,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 48,
+            "1": 6,
+            "2": 52,
+            "3": 495
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10005-eef/attempt-000",
+          "positive": true,
+          "seed": 10005,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 35,
+            "1": 6,
+            "2": 47,
+            "3": 513
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10006-eef/attempt-000",
+          "positive": true,
+          "seed": 10006,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 53,
+            "1": 6,
+            "2": 40,
+            "3": 502
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10007-eef/attempt-000",
+          "positive": true,
+          "seed": 10007,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 35,
+            "1": 6,
+            "2": 37,
+            "3": 523
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10008-eef/attempt-000",
+          "positive": true,
+          "seed": 10008,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 35,
+            "1": 6,
+            "2": 44,
+            "3": 516
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10009-eef/attempt-000",
+          "positive": true,
+          "seed": 10009,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 57,
+            "1": 6,
+            "2": 62,
+            "3": 476
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10010-eef/attempt-000",
+          "positive": true,
+          "seed": 10010,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 47,
+            "1": 6,
+            "2": 45,
+            "3": 503
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10011-eef/attempt-000",
+          "positive": true,
+          "seed": 10011,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 48,
+            "1": 6,
+            "2": 49,
+            "3": 498
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10012-eef/attempt-000",
+          "positive": true,
+          "seed": 10012,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 44,
+            "1": 6,
+            "2": 57,
+            "3": 494
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10013-eef/attempt-000",
+          "positive": true,
+          "seed": 10013,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 35,
+            "1": 6,
+            "2": 40,
+            "3": 520
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10014-eef/attempt-000",
+          "positive": true,
+          "seed": 10014,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 53,
+            "1": 6,
+            "2": 50,
+            "3": 492
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10015-eef/attempt-000",
+          "positive": true,
+          "seed": 10015,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 51,
+            "1": 6,
+            "2": 56,
+            "3": 488
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10016-eef/attempt-000",
+          "positive": true,
+          "seed": 10016,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 62,
+            "1": 6,
+            "2": 39,
+            "3": 494
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10017-eef/attempt-000",
+          "positive": true,
+          "seed": 10017,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 34,
+            "1": 6,
+            "2": 42,
+            "3": 519
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10018-eef/attempt-000",
+          "positive": true,
+          "seed": 10018,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 53,
+            "1": 6,
+            "2": 49,
+            "3": 493
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10019-eef/attempt-000",
+          "positive": true,
+          "seed": 10019,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 57,
+            "1": 6,
+            "2": 54,
+            "3": 484
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10020-eef/attempt-000",
+          "positive": true,
+          "seed": 10020,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 45,
+            "1": 6,
+            "2": 45,
+            "3": 505
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10021-eef/attempt-000",
+          "positive": true,
+          "seed": 10021,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 43,
+            "1": 6,
+            "2": 61,
+            "3": 491
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10022-eef/attempt-000",
+          "positive": true,
+          "seed": 10022,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 50,
+            "1": 6,
+            "2": 52,
+            "3": 493
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10023-eef/attempt-000",
+          "positive": true,
+          "seed": 10023,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 40,
+            "1": 6,
+            "2": 35,
+            "3": 520
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10024-eef/attempt-000",
+          "positive": true,
+          "seed": 10024,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 66,
+            "1": 6,
+            "2": 57,
+            "3": 472
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10025-eef/attempt-000",
+          "positive": true,
+          "seed": 10025,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 58,
+            "1": 6,
+            "2": 51,
+            "3": 486
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10026-eef/attempt-000",
+          "positive": true,
+          "seed": 10026,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 39,
+            "1": 6,
+            "2": 40,
+            "3": 516
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10027-eef/attempt-000",
+          "positive": true,
+          "seed": 10027,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 38,
+            "1": 6,
+            "2": 57,
+            "3": 500
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10028-eef/attempt-000",
+          "positive": true,
+          "seed": 10028,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 56,
+            "1": 6,
+            "2": 53,
+            "3": 486
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10029-eef/attempt-000",
+          "positive": true,
+          "seed": 10029,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 42,
+            "1": 6,
+            "2": 47,
+            "3": 506
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10030-eef/attempt-000",
+          "positive": true,
+          "seed": 10030,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 43,
+            "1": 6,
+            "2": 46,
+            "3": 506
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10031-eef/attempt-000",
+          "positive": true,
+          "seed": 10031,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 40,
+            "1": 6,
+            "2": 36,
+            "3": 519
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10032-eef/attempt-000",
+          "positive": true,
+          "seed": 10032,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 40,
+            "1": 6,
+            "2": 64,
+            "3": 491
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10033-eef/attempt-000",
+          "positive": true,
+          "seed": 10033,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 51,
+            "1": 6,
+            "2": 50,
+            "3": 494
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10034-eef/attempt-000",
+          "positive": true,
+          "seed": 10034,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 54,
+            "1": 6,
+            "2": 54,
+            "3": 487
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10035-eef/attempt-000",
+          "positive": true,
+          "seed": 10035,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 44,
+            "1": 6,
+            "2": 55,
+            "3": 496
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10036-eef/attempt-000",
+          "positive": true,
+          "seed": 10036,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 45,
+            "1": 6,
+            "2": 42,
+            "3": 508
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10037-eef/attempt-000",
+          "positive": true,
+          "seed": 10037,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 34,
+            "1": 6,
+            "2": 60,
+            "3": 501
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10038-eef/attempt-000",
+          "positive": true,
+          "seed": 10038,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 40,
+            "1": 6,
+            "2": 44,
+            "3": 511
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10039-eef/attempt-000",
+          "positive": true,
+          "seed": 10039,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 38,
+            "1": 6,
+            "2": 47,
+            "3": 510
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10040-eef/attempt-000",
+          "positive": true,
+          "seed": 10040,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 47,
+            "1": 6,
+            "2": 52,
+            "3": 496
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10041-eef/attempt-000",
+          "positive": true,
+          "seed": 10041,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 66,
+            "1": 6,
+            "2": 64,
+            "3": 465
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10042-eef/attempt-000",
+          "positive": true,
+          "seed": 10042,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 39,
+            "1": 6,
+            "2": 47,
+            "3": 509
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10043-eef/attempt-000",
+          "positive": true,
+          "seed": 10043,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 52,
+            "1": 6,
+            "2": 46,
+            "3": 497
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10044-eef/attempt-000",
+          "positive": true,
+          "seed": 10044,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 48,
+            "1": 6,
+            "2": 49,
+            "3": 498
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10045-eef/attempt-000",
+          "positive": true,
+          "seed": 10045,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 49,
+            "1": 6,
+            "2": 43,
+            "3": 503
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10046-eef/attempt-000",
+          "positive": true,
+          "seed": 10046,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 52,
+            "1": 6,
+            "2": 43,
+            "3": 500
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10047-eef/attempt-000",
+          "positive": true,
+          "seed": 10047,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 43,
+            "1": 6,
+            "2": 46,
+            "3": 506
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10048-eef/attempt-000",
+          "positive": true,
+          "seed": 10048,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": false,
+          "groups": {},
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10049-eef/attempt-000",
+          "positive": false,
+          "seed": 10049,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 47,
+            "1": 6,
+            "2": 46,
+            "3": 502
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10050-eef/attempt-000",
+          "positive": true,
+          "seed": 10050,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 44,
+            "1": 6,
+            "2": 44,
+            "3": 507
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10051-eef/attempt-000",
+          "positive": true,
+          "seed": 10051,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 60,
+            "1": 6,
+            "2": 52,
+            "3": 483
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10052-eef/attempt-000",
+          "positive": true,
+          "seed": 10052,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 47,
+            "1": 6,
+            "2": 41,
+            "3": 507
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10053-eef/attempt-000",
+          "positive": true,
+          "seed": 10053,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 41,
+            "1": 6,
+            "2": 41,
+            "3": 513
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10054-eef/attempt-000",
+          "positive": true,
+          "seed": 10054,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 42,
+            "1": 6,
+            "2": 52,
+            "3": 501
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10055-eef/attempt-000",
+          "positive": true,
+          "seed": 10055,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 43,
+            "1": 6,
+            "2": 42,
+            "3": 510
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10056-eef/attempt-000",
+          "positive": true,
+          "seed": 10056,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 43,
+            "1": 6,
+            "2": 50,
+            "3": 502
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10057-eef/attempt-000",
+          "positive": true,
+          "seed": 10057,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 62,
+            "1": 6,
+            "2": 56,
+            "3": 477
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10058-eef/attempt-000",
+          "positive": true,
+          "seed": 10058,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 51,
+            "1": 6,
+            "2": 58,
+            "3": 486
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10059-eef/attempt-000",
+          "positive": true,
+          "seed": 10059,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 52,
+            "1": 6,
+            "2": 49,
+            "3": 494
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10060-eef/attempt-000",
+          "positive": true,
+          "seed": 10060,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 38,
+            "1": 6,
+            "2": 51,
+            "3": 506
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10061-eef/attempt-000",
+          "positive": true,
+          "seed": 10061,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 46,
+            "1": 6,
+            "2": 51,
+            "3": 498
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10062-eef/attempt-000",
+          "positive": true,
+          "seed": 10062,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 45,
+            "1": 6,
+            "2": 55,
+            "3": 495
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10063-eef/attempt-000",
+          "positive": true,
+          "seed": 10063,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": false,
+          "groups": {},
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10064-eef/attempt-000",
+          "positive": false,
+          "seed": 10064,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 41,
+            "1": 6,
+            "2": 53,
+            "3": 501
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10065-eef/attempt-000",
+          "positive": true,
+          "seed": 10065,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 47,
+            "1": 6,
+            "2": 45,
+            "3": 503
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10066-eef/attempt-000",
+          "positive": true,
+          "seed": 10066,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 53,
+            "1": 6,
+            "2": 40,
+            "3": 502
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10067-eef/attempt-000",
+          "positive": true,
+          "seed": 10067,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 34,
+            "1": 6,
+            "2": 38,
+            "3": 523
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10068-eef/attempt-000",
+          "positive": true,
+          "seed": 10068,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 47,
+            "1": 6,
+            "2": 44,
+            "3": 504
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10069-eef/attempt-000",
+          "positive": true,
+          "seed": 10069,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 42,
+            "1": 6,
+            "2": 52,
+            "3": 501
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10070-eef/attempt-000",
+          "positive": true,
+          "seed": 10070,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 34,
+            "1": 6,
+            "2": 51,
+            "3": 510
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10071-eef/attempt-000",
+          "positive": true,
+          "seed": 10071,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 41,
+            "1": 6,
+            "2": 54,
+            "3": 500
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10072-eef/attempt-000",
+          "positive": true,
+          "seed": 10072,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 46,
+            "1": 6,
+            "2": 44,
+            "3": 505
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10073-eef/attempt-000",
+          "positive": true,
+          "seed": 10073,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 51,
+            "1": 6,
+            "2": 49,
+            "3": 495
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10074-eef/attempt-000",
+          "positive": true,
+          "seed": 10074,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 33,
+            "1": 6,
+            "2": 55,
+            "3": 507
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10075-eef/attempt-000",
+          "positive": true,
+          "seed": 10075,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": false,
+          "groups": {},
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10076-eef/attempt-000",
+          "positive": false,
+          "seed": 10076,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 33,
+            "1": 6,
+            "2": 43,
+            "3": 519
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10077-eef/attempt-000",
+          "positive": true,
+          "seed": 10077,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 52,
+            "1": 6,
+            "2": 51,
+            "3": 492
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10078-eef/attempt-000",
+          "positive": true,
+          "seed": 10078,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 46,
+            "1": 6,
+            "2": 52,
+            "3": 497
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10079-eef/attempt-000",
+          "positive": true,
+          "seed": 10079,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 37,
+            "1": 6,
+            "2": 32,
+            "3": 526
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10080-eef/attempt-000",
+          "positive": true,
+          "seed": 10080,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 43,
+            "1": 6,
+            "2": 56,
+            "3": 496
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10081-eef/attempt-000",
+          "positive": true,
+          "seed": 10081,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 39,
+            "1": 6,
+            "2": 42,
+            "3": 514
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10082-eef/attempt-000",
+          "positive": true,
+          "seed": 10082,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 54,
+            "1": 6,
+            "2": 40,
+            "3": 501
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10083-eef/attempt-000",
+          "positive": true,
+          "seed": 10083,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 50,
+            "1": 6,
+            "2": 51,
+            "3": 494
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10084-eef/attempt-000",
+          "positive": true,
+          "seed": 10084,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 39,
+            "1": 6,
+            "2": 43,
+            "3": 513
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10085-eef/attempt-000",
+          "positive": true,
+          "seed": 10085,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 42,
+            "1": 6,
+            "2": 55,
+            "3": 498
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10086-eef/attempt-000",
+          "positive": true,
+          "seed": 10086,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 48,
+            "1": 6,
+            "2": 36,
+            "3": 511
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10087-eef/attempt-000",
+          "positive": true,
+          "seed": 10087,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 47,
+            "1": 6,
+            "2": 45,
+            "3": 503
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10088-eef/attempt-000",
+          "positive": true,
+          "seed": 10088,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 39,
+            "1": 6,
+            "2": 44,
+            "3": 512
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10089-eef/attempt-000",
+          "positive": true,
+          "seed": 10089,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 49,
+            "1": 6,
+            "2": 49,
+            "3": 497
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10090-eef/attempt-000",
+          "positive": true,
+          "seed": 10090,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 41,
+            "1": 6,
+            "2": 54,
+            "3": 500
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10091-eef/attempt-000",
+          "positive": true,
+          "seed": 10091,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 46,
+            "1": 6,
+            "2": 38,
+            "3": 511
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10092-eef/attempt-000",
+          "positive": true,
+          "seed": 10092,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 50,
+            "1": 6,
+            "2": 65,
+            "3": 480
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10093-eef/attempt-000",
+          "positive": true,
+          "seed": 10093,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 47,
+            "1": 6,
+            "2": 41,
+            "3": 507
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10094-eef/attempt-000",
+          "positive": true,
+          "seed": 10094,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 52,
+            "1": 6,
+            "2": 53,
+            "3": 490
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10095-eef/attempt-000",
+          "positive": true,
+          "seed": 10095,
+          "split": "TRAIN"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 36,
+            "1": 6,
+            "2": 38,
+            "3": 521
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20000-eef/attempt-000",
+          "positive": true,
+          "seed": 20000,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 41,
+            "1": 6,
+            "2": 53,
+            "3": 501
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20001-eef/attempt-000",
+          "positive": true,
+          "seed": 20001,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 41,
+            "1": 6,
+            "2": 46,
+            "3": 508
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20002-eef/attempt-000",
+          "positive": true,
+          "seed": 20002,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 54,
+            "1": 6,
+            "2": 61,
+            "3": 480
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20003-eef/attempt-000",
+          "positive": true,
+          "seed": 20003,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 42,
+            "1": 6,
+            "2": 48,
+            "3": 505
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20004-eef/attempt-000",
+          "positive": true,
+          "seed": 20004,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 52,
+            "1": 6,
+            "2": 44,
+            "3": 499
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20005-eef/attempt-000",
+          "positive": true,
+          "seed": 20005,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 54,
+            "1": 6,
+            "2": 53,
+            "3": 488
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20006-eef/attempt-000",
+          "positive": true,
+          "seed": 20006,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 45,
+            "1": 6,
+            "2": 40,
+            "3": 510
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20007-eef/attempt-000",
+          "positive": true,
+          "seed": 20007,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 45,
+            "1": 6,
+            "2": 51,
+            "3": 499
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20008-eef/attempt-000",
+          "positive": true,
+          "seed": 20008,
+          "split": "VAL"
+        },
+        {
+          "admitted": false,
+          "groups": {},
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20009-eef/attempt-000",
+          "positive": false,
+          "seed": 20009,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 49,
+            "1": 6,
+            "2": 46,
+            "3": 500
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20010-eef/attempt-000",
+          "positive": true,
+          "seed": 20010,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 43,
+            "1": 6,
+            "2": 44,
+            "3": 508
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20011-eef/attempt-000",
+          "positive": true,
+          "seed": 20011,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 40,
+            "1": 6,
+            "2": 44,
+            "3": 511
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20012-eef/attempt-000",
+          "positive": true,
+          "seed": 20012,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 40,
+            "1": 6,
+            "2": 43,
+            "3": 512
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20013-eef/attempt-000",
+          "positive": true,
+          "seed": 20013,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 43,
+            "1": 6,
+            "2": 62,
+            "3": 490
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20014-eef/attempt-000",
+          "positive": true,
+          "seed": 20014,
+          "split": "VAL"
+        },
+        {
+          "admitted": true,
+          "groups": {
+            "0": 36,
+            "1": 6,
+            "2": 51,
+            "3": 508
+          },
+          "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/VAL-20015-eef/attempt-000",
+          "positive": true,
+          "seed": 20015,
+          "split": "VAL"
+        }
+      ],
+      "launch_allowed": false,
+      "new_model_queries": 0,
+      "new_physics_steps": 0,
+      "status": "PASS_FROZEN_ACTUAL_REPLAY_WINDOWS_AND_SCHEDULE",
+      "train_plan_sha256": "008c1013fbddd95c47d2d1edbaabd73467c5e50ef333ef38cd78d355fd9b4a73"
+    },
+    "sha256": "7eb859ee34ae0a7586aa6c2008c4737f1ce1f1467ef955a03657835052edc828"
+  },
+  "evidence/MAIN_TRAINING_AUDIT.json": {
+    "value": {
+      "complete_checkpoints": [
+        {
+          "arm": "TASK",
+          "complete_trainer": true,
+          "entries": [
+            {
+              "bytes": 264,
+              "path": "PI0270_POLICY_CONTRACT.json",
+              "sha256": "0c6f8454f3672ad0dd5356b65a44dd7a62c7028a7112cdd7459788d743647efd"
+            },
+            {
+              "bytes": 2435,
+              "path": "PI0276_READOUT_CONTRACT.json",
+              "sha256": "a8c6ab861bdc7b82823a4b1c3cd7ba71cc1c2a54543fd0778b025772d34746a6"
+            },
+            {
+              "bytes": 2148,
+              "path": "config.json",
+              "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+            },
+            {
+              "bytes": 74811,
+              "path": "effective_statistics.json",
+              "sha256": "b3da3d500d514ce3d1ce83001de30846d9ab76d699dc48831db8e4367ce98572"
+            },
+            {
+              "bytes": 615,
+              "path": "embodiment_id.json",
+              "sha256": "82cbfdea9ccf3787de2fb265a14de4d86db005573f34ca51acdb29a33ad7d701"
+            },
+            {
+              "bytes": 5521,
+              "path": "experiment_cfg/conf.yaml",
+              "sha256": "6084d2d326a32a2c4d7670c7cb00da2c9edfbf068a99b6c425ea159f10d081ef"
+            },
+            {
+              "bytes": 5488,
+              "path": "experiment_cfg/config.yaml",
+              "sha256": "fe7ea14dfa4db68fc6eb7c0bbd4457d44bbc57b33d72693262a69a7a01cf40c2"
+            },
+            {
+              "bytes": 1513,
+              "path": "experiment_cfg/final_model_config.json",
+              "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+            },
+            {
+              "bytes": 4993709288,
+              "path": "model-00001-of-00002.safetensors",
+              "sha256": "a3874c692b8e552772054710c37f57c00bc869bb34996daeebe06d1bbff58fbd"
+            },
+            {
+              "bytes": 4535492016,
+              "path": "model-00002-of-00002.safetensors",
+              "sha256": "560bdbb15fe3d34b770d9d6098ce11e81a4c5c7a32a889348fc906141628be32"
+            },
+            {
+              "bytes": 104912,
+              "path": "model.safetensors.index.json",
+              "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+            },
+            {
+              "bytes": 11353039304,
+              "path": "optimizer.pt",
+              "sha256": "8bc39c45aa84987fcfd9e3e5a3abb41834c3f2259b885452979e902d45c206bb"
+            },
+            {
+              "bytes": 296,
+              "path": "pi0276_provenance/CPU_ENCODER_KERNEL.json",
+              "sha256": "53ed074781d36f81c53aa85196ba1e08fd0635a68d4897a86a07ce86c30870d5"
+            },
+            {
+              "bytes": 167827,
+              "path": "pi0276_provenance/DONOR_PARAMETER_SCOPE.json",
+              "sha256": "f6027e3ad9c8b2d0793cb129978eb9ee4697a3c91ecddf784f35fea531a2e79a"
+            },
+            {
+              "bytes": 58704,
+              "path": "pi0276_provenance/EXECUTION_FILESET.json",
+              "sha256": "29efb750183854e8723ade9d6281c53ef647516e53c6f25a66eac4b81b794e7a"
+            },
+            {
+              "bytes": 121615,
+              "path": "pi0276_provenance/PARAMETER_SCOPE.json",
+              "sha256": "4ef52cf9f50bfbfa00af5f50f3d2f209b97d74c6aa6c961f81b3f02bddd29f51"
+            },
+            {
+              "bytes": 1316,
+              "path": "pi0276_provenance/STORAGE_ADMISSION.json",
+              "sha256": "c8d8486db0c4e158871529de638c8ca99813c76f580343f1e3ec6ecd6d6b680e"
+            },
+            {
+              "bytes": 425,
+              "path": "pi0276_provenance/design/FITTING_CARD.json",
+              "sha256": "7c7cc7519c9e801a86b2b95f69c8d16eaa4e154a32ad3b3b9ed18fa0bed71577"
+            },
+            {
+              "bytes": 7570,
+              "path": "pi0276_provenance/evidence/PRECISION_CONTRACT_RESOLUTION.json",
+              "sha256": "666f7f41731be65cbc9820afb719f2fbcfd2be7c44a1846906a43ca026642228"
+            },
+            {
+              "bytes": 3125,
+              "path": "processor_config.json",
+              "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+            },
+            {
+              "bytes": 14645,
+              "path": "rng_state.pth",
+              "sha256": "12ee7152cbee63abd785a1872c60107e22a54edcc8608ae9fed5074de7f2d51c"
+            },
+            {
+              "bytes": 1465,
+              "path": "scheduler.pt",
+              "sha256": "44a7f5695c64e42c46288dc701857541a1268c8357a50d854c6b0e4a0caf4596"
+            },
+            {
+              "bytes": 74810,
+              "path": "statistics.json",
+              "sha256": "840491276e6f78abf77484a7f0f201c0850399a3afead27d644e6fcfefb2d54f"
+            },
+            {
+              "bytes": 565722,
+              "path": "trainer_state.json",
+              "sha256": "f5a7ad1e3e17d1b15ca570034cb246a7d83a082859adf2a76a7e919d87d5bf3e"
+            },
+            {
+              "bytes": 5905,
+              "path": "training_args.bin",
+              "sha256": "a684dc0140ea6db9126b2b0b46c6b4a04180394051b99e7adee1263ac010c023"
+            },
+            {
+              "bytes": 56,
+              "path": "wandb_config.json",
+              "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+            }
+          ],
+          "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/TASK/main/training/checkpoint-4096",
+          "step": 4096
+        },
+        {
+          "arm": "TASK",
+          "complete_trainer": true,
+          "entries": [
+            {
+              "bytes": 264,
+              "path": "PI0270_POLICY_CONTRACT.json",
+              "sha256": "0c6f8454f3672ad0dd5356b65a44dd7a62c7028a7112cdd7459788d743647efd"
+            },
+            {
+              "bytes": 2435,
+              "path": "PI0276_READOUT_CONTRACT.json",
+              "sha256": "a8c6ab861bdc7b82823a4b1c3cd7ba71cc1c2a54543fd0778b025772d34746a6"
+            },
+            {
+              "bytes": 2148,
+              "path": "config.json",
+              "sha256": "e5d169b871b615030e7be3334a2eee420ba780ba97c6dd31129f42e43796f8ea"
+            },
+            {
+              "bytes": 74811,
+              "path": "effective_statistics.json",
+              "sha256": "b3da3d500d514ce3d1ce83001de30846d9ab76d699dc48831db8e4367ce98572"
+            },
+            {
+              "bytes": 615,
+              "path": "embodiment_id.json",
+              "sha256": "82cbfdea9ccf3787de2fb265a14de4d86db005573f34ca51acdb29a33ad7d701"
+            },
+            {
+              "bytes": 5521,
+              "path": "experiment_cfg/conf.yaml",
+              "sha256": "6084d2d326a32a2c4d7670c7cb00da2c9edfbf068a99b6c425ea159f10d081ef"
+            },
+            {
+              "bytes": 5488,
+              "path": "experiment_cfg/config.yaml",
+              "sha256": "fe7ea14dfa4db68fc6eb7c0bbd4457d44bbc57b33d72693262a69a7a01cf40c2"
+            },
+            {
+              "bytes": 1513,
+              "path": "experiment_cfg/final_model_config.json",
+              "sha256": "4b88c3dd5fc45e871687526df79c4e93e26c803d428d8de54ea3a3e39c6d5246"
+            },
+            {
+              "bytes": 4993709288,
+              "path": "model-00001-of-00002.safetensors",
+              "sha256": "2ab5146b1f3c1f69cec72161a2fdeab2a88b1006d187bc691570f75da862d338"
+            },
+            {
+              "bytes": 4535492016,
+              "path": "model-00002-of-00002.safetensors",
+              "sha256": "9b2ee2c3bb86f9c83a73eb3e06be0fc694af8c82f06585943af1daf5a32a2c7c"
+            },
+            {
+              "bytes": 104912,
+              "path": "model.safetensors.index.json",
+              "sha256": "ff5a9ac57951658b775ef7e958a3469900f767cec60cbf487b3c8d0a3d787bc7"
+            },
+            {
+              "bytes": 11353039304,
+              "path": "optimizer.pt",
+              "sha256": "6196c054ebe754f3c567fb9d7208678be08fc7e1ad7c141bc07f82d3d9c5432d"
+            },
+            {
+              "bytes": 296,
+              "path": "pi0276_provenance/CPU_ENCODER_KERNEL.json",
+              "sha256": "53ed074781d36f81c53aa85196ba1e08fd0635a68d4897a86a07ce86c30870d5"
+            },
+            {
+              "bytes": 167827,
+              "path": "pi0276_provenance/DONOR_PARAMETER_SCOPE.json",
+              "sha256": "f6027e3ad9c8b2d0793cb129978eb9ee4697a3c91ecddf784f35fea531a2e79a"
+            },
+            {
+              "bytes": 58704,
+              "path": "pi0276_provenance/EXECUTION_FILESET.json",
+              "sha256": "29efb750183854e8723ade9d6281c53ef647516e53c6f25a66eac4b81b794e7a"
+            },
+            {
+              "bytes": 121615,
+              "path": "pi0276_provenance/PARAMETER_SCOPE.json",
+              "sha256": "4ef52cf9f50bfbfa00af5f50f3d2f209b97d74c6aa6c961f81b3f02bddd29f51"
+            },
+            {
+              "bytes": 1316,
+              "path": "pi0276_provenance/STORAGE_ADMISSION.json",
+              "sha256": "c8d8486db0c4e158871529de638c8ca99813c76f580343f1e3ec6ecd6d6b680e"
+            },
+            {
+              "bytes": 425,
+              "path": "pi0276_provenance/design/FITTING_CARD.json",
+              "sha256": "7c7cc7519c9e801a86b2b95f69c8d16eaa4e154a32ad3b3b9ed18fa0bed71577"
+            },
+            {
+              "bytes": 7570,
+              "path": "pi0276_provenance/evidence/PRECISION_CONTRACT_RESOLUTION.json",
+              "sha256": "666f7f41731be65cbc9820afb719f2fbcfd2be7c44a1846906a43ca026642228"
+            },
+            {
+              "bytes": 3125,
+              "path": "processor_config.json",
+              "sha256": "37482129f186cff5e62620ad142872531f059c08c8dc68db7dd3d73fa1c7f27b"
+            },
+            {
+              "bytes": 14645,
+              "path": "rng_state.pth",
+              "sha256": "12ee7152cbee63abd785a1872c60107e22a54edcc8608ae9fed5074de7f2d51c"
+            },
+            {
+              "bytes": 1465,
+              "path": "scheduler.pt",
+              "sha256": "339c7a9d9b82cb542c7d04dec60b3edd2f07548ef45df3d09ab58695b7c70083"
+            },
+            {
+              "bytes": 74810,
+              "path": "statistics.json",
+              "sha256": "840491276e6f78abf77484a7f0f201c0850399a3afead27d644e6fcfefb2d54f"
+            },
+            {
+              "bytes": 1133109,
+              "path": "trainer_state.json",
+              "sha256": "2b28f040bc3cc66980b59ca2929818706c7eb66ed98562bbda2e291121287816"
+            },
+            {
+              "bytes": 5905,
+              "path": "training_args.bin",
+              "sha256": "a684dc0140ea6db9126b2b0b46c6b4a04180394051b99e7adee1263ac010c023"
+            },
+            {
+              "bytes": 56,
+              "path": "wandb_config.json",
+              "sha256": "468ad7bb24bbb20b3f06009c0d4c80534f5d8556c4640da434351b9cb93d428e"
+            }
+          ],
+          "path": "/scratch/e1192548/Projects/go2-arx5/experiments/PI0276/TASK/main/training/checkpoint-8192",
+          "step": 8192
+        }
+      ],
+      "deployment_selected_checkpoint": "NONE",
+      "episode_consumption": {
+        "10000": 180,
+        "10001": 180,
+        "10002": 180,
+        "10003": 180,
+        "10004": 176,
+        "10005": 176,
+        "10006": 176,
+        "10007": 176,
+        "10008": 176,
+        "10009": 176,
+        "10010": 176,
+        "10011": 176,
+        "10012": 176,
+        "10013": 176,
+        "10014": 176,
+        "10015": 176,
+        "10016": 176,
+        "10017": 176,
+        "10018": 176,
+        "10019": 176,
+        "10020": 176,
+        "10021": 176,
+        "10022": 176,
+        "10023": 176,
+        "10024": 176,
+        "10025": 176,
+        "10026": 176,
+        "10027": 176,
+        "10028": 176,
+        "10029": 176,
+        "10030": 176,
+        "10031": 176,
+        "10032": 176,
+        "10033": 176,
+        "10034": 176,
+        "10035": 176,
+        "10036": 176,
+        "10037": 176,
+        "10038": 176,
+        "10039": 176,
+        "10040": 176,
+        "10041": 176,
+        "10042": 176,
+        "10043": 176,
+        "10044": 176,
+        "10045": 176,
+        "10046": 176,
+        "10047": 176,
+        "10048": 176,
+        "10050": 176,
+        "10051": 176,
+        "10052": 176,
+        "10053": 176,
+        "10054": 176,
+        "10055": 176,
+        "10056": 176,
+        "10057": 176,
+        "10058": 176,
+        "10059": 176,
+        "10060": 176,
+        "10061": 176,
+        "10062": 176,
+        "10063": 176,
+        "10065": 176,
+        "10066": 176,
+        "10067": 176,
+        "10068": 176,
+        "10069": 176,
+        "10070": 176,
+        "10071": 176,
+        "10072": 176,
+        "10073": 176,
+        "10074": 176,
+        "10075": 176,
+        "10077": 176,
+        "10078": 176,
+        "10079": 176,
+        "10080": 176,
+        "10081": 176,
+        "10082": 176,
+        "10083": 176,
+        "10084": 176,
+        "10085": 176,
+        "10086": 176,
+        "10087": 176,
+        "10088": 176,
+        "10089": 176,
+        "10090": 176,
+        "10091": 176,
+        "10092": 176,
+        "10093": 176,
+        "10094": 176,
+        "10095": 176
+      },
+      "logs": {
+        "S4_audit.jsonl": "2a6313751b8c6f49769a2fcdbb99f747232fc9c68c863317df872eba0f2dbe78",
+        "full_loss.jsonl": "5b09ae28f740240569655d396e453c9c56f2ad6a4870d0f8064ebe743753f64d",
+        "gripper_generated_error.jsonl": "f035e9b5a1d53ffbba712532d967a2dc8a5f2d6fde89fbadf873d9fbec096784",
+        "gripper_native_loss.jsonl": "0b07228fb5c70eb671a74578617c05880d0eec683163689280a5805d5d0bd0c4",
+        "gripper_output_gradients.jsonl": "a9560ced3d75567c49bd759f8b0fad0d2388625533e02c5431467019ece48acb",
+        "sample_audit.jsonl": "12ed99043065625279c83f2c62dc8ae19702d1b1df7ee2ed47036c0cc9bc0649",
+        "step_rng.jsonl": "a00fcab6a1b7c1c78c071618b96929a5128788b6341ab7a2dd6e883091059832",
+        "temporal_components.jsonl": "e9b4a404bc5032a6a8936d5b5124a7150fc428fa1fd053e83627f47a1e1cc48c",
+        "update_gradient_norms.jsonl": "1dd8bdd79c364ba5888db573a74a79b570eafb6048da29b549f7b15ee04d56a3"
+      },
+      "model_queries_by_audit": 0,
+      "native_gripper_supervision": true,
+      "phase_group_consumption": {
+        "0": 4096,
+        "1": 4096,
+        "2": 4096,
+        "3": 4096
+      },
+      "raw_completed_updates": 8208,
+      "raw_training_heads": 147768,
+      "selected_checkpoint": "NONE",
+      "status": "PASS_PI0276_ACTUAL8192_TASK_TRAINING",
+      "technical_completed_updates": 0
+    },
+    "sha256": "74a9e5bd8423d2e325dbc889f73f92f4a4f91dc5be7e4ccdf7c0e1a050de3284"
+  },
+  "TASK/canary_compare.json": {
+    "value": {
+      "arm": "TASK",
+      "microbatches": 16,
+      "model_max_abs": 0.0,
+      "model_tensors": 1030,
+      "optimizer_max_abs": 0.0,
+      "optimizer_tensors": 1413,
+      "saved_rng_scheduler_exact": true,
+      "status": "PASS_PI0276_REAL_EXACT_RESUME_CANARY",
+      "units": 8
+    },
+    "sha256": "0de3b974d57ebd18aa807db1b7c7f394351e4084d41b020406d59dc4288b865a"
+  },
+  "evidence/FINAL_POLICY_ADMISSION.json": {
+    "value": {
+      "bindings": {
+        "BASE0": "5fa5f32999d2de256a3c07bbd648e005a4842909db7b76602749cb308b9d115c",
+        "TASK8192": "4cddcedee3c2f964681c2a98493b13cff2cefe255e37abefef6c7f3260fbfc64"
+      },
+      "complete_trainer_readbacks": {
+        "4096": "4275d686b6167610a0eca20a2d2da2de048f03117d78ce6e03b1f23891c95c59",
+        "8192": "589a2a9183fa3198f115b2c98f021a78a98110ed1fb519104c3c095a1ccaa11c"
+      },
+      "deployment_selected_checkpoint": "NONE",
+      "helper_source_sha256": "3eb92175031661dd9b90d7bcf72b2880138040b5aec7117b7abe92330c935c49",
+      "model_queries": 0,
+      "scope_sha256": "13215c3d5c4a4448eadfb8009af8c969fa8e3ff718d41b1b14b0be65bf56094a",
+      "selected_checkpoint": "NONE",
+      "status": "PASS_PI0276_FINAL_TASK_AND_BASE_POLICY_IDENTITIES",
+      "training_audit_sha256": "74a9e5bd8423d2e325dbc889f73f92f4a4f91dc5be7e4ccdf7c0e1a050de3284"
+    },
+    "sha256": "7ffdb17c050cf5d35a41b3152676ca4d148b80a990bcf263c1116a0872450eba"
+  }
+}

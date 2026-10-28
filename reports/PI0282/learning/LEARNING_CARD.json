@@ -1,0 +1,105 @@
+{
+  "status": "CPU_SOURCE_PREPARED_NO_GPU_EXECUTION",
+  "release": "8fdaab73b8b6686409317d9562833235c2839acc",
+  "canonical": 6043060523,
+  "model_root": "/scratch/e1192548/Projects/go2-arx5/archive/stage_runs/stage22_handoff_deb920a_20260902/payload/GR00T-N1.7-3B",
+  "official_root": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/src/isaac-gr00t",
+  "official_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "runtime_venv": "/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv",
+  "runtime": {
+    "python": "3.12.3",
+    "torch": "2.9.0+cu128",
+    "transformers": "4.57.3",
+    "accelerate": "1.14.0",
+    "safetensors": "0.8.0"
+  },
+  "source_files_parity": "PRISTINE_PARITY.json",
+  "effective_loading": "1030 original parameter SHA256s in WEIGHT_LOADING_REFERENCE.json; actual instantiate check deferred",
+  "trainable_scope": {
+    "row": 10,
+    "allowed_scalars": 10180740,
+    "packed_scalars": 325783680,
+    "shared_DiT_scalars": 1091722240,
+    "projector_decay": 0.0,
+    "projector_LR": 0.0001,
+    "DiT_LR": 1e-05,
+    "DiT_decay": 1e-05,
+    "shared_frozen": [
+      "VLM",
+      "vlln",
+      "VLselfAttention",
+      "positions",
+      "otherprojectorrows"
+    ]
+  },
+  "precision": {
+    "master": "FP32",
+    "autocast": "BF16 native Trainer",
+    "TF32": false,
+    "fp16": false
+  },
+  "layout": {
+    "microbatch": 4,
+    "accumulation": 2,
+    "effective_batch": 8,
+    "workers": 2,
+    "pin_memory": true,
+    "ordered": true,
+    "layout_must_be_common_for_both_arms": true,
+    "owner_frozen_file": "design/TRAINING_LAYOUT.json"
+  },
+  "RNG": "Native torch.randn/Beta sample_time captured passively; independent per-update/micro CPU/CUDA seed namespace28203; no random distribution replacement",
+  "scheduler": {
+    "type": "native Transformers cosine",
+    "total_updates": 2048,
+    "warmup_updates": 103
+  },
+  "objective": "unchanged official Gr00tN1d7.forward masked flowmatching; no auxiliary free-running/physical losses",
+  "resume": "Full HF Trainer checkpoint-4 and new process to8; continuous8 and split8 compare exact inputs/noise/time/frozen bytes; updatedFP32 atol1e-6 rtol1e-5; actual nativeS4/stockgate proof ownerqualityworker",
+  "accounting": {
+    "formal": 4096,
+    "canary": 32,
+    "memory": 32,
+    "technical_rollback": 64,
+    "all_completed_cap": 4224,
+    "training_forwards_separate": true,
+    "native_training_forward_attempts": "separate preforward journal; completed optimizer ledger separately fsyncs every completed update"
+  },
+  "save_requirements": {
+    "INTERFACE2048": {
+      "base_model_serialized_bytes": 6910499416,
+      "trainable_master_additional_bytes": 651567360,
+      "Adam_FP32_moment_bytes": 2606269440,
+      "estimated_complete_Trainer_payload_bytes": 10168336216,
+      "estimated_complete_Trainer_payload_GiB": 9.470001064240932
+    },
+    "ACTION2048": {
+      "base_model_serialized_bytes": 6910499416,
+      "trainable_master_additional_bytes": 2835011840,
+      "Adam_FP32_moment_bytes": 11340047360,
+      "estimated_complete_Trainer_payload_bytes": 21085558616,
+      "estimated_complete_Trainer_payload_GiB": 19.637456737458706
+    }
+  },
+  "formal_four_total_estimated_bytes": 62507789664,
+  "save_note": "Counts are tensor payload estimates, not actual quota; add headers/config/RNG and atomic peak. Four formal1024/2048 Trainer directories retained. Latest/previous pointers reuse them. Own redundant canary payload retired only after complete hash/restore/noise/prediction audit PASS per owner.",
+  "data_API": "cpu_inputs.FrozenDataset(data_root) rows PLAN16384.jsonl; cpu_inputs.collate; official native leading batch/state1x1x132/action1x40x132",
+  "pending": [
+    "DATA native codec/roundtrip/cache/ordered loader proof",
+    "four original expert codec32s persistent successes",
+    "shared implementation publication/resource admission",
+    "real full model loading/row10/BF16 native gradients/canary proof"
+  ],
+  "files": {
+    "train.py": "724be0e16873be51e8bee83295c06b7f338702494b2df55c56c4b5a21a63a095",
+    "scope.py": "c3b697df2adc1eb2dd4c543a8d72ce23648d5d1e7b8564ebbae34e61596fb81b",
+    "learning.py": "e22270021bf6d9c3a143a1a4556a3b85db806912f6ac1e66fc590a28e062da41",
+    "canary.py": "155edcdd14d6d72340a33dfeafdc0218f5c8db59c713eddd011dca06ab369369"
+  },
+  "new_model_calls": 0,
+  "new_training_updates": 0,
+  "new_physics": 0,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "exact_model_export": "learning.export_point: CPU wholechangedtensor delta + readback fullmixedFP32master/BF16frozen state exact hash; separate every namedparameter native BF16 quality hash; no residual addition/optimizer transfer"
+}

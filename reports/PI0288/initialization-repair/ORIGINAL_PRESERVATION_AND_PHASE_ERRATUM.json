@@ -1,0 +1,41 @@
+{
+  "original_status_unchanged": "ENV_READY_INTERFACE_BLOCKED",
+  "original_files": [
+    {
+      "path": "reports\\PI0288\\execution\\REPORT.md",
+      "sha256": "a942e1787fad5b9dd83f9071ba25b6050d58719517539d99ee8129c1902468e9"
+    },
+    {
+      "path": "reports\\PI0288\\execution\\ADJUDICATION.json",
+      "sha256": "9be3b22cca4950da11859e679d18bd9e04ba0e162693d1c79cf8290f8e2eb05f"
+    },
+    {
+      "path": "reports\\PI0288\\execution\\evidence\\DEFAULT_MODEL_CPU_AUDIT.json",
+      "sha256": "cc9bfb19841fc38526f566f01c45fcd5a47b2cdc067b7dab8672fe5b4464a645"
+    },
+    {
+      "path": "reports\\PI0288\\execution\\evidence\\55f23c661cdc4c8aa50a8731928dc101\\physics.jsonl",
+      "sha256": "d3fe87b7af080d9abb051dfeb8876f655ccb1e8b11e60193e73680a6521e53f1"
+    }
+  ],
+  "new_finding": "MuJoCo3.2.7 mj_loadXML/TryCompile self-test calls mj_step on temporary default mjData before actual native startup creation",
+  "proof": [
+    "ZERO_INTEGRATION_STACK_BOUNDARY.log",
+    "XML_COMPILER_SELF_TEST.jsonl",
+    "MJB_ZERO_INTEGRATION_BOUNDARY.jsonl"
+  ],
+  "official_source": "https://github.com/google-deepmind/mujoco/blob/3.2.7/src/user/user_model.cc#L3995-L4000",
+  "old_first_step_phase": "XML_COMPILER_SELF_TEST_NOT_CONTROLLED_RUNTIME",
+  "old_cpu_zero_claim_scope": "No explicitly requested integration after model load; XML compilation internally steps, so not total zero integration",
+  "old_limits_and_raw_violation_unchanged": true,
+  "original_default_native_mjData_still_illegal": true,
+  "compiled_model": {
+    "compiled_model_serialization_byte_equal": true,
+    "compiler_self_test_steps": 1,
+    "runtime_integrations": 0,
+    "serialized_bytes": 74461448
+  },
+  "cache_is_same_model_not_new_dynamics": true,
+  "safety_observer_modified": false,
+  "earlier_uninstrumented_compiler_cpu_load_steps": "UNOBSERVED; not reported as zero"
+}

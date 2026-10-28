@@ -1,0 +1,126 @@
+{
+  "run_uuid": "20261014T072142Z-incoming-pi0294-r2",
+  "actual_source_sha": "43ced701d73f1df73389711f03b5b5ed68c90867",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "old_P1_FAIL_preserved": true,
+  "schema": "PI0294_R2_FINAL_INCREMENTAL_RESOURCE_V1",
+  "status": "MEASURED_WORKERS_WITH_EXPLICIT_OVERHEAD_UNOBSERVED",
+  "new": {
+    "physical_starts": 10,
+    "physics_integrations": 15677,
+    "RGB_pairs": 0,
+    "H40_query_intents": 0,
+    "neural_model_loads": 0,
+    "formal_updates": 0,
+    "isolated_engineering_updates": 0,
+    "PBS_calls": 0,
+    "GPU_allocated_s": 0,
+    "Core_science_worker_CPU_s": 11.139670124999999,
+    "final_saved_array_analysis_CPU_s": 0.05358112400000001,
+    "metadata_source_staging_SSH_and_local_overhead_CPU_s": "UNOBSERVED",
+    "Core_new_run_logical_bytes_at_snapshot": 9654454,
+    "Core_quota_headroom": "UNKNOWN",
+    "new_public_checkpoints": 0,
+    "historical_deletions": 0,
+    "WBC_calls": 0,
+    "hardware_calls": 0,
+    "new_TRAIN_collection": 0
+  },
+  "old_parent": {
+    "formal_updates": 512,
+    "engineering_updates": 16,
+    "PBS_calls": 4,
+    "GPU_allocated_s": 3669
+  },
+  "old_R1": {
+    "formal_updates": 0,
+    "PBS_calls": 2,
+    "GPU_allocated_s": 890,
+    "H40_query_intents": 55,
+    "physical_starts": 1,
+    "physics_integrations": 1081,
+    "RGB_pairs": 44,
+    "Core_charged_CPU_s": 5240.044481548
+  },
+  "parent_R1_R2_cumulative": {
+    "formal_updates": 512,
+    "engineering_updates": 16,
+    "PBS_calls": 6,
+    "GPU_allocated_s": 4559,
+    "R1_and_R2_physical_starts": 11,
+    "R1_and_R2_integrations": 16758
+  },
+  "reservations": {},
+  "live_exact_R2_stage_handles": [],
+  "worker_stages": [
+    {
+      "phase": "G0",
+      "CPU_s": 0.05179167800000001,
+      "status": "ENGINEERING_FAILURE_PRESERVED"
+    },
+    {
+      "phase": "G0-ENG02",
+      "CPU_s": 0.673179719,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G1-A",
+      "CPU_s": 1.023993468,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G1-B",
+      "CPU_s": 1.0424099519999999,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G1-C",
+      "CPU_s": 0.963742419,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G1-D",
+      "CPU_s": 0.973668901,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G2-open_hold-R2_VEL_C01",
+      "CPU_s": 1.094691828,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G2-closed_hold-R2_VEL_C01",
+      "CPU_s": 1.089081807,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G2-open_close-R2_VEL_C01",
+      "CPU_s": 1.086729831,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G2-close_open-R2_VEL_C01",
+      "CPU_s": 1.10227413,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G2-high_end-R2_VEL_C01",
+      "CPU_s": 1.085388788,
+      "status": "TERMINAL_RECORDED"
+    },
+    {
+      "phase": "G2-failure_prefix_hold-R2_VEL_C01",
+      "CPU_s": 0.952717604,
+      "status": "TERMINAL_RECORDED"
+    }
+  ],
+  "resource_accounting_limit": "Observed worker CPU is not claimed to be the complete coordination/staging CPU total. No unused budget implies permission to bypass safety.",
+  "preserved_assets": [
+    "M512 complete original Trainer16members",
+    "v3.0 data/stats",
+    "all original D0/P1 FAIL and old evidence"
+  ],
+  "HF_new_checkpoint_receipt": "NOT_RUN_NO_NEW_CHECKPOINT",
+  "public_M512_existing_READY": "c698f54d0fc422ebfdd1e2ce1fc96552b6930c52"
+}

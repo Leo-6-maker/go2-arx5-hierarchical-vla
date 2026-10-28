@@ -1,0 +1,85 @@
+{
+  "schema": "B2970_RECOVERY2_FIVE_CAP_AUTHORIZATION_V1",
+  "status": "HUMAN_AUTHORIZED_EXACT_PRESERVED_COST_RECOVERY2",
+  "human_answer": "批准仅这五项调整",
+  "subsequent_human_direction": "尽快跑通实验主线，批准GPU",
+  "approval_recorded_epoch": 1792767597.5203986,
+  "approved_draft_release": "57fb72967d4ae263fe6593788e7ef47c5214f4fe",
+  "approved_draft_sha256": "ae16b7e8ae9a8a340f9c36532f00ab7590c6b9cde8ae921880b8c1af9aaf8c94",
+  "narrow_changes": {
+    "DEC1_optimizer_updates": [
+      10792,
+      11714
+    ],
+    "DEC1_PBS": [
+      15,
+      16
+    ],
+    "global_PBS": [
+      26,
+      27
+    ],
+    "DEC1_GPU_site_storage_GiB": [
+      549,
+      614
+    ],
+    "global_GPU_site_storage_GiB": [
+      615,
+      680
+    ]
+  },
+  "failed_job": "1480817.stdct-mgmt-02",
+  "failed_request": "28efd26a-f579-454b-b14a-a4c9847cbfa2",
+  "failed_request_sha256": "8e437f152edf4c2f3f28c11795d31594b65fca9f6fb91666e8017edb13e3be24",
+  "closed_GPU_terminal_sha256": "548b23720524f46e8008fd256be480b842d9be19536b1f628e9ba0dc507bfddc",
+  "actual_settled": {
+    "updates": 9666,
+    "queries": 1214,
+    "global_GPU_s": 90738,
+    "DEC1_GPU_s": 70244,
+    "global_PBS": 23,
+    "DEC1_PBS": 12
+  },
+  "continuation": {
+    "training_lineage_key": "B_COVERAGE_HEARTBEAT_RECOVERY2",
+    "arm": "B_COVERAGE",
+    "seed_step": 2048,
+    "cursor": 65536,
+    "checkpoint_manifest_sha256": "db2b2be84e1d2e6eeca1715107f6eb42a8b151e38fe513ddac6029e8db97bbcf",
+    "original_probe_sha256": "074ffbcce72e9917caecd70a2855ca67eb9b60afbb20dd6daf9ab98343130154",
+    "stop_step": 4096,
+    "remaining_updates": 2048,
+    "original_three_matrix_jobs_preserved": true,
+    "no_A_inheritance": true,
+    "new_request_registration_leases_and_fresh_admission_required": true
+  },
+  "preserved_history": {
+    "B_COVERAGE_step": 1829,
+    "B_COVERAGE_paid_unsaved_updates": 805,
+    "B_COVERAGE_HEARTBEAT_RECOVERY1_step": 2970,
+    "recovery1_paid_unsaved_updates": 922,
+    "all_prior_costs_failures_checkpoints_UNKNOWN_latches_preserved": true,
+    "old_Hopper_CPU_physical_lease": "UNAVAILABLE_FENCED_NOT_CLOSED"
+  },
+  "unchanged": {
+    "T0_epoch": 1792348196,
+    "stop_new_epoch": 1792866596,
+    "stop_train_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_close_epoch": 1792952996,
+    "DEC1_GPU_s": 187200,
+    "global_GPU_s": 345600,
+    "final_GPU_s": 72000,
+    "final_storage_GiB": 40,
+    "all_other_CPU_query_physics_transfer_caps": true,
+    "recipe_R0_WBC_S1_gripper_scoring": true
+  },
+  "execution_direction": {
+    "GPU_and_controller": "VANDA_ONLY",
+    "server_resident_owner": true,
+    "Hopper_access_required": false,
+    "no_old_request_owner_or_cost_mirror_replay": true
+  },
+  "native_adoption": false,
+  "GPU_submission": false
+}

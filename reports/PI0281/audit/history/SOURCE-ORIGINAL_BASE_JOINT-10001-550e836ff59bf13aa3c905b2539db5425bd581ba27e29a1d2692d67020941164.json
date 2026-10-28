@@ -1,0 +1,54 @@
+{
+  "lane": "ORIGINAL_BASE_JOINT",
+  "condition": 10001,
+  "status": "VALID_SOURCE_COMPLETE",
+  "result": {
+    "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/RESULT.json",
+    "bytes": 1654,
+    "sha256": "c94db057cf25633cf2c7ff286d2c42992863c0294b8d56f3e10167090029db61"
+  },
+  "quality": false,
+  "full32s": true,
+  "physics_samples": 3301,
+  "success41": 0,
+  "window_samples": 41,
+  "persistent": false,
+  "original_lift": "UNOBSERVED_NOT_RECORDED",
+  "grasp_physics_samples": 0,
+  "max_cubeA_height_m": 0.019999917596578598,
+  "command_to_actual_xyz_m": {
+    "n": 660,
+    "mean": 0.007463740884097178,
+    "rms": 0.009133556908840271,
+    "p50": 0.00624390016309917,
+    "p95": 0.017930709104985,
+    "max": 0.03908112645149231
+  },
+  "recorded_command_to_exactFK_m": {
+    "n": 660,
+    "mean": 1.659431775559859e-08,
+    "rms": 1.8226838231296458e-08,
+    "p50": 1.6155131286380873e-08,
+    "p95": 2.9328890374090862e-08,
+    "max": 3.179436129697705e-08
+  },
+  "noise_identical_to_PI0280": true,
+  "queries": 60,
+  "raw_inputs": [
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/physics.npz",
+      "bytes": 994890,
+      "sha256": "fac63826332ad3dc5b141ca0ef54e03c7e4fff0fef70e920f670f2a406e7a86c"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/commands.npz",
+      "bytes": 32434,
+      "sha256": "06d7e0b046d527f662104e1581a0739f74a64b85343ba482aecd49bbdfebd5c1"
+    },
+    {
+      "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0281/source/episodes/ORIGINAL_BASE_JOINT-10001/attempt-000/installed.npz",
+      "bytes": 82628,
+      "sha256": "ad69d88e5a5bc9d2b702fb3acf270eee8184280848daf56b168fd10c61f1172c"
+    }
+  ]
+}

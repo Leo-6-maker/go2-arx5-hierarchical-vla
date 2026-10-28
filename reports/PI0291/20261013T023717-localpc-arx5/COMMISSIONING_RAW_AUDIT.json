@@ -1,0 +1,330 @@
+{
+  "schema": "PI0291_COMMISSIONING_RAW_AUDIT_V1",
+  "status": "PASS_INDEPENDENT_RAW_AUDIT_C0_C1_C2",
+  "integrations": 0,
+  "render_calls": 0,
+  "model_loads": 0,
+  "WBC_runs": 0,
+  "raw_files_modified": false,
+  "episodes": [
+    {
+      "id": "C29100",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1294,
+      "source_sha": "302ad022f3d3a74dcaba72aa46e59282effad215",
+      "physics_sha256": "19a788c6a6b4d999f0462ecf0ed3a040048f694e9d23a1a01d97b406ff9dc338",
+      "samples_sha256": "7901c3c68d60b5fadd08fbb7dbc693065575fc643ef4e052fd215862ec099d01",
+      "manifest_sha256": "1773e4e6c3b9de1d1f283a0e0d99d5cc789bfe20b91b549098f64e00be672877",
+      "saved_scene_sha256": "4d6083405332723722e587a64a5ed157c167a537ee5842eb0c00d12c2f3a7537",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.4259090228008198e-9,
+      "native_codec_roundtrip_max_abs": 8.881784197001252e-16,
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2369,
+        "minimum_body_red_pixels": 57,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2844,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2838,
+            "maximum_red_pixels": 4255
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2664,
+            "maximum_red_pixels": 4372
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2663,
+            "maximum_red_pixels": 2678
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2653,
+            "maximum_red_pixels": 2691
+          },
+          "carry": {
+            "frames": 61,
+            "minimum_red_pixels": 2679,
+            "maximum_red_pixels": 4054
+          },
+          "lower": {
+            "frames": 33,
+            "minimum_red_pixels": 3978,
+            "maximum_red_pixels": 4024
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3934,
+            "maximum_red_pixels": 4916
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2448,
+            "maximum_red_pixels": 5500
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2369,
+            "maximum_red_pixels": 2523
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.43191591249094224,
+        1.0006495458664342
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "score_repeat_identical": true,
+      "video": {
+        "decoded_frames": 641,
+        "sha256": "7ea2c4f44c650830df51539e08f63deca2d235f2f4ab350da4fad61e2eaf63e9"
+      },
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "object_pose": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "teacher_stage": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "success": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "future_history": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW",
+        "sensor_time": "PASS_REJECTED_IN_MEMORY_MUTATION_OF_ACTUAL_RAW"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "negative_fixture": false,
+      "formal_BC_admitted": false,
+      "negative_fixture_is_T1_quality_claim": false
+    },
+    {
+      "id": "C29101",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1294,
+      "source_sha": "4b8929174d124520d348855614e4639d48a0870c",
+      "physics_sha256": "9b186b10c65f0de655b4b46bbd10978170c59ee4f546f6a834c2ea68c0064c24",
+      "samples_sha256": "0793168f22f8d21019dc6747d37e30f795c302ffd14cdee31d931cc12a2a7192",
+      "manifest_sha256": "9b8e9f383c1dca1b793323939637de33e488353e005638bbb967535ae029bd0b",
+      "saved_scene_sha256": "dd7262df0d6284a979033449ff565b9fb882c960d392a3bb032868a8c070427c",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 6.916404224281007e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 6.800116025829084e-16,
+      "native_codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "contact_samples": {
+        "left": 0,
+        "right": 0
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 0,
+        "minimum_body_red_pixels": 114,
+        "wrist_zero_red_frames": 641,
+        "initial_wrist_red_pixels": 0,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 0,
+            "maximum_red_pixels": 0
+          },
+          "close": {
+            "frames": 612,
+            "minimum_red_pixels": 0,
+            "maximum_red_pixels": 0
+          }
+        },
+        "initial_and_grasp_carry_release_visible": false
+      },
+      "actual_gripper_fraction_range": [
+        -0.000649493335770166,
+        1.0000426984105986
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "persistent_success": false,
+        "sustained_grasp": false,
+        "contact_negative": true
+      },
+      "score_repeat_identical": true,
+      "video": {
+        "decoded_frames": 641,
+        "sha256": "1988065cb4957c2aae4e042d5bef575a3fbb538988dd95be3670002d67d03f13"
+      },
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "status": "NOT_RUN_ON_INCOMPLETE_OR_CONTACT_NEGATIVE; use complete normal raw fixture"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "negative_fixture": true,
+      "formal_BC_admitted": false,
+      "negative_fixture_is_T1_quality_claim": false
+    },
+    {
+      "id": "C29102",
+      "domain": "FIXED_BASE_ARX5_TASK_SIM",
+      "status": "PASS_FULL_RAW_AUDIT",
+      "complete": true,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "file_count": 1292,
+      "source_sha": "4b8929174d124520d348855614e4639d48a0870c",
+      "physics_sha256": "854c0948a232d07dffc9cea9dcfea2fe27ea9c7930d85e024b636eb30e170447",
+      "samples_sha256": "558de388acf3b6c85a08979ff36f3be68197450c8a95766929d08afe7523afa3",
+      "manifest_sha256": "9340f1645bad59e66170c58465ecec4049de7c8ed81ad35cfc0a0f69e5eb1686",
+      "saved_scene_sha256": "fb7b0e856b705c51253b42fb64719b90071d69b7c81d0cf47455a95cb7fffdb8",
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 9.992007221626409e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.2750007294680685e-8,
+      "native_codec_roundtrip_max_abs": 8.881784197001252e-16,
+      "contact_samples": {
+        "left": 595,
+        "right": 0
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 1918,
+        "minimum_body_red_pixels": 65,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2932,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2928,
+            "maximum_red_pixels": 4254
+          },
+          "close": {
+            "frames": 612,
+            "minimum_red_pixels": 1918,
+            "maximum_red_pixels": 4350
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "actual_gripper_fraction_range": [
+        0.5067582756220131,
+        1.0000100230758755
+      ],
+      "actual_gripper_clipped": false,
+      "actual_gripper_validity": "Frozen physical joint tolerance1mm; commands remain[0,1]",
+      "independent_score": {
+        "history": {
+          "sustained_grasp": false,
+          "sustained_lift": false,
+          "horizontal_carry": false
+        },
+        "hold_observed": 41,
+        "hold_pass": 0,
+        "hold_subpredicates": {
+          "zone_corners": 0,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 0,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": false
+      },
+      "score_repeat_identical": true,
+      "video": null,
+      "privileged_policy_separation": true,
+      "causality_clock_and_reference_prefix_verified": true,
+      "negative_gates": {
+        "status": "NOT_RUN_ON_INCOMPLETE_OR_CONTACT_NEGATIVE; use complete normal raw fixture"
+      },
+      "integrations": 0,
+      "render_calls": 0,
+      "original_raw_files_modified": false,
+      "model_loads": 0,
+      "WBC_runs": 0,
+      "negative_fixture": true,
+      "formal_BC_admitted": false,
+      "negative_fixture_is_T1_quality_claim": false
+    }
+  ],
+  "actual_receipts": [
+    {
+      "path": "evidence/C29100_RAW_AUDIT_V3.json",
+      "CPU_s": 3.719106,
+      "audit_script_sha256": "b1ee74de10863930979ba4f1cab7d4fef85be6eff46563888504b3f6d747a581"
+    },
+    {
+      "path": "evidence/CONTACT_NEGATIVES_RAW_AUDIT.json",
+      "CPU_s": 5.453731,
+      "audit_script_sha256": "b1ee74de10863930979ba4f1cab7d4fef85be6eff46563888504b3f6d747a581"
+    }
+  ],
+  "successful_audit_CPU_s": 9.172837,
+  "failed_audit_CPU_s": 3.146087,
+  "total_audit_CPU_s": 12.318924,
+  "preserved_failed_receipts": [
+    "evidence/C29100_RAW_AUDIT.json",
+    "evidence/C29100_RAW_AUDIT_V2.json"
+  ],
+  "failed_audit_explanation": "Validator incorrectly assumed no compliant actual-gripper overshoot; corrected only data validation to frozen physical1mm tolerance. Optional SciPy unavailable; replaced quaternion reconstruction with independent NumPy math, no install.",
+  "scope": {
+    "highrate": "Every actual row checked timegrid, finite qpos/qvel, motor limits, zero recorded tool wrench, joint range/speed and original safety flag",
+    "lowrate": "Every actual snapshot reconstructed from saved qpos/qvel/ctrl using mj_forward only; independent native FK/TCP/gap/contact forces/normals/velocity, cameraK/extrinsics/projections/rays, original RGB hashes",
+    "scoring": "Independent NumPy T1 predicates, actual table plane and initial cube height; repeat equality; no teacher commands/stage used",
+    "visibility": "Reported by actual phase; empty-grasp fixture intentionally misses cube, not BC source",
+    "boundary": "Audits do not integrate unobserved between-frame contacts; highrate safetyflag is original frozen Engine monitor evidence"
+  },
+  "unmet": [
+    "Frozen pilot gate NOT_RUN at this receipt",
+    "Formal TRAIN64/DEV16 NOT_RUN",
+    "Formal admission/statistics/loader/HF transfer NOT_RUN"
+  ],
+  "selected": "NONE",
+  "deployment": "NONE"
+}

@@ -1,0 +1,29 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Reuse configured HF auth and inspect only non-secret account/repo metadata."""
+import time
+from pi0294_adopt import BASE,RUN,remote,save
+
+CODE=r"""
+import json,os,subprocess
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN
+b=json.loads((root/'NEURAL_BINDINGS.private.json').read_text())
+program=r'''
+import json
+from pathlib import Path
+from huggingface_hub import HfApi
+api=HfApi(token=Path('@HOPPER_SHARED_HOME@/@HOPPER_ACCOUNT@/.config/huggingface/token').read_text().strip())
+user=api.whoami();repo=api.repo_info('leoyuer/pi0291-arx5-fixed-base',repo_type='dataset')
+print(json.dumps(dict(authenticated_user=user['name'],existing_repo=repo.id,private=repo.private)))
+'''
+p=subprocess.run([b['python'],'-c',program],env=dict(os.environ,HF_HUB_OFFLINE='0'),text=True,capture_output=True,timeout=30)
+print(json.dumps(dict(exit=p.returncode,result=json.loads(p.stdout) if p.returncode==0 else None,
+ error_kind='HF_AUTH_OR_REPO_QUERY_FAILED' if p.returncode else None)))
+"""
+if __name__=='__main__':
+ result=remote('hopper','RUN='+repr(RUN)+'\n'+CODE)
+ save(BASE/('HF_PREFLIGHT_'+str(time.time_ns())+'.private.json'),dict(exit=result.returncode,stdout=result.stdout,stderr_kind='REMOTE_HELPER_FAILURE' if result.returncode else None))
+ if result.returncode:raise RuntimeError('HF metadata probe did not execute; no credentials logged')
+ print(result.stdout)

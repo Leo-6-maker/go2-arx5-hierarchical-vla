@@ -1,0 +1,88 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Read only exact known runtime entrypoints and installed path metadata."""
+from pathlib import Path
+import json,os,socket,subprocess,time,hashlib,resource
+os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+h=Path.home();ws=h/'Projects/GR00T-WBC';inf=ws/'infrastructure'
+candidates=sorted({x['path'] for x in json.loads((inf/'RETIRE_CANDIDATES.json').read_text())['items']}|{x['path'] for x in json.loads((inf/'HOME_RETIRE_REVIEW.json').read_text())['items']})
+
+def matches(t):
+ t=t.replace('/mnt/LocalHDD1/HomeNFS/@CORELAB_STORAGE_USER@','@LOCAL_OR_CORE_HOME@-nfs')
+ # Avoid prefixes that merely match another, distinct candidate directory name.
+ result=[]
+ for c in candidates:
+  pos=0
+  while True:
+   n=t.find(c,pos)
+   if n<0:break
+   end=n+len(c)
+   if end==len(t) or t[end] in '/\x00\n\r\t \"\';:)},]':result.append(c);break
+   pos=end
+ return result
+
+refs=[];errors=[];scanned=[];environments=[]
+roots=[h/'.bashrc',h/'.profile',h/'.config/systemd/user',h/'bin',ws/'infrastructure']
+lease=json.loads((inf/'leases/PI0292.json').read_text())
+if socket.gethostname()=='corelab-4080s':
+ run=Path(lease['new_run']);roots += [run/'code',run/'runtime',run/'config',run/'launch.py',Path('@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0290/code'),Path('@CORELAB_NODE_STORAGE@/Projects/go2-arx5/PI0291/20261013T023717-localpc-arx5/code')]
+ for operations in (run/'operations').glob('*'):
+  roots += [operations/'scripts/pi0292',operations/'scripts/pi0291_arx5_data',operations/'src/go2arx5_vla/task_data']
+ python_paths=[x['path'] for x in lease['protected_entries'] if x['role'] in ['SIMULATION_PYTHON','CPU_DATA_PYTHON']]
+else:python_paths=['/usr/bin/python3','/opt/miniconda3/envs/base312/bin/python',str(h/'bin/python')]
+for py in python_paths:
+ p=Path(py)
+ if not p.exists():environments.append({'python':py,'status':'INTERPRETER_ABSENT_PROTECTED'});continue
+ r=subprocess.run([py,'-c','import sys,json,site;print(json.dumps(dict(executable=sys.executable,path=sys.path,version=sys.version,site=site.getsitepackages())))'],capture_output=True,text=True,timeout=20,env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1'))
+ try:j=json.loads(r.stdout);j['python']=py;environments.append(j)
+ except ValueError:environments.append({'python':py,'rc':r.returncode});continue
+ for directory in j['site']:
+  d=Path(directory)
+  if d.exists():
+   roots.extend(d.glob('*.pth'));roots.extend(d.glob('*.egg-link'));roots.extend(d.glob('__editable__*.py'))
+for root in roots:
+ if not root.exists() or root.is_symlink():continue
+ stack=[root]
+ while stack:
+  p=stack.pop()
+  try:
+   if p.is_symlink():
+    m=matches(os.readlink(p))
+    if m:refs.append({'source':str(p),'candidates':m,'kind':'symlink','target':os.readlink(p)})
+    continue
+   if p.is_dir():
+    stack.extend(x for x in p.iterdir() if x.name not in {'receipts','leases','.git','__pycache__','runtime','venv','private','objects','datasets','episodes','evidence'})
+    continue
+   # Registry/retention/historical manifests are evidence, not executing launchers.
+   if p.suffix not in {'.sh','.py','.pth','.egg-link','.service','.timer'} and p.name not in {'.bashrc','.profile'}:continue
+   if p.stat().st_size>2*1024*1024:errors.append({'path':str(p),'reason':'too large'});continue
+   t=p.read_text(errors='replace');scanned.append({'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
+   m=matches(t)
+   if m:refs.append({'source':str(p),'candidates':m,'kind':'executable_or_environment_text'})
+  except OSError as e:errors.append({'path':str(p),'error':type(e).__name__})
+procs=[]
+for p in Path('/proc').iterdir():
+ if not p.name.isdigit() or int(p.name) in {os.getpid(),int(os.environ.get('MAINTENANCE_OWNER_PID','0'))}:continue
+ try:
+  if p.stat().st_uid!=os.getuid():continue
+  found=set(matches((p/'cmdline').read_bytes().decode(errors='replace')));details=[]
+  for name in ['cwd','exe']:
+   try:
+    t=os.readlink(p/name);found.update(matches(t));details.append(t)
+   except OSError:pass
+  for name in ['fd','map_files']:
+   try:
+    for x in (p/name).iterdir():
+     try:
+      t=os.readlink(x);m=matches(t);found.update(m)
+      if m:details.append(t)
+     except OSError:pass
+   except OSError:pass
+  if found:procs.append({'pid':int(p.name),'comm':(p/'comm').read_text().strip(),'candidates':sorted(found),'references':details})
+ except OSError:pass
+jobs={}
+for name,args in [('cron',['crontab','-l']),('tmux',['tmux','list-panes','-a','-F','#{pane_current_path} #{pane_start_command}']),('locks',['lslocks','-J','-o','PID,PATH'])]:
+ r=subprocess.run(args,capture_output=True,text=True,timeout=10);jobs[name]={'rc':r.returncode,'candidates':matches(r.stdout),'observed':r.stdout if name=='locks' else None}
+u=resource.getrusage(resource.RUSAGE_SELF);c=resource.getrusage(resource.RUSAGE_CHILDREN)
+print(json.dumps({'cpu_seconds':u.ru_utime+u.ru_stime+c.ru_utime+c.ru_stime,'node':socket.gethostname(),'epoch':time.time(),'exact_candidates':candidates,'environments':environments,'live_process_consumers':procs,'active_launcher_or_install_refs':refs,'scanned':scanned,'errors':errors,'jobs':jobs,'scope':'Current entrypoint/runtime code and protected environment .pth/editable; historical sealed reports are excluded'}))

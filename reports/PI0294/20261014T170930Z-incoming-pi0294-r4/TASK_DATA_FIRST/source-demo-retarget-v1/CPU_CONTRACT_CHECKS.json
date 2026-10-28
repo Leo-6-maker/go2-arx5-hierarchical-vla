@@ -1,0 +1,99 @@
+{
+  "checks_passed": 16,
+  "checks": {
+    "SIX_FIXED_TRAIN_SOURCE_IDENTITIES": {
+      "source_ids": [
+        "PI0294-TRAIN-F0-000-T2",
+        "PI0294-TRAIN-F0-001-T2",
+        "PI0294-TRAIN-F0-002-T2",
+        "PI0294-TRAIN-F0-000-T1",
+        "PI0294-TRAIN-F0-001-T1",
+        "PI0294-TRAIN-F0-002-T1"
+      ],
+      "no_DEV": true
+    },
+    "UNIQUE_640_INSTALLED_PREFIX_ROWS": {
+      "rows": 3840,
+      "overlap_not_duplicated": true
+    },
+    "EXPORT_601_NOT_RAW_641": {
+      "raw": 641,
+      "exported_anchor_count": 601,
+      "missing_suffix_invented": false
+    },
+    "SOURCE_EVENT_SEARCHSORTED_CUTS": {
+      "cuts": [
+        [
+          165,
+          488
+        ],
+        [
+          172,
+          504
+        ],
+        [
+          166,
+          496
+        ],
+        [
+          0,
+          257
+        ],
+        [
+          0,
+          257
+        ],
+        [
+          0,
+          257
+        ]
+      ]
+    },
+    "MEASURED_AND_COMMITTED_SEPARATE": {
+      "different_lengths_and_fields": true
+    },
+    "FUNCTIONAL_TOOL_AND_MECHANICAL_STROKE": {
+      "actual_zero_step_models": 8,
+      "source_target_pad_dimensions_match": true
+    },
+    "SOURCE_TARGET_TOOL_FRAME_ROUNDTRIP": {
+      "cases": 6
+    },
+    "TWO_ANCHOR_WARP_AND_CONTINUITY": {
+      "finite_registered_SE3": true,
+      "monotone_transport_weight": true
+    },
+    "NO_ACTUAL_JOINT_ROOT_OBJECT_EDITS": {
+      "source_and_target_reads_only": true,
+      "physics_steps": 0
+    },
+    "RATE_SLOWDOWN_AND_28S_LOWER_BOUND": {
+      "time_rejected": [
+        "PI0294-TRAIN-F0-000-T2",
+        "PI0294-TRAIN-F0-001-T2",
+        "PI0294-TRAIN-F0-002-T2"
+      ]
+    },
+    "FIRST_COMPLETE_LEGAL_SOURCE_ORDER": {
+      "no_physical_quality_selection": true
+    },
+    "INTERNAL_IK_RRT_DENSE_CAPS": {
+      "cap_rejections": true
+    },
+    "NO_REDRAW_ON_RESTORE": {
+      "named_duplicate_slot_rejected": true
+    },
+    "TASK_LOCAL_ADMISSION": {
+      "T2_time_fail_does_not_block_T1": true
+    },
+    "ORIGINAL_GATE_SCORER_NATIVE_MEMBERS": {
+      "unchanged_public_members": 21,
+      "no_WBC_changes": true
+    },
+    "BUDGET_DEADLINE_OLD_FAILURES_PRESERVED": {
+      "retained_T0": 1792044600,
+      "old_MP_S2_partial_kept": true
+    }
+  },
+  "runtime_or_physics_pass": false
+}

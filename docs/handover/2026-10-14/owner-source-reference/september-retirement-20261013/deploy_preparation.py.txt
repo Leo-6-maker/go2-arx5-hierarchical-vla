@@ -1,0 +1,95 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Stage pinned preparation modules; only CoreLab synthetic fixtures may run."""
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+sys.path.insert(0,str(Path(__file__).parents[1]))
+from pi0292_adopt import remote,save
+
+ROOT=Path(__file__).parent
+RUN='20261013T074558Z-localpc-september-retirement'
+SHA='56b914f8844e93985739ed26fb34952e55725699'
+REPO=Path('@LOCAL_OR_CORE_HOME@/ISSAC-GR00T/work/pi0290-source')
+FILES=['scripts/iteration/__init__.py','scripts/iteration/plan.py','scripts/iteration/queue.py',
+ 'scripts/iteration/fixture.py','scripts/iteration/rgb_cache.py','scripts/pi0292/__init__.py',
+ 'scripts/pi0292/durable.py','docs/operations/ITERATION_ACCELERATION_PREPARATION.md']
+payload={p:subprocess.check_output(['git','show',SHA+':'+p],cwd=REPO).decode() for p in FILES}
+digests={p:hashlib.sha256(v.encode()).hexdigest() for p,v in payload.items()}
+card=dict(status='NOT_AUTHORIZED',workers=2,cores_per_worker=1,max_concurrent_cores=4,
+ episodes=[dict(id='FIXTURE_'+str(n),split='TRAIN' if n<3 else 'DEV',seed=900+n) for n in range(4)],
+ per_episode=dict(physics_steps=16000,rgb_pairs=641,cpu_s=900,output_bytes=1048576),
+ limits=dict(physics_steps=64000,rgb_pairs=2564,cpu_s=3600,output_bytes=4194304))
+
+for host in (['hopper'] if '--hopper-only' in sys.argv else ['corelab-4080s','hopper']):
+    base=('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/infrastructure/maintenance/'+RUN+'/iteration-preparation-02'
+          if host=='corelab-4080s' else '@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292/engineering-preparation/iteration/'+SHA)
+    program="""
+from pathlib import Path
+import hashlib,json,os,subprocess,time,resource
+base=Path(@BASE@);base.mkdir(parents=True,exist_ok=False,mode=0o700)
+payload=@PAYLOAD@;digests=@DIGESTS@
+for relative,source in payload.items():
+ p=base/'code'/relative;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(source);p.chmod(0o444)
+ assert hashlib.sha256(p.read_bytes()).hexdigest()==digests[relative]
+bootstrap=base/'run-fixture.py'
+bootstrap_source='''import hashlib,json,sys,types
+from pathlib import Path
+base=Path(__file__).parent
+digests='''+repr(digests)+'''
+for name,digest in digests.items():assert hashlib.sha256((base/'code'/name).read_bytes()).hexdigest()==digest
+package=types.ModuleType('scripts');package.__path__=[str(base/'code/scripts')]
+sys.modules['scripts']=package
+from scripts.iteration.fixture import run_fixture
+if __name__=='__main__':
+ print(json.dumps(run_fixture(base/'fixture-output',json.loads((base/'SYNTHETIC_CARD.json').read_text()))))
+'''
+bootstrap.write_text(bootstrap_source);bootstrap.chmod(0o444)
+manifest=dict(run_uuid=@RUN@+'-iteration-fixture',pi='NOT_APPLICABLE_ENGINEERING_FIXTURE',
+ authority=dict(protocol_ref=@SHA@,go_comment='DIRECT_USER_SCRIPT_PREPARATION_ONLY_2026-10-13'),
+ owner='existing_local_pc',code=dict(vla_commit=@SHA@,official_gr00t_commit='NOT_APPLICABLE',
+ source_seal_sha256=hashlib.sha256(json.dumps(digests,sort_keys=True).encode()).hexdigest()),
+ interfaces=dict(action_schema='NOT_APPLICABLE',processor_sha256='NOT_APPLICABLE',statistics_sha256='NOT_APPLICABLE'),
+ data=dict(dataset_version='SYNTHETIC_NOT_TRAINING_DATA',hf_revision='NOT_APPLICABLE',manifest_sha256='NOT_APPLICABLE'),
+ execution=dict(profile='4080-cpu-data' if @HOST@=='corelab-4080s' else 'HOPPER_FILES_STAGED_NO_NEURAL_ENTRY',
+ private_path_role='MAINTENANCE_ENGINEERING_DIAGNOSTIC',script='scripts.iteration.fixture'),
+ limits=dict(T0_epoch=1791877558.1337488,deadline_epoch=1791891958.1337488,
+ physics_steps=0,model_calls=0,pbs=0),status='STAGED_NOT_LIVE_ADMITTED')
+(base/'RUN_MANIFEST.json').write_text(json.dumps(manifest,indent=2))
+receipt=dict(status='STAGED_BYTES_READBACK_PASS_NO_NEURAL_EXECUTION',commit=@SHA@,files_sha256=digests,
+ fixture=None,model_calls=0,pbs=0,physics=0,
+ fixture_bootstrap_sha256=hashlib.sha256(bootstrap.read_bytes()).hexdigest(),
+ packaging_delta='Fixture-only explicit sealed scripts namespace; no deployed entry or scientific source changes')
+if @HOST@=='corelab-4080s':
+ card=base/'SYNTHETIC_CARD.json';card.write_text(json.dumps(@CARD@))
+ env=dict(os.environ,PYTHONPATH=str(base/'code'),PYTHONDONTWRITEBYTECODE='1',
+  CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',
+  HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
+ command=['@LOCAL_OR_CORE_HOME@-nfs/Projects/GR00T-WBC/infrastructure/enter.sh','4080-cpu-data','python',str(bootstrap)]
+ before=resource.getrusage(resource.RUSAGE_CHILDREN)
+ result=subprocess.run(command,cwd=base/'code',env=env,capture_output=True,text=True,timeout=90)
+ after=resource.getrusage(resource.RUSAGE_CHILDREN)
+ (base/'fixture.stdout').write_text(result.stdout);(base/'fixture.stderr').write_text(result.stderr)
+ assert result.returncode==0,result.stderr
+ state=json.loads((base/'fixture-output/QUEUE.json').read_text())
+ assert state['status']=='FIXTURE_TERMINAL_ZERO_PHYSICS' and len(state['records'])==4
+ assert len({r['pid'] for r in state['records']})==2 and state['actual']['physics_steps']==0
+ receipt.update(status='CORELAB_ENTRY_TWO_SPAWNED_FIXTURE_WORKERS_PASS',fixture=state,
+  actual_children_CPU_s=after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime)
+for relative,digest in digests.items():assert hashlib.sha256((base/'code'/relative).read_bytes()).hexdigest()==digest
+(base/'DEPLOYMENT_RECEIPT.private.json').write_text(json.dumps(receipt,indent=2))
+assert json.loads((base/'DEPLOYMENT_RECEIPT.private.json').read_text())==receipt
+print(json.dumps(dict(status=receipt['status'],commit=receipt['commit'],files=len(digests),
+ fixture_workers=2 if receipt['fixture'] else 0,physics=0,model_calls=0,pbs=0,
+ actual_children_CPU_s=receipt.get('actual_children_CPU_s',0),base=str(base))))
+"""
+    for key,value in [('BASE',base),('PAYLOAD',payload),('DIGESTS',digests),('RUN',RUN),('SHA',SHA),('HOST',host),('CARD',card)]:
+        program=program.replace('@'+key+'@',repr(value))
+    result=remote(host,program)
+    save(ROOT/RUN/(host+'_ITERATION_DEPLOYMENT_'+SHA[:8]+'.private.json'),dict(host=host,returncode=result.returncode,stdout=result.stdout,stderr=result.stderr))
+    print(host,result.stdout,result.stderr)
+    if result.returncode:raise RuntimeError('PREPARATION_DISPATCH_UNKNOWN_INSPECT_NEVER_RESTART')

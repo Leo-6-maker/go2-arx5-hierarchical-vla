@@ -1,0 +1,155 @@
+{
+  "audit_copy_root": "/var/cache/users/liuyu-nfs/pi0247_generation_to_sim_20260926/audit/old_pi0246_identity",
+  "authorized_noise_sha256": {
+    "N0": "190fed3bad168916d7609a8a3a8156b9369b4ab79b0daf68aca22d1cef24878c",
+    "N1": "50a3194bb111c620adcc81506bcd5c61a319542fa73e6d6fb292aad44a72987e"
+  },
+  "authorized_p2000_restore_manifest_sha256": "2f04ba786e82cb5aee69ae3be63a381bab21989a93b2ede0b159d000ff663299",
+  "created_utc": "2026-09-25T19:12:20Z",
+  "d1_fixed_bridge_sources": [
+    "pi0227_persistent_train_a_j03_yp015_s03_yp050_r00_r00_227072:obs-0033",
+    "pi0227_persistent_train_b_j00_nominal_s00_c0_r02_r02_227182:obs-0033",
+    "pi0227_persistent_train_c_j01_xp015_s04_ym050_r03_r03_227399:obs-0013",
+    "pi0227_persistent_train_d_j03_yp015_s00_c0_r02_r02_227602:obs-0046"
+  ],
+  "decision": "NONE_OF_THE_4_PRIOR_P2000_S4_CELLS_CAN_SUBSTITUTE_FOR_NEW_D1_CELLS",
+  "p1_existing_reused_r0_s4_cells": 8,
+  "pi0246_preservation": "prior outputs remain untouched; evidence was copied read-only into this audit directory",
+  "prior_output_root": "/mnt/LocalHDD1/HomeNFS/liuyu-nfs/pi0246_gate_pass_screen_20260925/output",
+  "prior_p2000_bridge_sources_examined": 4,
+  "rows": [
+    {
+      "device_binding_recorded": false,
+      "exclusion_reason": [
+        "prior noise source differs bitwise from both authorized P1 N0/N1",
+        "prior model restore manifest differs from pinned P2000 restore manifest",
+        "prior device binding is absent"
+      ],
+      "matches_new_noise_exactly": {
+        "N0": false,
+        "N1": false
+      },
+      "model_revision_matches": true,
+      "new_p2000_restore_manifest_sha256": "2f04ba786e82cb5aee69ae3be63a381bab21989a93b2ede0b159d000ff663299",
+      "p1_condition_identity_matches": true,
+      "p1_condition_tensor_sha256_matches": {
+        "N0": false,
+        "N1": false
+      },
+      "prior_attempt_sha256": "09632ec0cd7a58a16288ce3cb57100f2245f213393734a30a4b3c529663f35e8",
+      "prior_cell_status": "PI0246_PAIRED_SCREEN_CELL_V1",
+      "prior_condition_identity": "7facac86c5c39e768de9fbc1aec1c6d0f61be6cf6d6aecfb8e0f2ce800231e71",
+      "prior_condition_sha256": "dc265b90751770df1a346d9a9c85d9cc97e8613be2b78eaebd6289d62047ccb4",
+      "prior_gate": "WARN",
+      "prior_metric_xyz_rmse_m": 0.04024219898246518,
+      "prior_model_manifest_sha256": "a77d20ab64673d4bd1000b1fd431d216fd6fad8bb73041943a1a08a84f2c74e7",
+      "prior_noise_packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019",
+      "prior_noise_source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+      "prior_record_sha256": "6a7f68e57eb8dd72d6141f53b3914bba840d2a222a636bdff62649a283f740da",
+      "prior_tensor_sha256": "2a8cd1c68bf4a9256465e9340028d5b024ee3668b20541e4d95a21333d5980c6",
+      "reusable_for_pi0247_d1": false,
+      "source_episode_id": "pi0227_persistent_train_a_j03_yp015_s03_yp050_r00_r00_227072:obs-0033",
+      "source_tensor_matches": true
+    },
+    {
+      "device_binding_recorded": false,
+      "exclusion_reason": [
+        "prior noise source differs bitwise from both authorized P1 N0/N1",
+        "prior model restore manifest differs from pinned P2000 restore manifest",
+        "prior device binding is absent"
+      ],
+      "matches_new_noise_exactly": {
+        "N0": false,
+        "N1": false
+      },
+      "model_revision_matches": true,
+      "new_p2000_restore_manifest_sha256": "2f04ba786e82cb5aee69ae3be63a381bab21989a93b2ede0b159d000ff663299",
+      "p1_condition_identity_matches": true,
+      "p1_condition_tensor_sha256_matches": {
+        "N0": false,
+        "N1": false
+      },
+      "prior_attempt_sha256": "e401eca802e80111b9b51301abea244cc26f324b156bad69eefb47fdc20e535a",
+      "prior_cell_status": "PI0246_PAIRED_SCREEN_CELL_V1",
+      "prior_condition_identity": "01c1b6c16d51bfa338a002ef5dfd601a8c8d40ace723dc988e3f9ff7b9300a9e",
+      "prior_condition_sha256": "f977405b906eab27a4efa9ad75fa8a85e84a5ef1e2f351f5368eb25a748cf005",
+      "prior_gate": "WARN",
+      "prior_metric_xyz_rmse_m": 0.051945039102039896,
+      "prior_model_manifest_sha256": "a77d20ab64673d4bd1000b1fd431d216fd6fad8bb73041943a1a08a84f2c74e7",
+      "prior_noise_packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019",
+      "prior_noise_source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+      "prior_record_sha256": "120879d405a963a4b9b8d4609ee6e341eadd1d22144927f66b4d01fd67643cbe",
+      "prior_tensor_sha256": "c6b70b2329c4d7c0bcae6ba6f5f4bfa8bb652fb390e5e52a5148e0edfbef4f48",
+      "reusable_for_pi0247_d1": false,
+      "source_episode_id": "pi0227_persistent_train_b_j00_nominal_s00_c0_r02_r02_227182:obs-0033",
+      "source_tensor_matches": true
+    },
+    {
+      "device_binding_recorded": false,
+      "exclusion_reason": [
+        "prior noise source differs bitwise from both authorized P1 N0/N1",
+        "prior model restore manifest differs from pinned P2000 restore manifest",
+        "prior device binding is absent"
+      ],
+      "matches_new_noise_exactly": {
+        "N0": false,
+        "N1": false
+      },
+      "model_revision_matches": true,
+      "new_p2000_restore_manifest_sha256": "2f04ba786e82cb5aee69ae3be63a381bab21989a93b2ede0b159d000ff663299",
+      "p1_condition_identity_matches": true,
+      "p1_condition_tensor_sha256_matches": {
+        "N0": false,
+        "N1": false
+      },
+      "prior_attempt_sha256": "ddc3dc55167337f26b20746c1b6d6558c0213f8927e96de3627e60a484079e73",
+      "prior_cell_status": "PI0246_PAIRED_SCREEN_CELL_V1",
+      "prior_condition_identity": "37e5318edabbc6aac1ec91d9d4b65bcd6698768e1d8c554b6bd2396a80d83879",
+      "prior_condition_sha256": "e5e160631ff370cb0901be158fa03340361b9b4f1056561b6910a03ca15a76fa",
+      "prior_gate": "REJECT",
+      "prior_metric_xyz_rmse_m": 0.05247203558433464,
+      "prior_model_manifest_sha256": "a77d20ab64673d4bd1000b1fd431d216fd6fad8bb73041943a1a08a84f2c74e7",
+      "prior_noise_packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019",
+      "prior_noise_source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+      "prior_record_sha256": "4ce7282a601706b6a3d0c7640d4e736ddd0f6cc0477d2bee860d16220ed3c271",
+      "prior_tensor_sha256": "6282284315b4551bb24621325b6418bb0305e021a81c1c849cf6aa309d29a76e",
+      "reusable_for_pi0247_d1": false,
+      "source_episode_id": "pi0227_persistent_train_c_j01_xp015_s04_ym050_r03_r03_227399:obs-0013",
+      "source_tensor_matches": true
+    },
+    {
+      "device_binding_recorded": false,
+      "exclusion_reason": [
+        "prior noise source differs bitwise from both authorized P1 N0/N1",
+        "prior model restore manifest differs from pinned P2000 restore manifest",
+        "prior device binding is absent"
+      ],
+      "matches_new_noise_exactly": {
+        "N0": false,
+        "N1": false
+      },
+      "model_revision_matches": true,
+      "new_p2000_restore_manifest_sha256": "2f04ba786e82cb5aee69ae3be63a381bab21989a93b2ede0b159d000ff663299",
+      "p1_condition_identity_matches": true,
+      "p1_condition_tensor_sha256_matches": {
+        "N0": false,
+        "N1": false
+      },
+      "prior_attempt_sha256": "8a63e375cbfaca3a128966da67e4484a463e16780009f64022138ce02ba1d988",
+      "prior_cell_status": "PI0246_PAIRED_SCREEN_CELL_V1",
+      "prior_condition_identity": "be4d7b6afe1117660e9b710c506139a25d8f9dab5f4504fda13368fd11efbfcb",
+      "prior_condition_sha256": "62903aacf66303b81087a81dca9f733458f7c85f431ed35c97a24e0ddea35e58",
+      "prior_gate": "WARN",
+      "prior_metric_xyz_rmse_m": 0.03252280960387937,
+      "prior_model_manifest_sha256": "a77d20ab64673d4bd1000b1fd431d216fd6fad8bb73041943a1a08a84f2c74e7",
+      "prior_noise_packet_sha256": "c7d94daddd6f265a700092815db583d737aab95dcdfe32dbe67af50351c83019",
+      "prior_noise_source_tensor_sha256": "d7512d2879ff2b0d0ffa98555c2692d079206c37d3b7e59ba93c97ef57d75639",
+      "prior_record_sha256": "56f18a4177fa4b814fda5d3c64397d74ad9be0fc2be5b627943f8f9d2a4c9599",
+      "prior_tensor_sha256": "ad0e1b7cfa3769880698a58051a267a6af61a8a962401bea3a8c85474259697c",
+      "reusable_for_pi0247_d1": false,
+      "source_episode_id": "pi0227_persistent_train_d_j03_yp015_s00_c0_r02_r02_227602:obs-0046",
+      "source_tensor_matches": true
+    }
+  ],
+  "schema": "PI0247_D1_DUPLICATE_AUDIT_V1"
+}

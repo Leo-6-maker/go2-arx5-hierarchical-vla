@@ -1,0 +1,70 @@
+{
+  "HF_history_deleted": false,
+  "after_free_bytes": 829820030976,
+  "before_free_bytes": 810761728000,
+  "concurrent_training_can_change_free_delta": true,
+  "free_delta_bytes": 19058302976,
+  "host": "Corelab",
+  "local_status": "METADATA_ONLY_RETIRED_WEIGHTS_NOT_LOCALLY_LOADABLE",
+  "logical_deleted_bytes": 19058402608,
+  "plan_sha256": "964106a612071c8f5e27ec36724781d95cf12cdccf0936a6e8b0c1a7f4bc8552",
+  "planned_bytes": 19058402608,
+  "preserved": [
+    "PI0269 all active runtime/recoveries/2048+4096 candidates",
+    "PI0268 ROT2048 donor full Trainer/model view",
+    "PI0267 N/R finals pending old secondary lane dependency resolution",
+    "PI0264 L2048 donor",
+    "all data/statistics/logs/manifests/results/HF/Git/other projects"
+  ],
+  "quota_headroom": "UNKNOWN",
+  "rows": [
+    {
+      "allocated_bytes": 4993716224,
+      "bytes": 4993709288,
+      "classification": "RETIRED_SCIENTIFIC_FAIL_MODEL_VIEW",
+      "deleted": true,
+      "device": 66308,
+      "evidence": "PI0268 final quality FAIL; saved-state P0 complete; current eval only ROT2048",
+      "inode": 54132757,
+      "mtime_ns": 1790978448048538440,
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0268/R1/models/OLD2048/arms/PI0268/OLD/checkpoint-2048/model-00001-of-00002.safetensors"
+    },
+    {
+      "allocated_bytes": 4535496704,
+      "bytes": 4535492016,
+      "classification": "RETIRED_SCIENTIFIC_FAIL_MODEL_VIEW",
+      "deleted": true,
+      "device": 66308,
+      "evidence": "PI0268 final quality FAIL; saved-state P0 complete; current eval only ROT2048",
+      "inode": 54132759,
+      "mtime_ns": 1790978588087102677,
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0268/R1/models/OLD2048/arms/PI0268/OLD/checkpoint-2048/model-00002-of-00002.safetensors"
+    },
+    {
+      "allocated_bytes": 4993716224,
+      "bytes": 4993709288,
+      "classification": "RETIRED_SCIENTIFIC_FAIL_MODEL_VIEW",
+      "deleted": true,
+      "device": 66308,
+      "evidence": "PI0264 final B2048 combined_pass=false; no PI0269 consumer",
+      "inode": 50593811,
+      "mtime_ns": 1790824729652647934,
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0264/models/B2048/arms/PI0264/B/checkpoint-2048/model-00001-of-00002.safetensors"
+    },
+    {
+      "allocated_bytes": 4535496704,
+      "bytes": 4535492016,
+      "classification": "RETIRED_SCIENTIFIC_FAIL_MODEL_VIEW",
+      "deleted": true,
+      "device": 66308,
+      "evidence": "PI0264 final B2048 combined_pass=false; no PI0269 consumer",
+      "inode": 50593813,
+      "mtime_ns": 1790824870940409318,
+      "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0264/models/B2048/arms/PI0264/B/checkpoint-2048/model-00002-of-00002.safetensors"
+    }
+  ],
+  "scope": "Only index-listed large model shards and optimizer.pt; keep small checkpoint evidence",
+  "skipped": [],
+  "status": "EXPLICIT_RETIRED_PAYLOADS_DELETED",
+  "unlinked_allocated_bytes": 19058425856
+}

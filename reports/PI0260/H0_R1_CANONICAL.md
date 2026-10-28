@@ -1,0 +1,17 @@
+## PI0260-R1 — H0 accepted; single-owner fixed-order DEVELOPMENT running
+
+Scientific authority: `90cbb926a842f08c3f9a78756d7a24e0d7a63f78` / canonical5893504272. Workflow amendment: `1f27d9c14ce0a91518930a8d8a2f6f0ffc2dd468` / canonical5893778973. Execution source: `cc191f3` on `pi0260/feasible-observable-motion2-execution-v1`.
+
+The same owner adopted the existing PI0260 run. All84 valid calibration image pairs were reused after the workflow amendment. Corelab renderer exited; Hopper user PBS listing is empty through the actual `/cm/shared/apps/pbspro/current/bin/qstat`. No duplicate scene/model run or dispatcher was created. Scratch free370GiB; quota UNKNOWN.
+
+H0 producer manifest SHA256 `dd75ddfc38c480a200e3853cd991cdf451ea86d87295c8cd0c1d1ef556e4da6e` (313 entries), Corelab `/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0260/handoff/H0_v1/manifest.json`. Source-specific saved-array replay uses the pinned V math/FK/raster/depth tools, with PI0260 cohort handling. Review mode **SAME_OWNER_READONLY_REPLAY**, not another agent's signature. H0 accepted receipt SHA256 `3e57b86adfb06de239f20f36e44f4babd3a250de088f3f3377665edb13b30fa8`.
+
+- First fixed body rig `[.65,0,.75]` BASE, FOV70, actual96x96 and unchanged wrist: all6 starts, all72 available registered later poses PASS the original cue thresholds. Other two rigs were not queried.
+- 24 missing later geometry rows remain explicit, excluded from camera measurement only. Four original complete paired family IDs (001/003/004/005); 001/004 share numerical geometry and differ in color, so unique complete geometries=3. Original IDs and aliases are disclosed, not portrayed as four independent scene geometries.
+- All84 raw pairs checked;6 exact repeat pairs; saved FK/StateV1 replay deltas0. Actual full camera transforms and depth projection also checked. All84 native-size body/wrist pairs inspected in a source-labelled RGB montage: colored targets, distinct axis endpoints, yellow open contour and black/white endpoint cues visible, especially wrist. No model semantic-success claim.
+- R1's10 routing acceptance cases plus live-job adoption case PASS. Pinned V's25 negative CPU checks PASS. Missing geometry/measurement confusion is additionally rejected in the new adapter. No generic PARTIAL receipt promoted to PASS.
+- Proposal registry was frozen before outcomes:225 parent geometries minus21 actual-geometry exclusions=204. Fixed strata20DEV/100TRAIN/40KIN-VAL,44UNUSED_RESERVED. Registry SHA256 `d4880cc2cf5e9ef2d20913ea3821eac50323e505065dba176b1a5d04c75eaede`.
+
+Fixed-order DEVELOPMENT now runs under one file lock and PID900424. Every evaluated family attempts both commands of M1 and M3 using the unchanged residual/DLS/continuation/FCL path; only complete geometry and raw-gate families reach rendering. Rejected proposals stay in denominator. Stop at first6 eligible or actual20-proposal exhaustion. TRAIN/VAL, codec, canaries and Base/G6000 remain downstream actual gates, not yet achieved.
+
+At entry:84 calibration pairs, zero new calibration IK, zero model query/update/physics/WBC. Subsequent data counts are in the single cumulative `state/data_progress.json`; R1 adds no budget. Two pre-image engineering entry errors (metadata-only field binding, Python parse) consumed zero renders/IK/model updates and were repaired without changing a scientific definition. PI0259 OBSERVATION_DESIGN_BLOCKED remains unchanged. selected/deployment NONE; no TEST/DEV-F, physical execution, cleanup, mail/monitor or merge.

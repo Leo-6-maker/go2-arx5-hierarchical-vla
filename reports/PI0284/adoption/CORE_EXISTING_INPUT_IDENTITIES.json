@@ -1,0 +1,238 @@
+{
+  "files": {
+    "design/IMPLEMENTATION.json": {
+      "sha256": "5ddd4d85af07ceb9983624563d84551eb41ef3b72baa468375d3c0decd68d530",
+      "bytes": 3071
+    },
+    "design/SOURCE_CARD.json": {
+      "sha256": "69d10027a5ea74c0606a73a8666f2e80fa4b6e1800ba23f13dc83aefbc3e1eef",
+      "bytes": 5202
+    },
+    "design/MODEL_POINTS.json": {
+      "sha256": "26cd399ebc2170b40ccbf340ab988e130c2f7bd1c64d1fe76ed55f5f5e0b6daa",
+      "bytes": 562757
+    },
+    "data/DIAG48.jsonl": {
+      "sha256": "2406a0c853e409435de5cfdce5b4c54a40086c6674fa0209907e4bf8323273ba",
+      "bytes": 20729
+    },
+    "source/diagnostics/EVENT1024/RESULT.json": {
+      "sha256": "2027c5da2fff45d96edb957d61ba80807be7f62ccf398ccc8a832b35259e1698",
+      "bytes": 18197
+    },
+    "source/diagnostics/EVENT1024/CPU_RECOMPUTE.json": {
+      "sha256": "126e92bf99579a0872ef951532dd43e3f6d0f00f6a4973e853da8148b4993671",
+      "bytes": 28267
+    },
+    "source/diagnostics/EVENT1024/H40_EVENT_CPU.json": {
+      "sha256": "0d034c142f8452e52c767db525eae3f8f347f54a323d25f49fdc5403a9c7bb2f",
+      "bytes": 90110
+    },
+    "source/evidence/RESULT_EVENT1024_TRAIN.json": {
+      "sha256": "cadc66b93bf23ed9237a8f9e301bde44a337b84cb43aff464fe2b9f7ce29c411",
+      "bytes": 6821
+    }
+  },
+  "design/SOURCE_CARD.json": {
+    "release": "8fdaab73b8b6686409317d9562833235c2839acc",
+    "canonical": 6048886543,
+    "points": [
+      "MORE1024",
+      "MORE2048",
+      "EVENT1024"
+    ],
+    "panels": {
+      "TRAIN": [
+        10000,
+        10001,
+        10002,
+        10003
+      ],
+      "DEV": [
+        30000,
+        30001,
+        30002,
+        30003,
+        30004,
+        30005,
+        30006,
+        30007
+      ],
+      "CONFIRM": [
+        30032,
+        30033,
+        30034,
+        30035,
+        30036,
+        30037,
+        30038,
+        30039,
+        30040,
+        30041,
+        30042,
+        30043,
+        30044,
+        30045,
+        30046,
+        30047
+      ]
+    },
+    "codec_command": [
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python",
+      "-u",
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/codec.py",
+      "--stdio",
+      "--root",
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0283/data"
+    ],
+    "policy_command": [
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python",
+      "-u",
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code/inference.py",
+      "--root",
+      "/home/liuyu-nfs/Projects/go2-arx5/PI0283"
+    ],
+    "native_pythonpath": "/home/liuyu-nfs/Projects/go2-arx5/PI0283/code:/home/liuyu-nfs/Projects/go2-arx5/PI0280/official:/home/liuyu-nfs/Projects/go2-arx5/PI0276/project-src",
+    "hf_home": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/hf_home",
+    "expert_parents": {
+      "10000": {
+        "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10000-eef/attempt-000",
+        "files": {
+          "RESULT.json": "e31e4eab5bf9bda7647eae0c1eb283f1dcba2dd750fe6cc7c00c538948fe15ca",
+          "commands.npz": "865c26a7bad29183cd01dfdd018f6f660515a1dd3c19340790756f66d357d076",
+          "initial.npz": "bc6e0cf1ebbc8a4d80fc14ab05af78e24fd033843619e86e8b538434010281c2"
+        }
+      },
+      "10001": {
+        "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10001-eef/attempt-000",
+        "files": {
+          "RESULT.json": "7a68026182f90bef46631276582f6eaeb3fae3e5c5a27d917722c8b3f79279d4",
+          "commands.npz": "5880501be81568f835f400ece77092d6555ef16127ee46ebd6abb687402c5d17",
+          "initial.npz": "3969116792246743486d792d1ff8f41ef7f51b54bba14c8a206b99dbcac2c42f"
+        }
+      },
+      "10002": {
+        "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10002-eef/attempt-000",
+        "files": {
+          "RESULT.json": "3f932d3625623288d7419eccf108c8ff0ea12b2fa3cfb34754c6c547cd903137",
+          "commands.npz": "123149bdb1b34beea939b7875cb7f0a3a440ad2f7f2ef9458963c5ee64447b97",
+          "initial.npz": "5505d107c95cc4d6b7ba866ba08130b23a5d5859e8ab64273b1e6d412a170bf9"
+        }
+      },
+      "10003": {
+        "path": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0276/episodes/TRAIN-10003-eef/attempt-000",
+        "files": {
+          "RESULT.json": "23be88c3d35f099f6e5d015327768c83485db387013e3c2b6bdedd39bf8baf0d",
+          "commands.npz": "831742944b4140faaad59c0c359e654b250aa8d804085c1a31c6f9e27307ea13",
+          "initial.npz": "d7aafd71dce40a40ce37dc99bfba3d8a1687c1bd28bfe6bfa6edbce4494d6992"
+        }
+      }
+    },
+    "predecessors": {
+      "source_worker": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/code/source_worker.py",
+        "sha256": "12317af70db5cf913d0f07151d63195eb7785a1e76134add687cd133210d0bd3"
+      },
+      "source_fileset": {
+        "path": "/home/liuyu-nfs/Projects/go2-arx5/PI0276/design/SOURCE_FILESET.json",
+        "sha256": "36b697b83293f39e1965e30bff2f0e39a1f69263a3e06e7a07ca97f0198bf190"
+      }
+    },
+    "code_sha256": {
+      "source.py": "1e931308f9f64feb83bdfeb2f47a4320e249e4049990dd2a82f13843fe8c5fee",
+      "source_launch.py": "482538bec044e4f4166f46c3ca33042a9578ad1b894ed9c3ac778305c34abb40",
+      "inference.py": "65b90f82ad8f5b77631a200f1534381583c9e570543579a20d5a05a9c4efea29",
+      "codec.py": "2b2181644b021a0c3b70ca4d4a232a3c194cd96843695c049d592f4ab25200b9",
+      "cpu_inputs.py": "a28db8767d4ccfd85d844224e94f55849a99a44a9ea7a6e6022860c374e635d6",
+      "native_model.py": "8d1c523079fe33c368450809de00b956b7c1fc2ec6e368d51ad1329ab1b60cd3",
+      "authority.py": "7b9721704b36d4ccd36cd7dba5b014770ed670545bbee31b54edcd766deac492"
+    },
+    "step_s": 0.05,
+    "control_Hz": 20,
+    "physics_Hz": 100,
+    "task_control_calls": 640,
+    "pre_roll_control_calls": 20,
+    "H": 40,
+    "prefix": 8,
+    "observations": "ACTUAL_CURRENT_RAW128_TCP_ROW6D_MEASURED_OPENING_NO_JOINT_PHASE_TIME_OR_TRUTH",
+    "source_controller": "UNCHANGED_PI0276_NATIVE_PD_EE_POSE",
+    "physical_caps": {
+      "starts": 40,
+      "control": 30000,
+      "physics": 160000,
+      "rgb": 30000,
+      "dispatches": 60000,
+      "teacher": 0
+    },
+    "model_caps": {
+      "requests": 3456,
+      "heads": 13824
+    },
+    "metric": "FULL32S_AND_ALL41_ORIGINAL_TASK_SUCCESS_SAMPLES28_TO30",
+    "NON_REALTIME": true,
+    "technical_replacements": {
+      "MORE2048-TRAIN-10000": [
+        {
+          "result_sha256": "85f14a5a4631cd780c70a8dd206de380a0aff6ba6ca6aeee5841b0d3bb344a51",
+          "reason": "OWNED_NVME_SOURCE_PATH_BINDING",
+          "same_condition": true
+        }
+      ]
+    },
+    "point_bindings": {},
+    "selected": "NONE",
+    "deployment": "NONE",
+    "authority_release": "508e3db7b63d3c47758794f3ffbad87b577e6e9d",
+    "development_points": [],
+    "conservative_episode_reserve_s": 360
+  },
+  "design/IMPLEMENTATION.json": {
+    "release": "8fdaab73b8b6686409317d9562833235c2839acc",
+    "canonical": 6048886543,
+    "published_commit": "7653c27b055e7a45e24108daa92327e4d10b59f2",
+    "files": {
+      "audit.py": "182c38e43b2229233f46b0198a174ee6a9c0076f6445c61fa0cbbe177f6a1510",
+      "plan.py": "e8be9fdab5436d1acdcb3ad1c176dfcb5cff89c64c4f938120a1e601c8d94c09",
+      "authority.py": "7b9721704b36d4ccd36cd7dba5b014770ed670545bbee31b54edcd766deac492",
+      "canary.py": "db3b0e23a38f9bcb787e861c171d0561ead89f5578d66107b919e18bbc17e315",
+      "codec.py": "2b2181644b021a0c3b70ca4d4a232a3c194cd96843695c049d592f4ab25200b9",
+      "continuation.py": "4a7351546e9d561497e2d21268c6f8dbc3a8cc9ff2f573c13286aa87285e8dfd",
+      "cpu_inputs.py": "a28db8767d4ccfd85d844224e94f55849a99a44a9ea7a6e6022860c374e635d6",
+      "data.py": "d554fa8051ad9213b535c97a343ae3337a0364b718b6f1d20b0467a9e8949ec7",
+      "evaluate.py": "1be2274f68e2819963c2badc7606eb7a99d34cae1e32ba9882b8f44f5056ba73",
+      "inference.py": "65b90f82ad8f5b77631a200f1534381583c9e570543579a20d5a05a9c4efea29",
+      "launch.py": "4e7438b310495c23fabcbe4466a262f812f506a0c1df36eb239f559bc8798755",
+      "learning.py": "8c08a758b765d5edcb79dda7ffff9eb5752021b4ebe8a08e5dd10c6ba367f87d",
+      "model_view.py": "493a160bc03ac37a0eb63e388021a8018e49ffea09a64c709bb764272b19cf8a",
+      "native_model.py": "8d1c523079fe33c368450809de00b956b7c1fc2ec6e368d51ad1329ab1b60cd3",
+      "phase.py": "c0233747cd9a663dc561cbbcc67e181707d6eb7020f0cad3b663d52d62d47995",
+      "scope.py": "c3b697df2adc1eb2dd4c543a8d72ce23648d5d1e7b8564ebbae34e61596fb81b",
+      "source.py": "1e931308f9f64feb83bdfeb2f47a4320e249e4049990dd2a82f13843fe8c5fee",
+      "source_launch.py": "482538bec044e4f4166f46c3ca33042a9578ad1b894ed9c3ac778305c34abb40",
+      "train.py": "937241939919c5043361a40065116523395f7147346581e20f5a8347dd617ed0",
+      "training_launch.py": "584ac5962e5fcf58cbc75f554a481106cc30ca4c1c08f39454ae8272d2bd0bc6",
+      "transport.py": "37e8d835af57e832d6e9dcecb97c586dc1e06119c3b94a5d5883481009757ced",
+      "environment.sh": "89bf1c9332580dd564745b0d6a786c159f34f73de610497dc2d2419758c88255",
+      "train.pbs": "c1bde8e0b5aff671ed2ee83f8ca71465e4fc17376b40740b7ee6a9dd53a94a0d"
+    },
+    "source_card_sha256": "69d10027a5ea74c0606a73a8666f2e80fa4b6e1800ba23f13dc83aefbc3e1eef",
+    "codec_identity": {
+      "processor_config.json": "98f91512ee3e3520d8f01bbfa5e6b5689464868fd80cde315efc2e8d5118ea0d",
+      "statistics.json": "7049d0eeb842b808eeb316f0460f03368ae18a97c1eb163119bb763fbb45d1a9",
+      "embodiment_id.json": "6f3ff68488f181911ac2a20fb797fc184291f5ec7bf6707b9a20b979236860fb"
+    },
+    "expert_codec_replay_allowed": true,
+    "model_evaluation_allowed": true,
+    "training_allowed": true,
+    "CPU_pipeline_result_sha256": "840222384ee5e6bc31c93e04e7e97df6e861432b09d016985fcf67ed70d008fb",
+    "selected": "NONE",
+    "deployment": "NONE",
+    "authority_release": "508e3db7b63d3c47758794f3ffbad87b577e6e9d",
+    "expert_codec_result_sha256": "15cce0427b0104c6d0fa32be06ba9b9d2258deebed667fb0fec824f4dd554219",
+    "quality_budget_limits": {
+      "policy_requests": 3424,
+      "S4_heads": 13696
+    }
+  },
+  "confirm_saved_artifacts": []
+}

@@ -1,0 +1,53 @@
+{
+  "status": "PASS_BOTH_REAL_RECOVERY_CANARIES",
+  "N": {
+    "arm": "N",
+    "microbatches": 16,
+    "mode_restored": true,
+    "model_max_abs": 0.0,
+    "model_tensors": 1030,
+    "optimizer_max_abs": 0.0,
+    "optimizer_tensors": 1413,
+    "packet_equal": true,
+    "saved_RNG_states_equal": {
+      "cpu": true,
+      "cuda": true,
+      "numpy": true,
+      "python": true
+    },
+    "scheduler_lr_abs": 0.0,
+    "split_phase": "split_recovery1",
+    "status": "PASS_PI0267_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY",
+    "units": 8
+  },
+  "R": {
+    "arm": "R",
+    "microbatches": 16,
+    "mode_restored": true,
+    "model_max_abs": 0.0,
+    "model_tensors": 1030,
+    "optimizer_max_abs": 0.0,
+    "optimizer_tensors": 1413,
+    "packet_equal": true,
+    "saved_RNG_states_equal": {
+      "cpu": true,
+      "cuda": true,
+      "numpy": true,
+      "python": true
+    },
+    "scheduler_lr_abs": 0.0,
+    "split_phase": "split",
+    "status": "PASS_PI0267_REAL_TWO_MICROBATCH_EXACT_RESUME_CANARY",
+    "units": 8
+  },
+  "planned_discarded_canary_updates": 32,
+  "technical_recovery_completed_updates": 4,
+  "actual_completed_updates": 36,
+  "official_updates": 0,
+  "engineering_jobs": [
+    "642625.hopper-m-02",
+    "642632.hopper-m-02"
+  ],
+  "failed_original_preserved": "evidence/engineering-642625",
+  "primary_quality_queried": false
+}

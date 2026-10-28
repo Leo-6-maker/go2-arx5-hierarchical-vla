@@ -1,0 +1,23 @@
+{
+  "schema": "PI0243_STAGE_A_HF_ENGINEERING_FAILURE_V1",
+  "job_id": "627454.hopper-m-02",
+  "status": "HF_SIDECAR_FAILED_DURING_TRAINING",
+  "science_activity": {
+    "training_active": true,
+    "model_loads": 1,
+    "forward": "training_only",
+    "backward": "training_only",
+    "optimizer": "training_only",
+    "WBC": 0,
+    "sim": 0
+  },
+  "failure": "system Python HF import failed with ModuleNotFoundError: certifi on compute node",
+  "evidence": "/scratch/e1192548/pi0243_stage_a_hf_20260922_retry1/hf_checkpoint_sidecar.log",
+  "repair": "bind HF sidecar to the sealed Stage22 runtime Python, which imports huggingface_hub and certifi successfully",
+  "checkpoint_state_at_observation": {
+    "checkpoint_1000": "written_locally_not_archived",
+    "checkpoint_2500": "written_locally_not_archived",
+    "checkpoint_5000": "not_observed_at_failure"
+  },
+  "selected_checkpoint": "NONE"
+}

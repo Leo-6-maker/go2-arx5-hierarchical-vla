@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+#PBS -N pi0246_gate_pass_PT
+#PBS -P CFP03-CF-004
+#PBS -q auto
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225GB
+#PBS -l walltime=16:00:00
+#PBS -o /scratch/e1192548/pi0246_gate_pass_logs/
+#PBS -e /scratch/e1192548/pi0246_gate_pass_logs/
+
+set -euo pipefail
+trap 'rc=$?; echo "PI0246_PT_TRAIN_FAILURE line=${LINENO} status=${rc}" >&2' ERR
+
+card=${PI0246_PT_RUN_CARD:?sealed PT card required}
+expected=${PI0246_PT_RUN_CARD_SHA256:?sealed card SHA required}
+runtime=${PI0246_PT_RUNTIME_ROOT:?sealed PT runtime root required}
+wrapper="$runtime/pi0246_gate_pass_pt_logged_h200.pbs"
+test -r "$card"
+test "$(sha256sum "$card" | cut -d ' ' -f 1)" = "$expected"
+test "$(jq -er .sha256 "$(dirname "$card")/run_card.seal.json")" = "$expected"
+test "$(jq -er .arm "$card")" = PT
+test "$(jq -er .family "$card")" = PI0246_PT_PHYSPOS_PHYSDELTA_M16_2K_V1
+test "$(jq -er .loss "$card")" = 'L_native + 0.1 * L_phys_pos + 0.1 * L_phys_delta'
+test "$(jq -er .predecessor_failure.status "$card")" = VALID_JOINT_GATE_FAIL
+test "$(jq -er .archive.path_prefix "$card")" = arms/PT
+test "$(jq -er .archive.rolling_full_trainer_checkpoints "$card")" = true
+
+code=$(jq -er .paths.code_root "$card")
+campaign=$(jq -er .paths.campaign_code_root "$card")
+stage10=$(jq -er .paths.stage10_root "$card")
+groot=$(jq -er .paths.groot_source "$card")
+output=$(jq -er .paths.output_root "$card")
+ff=/scratch/e1192548/STAGE45B_FFMPEG6_NATIVE_RUNTIME_V1__9243a7880b06ac3984ddf4a1a667b685441ec0f34d6d529fa0f96c3c894e10cf
+venv="$stage10/runtime/venv"
+binding="$runtime/PT_runtime_binding.json"
+binding_seal="$runtime/PT_runtime_binding.seal.json"
+for file in pi0246_gate_pass_train.py pi0246_pt_combined_overlay.py pi0246_physical_position.py pi0245_physical_delta.py pi0246_reconcile_c_update.py; do
+  test -r "$runtime/$file"
+done
+test -r "$wrapper"
+test -r "$binding" && test -r "$binding_seal"
+binding_sha=$(jq -er .sha256 "$binding_seal")
+test "$binding_sha" = "${PI0246_PT_RUNTIME_BINDING_SHA256:?sealed PT runtime binding SHA required}"
+test "$(sha256sum "$binding" | cut -d ' ' -f 1)" = "$binding_sha"
+for helper in pi0241_fixed16_learning.py pi0228_h200_large_adapt_v1.py; do
+  expected_helper=$(jq -er --arg name "$helper" '.training_helpers[$name]' "$binding")
+  test "$(sha256sum "$code/scripts/$helper" | cut -d ' ' -f 1)" = "$expected_helper"
+done
+test -r "$campaign/pi0245_p1_stock.py"
+test -x "$venv/bin/python"
+test -d "$ff/lib"
+test -d "$output"
+test ! -e "$output/training"
+test ! -e "$output/functional_preflight_pt_v1"
+test -r "$output/predecessor_evidence/P2000_cpu_verification.json"
+test -r "$output/predecessor_evidence/P2000_inference_view_verified.json"
+case "$output" in /scratch/e1192548/pi0246_gate_pass_campaign_20260924/PT) ;; *) echo "FAIL_CLOSED: unexpected PT output root: $output" >&2; exit 2 ;; esac
+: "${PI0243_HF_TOKEN_FILE:?set PI0243_HF_TOKEN_FILE for the public HF rolling archive}"
+test -r "$PI0243_HF_TOKEN_FILE" && test -s "$PI0243_HF_TOKEN_FILE"
+available=$(stat -f -c '%a %s' /scratch/e1192548 | awk '{print $1*$2}')
+echo "PI0246_PT_QUOTA_PROBE root=/scratch/e1192548 available_bytes=$available"
+required=$(jq -er .archive.required_free_bytes "$card")
+reference_bytes=$(jq -er .archive.reference_checkpoint_bytes "$card")
+headroom=$(jq -er .archive.scratch_headroom_bytes "$card")
+test "$required" -eq "$((reference_bytes + headroom))"
+test "$(jq -er .archive.reference_checkpoint_tree_sha256 "$card")" = "$(jq -er .predecessor_failure.P2000_full_checkpoint_tree_sha256 "$card")"
+awk -v a="$available" -v r="$required" 'BEGIN {exit !(a >= r)}' || { echo "FAIL_CLOSED: insufficient same-fileset headroom for one full checkpoint plus sealed reserve" >&2; exit 2; }
+
+export PI0246_PT_RUNTIME_ROOT="$runtime"
+export PI0246_PT_RUNTIME_WRAPPER="$wrapper"
+export PI0246_PT_RUNTIME_BINDING="$binding"
+export PI0246_PT_RUNTIME_BINDING_SHA256="$binding_sha"
+export PI0246_PT_RUN_CARD="$card"
+export LD_LIBRARY_PATH="$ff/lib:$ff/compat:$venv/lib/python3.12/site-packages/torchcodec:$venv/lib/python3.12/site-packages/torch/lib:${LD_LIBRARY_PATH:-}"
+export PYTHONPATH="$runtime:$campaign:$code/scripts:$code/src:$groot:${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false NO_ALBUMENTATIONS_UPDATE=1
+test "$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^$/d' | wc -l)" -eq 1
+gpu_name=$(nvidia-smi --query-gpu=name --format=csv,noheader | sed '/^$/d')
+echo "$gpu_name" | grep -qi H200
+nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
+"$venv/bin/python" -u "$runtime/pi0246_gate_pass_train.py" --functional-preflight --run-card "$card"
+"$venv/bin/python" -u "$runtime/pi0246_gate_pass_train.py" --train --run-card "$card"
+"$venv/bin/python" -u "$runtime/pi0246_reconcile_c_update.py" \
+  --run-card "$card" --training-root "$output/training" \
+  --output "$output/training_reconciliation.json"
+reconcile_status=$(jq -er .status "$output/training_reconciliation.json")
+test "$reconcile_status" = TRAINING_INTEGRITY_RECONCILED_PT_FULL_PROJECTOR_TENSORS || {
+  echo "PT optimizer/projector reconciliation did not pass: $reconcile_status" >&2
+  exit 3
+}

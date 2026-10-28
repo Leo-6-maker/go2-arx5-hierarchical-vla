@@ -1,0 +1,72 @@
+{
+  "schema": "PI0294_PV1_P5_CPU_CONTRACT_IMPLEMENTATION_RECEIPT_V1",
+  "status": "PASS_CPU_IMPLEMENTED_NOT_AUTHORITY_TO_OPEN_LOCKBOX",
+  "observed_utc": "2026-10-19T13:28:56Z",
+  "implementation_commit": "4342c9a57ba3dc64b53cad6b3483267849d946aa",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "implemented": {
+    "unique_DEV_qualified_candidate_freeze": true,
+    "native_P5_FINAL_stage": true,
+    "LOCKBOX80_registration": true,
+    "one_shared_checkpoint_for_T1_T2": true,
+    "one_engineering_replacement_per_condition": true,
+    "valid_task_failure_or_S1_rejection_repeated": false,
+    "all_80_conditions_kept_in_denominator": true,
+    "scene_clustered_interval": "EXACT_EMPIRICAL_BOOTSTRAP_20_SCENE_CLUSTERS",
+    "VALIDATED_BETA_NOT_QUALIFIED_gates": true,
+    "protected_final_resource_ledger": true,
+    "policy_manifest_and_acceptance_contract": true,
+    "checkpoint_retirement_list_contract": true,
+    "policy_card_and_reproduce_rendering": true,
+    "offline_load_single_generation_reset_close_failure_stop_contract": true,
+    "default_robot_or_WBC_connection": false
+  },
+  "unchanged": {
+    "B0_complete_before_training_gate": true,
+    "WBC": true,
+    "plant": true,
+    "gripper_PD": true,
+    "S1": true,
+    "task_score": true,
+    "statistics_and_normalizer": true,
+    "existing_active_capsule": true,
+    "existing_PBS_job_identity": true
+  },
+  "tests": {
+    "focused_contracts": {
+      "passed": 49,
+      "failed": 0
+    },
+    "PI0294_without_two_missing_local_optional_dependencies": {
+      "passed": 878,
+      "code_failures": 0,
+      "environment_only_missing": [
+        "torch",
+        "safetensors"
+      ]
+    },
+    "GitHub_CI_required_for_full_environment": true
+  },
+  "execution": {
+    "LOCKBOX_opened": false,
+    "LOCKBOX_conditions_executed": 0,
+    "new_GPU_PBS_submitted": 0,
+    "models_loaded_by_this_change": 0,
+    "generation_queries_by_this_change": 0,
+    "training_updates_by_this_change": 0,
+    "physics_integrations_by_this_change": 0,
+    "checkpoint_deletions_by_this_change": 0
+  },
+  "concurrent_native_job_readback": {
+    "job_id": "675967.hopper-m-02",
+    "job_state": "R",
+    "project": "CFP04-CF-007",
+    "resources": "1xH200,12CPU,128GB,08:00:00",
+    "same_original_job": true,
+    "owner_process_alive": true,
+    "changed_or_restarted_by_this_implementation": false,
+    "scientific_progress_not_inferred_from_scheduler_state": true
+  },
+  "selected": "NONE",
+  "real_robot_deployment": "NONE"
+}

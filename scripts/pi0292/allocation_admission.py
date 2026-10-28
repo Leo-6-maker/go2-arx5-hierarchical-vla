@@ -1,0 +1,255 @@
+"""Stdlib-only outer admission for the unchanged sealed S3 allocation wrapper."""
+import ast
+from datetime import date, datetime, timedelta, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+import uuid
+
+PROJECT = 'CFP04-CF-007'
+RELEASE = '261bc5b37f20aaff1ad7d5742252d3dc1a91fa65'
+SOURCE = 'c187d9573bdff302783fb5f41d06fcaa1753d2a8'
+GIB = 1024**3
+PBS = '/cm/shared/apps/pbspro/current/bin/'
+PARALLEL_AUTHORITY = '2026-10-13_DIRECT_USER_TWO_INDEPENDENT_GPU_ALLOCATIONS_PI0292_ONE_GPU_8H'
+ENGINEERING_AUTHORITY = '2026-10-13_DIRECT_USER_ONE_EXTRA_ENGINEERING_SMOKE_PBS_3_TO_4'
+
+
+def validate_engineering_revision(revision):
+    expected = dict(schema='PI0292_SINGLE_ENGINEERING_PBS_REVISION_V1',
+        authority=ENGINEERING_AUTHORITY, run_uuid='20261013T025824Z-localpc-pi0292',
+        science_release=RELEASE, original_submission_cap=3, revised_submission_cap=4,
+        added_engineering_smoke_submissions=1, GPU_cap_s=28800,
+        max_PI0292_concurrent_GPU=1, original_T0_epoch=1791860304,
+        new_work_cutoff_epoch=1791943104, deadline_epoch=1791946704,
+        reset_clock_or_budget=False, recipe_changed=False, science_gates_changed=False)
+    if revision != expected:
+        raise PermissionError('EXACT_SINGLE_ENGINEERING_PBS_REVISION_REQUIRED')
+    return 4
+
+
+def parallel_peer_jobs(*, jobs, user, allowed_ids, authority):
+    if (authority != PARALLEL_AUTHORITY or len(set(allowed_ids)) != len(allowed_ids)
+            or len(allowed_ids) > 1 or not set(jobs).issubset(set(allowed_ids))):
+        raise PermissionError('EXACT_TWO_JOB_PARALLEL_AUTHORITY_REQUIRED')
+    for job in jobs.values():
+        if (job['Job_Owner'].split('@')[0] != user or job['job_state'] != 'R'
+                or job.get('project') != 'CFP04-CF-009' or job.get('Job_Name') != 'pi05_relative'
+                or int(job['Resource_List']['ngpus']) != 1):
+            raise PermissionError('ONLY_OBSERVED_UNRELATED_SINGLE_GPU_PEER_ALLOWED')
+
+
+def read(path):
+    return json.loads(Path(path).read_text())
+
+
+def sha(path):
+    digest = hashlib.sha256()
+    with Path(path).open('rb') as handle:
+        for block in iter(lambda: handle.read(4 << 20), b''):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def owned_jobs(user, query=subprocess.run):
+    """The user-filtered qstat view is not JSON; select IDs, then read each ID."""
+    result = query([PBS+'qselect', '-u', user], capture_output=True, text=True, timeout=20)
+    if result.returncode:
+        raise PermissionError('OWN_JOB_SELECTION_UNKNOWN')
+    jobs = {}
+    for job_id in result.stdout.split():
+        if job_id in jobs:
+            raise ValueError('DUPLICATE_SCHEDULER_JOB_ID')
+        row = query([PBS+'qstat', '-f', '-F', 'json', job_id],
+                    capture_output=True, text=True, timeout=20)
+        if row.returncode:
+            raise PermissionError('SCHEDULER_CHANGED_REPEAT_READ_ONLY_PREFLIGHT')
+        job = json.loads(row.stdout)['Jobs'][job_id]
+        if job['Job_Owner'].split('@')[0] != user:
+            raise PermissionError('FOREIGN_JOB_IN_OWN_SELECTION')
+        if job['job_state'] not in ('F', 'X'):
+            jobs[job_id] = job
+    return jobs
+
+
+def personal_quota(user, path='/home/svu/ccepbs/nushpc/quota_hw_report/hpfs_quota_raw.txt',
+                   attempts=3, delay_s=1, sleeper=time.sleep):
+    path = Path(path)
+    if type(attempts) is not int or attempts < 1 or delay_s < 0:
+        raise ValueError('POSITIVE_QUOTA_READ_ATTEMPTS_REQUIRED')
+    for attempt in range(attempts):
+        before = path.stat()
+        rows = []
+        with path.open() as handle:
+            for line in handle:
+                fields = line.split()
+                if '/'+user in fields:
+                    rows.append(fields)
+        after = path.stat()
+        stable = (before.st_ino, before.st_size, before.st_mtime_ns) == (
+            after.st_ino, after.st_size, after.st_mtime_ns)
+        if stable and len(rows) == 1 and rows[0][3] == '/'+user:
+            return dict(user=user, used_bytes=int(rows[0][4]), hard_bytes=int(rows[0][5]),
+                        report_epoch=after.st_mtime)
+        if attempt + 1 < attempts:
+            sleeper(delay_s)
+    raise PermissionError('EXACT_OWN_PERSONAL_QUOTA_ROW_REQUIRED')
+
+
+def current_project(query=subprocess.check_output, executable='amgr'):
+    projects = json.loads(query([executable, 'ls', 'project', '--name', PROJECT, '--json-info'],
+                                text=True, timeout=30))
+    balance = ast.literal_eval(query([executable, 'checkbalance', 'project', '--name', PROJECT],
+                                     text=True, timeout=30))
+    if len(projects) != 1:
+        raise PermissionError('EXACT_CURRENT_PROJECT_REQUIRED')
+    return dict(project=projects[0], balance_su=balance['su'], observed_epoch=time.time())
+
+
+def allocation_project_receipt(request, project_path):
+    """Use a bound login attestation; validate() still checks fresh PBS identity."""
+    if request.get('project_admission_mode') != 'FRESH_LOGIN_RECEIPT_NATIVE_PBS_V1':
+        raise PermissionError('EXPLICIT_LOGIN_PROJECT_ATTESTATION_MODE_REQUIRED')
+    if sha(project_path) != request.get('project_admission_sha256'):
+        raise PermissionError('BOUND_LOGIN_PROJECT_RECEIPT_CHANGED')
+    receipt = read(project_path)
+    nonce = request.get('submission_nonce')
+    try:
+        parsed = uuid.UUID(nonce)
+    except (ValueError, AttributeError, TypeError):
+        raise PermissionError('CANONICAL_SUBMISSION_NONCE_REQUIRED') from None
+    if parsed.version != 4 or str(parsed) != nonce:
+        raise PermissionError('CANONICAL_SUBMISSION_NONCE_REQUIRED')
+    if (receipt.get('schema') != 'PI0292_LOGIN_NATIVE_PROJECT_ATTESTATION_V1'
+            or receipt.get('source') != 'HOPPER_LOGIN_NATIVE_AMGR_LS_AND_CHECKBALANCE'
+            or receipt.get('run_uuid') != '20261013T025824Z-localpc-pi0292'
+            or receipt.get('request_id') != request['request_id']
+            or receipt.get('submission_nonce') != nonce):
+        raise PermissionError('EXACT_NATIVE_LOGIN_RECEIPT_RUN_AND_REQUEST_REQUIRED')
+    return receipt
+
+
+def validate(*, now, user, job_id, jobs, quota, adoption, project_receipt,
+             dependency, request, binding_sha256):
+    if (adoption['release'] != RELEASE or adoption['T0_epoch'] != 1791860304
+            or adoption['new_work_cutoff_epoch'] != 1791943104
+            or adoption['deadline_epoch'] != 1791946704 or adoption['reset_on_resume']):
+        raise PermissionError('ORIGINAL_AUTHORITY_AND_CLOCK_REQUIRED')
+    if now >= adoption['new_work_cutoff_epoch']:
+        raise PermissionError('ORIGINAL_NEW_WORK_CUTOFF')
+    peers = {key: value for key, value in jobs.items() if key != job_id}
+    if request.get('parallel_authority'):
+        parallel_peer_jobs(jobs=peers, user=user, allowed_ids=request['parallel_peer_ids'],
+                           authority=request['parallel_authority'])
+    elif peers:
+        raise PermissionError('NO_OVERLAPPING_OWN_ALLOCATION')
+    if job_id not in jobs:
+        raise PermissionError('EXACT_RUNNING_JOB_MISSING')
+    job = jobs[job_id]
+    if (job['job_state'] != 'R' or job['Job_Owner'].split('@')[0] != user
+            or job.get('project') != PROJECT or int(job['Resource_List']['ngpus']) != 1
+            or job['Resource_List']['walltime'] != '00:30:00'):
+        raise PermissionError('EXACT_RUNNING_PROJECT_SINGLE_GPU_SMOKE_ALLOCATION_REQUIRED')
+    project = project_receipt['project']
+    day = datetime.fromtimestamp(now, timezone(timedelta(hours=8))).date()
+    if (project['name'] != PROJECT or project['active'] is not True
+            or user not in project['users'] or 'hopper-m-02' not in project['cluster']
+            or not date.fromisoformat(project['start_date']) <= day <= date.fromisoformat(project['end_date'])
+            or not 0 <= now-project_receipt['observed_epoch'] <= 1800
+            or type(project_receipt['balance_su']) not in (int, float)
+            or not 0 < project_receipt['balance_su'] < float('inf')):
+        raise PermissionError('FRESH_PROJECT_MEMBERSHIP_BALANCE_AND_DATES_REQUIRED')
+    if (quota['user'] != user or not 0 <= now-quota['report_epoch'] <= 900
+            or any(type(quota[k]) is not int or quota[k] < 0 for k in ('used_bytes', 'hard_bytes'))
+            or quota['hard_bytes']-quota['used_bytes'] < 100*GIB):
+        raise PermissionError('FRESH_100_GIB_PERSONAL_QUOTA_HEADROOM_REQUIRED')
+    if (dependency['status'] != 'PASS_MIGRATED_DEPENDENCY_FILES_AND_CPU_PROCESSOR'
+            or dependency['model_qualification'] is not False
+            or dependency['bindings_sha256'] != binding_sha256
+            or dependency['original_T0'] != adoption['T0_epoch']
+            or dependency['original_deadline'] != adoption['deadline_epoch']):
+        raise PermissionError('ACTUAL_MIGRATED_DEPENDENCY_QUALIFICATION_REQUIRED')
+    request_id = request['request_id']
+    if request_id == 'S3-smoke-03':
+        validate_engineering_revision(request.get('engineering_revision'))
+    if (request_id not in ('S3-smoke-02', 'S3-smoke-03') or request['source_sha'] != SOURCE
+            or request['stage'] != 'smoke' or request['walltime_s'] != 1800
+            or request['predicted_remaining_peak_bytes'] != 80*GIB):
+        raise PermissionError('EXACT_UNCHANGED_S3_RETRY_REQUIRED')
+    return dict(status='OUTER_S3_ALLOCATION_ADMISSION_PASS_NOT_MODEL_QUALIFICATION',
+                job_id=job_id, project=PROJECT, observed_epoch=now,
+                own_current_jobs=len(jobs), parallel_authority=request.get('parallel_authority'),
+                personal_free_bytes=quota['hard_bytes']-quota['used_bytes'])
+
+
+def main():
+    request_path = Path(sys.argv[1])
+    request = read(request_path)
+    root = Path(request['root'])
+    if root.name != '20261013T025824Z-localpc-pi0292' or not request_path.resolve().is_relative_to(root.resolve()):
+        raise PermissionError('EXISTING_REGISTERED_RUN_REQUIRED')
+    if sha(__file__) != request['guard_sha256']:
+        raise PermissionError('OUTER_GUARD_HASH_CHANGED')
+    for name, key in [('SUBMISSION_RUN_MANIFEST.json', 'run_manifest_sha256'),
+                      (request.get('adoption_delta_name', 'PATH_ADOPTION_DELTA.json'), 'adoption_delta_sha256')]:
+        if name not in ('SUBMISSION_RUN_MANIFEST.json', 'PATH_ADOPTION_DELTA.json', 'PARALLEL_PATH_ADOPTION_DELTA.json'):
+            raise PermissionError('EXPECTED_ADOPTION_FILENAME_REQUIRED')
+        if sha(request_path.parent/name) != request[key]:
+            raise PermissionError('BOUND_MANIFEST_OR_ADOPTION_DELTA_CHANGED')
+    user = os.environ['USER']
+    job_id = os.environ.get('PBS_JOBID')
+    if not job_id:
+        raise PermissionError('NO_MODEL_ADMISSION_ON_LOGIN')
+    dependency_path = root/'evidence/dependency-adoption-02/STATE.json'
+    if sha(dependency_path) != request['dependency_qualification_sha256']:
+        raise PermissionError('DEPENDENCY_RECEIPT_CHANGED')
+    project_path = request_path.parent/'PROJECT_ADMISSION.private.json'
+    if sha(project_path) != request['project_admission_sha256']:
+        raise PermissionError('PROJECT_RECEIPT_CHANGED')
+    lease = read(root/'DEPENDENCY_LEASE.json')
+    if (lease['status'] != 'ACTIVE' or lease['expires'] != 1791946704
+            or not lease['no_move_or_delete'] or str(root) not in lease['protected']
+            or sha(root/'DEPENDENCY_LEASE.json') != request['lease_sha256']):
+        raise PermissionError('CURRENT_DEPENDENCY_LEASE_REQUIRED')
+    login_receipt_mode = request.get('project_admission_mode') == 'FRESH_LOGIN_RECEIPT_NATIVE_PBS_V1'
+    if request.get('project_admission_mode') not in (None, 'FRESH_LOGIN_RECEIPT_NATIVE_PBS_V1'):
+        raise PermissionError('UNKNOWN_PROJECT_ADMISSION_MODE')
+    executable = request.get('project_query_executable', 'amgr')
+    if request['request_id'] == 'S3-smoke-03' and not login_receipt_mode:
+        path = Path(executable)
+        if (not path.is_absolute() or path.name != 'amgr' or not os.access(path, os.X_OK)
+                or sha(path) != request.get('project_query_executable_sha256')):
+            raise PermissionError('QUALIFIED_NATIVE_AMGR_ABSOLUTE_EXECUTABLE_REQUIRED')
+        revision_path = root/'evidence/ENGINEERING_PBS_REVISION.json'
+        if (sha(revision_path) != request.get('engineering_revision_sha256')
+                or read(revision_path) != request.get('engineering_revision')):
+            raise PermissionError('BOUND_ENGINEERING_REVISION_CHANGED')
+    if login_receipt_mode:
+        project = allocation_project_receipt(request, project_path)
+    else:
+        project = current_project(executable=executable)
+    if request['request_id'] == 'S3-smoke-03' and login_receipt_mode:
+        revision_path = root/'evidence/ENGINEERING_PBS_REVISION.json'
+        if (sha(revision_path) != request.get('engineering_revision_sha256')
+                or read(revision_path) != request.get('engineering_revision')):
+            raise PermissionError('BOUND_ENGINEERING_REVISION_CHANGED')
+    result = validate(now=time.time(), user=user, job_id=job_id, jobs=owned_jobs(user),
+        quota=personal_quota(user), adoption=read(root/'ADOPTION.json'),
+        project_receipt=project, dependency=read(dependency_path), request=request,
+        binding_sha256=sha(request['bindings']))
+    destination = request_path.parent/'ALLOCATION_ADMISSION.json'
+    with destination.open('x') as handle:
+        json.dump(result, handle, indent=2, allow_nan=False)
+        handle.flush(); os.fsync(handle.fileno())
+    # Only after CPU admission, replace this process with the original sealed
+    # launcher. It independently checks job, node, H200, code, data and budgets.
+    os.execv(request['python'], [request['python'], '-m', 'scripts.pi0292.pbs_smoke',
+                               '--root', str(root), '--request', str(request_path)])
+
+
+if __name__ == '__main__':
+    main()

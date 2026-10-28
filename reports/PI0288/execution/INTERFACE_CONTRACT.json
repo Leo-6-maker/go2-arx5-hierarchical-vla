@@ -1,0 +1,72 @@
+{
+  "status": "SOURCE_BOUND_NOT_LIVE_QUALIFIED",
+  "contract": {
+    "input_topic": "/go2_x5/ee/trajectory_json",
+    "input_type": "std_msgs/msg/String",
+    "output_topic": "/mobile_manipulator_mpc_target",
+    "version": 1,
+    "units": {
+      "position": "m",
+      "time": "s",
+      "angle": "rad"
+    },
+    "pose_order": [
+      "x",
+      "y",
+      "z",
+      "qx",
+      "qy",
+      "qz",
+      "qw"
+    ],
+    "top_level": {
+      "version": "optional default1",
+      "waypoints": "legacy EE array",
+      "ee": "optional EE object, mutually exclusive with top-level waypoints",
+      "base": "optional base object with same trajectory fields"
+    },
+    "trajectory_fields": {
+      "frame": "world(default)|world_offset|ee_start",
+      "start_delay": "finite >=0 default0",
+      "lead_in": "finite >=0 default0",
+      "align_orientation": "boolean default true",
+      "waypoints": "nonempty list of {time,position[3],quaternion_xyzw[4]}"
+    },
+    "base_start_alias": "base.frame=base_start maps to ee_start",
+    "parser": {
+      "extra_keys": "ignored",
+      "waypoints": "sorted by time; duplicates/negative rejected",
+      "numeric": "finite int/float, booleans rejected for vector/time fields",
+      "quaternion": "norm>=1e-8 then normalized",
+      "version": "Python equality check against1"
+    },
+    "binding": {
+      "time": "next MPC observation after complete JSON validation",
+      "world": "absolute world coordinates, orientation preserved",
+      "world_offset": "position offset in world; measured orientation right-multiplied if align_orientation",
+      "ee_start": "position rotated by measured orientation; orientation as world_offset",
+      "first_sample": "t<=bind+start_delay substituted by measured start_pose",
+      "republish": "fixed bound_start; does not reset on repeated 10Hz publication",
+      "replacement": "every new JSON clears bound_start, binds again at next observation"
+    },
+    "interpolation": "linear xyz and shortest-path quaternion SLERP",
+    "output": "7D EE or14D EE+base pose; each input entry12 zeros",
+    "window": "closed [MPC now,now+2s], dt.05, retains knots, 41+points",
+    "native_ids_ack_cancel_TTL": "none in JSON; integration receipts required",
+    "expiration": "stops republishing after end_time; previous OCS2 target persists",
+    "invalid_json": "ValueError/TypeError/OverflowError/RecursionError rejected before replacing active reference",
+    "HOME_HOLD": "reference mode0 sends measured pose hold; references dropped on prior enabled transition",
+    "status": "SOURCE_READ_RUNTIME_UNVERIFIED"
+  },
+  "TCP": {
+    "MuJoCo_site": "x5_ee",
+    "URDF_frame": "gripper_center",
+    "link6_xyz": [
+      0.1424,
+      0,
+      0.0001057
+    ],
+    "binding": "actual delivered MJCF/URDF CPU parse"
+  },
+  "policy_target_consumer": "/mobile_manipulator_mpc_policy.plan_target_trajectories"
+}

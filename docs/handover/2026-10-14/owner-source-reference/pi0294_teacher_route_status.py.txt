@@ -1,0 +1,40 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Exact live handles and physical ACK progress, no resends or new dispatch."""
+import json
+from pathlib import Path
+from pi0294_teacher_route import LOCAL,CORE_ROOT,RUN,call
+
+CODE=r'''
+import json,time
+from pathlib import Path
+root=Path(ROOT);stage=root/'evidence/teacher-relay-01'
+value=dict(epoch=time.time(),processes=[],episodes=[],queue={})
+for p in [stage/'PROCESS.private.json',*(root/'worker_processes').glob('PI0294-RELAY-QUAL-*.json')]:
+    if p.name.endswith('_EXIT.json') or not p.is_file():continue
+    r=json.loads(p.read_text());stat=Path('/proc')/str(r['pid'])/'stat';f=stat.read_text().split() if stat.exists() else None
+    value['processes'].append(dict(name=p.stem,pid=r['pid'],proc_start=r['proc_start'],live=bool(f and f[21]==r['proc_start'] and f[2] not in ('Z','X'))))
+for folder in (root/'episodes').glob('PI0294-RELAY-QUAL-*'):
+    row=dict(id=folder.name)
+    for name in ('relay/STATE.json','WORKER_RECEIPT.json','AUDIT.json'):
+        p=folder/name
+        if p.exists():
+            v=json.loads(p.read_text());row[name]={k:v.get(k) for k in ('status','sequence','tick','acknowledged_commands','error','admitted','physics_steps','score') if k in v}
+    value['episodes'].append(row)
+for name in ('CORE_TERMINAL.json','CORE_FAILURE.json'):
+    p=stage/name
+    if p.exists():value[name]=json.loads(p.read_text())
+value['stderr_tail']=(stage/'stderr.log').read_text()[-2000:] if (stage/'stderr.log').exists() else None
+q=json.loads((root/'LIVE_QUEUE.json').read_text());value['queue']=dict(status=q['status'],actual=q['actual'],reserved=list(q['reservations']),auxiliary=list(q['auxiliary']))
+print(json.dumps(value))
+'''
+
+if __name__=='__main__':
+    r=json.loads((LOCAL/'LOCAL_PROCESS.private.json').read_text());p=Path('/proc')/str(r['pid'])/'stat'
+    f=p.read_text().split() if p.exists() else None
+    local=dict(pid=r['pid'],proc_start=r['proc_start'],live=bool(f and f[21]==r['proc_start'] and f[2] not in ('Z','X')),
+        stderr=(LOCAL/'stderr.log').read_text()[-2000:],routes=[])
+    for p in LOCAL.glob('*/ROUTE.json'):
+        v=json.loads(p.read_text());local['routes'].append({k:v.get(k) for k in ('status','episode_uuid','fresh_observations','commands_sent','acknowledgements','failure') if k in v})
+    print(json.dumps(dict(local=local,core=call('corelab-4080s',CODE,ROOT=CORE_ROOT))))

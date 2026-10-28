@@ -1,0 +1,75 @@
+{
+  "status": "PASS_BEFORE_PHYSICS_AND_MODEL",
+  "rows": [
+    {
+      "condition": 10000,
+      "pose_samples20Hz": 640,
+      "pose_samples15Hz": 481,
+      "grid": "20Hz ->15Hz throughSE3 interpolation -> officialDROID frame roundtrip ->20Hz",
+      "translation_RMS_m": 9.510957105469722e-05,
+      "translation_max_m": 0.0007820917689279331,
+      "rotation_RMS_rad": 9.047502050311219e-05,
+      "rotation_max_rad": 0.0011117153921552212,
+      "exact_gripper_event_ticks": [
+        61,
+        130
+      ],
+      "gripper_resampling": "NONE_ORIGINAL20HZ_EVENT_HOLD",
+      "roundtrip_position_max_m": 1.1102230246251565e-16,
+      "roundtrip_rotation_max_rad": 9.046904816654033e-16
+    },
+    {
+      "condition": 10001,
+      "pose_samples20Hz": 640,
+      "pose_samples15Hz": 481,
+      "grid": "20Hz ->15Hz throughSE3 interpolation -> officialDROID frame roundtrip ->20Hz",
+      "translation_RMS_m": 0.00010490337642464736,
+      "translation_max_m": 0.0006573494116650289,
+      "rotation_RMS_rad": 0.00020631213281399353,
+      "rotation_max_rad": 0.002743629849249796,
+      "exact_gripper_event_ticks": [
+        48,
+        104
+      ],
+      "gripper_resampling": "NONE_ORIGINAL20HZ_EVENT_HOLD",
+      "roundtrip_position_max_m": 1.5265566588595902e-16,
+      "roundtrip_rotation_max_rad": 1.2764532721466472e-15
+    },
+    {
+      "condition": 10002,
+      "pose_samples20Hz": 640,
+      "pose_samples15Hz": 481,
+      "grid": "20Hz ->15Hz throughSE3 interpolation -> officialDROID frame roundtrip ->20Hz",
+      "translation_RMS_m": 0.00010788551731668645,
+      "translation_max_m": 0.000732871998140352,
+      "rotation_RMS_rad": 7.15226302153363e-05,
+      "rotation_max_rad": 0.0009751955863173958,
+      "exact_gripper_event_ticks": [
+        35,
+        96
+      ],
+      "gripper_resampling": "NONE_ORIGINAL20HZ_EVENT_HOLD",
+      "roundtrip_position_max_m": 1.2836953722228372e-16,
+      "roundtrip_rotation_max_rad": 9.825894224992269e-16
+    },
+    {
+      "condition": 10003,
+      "pose_samples20Hz": 640,
+      "pose_samples15Hz": 481,
+      "grid": "20Hz ->15Hz throughSE3 interpolation -> officialDROID frame roundtrip ->20Hz",
+      "translation_RMS_m": 0.00011260560371331091,
+      "translation_max_m": 0.0007492270055087454,
+      "rotation_RMS_rad": 0.00018968695090582912,
+      "rotation_max_rad": 0.002697457044006127,
+      "exact_gripper_event_ticks": [
+        39,
+        87
+      ],
+      "gripper_resampling": "NONE_ORIGINAL20HZ_EVENT_HOLD",
+      "roundtrip_position_max_m": 1.5959455978986625e-16,
+      "roundtrip_rotation_max_rad": 1.1486276795039506e-15
+    }
+  ],
+  "new_model_queries": 0,
+  "new_physics_steps": 0
+}

@@ -1,0 +1,112 @@
+{
+  "schema": "WDR1_ORIGINAL_SDK_TRANSITIVE_RUNTIME_LIBRARY_ENGINEERING_FIX_V1",
+  "observed_UTC": "2026-10-23T21:55:20.448350+00:00",
+  "goal": "ACTIVE_INCOMPLETE",
+  "target_task_native_qualified": false,
+  "core64_cells": 0,
+  "prior_source": {
+    "source": "dc9f22830ace1a15e7d9720d090892b4765f41fc",
+    "exact_CI": 40029118219,
+    "job": 120672651459,
+    "all12_success": true,
+    "full_source_bindings_readback": 21
+  },
+  "actual_attempt03": {
+    "request_id": "060b2842-eb62-48c8-98b4-a398d25674ad",
+    "manifest_sha256": "8217b40e4f44a1981095e618598bf2cc55046f852f46cfe5323c6c397d3870ad",
+    "compile_return": 0,
+    "link_return": 0,
+    "worker_verdict": "SDK_COMPONENT_ENGINEERING_FAILURE",
+    "worker_error": "TRUNCATED_OR_UNKNOWN_CLIENT_REPLY",
+    "underlying_process_diagnostic": "DYNAMIC_LOADER_LIBHPIPM_NOT_FOUND_BEFORE_MAIN",
+    "SDK_constructor_process_attempts": 1,
+    "SDK_constructor_entry_not_reached_inferred_from_loader_diagnostic": true,
+    "MuJoCo_constructors": 0,
+    "physics_ticks": 0,
+    "episodes": 0,
+    "queries": 0,
+    "prefix_samples": 0,
+    "once_settlement": {
+      "CoreLab_CPU_s": 607.859879,
+      "local_CPU_s": 120,
+      "episode_starts": 0,
+      "physics_ticks": 0,
+      "constructors": 2,
+      "CoreLab_output_bytes": 536870912,
+      "local_output_bytes": 67108864,
+      "transfer_bytes": 67108864
+    },
+    "all_actors_terminal": true,
+    "lease": "CLOSED",
+    "independent_closed_readback": true,
+    "all8D_holds_zero": true,
+    "Core_after_sha256": "4a1e6a6b04344dd3a4a03c31d4c20c78068015849609abb97cccebd60f9eae19",
+    "LOCAL_after_sha256": "ae2664755e6949e8777a5cb906d775ac9703aec0fb7e4909a8ca5ff3ba04ca1a",
+    "lease_sha256": "3f7e217061b419ab9b2386b8e6a35fc146b9288e6a9e2d95f354bc00cfad9e9e",
+    "private_independent_proof_sha256": "7a9e3ba22fcdb80456f4fd2ec812445abfa47a7d25d56c51d8790cfe7940f9e4"
+  },
+  "actual_readonly_diagnosis": {
+    "clean_loader_missing": [
+      "libhpipm.so => not found"
+    ],
+    "all_pinned_directories_loader_missing": [],
+    "all_pinned_directories_loader_return": 0,
+    "library_directory_count": 7,
+    "new_compilation_SDK_or_physics": false
+  },
+  "fix": {
+    "status": "CPU_TESTED_NOT_NATIVE_ADOPTED",
+    "own_client_uses_transitive_RPATH_from_all_original_pinned_link_directories": true,
+    "original_WBC_recompiled": false,
+    "original_gains_costs_solver_or_task_file_changed": false,
+    "whole_dynamic_loader_check_before_SDK_constructor": true,
+    "inherited_loader_interposition_and_search_paths_removed": true,
+    "finite_no_replay_phase": true,
+    "finite_engineering_attempt_limit": 4,
+    "one_current_CPU_owner": true,
+    "combined_internal_component_CPU_upper_Core_LOCAL": [
+      10800,
+      480
+    ],
+    "external_budget_increase": false,
+    "original_same_matrix_CPU_upper_Core_LOCAL": [
+      200000,
+      3600
+    ],
+    "source_of_funding": "EXACT_PAIRED_PAID_OR_HELD_SAME_ORIGINAL_MATRIX_CPU_ONCE_ONLY",
+    "original_core64_commission8_replacement16_and_3_PBS_preserved": true,
+    "three_prior_costs_preserved": true,
+    "new_attempt_not_registered": true
+  },
+  "CPU": {
+    "focused_related_cases_passed": 109,
+    "final_budget_cases_passed": 21,
+    "real_generated_C_transitive_library_fixture": "RUNPATH_FAIL_THEN_RPATH_PASS_NO_SDK_NO_PHYSICS",
+    "full_regression": {
+      "PI0292_PI0294_passed": 2754,
+      "subtests_passed": 1649,
+      "private_parser_skips": 13,
+      "seconds": 113.04
+    }
+  },
+  "unchanged": {
+    "T0": 1792348196,
+    "stop_new": 1792866596,
+    "stop_train": 1792909796,
+    "stop_physics": 1792924196,
+    "hard_close": 1792952996,
+    "updates11714": true,
+    "PBS_caps": [
+      17,
+      28
+    ],
+    "PBS_used": [
+      14,
+      25
+    ],
+    "B4096_audited_and_financially_closed": true,
+    "old_B_owner_exit1_preserved": true,
+    "no_B_checkpoint_reuse_or_new_science_grant": true,
+    "automation_paused": true
+  }
+}

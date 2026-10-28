@@ -1,0 +1,31 @@
+{
+  "aliased_visits": 3860,
+  "by_task": {
+    "M1": {
+      "aliased_windows": 2311,
+      "conditions": 1397,
+      "empirical_mse_m2": 2.3633209806068997e-06,
+      "empirical_rmse_m": 0.0015373096567077498,
+      "windows": 3000
+    },
+    "M3": {
+      "aliased_windows": 1549,
+      "conditions": 2028,
+      "empirical_mse_m2": 1.238251975635543e-06,
+      "empirical_rmse_m": 0.001112767709648129,
+      "windows": 3000
+    }
+  },
+  "condition_audit_sha256": "09aa5419f1aa4ddf64b902a5a034d42a30e307bef588422a36a19b08b409e144",
+  "condition_count": 3425,
+  "empirical_mse_m2": 1.8007864781212232e-06,
+  "empirical_rmse_m": 0.0013419338575806272,
+  "interpretation": "Position mean-square lower bound for deterministic condition-only prediction under these empirical exposures; not median/p95/model quality.",
+  "model_loads": 0,
+  "model_queries": 0,
+  "new_statistics_fit": 0,
+  "source_schedule_sha256": "3cf0b85e2fc60bad6cb83c6ce633ab446163aad1757a465244751f457cd10bd4",
+  "status": "R3_FROZEN_EXPOSURE_AMBIGUITY_FLOOR",
+  "updates": 6000,
+  "weights": "one uniform weight per frozen training visit; duplicate visits retain multiplicity"
+}

@@ -1,0 +1,74 @@
+{
+  "status": "T2_STATIC_ENTRY_NOT_ADMITTED",
+  "source": "69582a29e7408fd7703dfbad2626d2e87bdfdc45",
+  "reason": "FROZEN_SOURCE_NATIVE_COLLISION:['task_left_pad', 'task_cube_geom']",
+  "evidence": {
+    "status": "FAIL",
+    "reason": "FROZEN_SOURCE_NATIVE_COLLISION:['task_left_pad', 'task_cube_geom']",
+    "points": 934,
+    "local_IK_iterations": 1868,
+    "installed_pose_values_changed": false,
+    "actual_state_modified": false,
+    "physics_steps": 0,
+    "frame_rate_Hz": 500,
+    "joint_rate_certificate_grid_Hz": 20,
+    "joint_velocity_limit": 0.7,
+    "joint_acceleration_limit": 1.0,
+    "trace_sha256": "ee6cc68479d50deac72420394765d05cb5afe82edfccbc6a976601840d74332a",
+    "input_sha256": "c163b99d7f90a8c11f3012c49632e539d7b9e794a0192a0a7f9ee7fbf2f0e531",
+    "actually_executed_history_points": 0,
+    "history_recomputed_in_current_root_and_branch": true,
+    "actual_qpos_is_not_command_history": true,
+    "previous_reference_identities": []
+  },
+  "complete_windows": 18,
+  "entry_timing": {
+    "changed_intervals": 73,
+    "original_duration_s": 10.417349952895265,
+    "duration_s": 10.950000000000015,
+    "max_joint_velocity": 0.23891257083798578,
+    "max_joint_acceleration": 0.34946459623661497,
+    "fixed_factor_attempts": [
+      {
+        "factor": 1.0,
+        "duration_s": 10.950000000000015,
+        "max_joint_velocity": 0.23891257083798578,
+        "max_joint_acceleration": 0.34946459623661497,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      },
+      {
+        "factor": 1.25,
+        "duration_s": 14.59999999999998,
+        "max_joint_velocity": 0.17918442812849045,
+        "max_joint_acceleration": 0.26209844717755004,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      },
+      {
+        "factor": 1.5,
+        "duration_s": 18.25,
+        "max_joint_velocity": 0.1433475425027919,
+        "max_joint_acceleration": 0.2096787577420045,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      },
+      {
+        "factor": 2.0,
+        "duration_s": 21.90000000000003,
+        "max_joint_velocity": 0.119456285418994,
+        "max_joint_acceleration": 0.17473229811830748,
+        "status": "PASS_SAVED_PREFIX_WITNESS_ONLY"
+      }
+    ],
+    "selected_factor": 1.0,
+    "spatial_knots_changed": false,
+    "gripper_values_changed": false,
+    "uniform_global_drag": false,
+    "iterations": 1,
+    "quantized_iterations": 1,
+    "schema": "QUANTIZED_NATIVE_SLERP_R1",
+    "full_grid_max_linear_speed": 0.04509675761888679,
+    "full_grid_max_angular_speed": 0.285416535229248,
+    "native_interpolation_unchanged": true,
+    "entry_poses_changed": false
+  },
+  "new_physics": 0
+}

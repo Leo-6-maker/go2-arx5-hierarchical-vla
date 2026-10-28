@@ -1,0 +1,87 @@
+{
+  "schema": "PI0294_FUTURE_TRAIN_D1_PILOT_DRAFT_V1",
+  "status": "NOT_AUTHORIZED",
+  "owner": "EXISTING_SINGLE_LOCAL_PC_OWNER_ONLY",
+  "purpose": "Test genuinely new qualified TRAIN geometry coverage without changing PV1",
+  "PV1_hot_injection": false,
+  "D0": {
+    "scope": "EXISTING_SAVED_TRAIN_ONLY_OFFICIAL_CODEC_QUALIFICATION",
+    "child": "future-data-d0-01",
+    "unreviewed_inventory": 44,
+    "raw_audit_qualified_candidates": 43,
+    "raw_audit_failure_excluded": "PI0294-PV1-TRAIN-F2-030-T2-C04",
+    "new_physics": 0,
+    "new_GPU_PBS": 0,
+    "new_training_updates": 0,
+    "new_budget": false,
+    "actual_receipt": "reports/PI0294/PV1/20261018T182956Z-localpc-pv1/FUTURE_DATA_D0_ACTUAL_AND_QUALIFICATION.json"
+  },
+  "D1": {
+    "execution_allowed": false,
+    "new_dataset_version": "REQUIRES_INDEPENDENT_AUTHORITY_AND_REGISTRATION",
+    "split": "TRAIN_ONLY",
+    "independent_groups": 24,
+    "tasks_per_group": ["T1", "T2"],
+    "first_attempts": 48,
+    "design_cross": {
+      "appearance_layout_families": ["F0", "F1", "F2"],
+      "directions": ["+Y", "-Y"],
+      "distance_strata_m": [[0.12, 0.15], [0.19, 0.22]],
+      "groups_per_cell": 2,
+      "direction_must_not_be_derived_from_family": true
+    },
+    "unqualified_draft_geometry_envelope": {
+      "source_x_m": [0.425, 0.475],
+      "center_y_m": [-0.025, 0.025],
+      "goal_x_offset_m": [-0.012, 0.012],
+      "cube_yaw_rad": [-0.16, 0.16],
+      "fixed_nominal_reference_clearance_m": 0.004,
+      "new_objects": false,
+      "camera_perturbation": false,
+      "qualification": "NOT_EXECUTED_EXACT_CARDS_AND_REACHABILITY_REQUIRED_BEFORE_GO"
+    },
+    "proposed_not_spendable_limits": {
+      "CoreLab_CPU_core_hours": 16,
+      "concurrent_single_core_workers": 4,
+      "wall_hours_including_closeout": 12,
+      "closeout_final_hours": 1,
+      "total_task_starts": 48,
+      "live_integrations": 768000,
+      "shadow_integrations": 768000,
+      "total_integrations": 1536000,
+      "engine_constructions": 4232,
+      "peak_output_and_staging_GiB": 48,
+      "GPU_PBS": 0,
+      "neural_queries": 0,
+      "optimizer_updates": 0,
+      "physical_replacements": 0,
+      "additional_physical_qualification_attempts": 0
+    },
+    "qualification": {
+      "initial_attempts_from_predeclared_48": 4,
+      "extra_attempts": 0,
+      "zero_step_and_saved_state_audits": true,
+      "exact_population_and_source_sealed_before_dispatch": true,
+      "separate_lease_manifest_registry_and_ledger": true,
+      "B0_reserved_CPU_and_final_reserve_protected": true,
+      "reuse_existing_collectors": true
+    },
+    "stop_on": ["native_safety_fault", "unknown_effect", "identity_or_data_integrity_failure", "budget_or_deadline_bound"],
+    "valid_task_failure": "KEEP_IN_DENOMINATOR_DO_NOT_RETRY",
+    "deliver": ["all_planned_and_attempted_cells", "independent_group_and_paired_support", "task_success_by_stratum", "native_safety_and_S1", "no_lift_contact_release_separation_zone_hold", "official_codec_and_rejection_detail", "event_exposure", "two_camera_video_index", "CPU_files_bytes_per_qualified_episode", "terminal_resources_and_lease_receipts"]
+  },
+  "D2_D4": {
+    "status": "NOT_AUTHORIZED",
+    "conditional_expansion_groups": [64, 128],
+    "automatic_expansion": false,
+    "new_bank_processor_and_split_seal_required": true,
+    "learning_curve_unit": "INDEPENDENT_EPISODES_NOT_OVERLAPPING_H40_WINDOWS",
+    "normalizer_refit_or_event_sampling": "SEPARATE_CONTROLLED_VARIABLE_NOT_PV1_HOT_CHANGE",
+    "Teacher_only_rollouts_are_on_policy_DAgger": false,
+    "DEV_CONFIRM_LOCKBOX_for_fitting": false
+  },
+  "freezes": ["WBC", "plant", "gripper_PD", "S1", "scoring", "PV1_statistics", "PV1_139_parent_bank", "PV1_sampler", "PV1_B0_before_training_gate"],
+  "PV1_priority": "B0_48_THEN_MATCHED_A_B_4096_THEN_MATCHED_DEV_THEN_QUALIFIED_UNIQUE_LOCKBOX",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

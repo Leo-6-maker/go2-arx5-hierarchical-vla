@@ -1,0 +1,38 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Deploy a committed additive operations capsule; never replace a live one."""
+import base64
+import json
+import subprocess
+import sys
+import zlib
+from pi0292_adopt import BASE,REPO,RUN_ID,remote,save
+
+CODE=r'''
+import base64,hashlib,json,zlib
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/go2-arx5/PI0292')/RUN_ID
+payload=json.loads(zlib.decompress(base64.b64decode(PAYLOAD)))
+ops=root/'operations'/SOURCE
+if not ops.exists():
+    ops.mkdir()
+    for name,value in payload.items():
+        path=ops/name;path.parent.mkdir(parents=True,exist_ok=True)
+        with path.open('xb') as f:f.write(base64.b64decode(value))
+    (ops/'scripts/__init__.py').touch()
+else:
+    for name,value in payload.items():assert (ops/name).read_bytes()==base64.b64decode(value)
+seal=dict(source_sha=SOURCE,files={k:hashlib.sha256(base64.b64decode(v)).hexdigest() for k,v in payload.items()})
+if not (ops/'OPERATIONS_SEAL.json').exists():(ops/'OPERATIONS_SEAL.json').write_text(json.dumps(seal,indent=2)+'\n')
+print(json.dumps(dict(status='COMMITTED_HOPPER_CAPSULE_VERIFIED',source_sha=SOURCE,files=len(payload),root=str(ops))))
+'''
+
+if __name__=='__main__':
+    assert not subprocess.check_output(['git','status','--porcelain'],cwd=REPO,text=True).strip()
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    payload={str(p.relative_to(REPO)):base64.b64encode(p.read_bytes()).decode() for p in (REPO/'scripts/pi0292').glob('*.py')}
+    values=dict(RUN_ID=RUN_ID,SOURCE=source,PAYLOAD=base64.b64encode(zlib.compress(json.dumps(payload).encode())).decode())
+    result=remote('hopper','\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+    if result.returncode:print(result.stderr[-2000:]);sys.exit(result.returncode)
+    value=json.loads(result.stdout);save(BASE/('HOPPER_OPS_'+source+'.private.json'),value);print(json.dumps(value))

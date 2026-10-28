@@ -1,0 +1,295 @@
+{
+  "schema": "PI0294_VAP1_PROGRESS8_AND_FIXED_TRAIN139_CPU_STAGING_V1",
+  "status": "IN_PROGRESS_NOT_POLICY_GAIN",
+  "authority_release": "43f7fe6f86c683f2e38e5c8802eb8cde208e575c",
+  "asof_epoch": 1792560985.4735308,
+  "D": {
+    "accounted": 8,
+    "admitted": 7,
+    "successes": {
+      "T1": 4,
+      "T2": 3
+    },
+    "transitions": {
+      "FAIL->PASS": 3,
+      "PASS->PASS": 4,
+      "NOT_APPLICABLE": 1
+    },
+    "actual_capture_CPU_s": 4141.53916507,
+    "actual_export_CPU_s": 150.39211941,
+    "constructors": 660,
+    "live_ticks": 117600,
+    "shadow_ticks": 117619,
+    "condition_rows": [
+      {
+        "id": "PI0294-VAP1_DATA-TRAIN-AP0-+Y-FAR-000-T1-C04",
+        "task": "T1",
+        "task_success": true,
+        "admitted": true,
+        "native_faults": 0,
+        "unknown_effects": [],
+        "capture_status": "VALID_COMPLETE",
+        "transition": "FAIL->PASS",
+        "evidence_qualified": true,
+        "source_raw_manifest_sha256": "cea6f87d813e0124f1eea5862476fac4f4e5500b228a769a6fc97bb4778e733f"
+      },
+      {
+        "id": "PI0294-VAP1_DATA-TRAIN-AP0-+Y-FAR-000-T2-C04",
+        "task": "T2",
+        "task_success": true,
+        "admitted": true,
+        "native_faults": 0,
+        "unknown_effects": [],
+        "capture_status": "VALID_COMPLETE",
+        "transition": "FAIL->PASS",
+        "evidence_qualified": true,
+        "source_raw_manifest_sha256": "c639baf70d730be5c8d0c68f75911f11979117426fc3d786e06174739f1a1107"
+      },
+      {
+        "id": "PI0294-VAP1_DATA-TRAIN-AP0-+Y-NEAR-000-T1-C04",
+        "task": "T1",
+        "task_success": true,
+        "admitted": true,
+        "native_faults": 0,
+        "unknown_effects": [],
+        "capture_status": "VALID_COMPLETE",
+        "transition": "PASS->PASS",
+        "evidence_qualified": true,
+        "source_raw_manifest_sha256": "26aad96eebf96f83e44e480e234e7521c8f8d40eff532581f4da84e9a86fb096"
+      },
+      {
+        "id": "PI0294-VAP1_DATA-TRAIN-AP0-+Y-NEAR-000-T2-C04",
+        "task": "T2",
+        "task_success": true,
+        "admitted": true,
+        "native_faults": 0,
+        "unknown_effects": [],
+        "capture_status": "VALID_COMPLETE",
+        "transition": "PASS->PASS",
+        "evidence_qualified": true,
+        "source_raw_manifest_sha256": "4fb274fe13b54695e45cf7d461b604aca297e43cf62e6771280456057d54d7cb"
+      },
+      {
+        "id": "PI0294-VAP1_DATA-TRAIN-AP0--Y-FAR-000-T1-C04",
+        "task": "T1",
+        "task_success": true,
+        "admitted": true,
+        "native_faults": 0,
+        "unknown_effects": [],
+        "capture_status": "VALID_COMPLETE",
+        "transition": "FAIL->PASS",
+        "evidence_qualified": true,
+        "source_raw_manifest_sha256": "2ab673fb53a7055fb5bc8d567d7365339fdfb7fd7a3101e10da529ca1ec932df"
+      },
+      {
+        "id": "PI0294-VAP1_DATA-TRAIN-AP0--Y-FAR-000-T2-C04",
+        "task": "T2",
+        "task_success": false,
+        "admitted": false,
+        "native_faults": 0,
+        "unknown_effects": [],
+        "capture_status": "FAILED_PRESERVED",
+        "transition": null,
+        "evidence_qualified": false,
+        "source_raw_manifest_sha256": "1bf1db5d1994f28891b8ef8f4c926ba5b871e671c388241079fb94c3b87228b1"
+      },
+      {
+        "id": "PI0294-VAP1_DATA-TRAIN-AP0--Y-NEAR-000-T1-C04",
+        "task": "T1",
+        "task_success": true,
+        "admitted": true,
+        "native_faults": 0,
+        "unknown_effects": [],
+        "capture_status": "VALID_COMPLETE",
+        "transition": "PASS->PASS",
+        "evidence_qualified": true,
+        "source_raw_manifest_sha256": "dce304c4b110c090d44b1321afb3a3ea1a8f82cc3d237b650d967e038e900f05"
+      },
+      {
+        "id": "PI0294-VAP1_DATA-TRAIN-AP0--Y-NEAR-000-T2-C04",
+        "task": "T2",
+        "task_success": true,
+        "admitted": true,
+        "native_faults": 0,
+        "unknown_effects": [],
+        "capture_status": "VALID_COMPLETE",
+        "transition": "PASS->PASS",
+        "evidence_qualified": true,
+        "source_raw_manifest_sha256": "8e08b4b32cf8dd51dbdb97a445e63df7d531b4c5a615efb8016c56fa0f70a289"
+      }
+    ],
+    "closed_children": 14,
+    "physical_replacements": 0
+  },
+  "G": {
+    "job_id": "1471903.stdct-mgmt-02",
+    "state": "Q",
+    "observed_epoch": 1792560984.5404534,
+    "resources": {
+      "ngpus": 1,
+      "ncpus": 4,
+      "mem": "32gb",
+      "walltime": "00:30:00"
+    },
+    "scheduler_comment": "Not Running: Insufficient amount of resource: node_pool ",
+    "code_source": "a2caf6a54f37cb76f64f8d7f42abd5f0e3252339"
+  },
+  "CPU139": {
+    "active": true,
+    "pid": 2754537,
+    "observed_epoch": 1792560985.4633408,
+    "terminal_result_status": null,
+    "code_source": "3bb28905486311be7873c0a83bbdc20c45d66a1f",
+    "CPU_upper_s": 4500,
+    "control_CPU_upper_s": 300,
+    "transfer_reservation_bytes": 8589934592,
+    "output_reservation_bytes": 25769803776
+  },
+  "global_counters": {
+    "GPU_allocated_s": 20494,
+    "GPU_reserved_s": 1860,
+    "PBS_submissions": 12,
+    "queries": 1054,
+    "updates": 0,
+    "CPU_s": {
+      "CoreLab": 136791.29660915694,
+      "Hopper": 22930.822133859,
+      "local_PC": 29423.974682508997
+    },
+    "CPU_reserved_s": {
+      "CoreLab": 230400,
+      "Hopper": 0,
+      "local_PC": 0
+    }
+  },
+  "scientific_interpretation": {
+    "new_independent_geometries_with_terminal_pairs": 4,
+    "successful_independent_demonstrations": 7,
+    "valid_legal_partial_task_failures": 1,
+    "engineering_failures_in_data_task_attempts": 0,
+    "physical_replacements": 0,
+    "D24_ready": false,
+    "D48_started": false,
+    "optimizer_updates": 0,
+    "DEC1_core_cells": 0,
+    "B0_valid": 14,
+    "B0_total": 48,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "negative": {
+    "condition": "PI0294-VAP1_DATA-TRAIN-AP0--Y-FAR-000-T2-C04",
+    "reason": "PRE_EXECUTION_SAFETY_REJECT",
+    "actual_live_s": 11.2,
+    "actual_live_ticks": 5600,
+    "actual_shadow_ticks": 5619,
+    "rejected_prefix_live_ticks": 0,
+    "original_independent_audit": "PASS_INDEPENDENT_PARTIAL_NEGATIVE_WITNESS",
+    "original_partial_audit_reported_sha256": "2b3ef0aaf097c31516b0391e619670345daf710fc1aa14b7702f457e8a4acd85",
+    "actual_video": {
+      "sha256": "07306c97f2f4f09da410eb78e0380a73a0cbe0c67847ae905db81b7bb9eff94b",
+      "frames": 225,
+      "fps": 20,
+      "playback_s": 11.25,
+      "padding_or_interpolation": false
+    },
+    "is_successful_training_data": false,
+    "rerun": false,
+    "teacher_phase_is_not_physical_stage_proof": true
+  },
+  "code_and_deployment": [
+    {
+      "source": "3bb28905486311be7873c0a83bbdc20c45d66a1f",
+      "CI_run": 39549355060,
+      "CI_job": 119054748258,
+      "status": "SUCCESS_ALL_STEPS_AND_TWO_FULL_FILE_BLOB_READBACKS",
+      "role": "CPU_FIXED_139_TRAIN_STAGING",
+      "native_registered_child": "vap1-source139-cpu-02",
+      "native_process_pid": 2754537,
+      "model_loads": 0,
+      "PBS": 0,
+      "physics": 0
+    },
+    {
+      "source": "5bf0058cc1f9f8feb421c4973c88268783d59fab",
+      "CI_run": 39549599574,
+      "CI_job": 119055528124,
+      "status": "SUCCESS_ALL_STEPS_AND_FIVE_FULL_FILE_BLOB_READBACKS",
+      "role": "FUTURE_COLD_ATTEMPT_ACCOUNTABILITY_AND_D24_D48_PACK",
+      "native_capsule_deployed": true,
+      "existing_capture_source_changed": false,
+      "new_attempt_audit_run": false,
+      "new_bank_pack_run": false,
+      "scope": "SAME_THRESHOLDS_SAME_FAILED_ROWS_NOT_SUCCESS_DATA"
+    }
+  ],
+  "engineering_reconciliation": {
+    "original_success_evidence_flag_false_for_partial_negative": "PRESERVED_UNCHANGED_NOT_A_NEW_TASK_FAILURE",
+    "correction": "SEPARATE_SUCCESS_DATA_QUALIFICATION_FROM_COMPLETE_ATTEMPT_ACCOUNTABILITY; ONLY_REHASHED_ORIGINAL_SAFE_PARTIAL_NEGATIVE_CAN_COUNT_AS_ACCOUNTED",
+    "unchanged_first_batch_gate": {
+      "each_task_success_and_admitted_min_of12": 10,
+      "paired_groups_min_of12": 9,
+      "each_AP_direction_task_min_of2": 1,
+      "native_faults": 0,
+      "unknown_effects": 0,
+      "R0_PASS_to_R1_FAIL": 0
+    },
+    "no_success_or_safety_relaxation": true,
+    "gate_not_yet_passed": true,
+    "CPU_consumer_initial_prewrite_error": "ASSUMED_CORE_ENTER_SH_NOT_DEPLOYED_ON_VANDA; VERIFIED_NO_ROOT_LEASE_REGISTRY_OR_WORKER_EFFECT",
+    "CPU_consumer_first_registered_scope": "CLOSED_PREIMPORT_ZERO_EFFECT; MISSING_SCRIPTS_OPERATIONS_READ_OBSERVATION_IN_ARCHIVE; NO_PROCESS_DOWNLOAD_OR_MODEL",
+    "correction_consumer02": "SAME_EXACT_CI_SOURCE; EXISTING_REGISTERED_DEC1_CPU_ASSET_LAUNCHER; COMPLETE_DEPENDENCY_ARCHIVE; NEW_COLD_REGISTERED_SCOPE",
+    "old_failure_capsule_and_receipts_preserved": true,
+    "CPU_failure_and_control_costs_not_refunded": true,
+    "finite_waiter_change": "OLD_FINISH_WAITER_PROVEN_ZERO_ADMISSIONS_AND_MAINPID0_BEFORE_NEW_FINITE_CONTINUATION; GPU_OWNER_AND_HEALTHY_COLLECTORS_UNCHANGED"
+  },
+  "data_staging": {
+    "bank": "PV1_NEW_TRAIN_BANK_V1",
+    "parents": 139,
+    "statistics": "ORIGINAL_R0",
+    "statistics_sha256": "fb5f5bc6969fae47f51b8a6acefdd7312ed948a0fad4b9f9a79e1fbb9aa325c7",
+    "manifest_sha256": "60f7c35a05766fe23974eba3a72f53ca4db5545a3768e6c1cfea164ab4e58294",
+    "HF_repo": "leoyuer/pi0294-public-artifacts",
+    "revision": "e4f603a1b768018077a8b5c9640250be67500902",
+    "prefix": "PI0294/20261018T182956Z-localpc-pv1/PV1_NEW_TRAIN_BANK_V1",
+    "READY": false,
+    "terminal_consumer_result": false,
+    "official_reader_complete": false,
+    "model_or_optimizer_qualification": false,
+    "public_fixed_read_uses_token_false": true,
+    "bulk_work_yields_at_read_boundaries_to_existing_native_R_probe": true,
+    "old_models_redownloaded": false,
+    "new_R1_in_original_AB": false
+  },
+  "teacher": {
+    "saved_TRAIN_T0_status": "CLOSED_ALL_24_PARENTS_REPLAY_MATCHED",
+    "new_development_attempts": 0,
+    "new_verification_attempts": 0,
+    "recovery_qualification": "NOT_TESTABLE_FULL_STUDENT_SIM_STATE_AND_TASK_HISTORY_NOT_BOUND",
+    "not_DAgger_qualified": true,
+    "no_teacher_change": true
+  },
+  "remaining": [
+    "FINISH_ORIGINAL_17_SAVED_TRAIN_A40_PROBE_AND_SETTLE_NO_SCOPE_EXPANSION",
+    "VERIFY_ACTUAL_TRAIN139_FULL_CONSUMPTION_AND_CLOSE_RESOURCE_RESERVATIONS",
+    "MATERIALIZE_EXACT_ORIGINAL_TRAIN126_AND_C1_ON_VANDA_WITH_EXISTING_PINS",
+    "QUALIFY_FUTURE_NATIVE_A40_TRAINING_PROFILE_OR_READY_TARGET_DEC1_INTERFACES",
+    "SOURCE_A_CONTROL_AND_B_COVERAGE_4096_EACH_OR_NATIVE_QUALIFIED_DEC1_64_CELL_MATRIX",
+    "COMPLETE_FIRST24_AND_ACTUAL_ATTEMPT_AUDIT; D24_READY_LAST_ONLY_IF_GATE; THEN_SECOND24_AND_D48",
+    "FINAL_COMBINED_VAP1_RESULTS_AND_RESOURCES"
+  ],
+  "freezes": {
+    "WBC": true,
+    "plant": true,
+    "gripper_PD": true,
+    "S1": true,
+    "scoring": true,
+    "original_R0_AB_recipe": true,
+    "global_GPU_hours": 96,
+    "global_PBS": 24,
+    "concurrent_GPUs": 1,
+    "final_protected_GPU_hours": 20,
+    "original_hard_close_epoch": 1792952996,
+    "clock_reset": false
+  }
+}

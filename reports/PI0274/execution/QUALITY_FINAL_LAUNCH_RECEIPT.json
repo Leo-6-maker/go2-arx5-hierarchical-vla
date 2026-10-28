@@ -1,0 +1,26 @@
+{
+  "complete_trainer_readbacks": {
+    "2560": "PASS_FULL_FILE_READBACK",
+    "5120": "PASS_FULL_FILE_READBACK"
+  },
+  "current_scope": "ORIGINAL_PI0274_ONLY",
+  "deployment_selected_checkpoint": "NONE",
+  "field_planned": 2496,
+  "final_driver_seal_sha256": "614b42f1d73493c037dca39e9b641dbe185b62f6c18352ec01213fc8770c355a",
+  "main_training_audit_status": "PASS_PI0274_ACTUAL5120_MATCHED_BROAD_TRAINING",
+  "new_object_task_scientific_runs": 0,
+  "observed_UTC": "2026-10-05T14:51:38.415672+00:00",
+  "processes": [
+    "2296899 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0274/code/quality_evaluate.py",
+    "2297021 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python -u /home/liuyu-nfs/Projects/go2-arx5/PI0274/code/field.py --point EQUIL5120",
+    "2297048 /home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/venv/bin/python /home/liuyu-nfs/Projects/go2-arx5/PI0274/code/quality_worker.py --point EQUIL5120"
+  ],
+  "schema": "PI0274_ACTUAL_FINAL_QUALITY_LAUNCH_V1",
+  "scientific_quality": "NOT_YET_COMPLETE",
+  "sealed_files": 138,
+  "selected_checkpoint": "NONE",
+  "source_revision": "leoyuer/pi0246-gate-pass-campaign@76a12d99ae8f70700068d39c33b1e7f1ef3031e7/arms/PI0274/EQUIL/checkpoint-5120",
+  "source_tree": "da06758bcd245b03e280f95ea99eb125d6b716d5f36c5d89af59f35c619f6a2b",
+  "status": "LIVE_FIXED_FINAL_FIELD_WITH_VALID_SAVED_OUTPUTS",
+  "valid_field_records": 90
+}

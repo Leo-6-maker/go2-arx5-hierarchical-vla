@@ -1,0 +1,34 @@
+{
+  "release": "9c0172ced33c6052f7cb037b4a6d91910f9fe69e",
+  "official_source": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+  "model_revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+  "model_root": "/var/cache/users/liuyu-nfs/go2-arx5-vla-stage10/assets/GR00T-N1.7-3B",
+  "policy_file": "/home/liuyu-nfs/Projects/go2-arx5/PI0280/official/gr00t/policy/gr00t_policy.py",
+  "policy_sha256": "ad1183a3ce1ebed6cace4a9cb8c5a123e823a0760ebf46f3694639a5ad1521ec",
+  "native_card_sha256": "9adda4a001fb01e96cb381fe869f483813f0d79e4ffa2c18fb801d034143033f",
+  "wrapper_sha256": "14111193b6b2b249b11e8e25752b05d07ab456a8896bd60e19af894f4ca49dfc",
+  "precision": "stock Gr00tPolicy BF16 model and floating inputs; stock FP32 decode",
+  "native_steps": 4,
+  "action_horizon": 40,
+  "device": "NVIDIA GeForce RTX 4080 SUPER",
+  "dependencies": {
+    "torch": "2.9.0+cu128",
+    "transformers": "4.57.3",
+    "numpy": "1.26.4",
+    "huggingface-hub": "0.36.2",
+    "safetensors": "0.7.0"
+  },
+  "new_training_updates": 0,
+  "selected_checkpoint": "NONE",
+  "deployment": "NONE",
+  "cosmos_files_sha256": "c4a31ce8ce040699a50caab1e2eb8273e9333ba121e28022fba7887aa9ed421f",
+  "processor_dependency_resolution": {
+    "repo": "nvidia/Cosmos-Reason2-2B",
+    "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "local_snapshot": "/home/liuyu-nfs/Projects/go2-arx5/PI0250/runtime/hf_home/hub/models--nvidia--Cosmos-Reason2-2B/snapshots/9ce19a195e423419c349abfc86fd07178b230561",
+    "reason": "avoid tokenizer metadata network call for a fully verified local dependency",
+    "original_processor_math": true
+  },
+  "pristine_files_sha256": "55a50c88bcf04f25847ad25bcc8b12c368c249da852a8642036bc84c44e2625b",
+  "weight_loading_sha256": "ebf7deda6ab483462f04533ec58a26320fc7559cb9e57f7e31f4234165e5c064"
+}

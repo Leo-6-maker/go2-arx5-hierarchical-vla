@@ -1,0 +1,75 @@
+# SANITIZED OWNER REFERENCE; EXACT ORIGINAL STAYS PRIVATE.
+# Do not execute, deploy, or treat historical constants as a current GO.
+raise SystemExit("OWNER_REFERENCE_ONLY_NOT_A_RUN_ENTRY_OR_AUTHORIZATION")
+"""Advance only idle R1 preparation to another immutable published capsule."""
+import base64
+import hashlib
+import json
+import subprocess
+import time
+
+from pi0294_r1_prepare import BASE,REPO,RUN,NUMERICAL_PATHS,save
+from pi0294_remote import remote_multiplexed
+
+CODE=r'''
+import base64,copy,hashlib,json,os,socket,sys,time
+from pathlib import Path
+root=Path('@HOPPER_SCRATCH@/Projects/GR00T-WBC/runs/PI0294')/RUN if ROLE=='hopper' else Path('@CORELAB_NODE_STORAGE@/Projects/GR00T-WBC/runs/PI0294')/RUN
+sys.path[:0]=[str(root/'code/src'),str(root/'code')]
+from scripts.pi0292.durable import read,write,OwnerLock
+from scripts.pi0294.continuation import validate_entry
+from scripts.pi0294.native_dataset import sha
+validate_entry(root,profile='hopper-neural' if ROLE=='hopper' else '4080-simulation')
+lock=OwnerLock(root/'SOURCE_BOUNDARY_OWNER.lock')
+m=read(root/'RUN_MANIFEST.json');before=(root/'RUN_MANIFEST.json').read_bytes()
+assert m['code']['vla_commit']=='5e974b4fccd239656b2feda119a4c34426e72553'
+if ROLE=='hopper':
+ l=read(root/'HOPPER_RESOURCE_LEDGER.json')
+ assert not l['CPU_reserved_s'] and not l['GPU_reserved_s'] and not l['pending_updates'] and not l['PBS_submissions']
+ p=read(root/'evidence/local-M512-01/PROCESS.private.json');f=Path('/proc')/str(p['pid'])/'stat'
+ assert not f.exists() or f.read_text().split()[21]!=p['proc_start'] or f.read_text().split()[2] in ('Z','X')
+ assert read(root/'evidence/local-M512-01/CPU_TERMINAL.json')['status']=='PASS_ACTUAL_LOCAL_M512_FULL_MEMBER_SHA_AND_CURSOR'
+else:assert not (root/'LIVE_QUEUE.json').exists() and not any((root/'worker_processes').iterdir())
+capsule=root/'capsules/eval-first-02'/SOURCE;capsule.mkdir(parents=True,exist_ok=False)
+files={}
+for n,encoded in CONTENTS.items():
+ p=capsule/n;assert p.resolve().is_relative_to(capsule.resolve())
+ p.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+ with p.open('xb') as f:f.write(base64.b64decode(encoded))
+ p.chmod(0o440);files[n]=sha(p)
+assert all(files[n]==digest for n,digest in NUMERICAL.items())
+seal_path=capsule.parent/'SOURCE_SEAL.json';assert not seal_path.exists()
+seal=dict(schema='PI0294_R1_SOURCE_SEAL_V1',source_sha=SOURCE,protocol_release=m['authority']['protocol_ref'],files=files,
+ run_uuid=RUN,unchanged_numerical_files=NUMERICAL,numerical_parent_source='a171997a704072e127d16410ba584c8aa0ddd573')
+write(seal_path,seal)
+write(capsule.parent/'PRIOR_RUN_MANIFEST.private.json',m)
+m['code'].update(vla_commit=SOURCE,capsule_relative=str(capsule.relative_to(root)),
+ source_seal_relative=str(seal_path.relative_to(root)),source_seal_sha256=sha(seal_path),unchanged_numerical_files=NUMERICAL)
+assert (root/'RUN_MANIFEST.json').read_bytes()==before
+write(root/'RUN_MANIFEST.json',m)
+sys.path[:0]=[str(capsule/'src'),str(capsule)]
+# Already imported validator still checks the newly sealed source, not mutable code.
+validate_entry(root,profile='hopper-neural' if ROLE=='hopper' else '4080-simulation')
+receipt=dict(status='VERIFIED_TERMINAL_SOURCE_ADVANCE',run_uuid=RUN,old_source_sha='5e974b4fccd239656b2feda119a4c34426e72553',
+ new_source_sha=SOURCE,old_manifest_sha256=hashlib.sha256(before).hexdigest(),new_manifest_sha256=sha(root/'RUN_MANIFEST.json'),
+ source_seal_sha256=sha(seal_path),no_active_consumers=True,old_capsule_retained=True,numerical_paths_byte_equal=True,
+ T0_reset=False,counters_reset=False,new_PBS=0,new_models=0,new_physics=0)
+write(capsule.parent/'SOURCE_BOUNDARY.json',receipt);lock.close();print(json.dumps(receipt))
+'''
+
+if __name__=='__main__':
+    source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+    names=subprocess.check_output(['git','ls-tree','-r','--name-only',source,'src','scripts/pi0291_arx5_data',
+        'scripts/pi0292','scripts/pi0294','scripts/iteration'],cwd=REPO,text=True).splitlines()
+    contents={n:base64.b64encode(subprocess.check_output(['git','show',source+':'+n],cwd=REPO)).decode() for n in names}
+    numerical={}
+    for n in NUMERICAL_PATHS:
+        old=subprocess.check_output(['git','show','a171997a704072e127d16410ba584c8aa0ddd573:'+n],cwd=REPO)
+        assert base64.b64decode(contents[n])==old
+        numerical[n]=hashlib.sha256(old).hexdigest()
+    for host,role in [('hopper','hopper'),('corelab-4080s','core')]:
+        values=dict(RUN=RUN,ROLE=role,SOURCE=source,CONTENTS=contents,NUMERICAL=numerical)
+        r=remote_multiplexed(host,'\n'.join(k+'='+repr(v) for k,v in values.items())+'\n'+CODE)
+        save(BASE/('BOUNDARY_'+role+'_'+str(time.time_ns())+'.private.json'),dict(exit=r.returncode,stdout=r.stdout,stderr=r.stderr))
+        if r.returncode:raise RuntimeError('Preserve source-boundary records; no automatic repeat')
+        print(r.stdout)

@@ -1,0 +1,233 @@
+{
+  "alias_note": "cal001 and cal004 are color aliases; four original IDs, three unique numeric geometries",
+  "complete_paired_family_ids": [
+    "pi0259-cal-001",
+    "pi0259-cal-003",
+    "pi0259-cal-004",
+    "pi0259-cal-005"
+  ],
+  "deployment_selected_checkpoint": "NONE",
+  "depth_surface_reconstruction": {
+    "cue_camera_samples": 4364,
+    "interpretation": "Depth backprojected via actual view/projection to saved world sphere geometry; tessellation residual, not a new admission threshold.",
+    "maximum_surface_error_m": 0.00019485678508040366,
+    "median_of_medians_m": 4.342783464200348e-05
+  },
+  "execution_owner": "PI0260_SINGLE_OWNER_M",
+  "image_pairs": 84,
+  "maximum_camera_rotation_matrix_delta": 2.878376349491063e-07,
+  "maximum_saved_fk_delta": 0.0,
+  "maximum_state_delta": 0.0,
+  "missing_geometry": [
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-000-M3-c0",
+      "task": "M3",
+      "time": 4
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-000-M3-c0",
+      "task": "M3",
+      "time": 8
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-000-M3-c0",
+      "task": "M3",
+      "time": 12
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-000-M3-c0",
+      "task": "M3",
+      "time": 16
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-000-M3-c1",
+      "task": "M3",
+      "time": 4
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-000-M3-c1",
+      "task": "M3",
+      "time": 8
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-000-M3-c1",
+      "task": "M3",
+      "time": 12
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-000-M3-c1",
+      "task": "M3",
+      "time": 16
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-002-M1-c0",
+      "task": "M1",
+      "time": 1.5
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-002-M1-c0",
+      "task": "M1",
+      "time": 3
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-002-M1-c0",
+      "task": "M1",
+      "time": 4.5
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-002-M1-c0",
+      "task": "M1",
+      "time": 6
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-002-M1-c1",
+      "task": "M1",
+      "time": 1.5
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-002-M1-c1",
+      "task": "M1",
+      "time": 3
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-002-M1-c1",
+      "task": "M1",
+      "time": 4.5
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-002-M1-c1",
+      "task": "M1",
+      "time": 6
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-002-M3-c0",
+      "task": "M3",
+      "time": 4
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-002-M3-c0",
+      "task": "M3",
+      "time": 8
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-002-M3-c0",
+      "task": "M3",
+      "time": 12
+    },
+    {
+      "command": 0,
+      "sequence": "pi0259-cal-002-M3-c0",
+      "task": "M3",
+      "time": 16
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-002-M3-c1",
+      "task": "M3",
+      "time": 4
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-002-M3-c1",
+      "task": "M3",
+      "time": 8
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-002-M3-c1",
+      "task": "M3",
+      "time": 12
+    },
+    {
+      "command": 1,
+      "sequence": "pi0259-cal-002-M3-c1",
+      "task": "M3",
+      "time": 16
+    }
+  ],
+  "natural_image_review": {
+    "artifact_sha256": "15739ce1b2d6587a550bb36ee31374f631d6c6236fc4d4cc831d39acab105416",
+    "mode": "SAME_OWNER_READONLY_REPLAY",
+    "observations": "Color targets and separated RGB axis endpoint markers visible; open yellow arc and black/white endpoints discernible in wrist stream. Body stream has small cues. No semantic overlays used.",
+    "reviewer": "PI0260_SINGLE_OWNER_M",
+    "scope": "All 84 body/wrist pairs in native96x96 montage, including 6 common starts and registered available M1/M3 later poses; not proof of model semantic success",
+    "source_ids": "raster_records.json; all 84 source records"
+  },
+  "negative_checks": [
+    "missing_geometry_rejected",
+    "missing_geometry_rejected"
+  ],
+  "negative_test_receipt_sha256": "b75286c17e1dd53a4e844ca13fc84c49d879395681406dadaa3390b39f9c47df",
+  "new_calls": {
+    "hopper_jobs": 0,
+    "model_loads": 0,
+    "model_queries": 0,
+    "physics": 0,
+    "scene_construction": 0,
+    "training": 0,
+    "wbc_calls": 0
+  },
+  "next_stage": "DEVELOPMENT_FIXED_PROPOSALS",
+  "numeric_receipt_sha256": "5b520177306a972197d5ecf7cb24a73249277f4aead39fd6d757ef8f7032649f",
+  "old_verdict_scope": "receipt.json is legacy PI0259 cohort criterion, inapplicable to PI0260; numeric outputs reused only",
+  "producer_manifest_sha256": "dd75ddfc38c480a200e3853cd991cdf451ea86d87295c8cd0c1d1ef556e4da6e",
+  "repeat_pairs": 6,
+  "review_mode": "SAME_OWNER_READONLY_REPLAY",
+  "rigs": [
+    {
+      "later": 72,
+      "later_pass": true,
+      "missing": 24,
+      "qualified": true,
+      "rig": 0,
+      "start_pass": true,
+      "starts": 6
+    }
+  ],
+  "routing_tests_sha256": "a028cc72f4cd84f0b7df0970e6649e900f6a2304ca23f9d2d9223150f6641e9f",
+  "scientific_authority": "90cbb926a842f08c3f9a78756d7a24e0d7a63f78",
+  "selected_checkpoint": "NONE",
+  "selected_rig": 0,
+  "shared_dependencies": "Pinned V full_fk/kinematics, independent V raster/depth logic; no producer PASS trusted",
+  "source_files_checked": 313,
+  "stage": "H0",
+  "status": "PASS",
+  "verifier_dependencies": {
+    "actual_video.py": "53ff8b4b6a7a843f8b1d664424304b8c67a95face0b63fd8e3d4cf1fbbb9dd2f",
+    "bundle_adapter.py": "98c46c07265386d7700645d1f63a80d0a7d365d8b19d10e4c67f4e30ea333392",
+    "eef_video_workflow.py": "c28b7dca6fa6becd5538a4aa5f9db7cc47a3751bcc639ebce0c11e6ac88f2b0d",
+    "evidence_so3.py": "117a9d55e975ce326af71673f669dee344931dcf73afd24acdafd504849c77ef",
+    "pi0259_h0.py": "ef51f527e2e1c1e2aaccd99c9ae1c0616ab6e10cb0dcbbfb97bdfbb757e08b9d",
+    "pi0259_review.py": "5d56ba4a1f238823f9617af65ee44c3a84fec6bf650dde379770c384a788cb0d",
+    "pi0260_h0_review.py": "c4f1e07242a0a0359a28e03063986493321d845b2e6269753ee4d66eebc04e5e",
+    "plotting.py": "7435d5ae21b048b7d6a32cc54198b08310a096d3545208447a4a280a3c301f05",
+    "portable_numeric.py": "fce47a02554aced1e3be40632eb96b8004371b0fec47a1f324d59783cb649bf1",
+    "portable_verify.py": "42097ca4abb04ae6492905b71391279ad8a87d7e716dc1c765b3d89ea4684990",
+    "prediction_video.py": "e6abac687209d6856e26a2b567d50e9a02c03921855244a69317cfb34933910e",
+    "preparation_adapter.py": "ae34989121f1b4e08185d58116fc66dcfb82ca44cd8e3d8ebda39633c6fc1d42",
+    "recorded_adapter.py": "7d08aee2dc063323d78fe4d5daffe2bd899296a894f09da3f0481b745b9b46d0",
+    "test_pi0259_review.py": "74f76833a3437414bd6d2668f4b830a257fc441f94ac7e517260fe3b3f149747",
+    "test_video_evidence_contract.py": "7d865a63c93b296e1b2b5d0ef8c6311badf0f70a9558629df40c77e1838240c4"
+  },
+  "verifier_source_sha256": "c4f1e07242a0a0359a28e03063986493321d845b2e6269753ee4d66eebc04e5e",
+  "workflow_authority": "1f27d9c14ce0a91518930a8d8a2f6f0ffc2dd468"
+}

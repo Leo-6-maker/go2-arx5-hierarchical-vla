@@ -1,0 +1,102 @@
+{
+  "schema": "MP1_N1_VANDA_CAMERA03_ACTUAL_FAILURE_V1",
+  "status": "NATIVE_EGL_IDENTITY_FAILURE_SETTLED_AND_LEASE_CLOSED",
+  "authority_release": "926f9ef69042bb9f3b7b336a076d2be8fa0afbb9",
+  "N1_T0_epoch": 1792264081,
+  "original_MP1_T0_epoch": 1792178085,
+  "native_terminal": {
+    "status": "N1_CAMERA03_ACTUAL_NATIVE_FAILURE_TERMINAL_AND_LEASE_CLOSED",
+    "job_id": "1464745.stdct-mgmt-02",
+    "source_sha": "0969c37d1ca2454c58daeb2228a62da8f231a005",
+    "native_state": "F",
+    "native_exit": 1,
+    "actual_GPU_conservative_s": 22,
+    "actual_CPU_s": 10,
+    "lease_status": "CLOSED",
+    "result_sha256": "7405d41e188ae9f4337ff7dd5654a765619145378770a1040d78cacb461bbfcf",
+    "renderer_log_sha256": "4da7280fe820d43bb9f5abfcdbda1b16893db3cee73a3de119ca2f32c06323ad",
+    "manifest_sha256": "7c376f6738c7f49c5c8632bd1a1fc1d49ca837981d8b841668bb0c7fef50a756",
+    "lease_sha256": "705d0ca1131efa4469e3a4a7a00644803ec23abe17da298e78456dc1763f0736",
+    "RGB_images": 0,
+    "physics": 0,
+    "WBC": 0,
+    "model_queries": 0,
+    "all_sealed_inputs_unchanged": true,
+    "old_camera02_lease_unchanged": true,
+    "new_clock": false
+  },
+  "project": "CFP04-CF-007",
+  "native_request": {
+    "GPU": 1,
+    "wall_s": 900,
+    "active_CPU": 4,
+    "native_allocated_CPU": 36,
+    "native_allocated_memory_GiB": 240,
+    "requested_queue": "auto",
+    "node_pool": "gpu_node"
+  },
+  "original_new_window": {
+    "created_epoch": 1792278218.5060692,
+    "deadline_epoch": 1792321418.5060692,
+    "old_camera02_lease_extended": false,
+    "N1_clock_reset": false
+  },
+  "host_and_container_CPU_file_visibility_admission": "PASS_NOT_RENDERING_QUALIFICATION",
+  "fresh_project_query_before_qsub": "PASS_ACTIVE_AND_MEMBER",
+  "actual_source_CI": {
+    "head_sha": "0969c37d1ca2454c58daeb2228a62da8f231a005",
+    "run": 39077247666,
+    "conclusion": "SUCCESS",
+    "local_tests": 516,
+    "local_subtests": 381
+  },
+  "observed_failure": {
+    "operation": "OPENGL_VENDOR_RENDERER_VERSION_READ_AFTER_MUJOCO_RENDERER_CONSTRUCTION",
+    "exception": "AttributeError_NONE_GL_STRING_DECODE",
+    "DRM_permission_warnings_present": true,
+    "exact_unique_root_cause": "NOT_PROVEN",
+    "NVIDIA_device_permissions_modified": false
+  },
+  "readonly_metadata": {
+    "mujoco_version": "3.2.7",
+    "apptainer_version": "apptainer version 1.4.1-1.el9",
+    "base_image_EGL_ICDs": [
+      {
+        "name": "50_mesa.json",
+        "content": {
+          "file_format_version": "1.0.0",
+          "ICD": {
+            "library_path": "libEGL_mesa.so.0"
+          }
+        }
+      }
+    ],
+    "host_nvlist_contains_NVIDIA_EGL_library": true,
+    "native_compute_EGL_ICD_inventory": "NOT_CAPTURED",
+    "interpretation": "Base image has only Mesa ICD;host NV library list includes NVIDIA EGL libraries. Missing matching NVIDIA ICD exposure is a hypothesis,not a proven explanation of the native GL string failure."
+  },
+  "references": [
+    {
+      "title": "MuJoCo3.2.7 GL backend selection",
+      "url": "https://github.com/google-deepmind/mujoco/blob/3.2.7/python/mujoco/gl_context.py"
+    },
+    {
+      "title": "NVIDIA GLVND ICD discovery",
+      "url": "https://github.com/NVIDIA/libglvnd/blob/master/src/EGL/icd_enumeration.md"
+    },
+    {
+      "title": "Apptainer GPU support",
+      "url": "https://apptainer.org/docs/user/1.4/gpu.html"
+    }
+  ],
+  "old_failure_preserved": true,
+  "automatic_retry_under_camera03_card": false,
+  "new_camera04_subscope": "NOT_BOUND_NOT_SUBMITTED",
+  "engineering_CPU_upper_s": 2580,
+  "engineering_CPU_settlement": "OPEN_UNTIL_EXACT_GITHUB_RECEIPT_READBACK",
+  "selected": "NONE",
+  "deployment": "NONE",
+  "WBC": "FROZEN_NOT_LAUNCHED",
+  "TF_R3_STOP": "PRESERVED",
+  "goal": "SOURCE_MAINLINE_CONTINUES_TARGET_EGL_NOT_QUALIFIED"
+}

@@ -1,0 +1,85 @@
+{
+  "result": {
+    "status": "VALID_PLANNING_FAILURE_NO_RETRY",
+    "stop_reason": "VALID_PLANNING_FAILURE: REGISTERED_ROUTES_EXHAUSTED",
+    "observations": 9,
+    "submitted_intents": 1,
+    "teacher_events": [],
+    "final_stage": "approach",
+    "development_milestones": {
+      "actual_contact": false,
+      "manipulation": false,
+      "position_progress": true
+    },
+    "native_stops": [],
+    "physics_lower_bound": 2698,
+    "actual_plugin_steps": 2700,
+    "physics_charged": 2703,
+    "saved_RGB_pairs": 9,
+    "actual_CPU_s": 36.104897919,
+    "conservative_CPU_charged_s": 65.72777642030269,
+    "service_s": 16.431944105075672,
+    "owned_returncodes": [
+      -2,
+      0,
+      0,
+      0
+    ],
+    "source_sha": "4873288451df7857da33610827bd25ddb8d1f75c",
+    "high_level_model_queries": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "entry": {
+    "source_id": "PI0294-TRAIN-F0-000-T1",
+    "source_program_sha256": "58ae41d98ffd1dc360d78295075e847394902d49acd3573b378b5dec5e925a29",
+    "actual_warmup_certificate": {
+      "duration_s": 7.994345976047727,
+      "uniform_time_scale": 2.0421069773665232,
+      "max_linear_speed": 0.0515081149061469,
+      "max_angular_speed": 0.2835731989410077,
+      "dense": {
+        "status": "PASS",
+        "reason": null,
+        "points": 1001,
+        "local_IK_iterations": 1001,
+        "window_sha256": "c4e06af5061b67c58e8a66573c947edb99f39576e7a1adc2786384c99d068d93",
+        "max_native_IK_position_residual_m": 5.098803907347175e-06,
+        "max_native_IK_rotation_residual_rad": 7.906911390365023e-06,
+        "physics_steps": 0,
+        "actual_state_modified": false
+      },
+      "input_sha256": "9f556ed753581014abfab999cf3229f08e6c7f490aba1400a01cc2416dd5946a",
+      "response_sha256": "4c993f31b84adc393081acc1721f4366874823e04880095c53e6710eae25a89f",
+      "FK_error": [
+        2.0026854743534788e-16,
+        0.0
+      ],
+      "IK_calls": 2,
+      "RRT_calls": 2
+    },
+    "entry_duration_s": 7.994345976047727,
+    "activity_duration_s": 23.0663581648165,
+    "entry_and_activity_s": 31.060704140864225,
+    "actual_packet_time_s": 0.0,
+    "base_intent": [
+      0,
+      0,
+      0
+    ],
+    "entry_design_file": "TFNR1_C2_CPU_PC2_DESIGN.json",
+    "free_approach_end_s": 6.475792323855937,
+    "contact_connector_end_s": 7.994345976047727
+  },
+  "raw_max_xyz_rate": 0.055215880185254466,
+  "raw_max_rot_rate": 0.3000029611856628,
+  "raw_argmax": 34,
+  "history_xyz_rate": [
+    0.028525577379966877,
+    0.028581345306537023
+  ],
+  "history_rot_rate": [
+    0.08950170769790916,
+    0.09178214262641562
+  ]
+}

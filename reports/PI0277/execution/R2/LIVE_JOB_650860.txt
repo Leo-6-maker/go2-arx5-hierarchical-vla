@@ -1,0 +1,60 @@
+Job Id: 650860.hopper-m-02
+    Job_Name = pi0277_r2_grip
+    Job_Owner = e1192548@hopper-l-01.cm.cluster
+    resources_used.cpupercent = 98
+    resources_used.cput = 00:09:36
+    resources_used.mem = 65450756kb
+    resources_used.ncpus = 12
+    resources_used.vmem = 84407200kb
+    resources_used.walltime = 00:18:24
+    job_state = R
+    queue = small
+    server = hopper-m-02.cm.cluster
+    Checkpoint = u
+    ctime = Tue Oct  6 21:57:49 2026
+    Error_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/exp
+	eriments/PI0277/R2/runtime/pbs-04.err
+    exec_host = hopper-15/2*12
+    exec_vnode = (hopper-15:ngpus=1:ncpus=12:mem=235929600kb)
+    Hold_Types = n
+    Join_Path = n
+    Keep_Files = oed
+    Mail_Points = n
+    mtime = Tue Oct  6 22:16:25 2026
+    Output_Path = hopper-l-01.cm.cluster:/scratch/e1192548/Projects/go2-arx5/ex
+	periments/PI0277/R2/runtime/pbs-04.out
+    Priority = 0
+    qtime = Tue Oct  6 21:57:49 2026
+    Rerunable = True
+    Resource_List.am_job_cache = {"job.ngpus": 1.0, "job.walltime": 32400,
+	 "job.ncpus": 12.0, "job.queue_charge_rate": 1.0,
+	 "am_cloud_enabled": false}
+    Resource_List.mem = 225gb
+    Resource_List.ncpus = 12
+    Resource_List.ngpus = 1
+    Resource_List.nodect = 1
+    Resource_List.nodes = 1
+    Resource_List.place = free
+    Resource_List.queue_charge_rate = 1
+    Resource_List.select = 1:ngpus=1:ncpus=12:mem=225GB:gpu_model=H200
+    Resource_List.walltime = 09:00:00
+    stime = Tue Oct  6 21:57:59 2026
+    session_id = 2903421
+    jobdir = /home/svu/e1192548
+    substate = 42
+    Variable_List = PBS_O_HOME=/home/svu/e1192548,PBS_O_LOGNAME=e1192548,
+	PBS_O_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin,
+	PBS_O_SHELL=/bin/bash,PBS_O_HOST=hopper-l-01.cm.cluster,
+	PBS_O_WORKDIR=/nfs/home/svu/e1192548,PBS_O_SYSTEM=Linux,
+	PBS_O_QUEUE=auto
+    comment = Job run at Tue Oct 06 at 21:57 on (hopper-15:ngpus=1:ncpus=12:mem
+	=235929600kb)
+    etime = Tue Oct  6 21:57:49 2026
+    run_count = 1
+    Submit_arguments = -o /scratch/e1192548/Projects/go2-arx5/experiments/PI027
+	7/R2/runtime/pbs-04.out -e /scratch/e1192548/Projects/go2-arx5/experime
+	nts/PI0277/R2/runtime/pbs-04.err /scratch/e1192548/Projects/go2-arx5/ex
+	periments/PI0277/R2/code/train_repair.pbs
+    project = CFP05-CF-052
+    Submit_Host = hopper-l-01.cm.cluster
+

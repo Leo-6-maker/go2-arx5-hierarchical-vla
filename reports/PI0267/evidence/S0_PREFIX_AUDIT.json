@@ -1,0 +1,2693 @@
+{
+  "cases": [
+    {
+      "case": {
+        "case_id": "D-pi0265-family-000-M1-c0-CLOCK_DRIVEN",
+        "command": 0,
+        "expert": "CLOCK_DRIVEN",
+        "family": {
+          "center_world": [
+            0.32010000000000005,
+            0.03,
+            0.6441057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "green"
+            ],
+            "radius": 0.04,
+            "x_shift": 0.03,
+            "y_shift": 0.03,
+            "z_shift": 0.0225
+          },
+          "family_id": "pi0265-family-000",
+          "geometry_key": [
+            0.3201,
+            0.03,
+            0.6441057,
+            0.04
+          ],
+          "rank": 0,
+          "reset_seed": 1767502346,
+          "source_order_sha256": "0410ae1f6c272c1523c3c24fdf28bf0e6525c39968303fe8da42a257940c1a0f",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M1",
+        "version": "ROW6D"
+      },
+      "historical_failure": null,
+      "historical_success": true,
+      "replans": [
+        {
+          "actual_displacement_m": 0.02441706070150346,
+          "actual_installed_so3_rms_rad": 0.16469160650725526,
+          "actual_installed_xyz_rms_m": 0.022531223113411606,
+          "actual_target_after_m": 0.20286914595911254,
+          "actual_target_before_m": 0.22656251833939745,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0006059398625449622,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 0.0
+          },
+          "next_pose": [
+            0.21127060156858113,
+            0.12619614375750282,
+            0.6460888242511778
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c0-CLOCK_DRIVEN-0000.npz",
+          "requested_displacement_m": 0.0006059568043632155,
+          "requested_installed_so3_max_rad": 4.7346370645584804e-07,
+          "requested_installed_xyz_max_m": 2.4469329445552573e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/clock_reference_only_install.json": "5060435c8c5c42e9cee6340861148fdc458989b0d2826332903a419d69da7a9d",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/frames/0000.npz": "1ede9259c95a3953742f372ecc768604bc7f8c81891fb3d8991f0ce555096802",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/references/clock_full20s.npz": "1c1d3b9b2ffd766fdf0679877a4236ffe48bd9b2db0d63aa44b02aaf904a7230"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.006836460576275339,
+          "actual_installed_so3_rms_rad": 0.03818117409312713,
+          "actual_installed_xyz_rms_m": 0.004071967526899882,
+          "actual_target_after_m": 0.003924464748589424,
+          "actual_target_before_m": 0.005293560985135818,
+          "current_pose": [
+            0.31489392347894984,
+            -0.04407168508657027,
+            0.6438674006466105
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 19.999999552965164
+          },
+          "next_pose": [
+            0.31969973896905446,
+            -0.04875967825473977,
+            0.6451573815539241
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c0-CLOCK_DRIVEN-1000.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 1.703787837595062e-07,
+          "requested_installed_xyz_max_m": 3.6392113001153367e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/clock_reference_only_install.json": "5060435c8c5c42e9cee6340861148fdc458989b0d2826332903a419d69da7a9d",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/frames/1000.npz": "deba329a1f4706e34d7ed5e38d353e011b4a522bbf2693442475977473ac246a",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/references/clock_full20s.npz": "1c1d3b9b2ffd766fdf0679877a4236ffe48bd9b2db0d63aa44b02aaf904a7230"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0025168605611829826,
+          "actual_installed_so3_rms_rad": 0.08025086250406245,
+          "actual_installed_xyz_rms_m": 0.005515848931307001,
+          "actual_target_after_m": 0.0058709397379444585,
+          "actual_target_before_m": 0.004529728275195893,
+          "current_pose": [
+            0.31704031301453106,
+            -0.048190947363117846,
+            0.6431184772673444
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 39.599999114871025
+          },
+          "next_pose": [
+            0.3160706972602669,
+            -0.047748982706315786,
+            0.6408383238480195
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c0-CLOCK_DRIVEN-1980.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 1.703787837595062e-07,
+          "requested_installed_xyz_max_m": 3.6392113001153367e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/clock_reference_only_install.json": "5060435c8c5c42e9cee6340861148fdc458989b0d2826332903a419d69da7a9d",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/frames/1980.npz": "df0c22f0dba24efc2826822c5510d5529679e33c1b5dac01b14122e50e3cb6ae",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/references/clock_full20s.npz": "1c1d3b9b2ffd766fdf0679877a4236ffe48bd9b2db0d63aa44b02aaf904a7230"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "25ffe9d7ca2c3e4e61e02fcb2cc744e60d8c5b8a559e80005058337ac90acd00",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-CLOCK_DRIVEN/attempt-01/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1",
+        "command": 0,
+        "expert": "OBSERVABLE_CORRECTION_V1",
+        "family": {
+          "center_world": [
+            0.32010000000000005,
+            0.03,
+            0.6441057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "green"
+            ],
+            "radius": 0.04,
+            "x_shift": 0.03,
+            "y_shift": 0.03,
+            "z_shift": 0.0225
+          },
+          "family_id": "pi0265-family-000",
+          "geometry_key": [
+            0.3201,
+            0.03,
+            0.6441057,
+            0.04
+          ],
+          "rank": 0,
+          "reset_seed": 1767502346,
+          "source_order_sha256": "0410ae1f6c272c1523c3c24fdf28bf0e6525c39968303fe8da42a257940c1a0f",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M1",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.008122036979150449,
+          "actual_installed_so3_rms_rad": 0.16751418021393502,
+          "actual_installed_xyz_rms_m": 0.0163448266240333,
+          "actual_target_after_m": 0.22999186945416294,
+          "actual_target_before_m": 0.22656251833939745,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0006059398625449622,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.20330476791873697,
+            0.15307995132446195,
+            0.6485178039656176
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1-0000.npz",
+          "requested_displacement_m": 0.0006059568043632155,
+          "requested_installed_so3_max_rad": 3.855661190710522e-07,
+          "requested_installed_xyz_max_m": 2.4469329445552573e-08,
+          "right_boundary_rotation_excluded": true,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/0000.npz": "1ede9259c95a3953742f372ecc768604bc7f8c81891fb3d8991f0ce555096802",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/installed_table.npz": "b9decd50312caeb9cc3b4725e9205ccd97a9ce2f2e706d123254833ddc0ea747",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/proposal.npz": "6b8a09553ddfac88416bde77e49eecbc8e1cf64d82d742404ae832b5ac1b1741",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/reference_only_install.json": "39c08696bd629ec60448564ff9825a489e1371bb084acbde20cb0632636507a9"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.004884553464876558,
+          "actual_installed_so3_rms_rad": 0.030436587564620896,
+          "actual_installed_xyz_rms_m": 0.008793559255151177,
+          "actual_target_after_m": 0.04633818495644743,
+          "actual_target_before_m": 0.04657547834421281,
+          "current_pose": [
+            0.2771735192040744,
+            -0.061255488204722874,
+            0.6520019986706037
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.015846962312029807,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 4.982201269744068,
+            "projection_objective": 0.002124765937644834,
+            "quartile": 3,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.27949183927152993,
+            -0.06474667346825552,
+            0.6545111579066354
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1-1000.npz",
+          "requested_displacement_m": 0.01585266322607365,
+          "requested_installed_so3_max_rad": 0.0014741179933435353,
+          "requested_installed_xyz_max_m": 0.0008537894079135822,
+          "right_boundary_rotation_excluded": true,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1000.npz": "99c0e2621907ad60f871df69f7733bd3a4aaca9dce4f6e07b21d7f906e4c91e9",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/installed_table.npz": "b3064bbbb1e8d72b75f0c334b62031dc7de13dedd49eaec3b385b2ed739f53fd",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/proposal.npz": "ac6aa5a157cac86f286821fc2eb97643e6db2bbe59e95503ad0e6b08bbe1bdf2",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/reference_only_install.json": "b8df019d9fd9ba4fa1d858c33a225d1eed2c63b96367ab44c555fe9b39dc23e9"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0011362736380209869,
+          "actual_installed_so3_rms_rad": 0.036204067294662794,
+          "actual_installed_xyz_rms_m": 0.008651623530002617,
+          "actual_target_after_m": 0.04410556698756398,
+          "actual_target_before_m": 0.04475576077252581,
+          "current_pose": [
+            0.2798979878143816,
+            -0.06455460456222716,
+            0.6419858464744307
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.014603551955093223,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 5.210577781149713,
+            "projection_objective": 0.002052089130021645,
+            "quartile": 3,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.28060932188518317,
+            -0.06441188350476876,
+            0.6411113452909345
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1-1980.npz",
+          "requested_displacement_m": 0.014605737511225965,
+          "requested_installed_so3_max_rad": 0.00224188015199307,
+          "requested_installed_xyz_max_m": 0.0008441979835353615,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1980.npz": "3dcb9cd40725f578fcd08948a438dfc7bf2db1655b30675e87a478285a81bc54",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/installed_table.npz": "ac62b93e256cf2cb393ae9c986afd15420e2ce065d195c61557a243cd6f5df7f",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/proposal.npz": "cac606d490cbbcfcedb4cafbd0f48e57931be63a3db8e2cfc11d65bf1040c83a",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/reference_only_install.json": "66bf831625280fa2a888fc97da8494f03ce2bf98d996260417fd24a458d4bd52"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "2a0f05b0ae07618a6f9d67fd1546d3fbaa406fcc1d967b5935056b7632390748",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-000-M1-c1-CLOCK_DRIVEN",
+        "command": 1,
+        "expert": "CLOCK_DRIVEN",
+        "family": {
+          "center_world": [
+            0.32010000000000005,
+            0.03,
+            0.6441057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "green"
+            ],
+            "radius": 0.04,
+            "x_shift": 0.03,
+            "y_shift": 0.03,
+            "z_shift": 0.0225
+          },
+          "family_id": "pi0265-family-000",
+          "geometry_key": [
+            0.3201,
+            0.03,
+            0.6441057,
+            0.04
+          ],
+          "rank": 0,
+          "reset_seed": 1767502346,
+          "source_order_sha256": "0410ae1f6c272c1523c3c24fdf28bf0e6525c39968303fe8da42a257940c1a0f",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M1",
+        "version": "ROW6D"
+      },
+      "historical_failure": null,
+      "historical_success": true,
+      "replans": [
+        {
+          "actual_displacement_m": 0.012298663586563506,
+          "actual_installed_so3_rms_rad": 0.2609500631359835,
+          "actual_installed_xyz_rms_m": 0.014982517847585346,
+          "actual_target_after_m": 0.11416540548274501,
+          "actual_target_before_m": 0.12561396453556029,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0003359470608148164,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 0.0
+          },
+          "next_pose": [
+            0.21174450337146233,
+            0.14095585600144536,
+            0.6440549198280665
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c1-CLOCK_DRIVEN-0000.npz",
+          "requested_displacement_m": 0.00033596305819365844,
+          "requested_installed_so3_max_rad": 4.1539273750531295e-07,
+          "requested_installed_xyz_max_m": 2.4156302551894377e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "54a0fe2c380c69c26e8922c1801ce0b00c4a5c43a73c6ac9caa0c95cfaf36d6b",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/frames/0000.npz": "1ede9259c95a3953742f372ecc768604bc7f8c81891fb3d8991f0ce555096802",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "50f2f102e11b7880dfc3a3241eaba01d250e8ab77f35fee83725362e4038e88b"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.004884151130673125,
+          "actual_installed_so3_rms_rad": 0.06004362634576923,
+          "actual_installed_xyz_rms_m": 0.005043215422013873,
+          "actual_target_after_m": 0.0046521399522536115,
+          "actual_target_before_m": 0.004700285759927329,
+          "current_pose": [
+            0.3155365316603055,
+            0.1049098363852507,
+            0.645227891365212
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 19.999999552965164
+          },
+          "next_pose": [
+            0.318726844915738,
+            0.10173033797546552,
+            0.6471167067245419
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c1-CLOCK_DRIVEN-1000.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 1.9048441035154105e-07,
+          "requested_installed_xyz_max_m": 5.8217797108760636e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "54a0fe2c380c69c26e8922c1801ce0b00c4a5c43a73c6ac9caa0c95cfaf36d6b",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/frames/1000.npz": "ebd0aab22da5b0bb0874588552900c9b9b1b67eb46f2a92e2a8b10d22e9b31a7",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "50f2f102e11b7880dfc3a3241eaba01d250e8ab77f35fee83725362e4038e88b"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0033565707993857704,
+          "actual_installed_so3_rms_rad": 0.08843501936904843,
+          "actual_installed_xyz_rms_m": 0.005729617936816337,
+          "actual_target_after_m": 0.005872699260813973,
+          "actual_target_before_m": 0.004008175439586058,
+          "current_pose": [
+            0.31917326635207444,
+            0.10165036867646901,
+            0.6421090515340142
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 39.599999114871025
+          },
+          "next_pose": [
+            0.3158335288677437,
+            0.10170369183213651,
+            0.6417775734682014
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c1-CLOCK_DRIVEN-1980.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 1.9048441035154105e-07,
+          "requested_installed_xyz_max_m": 5.8217797108760636e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "54a0fe2c380c69c26e8922c1801ce0b00c4a5c43a73c6ac9caa0c95cfaf36d6b",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/frames/1980.npz": "b0f376fa9247c576fc6ccfb1c8e82d9b942b47681e34f6d4d73e5d181f9ebc54",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "50f2f102e11b7880dfc3a3241eaba01d250e8ab77f35fee83725362e4038e88b"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "34756c1fd4ce9569f2f09ec8c7e5b0677acb7ef339d8f24cac4430c1e7c7e54d",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-CLOCK_DRIVEN/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1",
+        "command": 1,
+        "expert": "OBSERVABLE_CORRECTION_V1",
+        "family": {
+          "center_world": [
+            0.32010000000000005,
+            0.03,
+            0.6441057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "green"
+            ],
+            "radius": 0.04,
+            "x_shift": 0.03,
+            "y_shift": 0.03,
+            "z_shift": 0.0225
+          },
+          "family_id": "pi0265-family-000",
+          "geometry_key": [
+            0.3201,
+            0.03,
+            0.6441057,
+            0.04
+          ],
+          "rank": 0,
+          "reset_seed": 1767502346,
+          "source_order_sha256": "0410ae1f6c272c1523c3c24fdf28bf0e6525c39968303fe8da42a257940c1a0f",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M1",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.007091523784246007,
+          "actual_installed_so3_rms_rad": 0.19828847973483008,
+          "actual_installed_xyz_rms_m": 0.013793428536107776,
+          "actual_target_after_m": 0.1312165627250421,
+          "actual_target_before_m": 0.12561396453556029,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0003359470608148164,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.19810954965463956,
+            0.1533252566842961,
+            0.6449922237210229
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1-0000.npz",
+          "requested_displacement_m": 0.00033596305819365844,
+          "requested_installed_so3_max_rad": 4.492707743309336e-07,
+          "requested_installed_xyz_max_m": 2.4156302551894377e-08,
+          "right_boundary_rotation_excluded": true,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/0000.npz": "1ede9259c95a3953742f372ecc768604bc7f8c81891fb3d8991f0ce555096802",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/installed_table.npz": "b6496f03af3c2083e7254d1d399fddcaa9ab10c5f6c0e2bce3cb68d9639b062e",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/proposal.npz": "4f08eaef514d2a61ea511066bd3abae4cffff1ac5c3a04c6b5f72f2c5504a95e",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/reference_only_install.json": "f9821a9e63ad4d54559a4d5e03df755914ec0a4b08da68f3435f83eb20cb9510"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.005465049387845768,
+          "actual_installed_so3_rms_rad": 0.033457749724634375,
+          "actual_installed_xyz_rms_m": 0.0022888845698498432,
+          "actual_target_after_m": 0.14028675997212942,
+          "actual_target_before_m": 0.14563759161863876,
+          "current_pose": [
+            0.1815237308884849,
+            0.14963203656979449,
+            0.6402447359697535
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.006943202621688856,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0006029381972175967,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.1863669742530848,
+            0.14727575599994738,
+            0.6411708571276014
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1-1000.npz",
+          "requested_displacement_m": 0.0069407182460696154,
+          "requested_installed_so3_max_rad": 1.5246524972914264e-05,
+          "requested_installed_xyz_max_m": 3.720819418037334e-06,
+          "right_boundary_rotation_excluded": true,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1000.npz": "7cbb88d88a77be1055db78e7b97db90f10ba658c98b1deb4a02195ea305d203b",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/installed_table.npz": "c8f8104a8ad5bc441a9bbc1a395c999fd569bad035b460cf9713ef131df0c2e6",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/proposal.npz": "ca153f11617cb07fd22f9c8718d694fc33716ec047733efdef6e9088f92dc7e2",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/reference_only_install.json": "372bf6973daf224d8cc4ab5931d8e71c5628e27cf339a2e41a8fb45612cbaf38"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.004812569363834293,
+          "actual_installed_so3_rms_rad": 0.04358172992098656,
+          "actual_installed_xyz_rms_m": 0.005234882237432817,
+          "actual_target_after_m": 0.1370906127625287,
+          "actual_target_before_m": 0.13705241743725227,
+          "current_pose": [
+            0.18935626202390748,
+            0.14603836365951497,
+            0.6418050884328073
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.004469927739233322,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0002765630628361469,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.19004285642551016,
+            0.1478235995902885,
+            0.6373889425247921
+          ],
+          "raw_npz": "D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1-1980.npz",
+          "requested_displacement_m": 0.004468266137980084,
+          "requested_installed_so3_max_rad": 1.899178612753731e-05,
+          "requested_installed_xyz_max_m": 6.210147348021677e-06,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1980.npz": "2a5536338dd05e733487b0575b25e264761352eff78241ddbf268c93f7c15bf9",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/installed_table.npz": "7bf1da33e4e4ec1a1148566063f165a55d017abb6a9bddb590e9b04388fcb9d3",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/proposal.npz": "53bc2a58232d0688fa5ec5a20c4eb7e24d296235baf60c08b72f5d2c83a87217",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/reference_only_install.json": "482482ff59cd1a305dc9ffff091855ec170c5aeb2bde027be66ae8a7137d774d"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "52fb10c05c875121e498848427bbdabd5b9e68d521a4dd80a29d9d4b26926371",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-000-M3-c0-CLOCK_DRIVEN",
+        "command": 0,
+        "expert": "CLOCK_DRIVEN",
+        "family": {
+          "center_world": [
+            0.32010000000000005,
+            0.03,
+            0.6441057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "green"
+            ],
+            "radius": 0.04,
+            "x_shift": 0.03,
+            "y_shift": 0.03,
+            "z_shift": 0.0225
+          },
+          "family_id": "pi0265-family-000",
+          "geometry_key": [
+            0.3201,
+            0.03,
+            0.6441057,
+            0.04
+          ],
+          "rank": 0,
+          "reset_seed": 1767502346,
+          "source_order_sha256": "0410ae1f6c272c1523c3c24fdf28bf0e6525c39968303fe8da42a257940c1a0f",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M3",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.027734014529415034,
+          "actual_installed_so3_rms_rad": 0.24546425463278748,
+          "actual_installed_xyz_rms_m": 0.027280239178462683,
+          "actual_target_after_m": 0.10316533676002089,
+          "actual_target_before_m": 0.1271267416618447,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0014719389836842672,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 0.0
+          },
+          "next_pose": [
+            0.21079243035564565,
+            0.12213810359408414,
+            0.6431057398277433
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c0-CLOCK_DRIVEN-0000.npz",
+          "requested_displacement_m": 0.001471936573562898,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.723809450621812e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "d931ed037b5d60668c04e17f2dcbb260e46c6efec0557a6b716d02a66f87ffc1",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/frames/0000.npz": "1ede9259c95a3953742f372ecc768604bc7f8c81891fb3d8991f0ce555096802",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "8bc13f5b55934f5ef79d94465fbb07a96ce56ea41adf7e372a33235ccb60f060"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.00583059496074233,
+          "actual_installed_so3_rms_rad": 0.027505049748905077,
+          "actual_installed_xyz_rms_m": 0.004840226246945911,
+          "actual_target_after_m": 0.005074516137355228,
+          "actual_target_before_m": 0.004811001192936168,
+          "current_pose": [
+            0.2891046639152786,
+            0.05722418662027723,
+            0.6479361151876546
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 19.999999552965164
+          },
+          "next_pose": [
+            0.2937053878906603,
+            0.05407805045412452,
+            0.646224097745393
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c0-CLOCK_DRIVEN-1000.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 2.985362486937768e-07,
+          "right_boundary_rotation_excluded": false,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "d931ed037b5d60668c04e17f2dcbb260e46c6efec0557a6b716d02a66f87ffc1",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/frames/1000.npz": "c0cf7d2a6cfa12df2669de736e72306058b4aa5a9628f28e47299c513f09f1e6",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "8bc13f5b55934f5ef79d94465fbb07a96ce56ea41adf7e372a33235ccb60f060"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0012823622587487512,
+          "actual_installed_so3_rms_rad": 0.05937105379665303,
+          "actual_installed_xyz_rms_m": 0.0049163854845355,
+          "actual_target_after_m": 0.00441655974440466,
+          "actual_target_before_m": 0.004308273781025798,
+          "current_pose": [
+            0.29084550035539064,
+            0.054094227330034314,
+            0.6438538830036098
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 39.599999114871025
+          },
+          "next_pose": [
+            0.290696910835373,
+            0.054287787143664556,
+            0.6425949514265368
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c0-CLOCK_DRIVEN-1980.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 2.985362486937768e-07,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "d931ed037b5d60668c04e17f2dcbb260e46c6efec0557a6b716d02a66f87ffc1",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/frames/1980.npz": "be08d69f3493e39b1e1b2e3dc1f8b2f6c6c86c4d2405a506b0d5bd647c855791",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "8bc13f5b55934f5ef79d94465fbb07a96ce56ea41adf7e372a33235ccb60f060"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "d3aef53794de2bf90681ee25915b6d36b15dbbf8500d4d362d49387082c6f5bd",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-CLOCK_DRIVEN/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1",
+        "command": 0,
+        "expert": "OBSERVABLE_CORRECTION_V1",
+        "family": {
+          "center_world": [
+            0.32010000000000005,
+            0.03,
+            0.6441057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "green"
+            ],
+            "radius": 0.04,
+            "x_shift": 0.03,
+            "y_shift": 0.03,
+            "z_shift": 0.0225
+          },
+          "family_id": "pi0265-family-000",
+          "geometry_key": [
+            0.3201,
+            0.03,
+            0.6441057,
+            0.04
+          ],
+          "rank": 0,
+          "reset_seed": 1767502346,
+          "source_order_sha256": "0410ae1f6c272c1523c3c24fdf28bf0e6525c39968303fe8da42a257940c1a0f",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M3",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.009707530203073597,
+          "actual_installed_so3_rms_rad": 0.18460175532010717,
+          "actual_installed_xyz_rms_m": 0.015688388556824716,
+          "actual_target_after_m": 0.1218151559114087,
+          "actual_target_before_m": 0.1271267416618447,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0014719389836842672,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.20339427723738573,
+            0.1419334750805138,
+            0.6489420022828296
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1-0000.npz",
+          "requested_displacement_m": 0.001471936573562898,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.723809450621812e-08,
+          "right_boundary_rotation_excluded": true,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/0000.npz": "1ede9259c95a3953742f372ecc768604bc7f8c81891fb3d8991f0ce555096802",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/installed_table.npz": "9baf624a3f2ff027cb4a85d88d7e894ea4e65e2074fe783a4ef21328028b2724",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/proposal.npz": "f9bfbfb42e0114c7dd557a41e659fa8e3e9544b0013ca74e8338bf5b2360ba55",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/reference_only_install.json": "111067c39910f82a0bbf84d35459a053c887f93d04db0ad4d383324471129a64"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.00788537499725376,
+          "actual_installed_so3_rms_rad": 0.03208741022852672,
+          "actual_installed_xyz_rms_m": 0.008151539013477276,
+          "actual_target_after_m": 0.08007014419313559,
+          "actual_target_before_m": 0.07454746309057227,
+          "current_pose": [
+            0.2578916612895196,
+            -0.008028550094362374,
+            0.6471209322782991
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.013486266279033203,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 3.220163236693677,
+            "projection_objective": 0.0012234987304176595,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.2598685790664556,
+            -0.014854097033208002,
+            0.6505389498230412
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1-1000.npz",
+          "requested_displacement_m": 0.013501857526537098,
+          "requested_installed_so3_max_rad": 0.0022763784377148885,
+          "requested_installed_xyz_max_m": 0.0005578867252751813,
+          "right_boundary_rotation_excluded": true,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1000.npz": "90718054ea35639959cb48b93e7ee3acd16eb6df69d18b8ce0be31577f2c4552",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/installed_table.npz": "69ff69bbeda4e41db655891e705d13a0467fabd7b574b2cffd4ebe0beb1a4462",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/proposal.npz": "2c53ea7814fe98dcea8ae3295e151b1d1d421fdbf07bc3c33032b661c8943979",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/reference_only_install.json": "92deb4cbc474830f487ba7cd0bee4844f95b6149dd17e2aed2d83f4b9bc216c2"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.003713008864182051,
+          "actual_installed_so3_rms_rad": 0.03448207935021841,
+          "actual_installed_xyz_rms_m": 0.008448454633797182,
+          "actual_target_after_m": 0.07607540031881665,
+          "actual_target_before_m": 0.0725373454176978,
+          "current_pose": [
+            0.26289111694652134,
+            -0.008026231195491451,
+            0.6388188693917136
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.011409979978301775,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 3.305741289151256,
+            "projection_objective": 0.0009665599969858609,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.261681607851115,
+            -0.011428371055743347,
+            0.6396842981553383
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1-1980.npz",
+          "requested_displacement_m": 0.011422160141468048,
+          "requested_installed_so3_max_rad": 0.0030558515101949133,
+          "requested_installed_xyz_max_m": 0.0007604147703017779,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1980.npz": "fc34f684b8359e299f360fe564c554f242b7f4d3dfe1053a09d6cc206cd6b7ac",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/installed_table.npz": "8b58133255f49b88d78a8a6b2d4a0bfb69dfa0a531b91b51bce88de4b14639d0",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/proposal.npz": "a19159b1373910b3a0a33a1bd802f4d59261cafb5117fc4c2e1fe6f7d8b993cf",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/reference_only_install.json": "b854c62334166ab14ce907879614ae4151a5befde8b3af9b2f85cc4968592f05"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "e0415c55c5f250f3416fabd45c4888e73eb4a1c1f2d1c7c685a48e27791a60bf",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-000-M3-c1-CLOCK_DRIVEN",
+        "command": 1,
+        "expert": "CLOCK_DRIVEN",
+        "family": {
+          "center_world": [
+            0.32010000000000005,
+            0.03,
+            0.6441057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "green"
+            ],
+            "radius": 0.04,
+            "x_shift": 0.03,
+            "y_shift": 0.03,
+            "z_shift": 0.0225
+          },
+          "family_id": "pi0265-family-000",
+          "geometry_key": [
+            0.3201,
+            0.03,
+            0.6441057,
+            0.04
+          ],
+          "rank": 0,
+          "reset_seed": 1767502346,
+          "source_order_sha256": "0410ae1f6c272c1523c3c24fdf28bf0e6525c39968303fe8da42a257940c1a0f",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M3",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.0213172415262902,
+          "actual_installed_so3_rms_rad": 0.3259312947906879,
+          "actual_installed_xyz_rms_m": 0.025124397418452966,
+          "actual_target_after_m": 0.1507275859479848,
+          "actual_target_before_m": 0.1719552169238052,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0010882160106812798,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 0.0
+          },
+          "next_pose": [
+            0.21242290667762825,
+            0.12979347707694483,
+            0.6406887784558659
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c1-CLOCK_DRIVEN-0000.npz",
+          "requested_displacement_m": 0.001088204847037954,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.7792067982665226e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "1349e007ac11d522e18308f4405f97100c3a3c483718babb064125b8c5d9ddd2",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/frames/0000.npz": "1ede9259c95a3953742f372ecc768604bc7f8c81891fb3d8991f0ce555096802",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "69a69d35fec016d835a1cac212a3f52e601ff90be25658f24e02f88737490b05"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.005980696819191292,
+          "actual_installed_so3_rms_rad": 0.06947528050615799,
+          "actual_installed_xyz_rms_m": 0.0035181827928066466,
+          "actual_target_after_m": 0.004620488639162637,
+          "actual_target_before_m": 0.002310050149110381,
+          "current_pose": [
+            0.2918412896762391,
+            0.004000035681088615,
+            0.6437627420043788
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 19.999999552965164
+          },
+          "next_pose": [
+            0.29178746876049,
+            0.0003924403446386726,
+            0.648532552654765
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c1-CLOCK_DRIVEN-1000.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 2.9684307001051117e-07,
+          "right_boundary_rotation_excluded": false,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "1349e007ac11d522e18308f4405f97100c3a3c483718babb064125b8c5d9ddd2",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/frames/1000.npz": "48ffb7df6484514343b7c970cd64fcdf0193ff313ca04f770708e51c995799da",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "69a69d35fec016d835a1cac212a3f52e601ff90be25658f24e02f88737490b05"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.004516166456969111,
+          "actual_installed_so3_rms_rad": 0.0839139113671714,
+          "actual_installed_xyz_rms_m": 0.003870519653599715,
+          "actual_target_after_m": 0.0034365770253515873,
+          "actual_target_before_m": 0.004142089154244928,
+          "current_pose": [
+            0.29237229019484506,
+            -0.0005430672468200726,
+            0.6406786046473822
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 39.599999114871025
+          },
+          "next_pose": [
+            0.2887902388938569,
+            0.00030106380186126214,
+            0.6432962583137014
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c1-CLOCK_DRIVEN-1980.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 2.9684307001051117e-07,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "1349e007ac11d522e18308f4405f97100c3a3c483718babb064125b8c5d9ddd2",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/frames/1980.npz": "d607a1af2becd9ea9c8680ccf0b15aef664940faa6d6e947e94f5b6817d13c69",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "69a69d35fec016d835a1cac212a3f52e601ff90be25658f24e02f88737490b05"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "0beeee2793210f6414e89a54f6b29cc10d879128dd2bcd36c65402a3157ca698",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-CLOCK_DRIVEN/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1",
+        "command": 1,
+        "expert": "OBSERVABLE_CORRECTION_V1",
+        "family": {
+          "center_world": [
+            0.32010000000000005,
+            0.03,
+            0.6441057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "green"
+            ],
+            "radius": 0.04,
+            "x_shift": 0.03,
+            "y_shift": 0.03,
+            "z_shift": 0.0225
+          },
+          "family_id": "pi0265-family-000",
+          "geometry_key": [
+            0.3201,
+            0.03,
+            0.6441057,
+            0.04
+          ],
+          "rank": 0,
+          "reset_seed": 1767502346,
+          "source_order_sha256": "0410ae1f6c272c1523c3c24fdf28bf0e6525c39968303fe8da42a257940c1a0f",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M3",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.00668751201257855,
+          "actual_installed_so3_rms_rad": 0.19738378972991716,
+          "actual_installed_xyz_rms_m": 0.014511522102964216,
+          "actual_target_after_m": 0.17241297044158316,
+          "actual_target_before_m": 0.1719552169238052,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0010882055159025358,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.2025688108785727,
+            0.14916611104643338,
+            0.6485334294262439
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1-0000.npz",
+          "requested_displacement_m": 0.001088204847037954,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.7792067982665226e-08,
+          "right_boundary_rotation_excluded": true,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/0000.npz": "1ede9259c95a3953742f372ecc768604bc7f8c81891fb3d8991f0ce555096802",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/installed_table.npz": "283b906d71a11072b445676bfe16d4ec0c71069f26267574de83c155efdda644",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/proposal.npz": "a9cb59a996f4e715e354f2888dd9ae276b483b5b7a6853cdea9a2b9c029d7364",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/reference_only_install.json": "852b8e6e32e0393de0b4038f980f673b1359926feedbce89a58c6875bdb35e2f"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.005200513956778749,
+          "actual_installed_so3_rms_rad": 0.0365719785724408,
+          "actual_installed_xyz_rms_m": 0.008615928998231187,
+          "actual_target_after_m": 0.044219477565247016,
+          "actual_target_before_m": 0.04862049923654712,
+          "current_pose": [
+            0.25382820498666764,
+            0.03154675841495874,
+            0.6496744209867511
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.016016364309646473,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 3.187116060999938,
+            "projection_objective": 0.0021567148232985215,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.25693357001905287,
+            0.027841650138155538,
+            0.6515912480753154
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1-1000.npz",
+          "requested_displacement_m": 0.016023822652625603,
+          "requested_installed_so3_max_rad": 0.001677830008046367,
+          "requested_installed_xyz_max_m": 0.0008912327864065174,
+          "right_boundary_rotation_excluded": true,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1000.npz": "10346efeea7b48a9fbaaf4fecd013e9103e722668314af26ea8d1861b103060c",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/installed_table.npz": "f52c915cf150a555cc3a1c1e7fd17f83630d24db83057647933ce49b96e78683",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/proposal.npz": "1253759acd59b379f8e1df0cc611a72d04f65aca82dfc42250ecbc9ebf11ce56",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/reference_only_install.json": "b90792f802f301f0e2347e4606cee7c01469f4870a71abce71b7550871f89ea7"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0027538097947306245,
+          "actual_installed_so3_rms_rad": 0.040081138356576035,
+          "actual_installed_xyz_rms_m": 0.009375798328699673,
+          "actual_target_after_m": 0.043225406516214086,
+          "actual_target_before_m": 0.041617100600908875,
+          "current_pose": [
+            0.2538161041226961,
+            -0.01456295859383383,
+            0.6393082080827224
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.013210944254715473,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 15.999932539718454,
+            "projection_objective": 0.0017900568933502954,
+            "quartile": 3,
+            "terminal_hold": true,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.25147399227395467,
+            -0.01318957923296285,
+            0.6397684358574958
+          ],
+          "raw_npz": "D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1-1980.npz",
+          "requested_displacement_m": 0.013210931802517782,
+          "requested_installed_so3_max_rad": 4.4104045985421775e-07,
+          "requested_installed_xyz_max_m": 4.869854638106801e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1980.npz": "2f6a48c93a826675184aa51db9a13434f53dec153f21d552900ad6eb85dd28da",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/installed_table.npz": "5217b7068414c464a9eb676d28a5d50f0274633d22353b744bc96d5a9111feea",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/proposal.npz": "d37551ec4fba94821a86ef10cb595754b05934839352e0ce15a73254243b4b05",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/reference_only_install.json": "3d65d5b037118c95138b654a3948cb484659f2ec3098695e384abbd6231f1427"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "10cdd3d98f4ebd96b909e68196aeefb664777f54c629820ed5c4849e6bd5e3ae",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-000-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-001-M1-c0-CLOCK_DRIVEN",
+        "command": 0,
+        "expert": "CLOCK_DRIVEN",
+        "family": {
+          "center_world": [
+            0.2801,
+            0.03,
+            0.6291057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "blue"
+            ],
+            "radius": 0.04,
+            "x_shift": -0.01,
+            "y_shift": 0.03,
+            "z_shift": 0.0075
+          },
+          "family_id": "pi0265-family-001",
+          "geometry_key": [
+            0.2801,
+            0.03,
+            0.6291057,
+            0.04
+          ],
+          "rank": 1,
+          "reset_seed": 828632358,
+          "source_order_sha256": "11e325b77e01c2af77d5570aedfbabeb74af2278a36c9c577527a3772571dba7",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M1",
+        "version": "ROW6D"
+      },
+      "historical_failure": null,
+      "historical_success": true,
+      "replans": [
+        {
+          "actual_displacement_m": 0.023136080057823596,
+          "actual_installed_so3_rms_rad": 0.15153694838985962,
+          "actual_installed_xyz_rms_m": 0.023037901680683804,
+          "actual_target_after_m": 0.18690217039036167,
+          "actual_target_before_m": 0.2089580599215745,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.000558871457906781,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 0.0
+          },
+          "next_pose": [
+            0.2067553149098651,
+            0.12611509375614838,
+            0.6456163981827325
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c0-CLOCK_DRIVEN-0000.npz",
+          "requested_displacement_m": 0.0005588724876651381,
+          "requested_installed_so3_max_rad": 4.273737906918105e-07,
+          "requested_installed_xyz_max_m": 3.636388150277975e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "dd69efc91c1ccd09c5eed47bddfe074e06a6556a2a3bf528a39280524b6efa23",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/frames/0000.npz": "26414144975d7bc3e6b93dbfd622dea75a52994daa92599b67f7a6743d817868",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "b1b8b36e09fb6a9e956566e11489fa655ad2f680011008aa985bf92b0bd1f135"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.005759008955696927,
+          "actual_installed_so3_rms_rad": 0.06631610399995845,
+          "actual_installed_xyz_rms_m": 0.004550758540838874,
+          "actual_target_after_m": 0.0057628883868829466,
+          "actual_target_before_m": 0.002774497208946699,
+          "current_pose": [
+            0.27768156941641997,
+            -0.04388888458121304,
+            0.6298895691223614
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 19.999999552965164
+          },
+          "next_pose": [
+            0.2778062604859085,
+            -0.048970763243861175,
+            0.6325960697314706
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c0-CLOCK_DRIVEN-1000.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 1.703787837595062e-07,
+          "requested_installed_xyz_max_m": 2.706651516628806e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "dd69efc91c1ccd09c5eed47bddfe074e06a6556a2a3bf528a39280524b6efa23",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/frames/1000.npz": "801ff139499db2601db350f57ff2ccc37f1fa1d828cc209b11ea577074a388a8",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "b1b8b36e09fb6a9e956566e11489fa655ad2f680011008aa985bf92b0bd1f135"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.002845558204495937,
+          "actual_installed_so3_rms_rad": 0.060124176053184125,
+          "actual_installed_xyz_rms_m": 0.005502166785903553,
+          "actual_target_after_m": 0.0039319757201868085,
+          "actual_target_before_m": 0.006482899227307541,
+          "current_pose": [
+            0.2759446390122804,
+            -0.048781648144460565,
+            0.6258714930238372
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 39.599999114871025
+          },
+          "next_pose": [
+            0.2781447822212237,
+            -0.047049839594978445,
+            0.6263788494106655
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c0-CLOCK_DRIVEN-1980.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 1.703787837595062e-07,
+          "requested_installed_xyz_max_m": 2.706651516628806e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "dd69efc91c1ccd09c5eed47bddfe074e06a6556a2a3bf528a39280524b6efa23",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/frames/1980.npz": "5b925dd3d53d74677c089eda578db537b02c294ea89203ae8fa2bd1ea0dbf925",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "b1b8b36e09fb6a9e956566e11489fa655ad2f680011008aa985bf92b0bd1f135"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "6ed1949da3f94583b9cb0e7a2f0309f2bf49d4689bee333b058c7c79f7eb6347",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-CLOCK_DRIVEN/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1",
+        "command": 0,
+        "expert": "OBSERVABLE_CORRECTION_V1",
+        "family": {
+          "center_world": [
+            0.2801,
+            0.03,
+            0.6291057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "blue"
+            ],
+            "radius": 0.04,
+            "x_shift": -0.01,
+            "y_shift": 0.03,
+            "z_shift": 0.0075
+          },
+          "family_id": "pi0265-family-001",
+          "geometry_key": [
+            0.2801,
+            0.03,
+            0.6291057,
+            0.04
+          ],
+          "rank": 1,
+          "reset_seed": 828632358,
+          "source_order_sha256": "11e325b77e01c2af77d5570aedfbabeb74af2278a36c9c577527a3772571dba7",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M1",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.008801509392186083,
+          "actual_installed_so3_rms_rad": 0.1604651126237337,
+          "actual_installed_xyz_rms_m": 0.017524201547031607,
+          "actual_target_after_m": 0.21368527457604639,
+          "actual_target_before_m": 0.2089580599215745,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.000558871457906781,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.20387927549512025,
+            0.15365086746259882,
+            0.6488447623624469
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1-0000.npz",
+          "requested_displacement_m": 0.0005588724876651381,
+          "requested_installed_so3_max_rad": 4.403656322152671e-07,
+          "requested_installed_xyz_max_m": 3.636388150277975e-08,
+          "right_boundary_rotation_excluded": true,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/0000.npz": "26414144975d7bc3e6b93dbfd622dea75a52994daa92599b67f7a6743d817868",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/installed_table.npz": "c35f821f3ba4a81ca663fd0f3c49fb0fd575fb61f83bcf9d422373047dbb9a27",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/proposal.npz": "ec5c9289f55c56404f23adcefece58e174859d36538541c34586c03060c17d03",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/reference_only_install.json": "3329a27a234db6c5bf1ec6d88329baf3ab5221e0de2654b682c4c633a0c03e33"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.005774630612346791,
+          "actual_installed_so3_rms_rad": 0.04604117191714427,
+          "actual_installed_xyz_rms_m": 0.006653827895854945,
+          "actual_target_after_m": 0.04592143909885479,
+          "actual_target_before_m": 0.0481835791732084,
+          "current_pose": [
+            0.2338684638904126,
+            -0.056757039824479535,
+            0.6358935115364497
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.016022449512833364,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 5.032397557341656,
+            "projection_objective": 0.0022890284633333,
+            "quartile": 3,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.23768497312602405,
+            -0.061074063212658014,
+            0.6362728860604563
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1-1000.npz",
+          "requested_displacement_m": 0.016026248783269716,
+          "requested_installed_so3_max_rad": 0.0011113785039852772,
+          "requested_installed_xyz_max_m": 0.0009060369520690326,
+          "right_boundary_rotation_excluded": true,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1000.npz": "b2534fb0487baf874a9f7e40d45edc9d78a6957e728c30d939a639ad6c1e2179",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/installed_table.npz": "6ff0a2e8f3a429afdaa3bd95e86a205eb5226278ee3decaf334235904009af92",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/proposal.npz": "75b11bb1d210be28973aa28f2db59031ae08941a6ba54991d48aca104c688299",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/reference_only_install.json": "1147e811d4dfa235102b87004c41b38096cc5294cebda7f5932ffd00b53ca0b5"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0010731859632395354,
+          "actual_installed_so3_rms_rad": 0.038905555102024786,
+          "actual_installed_xyz_rms_m": 0.008958495573010138,
+          "actual_target_after_m": 0.044252002836337546,
+          "actual_target_before_m": 0.04469660307447705,
+          "current_pose": [
+            0.23783380637868445,
+            -0.0589906693358552,
+            0.6251539440994445
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.014359400474905568,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 5.318447719087305,
+            "projection_objective": 0.002046197677083489,
+            "quartile": 3,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.2379590392590218,
+            -0.05792552785944731,
+            0.6251929116835677
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1-1980.npz",
+          "requested_displacement_m": 0.014360200139700473,
+          "requested_installed_so3_max_rad": 0.001509089944111586,
+          "requested_installed_xyz_max_m": 0.0006997286157870607,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1980.npz": "d8dfaee1223a2ea1e02bf6ee96a31d3eab77e708480a6fa95055df99f4f5b498",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/installed_table.npz": "668a8b1de87710c4845c6c9e1afc167a36292d57eeee78a9fb3076f871d9d6bc",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/proposal.npz": "dd5f2318c68c65990a191de1565f4926a53f8e490fc733be5e0c5c02774f92eb",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/reference_only_install.json": "65ca5c5c03e12d143324d05652c99b9ce5d9544b04e07dbf27bbfabe50f52afc"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "656c531f00074cf079dba67932c3f2d85fc30d82503d4ed71b3a4d24bb9e6a5c",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c0-OBSERVABLE_CORRECTION_V1/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-001-M1-c1-CLOCK_DRIVEN",
+        "command": 1,
+        "expert": "CLOCK_DRIVEN",
+        "family": {
+          "center_world": [
+            0.2801,
+            0.03,
+            0.6291057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "blue"
+            ],
+            "radius": 0.04,
+            "x_shift": -0.01,
+            "y_shift": 0.03,
+            "z_shift": 0.0075
+          },
+          "family_id": "pi0265-family-001",
+          "geometry_key": [
+            0.2801,
+            0.03,
+            0.6291057,
+            0.04
+          ],
+          "rank": 1,
+          "reset_seed": 828632358,
+          "source_order_sha256": "11e325b77e01c2af77d5570aedfbabeb74af2278a36c9c577527a3772571dba7",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M1",
+        "version": "ROW6D"
+      },
+      "historical_failure": null,
+      "historical_success": true,
+      "replans": [
+        {
+          "actual_displacement_m": 0.009567509838009665,
+          "actual_installed_so3_rms_rad": 0.23661550229821368,
+          "actual_installed_xyz_rms_m": 0.013843395195103384,
+          "actual_target_after_m": 0.08426019117614465,
+          "actual_target_before_m": 0.09006533282145526,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.00024089180914717507,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 0.0
+          },
+          "next_pose": [
+            0.20541128268110154,
+            0.1403039067783197,
+            0.6456891100379214
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c1-CLOCK_DRIVEN-0000.npz",
+          "requested_displacement_m": 0.0002408858343402017,
+          "requested_installed_so3_max_rad": 4.1614807370762835e-07,
+          "requested_installed_xyz_max_m": 3.743015608597197e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "df5c2732d3f900d5ddc9a729eebff24c3f5fc53d2082d6be924efdba5a4d6c0f",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/frames/0000.npz": "26414144975d7bc3e6b93dbfd622dea75a52994daa92599b67f7a6743d817868",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "e3643cf734b6fcbcb6f614f73d77e3dd5305f534672a978acd617d9ca235acc3"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.007127627612994696,
+          "actual_installed_so3_rms_rad": 0.02886176150448914,
+          "actual_installed_xyz_rms_m": 0.0038684267572462686,
+          "actual_target_after_m": 0.0034684128385705612,
+          "actual_target_before_m": 0.005280484829260504,
+          "current_pose": [
+            0.2748348032294791,
+            0.1046150477591431,
+            0.6289915300739866
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 19.999999552965164
+          },
+          "next_pose": [
+            0.2813618178623614,
+            0.10178656751025325,
+            0.6294396984054256
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c1-CLOCK_DRIVEN-1000.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 1.4606803419143416e-07,
+          "requested_installed_xyz_max_m": 4.7727747457871526e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "df5c2732d3f900d5ddc9a729eebff24c3f5fc53d2082d6be924efdba5a4d6c0f",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/frames/1000.npz": "b61ff74537e6ac640cd4041b8d2f99febd71b102e2fcf2957faa14aac90d2377",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "e3643cf734b6fcbcb6f614f73d77e3dd5305f534672a978acd617d9ca235acc3"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0030847069717374327,
+          "actual_installed_so3_rms_rad": 0.08912707319053655,
+          "actual_installed_xyz_rms_m": 0.005860372102353688,
+          "actual_target_after_m": 0.006424825156507909,
+          "actual_target_before_m": 0.003885240395437931,
+          "current_pose": [
+            0.27834630838760477,
+            0.10176587519954058,
+            0.6278566621967248
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 39.599999114871025
+          },
+          "next_pose": [
+            0.2767730869260658,
+            0.10102619951758576,
+            0.6253084724039575
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c1-CLOCK_DRIVEN-1980.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 1.4606803419143416e-07,
+          "requested_installed_xyz_max_m": 4.7727747457871526e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "df5c2732d3f900d5ddc9a729eebff24c3f5fc53d2082d6be924efdba5a4d6c0f",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/frames/1980.npz": "a9a802db44538d7ca627058b7a492dd928a647720653356e8420e826f67419a9",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "e3643cf734b6fcbcb6f614f73d77e3dd5305f534672a978acd617d9ca235acc3"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "9e4623924e9eeabcc70fffccf28eadca79c01b69d347764ea3d6fccdb9f4a3ad",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-CLOCK_DRIVEN/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1",
+        "command": 1,
+        "expert": "OBSERVABLE_CORRECTION_V1",
+        "family": {
+          "center_world": [
+            0.2801,
+            0.03,
+            0.6291057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "blue"
+            ],
+            "radius": 0.04,
+            "x_shift": -0.01,
+            "y_shift": 0.03,
+            "z_shift": 0.0075
+          },
+          "family_id": "pi0265-family-001",
+          "geometry_key": [
+            0.2801,
+            0.03,
+            0.6291057,
+            0.04
+          ],
+          "rank": 1,
+          "reset_seed": 828632358,
+          "source_order_sha256": "11e325b77e01c2af77d5570aedfbabeb74af2278a36c9c577527a3772571dba7",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M1",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.008428542365691497,
+          "actual_installed_so3_rms_rad": 0.17260303605594826,
+          "actual_installed_xyz_rms_m": 0.015678767052457354,
+          "actual_target_after_m": 0.09804233060831177,
+          "actual_target_before_m": 0.09006533282145526,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.00024089180914717507,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.19614035645072242,
+            0.15282465166092404,
+            0.6457153219011461
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1-0000.npz",
+          "requested_displacement_m": 0.0002408858343402017,
+          "requested_installed_so3_max_rad": 4.161470733843734e-07,
+          "requested_installed_xyz_max_m": 3.743015608597197e-08,
+          "right_boundary_rotation_excluded": true,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/0000.npz": "26414144975d7bc3e6b93dbfd622dea75a52994daa92599b67f7a6743d817868",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/installed_table.npz": "d40c5597c4b1eea489eefb641c806c2b98905f1b6b0e814d06290b03232bb5de",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/proposal.npz": "6dd9a9dabf777081428d4e90c094be51590230415b350da698978347ce438c22",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/reference_only_install.json": "6b18dc8091adbca38cd2a7b857c749c11a9bb2c077c010b37341fe03216bb0e2"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.005756207816291536,
+          "actual_installed_so3_rms_rad": 0.03813120709503131,
+          "actual_installed_xyz_rms_m": 0.0021940522659677675,
+          "actual_target_after_m": 0.10335753755556258,
+          "actual_target_before_m": 0.10893230374890063,
+          "current_pose": [
+            0.18303914457010478,
+            0.15302306871010657,
+            0.6409049378959029
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0065111721558244965,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0005878308900719443,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.18815283601042254,
+            0.15049915494707083,
+            0.6416884859763137
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1-1000.npz",
+          "requested_displacement_m": 0.006509808753873926,
+          "requested_installed_so3_max_rad": 1.0774190068114068e-05,
+          "requested_installed_xyz_max_m": 2.679690777096904e-06,
+          "right_boundary_rotation_excluded": true,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1000.npz": "24b01b2b43a6449e7ac597851d9993d8edf14a0db81040d2e968ea40394b88ce",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/installed_table.npz": "c9180c2e9f801e89be62b4dfdf8418a95ad01ffa741f61bdaf678a616c9301bd",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/proposal.npz": "458d58fbb7553dc9eae1f24f0d1448be825c1989f16ddbce88c4ec6f12214e51",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/reference_only_install.json": "80d2b70020f3ee69bfdf60aa51d895f74a880d91dcb20bb901534bdb3d5e4acf"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0013969857296489993,
+          "actual_installed_so3_rms_rad": 0.029303916931237656,
+          "actual_installed_xyz_rms_m": 0.00369104977789963,
+          "actual_target_after_m": 0.09921586384161071,
+          "actual_target_before_m": 0.0978549367199792,
+          "current_pose": [
+            0.19272190410448592,
+            0.14787936195134335,
+            0.6392060622108895
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0033476470914886344,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.00026215034609958823,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.1914406244894281,
+            0.14841151657430532,
+            0.6390426512744731
+          ],
+          "raw_npz": "D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1-1980.npz",
+          "requested_displacement_m": 0.0033448891564530543,
+          "requested_installed_so3_max_rad": 1.2013828333871426e-05,
+          "requested_installed_xyz_max_m": 3.6849275229296514e-06,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1980.npz": "dd9e9504c50d792ba2a960ef8de3222e965ecccdf77c80e0345193d335d24925",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/installed_table.npz": "de0d32e845087550d4b69e241c2396142eeee373844da3cb8f04f65a9ea7c801",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/proposal.npz": "f03ac95e4db1bf8bf1891a4cf0745c0a73e9776e9633ed7e0921866fc45532e3",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/reference_only_install.json": "2a4d06028df14eb101620fbefc6f657ea2a0ed5d8d86096f18b85df502c1b6d5"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "2ee02d535e5b683254b76fec13376d841bd0061ad0cd05f88e961c9a405215ad",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M1-c1-OBSERVABLE_CORRECTION_V1/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-001-M3-c0-CLOCK_DRIVEN",
+        "command": 0,
+        "expert": "CLOCK_DRIVEN",
+        "family": {
+          "center_world": [
+            0.2801,
+            0.03,
+            0.6291057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "blue"
+            ],
+            "radius": 0.04,
+            "x_shift": -0.01,
+            "y_shift": 0.03,
+            "z_shift": 0.0075
+          },
+          "family_id": "pi0265-family-001",
+          "geometry_key": [
+            0.2801,
+            0.03,
+            0.6291057,
+            0.04
+          ],
+          "rank": 1,
+          "reset_seed": 828632358,
+          "source_order_sha256": "11e325b77e01c2af77d5570aedfbabeb74af2278a36c9c577527a3772571dba7",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M3",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.028424170615104164,
+          "actual_installed_so3_rms_rad": 0.20503026024118312,
+          "actual_installed_xyz_rms_m": 0.027616497361591063,
+          "actual_target_after_m": 0.07932358258438688,
+          "actual_target_before_m": 0.10371521698985577,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0013306411219922878,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 0.0
+          },
+          "next_pose": [
+            0.20438780585241823,
+            0.12020790433149076,
+            0.6435378359845623
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c0-CLOCK_DRIVEN-0000.npz",
+          "requested_displacement_m": 0.0013306390369150984,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.4630791642456475e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "ee30134608b6bd73191ac2932a0c0c1b412c4786a60c6dced425915cc5bbbd8e",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/frames/0000.npz": "26414144975d7bc3e6b93dbfd622dea75a52994daa92599b67f7a6743d817868",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "93ef107ee0d5f9879df477925d13f7adc423ba8c6f5ca61dad232435e3b108bf"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.004859630961005888,
+          "actual_installed_so3_rms_rad": 0.04644197082915881,
+          "actual_installed_xyz_rms_m": 0.005532877147729183,
+          "actual_target_after_m": 0.006117089644821483,
+          "actual_target_before_m": 0.003374591490756186,
+          "current_pose": [
+            0.2503242828015666,
+            0.05833032474792513,
+            0.6321324698590923
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 19.999999552965164
+          },
+          "next_pose": [
+            0.2527503163214937,
+            0.054457723469494596,
+            0.6337857495618817
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c0-CLOCK_DRIVEN-1000.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.0346211131475535e-07,
+          "right_boundary_rotation_excluded": false,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "ee30134608b6bd73191ac2932a0c0c1b412c4786a60c6dced425915cc5bbbd8e",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/frames/1000.npz": "c06ad1b4c12ab92b988bab9d64af35c51e4d69e89152b61472ecf9c1c3ac03b2",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "93ef107ee0d5f9879df477925d13f7adc423ba8c6f5ca61dad232435e3b108bf"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0018543707883494013,
+          "actual_installed_so3_rms_rad": 0.04889638879094835,
+          "actual_installed_xyz_rms_m": 0.004394579816304019,
+          "actual_target_after_m": 0.003340406644922888,
+          "actual_target_before_m": 0.005173794902553166,
+          "current_pose": [
+            0.25036837993453503,
+            0.05358242402475438,
+            0.6275038361521565
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 39.599999114871025
+          },
+          "next_pose": [
+            0.25098197677870904,
+            0.05516419569669219,
+            0.6282522934397544
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c0-CLOCK_DRIVEN-1980.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.0346211131475535e-07,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "ee30134608b6bd73191ac2932a0c0c1b412c4786a60c6dced425915cc5bbbd8e",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/frames/1980.npz": "e1cddd22f5bc7c11b470cc608315d00bf06a79e3950adce727912bfa5ffcf0e5",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "93ef107ee0d5f9879df477925d13f7adc423ba8c6f5ca61dad232435e3b108bf"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "ce032ef014081d0f6f0441f45fc1d39d1eb6bb084dd7a7efd8343d6198060106",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-CLOCK_DRIVEN/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1",
+        "command": 0,
+        "expert": "OBSERVABLE_CORRECTION_V1",
+        "family": {
+          "center_world": [
+            0.2801,
+            0.03,
+            0.6291057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "blue"
+            ],
+            "radius": 0.04,
+            "x_shift": -0.01,
+            "y_shift": 0.03,
+            "z_shift": 0.0075
+          },
+          "family_id": "pi0265-family-001",
+          "geometry_key": [
+            0.2801,
+            0.03,
+            0.6291057,
+            0.04
+          ],
+          "rank": 1,
+          "reset_seed": 828632358,
+          "source_order_sha256": "11e325b77e01c2af77d5570aedfbabeb74af2278a36c9c577527a3772571dba7",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M3",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.010422197008806365,
+          "actual_installed_so3_rms_rad": 0.17205464532125284,
+          "actual_installed_xyz_rms_m": 0.017652066093685026,
+          "actual_target_after_m": 0.09972054629425606,
+          "actual_target_before_m": 0.10371521698985577,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0013306411219922878,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.20118105087264504,
+            0.1416899576790689,
+            0.6496923029275542
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1-0000.npz",
+          "requested_displacement_m": 0.0013306390369150984,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 2.9792997713397e-08,
+          "right_boundary_rotation_excluded": true,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/0000.npz": "26414144975d7bc3e6b93dbfd622dea75a52994daa92599b67f7a6743d817868",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/installed_table.npz": "4a89d7d2b792c4fc752e51e6845cfb55517965851274429822ee52dfab0e76b7",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/proposal.npz": "1f77fa831e614d88d46ee18d6db62ee6bd7c04b09be08fbae681c2a3b9bca0f2",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/reference_only_install.json": "d4b194fb3f5d01f10741f51ea36f2af2f30037e8a32575d3e3eba5d639034a7d"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.005582500510613359,
+          "actual_installed_so3_rms_rad": 0.032940641614330496,
+          "actual_installed_xyz_rms_m": 0.003991668299197245,
+          "actual_target_after_m": 0.06903879138122915,
+          "actual_target_before_m": 0.06963142788317905,
+          "current_pose": [
+            0.21972879907919768,
+            -0.003512280339325352,
+            0.6294941651464578
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.011311648884477195,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 3.342219808608291,
+            "projection_objective": 0.001163327612402482,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.22495735652469362,
+            -0.005305126893601658,
+            0.6302765973946218
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1-1000.npz",
+          "requested_displacement_m": 0.011318018486486076,
+          "requested_installed_so3_max_rad": 0.003925147463416487,
+          "requested_installed_xyz_max_m": 0.0007995525898189384,
+          "right_boundary_rotation_excluded": true,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1000.npz": "81538002ce85d7df0dd97053bbd25184dbad739b9e2eef55c68c3472a52b77fe",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/installed_table.npz": "ca65e4a2f00ba7140a3c1f6aceb79b8e4da2d68eaa107527b2d29e0fb935fbe3",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/proposal.npz": "5b366531e203d72f668040baf2459163f91a421631f7fee1579d1a299e438552",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/reference_only_install.json": "a2fd17bbfa18336105ce5e5586e3482af818e14155bcaf44de58679316c0d2ef"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0026390891131386996,
+          "actual_installed_so3_rms_rad": 0.05299311972507274,
+          "actual_installed_xyz_rms_m": 0.004979817455642745,
+          "actual_target_after_m": 0.06634329353253113,
+          "actual_target_before_m": 0.06780043626251198,
+          "current_pose": [
+            0.22583843455175184,
+            -0.004162364720718292,
+            0.6243625997849162
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.00886318383925854,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 3.511567431141833,
+            "projection_objective": 0.0007811640130182619,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.22786097208041328,
+            -0.003273251108675268,
+            0.6229191281789872
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1-1980.npz",
+          "requested_displacement_m": 0.008864831754617436,
+          "requested_installed_so3_max_rad": 0.002772483671036049,
+          "requested_installed_xyz_max_m": 0.0008976445116575025,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1980.npz": "62709a50e7195acc3d15dd8c13784622327b7c11d58985a5d93d1182f1b30d6e",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/installed_table.npz": "212c9b610707b76690c8ea503cbcc6a96e8801ca06982a1fd749f1dc3dfacefe",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/proposal.npz": "1e6b12a8935c2d143c711ca9a1720554ddd344dbb51c0ac258e7329565cf22d1",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/reference_only_install.json": "a473e04239e6c0aee33babbde3500fd21f8413eeeb0e0d7c8f776436a8f3175e"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "f87d9d8da000f0a807d4309d07aeaeb694b1c51ae8d40b19a892a29ced4d395a",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c0-OBSERVABLE_CORRECTION_V1/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-001-M3-c1-CLOCK_DRIVEN",
+        "command": 1,
+        "expert": "CLOCK_DRIVEN",
+        "family": {
+          "center_world": [
+            0.2801,
+            0.03,
+            0.6291057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "blue"
+            ],
+            "radius": 0.04,
+            "x_shift": -0.01,
+            "y_shift": 0.03,
+            "z_shift": 0.0075
+          },
+          "family_id": "pi0265-family-001",
+          "geometry_key": [
+            0.2801,
+            0.03,
+            0.6291057,
+            0.04
+          ],
+          "rank": 1,
+          "reset_seed": 828632358,
+          "source_order_sha256": "11e325b77e01c2af77d5570aedfbabeb74af2278a36c9c577527a3772571dba7",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M3",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.022731993060185775,
+          "actual_installed_so3_rms_rad": 0.2704395170093399,
+          "actual_installed_xyz_rms_m": 0.026060651988103724,
+          "actual_target_after_m": 0.13321832411430634,
+          "actual_target_before_m": 0.1554484944185963,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0008878021562758933,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 0.0
+          },
+          "next_pose": [
+            0.20570913570543886,
+            0.126033895731333,
+            0.6420013316807678
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c1-CLOCK_DRIVEN-0000.npz",
+          "requested_displacement_m": 0.0008878022071875879,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 2.9714675804183156e-08,
+          "right_boundary_rotation_excluded": false,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "228dda3576c85d9ad6ed8f780b961dc21bf5dd3ef04c9bcd7ac029bc18eac8f4",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/frames/0000.npz": "26414144975d7bc3e6b93dbfd622dea75a52994daa92599b67f7a6743d817868",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "6351022c1ece4210a34a7a6a3a68b2d5d1ee6ddeb1e1fc422aa652c02317a25f"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.006826111369994341,
+          "actual_installed_so3_rms_rad": 0.049090815383389885,
+          "actual_installed_xyz_rms_m": 0.004326750817714914,
+          "actual_target_after_m": 0.004322813356370109,
+          "actual_target_before_m": 0.004049747130743668,
+          "current_pose": [
+            0.24871560801479808,
+            0.0031533523289634657,
+            0.6312789330033631
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 19.999999552965164
+          },
+          "next_pose": [
+            0.25530461641811736,
+            0.0014066584606044208,
+            0.6316392456825612
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c1-CLOCK_DRIVEN-1000.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.4390624929109543e-07,
+          "right_boundary_rotation_excluded": false,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "228dda3576c85d9ad6ed8f780b961dc21bf5dd3ef04c9bcd7ac029bc18eac8f4",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/frames/1000.npz": "607b6600fbf6eb31367fb76e55b9cdb36323fc64452ba5f5fd847efe6fdcaab3",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "6351022c1ece4210a34a7a6a3a68b2d5d1ee6ddeb1e1fc422aa652c02317a25f"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0029625797368584713,
+          "actual_installed_so3_rms_rad": 0.08220112032369346,
+          "actual_installed_xyz_rms_m": 0.0035552169880064682,
+          "actual_target_after_m": 0.004362272515017228,
+          "actual_target_before_m": 0.003842083658383211,
+          "current_pose": [
+            0.25133200550766116,
+            -2.5259642570107932e-05,
+            0.6257150395822525
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0,
+          "metadata": {
+            "label_rule": "CLOCK_DRIVEN",
+            "projection_used": false,
+            "reference_installed_once": true,
+            "source_phase_s": 39.599999114871025
+          },
+          "next_pose": [
+            0.25387793929778496,
+            0.001423701563610713,
+            0.6252727599687349
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c1-CLOCK_DRIVEN-1980.npz",
+          "requested_displacement_m": 0.0,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.4390624929109543e-07,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/clock_reference_only_install.json": "228dda3576c85d9ad6ed8f780b961dc21bf5dd3ef04c9bcd7ac029bc18eac8f4",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/frames/1980.npz": "1713b8c979bb3726f1f534972abfc4d217c155c2b6f0c29271b931762e1d5a22",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/references/clock_full20s.npz": "6351022c1ece4210a34a7a6a3a68b2d5d1ee6ddeb1e1fc422aa652c02317a25f"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "6de8135dd7a6348417015076cae67a798b432195a0efc29f9cda933fcef85a3b",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-CLOCK_DRIVEN/attempt-00/result.json"
+    },
+    {
+      "case": {
+        "case_id": "D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1",
+        "command": 1,
+        "expert": "OBSERVABLE_CORRECTION_V1",
+        "family": {
+          "center_world": [
+            0.2801,
+            0.03,
+            0.6291057
+          ],
+          "factors": {
+            "colors": [
+              "red",
+              "blue"
+            ],
+            "radius": 0.04,
+            "x_shift": -0.01,
+            "y_shift": 0.03,
+            "z_shift": 0.0075
+          },
+          "family_id": "pi0265-family-001",
+          "geometry_key": [
+            0.2801,
+            0.03,
+            0.6291057,
+            0.04
+          ],
+          "rank": 1,
+          "reset_seed": 828632358,
+          "source_order_sha256": "11e325b77e01c2af77d5570aedfbabeb74af2278a36c9c577527a3772571dba7",
+          "split": "CONTROLLER_DEV"
+        },
+        "max_task_s": 40.0,
+        "reset_seed": 1767502346,
+        "stage": "DIAGNOSTIC",
+        "task": "M3",
+        "version": "ROW6D"
+      },
+      "historical_failure": "TASK_CRITERIA_FAIL",
+      "historical_success": false,
+      "replans": [
+        {
+          "actual_displacement_m": 0.008303431844085923,
+          "actual_installed_so3_rms_rad": 0.17829042931994057,
+          "actual_installed_xyz_rms_m": 0.016732475196410215,
+          "actual_target_after_m": 0.1587528176505029,
+          "actual_target_before_m": 0.1554484944185963,
+          "current_pose": [
+            0.20228153463157864,
+            0.14850568876649606,
+            0.6418848106457409
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.0008878021562758933,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 0.0,
+            "projection_objective": 0.0,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.2016238662655364,
+            0.1508954156852725,
+            0.6498096865415113
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1-0000.npz",
+          "requested_displacement_m": 0.0008878022071875879,
+          "requested_installed_so3_max_rad": 3.331718099406727e-07,
+          "requested_installed_xyz_max_m": 3.5417836002609815e-08,
+          "right_boundary_rotation_excluded": true,
+          "selection": "first",
+          "source_elapsed_s": 0.0,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/0000.npz": "26414144975d7bc3e6b93dbfd622dea75a52994daa92599b67f7a6743d817868",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/installed_table.npz": "be9772adfa125fcc8be9cd6c4f9298fe3e5043dfc110968de95928e9bb3f86f1",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/proposal.npz": "c6d90337c67f9ddec26f8785aae13932b345323489812c0f409f1ed514075137",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/0000/reference_only_install.json": "10df619123f59b2ab0c9968a2b0562c1079299e137926aa117cfe9ec7b68e507"
+          },
+          "tick": 0
+        },
+        {
+          "actual_displacement_m": 0.004516051092390192,
+          "actual_installed_so3_rms_rad": 0.039014775435174065,
+          "actual_installed_xyz_rms_m": 0.008212902971405683,
+          "actual_target_after_m": 0.051451180679351234,
+          "actual_target_before_m": 0.05459607227245968,
+          "current_pose": [
+            0.21112057936071482,
+            0.037778235176202685,
+            0.6340180878104213
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.014690179762440936,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 3.44705153071141,
+            "projection_objective": 0.0021338139113636074,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.21346931487719284,
+            0.03513876496274648,
+            0.636830801079667
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1-1000.npz",
+          "requested_displacement_m": 0.014690559399373814,
+          "requested_installed_so3_max_rad": 0.0012490436430380755,
+          "requested_installed_xyz_max_m": 0.0007439584429669863,
+          "right_boundary_rotation_excluded": true,
+          "selection": "middle",
+          "source_elapsed_s": 19.999999552965164,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1000.npz": "f891bd7aa6468e84d33cd6563ad1e5617702622d25ea3240f958e426648d5e15",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/installed_table.npz": "c59e93ddcb228fa97fa02259e0c3833971b6a223d2aea8b06ba5f9df329d10f9",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/proposal.npz": "d1766bc7cbcddf892e022b63ca990d79b46d51dce177c6d6db23defc32ee489f",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1000/reference_only_install.json": "bdf4adbe2b1d3a5d107c94f0cc01bdee15e1c68b82996fedea024c14cdae5136"
+          },
+          "tick": 1000
+        },
+        {
+          "actual_displacement_m": 0.0007628876866045791,
+          "actual_installed_so3_rms_rad": 0.03704351285560368,
+          "actual_installed_xyz_rms_m": 0.009002321966461781,
+          "actual_target_after_m": 0.05224189538483017,
+          "actual_target_before_m": 0.05225220289815625,
+          "current_pose": [
+            0.2141229321452025,
+            0.03789082834433641,
+            0.6281528300447639
+          ],
+          "install_preserved_physics_history": true,
+          "installed_displacement_m": 0.013614948791685552,
+          "metadata": {
+            "label_rule": "OBSERVABLE_CORRECTION_V1",
+            "phase_aliases": [],
+            "phase_s": 3.7869624245646487,
+            "projection_objective": 0.0018765070708869883,
+            "quartile": 0,
+            "terminal_hold": false,
+            "time_or_record_id_used": false,
+            "valid_label": true
+          },
+          "next_pose": [
+            0.21370312652880136,
+            0.03741920081983299,
+            0.627724661450701
+          ],
+          "raw_npz": "D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1-1980.npz",
+          "requested_displacement_m": 0.01361492751064132,
+          "requested_installed_so3_max_rad": 0.00010757118755359351,
+          "requested_installed_xyz_max_m": 0.00011550036283284145,
+          "right_boundary_rotation_excluded": false,
+          "selection": "final",
+          "source_elapsed_s": 39.599999114871025,
+          "sources": {
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/frames/1980.npz": "d56463ee536e591ed4885ee6b9b0dd23ca1b71ad89a4f062106b9005ead79e66",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/installed_table.npz": "fd372ad98c08924aa9e074468d000b15c6ea41a5e874f451d45d8cdf19a86fd4",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/proposal.npz": "2a9f19f36908751a13301cf99344c2bf59d5c8139dca64aeca1b487b8a48995b",
+            "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/windows/1980/reference_only_install.json": "e14c39ababc6b75c5e05a9bb5cfc609d797a1a9087f5de8e004d9f4940624d44"
+          },
+          "tick": 1980
+        }
+      ],
+      "result_sha256": "d4a64c491635a2918cbecc6cbea71cf2241e1f9838636d77f992170350ebf3d6",
+      "result_source": "/var/cache/users/liuyu-nfs/Projects/go2-arx5/PI0266/diagnostics/D-pi0265-family-001-M3-c1-OBSERVABLE_CORRECTION_V1/attempt-00/result.json"
+    }
+  ],
+  "diagnostics": 16,
+  "historical_verdict_changed": false,
+  "interpretation": "Requested/installed differences measure binding/interpolation/timing; they do not alone prove a worker defect. Actual tracking uses SAME tick/reference. Projection is label metadata, not physical traversal.",
+  "new_model_queries": 0,
+  "no_missing_array_reconstruction": true,
+  "robot_physics_steps": 0,
+  "schema": "PI0267_FINITE_ACTUAL_PREFIX_AUDIT_V1",
+  "selected_replans": 48,
+  "source_raw_modified": false
+}

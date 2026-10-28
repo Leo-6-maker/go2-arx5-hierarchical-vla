@@ -1,0 +1,1877 @@
+{
+  "schema": "PI0291_FORMAL_CHUNK_RAW_AUDIT_V1",
+  "authority": "15cc7957488fb879f5f050e3602327592da7036b",
+  "created_utc": "2026-10-12 20:45:27 UTC",
+  "run_id": "20261013T023717-localpc-arx5",
+  "domain": "FIXED_BASE_ARX5_TASK_SIM",
+  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "chunk": {
+    "split": "TRAIN",
+    "start": 0,
+    "count": 16,
+    "ids": [
+      "T291000",
+      "T291001",
+      "T291002",
+      "T291003",
+      "T291004",
+      "T291005",
+      "T291006",
+      "T291007",
+      "T291008",
+      "T291009",
+      "T291010",
+      "T291011",
+      "T291012",
+      "T291013",
+      "T291014",
+      "T291015"
+    ]
+  },
+  "status": "RAW_AUDIT_PASS_OWNER_ADMISSION_PENDING",
+  "counts": {
+    "registered_full_bank": 80,
+    "registered_TRAIN": 64,
+    "registered_DEV": 16,
+    "chunk_attempted": 16,
+    "chunk_complete": 16,
+    "chunk_independent_physical_success": 16,
+    "chunk_raw_pass": 16,
+    "chunk_eligible_for_BC": 16,
+    "chunk_admitted_by_this_agent": 0,
+    "chunk_failed": 0,
+    "chunk_unattempted": 0,
+    "not_yet_audited_registered_bank": 64
+  },
+  "admission": "Only owner may review and install final DATASET_ADMISSION. No commissioning/pilot/legacy data included; no result retries or denominator filtering.",
+  "bindings": {
+    "teacher_layout_seal_sha256": "f4919dd5b4ad4f978f182cb0663e6cbdb3b50be34a84d19f56f2d7aa98398f9d",
+    "code_seal_sha256": "1fd64b8aa2304de7e30ec1e1229ac8abaf85fda28934779f71d0b81361de945c",
+    "sealed_code_file_count": 121,
+    "code_hash_mismatches": [],
+    "all_current_raw_and_card_bindings_pass": true
+  },
+  "per_episode": [
+    {
+      "id": "T291000",
+      "seed": "9820627790027372738",
+      "group": "PI0291/T291000",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "f54f4f74a0eb9220f70c764e1c8f0a24c7042803d33838667cc7e504aa708ec8",
+      "card_sha256": "38cc4bffffdbc7d1af62d8b4a48e8f791486f402294b848aab0a007c50b6a2f3",
+      "manifest_sha256": "3caee3e9825508a49c1c9fb45f2594f64ff0c0c027136c768d90c9c510b01a12",
+      "samples_sha256": "23b568d0dc0c97e42157cf5fd5b0443193ec0402fe8b9acec94e86ee67aaf768",
+      "physics_sha256": "963e14ec4607e906aaa4f931dd8d86afad82d9611c0e4773732c9b1d9a9600ea",
+      "audit_receipt_sha256": "52ba4b94e6144e853e55e0cccd4fb38eb8e29eb41eaf7630914d830eb65a34c7",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2362,
+        "minimum_body_red_pixels": 56,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2893,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2884,
+            "maximum_red_pixels": 4258
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2645,
+            "maximum_red_pixels": 4360
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2656,
+            "maximum_red_pixels": 2664
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2646,
+            "maximum_red_pixels": 2668
+          },
+          "carry": {
+            "frames": 59,
+            "minimum_red_pixels": 2652,
+            "maximum_red_pixels": 4024
+          },
+          "lower": {
+            "frames": 35,
+            "minimum_red_pixels": 3967,
+            "maximum_red_pixels": 4006
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3918,
+            "maximum_red_pixels": 4921
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2443,
+            "maximum_red_pixels": 5504
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2362,
+            "maximum_red_pixels": 2523
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 7.3143781725848456e-9,
+      "codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "video": {
+        "decoded_frames": 641,
+        "sha256": "b5437ed3106e0a11385a695311ca2ab66b63d3433450dc102ad7e62c9d726c0d"
+      },
+      "audit_CPU_s": 3.631154,
+      "audit_receipt": "evidence/T291000_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291001",
+      "seed": "4559614978549100088",
+      "group": "PI0291/T291001",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "b2574491dba0a39954df959dd5e18d3db1253a64b4d3dae63747d49e5b2413a2",
+      "card_sha256": "b3ee3945c286c8adaddff7c822eeb7382411f334e5235a9ad0e9430a08a8eb55",
+      "manifest_sha256": "64f66c483a5c08b8fe4c56e5a14d9b0be860616acdd27183e7d76f24f315da2d",
+      "samples_sha256": "43825fc3709554ce4e169ec685d75d2ac1c144a553ea85dcabaf30d32a2b8830",
+      "physics_sha256": "3e327c6d46393b622b61368ccaf86163b6e9d2f5904decb924e7ab842bf6358d",
+      "audit_receipt_sha256": "8d170cac98521c9736b92403791743d50ecaeb3d29b092c7f446832646b5b91a",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2364,
+        "minimum_body_red_pixels": 58,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2830,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2825,
+            "maximum_red_pixels": 4223
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2675,
+            "maximum_red_pixels": 4364
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2681,
+            "maximum_red_pixels": 2694
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2675,
+            "maximum_red_pixels": 2705
+          },
+          "carry": {
+            "frames": 61,
+            "minimum_red_pixels": 2695,
+            "maximum_red_pixels": 4067
+          },
+          "lower": {
+            "frames": 33,
+            "minimum_red_pixels": 3985,
+            "maximum_red_pixels": 4029
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3943,
+            "maximum_red_pixels": 4947
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2449,
+            "maximum_red_pixels": 5533
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2364,
+            "maximum_red_pixels": 2538
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 9.992007221626409e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.1820847490028328e-9,
+      "codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "video": null,
+      "audit_CPU_s": 3.378724,
+      "audit_receipt": "evidence/T291001_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291002",
+      "seed": "5435944331197149107",
+      "group": "PI0291/T291002",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "ec3357e66a458bbd92006af848f8fbed7633c0c7375e0f24bce5b75a58324256",
+      "card_sha256": "fc65d516a009903fe057a3b69f57fa7dc9781f43c9da911ae2b52aa1a1e06a8f",
+      "manifest_sha256": "c45e44d3723733f69be738de3c353ceb8a78639c74ee164a4b47bdb9864dd0bd",
+      "samples_sha256": "21cad38dc28b8939e7cf7359744e56b3c59e02831bb02aa5d0c9a5d0cb0adc02",
+      "physics_sha256": "2fe925bf7f6b110001ad25c2145ff5429e31556715fd7f410fc6acfdb8d62561",
+      "audit_receipt_sha256": "b717d00f0a5f208fcb6531fe0268e9776b9c60918fff02d1a47f2f3325c37610",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2377,
+        "minimum_body_red_pixels": 49,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3349,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3342,
+            "maximum_red_pixels": 4884
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 3307,
+            "maximum_red_pixels": 4913
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3325,
+            "maximum_red_pixels": 3339
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2766,
+            "maximum_red_pixels": 3578
+          },
+          "carry": {
+            "frames": 64,
+            "minimum_red_pixels": 2866,
+            "maximum_red_pixels": 4111
+          },
+          "lower": {
+            "frames": 30,
+            "minimum_red_pixels": 4016,
+            "maximum_red_pixels": 4084
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3967,
+            "maximum_red_pixels": 4960
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2452,
+            "maximum_red_pixels": 5536
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2377,
+            "maximum_red_pixels": 2531
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 9.992007221626409e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.7650406131396466e-9,
+      "codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "video": null,
+      "audit_CPU_s": 3.3807650000000002,
+      "audit_receipt": "evidence/T291002_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291003",
+      "seed": "6214712525449961550",
+      "group": "PI0291/T291003",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "606e37fd381c77999eddc6386f5d5e35e93df477788e6cc73a465e47d7ab10a4",
+      "card_sha256": "4d48f102290b6757dab3735ff7823e7fe2345cf615f092591dae15ac151671d3",
+      "manifest_sha256": "e998a922601f3b569bdde8536095f5dacefeff3188748ddf4c81ae90bea1b5be",
+      "samples_sha256": "122f4af1f9f3b7cb1306289e93baf6c0b7c6faf60140d732aa2252d208f56078",
+      "physics_sha256": "c56ce5c5a44cab723ce230e6a7618e3212947a142c1220ebf7e68c92ffce0cba",
+      "audit_receipt_sha256": "52cedc608de6dfc191983e22f7700b96181498589985f9940c4d0ddbcb9f8336",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 157,
+        "right": 158
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2373,
+        "minimum_body_red_pixels": 46,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3302,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3061,
+            "maximum_red_pixels": 4238
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2727,
+            "maximum_red_pixels": 4364
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2688,
+            "maximum_red_pixels": 2719
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2686,
+            "maximum_red_pixels": 2721
+          },
+          "carry": {
+            "frames": 66,
+            "minimum_red_pixels": 2709,
+            "maximum_red_pixels": 4091
+          },
+          "lower": {
+            "frames": 36,
+            "minimum_red_pixels": 4002,
+            "maximum_red_pixels": 4075
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3953,
+            "maximum_red_pixels": 4946
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2448,
+            "maximum_red_pixels": 5523
+          },
+          "hold": {
+            "frames": 377,
+            "minimum_red_pixels": 2373,
+            "maximum_red_pixels": 2525
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.7514119732563458e-9,
+      "codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "video": null,
+      "audit_CPU_s": 3.371319,
+      "audit_receipt": "evidence/T291003_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291004",
+      "seed": "6261165592078185920",
+      "group": "PI0291/T291004",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "30ef78ce39df95e2c67ded6e79297dc8ec6ca34fcf7aac99c5da7259b6581242",
+      "card_sha256": "575ff602fcd0f416ad7a2bfdc5ae8c2cbfd6c435d11b4f7f8a0985ece5fede2b",
+      "manifest_sha256": "42cb1160259551a58d7291c373dfe041035e365cd96fb227448095461b2461b3",
+      "samples_sha256": "22a107fe591dc5ec4b9aec39273c970ab015d17b95eed0528f3e1891343aff22",
+      "physics_sha256": "b1dc25fa78670df384eedd40818435a8bae82cf9c49d47d0aee03c0ed2b90606",
+      "audit_receipt_sha256": "ea72b344cf069fb59d7a4fabae13f59dd46cd9895659ec667e9e8ce4acafdc3a",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2364,
+        "minimum_body_red_pixels": 40,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2925,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2921,
+            "maximum_red_pixels": 4243
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2645,
+            "maximum_red_pixels": 4354
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2643,
+            "maximum_red_pixels": 2659
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2635,
+            "maximum_red_pixels": 2659
+          },
+          "carry": {
+            "frames": 64,
+            "minimum_red_pixels": 2636,
+            "maximum_red_pixels": 4003
+          },
+          "lower": {
+            "frames": 30,
+            "minimum_red_pixels": 3951,
+            "maximum_red_pixels": 3988
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3912,
+            "maximum_red_pixels": 4945
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2448,
+            "maximum_red_pixels": 5526
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2364,
+            "maximum_red_pixels": 2542
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.7658374595885817e-8,
+      "codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "video": null,
+      "audit_CPU_s": 3.386331,
+      "audit_receipt": "evidence/T291004_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291005",
+      "seed": "3437927347166500861",
+      "group": "PI0291/T291005",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "507e3da87a5715319a8fdbd7ce98c42f72241efaa746c1461f58f690f01e8f75",
+      "card_sha256": "d46f09582dc612d4f004a2d5c428fc0a0ee4f2a0ba8dcde152f106bb7290f98c",
+      "manifest_sha256": "2e48850288cb20bfa12f41e3faf4f59f18d771c99101d5423969fe3680325d9d",
+      "samples_sha256": "2c85f388acab238ab2abf69baa9cacb57c861cf126493a150e5ca8dbfd696214",
+      "physics_sha256": "3e5b35f348c070143e9cae3235fe59237f12fbca98ec4d6f2a47258f2f1f16f9",
+      "audit_receipt_sha256": "6c97b9a16fb729c8334eb1152eecfda388ee727026865accaeedcfc975198258",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2363,
+        "minimum_body_red_pixels": 58,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2828,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2823,
+            "maximum_red_pixels": 4232
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2673,
+            "maximum_red_pixels": 4374
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2676,
+            "maximum_red_pixels": 2690
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2665,
+            "maximum_red_pixels": 2697
+          },
+          "carry": {
+            "frames": 63,
+            "minimum_red_pixels": 2687,
+            "maximum_red_pixels": 4060
+          },
+          "lower": {
+            "frames": 31,
+            "minimum_red_pixels": 3980,
+            "maximum_red_pixels": 4044
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3943,
+            "maximum_red_pixels": 4937
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2444,
+            "maximum_red_pixels": 5518
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2363,
+            "maximum_red_pixels": 2527
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 3.785712687776055e-9,
+      "codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "video": null,
+      "audit_CPU_s": 3.382921,
+      "audit_receipt": "evidence/T291005_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291006",
+      "seed": "8191245994697768199",
+      "group": "PI0291/T291006",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "1f9f2d916057d4e4d613414ea5e85b5fae4b56b5fceb4bef97880ce5e5586523",
+      "card_sha256": "67e0fe82bf224a69126d53156af0ac0b707cf60ff65083aae288584529d3200a",
+      "manifest_sha256": "7fc6f3155f88165e12273779b43afeda0888c0e258c4dd26ec55dedb455d6f6e",
+      "samples_sha256": "63614a3c1a15a6b79eb595c186338526ad477ba2d47fcfc8398bb347aef0ae3d",
+      "physics_sha256": "30241ad5d5b6990a81a65de3b1bf89aaab1d878835d27b712ff300ff233b5eb1",
+      "audit_receipt_sha256": "4adf33ea5d648eebce4cfd45cf76bec32991e9f642f5fd144ebf00c7130d6c70",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2356,
+        "minimum_body_red_pixels": 40,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2914,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2912,
+            "maximum_red_pixels": 4235
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2647,
+            "maximum_red_pixels": 4357
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2650,
+            "maximum_red_pixels": 2667
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2641,
+            "maximum_red_pixels": 2666
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 2649,
+            "maximum_red_pixels": 4013
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 3955,
+            "maximum_red_pixels": 3995
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3917,
+            "maximum_red_pixels": 4908
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2436,
+            "maximum_red_pixels": 5477
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2356,
+            "maximum_red_pixels": 2518
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 5.193045271578711e-9,
+      "codec_roundtrip_max_abs": 9.992007221626409e-16,
+      "video": null,
+      "audit_CPU_s": 3.3949659999999997,
+      "audit_receipt": "evidence/T291006_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291007",
+      "seed": "12080424017823814145",
+      "group": "PI0291/T291007",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "ee23d5cf7fa4a728383ccd4b37c318fcc5355087b50351fbf5cd1753802bee94",
+      "card_sha256": "3df49493dbb39aa321764332fc94dc056262c6b8baa801815cedbb67684ddb01",
+      "manifest_sha256": "8709efd744c35ab86d3dbde8e6db51bd571b20654b2ae33de975bb84a98ebada",
+      "samples_sha256": "a682c769e6e991b13abc62c4ce718b1f01c2c87773e28cd2046b80b654082bb5",
+      "physics_sha256": "1c4888ffbb6ceabd0f0569a4c8231046388da424791d0e260f76dd34c11867e8",
+      "audit_receipt_sha256": "642c1c80f23de26b6e36ca65353fc52f0c0d00ae46cc4dff0f474c5bf86ec292",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2376,
+        "minimum_body_red_pixels": 45,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3346,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3337,
+            "maximum_red_pixels": 4922
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 3365,
+            "maximum_red_pixels": 4975
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3393,
+            "maximum_red_pixels": 3423
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2819,
+            "maximum_red_pixels": 3637
+          },
+          "carry": {
+            "frames": 61,
+            "minimum_red_pixels": 2943,
+            "maximum_red_pixels": 4111
+          },
+          "lower": {
+            "frames": 33,
+            "minimum_red_pixels": 4017,
+            "maximum_red_pixels": 4082
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3971,
+            "maximum_red_pixels": 4930
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2454,
+            "maximum_red_pixels": 5517
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2376,
+            "maximum_red_pixels": 2523
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 7.771561172376096e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.8092231596499317e-9,
+      "codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "video": null,
+      "audit_CPU_s": 3.354894,
+      "audit_receipt": "evidence/T291007_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291008",
+      "seed": "10668076527158387387",
+      "group": "PI0291/T291008",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "2661d3a723784010d67a34388d05adefa1c672fb064c490e74fae384143a192a",
+      "card_sha256": "5684390842ceb96461d4d32e45c81a7d7b92d3e383e55ca02d8f27cd36224ae8",
+      "manifest_sha256": "587a80427b4e2b4f612021241a1bc9cd00bfb985537fe6037bd126c34cf353a9",
+      "samples_sha256": "b090b459d7310c7ea16146ee4ef790b095aa622b614b3ad1cbc2847f4eb645b2",
+      "physics_sha256": "a52f01326e1750f026da97312a56d092ed985d3b1e669c06ff39b9758f0d78f6",
+      "audit_receipt_sha256": "2f0887b933a65f294e008b2e6383474e290644e7c425bb8d300ca4dc7977e861",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2379,
+        "minimum_body_red_pixels": 47,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3353,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3345,
+            "maximum_red_pixels": 4983
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 3544,
+            "maximum_red_pixels": 5158
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3585,
+            "maximum_red_pixels": 3619
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 3004,
+            "maximum_red_pixels": 3774
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 3102,
+            "maximum_red_pixels": 4111
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 4023,
+            "maximum_red_pixels": 4092
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3974,
+            "maximum_red_pixels": 4942
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2453,
+            "maximum_red_pixels": 5522
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2379,
+            "maximum_red_pixels": 2524
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.1207231387654346e-9,
+      "codec_roundtrip_max_abs": 7.771561172376096e-16,
+      "video": null,
+      "audit_CPU_s": 3.3613429999999997,
+      "audit_receipt": "evidence/T291008_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291009",
+      "seed": "4434311655608279564",
+      "group": "PI0291/T291009",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "095fd424cf18e5b07f3d553ba4b96acf6b5b02a96cf42a9d798bb6e84496dd24",
+      "card_sha256": "e482ba220d08ae96d21e325004712aec5ec7f50405277886f3a7b0b1fe53c49c",
+      "manifest_sha256": "6dbe7cc88e0ad83267aa186296fbd06fd8a175a236e9b650c9477eb291fa07b9",
+      "samples_sha256": "e62d37bbe76f86b697359b1e6124592554d8a3542c704348014f8d4626e7f2fb",
+      "physics_sha256": "36d908efb568c7ac94d17362b752c58cef089c3a3db221cc1b336389fd42ca7a",
+      "audit_receipt_sha256": "4a2207ed859907e7fbbcccd4b0bd9c23d018c882d8c75d59f12bca3fccbd5344",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2368,
+        "minimum_body_red_pixels": 57,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2857,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2852,
+            "maximum_red_pixels": 4248
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2700,
+            "maximum_red_pixels": 4365
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2666,
+            "maximum_red_pixels": 2691
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2652,
+            "maximum_red_pixels": 2692
+          },
+          "carry": {
+            "frames": 61,
+            "minimum_red_pixels": 2680,
+            "maximum_red_pixels": 4051
+          },
+          "lower": {
+            "frames": 33,
+            "minimum_red_pixels": 3983,
+            "maximum_red_pixels": 4021
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3931,
+            "maximum_red_pixels": 4921
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2443,
+            "maximum_red_pixels": 5502
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2368,
+            "maximum_red_pixels": 2516
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.398617679477688e-9,
+      "codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "video": null,
+      "audit_CPU_s": 3.3777869999999997,
+      "audit_receipt": "evidence/T291009_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291010",
+      "seed": "15020938532987478860",
+      "group": "PI0291/T291010",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "499d1c136efa45fd4f166b407b817996daf6cf980e8e1495eddc454030ff9a85",
+      "card_sha256": "c7384a5619f2f8c5a075dc63f47f95f670fa691fd47ea8d0afff1d0444d8d16c",
+      "manifest_sha256": "686428b71b83784a15723bd29953dee3dd5f05ceac4a2187c95d0d13074242f0",
+      "samples_sha256": "997cf23c3fe26da4507d417d37b1526449c05e851b1df934d9844e8324be6ce9",
+      "physics_sha256": "5b1044d4419a60c4b312d6992a029d94466828de4f3a0e8d3e1edeaaae0752e5",
+      "audit_receipt_sha256": "3c704c8acdbaccb979f976ab2c7a8a0aeb8698459bf15b67b55a88e136ae47f1",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2372,
+        "minimum_body_red_pixels": 49,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 3350,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 3345,
+            "maximum_red_pixels": 5006
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 3591,
+            "maximum_red_pixels": 5212
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 3646,
+            "maximum_red_pixels": 3661
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 3105,
+            "maximum_red_pixels": 3842
+          },
+          "carry": {
+            "frames": 60,
+            "minimum_red_pixels": 3198,
+            "maximum_red_pixels": 4100
+          },
+          "lower": {
+            "frames": 34,
+            "minimum_red_pixels": 4010,
+            "maximum_red_pixels": 4062
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3963,
+            "maximum_red_pixels": 4951
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2448,
+            "maximum_red_pixels": 5534
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2372,
+            "maximum_red_pixels": 2530
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.7136508040648266e-9,
+      "codec_roundtrip_max_abs": 9.992007221626409e-16,
+      "video": null,
+      "audit_CPU_s": 3.37837,
+      "audit_receipt": "evidence/T291010_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291011",
+      "seed": "9962073025280293280",
+      "group": "PI0291/T291011",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "985efcd9c3fe130f43977ae8222381b21e7caa3cf0a62638897041adba6c84fa",
+      "card_sha256": "e2a02a83e0ea84362dfc848a336c0c879ba2e03cdf33f43b35fe020f3bd19643",
+      "manifest_sha256": "48e530803df395a440ee68a0ce1c3f7a3a6aa8befd234f94871a442eb8641ef2",
+      "samples_sha256": "572ed6219afa6ba644c175974eb720d50c763d0b93f4fbf04fedb3ed3cd1401e",
+      "physics_sha256": "fce361533e50d14720cadc06e72c6a71236ace5070d5436cb9b42f773fbe45c6",
+      "audit_receipt_sha256": "5142e1a4394110bfee7bb8bb5af62486f6a7ce0086eb26e3d60ba82b9eda45c8",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2371,
+        "minimum_body_red_pixels": 55,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2812,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2803,
+            "maximum_red_pixels": 4220
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2677,
+            "maximum_red_pixels": 4362
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2682,
+            "maximum_red_pixels": 2698
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2675,
+            "maximum_red_pixels": 2702
+          },
+          "carry": {
+            "frames": 63,
+            "minimum_red_pixels": 2695,
+            "maximum_red_pixels": 4072
+          },
+          "lower": {
+            "frames": 31,
+            "minimum_red_pixels": 3988,
+            "maximum_red_pixels": 4055
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3943,
+            "maximum_red_pixels": 4929
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2448,
+            "maximum_red_pixels": 5507
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2371,
+            "maximum_red_pixels": 2522
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 1.7295515714055298e-9,
+      "codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "video": null,
+      "audit_CPU_s": 3.357698,
+      "audit_receipt": "evidence/T291011_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291012",
+      "seed": "9683702147349320751",
+      "group": "PI0291/T291012",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "54afef2d68758416d841ebb9a9cd28057645117c2800154d34fda768bfa9601e",
+      "card_sha256": "8d29f003708bfee7649f9037636171cc542ef0aa302a83d391295caa1fbeb172",
+      "manifest_sha256": "2a8cc2f8fa2cc82093f9122bef2f854b948f3a30a97ebace5d42a2a429d979fb",
+      "samples_sha256": "e013ccc00a3d79dc5f2110d086363eab36b4a7443d3507f1a608772add99110a",
+      "physics_sha256": "aec61eb44b0aeac5ab574305ae25a0c8fcb64b69badaab9594ddc6a36b123f37",
+      "audit_receipt_sha256": "e0b63bdc698d19cd0b952a789f5bf1f87a74ec1075fb5d748d7f656640eb57a9",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2367,
+        "minimum_body_red_pixels": 55,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2811,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2804,
+            "maximum_red_pixels": 4252
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2707,
+            "maximum_red_pixels": 4365
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2682,
+            "maximum_red_pixels": 2710
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2670,
+            "maximum_red_pixels": 2708
+          },
+          "carry": {
+            "frames": 62,
+            "minimum_red_pixels": 2693,
+            "maximum_red_pixels": 4067
+          },
+          "lower": {
+            "frames": 32,
+            "minimum_red_pixels": 3989,
+            "maximum_red_pixels": 4055
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3945,
+            "maximum_red_pixels": 4927
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2439,
+            "maximum_red_pixels": 5510
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2367,
+            "maximum_red_pixels": 2527
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.569217269488e-9,
+      "codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "video": null,
+      "audit_CPU_s": 3.3669150000000005,
+      "audit_receipt": "evidence/T291012_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291013",
+      "seed": "13081946132178041446",
+      "group": "PI0291/T291013",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "3c01e717a8c968735028d71d20e9bcbcf46e334149eca2de1845e866b3588331",
+      "card_sha256": "d48955fe969e0255b8062ae689946d19cf24e8aa2e747487edcfe543b90e12a3",
+      "manifest_sha256": "6d51e35635483f970ee599228cb5feaad3d5328b2a3d05a4eb7c2e795d5adc7a",
+      "samples_sha256": "fa283b487e7b096523919991e8b8fbd28e16b381c314a80c7e4ec3796d351fb8",
+      "physics_sha256": "942ab4425018325502f4d599cfef555a2fa19182742a721b21803ebebbb6010f",
+      "audit_receipt_sha256": "d247ecfc9f6c8b6c0227521bbbe076506ef1a708ea4ead64919f8d818c0b3254",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2364,
+        "minimum_body_red_pixels": 56,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2900,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2896,
+            "maximum_red_pixels": 4248
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2647,
+            "maximum_red_pixels": 4366
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2651,
+            "maximum_red_pixels": 2667
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2645,
+            "maximum_red_pixels": 2669
+          },
+          "carry": {
+            "frames": 58,
+            "minimum_red_pixels": 2650,
+            "maximum_red_pixels": 4021
+          },
+          "lower": {
+            "frames": 36,
+            "minimum_red_pixels": 3957,
+            "maximum_red_pixels": 4009
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3918,
+            "maximum_red_pixels": 4929
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2434,
+            "maximum_red_pixels": 5508
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2364,
+            "maximum_red_pixels": 2522
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 7.771561172376096e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 5.726267390815387e-9,
+      "codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "video": null,
+      "audit_CPU_s": 3.3997309999999996,
+      "audit_receipt": "evidence/T291013_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291014",
+      "seed": "15130830493385616505",
+      "group": "PI0291/T291014",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "5bcca76d1190237d7522d00e79fb82de695278c6611c907282dcb2cc38b79998",
+      "card_sha256": "18dfce1e801eb7c4cdbaa8da1d0f69c27ca1eeba608e0cc7517b39e710353adf",
+      "manifest_sha256": "a55c65a7d81c7dd85aeb4c2cc05d1115211f804be37924ee4dab686184beb2f7",
+      "samples_sha256": "76f628e1baf8cccfa32d2788e32b0ec142e047e30d5f6f2dd362e54540c1f8f2",
+      "physics_sha256": "3ff999184bfb59bcc72e9930115480370cad8872fe9a14f789f2240ff77a3ba6",
+      "audit_receipt_sha256": "f064baa10034e4e11589c83410c2364ae9fefec8513dfdf0c8cd2180620653ea",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2366,
+        "minimum_body_red_pixels": 58,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2824,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2819,
+            "maximum_red_pixels": 4246
+          },
+          "close": {
+            "frames": 16,
+            "minimum_red_pixels": 2707,
+            "maximum_red_pixels": 4371
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2683,
+            "maximum_red_pixels": 2701
+          },
+          "lift": {
+            "frames": 35,
+            "minimum_red_pixels": 2667,
+            "maximum_red_pixels": 2706
+          },
+          "carry": {
+            "frames": 58,
+            "minimum_red_pixels": 2687,
+            "maximum_red_pixels": 4063
+          },
+          "lower": {
+            "frames": 36,
+            "minimum_red_pixels": 3986,
+            "maximum_red_pixels": 4049
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3939,
+            "maximum_red_pixels": 4952
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2449,
+            "maximum_red_pixels": 5529
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2366,
+            "maximum_red_pixels": 2525
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 3.822583714840899e-9,
+      "codec_roundtrip_max_abs": 9.992007221626409e-16,
+      "video": null,
+      "audit_CPU_s": 3.384205,
+      "audit_receipt": "evidence/T291014_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    },
+    {
+      "id": "T291015",
+      "seed": "7610692804229467250",
+      "group": "PI0291/T291015",
+      "split": "TRAIN",
+      "card_matches_sealed_layout": true,
+      "source_bound": true,
+      "authority_bound": true,
+      "manifest_exact_unique_coverage": true,
+      "result_sha256": "ce873cce0eb70ddd5b8fcf7246471a4f4c8d4229825224cc43fa25c2a3aac25a",
+      "card_sha256": "ffdf4a920b93267327cd9a628ab4e1eadfb70016ccd4c6c7ef1777a2cf64b1b9",
+      "manifest_sha256": "5013ab91ca3028f8a836b7eebf772fcfbc732251452832718994e8ce67b9c74f",
+      "samples_sha256": "886cb675297e8f5e4e9b90c60903567bff9267cad68f5db5405f9870dfca2d0f",
+      "physics_sha256": "17d13674d3abbf251f1787e40f33a3e558e9002cad0b843f6b62dcff4a172d2c",
+      "audit_receipt_sha256": "b0bb6f0d5b89dcb670b5bc84ba6170429b444df1bcaccac8e6137ba3831ea2f5",
+      "audit_script_bound": true,
+      "audit_matches_current_raw": true,
+      "raw_audit_status": "PASS_FULL_RAW_AUDIT",
+      "eligible_for_BC": true,
+      "admitted": false,
+      "paired_samples": 641,
+      "physics_steps": 16000,
+      "actual_committed_H40_windows": 601,
+      "independent_score": {
+        "history": {
+          "sustained_grasp": true,
+          "sustained_lift": true,
+          "horizontal_carry": true
+        },
+        "hold_observed": 41,
+        "hold_pass": 41,
+        "hold_subpredicates": {
+          "zone_corners": 41,
+          "table_height": 41,
+          "linear_speed": 41,
+          "angular_speed": 41,
+          "released": 41,
+          "tcp_clear": 41,
+          "object_and_contacts_valid": 41
+        },
+        "safety_valid": true,
+        "persistent_success": true
+      },
+      "contact_samples": {
+        "left": 149,
+        "right": 150
+      },
+      "camera_visibility": {
+        "minimum_wrist_red_pixels": 2355,
+        "minimum_body_red_pixels": 39,
+        "wrist_zero_red_frames": 0,
+        "initial_wrist_red_pixels": 2904,
+        "per_stage": {
+          "align": {
+            "frames": 29,
+            "minimum_red_pixels": 2901,
+            "maximum_red_pixels": 4245
+          },
+          "close": {
+            "frames": 17,
+            "minimum_red_pixels": 2649,
+            "maximum_red_pixels": 4363
+          },
+          "verify_grasp": {
+            "frames": 7,
+            "minimum_red_pixels": 2652,
+            "maximum_red_pixels": 2669
+          },
+          "lift": {
+            "frames": 34,
+            "minimum_red_pixels": 2644,
+            "maximum_red_pixels": 2661
+          },
+          "carry": {
+            "frames": 63,
+            "minimum_red_pixels": 2646,
+            "maximum_red_pixels": 4015
+          },
+          "lower": {
+            "frames": 31,
+            "minimum_red_pixels": 3953,
+            "maximum_red_pixels": 4003
+          },
+          "release": {
+            "frames": 22,
+            "minimum_red_pixels": 3923,
+            "maximum_red_pixels": 4927
+          },
+          "withdraw": {
+            "frames": 53,
+            "minimum_red_pixels": 2447,
+            "maximum_red_pixels": 5503
+          },
+          "hold": {
+            "frames": 385,
+            "minimum_red_pixels": 2355,
+            "maximum_red_pixels": 2530
+          }
+        },
+        "initial_and_grasp_carry_release_visible": true
+      },
+      "max_sensor_error": 0,
+      "independent_FK_max_error": 8.881784197001252e-16,
+      "max_camera_extrinsic_error": 0,
+      "max_keypoint_projection_error_px": 0,
+      "max_reconstructed_contact_force_error_N": 2.5976638756697312e-9,
+      "codec_roundtrip_max_abs": 6.661338147750939e-16,
+      "video": null,
+      "audit_CPU_s": 3.411792,
+      "audit_receipt": "evidence/T291015_RAW_AUDIT.json",
+      "seed_encoding": "EXACT_DECIMAL_UINT64_STRING"
+    }
+  ],
+  "CPU_s": {
+    "chunk_raw_audits": 54.318915,
+    "readiness_probes_measured_cumulative": 0.8087880000000002,
+    "readiness_probes_new_since_prior_chunk": 0.8087880000000002,
+    "binding_check": 0.5730799999999999,
+    "remote_affinity_cpu_limit": 1,
+    "CPU_includes_audit_children": true,
+    "ledger_mutated_by_this_agent": false,
+    "failed_pre_audit_launcher_unmeasured_upper": 10,
+    "owner_charge_upper_only_once": true
+  },
+  "boundary": {
+    "raw_data_qualification_only": true,
+    "formal_statistics": "NOT_RUN",
+    "formal_native_processor_qualification": "NOT_RUN",
+    "training": 0,
+    "neural": 0,
+    "Hopper_PBS": 0,
+    "WBC": 0,
+    "audit_physics_integrations": 0,
+    "audit_render_calls": 0,
+    "original_raw_mutations_by_this_agent": 0,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "metadata_precision_correction": "Exact original uint64 seed carried as decimal string; prior JS Number serialization could round. Raw cards/seals/hashes and Python pre-serialization seed equality tests are unchanged; no physics/audit rerun."
+}

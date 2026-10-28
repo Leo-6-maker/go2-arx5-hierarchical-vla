@@ -1,0 +1,19 @@
+{
+  "status": "TERMINAL_CANARY_NUMERICAL_MISMATCH_BEFORE_AND_AFTER_RESTORE",
+  "job": "653573.hopper-m-02",
+  "completed_discarded_updates": 16,
+  "formal_updates": 0,
+  "actual_S4_requests": 2,
+  "actual_S4_heads": 8,
+  "inputs_and_native_noise_time_equal": true,
+  "first_pre_restore_gradient_difference": "step1/micro0 encoder and state; decoder norm equal",
+  "maximum_parameter_difference": 1.5887286281213164e-05,
+  "affected_outside_tolerance_tensors": 32,
+  "root_cause_hypothesis": "Native CUDA backward reduction nondeterminism; exact originating operator remains UNOBSERVED",
+  "repair": "torch.use_deterministic_algorithms(True), cudnn deterministic/benchmark false at shared native load; no precision/loss/RNG/tolerance changes",
+  "repair_validation": "NEW_CANARY_REQUIRED_NOT_YET_PASS",
+  "official_reference": "https://docs.pytorch.org/docs/stable/generated/torch.use_deterministic_algorithms.html",
+  "unique_full_states": "PRESERVED",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

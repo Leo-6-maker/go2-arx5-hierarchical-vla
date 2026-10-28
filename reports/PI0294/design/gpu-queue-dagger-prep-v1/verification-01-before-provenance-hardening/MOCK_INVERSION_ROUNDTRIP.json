@@ -1,0 +1,60 @@
+{
+  "status": "PASS_AFFINE_TENSOR_CPU_FIXTURE_ONLY",
+  "fixture": "v(x,t)=0.2*x+t; structural shape 1x40x12; first10 synthetic physical EEF10",
+  "processor": "SYNTHETIC_IDENTITY_NOT_OFFICIAL_PROCESSOR",
+  "inference_steps": 4,
+  "fp_per_step": 10,
+  "velocity_evaluations": 48,
+  "normalized_active_MSE": 4.662936703425658e-16,
+  "normalized_full_MSE": 4.255854927729767e-16,
+  "synthetic_physical_errors": {
+    "H40": {
+      "XYZ_m": {
+        "mean": 1.794337419647948e-08,
+        "maximum": 1.794337419647948e-08
+      },
+      "SO3_rad": {
+        "mean": 2.9802322387695312e-08,
+        "maximum": 2.9802322387695312e-08
+      },
+      "gripper_absolute": {
+        "mean": 7.152557368605983e-08,
+        "maximum": 7.152557368605983e-08
+      }
+    },
+    "prefix8": {
+      "XYZ_m": {
+        "mean": 1.794337419647948e-08,
+        "maximum": 1.794337419647948e-08
+      },
+      "SO3_rad": {
+        "mean": 2.9802322387695312e-08,
+        "maximum": 2.9802322387695312e-08
+      },
+      "gripper_absolute": {
+        "mean": 7.152557368605983e-08,
+        "maximum": 7.152557368605983e-08
+      }
+    },
+    "close": {
+      "expert_indices": [],
+      "reconstructed_indices": [],
+      "first_timing_error_s": null,
+      "missing_count": 0,
+      "spurious_count": 0
+    },
+    "open": {
+      "expert_indices": [],
+      "reconstructed_indices": [],
+      "first_timing_error_s": null,
+      "missing_count": 0,
+      "spurious_count": 0
+    }
+  },
+  "real_M2048_sampler_parity": "NOT_RUN",
+  "real_M2048_inversion": "NOT_RUN",
+  "real_processor_roundtrip": "NOT_RUN",
+  "no_model_weights_loaded": true,
+  "no_optimization": true,
+  "no_physics": true
+}

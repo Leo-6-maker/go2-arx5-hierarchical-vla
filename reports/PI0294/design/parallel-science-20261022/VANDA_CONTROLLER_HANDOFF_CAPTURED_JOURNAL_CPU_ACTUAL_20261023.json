@@ -1,0 +1,102 @@
+{
+  "schema": "WDR1_VANDA_CONTROLLER_EXACT_PARENT_HANDOFF_CPU_ACTUAL_V1",
+  "status": "COLD_CPU_PREPARED_NOT_NATIVE_ADOPTED",
+  "date_SGT": "2026-10-23",
+  "human_direction_release": "0568957e67ee6356b9eec4cd262d9f569fee6a51",
+  "grant_sha256": "7a33de7f976ffbd4556400478fbbe1aa7c3545a72ff1ef9b32e1b37d8ddcfe72",
+  "exact_historical_parent": {
+    "global_SHA256": "963cb3b81c807c33443f5988413eb8b15a99c62a50421cdaceb6cc17c642faa9",
+    "DEC1_SHA256": "3a0c7502fd73e9bf76967aa7c6d527e77089a561e497fd2760f7b96d7cb6951a",
+    "provenance": "ACTUAL_SEALED_FIRST_UPDATE_MATERIAL_FROM_EXISTING_VANDA_JOB",
+    "origin_Hopper_access": "UNAVAILABLE",
+    "fresh_Hopper_read": false,
+    "global_submission_states": {
+      "NATIVE_TERMINAL": 22,
+      "SUBMITTED_PENDING_NATIVE": 1
+    },
+    "DEC1_submission_states": {
+      "NATIVE_TERMINAL": 11,
+      "SUBMITTED_PENDING_NATIVE": 1
+    },
+    "only_unsettled_job": "1480817.stdct-mgmt-02",
+    "only_unsettled_platform": "VANDA_A40",
+    "optimizer_updates": 8744,
+    "queries": 1197,
+    "existing_reservations": {
+      "GPU_s": 22560,
+      "CPU_s": 54000,
+      "updates": 2048,
+      "queries": 29,
+      "output_bytes": 70000000000
+    }
+  },
+  "stopped_controller_catalog": {
+    "files": 1599,
+    "intents": 799,
+    "sha256": "7af6c6d8d74e24d7441e9cf99169836614bc28496c1453a7bcf59bb7a63cc8a0",
+    "current_state_sha256": "c79eec8b50ed0d851da14dd1fe49557d7df607f355453c7db5123a20baa0f666",
+    "READ_ONLY_calls": 542,
+    "HEARTBEAT_calls": 255,
+    "MUTATION_calls": 2,
+    "mutations": "ONLY_ORIGINAL_SAME_JOB_VANDA_MODEL_START_AND_FIRST_UPDATE_RELEASES",
+    "failed_read_calls_preserved": 1,
+    "unresolved_effect_bearing_calls": 0,
+    "post_snapshot_Hopper_mutation_calls": 0,
+    "complete_actual_private_catalog_and_paired_bytes_pure_prepare_pass": true
+  },
+  "native_Vanda_parent_readback": {
+    "SSH_read_completed": true,
+    "parent_PV1_adoption_file_exists": false,
+    "parent_global_ledger_exists": false,
+    "parent_DEC1_ledger_exists": false,
+    "parent_manifest_exists": false,
+    "parent_output_binding_exists": false,
+    "parent_STOP_exists": false,
+    "existing_environment_profiles": [
+      "vanda-qualification",
+      "vanda-native-build",
+      "vanda-neural-training"
+    ],
+    "environment_registry_SHA256": "6b164a5ba03ed6346315286607d718701bd358e7a487ab92bfd88e87022d5ce2",
+    "new_standard_parent_manifest_binding_registry_lease_once_adoption_required": true
+  },
+  "pure_preparation": {
+    "module": "scripts/pi0294/dec1/vanda_control_handoff.py",
+    "own_complete_journal_files_double_read_and_exact_catalog_hash": true,
+    "old_origin_must_be_labeled_fenced_unavailable": true,
+    "all_historical_fields_costs_caps_rows_and_reservations_byte_semantics_preserved": true,
+    "new_neural_training_or_budget_permission": 0,
+    "no_origin_read_can_be_faked_as_fresh": true,
+    "no_native_dispatch_on_import_or_pure_prepare": true,
+    "new_Vanda_control_lease_and_actual_entry_checks_still_required": true,
+    "unit_cases": 18,
+    "combined_related_cases": 83,
+    "combined_subtests": 55
+  },
+  "pending_native_actions": [
+    "Qualify exact code publication/CI/readback",
+    "Register the Vanda parent/controller through the existing standard profile with unchanged T0 and hard-close",
+    "Persist authority transfer once, with no duplicate parent writer or budget",
+    "Complete persistent independent saved-state audit and fresh native terminal join",
+    "Once settle actual B2970 failure and close GPU/control leases",
+    "Recompute every remaining resource and expose any still-unapproved shortfall before new training",
+    "Qualify ordered DataLoader 2/4 and CPU/thread allocation before using them in any new allocation"
+  ],
+  "current_native_state": {
+    "migration_written": false,
+    "new_registered_Vanda_parent": false,
+    "new_training_request": false,
+    "new_PBS_submission": false,
+    "failed_job_settled": false,
+    "failed_job_closed": false,
+    "full_saved_state_audit_receipt_recovered": false
+  },
+  "science": {
+    "WDR1": "ACTIVE",
+    "target_native_qualified": false,
+    "core64": 0,
+    "existing_WBC_and_Teacher_separation_preserved": true,
+    "new_Core_child_or_physics": 0,
+    "all_caps_clocks_and_original_final20GPUh40GiB_preserved": true
+  }
+}

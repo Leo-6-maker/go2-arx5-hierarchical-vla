@@ -1,0 +1,127 @@
+{
+  "schema": "PI0294_PV1_P0_QUEUE_MEMORY_PROVENANCE_V1",
+  "status": "LONG_GOAL_ADOPTED_P0_MEMORY_CHANGE_APPLIED_NATIVE_READBACK",
+  "goal_id": "PV1_LG02_QUEUE_MEMORY_TO_SHARED_POLICY_V1",
+  "goal_release": "127253737ae0a5ba0e4fed349b3745b9c87beace",
+  "authority_release": "9eff29a44a193dd4d3620dc0bfe5764a402eff42",
+  "campaign_run_uuid": "20261018T182956Z-localpc-pv1",
+  "observed_at": "2026-10-19T20:18:56+08:00",
+  "adoption": {
+    "owner_count": 1,
+    "second_owner_created": false,
+    "resource_clock_reset": false,
+    "budget_added": false,
+    "wbc_changed": false,
+    "scientific_semantics_changed": false
+  },
+  "provenance": {
+    "classification": "SITE_REWRITE_128GB_SCRIPT_TO_225GB_NATIVE",
+    "job_id": "675967.hopper-m-02",
+    "job_name": "pi0294_pv1_04",
+    "request_sha256": "b914a72c7393df211fe50ae7a6fd95f7dce23cae09c54e8165cc57767a1bc1d4",
+    "job_script_sha256": "c3323317acf3c975a9439748ba36c1a18d2a0464593637b2da2bdcb1c0f785b3",
+    "job_script_binding_matches": true,
+    "original_job_script_select": "1:ncpus=12:mem=128gb:ngpus=1:gpu_model=H200",
+    "native_before_select": "1:ncpus=12:mem=225GB:ngpus=1:gpu_model=H200",
+    "request_id_matches_native": true,
+    "submission_nonce_matches_native": true,
+    "ledger_request_hash_matches": true,
+    "original_source_sha": "1c4cdc9aac8dbe1748f83f7003a8959842449ed6"
+  },
+  "memory_evidence": {
+    "same_campaign_completed_b0_job": {
+      "job_id": "675394.hopper-m-02",
+      "native_peak_resident_kib": 23495928,
+      "native_peak_resident_gib": 22.40746307373047,
+      "native_peak_virtual_kib": 40558180
+    },
+    "historical_mature_path_native_record": {
+      "job_id": "672080.hopper-m-02",
+      "native_peak_resident_kib": 33138456,
+      "native_peak_resident_gib": 31.603294372558594,
+      "native_peak_virtual_kib": 66688204
+    },
+    "historical_fixed_report_conservative_peak_resident_kb": 38085576,
+    "historical_fixed_report": "reports/PI0294/20261016T191445Z-localpc-mp1/PUBLIC_RECOVERY_VIDEOS_AND_QUEUE_MEMORY_DELTA.json",
+    "requested_memory_gib": 128,
+    "headroom_over_conservative_reported_peak": 3.5241091798112754,
+    "admission": "PASS_NATIVE_RAM_EVIDENCE_WITH_CONSERVATIVE_HEADROOM"
+  },
+  "mutation": {
+    "method": "ONE_EXISTING_OWNER_IN_PLACE_QALTER",
+    "calls": 1,
+    "returncode": 0,
+    "before_state": "Q",
+    "before_memory": "225gb",
+    "after_state": "Q",
+    "after_memory": "128gb",
+    "after_select": "1:ncpus=12:mem=128gb:ngpus=1:gpu_model=H200",
+    "nonmemory_identity_unchanged": true,
+    "same_job": true,
+    "same_project": true,
+    "same_queue": true,
+    "same_cpu": true,
+    "same_gpu_count": true,
+    "same_gpu_model": true,
+    "same_walltime": true,
+    "same_request_id": true,
+    "same_submission_nonce": true,
+    "cancel_calls": 0,
+    "qsub_calls": 0,
+    "retry_calls": 0
+  },
+  "post_readback": {
+    "job_state": "Q",
+    "native_memory": "128gb",
+    "native_start_time": null,
+    "native_exec_host": null,
+    "scheduler_comment": "Not Running: Insufficient amount of resource: mem",
+    "scheduler_comment_interpretation": "STALE_OR_PENDING_NEXT_SCHEDULER_CYCLE_NOT_TREATED_AS_ALLOCATION",
+    "model_loaded": false,
+    "generation_queries": 642,
+    "optimizer_updates": 0,
+    "unknown_effects": [],
+    "pending_updates": []
+  },
+  "scheduler_followup": {
+    "observed_at": "2026-10-19T20:23:06+08:00",
+    "job_state": "Q",
+    "native_memory": "128gb",
+    "native_start_time": null,
+    "native_exec_host": null,
+    "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus",
+    "interpretation": "MEMORY_BLOCKER_CLEARED_WAITING_FOR_H200_NOT_YET_ALLOCATED",
+    "pbs_ready": false,
+    "start_neural": false,
+    "premodel_ready": false,
+    "model_loaded": false
+  },
+  "resource_ledger": {
+    "pbs_submissions_used": 4,
+    "pbs_submissions_limit": 24,
+    "h200_seconds_settled": 11154,
+    "h200_seconds_reserved": 28860,
+    "h200_hours_total_limit": 96,
+    "one_concurrent_h200": true,
+    "final_h200_hours_protected": 20
+  },
+  "science_progress": {
+    "b0_valid_conditions": 9,
+    "b0_total_conditions": 48,
+    "b0_remaining_conditions": 39,
+    "new_policy_result_from_this_p0": false,
+    "selected": "NONE",
+    "deployment": "NONE"
+  },
+  "next_legal_native_action": "WAIT_FOR_THE_SAME_JOB_TO_RECEIVE_A_NATIVE_ALLOCATION_THEN_RUN_ITS_EXISTING_PREMODEL_QUALIFICATION_AND_REMAINING_B0_DEV39_PLAN",
+  "forbidden_or_not_performed": [
+    "NO_CANCEL",
+    "NO_REQUEUE",
+    "NO_NEW_QSUB",
+    "NO_MODEL_LOAD_DURING_P0",
+    "NO_TRAINING_UPDATE_DURING_P0",
+    "NO_PHYSICS_ROLLOUT_DURING_P0",
+    "NO_WBC_OR_S1_CHANGE",
+    "NO_BUDGET_OR_CLOCK_RESET"
+  ]
+}

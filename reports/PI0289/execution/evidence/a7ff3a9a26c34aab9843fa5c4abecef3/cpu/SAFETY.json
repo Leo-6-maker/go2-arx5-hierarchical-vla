@@ -1,0 +1,293 @@
+{
+  "actual_initial_state_same_mjData": true,
+  "raw_limit_peak": {
+    "FL_hip_joint": 0,
+    "FL_thigh_joint": 0,
+    "FL_calf_joint": 0,
+    "FR_hip_joint": 0,
+    "FR_thigh_joint": 0,
+    "FR_calf_joint": 0,
+    "RL_hip_joint": 0,
+    "RL_thigh_joint": 0,
+    "RL_calf_joint": 0,
+    "RR_hip_joint": 0,
+    "RR_thigh_joint": 0,
+    "RR_calf_joint": 0,
+    "x5_joint1": 0,
+    "x5_joint2": 0,
+    "x5_joint3": 0,
+    "x5_joint4": 0,
+    "x5_joint5": 0,
+    "x5_joint6": 0
+  },
+  "native_warnings": false,
+  "illegal_contact": false,
+  "stop_records": [],
+  "physics_integrations_observed_lower_bound": 7558,
+  "exact_total_integrations": "UNOBSERVED",
+  "last_sim_s": 15.116000000001717,
+  "safe": true,
+  "original_result": {
+    "status": "RAW_COMPLETE",
+    "episode": "a7ff3a9a26c34aab9843fa5c4abecef3",
+    "mode": "interface-tests",
+    "condition": "hold",
+    "counts": {
+      "mode": 3,
+      "odom": 2694,
+      "arm": 2694,
+      "arm_target": 2694,
+      "ee": 2927,
+      "target": 146,
+      "observation": 2023,
+      "policy": 2022,
+      "arm_request": 2021,
+      "base": 2020
+    },
+    "native_mode": "WBC",
+    "task_elapsed_s": 10.000178503999999,
+    "topic_graph": [
+      [
+        "/go2_x5/arm/command/request",
+        [
+          "trajectory_msgs/msg/JointTrajectory"
+        ]
+      ],
+      [
+        "/go2_x5/arm/command/target",
+        [
+          "trajectory_msgs/msg/JointTrajectory"
+        ]
+      ],
+      [
+        "/go2_x5/arm/mode/request",
+        [
+          "std_msgs/msg/String"
+        ]
+      ],
+      [
+        "/go2_x5/arm/mode/state",
+        [
+          "std_msgs/msg/String"
+        ]
+      ],
+      [
+        "/go2_x5/arm/state",
+        [
+          "sensor_msgs/msg/JointState"
+        ]
+      ],
+      [
+        "/go2_x5/base/clear_goal",
+        [
+          "std_msgs/msg/Empty"
+        ]
+      ],
+      [
+        "/go2_x5/base/command",
+        [
+          "std_msgs/msg/Float32MultiArray"
+        ]
+      ],
+      [
+        "/go2_x5/base/gait_phase",
+        [
+          "std_msgs/msg/Float64MultiArray"
+        ]
+      ],
+      [
+        "/go2_x5/base/goal",
+        [
+          "geometry_msgs/msg/PoseStamped"
+        ]
+      ],
+      [
+        "/go2_x5/base/planned_path",
+        [
+          "nav_msgs/msg/Path"
+        ]
+      ],
+      [
+        "/go2_x5/ee/goal",
+        [
+          "geometry_msgs/msg/PoseStamped"
+        ]
+      ],
+      [
+        "/go2_x5/ee/marker_target",
+        [
+          "ocs2_msgs/msg/MpcTargetTrajectories"
+        ]
+      ],
+      [
+        "/go2_x5/ee/planned_path",
+        [
+          "nav_msgs/msg/Path"
+        ]
+      ],
+      [
+        "/go2_x5/ee/start_traj_tracking",
+        [
+          "std_msgs/msg/Empty"
+        ]
+      ],
+      [
+        "/go2_x5/ee/state",
+        [
+          "ocs2_msgs/msg/MpcObservation"
+        ]
+      ],
+      [
+        "/go2_x5/ee/trajectory_json",
+        [
+          "std_msgs/msg/String"
+        ]
+      ],
+      [
+        "/go2_x5/fsm/key",
+        [
+          "std_msgs/msg/String"
+        ]
+      ],
+      [
+        "/go2_x5/slam/odom",
+        [
+          "nav_msgs/msg/Odometry"
+        ]
+      ],
+      [
+        "/go2_x5/slam/odom_mocap",
+        [
+          "nav_msgs/msg/Odometry"
+        ]
+      ],
+      [
+        "/mobile_manipulator_mode_schedule",
+        [
+          "ocs2_msgs/msg/ModeSchedule"
+        ]
+      ],
+      [
+        "/mobile_manipulator_mpc_observation",
+        [
+          "ocs2_msgs/msg/MpcObservation"
+        ]
+      ],
+      [
+        "/mobile_manipulator_mpc_policy",
+        [
+          "ocs2_msgs/msg/MpcFlattenedController"
+        ]
+      ],
+      [
+        "/mobile_manipulator_mpc_target",
+        [
+          "ocs2_msgs/msg/MpcTargetTrajectories"
+        ]
+      ],
+      [
+        "/parameter_events",
+        [
+          "rcl_interfaces/msg/ParameterEvent"
+        ]
+      ],
+      [
+        "/rosout",
+        [
+          "rcl_interfaces/msg/Log"
+        ]
+      ]
+    ],
+    "pid_groups": [
+      3703126,
+      3703127
+    ],
+    "actual_source": "REAL_TARGET_PHYSICS",
+    "scope": "Must independently score clock/TCP/safety and reference before PASS",
+    "service_s": 17.252120463876054,
+    "stop_wall_s": 1791598254.1276488,
+    "returncodes": [
+      -2,
+      0
+    ],
+    "reset_method": "FRESH_WHOLE_STACK_NO_STATE_REUSE"
+  },
+  "inventory": [
+    {
+      "name": "control.jsonl",
+      "bytes": 550306,
+      "sha256": "f809313aeea169c318097bd5b43578e56bde16781ffb43b6108910a4c62d7af5"
+    },
+    {
+      "name": "initialization.jsonl",
+      "bytes": 406,
+      "sha256": "4fff62d2b22463b57e4ff22c0b1f843b3b3c17c6317f4090bea3544fbe4cfde9"
+    },
+    {
+      "name": "sim.log",
+      "bytes": 16746,
+      "sha256": "44edd8bf8c00a2f2c413f849df57ad858eebf1eaf6d244b89b872058bbf6444b"
+    },
+    {
+      "name": "CONTACT_SAFETY_ARMED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "wbc.log",
+      "bytes": 59326,
+      "sha256": "cf03824b76c504b8b211960cfd291a654a1a9f56927ea9a8e94b5b501dd275c0"
+    },
+    {
+      "name": "physics.jsonl",
+      "bytes": 12721513,
+      "sha256": "5a565c20f81b2b265a312588e0f90e4334a61817c07a1bc2112bc3cc11cced0e"
+    },
+    {
+      "name": "START.json",
+      "bytes": 716,
+      "sha256": "d7c4528c7748d9f9e091342ffa4711d19c1fb4636f4e2d1eeeb75e7217947682"
+    },
+    {
+      "name": "ISSUED.json",
+      "bytes": 109617,
+      "sha256": "cc25628345c28ac6f6662010b36f470a949cec32431548eb6af69917ca9c71f4"
+    },
+    {
+      "name": "RESULT.json",
+      "bytes": 3230,
+      "sha256": "faa4555ddd28812f00b9b17162aca2ba07c9507e4dd975724b8d2171f5695fcb"
+    },
+    {
+      "name": "TASK_START.json",
+      "bytes": 332,
+      "sha256": "d54048cdb16a66ba9548b0e7a5ba0baa892f5d9692c5c24fb06c9cddad21431d"
+    },
+    {
+      "name": "STARTUP_COMMANDS.jsonl",
+      "bytes": 160,
+      "sha256": "82677a8c42e6c64bd9703d1fe42a4bd6dc2855077556a11a59fb4a12ff708264"
+    },
+    {
+      "name": "BEFORE_FIRST_INTEGRATION.json",
+      "bytes": 1274,
+      "sha256": "0b08103199ac5a13a59fc9ed817c3c7051f6954a05f6898e9d81fff787221725"
+    },
+    {
+      "name": "PREEXECUTION_AUDIT.json",
+      "bytes": 9327,
+      "sha256": "292ceafe2b7daf204f84a5b004abdab8b0edc6fb36b3a9b540b856a7537bfd04"
+    },
+    {
+      "name": "planner.jsonl",
+      "bytes": 1835461,
+      "sha256": "cf9819247d7056645ef73fe1342d51427701b1b1f760681382e3c5c8459bf41c"
+    },
+    {
+      "name": "ros.jsonl",
+      "bytes": 76337343,
+      "sha256": "4d9dc4da8a4f1e5a275d27cf472941c66963ac9c9d33e41e3a452573067b0bfa"
+    }
+  ],
+  "dispatch_control_cycles_observed": 2695
+}

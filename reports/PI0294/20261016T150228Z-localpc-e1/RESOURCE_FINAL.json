@@ -1,0 +1,149 @@
+{
+  "schema": "E1_FINAL_RESOURCE_AND_LEASE_RECEIPT_V1",
+  "status": "E1_CLOSED_RESOURCE_TERMINAL_M2_COMPARISON_INCOMPLETE",
+  "run_uuid": "20261016T150228Z-localpc-e1",
+  "original_authority": "c851cc791e1fbb3efb293f7075f0e771518cf5c0",
+  "original_T0_epoch": 1792162948,
+  "original_hard_closeout_epoch": 1792292548,
+  "clock_reset": false,
+  "CPU": {
+    "Core_instrumented_and_allowance_s": 7858.55910860597,
+    "Core_cap_s": 172800,
+    "Hopper_instrumented_and_allowance_s": 12305.202313623004,
+    "Hopper_cap_s": 115200,
+    "initial_management_allowance_included_s_per_host": 180,
+    "whole_account_exact_OS_CPU_claim": false,
+    "uninstrumented_control_plane_overhead_not_separately_measured": true
+  },
+  "GPU": {
+    "status": "E1_TERMINAL_GPU_ACCOUNTED",
+    "allocations": [
+      {
+        "job_id": "670561.hopper-m-02",
+        "native_state": "F",
+        "exit": 1,
+        "GPU_native_s": 5190,
+        "GPU_conservative_s": 5200
+      },
+      {
+        "job_id": "670729.hopper-m-02",
+        "native_state": "F",
+        "exit": 1,
+        "GPU_native_s": 11159,
+        "GPU_conservative_s": 11163
+      },
+      {
+        "job_id": "671655.hopper-m-02",
+        "native_state": "F",
+        "exit": 0,
+        "GPU_native_s": 3308,
+        "GPU_conservative_s": 3312
+      }
+    ],
+    "GPU_conservative_s": 19675
+  },
+  "resources": {
+    "main_starts": 22,
+    "main_start_cap": 32,
+    "recovery_forks": 16,
+    "recovery_fork_cap": 16,
+    "live_and_recovery_integrations": 247400,
+    "live_and_recovery_integration_cap": 800000,
+    "shadow_integrations": 563150,
+    "shadow_integration_cap": 1200000,
+    "all_integrations": 810550,
+    "all_integrations_cap": 2000000,
+    "optimizer_updates": 2048,
+    "optimizer_update_cap": 2048,
+    "neural_generation_queries": 1450,
+    "neural_generation_query_cap": 3200,
+    "pending_optimizer_updates": 0,
+    "GPU_reserved_s": 0,
+    "Core_CPU_reserved_s": 0,
+    "Hopper_CPU_reserved_s": 0,
+    "physical_reservations": {},
+    "PBS_submissions_used": 3,
+    "PBS_submission_cap": 3,
+    "fourth_E1_submission_allowed": false
+  },
+  "sampled_owned_disk_bytes": {
+    "Core": 2397229056,
+    "Hopper": 89980477440,
+    "local_E1_private_run_at_0510UTC": 340168704,
+    "continuous_peak_measurement": false,
+    "symlink_targets_not_followed": true,
+    "new_output_caps_GiB": {
+      "Core": 40,
+      "Hopper": 120,
+      "local": 8
+    },
+    "logical_transfer_bytes_are_not_actual_network_metering": true
+  },
+  "checks": {
+    "core": {
+      "main_attempts": 22,
+      "fork_attempts": 16,
+      "condition_matrix_status": "PARTIAL_WITH_EXPLICIT_EVIDENCE_GAPS",
+      "condition_matrix_sha256": "986905844e4921f373819603ae6cafbe74054301c931dc2647d620c1897106b9",
+      "all_actual_attempt_evidence_accounted": true,
+      "main_actual_native_safety_flag_rows": 0,
+      "video_fixed_revision": "9a21fd9cb247aec85cf0306155952633769df342",
+      "source_physics_STOP_present": false
+    },
+    "hopper": {
+      "all_four_public_inference_revisions": {
+        "M1-256": "4fac803efe5fca3f829dd99e4d6f1b61fed1704e",
+        "M1-1024": "21554e7d3ea8afbeb98b1abaa4536b70fc4934c1",
+        "M2-BC": "3d5ca9a62056bb55be9885a484fe7b39d375a338",
+        "M2-CORR": "79efde7c62634aed79c0dba11aad76b8f9141727"
+      },
+      "all_final_panel_draws_known_completed": true,
+      "full_native_training_states_public": false
+    }
+  },
+  "closure": {
+    "core": {
+      "schema": "E1_LEASE_CLOSURE_RECEIPT_V1",
+      "status": "OWN_E1_LEASE_CLOSED_READBACK_VERIFIED",
+      "run_uuid": "20261016T150228Z-localpc-e1",
+      "role": "core",
+      "resource_snapshot_sha256": "ad1105ecd085b84af615eb364266a6781b03a514d9eb121675db4739410641c4",
+      "lease_sha256": "176de209ed904c66cbd1ba5789e73007e91c6f44d4b6b220a72a5a6bc34dfc93",
+      "lease_closed_epoch": 1792213981.923171,
+      "registry_own_lifecycle": "CLOSED_E1_BOUNDED_EXECUTION_WITH_SCIENTIFIC_GAPS",
+      "original_T0_epoch": 1792162948,
+      "original_hard_closeout_epoch": 1792292548,
+      "clock_or_budget_reset": false,
+      "no_GPU_PBS_model_or_physics_started": true,
+      "healthy_other_jobs_cancelled": false,
+      "selected": "NONE",
+      "deployment": "NONE"
+    },
+    "hopper": {
+      "schema": "E1_LEASE_CLOSURE_RECEIPT_V1",
+      "status": "OWN_E1_LEASE_CLOSED_READBACK_VERIFIED",
+      "run_uuid": "20261016T150228Z-localpc-e1",
+      "role": "hopper",
+      "resource_snapshot_sha256": "4dd045a53db9900bf95b1a5dfe6d6bdfc7b6a1c9f32cba000ebe71654b2f36a5",
+      "lease_sha256": "8e8e4fbbbf74632a4e97c7caf8118052b52c915b3a06dcfa20b20b860f4e1a2b",
+      "lease_closed_epoch": 1792213992.3323982,
+      "registry_own_lifecycle": "CLOSED_E1_BOUNDED_EXECUTION_WITH_SCIENTIFIC_GAPS",
+      "original_T0_epoch": 1792162948,
+      "original_hard_closeout_epoch": 1792292548,
+      "clock_or_budget_reset": false,
+      "no_GPU_PBS_model_or_physics_started": true,
+      "healthy_other_jobs_cancelled": false,
+      "selected": "NONE",
+      "deployment": "NONE"
+    }
+  },
+  "all_known_registered_workers_terminal_at_closure": true,
+  "all_15_frozen_numerical_files_unchanged": true,
+  "old_E0_leases_CLOSED": true,
+  "TF_R3_STOP_not_released": true,
+  "healthy_other_jobs_cancelled": false,
+  "new_MP1_GPU_PBS_model_or_physics": 0,
+  "unused_old_GPU_seconds_not_transferred_to_MP1": true,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

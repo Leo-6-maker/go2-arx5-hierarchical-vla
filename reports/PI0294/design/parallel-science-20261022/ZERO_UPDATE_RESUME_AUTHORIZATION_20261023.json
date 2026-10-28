@@ -1,0 +1,79 @@
+{
+  "schema": "VAP1_ZERO_UPDATE_RESUME_AUTHORIZATION_V1",
+  "status": "HUMAN_AUTHORIZED_EXACT_PRESERVED_COST_RESUME",
+  "approved_epoch": 1792695381.3922973,
+  "approval_evidence": {
+    "source": "DIRECT_HUMAN_REPLY_IN_OWNER_THREAD",
+    "reply": "批准三项调整，继续原实验（推荐）",
+    "question": "DEC1 PBS12→13; DEC1/global output418/485→483/550GiB. Resume original A2048 then independent B; no other scope or clocks change."
+  },
+  "approved_draft_commit": "cbf6b610577620ce8cf50c23a912ccfa436f6d6c",
+  "approved_draft_sha256": "9d2b93ec2cebcadc39534f25cec6499f386dd5df372a74b86b50ba61a8003cfd",
+  "narrow_changes": {
+    "DEC1_new_PBS": [
+      12,
+      13
+    ],
+    "DEC1_GPU_site_output_GiB": [
+      418,
+      483
+    ],
+    "global_GPU_site_output_GiB": [
+      485,
+      550
+    ]
+  },
+  "prior_heartbeat_release": "d8908d7aeb4e01bb49016d1a1aabc801b91c9c86",
+  "prior_heartbeat_grant_sha256": "b27902561f14d963bc1b307b6cbe7a73db6556b08ab52128f4eca5b928903f18",
+  "failed_job": "1477127.stdct-mgmt-02",
+  "failed_request": "bbb04faa-fd21-4dbd-af73-1ee8e4c0661b",
+  "failed_source": "df6427f791fdbe8f175906f240eb3413bf096cbf",
+  "closed_gpu_receipt_sha256": "fb0a148dc06b7ba1fecd02158d7ec2f76e5b4617e94ae8ae08acd3ad1293cc93",
+  "closed_control_receipt_sha256": "a5f854b15f73a2d9c98db6e1728bf68e1653b3c52a432e677a3fc4ebd81f6349",
+  "seed_checkpoint2048_sha256": "1336326d908bbc91c36f871f0846b316c2bea08bada2bcee0b1bcc9bcb0e5486",
+  "original_T0_epoch": 1792348196,
+  "original_clock": {
+    "stop_new_jobs_epoch": 1792866596,
+    "stop_training_epoch": 1792909796,
+    "stop_physics_epoch": 1792924196,
+    "hard_closeout_epoch": 1792952996
+  },
+  "recovery_semantics": {
+    "original_A2048_seed": true,
+    "cursor": 65536,
+    "new_request_new_registration_new_lease_required": true,
+    "reuse_logical_A_CONTROL_HEARTBEAT_RECOVERY2_lineage_with_zero_new_effects": true,
+    "no_closed_request_or_owner_restart": true,
+    "A_remaining_updates": 2048,
+    "B_independent_original_CORR_remaining_updates": 4096,
+    "all_cumulative_updates_at_completion": 9987,
+    "old1024_2819_and_zero_update_failure_costs_preserved": true,
+    "all_checkpoints_retained": true,
+    "no_repeat_A12probes": true
+  },
+  "all_checkpoints_preserved": true,
+  "retirement_credit_bytes": 0,
+  "updates_cap_unchanged": 9987,
+  "global_PBS_cap_unchanged": 24,
+  "unchanged": [
+    "DEC1_52GPUh",
+    "global96GPUh",
+    "global24PBS",
+    "updates9987",
+    "all_CPU_query_physics_transfer_caps",
+    "final20GPUh_and40GiB",
+    "R0_WBC_S1_recipe_sampler_score",
+    "all_checkpoints",
+    "originalT0_and_cutoffs"
+  ],
+  "implementation_limits": [
+    "One newly registered cold owner and a new request/nonce/leases; do not restart the closed request.",
+    "Continue the already adopted A_CONTROL_HEARTBEAT_RECOVERY2 logical lineage at2048; no invented progress or cost seed.",
+    "Original2048 full-state intake and original12A probes; A4096 actual audit/once settlement/dual closure before independent originalCORR B.",
+    "Original300s native watchdog and30/40s RPC limits, unknown writes never automatically replayed.",
+    "Exact fresh all-remaining resource, site quota and native queue admission still required."
+  ],
+  "not_native_adoption": true,
+  "new_registration_submission_or_model_effects": 0,
+  "goal_complete": false
+}

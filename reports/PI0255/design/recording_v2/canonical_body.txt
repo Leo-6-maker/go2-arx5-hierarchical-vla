@@ -1,0 +1,11 @@
+PI0255 recording-only V2 prospective continuation
+
+Immutable code: 9832bad (pi0255/motion3-data-model-ready-20260929), reports/PI0255/design/RECORDING_V2.md and native CPU receipts.
+
+Original dispatcher paused between episodes; its running child completed unchanged. 23 original first-valid pilots are retained (0 successes; no task-phase data so far). No original valid episode is repeated. The remaining 13 registered pilot IDs will use an independently sealed runtime_v2.
+
+Registry SHA256 d56ad8f468af4c26af97d5bf240e947baaabde5c6072770a1d478b699d01ee5e and expert/scorer SHA256 c2075c30ba5fd9345b753b6632d0f33bc5af1638757c96fb4ade06f7e6668f40 remain unchanged. Changes only: raw tick per-row flush plus final durable fsync, actual full handoff arrays/hash, episode-local execution seal and versioned dispatcher paths. Gate/WBC/physics/expert/thresholds/seeds unchanged.
+
+Native CPU checks PASS: same actual step arguments/return, first-step budget, actual NPZ/JSON loader privilege rejection, identical raw JSON bytes/selective fsync. New CPU physics=0, GR00T loads/queries/gradients/updates=0.
+
+Original V1 missing full chunk arrays are a retained evidence deviation; no reconstruction or exact full gate/codec parity claim. This publication precedes the first V2 physics step. Continue fixed pilots; no collection admission or model-training readiness is claimed.

@@ -1,0 +1,100 @@
+{
+  "status": "BC_SESSION_TERMINAL_TWO_VALID_OUTCOMES_TWO_ENGINEERING_MISSING_CONDITIONS_CORR_STILL_RUNNING",
+  "model": "ORIGINAL_E1_M2_BC_AT_512",
+  "checkpoint_manifest_sha256": "edc0f390776056f9b22cd07d152c8fd5e273556f1d242f8e4f220b3034f9ffe6",
+  "parent_run": "20261016T191445Z-localpc-mp1",
+  "latest_child": "e1-panel-recovery-03",
+  "job_id": "671899.hopper-m-02",
+  "job_still_running_original_CORR_conditions": true,
+  "new_optimizer_updates": 0,
+  "Teacher": "OFF",
+  "original_S1_D0_statistics_and_score": "UNCHANGED",
+  "conditions": [
+    {
+      "scene": "F0/000", "task": "T1", "status": "ENGINEERING_INCOMPLETE",
+      "prior_MP1_attempts": 2, "attempts_exhausted": true,
+      "new_child03_attempt": "NOT_ALLOWED_NOT_RUN",
+      "preserved_prior_receipt": "MP1_E1_M2_RECOVERY_BEHAVIOR_MATRIX.json"
+    },
+    {
+      "scene": "F0/000", "task": "T2", "status": "ENGINEERING_INCOMPLETE",
+      "MP1_attempts": 2, "attempts_exhausted": true,
+      "latest_sim_s": 29.35, "latest_integrations": 14675, "latest_RGB_pairs": 588,
+      "failure_stage": "ORIGINAL_900S_EPISODE_WATCHDOG_PREFIX_EXPIRED",
+      "hold_observed_pass": "28/28_NOT_ALL_REQUIRED41",
+      "S1_rejections": 0, "native_safety_failures": 0,
+      "independent_audit": "PASS_18_CHECKS_NOT_TASK_SUCCESS",
+      "video_sha256": "05534ffc505b1cfd8e8186733005615721265d199efe96f3414ace9fd2601819"
+    },
+    {
+      "scene": "F1/000", "task": "T1", "status": "SUCCESS",
+      "sim_s": 32.0, "integrations": 16000, "RGB_pairs": 641,
+      "hold_pass": "41/41", "S1_rejections": 0, "native_safety_failures": 0,
+      "independent_audit": "PASS_18_CHECKS_AND_80_CROSS_HOST_ACTUAL_ACK_CHAINS",
+      "receipt": "M2_BC_COMPLETE_T1_AND_CLOSED_LOOP_QUALIFICATION.json",
+      "video_sha256": "09fb38b4dd3365f4fa9eb2200f00c61b731e38100411101b5336645c1bfc3a2d"
+    },
+    {
+      "scene": "F1/000", "task": "T2", "status": "VALID_TASK_FAIL",
+      "failure_stage": "S1_PRE_EXECUTION_REJECT",
+      "attempt": "PI0294-MP1-E1REC-M2-BC-512-TRAIN4-F1-000-T2",
+      "sim_s": 21.2, "integrations": 10600, "RGB_pairs": 425,
+      "S1_rejections": 1, "rejected_prefix_live_integrations": 0,
+      "native_safety_failures": 0,
+      "maximum_live_shadow_difference": 1.1368683772161603e-13,
+      "object_XY_displacement_m": 0.14895508074711145,
+      "maximum_lift_m": 0.0005030443895163161,
+      "hold_observations": 0,
+      "result_sha256": "d465a58694fa8851a7b15adfecd7615c3c66f8a712509e03ac93478d81caf592",
+      "physics_sha256": "4a4a17a2c9f59b86196884426087ae52a46e2be2bfdf5709183642737f0346c2",
+      "independent_audit": "PASS_19_RAW_SCORE_LABEL_CONTACT_AND_VIDEO_CHECKS",
+      "audit_worker_terminal_verified": true,
+      "video_sha256": "87b455b4df4b2ac6e666c5cdbdcc5ff9ebf074c044c663895b28914fc6fd38aa",
+      "video_bytes": 739540, "video_fully_decoded_frames": 425,
+      "video_native_s": 21.2, "video_playback_s": 21.25,
+      "video_padding_or_interpolation": false,
+      "valid_failure_will_not_be_repeated": true,
+      "first_illegal_geom_pair": "NOT_YET_INDEPENDENTLY_ATTRIBUTED_DO_NOT_SUBSTITUTE_M1_PAIR"
+    }
+  ],
+  "full_four_condition_accounting": {
+    "SUCCESS": 1, "VALID_TASK_FAIL": 1, "ENGINEERING_INCOMPLETE": 2,
+    "valid_policy_outcomes": 2, "planned_conditions": 4,
+    "engineering_missing_are_not_policy_zeroes": true,
+    "two_valid_outcomes_share_the_same_seen_F1_scene": true,
+    "generalization_or_precise_population_success_rate_claim": false
+  },
+  "actual_child03_BC_session_reconciliation": {
+    "native_session_status": "MP1_NATIVE_SESSION_TERMINAL_NOT_TASK_SUCCESS",
+    "model_generations": 208,
+    "complete_actual_prefix_ACKs": 206,
+    "partially_executed_engineering_terminal_prefixes": 1,
+    "partial_prefix_actual_integrations": 75,
+    "S1_rejected_zero_live_prefixes": 1,
+    "actual_live_integrations": 41275,
+    "actual_live_identity": "206_TIMES200_PLUS75",
+    "pending_generation_reservation": null,
+    "unknown_effect_resends": 0,
+    "new_three_attempts_independent_audits": "ALL_PASS_NOT_ALL_TASK_SUCCESS",
+    "new_three_videos_fully_decoded_frames": 1654,
+    "new_public_HF_video_upload": "NOT_YET_PERFORMED"
+  },
+  "metadata_observers": {
+    "scientific_capsule_source": "4d4305562a5605aa7822fde21267601686f443db",
+    "scientific_capsule_hot_changed": false,
+    "read_side_assistance_and_observer_effects_disclosed": true,
+    "enumeration_observer01": "NATURAL_TERMINAL_1800_036S_8922_SCANS_NO_PACKET_MUTATIONS",
+    "observer01_Hopper_CPU_charge_upper_s": 600,
+    "observer01_CPU_reservation": 0,
+    "observer02_and_same_algorithm_CORR_observer03": "ACTIVE_600CPU_SECONDS_RESERVED_EACH_UNTIL_TERMINAL",
+    "CORR_observer03_source": "b723bf242076e52bd845cfbd40134260e1588a5b",
+    "CORR_observer03_binding_sha256": "17f8633439074acb42195f86f935a0d4e1ca6228e69d27a03d6bebe9a5fb6d08",
+    "unassisted_transport_performance_claim": false
+  },
+  "remaining_scope": "ORIGINAL_M2_CORR_ELIGIBLE_CONDITIONS_IN_SAME_BOUNDED_JOB_NO_FOURTH_QSUB",
+  "full_model_comparison_or_correction_gain": "NOT_ESTABLISHED_BC_CORR_TASK_EXPOSURES_CONFOUNDED",
+  "Vanda_camera_runtime": "JOB1463728_QUEUED_NO_WBC_OR_PHYSICS",
+  "TF_R3_STOP": "PRESERVED",
+  "selected": "NONE",
+  "deployment": "NONE"
+}

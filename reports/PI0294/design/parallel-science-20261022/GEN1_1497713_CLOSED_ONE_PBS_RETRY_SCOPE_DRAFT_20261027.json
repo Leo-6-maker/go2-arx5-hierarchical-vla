@@ -1,0 +1,240 @@
+{
+  "schema": "GEN1_EXACT_CLOSED_FAILURE_SINGLE_PBS_RETRY_SCOPE_DRAFT_V1",
+  "status": "PREPARED_NOT_HUMAN_AUTHORIZED_NOT_NATIVE_ADOPTED",
+  "existing_grant": "da68cbfdc376dffe348c3c5a98cc08c8f44b2e6b",
+  "actual_failure_report": "reports/PI0294/design/parallel-science-20261022/GEN1_1497713_PRERELEASE_FAILURE_ONCE_CLOSED_AND_COLD_STARTUP_FIX_ACTUAL_20261027.json",
+  "actual_closed_GLOBAL_sha256": "56bd5f8498e5595564b6d317ad7741f228f7f428ec55ce841086ec045840c764",
+  "actual_closed_lease_sha256": "efa09e3f32bfa1934fb80d4977ac1cce944a63f21b400441d3dbc2b84f62e5af",
+  "requested_cap_changes": {
+    "PBS_submissions": {
+      "before": 36,
+      "after": 37
+    }
+  },
+  "reason": "Actual33 submissions already charged. One new independent CORR2048->1024 retry plus original protected3matrix submissions requires37. Never reuse failed request or borrow protected slots.",
+  "retained_work": [
+    "Same ten saved R0-admitted TRAIN parents and all original12 outcomes",
+    "Same isolated boundedCPU bank finalization and original17 pretrain compatibility",
+    "Independent commonCORR2048 fresh optimizer1024/15full-state+original12probe audit",
+    "Original C50,D25,new GEN eventual24-cell Core evaluations",
+    "Original3matrix and final20GPUh40GiB"
+  ],
+  "full_future": {
+    "task": "GEN1_AMD_LAYOUT_PILOT_CORR1024_V1",
+    "GLOBAL_sha256": "56bd5f8498e5595564b6d317ad7741f228f7f428ec55ce841086ec045840c764",
+    "LOCAL_is_historical": true,
+    "native_admission": false,
+    "scope_adopted": false,
+    "dimensions": {
+      "H200_s": {
+        "cap": 435600,
+        "used": 150429.0,
+        "reserved": 57720,
+        "successor": 28860,
+        "exact_existing_package_credit": 28860,
+        "matrix": 86580,
+        "final": 72000,
+        "projected": 421749.0,
+        "shortfall": 0,
+        "additional": 55020,
+        "proposed_cap": 435600
+      },
+      "PBS_submissions": {
+        "cap": 36,
+        "used": 33,
+        "reserved": 0,
+        "successor": 1,
+        "exact_existing_package_credit": 0,
+        "matrix": 3,
+        "final": 0,
+        "projected": 37,
+        "shortfall": 1,
+        "additional": 0,
+        "proposed_cap": 37
+      },
+      "optimizer_updates": {
+        "cap": 16384,
+        "used": 13762,
+        "reserved": 0,
+        "successor": 0,
+        "exact_existing_package_credit": 0,
+        "matrix": 0,
+        "final": 0,
+        "projected": 14786,
+        "shortfall": 0,
+        "additional": 1024,
+        "proposed_cap": 16384
+      },
+      "episode_starts": {
+        "cap": 1000,
+        "used": 391,
+        "reserved": 0,
+        "successor": 26,
+        "exact_existing_package_credit": 0,
+        "matrix": 88,
+        "final": 100,
+        "projected": 671,
+        "shortfall": 0,
+        "additional": 66,
+        "proposed_cap": 1000
+      },
+      "neural_queries": {
+        "cap": 48000,
+        "used": 4482,
+        "reserved": 2097,
+        "successor": 2097,
+        "exact_existing_package_credit": 2097,
+        "matrix": 7040,
+        "final": 9000,
+        "projected": 26842,
+        "shortfall": 0,
+        "additional": 4223,
+        "proposed_cap": 48000
+      },
+      "physics_ticks": {
+        "cap": 40000000,
+        "used": 11951979,
+        "reserved": 0,
+        "successor": 832000,
+        "exact_existing_package_credit": 0,
+        "matrix": 2816000,
+        "final": 3200000,
+        "projected": 20908679,
+        "shortfall": 0,
+        "additional": 2108700,
+        "proposed_cap": 40000000
+      },
+      "engine_starts": {
+        "cap": 100000,
+        "used": 33139,
+        "reserved": 0,
+        "successor": 2136,
+        "exact_existing_package_credit": 0,
+        "matrix": 7128,
+        "final": 0,
+        "projected": 47885,
+        "shortfall": 0,
+        "additional": 5482,
+        "proposed_cap": 100000
+      },
+      "Core_CPU_s": {
+        "cap": 1152000,
+        "used": 251423.97787135502,
+        "reserved": 349000.0,
+        "successor": 349000,
+        "exact_existing_package_credit": 349000.0,
+        "matrix": 193968.05627,
+        "final": 0,
+        "projected": 1017479.77817062,
+        "shortfall": 0,
+        "additional": 223087.744029265,
+        "proposed_cap": 1152000
+      },
+      "Hopper_CPU_s": {
+        "cap": 766800,
+        "used": 241717.658597758,
+        "reserved": 182413.0,
+        "successor": 182413,
+        "exact_existing_package_credit": 182413.0,
+        "matrix": 85520,
+        "final": 0,
+        "projected": 652650.658597758,
+        "shortfall": 0,
+        "additional": 143000,
+        "proposed_cap": 766800
+      },
+      "local_CPU_s": {
+        "cap": 172800,
+        "used": 109348.974682509,
+        "reserved": 8040.0,
+        "successor": 8040,
+        "exact_existing_package_credit": 8040.0,
+        "matrix": 6600,
+        "final": 0,
+        "projected": 135703.974682509,
+        "shortfall": 0,
+        "additional": 11715,
+        "proposed_cap": 172800
+      },
+      "transfer_bytes": {
+        "cap": 356482285568,
+        "used": 168004187601,
+        "reserved": 0,
+        "successor": 56358270576,
+        "exact_existing_package_credit": 0,
+        "matrix": 6174015488,
+        "final": 0,
+        "projected": 356406352161,
+        "shortfall": 0,
+        "additional": 125869878496,
+        "proposed_cap": 356482285568
+      },
+      "Hopper_storage_bytes": {
+        "cap": 1262720385024,
+        "used": 1012029608596,
+        "reserved": 42708204344,
+        "successor": 42708204344,
+        "exact_existing_package_credit": 42708204344,
+        "matrix": 9442971836,
+        "final": 42949672960,
+        "projected": 1262681084152,
+        "shortfall": 0,
+        "additional": 155550626416,
+        "proposed_cap": 1262720385024
+      },
+      "Core_storage_bytes": {
+        "cap": 512174850048,
+        "used": 369607213904,
+        "reserved": 0,
+        "successor": 34252487480,
+        "exact_existing_package_credit": 0,
+        "matrix": 17968398336,
+        "final": 0,
+        "projected": 512143455480,
+        "shortfall": 0,
+        "additional": 90315355760,
+        "proposed_cap": 512174850048
+      },
+      "local_storage_bytes": {
+        "cap": 21474836480,
+        "used": 9126805504,
+        "reserved": 0,
+        "successor": 268435456,
+        "exact_existing_package_credit": 0,
+        "matrix": 0,
+        "final": 0,
+        "projected": 9395240960,
+        "shortfall": 0,
+        "additional": 0,
+        "proposed_cap": 21474836480
+      }
+    },
+    "cap_changes_required": {
+      "PBS_submissions": {
+        "before": 36,
+        "after": 37,
+        "after_GiB": null
+      }
+    },
+    "old_costs_refunded": false,
+    "original_C_D_Eval_and_new_GEN_Eval_forecast_retained": true,
+    "matrix3_and_final20GPUh40GiB_retained": true,
+    "T_CD": 1792932749.8133287,
+    "deadline": 1793537549.8133287,
+    "stop_new_training": 1793451149.8133287
+  },
+  "all_other_caps_clocks_recipe_R0_S1_scores_and_valid_failures_unchanged": true,
+  "old_actual_costs_and_metadata_preserved": true,
+  "teacher_collection_or_official_export_repeated": false,
+  "retry_registered": false,
+  "retry_submitted": false,
+  "ordinary_cold_fix_no_new_scheduler": true,
+  "original_T_CD": 1792932749.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "deadline_epoch": 1793537549.8133287,
+  "remaining_native_requirements": [
+    "Explicit narrow count approval and once-adopted exact grant",
+    "New immutable cold run identity/request and fresh fullqueue/quota/resource admission",
+    "Original strict bank/model/first-update gates and true effects audit/once closure"
+  ]
+}

@@ -1,0 +1,6 @@
+PI0260-R3 S3 recovery gate closed. With the same original model initializers, dtype, frozen visits/noise, full S4 loss and original 1e-6 tolerance, enabling deterministic PyTorch operations (`CUBLAS_WORKSPACE_CONFIG=:4096:8`) yielded real full-Trainer 8 versus fresh-process 4+restore+4 PASS for **both** arms:
+
+- Base: PBS `638852`, 1030 model tensors max abs 0, 1413 optimizer tensors max abs 0, scheduler LR 0; condition/epsilon/tau byte identities and mode restoration matched. Receipt SHA256 `b904627035f4b1e2daddf7eaf23e3bc5ce9080884d9c3f3b5cf374d06c467dcf`.
+- G: PBS `638856`, same counts and all three max differences 0; condition/epsilon/tau and mode matched. Receipt SHA256 `661f182b5c9193e679bfc2daacb81ebc1f062918d97e314132754d90cae7f778`.
+
+Both canary weights are discarded recovery tests. Earlier cross-host and same-host non-deterministic failures remain raw evidence, not reclassified. Main Base from the original fixed initializer has started as PBS `638858`, first segment to checkpoint-1000 of the frozen 6000-step plan. G main remains unstarted and unchanged. No quality query, selector, or deployment checkpoint exists. Code and small receipts are at commit `b848c73`.

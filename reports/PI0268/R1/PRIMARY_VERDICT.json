@@ -1,0 +1,522 @@
+{
+  "NUMERICAL_TREATMENT_EFFECT": {
+    "PASS": false,
+    "XY_coupled_by_task": [
+      {
+        "PASS": true,
+        "points": {
+          "OLD0": {
+            "REJECT": 0,
+            "median_so3_rmse_rad": 0.05244934841345664,
+            "median_xyz_rmse_m": 0.01470854567432037,
+            "nonfinite": 0,
+            "total": 32
+          },
+          "OLD2048": {
+            "REJECT": 0,
+            "median_so3_rmse_rad": 0.053497294953706157,
+            "median_xyz_rmse_m": 0.016781976869372585,
+            "nonfinite": 0,
+            "total": 32
+          },
+          "ROT0": {
+            "REJECT": 32,
+            "median_so3_rmse_rad": 1.8384097692496248,
+            "median_xyz_rmse_m": 0.01077376690439702,
+            "nonfinite": 0,
+            "total": 32
+          },
+          "ROT2048": {
+            "REJECT": 0,
+            "median_so3_rmse_rad": 0.035270282582960125,
+            "median_xyz_rmse_m": 0.0073921576345373765,
+            "nonfinite": 0,
+            "total": 32
+          }
+        },
+        "task": "M1"
+      },
+      {
+        "PASS": true,
+        "points": {
+          "OLD0": {
+            "REJECT": 0,
+            "median_so3_rmse_rad": 0.04742509749583547,
+            "median_xyz_rmse_m": 0.014534867317931245,
+            "nonfinite": 0,
+            "total": 32
+          },
+          "OLD2048": {
+            "REJECT": 0,
+            "median_so3_rmse_rad": 0.051851361287802954,
+            "median_xyz_rmse_m": 0.018650107352188583,
+            "nonfinite": 0,
+            "total": 32
+          },
+          "ROT0": {
+            "REJECT": 9,
+            "median_so3_rmse_rad": 0.774304966857688,
+            "median_xyz_rmse_m": 0.01606850467052254,
+            "nonfinite": 0,
+            "total": 32
+          },
+          "ROT2048": {
+            "REJECT": 0,
+            "median_so3_rmse_rad": 0.051241328316762744,
+            "median_xyz_rmse_m": 0.018406677285044887,
+            "nonfinite": 0,
+            "total": 32
+          }
+        },
+        "task": "M3"
+      }
+    ],
+    "legacy": {
+      "OLD0": {
+        "REJECT": 0,
+        "median_so3_rmse_rad": 0.005771907030069851,
+        "median_xyz_rmse_m": 0.007349908555566685,
+        "nonfinite": 0,
+        "total": 440
+      },
+      "OLD2048": {
+        "REJECT": 0,
+        "median_so3_rmse_rad": 0.02342575850834791,
+        "median_xyz_rmse_m": 0.013940902634710324,
+        "nonfinite": 0,
+        "total": 440
+      },
+      "ROT0": {
+        "REJECT": 330,
+        "median_so3_rmse_rad": 0.8626350385865453,
+        "median_xyz_rmse_m": 0.009489565884201683,
+        "nonfinite": 0,
+        "total": 440
+      },
+      "ROT2048": {
+        "REJECT": 0,
+        "median_so3_rmse_rad": 0.046877545849429575,
+        "median_xyz_rmse_m": 0.015121491176463085,
+        "nonfinite": 0,
+        "total": 440
+      }
+    },
+    "no_legacy_regression": false,
+    "rejection_reduction_met": true
+  },
+  "ORIGINAL_VIRTUAL_QUALIFICATION": {
+    "OLD0": {
+      "PASS": false,
+      "full64_safe": true,
+      "groups": [
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            2,
+            4
+          ],
+          "success": 6,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            3,
+            4
+          ],
+          "success": 7,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        }
+      ]
+    },
+    "OLD2048": {
+      "PASS": false,
+      "full64_safe": true,
+      "groups": [
+        {
+          "PASS": true,
+          "backend": "E0",
+          "command_success": [
+            7,
+            8
+          ],
+          "success": 15,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": true,
+          "backend": "E1",
+          "command_success": [
+            7,
+            8
+          ],
+          "success": 15,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        }
+      ]
+    },
+    "ROT0": {
+      "PASS": false,
+      "full64_safe": false,
+      "groups": [
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        }
+      ]
+    },
+    "ROT2048": {
+      "PASS": false,
+      "full64_safe": true,
+      "groups": [
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            7,
+            4
+          ],
+          "success": 11,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            7,
+            4
+          ],
+          "success": 11,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        }
+      ]
+    }
+  },
+  "RELIABLE_VIRTUAL_QUALIFICATION": {
+    "OLD0": {
+      "PASS": false,
+      "full64_safe": true,
+      "groups": [
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        }
+      ]
+    },
+    "OLD2048": {
+      "PASS": false,
+      "full64_safe": true,
+      "groups": [
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        }
+      ]
+    },
+    "ROT0": {
+      "PASS": false,
+      "full64_safe": false,
+      "groups": [
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        }
+      ]
+    },
+    "ROT2048": {
+      "PASS": false,
+      "full64_safe": true,
+      "groups": [
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M1",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E0",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        },
+        {
+          "PASS": false,
+          "backend": "E1",
+          "command_success": [
+            0,
+            0
+          ],
+          "success": 0,
+          "task": "M3",
+          "total": 16
+        }
+      ]
+    }
+  },
+  "deployment_selected_checkpoint": "NONE",
+  "exact_OLD0_offline_reuse": 440,
+  "exact_OLD0_virtual_reuse": 64,
+  "interpretation": "VALID_QUALITY_FAIL",
+  "not_WBC_not_physical_not_blind_TEST": true,
+  "offline_rows": 3872,
+  "reliable_virtual_research_candidates": [],
+  "same_weights_different_processors_are_different_initial_policies": true,
+  "selected_checkpoint": "NONE",
+  "status": "PRIMARY_COMPLETE",
+  "virtual_episodes": 256
+}

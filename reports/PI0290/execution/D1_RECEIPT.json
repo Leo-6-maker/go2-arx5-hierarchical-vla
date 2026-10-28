@@ -1,0 +1,69 @@
+{
+  "stage": "D1",
+  "status": "PASS_REAL_GRASP_AND_CONTACT_NEGATIVES",
+  "authority": "e9918c68d03cc9a1049aa33e2bd2b0ef4eaea398",
+  "canonical": 6127997973,
+  "final_physics_source_sha": "50bacdf2de2cf505b5cebfd6d9dc9a6b45fa5e52",
+  "physical_versions": 2,
+  "backend": "Mesa llvmpipe CPU; no GPU sharing",
+  "episodes": [
+    {
+      "id": "C2900",
+      "status": "ENGINEERING_INCOMPLETE",
+      "source_sha": "126abb6347641653e8c02813d32eab237cdbb912",
+      "physics_steps": 194,
+      "paired_samples": 8,
+      "error": "FINGER_VELOCITY; external rotational damping instability",
+      "physics_sha256": "a740822dc9e6834fbd0dc719cee625a533a8c8f3723af20e427c5ac090e0c939"
+    },
+    {
+      "id": "C2901",
+      "mode": "empty_grasp",
+      "physics_steps": 16000,
+      "paired_samples": 641,
+      "safety_valid": true,
+      "grasp_samples": 0,
+      "physics_sha256": "a596d3b3b98dc2dd2b87479ecff37b6d1e59775c0ad7ceaf17300313a46ffca3",
+      "postprocess_recovery": "Contact-negative fixture scored separately after generic T1 separation check rejected actual displaced source; no physics rerun; CPU upper 97.05274963378906 s"
+    },
+    {
+      "id": "C2902",
+      "mode": "single_side",
+      "physics_steps": 16000,
+      "paired_samples": 641,
+      "safety_valid": true,
+      "sustained_grasp": false,
+      "physics_sha256": "5f531c1873c9f8765d5f0ff5fbae264ce720cf38e8e4205243e1023d19db68cd"
+    },
+    {
+      "id": "C2903",
+      "mode": "normal",
+      "physics_steps": 16000,
+      "paired_samples": 641,
+      "safety_valid": true,
+      "sustained_grasp": true,
+      "sustained_lift": true,
+      "horizontal_carry": true,
+      "maximum_lift_m": 0.07839998059348724,
+      "maximum_carry_xy_m": 0.274039085660322,
+      "hold_pass": 41,
+      "hold_observed": 41,
+      "persistent_success": true,
+      "physics_sha256": "2feb80c6d786fb941adf7663aeb690815c033f2b91fd120290113104b2e43e35",
+      "video_sha256": "d4d120a4a60db54023ff85093e7e5ad8775ef3e72043f60c377601bbb15cd4d1",
+      "video_frames": 641,
+      "video_bytes": 617216
+    }
+  ],
+  "raw_location": "Corelab PI0290/episodes/{id}",
+  "calibration": "per actual sample K/T_world_optical and object fixed-point projections recorded; independent D3 kinematics audit pending",
+  "original_failure_preserved": true,
+  "quality_retry": false,
+  "pilot_started": false,
+  "GR00T": 0,
+  "WBC": 0,
+  "Hopper_PBS": 0,
+  "selected": "NONE",
+  "deployment": "NONE",
+  "domain": "INDEPENDENT_DYNAMIC_TOOL_SIM_ONLY_NON_REALTIME"
+}

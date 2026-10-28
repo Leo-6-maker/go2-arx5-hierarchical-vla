@@ -1,0 +1,43 @@
+{
+  "status": "PASS_OWNER_BOTH_PINNED_FULL_TRAINER_IDENTITIES_AFTER_CLASSIFICATION_RECONCILIATION",
+  "checked_epoch": 1791527722.4571962,
+  "arms": {
+    "C0_REPLAY1024": {
+      "status": "OWNER_INDEPENDENT_LOCAL_RECEIPT_14_FILE_NATIVE_UPLOAD_READBACK_EQUALITY_PASS",
+      "revision": "b0b8c65de8d5bbdf0946ccdda9ecb23348cf16c9",
+      "prefix": "arms/PI0286/C0_REPLAY1024/checkpoint-1024",
+      "repo": "leoyuer/pi0246-gate-pass-campaign",
+      "tree_sha256": "e61e2d5288dab9a0408a67bd88583d022e3c85d42aef5ebfbe699957bcb3d7ab",
+      "bytes": 20468176040,
+      "files": 14,
+      "local_hopper_classification": "HF_ONLY_FULL_TRAINER_LOCAL_METADATA_ONLY_NOT_RESUME",
+      "core_classification": "MODEL_ONLY_NATIVE_BF16_NOT_TRAINER_RESUME",
+      "actual_receipts": {
+        "reports\\PI0286\\archival\\C0\\checkpoint-1024.full_readback.json": "daba4bae104b639a672a6b15721cd76f0e00aa546cde3b8dcd5f6ad25eb40169",
+        "reports\\PI0286\\archival\\C0\\checkpoint-1024.archive_receipt.json": "66f7678bbccf390c3dba2661f1c6b1b9a31df830d8546a442a02cced8d0f2630",
+        "reports\\PI0286\\archival\\C0\\C0_REPLAY1024-1024_TRAINING_CPU.json": "5f41404bd6463ee2edfed76b0efc8ec04f3c23e9cf332898f74b06e50f61face"
+      }
+    },
+    "C1_CORRECT1024": {
+      "status": "OWNER_INDEPENDENT_LOCAL_RECEIPT_14_FILE_NATIVE_UPLOAD_READBACK_EQUALITY_PASS",
+      "revision": "d35dcda18def3d0691b55957ce461fe6b8449437",
+      "prefix": "arms/PI0286/C1_CORRECT1024/checkpoint-1024",
+      "repo": "leoyuer/pi0246-gate-pass-campaign",
+      "tree_sha256": "df2bfeedc443e68fe8f06d60f2786e02cd128e5e2dc881011d3ebfed37f8ad5f",
+      "bytes": 20468176035,
+      "files": 14,
+      "local_hopper_classification": "LOCAL_COMPLETE_FULL_TRAINER_AND_PINNED_HF",
+      "core_classification": "MODEL_ONLY_NATIVE_BF16_NOT_TRAINER_RESUME",
+      "actual_receipts": {
+        "reports\\PI0286\\archival\\C1\\checkpoint-1024.full_readback.json": "dc7be9e22ec6012493043368cbc8d3181f4709881dc16765e786399c61fd6ba2",
+        "reports\\PI0286\\archival\\C1\\checkpoint-1024.archive_receipt.json": "37e3e583fe6f2f3910e3256c7983935bfa38ec72d40f41c3ef6ff5eeea5d01e2",
+        "reports\\PI0286\\archival\\C1\\C1_CORRECT1024-1024_TRAINING_CPU.json": "210385b5caf3a79bf768cac459fc8afc5d72bdc124a6856b906f81caaf8b4d81"
+      }
+    }
+  },
+  "new_model_queries": 0,
+  "new_optimizer_updates": 0,
+  "new_physics": 0,
+  "selected": "NONE",
+  "deployment": "NONE"
+}

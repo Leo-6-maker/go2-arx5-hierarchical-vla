@@ -1,0 +1,50 @@
+#!/bin/bash
+# PI0242 P1: read-only paired stock-sampler/local-flow attribution.
+# No training, backward, optimizer, WBC, simulation, CALIB, DEV-E, or Final-F.
+
+#PBS -N pi0242_p1
+#PBS -P CFP03-CF-004
+#PBS -l select=1:ngpus=1:ncpus=12:mem=225gb
+#PBS -l walltime=08:00:00
+#PBS -r n
+#PBS -j oe
+
+set -euo pipefail
+
+: "${PI0242_REPO:?set the PI0242 execution checkout}"
+: "${PI0242_PYTHON:?set the sealed runtime Python}"
+: "${PI0242_RUN_ROOT:?set the sealed PI0241 run root}"
+: "${PI0242_P0_ROOT:?set the sealed PI0242 P0 root}"
+: "${PI0242_OUTPUT_ROOT:?set a fresh PI0242 P1 output root}"
+: "${PI0242_FFMPEG_ROOT:?set the sealed Stage45B FFmpeg root}"
+: "${PBS_JOBID:?PBS_JOBID must be supplied by PBS}"
+
+test -x "${PI0242_PYTHON}"
+test -f "${PI0242_REPO}/scripts/pi0242_train_infer_bridge.py"
+test -f "${PI0242_P0_ROOT}/pi0242_p0_admission.json"
+test -d "${PI0242_RUN_ROOT}/training/checkpoint-1000"
+test ! -e "${PI0242_OUTPUT_ROOT}"
+test -d "${PI0242_FFMPEG_ROOT}/lib"
+test -d "${PI0242_FFMPEG_ROOT}/compat"
+
+: "${PI0242_SITE:=/scratch/e1192548/stage22_h200_runtime_deb920_20260902/runtime/venv/lib/python3.12/site-packages}"
+test -d "${PI0242_SITE}/torchcodec"
+test -d "${PI0242_SITE}/torch/lib"
+
+ambient_ld_library_path="${LD_LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${PI0242_FFMPEG_ROOT}/lib:${PI0242_FFMPEG_ROOT}/compat:${PI0242_SITE}/torchcodec:${PI0242_SITE}/torch/lib:${ambient_ld_library_path}"
+export CUDA_VISIBLE_DEVICES=0
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+unset PYTHONPATH 2>/dev/null || true
+
+cd "${TMPDIR:-/tmp}"
+exec "${PI0242_PYTHON}" "${PI0242_REPO}/scripts/pi0242_train_infer_bridge.py" \
+  --phase p1 \
+  --run-root "${PI0242_RUN_ROOT}" \
+  --code-root "${PI0242_REPO}" \
+  --p0-root "${PI0242_P0_ROOT}" \
+  --output-root "${PI0242_OUTPUT_ROOT}" \
+  --ffmpeg-root "${PI0242_FFMPEG_ROOT}" \
+  --torch-site "${PI0242_SITE}" \
+  --device cuda:0

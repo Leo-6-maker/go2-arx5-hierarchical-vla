@@ -1,0 +1,126 @@
+{
+  "schema": "PI0291_READINESS_CPU_RECEIPT_V1",
+  "run_id": "20261013T023717-localpc-arx5",
+  "created_utc": "2026-10-12 20:45:27 UTC",
+  "chunk": "TRAIN_000_016",
+  "source_sha": "57a02b4923e5001df5fd4b3b5958c372b9cff541",
+  "measurement": "Actual remote resource.getrusage(RUSAGE_SELF) at completed bounded readiness probes; 1-CPU affinity; registered RESULT + FILE_MANIFEST and own process argv checks only",
+  "CPU_s_cumulative": 0.8087880000000002,
+  "CPU_s_increment_since_prior_chunk": 0.8087880000000002,
+  "events": [
+    {
+      "type": "MEASURED_BASELINE_BEFORE_EVENT_LOG",
+      "CPU_s": 0.392044,
+      "audited_through": "T291008"
+    },
+    {
+      "utc": "2026-10-12T20:23:00.129Z",
+      "CPU_s": 0.019542999999999998,
+      "completed_raw_attempts": 9
+    },
+    {
+      "utc": "2026-10-12T20:24:00.982Z",
+      "CPU_s": 0.019285999999999998,
+      "completed_raw_attempts": 10
+    },
+    {
+      "utc": "2026-10-12T20:25:06.337Z",
+      "CPU_s": 0.019707,
+      "completed_raw_attempts": 10
+    },
+    {
+      "utc": "2026-10-12T20:26:07.200Z",
+      "CPU_s": 0.019537,
+      "completed_raw_attempts": 10
+    },
+    {
+      "utc": "2026-10-12T20:27:08.196Z",
+      "CPU_s": 0.02009,
+      "completed_raw_attempts": 11
+    },
+    {
+      "utc": "2026-10-12T20:28:14.225Z",
+      "CPU_s": 0.020088,
+      "completed_raw_attempts": 11
+    },
+    {
+      "utc": "2026-10-12T20:29:15.066Z",
+      "CPU_s": 0.020328,
+      "completed_raw_attempts": 11
+    },
+    {
+      "utc": "2026-10-12T20:30:15.900Z",
+      "CPU_s": 0.019553,
+      "completed_raw_attempts": 12
+    },
+    {
+      "utc": "2026-10-12T20:31:21.258Z",
+      "CPU_s": 0.020751,
+      "completed_raw_attempts": 12
+    },
+    {
+      "utc": "2026-10-12T20:32:22.119Z",
+      "CPU_s": 0.019712999999999998,
+      "completed_raw_attempts": 12
+    },
+    {
+      "utc": "2026-10-12T20:34:31.178Z",
+      "CPU_s": 0.0197,
+      "completed_raw_attempts": 13
+    },
+    {
+      "utc": "2026-10-12T20:35:36.514Z",
+      "CPU_s": 0.019531,
+      "completed_raw_attempts": 13
+    },
+    {
+      "utc": "2026-10-12T20:36:37.360Z",
+      "CPU_s": 0.019641,
+      "completed_raw_attempts": 13
+    },
+    {
+      "utc": "2026-10-12T20:37:38.202Z",
+      "CPU_s": 0.019451999999999997,
+      "completed_raw_attempts": 14
+    },
+    {
+      "utc": "2026-10-12T20:38:43.654Z",
+      "CPU_s": 0.020491,
+      "completed_raw_attempts": 14
+    },
+    {
+      "utc": "2026-10-12T20:39:44.514Z",
+      "CPU_s": 0.019271,
+      "completed_raw_attempts": 14
+    },
+    {
+      "utc": "2026-10-12T20:40:45.367Z",
+      "CPU_s": 0.0202,
+      "completed_raw_attempts": 14
+    },
+    {
+      "utc": "2026-10-12T20:41:46.233Z",
+      "CPU_s": 0.019979999999999998,
+      "completed_raw_attempts": 15
+    },
+    {
+      "utc": "2026-10-12T20:42:51.622Z",
+      "CPU_s": 0.019950999999999997,
+      "completed_raw_attempts": 15
+    },
+    {
+      "utc": "2026-10-12T20:43:52.486Z",
+      "CPU_s": 0.020073999999999998,
+      "completed_raw_attempts": 15
+    },
+    {
+      "utc": "2026-10-12T20:44:53.368Z",
+      "CPU_s": 0.019857,
+      "completed_raw_attempts": 16
+    }
+  ],
+  "scope": "Remote readiness-process CPU only. Audit CPU and final binding CPU separately reported; SSH/controller overhead is not claimed measured here.",
+  "ledger_mutation": false,
+  "physics_integrations": 0,
+  "model_loads": 0
+}

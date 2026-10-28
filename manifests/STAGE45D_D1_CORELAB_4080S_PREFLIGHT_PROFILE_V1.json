@@ -1,0 +1,168 @@
+{
+  "schema": "CORELAB_STAGE45D_D1_CORELAB_4080S_PREFLIGHT_PROFILE_V1",
+  "status": "READY_FOR_PI_REVIEW_NOT_EXECUTED",
+  "stage": "Stage45D-D1",
+  "owner": "vanda_hopper",
+  "authority": {
+    "issue_11": 11,
+    "issue_11_comment": 5629752688,
+    "pr_51_comment": 5629755293,
+    "prepared_from_support_head": "404d345ed81972fb84c5f25aa7e48245f4ec7c8c"
+  },
+  "runtime_adapter": {
+    "path": "scripts/stage45d_d1_corelab_runtime_adapter.py",
+    "sha256": "90aeedb22890593162460d5998fe639b8d05ba179c482522b5ace1208f2153a9",
+    "top_level_model_imports": false,
+    "imports_after_admission_only": true
+  },
+  "protocol": {
+    "protocol_sha256": "24cebea0d5bd884c8eb4ca1db2b9d55dfae57326936939ccd09d3868c96309b3",
+    "execution_manifest_path": "manifests/STAGE45D_D1_EXECUTION_MANIFEST_V1.json",
+    "runtime_admission_manifest_path": "manifests/STAGE45D_D1_RUNTIME_ADMISSION_MANIFEST_V1.json",
+    "runtime_binding_schema": "CORELAB_STAGE45D_D1_RUNTIME_BINDING_V2",
+    "scientific_semantics_unchanged": true
+  },
+  "checkpoint": {
+    "label": "FULL24@2000",
+    "tree_sha256": "2113a6a3b2a91233a42214dbb017c0136acde282fda2a418066f9317e78981a5",
+    "stats_route": "STAGE45C_RUNTIME_V2_STATS_BRIDGE",
+    "stats_sha256": "3b3a2d51e685a0e580de4ebdfa05abcbcddfb7dc33b8d3a659994cdcd1bb0337",
+    "stats_payload_sha256": "752898989bb3308e663c4b6cf88b3cc1c139897a6860e6aed1d9d708d0f6fd75"
+  },
+  "cohort": {
+    "dataset_id": "FULL24_EXISTING_TRAIN",
+    "split": "TRAIN_ONLY",
+    "dataset_tree_sha256": "2f3badd2019a68c6549a66f85b5486faf626078a3e438342f67aacc4edc95789",
+    "split_lock_sha256": "7e124f29d2e4d24c17fd1fefcf8753ececd3a8cd86e8c6a2f159e2e5d2217246",
+    "manifest_sha256": "c1105002485ebee88c13f56a2198b7b5edbdb9d5a0f4d641f4e644f7b211e566",
+    "window_order": "target-major then snapshot-major",
+    "selected_window_index": 0,
+    "selected_window_id": "stage22_expert_red_target_train_a:expert-0000",
+    "selected_target_id": "red_target_train_a",
+    "window_count_in_future_preflight": 1,
+    "target_xyz_in_model_input": false
+  },
+  "source_identities": {
+    "groot_source_commit": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "cosmos_revision": "9ce19a195e423419c349abfc86fd07178b230561",
+    "cosmos_tree_sha256": "1cfec77c944cba341ee5d7c31b4be6bb615582364bae48f18c5686e6ec23e8a9",
+    "groot_runtime_manifest_sha256": "96b883e56b54f763bec60d3a336632ad531f4fc52d099f803e5f9efba60eab11",
+    "groot_payload_tree_sha256": "c0d57a6a74ab24c48abdd1c13420e9d1c893dc0d7b5ca370fa9b6f7af32f5f1b",
+    "modality_sha256": "e61f9429ecc21ceab51d9d26cadc9018691eb8b5c74d60aec4abf7faee16f031",
+    "processor_config_sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+    "decoder_source_sha256": "2175381660a94c59e54388c01b8fd397bd11439fb1d016d5a2116c01d5158fae",
+    "metrics_source_sha256": "913be32a7bc418b3213f7d2277d59831d40fec9ab81a171efc5918bb8e8f5ed4"
+  },
+  "probe": {
+    "noise_seed": 2223,
+    "noise_shape": [1, 40, 132],
+    "noise_dtype": "float32",
+    "noise_device": "cpu",
+    "t_values": [
+      0.06776241796562847,
+      0.36966943557751086,
+      0.7837719744658148
+    ],
+    "t_buckets": [67, 369, 783],
+    "probe_order": [
+      "seed2223_t067_bucket067",
+      "seed2223_t369_bucket369",
+      "seed2223_t783_bucket783"
+    ],
+    "same_x0_across_t": true,
+    "x_t_formula": "x_t=(1-t)x0+t*x1",
+    "v_target_formula": "v_target=x1-x0",
+    "implied_endpoint_formula": "x1_hat=x_t+(1-t)*v_hat"
+  },
+  "model_execution": {
+    "conditioning_passes": 1,
+    "action_head_calls": 3,
+    "total_direct_model_side_calls": 4,
+    "execution_order": "one conditioning pass -> t-major action-head probes",
+    "reuse_conditioning_result": true,
+    "public_sampler_calls": 0,
+    "get_action_calls": 0,
+    "model_eval": true,
+    "inference_only": true,
+    "training": false,
+    "backward": false,
+    "adaptive_extension": false,
+    "automatic_retry": false
+  },
+  "mask": {
+    "source": "go2arx5_vla.structured_action.structured_action_mask(\"T16\")",
+    "shape": [40, 132],
+    "active_scalar_count": 190,
+    "legacy_first_ten_active_scalar_count": 400,
+    "legacy_first_ten_rejected": true
+  },
+  "input_contract": {
+    "keys": ["body_rgb", "wrist_rgb", "state", "language"],
+    "body_rgb_shape": [96, 96, 3],
+    "wrist_rgb_shape": [96, 96, 3],
+    "state_v1_shape": [10],
+    "language": "move the end effector to the red target",
+    "target_xyz_in_model_input": false
+  },
+  "device_policy": {
+    "selected_device": "cuda:0",
+    "selected_gpu_role": "HOPPER_H200_SINGLE_GPU",
+    "minimum_vram_bytes": 85899345920,
+    "allow_16gb_secondary_fallback": false,
+    "allow_multi_gpu": false,
+    "allow_sharding": false,
+    "allow_data_parallel": false,
+    "oom_retry": false,
+    "device_observation_required_before_model_import": true
+  },
+  "runtime_telemetry": {
+    "schema": "VANDA_STAGE45D_D1_H200_SMOKE_TELEMETRY_V1",
+    "fields": [
+      "host",
+      "gpu_name",
+      "gpu_uuid",
+      "selected_device",
+      "total_vram_bytes",
+      "cuda_runtime",
+      "model_load_latency_s",
+      "conditioning_latency_s",
+      "per_probe_latency_s",
+      "cuda_peak_allocated_bytes",
+      "cuda_peak_reserved_bytes"
+    ],
+    "materialized_now": false,
+    "all_observed_gpu_fields_now": null
+  },
+  "evidence": {
+    "raw_before_derived": true,
+    "raw_arrays": ["x0", "x1", "x_t", "v_target", "v_hat", "x1_hat", "mask"],
+    "normalized_namespace": "NORMALIZED_LOCAL_FLOW",
+    "physical_namespace": "DECODED_PHYSICAL_ACTION",
+    "physical_source": "x1_hat_only",
+    "failure_seal_required": true,
+    "fresh_output_root_required": true
+  },
+  "execution_boundary_now": {
+    "model_construction": 0,
+    "model_forward": 0,
+    "gpu": 0,
+    "pbs_qsub": 0,
+    "training": 0,
+    "Validation-E": 0,
+    "Holdout-F": 0,
+    "WBC": 0,
+    "simulator": 0,
+    "hardware": 0,
+    "new_data": 0,
+    "merge": 0
+  },
+  "locked_boundaries": {
+    "Validation-E": "LOCKED",
+    "Holdout-F": "LOCKED",
+    "WBC": "LOCKED",
+    "simulator": "LOCKED",
+    "hardware": "LOCKED",
+    "new_data": "LOCKED"
+  },
+  "return_token": "STAGE45D_D1_VANDA_H200_SMOKE_STATIC_READY"
+}
