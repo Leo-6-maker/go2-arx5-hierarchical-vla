@@ -21,11 +21,16 @@
 | D25 | 1024完整端点已审计、已固定交付Core | 0/24有效Eval；不能说成功率0% |
 | GEN1 | 1024完整状态已审计并关闭；Teacher12次尝试、11成功、10条R0合格 | 0/24模型Eval；Teacher结果不是学生泛化 |
 | E0 | 原始GR00T真实加载1次／39查询；39份输出独立SHA／shape／精度回读；所在作业已真实F并结算关闭 | 离线诊断，不是任务成功 |
-| E1/E2 | E1资格原生2次优化、14目标参数实际变化、保存／完整恢复receipt；E2已有15零步输出 | E0/E1保存状态已完整独立流审计通过；E2优化0，两臂正式0/512 |
+| E1/E2 | E1资格原生2次优化、14目标参数实际变化、保存／完整恢复receipt；E2已有15零步输出 | E0/E1保存状态已完整审计；新GPU中E2已实际优化2次并生成原生COMPLETE；独立保存状态审计待回读，E1正式阶段ACTIVE但当时0/512，E2正式0/512 |
 | Go2＋ARX5目标包 | 10段标定＋6几何双任务12首次尝试的独立提案 | 尚未采集新目标示范，不混入当前E1/E2 |
 | DEC1冻结WBC迁移 | 原固定CORR2048/R0及设计保留 | core64=0/64；不是迁移失败率100% |
 
 ## 最新工程状态
+
+
+2026-10-29 08:19 SGT后继实际：同一GPU作业仍R，原owner／wrapper同procstart存活，完整队列与GLOBAL pending／unknown均空。E2资格原生session现为COMPLETE（terminal SHA `5bfab89a`），实际累计2次优化／2查询／3加载；E1_ADAPTER_ONLY_FORMAL512已ACTIVE、当时尚无正式模型加载或更新，E2正式NOT_STARTED。该完成标记不代替后续独立保存状态／参数审计或GLOBAL终态结算。复用同32768bytes控制总量未花完的phase余量做此一次只读，未增财务费用。详见同一[实际报告](reports/PI0294/design/parallel-science-20261022/ARX5_UNIQUE_REMAINING_GPU_R_AND_REAL_E2_TWO_OPTIMIZER_CALLS_ACTUAL_20261029.json)。
+
+2026-10-29 08:10 SGT此前实际：[唯一GPU运行及E2真实两次优化](reports/PI0294/design/parallel-science-20261022/ARX5_UNIQUE_REMAINING_GPU_R_AND_REAL_E2_TWO_OPTIMIZER_CALLS_ACTUAL_20261029.json)。同一已登记请求已唯一qsub／bind为`1505362.stdct-mgmt-02`，真实R／`GN-A40-009`／run_count1；GLOBAL `2de3a117`、PBS仍39，接续没有重复登记／消耗PBS。新owner2412453／procstart73431863及wrapper2412452／73431862均实际同kernel健康；完整队列无未知，全局和原生effects无未决／未知。科学capsule仍`b0509a0b`，独立控制driver为`34d89ed9`，没有hotpatch旧capsule。实际原GR00T已完成MODEL_RAW和FIRST_UPDATE放行，E2资格已2次committed optimizer calls／0新queries／1模型加载；旧15零步输出仍是只读输入。E2完整保存／重载及独立参数审计尚未完成，两臂正式仍0/512，不能当闭环成功或终态结算。原owner独立接续资格→fresh-raw E1/E2各512→完整审计／once真实费用settle／close；agent不发GPU心跳，不重启／重投健康进程，不重复E0／E1前缀。所有cap／clock、matrix3和final保护不变，Core LOCAL仍历史加显式非canonical费用投影。
 
 
 2026-10-29最新实际：[cold02资格与登记39](reports/PI0294/design/parallel-science-20261022/ARX5_COLD02_ACTUAL_PASS_REGISTERED39_AND_EXACT_PREDISPATCH_SELF_GAP_ACTUAL_20261029.json)已完成。1368源码／23封存输入／7212训练窗口、原probe与语言输入、真实物理custody／完整14维原生冷检查通过；子进程自然OS0，实际96.048子CPU秒／184.035wall秒。source `b0509a0b`的同一请求已一次登记，GLOBAL `81f6f58b`、PBS39；但新的提交前fresh把本条“已登记、job_id尚空”的行误归未知，owner1357791／wrapper1357787自然Exit1，尚无qsub或模型。现有有效失败与请求原字节全部保留。新的窄接续仅在精确证明无QSUB intent／无旧进程、当前完整队列仅有该self缺口后，接同一请求，绝不再次登记或消耗PBS；10项新CPU检查通过（初次fixture路径错误保留），尚不是原生交接。随后补齐两项接续约束：保留并接受原Journal的CONFIRMED登记状态，继续拒绝PENDING／UNKNOWN／任何旧QSUB；仅在独立控制driver中扩展原watch的remaining类型判别，未改原capsule或science门。12项CPU检查通过，包含真实临时Journal和一周期原watch逻辑。显式非canonical LOCAL费用投影保留原真实capture，原owner3000CPU bank按旧进程保守上界1233秒＋接续最多1650秒计；原总cap、matrix／final及科学参数不改。

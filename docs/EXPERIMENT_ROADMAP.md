@@ -12,7 +12,7 @@
 | Vanda | 复用已审计E0/E1及已采用剩余范围，补E2资格，两臂fresh各512 | 固定端点、消费/冻结/完整保存恢复 |
 | PC Rerun支持 | 已有失败关键时间线、学生成功、保存E0输出 | 可核验解释，不阻塞上述两线 |
 
-最新PR99已证明保存前缀完整审计、PBS42控制采用和Core历史补齐。**不要重复这些步骤；新request/qsub/训练及D25部署仍未发生。** 依据[实际报告](../reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)，执行前刷新后继原件。
+最新PR99已证明保存前缀完整审计、PBS42控制采用和Core历史补齐。**后继10月29日08:10 SGT实际：唯一Vanda作业1505362已R，E2资格真实优化2次；08:19 SGT后继E2已有原生COMPLETE、独立审计待回读；E1正式阶段已ACTIVE但当时0/512，随后E2同512。** 不重复已完成前缀或登记／qsub，不重启健康owner；D25新Core部署仍待接续。 依据[实际报告](../reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)，执行前刷新后继原件。
 
 两站运行不互相SSH/查队列/等心跳。模型沿已授权HF固定revision，管理owner独立连接并终态核账。原Journal/onceIO和安全保持，不新建调度平台。
 
