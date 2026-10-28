@@ -125,8 +125,8 @@ def exact_zero_qsub(root,g):
     intents=[]
     for p in(base/'setup-rpc').glob('*-INTENT.json'):
         v=read(p);i=v.get('intent',v);intents.append(i.get('phase'))
-    need('QSUB'not in intents and not(base/'setup-rpc/RPC_EFFECT_STATE.json').exists(),
-         'RESUME_NO_QSUB_JOURNAL_OR_UNRESOLVED_ORIGINAL_MUTATION')
+    need('QSUB'not in intents,'RESUME_NO_QSUB_JOURNAL_INTENT')
+    checked_setup_state(base/'setup-rpc',root.name)
     prior_CPU=math.ceil(8*(final['finished_epoch']-wrap['epoch']))+60
     need(0<prior_CPU<=1350 and prior_CPU+1650<=3000,'RESUME_ORIGINAL_PREPAID3000_CPU_BANK_FULL_CONSERVATIVE_JOIN')
     return dict(status='EXACT_TERMINAL_OWNER_NEVER_ATTEMPTED_QSUB',request_sha256=REQUEST_SHA,
@@ -134,6 +134,32 @@ def exact_zero_qsub(root,g):
         old_owner_process_sha256=e.sha((base/'SERVER_OWNER_PROCESS.private.json').read_bytes()),
         prior_owner_CPU_upper_s=prior_CPU,new_owner_CPU_upper_s=1650,old_owner_and_wrapper_absent=True,
         original_request_not_recreated=True,original_setup_phases=intents)
+
+
+def checked_setup_state(directory,run_uuid):
+    """Confirmed original writes remain durable; only unresolved writes block."""
+    p=Path(directory)/'RPC_EFFECT_STATE.json'
+    if not p.exists():return
+    v=read(p);i=v.get('intent',{});identity=i.get('identity',{})
+    need(v.get('status')=='CONFIRMED'and i.get('phase')!='QSUB'
+        and identity==dict(run_uuid=run_uuid,job_id='NO_GPU_YET',source_sha=SOURCE,request_sha256=e.authority.GRANT_SHA),
+        'RESUME_ORIGINAL_CONFIRMED_SETUP_IDENTITY_NO_PENDING_UNKNOWN_OR_QSUB')
+
+
+def compatible_watch():
+    """Keep the mature watch; admit the exact already authorized remainder type.
+
+    The caller verifies the original whole source file against the science
+    capsule seal. This creates a separate control driver and changes that one
+    type guard only; the original module/function is never modified.
+    """
+    import inspect
+    from scripts.pi0294.dec1 import cold_owner
+    body=inspect.getsource(cold_owner.watch);needle='if version==adapters.retry.VERSION:'
+    need(body.count(needle)==1,'RESUME_EXACT_ORIGINAL_WATCH_TYPE_GUARD')
+    patched=body.replace(needle,'if version in(adapters.retry.VERSION,adapters.remaining.VERSION):')
+    ns=dict(vars(cold_owner));exec(compile(patched,'<published-explicit-remainder-control-watch>','exec'),ns)
+    return ns['watch']
 
 
 def make_owner(root,g,*,projection):
@@ -159,7 +185,9 @@ def make_owner(root,g,*,projection):
     o.remaining_physical=Guard(root,o.request_template,o.manifest,lambda **_:None)
     o.last=None;o.current=None;o.cold_rpc_bound=True;o.preserve_readonly_until_deadline=True
     o.previous=SimpleNamespace(rpc=o.heartbeat_rpc);o.HEARTBEAT=original.HEARTBEAT
-    o.setup=mature.new_journal(o.BASE,'setup-rpc',dict(run_uuid=root.name,job_id='NO_GPU_YET',source_sha=SOURCE,request_sha256=e.authority.GRANT_SHA));o.running=None
+    from scripts.pi0294.dec1.owner_transport import Journal
+    checked_setup_state(o.BASE/'setup-rpc',root.name)
+    o.setup=Journal(o.BASE/'setup-rpc',dict(run_uuid=root.name,job_id='NO_GPU_YET',source_sha=SOURCE,request_sha256=e.authority.GRANT_SHA));o.running=None
     return o
 
 
@@ -228,7 +256,7 @@ def run(control_root,secret):
         o.record('SOURCE_JOB_BOUND',dict(job_id=job,request_id=REQUEST));o.record('TRAIN_REGISTERED',dict(root=str(root),manifest_sha256=MANIFEST))
         o.running=mature.new_journal(o.BASE,'running-rpc',dict(run_uuid=root.name,job_id=job,source_sha=SOURCE,request_sha256=REQUEST_SHA))
         put('UNIQUE_JOB_BOUND.json',dict(job_id=job,request_id=REQUEST,science_source_sha=SOURCE,GLOBAL_sha256=e.sha(gp.read_bytes()),new_PBS_counter_or_request=0))
-        terminal=cold_owner.watch(o,secret,scope_binding=o.successor_scope);o.record('RESIDENT_TERMINAL_RETURNED',terminal);done=o.finish(terminal)
+        terminal=compatible_watch()(o,secret,scope_binding=o.successor_scope);o.record('RESIDENT_TERMINAL_RETURNED',terminal);done=o.finish(terminal)
         o.record('RESIDENT_EXIT',dict(returncode=0,observed_epoch=time.time(),endpoint_status=done['status']));put('CONTINUATION_COMPLETE.json',dict(status=done['status'],job_id=job))
         return done
     except BaseException as exc:

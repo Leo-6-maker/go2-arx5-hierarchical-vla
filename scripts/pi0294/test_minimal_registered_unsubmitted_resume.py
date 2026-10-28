@@ -48,3 +48,34 @@ def test_historical_projection_is_explicit_once_and_never_changes_input():
     assert out[m.LOCAL_FIELD]['canonical_LOCAL_write_proven']is False and m.budget_LOCAL(g,out)==out
     bad=deepcopy(g);bad[m.FIELD]['control_paid_once']={}
     with pytest.raises(PermissionError):m.budget_LOCAL(bad,local)
+
+
+def test_original_journal_confirmed_state_is_accepted_and_unknown_kept_blocked(tmp_path):
+    from scripts.pi0294.dec1.owner_transport import Journal
+    identity=dict(run_uuid='fixture-registered-unsubmitted',job_id='NO_GPU_YET',source_sha=m.SOURCE,request_sha256=m.e.authority.GRANT_SHA)
+    j=Journal(tmp_path,identity);j.call('REGISTER_REQUEST','MUTATION',lambda intent,limit:dict(fixture=True))
+    m.checked_setup_state(tmp_path,identity['run_uuid'])
+    state=tmp_path/'RPC_EFFECT_STATE.json';v=json.loads(state.read_bytes())
+    for status in('PENDING','UNKNOWN'):
+        v['status']=status;state.write_text(json.dumps(v))
+        with pytest.raises(PermissionError):m.checked_setup_state(tmp_path,identity['run_uuid'])
+    v['status']='CONFIRMED';v['intent']['phase']='QSUB';state.write_text(json.dumps(v))
+    with pytest.raises(PermissionError):m.checked_setup_state(tmp_path,identity['run_uuid'])
+
+
+def test_original_watch_logic_reaches_remaining_session_method_without_mutating_module(tmp_path):
+    from types import SimpleNamespace
+    import inspect
+    from scripts.pi0294.dec1 import cold_owner
+    before=inspect.getsource(cold_owner.watch);calls=[];now=[100.]
+    def read(path):
+        return {'SOURCE_REQUEST.private.json':dict(request=dict(submit_count=39,platform_training_version=m.remaining.VERSION,profile=m.remaining.PROFILE),directory=str(tmp_path)),
+                'SOURCE_JOB_BOUND.private.json':dict(job_id='123.stdct-mgmt-02'),
+                'TRAIN_REGISTERED.private.json':dict(root=str(tmp_path))}[Path(path).name]
+    def fresh(*a,**k):return dict(rows=dict(vanda=dict(jobs={'123.stdct-mgmt-02':dict(job_state='R',Job_Name='pi0294_dec1_a40_train',project='CFP04-CF-007')},receipts={})),view={})
+    o=SimpleNamespace(native=SimpleNamespace(T0=0),cold_rpc_bound=True,BASE=tmp_path,read=read,fresh=fresh,
+        record=lambda *x:calls.append(x),update=lambda *x:None,previous=SimpleNamespace(rpc=lambda *x:None),HEARTBEAT='fixture',
+        request_template=dict(platform_training_version=m.remaining.VERSION,profile=m.remaining.PROFILE),
+        release_science_session=lambda *a,**k:calls.append('remaining-science-method')or True)
+    watch=m.compatible_watch();watch(o,'fixture-not-a-credential',clock=lambda:now[0],sleep=lambda n:now.__setitem__(0,1e9))
+    assert 'remaining-science-method'in calls and inspect.getsource(cold_owner.watch)==before
