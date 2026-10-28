@@ -9,7 +9,7 @@ import json
 from . import minimal_execution as e,minimal_partial_completion_scope as authority
 
 VERSION='ARX5_MINIMAL_REAL_SAVED_PREFIX_REMAINDER_V1'
-PROFILE='vanda-arx5-minimal-raw-parent-first512-saved-prefix-completion'
+PROFILE='vanda-arx5-minimal-raw-parent-first512-saved-prefix-completion-cold02'
 PREFIX='plans/MINIMAL_ACTUAL_CLOSED_SAVED_PREFIX_RESULT.private.json'
 CLOSURE='plans/MINIMAL_ACTUAL_SAVED_PREFIX_AUDIT_CLOSED.private.json'
 RESULT='9c4ac800d8993809127a0808be98971f3a12b2c839fdfbff7ffcf3ab707300fb'

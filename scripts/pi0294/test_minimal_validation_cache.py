@@ -27,3 +27,16 @@ def test_bounded_eviction_and_no_nonfinite_key():
     for x in range(m.MAX_ENTRIES+1):check({'value':x})
     check({'value':0});assert calls.count(0)==2
     with pytest.raises(ValueError):check({'value':float('nan')})
+
+
+def test_compact_memo_still_revalidates_nested_types_order_and_escaped_strings():
+    calls=[]
+    @m.exact_ledger_validation
+    def check(g,*,generation=None):calls.append(g);return g
+    values=[{'a':[1,{'unicode':'机器人','quoted':'"\\\n'}]},
+            {'a':[1.0,{'unicode':'机器人','quoted':'"\\\n'}]},
+            {'a':[1,{'quoted':'"\\\n','unicode':'机器人'}]},
+            {'a':[{'unicode':'机器人','quoted':'"\\\n'},1]}]
+    for v in values:
+        assert check(v)==v;assert check(v)==v
+    assert len(calls)==len(values)
