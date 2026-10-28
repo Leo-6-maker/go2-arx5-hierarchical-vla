@@ -29,7 +29,7 @@ def digest(value):
     return value
 
 
-def terminal_values(row,native,effects,audit):
+def terminal_values(row,native,effects,audit,*,retry_global=None):
     need(native.get('schema')==NATIVE and native.get('job_state')=='F'
         and native.get('job_id')==effects.get('job_id')==row['job_id']
         and native.get('request_id')==effects.get('request_id')==row['request_id']
@@ -49,11 +49,15 @@ def terminal_values(row,native,effects,audit):
         'TERMINAL_ACTUAL_NATIVE_FINISH_INSIDE_UNRESET_WINDOW')
     gpu=bounded(native['conservative_GPU_s'],row['reserved_H200_s'])
     cpu=bounded(native['conservative_CPU_s'],row['CPU_upper_s'])
-    #900s already belongs to the diagnostic component. It is paid once INSIDE
-    # this original165600s envelope, never silently0 or added above the cap.
-    bounded(native.get('new_native_conservative_CPU_s'),row['CPU_upper_s']-e.PREPARATION_CPU_UPPER)
-    need(native.get('prior_readonly_preparation_CPU_upper_s')==e.PREPARATION_CPU_UPPER
-        and cpu==native.get('new_native_conservative_CPU_s',-1)+e.PREPARATION_CPU_UPPER,
+    # The original 900s remains in its original settled row. Only the explicit
+    # retry contract can prove that history and exclude a second charge here.
+    prior=e.PREPARATION_CPU_UPPER
+    if retry_global is not None:
+        from .minimal_retry_execution import terminal_CPU_prior
+        prior=terminal_CPU_prior(retry_global,row)
+    bounded(native.get('new_native_conservative_CPU_s'),row['CPU_upper_s']-prior)
+    need(native.get('prior_readonly_preparation_CPU_upper_s')==prior
+        and cpu==native.get('new_native_conservative_CPU_s',-1)+prior,
         'TERMINAL_PRIOR900_INCLUDED_ONCE_NOT_REFUNDED_OR_DOUBLE_ADDED')
     need(effects.get('schema')==SUMMARY and effects.get('pending_updates')==[]
         and effects.get('unknown_query_intents')==[]

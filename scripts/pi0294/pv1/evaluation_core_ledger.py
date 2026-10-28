@@ -69,6 +69,9 @@ assert (row.get('remote_source_custody_sha256')is None and certificate is None)o
 if P['operation']=='STATE':
  print(json.dumps(dict(global_base64=base64.b64encode(before).decode(),global_sha256=sha(before),observed_epoch=time.time())));raise SystemExit(0)
 assert P['operation'] in ('DEBIT','METRICS','CANDIDATE')
+if successor:
+ from scripts.pi0294.pv1.mix_core_delegation import assert_remote_writer_allowed
+ assert_remote_writer_allowed(g,P['request_id'])
 if P['operation']=='DEBIT':
  assert P['actor_pid']==row['pid'] and P['actor_start']==row['proc_start']
  g=c.charge(g,request_id=P['request_id'],native_handle=P['native_handle'],
