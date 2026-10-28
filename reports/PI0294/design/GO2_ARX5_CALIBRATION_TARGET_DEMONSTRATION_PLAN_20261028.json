@@ -1,0 +1,68 @@
+{
+  "schema": "GO2_ARX5_CALIBRATION_TARGET_ADAPTATION_PLAN_V1",
+  "status": "PROPOSED_SEPARATE_TARGET_ADAPTATION_SCOPE",
+  "source_review_commit": "9e399b397b975456147d1efc370b609ab4e3c647",
+  "plan_path": "docs/protocols/GO2_ARX5_CALIBRATION_AND_TARGET_DEMONSTRATION_PLAN_20261028.md",
+  "plan_sha256": "4f9ba37ce50057e9187459a6b887ae632093620f70005e60d940bfdc6edcf2f3",
+  "review_method": "READ_ONLY_SOURCE_AND_PUBLISHED_NATIVE_EVIDENCE_NO_RUNTIME_IMPORT",
+  "reviewed_files": {
+    "docs/contracts/CALIBRATION_BUNDLE_V1.md": "799b79a8d15a8fbcb1008d04a5b2a48477a5c414759de9ce917fb58544577e1f",
+    "docs/contracts/WBC_EXTERNAL_REFERENCE_V1.md": "e3702328e100dfb932534d0dd5fc58e4f4b7163b014154361cb69ac622b0afcf",
+    "src/go2arx5_vla/target_mujoco/reference.py": "da67f29edef1925bc76dcdc1a381f00891a23d24e540430bd6ec852703f7734a",
+    "src/go2arx5_vla/target_mujoco/recorder.py": "4f20fa49a8e642800b393306cefaa49a3446202b151d39f2dcedefa65cd0ad12",
+    "src/go2arx5_vla/target_sim/bridge.py": "f9f13da006e6cc2441ff78984e11543bd9adcaf9930d443b8d51ef1e7ef121e3",
+    "scripts/pi0294/task_native_worker.py": "9a3c240f1a7d7ccbc5921a242f8f235e75be0f37b8bf698a65424f3dd23eec91",
+    "scripts/pi0294/task_fullbody_audit.py": "4447f2620af4a8c243aae39c9383fb4334d1d2bcae74a1a637e915bcdac58b6c",
+    "scripts/pi0294/dec1/target_native_io_entry.py": "3d7cf6fbbfe42024c5ba7e1e7d6d9e16a8f88c2df035977da0d0d205f47f50f9",
+    "reports/PI0294/design/WDR1_ORIGINAL_NATIVE_ZERO_IO_FEEDBACK_STOP_CLOSED_ACTUAL_20261024.json": "d6e81c7fae8e37378a9e59199e8f09010e8870a62c0117713201807306d8f013"
+  },
+  "current_work_unchanged": {
+    "original_C50_D25_GEN1_Eval": true,
+    "E0_E1_E2_raw_parent_same12_fixed512": true,
+    "R0": true,
+    "frozen_WBC": true,
+    "DEC1_without_target_training_demonstrations": true,
+    "original_caps_and_deadline": true
+  },
+  "proposed_target_contract": {
+    "EEF_dimensions": 10,
+    "reference_Hz": 20,
+    "horizon": 40,
+    "prefix": 8,
+    "replan_Hz": 2.5,
+    "free_base": true,
+    "locomotion_required": false,
+    "calibration_records": 10,
+    "calibration_active_duration_s_each": 10,
+    "startup_reset_stabilization_additional_cost_must_be_explicit": true,
+    "first_attempts": 12,
+    "TRAIN_geometry_groups": 6,
+    "tasks": [
+      "T1",
+      "T2"
+    ],
+    "all_attempts_retained": true,
+    "successful_demo_count_not_guaranteed": true,
+    "independent_DEV_geometry_groups_proposed": 12,
+    "evaluation_conditions_each_arm_proposed": 24,
+    "formal_training_steps": "UNSET_BEFORE_TARGET_RESULTS",
+    "statistics": "R0_COMPATIBILITY_REVIEW_OR_SEPARATE_TRAIN_ONLY_VERSION"
+  },
+  "native_effects_from_this_plan": {
+    "models": 0,
+    "GPU_submissions": 0,
+    "physics_ticks": 0,
+    "demonstrations": 0,
+    "training_updates": 0,
+    "new_ledger_reservation": false
+  },
+  "exact_remaining_gaps": [
+    "current frozen wholebody native reference install and complete safety state qualification",
+    "versioned EEF10 standing-task recorder and scorer binding distinct from old EEF13 BASE motion criteria",
+    "full finite target scope resource and window accounting before native adoption"
+  ],
+  "new_scheduler": false,
+  "new_budget_system": false,
+  "hardware_motors_authorized": false,
+  "objective_complete": false
+}
