@@ -110,6 +110,8 @@ def validate(root, *, closeout=False):
              and m.get('D25_local_successor_sha256')==d25_local.digest(d25_marker)
              and request.get('D25_local_successor_sha256')==d25_local.digest(d25_marker),
              'EXACT_D25_LOCAL_SUCCESSOR_NOT_C50_CREDIT')
+        from .mix_core_d25_cold_source import sealed_context
+        sealed_context(root,m,request,local,d25_marker,read,sha)
     elif repair.output_credit({**local},row):
         need(sealed('plans/V5_CD_SAME_PANEL_PREPAID_IO.private.json')==repair.validated(local), 'EXACT_SAME_PANEL_PAID_IO_BINDING')
         from . import mix_core_recovery as recovered

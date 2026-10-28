@@ -221,11 +221,18 @@ def validated(g):
          'NO_FOURTH_D25_OR_OTHER_CREDIT_CONSUMER')
     row = g[c.FIELD].get(m['replacement_request_id'])
     if row is not None:
-        need(row['submission_nonce'] == m['replacement_submission_nonce'] and row['child_run_uuid'] == RUN
-             and row['source_sha'] == m['source_sha'] and row['evaluation_candidate'] == 'D25'
+        from . import mix_core_d25_cold_source as cold
+        effective=cold.effective_identity(g,m)
+        selected=cold.descriptor(g,m)
+        need(row['submission_nonce'] == m['replacement_submission_nonce'] and row['child_run_uuid'] == effective['run_uuid']
+             and row['source_sha'] == effective['source_sha'] and row['evaluation_candidate'] == 'D25'
              and row['checkpoint_manifest_sha256'] == CHECKPOINT
              and row['planned_panel_sha256'] == g[c.FIELD][FAILED]['planned_panel_sha256']
-             and row.get('D25_local_successor_sha256') == digest(m), 'EXACT_NEW_ROW_MODEL_PANEL_AND_MARKER')
+             and row.get('D25_local_successor_sha256') == digest(m)
+             and all(row.get(k)==v for k,v in selected.items())
+             and (cold.DESCRIPTOR in selected or cold.DESCRIPTOR not in row), 'EXACT_NEW_ROW_MODEL_PANEL_AND_MARKER')
+    from .mix_core_d25_cold_source import validated as cold_validated
+    cold_validated(g,m)
     return m
 
 
@@ -257,6 +264,8 @@ def allocation(g, arm):
 def paired_control(g, l):
     m = validated(g)
     need(l.get(FIELD) == m, 'SAME_CANONICAL_NEW_MARKER')
+    from .mix_core_d25_cold_source import FIELD as cold_field
+    need(l.get(cold_field)==g.get(cold_field),'SAME_CANONICAL_COLD_SOURCE_SUCCESSOR')
     if m is None:
         return
     b = m['financial_before']

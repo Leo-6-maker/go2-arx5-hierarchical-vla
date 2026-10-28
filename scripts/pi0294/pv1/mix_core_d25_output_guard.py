@@ -41,13 +41,21 @@ class Guard:
         self.marker=marker;self.join=marker['physical_inventory_join']
         binding=read(self.root/LOCAL_BINDING);self.owner=Path(binding['owner_root'])
         self.physical=self.root.parent.parent/'children'/self.root.name
-        need(self.root.parent.name=='neural-children'and self.root.name==s.RUN
+        from .mix_core_d25_cold_source import effective_identity,validated
+        self.cold=validated(local,marker)
+        need(self.root.parent.name=='neural-children'and self.root.name==effective_identity(local,marker)['run_uuid']
              and self.owner.parent==self.root.parent.parent/'control','ONLY_EXACT_REGISTERED_NEW_PEERS')
         self.uid=self.root.stat().st_uid;need(self.uid==os.getuid()==2009,'ACTUAL_CORE_ACCOUNT')
 
     def check(self,*,force=False):
         if not force and self.last is not None and self.clock()-self.last<30:return self.proof
         retained={}
+        if getattr(self,'cold',None)is not None:
+            for item in self.cold['closed_cold_roles'].values():
+                old,_=inventory(item['root'],uid=self.uid)
+                body=(json.dumps(old,sort_keys=True,separators=(',',':'))+'\n').encode()
+                need(hashlib.sha256(body).hexdigest()==item['inventory_sha256'],
+                     'UNUSED_COLD_PREDECESSOR_PAYLOAD_RETAINED_UNCHANGED')
         for item in self.join['roots'].values():
             old,_=inventory(item['path'],uid=self.uid);retained.update(old)
         original=(json.dumps(retained,sort_keys=True,separators=(',',':'))+'\n').encode()
