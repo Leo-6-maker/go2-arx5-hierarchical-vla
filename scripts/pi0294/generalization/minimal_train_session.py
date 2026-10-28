@@ -20,7 +20,7 @@ need=execution.need
 def dataset(root,evidence):
     root=Path(root);binding=read(root/'NEURAL_BINDINGS.private.json')
     panel=read(root/'plans/MINIMAL_TWELVE_PANEL.json')
-    need(execution.sha(execution.raw(panel))==PANEL_SHA,'SESSION_FROZEN_TWELVE_PARENT_PANEL')
+    need(training.study.digest(panel)==PANEL_SHA,'SESSION_FROZEN_TWELVE_PARENT_PANEL')
     value=Dataset(binding['dataset'],binding['source'],binding['cosmos'],split='TRAIN',
         for_optimization=True,raw_bindings=read(binding['raw_bindings']),
         trace_root=Path(evidence)/'worker_trace',panel=panel)

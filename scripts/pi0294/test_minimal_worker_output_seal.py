@@ -2,6 +2,7 @@
 import json,os
 from pathlib import Path
 import pytest
+from types import SimpleNamespace
 from scripts.pi0294.generalization import minimal_worker as worker
 from scripts.pi0294.native_dataset import sha
 
@@ -31,3 +32,44 @@ def test_unlisted_or_wrong_arm_save_is_rejected_before_any_chmod(tmp_path):
     sid,cp=fixture(tmp_path);extra=cp/'unlisted';extra.write_bytes(b'not-accounted');before={p.name:p.stat().st_mode for p in cp.iterdir()}
     with pytest.raises(PermissionError):worker.seal_checkpoint(tmp_path,sid,2,sha(cp/'CHECKPOINT_COMPLETE.json'),guard=lambda:None)
     assert before=={p.name:p.stat().st_mode for p in cp.iterdir()}
+
+
+def test_c50_probe_reuses_original_factory_not_a_new_dataset_arm(tmp_path,monkeypatch):
+    from scripts.pi0294.pv1 import mix_training
+    from scripts.pi0294.pv1.dataset import PV1Dataset
+    with pytest.raises(PermissionError,match='PV1_FIXED_ROUTE_ARM_AND_SEED'):
+        PV1Dataset(new_root='unused',new_raw_bindings={},route='COVERAGE_FIRST',arm='C50')
+    inputs=dict(C1_dataset='old',new_dataset='old-pv1')
+    values={'plans/PV1_TRAIN_INPUTS.private.json':inputs,
+        'plans/MINIMAL_ORIGINAL_PROBE_READER.private.json':dict(reference_only_not_training=True,
+            arm='C50',seed=20261019,route='COVERAGE_FIRST',inputs=inputs)}
+    called=[];reader=object()
+    monkeypatch.setattr(mix_training,'dataset',lambda root,arm,evidence:
+        called.append((root,arm,evidence))or reader)
+    caller=SimpleNamespace(root=tmp_path,evidence=tmp_path/'evidence',sealed=values.__getitem__)
+    assert worker.Worker.original_probe_reader(caller)is reader
+    assert called==[(tmp_path,'C50',tmp_path/'evidence/original-probe-reader')]
+    values['plans/MINIMAL_ORIGINAL_PROBE_READER.private.json']['route']='COV1'
+    with pytest.raises(PermissionError):worker.Worker.original_probe_reader(caller)
+
+
+def test_twelve_parent_reader_uses_original_semantic_panel_hash(tmp_path,monkeypatch):
+    from scripts.pi0294.generalization import minimal_train_session as session
+    from test_minimal_arx5_training import actual_panel
+    panel=actual_panel();plans=tmp_path/'plans';plans.mkdir()
+    (plans/'MINIMAL_TWELVE_PANEL.json').write_text(json.dumps(panel,indent=2)+'\n')
+    (tmp_path/'NEURAL_BINDINGS.private.json').write_text(json.dumps(dict(dataset='actual-original-role',
+        source='original-source',cosmos='original-cosmos',raw_bindings=str(tmp_path/'raw.json'))))
+    (tmp_path/'raw.json').write_text('{}')
+    assert session.training.study.digest(panel)==session.PANEL_SHA
+    assert session.execution.sha(session.execution.raw(panel))!=session.PANEL_SHA
+    calls=[]
+    class Reader:
+        def __init__(self,*args,**kwargs):calls.append((args,kwargs))
+        def initialize(self):calls.append('initialized')
+    monkeypatch.setattr(session,'Dataset',Reader)
+    assert isinstance(session.dataset(tmp_path,tmp_path/'evidence'),Reader)
+    assert calls[-1]=='initialized'and calls[0][1]['panel']==panel
+    panel['parents'][0]['sha256']='0'*64
+    (plans/'MINIMAL_TWELVE_PANEL.json').write_text(json.dumps(panel))
+    with pytest.raises(PermissionError):session.dataset(tmp_path,tmp_path/'bad')

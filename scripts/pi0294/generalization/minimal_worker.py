@@ -140,15 +140,16 @@ class Worker:
 
     def original_probe_reader(self):
         """Original COV reader/reference only; never used by the12-parent Trainer."""
-        from scripts.pi0294.pv1.dataset import PV1Dataset
+        from scripts.pi0294.pv1.mix_training import dataset as original_dataset
         b=self.sealed('plans/MINIMAL_ORIGINAL_PROBE_READER.private.json');inputs=b['inputs']
-        need(b['reference_only_not_training']is True and b['arm']=='C50'and b['seed']==20261019,
+        need(b['reference_only_not_training']is True and b['arm']=='C50'and b['seed']==20261019
+             and b['route']=='COVERAGE_FIRST'
+             and inputs==self.sealed('plans/PV1_TRAIN_INPUTS.private.json'),
              'WORKER_ORIGINAL_COV_PROBE_REFERENCE_ONLY_NOT_NEW_TRAINING_POPULATION')
-        data=PV1Dataset(self.bindings['dataset'],self.bindings['source'],self.bindings['cosmos'],for_optimization=True,
-            raw_bindings=read(self.bindings['raw_bindings']),correction_root=inputs['C1_dataset'],
-            correction_bindings=read(inputs['C1_raw_bindings']),new_root=inputs['new_dataset'],
-            new_raw_bindings=read(inputs['new_raw_bindings']),route=b['route'],arm=b['arm'],seed=b['seed'])
-        data.initialize();return data
+        # C50 is a training recipe, not a valid PV1Dataset constructor arm.
+        # The mature factory binds C50 to COVERAGE_FIRST/B_COVERAGE before
+        # installing its exact C50 sampler and initializing the same reader.
+        return original_dataset(self.root,b['arm'],self.evidence/'original-probe-reader')
 
     def qualification(self,sid):
         self.zero_draws(sid)
