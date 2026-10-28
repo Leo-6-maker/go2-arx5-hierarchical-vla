@@ -20,6 +20,16 @@ need=e.need;once=mature.once
 HEARTBEAT='ARX5_MINIMAL_ACTUAL_BOUND_NATIVE_HEARTBEAT_RECEIPT_V1'
 
 
+def control_CPU_limits(request):
+    """The second cold continuation shares its prepaid3600s with preparation."""
+    if request.get('continuation_generation')==2:
+        from . import minimal_followup_scope as followup
+        need(adapters.select(request['platform_training_version'],request['profile'])is adapters.retry
+            and request['profile']==followup.PROFILE,'OWNER_SECOND_CONTINUATION_CONTROL_CPU_SCOPE')
+        return (2990,3000)
+    return (3590,3600)
+
+
 def worker_inventory(root):
     """Stable native-worker outputs, separate from this active CPU auditor."""
     import stat
@@ -120,7 +130,7 @@ class Owner(mature.Owner):
         self.setup=mature.new_journal(self.BASE,'setup-rpc',dict(run_uuid=self.root.name,job_id='NO_GPU_YET',
             source_sha=self.manifest['code']['vla_commit'],request_sha256=e.authority.GRANT_SHA));self.running=None
         os.sched_setaffinity(0,set(sorted(os.sched_getaffinity(0))[:4]))
-        resource.setrlimit(resource.RLIMIT_CPU,(3590,3600));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+        resource.setrlimit(resource.RLIMIT_CPU,control_CPU_limits(self.request_template));resource.setrlimit(resource.RLIMIT_CORE,(0,0))
 
     def auth(self,secret=None):
         value=self.program('AUTH')
