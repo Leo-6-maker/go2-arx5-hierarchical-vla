@@ -65,3 +65,20 @@ def test_LOCAL_sync_is_only_one_original_control_and_inventory_proposal(bound):
     assert out['full_future_proof']['cap_changes_required']=={}
     assert n.validate_LOCAL(bound,result)==n.binding(bound)
     with pytest.raises(PermissionError):n.propose_LOCAL(a.raw(bound),a.raw(result),now_epoch=1793131105.)
+
+
+def test_actual_closed_first512_can_mirror_without_reopening_native_job():
+    path=os.environ.get('ARX5_TERMINAL_MIRROR_CAPTURE')
+    if not path:pytest.skip('actual closed canonical pair not supplied')
+    capture=json.loads(Path(path).read_bytes())
+    gb=gzip.decompress(base64.b64decode(capture['GLOBAL_gzip_base64']))
+    lb=gzip.decompress(base64.b64decode(capture['LOCAL_gzip_base64']))
+    g=json.loads(gb);l=json.loads(lb);row=e.rows(g)[0]
+    assert row['status']==e.STATES[2] and row['native_exit_status']!=0
+    result=n.propose_LOCAL(gb,lb,now_epoch=capture['observed_epoch'])
+    proposed=result['proposed_LOCAL'];c.paired(g,proposed)
+    assert proposed['PBS_submissions']==g['PBS_submissions']
+    assert result['full_future_proof']['cap_changes_required']=={}
+    assert result['new_GPU']==result['new_PBS']==result['new_models']==0
+    assert n.validate_LOCAL(g,proposed) is None
+    with pytest.raises(PermissionError):n.propose_LOCAL(gb,a.raw(proposed),now_epoch=capture['observed_epoch'])

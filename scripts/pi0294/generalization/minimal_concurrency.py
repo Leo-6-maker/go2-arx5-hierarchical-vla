@@ -126,7 +126,11 @@ def propose_LOCAL(global_bytes,local_bytes,*,now_epoch):
     from scripts.pi0294.pv1.neural_ledger import check
     from .minimal_scope import first512_forecast
     g,l=json.loads(global_bytes),json.loads(local_bytes);check(g,allow_unknown=True)
-    proof=binding(g);row=e.rows(g)[0]
+    row=e.rows(g)[0]
+    # A main that finished before Core became available still has to be
+    # mirrored, including its actual terminal and paid control.  Its immutable
+    # identity is the same as during R, but this does not authorize overlap.
+    proof=binding_identity(row)
     e.need(LOCAL_MIRROR not in l and g['PBS_submissions'][-1]==row
         and l['PBS_submissions']==g['PBS_submissions'][:-1]
         and g['unknown_effects']==g['pending_updates']==[]
