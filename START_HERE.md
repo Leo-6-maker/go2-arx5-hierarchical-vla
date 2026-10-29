@@ -14,6 +14,8 @@
 
 ## 当前关键事实
 
+- **saved512接续已实际登记为PBS40，但尚未qsub。** 原REGISTER在CAS成功后回包超时，原UNKNOWN保留；独立原生intent／receipt、完整15449016字节GLOBAL及旧进程OS1均已核对。[实际登记及首次提交冷接续](reports/PI0294/design/parallel-science-20261022/ARX5_SAVED512_REGISTER40_ACTUAL_CAS_AND_FIRST_DISPATCH_CONTROL_20261029.json)只接同一请求的首次qsub，复用原3000CPU银行800＋2200，无新登记／预付／计数；计算source769c和原模型／数据／安全门不改。
+
 - A4096=11/24、B4096=6/24、C50=6/24；源域已暴露DEV，不是独立泛化。D25/GEN1各1024完成，仍无有效Eval。
 - Vanda1504095已F/Exit1、once结算、own lease关闭：E0 39查询，E1两步资格/17查询/14目标参数变化，E2 15零步输出/优化0。该旧作业未执行正式训练；后继当前终态见下条。
 - **PR99新增实际证据：E0/E1完整保存前缀独立审计PASS，E1重载同输入/noise输出精确一致；PBS41→42及一次控制范围已采用；Core LOCAL38条终态已补齐。** [原报告](reports/PI0294/design/parallel-science-20261022/ARX5_REAL_E0_E1_FULL_SAVED_PREFIX_AUDIT_AND_CANONICAL_CORE_HISTORY_CATCHUP_ACTUAL_20261029.json)。不重做同一审计/cap/mirror/settle。

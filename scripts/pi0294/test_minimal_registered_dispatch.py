@@ -105,3 +105,31 @@ def test_actual_temporary_once_CAS_lost_reply_is_read_only_and_never_reissued(tm
     with pytest.raises(UnknownMutation):journal.call('BIND', 'MUTATION', lost_reply)
     assert len(calls) == 1
     with pytest.raises(PermissionError):d.exact_current_cas(path, before_sha256='0'*64, after_sha256=d.digest(after))
+
+
+@pytest.mark.parametrize('bad', [None, 'stale', 'wrong_directory', 'replay'])
+def test_saved512_first_intent_uses_real_compute_paths_and_original_raw_queue_check(captured, tmp_path, bad):
+    from scripts.pi0294.generalization import minimal_execution_adapter as adapters, minimal_saved512_dispatch as dispatch
+    from scripts.pi0294.test_minimal_native_admission import queue_limits
+    gb, rb, actual = captured
+    request = json.loads(rb)
+    if adapters.request(request) is not adapters.saved512:
+        pytest.skip('saved512 actual request capture required for this added seam')
+    now = actual['observed_epoch']; current = queue_limits(now)
+    root = tmp_path/request['run_uuid']; directory = root/'pbs'/('alloc-'+str(request['submit_count']).zfill(2))
+    directory.mkdir(parents=True); (root/'control/resident-owner').mkdir(parents=True)
+    if bad == 'stale':current['observed_epoch'] -= 121
+    if bad == 'wrong_directory':directory = directory.with_name('alloc-39')
+    if bad in ('stale', 'wrong_directory'):
+        with pytest.raises(PermissionError):d.saved512_dispatch_intent(root, directory, request, current, now_epoch=now)
+        assert not (root/'control/resident-owner/SOURCE_QSUB_INTENT.private.json').exists()
+        return
+    intent = d.saved512_dispatch_intent(root, directory, request, current, now_epoch=now)
+    proof = (directory/dispatch.FILE).read_bytes()
+    assert proof == d.raw(current)
+    assert json.loads((root/'control/resident-owner/SOURCE_QSUB_INTENT.private.json').read_bytes()) == intent
+    dispatch.check(proof, intent, request, now_epoch=now)
+    assert not (directory/'QSUB_INTENT.json').exists()  # no scheduler call in this helper
+    if bad == 'replay':
+        with pytest.raises(PermissionError):d.saved512_dispatch_intent(root, directory, request, current, now_epoch=now)
+        assert (directory/dispatch.FILE).read_bytes() == proof
