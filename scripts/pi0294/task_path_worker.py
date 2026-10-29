@@ -15,7 +15,7 @@ import subprocess
 import sys
 import time
 import numpy as np
-from .task_path_runtime import validate_entry,require_card,reserve,settle,read,sha,cards
+from .task_path_runtime import validate_entry,require_card,reserve,settle,read,sha,cards_for_manifest
 from .task_state import ActualState,write_gripper,read_state
 from .task_gripper_contract import teacher_physical_fraction,require_working_target
 from .task_path_teacher import VERSION,Teacher,NativePathClient,serial
@@ -102,7 +102,7 @@ def run(root,native,startup,episode):
     step_cap=round((card['warmup_sim_s']+card['duration_s'])/.002)+3
     plan_path=series/'FIXED_SERIES_CARDS.json'
     if plan_path.exists():
-        if read(plan_path)['cards']!=cards():raise ValueError('NEW_TEACHER_FIXED_PLAN_CHANGED')
+        if read(plan_path)['cards']!=cards_for_manifest(manifest):raise ValueError('NEW_TEACHER_FIXED_PLAN_CHANGED')
     else:raise PermissionError('S1_PRESEALED_FIXED_CARDS_REQUIRED')
     out=series/'episodes'/episode;engineering_attempt=1
     if out.exists():raise FileExistsError('FIRST_ATTEMPT_PRESERVED_NO_RETRY')

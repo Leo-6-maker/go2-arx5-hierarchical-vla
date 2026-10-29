@@ -38,10 +38,22 @@ def cards():
     return result
 
 
+def cards_for_manifest(manifest):
+    if 'recovery_scope' in manifest:
+        from .task_path_recovery import SCOPE, APPROVAL_PIN, recovery_cards
+        if manifest['recovery_scope'] != SCOPE or manifest.get('recovery_approval_sha256') != APPROVAL_PIN:
+            raise PermissionError('S1_EXACT_TWO_CARD_RECOVERY_SCOPE')
+        return recovery_cards()
+    return cards()
+
+
 def validate_entry(root, physical_asset=None):
     root = Path(root).resolve(strict=True)
     manifest = read(root/'NATIVE_RUN_MANIFEST.json'); inputs = read(root/'NATIVE_INPUTS.private.json')
     approved = authority((root/'S1_HUMAN_APPROVAL.json').read_bytes(), now_epoch=time.time())
+    if 'recovery_scope' in manifest:
+        from .task_path_recovery import validate_recovery
+        validate_recovery(root, manifest, time.time())
     deadline = datetime.fromisoformat(approved['window_end_UTC']).timestamp()
     if (manifest.get('schema') != 'APPROVED_S1_NATIVE_TASK_MANIFEST_V1'
             or manifest['run_uuid'] != root.name or manifest['owner'] != 'EXISTING_LOCAL_PC'
@@ -86,10 +98,11 @@ def validate_entry(root, physical_asset=None):
 
 def require_card(root, manifest, episode):
     root = Path(root); table = read(root/'native-s1/FIXED_SERIES_CARDS.json')
-    if table['cards'] != cards() or table['source_sha'] != manifest['code']['vla_commit']:
-        raise PermissionError('S1_FIXED_FOUR_CARDS_AND_SOURCE')
-    selected = next((c for c in cards() if c['id'] == episode), None)
-    if selected is None: raise PermissionError('S1_ONLY_FOUR_FIXED_ATTEMPTS')
+    expected = cards_for_manifest(manifest)
+    if table['cards'] != expected or table['source_sha'] != manifest['code']['vla_commit']:
+        raise PermissionError('S1_FIXED_APPROVED_CARDS_AND_SOURCE')
+    selected = next((c for c in expected if c['id'] == episode), None)
+    if selected is None: raise PermissionError('S1_ONLY_FIXED_APPROVED_ATTEMPTS')
     if selected['role'] == 'CONFIRM':
         proof = read(root/'native-s1/episodes'/('S1_SHORT_'+selected['task'])/'INDEPENDENT_CPU_AUDIT.json')
         if (proof['status'] != 'PASS_S1_SHORT_MANIPULATION_AND_INTEGRITY'
@@ -122,11 +135,15 @@ def reserve(root, card):
         raise PermissionError('S1_OWN_NATIVE_UNIT_800S_10S_WHOLE_GROUP_AND_FOUR_CORE_LIMIT')
     path = root/'control/S1_PREPARATION_ACCOUNT.json'; before = path.read_bytes(); value = json.loads(before)
     cpu = 3300; steps = round((5+card['duration_s'])/.002)+3; pairs = round(card['duration_s']/.05)+1
+    limits = dict(starts=4, integrations=62012, RGB_pairs=2084)
+    if 'recovery_scope' in manifest:
+        from .task_path_recovery import validate_recovery
+        limits = validate_recovery(root, manifest, time.time())
     if (value.get('native_attempts_admitted') is not True
             or value.get('native_scope_source_sha')!=manifest['code']['vla_commit']
             or value.get('active_native_ticket') or card['id'] in value.get('native_attempts', {})
-            or value['starts']+1 > 4 or value['integrations']+steps > 62012
-            or value['RGB_pairs']+pairs > 2084
+            or value['starts']+1 > limits['starts'] or value['integrations']+steps > limits['integrations']
+            or value['RGB_pairs']+pairs > limits['RGB_pairs']
             or value['Core_CPU_upper_charged_s']+cpu > 13800
             or value['PC_CPU_upper_charged_s'] > 600
             or value['Core_CPU_upper_charged_s']+value['PC_CPU_upper_charged_s']+cpu > 14400):
