@@ -1,0 +1,63 @@
+{
+  "schema": "ARX5_E2_ONLY_RAW512_PBS44_DIRECT_AUTHORITY_V1",
+  "authority": "Human direct reply: 批准仅PBS 43→44",
+  "scope_draft_commit": "4ad28904a4409edf8bc3ba6634fc14d3fe1eef4b",
+  "scope_draft": "ARX5_E2_ONLY_RAW512_AFTER1506193_FULL_FUTURE_PBS43_TO44_ONLY_SCOPE_DRAFT_20261029.json",
+  "closed_job_id": "1506193.stdct-mgmt-02",
+  "closed_request_id": "586b6601-daf5-4823-950b-605896e611c0",
+  "closed_row_sha256": "bca2e93f38bdcca3ec4d10dc79abe418d8a5fbcc20f9b627b06bb40fcd172f28",
+  "closed_marker_sha256": "31d445f0f334be1603c3f9ebbfb834381e7fb6cb81b77e4c903370009fafd3a4",
+  "closed_lease_sha256": "d422ff437ad7409b0042c7761816963bc5bf5eae8d0c9d6c188d90293d44fabb",
+  "caps_delta": {
+    "PBS_submissions": {
+      "before": 43,
+      "after": 44
+    }
+  },
+  "other_caps_changed": false,
+  "native_effect_upper": {
+    "GPU_s": 22560,
+    "site_CPU_s": 54000,
+    "optimizer_updates": 512,
+    "queries": 37,
+    "model_loads": 2,
+    "PBS_submissions": 1,
+    "additional_output_charge_bytes": 0
+  },
+  "control": {
+    "site_CPU_s": 3600,
+    "PC_CPU_s": 600,
+    "site_metadata_bytes": 8388608,
+    "new_financial_storage_charge_bytes": 0
+  },
+  "paid_output_projection": {
+    "original_ceiling_bytes": 144294967296,
+    "retained_bytes": 66671091712,
+    "new_total_root_upper_bytes": 70000000000,
+    "new_root_includes_source_control_checkpoints_and_temporary_files": true,
+    "projected_gross_bytes": 136671091712,
+    "captured_headroom_bytes": 7623875584,
+    "new_output_charge_bytes": 0,
+    "fresh_physical_revalidation_still_required": true,
+    "no_deletion_or_hardlink_credit": true
+  },
+  "E1_new_training_or_inference": 0,
+  "E2_initialization": "ORIGINAL_RAW_PARENT_FRESH_OPTIMIZER",
+  "E2_target_updates": 512,
+  "E2_scheduler_horizon": 1024,
+  "T_CD": 1792932749.8133287,
+  "stop_new_training_epoch": 1793451149.8133287,
+  "deadline_epoch": 1793537549.8133287,
+  "native_adoption": false,
+  "new_requests": 0,
+  "new_GPU_PBS_models_queries_updates": 0,
+  "preserved": {
+    "old_122_updates_and_costs": true,
+    "complete_E1_endpoint_and_qualified_inference": true,
+    "original_recipe_and_TRAIN12": true,
+    "matrix3": true,
+    "final20GPUh40GiB": true,
+    "old_failed_and_UNKNOWN": true,
+    "clocks": true
+  }
+}
