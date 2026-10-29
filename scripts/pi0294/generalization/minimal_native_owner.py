@@ -142,6 +142,7 @@ class Owner(mature.Owner):
         self.saved512_physical=None
         self.e2only_physical=None
         if self.adapter is adapters.e2only:
+            adapters.e2only.require_paid_retry(g,self.request_template)
             from .minimal_e2only_physical import Guard as Physical
             self.e2only_physical=Physical(self.root,self.request_template,self.manifest,lambda **_:None)
         if self.adapter is adapters.saved512:
@@ -327,9 +328,26 @@ class Owner(mature.Owner):
                 complete_queue=view['complete_account_queue'],independent_confirmation_base64=self.CONFIG['outside_confirmation_base64'],
                 old_workers_terminal=self.adapter.authority.predecessor(json.loads(global_bytes))[0]['terminal']['native']['all_native_workers_terminal'],
                 old_closed_science_lease_sha256=self.adapter.authority.LEASE)
+            closed={}
+            if r.get('attempt_index',1)>1:
+                from .minimal_e2only_execution import closed_zero_binding
+                files={k:(self.root/'plans'/name).read_bytes()for k,name in (
+                    ('lease_bytes','E2_ONLY_PREVIOUS_ZERO_LEASE.private.json'),
+                    ('settled_bytes','E2_ONLY_PREVIOUS_ZERO_SETTLED.private.json'),
+                    ('finite_OS_bytes','E2_ONLY_PREVIOUS_ZERO_FINITE_OS0.private.json'))}
+                # Re-read the same actual closed predecessor files at the
+                # stage boundary; sealed copies alone are not liveness proof.
+                pins=self.e2only_physical.custody['closed_zero_roots'][-1]
+                old=Path(pins['root']);binding=read(old/'OUTPUT_BINDING.private.json')
+                need(files['lease_bytes']==Path(binding['lease']).read_bytes()
+                    and files['settled_bytes']==(old/'control/resident-owner/TERMINAL_SETTLED.private.json').read_bytes()
+                    and files['finite_OS_bytes']==Path(pins['finite_OS_path']).read_bytes(),
+                    'OWNER_E2_ONLY_ACTUAL_CLOSED_ZERO_FILES_UNCHANGED')
+                fresh['closed_zero_predecessor']=closed_zero_binding(json.loads(global_bytes),**files)
+                closed['closed_zero_files']=files
             return self.adapter.register(global_bytes,self.local,request_bytes=request_bytes,
                 physical_custody=self.e2only_physical.custody,physical_proof=physical,physical_observed_epoch=physical['observed_epoch'],
-                fresh_readback=fresh,now_epoch=now)
+                fresh_readback=fresh,now_epoch=now,**closed)
         if self.adapter is adapters.saved512:
             from . import minimal_saved512_contract as saved
             physical=self.saved512_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)

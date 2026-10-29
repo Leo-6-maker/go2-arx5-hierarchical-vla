@@ -8,6 +8,11 @@ RUN='arx5-minimal-e2-only-raw-fixed512-01'
 KEYS=('optimizer_updates','generation_queries','model_loads')
 
 
+def run_name(attempt=1):
+    e.need(type(attempt)is int and attempt>=1,'E2ONLY_EXPLICIT_POSITIVE_ATTEMPT')
+    return 'arx5-minimal-e2-only-raw-fixed512-'+str(attempt).zfill(2)
+
+
 def recovery_policy():
     """Execution-only saves; the scientific candidate remains fixed512."""
     return dict(periodic_steps=[256],terminal_step=512,max_full_states=2,

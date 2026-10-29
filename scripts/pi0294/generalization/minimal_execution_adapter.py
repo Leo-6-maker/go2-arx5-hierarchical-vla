@@ -34,6 +34,7 @@ def registered(g, request_id, *, version=None):
     row = matches[0]; adapter = request(row, central=True); marker = adapter.validate(g)
     original.need(marker is not None and row in adapter.rows(g)
         and (version is None or version == adapter.VERSION), 'ADAPTER_COMPLETE_ADOPTED_CONTEXT')
+    if adapter is e2only:marker=e2only.basic(g,request_id)[0]
     return adapter, row, marker
 
 

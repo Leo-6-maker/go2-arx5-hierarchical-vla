@@ -88,15 +88,27 @@ def validate(g,*,generation=None):
 def budget_LOCAL(g,local):
     if validate(g)is None:return local
     proof=dict(grant_sha256=GRANT_SHA,costs=CONTROL,canonical_LOCAL_write_proven=False)
-    if LOCAL_FIELD in local:
-        need(local[LOCAL_FIELD]==proof,'E2ONLY_ONCE_HISTORICAL_LOCAL_PROJECTION');return local
-    v=deepcopy(local);v['CPU_s']['local_PC']+=CONTROL['local_CPU_s'];v[LOCAL_FIELD]=proof
+    v=deepcopy(local)
+    if LOCAL_FIELD in v:
+        need(v[LOCAL_FIELD]==proof,'E2ONLY_ONCE_HISTORICAL_LOCAL_PROJECTION')
+    else:
+        v['CPU_s']['local_PC']+=CONTROL['local_CPU_s'];v[LOCAL_FIELD]=proof
+    from . import minimal_e2only_execution as execution
+    selected=execution.indices(g);controls={row['request_id']:dict(request_sha256=row['request_sha256'],index=index)for index,row in selected[1:]}
+    for rid,m in execution.paid_retry_controls(g).items():controls.setdefault(rid,dict(prepaid=m))
+    if controls:
+        paid=v.setdefault(execution.LOCAL_CONTROL,{})
+        for rid,m in controls.items():
+            item=dict(costs=CONTROL,canonical_LOCAL_written=False)
+            if rid in paid:need(paid[rid]==item,'E2ONLY_ONCE_ADDITIONAL_CONTROL_PROJECTION');continue
+            v['CPU_s']['local_PC']+=CONTROL['local_CPU_s'];paid[rid]=item
     return v
 
 
 def planned_unregistered(g):
     from . import minimal_e2only_execution as execution
-    return deepcopy(NATIVE)if validate(g)is not None and execution.basic(g)is None else e._vector({})
+    if validate(g)is not None and execution.basic(g)is None:return deepcopy(NATIVE)
+    return execution.planned_retry(g)
 
 
 def propose(global_bytes,historical_LOCAL_bytes,scope_bytes,*,closed_readback,now_epoch):
