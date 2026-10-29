@@ -80,6 +80,13 @@ def make_engine(card, asset_root, *, pinned_libero=None):
                     illegal = True
             return left, right, opposing, illegal, entries
 
+        def render(self, snapshot):
+            images, geometry = super().render(snapshot)
+            # Count actual completed camera pairs even when a subsequent
+            # calibration, view or recorder qualification rejects them.
+            self.render_pairs = getattr(self, 'render_pairs', 0) + 1
+            return images, geometry
+
         def snapshot(self):
             s = super().snapshot()
             spec = card['book' if card['task'] == 'BOOK' else 'door']
