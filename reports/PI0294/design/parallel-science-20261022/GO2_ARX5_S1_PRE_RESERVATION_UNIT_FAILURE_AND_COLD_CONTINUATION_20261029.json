@@ -1,0 +1,35 @@
+{
+  "schema": "S1_ACTUAL_PRE_RESERVATION_FAILURE_AND_BOUNDED_COLD_CONTINUATION_V1",
+  "worker_source_sha": "04e134969e4821b1674ffeded0eb55d7b4f1f151",
+  "run_uuid": "20261029T113139Z-standing-task-path-s1",
+  "actual_failed_episode": "S1_SHORT_T1",
+  "actual_failed_pid": 3192764,
+  "actual_native_invocation_id": "7ecb8f33f52e49c48c93cb19c8d44cff",
+  "observed_epoch": 1793286102.3225334,
+  "native_terminal": {"MainPID": 0, "ExecMainCode": 1, "ExecMainStatus": 1, "Result": "exit-code"},
+  "CPU_usage_ns": 1059050000,
+  "failure": "S1_ORIGINAL_OWN_BOUNDED_NATIVE_UNIT_REQUIRED",
+  "cause": "The env -i owner wrapper removed systemd INVOCATION_ID before reserve; cgroup alone cannot admit the worker.",
+  "physics_integrations": 0,
+  "RGB_pairs": 0,
+  "episode_directory_created": false,
+  "old_failed_unit_and_intents_preserved": true,
+  "conservative_start_accounting": {
+    "this_failed_pre_reservation_unit_counts_as_one": true,
+    "maximum_remaining_native_starts": 3,
+    "remaining_fixed_order": ["S1_SHORT_T1", "S1_SHORT_T2", "S1_CONFIRM_T1_ONLY_IF_SHORT_T1_PASSES"],
+    "S1_CONFIRM_T2_dropped_without_replacement": true,
+    "failed_CPU_retained_within_prepaid_cold_phase": true,
+    "no_added_budget_or_deadline": true
+  },
+  "cold_continuation": {
+    "status": "PREPARED_NOT_YET_ADOPTED",
+    "retain_actual_INVOCATION_ID_from_new_native_unit": true,
+    "new_T1_unit_identity_required": true,
+    "archive_exact_previous_inputs_and_manifest": true,
+    "use_original_onceIO_for_current_metadata_and_start_charge": true,
+    "worker_source_and_scientific_cards_unchanged": true,
+    "no_failed_unit_reset_or_replay": true
+  },
+  "science_status": "NO_S1_NATIVE_PHYSICS_YET_NO_TASK_RESULT"
+}
