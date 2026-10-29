@@ -136,6 +136,12 @@ def _base_remaining(g):
     return value
 
 
+def effective_base_remaining(g):
+    """Keep historical marker bytes; project later once-paid source IO only."""
+    from .minimal_delivery_control import consume_remaining
+    return consume_remaining(g,_base_remaining(g))
+
+
 def _selected(g,*,generation=None):
     generation=(3 if ENTRY_FIELD in g else 2 if FOLLOWUP_FIELD in g else 1)if generation is None else generation
     need(generation in (1,2,3),'RETRY_EXACT_SELECTED_GENERATION')
@@ -330,7 +336,7 @@ def validate(g,*,generation=None):
     else:
         need('terminal' not in m and m['status'] == 'REGISTERED' and m['completed_sessions'] == [],
              'RETRY_NO_PREPARED_OR_RUNTIME_FLAGS_AS_TERMINAL')
-    remaining = _base_remaining(g)
+    remaining = effective_base_remaining(g)
     if row['status'] != e.STATES[2]:
         for k, v in native_resources().items():
             if k != 'PBS_submissions': remaining[k] += v
@@ -357,7 +363,7 @@ def selected(g, request_id):
 
 def forecast_remaining(g):
     if validate(g) is None: return e.forecast_remaining(g)
-    _, row = _selected(g); v = _base_remaining(g)
+    _, row = _selected(g); v = effective_base_remaining(g)
     if row['status'] != e.STATES[2]:
         for k, n in native_resources().items():
             if k != 'PBS_submissions': v[k] += n

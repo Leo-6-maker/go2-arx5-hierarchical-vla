@@ -85,9 +85,11 @@ def budget_LOCAL(g,l):
     proof=dict(grant_sha256=GRANT_SHA,costs=CONTROL,canonical_LOCAL_write_proven=False,
                original_historical_LOCAL_sha256=g[FIELD]['historical_LOCAL_sha256'])
     if LOCAL_FIELD in l:
-        need(l[LOCAL_FIELD]==proof,'RESUME_ONCE_EXPLICIT_NONCANONICAL_PROJECTION');return l
-    v=deepcopy(l);v['CPU_s']['local_PC']+=60;v['network_transfer_accounted_bytes']+=32768;v[LOCAL_FIELD]=proof
-    return v
+        need(l[LOCAL_FIELD]==proof,'RESUME_ONCE_EXPLICIT_NONCANONICAL_PROJECTION');v=l
+    else:
+        v=deepcopy(l);v['CPU_s']['local_PC']+=60;v['network_transfer_accounted_bytes']+=32768;v[LOCAL_FIELD]=proof
+    from .minimal_delivery_control import budget_LOCAL as delivery_projection
+    return delivery_projection(g,v)
 
 
 def propose(g,local,scope_bytes,*,now_epoch,zero_qsub_proof):

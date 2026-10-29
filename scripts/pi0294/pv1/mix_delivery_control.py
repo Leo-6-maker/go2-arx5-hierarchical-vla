@@ -66,8 +66,13 @@ def prepay(g, l, *, capture_bytes, small_bytes, arm, now_epoch):
     return result
 
 
-def upload_admission(g, plan, *, now_epoch, checkpoint_complete_bytes):
+def upload_admission(g, plan, *, now_epoch, checkpoint_complete_bytes,
+                     source_control_manifest_bytes=None,source_checkpoint_root=None):
     """Native uploader still verifies every source tensor before/after upload."""
+    if plan['public_plan'].get('candidate')in('E1_ADAPTER_ONLY','E2_SHARED_ACTION_HEAD'):
+        from scripts.pi0294.generalization.minimal_delivery_control import upload_admission as minimal_upload
+        return minimal_upload(g,plan,now_epoch=now_epoch,checkpoint_complete_bytes=checkpoint_complete_bytes,
+            source_control_manifest_bytes=source_control_manifest_bytes,source_checkpoint_root=source_checkpoint_root)
     c.checked(g);p=a.package_view(g);arm=plan['public_plan']['candidate'];stage=c.key(arm)
     marker=p.get(FIELD,{}).get(stage,{})
     need(marker.get('schema')=='V5_CD_MODEL_ONLY_EXISTING_STAGE_DELIVERY_V1'

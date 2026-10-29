@@ -41,6 +41,23 @@ def test_failed_source_wrapper_preserves_actual_nonzero_OS_exit(tmp_path,monkeyp
     assert json.loads((root/'UPLOAD_OS_EXIT.json').read_bytes())['returncode']==7
 
 
+@pytest.mark.parametrize('arm',['E1_ADAPTER_ONLY','E2_SHARED_ACTION_HEAD'])
+def test_same_detached_source_pipe_retains_exact_minimal_control_root(arm,tmp_path,monkeypatch):
+    root=tmp_path/'control';p=root/'code/scripts/pi0294/pv1/mix_model_upload.py';p.parent.mkdir(parents=True)
+    for parent in(p.parent,p.parent.parent,p.parent.parent.parent):(parent/'__init__.py').write_text('')
+    p.write_text('import json,sys\nfrom pathlib import Path\np=json.loads(sys.stdin.read())\nassert p["candidate"]in("E1_ADAPTER_ONLY","E2_SHARED_ACTION_HEAD")\nassert Path(p["control_root"]).is_dir()\nassert p.pop("token")=="FAKE_PIPE_ONLY"\n')
+    (root/'CONTROL_RUN_MANIFEST.json').write_text(json.dumps(dict(source_sha='c'*40,model_transfer_only=True,worker_sha256=a.sha(p.read_bytes()))))
+    monkeypatch.setattr(os,'getuid',lambda:22182);processes=[];spawn=subprocess.Popen
+    def capture(*args,**kw):
+        proc=spawn(*args,**kw);processes.append(proc);return proc
+    monkeypatch.setattr(subprocess,'Popen',capture)
+    payload=dict(control_root=str(root),source_sha='c'*40,candidate=arm,token='FAKE_PIPE_ONLY')
+    exec(compile(w.START,'<same-finite-source-only-pipe>','exec'),dict(P=deepcopy(payload)))
+    assert processes[0].wait(timeout=10)==0
+    assert json.loads((root/'UPLOAD_OS_EXIT.json').read_bytes())['returncode']==0
+    assert all(b'FAKE_PIPE_ONLY'not in path.read_bytes()for path in root.rglob('*')if path.is_file()and path!=p)
+
+
 def test_actual_original_Journal_directory_and_unknown_write_are_not_replayed(tmp_path):
     from scripts.pi0294.dec1.owner_transport import UnknownMutation
     cfg=dict(control_run_uuid='v5-c50-control-fixture',source_sha='c'*40,compiled_plan=dict(public_plan=dict(candidate='C50',checkpoint_step=1024)))
