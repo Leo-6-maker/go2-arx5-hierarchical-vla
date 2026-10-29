@@ -70,7 +70,10 @@ def check_transactions(samples,records,planner,*,episode,initial_step=2500):
         if row.get('kind')=='accept':
             ref=row['ref_id'];need(ref not in accepted,'DUPLICATE_RECEIVER_ACCEPT');accepted[ref]=row
         elif row.get('kind')=='installed'and row.get('ref_id'):
-            ref=row['ref_id'];need(ref not in installed,'DUPLICATE_NATIVE_INSTALL');installed[ref]=row
+            # The unchanged receiver republishes an active absolute reference
+            # as native observation time advances. All copies must preserve
+            # its source-bound grid and values; only the first is the ACK.
+            installed.setdefault(row['ref_id'],[]).append(row)
         elif row.get('kind')=='reject':raise ValueError('S1_INDEPENDENT_NATIVE_REJECT_PRESENT')
     need(len(accepted)==len(installed)==81,'EIGHTY_TASK_PLUS_ONE_QUALIFICATION_REFERENCE')
     intervals=[];task_refs=set();ages=[]
@@ -100,9 +103,14 @@ def check_transactions(samples,records,planner,*,episode,initial_step=2500):
         need(0<=age<=.025 and 0<=actual_source_age(samples[index]['raw_time_s'],source)<=.025,'SOURCE_AGE')
         need(ack['index']==index and ack['wire_sha256']==ref and ack['native_step']==step,
              'EXACT_SAME_PAUSED_STATE_ACK')
-        need(abs(installed[ref]['bound_start']-source)<=1e-8
-             and abs(installed[ref]['observation_time_s']-source)<=1e-8,'INSTALL_BOUND_TO_SOURCE')
-        check_installed_values(installed[ref],document,source)
+        copies=installed[ref]
+        need(abs(copies[0]['observation_time_s']-source)<=1e-8,'FIRST_INSTALL_AT_EXACT_SOURCE_PAUSE')
+        observations=[copy['observation_time_s']for copy in copies]
+        need(all(a<=b for a,b in zip(observations,observations[1:])),'ORDERED_NATIVE_REPUBLICATION')
+        for copy in copies:
+            need(abs(copy['bound_start']-source)<=1e-8
+                 and source-1e-8<=copy['observation_time_s']<=source+.4+1e-8,'INSTALL_BOUND_TO_SOURCE')
+            check_installed_values(copy,document,source)
         for k in range(8):
             start,end=samples[index+k],samples[index+k+1]
             need(start['native_step']==step+k*25 and end['native_step']==step+(k+1)*25,
@@ -112,7 +120,8 @@ def check_transactions(samples,records,planner,*,episode,initial_step=2500):
             intervals.append(dict(interval_index=index+k,start_native_step=start['native_step'],
                 end_native_step=end['native_step'],wire_sha256=ref,prefix_index=k,
                 action_EEF10=action[k].tolist(),selected_MPC_policy_consumption='UNKNOWN'))
-    return dict(submitted_and_installed=80,completed_intervals=640,source_age_max_s=max(ages),
+    return dict(submitted_and_installed=80,native_task_install_publications=sum(len(installed[ref])for ref in task_refs),
+                completed_intervals=640,source_age_max_s=max(ages),
                 task_refs=sorted(task_refs),intervals=intervals)
 
 
@@ -230,6 +239,7 @@ def audit_episode(folder,*,expected_source_sha,frozen_model=None):
     proof=dict(status='COMPLETE_TASK_QUALITY_PASS'if quality['persistent_success']else'COMPLETE_TASK_QUALITY_FAIL',
         source_sha=expected_source_sha,quality=quality,observations=641,native_integrations=18500,task_integrations=16000,
         submitted_and_installed=80,executed_intervals=640,RGB_pairs=641,actual_state_byte_identity=True,
+        native_task_install_publications=transactions['native_task_install_publications'],
         independent_state_predicates=True,submitted_EEF10_wire_identity=True,BASE_supervision=False,
         frozen_native_robot=frozen,source_age_max_s=transactions['source_age_max_s'],
         image_hashes=image_hashes,raw_evidence=hashes,completed_interval_evidence=transactions['intervals'],

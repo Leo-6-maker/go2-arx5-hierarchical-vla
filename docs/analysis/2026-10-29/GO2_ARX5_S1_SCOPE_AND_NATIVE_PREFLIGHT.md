@@ -1,5 +1,7 @@
 # S1批准、十天计划衔接与实际冷态核对
 
+**2026-10-30后继实际：恢复01已关闭并安全隔离。** [两次首次结果及独立核账](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_RECOVERY01_TWO_ACTUAL_FAILURES_CLOSED_20261030.json)优先于下文准备时点。T1实际执行首个Prefix8/0.4秒，存8对RGB；第二次查询因已执行旋转历史误用列解码而拒绝。实际保存状态用正确行解码，原1051点证书通过，最大关节速率0.225rad/s、加速度0.332rad/s²；没有新物理或改原阈值。T2初始化第24步真实FL小腿越界，未运行任务，停止原件与隔离标记保留；其控制在第4步与相同初态的T1分歧，原因未定。累计5启动/7736计费步/8对RGB；新scope/lease及旧run均关闭，0条合格新示范，不重试。46项CPU检查通过，冷修未部署。
+
 **后继授权：** 用户已直接批准[两次S1恢复范围](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_RECOVERY_HUMAN_APPROVAL_20261029.json)。T1/T2各32秒＋最多5秒初始化，无重试；累计上限5启动/42012计费步/1282对RGB。旧关闭账本与lease精确hash承接至新immutable run，旧run不重开，原CPU/存储/传输/截止不变。独立审计核对80个已提交/安装H40、640个执行Prefix8区间、18500个原始状态及641对RGB，沿用原评分；47项定向CPU检查通过，实际两次仍未运行。
 
 **当前以[实际开发终态](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_FINITE_DEVELOPMENT_CLOSED_INTENT_SERIALIZATION_ACTUAL_20261029.json)为准。** 原完整胶囊已经实际采用；三次启动包括预约前身份错误、T1在固定暂停处误等旧控制日志、T2在首条意图日志处NumPy布尔值编码失败。累计实际5000积分/计费5006，任务图像0。T2原生安装/取消/HOLD/WBC回切已通过；发布调用曾发生但接收端无接受回执、无执行任务区间，原失败不升级为成功。own scope/lease已关闭，条件确认均不合格。修复先持久记录完整意图再发布；同一真实保存状态已验证，未再运行物理。[新的两任务恢复卡](../../../reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_TWO_TASK_ENGINEERING_RECOVERY_PROPOSAL_20261029.json)原待批状态已由上方精确授权接续。下文入口资格、0/4与未部署文字保留其准备时点，不代表当前运行状态。

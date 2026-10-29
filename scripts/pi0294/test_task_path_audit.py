@@ -73,6 +73,26 @@ def test_even_consistent_rehash_cannot_add_a_BASE_label():
     with pytest.raises(ValueError,match='NO_BASE'):check_transactions(s,r,p,episode='SYNTHETIC')
 
 
+def test_native_republication_retains_one_absolute_reference_without_new_action():
+    s,r,p=fixture();republished=copy.deepcopy(p[1]);republished['observation_time_s']+=.1
+    p.insert(2,republished)
+    proof=check_transactions(s,r,p,episode='SYNTHETIC')
+    assert proof['submitted_and_installed']==80
+    assert proof['native_task_install_publications']==81
+    assert proof['completed_intervals']==640
+
+
+@pytest.mark.parametrize('fault',['values','reanchored','expired','order'])
+def test_republication_cannot_change_reference_or_reanchor_its_clock(fault):
+    s,r,p=fixture();row=copy.deepcopy(p[1]);row['observation_time_s']+=.1
+    if fault=='values':row['poses'][0][0]+=.001
+    elif fault=='reanchored':row['bound_start']+=.1
+    elif fault=='expired':row['observation_time_s']+=.4
+    elif fault=='order':row['observation_time_s']-=.2
+    p.insert(2,row)
+    with pytest.raises(ValueError):check_transactions(s,r,p,episode='SYNTHETIC')
+
+
 def test_qualification_uses_actual_new_native_modes_after_cancel(tmp_path):
     d=dict(_pi0294=dict(sequence=0,operation='install',source_mpc_s=5.));text=json.dumps(d);ref=hashlib.sha256(text.encode()).hexdigest()
     q=dict(status='PASS_CURRENT_FEEDBACK_INSTALL_CANCEL_HOLD_AT_EXACT_PAUSE',native_step=2500,

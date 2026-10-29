@@ -11,7 +11,7 @@ import subprocess
 
 import numpy as np
 
-from go2arx5_vla.trajectory.so3 import rot6d_to_matrix
+from go2arx5_vla.task_data.codec import decode
 from .component_teacher import geometry
 from .persistent_approach_draft import pose
 from .task_gripper_contract import teacher_physical_fraction
@@ -26,6 +26,20 @@ def serial(value):
     if isinstance(value, np.ndarray): return value.tolist()
     if isinstance(value, np.generic): return value.item()
     raise TypeError(type(value).__name__)
+
+
+def executed_reference_history(intervals):
+    """Decode submitted EEF10 with the same row convention as pose10/wire.
+
+    These are the last two executed reference values, not achieved TCP labels.
+    Column-convention decoding transposes the rotations and invents a jump at
+    the next persistent path boundary.
+    """
+    history = []
+    for interval in intervals[-2:]:
+        reference, _ = decode(interval['action_EEF10'], np.eye(4))
+        history.append(dict(pose=reference, end_native_step=interval['end_native_step']))
+    return history
 
 
 class NativePathClient:
@@ -179,10 +193,7 @@ class Teacher:
             else: self.reference.replace_stage_path(poses_world=poses, opening=opening)
             self.planned_stage, self.goal = stage, goal
         result = self.reference.chunk()
-        history = []
-        for r in self.reference.intervals[-2:]:
-            p = np.eye(4); p[:3, 3] = r['action_EEF10'][:3]; p[:3, :3] = rot6d_to_matrix(r['action_EEF10'][3:9])
-            history.append(dict(pose=p, end_native_step=r['end_native_step']))
+        history = executed_reference_history(self.reference.intervals)
         hypothesis = PlanningObjectMotion(s, mode=motion, push_direction=self.direction)
         check = certify_chunk(self.engine.model, s, np.stack([self.reference.poses[min(
             self.index-self.reference.path_start_index+i, len(self.reference.poses)-1)] for i in range(40)]),
