@@ -19,6 +19,13 @@ def validate_custody(p,r,*,saved_binding):
         and type(p['old_snapshot_sha256'])is str and len(p['old_snapshot_sha256'])==64
         and type(p['old_snapshot_identity_sha256'])is str and len(p['old_snapshot_identity_sha256'])==64,
         'SAVED512_PHYSICAL_EXACT_NEW_IDENTITY_AND_RETAINED144GB_GROSS')
+    cold=p.get('retained_cold_roots')
+    e.need(type(cold)is list and len(cold)==1 and cold[0]['run_uuid']=='arx5-minimal-saved-e1-inference-e2-fresh512-01'
+        and cold[0]['source_sha']=='ade4dbe39e3def8bec9be6c9608a29105552bbb4'
+        and cold[0]['manifest_sha256']=='0299c9e9ea1ec9fcbb6b83295113710881dd38026ed3206e9f8170b689e298ba'
+        and all(type(cold[0].get(k))is str and len(cold[0][k])==64 for k in('closed_lease_sha256','snapshot_identity_sha256'))
+        and type(cold[0]['allocated_bytes'])is int and 0<=cold[0]['allocated_bytes']<=64*1024**2,
+        'SAVED512_EXACT_UNSTARTED_COLD01_RETAINED_NOT_DELETED_OR_HIDDEN')
     e.need(p['prefix_initial_allocated_bytes']+p['old_metadata_ceiling']+p['old_science_initial_allocated_bytes']+70000000000<=execution.PAID_OUTPUT,
         'SAVED512_COMPLETE_PHYSICAL_POOL_NO_REFUND_OR_HIDDEN_NEW_COPY')
     return p
@@ -30,12 +37,13 @@ def check_proof(v,p,r,*,now_epoch,observed_epoch):
         and v['custody_sha256']==r['physical_custody_sha256']and v['old_snapshot_identity_sha256']==p['old_snapshot_identity_sha256']
         and v['ledger_changed']is v['native_permission']is False,
         'SAVED512_FRESH_ACTUAL_COMPLETE_PHYSICAL_PROOF')
-    keys=('prefix_allocated_bytes','old_metadata_ceiling','old_science_allocated_bytes','new_allocated_bytes','next_output_upper_bytes')
+    keys=('prefix_allocated_bytes','old_metadata_ceiling','old_science_allocated_bytes','new_allocated_bytes','next_output_upper_bytes','retained_cold_allocated_bytes')
     e.need(all(type(v[k])is int and v[k]>=0 for k in keys)
         and v['prefix_allocated_bytes']>=p['prefix_initial_allocated_bytes']
         and v['old_metadata_ceiling']==p['old_metadata_ceiling']
         and v['old_science_allocated_bytes']>=p['old_science_initial_allocated_bytes']
-        and v['new_allocated_bytes']+v['next_output_upper_bytes']<=70000000000
+        and v['retained_cold_allocated_bytes']>=sum(q['allocated_bytes']for q in p['retained_cold_roots'])
+        and v['new_allocated_bytes']+v['retained_cold_allocated_bytes']+v['next_output_upper_bytes']<=70000000000
         and sum(v[k]for k in keys)<=p['paid_output_ceiling'],
         'SAVED512_PHYSICAL_GROSS_KEEPS_ALL_OLD_AND_NEW_INODES')
     return v
@@ -71,16 +79,27 @@ class Guard:
         e.need(previous.identity(current_old)==p['old_snapshot_identity_sha256'],
             'SAVED512_OLD_SCIENCE_ROOT_CHANGED_OR_LOST_RETAINED_HISTORY')
         retained=self.prior.inspect(next_output_upper_bytes=0)
+        cold_allocated=0;cold_inodes=set()
+        for item in p['retained_cold_roots']:
+            root=self.root.parent/item['run_uuid'];binding=json.loads(own_body(root/'OUTPUT_BINDING.private.json'))
+            lease=own_body(Path(binding['lease']),immutable=False)
+            e.need(e.sha(own_body(root/'RUN_MANIFEST.json'))==item['manifest_sha256']
+                and e.sha(lease)==item['closed_lease_sha256']and json.loads(lease)['status']=='CLOSED'
+                and not(root/'control/resident-owner').exists(),'SAVED512_ACTUAL_COLD01_CLOSED_NO_GPU_OWNER_OR_REQUEST')
+            snapshot=previous.prefix_inventory(root)
+            e.need(previous.identity(snapshot)==item['snapshot_identity_sha256'],'SAVED512_RETAINED_COLD01_FILES_CHANGED')
+            cold_allocated+=max(item['allocated_bytes'],snapshot['allocated_bytes'])
+            part,_=scan._scan(root,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'});cold_inodes.update(part)
         current,_=scan._scan(self.root,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'})
         old_inodes={(x['device'],x['inode'])for x in current_old['rows']}
         for name in[self.prior.custody['prefix_root'],*self.prior.metadata]:
             part,_=scan._scan(name,permitted_links={'model_inputs/nvidia/Cosmos-Reason2-2B'});old_inodes.update(part)
-        e.need(not old_inodes.intersection(current),'SAVED512_NO_NEW_HARDLINK_OR_COPY_CREDIT_FOR_OLD_TENSORS')
+        e.need(not old_inodes.intersection(cold_inodes)and not (old_inodes|cold_inodes).intersection(current),'SAVED512_NO_NEW_HARDLINK_OR_COPY_CREDIT_FOR_OLD_TENSORS')
         v=dict(status='ACTUAL_SAVED512_ALL_RETAINED_ROOTS_AND_NEW_OUTPUT_BOUNDED_NO_PERMISSION',observed_epoch=time.time(),
             custody_sha256=self.request['physical_custody_sha256'],old_snapshot_identity_sha256=p['old_snapshot_identity_sha256'],
             prefix_allocated_bytes=max(retained['prefix_allocated_bytes'],p['prefix_initial_allocated_bytes']),
             old_metadata_ceiling=p['old_metadata_ceiling'],old_science_allocated_bytes=max(current_old['allocated_bytes'],p['old_science_initial_allocated_bytes']),
-            new_allocated_bytes=sum(x['allocated']for x in current.values()),next_output_upper_bytes=next_output_upper_bytes,
+            new_allocated_bytes=sum(x['allocated']for x in current.values()),retained_cold_allocated_bytes=cold_allocated,next_output_upper_bytes=next_output_upper_bytes,
             ledger_changed=False,native_permission=False)
         check_proof(v,p,self.request,now_epoch=v['observed_epoch'],observed_epoch=v['observed_epoch'])
         self.last=self.clock();self.latest=v;return v
