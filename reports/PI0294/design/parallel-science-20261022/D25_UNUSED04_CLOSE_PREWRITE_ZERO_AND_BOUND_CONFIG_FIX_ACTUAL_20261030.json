@@ -1,0 +1,51 @@
+{
+  "status": "EXACT_NATIVE_PREWRITE_EXCEPTION_QUALIFIED_NO_CLOSE_REPLAY",
+  "original_operation": "D25_CLOSE_EXACT_UNSUBMITTED04_THREE_OWN_LEASES",
+  "original_transport_sha256": "e12cb183b4ce68a6cf8ffbe5f53670488c98f834b33a4e40ad3069b6ecc716ec",
+  "independent_native_zero_proof_sha256": "f2f47195f7926de4a8be5f1d6275ac0365297c0292d86352a533c8ff70866985",
+  "original_status": "RESERVED_UNKNOWN_UNTIL_EXACT_REPLY",
+  "all_original_CPU_and_wire_uppers_retained": true,
+  "old_Journal_UNKNOWN_retained": true,
+  "saved_configuration_bound_source_available": true,
+  "old_runtime_alias_not_materialized": true,
+  "maximum_one_new_published_bound_configuration_close": true,
+  "new_remote_calls": 0,
+  "schema": "D25_UNUSED04_PREWRITE_ALIAS_FAILURE_EXACT_ZERO_AND_BOUND_CONFIG_COLD_FIX_V1",
+  "source_of_failure": "Closure management used an unmaterialized runtime capsule alias before loading onceIO. No lease intent or write was reached.",
+  "verified_configuration": {
+    "sealed_configuration_sha256": "23a0e13b4d62c394f9c339733755cbb5a6831323ed2da79e2407100965864e3c",
+    "configuration_source_sha": "2a23eeb64e7f769fa5842eb72d371ac12ee99664",
+    "runtime_capsule_alias_seal_exists": false,
+    "canonical_source_code_exists": true,
+    "canonical_source_seal_exists": true,
+    "canonical_source_seal_sha256": "8566813aa2505b4d73d89ea157a8480d5e243344b3bef7e6939ec9d242553ae0"
+  },
+  "leases": {
+    "owner": {
+      "manifest_sha256": "e06ff509baa57c83e902faea6d297ee2c4ca840a912365ffd3339bc5c037bcee",
+      "lease_sha256": "51fc40c543bb499323adae970a88b38efc0b80eee9131ef3d2040dd3cf381cc5",
+      "lease_status": "ACTIVE",
+      "specific_intent_receipt_temporary_and_record_absent": true
+    },
+    "physical": {
+      "manifest_sha256": "7d901ee7ecc45c91726aa3f4591367016165b4cfee2f7bd2a118b427b80bb161",
+      "lease_sha256": "9ad7b060337f08940a4184d6d6c7d6d200d8c00a77cfc264560ed64c9e148d70",
+      "lease_status": "ACTIVE",
+      "specific_intent_receipt_temporary_and_record_absent": true
+    },
+    "neural": {
+      "manifest_sha256": "2503e4eaa98ecdb556fe29f56b52282da9c97812701402e1f84ce373bb8077b2",
+      "lease_sha256": "9ad7b060337f08940a4184d6d6c7d6d200d8c00a77cfc264560ed64c9e148d70",
+      "lease_status": "ACTIVE",
+      "specific_intent_receipt_temporary_and_record_absent": true
+    }
+  },
+  "LOCAL_unchanged_sha256": "cad80ab3cc880c0bb60b40c2eca113c5d3f46e2ea70462fc78806a231b8f98d8",
+  "new_models_queries_physics": 0,
+  "corrected_close_source": "Use the original immutable EXECUTION_CONFIG and require its SHA, source SHA and full source seal SHA to agree with the original manifest; load the unchanged onceIO from that already-present cache.",
+  "corrected_close_executed": false,
+  "scientific_stage_closed": false,
+  "old_financial_escrow_or_CPU_300_cost_refunded": false,
+  "validation": "Real saved configuration, manifest and native canonical source seal hashes agree; corrected program parses without execution.",
+  "observed_epoch": 1793308045.98733
+}

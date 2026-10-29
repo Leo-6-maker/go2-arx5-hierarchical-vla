@@ -51,8 +51,15 @@ for proc in Path('/proc').iterdir():
  except (OSError,ProcessLookupError):pass
 assert actors==[]
 owner=prepared['owner']['root'];om=json.loads((owner/'RUN_MANIFEST.json').read_bytes())
-seal=json.loads((owner/om['code']['source_seal_relative']).read_bytes());assert seal['source_sha']==P['source_sha']
-once_file=owner/om['code']['capsule_relative']/'scripts/pi0294/dec1/source_cpu_once_io.py'
+configuration=(owner/'EXECUTION_CONFIG.private.json').read_bytes()
+assert sha(configuration)==om['execution']['configuration_sha256'];cfg=json.loads(configuration)
+assert cfg['source_sha']==P['source_sha']
+# This role never reached runtime capsule-alias materialization. Its sealed
+# original preparation config already binds the actual complete source cache.
+code=Path(cfg['source_code']);seal_bytes=(code.parent/'SOURCE_SEAL.json').read_bytes()
+assert sha(seal_bytes)==cfg['source_seal_sha256']==om['code']['source_seal_sha256']
+seal=json.loads(seal_bytes);assert seal['source_sha']==P['source_sha']
+once_file=code/'scripts/pi0294/dec1/source_cpu_once_io.py'
 assert sha(once_file.read_bytes())==seal['files']['scripts/pi0294/dec1/source_cpu_once_io.py']
 spec=importlib.util.spec_from_file_location('_original_D25_04_onceIO',once_file);once=importlib.util.module_from_spec(spec);spec.loader.exec_module(once)
 records={}
