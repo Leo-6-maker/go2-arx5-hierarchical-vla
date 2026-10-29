@@ -130,7 +130,8 @@ def propose_software_repair(global_bytes,local_bytes,*,old_request,new_request,p
         and all(r['status']==e.STATES[2]for r in g['PBS_submissions'])
         and proof['GLOBAL_sha256']==e.sha(global_bytes)
         and proof['request_id']==rid and proof['all_recorded_actors_terminal']is True
-        and proof['native_requests']==0 and proof['only_readonly_setup_phases']is True
+        and proof['native_requests']==0 and proof['known_setup_effects_confirmed_no_dispatch']is True
+        and proof['confirmed_project_session_renewals']in(0,1)
         and proof['owner_OS_sha256']=='53d90d76e6ca3a78e2ab8402c2782bc60a441b2eede8033f11cfcb07e11a9afa'
         and proof['owner_stop_sha256']=='54bb49f87d7fa5de9bfb67a251eab44b144ddd77b69ef7846bf8ca721eb45d43'
         and proof['old_owner_four_core_wall_upper_s']<=400
