@@ -11,12 +11,14 @@ from .contact_scene import overlay_source_xml
 from .object_relations import pose
 
 
-def make_engine(card, asset_root, *, pinned_libero=None):
+def make_engine(card, asset_root, *, pinned_libero=None,pinned_robocasa=None):
     """Reuse the original finite source arm/gripper driver with passive tasks.
 
     No executable CLI/dispatcher is introduced. The source joint-torque driver
     is inherited unchanged; this is not the floating Go2/WBC environment.
     """
+    if pinned_libero is not None and pinned_robocasa is not None:
+        raise ValueError('ONE_EXPLICIT_PINNED_SOURCE_TASK_PORT')
     import mujoco
     from scripts.pi0291_arx5_data.engine import Engine as BaseEngine
     from scripts.pi0291_arx5_data.config import PARAMETERS as P
@@ -26,7 +28,10 @@ def make_engine(card, asset_root, *, pinned_libero=None):
     class SourceEngine(BaseEngine):
         def __init__(self):
             self.card, self.mode = card, 'normal'
-            if pinned_libero is None:
+            if pinned_robocasa is not None:
+                from .robocasa_cabinet_scene import overlay
+                self.xml,self.task_binding=overlay(xml_scene(card['source_base_card'],asset_root),card,**pinned_robocasa)
+            elif pinned_libero is None:
                 self.xml, self.task_binding = overlay_source_xml(xml_scene(card['source_base_card'], asset_root), card)
             else:
                 from .libero_book_scene import overlay
@@ -99,9 +104,15 @@ def make_engine(card, asset_root, *, pinned_libero=None):
                 and any(int(self.model.geom_bodyid[g]) in self.robot_bodies for g in (r['geom0'], r['geom1']))
                 for r in s['contacts'])
             if card['task'] == 'DOOR':
-                j = self._id(mujoco.mjtObj.mjOBJ_JOINT, 'skill_hinge')
+                j = self._id(mujoco.mjtObj.mjOBJ_JOINT, self.task_binding.get('passive_joint','skill_hinge'))
                 s['hinge_angle_rad'] = float(self.data.qpos[self.model.jnt_qposadr[j]]+spec['initial_angle_rad'])
                 s['hinge_velocity_rad_s'] = float(self.data.qvel[self.model.jnt_dofadr[j]])
+                if self.task_binding.get('goal_kind')=='ROBOCASA_NATIVE_DOOR':
+                    from .robocasa_cabinet_assets import native_door_status
+                    name=self.task_binding['passive_joint'];q=float(self.data.qpos[self.model.jnt_qposadr[j]])
+                    s['native_door_joint_positions']={name:q}
+                    s['native_door_joint_ranges']={name:self.model.jnt_range[j].tolist()}
+                    s['native_robocasa_door_status']=native_door_status(s['native_door_joint_positions'],s['native_door_joint_ranges'])
             elif self.task_binding.get('goal_kind') == 'LIBERO_NATIVE_SITE':
                 from .libero_book_assets import native_site_contains
                 native = self._id(mujoco.mjtObj.mjOBJ_BODY, self.task_binding['native_object_body'])

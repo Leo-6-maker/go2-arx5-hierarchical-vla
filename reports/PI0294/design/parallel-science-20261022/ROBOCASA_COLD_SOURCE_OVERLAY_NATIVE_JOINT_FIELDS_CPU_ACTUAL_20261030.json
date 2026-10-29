@@ -1,0 +1,69 @@
+{
+  "schema": "ROBOCASA_COLD_SOURCE_ARX5_XML_OVERLAY_AND_NATIVE_JOINT_FIELDS_CPU_V1",
+  "status": "COLD_SOURCE_OVERLAY_IMPLEMENTED_SYNTHETIC_XML_CONTRACT_VERIFIED_NOT_NATIVE_QUALIFIED",
+  "baseline_source": "81dad949ca2eca01efda4c8e089aad9e341787d9",
+  "source_overlay": "scripts/pi0294/multitask/robocasa_cabinet_scene.py",
+  "unexecuted_cards": "scripts/pi0294/multitask/robocasa_cabinet_cards.py",
+  "source_engine": "scripts/pi0294/multitask/source_engine.py",
+  "source_model_selection": "One explicit pinned port: existing custom objects, LIBERO or RoboCasa; conflicting pinned selectors reject before MuJoCo import.",
+  "preserved_XML_nodes": [
+    "original robot subtree",
+    "original camera nodes",
+    "original actuator/contact/equality/option/compiler nodes",
+    "all pre-existing global-default members"
+  ],
+  "appended_fixture": "Pinned housing, slab, bar and original passive hinge; named fixture defaults only; eight obstacle geoms plus actual handle cylinder.",
+  "original_handle_body_origin_not_relabelled": true,
+  "measured_grasp_frame": "Separate child at original cylinder center; original geom/hinge/door are not moved.",
+  "native_feedback": "Actual model hinge qpos/range and native opening status stored separately from the generic task target/velocity.",
+  "two_port_conditions": {
+    "size_m": [
+      0.24,
+      0.22,
+      0.3
+    ],
+    "cabinet_world_translation": [
+      0.53,
+      0.0,
+      0.59
+    ],
+    "right_hinge_range_rad": [
+      0,
+      1.57
+    ],
+    "left_hinge_range_rad": [
+      -1.57,
+      0
+    ],
+    "common_home": "same explicit home as the already prepared book ports",
+    "target_reference_openness_fraction": 0.95,
+    "original_success_openness_fraction": 0.9,
+    "warmup_s": 5,
+    "task_s": 32,
+    "hold_s": 2,
+    "original_kitchen_robot_layout_distractors_or_selection_population": false
+  },
+  "validation": {
+    "total_CPU_checks_passed": 20,
+    "failed": 0,
+    "wall_s": 0.16,
+    "original_source_and_texture_checks": 9,
+    "synthetic_source_XML_and_preimport_selection_checks": 11,
+    "actual_full_ARX5_XML_native_compilation": false,
+    "model_or_renderer_construction": false,
+    "original_robot_kinematic_or_contact_qualification": false,
+    "CI": "NOT_RUN"
+  },
+  "new_models_neural_queries_PBS_integrations_RGB_successful_demonstrations": 0,
+  "Core_or_AMD_access_or_infrastructure_changes": 0,
+  "scope_adoption_or_new_registered_runtime_or_lease": false,
+  "same_approved_PC_source_preparation_reservation_inherited": true,
+  "remaining_work": [
+    "Raw independent cabinet episode audit and finite worker binding",
+    "Original registry, local dependencies and full remaining-resource/capacity admission",
+    "Actual native model/contact/camera checks and bounded source episodes"
+  ],
+  "Core_capacity_stop_still_applies": true,
+  "D25_and_E2_not_restarted": true,
+  "observed_epoch": 1793311426.4279194
+}
