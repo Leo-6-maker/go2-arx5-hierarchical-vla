@@ -140,6 +140,9 @@ def root_context(root,request_path,*,full=False,require_bound=True):
             'minimal_e2only_terminal.py','minimal_e2only_audit.py','minimal_execution_adapter.py',
             'minimal_saved512_inputs.py','minimal_saved512_contract.py','minimal_saved512_physical.py',
             'minimal_remaining_inputs.py','minimal_remaining_physical.py','minimal_validation_cache.py'))
+        if r.get('pre_native_cold_generation'):
+            critical.update('scripts/pi0294/generalization/'+n for n in(
+                'minimal_e2only_pre_native.py','minimal_retry_physical_guard.py'))
     need(critical<=set(seal['files']),'CONTEXT_FULL_NATIVE_DEPENDENCY_SEAL')
     for name in seal['files']if full else critical:
         need(sha(sealed(root,str(prefix/name),parse=False))==seal['files'][name],'CONTEXT_EXECUTING_SOURCE:'+name)

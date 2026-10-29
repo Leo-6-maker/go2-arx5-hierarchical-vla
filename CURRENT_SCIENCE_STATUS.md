@@ -1,5 +1,7 @@
 # 当前科学状态 · 2026-10-29实际核验
 
+**E2提交前退出的预备已真实关闭：** [原生关闭与保留目录](reports/PI0294/design/parallel-science-20261022/ARX5_E2_UNSUBMITTED_OWNER_CLOSED_RETAINED_ACTUAL_20261030.json)核对原OS1、无登记/提交、两actor终态、own lease一次CLOSED及92,315,648字节完整目录。原GLOBAL只追加预备已关闭见证，不删费用或补造PBS；used仍41，原GPU作业均终态。一次冷修接续的源、付款与角色准备仍待采用；当前没有健康E2后台链，完整512仍未完成。
+
 **开源任务复用已进入具体接入：** [固定来源、原成功谓词和数据阶梯](docs/protocols/OPEN_SOURCE_TASK_REUSE_20261030.md)选择RoboCasa无锁柜门与LIBERO单书左右格，先移植到现有MuJoCo源执行器。三个真实BDDL文件已解析，左右任务regions/init相同，10项CPU检查通过；原37项源组件检查保留。尚未完成资产/原示范/动作转换的原生资格，没有新增接触运行、技能示范或训练。候选300→累计1,300条与恢复段不构成新运行授权；源域数据独立于目标WBC任务资格。
 
 **D25冷态本地官方代码已通过原冻结入口：** [实际与独立回读](reports/PI0294/design/parallel-science-20261022/D25_FROZEN_OFFICIAL_LOCAL_GIT_NATIVE_PASS_ACTUAL_20261030.json)验证80代码文件、214真实Git对象及15冻结文件原字节，原`official_import`实际PASS。原LOCAL/配置和未启动状态保持；登记custody/本地lease及完整冷绑定仍待完成。模型/查询/物理新增0，D25有效评价仍0/24。
