@@ -124,7 +124,9 @@ def test_saved512_first_intent_uses_real_compute_paths_and_original_raw_queue_ch
         with pytest.raises(PermissionError):d.saved512_dispatch_intent(root, directory, request, current, now_epoch=now)
         assert not (root/'control/resident-owner/SOURCE_QSUB_INTENT.private.json').exists()
         return
-    intent = d.saved512_dispatch_intent(root, directory, request, current, now_epoch=now)
+    import runpy
+    standalone = runpy.run_path(d.__file__)['saved512_dispatch_intent']
+    intent = standalone(root, directory, request, current, now_epoch=now)
     proof = (directory/dispatch.FILE).read_bytes()
     assert proof == d.raw(current)
     assert json.loads((root/'control/resident-owner/SOURCE_QSUB_INTENT.private.json').read_bytes()) == intent

@@ -192,7 +192,7 @@ def exact_current_cas(path, *, before_sha256, after_sha256):
 
 def saved512_dispatch_intent(root, directory, request, current, *, now_epoch):
     """Publish original compute-consumed evidence once, never a scheduler call."""
-    from . import minimal_saved512_dispatch as dispatch
+    from scripts.pi0294.generalization import minimal_saved512_dispatch as dispatch
     root, directory = Path(root), Path(directory)
     e.need(adapters.request(request) is adapters.saved512
            and directory == root/'pbs'/('alloc-'+str(request['submit_count']).zfill(2)),
@@ -242,7 +242,7 @@ def unsubmitted_saved512_context(root, request_path):
            and profiles[0]['entry_module'] == 'scripts.pi0294.dec1.a40_training_runtime'
            and profiles[0]['PBS_required'] is True, 'DISPATCH_SAVED512_CURRENT_ROLE_ENV_AND_LEASE')
     inputs = m['execution']['sealed_inputs']
-    from . import minimal_saved512_contract as saved, minimal_saved512_physical as physical
+    from scripts.pi0294.generalization import minimal_saved512_contract as saved, minimal_saved512_physical as physical
     need_inputs = REQUIRED | {adapters.saved512.PHYSICAL, physical.SNAPSHOT, saved.PLAN,
                              saved.RESULT_FILE, saved.EXIT_FILE}
     e.need(need_inputs <= set(inputs), 'DISPATCH_SAVED512_ALL_ORIGINAL_INPUT_ROLES')
@@ -366,7 +366,7 @@ class Owner(OriginalOwner):
                and quota['available_bytes_lower'] >= future['dimensions']['Hopper_storage_bytes']['projected']
                     -read(self.global_path)['new_storage_current_bytes'], 'DISPATCH_FULL_FUTURE_AND_FRESH_SITE_QUOTA')
         if self.adapter is adapters.saved512:
-            from .minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
+            from scripts.pi0294.generalization.minimal_retry_runtime_guard import CONTROL_GROWTH_RESERVE
             self.saved512_physical.inspect(next_output_upper_bytes=CONTROL_GROWTH_RESERVE)
         current = self.setup.call('CURRENT_EFFECTIVE_QUEUE', 'READ_ONLY',
                                  lambda intent, limit: collect_effective_queue(walltime_s=r['walltime_s']))
