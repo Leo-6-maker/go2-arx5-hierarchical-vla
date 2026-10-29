@@ -1,6 +1,6 @@
 # 当前入口 · 2026-10-29 · 长程Goal V6
 
-**Go2–ARX5后继目标已核对历史证据，见[S0–S5执行修订](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)。** 原pilot之后还有已关闭的持久Teacher V1与分量V2；Prefix8已实跑但仍无接触。复用S0，下一项为从真实home到预接触的任务路径资格；新Teacher物理包尚待独立范围采用，不重开旧系列。
+**S1有限范围已获用户直接批准，见[授权、十天计划衔接与原生预检](docs/analysis/2026-10-29/GO2_ARX5_S1_SCOPE_AND_NATIVE_PREFLIGHT.md)。** 最多4启动，原生准入尚未完成；不重复申请同一许可或重开旧失败系列。107个冻结程序依赖库均解析至节点本地，四段保存参考的500Hz运动学复核通过，未启动新物理。更晚SDR3确有真实接触但无成功；TF-R3 E2安全失败保留。PR #144十天计划的新增训练/容量/延期仍待单独采用，S1不扩成其24次目标尝试。完整[S0–S5研究序列](docs/protocols/GO2_ARX5_EVIDENCE_CORRECTED_SEQUENCE_20261029.md)及原DEC1保留。
 
 **2026-10-29最新实际：E1@512已真实HF交付固定版本 `f410cd2b`，10个推理文件／12576325049字节；源端前后全流SHA、远端全部成员及PC独立公开回读通过，源进程自然OS0、own source lease一次CLOSED。** [实际交付回执](reports/PI0294/design/parallel-science-20261022/ARX5_E1_QUALIFIED512_PUBLIC_HF_FIXED_REVISION_SOURCE_CLOSED_ACTUAL_20261029.json)。未重训／新增模型调用；Core下载、加载和E1闭环仍未完成。E2完整512、D25／GEN1行为仍未完成。
 

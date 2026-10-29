@@ -1,0 +1,223 @@
+{
+  "schema": "TD10_SCOPE_AND_CAPACITY_ACTUAL_PARTIAL_V1",
+  "task_id": "TD00",
+  "status": "RUNNING",
+  "evidence_status": "ACTUAL_NATIVE_READONLY_AND_SAVED_STATE_CPU_MEASUREMENTS",
+  "plan_main_sha": "672e1858369ee3b4ca9ebd725800a4dd3f15ef67",
+  "new_ten_day_scope_adopted": false,
+  "full_14_dimension_forecast_complete": false,
+  "S1_scope": {
+    "status": "HUMAN_APPROVED_NATIVE_ADMISSION_PENDING",
+    "receipt": "reports/PI0294/design/parallel-science-20261022/GO2_ARX5_S1_HUMAN_APPROVAL_20261029.json",
+    "adopted_at_UTC": "2026-10-29T11:31:39.836045+00:00",
+    "expires_SGT": "2026-10-30T19:31:39.836045+08:00",
+    "attempts_max": 4,
+    "integrations_max": 62012,
+    "RGB_pairs_max": 2084,
+    "CPU_core_seconds_max": 14400,
+    "concurrent_CPU_max": 4,
+    "Core_new_output_and_staging_bytes_max": 8589934592,
+    "PC_small_evidence_bytes_max": 1073741824,
+    "transfer_bytes_max": 8589934592,
+    "GR00T_queries": 0,
+    "optimizer_updates": 0,
+    "PBS_submissions": 0
+  },
+  "original_clocks": {
+    "stop_new_SGT": "2026-10-31T20:52:29.813+08:00",
+    "hard_close_SGT": "2026-11-01T20:52:29.813+08:00",
+    "reset": false
+  },
+  "current_observation": {
+    "dependencies_epoch": 1793273434.901386,
+    "later_teacher_epoch": 1793273610.9456046,
+    "loader_epoch": 1793273843.6140113,
+    "matching_target_runtime_processes": 0,
+    "compute_GPU_processes": 0,
+    "node_local_available_bytes": 148196032512,
+    "old_task_lease_state": "ACTIVE",
+    "old_task_lease_deadline_epoch": 1792087800,
+    "expired_lease_reopened": false
+  },
+  "node_local": {
+    "status": "PARTIAL_COLD_BINDING_REQUIRED",
+    "shared_path_roles": [
+      "manifest.execution.entry_path",
+      "binding.registry",
+      "binding.lease",
+      "inputs.asset_root"
+    ],
+    "existing_frozen_binary_dependencies_resolved": 107,
+    "all_resolved_binary_libraries_fstype": "ext4",
+    "original_ROS_environment_process_local_probe": true,
+    "Python_import_probe_exit": 0,
+    "frozen_program_sha256": {
+      "clock_binary": "885042aee96eec2761e5cc9c1598194c94181bebe0de0548eb48b1110ddaa186",
+      "pause_binary": "809a46593feb7f6117ef482aa68ea74f0a6ffda02b4e6c3f807892254796644c",
+      "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0"
+    },
+    "all_program_missing_library_lists_empty": true,
+    "default_unsourced_ldd_failure_is_not_missing_installation": true,
+    "new_installation_or_system_mutation": false,
+    "remaining": [
+      "NEW_SCOPE_SEALED_NODE_LOCAL_ENTRY_AND_PROFILE_BINDING",
+      "EXISTING_REGISTRY_REGISTERED_NEW_LOCAL_CONTROL_LEASE_AND_ONCE_IO",
+      "LOCAL_ASSET_BINDING_WITH_EXACT_ORIGINAL_BYTES",
+      "NEW_VERSION_ACTUAL_ACK_STOP_SAFETY_AND_FEEDBACK_QUALIFICATION"
+    ]
+  },
+  "legacy_R4_counters_readonly": {
+    "ledger_sha256": "137d43d44ed2451a7713198fa1fcf3624325e68619d9eaf441cbd7b6a2e71337",
+    "Core_CPU_s": 16020.381657165588,
+    "main_starts": 40,
+    "main_integrations": 364111,
+    "RGB_pairs": 12474,
+    "active_CPU_reservations": 0,
+    "task_attempt_records": 20,
+    "records_are_not_distinct_conditions_or_campaign_totals": true
+  },
+  "later_TF_R3_actual_results": [
+    {
+      "episode": "TF_R3_MIDPOINT_T2_DEV_00",
+      "sha256": "a4ee78387e6f9e81e810c40fbe2939103fb0b4ee0f16cf625a805c2fcf2ab6ee",
+      "source_sha": "e12e025c727370dc9da3165ac48877747db5b186",
+      "status": "VALID_PLANNING_FAILURE_NO_RETRY",
+      "observations": 153,
+      "installed_intents": 19,
+      "native_stops": [],
+      "milestones": {
+        "actual_contact": false,
+        "manipulation": false,
+        "position_progress": true
+      },
+      "actual_plugin_steps": 6300
+    },
+    {
+      "episode": "TF_R3_REACTIVE_T2_DEV_00_E2",
+      "sha256": "72d6b508af78e6c393e0f68720ea8b725ba3076d5e398a94e595edabe16575aa",
+      "source_sha": "6af24da77cc11951366acd07c75939c9648a7fdb",
+      "status": "VALID_NATIVE_SAFETY_FAIL_TASK_VERSION_STOPPED",
+      "observations": 654,
+      "installed_intents": 82,
+      "native_stops": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 18847
+        }
+      ],
+      "milestones": null,
+      "actual_plugin_steps": 18847
+    },
+    {
+      "episode": "TF_R3_REACTIVE_T2_DEV_00_E1",
+      "sha256": "66357f3046ee7d94239e4c5e5595bc06f7a60b690253de489c79d1a79490a46f",
+      "source_sha": "f8dd557b951e9d2554e6a9c7225472c7fbc168f4",
+      "status": "VALID_PLANNING_FAILURE_NO_RETRY",
+      "observations": 401,
+      "installed_intents": 50,
+      "native_stops": [],
+      "milestones": {
+        "actual_contact": false,
+        "manipulation": false,
+        "position_progress": true
+      },
+      "actual_plugin_steps": 12500
+    },
+    {
+      "episode": "TF_R3_REACTIVE_T2_DEV_00",
+      "sha256": "7e1f972fb9a812e49be4152cf8a12cd3e152fc54fa65a30a668aaf52c582558d",
+      "source_sha": "f36abf4c1df852eab5051081973da6cd74bf81c5",
+      "status": "VALID_PLANNING_FAILURE_NO_RETRY",
+      "observations": 329,
+      "installed_intents": 41,
+      "native_stops": [],
+      "milestones": {
+        "actual_contact": false,
+        "manipulation": false,
+        "position_progress": true
+      },
+      "actual_plugin_steps": 10700
+    }
+  ],
+  "private_receipt_sha256": {
+    "CURRENT_S1_DEPENDENCIES_1793273431135715716.private.json": "357212c78224e1aee772b564dd61ff0ca704a3f4f39490b37c2fa8cadaa2d669",
+    "CURRENT_ENTRY_AND_TF_1793273611711064003.private.json": "c961dbde0baa49324a63c88c97c2447a4bec7458e2f94b9aa49d35ecfb10bdd3",
+    "ORIGINAL_LOADER_CLOSURE_1793273843638047184.private.json": "a236690a3395fede49e42d28d582b4ef3554df61334b5e052083e3711a9a1708",
+    "DENSE_SAVED_REFERENCE_PROBE.private.json": "222f436d27d3ed0113c887c7abbadec2bc5a1eefbc61d7f56c05888c98731c72"
+  },
+  "full_resource_remaining_dimensions": {
+    "H200_s": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "PBS_submissions": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "optimizer_updates": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "episode_starts": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "neural_queries": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "physics_ticks": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "engine_starts": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "Core_CPU_s": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "Hopper_CPU_s": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "local_CPU_s": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "transfer_bytes": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "Hopper_storage_bytes": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "Core_storage_bytes": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    },
+    "local_storage_bytes": {
+      "balance": "NOT_RECONCILED_IN_THIS_RECEIPT",
+      "protected_reserves_preserved": true
+    }
+  },
+  "scope_distinction": {
+    "S1_four_start_cap_is_not_TD06_24_attempts": true,
+    "S1_two_full_conditions_do_not_satisfy_TD06_eight": true,
+    "TD10_does_not_replace_original_CORR_R0_DEC1": true
+  },
+  "actual_effects": {
+    "new_native_starts": 0,
+    "new_physics_ticks": 0,
+    "new_GR00T_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_PBS": 0,
+    "native_budget_or_lease_writes": 0,
+    "new_subagents": 0
+  },
+  "native_admissible": false,
+  "decision": "CONTINUE_COLD_BINDING_AND_EXISTING_OWNER_FULL_RESOURCE_RECONCILIATION_NO_LEGACY_REPLAY"
+}
