@@ -58,7 +58,7 @@ def recovery_authority(raw, original, closed_account, closed_lease, *, run_root,
          and type(closed_lease) is bytes and digest(closed_lease) == CLOSED_LEASE_PIN,
          'EXACT_OLD_CLOSED_BYTES')
     account, lease = json.loads(closed_account), json.loads(closed_lease)
-    need(account['status'] == 'CLOSED_ENGINEERING_INCOMPLETE_NO_QUALIFIED_SHORT'
+    need(account['scope_status'] == 'CLOSED_ENGINEERING_INCOMPLETE_NO_QUALIFIED_SHORT'
          and account['native_attempts_admitted'] is False and not account.get('active_native_ticket')
          and (account['starts'], account['integrations'], account['RGB_pairs']) == (3, 5006, 0)
          and lease['status'] == 'CLOSED' and lease['run_uuid'] == OLD_RUN,

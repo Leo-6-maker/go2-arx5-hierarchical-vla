@@ -15,7 +15,7 @@ REPORTS = Path(__file__).resolve().parents[2]/'reports/PI0294/design/parallel-sc
 def fixtures(monkeypatch):
     raw = (REPORTS/'GO2_ARX5_S1_TWO_TASK_RECOVERY_HUMAN_APPROVAL_20261029.json').read_bytes()
     original = (REPORTS/'GO2_ARX5_S1_HUMAN_APPROVAL_20261029.json').read_bytes()
-    account = json.dumps(dict(status='CLOSED_ENGINEERING_INCOMPLETE_NO_QUALIFIED_SHORT',
+    account = json.dumps(dict(scope_status='CLOSED_ENGINEERING_INCOMPLETE_NO_QUALIFIED_SHORT',
         native_attempts_admitted=False, starts=3, integrations=5006, RGB_pairs=0)).encode()
     lease = json.dumps(dict(status='CLOSED', run_uuid=recovery.OLD_RUN)).encode()
     monkeypatch.setattr(recovery, 'CLOSED_ACCOUNT_PIN', recovery.digest(account))
